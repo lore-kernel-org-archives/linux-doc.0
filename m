@@ -2,146 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DBD6C4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 21:49:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5375FC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 22:17:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231597AbiKIVtF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 16:49:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49088 "EHLO
+        id S229900AbiKIWRY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 17:17:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229974AbiKIVtE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 16:49:04 -0500
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 756152F676
-        for <linux-doc@vger.kernel.org>; Wed,  9 Nov 2022 13:49:03 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id ft34so201104ejc.12
-        for <linux-doc@vger.kernel.org>; Wed, 09 Nov 2022 13:49:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cnCKimjPnszuIv7P7tspkRhy5Ca1GNkxCTByBpzQ+sI=;
-        b=DO9FR6ZD8ZIFh+aT5h4gwblO1n9ghAWy3MsuSo3TmN7NhzBNojKqBDaAOyjojPXBpb
-         2apvdXr1918BW/PGEEnPwlYhi00OUDvvaN6HBtkWxJvxACQMtWImcvQB9v/0iOJ8C+xl
-         tJHnnlH4FWdcXpQT3kBvkMyMvMnwsS9vhSGxa8N8daChnXdybjvYQCSwDiawdsC1TMkj
-         CHU04xFNEn7j8Q9B/F07yQKjkM1nCiGvBEAoBVYVWIrikEcdXLsyMzcCEMnYcKWCtYkO
-         yV4FZUnABZSnS2NkNwyo2QEUHICiCYQmL+WUQAs8EHwZRUxSg4ZHHPOeyb/Ehtc/klrr
-         JI+g==
+        with ESMTP id S229784AbiKIWRY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 17:17:24 -0500
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C3A411806;
+        Wed,  9 Nov 2022 14:17:23 -0800 (PST)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-13bef14ea06so369071fac.3;
+        Wed, 09 Nov 2022 14:17:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cnCKimjPnszuIv7P7tspkRhy5Ca1GNkxCTByBpzQ+sI=;
-        b=oEolnxf7i5EJPBBT/i0SMNxXQrXoPmqG/uBANjwhaklrvQbhjIzkZRjyvuYPXFtzas
-         aBRZpQxjSuRllHt1aRITM9bGgz+C30EkR4xBOPlu1F3QjVcLOv7a5q0ebBs5p/rhO9Z0
-         n6Kqszc1pBDqEvPNNrtVfwbpLSZ3A4OtwFlKDBoziJo8LV+8VEItMW2PHaWgtP8P7/bz
-         NG3EyAljdsHOxGGMYAHEagDS7VyMVEUi7NfkfAQh6CeXq9wBBymJQZZxpjqcEd5yR5Xa
-         Y7DDAYv9MZwjgsjzc0GeOg8Sqioln/xb/pnPyNd6EwHZw/kFoNHguJcINgH65GHW1Teb
-         rSAw==
-X-Gm-Message-State: ACrzQf2BcfNfaSYQICaAYvPTGDNG+DJ9yvoOuIb+lZHmtAHzPVC2GKbf
-        Q8ZGM1tGUba+y1nHSGlx10eu6ArMbw+gPtZAJGVZ
-X-Google-Smtp-Source: AMsMyM4GI/CT8J2vgpNPmtw7prru+BKDWcCBKJuFSaTiFl13pqM1mmfcmz/5X1/dsZC/odHmQ3nDLRca52uPdbt1N30=
-X-Received: by 2002:a17:906:c839:b0:78a:d0a4:176 with SMTP id
- dd25-20020a170906c83900b0078ad0a40176mr1831678ejb.720.1668030541823; Wed, 09
- Nov 2022 13:49:01 -0800 (PST)
-MIME-Version: 1.0
-References: <20221109194404.gonna.558-kees@kernel.org> <20221109200050.3400857-1-keescook@chromium.org>
-In-Reply-To: <20221109200050.3400857-1-keescook@chromium.org>
-From:   Bill Wendling <morbo@google.com>
-Date:   Wed, 9 Nov 2022 13:48:45 -0800
-Message-ID: <CAGG=3QXM3u_uz1fuW2LzvrZqqPhYL15m+LJgD39R=jkuyENmYg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] panic: Separate sysctl logic from CONFIG_SMP
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Jann Horn <jannh@google.com>, Petr Mladek <pmladek@suse.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        tangmeng <tangmeng@uniontech.com>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linus Torvalds <torvalds@linuxfoundation.org>,
-        Seth Jenkins <sethjenkins@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Arnd Bergmann <arnd@arndb.de>, Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        David Gow <davidgow@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k4lH5rWvUE98GU8yCy1NGQDUM/X/Z3Tpbwa5NYFQXGg=;
+        b=ZFqmmdUoIHpjBeZSZKy30ZQONpWcZRCwwHk9rMv1ZIjVVM9tQxyKOe5bWKV9pAWrow
+         MsYrBI/bAuF/gYUuvQ5xTH/uuGfmV56zZZ+Q0YF4EUOMiH/odYwC9kL7iuO+m36J0lM1
+         QYNE+8Cu19PB5oAOuXx4lW4HCJOnzzrYB+63tazKyBKnLKkLadx5mlt7V1hEEgJ3ISR7
+         boX+LBbynr3+Ue7GDOQ4Tf3ToZTOiDDm2KXa88IMkqKj4//5v1MeqcpwyaV4xARSnbOj
+         Rbq/VBg8P16giFPjcjmVxmoqnSE+oPVJH2dYUrPNsznFF3JK75/jz6r9uhMb9TlXwHTi
+         j6Eg==
+X-Gm-Message-State: ACrzQf1PPJAS5uFJydaoMMKaD0rfreZIerjFIU2cAO0MG3hsv+p2+13v
+        7EmQQmoYyWRpL0jXOlgIIA==
+X-Google-Smtp-Source: AMsMyM4FAtCtJYba4qjwAMKO/E286pubc0VAzXrmDkV7GWZ7ieKpPlDQmLDrWAXpJ8enR50wmPd/Qg==
+X-Received: by 2002:a05:6871:611:b0:13b:8097:2b92 with SMTP id w17-20020a056871061100b0013b80972b92mr47236179oan.44.1668032242503;
+        Wed, 09 Nov 2022 14:17:22 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id db6-20020a0568306b0600b0066cc0525476sm4690773otb.75.2022.11.09.14.17.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Nov 2022 14:17:21 -0800 (PST)
+Received: (nullmailer pid 2973198 invoked by uid 1000);
+        Wed, 09 Nov 2022 22:17:23 -0000
+Date:   Wed, 9 Nov 2022 16:17:23 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Lee Jones <lee@kernel.org>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        asahi@lists.linux.dev, devicetree@vger.kernel.org,
+        Hector Martin <marcan@marcan.st>,
         Jonathan Corbet <corbet@lwn.net>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Eric Biggers <ebiggers@google.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Laurent Dufour <ldufour@linux.ibm.com>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH v3 3/7] dt-bindings: mfd: add binding for Apple Mac
+ System Management Controller
+Message-ID: <20221109221723.GA2948356-robh@kernel.org>
+References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
+ <E1osRXT-002mw3-JR@rmk-PC.armlinux.org.uk>
+ <531d88b8-75db-1d8f-1384-b8d05594e7b3@linaro.org>
+ <Y2rWp4wasbflS/0y@shell.armlinux.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2rWp4wasbflS/0y@shell.armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 9, 2022 at 12:01 PM Kees Cook <keescook@chromium.org> wrote:
->
-> In preparation for adding more sysctls directly in kernel/panic.c, split
-> CONFIG_SMP from the logic that adds sysctls.
->
-> Cc: Petr Mladek <pmladek@suse.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: tangmeng <tangmeng@uniontech.com>
-> Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-> Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
-> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  kernel/panic.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/kernel/panic.c b/kernel/panic.c
-> index da323209f583..129936511380 100644
-> --- a/kernel/panic.c
-> +++ b/kernel/panic.c
-> @@ -75,8 +75,9 @@ ATOMIC_NOTIFIER_HEAD(panic_notifier_list);
->
->  EXPORT_SYMBOL(panic_notifier_list);
->
-> -#if defined(CONFIG_SMP) && defined(CONFIG_SYSCTL)
-> +#if CONFIG_SYSCTL
+On Tue, Nov 08, 2022 at 10:22:31PM +0000, Russell King (Oracle) wrote:
+> On Tue, Nov 08, 2022 at 09:55:58PM +0100, Krzysztof Kozlowski wrote:
+> > On 08/11/2022 17:33, Russell King (Oracle) wrote:
+> > > Add a DT binding for the Apple Mac System Management Controller.
+> > 
+> > Drop the second, redundant "binding" from subject. It's already in prefix.
+> 
+> Yet another thing that's been there from the start... how many more
+> things are you going to pick up in subsequent versions of the patch?
+> When does this stop?
+> 
+> In any case, taking your comment literally,
+> 
+> "dt-bindings: mfd: add for Apple Mac System Management Controller"
+> 
+> makes no sense, so presumably you want something more than that.
+> 
+> In any case, I see several recent cases already merged which follow
+> the pattern that I've used and that you've reviewed.
+> 
+> > > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> > > ---
+> > >  .../devicetree/bindings/mfd/apple,smc.yaml    | 67 +++++++++++++++++++
+> > >  1 file changed, 67 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> > > new file mode 100644
+> > > index 000000000000..014eba5a1bbc
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> > > @@ -0,0 +1,67 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/mfd/apple,smc.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Apple Mac System Management Controller
+> > > +
+> > > +maintainers:
+> > > +  - Hector Martin <marcan@marcan.st>
+> > > +
+> > > +description:
+> > > +  Apple Mac System Management Controller implements various functions
+> > > +  such as GPIO, RTC, power, reboot.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    items:
+> > > +      - enum:
+> > > +          - apple,t6000-smc
+> > > +          - apple,t8103-smc
+> > > +          - apple,t8112-smc
+> > > +      - const: apple,smc
+> > > +
+> > > +  reg:
+> > > +    items:
+> > > +      - description: SMC area
+> > > +      - description: SRAM area
+> > > +
+> > > +  reg-names:
+> > > +    items:
+> > > +      - const: smc
+> > > +      - const: sram
+> > > +
+> > > +  mboxes:
+> > > +    maxItems: 1
+> > > +
+> > > +  gpio:
+> > > +    $ref: /schemas/gpio/gpio-macsmc.yaml
+> > 
+> > So this depends on other patch, so:
+> > 1. You need mention the dependency in cover letter (nothing there),
+> > 2. Re-order patches.
+> > 
+> > The GPIO cannot go separate tree and this must be explicitly communicated.
+> 
+> Sigh, getting an order that is sensible is really bloody difficult.
 
-Should this be "#ifdef CONFIG_SYSCTL"?
+It's not. Sub-devices before the MFD. The only time that doesn't work is 
+when the sub-devices put the parent MFD in their example. The solution 
+there is don't do that. Just 1 complete example in the MFD schema and no 
+examples in the sub-devices.
 
->  static struct ctl_table kern_panic_table[] = {
-> +#if defined(CONFIG_SMP)
+> I'm quite sure Lee is only going to want to apply the mfd bits. 
 
-nit: This could be "#ifdef CONFIG_SMP"
+Indeed. I can't seem to make Lee care... All the schemas should really 
+be applied together.
 
->         {
->                 .procname       = "oops_all_cpu_backtrace",
->                 .data           = &sysctl_oops_all_cpu_backtrace,
-> @@ -86,6 +87,7 @@ static struct ctl_table kern_panic_table[] = {
->                 .extra1         = SYSCTL_ZERO,
->                 .extra2         = SYSCTL_ONE,
->         },
-> +#endif
->         { }
->  };
->
-> --
-> 2.34.1
->
+> Then
+> what do we do with the other bits? GPIO stuff via the GPIO tree, then
+> wait a cycle before the rest can be merged. Or what?
+
+The schemas must be picked up in the same cycle. I don't care so much 
+if subsystem maintainers' trees have warnings if they don't care, but I 
+do care for linux-next. If the subsystem bits aren't picked up, then 
+I'll pick them up if it comes to that.
+
+Rob
