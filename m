@@ -2,204 +2,217 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18AB6C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 10:12:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9D4EC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 13:05:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230246AbiKIKMR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 05:12:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38580 "EHLO
+        id S229702AbiKINFa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 08:05:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230254AbiKIKMP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 05:12:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB73113D19
-        for <linux-doc@vger.kernel.org>; Wed,  9 Nov 2022 02:11:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667988678;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cF8810Vc4/2iRmUuV9FlLA0OnvEHQxfK2aT8k754UNw=;
-        b=W5We8htO8wbhIRHirD8+naDCod2L8gDliuCWakJgV11yz4E4cf4Q/cVycVj4fx0hHfPd7o
-        SJnBz+GQ1XmQkJWg1n1OZ7RYRNWq6eEO9YdyRd0HUXCNgLMZj2gFamrXb9vOTAR/Mh5uM6
-        EC4P07tLGv23Yk4RzvEgGQPWHmgzCEY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-474-1V7gJvutObu152DETvTxTQ-1; Wed, 09 Nov 2022 05:11:17 -0500
-X-MC-Unique: 1V7gJvutObu152DETvTxTQ-1
-Received: by mail-wm1-f71.google.com with SMTP id c10-20020a7bc84a000000b003cf81c2d3efso397718wml.7
-        for <linux-doc@vger.kernel.org>; Wed, 09 Nov 2022 02:11:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cF8810Vc4/2iRmUuV9FlLA0OnvEHQxfK2aT8k754UNw=;
-        b=vb2nBO3mMwoqiw4fjphB0oCDbwADfpkJGZRfM1wqK598y+oY2/i4PYO8vHsGXrfTtk
-         JpnT/WhAgCMuYLTXwBtcvlzNdla2X2FiSTtJZV6w788XRhvoOx6apVKFvdN79+9XK/BU
-         0jIaenDkEkNjqo4WV98I+6zDoXZOka7vABBjqAu9nbneScOLrf62R5+MUnG2NgxPaZ/8
-         oXg4yQUW2xFAvF0yoDYNFoiZIdnjAoUFrcXcoFjU/R/L8RZX3yTRfgklc1xULVglc5dc
-         TPPfws+f4u1HUFrKMqAMfCVbk6yF3DHFGfOLqTgS8ScZpvjRM7Bf38uVSF2a5QymW5AF
-         K0qQ==
-X-Gm-Message-State: ACrzQf2yIgxS/3P1p0LnmNX9L/1MvLH10kPjOEifX7gQOvXOt0cOnV+C
-        1cYhzVXFvkGe/gGk1OACd/E/Pj2DoKIB+LgbBm0KBSmW0Esk6RAHSdKAWSl9tfsBkW+DktpUWH1
-        Hgpx2XQJA5S6KfAo9x8Gu
-X-Received: by 2002:a05:600c:a09:b0:3b5:2f6b:c7c5 with SMTP id z9-20020a05600c0a0900b003b52f6bc7c5mr39748736wmp.141.1667988676057;
-        Wed, 09 Nov 2022 02:11:16 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM7qD7WZc9naImm94kof1HKTWG20TbVD1pI7ymJwhlZEm3Nqy5sYMy0gvoqZ9fXaQO2l3KEMZA==
-X-Received: by 2002:a05:600c:a09:b0:3b5:2f6b:c7c5 with SMTP id z9-20020a05600c0a0900b003b52f6bc7c5mr39748686wmp.141.1667988675664;
-        Wed, 09 Nov 2022 02:11:15 -0800 (PST)
-Received: from ?IPV6:2003:cb:c704:b000:3b0e:74a3:bc8:9937? (p200300cbc704b0003b0e74a30bc89937.dip0.t-ipconnect.de. [2003:cb:c704:b000:3b0e:74a3:bc8:9937])
-        by smtp.gmail.com with ESMTPSA id f17-20020a056000129100b002368a6deaf8sm12745744wrx.57.2022.11.09.02.11.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Nov 2022 02:11:15 -0800 (PST)
-Message-ID: <70a8541b-6066-45ca-e2bc-3b7ecc0e7bb2@redhat.com>
-Date:   Wed, 9 Nov 2022 11:11:13 +0100
+        with ESMTP id S229558AbiKINF3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 08:05:29 -0500
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 799A4278;
+        Wed,  9 Nov 2022 05:05:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KhcnIZlKBgQkOGl+TyjmSOT5mwKR0b+zao5Wpsk6hxyTUnpoYV9jObjuA1JvVKb5xSVr7uvSFsB7UxcRXCtI1xG2gzs/Geom0sOaslU6buEiksTSn8Aw7RnFgivcjAEhGrvl9ZL5slPsPOFI15KeUfAJL4sYU5puvepIObdMMA1NoQCJ9bZ/EK0GAMOiBilFWbD5aGNWz+zAHnYwX+fJ7lZ7cOEW5WHd4lAaXMlb5LtMjFfRDnK8FiKLQmjrx1AcohRi+x6Ah9anjoboiaXUjwj3ynVfo5HgY3t1TuX2RkHMcC09FAjpLy3i4r+tAZY9ZmPjAa4IX0CMPyvzZX0DMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=za1nBEgAbzThlyMfklpADYMUTsWbM4JSSz2CfbrI6pQ=;
+ b=dDOSKBETl9ufy1HOWSKkdkW2TQcUcckN2S4uRSigIvwScxSUV7qvoGxROUgTJcO36rJRYyYfQkUs1gacC64QwWhq1zpbewtzRhqUTwtx+5w9eQWtkyLbElIms6E5DFYHjfg6BihxfQ8IQSHBHDTzg96yZ7JUG3nTe387EgX/7jZbMIcOEzbjbqSycWBKgdU4lJxNQMXy2dz7Ly+SkCqFoQrlL8PKpsfoLUrK4tmjXsJfzgPodaA6I/qBotUylcDL9AtnFahrMcuHQduhzLZP5yetNimO7u4oPFruItOQAZoMC7AXPyOqL9RlH/ptONkkW1wEbWk/AKdkWjwB4NBjeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=za1nBEgAbzThlyMfklpADYMUTsWbM4JSSz2CfbrI6pQ=;
+ b=YO0u5N5077n/SGQV5N14tABN2lO+ZPK5XjBpx2xSfjor6FFYecjCScLomG+q7m+2E3n2lNesjP170JztMTbrYcQ8yQlcReqCXXhoO+3xq4egFCc6m+AMgFnoLYLB4nZcayekYK8rCEXD6Ce+eqWy+5KuP0dv2dABYCpS7bHVAOBuge65eqXcnXwYXzrH/c8e1Co/5Tm7/9Ym8izMHLKL36CYhGCSc1xXNEroppzCPnQDzMPjN8FnsH0xLNXCvOVnAQG+yNqhSpGIS0FTgbklcWEUFN18zdYu8p4HHt6kxNnVTCv83VbeSoezZatvz1L2K1+d0oHhDBgg6A+POWrBuQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by DM8PR12MB5429.namprd12.prod.outlook.com (2603:10b6:8:29::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.27; Wed, 9 Nov
+ 2022 13:05:25 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de%7]) with mapi id 15.20.5791.027; Wed, 9 Nov 2022
+ 13:05:25 +0000
+Date:   Wed, 9 Nov 2022 09:05:24 -0400
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     "Tian, Kevin" <kevin.tian@intel.com>
+Cc:     Lu Baolu <baolu.lu@linux.intel.com>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>,
+        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+        Joerg Roedel <joro@8bytes.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        "Martins, Joao" <joao.m.martins@oracle.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>,
+        Keqian Zhu <zhukeqian1@huawei.com>
+Subject: Re: [PATCH v3 10/15] iommufd: IOCTLs for the io_pagetable
+Message-ID: <Y2ullBdcxIhJKFeH@nvidia.com>
+References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <10-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <BN9PR11MB52765289F880B8A7297077318C3B9@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <Y2kd/Ptt0iR6SGsh@nvidia.com>
+ <BN9PR11MB5276706B744018EC6E36E1128C3F9@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <Y2qSEVu91SOfvVmO@nvidia.com>
+ <BN9PR11MB5276DAAAB20671B6DCC135728C3E9@BN9PR11MB5276.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BN9PR11MB5276DAAAB20671B6DCC135728C3E9@BN9PR11MB5276.namprd11.prod.outlook.com>
+X-ClientProxiedBy: BL0PR1501CA0018.namprd15.prod.outlook.com
+ (2603:10b6:207:17::31) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v2] mm: anonymous shared memory naming
-To:     Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, hughd@google.com,
-        hannes@cmpxchg.org, vincent.whitchurch@axis.com, seanjc@google.com,
-        rppt@kernel.org, shy828301@gmail.com, paul.gortmaker@windriver.com,
-        peterx@redhat.com, vbabka@suse.cz, Liam.Howlett@oracle.com,
-        ccross@google.com, willy@infradead.org, arnd@arndb.de,
-        cgel.zte@gmail.com, yuzhao@google.com,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        bagasdotme@gmail.com, kirill@shutemov.name
-References: <20221107184715.3950621-1-pasha.tatashin@soleen.com>
- <e94ac231-7137-010c-2f2b-6a309c941759@redhat.com>
- <CA+CK2bAbKMj8-crNCtmQ=DB5uRvQBJtFTLf5TH9=RWRGjfOGew@mail.gmail.com>
-Content-Language: en-US
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <CA+CK2bAbKMj8-crNCtmQ=DB5uRvQBJtFTLf5TH9=RWRGjfOGew@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DM8PR12MB5429:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3013618c-ccff-4e51-bb99-08dac253111a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QaJ2NE50QpsokFb+30Ru5btUqgWkwOLqUy6gwEg8l4+j+yW45BjDIE1/XQGWWfiig/0GEHqQoyLS33gnBWsa/SsnMLb197x/jPJpIpGtTRX/8MVZqeNjNntLQrdWH/7Git18F7l1L6nQ/42ubovyEQ/U3kEQHZL3kbYlu3NYTbPbx5yyffXrmXxS2F2ar/5L5Pc1UPYpSncXwVzlXWDhuQXY1hNrdX+2rekaUVHdacDQWumWd/GRBhzomFPNJ/uvCby1HyHzLDMPGFvJM6EBGr1oJoMBeo+m4c2IAMUv7AO+9+OV5NcZJJsFL+AJIvktiENsiDZAzRQ60IkTUYG1dkBIeVKuK3nfakcEPv87gAvZKr76f9OEr8rcozB//uKJEY5jAssCKW2RH/ri8Tk0TYsOVLI/+Gq70z0QMyI9HE9Wwx8S9i3UPUacIHTDFX7bBk+AdCbyPRY9GFNKxCxaErzz3/CrAMfZPIiI1rXrspRznn12rziTz3ykPkTXhRaRMhiI/Pn4I12T8i+h2G+ZOD7iPFeXn6TYrl/XRykirQkt0DQyMbYeRs1nGLVx+xeAsnaMskFrPTsZQcoThrkmq4Tg7tYVY4Ilvhtdp7gu0VawEXEyupIxTGjZdZDhIvHF1/kMJR7oxOEPY22TcVEvHPkv+oFItxEqZbeRgF22qk2j8Z5RrswE3VCXkiUKVMXtmFrp6FijdZnHu5uT8zSfaw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(376002)(136003)(366004)(39860400002)(346002)(451199015)(2906002)(5660300002)(7406005)(7416002)(66946007)(38100700002)(66476007)(66556008)(4326008)(6512007)(6506007)(26005)(8676002)(36756003)(316002)(8936002)(41300700001)(54906003)(478600001)(6486002)(83380400001)(6916009)(86362001)(186003)(2616005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9HMaxZZDvNPi0M2Y5keEmjIV5H8JHyasQAmICa8GAZdighYH+6ETUVncMYqB?=
+ =?us-ascii?Q?0Mq5es44ZaoeFfN6eqEJKRARrPuoQOtpCioWj7E5fYY2SMiNcfBISs0uVYcp?=
+ =?us-ascii?Q?kL9utEBE3KMvE2e+5BPJHeoiJwSkfxP6CYtFlmGESZ5yKWgHYEllsLU2TGwj?=
+ =?us-ascii?Q?Xa57SLm+DINe8uQ2wc5afZrGWjCunvz0wu6wPYG9GA/ktZ+vFFkSN+WpVlL2?=
+ =?us-ascii?Q?RmvS6bqxzJDmD8E9Eo18Gq5B1m47GW/FmM2Lt1u33/dda3bF5x4z3E70AHWw?=
+ =?us-ascii?Q?wWci7P+KYNbsPQJZlj7Phc/Nv839clQs/s4iSX2siYzdbIjdKMSe3aSC4Pgf?=
+ =?us-ascii?Q?AehJzpv2DT7L5HpGczl5ShgVBrVPIPJ6fktFSX0m+8IeLDRllT6wsut3F83m?=
+ =?us-ascii?Q?j7WwFBeZTOF4q7SrVG0GO0+9Fvjovecae+EH/kCEFaWH+AeFLN7JAN6XsGdZ?=
+ =?us-ascii?Q?nqDd3Txpxx824lcFFKzS69DlIP58MD62zTcPzNFVTZOFd0Hsjpti58A8it2T?=
+ =?us-ascii?Q?AcayAi96H/OaxA7VekJKR4hMCNgTd0Nxn/Mp1OgpMjHYsCyMLM9XD0j6D7Mm?=
+ =?us-ascii?Q?QpofhnsgXISMVGfXgUlkynx2Cy8LwgGijhdGdkZjL0aaAqU8KgCV/l9MagSa?=
+ =?us-ascii?Q?YO6xaWhDJTSzXF3+ZOS5EPKr8t7a7KFQ/IICKvr1kUnW4geRHMK6lkR53Hso?=
+ =?us-ascii?Q?glzl5dbfdItih93X2wQJ291+JgWS4+GjmBTcWf72OhqoZxm3v746j/e8oQD5?=
+ =?us-ascii?Q?EqsxaiUm+Nn0KIe9HmzTm03z2H6eK/fRrrUsxbE1hH99ZYs2fG+N1D30/Lq2?=
+ =?us-ascii?Q?1K4eJ7Wdh5mVAJIg4SNMLErJ7cfcAi1CwT8MxFL4a+G5KnSPNAwYPpI49Bps?=
+ =?us-ascii?Q?ekVFQTip34qhqqE4v+6gNtjYsr+Hc58NpU9AnWnV/aVPL3tnaSiOWx6iwIgv?=
+ =?us-ascii?Q?8oa7rSoWSIO+roJ4+j3mdKlz0szWSkLwJ0mDUAG/lTtI3uLzsRJB6QMlV2ic?=
+ =?us-ascii?Q?fts40lX8Zy4YiEov73uQOEn8EKy+LdpJzH9fhpG3ZWBZGGSejKyQ25yX4E3A?=
+ =?us-ascii?Q?uLp9oSQSn4ixvJIkM9RK/2qTH2TSx3Q7Zc60B3JoS0VTNQMW8qZpv2NyybyL?=
+ =?us-ascii?Q?qE4x4mKRQPg5L/VHJhnedy/Ql/F8IP0mp7iBU7Zf5fSHoFl9ASW/9pQs3Nxe?=
+ =?us-ascii?Q?UZ69meKRoxkJvnk/oooU5UUnZGjtAneAJSf7zeqbNPn6z+/fSweCotqZKsWe?=
+ =?us-ascii?Q?HPAa0iY/dQQ8DrWr4hTqaaML2mYfyE80+FHx4r63nfw7mQlTrX4JbmumsvLc?=
+ =?us-ascii?Q?u/m1ByzXxR/y46QFy6POai8nLhF41aDJtHC0anPH5eQniEYdKDqNKYz1zkFJ?=
+ =?us-ascii?Q?ZFh6UWGm23kTUhrAjIIeQjMuoTEUWlvkTnB6ILXX7irRP479Js4o/dTxkInN?=
+ =?us-ascii?Q?PDMxIBezMhFQJ/SYrKFpkrBMPX9Pzlfvoqcr53lOQv2iG0QXUfHB/t/JxMx5?=
+ =?us-ascii?Q?9vel7P0ShrbTNKyz4IgX5AAke4On//b1fe2A8TMyBSTP5QO7/iOEW7uHuy9/?=
+ =?us-ascii?Q?WLd1w1/pAA2A19lz/vo=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3013618c-ccff-4e51-bb99-08dac253111a
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2022 13:05:25.3728
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dvjeAR5MKz/JG3aCoXEF9ERXvZ4SU2pSAjge5MoiMo+NI4Kl21zSOgDCrzWaBTWA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5429
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->>
->>>     anon_shmem = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
->>>                       MAP_SHARED | MAP_ANONYMOUS, -1, 0);
->>>     /* Name the segment: "MY-NAME" */
->>>     rv = prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME,
->>>                anon_shmem, SIZE, "MY-NAME");
->>>
->>> cat /proc/<pid>/maps (and smaps):
->>> 7fc8e2b4c000-7fc8f2b4c000 rw-s 00000000 00:01 1024 [anon_shmem:MY-NAME]
->>
->> What would it have looked like before? Just no additional information?
+On Wed, Nov 09, 2022 at 02:50:34AM +0000, Tian, Kevin wrote:
+> > From: Jason Gunthorpe <jgg@nvidia.com>
+> > Sent: Wednesday, November 9, 2022 1:30 AM
+> > 
+> > On Tue, Nov 08, 2022 at 02:05:20AM +0000, Tian, Kevin wrote:
+> > > > The concept was the allow list only really impacts domain
+> > > > attachment. When a user uses FIXED they have to know what they are
+> > >
+> > > it also impacts automatic IOVA
+> > >
+> > > > doing. There is not a good reason to deny the user to use any IOVA
+> > > > that is not restricted by the reserved list.
+> > >
+> > > I just didn't get why different restrictions are applied to automatics vs.
+> > > fixed allocation.
+> > 
+> > Because it isn't a restriction on allocation, it is a restriction on
+> > domain attachment. (and this is a bit confusing and subtle, but it is
+> > what it was built for)
+> > 
+> > The purpose is to allow the IOMMU driver to allocate a domain with
+> > knowledge of what the user would like to do. For instance a small
+> > allowed range may allow the driver to allocate fewer hops in the IO
+> > page table, and a create a domain with a smaller aperture.
 > 
-> Before:
+> if a domain can be created with a smaller aperture according to
+> allowed ranges then the impact is not just on future domain
+> attachment. a fixed IOVA outside of the allowed ranges will
+> find error on current domain too.
+>
+> Should a driver which does this update the reserved ranges too?
+
+Not reserved ranges, the domain should have a smaller aperture, and
+the checks during domain attachment will refuse if IOVA is to be
+mapped out side the domain's aperture.
+
+So if someone mis-uses fixed mode and gets a domain with an aperture
+that doesn't cover stuff they mapped then domain attachment will fail.
+
+It is no different from mapping something before domain attachment.
+
+> > "automatic" is supposed to find a good IOVA that is the best IOVA for
+> > that mapping. We have defined the best IOVA as one that doesn't reach
+> > into areas that future domains are allowed to mark as reserved.
 > 
-> 7fc8e2b4c000-7fc8f2b4c000 rw-s 00000000 00:01 1024 /dev/zero (deleted)
-
-Can we add that to the patch description?
-
->>
->>>
->>> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
->>> ---
->>
->>
->> [...]
->>
->>> diff --git a/include/linux/mm.h b/include/linux/mm.h
->>> index 8bbcccbc5565..06b6fb3277ab 100644
->>> --- a/include/linux/mm.h
->>> +++ b/include/linux/mm.h
->>> @@ -699,8 +699,10 @@ static inline unsigned long vma_iter_addr(struct vma_iterator *vmi)
->>>     * paths in userfault.
->>>     */
->>>    bool vma_is_shmem(struct vm_area_struct *vma);
->>> +bool vma_is_anon_shmem(struct vm_area_struct *vma);
->>>    #else
->>>    static inline bool vma_is_shmem(struct vm_area_struct *vma) { return false; }
->>> +static inline bool vma_is_anon_shmem(struct vm_area_struct *vma) { return false; }
->>>    #endif
->>>
->>>    int vma_is_stack_for_current(struct vm_area_struct *vma);
->>> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
->>> index 500e536796ca..08d8b973fb60 100644
->>> --- a/include/linux/mm_types.h
->>> +++ b/include/linux/mm_types.h
->>> @@ -461,21 +461,11 @@ struct vm_area_struct {
->>>         * For areas with an address space and backing store,
->>>         * linkage into the address_space->i_mmap interval tree.
->>>         *
->>> -      * For private anonymous mappings, a pointer to a null terminated string
->>> -      * containing the name given to the vma, or NULL if unnamed.
->>>         */
->>> -
->>> -     union {
->>> -             struct {
->>> -                     struct rb_node rb;
->>> -                     unsigned long rb_subtree_last;
->>> -             } shared;
->>> -             /*
->>> -              * Serialized by mmap_sem. Never use directly because it is
->>> -              * valid only when vm_file is NULL. Use anon_vma_name instead.
->>> -              */
->>> -             struct anon_vma_name *anon_name;
->>> -     };
->>> +     struct {
->>> +             struct rb_node rb;
->>> +             unsigned long rb_subtree_last;
->>> +     } shared;
->>>
->>
->> So that effectively grows the size of vm_area_struct. Hm. I'd really
->> prefer to keep this specific to actual anonymous memory, not extending
->> it to anonymous files.
+> 'good' or 'best' just implies that the allocation prefers to permitted
+> ranges over reserved ranges. then when permitted ranges are used
+> up the allocator can then go to find less-favorable holes outside of
+> the permitted ranges if not reserved. same as what FIXED IOVA allows.
 > 
-> It grows only when CONFIG_ANON_VMA_NAME=y, otherwise it stays the same
-> as before. Are you suggesting adding another config specifically for
-> shared memory? I wonder if we could add a union for some other part of
-> vm_area_struct where anon and file cannot be used together.
+> But the behavior in this uAPI is that automatic IOVAs can be only
+> in permitted ranges. This is a restriction on allocation instead of
+> preference.
 
-In practice, all distributions will enable CONFIG_ANON_VMA_NAME in the 
-long term I guess. So if we could avoid increasing the VMA size, that 
-would be great.
+Again, it is not a restriction. It is just how the automatic allocater
+works.
 
+> IMHO I'd like this uAPI clearly defined as either of below:
 > 
->> Do we have any *actual* users where we don't have an alternative? I
->> doubt that this is really required.
->>
->> The simplest approach seems to be to use memfd instead of MAP_SHARED |
->> MAP_ANONYMOUS. __NR_memfd_create can be passed a name and you get what
->> you propose here effectively already. Or does anything speak against it?
-> 
-> For our use case the above does not work. We are working on highly
-> paravirtualized virtual machines. The VMM maps VM memory as anonymous
-> shared memory (not private because VMM is sandboxed and drivers are
-> running in their own processes). However, the VM tells back to the VMM
-> how parts of the memory are actually used by the guest, how each of
-> the segments should be backed (i.e. 4K pages, 2M pages), and some
-> other information about the segments. The naming allows us to monitor
-> the effective memory footprint for each of these segments from the
-> host without looking inside the guest.
+> 1) only related to domain attach then automatic IOVA can be allocated
+>    outside of permitted ranges after the latter are used up;
 
-That's a reasonable use case, although naive me would worry about #VMA 
-limits etc.
+This makes automatic allocation functionally useless when composed
+with allowed ranges. There is no reason to do this.
 
-Can you add some condensed use-case explanation to the patch 
-description? (IOW, memfd cannot be used because parts of the memfd are 
-required to receive distinct names)
+> 2) applied to both domain attach and IOVA allocation which then applied
+>    to both automatic IOVA and fixed IOVA;
 
-I'd appreciate if we could avoid increasing the VMA size; but in any case
+And this is more complicated and slow, without any real purpose.
 
-Acked-by: David Hildenbrand <david@redhat.com>
-
-
--- 
-Thanks,
-
-David / dhildenb
-
+Jason
