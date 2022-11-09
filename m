@@ -2,62 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F6DC4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 21:01:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24AC6C43217
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 21:01:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231712AbiKIVBJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 16:01:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56500 "EHLO
+        id S231584AbiKIVBx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 16:01:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231812AbiKIVAz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 16:00:55 -0500
+        with ESMTP id S231685AbiKIVBh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 16:01:37 -0500
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED00930F78;
-        Wed,  9 Nov 2022 12:59:31 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95C2831222;
+        Wed,  9 Nov 2022 13:01:13 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9C053735;
-        Wed,  9 Nov 2022 20:59:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9C053735
+        by ms.lwn.net (Postfix) with ESMTPSA id 2A2AC37E;
+        Wed,  9 Nov 2022 21:01:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2A2AC37E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1668027571; bh=hoB/n5Y+UJ+AWFbI6oAkTagIGsPeSuHx16WFyuj7V4s=;
+        t=1668027673; bh=ITr2R0mtUe/KCYtEsEvbQ007phtJBhesDNR74eyDa8s=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=DC4rAh/4/pUCFgAGKmaXa+Wwk1K2ucK2kG3/xjKPLeUxP+GqMmeBahxqH5iz3imOx
-         MfkhuexTWLTZOEE1JUCOyfpHqi6IUFZ4RcHq85i+mN9FoCQS+3a6MI+SXZyoC9/Zsj
-         Vih30P6RY2lLPDzF56EXkbNuMEW4ki/rA2oXL5tSVFL1JIEhZ8996IeiHJAX/cZvLd
-         k4aTFv8v2Rz/Wc52Hf6uQWu5P1ctCtY1/xYxPlqtLmIwJ/PplQyah3PndgFMp11S6h
-         dmO1nIhx+PqRtcx/wIaWKIFFIgVqN5dfYHqDuxhZfM3LAMf8G1YxHwl+VaHW4DHU2r
-         5pN8204AC8UBA==
+        b=UgGFyRZ8JGvPW88XDRVKc/i1yXpdH2cQnF6KWzxrRNQHisnv0R+pYDcLI6QSGJCBo
+         eS7Jw7mciZZQwyhwOlLfDEgu+lqghC9K47ebS4riP3utK2ancGqtCvsk9/jJJj2McA
+         xK4HtRzv9Wznl7tHx7dnPMVWX/UwdMcBx/jkWfxdw7F8sJm1sHaF26grwVOhc+Gjd7
+         ywu3zivVh+UxsZVbcE1q1c7s+xBDD9WEE/ueoaGgc08B/kezCiFIKhqLdai8HSsmzj
+         nEJhtzOogJmDpRqJnIhjMj5pzvfBe7Gl/4tZHlx1+dA3d8jZPGabJnl4dFnW2H+Jk7
+         Nt8SRuAGma5oQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH] debugfs: small Documentation cleaning
-In-Reply-To: <20221104003835.29472-1-rdunlap@infradead.org>
-References: <20221104003835.29472-1-rdunlap@infradead.org>
-Date:   Wed, 09 Nov 2022 13:59:31 -0700
-Message-ID: <87y1sjj13g.fsf@meer.lwn.net>
+To:     Yang Yingliang <yangyingliang@huawei.com>,
+        linux-doc@vger.kernel.org, linux-iio@vger.kernel.org
+Cc:     jic23@kernel.org, Jonathan.Cameron@huawei.com,
+        yangyingliang@huawei.com
+Subject: Re: [PATCH RESEND] Documentation: devres: add missing IIO helpers
+In-Reply-To: <20221103023402.1024437-1-yangyingliang@huawei.com>
+References: <20221103023402.1024437-1-yangyingliang@huawei.com>
+Date:   Wed, 09 Nov 2022 14:01:12 -0700
+Message-ID: <87tu37j10n.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Yang Yingliang <yangyingliang@huawei.com> writes:
 
-> Fix punctuation in a parenthetical phrase.
-> Add 2 article adjectives and change one from "an" to "a".
+> Add some missing device-managed helpers of iio to devres.rst.
 >
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> devm_iio_kfifo_buffer_setup_ext() is introduced by commit 0a21526bc1d4 ("iio:
+> kfifo: add devm_iio_triggered_buffer_setup_ext variant").
+>
+> devm_iio_triggered_buffer_setup_ext() is introduced by commit 5164c7889857 ("iio:
+> triggered-buffer: add {devm_}iio_triggered_buffer_setup_ext variants").
+>
+> devm_iio_hw_consumer_alloc() is introduced by b688c18d3006 ("IIO: hw_consumer:
+> add devm_iio_hw_consumer_alloc").
+>
+> devm_fwnode_iio_channel_get_by_name() is introduced by commit 1e64b9c5f9a0 ("iio:
+> inkern: move to fwnode properties").
+>
+> Fixes: 0a21526bc1d4 ("iio: kfifo: add devm_iio_triggered_buffer_setup_ext variant")
+> Fixes: 5164c7889857 ("iio: triggered-buffer: add {devm_}iio_triggered_buffer_setup_ext variants")
+> Fixes: b688c18d3006 ("IIO: hw_consumer: add devm_iio_hw_consumer_alloc")
+> Fixes: 1e64b9c5f9a0 ("iio: inkern: move to fwnode properties")
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 > ---
->  Documentation/filesystems/debugfs.rst |    8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> The previous patch link:
+> https://patchwork.kernel.org/project/linux-iio/patch/20220927074043.942836-1-yangyingliang@huawei.com/
+> ---
+>  Documentation/driver-api/driver-model/devres.rst | 4 ++++
+>  1 file changed, 4 insertions(+)
 
 Applied, thanks.
 
