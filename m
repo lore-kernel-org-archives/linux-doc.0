@@ -2,163 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8C2CC433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 14:45:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3836FC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 14:51:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229974AbiKIOpN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 09:45:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55152 "EHLO
+        id S229777AbiKIOvZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 09:51:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231648AbiKIOpM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 09:45:12 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB454186EB;
-        Wed,  9 Nov 2022 06:45:10 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id l22-20020a17090a3f1600b00212fbbcfb78so2035504pjc.3;
-        Wed, 09 Nov 2022 06:45:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EykLsHeIVHRO9PdnUtJ+KSnyFBk98kvT0QI6KNtiYAM=;
-        b=KY2/9r6gj3wAKeO3IF1EWjaba52UxmHK7IyTetfWSTQ0g/GquJI1io9+dDzeqEX2d0
-         /Jg91Hb9l6hMY5QwO1WrIYZ/0kB4p5v8NWfCk45jdGZ4xsLw9QGl5wkCL7KGhIygT6P5
-         dJx5RDofgTF9Hs581wMo4Tdp4WorRLiOV0IPKb3YVJKnWKwRhXrZuAV6gOifD6+HyYzp
-         E1d0bGFnr6rfZlGqH+rf3Oy6AhITS5cnOMN8Wrn4yujAvrhK/frV+M1t8FPhaqUKN9Ly
-         DphomHbeFAenzmq2L8gwWEUpvJqSq8Tv4DCW1Aadj6dhOF0isLt1gBFBy5mhLhHLm8LZ
-         f9Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EykLsHeIVHRO9PdnUtJ+KSnyFBk98kvT0QI6KNtiYAM=;
-        b=sF4wJweDvX126OiLs1pnIpJ622HSBAiwW71UMu7JQw3KSPt1SZMdwOeLbkWTe3m1kd
-         07ZQkvakoZc4dfjJDvU2ui+Fow2TwYcl042GhlD/fTMQtG6wA5nMfxMj3GgW6MxFr3D7
-         gNHJ/3vJT8Ohjb3Fs8SYE6VIw7iburEfl8eHP3Yg3i7uyS+uC5x4dNTUXVbI4fu2seaJ
-         TAVUgQvcNq3rdrWZoTd++mESaEdwifUDFqCFnc4VvzIUsB0BDyT4lU7otFcrXIFVvt6v
-         qCeGbYmEz4Y2g3dBHxChfR0xi3lwjlWyAkChrgUFvuTLxWpTTA+94LEXQB8Us5C6c54P
-         n/1w==
-X-Gm-Message-State: ACrzQf186FOPX8cYPP1rAX3dikw3MfdIWRp6A7ys1LHnxzEDSZ9xm/6R
-        Z+4TvOoEjpBK211TqiEeEwA=
-X-Google-Smtp-Source: AMsMyM6E7S+hpcuxPPqJZtWasCHQscNqdTaG7NTDnsR8LPQezPNjV+jphpzTTWJL8371/qdiPRIXvg==
-X-Received: by 2002:a17:90a:d084:b0:213:8cf1:4d34 with SMTP id k4-20020a17090ad08400b002138cf14d34mr64036139pju.150.1668005110411;
-        Wed, 09 Nov 2022 06:45:10 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id w15-20020a1709026f0f00b001870533c443sm9149511plk.236.2022.11.09.06.45.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Nov 2022 06:45:09 -0800 (PST)
-Message-ID: <47514c0a-7d5b-5a0b-6bb5-d5c96d163838@gmail.com>
-Date:   Wed, 9 Nov 2022 23:45:06 +0900
+        with ESMTP id S229910AbiKIOvY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 09:51:24 -0500
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E7591C901;
+        Wed,  9 Nov 2022 06:51:23 -0800 (PST)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A9CnK6k025229;
+        Wed, 9 Nov 2022 15:50:44 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=5JtF3iJ2oXjNjIAbamTKE27XtiV1yY94Ah+QiBDWb3s=;
+ b=etElwXAkt6kcqJIe2SltGS49ceP/WxapGbX4u3Ff81O2QqHa2suZ/WJRKX9FO7dj+2EG
+ WwyePRFEabfKVWgx4H+AbcoWAywb6BCYs5ZbBSJQRQVfFyWsKw5Xp1gbdqEkHAWZqO4n
+ lok22cczp0S23kA54WfqwmQ2/aPIKgS8L4VTE7qxQkpZ3ns6ejnBLtumHU7ZJDdT2PTa
+ R78DNT7Nxovnv+sJyvJizEASGL3CgqIYak5Q2VVvbgAYRBsvRCoOEOnYVvj8AhCBa5KL
+ 2CgnVL1oassLIUMmIpEKGrqNspCCA5vTzKRmLpglyuE0fWIVG9E0cfugdaW3S0J6InH2 1g== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3kpyjqhquy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Nov 2022 15:50:44 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5240A10002A;
+        Wed,  9 Nov 2022 15:50:37 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D9E6D21FEA5;
+        Wed,  9 Nov 2022 15:50:37 +0100 (CET)
+Received: from [10.252.18.33] (10.252.18.33) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.32; Wed, 9 Nov
+ 2022 15:50:37 +0100
+Message-ID: <f0aee291-ce44-400b-be3a-dfe38c62e450@foss.st.com>
+Date:   Wed, 9 Nov 2022 15:50:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH] docs/driver-api/miscellaneous: Remove kernel-doc of
- serial_core.c
+Subject: Re: [PATCH] Documentation: media: Add ST VGXY61 driver documentation
+ to userspace API table of contents
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-next@vger.kernel.org>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20221109100147.218947-1-bagasdotme@gmail.com>
 Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jiri Slaby <jslaby@suse.cz>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <4e54c76a-138a-07e0-985a-dd83cb622208@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <4e54c76a-138a-07e0-985a-dd83cb622208@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From:   Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
+In-Reply-To: <20221109100147.218947-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.252.18.33]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-09_06,2022-11-09_01,2022-06-22_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
+Hi Bagas,
 
-On Wed, 2 Nov 2022 20:48:01 +0900, Akira Yokosawa wrote:
-> Since merge of tty-6.0-rc1, "make htmldocs" with Sphinx >=3.1 emits
-> a bunch of warnings indicating duplicate kernel-doc comments from
-> drivers/tty/serial/serial_core.c.
+I already submitted this here:
+https://www.spinics.net/lists/linux-media/msg221143.html
+
+Thanks.
+
+On 11/9/22 11:01, Bagas Sanjaya wrote:
+> Sphinx reported missing toctree entry for ST VGXY61 documentation:
 > 
-> This is due to the kernel-doc directive for serial_core.c in
-> serial/drivers.rst added in the merge. It conflicts with an existing
-> kernel-doc directive in miscellaneous.rst.
+> Documentation/userspace-api/media/drivers/st-vgxy61.rst: WARNING: document isn't included in any toctree
 > 
-> Remove the latter directive and resolve the duplicates.
+> Add the entry to fix the warning.
 > 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Fixes: 607ca0f742b7 ("Merge tag 'tty-6.0-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty")
-> Cc: stable@vger.kernel.org # 6.0
-> Cc: Jiri Slaby <jslaby@suse.cz>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Link: https://lore.kernel.org/linux-next/20221109162013.293250a2@canb.auug.org.au/
+> Fixes: 2378be892b6ff5 ("media: Documentation: Add ST VGXY61 driver documentation")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
-> Hi Jiri,
+>  Documentation/userspace-api/media/drivers/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> I've seeing the increased warnings of duplicates from "make htmldocs"
-> since the 6.0 merge window. They look like (partial):
+> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+> index 32f82aed47d915..0f758c8d45235a 100644
+> --- a/Documentation/userspace-api/media/drivers/index.rst
+> +++ b/Documentation/userspace-api/media/drivers/index.rst
+> @@ -38,4 +38,5 @@ For more details see the file COPYING in the source distribution of Linux.
+>  	max2175
+>  	meye-uapi
+>  	omap3isp-uapi
+> +	st-vgxy61
+>  	uvcvideo
 > 
-> /linux/Documentation/driver-api/serial/driver.rst:111: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:111.
-> Declaration is '.. c:function:: void uart_write_wakeup(struct uart_port *port)'.
-> /linux/Documentation/driver-api/serial/driver.rst:111: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:111.
-> Declaration is '.. c:None:: struct uart_port *port'.
-> /linux/Documentation/driver-api/serial/driver.rst:343: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:343.
-> Declaration is '.. c:function:: void uart_update_timeout(struct uart_port *port, unsigned int cflag, unsigned int baud)'.
-> /linux/Documentation/driver-api/serial/driver.rst:343: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:343.
-> Declaration is '.. c:None:: struct uart_port *port'.
-> /linux/Documentation/driver-api/serial/driver.rst:343: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:343.
-> Declaration is '.. c:None:: unsigned int cflag'.
-> /linux/Documentation/driver-api/serial/driver.rst:343: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:343.
-> Declaration is '.. c:None:: unsigned int baud'.
-> /linux/Documentation/driver-api/serial/driver.rst:376: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:376.
-> 
-> These warning messages are not easy to track down, as there is an
-> unresolved issue in Sphinx's C domain parser who can't handle a
-> function and a struct of the same name and causes duplicates in a
-> later stage of Sphinx processing.
-> 
-> But the warnings shown above turned out to be true duplicates.
-> 
-> There is a not-clearly-documented rule in including kernel-doc
-> comments into .rst files. Any kernel-doc comment can be included
-> at most once in the whole documentation tree. Otherwise, you can't
-> be sure of which target a cross-reference points to.
-> 
-> As I don't have full context of these kernel-doc comments, this is
-> meant as a band-aide patch, especially the reference to
-> serial/driver.rst added at the bottom.
-> 
-> If I can get acks from you and/or Greg, I'd like Jon to take the
-> fix, as this issue affects the -doc tree most.
+> base-commit: 1e284ea984d3705e042b6b07469a66f1d43371e3
 
-Jon, Greg has added this to his tty tree and (hopefully) it will
-soon land Linus' tree (v6.1-rcX).
-I'll ask you a back-merge once it happens.
+-- 
+Regards,
 
-        Thanks, Akira
-
-> 
-> Thanks,
-> Akira
-> 
-> --
->  Documentation/driver-api/miscellaneous.rst | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/miscellaneous.rst b/Documentation/driver-api/miscellaneous.rst
-> index 304ffb146cf9..4a5104a368ac 100644
-> --- a/Documentation/driver-api/miscellaneous.rst
-> +++ b/Documentation/driver-api/miscellaneous.rst
-> @@ -16,12 +16,11 @@ Parallel Port Devices
->  16x50 UART Driver
->  =================
->  
-> -.. kernel-doc:: drivers/tty/serial/serial_core.c
-> -   :export:
-> -
->  .. kernel-doc:: drivers/tty/serial/8250/8250_core.c
->     :export:
->  
-> +See serial/driver.rst for related APIs.
-> +
->  Pulse-Width Modulation (PWM)
->  ============================
->  
-> 
-> base-commit: 30a0b95b1335e12efef89dd78518ed3e4a71a763
+Benjamin
