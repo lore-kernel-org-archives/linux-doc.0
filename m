@@ -2,109 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5FB7C43217
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 07:31:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1171C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 08:13:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229530AbiKIHb1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 02:31:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39702 "EHLO
+        id S229526AbiKIINT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 03:13:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229575AbiKIHbU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 02:31:20 -0500
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08CE31EEF6;
-        Tue,  8 Nov 2022 23:31:18 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        with ESMTP id S229516AbiKIINS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 03:13:18 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F7EE1902F;
+        Wed,  9 Nov 2022 00:13:17 -0800 (PST)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id A64331F8C4;
+        Wed,  9 Nov 2022 08:13:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1667981595; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=iZ41zAxuFab1VbpZbOqMuhHV5p0NUYaSK2sGuoKt9j4=;
+        b=A39M7ugjky4HJHQHpgupgCpSL4sIzdbSNnEklOL1SK2k8fgTBZ0UquiKGpX2rsgBpG5RKd
+        fiWl+ZiIHC1FiY5c5gjE2ZFIKCevpdQ/RaPk3QCEmR1nQV6KTg/HAY0deZ95bnD5JxnHpP
+        9qW8VmwXRjZZy3Ymanng8AOAF0PFh8o=
+Received: from suse.cz (unknown [10.100.201.202])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: marcan@marcan.st)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id 1E4A141A42;
-        Wed,  9 Nov 2022 07:31:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-        t=1667979076; bh=nWvNg1VPCRK8w6aaa8acSaDwMto5C+mMnVSDnwfo4Ic=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=m7ltRRcdvpiDH+yE9dvAvP4fgJTboKU8BTktrI9Qrsxe5N7qUqvwp2NXOC5KSlVS6
-         1n+7b/PlqzcYgfCdLLhIoklrh/fJtuRW00MlCrtgJJGjdz1qFucY/zqKxnTTAKuKTo
-         H4AiUSA2w+uVw1h3wiW6cNeFqHXBNKaWFMxMYfbQB2Y6TbrP2FSoRDF1JV/2iHO0Eb
-         6sgwaT+OPYdICSYkzVVpd5OB3tSPqenaB6fALru0fyJ6R7PFbIGeZ3j7m/12CTiBdu
-         5nKkUuInkppC+QLTcDNRm5Xy3BUv09Ff06vyGnhLQ0jZ1zptBj/Ia8wRWpZFpuhJA9
-         G8JmzEUmFEcZw==
-Message-ID: <2acc54a3-4fa9-2c93-449a-eed24340a00e@marcan.st>
-Date:   Wed, 9 Nov 2022 16:31:07 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v3 6/7] dt-bindings: gpio: add binding for the GPIO block
- for Apple Mac SMC
-Content-Language: en-US
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        asahi@lists.linux.dev, devicetree@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        by relay2.suse.de (Postfix) with ESMTPS id B9CAB2C141;
+        Wed,  9 Nov 2022 08:13:13 +0000 (UTC)
+Date:   Wed, 9 Nov 2022 09:13:11 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc:     Joe Perches <joe@perches.com>, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Minchan Kim <minchan@kernel.org>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        David Hildenbrand <david@redhat.com>,
         Steven Rostedt <rostedt@goodmis.org>,
-        Sven Peter <sven@svenpeter.dev>
-References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
- <E1osRXi-002mwL-UB@rmk-PC.armlinux.org.uk>
- <3d51c0e2-1e59-5767-4be1-5754ca8dc902@linaro.org>
- <Y2rTmS/gEdtU66b0@shell.armlinux.org.uk>
-From:   Hector Martin <marcan@marcan.st>
-In-Reply-To: <Y2rTmS/gEdtU66b0@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC v2 3/3] mm, printk: introduce new format %pGt for page_type
+Message-ID: <Y2thF8NS4DX69Uq7@alley>
+References: <20221106140355.294845-1-42.hyeyoo@gmail.com>
+ <20221106140355.294845-4-42.hyeyoo@gmail.com>
+ <c038e06504733e8dc6830f082c8522c60895fd8e.camel@perches.com>
+ <Y2tFLQ/w9siSwy+M@hyeyoo>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2tFLQ/w9siSwy+M@hyeyoo>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/11/2022 07.09, Russell King (Oracle) wrote:
-> On Tue, Nov 08, 2022 at 09:56:40PM +0100, Krzysztof Kozlowski wrote:
->> On 08/11/2022 17:33, Russell King (Oracle) wrote:
->>> Add the DT binding for the Apple Mac System Management Controller GPIOs.
->>>
->>> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
->>> ---
->>>  .../bindings/gpio/apple,smc-gpio.yaml         | 37 +++++++++++++++++++
->>>  1 file changed, 37 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml b/Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
->>> new file mode 100644
->>> index 000000000000..1a415b78760b
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
->>> @@ -0,0 +1,37 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/gpio/gpio-macsmc.yaml#
->>
->> Does not look like you tested the bindings. Please run `make
->> dt_binding_check` (see
->> Documentation/devicetree/bindings/writing-schema.rst for instructions).
+On Wed 2022-11-09 15:14:05, Hyeonggon Yoo wrote:
+> On Sun, Nov 06, 2022 at 10:04:25AM -0800, Joe Perches wrote:
+> > On Sun, 2022-11-06 at 23:03 +0900, Hyeonggon Yoo wrote:
+> > > dump_page() uses %pGp format to print 'flags' field of struct page.
+> > > As some page flags (e.g. PG_buddy, see page-flags.h for more details)
+> > > are set in page_type field, introduce %pGt format which provides
+> > > human readable output of page_type. And use it in dump_page().
+> > []
+> > > diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> > []
+> > > @@ -2056,6 +2056,28 @@ char *format_page_flags(char *buf, char *end, unsigned long flags)
+> > >  	return buf;
+> > >  }
+> > >  
+> > > +static
 > 
-> Oh ffs. DT bindings are utterly impossible to get correct.
+> Thanks for looking at this.
+> 
+> > 
+> > noinline_for_stack ?
 
-I'd be happy to wrap the bindings up in another cycle & take them via
-asahi-soc, if you want. That will also allow us to add the nodes to the
-t6000 DTs which are on that tree for this cycle, and unblock merging the
-driver bits of this series. Bindings updates are not a hard dependency
-for drivers, only for the DTs themselves.
+Honestly, I do not like much adding this without numbers. It has been added
+to some functions in vsprintf.c long time ago because it reduced
+the stack usage. But I think that it is a compiler and an architecture
+specific. And it is not clear if it would really help in this
+particular case.
 
-That is:
+Feel free to omit it.
 
-1-2,4 via mfd tree (if Lee agrees to merging the RTKit driver platform
-bits that way)
-3,5-6 via asahi-soc
-7 via GPIO (I think)
-
-- Hector
+Best Regards,
+Petr
