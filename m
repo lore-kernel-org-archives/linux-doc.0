@@ -2,174 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5375FC433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 22:17:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46823C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 22:24:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229900AbiKIWRY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 17:17:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34950 "EHLO
+        id S231923AbiKIWYn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 17:24:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229784AbiKIWRY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 17:17:24 -0500
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C3A411806;
-        Wed,  9 Nov 2022 14:17:23 -0800 (PST)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-13bef14ea06so369071fac.3;
-        Wed, 09 Nov 2022 14:17:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k4lH5rWvUE98GU8yCy1NGQDUM/X/Z3Tpbwa5NYFQXGg=;
-        b=ZFqmmdUoIHpjBeZSZKy30ZQONpWcZRCwwHk9rMv1ZIjVVM9tQxyKOe5bWKV9pAWrow
-         MsYrBI/bAuF/gYUuvQ5xTH/uuGfmV56zZZ+Q0YF4EUOMiH/odYwC9kL7iuO+m36J0lM1
-         QYNE+8Cu19PB5oAOuXx4lW4HCJOnzzrYB+63tazKyBKnLKkLadx5mlt7V1hEEgJ3ISR7
-         boX+LBbynr3+Ue7GDOQ4Tf3ToZTOiDDm2KXa88IMkqKj4//5v1MeqcpwyaV4xARSnbOj
-         Rbq/VBg8P16giFPjcjmVxmoqnSE+oPVJH2dYUrPNsznFF3JK75/jz6r9uhMb9TlXwHTi
-         j6Eg==
-X-Gm-Message-State: ACrzQf1PPJAS5uFJydaoMMKaD0rfreZIerjFIU2cAO0MG3hsv+p2+13v
-        7EmQQmoYyWRpL0jXOlgIIA==
-X-Google-Smtp-Source: AMsMyM4FAtCtJYba4qjwAMKO/E286pubc0VAzXrmDkV7GWZ7ieKpPlDQmLDrWAXpJ8enR50wmPd/Qg==
-X-Received: by 2002:a05:6871:611:b0:13b:8097:2b92 with SMTP id w17-20020a056871061100b0013b80972b92mr47236179oan.44.1668032242503;
-        Wed, 09 Nov 2022 14:17:22 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id db6-20020a0568306b0600b0066cc0525476sm4690773otb.75.2022.11.09.14.17.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 14:17:21 -0800 (PST)
-Received: (nullmailer pid 2973198 invoked by uid 1000);
-        Wed, 09 Nov 2022 22:17:23 -0000
-Date:   Wed, 9 Nov 2022 16:17:23 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Lee Jones <lee@kernel.org>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        asahi@lists.linux.dev, devicetree@vger.kernel.org,
-        Hector Martin <marcan@marcan.st>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH v3 3/7] dt-bindings: mfd: add binding for Apple Mac
- System Management Controller
-Message-ID: <20221109221723.GA2948356-robh@kernel.org>
-References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
- <E1osRXT-002mw3-JR@rmk-PC.armlinux.org.uk>
- <531d88b8-75db-1d8f-1384-b8d05594e7b3@linaro.org>
- <Y2rWp4wasbflS/0y@shell.armlinux.org.uk>
+        with ESMTP id S231835AbiKIWYm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 17:24:42 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6C63140C1;
+        Wed,  9 Nov 2022 14:24:41 -0800 (PST)
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A9Kuqct000960;
+        Wed, 9 Nov 2022 22:24:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=OXK2rflp5rKV+rHWMnZiJD3myzm6Ph+64qqnZ6aXot8=;
+ b=ePA9ac7n7ndS86zvofrKBK46O2F6Crd9IxMaYo8pamZ40ObP/AExxjnefystbq3NU7Us
+ ilsfqcbb+T71jyq9zyArOLMgD99lneToJH2QiRN+MVioi6qRlkuCohFJV5JEvpuNEZFc
+ JjU8G5wtNQI5clOiKaRTXL5CuRaVWDBDZ0yu4KF8t7Kx8LmD+93Nv/KsN+L8rIbihVrf
+ We+pumeIsFGnlxA6FJhsVY28uFrpK3VHJ3hq+luj2fqorkuHzx7hymspLEb1WFoc7oWu
+ CyyAs+iDxgq2duQocmkd60w0TEHd4pxt1rC8H9qWShSCXIsE6QFrRHxsvAR5tzhliLwE uw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3krfgv14eh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Nov 2022 22:24:32 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A9Lqe2E028847;
+        Wed, 9 Nov 2022 22:24:32 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3krfgv14dp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Nov 2022 22:24:31 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+        by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A9MKhZQ004854;
+        Wed, 9 Nov 2022 22:24:29 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+        by ppma03ams.nl.ibm.com with ESMTP id 3kngqgeb24-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Nov 2022 22:24:29 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2A9MOQAB65405368
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 9 Nov 2022 22:24:26 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2D7FDA4054;
+        Wed,  9 Nov 2022 22:24:26 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8E94AA405F;
+        Wed,  9 Nov 2022 22:24:25 +0000 (GMT)
+Received: from osiris (unknown [9.145.168.231])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed,  9 Nov 2022 22:24:25 +0000 (GMT)
+Date:   Wed, 9 Nov 2022 23:24:24 +0100
+From:   Heiko Carstens <hca@linux.ibm.com>
+To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sven Schnelle <svens@linux.ibm.com>
+Subject: Re: [PATCH 5/5] s390/uaccess: add cmpxchg_user_key()
+Message-ID: <Y2womHanaMzETfwU@osiris>
+References: <20221012205609.2811294-1-scgl@linux.ibm.com>
+ <20221012205609.2811294-2-scgl@linux.ibm.com>
+ <Y2J61LWSV+HolIeT@osiris>
+ <Y2J8axs+bcQ2dO/l@osiris>
+ <f604b6038c4a8bad5123e1f1f14b15c2190f28e9.camel@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2rWp4wasbflS/0y@shell.armlinux.org.uk>
+In-Reply-To: <f604b6038c4a8bad5123e1f1f14b15c2190f28e9.camel@linux.ibm.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 3lV4qHHsjdqfHjgEzB8DO73hOaXXctYa
+X-Proofpoint-ORIG-GUID: xPEyVc6oijzPJ_nU3OIvfGBZasFkAUT3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-09_06,2022-11-09_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
+ mlxlogscore=783 clxscore=1015 spamscore=0 phishscore=0 bulkscore=0
+ impostorscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211090166
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 08, 2022 at 10:22:31PM +0000, Russell King (Oracle) wrote:
-> On Tue, Nov 08, 2022 at 09:55:58PM +0100, Krzysztof Kozlowski wrote:
-> > On 08/11/2022 17:33, Russell King (Oracle) wrote:
-> > > Add a DT binding for the Apple Mac System Management Controller.
-> > 
-> > Drop the second, redundant "binding" from subject. It's already in prefix.
+On Wed, Nov 09, 2022 at 04:46:29PM +0100, Janis Schoetterl-Glausch wrote:
+> On Wed, 2022-11-02 at 15:19 +0100, Heiko Carstens wrote:
+> > +	case 1: {
+> > +		unsigned int prev, tmp, shift;
+> > +
+> > +		shift = (3 ^ (address & 3)) << 3;
+> > +		address ^= address & 3;
+> > +		asm volatile(
+> > +			"	spka	0(%[key])\n"
+> > +			"	sacf	256\n"
+> > +			"0:	l	%[prev],%[address]\n"
+> > +			"1:	nr	%[prev],%[mask]\n"
+> > +			"	lr	%[tmp],%[prev]\n"
+> > +			"	or	%[prev],%[old]\n"
+> > +			"	or	%[tmp],%[new]\n"
+> > +			"2:	cs	%[prev],%[tmp],%[address]\n"
+> > +			"3:	jnl	4f\n"
+> > +			"	xr	%[tmp],%[prev]\n"
+> > +			"	nr	%[tmp],%[mask]\n"
 > 
-> Yet another thing that's been there from the start... how many more
-> things are you going to pick up in subsequent versions of the patch?
-> When does this stop?
-> 
-> In any case, taking your comment literally,
-> 
-> "dt-bindings: mfd: add for Apple Mac System Management Controller"
-> 
-> makes no sense, so presumably you want something more than that.
-> 
-> In any case, I see several recent cases already merged which follow
-> the pattern that I've used and that you've reviewed.
-> 
-> > > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> > > ---
-> > >  .../devicetree/bindings/mfd/apple,smc.yaml    | 67 +++++++++++++++++++
-> > >  1 file changed, 67 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> > > new file mode 100644
-> > > index 000000000000..014eba5a1bbc
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> > > @@ -0,0 +1,67 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/mfd/apple,smc.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Apple Mac System Management Controller
-> > > +
-> > > +maintainers:
-> > > +  - Hector Martin <marcan@marcan.st>
-> > > +
-> > > +description:
-> > > +  Apple Mac System Management Controller implements various functions
-> > > +  such as GPIO, RTC, power, reboot.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    items:
-> > > +      - enum:
-> > > +          - apple,t6000-smc
-> > > +          - apple,t8103-smc
-> > > +          - apple,t8112-smc
-> > > +      - const: apple,smc
-> > > +
-> > > +  reg:
-> > > +    items:
-> > > +      - description: SMC area
-> > > +      - description: SRAM area
-> > > +
-> > > +  reg-names:
-> > > +    items:
-> > > +      - const: smc
-> > > +      - const: sram
-> > > +
-> > > +  mboxes:
-> > > +    maxItems: 1
-> > > +
-> > > +  gpio:
-> > > +    $ref: /schemas/gpio/gpio-macsmc.yaml
-> > 
-> > So this depends on other patch, so:
-> > 1. You need mention the dependency in cover letter (nothing there),
-> > 2. Re-order patches.
-> > 
-> > The GPIO cannot go separate tree and this must be explicitly communicated.
-> 
-> Sigh, getting an order that is sensible is really bloody difficult.
+> Are you only entertaining cosmetic changes to cmpxchg.h?
 
-It's not. Sub-devices before the MFD. The only time that doesn't work is 
-when the sub-devices put the parent MFD in their example. The solution 
-there is don't do that. Just 1 complete example in the MFD schema and no 
-examples in the sub-devices.
+I fail to parse what you are trying to say. Please elaborate.
 
-> I'm quite sure Lee is only going to want to apply the mfd bits. 
+> The loop condition being imprecise seems non-ideal.
 
-Indeed. I can't seem to make Lee care... All the schemas should really 
-be applied together.
+What exactly is imprecise?
 
-> Then
-> what do we do with the other bits? GPIO stuff via the GPIO tree, then
-> wait a cycle before the rest can be merged. Or what?
+> > +			  [key] "a" (key),
+> 
+> Why did you get rid of the << 4 shift?
+> That's inconsistent with the other uaccess functions that take an access key.
 
-The schemas must be picked up in the same cycle. I don't care so much 
-if subsystem maintainers' trees have warnings if they don't care, but I 
-do care for linux-next. If the subsystem bits aren't picked up, then 
-I'll pick them up if it comes to that.
-
-Rob
+That's not only inconsistent, but also a bug.
+Thank you for pointing this out. Will be fixed.
