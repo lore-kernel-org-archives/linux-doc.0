@@ -2,92 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF3DCC4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 20:30:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87AF0C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 20:31:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbiKIUaR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 15:30:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36944 "EHLO
+        id S230131AbiKIUbo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 15:31:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230443AbiKIUaR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 15:30:17 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9D27FD14;
-        Wed,  9 Nov 2022 12:30:16 -0800 (PST)
+        with ESMTP id S231571AbiKIUbd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 15:31:33 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1654303C5;
+        Wed,  9 Nov 2022 12:31:32 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 54F3C735;
-        Wed,  9 Nov 2022 20:30:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 54F3C735
+        by ms.lwn.net (Postfix) with ESMTPSA id 5192F735;
+        Wed,  9 Nov 2022 20:31:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5192F735
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1668025816; bh=wGLPC3XtH96GwGtDKrwRTD/1iXa52FW0QweS8oRlDpY=;
+        t=1668025892; bh=YNa+HcURkuPMlpqCKKl1TcMrW9a7MI/BWrDzAjrb70M=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=qPK2EAw6dWlpkSpiMikN2mqv/flF0gdhmOo0I65UF07hUN/3fkNicOnZJ3Di6YgZT
-         H++xz1PzHGmtMKxr3vwiRd3nz3pTeomlvgBuBREU5Kfbf/wXANOPlGfhjFlmE6Hj4R
-         IKxeiTvR5mPaD9Zs0GRX1jxy2G0hdpZTSdh7GamVLhcbcX/yskb5cGK7p8dI0kWMCy
-         VYaIB0xFaUJ/VjnD9HFW+w/kY2Zewc/+YkHov5Ns1R3CELH3LBAVvPW8XEaG4oOBzK
-         C/7Zn1ezGaCPMLD6iD9NDcOQ5CkxJSiXVNL5nRplKy3hpGj+NAF7H8y+NzA6FrU9Rl
-         +XFb5MAAR9xCw==
+        b=H8nnwqv1fkPNEQQQ4gVuuMvJvjFEc8M7JHeUFSYJgsbvg+zva7tct2DdilrVpDVZW
+         KmqDTi2YB+Q1OGPjRRMjlK7t3o31y0WhP05gUSwIucMJcYSDzfEUdD7bT8TyM1GJHI
+         8nNnMYST6b3g4xqHfcgkcr857A7EUR14hwd87pcyB4PPAuw7v7QKx5xPrRhFTklD/b
+         eLeBr7E8uVPpxEincHG543aMTgxVyl9a7p6/gW+MbQZlg36re2+8VIkar3uGEMNyRF
+         BCbqiaLoxgiB0+9BIrhG+HdvuqfNNNtvBhgm89idnCXXyICr9aUxuVroCf81xICG/t
+         tAm5TAIMnb15g==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs/sphinx: More depth in the rtd sidebar toc
-In-Reply-To: <20221108115707.1232621-1-daniel.vetter@ffwll.ch>
-References: <20221108115707.1232621-1-daniel.vetter@ffwll.ch>
-Date:   Wed, 09 Nov 2022 13:30:15 -0700
-Message-ID: <875yfnlvl4.fsf@meer.lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Kosuke Fujimoto <fujimotokosuke0@gmail.com>,
+        Tsugikazu Shibata <shibata@linuxfoundation.org>
+Subject: Re: [PATCH] docs/ja_JP/howto: Update for v6.1
+In-Reply-To: <20221030115209.25924-1-akiyks@gmail.com>
+References: <20221030115209.25924-1-akiyks@gmail.com>
+Date:   Wed, 09 Nov 2022 13:31:31 -0700
+Message-ID: <871qqblvj0.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Daniel Vetter <daniel.vetter@ffwll.ch> writes:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-> We love to nest our documenation for good structure, but that means
-> the table of contents needs to keep up or you can't navigate them.
+> Reflect changes made in commits listed below:
 >
-> Realized this trying to find the drm property documentation, which
-> with some shuffling around disappeared. Why I didn't realize we can do
-> this earlier, no idea.
+>   388f9b20f98d ("Documentation/process/howto: Only send regression fixes after -rc1").
+>   bc0ef4a7e4c3 ("Doc: Delete reference to the kernel-mentors mailing list")
+>   bcd3cf0855c5 ("Doc: Remove outdated info about bugzilla mailing lists")
+>   dad051395413 ("Doc: add a missing cross-reference")
+>   9799445af124 ("Doc: tidy up TOCs and refs to license-rules.rst")
+>   fb0e0ffe7fc8 ("Documentation: bring process docs up to date")
+>   e7b4311ebcac ("Replace HTTP links with HTTPS ones: Documentation/process")
+>   f1eebe92c265 ("Documentation/HOWTO: adjust external link references")
+>   da514157c4f0 ("docs: make reporting-bugs.rst obsolete")
+>   cf6d6fc27936 ("docs: process/howto.rst: make sections on bug reporting match practice")
 >
-> Since the relevant parts of the toc are only loaded if you're in the
-> right .html file there's no harm in going all the way to unlimited.
->
-> Note that this has no impact on the alabaster theme (which has a much
-> simpler sidebar toc which doesn't show the entire hierarchy, only
-> what's in the local rendered file) nor on the various :toctree:
-> rendered inline in the output.
->
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
+> Co-developed-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+> Signed-off-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
 > ---
-> v2: Rebase onto linux-next, reword commit message to take into account
-> that alabaster is the default now.
-> ---
->  Documentation/conf.py | 4 ++++
->  1 file changed, 4 insertions(+)
+> Brief history of the change:
 >
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index c715610d6297..a5c45df0bd83 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -296,6 +296,10 @@ if html_theme == 'sphinx_rtd_theme' or html_theme == 'sphinx_rtd_dark_mode':
->                  # Add color-specific RTD normal mode
->                  html_css_files.append('theme_rtd_colors.css')
->  
-> +        html_theme_options = {
-> +            'navigation_depth': -1,
-> +        }
-> +
->      except ImportError:
->          html_theme = 'alabaster'
+> I (Akira) asked Kosuke of updating ja_JP/howto.rst after the merge of
+> his earlier contributions:
+>   e0bd6f14c28f ("docs/ja_JP/index: update section title in Japanese")
+>   6548e96edb50 ("docs/trans/ja_JP/howto: Don't mention specific kernel versions")
+>
+> Kosuke made his WIP commits public at:
+>     https://github.com/KosukeFujimoto/linux/tree/WIP-docs-ja-jp-howto
+>     
+> He moved over to other responsibilities soon after and could not make
+> them ready for submission. Seeing almost half a year had passed without
+> any activity, I took over and assembled those small changes into a single
+> patch.
+>
+> I picked Kosuke's S-o-b from his github commits.
+> As I also improved some of translations along the way, I assigned myself
+> as the author and added Kosuke's co-developed-by tag.
+>     
+> Shibata-san, hopefully can you review this update?
+>
+> Jon, I'll ask you when I feel like this one is ready to be applied.
+>
+>         Thanks, Akira
+> --
+>  Documentation/translations/ja_JP/howto.rst | 66 ++++++++++------------
+>  1 file changed, 31 insertions(+), 35 deletions(-)
 
 Applied, thanks.
 
