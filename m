@@ -2,195 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A38E2C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 17:10:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1B01C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 17:46:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231283AbiKIRKC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 12:10:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40930 "EHLO
+        id S230222AbiKIRqN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 12:46:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230269AbiKIRKB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 12:10:01 -0500
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B70312D08;
-        Wed,  9 Nov 2022 09:09:59 -0800 (PST)
-Received: from frapeml500004.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4N6rxn6q0Tz67PjK;
-        Thu, 10 Nov 2022 01:07:41 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- frapeml500004.china.huawei.com (7.182.85.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 9 Nov 2022 18:09:56 +0100
-Received: from localhost (10.45.145.27) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Wed, 9 Nov
- 2022 17:09:55 +0000
-Date:   Wed, 9 Nov 2022 17:09:54 +0000
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Yicong Yang <yangyicong@huawei.com>
-CC:     Shaokun Zhang <zhangshaokun@hisilicon.com>, <liuqi6124@gmail.com>,
+        with ESMTP id S231739AbiKIRqM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 12:46:12 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1CDE1120;
+        Wed,  9 Nov 2022 09:46:10 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id k8so26933865wrh.1;
+        Wed, 09 Nov 2022 09:46:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UdlnLIks79/B+I8Gn+VpfQPpDKOLCTmd3NsMRAO2MqY=;
+        b=CrgZLmOStm8mvrnZjaDX24MhPC9+SKs0P+9r7Jt+Ik0+XatFa8m2kFlfqWPFRrcyrI
+         TVtmCftZzghigEvhHo8ZqiKytxWcSfhD3DgJ8py3CeqNDExQY3Tdtxs2vlMrReYmmDMr
+         glIKBDDRFjhaVlVjJCLG4Co1hq1h5H1KPCmcqf6dJEoZ5ObnXKZmTQpAg7+arJ1wDXiG
+         OL94Y50SPze10+ZzyaxKwnl5eax2XX1juafNOzLaaQ9eivqoE1/FszivIpPKdYKzZwlH
+         /lvfTwYNdDZRCtk33gCezg4EB7eameNP2AYV3mHcahSVA3eZ4il7Jg5zuE2hUGR+2Y0m
+         1Unw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UdlnLIks79/B+I8Gn+VpfQPpDKOLCTmd3NsMRAO2MqY=;
+        b=dOYcfKEjg7a34TkLFTmWdQ2YnBJAp7jsBTEA+WNRuVFlnKhG62aIDURZyg5ckXm8+r
+         hABinvYdE7zuQyi8EPFVLChJ/VGqndus+Xqipn0tSxJbcq4Z5eB9GgzbNtHcCyk3nfOn
+         4vP8mpMSW1OaJikvMHy2M8ReWEPoUPskl5FoTxgwuoProMyZWvnM7wPLIWAiVTXlE6PK
+         Pjdy6hjV2M5cs0XsP8ZUPN1ekJbOZgMYTaYpUQGf7hohngnV8h3GAQCUvIaBv3F9fKR9
+         5U2PSYqz2OvfYL81g4H6hSXxiH4QwLPDh8FayouLrfW4t1DIfXh0YcWmg35+Y7G0pkWY
+         eYTA==
+X-Gm-Message-State: ACrzQf0lPiBy6YTohldF9sk4qu4HlJKE/UqTFflm3Ax2N7LQHIOrr5R0
+        sPKMcGhuY4q5rxtBKmKd/Nllsx2/fX8MNg==
+X-Google-Smtp-Source: AMsMyM7D9tkOWRUQvpshRSBRuzvAOqjZEedyiYDOzYvFL3r+wnsIzdKYmlBsURrt4tw0sOxCQnBqrQ==
+X-Received: by 2002:a5d:6ac6:0:b0:236:84b5:6660 with SMTP id u6-20020a5d6ac6000000b0023684b56660mr39180369wrw.555.1668015968621;
+        Wed, 09 Nov 2022 09:46:08 -0800 (PST)
+Received: from imac.fritz.box ([2a02:8010:60a0:0:e991:775d:c520:91be])
+        by smtp.gmail.com with ESMTPSA id m3-20020a05600c3b0300b003b4ff30e566sm3776236wms.3.2022.11.09.09.46.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Nov 2022 09:46:07 -0800 (PST)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        John Garry <john.garry@huawei.com>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
-        <f.fangjian@huawei.com>, <prime.zeng@huawei.com>
-Subject: Re: [PATCH 3/3] drivers/perf: hisi: Add TLP filter support
-Message-ID: <20221109170954.000036e2@Huawei.com>
-In-Reply-To: <20221025113242.58271-4-yangyicong@huawei.com>
-References: <20221025113242.58271-1-yangyicong@huawei.com>
-        <20221025113242.58271-4-yangyicong@huawei.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+        Donald Hunter <donald.hunter@gmail.com>
+Subject: [PATCH bpf-next v10 0/1] Document BPF_MAP_TYPE_ARRAY
+Date:   Wed,  9 Nov 2022 17:46:03 +0000
+Message-Id: <20221109174604.31673-1-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.45.145.27]
-X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 25 Oct 2022 19:32:42 +0800
-Yicong Yang <yangyicong@huawei.com> wrote:
+Add documentation for BPF_MAP_TYPE_ARRAY and BPF_MAP_TYPE_PERCPU_ARRAY
+variant, including kernel version introduced, usage and examples.
 
-> From: Yicong Yang <yangyicong@hisilicon.com>
-> 
-> The PMU support to filter the TLP when counting the bandwidth with below
-> options:
-> 
-> - only count the TLP headers
-> - only count the TLP payloads
-> - count both TLP headers and payloads
-> 
-> In the current driver it's default to count the TLP payloads only, which
-> will have an implicity side effects that on the traffic only have header
-> only TLPs, we'll get no data.
-> 
-> Make this user configuration through "len_mode" parameter and make it
-> default to count both TLP headers and payloads when user not specified.
-> Also update the documentation for it.
+v9->v10:
+- Add missing Reviewed-by tag
 
-I suppose this filter option is useful.   Default of "both" makes sense.
+v8->v9:
+- Add "Kernel BPF" heading suggested by Jesper Brouer
+- Tidy up wording to clarify BPF vs userspace APIs
 
-A few minor suggestions inline.
+v7->v8:
+- Fix alignment wording reported by Alexei Starovoitov
+- Avoid deprecated functions, reported by Alexei Starovoitov
+- Fix code sample formatting, reported by Alexei Starovoitov
 
-Jonathan
+v6->v7:
+- Remove 2^32 reference and reword paragraph
+  reported by Jiri Olsa and Daniel Borkmann
 
-> 
-> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-> ---
->  .../admin-guide/perf/hisi-pcie-pmu.rst        | 20 +++++++++++++++++++
->  drivers/perf/hisilicon/hisi_pcie_pmu.c        | 14 ++++++++++++-
->  2 files changed, 33 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/perf/hisi-pcie-pmu.rst b/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
-> index bbe66480ff85..83a2ef11b1a0 100644
-> --- a/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
-> +++ b/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
-> @@ -104,3 +104,23 @@ when TLP length < threshold.
->  Example usage of perf::
->  
->    $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,thr_len=0x4,thr_mode=1/ sleep 5
-> +
-> +4. TLP Length filter
-> +When counting bandwidth, the data can be composed of certain parts of TLP
-> +packets. You can specify it through "len_mode":
-> +
-> +- 2'b00: Reserved (Do not use this since the behaviour is undefined)
-> +- 2'b01: Bandwidth of TLP payloads
-> +- 2'b10: Bandwidth of TLP headers
-> +- 2'b11: Bandwidth of both TLP payloads and headers
+v5->v6:
+- Rework sample code into individual snippets
+- Grammar mods suggested by Bagas Sanjaja
 
-We could describe this as a bitmap, but i think you are right in thinking
-it is clearer to present it as 3 values as not always obvious that the bitmap
-is controlling sum of two different things.
+v4->v5:
+- Use formatting consistent with *_TYPE_HASH docs
+- Dropped cgroup doc patch from this set
+- Fix grammar and typos reported by Bagas Sanjaya
+- Fix typo and version reported by Donald Hunter
+- Update examples to be libbpf v1 compatible
 
-> +
-> +For example, "len_mode=2" means only counting the bandwidth of TLP headers
-> +and "len_mode=3" means the final bandwidth data is composed of both TLP
-> +headers and payloads. You need to carefully using this to avoid losing
-> +data.
+v3->v4:
+- fix doctest failure due to missing newline
 
-I'm not sure this warning makes sense.  If user has set this filter then
-they don't want to measure the types they haven't picked.  I would drop
-the warning and example.  It is fairly obvious that no_counts == nothing
-to count.
- 
-> For example you're likely to get no counts by "len_mode=1" if the TLPs
-> +on the traffic has no payload.
-Drop this example.
+v2->v3:
+- wrap text to 80 chars and add newline at end of file
 
-> This config is optional, by default it'll
-> +be 2'b11.
+v1->v2:
+- point to selftests for functional examples
+- update examples to follow kernel style
+- add docs for BPF_F_MMAPABLE
 
-Anything with a default is inherently optional, so could we just say
-Default value if not specified is 2'b11.
+Dave Tucker (1):
+  bpf, docs: document BPF_MAP_TYPE_ARRAY
 
-> +
-> +Example usage of perf::
-> +
-> +  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,len_mode=0x1/ sleep 5
-> diff --git a/drivers/perf/hisilicon/hisi_pcie_pmu.c b/drivers/perf/hisilicon/hisi_pcie_pmu.c
-> index 071e63d9a9ac..6fee0b6e163b 100644
-> --- a/drivers/perf/hisilicon/hisi_pcie_pmu.c
-> +++ b/drivers/perf/hisilicon/hisi_pcie_pmu.c
-> @@ -47,10 +47,14 @@
->  #define HISI_PCIE_EVENT_M		GENMASK_ULL(15, 0)
->  #define HISI_PCIE_THR_MODE_M		GENMASK_ULL(27, 27)
->  #define HISI_PCIE_THR_M			GENMASK_ULL(31, 28)
-> +#define HISI_PCIE_LEN_M			GENMASK_ULL(35, 34)
->  #define HISI_PCIE_TARGET_M		GENMASK_ULL(52, 36)
->  #define HISI_PCIE_TRIG_MODE_M		GENMASK_ULL(53, 53)
->  #define HISI_PCIE_TRIG_M		GENMASK_ULL(59, 56)
->  
-> +/* Default config of TLP length mode, will count both TLP headers and payloads */
-> +#define HISI_PCIE_LEN_M_DEFAULT		3ULL
-> +
->  #define HISI_PCIE_MAX_COUNTERS		8
->  #define HISI_PCIE_REG_STEP		8
->  #define HISI_PCIE_THR_MAX_VAL		10
-> @@ -91,6 +95,7 @@ HISI_PCIE_PMU_FILTER_ATTR(thr_len, config1, 3, 0);
->  HISI_PCIE_PMU_FILTER_ATTR(thr_mode, config1, 4, 4);
->  HISI_PCIE_PMU_FILTER_ATTR(trig_len, config1, 8, 5);
->  HISI_PCIE_PMU_FILTER_ATTR(trig_mode, config1, 9, 9);
-> +HISI_PCIE_PMU_FILTER_ATTR(len_mode, config1, 11, 10);
->  HISI_PCIE_PMU_FILTER_ATTR(port, config2, 15, 0);
->  HISI_PCIE_PMU_FILTER_ATTR(bdf, config2, 31, 16);
->  
-> @@ -215,8 +220,8 @@ static void hisi_pcie_pmu_config_filter(struct perf_event *event)
->  {
->  	struct hisi_pcie_pmu *pcie_pmu = to_pcie_pmu(event->pmu);
->  	struct hw_perf_event *hwc = &event->hw;
-> +	u64 port, trig_len, thr_len, len_mode;
->  	u64 reg = HISI_PCIE_INIT_SET;
-> -	u64 port, trig_len, thr_len;
->  
->  	/* Config HISI_PCIE_EVENT_CTRL according to event. */
->  	reg |= FIELD_PREP(HISI_PCIE_EVENT_M, hisi_pcie_get_real_event(event));
-> @@ -245,6 +250,12 @@ static void hisi_pcie_pmu_config_filter(struct perf_event *event)
->  		reg |= HISI_PCIE_THR_EN;
->  	}
->  
-> +	len_mode = hisi_pcie_get_len_mode(event);
-> +	if (len_mode)
-> +		reg |= FIELD_PREP(HISI_PCIE_LEN_M, len_mode);
-> +	else
-> +		reg |= FIELD_PREP(HISI_PCIE_LEN_M, HISI_PCIE_LEN_M_DEFAULT);
-> +
->  	hisi_pcie_pmu_writeq(pcie_pmu, HISI_PCIE_EVENT_CTRL, hwc->idx, reg);
->  }
->  
-> @@ -711,6 +722,7 @@ static struct attribute *hisi_pcie_pmu_format_attr[] = {
->  	HISI_PCIE_PMU_FORMAT_ATTR(thr_mode, "config1:4"),
->  	HISI_PCIE_PMU_FORMAT_ATTR(trig_len, "config1:5-8"),
->  	HISI_PCIE_PMU_FORMAT_ATTR(trig_mode, "config1:9"),
-> +	HISI_PCIE_PMU_FORMAT_ATTR(len_mode, "config1:10-11"),
->  	HISI_PCIE_PMU_FORMAT_ATTR(port, "config2:0-15"),
->  	HISI_PCIE_PMU_FORMAT_ATTR(bdf, "config2:16-31"),
->  	NULL
+ Documentation/bpf/map_array.rst | 250 ++++++++++++++++++++++++++++++++
+ 1 file changed, 250 insertions(+)
+ create mode 100644 Documentation/bpf/map_array.rst
+
+-- 
+2.35.1
 
