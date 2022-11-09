@@ -2,544 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26E61C4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 05:52:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DD0EC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 06:04:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229516AbiKIFwr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 00:52:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55682 "EHLO
+        id S229516AbiKIGEg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 01:04:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbiKIFwq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 00:52:46 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9531A1E716;
-        Tue,  8 Nov 2022 21:52:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667973164; x=1699509164;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ap9e/igucmBJkn635/rQ8Ig9OUeQNetMHsHOxYxgYmE=;
-  b=W8OW3I44A+g1tgkwMEB04y0G+GFnL6kJp3bE8b0YkL/8hSB7e9+vxUCa
-   MfFLutxwy80LzTwllgn+MbevOpGtz6hPmBDVFNEzUiyEak9ksrUhA2Ldi
-   XACOb6mDI5amurZOr6dg/8+iFXApClyC/J1w7K/elrway46c2PIGF0ixC
-   ziZ2bhv3Dr1lj2druI/9hFiSupIlLbzbnkCdBoBSI5ETsiArQ6vZ3RGw/
-   hfz7yFFoKoRgAvie83SM+O6iefabLDn197EHrzUIj29nkVwWbwnGqlqkl
-   g9/X5tVT4AJYTvEQO68eV8oHrBNzd91Uez3CutHFTXdZv0ZUXeyMeDs5K
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="337627626"
-X-IronPort-AV: E=Sophos;i="5.96,149,1665471600"; 
-   d="scan'208";a="337627626"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 21:52:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="614556139"
-X-IronPort-AV: E=Sophos;i="5.96,149,1665471600"; 
-   d="scan'208";a="614556139"
-Received: from yy-desk-7060.sh.intel.com (HELO localhost) ([10.239.159.76])
-  by orsmga006.jf.intel.com with ESMTP; 08 Nov 2022 21:52:33 -0800
-Date:   Wed, 9 Nov 2022 13:52:32 +0800
-From:   Yuan Yao <yuan.yao@linux.intel.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        with ESMTP id S229452AbiKIGEe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 01:04:34 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C84EC13D63;
+        Tue,  8 Nov 2022 22:04:32 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id l6so15823323pjj.0;
+        Tue, 08 Nov 2022 22:04:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NrHD8wLzW2vOh67ueVVQM6HR2KgSCKRKBNGUVxIg0Xw=;
+        b=KkK14nw7ANwd2Yzpl+m5rI4utFgMgZs7bo5F3vx1zQK7ozGIVQcz4WVswUtpEnXbMy
+         hNd+nkUnqk5qo92hDJAxeq7tdYnE3fb7sbeM7N1lrc6fRc2NYhCMMDJvuz7KxUJpEkML
+         b6j3pBgJBB2daq7mu7/8xVkieNrmUkfxunK1s6LZRce5UM0ksefwEt0MukxqSMS2MPVR
+         r3yYla3JIy/X8U4RIkGI22e+j9zF6neB4c++651AI1Xn1FvZNfkprrwt7uKbUEgsUZer
+         ov4JptMbBS2dBD6loiZhngvap1EzjUCJVY8vOw92RJBhhbSN7dp6O9jthuIWCPu+Rjt4
+         aGxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NrHD8wLzW2vOh67ueVVQM6HR2KgSCKRKBNGUVxIg0Xw=;
+        b=ZoG1gOk7mitaX592tHcltyV4c8YyGzhrpZeFbxCf1ShldjDLwe7yl1ZwTlH6bii8Lp
+         3JYY4kHZ5zscQrvxoKY1YnEeFFm6avU7Zi3ky0+A779813iXa/hHWaS2TenSwxzogRYv
+         wUyIHl5/LwwlBdbXj+3QAAaajJGw0wgVyDni8XnwslGQKg4g0lSAMCXDwU2PYwj3Zrem
+         pH+WNg96SPMsIFN+zKPgvFryzihSq9xr6lgMabRrj2xqZYZjiEHGKm4ypfWmLX3aR/mA
+         yyiXvjYP4IbQga/9vRmbR3r26VJMwRu/wO7x8gUYNpR0XGA1y6XwpzTTbm0iIMzfStdG
+         t7qw==
+X-Gm-Message-State: ACrzQf07oGUd4cRlP5sfZ1EKLJ4PDgTScWZKSBzANOBfloHsPFCtCHzK
+        nUwpQsfnngat3hYzBbifYpo=
+X-Google-Smtp-Source: AMsMyM7v2kLUmw8TIrBi4FO6Texz6tMiK5p4/wsREpvhZgUjwNBJ7ijTl3LcD+Ry/CZ9EYsNL1jlbQ==
+X-Received: by 2002:a17:90b:388f:b0:215:f01f:7975 with SMTP id mu15-20020a17090b388f00b00215f01f7975mr32961783pjb.53.1667973872294;
+        Tue, 08 Nov 2022 22:04:32 -0800 (PST)
+Received: from hyeyoo ([114.29.91.56])
+        by smtp.gmail.com with ESMTPSA id v19-20020a17090a899300b0020063e7d63asm331124pjn.30.2022.11.08.22.04.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Nov 2022 22:04:31 -0800 (PST)
+Date:   Wed, 9 Nov 2022 15:04:23 +0900
+From:   Hyeonggon Yoo <42.hyeyoo@gmail.com>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
         Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 5/8] KVM: Register/unregister the guest private memory
- regions
-Message-ID: <20221109055232.ufj6tgv52p2pxsmr@yy-desk-7060>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-6-chao.p.peng@linux.intel.com>
- <20221108013506.xbwkse2v475jqzyj@yy-desk-7060>
- <20221108094141.GA84958@chaop.bj.intel.com>
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Minchan Kim <minchan@kernel.org>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        David Hildenbrand <david@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC v2 3/3] mm, printk: introduce new format %pGt for page_type
+Message-ID: <Y2tC5yXqCo++q71w@hyeyoo>
+References: <20221106140355.294845-1-42.hyeyoo@gmail.com>
+ <20221106140355.294845-4-42.hyeyoo@gmail.com>
+ <Y2jpnBLFOgP8+RZ7@smile.fi.intel.com>
+ <Y2kUMsHNyTCN8EaN@alley>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221108094141.GA84958@chaop.bj.intel.com>
-User-Agent: NeoMutt/20171215
+In-Reply-To: <Y2kUMsHNyTCN8EaN@alley>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 08, 2022 at 05:41:41PM +0800, Chao Peng wrote:
-> On Tue, Nov 08, 2022 at 09:35:06AM +0800, Yuan Yao wrote:
-> > On Tue, Oct 25, 2022 at 11:13:41PM +0800, Chao Peng wrote:
-> > > Introduce generic private memory register/unregister by reusing existing
-> > > SEV ioctls KVM_MEMORY_ENCRYPT_{UN,}REG_REGION. It differs from SEV case
-> > > by treating address in the region as gpa instead of hva. Which cases
-> > > should these ioctls go is determined by the kvm_arch_has_private_mem().
-> > > Architecture which supports KVM_PRIVATE_MEM should override this function.
-> > >
-> > > KVM internally defaults all guest memory as private memory and maintain
-> > > the shared memory in 'mem_attr_array'. The above ioctls operate on this
-> > > field and unmap existing mappings if any.
-> > >
-> > > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > > ---
-> > >  Documentation/virt/kvm/api.rst |  17 ++-
-> > >  arch/x86/kvm/Kconfig           |   1 +
-> > >  include/linux/kvm_host.h       |  10 +-
-> > >  virt/kvm/Kconfig               |   4 +
-> > >  virt/kvm/kvm_main.c            | 227 +++++++++++++++++++++++++--------
-> > >  5 files changed, 198 insertions(+), 61 deletions(-)
-> > >
-> > > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> > > index 975688912b8c..08253cf498d1 100644
-> > > --- a/Documentation/virt/kvm/api.rst
-> > > +++ b/Documentation/virt/kvm/api.rst
-> > > @@ -4717,10 +4717,19 @@ Documentation/virt/kvm/x86/amd-memory-encryption.rst.
-> > >  This ioctl can be used to register a guest memory region which may
-> > >  contain encrypted data (e.g. guest RAM, SMRAM etc).
-> > >
-> > > -It is used in the SEV-enabled guest. When encryption is enabled, a guest
-> > > -memory region may contain encrypted data. The SEV memory encryption
-> > > -engine uses a tweak such that two identical plaintext pages, each at
-> > > -different locations will have differing ciphertexts. So swapping or
-> > > +Currently this ioctl supports registering memory regions for two usages:
-> > > +private memory and SEV-encrypted memory.
-> > > +
-> > > +When private memory is enabled, this ioctl is used to register guest private
-> > > +memory region and the addr/size of kvm_enc_region represents guest physical
-> > > +address (GPA). In this usage, this ioctl zaps the existing guest memory
-> > > +mappings in KVM that fallen into the region.
-> > > +
-> > > +When SEV-encrypted memory is enabled, this ioctl is used to register guest
-> > > +memory region which may contain encrypted data for a SEV-enabled guest. The
-> > > +addr/size of kvm_enc_region represents userspace address (HVA). The SEV
-> > > +memory encryption engine uses a tweak such that two identical plaintext pages,
-> > > +each at different locations will have differing ciphertexts. So swapping or
-> > >  moving ciphertext of those pages will not result in plaintext being
-> > >  swapped. So relocating (or migrating) physical backing pages for the SEV
-> > >  guest will require some additional steps.
-> > > diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-> > > index 8d2bd455c0cd..73fdfa429b20 100644
-> > > --- a/arch/x86/kvm/Kconfig
-> > > +++ b/arch/x86/kvm/Kconfig
-> > > @@ -51,6 +51,7 @@ config KVM
-> > >  	select HAVE_KVM_PM_NOTIFIER if PM
-> > >  	select HAVE_KVM_RESTRICTED_MEM if X86_64
-> > >  	select RESTRICTEDMEM if HAVE_KVM_RESTRICTED_MEM
-> > > +	select KVM_GENERIC_PRIVATE_MEM if HAVE_KVM_RESTRICTED_MEM
-> > >  	help
-> > >  	  Support hosting fully virtualized guest machines using hardware
-> > >  	  virtualization extensions.  You will need a fairly recent
-> > > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> > > index 79e5cbc35fcf..4ce98fa0153c 100644
-> > > --- a/include/linux/kvm_host.h
-> > > +++ b/include/linux/kvm_host.h
-> > > @@ -245,7 +245,8 @@ bool kvm_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
-> > >  int kvm_async_pf_wakeup_all(struct kvm_vcpu *vcpu);
-> > >  #endif
-> > >
-> > > -#ifdef KVM_ARCH_WANT_MMU_NOTIFIER
-> > > +
-> > > +#if defined(KVM_ARCH_WANT_MMU_NOTIFIER) || defined(CONFIG_KVM_GENERIC_PRIVATE_MEM)
-> > >  struct kvm_gfn_range {
-> > >  	struct kvm_memory_slot *slot;
-> > >  	gfn_t start;
-> > > @@ -254,6 +255,9 @@ struct kvm_gfn_range {
-> > >  	bool may_block;
-> > >  };
-> > >  bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range);
-> > > +#endif
-> > > +
-> > > +#ifdef KVM_ARCH_WANT_MMU_NOTIFIER
-> > >  bool kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
-> > >  bool kvm_test_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
-> > >  bool kvm_set_spte_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
-> > > @@ -794,6 +798,9 @@ struct kvm {
-> > >  	struct notifier_block pm_notifier;
-> > >  #endif
-> > >  	char stats_id[KVM_STATS_NAME_SIZE];
-> > > +#ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
-> > > +	struct xarray mem_attr_array;
-> > > +#endif
-> > >  };
-> > >
-> > >  #define kvm_err(fmt, ...) \
-> > > @@ -1453,6 +1460,7 @@ bool kvm_arch_dy_has_pending_interrupt(struct kvm_vcpu *vcpu);
-> > >  int kvm_arch_post_init_vm(struct kvm *kvm);
-> > >  void kvm_arch_pre_destroy_vm(struct kvm *kvm);
-> > >  int kvm_arch_create_vm_debugfs(struct kvm *kvm);
-> > > +bool kvm_arch_has_private_mem(struct kvm *kvm);
-> > >
-> > >  #ifndef __KVM_HAVE_ARCH_VM_ALLOC
-> > >  /*
-> > > diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
-> > > index 9ff164c7e0cc..69ca59e82149 100644
-> > > --- a/virt/kvm/Kconfig
-> > > +++ b/virt/kvm/Kconfig
-> > > @@ -89,3 +89,7 @@ config HAVE_KVM_PM_NOTIFIER
-> > >
-> > >  config HAVE_KVM_RESTRICTED_MEM
-> > >         bool
-> > > +
-> > > +config KVM_GENERIC_PRIVATE_MEM
-> > > +       bool
-> > > +       depends on HAVE_KVM_RESTRICTED_MEM
-> > > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> > > index 09c9cdeb773c..fc3835826ace 100644
-> > > --- a/virt/kvm/kvm_main.c
-> > > +++ b/virt/kvm/kvm_main.c
-> > > @@ -520,6 +520,62 @@ void kvm_destroy_vcpus(struct kvm *kvm)
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(kvm_destroy_vcpus);
-> > >
-> > > +static inline void update_invalidate_range(struct kvm *kvm, gfn_t start,
-> > > +							    gfn_t end)
-> > > +{
-> > > +	if (likely(kvm->mmu_invalidate_in_progress == 1)) {
-> > > +		kvm->mmu_invalidate_range_start = start;
-> > > +		kvm->mmu_invalidate_range_end = end;
-> > > +	} else {
-> > > +		/*
-> > > +		 * Fully tracking multiple concurrent ranges has diminishing
-> > > +		 * returns. Keep things simple and just find the minimal range
-> > > +		 * which includes the current and new ranges. As there won't be
-> > > +		 * enough information to subtract a range after its invalidate
-> > > +		 * completes, any ranges invalidated concurrently will
-> > > +		 * accumulate and persist until all outstanding invalidates
-> > > +		 * complete.
-> > > +		 */
-> > > +		kvm->mmu_invalidate_range_start =
-> > > +			min(kvm->mmu_invalidate_range_start, start);
-> > > +		kvm->mmu_invalidate_range_end =
-> > > +			max(kvm->mmu_invalidate_range_end, end);
-> > > +	}
-> > > +}
-> > > +
-> > > +static void mark_invalidate_in_progress(struct kvm *kvm, gfn_t start, gfn_t end)
-> > > +{
-> > > +	/*
-> > > +	 * The count increase must become visible at unlock time as no
-> > > +	 * spte can be established without taking the mmu_lock and
-> > > +	 * count is also read inside the mmu_lock critical section.
-> > > +	 */
-> > > +	kvm->mmu_invalidate_in_progress++;
-> > > +}
-> > > +
-> > > +void kvm_mmu_invalidate_begin(struct kvm *kvm, gfn_t start, gfn_t end)
-> > > +{
-> > > +	mark_invalidate_in_progress(kvm, start, end);
-> > > +	update_invalidate_range(kvm, start, end);
-> > > +}
-> > > +
-> > > +void kvm_mmu_invalidate_end(struct kvm *kvm, gfn_t start, gfn_t end)
-> > > +{
-> > > +	/*
-> > > +	 * This sequence increase will notify the kvm page fault that
-> > > +	 * the page that is going to be mapped in the spte could have
-> > > +	 * been freed.
-> > > +	 */
-> > > +	kvm->mmu_invalidate_seq++;
-> > > +	smp_wmb();
-> > > +	/*
-> > > +	 * The above sequence increase must be visible before the
-> > > +	 * below count decrease, which is ensured by the smp_wmb above
-> > > +	 * in conjunction with the smp_rmb in mmu_invalidate_retry().
-> > > +	 */
-> > > +	kvm->mmu_invalidate_in_progress--;
-> > > +}
-> > > +
-> > >  #if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
-> > >  static inline struct kvm *mmu_notifier_to_kvm(struct mmu_notifier *mn)
-> > >  {
-> > > @@ -715,51 +771,12 @@ static void kvm_mmu_notifier_change_pte(struct mmu_notifier *mn,
-> > >  	kvm_handle_hva_range(mn, address, address + 1, pte, kvm_set_spte_gfn);
-> > >  }
-> > >
-> > > -static inline void update_invalidate_range(struct kvm *kvm, gfn_t start,
-> > > -							    gfn_t end)
-> > > -{
-> > > -	if (likely(kvm->mmu_invalidate_in_progress == 1)) {
-> > > -		kvm->mmu_invalidate_range_start = start;
-> > > -		kvm->mmu_invalidate_range_end = end;
-> > > -	} else {
-> > > -		/*
-> > > -		 * Fully tracking multiple concurrent ranges has diminishing
-> > > -		 * returns. Keep things simple and just find the minimal range
-> > > -		 * which includes the current and new ranges. As there won't be
-> > > -		 * enough information to subtract a range after its invalidate
-> > > -		 * completes, any ranges invalidated concurrently will
-> > > -		 * accumulate and persist until all outstanding invalidates
-> > > -		 * complete.
-> > > -		 */
-> > > -		kvm->mmu_invalidate_range_start =
-> > > -			min(kvm->mmu_invalidate_range_start, start);
-> > > -		kvm->mmu_invalidate_range_end =
-> > > -			max(kvm->mmu_invalidate_range_end, end);
-> > > -	}
-> > > -}
-> > > -
-> > > -static void mark_invalidate_in_progress(struct kvm *kvm, gfn_t start, gfn_t end)
-> > > -{
-> > > -	/*
-> > > -	 * The count increase must become visible at unlock time as no
-> > > -	 * spte can be established without taking the mmu_lock and
-> > > -	 * count is also read inside the mmu_lock critical section.
-> > > -	 */
-> > > -	kvm->mmu_invalidate_in_progress++;
-> > > -}
-> > > -
-> > >  static bool kvm_mmu_handle_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
-> > >  {
-> > >  	update_invalidate_range(kvm, range->start, range->end);
-> > >  	return kvm_unmap_gfn_range(kvm, range);
-> > >  }
-> > >
-> > > -void kvm_mmu_invalidate_begin(struct kvm *kvm, gfn_t start, gfn_t end)
-> > > -{
-> > > -	mark_invalidate_in_progress(kvm, start, end);
-> > > -	update_invalidate_range(kvm, start, end);
-> > > -}
-> > > -
-> > >  static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
-> > >  					const struct mmu_notifier_range *range)
-> > >  {
-> > > @@ -807,23 +824,6 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
-> > >  	return 0;
-> > >  }
-> > >
-> > > -void kvm_mmu_invalidate_end(struct kvm *kvm, gfn_t start, gfn_t end)
-> > > -{
-> > > -	/*
-> > > -	 * This sequence increase will notify the kvm page fault that
-> > > -	 * the page that is going to be mapped in the spte could have
-> > > -	 * been freed.
-> > > -	 */
-> > > -	kvm->mmu_invalidate_seq++;
-> > > -	smp_wmb();
-> > > -	/*
-> > > -	 * The above sequence increase must be visible before the
-> > > -	 * below count decrease, which is ensured by the smp_wmb above
-> > > -	 * in conjunction with the smp_rmb in mmu_invalidate_retry().
-> > > -	 */
-> > > -	kvm->mmu_invalidate_in_progress--;
-> > > -}
-> > > -
-> > >  static void kvm_mmu_notifier_invalidate_range_end(struct mmu_notifier *mn,
-> > >  					const struct mmu_notifier_range *range)
-> > >  {
-> > > @@ -937,6 +937,89 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
-> > >
-> > >  #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
-> > >
-> > > +#ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
-> > > +
-> > > +static void kvm_unmap_mem_range(struct kvm *kvm, gfn_t start, gfn_t end)
-> > > +{
-> > > +	struct kvm_gfn_range gfn_range;
-> > > +	struct kvm_memory_slot *slot;
-> > > +	struct kvm_memslots *slots;
-> > > +	struct kvm_memslot_iter iter;
-> > > +	int i;
-> > > +	int r = 0;
-> > > +
-> > > +	gfn_range.pte = __pte(0);
-> > > +	gfn_range.may_block = true;
-> > > +
-> > > +	for (i = 0; i < KVM_ADDRESS_SPACE_NUM; i++) {
-> > > +		slots = __kvm_memslots(kvm, i);
-> > > +
-> > > +		kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
-> > > +			slot = iter.slot;
-> > > +			gfn_range.start = max(start, slot->base_gfn);
-> > > +			gfn_range.end = min(end, slot->base_gfn + slot->npages);
-> > > +			if (gfn_range.start >= gfn_range.end)
-> > > +				continue;
-> > > +			gfn_range.slot = slot;
-> > > +
-> > > +			r |= kvm_unmap_gfn_range(kvm, &gfn_range);
-> > > +		}
-> > > +	}
-> > > +
-> > > +	if (r)
-> > > +		kvm_flush_remote_tlbs(kvm);
-> > > +}
-> > > +
-> > > +#define KVM_MEM_ATTR_SHARED	0x0001
-> > > +static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
-> > > +				     bool is_private)
-> > > +{
-> > > +	gfn_t start, end;
-> > > +	unsigned long i;
-> > > +	void *entry;
-> > > +	int idx;
-> > > +	int r = 0;
-> > > +
-> > > +	if (size == 0 || gpa + size < gpa)
-> > > +		return -EINVAL;
-> > > +	if (gpa & (PAGE_SIZE - 1) || size & (PAGE_SIZE - 1))
-> > > +		return -EINVAL;
-> > > +
-> > > +	start = gpa >> PAGE_SHIFT;
-> > > +	end = (gpa + size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
-> > > +
-> > > +	/*
-> > > +	 * Guest memory defaults to private, kvm->mem_attr_array only stores
-> > > +	 * shared memory.
-> > > +	 */
-> > > +	entry = is_private ? NULL : xa_mk_value(KVM_MEM_ATTR_SHARED);
-> > > +
-> > > +	idx = srcu_read_lock(&kvm->srcu);
-> > > +	KVM_MMU_LOCK(kvm);
-> > > +	kvm_mmu_invalidate_begin(kvm, start, end);
-> > > +
-> > > +	for (i = start; i < end; i++) {
-> > > +		r = xa_err(xa_store(&kvm->mem_attr_array, i, entry,
-> > > +				    GFP_KERNEL_ACCOUNT));
-> > > +		if (r)
-> > > +			goto err;
-> > > +	}
-> > > +
-> > > +	kvm_unmap_mem_range(kvm, start, end);
-> >
-> > lock is hold by KVM_MMU_LOCK() so how about do
-> > kvm_mmu_invalidate_begin() after changing xarray:
-> >
-> > kvm_mmu_invalidate_begin(kvm, start, end);
-> > kvm_unmap_mem_range(kvm, start, end);
-> > kvm_mmu_invalidate_end(kvm, start, end);
-> >
-> > Also the error handling path doesn't need to care it yet.
->
-> The mem_attr_array is consumed in the page fault handler(i.e.
-> kvm_mem_is_private() in patch 08) so it should also be protected by
-> kvm_mmu_invalidate_begin/end(). E.g. if we change the mem_attr_arry here
-> after the page fault handler has read the mem_attr_array, the
-> mmu_invalidate_retry_gfn() should return 1 to let the page fault handler
-> to retry the fault.
+On Mon, Nov 07, 2022 at 03:20:34PM +0100, Petr Mladek wrote:
+> On Mon 2022-11-07 13:18:52, Andy Shevchenko wrote:
+> > On Sun, Nov 06, 2022 at 11:03:55PM +0900, Hyeonggon Yoo wrote:
+> > > dump_page() uses %pGp format to print 'flags' field of struct page.
+> > > As some page flags (e.g. PG_buddy, see page-flags.h for more details)
+> > > are set in page_type field, introduce %pGt format which provides
+> > > human readable output of page_type. And use it in dump_page().
+> > > 
+> > > Note that the sense of bits are different in page_type. if page_type is
+> > > 0xffffffff, no flags are set. if PG_slab (0x00100000) flag is set,
+> > > page_type is 0xffefffff. Clearing a bit means we set the bit. Bits in
+> > > page_type are inverted when printing type names.
+> > > 
+> > > Below is examples of dump_page(). One is just after alloc_pages() and
+> > > the other is after __SetPageSlab().
+> > > 
+> > > [    1.814728] page:ffffea000415e200 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x105788
+> > > [    1.815961] flags: 0x17ffffc0000000(node=0|zone=2|lastcpupid=0x1fffff)
+> > 
+> > > [    1.816443] page_type: 0xffffffff()
+> > 
 
-You're right!
-Even the changes are undo by error handling path, we still need to
-sure that user of mem_attr_arry retry the fault, due to the user may
-get some "stale" data (they're "stale" becaus the xarray is recovered
-in error case).
 
->
-> >
-> > > +
-> > > +	goto ret;
-> > > +err:
-> > > +	for (; i > start; i--)
-> > > +		xa_erase(&kvm->mem_attr_array, i);
-> >
-> > the start should be covered yet, consider the i is
-> > unsigned long and case of start is 0, may need another
-> > variable j for this.
->
-> Ah, right!
->
-> Thanks,
-> Chao
-> >
-> > > +ret:
-> > > +	kvm_mmu_invalidate_end(kvm, start, end);
-> > > +	KVM_MMU_UNLOCK(kvm);
-> > > +	srcu_read_unlock(&kvm->srcu, idx);
-> > > +
-> > > +	return r;
-> > > +}
-> > > +#endif /* CONFIG_KVM_GENERIC_PRIVATE_MEM */
-> > > +
-> > >  #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
-> > >  static int kvm_pm_notifier_call(struct notifier_block *bl,
-> > >  				unsigned long state,
-> > > @@ -1165,6 +1248,9 @@ static struct kvm *kvm_create_vm(unsigned long type, const char *fdname)
-> > >  	spin_lock_init(&kvm->mn_invalidate_lock);
-> > >  	rcuwait_init(&kvm->mn_memslots_update_rcuwait);
-> > >  	xa_init(&kvm->vcpu_array);
-> > > +#ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
-> > > +	xa_init(&kvm->mem_attr_array);
-> > > +#endif
-> > >
-> > >  	INIT_LIST_HEAD(&kvm->gpc_list);
-> > >  	spin_lock_init(&kvm->gpc_lock);
-> > > @@ -1338,6 +1424,9 @@ static void kvm_destroy_vm(struct kvm *kvm)
-> > >  		kvm_free_memslots(kvm, &kvm->__memslots[i][0]);
-> > >  		kvm_free_memslots(kvm, &kvm->__memslots[i][1]);
-> > >  	}
-> > > +#ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
-> > > +	xa_destroy(&kvm->mem_attr_array);
-> > > +#endif
-> > >  	cleanup_srcu_struct(&kvm->irq_srcu);
-> > >  	cleanup_srcu_struct(&kvm->srcu);
-> > >  	kvm_arch_free_vm(kvm);
-> > > @@ -1541,6 +1630,11 @@ static void kvm_replace_memslot(struct kvm *kvm,
-> > >  	}
-> > >  }
-> > >
-> > > +bool __weak kvm_arch_has_private_mem(struct kvm *kvm)
+Thank you both for looking at this! :-)
+
+> > Why do we have empty parentheses? I would expect either something there, or no
+> > parentheses at all.
+> 
+> This looks fine. format_page_flags() does the same for %pGp.
+> 
+> > ...
+> > 
+> > > +	%pGt	0xffefffff(slab)
+> > 
+> > No space before ( ?
+> 
+> Also looks fine. %pGp does the same.
+> 
+> > ...
+> > 
+> > > +static
+> > > +char *format_page_type(char *buf, char *end, unsigned int page_type)
 > > > +{
-> > > +	return false;
-> > > +}
+> > > +	if (!(page_type & PAGE_TYPE_BASE))
+> > > +		return string(buf, end, "no type for user-mapped page", default_str_spec);
+> > 
+> > It's too long, can we make it shorten?
+> 
+> I wonder if it would help to write the value. Something like:
+> 
+>       page_type: 0x0ace5768(no type)
+>
+> That said. I am not familiar with the page types and am not sure
+> about the semantic of this value. MM people should decide what they
+> want to see in this case.
+
+Hmm, then for consistency let's try:
+
+- 0xffefffff(slab)
+- 0xffffffff()
+- 0x0ace5768()
+
+this way.
+
+> > ...
+> > 
+> > >  	pr_warn("%sflags: %pGp%s\n", type, &head->flags,
+> > >  		page_cma ? " CMA" : "");
+> > > +	pr_warn("page_type: %pGt\n", &head->page_type);
 > > > +
-> > >  static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
-> > >  {
-> > >  	u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
-> > > @@ -4708,6 +4802,24 @@ static long kvm_vm_ioctl(struct file *filp,
-> > >  		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
-> > >  		break;
-> > >  	}
-> > > +#ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
-> > > +	case KVM_MEMORY_ENCRYPT_REG_REGION:
-> > > +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
-> > > +		struct kvm_enc_region region;
-> > > +		bool set = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
-> > > +
-> > > +		if (!kvm_arch_has_private_mem(kvm))
-> > > +			goto arch_vm_ioctl;
-> > > +
-> > > +		r = -EFAULT;
-> > > +		if (copy_from_user(&region, argp, sizeof(region)))
-> > > +			goto out;
-> > > +
-> > > +		r = kvm_vm_ioctl_set_mem_attr(kvm, region.addr,
-> > > +					      region.size, set);
-> > > +		break;
-> > > +	}
-> > > +#endif
-> > >  	case KVM_GET_DIRTY_LOG: {
-> > >  		struct kvm_dirty_log log;
-> > >
-> > > @@ -4861,6 +4973,9 @@ static long kvm_vm_ioctl(struct file *filp,
-> > >  		r = kvm_vm_ioctl_get_stats_fd(kvm);
-> > >  		break;
-> > >  	default:
-> > > +#ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
-> > > +arch_vm_ioctl:
-> > > +#endif
-> > >  		r = kvm_arch_vm_ioctl(filp, ioctl, arg);
-> > >  	}
-> > >  out:
-> > > --
-> > > 2.25.1
-> > >
-> > >
+> > >  	print_hex_dump(KERN_WARNING, "raw: ", DUMP_PREFIX_NONE, 32,
+> > >  			sizeof(unsigned long), page,
+> > >  			sizeof(struct page), false);
+> > > diff --git a/mm/internal.h b/mm/internal.h
+> > > index cb4c663a714e..956eaa9f12c0 100644
+> > > --- a/mm/internal.h
+> > > +++ b/mm/internal.h
+> > > @@ -773,6 +773,7 @@ static inline void flush_tlb_batched_pending(struct mm_struct *mm)
+> > >  #endif /* CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH */
+> > >  
+> > >  extern const struct trace_print_flags pageflag_names[];
+> > > +extern const struct trace_print_flags pagetype_names[];
+> > >  extern const struct trace_print_flags vmaflag_names[];
+> > >  extern const struct trace_print_flags gfpflag_names[];
+> > 
+> > I would split this to a separate change, but it's up to PRINTK maintainers.
+> 
+> I guess that you are talking about the line:
+> 
+> +	pr_warn("page_type: %pGt\n", &head->page_type);
+> 
+> 
+> Yes, it would be better to have implementation of %pGt modifier
+> in one patch and add the user in another one.
+
+Sounds reasonable.
+Will split its caller into another patch next to this one.
+
+-- 
+Thanks,
+Hyeonggon
