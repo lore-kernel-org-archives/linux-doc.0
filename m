@@ -2,73 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5C08C4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 21:04:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F06FC4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 21:17:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229774AbiKIVED (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 16:04:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59180 "EHLO
+        id S229774AbiKIVRn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 16:17:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229835AbiKIVED (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 16:04:03 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 670BF18392;
-        Wed,  9 Nov 2022 13:04:02 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 06D44740;
-        Wed,  9 Nov 2022 21:04:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 06D44740
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1668027842; bh=bgviE9aE9WNQ0wB7voneVvsBm89jpDB2NeI0Kh668PQ=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Ts2d+wt26q9s/bK3t2Y2qKcIHIDROXqWkRHg0WNdduxP1z9R++WDT43FyCWmIFgD+
-         0GrMHluJ61KXvgUkSsgsny2up4KnNDQUK8KcsW74gdhHwnH22TM8M3JqSvW7DnsmPn
-         QG3VPM5i8h8ToYIH7Y/fCt1FhiBkQxEGjtMOHV0244A1FsjKjixvRN7sFLDXE5ILy7
-         Tm9K9OvsqCKyTlh/zBCVH4XuBtaKkNVi11vkZVqKUMs2O1i8cQlt4/APOhRgAPMOHF
-         BEV4GwADgbYm/xiMIQrykLH4kR2dgv6dJ1N1iweMGHhFYaNN5Gv/a1N56GGi4OjC0q
-         lpdX9thA0P8Qg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        linux-doc@vger.kernel.org
-Cc:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: ia64: Fix a typo ("identify mappings")
-In-Reply-To: <20221101160609.961950-1-j.neuschaefer@gmx.net>
-References: <20221101160609.961950-1-j.neuschaefer@gmx.net>
-Date:   Wed, 09 Nov 2022 14:04:01 -0700
-Message-ID: <87leojj0vy.fsf@meer.lwn.net>
+        with ESMTP id S229452AbiKIVRm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 16:17:42 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3A5431221;
+        Wed,  9 Nov 2022 13:17:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=c2Wy125HjX2W7gqEInmUWaHL+2Vak7X60gZ/uKVxsSs=; b=yTyMtQVIIuXac7UW27SjuG9FjG
+        FaNaEfZ1TQyT856V2r9PHoNMTj1OFga3j6sCeGL5vpTaladSMUcaUqlEh7FhPpGzmcgViQIE+XamI
+        57plJW0OSYsmvdILQmQY1Q/fNcPb2WEGHDp6RnEVFTvXds//du5ABC2lJNjVOqyXX1A704rNcdiHM
+        aHhVDPBY7FMDBohK5yGY1VIjFtEWemGGKAC1JVcG84zgDMzQiZempRpkBc4NYYMUhbJvIIxVGGvfi
+        XKzZ06LfYfF7ex2aqalbXQBI14ZikP4rfNEIAEAQmmt1pv0oSTTKxu6qp2CS1l45ct8nuw+AyhJWK
+        KjxiEKAg==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1ossRG-00HMpa-89; Wed, 09 Nov 2022 21:16:50 +0000
+Date:   Wed, 9 Nov 2022 13:16:50 -0800
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Jann Horn <jannh@google.com>, Greg KH <gregkh@linuxfoundation.org>,
+        Linus Torvalds <torvalds@linuxfoundation.org>,
+        Seth Jenkins <sethjenkins@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        tangmeng <tangmeng@uniontech.com>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        Tiezhu Yang <yangtiezhu@loongson.cn>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Arnd Bergmann <arnd@arndb.de>, Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        David Gow <davidgow@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Eric Biggers <ebiggers@google.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Laurent Dufour <ldufour@linux.ibm.com>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH next v2 0/6] exit: Put an upper limit on how often we can
+ oops
+Message-ID: <Y2wYwsolgpRGPuMK@bombadil.infradead.org>
+References: <20221109194404.gonna.558-kees@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221109194404.gonna.558-kees@kernel.org>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net> writes:
+On Wed, Nov 09, 2022 at 12:00:43PM -0800, Kees Cook wrote:
+> Hi,
+> 
+> This builds on Jann's v1 patch[1]. Changes in v2:
+> - move sysctl into kernel/exit.c (where it belongs)
+> - expand Documentation slightly
+> 
+> New stuff in v2:
+> - expose oops_count to sysfs
+> - consolidate panic_on_warn usage
+> - introduce warn_limit
+> - expose warn_count to sysfs
+> 
+> [1] https://lore.kernel.org/lkml/20221107201317.324457-1-jannh@google.com
+> 
+> Jann Horn (1):
+>   exit: Put an upper limit on how often we can oops
+> 
+> Kees Cook (5):
+>   panic: Separate sysctl logic from CONFIG_SMP
+>   exit: Expose "oops_count" to sysfs
+>   panic: Consolidate open-coded panic_on_warn checks
+>   panic: Introduce warn_limit
+>   panic: Expose "warn_count" to sysfs
 
-> The correct term here, also used in the next line, is "identity
-> mappings". "itentify mappings" was probably just a typo.
->
-> Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-> ---
->  Documentation/ia64/aliasing.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/ia64/aliasing.rst b/Documentation/ia64/aliasin=
-g.rst
-> index a08b36aba0159..36a1e1d4842b8 100644
-> --- a/Documentation/ia64/aliasing.rst
-> +++ b/Documentation/ia64/aliasing.rst
-> @@ -61,7 +61,7 @@ Memory Map
->      The efi_memmap table is preserved unmodified because the original
->      boot-time information is required for kexec.
->
-> -Kernel Identify Mappings
-> +Kernel Identity Mappings
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+For all:
 
-Applied, thanks.
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
 
-jon
+  Luis
