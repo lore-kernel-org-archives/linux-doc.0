@@ -2,134 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE37FC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 22:59:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B679C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 00:36:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229611AbiKHW7Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Nov 2022 17:59:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47610 "EHLO
+        id S229508AbiKIAg2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Nov 2022 19:36:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229873AbiKHW7Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 17:59:24 -0500
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4775857B6C
-        for <linux-doc@vger.kernel.org>; Tue,  8 Nov 2022 14:59:23 -0800 (PST)
-Received: by mail-oo1-xc35.google.com with SMTP id q2-20020a4a3302000000b0049ee5fe3ab7so1093158ooq.8
-        for <linux-doc@vger.kernel.org>; Tue, 08 Nov 2022 14:59:23 -0800 (PST)
+        with ESMTP id S229595AbiKIAg1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 19:36:27 -0500
+Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C39B63155
+        for <linux-doc@vger.kernel.org>; Tue,  8 Nov 2022 16:36:26 -0800 (PST)
+Received: by mail-pl1-x649.google.com with SMTP id x18-20020a170902ec9200b001869f20da7eso12300615plg.10
+        for <linux-doc@vger.kernel.org>; Tue, 08 Nov 2022 16:36:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BksNmJr9/G65J0IUfruVbXUCosG4IvOng5/LXlEyWfc=;
-        b=sP90Hxk8uTXToM6rA+n0zpJf4uCmThqIh4903RqZLnhC5dvBplEpETcRcMMDOhghLN
-         FcbqjoX88LzuOcU2Kcahd5PpWUNrUYxOw4P04oNu0Be8nrVALqxMSV2EgNuU1nnkQId0
-         gAHqYW+Z6K/788cFCxGeL5pM9Au59ZUxSnt6ufp68NBeTK5M2oRK2g36FB+v/GQKFiLI
-         BDalbHYMSp/HVLxq++ub5yCc75h5UWJadDp8H/gyK+68DY0Zky2kLiWT4tjXxJ/rc1vm
-         AqyNUm767N3cugAIRaLVTrDpqT4v551YbPWeqKY7fj9VUfDyFsVefGX9i6o8YR45eb4O
-         /pRg==
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=CZKNxZ4ut/Q7ACsrFTYtA5PMiQEhI2gWEXdAM+wb9gg=;
+        b=cYSLYVLkoMHuam5SuetiF8cgGiYoAYiOA1FDE0de+JVwbInSf58Fn7Nuqba7t29Tlm
+         kAEkRJI243IEl56URLz4GqhHzc5kNIoyBU5dolJ68qRmCHxVduAFhPFH9sXXHt7fsP2m
+         wmOYn67OQtdmCCrHj+8T+iKeAM2KzgvXbTWuWou/qcNVuehaO2UQIl6x966q4q7Z8zpd
+         Ngq+YURUPwM23Bk/LkbCwHiBmOToe4IyoOidBtQN8lPzxQ470F5rRAwMWnq3T1F7EKp0
+         isviHND/AkHcHu1qZfF96e0YUSkLT9d59G44rU/vjx0VWjDPLr9E1T9TmfaZIhC402Jc
+         UqQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BksNmJr9/G65J0IUfruVbXUCosG4IvOng5/LXlEyWfc=;
-        b=ZgAf6dmxPjm6gCVqXiUQTU29gLgmS4td48YURq1AmhV9B4jd0jz4uBVzsB5xzQ+OVb
-         MumwKb48zjHzzN5/TJYUU+Bc0vDYHLB7qWcfzg+ZnWah8vxfEblCY7wFe36kYUjvR2AW
-         YXrFNW919G8h7qn1YCGoz+rI4jWy7+o2iQ5V5Db0NhZwSZ89xeZ3x+l2V27i90fawbT2
-         IG5ZEBj/Qtfy/CgpGEriNNNlAglAMdfozLa5gX+qh7LEai0zrAEGxCCKO0GZpT6lq0LW
-         2+lcSykEy3OboUTXGmg+hM6KNqcTAqE2DGntbCIIVJOe2ITTJFDQ8tGMYnBNCpY1anQ/
-         IKLw==
-X-Gm-Message-State: ACrzQf1B05pWPe9xsMb53wT711ZmG5uNa/8ojmAZbV6tiGriSr3mBbNY
-        f61kuBDbTidy3NYpN/Dq+3KIPAPFazpXgZT9GMttlw==
-X-Google-Smtp-Source: AMsMyM5B2SF57F48P+yb2v9B3TLUan4HlNTgXnRYSW6AKC/5CgdIGauhtqTai63v8JxRJZx2o1bcy0tk3RgoPJM7MzI=
-X-Received: by 2002:a4a:d8d4:0:b0:49c:e0de:ebbe with SMTP id
- c20-20020a4ad8d4000000b0049ce0deebbemr15766402oov.31.1667948362297; Tue, 08
- Nov 2022 14:59:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20221104213651.141057-1-kim.phillips@amd.com> <20221104213651.141057-4-kim.phillips@amd.com>
- <CALMp9eSpKGCYK_1r3o326ui5RVoH73_RR5-LR2Div9Jm5zvk6A@mail.gmail.com>
- <f25152d2-7045-94f4-d5dc-69b609c0be6a@amd.com> <CALMp9eQF7iPXCNkafmaGHY5Dzg+opt0xp+Y8ceML8RTxFyCo7A@mail.gmail.com>
- <4c8945ae-62c4-7550-dc75-068cca99e678@amd.com>
-In-Reply-To: <4c8945ae-62c4-7550-dc75-068cca99e678@amd.com>
-From:   Jim Mattson <jmattson@google.com>
-Date:   Tue, 8 Nov 2022 14:59:11 -0800
-Message-ID: <CALMp9eRcLPpt-OuXiNFUQwrkyDxRXErY7U_U3PZE0qN_ep7wdw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] x86/speculation: Support Automatic IBRS under virtualization
-To:     Kim Phillips <kim.phillips@amd.com>
-Cc:     x86@kernel.org, Borislav Petkov <bp@alien8.de>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Babu Moger <Babu.Moger@amd.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CZKNxZ4ut/Q7ACsrFTYtA5PMiQEhI2gWEXdAM+wb9gg=;
+        b=2cUbskqJViT+x/PYNKJuojM3Y+BwUd24HL28NFoy8OKDvZOkjtZqLNLHKycnVGphik
+         DL16ohujSX/6sgzXhCaDhDnkXtzG/Ckf7PU0Npp/JDtqviYHnVezeSKUCvKZsnDhTVje
+         3X/oV+ykSXVkp5EnjAhwIDA4AUOiHskEsCL5H4JuX7GkmFZo+/ha+3M0ZjpgrvJuNzXH
+         cPxFKXXoGnT+vWWemr7Sd63/fVpT2MBcMOMt5Hj15M90jKgYVmIPukWkcRhF/nuZUxYJ
+         jcojmqUWS+Bmpluh9EAmZUbJ5CmcEBeFllcvOrWXWdC/EV6sEwtiBrqNI6SjVxb4uRAD
+         BAPw==
+X-Gm-Message-State: ACrzQf3GZfGgyPUQKJyaBpXST3yISFqV9EzavAAzE/1PyDhS8wzFEuwP
+        RN1+ozGQJDuWdYixIkQi7U4UoIMzMivU3g==
+X-Google-Smtp-Source: AMsMyM5l1InG0bHkfyqtHlCsU7XWX0gLXIAXXCROhFBi9h+H8VfW0HVhDGCUeTz7B6sT1CNJ/zoHWriib5mDQw==
+X-Received: from dlatypov-spec.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:3f35])
+ (user=dlatypov job=sendgmr) by 2002:a17:90a:f3d4:b0:213:959f:5a90 with SMTP
+ id ha20-20020a17090af3d400b00213959f5a90mr63952761pjb.54.1667954185985; Tue,
+ 08 Nov 2022 16:36:25 -0800 (PST)
+Date:   Tue,  8 Nov 2022 16:36:16 -0800
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
+Message-ID: <20221109003618.3784591-1-dlatypov@google.com>
+Subject: [PATCH v2 1/3] Documentation: KUnit: make usage.rst a superset of
+ tips.rst, remove duplication
+From:   Daniel Latypov <dlatypov@google.com>
+To:     brendanhiggins@google.com, davidgow@google.com
+Cc:     rmoar@google.com, linux-kernel@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
+        Daniel Latypov <dlatypov@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 8, 2022 at 2:48 PM Kim Phillips <kim.phillips@amd.com> wrote:
->
-> On 11/7/22 4:42 PM, Jim Mattson wrote:
-> > On Mon, Nov 7, 2022 at 2:29 PM Kim Phillips <kim.phillips@amd.com> wrote:
-> >>
-> >> On 11/4/22 5:00 PM, Jim Mattson wrote:
-> >>> On Fri, Nov 4, 2022 at 2:38 PM Kim Phillips <kim.phillips@amd.com> wrote:
-> >>>>
-> >>>> VM Guests may want to use Auto IBRS, so propagate the CPUID to them.
-> >>>>
-> >>>> Co-developed-by: Babu Moger <Babu.Moger@amd.com>
-> >>>> Signed-off-by: Kim Phillips <kim.phillips@amd.com>
-> >>>
-> >>> The APM says that, under AutoIBRS, CPL0 processes "have IBRS
-> >>> protection." I'm taking this to mean only that indirect branches in
-> >>> CPL0 are not subject to steering from a less privileged predictor
-> >>> mode. This would imply that indirect branches executed at CPL0 in L1
-> >>> could potentially be subject to steering by code running at CPL0 in
-> >>> L2, since L1 and L2 share hardware predictor modes.
-> >>
-> >> That's true for AMD processors that don't support Same Mode IBRS, also
-> >> documented in the APM.
-> >>
-> >> Processors that support AutoIBRS also support Same Mode IBRS (see
-> >> CPUID Fn8000_0008_EBX[IbrsSameMode] (bit 19)).
-> >>
-> >>> Fortunately, there is an IBPB when switching VMCBs in svm_vcpu_load().
-> >>> But it might be worth noting that this is necessary for AutoIBRS to
-> >>> work (unless it actually isn't).
-> >>
-> >> It is needed, but not for kernel/CPL0 code, rather to protect one
-> >> guest's user-space code from another's.
-> >
-> > The question is whether it's necessary when switching between L1 and
-> > L2 on the same vCPU of the same VM.
-> >
-> > On the Intel side, this was (erroneously) optimized away in commit
-> > 5c911beff20a ("KVM: nVMX: Skip IBPB when switching between vmcs01 and
-> > vmcs02").
->
-> Then why hasn't it been reverted?
+usage.rst had most of the content of the tips.rst page copied over.
+But it's missing https://www.kernel.org/doc/html/v6.0/dev-tools/kunit/tips.html#customizing-error-messages
+Copy it over so we can retire tips.rst w/o losing content.
 
-Sometimes, the wheels turn slowly. See
-https://lore.kernel.org/kvm/20221019213620.1953281-1-jmattson@google.com/.
+And in that process, it also gained a duplicate section about how
+KUNIT_ASSERT_*() exit the test case early. Remove that.
 
-> Does its rationale not make sense?:
->
->      The IBPB is intended to prevent one guest from attacking another, which
->      is unnecessary in the nested case as it's the same guest from KVM's
->      perspective.
+Signed-off-by: Daniel Latypov <dlatypov@google.com>
+---
+ Documentation/dev-tools/kunit/usage.rst | 49 ++++++++++++++++---------
+ 1 file changed, 31 insertions(+), 18 deletions(-)
 
-No, it doesn't. IBRS promises to protect the host from the guest. To
-properly virtualize IBRS, KVM has to provide that protection,
-regardless of its "perspective."
+diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+index 2737863ef365..b0a6c3bc0eeb 100644
+--- a/Documentation/dev-tools/kunit/usage.rst
++++ b/Documentation/dev-tools/kunit/usage.rst
+@@ -118,6 +118,37 @@ expectation could crash the test case. `ASSERT_NOT_ERR_OR_NULL(...)` allows us
+ to bail out of the test case if the appropriate conditions are not satisfied to
+ complete the test.
+ 
++Customizing error messages
++--------------------------
++
++Each of the ``KUNIT_EXPECT`` and ``KUNIT_ASSERT`` macros have a ``_MSG``
++variant.  These take a format string and arguments to provide additional
++context to the automatically generated error messages.
++
++.. code-block:: c
++
++	char some_str[41];
++	generate_sha1_hex_string(some_str);
++
++	/* Before. Not easy to tell why the test failed. */
++	KUNIT_EXPECT_EQ(test, strlen(some_str), 40);
++
++	/* After. Now we see the offending string. */
++	KUNIT_EXPECT_EQ_MSG(test, strlen(some_str), 40, "some_str='%s'", some_str);
++
++Alternatively, one can take full control over the error message by using
++``KUNIT_FAIL()``, e.g.
++
++.. code-block:: c
++
++	/* Before */
++	KUNIT_EXPECT_EQ(test, some_setup_function(), 0);
++
++	/* After: full control over the failure message. */
++	if (some_setup_function())
++		KUNIT_FAIL(test, "Failed to setup thing for testing");
++
++
+ Test Suites
+ ~~~~~~~~~~~
+ 
+@@ -546,24 +577,6 @@ By reusing the same ``cases`` array from above, we can write the test as a
+ 		{}
+ 	};
+ 
+-Exiting Early on Failed Expectations
+-------------------------------------
+-
+-We can use ``KUNIT_EXPECT_EQ`` to mark the test as failed and continue
+-execution.  In some cases, it is unsafe to continue. We can use the
+-``KUNIT_ASSERT`` variant to exit on failure.
+-
+-.. code-block:: c
+-
+-	void example_test_user_alloc_function(struct kunit *test)
+-	{
+-		void *object = alloc_some_object_for_me();
+-
+-		/* Make sure we got a valid pointer back. */
+-		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, object);
+-		do_something_with_object(object);
+-	}
+-
+ Allocating Memory
+ -----------------
+ 
+
+base-commit: 6fe1ad4a156095859721fef85073df3ed43081d4
+-- 
+2.38.1.431.g37b22c650d-goog
+
