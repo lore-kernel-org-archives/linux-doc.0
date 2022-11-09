@@ -2,113 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3836FC433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 14:51:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E8A9C43219
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 15:42:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229777AbiKIOvZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 09:51:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58172 "EHLO
+        id S231598AbiKIPmU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 10:42:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbiKIOvY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 09:51:24 -0500
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E7591C901;
-        Wed,  9 Nov 2022 06:51:23 -0800 (PST)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A9CnK6k025229;
-        Wed, 9 Nov 2022 15:50:44 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=5JtF3iJ2oXjNjIAbamTKE27XtiV1yY94Ah+QiBDWb3s=;
- b=etElwXAkt6kcqJIe2SltGS49ceP/WxapGbX4u3Ff81O2QqHa2suZ/WJRKX9FO7dj+2EG
- WwyePRFEabfKVWgx4H+AbcoWAywb6BCYs5ZbBSJQRQVfFyWsKw5Xp1gbdqEkHAWZqO4n
- lok22cczp0S23kA54WfqwmQ2/aPIKgS8L4VTE7qxQkpZ3ns6ejnBLtumHU7ZJDdT2PTa
- R78DNT7Nxovnv+sJyvJizEASGL3CgqIYak5Q2VVvbgAYRBsvRCoOEOnYVvj8AhCBa5KL
- 2CgnVL1oassLIUMmIpEKGrqNspCCA5vTzKRmLpglyuE0fWIVG9E0cfugdaW3S0J6InH2 1g== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3kpyjqhquy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 09 Nov 2022 15:50:44 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5240A10002A;
-        Wed,  9 Nov 2022 15:50:37 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D9E6D21FEA5;
-        Wed,  9 Nov 2022 15:50:37 +0100 (CET)
-Received: from [10.252.18.33] (10.252.18.33) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.32; Wed, 9 Nov
- 2022 15:50:37 +0100
-Message-ID: <f0aee291-ce44-400b-be3a-dfe38c62e450@foss.st.com>
-Date:   Wed, 9 Nov 2022 15:50:37 +0100
+        with ESMTP id S229918AbiKIPmT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 10:42:19 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7405713CEE;
+        Wed,  9 Nov 2022 07:42:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668008538; x=1699544538;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=oD611UU0ogsZ7u6HMPN6XGOfS1dmGrEttDxsVcnMFIQ=;
+  b=D8QkJfQXLDgl6mpFMqX9nOfhCnDT+nPFFx+/Gjw6H236Tt4lU0s5Ccb+
+   OGj+xdNYYNC71UxM5q1VKkzDWqAVAVU7uZiLNzRuP6v0GrC0nDnVoVCcz
+   4bjmHvp/buQv0qWCeGh13ZognxwLmTLYnPcVjNmZZVPW310FA3J0QT+Il
+   RgN8L/YszNMYz+TsJ8Up5Zg2AcUfc9BXU4IAWwBFzJIGqiUpQiUtSteK3
+   9ldFblps/FbJxNZES3F0XYRDBJzOk+d9saxZGA7D2gG+L3M+GFSZfAR7d
+   k5vTiQfp+eGqAGEDl1W/6IZDwjP5eXRuqx5gkU3ujST0x+I226M+DsEXu
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="311005228"
+X-IronPort-AV: E=Sophos;i="5.96,151,1665471600"; 
+   d="scan'208";a="311005228"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2022 07:36:23 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="742439061"
+X-IronPort-AV: E=Sophos;i="5.96,151,1665471600"; 
+   d="scan'208";a="742439061"
+Received: from dmurray1-mobl1.amr.corp.intel.com (HELO [10.209.100.117]) ([10.209.100.117])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2022 07:36:22 -0800
+Message-ID: <ccbbb331-80c5-75bf-cd5d-82748ad63a60@linux.intel.com>
+Date:   Wed, 9 Nov 2022 07:36:21 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] Documentation: media: Add ST VGXY61 driver documentation
- to userspace API table of contents
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-next@vger.kernel.org>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20221109100147.218947-1-bagasdotme@gmail.com>
+ Firefox/102.0 Thunderbird/102.2.2
+Subject: Re: [PATCH v17 2/3] virt: Add TDX guest driver
 Content-Language: en-US
-From:   Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
-In-Reply-To: <20221109100147.218947-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+To:     Wander Lairson Costa <wander@redhat.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20221104032355.227814-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20221104032355.227814-3-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20221109142431.ffkhouuxewjajp6g@fedora>
+From:   Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <20221109142431.ffkhouuxewjajp6g@fedora>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.252.18.33]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-09_06,2022-11-09_01,2022-06-22_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bagas,
 
-I already submitted this here:
-https://www.spinics.net/lists/linux-media/msg221143.html
 
-Thanks.
+On 11/9/22 6:24 AM, Wander Lairson Costa wrote:
+>> +	reportdata = kmalloc(TDX_REPORTDATA_LEN, GFP_KERNEL);
+>> +	if (!reportdata)
+>> +		return -ENOMEM;
+>> +
+>> +	tdreport = kzalloc(TDX_REPORT_LEN, GFP_KERNEL);
+>> +	if (!tdreport) {
+>> +		ret = -ENOMEM;
+>> +		goto out;
+>> +	}
+> Isn't simpler just allocating a struct tdx_report_req? You would save
+> one allocation and a few lines of code.
+> 
 
-On 11/9/22 11:01, Bagas Sanjaya wrote:
-> Sphinx reported missing toctree entry for ST VGXY61 documentation:
-> 
-> Documentation/userspace-api/media/drivers/st-vgxy61.rst: WARNING: document isn't included in any toctree
-> 
-> Add the entry to fix the warning.
-> 
-> Link: https://lore.kernel.org/linux-next/20221109162013.293250a2@canb.auug.org.au/
-> Fixes: 2378be892b6ff5 ("media: Documentation: Add ST VGXY61 driver documentation")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/userspace-api/media/drivers/index.rst | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
-> index 32f82aed47d915..0f758c8d45235a 100644
-> --- a/Documentation/userspace-api/media/drivers/index.rst
-> +++ b/Documentation/userspace-api/media/drivers/index.rst
-> @@ -38,4 +38,5 @@ For more details see the file COPYING in the source distribution of Linux.
->  	max2175
->  	meye-uapi
->  	omap3isp-uapi
-> +	st-vgxy61
->  	uvcvideo
-> 
-> base-commit: 1e284ea984d3705e042b6b07469a66f1d43371e3
+TDG.MR.TDCALL expects reportdata and tdreport buffers to be size aligned. So,
+allocating them together with sizeof(struct tdx report req) will not work. We
+can get around this by allocating a slightly larger buffer size. However, because
+it is not a time-critical path, I believe that allocating two separate buffers
+for input/output is simpler.
 
 -- 
-Regards,
-
-Benjamin
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
