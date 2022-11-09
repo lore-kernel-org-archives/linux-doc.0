@@ -2,153 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C1EAC433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 09:19:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1712FC4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 10:02:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229964AbiKIJTo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 04:19:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56290 "EHLO
+        id S229558AbiKIKCB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 05:02:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229900AbiKIJTl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 04:19:41 -0500
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04781C11
-        for <linux-doc@vger.kernel.org>; Wed,  9 Nov 2022 01:19:40 -0800 (PST)
-Received: by mail-lj1-x22d.google.com with SMTP id u11so24817790ljk.6
-        for <linux-doc@vger.kernel.org>; Wed, 09 Nov 2022 01:19:39 -0800 (PST)
+        with ESMTP id S230302AbiKIKB7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 05:01:59 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 505EDD13A;
+        Wed,  9 Nov 2022 02:01:58 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id v28so16219339pfi.12;
+        Wed, 09 Nov 2022 02:01:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VyOwHIx2eFYER6svy54TwgyRrhxCzE5HFZfbjyKkFTY=;
-        b=D76zlyzf8ZHfHyT+XBBZb6eqdJWPJL2LUpXnJWdG4HrxIKHrGV+vMC4KLANVtRU7Q8
-         GvkKLbNz+v0geOE6AfhzelWvsNe0leMER1eq36PMH1eKUMAavWhFxVe+yR08oYHvGwy4
-         HCLznAFy6/Xx6e95ZufqZq4lTH9GTHiXD0d+gmQ3nBllkBzqNf7DUWrHy/Fx6WQ2jlrA
-         34T4SbQvDOfuYJiIypUaGXkXPk5w4MZWij3G+o8tk8CuW6Wkopj3laQPfvYKOisvoc+y
-         4sKLPng89ZCITyS+GJFVq0s1kDXG+afP98vA6Ymtfzbv3mhGOAH1CLFisdw9j96fnteT
-         2DbA==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+jWb3rEDYYu05FX2EdvpMst1+CvG5FlXLf7h69zzjhw=;
+        b=eBY4QNDxwf8uOPLRmT5d6Z/+j0cSTDhDUNgn+Mu6PfU54J+OA0TKdAfu0VAn90kX6v
+         bb7h9VWSngJiNia2NUwtma6lPC7KV1IiZdkNtf/dE73GFfC+izezfLQ8jwCWx8eoSDNM
+         adyGr6JXweZ9WxxHWSddeX9vKOH21Sobft2DmDAJzIYBy8e5QRnCUsz2Yl/z3cgyX+XS
+         C5cmrshldU8TofKtRuTqRutxeVec75k8kG+NSEbxu9HXFU2kxfb+xE71RQd+tzKWauyp
+         SLFsHXGgwOuzIDWA+G1CBhV5DTTYOOTz9uvORTI6B+9rkFVrl4b7H3/ItgSTiBjf+CR3
+         dl0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VyOwHIx2eFYER6svy54TwgyRrhxCzE5HFZfbjyKkFTY=;
-        b=dTjJvNNZATTYtxlId1ph41vlT48yBxk7eLeUWSYpLAvhqoxbUOKBVjectJFBrOlzVh
-         RNtW6MGzzsoWwkwA3I2HgoEKyxuR7vgrknIUd7N336Nr9lksm79A+MmrIsAk0oAQGr1Q
-         xEP0pktHfwbViGVjiajcu7MuK07PUuDd+FnofWbp59r6amLZjO7ByErchhDCIeFRN19U
-         5C/gOf9YxNsdr1jbk4WVxVH0u2vOdIUZJ5ndZUjTLUXbHcQASmxrc1LUFS/lmoS5JLax
-         vg1GdONFDHvRUy/jpHw4Fn1FqnfVw1ZTTxTwFWL4CLGqq2yHbIaaGSwaPpuHldEl5OPT
-         Nl1g==
-X-Gm-Message-State: ACrzQf3fjExmpjaTtqoHdkSOUxUQaZAspcuQu6YffcyxlnFLqDzqtR+K
-        GUb0S88KGfpm+msDb/8d4VyRCA==
-X-Google-Smtp-Source: AMsMyM7uEpQrCQmOl2lKJhvkvbR44SkmDPc+he6Vt7mjd6PxA45ieuuzM/uNpq1Vl1tAhGRH1XAHnw==
-X-Received: by 2002:a2e:80da:0:b0:277:34b:1bfe with SMTP id r26-20020a2e80da000000b00277034b1bfemr7779668ljg.8.1667985578370;
-        Wed, 09 Nov 2022 01:19:38 -0800 (PST)
-Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
-        by smtp.gmail.com with ESMTPSA id i26-20020a0565123e1a00b00485caa0f5dfsm2142118lfv.44.2022.11.09.01.19.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Nov 2022 01:19:37 -0800 (PST)
-Message-ID: <85a5d025-e72f-aefa-b748-8c19ff247309@linaro.org>
-Date:   Wed, 9 Nov 2022 10:19:36 +0100
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+jWb3rEDYYu05FX2EdvpMst1+CvG5FlXLf7h69zzjhw=;
+        b=mvY0DUyndFxb8qNCwgbhvlKxDRiPAmqS9KdkKO0kB1EwC+oT/zOxoa/eiszs66UuqD
+         61umMmdXD3gditwlNkbMsJjBHZIabLTHv/WlUUsz8Y34Ke38UXtbrwjgvDAnXDxcMvhV
+         LuxKQeX9qndQ7G5ZcoVPykQmRkP6VWHwHfWuBJ71nYSPC2I8asRWkA2FSsVHMOqFXHU5
+         a/G1DImQFY/YXuFFpzw/suz3lywpih+zeEXm01ZSu1yE2QHG+nfVphm7oBgA59JOcqp4
+         AcdMHCatj/q97lQqi+apEnLbhff2Bkycz0Z3N4MiXckvyckkZOsqu36S4A/Hi7zeiFPo
+         nrLw==
+X-Gm-Message-State: ACrzQf1YxU/ELnqIrQDkGLvlifHRgjQ484d0KMxYuLn1NiFj7PW75nJy
+        yVhzX/wZCZM46s35aBA6wX4y6OLBpuE4tw==
+X-Google-Smtp-Source: AMsMyM4WvxFihsVNx5Lu4TdyEARu/gbijY3nDQ1yIino20ltMmFghzJtXLZZKTpYr1Mg8XigYv8gvw==
+X-Received: by 2002:a05:6a00:1823:b0:56b:f348:998f with SMTP id y35-20020a056a00182300b0056bf348998fmr59967518pfa.28.1667988117604;
+        Wed, 09 Nov 2022 02:01:57 -0800 (PST)
+Received: from debian.. (subs32-116-206-28-40.three.co.id. [116.206.28.40])
+        by smtp.gmail.com with ESMTPSA id k4-20020a170902c40400b001869581f7ecsm8711645plk.116.2022.11.09.02.01.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Nov 2022 02:01:57 -0800 (PST)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-next@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] Documentation: media: Add ST VGXY61 driver documentation to userspace API table of contents
+Date:   Wed,  9 Nov 2022 17:01:47 +0700
+Message-Id: <20221109100147.218947-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 6/7] dt-bindings: gpio: add binding for the GPIO block
- for Apple Mac SMC
-Content-Language: en-US
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        asahi@lists.linux.dev, devicetree@vger.kernel.org,
-        Hector Martin <marcan@marcan.st>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sven Peter <sven@svenpeter.dev>
-References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
- <E1osRXi-002mwL-UB@rmk-PC.armlinux.org.uk>
- <3d51c0e2-1e59-5767-4be1-5754ca8dc902@linaro.org>
- <Y2rTmS/gEdtU66b0@shell.armlinux.org.uk>
- <aa665829-82db-74de-d802-e01fd52c998d@linaro.org>
- <Y2tu7ptiYXwB2D79@shell.armlinux.org.uk>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <Y2tu7ptiYXwB2D79@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1150; i=bagasdotme@gmail.com; h=from:subject; bh=XeGaCzt2k4NhEKIDZjyXWzO/o2Not0CUk8FRuA1z7Ds=; b=owGbwMvMwCH2bWenZ2ig32LG02pJDMnZVd0TqyUl1e+u3XfD6Zn6f4/WSfMd2rkf1i6wKLG7XZmQ bP2ro5SFQYyDQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABP5dYPhf/KbL/ldPCmNGSbzOJgMLN 43LS2fvnpupYhAWvqmM885YxkZuhVbPp5lX8Yza+2PqVVXyuQ6W4KyNvzfvrXggPz3+Nx/PAA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/11/2022 10:12, Russell King (Oracle) wrote:
-> On Wed, Nov 09, 2022 at 09:36:12AM +0100, Krzysztof Kozlowski wrote:
->> On 08/11/2022 23:09, Russell King (Oracle) wrote:
->>> On Tue, Nov 08, 2022 at 09:56:40PM +0100, Krzysztof Kozlowski wrote:
->>>> On 08/11/2022 17:33, Russell King (Oracle) wrote:
->>>>> Add the DT binding for the Apple Mac System Management Controller GPIOs.
->>>>>
->>>>> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
->>>>> ---
->>>>>  .../bindings/gpio/apple,smc-gpio.yaml         | 37 +++++++++++++++++++
->>>>>  1 file changed, 37 insertions(+)
->>>>>  create mode 100644 Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml b/Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
->>>>> new file mode 100644
->>>>> index 000000000000..1a415b78760b
->>>>> --- /dev/null
->>>>> +++ b/Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
->>>>> @@ -0,0 +1,37 @@
->>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>>> +%YAML 1.2
->>>>> +---
->>>>> +$id: http://devicetree.org/schemas/gpio/gpio-macsmc.yaml#
->>>>
->>>> Does not look like you tested the bindings. Please run `make
->>>> dt_binding_check` (see
->>>> Documentation/devicetree/bindings/writing-schema.rst for instructions).
->>>
->>> Oh ffs. DT bindings are utterly impossible to get correct.
->>
->> Why? You write, you test and then you see the error. Srsly...
-> 
-> It's utterly impossible for me to remember the dependencies. It's
-> utterly impossible for me to remember the make incantation to test
-> this bloody things - especially as I need to limit it otherwise it
-> takes a very long time to test.
+Sphinx reported missing toctree entry for ST VGXY61 documentation:
 
-Then this is where I can help - you can test just one, specific binding
-or few of them:
+Documentation/userspace-api/media/drivers/st-vgxy61.rst: WARNING: document isn't included in any toctree
 
-make dt_binding_check DT_SCHEMA_FILES=apple,smc-gpio.yaml
+Add the entry to fix the warning.
 
-make dt_binding_check DT_SCHEMA_FILES=apple,smc
+Link: https://lore.kernel.org/linux-next/20221109162013.293250a2@canb.auug.org.au/
+Fixes: 2378be892b6ff5 ("media: Documentation: Add ST VGXY61 driver documentation")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/userspace-api/media/drivers/index.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-So before you format patches, just do `git rebase -i HEAD~7`, change to
-re-word or edit and  go one-by-one testing your bisectability. The same
-we are always doing for regular kernel builds when having a big
-patchset, right? Each commit must compile, not just the last one in
-patchset.
+diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+index 32f82aed47d915..0f758c8d45235a 100644
+--- a/Documentation/userspace-api/media/drivers/index.rst
++++ b/Documentation/userspace-api/media/drivers/index.rst
+@@ -38,4 +38,5 @@ For more details see the file COPYING in the source distribution of Linux.
+ 	max2175
+ 	meye-uapi
+ 	omap3isp-uapi
++	st-vgxy61
+ 	uvcvideo
 
-Or push each of the commit to a service which can do it for you. For
-example, for kernel building (not yet ready for DT binding check) I am
-using something like:
-https://github.com/krzk/tools/tree/master/git-build-kernel
-
-> 
-> The whole bloody thing is just too sodding difficult.
-> 
-> I'm not going to bother with this patch set any more. Too frustrated
-> with this piecemeal approach and the crappy slow tooling and the
-> idiotic incomprehensible error messages it spits out.
-
-Best regards,
-Krzysztof
+base-commit: 1e284ea984d3705e042b6b07469a66f1d43371e3
+-- 
+An old man doll... just what I always wanted! - Clara
 
