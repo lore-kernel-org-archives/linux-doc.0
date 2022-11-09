@@ -2,62 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3804C4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 08:36:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD218C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 09:14:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229927AbiKIIgR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 03:36:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50408 "EHLO
+        id S229831AbiKIJOs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 04:14:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229933AbiKIIgQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 03:36:16 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22DA313DD3
-        for <linux-doc@vger.kernel.org>; Wed,  9 Nov 2022 00:36:15 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id j16so24562406lfe.12
-        for <linux-doc@vger.kernel.org>; Wed, 09 Nov 2022 00:36:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vK9IxPdoGJuzbrNJGX/e/RWzrnoujHXpyqaM+pgnBbM=;
-        b=cPeGKQAvMgayPYCiGKtAPK1gPNYzPZwICN8Kp8lpnQbMw9TA24s+JGqbmrtZycyCpx
-         CNZWJCbJ9c7H+M+cpY50NHAPPcmwI8765qLBKDeCMgSKer3NxNYW3ttI7WgZ36oQV/tf
-         0CEqyWg9bMJz023zU2okJTy7TpLk6AsbQh34AMG0cj5gNSqWmg+pHKE3ZSJfvgjZkXYj
-         XrSdLkvtNV5jHrV387kxzUwP45ks+ZttxGdD+vGektVuTDhcDS9N0NZ78+q3uiTv65R4
-         t3eykadFZzIwbGxgi6plsNSTQFAHF3G5Sya6mtEfUF3KXaVo036vRFhZvkXxN828tDiP
-         Zhlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vK9IxPdoGJuzbrNJGX/e/RWzrnoujHXpyqaM+pgnBbM=;
-        b=T2RSv4gxhihC4PLroKvjPmDLEPh9GhWkv+IMtd4OgXwe/FdU9eeCVyYClSzuAAQy2c
-         +Jmd47jSVkF5aCBP5bGOFxoSGo0PaxHBnt+/6CSPNzFAEHWY3JWhrVFO/OA0cCmFTk5e
-         Bv+m6epS2vBlRPJgZJyRD7f2JfmNvMMZ6yeAyPWjE1SiLLpX/XpwswV9UszShBWfrw4a
-         pXFy+2C26+BFff/kC83ZyEFP7lc7IctJ0icKko9c/T9vrQVimOEnyQ/bGGt7dDVATpqM
-         pnX9aCCANm+eGuGqgAWAHr9sMANkfuSxn81cGB7PgtdH4xEXYUPxomio3Vu4v5S/Mps+
-         KOoQ==
-X-Gm-Message-State: ACrzQf13aBGpf5wkKA38P4QWrLJKfP0GpHJi+Ob5zqA8AS3Mm8HrubS0
-        6MMAPfxl5cxE9V9mriSGPdntDw==
-X-Google-Smtp-Source: AMsMyM68uv63wK0EbNnQkmuEMH+CrM4l78TeZm/qeYXZACgfuIZbAJ+torxeLvUDplUslWBZiew3Jg==
-X-Received: by 2002:a19:5015:0:b0:4b0:3544:d4ae with SMTP id e21-20020a195015000000b004b03544d4aemr23039219lfb.475.1667982973491;
-        Wed, 09 Nov 2022 00:36:13 -0800 (PST)
-Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
-        by smtp.gmail.com with ESMTPSA id 17-20020ac25f51000000b004abc977ad7fsm2111833lfz.294.2022.11.09.00.36.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Nov 2022 00:36:13 -0800 (PST)
-Message-ID: <aa665829-82db-74de-d802-e01fd52c998d@linaro.org>
-Date:   Wed, 9 Nov 2022 09:36:12 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 6/7] dt-bindings: gpio: add binding for the GPIO block
- for Apple Mac SMC
-Content-Language: en-US
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
+        with ESMTP id S229885AbiKIJOO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 04:14:14 -0500
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A6FC222B8;
+        Wed,  9 Nov 2022 01:12:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=7FkDY4oj1rMqWjAFX8ryGroL69XLlGkF+Dk3sIIItkc=; b=jS8KQa6iYyl1mZl9jYXbxIE+f1
+        yDaxqbKVroPuSxw1V06dCavLSTRANfnZAxIBBNdRZ5m/wofYn4D777ru3VpB9ORNMHRM6A0jITtm+
+        2xbh6uA8DrhW0ztoacIrSgAWwTTpFW2fg5iPmJj4kFK4zFsXcfvqrg3jKEBb+Mz/D4bqIGKoHOdN+
+        PY79dV+qctzz6Qt2LNCY4+pzFokF4QLLJHVaupTrJ5pFu+NQpmt0CoIr4acGmhoAejb3ttpE6o/J4
+        BMfDym3GeSAV4cM/KmhuouWiqRhUG1jugfqrVTw+XFl2wXbcjgJZnHdH4/NShTUhJU0yNr3+oowpZ
+        Uh1pkkGQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35188)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1osh8A-0004Gg-2W; Wed, 09 Nov 2022 09:12:23 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1osh82-0005b1-Jp; Wed, 09 Nov 2022 09:12:14 +0000
+Date:   Wed, 9 Nov 2022 09:12:14 +0000
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <brgl@bgdev.pl>,
         Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
@@ -73,48 +52,65 @@ Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Sergey Senozhatsky <senozhatsky@chromium.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH v3 6/7] dt-bindings: gpio: add binding for the GPIO block
+ for Apple Mac SMC
+Message-ID: <Y2tu7ptiYXwB2D79@shell.armlinux.org.uk>
 References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
  <E1osRXi-002mwL-UB@rmk-PC.armlinux.org.uk>
  <3d51c0e2-1e59-5767-4be1-5754ca8dc902@linaro.org>
  <Y2rTmS/gEdtU66b0@shell.armlinux.org.uk>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <Y2rTmS/gEdtU66b0@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <aa665829-82db-74de-d802-e01fd52c998d@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aa665829-82db-74de-d802-e01fd52c998d@linaro.org>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/11/2022 23:09, Russell King (Oracle) wrote:
-> On Tue, Nov 08, 2022 at 09:56:40PM +0100, Krzysztof Kozlowski wrote:
->> On 08/11/2022 17:33, Russell King (Oracle) wrote:
->>> Add the DT binding for the Apple Mac System Management Controller GPIOs.
->>>
->>> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
->>> ---
->>>  .../bindings/gpio/apple,smc-gpio.yaml         | 37 +++++++++++++++++++
->>>  1 file changed, 37 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml b/Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
->>> new file mode 100644
->>> index 000000000000..1a415b78760b
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
->>> @@ -0,0 +1,37 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/gpio/gpio-macsmc.yaml#
->>
->> Does not look like you tested the bindings. Please run `make
->> dt_binding_check` (see
->> Documentation/devicetree/bindings/writing-schema.rst for instructions).
+On Wed, Nov 09, 2022 at 09:36:12AM +0100, Krzysztof Kozlowski wrote:
+> On 08/11/2022 23:09, Russell King (Oracle) wrote:
+> > On Tue, Nov 08, 2022 at 09:56:40PM +0100, Krzysztof Kozlowski wrote:
+> >> On 08/11/2022 17:33, Russell King (Oracle) wrote:
+> >>> Add the DT binding for the Apple Mac System Management Controller GPIOs.
+> >>>
+> >>> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> >>> ---
+> >>>  .../bindings/gpio/apple,smc-gpio.yaml         | 37 +++++++++++++++++++
+> >>>  1 file changed, 37 insertions(+)
+> >>>  create mode 100644 Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
+> >>>
+> >>> diff --git a/Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml b/Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
+> >>> new file mode 100644
+> >>> index 000000000000..1a415b78760b
+> >>> --- /dev/null
+> >>> +++ b/Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
+> >>> @@ -0,0 +1,37 @@
+> >>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >>> +%YAML 1.2
+> >>> +---
+> >>> +$id: http://devicetree.org/schemas/gpio/gpio-macsmc.yaml#
+> >>
+> >> Does not look like you tested the bindings. Please run `make
+> >> dt_binding_check` (see
+> >> Documentation/devicetree/bindings/writing-schema.rst for instructions).
+> > 
+> > Oh ffs. DT bindings are utterly impossible to get correct.
 > 
-> Oh ffs. DT bindings are utterly impossible to get correct.
+> Why? You write, you test and then you see the error. Srsly...
 
-Why? You write, you test and then you see the error. Srsly...
+It's utterly impossible for me to remember the dependencies. It's
+utterly impossible for me to remember the make incantation to test
+this bloody things - especially as I need to limit it otherwise it
+takes a very long time to test.
 
-Best regards,
-Krzysztof
+The whole bloody thing is just too sodding difficult.
 
+I'm not going to bother with this patch set any more. Too frustrated
+with this piecemeal approach and the crappy slow tooling and the
+idiotic incomprehensible error messages it spits out.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
