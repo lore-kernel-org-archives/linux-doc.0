@@ -2,337 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A33DC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 04:16:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E899C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 04:47:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229556AbiKJEQN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 23:16:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35168 "EHLO
+        id S232167AbiKJErl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 23:47:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229516AbiKJEQK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 23:16:10 -0500
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F3CD122;
-        Wed,  9 Nov 2022 20:16:09 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id h193so602528pgc.10;
-        Wed, 09 Nov 2022 20:16:09 -0800 (PST)
+        with ESMTP id S229811AbiKJErj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 23:47:39 -0500
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68C8225C6D
+        for <linux-doc@vger.kernel.org>; Wed,  9 Nov 2022 20:47:38 -0800 (PST)
+Received: by mail-pg1-x531.google.com with SMTP id f63so686071pgc.2
+        for <linux-doc@vger.kernel.org>; Wed, 09 Nov 2022 20:47:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ibH+9/2oBv8UQhaAePpj6pNOE/HnnRoQrnoLynsSf08=;
-        b=CDQH0w0HLWpmKQkHCzLAcKOi7i1d1fXXGcYSZ8ucdgpvVeKLrJdm3yGC7EpwYTzPae
-         zMeA9DUR1sQbvLYN05T74ubb5FtHDm45QiamOsWyheeVaduvl6TXr5ZSDan4tlda64Rm
-         WNGlmG+F6tSxrGUwvy14VNexs+hQLPWpyHEQgfBl16VPn/UtefVSnjWr/dHOZaZhyxMt
-         c6FdEOFjcoHMaHGYNOL+nv1cNZScXK/dpQkNexuaBWqG1ooqRXyzNhfxNUVi6xOSdj5t
-         RNVA3GjPf6/E9iNdXy5CoLPZTU1tf8w9TtC6JKtEa4yiqncILvQm5aTZIFqsOr1IKn6Q
-         BQww==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sj8wNl0C9PC/zOv2XJt8nA/5SMVTgoTRqXcZ5Z4tzIk=;
+        b=Gh8kF88uBhB9HnMImspkPpjsknFP9/ULBYIRZrBVgNeLP52LCYRPyQqxCqQOCwZYlC
+         YALYtdSgRJ0qAVlU+fCj7rNgKmgqHN359Me6Xrb/g3AdKzC5gdLr2klBeJG/gP2UXl8Q
+         sf/LSGN/sLnyc1p8CjugPgtCPZrldgiVo7hhI5VH77b3e2jHq0K/q7XsboB4zS9fSujO
+         2I9VnKtPW1MIBGpb+fvE+sCEeIyC7GtAuithJcXjngPwURBbLqew3DoOHOhOK59p/Yc1
+         7EUKj2ReFEhp2NclJa9Rc4p1HStOZ4UTD2L8LQtspvSW4dJihG0FdA/jM3MvuezCU7bz
+         Evyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ibH+9/2oBv8UQhaAePpj6pNOE/HnnRoQrnoLynsSf08=;
-        b=kUE/3ORdsLerlEOp9MjzPk+q7GDEbZjZSgBTVv6lj9aCxydLlzi9ZihWMHgVHXWP6C
-         DPFCLdDJVNMlkaNxv0YCUfcGqTN2NwPSw+QKXf2rkima1Cj2yt053z+NKs1t05Zoc9aQ
-         gHE+q93uN1hSdzfDw/BGpD+s46/bOiEnk38CRMHa05kJ7nbms9Kofa/H20JOrBLqDUCW
-         /W7taLUvm00lf+dkN2HcejKSgmoDib2u2Pwm7Tv9bFZxWqmlMpxvUjmjQgzAVVAXVIfB
-         LG3dUVkgyzCzCJdjqnplKmMXqUOihuPC8uXbftz7lw2NWKJ9XWwVQnlzLqncgg7QIgBu
-         VN+g==
-X-Gm-Message-State: ACrzQf2F+W8cUdHW7ukLhXaGCiIQ3grwHWsJuWYVMFJ+uXiNRP2+S2nb
-        JEd70rSC04RJu2SXsxEBiGA=
-X-Google-Smtp-Source: AMsMyM7hJthTt96ds7awLiIDlO9v0DT2cC7u4hjqbFNLxWoZPX8IfZFz7CSBGj9HuisE1Q3diTUBKQ==
-X-Received: by 2002:a63:505d:0:b0:470:275b:aff3 with SMTP id q29-20020a63505d000000b00470275baff3mr1504945pgl.522.1668053768733;
-        Wed, 09 Nov 2022 20:16:08 -0800 (PST)
-Received: from debian.me (subs28-116-206-12-34.three.co.id. [116.206.12.34])
-        by smtp.gmail.com with ESMTPSA id fr14-20020a17090ae2ce00b00214247989dfsm2077196pjb.13.2022.11.09.20.16.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 20:16:08 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 9D0FA1037F0; Thu, 10 Nov 2022 11:16:05 +0700 (WIB)
-Date:   Thu, 10 Nov 2022 11:16:05 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Yicong Yang <yangyicong@huawei.com>
-Cc:     Shaokun Zhang <zhangshaokun@hisilicon.com>, liuqi6124@gmail.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        John Garry <john.garry@huawei.com>,
-        jonathan.cameron@huawei.com, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linuxarm@huawei.com, f.fangjian@huawei.com, prime.zeng@huawei.com
-Subject: Re: [PATCH 3/3] drivers/perf: hisi: Add TLP filter support
-Message-ID: <Y2x7Bfb12nwcCfL0@debian.me>
-References: <20221025113242.58271-1-yangyicong@huawei.com>
- <20221025113242.58271-4-yangyicong@huawei.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sj8wNl0C9PC/zOv2XJt8nA/5SMVTgoTRqXcZ5Z4tzIk=;
+        b=D4ueslL/geqUWIzR/broeQ4fcv9nHupiJ2EyXiLDaJquVrQRolfWfTu3y4Jtmq0Iqh
+         rDX6YNVRJugP7ZLRF8MuhoKCseewn/xj3VdN7n0p4vRdjUQOlWmgwdKaMwDfBzkt+a2B
+         rhtrkHW5wLYxViWaneMnceZnu8n5wE9Ct5xO+8mTXhPAFXT4WtYI+rByjABjVm+TF94O
+         3/P3YfwgyC8Wk/Aawcf62m62F/PcyyS32Uk7ObbBICEko2E5AKoPoTA363n6G0i61TiO
+         m8n7iCkNwNlT75rSRbNVAbjeDj60H4LEuAPdOlesVTtDmaa/fGVJXBgvG+ak9IIN2MS3
+         +0sQ==
+X-Gm-Message-State: ACrzQf1jy9vfKaWua2mfBmPffiWrOhgFcmuTPD/9YMHvbI9ZM7czmR5H
+        c2ZpqKx/5/ciGoY5jpBZbga4JMH7WCq8hwDFWnMvjg==
+X-Google-Smtp-Source: AMsMyM52e4/tCYL5lYWN2KRPu0ZCHV+FC9Vtib9AbB/WFNG054nqHRmiS9UH70RBix7QF7qTnRR0HJAyWfOm/XGh1vI=
+X-Received: by 2002:a63:d44c:0:b0:470:1a08:248d with SMTP id
+ i12-20020a63d44c000000b004701a08248dmr1588270pgj.393.1668055657785; Wed, 09
+ Nov 2022 20:47:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="2p+HDPuYjcR8N+5y"
-Content-Disposition: inline
-In-Reply-To: <20221025113242.58271-4-yangyicong@huawei.com>
+References: <20221109003618.3784591-1-dlatypov@google.com>
+In-Reply-To: <20221109003618.3784591-1-dlatypov@google.com>
+From:   Sadiya Kazi <sadiyakazi@google.com>
+Date:   Thu, 10 Nov 2022 10:17:26 +0530
+Message-ID: <CAO2JNKUrTqn_2drc0k5nQH5DO+8uPG8MY7=+u8fkS4C9zvFphw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] Documentation: KUnit: make usage.rst a superset of
+ tips.rst, remove duplication
+To:     Daniel Latypov <dlatypov@google.com>
+Cc:     brendanhiggins@google.com, davidgow@google.com, rmoar@google.com,
+        linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Nov 9, 2022 at 6:06 AM 'Daniel Latypov' via KUnit Development
+<kunit-dev@googlegroups.com> wrote:
+>
+> usage.rst had most of the content of the tips.rst page copied over.
+> But it's missing https://www.kernel.org/doc/html/v6.0/dev-tools/kunit/tips.html#customizing-error-messages
+> Copy it over so we can retire tips.rst w/o losing content.
+>
+> And in that process, it also gained a duplicate section about how
+> KUNIT_ASSERT_*() exit the test case early. Remove that.
+>
+> Signed-off-by: Daniel Latypov <dlatypov@google.com>
+> ---
 
---2p+HDPuYjcR8N+5y
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks Daniel. This looks fine to me.
+Reviewed-by: Sadiya Kazi <sadiyakazi@google.com>
 
-On Tue, Oct 25, 2022 at 07:32:42PM +0800, Yicong Yang wrote:
-> +4. TLP Length filter
-> +When counting bandwidth, the data can be composed of certain parts of TLP
-> +packets. You can specify it through "len_mode":
+Best Regards,
+Sadiya
+
+>  Documentation/dev-tools/kunit/usage.rst | 49 ++++++++++++++++---------
+>  1 file changed, 31 insertions(+), 18 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+> index 2737863ef365..b0a6c3bc0eeb 100644
+> --- a/Documentation/dev-tools/kunit/usage.rst
+> +++ b/Documentation/dev-tools/kunit/usage.rst
+> @@ -118,6 +118,37 @@ expectation could crash the test case. `ASSERT_NOT_ERR_OR_NULL(...)` allows us
+>  to bail out of the test case if the appropriate conditions are not satisfied to
+>  complete the test.
+>
+> +Customizing error messages
+> +--------------------------
 > +
-> +- 2'b00: Reserved (Do not use this since the behaviour is undefined)
-> +- 2'b01: Bandwidth of TLP payloads
-> +- 2'b10: Bandwidth of TLP headers
-> +- 2'b11: Bandwidth of both TLP payloads and headers
+> +Each of the ``KUNIT_EXPECT`` and ``KUNIT_ASSERT`` macros have a ``_MSG``
+> +variant.  These take a format string and arguments to provide additional
+> +context to the automatically generated error messages.
 > +
-> +For example, "len_mode=3D2" means only counting the bandwidth of TLP hea=
-ders
-> +and "len_mode=3D3" means the final bandwidth data is composed of both TLP
-> +headers and payloads. You need to carefully using this to avoid losing
-> +data. For example you're likely to get no counts by "len_mode=3D1" if th=
-e TLPs
-> +on the traffic has no payload. This config is optional, by default it'll
-> +be 2'b11.
+> +.. code-block:: c
 > +
-> +Example usage of perf::
+> +       char some_str[41];
+> +       generate_sha1_hex_string(some_str);
 > +
-> +  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,len_mode=3D0x1/ sleep 5
-
-The indentation is rather ugly, so I have applied the fixup:
-
----- >8 ----
-
-diff --git a/Documentation/admin-guide/perf/hisi-pcie-pmu.rst b/Documentati=
-on/admin-guide/perf/hisi-pcie-pmu.rst
-index 83a2ef11b1a08d..bae690dddbebfd 100644
---- a/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
-+++ b/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
-@@ -106,21 +106,22 @@ Example usage of perf::
-   $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,thr_len=3D0x4,thr_mode=3D1/=
- sleep 5
-=20
- 4. TLP Length filter
--When counting bandwidth, the data can be composed of certain parts of TLP
--packets. You can specify it through "len_mode":
-=20
--- 2'b00: Reserved (Do not use this since the behaviour is undefined)
--- 2'b01: Bandwidth of TLP payloads
--- 2'b10: Bandwidth of TLP headers
--- 2'b11: Bandwidth of both TLP payloads and headers
-+   When counting bandwidth, the data can be composed of certain parts of T=
-LP
-+   packets. You can specify it through "len_mode":
-=20
--For example, "len_mode=3D2" means only counting the bandwidth of TLP heade=
-rs
--and "len_mode=3D3" means the final bandwidth data is composed of both TLP
--headers and payloads. You need to carefully using this to avoid losing
--data. For example you're likely to get no counts by "len_mode=3D1" if the =
-TLPs
--on the traffic has no payload. This config is optional, by default it'll
--be 2'b11.
-+   - 2'b00: Reserved (Do not use this since the behaviour is undefined)
-+   - 2'b01: Bandwidth of TLP payloads
-+   - 2'b10: Bandwidth of TLP headers
-+   - 2'b11: Bandwidth of both TLP payloads and headers
-=20
--Example usage of perf::
-+   For example, "len_mode=3D2" means only counting the bandwidth of TLP he=
-aders
-+   and "len_mode=3D3" means the final bandwidth data is composed of both T=
-LP
-+   headers and payloads. You need to carefully using this to avoid losing
-+   data. For example you're likely to get no counts by "len_mode=3D1" if t=
-he TLPs
-+   on the traffic has no payload. This config is optional, by default it'll
-+   be 2'b11.
-=20
--  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,len_mode=3D0x1/ sleep 5
-+   Example usage of perf::
-+
-+     $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,len_mode=3D0x1/ sleep 5
-
-Also, for formatting consistency, you need to pick up the fix for rest of
-documentation (as separate patch in your series):
-
----- >8 ----
-
-=46rom 5f286aceb959a7c70a56cb5c453d3ac0b844fb49 Mon Sep 17 00:00:00 2001
-=46rom: Bagas Sanjaya <bagasdotme@gmail.com>
-Date: Thu, 10 Nov 2022 11:03:08 +0700
-Subject: [PATCH] Documentation: perf: Indent filter options list
-
-The "Filter options" list have a rather ugly indentation. Also, the first
-paragraph after list name is rendered without separator (as continuation
-=66rom the name).
-
-Align the list by indenting the list items and add a blank line
-separator for each list name.
-
-Fixes: c8602008e247f5 ("docs: perf: Add description for HiSilicon PCIe PMU =
-driver")
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- .../admin-guide/perf/hisi-pcie-pmu.rst        | 80 ++++++++++---------
- 1 file changed, 43 insertions(+), 37 deletions(-)
-
-diff --git a/Documentation/admin-guide/perf/hisi-pcie-pmu.rst b/Documentati=
-on/admin-guide/perf/hisi-pcie-pmu.rst
-index bae690dddbebfd..54fab870a2aefb 100644
---- a/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
-+++ b/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
-@@ -48,62 +48,68 @@ Filter options
- --------------
-=20
- 1. Target filter
--PMU could only monitor the performance of traffic downstream target Root P=
-orts
--or downstream target Endpoint. PCIe PMU driver support "port" and "bdf"
--interfaces for users, and these two interfaces aren't supported at the same
--time.
-=20
---port
--"port" filter can be used in all PCIe PMU events, target Root Port can be
--selected by configuring the 16-bits-bitmap "port". Multi ports can be sele=
-cted
--for AP-layer-events, and only one port can be selected for TL/DL-layer-eve=
-nts.
-+   PMU could only monitor the performance of traffic downstream target Root
-+   Ports or downstream target Endpoint. PCIe PMU driver support "port" and
-+   "bdf" interfaces for users, and these two interfaces aren't supported a=
-t the
-+   same time.
-=20
--For example, if target Root Port is 0000:00:00.0 (x8 lanes), bit0 of bitmap
--should be set, port=3D0x1; if target Root Port is 0000:00:04.0 (x4 lanes),
--bit8 is set, port=3D0x100; if these two Root Ports are both monitored, por=
-t=3D0x101.
-+   - port
-=20
--Example usage of perf::
-+     "port" filter can be used in all PCIe PMU events, target Root Port ca=
-n be
-+     selected by configuring the 16-bits-bitmap "port". Multi ports can be
-+     selected for AP-layer-events, and only one port can be selected for
-+     TL/DL-layer-events.
-=20
--  $# perf stat -e hisi_pcie0_core0/rx_mwr_latency,port=3D0x1/ sleep 5
-+     For example, if target Root Port is 0000:00:00.0 (x8 lanes), bit0 of
-+     bitmap should be set, port=3D0x1; if target Root Port is 0000:00:04.0=
- (x4
-+     lanes), bit8 is set, port=3D0x100; if these two Root Ports are both
-+     monitored, port=3D0x101.
-=20
---bdf
-+     Example usage of perf::
-=20
--"bdf" filter can only be used in bandwidth events, target Endpoint is sele=
-cted
--by configuring BDF to "bdf". Counter only counts the bandwidth of message
--requested by target Endpoint.
-+       $# perf stat -e hisi_pcie0_core0/rx_mwr_latency,port=3D0x1/ sleep 5
-=20
--For example, "bdf=3D0x3900" means BDF of target Endpoint is 0000:39:00.0.
-+   - bdf
-=20
--Example usage of perf::
-+     "bdf" filter can only be used in bandwidth events, target Endpoint is
-+     selected by configuring BDF to "bdf". Counter only counts the bandwid=
-th of
-+     message requested by target Endpoint.
-=20
--  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,bdf=3D0x3900/ sleep 5
-+     For example, "bdf=3D0x3900" means BDF of target Endpoint is 0000:39:0=
-0.0.
-+
-+     Example usage of perf::
-+
-+       $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,bdf=3D0x3900/ sleep 5
-=20
- 2. Trigger filter
--Event statistics start when the first time TLP length is greater/smaller
--than trigger condition. You can set the trigger condition by writing "trig=
-_len",
--and set the trigger mode by writing "trig_mode". This filter can only be u=
-sed
--in bandwidth events.
-=20
--For example, "trig_len=3D4" means trigger condition is 2^4 DW, "trig_mode=
-=3D0"
--means statistics start when TLP length > trigger condition, "trig_mode=3D1"
--means start when TLP length < condition.
-+   Event statistics start when the first time TLP length is greater/smaller
-+   than trigger condition. You can set the trigger condition by writing
-+   "trig_len", and set the trigger mode by writing "trig_mode". This filte=
-r can
-+   only be used in bandwidth events.
-=20
--Example usage of perf::
-+   For example, "trig_len=3D4" means trigger condition is 2^4 DW, "trig_mo=
-de=3D0"
-+   means statistics start when TLP length > trigger condition, "trig_mode=
-=3D1"
-+   means start when TLP length < condition.
-=20
--  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,trig_len=3D0x4,trig_mode=3D=
-1/ sleep 5
-+   Example usage of perf::
-+
-+     $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,trig_len=3D0x4,trig_mode=
-=3D1/ sleep 5
-=20
- 3. Threshold filter
--Counter counts when TLP length within the specified range. You can set the
--threshold by writing "thr_len", and set the threshold mode by writing
--"thr_mode". This filter can only be used in bandwidth events.
-=20
--For example, "thr_len=3D4" means threshold is 2^4 DW, "thr_mode=3D0" means
--counter counts when TLP length >=3D threshold, and "thr_mode=3D1" means co=
-unts
--when TLP length < threshold.
-+   Counter counts when TLP length within the specified range. You can set =
-the
-+   threshold by writing "thr_len", and set the threshold mode by writing
-+   "thr_mode". This filter can only be used in bandwidth events.
-=20
--Example usage of perf::
-+   For example, "thr_len=3D4" means threshold is 2^4 DW, "thr_mode=3D0" me=
-ans
-+   counter counts when TLP length >=3D threshold, and "thr_mode=3D1" means=
- counts
-+   when TLP length < threshold.
-=20
--  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,thr_len=3D0x4,thr_mode=3D1/=
- sleep 5
-+   Example usage of perf::
-+
-+     $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,thr_len=3D0x4,thr_mode=
-=3D1/ sleep 5
-=20
- 4. TLP Length filter
-=20
---=20
-An old man doll... just what I always wanted! - Clara
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---2p+HDPuYjcR8N+5y
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY2x7BQAKCRD2uYlJVVFO
-o7GiAQCte9McVZRNU0b+HErtRh1Oqr0wZG5WlOJDwuYfBjz4JQD+NXo2dzMSVbxt
-fy0JhHL/O0TRXMuHtOZ3eaDkn51cYQI=
-=E+W+
------END PGP SIGNATURE-----
-
---2p+HDPuYjcR8N+5y--
+> +       /* Before. Not easy to tell why the test failed. */
+> +       KUNIT_EXPECT_EQ(test, strlen(some_str), 40);
+> +
+> +       /* After. Now we see the offending string. */
+> +       KUNIT_EXPECT_EQ_MSG(test, strlen(some_str), 40, "some_str='%s'", some_str);
+> +
+> +Alternatively, one can take full control over the error message by using
+> +``KUNIT_FAIL()``, e.g.
+> +
+> +.. code-block:: c
+> +
+> +       /* Before */
+> +       KUNIT_EXPECT_EQ(test, some_setup_function(), 0);
+> +
+> +       /* After: full control over the failure message. */
+> +       if (some_setup_function())
+> +               KUNIT_FAIL(test, "Failed to setup thing for testing");
+> +
+> +
+>  Test Suites
+>  ~~~~~~~~~~~
+>
+> @@ -546,24 +577,6 @@ By reusing the same ``cases`` array from above, we can write the test as a
+>                 {}
+>         };
+>
+> -Exiting Early on Failed Expectations
+> -------------------------------------
+> -
+> -We can use ``KUNIT_EXPECT_EQ`` to mark the test as failed and continue
+> -execution.  In some cases, it is unsafe to continue. We can use the
+> -``KUNIT_ASSERT`` variant to exit on failure.
+> -
+> -.. code-block:: c
+> -
+> -       void example_test_user_alloc_function(struct kunit *test)
+> -       {
+> -               void *object = alloc_some_object_for_me();
+> -
+> -               /* Make sure we got a valid pointer back. */
+> -               KUNIT_ASSERT_NOT_ERR_OR_NULL(test, object);
+> -               do_something_with_object(object);
+> -       }
+> -
+>  Allocating Memory
+>  -----------------
+>
+>
+> base-commit: 6fe1ad4a156095859721fef85073df3ed43081d4
+> --
+> 2.38.1.431.g37b22c650d-goog
+>
+> --
+> You received this message because you are subscribed to the Google Groups "KUnit Development" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kunit-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kunit-dev/20221109003618.3784591-1-dlatypov%40google.com.
