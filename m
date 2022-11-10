@@ -2,45 +2,45 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07313C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 13:02:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60CEAC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 13:04:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229890AbiKJNCG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Nov 2022 08:02:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57094 "EHLO
+        id S230005AbiKJNEM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Nov 2022 08:04:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230062AbiKJNCF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 08:02:05 -0500
-Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFE0C701B7;
-        Thu, 10 Nov 2022 05:02:02 -0800 (PST)
-Message-ID: <618523aa-58bf-229c-19ef-eb752937e9ad@lirui.org>
+        with ESMTP id S230152AbiKJNEK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 08:04:10 -0500
+Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3F2C554F4;
+        Thu, 10 Nov 2022 05:04:07 -0800 (PST)
+Message-ID: <77cb65e1-d032-b7e3-e806-c663be8daea3@lirui.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
-        t=1668085321;
+        t=1668085446;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ATm4kAH7JE8hj5bSRwpeVJYUJXALD5eBvNbcqQ5KEok=;
-        b=i+KZWU8vL9h9Jzf74xxQxeAssbFKqevbDRdzEo3O8v6TVo9thSoMDoniwZ6tTlqMUBcMm8
-        hdRNAW0PfYZQJnUnBhTQEVvfRTi100MxNqJGyzN55/K+nALlg449uHSiUbNT4bRcqKQQg4
-        h2lY5PxPtpIJ8EgqQGcmrndfIknYC+nMZQf5OrQ+18Cfmh1OYwgikP22rQeFy1vU3C+c4O
-        ZICHZveYu+GHNpSpwC7JQGrHGOYAvAIs68ol5FDq0UVPeyeHuhJ+4jaCMqm9DOCUuwvab/
-        OsrB7mBr0UVoQw5zbruH7KTw/u5sG0/0yi9RZ9V8Vs7dedkFoZRB3LwYAfZyMQ==
-Date:   Thu, 10 Nov 2022 21:01:49 +0800
+        bh=gBCxljvJFZuUWwu9LUQoEPabdUF1Vyq8pG5TY2+2zao=;
+        b=U1qf/fl688R5olFTaD1BjMcoJ3Z7QWUAvKs36aDEfOCdWIydp3wtyQH0GvLUiQRPIenWeH
+        phYjvBa5nYHKNDMCzSEj/kIZz1TYuvqr6+vM2Obu83d4NgcaSOem29Mf7lstM97E+R3TEK
+        irxJGV0OBOEAi1hnzdQgh+9OzX7elCfSQ5pDRBJu6boWLv88Xut5QlcNIu/FpbYQ40yEKo
+        0Yo2QvDrkAuTSVpxKzj9soa+zSi+918epmqRddFWiJlrRgiXIdwNASkHVkSskvtJg1kdtN
+        vs5RoTY9SDuKyImgdozrrKhT9xvaefYGFiax8biH+Kiu7cQNifVa7Gye8ekuNQ==
+Date:   Thu, 10 Nov 2022 21:03:53 +0800
 MIME-Version: 1.0
-Subject: Re: [PATCH] docs/zh_CN: Add userspace-api/accelerators/ocxl Chinese
- translation
-To:     Wu XiangCheng <wu.xiangcheng@linux.dev>
-Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20221110062609.377848-1-me@lirui.org>
- <Y2zrKAZL38i48SA5@bobwxc.mipc>
+Subject: Re: [PATCH] docs/zh_CN: Add userspace-api/futex2 Chinese translation
 Content-Language: en-US
+To:     Alex Shi <seakeel@gmail.com>
+Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Wu XiangCheng <wu.xiangcheng@linux.dev>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221105041741.288094-1-me@lirui.org>
+ <CAJy-Am=QiK-YuntZvbVyhVatY4t3b0CFkmi2c7PTX-gomS7MYw@mail.gmail.com>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From:   Rui Li <me@lirui.org>
-In-Reply-To: <Y2zrKAZL38i48SA5@bobwxc.mipc>
+In-Reply-To: <CAJy-Am=QiK-YuntZvbVyhVatY4t3b0CFkmi2c7PTX-gomS7MYw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -48,164 +48,136 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/11/10 20:14, Wu XiangCheng wrote:
+On 2022/11/10 17:23, Alex Shi wrote:
+> On Sat, Nov 5, 2022 at 12:18 PM Rui Li <me@lirui.org> wrote:
 >> Translate the following documents into Chinese:
 >>
->> - userspace-api/accelerators/ocxl.rst
+>> - userspace-api/futex2.rst
 >>
 >> Signed-off-by: Rui Li <me@lirui.org>
 >> ---
->>  .../zh_CN/userspace-api/accelerators/ocxl.rst | 168 ++++++++++++++++++
->>  .../zh_CN/userspace-api/index.rst             |   2 +-
->>  2 files changed, 169 insertions(+), 1 deletion(-)
->>  create mode 100644 Documentation/translations/zh_CN/userspace-api/accelerators/ocxl.rst
+>>  .../zh_CN/userspace-api/futex2.rst            | 80 +++++++++++++++++++
+>>  .../zh_CN/userspace-api/index.rst             |  2 +-
+>>  2 files changed, 81 insertions(+), 1 deletion(-)
+>>  create mode 100644 Documentation/translations/zh_CN/userspace-api/futex2.rst
 >>
->> diff --git a/Documentation/translations/zh_CN/userspace-api/accelerators/ocxl.rst b/Documentation/translations/zh_CN/userspace-api/accelerators/ocxl.rst
+>> diff --git a/Documentation/translations/zh_CN/userspace-api/futex2.rst b/Documentation/translations/zh_CN/userspace-api/futex2.rst
 >> new file mode 100644
->> index 000000000000..274dcf4667db
+>> index 000000000000..04f9d62db1f7
 >> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/userspace-api/accelerators/ocxl.rst
->> @@ -0,0 +1,168 @@
+>> +++ b/Documentation/translations/zh_CN/userspace-api/futex2.rst
+>> @@ -0,0 +1,80 @@
 >> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: ../../disclaimer-zh_CN.rst
+>> +.. include:: ../disclaimer-zh_CN.rst
 >> +
->> +:Original: Documentation/userspace-api/accelerators/ocxl.rst
+>> +:Original: Documentation/userspace-api/futex2.rst
 >> +
 >> +:翻译:
 >> +
 >> + 李睿 Rui Li <me@lirui.org>
 >> +
->> +=====================================
->> +OpenCAPI （开放相干加速器处理器接口）
->> +=====================================
+>> +======
+>> +futex2
+>> +======
 >> +
->> +*OpenCAPI: Open Coherent Accelerator Processor Interface*
+>> +:作者: André Almeida <andrealmeid@collabora.com>
 >> +
->> +OpenCAPI是处理器和加速器之间的一个接口，致力于达到低延迟和高带宽。该规范
->> +由 `OpenCAPI Consortium <http://opencapi.org/>`_ 开发。
+>> +futex，或者称为快速用户互斥锁（fast user mutex），是一组允许用户空间创建高性能同步
+>> +机制的系统调用，比如用户空间中的互斥锁，信号量和条件变量。C标准库，如glibc，使用它作
+>> +为实现更多高级接口的方式，如pthreads。
 >> +
->> +它允许加速器（可以是FPGA、ASIC等）使用虚拟地址连贯地访问主机内存。一个OpenCAPI
->> +设备也可以托管它自己的内存，并可以由主机访问。
->> +
->> +OpenCAPI在Linux中称为“ocxl”，它作为“cxl”的开放、处理器无关的演进，这么命
-> missed:
-> 	'cxl' (the driver for the IBM CAPI interface for powerpc)
->
->> +名是为了避免与ISDN CAPI子系统相混淆。
->> +
->> +
->> +高层视角
->> +========
->> +
->> +OpenCAPI定义了一个在物理链路层上实现的数据链路层（TL）和传输层（TL）。任何
->> +实现DL和TL的处理器或者设备都可以开始共享内存。
->> +
->> +::
->> +
->> +  +-----------+                         +-------------+
->> +  |           |                         |             |
->> +  |           |                         | Accelerated |
->> +  | Processor |                         |  Function   |
->> +  |           |  +--------+             |    Unit     |  +--------+
->> +  |           |--| Memory |             |    (AFU)    |--| Memory |
->> +  |           |  +--------+             |             |  +--------+
->> +  +-----------+                         +-------------+
->> +       |                                       |
->> +  +-----------+                         +-------------+
->> +  |    TL     |                         |    TLX      |
->> +  +-----------+                         +-------------+
->> +       |                                       |
->> +  +-----------+                         +-------------+
->> +  |    DL     |                         |    DLX      |
->> +  +-----------+                         +-------------+
->> +       |                                       |
->> +       |                   PHY                 |
->> +       +---------------------------------------+
->> +
->> +  Processor：处理器
->> +  Memory：内存
->> +  Accelerated Function Unit：加速函数单元
->> +
->> +
->> +
->> +设备发现
->> +========
->> +
->> +OpenCAPI依赖一个在设备上实现的与PCI类似的配置空间。因此主机可以通过查询
->> +配置空间来发现AFU。
->> +
->> +OpenCAPI设备在Linux中被当作PCI设备（有一些注意事项）。固件需要对硬件进行
-> 类PCI设备
->
->> +抽象，就好像它是一个PCI链路。许多已有的PCI架构被重用：在模拟标准PCI时，
->> +设备被扫描并且BAR（基址寄存器）被分配。像“lspci”的命令因此可以被用于查看
->> +哪些设备可用。
->> +
->> +配置空间定义了可以在物理适配器上可以被找到的AFU，比如它的名字、支持多少内
->> +存上下文、内存映射IO（MMIO）区域的大小等。
->> +
->> +
->> +
->> +MMIO
->> +====
->> +
->> +OpenCAPI为每个AFU定义了两个MMIO区域：
->> +
->> +* 全局MMIO区域，保存和整个AFU相关的寄存器。
->> +* 每个进程的MMIO区域，对于每个上下文固定大小。
->> +
->> +
->> +
->> +AFU中断
->> +=======
->> +
->> +OpenCAPI拥有AFU向主机进程发送中断的可能性。它通过定义在传输层的“intrp_req”
->> +来完成，指定一个定义中断的64位对象句柄。
->> +
->> +驱动允许一个进程分配中断并获取可以传递给AFU的64位对象句柄。
->> +
->> +
->> +
->> +字符设备
->> +========
->> +
->> +驱动为每个在物理设备上发现的AFU创建一个字符设备。一个物理设备可能拥有多个
->> +函数，一个函数可以拥有多个AFU。不过编写这篇文档之时，只对导出一个AFU的设备
->> +测试过。
->> +
->> +字符设备可以在 /dev/ocxl/ 中被找到，其命名为：
->> +/dev/ocxl/<AFU 名称>.<位置>.<索引>
->> +
->> +<AFU 名称> 是一个最长20个字符的名称，和在AFU配置空间中找到的相同。
->> +<位置>由驱动添加，可在系统有不止一个相同的OpenCAPI设备时帮助区分设备。
->> +<索引>也是为了在少见情况下帮助区分AFU，即设备携带多个同样的AFU副本时。
->> +
->> +
->> +
->> +Sysfs 类
->> +=========
-> Sysfs类
-> =======
->
->> +
->> +添加了代表AFU的ocxl类。查看/sys/class/ocxl。布局在
->> +Documentation/ABI/testing/sysfs-class-ocxl 中描述。
->> +
->> +
+>> +futex2是初代futex系统调用的后续版本，旨在克服原有接口的限制。
 >> +
 >> +用户API
 >> +=======
 >> +
->> +开放
-> 打开
+>> +``futex_waitv()``
+>> +-----------------
+>> +
+>> +等待一个futex数组，可由其中任意一个唤醒::
+>> +
+>> +  futex_waitv(struct futex_waitv *waiters, unsigned int nr_futexes,
+>> +              unsigned int flags, struct timespec *timeout, clockid_t clockid)
+>> +
+>> +  struct futex_waitv {
+>> +        __u64 val;
+>> +        __u64 uaddr;
+>> +        __u32 flags;
+>> +        __u32 __reserved;
+>> +  };
+>> +
+>> +用户空间设置一个struct futex_waitv数组（最多128项），设置 ``uaddr`` 为等待的
+>> +地址， ``val`` 为期望值， ``flags`` 为指定的类型（如private）和futex的大小。
+>> +``__reserved`` 需要置为0，但是它可用作未来扩展。指向数组第一个元素的指针作为
+>> +``waiters`` 传递。如果 ``waiters`` 或任何的  ``uaddr`` 地址无效，将返回 ``-EFAULT`` 。
+>> +
+>> +如果用户空间拥有32位的指针，那么需要做显式转换来保证高位清零。 ``uintptr_t`` 设计
+>> +得很精巧，在32/64位的指针上都正常工作。
+>> +
+>> +``nr_futexes`` 指定了数组的大小。不在[1,128]区间内的值会使系统调用返回 ``-EINVAL`` 。
+>> +
+>> +系统调用的 ``flags`` 参数需要置0，但可用作未来扩展。
+>> +
+>> +对于每个 ``waiters`` 数组中的项，在 ``uaddr`` 的当前值会和 ``val`` 比较。如果
+>> +不一致，系统调用会撤销截至目前完成的所有工作，并返回 ``-EAGAIN`` 。如果所有测试
+>> +和验证都通过，系统调用会等待直到以下情况之一发生：
+>> +
+>> +- 指定的timeout超时，返回 ``-ETIMEOUT`` 。
+>> +- 一个信号被传递给睡眠中的任务，返回 ``-ERESTARTSYS`` 。
+>> +- 某个列表中的futex被唤醒，返回那个被唤醒的futex的索引。
+>> +
+>> +关于如何使用接口的例子可以在 ``tools/testing/selftests/futex/functional/futex_waitv.c``
+>> +中找到。
+>> +
+>> +超时
+>> +----
+>> +
+>> +``struct timespec *timeout`` 是一个指向绝对超时时间的可选参数。你需要在 ``clockid``
+>> +参数中指定要使用的时钟类型。支持 ``CLOCK_MONOTONIC`` 和 ``CLOCK_REALTIME`` 。这个
+>> +系统调用只接受64位的timespec结构体。
+>> +
+>> +futex的类型
+>> +-----------
+>> +
+>> +futex既可以是私有的也可以是共享的。私有用于多个进程共享同样的内存空间，并且futex的虚拟
+>> +地址对所有进程都是一样的。这允许在内核中进行优化。要使用私有futex，需要在futex标志中指定
+>> +``FUTEX_PRIVATE_FLAG`` 。对于那些不在同一内存空间共享的进程，可以让同一个futex拥有不同
+>> +的虚拟地址（例如使用基于文件的共享内存），这需要不同的内部机制来使得正确进入队列。这是默认
+>> +的行为，而且对私有futex和共享futex都适用。
+> Good job. Just "这需要不同的内部机制来使得正确进入队列" is a bit odd. could you repolish it?
 >
+> To others:
+> Reviewed-by: Alex Shi <alexs@kernel.org>
 >
-> Thanks,
+> Thanks
 >
->
-Oops, thanks for correction. I will send updated one later.
-
-Thanks.
+>> +
+>> +futex可以是不同的大小：8，16，32或64位。目前只支持32位大小的futex，并且需要通过 ``FUTEX_32``
+>> +标志指定。
+>> diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
+>> index dad5ba7cae6d..68b69b14b143 100644
+>> --- a/Documentation/translations/zh_CN/userspace-api/index.rst
+>> +++ b/Documentation/translations/zh_CN/userspace-api/index.rst
+>> @@ -28,6 +28,7 @@ Linux 内核用户空间API指南
+>>     seccomp_filter
+>>     ebpf/index
+>>     sysfs-platform_profile
+>> +   futex2
+>>
+>>  TODOList:
+>>
+>> @@ -40,7 +41,6 @@ TODOList:
+>>  * media/index
+>>  * netlink/index
+>>  * vduse
+>> -* futex2
+>>
+>>  .. only::  subproject and html
+>>
+>> --
+>> 2.30.2
+>>
+Thanks. I will think a better translation, and send updated one later.
 
 -- 
 Rui Li    0x77E6D821D7AE84FE
