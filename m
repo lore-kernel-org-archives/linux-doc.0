@@ -2,90 +2,260 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15D1DC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 08:22:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F224C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 08:34:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232701AbiKJIWu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Nov 2022 03:22:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46032 "EHLO
+        id S232724AbiKJIer (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Nov 2022 03:34:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232713AbiKJIWt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 03:22:49 -0500
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34DE11F2D7;
-        Thu, 10 Nov 2022 00:22:49 -0800 (PST)
-Received: by mail-pg1-x530.google.com with SMTP id q71so1094165pgq.8;
-        Thu, 10 Nov 2022 00:22:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BG2nzthEmyoGwZ2xnXYghTQwVyPBN3+wYVO3ZQp4p8o=;
-        b=qEGP/jzAGERpSJ2HAdKdjTD3CLELEnHqw0Od9noXgvj2iH2RfDvff1LdH+PFNUUP9y
-         3XFAj9ZZSpw6XG7RpoHLC4lxpOwx5KbjG3yE8u+TY/rAiGJYIVyw1yvMZTTXk39AdlZs
-         JCNY6jTmCiKJOzMRaOGvT0Kq6Q7TE24v7GyytyyIMia63isqtreovofwjwPTSx5Y35iA
-         nRDv1glNFZ2eKOLFyGJgZ4UTewJ4VfPd7qmw3/zQ1NVqS/6/yB3DsQMFDFOwJm8WzPwO
-         enC8/nsjCwW84dc/ObApWjlsdN1XAaN7IWePQCoAWwxYAY6YyUwlItSfYH3s6FTz1zLu
-         mXDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BG2nzthEmyoGwZ2xnXYghTQwVyPBN3+wYVO3ZQp4p8o=;
-        b=gEAkKqn1k3gtOJ6TuKduPhUru4EFOGJ5zSf54zEhU3fQF/s3p/p4xrVj+czUcCYgOc
-         5Ys7bRu6jRaLz36WzLcjY/IKL6Iqr2Nf2Cm3eUF06Zrd+cYhG1kHgErBpZesDAia4V2l
-         pI1lVWWdcJNyU4ax/GnhqOP8whpZHNsMNGNdtEAEL3JSFKAiVXA7A+C74VXw/BSyeLJv
-         7fplvMyX8kguvZNeewTQbPINbMCyXi9GARIs1Rm4oFh1PviY/+0uSBiEoqw21GAnidGT
-         wqL1UKoqEAAYQXymue9vkqZRU7tVKyjfgxNMLfyQ+X0hCcgEJYZFZYQQs0nmJ/FYPdDK
-         MUSA==
-X-Gm-Message-State: ACrzQf2G8B+dIWXMaewYXwIKnrApmgmzD9LhDceYHR815vzzhThk3/uv
-        JzFzshPPU1DgMoxyRHtGI+U=
-X-Google-Smtp-Source: AMsMyM7PmkX37DHPRpa1E+mx91ZBJY53DfFvZFhJAYLfvahogpFu57m0IgO8z/L56jKPYQ53iJQ8Pw==
-X-Received: by 2002:aa7:8c0e:0:b0:56b:dbab:5362 with SMTP id c14-20020aa78c0e000000b0056bdbab5362mr2087321pfd.47.1668068568645;
-        Thu, 10 Nov 2022 00:22:48 -0800 (PST)
-Received: from [192.168.43.80] (subs02-180-214-232-81.three.co.id. [180.214.232.81])
-        by smtp.gmail.com with ESMTPSA id nm13-20020a17090b19cd00b0020087d7e778sm2516887pjb.37.2022.11.10.00.22.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Nov 2022 00:22:48 -0800 (PST)
-Message-ID: <dd4deb4d-ec9e-8cbe-2835-d8b9931e7f30@gmail.com>
-Date:   Thu, 10 Nov 2022 15:22:43 +0700
+        with ESMTP id S232756AbiKJIeq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 03:34:46 -0500
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8788024945;
+        Thu, 10 Nov 2022 00:34:43 -0800 (PST)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N7FWB6Z83zRpB4;
+        Thu, 10 Nov 2022 16:34:30 +0800 (CST)
+Received: from [10.67.102.169] (10.67.102.169) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 10 Nov 2022 16:34:41 +0800
+CC:     <yangyicong@hisilicon.com>,
+        Shaokun Zhang <zhangshaokun@hisilicon.com>,
+        <liuqi6124@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        John Garry <john.garry@huawei.com>,
+        <jonathan.cameron@huawei.com>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
+        <f.fangjian@huawei.com>, <prime.zeng@huawei.com>
+Subject: Re: [PATCH 3/3] drivers/perf: hisi: Add TLP filter support
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+References: <20221025113242.58271-1-yangyicong@huawei.com>
+ <20221025113242.58271-4-yangyicong@huawei.com> <Y2x7Bfb12nwcCfL0@debian.me>
+From:   Yicong Yang <yangyicong@huawei.com>
+Message-ID: <0544f3df-bbf3-2673-873a-fdb70ab90691@huawei.com>
+Date:   Thu, 10 Nov 2022 16:34:41 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v2] f2fs: support fault injection for flush submission
- error
-To:     Yangtao Li <frank.li@vivo.com>, jaegeuk@kernel.org,
-        chao@kernel.org, corbet@lwn.net
-Cc:     linux-f2fs-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, willy@infradead.org
-References: <20221110032522.64043-1-frank.li@vivo.com>
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20221110032522.64043-1-frank.li@vivo.com>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <Y2x7Bfb12nwcCfL0@debian.me>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.102.169]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/10/22 10:25, Yangtao Li wrote:
-> Since we now support read, write, and discard in FAULT_INJECT,
-> let's add support for flush.
+On 2022/11/10 12:16, Bagas Sanjaya wrote:
+> On Tue, Oct 25, 2022 at 07:32:42PM +0800, Yicong Yang wrote:
+>> +4. TLP Length filter
+>> +When counting bandwidth, the data can be composed of certain parts of TLP
+>> +packets. You can specify it through "len_mode":
+>> +
+>> +- 2'b00: Reserved (Do not use this since the behaviour is undefined)
+>> +- 2'b01: Bandwidth of TLP payloads
+>> +- 2'b10: Bandwidth of TLP headers
+>> +- 2'b11: Bandwidth of both TLP payloads and headers
+>> +
+>> +For example, "len_mode=2" means only counting the bandwidth of TLP headers
+>> +and "len_mode=3" means the final bandwidth data is composed of both TLP
+>> +headers and payloads. You need to carefully using this to avoid losing
+>> +data. For example you're likely to get no counts by "len_mode=1" if the TLPs
+>> +on the traffic has no payload. This config is optional, by default it'll
+>> +be 2'b11.
+>> +
+>> +Example usage of perf::
+>> +
+>> +  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,len_mode=0x1/ sleep 5
 > 
-> This patch supports to inject fault into __submit_flush_wait() to
-> simulate flush cmd io error.
+> The indentation is rather ugly, so I have applied the fixup:
 > 
 
-What about this description instead?
+will apply the fix and include your patch in v2.
 
-```
-Since FAULT_INJECT have now support read, write, and discard operations,
-add also flush support. An usecase is to inject fault into
-__submit_flush_wait() to simulate flush cmd io error.
-```
+Thanks.
 
--- 
-An old man doll... just what I always wanted! - Clara
-
+> ---- >8 ----
+> 
+> diff --git a/Documentation/admin-guide/perf/hisi-pcie-pmu.rst b/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
+> index 83a2ef11b1a08d..bae690dddbebfd 100644
+> --- a/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
+> +++ b/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
+> @@ -106,21 +106,22 @@ Example usage of perf::
+>    $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,thr_len=0x4,thr_mode=1/ sleep 5
+>  
+>  4. TLP Length filter
+> -When counting bandwidth, the data can be composed of certain parts of TLP
+> -packets. You can specify it through "len_mode":
+>  
+> -- 2'b00: Reserved (Do not use this since the behaviour is undefined)
+> -- 2'b01: Bandwidth of TLP payloads
+> -- 2'b10: Bandwidth of TLP headers
+> -- 2'b11: Bandwidth of both TLP payloads and headers
+> +   When counting bandwidth, the data can be composed of certain parts of TLP
+> +   packets. You can specify it through "len_mode":
+>  
+> -For example, "len_mode=2" means only counting the bandwidth of TLP headers
+> -and "len_mode=3" means the final bandwidth data is composed of both TLP
+> -headers and payloads. You need to carefully using this to avoid losing
+> -data. For example you're likely to get no counts by "len_mode=1" if the TLPs
+> -on the traffic has no payload. This config is optional, by default it'll
+> -be 2'b11.
+> +   - 2'b00: Reserved (Do not use this since the behaviour is undefined)
+> +   - 2'b01: Bandwidth of TLP payloads
+> +   - 2'b10: Bandwidth of TLP headers
+> +   - 2'b11: Bandwidth of both TLP payloads and headers
+>  
+> -Example usage of perf::
+> +   For example, "len_mode=2" means only counting the bandwidth of TLP headers
+> +   and "len_mode=3" means the final bandwidth data is composed of both TLP
+> +   headers and payloads. You need to carefully using this to avoid losing
+> +   data. For example you're likely to get no counts by "len_mode=1" if the TLPs
+> +   on the traffic has no payload. This config is optional, by default it'll
+> +   be 2'b11.
+>  
+> -  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,len_mode=0x1/ sleep 5
+> +   Example usage of perf::
+> +
+> +     $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,len_mode=0x1/ sleep 5
+> 
+> Also, for formatting consistency, you need to pick up the fix for rest of
+> documentation (as separate patch in your series):
+> 
+> ---- >8 ----
+> 
+> From 5f286aceb959a7c70a56cb5c453d3ac0b844fb49 Mon Sep 17 00:00:00 2001
+> From: Bagas Sanjaya <bagasdotme@gmail.com>
+> Date: Thu, 10 Nov 2022 11:03:08 +0700
+> Subject: [PATCH] Documentation: perf: Indent filter options list
+> 
+> The "Filter options" list have a rather ugly indentation. Also, the first
+> paragraph after list name is rendered without separator (as continuation
+> from the name).
+> 
+> Align the list by indenting the list items and add a blank line
+> separator for each list name.
+> 
+> Fixes: c8602008e247f5 ("docs: perf: Add description for HiSilicon PCIe PMU driver")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  .../admin-guide/perf/hisi-pcie-pmu.rst        | 80 ++++++++++---------
+>  1 file changed, 43 insertions(+), 37 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/perf/hisi-pcie-pmu.rst b/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
+> index bae690dddbebfd..54fab870a2aefb 100644
+> --- a/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
+> +++ b/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
+> @@ -48,62 +48,68 @@ Filter options
+>  --------------
+>  
+>  1. Target filter
+> -PMU could only monitor the performance of traffic downstream target Root Ports
+> -or downstream target Endpoint. PCIe PMU driver support "port" and "bdf"
+> -interfaces for users, and these two interfaces aren't supported at the same
+> -time.
+>  
+> --port
+> -"port" filter can be used in all PCIe PMU events, target Root Port can be
+> -selected by configuring the 16-bits-bitmap "port". Multi ports can be selected
+> -for AP-layer-events, and only one port can be selected for TL/DL-layer-events.
+> +   PMU could only monitor the performance of traffic downstream target Root
+> +   Ports or downstream target Endpoint. PCIe PMU driver support "port" and
+> +   "bdf" interfaces for users, and these two interfaces aren't supported at the
+> +   same time.
+>  
+> -For example, if target Root Port is 0000:00:00.0 (x8 lanes), bit0 of bitmap
+> -should be set, port=0x1; if target Root Port is 0000:00:04.0 (x4 lanes),
+> -bit8 is set, port=0x100; if these two Root Ports are both monitored, port=0x101.
+> +   - port
+>  
+> -Example usage of perf::
+> +     "port" filter can be used in all PCIe PMU events, target Root Port can be
+> +     selected by configuring the 16-bits-bitmap "port". Multi ports can be
+> +     selected for AP-layer-events, and only one port can be selected for
+> +     TL/DL-layer-events.
+>  
+> -  $# perf stat -e hisi_pcie0_core0/rx_mwr_latency,port=0x1/ sleep 5
+> +     For example, if target Root Port is 0000:00:00.0 (x8 lanes), bit0 of
+> +     bitmap should be set, port=0x1; if target Root Port is 0000:00:04.0 (x4
+> +     lanes), bit8 is set, port=0x100; if these two Root Ports are both
+> +     monitored, port=0x101.
+>  
+> --bdf
+> +     Example usage of perf::
+>  
+> -"bdf" filter can only be used in bandwidth events, target Endpoint is selected
+> -by configuring BDF to "bdf". Counter only counts the bandwidth of message
+> -requested by target Endpoint.
+> +       $# perf stat -e hisi_pcie0_core0/rx_mwr_latency,port=0x1/ sleep 5
+>  
+> -For example, "bdf=0x3900" means BDF of target Endpoint is 0000:39:00.0.
+> +   - bdf
+>  
+> -Example usage of perf::
+> +     "bdf" filter can only be used in bandwidth events, target Endpoint is
+> +     selected by configuring BDF to "bdf". Counter only counts the bandwidth of
+> +     message requested by target Endpoint.
+>  
+> -  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,bdf=0x3900/ sleep 5
+> +     For example, "bdf=0x3900" means BDF of target Endpoint is 0000:39:00.0.
+> +
+> +     Example usage of perf::
+> +
+> +       $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,bdf=0x3900/ sleep 5
+>  
+>  2. Trigger filter
+> -Event statistics start when the first time TLP length is greater/smaller
+> -than trigger condition. You can set the trigger condition by writing "trig_len",
+> -and set the trigger mode by writing "trig_mode". This filter can only be used
+> -in bandwidth events.
+>  
+> -For example, "trig_len=4" means trigger condition is 2^4 DW, "trig_mode=0"
+> -means statistics start when TLP length > trigger condition, "trig_mode=1"
+> -means start when TLP length < condition.
+> +   Event statistics start when the first time TLP length is greater/smaller
+> +   than trigger condition. You can set the trigger condition by writing
+> +   "trig_len", and set the trigger mode by writing "trig_mode". This filter can
+> +   only be used in bandwidth events.
+>  
+> -Example usage of perf::
+> +   For example, "trig_len=4" means trigger condition is 2^4 DW, "trig_mode=0"
+> +   means statistics start when TLP length > trigger condition, "trig_mode=1"
+> +   means start when TLP length < condition.
+>  
+> -  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,trig_len=0x4,trig_mode=1/ sleep 5
+> +   Example usage of perf::
+> +
+> +     $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,trig_len=0x4,trig_mode=1/ sleep 5
+>  
+>  3. Threshold filter
+> -Counter counts when TLP length within the specified range. You can set the
+> -threshold by writing "thr_len", and set the threshold mode by writing
+> -"thr_mode". This filter can only be used in bandwidth events.
+>  
+> -For example, "thr_len=4" means threshold is 2^4 DW, "thr_mode=0" means
+> -counter counts when TLP length >= threshold, and "thr_mode=1" means counts
+> -when TLP length < threshold.
+> +   Counter counts when TLP length within the specified range. You can set the
+> +   threshold by writing "thr_len", and set the threshold mode by writing
+> +   "thr_mode". This filter can only be used in bandwidth events.
+>  
+> -Example usage of perf::
+> +   For example, "thr_len=4" means threshold is 2^4 DW, "thr_mode=0" means
+> +   counter counts when TLP length >= threshold, and "thr_mode=1" means counts
+> +   when TLP length < threshold.
+>  
+> -  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,thr_len=0x4,thr_mode=1/ sleep 5
+> +   Example usage of perf::
+> +
+> +     $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,thr_len=0x4,thr_mode=1/ sleep 5
+>  
+>  4. TLP Length filter
+>  
+> 
