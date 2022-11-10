@@ -2,131 +2,251 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3995DC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 05:07:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4368C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 06:26:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbiKJFHg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Nov 2022 00:07:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46218 "EHLO
+        id S230117AbiKJG01 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Nov 2022 01:26:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbiKJFHe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 00:07:34 -0500
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 961F526579
-        for <linux-doc@vger.kernel.org>; Wed,  9 Nov 2022 21:07:33 -0800 (PST)
-Received: by mail-pf1-x429.google.com with SMTP id k15so874487pfg.2
-        for <linux-doc@vger.kernel.org>; Wed, 09 Nov 2022 21:07:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7ovlTRAkdLt9KQSpb5O+DaKbezf0Iebj6nMnxwqTxEE=;
-        b=qi9/5+wKBO/EPtZg9f390btCgXHIipSNoFNqfZZEaYDTzAGEUMmICBMlVwNnliqMbD
-         tVNkX0J2FfzD0/c5Ao+E3j6QdKzhslfjS5BUMzLimYfi5XPR8Cwsdugui1a4Q6Sb3099
-         wYsrx3qVlBOiLNWLa7QACGUnlunV25FH7++PNL3n24x77RluakDb2G3Mr5FJDt6Wn1x2
-         vD44K0GRSiK31kNHmjKeAqaqKxQmx2fw8DEq0MUGZbtOYvLsCYfnbT+fqsFZOtbuX7+X
-         1SNDsWD2pLPneZsCf+OlU7k1qyS1PZvVg6il08vP4olD1oaxj42RRJFG7ZyCk49zYlWn
-         CRQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7ovlTRAkdLt9KQSpb5O+DaKbezf0Iebj6nMnxwqTxEE=;
-        b=Vo592DVPUqGYT+ube4BJkBR+kCsw41KJ67BRvUz71BHdzbny8Xp/IUs0fpd7S52rBh
-         xz9IZb2FXKo6X5gdktxJqMj7VnbDqFUcPlnatvFwElFWPhTbOPKLvWYsfWKK/691pkX1
-         jKmMTbtGLjsWsj/Oh//R3esJAwkLlLEMc6pBwuvepgfRM2IX66VvJwMC3x8UF8RzQnu6
-         WCGkG9EfF7oozuorBcRftTTPr6WjbUr5sa8FMnNjpZATm697av91UUyGll4bBHEPOhmt
-         aNwvLKzxPe6XtHNJ5cuqiUQUkmr2ALNt+csdGTs4uuoeRRWI+BI+JotsaGbbN7cloCRu
-         MLgQ==
-X-Gm-Message-State: ACrzQf09+SHyXIwMXCqICbndM541U3hUPltrP0OKCW1fBnctLzNKbpzQ
-        6en5mO3Q3BagZV+1VvjWbJHNnnBnwqKMwLsZZl/0Xg==
-X-Google-Smtp-Source: AMsMyM5Eu+TMkyrNrhfDTfsVn0nghSVf5ExpwddCT2j/bz8l8WgtEfn76/9sKEqQpCXrxKx5tSgMP/KbtSdlHZUJFZI=
-X-Received: by 2002:a63:fb0b:0:b0:46f:a98b:5685 with SMTP id
- o11-20020a63fb0b000000b0046fa98b5685mr49590361pgh.393.1668056852935; Wed, 09
- Nov 2022 21:07:32 -0800 (PST)
+        with ESMTP id S229449AbiKJG00 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 01:26:26 -0500
+Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1076038B7;
+        Wed,  9 Nov 2022 22:26:25 -0800 (PST)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
+        t=1668061579;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=/IhPj7oiHpQ027JqUXfrsST2/Az2cxFbNn3xTYfDW5g=;
+        b=lmHjR8JYkCqt9RtDugjgD8q9luQOtu6hkxZWs1hoz5jYkTDYMhHhKZoAGn7vm+reJeBmXO
+        VP/t3sJtCNQIPqzYDzjAUBDoKS2DCtPbgfbDTFBNWf1QAIjolVFTg/uiTGXCbxqqmRIcZa
+        AVg1SFBdDdZrJW2PtxXn6Twm0MrrTn4gG71J9bOPd+X6XQFGUmaSPiTXGvW9UET5W3g3U8
+        jrLh5QD40kOyCSPbFWectvlaEv5c3EuHtNRLrjZc9fDHg6vOb7KJD6JZvniHCMU2jGw24u
+        uCPVY+VWfNrtOSqV1rAFriL8NmuwNaUgkG186lzIKur2K3BDe2NfI2f3X6AicQ==
+From:   Rui Li <me@lirui.org>
+To:     Wu XiangCheng <wu.xiangcheng@linux.dev>,
+        Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Rui Li <me@lirui.org>
+Subject: [PATCH] docs/zh_CN: Add userspace-api/accelerators/ocxl Chinese translation
+Date:   Thu, 10 Nov 2022 14:26:09 +0800
+Message-Id: <20221110062609.377848-1-me@lirui.org>
 MIME-Version: 1.0
-References: <20221109003618.3784591-1-dlatypov@google.com> <20221109003618.3784591-2-dlatypov@google.com>
-In-Reply-To: <20221109003618.3784591-2-dlatypov@google.com>
-From:   Sadiya Kazi <sadiyakazi@google.com>
-Date:   Thu, 10 Nov 2022 10:37:21 +0530
-Message-ID: <CAO2JNKUTiVM8YPgy0nz7W1GJtSVURhc1YkMgUWgs-rShNY0Zaw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] Documentation: KUnit: reword description of assertions
-To:     Daniel Latypov <dlatypov@google.com>
-Cc:     brendanhiggins@google.com, davidgow@google.com, rmoar@google.com,
-        linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 9, 2022 at 6:06 AM 'Daniel Latypov' via KUnit Development
-<kunit-dev@googlegroups.com> wrote:
->
-> The existing wording implies that kunit_kmalloc_array() is "the method
-> under test". We're actually testing the sort() function in that example.
-> This is because the example was changed in commit 953574390634
-> ("Documentation: KUnit: Rework writing page to focus on writing tests"),
-> but the wording was not.
->
-> Also add a `note` telling people they can use the KUNIT_ASSERT_EQ()
-> macros from any function. Some users might be coming from a framework
-> like gUnit where that'll compile but silently do the wrong thing.
->
-> Signed-off-by: Daniel Latypov <dlatypov@google.com>
-> ---
+Translate the following documents into Chinese:
 
-Thank you, Daniel. This looks fine to me except for a small typo in
-this line "to abort
-the test if we there's an allocation error". Also, I have reworded
-that paragraph a bit
-as below. Please feel free to ignore, if you do not agree:
+- userspace-api/accelerators/ocxl.rst
 
-In this example, to test the ``sort()`` function, we must be able to
-allocate an array.
-If there is an allocation error, the test is terminated using the function
-``KUNIT ASSERT NOT ERR OR NULL()``.
+Signed-off-by: Rui Li <me@lirui.org>
+---
+ .../zh_CN/userspace-api/accelerators/ocxl.rst | 168 ++++++++++++++++++
+ .../zh_CN/userspace-api/index.rst             |   2 +-
+ 2 files changed, 169 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/accelerators/ocxl.rst
 
-Reviewed-by: Sadiya Kazi <sadiyakazi@google.com>
+diff --git a/Documentation/translations/zh_CN/userspace-api/accelerators/ocxl.rst b/Documentation/translations/zh_CN/userspace-api/accelerators/ocxl.rst
+new file mode 100644
+index 000000000000..274dcf4667db
+--- /dev/null
++++ b/Documentation/translations/zh_CN/userspace-api/accelerators/ocxl.rst
+@@ -0,0 +1,168 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../../disclaimer-zh_CN.rst
++
++:Original: Documentation/userspace-api/accelerators/ocxl.rst
++
++:翻译:
++
++ 李睿 Rui Li <me@lirui.org>
++
++=====================================
++OpenCAPI （开放相干加速器处理器接口）
++=====================================
++
++*OpenCAPI: Open Coherent Accelerator Processor Interface*
++
++OpenCAPI是处理器和加速器之间的一个接口，致力于达到低延迟和高带宽。该规范
++由 `OpenCAPI Consortium <http://opencapi.org/>`_ 开发。
++
++它允许加速器（可以是FPGA、ASIC等）使用虚拟地址连贯地访问主机内存。一个OpenCAPI
++设备也可以托管它自己的内存，并可以由主机访问。
++
++OpenCAPI在Linux中称为“ocxl”，它作为“cxl”的开放、处理器无关的演进，这么命
++名是为了避免与ISDN CAPI子系统相混淆。
++
++
++高层视角
++========
++
++OpenCAPI定义了一个在物理链路层上实现的数据链路层（TL）和传输层（TL）。任何
++实现DL和TL的处理器或者设备都可以开始共享内存。
++
++::
++
++  +-----------+                         +-------------+
++  |           |                         |             |
++  |           |                         | Accelerated |
++  | Processor |                         |  Function   |
++  |           |  +--------+             |    Unit     |  +--------+
++  |           |--| Memory |             |    (AFU)    |--| Memory |
++  |           |  +--------+             |             |  +--------+
++  +-----------+                         +-------------+
++       |                                       |
++  +-----------+                         +-------------+
++  |    TL     |                         |    TLX      |
++  +-----------+                         +-------------+
++       |                                       |
++  +-----------+                         +-------------+
++  |    DL     |                         |    DLX      |
++  +-----------+                         +-------------+
++       |                                       |
++       |                   PHY                 |
++       +---------------------------------------+
++
++  Processor：处理器
++  Memory：内存
++  Accelerated Function Unit：加速函数单元
++
++
++
++设备发现
++========
++
++OpenCAPI依赖一个在设备上实现的与PCI类似的配置空间。因此主机可以通过查询
++配置空间来发现AFU。
++
++OpenCAPI设备在Linux中被当作PCI设备（有一些注意事项）。固件需要对硬件进行
++抽象，就好像它是一个PCI链路。许多已有的PCI架构被重用：在模拟标准PCI时，
++设备被扫描并且BAR（基址寄存器）被分配。像“lspci”的命令因此可以被用于查看
++哪些设备可用。
++
++配置空间定义了可以在物理适配器上可以被找到的AFU，比如它的名字、支持多少内
++存上下文、内存映射IO（MMIO）区域的大小等。
++
++
++
++MMIO
++====
++
++OpenCAPI为每个AFU定义了两个MMIO区域：
++
++* 全局MMIO区域，保存和整个AFU相关的寄存器。
++* 每个进程的MMIO区域，对于每个上下文固定大小。
++
++
++
++AFU中断
++=======
++
++OpenCAPI拥有AFU向主机进程发送中断的可能性。它通过定义在传输层的“intrp_req”
++来完成，指定一个定义中断的64位对象句柄。
++
++驱动允许一个进程分配中断并获取可以传递给AFU的64位对象句柄。
++
++
++
++字符设备
++========
++
++驱动为每个在物理设备上发现的AFU创建一个字符设备。一个物理设备可能拥有多个
++函数，一个函数可以拥有多个AFU。不过编写这篇文档之时，只对导出一个AFU的设备
++测试过。
++
++字符设备可以在 /dev/ocxl/ 中被找到，其命名为：
++/dev/ocxl/<AFU 名称>.<位置>.<索引>
++
++<AFU 名称> 是一个最长20个字符的名称，和在AFU配置空间中找到的相同。
++<位置>由驱动添加，可在系统有不止一个相同的OpenCAPI设备时帮助区分设备。
++<索引>也是为了在少见情况下帮助区分AFU，即设备携带多个同样的AFU副本时。
++
++
++
++Sysfs 类
++=========
++
++添加了代表AFU的ocxl类。查看/sys/class/ocxl。布局在
++Documentation/ABI/testing/sysfs-class-ocxl 中描述。
++
++
++
++用户API
++=======
++
++开放
++----
++
++基于在配置空间中找到的AFU定义，AFU可能支持在多个内存上下文中工作，这种情况
++下相关的字符设备可以被不同进程多次打开。
++
++
++ioctl
++-----
++
++OCXL_IOCTL_ATTACH:
++
++  附加调用进程的内存上下文到AFU，以允许AFU访问其内存。
++
++OCXL_IOCTL_IRQ_ALLOC:
++
++  分配AFU中断，返回标识符。
++
++OCXL_IOCTL_IRQ_FREE:
++
++  释放之前分配的AFU中断。
++
++OCXL_IOCTL_IRQ_SET_FD:
++
++  将一个事件文件描述符和AFU中断关联，因此用户进程可以在AFU发送中断时收到通
++  知。
++
++OCXL_IOCTL_GET_METADATA:
++
++  从卡中获取配置信息，比如内存映射IO区域的大小、AFU版本和当前上下文的进程
++  地址空间ID（PASID）。
++
++OCXL_IOCTL_ENABLE_P9_WAIT:
++
++  允许AFU唤醒执行“等待”的用户空间进程。返回信息给用户空间，允许其配置AFU。
++  注意这只在POWER9上可用。
++
++OCXL_IOCTL_GET_FEATURES:
++
++  报告用户空间可用的影响OpenCAPI的CPU特性。
++
++
++mmap
++----
++
++一个进程可以mmap每个进程的MMIO区域来和AFU交互。
+diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
+index 68b69b14b143..5dc0f2e69c17 100644
+--- a/Documentation/translations/zh_CN/userspace-api/index.rst
++++ b/Documentation/translations/zh_CN/userspace-api/index.rst
+@@ -26,6 +26,7 @@ Linux 内核用户空间API指南
+ 
+    no_new_privs
+    seccomp_filter
++   accelerators/ocxl
+    ebpf/index
+    sysfs-platform_profile
+    futex2
+@@ -35,7 +36,6 @@ TODOList:
+ * landlock
+ * unshare
+ * spec_ctrl
+-* accelerators/ocxl
+ * ioctl/index
+ * iommu
+ * media/index
+-- 
+2.30.2
 
-Best Regards,
-Sadiya
-
-
-
->  Documentation/dev-tools/kunit/usage.rst | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-> index b0a6c3bc0eeb..8060114e3aa6 100644
-> --- a/Documentation/dev-tools/kunit/usage.rst
-> +++ b/Documentation/dev-tools/kunit/usage.rst
-> @@ -112,11 +112,14 @@ terminates the test case if the condition is not satisfied. For example:
->                         KUNIT_EXPECT_LE(test, a[i], a[i + 1]);
->         }
->
-> -In this example, the method under test should return pointer to a value. If the
-> -pointer returns null or an errno, we want to stop the test since the following
-> -expectation could crash the test case. `ASSERT_NOT_ERR_OR_NULL(...)` allows us
-> -to bail out of the test case if the appropriate conditions are not satisfied to
-> -complete the test.
-> +In this example, we need to be able to allocate an array to test the ``sort()``
-> +function. So we use ``KUNIT_ASSERT_NOT_ERR_OR_NULL()`` to abort the test if
-> +we there's an allocation error.
-> +
-> +.. note::
-> +   In other test frameworks, ``ASSERT`` macros are often implemented by calling
-> +   ``return`` so they only work from the test function. In KUnit, we stop the
-> +   current kthread on failure, so you can call them from anywhere.
->
->  Customizing error messages
->  --------------------------
-> --
-> 2.38.1.431.g37b22c650d-goog
->
-> --
-> You received this message because you are subscribed to the Google Groups "KUnit Development" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kunit-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kunit-dev/20221109003618.3784591-2-dlatypov%40google.com.
