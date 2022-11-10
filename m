@@ -2,166 +2,208 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11ADAC43217
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 11:48:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9903C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 12:14:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230018AbiKJLsl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Nov 2022 06:48:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49494 "EHLO
+        id S230437AbiKJMO6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Nov 2022 07:14:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229553AbiKJLsj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 06:48:39 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD67225DD;
-        Thu, 10 Nov 2022 03:48:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=yICizhPaPAd6Anz2X8tzuaaxbrcs/SbK9IONa0om9nk=; b=gSqx6CLUDvVcRMfUg6c4zh7xV2
-        espdRU6Vp+vyqM1801RhQc6guUO7pxmgfw/etSRjp2yEGeuwdTGHauTquQ2KEjoFrUR3CTBZdsvy9
-        ta2DgiWYE1YEGrRTUHHu0YJ8GJGhik5VAxygWrHbJumPKjYY3VKKX+EzVkQKmG4Sy0jp//jMzSnD2
-        tp08Fme6jlriV9llNihpKQO6ww3TYm22Ho5TUKEZuDLXvnCIlNuUY+GiqOLwrY1ugn1rhe1mj7jgx
-        Q1IUsCtyYrknptv0/rwtOpigIircVPUHqjVqhG4fAWqQMdhAFW5dpB//7AUedLXYlfSd4OFcRR+lk
-        KShPLqdg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35198)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1ot62j-0005ZJ-4F; Thu, 10 Nov 2022 11:48:25 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1ot62d-0006cL-MZ; Thu, 10 Nov 2022 11:48:19 +0000
-Date:   Thu, 10 Nov 2022 11:48:19 +0000
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Lee Jones <lee@kernel.org>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        asahi@lists.linux.dev, devicetree@vger.kernel.org,
-        Hector Martin <marcan@marcan.st>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH v3 3/7] dt-bindings: mfd: add binding for Apple Mac
- System Management Controller
-Message-ID: <Y2zlA8RpOqD/7TrM@shell.armlinux.org.uk>
-References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
- <E1osRXT-002mw3-JR@rmk-PC.armlinux.org.uk>
- <531d88b8-75db-1d8f-1384-b8d05594e7b3@linaro.org>
- <Y2rWp4wasbflS/0y@shell.armlinux.org.uk>
- <20221109221723.GA2948356-robh@kernel.org>
+        with ESMTP id S230476AbiKJMO5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 07:14:57 -0500
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72E656C71E;
+        Thu, 10 Nov 2022 04:14:55 -0800 (PST)
+Date:   Thu, 10 Nov 2022 20:14:32 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1668082493;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9H7pTTfqZgw9EwyEoMwzAAEs2iWwvSSDuQZYS9UnE0Q=;
+        b=as+lk1c48PS7v6TzqIvyLJbBsI5zZyHDxQGMrsHSNNnNRld05C5tMmtPfCbaWrn6Mh6bF5
+        MLDF+G8tewoimugLK9kbaPYok8O3hQgjhrp/iCDvib8t+3UMJSuwFQB8/VqBp9keKMc1PM
+        Vxo7N6dr95JTwzIprSFnm3kcEhoo4Ms=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
+To:     Rui Li <me@lirui.org>
+Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_CN: Add userspace-api/accelerators/ocxl Chinese
+ translation
+Message-ID: <Y2zrKAZL38i48SA5@bobwxc.mipc>
+References: <20221110062609.377848-1-me@lirui.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221109221723.GA2948356-robh@kernel.org>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221110062609.377848-1-me@lirui.org>
+X-Generator: review-reply, a very cute ai bot
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 09, 2022 at 04:17:23PM -0600, Rob Herring wrote:
-> On Tue, Nov 08, 2022 at 10:22:31PM +0000, Russell King (Oracle) wrote:
-> > On Tue, Nov 08, 2022 at 09:55:58PM +0100, Krzysztof Kozlowski wrote:
-> > > On 08/11/2022 17:33, Russell King (Oracle) wrote:
-> > > > Add a DT binding for the Apple Mac System Management Controller.
-> > > 
-> > > Drop the second, redundant "binding" from subject. It's already in prefix.
-> > 
-> > Yet another thing that's been there from the start... how many more
-> > things are you going to pick up in subsequent versions of the patch?
-> > When does this stop?
-> > 
-> > In any case, taking your comment literally,
-> > 
-> > "dt-bindings: mfd: add for Apple Mac System Management Controller"
-> > 
-> > makes no sense, so presumably you want something more than that.
-> > 
-> > In any case, I see several recent cases already merged which follow
-> > the pattern that I've used and that you've reviewed.
-> > 
-> > > > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> > > > ---
-> > > >  .../devicetree/bindings/mfd/apple,smc.yaml    | 67 +++++++++++++++++++
-> > > >  1 file changed, 67 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> > > > 
-> > > > diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..014eba5a1bbc
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> > > > @@ -0,0 +1,67 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/mfd/apple,smc.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Apple Mac System Management Controller
-> > > > +
-> > > > +maintainers:
-> > > > +  - Hector Martin <marcan@marcan.st>
-> > > > +
-> > > > +description:
-> > > > +  Apple Mac System Management Controller implements various functions
-> > > > +  such as GPIO, RTC, power, reboot.
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    items:
-> > > > +      - enum:
-> > > > +          - apple,t6000-smc
-> > > > +          - apple,t8103-smc
-> > > > +          - apple,t8112-smc
-> > > > +      - const: apple,smc
-> > > > +
-> > > > +  reg:
-> > > > +    items:
-> > > > +      - description: SMC area
-> > > > +      - description: SRAM area
-> > > > +
-> > > > +  reg-names:
-> > > > +    items:
-> > > > +      - const: smc
-> > > > +      - const: sram
-> > > > +
-> > > > +  mboxes:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  gpio:
-> > > > +    $ref: /schemas/gpio/gpio-macsmc.yaml
-> > > 
-> > > So this depends on other patch, so:
-> > > 1. You need mention the dependency in cover letter (nothing there),
-> > > 2. Re-order patches.
-> > > 
-> > > The GPIO cannot go separate tree and this must be explicitly communicated.
-> > 
-> > Sigh, getting an order that is sensible is really bloody difficult.
+> Translate the following documents into Chinese:
 > 
-> It's not. Sub-devices before the MFD. The only time that doesn't work is 
-> when the sub-devices put the parent MFD in their example. The solution 
-> there is don't do that. Just 1 complete example in the MFD schema and no 
-> examples in the sub-devices.
+> - userspace-api/accelerators/ocxl.rst
+> 
+> Signed-off-by: Rui Li <me@lirui.org>
+> ---
+>  .../zh_CN/userspace-api/accelerators/ocxl.rst | 168 ++++++++++++++++++
+>  .../zh_CN/userspace-api/index.rst             |   2 +-
+>  2 files changed, 169 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/userspace-api/accelerators/ocxl.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/userspace-api/accelerators/ocxl.rst b/Documentation/translations/zh_CN/userspace-api/accelerators/ocxl.rst
+> new file mode 100644
+> index 000000000000..274dcf4667db
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/userspace-api/accelerators/ocxl.rst
+> @@ -0,0 +1,168 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/userspace-api/accelerators/ocxl.rst
+> +
+> +:翻译:
+> +
+> + 李睿 Rui Li <me@lirui.org>
+> +
+> +=====================================
+> +OpenCAPI （开放相干加速器处理器接口）
+> +=====================================
+> +
+> +*OpenCAPI: Open Coherent Accelerator Processor Interface*
+> +
+> +OpenCAPI是处理器和加速器之间的一个接口，致力于达到低延迟和高带宽。该规范
+> +由 `OpenCAPI Consortium <http://opencapi.org/>`_ 开发。
+> +
+> +它允许加速器（可以是FPGA、ASIC等）使用虚拟地址连贯地访问主机内存。一个OpenCAPI
+> +设备也可以托管它自己的内存，并可以由主机访问。
+> +
+> +OpenCAPI在Linux中称为“ocxl”，它作为“cxl”的开放、处理器无关的演进，这么命
 
-Meanwhile, I was told by Krzysztof that DT schemas must always have an
-example. So, different person, different story.
+missed:
+	'cxl' (the driver for the IBM CAPI interface for powerpc)
 
-Anyway, I've washed my hands of this farce with this series. I'm not
-planning to post another version of it. I've had enough of this crap.
+> +名是为了避免与ISDN CAPI子系统相混淆。
+> +
+> +
+> +高层视角
+> +========
+> +
+> +OpenCAPI定义了一个在物理链路层上实现的数据链路层（TL）和传输层（TL）。任何
+> +实现DL和TL的处理器或者设备都可以开始共享内存。
+> +
+> +::
+> +
+> +  +-----------+                         +-------------+
+> +  |           |                         |             |
+> +  |           |                         | Accelerated |
+> +  | Processor |                         |  Function   |
+> +  |           |  +--------+             |    Unit     |  +--------+
+> +  |           |--| Memory |             |    (AFU)    |--| Memory |
+> +  |           |  +--------+             |             |  +--------+
+> +  +-----------+                         +-------------+
+> +       |                                       |
+> +  +-----------+                         +-------------+
+> +  |    TL     |                         |    TLX      |
+> +  +-----------+                         +-------------+
+> +       |                                       |
+> +  +-----------+                         +-------------+
+> +  |    DL     |                         |    DLX      |
+> +  +-----------+                         +-------------+
+> +       |                                       |
+> +       |                   PHY                 |
+> +       +---------------------------------------+
+> +
+> +  Processor：处理器
+> +  Memory：内存
+> +  Accelerated Function Unit：加速函数单元
+> +
+> +
+> +
+> +设备发现
+> +========
+> +
+> +OpenCAPI依赖一个在设备上实现的与PCI类似的配置空间。因此主机可以通过查询
+> +配置空间来发现AFU。
+> +
+> +OpenCAPI设备在Linux中被当作PCI设备（有一些注意事项）。固件需要对硬件进行
+
+类PCI设备
+
+> +抽象，就好像它是一个PCI链路。许多已有的PCI架构被重用：在模拟标准PCI时，
+> +设备被扫描并且BAR（基址寄存器）被分配。像“lspci”的命令因此可以被用于查看
+> +哪些设备可用。
+> +
+> +配置空间定义了可以在物理适配器上可以被找到的AFU，比如它的名字、支持多少内
+> +存上下文、内存映射IO（MMIO）区域的大小等。
+> +
+> +
+> +
+> +MMIO
+> +====
+> +
+> +OpenCAPI为每个AFU定义了两个MMIO区域：
+> +
+> +* 全局MMIO区域，保存和整个AFU相关的寄存器。
+> +* 每个进程的MMIO区域，对于每个上下文固定大小。
+> +
+> +
+> +
+> +AFU中断
+> +=======
+> +
+> +OpenCAPI拥有AFU向主机进程发送中断的可能性。它通过定义在传输层的“intrp_req”
+> +来完成，指定一个定义中断的64位对象句柄。
+> +
+> +驱动允许一个进程分配中断并获取可以传递给AFU的64位对象句柄。
+> +
+> +
+> +
+> +字符设备
+> +========
+> +
+> +驱动为每个在物理设备上发现的AFU创建一个字符设备。一个物理设备可能拥有多个
+> +函数，一个函数可以拥有多个AFU。不过编写这篇文档之时，只对导出一个AFU的设备
+> +测试过。
+> +
+> +字符设备可以在 /dev/ocxl/ 中被找到，其命名为：
+> +/dev/ocxl/<AFU 名称>.<位置>.<索引>
+> +
+> +<AFU 名称> 是一个最长20个字符的名称，和在AFU配置空间中找到的相同。
+> +<位置>由驱动添加，可在系统有不止一个相同的OpenCAPI设备时帮助区分设备。
+> +<索引>也是为了在少见情况下帮助区分AFU，即设备携带多个同样的AFU副本时。
+> +
+> +
+> +
+> +Sysfs 类
+> +=========
+
+Sysfs类
+=======
+
+> +
+> +添加了代表AFU的ocxl类。查看/sys/class/ocxl。布局在
+> +Documentation/ABI/testing/sysfs-class-ocxl 中描述。
+> +
+> +
+> +
+> +用户API
+> +=======
+> +
+> +开放
+
+打开
+
+
+Thanks,
+
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Wu XiangCheng	0x32684A40BCA7AEA7
+
