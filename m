@@ -2,145 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 366C5C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 15:12:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FFF2C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 15:15:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230124AbiKJPL7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Nov 2022 10:11:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59978 "EHLO
+        id S230457AbiKJPPP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Nov 2022 10:15:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230247AbiKJPLz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 10:11:55 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89D202E6B4;
-        Thu, 10 Nov 2022 07:11:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=GDS8SnZZcS0SPQ3hd4JtwYFgNgfG4Z6tO5Aqk4r9P7M=; b=gLSOYkudMtjTwff6AEMIEbcIPL
-        assZcfTyw/95zMEu+tf3Nw0TdYYucmP0ADqCUX0A9Th37boVIX1bQPLE67+/Fqs8bHBXqlFFue4ii
-        wwnSLzxguQ1BTcXbRSrI9CiMdM+TeXsvpy7Xtth6T91zaKB+zJsohn7ioDLn8QcirNY9VQqLGwRqv
-        dvCGU4TcDCkQtQtLovntDH0OiXsa/ZpOkXUSElJWalDEVvJIKUf4UURsOwDI2M8cp4iXZfrqdkLMN
-        +Rq+wcOgYS7b1jebjW6Ena/n0/zQTj+Ov8kd6lMdpPS0vKQul8jkr48ixVAZIWGixPan1L0cweuAE
-        eF8pcX/A==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ot9DX-00CA5o-Rz; Thu, 10 Nov 2022 15:11:47 +0000
-Date:   Thu, 10 Nov 2022 15:11:47 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Yangtao Li <frank.li@vivo.com>
-Cc:     jaegeuk@kernel.org, chao@kernel.org, corbet@lwn.net,
-        linux-f2fs-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] f2fs: support fault injection for flush submission
- error
-Message-ID: <Y20Us047HVn+dPUg@casper.infradead.org>
-References: <20221110032522.64043-1-frank.li@vivo.com>
+        with ESMTP id S230124AbiKJPPO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 10:15:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0F2A13F7E
+        for <linux-doc@vger.kernel.org>; Thu, 10 Nov 2022 07:14:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1668093252;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=zEvplYuwssLJ3t9LRCQjT4FvP3g4vYYyMhE2+Vd/Jhg=;
+        b=W72mg/Hwl3xAXOdXweLxbqwnd5jagVjSFM3SBRYIyU3Gn8QMZEQ2BZQ206/rPOihlTjh3Q
+        paRFMI2ak/s1tw39SKgZI/RWmnbKyRoA7bNpg+5p69f3uqZ5QPOAUKZ2+sOO4FMr6jX9Kt
+        Y7cGAORAok2ZSLlF2uHGkMdnnvWHB6A=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-512-OL148ni9Ni-vO6xEU88-qg-1; Thu, 10 Nov 2022 10:14:11 -0500
+X-MC-Unique: OL148ni9Ni-vO6xEU88-qg-1
+Received: by mail-qt1-f198.google.com with SMTP id c19-20020a05622a059300b003a51d69906eso1567619qtb.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Nov 2022 07:14:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zEvplYuwssLJ3t9LRCQjT4FvP3g4vYYyMhE2+Vd/Jhg=;
+        b=W11OTs+gqzLVUorY3KIpm3jpfbAzOspbmY37DiUoc35izH4cVZd4ni8ARfdGDPAi61
+         GL3tn3JBixbESQ/+KPmLWIN5rPSNEPxAWd1ljaq16+SVx3Yjt4u4IVBoAoKVBpaoOQs1
+         al64soobByOTtkekPcypwlSTUGggXuxJk+Io7GS7mqK+z4TNlLBxcQ13mv7FOTrgSShU
+         dq2rGbElaV9qVcAVnLvNAqF4AxUUj6S8vCpXcZ0DCfaTjcgFtLc720PSGyiThAynNsJo
+         EL83Na2fPstb2mqcivN8FVkEZvniAueS78QEZGiwc1rdP+J0LJV1nctTunHxdIfE6e0l
+         gkgQ==
+X-Gm-Message-State: ACrzQf0AtTjaIgstCJeP0B+XvwIfILVY4bo8pihHkj2yN6r43Z8M5Q/Q
+        l0Fi0sjHzpipsz4c//N/gJbkY+Yru+ER+f2wnjRaNXTi9mxAdHJpIFSIU/2hc7W8Uu5bdxTjuTb
+        FqpLg5dafBVXINRNWqkvX
+X-Received: by 2002:a05:620a:13db:b0:6fa:28c5:e06 with SMTP id g27-20020a05620a13db00b006fa28c50e06mr43421381qkl.629.1668093247068;
+        Thu, 10 Nov 2022 07:14:07 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM6SrgJUuJzXrqbA4GxWXofdLpOydoJ4P2uTKkpP4SreDc2IjZepp/HIqPuhN2wzy4WK+ZYaRw==
+X-Received: by 2002:a05:620a:13db:b0:6fa:28c5:e06 with SMTP id g27-20020a05620a13db00b006fa28c50e06mr43421357qkl.629.1668093246786;
+        Thu, 10 Nov 2022 07:14:06 -0800 (PST)
+Received: from nfvsdn-06.redhat.com (nat-pool-232-132.redhat.com. [66.187.232.132])
+        by smtp.gmail.com with ESMTPSA id fg26-20020a05622a581a00b00399b73d06f0sm11320703qtb.38.2022.11.10.07.14.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Nov 2022 07:14:06 -0800 (PST)
+From:   mtahhan@redhat.com
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     jbrouer@redhat.com, thoiland@redhat.com, donhunte@redhat.com,
+        yhs@meta.com, Maryam Tahhan <mtahhan@redhat.com>
+Subject: [PATCH bpf-next v8 0/1] doc: DEVMAPs and XDP_REDIRECT
+Date:   Thu, 10 Nov 2022 11:08:17 -0500
+Message-Id: <20221110160818.1053910-1-mtahhan@redhat.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221110032522.64043-1-frank.li@vivo.com>
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 10, 2022 at 11:25:22AM +0800, Yangtao Li wrote:
-> Since we now support read, write, and discard in FAULT_INJECT,
-> let's add support for flush.
+From: Maryam Tahhan <mtahhan@redhat.com>
 
-But _why_?  There is a verifiable thing that didn't happen to the data
-if the read/write/discard fails.  If flush fails ... how do you know?
-What do you do?  Is this to test that the filesystem fails properly if
-the block layer or the device returns a failure?  If so, why have this
-code in each filesystem?  We should support that kind of error injection
-at the block layer, not individual filesystems.
+Add documentation for BPF_MAP_TYPE_DEVMAP and
+BPF_MAP_TYPE_DEVMAP_HASH including kernel version
+introduced, usage and examples.
 
-> This patch supports to inject fault into __submit_flush_wait() to
-> simulate flush cmd io error.
-> 
-> Usage:
-> a) echo 524288 > /sys/fs/f2fs/<dev>/inject_type or
-> b) mount -o fault_type=524288 <dev> <mountpoint>
-> 
-> Signed-off-by: Yangtao Li <frank.li@vivo.com>
-> ---
->  Documentation/filesystems/f2fs.rst |  1 +
->  fs/f2fs/f2fs.h                     |  1 +
->  fs/f2fs/segment.c                  | 12 +++++++++---
->  fs/f2fs/super.c                    |  1 +
->  4 files changed, 12 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
-> index 6e67c5e6c7c3..316d153cc5fb 100644
-> --- a/Documentation/filesystems/f2fs.rst
-> +++ b/Documentation/filesystems/f2fs.rst
-> @@ -202,6 +202,7 @@ fault_type=%d		 Support configuring fault injection type, should be
->  			 FAULT_DQUOT_INIT	  0x000010000
->  			 FAULT_LOCK_OP		  0x000020000
->  			 FAULT_BLKADDR		  0x000040000
-> +			 FAULT_FLUSH		  0x000080000
->  			 ===================	  ===========
->  mode=%s			 Control block allocation mode which supports "adaptive"
->  			 and "lfs". In "lfs" mode, there should be no random
-> diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-> index 04ef4cce3d7f..832baf08ecac 100644
-> --- a/fs/f2fs/f2fs.h
-> +++ b/fs/f2fs/f2fs.h
-> @@ -61,6 +61,7 @@ enum {
->  	FAULT_DQUOT_INIT,
->  	FAULT_LOCK_OP,
->  	FAULT_BLKADDR,
-> +	FAULT_FLUSH,
->  	FAULT_MAX,
->  };
->  
-> diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
-> index aa4be7f25963..a4813fa33c0f 100644
-> --- a/fs/f2fs/segment.c
-> +++ b/fs/f2fs/segment.c
-> @@ -486,7 +486,13 @@ void f2fs_balance_fs_bg(struct f2fs_sb_info *sbi, bool from_bg)
->  static int __submit_flush_wait(struct f2fs_sb_info *sbi,
->  				struct block_device *bdev)
->  {
-> -	int ret = blkdev_issue_flush(bdev);
-> +	int ret;
-> +
-> +	if (time_to_inject(sbi, FAULT_FLUSH)) {
-> +		f2fs_show_injection_info(sbi, FAULT_FLUSH);
-> +		ret = -EIO;
-> +	} else
-> +		ret = blkdev_issue_flush(bdev);
->  
->  	trace_f2fs_issue_flush(bdev, test_opt(sbi, NOBARRIER),
->  				test_opt(sbi, FLUSH_MERGE), ret);
-> @@ -1126,13 +1132,13 @@ static int __submit_discard_cmd(struct f2fs_sb_info *sbi,
->  		if (time_to_inject(sbi, FAULT_DISCARD)) {
->  			f2fs_show_injection_info(sbi, FAULT_DISCARD);
->  			err = -EIO;
-> -			goto submit;
-> +			goto skip;
->  		}
->  		err = __blkdev_issue_discard(bdev,
->  					SECTOR_FROM_BLOCK(start),
->  					SECTOR_FROM_BLOCK(len),
->  					GFP_NOFS, &bio);
-> -submit:
-> +skip:
->  		if (err) {
->  			spin_lock_irqsave(&dc->lock, flags);
->  			if (dc->state == D_PARTIAL)
-> diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-> index a43d8a46a6e5..3d3d22ac527b 100644
-> --- a/fs/f2fs/super.c
-> +++ b/fs/f2fs/super.c
-> @@ -62,6 +62,7 @@ const char *f2fs_fault_name[FAULT_MAX] = {
->  	[FAULT_DQUOT_INIT]	= "dquot initialize",
->  	[FAULT_LOCK_OP]		= "lock_op",
->  	[FAULT_BLKADDR]		= "invalid blkaddr",
-> +	[FAULT_FLUSH]		= "flush error",
->  };
->  
->  void f2fs_build_fault_attr(struct f2fs_sb_info *sbi, unsigned int rate,
-> -- 
-> 2.25.1
-> 
+Add documentation that describes XDP_REDIRECT.
+
+v7->v8:
+- Updated multicast to use description suggested by Toke Høiland-Jørgensen.
+
+v6-v7:
+- Got rid of unnecessary initializations in examples.
+
+v5->v6:
+- Separate Kernel BPF and userspace functions for devmaps.
+- Include some packet/tracepoint debug info in the redirect
+  documentation.
+
+v4->v5:
+- Remove unused 'index' variable in example.
+
+v3->v4:
+- Prepend supported map section for XDP_REDIRECT documentation.
+
+v2->v3:
+- Fixed indentations in usage section to exclude non note text.
+- Replace links to selftest with actual paths.
+
+v1->v2:
+- Separate xdp_redirect documentation to its own file.
+- Clean up and simplify examples and usage function descriptions.
+
+Maryam Tahhan (1):
+  doc: DEVMAPs and XDP_REDIRECT
+
+ Documentation/bpf/index.rst      |   1 +
+ Documentation/bpf/map_devmap.rst | 222 +++++++++++++++++++++++++++++++
+ Documentation/bpf/redirect.rst   |  81 +++++++++++
+ net/core/filter.c                |   8 +-
+ 4 files changed, 310 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/bpf/map_devmap.rst
+ create mode 100644 Documentation/bpf/redirect.rst
+
+--
+2.35.3
+
