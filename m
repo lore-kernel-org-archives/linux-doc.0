@@ -2,183 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60CEAC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 13:04:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EB56C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 14:00:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230005AbiKJNEM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Nov 2022 08:04:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59096 "EHLO
+        id S229470AbiKJOAW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Nov 2022 09:00:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230152AbiKJNEK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 08:04:10 -0500
-Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3F2C554F4;
-        Thu, 10 Nov 2022 05:04:07 -0800 (PST)
-Message-ID: <77cb65e1-d032-b7e3-e806-c663be8daea3@lirui.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
-        t=1668085446;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gBCxljvJFZuUWwu9LUQoEPabdUF1Vyq8pG5TY2+2zao=;
-        b=U1qf/fl688R5olFTaD1BjMcoJ3Z7QWUAvKs36aDEfOCdWIydp3wtyQH0GvLUiQRPIenWeH
-        phYjvBa5nYHKNDMCzSEj/kIZz1TYuvqr6+vM2Obu83d4NgcaSOem29Mf7lstM97E+R3TEK
-        irxJGV0OBOEAi1hnzdQgh+9OzX7elCfSQ5pDRBJu6boWLv88Xut5QlcNIu/FpbYQ40yEKo
-        0Yo2QvDrkAuTSVpxKzj9soa+zSi+918epmqRddFWiJlrRgiXIdwNASkHVkSskvtJg1kdtN
-        vs5RoTY9SDuKyImgdozrrKhT9xvaefYGFiax8biH+Kiu7cQNifVa7Gye8ekuNQ==
-Date:   Thu, 10 Nov 2022 21:03:53 +0800
+        with ESMTP id S229651AbiKJOAV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 09:00:21 -0500
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EEE31A078
+        for <linux-doc@vger.kernel.org>; Thu, 10 Nov 2022 06:00:20 -0800 (PST)
+Received: by mail-lj1-x235.google.com with SMTP id c25so1214978ljr.8
+        for <linux-doc@vger.kernel.org>; Thu, 10 Nov 2022 06:00:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aakPR3dWnHZ7TJ/BvrMDtVquKUqYTA3FX1Ppr5XxP6E=;
+        b=sQx8rce3EU7mc+tcadjx5gzUT5NEJJbzw9+g4og/Vnby8E/d5Q65slZTjobXMRE849
+         P2OZofC6cY85ViMLNB09JTg+HuSZclCKjYCx/eWf5s95CY5sGiUSMa5SrAuBENjZFzG6
+         rjR6eamNtrFJcyw+/yh0WuX0zAjF/gLiktWKYOQ4VHN5jDf9oVyRFk0ejp8Xk8fqTWJT
+         4Iqb0k+ZskuEdioxuwqfXtHw3v+fIDevnVoU5Bjws9ZZcF2gb7fqcvGIR2CwBTkCfyxL
+         Gpca6YSRbEmtNSJThjtqkq68tLeTBFYe94H9h/xN+OgQD+hRjQp4YkRBovqymtw7Lga7
+         CeiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aakPR3dWnHZ7TJ/BvrMDtVquKUqYTA3FX1Ppr5XxP6E=;
+        b=saZ5BTDtI3snxADnun2x/MkMW6z3vl6e+pjspb3HwXVnkLbh+XWvA7U4gVcWgfJe5Y
+         6VmFRAU1m6gAZ9uPiHK34622wu+jE3YmbD4ivk8LmnuUX6iSpYzLqrhTrXniJeT4k5UG
+         h2huv6xYAWRT3OOhvJM3F4L6Rk9y7m0kafbhZKPMLYUWKmqkMDDq9MnErjIMP44mg7zI
+         VsB5jlsR6yIHlu41Sc7Kn2l4lbYy4mERn8LIAHnVlZoXOUsX6y186dDc3ZF/QRSdyo2k
+         vNgZi8/7trcHf1fYF5nJJJQqG7+wEZ6Ywrh/893duIkv7WrpPm7gVsAGoPjB3t4Hqk7C
+         Xwcw==
+X-Gm-Message-State: ACrzQf1sr/ShPBW86ZccflbtvgTJS6XnpW+yAZV0uFv4opeLbJLUyIda
+        SEx3TH7N/Gtht3qdRTDAC5C3Bw==
+X-Google-Smtp-Source: AMsMyM7pPePktg3CUd0McZdKiuqGEjTHZ0GgmJ3lARf6Sl0KyG3WkpYFRErg4CMKl+Vq5cAsRd2Xgg==
+X-Received: by 2002:a2e:2417:0:b0:277:13a5:806f with SMTP id k23-20020a2e2417000000b0027713a5806fmr8456285ljk.144.1668088818420;
+        Thu, 10 Nov 2022 06:00:18 -0800 (PST)
+Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
+        by smtp.gmail.com with ESMTPSA id w1-20020a19c501000000b004b177293a8dsm2746429lfe.210.2022.11.10.06.00.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Nov 2022 06:00:17 -0800 (PST)
+Message-ID: <bb77e12a-b218-461b-6aa8-10f2b9a67347@linaro.org>
+Date:   Thu, 10 Nov 2022 15:00:16 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH] docs/zh_CN: Add userspace-api/futex2 Chinese translation
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 3/7] dt-bindings: mfd: add binding for Apple Mac System
+ Management Controller
 Content-Language: en-US
-To:     Alex Shi <seakeel@gmail.com>
-Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+To:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Rob Herring <robh@kernel.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Lee Jones <lee@kernel.org>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        asahi@lists.linux.dev, devicetree@vger.kernel.org,
+        Hector Martin <marcan@marcan.st>,
         Jonathan Corbet <corbet@lwn.net>,
-        Wu XiangCheng <wu.xiangcheng@linux.dev>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221105041741.288094-1-me@lirui.org>
- <CAJy-Am=QiK-YuntZvbVyhVatY4t3b0CFkmi2c7PTX-gomS7MYw@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Rui Li <me@lirui.org>
-In-Reply-To: <CAJy-Am=QiK-YuntZvbVyhVatY4t3b0CFkmi2c7PTX-gomS7MYw@mail.gmail.com>
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sven Peter <sven@svenpeter.dev>
+References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
+ <E1osRXT-002mw3-JR@rmk-PC.armlinux.org.uk>
+ <531d88b8-75db-1d8f-1384-b8d05594e7b3@linaro.org>
+ <Y2rWp4wasbflS/0y@shell.armlinux.org.uk>
+ <20221109221723.GA2948356-robh@kernel.org>
+ <Y2zlA8RpOqD/7TrM@shell.armlinux.org.uk>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <Y2zlA8RpOqD/7TrM@shell.armlinux.org.uk>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/11/10 17:23, Alex Shi wrote:
-> On Sat, Nov 5, 2022 at 12:18 PM Rui Li <me@lirui.org> wrote:
->> Translate the following documents into Chinese:
+On 10/11/2022 12:48, Russell King (Oracle) wrote:
+> On Wed, Nov 09, 2022 at 04:17:23PM -0600, Rob Herring wrote:
+>> On Tue, Nov 08, 2022 at 10:22:31PM +0000, Russell King (Oracle) wrote:
+>>> On Tue, Nov 08, 2022 at 09:55:58PM +0100, Krzysztof Kozlowski wrote:
+>>>> On 08/11/2022 17:33, Russell King (Oracle) wrote:
+>>>>> Add a DT binding for the Apple Mac System Management Controller.
+>>>>
+>>>> Drop the second, redundant "binding" from subject. It's already in prefix.
+>>>
+>>> Yet another thing that's been there from the start... how many more
+>>> things are you going to pick up in subsequent versions of the patch?
+>>> When does this stop?
+>>>
+>>> In any case, taking your comment literally,
+>>>
+>>> "dt-bindings: mfd: add for Apple Mac System Management Controller"
+>>>
+>>> makes no sense, so presumably you want something more than that.
+>>>
+>>> In any case, I see several recent cases already merged which follow
+>>> the pattern that I've used and that you've reviewed.
+>>>
+>>>>> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+>>>>> ---
+>>>>>  .../devicetree/bindings/mfd/apple,smc.yaml    | 67 +++++++++++++++++++
+>>>>>  1 file changed, 67 insertions(+)
+>>>>>  create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
+>>>>>
+>>>>> diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+>>>>> new file mode 100644
+>>>>> index 000000000000..014eba5a1bbc
+>>>>> --- /dev/null
+>>>>> +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+>>>>> @@ -0,0 +1,67 @@
+>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>>> +%YAML 1.2
+>>>>> +---
+>>>>> +$id: http://devicetree.org/schemas/mfd/apple,smc.yaml#
+>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>>> +
+>>>>> +title: Apple Mac System Management Controller
+>>>>> +
+>>>>> +maintainers:
+>>>>> +  - Hector Martin <marcan@marcan.st>
+>>>>> +
+>>>>> +description:
+>>>>> +  Apple Mac System Management Controller implements various functions
+>>>>> +  such as GPIO, RTC, power, reboot.
+>>>>> +
+>>>>> +properties:
+>>>>> +  compatible:
+>>>>> +    items:
+>>>>> +      - enum:
+>>>>> +          - apple,t6000-smc
+>>>>> +          - apple,t8103-smc
+>>>>> +          - apple,t8112-smc
+>>>>> +      - const: apple,smc
+>>>>> +
+>>>>> +  reg:
+>>>>> +    items:
+>>>>> +      - description: SMC area
+>>>>> +      - description: SRAM area
+>>>>> +
+>>>>> +  reg-names:
+>>>>> +    items:
+>>>>> +      - const: smc
+>>>>> +      - const: sram
+>>>>> +
+>>>>> +  mboxes:
+>>>>> +    maxItems: 1
+>>>>> +
+>>>>> +  gpio:
+>>>>> +    $ref: /schemas/gpio/gpio-macsmc.yaml
+>>>>
+>>>> So this depends on other patch, so:
+>>>> 1. You need mention the dependency in cover letter (nothing there),
+>>>> 2. Re-order patches.
+>>>>
+>>>> The GPIO cannot go separate tree and this must be explicitly communicated.
+>>>
+>>> Sigh, getting an order that is sensible is really bloody difficult.
 >>
->> - userspace-api/futex2.rst
->>
->> Signed-off-by: Rui Li <me@lirui.org>
->> ---
->>  .../zh_CN/userspace-api/futex2.rst            | 80 +++++++++++++++++++
->>  .../zh_CN/userspace-api/index.rst             |  2 +-
->>  2 files changed, 81 insertions(+), 1 deletion(-)
->>  create mode 100644 Documentation/translations/zh_CN/userspace-api/futex2.rst
->>
->> diff --git a/Documentation/translations/zh_CN/userspace-api/futex2.rst b/Documentation/translations/zh_CN/userspace-api/futex2.rst
->> new file mode 100644
->> index 000000000000..04f9d62db1f7
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/userspace-api/futex2.rst
->> @@ -0,0 +1,80 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: Documentation/userspace-api/futex2.rst
->> +
->> +:翻译:
->> +
->> + 李睿 Rui Li <me@lirui.org>
->> +
->> +======
->> +futex2
->> +======
->> +
->> +:作者: André Almeida <andrealmeid@collabora.com>
->> +
->> +futex，或者称为快速用户互斥锁（fast user mutex），是一组允许用户空间创建高性能同步
->> +机制的系统调用，比如用户空间中的互斥锁，信号量和条件变量。C标准库，如glibc，使用它作
->> +为实现更多高级接口的方式，如pthreads。
->> +
->> +futex2是初代futex系统调用的后续版本，旨在克服原有接口的限制。
->> +
->> +用户API
->> +=======
->> +
->> +``futex_waitv()``
->> +-----------------
->> +
->> +等待一个futex数组，可由其中任意一个唤醒::
->> +
->> +  futex_waitv(struct futex_waitv *waiters, unsigned int nr_futexes,
->> +              unsigned int flags, struct timespec *timeout, clockid_t clockid)
->> +
->> +  struct futex_waitv {
->> +        __u64 val;
->> +        __u64 uaddr;
->> +        __u32 flags;
->> +        __u32 __reserved;
->> +  };
->> +
->> +用户空间设置一个struct futex_waitv数组（最多128项），设置 ``uaddr`` 为等待的
->> +地址， ``val`` 为期望值， ``flags`` 为指定的类型（如private）和futex的大小。
->> +``__reserved`` 需要置为0，但是它可用作未来扩展。指向数组第一个元素的指针作为
->> +``waiters`` 传递。如果 ``waiters`` 或任何的  ``uaddr`` 地址无效，将返回 ``-EFAULT`` 。
->> +
->> +如果用户空间拥有32位的指针，那么需要做显式转换来保证高位清零。 ``uintptr_t`` 设计
->> +得很精巧，在32/64位的指针上都正常工作。
->> +
->> +``nr_futexes`` 指定了数组的大小。不在[1,128]区间内的值会使系统调用返回 ``-EINVAL`` 。
->> +
->> +系统调用的 ``flags`` 参数需要置0，但可用作未来扩展。
->> +
->> +对于每个 ``waiters`` 数组中的项，在 ``uaddr`` 的当前值会和 ``val`` 比较。如果
->> +不一致，系统调用会撤销截至目前完成的所有工作，并返回 ``-EAGAIN`` 。如果所有测试
->> +和验证都通过，系统调用会等待直到以下情况之一发生：
->> +
->> +- 指定的timeout超时，返回 ``-ETIMEOUT`` 。
->> +- 一个信号被传递给睡眠中的任务，返回 ``-ERESTARTSYS`` 。
->> +- 某个列表中的futex被唤醒，返回那个被唤醒的futex的索引。
->> +
->> +关于如何使用接口的例子可以在 ``tools/testing/selftests/futex/functional/futex_waitv.c``
->> +中找到。
->> +
->> +超时
->> +----
->> +
->> +``struct timespec *timeout`` 是一个指向绝对超时时间的可选参数。你需要在 ``clockid``
->> +参数中指定要使用的时钟类型。支持 ``CLOCK_MONOTONIC`` 和 ``CLOCK_REALTIME`` 。这个
->> +系统调用只接受64位的timespec结构体。
->> +
->> +futex的类型
->> +-----------
->> +
->> +futex既可以是私有的也可以是共享的。私有用于多个进程共享同样的内存空间，并且futex的虚拟
->> +地址对所有进程都是一样的。这允许在内核中进行优化。要使用私有futex，需要在futex标志中指定
->> +``FUTEX_PRIVATE_FLAG`` 。对于那些不在同一内存空间共享的进程，可以让同一个futex拥有不同
->> +的虚拟地址（例如使用基于文件的共享内存），这需要不同的内部机制来使得正确进入队列。这是默认
->> +的行为，而且对私有futex和共享futex都适用。
-> Good job. Just "这需要不同的内部机制来使得正确进入队列" is a bit odd. could you repolish it?
->
-> To others:
-> Reviewed-by: Alex Shi <alexs@kernel.org>
->
-> Thanks
->
->> +
->> +futex可以是不同的大小：8，16，32或64位。目前只支持32位大小的futex，并且需要通过 ``FUTEX_32``
->> +标志指定。
->> diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
->> index dad5ba7cae6d..68b69b14b143 100644
->> --- a/Documentation/translations/zh_CN/userspace-api/index.rst
->> +++ b/Documentation/translations/zh_CN/userspace-api/index.rst
->> @@ -28,6 +28,7 @@ Linux 内核用户空间API指南
->>     seccomp_filter
->>     ebpf/index
->>     sysfs-platform_profile
->> +   futex2
->>
->>  TODOList:
->>
->> @@ -40,7 +41,6 @@ TODOList:
->>  * media/index
->>  * netlink/index
->>  * vduse
->> -* futex2
->>
->>  .. only::  subproject and html
->>
->> --
->> 2.30.2
->>
-Thanks. I will think a better translation, and send updated one later.
+>> It's not. Sub-devices before the MFD. The only time that doesn't work is 
+>> when the sub-devices put the parent MFD in their example. The solution 
+>> there is don't do that. Just 1 complete example in the MFD schema and no 
+>> examples in the sub-devices.
+> 
+> Meanwhile, I was told by Krzysztof that DT schemas must always have an
+> example. So, different person, different story.
 
--- 
-Rui Li    0x77E6D821D7AE84FE
+Hm, where do you see a message I told you to always have examples? Maybe
+in some discussion I mentioned that examples are desired, but not
+always. There is no point in having example in MFD child device schema
+if it is already part of the parent MFD binding, where it is actually
+required for complete picture.
+
+Best regards,
+Krzysztof
 
