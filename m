@@ -2,106 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4059C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 16:04:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E97CC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 16:38:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229531AbiKJQE0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Nov 2022 11:04:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41770 "EHLO
+        id S231411AbiKJQit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Nov 2022 11:38:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229622AbiKJQEZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 11:04:25 -0500
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C22E4175AB
-        for <linux-doc@vger.kernel.org>; Thu, 10 Nov 2022 08:04:24 -0800 (PST)
-Received: by mail-ej1-x633.google.com with SMTP id 13so6202626ejn.3
-        for <linux-doc@vger.kernel.org>; Thu, 10 Nov 2022 08:04:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hFaoVWX3RPLpACkyedBV3PTT5TMZWxPD/ZAqJUgyn/4=;
-        b=sU5cwCgeyQCJm0kHPrAsrs7Abf5eyH0+ZHOohF8AwyBR3OR5Q/Q/dIs3vmXOLPvREJ
-         4UJycZDcZp2evi0vIe3xVNlCLbfVKshwTqBnn/XK/641byYkNJro75KmRnYnkdyCybQ8
-         9TPHT0EqAXOxN/OoC0ONxvHuKAbLnRtWsPx6L0ro6hf78bh4kH8PKbfpa+yJOidv7UBN
-         lidi3qlCaPmmgY08f7H+Ugp45YwfktAF8FJc5OheO4wuJN1B4s26RcfGk3rJHKJFbyHC
-         m9KBpXPdr6UPU+exj5Of6FOmoTQ7OhAwNoDdY3gVy7r7rYuTKYdNvOkUER7i0aNIyLdN
-         1/ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hFaoVWX3RPLpACkyedBV3PTT5TMZWxPD/ZAqJUgyn/4=;
-        b=Lqw4/01uzXU+PMgXSb/kLFnZWZnrJvjNmXeFvFwldt9TSR4SCuqRbkXutHwVIzO9pe
-         +M6tI5xsXWrewtCnwTGQ9PgK1SMfIK83eBQ78wOHO+XMStvEwK3/94KMcG3MHXlGAF06
-         LCo9LUDKM+wMn64gi1PXXHlTdbQAPdenN7R8dmpdrF3RF0OIyu/Pw6BSPcW0/6/YUw2G
-         jVE2Yye5m5qd/ZTn1/u9mG8vTBwm4Wzqe7QmSg3JYO/yhZqJZYPAN2DMZ/lnjJvhBzJi
-         mmFJE+c3rMzoo4fuIofaK1HBIm4ZIKATcweyeuOjIEB8rj4kQVXAjW3cUv+4DZhnkv+9
-         GwZg==
-X-Gm-Message-State: ACrzQf1QD24taan+99oeeGfwHJ/F70Ldci3de9M1D+Ot2F7QtASE4QSx
-        azhYSAyilrr97oErKYTViHHTcGA0Fcz5BI0iahOZqw==
-X-Google-Smtp-Source: AMsMyM6LZ8JNPCa+UcFxwSnLJws0uMTCDx0ty9yOsqIGpd7DCq+IG97vb7GoLiUbIifxDJ2i0xjUniuW8Ul5KhiI+iI=
-X-Received: by 2002:a17:906:3bc1:b0:78d:8cf3:6ae with SMTP id
- v1-20020a1709063bc100b0078d8cf306aemr3101932ejf.173.1668096263221; Thu, 10
- Nov 2022 08:04:23 -0800 (PST)
+        with ESMTP id S231866AbiKJQgx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 11:36:53 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E9183F057;
+        Thu, 10 Nov 2022 08:36:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668098212; x=1699634212;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X0nehVTwI3rF9wE0y2jLW9Y42uRXunpJ9jpEkFCIDdY=;
+  b=NEH0esm5u3215OLuRGYZ3Sr71BeHYL+QvS0D6iRoEDhiFZ8NG9CnGe3H
+   5oRK6UeYGWs6RJcw861dCIDzCet328Sqyg3LmvVHex1aHOQmaCCu63Xpe
+   ziIhJMXtl05JvCD0w7vc2XwlsXQlsaKJ4Mmx9sbMqNw4XnEjsYAbotj52
+   h/HCP6sRnsoTAPhbbAsG4v6CWsqBfaYFRiCHMEhCumI+RC1xfa2q35RrJ
+   5zUYpqAa8GXjPk8IhMQkIjgYpfaThIn/WcVQSP5lCFQEotkgdVdjV2Ht2
+   di+3j6L5QQZ4D2tlTBt116hkFWnJRt/RJp8qiY6SWuJv8LRKhJOUuxqOa
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="310074307"
+X-IronPort-AV: E=Sophos;i="5.96,154,1665471600"; 
+   d="scan'208";a="310074307"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2022 08:36:22 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="726447052"
+X-IronPort-AV: E=Sophos;i="5.96,154,1665471600"; 
+   d="scan'208";a="726447052"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2022 08:36:22 -0800
+Date:   Thu, 10 Nov 2022 08:36:20 -0800
+From:   Tony Luck <tony.luck@intel.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        hpa@zytor.com, luto@kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, bagasdotme@gmail.com,
+        kernel-dev@igalia.com, kernel@gpiccoli.net,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Joshua Ashton <joshua@froggi.es>,
+        Melissa Wen <mwen@igalia.com>,
+        Paul Gofman <pgofman@codeweavers.com>,
+        Pavel Machek <pavel@denx.de>,
+        Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
+        Zebediah Figura <zfigura@codeweavers.com>,
+        Andre Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH V3] x86/split_lock: Add sysctl to control the misery mode
+Message-ID: <Y20ohNc3xGtCd0Bj@agluck-desk3.sc.intel.com>
+References: <20221024200254.635256-1-gpiccoli@igalia.com>
 MIME-Version: 1.0
-References: <20221109003618.3784591-1-dlatypov@google.com> <20221109003618.3784591-2-dlatypov@google.com>
- <CAO2JNKUTiVM8YPgy0nz7W1GJtSVURhc1YkMgUWgs-rShNY0Zaw@mail.gmail.com>
-In-Reply-To: <CAO2JNKUTiVM8YPgy0nz7W1GJtSVURhc1YkMgUWgs-rShNY0Zaw@mail.gmail.com>
-From:   Daniel Latypov <dlatypov@google.com>
-Date:   Thu, 10 Nov 2022 08:04:12 -0800
-Message-ID: <CAGS_qxqPUHWyJ4nNQRdm79sMwHwysHV=99WXzMsY=g_WzSjZaw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] Documentation: KUnit: reword description of assertions
-To:     Sadiya Kazi <sadiyakazi@google.com>
-Cc:     brendanhiggins@google.com, davidgow@google.com, rmoar@google.com,
-        linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221024200254.635256-1-gpiccoli@igalia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 9, 2022 at 9:07 PM Sadiya Kazi <sadiyakazi@google.com> wrote:
->
-> On Wed, Nov 9, 2022 at 6:06 AM 'Daniel Latypov' via KUnit Development
-> <kunit-dev@googlegroups.com> wrote:
-> >
-> > The existing wording implies that kunit_kmalloc_array() is "the method
-> > under test". We're actually testing the sort() function in that example.
-> > This is because the example was changed in commit 953574390634
-> > ("Documentation: KUnit: Rework writing page to focus on writing tests"),
-> > but the wording was not.
-> >
-> > Also add a `note` telling people they can use the KUNIT_ASSERT_EQ()
-> > macros from any function. Some users might be coming from a framework
-> > like gUnit where that'll compile but silently do the wrong thing.
-> >
-> > Signed-off-by: Daniel Latypov <dlatypov@google.com>
-> > ---
->
-> Thank you, Daniel. This looks fine to me except for a small typo in
-> this line "to abort
-> the test if we there's an allocation error". Also, I have reworded
-> that paragraph a bit
-> as below. Please feel free to ignore, if you do not agree:
->
-> In this example, to test the ``sort()`` function, we must be able to
-> allocate an array.
-> If there is an allocation error, the test is terminated using the function
-> ``KUNIT ASSERT NOT ERR OR NULL()``.
+On Mon, Oct 24, 2022 at 05:02:54PM -0300, Guilherme G. Piccoli wrote:
+> Commit b041b525dab9 ("x86/split_lock: Make life miserable for split lockers")
+> changed the way the split lock detector works when in "warn" mode;
+> basically, not only it shows the warn message, but also intentionally
+> introduces a slowdown (through sleeping plus serialization mechanism)
+> on such task. Based on discussions in [0], seems the warning alone
+> wasn't enough motivation for userspace developers to fix their
+> applications.
+> 
+> Happens that originally the proposal in [0] was to add a new mode
+> which would warns + slowdown the "split locking" task, keeping the
+> old warn mode untouched. In the end, that idea was discarded and
+> the regular/default "warn" mode now slowdowns the applications. This
+> is quite aggressive with regards proprietary/legacy programs that
+> basically are unable to properly run in kernel with this change.
+> While it is understandable that a malicious application could DoS
+> by split locking, it seems unacceptable to regress old/proprietary
+> userspace programs through a default configuration that previously
+> worked. An example of such breakage was reported in [1].
+> 
+> So let's add a sysctl to allow controlling the "misery mode" behavior,
+> as per Thomas suggestion on [2]. This way, users running legacy and/or
+> proprietary software are allowed to still execute them with a decent
+> performance while still observe the warning messages on kernel log.
 
-Thanks for catching that.
+Reviewed-by: Tony Luck <tony.luck@intel.com>
 
-Hmm, I slightly prefer the current structure since I like having the
-<thing> being described near the start of the sentence as opposed to
-the very end.
-I'll wait a bit before sending a v3 to give time for anyone else to
-chime in, if they want.
-
-Snipping the email to the block in question:
-
-> > +In this example, we need to be able to allocate an array to test the ``sort()``
-> > +function. So we use ``KUNIT_ASSERT_NOT_ERR_OR_NULL()`` to abort the test if
-> > +we there's an allocation error.
+-Tony
