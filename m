@@ -2,140 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BD10C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 00:02:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BC50C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 01:36:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231863AbiKJACJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 19:02:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53584 "EHLO
+        id S232322AbiKJBg6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 20:36:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229802AbiKJACI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 19:02:08 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8130A222B1
-        for <linux-doc@vger.kernel.org>; Wed,  9 Nov 2022 16:02:07 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id k5so308731pjo.5
-        for <linux-doc@vger.kernel.org>; Wed, 09 Nov 2022 16:02:07 -0800 (PST)
+        with ESMTP id S232330AbiKJBgy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 20:36:54 -0500
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8C4B23BD8;
+        Wed,  9 Nov 2022 17:36:53 -0800 (PST)
+Received: by mail-pf1-x42c.google.com with SMTP id y203so454320pfb.4;
+        Wed, 09 Nov 2022 17:36:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=p7Daps8F455XQYwxt4zsfNkYk/NEUbSHg8y4fLlQGlw=;
-        b=de0Un6NHJwrYjGdsd6Hymr0RokpmscUp2nh2NVTZj16/sDwr/QqPVU7saLLLzVMrUX
-         YtE4r6ZyFaxxplkamm8PKWRaExJTGGKPuJBAXRgwy0dgvQ057uPnLb+EjXckvxx0bcwH
-         LJ7COv565ogXqugWgr1BeSviJdw6iyuPBpUDs=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7oEB0lmZcsgH+1cJj1K5vcGagIGFkzSpM0f9u/agpKk=;
+        b=j5vAZZswxbBkHZzlL1ibLXLQbQGvK/q/voHBPTA1Ws2DdyIcIxirEPVoIIwi4/sXEE
+         6pddZ/yGus6geTiEG+0QBsLNJaFZiuRoroNmFDwac3SFK5jSBJJ1XsU1BVsBg4HcSgK8
+         r/SwCyk8LffYTykINyVSGMn4tWufX2ZbWeq4TX2XF2kw1yeCFOeyJy+0dE0tvsY29awC
+         O/Ok6itCX7IiW9utGLN1ra+3onkKIV9LsL7CAy28lBgBe5WcSqNh3SrrnzoYzi2rSaev
+         v9Rg7JfLrNfbxgEtzAIb122i3+gGXWIxqnswqCjYjom6IY3HrAqMEXWzMGDD0yfoDfap
+         dQ+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p7Daps8F455XQYwxt4zsfNkYk/NEUbSHg8y4fLlQGlw=;
-        b=alGkm5pMOhsfeyxNSNbL5YmBdR58lylmQh5HNQAzrjkb0SY9R9TkF0jvyEFDC/fQTQ
-         9q8ymsjOe6yhTnBesOCkTdNHzcnZGzymT/xHqFnIS70GB0ag0BW1jyLMosKHt/C6uPmp
-         47Z12U5GzMxICbF8zcHZHSRBAUDeL/CgQQDuo/3HHa99rD95rAmdOid14l92GjN9n1B0
-         CY9u5xRHcZ9ZVkOj7pg52ShqLbgjmbZRunRp8/61HBMpA7zn6opz9j5e69QrBnRAWiJi
-         oG6xJgtyF5jzbFLG4etGZR9nnsEW/zVJ/o7hsNHktc6Acv26zoKfNSKARmmeQ5AG8pKW
-         A4Mg==
-X-Gm-Message-State: ACrzQf0u5RIvxPOP4XQUVzV3VPAueiDNOfEjBwIHqQASFfkOs/070fT3
-        cwjLzNUB0sTLDk/dzwAaoxAHjQ==
-X-Google-Smtp-Source: AMsMyM5bthcPbXOxkKa6K+tg7fCCiv2SKynZlpoNO+Ox1nGoYBjoLBD79gHYEBB3qUS2rPF4vEcp8g==
-X-Received: by 2002:a17:90a:f306:b0:213:b191:f3bf with SMTP id ca6-20020a17090af30600b00213b191f3bfmr62515127pjb.237.1668038526964;
-        Wed, 09 Nov 2022 16:02:06 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id i4-20020a056a00004400b005668b26ade0sm8799343pfk.136.2022.11.09.16.02.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 16:02:06 -0800 (PST)
-Date:   Wed, 9 Nov 2022 16:02:05 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Bill Wendling <morbo@google.com>
-Cc:     Jann Horn <jannh@google.com>, Petr Mladek <pmladek@suse.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        tangmeng <tangmeng@uniontech.com>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linus Torvalds <torvalds@linuxfoundation.org>,
-        Seth Jenkins <sethjenkins@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Arnd Bergmann <arnd@arndb.de>, Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        David Gow <davidgow@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Eric Biggers <ebiggers@google.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Laurent Dufour <ldufour@linux.ibm.com>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 1/6] panic: Separate sysctl logic from CONFIG_SMP
-Message-ID: <202211091601.E07A8D57@keescook>
-References: <20221109194404.gonna.558-kees@kernel.org>
- <20221109200050.3400857-1-keescook@chromium.org>
- <CAGG=3QXM3u_uz1fuW2LzvrZqqPhYL15m+LJgD39R=jkuyENmYg@mail.gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7oEB0lmZcsgH+1cJj1K5vcGagIGFkzSpM0f9u/agpKk=;
+        b=0ra0n48820Js5P7QwTUcCKkavO/QhdA8MBC9bNaDdhpO9TdHloI8+9TIM6tQKpLcqs
+         FZH+hQB9vWj4eDqv8uHKasD1npVOE5KRwg/T/7mro79gWv5KZkBnrXb6thXBDVr+TzUu
+         ccvywpYG4sjZ/xjuhN6K2NQbeUDL0tPuYxgP09M5IiVtKXGhUgZU8LHDgE4QRCvulPc+
+         1zdKgqaXmmFU6cx6IfPjPR8zYMu2M2xBhipp8JWrZx7+rfyLnb78Cf5ubLZzaayLPxAj
+         VPq2xYdtEZr0QaF18SlfXnqDf0Ml4SWrXnImC6jNXqrjFy0gA1iaMbiJ715VU9y32qkF
+         OD1w==
+X-Gm-Message-State: ACrzQf2s5VOV8lM47ts3HqJsMmRaf2mEkWq171eL0KyWP+Mwca9fjWn8
+        mxj+Ujruq2FkUcp/00wD8EE=
+X-Google-Smtp-Source: AMsMyM5pxt6O5G2t44hmX7bNcOIwJjfDwhc/Z1C5/sklTlOtzuBZmTn3pd4yijWcrTIVK+UNfOb4xA==
+X-Received: by 2002:aa7:83c8:0:b0:56d:8e07:4618 with SMTP id j8-20020aa783c8000000b0056d8e074618mr51245416pfn.33.1668044213225;
+        Wed, 09 Nov 2022 17:36:53 -0800 (PST)
+Received: from [192.168.43.80] (subs02-180-214-232-25.three.co.id. [180.214.232.25])
+        by smtp.gmail.com with ESMTPSA id p12-20020a170902bd0c00b001754fa42065sm9755598pls.143.2022.11.09.17.36.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Nov 2022 17:36:52 -0800 (PST)
+Message-ID: <0323ce55-bb9b-dd85-93e8-22ad3591b7f3@gmail.com>
+Date:   Thu, 10 Nov 2022 08:36:46 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGG=3QXM3u_uz1fuW2LzvrZqqPhYL15m+LJgD39R=jkuyENmYg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] Documentation: media: Add ST VGXY61 driver documentation
+ to userspace API table of contents
+To:     Benjamin MUGNIER <benjamin.mugnier@foss.st.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-next@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20221109100147.218947-1-bagasdotme@gmail.com>
+ <f0aee291-ce44-400b-be3a-dfe38c62e450@foss.st.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <f0aee291-ce44-400b-be3a-dfe38c62e450@foss.st.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 09, 2022 at 01:48:45PM -0800, Bill Wendling wrote:
-> On Wed, Nov 9, 2022 at 12:01 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > In preparation for adding more sysctls directly in kernel/panic.c, split
-> > CONFIG_SMP from the logic that adds sysctls.
-> >
-> > Cc: Petr Mladek <pmladek@suse.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: tangmeng <tangmeng@uniontech.com>
-> > Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-> > Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
-> > Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >  kernel/panic.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/kernel/panic.c b/kernel/panic.c
-> > index da323209f583..129936511380 100644
-> > --- a/kernel/panic.c
-> > +++ b/kernel/panic.c
-> > @@ -75,8 +75,9 @@ ATOMIC_NOTIFIER_HEAD(panic_notifier_list);
-> >
-> >  EXPORT_SYMBOL(panic_notifier_list);
-> >
-> > -#if defined(CONFIG_SMP) && defined(CONFIG_SYSCTL)
-> > +#if CONFIG_SYSCTL
+On 11/9/22 21:50, Benjamin MUGNIER wrote:
+> Hi Bagas,
 > 
-> Should this be "#ifdef CONFIG_SYSCTL"?
+> I already submitted this here:
+> https://www.spinics.net/lists/linux-media/msg221143.html
 > 
-> >  static struct ctl_table kern_panic_table[] = {
-> > +#if defined(CONFIG_SMP)
+> Thanks.
 > 
-> nit: This could be "#ifdef CONFIG_SMP"
 
-Whoops, yes. Thanks. I'll fix these for v3.
+Oh, I don't see above! Thanks anyway.
+
+PS: Please don't top post your reply; reply inline with appropriate
+context. I had to cut the whole context below your reply.
 
 -- 
-Kees Cook
+An old man doll... just what I always wanted! - Clara
+
