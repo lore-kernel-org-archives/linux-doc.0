@@ -2,104 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AEE5C43219
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 15:10:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 366C5C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Nov 2022 15:12:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231310AbiKJPKX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Nov 2022 10:10:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58574 "EHLO
+        id S230124AbiKJPL7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Nov 2022 10:11:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230000AbiKJPKU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 10:10:20 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6336E2BB0D;
-        Thu, 10 Nov 2022 07:10:20 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A5B6C37E;
-        Thu, 10 Nov 2022 15:10:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A5B6C37E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1668093019; bh=mBBbrMtJ5EuS0waUjuX4ugyR94/nkClQDPlg7UQzF8Y=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=fMIg9GgJX6Yi1LkwBsIBU6h2mwkmwarirOjb/su2PGoW6AQeQJK3eTJId6Wxgil4l
-         Isz1r9IqAHVjwMQEAXh8FUAe/HP+Qnx00HR8yjoI8ICNEAIL1PP8ePz3X2Plh48pxF
-         s14Sz9HSryXXL1Xt55tLGvXFHkHGn8kzD3QGaojQbuyZ+o9OimM08WYil3dA9eYvcO
-         Z9yBE7PlH6ZqDTWq62s3OReyeP7aOtfgGZsa4h6ndsxoAM2vv6kfJr+Ns8aLZIP4Fo
-         X3/yxLKBIz/ZczuKvT46AUTA3r/AK+YM0HL8BIbykjzoBQY2TLNel2Aj3/ZswAkEM4
-         W97k7Z43jx6jw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, bpf@vger.kernel.org,
-        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
-        Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Shameerali Kolothum Thodi 
-        <shameerali.kolothum.thodi@huawei.com>,
-        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
-Subject: Re: [PATCH v4 04/17] iommufd: Document overview of iommufd
-In-Reply-To: <Y20QotPsxivvV53l@nvidia.com>
-References: <0-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
- <4-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
- <Y2zE0zfnQ7mt740i@debian.me> <87v8nmhnkl.fsf@meer.lwn.net>
- <Y20QotPsxivvV53l@nvidia.com>
-Date:   Thu, 10 Nov 2022 08:10:19 -0700
-Message-ID: <87r0yahmlg.fsf@meer.lwn.net>
+        with ESMTP id S230247AbiKJPLz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Nov 2022 10:11:55 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89D202E6B4;
+        Thu, 10 Nov 2022 07:11:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=GDS8SnZZcS0SPQ3hd4JtwYFgNgfG4Z6tO5Aqk4r9P7M=; b=gLSOYkudMtjTwff6AEMIEbcIPL
+        assZcfTyw/95zMEu+tf3Nw0TdYYucmP0ADqCUX0A9Th37boVIX1bQPLE67+/Fqs8bHBXqlFFue4ii
+        wwnSLzxguQ1BTcXbRSrI9CiMdM+TeXsvpy7Xtth6T91zaKB+zJsohn7ioDLn8QcirNY9VQqLGwRqv
+        dvCGU4TcDCkQtQtLovntDH0OiXsa/ZpOkXUSElJWalDEVvJIKUf4UURsOwDI2M8cp4iXZfrqdkLMN
+        +Rq+wcOgYS7b1jebjW6Ena/n0/zQTj+Ov8kd6lMdpPS0vKQul8jkr48ixVAZIWGixPan1L0cweuAE
+        eF8pcX/A==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1ot9DX-00CA5o-Rz; Thu, 10 Nov 2022 15:11:47 +0000
+Date:   Thu, 10 Nov 2022 15:11:47 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Yangtao Li <frank.li@vivo.com>
+Cc:     jaegeuk@kernel.org, chao@kernel.org, corbet@lwn.net,
+        linux-f2fs-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] f2fs: support fault injection for flush submission
+ error
+Message-ID: <Y20Us047HVn+dPUg@casper.infradead.org>
+References: <20221110032522.64043-1-frank.li@vivo.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221110032522.64043-1-frank.li@vivo.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jason Gunthorpe <jgg@nvidia.com> writes:
+On Thu, Nov 10, 2022 at 11:25:22AM +0800, Yangtao Li wrote:
+> Since we now support read, write, and discard in FAULT_INJECT,
+> let's add support for flush.
 
-> On Thu, Nov 10, 2022 at 07:49:14AM -0700, Jonathan Corbet wrote:
->
->> The *real* problem, methinks, is that the directives are added in patch 4
->> of the series, but the documentation doesn't show up until later.  So
->> the real fix would be to simply move this patch down.  Or just not worry
->> about it, since it all works out in the end and nobody will be bisecting
->> a docs build.
->
-> That is half the problem, the other is this:
->
-> https://lore.kernel.org/r/0-v1-c80e152ce63b+12-kdoc_export_ns_jgg@nvidia.com
->
-> Since even after the whole series the EXPORT_NS functions don't parse
-> properly. I'm going to put this patch before the doc patch and ignore
-> the bisection problem.
->
-> I'd like someone to say they are happy with the perl :)
+But _why_?  There is a verifiable thing that didn't happen to the data
+if the read/write/discard fails.  If flush fails ... how do you know?
+What do you do?  Is this to test that the filesystem fails properly if
+the block layer or the device returns a failure?  If so, why have this
+code in each filesystem?  We should support that kind of error injection
+at the block layer, not individual filesystems.
 
-I'm not happy with *any* perl! :)
-
-I've been sitting on that patch because I was under the impression
-another version was coming - was that wrong?
-
-Thanks,
-
-jon
+> This patch supports to inject fault into __submit_flush_wait() to
+> simulate flush cmd io error.
+> 
+> Usage:
+> a) echo 524288 > /sys/fs/f2fs/<dev>/inject_type or
+> b) mount -o fault_type=524288 <dev> <mountpoint>
+> 
+> Signed-off-by: Yangtao Li <frank.li@vivo.com>
+> ---
+>  Documentation/filesystems/f2fs.rst |  1 +
+>  fs/f2fs/f2fs.h                     |  1 +
+>  fs/f2fs/segment.c                  | 12 +++++++++---
+>  fs/f2fs/super.c                    |  1 +
+>  4 files changed, 12 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
+> index 6e67c5e6c7c3..316d153cc5fb 100644
+> --- a/Documentation/filesystems/f2fs.rst
+> +++ b/Documentation/filesystems/f2fs.rst
+> @@ -202,6 +202,7 @@ fault_type=%d		 Support configuring fault injection type, should be
+>  			 FAULT_DQUOT_INIT	  0x000010000
+>  			 FAULT_LOCK_OP		  0x000020000
+>  			 FAULT_BLKADDR		  0x000040000
+> +			 FAULT_FLUSH		  0x000080000
+>  			 ===================	  ===========
+>  mode=%s			 Control block allocation mode which supports "adaptive"
+>  			 and "lfs". In "lfs" mode, there should be no random
+> diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
+> index 04ef4cce3d7f..832baf08ecac 100644
+> --- a/fs/f2fs/f2fs.h
+> +++ b/fs/f2fs/f2fs.h
+> @@ -61,6 +61,7 @@ enum {
+>  	FAULT_DQUOT_INIT,
+>  	FAULT_LOCK_OP,
+>  	FAULT_BLKADDR,
+> +	FAULT_FLUSH,
+>  	FAULT_MAX,
+>  };
+>  
+> diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
+> index aa4be7f25963..a4813fa33c0f 100644
+> --- a/fs/f2fs/segment.c
+> +++ b/fs/f2fs/segment.c
+> @@ -486,7 +486,13 @@ void f2fs_balance_fs_bg(struct f2fs_sb_info *sbi, bool from_bg)
+>  static int __submit_flush_wait(struct f2fs_sb_info *sbi,
+>  				struct block_device *bdev)
+>  {
+> -	int ret = blkdev_issue_flush(bdev);
+> +	int ret;
+> +
+> +	if (time_to_inject(sbi, FAULT_FLUSH)) {
+> +		f2fs_show_injection_info(sbi, FAULT_FLUSH);
+> +		ret = -EIO;
+> +	} else
+> +		ret = blkdev_issue_flush(bdev);
+>  
+>  	trace_f2fs_issue_flush(bdev, test_opt(sbi, NOBARRIER),
+>  				test_opt(sbi, FLUSH_MERGE), ret);
+> @@ -1126,13 +1132,13 @@ static int __submit_discard_cmd(struct f2fs_sb_info *sbi,
+>  		if (time_to_inject(sbi, FAULT_DISCARD)) {
+>  			f2fs_show_injection_info(sbi, FAULT_DISCARD);
+>  			err = -EIO;
+> -			goto submit;
+> +			goto skip;
+>  		}
+>  		err = __blkdev_issue_discard(bdev,
+>  					SECTOR_FROM_BLOCK(start),
+>  					SECTOR_FROM_BLOCK(len),
+>  					GFP_NOFS, &bio);
+> -submit:
+> +skip:
+>  		if (err) {
+>  			spin_lock_irqsave(&dc->lock, flags);
+>  			if (dc->state == D_PARTIAL)
+> diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
+> index a43d8a46a6e5..3d3d22ac527b 100644
+> --- a/fs/f2fs/super.c
+> +++ b/fs/f2fs/super.c
+> @@ -62,6 +62,7 @@ const char *f2fs_fault_name[FAULT_MAX] = {
+>  	[FAULT_DQUOT_INIT]	= "dquot initialize",
+>  	[FAULT_LOCK_OP]		= "lock_op",
+>  	[FAULT_BLKADDR]		= "invalid blkaddr",
+> +	[FAULT_FLUSH]		= "flush error",
+>  };
+>  
+>  void f2fs_build_fault_attr(struct f2fs_sb_info *sbi, unsigned int rate,
+> -- 
+> 2.25.1
+> 
