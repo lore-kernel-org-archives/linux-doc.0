@@ -2,75 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49132C43217
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Nov 2022 19:27:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 311C9C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Nov 2022 19:28:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233438AbiKKT1f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Nov 2022 14:27:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32810 "EHLO
+        id S231261AbiKKT2X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Nov 2022 14:28:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231261AbiKKT1e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Nov 2022 14:27:34 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 224FE67F4F;
-        Fri, 11 Nov 2022 11:27:34 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id ADBD9620BC;
-        Fri, 11 Nov 2022 19:27:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC96DC433D6;
-        Fri, 11 Nov 2022 19:27:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1668194853;
-        bh=LO+ntQc0E3uXo6MFAX4vcf+t4RJhM/5JL5OOiHCwBxI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=COWKm3vj6cl9npbNuKbPrUnx5UMrRBXertuDg30dZNEbSJvJekEWKopjU0lQQXRkQ
-         QD56X1LMulYF1qm3Z7TpP3nE3uTKnP4JX5G/t95lYuhn6gbETrMSzJsTBSnldT+V+f
-         sT/afxaYJj1RDuzQ0lCIiXEOsNetsGWc2AgcPbkI=
-Date:   Fri, 11 Nov 2022 11:27:32 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Zhongkun He <hezhongkun.hzk@bytedance.com>
-Cc:     corbet@lwn.net, mhocko@suse.com, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] mm: add new syscall pidfd_set_mempolicy().
-Message-Id: <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
-In-Reply-To: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
-References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S233690AbiKKT2W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Nov 2022 14:28:22 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1E1267F5A;
+        Fri, 11 Nov 2022 11:28:20 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id ft34so14703620ejc.12;
+        Fri, 11 Nov 2022 11:28:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=SLrRdT2XdqmrDUkaZHCP2NqvDXj8131047YB0+FVNPo=;
+        b=ZR5Ueiqw1IiFgDenlSL3nVplWJ/tb5gtMizyp3sJKV5M/l68Oau/TgjYX0aistLq5U
+         Vs5kHv+x536g045WmwVsfe4RwaudhYc5rqaxMSvN6Sn7ExxQGoy94lAubM7dUwMCmwJA
+         dQ2IUE6jeXLXGC4esBQJe6juh5s8yhAA8uQMiLCKoMIKDOmS63fwMVa3yAsnCsD3e2Mr
+         KYdFOuS/KdVkVluVDn72VUM4GQt+lFPUhROqDTBssZYZDNKBE9it1X5rbRgNNTcAGqxw
+         vGjcLVcUtH/i8tMhzhRUDWSY67yw5mMOuz0dkRVXt7cyYwhWb6kjy6DGhKohdDCo503I
+         c7yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SLrRdT2XdqmrDUkaZHCP2NqvDXj8131047YB0+FVNPo=;
+        b=xpHGcGY8jw1xBrD3zx1do1WSFU9CUicO4GvQ7c8ICzjMf8El084Aj1TTi/0tJiamqB
+         Ofi/15W1b6m0lCcZNMTQgK88tFwrlgWsKCuXLvH6Q7qT5rIAP4NnoZE+sDmpOQX+SV4H
+         F01GScS0G/E6dD2dBQRxWHPg4VqtJK4WUtAEdRPRaVQ2dpHx4eR6rWiA/JSR3sKNFtXL
+         Fin34d6TX+ZKKJRuvFOkMoydDf9P6AQFupma5g5aA/FuO0qCgIFEmLplr/oFi/RxlAqg
+         Yp5RN/qqQux950s96DbymtQW4KIi3ZYkSBnnvbpj6jRNEnHIb8YqthggLbwxjlutNx3F
+         MrgQ==
+X-Gm-Message-State: ANoB5pkCUVIYTQxArItgklIbjnm4thJkZbp5vEwwbi9/ixoZtn//f2DT
+        jBnIoY3kgNfuGC1BoPGpW67v41jppZ/wTgtszVWxTnXyjb4=
+X-Google-Smtp-Source: AA0mqf7ta+x/OfAMB8FrXA1CUPwz503tTGj60OE4YEmS388ZVnFuaEGfd4Vi+OgE+oy6zTe45uHlMGDKIFAF6adJlyg=
+X-Received: by 2002:a17:906:cd0f:b0:78d:99ee:4e68 with SMTP id
+ oz15-20020a170906cd0f00b0078d99ee4e68mr2986865ejb.302.1668194899339; Fri, 11
+ Nov 2022 11:28:19 -0800 (PST)
+MIME-Version: 1.0
+References: <20221101114542.24481-1-donald.hunter@gmail.com>
+In-Reply-To: <20221101114542.24481-1-donald.hunter@gmail.com>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Fri, 11 Nov 2022 11:28:07 -0800
+Message-ID: <CAEf4BzaxPPUr+FJPTnxJiCg=iPeNDf3NqJnndXe6pUEqM_a+NQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 0/1] Document BPF_MAP_TYPE_LPM_TRIE
+To:     Donald Hunter <donald.hunter@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 11 Nov 2022 16:40:51 +0800 Zhongkun He <hezhongkun.hzk@bytedance.com> wrote:
+On Tue, Nov 1, 2022 at 4:45 AM Donald Hunter <donald.hunter@gmail.com> wrote:
+>
+> Add documentation for BPF_MAP_TYPE_LPM_TRIE including kernel
+> BPF helper usage, userspace usage and examples.
+>
+> v1->v2:
+> - Point to code in tools/testing/selftests/... as requested
+>   by John Fastabend
+> - Clean up some wording
+>
 
-> Page allocation usage of task or vma policy occurs in the fault
-> path where we hold the mmap_lock for read. because replacing the
-> task or vma policy requires that the mmap_lock be held for write,
-> the policy can't be freed out from under us while we're using
-> it for page allocation. But there are some corner cases(e.g.
-> alloc_pages()) which not acquire any lock for read during the
-> page allocation. For this reason, task_work is used in
-> mpol_put_async() to free mempolicy in  pidfd_set_mempolicy().
-> Thuse, it avoids into race conditions.
+There is no need for a cover letter for single patch submissions.
 
-This sounds a bit suspicious.  Please share much more detail about
-these races.  If we proced with this design then mpol_put_async()
-shouild have comments which fully describe the need for the async free.
+Applied to bpf-next, but dropped the cover letter. Also added "bpf,
+docs: " prefix to commit subject.
 
-How do we *know* that these races are fully prevented with this
-approach?  How do we know that mpol_put_async() won't free the data
-until the race window has fully passed?
+Thanks.
 
-Also, in some situations mpol_put_async() will free the data
-synchronously anyway, so aren't these races still present?
-
-
-Secondly, why was the `flags' argument added?  We might use it one day?
-For what purpose?  I mean, every syscall could have a does-nothing
-`flags' arg, but we don't do that.  What's the plan here?
-
+> Donald Hunter (1):
+>   Document BPF_MAP_TYPE_LPM_TRIE
+>
+>  Documentation/bpf/map_lpm_trie.rst | 181 +++++++++++++++++++++++++++++
+>  1 file changed, 181 insertions(+)
+>  create mode 100644 Documentation/bpf/map_lpm_trie.rst
+>
+> --
+> 2.35.1
+>
