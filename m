@@ -2,128 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B433C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Nov 2022 17:09:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50ABAC4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Nov 2022 17:54:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234170AbiKKRJf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Nov 2022 12:09:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47820 "EHLO
+        id S233876AbiKKRyt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Nov 2022 12:54:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234161AbiKKRJL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Nov 2022 12:09:11 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72A271A3B1;
-        Fri, 11 Nov 2022 09:08:58 -0800 (PST)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2ABG8uCs017312;
-        Fri, 11 Nov 2022 17:08:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=03eezIBJKpj7j/9qQicis47eqBl7PzCBbko9n8Odntw=;
- b=kOOadAQhlY4zwHKiYPvrmOmjtKiym8vFfjo0fkSROG0rUkDtQG4/T8aLV1abIUNRRNzs
- KVhdJqh2dFX7UKzXv1Ox/GY2tQdSvd1eLiSUv/XOYkCMu6Fo6daP4RF0JQQKLjVpn5Z3
- 06TNBkvWXum/MG27j2DpecykoQL5mMYLh3IUR+bzHL8EUDvFQLN+JDFitQNkj6AOYhgN
- pA8yFevS7PrJeUOhqLzVkPq7gFFkkp+v1wKMsovkKAcETJeBRbzRtdFZAK2LAMbVJ+Uq
- 8S5+X6FKRDaOjLZ3FzR6w01rGp1hSkOQSN1huXcCXnz2Gc7HtQM7MVZ2qKUKs3+AkMgk 9w== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kshkdhqaw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 11 Nov 2022 17:08:42 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2ABH8fDq023857
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 11 Nov 2022 17:08:41 GMT
-Received: from [10.110.50.128] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Fri, 11 Nov
- 2022 09:08:40 -0800
-Message-ID: <e10ca37a-5d02-ce00-423d-18f9a9e6fe0d@quicinc.com>
-Date:   Fri, 11 Nov 2022 09:08:40 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v6 13/21] gunyah: vm_mgr: Introduce basic VM Manager
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Trilok Soni <quic_tsoni@quicinc.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Bjorn Andersson" <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Will Deacon" <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Srinivas Kandagatla" <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-14-quic_eberman@quicinc.com>
- <Y2H8oh7AvYDiMqKs@kroah.com>
- <722b05a1-4bf5-0837-baea-b1d0a9cc1e43@quicinc.com>
- <Y2MKWOihjAPxfl6v@kroah.com>
- <96238455-73b6-bead-0fdb-55ca68e5bf0b@quicinc.com>
- <9dd597d9-a3f3-48f2-8416-b5b097a230d5@app.fastmail.com>
- <980db147-794e-ecd9-9626-64ff81109bab@quicinc.com>
- <95a9f253-984a-14e0-7e01-f168452576c4@quicinc.com>
- <543d95f8-be31-7553-4700-5dc04872e8ea@quicinc.com>
- <Y23qjcMmerVuKFdj@kroah.com>
+        with ESMTP id S232851AbiKKRys (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Nov 2022 12:54:48 -0500
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2046.outbound.protection.outlook.com [40.107.244.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99BC9DE90
+        for <linux-doc@vger.kernel.org>; Fri, 11 Nov 2022 09:54:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j8Wo8wga824CHXaSd98x7+9i3UAok5p3DxLKCCOy9DSQviaURZBAfD4iKJwJZVM4pAURpteeDxV6Ycf76p8vg2WdYSjV3qH/tL+HPMs+IHfI+DK+NrwGU5QqLHTSWdoz9BwKcnp+eR+yJOz37biZIQnNTxq5+7nAtGF9vtCLKkLOyt2Dlf0wHDhKtQu4jkc6c6xY+6UxcdKhgZ4dzyDWF9awzurLTkL5B64Fm6zyTQftpQjd5zRYUi9o3tSix3pgXZ4L4RzN0pNX/r2IDtBhXuCVm8XVEaf4m6nZb57yutcOWuO9SK7YJOfcotokKpYBwhm3trZT3LkT/ozQY6t81g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zwHUDi+cw48T5DFoke+6GjTwFJuCr198EXiw5GuZov0=;
+ b=DPwXXG/0vd44OBmVBHyEVgZTBKE6cQTBVagzEaE6exfaaSrCh6HcOt8SeYEHpGB+aAqksVDYroUaXVr4FwGzUks5Q39fvi96lsZo4ofzxDV6fSVtpztKzQPEIPtQmK772woMoiUq9yBeY+PbbeoTJG6oBHDHOJYXJ4KcTOAcZSPnJYWvNyYQzbItYw89SB1f0GGVPV0FOOrL1p4BSyN6F08DCwtq0sdxE6pAmlaprLCjgaEswZNexIyfYTMk6kyESJjeNC9A2Tz9BGIo7WtHWSYuHZPFVnNEDbj92vYZ4kpqjLx7OchnFQQB4typ3+n83qIZVwEeMyl7tcp9rbXF8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zwHUDi+cw48T5DFoke+6GjTwFJuCr198EXiw5GuZov0=;
+ b=PXmK2EVTz0h8q24U0Yx/Q7BEydXOx7Pa0WVf/E1irBIq98iANXE+Ue5SHmtOv+OsIRER37jw6zKEyI62i4NPtUClAlNaz5YDmYvRrO3x7dkPvn+lqZVehs2p3HyaAWwuHmW7HzXbOWFlGyOzn6lGUQkHh1Jj/VQUAByBuWrXM68=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
+ by SN7PR12MB7371.namprd12.prod.outlook.com (2603:10b6:806:29a::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.26; Fri, 11 Nov
+ 2022 17:54:46 +0000
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::9eca:d454:d407:7ba2]) by BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::9eca:d454:d407:7ba2%3]) with mapi id 15.20.5813.012; Fri, 11 Nov 2022
+ 17:54:46 +0000
+Message-ID: <a7d1996d-9a77-ff51-41c8-2fe90f090642@amd.com>
+Date:   Fri, 11 Nov 2022 11:54:44 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
 Content-Language: en-US
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <Y23qjcMmerVuKFdj@kroah.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To:     linux-doc@vger.kernel.org
+From:   Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: [RFC] docs/sp_SP: Add memory-barriers.txt Spanish translation
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 9nZnTzysHz-yQwmjXf_a3mkpW5qatf5E
-X-Proofpoint-ORIG-GUID: 9nZnTzysHz-yQwmjXf_a3mkpW5qatf5E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-11_08,2022-11-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- bulkscore=0 impostorscore=0 adultscore=0 phishscore=0 clxscore=1015
- spamscore=0 priorityscore=1501 malwarescore=0 mlxscore=0 suspectscore=0
- mlxlogscore=550 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211110115
+X-ClientProxiedBy: CH0PR03CA0241.namprd03.prod.outlook.com
+ (2603:10b6:610:e5::6) To BL1PR12MB5874.namprd12.prod.outlook.com
+ (2603:10b6:208:396::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|SN7PR12MB7371:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7c835e0b-2d76-43c7-3057-08dac40dd1b4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ALEjk1zmgNSwhHxM5bs8GsE11WlOfZ51//WSEVINBOOgJLJj7ajjwTWIaIvQr0d8AG/12AvWxri4ccN+og3/cDOvfxl/xzfQ6RWsV0yRDo0HKBTKm4H2IwmBrvAn0eum7a5KSmzqGWThTxSnA5aQUHi7i/qotZTll/aktREsmhbBGE1FQA2J+JjW2TB0ie71JYYlYapM1MkUeJRiBeYT9KV+zjWylhVMYFLHbeBo8US/21JiuFvYOV9h0EXShZWYKCB+Q4tgRdbPrw3q0BiJKfnAW0fKqjl3piiu7QY69D50RPyrftpqhH6VA35dC5e66IUthKxr2SEzAjEfZeixhV7ToRAMigyD1g4cjZMJiIPfQSh0HLjk+r6u1LO1cXo+eT1ase55VkMjMqZ5KcDxPNDbhn56FVCug74xtckusMoYY9GBcTy1NUoYQtzpo39161rxRm5jSSg2L3+c+7jPzFW1EZffTALzt2EtaSJOC47YjwZWBUkF3MvYnXKGkCgy0MdKQIbrOLoyt904ssFJ8hFbVqRBkdIKHp/iqsMAjygxX7P49K/0IpYOcd74R6QI57Y0FIhASeMtYlqfQnNFLAFthyy1yFvRZMFUDkIPAiy0oIRPMHJysHe77glX7Kjh8kaOl1kNglY/+P8VMhM0EZ7VEoyc3KXLG2/trBgTapKk69tWuWGEsaunXLATLgQIo4qkHdoUff2KHkVFaYheMKIRlH9m479QvJDH+vwtsRdAncUxSht9W4b+Crc3QmW9TPEvkyHG1MEwy07JrHSSqXzvxtq6OqMvZtjnjF8Sa6FuMURc73aiuntxxO10uLSF
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(366004)(376002)(396003)(346002)(136003)(451199015)(36756003)(558084003)(31696002)(31686004)(86362001)(2906002)(44832011)(2616005)(6512007)(186003)(6506007)(26005)(38100700002)(8676002)(66556008)(6916009)(316002)(66946007)(6486002)(478600001)(966005)(8936002)(41300700001)(5660300002)(66476007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cEovSkhUNXhFMzdiMDBic1BRczlBdjRRKzRoY3BFUGMvdmM4TkZtcUJ5cUl0?=
+ =?utf-8?B?UVNIaW1ocGUxdjBHTHp1VUNWV2tzZVM3MnNUbFEzdjJGYW8xRkNWVHM0WnJL?=
+ =?utf-8?B?NWZKcGVzc2hsd0U0ZFpITW92ckpTaklQZXZHcG1MaFlZSkhaYURFdmhPblZF?=
+ =?utf-8?B?cEhtUXZaSlRHKzFiZ1hNTGNzN2RvR1RmWmg3VzVrdWJWYURsQlkwZ05HeG9n?=
+ =?utf-8?B?TGo1RGhhR1N3OW03Y2FYTTcyWU84RVdQTm1KRWtkb1dPYVQwLzUyTVlvODhT?=
+ =?utf-8?B?S3ZxMmtXenBqc21JeG9ZUmNiM0xGb2EydUN2cFhDUkFvMUpOYkhiaTBydmFn?=
+ =?utf-8?B?OWd0TWV1bmxOSFJBRlhGNEZOazF6Rk9OZytNNkxhQTJRelZ5cEhhajRoN0tG?=
+ =?utf-8?B?WUVhZysvdWxFd05SeFRQdTFMT09OYkxZaUs3NVFQMklNNDlsdWRpL3BnbEw5?=
+ =?utf-8?B?UzdESGxQL2JXeWwwMmZFOW51Mno1TEJFRjY1RmZwQUZkVnZ3U1BjaU9ta1g2?=
+ =?utf-8?B?b2taTWsxdnNZK3YwVW9VaDBEL2hGWFNFYXhpaDMra1RScVdoVWJ6MkR2bnFQ?=
+ =?utf-8?B?ZmxHNmpWdXZpYmlHRTdlUS9JNVpQY2Nvb1ExWUV5MmhQVkZrdzhHQ1Z5RkdM?=
+ =?utf-8?B?SitGU2NlQUkyS3lGZlJXc1BsUlgyQmYxRTZMV2xUSm9jaUZsenQ4cFdEMWNz?=
+ =?utf-8?B?OFlFaW9YbE41UEduYmROK2puZ1FBRnFmSjQrTitxaGhnRTgzVUEzODIyUzl2?=
+ =?utf-8?B?QWhaeUw4cWcrRW5MK0hZSVZlcGxIbTFrOHpGU3dPYURlOTVnT29ad3l1SEQ0?=
+ =?utf-8?B?bjJ4K2RTNFRJWWtvemMvbGN0a09LTStGQ2lsQWsweStibFdaa25QemVMRDl3?=
+ =?utf-8?B?ckpsOWdRUk04NW80MDhUdXhkais2RU4vMUZqaEsyOTR6VlVwTlF4QnYvaTN5?=
+ =?utf-8?B?N01jMVJ4aUgwbE9TZHduYmFCZDZiZDY4U3pLYk4yeUM2K2lKUzA0QzFoMVJz?=
+ =?utf-8?B?Q3kvMDJtZUlnT3dPL1ZqNXdMK3o1czkrOG5BMTZ5T3NZWmNBZmZyRVhiNEJi?=
+ =?utf-8?B?NHlkZW5YVFFHS3ArcDkvSkpuSlZxV215VHo4cWRCYlkvZUc1UGVXT2ZPcnVI?=
+ =?utf-8?B?bXdJTk5VVUg4MDVVZXFBQURTcmN3ZTZKRDk0MXZlRlphL1JCdzRHMWZlaHFP?=
+ =?utf-8?B?S3Rad1FrNXJqNG0wVXZLZ3YvTlhjeGxGc3IvdmR4MERWVnh4T2Y5ZU9YTTJp?=
+ =?utf-8?B?VXdldnR0azRUcHdWU3haR3liY2Yvc3NlUHllNWZxRDRHbS9WVlViRHhxS2Jy?=
+ =?utf-8?B?S0E5Q1N3K01YMktiRm8zOUxuRU42cnRtdjdSQS95YXdTZGlLYWdiS3IrWVZh?=
+ =?utf-8?B?elA0c0ZRZDdlcERXV2FTNkxkYUhtM3greDRJcHJLWTVKeGFPV3doR2loaWpu?=
+ =?utf-8?B?OHpXbHBKMHVXR3hpd1NNVjdUUkQ0YldxNDd1TDNyLzdtV2YreE85eUlVNTNr?=
+ =?utf-8?B?QWtGSGs1RmpyNmxlaUJ6eDdWcVV0bE1GQUdyazltMEJpRzV5TEc0UTVya2h0?=
+ =?utf-8?B?djZBY0t6UHJMR1F1aWVzWk9mMEVWa2V3TVJaTUtESXZ5OVl5ZlpCSFlYRCti?=
+ =?utf-8?B?c1g1MFRBcTd5VUE2dzFrd2FJUmtuT1dDOGthUWlxb3pZYWlaNjluNXlGOHpY?=
+ =?utf-8?B?WXJXRFQ0NUk1QnFBZmN4aHZxS2ZjMnY0QXNJaFJrNEt4MmFaQk9YYlp5U2lI?=
+ =?utf-8?B?a280cEhLRW1CcHc0U213b1U4ODAvMTcwazVwUVYyUWFDbzFwQUtuaGxsUHEy?=
+ =?utf-8?B?K25oRlVocW1Ga2N6NUxsZ3N2eDBCMWZYMC9iWGE2QjNTYm5ZVUJjSEdmN05I?=
+ =?utf-8?B?S0ovbUJvam1BSlREUUJjYWhpUWF1aVpPTFFMYlJEMkZEQ3FhVFVQZTJkN24r?=
+ =?utf-8?B?bGVFME9sZmVya3M1bFpTK2V6R1FjTEhmdXhjLy94a0Izd1p2TGEwYTRtSUt0?=
+ =?utf-8?B?UzJUeFM1MjBqMG53b0Z3cnhaQ0hraU1pREtvclNkdklrZ1MvQithT3Y5dWRO?=
+ =?utf-8?B?dW05dGV2bVBkRDdSMWxCY1F1OU10VHYvQXdYQ2I4L1JhckhLKzRMQXpCVkZY?=
+ =?utf-8?Q?1iBVATdiTd9UnFbB1hwR4n/PR?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c835e0b-2d76-43c7-3057-08dac40dd1b4
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2022 17:54:46.0555
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eJD+ronJgcptnu+mAng7qAbICLGaUcKvJEoqAlPmHl0Gb5+V5ZILC+n+0ifVau+EB2oNlO/WhpPyTapuL2ulcA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7371
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Just a heads up for subscribers of this list, I just shared the following
+patch:
 
+[PATCH] docs/sp_SP: Add memory-barriers.txt Spanish translation
 
-On 11/10/2022 10:24 PM, Greg Kroah-Hartman wrote:
-> On Thu, Nov 10, 2022 at 04:03:10PM -0800, Elliot Berman wrote:
->>> Agree, tools can be updated and that is the easy part as we grow the s/w
->>> stack around Gunyah in userspace, like we already do w/ CrosVM (Virtual
->>> Machine Manager) and QEMU will be next followed by rust-vmm. All of them
->>> can be done without Gunyah ioctls relying anything on the KVM ioctls.
->>> Elliot has also explained very well that we don't to go to KVM
->>> maintainers for any of our additions and we also don't want them to come
->>> to us, since there is no interoperability testing. It is best that both
->>> Hypervisors and their Linux interfaces evolve independently.
->>
->> Are above explanations reasonable to not re-use KVM ioctl numbers?
-> 
-> Try getting close at least, where possible please.  As your ioctl
-> numbers didn't even start at 0, it's a bit odd...
+but it seems too large for linux-doc, and it got bounced. You can find
+the patch here:
 
-Ack, will do.
+https://lkml.org/lkml/2022/11/11/963
 
 Thanks,
-Elliot
+Carlos
