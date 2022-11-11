@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 949C0C43217
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Nov 2022 11:02:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78C26C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Nov 2022 11:02:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233262AbiKKLCG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Nov 2022 06:02:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58560 "EHLO
+        id S233331AbiKKLCa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Nov 2022 06:02:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233744AbiKKLCF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Nov 2022 06:02:05 -0500
+        with ESMTP id S233048AbiKKLC3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Nov 2022 06:02:29 -0500
 Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B63A4B7E6;
-        Fri, 11 Nov 2022 03:02:04 -0800 (PST)
-Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.201])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4N7whT3RCkz685b0;
-        Fri, 11 Nov 2022 18:59:53 +0800 (CST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C08A5532FA;
+        Fri, 11 Nov 2022 03:02:28 -0800 (PST)
+Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.200])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4N7whx3tW8z67L71;
+        Fri, 11 Nov 2022 19:00:17 +0800 (CST)
 Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
+ fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 11 Nov 2022 12:02:02 +0100
+ 15.1.2375.31; Fri, 11 Nov 2022 12:02:26 +0100
 Received: from localhost (10.45.151.252) by lhrpeml500005.china.huawei.com
  (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 11 Nov
- 2022 11:02:01 +0000
-Date:   Fri, 11 Nov 2022 11:02:00 +0000
+ 2022 11:02:25 +0000
+Date:   Fri, 11 Nov 2022 11:02:24 +0000
 From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 To:     Yicong Yang <yangyicong@huawei.com>
 CC:     Shaokun Zhang <zhangshaokun@hisilicon.com>, <liuqi6124@gmail.com>,
@@ -55,6 +55,7 @@ X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
+Message-ID: <20221111110224.giKU5lRE2CEhozNY0zTwzqJ7bPbLoVmXZYYAYnrCGQE@z>
 
 On Thu, 10 Nov 2022 16:51:09 +0800
 Yicong Yang <yangyicong@huawei.com> wrote:
@@ -74,7 +75,10 @@ Annoying though it is to do, this should be a precusors to the changes added ear
 in this series - or drop the fixes tag. I'd argue that 'ugly' isn't something that
 we need to potentially backport fixes to.
 
-Change itself looks fine though.
+Change itself looks fine though. FWIW
+
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
 
 > ---
 >  .../admin-guide/perf/hisi-pcie-pmu.rst        | 80 ++++++++++---------
