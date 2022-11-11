@@ -2,127 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A681C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Nov 2022 15:51:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2296C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Nov 2022 15:53:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234197AbiKKPvX convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Nov 2022 10:51:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35460 "EHLO
+        id S234051AbiKKPxT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Nov 2022 10:53:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234226AbiKKPvW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Nov 2022 10:51:22 -0500
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4351FDB;
-        Fri, 11 Nov 2022 07:51:19 -0800 (PST)
-Received: from fraeml741-chm.china.huawei.com (unknown [172.18.147.201])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4N836C0vygz683hj;
-        Fri, 11 Nov 2022 23:49:07 +0800 (CST)
-Received: from lhrpeml100002.china.huawei.com (7.191.160.241) by
- fraeml741-chm.china.huawei.com (10.206.15.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 11 Nov 2022 16:51:17 +0100
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- lhrpeml100002.china.huawei.com (7.191.160.241) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 11 Nov 2022 15:51:16 +0000
-Received: from lhrpeml500005.china.huawei.com ([7.191.163.240]) by
- lhrpeml500005.china.huawei.com ([7.191.163.240]) with mapi id 15.01.2375.031;
- Fri, 11 Nov 2022 15:51:16 +0000
-From:   Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Woodhouse <dwmw2@infradead.org>,
-        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-        Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
-CC:     Alex Williamson <alex.williamson@redhat.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Yi Liu <yi.l.liu@intel.com>, zhukeqian <zhukeqian1@huawei.com>
-Subject: RE: [PATCH v4 00/17] IOMMUFD Generic interface
-Thread-Topic: [PATCH v4 00/17] IOMMUFD Generic interface
-Thread-Index: AQHY8wv6WqOaN9m/WUKJgvcZCnpZkK454qzg
-Date:   Fri, 11 Nov 2022 15:51:16 +0000
-Message-ID: <3a20e56423f544dab312bca1bcb56ce4@huawei.com>
-References: <0-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
-In-Reply-To: <0-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.202.227.178]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        with ESMTP id S234081AbiKKPxQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Nov 2022 10:53:16 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E91CEFDB;
+        Fri, 11 Nov 2022 07:53:15 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8A5C762020;
+        Fri, 11 Nov 2022 15:53:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76FBAC433D7;
+        Fri, 11 Nov 2022 15:53:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668181994;
+        bh=827LrRq+aAVe6d/B8oWF9ujEZQmWxfy7tuvicaZNH6s=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Wrq/F6/2OcyhhipMfxPcuZx+8WO0euR/B8TXvoqhNYdi2XfkqOQ+BrSBnTRp6ZE7B
+         H7vC4maxMxrLisUZ4KY+LKeInE2UxhjskatPMp+wJ/Fys8RLh7RGf/n2tvIjO2RTHB
+         ty37kNv8asVzAxP+QBrQmX8FOhIfRLM8qf4o+KlJ7oyUDmBxILUjPDtQlWqZpwX/AJ
+         /dkKaNt/rHzgI1bB6QUKmv+RrSksXnnrwgQZEcSsIikpcRbOg1N5J4sIIHQbRtXNHd
+         7jA+4OPNl/rlgb3fW54xBHvjsXVti7XFYGPygWXp892VFDfA2SzcMg7Zbryr5UlkLa
+         /g+MtYhszn7zg==
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        linux-trace-devel@vger.kernel.org
+Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH V2 0/3] verification/rv: Add rv tool
+Date:   Fri, 11 Nov 2022 16:53:04 +0100
+Message-Id: <cover.1668180100.git.bristot@kernel.org>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This is the (user-space) runtime verification tool named rv.
 
+This tool aims to be the interface for in-kernel rv monitors, as
+well as the home for user-space controlled monitors.
 
-> -----Original Message-----
-> From: Jason Gunthorpe [mailto:jgg@nvidia.com]
-> Sent: 08 November 2022 00:49
-> To: bpf@vger.kernel.org; Jonathan Corbet <corbet@lwn.net>; David
-> Woodhouse <dwmw2@infradead.org>; iommu@lists.linux.dev; Joerg Roedel
-> <joro@8bytes.org>; Kevin Tian <kevin.tian@intel.com>;
-> linux-doc@vger.kernel.org; linux-kselftest@vger.kernel.org;
-> llvm@lists.linux.dev; Nathan Chancellor <nathan@kernel.org>; Nick
-> Desaulniers <ndesaulniers@google.com>; Miguel Ojeda <ojeda@kernel.org>;
-> Robin Murphy <robin.murphy@arm.com>; Shuah Khan <shuah@kernel.org>;
-> Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>; Tom Rix
-> <trix@redhat.com>; Will Deacon <will@kernel.org>
-> Cc: Alex Williamson <alex.williamson@redhat.com>; Lu Baolu
-> <baolu.lu@linux.intel.com>; Chaitanya Kulkarni <chaitanyak@nvidia.com>;
-> Cornelia Huck <cohuck@redhat.com>; Daniel Jordan
-> <daniel.m.jordan@oracle.com>; David Gibson
-> <david@gibson.dropbear.id.au>; Eric Auger <eric.auger@redhat.com>; Eric
-> Farman <farman@linux.ibm.com>; Jason Wang <jasowang@redhat.com>;
-> Jean-Philippe Brucker <jean-philippe@linaro.org>; Joao Martins
-> <joao.m.martins@oracle.com>; kvm@vger.kernel.org; Matthew Rosato
-> <mjrosato@linux.ibm.com>; Michael S. Tsirkin <mst@redhat.com>; Nicolin
-> Chen <nicolinc@nvidia.com>; Niklas Schnelle <schnelle@linux.ibm.com>;
-> Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>; Yi
-> Liu <yi.l.liu@intel.com>; zhukeqian <zhukeqian1@huawei.com>
-> Subject: [PATCH v4 00/17] IOMMUFD Generic interface
-[...]
-> 
-> - Userspace page tables aka 'nested translation' for ARM and Intel iommu
->   drivers:
->   https://github.com/nicolinc/iommufd/commits/iommufd_nesting
+The tool receives a command as the first argument, the current
+commands are:
 
-Hi Eric/Yi/Nicolin,
+  list	- list all available monitors
+  mon	- run a given monitor
 
-Could you please provide a latest Kernel/Qemu branch for the ARM nesting support?
-The above link points to Yi's git, but not sure which one is latest/stable to 
-have a play.
+Each monitor is an independent piece of software inside the
+tool and can have their own arguments.
 
-Thanks,
-Shameer
+Changes from v1:
+  - typos and format
+  - fixed __ikm_read_enable() value check in ikm_read_enable()
+  - adjust patch 2 log
+  - improved function comments (mainly those /**).
+
+Daniel Bristot de Oliveira (3):
+  rv: Add rv tool
+  tools/rv: Add in-kernel monitor interface
+  Documentation/rv: Add verification/rv man pages
+
+ Documentation/tools/index.rst              |   1 +
+ Documentation/tools/rv/Makefile            |  52 ++
+ Documentation/tools/rv/common_appendix.rst |  16 +
+ Documentation/tools/rv/common_ikm.rst      |  21 +
+ Documentation/tools/rv/index.rst           |  24 +
+ Documentation/tools/rv/rv-list.rst         |  43 ++
+ Documentation/tools/rv/rv-mon-wip.rst      |  44 ++
+ Documentation/tools/rv/rv-mon-wwnr.rst     |  43 ++
+ Documentation/tools/rv/rv-mon.rst          |  55 ++
+ Documentation/tools/rv/rv.rst              |  63 ++
+ tools/verification/rv/Makefile             | 141 +++++
+ tools/verification/rv/README.txt           |  38 ++
+ tools/verification/rv/include/in_kernel.h  |   3 +
+ tools/verification/rv/include/rv.h         |  12 +
+ tools/verification/rv/include/trace.h      |  16 +
+ tools/verification/rv/include/utils.h      |   8 +
+ tools/verification/rv/src/in_kernel.c      | 698 +++++++++++++++++++++
+ tools/verification/rv/src/rv.c             | 188 ++++++
+ tools/verification/rv/src/trace.c          | 133 ++++
+ tools/verification/rv/src/utils.c          |  47 ++
+ 20 files changed, 1646 insertions(+)
+ create mode 100644 Documentation/tools/rv/Makefile
+ create mode 100644 Documentation/tools/rv/common_appendix.rst
+ create mode 100644 Documentation/tools/rv/common_ikm.rst
+ create mode 100644 Documentation/tools/rv/index.rst
+ create mode 100644 Documentation/tools/rv/rv-list.rst
+ create mode 100644 Documentation/tools/rv/rv-mon-wip.rst
+ create mode 100644 Documentation/tools/rv/rv-mon-wwnr.rst
+ create mode 100644 Documentation/tools/rv/rv-mon.rst
+ create mode 100644 Documentation/tools/rv/rv.rst
+ create mode 100644 tools/verification/rv/Makefile
+ create mode 100644 tools/verification/rv/README.txt
+ create mode 100644 tools/verification/rv/include/in_kernel.h
+ create mode 100644 tools/verification/rv/include/rv.h
+ create mode 100644 tools/verification/rv/include/trace.h
+ create mode 100644 tools/verification/rv/include/utils.h
+ create mode 100644 tools/verification/rv/src/in_kernel.c
+ create mode 100644 tools/verification/rv/src/rv.c
+ create mode 100644 tools/verification/rv/src/trace.c
+ create mode 100644 tools/verification/rv/src/utils.c
+
+-- 
+2.37.3
 
