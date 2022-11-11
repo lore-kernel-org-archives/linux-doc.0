@@ -2,55 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73136C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Nov 2022 18:30:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27FAAC41535
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Nov 2022 18:30:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234074AbiKKS3h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Nov 2022 13:29:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33396 "EHLO
+        id S234136AbiKKS3j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Nov 2022 13:29:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234137AbiKKS30 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Nov 2022 13:29:26 -0500
-Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com [IPv6:2607:f8b0:4864:20::449])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 551375CD07
-        for <linux-doc@vger.kernel.org>; Fri, 11 Nov 2022 10:29:25 -0800 (PST)
-Received: by mail-pf1-x449.google.com with SMTP id a8-20020a621a08000000b0056e3c6c0746so3125904pfa.20
-        for <linux-doc@vger.kernel.org>; Fri, 11 Nov 2022 10:29:25 -0800 (PST)
+        with ESMTP id S234161AbiKKS32 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Nov 2022 13:29:28 -0500
+Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14E115CD07
+        for <linux-doc@vger.kernel.org>; Fri, 11 Nov 2022 10:29:27 -0800 (PST)
+Received: by mail-pl1-x649.google.com with SMTP id x18-20020a170902ec9200b001869f20da7eso4020677plg.10
+        for <linux-doc@vger.kernel.org>; Fri, 11 Nov 2022 10:29:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/XHe3/zCTpZWNceRA9RtU7Jdjy85jUuF1PtTziDeOJ4=;
-        b=SHWYMQw6kstMFCPeHdhZKyPK3U1w2EOYu+EfQeWTuTi4NJieEMZil99CRywaRL3QXr
-         M7ApzG4XLCYAg0PetxNjHSfwNLA3LxmKu8LWDFygNY1lctOOSshYpwuhWdWdEPG4cj6h
-         QWqck+Cp18gxDExvnjGBgUh7CGuL123P/8Sic7xH/4xHFrfRq9PyO6QZDjJ4xQ81rw8G
-         Mj7r+mHBVner9YkXBqCGbX7sD3i/SJKHNJEtf9od3zBTOZpkh1OElZCPLXu9Kh0yHr+g
-         5EMsCruUmvhnGFsKUm63rt7fbbaTOV3YvxO7RSu0ufBKSPyJZYCW9ZnNfdCPxDuX08e5
-         qhGA==
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KcgFgh+nSA6rGpYyKLAuOEZq9MjORsirblL9B+ChLi0=;
+        b=GN/K8LkzrC3Xi5m04YE/88CUGXGI57CIBf0CroPXanf1c2e6S7KaF1zLqjHRHaJxTx
+         GjvPAk0vMcz6bA+Z4e5AcNtwS8mrZeHu5LV1+rn9AUJ2buoMWZLYzv9ZOeqx8p90AClW
+         d6tTK9BSyqanwQ7lWbOgSTQgzJu5hJc6k6RH4Umsl2iyoKEsZeEo3LWxKjJAeFlbRGdn
+         t2T0hO+T2pQQWkpLB6mpYhu5eIgLgYbYKfQyVBtJ2LKCmwARyFYbzrW+mPnt/8U1HCuE
+         vfvziKXdQL3Iy3zXYcXgXULs2DiskUzS69Uezt504J3TOKAHeIuvc8XiNQcxhonzGESx
+         1eoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/XHe3/zCTpZWNceRA9RtU7Jdjy85jUuF1PtTziDeOJ4=;
-        b=5vztWKpZ5RSMkjDZhpnHLp5PcPT132/lXBpvPUhYeX3NoEQlFDSJIWIhuwsJTaotm/
-         yKksc8Z3YxYS7ir5pQImfKhx4+okhxaA9mt0i75avBRoih6TEQGsHEKKQrHVh+7DnAhh
-         ZPK4czP+eV3mYUHqLK0J7wOuO9mQdqgsg1xwQbVQNIWCvju5VMalsRS4wOdrOkecNBCA
-         AhV0BKL2vxsxHwGDN8ik8TZeqYfCWjP/XAlYsaQskLAx9bVqH43ALWp4IfLbZXFSlqv4
-         es1lenoUiSd1JnsXQv/bB1K2duHTPdmAzPwyHWJtN83+npIYtPdin6eCWoaqhJSaQ8aT
-         uQeg==
-X-Gm-Message-State: ANoB5pm4ScbmL0tX+bGQi6Ix6X5bXNT+BQs5g1U7mFxeEaXPr3K1vVij
-        +ybXVUI8zTtDV/gX1QNgwvlCoMbJ82MKyw==
-X-Google-Smtp-Source: AA0mqf6oRQTd26j/7lMqh+0QrNTk7PgW/u/hbIVY7qUTrqiyiF7iitQQrLw0zJAXHQI4fYDQUXP1Ip5tvZZY/g==
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KcgFgh+nSA6rGpYyKLAuOEZq9MjORsirblL9B+ChLi0=;
+        b=2ZF1ALphd/dO/21kaAhO9/oKPyZTl+L1lXjyNeGcfwGU/UxAOXNaZsNywNlSMypEnM
+         aVTjr6zQ3bwgw/tbyu+GFinou78PVbMhk6VyqMG/1sre8cRKuYYysvJ5yYGDdlo/qWRl
+         Nli6BR+iUBLlgi3XvMDxu0svIIOqz/aGrxqes3s8+Twm3wA2zF/3RRJXpGPWqs2X29Eo
+         F1bmnEDuThexUcRjsY4+MbLu6cc7KLqAlOviFjezA8Pg2YS9q0mCS008O1WdYzwfvRpV
+         7ih2wQ4wW9E+5E7CNqy8tI6QcgVcC1VhGyyBEIgm0id9F9UznUYn0l5+hDdmKHMdxGwh
+         xJ+A==
+X-Gm-Message-State: ANoB5pkfDsvlh3qr4m9mvs2ldKX6mFJ+yoMZkrd6mbHjmRaY60e4rM+g
+        za7Gx4R7juZl63OL4msANNM/iDeQELHbIw==
+X-Google-Smtp-Source: AA0mqf4NpCqVqQb5VhOoQGCCFX1K81V4IUVGkY7iGc1jDIwrgceDHzDGMr97O9zfwN+WASG6WpOvW/XDWu9a6w==
 X-Received: from dlatypov-spec.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:3f35])
- (user=dlatypov job=sendgmr) by 2002:a17:90a:d01:b0:20a:fee1:8f69 with SMTP id
- t1-20020a17090a0d0100b0020afee18f69mr7707pja.0.1668191364606; Fri, 11 Nov
- 2022 10:29:24 -0800 (PST)
-Date:   Fri, 11 Nov 2022 10:29:04 -0800
+ (user=dlatypov job=sendgmr) by 2002:a17:902:9302:b0:187:3a43:3a9d with SMTP
+ id bc2-20020a170902930200b001873a433a9dmr3593182plb.152.1668191366583; Fri,
+ 11 Nov 2022 10:29:26 -0800 (PST)
+Date:   Fri, 11 Nov 2022 10:29:05 -0800
+In-Reply-To: <20221111182906.1377191-1-dlatypov@google.com>
 Mime-Version: 1.0
+References: <20221111182906.1377191-1-dlatypov@google.com>
 X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
-Message-ID: <20221111182906.1377191-1-dlatypov@google.com>
-Subject: [PATCH v3 1/3] Documentation: KUnit: make usage.rst a superset of
- tips.rst, remove duplication
+Message-ID: <20221111182906.1377191-2-dlatypov@google.com>
+Subject: [PATCH v3 2/3] Documentation: KUnit: reword description of assertions
 From:   Daniel Latypov <dlatypov@google.com>
 To:     brendanhiggins@google.com, davidgow@google.com
 Cc:     rmoar@google.com, linux-kernel@vger.kernel.org,
@@ -63,88 +64,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-usage.rst had most of the content of the tips.rst page copied over.
-But it's missing https://www.kernel.org/doc/html/v6.0/dev-tools/kunit/tips.html#customizing-error-messages
-Copy it over so we can retire tips.rst w/o losing content.
+The existing wording implies that kunit_kmalloc_array() is "the method
+under test". We're actually testing the sort() function in that example.
+This is because the example was changed in commit 953574390634
+("Documentation: KUnit: Rework writing page to focus on writing tests"),
+but the wording was not.
 
-And in that process, it also gained a duplicate section about how
-KUNIT_ASSERT_*() exit the test case early. Remove that.
+Also add a `note` telling people they can use the KUNIT_ASSERT_EQ()
+macros from any function. Some users might be coming from a framework
+like gUnit where that'll compile but silently do the wrong thing.
 
 Signed-off-by: Daniel Latypov <dlatypov@google.com>
 Reviewed-by: Sadiya Kazi <sadiyakazi@google.com>
 ---
- Documentation/dev-tools/kunit/usage.rst | 49 ++++++++++++++++---------
- 1 file changed, 31 insertions(+), 18 deletions(-)
+ Documentation/dev-tools/kunit/usage.rst | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-index 2737863ef365..b0a6c3bc0eeb 100644
+index b0a6c3bc0eeb..22416ebb94ab 100644
 --- a/Documentation/dev-tools/kunit/usage.rst
 +++ b/Documentation/dev-tools/kunit/usage.rst
-@@ -118,6 +118,37 @@ expectation could crash the test case. `ASSERT_NOT_ERR_OR_NULL(...)` allows us
- to bail out of the test case if the appropriate conditions are not satisfied to
- complete the test.
+@@ -112,11 +112,14 @@ terminates the test case if the condition is not satisfied. For example:
+ 			KUNIT_EXPECT_LE(test, a[i], a[i + 1]);
+ 	}
  
-+Customizing error messages
-+--------------------------
+-In this example, the method under test should return pointer to a value. If the
+-pointer returns null or an errno, we want to stop the test since the following
+-expectation could crash the test case. `ASSERT_NOT_ERR_OR_NULL(...)` allows us
+-to bail out of the test case if the appropriate conditions are not satisfied to
+-complete the test.
++In this example, we need to be able to allocate an array to test the ``sort()``
++function. So we use ``KUNIT_ASSERT_NOT_ERR_OR_NULL()`` to abort the test if
++there's an allocation error.
 +
-+Each of the ``KUNIT_EXPECT`` and ``KUNIT_ASSERT`` macros have a ``_MSG``
-+variant.  These take a format string and arguments to provide additional
-+context to the automatically generated error messages.
-+
-+.. code-block:: c
-+
-+	char some_str[41];
-+	generate_sha1_hex_string(some_str);
-+
-+	/* Before. Not easy to tell why the test failed. */
-+	KUNIT_EXPECT_EQ(test, strlen(some_str), 40);
-+
-+	/* After. Now we see the offending string. */
-+	KUNIT_EXPECT_EQ_MSG(test, strlen(some_str), 40, "some_str='%s'", some_str);
-+
-+Alternatively, one can take full control over the error message by using
-+``KUNIT_FAIL()``, e.g.
-+
-+.. code-block:: c
-+
-+	/* Before */
-+	KUNIT_EXPECT_EQ(test, some_setup_function(), 0);
-+
-+	/* After: full control over the failure message. */
-+	if (some_setup_function())
-+		KUNIT_FAIL(test, "Failed to setup thing for testing");
-+
-+
- Test Suites
- ~~~~~~~~~~~
++.. note::
++   In other test frameworks, ``ASSERT`` macros are often implemented by calling
++   ``return`` so they only work from the test function. In KUnit, we stop the
++   current kthread on failure, so you can call them from anywhere.
  
-@@ -546,24 +577,6 @@ By reusing the same ``cases`` array from above, we can write the test as a
- 		{}
- 	};
- 
--Exiting Early on Failed Expectations
--------------------------------------
--
--We can use ``KUNIT_EXPECT_EQ`` to mark the test as failed and continue
--execution.  In some cases, it is unsafe to continue. We can use the
--``KUNIT_ASSERT`` variant to exit on failure.
--
--.. code-block:: c
--
--	void example_test_user_alloc_function(struct kunit *test)
--	{
--		void *object = alloc_some_object_for_me();
--
--		/* Make sure we got a valid pointer back. */
--		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, object);
--		do_something_with_object(object);
--	}
--
- Allocating Memory
- -----------------
- 
-
-base-commit: 870f63b7cd78d0055902d839a60408f7428b4e84
+ Customizing error messages
+ --------------------------
 -- 
 2.38.1.431.g37b22c650d-goog
 
