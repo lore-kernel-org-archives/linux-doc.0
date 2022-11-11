@@ -2,44 +2,44 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3C38C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Nov 2022 15:53:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CDDEC4321E
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Nov 2022 15:53:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234252AbiKKPxX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Nov 2022 10:53:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36334 "EHLO
+        id S234261AbiKKPx0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Nov 2022 10:53:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234222AbiKKPxW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Nov 2022 10:53:22 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EE9E99;
-        Fri, 11 Nov 2022 07:53:20 -0800 (PST)
+        with ESMTP id S234266AbiKKPxY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Nov 2022 10:53:24 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C0D099;
+        Fri, 11 Nov 2022 07:53:22 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 8A36EB82665;
-        Fri, 11 Nov 2022 15:53:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65EBFC43470;
-        Fri, 11 Nov 2022 15:53:15 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CE9E662020;
+        Fri, 11 Nov 2022 15:53:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C52CDC43470;
+        Fri, 11 Nov 2022 15:53:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668181997;
-        bh=EAiazw6z7s7c/6e5fgzEglD4gd00NZP2wBTixtgaPaE=;
+        s=k20201202; t=1668182001;
+        bh=a7usgB36X4l2b1SUBUqYf0183V4b5jYQBoYkHh1DpFs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DH5mJP6C2h3v9q5UH+aN1OQ/rtT6FJsH9ZOWBD/q6Gtd23tuP+ELdQrrWBdKkhIMe
-         23DLpKCbT1Tw9rZ6rB+H4vJvWQRUKkdwRSgtqbPE1LPo95aUrYIBGT1N38nC3FtHO+
-         GMBfqVeXnszuX+Mf+LobwBIAqM1RjCsBF7SSYUxQs2ZcWrlCGm6xi8h+7WyCmnnTUt
-         phJfIwu1wVP7t7Qq4v57POOYyDuIWhJ3Y/Myn623ZObyw1zW2ZCv0TVPKiLSN8HGlt
-         nsLq/E5AC6/K72RDnHIskIxIREA1dJM8S6RKcG+vwE8I/nxBl8Oa1d0T0yZUm0NkIL
-         teLwRB8GGWyCw==
+        b=e987GeqhLKC5X/ZT0ULu76UvcpOPoYgmwJnXNOzkK/D+FzBdRO4uZan5NC0yJnb2B
+         /TVIxVsjKE58OjK6zOugl5ruKaowQbX/xvOC4007mkCeB1berQtyJ/5IhmGYXaHX4i
+         kcAZSZaOr6k0b8zw0EHzlCC8lHO14nK9vxRLwhXVdHTDPQtJbrPIsifBWpcJCyv5ZK
+         d0ZGMjEgEqTFWPHCGwSYEABUayQtXzF5vWLSAzGIGRrGiERkchmx0m1z5B5T9kfDZ/
+         mXPttKqZygHEHdweosXOXHXFzsKZ2fDtg8qnOXbLcSNlhHyZ1CitkkaoCRpWGhEN9f
+         1tm+t5qHovpGw==
 From:   Daniel Bristot de Oliveira <bristot@kernel.org>
 To:     Steven Rostedt <rostedt@goodmis.org>,
         linux-trace-devel@vger.kernel.org
 Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH V2 1/3] rv: Add rv tool
-Date:   Fri, 11 Nov 2022 16:53:05 +0100
-Message-Id: <fb51184f3b95aea0d7bfdc33ec09f4153aee84fa.1668180100.git.bristot@kernel.org>
+Subject: [PATCH V2 3/3] Documentation/rv: Add verification/rv man pages
+Date:   Fri, 11 Nov 2022 16:53:07 +0100
+Message-Id: <e841d7cfbdfc3ebdaf7cbd40278571940145d829.1668180100.git.bristot@kernel.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <cover.1668180100.git.bristot@kernel.org>
 References: <cover.1668180100.git.bristot@kernel.org>
@@ -49,668 +49,521 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is the (user-space) runtime verification tool, named rv.
-
-This tool aims to be the interface for in-kernel rv monitors, as
-well as the home for monitors in user-space (online asynchronous),
-and in *eBPF.
-
-The tool receives a command as the first argument, the current
-commands are:
-
-  list	- list all available monitors
-  mon	- run a given monitor
-
-Each monitor is an independent piece of software inside the
-tool and can have their own arguments.
-
-There is no monitor implemented in this patch, it only
-adds the basic structure of the tool, based on rtla.
-
-  # rv --help
-    rv version 6.1.0-rc4: help
-
-    usage: rv command [-h] [command_options]
-
-	-h/--help: print this menu
-
-	command: run one of the following command:
-	  list: list all available monitors
-	  mon:  run a monitor
-
-	[command options]: each command has its own set of options
-		           run rv command -h for further information
-
-*dot2bpf is the next patch set, depends on this, doing cleanups.
+Add man pages for the rv command line, using the same scheme we used
+in rtla.
 
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Steven Rostedt <rostedt@goodmis.org>
 Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
 ---
- tools/verification/rv/Makefile        | 119 +++++++++++++++++
- tools/verification/rv/README.txt      |  38 ++++++
- tools/verification/rv/include/rv.h    |  12 ++
- tools/verification/rv/include/trace.h |  16 +++
- tools/verification/rv/include/utils.h |   8 ++
- tools/verification/rv/src/rv.c        | 185 ++++++++++++++++++++++++++
- tools/verification/rv/src/trace.c     | 133 ++++++++++++++++++
- tools/verification/rv/src/utils.c     |  47 +++++++
- 8 files changed, 558 insertions(+)
- create mode 100644 tools/verification/rv/Makefile
- create mode 100644 tools/verification/rv/README.txt
- create mode 100644 tools/verification/rv/include/rv.h
- create mode 100644 tools/verification/rv/include/trace.h
- create mode 100644 tools/verification/rv/include/utils.h
- create mode 100644 tools/verification/rv/src/rv.c
- create mode 100644 tools/verification/rv/src/trace.c
- create mode 100644 tools/verification/rv/src/utils.c
+ Documentation/tools/index.rst              |  1 +
+ Documentation/tools/rv/Makefile            | 52 ++++++++++++++++++
+ Documentation/tools/rv/common_appendix.rst | 16 ++++++
+ Documentation/tools/rv/common_ikm.rst      | 21 ++++++++
+ Documentation/tools/rv/index.rst           | 24 +++++++++
+ Documentation/tools/rv/rv-list.rst         | 43 +++++++++++++++
+ Documentation/tools/rv/rv-mon-wip.rst      | 44 +++++++++++++++
+ Documentation/tools/rv/rv-mon-wwnr.rst     | 43 +++++++++++++++
+ Documentation/tools/rv/rv-mon.rst          | 55 +++++++++++++++++++
+ Documentation/tools/rv/rv.rst              | 63 ++++++++++++++++++++++
+ tools/verification/rv/Makefile             | 26 ++++++++-
+ 11 files changed, 386 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/tools/rv/Makefile
+ create mode 100644 Documentation/tools/rv/common_appendix.rst
+ create mode 100644 Documentation/tools/rv/common_ikm.rst
+ create mode 100644 Documentation/tools/rv/index.rst
+ create mode 100644 Documentation/tools/rv/rv-list.rst
+ create mode 100644 Documentation/tools/rv/rv-mon-wip.rst
+ create mode 100644 Documentation/tools/rv/rv-mon-wwnr.rst
+ create mode 100644 Documentation/tools/rv/rv-mon.rst
+ create mode 100644 Documentation/tools/rv/rv.rst
 
-diff --git a/tools/verification/rv/Makefile b/tools/verification/rv/Makefile
+diff --git a/Documentation/tools/index.rst b/Documentation/tools/index.rst
+index 0bb1e61bdcc0..80488e290e10 100644
+--- a/Documentation/tools/index.rst
++++ b/Documentation/tools/index.rst
+@@ -11,6 +11,7 @@ more additions are needed here:
+    :maxdepth: 1
+ 
+    rtla/index
++   rv/index
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/tools/rv/Makefile b/Documentation/tools/rv/Makefile
 new file mode 100644
-index 000000000000..1de111ac2641
+index 000000000000..ec8713c1b35f
 --- /dev/null
-+++ b/tools/verification/rv/Makefile
-@@ -0,0 +1,119 @@
-+NAME	:=	rv
-+# Follow the kernel version
-+VERSION :=	$(shell cat VERSION 2> /dev/null || make -sC ../../.. kernelversion | grep -v make)
++++ b/Documentation/tools/rv/Makefile
+@@ -0,0 +1,52 @@
++# SPDX-License-Identifier: GPL-2.0-only
 +
-+# From libtracefs:
-+# Makefiles suck: This macro sets a default value of $(2) for the
-+# variable named by $(1), unless the variable has been set by
-+# environment or command line. This is necessary for CC and AR
-+# because make sets default values, so the simpler ?= approach
-+# won't work as expected.
-+define allow-override
-+  $(if $(or $(findstring environment,$(origin $(1))),\
-+            $(findstring command line,$(origin $(1)))),,\
-+    $(eval $(1) = $(2)))
-+endef
++INSTALL		?= install
++RM		?= rm -f
++RMDIR		?= rmdir --ignore-fail-on-non-empty
 +
-+# Allow setting CC and AR, or setting CROSS_COMPILE as a prefix.
-+$(call allow-override,CC,$(CROSS_COMPILE)gcc)
-+$(call allow-override,AR,$(CROSS_COMPILE)ar)
-+$(call allow-override,STRIP,$(CROSS_COMPILE)strip)
-+$(call allow-override,PKG_CONFIG,pkg-config)
-+$(call allow-override,LD_SO_CONF_PATH,/etc/ld.so.conf.d/)
-+$(call allow-override,LDCONFIG,ldconfig)
++PREFIX		?= /usr/share
++MANDIR		?= $(PREFIX)/man
++MAN1DIR		= $(MANDIR)/man1
 +
-+INSTALL	=	install
-+MKDIR	=	mkdir
-+FOPTS	:=	-flto=auto -ffat-lto-objects -fexceptions -fstack-protector-strong \
-+		-fasynchronous-unwind-tables -fstack-clash-protection
-+WOPTS	:= 	-Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Wno-maybe-uninitialized
++MAN1_RST	= $(wildcard rv*.rst)
 +
-+TRACEFS_HEADERS	:= $$($(PKG_CONFIG) --cflags libtracefs)
++_DOC_MAN1	= $(patsubst %.rst,%.1,$(MAN1_RST))
++DOC_MAN1	= $(addprefix $(OUTPUT),$(_DOC_MAN1))
 +
-+CFLAGS	:=	-O -g -DVERSION=\"$(VERSION)\" $(FOPTS) $(MOPTS) $(WOPTS) $(TRACEFS_HEADERS) $(EXTRA_CFLAGS) -I include
-+LDFLAGS	:=	-ggdb $(EXTRA_LDFLAGS)
-+LIBS	:=	$$($(PKG_CONFIG) --libs libtracefs)
++RST2MAN_DEP	:= $(shell command -v rst2man 2>/dev/null)
++RST2MAN_OPTS	+= --verbose
 +
-+SRC	:=	$(wildcard src/*.c)
-+HDR	:=	$(wildcard src/*.h)
-+OBJ	:=	$(SRC:.c=.o)
-+DIRS	:=	src
-+FILES	:=	Makefile README.txt
-+CEXT	:=	bz2
-+TARBALL	:=	$(NAME)-$(VERSION).tar.$(CEXT)
-+TAROPTS	:=	-cvjf $(TARBALL)
-+BINDIR	:=	/usr/bin
-+DATADIR	:=	/usr/share
-+MANDIR	:=	$(DATADIR)/man
-+LICDIR	:=	$(DATADIR)/licenses
-+SRCTREE	:=	$(or $(BUILD_SRC),$(CURDIR))
++TEST_RST2MAN = $(shell sh -c "rst2man --version > /dev/null 2>&1 || echo n")
 +
-+LIBTRACEEVENT_MIN_VERSION = 1.5
-+LIBTRACEFS_MIN_VERSION = 1.3
-+
-+.PHONY:	all warnings show_warnings
-+all:	warnings rv
-+
-+TEST_LIBTRACEEVENT = $(shell sh -c "$(PKG_CONFIG) --atleast-version $(LIBTRACEEVENT_MIN_VERSION) libtraceevent > /dev/null 2>&1 || echo n")
-+ifeq ("$(TEST_LIBTRACEEVENT)", "n")
-+WARNINGS = show_warnings
-+MISSING_LIBS += echo "**   libtraceevent version $(LIBTRACEEVENT_MIN_VERSION) or higher";
-+MISSING_PACKAGES += "libtraceevent-devel"
-+MISSING_SOURCE += echo "**  https://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git/ ";
++$(OUTPUT)%.1: %.rst
++ifndef RST2MAN_DEP
++	$(info ********************************************)
++	$(info ** NOTICE: rst2man not found)
++	$(info **)
++	$(info ** Consider installing the latest rst2man from your)
++	$(info ** distribution, e.g., 'dnf install python3-docutils' on Fedora,)
++	$(info ** or from source:)
++	$(info **)
++	$(info **  https://docutils.sourceforge.io/docs/dev/repository.html )
++	$(info **)
++	$(info ********************************************)
++	$(error NOTICE: rst2man required to generate man pages)
 +endif
++	rst2man $(RST2MAN_OPTS) $< > $@
 +
-+TEST_LIBTRACEFS = $(shell sh -c "$(PKG_CONFIG) --atleast-version $(LIBTRACEFS_MIN_VERSION) libtracefs > /dev/null 2>&1 || echo n")
-+ifeq ("$(TEST_LIBTRACEFS)", "n")
-+WARNINGS = show_warnings
-+MISSING_LIBS += echo "**   libtracefs version $(LIBTRACEFS_MIN_VERSION) or higher";
-+MISSING_PACKAGES += "libtracefs-devel"
-+MISSING_SOURCE += echo "**  https://git.kernel.org/pub/scm/libs/libtrace/libtracefs.git/ ";
-+endif
++man1: $(DOC_MAN1)
++man: man1
 +
-+define show_dependencies
-+	@echo "********************************************";				\
-+	echo "** NOTICE: Failed build dependencies";					\
-+	echo "**";									\
-+	echo "** Required Libraries:";							\
-+	$(MISSING_LIBS)									\
-+	echo "**";									\
-+	echo "** Consider installing the latest libtracefs from your";			\
-+	echo "** distribution, e.g., 'dnf install $(MISSING_PACKAGES)' on Fedora,";	\
-+	echo "** or from source:";							\
-+	echo "**";									\
-+	$(MISSING_SOURCE)								\
-+	echo "**";									\
-+	echo "********************************************"
-+endef
-+
-+show_warnings:
-+	$(call show_dependencies);
-+
-+ifneq ("$(WARNINGS)", "")
-+ERROR_OUT = $(error Please add the necessary dependencies)
-+
-+warnings: $(WARNINGS)
-+	$(ERROR_OUT)
-+endif
-+
-+rv: $(OBJ)
-+	$(CC) -o rv $(LDFLAGS) $(OBJ) $(LIBS)
-+
-+.PHONY: install
-+install:
-+	$(MKDIR) -p $(DESTDIR)$(BINDIR)
-+	$(INSTALL) rv -m 755 $(DESTDIR)$(BINDIR)
-+	$(STRIP) $(DESTDIR)$(BINDIR)/rv
-+
-+.PHONY: clean tarball
 +clean:
-+	@test ! -f rv || rm rv
-+	@test ! -f $(TARBALL) || rm -f $(TARBALL)
-+	@rm -rf *~ $(OBJ) *.tar.$(CEXT)
++	$(RM) $(DOC_MAN1)
 +
-+tarball: clean
-+	rm -rf $(NAME)-$(VERSION) && mkdir $(NAME)-$(VERSION)
-+	echo $(VERSION) > $(NAME)-$(VERSION)/VERSION
-+	cp -r $(DIRS) $(FILES) $(NAME)-$(VERSION)
-+	tar $(TAROPTS) --exclude='*~' $(NAME)-$(VERSION)
-+	rm -rf $(NAME)-$(VERSION)
-diff --git a/tools/verification/rv/README.txt b/tools/verification/rv/README.txt
++install: man
++	$(INSTALL) -d -m 755 $(DESTDIR)$(MAN1DIR)
++	$(INSTALL) -m 644 $(DOC_MAN1) $(DESTDIR)$(MAN1DIR)
++
++uninstall:
++	$(RM) $(addprefix $(DESTDIR)$(MAN1DIR)/,$(_DOC_MAN1))
++	$(RMDIR) $(DESTDIR)$(MAN1DIR)
++
++.PHONY: man man1 clean install uninstall
++.DEFAULT_GOAL := man
+diff --git a/Documentation/tools/rv/common_appendix.rst b/Documentation/tools/rv/common_appendix.rst
 new file mode 100644
-index 000000000000..e96be0dfff59
+index 000000000000..f4239192bee8
 --- /dev/null
-+++ b/tools/verification/rv/README.txt
-@@ -0,0 +1,38 @@
-+RV: Runtime Verification
-+
-+Runtime Verification (RV) is a lightweight (yet rigorous) method that
-+complements classical exhaustive verification techniques (such as model
-+checking and theorem proving) with a more practical approach for
-+complex systems.
-+
-+The rv tool is the interface for a collection of monitors that aim
-+analysing the logical and timing behavior of Linux.
-+
-+Installing RV
-+
-+RV depends on the following libraries and tools:
-+
-+ - libtracefs
-+ - libtraceevent
-+
-+It also depends on python3-docutils to compile man pages.
-+
-+For development, we suggest the following steps for compiling rtla:
-+
-+  $ git clone git://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git
-+  $ cd libtraceevent/
-+  $ make
-+  $ sudo make install
-+  $ cd ..
-+  $ git clone git://git.kernel.org/pub/scm/libs/libtrace/libtracefs.git
-+  $ cd libtracefs/
-+  $ make
-+  $ sudo make install
-+  $ cd ..
-+  $ cd $rv_src
-+  $ make
-+  $ sudo make install
-+
-+For further information, please see rv manpage and the kernel documentation:
-+  Runtime Verification:
-+    Documentation/trace/rv/runtime-verification.rst
-diff --git a/tools/verification/rv/include/rv.h b/tools/verification/rv/include/rv.h
-new file mode 100644
-index 000000000000..770fd6da3610
---- /dev/null
-+++ b/tools/verification/rv/include/rv.h
-@@ -0,0 +1,12 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#define MAX_DESCRIPTION 1024
-+#define MAX_DA_NAME_LEN	24
-+
-+struct monitor {
-+	char name[MAX_DA_NAME_LEN];
-+	char desc[MAX_DESCRIPTION];
-+	int enabled;
-+};
-+
-+int should_stop(void);
-diff --git a/tools/verification/rv/include/trace.h b/tools/verification/rv/include/trace.h
-new file mode 100644
-index 000000000000..8d89e8c303fa
---- /dev/null
-+++ b/tools/verification/rv/include/trace.h
++++ b/Documentation/tools/rv/common_appendix.rst
 @@ -0,0 +1,16 @@
-+// SPDX-License-Identifier: GPL-2.0
++REPORTING BUGS
++==============
 +
-+#include <tracefs.h>
++Report bugs to <linux-kernel@vger.kernel.org>
++and <linux-trace-devel@vger.kernel.org>
 +
-+struct trace_instance {
-+	struct tracefs_instance		*inst;
-+	struct tep_handle		*tep;
-+	struct trace_seq		*seq;
-+};
++LICENSE
++=======
 +
-+int trace_instance_init(struct trace_instance *trace, char *name);
-+int trace_instance_start(struct trace_instance *trace);
-+void trace_instance_destroy(struct trace_instance *trace);
++**rv** is Free Software licensed under the GNU GPLv2
 +
-+int collect_registered_events(struct tep_event *event, struct tep_record *record,
-+			      int cpu, void *context);
-diff --git a/tools/verification/rv/include/utils.h b/tools/verification/rv/include/utils.h
++COPYING
++=======
++
++Copyright \(C) 2022 Red Hat, Inc. Free use of this software is granted under
++the terms of the GNU Public License (GPL).
+diff --git a/Documentation/tools/rv/common_ikm.rst b/Documentation/tools/rv/common_ikm.rst
 new file mode 100644
-index 000000000000..f24ae8282bd2
+index 000000000000..e50a5f8a7142
 --- /dev/null
-+++ b/tools/verification/rv/include/utils.h
-@@ -0,0 +1,8 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/tools/rv/common_ikm.rst
+@@ -0,0 +1,21 @@
++**-h**, **--help**
 +
-+#define MAX_PATH		1024
++        Print the monitor's options and the available reactors list.
 +
-+void debug_msg(const char *fmt, ...);
-+void err_msg(const char *fmt, ...);
++**-r**, **--reactor** *reactor*
 +
-+extern int config_debug;
-diff --git a/tools/verification/rv/src/rv.c b/tools/verification/rv/src/rv.c
++        Enables the *reactor*. See **-h** for a list of available reactors.
++
++**-s**, **--self**
++
++        When tracing (**-t**), also print the events that happened during the **rv**
++        command itself. If the **rv** command itself generates too many events,
++        the tool might get busy processing its own events only.
++
++**-t**, **--trace**
++
++        Trace monitor's events and error.
++
++**-v**, **--verbose**
++
++        Print debug messages.
+diff --git a/Documentation/tools/rv/index.rst b/Documentation/tools/rv/index.rst
 new file mode 100644
-index 000000000000..a9ea1c891ce0
+index 000000000000..8fd16d91d639
 --- /dev/null
-+++ b/tools/verification/rv/src/rv.c
-@@ -0,0 +1,185 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * rv tool, the interface for the Linux kernel RV subsystem and home of
-+ * user-space controlled monitors.
-+ *
-+ * Copyright (C) 2022 Red Hat Inc, Daniel Bristot de Oliveira <bristot@kernel.org>
-+ */
++++ b/Documentation/tools/rv/index.rst
+@@ -0,0 +1,24 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+#include <stdlib.h>
-+#include <signal.h>
-+#include <unistd.h>
++==============================
++Runtime verification (rv) tool
++==============================
 +
-+#include <trace.h>
-+#include <utils.h>
++**rv** tool provides the interface for a collection of runtime verification
++(rv) monitors.
 +
-+static int stop_session;
++.. toctree::
++   :maxdepth: 1
 +
-+/*
-+ * stop_rv - tell monitors to stop
-+ */
-+static void stop_rv(int sig)
-+{
-+	stop_session = 1;
-+}
++   rv
++   rv-list
++   rv-mon
++   rv-mon-wip
++   rv-mon-wwnr
 +
-+/**
-+ * should_stop - check if the monitor should stop.
-+ *
-+ * Returns 1 if the monitor should stop, 0 otherwise.
-+ */
-+int should_stop(void)
-+{
-+	return stop_session;
-+}
++.. only::  subproject and html
 +
-+/*
-+ * rv_list - list all available monitors
-+ */
-+static void rv_list(int argc, char **argv)
-+{
-+	static const char *const usage[] = {
-+		"",
-+		"  usage: rv list [-h]",
-+		"",
-+		"	list all available monitors",
-+		"",
-+		"	-h/--help: print this menu",
-+		NULL,
-+	};
-+	int i;
++   Indices
++   =======
 +
-+	if (argc > 1) {
-+		fprintf(stderr, "rv version %s\n", VERSION);
-+
-+		/* more than 1 is always usage */
-+		for (i = 0; usage[i]; i++)
-+			fprintf(stderr, "%s\n", usage[i]);
-+
-+		/* but only -h is valid */
-+		if (!strcmp(argv[1], "-h") || !strcmp(argv[1], "--help"))
-+			exit(0);
-+		else
-+			exit(1);
-+	}
-+
-+	exit(0);
-+}
-+
-+/*
-+ * rv_mon - try to run a monitor passed as argument
-+ */
-+static void rv_mon(int argc, char **argv)
-+{
-+	char *monitor_name;
-+	int i, run;
-+
-+	static const char *const usage[] = {
-+		"",
-+		"  usage: rv mon [-h] monitor [monitor options]",
-+		"",
-+		"	run a monitor",
-+		"",
-+		"	-h/--help: print this menu",
-+		"",
-+		"	monitor [monitor options]: the monitor, passing",
-+		"	the arguments to the [monitor options]",
-+		NULL,
-+	};
-+
-+	/* requires at least one argument */
-+	if (argc == 1) {
-+
-+		fprintf(stderr, "rv version %s\n", VERSION);
-+
-+		for (i = 0; usage[i]; i++)
-+			fprintf(stderr, "%s\n", usage[i]);
-+		exit(1);
-+	} else if (!strcmp(argv[1], "-h") || !strcmp(argv[1], "--help")) {
-+
-+		fprintf(stderr, "rv version %s\n", VERSION);
-+
-+		for (i = 0; usage[i]; i++)
-+			fprintf(stderr, "%s\n", usage[i]);
-+		exit(0);
-+	}
-+
-+	monitor_name = argv[1];
-+	/*
-+	 * Call all possible monitor implementations, looking
-+	 * for the [monitor].
-+	 */
-+
-+	if (!run)
-+		err_msg("rv: monitor %s does not exist\n", monitor_name);
-+	exit(!run);
-+}
-+
-+static void usage(int exit_val, const char *fmt, ...)
-+{
-+	char message[1024];
-+	va_list ap;
-+	int i;
-+
-+	static const char *const usage[] = {
-+		"",
-+		"  usage: rv command [-h] [command_options]",
-+		"",
-+		"	-h/--help: print this menu",
-+		"",
-+		"	command: run one of the following command:",
-+		"	  list: list all available monitors",
-+		"	  mon:  run a monitor",
-+		"",
-+		"	[command options]: each command has its own set of options",
-+		"		           run rv command -h for further information",
-+		NULL,
-+	};
-+
-+	va_start(ap, fmt);
-+	vsnprintf(message, sizeof(message), fmt, ap);
-+	va_end(ap);
-+
-+	fprintf(stderr, "rv version %s: %s\n", VERSION, message);
-+
-+	for (i = 0; usage[i]; i++)
-+		fprintf(stderr, "%s\n", usage[i]);
-+
-+	exit(exit_val);
-+}
-+
-+/*
-+ * main - select which main sending the command
-+ *
-+ * main itself redirects the arguments to the sub-commands
-+ * to handle the options.
-+ *
-+ * subcommands should exit.
-+ */
-+int main(int argc, char **argv)
-+{
-+	if (geteuid())
-+		usage(1, "%s needs root permission", argv[0]);
-+
-+	if (argc <= 1)
-+		usage(1, "%s requires a command", argv[0]);
-+
-+	if (!strcmp(argv[1], "-h") || !strcmp(argv[1], "--help"))
-+		usage(0, "help");
-+
-+	if (!strcmp(argv[1], "list"))
-+		rv_list(--argc, &argv[1]);
-+
-+	if (!strcmp(argv[1], "mon")) {
-+		/*
-+		 * monitor's main should monitor should_stop() function.
-+		 * and exit.
-+		 */
-+		signal(SIGINT, stop_rv);
-+
-+		rv_mon(argc - 1, &argv[1]);
-+	}
-+
-+	/* invalid sub-command */
-+	usage(1, "%s does not know the %s command, old version?", argv[0], argv[1]);
-+}
-diff --git a/tools/verification/rv/src/trace.c b/tools/verification/rv/src/trace.c
++   * :ref:`genindex`
+diff --git a/Documentation/tools/rv/rv-list.rst b/Documentation/tools/rv/rv-list.rst
 new file mode 100644
-index 000000000000..2c7deed47f8d
+index 000000000000..51e4608f9e99
 --- /dev/null
-+++ b/tools/verification/rv/src/trace.c
-@@ -0,0 +1,133 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * trace helpers.
-+ *
-+ * Copyright (C) 2022 Red Hat Inc, Daniel Bristot de Oliveira <bristot@kernel.org>
-+ */
++++ b/Documentation/tools/rv/rv-list.rst
+@@ -0,0 +1,43 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+#include <sys/sendfile.h>
-+#include <tracefs.h>
-+#include <signal.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+#include <errno.h>
++=======
++rv-list
++=======
++-----------------------
++List available monitors
++-----------------------
 +
-+#include <rv.h>
-+#include <trace.h>
-+#include <utils.h>
++:Manual section: 1
 +
-+/*
-+ * create_instance - create a trace instance with *instance_name
-+ */
-+static struct tracefs_instance *create_instance(char *instance_name)
-+{
-+	return tracefs_instance_create(instance_name);
-+}
++SYNOPSIS
++========
 +
-+/*
-+ * destroy_instance - remove a trace instance and free the data
-+ */
-+static void destroy_instance(struct tracefs_instance *inst)
-+{
-+	tracefs_instance_destroy(inst);
-+	tracefs_instance_free(inst);
-+}
++**rv list** [*OPTIONS*]
 +
-+/**
-+ * collect_registered_events - call the existing callback function for the event
-+ *
-+ * If an event has a registered callback function, call it.
-+ * Otherwise, ignore the event.
-+ *
-+ * Returns 0 if the event was collected, 1 if the tool should stop collecting trace.
-+ */
-+int
-+collect_registered_events(struct tep_event *event, struct tep_record *record,
-+			  int cpu, void *context)
-+{
-+	struct trace_instance *trace = context;
-+	struct trace_seq *s = trace->seq;
++DESCRIPTION
++===========
 +
-+	if (should_stop())
-+		return 1;
++The **rv list** command prints all available monitors. These monitors
++can be enabled using the **rv mon** command.
 +
-+	if (!event->handler)
-+		return 0;
++OPTIONS
++=======
 +
-+	event->handler(s, record, event, context);
++**-h**, **--help**
 +
-+	return 0;
-+}
++        Print help menu.
 +
-+/**
-+ * trace_instance_destroy - destroy and free a rv trace instance
-+ */
-+void trace_instance_destroy(struct trace_instance *trace)
-+{
-+	if (trace->inst) {
-+		destroy_instance(trace->inst);
-+		trace->inst = NULL;
-+	}
++SEE ALSO
++========
 +
-+	if (trace->seq) {
-+		free(trace->seq);
-+		trace->seq = NULL;
-+	}
++**rv**\(1), **rv-mon**\(1)
 +
-+	if (trace->tep) {
-+		tep_free(trace->tep);
-+		trace->tep = NULL;
-+	}
-+}
++Linux kernel *RV* documentation:
++<https://www.kernel.org/doc/html/latest/trace/rv/index.html>
 +
-+/**
-+ * trace_instance_init - create an trace instance
-+ *
-+ * It is more than the tracefs instance, as it contains other
-+ * things required for the tracing, such as the local events and
-+ * a seq file.
-+ *
-+ * Note that the trace instance is returned disabled. This allows
-+ * the tool to apply some other configs, like setting priority
-+ * to the kernel threads, before starting generating trace entries.
-+ *
-+ * Returns 0 on success, non-zero otherwise.
-+ */
-+int trace_instance_init(struct trace_instance *trace, char *name)
-+{
-+	trace->seq = calloc(1, sizeof(*trace->seq));
-+	if (!trace->seq)
-+		goto out_err;
++AUTHOR
++======
 +
-+	trace_seq_init(trace->seq);
++Written by Daniel Bristot de Oliveira <bristot@kernel.org>
 +
-+	trace->inst = create_instance(name);
-+	if (!trace->inst)
-+		goto out_err;
-+
-+	trace->tep = tracefs_local_events(NULL);
-+	if (!trace->tep)
-+		goto out_err;
-+
-+	/*
-+	 * Let the main enable the record after setting some other
-+	 * things such as the priority of the tracer's threads.
-+	 */
-+	tracefs_trace_off(trace->inst);
-+
-+	return 0;
-+
-+out_err:
-+	trace_instance_destroy(trace);
-+	return 1;
-+}
-+
-+/**
-+ * trace_instance_start - start tracing a given rv instance
-+ *
-+ * Returns 0 on success, -1 otherwise.
-+ */
-+int trace_instance_start(struct trace_instance *trace)
-+{
-+	return tracefs_trace_on(trace->inst);
-+}
-diff --git a/tools/verification/rv/src/utils.c b/tools/verification/rv/src/utils.c
++.. include:: common_appendix.rst
+diff --git a/Documentation/tools/rv/rv-mon-wip.rst b/Documentation/tools/rv/rv-mon-wip.rst
 new file mode 100644
-index 000000000000..5677b439dc2f
+index 000000000000..2d42104d63d1
 --- /dev/null
-+++ b/tools/verification/rv/src/utils.c
-@@ -0,0 +1,47 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * util functions.
-+ *
-+ * Copyright (C) 2022 Red Hat Inc, Daniel Bristot de Oliveira <bristot@kernel.org>
-+ */
++++ b/Documentation/tools/rv/rv-mon-wip.rst
+@@ -0,0 +1,44 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+#include <stdarg.h>
-+#include <stdio.h>
-+#include <utils.h>
++==========
++rv-mon-wip
++==========
++----------------------------
++Wakeup In Preemptive monitor
++----------------------------
 +
-+int config_debug;
++:Manual section: 1
 +
-+#define MAX_MSG_LENGTH	1024
++SYNOPSIS
++========
 +
-+/**
-+ * err_msg - print an error message to the stderr
-+ */
-+void err_msg(const char *fmt, ...)
-+{
-+	char message[MAX_MSG_LENGTH];
-+	va_list ap;
++**rv mon wip** [*OPTIONS*]
 +
-+	va_start(ap, fmt);
-+	vsnprintf(message, sizeof(message), fmt, ap);
-+	va_end(ap);
++DESCRIPTION
++===========
 +
-+	fprintf(stderr, "%s", message);
-+}
++The wakeup in preemptive (**wip**) monitor is a sample per-cpu monitor that
++checks if the wakeup events always take place with preemption disabled.
 +
-+/**
-+ * debug_msg - print a debug message to stderr if debug is set
-+ */
-+void debug_msg(const char *fmt, ...)
-+{
-+	char message[MAX_MSG_LENGTH];
-+	va_list ap;
++See kernel documentation for further information about this monitor:
++<https://docs.kernel.org/trace/rv/monitor_wip.html>
 +
-+	if (!config_debug)
-+		return;
++OPTIONS
++=======
 +
-+	va_start(ap, fmt);
-+	vsnprintf(message, sizeof(message), fmt, ap);
-+	va_end(ap);
++.. include:: common_ikm.rst
 +
-+	fprintf(stderr, "%s", message);
-+}
++SEE ALSO
++========
++
++**rv**\(1), **rv-mon**\(1)
++
++Linux kernel *RV* documentation:
++<https://www.kernel.org/doc/html/latest/trace/rv/index.html>
++
++AUTHOR
++======
++
++Written by Daniel Bristot de Oliveira <bristot@kernel.org>
++
++.. include:: common_appendix.rst
+diff --git a/Documentation/tools/rv/rv-mon-wwnr.rst b/Documentation/tools/rv/rv-mon-wwnr.rst
+new file mode 100644
+index 000000000000..a18f3fd54af4
+--- /dev/null
++++ b/Documentation/tools/rv/rv-mon-wwnr.rst
+@@ -0,0 +1,43 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===========
++rv-mon-wwnr
++===========
++--------------------------------
++Wakeup While Not Running monitor
++--------------------------------
++
++:Manual section: 1
++
++SYNOPSIS
++========
++
++**rv mon wip** [*OPTIONS*]
++
++DESCRIPTION
++===========
++
++The wakeup while not running (**wwnr**) is a per-task sample monitor.
++
++See kernel documentation for further information about this monitor:
++<https://docs.kernel.org/trace/rv/monitor_wwnr.html>
++
++OPTIONS
++=======
++
++.. include:: common_ikm.rst
++
++SEE ALSO
++========
++
++**rv**\(1), **rv-mon**\(1)
++
++Linux kernel *RV* documentation:
++<https://www.kernel.org/doc/html/latest/trace/rv/index.html>
++
++AUTHOR
++======
++
++Written by Daniel Bristot de Oliveira <bristot@kernel.org>
++
++.. include:: common_appendix.rst
+diff --git a/Documentation/tools/rv/rv-mon.rst b/Documentation/tools/rv/rv-mon.rst
+new file mode 100644
+index 000000000000..af0f329a7c9c
+--- /dev/null
++++ b/Documentation/tools/rv/rv-mon.rst
+@@ -0,0 +1,55 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=======
++rv-list
++=======
++-----------------------
++List available monitors
++-----------------------
++
++:Manual section: 1
++
++SYNOPSIS
++========
++
++**rv mon** [*-h*] **monitor_name** [*-h*] [*MONITOR OPTIONS*]
++
++DESCRIPTION
++===========
++
++The **rv mon** command runs the monitor named *monitor_name*. Each monitor
++has its own set of options. The **rv list** command shows all available
++monitors.
++
++OPTIONS
++=======
++
++**-h**, **--help**
++
++        Print help menu.
++
++AVAILABLE MONITORS
++==================
++
++The **rv** tool provides the interface for a set of monitors. Use the
++**rv list** command to list all available monitors.
++
++Each monitor has its own set of options. See man **rv-mon**-*monitor_name*
++for details about each specific monitor. Also, running **rv mon**
++**monitor_name** **-h** display the help menu with the available
++options.
++
++SEE ALSO
++========
++
++**rv**\(1), **rv-mon**\(1)
++
++Linux kernel *RV* documentation:
++<https://www.kernel.org/doc/html/latest/trace/rv/index.html>
++
++AUTHOR
++======
++
++Written by Daniel Bristot de Oliveira <bristot@kernel.org>
++
++.. include:: common_appendix.rst
+diff --git a/Documentation/tools/rv/rv.rst b/Documentation/tools/rv/rv.rst
+new file mode 100644
+index 000000000000..cee93dc21a76
+--- /dev/null
++++ b/Documentation/tools/rv/rv.rst
+@@ -0,0 +1,63 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==
++rv
++==
++--------------------
++Runtime Verification
++--------------------
++
++:Manual section: 1
++
++SYNOPSIS
++========
++
++**rv** *COMMAND* [*OPTIONS*]
++
++DESCRIPTION
++===========
++
++Runtime Verification (**RV**) is a lightweight (yet rigorous) method
++for formal verification with a practical approach for complex systems.
++Instead of relying on a fine-grained model of a system (e.g., a
++re-implementation a instruction level), RV works by analyzing the trace
++of the system's actual execution, comparing it against a formal
++specification of the system behavior.
++
++The **rv** tool provides the interface for a collection of runtime
++verification (rv) monitors.
++
++COMMANDS
++========
++
++**list**
++
++        List all available monitors.
++
++**mon**
++
++        Run monitor.
++
++OPTIONS
++=======
++
++**-h**, **--help**
++
++        Display the help text.
++
++For other options, see the man page for the corresponding command.
++
++SEE ALSO
++========
++
++**rv-list**\(1), **rv-mon**\(1)
++
++Linux kernel *RV* documentation:
++<https://www.kernel.org/doc/html/latest/trace/rv/index.html>
++
++AUTHOR
++======
++
++Daniel Bristot de Oliveira <bristot@kernel.org>
++
++.. include:: common_appendix.rst
+diff --git a/tools/verification/rv/Makefile b/tools/verification/rv/Makefile
+index 1de111ac2641..3d0f3888a58c 100644
+--- a/tools/verification/rv/Makefile
++++ b/tools/verification/rv/Makefile
+@@ -44,10 +44,20 @@ TARBALL	:=	$(NAME)-$(VERSION).tar.$(CEXT)
+ TAROPTS	:=	-cvjf $(TARBALL)
+ BINDIR	:=	/usr/bin
+ DATADIR	:=	/usr/share
++DOCDIR	:=	$(DATADIR)/doc
+ MANDIR	:=	$(DATADIR)/man
+ LICDIR	:=	$(DATADIR)/licenses
+ SRCTREE	:=	$(or $(BUILD_SRC),$(CURDIR))
+ 
++# If running from the tarball, man pages are stored in the Documentation
++# dir. If running from the kernel source, man pages are stored in
++# Documentation/tools/rv/.
++ifneq ($(wildcard Documentation/.*),)
++DOCSRC	=	Documentation/
++else
++DOCSRC	=	$(SRCTREE)/../../../Documentation/tools/rv/
++endif
++
+ LIBTRACEEVENT_MIN_VERSION = 1.5
+ LIBTRACEFS_MIN_VERSION = 1.3
+ 
+@@ -100,13 +110,13 @@ rv: $(OBJ)
+ 	$(CC) -o rv $(LDFLAGS) $(OBJ) $(LIBS)
+ 
+ .PHONY: install
+-install:
++install: doc_install
+ 	$(MKDIR) -p $(DESTDIR)$(BINDIR)
+ 	$(INSTALL) rv -m 755 $(DESTDIR)$(BINDIR)
+ 	$(STRIP) $(DESTDIR)$(BINDIR)/rv
+ 
+ .PHONY: clean tarball
+-clean:
++clean: doc_clean
+ 	@test ! -f rv || rm rv
+ 	@test ! -f $(TARBALL) || rm -f $(TARBALL)
+ 	@rm -rf *~ $(OBJ) *.tar.$(CEXT)
+@@ -115,5 +125,17 @@ tarball: clean
+ 	rm -rf $(NAME)-$(VERSION) && mkdir $(NAME)-$(VERSION)
+ 	echo $(VERSION) > $(NAME)-$(VERSION)/VERSION
+ 	cp -r $(DIRS) $(FILES) $(NAME)-$(VERSION)
++	mkdir $(NAME)-$(VERSION)/Documentation/
++	cp -rp $(SRCTREE)/../../../Documentation/tools/rv/* $(NAME)-$(VERSION)/Documentation/
+ 	tar $(TAROPTS) --exclude='*~' $(NAME)-$(VERSION)
+ 	rm -rf $(NAME)-$(VERSION)
++
++.PHONY: doc doc_clean doc_install
++doc:
++	$(MAKE) -C $(DOCSRC)
++
++doc_clean:
++	$(MAKE) -C $(DOCSRC) clean
++
++doc_install:
++	$(MAKE) -C $(DOCSRC) install
 -- 
 2.37.3
 
