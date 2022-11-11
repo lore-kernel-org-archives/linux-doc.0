@@ -2,68 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD880C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Nov 2022 13:47:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A681C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Nov 2022 15:51:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230270AbiKKNrN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Nov 2022 08:47:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53096 "EHLO
+        id S234197AbiKKPvX convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Nov 2022 10:51:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230043AbiKKNrM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Nov 2022 08:47:12 -0500
-Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2D0B965E56;
-        Fri, 11 Nov 2022 05:47:11 -0800 (PST)
-Received: from uucp (helo=alpha)
-        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
-        id 1otUN0-0002Uo-00; Fri, 11 Nov 2022 14:46:58 +0100
-Received: by alpha.franken.de (Postfix, from userid 1000)
-        id 7CC48C115B; Fri, 11 Nov 2022 14:02:16 +0100 (CET)
-Date:   Fri, 11 Nov 2022 14:02:16 +0100
-From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To:     Cye Borg <cyborgyn@gmail.com>
-Cc:     Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= 
-        <nabijaczleweli@nabijaczleweli.xyz>,
+        with ESMTP id S234226AbiKKPvW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Nov 2022 10:51:22 -0500
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4351FDB;
+        Fri, 11 Nov 2022 07:51:19 -0800 (PST)
+Received: from fraeml741-chm.china.huawei.com (unknown [172.18.147.201])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4N836C0vygz683hj;
+        Fri, 11 Nov 2022 23:49:07 +0800 (CST)
+Received: from lhrpeml100002.china.huawei.com (7.191.160.241) by
+ fraeml741-chm.china.huawei.com (10.206.15.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 11 Nov 2022 16:51:17 +0100
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ lhrpeml100002.china.huawei.com (7.191.160.241) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 11 Nov 2022 15:51:16 +0000
+Received: from lhrpeml500005.china.huawei.com ([7.191.163.240]) by
+ lhrpeml500005.china.huawei.com ([7.191.163.240]) with mapi id 15.01.2375.031;
+ Fri, 11 Nov 2022 15:51:16 +0000
+From:   Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-mips@vger.kernel.org
-Subject: Re: [PATCH v3 08/15] MIPS: IP27: remove KV_MAGIC
-Message-ID: <20221111130216.GA11187@alpha.franken.de>
-References: <cover.1668128257.git.nabijaczleweli@nabijaczleweli.xyz>
- <60f6526fffa99416d2429dfb0b454148170cce8a.1668128257.git.nabijaczleweli@nabijaczleweli.xyz>
- <CAD4NMuYU6+JYGwCwDqGW5bTN8Rgg4SwseH9JKzjPAzsujBuCEw@mail.gmail.com>
+        David Woodhouse <dwmw2@infradead.org>,
+        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
+CC:     Alex Williamson <alex.williamson@redhat.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Yi Liu <yi.l.liu@intel.com>, zhukeqian <zhukeqian1@huawei.com>
+Subject: RE: [PATCH v4 00/17] IOMMUFD Generic interface
+Thread-Topic: [PATCH v4 00/17] IOMMUFD Generic interface
+Thread-Index: AQHY8wv6WqOaN9m/WUKJgvcZCnpZkK454qzg
+Date:   Fri, 11 Nov 2022 15:51:16 +0000
+Message-ID: <3a20e56423f544dab312bca1bcb56ce4@huawei.com>
+References: <0-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
+In-Reply-To: <0-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.202.227.178]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAD4NMuYU6+JYGwCwDqGW5bTN8Rgg4SwseH9JKzjPAzsujBuCEw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 11, 2022 at 06:39:10AM +0100, Cye Borg wrote:
-> Just asking:
-> This code in SGI seems to help bring online other CPUs.
-> - Does it use the firmware to do it?
-> - Is there a possibility that the magic number in this case is used by the
-> firmware?
-> - If yes: do we break multiprocessing on SGI if we delete this "useless
-> relic", which is not referenced in the linux code elsewhere?
 
-this magic is just for a internal struct not used by firmware. It came
-from IRIX code, but there is no point in keeping it
 
-Thomas.
+> -----Original Message-----
+> From: Jason Gunthorpe [mailto:jgg@nvidia.com]
+> Sent: 08 November 2022 00:49
+> To: bpf@vger.kernel.org; Jonathan Corbet <corbet@lwn.net>; David
+> Woodhouse <dwmw2@infradead.org>; iommu@lists.linux.dev; Joerg Roedel
+> <joro@8bytes.org>; Kevin Tian <kevin.tian@intel.com>;
+> linux-doc@vger.kernel.org; linux-kselftest@vger.kernel.org;
+> llvm@lists.linux.dev; Nathan Chancellor <nathan@kernel.org>; Nick
+> Desaulniers <ndesaulniers@google.com>; Miguel Ojeda <ojeda@kernel.org>;
+> Robin Murphy <robin.murphy@arm.com>; Shuah Khan <shuah@kernel.org>;
+> Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>; Tom Rix
+> <trix@redhat.com>; Will Deacon <will@kernel.org>
+> Cc: Alex Williamson <alex.williamson@redhat.com>; Lu Baolu
+> <baolu.lu@linux.intel.com>; Chaitanya Kulkarni <chaitanyak@nvidia.com>;
+> Cornelia Huck <cohuck@redhat.com>; Daniel Jordan
+> <daniel.m.jordan@oracle.com>; David Gibson
+> <david@gibson.dropbear.id.au>; Eric Auger <eric.auger@redhat.com>; Eric
+> Farman <farman@linux.ibm.com>; Jason Wang <jasowang@redhat.com>;
+> Jean-Philippe Brucker <jean-philippe@linaro.org>; Joao Martins
+> <joao.m.martins@oracle.com>; kvm@vger.kernel.org; Matthew Rosato
+> <mjrosato@linux.ibm.com>; Michael S. Tsirkin <mst@redhat.com>; Nicolin
+> Chen <nicolinc@nvidia.com>; Niklas Schnelle <schnelle@linux.ibm.com>;
+> Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>; Yi
+> Liu <yi.l.liu@intel.com>; zhukeqian <zhukeqian1@huawei.com>
+> Subject: [PATCH v4 00/17] IOMMUFD Generic interface
+[...]
+> 
+> - Userspace page tables aka 'nested translation' for ARM and Intel iommu
+>   drivers:
+>   https://github.com/nicolinc/iommufd/commits/iommufd_nesting
 
--- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+Hi Eric/Yi/Nicolin,
+
+Could you please provide a latest Kernel/Qemu branch for the ARM nesting support?
+The above link points to Yi's git, but not sure which one is latest/stable to 
+have a play.
+
+Thanks,
+Shameer
+
