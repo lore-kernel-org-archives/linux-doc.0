@@ -2,145 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 172D0C4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Nov 2022 00:54:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2FF5C433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Nov 2022 09:28:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234195AbiKLAyl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Nov 2022 19:54:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54262 "EHLO
+        id S234728AbiKLJ2m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 12 Nov 2022 04:28:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230043AbiKLAyk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Nov 2022 19:54:40 -0500
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5CC763CD5
-        for <linux-doc@vger.kernel.org>; Fri, 11 Nov 2022 16:54:39 -0800 (PST)
-Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-13bd2aea61bso7167010fac.0
-        for <linux-doc@vger.kernel.org>; Fri, 11 Nov 2022 16:54:39 -0800 (PST)
+        with ESMTP id S230344AbiKLJ2m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Nov 2022 04:28:42 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D8AE60C5;
+        Sat, 12 Nov 2022 01:28:39 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id e7-20020a17090a77c700b00216928a3917so9683938pjs.4;
+        Sat, 12 Nov 2022 01:28:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kgzkdJJVzDtfUCfjBoOKWIQr0MtI60EXGo2WL5sLdD8=;
-        b=WJ1Dtcx0YU6v7BVgFhOTmX5g6b5V2u81n5W+od/LZ7/ePypFpcJ3B2/cO6y5T9Hb1s
-         yGLP2KzMKL2tz7tYL10UX9VT2BDESGgDfGicz6IIzTLAXbGixb0NFv+uatTxemVEh/iP
-         sj51/eI+NB3Y5W0e42kxC8GeNas1/hiO1nVjDt5AZZ3o3Ub8nTGV9TSEaFCeqYs4dRQO
-         BT75ccM4UwqN3Hu64t4SL7Fzqq2bZPnpCgNB8CcGojBn1Euw156C0sN6shCUgnQMXfSf
-         JNT+gVM8ZJ7BtrG9jh7rcg8AeI4W2uENCEw6XEshXKW/DmLDxqNErQJ/EoZvkZZCjafN
-         dnYQ==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cJeFW65Bs1DVHRXTMJLugWLkr26agWIWDiv+B9kQhY0=;
+        b=i6t0sbED3vCuLXbeckNyt0yQ3yo89h0/60hntRMuTjX5XFkC2DzgYHt2wbQg6++DwR
+         x/lmGizsTDx8mXeMfovOJLT+q4JvrhZEAlUx+O6nT2me32pvKja086rdXUlht0Ce/Fu4
+         Iq2OZ1e5XY17odzvHseT0OEZfmtSarAkx+UDODhWs+AcRc2A+0zznbCnCw1waLligL+P
+         CgYpb6B4SyDXzHb+Sws0nmQYt63JiFlDbUMbN+r1+ZX4QAYJc9kSQYtCusE1l4ss1SHE
+         rhbqDrIZqEkkWzaCYtIZ80ZH3rbOExy4xkBJLQTzh1PnTLtMS8O/XN/Pq7O6aX0PE3TE
+         Y/1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kgzkdJJVzDtfUCfjBoOKWIQr0MtI60EXGo2WL5sLdD8=;
-        b=jDzm+hgjLeEhmGgxjk01EzVY+tY/yndj7e6zJ5JNDBjnBdOVI/HirOwp7832y1WnbQ
-         zUCFLhZfO3hSmJf7bB28YXcyKV88MwjrKLPyY33RjSjNAiYl/P2a6W2uD2JNIdZTkndp
-         d/vXfLH2pWChG3Y3khOFnQUTpvaA3Tg05YrqEbLCNQyYeCPRZ7XI+telrnRSq9134bNc
-         BLRxzG7AgWm9UL12YNBRiVtI0sszhfBiubz8d+JFjkGuDc5VIFoFouS+1OIEj1LcWfHg
-         vApLmE0cTAs8dbtFidOlfOeq/cf+Lhmje+2z9PLHzIIHFvWgRx4tpgtg0dAQyDTsvK7+
-         iR4A==
-X-Gm-Message-State: ANoB5pntWQlBQOMsPUuDsaQ6Kzk8+mjWgJEzOKIYM+ZbRm7/ZmL2NeRe
-        U16SC7gKM4WXmBsIed18b9imO1bsxY5td/X+H6lMMg==
-X-Google-Smtp-Source: AA0mqf6ijLfQXIUSX8tefl3g9CbymBdUGXdxWM4Kt+K4kfIGcLQ9nZanl88lLdkCxJohVixchA4ivqQsSeJrMapImFo=
-X-Received: by 2002:a05:6870:2e07:b0:132:af5d:e4eb with SMTP id
- oi7-20020a0568702e0700b00132af5de4ebmr2389146oab.112.1668214478327; Fri, 11
- Nov 2022 16:54:38 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cJeFW65Bs1DVHRXTMJLugWLkr26agWIWDiv+B9kQhY0=;
+        b=JW89pBCsXWTf0CIPgWBs8izN434N3hW7zH2B7d/WmzqgEEVQovQtnCHKmaitatuSHf
+         AgsdEBG11V/ZoD58wPh1zyQN8LD8bC477OgjBjGxrCdhfeetp0OPAHJhq6LKvIVZihiq
+         Y0rLWq2VG56dtLbb0IAMDWnDjfY2L1yBCO7uTcyv+fvsDTuB/+URklqBQEF/zvMw/jxO
+         1zpM1TqXN86DEeTbWNc44pLsAnaC4aSOt5/GdopDaMf6pNkNdqlNo6yVN5AM0JPvdwHp
+         MZShd0edsJIXJ6wHRHBTwXWlLUpgXw0XQcaMyvMbO+JYYSXvAQrxGFo5GmSuxP9FYSMf
+         3eig==
+X-Gm-Message-State: ANoB5plkL2WJRuftzmT1JKctyBH2vYZPpfhwtXrQLYg7cgfgeP8g3zqe
+        7iFwKAPqTWeJTnkFUrTTV+TdZZLxFh2DOg==
+X-Google-Smtp-Source: AA0mqf7DHt1Vrc/2pssK58dV/Ij0FyxahAA6sgZS0j6yMU7uVxY3ViHIcfbsYjvK35lktSbfZEZxwQ==
+X-Received: by 2002:a17:902:f384:b0:188:b8cf:83f with SMTP id f4-20020a170902f38400b00188b8cf083fmr837631ple.134.1668245318870;
+        Sat, 12 Nov 2022 01:28:38 -0800 (PST)
+Received: from [192.168.43.80] (subs02-180-214-232-13.three.co.id. [180.214.232.13])
+        by smtp.gmail.com with ESMTPSA id s11-20020a17090a13cb00b002071ee97923sm6081582pjf.53.2022.11.12.01.28.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 12 Nov 2022 01:28:38 -0800 (PST)
+Message-ID: <483efb64-4c8f-7b0e-059c-b2421a9e33b5@gmail.com>
+Date:   Sat, 12 Nov 2022 16:28:32 +0700
 MIME-Version: 1.0
-References: <20221104213651.141057-1-kim.phillips@amd.com> <20221104213651.141057-3-kim.phillips@amd.com>
- <Y2WJjdY3wwQl9/q9@zn.tnic> <Y2ZEinL+wlIX+1Sn@hirez.programming.kicks-ass.net>
- <d413c064-ee9b-5853-9cf1-544adde22c8a@amd.com> <Y247gY9NKYi34er6@zn.tnic>
- <Y25CwmylusloNKsr@quatroqueijos.cascardo.eti.br> <fb91bbc0-7a25-2f2a-163c-517f20dff6db@amd.com>
-In-Reply-To: <fb91bbc0-7a25-2f2a-163c-517f20dff6db@amd.com>
-From:   Jim Mattson <jmattson@google.com>
-Date:   Fri, 11 Nov 2022 16:54:27 -0800
-Message-ID: <CALMp9eT-XHz2GyWsQt+5eeGGm-9kvCj5PxC8GibEyc9rXoUcEw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] x86/speculation: Support Automatic IBRS
-To:     Kim Phillips <kim.phillips@amd.com>
-Cc:     Thadeu Lima de Souza Cascardo <cascardo@canonical.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH 26/26] Docs/x86/sgx: Add description for cgroup support
+To:     Kristen Carlson Accardi <kristen@linux.intel.com>,
+        jarkko@kernel.org, dave.hansen@linux.kernel.org, tj@kernel.org,
+        linux-kernel@vger.kernel.org, linux-sgx@vger.kernel.org,
+        cgroups@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Babu Moger <Babu.Moger@amd.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     zhiquan1.li@intel.com, Sean Christopherson <seanjc@google.com>,
+        linux-doc@vger.kernel.org
+References: <20221111183532.3676646-1-kristen@linux.intel.com>
+ <20221111183532.3676646-27-kristen@linux.intel.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20221111183532.3676646-27-kristen@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 11, 2022 at 4:46 PM Kim Phillips <kim.phillips@amd.com> wrote:
->
-> On 11/11/22 6:40 AM, Thadeu Lima de Souza Cascardo wrote:
-> > On Fri, Nov 11, 2022 at 01:09:37PM +0100, Borislav Petkov wrote:
-> >> On Mon, Nov 07, 2022 at 04:39:02PM -0600, Kim Phillips wrote:
-> >>> I've started a version that has AUTOIBRS reuse SPECTRE_V2_EIBRS
-> >>> spectre_v2_mitigation enum, but, so far, it's change to bugs.c
-> >>> looks bigger: 58 lines changed vs. 34 (see below).
-> >>
-> >> It can be smaller. You simply do:
-> >>
-> >>      if (cpu_has(c, X86_FEATURE_AUTOIBRS))
-> >>              setup_force_cpu_cap(X86_FEATURE_IBRS_ENHANCED);
-> >>
-> >> and the rest should just work - see below.
-> >>
-> >> And yes, as Peter says, when the user requests something, the user
-> >> should get it. No matter whether it makes sense or not.
->
-> OK & thanks.
->
-> >> @@ -1474,11 +1477,19 @@ static void __init spectre_v2_select_mitigation(void)
-> >>              break;
-> >>
-> >>      case SPECTRE_V2_CMD_EIBRS_LFENCE:
-> >> -            mode = SPECTRE_V2_EIBRS_LFENCE;
-> >> +            if (boot_cpu_has(X86_FEATURE_AUTOIBRS)) {
-> >> +                    pr_err(SPECTRE_V2_EIBRS_AMD_MSG);
-> >> +                    mode = SPECTRE_V2_EIBRS;
-> >> +            } else
-> >> +                    mode = SPECTRE_V2_EIBRS_LFENCE;
-> >>              break;
-> >>
-> >>      case SPECTRE_V2_CMD_EIBRS_RETPOLINE:
-> >> -            mode = SPECTRE_V2_EIBRS_RETPOLINE;
-> >> +            if (boot_cpu_has(X86_FEATURE_AUTOIBRS)) {
-> >> +                    pr_err(SPECTRE_V2_EIBRS_AMD_MSG);
-> >> +                    mode = SPECTRE_V2_EIBRS;
-> >> +            } else
-> >> +                    mode = SPECTRE_V2_EIBRS_RETPOLINE;
-> >>              break;
-> >>      }
-> >>
-> >
-> > I am confused here. Isn't the agreement that the user should get what they
-> > asked for? That is, instead of warning and changing the mode to
-> > SPECTRE_V2_EIBRS, the kernel should still use lfence or retpoline as requested?
-> >
-> > The point of those options was to protect against Branch History Injection
-> > attacks and Intra-Mode Branch Target Injection attacks. The first one might not
-> > affect the CPUs that support AUTOIBRS, though we haven't heard that.
-> >
-> > The second one (IMBTI) is very likely still possible with AUTOIBRS and
-> > retpolines should still protect against those attacks. So users who want to be
-> > paranoid should still be able to opt for "eibrs,retpoline" and have retpolines
-> > enabled.
->
-> I've removed the above and have the complete diff below.  It includes patch 1/3 and
-> drops 3/3 for now due to Jim Mattson's comments.  After some more testing, I'll
-> resubmit.
+On 11/12/22 01:35, Kristen Carlson Accardi wrote:
+> diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
+> index 2bcbffacbed5..f6ca5594dcf2 100644
+> --- a/Documentation/x86/sgx.rst
+> +++ b/Documentation/x86/sgx.rst
+> @@ -300,3 +300,80 @@ to expected failures and handle them as follows:
+>     first call.  It indicates a bug in the kernel or the userspace client
+>     if any of the second round of ``SGX_IOC_VEPC_REMOVE_ALL`` calls has
+>     a return code other than 0.
+> +
+> +
+> +Cgroup Support
+> +==============
+> +
+> +The "sgx_epc" resource within the Miscellaneous cgroup controller regulates
+> +distribution of SGX EPC memory, which is a subset of system RAM that
+> +is used to provide SGX-enabled applications with protected memory,
+> +and is otherwise inaccessible, i.e. shows up as reserved in
+> +/proc/iomem and cannot be read/written outside of an SGX enclave.
+> +
+> +Although current systems implement EPC by stealing memory from RAM,
+> +for all intents and purposes the EPC is independent from normal system
+> +memory, e.g. must be reserved at boot from RAM and cannot be converted
+> +between EPC and normal memory while the system is running.  The EPC is
+> +managed by the SGX subsystem and is not accounted by the memory
+> +controller.  Note that this is true only for EPC memory itself, i.e.
+> +normal memory allocations related to SGX and EPC memory, e.g. the
+> +backing memory for evicted EPC pages, are accounted, limited and
+> +protected by the memory controller.
+> +
+> +Much like normal system memory, EPC memory can be overcommitted via
+> +virtual memory techniques and pages can be swapped out of the EPC
+> +to their backing store (normal system memory allocated via shmem).
+> +The SGX EPC subsystem is analogous to the memory subsytem, and
+> +it implements limit and protection models for EPC memory.
+> +
+> +SGX EPC Interface Files
+> +-----------------------
+> +
+> +For a generic description of the Miscellaneous controller interface
+> +files, please see Documentation/admin-guide/cgroup-v2.rst
+> +
+> +All SGX EPC memory amounts are in bytes unless explicitly stated
+> +otherwise.  If a value which is not PAGE_SIZE aligned is written,
+> +the actual value used by the controller will be rounded down to
+> +the closest PAGE_SIZE multiple.
+> +
+> +  misc.capacity
+> +        A read-only flat-keyed file shown only in the root cgroup.
+> +        The sgx_epc resource will show the total amount of EPC
+> +        memory available on the platform.
+> +
+> +  misc.current
+> +        A read-only flat-keyed file shown in the non-root cgroups.
+> +        The sgx_epc resource will show the current active EPC memory
+> +        usage of the cgroup and its descendants. EPC pages that are
+> +        swapped out to backing RAM are not included in the current count.
+> +
+> +  misc.max
+> +        A read-write single value file which exists on non-root
+> +        cgroups. The sgx_epc resource will show the EPC usage
+> +        hard limit. The default is "max".
+> +
+> +        If a cgroup's EPC usage reaches this limit, EPC allocations,
+> +        e.g. for page fault handling, will be blocked until EPC can
+> +        be reclaimed from the cgroup.  If EPC cannot be reclaimed in
+> +        a timely manner, reclaim will be forced, e.g. by ignoring LRU.
+> +
+> +  misc.events
+> +	A read-write flat-keyed file which exists on non-root cgroups.
+> +	Writes to the file reset the event counters to zero.  A value
+> +	change in this file generates a file modified event.
+> +
+> +	  max
+> +		The number of times the cgroup has triggered a reclaim
+> +		due to its EPC usage approaching (or exceeding) its max
+> +		EPC boundary.
+> +
+> +Migration
+> +---------
+> +
+> +Once an EPC page is charged to a cgroup (during allocation), it
+> +remains charged to the original cgroup until the page is released
+> +or reclaimed.  Migrating a process to a different cgroup doesn't
+> +move the EPC charges that it incurred while in the previous cgroup
+> +to its new cgroup.
 
-I bought the argument that AutoIBRS => Same Mode IBRS, so L2 should
-not be able to steer L1's indirect branches, even if they share a
-predictor mode.
+The doc LGTM, thanks.
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+-- 
+An old man doll... just what I always wanted! - Clara
+
