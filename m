@@ -2,96 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 346E7C4332F
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Nov 2022 09:40:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50803C433FE
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Nov 2022 16:41:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235267AbiKMJkR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Nov 2022 04:40:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57666 "EHLO
+        id S235249AbiKMQlb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Nov 2022 11:41:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229753AbiKMJkQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Nov 2022 04:40:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB176CE1B
-        for <linux-doc@vger.kernel.org>; Sun, 13 Nov 2022 01:39:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1668332361;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=7aQcfARlP8kkqYFBPkiKIdeI1nmjJ0+x3xBdw4YF//Q=;
-        b=CWjLkuutvefh94nzrYBZU5/Y//oVqwVkuBGiqF4opty8TVAp5mdN62NkIuIc+C3rQr0jrL
-        CszSJpP+A7UBHKy87KQtKrrGplUCPjqec1yEkxsZBLJGxicS1hXkpcn78rmt8QDGngjfAF
-        0phv1VWC/DdUdsiUx46Li3kLzCo9P8g=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-606-lNwiui-APG-R-LUpXtUsFA-1; Sun, 13 Nov 2022 04:39:20 -0500
-X-MC-Unique: lNwiui-APG-R-LUpXtUsFA-1
-Received: by mail-qv1-f71.google.com with SMTP id l6-20020ad44446000000b004bb60364075so6811938qvt.13
-        for <linux-doc@vger.kernel.org>; Sun, 13 Nov 2022 01:39:20 -0800 (PST)
+        with ESMTP id S233986AbiKMQl3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Nov 2022 11:41:29 -0500
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE69565A8
+        for <linux-doc@vger.kernel.org>; Sun, 13 Nov 2022 08:41:27 -0800 (PST)
+Received: by mail-pg1-x535.google.com with SMTP id 78so8308192pgb.13
+        for <linux-doc@vger.kernel.org>; Sun, 13 Nov 2022 08:41:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+QrikNB/GMZeY3ufdrYnFiRrHx7b40lntxGNUYf5p3U=;
+        b=DEsPXPkx4VzqvFb/BNADTLQhtFuR2MiVR6MQA/nq9lpHzO3CRtZw1rrdnZXcAUnZln
+         uNtFnG1jMSD7MbPvszAtMSvtYiQe3kVI8zn6phL6ldMUlNTajEkJT4D1jMXe7yMTQ7Uj
+         KQzJzP9UxB2sZUGQiwtB2R5J/8+uN8KUgAPkHwDfdX9d4GdcWf9xquF1Pp7DfzPMsBZq
+         LQIX1jqb3v6SFTIxFr3drmEHE4p89UB2VMtW8+u58oVfmpMxw7bq4woCtZPTaOL9uRZT
+         ebdYqvS0JiXc/02HFlybd8IU9Pp4/xcVhIg3dyEHdbuFZiNeRXLCwL8wDQtDD9W3jxsX
+         o05g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7aQcfARlP8kkqYFBPkiKIdeI1nmjJ0+x3xBdw4YF//Q=;
-        b=f4AMzScFzIqIYI7ZOAJUD64hQffEcVbdKapMG6r8O330l55tJ5TGVeQRHJkdBQTflI
-         65E+yyOGjWVrD6oxuOozg7C1lmJp9oMaGcUUqIf7fGmzBT6WlCRssJb4NrjdjKT9UE62
-         knFkZFEhnEY6cJCf/2SiFsrRr1pdPQn1shEYfRmnt20VJqrxyn4hcHZzq3m5nxa+8O/K
-         Ls5ZISaQqPllG7E2xEUA4OFwwn7Wo9X5ZxIsI6e1f3nN69y0oWSpoizMKl7OeN81Ae9+
-         MRL0kTcJ0n3mnH+Ot77ns4Hzj5fl5n7T3h7U7uKA3Pel2/q2wqQMTGPMNzEffucRPui1
-         DF9A==
-X-Gm-Message-State: ANoB5pklLtuLmnQpPYkoaYOcDi3gOvw9LQCb4p24ddOXWvI+goyQ5hE2
-        o/OgDLdojQI0jVLM3J3A+zPQNSQZ/HxDIZNV+THv1eXWHZABVqJb0wNNzSNohO2nOgs8q04SY2K
-        uq4zgCYaWLE0wA9BdcA8h
-X-Received: by 2002:ac8:44a4:0:b0:3a5:3ae2:ff14 with SMTP id a4-20020ac844a4000000b003a53ae2ff14mr8114025qto.594.1668332360075;
-        Sun, 13 Nov 2022 01:39:20 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4mMWgdRfQp+cXFnydxZrFlcpnHUuculWEqy7HZTQQ6S5CgdeY2JZ/iT2pPwdU0Wqi7a0BWug==
-X-Received: by 2002:ac8:44a4:0:b0:3a5:3ae2:ff14 with SMTP id a4-20020ac844a4000000b003a53ae2ff14mr8114019qto.594.1668332359884;
-        Sun, 13 Nov 2022 01:39:19 -0800 (PST)
-Received: from nfvsdn-06.redhat.com (nat-pool-232-132.redhat.com. [66.187.232.132])
-        by smtp.gmail.com with ESMTPSA id v65-20020a379344000000b006e54251993esm4462884qkd.97.2022.11.13.01.39.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Nov 2022 01:39:19 -0800 (PST)
-From:   mtahhan@redhat.com
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     jbrouer@redhat.com, thoiland@redhat.com, donhunte@redhat.com,
-        akiyks@gmail.com, Maryam Tahhan <mtahhan@redhat.com>
-Subject: [PATCH bpf-next v1 1/1] docs: fixup cpumap sphinx >= 3.1 warning
-Date:   Sun, 13 Nov 2022 05:33:27 -0500
-Message-Id: <20221113103327.3287482-1-mtahhan@redhat.com>
-X-Mailer: git-send-email 2.35.3
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+QrikNB/GMZeY3ufdrYnFiRrHx7b40lntxGNUYf5p3U=;
+        b=BUeldSQyDFIw3RRg2oG21qBCr3aShb9kC1GJXoAFT0R/Og90H9gUuznxX05dBvVGBp
+         hOZwQC5ujG9iwZ8XUuH0m4DhcGIcLKwEWFa4Q5++TDN5bhstb/vTZP7W63SiCEswy03q
+         r+pQkYassONVfWtUSPqKHAs+HfSxd0NMnZpfd25pjIwK6ySq6l1f6p1ML8vrKnXxzZZV
+         Y9w4TD03nHF6ZUjY3jjQBF38zNXXbiMt+Mv8+L72GmK0xM3AvwPVaiwzLhwAivuqOuHC
+         U1UVvyidVQqdamWFe/iBKz+bdFg3apP5khPOgN96fPkuNSHDcE8cezh+VKzZa4o7RBLq
+         /eYg==
+X-Gm-Message-State: ANoB5plzzsL2SWOycNz5rbWEepEezC4ZyvV1/VcdQAvZCdzHJWY/Zg64
+        WEswLW6/oEShYqwzEo3Vfg2quUhr72xf2A==
+X-Google-Smtp-Source: AA0mqf61Hhi23BxOCwNEasLV8GXX2B6mVAH7ThC0PZPXQNtBDFDI4bOxR0Hn5F0usudfIlB4j7q4SQ==
+X-Received: by 2002:a65:49c6:0:b0:46f:ed3a:ac42 with SMTP id t6-20020a6549c6000000b0046fed3aac42mr9107496pgs.617.1668357687296;
+        Sun, 13 Nov 2022 08:41:27 -0800 (PST)
+Received: from [10.4.223.134] ([139.177.225.226])
+        by smtp.gmail.com with ESMTPSA id n3-20020a17090ab80300b00210c84b8ae5sm4772471pjr.35.2022.11.13.08.41.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 13 Nov 2022 08:41:26 -0800 (PST)
+Message-ID: <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
+Date:   Mon, 14 Nov 2022 00:41:21 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
+ pidfd_set_mempolicy().
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     corbet@lwn.net, mhocko@suse.com, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
+ <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
+From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
+In-Reply-To: <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Maryam Tahhan <mtahhan@redhat.com>
+Hi Andrew, thanks for your replay.
 
-Fixup bpf_map_update_elem() declaration to use a single line.
+> This sounds a bit suspicious.  Please share much more detail about
+> these races.  If we proced with this design then mpol_put_async()
+> shouild have comments which fully describe the need for the async free.
+> 
+> How do we *know* that these races are fully prevented with this
+> approach?  How do we know that mpol_put_async() won't free the data
+> until the race window has fully passed?
 
-Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
-Reported-by: Akira Yokosawa <akiyks@gmail.com>
----
- Documentation/bpf/map_cpumap.rst | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+A mempolicy can be either associated with a process or with a VMA.
+All vma manipulation is somewhat protected by a down_read on
+mmap_lock.In process context there is no locking because only
+the process accesses its own state before.
 
-diff --git a/Documentation/bpf/map_cpumap.rst b/Documentation/bpf/map_cpumap.rst
-index eaf57b38cafd..61a797a86342 100644
---- a/Documentation/bpf/map_cpumap.rst
-+++ b/Documentation/bpf/map_cpumap.rst
-@@ -48,8 +48,7 @@ Userspace
-     program will result in the program failing to load and a verifier warning.
- 
- .. c:function::
--    int bpf_map_update_elem(int fd, const void *key, const void *value,
--                   __u64 flags);
-+    int bpf_map_update_elem(int fd, const void *key, const void *value, __u64 flags);
- 
-  CPU entries can be added or updated using the ``bpf_map_update_elem()``
-  helper. This helper replaces existing elements atomically. The ``value`` parameter
--- 
-2.35.3
+Now  we need to change the process context mempolicy specified
+in pidfd. the mempolicy may about to be freed by
+pidfd_set_mempolicy() while alloc_pages() is using it,
+the race condition appears.
 
+process context mempolicy is used in:
+alloc_pages()
+alloc_pages_bulk_array_mempolicy()
+policy_mbind_nodemask()
+mempolicy_slab_node()
+.....
+
+Say something like the following：
+
+pidfd_set_mempolicy()        target task stack:
+                                 alloc_pages:
+                                 mpol = p->mempolicy;
+task_lock(task);
+  old = task->mempolicy;
+  task->mempolicy = new;
+  task_unlock(task);
+  mpol_put(old);
+                               /*old mpol has been freed.*/
+                               policy_node(...., mpol)
+    	           __alloc_pages(mpol);
+To reduce the use of locks and atomic operations(mpol_get/put)
+in the hot path,task_work is used in mpol_put_async(),
+when the target task exit to user mode,	the process context
+mempolicy is not used anymore, mpol_free_async()
+will be called as task_work to free mempolicy in
+target context.			
+
+
+> Also, in some situations mpol_put_async() will free the data
+> synchronously anyway, so aren't these races still present?
+> If the task has run exit_task_work(),task_work_add() will fail.
+we can free the mempolicy directly because mempolicy is not used.
+
+> 
+> Secondly, why was the `flags' argument added?  We might use it one day?
+> For what purpose?  I mean, every syscall could have a does-nothing
+> `flags' arg, but we don't do that.  What's the plan here?
+> 
+I found that some functions use 'flags' for scalability, such
+as process_madvise(), set_mempolicy_home_node(). back to our case, This 
+operation has per-thread rather than per-process semantic ,we could use 
+flags to switch for future extension if any. but I'm not sure.
+
+Thanks.
