@@ -2,125 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 402B8C433FE
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Nov 2022 18:20:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22BEBC43217
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Nov 2022 22:01:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234105AbiKMSUa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Nov 2022 13:20:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60120 "EHLO
+        id S233930AbiKMWBN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Nov 2022 17:01:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232799AbiKMSU3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Nov 2022 13:20:29 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 344FF255;
-        Sun, 13 Nov 2022 10:20:29 -0800 (PST)
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.5) with ESMTP id 2ADIGS83009191;
-        Sun, 13 Nov 2022 18:20:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : content-type : in-reply-to :
- mime-version; s=pp1; bh=EYCIkaYzDxwuZXC3UHhvzR3SuHH7w40UTQ1Xugj8ahY=;
- b=Rotm8+wtBJ+je6vfvL6pES/0Lk0vdZC/iNW/l3dP21K2ogLZgS7aXMiUonQLTXo0VmJ7
- qa95W1smRrMY6g95NdJVIc+/PhOlC/Emo9HIhr3cUmORqllJmyPzOGAkP4MIZ8E/9UUM
- MUjjkuRO3SPLqVa31xGM+e7jxfU8gCccZlXfXVtuOh/ICEn+0HVnoiHW0l4xyCIq4N1Q
- zb6Gc/b1aCER9G1GZ8unERo6M8ggp+Ra8XWc2lrxzzx/AQ1pMMNqismRN2vp2wSFofHD
- UhpUnknpvjN1z1Hp6616MLzecACiOYWLryDJgjtYJUYS/mUJBD3okxP8mzSQgHorv0FA fA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ku5qe820x-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 13 Nov 2022 18:20:25 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2ADIKPqZ020536;
-        Sun, 13 Nov 2022 18:20:25 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ku5qe8200-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 13 Nov 2022 18:20:24 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2ADI7crI026412;
-        Sun, 13 Nov 2022 18:20:22 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
-        by ppma04ams.nl.ibm.com with ESMTP id 3kt348sjy0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 13 Nov 2022 18:20:22 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2ADIEPOb15860198
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sun, 13 Nov 2022 18:14:25 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 19BC3AE051;
-        Sun, 13 Nov 2022 18:20:19 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 75BA1AE045;
-        Sun, 13 Nov 2022 18:20:18 +0000 (GMT)
-Received: from osiris (unknown [9.145.44.108])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Sun, 13 Nov 2022 18:20:18 +0000 (GMT)
-Date:   Sun, 13 Nov 2022 19:20:17 +0100
-From:   Heiko Carstens <hca@linux.ibm.com>
-To:     Heiko Carstens <hca@linux.ibm.com>
-Cc:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>
-Subject: Re: [PATCH 5/5] s390/uaccess: add cmpxchg_user_key()
-Message-ID: <Y3E1YdKzSItZOKWW@osiris>
-References: <20221012205609.2811294-1-scgl@linux.ibm.com>
- <20221012205609.2811294-2-scgl@linux.ibm.com>
- <Y2J61LWSV+HolIeT@osiris>
- <Y2J8axs+bcQ2dO/l@osiris>
- <f604b6038c4a8bad5123e1f1f14b15c2190f28e9.camel@linux.ibm.com>
- <Y2womHanaMzETfwU@osiris>
- <31fcea80f54c5f53012489f29ebedba775672919.camel@linux.ibm.com>
- <Y2zhNhFjIJPKJao8@osiris>
+        with ESMTP id S229692AbiKMWBN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Nov 2022 17:01:13 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F1201054A;
+        Sun, 13 Nov 2022 14:01:11 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A051260BDE;
+        Sun, 13 Nov 2022 22:01:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35D8AC433C1;
+        Sun, 13 Nov 2022 22:01:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668376870;
+        bh=K5+D7God8Baxo1J6cPFLSl608FEFDRggQ4yke5n3xdE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YU8MQ8uMV2XGwHl63jHpURf7CVlgD2sGJcgA/Vo+inaOVcnjT5WSW2iyX72mpUFOj
+         iCKmhuiRkxg05XsVFjGnyWJGL5uoWzsT3pZRXB1kujV3uphhELxAe+ajAAF3ExVVeV
+         9JBXvRpzHaeIY2u8ld5OOK3gcoqilNy7qFC7L2MQ2uBMF/xGFsZ1PcjRdEJKjgwZ84
+         0KAwSycBi6In4UgdButVUW6xxLEIicmsTcKkaekhG9JgUWw4z+E6owDOzac7c5xUb9
+         xnuVK41dQkrLdni402swB4wKlQzm9WHn5X9dWDGhyD8koWrT6keFjwzzJmZMFmkoc4
+         FD2u3YES7Dq2Q==
+Date:   Sun, 13 Nov 2022 14:01:07 -0800
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Evan Green <evgreen@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-integrity@vger.kernel.org, gwendal@chromium.org,
+        dianders@chromium.org, apronin@chromium.org,
+        Pavel Machek <pavel@ucw.cz>, Ben Boeckel <me@benboeckel.net>,
+        rjw@rjwysocki.net, jejb@linux.ibm.com,
+        Kees Cook <keescook@chromium.org>, dlunev@google.com,
+        zohar@linux.ibm.com, Matthew Garrett <mgarrett@aurora.tech>,
+        jarkko@kernel.org, linux-pm@vger.kernel.org,
+        Matthew Garrett <matthewgarrett@google.com>,
+        Ben Boeckel <linux@me.benboeckel.net>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        Paul Moore <paul@paul-moore.com>,
+        "Serge E. Hallyn" <serge@hallyn.com>, keyrings@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v5 05/11] security: keys: trusted: Allow storage of PCR
+ values in creation data
+Message-ID: <Y3FpI4GHO9pHYZUH@sol.localdomain>
+References: <20221111231636.3748636-1-evgreen@chromium.org>
+ <20221111151451.v5.5.I32591db064b6cdc91850d777f363c9d05c985b39@changeid>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2zhNhFjIJPKJao8@osiris>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: _xiOF1Jsu-3d-DSHhSjh8yCQj6PQO7jn
-X-Proofpoint-ORIG-GUID: ghWzfo4_mknh7pGsI72MDn6dEfYiWgTH
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-13_12,2022-11-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- spamscore=0 adultscore=0 mlxscore=0 bulkscore=0 impostorscore=0
- clxscore=1015 mlxlogscore=728 priorityscore=1501 suspectscore=0
- malwarescore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2211130121
+In-Reply-To: <20221111151451.v5.5.I32591db064b6cdc91850d777f363c9d05c985b39@changeid>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 10, 2022 at 12:32:06PM +0100, Heiko Carstens wrote:
-> > That's why I asked about cmpxchg.h. If you don't want non-cosmetic changes to the existing
-> > cmpxchg function and consistency of the new key checked function, then obviously the loop
-> > condition needs to be the same.
-> 
-> Such a change is fine of course, even though compare-and-swap for one and
-> two byte patterns don't really matter. I would appreciate if you could send
-> one or two patches on-top of this series which adds the improved logic to
-> (now) both variants.
-> 
-> And, since the question will come up anyway: as soon as we agreed on a
-> complete patch series, I think we should go for a features branch on s390's
-> kernel.org tree which would contain the first five patches sent by me plus
-> potential addon patches provided by you.
-> This tree can then be pulled in by the kvms390 tree where your kvm specific
-> patches can then be applied on top.
+On Fri, Nov 11, 2022 at 03:16:30PM -0800, Evan Green wrote:
+> +       creationpcrs= hex integer representing the set of PCRs to be
+> +                     included in the creation data. For each bit set, the
+> +                     corresponding PCR will be included in the key creation
+> +                     data. Bit 0 corresponds to PCR0. Currently only the first
+> +                     PC standard 24 PCRs are supported on the currently active
+> +                     bank. Leading zeroes are optional. TPM2 only.
 
-FWIW, pushed a non-stable work-in-progress branch to
-git://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git wip/cmpxchg_user_key
+What does "currently active bank" mean?
 
-This includes also an updated patch, which fixes the missing shift of
-the access key.
+> +		/* PCR bitmask */
+> +		for (i = 0; i < 3; i++) {
+> +			char tmp = 0;
+> +
+> +			for (j = 0; j < 8; j++) {
+> +				char bit = (i * 8) + j;
+> +
+> +				if (options->creation_pcrs & (1 << bit))
+> +					tmp |= (1 << j);
+> +			}
+> +			tpm_buf_append_u8(&buf, tmp);
+> +		}
+
+Why not just:
+
+	tpm_buf_append_u8(&buf, options->creation_pcrs);
+	tpm_buf_append_u8(&buf, options->creation_pcrs >> 8);
+	tpm_buf_append_u8(&buf, options->creation_pcrs >> 16);
+
+Also what if bit 24 or above is set?  Should an error be returned?
+
+- Eric
