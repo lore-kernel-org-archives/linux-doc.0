@@ -2,84 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0815C4332F
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Nov 2022 22:23:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3626BC4332F
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Nov 2022 23:21:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235458AbiKMWX5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Nov 2022 17:23:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55724 "EHLO
+        id S233793AbiKMXVW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Nov 2022 18:21:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235447AbiKMWX4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Nov 2022 17:23:56 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B88D925C1;
-        Sun, 13 Nov 2022 14:23:55 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 275E1B80CB8;
-        Sun, 13 Nov 2022 22:23:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8072C433C1;
-        Sun, 13 Nov 2022 22:23:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668378232;
-        bh=qy55WPYerqcowUha2cX++DDpKUAHFQlKC0fdFGVcpHw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SoQ/8IZXKeJoAmMxfCyyKF45rJlVx7biYRJuwEa1vHJV+4VpmfIQJZU310sVIY461
-         UyETUaEUL8pGSUYDnT5bL+wvSW9ndL0E7OfHKaVlxpUl1Gs/CI2MnkW3ORaFnkDB4S
-         S7pizrgGDcS7NdbCPoe0rpol9vBOoYaDFhDarwxk0PhW8Na42UWF216GK6mMT7pS4/
-         EgKyf0waOMFEZugZQfRz7wosYxYbPIyF8O5nwO987MxYz9LOm8vs+VSyFuFDxEzXnU
-         7hGcgbCwaWcz0/keEnJhCZS0rVYtNdMsFVWqPnOTf5G3+/2GLOHcrEIaY3gI0fagRG
-         X0BKamPIfaA5w==
-Date:   Mon, 14 Nov 2022 03:53:48 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Sireesh Kodali <sireeshkodali1@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH v2 0/3] dmaengine: Add support for immediate commands
-Message-ID: <Y3FudBqc1vQ8fEgU@matsya>
-References: <20221027051429.46593-1-sireeshkodali1@gmail.com>
- <Y2UIS7P0alvqT4jn@matsya>
- <CO97J91UP8IF.23GNHUUM2KTVH@skynet-linux>
+        with ESMTP id S233069AbiKMXVV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Nov 2022 18:21:21 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C55A06594;
+        Sun, 13 Nov 2022 15:21:20 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id o7so8908404pjj.1;
+        Sun, 13 Nov 2022 15:21:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lU2zeH3gqay6YpSqUA1zpWLMQhU9hqj91l1iL/eamsw=;
+        b=SXt4AoCA5+A1ZcMJ9qtuYu46M0Jp1iU7XV0RQk2jUMrBhkSHFvWdyvDpPRWYIjW6ug
+         k2NJIOeJxf8YhqxE0e2Bw74VT8n4Xd1NsW5Hm75ODm7UNS5UQmFPz5ABdmlHc8MyWokA
+         qv+l+jMO+b2xyxfaGxUULgYjAUkEWGedISjYdTe8lH/DbFF2dNylX34+vfdY6G3nhAba
+         SkaTyDYfaGy0r/iFgFJOtGiSaqzYrX/Hwi+6fGYENmxjAw52MV8U9j0jAhTwyVQF2Mhj
+         R5BXgNkcoSh1UaBrdqBif9+ugT6mBqU+kFVp06QoPQypHb1j2H1HhC9UKrdWuYFPZ5/G
+         ivZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lU2zeH3gqay6YpSqUA1zpWLMQhU9hqj91l1iL/eamsw=;
+        b=hGzbA6bhijg25UKUnIwEBLgwGkXbfnqxe/uGBeJWSZo3IqVmftehmxK9EFDRMRCCy5
+         0kfsFjgIFo8zsZ5tlmU6PBzRX/YnGQMbaIUxyAS8pYFiOOeYaz/DZ0FooRXpVz5hnaNC
+         UHQNsFH/TlwjW+9HdVubUDs1ZHxUK+N0tfVuILhMw6ZEBlnyXC0vpu2Csbpe7gYO/NN/
+         ldDVz9mZ1/vlwL5W1TtM4z5uEGtTNynE+JpYZdt+56KObHgn7/O5tfDHW1/fkprJLe8n
+         +8xwQf9+E5vRRe1FnhwW5GbH/fupaZo8Y8/gSe6aDG8I+UYsebHMQkvgpbZBZ7aQ1DC8
+         2Kzg==
+X-Gm-Message-State: ANoB5pmD0sof1qDU93cH0K/TShvUhyiF41QLyVPGfAcSPd1Ei1Fqn/+a
+        ZFtklXtqtrzbmVUK+Ed0ePY=
+X-Google-Smtp-Source: AA0mqf7y/ckKVgK2mONq6O76Q/8DNXEPGqisPxJVMPduqCtmZDBkw64gQHiyM0djMe1eidZaI+PD2Q==
+X-Received: by 2002:a17:90a:c251:b0:216:92a9:fd50 with SMTP id d17-20020a17090ac25100b0021692a9fd50mr11307560pjx.126.1668381680286;
+        Sun, 13 Nov 2022 15:21:20 -0800 (PST)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id q7-20020a170902edc700b0018693643504sm5757685plk.40.2022.11.13.15.21.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 13 Nov 2022 15:21:19 -0800 (PST)
+Message-ID: <5ee856e5-d65f-d342-0c84-1e39f9a5a251@gmail.com>
+Date:   Mon, 14 Nov 2022 08:21:15 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CO97J91UP8IF.23GNHUUM2KTVH@skynet-linux>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH bpf-next v1 1/1] docs: fixup cpumap sphinx >= 3.1 warning
+To:     mtahhan@redhat.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     jbrouer@redhat.com, thoiland@redhat.com, donhunte@redhat.com,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <20221113103327.3287482-1-mtahhan@redhat.com>
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20221113103327.3287482-1-mtahhan@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11-11-22, 10:42, Sireesh Kodali wrote:
-> On Fri Nov 4, 2022 at 6:10 PM IST, Vinod Koul wrote:
-> > On 27-10-22, 10:44, Sireesh Kodali wrote:
-> > > The IPA v2.x block, found on some older Qualcomm SoCs, uses BAM DMA to
-> > > send and receive packets from the AP. It also uses BAM to receive
-> > > commands from the AP (and possibly the modem). These commands are
-> > > encoded as "Immediate Commands". They vary from regular BAM DMA
-> > > commands. Adding support for immediate commands is trivial, but requires
-> > > also adding Immediate Commands to the dmaengine API, which is what this
-> > > patch series does.
-> >
-> > Can you explain a bit more. I understand you need "Immediate Commands"
-> > but am really reluctant to add another interface to support a specific
-> > use case
-> >
+On Sun, 13 Nov 2022 05:33:27 -0500, mtahhan@redhat.com wrote:
+> From: Maryam Tahhan <mtahhan@redhat.com>
 > 
-> Apologies for the delayed response
+> Fixup bpf_map_update_elem() declaration to use a single line.
 > 
-> BAM supports both regular commands, and "immediate commands". Currently,
-> commands are used by the Qualcom NAND chip driver, while "immediate
-> commands" are intended to be used by the (yet to be mainlined) IPA
-> driver. From the BAM driver perspective, both immediate and regular
-> commands are simply a matter of setting the appropriate flag in the
-> descriptor. I don't have access to the documentation on BAM to know
-> exactly how these two modes differ, however I do know they are not
-> interchangable. If a different API is suggested, I can change the
-> implementation as needed.
+> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+> Reported-by: Akira Yokosawa <akiyks@gmail.com>
+Tested-by: Akira Yokosawa <akiyks@gmail.com>
 
-Ok, can you please explain what is meant by 'regular' cmd and
-'immediate', lets see what is required here
-
--- 
-~Vinod
+        Thanks, Akira
+> ---
+>  Documentation/bpf/map_cpumap.rst | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/bpf/map_cpumap.rst b/Documentation/bpf/map_cpumap.rst
+> index eaf57b38cafd..61a797a86342 100644
+> --- a/Documentation/bpf/map_cpumap.rst
+> +++ b/Documentation/bpf/map_cpumap.rst
+> @@ -48,8 +48,7 @@ Userspace
+>      program will result in the program failing to load and a verifier warning.
+>  
+>  .. c:function::
+> -    int bpf_map_update_elem(int fd, const void *key, const void *value,
+> -                   __u64 flags);
+> +    int bpf_map_update_elem(int fd, const void *key, const void *value, __u64 flags);
+>  
+>   CPU entries can be added or updated using the ``bpf_map_update_elem()``
+>   helper. This helper replaces existing elements atomically. The ``value`` parameter
