@@ -2,109 +2,271 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDC6FC43217
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 14:19:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98F2EC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 14:22:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236538AbiKNOTm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Nov 2022 09:19:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59580 "EHLO
+        id S235929AbiKNOWu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Nov 2022 09:22:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237020AbiKNOTd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 09:19:33 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8BBA72656C;
-        Mon, 14 Nov 2022 06:19:31 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 71CAB23A;
-        Mon, 14 Nov 2022 06:19:37 -0800 (PST)
-Received: from [192.168.0.110] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 61C753F73D;
-        Mon, 14 Nov 2022 06:19:21 -0800 (PST)
-Message-ID: <40f1b5ad-2165-bb81-1ff5-89786373fa14@arm.com>
-Date:   Mon, 14 Nov 2022 19:49:13 +0530
+        with ESMTP id S235903AbiKNOWu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 09:22:50 -0500
+X-Greylist: delayed 576 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 14 Nov 2022 06:22:48 PST
+Received: from smtp-8fac.mail.infomaniak.ch (smtp-8fac.mail.infomaniak.ch [IPv6:2001:1600:4:17::8fac])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1632429C83
+        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 06:22:47 -0800 (PST)
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4N9rr55N2RzMpnh6;
+        Mon, 14 Nov 2022 15:13:09 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4N9rr41vS5zxJ;
+        Mon, 14 Nov 2022 15:13:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1668435189;
+        bh=IHHkDc5fwtJkUwqAdJt0cFHNH4fFWlRnjePk/Cn+RiM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=KEDc2sX/Bxd6HIRPUW7pXBnio1XxNRoNq/9srol06TELY9whhklFAxT4EqPkaJ8zf
+         GTuL+tU1wUoOitT7y6kB59v4r66zxqtyTgMDrxIiua/U7Ux0JaWFQwhff47nfOh3Ha
+         zW3z1Ha2bnAv8MO2cdzslMlZlLwL5z5Eb0TFvqrk=
+Message-ID: <abc960a1-e66e-792e-6869-cfd201c29dbe@digikod.net>
+Date:   Mon, 14 Nov 2022 15:12:08 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v5 2/2] arm64: support batched/deferred tlb shootdown
- during page reclamation
+User-Agent: 
+Subject: Re: [PATCH -next v2 3/6] landlock: add chmod and chown support
 Content-Language: en-US
-To:     Yicong Yang <yangyicong@huawei.com>, akpm@linux-foundation.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        x86@kernel.org, catalin.marinas@arm.com, will@kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     yangyicong@hisilicon.com, corbet@lwn.net, peterz@infradead.org,
-        arnd@arndb.de, punit.agrawal@bytedance.com,
-        linux-kernel@vger.kernel.org, darren@os.amperecomputing.com,
-        huzhanyuan@oppo.com, lipeifeng@oppo.com, zhangshiming@oppo.com,
-        guojian@oppo.com, realmz6@gmail.com, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        Barry Song <21cnbao@gmail.com>, wangkefeng.wang@huawei.com,
-        xhao@linux.alibaba.com, prime.zeng@hisilicon.com,
-        Barry Song <v-songbaohua@oppo.com>,
-        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
-References: <20221028081255.19157-1-yangyicong@huawei.com>
- <20221028081255.19157-3-yangyicong@huawei.com>
- <86fbdc8c-0dcb-9b8f-d843-63460d8b1d6a@arm.com>
- <9982dac0-9f2e-112a-d440-467c8e8f8aa4@huawei.com>
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <9982dac0-9f2e-112a-d440-467c8e8f8aa4@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     xiujianfeng <xiujianfeng@huawei.com>,
+        =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
+Cc:     paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
+        shuah@kernel.org, corbet@lwn.net,
+        linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Christian Brauner <brauner@kernel.org>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+References: <20220827111215.131442-1-xiujianfeng@huawei.com>
+ <20220827111215.131442-4-xiujianfeng@huawei.com> <Ywpw66EYRDTQIyTx@nuc>
+ <de8834b6-0ff2-1a81-f2d3-af33103e9942@huawei.com>
+ <de4620d2-3268-b3cc-71dd-acbbd204435e@digikod.net>
+ <2f286496-f4f8-76f7-2fb6-cc3dd5ffdeaa@huawei.com>
+ <4b69a4ac-28ab-16aa-14b1-04a6f64d5490@digikod.net>
+ <9caccd0a-319e-bbc9-084a-65c62d0b1145@huawei.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <9caccd0a-319e-bbc9-084a-65c62d0b1145@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-
-On 11/14/22 14:16, Yicong Yang wrote:
-> On 2022/11/14 11:29, Anshuman Khandual wrote:
->>
->> On 10/28/22 13:42, Yicong Yang wrote:
->>> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
->>> +{
->>> +	/*
->>> +	 * TLB batched flush is proved to be beneficial for systems with large
->>> +	 * number of CPUs, especially system with more than 8 CPUs. TLB shutdown
->>> +	 * is cheap on small systems which may not need this feature. So use
->>> +	 * a threshold for enabling this to avoid potential side effects on
->>> +	 * these platforms.
->>> +	 */
->>> +	if (num_online_cpus() <= CONFIG_ARM64_NR_CPUS_FOR_BATCHED_TLB)
->>> +		return false;
->>> +
->>> +#ifdef CONFIG_ARM64_WORKAROUND_REPEAT_TLBI
->>> +	if (unlikely(this_cpu_has_cap(ARM64_WORKAROUND_REPEAT_TLBI)))
->>> +		return false;
->>> +#endif
->> should_defer_flush() is immediately followed by set_tlb_ubc_flush_pending() which calls
->> arch_tlbbatch_add_mm(), triggering the actual TLBI flush via __flush_tlb_page_nosync().
->> It should be okay to check capability with this_cpu_has_cap() as the entire call chain
->> here is executed on the same cpu. But just wondering if cpus_have_const_cap() would be
->> simpler, consistent, and also cost effective ?
->>
-> ok. Checked cpus_have_const_cap() I think it matches your words.
+On 29/10/2022 10:33, xiujianfeng wrote:
+> Hi,
 > 
->> Regardless, a comment is needed before the #ifdef block explaining why it does not make
->> sense to defer/batch when __tlbi()/__tlbi_user() implementation will execute 'dsb(ish)'
->> between two TLBI instructions to workaround the errata.
+> 在 2022/9/2 1:34, Mickaël Salaün 写道:
+>> CCing linux-fsdevel@vger.kernel.org
 >>
-> The workaround for the errata mentioned the affected platforms need the tlbi+dsb to be done
-> twice, so I'm not sure if we defer the final dsb will cause any problem so I think the judgement
-> here is used for safety. I have no such platform to test if it's ok to defer the last dsb.
+>>
+>> On 01/09/2022 15:06, xiujianfeng wrote:
+>>> Hi,
+>>>
+>>> 在 2022/8/30 0:01, Mickaël Salaün 写道:
+>>>>
+>>>> On 29/08/2022 03:17, xiujianfeng wrote:
+>>>>>
+>>>>> Hi,
+>>>>>
+>>>>> 在 2022/8/28 3:30, Günther Noack 写道:
+>>>>>> Hello!
+>>>>>>
+>>>>>> the mapping between Landlock rights to LSM hooks is now as follows in
+>>>>>> your patch set:
+>>>>>>
+>>>>>> * LANDLOCK_ACCESS_FS_CHMOD controls hook_path_chmod
+>>>>>> * LANDLOCK_ACCESS_FS_CHGRP controls hook_path_chown
+>>>>>>       (this hook can restrict both the chown(2) and chgrp(2) syscalls)
+>>>>>>
+>>>>>> Is this the desired mapping?
+>>>>>>
+>>>>>> The previous discussion I found on the topic was in
+>>>>>>
+>>>>>> [1]
+>>>>>> https://lore.kernel.org/all/5873455f-fff9-618c-25b1-8b6a4ec94368@digikod.net/
+>>>>>>
+>>>>>>
+>>>>>> [2]
+>>>>>> https://lore.kernel.org/all/b1d69dfa-6d93-2034-7854-e2bc4017d20e@schaufler-ca.com/
+>>>>>>
+>>>>>>
+>>>>>> [3]
+>>>>>> https://lore.kernel.org/all/c369c45d-5aa8-3e39-c7d6-b08b165495fd@digikod.net/
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> In my understanding the main arguments were the ones in [2] and [3].
+>>>>>>
+>>>>>> There were no further responses to [3], so I was under the impression
+>>>>>> that we were gravitating towards an approach where the
+>>>>>> file-metadata-modification operations were grouped more coarsely?
+>>>>>>
+>>>>>> For example with the approach suggested in [3], which would be to
+>>>>>> group the operations coarsely into (a) one Landlock right for
+>>>>>> modifying file metadata that is used in security contexts, and (b) one
+>>>>>> Landlock right for modifying metadata that was used in non-security
+>>>>>> contexts. That would mean that there would be:
+>>>>>>
+>>>>>> (a) LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES to control the
+>>>>>> following operations:
+>>>>>>       * chmod(2)-variants through hook_path_chmod,
+>>>>>>       * chown(2)-variants and chgrp(2)-variants through
+>>>>>> hook_path_chown,
+>>>>>>       * setxattr(2)-variants and removexattr(2)-variants for extended
+>>>>>>         attributes that are not "user extended attributes" as
+>>>>>> described in
+>>>>>>         xattr(7) through hook_inode_setxattr and hook_inode_removexattr
+>>>>>>
+>>>>>> (b) LANDLOCK_ACCESS_FS_MODIFY_NON_SECURITY_ATTRIBUTES to control the
+>>>>>> following operations:
+>>>>>>       * utimes(2) and other operations for setting other non-security
+>>>>>>         sensitive attributes, probably through hook_inode_setattr(?)
+>>>>>>       * xattr modifications like above, but for the "user extended
+>>>>>>         attributes", though hook_inode_setxattr and
+>>>>>> hook_inode_removexattr
+>>>>>>
+>>>>>> In my mind, this would be a sensible grouping, and it would also help
+>>>>>> to decouple the userspace-exposed API from the underlying
+>>>>>> implementation, as Casey suggested to do in [2].
+>>>>>>
+>>>>>> Specifically for this patch set, if you want to use this grouping, you
+>>>>>> would only need to add one new Landlock right
+>>>>>> (LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES) as described above
+>>>>>> under (a) (and maybe we can find a shorter name for it... :))?
+>>>>>>
+>>>>>> Did I miss any operations here that would be necessary to restrict?
+>>>>>>
+>>>>>> Would that make sense to you? Xiu, what is your opinion on how this
+>>>>>> should be grouped? Do you have use cases in mind where a more
+>>>>>> fine-grained grouping would be required?
+>>>>>
+>>>>> I apologize I may missed that discussion when I prepared v2:(
+>>>>>
+>>>>> Yes, agreed, this grouping is more sensible and resonnable. so in this
+>>>>> patchset only one right will be added, and I suppose the first commit
+>>>>> which expand access_mask_t to u32 can be droped.
+>>>>>
+>>>>>>
+>>>>>> —Günther
+>>>>>>
+>>>>>> P.S.: Regarding utimes: The hook_inode_setattr hook *also* gets called
+>>>>>> on a variety on attribute changes including file ownership, file size
+>>>>>> and file mode, so it might potentially interact with a bunch of other
+>>>>>> existing Landlock rights. Maybe that is not the right approach. In any
+>>>>>> case, it seems like it might require more thinking and it might be
+>>>>>> sensible to do that in a separate patch set IMHO.
+>>>>>
+>>>>> Thanks for you reminder, that seems it's more complicated to support
+>>>>> utimes, so I think we'd better not support it in this patchset.
+>>>>
+>>>> The issue with this approach is that it makes it impossible to properly
+>>>> group such access rights. Indeed, to avoid inconsistencies and much more
+>>>> complexity, we cannot extend a Landlock access right once it is defined.
+>>>>
+>>>> We also need to consider that file ownership and permissions have a
+>>>> default (e.g. umask), which is also a way to set them. How to
+>>>> consistently manage that? What if the application wants to protect its
+>>>> files with chmod 0400?
+>>>
+>>> what do you mean by this? do you mean that we should have a set of
+>>> default permissions for files created by applications within the
+>>> sandbox, so that it can update metadata of its own file.
+>>
+>> I mean that we need a consistent access control system, and for this we
+>> need to consider all the ways an extended attribute can be set.
+>>
+>> We can either extend the meaning of current access rights (controlled
+>> with a ruleset flag for compatibility reasons), or create new access
+>> rights. I think it would be better to add new dedicated rights to make
+>> it more explicit and flexible.
+>>
+>> I'm not sure about the right approach to properly control file
+>> permission. We need to think about it. Do you have some ideas?
+>>
+>> BTW, utimes can be controlled with the inode_setattr() LSM hook. Being
+>> able to control arbitrary file time modification could be part of the
+>> FS_WRITE_SAFE_METADATA, but modification and access time should always
+>> be updated according to the file operation.
+>>
+>>
+>>>
+>>>>
+>>>> About the naming, I think we can start with:
+>>>> - LANDLOCK_ACCESS_FS_READ_METADATA (read any file/dir metadata);
+>>>> - LANDLOCK_ACCESS_FS_WRITE_SAFE_METADATA: change file times, user xattr;
+>>>
+>>> do you mean we should have permission controls on metadata level or
+>>> operation level? e.g. should we allow update on user xattr but deny
+>>> update on security xattr? or should we disallow update on any xattr?
+>>>
+>>>> - LANDLOCK_ACCESS_FS_WRITE_UNSAFE_METADATA: interpreted by the kernel
+>>>> (could change non-Landlock DAC or MAC, which could be considered as a
+>>>> policy bypass; or other various xattr that might be interpreted by
+>>>> filesystems), this should be denied most of the time.
+>>>
+>>> do you mean FS_WRITE_UNSAFE_METADATA is security-related? and
+>>> FS_WRITE_SAFE_METADATA is non-security-related?
+>>
+>> Yes, FS_WRITE_UNSAFE_METADATA would be for security related
+>> xattr/chmod/chown, and FS_WRITE_SAFE_METADATA for non-security xattr.
+>> Both are mutually exclusive. This would involve the inode_setattr and
+>> inode_setxattr LSM hooks. Looking at the calling sites, it seems
+>> possible to replace all inode arguments with paths.
 
-We should not defer TLB flush on such systems, as ensured by the above test and 'false'
-return afterwards. The only question is whether this decision should be taken at a CPU
-level (which is affected by the errata) or the whole system level.
+I though about differentiating user xattr, atime/mtime, DAC 
+(chown/chmod, posix ACLs), and other xattr, but it would be too complex 
+to get a consistent approach because of indirect consequences (e.g. 
+controlling umask, setegid, settimeofday…). Let's make it simple for now.
 
-What is required now
+Here is an update on my previous proposal:
 
-- Replace this_cpu_has_cap() with cpus_have_const_cap ?
-- Add the following comment before the #ifdef check
+LANDLOCK_ACCESS_FS_READ_METADATA to read any file/dir metadata (i.e. 
+inode attr and xattr). In practice, for most use cases, this access 
+right should be granted whenever LANDLOCK_ACCESS_READ_DIR is allowed.
 
-/*
- * TLB flush deferral is not required on systems, which are affected with
- * ARM64_WORKAROUND_REPEAT_TLBI, as __tlbi()/__tlbi_user() implementation
- * will have two consecutive TLBI instructions with a dsb(ish) in between
- * defeating the purpose (i.e save overall 'dsb ish' cost).
- */
+LANDLOCK_ACCESS_FS_WRITE_METADATA to *explicitly* write any inode attr 
+or xattr (i.e. chmod, chown, utime, and all xattr). It should be noted 
+that file modification time and access time should always be updated 
+according to the file operation (e.g. write, truncate) even when this 
+access is not explicitly allowed (according to vfs_utimes(), 
+ATTR_TIMES_SET and ATTR_TOUCH should enable to differentiate from 
+implicit time changes).
+
+
+> 
+> Sorry for the late reply, I have problems with this work, for example,
+> before:
+> security_inode_setattr(struct user_namespace *mnt_userns,
+>                                            struct dentry *dentry,
+>                                            struct iattr *attr)
+> after:
+> security_inode_setattr(struct user_namespace *mnt_userns,
+>                                            struct path *path,
+>                                            struct iattr *attr)
+> then I change the second argument in notify_change() from struct *dentry
+> to struct path *, that makes this kind of changes in fs/overlayfs/
+> spread to lots of places because overlayfs basicly uses dentry instead
+> of path, the worst case may be here:
+> 
+> ovl_special_inode_operations.set_acl hook calls:
+> -->
+> ovl_set_acl(struct user_namespace *mnt_userns, struct dentry *dentry,
+> struct posix_acl *acl, int type)
+> -->
+> ovl_setattr(struct user_namespace *mnt_userns, struct dentry
+> *dentry,struct iattr *attr)
+> -->
+> ovl_do_notify_change(struct ovl_fs *ofs, struct dentry *upperdentry,
+> struct iattr *attr)
+> 
+> from the top of this callchain, I can not find a path to replace dentry,
+> did I miss something? or do you have better idea?
+
+I think this can be solved thanks to the ovl_path_real() helper.
