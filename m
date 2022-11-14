@@ -2,101 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E4F3C4167E
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 17:53:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7149C4167B
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 18:02:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237316AbiKNRwh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Nov 2022 12:52:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50454 "EHLO
+        id S238054AbiKNSCJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Nov 2022 13:02:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237766AbiKNRwa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 12:52:30 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0A7022B08;
-        Mon, 14 Nov 2022 09:52:28 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        with ESMTP id S238115AbiKNSBm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 13:01:42 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D80C32CDCE;
+        Mon, 14 Nov 2022 10:00:46 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 77AE6201F5;
-        Mon, 14 Nov 2022 17:52:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1668448347; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=oz8YSs1KJVliL/2aW1xDmRDRza50VBN/mTm9YScVZfs=;
-        b=Y7mniaueGfgQQjcdXcDLeViStkDPrq7bUWrxQ9o2ohcp0QX5wurHpemxDWEX/zyxIOdmm4
-        ahN5H42yYKyGTub1/teRDQiBDers0olzs/sQdNyHWyzegi4XILIzw9ztJ+U17DtAold1J9
-        mK8yFHRHrgIBlzzsXDf0DBt/EnYMRjI=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5BFF613A8C;
-        Mon, 14 Nov 2022 17:52:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id HmkyFFuAcmMmZgAAMHmgww
-        (envelope-from <mhocko@suse.com>); Mon, 14 Nov 2022 17:52:27 +0000
-Date:   Mon, 14 Nov 2022 18:52:26 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Zhongkun He <hezhongkun.hzk@bytedance.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
- pidfd_set_mempolicy().
-Message-ID: <Y3KAWnFkG7hC1D/B@dhcp22.suse.cz>
-References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
- <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
- <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
- <Y3IqLzvduM6HqPJV@dhcp22.suse.cz>
- <Y3IqrCrDNdM5LDFt@dhcp22.suse.cz>
+        by ams.source.kernel.org (Postfix) with ESMTPS id BA36AB810F3;
+        Mon, 14 Nov 2022 18:00:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89592C433D6;
+        Mon, 14 Nov 2022 18:00:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668448843;
+        bh=NsWh9tC3u+LrZ7KM/VCH67ErhMDNadIOAI4DLlEPjm0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=opuhEyZWZOlVWK14qSuxfOOL4suXKkOF3YlvfYfIT7ygPylXUSbnk6yNl/O/4pCFq
+         CpQFWnObH2oKm1fukMmp+zFYl7jquehRnFSgITOZEBmhyzZMSj7nPGkOjHfExsm/Qe
+         w+nm2kyplTChDxBu4LaupYXtCBGvUFl5Gipy/rVFSyOqmNRceXSFOGO2ZMNS9l+zPA
+         5htVZlPy0R3cA4hYIWdu+X0pZS7Yy2Udw6izruhbL84srM4qPYsPD3ynbHpaV7OvgN
+         Jwl4UHFwQfppNQU5RhVeNTWr4mB4gmQjWr5CQImPWNaxulKvR1DiSMr8nWma29v44c
+         ZHG+Y1I1QCusQ==
+Date:   Mon, 14 Nov 2022 18:00:37 +0000
+From:   Will Deacon <will@kernel.org>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Sudeep Holla <sudeep.holla@arm.com>,
+        Jeremy Linton <jeremy.linton@arm.com>,
+        linux-acpi@vger.kernel.org, catalin.marinas@arm.com,
+        corbet@lwn.net, lenb@kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ACPI: Enable FPDT on arm64
+Message-ID: <20221114180036.GA31476@willie-the-truck>
+References: <20221109174720.203723-1-jeremy.linton@arm.com>
+ <20221114161206.5sspq25v57ddco4o@bogus>
+ <CAJZ5v0jHk9eEj0EnH-hWnRsabAs+E3LiudTPE+KFhcsZARaw5Q@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y3IqrCrDNdM5LDFt@dhcp22.suse.cz>
+In-Reply-To: <CAJZ5v0jHk9eEj0EnH-hWnRsabAs+E3LiudTPE+KFhcsZARaw5Q@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 14-11-22 12:46:53, Michal Hocko wrote:
-> On Mon 14-11-22 12:44:48, Michal Hocko wrote:
-> > On Mon 14-11-22 00:41:21, Zhongkun He wrote:
-> > > Hi Andrew, thanks for your replay.
-> > > 
-> > > > This sounds a bit suspicious.  Please share much more detail about
-> > > > these races.  If we proced with this design then mpol_put_async()
-> > > > shouild have comments which fully describe the need for the async free.
-> > > > 
-> > > > How do we *know* that these races are fully prevented with this
-> > > > approach?  How do we know that mpol_put_async() won't free the data
-> > > > until the race window has fully passed?
-> > > 
-> > > A mempolicy can be either associated with a process or with a VMA.
-> > > All vma manipulation is somewhat protected by a down_read on
-> > > mmap_lock.In process context there is no locking because only
-> > > the process accesses its own state before.
-> > 
-> > We shouldn't really rely on mmap_sem for this IMO. There is alloc_lock
-> > (aka task lock) that makes sure the policy is stable so that caller can
-> > atomically take a reference and hold on the policy. And we do not do
-> > that consistently and this should be fixed. E.g. just looking at some
-> > random places like allowed_mems_nr (relying on get_task_policy) is
-> > completely lockless and some paths (like fadvise) do not use any of the
-> > explicit (alloc_lock) or implicit (mmap_lock) locking. That means that
-> > the task_work based approach cannot really work in this case, right?
+On Mon, Nov 14, 2022 at 05:16:59PM +0100, Rafael J. Wysocki wrote:
+> On Mon, Nov 14, 2022 at 5:12 PM Sudeep Holla <sudeep.holla@arm.com> wrote:
+> >
+> > On Wed, Nov 09, 2022 at 11:47:20AM -0600, Jeremy Linton wrote:
+> > > FPDT provides some boot timing records useful for analyzing
+> > > parts of the UEFI boot stack. Given the existing code works
+> > > on arm64, and allows reading the values without utilizing
+> > > /dev/mem it seems like a good idea to turn it on.
+> > >
+> >
+> > FWIW, this looks good to me.
+> >
+> > Acked-by: Sudeep Holla <sudeep.holla@arm.com>
+> >
+> > Hi Rafael,
+> >
+> > Just saw this marked as "Handled Elsewhere", do you prefer to be merged
+> > via arm64 or other tree ? This doesn't have any arm64 changes, just Kconfig
+> > and doc changes. Let us know.
 > 
-> Just to be more explicit. Task work based approach still requires an
-> additional synchronization among different threads unless I miss
-> something so this is really fragile synchronization model.
+> There is arm64 in the subject, though, so I think it belongs there.
 
-Scratch that. I've managed to confuse myself. Multi-threading doesn't
-play any role as the mempolicy changed by the syscall is per-task_struct
-so task_work context is indeed mutually exclusive with any in kernel use
-of the policy.
+Okey doke, I'll grab 'em.
 
-I will need to think about it some more.
--- 
-Michal Hocko
-SUSE Labs
+Cheers!
+
+Will
