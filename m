@@ -2,104 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 808DEC43217
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 10:36:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 942DCC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 10:57:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234043AbiKNKgQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Nov 2022 05:36:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35310 "EHLO
+        id S235602AbiKNK5R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Nov 2022 05:57:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235126AbiKNKfv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 05:35:51 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 821D71D65B;
-        Mon, 14 Nov 2022 02:35:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668422150; x=1699958150;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KQI39jI+VhVq9DkODJATdCRiiFhF16bievVRLfJnrnw=;
-  b=E3Kh+FO4PXk2BSmUV59SRJzrFwwXKB3lpNUaXDYg5CEzHNMPyhlzEjar
-   ZMshzZfxNhJx6ggzQUoS209ujfwJeS2hN63R/VKd2mkUO3Zr8EIVWyikD
-   IHpMgvlZ57OokRWnHBXwejYVoQS4zoz2WZfm7a2Mo4YaWeEl2ckVBb6dE
-   XMN4wJws9uxQ7zqeEn54Zf+n1ANYABCiqjtzyX/zGx3h5+a64DXGJ406O
-   hbco6oMzlKqvYKcaCz0nOKQjXtVhUUDNGswraPqx03F8ZXrXBENIvcml2
-   CrENjSmn/XYEHcZE3VBOfWr+zaajIvnff9cmSIoQUkVfm7/gkzfeF+Zip
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="338722178"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="338722178"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 02:35:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="589320025"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="589320025"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga003.jf.intel.com with ESMTP; 14 Nov 2022 02:35:45 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ouWoY-00C7k0-1J;
-        Mon, 14 Nov 2022 12:35:42 +0200
-Date:   Mon, 14 Nov 2022 12:35:42 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Russell King <rmk+kernel@armlinux.org.uk>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        asahi@lists.linux.dev, devicetree@vger.kernel.org,
-        Hector Martin <marcan@marcan.st>,
+        with ESMTP id S235617AbiKNK5Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 05:57:16 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F22301A207;
+        Mon, 14 Nov 2022 02:57:15 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id z14so17315957wrn.7;
+        Mon, 14 Nov 2022 02:57:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6WjFufgdkg/OkYWcIaQRnwXicBL1zcGqAln66oAXCb8=;
+        b=IOHD6TkkM8jJW1lWBwzRJ+XOJPBdntJ3gje1DWAKn0tKNsIVypUozdO7F1tPI6XclJ
+         phOcu5JlJPmOOm9qjcuSIYnCSkBAzz56R7kMNQIY1kx/kdHvKgE8smpBHgf9BBlKNDkY
+         wZ/Q2PF/CHyrp/DfekjEqJ7DWwLaFrmnw/wyJOC50+8cjLif0HQRYPN2qZq5BTcd2oNi
+         Trxjuq4ZAuaWV/vpfvvHcNR7lUA7Dwe+N1DymWTQ7SjAycBIwY0bLE9yAWLWSRExGdNs
+         +tRnvCMSJiSakDTYAyDNtkKfA1y+vcaNaCUima1R6QyrEHPB6O3wCmkxpt5zYT7c96JQ
+         NwRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6WjFufgdkg/OkYWcIaQRnwXicBL1zcGqAln66oAXCb8=;
+        b=FpSn/Sdtx20kZXL5qVx+AgtnFs6qxzM5ahIrFFrMo1CIiSzvs1lxMbYPl6PVra02Dx
+         d7/25FuL2z344MagWyqBkLXlsjmyHuvxU7qkVddBt6qnmYvImNKvRJWVx129vZO1RPIo
+         e7GDAsY06Lejz+p/aoASfK91naPVTQOpwnRxdIHcfttGYXy3+h3fwkYfQ5I/+UrDY0Mu
+         6hLT1PNGKYPBYtmN2ny1Lok9HhNeItfmCX0LsEgh9SMVffE3UTatwNkdpTV6Znb10/cp
+         wb3Fm3BH4rPw0gZxb1v63sV5FE7rru4p40JMemv+63g+X9dj+IXld9/oxWi6tmOPWwBu
+         Ijxg==
+X-Gm-Message-State: ANoB5pkfCWGLnMZDBHu/3eusSIiMrrTA7RGIyJ4zTwy3JeLEJ0Oqo6hn
+        WWQF9abHesTghERgtt6g6ZU=
+X-Google-Smtp-Source: AA0mqf4WeoJGh9UpaiS0ZkbteiHw+SNHbGFL2jdaBsDx/ANXC8uS0rBqB7yo48ZbBV0/pCVspdwFPg==
+X-Received: by 2002:adf:ef8b:0:b0:236:5700:d4cb with SMTP id d11-20020adfef8b000000b002365700d4cbmr7361348wro.597.1668423434278;
+        Mon, 14 Nov 2022 02:57:14 -0800 (PST)
+Received: from imac ([2a02:8010:60a0:0:6942:6e2a:2257:aa49])
+        by smtp.gmail.com with ESMTPSA id p16-20020adfe610000000b002364c77bc96sm9276977wrm.33.2022.11.14.02.57.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Nov 2022 02:57:13 -0800 (PST)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH v3 1/7] mfd: Add core Apple Mac SMC driver
-Message-ID: <Y3IZ/ppKU/bWc5aU@smile.fi.intel.com>
-References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
- <E1osRXJ-002mvq-Bg@rmk-PC.armlinux.org.uk>
+        Dave Tucker <dave@dtucker.co.uk>,
+        Maryam Tahhan <mtahhan@redhat.com>
+Subject: Re: [PATCH bpf-next v10 1/1] bpf, docs: document BPF_MAP_TYPE_ARRAY
+In-Reply-To: <CAEf4Bzak4A-vP=NeJheA0poiu_8fK53cvbq1EnnSHC78FB7mtQ@mail.gmail.com>
+        (Andrii Nakryiko's message of "Fri, 11 Nov 2022 11:39:51 -0800")
+Date:   Mon, 14 Nov 2022 10:18:04 +0000
+Message-ID: <m24jv17sbn.fsf@gmail.com>
+References: <20221109174604.31673-1-donald.hunter@gmail.com>
+        <20221109174604.31673-2-donald.hunter@gmail.com>
+        <CAEf4Bzak4A-vP=NeJheA0poiu_8fK53cvbq1EnnSHC78FB7mtQ@mail.gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E1osRXJ-002mvq-Bg@rmk-PC.armlinux.org.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 08, 2022 at 04:33:17PM +0000, Russell King wrote:
-> From: Hector Martin <marcan@marcan.st>
-> 
-> This driver implements support for the SMC (System Management
-> Controller) in Apple Macs. In contrast to the existing applesmc driver,
-> it uses pluggable backends that allow it to support different SMC
-> implementations, and uses the MFD subsystem to expose the core SMC
-> functionality so that specific features (gpio, hwmon, battery, etc.) can
-> be implemented by separate drivers in their respective downstream
-> subsystems.
+Andrii Nakryiko <andrii.nakryiko@gmail.com> writes:
 
-...
+> On Wed, Nov 9, 2022 at 9:46 AM Donald Hunter <donald.hunter@gmail.com> wrote:
+>>
+>> +This example BPF program shows how to access an array element.
+>> +
+>> +.. code-block:: c
+>> +
+>> +    int bpf_prog(struct __sk_buff *skb)
+>> +    {
+>> +            struct iphdr ip;
+>> +            int index;
+>> +            long *value;
+>> +
+>> +            if (bpf_skb_load_bytes(skb, ETH_HLEN, &ip, sizeof(ip)) < 0)
+>> +                    return 0;
+>> +
+>> +            index = ip.protocol;
+>> +            value = bpf_map_lookup_elem(&my_map, &index);
+>> +            if (value)
+>> +                    __sync_fetch_and_add(value, skb->len);
+>
+> should be &value
+>
+> I fixed it up and applied to bpf-next, thanks.
 
-> +	ret = mfd_add_devices(dev, -1, apple_smc_devs, ARRAY_SIZE(apple_smc_devs), NULL, 0, NULL);
+I double checked and it really should be value, which is already a
+pointer.
 
-PLATFORM_DEVID_NONE
-
-> +	if (ret)
-> +		return ERR_PTR(dev_err_probe(dev, ret, "Subdevice initialization failed"));
-
-...
-
-> +EXPORT_SYMBOL(apple_smc_probe);
-
-Namespace?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Do you want me to send a patch to fix it up?
