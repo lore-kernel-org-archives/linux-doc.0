@@ -2,105 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BFA2C43217
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 18:13:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFABDC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 18:20:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238211AbiKNSNM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Nov 2022 13:13:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41012 "EHLO
+        id S236343AbiKNSUS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Nov 2022 13:20:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238212AbiKNSMn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 13:12:43 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19BBC2AC45;
-        Mon, 14 Nov 2022 10:12:40 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        with ESMTP id S236146AbiKNSUR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 13:20:17 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60F3D22B;
+        Mon, 14 Nov 2022 10:20:16 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id A604420218;
-        Mon, 14 Nov 2022 18:12:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1668449558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=KVwKZGg3oMnijACqeL9ZqfKWMlak+iItXqazHisGzUI=;
-        b=KwaGqHwZvP04jjBZ2aWenp9eV3RLzfnOBEyFCAKEexdk7lWNJLfJFxxJx4z0JsEeE1Nco+
-        Ju6uiiftFCj8lEfY0d7dV45eZc7xcRTE735TdnINBD4Y0H8pIVqRcWgtUC4GpUFHKifhZ+
-        OCjMRFMiaA/AykO14G7IXAPhw91uiRM=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 83A4113A8C;
-        Mon, 14 Nov 2022 18:12:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id FmRBHRaFcmPdcAAAMHmgww
-        (envelope-from <mhocko@suse.com>); Mon, 14 Nov 2022 18:12:38 +0000
-Date:   Mon, 14 Nov 2022 19:12:37 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Zhongkun He <hezhongkun.hzk@bytedance.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
- pidfd_set_mempolicy().
-Message-ID: <Y3KFFfMFE55lVdNZ@dhcp22.suse.cz>
-References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
- <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
- <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
- <Y3IqLzvduM6HqPJV@dhcp22.suse.cz>
- <3a3b4f5b-14d1-27d8-7727-cf23da90988f@bytedance.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 073306133B;
+        Mon, 14 Nov 2022 18:20:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 65E75C43143;
+        Mon, 14 Nov 2022 18:20:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668450015;
+        bh=i8IdxfVSE2gtQo4hkINlvCNXZD7kqjet/z+dlfrkTCQ=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=BFzHyJhWrBCIgPHjHb3hsidspggI4bMje3RDCMUKlHDsEEKtlrS7GeomnZbl95Www
+         VURi6KjNP8U+JFByi7OK9vPIw2QnJKFIy7ZBWqGbt0Vc1oX0+ATFg+DsD1H1UhnBnR
+         bZmtPfuINJ9bL9lRTdj4UfsV0Uk/YF1WlvDz7GKPCTWlb4/sD86JXZmtPgaFjWxBmj
+         tpx2PhPhDcG8Tmr0lcNVHZJz59pNAdODo/l+G/9eXbru7TBXT7fRiRnsvF8AeQ4qKQ
+         C3GVlHYkkFLGz17hHejEzB2LuvJTJ2pI7PBxAGKQj+kLC2ugtL9C0R9z+6AYNP/kht
+         yKwVruPMt6VOw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 47306E270C2;
+        Mon, 14 Nov 2022 18:20:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3a3b4f5b-14d1-27d8-7727-cf23da90988f@bytedance.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH bpf-next v1 1/1] docs: fixup cpumap sphinx >= 3.1 warning
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <166845001528.16608.11508706066376026924.git-patchwork-notify@kernel.org>
+Date:   Mon, 14 Nov 2022 18:20:15 +0000
+References: <20221113103327.3287482-1-mtahhan@redhat.com>
+In-Reply-To: <20221113103327.3287482-1-mtahhan@redhat.com>
+To:     Maryam Tahhan <mtahhan@redhat.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, jbrouer@redhat.com,
+        thoiland@redhat.com, donhunte@redhat.com, akiyks@gmail.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 14-11-22 23:12:00, Zhongkun He wrote:
-> Sorry,michal. I dont know if my expression is accurate.
-> > 
-> > We shouldn't really rely on mmap_sem for this IMO.
-> 
->  Yes, We should rely on mmap_sem for vma->vm_policy,but not for
->  process context policy(task->mempolicy).
+Hello:
 
-But the caller has no way to know which kind of policy is returned so
-the locking cannot be conditional on the policy type.
+This patch was applied to bpf/bpf-next.git (master)
+by Daniel Borkmann <daniel@iogearbox.net>:
 
-> > There is alloc_lock
-> > (aka task lock) that makes sure the policy is stable so that caller can
-> > atomically take a reference and hold on the policy. And we do not do
-> > that consistently and this should be fixed.
+On Sun, 13 Nov 2022 05:33:27 -0500 you wrote:
+> From: Maryam Tahhan <mtahhan@redhat.com>
 > 
-> I saw some explanations in the doc("numa_memory_policy.rst") and
-> comments(mempolcy.h) why not use locks and reference in page
-> allocation:
+> Fixup bpf_map_update_elem() declaration to use a single line.
 > 
-> In process context there is no locking because only the process accesses
-> its own state.
+> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+> Reported-by: Akira Yokosawa <akiyks@gmail.com>
 > 
-> During run-time "usage" of the policy, we attempt to minimize atomic
-> operations on the reference count, as this can lead to cache lines
-> bouncing between cpus and NUMA nodes.
+> [...]
 
-Yes this is all understood but the level of the overhead is not really
-clear. So the question is whether this will induce a visible overhead.
-Because from the maintainability point of view it is much less costly to
-have a clear life time model. Right now we have a mix of reference
-counting and per-task requirements which is rather subtle and easy to
-get wrong. In an ideal world we would have get_vma_policy always
-returning a reference counted policy or NULL. If we really need to
-optimize for cache line bouncing we can go with per cpu reference
-counters (something that was not available at the time the mempolicy
-code has been introduced).
+Here is the summary with links:
+  - [bpf-next,v1,1/1] docs: fixup cpumap sphinx >= 3.1 warning
+    https://git.kernel.org/bpf/bpf-next/c/e662c7753668
 
-So I am not saying that the task_work based solution is not possible I
-just think that this looks like a good opportunity to get from the
-existing subtle model.
+You are awesome, thank you!
 -- 
-Michal Hocko
-SUSE Labs
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
