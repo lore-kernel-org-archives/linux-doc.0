@@ -2,346 +2,311 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 056DCC43217
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 13:34:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B28FCC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 13:57:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235560AbiKNNev (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Nov 2022 08:34:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56362 "EHLO
+        id S235639AbiKNN5f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Nov 2022 08:57:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236638AbiKNNes (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 08:34:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 848F3BC9A
-        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 05:33:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1668432830;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9QiRkAJtis8qNtWpCrUk39hYQOMQJJ4HZJSB08SnAc8=;
-        b=N7QrLFv30XCooSkXZ1/7i26F4m1+6gcT1K91afwDkDdhKqUqDqhwevRGf38WJ2lFmmGgvV
-        OcCLifvDvOHlkkvwpPB78oIouCN6ibET3NrGEWVaUftVWcsf2FQ+aH0EhKYFWOroK7sWWK
-        P+HTSj915W5gqQaw1gVMlXB3fOdRIa4=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-548-F4DwK-JEPRW10WNJaYDKOQ-1; Mon, 14 Nov 2022 08:33:49 -0500
-X-MC-Unique: F4DwK-JEPRW10WNJaYDKOQ-1
-Received: by mail-qk1-f198.google.com with SMTP id bk30-20020a05620a1a1e00b006fb2378c857so10189008qkb.18
-        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 05:33:49 -0800 (PST)
+        with ESMTP id S229933AbiKNN5e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 08:57:34 -0500
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60CB425E81;
+        Mon, 14 Nov 2022 05:57:33 -0800 (PST)
+Received: by mail-pg1-x531.google.com with SMTP id h193so10287864pgc.10;
+        Mon, 14 Nov 2022 05:57:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8MC3h3qKaAq/POnx65xnRJ3C4NU/+8KjvTe7E05rjRU=;
+        b=UHnHc6SNEKeAoxVofC95gqomBI8THBwyUZaxrtaJ7vtzBNyJZCaP/rJd1gemcrs+bX
+         1Rx/j7wYW4hFH9SrofOJS4Un2ZqfmmPP2c370T/zhmystqj3VPKQPtqGBKTd8VsEBqzO
+         6UZSpBFEU42oFz+rCUxKCEtyVKFn5lk5Ox9MXGi71tKv+g8jEARCUHcsgRrIF+aoX/tk
+         Gmc96awJeQ+w3/i5fqXL/t4061UivqhfZUDqlnIYUskZt24+UKXqNyNS/aQ3jWU2kSgD
+         ol+x6Ho3RXm1+AaenYR3aKen6xItOgW8ersfvjEccPS3ujQs2YtInUvmXYLUnhDMxurr
+         ZABA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9QiRkAJtis8qNtWpCrUk39hYQOMQJJ4HZJSB08SnAc8=;
-        b=gGOFrn83w0F7+96KLKjSqknOy2IHkDIGzhgd7l3Ef5EWE+wyOpMjXBg1jofUSiqQks
-         y9GWMfQRQscZ+1n0Naj0IUx5etzSMSHvso4K+CbIBCLVY6xBVgK4/8h5HLk3UMcGcics
-         cR1BKmVWwlQn7MNsl4IYI2W3VEQrhMHMxZZr/VFmTgJ4n8l4am+bZDljUBeB/Y3gkVOX
-         mP/12hCWipnb6qAqImj+LUg3UYR9RkJWSysPoKroL6ai/LJioPYvuP1mLn5QcDy5nF1E
-         WNa4T9XMnu+DjwLBANTLCRY1ja8wdJ5hMoP2wbXpWFfqRUe9ULY6Lwf+R5+2yRKwGKHI
-         vVWw==
-X-Gm-Message-State: ANoB5pla2FTjvSseB0PQbGkRKX6wP1vxbfUADA7na44d4JAh1x0rhafm
-        wWJK95JZubZa9SHcIxRwkWd86fTo92fwFY3F9uGuAllSTPGdpr5KFyFC/EYSRKqf1xFnt5IQ8QP
-        tm23XlyZ+fZ2vYQfZCpSs
-X-Received: by 2002:a05:622a:2443:b0:3a5:2de8:37d3 with SMTP id bl3-20020a05622a244300b003a52de837d3mr12190342qtb.217.1668432829247;
-        Mon, 14 Nov 2022 05:33:49 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5MtlcI6o1/58VPaBjE0NvLA0zMfucHakDiba3NqKYYzSgAMOW+iPLhGMgIOTkcfylqwMLaJw==
-X-Received: by 2002:a05:622a:2443:b0:3a5:2de8:37d3 with SMTP id bl3-20020a05622a244300b003a52de837d3mr12190293qtb.217.1668432828927;
-        Mon, 14 Nov 2022 05:33:48 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874? ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
-        by smtp.gmail.com with ESMTPSA id v12-20020ac8748c000000b0039c37a7914csm5641393qtq.23.2022.11.14.05.33.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Nov 2022 05:33:48 -0800 (PST)
-Message-ID: <e1f7fe9c-5201-3fea-a354-bb79c06ddb4c@redhat.com>
-Date:   Mon, 14 Nov 2022 14:33:41 +0100
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8MC3h3qKaAq/POnx65xnRJ3C4NU/+8KjvTe7E05rjRU=;
+        b=i0wVtmYS+is9bDhH95FsainJ3/Aj890uAyhU35uaU6QJjzqVQgFTcRFzLFJ492XJgM
+         plk0i2t/+dbUu4U2oqjwmsaCXuxAzzelkntqAwFcMxjnMs7XzeqNIJQNXqGl0bCdWoRR
+         Mcugl+dcIKiGnrjDS3QHldxRRn2l0YkhbfIr70d6Y488zr3EYWIUjFRYbDJwreZdaTrU
+         nKQ9h1UqFracS7VRJbNSvZxeXLPxkVqWAmHx7PvGdPvDhtbE55aYhDWeluIz/cl9m7ZA
+         AbpVaQcEkARql0bXwD2+z0SvlvZvkBIRzbYU2lDxkgwwlxERaqHIDSAdrrRMdcTxE5IK
+         E+fw==
+X-Gm-Message-State: ANoB5pl1mb4DRKZMOROgw96SC0nbu3ck1yrME666egLRU72YxrsVZjvU
+        N0FEUQpy50iDXnNbTw0Pdnc=
+X-Google-Smtp-Source: AA0mqf7scsGfCFUG7z2vXhK08/UVTuUCikOxvkq4nKtJtqN0mEbylzyx0c4URy3Xe1lzIvuCleSO3A==
+X-Received: by 2002:a63:d0b:0:b0:438:a750:99b7 with SMTP id c11-20020a630d0b000000b00438a75099b7mr11652778pgl.605.1668434252783;
+        Mon, 14 Nov 2022 05:57:32 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-86.three.co.id. [180.214.232.86])
+        by smtp.gmail.com with ESMTPSA id i7-20020a170902c94700b00186dcc37e17sm7510781pla.210.2022.11.14.05.57.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Nov 2022 05:57:32 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 5F833103ED3; Mon, 14 Nov 2022 20:57:29 +0700 (WIB)
+Date:   Mon, 14 Nov 2022 20:57:29 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Junhao He <hejunhao3@huawei.com>
+Cc:     mathieu.poirier@linaro.org, suzuki.poulose@arm.com,
+        mike.leach@linaro.org, leo.yan@linaro.org,
+        jonathan.cameron@huawei.com, john.garry@huawei.com,
+        coresight@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        lpieralisi@kernel.org, linuxarm@huawei.com, yangyicong@huawei.com,
+        liuqi115@huawei.com, f.fangjian@huawei.com,
+        prime.zeng@hisilicon.com
+Subject: Re: [PATCH v13 2/2] Documentation: Add document for UltraSoc SMB
+ drivers
+Message-ID: <Y3JJSfVoatl5yKlm@debian.me>
+References: <20221114090316.63157-1-hejunhao3@huawei.com>
+ <20221114090316.63157-3-hejunhao3@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Reply-To: eric.auger@redhat.com
-Subject: Re: [PATCH v4 02/17] iommu: Add device-centric DMA ownership
- interfaces
-Content-Language: en-US
-To:     Jason Gunthorpe <jgg@nvidia.com>, bpf@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
-        Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Eric Farman <farman@linux.ibm.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Shameerali Kolothum Thodi 
-        <shameerali.kolothum.thodi@huawei.com>,
-        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
-References: <2-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
-From:   Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <2-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="EIcrB5LfjrdPKhUG"
+Content-Disposition: inline
+In-Reply-To: <20221114090316.63157-3-hejunhao3@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-On 11/8/22 01:48, Jason Gunthorpe wrote:
-> From: Lu Baolu <baolu.lu@linux.intel.com>
->
-> These complement the group interfaces used by VFIO and are for use by
-> iommufd. The main difference is that multiple devices in the same group
-> can all share the ownership by passing the same ownership pointer.
->
-> Move the common code into shared functions.
->
-> Tested-by: Nicolin Chen <nicolinc@nvidia.com>
-> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  drivers/iommu/iommu.c | 124 +++++++++++++++++++++++++++++++++---------
->  include/linux/iommu.h |  12 ++++
->  2 files changed, 110 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 6ca377f4fbf9e9..4cb14e44e40f83 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -3108,41 +3108,52 @@ static int __iommu_group_alloc_blocking_domain(struct iommu_group *group)
->  	return 0;
->  }
->  
-> +static int __iommu_take_dma_ownership(struct iommu_group *group, void *owner)
-> +{
-> +	int ret;
-> +
-> +	if (WARN_ON(!owner))
-> +		return -EINVAL;
-> +
-> +	if ((group->domain && group->domain != group->default_domain) ||
-> +	    !xa_empty(&group->pasid_array))
-> +		return -EBUSY;
-> +
-> +	ret = __iommu_group_alloc_blocking_domain(group);
-> +	if (ret)
-> +		return ret;
-> +	ret = __iommu_group_set_domain(group, group->blocking_domain);
-> +	if (ret)
-> +		return ret;
-> +
-> +	group->owner = owner;
-> +	group->owner_cnt++;
-> +	return 0;
-> +}
-> +
->  /**
->   * iommu_group_claim_dma_owner() - Set DMA ownership of a group
->   * @group: The group.
->   * @owner: Caller specified pointer. Used for exclusive ownership.
->   *
-> - * This is to support backward compatibility for vfio which manages
-> - * the dma ownership in iommu_group level. New invocations on this
-> - * interface should be prohibited.
-> + * This is to support backward compatibility for vfio which manages the dma
-> + * ownership in iommu_group level. New invocations on this interface should be
-> + * prohibited. Only a single owner may exist for a group.
->   */
->  int iommu_group_claim_dma_owner(struct iommu_group *group, void *owner)
->  {
->  	int ret = 0;
->  
-> +	if (WARN_ON(!owner))
-> +		return -EINVAL;
-> +
->  	mutex_lock(&group->mutex);
->  	if (group->owner_cnt) {
->  		ret = -EPERM;
->  		goto unlock_out;
-> -	} else {
-> -		if ((group->domain && group->domain != group->default_domain) ||
-> -		    !xa_empty(&group->pasid_array)) {
-> -			ret = -EBUSY;
-> -			goto unlock_out;
-> -		}
-> -
-> -		ret = __iommu_group_alloc_blocking_domain(group);
-> -		if (ret)
-> -			goto unlock_out;
-> -
-> -		ret = __iommu_group_set_domain(group, group->blocking_domain);
-> -		if (ret)
-> -			goto unlock_out;
-> -		group->owner = owner;
->  	}
->  
-> -	group->owner_cnt++;
-> +	ret = __iommu_take_dma_ownership(group, owner);
->  unlock_out:
->  	mutex_unlock(&group->mutex);
->  
-> @@ -3151,30 +3162,91 @@ int iommu_group_claim_dma_owner(struct iommu_group *group, void *owner)
->  EXPORT_SYMBOL_GPL(iommu_group_claim_dma_owner);
->  
->  /**
-> - * iommu_group_release_dma_owner() - Release DMA ownership of a group
-> - * @group: The group.
-> + * iommu_device_claim_dma_owner() - Set DMA ownership of a device
-> + * @dev: The device.
-> + * @owner: Caller specified pointer. Used for exclusive ownership.
->   *
-> - * Release the DMA ownership claimed by iommu_group_claim_dma_owner().
-> + * Claim the DMA ownership of a device. Multiple devices in the same group may
-> + * concurrently claim ownership if they present the same owner value. Returns 0
-> + * on success and error code on failure
->   */
-> -void iommu_group_release_dma_owner(struct iommu_group *group)
-> +int iommu_device_claim_dma_owner(struct device *dev, void *owner)
->  {
-> -	int ret;
-> +	struct iommu_group *group = iommu_group_get(dev);
-> +	int ret = 0;
-> +
-> +	if (!group)
-> +		return -ENODEV;
->  
->  	mutex_lock(&group->mutex);
-> +	if (group->owner_cnt) {
-> +		if (group->owner != owner) {
-> +			ret = -EPERM;
-> +			goto unlock_out;
-> +		}
-> +		group->owner_cnt++;
-> +		goto unlock_out;
-> +	}
-> +
-> +	ret = __iommu_take_dma_ownership(group, owner);
-> +unlock_out:
-> +	mutex_unlock(&group->mutex);
-> +	iommu_group_put(group);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(iommu_device_claim_dma_owner);
-> +
-> +static void __iommu_release_dma_ownership(struct iommu_group *group)
-> +{
-> +	int ret;
-> +
->  	if (WARN_ON(!group->owner_cnt || !group->owner ||
->  		    !xa_empty(&group->pasid_array)))
-> -		goto unlock_out;
-> +		return;
->  
->  	group->owner_cnt = 0;
->  	group->owner = NULL;
->  	ret = __iommu_group_set_domain(group, group->default_domain);
->  	WARN(ret, "iommu driver failed to attach the default domain");
-> +}
->  
-> -unlock_out:
-> +/**
-> + * iommu_group_release_dma_owner() - Release DMA ownership of a group
-> + * @group: The group.
-> + *
-> + * Release the DMA ownership claimed by iommu_group_claim_dma_owner().
-> + */
-> +void iommu_group_release_dma_owner(struct iommu_group *group)
-> +{
-> +	mutex_lock(&group->mutex);
-> +	__iommu_release_dma_ownership(group);
->  	mutex_unlock(&group->mutex);
->  }
->  EXPORT_SYMBOL_GPL(iommu_group_release_dma_owner);
->  
-> +/**
-> + * iommu_device_release_dma_owner() - Release DMA ownership of a device
-> + * @group: The device.
-@dev: the device
-> + *
-> + * Release the DMA ownership claimed by iommu_device_claim_dma_owner().
-> + */
-> +void iommu_device_release_dma_owner(struct device *dev)
-> +{
-> +	struct iommu_group *group = iommu_group_get(dev);
-> +
-> +	mutex_lock(&group->mutex);
-> +	if (group->owner_cnt > 1) {
-> +		group->owner_cnt--;
-> +		goto unlock_out;
-> +	}
-> +	__iommu_release_dma_ownership(group);
-> +unlock_out:
-> +	mutex_unlock(&group->mutex);
 
-if (group->owner_cnt > 1)
+--EIcrB5LfjrdPKhUG
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-	group->owner_cnt--;
-else
-	__iommu_release_dma_ownership(group);
-
-mutex_unlock(&group->mutex);
-
-iommu_group_put(group);
-
-> +	iommu_group_put(group);
-> +}
-> +EXPORT_SYMBOL_GPL(iommu_device_release_dma_owner);
+On Mon, Nov 14, 2022 at 05:03:16PM +0800, Junhao He wrote:
+> diff --git a/Documentation/trace/coresight/ultrasoc-smb.rst b/Documentati=
+on/trace/coresight/ultrasoc-smb.rst
+> new file mode 100644
+> index 000000000000..b7fe3f5c7f53
+> --- /dev/null
+> +++ b/Documentation/trace/coresight/ultrasoc-smb.rst
+> @@ -0,0 +1,82 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
->  /**
->   * iommu_group_dma_owner_claimed() - Query group dma ownership status
->   * @group: The group.
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index a09fd32d8cc273..1690c334e51631 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -707,6 +707,9 @@ int iommu_group_claim_dma_owner(struct iommu_group *group, void *owner);
->  void iommu_group_release_dma_owner(struct iommu_group *group);
->  bool iommu_group_dma_owner_claimed(struct iommu_group *group);
->  
-> +int iommu_device_claim_dma_owner(struct device *dev, void *owner);
-> +void iommu_device_release_dma_owner(struct device *dev);
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +UltraSoc - HW Assisted Tracing on SoC
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +   :Author:   Qi Liu <liuqi115@huawei.com>
+> +   :Date:     March 2022
 > +
->  struct iommu_domain *iommu_sva_domain_alloc(struct device *dev,
->  					    struct mm_struct *mm);
->  int iommu_attach_device_pasid(struct iommu_domain *domain,
-> @@ -1064,6 +1067,15 @@ static inline bool iommu_group_dma_owner_claimed(struct iommu_group *group)
->  	return false;
->  }
->  
-> +static inline void iommu_device_release_dma_owner(struct device *dev)
-> +{
-> +}
+> +Introduction
+> +------------
 > +
-> +static inline int iommu_device_claim_dma_owner(struct device *dev, void *owner)
-> +{
-> +	return -ENODEV;
-> +}
+> +UltraSoc SMB is a per SCCL(Super CPU Cluster) hardware, and it provides a
+> +way to buffer and store CPU trace messages in a region of shared system
+> +memory. SMB is plugged as a coresight sink device and the corresponding
+> +trace generators (ETM) are plugged in as source devices.
 > +
->  static inline struct iommu_domain *
->  iommu_sva_domain_alloc(struct device *dev, struct mm_struct *mm)
->  {
-Besides
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> +Sysfs files and directories
+> +---------------------------
+> +
+> +The SMB devices appear on the existing coresight bus alongside the other
+> +coresight devices::
+> +
+> +	$# ls /sys/bus/coresight/devices/
+> +	ultra_smb0   ultra_smb1   ultra_smb2   ultra_smb3
+> +
+> +The ``ultra_smb<N>`` named SMB associated with SCCL.::
+> +
+> +	$# ls /sys/bus/coresight/devices/ultra_smb0
+> +	enable_sink   mgmt
+> +	$# ls /sys/bus/coresight/devices/ultra_smb0/mgmt
+> +	buf_size  buf_status  read_pos  write_pos
+> +
+> +*Key file items are:-*
+> +   * ``read_pos``: Shows the value held by UltraSoc SMB Read Pointer reg=
+ister.
+> +   * ``write_pos``: Shows the value held by UltraSoc SMB Write Pointer r=
+egister.
+> +   * ``buf_status``: Shows the value held by UltraSoc SMB status registe=
+r.
+> +		     BIT(0) is zero means buffer is empty.
+> +   * ``buf_size``: Shows the buffer size of each UltraSoc SMB device.
 
-Eric
+The key list above doesn't look right, so I have applied the fixup:
 
+---- >8 ----
+
+diff --git a/Documentation/trace/coresight/ultrasoc-smb.rst b/Documentation=
+/trace/coresight/ultrasoc-smb.rst
+index b7fe3f5c7f53f7..5d0fa1a76b04d1 100644
+--- a/Documentation/trace/coresight/ultrasoc-smb.rst
++++ b/Documentation/trace/coresight/ultrasoc-smb.rst
+@@ -30,11 +30,12 @@ The ``ultra_smb<N>`` named SMB associated with SCCL.::
+ 	$# ls /sys/bus/coresight/devices/ultra_smb0/mgmt
+ 	buf_size  buf_status  read_pos  write_pos
+=20
+-*Key file items are:-*
++Key file items are:
++
+    * ``read_pos``: Shows the value held by UltraSoc SMB Read Pointer regis=
+ter.
+    * ``write_pos``: Shows the value held by UltraSoc SMB Write Pointer reg=
+ister.
+    * ``buf_status``: Shows the value held by UltraSoc SMB status register.
+-		     BIT(0) is zero means buffer is empty.
++     BIT(0) is zero means buffer is empty.
+    * ``buf_size``: Shows the buffer size of each UltraSoc SMB device.
+=20
+ Firmware Bindings
+
+> +
+> +Firmware Bindings
+> +---------------------------
+> +
+> +SMB device is only supported with ACPI, and ACPI binding of SMB device
+> +describes SMB device indentifier, resource information and graph structu=
+re.
+> +
+> +SMB is identified by ACPI HID "HISI03A1", resource of device is declared=
+ using
+> +the _CRS method. Each SMB must present two base address, the first one i=
+s the
+> +configuration base address of SMB device, the second one is the 32bits b=
+ase
+> +address of shared system memory.
+> +
+> +examples::
+> +
+> +    Device(USMB) {                                               \
+> +      Name(_HID, "HISI03A1")                                     \
+> +      Name(_CRS, ResourceTemplate() {                            \
+> +          QWordMemory (ResourceConsumer, , MinFixed, MaxFixed, NonCachea=
+ble, \
+> +		       ReadWrite, 0x0, 0x95100000, 0x951FFFFF, 0x0, 0x100000) \
+> +          QWordMemory (ResourceConsumer, , MinFixed, MaxFixed, Cacheable=
+, \
+> +		       ReadWrite, 0x0, 0x50000000, 0x53FFFFFF, 0x0, 0x4000000) \
+> +      })                                                         \
+> +      Name(_DSD, Package() {                                     \
+> +        ToUUID("ab02a46b-74c7-45a2-bd68-f7d344ef2153"),          \
+> +	/* Use CoreSight Graph ACPI bindings to describe connections topology */
+> +        Package() {                                              \
+> +          0,                                                     \
+> +          1,                                                     \
+> +          Package() {                                            \
+> +            1,                                                   \
+> +            ToUUID("3ecbc8b6-1d0e-4fb3-8107-e627f805c6cd"),      \
+> +            8,                                                   \
+> +            Package() {0x8, 0, \_SB.S00.SL11.CL28.F008, 0},       \
+> +            Package() {0x9, 0, \_SB.S00.SL11.CL29.F009, 0},       \
+> +            Package() {0xa, 0, \_SB.S00.SL11.CL2A.F010, 0},       \
+> +            Package() {0xb, 0, \_SB.S00.SL11.CL2B.F011, 0},       \
+> +            Package() {0xc, 0, \_SB.S00.SL11.CL2C.F012, 0},       \
+> +            Package() {0xd, 0, \_SB.S00.SL11.CL2D.F013, 0},       \
+> +            Package() {0xe, 0, \_SB.S00.SL11.CL2E.F014, 0},       \
+> +            Package() {0xf, 0, \_SB.S00.SL11.CL2F.F015, 0},       \
+> +          }                                                      \
+> +        }                                                        \
+> +      })                                                         \
+> +    }
+
+The rest of wordings also read a rather weird. What about below instead?
+
+---- >8 ----=20
+
+diff --git a/Documentation/trace/coresight/ultrasoc-smb.rst b/Documentation=
+/trace/coresight/ultrasoc-smb.rst
+index 5d0fa1a76b04d1..eee32cbf90d2ea 100644
+--- a/Documentation/trace/coresight/ultrasoc-smb.rst
++++ b/Documentation/trace/coresight/ultrasoc-smb.rst
+@@ -9,21 +9,21 @@ UltraSoc - HW Assisted Tracing on SoC
+ Introduction
+ ------------
+=20
+-UltraSoc SMB is a per SCCL(Super CPU Cluster) hardware, and it provides a
++UltraSoc SMB is a per SCCL (Super CPU Cluster) hardware. It provides a
+ way to buffer and store CPU trace messages in a region of shared system
+-memory. SMB is plugged as a coresight sink device and the corresponding
+-trace generators (ETM) are plugged in as source devices.
++memory. The device acts as a coresight sink device and the
++corresponding trace generators (ETM) are attached as source devices.
+=20
+ Sysfs files and directories
+ ---------------------------
+=20
+-The SMB devices appear on the existing coresight bus alongside the other
+-coresight devices::
++The SMB devices appear on the existing coresight bus alongside other
++devices::
+=20
+ 	$# ls /sys/bus/coresight/devices/
+ 	ultra_smb0   ultra_smb1   ultra_smb2   ultra_smb3
+=20
+-The ``ultra_smb<N>`` named SMB associated with SCCL.::
++The ``ultra_smb<N>`` names SMB device associated with SCCL.::
+=20
+ 	$# ls /sys/bus/coresight/devices/ultra_smb0
+ 	enable_sink   mgmt
+@@ -32,24 +32,23 @@ The ``ultra_smb<N>`` named SMB associated with SCCL.::
+=20
+ Key file items are:
+=20
+-   * ``read_pos``: Shows the value held by UltraSoc SMB Read Pointer regis=
+ter.
+-   * ``write_pos``: Shows the value held by UltraSoc SMB Write Pointer reg=
+ister.
+-   * ``buf_status``: Shows the value held by UltraSoc SMB status register.
+-     BIT(0) is zero means buffer is empty.
+-   * ``buf_size``: Shows the buffer size of each UltraSoc SMB device.
++   * ``read_pos``: Shows the value on the read pointer register.
++   * ``write_pos``: Shows the value on the write pointer register.
++   * ``buf_status``: Shows the value on the status register.
++     BIT(0) is zero value which means the buffer is empty.
++   * ``buf_size``: Shows the buffer size of each device.
+=20
+ Firmware Bindings
+----------------------------
++-----------------
+=20
+-SMB device is only supported with ACPI, and ACPI binding of SMB device
+-describes SMB device indentifier, resource information and graph structure.
++The device is only supported with ACPI. Its binding describes device
++identifier, resource information and graph structure.
+=20
+-SMB is identified by ACPI HID "HISI03A1", resource of device is declared u=
+sing
+-the _CRS method. Each SMB must present two base address, the first one is =
+the
+-configuration base address of SMB device, the second one is the 32bits base
+-address of shared system memory.
++The device is identified as ACPI HID "HISI03A1". Device resources are allo=
+cated
++using the _CRS method. Each device must present two base address; the firs=
+t one is the configuration base address of the device, the second one is th=
+e 32-bit
++base address of shared system memory.
+=20
+-examples::
++Example::
+=20
+     Device(USMB) {                                               \
+       Name(_HID, "HISI03A1")                                     \
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--EIcrB5LfjrdPKhUG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY3JJRQAKCRD2uYlJVVFO
+o59oAQCu05hsQT4RBR3HOXLdqbkEwDeu51isPmeDh7K3Uj02+wD8C8hED7b8KiCo
+LOcau2nKAJfOME0U/UmiiQuRk2RiFQM=
+=nCZV
+-----END PGP SIGNATURE-----
+
+--EIcrB5LfjrdPKhUG--
