@@ -2,73 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EDB9C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 16:17:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60EFCC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 16:19:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237252AbiKNQRy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Nov 2022 11:17:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52822 "EHLO
+        id S237410AbiKNQTC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Nov 2022 11:19:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237458AbiKNQRp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 11:17:45 -0500
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB3E62ED63;
-        Mon, 14 Nov 2022 08:17:16 -0800 (PST)
-Received: by mail-qt1-f171.google.com with SMTP id a27so7033567qtw.10;
-        Mon, 14 Nov 2022 08:17:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MG2DwBbr5dqsaW3mK7dHyLfa8FobjN2Nv6cl+aBJihI=;
-        b=IuBBeZv4T/VFSqIlKlzqrzBGs3PC4LBj/H8tnI2boma8ku0MO9PtFi36v92WQexVg0
-         aBq9mY2a3cjMP1pIrOu5Kfn0HVh5fjhWZPtH2L1XWK8an8OO1R2v2LsBarR9afLPDBht
-         AVHGZvC8qU0qpI0XO7n/Gh6xhOhe1Rw7555UOPBduitgTxQlkU235HIWMEd7NE9WGuKd
-         IEDUGBPX3dHX8/3NaJ1UdEqVx4TyqkHjroHBAScKRSnm1jPFLIvaTtIKcCslPXbVScEE
-         rHLSdjkZUx8MGbbcvAJh2ajKrgYG4hQmrW861GfrNfgtOO4OWWj859YDS+DCzZtb11wj
-         Of2A==
-X-Gm-Message-State: ANoB5pmH4OqpKMvBhbNn+vop5LHGNqOZO1qhlOvl8eaISKZRB3UbhE8l
-        PRz5nNhivouqZs0qHeaZheFDz6bJRsT00K3GF8A=
-X-Google-Smtp-Source: AA0mqf5sZdpMhkd0wSOTKDrCn1eXwtNpTjnqcyf1w5SxwNQFnlr2SV7SIPNwFVaytbUhruPMS0Tc9i7h5fIr+T1l9R0=
-X-Received: by 2002:a05:622a:8cc:b0:3a5:5987:42c6 with SMTP id
- i12-20020a05622a08cc00b003a5598742c6mr12559271qte.147.1668442635838; Mon, 14
- Nov 2022 08:17:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20221109174720.203723-1-jeremy.linton@arm.com> <20221114161206.5sspq25v57ddco4o@bogus>
-In-Reply-To: <20221114161206.5sspq25v57ddco4o@bogus>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 14 Nov 2022 17:16:59 +0100
-Message-ID: <CAJZ5v0jHk9eEj0EnH-hWnRsabAs+E3LiudTPE+KFhcsZARaw5Q@mail.gmail.com>
-Subject: Re: [PATCH] ACPI: Enable FPDT on arm64
-To:     Sudeep Holla <sudeep.holla@arm.com>
-Cc:     Jeremy Linton <jeremy.linton@arm.com>, rafael@kernel.org,
-        linux-acpi@vger.kernel.org, catalin.marinas@arm.com,
-        will@kernel.org, corbet@lwn.net, lenb@kernel.org,
+        with ESMTP id S237491AbiKNQSn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 11:18:43 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04196DFA;
+        Mon, 14 Nov 2022 08:18:29 -0800 (PST)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id B4DAC22C5F;
+        Mon, 14 Nov 2022 16:18:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1668442707; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=0tL7xPSD03f3HZ+4HQQQ7sQ5enemmDpf5Sp5cZ89xFw=;
+        b=oWvuMqKJhtkNpedSgvnQGk4xFBCkRyJ7Ke9fIutR/Lc7G/sifitPB/TZk+jWmaLllrk9R4
+        OKXNLgokyF/Vky+YYw3QVk2SaFT+t0DtJgztAH1VgUhEphielJwf/CWWY2zmJwUoGy6lOR
+        /Rr4Dzm154RIXwpqI13iQCAKf+QwqWo=
+Received: from suse.cz (unknown [10.100.201.202])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 559E52C142;
+        Mon, 14 Nov 2022 16:18:27 +0000 (UTC)
+Date:   Mon, 14 Nov 2022 17:18:26 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Russell King <rmk+kernel@armlinux.org.uk>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        asahi@lists.linux.dev, devicetree@vger.kernel.org,
+        Hector Martin <marcan@marcan.st>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        linux-gpio@vger.kernel.org,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH v3 2/7] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Y3JqUtLcnGVR7kb6@alley>
+References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
+ <E1osRXO-002mvw-Fp@rmk-PC.armlinux.org.uk>
+ <Y3Jf7xz2CQjJuEeT@alley>
+ <Y3Ji1B+Kar6OSBn3@smile.fi.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y3Ji1B+Kar6OSBn3@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 14, 2022 at 5:12 PM Sudeep Holla <sudeep.holla@arm.com> wrote:
->
-> On Wed, Nov 09, 2022 at 11:47:20AM -0600, Jeremy Linton wrote:
-> > FPDT provides some boot timing records useful for analyzing
-> > parts of the UEFI boot stack. Given the existing code works
-> > on arm64, and allows reading the values without utilizing
-> > /dev/mem it seems like a good idea to turn it on.
-> >
->
-> FWIW, this looks good to me.
->
-> Acked-by: Sudeep Holla <sudeep.holla@arm.com>
->
-> Hi Rafael,
->
-> Just saw this marked as "Handled Elsewhere", do you prefer to be merged
-> via arm64 or other tree ? This doesn't have any arm64 changes, just Kconfig
-> and doc changes. Let us know.
+On Mon 2022-11-14 17:46:28, Andy Shevchenko wrote:
+> On Mon, Nov 14, 2022 at 04:34:07PM +0100, Petr Mladek wrote:
+> > On Tue 2022-11-08 16:33:22, Russell King wrote:
+> 
+> ...
+> 
+> > >  	orig = get_unaligned(fourcc);
+> > > -	val = orig & ~BIT(31);
+> > > +	switch (fmt[2]) {
+> > > +	case 'h':
+> > > +		val = orig;
+> > > +		break;
+> > > +	case 'r':
+> > > +		val = orig = swab32(orig);
+> > 
+> > I do not like much these multi assignments. I think that the result
+> > was not even defined in some older C standards. Though, I can't find
+> > it now. And even make W=3 does not warn about it.
+> > 
+> > > +		break;
+> > > +	case 'l':
+> > > +		val = orig = le32_to_cpu(orig);
+> > > +		break;
+> > > +	case 'b':
+> > > +		val = orig = be32_to_cpu(orig);
+> > > +		break;
+> 
+> Isn't easy to fix? Something like below?
+> 
+> 	switch (fmt[2]) {
+> 	case 'h':
+> 		break;
+> 	case 'r':
+> 		orig = swab32(orig);
+> 		break;
+> 	case 'l':
+> 		orig = le32_to_cpu(orig);
+> 		break;
+> 	case 'b':
+> 		orig = be32_to_cpu(orig);
+> 		break;
+> 
+> 		...
+> 	}
+> 	val = orig;
 
-There is arm64 in the subject, though, so I think it belongs there.
+I though the same. Unfortunately, this is not valid for the "case c:"
+path where "orig" stays untouched:
+
+	case 'c':
+		/* Pixel formats are printed LSB-first */
+		val = swab32(orig & ~BIT(31));
+		pixel_fmt = true;
+		break;
+
+It is pity that "orig" is handled differently for the pixel and the generic
+formats.
+
+But I am afraid that there is no good solution. The code will
+always be a mess when it tries to implement a messy definition.
+
+It would be nice if the the FourCC format was used consistently
+in all subsystems in the first place.
+
+
+IMPORTANT: This brings the questions.
+
+	   Is there actually a standard how to print the original
+	   number in FourCC?
+
+	   Do we really want to modify "orig" in the generic
+	   implementation?
+
+Best Regards,
+Petr
