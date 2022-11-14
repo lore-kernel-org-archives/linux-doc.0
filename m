@@ -2,311 +2,283 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B28FCC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 13:57:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57B35C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 14:02:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235639AbiKNN5f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Nov 2022 08:57:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42158 "EHLO
+        id S236617AbiKNOCn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Nov 2022 09:02:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229933AbiKNN5e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 08:57:34 -0500
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60CB425E81;
-        Mon, 14 Nov 2022 05:57:33 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id h193so10287864pgc.10;
-        Mon, 14 Nov 2022 05:57:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8MC3h3qKaAq/POnx65xnRJ3C4NU/+8KjvTe7E05rjRU=;
-        b=UHnHc6SNEKeAoxVofC95gqomBI8THBwyUZaxrtaJ7vtzBNyJZCaP/rJd1gemcrs+bX
-         1Rx/j7wYW4hFH9SrofOJS4Un2ZqfmmPP2c370T/zhmystqj3VPKQPtqGBKTd8VsEBqzO
-         6UZSpBFEU42oFz+rCUxKCEtyVKFn5lk5Ox9MXGi71tKv+g8jEARCUHcsgRrIF+aoX/tk
-         Gmc96awJeQ+w3/i5fqXL/t4061UivqhfZUDqlnIYUskZt24+UKXqNyNS/aQ3jWU2kSgD
-         ol+x6Ho3RXm1+AaenYR3aKen6xItOgW8ersfvjEccPS3ujQs2YtInUvmXYLUnhDMxurr
-         ZABA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8MC3h3qKaAq/POnx65xnRJ3C4NU/+8KjvTe7E05rjRU=;
-        b=i0wVtmYS+is9bDhH95FsainJ3/Aj890uAyhU35uaU6QJjzqVQgFTcRFzLFJ492XJgM
-         plk0i2t/+dbUu4U2oqjwmsaCXuxAzzelkntqAwFcMxjnMs7XzeqNIJQNXqGl0bCdWoRR
-         Mcugl+dcIKiGnrjDS3QHldxRRn2l0YkhbfIr70d6Y488zr3EYWIUjFRYbDJwreZdaTrU
-         nKQ9h1UqFracS7VRJbNSvZxeXLPxkVqWAmHx7PvGdPvDhtbE55aYhDWeluIz/cl9m7ZA
-         AbpVaQcEkARql0bXwD2+z0SvlvZvkBIRzbYU2lDxkgwwlxERaqHIDSAdrrRMdcTxE5IK
-         E+fw==
-X-Gm-Message-State: ANoB5pl1mb4DRKZMOROgw96SC0nbu3ck1yrME666egLRU72YxrsVZjvU
-        N0FEUQpy50iDXnNbTw0Pdnc=
-X-Google-Smtp-Source: AA0mqf7scsGfCFUG7z2vXhK08/UVTuUCikOxvkq4nKtJtqN0mEbylzyx0c4URy3Xe1lzIvuCleSO3A==
-X-Received: by 2002:a63:d0b:0:b0:438:a750:99b7 with SMTP id c11-20020a630d0b000000b00438a75099b7mr11652778pgl.605.1668434252783;
-        Mon, 14 Nov 2022 05:57:32 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-86.three.co.id. [180.214.232.86])
-        by smtp.gmail.com with ESMTPSA id i7-20020a170902c94700b00186dcc37e17sm7510781pla.210.2022.11.14.05.57.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Nov 2022 05:57:32 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 5F833103ED3; Mon, 14 Nov 2022 20:57:29 +0700 (WIB)
-Date:   Mon, 14 Nov 2022 20:57:29 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Junhao He <hejunhao3@huawei.com>
-Cc:     mathieu.poirier@linaro.org, suzuki.poulose@arm.com,
-        mike.leach@linaro.org, leo.yan@linaro.org,
-        jonathan.cameron@huawei.com, john.garry@huawei.com,
-        coresight@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        lpieralisi@kernel.org, linuxarm@huawei.com, yangyicong@huawei.com,
-        liuqi115@huawei.com, f.fangjian@huawei.com,
-        prime.zeng@hisilicon.com
-Subject: Re: [PATCH v13 2/2] Documentation: Add document for UltraSoc SMB
- drivers
-Message-ID: <Y3JJSfVoatl5yKlm@debian.me>
-References: <20221114090316.63157-1-hejunhao3@huawei.com>
- <20221114090316.63157-3-hejunhao3@huawei.com>
+        with ESMTP id S235865AbiKNOCm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 09:02:42 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10FEA2AC7F;
+        Mon, 14 Nov 2022 06:02:39 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 9CA5722B02;
+        Mon, 14 Nov 2022 14:02:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1668434558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=mayE7Lg0BQ8hDkq+3cJ1RU+23EhKOBsT9P5RmwpQqZg=;
+        b=CRVfTYw9S79rQb/maxbJb5Rb+xGiQrI/zNIQUn8hti/eA+HHOydrfJXOCPvacAZvtp+qfG
+        NyUu7a0lynHJoULvD0Ym4rGHZQ8ntVqyIgSyza22+c5pXt6yBQC3quckfvjk+eCJo2n6CU
+        DJTqPmMf+ZSOKq19iXMVwvt3TIeiv7A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1668434558;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=mayE7Lg0BQ8hDkq+3cJ1RU+23EhKOBsT9P5RmwpQqZg=;
+        b=edS4ElukmcUiY4HgCNAWi+BGiMSz4zN4KxQqC3YhbOyfv7rJQWyINb0mhFlFH83SBx0dEJ
+        qVX43crJKTJVDaBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 02E9A13A92;
+        Mon, 14 Nov 2022 14:02:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id Q2I1AH5KcmM7XQAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Mon, 14 Nov 2022 14:02:38 +0000
+Message-ID: <20a11042-2cfb-8f42-9d80-6672e155ca2c@suse.cz>
+Date:   Mon, 14 Nov 2022 15:02:37 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="EIcrB5LfjrdPKhUG"
-Content-Disposition: inline
-In-Reply-To: <20221114090316.63157-3-hejunhao3@huawei.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Content-Language: en-US
+To:     Michael Roth <michael.roth@amd.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
+        wei.w.wang@intel.com
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
+ <20221031174738.fklhlia5fmaiinpe@amd.com>
+ <20221101113729.GA4015495@chaop.bj.intel.com>
+ <20221101151944.rhpav47pdulsew7l@amd.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20221101151944.rhpav47pdulsew7l@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 11/1/22 16:19, Michael Roth wrote:
+> On Tue, Nov 01, 2022 at 07:37:29PM +0800, Chao Peng wrote:
+>> > 
+>> >   1) restoring kernel directmap:
+>> > 
+>> >      Currently SNP (and I believe TDX) need to either split or remove kernel
+>> >      direct mappings for restricted PFNs, since there is no guarantee that
+>> >      other PFNs within a 2MB range won't be used for non-restricted
+>> >      (which will cause an RMP #PF in the case of SNP since the 2MB
+>> >      mapping overlaps with guest-owned pages)
+>> 
+>> Has the splitting and restoring been a well-discussed direction? I'm
+>> just curious whether there is other options to solve this issue.
+> 
+> For SNP it's been discussed for quite some time, and either splitting or
+> removing private entries from directmap are the well-discussed way I'm
+> aware of to avoid RMP violations due to some other kernel process using
+> a 2MB mapping to access shared memory if there are private pages that
+> happen to be within that range.
+> 
+> In both cases the issue of how to restore directmap as 2M becomes a
+> problem.
+> 
+> I was also under the impression TDX had similar requirements. If so,
+> do you know what the plan is for handling this for TDX?
+> 
+> There are also 2 potential alternatives I'm aware of, but these haven't
+> been discussed in much detail AFAIK:
+> 
+> a) Ensure confidential guests are backed by 2MB pages. shmem has a way to
+>    request 2MB THP pages, but I'm not sure how reliably we can guarantee
+>    that enough THPs are available, so if we went that route we'd probably
+>    be better off requiring the use of hugetlbfs as the backing store. But
+>    obviously that's a bit limiting and it would be nice to have the option
+>    of using normal pages as well. One nice thing with invalidation
+>    scheme proposed here is that this would "Just Work" if implement
+>    hugetlbfs support, so an admin that doesn't want any directmap
+>    splitting has this option available, otherwise it's done as a
+>    best-effort.
+> 
+> b) Implement general support for restoring directmap as 2M even when
+>    subpages might be in use by other kernel threads. This would be the
+>    most flexible approach since it requires no special handling during
+>    invalidations, but I think it's only possible if all the CPA
+>    attributes for the 2M range are the same at the time the mapping is
+>    restored/unsplit, so some potential locking issues there and still
+>    chance for splitting directmap over time.
 
---EIcrB5LfjrdPKhUG
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I've been hoping that
 
-On Mon, Nov 14, 2022 at 05:03:16PM +0800, Junhao He wrote:
-> diff --git a/Documentation/trace/coresight/ultrasoc-smb.rst b/Documentati=
-on/trace/coresight/ultrasoc-smb.rst
-> new file mode 100644
-> index 000000000000..b7fe3f5c7f53
-> --- /dev/null
-> +++ b/Documentation/trace/coresight/ultrasoc-smb.rst
-> @@ -0,0 +1,82 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +UltraSoc - HW Assisted Tracing on SoC
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +   :Author:   Qi Liu <liuqi115@huawei.com>
-> +   :Date:     March 2022
-> +
-> +Introduction
-> +------------
-> +
-> +UltraSoc SMB is a per SCCL(Super CPU Cluster) hardware, and it provides a
-> +way to buffer and store CPU trace messages in a region of shared system
-> +memory. SMB is plugged as a coresight sink device and the corresponding
-> +trace generators (ETM) are plugged in as source devices.
-> +
-> +Sysfs files and directories
-> +---------------------------
-> +
-> +The SMB devices appear on the existing coresight bus alongside the other
-> +coresight devices::
-> +
-> +	$# ls /sys/bus/coresight/devices/
-> +	ultra_smb0   ultra_smb1   ultra_smb2   ultra_smb3
-> +
-> +The ``ultra_smb<N>`` named SMB associated with SCCL.::
-> +
-> +	$# ls /sys/bus/coresight/devices/ultra_smb0
-> +	enable_sink   mgmt
-> +	$# ls /sys/bus/coresight/devices/ultra_smb0/mgmt
-> +	buf_size  buf_status  read_pos  write_pos
-> +
-> +*Key file items are:-*
-> +   * ``read_pos``: Shows the value held by UltraSoc SMB Read Pointer reg=
-ister.
-> +   * ``write_pos``: Shows the value held by UltraSoc SMB Write Pointer r=
-egister.
-> +   * ``buf_status``: Shows the value held by UltraSoc SMB status registe=
-r.
-> +		     BIT(0) is zero means buffer is empty.
-> +   * ``buf_size``: Shows the buffer size of each UltraSoc SMB device.
+c) using a mechanism such as [1] [2] where the goal is to group together
+these small allocations that need to increase directmap granularity so
+maximum number of large mappings are preserved. But I guess that means
+knowing at allocation time that this will happen. So I've been wondering how
+this would be possible to employ in the SNP/UPM case? I guess it depends on
+how we expect the private/shared conversions to happen in practice, and I
+don't know the details. I can imagine the following complications:
 
-The key list above doesn't look right, so I have applied the fixup:
+- a memfd_restricted region is created such that it's 2MB large/aligned,
+i.e. like case a) above, we can allocate it normally. Now, what if a 4k page
+in the middle is to be temporarily converted to shared for some
+communication between host and guest (can such thing happen?). With the
+punch hole approach, I wonder if we end up fragmenting directmap
+unnecessarily? IIUC the now shared page will become backed by some other
+page (as the memslot supports both private and shared pages simultaneously).
+But does it make sense to really split the direct mapping (and e.g. the
+shmem page?) We could leave the whole 2MB unmapped without splitting if we
+didn't free the private 4k subpage.
 
----- >8 ----
+- a restricted region is created that's below 2MB. If something like [1] is
+merged, it could be used for the backing pages to limit directmap
+fragmentation. But then in case it's eventually fallocated to become larger
+and gain one more more 2MB aligned ranges, the result is suboptimal. Unless
+in that case we migrate the existing pages to a THP-backed shmem, kinda like
+khugepaged collapses hugepages. But that would have to be coordinated with
+the guest, maybe not even possible?
 
-diff --git a/Documentation/trace/coresight/ultrasoc-smb.rst b/Documentation=
-/trace/coresight/ultrasoc-smb.rst
-index b7fe3f5c7f53f7..5d0fa1a76b04d1 100644
---- a/Documentation/trace/coresight/ultrasoc-smb.rst
-+++ b/Documentation/trace/coresight/ultrasoc-smb.rst
-@@ -30,11 +30,12 @@ The ``ultra_smb<N>`` named SMB associated with SCCL.::
- 	$# ls /sys/bus/coresight/devices/ultra_smb0/mgmt
- 	buf_size  buf_status  read_pos  write_pos
-=20
--*Key file items are:-*
-+Key file items are:
-+
-    * ``read_pos``: Shows the value held by UltraSoc SMB Read Pointer regis=
-ter.
-    * ``write_pos``: Shows the value held by UltraSoc SMB Write Pointer reg=
-ister.
-    * ``buf_status``: Shows the value held by UltraSoc SMB status register.
--		     BIT(0) is zero means buffer is empty.
-+     BIT(0) is zero means buffer is empty.
-    * ``buf_size``: Shows the buffer size of each UltraSoc SMB device.
-=20
- Firmware Bindings
+[1] https://lore.kernel.org/all/20220127085608.306306-1-rppt@kernel.org/
+[2] https://lwn.net/Articles/894557/
 
-> +
-> +Firmware Bindings
-> +---------------------------
-> +
-> +SMB device is only supported with ACPI, and ACPI binding of SMB device
-> +describes SMB device indentifier, resource information and graph structu=
-re.
-> +
-> +SMB is identified by ACPI HID "HISI03A1", resource of device is declared=
- using
-> +the _CRS method. Each SMB must present two base address, the first one i=
-s the
-> +configuration base address of SMB device, the second one is the 32bits b=
-ase
-> +address of shared system memory.
-> +
-> +examples::
-> +
-> +    Device(USMB) {                                               \
-> +      Name(_HID, "HISI03A1")                                     \
-> +      Name(_CRS, ResourceTemplate() {                            \
-> +          QWordMemory (ResourceConsumer, , MinFixed, MaxFixed, NonCachea=
-ble, \
-> +		       ReadWrite, 0x0, 0x95100000, 0x951FFFFF, 0x0, 0x100000) \
-> +          QWordMemory (ResourceConsumer, , MinFixed, MaxFixed, Cacheable=
-, \
-> +		       ReadWrite, 0x0, 0x50000000, 0x53FFFFFF, 0x0, 0x4000000) \
-> +      })                                                         \
-> +      Name(_DSD, Package() {                                     \
-> +        ToUUID("ab02a46b-74c7-45a2-bd68-f7d344ef2153"),          \
-> +	/* Use CoreSight Graph ACPI bindings to describe connections topology */
-> +        Package() {                                              \
-> +          0,                                                     \
-> +          1,                                                     \
-> +          Package() {                                            \
-> +            1,                                                   \
-> +            ToUUID("3ecbc8b6-1d0e-4fb3-8107-e627f805c6cd"),      \
-> +            8,                                                   \
-> +            Package() {0x8, 0, \_SB.S00.SL11.CL28.F008, 0},       \
-> +            Package() {0x9, 0, \_SB.S00.SL11.CL29.F009, 0},       \
-> +            Package() {0xa, 0, \_SB.S00.SL11.CL2A.F010, 0},       \
-> +            Package() {0xb, 0, \_SB.S00.SL11.CL2B.F011, 0},       \
-> +            Package() {0xc, 0, \_SB.S00.SL11.CL2C.F012, 0},       \
-> +            Package() {0xd, 0, \_SB.S00.SL11.CL2D.F013, 0},       \
-> +            Package() {0xe, 0, \_SB.S00.SL11.CL2E.F014, 0},       \
-> +            Package() {0xf, 0, \_SB.S00.SL11.CL2F.F015, 0},       \
-> +          }                                                      \
-> +        }                                                        \
-> +      })                                                         \
-> +    }
+>> 
+>> > 
+>> >      Previously we were able to restore 2MB mappings to some degree
+>> >      since both shared/restricted pages were all pinned, so anything
+>> >      backed by a THP (or hugetlb page once that is implemented) at guest
+>> >      teardown could be restored as 2MB direct mapping.
+>> > 
+>> >      Invalidation seems like the most logical time to have this happen,
+>> 
+>> Currently invalidation only happens at user-initiated fallocate(). It
+>> does not cover the VM teardown case where the restoring might also be
+>> expected to be handled.
+> 
+> Right, I forgot to add that in my proposed changes I added invalidations
+> for any still-allocated private pages present when the restricted memfd
+> notifier is unregistered. This was needed to avoid leaking pages back to
+> the kernel that still need directmap or RMP table fixups. I also added
+> similar invalidations for memfd->release(), since it seems possible that
+> userspace might close() it before shutting down guest, but maybe the
+> latter is not needed if KVM takes a reference on the FD during life of
+> the guest.
+> 
+>> 
+>> >      but whether or not to restore as 2MB requires the order to be 2MB
+>> >      or larger, and for GPA range being invalidated to cover the entire
+>> >      2MB (otherwise it means the page was potentially split and some
+>> >      subpages free back to host already, in which case it can't be
+>> >      restored as 2MB).
+>> > 
+>> >   2) Potentially less invalidations:
+>> >       
+>> >      If we pass the entire folio or compound_page as part of
+>> >      invalidation, we only needed to issue 1 invalidation per folio.
+>> 
+>> I'm not sure I agree, the current invalidation covers the whole range
+>> that passed from userspace and the invalidation is invoked only once for
+>> each usrspace fallocate().
+> 
+> That's true, it only reduces invalidations if we decide to provide a
+> struct page/folio as part of the invalidation callbacks, which isn't
+> the case yet. Sorry for the confusion.
+> 
+>> 
+>> > 
+>> >   3) Potentially useful for hugetlbfs support:
+>> > 
+>> >      One issue with hugetlbfs is that we don't support splitting the
+>> >      hugepage in such cases, which was a big obstacle prior to UPM. Now
+>> >      however, we may have the option of doing "lazy" invalidations where
+>> >      fallocate(PUNCH_HOLE, ...) won't free a shmem-allocate page unless
+>> >      all the subpages within the 2M range are either hole-punched, or the
+>> >      guest is shut down, so in that way we never have to split it. Sean
+>> >      was pondering something similar in another thread:
+>> > 
+>> >        https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flinux-mm%2FYyGLXXkFCmxBfu5U%40google.com%2F&amp;data=05%7C01%7Cmichael.roth%40amd.com%7C3aba56bf7d574c749ea708dabbfe2224%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638028997419628807%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=c7gSLjJEAxuX8xmMiTDMUHNwUdQNKN00xqtAZAEeow8%3D&amp;reserved=0
+>> > 
+>> >      Issuing invalidations with folio-granularity ties in fairly well
+>> >      with this sort of approach if we end up going that route.
+>> 
+>> There is semantics difference between the current one and the proposed
+>> one: The invalidation range is exactly what userspace passed down to the
+>> kernel (being fallocated) while the proposed one will be subset of that
+>> (if userspace-provided addr/size is not aligned to power of two), I'm
+>> not quite confident this difference has no side effect.
+> 
+> In theory userspace should not be allocating/hole-punching restricted
+> pages for GPA ranges that are already mapped as private in the xarray,
+> and KVM could potentially fail such requests (though it does currently).
+> 
+> But if we somehow enforced that, then we could rely on
+> KVM_MEMORY_ENCRYPT_REG_REGION to handle all the MMU invalidation stuff,
+> which would free up the restricted fd invalidation callbacks to be used
+> purely to handle doing things like RMP/directmap fixups prior to returning
+> restricted pages back to the host. So that was sort of my thinking why the
+> new semantics would still cover all the necessary cases.
+> 
+> -Mike
+> 
+>> 
+>> > 
+>> > I need to rework things for v9, and we'll probably want to use struct
+>> > folio instead of struct page now, but as a proof-of-concept of sorts this
+>> > is what I'd added on top of v8 of your patchset to implement 1) and 2):
+>> > 
+>> >   https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fmdroth%2Flinux%2Fcommit%2F127e5ea477c7bd5e4107fd44a04b9dc9e9b1af8b&amp;data=05%7C01%7Cmichael.roth%40amd.com%7C3aba56bf7d574c749ea708dabbfe2224%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638028997419628807%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=jOFT0iLmeU7rKniEkWOsTf2%2FPI13EAw4Qm7arI1q970%3D&amp;reserved=0
+>> > 
+>> > Does an approach like this seem reasonable? Should be work this into the
+>> > base restricted memslot support?
+>> 
+>> If the above mentioned semantics difference is not a problem, I don't
+>> have strong objection on this.
+>> 
+>> Sean, since you have much better understanding on this, what is your
+>> take on this?
+>> 
+>> Chao
+>> > 
+>> > Thanks,
+>> > 
+>> > Mike
 
-The rest of wordings also read a rather weird. What about below instead?
-
----- >8 ----=20
-
-diff --git a/Documentation/trace/coresight/ultrasoc-smb.rst b/Documentation=
-/trace/coresight/ultrasoc-smb.rst
-index 5d0fa1a76b04d1..eee32cbf90d2ea 100644
---- a/Documentation/trace/coresight/ultrasoc-smb.rst
-+++ b/Documentation/trace/coresight/ultrasoc-smb.rst
-@@ -9,21 +9,21 @@ UltraSoc - HW Assisted Tracing on SoC
- Introduction
- ------------
-=20
--UltraSoc SMB is a per SCCL(Super CPU Cluster) hardware, and it provides a
-+UltraSoc SMB is a per SCCL (Super CPU Cluster) hardware. It provides a
- way to buffer and store CPU trace messages in a region of shared system
--memory. SMB is plugged as a coresight sink device and the corresponding
--trace generators (ETM) are plugged in as source devices.
-+memory. The device acts as a coresight sink device and the
-+corresponding trace generators (ETM) are attached as source devices.
-=20
- Sysfs files and directories
- ---------------------------
-=20
--The SMB devices appear on the existing coresight bus alongside the other
--coresight devices::
-+The SMB devices appear on the existing coresight bus alongside other
-+devices::
-=20
- 	$# ls /sys/bus/coresight/devices/
- 	ultra_smb0   ultra_smb1   ultra_smb2   ultra_smb3
-=20
--The ``ultra_smb<N>`` named SMB associated with SCCL.::
-+The ``ultra_smb<N>`` names SMB device associated with SCCL.::
-=20
- 	$# ls /sys/bus/coresight/devices/ultra_smb0
- 	enable_sink   mgmt
-@@ -32,24 +32,23 @@ The ``ultra_smb<N>`` named SMB associated with SCCL.::
-=20
- Key file items are:
-=20
--   * ``read_pos``: Shows the value held by UltraSoc SMB Read Pointer regis=
-ter.
--   * ``write_pos``: Shows the value held by UltraSoc SMB Write Pointer reg=
-ister.
--   * ``buf_status``: Shows the value held by UltraSoc SMB status register.
--     BIT(0) is zero means buffer is empty.
--   * ``buf_size``: Shows the buffer size of each UltraSoc SMB device.
-+   * ``read_pos``: Shows the value on the read pointer register.
-+   * ``write_pos``: Shows the value on the write pointer register.
-+   * ``buf_status``: Shows the value on the status register.
-+     BIT(0) is zero value which means the buffer is empty.
-+   * ``buf_size``: Shows the buffer size of each device.
-=20
- Firmware Bindings
-----------------------------
-+-----------------
-=20
--SMB device is only supported with ACPI, and ACPI binding of SMB device
--describes SMB device indentifier, resource information and graph structure.
-+The device is only supported with ACPI. Its binding describes device
-+identifier, resource information and graph structure.
-=20
--SMB is identified by ACPI HID "HISI03A1", resource of device is declared u=
-sing
--the _CRS method. Each SMB must present two base address, the first one is =
-the
--configuration base address of SMB device, the second one is the 32bits base
--address of shared system memory.
-+The device is identified as ACPI HID "HISI03A1". Device resources are allo=
-cated
-+using the _CRS method. Each device must present two base address; the firs=
-t one is the configuration base address of the device, the second one is th=
-e 32-bit
-+base address of shared system memory.
-=20
--examples::
-+Example::
-=20
-     Device(USMB) {                                               \
-       Name(_HID, "HISI03A1")                                     \
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---EIcrB5LfjrdPKhUG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY3JJRQAKCRD2uYlJVVFO
-o59oAQCu05hsQT4RBR3HOXLdqbkEwDeu51isPmeDh7K3Uj02+wD8C8hED7b8KiCo
-LOcau2nKAJfOME0U/UmiiQuRk2RiFQM=
-=nCZV
------END PGP SIGNATURE-----
-
---EIcrB5LfjrdPKhUG--
