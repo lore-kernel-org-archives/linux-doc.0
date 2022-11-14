@@ -2,271 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98F2EC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 14:22:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6445C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 15:12:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235929AbiKNOWu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Nov 2022 09:22:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33920 "EHLO
+        id S237124AbiKNPMK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Nov 2022 10:12:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235903AbiKNOWu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 09:22:50 -0500
-X-Greylist: delayed 576 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 14 Nov 2022 06:22:48 PST
-Received: from smtp-8fac.mail.infomaniak.ch (smtp-8fac.mail.infomaniak.ch [IPv6:2001:1600:4:17::8fac])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1632429C83
-        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 06:22:47 -0800 (PST)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4N9rr55N2RzMpnh6;
-        Mon, 14 Nov 2022 15:13:09 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4N9rr41vS5zxJ;
-        Mon, 14 Nov 2022 15:13:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1668435189;
-        bh=IHHkDc5fwtJkUwqAdJt0cFHNH4fFWlRnjePk/Cn+RiM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=KEDc2sX/Bxd6HIRPUW7pXBnio1XxNRoNq/9srol06TELY9whhklFAxT4EqPkaJ8zf
-         GTuL+tU1wUoOitT7y6kB59v4r66zxqtyTgMDrxIiua/U7Ux0JaWFQwhff47nfOh3Ha
-         zW3z1Ha2bnAv8MO2cdzslMlZlLwL5z5Eb0TFvqrk=
-Message-ID: <abc960a1-e66e-792e-6869-cfd201c29dbe@digikod.net>
-Date:   Mon, 14 Nov 2022 15:12:08 +0100
+        with ESMTP id S237174AbiKNPMI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 10:12:08 -0500
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 048C8BC8C
+        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 07:12:07 -0800 (PST)
+Received: by mail-pf1-x42a.google.com with SMTP id y13so11252757pfp.7
+        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 07:12:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e/0liD4zfDdUwy8XG2a2Y/qRgR4CN54ZKUBk4lToHno=;
+        b=riU8FvWGPfAZqyj8WmPJvGzPQ68RHcW8+D48NwSgZ3lNAnI2AXpGhtHVf3bl6q+qZ9
+         pbhT1osj/KzHcAgUo3UPhTPY+czk+QfGN190xCV7kRBhB1/yAJpiYZOwf/LMv+Xi/cwp
+         WGJ2a1qhdA+ztabSdiNTnN9ZJFJF4npNykY/RWPvvkhMeSXFCO9HSAkD536ubLp41xwy
+         MO2VuanYlZE3CMyuc9Cg2XRIiZ7Ga0L/+i6AFFYP4N/yBB04zjtXkL8kOsIKYL2/d6n7
+         +yiWi7psl/h2Wjs4VuexYYEpW+T1uEb6l8MoZi4/YJ0oVcv0BdpGGYgDEGssuM7/kCro
+         aA0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=e/0liD4zfDdUwy8XG2a2Y/qRgR4CN54ZKUBk4lToHno=;
+        b=ihF8W1VgYzowB5WyqXa2ppEgGeZWbVORwXV0UbYOXJuMp9ZtGdA5mQ9JfsyYdLU1cO
+         oNy9noUF2QPpYC55YDSSFXXi7HjONXEsfK3l07hv28AXTQ8lWftQPSuK5RWNFJx2mnSx
+         3LrgHkul8VbgRdRv6E2zZLO5V862gtD73jEUGgjSIbmQNr6xQiJe5RFUfxE6Kd3V5WpP
+         eStaldF1iwPdUoQTTrYiqAPzuH41v+kwZ402m01+L+icvflBv4j7KTqzOR8ffZzu350h
+         hqUMAG7On3ZvJHv4nvCqNY/kCzsu+CGwxwCQGuhN3rYD87s+pYj0v/Ub1j4hkPm3HkNV
+         Cb9Q==
+X-Gm-Message-State: ANoB5pnhzHzSXyece6nejJl/3KCY+9BC6HTvUVwbcKqY/SYgaTeMtVx7
+        zfGe57J4z+kSmx8UAsKBDIUWow==
+X-Google-Smtp-Source: AA0mqf5deRRQMkg46X2uMf/zlBQAB+/Exhx4ssc553jIiUej9t4Dih0k5QiaoT6krFeU5qMYoAQI5Q==
+X-Received: by 2002:a63:d143:0:b0:45c:5a74:9a92 with SMTP id c3-20020a63d143000000b0045c5a749a92mr12351490pgj.473.1668438726461;
+        Mon, 14 Nov 2022 07:12:06 -0800 (PST)
+Received: from [10.68.76.92] ([139.177.225.229])
+        by smtp.gmail.com with ESMTPSA id 132-20020a62148a000000b0056c814a501dsm7100210pfu.10.2022.11.14.07.12.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Nov 2022 07:12:05 -0800 (PST)
+Message-ID: <3a3b4f5b-14d1-27d8-7727-cf23da90988f@bytedance.com>
+Date:   Mon, 14 Nov 2022 23:12:00 +0800
 MIME-Version: 1.0
-User-Agent: 
-Subject: Re: [PATCH -next v2 3/6] landlock: add chmod and chown support
-Content-Language: en-US
-To:     xiujianfeng <xiujianfeng@huawei.com>,
-        =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
-Cc:     paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-        shuah@kernel.org, corbet@lwn.net,
-        linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Christian Brauner <brauner@kernel.org>,
-        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
-References: <20220827111215.131442-1-xiujianfeng@huawei.com>
- <20220827111215.131442-4-xiujianfeng@huawei.com> <Ywpw66EYRDTQIyTx@nuc>
- <de8834b6-0ff2-1a81-f2d3-af33103e9942@huawei.com>
- <de4620d2-3268-b3cc-71dd-acbbd204435e@digikod.net>
- <2f286496-f4f8-76f7-2fb6-cc3dd5ffdeaa@huawei.com>
- <4b69a4ac-28ab-16aa-14b1-04a6f64d5490@digikod.net>
- <9caccd0a-319e-bbc9-084a-65c62d0b1145@huawei.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-In-Reply-To: <9caccd0a-319e-bbc9-084a-65c62d0b1145@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
+ pidfd_set_mempolicy().
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
+ <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
+ <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
+ <Y3IqLzvduM6HqPJV@dhcp22.suse.cz>
+From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
+In-Reply-To: <Y3IqLzvduM6HqPJV@dhcp22.suse.cz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 29/10/2022 10:33, xiujianfeng wrote:
-> Hi,
+Sorry,michal. I dont know if my expression is accurate.
 > 
-> 在 2022/9/2 1:34, Mickaël Salaün 写道:
->> CCing linux-fsdevel@vger.kernel.org
->>
->>
->> On 01/09/2022 15:06, xiujianfeng wrote:
->>> Hi,
->>>
->>> 在 2022/8/30 0:01, Mickaël Salaün 写道:
->>>>
->>>> On 29/08/2022 03:17, xiujianfeng wrote:
->>>>>
->>>>> Hi,
->>>>>
->>>>> 在 2022/8/28 3:30, Günther Noack 写道:
->>>>>> Hello!
->>>>>>
->>>>>> the mapping between Landlock rights to LSM hooks is now as follows in
->>>>>> your patch set:
->>>>>>
->>>>>> * LANDLOCK_ACCESS_FS_CHMOD controls hook_path_chmod
->>>>>> * LANDLOCK_ACCESS_FS_CHGRP controls hook_path_chown
->>>>>>       (this hook can restrict both the chown(2) and chgrp(2) syscalls)
->>>>>>
->>>>>> Is this the desired mapping?
->>>>>>
->>>>>> The previous discussion I found on the topic was in
->>>>>>
->>>>>> [1]
->>>>>> https://lore.kernel.org/all/5873455f-fff9-618c-25b1-8b6a4ec94368@digikod.net/
->>>>>>
->>>>>>
->>>>>> [2]
->>>>>> https://lore.kernel.org/all/b1d69dfa-6d93-2034-7854-e2bc4017d20e@schaufler-ca.com/
->>>>>>
->>>>>>
->>>>>> [3]
->>>>>> https://lore.kernel.org/all/c369c45d-5aa8-3e39-c7d6-b08b165495fd@digikod.net/
->>>>>>
->>>>>>
->>>>>>
->>>>>> In my understanding the main arguments were the ones in [2] and [3].
->>>>>>
->>>>>> There were no further responses to [3], so I was under the impression
->>>>>> that we were gravitating towards an approach where the
->>>>>> file-metadata-modification operations were grouped more coarsely?
->>>>>>
->>>>>> For example with the approach suggested in [3], which would be to
->>>>>> group the operations coarsely into (a) one Landlock right for
->>>>>> modifying file metadata that is used in security contexts, and (b) one
->>>>>> Landlock right for modifying metadata that was used in non-security
->>>>>> contexts. That would mean that there would be:
->>>>>>
->>>>>> (a) LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES to control the
->>>>>> following operations:
->>>>>>       * chmod(2)-variants through hook_path_chmod,
->>>>>>       * chown(2)-variants and chgrp(2)-variants through
->>>>>> hook_path_chown,
->>>>>>       * setxattr(2)-variants and removexattr(2)-variants for extended
->>>>>>         attributes that are not "user extended attributes" as
->>>>>> described in
->>>>>>         xattr(7) through hook_inode_setxattr and hook_inode_removexattr
->>>>>>
->>>>>> (b) LANDLOCK_ACCESS_FS_MODIFY_NON_SECURITY_ATTRIBUTES to control the
->>>>>> following operations:
->>>>>>       * utimes(2) and other operations for setting other non-security
->>>>>>         sensitive attributes, probably through hook_inode_setattr(?)
->>>>>>       * xattr modifications like above, but for the "user extended
->>>>>>         attributes", though hook_inode_setxattr and
->>>>>> hook_inode_removexattr
->>>>>>
->>>>>> In my mind, this would be a sensible grouping, and it would also help
->>>>>> to decouple the userspace-exposed API from the underlying
->>>>>> implementation, as Casey suggested to do in [2].
->>>>>>
->>>>>> Specifically for this patch set, if you want to use this grouping, you
->>>>>> would only need to add one new Landlock right
->>>>>> (LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES) as described above
->>>>>> under (a) (and maybe we can find a shorter name for it... :))?
->>>>>>
->>>>>> Did I miss any operations here that would be necessary to restrict?
->>>>>>
->>>>>> Would that make sense to you? Xiu, what is your opinion on how this
->>>>>> should be grouped? Do you have use cases in mind where a more
->>>>>> fine-grained grouping would be required?
->>>>>
->>>>> I apologize I may missed that discussion when I prepared v2:(
->>>>>
->>>>> Yes, agreed, this grouping is more sensible and resonnable. so in this
->>>>> patchset only one right will be added, and I suppose the first commit
->>>>> which expand access_mask_t to u32 can be droped.
->>>>>
->>>>>>
->>>>>> —Günther
->>>>>>
->>>>>> P.S.: Regarding utimes: The hook_inode_setattr hook *also* gets called
->>>>>> on a variety on attribute changes including file ownership, file size
->>>>>> and file mode, so it might potentially interact with a bunch of other
->>>>>> existing Landlock rights. Maybe that is not the right approach. In any
->>>>>> case, it seems like it might require more thinking and it might be
->>>>>> sensible to do that in a separate patch set IMHO.
->>>>>
->>>>> Thanks for you reminder, that seems it's more complicated to support
->>>>> utimes, so I think we'd better not support it in this patchset.
->>>>
->>>> The issue with this approach is that it makes it impossible to properly
->>>> group such access rights. Indeed, to avoid inconsistencies and much more
->>>> complexity, we cannot extend a Landlock access right once it is defined.
->>>>
->>>> We also need to consider that file ownership and permissions have a
->>>> default (e.g. umask), which is also a way to set them. How to
->>>> consistently manage that? What if the application wants to protect its
->>>> files with chmod 0400?
->>>
->>> what do you mean by this? do you mean that we should have a set of
->>> default permissions for files created by applications within the
->>> sandbox, so that it can update metadata of its own file.
->>
->> I mean that we need a consistent access control system, and for this we
->> need to consider all the ways an extended attribute can be set.
->>
->> We can either extend the meaning of current access rights (controlled
->> with a ruleset flag for compatibility reasons), or create new access
->> rights. I think it would be better to add new dedicated rights to make
->> it more explicit and flexible.
->>
->> I'm not sure about the right approach to properly control file
->> permission. We need to think about it. Do you have some ideas?
->>
->> BTW, utimes can be controlled with the inode_setattr() LSM hook. Being
->> able to control arbitrary file time modification could be part of the
->> FS_WRITE_SAFE_METADATA, but modification and access time should always
->> be updated according to the file operation.
->>
->>
->>>
->>>>
->>>> About the naming, I think we can start with:
->>>> - LANDLOCK_ACCESS_FS_READ_METADATA (read any file/dir metadata);
->>>> - LANDLOCK_ACCESS_FS_WRITE_SAFE_METADATA: change file times, user xattr;
->>>
->>> do you mean we should have permission controls on metadata level or
->>> operation level? e.g. should we allow update on user xattr but deny
->>> update on security xattr? or should we disallow update on any xattr?
->>>
->>>> - LANDLOCK_ACCESS_FS_WRITE_UNSAFE_METADATA: interpreted by the kernel
->>>> (could change non-Landlock DAC or MAC, which could be considered as a
->>>> policy bypass; or other various xattr that might be interpreted by
->>>> filesystems), this should be denied most of the time.
->>>
->>> do you mean FS_WRITE_UNSAFE_METADATA is security-related? and
->>> FS_WRITE_SAFE_METADATA is non-security-related?
->>
->> Yes, FS_WRITE_UNSAFE_METADATA would be for security related
->> xattr/chmod/chown, and FS_WRITE_SAFE_METADATA for non-security xattr.
->> Both are mutually exclusive. This would involve the inode_setattr and
->> inode_setxattr LSM hooks. Looking at the calling sites, it seems
->> possible to replace all inode arguments with paths.
+> We shouldn't really rely on mmap_sem for this IMO. 
 
-I though about differentiating user xattr, atime/mtime, DAC 
-(chown/chmod, posix ACLs), and other xattr, but it would be too complex 
-to get a consistent approach because of indirect consequences (e.g. 
-controlling umask, setegid, settimeofday…). Let's make it simple for now.
+  Yes, We should rely on mmap_sem for vma->vm_policy,but not for
+  process context policy(task->mempolicy).
 
-Here is an update on my previous proposal:
+> There is alloc_lock
+> (aka task lock) that makes sure the policy is stable so that caller can
+> atomically take a reference and hold on the policy. And we do not do
+> that consistently and this should be fixed.
 
-LANDLOCK_ACCESS_FS_READ_METADATA to read any file/dir metadata (i.e. 
-inode attr and xattr). In practice, for most use cases, this access 
-right should be granted whenever LANDLOCK_ACCESS_READ_DIR is allowed.
+I saw some explanations in the doc("numa_memory_policy.rst") and
+comments(mempolcy.h) why not use locks and reference in page
+allocation:
 
-LANDLOCK_ACCESS_FS_WRITE_METADATA to *explicitly* write any inode attr 
-or xattr (i.e. chmod, chown, utime, and all xattr). It should be noted 
-that file modification time and access time should always be updated 
-according to the file operation (e.g. write, truncate) even when this 
-access is not explicitly allowed (according to vfs_utimes(), 
-ATTR_TIMES_SET and ATTR_TOUCH should enable to differentiate from 
-implicit time changes).
+In process context there is no locking because only the process accesses
+its own state.
+
+During run-time "usage" of the policy, we attempt to minimize atomic
+operations on the reference count, as this can lead to cache lines
+bouncing between cpus and NUMA nodes.  "Usage" here means one of
+the following:
+1) querying of the policy, either by the task itself [using
+the get_mempolicy() API discussed below] or by another task using
+the /proc/<pid>/numa_maps interface.
+
+2) examination of the policy to determine the policy mode and
+associated node or node lists, if any, for page allocation.
+This is considered a "hot path".  Note that for MPOL_BIND, the
+"usage" extends across the entire allocation process, which may
+sleep during page reclaimation, because the BIND policy nodemask
+is used, by reference, to filter ineligible nodes.
+
+> E.g. just looking at some
+> random places like allowed_mems_nr (relying on get_task_policy) is
+> completely lockless and some paths (like fadvise) do not use any of the
+> explicit (alloc_lock) or implicit (mmap_lock) locking. That means that
+> the task_work based approach cannot really work in this case, right?
+
+The task_work based approach (mpol_put_async()) allows mempolicy release
+to be transferred from the pidfd_set_mempolicy() context to the
+target process context.The old mempolicy droped by pidfd_set_mempolicy()
+will be freed by task_work(mpol_free_async) whenever the target task
+exit to user mode. At this point task->mempolicy will not be used,
+thus avoiding race conditions.
+
+pidfd process context:
+void mpol_put_async()
+{.....
+         init_task_work(&p->w.cb_head, "mpol_free_async");
+         if (!task_work_add(task, &p->w.cb_head, TWA_SIGNAL_NO_IPI))
+                 return;}
+
+target task:
+/* there is no lock and mempolicy may about to be freed by
+  * pidfd_set_mempolicy().
+  */
+pol = get_task_policy()
+page = __alloc_pages(..pol)
+.....
+exit_to_user_mode
+	task_work_run()
+	/* It's safe to free old mempolicy
+  	* dropped by pidfd_set_mempolicy() at this time.*/
+		mpol_free_async()
+
+> Playing more tricks will not really help long term. So while your patch
+> tries to workaround the current state of the art I do not think we
+> really want that. As stated previously, I would much rather see proper
+> reference counting instead. I thought we have agreed this would be the
+> first approach unless the resulting performance is really bad. Have you
+> concluded that to be the case? I do not see any numbers or notes in the
+> changelog.
+
+I have tried it, but I found that using task_work to release the
+old policy on the target process can solve the problem, but I'm
+not sure. My expression may not be very clear, Looking forward to
+your reply.
+
+Thanks.
 
 
-> 
-> Sorry for the late reply, I have problems with this work, for example,
-> before:
-> security_inode_setattr(struct user_namespace *mnt_userns,
->                                            struct dentry *dentry,
->                                            struct iattr *attr)
-> after:
-> security_inode_setattr(struct user_namespace *mnt_userns,
->                                            struct path *path,
->                                            struct iattr *attr)
-> then I change the second argument in notify_change() from struct *dentry
-> to struct path *, that makes this kind of changes in fs/overlayfs/
-> spread to lots of places because overlayfs basicly uses dentry instead
-> of path, the worst case may be here:
-> 
-> ovl_special_inode_operations.set_acl hook calls:
-> -->
-> ovl_set_acl(struct user_namespace *mnt_userns, struct dentry *dentry,
-> struct posix_acl *acl, int type)
-> -->
-> ovl_setattr(struct user_namespace *mnt_userns, struct dentry
-> *dentry,struct iattr *attr)
-> -->
-> ovl_do_notify_change(struct ovl_fs *ofs, struct dentry *upperdentry,
-> struct iattr *attr)
-> 
-> from the top of this callchain, I can not find a path to replace dentry,
-> did I miss something? or do you have better idea?
-
-I think this can be solved thanks to the ovl_path_real() helper.
