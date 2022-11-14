@@ -2,148 +2,309 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F615C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 06:28:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89DC1C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 07:28:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235612AbiKNG2m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Nov 2022 01:28:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39238 "EHLO
+        id S235919AbiKNH24 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Nov 2022 02:28:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230441AbiKNG2l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 01:28:41 -0500
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26B81E0DF
-        for <linux-doc@vger.kernel.org>; Sun, 13 Nov 2022 22:28:40 -0800 (PST)
-Received: by mail-il1-f197.google.com with SMTP id o10-20020a056e02102a00b003006328df7bso8767423ilj.17
-        for <linux-doc@vger.kernel.org>; Sun, 13 Nov 2022 22:28:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xJiL9xWm5bLdKCJM8IsG/cInozUc08NmnAVMegAdjF4=;
-        b=NPCl/IkroLi/mFKcL1+EPdJJwhE+tz/JJIPJ7/qlA8U9uV2b3Q0y4T2YXfUCnum0vi
-         /Y4gXHXH7qCCYE+lzkgCj8WlMF0ss3w75jz+5t/LgAQ/tiwNXPT0U1jbkui8uTXPkT7l
-         7Mwtg2nYa2aazBZfSc7NQpCqFC/EiwMnXZH7iUqoT4VuTIZ7KXbzDUwBL1iqYDgzzNMb
-         GFMWAxicyJJX/jQHcL5PdnKuRqSVpJSQ+u+tIUH+z61/jZ/Jeiexa45QFk/oBOhYHfwq
-         rJ16xy0jRSV7c2jmlEZME/XUOdFrGtL521brcswD0FNcV3JV9z10E7hVXVMEz1WHnv+I
-         GMiQ==
-X-Gm-Message-State: ANoB5pnbBlTWizRFKcgfxDEGQvRNFWecWlCb10+LTBAl0x7nJ6WjNhOt
-        j+AUpoe/jj5DixVd+wNrWw6tf/lLTkNQDlCBvN0iissf55xD
-X-Google-Smtp-Source: AA0mqf6SGWymgXRi0wgULQbn4id71HFLVMFJUJEe1jL5o23rWiN5E88SEiiieuXXf8Izh5Sv+MbwhlzvEfsg8qxdoOrSyxcTN1Ii
+        with ESMTP id S235415AbiKNH2z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 02:28:55 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65DF110BD;
+        Sun, 13 Nov 2022 23:28:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668410934; x=1699946934;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=rQEp1DYTfk0/sNmYgNtgXJRPsmI5L3klH0NR3PgKyDA=;
+  b=m+8ffcq2yXbFEpNO782BU3CveuiiBceCT4DGl6Gfi5K5JS9DG/ERUlpu
+   or2rUZKPGZ9tXs8lkTheKy1iYpwIicNxYzqGeQdCtT3vlcupv+JDszqio
+   cvUhklEXBM5JE7gIzIRz2ROcE2dzEsb8XayraS3rMSnS/r1YM76xFL6nE
+   plYfTcM8OJjXlgCZE+2PJca4pR9kkftDNOXf7cLJiE9ghUEiFOAUEO4JE
+   B3rSUsQ7O+aUlYDtp9M5z79gvHOfMW49B7h1GBue02Q3FP+GSXXWsPYR7
+   U04TZu4y2CmAePgSSWvAlFlogK3yb03xTNDo1qT/qw7zy9UPjt9VxGkHA
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="311907660"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
+   d="scan'208";a="311907660"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2022 23:28:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="671454469"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
+   d="scan'208";a="671454469"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orsmga001.jf.intel.com with ESMTP; 13 Nov 2022 23:28:50 -0800
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Sun, 13 Nov 2022 23:28:50 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Sun, 13 Nov 2022 23:28:49 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Sun, 13 Nov 2022 23:28:49 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.108)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Sun, 13 Nov 2022 23:28:49 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kvL1f+7OafidvZtAhfhIdU5So71L2E8rvKYnhWKh9lLTAMkM8KG4WQual8JVk7nEa2uUBbEbBkY7GUBquFXXoVM6daFygT2n3VZMoe5MSbsU5IzWSVAx0XxdO0I0pckHyaph6jNcr3L2ariWHqcWYGQ6ZjxOXDIjs548YNCGQMBFa6Vo/5LZ5lneWWQ5T1nADWHHWGGpFQSm0jcx9FR8IND8IbeKX/CSX9VLtzK1TSnaPS2yWd1f/YC1h6VBtPO2OCoP4p1a/8AulFKHB00AwlG+dJeTdY4NXKnxf7rX+TnMgznQgOpRV7jP08MRmX1OAvWeT4kdTiWCG6+DNQy3cA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PL/Gopc4d01NEw/hqk8JQzHDgIIbMgtnu2zV+Xkd6GM=;
+ b=kWhfXCX2n5Rgjw194USqjKDwdRsMh6SXAZp9PHx0dw99greDWraPtMyehy1j0k3EInz+Jht8nASkYfDf88WEYfkryOG96rV7LUVC7itpja35RKK+8PYGXXtGOoORzOfg5cYRf+UIBUNtxp53S1Gv0XHzSfgkvHswxdVVUX4i4ih7iHZ87g6d4OPGVKmT8SPRQ2cg/ypSFh98OQ8bwkvrH+ihLXw0gUquPZLxjVMwoopQdY2r8Bf/ROIf40zW6F/TQAXbco+ZFMlPauBJ2sYzbGM6oDUVXYU8EDzZgPWWfXtiUm7AVwxfvdYx4pELezcdmQAYbpR9VBZ5+aM/rMOAfg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by DM8PR11MB5640.namprd11.prod.outlook.com (2603:10b6:8:3f::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.17; Mon, 14 Nov
+ 2022 07:28:47 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::737e:211a:bb53:4cd7]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::737e:211a:bb53:4cd7%5]) with mapi id 15.20.5813.017; Mon, 14 Nov 2022
+ 07:28:47 +0000
+From:   "Tian, Kevin" <kevin.tian@intel.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>,
+        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+        "Joerg Roedel" <joro@8bytes.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+        Nathan Chancellor <nathan@kernel.org>,
+        "Nick Desaulniers" <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        "Suravee Suthikulpanit" <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
+CC:     Alex Williamson <alex.williamson@redhat.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        "Jason Wang" <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        "Martins, Joao" <joao.m.martins@oracle.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        "Niklas Schnelle" <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>,
+        Keqian Zhu <zhukeqian1@huawei.com>
+Subject: RE: [PATCH v4 09/17] iommufd: Data structure to provide IOVA to PFN
+ mapping
+Thread-Topic: [PATCH v4 09/17] iommufd: Data structure to provide IOVA to PFN
+ mapping
+Thread-Index: AQHY8wv9weOL8WzpqkSvohFTeBt9pK499F6Q
+Date:   Mon, 14 Nov 2022 07:28:47 +0000
+Message-ID: <BN9PR11MB527638FCF4A1351DBA1A644E8C059@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <0-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
+ <9-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
+In-Reply-To: <9-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|DM8PR11MB5640:EE_
+x-ms-office365-filtering-correlation-id: 01dc334a-8bba-4db2-33c8-08dac611de95
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Qwz8ySOde8t+mjPLQTR2QR1mAvLrlEFJSNTDwEU90ekt8l3OLAvsjgxrEQDqeCQB3l5zPL57KqtWA/wLfghfu1BUWZFQvV/usskEBWay5E+pIx6YEwlQvW7PzYtnzhSxXBXN3VHgFggDWJA+apC1gGKCNuyuoElqWlcwY3TV1tShIjqO/SMNMUtwFA1sYbiDdwWht9+Yq7iVVmDDVYcFuQ8nS6zraq9Y9CBhpAPw7pBhKpuoadjZCPdnXOgvDfCopO4ZfBKsS8grlaS+FUMvIj9JY0Y8OXXWLGXn0XZl/QNij3M4jefZTXDTfJB+eAFHEa71mmvM16FgINC3bsLALRRsEzhZchleycegN+a0OMgRjTWJogjDpMOYS7XXiEcFdyH7OpyjiiScnlsk5D5wF8sknaTpT/tWaPNCow3RErcEqfrbUvgTGq9VXxrMQU2YYe9drcX3utQjb16IS7EZBHSotxLs3RVN9zUpt9e7fXu5B21++g9d6A1E6VeY+uzAWg4KjTO37DKGdGrcBkHsGy62xIeoDU9U7eZuZi6FVxcufPHEKtRw03N1i+sNlZdyx9ifHgKF4vE84AqcL6Bhi96IdkyylkoePnQWWYsHSeBOJ9xc4jMWeZMUWW0fC+kV4RWr2ew+vvF70JRtOsq9URpvI8KwtRehGBwIWzD88fxLzkMUWgTapQ/b7wrnpTHTdv5sA4ZJHFGSvvr8NCHU27Q49Oo7Zn/NjOhJQziNjhSG57aKUZsHqnofFtY6ok25+Z9q+1KL0FHeLW5/X2YVt6TZTBeizknF0FJwdXNaHDk=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(39860400002)(366004)(346002)(396003)(136003)(376002)(451199015)(41300700001)(7416002)(7406005)(5660300002)(86362001)(8936002)(52536014)(33656002)(2906002)(122000001)(186003)(9686003)(82960400001)(38100700002)(26005)(83380400001)(316002)(110136005)(54906003)(66556008)(4326008)(8676002)(64756008)(66446008)(66476007)(66946007)(76116006)(6506007)(38070700005)(7696005)(921005)(478600001)(71200400001)(55016003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ltObIQKrjQlBDFN2yJ+9OswkwgDHyvSdKulux6X7VlAy+j118tVvX+DX+tf9?=
+ =?us-ascii?Q?Jy992pvd6LM1YGTckHcOI90toiIVltpzli9O4vwSk8SeYi/NO3F3IDcZlACd?=
+ =?us-ascii?Q?6Ec4LXdxgttW5jPIsF2Lqojy36onJhAHDlR7ClBJ8diqjKljZzBfaZveHVZb?=
+ =?us-ascii?Q?SIqpnqE47giOq6e84clETFAyPk2J8T8tycZSVy3WJ+2w2c7k+VtjxYeJ3aSY?=
+ =?us-ascii?Q?bwaJID0SeJTxUN0V1dE13lGYFuXr0UNWyREClPyf+6dKMKFzXdIstrY3WXHW?=
+ =?us-ascii?Q?FhtVaYv6sQCUlxjsaKe9b2WCUHt2K0nEONbn1WXDyV3NXBbM5nzuvG8T9ZHK?=
+ =?us-ascii?Q?kNxVqJTaiL8B5XxzBC7jBCfL/My+3oj8xz4zqHzSuLGlIN1ne2i8cSkyJHgD?=
+ =?us-ascii?Q?astaZ8wVQ3izFcwALF0lc2KFErmqCqITsMX7Ow1Xf1UNqVTnN2LkDIH4ah8p?=
+ =?us-ascii?Q?bJl5jmtIVUsiEKbUDXuuOdB7rUWCLMuTTkhGxUZJijtYFZHBj/iUkWT+6SX7?=
+ =?us-ascii?Q?PUOi1NvxvOrpQtxEFdG008j/6qMmuDUIRs0cKgKkENHeVaUfw4Bid1yAqL6i?=
+ =?us-ascii?Q?1sIcP6D3fqJHv3EwZbKGeusyGQQZLgWei8UpGTmq/jpjjJogmzKNI8xqQXaL?=
+ =?us-ascii?Q?VNds6SwLNdVMl5EuKUadJpPfluOfSkrWqo8QDilcDUkqguuiGiZ++m8Ka73f?=
+ =?us-ascii?Q?PAMy3WNOb7X3JC2/XsG6I141BJt+qpc7J6smDL20dwSMttuYZ42VxQfuRa2w?=
+ =?us-ascii?Q?TglRdiD7ARuJA1nX9uhBaEAF87ef7b2QZjkwG8LBlG0JQCK9Ijn401GqCTg5?=
+ =?us-ascii?Q?zvd8aLbM2S1PPMLY1FkKaRJNReiRH5MFQ1Ze9Pl/7xwpwKc9sS2oROzk8UTB?=
+ =?us-ascii?Q?LPysnNtsjMNxRmXMkKPZgLJkpKRTNJsQ0+uRXZVQ4QUZgHnIpD2BuGkl8mV/?=
+ =?us-ascii?Q?TwOAKQMDqKbnCqYdnkaZHN36kaa6Gfx73DzpuzbJJFD0BeFO7ra6B0u6C1jI?=
+ =?us-ascii?Q?fB8MrX8dhkOZLHUsNcBreGGTcRvd3rDdr8ycfHx9N8kED0Cidb5gT2eh2uMu?=
+ =?us-ascii?Q?gvL66YvIB2t/nPIQrXT6ZHmpJFHsZTyJfPuut149Ge02dCAk9/Ejxbgf93tc?=
+ =?us-ascii?Q?3G8zk/kpkMUks4dH0jUcAzREkiaKkIZnEjT1wFDr0QF22wl4w3jUouNkzTYa?=
+ =?us-ascii?Q?Q/ZDp2d8QwltHoAjKK24YBD+iduHzK/Lzk2/PwYJz+7BAcw8M+KN3waUTTCt?=
+ =?us-ascii?Q?qCZLEIKex8g/NjNwIkQCQt9hyN3lYdxCWyXhVLOYezy8NAZKF58rTW23EYjS?=
+ =?us-ascii?Q?YXVBP+lRBfYNI5UWsgUUNbFeYB/vxv5lq82Tq/9QamHotvoEvmrLxHRCzzEG?=
+ =?us-ascii?Q?FeOEd+/cPLrv6/NuSfLxu2w0YJbh3ltvE5mlUxd782lQ+pNlrA3fnS96aQfa?=
+ =?us-ascii?Q?P+GFMEuMHiV5E2BlbWIdzKKAa8++bCzsFI/4MkkYTYctbpCAarcF8/98pjYK?=
+ =?us-ascii?Q?FHh8Z9lhNpbfuMNV1W1u8MdEN9o3fZu7O81p0UfjfNa6XWJx4imAVzHgYNOe?=
+ =?us-ascii?Q?ifoiE1kGVJ+r1DdH82C550lozbiZYGw+DY9CbrNV?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Received: by 2002:a92:c509:0:b0:300:e232:e0c3 with SMTP id
- r9-20020a92c509000000b00300e232e0c3mr5272436ilg.320.1668407319491; Sun, 13
- Nov 2022 22:28:39 -0800 (PST)
-Date:   Sun, 13 Nov 2022 22:28:39 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009e9c8805ed685987@google.com>
-Subject: [syzbot] WARNING in anon_vma_name
-From:   syzbot <syzbot+62ed954113bf02c79f74@syzkaller.appspotmail.com>
-To:     akpm@linux-foundation.org, arnd@arndb.de, brauner@kernel.org,
-        ccross@google.com, corbet@lwn.net, david@redhat.com,
-        hannes@cmpxchg.org, hughd@google.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, pasha.tatashin@soleen.com,
-        paul.gortmaker@windriver.com, peterx@redhat.com,
-        shy828301@gmail.com, syzkaller-bugs@googlegroups.com,
-        vbabka@suse.cz, willy@infradead.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01dc334a-8bba-4db2-33c8-08dac611de95
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Nov 2022 07:28:47.7254
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NPEpJix8HTMMcw5ECp+Mq9WDbl3J1sYXoiRU0tfcmoVtQb8JSuk79j0poXk09ePeJwb2u2SfmXP7he5HCoJbYg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5640
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+> From: Jason Gunthorpe <jgg@nvidia.com>
+> Sent: Tuesday, November 8, 2022 8:49 AM
+>=20
+> +
+> +/*
+> + * Automatically find a block of IOVA that is not being used and not res=
+erved.
+> + * Does not return a 0 IOVA even if it is valid.
 
-syzbot found the following issue on:
+what is the problem with 0? should this be documented in uAPI?
 
-HEAD commit:    f8f60f322f06 Add linux-next specific files for 20221111
-git tree:       linux-next
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=12f0f3fe880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=85ba52c07cd97289
-dashboard link: https://syzkaller.appspot.com/bug?extid=62ed954113bf02c79f74
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=171f6c49880000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16fdfd99880000
+> +	interval_tree_for_each_span(&allowed_span, &iopt->allowed_itree,
+> +				    PAGE_SIZE, ULONG_MAX - PAGE_SIZE) {
+> +		if (RB_EMPTY_ROOT(&iopt->allowed_itree.rb_root)) {
+> +			allowed_span.start_used =3D PAGE_SIZE;
+> +			allowed_span.last_used =3D ULONG_MAX - PAGE_SIZE;
+> +			allowed_span.is_hole =3D false;
+> +		}
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/6008df424195/disk-f8f60f32.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/394340525f66/vmlinux-f8f60f32.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/b13604a3343a/bzImage-f8f60f32.xz
+statically initialize it when iopt is created?
 
-The issue was bisected to:
+> +
+> +		if (!__alloc_iova_check_used(&allowed_span, length,
+> +					     iova_alignment, page_offset))
+> +			continue;
+> +
+> +		interval_tree_for_each_span(&area_span, &iopt->area_itree,
+> +					    allowed_span.start_used,
+> +					    allowed_span.last_used) {
+> +			if (!__alloc_iova_check_hole(&area_span, length,
+> +						     iova_alignment,
+> +						     page_offset))
+> +				continue;
+> +
+> +			interval_tree_for_each_span(&reserved_span,
+> +						    &iopt->reserved_itree,
+> +						    area_span.start_used,
+> +						    area_span.last_used) {
+> +				if (!__alloc_iova_check_hole(
+> +					    &reserved_span, length,
+> +					    iova_alignment, page_offset))
+> +					continue;
 
-commit 2220e3a8953e86b87adfc753fc57c2a5e0b0a032
-Author: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date:   Mon Nov 7 18:47:15 2022 +0000
+this could be simplified by double span.
 
-    mm: anonymous shared memory naming
+> +static int iopt_check_iova(struct io_pagetable *iopt, unsigned long iova=
+,
+> +			   unsigned long length)
+> +{
+> +	unsigned long last;
+> +
+> +	lockdep_assert_held(&iopt->iova_rwsem);
+> +
+> +	if ((iova & (iopt->iova_alignment - 1)))
+> +		return -EINVAL;
+> +
+> +	if (check_add_overflow(iova, length - 1, &last))
+> +		return -EOVERFLOW;
+> +
+> +	/* No reserved IOVA intersects the range */
+> +	if (iopt_reserved_iter_first(iopt, iova, last))
+> +		return -ENOENT;
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=16d32f66880000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=15d32f66880000
-console output: https://syzkaller.appspot.com/x/log.txt?x=11d32f66880000
+vfio type1 returns -EINVAL
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+62ed954113bf02c79f74@syzkaller.appspotmail.com
-Fixes: 2220e3a8953e ("mm: anonymous shared memory naming")
+> +
+> +	/* Check that there is not already a mapping in the range */
+> +	if (iopt_area_iter_first(iopt, iova, last))
+> +		return -EADDRINUSE;
 
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 5239 at include/linux/mmap_lock.h:155 mmap_assert_locked include/linux/mmap_lock.h:155 [inline]
-WARNING: CPU: 0 PID: 5239 at include/linux/mmap_lock.h:155 anon_vma_name+0x11c/0x170 mm/madvise.c:97
-Modules linked in:
-CPU: 1 PID: 5239 Comm: syz-executor276 Not tainted 6.1.0-rc4-next-20221111-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
-RIP: 0010:mmap_assert_locked include/linux/mmap_lock.h:155 [inline]
-RIP: 0010:anon_vma_name+0x11c/0x170 mm/madvise.c:97
-Code: 8d bd 58 01 00 00 be ff ff ff ff e8 1e fc e0 07 31 ff 41 89 c4 89 c6 e8 c2 27 bc ff 45 85 e4 0f 85 5c ff ff ff e8 e4 2a bc ff <0f> 0b e9 50 ff ff ff e8 d8 2a bc ff 48 89 ef e8 00 e7 f2 ff 0f 0b
-RSP: 0018:ffffc90003c7f810 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffffffff8b9ae000 RCX: 0000000000000000
-RDX: ffff88801d5fba80 RSI: ffffffff81c0a28c RDI: 0000000000000005
-RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-R13: ffffffff8b9ae008 R14: ffffffff8b9ae010 R15: 0000000000000000
-FS:  0000555556387300(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000000000061ba0c CR3: 000000007d6c4000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- show_map_vma+0x22d/0x620 fs/proc/task_mmu.c:297
- show_smap+0xe4/0x490 fs/proc/task_mmu.c:866
- traverse.part.0+0xcf/0x5f0 fs/seq_file.c:111
- traverse fs/seq_file.c:101 [inline]
- seq_read_iter+0x90f/0x1280 fs/seq_file.c:195
- seq_read+0x16d/0x210 fs/seq_file.c:162
- do_loop_readv_writev fs/read_write.c:756 [inline]
- do_loop_readv_writev fs/read_write.c:743 [inline]
- do_iter_read+0x4f8/0x750 fs/read_write.c:798
- vfs_readv+0xe5/0x150 fs/read_write.c:916
- do_preadv fs/read_write.c:1008 [inline]
- __do_sys_preadv fs/read_write.c:1058 [inline]
- __se_sys_preadv fs/read_write.c:1053 [inline]
- __x64_sys_preadv+0x22b/0x310 fs/read_write.c:1053
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f545e62b239
-Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffed9c02fe8 EFLAGS: 00000246 ORIG_RAX: 0000000000000127
-RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f545e62b239
-RDX: 0000000000000001 RSI: 00000000200006c0 RDI: 0000000000000003
-RBP: 00007ffed9c02ff0 R08: 0000000000000000 R09: 65732f636f72702f
-R10: 00000000fffffffe R11: 0000000000000246 R12: 00007f545e5ef120
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
+vfio type1 returns -EEXIST
 
+> +static int iopt_unmap_iova_range(struct io_pagetable *iopt, unsigned lon=
+g
+> start,
+> +				 unsigned long end, unsigned long
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+s/end/last/
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+> +int iopt_unmap_iova(struct io_pagetable *iopt, unsigned long iova,
+> +		    unsigned long length, unsigned long *unmapped)
+> +{
+> +	unsigned long iova_end;
+
+s/iova_end/iova_last/
+
+> +static int iopt_calculate_iova_alignment(struct io_pagetable *iopt)
+> +{
+> +	unsigned long new_iova_alignment;
+> +	struct iommufd_access *access;
+> +	struct iommu_domain *domain;
+> +	unsigned long index;
+> +
+> +	lockdep_assert_held_write(&iopt->iova_rwsem);
+> +	lockdep_assert_held(&iopt->domains_rwsem);
+> +
+> +	if (iopt->disable_large_pages)
+> +		new_iova_alignment =3D PAGE_SIZE;
+> +	else
+> +		new_iova_alignment =3D 1;
+
+I didn't understand why we start searching alignment from a
+smaller value when large pages is enabled. what is the
+connection here?
+
+> +	interval_tree_remove(&area->node, &iopt->area_itree);
+> +	rc =3D iopt_insert_area(iopt, lhs, area->pages, start_iova,
+> +			      iopt_area_start_byte(area, start_iova),
+> +			      (new_start - 1) - start_iova + 1,
+> +			      area->iommu_prot);
+> +	if (WARN_ON(rc))
+> +		goto err_insert;
+> +
+> +	rc =3D iopt_insert_area(iopt, rhs, area->pages, new_start,
+> +			      iopt_area_start_byte(area, new_start),
+> +			      last_iova - new_start + 1, area->iommu_prot);
+> +	if (WARN_ON(rc))
+> +		goto err_remove_lhs;
+> +
+> +	lhs->storage_domain =3D area->storage_domain;
+> +	lhs->num_accesses =3D area->num_accesses;
+> +	lhs->pages =3D area->pages;
+> +	rhs->storage_domain =3D area->storage_domain;
+> +	rhs->num_accesses =3D area->num_accesses;
+
+if an access only spans one side, is it correct to have both split sides
+keep the access number?
