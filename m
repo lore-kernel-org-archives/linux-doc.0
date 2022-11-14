@@ -2,210 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B65D2C43217
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 11:57:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6443C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 13:11:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236672AbiKNL5d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Nov 2022 06:57:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59228 "EHLO
+        id S237871AbiKNNLz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Nov 2022 08:11:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237157AbiKNL5L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 06:57:11 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F3971CFE5
-        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 03:54:13 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id t4so7298064wmj.5
-        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 03:54:13 -0800 (PST)
+        with ESMTP id S237909AbiKNNLz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 08:11:55 -0500
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D54F317899;
+        Mon, 14 Nov 2022 05:11:51 -0800 (PST)
+Received: by mail-pg1-x529.google.com with SMTP id b62so10246449pgc.0;
+        Mon, 14 Nov 2022 05:11:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UFrv/gZh3M5M+GHa7rgQfMzZBcJfOT6Htd7GIwYXDjY=;
-        b=EUoeLavTVlHYdJZCNph9EHvSI+oEmosznJ6f/upKgsdxBCVKAD+wKTTxF2HefZF4aJ
-         +voBzLkimQpEK0QSkfAiC1ct7gmCt04TDRoYbiQk2+ZrURn8qyzn7B8NaLHEY4CnDGm6
-         2jfadRSEAwkAURqUwVqJzHS0olixUeaFGq8/b2tw1FpYy5tfyimf03hvtmiBkAGD8Dwl
-         b0COvNcSFazcgu2nDWFiq0ZFNQbDFye/UqRwXqYAyjzv+ihl5HvLX0qY0nWmYQKPF5Em
-         ZwJAftOJ9dK9vLfL3ce4f68mG7VbwAJZ0JD+C1zsDfb08VanEK8T+D9r6Jo/S49b7wiV
-         j91A==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=itwylVtul7Z49JKkp9kyK5X/B4iweq+ayVxXXotYQJw=;
+        b=MhmYxowk5DwtJgYGp8dCt9DBse6IZR1/QsPRPK0Xelm6pisV3yfUoD4CTsa+dinrge
+         cCwlff3pZMlBTXU/UMzhdVbGftM/n1A+azTXLAt99AkOPpb+rroZ08Ko+CHLI6wTBD0g
+         CqJ1fh8ASbfN7E9l6t16+7WPeuQtR9z1doqXcgOJGx7US+/u/QOWhMEQ4PTraMy9rIZM
+         jDorNtoXLX31vjleS9m/c6D1DGyOB0aiJTBy0B3zYzpUPupsd6hHueIH8UwBSU8Uc43z
+         SK0ofefxNq21dBXovbGvssLeytLO6I4d3VPth8zh+RIBcFDwPQVXdZCgraPo/25mYkxw
+         e9Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UFrv/gZh3M5M+GHa7rgQfMzZBcJfOT6Htd7GIwYXDjY=;
-        b=n5Gpp/nfOhqlWDO2lmq+0+yKEXIVkuJuK4WyZ+/iWCqV2Uul07hVjy32TdesutACRi
-         +xaKioxfxyAhK3RVCaENJX4nrNhobQ7COZxsmc3ElcOHzUTWKy09QTzEOkCk+23yNHNL
-         tBy2IAt7qbafTiEkSwnBXNAIq1SXgDPIoJ1CuBlkneREXPe8suJeZwPb8rJ+3IY9pdcW
-         kkiEz6B2j1MGaidV1kUc/PmbuMVFDNsWlNzs+ajxpWtvKgV9tc9+7IYU9yQducghhwiE
-         K0lPwj7g80MJc+2nubvtCqp850BbPHEHtQ0QUFXO/RJpZUMe8WM8lIVj+6RwQzeRw64p
-         PCdQ==
-X-Gm-Message-State: ANoB5pl0/OmFb409vJeCtJPmqM+Jtxg2eeuRbIcbiELJziZzZXM346nv
-        sPvPCZ3g1up8cjz8maB6SBS+lw==
-X-Google-Smtp-Source: AA0mqf403V0vwqaE+mnyncg76u8ir3wUv9Nm7KTIlaElnQNtqjHebbBnqedRs9sCRLI9w2BMk0/32Q==
-X-Received: by 2002:a05:600c:2315:b0:3cf:ae53:918f with SMTP id 21-20020a05600c231500b003cfae53918fmr7727329wmo.131.1668426851811;
-        Mon, 14 Nov 2022 03:54:11 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
-        by smtp.gmail.com with ESMTPSA id c17-20020adffb11000000b002417f35767asm6097766wrr.40.2022.11.14.03.54.10
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=itwylVtul7Z49JKkp9kyK5X/B4iweq+ayVxXXotYQJw=;
+        b=fgqEtajlm9Kr/M8KZtgausdwJiRnHPqUXKT5NQwzu/NoMksYaBJSomaCWYvCSS62QS
+         jcPnGjyfVPz1zRt1do3akyDtbo1rpMnyha00N4ZaEq/BD51Vc5eoGG2bjtVBTqFidHWB
+         cnkosmDH930M1/c6J1hCN+UJr+9yxTUOLS2yJ5N1lNnflmnf+/oXAVMYCiEbfPuyUVVq
+         jmmki2JH6unaFbA3VoxUF/9lOWTbwX4ibIfQSXKebJ7DEtLacLdf86q7JbeMCrY5b9iT
+         LfX2n/Iwp7zYG4RRaBHmE53n2bwGVpvy0ARMMz51AMUfeEHb5IU8poZVAtNi+APLMEse
+         sc6Q==
+X-Gm-Message-State: ANoB5pklesqQZHn9ZRQVgXtBcHVv5aeDcvdENu/oq1tcmRE8zL8R7Rge
+        3+FqojWnitHPaSexyeY+8RA=
+X-Google-Smtp-Source: AA0mqf4BFVRB9+AMFDzK0Shf5FC49MuYofaTxw1/kzlGKOh8F5lY9AHUO8LwfsFYia6t7oYj5cP+1A==
+X-Received: by 2002:a05:6a00:d78:b0:56c:8dbc:f83e with SMTP id n56-20020a056a000d7800b0056c8dbcf83emr13675256pfv.41.1668431511318;
+        Mon, 14 Nov 2022 05:11:51 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-86.three.co.id. [180.214.232.86])
+        by smtp.gmail.com with ESMTPSA id y28-20020aa793dc000000b0056c0d129edfsm6617533pff.121.2022.11.14.05.11.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Nov 2022 03:54:11 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
-        by zen.linaroharston (Postfix) with ESMTP id 5E6971FFB7;
-        Mon, 14 Nov 2022 11:54:10 +0000 (GMT)
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
-User-agent: mu4e 1.9.2; emacs 28.2.50
-From:   Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        AKASHI Takahiro <takahiro.akashi@linaro.org>
-Subject: Re: [PATCH v9 0/8] KVM: mm: fd-based approach for supporting KVM
-Date:   Mon, 14 Nov 2022 11:43:37 +0000
-In-reply-to: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
-Message-ID: <87k03xbvkt.fsf@linaro.org>
+        Mon, 14 Nov 2022 05:11:50 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 326211042EC; Mon, 14 Nov 2022 20:11:46 +0700 (WIB)
+Date:   Mon, 14 Nov 2022 20:11:45 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Junhao He <hejunhao3@huawei.com>
+Cc:     mathieu.poirier@linaro.org, suzuki.poulose@arm.com,
+        mike.leach@linaro.org, leo.yan@linaro.org,
+        jonathan.cameron@huawei.com, john.garry@huawei.com,
+        coresight@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        lpieralisi@kernel.org, linuxarm@huawei.com, yangyicong@huawei.com,
+        liuqi115@huawei.com, f.fangjian@huawei.com,
+        prime.zeng@hisilicon.com
+Subject: Re: [PATCH v13 0/2] Add support for UltraSoc System Memory Buffer
+Message-ID: <Y3I+kaZOe4TPNsd/@debian.me>
+References: <20221114090316.63157-1-hejunhao3@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="v3CYsDSexBSkad/c"
+Content-Disposition: inline
+In-Reply-To: <20221114090316.63157-1-hejunhao3@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-Chao Peng <chao.p.peng@linux.intel.com> writes:
+--v3CYsDSexBSkad/c
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-<snip>
-> Introduction
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> KVM userspace being able to crash the host is horrible. Under current
-> KVM architecture, all guest memory is inherently accessible from KVM
-> userspace and is exposed to the mentioned crash issue. The goal of this
-> series is to provide a solution to align mm and KVM, on a userspace
-> inaccessible approach of exposing guest memory.=20
->
-> Normally, KVM populates secondary page table (e.g. EPT) by using a host
-> virtual address (hva) from core mm page table (e.g. x86 userspace page
-> table). This requires guest memory being mmaped into KVM userspace, but
-> this is also the source where the mentioned crash issue can happen. In
-> theory, apart from those 'shared' memory for device emulation etc, guest
-> memory doesn't have to be mmaped into KVM userspace.
->
-> This series introduces fd-based guest memory which will not be mmaped
-> into KVM userspace. KVM populates secondary page table by using a
-> fd/offset pair backed by a memory file system. The fd can be created
-> from a supported memory filesystem like tmpfs/hugetlbfs and KVM can
-> directly interact with them with newly introduced in-kernel interface,
-> therefore remove the KVM userspace from the path of accessing/mmaping
-> the guest memory.=20
->
-> Kirill had a patch [2] to address the same issue in a different way. It
-> tracks guest encrypted memory at the 'struct page' level and relies on
-> HWPOISON to reject the userspace access. The patch has been discussed in
-> several online and offline threads and resulted in a design document [3]
-> which is also the original proposal for this series. Later this patch
-> series evolved as more comments received in community but the major
-> concepts in [3] still hold true so recommend reading.
->
-> The patch series may also be useful for other usages, for example, pure
-> software approach may use it to harden itself against unintentional
-> access to guest memory. This series is designed with these usages in
-> mind but doesn't have code directly support them and extension might be
-> needed.
+On Mon, Nov 14, 2022 at 05:03:14PM +0800, Junhao He wrote:
+> Add support for UltraSoc System Memory Buffer.
+>=20
 
-There are a couple of additional use cases where having a consistent
-memory interface with the kernel would be useful.
+The cover letter message (aside changelogs) is short but LGTM. However,
+for individual patches description, please write in imperative mood
+(that is, no "This patch/commit does foo" but "Do foo" instead).
 
-  - Xen DomU guests providing other domains with VirtIO backends
-
-  Xen by default doesn't give other domains special access to a domains
-  memory. The guest can grant access to regions of its memory to other
-  domains for this purpose.=20
-
-  - pKVM on ARM
-
-  Similar to Xen, pKVM moves the management of the page tables into the
-  hypervisor and again doesn't allow those domains to share memory by
-  default.
-
-  - VirtIO loopback
-
-  This allows for VirtIO devices for the host kernel to be serviced by
-  backends running in userspace. Obviously the memory userspace is
-  allowed to access is strictly limited to the buffers and queues
-  because giving userspace unrestricted access to the host kernel would
-  have consequences.
-
-All of these VirtIO backends work with vhost-user which uses memfds to
-pass references to guest memory from the VMM to the backend
-implementation.
-
-> mm change
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Introduces a new memfd_restricted system call which can create memory
-> file that is restricted from userspace access via normal MMU operations
-> like read(), write() or mmap() etc and the only way to use it is
-> passing it to a third kernel module like KVM and relying on it to
-> access the fd through the newly added restrictedmem kernel interface.
-> The restrictedmem interface bridges the memory file subsystems
-> (tmpfs/hugetlbfs etc) and their users (KVM in this case) and provides
-> bi-directional communication between them.=20
->
->
-> KVM change
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Extends the KVM memslot to provide guest private (encrypted) memory from
-> a fd. With this extension, a single memslot can maintain both private
-> memory through private fd (restricted_fd/restricted_offset) and shared
-> (unencrypted) memory through userspace mmaped host virtual address
-> (userspace_addr). For a particular guest page, the corresponding page in
-> KVM memslot can be only either private or shared and only one of the
-> shared/private parts of the memslot is visible to guest. For how this
-> new extension is used in QEMU, please refer to kvm_set_phys_mem() in
-> below TDX-enabled QEMU repo.
->
-> Introduces new KVM_EXIT_MEMORY_FAULT exit to allow userspace to get the
-> chance on decision-making for shared <-> private memory conversion. The
-> exit can be an implicit conversion in KVM page fault handler or an
-> explicit conversion from guest OS.
->
-> Extends existing SEV ioctls KVM_MEMORY_ENCRYPT_{UN,}REG_REGION to
-> convert a guest page between private <-> shared. The data maintained in
-> these ioctls tells the truth whether a guest page is private or shared
-> and this information will be used in KVM page fault handler to decide
-> whether the private or the shared part of the memslot is visible to
-> guest.
->
-<snip>
+Thanks.
 
 --=20
-Alex Benn=C3=A9e
+An old man doll... just what I always wanted! - Clara
+
+--v3CYsDSexBSkad/c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY3I+igAKCRD2uYlJVVFO
+o1UsAQC84UBCE7LcNm7rlFcJmsg5bIyUFwl1f5xkMLKP1kpS3AEAmqD8k+1nTJGa
+gxmYpWJx+6+dp8zsZXEhYNNQMUgYSAY=
+=xa7E
+-----END PGP SIGNATURE-----
+
+--v3CYsDSexBSkad/c--
