@@ -2,123 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5101CC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 09:25:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E7B5C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 09:49:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236115AbiKNJZA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Nov 2022 04:25:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37780 "EHLO
+        id S236243AbiKNJtc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Nov 2022 04:49:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236712AbiKNJY7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 04:24:59 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C77BB4A9
-        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 01:24:58 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id v4-20020a17090a088400b00212cb0ed97eso10032838pjc.5
-        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 01:24:58 -0800 (PST)
+        with ESMTP id S236173AbiKNJtR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 04:49:17 -0500
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37C5413CEA
+        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 01:49:15 -0800 (PST)
+Received: by mail-yb1-xb2f.google.com with SMTP id i131so12609956ybc.9
+        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 01:49:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2148sqylEkmjswFsMWG1hvqqLaO0xyf1SiCUhyBRhaQ=;
-        b=wDmXeMBBM5jSJ/rpe94OT8vmZBocQzSOc2asE4+zf3/rv3ent4zKaT8mtg8PyjCFU5
-         2RUzEpAC+0zcOMEnW/et/WDcoJYvUN3Uvq9sskGvYTdlE6Pn39zd81tE9UNAfHBNEtx4
-         avQW9asTBmZiES1iB7Ux0C/jRhSnPPEPtLujUGby6LtECk1fjNAXPHIErxjf/S2/CqD7
-         xoJHNK/933wBWaLG6toe5+DU8eAEIVkxat/mjG+0jU/ZSCn76zQR+CX6SLIDT6wLeAhg
-         E+WK5T3IsQI62HF7yVJSqeyH9SWca57H0s5Zj38EUCAlKgbXpujmmr4YSUotKeezKjS6
-         FM3Q==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=l4csSnMcWReSkj8cBG0QioRbqv/IdxWbBKHzfzblSQo=;
+        b=NwOHpbDrWEnEW9pJrLdphC481gBPMGS0kP2Jp9tH/JRO3S9wBND44urP5I0nsc3klc
+         9RKAY4Qe1Je8V7dVS1htYhg2F30Kwe5OdmWqUIZyD5y8cr1yCA6I1m/97Jr//Ykyarqe
+         OkAFsG1J9nqnF/9tClbC5ImHaL7ypBxLjOiIGIgaZZjTvpzjPHz8nexep84JhjIGOLI6
+         FTDpOeuTTODiDdGZSmIbmAY5IhOgB2YTXyzXBiiJYNIKZW/5abWK5Bcb2mOtdHxT9eMh
+         Dc33WXtJANefaA+Uk8LzjnByMruggL+vFUUoabTMwFr/ffAiewQpOcsi6HE3MWZqtF+K
+         Rwgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=2148sqylEkmjswFsMWG1hvqqLaO0xyf1SiCUhyBRhaQ=;
-        b=Q5bKx/ZN+4tVS4ydR/jEvJz/WbdZwhOgPeRAVuoZO+Sw14xPXpStsaixz/k4nDZJ2L
-         gRcfAKx/qDAQgnsbGcXGlNh4kptqS3LKH4Av2K7gUSYaOvjSO0w4HJ1QEyvRDpPW0c0o
-         j+GO2oRFhGdn0ZfniiVQSXMneSluzvTF4V97REf/mElBEaNqrUE/Vdmr/CxpfZDWxz50
-         WCOwpx7z0sHgJQdh6KE9dcSpLMXpk0XiGqb9jSPzKAGDNskGate13sqA+yUwE7B1bQpa
-         Phemx4HJFk4OTNM4FhIk12eAtzkALifmX+aEYrIpWCwtLvIW/A7JyYKOprKWZOs3mvGM
-         qocg==
-X-Gm-Message-State: ANoB5plnl+e3xsv7WwI/exJf/9MAJ3iP0PlSod6iAqqSR1BwcCiQbXMi
-        cXCGZ8WS5y8dHml3aNV8ZYAkUQ==
-X-Google-Smtp-Source: AA0mqf4JWvsDijQPfo/kXXptsIS2yyDPC0lc7dAS8Ff3VNNyq4RT1WTyw4YINmHAKX/obSA93DCkqA==
-X-Received: by 2002:a17:90a:6d8f:b0:214:2ee7:3dc with SMTP id a15-20020a17090a6d8f00b002142ee703dcmr12797742pjk.105.1668417897845;
-        Mon, 14 Nov 2022 01:24:57 -0800 (PST)
-Received: from [10.68.76.92] ([139.177.225.245])
-        by smtp.gmail.com with ESMTPSA id h13-20020a170902f54d00b00176b3c9693esm6852376plf.299.2022.11.14.01.24.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Nov 2022 01:24:57 -0800 (PST)
-Message-ID: <404735fb-023d-df37-e88e-8b05981bc1d5@bytedance.com>
-Date:   Mon, 14 Nov 2022 17:24:52 +0800
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l4csSnMcWReSkj8cBG0QioRbqv/IdxWbBKHzfzblSQo=;
+        b=MZ/yWEMdTbpVY2qB6eOzWJ/dasZDVaN2fSCfvySqUCQd8rMCXqgAAsBecf0jRJAF/Z
+         inRMXfgGlptsaDB1q9Bp6SZCnSITi+oI8F6knME99ji16zPCRS9c020AzRfotgJnw/G7
+         hnZ/zLN5P3OUCocXunJNFVxLFi2bRl4ryAAR2yxRDAaVW2xYPiSmafcQDwsfFuCqmM+J
+         vODleyh90L8kPO2efFg9djtqb9y5uhRlBgClDgG1DANo3akajnwiTHMPNbOXn82jfwg5
+         FT/hJ79FWEO7eFeNcreQzsusddQKhBVVkiy43CG49VJrcBLxCM7fAE7iPfWQTZfSknWo
+         XQ8w==
+X-Gm-Message-State: ANoB5pkcKizBohE6j/47L7U/eUbP5dsVennlFJ+gIcsNHUOeI/hEVJ7b
+        Y6k+bec8aLwpozo6zhKV5HMD8QCHQTQISeJ1Oly9fQ==
+X-Google-Smtp-Source: AA0mqf7C0UBdQtuF+qiDJo2+855Rd+SEleV7IgA+f8kAFNxQFKvASyu42I+ez1chBE6nKTzegl8HamO1RzeY9hoj6dc=
+X-Received: by 2002:a5b:c4c:0:b0:6df:1528:d64c with SMTP id
+ d12-20020a5b0c4c000000b006df1528d64cmr10081798ybr.143.1668419354248; Mon, 14
+ Nov 2022 01:49:14 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
- pidfd_set_mempolicy().
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     corbet@lwn.net, mhocko@suse.com, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
- <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
-From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
-In-Reply-To: <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20221109194404.gonna.558-kees@kernel.org> <20221109200050.3400857-5-keescook@chromium.org>
+In-Reply-To: <20221109200050.3400857-5-keescook@chromium.org>
+From:   Marco Elver <elver@google.com>
+Date:   Mon, 14 Nov 2022 10:48:38 +0100
+Message-ID: <CANpmjNO_ujNwaFxpsAWWXhBajhV8LJMXQjCHiSLHKG2Dc+od4A@mail.gmail.com>
+Subject: Re: [PATCH v2 5/6] panic: Introduce warn_limit
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Eric Biggers <ebiggers@google.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        tangmeng <tangmeng@uniontech.com>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        Tiezhu Yang <yangtiezhu@loongson.cn>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-doc@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
+        Linus Torvalds <torvalds@linuxfoundation.org>,
+        Seth Jenkins <sethjenkins@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        David Gow <davidgow@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Laurent Dufour <ldufour@linux.ibm.com>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-mm@kvack.org,
+        linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Andrew,
-> This sounds a bit suspicious.  Please share much more detail about
-> these races.  If we proced with this design then mpol_put_async()
-> shouild have comments which fully describe the need for the async free.
-> 
+On Wed, 9 Nov 2022 at 21:00, Kees Cook <keescook@chromium.org> wrote:
+>
+> Like oops_limit, add warn_limit for limiting the number of warnings when
+> panic_on_warn is not set.
+>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+> Cc: Eric Biggers <ebiggers@google.com>
+> Cc: Huang Ying <ying.huang@intel.com>
+> Cc: Petr Mladek <pmladek@suse.com>
+> Cc: tangmeng <tangmeng@uniontech.com>
+> Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+> Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
+> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  Documentation/admin-guide/sysctl/kernel.rst |  9 +++++++++
+>  kernel/panic.c                              | 13 +++++++++++++
+>  2 files changed, 22 insertions(+)
+>
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index 09f3fb2f8585..c385d5319cdf 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -1508,6 +1508,15 @@ entry will default to 2 instead of 0.
+>  2 Unprivileged calls to ``bpf()`` are disabled
+>  = =============================================================
+>
+> +
+> +warn_limit
+> +==========
+> +
+> +Number of kernel warnings after which the kernel should panic when
+> +``panic_on_warn`` is not set. Setting this to 0 or 1 has the same effect
+> +as setting ``panic_on_warn=1``.
+> +
+> +
+>  watchdog
+>  ========
+>
+> diff --git a/kernel/panic.c b/kernel/panic.c
+> index 3afd234767bc..b235fa4a6fc8 100644
+> --- a/kernel/panic.c
+> +++ b/kernel/panic.c
+> @@ -58,6 +58,7 @@ bool crash_kexec_post_notifiers;
+>  int panic_on_warn __read_mostly;
+>  unsigned long panic_on_taint;
+>  bool panic_on_taint_nousertaint = false;
+> +static unsigned int warn_limit __read_mostly = 10000;
+>
+>  int panic_timeout = CONFIG_PANIC_TIMEOUT;
+>  EXPORT_SYMBOL_GPL(panic_timeout);
+> @@ -88,6 +89,13 @@ static struct ctl_table kern_panic_table[] = {
+>                 .extra2         = SYSCTL_ONE,
+>         },
+>  #endif
+> +       {
+> +               .procname       = "warn_limit",
+> +               .data           = &warn_limit,
+> +               .maxlen         = sizeof(warn_limit),
+> +               .mode           = 0644,
+> +               .proc_handler   = proc_douintvec,
+> +       },
+>         { }
+>  };
+>
+> @@ -203,8 +211,13 @@ static void panic_print_sys_info(bool console_flush)
+>
+>  void check_panic_on_warn(const char *reason)
+>  {
+> +       static atomic_t warn_count = ATOMIC_INIT(0);
+> +
+>         if (panic_on_warn)
+>                 panic("%s: panic_on_warn set ...\n", reason);
+> +
+> +       if (atomic_inc_return(&warn_count) >= READ_ONCE(warn_limit))
+> +               panic("Warned too often (warn_limit is %d)", warn_limit);
 
-Add some comments for async free, and use the TWA_SIGNAL_NO_IPI to
-notify the @task.
-
-
--/*
-- * mpol destructor for pidfd_set_mempolicy().
-+/**
-+ * mpol_put_async - free mempolicy asynchronously.
-+ * @task: the target task to free mempolicy.
-+ * @p : mempolicy to free
-+ *
-+ * @task must be specified by user.
-   * free mempolicy directly if task is null or task_work_add() failed.
-+ *
-+ * A mempolicy can be either associated with a process or with a VMA.
-+ * All vma manipulation is protected by mmap_lock.In process context
-+ * there is no locking. If we need to apply mempolicy to other's
-+ * task specified in pidfd, the original mempolicy may about to be
-+ * freed by pidfd_set_mempolicy() while target task is using it.
-+ * So,mpol_put_async() is used for free old mempolicy asynchronously.
-   */
--void mpol_put_async(struct task_struct *task, struct mempolicy *p)
-+static void mpol_put_async(struct task_struct *task, struct mempolicy *p)
-  {
--       enum task_work_notify_mode notify = TWA_RESUME;
--
-         if (!atomic_dec_and_test(&p->refcnt))
-                 return;
-
-@@ -333,10 +342,8 @@ void mpol_put_async(struct task_struct *task, 
-struct mempolicy *p)
-                 goto out;
-
-         init_task_work(&p->w.cb_head, mpol_free_async);
--       if (task_work_pending(task))
--               notify = TWA_SIGNAL; /* free memory in time */
-
--       if (!task_work_add(task, &p->w.cb_head, notify))
-+       if (!task_work_add(task, &p->w.cb_head, TWA_SIGNAL_NO_IPI))
-                 return;
-  out:
-         kmem_cache_free(policy_cache, p);
-
-
-
-Thanks.
+Shouldn't this also include the "reason", like above? (Presumably a
+warning had just been generated to console so the reason is easy
+enough to infer from the log, although in that case "reason" also
+seems redundant above.)
