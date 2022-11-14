@@ -2,105 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6443C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 13:11:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16111C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 13:19:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237871AbiKNNLz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Nov 2022 08:11:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39106 "EHLO
+        id S237973AbiKNNTw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Nov 2022 08:19:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237909AbiKNNLz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 08:11:55 -0500
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D54F317899;
-        Mon, 14 Nov 2022 05:11:51 -0800 (PST)
-Received: by mail-pg1-x529.google.com with SMTP id b62so10246449pgc.0;
-        Mon, 14 Nov 2022 05:11:51 -0800 (PST)
+        with ESMTP id S237460AbiKNNTe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 08:19:34 -0500
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA0092B185
+        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 05:19:06 -0800 (PST)
+Received: by mail-ej1-x636.google.com with SMTP id n12so28166457eja.11
+        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 05:19:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=itwylVtul7Z49JKkp9kyK5X/B4iweq+ayVxXXotYQJw=;
-        b=MhmYxowk5DwtJgYGp8dCt9DBse6IZR1/QsPRPK0Xelm6pisV3yfUoD4CTsa+dinrge
-         cCwlff3pZMlBTXU/UMzhdVbGftM/n1A+azTXLAt99AkOPpb+rroZ08Ko+CHLI6wTBD0g
-         CqJ1fh8ASbfN7E9l6t16+7WPeuQtR9z1doqXcgOJGx7US+/u/QOWhMEQ4PTraMy9rIZM
-         jDorNtoXLX31vjleS9m/c6D1DGyOB0aiJTBy0B3zYzpUPupsd6hHueIH8UwBSU8Uc43z
-         SK0ofefxNq21dBXovbGvssLeytLO6I4d3VPth8zh+RIBcFDwPQVXdZCgraPo/25mYkxw
-         e9Cw==
+        d=chromium.org; s=google;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=wptfyIK6cGXWafJRIE0+wKYEiUfT/C8Cp/88f6SDnJI=;
+        b=KN2CymL7WFkKiYXpoBmRpQWQXiDY44c7m6Y6yAFKT1NlHPmEkO6jZ5Yupm7GugU/Wo
+         ThOL9DjjqdaifsHu4IQ8e+xX70/vP0uafrmaoWSB2xHm25+2eT0nAg+QDEDjmqkf3sJe
+         JkJuIjrYCBcLhpIvAHy+6j27qnBKw3LG+ys7M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=itwylVtul7Z49JKkp9kyK5X/B4iweq+ayVxXXotYQJw=;
-        b=fgqEtajlm9Kr/M8KZtgausdwJiRnHPqUXKT5NQwzu/NoMksYaBJSomaCWYvCSS62QS
-         jcPnGjyfVPz1zRt1do3akyDtbo1rpMnyha00N4ZaEq/BD51Vc5eoGG2bjtVBTqFidHWB
-         cnkosmDH930M1/c6J1hCN+UJr+9yxTUOLS2yJ5N1lNnflmnf+/oXAVMYCiEbfPuyUVVq
-         jmmki2JH6unaFbA3VoxUF/9lOWTbwX4ibIfQSXKebJ7DEtLacLdf86q7JbeMCrY5b9iT
-         LfX2n/Iwp7zYG4RRaBHmE53n2bwGVpvy0ARMMz51AMUfeEHb5IU8poZVAtNi+APLMEse
-         sc6Q==
-X-Gm-Message-State: ANoB5pklesqQZHn9ZRQVgXtBcHVv5aeDcvdENu/oq1tcmRE8zL8R7Rge
-        3+FqojWnitHPaSexyeY+8RA=
-X-Google-Smtp-Source: AA0mqf4BFVRB9+AMFDzK0Shf5FC49MuYofaTxw1/kzlGKOh8F5lY9AHUO8LwfsFYia6t7oYj5cP+1A==
-X-Received: by 2002:a05:6a00:d78:b0:56c:8dbc:f83e with SMTP id n56-20020a056a000d7800b0056c8dbcf83emr13675256pfv.41.1668431511318;
-        Mon, 14 Nov 2022 05:11:51 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-86.three.co.id. [180.214.232.86])
-        by smtp.gmail.com with ESMTPSA id y28-20020aa793dc000000b0056c0d129edfsm6617533pff.121.2022.11.14.05.11.50
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wptfyIK6cGXWafJRIE0+wKYEiUfT/C8Cp/88f6SDnJI=;
+        b=lyaYbfMFbiw38WJXNl2zravrTF51HnHd0hwt/DyAAx00mpbsiUODJMs4RM2L6vGtZK
+         R7sKkDUhD+vLHB5P+EvYuwcwcAT9shQCf9Q+arIdbpJjBt6DY+CB0AfrXtOyw1abrMd8
+         DDAHlEtlHb3dEUrHjWbUtuIusl4o+A3vOOsh2sp/0DfeJRrl+f0FOR++NY+nxWOS9D38
+         a3Y7cUJdU/AWcyXuYZWH3OXoL/9Hlri43T/GoY4x5OZph5hQERYZk8sFnPpGpNlYMFOh
+         S8PFQNd6BhwqN/mTSndTpWi/Pb5VMOoK8WkYcRJ+Y2r1bIt/0uHW7ROwMK5wgr8Z4/fv
+         hNPg==
+X-Gm-Message-State: ANoB5pkkPP2N/5MS+PyZcf5qxNWPe9L2WYmhm8lVVwvrZ1a1j9MNb+WK
+        NpeDAH263FBxTdKkfpRczyJC1g==
+X-Google-Smtp-Source: AA0mqf5XAHfO6upM08Nlwr28NvlYYCOvH4cs7UB4GYrPptHd4Wu7+zqYlEwJB7EXRhdzfIqrEule5A==
+X-Received: by 2002:a17:906:edb7:b0:78d:b712:fe99 with SMTP id sa23-20020a170906edb700b0078db712fe99mr10318362ejb.462.1668431945090;
+        Mon, 14 Nov 2022 05:19:05 -0800 (PST)
+Received: from alco.roam.corp.google.com ([2620:0:1059:10:c205:5c4e:7456:c8cc])
+        by smtp.gmail.com with ESMTPSA id g13-20020a50ec0d000000b0045b3853c4b7sm4802061edr.51.2022.11.14.05.19.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Nov 2022 05:11:50 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 326211042EC; Mon, 14 Nov 2022 20:11:46 +0700 (WIB)
-Date:   Mon, 14 Nov 2022 20:11:45 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Junhao He <hejunhao3@huawei.com>
-Cc:     mathieu.poirier@linaro.org, suzuki.poulose@arm.com,
-        mike.leach@linaro.org, leo.yan@linaro.org,
-        jonathan.cameron@huawei.com, john.garry@huawei.com,
-        coresight@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        lpieralisi@kernel.org, linuxarm@huawei.com, yangyicong@huawei.com,
-        liuqi115@huawei.com, f.fangjian@huawei.com,
-        prime.zeng@hisilicon.com
-Subject: Re: [PATCH v13 0/2] Add support for UltraSoc System Memory Buffer
-Message-ID: <Y3I+kaZOe4TPNsd/@debian.me>
-References: <20221114090316.63157-1-hejunhao3@huawei.com>
+        Mon, 14 Nov 2022 05:19:04 -0800 (PST)
+Subject: [PATCH v1 0/2] kexec: Add new toogle to disable kexec_reboot
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="v3CYsDSexBSkad/c"
-Content-Disposition: inline
-In-Reply-To: <20221114090316.63157-1-hejunhao3@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-b4-tracking: H4sIAC1AcmMC/w3LQQqEMAwF0KtI1hMwVVDnNm39arB0oNFBEO9ul2/xbjIUhdG3uangr6a/XCGfhu
+ Lm8wrWuZpc65yI9Dyr+ZDAOy5ELjAcLFMYIDJ03bhQncEbOBSf41ZvPlN6nhcDB99zagAAAA==
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Mon, 14 Nov 2022 14:18:37 +0100
+Message-Id: <20221114-disable-kexec-reset-v1-0-fb51d20cf871@chromium.org>
+To:     Eric Biederman <ebiederm@xmission.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+        Ross Zwisler <zwisler@kernel.org>, linux-doc@vger.kernel.org,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.11.0-dev-d93f8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1244; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=JfIkpVZ3TPV8FpLGteqEp65kTEUP1lPgQkWDBE88DK8=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjckA4FzdwiaV6YR2rAuNRu5qRVsvHdkr8TBqmbGPm
+ CtXfY96JAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY3JAOAAKCRDRN9E+zzrEiG2XD/
+ 9E6yRRi3EQWhNK8uXRmHb1MCO0lvuapyhVEgfn84IwmzoXZD0pthUawboSbdfqV2aCv95D7xDPGaom
+ Tkf8PBHwsFpeOBEWQ/jYmYr4+LqnKjvY3DJsWQPJTXM7VQ9EdTGBL5ZBfqHMmeGVvrUQB2dSWgqYcF
+ T3kFrEMBraghVcFnOA3223Ba2sSuonthRcaotPb+xSYYUMn/rkJXpdplql6892hC+w9L1sFDARUx7C
+ tvhRMa/vmLgAgd1tGn2TU7gPPutTUG7Jx0TAN04IZ97QZdyE7h7vKyskbiu0cmnhILdGFpomAVfnpW
+ xGV4XIGWqmIwc8x3v9jMckXWb23Av3Wfu3CWoPPXPKpajj9Vdz1C4kCQb7gTq2RQK0iRgIv1F1jUZ4
+ 5M8T38wr+Wv5+YbShJzRhR53LUtmNRBLjDlZ6x7FpUpTth5w3vyn4s/kzukKpAepAWp96lfjhoZ/hV
+ 8By8SfhB73wVspAP3X4fKz7Dn5Ghpgo6V0ww1ERk4z4Wp4Xzh1W0q3FF1jfIEIyMokns/CxFNKSD+b
+ Fuz/sLCrcNriPFsUkaXZX5n2KLveB+bOEoO0sBHzL+UhDyPkVYF3kKKZQw/O/TjeF6ybBcFuq1jiuI
+ ovH518DkpySdiiVfyHPxGcCI72WSIEGqwvrjoE0cFpEAPFpQtq3RQTTNU+DA==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Kexec lets the system administratior replace the current kernel with a
+different one. 
 
---v3CYsDSexBSkad/c
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add a new toggle to limit that replacement to system crashes only.
 
-On Mon, Nov 14, 2022 at 05:03:14PM +0800, Junhao He wrote:
-> Add support for UltraSoc System Memory Buffer.
->=20
+To: Jonathan Corbet <corbet@lwn.net>
+To: Eric Biederman <ebiederm@xmission.com>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: kexec@lists.infradead.org
+Cc: Joel Fernandes (Google) <joel@joelfernandes.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Ross Zwisler <zwisler@kernel.org>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-The cover letter message (aside changelogs) is short but LGTM. However,
-for individual patches description, please write in imperative mood
-(that is, no "This patch/commit does foo" but "Do foo" instead).
+---
+Ricardo Ribalda (2):
+      Documentation: sysctl: Correct kexec_load_disabled
+      kexec: Introduce kexec_reboot_disabled
 
-Thanks.
+ Documentation/admin-guide/sysctl/kernel.rst | 18 +++++++++++++++---
+ include/linux/kexec.h                       |  1 +
+ kernel/kexec.c                              |  4 ++++
+ kernel/kexec_core.c                         | 13 ++++++++++++-
+ kernel/kexec_file.c                         |  5 +++++
+ 5 files changed, 37 insertions(+), 4 deletions(-)
+---
+base-commit: 094226ad94f471a9f19e8f8e7140a09c2625abaa
+change-id: 20221114-disable-kexec-reset-19b7e117338f
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---v3CYsDSexBSkad/c
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY3I+igAKCRD2uYlJVVFO
-o1UsAQC84UBCE7LcNm7rlFcJmsg5bIyUFwl1f5xkMLKP1kpS3AEAmqD8k+1nTJGa
-gxmYpWJx+6+dp8zsZXEhYNNQMUgYSAY=
-=xa7E
------END PGP SIGNATURE-----
-
---v3CYsDSexBSkad/c--
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
