@@ -2,103 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 942DCC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 10:57:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A63C43217
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 11:46:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235602AbiKNK5R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Nov 2022 05:57:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52260 "EHLO
+        id S236771AbiKNLqF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Nov 2022 06:46:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235617AbiKNK5Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 05:57:16 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F22301A207;
-        Mon, 14 Nov 2022 02:57:15 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id z14so17315957wrn.7;
-        Mon, 14 Nov 2022 02:57:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6WjFufgdkg/OkYWcIaQRnwXicBL1zcGqAln66oAXCb8=;
-        b=IOHD6TkkM8jJW1lWBwzRJ+XOJPBdntJ3gje1DWAKn0tKNsIVypUozdO7F1tPI6XclJ
-         phOcu5JlJPmOOm9qjcuSIYnCSkBAzz56R7kMNQIY1kx/kdHvKgE8smpBHgf9BBlKNDkY
-         wZ/Q2PF/CHyrp/DfekjEqJ7DWwLaFrmnw/wyJOC50+8cjLif0HQRYPN2qZq5BTcd2oNi
-         Trxjuq4ZAuaWV/vpfvvHcNR7lUA7Dwe+N1DymWTQ7SjAycBIwY0bLE9yAWLWSRExGdNs
-         +tRnvCMSJiSakDTYAyDNtkKfA1y+vcaNaCUima1R6QyrEHPB6O3wCmkxpt5zYT7c96JQ
-         NwRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6WjFufgdkg/OkYWcIaQRnwXicBL1zcGqAln66oAXCb8=;
-        b=FpSn/Sdtx20kZXL5qVx+AgtnFs6qxzM5ahIrFFrMo1CIiSzvs1lxMbYPl6PVra02Dx
-         d7/25FuL2z344MagWyqBkLXlsjmyHuvxU7qkVddBt6qnmYvImNKvRJWVx129vZO1RPIo
-         e7GDAsY06Lejz+p/aoASfK91naPVTQOpwnRxdIHcfttGYXy3+h3fwkYfQ5I/+UrDY0Mu
-         6hLT1PNGKYPBYtmN2ny1Lok9HhNeItfmCX0LsEgh9SMVffE3UTatwNkdpTV6Znb10/cp
-         wb3Fm3BH4rPw0gZxb1v63sV5FE7rru4p40JMemv+63g+X9dj+IXld9/oxWi6tmOPWwBu
-         Ijxg==
-X-Gm-Message-State: ANoB5pkfCWGLnMZDBHu/3eusSIiMrrTA7RGIyJ4zTwy3JeLEJ0Oqo6hn
-        WWQF9abHesTghERgtt6g6ZU=
-X-Google-Smtp-Source: AA0mqf4WeoJGh9UpaiS0ZkbteiHw+SNHbGFL2jdaBsDx/ANXC8uS0rBqB7yo48ZbBV0/pCVspdwFPg==
-X-Received: by 2002:adf:ef8b:0:b0:236:5700:d4cb with SMTP id d11-20020adfef8b000000b002365700d4cbmr7361348wro.597.1668423434278;
-        Mon, 14 Nov 2022 02:57:14 -0800 (PST)
-Received: from imac ([2a02:8010:60a0:0:6942:6e2a:2257:aa49])
-        by smtp.gmail.com with ESMTPSA id p16-20020adfe610000000b002364c77bc96sm9276977wrm.33.2022.11.14.02.57.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Nov 2022 02:57:13 -0800 (PST)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dave Tucker <dave@dtucker.co.uk>,
-        Maryam Tahhan <mtahhan@redhat.com>
-Subject: Re: [PATCH bpf-next v10 1/1] bpf, docs: document BPF_MAP_TYPE_ARRAY
-In-Reply-To: <CAEf4Bzak4A-vP=NeJheA0poiu_8fK53cvbq1EnnSHC78FB7mtQ@mail.gmail.com>
-        (Andrii Nakryiko's message of "Fri, 11 Nov 2022 11:39:51 -0800")
-Date:   Mon, 14 Nov 2022 10:18:04 +0000
-Message-ID: <m24jv17sbn.fsf@gmail.com>
-References: <20221109174604.31673-1-donald.hunter@gmail.com>
-        <20221109174604.31673-2-donald.hunter@gmail.com>
-        <CAEf4Bzak4A-vP=NeJheA0poiu_8fK53cvbq1EnnSHC78FB7mtQ@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
+        with ESMTP id S236149AbiKNLp3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 06:45:29 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 470112180D;
+        Mon, 14 Nov 2022 03:44:49 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id F1E061FED3;
+        Mon, 14 Nov 2022 11:44:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1668426287; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Iq24fi/K1ZWxZUXMvcUoyTILrqk5JmMovex8xWMhGvs=;
+        b=S+9g95Urw709nCH24xOaR7yO668sAayDLj+OvE2gd++F0B3Uctz3YCnc4Dm+houj7Rkq+O
+        o9SNuP3/3CedtLzMpL1fiOwJ9IHCmkCRUXc/tRLtHK9UhdrtpX1iarg+ryTnBA77fJUTrj
+        gbUVJGeEqe5Vb6sjMG7NEJRyttxaBSg=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CFCA013A92;
+        Mon, 14 Nov 2022 11:44:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 3XuMMC8qcmMuAwAAMHmgww
+        (envelope-from <mhocko@suse.com>); Mon, 14 Nov 2022 11:44:47 +0000
+Date:   Mon, 14 Nov 2022 12:44:47 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Zhongkun He <hezhongkun.hzk@bytedance.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
+ pidfd_set_mempolicy().
+Message-ID: <Y3IqLzvduM6HqPJV@dhcp22.suse.cz>
+References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
+ <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
+ <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Andrii Nakryiko <andrii.nakryiko@gmail.com> writes:
+On Mon 14-11-22 00:41:21, Zhongkun He wrote:
+> Hi Andrew, thanks for your replay.
+> 
+> > This sounds a bit suspicious.  Please share much more detail about
+> > these races.  If we proced with this design then mpol_put_async()
+> > shouild have comments which fully describe the need for the async free.
+> > 
+> > How do we *know* that these races are fully prevented with this
+> > approach?  How do we know that mpol_put_async() won't free the data
+> > until the race window has fully passed?
+> 
+> A mempolicy can be either associated with a process or with a VMA.
+> All vma manipulation is somewhat protected by a down_read on
+> mmap_lock.In process context there is no locking because only
+> the process accesses its own state before.
 
-> On Wed, Nov 9, 2022 at 9:46 AM Donald Hunter <donald.hunter@gmail.com> wrote:
->>
->> +This example BPF program shows how to access an array element.
->> +
->> +.. code-block:: c
->> +
->> +    int bpf_prog(struct __sk_buff *skb)
->> +    {
->> +            struct iphdr ip;
->> +            int index;
->> +            long *value;
->> +
->> +            if (bpf_skb_load_bytes(skb, ETH_HLEN, &ip, sizeof(ip)) < 0)
->> +                    return 0;
->> +
->> +            index = ip.protocol;
->> +            value = bpf_map_lookup_elem(&my_map, &index);
->> +            if (value)
->> +                    __sync_fetch_and_add(value, skb->len);
->
-> should be &value
->
-> I fixed it up and applied to bpf-next, thanks.
+We shouldn't really rely on mmap_sem for this IMO. There is alloc_lock
+(aka task lock) that makes sure the policy is stable so that caller can
+atomically take a reference and hold on the policy. And we do not do
+that consistently and this should be fixed. E.g. just looking at some
+random places like allowed_mems_nr (relying on get_task_policy) is
+completely lockless and some paths (like fadvise) do not use any of the
+explicit (alloc_lock) or implicit (mmap_lock) locking. That means that
+the task_work based approach cannot really work in this case, right?
 
-I double checked and it really should be value, which is already a
-pointer.
-
-Do you want me to send a patch to fix it up?
+Playing more tricks will not really help long term. So while your patch
+tries to workaround the current state of the art I do not think we
+really want that. As stated previously, I would much rather see proper
+reference counting instead. I thought we have agreed this would be the
+first approach unless the resulting performance is really bad. Have you
+concluded that to be the case? I do not see any numbers or notes in the
+changelog.
+-- 
+Michal Hocko
+SUSE Labs
