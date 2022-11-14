@@ -2,59 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4778DC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 16:12:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0C0BC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Nov 2022 16:16:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237054AbiKNQMM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Nov 2022 11:12:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50194 "EHLO
+        id S236758AbiKNQQM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Nov 2022 11:16:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236387AbiKNQMM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 11:12:12 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 57D2425C42;
-        Mon, 14 Nov 2022 08:12:11 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6196F23A;
-        Mon, 14 Nov 2022 08:12:17 -0800 (PST)
-Received: from bogus (unknown [10.57.6.137])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4655E3F663;
-        Mon, 14 Nov 2022 08:12:09 -0800 (PST)
-Date:   Mon, 14 Nov 2022 16:12:06 +0000
-From:   Sudeep Holla <sudeep.holla@arm.com>
-To:     Jeremy Linton <jeremy.linton@arm.com>, rafael@kernel.org
-Cc:     linux-acpi@vger.kernel.org, catalin.marinas@arm.com,
-        will@kernel.org, corbet@lwn.net, lenb@kernel.org,
+        with ESMTP id S230079AbiKNQQL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 11:16:11 -0500
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0386264CA;
+        Mon, 14 Nov 2022 08:16:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=znnsShYF3xMT+VtpHIRsweTjuKslFaebTs8rKcGhy3I=; b=NGUAJ3PUj4W0JFQSXxGJbcBUQ/
+        brGT1l6wHh1sn8UkG+adbRc1r/md9kAuUOyuoiYNhiMF3I9bAj6W/J8sz8zl9iW2n3AyilbK83oj8
+        sLiY1dHAeT/yqkV3pDilb7JLyvUm1ifJ7Uo9zzS5neCknjQO163obDLUM1D8yxpLg0HJYnwlYe0mA
+        Kh/W/GfeEE7fYcxqJ7mBB9Mg/m2okIiKlpFm7MYsCRTQcLGyRn6uTu9oOYFxjDft1giaLeAm0a543
+        1NaB/+pX8T2qz+SUHEUklMrrabJ0L/LfN577N8YG6DVUXzagS06rcTwuxXMFTO3/iESar/IXZVSXC
+        SimKFuMQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35264)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1ouc7o-00014G-14; Mon, 14 Nov 2022 16:15:56 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1ouc7i-0003wN-OK; Mon, 14 Nov 2022 16:15:50 +0000
+Date:   Mon, 14 Nov 2022 16:15:50 +0000
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        asahi@lists.linux.dev, devicetree@vger.kernel.org,
+        Hector Martin <marcan@marcan.st>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ACPI: Enable FPDT on arm64
-Message-ID: <20221114161206.5sspq25v57ddco4o@bogus>
-References: <20221109174720.203723-1-jeremy.linton@arm.com>
+        linux-gpio@vger.kernel.org,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH v3 2/7] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Y3Jptob4bGL9Weel@shell.armlinux.org.uk>
+References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
+ <E1osRXO-002mvw-Fp@rmk-PC.armlinux.org.uk>
+ <Y3Jf7xz2CQjJuEeT@alley>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221109174720.203723-1-jeremy.linton@arm.com>
+In-Reply-To: <Y3Jf7xz2CQjJuEeT@alley>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 09, 2022 at 11:47:20AM -0600, Jeremy Linton wrote:
-> FPDT provides some boot timing records useful for analyzing
-> parts of the UEFI boot stack. Given the existing code works
-> on arm64, and allows reading the values without utilizing
-> /dev/mem it seems like a good idea to turn it on.
->
+On Mon, Nov 14, 2022 at 04:34:07PM +0100, Petr Mladek wrote:
+> On Tue 2022-11-08 16:33:22, Russell King wrote:
+> > From: Hector Martin <marcan@marcan.st>
+> > 
+> > %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
+> > it's useful to be able to print generic 4-character codes formatted as
+> > an integer. Extend it to add format specifiers for printing generic
+> > 32-bit FOURCCs with various endian semantics:
+> > 
+> > %p4ch   Host-endian
+> > %p4cl	Little-endian
+> > %p4cb	Big-endian
+> > %p4cr	Reverse-endian
+> > 
+> > The endianness determines how bytes are interpreted as a u32, and the
+> > FOURCC is then always printed MSByte-first (this is the opposite of
+> > V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
+> > allow printing LSByte-first FOURCCs stored in host endian order
+> > (other than the hex form being in character order, not the integer
+> > value).
+> > 
+> > Signed-off-by: Hector Martin <marcan@marcan.st>
+> > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> 
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> 
+> See one nit below.
+> 
+> > --- a/lib/vsprintf.c
+> > +++ b/lib/vsprintf.c
+> > @@ -1762,27 +1762,50 @@ char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+> >  	char output[sizeof("0123 little-endian (0x01234567)")];
+> >  	char *p = output;
+> >  	unsigned int i;
+> > +	bool pixel_fmt = false;
+> >  	u32 orig, val;
+> >  
+> > -	if (fmt[1] != 'c' || fmt[2] != 'c')
+> > +	if (fmt[1] != 'c')
+> >  		return error_string(buf, end, "(%p4?)", spec);
+> >  
+> >  	if (check_pointer(&buf, end, fourcc, spec))
+> >  		return buf;
+> >  
+> >  	orig = get_unaligned(fourcc);
+> > -	val = orig & ~BIT(31);
+> > +	switch (fmt[2]) {
+> > +	case 'h':
+> > +		val = orig;
+> > +		break;
+> > +	case 'r':
+> > +		val = orig = swab32(orig);
+> 
+> I do not like much these multi assignments. I think that the result
+> was not even defined in some older C standards. Though, I can't find
+> it now. And even make W=3 does not warn about it.
 
-FWIW, this looks good to me.
+Err.
 
-Acked-by: Sudeep Holla <sudeep.holla@arm.com>
+It's been supported for decades. I learnt about it back in 1992 when
+I was introduced to C by another experienced C programmer. It's been
+supported in ANSI C compilers. The Norcroft C compiler (which is
+strict ANSI) on Acorn platforms back in the late 1980s/1990s even
+supported it.
 
-Hi Rafael,
-
-Just saw this marked as "Handled Elsewhere", do you prefer to be merged
-via arm64 or other tree ? This doesn't have any arm64 changes, just Kconfig
-and doc changes. Let us know.
+I think you're a bit out of date.
 
 -- 
-Regards,
-Sudeep
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
