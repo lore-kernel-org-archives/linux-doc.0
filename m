@@ -2,324 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC0FCC43219
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 09:34:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F889C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 09:48:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232197AbiKOJeO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Nov 2022 04:34:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57682 "EHLO
+        id S238000AbiKOJse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Nov 2022 04:48:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232359AbiKOJeB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 04:34:01 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0E4F12A83;
-        Tue, 15 Nov 2022 01:33:59 -0800 (PST)
+        with ESMTP id S238026AbiKOJsc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 04:48:32 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9973B5FBD
+        for <linux-doc@vger.kernel.org>; Tue, 15 Nov 2022 01:48:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668504840; x=1700040840;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=dNsM3rb5V+KYXYHSWNPt0esoX7Bknd1ZB3DIEqhegvE=;
-  b=laSyQh9BYUDcQhpk6onkC9y1IzD78AgQ/VF08NtB1LAiCm3ZcVJyjf+D
-   ZhQN3y6h2XpasQdGf0d1DomcbrAk/v33UmJMnKfp5otsD1Ff/X6B8vpgB
-   h0MYr9jGqjtQ77xXr18+Xf7oqWq05I3UpT/1C8KKMl7+PsBj+Eag6ZHo+
-   tdXoUYob1eAgebzDA54+or1o8mbfpGNcGo+TGvJ7yn3qJZh8vwBP/4vWE
-   bZAKt6XeVwdT10i7JG7yVPLpzyqlIEJormRM6k325mq7zm0ufWkwr5XzL
-   zWiQWJjXQUa0wD6dZJuTIEns2F4pa0UXemG/+RdchABkpBZVAIghUcrCs
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="299733891"
+  t=1668505711; x=1700041711;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=mbBbJZptvhS2n1rlUzNwxeDFP32taLBWKrlPC30DAtM=;
+  b=Nz6EiWnxpX0CIPQ6cNeKoYHrVhfy1SFxQIOzHnRMSjEsTTJGpNoHi/w9
+   Qb79fIWj4sX1pYy3BTSxQoAp0gK+gpybJJjrtulMGfUdbcbY0a81XtG5b
+   2qAV1FMqcWVgDd6pzizFnmIf5iYpqwja/fS3lNcA2gamkBm/jPEp0lSXj
+   bQuHhuo/7MZ4E/rmUrgTr6rSAEYCppjtsD+stYhQz3xvoZBPq5E3Mr3qs
+   kMc9Q1KfUbBlL1tLY/YA3LxoCJD4mFMmrVNcj/jgJQ4zUMRSED4SSBkdj
+   NkDlUxug1Dz/zMCrUFnxpxLJEZ4NflvIroI2km+QPY6FMbhhQ5IEwYGPK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="314020743"
 X-IronPort-AV: E=Sophos;i="5.96,165,1665471600"; 
-   d="scan'208";a="299733891"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 01:33:41 -0800
+   d="scan'208";a="314020743"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 01:48:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="702370731"
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="813624186"
 X-IronPort-AV: E=Sophos;i="5.96,165,1665471600"; 
-   d="scan'208";a="702370731"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Nov 2022 01:33:31 -0800
-Date:   Tue, 15 Nov 2022 17:29:06 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 2/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <20221115092906.GA338422@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-3-chao.p.peng@linux.intel.com>
- <877czxbjf6.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+   d="scan'208";a="813624186"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga005.jf.intel.com with ESMTP; 15 Nov 2022 01:48:30 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 15 Nov 2022 01:48:30 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Tue, 15 Nov 2022 01:48:30 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.104)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Tue, 15 Nov 2022 01:48:20 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dZiXs33bZN1h2QybnrQj75IEcCjYlQLevMv7Dt9XDs6nzXc54zAJmD/8YoZ937lWOR1OmQWwq1BAVFxJKZ3rADUBJ22bdkU4ekTXp794uC5iNh8Z2R4xvmL8v5kxDod0qJJXAiRNslQoX8qtEzRul+Gdy1JJ+VZ4HDCKIu3D3exLXULzp2qevTTlyCBUQRHvtQE5j/Ewwio0sj8pqXOEP4xBZnukBUEXNbDftMi4c2Hs7sTQJRAgHmftzX+jeY47GsO2iumcHVWjl7MEvtOtnkqszfmhO5kJc+TuF1zF2KZsISxpMHLFKgN8fENn1+lUmg4MK4otw8jkEnpV+xzPKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kpYo0EIczlge8QEs0ILiWgUV584oAh9jZ9ISmrx8MFc=;
+ b=E4J7mrw7zfnTGHZGX+o6hq2XRC9A7RW67h8ifYYVccmOqCu2wnQuuBsLEAwNB5NXUG+KyLGN+zGIcyMA2uyMmHfe+zKh0Pj9NGSiM/+Ub7lwO8LsRslNRY7hsBCgwrmsnH9/YRYiobIOAN5H/1YT490peOFbzvDXPoirekhKeci24OezZGv5D7AVVd4dm+kgG0REKt8k2ZjmA0uq8wutk8V3TBYmbzj5jTChZ7c/Mq0duZZUkJ2civyvbc6pnr7yW53xCL+83MHTmGn6KAlbaziwDNkfQ4IPdsgr76qbibobci5nBVDA2LwUqMsuF4sYOJrx+mqxpoP3h1Jcr+JlGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM5PR11MB1897.namprd11.prod.outlook.com (2603:10b6:3:112::9) by
+ BL3PR11MB6531.namprd11.prod.outlook.com (2603:10b6:208:38e::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.17; Tue, 15 Nov
+ 2022 09:48:13 +0000
+Received: from DM5PR11MB1897.namprd11.prod.outlook.com
+ ([fe80::c0e8:f5ad:37d:ee67]) by DM5PR11MB1897.namprd11.prod.outlook.com
+ ([fe80::c0e8:f5ad:37d:ee67%3]) with mapi id 15.20.5813.017; Tue, 15 Nov 2022
+ 09:48:13 +0000
+Date:   Tue, 15 Nov 2022 15:18:01 +0530
+From:   Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+To:     Lucas De Marchi <lucas.demarchi@intel.com>,
+        <dri-devel@lists.freedesktop.org>,
+        <intel-gfx@lists.freedesktop.org>, <linux-doc@vger.kernel.org>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [Intel-gfx] [PATCH 2/3] Documentation/gpu: Limit index to
+ maxdepth=2
+Message-ID: <Y3NgUWlKr1ie83BW@bala-ubuntu>
+References: <20221107173209.2219571-1-lucas.demarchi@intel.com>
+ <20221107173209.2219571-3-lucas.demarchi@intel.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <877czxbjf6.fsf@linaro.org>
+In-Reply-To: <20221107173209.2219571-3-lucas.demarchi@intel.com>
+X-ClientProxiedBy: PN3PR01CA0178.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:be::12) To DM5PR11MB1897.namprd11.prod.outlook.com
+ (2603:10b6:3:112::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM5PR11MB1897:EE_|BL3PR11MB6531:EE_
+X-MS-Office365-Filtering-Correlation-Id: c6adc20b-3bf8-4ecb-f876-08dac6ee82a8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pn7neYsHHwGGe3DOyLDeGt+KNsKCmJCv34Qq/qKOEWIY5OgQ0VeyhoaAETE3+ZWmxYwplUuQlHgg41B9dqOasLH80P6FG5ozK0NIgIoEkKA+DpIa7rPeDPEOosRluHMSF0wic5mPI7754/tYwHWBWfhQnPfOBzIwSl6v3w42/P37duCe4yGPqGny7dM7fnPP1zTB//W8e4I9QM4aFnGvvwg17i+ht+xr98j4PswIQZGN0z1Btyyj772pbtw/TLPVdyEBGoVix9CMyW+Kq+Iuki57WTHLcGwz1xKaemKidhLNSHxmEVWVL03vUBpr1bdHNxVNFLJywXh7LthUFylAjEI64vuVWFS9yfbUkBoWFBcFly7cee32QnlPFjQ1E8S0YvtHCsluUWzrHGwqG7YIOpJ6c5VUquIirOUNgTLCeEth7mWUr/DVlLLF672DfnCtM6s0ripyVGfUQ45RhucifZGg8p3qW1ldlkxp2IB50B1X2GZS489vpU0abHVSxVPHsJuNpk9HS43ugf2eqfHnZcjQIrl5JdLwJndmIz3e55Bks3ZLRoLsvVOqKv3qpvBkiJJ6oo8GFrJoRotnrPJNoE5WHt5O/8fgUlqtBThdI66SRFlQZIJeeQHXWWD/4YWCGdtr6MHDNjvdXJX7+tS2tbZbtsrKXsBjwnBtWR0HYqxZLA8fT17Vcfi03NDHlaKmO5uY4h0kvTKaLpngii0gvyP3uSFDSZ1lHMQhX2+u9UHd8393JiHZgBND6rutDNCz
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR11MB1897.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(39860400002)(396003)(136003)(346002)(376002)(366004)(451199015)(53546011)(316002)(8936002)(44832011)(41300700001)(186003)(26005)(5660300002)(6506007)(6512007)(83380400001)(33716001)(9686003)(2906002)(66556008)(66946007)(4326008)(66476007)(8676002)(38100700002)(86362001)(6486002)(478600001)(82960400001)(6666004);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZGNteVVzTXhhVlBML2dMNkltYVdVOGJkWUFDbHgyNFV0ZmxST1FuM3dhYmNC?=
+ =?utf-8?B?cUtPMnVaaHgrUEs3UTNQRjdCdEJxbWRadE5wcmFnbTN6RW5FL1BNQ0RKS2RF?=
+ =?utf-8?B?clo2L0IwQlptcDE1YTdtanV3a2JJT094aXdqUkk1bFlQWDVibVlyT3RVRzcr?=
+ =?utf-8?B?UVJxeTVKK3U4TVExYnVsVy9KOG9URmltZkpBemRyNGRneHBzUG9DVkJsTUNt?=
+ =?utf-8?B?bzh6UDFVcVRjZHY0SFhJWEE2ZWlZNjZ1NjRpVFRCREtUZmp0R202eFoyQUVa?=
+ =?utf-8?B?Z3J5RUZnNXFpRjlyM3lUa3VXWEtSdTRJNHRnVU1ZMkFzZkVSckd2NlRnbXdY?=
+ =?utf-8?B?RnhFQmVNTGJyemNDQ2F0RDMwOWtIbis4TGdXc05ETE15QmlDNFN0WTllenJR?=
+ =?utf-8?B?WklFMU9Nc2pTVFBrYUpyeG9SeWVhTU44dE40T3lnNHZvQUVrRW1lc2d0OHhJ?=
+ =?utf-8?B?Wm5weHlZMUlPSHJ1NlFraTFHS3JtM2RWVDBDSVpLenZITlM0R0Q3VTBhMDRY?=
+ =?utf-8?B?MWkrdWpIWnpVVDlBSWk0Q2VOMGdOakdJTDJlNFdJRi9wVDJiUy9WYW9KMzdp?=
+ =?utf-8?B?VWU5eEZRUnF4WjlMSXdVeVp0ZCt3VGVFYVJMMlFVa0dPYlIvdFRPNFRJWGkw?=
+ =?utf-8?B?OVhjQXRGOGRsRkZVMGdyQlJ5MzJYZWZMd1pVT21HQ1d5K1hna2dtMmFRRGdy?=
+ =?utf-8?B?R2JxcDBpSitNZjBkdWZIdWtDRlhiVDg0NTA1TmYwam1aSTVaUVAvcDMxZm1i?=
+ =?utf-8?B?MUt5UitiYlhUVkVCNS9PcG84OWo0cDdXK09YRXNkMEgxaDBrVTVHYTAxT1gr?=
+ =?utf-8?B?V3lEOFkxZ0IxUTFMenRPQzRWT1FhelRBelp6SXZhSmtqSHNPK0ZnRWZQd2ha?=
+ =?utf-8?B?VS9vYlQ3U2xtNk8wZzI5M2VjUDQ1YWhyWlNkVHdqZ05QQXhiRk5lUVo5VVo2?=
+ =?utf-8?B?WGo4UitsaXE1a0ZBdTFrN3g3VXkrNWhPbzNkcGJLbFcwYmx4dFNZM2U2VFZ1?=
+ =?utf-8?B?dC9DTGZZd29rSDRtcWdiMHdYM0hmeHJNc0d6V3V4YWVGL0podEY4bEk3Z2RN?=
+ =?utf-8?B?anppenNZb09OSytrQTl1ZTBwYkJqOXJ4cUFUZnlmRVorN1pLTXdJRWJPTkJ3?=
+ =?utf-8?B?TVBTZk40T3h2NW4xUm1tckk4TmZoOFJqdWVkeGRqaUJHRHlVZytYMEtEbjBn?=
+ =?utf-8?B?VmRqWFZ5NmorTkdOOU02eWFhN1JXVHJkSkhTTitFUUF1WWVQRFFPUjNIUW9Y?=
+ =?utf-8?B?dlpJMWNkMFo5KzIxV1V2ZzN1RHZWb0w4RWRsVHdGa3NMTGdxTkRjOThoQitF?=
+ =?utf-8?B?WEZ5a0lJeDk3OHAwNUZEOTUyMkV2SkdvTWxrTHltelNCYVBoR1BPeG9heitn?=
+ =?utf-8?B?WU1tOThjcVp6ZHREV0FJRTlzZHZndWVNRG13QzRkNHhYZXZnRk1DWUxrUDFN?=
+ =?utf-8?B?MzRycnBMcU9KSTkwajZPN2pEMzI0dDhwRVJ2bEZMVjAwdEY5cmJ2dW40azB3?=
+ =?utf-8?B?d2VmUTltWVh6RHQzc0xiRnlMSmMwbjE2T0VIN2FBZFZSVWdxT1dFSjc1aHM2?=
+ =?utf-8?B?NEFPcVdDM0UrcmFZUE9Wdk5Ib0U4djAxQ1FFOG9HL0xoY25lVW16NGtWbzhw?=
+ =?utf-8?B?VjFkUmRNVXlwcWNmenZXSGJVaHRsQVBaY2VUYXIvc2FsbnFObVNPNEpVakhF?=
+ =?utf-8?B?RTMrSUxIUm9ybjFXWXM0OWRFUUs2azdrcU9xZG8rYi80YkptWXpqNW8vVHE5?=
+ =?utf-8?B?KzdNS0FlRHdFWkFReWJjR0MycS9IR2NuRTVMT3IwTHlmeElDZ0dxY0l5UEtO?=
+ =?utf-8?B?N2E0NG1Ob3IycFBkemhDbEU3NDJKdW45bUxGbmpHemdLUmlYVVJkeHhMVHdz?=
+ =?utf-8?B?Wjc0V1NsY2ZuYXJZSTJYaTlXOFdMT0xqVGFZMWJ0YTRBbktMZmZpRXFDdEE3?=
+ =?utf-8?B?Q2RhTDAxSTBGTkhQbENlZE1KNEcwT2pZRCswSy9BUXl3RE1HOUE3MTRDdU1h?=
+ =?utf-8?B?UFpSd0QxNzR3V0d3Qkh0NGZKT1RUd3AweHJhM2toSTZkWW9DK2pueVVBSGZ0?=
+ =?utf-8?B?VjZJK3RRNm1ZcERtNzVkUm5iR2lzNUE5SitFVkVMSDVJV3pLQ1JhcjBHUFpk?=
+ =?utf-8?B?SUpzNngzcklkUXNzYVNkQ1hPaUpHZVQ2Qk1lb1ljQUZkanZMRE96SEYrTk1x?=
+ =?utf-8?Q?tkm63mALfHs7bwUOtWEqufc=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6adc20b-3bf8-4ecb-f876-08dac6ee82a8
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1897.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2022 09:48:13.7348
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dxLPRbDPYi721v3+DOtQnj3E23Fi6zzzmw5i/AqkY+vqIIML1TaKAPU8ZcuZhUTUXuaxB7YeZj/L3ioZvgHyNNoNlU4AQQOlAbi3//+E+AqPEqjgRKYIPSnN3DA+3xWS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6531
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 14, 2022 at 04:04:59PM +0000, Alex Bennée wrote:
+On 07.11.2022 09:32, Lucas De Marchi wrote:
+> With a lot of sub-section it's a little bit hard to find the information
+> needed in the main GPU index. Limit the maxdepth to 2 so it doesn't get
+> poluted with noise from each driver and from other sections.
 > 
-> Chao Peng <chao.p.peng@linux.intel.com> writes:
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> ---
+>  Documentation/gpu/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> > In memory encryption usage, guest memory may be encrypted with special
-> > key and can be accessed only by the guest itself. We call such memory
-> > private memory. It's valueless and sometimes can cause problem to allow
-> > userspace to access guest private memory. This new KVM memslot extension
-> > allows guest private memory being provided though a restrictedmem
-> > backed file descriptor(fd) and userspace is restricted to access the
-> > bookmarked memory in the fd.
-> >
-> <snip>
-> > To make code maintenance easy, internally we use a binary compatible
-> > alias struct kvm_user_mem_region to handle both the normal and the
-> > '_ext' variants.
-> 
-> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> > index 0d5d4419139a..f1ae45c10c94 100644
-> > --- a/include/uapi/linux/kvm.h
-> > +++ b/include/uapi/linux/kvm.h
-> > @@ -103,6 +103,33 @@ struct kvm_userspace_memory_region {
-> >  	__u64 userspace_addr; /* start of the userspace allocated memory */
-> >  };
-> >  
-> > +struct kvm_userspace_memory_region_ext {
-> > +	struct kvm_userspace_memory_region region;
-> > +	__u64 restricted_offset;
-> > +	__u32 restricted_fd;
-> > +	__u32 pad1;
-> > +	__u64 pad2[14];
-> > +};
-> > +
-> > +#ifdef __KERNEL__
-> > +/*
-> > + * kvm_user_mem_region is a kernel-only alias of kvm_userspace_memory_region_ext
-> > + * that "unpacks" kvm_userspace_memory_region so that KVM can directly access
-> > + * all fields from the top-level "extended" region.
-> > + */
-> > +struct kvm_user_mem_region {
-> > +	__u32 slot;
-> > +	__u32 flags;
-> > +	__u64 guest_phys_addr;
-> > +	__u64 memory_size;
-> > +	__u64 userspace_addr;
-> > +	__u64 restricted_offset;
-> > +	__u32 restricted_fd;
-> > +	__u32 pad1;
-> > +	__u64 pad2[14];
-> > +};
-> > +#endif
-> 
-> I'm not sure I buy the argument this makes the code maintenance easier
-> because you now have multiple places to update if you extend the field.
-> Was this simply to avoid changing:
-> 
->   foo->slot to foo->region.slot
-> 
-> in the underlying code?
+> diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
+> index b99dede9a5b1..1d9402d519be 100644
+> --- a/Documentation/gpu/index.rst
+> +++ b/Documentation/gpu/index.rst
+> @@ -3,6 +3,7 @@ Linux GPU Driver Developer's Guide
+>  ==================================
+>  
+>  .. toctree::
+> +   :maxdepth: 2
 
-That is one of the reasons, by doing this we can also avoid confusion to
-deal with '_ext' and the 'base' struct for different functions spread
-across KVM code. No doubt now I need update every places where the
-'base' struct is being used, but that makes future maintenance easier,
-e.g. adding another new field or even extend the memslot structure again
-would just require changes to the flat struct here and the places where
-the new field is actually used.
+I have a bit different opinion here. I find it helpful to search for a
+topic if the headers remain uncollapsed.
+A top level view is anyways available in the TOC shown in the left side
+of the page which shows only the immediate next level headers.
 
-> 
-> > +
-> >  /*
-> >   * The bit 0 ~ bit 15 of kvm_memory_region::flags are visible for userspace,
-> >   * other bits are reserved for kvm internal use which are defined in
-> > @@ -110,6 +137,7 @@ struct kvm_userspace_memory_region {
-> >   */
-> >  #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
-> >  #define KVM_MEM_READONLY	(1UL << 1)
-> > +#define KVM_MEM_PRIVATE		(1UL << 2)
-> >  
-> >  /* for KVM_IRQ_LINE */
-> >  struct kvm_irq_level {
-> > @@ -1178,6 +1206,7 @@ struct kvm_ppc_resize_hpt {
-> >  #define KVM_CAP_S390_ZPCI_OP 221
-> >  #define KVM_CAP_S390_CPU_TOPOLOGY 222
-> >  #define KVM_CAP_DIRTY_LOG_RING_ACQ_REL 223
-> > +#define KVM_CAP_PRIVATE_MEM 224
-> >  
-> >  #ifdef KVM_CAP_IRQ_ROUTING
-> >  
-> > diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
-> > index 800f9470e36b..9ff164c7e0cc 100644
-> > --- a/virt/kvm/Kconfig
-> > +++ b/virt/kvm/Kconfig
-> > @@ -86,3 +86,6 @@ config KVM_XFER_TO_GUEST_WORK
-> >  
-> >  config HAVE_KVM_PM_NOTIFIER
-> >         bool
-> > +
-> > +config HAVE_KVM_RESTRICTED_MEM
-> > +       bool
-> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> > index e30f1b4ecfa5..8dace78a0278 100644
-> > --- a/virt/kvm/kvm_main.c
-> > +++ b/virt/kvm/kvm_main.c
-> > @@ -1526,7 +1526,7 @@ static void kvm_replace_memslot(struct kvm *kvm,
-> >  	}
-> >  }
-> >  
-> > -static int check_memory_region_flags(const struct kvm_userspace_memory_region *mem)
-> > +static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
-> >  {
-> >  	u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
-> >  
-> > @@ -1920,7 +1920,7 @@ static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
-> >   * Must be called holding kvm->slots_lock for write.
-> >   */
-> >  int __kvm_set_memory_region(struct kvm *kvm,
-> > -			    const struct kvm_userspace_memory_region *mem)
-> > +			    const struct kvm_user_mem_region *mem)
-> >  {
-> >  	struct kvm_memory_slot *old, *new;
-> >  	struct kvm_memslots *slots;
-> > @@ -2024,7 +2024,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> >  EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
-> >  
-> >  int kvm_set_memory_region(struct kvm *kvm,
-> > -			  const struct kvm_userspace_memory_region *mem)
-> > +			  const struct kvm_user_mem_region *mem)
-> >  {
-> >  	int r;
-> >  
-> > @@ -2036,7 +2036,7 @@ int kvm_set_memory_region(struct kvm *kvm,
-> >  EXPORT_SYMBOL_GPL(kvm_set_memory_region);
-> >  
-> >  static int kvm_vm_ioctl_set_memory_region(struct kvm *kvm,
-> > -					  struct kvm_userspace_memory_region *mem)
-> > +					  struct kvm_user_mem_region *mem)
-> >  {
-> >  	if ((u16)mem->slot >= KVM_USER_MEM_SLOTS)
-> >  		return -EINVAL;
-> > @@ -4627,6 +4627,33 @@ static int kvm_vm_ioctl_get_stats_fd(struct kvm *kvm)
-> >  	return fd;
-> >  }
-> >  
-> > +#define SANITY_CHECK_MEM_REGION_FIELD(field)					\
-> > +do {										\
-> > +	BUILD_BUG_ON(offsetof(struct kvm_user_mem_region, field) !=		\
-> > +		     offsetof(struct kvm_userspace_memory_region, field));	\
-> > +	BUILD_BUG_ON(sizeof_field(struct kvm_user_mem_region, field) !=		\
-> > +		     sizeof_field(struct kvm_userspace_memory_region, field));	\
-> > +} while (0)
-> > +
-> > +#define SANITY_CHECK_MEM_REGION_EXT_FIELD(field)					\
-> > +do {											\
-> > +	BUILD_BUG_ON(offsetof(struct kvm_user_mem_region, field) !=			\
-> > +		     offsetof(struct kvm_userspace_memory_region_ext, field));		\
-> > +	BUILD_BUG_ON(sizeof_field(struct kvm_user_mem_region, field) !=			\
-> > +		     sizeof_field(struct kvm_userspace_memory_region_ext, field));	\
-> > +} while (0)
-> > +
-> > +static void kvm_sanity_check_user_mem_region_alias(void)
-> > +{
-> > +	SANITY_CHECK_MEM_REGION_FIELD(slot);
-> > +	SANITY_CHECK_MEM_REGION_FIELD(flags);
-> > +	SANITY_CHECK_MEM_REGION_FIELD(guest_phys_addr);
-> > +	SANITY_CHECK_MEM_REGION_FIELD(memory_size);
-> > +	SANITY_CHECK_MEM_REGION_FIELD(userspace_addr);
-> > +	SANITY_CHECK_MEM_REGION_EXT_FIELD(restricted_offset);
-> > +	SANITY_CHECK_MEM_REGION_EXT_FIELD(restricted_fd);
-> > +}
-> 
-> Do we have other examples in the kernel that jump these hoops?
-
-grep -rn 'BUILD_BUG_ON(offsetof' can give you some hint on other usages
-in the kernel. But for a quick check you can look:
-  siginfo_buildtime_checks()
-
-> 
-> >  static long kvm_vm_ioctl(struct file *filp,
-> >  			   unsigned int ioctl, unsigned long arg)
-> >  {
-> > @@ -4650,14 +4677,20 @@ static long kvm_vm_ioctl(struct file *filp,
-> >  		break;
-> >  	}
-> >  	case KVM_SET_USER_MEMORY_REGION: {
-> > -		struct kvm_userspace_memory_region kvm_userspace_mem;
-> > +		struct kvm_user_mem_region mem;
-> > +		unsigned long size = sizeof(struct kvm_userspace_memory_region);
-> > +
-> > +		kvm_sanity_check_user_mem_region_alias();
-> >  
-> >  		r = -EFAULT;
-> > -		if (copy_from_user(&kvm_userspace_mem, argp,
-> > -						sizeof(kvm_userspace_mem)))
-> > +		if (copy_from_user(&mem, argp, size))
-> > +			goto out;
-> > +
-> > +		r = -EINVAL;
-> > +		if (mem.flags & KVM_MEM_PRIVATE)
-> >  			goto out;
-> 
-> Hmm I can see in the later code you explicitly check for the
-> KVM_MEM_PRIVATE flag with:
-> 
-> 		if (get_user(flags, (u32 __user *)(argp + flags_offset)))
-> 			goto out;
-> 
-> 		if (flags & KVM_MEM_PRIVATE)
-> 			size = sizeof(struct kvm_userspace_memory_region_ext);
-> 		else
-> 			size = sizeof(struct kvm_userspace_memory_region);
-> 
-> I think it would make sense to bring that sanity checking forward into
-> this patch to avoid the validation logic working in two different ways
-> over the series.
-
-That is my original code actually, then Sean suggested to change to
-current code[*], the reason is these two pathes are for different
-purpose, this patch introduces the data structures but the later patch
-actually makes use of the '_ext' variant.
-
-[*] https://lkml.kernel.org/kvm/YuQ6QWcdZLdStkWl@google.com/
-
-Chao
-> 
-> >  
-> > -		r = kvm_vm_ioctl_set_memory_region(kvm, &kvm_userspace_mem);
-> > +		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
-> >  		break;
-> >  	}
-> >  	case KVM_GET_DIRTY_LOG: {
-> 
-> 
+Regards,
+Bala
+>  
+>     introduction
+>     drm-internals
 > -- 
-> Alex Bennée
+> 2.38.1
+> 
