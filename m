@@ -2,90 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67433C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 09:59:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE7ECC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 11:02:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232617AbiKOJ7R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Nov 2022 04:59:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50362 "EHLO
+        id S232305AbiKOLCp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Nov 2022 06:02:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232705AbiKOJ7R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 04:59:17 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 192D7DF4E;
-        Tue, 15 Nov 2022 01:59:16 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id m7-20020a05600c090700b003cf8a105d9eso9828306wmp.5;
-        Tue, 15 Nov 2022 01:59:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=61NlKiTNTDTVesE8Rv6V0GdCCK+sgb98OdfqledH+Uw=;
-        b=qX4VJxyLwawd96elL++aETjrkSldaVvegyD1tQNdcvGcWe+3N4p+PJC+8gfQC0uHXT
-         cC8ZU5XEUWLQbx0CUwJ/A/lHTVr77FRihNMlg/LtpOPVqc8/e24U9vLgoSHarSxVAadX
-         uDphyW+r4mcr8D7fmWmiVYO05JlkBl4GJ+tryzGRVwanNW/1NIKgnqwOAuQSJKZp3A4B
-         /5DyBENYhaa9qQb4xCma/FBa+HFs30RMNwI598N1p9pWlCzkMtNk7CikNInXmL+uGd34
-         233AgBJesN2GcRSKpRAp+m9+ulhuZ0eFAkuytSjYnGXq/ukzdz6j9qYPCkFDtxMlUiCs
-         dYog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=61NlKiTNTDTVesE8Rv6V0GdCCK+sgb98OdfqledH+Uw=;
-        b=dwL+7ct/v7SglQBw056wjaKqcOsebrYLoNvtF9KaHUxlfuyIBMLRYyqOs7xKDtS7r4
-         uv4hiK9ffSjvK8ZBu89Vqe2u//D9iIkAgbEXs4exv73AXanjkkXgFrDzu4ynK8+hhEvf
-         q/sFSf8x9zfb9tJF2Fm7M2M/BzT7Yqdm0d8HCgkTDL69hwn8UzYnIGZRsyagfyQ4oVX/
-         qhz3cADnxUdfCIGb/1c1/C1o3yOZMj243o+K3TH9KxgIAjDn9hxjvZrQgsWrzVMvgo3o
-         QPLBdUQl7UQNjDfKBLknjPsuvOi+5LA3QQN250YHGC4HKDrU1AovFL6yIFqfXTITxJCu
-         Dyzg==
-X-Gm-Message-State: ANoB5pmWb110ny7ZNu2aGQ369OBcj7EC7KE5pN+VIXAy+AyIiofD4RSG
-        Z7r9M6gqsvvWmCeRUD84nTWiedqclrXHhA==
-X-Google-Smtp-Source: AA0mqf56Qz3ENxFWWlCFaXoZ07IcXWek/ED1sU8Wdv2BApLayvzB3U3+T+ckj6RgoW/y9tyCgwb/wQ==
-X-Received: by 2002:a05:600c:688b:b0:3cf:9efc:a9b7 with SMTP id fn11-20020a05600c688b00b003cf9efca9b7mr883623wmb.10.1668506354121;
-        Tue, 15 Nov 2022 01:59:14 -0800 (PST)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:c14:eac2:879e:46a4])
-        by smtp.gmail.com with ESMTPSA id e24-20020a5d5958000000b002356c051b9csm11727492wri.66.2022.11.15.01.59.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Nov 2022 01:59:13 -0800 (PST)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Andrii Nakryiko <andrii@kernel.org>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH bpf-next v1] docs/bpf: Fix sample code in MAP_TYPE_ARRAY docs
-Date:   Tue, 15 Nov 2022 09:59:10 +0000
-Message-Id: <20221115095910.86407-1-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S237742AbiKOLB6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 06:01:58 -0500
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD1D5FA5;
+        Tue, 15 Nov 2022 03:01:28 -0800 (PST)
+Received: from dggpeml500026.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NBNX44hJ9zRpJQ;
+        Tue, 15 Nov 2022 19:01:08 +0800 (CST)
+Received: from dggpeml500002.china.huawei.com (7.185.36.158) by
+ dggpeml500026.china.huawei.com (7.185.36.106) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 15 Nov 2022 19:01:26 +0800
+Received: from [10.67.103.44] (10.67.103.44) by dggpeml500002.china.huawei.com
+ (7.185.36.158) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 15 Nov
+ 2022 19:01:26 +0800
+Subject: Re: [PATCH v13 2/2] Documentation: Add document for UltraSoc SMB
+ drivers
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+References: <20221114090316.63157-1-hejunhao3@huawei.com>
+ <20221114090316.63157-3-hejunhao3@huawei.com> <Y3JJSfVoatl5yKlm@debian.me>
+ <a6adaeec-182c-140d-9925-45f659b4eef2@huawei.com>
+ <3a00467c-7f78-e2ba-33d6-06caf523a183@gmail.com>
+CC:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
+        <mike.leach@linaro.org>, <leo.yan@linaro.org>,
+        <jonathan.cameron@huawei.com>, <john.garry@huawei.com>,
+        <coresight@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <lpieralisi@kernel.org>,
+        <linuxarm@huawei.com>, <yangyicong@huawei.com>,
+        <liuqi115@huawei.com>, <f.fangjian@huawei.com>,
+        <prime.zeng@hisilicon.com>
+From:   hejunhao <hejunhao3@huawei.com>
+Message-ID: <e181e283-df50-6a65-6f14-38c871d53d99@huawei.com>
+Date:   Tue, 15 Nov 2022 19:01:26 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <3a00467c-7f78-e2ba-33d6-06caf523a183@gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.103.44]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml500002.china.huawei.com (7.185.36.158)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove mistaken & from code example in MAP_TYPE_ARRAY docs
+Hi Bagas,
 
-Fixes: 1cfa97b30c5a ("bpf, docs: Document BPF_MAP_TYPE_ARRAY")
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- Documentation/bpf/map_array.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/bpf/map_array.rst b/Documentation/bpf/map_array.rst
-index b2cceb6c696b..97bb80333254 100644
---- a/Documentation/bpf/map_array.rst
-+++ b/Documentation/bpf/map_array.rst
-@@ -119,7 +119,7 @@ This example BPF program shows how to access an array element.
-             index = ip.protocol;
-             value = bpf_map_lookup_elem(&my_map, &index);
-             if (value)
--                    __sync_fetch_and_add(&value, skb->len);
-+                    __sync_fetch_and_add(value, skb->len);
- 
-             return 0;
-     }
--- 
-2.35.1
+On 2022/11/15 15:35, Bagas Sanjaya wrote:
+> On 11/15/22 14:33, hejunhao wrote:
+>> Hi Bagas,
+>>
+>> will apply the fix  in next version.
+>> Thank you very much.
+>>
+> Please don't top-post, reply inline with appropriate context instead.
+> I had to trim all the below context as a result.
+Yes, I'm sorry for that.
+
+Best regards,
+Junhao.
 
