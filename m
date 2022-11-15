@@ -2,127 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74AD7C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 00:54:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C79EDC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 01:36:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231254AbiKOAyl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Nov 2022 19:54:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48552 "EHLO
+        id S236133AbiKOBgo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Nov 2022 20:36:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229691AbiKOAyk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 19:54:40 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B07C71006B;
-        Mon, 14 Nov 2022 16:54:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668473678; x=1700009678;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=kA5X1C/b7QXdk/50t6gc7C4T1GjsJcCu92tMYvGFEO8=;
-  b=N83GavVhJNqO/izjE/Ih+mUdWFYELqLv5slGNw85eiX+G/0TXgH1d0d6
-   tAr/bPUTtjLDGcdtS9vV7vPU9g0dHHzYDWqv7f+UYTkACQ/HasvVjU09V
-   /5jZEkIiynWaMV0qeF7mUqTzj2Zf7bkKimXVn5MhxGeGGQXv4lGzx9wy6
-   dFC2gcwWu3bwb1tttvtG78te5Z8iNw1Mbw5d87D4010/8TLaEu97iTgzd
-   S7uGDpMIje3iHhnB/ZTcSmDvuDentuWExpzOmKsv46OY3Fa9lgDzGGZ1s
-   ybi29srzmh1Z7lX6AmGrJF4IJP/ptnFKBlhhlyifzx7qaAOtNQXI0y0DT
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="291836289"
-X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
-   d="scan'208";a="291836289"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 16:54:38 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="669885890"
-X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
-   d="scan'208";a="669885890"
-Received: from satyanay-mobl1.amr.corp.intel.com (HELO [10.209.114.162]) ([10.209.114.162])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 16:54:36 -0800
-Message-ID: <e7147e03-705e-d2a8-9c9c-b4243ed5b451@intel.com>
-Date:   Mon, 14 Nov 2022 16:54:36 -0800
+        with ESMTP id S232149AbiKOBgn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Nov 2022 20:36:43 -0500
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BAFD14035
+        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 17:36:41 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id n12so32570608eja.11
+        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 17:36:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JGEQys0q+vn6kmmzyVuQOW7GVEeqdKy9lN8OIJWvOQs=;
+        b=PSrB/jmAglnUp28dEPhbOBEDVHtOyET03hzbsVCqEwMkZ54OJlNDXfWBCGnL86RVTW
+         gfwfg54OIdAw8qy5SXee3IO1bQ2tBYPOE4X13S4R8eKXqwvTeMzddt8p3/rSyBVx6Fks
+         a+4Q9XuWs3mL/JuLZKGdyZMYN38qX34Rk8UYLpFh/ox1Kxns5WRODVykYo6Iye4QVKYy
+         XorRzqemDyQsEh+6YJ9/InCSyoknBRZ3egXW4380pxN5HZnUVzggu3nNxPtlV5FD5zed
+         maf0oNgfFm4NREuJsoWujUue1x98cStxRmhb4jPVJrzgy+qpWewB3siMSOCHmom7MuwF
+         a6SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JGEQys0q+vn6kmmzyVuQOW7GVEeqdKy9lN8OIJWvOQs=;
+        b=eUhfa/KBcU/E9pWuz5lYqcIyHos8BEY1ccwXjW9q1s3jHW6ObEB2EWgHB6qkHahdY1
+         8a164qvGajFSG4RZvcm132cAx/OYoety+i5xWr7jUrmSs+fKcDSb+dI9ByR0qYbBKtf6
+         NBKy5CR4TIfYi0oO/Pf4tA9KIxtJZFjQwiy28/CCkQUym6LPCzK0ISMlxiO9vmdg8ZGx
+         DGwv1yxEiKPlencJ3m17zgqnhKIA/dfEXj3jWC1uYUoRmgLvKyiwXHXQQnGSAz0bBMT6
+         annEwE97ZNDbpHqt3ohfy8RNnU39LJ2zss4VC8DCfjwN0KQxDRbnwmXvoMT51phKptFz
+         yLjw==
+X-Gm-Message-State: ANoB5pkk77LsQ6Ql42ZMUPSMO0MCBmmSr/WGVXmYV7iAtxH3PYP7Fhl3
+        CGm3/cAfD++9zctyQJPoL/TZo2rDUP2dKacbyuwx3A==
+X-Google-Smtp-Source: AA0mqf75DC8RdNO+mbVA7o32g73VCYLO9LhY3gD4QBJZqJA7NWCmXX2/B0rhkrxfFyJjRS5YAVI8c3ozjKH3IAVSkWg=
+X-Received: by 2002:a17:906:b10d:b0:7a3:fbfa:32e5 with SMTP id
+ u13-20020a170906b10d00b007a3fbfa32e5mr12420307ejy.7.1668476199923; Mon, 14
+ Nov 2022 17:36:39 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v17 1/3] x86/tdx: Add a wrapper to get TDREPORT from the
- TDX Module
-Content-Language: en-US
-To:     Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     "H . Peter Anvin" <hpa@zytor.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20221104032355.227814-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20221104032355.227814-2-sathyanarayanan.kuppuswamy@linux.intel.com>
- <115a87d7-144a-2828-8e4f-9c1f156b73ae@intel.com>
- <8d5f8a74-f864-3cd9-dac2-7650d83a8b90@linux.intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <8d5f8a74-f864-3cd9-dac2-7650d83a8b90@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221107184715.3950621-1-pasha.tatashin@soleen.com>
+ <e94ac231-7137-010c-2f2b-6a309c941759@redhat.com> <CA+CK2bAbKMj8-crNCtmQ=DB5uRvQBJtFTLf5TH9=RWRGjfOGew@mail.gmail.com>
+ <70a8541b-6066-45ca-e2bc-3b7ecc0e7bb2@redhat.com>
+In-Reply-To: <70a8541b-6066-45ca-e2bc-3b7ecc0e7bb2@redhat.com>
+From:   Pasha Tatashin <pasha.tatashin@soleen.com>
+Date:   Mon, 14 Nov 2022 20:36:03 -0500
+Message-ID: <CA+CK2bAcoimT74mpQE=sa8fw+eZ5VVrAEkvPsB6=4Z6PKhG5vQ@mail.gmail.com>
+Subject: Re: [PATCH v2] mm: anonymous shared memory naming
+To:     David Hildenbrand <david@redhat.com>
+Cc:     corbet@lwn.net, akpm@linux-foundation.org, hughd@google.com,
+        hannes@cmpxchg.org, vincent.whitchurch@axis.com, seanjc@google.com,
+        rppt@kernel.org, shy828301@gmail.com, paul.gortmaker@windriver.com,
+        peterx@redhat.com, vbabka@suse.cz, Liam.Howlett@oracle.com,
+        ccross@google.com, willy@infradead.org, arnd@arndb.de,
+        cgel.zte@gmail.com, yuzhao@google.com,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        bagasdotme@gmail.com, kirill@shutemov.name
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/14/22 16:33, Sathyanarayanan Kuppuswamy wrote:
-> On 11/11/22 10:35 AM, Dave Hansen wrote:
->> This is *NOT* "a wrapper to get TDREPORT from the TDX Module", this is
->> at best "a wrapper to get TDREPORT sub type 0 from the TDX Module".
-> 
-> In both the commit log and the comments, I can highlight the "subtype 0"
-> information. Will that work for you, or do you prefer that this wrapper
-> take the "subtype" option as argument and we pass 0 for the subtype value
-> from the TDX guest driver?
+On Wed, Nov 9, 2022 at 5:11 AM David Hildenbrand <david@redhat.com> wrote:
+>
+> >>
+> >>>     anon_shmem = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
+> >>>                       MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+> >>>     /* Name the segment: "MY-NAME" */
+> >>>     rv = prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME,
+> >>>                anon_shmem, SIZE, "MY-NAME");
+> >>>
+> >>> cat /proc/<pid>/maps (and smaps):
+> >>> 7fc8e2b4c000-7fc8f2b4c000 rw-s 00000000 00:01 1024 [anon_shmem:MY-NAME]
+> >>
+> >> What would it have looked like before? Just no additional information?
+> >
+> > Before:
+> >
+> > 7fc8e2b4c000-7fc8f2b4c000 rw-s 00000000 00:01 1024 /dev/zero (deleted)
+>
+> Can we add that to the patch description?
+>
+> >>
+> >>>
+> >>> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> >>> ---
+> >>
+> >>
+> >> [...]
+> >>
+> >>> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> >>> index 8bbcccbc5565..06b6fb3277ab 100644
+> >>> --- a/include/linux/mm.h
+> >>> +++ b/include/linux/mm.h
+> >>> @@ -699,8 +699,10 @@ static inline unsigned long vma_iter_addr(struct vma_iterator *vmi)
+> >>>     * paths in userfault.
+> >>>     */
+> >>>    bool vma_is_shmem(struct vm_area_struct *vma);
+> >>> +bool vma_is_anon_shmem(struct vm_area_struct *vma);
+> >>>    #else
+> >>>    static inline bool vma_is_shmem(struct vm_area_struct *vma) { return false; }
+> >>> +static inline bool vma_is_anon_shmem(struct vm_area_struct *vma) { return false; }
+> >>>    #endif
+> >>>
+> >>>    int vma_is_stack_for_current(struct vm_area_struct *vma);
+> >>> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> >>> index 500e536796ca..08d8b973fb60 100644
+> >>> --- a/include/linux/mm_types.h
+> >>> +++ b/include/linux/mm_types.h
+> >>> @@ -461,21 +461,11 @@ struct vm_area_struct {
+> >>>         * For areas with an address space and backing store,
+> >>>         * linkage into the address_space->i_mmap interval tree.
+> >>>         *
+> >>> -      * For private anonymous mappings, a pointer to a null terminated string
+> >>> -      * containing the name given to the vma, or NULL if unnamed.
+> >>>         */
+> >>> -
+> >>> -     union {
+> >>> -             struct {
+> >>> -                     struct rb_node rb;
+> >>> -                     unsigned long rb_subtree_last;
+> >>> -             } shared;
+> >>> -             /*
+> >>> -              * Serialized by mmap_sem. Never use directly because it is
+> >>> -              * valid only when vm_file is NULL. Use anon_vma_name instead.
+> >>> -              */
+> >>> -             struct anon_vma_name *anon_name;
+> >>> -     };
+> >>> +     struct {
+> >>> +             struct rb_node rb;
+> >>> +             unsigned long rb_subtree_last;
+> >>> +     } shared;
+> >>>
+> >>
+> >> So that effectively grows the size of vm_area_struct. Hm. I'd really
+> >> prefer to keep this specific to actual anonymous memory, not extending
+> >> it to anonymous files.
+> >
+> > It grows only when CONFIG_ANON_VMA_NAME=y, otherwise it stays the same
+> > as before. Are you suggesting adding another config specifically for
+> > shared memory? I wonder if we could add a union for some other part of
+> > vm_area_struct where anon and file cannot be used together.
+>
+> In practice, all distributions will enable CONFIG_ANON_VMA_NAME in the
+> long term I guess. So if we could avoid increasing the VMA size, that
+> would be great.
+>
+> >
+> >> Do we have any *actual* users where we don't have an alternative? I
+> >> doubt that this is really required.
+> >>
+> >> The simplest approach seems to be to use memfd instead of MAP_SHARED |
+> >> MAP_ANONYMOUS. __NR_memfd_create can be passed a name and you get what
+> >> you propose here effectively already. Or does anything speak against it?
+> >
+> > For our use case the above does not work. We are working on highly
+> > paravirtualized virtual machines. The VMM maps VM memory as anonymous
+> > shared memory (not private because VMM is sandboxed and drivers are
+> > running in their own processes). However, the VM tells back to the VMM
+> > how parts of the memory are actually used by the guest, how each of
+> > the segments should be backed (i.e. 4K pages, 2M pages), and some
+> > other information about the segments. The naming allows us to monitor
+> > the effective memory footprint for each of these segments from the
+> > host without looking inside the guest.
+>
+> That's a reasonable use case, although naive me would worry about #VMA
+> limits etc.
+>
+> Can you add some condensed use-case explanation to the patch
+> description? (IOW, memfd cannot be used because parts of the memfd are
+> required to receive distinct names)
+>
+> I'd appreciate if we could avoid increasing the VMA size; but in any case
 
-I actually think it's a *lot* more clear if the User<->Kernel ABI just
-takes the subtype.  But, I also heard Greg's concerns about making the
-ABI _too_ open-ended.
+I've explored ways not to increase VMA size, but there are no obvious
+solutions here. Let's keep it as is for now, and in the future if
+there we are going to be adding some fields that are only used by
+anonymous memory, we can explore of adding a union for this field.
 
-So, I really don't care.  Just make it clear that, as is, this ABI is
-not the "TDREPORT ABI".
+>
+> Acked-by: David Hildenbrand <david@redhat.com>
 
->> It also occurs to me that "sub type 0" could use an actual name.  Could
->> we give it one, please?
-> 
-> Although the subtype option is mentioned in the TDX Module spec, it is not
-> currently used (it expects this value to be zero), and the spec also does
-> not explain why this option is required. According to TDX architects, this
-> option was primarily added to handle any future requirements that may arise
-> that require additional information to be added to the TDREPORT. However,
-> they do not currently have any valid use cases for it. So the current
-> version can only be described as "Type-0." Once a new use case for Subtype 1
-> is defined, we may be able to come up with a suitable name. Are you okay
-> with calling it "Type-0" for the time being?
+Thank you. I will soon send a new version with support for memfd anon
+memory as well.
 
-That sounds like a cop out to me.  I'd really appreciate some effort on
-your part to look deeply into the problem.
-
-The blob that the kernel is passing back and forth here _has_ content.
-I guess it's somewhat hard to name because it's got a bunch of inputs
-(ATTRIBUTES, XFAM, MRTD, MRCONFIGID, MROWNER, MROWNERCONFIG and RTMRs)
-and a fixed hash algorithm (SHA-384).
-
-Any time that those inputs change or, for instance, the hash algorithm
-changes, it would need a new subtype.  Right?
-
-I guess we can't call "subtype 0" TDREPORT_SHA384 because "subtype 1"
-might still use SHA-384, but have the set of inputs change.
-
-But, it'll also get maddeningly inconsistent if we have a "TDREPORT"
-ioctl() that does "subtype 0" and "TDREPORT1" that does "subtype 1".
-
-So, let's at *least* call this thing "TDREPORT0" in the ABI, along with
-a description of why we're numbering it that way as opposed to taking
-'subtype' as a numeric ioctl() argument.
-
-Any better ideas?
+Pasha
