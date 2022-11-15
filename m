@@ -2,91 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B31AFC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 07:35:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0164CC43217
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 07:39:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232208AbiKOHfd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Nov 2022 02:35:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49928 "EHLO
+        id S232466AbiKOHjJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Nov 2022 02:39:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231966AbiKOHfc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 02:35:32 -0500
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5F4E65B2;
-        Mon, 14 Nov 2022 23:35:27 -0800 (PST)
-Received: by mail-pl1-x62d.google.com with SMTP id b21so12387420plc.9;
-        Mon, 14 Nov 2022 23:35:27 -0800 (PST)
+        with ESMTP id S232317AbiKOHjJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 02:39:09 -0500
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BFF86279
+        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 23:39:08 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id c203so2247167pfc.11
+        for <linux-doc@vger.kernel.org>; Mon, 14 Nov 2022 23:39:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nnMVi0OBBT8B9lLKo4PxxDOhksXvtuMX1YZVM1HxTMs=;
-        b=YaIonodup6DSuDeM4MzZ7M6fMzi8x59lXwRwP4SVS4WmsvxpEtOB/N+MJk0yWjYk7Y
-         nHytr//UzEfkhug9h+QQLxNEj8WlbXNqEIyKRhjGjQmuL5LYgl2q6I9VzkmaG4sxXeE9
-         h3FbNBKa5SOJz1VEE3F/VXO5jld/71DlPglPSaw2eKYKi/EuXJ9q5TpffX5gjpFvTknf
-         ECCLoKwEmyAiTr2LT44pPx48M9T/gT9cVdj7jW6DqZODgujqqPXIdDbXPkQJxUxYxIv/
-         LCQSY+1kZOD7T7uCsKdL5hktJYWo/asxQ/KzKuRt5PBbwWVdEdLof5ej0y/0TV+YimP+
-         vGsQ==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qrKxYxO/T/9+ij5BpZ+ZeE91vTMifnc8qboFL3OM2PU=;
+        b=H01TrKGhQrD5MzuM4fOKDD5uVKMwHmW0a2HUiqcgBfGdx+x8fahWBZgYIaWZbJeywr
+         fZSutuU7hMyabiDX4PvQFlJRZG/NI9FZMGgbpxMXcpHWRQgP9FTvHDRCoqq5IZfLXjk8
+         a7kRqownJt+7uXXfEMcRzLwDYxVIQkoCjcgSBODuxOJddjB3/9/SG1h7Qn04lglhLTo6
+         LWhgRHFBV5vIiK+qSGNXeYd+FJn90lIJOGwqQS7Rgul0LkJYgkXu5mpUSBrvKz7/f5u/
+         CmLFjD/T9aAY77w4gyCmSRQeaOirfaoTEdXZz6f3GR+InFg4D/xZAGJlWKqqTg77tm1x
+         39Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nnMVi0OBBT8B9lLKo4PxxDOhksXvtuMX1YZVM1HxTMs=;
-        b=m2Lyb+9H0Yu6NvevpAG0TJLbUOL0L+jSyEdMGHeFBD7bXTFQ8dwrOaS2FZ4RhCZgkj
-         pe7FQSu3AHL0F20+ZczdzgwLD+lWZE2y4XElCvEfID+q6D21TEVrpJ13OdmrpZYGPFyJ
-         0Plh8cXAsIaoRNJ5sZlza8opU4gfbqfjKamIWVsQHWo1iAHjfm/plvIDozefLwc6mdbt
-         CVyJx/FZ9IMwgVXPrAbAX36eUdtR+wuHdcHhbOK+LFoRzfBDxbmCxW7ERsC86juesDtV
-         6Vg8T58cem+Wv0oseJhNDxrxIk6ZDUkcigW7KPoSK6aAiCnTpsFF9Iip40x07m1dNufy
-         9fJA==
-X-Gm-Message-State: ANoB5pnUXiSpMC7ViDx15OfjW8GxuabhhW5mpcy8vEEh2S1b3BZEphCQ
-        sQxgXoR5kgZGigmjlBaiT5qVZc4tTxdYaA==
-X-Google-Smtp-Source: AA0mqf4grdEN4O8XTlELm99qpeqMpnYLVd0a1Pg1gOLorFA5ScnFuuDACbNP2fwflz9mPlM3DH/K3g==
-X-Received: by 2002:a17:902:e013:b0:184:cb7e:ba36 with SMTP id o19-20020a170902e01300b00184cb7eba36mr2861310plo.57.1668497727427;
-        Mon, 14 Nov 2022 23:35:27 -0800 (PST)
-Received: from [192.168.43.80] (subs02-180-214-232-13.three.co.id. [180.214.232.13])
-        by smtp.gmail.com with ESMTPSA id l2-20020a635702000000b0046ec057243asm6955722pgb.12.2022.11.14.23.35.22
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qrKxYxO/T/9+ij5BpZ+ZeE91vTMifnc8qboFL3OM2PU=;
+        b=EIY1LgxJxivCZSG/S7qYNJPYuRqEszUGpgx0hMsyAuyaWfhN8DGg772Jqwgt20G9Jd
+         KcEkgJ4cSNfPevOQ+qUJToVumt5rWufLwUehp/xggl3k9UKNF5zzc5PB5syfNwARXmF+
+         BJ+9y6Ib4G9nyIL3qZtc32rAsqeUShmR/KSgyhzSvHLSQox7HFd6BJKADUR1WkK2XgA9
+         t5ibBvr/mWG7yuxyp8ggY41x7A4cjFbUY1NUD3MjrVR99kwFqdBuy/l+boYPBQhjXeuV
+         l6ZJqbqC/vpcnf7/f6FUnW06PQ0LQGCCJqamxHuZ6NtgwNZf2CpqMbS1LKh296N7LLU+
+         0r9w==
+X-Gm-Message-State: ANoB5pkXTxLaK7A+zHB9nD3uqZTaYm8k5vVpMr+D5Mz5JPJVddqseme2
+        ByUGjXR6omXd4GKCuOZHilaAAA==
+X-Google-Smtp-Source: AA0mqf78gRM3zma7ZP3Cy070W+sbXWWKNNRsCbOy5Iv8juBkB9xy5KIhg2Qcr76QN4KCFo1dK8075A==
+X-Received: by 2002:a65:5908:0:b0:46f:1e8f:1633 with SMTP id f8-20020a655908000000b0046f1e8f1633mr14878101pgu.556.1668497947573;
+        Mon, 14 Nov 2022 23:39:07 -0800 (PST)
+Received: from [10.68.76.92] ([139.177.225.229])
+        by smtp.gmail.com with ESMTPSA id n63-20020a17090a5ac500b00200461cfa99sm10894663pji.11.2022.11.14.23.39.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Nov 2022 23:35:27 -0800 (PST)
-Message-ID: <3a00467c-7f78-e2ba-33d6-06caf523a183@gmail.com>
-Date:   Tue, 15 Nov 2022 14:35:19 +0700
+        Mon, 14 Nov 2022 23:39:07 -0800 (PST)
+Message-ID: <82c9c89c-aee2-08a3-e562-359631bb0137@bytedance.com>
+Date:   Tue, 15 Nov 2022 15:39:02 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.1
-Subject: Re: [PATCH v13 2/2] Documentation: Add document for UltraSoc SMB
- drivers
-To:     hejunhao <hejunhao3@huawei.com>
-Cc:     mathieu.poirier@linaro.org, suzuki.poulose@arm.com,
-        mike.leach@linaro.org, leo.yan@linaro.org,
-        jonathan.cameron@huawei.com, john.garry@huawei.com,
-        coresight@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        lpieralisi@kernel.org, linuxarm@huawei.com, yangyicong@huawei.com,
-        liuqi115@huawei.com, f.fangjian@huawei.com,
-        prime.zeng@hisilicon.com
-References: <20221114090316.63157-1-hejunhao3@huawei.com>
- <20221114090316.63157-3-hejunhao3@huawei.com> <Y3JJSfVoatl5yKlm@debian.me>
- <a6adaeec-182c-140d-9925-45f659b4eef2@huawei.com>
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <a6adaeec-182c-140d-9925-45f659b4eef2@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
+ pidfd_set_mempolicy().
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
+ <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
+ <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
+ <Y3IqLzvduM6HqPJV@dhcp22.suse.cz>
+ <3a3b4f5b-14d1-27d8-7727-cf23da90988f@bytedance.com>
+ <Y3KFFfMFE55lVdNZ@dhcp22.suse.cz>
+From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
+In-Reply-To: <Y3KFFfMFE55lVdNZ@dhcp22.suse.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/15/22 14:33, hejunhao wrote:
-> Hi Bagas,
+>>> We shouldn't really rely on mmap_sem for this IMO.
+>>
+>>   Yes, We should rely on mmap_sem for vma->vm_policy,but not for
+>>   process context policy(task->mempolicy).
 > 
-> will apply the fix  in next version.
-> Thank you very much.
+> But the caller has no way to know which kind of policy is returned so
+> the locking cannot be conditional on the policy type.
+
+Yes. vma->vm_policy is protected by mmap_sem, which is reliable if
+we want to add a new apis(pidfd_mbind()) to change the vma->vm_policy
+specified in pidfd. but not for pidfd_set_mempolicy(task->mempolicy is
+protected by alloc_lock).
+
 > 
+> Yes this is all understood but the level of the overhead is not really
+> clear. So the question is whether this will induce a visible overhead.
+OK,i will try it.
 
-Please don't top-post, reply inline with appropriate context instead.
-I had to trim all the below context as a result.
+> Because from the maintainability point of view it is much less costly to
+> have a clear life time model. Right now we have a mix of reference
+> counting and per-task requirements which is rather subtle and easy to
+> get wrong. In an ideal world we would have get_vma_policy always
+> returning a reference counted policy or NULL. If we really need to
+> optimize for cache line bouncing we can go with per cpu reference
+> counters (something that was not available at the time the mempolicy
+> code has been introduced).
+> 
+> So I am not saying that the task_work based solution is not possible I
+> just think that this looks like a good opportunity to get from the
+> existing subtle model.
 
--- 
-An old man doll... just what I always wanted! - Clara
+OK, i got it. Thanks for your reply and suggestions.
 
+
+Zhongkun.
