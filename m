@@ -2,66 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26D1AC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 22:00:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE34CC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 22:04:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230394AbiKOWAN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Nov 2022 17:00:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45170 "EHLO
+        id S232412AbiKOWEE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Nov 2022 17:04:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229731AbiKOWAM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 17:00:12 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 104932BB33;
-        Tue, 15 Nov 2022 14:00:12 -0800 (PST)
+        with ESMTP id S229823AbiKOWEC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 17:04:02 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A322FC02;
+        Tue, 15 Nov 2022 14:04:01 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 28F4437E;
-        Tue, 15 Nov 2022 22:00:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 28F4437E
+        by ms.lwn.net (Postfix) with ESMTPSA id 887C335F;
+        Tue, 15 Nov 2022 22:04:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 887C335F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1668549611; bh=ubQKfpBspsnDm1OkmKx4B+7Ozk8mMnV3tBoPBx2ELUA=;
+        t=1668549841; bh=yHmtXJE4u3xVuskor/S9epZ41lE/Z+GuXv2QkpXPxCo=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=qqtFFqW6h5edJ1JlX6ypc7XJ257Ayg/Vdl7zIvlA+JJl6764ZKWxl65qbLGKvEMgD
-         K2MkD7CpqZR4sUUoBN1zn1Kjq+dqDeI6D4oRliz7AWATipabC2KkcxVvZ9fmZVYEo3
-         XidZFzcL3KR3e/hri8lOziJIxrCW5ha8YtXnEhygszJFDjl1sQvEBuND0O6oMDRRF0
-         T2fu80H9yiQpQKneadYGdDWS7Cas5/xRwlXMb5VBdOTO94I2p0t6cMY3gMa45Kizz/
-         IexLQjTSfph1mHFOk8kkZHAxq4fG/CcOG11ZfF/oei/iIDJzK71AcwOMgEkk9VI40U
-         yADWw7gaQEz7A==
+        b=RNC1Ukj79PPumggEbYbMHhePT2ht41ygxiMQdsyI+lrHGxOxEhUDR42QTQpdF8395
+         9o7wWLtcZvnJebd/l2M/+CcShke8ns68F1B+z6q/P/3fRjMKQRk7vYOHWk2B46A5Su
+         nUaijinRry0rCAFh5TzMDQ9fF/pemv7nWKjFid+DDLRdv2gElGuOWqznsHgXnwbTMb
+         +uwu6qRwlrNuai20dZADwG+h/JRlsBt+Znwp2E/gojGzZY6U9bRpySaQDTAb28LLsi
+         vf6LH/ZBlYphxStznDMvhtWudF65o8RWz7S1ZtmNzWcTT8ES4e90kElcKS+DxVpg0p
+         IBm0mwU9GdfCQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Rui Li <me@lirui.org>, Wu XiangCheng <wu.xiangcheng@linux.dev>,
-        Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rui Li <me@lirui.org>
-Subject: Re: [PATCH v2] docs/zh_CN: Add userspace-api/accelerators/ocxl
- Chinese translation
-In-Reply-To: <20221113071554.476980-1-me@lirui.org>
-References: <20221113071554.476980-1-me@lirui.org>
-Date:   Tue, 15 Nov 2022 15:00:10 -0700
-Message-ID: <878rkbanf9.fsf@meer.lwn.net>
+        bilbao@vt.edu, Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH] docs/sp_SP: Add process submitting-patches translation
+In-Reply-To: <20221107150815.296699-1-carlos.bilbao@amd.com>
+References: <20221107150815.296699-1-carlos.bilbao@amd.com>
+Date:   Tue, 15 Nov 2022 15:04:00 -0700
+Message-ID: <874juzan8v.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rui Li <me@lirui.org> writes:
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-> Translate the following documents into Chinese:
+> Translate Documentation/process/submitting-patches.rst into Spanish.
 >
-> - userspace-api/accelerators/ocxl.rst
->
-> Signed-off-by: Rui Li <me@lirui.org>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
 > ---
-> Changes since v1:
-> - Correct translations.
-> ---
->  .../zh_CN/userspace-api/accelerators/ocxl.rst | 168 ++++++++++++++++++
->  .../zh_CN/userspace-api/index.rst             |   2 +-
->  2 files changed, 169 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/userspace-api/accelerators/ocxl.rst
+>  Documentation/translations/sp_SP/index.rst    |   1 +
+>  .../translations/sp_SP/submitting-patches.rst | 894 ++++++++++++++++++
+>  2 files changed, 895 insertions(+)
+>  create mode 100644 Documentation/translations/sp_SP/submitting-patches.rst
 
-Applied, thanks.
+I've applied this.  It sure would be nice to have some reviewer support
+for the Spanish translations, though...I'm *pretty* sure you're not
+telling readers that they should actually be running Solaris, but it's
+hard for me to tell for sure...:)
+
+Thanks,
 
 jon
