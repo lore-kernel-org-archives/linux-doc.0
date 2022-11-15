@@ -2,184 +2,196 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F889C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 09:48:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31181C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 09:53:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238000AbiKOJse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Nov 2022 04:48:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42370 "EHLO
+        id S238091AbiKOJxZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Nov 2022 04:53:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238026AbiKOJsc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 04:48:32 -0500
+        with ESMTP id S229716AbiKOJxZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 04:53:25 -0500
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9973B5FBD
-        for <linux-doc@vger.kernel.org>; Tue, 15 Nov 2022 01:48:31 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D08AB201AB;
+        Tue, 15 Nov 2022 01:53:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668505711; x=1700041711;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=mbBbJZptvhS2n1rlUzNwxeDFP32taLBWKrlPC30DAtM=;
-  b=Nz6EiWnxpX0CIPQ6cNeKoYHrVhfy1SFxQIOzHnRMSjEsTTJGpNoHi/w9
-   Qb79fIWj4sX1pYy3BTSxQoAp0gK+gpybJJjrtulMGfUdbcbY0a81XtG5b
-   2qAV1FMqcWVgDd6pzizFnmIf5iYpqwja/fS3lNcA2gamkBm/jPEp0lSXj
-   bQuHhuo/7MZ4E/rmUrgTr6rSAEYCppjtsD+stYhQz3xvoZBPq5E3Mr3qs
-   kMc9Q1KfUbBlL1tLY/YA3LxoCJD4mFMmrVNcj/jgJQ4zUMRSED4SSBkdj
-   NkDlUxug1Dz/zMCrUFnxpxLJEZ4NflvIroI2km+QPY6FMbhhQ5IEwYGPK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="314020743"
+  t=1668506002; x=1700042002;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=4aNJ2YOK3rk2Xxfz14Mm6Z9Et6IN8H9Ru4xzr7aFyfQ=;
+  b=iEHP5yrylc3dN9Ft4O9vX6CY9FcWopVW6KOkWSPVuv0oX1dd7oyzUBDq
+   OWSp+OfxYERu57A0erLFuuAIS5Ga69Wx6/JYzpKfzXfxGs3dprdJB99lY
+   4M4KMjVkXI9VJNPg/gA+gtIK5CrYxGHClFkAywLl0J1SrzonF9U07a1jW
+   vMOPMWnDdWLk93DeS8377PwC6/v+Nmu9e2VaP1/VDkyzPCCqTifnQAsoA
+   UFLsbaLVdJYtw9NRS/skND0r4+aAzXXSRqIftHPZfjZjTf3ebffnpI0FN
+   3taijOhfsTw80pkPoEQ+tS45J3MGxl4bW2O0s5QmKYEXhuAuXPNpnMOYi
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="314021391"
 X-IronPort-AV: E=Sophos;i="5.96,165,1665471600"; 
-   d="scan'208";a="314020743"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 01:48:31 -0800
+   d="scan'208";a="314021391"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 01:53:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="813624186"
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="702376949"
 X-IronPort-AV: E=Sophos;i="5.96,165,1665471600"; 
-   d="scan'208";a="813624186"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga005.jf.intel.com with ESMTP; 15 Nov 2022 01:48:30 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 15 Nov 2022 01:48:30 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Tue, 15 Nov 2022 01:48:30 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.104)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Tue, 15 Nov 2022 01:48:20 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dZiXs33bZN1h2QybnrQj75IEcCjYlQLevMv7Dt9XDs6nzXc54zAJmD/8YoZ937lWOR1OmQWwq1BAVFxJKZ3rADUBJ22bdkU4ekTXp794uC5iNh8Z2R4xvmL8v5kxDod0qJJXAiRNslQoX8qtEzRul+Gdy1JJ+VZ4HDCKIu3D3exLXULzp2qevTTlyCBUQRHvtQE5j/Ewwio0sj8pqXOEP4xBZnukBUEXNbDftMi4c2Hs7sTQJRAgHmftzX+jeY47GsO2iumcHVWjl7MEvtOtnkqszfmhO5kJc+TuF1zF2KZsISxpMHLFKgN8fENn1+lUmg4MK4otw8jkEnpV+xzPKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kpYo0EIczlge8QEs0ILiWgUV584oAh9jZ9ISmrx8MFc=;
- b=E4J7mrw7zfnTGHZGX+o6hq2XRC9A7RW67h8ifYYVccmOqCu2wnQuuBsLEAwNB5NXUG+KyLGN+zGIcyMA2uyMmHfe+zKh0Pj9NGSiM/+Ub7lwO8LsRslNRY7hsBCgwrmsnH9/YRYiobIOAN5H/1YT490peOFbzvDXPoirekhKeci24OezZGv5D7AVVd4dm+kgG0REKt8k2ZjmA0uq8wutk8V3TBYmbzj5jTChZ7c/Mq0duZZUkJ2civyvbc6pnr7yW53xCL+83MHTmGn6KAlbaziwDNkfQ4IPdsgr76qbibobci5nBVDA2LwUqMsuF4sYOJrx+mqxpoP3h1Jcr+JlGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM5PR11MB1897.namprd11.prod.outlook.com (2603:10b6:3:112::9) by
- BL3PR11MB6531.namprd11.prod.outlook.com (2603:10b6:208:38e::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.17; Tue, 15 Nov
- 2022 09:48:13 +0000
-Received: from DM5PR11MB1897.namprd11.prod.outlook.com
- ([fe80::c0e8:f5ad:37d:ee67]) by DM5PR11MB1897.namprd11.prod.outlook.com
- ([fe80::c0e8:f5ad:37d:ee67%3]) with mapi id 15.20.5813.017; Tue, 15 Nov 2022
- 09:48:13 +0000
-Date:   Tue, 15 Nov 2022 15:18:01 +0530
-From:   Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-To:     Lucas De Marchi <lucas.demarchi@intel.com>,
-        <dri-devel@lists.freedesktop.org>,
-        <intel-gfx@lists.freedesktop.org>, <linux-doc@vger.kernel.org>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [Intel-gfx] [PATCH 2/3] Documentation/gpu: Limit index to
- maxdepth=2
-Message-ID: <Y3NgUWlKr1ie83BW@bala-ubuntu>
-References: <20221107173209.2219571-1-lucas.demarchi@intel.com>
- <20221107173209.2219571-3-lucas.demarchi@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <20221107173209.2219571-3-lucas.demarchi@intel.com>
-X-ClientProxiedBy: PN3PR01CA0178.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:be::12) To DM5PR11MB1897.namprd11.prod.outlook.com
- (2603:10b6:3:112::9)
+   d="scan'208";a="702376949"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by fmsmga008.fm.intel.com with ESMTP; 15 Nov 2022 01:53:11 -0800
+Date:   Tue, 15 Nov 2022 17:48:46 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Michael Roth <michael.roth@amd.com>
+Cc:     "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20221115094846.GB338422@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
+ <20221031174738.fklhlia5fmaiinpe@amd.com>
+ <20221101113729.GA4015495@chaop.bj.intel.com>
+ <20221101151944.rhpav47pdulsew7l@amd.com>
+ <20a11042-2cfb-8f42-9d80-6672e155ca2c@suse.cz>
+ <20221114152843.ylxe4dis254vrj5u@box.shutemov.name>
+ <20221114221632.5xaz24adkghfjr2q@amd.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR11MB1897:EE_|BL3PR11MB6531:EE_
-X-MS-Office365-Filtering-Correlation-Id: c6adc20b-3bf8-4ecb-f876-08dac6ee82a8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pn7neYsHHwGGe3DOyLDeGt+KNsKCmJCv34Qq/qKOEWIY5OgQ0VeyhoaAETE3+ZWmxYwplUuQlHgg41B9dqOasLH80P6FG5ozK0NIgIoEkKA+DpIa7rPeDPEOosRluHMSF0wic5mPI7754/tYwHWBWfhQnPfOBzIwSl6v3w42/P37duCe4yGPqGny7dM7fnPP1zTB//W8e4I9QM4aFnGvvwg17i+ht+xr98j4PswIQZGN0z1Btyyj772pbtw/TLPVdyEBGoVix9CMyW+Kq+Iuki57WTHLcGwz1xKaemKidhLNSHxmEVWVL03vUBpr1bdHNxVNFLJywXh7LthUFylAjEI64vuVWFS9yfbUkBoWFBcFly7cee32QnlPFjQ1E8S0YvtHCsluUWzrHGwqG7YIOpJ6c5VUquIirOUNgTLCeEth7mWUr/DVlLLF672DfnCtM6s0ripyVGfUQ45RhucifZGg8p3qW1ldlkxp2IB50B1X2GZS489vpU0abHVSxVPHsJuNpk9HS43ugf2eqfHnZcjQIrl5JdLwJndmIz3e55Bks3ZLRoLsvVOqKv3qpvBkiJJ6oo8GFrJoRotnrPJNoE5WHt5O/8fgUlqtBThdI66SRFlQZIJeeQHXWWD/4YWCGdtr6MHDNjvdXJX7+tS2tbZbtsrKXsBjwnBtWR0HYqxZLA8fT17Vcfi03NDHlaKmO5uY4h0kvTKaLpngii0gvyP3uSFDSZ1lHMQhX2+u9UHd8393JiHZgBND6rutDNCz
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR11MB1897.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(39860400002)(396003)(136003)(346002)(376002)(366004)(451199015)(53546011)(316002)(8936002)(44832011)(41300700001)(186003)(26005)(5660300002)(6506007)(6512007)(83380400001)(33716001)(9686003)(2906002)(66556008)(66946007)(4326008)(66476007)(8676002)(38100700002)(86362001)(6486002)(478600001)(82960400001)(6666004);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZGNteVVzTXhhVlBML2dMNkltYVdVOGJkWUFDbHgyNFV0ZmxST1FuM3dhYmNC?=
- =?utf-8?B?cUtPMnVaaHgrUEs3UTNQRjdCdEJxbWRadE5wcmFnbTN6RW5FL1BNQ0RKS2RF?=
- =?utf-8?B?clo2L0IwQlptcDE1YTdtanV3a2JJT094aXdqUkk1bFlQWDVibVlyT3RVRzcr?=
- =?utf-8?B?UVJxeTVKK3U4TVExYnVsVy9KOG9URmltZkpBemRyNGRneHBzUG9DVkJsTUNt?=
- =?utf-8?B?bzh6UDFVcVRjZHY0SFhJWEE2ZWlZNjZ1NjRpVFRCREtUZmp0R202eFoyQUVa?=
- =?utf-8?B?Z3J5RUZnNXFpRjlyM3lUa3VXWEtSdTRJNHRnVU1ZMkFzZkVSckd2NlRnbXdY?=
- =?utf-8?B?RnhFQmVNTGJyemNDQ2F0RDMwOWtIbis4TGdXc05ETE15QmlDNFN0WTllenJR?=
- =?utf-8?B?WklFMU9Nc2pTVFBrYUpyeG9SeWVhTU44dE40T3lnNHZvQUVrRW1lc2d0OHhJ?=
- =?utf-8?B?Wm5weHlZMUlPSHJ1NlFraTFHS3JtM2RWVDBDSVpLenZITlM0R0Q3VTBhMDRY?=
- =?utf-8?B?MWkrdWpIWnpVVDlBSWk0Q2VOMGdOakdJTDJlNFdJRi9wVDJiUy9WYW9KMzdp?=
- =?utf-8?B?VWU5eEZRUnF4WjlMSXdVeVp0ZCt3VGVFYVJMMlFVa0dPYlIvdFRPNFRJWGkw?=
- =?utf-8?B?OVhjQXRGOGRsRkZVMGdyQlJ5MzJYZWZMd1pVT21HQ1d5K1hna2dtMmFRRGdy?=
- =?utf-8?B?R2JxcDBpSitNZjBkdWZIdWtDRlhiVDg0NTA1TmYwam1aSTVaUVAvcDMxZm1i?=
- =?utf-8?B?MUt5UitiYlhUVkVCNS9PcG84OWo0cDdXK09YRXNkMEgxaDBrVTVHYTAxT1gr?=
- =?utf-8?B?V3lEOFkxZ0IxUTFMenRPQzRWT1FhelRBelp6SXZhSmtqSHNPK0ZnRWZQd2ha?=
- =?utf-8?B?VS9vYlQ3U2xtNk8wZzI5M2VjUDQ1YWhyWlNkVHdqZ05QQXhiRk5lUVo5VVo2?=
- =?utf-8?B?WGo4UitsaXE1a0ZBdTFrN3g3VXkrNWhPbzNkcGJLbFcwYmx4dFNZM2U2VFZ1?=
- =?utf-8?B?dC9DTGZZd29rSDRtcWdiMHdYM0hmeHJNc0d6V3V4YWVGL0podEY4bEk3Z2RN?=
- =?utf-8?B?anppenNZb09OSytrQTl1ZTBwYkJqOXJ4cUFUZnlmRVorN1pLTXdJRWJPTkJ3?=
- =?utf-8?B?TVBTZk40T3h2NW4xUm1tckk4TmZoOFJqdWVkeGRqaUJHRHlVZytYMEtEbjBn?=
- =?utf-8?B?VmRqWFZ5NmorTkdOOU02eWFhN1JXVHJkSkhTTitFUUF1WWVQRFFPUjNIUW9Y?=
- =?utf-8?B?dlpJMWNkMFo5KzIxV1V2ZzN1RHZWb0w4RWRsVHdGa3NMTGdxTkRjOThoQitF?=
- =?utf-8?B?WEZ5a0lJeDk3OHAwNUZEOTUyMkV2SkdvTWxrTHltelNCYVBoR1BPeG9heitn?=
- =?utf-8?B?WU1tOThjcVp6ZHREV0FJRTlzZHZndWVNRG13QzRkNHhYZXZnRk1DWUxrUDFN?=
- =?utf-8?B?MzRycnBMcU9KSTkwajZPN2pEMzI0dDhwRVJ2bEZMVjAwdEY5cmJ2dW40azB3?=
- =?utf-8?B?d2VmUTltWVh6RHQzc0xiRnlMSmMwbjE2T0VIN2FBZFZSVWdxT1dFSjc1aHM2?=
- =?utf-8?B?NEFPcVdDM0UrcmFZUE9Wdk5Ib0U4djAxQ1FFOG9HL0xoY25lVW16NGtWbzhw?=
- =?utf-8?B?VjFkUmRNVXlwcWNmenZXSGJVaHRsQVBaY2VUYXIvc2FsbnFObVNPNEpVakhF?=
- =?utf-8?B?RTMrSUxIUm9ybjFXWXM0OWRFUUs2azdrcU9xZG8rYi80YkptWXpqNW8vVHE5?=
- =?utf-8?B?KzdNS0FlRHdFWkFReWJjR0MycS9IR2NuRTVMT3IwTHlmeElDZ0dxY0l5UEtO?=
- =?utf-8?B?N2E0NG1Ob3IycFBkemhDbEU3NDJKdW45bUxGbmpHemdLUmlYVVJkeHhMVHdz?=
- =?utf-8?B?Wjc0V1NsY2ZuYXJZSTJYaTlXOFdMT0xqVGFZMWJ0YTRBbktMZmZpRXFDdEE3?=
- =?utf-8?B?Q2RhTDAxSTBGTkhQbENlZE1KNEcwT2pZRCswSy9BUXl3RE1HOUE3MTRDdU1h?=
- =?utf-8?B?UFpSd0QxNzR3V0d3Qkh0NGZKT1RUd3AweHJhM2toSTZkWW9DK2pueVVBSGZ0?=
- =?utf-8?B?VjZJK3RRNm1ZcERtNzVkUm5iR2lzNUE5SitFVkVMSDVJV3pLQ1JhcjBHUFpk?=
- =?utf-8?B?SUpzNngzcklkUXNzYVNkQ1hPaUpHZVQ2Qk1lb1ljQUZkanZMRE96SEYrTk1x?=
- =?utf-8?Q?tkm63mALfHs7bwUOtWEqufc=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6adc20b-3bf8-4ecb-f876-08dac6ee82a8
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1897.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2022 09:48:13.7348
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dxLPRbDPYi721v3+DOtQnj3E23Fi6zzzmw5i/AqkY+vqIIML1TaKAPU8ZcuZhUTUXuaxB7YeZj/L3ioZvgHyNNoNlU4AQQOlAbi3//+E+AqPEqjgRKYIPSnN3DA+3xWS
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6531
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221114221632.5xaz24adkghfjr2q@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07.11.2022 09:32, Lucas De Marchi wrote:
-> With a lot of sub-section it's a little bit hard to find the information
-> needed in the main GPU index. Limit the maxdepth to 2 so it doesn't get
-> poluted with noise from each driver and from other sections.
+On Mon, Nov 14, 2022 at 04:16:32PM -0600, Michael Roth wrote:
+> On Mon, Nov 14, 2022 at 06:28:43PM +0300, Kirill A. Shutemov wrote:
+> > On Mon, Nov 14, 2022 at 03:02:37PM +0100, Vlastimil Babka wrote:
+> > > On 11/1/22 16:19, Michael Roth wrote:
+> > > > On Tue, Nov 01, 2022 at 07:37:29PM +0800, Chao Peng wrote:
+> > > >> > 
+> > > >> >   1) restoring kernel directmap:
+> > > >> > 
+> > > >> >      Currently SNP (and I believe TDX) need to either split or remove kernel
+> > > >> >      direct mappings for restricted PFNs, since there is no guarantee that
+> > > >> >      other PFNs within a 2MB range won't be used for non-restricted
+> > > >> >      (which will cause an RMP #PF in the case of SNP since the 2MB
+> > > >> >      mapping overlaps with guest-owned pages)
+> > > >> 
+> > > >> Has the splitting and restoring been a well-discussed direction? I'm
+> > > >> just curious whether there is other options to solve this issue.
+> > > > 
+> > > > For SNP it's been discussed for quite some time, and either splitting or
+> > > > removing private entries from directmap are the well-discussed way I'm
+> > > > aware of to avoid RMP violations due to some other kernel process using
+> > > > a 2MB mapping to access shared memory if there are private pages that
+> > > > happen to be within that range.
+> > > > 
+> > > > In both cases the issue of how to restore directmap as 2M becomes a
+> > > > problem.
+> > > > 
+> > > > I was also under the impression TDX had similar requirements. If so,
+> > > > do you know what the plan is for handling this for TDX?
+> > > > 
+> > > > There are also 2 potential alternatives I'm aware of, but these haven't
+> > > > been discussed in much detail AFAIK:
+> > > > 
+> > > > a) Ensure confidential guests are backed by 2MB pages. shmem has a way to
+> > > >    request 2MB THP pages, but I'm not sure how reliably we can guarantee
+> > > >    that enough THPs are available, so if we went that route we'd probably
+> > > >    be better off requiring the use of hugetlbfs as the backing store. But
+> > > >    obviously that's a bit limiting and it would be nice to have the option
+> > > >    of using normal pages as well. One nice thing with invalidation
+> > > >    scheme proposed here is that this would "Just Work" if implement
+> > > >    hugetlbfs support, so an admin that doesn't want any directmap
+> > > >    splitting has this option available, otherwise it's done as a
+> > > >    best-effort.
+> > > > 
+> > > > b) Implement general support for restoring directmap as 2M even when
+> > > >    subpages might be in use by other kernel threads. This would be the
+> > > >    most flexible approach since it requires no special handling during
+> > > >    invalidations, but I think it's only possible if all the CPA
+> > > >    attributes for the 2M range are the same at the time the mapping is
+> > > >    restored/unsplit, so some potential locking issues there and still
+> > > >    chance for splitting directmap over time.
+> > > 
+> > > I've been hoping that
+> > > 
+> > > c) using a mechanism such as [1] [2] where the goal is to group together
+> > > these small allocations that need to increase directmap granularity so
+> > > maximum number of large mappings are preserved.
+> > 
+> > As I mentioned in the other thread the restricted memfd can be backed by
+> > secretmem instead of plain memfd. It already handles directmap with care.
 > 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> ---
->  Documentation/gpu/index.rst | 1 +
->  1 file changed, 1 insertion(+)
+> It looks like it would handle direct unmapping/cleanup nicely, but it
+> seems to lack fallocate(PUNCH_HOLE) support which we'd probably want to
+> avoid additional memory requirements. I think once we added that we'd
+> still end up needing some sort of handling for the invalidations.
 > 
-> diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
-> index b99dede9a5b1..1d9402d519be 100644
-> --- a/Documentation/gpu/index.rst
-> +++ b/Documentation/gpu/index.rst
-> @@ -3,6 +3,7 @@ Linux GPU Driver Developer's Guide
->  ==================================
->  
->  .. toctree::
-> +   :maxdepth: 2
+> Also, I know Chao has been considering hugetlbfs support, I assume by
+> leveraging the support that already exists in shmem. Ideally SNP would
+> be able to make use of that support as well, but relying on a separate
+> backend seems likely to result in more complications getting there
+> later.
+> 
+> > 
+> > But I don't think it has to be part of initial restricted memfd
+> > implementation. It is SEV-specific requirement and AMD folks can extend
+> > implementation as needed later.
+> 
+> Admittedly the suggested changes to the invalidation mechanism made a
+> lot more sense to me when I was under the impression that TDX would have
+> similar requirements and we might end up with a common hook. Since that
+> doesn't actually seem to be the case, it makes sense to try to do it as
+> a platform-specific hook for SNP.
+> 
+> I think, given a memslot, a GFN range, and kvm_restricted_mem_get_pfn(),
+> we should be able to get the same information needed to figure out whether
+> the range is backed by huge pages or not. I'll see how that works out
+> instead.
 
-I have a bit different opinion here. I find it helpful to search for a
-topic if the headers remain uncollapsed.
-A top level view is anyways available in the TOC shown in the left side
-of the page which shows only the immediate next level headers.
+Sounds a viable solution, just that kvm_restricted_mem_get_pfn() will
+only give you the ability to check a page, not a range. But you can
+still call it many times I think.
 
-Regards,
-Bala
->  
->     introduction
->     drm-internals
-> -- 
-> 2.38.1
+The invalidation callback will be still needed, it gives you the chance
+to do the restoring.
+
+Chao
 > 
+> Thanks,
+> 
+> Mike
+> 
+> > 
+> > -- 
+> >   Kiryl Shutsemau / Kirill A. Shutemov
