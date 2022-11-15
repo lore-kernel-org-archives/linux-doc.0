@@ -2,73 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA506C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 07:53:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFA29C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 09:04:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232487AbiKOHxL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Nov 2022 02:53:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58270 "EHLO
+        id S232655AbiKOJE5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Nov 2022 04:04:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232488AbiKOHxF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 02:53:05 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE20020BE1;
-        Mon, 14 Nov 2022 23:53:03 -0800 (PST)
-Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.53])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NBJLd19SczmVyK;
-        Tue, 15 Nov 2022 15:52:41 +0800 (CST)
-Received: from dggpeml500002.china.huawei.com (7.185.36.158) by
- dggpeml500024.china.huawei.com (7.185.36.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 15 Nov 2022 15:52:34 +0800
-Received: from [10.67.103.44] (10.67.103.44) by dggpeml500002.china.huawei.com
- (7.185.36.158) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 15 Nov
- 2022 15:52:34 +0800
-Subject: Re: [PATCH v13 0/2] Add support for UltraSoc System Memory Buffer
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-References: <20221114090316.63157-1-hejunhao3@huawei.com>
- <Y3I+kaZOe4TPNsd/@debian.me>
-CC:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
-        <mike.leach@linaro.org>, <leo.yan@linaro.org>,
-        <jonathan.cameron@huawei.com>, <john.garry@huawei.com>,
-        <coresight@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <lpieralisi@kernel.org>,
-        <linuxarm@huawei.com>, <yangyicong@huawei.com>,
-        <liuqi115@huawei.com>, <f.fangjian@huawei.com>,
-        <prime.zeng@hisilicon.com>
-From:   hejunhao <hejunhao3@huawei.com>
-Message-ID: <16228056-438f-d5d2-b170-6e0b0e51f321@huawei.com>
-Date:   Tue, 15 Nov 2022 15:52:34 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        with ESMTP id S229545AbiKOJE5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 04:04:57 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E78110C4;
+        Tue, 15 Nov 2022 01:04:56 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0541DB81707;
+        Tue, 15 Nov 2022 09:04:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0E74C433C1;
+        Tue, 15 Nov 2022 09:04:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668503093;
+        bh=l+6lv6fSCW8Nf1v8EJEoRri4jO0Md/OxDKQaEU4bFBM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WgPXICecysl5i7ERxIDs1FQ3gc0/tm54Etck+yVsN8qxOrtalpWUlXA1N95tkxYrH
+         0oQlr4Qb8K3ZsRlr6AwAy4qJOljw0CLYPaQZQmsQNggMwFfjf6IF20RwNvRt5VG0i6
+         G1p4uJYHM0KEFFhn6dzn3+LOqSx18L5IBHz7j4r+4Og21dlL5g98VPoIWYgIFW7MaZ
+         ThYFdeEqccDYhZ9daCiMotBtV83D665Iiev8Vi8gMgfJlFKabpSZFvVARUZqsNdlXO
+         Ih/H+GAlUaKXJ6NKwAeqpit8QReyOYQZNeQtCrYfVOZbgx9IHBnaY4Oa4ejLdXCYzU
+         S6bdNJDnsZh9g==
+Date:   Tue, 15 Nov 2022 11:04:49 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Veerasenareddy Burru <vburru@marvell.com>
+Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Liron Himi <lironh@marvell.com>,
+        Abhijit Ayarekar <aayarekar@marvell.com>,
+        Sathesh B Edara <sedara@marvell.com>,
+        Satananda Burla <sburla@marvell.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [EXT] Re: [PATCH net-next 1/9] octeon_ep: wait for firmware ready
+Message-ID: <Y3NWMZwngTs/1Tn4@unreal>
+References: <20221107072524.9485-1-vburru@marvell.com>
+ <20221107072524.9485-2-vburru@marvell.com>
+ <Y2i/bdCAgQa95du8@unreal>
+ <BYAPR18MB24237D62CF4947B889D84BDCCC059@BYAPR18MB2423.namprd18.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <Y3I+kaZOe4TPNsd/@debian.me>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.103.44]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpeml500002.china.huawei.com (7.185.36.158)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BYAPR18MB24237D62CF4947B889D84BDCCC059@BYAPR18MB2423.namprd18.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bagas,
+On Mon, Nov 14, 2022 at 08:47:42PM +0000, Veerasenareddy Burru wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Leon Romanovsky <leon@kernel.org>
+> > Sent: Monday, November 7, 2022 12:19 AM
+> > To: Veerasenareddy Burru <vburru@marvell.com>
+> > Cc: netdev@vger.kernel.org; linux-kernel@vger.kernel.org; Liron Himi
+> > <lironh@marvell.com>; Abhijit Ayarekar <aayarekar@marvell.com>; Sathesh
+> > B Edara <sedara@marvell.com>; Satananda Burla <sburla@marvell.com>;
+> > linux-doc@vger.kernel.org; David S. Miller <davem@davemloft.net>; Eric
+> > Dumazet <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>;
+> > Paolo Abeni <pabeni@redhat.com>
+> > Subject: [EXT] Re: [PATCH net-next 1/9] octeon_ep: wait for firmware ready
+> > 
+> > External Email
+> > 
+> > ----------------------------------------------------------------------
+> > On Sun, Nov 06, 2022 at 11:25:15PM -0800, Veerasenareddy Burru wrote:
+> > > Make driver initialize the device only after firmware is ready
+> > >  - add async device setup routine.
+> > >  - poll firmware status register.
+> > >  - once firmware is ready, call async device setup routine.
+> > 
+> > Please don't do it. It is extremely hard to do it right. The proposed code that
+> > has combination of atomics used as a locks together with absence of proper
+> > locking from PCI and driver cores supports my claim.
+> > 
+> > Thanks
+> Leon
+>           What is the alternate approach you suggest here ?  Are you suggesting usage of deferred probe ? the driver initialization cannot proceed till firmware ready is set by firmware.
 
-On 2022/11/14 21:11, Bagas Sanjaya wrote:
-> On Mon, Nov 14, 2022 at 05:03:14PM +0800, Junhao He wrote:
->> Add support for UltraSoc System Memory Buffer.
->>
-> The cover letter message (aside changelogs) is short but LGTM. However,
-> for individual patches description, please write in imperative mood
-> (that is, no "This patch/commit does foo" but "Do foo" instead).
->
-> Thanks.
-Yes, I will do that.
+This is what I initially thought.
 
-Best regards,
-Junhao.
+Thanks
 
-
+> Thanks
