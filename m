@@ -2,86 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E1D4C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 11:21:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7888EC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 11:58:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238066AbiKOLVH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Nov 2022 06:21:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58582 "EHLO
+        id S229784AbiKOL6x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Nov 2022 06:58:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238287AbiKOLUo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 06:20:44 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F86AB1D7;
-        Tue, 15 Nov 2022 03:20:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=IKl7WGQfAymNErXeKgALi5N5LamZyu9FJRTMbZB3fbk=; b=cPr8a5dnJ75U+9j9hiVNbCDxU/
-        SOtD/I8TC6AQJpzHrhv4V7b+WELEXn1IJQwqvbjjHzz8kTwwI/+/ocq1v5x4vV+mW+QbIUYrBdFq0
-        e+5/6xTytWkyIjkdijfm8sUgnDnZfQC3pLMMXdaL0NTEz+xcEfuwd8iB0oQgrEg5k/71vVmQdH21m
-        qrkWX6IDMMsfEyNdj8dLBabslclpjezIorMiZd5KDKoID/wyxVFAB+QlRTE5yWy7VZQxuA36ara3n
-        2aenpDlKUaZOBs6tPMxDQQw2qckcCAVc0XLcSKGdNplGHcNRxna4I7uuDJxFVkohm9Rs6HLGOcNem
-        inmlCEGA==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1outz8-00GTV6-Q9; Tue, 15 Nov 2022 11:20:10 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 6B509300242;
-        Tue, 15 Nov 2022 12:20:02 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 4FA9F20162835; Tue, 15 Nov 2022 12:20:02 +0100 (CET)
-Date:   Tue, 15 Nov 2022 12:20:02 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        with ESMTP id S232649AbiKOL6v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 06:58:51 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D48B7E3E;
+        Tue, 15 Nov 2022 03:58:46 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A7DBB616E4;
+        Tue, 15 Nov 2022 11:58:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1476AC433D6;
+        Tue, 15 Nov 2022 11:58:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668513525;
+        bh=v7WQwVwUrmsME8ycelaHX9JZWXOub138m3ehvZfVnW8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tE8J2hmdAW5zvK1kAOaeYoesuixtZPOIdomObZYKaTefyMR/hydRm4BlGwc56roLJ
+         /u7KoTeA+18aoBMrZxe+RGf0l92p73zBs4mONKVLWwoDDn0gOnXBxwXf9r5X1cluCx
+         /N3sDQO9LjwFypL81BFALJmDECtmzdMpo2/AzzpBERPXh1HUEHnMOG7iu2n9O8VgUy
+         zfIOXnW3c8kBFWjsNfmfMHYzTqavbwm4o7Lw5US9wnLwfAOoLyhc3RMPt6hKOJz+ZZ
+         abYTh+CIdGkouoYhp+nGMrzVlwNkQvDnnnMs8mAZDnc4oZfbxUPA+bcoOoUuhYpcqe
+         5dMZdRNJKOFZg==
+Date:   Tue, 15 Nov 2022 11:58:38 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>, kexec@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
         Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v3 13/37] mm: Move VM_UFFD_MINOR_BIT from 37 to 38
-Message-ID: <Y3N14v0ddj/vVV+H@hirez.programming.kicks-ass.net>
-References: <20221104223604.29615-1-rick.p.edgecombe@intel.com>
- <20221104223604.29615-14-rick.p.edgecombe@intel.com>
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH v3 0/2] arm64: kdump: Function supplement and performance
+ optimization
+Message-ID: <20221115115837.GE32523@willie-the-truck>
+References: <20220711090319.1604-1-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221104223604.29615-14-rick.p.edgecombe@intel.com>
+In-Reply-To: <20220711090319.1604-1-thunder.leizhen@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 04, 2022 at 03:35:40PM -0700, Rick Edgecombe wrote:
-> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> 
-> To introduce VM_SHADOW_STACK as VM_HIGH_ARCH_BIT (37), and make all
-> VM_HIGH_ARCH_BITs stay together, move VM_UFFD_MINOR_BIT from 37 to 38.
+On Mon, Jul 11, 2022 at 05:03:17PM +0800, Zhen Lei wrote:
+> v2 --> v3:
+> 1. Discard patch 3 in v2, a cleanup patch.
 
-Why thought ?!? Changelog utterly fails to provide rationale.
+Do you plan to respin this series, addressing the various comments on v3?
+
+Will
