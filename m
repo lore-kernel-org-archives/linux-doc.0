@@ -2,130 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C8DC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 13:39:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8AB8C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 13:41:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238369AbiKONjK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Nov 2022 08:39:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41224 "EHLO
+        id S238452AbiKONk7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Nov 2022 08:40:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238382AbiKONjI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 08:39:08 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F61415FF6;
-        Tue, 15 Nov 2022 05:39:06 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id DE0A5CE13B9;
-        Tue, 15 Nov 2022 13:39:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A586C433D7;
-        Tue, 15 Nov 2022 13:38:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668519540;
-        bh=28GbgPBbH/Y8okJ5x4U68SwxuQja9M8WQ2Dc6syfCIw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NdDIZmxn80i9LaK4bV9ydCsHdtQMfjAUhjM7j/zA9tObQLWjBwKpO7VZa7CJYEJ7d
-         lAIjzXKHgpKbwVwOwJLTmKOqJco/khSmvQo89yrsaKujKPfJoKatM9VATgvsWrWp+5
-         C1EwAGQ+eRQErMmRQyZumtx+6abZILxNoLESUX5krmrWBp3wKM4pZPRsPfYm9jmFxI
-         3Hr0H0hrWsmtbM43xWrxK5yxkZFJE8t1neNJJ2K0YyTMgP4PL04sOSyZbt9f0JxpCu
-         O4PBBZhMjW+kdm9nrsbBk5j/69yi8ByZSoBmNj8vWpOcCClIYavAbXsxd0UvyQhwgz
-         0XAAp6afitk4A==
-Date:   Tue, 15 Nov 2022 13:38:55 +0000
-From:   Will Deacon <will@kernel.org>
-To:     Anshuman Khandual <anshuman.khandual@arm.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        catalin.marinas@arm.com, Suzuki K Poulose <suzuki.poulose@arm.com>,
-        James Morse <james.morse@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH V2 2/2] arm64: errata: Workaround possible Cortex-A715
- [ESR|FAR]_ELx corruption
-Message-ID: <20221115133854.GC524@willie-the-truck>
-References: <20221113012645.190301-1-anshuman.khandual@arm.com>
- <20221113012645.190301-3-anshuman.khandual@arm.com>
+        with ESMTP id S238442AbiKONk4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 08:40:56 -0500
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B439F186D4;
+        Tue, 15 Nov 2022 05:40:53 -0800 (PST)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NBS406tV1zRpHQ;
+        Tue, 15 Nov 2022 21:40:32 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 15 Nov 2022 21:40:51 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 15 Nov 2022 21:40:50 +0800
+Subject: Re: [PATCH v3 0/2] arm64: kdump: Function supplement and performance
+ optimization
+To:     Catalin Marinas <catalin.marinas@arm.com>
+CC:     Will Deacon <will@kernel.org>, Dave Young <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        <kexec@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        "Dave Kleikamp" <dave.kleikamp@oracle.com>
+References: <20220711090319.1604-1-thunder.leizhen@huawei.com>
+ <20221115115837.GE32523@willie-the-truck>
+ <6c1751be-9957-0765-5e68-2eb78adc9a94@huawei.com> <Y3OUc1N7Kif1pnZv@arm.com>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <39839221-8567-39ad-dade-8d1500df2e8b@huawei.com>
+Date:   Tue, 15 Nov 2022 21:40:49 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221113012645.190301-3-anshuman.khandual@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <Y3OUc1N7Kif1pnZv@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 13, 2022 at 06:56:45AM +0530, Anshuman Khandual wrote:
-> If a Cortex-A715 cpu sees a page mapping permissions change from executable
-> to non-executable, it may corrupt the ESR_ELx and FAR_ELx registers, on the
-> next instruction abort caused by permission fault.
+
+
+On 2022/11/15 21:30, Catalin Marinas wrote:
+> On Tue, Nov 15, 2022 at 08:18:21PM +0800, Leizhen (ThunderTown) wrote:
+>> On 2022/11/15 19:58, Will Deacon wrote:
+>>> On Mon, Jul 11, 2022 at 05:03:17PM +0800, Zhen Lei wrote:
+>>>> v2 --> v3:
+>>>> 1. Discard patch 3 in v2, a cleanup patch.
+>>>
+>>> Do you plan to respin this series, addressing the various comments on v3?
+>>
+>> Yes, I haven't figured out where to make DEFAULT_CRASH_KERNEL_LOW_SIZE generic.
 > 
-> Only user-space does executable to non-executable permission transition via
-> mprotect() system call which calls ptep_modify_prot_start() and ptep_modify
-> _prot_commit() helpers, while changing the page mapping. The platform code
-> can override these helpers via __HAVE_ARCH_PTEP_MODIFY_PROT_TRANSACTION.
+> Do we need to? I'd just go with something like 128MB, specific to arm64,
+> and we can increase it later if anyone comes up with a good argument.
+
+Okay, then v3's easy. I'll do it tomorrow. I've tried it before. 128M is enough.
+
 > 
-> Work around the problem via doing a break-before-make TLB invalidation, for
-> all executable user space mappings, that go through mprotect() system call.
-> This overrides ptep_modify_prot_start() and ptep_modify_prot_commit(), via
-> defining HAVE_ARCH_PTEP_MODIFY_PROT_TRANSACTION on the platform thus giving
-> an opportunity to intercept user space exec mappings, and do the necessary
-> TLB invalidation. Similar interceptions are also implemented for HugeTLB.
-> 
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
->  Documentation/arm64/silicon-errata.rst |  2 ++
->  arch/arm64/Kconfig                     | 16 ++++++++++++++++
->  arch/arm64/include/asm/hugetlb.h       |  9 +++++++++
->  arch/arm64/include/asm/pgtable.h       |  9 +++++++++
->  arch/arm64/kernel/cpu_errata.c         |  7 +++++++
->  arch/arm64/mm/hugetlbpage.c            | 21 +++++++++++++++++++++
->  arch/arm64/mm/mmu.c                    | 21 +++++++++++++++++++++
->  arch/arm64/tools/cpucaps               |  1 +
->  8 files changed, 86 insertions(+)
 
-[...]
-
-> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-> index 9a7c38965154..c1fb0ce1473c 100644
-> --- a/arch/arm64/mm/mmu.c
-> +++ b/arch/arm64/mm/mmu.c
-> @@ -1702,3 +1702,24 @@ static int __init prevent_bootmem_remove_init(void)
->  }
->  early_initcall(prevent_bootmem_remove_init);
->  #endif
-> +
-> +pte_t ptep_modify_prot_start(struct vm_area_struct *vma, unsigned long addr, pte_t *ptep)
-> +{
-> +	if (IS_ENABLED(CONFIG_ARM64_WORKAROUND_2645198)) {
-> +		pte_t pte = READ_ONCE(*ptep);
-> +		/*
-> +		 * Break-before-make (BBM) is required for all user space mappings
-> +		 * when the permission changes from executable to non-executable
-> +		 * in cases where cpu is affected with errata #2645198.
-> +		 */
-> +		if (pte_user_exec(pte) && cpus_have_const_cap(ARM64_WORKAROUND_2645198))
-> +			return ptep_clear_flush(vma, addr, ptep);
-> +	}
-> +	return ptep_get_and_clear(vma->vm_mm, addr, ptep);
-> +}
-> +
-> +void ptep_modify_prot_commit(struct vm_area_struct *vma, unsigned long addr, pte_t *ptep,
-> +			     pte_t old_pte, pte_t pte)
-> +{
-> +	__set_pte_at(vma->vm_mm, addr, ptep, pte);
-> +}
-
-So these are really similar to the generic copies and, in looking at
-change_pte_range(), it appears that we already invalidate the TLB, it just
-happens _after_ writing the new version.
-
-So with your change, I think we end up invalidating twice. Can we instead
-change the generic code to invalidate the TLB before writing the new entry?
-
-Will
+-- 
+Regards,
+  Zhen Lei
