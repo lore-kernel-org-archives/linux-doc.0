@@ -2,184 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65606C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 17:36:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC94AC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 18:07:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230322AbiKORge (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Nov 2022 12:36:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37838 "EHLO
+        id S232161AbiKOSHU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Nov 2022 13:07:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230348AbiKORgd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 12:36:33 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DB9F18360
-        for <linux-doc@vger.kernel.org>; Tue, 15 Nov 2022 09:36:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668533793; x=1700069793;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=DzzV8YjXEWsiyPJhUXgBdk0ZWj09tDwpwvkXQfmmiBs=;
-  b=YnlMrnXlo/vIR74L/QWUqbVZ/BS/X3XvM4jw/AhyDcTXQWFXhxouuzGD
-   j+cPe4c5BkPGqiMLqjtu3a6J7b/PjG/CRE4lJ5pm8CsiyknOIkaguVhqX
-   7YbYGobEArRY2zSesmfwg/DNS7S34/BJC/7mITZYO0Q2CeNJfcoPRb+BL
-   a+bVs+ky93sRxrDFbQAe+g2WcD/hO2ffaRU/+DVWW6ian9CGIjYYFr2GZ
-   f10CGPpRnT6QRqVNjq50I+iGTvhMcWJk/3HJ7PoGcuTqCSSwW5WJz25Tj
-   ty3AxJm8oHWcjZp9L6WNknoLokhWzpvX9Dp2mvVrSimljb/Q8SzkPCHDg
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="374450993"
-X-IronPort-AV: E=Sophos;i="5.96,166,1665471600"; 
-   d="scan'208";a="374450993"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 09:36:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="672073732"
-X-IronPort-AV: E=Sophos;i="5.96,166,1665471600"; 
-   d="scan'208";a="672073732"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga001.jf.intel.com with ESMTP; 15 Nov 2022 09:36:32 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 15 Nov 2022 09:36:31 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 15 Nov 2022 09:36:31 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Tue, 15 Nov 2022 09:36:31 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Tue, 15 Nov 2022 09:36:31 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Au1h+/d2Ot8p4G8csYtfMDYkb5rWh2VWSIbsMxJIvxExPYiDXB6yuTLw598VHAysC1JHbo7Djr0Ih8CM0vlyr4YpLRVw41dwZvJeexo18evAmietmG26G0ogqWxiSCnX8IGqqwgf16lhbjSnc75hDm+5pdSmdqBeYrm8ALkDDJHtvUuWpMmwRQ45WX+kT9ilPzYhu4K6Bj2BSezDuSYof9t5uKKSSHK2Jh2FrSvsGVYyhopt+PUlxA0x4x0XAsoMknd+b5r8EfWduFQORSa/zpEK3DTod+QG3LBm4eShNs0XGbK4UNCJcBx1EKMmIYu109E6Zu+xfE3ifcYMNOBczg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Tknf43XwkaipWTbqu6I7jDzBmSvyMd+HjtccuwwpGNU=;
- b=T8UDGDp6njNl7N8lMkEbdGp0LxgXfPnt7KjmkvKEMaReylNlYZpgIDXL8pnebKR0gHSqTGiAqbJug9nXQdrtn8GoJbUTgIlJlfoeoFFZLHUOm0xzCRki27/+4ke7etRYabsFwkECV0pUMeou1/WjaZgJPmsf35hfuJ5NL57eJUzGdszBW1avFr5SzSehMfm9iw4ZtL7y0yh585+ccIn8HjuB0dIRkWxEuz+Du3ox0GUReEyISH8qnLBNtjMjqdbW6yE0QBfPWafrKgDhMFSILtpfSAw6jH2flgAR8YdVhfjCS14vqU70c7L8V/GygIOBFKMAZ4N2+e0Gslt5xaQ8Jg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by DS0PR11MB7381.namprd11.prod.outlook.com (2603:10b6:8:134::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.17; Tue, 15 Nov
- 2022 17:36:29 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::22:fdef:cea5:e8f3]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::22:fdef:cea5:e8f3%3]) with mapi id 15.20.5813.017; Tue, 15 Nov 2022
- 17:36:29 +0000
-Date:   Tue, 15 Nov 2022 09:36:23 -0800
-From:   Lucas De Marchi <lucas.demarchi@intel.com>
-To:     Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-CC:     <dri-devel@lists.freedesktop.org>,
-        <intel-gfx@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [Intel-gfx] [PATCH 2/3] Documentation/gpu: Limit index to
- maxdepth=2
-Message-ID: <20221115173623.ozd2aotubxliybyw@ldmartin-desk2.lan>
-X-Patchwork-Hint: comment
-References: <20221107173209.2219571-1-lucas.demarchi@intel.com>
- <20221107173209.2219571-3-lucas.demarchi@intel.com>
- <Y3NgUWlKr1ie83BW@bala-ubuntu>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <Y3NgUWlKr1ie83BW@bala-ubuntu>
-X-ClientProxiedBy: SJ0PR05CA0018.namprd05.prod.outlook.com
- (2603:10b6:a03:33b::23) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+        with ESMTP id S231596AbiKOSHQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 13:07:16 -0500
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CE2A13D68
+        for <linux-doc@vger.kernel.org>; Tue, 15 Nov 2022 10:07:15 -0800 (PST)
+Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-376596ae449so144730197b3.5
+        for <linux-doc@vger.kernel.org>; Tue, 15 Nov 2022 10:07:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dloXDD6CiDCziJT2tHzl/Z+qUNepzcAu8WiV9q7UGjY=;
+        b=JYgZvPF0ht9E2Q56igI2aIXCY5xA0bGmnckBjD/RIFHLRkjtv+/pzXCHaKmZK8RC7T
+         6nUGxAAbze5gI9EG7y5ZeS91Bjcq/ugdpKVdvkPU8iQZyglm6cX4SR3aE4ZsaCVXLqMP
+         zZhIz9hAmeTrQ7lJfst/DoWgh42xSvNNX6OE5Up7hw/mziRWidAHgSkSxaNbKcw93dtd
+         1y+zFP3GPZTnVy6MQz9QEAbvl7MaC0lbNSm6CLtg/0DJc7RIt5bOGrTNMbeif4XsbXPu
+         MBuJ26Zik/sPd/TWdYNnzMdJ/ofCt5U6qktYv7fHZIzqh+IUBTqpxihgAGdnGMxfKRLO
+         nUOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dloXDD6CiDCziJT2tHzl/Z+qUNepzcAu8WiV9q7UGjY=;
+        b=ZBcJyH9gtEM4iNnCJzertjTg2tUPaS/Lmzg0Yyl4CSN3tRDvuUIc6rety5rJN2apmQ
+         Ua+YfR2aS7vjmXHi5YP//QmqViaZnl+Igumt1ISOybnvz34L2eSxn7l2d1FvzN9SeBR9
+         XQzy4Ip3R22scGCDmJ+u/QA9qD+LOQek/6/P5REVJnIEr/oimEFQDxqHuNFyeKHI9Ut+
+         ByX6l/+vVNxczBq5ouXndxwcW0nAfnesrHV0j+WE6dnyb0iCHfTEhyoSoh4W+etzSXgv
+         3Bw19xHpCTc2R47YNYkVI7dXJyd/nA512Jaet7ePS/+4zY1R26jPCYMuKOxAe45JyWUh
+         phTA==
+X-Gm-Message-State: ANoB5pnYAoqWcXrr5rxBu8xWVmna7ufiG0Yp6xim5CoVqm845Pqrx3qQ
+        tlQF85KDtJsjga6r0fS0x6vn5t+y6TW07C2qWdXx5A==
+X-Google-Smtp-Source: AA0mqf4eWcPEGrD/dKTwKKb8SfJskKxs+GrsMWE7+Jy0X4Q+pH06qzBSv/lfxAmwZDszEFO8l9OxBl9MHikt764urVs=
+X-Received: by 2002:a81:351:0:b0:344:ff29:4526 with SMTP id
+ 78-20020a810351000000b00344ff294526mr18583621ywd.63.1668535634314; Tue, 15
+ Nov 2022 10:07:14 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|DS0PR11MB7381:EE_
-X-MS-Office365-Filtering-Correlation-Id: e863c84a-7ed8-49f5-2d7d-08dac72feda4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rLdh+T/V4RBp6ooB3+LODnBKmXnb1sHvrzPa277vKTsHn62agq4/VG5FHzXPaP59hm0PYdY06li0KpvJ761OJaZVLfKiP59T68iKC8ZtAExpeGo2O2jRE9SmexCdJkF2853gGTeF/Ig0v7coAVG+fVhBhtWAXyBN5I2PCN1uQ3p7cCI3ZQ0vu6Bf19hrxqxBGssp0C9MgU4cq0GpKi6OTTh6gZDdzX4bwqxOTJ2yRhSu8n6HmIxghkUMgwEo8jratCHJx9D2n/4wMTWHtLtRzAcJu8WlH3IFAqUaUGvAhEnIKiGEsSnelKEYzMI6c4hdNLPV+X3zlp8g11IywBH+a+911qqvaAaWQVY3WXTnSUExBvgnM1MLVyar0OvcXKMHirx6nLV8vYrXn/bz9Z6mxk/bAbk96RCzbzqfxt9+C5YTwk5d+8RisSKOEQYrLQGrRQ6wawqmjvJwO/RXT0PhJpHtEN2teBTOZDoEN0ITlIimakHCbxx/zsRL6up6NaHKT8C3E0W3POLehatTvBb4ySPa3aVLyolqP2vIJFzlbCjc07ok7IBWgrqr6vQ5Cmxl2M4hy2ph1wq/jVXh+FItMixtw/5sgILdxLDtF367P62wi41DmwMji7kFKPzNXD/6ueEAeQ3hlVMtumUOFUWseiolKLO4Akl/fHtkT2KD2JO0MZgmMp7fDHuO3lOkgYjns2DJ16cle8CpOpSRwumVEw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6139.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(366004)(376002)(136003)(39860400002)(396003)(451199015)(1076003)(83380400001)(38100700002)(66476007)(8676002)(66946007)(4326008)(66556008)(186003)(316002)(41300700001)(9686003)(6512007)(2906002)(6506007)(6862004)(6636002)(6666004)(26005)(82960400001)(8936002)(5660300002)(478600001)(6486002)(36756003)(86362001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sk0gY0cWQRRiyxL0/x5dcuszYmXj4w3wPmHyswskWgtond//Bjii96lg+/Rn?=
- =?us-ascii?Q?t9cNgGz2L4DQ7OV/BSJcEXPw9zUiGiCq5Iwv8EbpCXKObseT16lLEjgY8HLC?=
- =?us-ascii?Q?wEuXojopjrO1WoMhJensMoJKmL4RbMIxN52Nn2BsaKBwuj36wWBmVcWznDdY?=
- =?us-ascii?Q?DKxFaonVk+VR7vqVjTla5FHhblKTIgBnAhif+rs7dornZZ0zoeeBtabeNMYE?=
- =?us-ascii?Q?59zxwQI/8BftoFvCNWPVv6ECW3TEtJn/ouNmtrPh99tyqGzX1cb/mtmiwSQI?=
- =?us-ascii?Q?dnCdOzOLNBGQV0BkAdxSG79wqW8m7ndIzl2orxqbb0WNwBvRkHd8e335fsFq?=
- =?us-ascii?Q?Q4QCEtSULtQbJ8oBP+Wsid4qUiioN9XKD3giX7ZsRAOPv7xKRaNs7y2zFJ5I?=
- =?us-ascii?Q?Rnccl50HQddQx9Nipn2N8v6toEb+dtGkmEtBqL+MkqmguX1zO4GbKoTWbbnN?=
- =?us-ascii?Q?d3cfK5H5fd9SSAdv9NeORVqjFKJaza9MGTPYZ0X3IDsJAJbon7esBGE1A/x/?=
- =?us-ascii?Q?g1jrIBxpzihY2ms9vDJ/OjxC0D5Dc0HA9boCcssdVIbO1SGu7yRMq80VqCWX?=
- =?us-ascii?Q?CthkVw58YqoMLdrCeD4qS+nz0TjvbqYKOgcjaHx0NGcRJmvxHn/fOg3J0Gxw?=
- =?us-ascii?Q?LKmkrnab9yq4OSXWjT1OUxTWQGzkLlG6DalN4yC3L7BARseBpLPQf93uCkak?=
- =?us-ascii?Q?y/iP97cEDVatlE1WfIPHtUi5cTCTrwXZBMuHKXEN06K5MQ46YFYOZrebGKrW?=
- =?us-ascii?Q?gV0mlFqMUJD0pdgjUNuNMyV6xyUDMcKDHOBQbPKciwllrsPg9NWOwYHi4Ca6?=
- =?us-ascii?Q?Nl50ySpTKoxlul8DITkZf7rQhCZtS2INJxZQvSzbr9FVMl8BZXApRZQSMSJw?=
- =?us-ascii?Q?BFgKlbwesKF9erax/Xqj20fUCIt/6qOJX/2iqhJwkSAsJrErWg8HuZLXnlwx?=
- =?us-ascii?Q?7hsPHxH8RDaK26b4r1Mg7NUH63k2hWhilyu/nYuhlesyZ/7zhoEaDMDgllj1?=
- =?us-ascii?Q?hvCWVmVRHMnRLbW8AQrA8mc5g7TMaKEEFNzNpo3uM5P+swW1UgUf4imDedwo?=
- =?us-ascii?Q?8GklAibt9KHg6hbL1aXfQQ9JYUXr0mYSyCULntoZ+ORlcwliRVz0y5tKVrhW?=
- =?us-ascii?Q?FaKY4IDbHe/LJaoeHX4H4IRrvpg24vZ1rPa5qGPGnLp1kWQQCyDwPI8TG+2k?=
- =?us-ascii?Q?4mekWhgUWYeCh+qTTfF8K4CRDD5h6Ww2oEcKpVWy8sxmcltg5RJVcbTEj13G?=
- =?us-ascii?Q?/RHyT0he8yWSWnN/mZHA6VM3nQDjeESTxW+Mj24bgNBs5eC3ZDCXWTY3UgIa?=
- =?us-ascii?Q?rwnX3K65lJMIqrk+kSVaUFGgYY3SRsYzB8XmfB/BlSY6XFwApSOmhbx/pKuu?=
- =?us-ascii?Q?q1mMWMgVptIrrlz9TE9IajcBGQgC/riamdlB59QfYhc3cthf8lNhEQssIyFv?=
- =?us-ascii?Q?Rw0j3bgROR4QiWa/GX5wgW2x2wSIZRZQWSZFCcXW6x6u+ymbA8oK6khcKs+e?=
- =?us-ascii?Q?/WmoR13t7N2lTNe/7gWKDZZLVF5KEFdXcBCKKSCvDAHJOb78VnWvw0hpkarH?=
- =?us-ascii?Q?YNKTAx1phFyAG8xqFiyB2cywhdrhTYC5tiz660+DItKjYrAFSTV+nwYskaIR?=
- =?us-ascii?Q?8g=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e863c84a-7ed8-49f5-2d7d-08dac72feda4
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2022 17:36:29.2571
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hzD8/nVdr6xB/46jqm59CIXuiG8ArsPsaQ+VbnjoCo2RRkrypRzbkvnwcZqaJ7q89DHd1GPBzPfScZ9VvxZR5P8D4b/o38YHmbdORPM9mPE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7381
-X-OriginatorOrg: intel.com
+References: <20221109003618.3784591-1-dlatypov@google.com> <20221109003618.3784591-2-dlatypov@google.com>
+ <CAO2JNKUTiVM8YPgy0nz7W1GJtSVURhc1YkMgUWgs-rShNY0Zaw@mail.gmail.com>
+ <CAGS_qxqPUHWyJ4nNQRdm79sMwHwysHV=99WXzMsY=g_WzSjZaw@mail.gmail.com> <CABVgOSkJGoyMrv-=Zd+8sveH0+04G4twmae+p+TJWdpB6SJ+FQ@mail.gmail.com>
+In-Reply-To: <CABVgOSkJGoyMrv-=Zd+8sveH0+04G4twmae+p+TJWdpB6SJ+FQ@mail.gmail.com>
+From:   Daniel Latypov <dlatypov@google.com>
+Date:   Tue, 15 Nov 2022 10:07:03 -0800
+Message-ID: <CAGS_qxodbGhwrGD-dHmCW7gWdrhFgCxQbrFPvNYMrXU67_ZryQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] Documentation: KUnit: reword description of assertions
+To:     David Gow <davidgow@google.com>
+Cc:     Sadiya Kazi <sadiyakazi@google.com>, brendanhiggins@google.com,
+        rmoar@google.com, linux-kernel@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 15, 2022 at 03:18:01PM +0530, Balasubramani Vivekanandan wrote:
->On 07.11.2022 09:32, Lucas De Marchi wrote:
->> With a lot of sub-section it's a little bit hard to find the information
->> needed in the main GPU index. Limit the maxdepth to 2 so it doesn't get
->> poluted with noise from each driver and from other sections.
->>
->> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
->> ---
->>  Documentation/gpu/index.rst | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
->> index b99dede9a5b1..1d9402d519be 100644
->> --- a/Documentation/gpu/index.rst
->> +++ b/Documentation/gpu/index.rst
->> @@ -3,6 +3,7 @@ Linux GPU Driver Developer's Guide
->>  ==================================
->>
->>  .. toctree::
->> +   :maxdepth: 2
+On Mon, Nov 14, 2022 at 11:45 PM David Gow <davidgow@google.com> wrote:
+
+<snip>
+
+> +1 for the patch from me (modulo the "we" typo Sadiya mentioned).
 >
->I have a bit different opinion here. I find it helpful to search for a
->topic if the headers remain uncollapsed.
->A top level view is anyways available in the TOC shown in the left side
->of the page which shows only the immediate next level headers.
+> I otherwise also prefer Daniel's original here (though I'd possibly
+> merge it into one sentence, personally).
+> Maybe:
+> "In this example, as we need to be able to allocate an array in order
+> to test the sort function, we use ``KUNIT_ASSERT_NOT_ERR_OR_NULL()``
+> to abort the test if there's an allocation error."
+> or
+> "In this example, we need to allocate an array to test the sort
+> function. We therefore use ``KUNIT_ASSERT_NOT_ERR_OR_NULL()``, which
+> will automatically abort the test if there's an allocation error."
+>
+> But any of the above wordings are fine for me.
+>
+> The note about ASSERT() working in any function is useful, though
+> there are definitely some "gotcha"s caused by killing the kthread
+> we'll need to resolve. (If there are any dangling references to things
+> on the stack, for example.) Still, not an issue for this bit of
+> documentation.
+>
+> Reviewed-by: David Gow <davidgow@google.com>
+>
+> (Once the "we" typo is fixed.)
 
-I think the left side doesn't render very well. I'd still like to have
-depth 2 for an overview, without going too deep in the innerworks of
-each and every driver. Looking around I found there is a lot of use of
-maxdepth in the indexes (git grep ":maxdepth:" -- Documentation), so
-thought it would be something to adopt here.  Anyway, I don't mind
-dropping these 2 patches if people don't agree with me :)
+v3 is here, PTAL
+https://lore.kernel.org/all/20221111182906.1377191-2-dlatypov@google.com/
 
+Copying the relevant section here:
++In this example, we need to be able to allocate an array to test the ``sort()``
++function. So we use ``KUNIT_ASSERT_NOT_ERR_OR_NULL()`` to abort the test if
++there's an allocation error.
++
++.. note::
++   In other test frameworks, ``ASSERT`` macros are often implemented by calling
++   ``return`` so they only work from the test function. In KUnit, we stop the
++   current kthread on failure, so you can call them from anywhere.
 
-thanks
-Lucas De Marchi
+Daniel
