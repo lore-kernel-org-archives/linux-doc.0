@@ -2,390 +2,323 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B988C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 14:15:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00FF6C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Nov 2022 14:37:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230313AbiKOOPN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Nov 2022 09:15:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40356 "EHLO
+        id S229674AbiKOOhI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Nov 2022 09:37:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbiKOOPM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 09:15:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDADAB88
-        for <linux-doc@vger.kernel.org>; Tue, 15 Nov 2022 06:14:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1668521650;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=uBHWqy78eJDHtx/+9ycGf77SRANac5lVpltsrKsyVRI=;
-        b=g11X/doUmRrKaZ16YJSquQ7fRANv395WcGHe1SkSQ1i9/jC7DBhj/4YPabzKOalpEvzi7z
-        4SzVw+gC2ZND05dIJuN9pMqZ8GE/4zysoNXdF5DfjHyWR9/EByYeX2sQJ+OZIh3MuUm7yk
-        xL1Q896BAmlx/Fk8DH7j+IlKSCzkQ3A=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-158-9xH1jVaHMsSRs5uD6sGtTg-1; Tue, 15 Nov 2022 09:14:09 -0500
-X-MC-Unique: 9xH1jVaHMsSRs5uD6sGtTg-1
-Received: by mail-qt1-f200.google.com with SMTP id cd6-20020a05622a418600b003a54cb17ad9so10321326qtb.0
-        for <linux-doc@vger.kernel.org>; Tue, 15 Nov 2022 06:14:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uBHWqy78eJDHtx/+9ycGf77SRANac5lVpltsrKsyVRI=;
-        b=tPnHmOxYJUdvTXa7zL9iJAkXUrGR6h7qsjEsWqxrPD7KKirWrJOI6fq+cHkg/82mUI
-         Lab/dBWPTFXG+130UX4jAYged01D2kPWXc6NpySxwU7/NGj7PpWpjTfzX/tkidYKnW5W
-         kpFlEOjZIgSBmC8tHb6M3OH0BBiOto2d/dRfTVaWG83earQs4tQoJd3lb/SzBE+2/Cl1
-         WRtXnoULvrMzOYVm9rFuPF3q3CAyLQj8mqeVMtkCkm+ifQnUY/SoYS+YM9t2wZAm6Czp
-         JbGd4VAWD1XZTEeV0d6LUg1gTxpP9mvCkXzKjFpkdKrMS3fJ2iZRrZsxzrurMal9EabL
-         vP5g==
-X-Gm-Message-State: ANoB5pkmej/MrhMqETq15bl3XwufE51FzJTqGyrNTz/G/ExuxJpPKbIl
-        3lw6BoVCb4K6yPm8/qjO9n0N+lIVJJ739c/ApyzwPhffel1D6yVBArOOZAHOk1hgHIW2LGfvSZl
-        G8M6GvI6x8FI+jN3eng5v
-X-Received: by 2002:ac8:5787:0:b0:3a5:ef4:675d with SMTP id v7-20020ac85787000000b003a50ef4675dmr17018453qta.409.1668521648901;
-        Tue, 15 Nov 2022 06:14:08 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4Y4TimZPGdX70IP8PmI8c9rCynvQENWzgkJNWsyiaJkaR7UUVYgMweGq+PBlV4dXb9mUSPFA==
-X-Received: by 2002:ac8:5787:0:b0:3a5:ef4:675d with SMTP id v7-20020ac85787000000b003a50ef4675dmr17018410qta.409.1668521648505;
-        Tue, 15 Nov 2022 06:14:08 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874? ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
-        by smtp.gmail.com with ESMTPSA id x81-20020a376354000000b006cfc9846594sm8029860qkb.93.2022.11.15.06.14.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Nov 2022 06:14:07 -0800 (PST)
-Message-ID: <112905a9-ed6f-4aaa-2bfc-46502e558ab5@redhat.com>
-Date:   Tue, 15 Nov 2022 15:14:00 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Reply-To: eric.auger@redhat.com
-Subject: Re: [PATCH v4 03/17] interval-tree: Add a utility to iterate over
- spans in an interval tree
-Content-Language: en-US
-To:     Jason Gunthorpe <jgg@nvidia.com>, bpf@vger.kernel.org,
+        with ESMTP id S229587AbiKOOhH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 09:37:07 -0500
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 864511401B;
+        Tue, 15 Nov 2022 06:37:06 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.west.internal (Postfix) with ESMTP id CBBF72B066D4;
+        Tue, 15 Nov 2022 09:37:00 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 15 Nov 2022 09:37:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+         h=cc:cc:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm2; t=1668523020; x=1668530220; bh=Ad
+        wHQwvOiKtA9P6Y0u9jZFsfpkfO0GgABx1clW0axSM=; b=b1yM/7FEcClWE/shk7
+        Ikib6jlxMdJrJr/Np4NeX2vDsT0AQEo7W07O2V0AaFy5qOOmVENeqdMC1eOTss/x
+        gRTEG1I0SEPeGT2VXeUG6zIbnD6dHdscBUIuGCJQevQzFC+UUbeDEQzmVWYglSbN
+        V6l8IX93vkcm6THTPmR2V23AmrGLkx3Uw0BSgusDSjHt07Pe6LYtFORGK17dDOyJ
+        mUAC7eH0TebAPnCXT78QyJejukQ4RmIG9X+xYUcryppXfcRiROQsTbMI4sAO7EDC
+        CudXWZVJtpcFPN0el9OFhJUGGjVAjTjCWR1BAxqgAUQSMDvc16NjQvgP8x4GEFW+
+        vcqg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; t=1668523020; x=1668530220; bh=AdwHQwvOiKtA9P6Y0u9jZFsfpkfO
+        0GgABx1clW0axSM=; b=TDFbZVnuyahpqh8vT886YvKR1Ol2nKo8U+/J2ZElxrSQ
+        n2E5oSia7W6dD5yqxCZIxtzirSEFghTFlB7mAZp87wZnlFZbGO46OQUsMT2osyl9
+        yPocZOwpYwDL035DaZVzu2fC+ZQ9iYm406ihwqwdqNIfGftbDX8htxDt5TxRGBCF
+        +t23+33E4F1FO6nCpO9HhFlan0REtgnmZubj2wzg+HGVJNuF0NRuofZSdV1AscI9
+        wZM2jrp9pfXmJMsJLubXwhmDN9eZtg4PyMSFlT3Df9EGLoL+1pB420R3iPOlGcpK
+        lO65lG2pvjcQkovGbuVTllzqbhbtgdDPLNEsVzpDog==
+X-ME-Sender: <xms:CqRzY68BT2_MOQCpJaG-rHi3ZvX2DPUi1AORdEmnduWa6W-16sqpUQ>
+    <xme:CqRzY6sNcfcHf50KqgQ8kjcZzIU9uf7mU-dKtVHD2JzEBS25E00gx7lMBqWe_yZZn
+    CIXpJ3thavR8r76dE4>
+X-ME-Received: <xmr:CqRzYwDMbsjb5gxiP2OVgmcfVzPPyfJPLm1H0JkcrIAuZCoD9aYl6xTxWo_PDgIpjBv9KQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggdeiiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehttddttddttddvnecuhfhrohhmpedfmfhirhhi
+    lhhlucetrdcuufhhuhhtvghmohhvfdcuoehkihhrihhllhesshhhuhhtvghmohhvrdhnrg
+    hmvgeqnecuggftrfgrthhtvghrnhephfeigefhtdefhedtfedthefghedutddvueehtedt
+    tdehjeeukeejgeeuiedvkedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomhepkhhirhhilhhlsehshhhuthgvmhhovhdrnhgrmhgv
+X-ME-Proxy: <xmx:CqRzYydIWDcubtT3THtqv8FWKHCS--BtaBzbgq3OhwTX20vuyo-laQ>
+    <xmx:CqRzY_OGoXMgKcwLte8bRp93aLlKDKHNuTTJfy3wCFsePEWbCpapGw>
+    <xmx:CqRzY8lj7_1L0OWPwtgl65FvZmhL0RNn1SNgP5_j7hMUObZk6dJuAg>
+    <xmx:DKRzYycI2DAmg3G1dRRamPnUVJyM4m05tNWQKBXs1AUq7Ug2T3ZwfJ76r9Y>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 15 Nov 2022 09:36:57 -0500 (EST)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id CAA2F10997B; Tue, 15 Nov 2022 17:36:54 +0300 (+03)
+Date:   Tue, 15 Nov 2022 17:36:54 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Isaku Yamahata <isaku.yamahata@gmail.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        Hugh Dickins <hughd@google.com>
+Cc:     Vishal Annapurve <vannapurve@google.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
         Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Eric Farman <farman@linux.ibm.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Shameerali Kolothum Thodi 
-        <shameerali.kolothum.thodi@huawei.com>,
-        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
-References: <3-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
-From:   Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <3-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 0/8] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <20221115143654.rqpf72hzdtrd3xyw@box.shutemov.name>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <CAGtprH-av3K6YxUbz1cAsQp4w2ce35UrfBF-u7Q_qCuTNMdvzQ@mail.gmail.com>
+ <20221108004141.GF1063309@ls.amr.corp.intel.com>
+ <20221109155404.istawiyvwr3yffag@box.shutemov.name>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221109155404.istawiyvwr3yffag@box.shutemov.name>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jason,
+On Wed, Nov 09, 2022 at 06:54:04PM +0300, Kirill A. Shutemov wrote:
+> On Mon, Nov 07, 2022 at 04:41:41PM -0800, Isaku Yamahata wrote:
+> > On Thu, Nov 03, 2022 at 05:43:52PM +0530,
+> > Vishal Annapurve <vannapurve@google.com> wrote:
+> > 
+> > > On Tue, Oct 25, 2022 at 8:48 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> > > >
+> > > > This patch series implements KVM guest private memory for confidential
+> > > > computing scenarios like Intel TDX[1]. If a TDX host accesses
+> > > > TDX-protected guest memory, machine check can happen which can further
+> > > > crash the running host system, this is terrible for multi-tenant
+> > > > configurations. The host accesses include those from KVM userspace like
+> > > > QEMU. This series addresses KVM userspace induced crash by introducing
+> > > > new mm and KVM interfaces so KVM userspace can still manage guest memory
+> > > > via a fd-based approach, but it can never access the guest memory
+> > > > content.
+> > > >
+> > > > The patch series touches both core mm and KVM code. I appreciate
+> > > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
+> > > > reviews are always welcome.
+> > > >   - 01: mm change, target for mm tree
+> > > >   - 02-08: KVM change, target for KVM tree
+> > > >
+> > > > Given KVM is the only current user for the mm part, I have chatted with
+> > > > Paolo and he is OK to merge the mm change through KVM tree, but
+> > > > reviewed-by/acked-by is still expected from the mm people.
+> > > >
+> > > > The patches have been verified in Intel TDX environment, but Vishal has
+> > > > done an excellent work on the selftests[4] which are dedicated for this
+> > > > series, making it possible to test this series without innovative
+> > > > hardware and fancy steps of building a VM environment. See Test section
+> > > > below for more info.
+> > > >
+> > > >
+> > > > Introduction
+> > > > ============
+> > > > KVM userspace being able to crash the host is horrible. Under current
+> > > > KVM architecture, all guest memory is inherently accessible from KVM
+> > > > userspace and is exposed to the mentioned crash issue. The goal of this
+> > > > series is to provide a solution to align mm and KVM, on a userspace
+> > > > inaccessible approach of exposing guest memory.
+> > > >
+> > > > Normally, KVM populates secondary page table (e.g. EPT) by using a host
+> > > > virtual address (hva) from core mm page table (e.g. x86 userspace page
+> > > > table). This requires guest memory being mmaped into KVM userspace, but
+> > > > this is also the source where the mentioned crash issue can happen. In
+> > > > theory, apart from those 'shared' memory for device emulation etc, guest
+> > > > memory doesn't have to be mmaped into KVM userspace.
+> > > >
+> > > > This series introduces fd-based guest memory which will not be mmaped
+> > > > into KVM userspace. KVM populates secondary page table by using a
+> > > 
+> > > With no mappings in place for userspace VMM, IIUC, looks like the host
+> > > kernel will not be able to find the culprit userspace process in case
+> > > of Machine check error on guest private memory. As implemented in
+> > > hwpoison_user_mappings, host kernel tries to look at the processes
+> > > which have mapped the pfns with hardware error.
+> > > 
+> > > Is there a modification needed in mce handling logic of the host
+> > > kernel to immediately send a signal to the vcpu thread accessing
+> > > faulting pfn backing guest private memory?
+> > 
+> > mce_register_decode_chain() can be used.  MCE physical address(p->mce_addr)
+> > includes host key id in addition to real physical address.  By searching used
+> > hkid by KVM, we can determine if the page is assigned to guest TD or not. If
+> > yes, send SIGBUS.
+> > 
+> > kvm_machine_check() can be enhanced for KVM specific use.  This is before
+> > memory_failure() is called, though.
+> > 
+> > any other ideas?
+> 
+> That's too KVM-centric. It will not work for other possible user of
+> restricted memfd.
+> 
+> I tried to find a way to get it right: we need to get restricted memfd
+> code info about corrupted page so it can invalidate its users. On the next
+> request of the page the user will see an error. In case of KVM, the error
+> will likely escalate to SIGBUS.
+> 
+> The problem is that core-mm code that handles memory failure knows nothing
+> about restricted memfd. It only sees that the page belongs to a normal
+> memfd.
+> 
+> AFAICS, there's no way to get it intercepted from the shim level. shmem
+> code has to be patches. shmem_error_remove_page() has to call into
+> restricted memfd code.
+> 
+> Hugh, are you okay with this? Or maybe you have a better idea?
 
-On 11/8/22 01:48, Jason Gunthorpe wrote:
-> The span iterator travels over the indexes of the interval_tree, not the
-> nodes, and classifies spans of indexes as either 'used' or 'hole'.
->
-> 'used' spans are fully covered by nodes in the tree and 'hole' spans have
-> no node intersecting the span.
->
-> This is done greedily such that spans are maximally sized and every
-> iteration step switches between used/hole.
->
-> As an example a trivial allocator can be written as:
->
-> 	for (interval_tree_span_iter_first(&span, itree, 0, ULONG_MAX);
-> 	     !interval_tree_span_iter_done(&span);
-> 	     interval_tree_span_iter_next(&span))
-> 		if (span.is_hole &&
-> 		    span.last_hole - span.start_hole >= allocation_size - 1)
-> 			return span.start_hole;
->
-> With all the tricky boundary conditions handled by the library code.
->
-> The following iommufd patches have several algorithms for its overlapping
-> node interval trees that are significantly simplified with this kind of
-> iteration primitive. As it seems generally useful, put it into lib/.
->
-> Tested-by: Nicolin Chen <nicolinc@nvidia.com>
-> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  .clang-format                 |   1 +
->  include/linux/interval_tree.h |  58 +++++++++++++++
->  lib/Kconfig                   |   4 ++
->  lib/interval_tree.c           | 132 ++++++++++++++++++++++++++++++++++
->  4 files changed, 195 insertions(+)
->
-> diff --git a/.clang-format b/.clang-format
-> index 1247d54f9e49fa..96d07786dcfb46 100644
-> --- a/.clang-format
-> +++ b/.clang-format
-> @@ -440,6 +440,7 @@ ForEachMacros:
->    - 'inet_lhash2_for_each_icsk'
->    - 'inet_lhash2_for_each_icsk_continue'
->    - 'inet_lhash2_for_each_icsk_rcu'
-> +  - 'interval_tree_for_each_span'
->    - 'intlist__for_each_entry'
->    - 'intlist__for_each_entry_safe'
->    - 'kcore_copy__for_each_phdr'
-> diff --git a/include/linux/interval_tree.h b/include/linux/interval_tree.h
-> index 288c26f50732d7..2b8026a3990645 100644
-> --- a/include/linux/interval_tree.h
-> +++ b/include/linux/interval_tree.h
-> @@ -27,4 +27,62 @@ extern struct interval_tree_node *
->  interval_tree_iter_next(struct interval_tree_node *node,
->  			unsigned long start, unsigned long last);
->  
-> +/**
-> + * struct interval_tree_span_iter - Find used and unused spans.
-> + * @start_hole: Start of an interval for a hole when is_hole == 1
-> + * @last_hole: Inclusive end of an interval for a hole when is_hole == 1
-> + * @start_used: Start of a used interval when is_hole == 0
-> + * @last_used: Inclusive end of a used interval when is_hole == 0
-> + * @is_hole: 0 == used, 1 == is_hole, -1 == done iteration
-> + *
-> + * This iterator travels over spans in an interval tree. It does not return
-> + * nodes but classifies each span as either a hole, where no nodes intersect, or
-> + * a used, which is fully covered by nodes. Each iteration step toggles between
-> + * hole and used until the entire range is covered. The returned spans always
-> + * fully cover the requested range.
-> + *
-> + * The iterator is greedy, it always returns the largest hole or used possible,
-> + * consolidating all consecutive nodes.
-> + *
-> + * Use interval_tree_span_iter_done() to detect end of iteration.
-> + */
-> +struct interval_tree_span_iter {
-> +	/* private: not for use by the caller */
-> +	struct interval_tree_node *nodes[2];
-> +	unsigned long first_index;
-> +	unsigned long last_index;
-> +
-> +	/* public: */
-> +	union {
-> +		unsigned long start_hole;
-> +		unsigned long start_used;
-> +	};
-> +	union {
-> +		unsigned long last_hole;
-> +		unsigned long last_used;
-> +	};
-> +	int is_hole;
-> +};
-> +
-> +void interval_tree_span_iter_first(struct interval_tree_span_iter *state,
-> +				   struct rb_root_cached *itree,
-> +				   unsigned long first_index,
-> +				   unsigned long last_index);
-> +void interval_tree_span_iter_advance(struct interval_tree_span_iter *iter,
-> +				     struct rb_root_cached *itree,
-> +				     unsigned long new_index);
-> +void interval_tree_span_iter_next(struct interval_tree_span_iter *state);
-> +
-> +static inline bool
-> +interval_tree_span_iter_done(struct interval_tree_span_iter *state)
-> +{
-> +	return state->is_hole == -1;
-> +}
-> +
-> +#define interval_tree_for_each_span(span, itree, first_index, last_index)      \
-> +	for (interval_tree_span_iter_first(span, itree,                        \
-> +					   first_index, last_index);           \
-> +	     !interval_tree_span_iter_done(span);                              \
-> +	     interval_tree_span_iter_next(span))
-> +
->  #endif	/* _LINUX_INTERVAL_TREE_H */
-> diff --git a/lib/Kconfig b/lib/Kconfig
-> index 9bbf8a4b2108e6..c6c323fd251721 100644
-> --- a/lib/Kconfig
-> +++ b/lib/Kconfig
-> @@ -479,6 +479,10 @@ config INTERVAL_TREE
->  
->  	  for more information.
->  
-> +config INTERVAL_TREE_SPAN_ITER
-> +	bool
-> +	depends on INTERVAL_TREE
-> +
->  config XARRAY_MULTI
->  	bool
->  	help
-> diff --git a/lib/interval_tree.c b/lib/interval_tree.c
-> index 593ce56ece5050..d2882db8fa2a07 100644
-> --- a/lib/interval_tree.c
-> +++ b/lib/interval_tree.c
-> @@ -15,3 +15,135 @@ EXPORT_SYMBOL_GPL(interval_tree_insert);
->  EXPORT_SYMBOL_GPL(interval_tree_remove);
->  EXPORT_SYMBOL_GPL(interval_tree_iter_first);
->  EXPORT_SYMBOL_GPL(interval_tree_iter_next);
-> +
-> +#ifdef CONFIG_INTERVAL_TREE_SPAN_ITER
-Maybe add in a kernel doc that a prerequisite is state.nodes[1] must be
-populated
-> +static void
-> +interval_tree_span_iter_next_gap(struct interval_tree_span_iter *state)
-> +{
-> +	struct interval_tree_node *cur = state->nodes[1];
-> +
-> +	/*
-> +	 * Roll nodes[1] into nodes[0] by advancing nodes[1] to the end of a
-> +	 * contiguous span of nodes. This makes nodes[0]->last the end of that
-> +	 * contiguous span of valid indexes that started at the original
-I would suggest s/contiguous span/contiguous used span and remove "of
-valid indexes"
-> +	 * nodes[1]->start. nodes[1] is now the next node and a hole is between
-nodes[1] is now the first node starting the next used span. A hole span
-is between nodes[0]->last and nodes[1]->start
-> +	 * nodes[0] and [1].
-> +	 */
-> +	state->nodes[0] = cur;
-> +	do {
-> +		if (cur->last > state->nodes[0]->last)
-> +			state->nodes[0] = cur;
-> +		cur = interval_tree_iter_next(cur, state->first_index,
-> +					      state->last_index);
-> +	} while (cur && (state->nodes[0]->last >= cur->start ||
-> +			 state->nodes[0]->last + 1 == cur->start));
-> +	state->nodes[1] = cur;
-> +}
-> +
-> +void interval_tree_span_iter_first(struct interval_tree_span_iter *iter,
-> +				   struct rb_root_cached *itree,
-> +				   unsigned long first_index,
-> +				   unsigned long last_index)
-> +{
-> +	iter->first_index = first_index;
-> +	iter->last_index = last_index;
-> +	iter->nodes[0] = NULL;
-> +	iter->nodes[1] =
-> +		interval_tree_iter_first(itree, first_index, last_index);
-> +	if (!iter->nodes[1]) {
-> +		/* No nodes intersect the span, whole span is hole */
-> +		iter->start_hole = first_index;
-> +		iter->last_hole = last_index;
-> +		iter->is_hole = 1;
-> +		return;
-> +	}
-> +	if (iter->nodes[1]->start > first_index) {
-> +		/* Leading hole on first iteration */
-> +		iter->start_hole = first_index;
-> +		iter->last_hole = iter->nodes[1]->start - 1;
-> +		iter->is_hole = 1;
-> +		interval_tree_span_iter_next_gap(iter);
-> +		return;
-> +	}
-> +
-> +	/* Starting inside a used */
-> +	iter->start_used = first_index;
-> +	iter->is_hole = 0;
-> +	interval_tree_span_iter_next_gap(iter);
-> +	iter->last_used = iter->nodes[0]->last;
-> +	if (iter->last_used >= last_index) {
-> +		iter->last_used = last_index;
-> +		iter->nodes[0] = NULL;
-> +		iter->nodes[1] = NULL;
-> +	}
-> +}
-> +EXPORT_SYMBOL_GPL(interval_tree_span_iter_first);
-> +
-> +void interval_tree_span_iter_next(struct interval_tree_span_iter *iter)
-> +{
-> +	if (!iter->nodes[0] && !iter->nodes[1]) {
-> +		iter->is_hole = -1;
-> +		return;
-> +	}
-> +
-> +	if (iter->is_hole) {
-> +		iter->start_used = iter->last_hole + 1;
-> +		iter->last_used = iter->nodes[0]->last;
-> +		if (iter->last_used >= iter->last_index) {
-> +			iter->last_used = iter->last_index;
-> +			iter->nodes[0] = NULL;
-> +			iter->nodes[1] = NULL;
-> +		}
-> +		iter->is_hole = 0;
-> +		return;
-> +	}
-> +
-> +	if (!iter->nodes[1]) {
-> +		/* Trailing hole */
-> +		iter->start_hole = iter->nodes[0]->last + 1;
-> +		iter->last_hole = iter->last_index;
-> +		iter->nodes[0] = NULL;
-> +		iter->is_hole = 1;
-> +		return;
-> +	}
-> +
-> +	/* must have both nodes[0] and [1], interior hole */
-> +	iter->start_hole = iter->nodes[0]->last + 1;
-> +	iter->last_hole = iter->nodes[1]->start - 1;
-> +	iter->is_hole = 1;
-> +	interval_tree_span_iter_next_gap(iter);
-> +}
-> +EXPORT_SYMBOL_GPL(interval_tree_span_iter_next);
-> +
-> +/*
-> + * Advance the iterator index to a specific position. The returned used/hole is
-> + * updated to start at new_index. This is faster than calling
-> + * interval_tree_span_iter_first() as it can avoid full searches in several
-> + * cases where the iterator is already set.
-> + */
-> +void interval_tree_span_iter_advance(struct interval_tree_span_iter *iter,
-> +				     struct rb_root_cached *itree,
-> +				     unsigned long new_index)
-> +{
-> +	if (iter->is_hole == -1)
-> +		return;
-> +
-> +	iter->first_index = new_index;
-check new_index > iter->first_index?
-> +	if (new_index > iter->last_index) {
-> +		iter->is_hole = -1;
-> +		return;
-> +	}
-> +
-> +	/* Rely on the union aliasing hole/used */
-> +	if (iter->start_hole <= new_index && new_index <= iter->last_hole) {
-> +		iter->start_hole = new_index;
-> +		return;
-> +	}
-> +	if (new_index == iter->last_hole + 1)
-> +		interval_tree_span_iter_next(iter);
-> +	else
-> +		interval_tree_span_iter_first(iter, itree, new_index,
-> +					      iter->last_index);
-> +}
-> +EXPORT_SYMBOL_GPL(interval_tree_span_iter_advance);
-> +#endif
+Okay, here is what I've come up with. It doesn't touch shmem code, but
+hooks up directly into memory-failure.c. It is still ugly, but should be
+tolerable.
 
-Besides, looks good to me
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+restrictedmem_error_page() loops over all restrictedmem inodes. It is
+slow, but memory failure is not hot path (I hope).
 
-Eric
+Only build-tested. Chao, could you hook up ->error for KVM and get it
+tested?
 
+diff --git a/include/linux/restrictedmem.h b/include/linux/restrictedmem.h
+index 9c37c3ea3180..c2700c5daa43 100644
+--- a/include/linux/restrictedmem.h
++++ b/include/linux/restrictedmem.h
+@@ -12,6 +12,8 @@ struct restrictedmem_notifier_ops {
+ 				 pgoff_t start, pgoff_t end);
+ 	void (*invalidate_end)(struct restrictedmem_notifier *notifier,
+ 			       pgoff_t start, pgoff_t end);
++	void (*error)(struct restrictedmem_notifier *notifier,
++			       pgoff_t start, pgoff_t end);
+ };
+ 
+ struct restrictedmem_notifier {
+@@ -34,6 +36,8 @@ static inline bool file_is_restrictedmem(struct file *file)
+ 	return file->f_inode->i_sb->s_magic == RESTRICTEDMEM_MAGIC;
+ }
+ 
++void restrictedmem_error_page(struct page *page, struct address_space *mapping);
++
+ #else
+ 
+ static inline void restrictedmem_register_notifier(struct file *file,
+@@ -57,6 +61,11 @@ static inline bool file_is_restrictedmem(struct file *file)
+ 	return false;
+ }
+ 
++static inline void restrictedmem_error_page(struct page *page,
++					    struct address_space *mapping)
++{
++}
++
+ #endif /* CONFIG_RESTRICTEDMEM */
+ 
+ #endif /* _LINUX_RESTRICTEDMEM_H */
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index e7ac570dda75..ee85e46c6992 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -62,6 +62,7 @@
+ #include <linux/page-isolation.h>
+ #include <linux/pagewalk.h>
+ #include <linux/shmem_fs.h>
++#include <linux/restrictedmem.h>
+ #include "swap.h"
+ #include "internal.h"
+ #include "ras/ras_event.h"
+@@ -939,6 +940,8 @@ static int me_pagecache_clean(struct page_state *ps, struct page *p)
+ 		goto out;
+ 	}
+ 
++	restrictedmem_error_page(p, mapping);
++
+ 	/*
+ 	 * The shmem page is kept in page cache instead of truncating
+ 	 * so is expected to have an extra refcount after error-handling.
+diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+index e5bf8907e0f8..0dcdff0d8055 100644
+--- a/mm/restrictedmem.c
++++ b/mm/restrictedmem.c
+@@ -29,6 +29,18 @@ static void restrictedmem_notifier_invalidate(struct restrictedmem_data *data,
+ 	mutex_unlock(&data->lock);
+ }
+ 
++static void restrictedmem_notifier_error(struct restrictedmem_data *data,
++				 pgoff_t start, pgoff_t end)
++{
++	struct restrictedmem_notifier *notifier;
++
++	mutex_lock(&data->lock);
++	list_for_each_entry(notifier, &data->notifiers, list) {
++			notifier->ops->error(notifier, start, end);
++	}
++	mutex_unlock(&data->lock);
++}
++
+ static int restrictedmem_release(struct inode *inode, struct file *file)
+ {
+ 	struct restrictedmem_data *data = inode->i_mapping->private_data;
+@@ -248,3 +260,30 @@ int restrictedmem_get_page(struct file *file, pgoff_t offset,
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(restrictedmem_get_page);
++
++void restrictedmem_error_page(struct page *page, struct address_space *mapping)
++{
++	struct super_block *sb = restrictedmem_mnt->mnt_sb;
++	struct inode *inode, *next;
++
++	if (!shmem_mapping(mapping))
++		return;
++
++	spin_lock(&sb->s_inode_list_lock);
++	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
++		struct restrictedmem_data *data = inode->i_mapping->private_data;
++		struct file *memfd = data->memfd;
++
++		if (memfd->f_mapping == mapping) {
++			pgoff_t start, end;
++
++			spin_unlock(&sb->s_inode_list_lock);
++
++			start = page->index;
++			end = start + thp_nr_pages(page);
++			restrictedmem_notifier_error(data, start, end);
++			return;
++		}
++	}
++	spin_unlock(&sb->s_inode_list_lock);
++}
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
