@@ -2,170 +2,241 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F25AC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 18:16:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEDF1C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 18:48:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234350AbiKPSQV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Nov 2022 13:16:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55040 "EHLO
+        id S229536AbiKPSsH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Nov 2022 13:48:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237493AbiKPSQO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 13:16:14 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C96DB61B94
-        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 10:16:12 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4D9C4B81DA8
-        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 18:16:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DD2FC433C1;
-        Wed, 16 Nov 2022 18:16:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668622569;
-        bh=HzuBDu3c95vDubumkqmlUpDyU7sgxHKyh2YYcB7elbo=;
-        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-        b=TbmnRT02WifHTxhTrt1S3QFCyS10+Ny8syMNvxDvCWtyKPfr7LxVjdR8fA+mn6x8K
-         TsqHlf93e0eTek76c8sWRQJ/Q0wTsu7zLYhedhBDN+ZnKJEJv5cvOf4FfQn8h0fvl4
-         /jjXz3QpsD70FN6lVPept8h//e/SZAqJlXfr+BkgivEFfgUDYnlO34jr+hOieTfrxk
-         t+EXIu5KUxj69jixwFESCcWu726SGo8juE7CfEqbzz6Pu9Xl21jTZ6gR1r4345b1eQ
-         VwMnJ+2Is2wAe2rHopq09K1eS+AVjQRkSa87F6KrzUaYFz9TTDZmv22MRmAFfWJwzM
-         jOh2TpPLVa4LA==
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 6393627C0054;
-        Wed, 16 Nov 2022 13:16:07 -0500 (EST)
-Received: from imap48 ([10.202.2.98])
-  by compute2.internal (MEProxy); Wed, 16 Nov 2022 13:16:07 -0500
-X-ME-Sender: <xms:5Sh1Y1NrfbI5X60nb4Gnx7ZV-ilL_3Li9-02p3BGix6vTEUY6DE_ow>
-    <xme:5Sh1Y39gTeCLKOCzug-TrCeNVC4YoC8WfbmUemSekyuZO7jW0yxaosHjfxs2FreUr
-    1Wmi2-yJfT7zuogWes>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeigdduuddtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
-    ugihucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepgedugedtledtieduteffveevhfefheeuhfegfeduvdeltdeugeet
-    veeliedvfeehnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhguhidomhgvshhmthhprghu
-    thhhphgvrhhsohhnrghlihhthidqudduiedukeehieefvddqvdeifeduieeitdekqdhluh
-    htoheppehkvghrnhgvlhdrohhrgheslhhinhhugidrlhhuthhordhush
-X-ME-Proxy: <xmx:5Sh1Y0SIGBRWjHPgw0gZVUynVki-ebrw0n7pcfImaqgmn1uZIAHRmQ>
-    <xmx:5Sh1YxuJcnTST-m2004h2nObDbtvT6QkQqCgfbQ9D9aR2LZz9UsGMw>
-    <xmx:5Sh1Y9dmGoebp-r9bA8soBDwFTUbJiblLXWqMZC-TzWcIOk-u2j3Lw>
-    <xmx:5yh1Y1ZRsN15NhtPIZ3lY35CZ-2Br2ATLP2xtPKtZnCXnnhu5KIb2_qAs6M>
-Feedback-ID: ieff94742:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 4E7E831A0063; Wed, 16 Nov 2022 13:16:05 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1115-g8b801eadce-fm-20221102.001-g8b801ead
-Mime-Version: 1.0
-Message-Id: <2e252f4f-7d45-42ac-a88f-fa8045fe3748@app.fastmail.com>
-In-Reply-To: <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
-Date:   Wed, 16 Nov 2022 10:15:44 -0800
-From:   "Andy Lutomirski" <luto@kernel.org>
-To:     "Chao Peng" <chao.p.peng@linux.intel.com>,
-        "kvm list" <kvm@vger.kernel.org>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org,
-        "Linux API" <linux-api@vger.kernel.org>, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org
-Cc:     "Paolo Bonzini" <pbonzini@redhat.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Sean Christopherson" <seanjc@google.com>,
-        "Vitaly Kuznetsov" <vkuznets@redhat.com>,
-        "Wanpeng Li" <wanpengli@tencent.com>,
-        "Jim Mattson" <jmattson@google.com>,
-        "Joerg Roedel" <joro@8bytes.org>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Hugh Dickins" <hughd@google.com>,
-        "Jeff Layton" <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        "Andrew Morton" <akpm@linux-foundation.org>,
-        "Shuah Khan" <shuah@kernel.org>, "Mike Rapoport" <rppt@kernel.org>,
-        "Steven Price" <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        "Vlastimil Babka" <vbabka@suse.cz>,
-        "Vishal Annapurve" <vannapurve@google.com>,
-        "Yu Zhang" <yu.c.zhang@linux.intel.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Nakajima, Jun" <jun.nakajima@intel.com>,
-        "Dave Hansen" <dave.hansen@intel.com>,
-        "Andi Kleen" <ak@linux.intel.com>,
-        "David Hildenbrand" <david@redhat.com>, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        "Quentin Perret" <qperret@google.com>,
-        "Fuad Tabba" <tabba@google.com>,
-        "Michael Roth" <michael.roth@amd.com>,
-        "Michal Hocko" <mhocko@suse.com>,
-        "Muchun Song" <songmuchun@bytedance.com>,
-        "Wei W Wang" <wei.w.wang@intel.com>
-Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Content-Type: text/plain
+        with ESMTP id S239312AbiKPSrq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 13:47:46 -0500
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1601CE8F
+        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 10:45:30 -0800 (PST)
+Received: by mail-qv1-xf2c.google.com with SMTP id j6so12479374qvn.12
+        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 10:45:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:user-agent:message-id
+         :in-reply-to:date:references:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=uHOOMvz2CuTBiNJ38dc1eGjrINV+LfCfPhLvFKbKj2k=;
+        b=X1WDywlsuPLiGlepdKq1ekCTeqSq2nY7sHvo+zrwu30PFYpPJJugb0qrSeQMFdlHEb
+         QZARQnzwKsn0IGVvvza0vCYIFdZFpOJPVITWYzW2qWV724dTnDIS4I9LAwMKTS6vM2sc
+         ky0DEi5eQ2g5cYEe5Cij99dccCGb8G0HAHOniWRd8udt7Bczpr97MAsw0QFZyvDg8wT8
+         MuytXyWtYDDGrlfhc3A3jyU4/COVdveAt+irJVlqaIwJyKo0Z6itKcyP4KrhaoOSusNz
+         SImmqvOber6UybkbZtJvpqz5kFpi0xe3ihGylet0IgmTjY6U/7vS+0atSJEtedxAJQFW
+         FPJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:user-agent:message-id
+         :in-reply-to:date:references:subject:cc:to:from:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uHOOMvz2CuTBiNJ38dc1eGjrINV+LfCfPhLvFKbKj2k=;
+        b=rCfPumG+DaE0aNwKq9/uEEOzFf+76Y7L9DIZQe7cplG+myYM+tHVKFrpuO100hGgfN
+         koD9sI1eUZgs17pxqAnzh3+CPzk/uXXjCSf0o8a0E6BB9xZAeSSjrKglB/NTomAuVfoQ
+         08y6Sw7RRPRzTlHSYKMDAjcTf6tCLjcjB6pie03k9+JxmWahm30KXwlmmTf8hnzH4IXv
+         JEfitvYugXmig+qSM9sHS7b5DnuODPoSXtOGiwS0k5XGEYPFNQ47dpupCeiq1xFygbLw
+         sKYvJJ9gZ9ss6D6MdEm5aAVlU8KeRJWUvtMDX+5tQI2o7pJBik3bxOkmV5fVL8+jsrGR
+         Kxdg==
+X-Gm-Message-State: ANoB5pn8fJkVH6Dv/fRKofmQ2X5dkJoW1M5T4296+8prSrqFjmOGvoPY
+        9LJBELNdBJzKX7vm2b2AMMcu6Yb0NHykOA==
+X-Google-Smtp-Source: AA0mqf5YxVXobIO14PlNv5fSF297lFkhBcUmOPb2qHc17MkOHU96f8DxSjMToh2CTz+lUnX/Jxgdiw==
+X-Received: by 2002:a0c:fe89:0:b0:4b1:827d:f33b with SMTP id d9-20020a0cfe89000000b004b1827df33bmr21975379qvs.7.1668624327409;
+        Wed, 16 Nov 2022 10:45:27 -0800 (PST)
+Received: from hurd (dsl-10-133-21.b2b2c.ca. [72.10.133.21])
+        by smtp.gmail.com with ESMTPSA id h68-20020a37b747000000b006fb9bfc6103sm3729912qkf.123.2022.11.16.10.45.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Nov 2022 10:45:26 -0800 (PST)
+From:   Maxim Cournoyer <maxim.cournoyer@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc: add texinfodocs and infodocs targets
+References: <20221116164026.21064-1-maxim.cournoyer@gmail.com>
+        <87h6yykfnp.fsf@meer.lwn.net>
+Date:   Wed, 16 Nov 2022 13:45:25 -0500
+In-Reply-To: <87h6yykfnp.fsf@meer.lwn.net> (Jonathan Corbet's message of "Wed,
+        16 Nov 2022 09:50:02 -0700")
+Message-ID: <875yfekabe.fsf@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Jonathan,
 
+Thank you for the quick reply.
 
-On Tue, Oct 25, 2022, at 8:13 AM, Chao Peng wrote:
-> This new KVM exit allows userspace to handle memory-related errors. It
-> indicates an error happens in KVM at guest memory range [gpa, gpa+size).
-> The flags includes additional information for userspace to handle the
-> error. Currently bit 0 is defined as 'private memory' where '1'
-> indicates error happens due to private memory access and '0' indicates
-> error happens due to shared memory access.
+Jonathan Corbet <corbet@lwn.net> writes:
+
+> Maxim Cournoyer <maxim.cournoyer@gmail.com> writes:
 >
-> When private memory is enabled, this new exit will be used for KVM to
-> exit to userspace for shared <-> private memory conversion in memory
-> encryption usage. In such usage, typically there are two kind of memory
-> conversions:
->   - explicit conversion: happens when guest explicitly calls into KVM
->     to map a range (as private or shared), KVM then exits to userspace
->     to perform the map/unmap operations.
->   - implicit conversion: happens in KVM page fault handler where KVM
->     exits to userspace for an implicit conversion when the page is in a
->     different state than requested (private or shared).
+>> Sphinx supports generating Texinfo sources and Info documentation,
+>> which can be navigated easily and is convenient to search (via the
+>> indexed nodes or anchors, for example).
+
+> Can you tell me a bit more about the use case for this?  Nobody has
+> asked for it so far...  I'm not really opposed to adding it, but it
+> would be nice to know why.
+
+I didn't know about Texinfo much at all until I started using Guix
+System, where is it used extensively as the main documentation system.
+Since then I've grown to appreciate it, even favor it most of the time,
+to HTML docs due to it being usable offline even when only a terminal
+emulator is available, and matching the version of the software
+installed.  In contrast with man pages, which are typically very flat,
+info manual can be organized into sections that are rendered into menus
+that can be navigated using just a keyboard.  Another point is size.
+The compressed TheLinuxKernel.info.gz info documentation weighs 12 MiB
+on disk, compared to 183 MiB for the HTML version.
+
+In short, Texinfo gives you the organization/navigability of HTML in a
+format that can be used anywhere, even on headless servers.  When the
+document is well indexed, it's even faster than HTML at helping you find
+something, via e.g.:
+
+$ info TheLinuxKernel i rcu_ TAB
+--8<---------------cut here---------------start------------->8---
+40 completions:
+rcu_access_pointer (C macro)               rcu_pointer_handoff (C macro)
+rcu_assign_pointer (C macro)               RCU_POINTER_INITIALIZER (C macro)
+rcu_barrier (C function)                   rcu_read_lock (C function)
+rcu_dereference (C macro)                  rcu_read_lock_bh (C function)
+rcu_dereference_bh (C macro)               rcu_read_lock_bh_held (C functio=
+n)
+rcu_dereference_bh_check (C macro)         rcu_read_lock_held (C function)
+rcu_dereference_check (C macro)            rcu_read_lock_held_common (C fun=
+ction)
+rcu_dereference_protected (C macro)        rcu_read_lock_sched (C function)
+rcu_dereference_sched (C macro)            rcu_read_unlock (C function)
+rcu_dereference_sched_check (C macro)      rcu_read_unlock_bh (C function)
+rcu_expedite_gp (C function)               rcu_read_unlock_sched (C functio=
+n)
+rcu_head_after_call_rcu (C function)       rcu_replace_pointer (C macro)
+rcu_head_init (C function)                 rcu_sync_dtor (C function)
+RCU_INIT_POINTER (C macro)                 rcu_sync_enter (C function)
+RCU_INITIALIZER (C macro)                  rcu_sync_enter_start (C function)
+rcu_irq_exit_check_preempt (C function)    rcu_sync_exit (C function)
+rcu_is_cpu_rrupt_from_idle (C function)    rcu_sync_func (C function)
+rcu_is_watching (C function)               rcu_sync_init (C function)
+RCU_LOCKDEP_WARN (C macro)                 rcu_sync_is_idle (C function)
+RCU_NONIDLE (C macro)                      rcu_unexpedite_gp (C function)
+--8<---------------cut here---------------end--------------->8---
+
+rcu_barr TAB -> rcu_barrier (C function)
+--8<---------------cut here---------------start------------->8---
+
+ -- Function: void rcu_barrier (void)
+
+     Wait until all in-flight *note call_rcu(): 4188. callbacks
+     complete.
+
+=E2=80=98Parameters=E2=80=99
+
+=E2=80=98void=E2=80=99
+
+     no arguments
+
+=E2=80=98Description=E2=80=99
+[...]
+--8<---------------cut here---------------end--------------->8---
+
+Unfortunately only the kernel API seems to be indexed for now.  I was
+trying to find the supported kernel boot parameters, but no index
+appeared to be registered for it.  In these cases, one can always
+fall-back to plain text search (regexp) via C-s, or navigate the menus
+like you would in HTML:
+
+$ info TheLinuxKernel
+--8<---------------cut here---------------start------------->8---
+* Menu:
+
+* Licensing documentation::
+* User-oriented documentation::
+* Firmware-related documentation::
+* Application-developer documentation::
+* Introduction to kernel development::
+* Kernel API documentation::
+* Architecture-agnostic documentation::
+* Architecture-specific documentation::
+* Other documentation::
+* Translations: Translations<2>.
+* Indices and tables::
+* Index::
+--8<---------------cut here---------------end--------------->8---
+
+Press 2 or m 'User-' TAB' to enter the 2nd section.
+--8<---------------cut here---------------start------------->8---
+Next: Firmware-related documentation,  Prev: Licensing documentation,  Up: =
+Top
+
+2 User-oriented documentation
+*****************************
+
+The following manuals are written for =E2=80=98users=E2=80=99 of the kernel=
+ =E2=80=94 those who
+are trying to get it to work optimally on a given system.
+
+* Menu:
+
+* The Linux kernel user=E2=80=99s and administrator=E2=80=99s guide::
+* Kernel Build System::
+
+--8<---------------cut here---------------end--------------->8---
+
+Press 1 to select the first entry.
+--8<---------------cut here---------------start------------->8---
+Next: Kernel Build System,  Up: User-oriented documentation
+
+2.1 The Linux kernel user=E2=80=99s and administrator=E2=80=99s guide
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+
+The following is a collection of user-oriented documents that have been
+
+[...]
+* Menu:
+
+* GNU Linux-libre <http;//linux-libre.fsfla.org>: GNU Linux-libre <http //l=
+inux-libre fsfla org>.
+* The kernel=E2=80=99s command-line parameters::
+[...]
+--8<---------------cut here---------------end--------------->8---
+
+Press 2.  The section "2.1.2 The kernel=E2=80=99s command-line parameters" =
+is
+now displayed.
+
+If you know the name of the section and if it doesn't contain funny
+characters, you can jump straight to it from the command line, like so:
+
+$ info '(TheLinuxKernel) cpu lists'
+
+Anyway, I hope I was able to demonstrate some of the strengths of
+Texinfo with the above.  In case your interest is piqued, 'info info'
+has it all.
+
+>> This change also causes the html output to appear under its own
+>> output sub-directory, which makes it easier to install, since it's
+>> clean from .doctrees or other output formats.
 >
-> Suggested-by: Sean Christopherson <seanjc@google.com>
-> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  Documentation/virt/kvm/api.rst | 23 +++++++++++++++++++++++
->  include/uapi/linux/kvm.h       |  9 +++++++++
->  2 files changed, 32 insertions(+)
+> "This change also ... " is a red flag saying that you should have split
+> it into a separate patch.
 >
-> diff --git a/Documentation/virt/kvm/api.rst 
-> b/Documentation/virt/kvm/api.rst
-> index f3fa75649a78..975688912b8c 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -6537,6 +6537,29 @@ array field represents return values. The 
-> userspace should update the return
->  values of SBI call before resuming the VCPU. For more details on 
-> RISC-V SBI
->  spec refer, https://github.com/riscv/riscv-sbi-doc.
-> 
-> +::
-> +
-> +		/* KVM_EXIT_MEMORY_FAULT */
-> +		struct {
-> +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
-> +			__u32 flags;
-> +			__u32 padding;
-> +			__u64 gpa;
-> +			__u64 size;
-> +		} memory;
-> +
+> That change may be a bit harder to accept, since it's a behavioral
+> change that will certainly annoy some people.  At a minimum, it would
+> have to be coordinated with the automated docs builds at kernel.org.
+> One could certainly make the case that we should have done things this
+> way from the beginning; I'm a bit reluctant to change it now.
 
-Would it make sense to also have a field for the access type (read, write, execute, etc)?  I realize that shared <-> private conversion doesn't strictly need this, but it seems like it could be useful for logging failures and also for avoiding a second immediate fault if the type gets converted but doesn't have the right protection yet.
+I'll split the html prefix change in a v2, and it can be discussed
+separately.
 
-(Obviously, if this were changed, KVM would need the ability to report that it doesn't actually know the mode.)
-
---Andy
+--=20
+Thanks,
+Maxim
