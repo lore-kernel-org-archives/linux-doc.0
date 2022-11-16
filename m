@@ -2,228 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7D81C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 09:53:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E577C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 09:56:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230025AbiKPJx4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Nov 2022 04:53:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37284 "EHLO
+        id S230477AbiKPJ4W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Nov 2022 04:56:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229693AbiKPJxz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 04:53:55 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9828810B41
-        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 01:53:52 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id h186-20020a1c21c3000000b003cfe48519a6so1224836wmh.0
-        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 01:53:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zze9Wsxt3ysTHHvg5WBu0SQosVjbcwx2aPdUf6crt3Y=;
-        b=I2T59KEQLxIXM2pHNfvD9YeKkkSHE4ZyMd/bqV2bIhQhCd4r7G3BFqEMlifLl2/V3U
-         Ltzz2PryU6B8uAKFDvsVQ1vtZoIrK9vgSISfVLVmvC111IWlhiu150wSuOeQnJ6nS591
-         EbyyF/lv+oHj3JMgx+8zk0gz81qJBc38w/3AY8cHqHQDXz76GRaAPK34tu5ONO4yvzJi
-         2AZTRHZQV9qWmZROHiHvF+90nX6/MmF+WWmcZMOj7hNAIEiOmXfJs2/gtzUTPmnerT3Y
-         SDwEvPH6Zu2ekiEIvkl//9IDw/jJhHIejKcAMlZV7e7jFfc0EIr02UqMzf+azaJwFDJT
-         h21A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zze9Wsxt3ysTHHvg5WBu0SQosVjbcwx2aPdUf6crt3Y=;
-        b=ekiHGmUB/Lwj7MI7FpZ4i7rqEvLDlvBzkXnBzL5Rz/Pk2HwkdDfVvO0lAJuKhafIHx
-         LlKaHghUyCET3CD4qROrHxJmeA+vY4u+xhOy+H+0LaJkW/zGm38g7bLvbm8GuS3anLtj
-         TLUC4z8JsHbI0Q1z203KNCqIE3rXHWDFV1h7mjk8argo+LuJsQTcQpM10cmoQDVvk85/
-         sbmc5r6erW9x+oAfw0c2gXHHKN/mPhLBm8t7aMIvB96j4srDOlMsCzU/vIz6m8vb4REY
-         eiIl76TkYa6eDh1A49TQNuUB7cHkcNnYfBu0NI8TAnFUZEOQAbPJkRhjKeQx2JOOpw7Z
-         2hXQ==
-X-Gm-Message-State: ANoB5pmbUPa+s3i7NLDytdjXHOCmK56LsXQ1sXTr+t/jqHuuMnhm6XjC
-        Z60kPpYx/Hd4EWSq7AeLQfnkgg==
-X-Google-Smtp-Source: AA0mqf450k4KT3b612+SvZbSE765F/0XKp3AXD24C9sDIk/4dxF+lDjo+r4A3/pJpT3ovdAyPzm4jg==
-X-Received: by 2002:a7b:ca43:0:b0:3cf:ade4:d529 with SMTP id m3-20020a7bca43000000b003cfade4d529mr1563443wml.193.1668592431026;
-        Wed, 16 Nov 2022 01:53:51 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
-        by smtp.gmail.com with ESMTPSA id l42-20020a05600c1d2a00b003cf4eac8e80sm2160083wms.23.2022.11.16.01.53.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 01:53:50 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
-        by zen.linaroharston (Postfix) with ESMTP id B067B1FFB7;
-        Wed, 16 Nov 2022 09:53:49 +0000 (GMT)
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <87k03xbvkt.fsf@linaro.org> <20221116050022.GC364614@chaop.bj.intel.com>
-User-agent: mu4e 1.9.2; emacs 28.2.50
-From:   Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        AKASHI Takahiro <takahiro.akashi@linaro.org>
-Subject: Re: [PATCH v9 0/8] KVM: mm: fd-based approach for supporting KVM
-Date:   Wed, 16 Nov 2022 09:40:23 +0000
-In-reply-to: <20221116050022.GC364614@chaop.bj.intel.com>
-Message-ID: <87v8nf8bte.fsf@linaro.org>
+        with ESMTP id S231189AbiKPJ4U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 04:56:20 -0500
+X-Greylist: delayed 388 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 16 Nov 2022 01:55:28 PST
+Received: from mail-sz.amlogic.com (mail-sz.amlogic.com [211.162.65.117])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D093A1789E;
+        Wed, 16 Nov 2022 01:55:28 -0800 (PST)
+Received: from [10.88.19.158] (10.88.19.158) by mail-sz.amlogic.com
+ (10.28.11.5) with Microsoft SMTP Server id 15.1.2507.13; Wed, 16 Nov 2022
+ 17:55:26 +0800
+Message-ID: <7bb5e9ee-358b-ce6f-2cb5-a6b6b558c0a9@amlogic.com>
+Date:   Wed, 16 Nov 2022 17:56:12 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v10 2/2] docs/perf: Add documentation for the Amlogic G12
+ DDR PMU
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>,
+        John Garry <john.garry@huawei.com>,
+        Wan Jiabing <wanjiabing@vivo.com>,
+        Chris Healy <cphealy@gmail.com>,
+        Jianxin Pan <jianxin.pan@amlogic.com>,
+        Kelvin Zhang <kelvin.zhang@amlogic.com>,
+        Chris Healy <healych@amazon.com>
+References: <20221116003133.1049346-1-jiucheng.xu@amlogic.com>
+ <20221116003133.1049346-2-jiucheng.xu@amlogic.com>
+ <Y3SwIPnDvEOlL+Mz@debian.me>
+From:   Jiucheng Xu <jiucheng.xu@amlogic.com>
+In-Reply-To: <Y3SwIPnDvEOlL+Mz@debian.me>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.88.19.158]
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Sorry for my poor English. Your writing looks very elegant. I will apply 
+your modification in next version.
 
-Chao Peng <chao.p.peng@linux.intel.com> writes:
+Thanks,
 
-> On Mon, Nov 14, 2022 at 11:43:37AM +0000, Alex Benn=C3=A9e wrote:
->>=20
->> Chao Peng <chao.p.peng@linux.intel.com> writes:
->>=20
->> <snip>
->> > Introduction
->> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> > KVM userspace being able to crash the host is horrible. Under current
->> > KVM architecture, all guest memory is inherently accessible from KVM
->> > userspace and is exposed to the mentioned crash issue. The goal of this
->> > series is to provide a solution to align mm and KVM, on a userspace
->> > inaccessible approach of exposing guest memory.=20
->> >
->> > Normally, KVM populates secondary page table (e.g. EPT) by using a host
->> > virtual address (hva) from core mm page table (e.g. x86 userspace page
->> > table). This requires guest memory being mmaped into KVM userspace, but
->> > this is also the source where the mentioned crash issue can happen. In
->> > theory, apart from those 'shared' memory for device emulation etc, gue=
-st
->> > memory doesn't have to be mmaped into KVM userspace.
->> >
->> > This series introduces fd-based guest memory which will not be mmaped
->> > into KVM userspace. KVM populates secondary page table by using a
->> > fd/offset pair backed by a memory file system. The fd can be created
->> > from a supported memory filesystem like tmpfs/hugetlbfs and KVM can
->> > directly interact with them with newly introduced in-kernel interface,
->> > therefore remove the KVM userspace from the path of accessing/mmaping
->> > the guest memory.=20
->> >
->> > Kirill had a patch [2] to address the same issue in a different way. It
->> > tracks guest encrypted memory at the 'struct page' level and relies on
->> > HWPOISON to reject the userspace access. The patch has been discussed =
-in
->> > several online and offline threads and resulted in a design document [=
-3]
->> > which is also the original proposal for this series. Later this patch
->> > series evolved as more comments received in community but the major
->> > concepts in [3] still hold true so recommend reading.
->> >
->> > The patch series may also be useful for other usages, for example, pure
->> > software approach may use it to harden itself against unintentional
->> > access to guest memory. This series is designed with these usages in
->> > mind but doesn't have code directly support them and extension might be
->> > needed.
->>=20
->> There are a couple of additional use cases where having a consistent
->> memory interface with the kernel would be useful.
->
-> Thanks very much for the info. But I'm not so confident that the current
-> memfd_restricted() implementation can be useful for all these usages.=20
->
->>=20
->>   - Xen DomU guests providing other domains with VirtIO backends
->>=20
->>   Xen by default doesn't give other domains special access to a domains
->>   memory. The guest can grant access to regions of its memory to other
->>   domains for this purpose.=20
->
-> I'm trying to form my understanding on how this could work and what's
-> the benefit for a DomU guest to provide memory through memfd_restricted().
-> AFAICS, memfd_restricted() can help to hide the memory from DomU userspac=
-e,
-> but I assume VirtIO backends are still in DomU uerspace and need access
-> that memory, right?
+Jiucheng
 
-They need access to parts of the memory. At the moment you run your
-VirtIO domains in the Dom0 and give them access to the whole of a DomU's
-address space - however the Xen model is by default the guests memory is
-inaccessible to other domains on the system. The DomU guest uses the Xen
-grant model to expose portions of its address space to other domains -
-namely for the VirtIO queues themselves and any pages containing buffers
-involved in the VirtIO transaction. My thought was that looks like a
-guest memory interface which is mostly inaccessible (private) with some
-holes in it where memory is being explicitly shared with other domains.
+On 2022/11/16 17:40, Bagas Sanjaya wrote:
+>
+> The wordings are rather weird, so I need to improve the doc:
+>
+> ---- >8 ----
+>
+> diff --git a/Documentation/admin-guide/perf/meson-ddr-pmu.rst b/Documentation/admin-guide/perf/meson-ddr-pmu.rst
+> index 15e93a751ced8a..4a1fdb5aba4b24 100644
+> --- a/Documentation/admin-guide/perf/meson-ddr-pmu.rst
+> +++ b/Documentation/admin-guide/perf/meson-ddr-pmu.rst
+> @@ -4,11 +4,12 @@
+>   Amlogic SoC DDR Bandwidth Performance Monitoring Unit (PMU)
+>   ===========================================================
+>   
+> -There is a bandwidth monitor inside the DRAM controller. The monitor includes
+> -4 channels which can count the read/write request of accessing DRAM individually.
+> -It can be helpful to show if the performance bottleneck is on DDR bandwidth.
+> +The Amlogic Meson G12 SoC contains a bandwidth monitor inside DRAM controller.
+> +The monitor includes 4 channels which can count the read/write request of
+> +individual DRAM. It can be helpful to show if the performance bottleneck is on
+> +DDR bandwidth.
+>   
+> -Currently, this driver supports the following 5 Perf events:
+> +Currently, this driver supports the following 5 perf events:
+>   
+>   + meson_ddr_bw/total_rw_bytes/
+>   + meson_ddr_bw/chan_1_rw_bytes/
+> @@ -16,55 +17,54 @@ Currently, this driver supports the following 5 Perf events:
+>   + meson_ddr_bw/chan_3_rw_bytes/
+>   + meson_ddr_bw/chan_4_rw_bytes/
+>   
+> -meson_ddr_bw/chan_{1,2,3,4}_rw_bytes/ events are the channel related events.
+> -Each channel support using keywords as filter, which can let the channel
+> -to monitor the individual IP module in SoC.
+> +meson_ddr_bw/chan_{1,2,3,4}_rw_bytes/ events are channel-specific events.
+> +Each channel support filtering, which can let the channel to monitor
+> +individual IP module in SoC.
+>   
+> -The following keywords are the filter:
+> +Below are DDR access request event filter keywords:
+>   
+> -+ arm             - DDR access request from CPU
+> -+ vpu_read1       - DDR access request from OSD + VPP read
+> -+ gpu             - DDR access request from 3D GPU
+> -+ pcie            - DDR access request from PCIe controller
+> -+ hdcp            - DDR access request from HDCP controller
+> -+ hevc_front      - DDR access request from HEVC codec front end
+> -+ usb3_0          - DDR access request from USB3.0 controller
+> -+ hevc_back       - DDR access request from HEVC codec back end
+> -+ h265enc         - DDR access request from HEVC encoder
+> -+ vpu_read2       - DDR access request from DI read
+> -+ vpu_write1      - DDR access request from VDIN write
+> -+ vpu_write2      - DDR access request from di write
+> -+ vdec            - DDR access request from legacy codec video decoder
+> -+ hcodec          - DDR access request from H264 encoder
+> -+ ge2d            - DDR access request from ge2d
+> -+ spicc1          - DDR access request from SPI controller 1
+> -+ usb0            - DDR access request from USB2.0 controller 0
+> -+ dma             - DDR access request from system DMA controller 1
+> -+ arb0            - DDR access request from arb0
+> -+ sd_emmc_b       - DDR access request from SD eMMC b controller
+> -+ usb1            - DDR access request from USB2.0 controller 1
+> -+ audio           - DDR access request from Audio module
+> -+ sd_emmc_c       - DDR access request from SD eMMC c controller
+> -+ spicc2          - DDR access request from SPI controller 2
+> -+ ethernet        - DDR access request from Ethernet controller
+> ++ arm             - from CPU
+> ++ vpu_read1       - from OSD + VPP read
+> ++ gpu             - from 3D GPU
+> ++ pcie            - from PCIe controller
+> ++ hdcp            - from HDCP controller
+> ++ hevc_front      - from HEVC codec front end
+> ++ usb3_0          - from USB3.0 controller
+> ++ hevc_back       - from HEVC codec back end
+> ++ h265enc         - from HEVC encoder
+> ++ vpu_read2       - from DI read
+> ++ vpu_write1      - from VDIN write
+> ++ vpu_write2      - from di write
+> ++ vdec            - from legacy codec video decoder
+> ++ hcodec          - from H264 encoder
+> ++ ge2d            - from ge2d
+> ++ spicc1          - from SPI controller 1
+> ++ usb0            - from USB2.0 controller 0
+> ++ dma             - from system DMA controller 1
+> ++ arb0            - from arb0
+> ++ sd_emmc_b       - from SD eMMC b controller
+> ++ usb1            - from USB2.0 controller 1
+> ++ audio           - from Audio module
+> ++ sd_emmc_c       - from SD eMMC c controller
+> ++ spicc2          - from SPI controller 2
+> ++ ethernet        - from Ethernet controller
+>   
+>   
+> -The following command is to show the total DDR bandwidth:
+> +Examples:
+>   
+> -  .. code-block:: bash
+> +  + Show the total DDR bandwidth per seconds:
+>   
+> -      perf stat -a -e meson_ddr_bw/total_rw_bytes/ -I 1000 sleep 10
+> +    .. code-block:: bash
+>   
+> -This command will print the total DDR bandwidth per second.
+> +       perf stat -a -e meson_ddr_bw/total_rw_bytes/ -I 1000 sleep 10
+>   
+> -The following commands are to show how to use filter parameters:
+>   
+> -  .. code-block:: bash
+> +  + Show individual DDR bandwidth from CPU and GPU respectively, as well as
+> +    sum of them:
+>   
+> -      perf stat -a -e meson_ddr_bw/chan_1_rw_bytes,arm=1/ -I 1000 sleep 10
+> -      perf stat -a -e meson_ddr_bw/chan_2_rw_bytes,gpu=1/ -I 1000 sleep 10
+> -      perf stat -a -e meson_ddr_bw/chan_3_rw_bytes,arm=1,gpu=1/ -I 1000 sleep 10
+> +    .. code-block:: bash
+> +
+> +       perf stat -a -e meson_ddr_bw/chan_1_rw_bytes,arm=1/ -I 1000 sleep 10
+> +       perf stat -a -e meson_ddr_bw/chan_2_rw_bytes,gpu=1/ -I 1000 sleep 10
+> +       perf stat -a -e meson_ddr_bw/chan_3_rw_bytes,arm=1,gpu=1/ -I 1000 sleep 10
+>   
+> -The 1st command show how to use channel 1 to monitor the DDR bandwidth from ARM.
+> -The 2nd command show using channel 2 to get the DDR bandwidth of GPU.
+> -The 3rd command show using channel 3 to monitor the sum of ARM and GPU.
+>
+> Thanks.
+>
+-- 
+Thanks,
+Jiucheng
 
-What I want to achieve is a common userspace API with defined semantics
-for what happens when private and shared regions are accessed. Because
-having each hypervisor/confidential computing architecture define its
-own special API for accessing this memory is just a recipe for
-fragmentation and makes sharing common VirtIO backends impossible.
-
->
->>=20
->>   - pKVM on ARM
->>=20
->>   Similar to Xen, pKVM moves the management of the page tables into the
->>   hypervisor and again doesn't allow those domains to share memory by
->>   default.
->
-> Right, we already had some discussions on this in the past versions.
->
->>=20
->>   - VirtIO loopback
->>=20
->>   This allows for VirtIO devices for the host kernel to be serviced by
->>   backends running in userspace. Obviously the memory userspace is
->>   allowed to access is strictly limited to the buffers and queues
->>   because giving userspace unrestricted access to the host kernel would
->>   have consequences.
->
-> Okay, but normal memfd_create() should work for it, right? And
-> memfd_restricted() instead may not work as it unmaps the memory from
-> userspace.
->
->>=20
->> All of these VirtIO backends work with vhost-user which uses memfds to
->> pass references to guest memory from the VMM to the backend
->> implementation.
->
-> Sounds to me these are the places where normal memfd_create() can act on.
-> VirtIO backends work on the mmap-ed memory which currently is not the
-> case for memfd_restricted(). memfd_restricted() has different design
-> purpose that unmaps the memory from userspace and employs some kernel
-> callbacks so other kernel modules can make use of the memory with these
-> callbacks instead of userspace virtual address.
-
-Maybe my understanding is backwards then. Are you saying a guest starts
-with all its memory exposed and then selectively unmaps the private
-regions? Is this driven by the VMM or the guest itself?
-
---=20
-Alex Benn=C3=A9e
