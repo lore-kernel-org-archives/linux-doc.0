@@ -2,75 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23BA9C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 05:41:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BAB4C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 05:50:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231995AbiKPFlD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Nov 2022 00:41:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54324 "EHLO
+        id S229495AbiKPFuF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Nov 2022 00:50:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232116AbiKPFkt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 00:40:49 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46AEF3C6E6;
-        Tue, 15 Nov 2022 21:40:18 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 093D5B81BE8;
-        Wed, 16 Nov 2022 05:40:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A48D3C433D7;
-        Wed, 16 Nov 2022 05:40:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668577215;
-        bh=xzp73soH9qhxMMprTJUUEmiRXnNqGTejgKHr/P4shEY=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=pt7Y6zRzNt7yrW5SuzWvyKrQdZyTErOocX0WPhpMNYANKQw95u6Ah4Z5U1lEmxlR3
-         Lcprsn2uHXjycz1jf7CXwEKe1p1TnwVouQoFr8lS0qVpU7p+/p2KidQnA1uhiCb999
-         X1eu+WOWr+dk+3nKn6uBV1OIxXIpUcCqQ5yUemFP5sjlubBQ5/zWc5ZaNyP6mHsF79
-         w3PdW6W7KjOAWzJlZOIw4sAf7TOIDxHT+DLhd8OBsiKHQLq/j6I3zRQLNYTQBtqQbA
-         MiA/0KsyaKz15uSsrTXynEy5ZudKq9Co1f/9aOnL5maxgM7A9G98s34bquuwspZh3j
-         dHYGIvC3dP/+Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 82122C395F6;
-        Wed, 16 Nov 2022 05:40:15 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S230083AbiKPFuC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 00:50:02 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8CF202315D;
+        Tue, 15 Nov 2022 21:50:01 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8080813D5;
+        Tue, 15 Nov 2022 21:50:07 -0800 (PST)
+Received: from [10.162.40.17] (unknown [10.162.40.17])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1B2933F73B;
+        Tue, 15 Nov 2022 21:49:57 -0800 (PST)
+Message-ID: <cc98f0f8-6f45-41e5-d5d4-ab42b26f6943@arm.com>
+Date:   Wed, 16 Nov 2022 11:19:54 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next v1] docs/bpf: Fix sample code in MAP_TYPE_ARRAY docs
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166857721552.26805.16201329385041554291.git-patchwork-notify@kernel.org>
-Date:   Wed, 16 Nov 2022 05:40:15 +0000
-References: <20221115095910.86407-1-donald.hunter@gmail.com>
-In-Reply-To: <20221115095910.86407-1-donald.hunter@gmail.com>
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, andrii@kernel.org,
-        ast@kernel.org, daniel@iogearbox.net, corbet@lwn.net
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH V2 2/2] arm64: errata: Workaround possible Cortex-A715
+ [ESR|FAR]_ELx corruption
+Content-Language: en-US
+To:     Will Deacon <will@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        catalin.marinas@arm.com, Suzuki K Poulose <suzuki.poulose@arm.com>,
+        James Morse <james.morse@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>, linux-doc@vger.kernel.org
+References: <20221113012645.190301-1-anshuman.khandual@arm.com>
+ <20221113012645.190301-3-anshuman.khandual@arm.com>
+ <20221115133854.GC524@willie-the-truck>
+ <20221115134226.GD524@willie-the-truck>
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <20221115134226.GD524@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
 
-This patch was applied to bpf/bpf-next.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
 
-On Tue, 15 Nov 2022 09:59:10 +0000 you wrote:
-> Remove mistaken & from code example in MAP_TYPE_ARRAY docs
+On 11/15/22 19:12, Will Deacon wrote:
+> On Tue, Nov 15, 2022 at 01:38:54PM +0000, Will Deacon wrote:
+>> On Sun, Nov 13, 2022 at 06:56:45AM +0530, Anshuman Khandual wrote:
+>>> If a Cortex-A715 cpu sees a page mapping permissions change from executable
+>>> to non-executable, it may corrupt the ESR_ELx and FAR_ELx registers, on the
+>>> next instruction abort caused by permission fault.
+>>>
+>>> Only user-space does executable to non-executable permission transition via
+>>> mprotect() system call which calls ptep_modify_prot_start() and ptep_modify
+>>> _prot_commit() helpers, while changing the page mapping. The platform code
+>>> can override these helpers via __HAVE_ARCH_PTEP_MODIFY_PROT_TRANSACTION.
+>>>
+>>> Work around the problem via doing a break-before-make TLB invalidation, for
+>>> all executable user space mappings, that go through mprotect() system call.
+>>> This overrides ptep_modify_prot_start() and ptep_modify_prot_commit(), via
+>>> defining HAVE_ARCH_PTEP_MODIFY_PROT_TRANSACTION on the platform thus giving
+>>> an opportunity to intercept user space exec mappings, and do the necessary
+>>> TLB invalidation. Similar interceptions are also implemented for HugeTLB.
+>>>
+>>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>>> Cc: Will Deacon <will@kernel.org>
+>>> Cc: Jonathan Corbet <corbet@lwn.net>
+>>> Cc: Mark Rutland <mark.rutland@arm.com>
+>>> Cc: linux-arm-kernel@lists.infradead.org
+>>> Cc: linux-doc@vger.kernel.org
+>>> Cc: linux-kernel@vger.kernel.org
+>>> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+>>> ---
+>>>  Documentation/arm64/silicon-errata.rst |  2 ++
+>>>  arch/arm64/Kconfig                     | 16 ++++++++++++++++
+>>>  arch/arm64/include/asm/hugetlb.h       |  9 +++++++++
+>>>  arch/arm64/include/asm/pgtable.h       |  9 +++++++++
+>>>  arch/arm64/kernel/cpu_errata.c         |  7 +++++++
+>>>  arch/arm64/mm/hugetlbpage.c            | 21 +++++++++++++++++++++
+>>>  arch/arm64/mm/mmu.c                    | 21 +++++++++++++++++++++
+>>>  arch/arm64/tools/cpucaps               |  1 +
+>>>  8 files changed, 86 insertions(+)
+>>
+>> [...]
+>>
+>>> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+>>> index 9a7c38965154..c1fb0ce1473c 100644
+>>> --- a/arch/arm64/mm/mmu.c
+>>> +++ b/arch/arm64/mm/mmu.c
+>>> @@ -1702,3 +1702,24 @@ static int __init prevent_bootmem_remove_init(void)
+>>>  }
+>>>  early_initcall(prevent_bootmem_remove_init);
+>>>  #endif
+>>> +
+>>> +pte_t ptep_modify_prot_start(struct vm_area_struct *vma, unsigned long addr, pte_t *ptep)
+>>> +{
+>>> +	if (IS_ENABLED(CONFIG_ARM64_WORKAROUND_2645198)) {
+>>> +		pte_t pte = READ_ONCE(*ptep);
+>>> +		/*
+>>> +		 * Break-before-make (BBM) is required for all user space mappings
+>>> +		 * when the permission changes from executable to non-executable
+>>> +		 * in cases where cpu is affected with errata #2645198.
+>>> +		 */
+>>> +		if (pte_user_exec(pte) && cpus_have_const_cap(ARM64_WORKAROUND_2645198))
+>>> +			return ptep_clear_flush(vma, addr, ptep);
+>>> +	}
+>>> +	return ptep_get_and_clear(vma->vm_mm, addr, ptep);
+>>> +}
+>>> +
+>>> +void ptep_modify_prot_commit(struct vm_area_struct *vma, unsigned long addr, pte_t *ptep,
+>>> +			     pte_t old_pte, pte_t pte)
+>>> +{
+>>> +	__set_pte_at(vma->vm_mm, addr, ptep, pte);
+>>> +}
+>>
+>> So these are really similar to the generic copies and, in looking at
+>> change_pte_range(), it appears that we already invalidate the TLB, it just
+>> happens _after_ writing the new version.
+>>
+>> So with your change, I think we end up invalidating twice. Can we instead
+>> change the generic code to invalidate the TLB before writing the new entry?
 > 
-> Fixes: 1cfa97b30c5a ("bpf, docs: Document BPF_MAP_TYPE_ARRAY")
-> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-> ---
->  Documentation/bpf/map_array.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Bah, scratch that, the invalidations are all batched, aren't they?
 
-Here is the summary with links:
-  - [bpf-next,v1] docs/bpf: Fix sample code in MAP_TYPE_ARRAY docs
-    https://git.kernel.org/bpf/bpf-next/c/e0eb60829a6e
+Right.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> 
+> It just seems silly that we have to add all this code just to do a TLB
+> invalidation.
 
-
+Right, but only when affected by this errata. Otherwise it is just same as the
+existing generic definitions.
