@@ -2,106 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34068C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 20:22:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 636BFC4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 20:46:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233829AbiKPUW3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Nov 2022 15:22:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46484 "EHLO
+        id S233641AbiKPUqD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Nov 2022 15:46:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229863AbiKPUW2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 15:22:28 -0500
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F083C391EA
-        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 12:22:27 -0800 (PST)
-Received: by mail-pg1-x534.google.com with SMTP id n17so10152812pgh.9
-        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 12:22:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4LYQkdPPYclVVL0mv9lfUFrLftkqNX02YsTqGcI/i4s=;
-        b=mYpsnOr/EviedU0QTHToHpyNTjNV1Hk2bgkyfpy6F919jZVMSEj1B4cRKwO2wmMRsh
-         Fdh18hNmFxnTbS+JnTnC8Ct+VkUqUM3I2j1fI7z6TSvYH01xVLlx0hrxNIl78cuQP2DX
-         sylayksZBCUnCz2qIq/zHfOETtZJBJDbuVop8oqEGhCXw43cgTQRhGHPBce/pPn2sK7n
-         t5RBFy7D2XvHiBjPXe9Jx02ItOLbmQkZzTtts8g6xfBr4XqCPv/82c290UXH2xB1bm2U
-         fb6wnJXEVbOqPawzL4YaWJ61x3M5r2EB9MtOEnjxUx8JGjAtUp4oawTZh4jIrQKW0U0p
-         8FuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4LYQkdPPYclVVL0mv9lfUFrLftkqNX02YsTqGcI/i4s=;
-        b=2QosqhoFRcSts7DQ625NzyFkGLwXpic5RQzE9/mFF5kHh3OWzlwQVNnM2wEcvnycEF
-         8Jr1QAYp/GYKj9VLXqEPWaZTkvvgjlZM0c2AcU+hE9TxLHPXLWdEsHDYkExY9Zg0KNNR
-         mEvM4J66b4v6fZu0LlZyPJYJBeDPkpKo01zHvvwKjft9g8giY36Qfo3BHB33vyxiV0Os
-         BAme1k9tLnhZEJFVabMvH2sTanfEnllDTCXr5B0bbwzs3YLwAP+/WUqANokQWytRYDxE
-         KRxPb+D+vc0XxGPl2uAT6WtKW6THqOwM92Sv+hdXrddyL28AHfkAyQ1wxnjpg9R3pAbU
-         OsUw==
-X-Gm-Message-State: ANoB5pnlct44qR9rtylTQIFEyg28jw7FI+FeDL4SFpCS7I+7KYzg4+L1
-        hRL3g6LgR1iY+XP9XRou9gsPZA==
-X-Google-Smtp-Source: AA0mqf5y4iEpzUBnDzzes8Cbrw1PLU42nl76HNcYIJNlTxb/BSYtwsbBOqALTB/fDZOpR1CW4mLNLQ==
-X-Received: by 2002:a63:f80b:0:b0:476:f69c:2304 with SMTP id n11-20020a63f80b000000b00476f69c2304mr2175184pgh.77.1668630147417;
-        Wed, 16 Nov 2022 12:22:27 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id w193-20020a627bca000000b00571bdf45888sm10255955pfc.154.2022.11.16.12.22.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 12:22:26 -0800 (PST)
-Date:   Wed, 16 Nov 2022 20:22:23 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
+        with ESMTP id S231221AbiKPUqC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 15:46:02 -0500
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2077.outbound.protection.outlook.com [40.107.94.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC6CA1CFE6;
+        Wed, 16 Nov 2022 12:45:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ohrbm9vmK640FhYnF/RPQufgQboEgBjILIgbk0iMhEWxvoLANF4Qsuuu4LpEMZsQN6angQ7d8QWpRwfInXP6NgbhiwFRQZXFptHsuRqKFM/9/RNsAn0lhQY5DCMBxsUfbleuWZ3ln54cuHcS0yfsjJlhAxL/t5wQskT7Pwoqs/9/f/4U9pGLBS/qQqRF8HynDN4MlQKVV9YbzEaZlaA1z5qypmLGb2jM9E+jaVVSWUbD5hn/PhM4YZBLUDtuG1/7kb1VA4bq0qBWuqZWLsb2qOZKrLo4Su2+6bJhJ/1mWgX7JcNCVg6j5O9LJaV3GS+8F8Jokkhc04xnXkBkwHJ3aw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CrjtNxLTW3jPW5PQgpeE33v+g8UUrFILnLj40R33c0c=;
+ b=DS5EdhW7BsuY87cH73Z55Gd5htmhh45lqPIJZVt0hNJESyL1TA8nAn8Pii6IpkvpmOTd0Zeti1sd7/TLyzIXjsbJUiPfK3jRnBkrroB362P1Na4yEebmngW5CCVlFj6uIlT/vy5AjiETBlKG/nysoO6YTWTKywDbw8PlEaDpSa4ZX+qcEnt7e+/xynJ/EPEXagH7lABwERLPJRPTmUEwNrbJCh6olJa90JpPFQXJpwyMuVP1ZE+J2lSDwEx60DHzdkAFD/nAC3E6w7npOTsnskidUMdZDik6Ao+gEtfd5flhtwQOObx/MsaNE3Ozl0ywK5Tm4yi28chLK3ASDLQ3Xg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=bytedance.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CrjtNxLTW3jPW5PQgpeE33v+g8UUrFILnLj40R33c0c=;
+ b=sorwRJA+fnoF1h2hKUyvzeqB9FamP+caDp9en3yh8hqxDr089/p9DajWCGOLqmUu8FkGyaMV1v7bwqNfqOexVn0d8+Lx0x26raOunTj9G0djqsGf5mX/zVHHDFPIdUWx4ZqhFnSNWbEslO5K+MRThihWXzSB+aG+LFGoTej9tq/MxDzqcfxtY5UpcHBfWdCBUxxYZc6az78Md/AMrq/ad/LH6mQXwAosSFFxNmZ3lW62rS64MsqNxgHEtIaUmELDZFg9KS4ET0CVTwk/mXQSLG5qPME9zSKjN5aHbvFxwBhD9Y5S7qtAgn5zheJuGpU6s/dmHxohT5UCO113PfAkHg==
+Received: from MW4PR04CA0174.namprd04.prod.outlook.com (2603:10b6:303:85::29)
+ by MN0PR12MB6198.namprd12.prod.outlook.com (2603:10b6:208:3c5::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.18; Wed, 16 Nov
+ 2022 20:45:57 +0000
+Received: from CO1NAM11FT064.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:85:cafe::e0) by MW4PR04CA0174.outlook.office365.com
+ (2603:10b6:303:85::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.18 via Frontend
+ Transport; Wed, 16 Nov 2022 20:45:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ CO1NAM11FT064.mail.protection.outlook.com (10.13.175.77) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5834.8 via Frontend Transport; Wed, 16 Nov 2022 20:45:56 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 16 Nov
+ 2022 12:45:44 -0800
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 16 Nov
+ 2022 12:45:43 -0800
+Received: from blueforge.nvidia.com (10.127.8.13) by mail.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server id 15.2.986.36 via Frontend
+ Transport; Wed, 16 Nov 2022 12:45:43 -0800
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     <ligang.bdlg@bytedance.com>
+CC:     <linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        John Hubbard <jhubbard@nvidia.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Babu Moger <Babu.Moger@amd.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] x86/cpufeatures: Add support for cpuid leaf
- 80000021/EAX (FeatureExt2Eax)
-Message-ID: <Y3VGf8WsvxZ/S1aI@google.com>
-References: <20221104213651.141057-1-kim.phillips@amd.com>
- <20221104213651.141057-2-kim.phillips@amd.com>
- <Y2WIy2A1RuQE/9SK@zn.tnic>
- <c00b1a65-c885-c874-79cb-16011ac82eb3@amd.com>
- <Y3TQsUmTieC4NnO/@zn.tnic>
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        "Valentin Schneider" <vschneid@redhat.com>,
+        <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v5 0/2] sched/numa: add per-process numa_balancing
+Date:   Wed, 16 Nov 2022 12:45:40 -0800
+Message-ID: <20221116204540.163222-1-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221027025302.45766-1-ligang.bdlg@bytedance.com>
+References: <20221027025302.45766-1-ligang.bdlg@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y3TQsUmTieC4NnO/@zn.tnic>
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT064:EE_|MN0PR12MB6198:EE_
+X-MS-Office365-Filtering-Correlation-Id: ea886a98-c424-4683-9720-08dac8138fa8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7j4CmThscefgrqEUCiwuylGOwQijgZS4guH8U3tudT4MW2t/pJuhbhxj/AhJpTAUL83upyFY8BpJ9ANoRodaPkjEE9zzcL3Gnj74gZpK4VTD98tR8mrFTz5VSiIvKxWiOHzdXkzsZHgqybj4wMnlDY5q4k+fb1SvocYfUohTwgPNaZXLJx/hgujRXX4Z5Zjv+xkfDXAGFSP7XBcQpWdBU0c5d6EgzfOdwRs/retwPPxSkpbsjHz8qt4Tbixs8wtN66T7V4Cle+2N4XnvMVA/KXX/DvXNdMdy1TPWMfIgraZocsoQQrLtSuEEStvso+mPAYoGvmSkwXWsDTJKgiMcB8pvzSaNEm/B2Mk+9FYf9RnKMnxtk0adecfbUa333P1EnZsJG5rIsYuKF3QBbfh6w1BjfmJCKuRKt7cEpHRSp2E2reC9W5Y2Scr50CCsFT7NlsLVcxxRDg5yxje+nHvLW6e6T3tnaugZbb29hlvmGdG6ypjPQGOB4pEKZ6Z95/f7/X1X9s3s1QBj6kGlEfSNQTafKlFI7Qz48pIpi/wyGDPWxpgSOZlrHUb6zRj9qFC+bBxwzGPuVOTSOP3+z9a+axAYlsQwbu4271Xmp3Wvvg9sRxwz3hs3PAnEzAhPvabeR6R9hh/a4ZN1RqU3MAgMUA0LvoDVLGksUsyq5MC8dyI6+bwFAcBtkfAQM6ZMMe5Q7Vo0WAjRxjL8US+SH7ohDouXHwnPHE9+seBCoykrL+dpcdZ+F8McyhofYWd9mhqSjB5xNSO3slOL6SW7f/JFwSJv744CXTvEhWdWVkpVK7JYRySi93FlRXIXzFg55/082+6+t/Fm3x4WTthhFxOquUgXFct8hqvMtn9RzWnNvG9ZlrxLoqqbPWUq6D7WTAif2MQ4YuhR96WTSN8JQKbmuA==
+X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(346002)(39860400002)(396003)(136003)(376002)(451199015)(46966006)(40470700004)(36840700001)(356005)(40460700003)(54906003)(426003)(36756003)(6916009)(7416002)(40480700001)(26005)(83380400001)(2906002)(41300700001)(4744005)(47076005)(336012)(82740400003)(7636003)(86362001)(478600001)(8936002)(2616005)(1076003)(316002)(36860700001)(70586007)(70206006)(82310400005)(5660300002)(4326008)(7696005)(8676002)(186003)(966005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2022 20:45:56.5533
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea886a98-c424-4683-9720-08dac8138fa8
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT064.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6198
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 16, 2022, Borislav Petkov wrote:
-> On Tue, Nov 15, 2022 at 05:10:50PM -0600, Kim Phillips wrote:
-> > When trying to wire up a scattered host AUTOIBRS version up to
-> > kvm, I couldn't get past all the reverse_cpuid_check()
-> > BUILD_BUGs demanding exclusivity between h/w and "Linux"
-> > (s/w) FEATUREs.
+Hi Gang Li,
 
-FWIW, it's not exclusivity per se, it's to ensure that any CPUID bits KVM wants
-to advertise to userspace uses the architectural definition and not the kernel's
-software defined info.  This allows KVM to do things like
+If you want this to move forward, you'll likely need to include the
+original To: and Cc: people. And also, any new ones who responded with
+review comments. I've added here, those that I found in your v4 series
+[1].
 
-	if (guest_cpuid_has(X86_FEATURE_AUTOIBRS))
+The message that I'm replying to appears to only be sent to a couple of
+generic lists, and so it's going to be invisible to most of those
+people.
 
-and guarantee that the lookup on guest CPUID, which follows the architectural
-layout, will look at the correct leaf+subleaf+reg+bit.
+Also, I already acked this series separately [2], before I saw the
+missing Cc's.
 
-> I guess something like below.
-> 
-> Sean, can you pls check the KVM bits whether I've done them all right?
+[1] https://lore.kernel.org/all/20220929064359.46932-1-ligang.bdlg@bytedance.com/
 
-Looks correct.
+[2] https://lore.kernel.org/all/49ed07b1-e167-7f94-9986-8e86fb60bb09@nvidia.com/
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
