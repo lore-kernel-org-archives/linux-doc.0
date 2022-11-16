@@ -2,168 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B0A3C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 08:36:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA2EC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 08:47:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233121AbiKPIgb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Nov 2022 03:36:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41122 "EHLO
+        id S232785AbiKPIr6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Nov 2022 03:47:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238779AbiKPIgZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 03:36:25 -0500
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D10D063A9;
-        Wed, 16 Nov 2022 00:36:24 -0800 (PST)
-Received: by mail-pg1-x534.google.com with SMTP id h193so15996610pgc.10;
-        Wed, 16 Nov 2022 00:36:24 -0800 (PST)
+        with ESMTP id S231641AbiKPIr5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 03:47:57 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0891192A1;
+        Wed, 16 Nov 2022 00:47:56 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id z26so16866750pff.1;
+        Wed, 16 Nov 2022 00:47:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vwLoi1Ok3PtF/ie+UOseiAZ/lHqLfRlgXaoL3yNNmwk=;
-        b=HF5b3NXW6A2JETiEFQ3FaGUS1cNSxVJKcCziy8RK+QMEp9yWOWV+7UwjC9MNWfVlB4
-         +DxC1/VuLbEJB9i9bFaGckqT/wVP5f9V/wiCj78vJyUHnkOed6hlmdF3p/5SkTrALGw3
-         GjSjgAdFOK37wRHBsOU1WtIlE74y8qkg0xmrJP77RavUxkUeNvULWzIQURzGJ7wLR2uw
-         8KXUjYODhb91Ba5Gj4XwaxD+5j4Rl5kbKeLaR/uTcCyE9DN2Hwi2qQHKVcxbA9WiEo9T
-         fjOzrPSvxcRlDEu9RrkaNwugNIdSLNuUD8jZzbKkyUBL5e3380o9RkrGuIHyrN4pgBY4
-         oIQw==
+        bh=n8bxFFOTwAuVXsEjTKys7ZF36ry2UF1nmF7gmPiaf9o=;
+        b=cswWX4fVf+OYUo4g2DPif2BNP9U1p/zKsMBGouJImvNtg9sdnhCAv45pOnRUIpznDB
+         fqmSa4dhOanbi4To6od+FvWYGgxL1LJ515+jBvpYzw/+8qpZuYO44qeSkMjH4eS8Dazy
+         cU3t7ppwiqr3lZ/rs0SK2cMsp2BAp9wP2W5Xb+4jbVWJHOITSsjJQ6Mve0wl9CaRx1C9
+         bHpj/Fy21aVwvj3epbjTALL1CTL8Wec8xvbdKKTp2iVyWX81kmP73JCSI//PJAk+Dr0M
+         6fz3Wwnp4tZOw5G0bQ6bSlwyW5HN+iJc/0WwaLKCndak7wSbH6IaJvJkhIw8fjPA8ntp
+         +Wpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vwLoi1Ok3PtF/ie+UOseiAZ/lHqLfRlgXaoL3yNNmwk=;
-        b=NLbBEOU96EId/FJvrZI2pCvjvMUldG4Q6dYLFU4h8BpSvkpt2hbcay+6dzilbpXnZd
-         JSLvfWtPeSEoavTI9C8QEmzJ5gdTa7S24rJRqvljs/Ph4i51omiNduGnXbY5UYU2op/c
-         LIKqo0qvXma+N2nIfrsVUZ63cJGHls0M2jU88s+SsApzZEiYepUtvfXmAxBTuGIRyXgx
-         0f60dqDlyyKQjWENT9nyac9ba4LWrjPeSfbSAeSVaPP0Va71OJK5Nc64gjuJaamXA1xl
-         PXrNhoambvGIHAUqJxnDNrbXPhKcP1bb4eH8icgsGMRLn2Aqtxba+6TbbWJdM6bZuZbS
-         v2ug==
-X-Gm-Message-State: ANoB5pn1UOtpzPNlUbW3Q0yZoLbN43iaqcw4/0mCnuYV3PuYQg7SF6g5
-        LC9HQEiFr5pazA/mWQN5Cq8=
-X-Google-Smtp-Source: AA0mqf70ENAI2GXTQESEBn98H9BphkY+lxz1HVk+iUpruXANF2kjaxXeIU/FQfYaGla6vXQvox3NkQ==
-X-Received: by 2002:a65:6107:0:b0:43c:758:5190 with SMTP id z7-20020a656107000000b0043c07585190mr19699472pgu.339.1668587784291;
-        Wed, 16 Nov 2022 00:36:24 -0800 (PST)
+        bh=n8bxFFOTwAuVXsEjTKys7ZF36ry2UF1nmF7gmPiaf9o=;
+        b=Qy9/MgIia6itBbn5F/IBhwEO8HQNK0g4npKxs1XqcUOQyj3pnQWhx0Uj5YpSDzpjxC
+         j2i9g35EZY2CT2Y43g77IOV5LegqcfKMumml66QyvmSuK4xoUNJ03ujWqC+6+BlS1Wv3
+         higu92YWzklt+ORn2woWYn2Q63/izuMFCVXCJMq4XGQP2mnrmORQeG3lybcOxwhVkR49
+         KCtMMKDc7ysSVA3xsm6G6/MXvKCQVXMqu9MOiot+jlFEntAJjbNZ8bpw5FLEtg46u1ls
+         1hMG2AmvwrWp1k7x3wtuW1Bkvt9ZwltZI2nOwVzSTN267mSoGZ4Aqfnwb1vF8BQC1EBH
+         BlzQ==
+X-Gm-Message-State: ANoB5pkrizCfVHRUHEpZ5F8lSO4TESM0ZELDdzIDbBQxuLLiEpwVODo6
+        FpmcseZyh+z+HXOsdKA9M8Q=
+X-Google-Smtp-Source: AA0mqf5KolT+bzCO7+iur+0PeUF6229A02uPI0FAOcLd0+RPSIFBvapn+NMe4maSWGkH6dyQtMU5bQ==
+X-Received: by 2002:a63:181e:0:b0:470:f0c:96da with SMTP id y30-20020a63181e000000b004700f0c96damr19053000pgl.544.1668588476021;
+        Wed, 16 Nov 2022 00:47:56 -0800 (PST)
 Received: from debian.me (subs02-180-214-232-81.three.co.id. [180.214.232.81])
-        by smtp.gmail.com with ESMTPSA id t7-20020a635347000000b0046fe244ed6esm9042017pgl.23.2022.11.16.00.36.23
+        by smtp.gmail.com with ESMTPSA id t2-20020a170902e84200b00185507b5ef8sm11589693plg.50.2022.11.16.00.47.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 00:36:23 -0800 (PST)
+        Wed, 16 Nov 2022 00:47:55 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-        id 7A448103FF6; Wed, 16 Nov 2022 15:36:20 +0700 (WIB)
-Date:   Wed, 16 Nov 2022 15:36:19 +0700
+        id 9C007103FF6; Wed, 16 Nov 2022 15:47:52 +0700 (WIB)
+Date:   Wed, 16 Nov 2022 15:47:52 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Qais Yousef <qyousef@layalina.io>
-Cc:     kernel test robot <lkp@intel.com>, Ingo Molnar <mingo@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Xuewen Yan <xuewen.yan94@gmail.com>, Wei Wang <wvw@google.com>,
-        Jonathan JMChen <Jonathan.JMChen@mediatek.com>,
-        Hank <han.lin@mediatek.com>, Paul Bone <pbone@mozilla.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: sched: Add a new sched-util-clamp.rst
-Message-ID: <Y3ShA8SGM4PTYPLJ@debian.me>
-References: <20221113152629.3wbyeejsj5v33rvu@airbuntu>
- <Y3ICaCPX61EOn/KN@debian.me>
- <20221115205547.3f4kzig5r44ipv3b@airbuntu>
+To:     Jiucheng Xu <jiucheng.xu@amlogic.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>,
+        John Garry <john.garry@huawei.com>,
+        Wan Jiabing <wanjiabing@vivo.com>,
+        Chris Healy <cphealy@gmail.com>,
+        Jianxin Pan <jianxin.pan@amlogic.com>,
+        Kelvin Zhang <kelvin.zhang@amlogic.com>,
+        Chris Healy <healych@amzon.com>
+Subject: Re: [PATCH v10 1/2] perf/amlogic: Add support for Amlogic meson G12
+ SoC DDR PMU driver
+Message-ID: <Y3SjuC6xHn1uz2zX@debian.me>
+References: <20221116003133.1049346-1-jiucheng.xu@amlogic.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="HFCAWN1oLQKieb8/"
+        protocol="application/pgp-signature"; boundary="rd8PJiydnsGM+b5x"
 Content-Disposition: inline
-In-Reply-To: <20221115205547.3f4kzig5r44ipv3b@airbuntu>
+In-Reply-To: <20221116003133.1049346-1-jiucheng.xu@amlogic.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---HFCAWN1oLQKieb8/
+--rd8PJiydnsGM+b5x
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 15, 2022 at 08:55:47PM +0000, Qais Yousef wrote:
-> > >  2.1  BUCKETS:
-> > >  -------------
-> > > =20
-> > > +.. code-block:: c
-> > > +
-> > >                             [struct rq]
-> > > =20
-> > > -(bottom)                                                    (top)
-> > > +  (bottom)                                                    (top)
-> > > =20
-> > > -  0                                                          1024
-> > > -  |                                                           |
-> > > -  +-----------+-----------+-----------+----   ----+-----------+
-> > > -  |  Bucket 0 |  Bucket 1 |  Bucket 2 |    ...    |  Bucket N |
-> > > -  +-----------+-----------+-----------+----   ----+-----------+
-> > > -     :           :                                   :
-> > > -     +- p0       +- p3                               +- p4
-> > > -     :                                               :
-> > > -     +- p1                                           +- p5
-> > > -     :
-> > > -     +- p2
-> > > +    0                                                          1024
-> > > +    |                                                           |
-> > > +    +-----------+-----------+-----------+----   ----+-----------+
-> > > +    |  Bucket 0 |  Bucket 1 |  Bucket 2 |    ...    |  Bucket N |
-> > > +    +-----------+-----------+-----------+----   ----+-----------+
-> > > +       :           :                                   :
-> > > +       +- p0       +- p3                               +- p4
-> > > +       :                                               :
-> > > +       +- p1                                           +- p5
-> > > +       :
-> > > +       +- p2
-> >=20
-> > The code block above is diagram, isn't it? Thus specifying language for
-> > syntax highlighting (in this case ``c``) isn't appropriate.
+On Wed, Nov 16, 2022 at 08:31:32AM +0800, Jiucheng Xu wrote:
+> This patch adds support Amlogic meson G12 series SoC
+> DDR bandwidth PMU driver framework and interfaces.
 >=20
-> I could do with a helping hand here actually. I am a text only person but
-> trying to follow the new rst docs; but I don't have a clue to be honest.
->=20
-> I did try to find the right directive, but I couldn't find it. What shoul=
-d be
-> specified for this diagram?
-
-Just leave ..code-block:: directive alone or use simpler double colon
-(::). The highlighting will not be applied to the code snippet.
-
-> > > @@ -200,6 +203,8 @@ The rq has a bucket for each uclamp_id: [UCLAMP_M=
-IN, UCLAMP_MAX].
-> > >  The range of each bucket is 1024/N. For example for the default valu=
-e of 5 we
-> > >  will have 5 buckets, each of which will cover the following range:
-> > > =20
-> > > +.. code-block:: c
-> > > +
-> >=20
-> > Again, why ``c`` syntax highlighting?
->=20
-> This is a C code snippet. What would be better to use? I think I was gett=
-ing
-> errors if I don't specify something. But again; I was touching my way aro=
-und in
-> the dark here trying to figure it out.
+> The PMU not only can monitor the total DDR bandwidth,
+> but also the bandwidth which is from individual IP module.
 >=20
 
-Yup, that's the correct language for highlighting.
+Please write the patch description in imperative mood (no "This patch/commit
+does foo" but "Do foo" instead).
+
+What about this description below?
+
+```
+Add support for Amlogic Meson G12 Series SOC - DDR bandwidth PMU driver
+framework and interfaces. The PMU can not only monitor the total DDR
+bandwidth, but also individual IP module bandwidth.
+```
+
+> Example usage:
+>=20
+>  $ perf stat -a -e meson_ddr_bw/total_rw_bytes/ -I 1000 sleep 10
+>=20
+> - or -
+>=20
+>  $ perf stat -a -e \
+>    meson_ddr_bw/total_rw_bytes/,\
+>    meson_ddr_bw/chan_1_rw_bytes,arm=3D1/ -I 1000 \
+>    sleep 10
+>=20
+> g12 SoC support 4 channels to monitor DDR bandwidth
+> simultaneously. Each channel can monitor up to 4 IP modules
+> simultaneously.
+>=20
+> For Instance, If you want to get the sum of DDR bandwidth
+> from CPU, GPU, USB3.0 and VDEC. You can use the following
+> command parameters to display.
+>=20
+>  $ perf stat -a -e \
+>    meson_ddr_bw/chan_2_rw_bytes,arm=3D1,gpu=3D1,usb3_0=3D1,nna=3D1/ -I 10=
+00 \
+>    sleep 10
+>=20
+> Other events are supported, and advertised via perf list.
+
+The demo example should have been outside the patch description, though
+(more appropriate documentation as in patch [2/2]).
 
 Thanks.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---HFCAWN1oLQKieb8/
+--rd8PJiydnsGM+b5x
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY3ShAwAKCRD2uYlJVVFO
-owYHAQDa8a84KtchgyJpx4axzQ+iluhGd5lM2NDhW2nye7ml+wEA1hgSmjfRoTC7
-Zem7z+npTY/PWdm1wxsK7MjCCi30aQ0=
-=imkl
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY3SjsgAKCRD2uYlJVVFO
+o+XjAQDRA87SSby3+T5aH+WfpuopGJByRRFMiYzJCseiyFilngEAmlWqahhkpQR8
+76Yig+rYcpJSwsnPILG8mXd9eIiXGAM=
+=CPHZ
 -----END PGP SIGNATURE-----
 
---HFCAWN1oLQKieb8/--
+--rd8PJiydnsGM+b5x--
