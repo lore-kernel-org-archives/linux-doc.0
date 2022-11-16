@@ -2,226 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1738C43219
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 20:50:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB015C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 21:02:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229931AbiKPUu3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Nov 2022 15:50:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33558 "EHLO
+        id S231403AbiKPVCr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Nov 2022 16:02:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233023AbiKPUu2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 15:50:28 -0500
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC77661B9A
-        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 12:50:26 -0800 (PST)
-Received: by mail-pf1-x44a.google.com with SMTP id t10-20020aa7946a000000b0057193a6891eso9181410pfq.0
-        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 12:50:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vm8HknjbQpP5x1fHUQZ8Fa+JhrBUsKYRYb84Ljw06/8=;
-        b=BxC9ZIiQoKs8ZVqFtGoVwkhZjhvx+R8PRQB6GTtgA210grIKaMUfq2t0MWY3kI6kkp
-         Ri7QGvFmdcQHkk1hdrwKgiBlH7UL9kkXPXLqHdnAIp3PIrrDNkNKuXekVJ7+ZRLfdmPg
-         cQkuCip07OmxTzEL5JEZGej5dA3zvd1W4OtdIo2gBJqiIu2fJkfRqzbucnRGJGmvoaGQ
-         JeagXDUkI3LTmVilwN+XEnCxUy4kfrqeJ1CvBsbW5yvysO4wop2f/STxLeY9zAtDUUFw
-         n8gsLiJIOgQlD8T85gNo08kYyGRdhjrlcaafVDzmuk2vc2ElQCmnrFZnsbi5bwPjtr2C
-         xOpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vm8HknjbQpP5x1fHUQZ8Fa+JhrBUsKYRYb84Ljw06/8=;
-        b=FWidZWlDwPnKEgQCCoB+BbVyBEmlMJAUpIDP64OBNZyYRBuMpGe/Wq+gZbERLCCfZr
-         6nz0SePKvRnBo+ZDQESH6eUuNSALW1Cvw9xNq4xSMTfKh/UpuGPbKu8wyHgVsUnXWuBh
-         L5OyXmWjbHdlylw1EedP3M8pJcoCaP+nVq90DkuWS5QLMPfDd7twf4bZQKIglbHm+P+8
-         KKH7DgoTjMKRFR0iNvoPJ+QcGW3NdEKaFyxiVROpfEvvqOc1pywu1YXMAP4/WZt8xSmo
-         QM5+rcramxoeLvbHkcLzGsCXM5r4yJbGzrqiW5fMwnW0qfZ5YPfizllQLtipeJoA5bf5
-         t71g==
-X-Gm-Message-State: ANoB5pku/qFDLg0jY4DNCtOeswVaY6UuiiB2MWUhno67YvsRNx4gdhWn
-        elzhQW8r4NjPr0AC1oJ9TMQPTv2DT4la6hUo1A==
-X-Google-Smtp-Source: AA0mqf41ZmTXB/mfU/GsYmUkRkGNKElgXElKSWsJxXMeA5xlBE38lutMTDBINT6VM1Rkky14pOwbEWAq8JgrwGlebg==
-X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:aa7:9041:0:b0:572:9681:1018 with SMTP
- id n1-20020aa79041000000b0057296811018mr6472865pfo.39.1668631826322; Wed, 16
- Nov 2022 12:50:26 -0800 (PST)
-Date:   Wed, 16 Nov 2022 20:50:25 +0000
-In-Reply-To: <20221025151344.3784230-8-chao.p.peng@linux.intel.com>
-Mime-Version: 1.0
-References: <20221025151344.3784230-8-chao.p.peng@linux.intel.com>
-X-Mailer: git-send-email 2.38.1.584.g0f3c55d4c2-goog
-Message-ID: <20221116205025.1510291-1-ackerleytng@google.com>
-Subject: Re: [PATCH v9 7/8] KVM: Handle page fault for private memory
-From:   Ackerley Tng <ackerleytng@google.com>
-To:     chao.p.peng@linux.intel.com
-Cc:     aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org,
-        bfields@fieldses.org, bp@alien8.de, corbet@lwn.net,
-        dave.hansen@intel.com, david@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, hpa@zytor.com, hughd@google.com,
-        jlayton@kernel.org, jmattson@google.com, joro@8bytes.org,
-        jun.nakajima@intel.com, kirill.shutemov@linux.intel.com,
-        kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, luto@kernel.org, mail@maciej.szmigiero.name,
-        mhocko@suse.com, michael.roth@amd.com, mingo@redhat.com,
-        pbonzini@redhat.com, qemu-devel@nongnu.org, qperret@google.com,
-        rppt@kernel.org, seanjc@google.com, shuah@kernel.org,
-        songmuchun@bytedance.com, steven.price@arm.com, tabba@google.com,
-        tglx@linutronix.de, vannapurve@google.com, vbabka@suse.cz,
-        vkuznets@redhat.com, wanpengli@tencent.com, wei.w.wang@intel.com,
-        x86@kernel.org, yu.c.zhang@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S239207AbiKPVCE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 16:02:04 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B63D66A774;
+        Wed, 16 Nov 2022 13:01:08 -0800 (PST)
+Received: from zn.tnic (p200300ea9733e7de329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e7de:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 984171EC053B;
+        Wed, 16 Nov 2022 22:01:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1668632466;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=NBEEXpGTiWMBqGkZSXJIcp3Aux0K0hBIQVUOau59K5c=;
+        b=SVKOkRpJm3z2Saj+3kXAm8kuZvdvbPET4ANah0ZAhAkZ26zoKmIYUTjBUuCAYp3+0oedxW
+        IqNr0MQEr40VubBuJVLOGrPnb7F39oKDZUTpgvhFWemD4ffdYuKuZO05wWa3zpIiKlE6nC
+        xYeYBZfWV1UNPUgVov0MAIXuepra3kg=
+Date:   Wed, 16 Nov 2022 22:01:02 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Babu Moger <Babu.Moger@amd.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] x86/cpufeatures: Add support for cpuid leaf
+ 80000021/EAX (FeatureExt2Eax)
+Message-ID: <Y3VPjvajrzhfRz6d@zn.tnic>
+References: <20221104213651.141057-1-kim.phillips@amd.com>
+ <20221104213651.141057-2-kim.phillips@amd.com>
+ <Y2WIy2A1RuQE/9SK@zn.tnic>
+ <c00b1a65-c885-c874-79cb-16011ac82eb3@amd.com>
+ <Y3TQsUmTieC4NnO/@zn.tnic>
+ <Y3VGf8WsvxZ/S1aI@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y3VGf8WsvxZ/S1aI@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> A memslot with KVM_MEM_PRIVATE being set can include both fd-based
-> private memory and hva-based shared memory. Architecture code (like TDX
-> code) can tell whether the on-going fault is private or not. This patch
-> adds a 'is_private' field to kvm_page_fault to indicate this and
-> architecture code is expected to set it.
->
-> To handle page fault for such memslot, the handling logic is different
-> depending on whether the fault is private or shared. KVM checks if
-> 'is_private' matches the host's view of the page (maintained in
-> mem_attr_array).
->   - For a successful match, private pfn is obtained with
->     restrictedmem_get_page () from private fd and shared pfn is obtained
->     with existing get_user_pages().
->   - For a failed match, KVM causes a KVM_EXIT_MEMORY_FAULT exit to
->     userspace. Userspace then can convert memory between private/shared
->     in host's view and retry the fault.
->
-> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  arch/x86/kvm/mmu/mmu.c          | 56 +++++++++++++++++++++++++++++++--
->  arch/x86/kvm/mmu/mmu_internal.h | 14 ++++++++-
->  arch/x86/kvm/mmu/mmutrace.h     |  1 +
->  arch/x86/kvm/mmu/spte.h         |  6 ++++
->  arch/x86/kvm/mmu/tdp_mmu.c      |  3 +-
->  include/linux/kvm_host.h        | 28 +++++++++++++++++
->  6 files changed, 103 insertions(+), 5 deletions(-)
->
-> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index 67a9823a8c35..10017a9f26ee 100644
-> --- a/arch/x86/kvm/mmu/mmu.c
-> +++ b/arch/x86/kvm/mmu/mmu.c
-> @@ -3030,7 +3030,7 @@ static int host_pfn_mapping_level(struct kvm *kvm, gfn_t gfn,
->
->  int kvm_mmu_max_mapping_level(struct kvm *kvm,
->  			      const struct kvm_memory_slot *slot, gfn_t gfn,
-> -			      int max_level)
-> +			      int max_level, bool is_private)
->  {
->  	struct kvm_lpage_info *linfo;
->  	int host_level;
-> @@ -3042,6 +3042,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
->  			break;
->  	}
->
-> +	if (is_private)
-> +		return max_level;
-> +
->  	if (max_level == PG_LEVEL_4K)
->  		return PG_LEVEL_4K;
->
-> @@ -3070,7 +3073,8 @@ void kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
->  	 * level, which will be used to do precise, accurate accounting.
->  	 */
->  	fault->req_level = kvm_mmu_max_mapping_level(vcpu->kvm, slot,
-> -						     fault->gfn, fault->max_level);
-> +						     fault->gfn, fault->max_level,
-> +						     fault->is_private);
->  	if (fault->req_level == PG_LEVEL_4K || fault->huge_page_disallowed)
->  		return;
->
-> @@ -4141,6 +4145,32 @@ void kvm_arch_async_page_ready(struct kvm_vcpu *vcpu, struct kvm_async_pf *work)
->  	kvm_mmu_do_page_fault(vcpu, work->cr2_or_gpa, 0, true);
->  }
->
-> +static inline u8 order_to_level(int order)
-> +{
-> +	BUILD_BUG_ON(KVM_MAX_HUGEPAGE_LEVEL > PG_LEVEL_1G);
-> +
-> +	if (order >= KVM_HPAGE_GFN_SHIFT(PG_LEVEL_1G))
-> +		return PG_LEVEL_1G;
-> +
-> +	if (order >= KVM_HPAGE_GFN_SHIFT(PG_LEVEL_2M))
-> +		return PG_LEVEL_2M;
-> +
-> +	return PG_LEVEL_4K;
-> +}
-> +
-> +static int kvm_faultin_pfn_private(struct kvm_page_fault *fault)
->  +{
->  +	int order;
->  +	struct kvm_memory_slot *slot = fault->slot;
->  +
->  +	if (kvm_restricted_mem_get_pfn(slot, fault->gfn, &fault->pfn, &order))
->+		return RET_PF_RETRY;
->+
->+	fault->max_level = min(order_to_level(order), fault->max_level);
->+	fault->map_writable = !(slot->flags & KVM_MEM_READONLY);
->+	return RET_PF_CONTINUE;
->+}
->+
-> static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-> {
-> 	struct kvm_memory_slot *slot = fault->slot;
->@@ -4173,6 +4203,22 @@ static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-> 			return RET_PF_EMULATE;
-> 	}
->
->+	if (kvm_slot_can_be_private(slot) &&
->+	    fault->is_private != kvm_mem_is_private(vcpu->kvm, fault->gfn)) {
->+		vcpu->run->exit_reason = KVM_EXIT_MEMORY_FAULT;
->+		if (fault->is_private)
->+			vcpu->run->memory.flags = KVM_MEMORY_EXIT_FLAG_PRIVATE;
->+		else
->+			vcpu->run->memory.flags = 0;
->+		vcpu->run->memory.padding = 0;
->+		vcpu->run->memory.gpa = fault->gfn << PAGE_SHIFT;
->+		vcpu->run->memory.size = PAGE_SIZE;
->+		return RET_PF_USER;
->+	}
->+
->+	if (fault->is_private)
->+		return kvm_faultin_pfn_private(fault);
->+
+On Wed, Nov 16, 2022 at 08:22:23PM +0000, Sean Christopherson wrote:
+> > Sean, can you pls check the KVM bits whether I've done them all right?
+> 
+> Looks correct.
 
-Since each memslot may also not be backed by restricted memory, we
-should also check if the memslot has been set up for private memory
-with
+Thanks!
 
-	if (fault->is_private && kvm_slot_can_be_private(slot))
-		return kvm_faultin_pfn_private(fault);
+-- 
+Regards/Gruss,
+    Boris.
 
-Without this check, restrictedmem_get_page will get called with NULL
-in slot->restricted_file, which causes a NULL pointer dereference.
-
-> 	async = false;
-> 	fault->pfn = __gfn_to_pfn_memslot(slot, fault->gfn, false, &async,
-> 					  fault->write, &fault->map_writable,
->@@ -5557,6 +5603,9 @@ int noinline kvm_mmu_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa, u64 err
-> 			return -EIO;
-> 	}
->
->+	if (r == RET_PF_USER)
->+		return 0;
->+
-> 	if (r < 0)
-> 		return r;
-> 	if (r != RET_PF_EMULATE)
->@@ -6408,7 +6457,8 @@ static bool kvm_mmu_zap_collapsible_spte(struct kvm *kvm,
-> 		 */
-> 		if (sp->role.direct &&
-> 		    sp->role.level < kvm_mmu_max_mapping_level(kvm, slot, sp->gfn,
->-							       PG_LEVEL_NUM)) {
->+							       PG_LEVEL_NUM,
->+							       false)) {
-> 			kvm_zap_one_rmap_spte(kvm, rmap_head, sptep);
->
-> 			if (kvm_available_flush_tlb_with_range())
+https://people.kernel.org/tglx/notes-about-netiquette
