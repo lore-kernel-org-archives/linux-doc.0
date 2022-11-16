@@ -2,71 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39A3BC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 16:52:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07F76C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 17:26:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234127AbiKPQwC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Nov 2022 11:52:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36950 "EHLO
+        id S233187AbiKPR0L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Nov 2022 12:26:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239191AbiKPQvH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 11:51:07 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86FEB2BA
-        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 08:50:03 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
+        with ESMTP id S229931AbiKPR0I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 12:26:08 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DE24E63;
+        Wed, 16 Nov 2022 09:26:06 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0DE1D37C;
-        Wed, 16 Nov 2022 16:50:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0DE1D37C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1668617403; bh=1AJI3he6BIqP4gphxZuTIsgEHplvyb8muksKv7w/y6w=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=SXJnhe4YnUPu6FBTw2pKuTQ1Sq9pdsaYn35yj5dDJRZ4s7a/emfTeHawo2/AQOP/B
-         YdfDte5JjoJem8eWkpylbRpWicjXKQqKl3cG5cIB91GmHEKZ6kod5HWQCh+5F+p+NF
-         slAAuPmjJ/tj6krWm/f4/QYV3A67MpvnFc50xcNt4ZErztEMFF+8IjdCD1oK4RWY37
-         r9Zakr55GPED914x+fzLWk3y7ZDHICL9kBDhe8T+k+AV9RqPMjDSNAR7SXa4/l/BZG
-         lphfabAIWm3QxlKKqKlx4LSbpurkMjSf8aszDLuHl01pUFntJb00h8hPghXTrnjm73
-         iOT3i0RNqt0XQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Maxim Cournoyer <maxim.cournoyer@gmail.com>,
-        linux-doc@vger.kernel.org
-Cc:     Maxim Cournoyer <maxim.cournoyer@gmail.com>
-Subject: Re: [PATCH] doc: add texinfodocs and infodocs targets
-In-Reply-To: <20221116164026.21064-1-maxim.cournoyer@gmail.com>
-References: <20221116164026.21064-1-maxim.cournoyer@gmail.com>
-Date:   Wed, 16 Nov 2022 09:50:02 -0700
-Message-ID: <87h6yykfnp.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 25AFF61F0E;
+        Wed, 16 Nov 2022 17:26:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AF62C433D6;
+        Wed, 16 Nov 2022 17:26:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668619565;
+        bh=PT+8MkgMTV9fwJCv3MTZ299Jqr5mxS8H+pV7cIqlGBk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Yu8b70BDWrnw5JdJlGg+tQ9HWB7F06X7t4IAKbX29G+IaLUh57DqsZLwlarmg8WbT
+         pI8qz4v8Se0eOtkzfw9fZVFnPkWbgPVR/8/4Z05htxNw60TLy82s8ABI4mWkgdwkqa
+         afSz7B/4yd0L4jj9zSd5mn2ceaWWZYO6AR5E7af725wqAFq4IbM7Vk76EulUA6SZk+
+         JhpDfgmni0MNNPXfrt00sVetkF4bTeGLKdmpjlis9krJccZBOfxdgTB/6+hWrHpsnp
+         H+emKZU15lwTaej0J8j9csK2soG0t0RE0DHnRdyq8H9hduPpzRJqoVdNWDQ5JP1kjY
+         fYG1AonYGG6Sw==
+Date:   Wed, 16 Nov 2022 09:26:03 -0800
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+Cc:     "Theodore Y. Ts o" <tytso@mit.edu>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        linux-fscrypt@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-crypto@vger.kernel.org
+Subject: Re: [PATCH 2/2] fscrypt: Add SM4 XTS/CTS symmetric algorithm support
+Message-ID: <Y3UdKwtHE+SrERka@sol.localdomain>
+References: <20221116082416.98977-1-tianjia.zhang@linux.alibaba.com>
+ <20221116082416.98977-3-tianjia.zhang@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221116082416.98977-3-tianjia.zhang@linux.alibaba.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Maxim Cournoyer <maxim.cournoyer@gmail.com> writes:
+On Wed, Nov 16, 2022 at 04:24:16PM +0800, Tianjia Zhang wrote:
+> SM4 is a symmetric algorithm widely used in China
 
-> Sphinx supports generating Texinfo sources and Info documentation,
-> which can be navigated easily and is convenient to search (via the
-> indexed nodes or anchors, for example).
+So?
 
-Can you tell me a bit more about the use case for this?  Nobody has
-asked for it so far...  I'm not really opposed to adding it, but it
-would be nice to know why.
+What is the use case for adding this to fscrypt specifically?
 
-> This change also causes the html output to appear under its own output
-> sub-directory, which makes it easier to install, since it's clean from
-> .doctrees or other output formats.
+Just because an algorithm is widely used doesn't necessarily mean it is useful
+or appropriate to support with fscrypt.
 
-"This change also ... " is a red flag saying that you should have split
-it into a separate patch.
+> , this patch enables
+> to use SM4-XTS mode to encrypt file content, and use SM4-CBC-CTS to
+> encrypt filename.
+> 
+> Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+> ---
+>  Documentation/filesystems/fscrypt.rst |  1 +
+>  fs/crypto/fscrypt_private.h           |  2 +-
+>  fs/crypto/keysetup.c                  | 15 +++++++++++++++
+>  fs/crypto/policy.c                    |  4 ++++
+>  include/uapi/linux/fscrypt.h          |  4 +++-
+>  5 files changed, 24 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
+> index 5ba5817c17c2..af27e7b2c74f 100644
+> --- a/Documentation/filesystems/fscrypt.rst
+> +++ b/Documentation/filesystems/fscrypt.rst
+> @@ -336,6 +336,7 @@ Currently, the following pairs of encryption modes are supported:
+>  
+>  - AES-256-XTS for contents and AES-256-CTS-CBC for filenames
+>  - AES-128-CBC for contents and AES-128-CTS-CBC for filenames
+> +- SM4-XTS for contents and SM4-CTS-CBC for filenames
+>  - Adiantum for both contents and filenames
+>  - AES-256-XTS for contents and AES-256-HCTR2 for filenames (v2 policies only)
+>  
+> diff --git a/fs/crypto/fscrypt_private.h b/fs/crypto/fscrypt_private.h
+> index d5f68a0c5d15..e79a701de028 100644
+> --- a/fs/crypto/fscrypt_private.h
+> +++ b/fs/crypto/fscrypt_private.h
+> @@ -31,7 +31,7 @@
+>  #define FSCRYPT_CONTEXT_V2	2
+>  
+>  /* Keep this in sync with include/uapi/linux/fscrypt.h */
+> -#define FSCRYPT_MODE_MAX	FSCRYPT_MODE_AES_256_HCTR2
+> +#define FSCRYPT_MODE_MAX	FSCRYPT_MODE_SM4_CTS
+>  
+>  struct fscrypt_context_v1 {
+>  	u8 version; /* FSCRYPT_CONTEXT_V1 */
+> diff --git a/fs/crypto/keysetup.c b/fs/crypto/keysetup.c
+> index f7407071a952..c0a3f882f5a4 100644
+> --- a/fs/crypto/keysetup.c
+> +++ b/fs/crypto/keysetup.c
+> @@ -59,6 +59,21 @@ struct fscrypt_mode fscrypt_modes[] = {
+>  		.security_strength = 32,
+>  		.ivsize = 32,
+>  	},
+> +	[FSCRYPT_MODE_SM4_XTS] = {
+> +		.friendly_name = "SM4-XTS",
+> +		.cipher_str = "xts(sm4)",
+> +		.keysize = 32,
+> +		.security_strength = 16,
+> +		.ivsize = 16,
+> +		.blk_crypto_mode = BLK_ENCRYPTION_MODE_SM4_XTS,
+> +	},
+> +	[FSCRYPT_MODE_SM4_CTS] = {
+> +		.friendly_name = "SM4-CTS",
+> +		.cipher_str = "cts(cbc(sm4))",
+> +		.keysize = 16,
+> +		.security_strength = 16,
+> +		.ivsize = 16,
+> +	},
+>  };
+>  
+>  static DEFINE_MUTEX(fscrypt_mode_key_setup_mutex);
+> diff --git a/fs/crypto/policy.c b/fs/crypto/policy.c
+> index 46757c3052ef..4881fd3af6ee 100644
+> --- a/fs/crypto/policy.c
+> +++ b/fs/crypto/policy.c
+> @@ -75,6 +75,10 @@ static bool fscrypt_valid_enc_modes_v1(u32 contents_mode, u32 filenames_mode)
+>  	    filenames_mode == FSCRYPT_MODE_ADIANTUM)
+>  		return true;
+>  
+> +	if (contents_mode == FSCRYPT_MODE_SM4_XTS &&
+> +	    filenames_mode == FSCRYPT_MODE_SM4_CTS)
+> +		return true;
+> +
+>  	return false;
+>  }
+>  
+> diff --git a/include/uapi/linux/fscrypt.h b/include/uapi/linux/fscrypt.h
+> index a756b29afcc2..34d791bd162c 100644
+> --- a/include/uapi/linux/fscrypt.h
+> +++ b/include/uapi/linux/fscrypt.h
+> @@ -28,7 +28,9 @@
+>  #define FSCRYPT_MODE_AES_128_CTS		6
+>  #define FSCRYPT_MODE_ADIANTUM			9
+>  #define FSCRYPT_MODE_AES_256_HCTR2		10
+> -/* If adding a mode number > 10, update FSCRYPT_MODE_MAX in fscrypt_private.h */
+> +#define FSCRYPT_MODE_SM4_XTS			11
+> +#define FSCRYPT_MODE_SM4_CTS			12
+> +/* If adding a mode number > 12, update FSCRYPT_MODE_MAX in fscrypt_private.h */
 
-That change may be a bit harder to accept, since it's a behavioral
-change that will certainly annoy some people.  At a minimum, it would
-have to be coordinated with the automated docs builds at kernel.org.
-One could certainly make the case that we should have done things this
-way from the beginning; I'm a bit reluctant to change it now.
+This might be a good time to reclaim some of the unused mode numbers.  Maybe 7-8
+which were very briefly used for Speck128/256.  (Irony not lost?)
 
-Thanks,
-
-jon
+- Eric
