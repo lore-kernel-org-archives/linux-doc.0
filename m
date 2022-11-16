@@ -2,159 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07F76C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 17:26:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F25AC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 18:16:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233187AbiKPR0L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Nov 2022 12:26:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42562 "EHLO
+        id S234350AbiKPSQV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Nov 2022 13:16:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229931AbiKPR0I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 12:26:08 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DE24E63;
-        Wed, 16 Nov 2022 09:26:06 -0800 (PST)
+        with ESMTP id S237493AbiKPSQO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 13:16:14 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C96DB61B94
+        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 10:16:12 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 25AFF61F0E;
-        Wed, 16 Nov 2022 17:26:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AF62C433D6;
-        Wed, 16 Nov 2022 17:26:05 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4D9C4B81DA8
+        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 18:16:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DD2FC433C1;
+        Wed, 16 Nov 2022 18:16:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668619565;
-        bh=PT+8MkgMTV9fwJCv3MTZ299Jqr5mxS8H+pV7cIqlGBk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Yu8b70BDWrnw5JdJlGg+tQ9HWB7F06X7t4IAKbX29G+IaLUh57DqsZLwlarmg8WbT
-         pI8qz4v8Se0eOtkzfw9fZVFnPkWbgPVR/8/4Z05htxNw60TLy82s8ABI4mWkgdwkqa
-         afSz7B/4yd0L4jj9zSd5mn2ceaWWZYO6AR5E7af725wqAFq4IbM7Vk76EulUA6SZk+
-         JhpDfgmni0MNNPXfrt00sVetkF4bTeGLKdmpjlis9krJccZBOfxdgTB/6+hWrHpsnp
-         H+emKZU15lwTaej0J8j9csK2soG0t0RE0DHnRdyq8H9hduPpzRJqoVdNWDQ5JP1kjY
-         fYG1AonYGG6Sw==
-Date:   Wed, 16 Nov 2022 09:26:03 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-Cc:     "Theodore Y. Ts o" <tytso@mit.edu>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        linux-fscrypt@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-crypto@vger.kernel.org
-Subject: Re: [PATCH 2/2] fscrypt: Add SM4 XTS/CTS symmetric algorithm support
-Message-ID: <Y3UdKwtHE+SrERka@sol.localdomain>
-References: <20221116082416.98977-1-tianjia.zhang@linux.alibaba.com>
- <20221116082416.98977-3-tianjia.zhang@linux.alibaba.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221116082416.98977-3-tianjia.zhang@linux.alibaba.com>
+        s=k20201202; t=1668622569;
+        bh=HzuBDu3c95vDubumkqmlUpDyU7sgxHKyh2YYcB7elbo=;
+        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+        b=TbmnRT02WifHTxhTrt1S3QFCyS10+Ny8syMNvxDvCWtyKPfr7LxVjdR8fA+mn6x8K
+         TsqHlf93e0eTek76c8sWRQJ/Q0wTsu7zLYhedhBDN+ZnKJEJv5cvOf4FfQn8h0fvl4
+         /jjXz3QpsD70FN6lVPept8h//e/SZAqJlXfr+BkgivEFfgUDYnlO34jr+hOieTfrxk
+         t+EXIu5KUxj69jixwFESCcWu726SGo8juE7CfEqbzz6Pu9Xl21jTZ6gR1r4345b1eQ
+         VwMnJ+2Is2wAe2rHopq09K1eS+AVjQRkSa87F6KrzUaYFz9TTDZmv22MRmAFfWJwzM
+         jOh2TpPLVa4LA==
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 6393627C0054;
+        Wed, 16 Nov 2022 13:16:07 -0500 (EST)
+Received: from imap48 ([10.202.2.98])
+  by compute2.internal (MEProxy); Wed, 16 Nov 2022 13:16:07 -0500
+X-ME-Sender: <xms:5Sh1Y1NrfbI5X60nb4Gnx7ZV-ilL_3Li9-02p3BGix6vTEUY6DE_ow>
+    <xme:5Sh1Y39gTeCLKOCzug-TrCeNVC4YoC8WfbmUemSekyuZO7jW0yxaosHjfxs2FreUr
+    1Wmi2-yJfT7zuogWes>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeigdduuddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
+    ugihucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepgedugedtledtieduteffveevhfefheeuhfegfeduvdeltdeugeet
+    veeliedvfeehnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhguhidomhgvshhmthhprghu
+    thhhphgvrhhsohhnrghlihhthidqudduiedukeehieefvddqvdeifeduieeitdekqdhluh
+    htoheppehkvghrnhgvlhdrohhrgheslhhinhhugidrlhhuthhordhush
+X-ME-Proxy: <xmx:5Sh1Y0SIGBRWjHPgw0gZVUynVki-ebrw0n7pcfImaqgmn1uZIAHRmQ>
+    <xmx:5Sh1YxuJcnTST-m2004h2nObDbtvT6QkQqCgfbQ9D9aR2LZz9UsGMw>
+    <xmx:5Sh1Y9dmGoebp-r9bA8soBDwFTUbJiblLXWqMZC-TzWcIOk-u2j3Lw>
+    <xmx:5yh1Y1ZRsN15NhtPIZ3lY35CZ-2Br2ATLP2xtPKtZnCXnnhu5KIb2_qAs6M>
+Feedback-ID: ieff94742:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 4E7E831A0063; Wed, 16 Nov 2022 13:16:05 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1115-g8b801eadce-fm-20221102.001-g8b801ead
+Mime-Version: 1.0
+Message-Id: <2e252f4f-7d45-42ac-a88f-fa8045fe3748@app.fastmail.com>
+In-Reply-To: <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
+Date:   Wed, 16 Nov 2022 10:15:44 -0800
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Chao Peng" <chao.p.peng@linux.intel.com>,
+        "kvm list" <kvm@vger.kernel.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org,
+        "Linux API" <linux-api@vger.kernel.org>, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org
+Cc:     "Paolo Bonzini" <pbonzini@redhat.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Sean Christopherson" <seanjc@google.com>,
+        "Vitaly Kuznetsov" <vkuznets@redhat.com>,
+        "Wanpeng Li" <wanpengli@tencent.com>,
+        "Jim Mattson" <jmattson@google.com>,
+        "Joerg Roedel" <joro@8bytes.org>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Hugh Dickins" <hughd@google.com>,
+        "Jeff Layton" <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "Shuah Khan" <shuah@kernel.org>, "Mike Rapoport" <rppt@kernel.org>,
+        "Steven Price" <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        "Vlastimil Babka" <vbabka@suse.cz>,
+        "Vishal Annapurve" <vannapurve@google.com>,
+        "Yu Zhang" <yu.c.zhang@linux.intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        "Dave Hansen" <dave.hansen@intel.com>,
+        "Andi Kleen" <ak@linux.intel.com>,
+        "David Hildenbrand" <david@redhat.com>, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        "Quentin Perret" <qperret@google.com>,
+        "Fuad Tabba" <tabba@google.com>,
+        "Michael Roth" <michael.roth@amd.com>,
+        "Michal Hocko" <mhocko@suse.com>,
+        "Muchun Song" <songmuchun@bytedance.com>,
+        "Wei W Wang" <wei.w.wang@intel.com>
+Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 16, 2022 at 04:24:16PM +0800, Tianjia Zhang wrote:
-> SM4 is a symmetric algorithm widely used in China
 
-So?
 
-What is the use case for adding this to fscrypt specifically?
-
-Just because an algorithm is widely used doesn't necessarily mean it is useful
-or appropriate to support with fscrypt.
-
-> , this patch enables
-> to use SM4-XTS mode to encrypt file content, and use SM4-CBC-CTS to
-> encrypt filename.
-> 
-> Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+On Tue, Oct 25, 2022, at 8:13 AM, Chao Peng wrote:
+> This new KVM exit allows userspace to handle memory-related errors. It
+> indicates an error happens in KVM at guest memory range [gpa, gpa+size).
+> The flags includes additional information for userspace to handle the
+> error. Currently bit 0 is defined as 'private memory' where '1'
+> indicates error happens due to private memory access and '0' indicates
+> error happens due to shared memory access.
+>
+> When private memory is enabled, this new exit will be used for KVM to
+> exit to userspace for shared <-> private memory conversion in memory
+> encryption usage. In such usage, typically there are two kind of memory
+> conversions:
+>   - explicit conversion: happens when guest explicitly calls into KVM
+>     to map a range (as private or shared), KVM then exits to userspace
+>     to perform the map/unmap operations.
+>   - implicit conversion: happens in KVM page fault handler where KVM
+>     exits to userspace for an implicit conversion when the page is in a
+>     different state than requested (private or shared).
+>
+> Suggested-by: Sean Christopherson <seanjc@google.com>
+> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 > ---
->  Documentation/filesystems/fscrypt.rst |  1 +
->  fs/crypto/fscrypt_private.h           |  2 +-
->  fs/crypto/keysetup.c                  | 15 +++++++++++++++
->  fs/crypto/policy.c                    |  4 ++++
->  include/uapi/linux/fscrypt.h          |  4 +++-
->  5 files changed, 24 insertions(+), 2 deletions(-)
+>  Documentation/virt/kvm/api.rst | 23 +++++++++++++++++++++++
+>  include/uapi/linux/kvm.h       |  9 +++++++++
+>  2 files changed, 32 insertions(+)
+>
+> diff --git a/Documentation/virt/kvm/api.rst 
+> b/Documentation/virt/kvm/api.rst
+> index f3fa75649a78..975688912b8c 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -6537,6 +6537,29 @@ array field represents return values. The 
+> userspace should update the return
+>  values of SBI call before resuming the VCPU. For more details on 
+> RISC-V SBI
+>  spec refer, https://github.com/riscv/riscv-sbi-doc.
 > 
-> diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
-> index 5ba5817c17c2..af27e7b2c74f 100644
-> --- a/Documentation/filesystems/fscrypt.rst
-> +++ b/Documentation/filesystems/fscrypt.rst
-> @@ -336,6 +336,7 @@ Currently, the following pairs of encryption modes are supported:
->  
->  - AES-256-XTS for contents and AES-256-CTS-CBC for filenames
->  - AES-128-CBC for contents and AES-128-CTS-CBC for filenames
-> +- SM4-XTS for contents and SM4-CTS-CBC for filenames
->  - Adiantum for both contents and filenames
->  - AES-256-XTS for contents and AES-256-HCTR2 for filenames (v2 policies only)
->  
-> diff --git a/fs/crypto/fscrypt_private.h b/fs/crypto/fscrypt_private.h
-> index d5f68a0c5d15..e79a701de028 100644
-> --- a/fs/crypto/fscrypt_private.h
-> +++ b/fs/crypto/fscrypt_private.h
-> @@ -31,7 +31,7 @@
->  #define FSCRYPT_CONTEXT_V2	2
->  
->  /* Keep this in sync with include/uapi/linux/fscrypt.h */
-> -#define FSCRYPT_MODE_MAX	FSCRYPT_MODE_AES_256_HCTR2
-> +#define FSCRYPT_MODE_MAX	FSCRYPT_MODE_SM4_CTS
->  
->  struct fscrypt_context_v1 {
->  	u8 version; /* FSCRYPT_CONTEXT_V1 */
-> diff --git a/fs/crypto/keysetup.c b/fs/crypto/keysetup.c
-> index f7407071a952..c0a3f882f5a4 100644
-> --- a/fs/crypto/keysetup.c
-> +++ b/fs/crypto/keysetup.c
-> @@ -59,6 +59,21 @@ struct fscrypt_mode fscrypt_modes[] = {
->  		.security_strength = 32,
->  		.ivsize = 32,
->  	},
-> +	[FSCRYPT_MODE_SM4_XTS] = {
-> +		.friendly_name = "SM4-XTS",
-> +		.cipher_str = "xts(sm4)",
-> +		.keysize = 32,
-> +		.security_strength = 16,
-> +		.ivsize = 16,
-> +		.blk_crypto_mode = BLK_ENCRYPTION_MODE_SM4_XTS,
-> +	},
-> +	[FSCRYPT_MODE_SM4_CTS] = {
-> +		.friendly_name = "SM4-CTS",
-> +		.cipher_str = "cts(cbc(sm4))",
-> +		.keysize = 16,
-> +		.security_strength = 16,
-> +		.ivsize = 16,
-> +	},
->  };
->  
->  static DEFINE_MUTEX(fscrypt_mode_key_setup_mutex);
-> diff --git a/fs/crypto/policy.c b/fs/crypto/policy.c
-> index 46757c3052ef..4881fd3af6ee 100644
-> --- a/fs/crypto/policy.c
-> +++ b/fs/crypto/policy.c
-> @@ -75,6 +75,10 @@ static bool fscrypt_valid_enc_modes_v1(u32 contents_mode, u32 filenames_mode)
->  	    filenames_mode == FSCRYPT_MODE_ADIANTUM)
->  		return true;
->  
-> +	if (contents_mode == FSCRYPT_MODE_SM4_XTS &&
-> +	    filenames_mode == FSCRYPT_MODE_SM4_CTS)
-> +		return true;
+> +::
 > +
->  	return false;
->  }
->  
-> diff --git a/include/uapi/linux/fscrypt.h b/include/uapi/linux/fscrypt.h
-> index a756b29afcc2..34d791bd162c 100644
-> --- a/include/uapi/linux/fscrypt.h
-> +++ b/include/uapi/linux/fscrypt.h
-> @@ -28,7 +28,9 @@
->  #define FSCRYPT_MODE_AES_128_CTS		6
->  #define FSCRYPT_MODE_ADIANTUM			9
->  #define FSCRYPT_MODE_AES_256_HCTR2		10
-> -/* If adding a mode number > 10, update FSCRYPT_MODE_MAX in fscrypt_private.h */
-> +#define FSCRYPT_MODE_SM4_XTS			11
-> +#define FSCRYPT_MODE_SM4_CTS			12
-> +/* If adding a mode number > 12, update FSCRYPT_MODE_MAX in fscrypt_private.h */
+> +		/* KVM_EXIT_MEMORY_FAULT */
+> +		struct {
+> +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+> +			__u32 flags;
+> +			__u32 padding;
+> +			__u64 gpa;
+> +			__u64 size;
+> +		} memory;
+> +
 
-This might be a good time to reclaim some of the unused mode numbers.  Maybe 7-8
-which were very briefly used for Speck128/256.  (Irony not lost?)
+Would it make sense to also have a field for the access type (read, write, execute, etc)?  I realize that shared <-> private conversion doesn't strictly need this, but it seems like it could be useful for logging failures and also for avoiding a second immediate fault if the type gets converted but doesn't have the right protection yet.
 
-- Eric
+(Obviously, if this were changed, KVM would need the ability to report that it doesn't actually know the mode.)
+
+--Andy
