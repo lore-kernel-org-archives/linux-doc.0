@@ -2,102 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4493FC43217
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 13:42:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FE5BC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 14:10:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232924AbiKPNmC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Nov 2022 08:42:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54634 "EHLO
+        id S233588AbiKPOK3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Nov 2022 09:10:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238639AbiKPNl4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 08:41:56 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 814A72ED78;
-        Wed, 16 Nov 2022 05:41:55 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id c2so16424437plz.11;
-        Wed, 16 Nov 2022 05:41:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2oiJdwae1A1xSDrJX/8Ai0D9wMJGorNAzyo1cxFVuFg=;
-        b=IFOWVUc9Q//uV04jXe5blsnXnYmAjlTPYUbIt3GuANBVZYoyn9L72i8qNB+FhH+q5K
-         VDUc0Pj4/f1t7esAG/K3G4XAr1LbBQumraUNb6/7PQIHwT0Od1mQwuviBM8w1TQolzLI
-         2OeW3Fn/79WhkC525L+NoL3RZctlrNA7AXKCSB62vFwFFSyN90T8mp1fQ+VO04RLTV5/
-         wwR9Hi0EeO0juqed8omd+k1VRTIiVPZOV3UCkaZitKaXU0neFBFyWpHVEgzcWJuz1LyM
-         WTH99mMHSMVKqhyA9C57Udm1JBRAjNAd4eB+Dacel3RbqN2hNn+eSr8cNQSJZrBwBCt8
-         Y2EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2oiJdwae1A1xSDrJX/8Ai0D9wMJGorNAzyo1cxFVuFg=;
-        b=gE41ML7/M/1pMLGCyCG/G7mMhQi5JRn0Z/1u8A6Jy5NF4AV9eF/tUt4t+JRP+c22iV
-         6AZVXFDK7tXvLlEgCyCpOb7HoTFamUcjhd5QXM4rWauQW6az0zSTelbOUgvVOCsYBJe6
-         fl0czk+akeWLuiEsqRclKl8szuzT6VldlE1AwbuSDa6D1JR/YL2z7MltDoylmvDSRZMt
-         Raw3h/HFzh97Yp9HwXSYoyKlVC9oFfWZYdIUeXBx54W0ij6HWd/bHWHRxiJkQpTxrSp7
-         OEN7Ul3aVWp8/6QM0pCQ6+1GXP+OSFojasCF1gOuPwDggpZ+7h/NaKgyL4WXNSvRgYiH
-         USyg==
-X-Gm-Message-State: ANoB5pnllkCmxSraeutagycqS3V50JKAER0kVJlRUXLAH6ri1zLu7fbE
-        Wf3lMqUjK2DS69V28jIkz58=
-X-Google-Smtp-Source: AA0mqf6GQ+JgpcAi4UahQkWMET9Ne7221Qrmg0nhjTJLGJiDdR5oOO7WyKzI/O9+FGYQ2kysUAeE3g==
-X-Received: by 2002:a17:90a:aa11:b0:20a:cbb0:3c9b with SMTP id k17-20020a17090aaa1100b0020acbb03c9bmr3792530pjq.81.1668606115053;
-        Wed, 16 Nov 2022 05:41:55 -0800 (PST)
-Received: from [192.168.43.80] (subs02-180-214-232-84.three.co.id. [180.214.232.84])
-        by smtp.gmail.com with ESMTPSA id gi18-20020a17090b111200b00205db4ff6dfsm1560135pjb.46.2022.11.16.05.41.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Nov 2022 05:41:54 -0800 (PST)
-Message-ID: <cb64a153-9196-e7c4-14e0-bf623ef79850@gmail.com>
-Date:   Wed, 16 Nov 2022 20:41:47 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v10 2/2] docs/perf: Add documentation for the Amlogic G12
- DDR PMU
-To:     Jiucheng Xu <jiucheng.xu@amlogic.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
+        with ESMTP id S232990AbiKPOKO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 09:10:14 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C1975B3E;
+        Wed, 16 Nov 2022 06:09:32 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D981D150C;
+        Wed, 16 Nov 2022 06:09:38 -0800 (PST)
+Received: from a077893.arm.com (unknown [10.163.40.231])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 553513F663;
+        Wed, 16 Nov 2022 06:09:29 -0800 (PST)
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+To:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        catalin.marinas@arm.com, will@kernel.org
+Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        James Morse <james.morse@arm.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>,
-        John Garry <john.garry@huawei.com>,
-        Wan Jiabing <wanjiabing@vivo.com>,
-        Chris Healy <cphealy@gmail.com>,
-        Jianxin Pan <jianxin.pan@amlogic.com>,
-        Kelvin Zhang <kelvin.zhang@amlogic.com>,
-        Chris Healy <healych@amazon.com>
-References: <20221116003133.1049346-1-jiucheng.xu@amlogic.com>
- <20221116003133.1049346-2-jiucheng.xu@amlogic.com>
- <Y3SwIPnDvEOlL+Mz@debian.me>
- <7bb5e9ee-358b-ce6f-2cb5-a6b6b558c0a9@amlogic.com>
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <7bb5e9ee-358b-ce6f-2cb5-a6b6b558c0a9@amlogic.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Mark Rutland <mark.rutland@arm.com>, linux-doc@vger.kernel.org
+Subject: [PATCH V3 1/2] arm64: Add Cortex-715 CPU part definition
+Date:   Wed, 16 Nov 2022 19:39:14 +0530
+Message-Id: <20221116140915.356601-2-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221116140915.356601-1-anshuman.khandual@arm.com>
+References: <20221116140915.356601-1-anshuman.khandual@arm.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/16/22 16:56, Jiucheng Xu wrote:
-> Sorry for my poor English. Your writing looks very elegant. I will apply your modification in next version.
-> 
+Add the CPU Partnumbers for the new Arm designs.
 
-Please don't top-post, reply inline with appropriate context
-instead.
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc: James Morse <james.morse@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+---
+ arch/arm64/include/asm/cputype.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Also, wrap your message text within 72-80 characters.
-
-Thanks.
-
+diff --git a/arch/arm64/include/asm/cputype.h b/arch/arm64/include/asm/cputype.h
+index 65e53ef5a396..4e8b66c74ea2 100644
+--- a/arch/arm64/include/asm/cputype.h
++++ b/arch/arm64/include/asm/cputype.h
+@@ -80,6 +80,7 @@
+ #define ARM_CPU_PART_CORTEX_X1		0xD44
+ #define ARM_CPU_PART_CORTEX_A510	0xD46
+ #define ARM_CPU_PART_CORTEX_A710	0xD47
++#define ARM_CPU_PART_CORTEX_A715	0xD4D
+ #define ARM_CPU_PART_CORTEX_X2		0xD48
+ #define ARM_CPU_PART_NEOVERSE_N2	0xD49
+ #define ARM_CPU_PART_CORTEX_A78C	0xD4B
+@@ -142,6 +143,7 @@
+ #define MIDR_CORTEX_X1	MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_X1)
+ #define MIDR_CORTEX_A510 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A510)
+ #define MIDR_CORTEX_A710 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A710)
++#define MIDR_CORTEX_A715 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A715)
+ #define MIDR_CORTEX_X2 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_X2)
+ #define MIDR_NEOVERSE_N2 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_NEOVERSE_N2)
+ #define MIDR_CORTEX_A78C	MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A78C)
 -- 
-An old man doll... just what I always wanted! - Clara
+2.25.1
 
