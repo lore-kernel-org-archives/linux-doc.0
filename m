@@ -2,161 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70D4EC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 12:03:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E271DC4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 12:06:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237900AbiKPMDU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Nov 2022 07:03:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47040 "EHLO
+        id S233134AbiKPMGh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Nov 2022 07:06:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233299AbiKPMCl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 07:02:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4B7318396
-        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 03:54:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1668599648;
+        with ESMTP id S233036AbiKPMGH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 07:06:07 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCD89B1DA;
+        Wed, 16 Nov 2022 03:59:50 -0800 (PST)
+Received: from zn.tnic (p200300ea9733e74b329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e74b:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5FBEC1EC032C;
+        Wed, 16 Nov 2022 12:59:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1668599989;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=yHWoqeKZ7WE5OL+yeStXVIueVj6+ARPoJ0PKpaYIJ9Q=;
-        b=eY1y2+UKYIFIknBl8UCVlWxFHlQS+FDJWwHWWeO+E+4DmVxjd9V/BfwTrMcqH1RK65qwnL
-        8N86Yvq6aQqf11Z29CmQv2pfQ9HDj5EV4AyMlmzlVdqhL5a6pwGa/A9+LPdejVYxkZA4sA
-        UXEXN9sfQAsPd+G9bAJqZGS8q1cqmgA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-518-j47zMRZJPu2elouwojhPeg-1; Wed, 16 Nov 2022 06:54:06 -0500
-X-MC-Unique: j47zMRZJPu2elouwojhPeg-1
-Received: by mail-wr1-f70.google.com with SMTP id w23-20020adf8bd7000000b002358f733307so3630158wra.17
-        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 03:54:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yHWoqeKZ7WE5OL+yeStXVIueVj6+ARPoJ0PKpaYIJ9Q=;
-        b=Mu8QLBqQz5YHXosrBwoP4LWvHkCHucRPkn9ca9fCTuX7/qDTV6PIbNam5+cJBNrdFq
-         MstB42RyzZXvGL7Q55ZkNC/14ApSLdn3K1ufMvGgpK4SC/Stz4C0byfww8jatr0SFtqR
-         5pI34Oz3EKqymU0UrtzQphGKZefPeVUCXo3D8wB10IhPiXtb+nHPLWw0neKL9teJyaHF
-         HIx+fTK6UeD8G/U2qqSTA+k5iweNkcBtC8h3AFmsSjYvlyYcJ4jH0S5lAyTruxkdrC50
-         A1mOwbx2YtnRpRYbnvJwkkUVcjuxNdsiaGPubOUefOIaB2I8c+9ASoHNUrzlapWgqJB2
-         S1yw==
-X-Gm-Message-State: ANoB5pnUu64Udujx9G5CgRw3wC87rXBYXzGX97tLhpsw2jBP0d+ylDPB
-        N/aFWexMMeLjPRJ3UsEY+o/8WXF0NOXCtnoFUw4wgUPewsqugwOezQO/kNHUkRcUA6CkfUJPZcv
-        5ZdwuVNvprPx2rf9BzrX4
-X-Received: by 2002:a5d:6284:0:b0:236:87e7:da6d with SMTP id k4-20020a5d6284000000b0023687e7da6dmr13408026wru.384.1668599645544;
-        Wed, 16 Nov 2022 03:54:05 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5kcpGTwPuTC6azYsnoEZOl/mzvCaD+GO9+Yyk/oSqcCijgBjHRjLjE9xSyCgu3T71pho0DKg==
-X-Received: by 2002:a5d:6284:0:b0:236:87e7:da6d with SMTP id k4-20020a5d6284000000b0023687e7da6dmr13408001wru.384.1668599645178;
-        Wed, 16 Nov 2022 03:54:05 -0800 (PST)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id m28-20020a05600c3b1c00b003cf37c5ddc0sm2059939wms.22.2022.11.16.03.54.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 03:54:04 -0800 (PST)
-From:   Javier Martinez Canillas <javierm@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Brian Masney <bmasney@redhat.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        John Stultz <jstultz@google.com>,
-        Peter Robinson <pbrobinson@redhat.com>,
-        Enric Balletbo i Serra <eballetbo@redhat.com>,
-        Steev Klimaszewski <steev@kali.org>,
-        Rob Herring <robh@kernel.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        linux-arm-msm@vger.kernel.org,
-        Saravana Kannan <saravanak@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@suse.de>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Jakub Kicinski <kuba@kernel.org>,
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=hJKof9wnh/Z0s3rCjN4QwsOtG6Nl0wGK7lB4XoziVvE=;
+        b=SLdXhc3Ss5eT1lbfU5YcQyKqWJEOt+wwYoPV+OGNdSM6QsU84Lde9VpYVFV+S+wsA5ajq7
+        d16FjMppb7sG03xasXlJCV5Jd97v85HMuTYo0ezrKK+BwMuOJl3NUJrNVc3F21sqzHkHes
+        ebkVbaj9rSlpxXL180nTPdWifS9TKbg=
+Date:   Wed, 16 Nov 2022 12:59:45 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Kim Phillips <kim.phillips@amd.com>,
+        Sean Christopherson <seanjc@google.com>
+Cc:     x86@kernel.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Subject: [PATCH v2 0/4] driver core: Decouple device links enforcing and probe deferral timeouts
-Date:   Wed, 16 Nov 2022 12:53:44 +0100
-Message-Id: <20221116115348.517599-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.38.1
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Babu Moger <Babu.Moger@amd.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] x86/cpufeatures: Add support for cpuid leaf
+ 80000021/EAX (FeatureExt2Eax)
+Message-ID: <Y3TQsUmTieC4NnO/@zn.tnic>
+References: <20221104213651.141057-1-kim.phillips@amd.com>
+ <20221104213651.141057-2-kim.phillips@amd.com>
+ <Y2WIy2A1RuQE/9SK@zn.tnic>
+ <c00b1a65-c885-c874-79cb-16011ac82eb3@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c00b1a65-c885-c874-79cb-16011ac82eb3@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series is a v2 of patch "driver core: Disable driver deferred probe
-timeout by default" [0] but using a slightly different approach after the
-feedback I got on v1.
+On Tue, Nov 15, 2022 at 05:10:50PM -0600, Kim Phillips wrote:
+> When trying to wire up a scattered host AUTOIBRS version up to
+> kvm, I couldn't get past all the reverse_cpuid_check()
+> BUILD_BUGs demanding exclusivity between h/w and "Linux"
+> (s/w) FEATUREs.
 
-The problem with v1 was that just disabling the probe deferral timeout by
-default would cause a regression for drivers that may want to probe even
-if their (optional) dependencies are not present yet.
+I guess something like below.
 
-But this was achieved by timing out the probe deferral mechanism, which
-calls fw_devlink_drivers_done() in its work queue function handler. There
-is not reason to tie the two though, it should be possible to relax the
-device links to allow drivers to probe even if their optional suppliers
-are not present, while still keep the probe deferral mechanism enabled
-so that drivers that have required dependencies are still able to defer
-their probe.
+Sean, can you pls check the KVM bits whether I've done them all right?
 
-This series decouple the two operations by adding a fw_devlink.timeout=
-command line parameter. That way, the probe deferral timeout can be set
-to -1 by default, reverting to the previous behaviour while still allow
-drivers to probe with optional dependencies missing.
+In any case, it seems to work, guest has:
 
-Patch #1 is just a cleanup that makes the driver_deferred_probe_timeout
-variable static since isn't used outside of its compilation unit.
+processor       : 0
+vendor_id       : AuthenticAMD
+cpu family      : 25
+model           : 1
+model name      : AMD EPYC-Milan Processor
+stepping        : 1
+flags           : ... autoibrs ...
 
-Patch #2 disables the deferred probe mechanism after late_initcall if
-modules are disable. Since there is no point to schedule the timer in
-that case.
+---
+From: Borislav Petkov <bp@suse.de>
+Date: Wed, 16 Nov 2022 12:50:08 +0100
+Subject: [PATCH] x86/cpu, kvm: Add X86_FEATURE_AUTOIBRS
 
-Patch #3 adds the new "fw_devlink.timeout=" cmdline param, that can be
-used to set a timeout for the device links enforcing. The semantics are
-quite similar to the existing "deferred_probe_timeout=" cmdline param.
+Add AMD AutoIBRS feature bit support. Use a synthetic bit as this is the
+first bit from the 0x80000021 leaf.
 
-Patch #4 then changes the default value for the probe deferral timeout,
-to just disable it by default and make the probe deferral mechanism to
-revert to the behaviour that had before. That is, to just try to probe
-the drivers indefinitely. But the device link enforcing timeout is set
-to 10 seconds, to keep the existing expectations for drivers that want
-to probe even if their optional dependencies are not present.
+Add the corresponding word to KVM's feature machinery so that the bit
+gets advertized into the guest too.
 
-I have tested on my HP X2 Chromebook and the DRM driver that was failing
-to probe before now works without any cmdline parameters. I also tested
-with different combinations of device links and deferred probe timeouts.
+Signed-off-by: Borislav Petkov <bp@suse.de>
+---
+ arch/x86/include/asm/cpufeatures.h |  1 +
+ arch/x86/kernel/cpu/scattered.c    |  1 +
+ arch/x86/kvm/cpuid.c               |  2 ++
+ arch/x86/kvm/reverse_cpuid.h       | 18 ++++++++++++------
+ 4 files changed, 16 insertions(+), 6 deletions(-)
 
-[0]: https://lore.kernel.org/lkml/354820e8-939c-781a-0d76-c1574c43b7f3@redhat.com/T/#t
-
-Best regards,
-Javier
-
-Changes in v2:
-- Mention in the commit messsage the specific machine and drivers that
-  are affected by the issue (Greg).
-- Double check the commit message for accuracy (John).
-- Add a second workqueue to timeout the devlink enforcing and allow
-  drivers to probe even without their optional dependencies available.
-
-Javier Martinez Canillas (4):
-  driver core: Make driver_deferred_probe_timeout a static variable
-  driver core: Set deferred probe timeout to 0 if modules are disabled
-  driver core: Add fw_devlink.timeout param to stop waiting for devlinks
-  driver core: Disable driver deferred probe timeout by default
-
- .../admin-guide/kernel-parameters.txt         |  7 +++
- drivers/base/dd.c                             | 48 +++++++++++++++----
- include/linux/device/driver.h                 |  1 -
- 3 files changed, 47 insertions(+), 9 deletions(-)
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 2bc1557dc203..2cf102911241 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -306,6 +306,7 @@
+ #define X86_FEATURE_RSB_VMEXIT_LITE	(11*32+17) /* "" Fill RSB on VM exit when EIBRS is enabled */
+ #define X86_FEATURE_SGX_EDECCSSA	(11*32+18) /* "" SGX EDECCSSA user leaf function */
+ #define X86_FEATURE_CALL_DEPTH		(11*32+19) /* "" Call depth tracking for RSB stuffing */
++#define X86_FEATURE_AUTOIBRS		(11*32+20) /* AMD Automatic IBRS */
+ 
+ /* Intel-defined CPU features, CPUID level 0x00000007:1 (EAX), word 12 */
+ #define X86_FEATURE_AVX_VNNI		(12*32+ 4) /* AVX VNNI instructions */
+diff --git a/arch/x86/kernel/cpu/scattered.c b/arch/x86/kernel/cpu/scattered.c
+index f53944fb8f7f..e20117658c5b 100644
+--- a/arch/x86/kernel/cpu/scattered.c
++++ b/arch/x86/kernel/cpu/scattered.c
+@@ -45,6 +45,7 @@ static const struct cpuid_bit cpuid_bits[] = {
+ 	{ X86_FEATURE_CPB,		CPUID_EDX,  9, 0x80000007, 0 },
+ 	{ X86_FEATURE_PROC_FEEDBACK,    CPUID_EDX, 11, 0x80000007, 0 },
+ 	{ X86_FEATURE_MBA,		CPUID_EBX,  6, 0x80000008, 0 },
++	{ X86_FEATURE_AUTOIBRS,		CPUID_EAX,  8, 0x80000021, 0 },
+ 	{ X86_FEATURE_PERFMON_V2,	CPUID_EAX,  0, 0x80000022, 0 },
+ 	{ X86_FEATURE_AMD_LBR_V2,	CPUID_EAX,  1, 0x80000022, 0 },
+ 	{ 0, 0, 0, 0, 0 }
+diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+index c92c49a0b35b..050bca360731 100644
+--- a/arch/x86/kvm/cpuid.c
++++ b/arch/x86/kvm/cpuid.c
+@@ -750,6 +750,8 @@ void kvm_set_cpu_caps(void)
+ 		kvm_cpu_cap_clear(X86_FEATURE_RDTSCP);
+ 		kvm_cpu_cap_clear(X86_FEATURE_RDPID);
+ 	}
++
++	kvm_cpu_cap_init_scattered(CPUID_8000_0021_EAX, SF(AUTOIBRS));
+ }
+ EXPORT_SYMBOL_GPL(kvm_set_cpu_caps);
+ 
+diff --git a/arch/x86/kvm/reverse_cpuid.h b/arch/x86/kvm/reverse_cpuid.h
+index 4e5b8444f161..c4801ac84a4a 100644
+--- a/arch/x86/kvm/reverse_cpuid.h
++++ b/arch/x86/kvm/reverse_cpuid.h
+@@ -13,6 +13,7 @@
+  */
+ enum kvm_only_cpuid_leafs {
+ 	CPUID_12_EAX	 = NCAPINTS,
++	CPUID_8000_0021_EAX,
+ 	NR_KVM_CPU_CAPS,
+ 
+ 	NKVMCAPINTS = NR_KVM_CPU_CAPS - NCAPINTS,
+@@ -25,6 +26,9 @@ enum kvm_only_cpuid_leafs {
+ #define KVM_X86_FEATURE_SGX2		KVM_X86_FEATURE(CPUID_12_EAX, 1)
+ #define KVM_X86_FEATURE_SGX_EDECCSSA	KVM_X86_FEATURE(CPUID_12_EAX, 11)
+ 
++/* AMD-defined Extended Feature 2 EAX, CPUID level 0x80000021 (EAX) */
++#define KVM_X86_FEATURE_AUTOIBRS	KVM_X86_FEATURE(CPUID_8000_0021_EAX, 8)
++
+ struct cpuid_reg {
+ 	u32 function;
+ 	u32 index;
+@@ -49,6 +53,7 @@ static const struct cpuid_reg reverse_cpuid[] = {
+ 	[CPUID_7_1_EAX]       = {         7, 1, CPUID_EAX},
+ 	[CPUID_12_EAX]        = {0x00000012, 0, CPUID_EAX},
+ 	[CPUID_8000_001F_EAX] = {0x8000001f, 0, CPUID_EAX},
++	[CPUID_8000_0021_EAX] = {0x80000021, 0, CPUID_EAX},
+ };
+ 
+ /*
+@@ -75,12 +80,13 @@ static __always_inline void reverse_cpuid_check(unsigned int x86_leaf)
+  */
+ static __always_inline u32 __feature_translate(int x86_feature)
+ {
+-	if (x86_feature == X86_FEATURE_SGX1)
+-		return KVM_X86_FEATURE_SGX1;
+-	else if (x86_feature == X86_FEATURE_SGX2)
+-		return KVM_X86_FEATURE_SGX2;
+-	else if (x86_feature == X86_FEATURE_SGX_EDECCSSA)
+-		return KVM_X86_FEATURE_SGX_EDECCSSA;
++	switch (x86_feature) {
++	case X86_FEATURE_SGX1:		return KVM_X86_FEATURE_SGX1;
++	case X86_FEATURE_SGX2:		return KVM_X86_FEATURE_SGX2;
++	case X86_FEATURE_SGX_EDECCSSA:	return KVM_X86_FEATURE_SGX_EDECCSSA;
++	case X86_FEATURE_AUTOIBRS:	return KVM_X86_FEATURE_AUTOIBRS;
++	default: break;
++	}
+ 
+ 	return x86_feature;
+ }
+-- 
+2.35.1
 
 -- 
-2.38.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
