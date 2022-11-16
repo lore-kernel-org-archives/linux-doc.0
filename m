@@ -2,126 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CCC3C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 12:18:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4493FC43217
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 13:42:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232155AbiKPMRV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Nov 2022 07:17:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60992 "EHLO
+        id S232924AbiKPNmC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Nov 2022 08:42:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233201AbiKPMQa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 07:16:30 -0500
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD898192A0;
-        Wed, 16 Nov 2022 04:10:59 -0800 (PST)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NC21m3JKWz15Mh0;
-        Wed, 16 Nov 2022 20:10:36 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 16 Nov 2022 20:10:58 +0800
-Received: from thunder-town.china.huawei.com (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 16 Nov 2022 20:10:57 +0800
-From:   Zhen Lei <thunder.leizhen@huawei.com>
-To:     Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>, <kexec@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
-CC:     Zhen Lei <thunder.leizhen@huawei.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        "Chen Zhou" <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: [PATCH v4 2/2] arm64: kdump: Support crashkernel=X fall back to reserve region above DMA zones
-Date:   Wed, 16 Nov 2022 20:10:44 +0800
-Message-ID: <20221116121044.1690-3-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.37.3.windows.1
-In-Reply-To: <20221116121044.1690-1-thunder.leizhen@huawei.com>
-References: <20221116121044.1690-1-thunder.leizhen@huawei.com>
+        with ESMTP id S238639AbiKPNl4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 08:41:56 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 814A72ED78;
+        Wed, 16 Nov 2022 05:41:55 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id c2so16424437plz.11;
+        Wed, 16 Nov 2022 05:41:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2oiJdwae1A1xSDrJX/8Ai0D9wMJGorNAzyo1cxFVuFg=;
+        b=IFOWVUc9Q//uV04jXe5blsnXnYmAjlTPYUbIt3GuANBVZYoyn9L72i8qNB+FhH+q5K
+         VDUc0Pj4/f1t7esAG/K3G4XAr1LbBQumraUNb6/7PQIHwT0Od1mQwuviBM8w1TQolzLI
+         2OeW3Fn/79WhkC525L+NoL3RZctlrNA7AXKCSB62vFwFFSyN90T8mp1fQ+VO04RLTV5/
+         wwR9Hi0EeO0juqed8omd+k1VRTIiVPZOV3UCkaZitKaXU0neFBFyWpHVEgzcWJuz1LyM
+         WTH99mMHSMVKqhyA9C57Udm1JBRAjNAd4eB+Dacel3RbqN2hNn+eSr8cNQSJZrBwBCt8
+         Y2EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2oiJdwae1A1xSDrJX/8Ai0D9wMJGorNAzyo1cxFVuFg=;
+        b=gE41ML7/M/1pMLGCyCG/G7mMhQi5JRn0Z/1u8A6Jy5NF4AV9eF/tUt4t+JRP+c22iV
+         6AZVXFDK7tXvLlEgCyCpOb7HoTFamUcjhd5QXM4rWauQW6az0zSTelbOUgvVOCsYBJe6
+         fl0czk+akeWLuiEsqRclKl8szuzT6VldlE1AwbuSDa6D1JR/YL2z7MltDoylmvDSRZMt
+         Raw3h/HFzh97Yp9HwXSYoyKlVC9oFfWZYdIUeXBx54W0ij6HWd/bHWHRxiJkQpTxrSp7
+         OEN7Ul3aVWp8/6QM0pCQ6+1GXP+OSFojasCF1gOuPwDggpZ+7h/NaKgyL4WXNSvRgYiH
+         USyg==
+X-Gm-Message-State: ANoB5pnllkCmxSraeutagycqS3V50JKAER0kVJlRUXLAH6ri1zLu7fbE
+        Wf3lMqUjK2DS69V28jIkz58=
+X-Google-Smtp-Source: AA0mqf6GQ+JgpcAi4UahQkWMET9Ne7221Qrmg0nhjTJLGJiDdR5oOO7WyKzI/O9+FGYQ2kysUAeE3g==
+X-Received: by 2002:a17:90a:aa11:b0:20a:cbb0:3c9b with SMTP id k17-20020a17090aaa1100b0020acbb03c9bmr3792530pjq.81.1668606115053;
+        Wed, 16 Nov 2022 05:41:55 -0800 (PST)
+Received: from [192.168.43.80] (subs02-180-214-232-84.three.co.id. [180.214.232.84])
+        by smtp.gmail.com with ESMTPSA id gi18-20020a17090b111200b00205db4ff6dfsm1560135pjb.46.2022.11.16.05.41.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Nov 2022 05:41:54 -0800 (PST)
+Message-ID: <cb64a153-9196-e7c4-14e0-bf623ef79850@gmail.com>
+Date:   Wed, 16 Nov 2022 20:41:47 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v10 2/2] docs/perf: Add documentation for the Amlogic G12
+ DDR PMU
+To:     Jiucheng Xu <jiucheng.xu@amlogic.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>,
+        John Garry <john.garry@huawei.com>,
+        Wan Jiabing <wanjiabing@vivo.com>,
+        Chris Healy <cphealy@gmail.com>,
+        Jianxin Pan <jianxin.pan@amlogic.com>,
+        Kelvin Zhang <kelvin.zhang@amlogic.com>,
+        Chris Healy <healych@amazon.com>
+References: <20221116003133.1049346-1-jiucheng.xu@amlogic.com>
+ <20221116003133.1049346-2-jiucheng.xu@amlogic.com>
+ <Y3SwIPnDvEOlL+Mz@debian.me>
+ <7bb5e9ee-358b-ce6f-2cb5-a6b6b558c0a9@amlogic.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <7bb5e9ee-358b-ce6f-2cb5-a6b6b558c0a9@amlogic.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For crashkernel=X without '@offset', select a region within DMA zones
-first, and fall back to reserve region above DMA zones. This allows
-users to use the same configuration on multiple platforms.
+On 11/16/22 16:56, Jiucheng Xu wrote:
+> Sorry for my poor English. Your writing looks very elegant. I will apply your modification in next version.
+> 
 
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-Acked-by: Baoquan He <bhe@redhat.com>
----
- Documentation/admin-guide/kernel-parameters.txt |  2 +-
- arch/arm64/mm/init.c                            | 17 ++++++++++++++++-
- 2 files changed, 17 insertions(+), 2 deletions(-)
+Please don't top-post, reply inline with appropriate context
+instead.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a7b7147447b8bf8..ef6d922ed26b9dc 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -842,7 +842,7 @@
- 			memory region [offset, offset + size] for that kernel
- 			image. If '@offset' is omitted, then a suitable offset
- 			is selected automatically.
--			[KNL, X86-64] Select a region under 4G first, and
-+			[KNL, X86-64, ARM64] Select a region under 4G first, and
- 			fall back to reserve region above 4G when '@offset'
- 			hasn't been specified.
- 			See Documentation/admin-guide/kdump/kdump.rst for further details.
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index ba7227179822d10..58a0bb2c17f18cf 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -132,6 +132,7 @@ static void __init reserve_crashkernel(void)
- 	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
- 	char *cmdline = boot_command_line;
- 	int ret;
-+	bool fixed_base = false;
- 
- 	if (!IS_ENABLED(CONFIG_KEXEC_CORE))
- 		return;
-@@ -163,12 +164,26 @@ static void __init reserve_crashkernel(void)
- 	crash_size = PAGE_ALIGN(crash_size);
- 
- 	/* User specifies base address explicitly. */
--	if (crash_base)
-+	if (crash_base) {
-+		fixed_base = true;
- 		crash_max = crash_base + crash_size;
-+	}
- 
-+retry:
- 	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
- 					       crash_base, crash_max);
- 	if (!crash_base) {
-+		/*
-+		 * If the first attempt was for low memory, fall back to
-+		 * high memory, the minimum required low memory will be
-+		 * reserved later.
-+		 */
-+		if (!fixed_base && (crash_max == CRASH_ADDR_LOW_MAX)) {
-+			crash_max = CRASH_ADDR_HIGH_MAX;
-+			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-+			goto retry;
-+		}
-+
- 		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
- 			crash_size);
- 		return;
+Also, wrap your message text within 72-80 characters.
+
+Thanks.
+
 -- 
-2.25.1
+An old man doll... just what I always wanted! - Clara
 
