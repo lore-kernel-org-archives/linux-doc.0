@@ -2,111 +2,213 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E9B3C4167B
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 02:51:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81528C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 03:19:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231285AbiKPCv3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Nov 2022 21:51:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56572 "EHLO
+        id S230450AbiKPDTU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Nov 2022 22:19:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230507AbiKPCv2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 21:51:28 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 48B0A29353;
-        Tue, 15 Nov 2022 18:51:26 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2060D13D5;
-        Tue, 15 Nov 2022 18:51:32 -0800 (PST)
-Received: from [10.162.40.17] (unknown [10.162.40.17])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D8A1C3F663;
-        Tue, 15 Nov 2022 18:51:15 -0800 (PST)
-Message-ID: <01ffa482-8d59-4cf9-f103-fb39a987873d@arm.com>
-Date:   Wed, 16 Nov 2022 08:21:12 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v6 2/2] arm64: support batched/deferred tlb shootdown
- during page reclamation
-Content-Language: en-US
-To:     Nadav Amit <namit@vmware.com>, Yicong Yang <yangyicong@huawei.com>
-Cc:     "yangyicong@hisilicon.com" <yangyicong@hisilicon.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>, X86 ML <x86@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        with ESMTP id S229766AbiKPDTS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Nov 2022 22:19:18 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FA88C11;
+        Tue, 15 Nov 2022 19:19:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668568757; x=1700104757;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=I/nWquwbUx6Foszq8Q3bav+jUHNq3BtFcT49kSsIgfs=;
+  b=ktRpWaJvXRBckL+Yjs4AQ6OjY/Hb1OzkSwA2aShI3Sl0Dcb2X1Ca+n1p
+   04iQQM4RNbLIQD+12UXGOJXmuvkGJZbrCdVGGcmOYPfTRnXejP2HKhNki
+   hEjEk84ThqB0ysjG8XJfa6mON7kcR9LnrGL0LDf9BW4ANeONzc2ROoFFh
+   8Yn7rP1ps7ZeIsumXwuXoKuxEJ7foAScGgys0l2us62qW3My7LIpBNO40
+   GwW3ubTIKtjqHw5A14vYJDT0DcyZpzwJml9RiDKjMbOogib02XXM6ga7s
+   L0813erSeaLTFlOliku1qail/mfVDt5fIKa687X2ADQgPBQqMeGyHr0ES
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="295799639"
+X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; 
+   d="scan'208";a="295799639"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 19:19:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="633472721"
+X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; 
+   d="scan'208";a="633472721"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga007.jf.intel.com with ESMTP; 15 Nov 2022 19:19:05 -0800
+Date:   Wed, 16 Nov 2022 11:14:41 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "punit.agrawal@bytedance.com" <punit.agrawal@bytedance.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "darren@os.amperecomputing.com" <darren@os.amperecomputing.com>,
-        "huzhanyuan@oppo.com" <huzhanyuan@oppo.com>,
-        "lipeifeng@oppo.com" <lipeifeng@oppo.com>,
-        "zhangshiming@oppo.com" <zhangshiming@oppo.com>,
-        "guojian@oppo.com" <guojian@oppo.com>,
-        "realmz6@gmail.com" <realmz6@gmail.com>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "openrisc@lists.librecores.org" <openrisc@lists.librecores.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Barry Song <21cnbao@gmail.com>,
-        "wangkefeng.wang@huawei.com" <wangkefeng.wang@huawei.com>,
-        haoxin <xhao@linux.alibaba.com>,
-        "prime.zeng@hisilicon.com" <prime.zeng@hisilicon.com>,
-        Barry Song <v-songbaohua@oppo.com>,
-        Mel Gorman <mgorman@suse.de>
-References: <20221115031425.44640-1-yangyicong@huawei.com>
- <20221115031425.44640-3-yangyicong@huawei.com>
- <0D3A45FE-5367-40CD-A035-37F6EE98B25E@vmware.com>
- <91e4804d-cb99-fd22-dafd-2f418f5c7ba9@huawei.com>
- <E3756C83-767A-4C68-AE3F-8C979F47A029@vmware.com>
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <E3756C83-767A-4C68-AE3F-8C979F47A029@vmware.com>
-Content-Type: text/plain; charset=UTF-8
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
+Message-ID: <20221116031441.GA364614@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
+ <87cz9o9mr8.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <87cz9o9mr8.fsf@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 11/16/22 07:26, Nadav Amit wrote:
-> On Nov 15, 2022, at 5:50 PM, Yicong Yang <yangyicong@huawei.com> wrote:
+On Tue, Nov 15, 2022 at 04:56:12PM +0000, Alex Benn�e wrote:
 > 
->> !! External Email
->>
->> On 2022/11/16 7:38, Nadav Amit wrote:
->>> On Nov 14, 2022, at 7:14 PM, Yicong Yang <yangyicong@huawei.com> wrote:
->>>
->>>> diff --git a/arch/x86/include/asm/tlbflush.h b/arch/x86/include/asm/tlbflush.h
->>>> index 8a497d902c16..5bd78ae55cd4 100644
->>>> --- a/arch/x86/include/asm/tlbflush.h
->>>> +++ b/arch/x86/include/asm/tlbflush.h
->>>> @@ -264,7 +264,8 @@ static inline u64 inc_mm_tlb_gen(struct mm_struct *mm)
->>>> }
->>>>
->>>> static inline void arch_tlbbatch_add_mm(struct arch_tlbflush_unmap_batch *batch,
->>>> -                                    struct mm_struct *mm)
->>>> +                                    struct mm_struct *mm,
->>>> +                                    unsigned long uaddr)
->>>
->>> Logic-wise it looks fine. I notice the “v6", and it should not be blocking,
->>> but I would note that the name "arch_tlbbatch_add_mm()” does not make much
->>> sense once the function also takes an address.
->>
->> ok the add_mm should still apply to x86 since the address is not used, but not for arm64.
->>
->>> It could’ve been something like arch_set_tlb_ubc_flush_pending() but that’s
->>> too long. I’m not very good with naming, but the current name is not great.
->>
->> What about arch_tlbbatch_add_pending()? Considering the x86 is pending the flush operation
->> while arm64 is pending the sychronization operation, arch_tlbbatch_add_pending() should
->> make sense to both.
+> Chao Peng <chao.p.peng@linux.intel.com> writes:
 > 
-> Sounds reasonable. Thanks.
+> > This new KVM exit allows userspace to handle memory-related errors. It
+> > indicates an error happens in KVM at guest memory range [gpa, gpa+size).
+> > The flags includes additional information for userspace to handle the
+> > error. Currently bit 0 is defined as 'private memory' where '1'
+> > indicates error happens due to private memory access and '0' indicates
+> > error happens due to shared memory access.
+> >
+> > When private memory is enabled, this new exit will be used for KVM to
+> > exit to userspace for shared <-> private memory conversion in memory
+> > encryption usage. In such usage, typically there are two kind of memory
+> > conversions:
+> >   - explicit conversion: happens when guest explicitly calls into KVM
+> >     to map a range (as private or shared), KVM then exits to userspace
+> >     to perform the map/unmap operations.
+> >   - implicit conversion: happens in KVM page fault handler where KVM
+> >     exits to userspace for an implicit conversion when the page is in a
+> >     different state than requested (private or shared).
+> >
+> > Suggested-by: Sean Christopherson <seanjc@google.com>
+> > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >  Documentation/virt/kvm/api.rst | 23 +++++++++++++++++++++++
+> >  include/uapi/linux/kvm.h       |  9 +++++++++
+> >  2 files changed, 32 insertions(+)
+> >
+> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> > index f3fa75649a78..975688912b8c 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -6537,6 +6537,29 @@ array field represents return values. The userspace should update the return
+> >  values of SBI call before resuming the VCPU. For more details on RISC-V SBI
+> >  spec refer, https://github.com/riscv/riscv-sbi-doc.
+> >  
+> > +::
+> > +
+> > +		/* KVM_EXIT_MEMORY_FAULT */
+> > +		struct {
+> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+> > +			__u32 flags;
+> > +			__u32 padding;
+> > +			__u64 gpa;
+> > +			__u64 size;
+> > +		} memory;
+> > +
+> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VCPU has
+> > +encountered a memory error which is not handled by KVM kernel module and
+> > +userspace may choose to handle it. The 'flags' field indicates the memory
+> > +properties of the exit.
+> > +
+> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is caused by
+> > +   private memory access when the bit is set. Otherwise the memory error is
+> > +   caused by shared memory access when the bit is clear.
+> 
+> What does a shared memory access failure entail?
 
-+1, agreed.
+In the context of confidential computing usages, guest can issue a
+shared memory access while the memory is actually private from the host
+point of view. This exit with bit 0 cleared gives userspace a chance to
+convert the private memory to shared memory on host.
+
+> 
+> If you envision any other failure modes it might be worth making it
+> explicit with additional flags.
+
+Sean mentioned some more usages[1][]2] other than the memory conversion
+for confidential usage. But I would leave those flags being added in the
+future after those usages being well discussed.
+
+[1] https://lkml.kernel.org/r/20200617230052.GB27751@linux.intel.com
+[2] https://lore.kernel.org/all/YKxJLcg%2FWomPE422@google.com
+
+> I also wonder if a bitmask makes sense if
+> there can only be one reason for a failure? Maybe all that is needed is
+> a reason enum?
+
+Tough we only have one reason right now but we still want to leave room
+for future extension. Enum can express a single value at once well but
+bitmask makes it possible to express multiple orthogonal flags.
+
+Chao
+> 
+> > +
+> > +'gpa' and 'size' indicate the memory range the error occurs at. The userspace
+> > +may handle the error and return to KVM to retry the previous memory access.
+> > +
+> >  ::
+> >  
+> >      /* KVM_EXIT_NOTIFY */
+> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> > index f1ae45c10c94..fa60b032a405 100644
+> > --- a/include/uapi/linux/kvm.h
+> > +++ b/include/uapi/linux/kvm.h
+> > @@ -300,6 +300,7 @@ struct kvm_xen_exit {
+> >  #define KVM_EXIT_RISCV_SBI        35
+> >  #define KVM_EXIT_RISCV_CSR        36
+> >  #define KVM_EXIT_NOTIFY           37
+> > +#define KVM_EXIT_MEMORY_FAULT     38
+> >  
+> >  /* For KVM_EXIT_INTERNAL_ERROR */
+> >  /* Emulate instruction failed. */
+> > @@ -538,6 +539,14 @@ struct kvm_run {
+> >  #define KVM_NOTIFY_CONTEXT_INVALID	(1 << 0)
+> >  			__u32 flags;
+> >  		} notify;
+> > +		/* KVM_EXIT_MEMORY_FAULT */
+> > +		struct {
+> > +#define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+> > +			__u32 flags;
+> > +			__u32 padding;
+> > +			__u64 gpa;
+> > +			__u64 size;
+> > +		} memory;
+> >  		/* Fix the size of the union. */
+> >  		char padding[256];
+> >  	};
+> 
+> 
+> -- 
+> Alex Benn�e
