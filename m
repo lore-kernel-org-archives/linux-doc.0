@@ -2,105 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CA25C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 11:58:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70D4EC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 12:03:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233661AbiKPL6m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Nov 2022 06:58:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44724 "EHLO
+        id S237900AbiKPMDU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Nov 2022 07:03:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232412AbiKPL56 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 06:57:58 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4386AE7E;
-        Wed, 16 Nov 2022 03:50:07 -0800 (PST)
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.53])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NC1Tk0vqbzqSTl;
-        Wed, 16 Nov 2022 19:46:18 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 16 Nov 2022 19:50:06 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 16 Nov 2022 19:50:05 +0800
-Subject: Re: [PATCH v3 1/2] arm64: kdump: Provide default size when
- crashkernel=Y,low is not specified
-To:     Catalin Marinas <catalin.marinas@arm.com>
-CC:     Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>, <kexec@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        "Dave Kleikamp" <dave.kleikamp@oracle.com>
-References: <20220711090319.1604-1-thunder.leizhen@huawei.com>
- <20220711090319.1604-2-thunder.leizhen@huawei.com> <Y2kRC7JALMQQRsxE@arm.com>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <7c474745-1bec-93d6-0b82-9171e8149c0d@huawei.com>
-Date:   Wed, 16 Nov 2022 19:50:03 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        with ESMTP id S233299AbiKPMCl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 07:02:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4B7318396
+        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 03:54:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1668599648;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=yHWoqeKZ7WE5OL+yeStXVIueVj6+ARPoJ0PKpaYIJ9Q=;
+        b=eY1y2+UKYIFIknBl8UCVlWxFHlQS+FDJWwHWWeO+E+4DmVxjd9V/BfwTrMcqH1RK65qwnL
+        8N86Yvq6aQqf11Z29CmQv2pfQ9HDj5EV4AyMlmzlVdqhL5a6pwGa/A9+LPdejVYxkZA4sA
+        UXEXN9sfQAsPd+G9bAJqZGS8q1cqmgA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-518-j47zMRZJPu2elouwojhPeg-1; Wed, 16 Nov 2022 06:54:06 -0500
+X-MC-Unique: j47zMRZJPu2elouwojhPeg-1
+Received: by mail-wr1-f70.google.com with SMTP id w23-20020adf8bd7000000b002358f733307so3630158wra.17
+        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 03:54:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yHWoqeKZ7WE5OL+yeStXVIueVj6+ARPoJ0PKpaYIJ9Q=;
+        b=Mu8QLBqQz5YHXosrBwoP4LWvHkCHucRPkn9ca9fCTuX7/qDTV6PIbNam5+cJBNrdFq
+         MstB42RyzZXvGL7Q55ZkNC/14ApSLdn3K1ufMvGgpK4SC/Stz4C0byfww8jatr0SFtqR
+         5pI34Oz3EKqymU0UrtzQphGKZefPeVUCXo3D8wB10IhPiXtb+nHPLWw0neKL9teJyaHF
+         HIx+fTK6UeD8G/U2qqSTA+k5iweNkcBtC8h3AFmsSjYvlyYcJ4jH0S5lAyTruxkdrC50
+         A1mOwbx2YtnRpRYbnvJwkkUVcjuxNdsiaGPubOUefOIaB2I8c+9ASoHNUrzlapWgqJB2
+         S1yw==
+X-Gm-Message-State: ANoB5pnUu64Udujx9G5CgRw3wC87rXBYXzGX97tLhpsw2jBP0d+ylDPB
+        N/aFWexMMeLjPRJ3UsEY+o/8WXF0NOXCtnoFUw4wgUPewsqugwOezQO/kNHUkRcUA6CkfUJPZcv
+        5ZdwuVNvprPx2rf9BzrX4
+X-Received: by 2002:a5d:6284:0:b0:236:87e7:da6d with SMTP id k4-20020a5d6284000000b0023687e7da6dmr13408026wru.384.1668599645544;
+        Wed, 16 Nov 2022 03:54:05 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5kcpGTwPuTC6azYsnoEZOl/mzvCaD+GO9+Yyk/oSqcCijgBjHRjLjE9xSyCgu3T71pho0DKg==
+X-Received: by 2002:a5d:6284:0:b0:236:87e7:da6d with SMTP id k4-20020a5d6284000000b0023687e7da6dmr13408001wru.384.1668599645178;
+        Wed, 16 Nov 2022 03:54:05 -0800 (PST)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id m28-20020a05600c3b1c00b003cf37c5ddc0sm2059939wms.22.2022.11.16.03.54.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Nov 2022 03:54:04 -0800 (PST)
+From:   Javier Martinez Canillas <javierm@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Brian Masney <bmasney@redhat.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        John Stultz <jstultz@google.com>,
+        Peter Robinson <pbrobinson@redhat.com>,
+        Enric Balletbo i Serra <eballetbo@redhat.com>,
+        Steev Klimaszewski <steev@kali.org>,
+        Rob Herring <robh@kernel.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        linux-arm-msm@vger.kernel.org,
+        Saravana Kannan <saravanak@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Borislav Petkov <bp@suse.de>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/4] driver core: Decouple device links enforcing and probe deferral timeouts
+Date:   Wed, 16 Nov 2022 12:53:44 +0100
+Message-Id: <20221116115348.517599-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-In-Reply-To: <Y2kRC7JALMQQRsxE@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This series is a v2 of patch "driver core: Disable driver deferred probe
+timeout by default" [0] but using a slightly different approach after the
+feedback I got on v1.
 
+The problem with v1 was that just disabling the probe deferral timeout by
+default would cause a regression for drivers that may want to probe even
+if their (optional) dependencies are not present yet.
 
-On 2022/11/7 22:07, Catalin Marinas wrote:
-> On Mon, Jul 11, 2022 at 05:03:18PM +0800, Zhen Lei wrote:
->> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
->> index 339ee84e5a61a0b..5390f361208ccf7 100644
->> --- a/arch/arm64/mm/init.c
->> +++ b/arch/arm64/mm/init.c
->> @@ -96,6 +96,14 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit = PHYS_MASK + 1;
->>  #define CRASH_ADDR_LOW_MAX		arm64_dma_phys_limit
->>  #define CRASH_ADDR_HIGH_MAX		(PHYS_MASK + 1)
->>  
->> +/*
->> + * This is an empirical value in x86_64 and taken here directly. Please
->> + * refer to the code comment in reserve_crashkernel_low() of x86_64 for more
->> + * details.
->> + */
->> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	\
->> +	max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20)
-> 
-> I agree with Will here, we need a better comment and we might as well
-> change the default value to something else until someone tells us that
-> the default is not large enough. The default swiotlb size is 64M, so we
-> need to cover that. The extra 8MB for any additional low allocations are
-> ok as well but the 256MB doesn't make much sense to me, or at least not
-> together with the rest.
-> 
-> If the main kernel got a command line option for a larger swiotlb, does
-> the crash kernel boot with the same command line? If not, we can just go
+But this was achieved by timing out the probe deferral mechanism, which
+calls fw_devlink_drivers_done() in its work queue function handler. There
+is not reason to tie the two though, it should be possible to relax the
+device links to allow drivers to probe even if their optional suppliers
+are not present, while still keep the probe deferral mechanism enabled
+so that drivers that have required dependencies are still able to defer
+their probe.
 
-Sometimes the image is shared, but the command line is often different.
-The command line of the crash kernel is specified by kexec --append=.
+This series decouple the two operations by adding a fw_devlink.timeout=
+command line parameter. That way, the probe deferral timeout can be set
+to -1 by default, reverting to the previous behaviour while still allow
+drivers to probe with optional dependencies missing.
 
-> for a fixed 128M value here, which is double the default swiotlb buffer.
+Patch #1 is just a cleanup that makes the driver_deferred_probe_timeout
+variable static since isn't used outside of its compilation unit.
 
-Sorry, I missed this e-mail. Yes, fixed 128M would be better. I haven't
-seen anyone adding "swiotlb=" to the crash kernel. And, if the default size
-isn't enough, he can use crashkernel=Y,low.
+Patch #2 disables the deferred probe mechanism after late_initcall if
+modules are disable. Since there is no point to schedule the timer in
+that case.
 
-> 
+Patch #3 adds the new "fw_devlink.timeout=" cmdline param, that can be
+used to set a timeout for the device links enforcing. The semantics are
+quite similar to the existing "deferred_probe_timeout=" cmdline param.
+
+Patch #4 then changes the default value for the probe deferral timeout,
+to just disable it by default and make the probe deferral mechanism to
+revert to the behaviour that had before. That is, to just try to probe
+the drivers indefinitely. But the device link enforcing timeout is set
+to 10 seconds, to keep the existing expectations for drivers that want
+to probe even if their optional dependencies are not present.
+
+I have tested on my HP X2 Chromebook and the DRM driver that was failing
+to probe before now works without any cmdline parameters. I also tested
+with different combinations of device links and deferred probe timeouts.
+
+[0]: https://lore.kernel.org/lkml/354820e8-939c-781a-0d76-c1574c43b7f3@redhat.com/T/#t
+
+Best regards,
+Javier
+
+Changes in v2:
+- Mention in the commit messsage the specific machine and drivers that
+  are affected by the issue (Greg).
+- Double check the commit message for accuracy (John).
+- Add a second workqueue to timeout the devlink enforcing and allow
+  drivers to probe even without their optional dependencies available.
+
+Javier Martinez Canillas (4):
+  driver core: Make driver_deferred_probe_timeout a static variable
+  driver core: Set deferred probe timeout to 0 if modules are disabled
+  driver core: Add fw_devlink.timeout param to stop waiting for devlinks
+  driver core: Disable driver deferred probe timeout by default
+
+ .../admin-guide/kernel-parameters.txt         |  7 +++
+ drivers/base/dd.c                             | 48 +++++++++++++++----
+ include/linux/device/driver.h                 |  1 -
+ 3 files changed, 47 insertions(+), 9 deletions(-)
 
 -- 
-Regards,
-  Zhen Lei
+2.38.1
+
