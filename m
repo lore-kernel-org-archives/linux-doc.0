@@ -2,372 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 933B6C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 07:19:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8741C43219
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 08:27:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239203AbiKQHT2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Nov 2022 02:19:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55684 "EHLO
+        id S234490AbiKQI1q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Nov 2022 03:27:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234503AbiKQHT2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 02:19:28 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 795F62EF76
-        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 23:19:26 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id w4-20020a17090ac98400b002186f5d7a4cso1094315pjt.0
-        for <linux-doc@vger.kernel.org>; Wed, 16 Nov 2022 23:19:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U2F1Gvqt/Q56rI57EGntvViKlZXpCO31yBDbo9Chm+4=;
-        b=OInrjIJb+zpctma3IvYVArFUeiEyzg2eW2VpGlSGYfRa4spB/NJyuFmt9+YkAEbLxD
-         eVbAWUV6/QzVBBMBNFk0ZBQ0zbk0XCPap3dKrd+59hpOoVwXbfBgPzuxw8aBAHBkQzVr
-         U125oCXOKcMJXCT+FKNHw8WP6uuZxf5UVkpJTF16JXfoUL27tcO6F8nZIBBlc0zKLB07
-         3OwYEEW2iVje+2CVhKYSgmZsJr6p9t4fOmLfFwStJYi0HlqTVbNz3vPgG2HYJNe0A70E
-         8tw8poGlqSBMcksZmvYaxutCbwqoaT9Yp93dWWYEoZc1B4M11OD5O+QsktO7IjgItdu2
-         wlcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=U2F1Gvqt/Q56rI57EGntvViKlZXpCO31yBDbo9Chm+4=;
-        b=hR7hPTTx6YEb+y+wchvtvuxBNFNKGGKclZiJp8YvNgC3YxjtL7r/Vj9lNSue/ARjFF
-         IdKrrM3NJHuyZ0gaintUCROzMUi54niHpdd3y5mGlr8RllPeIySM5svGzvIu9SOtVKct
-         12a8KrJyTo/rO/k1Cn6xVukfeZX3skjclx8ZvlzK0/I9UBcvkjW8kPyCNXwqExu4LXqV
-         nHVI1JjeIf/9HHP5K9CjXbU5FaQJQhj2zvm6Q9xykT7sNQrg5F/tZXN5d+gqSvDF/oNZ
-         i5rgMa4dShtxHVb7sOxi7f/GXqMFguQmCY5zPc8aE0OR1dbQVuPflKOkqIebhOjwSkBi
-         pJAg==
-X-Gm-Message-State: ANoB5pnldlU4UxDcxBlrYJxgb+2MyZr19ZvHZyNl1L7uiPrrxdoXIzP8
-        sSyjaZbeQr0Wp7AaF3m21EmmRg==
-X-Google-Smtp-Source: AA0mqf5wEXQHErhBBGxMw+n4hHa0kstF3CSQkP6tE64hX1AHAC8zFohruy5DaoR1XqwZWrNDiAeJsQ==
-X-Received: by 2002:a17:90a:8d14:b0:213:e4:3f57 with SMTP id c20-20020a17090a8d1400b0021300e43f57mr7246449pjo.204.1668669565963;
-        Wed, 16 Nov 2022 23:19:25 -0800 (PST)
-Received: from [10.68.76.92] ([139.177.225.229])
-        by smtp.gmail.com with ESMTPSA id f12-20020a170902684c00b0017808db132bsm427529pln.137.2022.11.16.23.19.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Nov 2022 23:19:25 -0800 (PST)
-Message-ID: <6433156f-34a8-400f-e282-91268b242279@bytedance.com>
-Date:   Thu, 17 Nov 2022 15:19:20 +0800
+        with ESMTP id S229939AbiKQI1p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 03:27:45 -0500
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29BAB6DCF8;
+        Thu, 17 Nov 2022 00:27:44 -0800 (PST)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NCY1j2wS2zRpJn;
+        Thu, 17 Nov 2022 16:27:21 +0800 (CST)
+Received: from localhost.localdomain (10.67.164.66) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 17 Nov 2022 16:27:42 +0800
+From:   Yicong Yang <yangyicong@huawei.com>
+To:     <akpm@linux-foundation.org>, <linux-mm@kvack.org>,
+        <linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <anshuman.khandual@arm.com>, <linux-doc@vger.kernel.org>
+CC:     <corbet@lwn.net>, <peterz@infradead.org>, <arnd@arndb.de>,
+        <punit.agrawal@bytedance.com>, <linux-kernel@vger.kernel.org>,
+        <darren@os.amperecomputing.com>, <yangyicong@hisilicon.com>,
+        <huzhanyuan@oppo.com>, <lipeifeng@oppo.com>,
+        <zhangshiming@oppo.com>, <guojian@oppo.com>, <realmz6@gmail.com>,
+        <linux-mips@vger.kernel.org>, <openrisc@lists.librecores.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
+        <linux-s390@vger.kernel.org>, Barry Song <21cnbao@gmail.com>,
+        <wangkefeng.wang@huawei.com>, <xhao@linux.alibaba.com>,
+        <prime.zeng@hisilicon.com>
+Subject: [PATCH v7 0/2] arm64: support batched/deferred tlb shootdown during page reclamation
+Date:   Thu, 17 Nov 2022 16:26:46 +0800
+Message-ID: <20221117082648.47526-1-yangyicong@huawei.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
- pidfd_set_mempolicy().
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
- <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
- <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
- <Y3IqLzvduM6HqPJV@dhcp22.suse.cz>
- <3a3b4f5b-14d1-27d8-7727-cf23da90988f@bytedance.com>
- <Y3KFFfMFE55lVdNZ@dhcp22.suse.cz>
- <82c9c89c-aee2-08a3-e562-359631bb0137@bytedance.com>
- <0bd0b744-3d97-b4c3-a4fb-6040f8f8024a@bytedance.com>
- <Y3T6SqZvAmSG5I6W@dhcp22.suse.cz>
-From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
-In-Reply-To: <Y3T6SqZvAmSG5I6W@dhcp22.suse.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.67.164.66]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Michal, thanks for your replay.
+From: Yicong Yang <yangyicong@hisilicon.com>
 
-> 
-> It would be better to add the patch that has been tested.
+Though ARM64 has the hardware to do tlb shootdown, the hardware
+broadcasting is not free.
+A simplest micro benchmark shows even on snapdragon 888 with only
+8 cores, the overhead for ptep_clear_flush is huge even for paging
+out one page mapped by only one process:
+5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
 
-OK.
+While pages are mapped by multiple processes or HW has more CPUs,
+the cost should become even higher due to the bad scalability of
+tlb shootdown.
 
-> 
-> One way to deal with that would be to use a similar model as css_tryget
+The same benchmark can result in 16.99% CPU consumption on ARM64
+server with around 100 cores according to Yicong's test on patch
+4/4.
 
-Percpu_ref is a good way to  reduce memory footprint in fast path.But it
-has the potential to make mempolicy heavy. the sizeof mempolicy is 32
-bytes and it may not have a long life time, which duplicated from the
-parent in fork().If we modify atomic_t to percpu_ref, the efficiency of
-reading in fastpath will increase, the efficiency of creation and
-deletion will decrease, and the occupied space will increase
-significantly.I am not really sure it is worth it.
+This patchset leverages the existing BATCHED_UNMAP_TLB_FLUSH by
+1. only send tlbi instructions in the first stage -
+	arch_tlbbatch_add_mm()
+2. wait for the completion of tlbi by dsb while doing tlbbatch
+	sync in arch_tlbbatch_flush()
+Testing on snapdragon shows the overhead of ptep_clear_flush
+is removed by the patchset. The micro benchmark becomes 5% faster
+even for one page mapped by single process on snapdragon 888.
 
-atomic_t; 4
-sizeof(percpu_ref + percpu_ref_data + cpus* unsigned long)
-16+56+cpus*8
+With this support we're possible to do more optimization for memory
+reclamation and migration[*].
 
-> 
-> Btw. have you tried to profile those slowdowns to identify hotspots?
-> 
-> Thanks
+[*] https://lore.kernel.org/lkml/393d6318-aa38-01ed-6ad8-f9eac89bf0fc@linux.alibaba.com/
 
-Yes, it will degrade performance about 2%-%3 may because of the 
-task_lock and  atomic operations on the reference count as shown
-in the previous email.
+-v7:
+1. rename arch_tlbbatch_add_mm() to arch_tlbbatch_add_pending() as suggested, since it
+   takes an extra address for arm64, per Nadav and Anshuman. Also mentioned in the commit.
+2. add tags from Xin Hao, thanks.
+Link: https://lore.kernel.org/lkml/20221115031425.44640-1-yangyicong@huawei.com/
 
-new hotspots in perf.
-1.34%  [kernel]          [k] __mpol_put
-0.53%  [kernel]          [k] _raw_spin_lock
-0.44%  [kernel]          [k] get_task_policy
+-v6:
+1. comment we don't defer TLB flush on platforms affected by ARM64_WORKAROUND_REPEAT_TLBI
+2. use cpus_have_const_cap() instead of this_cpu_has_cap()
+3. add tags from Punit, Thanks.
+4. default enable the feature when cpus >= 8 rather than > 8, since the original
+   improvement is observed on snapdragon 888 with 8 cores.
+Link: https://lore.kernel.org/lkml/20221028081255.19157-1-yangyicong@huawei.com/
 
+-v5:
+1. Make ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH depends on EXPERT for this stage on arm64.
+2. Make a threshold of CPU numbers for enabling batched TLP flush on arm64
+Link: https://lore.kernel.org/linux-arm-kernel/20220921084302.43631-1-yangyicong@huawei.com/T/
 
-Tested patch.
+-v4:
+1. Add tags from Kefeng and Anshuman, Thanks.
+2. Limit the TLB batch/defer on systems with >4 CPUs, per Anshuman
+3. Merge previous Patch 1,2-3 into one, per Anshuman
+Link: https://lore.kernel.org/linux-mm/20220822082120.8347-1-yangyicong@huawei.com/
 
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index 8a74cdcc9af0..3f1b5c8329a8 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -105,10 +105,7 @@ static void hold_task_mempolicy(struct 
-proc_maps_private *priv)
-  {
-         struct task_struct *task = priv->task;
+-v3:
+1. Declare arch's tlbbatch defer support by arch_tlbbatch_should_defer() instead
+   of ARCH_HAS_MM_CPUMASK, per Barry and Kefeng
+2. Add Tested-by from Xin Hao
+Link: https://lore.kernel.org/linux-mm/20220711034615.482895-1-21cnbao@gmail.com/
 
--       task_lock(task);
-         priv->task_mempolicy = get_task_policy(task);
--       mpol_get(priv->task_mempolicy);
--       task_unlock(task);
-  }
-  static void release_task_mempolicy(struct proc_maps_private *priv)
-  {
-diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
-index d232de7cdc56..786481d7abfd 100644
---- a/include/linux/mempolicy.h
-+++ b/include/linux/mempolicy.h
-@@ -62,7 +62,7 @@ struct mempolicy {
-  extern void __mpol_put(struct mempolicy *pol);
-  static inline void mpol_put(struct mempolicy *pol)
-  {
--       if (pol)
-+       if (pol && !(pol->flags & MPOL_F_STATIC))
-                 __mpol_put(pol);
-  }
+-v2:
+1. Collected Yicong's test result on kunpeng920 ARM64 server;
+2. Removed the redundant vma parameter in arch_tlbbatch_add_mm()
+   according to the comments of Peter Zijlstra and Dave Hansen
+3. Added ARCH_HAS_MM_CPUMASK rather than checking if mm_cpumask
+   is empty according to the comments of Nadav Amit
 
-diff --git a/include/uapi/linux/mempolicy.h b/include/uapi/linux/mempolicy.h
-index 046d0ccba4cd..7c2068163a0c 100644
---- a/include/uapi/linux/mempolicy.h
-+++ b/include/uapi/linux/mempolicy.h
-@@ -63,7 +63,7 @@ enum {
-  #define MPOL_F_SHARED  (1 << 0)        /* identify shared policies */
-  #define MPOL_F_MOF     (1 << 3) /* this policy wants migrate on fault */
-  #define MPOL_F_MORON   (1 << 4) /* Migrate On protnone Reference On 
-Node */
--
-+#define MPOL_F_STATIC (1 << 5)
-  /*
-   * These bit locations are exposed in the vm.zone_reclaim_mode sysctl
-   * ABI.  New bits are OK, but existing bits can never change.
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 546df97c31e4..4cca96a40d04 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -1247,6 +1247,7 @@ static struct page *dequeue_huge_page_vma(struct 
-hstate *h,
-         }
+Thanks, Peter, Dave and Nadav for your testing or reviewing
+, and comments.
 
-         mpol_cond_put(mpol);
-+       mpol_put(mpol);
-         return page;
+-v1:
+https://lore.kernel.org/lkml/20220707125242.425242-1-21cnbao@gmail.com/
 
-  err:
-@@ -2316,6 +2317,7 @@ struct page 
-*alloc_buddy_huge_page_with_mpol(struct hstate *h,
-         if (!page)
-                 page = alloc_surplus_huge_page(h, gfp_mask, nid, nodemask);
-         mpol_cond_put(mpol);
-+       mpol_put(mpol);
-         return page;
-  }
+Anshuman Khandual (1):
+  mm/tlbbatch: Introduce arch_tlbbatch_should_defer()
 
-@@ -2352,6 +2354,7 @@ struct page *alloc_huge_page_vma(struct hstate *h, 
-struct vm_area_struct *vma,
-         node = huge_node(vma, address, gfp_mask, &mpol, &nodemask);
-         page = alloc_huge_page_nodemask(h, node, nodemask, gfp_mask);
-         mpol_cond_put(mpol);
-+       mpol_put(mpol);
+Barry Song (1):
+  arm64: support batched/deferred tlb shootdown during page reclamation
 
-         return page;
-  }
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index 61aa9aedb728..ea670db6881f 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -126,6 +126,7 @@ enum zone_type policy_zone = 0;
-  static struct mempolicy default_policy = {
-         .refcnt = ATOMIC_INIT(1), /* never free it */
-         .mode = MPOL_LOCAL,
-+       .flags = MPOL_F_STATIC
-  };
+ .../features/vm/TLB/arch-support.txt          |  2 +-
+ arch/arm64/Kconfig                            |  6 +++
+ arch/arm64/include/asm/tlbbatch.h             | 12 +++++
+ arch/arm64/include/asm/tlbflush.h             | 52 ++++++++++++++++++-
+ arch/x86/include/asm/tlbflush.h               | 17 +++++-
+ include/linux/mm_types_task.h                 |  4 +-
+ mm/rmap.c                                     | 19 +++----
+ 7 files changed, 93 insertions(+), 19 deletions(-)
+ create mode 100644 arch/arm64/include/asm/tlbbatch.h
 
-  static struct mempolicy preferred_node_policy[MAX_NUMNODES];
-@@ -160,11 +161,19 @@ EXPORT_SYMBOL_GPL(numa_map_to_online_node);
+-- 
+2.24.0
 
-  struct mempolicy *get_task_policy(struct task_struct *p)
-  {
--       struct mempolicy *pol = p->mempolicy;
-+       struct mempolicy *pol;
-         int node;
-
--       if (pol)
--               return pol;
-+       if (p->mempolicy)
-+       {
-+               task_lock(p);
-+               pol = p->mempolicy;
-+               mpol_get(pol);
-+               task_unlock(p);
-+
-+               if(pol)
-+                       return pol;
-+       }
-
-         node = numa_node_id();
-         if (node != NUMA_NO_NODE) {
-@@ -1764,10 +1773,12 @@ struct mempolicy *__get_vma_policy(struct 
-vm_area_struct *vma,
-                          * a pseudo vma whose vma->vm_ops=NULL. Take a 
-reference
-                          * count on these policies which will be dropped by
-                          * mpol_cond_put() later
-+                        *
-+                        * if (mpol_needs_cond_ref(pol))
-+                        *      mpol_get(pol);
-                          */
--                       if (mpol_needs_cond_ref(pol))
--                               mpol_get(pol);
-                 }
-+               mpol_get(pol);
-         }
-
-         return pol;
-@@ -1799,9 +1810,9 @@ static struct mempolicy *get_vma_policy(struct 
-vm_area_struct *vma,
-  bool vma_policy_mof(struct vm_area_struct *vma)
-  {
-         struct mempolicy *pol;
-+       bool ret = false;
-
-         if (vma->vm_ops && vma->vm_ops->get_policy) {
--               bool ret = false;
-
-                 pol = vma->vm_ops->get_policy(vma, vma->vm_start);
-                 if (pol && (pol->flags & MPOL_F_MOF))
-@@ -1812,10 +1823,13 @@ bool vma_policy_mof(struct vm_area_struct *vma)
-         }
-
-         pol = vma->vm_policy;
-+       mpol_get(pol);
-         if (!pol)
-                 pol = get_task_policy(current);
-+       ret = pol && (pol->flags & MPOL_F_MOF);
-+       mpol_put(pol);
-
--       return pol->flags & MPOL_F_MOF;
-+       return ret;
-  }
-
-  bool apply_policy_zone(struct mempolicy *policy, enum zone_type zone)
-@@ -2179,7 +2193,6 @@ struct folio *vma_alloc_folio(gfp_t gfp, int 
-order, struct vm_area_struct *vma,
-                 unsigned nid;
-
-                 nid = interleave_nid(pol, vma, addr, PAGE_SHIFT + order);
--               mpol_cond_put(pol);
-                 gfp |= __GFP_COMP;
-                 page = alloc_page_interleave(gfp, order, nid);
-                 if (page && order > 1)
-@@ -2194,7 +2207,6 @@ struct folio *vma_alloc_folio(gfp_t gfp, int 
-order, struct vm_area_struct *vma,
-                 node = policy_node(gfp, pol, node);
-                 gfp |= __GFP_COMP;
-                 page = alloc_pages_preferred_many(gfp, order, node, pol);
--               mpol_cond_put(pol);
-                 if (page && order > 1)
-                         prep_transhuge_page(page);
-                 folio = (struct folio *)page;
-@@ -2219,7 +2231,6 @@ struct folio *vma_alloc_folio(gfp_t gfp, int 
-order, struct vm_area_struct *vma,
-
-                 nmask = policy_nodemask(gfp, pol);
-                 if (!nmask || node_isset(hpage_node, *nmask)) {
--                       mpol_cond_put(pol);
-                         /*
-                          * First, try to allocate THP only on local 
-node, but
-                          * don't reclaim unnecessarily, just compact.
-@@ -2244,8 +2255,9 @@ struct folio *vma_alloc_folio(gfp_t gfp, int 
-order, struct vm_area_struct *vma,
-         nmask = policy_nodemask(gfp, pol);
-         preferred_nid = policy_node(gfp, pol, node);
-         folio = __folio_alloc(gfp, order, preferred_nid, nmask);
--       mpol_cond_put(pol);
-  out:
-+       mpol_cond_put(pol);
-+       mpol_put(pol);
-         return folio;
-  }
-  EXPORT_SYMBOL(vma_alloc_folio);
-@@ -2286,6 +2298,7 @@ struct page *alloc_pages(gfp_t gfp, unsigned order)
-                                 policy_node(gfp, pol, numa_node_id()),
-                                 policy_nodemask(gfp, pol));
-
-+       mpol_put(pol);
-         return page;
-  }
-  EXPORT_SYMBOL(alloc_pages);
-@@ -2365,21 +2378,23 @@ unsigned long 
-alloc_pages_bulk_array_mempolicy(gfp_t gfp,
-                 unsigned long nr_pages, struct page **page_array)
-  {
-         struct mempolicy *pol = &default_policy;
-+       unsigned long allocated;
-
-         if (!in_interrupt() && !(gfp & __GFP_THISNODE))
-                 pol = get_task_policy(current);
-
--       if (pol->mode == MPOL_INTERLEAVE)
--               return alloc_pages_bulk_array_interleave(gfp, pol,
-+       if (pol->mode == MPOL_INTERLEAVE) {
-+               allocated =  alloc_pages_bulk_array_interleave(gfp, pol,
-                                                          nr_pages, 
-page_array);
--
--       if (pol->mode == MPOL_PREFERRED_MANY)
--               return alloc_pages_bulk_array_preferred_many(gfp,
-+       } else if (pol->mode == MPOL_PREFERRED_MANY)
-+               allocated = alloc_pages_bulk_array_preferred_many(gfp,
-                                 numa_node_id(), pol, nr_pages, page_array);
--
--       return __alloc_pages_bulk(gfp, policy_node(gfp, pol, 
-numa_node_id()),
-+       else
-+              allocated = __alloc_pages_bulk(gfp, policy_node(gfp, pol, 
-numa_node_id()),
-                                   policy_nodemask(gfp, pol), nr_pages, 
-NULL,
-                                   page_array);
-+       mpol_put(pol);
-+       return allocated;
-  }
-
-  int vma_dup_policy(struct vm_area_struct *src, struct vm_area_struct *dst)
-@@ -2636,6 +2651,7 @@ int mpol_misplaced(struct page *page, struct 
-vm_area_struct *vma, unsigned long
-                 ret = polnid;
-  out:
-         mpol_cond_put(pol);
-+       mpol_put(pol);
-
-         return ret;
-  }
-@@ -2917,7 +2933,7 @@ void __init numa_policy_init(void)
-                 preferred_node_policy[nid] = (struct mempolicy) {
-                         .refcnt = ATOMIC_INIT(1),
-                         .mode = MPOL_PREFERRED,
--                       .flags = MPOL_F_MOF | MPOL_F_MORON,
-+                       .flags = MPOL_F_MOF | MPOL_F_MORON | MPOL_F_STATIC,
-                         .nodes = nodemask_of_node(nid),
-                 };
-         }
