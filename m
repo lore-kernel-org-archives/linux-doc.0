@@ -2,355 +2,199 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C009AC43217
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Nov 2022 22:38:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14AD2C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 02:35:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232904AbiKPWin (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Nov 2022 17:38:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55970 "EHLO
+        id S234527AbiKQCfd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Nov 2022 21:35:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233773AbiKPWia (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 17:38:30 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 878E22EF3D;
-        Wed, 16 Nov 2022 14:38:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668638309; x=1700174309;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=sLQa9lJloC55WLXKX/nF1rC4xCGPsfwfXJmkuPJcKMI=;
-  b=HUyc6L4PzrAstEGYFWfKXL6FxoEe3vSYwxilYZT3bSFBz/eAN+qlwO3P
-   d0VUVRbtRrNLfP8LFaS0clzuHwQAompL4Tqk9gDxkZ5NkTT4Kud+R30Vf
-   B2QgBGbsqJ4mAM/Mp8dOMz6HUiiRjyR2rhXhceR1kWqDo1mHn/ZstHDfd
-   2RtSXML9DoeWsMAZQa/3xLiOvs+wrLQQHY2WMtv5yR72peJoJ+PvZS/Nr
-   oshorgVHNfJjAiQbhU0evuA+XH3XcKITY4sX/j5N+HQ3hMkPaMg0rYftK
-   DoFqgv717j17SVfCrwRCh63trPvGD5DbMXRRGaWvGf0/gTfyzOe3zrqDn
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="398972928"
-X-IronPort-AV: E=Sophos;i="5.96,169,1665471600"; 
-   d="scan'208";a="398972928"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2022 14:38:28 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="670675010"
-X-IronPort-AV: E=Sophos;i="5.96,169,1665471600"; 
-   d="scan'208";a="670675010"
-Received: from swetasha-mobl2.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.209.58.91])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2022 14:38:27 -0800
-From:   Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     "H . Peter Anvin" <hpa@zytor.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v18 3/3] selftests: tdx: Test TDX attestation GetReport support
-Date:   Wed, 16 Nov 2022 14:38:20 -0800
-Message-Id: <20221116223820.819090-4-sathyanarayanan.kuppuswamy@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221116223820.819090-1-sathyanarayanan.kuppuswamy@linux.intel.com>
-References: <20221116223820.819090-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+        with ESMTP id S232809AbiKQCfa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Nov 2022 21:35:30 -0500
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C0B01AF0F;
+        Wed, 16 Nov 2022 18:35:29 -0800 (PST)
+Received: by mail-qk1-x72c.google.com with SMTP id x18so361344qki.4;
+        Wed, 16 Nov 2022 18:35:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1R6WF366RVPx4k/kufiGJ4ymsD6DvKzhVq3zPc5qv00=;
+        b=P8m96K1ZioaHAYdCVkO+NZQXHaF7XDUUGmXvKGDFEW9ZzDAXCXi+XcjwpkvbideCj3
+         mWjAXyFV1eygBgdobg+luk2umR/0fM+uutXcUDkwUvifrndPbnZ/O0JWtpnyqOrq0zoX
+         IsbRMaTO8BGzqfqy4TVVrzdH9WRX+KspQ3RW85cc35KKYqMB7zCLFmKaX2ZcCBFJJjnz
+         IpMDDNTEok5pB73Q+p/UkV01rOMgQh+wbb9O5CDHV9OmLRRE5l6TjSZf7Iu6ve/3zijG
+         rfRBmxG5/xdukSR5hAtaowez4U92dnC8M85rEqs1DcX1r2z+DtfGX+B4ps4Wj7ho0Ll3
+         5LRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1R6WF366RVPx4k/kufiGJ4ymsD6DvKzhVq3zPc5qv00=;
+        b=bACVz7rQuFpmt9mJPH3NRJYEAibxJ8gzpJnh3Wv4JgacmMj/nSNf9JV5Ui7FBcmH0W
+         MeJlJfol9APawN+eEg8ObEpMPOZ9eK9QssNtdNUpyuo+GFzpjb1uHT0YxTPWr+yOu+Fd
+         LtMMRSL/V9Dzk+GRNe2sxGk+tl7n4GODSNyIlaCsBQAd3Aut+vYQcvEEg7WijP7qLzvl
+         +f5SSzHmeulSDJe0kqENJix5t19APGTTLARYvS/rXP5K0aHTiteQAuyyyyStlNf2C6YI
+         ACI1h4cjDWLEUXIQQsrVcwVqra5e8HxiYVdGYPz+i0QTVWGdUdSMTxud0u/5gKa4nf33
+         9KtQ==
+X-Gm-Message-State: ANoB5pnlnbd50/EIOJkXxBlCLeS4hdIpA+GTbxVI+xvo3YJXemDwh++g
+        rVNC4EW0Dkh9NkxQYGCBCXs5oMPe3ZI=
+X-Google-Smtp-Source: AA0mqf7Bp9YzBE0nQiFqdNCXbsobeWufutFZ0732B0iChY2BoPiq77Va16Fmo5lO5w5qOjYGYd7zCw==
+X-Received: by 2002:ae9:dc01:0:b0:6fa:aee9:9d40 with SMTP id q1-20020ae9dc01000000b006faaee99d40mr199237qkf.194.1668652528413;
+        Wed, 16 Nov 2022 18:35:28 -0800 (PST)
+Received: from shaak.xiphos.ca (modemcable055.92-163-184.mc.videotron.ca. [184.163.92.55])
+        by smtp.gmail.com with ESMTPSA id v5-20020a05620a0f0500b006eec09eed39sm11311888qkl.40.2022.11.16.18.35.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Nov 2022 18:35:27 -0800 (PST)
+From:   Liam Beguin <liambeguin@gmail.com>
+To:     liambeguin@gmail.com, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1 1/2] math64: favor kernel-doc from header files
+Date:   Wed, 16 Nov 2022 21:35:09 -0500
+Message-Id: <20221117023510.2338176-1-liambeguin@gmail.com>
+X-Mailer: git-send-email 2.37.1.223.g6a475b71f8c4
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Attestation is used to verify the trustworthiness of a TDX guest.
-During the guest bring-up, the Intel TDX module measures and records
-the initial contents and configuration of the guest, and at runtime,
-guest software uses runtime measurement registers (RMTRs) to measure
-and record details related to kernel image, command line params, ACPI
-tables, initrd, etc. At guest runtime, the attestation process is used
-to attest to these measurements.
+Fix the kernel-doc markings for div64 functions to point to the header
+file instead of the lib/ directory.  This avoids having implementation
+specific comments in generic documentation.  Furthermore, given that
+some kernel-doc comments are identical, drop them from lib/math64 and
+only keep there comments that add implementation details.
 
-The first step in the TDX attestation process is to get the TDREPORT
-data. It is a fixed size data structure generated by the TDX module
-which includes the above mentioned measurements data, a MAC ID to
-protect the integrity of the TDREPORT, and a 64-Byte of user specified
-data passed during TDREPORT request which can uniquely identify the
-TDREPORT.
-
-Intel's TDX guest driver exposes TDX_CMD_GET_REPORT0 IOCTL interface to
-enable guest userspace to get the TDREPORT subtype 0.
-
-Add a kernel self test module to test this ABI and verify the validity
-of the generated TDREPORT.
-
-Reviewed-by: Tony Luck <tony.luck@intel.com>
-Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Acked-by: Kai Huang <kai.huang@intel.com>
-Acked-by: Wander Lairson Costa <wander@redhat.com>
-Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Signed-off-by: Liam Beguin <liambeguin@gmail.com>
 ---
+ Documentation/core-api/kernel-api.rst |  3 ---
+ include/linux/math64.h                | 12 ++++++------
+ lib/math/div64.c                      | 15 ++-------------
+ 3 files changed, 8 insertions(+), 22 deletions(-)
 
-Changes since v17:
- * Renamed TDX_CMD_GET_REPORT to TDX_CMD_GET_REPORT0.
-
-Changes since v16:
- * Modified the code to adapt to fixed size reportdata and tdeport
-   buffers in struct tdx_report_req.
-
-Changes since v15:
- * None
-
-Changes since v14:
- * Fixed format issue in struct comments.
- * Rebased on top of v6.1-rc1
-
-Changes since v13:
- * Removed __packed from TDREPORT structs.
- * Since the guest driver is moved to drivers/virt/coco, removed
-   tools/arch/x86/include header folder usage.
- * Fixed struct comments to match kernel-doc format.
- * Fixed commit log as per review comments.
- * Fixed some format issues in the code.
-
-Changes since v12:
- * Changed #ifdef DEBUG usage with if (DEBUG).
- * Initialized reserved entries values to zero.
-
-Changes since v11:
- * Renamed devname with TDX_GUEST_DEVNAME.
-
-Changes since v10:
- * Replaced TD/TD Guest usage with guest or TDX guest.
- * Reworded the subject line.
-
-Changes since v9:
- * Copied arch/x86/include/uapi/asm/tdx.h to tools/arch/x86/include to
-   decouple header dependency between kernel source and tools dir.
- * Fixed Makefile to adapt to above change.
- * Fixed commit log and comments.
- * Added __packed to hardware structs.
-
-Changes since v8:
- * Please refer to https://lore.kernel.org/all/ \
-   20220728034420.648314-1-sathyanarayanan.kuppuswamy@linux.intel.com/
-
- tools/testing/selftests/Makefile             |   1 +
- tools/testing/selftests/tdx/Makefile         |   7 +
- tools/testing/selftests/tdx/config           |   1 +
- tools/testing/selftests/tdx/tdx_guest_test.c | 163 +++++++++++++++++++
- 4 files changed, 172 insertions(+)
- create mode 100644 tools/testing/selftests/tdx/Makefile
- create mode 100644 tools/testing/selftests/tdx/config
- create mode 100644 tools/testing/selftests/tdx/tdx_guest_test.c
-
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 0464b2c6c1e4..f60e14d16bfd 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -73,6 +73,7 @@ TARGETS += sync
- TARGETS += syscall_user_dispatch
- TARGETS += sysctl
- TARGETS += tc-testing
-+TARGETS += tdx
- TARGETS += timens
- ifneq (1, $(quicktest))
- TARGETS += timers
-diff --git a/tools/testing/selftests/tdx/Makefile b/tools/testing/selftests/tdx/Makefile
-new file mode 100644
-index 000000000000..8dd43517cd55
---- /dev/null
-+++ b/tools/testing/selftests/tdx/Makefile
-@@ -0,0 +1,7 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+CFLAGS += -O3 -Wl,-no-as-needed -Wall -static
-+
-+TEST_GEN_PROGS := tdx_guest_test
-+
-+include ../lib.mk
-diff --git a/tools/testing/selftests/tdx/config b/tools/testing/selftests/tdx/config
-new file mode 100644
-index 000000000000..aa1edc829ab6
---- /dev/null
-+++ b/tools/testing/selftests/tdx/config
-@@ -0,0 +1 @@
-+CONFIG_TDX_GUEST_DRIVER=y
-diff --git a/tools/testing/selftests/tdx/tdx_guest_test.c b/tools/testing/selftests/tdx/tdx_guest_test.c
-new file mode 100644
-index 000000000000..2a2afd856798
---- /dev/null
-+++ b/tools/testing/selftests/tdx/tdx_guest_test.c
-@@ -0,0 +1,163 @@
-+// SPDX-License-Identifier: GPL-2.0
+diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+index 06f4ab122697..c9412eb85552 100644
+--- a/Documentation/core-api/kernel-api.rst
++++ b/Documentation/core-api/kernel-api.rst
+@@ -171,9 +171,6 @@ Division Functions
+ .. kernel-doc:: include/linux/math64.h
+    :internal:
+ 
+-.. kernel-doc:: lib/math/div64.c
+-   :functions: div_s64_rem div64_u64_rem div64_u64 div64_s64
+-
+ .. kernel-doc:: lib/math/gcd.c
+    :export:
+ 
+diff --git a/include/linux/math64.h b/include/linux/math64.h
+index a14f40de1dca..1538844fcb51 100644
+--- a/include/linux/math64.h
++++ b/include/linux/math64.h
+@@ -29,7 +29,7 @@ static inline u64 div_u64_rem(u64 dividend, u32 divisor, u32 *remainder)
+ 	return dividend / divisor;
+ }
+ 
+-/*
++/**
+  * div_s64_rem - signed 64bit divide with 32bit divisor with remainder
+  * @dividend: signed 64bit dividend
+  * @divisor: signed 32bit divisor
+@@ -43,7 +43,7 @@ static inline s64 div_s64_rem(s64 dividend, s32 divisor, s32 *remainder)
+ 	return dividend / divisor;
+ }
+ 
+-/*
++/**
+  * div64_u64_rem - unsigned 64bit divide with 64bit divisor and remainder
+  * @dividend: unsigned 64bit dividend
+  * @divisor: unsigned 64bit divisor
+@@ -57,7 +57,7 @@ static inline u64 div64_u64_rem(u64 dividend, u64 divisor, u64 *remainder)
+ 	return dividend / divisor;
+ }
+ 
+-/*
++/**
+  * div64_u64 - unsigned 64bit divide with 64bit divisor
+  * @dividend: unsigned 64bit dividend
+  * @divisor: unsigned 64bit divisor
+@@ -69,7 +69,7 @@ static inline u64 div64_u64(u64 dividend, u64 divisor)
+ 	return dividend / divisor;
+ }
+ 
+-/*
++/**
+  * div64_s64 - signed 64bit divide with 64bit divisor
+  * @dividend: signed 64bit dividend
+  * @divisor: signed 64bit divisor
+@@ -300,7 +300,7 @@ u64 mul_u64_u64_div_u64(u64 a, u64 mul, u64 div);
+ #define DIV64_U64_ROUND_CLOSEST(dividend, divisor)	\
+ 	({ u64 _tmp = (divisor); div64_u64((dividend) + _tmp / 2, _tmp); })
+ 
+-/*
++/**
+  * DIV_U64_ROUND_CLOSEST - unsigned 64bit divide with 32bit divisor rounded to nearest integer
+  * @dividend: unsigned 64bit dividend
+  * @divisor: unsigned 32bit divisor
+@@ -313,7 +313,7 @@ u64 mul_u64_u64_div_u64(u64 a, u64 mul, u64 div);
+ #define DIV_U64_ROUND_CLOSEST(dividend, divisor)	\
+ 	({ u32 _tmp = (divisor); div_u64((u64)(dividend) + _tmp / 2, _tmp); })
+ 
+-/*
++/**
+  * DIV_S64_ROUND_CLOSEST - signed 64bit divide with 32bit divisor rounded to nearest integer
+  * @dividend: signed 64bit dividend
+  * @divisor: signed 32bit divisor
+diff --git a/lib/math/div64.c b/lib/math/div64.c
+index 46866394fc84..55a81782e271 100644
+--- a/lib/math/div64.c
++++ b/lib/math/div64.c
+@@ -63,12 +63,6 @@ uint32_t __attribute__((weak)) __div64_32(uint64_t *n, uint32_t base)
+ EXPORT_SYMBOL(__div64_32);
+ #endif
+ 
+-/**
+- * div_s64_rem - signed 64bit divide with 64bit divisor and remainder
+- * @dividend:	64bit dividend
+- * @divisor:	64bit divisor
+- * @remainder:  64bit remainder
+- */
+ #ifndef div_s64_rem
+ s64 div_s64_rem(s64 dividend, s32 divisor, s32 *remainder)
+ {
+@@ -89,7 +83,7 @@ s64 div_s64_rem(s64 dividend, s32 divisor, s32 *remainder)
+ EXPORT_SYMBOL(div_s64_rem);
+ #endif
+ 
+-/**
 +/*
-+ * Test TDX guest features
-+ *
-+ * Copyright (C) 2022 Intel Corporation.
-+ *
-+ * Author: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-+ */
-+
-+#include <sys/ioctl.h>
-+
-+#include <errno.h>
-+#include <fcntl.h>
-+
-+#include "../kselftest_harness.h"
-+#include "../../../../include/uapi/linux/tdx-guest.h"
-+
-+#define TDX_GUEST_DEVNAME "/dev/tdx_guest"
-+#define HEX_DUMP_SIZE 8
-+#define DEBUG 0
-+
-+/**
-+ * struct tdreport_type - Type header of TDREPORT_STRUCT.
-+ * @type: Type of the TDREPORT (0 - SGX, 81 - TDX, rest are reserved)
-+ * @sub_type: Subtype of the TDREPORT (Default value is 0).
-+ * @version: TDREPORT version (Default value is 0).
-+ * @reserved: Added for future extension.
-+ *
-+ * More details can be found in TDX v1.0 module specification, sec
-+ * titled "REPORTTYPE".
-+ */
-+struct tdreport_type {
-+	__u8 type;
-+	__u8 sub_type;
-+	__u8 version;
-+	__u8 reserved;
-+};
-+
-+/**
-+ * struct reportmac - TDX guest report data, MAC and TEE hashes.
-+ * @type: TDREPORT type header.
-+ * @reserved1: Reserved for future extension.
-+ * @cpu_svn: CPU security version.
-+ * @tee_tcb_info_hash: SHA384 hash of TEE TCB INFO.
-+ * @tee_td_info_hash: SHA384 hash of TDINFO_STRUCT.
-+ * @reportdata: User defined unique data passed in TDG.MR.REPORT request.
-+ * @reserved2: Reserved for future extension.
-+ * @mac: CPU MAC ID.
-+ *
-+ * It is MAC-protected and contains hashes of the remainder of the
-+ * report structure along with user provided report data. More details can
-+ * be found in TDX v1.0 Module specification, sec titled "REPORTMACSTRUCT"
-+ */
-+struct reportmac {
-+	struct tdreport_type type;
-+	__u8 reserved1[12];
-+	__u8 cpu_svn[16];
-+	__u8 tee_tcb_info_hash[48];
-+	__u8 tee_td_info_hash[48];
-+	__u8 reportdata[64];
-+	__u8 reserved2[32];
-+	__u8 mac[32];
-+};
-+
-+/**
-+ * struct td_info - TDX guest measurements and configuration.
-+ * @attr: TDX Guest attributes (like debug, spet_disable, etc).
-+ * @xfam: Extended features allowed mask.
-+ * @mrtd: Build time measurement register.
-+ * @mrconfigid: Software-defined ID for non-owner-defined configuration
-+ *              of the guest - e.g., run-time or OS configuration.
-+ * @mrowner: Software-defined ID for the guest owner.
-+ * @mrownerconfig: Software-defined ID for owner-defined configuration of
-+ *                 the guest - e.g., specific to the workload.
-+ * @rtmr: Run time measurement registers.
-+ * @reserved: Added for future extension.
-+ *
-+ * It contains the measurements and initial configuration of the TDX guest
-+ * that was locked at initialization and a set of measurement registers
-+ * that are run-time extendable. More details can be found in TDX v1.0
-+ * Module specification, sec titled "TDINFO_STRUCT".
-+ */
-+struct td_info {
-+	__u8 attr[8];
-+	__u64 xfam;
-+	__u64 mrtd[6];
-+	__u64 mrconfigid[6];
-+	__u64 mrowner[6];
-+	__u64 mrownerconfig[6];
-+	__u64 rtmr[24];
-+	__u64 reserved[14];
-+};
-+
+  * div64_u64_rem - unsigned 64bit divide with 64bit divisor and remainder
+  * @dividend:	64bit dividend
+  * @divisor:	64bit divisor
+@@ -129,7 +123,7 @@ u64 div64_u64_rem(u64 dividend, u64 divisor, u64 *remainder)
+ EXPORT_SYMBOL(div64_u64_rem);
+ #endif
+ 
+-/**
 +/*
-+ * struct tdreport - Output of TDCALL[TDG.MR.REPORT].
-+ * @reportmac: Mac protected header of size 256 bytes.
-+ * @tee_tcb_info: Additional attestable elements in the TCB are not
-+ *                reflected in the reportmac.
-+ * @reserved: Added for future extension.
-+ * @tdinfo: Measurements and configuration data of size 512 bytes.
-+ *
-+ * More details can be found in TDX v1.0 Module specification, sec
-+ * titled "TDREPORT_STRUCT".
-+ */
-+struct tdreport {
-+	struct reportmac reportmac;
-+	__u8 tee_tcb_info[239];
-+	__u8 reserved[17];
-+	struct td_info tdinfo;
-+};
-+
-+static void print_array_hex(const char *title, const char *prefix_str,
-+			    const void *buf, int len)
-+{
-+	int i, j, line_len, rowsize = HEX_DUMP_SIZE;
-+	const __u8 *ptr = buf;
-+
-+	printf("\t\t%s", title);
-+
-+	for (j = 0; j < len; j += rowsize) {
-+		line_len = rowsize < (len - j) ? rowsize : (len - j);
-+		printf("%s%.8x:", prefix_str, j);
-+		for (i = 0; i < line_len; i++)
-+			printf(" %.2x", ptr[j + i]);
-+		printf("\n");
-+	}
-+
-+	printf("\n");
-+}
-+
-+TEST(verify_report)
-+{
-+	struct tdx_report_req req;
-+	struct tdreport *tdreport;
-+	int devfd, i;
-+
-+	devfd = open(TDX_GUEST_DEVNAME, O_RDWR | O_SYNC);
-+	ASSERT_LT(0, devfd);
-+
-+	/* Generate sample report data */
-+	for (i = 0; i < TDX_REPORTDATA_LEN; i++)
-+		req.reportdata[i] = i;
-+
-+	/* Get TDREPORT */
-+	ASSERT_EQ(0, ioctl(devfd, TDX_CMD_GET_REPORT0, &req));
-+
-+	if (DEBUG) {
-+		print_array_hex("\n\t\tTDX report data\n", "",
-+				req.reportdata, sizeof(req.reportdata));
-+
-+		print_array_hex("\n\t\tTDX tdreport data\n", "",
-+				req.tdreport, sizeof(req.tdreport));
-+	}
-+
-+	/* Make sure TDREPORT data includes the REPORTDATA passed */
-+	tdreport = (struct tdreport *)req.tdreport;
-+	ASSERT_EQ(0, memcmp(&tdreport->reportmac.reportdata[0],
-+			    req.reportdata, sizeof(req.reportdata)));
-+
-+	ASSERT_EQ(0, close(devfd));
-+}
-+
-+TEST_HARNESS_MAIN
+  * div64_u64 - unsigned 64bit divide with 64bit divisor
+  * @dividend:	64bit dividend
+  * @divisor:	64bit divisor
+@@ -163,11 +157,6 @@ u64 div64_u64(u64 dividend, u64 divisor)
+ EXPORT_SYMBOL(div64_u64);
+ #endif
+ 
+-/**
+- * div64_s64 - signed 64bit divide with 64bit divisor
+- * @dividend:	64bit dividend
+- * @divisor:	64bit divisor
+- */
+ #ifndef div64_s64
+ s64 div64_s64(s64 dividend, s64 divisor)
+ {
+
+base-commit: 59d0d52c30d4991ac4b329f049cc37118e00f5b0
 -- 
-2.34.1
+2.37.1.223.g6a475b71f8c4
 
