@@ -2,280 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A4B7C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 13:10:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28CFAC43217
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 13:25:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234533AbiKQNKn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Nov 2022 08:10:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60418 "EHLO
+        id S233886AbiKQNZL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Nov 2022 08:25:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239636AbiKQNKn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 08:10:43 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6833F6207F;
-        Thu, 17 Nov 2022 05:10:41 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id l14so3807739wrw.2;
-        Thu, 17 Nov 2022 05:10:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1E16Wg9BwXGQCZzwhn9INR5uQhH9/wEtii6ez7bUawY=;
-        b=e+CHqtO8ETxCRBb7wNGNrIfQ1YF7+xEL6p1wLMy2RW0uS+HNK7fLrwbhDdZfGG7xk1
-         Pf5EZjah0fB768pOnz4xjMwNy4vnnAKMB33I7A49LSEUeS86+seREcI/ob+vrdMP7wY1
-         Rwm5z8/bbp5uP4rCJgCjdoW4rqVastq968AEzUWpkhm+688KaUs4XEnt0J++7GXnP2BF
-         XLdLT6o4z9dpnrJLKG7/qN1q6Xgrre+cMQdKcnxetJ610F35ySs4+EVVKnpFnYuFafTB
-         mhGJMCrzJqJgXOHJ/gQKA4YdIKbEoJMW2lup3EWe5uyRYPRDVtH7tNmML3Flyi1wh1tx
-         EoQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1E16Wg9BwXGQCZzwhn9INR5uQhH9/wEtii6ez7bUawY=;
-        b=Iio1xTp5M8zJXULHTh6QP6Vv3hy/wYn0pxv6xmi3cAAoRw/DWMcUk5Nb8qRfKZUY0A
-         uFJby47bFPmq3NuJyDJ8BJYxHezB3H8a/Jer+S01NlNHxEqndrbK+JEHgMt0uWgGGqkG
-         IU8XaWi7G+H1c49tWa9UpmkIa+rVAN59TtSdOuxuD5S2Ncy8KJ/y5qbckA0RszpKv/VZ
-         VV5ahv6R0ODOujNX8oZzkp72dP3eIvg/Q7hAMMCWADZpwC9XIvU3OGbCf4+TwvlV0mLT
-         d7FrgNPqhlPdyPvgY1lsuKDfS4A+BXigNmy9v7DdEt/iL2BazPDNv1u/l8BlmbsEmYqG
-         rFaA==
-X-Gm-Message-State: ANoB5pkpWhRkFr0WDCSVf35oUte4CxqCk7NQlgfj3e6VRNrLqFP7sLyI
-        wt0bP/+F70vHGp79QPApmjg=
-X-Google-Smtp-Source: AA0mqf4Eu+3ZucUBzS34eIs0cqoipl/MjJ43vILvpKnAi0/BJNEjWr+AAJFb/aGMpqykefCBVA/X3Q==
-X-Received: by 2002:a5d:628e:0:b0:236:5ea4:68c8 with SMTP id k14-20020a5d628e000000b002365ea468c8mr1468576wru.132.1668690639774;
-        Thu, 17 Nov 2022 05:10:39 -0800 (PST)
-Received: from imac ([2a02:8010:60a0:0:2c71:30b9:69c:c340])
-        by smtp.gmail.com with ESMTPSA id c15-20020a05600c0acf00b003c21ba7d7d6sm1157346wmr.44.2022.11.17.05.10.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Nov 2022 05:10:38 -0800 (PST)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     mtahhan@redhat.com
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, jbrouer@redhat.com,
-        thoiland@redhat.com, donhunte@redhat.com, magnus.karlsson@gmail.com
-Subject: Re: [PATCH bpf-next v1 1/1] docs: BPF_MAP_TYPE_XSKMAP
-In-Reply-To: <20221117105044.1935488-1-mtahhan@redhat.com>
-        (mtahhan@redhat.com's message of "Thu, 17 Nov 2022 05:50:44 -0500")
-Date:   Thu, 17 Nov 2022 13:10:32 +0000
-Message-ID: <m2cz9lybef.fsf@gmail.com>
-References: <20221117105044.1935488-1-mtahhan@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
+        with ESMTP id S234562AbiKQNZI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 08:25:08 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2952D59FF0;
+        Thu, 17 Nov 2022 05:25:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668691507; x=1700227507;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=5axGlSLhPtmuHt4PaXeWSd8Q7yJdQcmlwNx/L+JedqY=;
+  b=G0jX1NfP0lp2odylwesjoPP2pl+0mJ8+/CYe63ypDIp+8aiDkAk/Q5Sb
+   EfUmZWtMdEio6BJgc56FsDnYbgFGmkcBkInRTsH7IqczVFoNWFglfHrNi
+   l2uEFyF7CkNaRNVLBRRBAmgvo3+NOAJnpI+bwJfUdWSBF/xYQbXurHiLO
+   szTFuy4EnR4fNNp+qO6R+WRjJXujP3ECZFgDJrCi/LF0QqNhl4APde3mc
+   dQv5VkOuh9CGIFlKk3JX3eZ4L4tDBdd0kZoMfuCzE7azPKfxavMgueB6f
+   c5VjfUTs/Wm3p54NlZMBqpkNsHZ/51wyQeoyqD+wj40maTUGdH9fKcIQR
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="399136348"
+X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; 
+   d="scan'208";a="399136348"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2022 05:25:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="703331041"
+X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; 
+   d="scan'208";a="703331041"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by fmsmga008.fm.intel.com with ESMTP; 17 Nov 2022 05:24:56 -0800
+Date:   Thu, 17 Nov 2022 21:20:32 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 5/8] KVM: Register/unregister the guest private memory
+ regions
+Message-ID: <20221117132032.GA422408@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-6-chao.p.peng@linux.intel.com>
+ <Y3VjCxCiujCOLP7x@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y3VjCxCiujCOLP7x@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-mtahhan@redhat.com writes:
+On Wed, Nov 16, 2022 at 10:24:11PM +0000, Sean Christopherson wrote:
+> On Tue, Oct 25, 2022, Chao Peng wrote:
+> > +static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
+> > +				     bool is_private)
+> > +{
+> > +	gfn_t start, end;
+> > +	unsigned long i;
+> > +	void *entry;
+> > +	int idx;
+> > +	int r = 0;
+> > +
+> > +	if (size == 0 || gpa + size < gpa)
+> > +		return -EINVAL;
+> > +	if (gpa & (PAGE_SIZE - 1) || size & (PAGE_SIZE - 1))
+> > +		return -EINVAL;
+> > +
+> > +	start = gpa >> PAGE_SHIFT;
+> > +	end = (gpa + size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
+> > +
+> > +	/*
+> > +	 * Guest memory defaults to private, kvm->mem_attr_array only stores
+> > +	 * shared memory.
+> > +	 */
+> > +	entry = is_private ? NULL : xa_mk_value(KVM_MEM_ATTR_SHARED);
+> > +
+> > +	idx = srcu_read_lock(&kvm->srcu);
+> > +	KVM_MMU_LOCK(kvm);
+> > +	kvm_mmu_invalidate_begin(kvm, start, end);
+> > +
+> > +	for (i = start; i < end; i++) {
+> > +		r = xa_err(xa_store(&kvm->mem_attr_array, i, entry,
+> > +				    GFP_KERNEL_ACCOUNT));
+> > +		if (r)
+> > +			goto err;
+> > +	}
+> > +
+> > +	kvm_unmap_mem_range(kvm, start, end);
+> > +
+> > +	goto ret;
+> > +err:
+> > +	for (; i > start; i--)
+> > +		xa_erase(&kvm->mem_attr_array, i);
+> 
+> I don't think deleting previous entries is correct.  To unwind, the correct thing
+> to do is restore the original values.  E.g. if userspace space is mapping a large
+> range as shared, and some of the previous entries were shared, deleting them would
+> incorrectly "convert" those entries to private.
 
-> From: Maryam Tahhan <mtahhan@redhat.com>
->
-> Add documentation for BPF_MAP_TYPE_XSKMAP
-> including kernel version introduced, usage
-> and examples.
->
-> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
-> ---
->  Documentation/bpf/map_xskmap.rst | 161 +++++++++++++++++++++++++++++++
->  1 file changed, 161 insertions(+)
->  create mode 100644 Documentation/bpf/map_xskmap.rst
->
-> diff --git a/Documentation/bpf/map_xskmap.rst b/Documentation/bpf/map_xskmap.rst
-> new file mode 100644
-> index 000000000000..5699a89851ef
-> --- /dev/null
-> +++ b/Documentation/bpf/map_xskmap.rst
-> @@ -0,0 +1,161 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +.. Copyright (C) 2022 Red Hat, Inc.
-> +
-> +===================
-> +BPF_MAP_TYPE_XSKMAP
-> +===================
-> +
-> +.. note::
-> +   - ``BPF_MAP_TYPE_XSKMAP`` was introduced in kernel version 4.18
-> +
-> +The ``BPF_MAP_TYPE_XSKMAP`` is used as a backend map for XDP BPF helper
-> +call ``bpf_redirect_map()`` and XDP_REDIRECT action, like 'devmap' and 'cpumap'.
+Ah, right!
 
-``XDP_REDIRECT``
+> 
+> Tracking the previous state likely isn't the best approach, e.g. it would require
+> speculatively allocating extra memory for a rare condition that is likely going to
+> lead to OOM anyways.
 
-> +This map type redirects raw XDP frames to AF_XDP sockets (XSKs). An AF_XDP socket
-> +binds to a single netdev queue. A mapping of XSKs to queues is shown below:
-> +
-> +.. code-block:: none
-> +
-> +    +---------------------------------------------------+
-> +    |     xsk A      |     xsk B       |      xsk C     |<---+ Userspace
-> +    =========================================================|==========
-> +    |    Queue 0     |     Queue 1     |     Queue 2    |    |  Kernel
-> +    +---------------------------------------------------+    |
-> +    |                  Netdev eth0                      |    |
-> +    +---------------------------------------------------+    |
-> +    |                            +=============+        |    |
-> +    |                            | key |  xsk  |        |    |
-> +    |  +---------+               +=============+        |    |
-> +    |  |         |               |  0  | xsk A |        |    |
-> +    |  |         |               +-------------+        |    |
-> +    |  |         |               |  1  | xsk B |        |    |
-> +    |  | eBPF    |-- redirect -->+-------------+-------------+
-> +    |  | prog    |               |  2  | xsk C |        |
-> +    |  |         |               +-------------+        |
-> +    |  |         |                                      |
-> +    |  |         |                                      |
-> +    |  +---------+                                      |
-> +    |                                                   |
-> +    +---------------------------------------------------+
-> +
-> +.. note::
-> +    An AF_XDP socket that is bound to a certain <netdev/queue_id> will *only*
-> +    accept XDP frames from that <netdev/queue_id>. If an XDP program tries to redirect
-> +    from a <netdev/queue_id> other than what the socket is bound to, the frame will
-> +    not be received on the socket.
-> +
-> +Typically an XSKMAP is created per netdev. This map contains an array of XSK File
-> +Descriptors (FDs). The number of array elements is typically set or adjusted using
-> +the ``max_entries`` map parameter. For AF_XDP ``max_entries`` is equal to the number
-> +of queues supported by the netdev.
+Agree.
 
-Should it mention that both key and value size must be 4 bytes?
+> 
+> Instead of trying to unwind, what about updating the ioctl() params such that
+> retrying with the updated addr+size would Just Work?  E.g.
 
-> +
-> +Usage
-> +=====
-> +
-> +Kernel BPF
-> +----------
-> +.. c:function::
-> +     long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
-> +
-> + Redirect the packet to the endpoint referenced by ``map`` at index ``key``.
-> + For ``BPF_MAP_TYPE_XSKMAP`` this map contains references to AF_XDP socket FDs
-> + for sockets attached to a netdev's queues.
-> +
-> + .. note::
-> +    If the map is empty at an index, the packet is dropped. This means that it is
-> +    mandatory to have an XDP program loaded (and one AF_XDP socket in the XSKMAP)
+Looks good to me. Thanks!
 
-mandatory -> necessary
-
-'and at least one AF_XDP socket'
-
-> +    to be able to get any traffic to user space through the socket.
+Chao
+> 
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index 55b07aae67cc..f1de592a1a06 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -1015,15 +1015,12 @@ static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
+>  
+>         kvm_unmap_mem_range(kvm, start, end, attr);
+>  
+> -       goto ret;
+> -err:
+> -       for (; i > start; i--)
+> -               xa_erase(&kvm->mem_attr_array, i);
+> -ret:
+>         kvm_mmu_invalidate_end(kvm, start, end);
+>         KVM_MMU_UNLOCK(kvm);
+>         srcu_read_unlock(&kvm->srcu, idx);
+>  
+> +       <update gpa and size>
 > +
-> +.. c:function::
-> +    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-> +
-> + XSK FD entries can be retrieved using the ``bpf_map_lookup_elem()`` helper.
-
-Unless I'm mistaken, it returns a pointer to the ``struct xdp_sock``.
-
-> +
-> +Userspace
-> +---------
-> +.. note::
-> +    AF_XDP socket entries can only be updated/deleted from user space and not from
-> +    an eBPF program. Trying to call these functions from a kernel eBPF program will
-> +    result in the program failing to load and a verifier warning.
-> +
-> +.. c:function::
-> +   int bpf_map_update_elem(int fd, const void *key, const void *value, __u64 flags)
-> +
-> + AF_XDP socket entries can be added or updated using the ``bpf_map_update_elem()``
-> + helper. The ``key`` parameter is equal to the queue_id of the queue the AF_XDP
-> + socket is attaching to. And the ``value`` parameter is the file descriptor (fd))
-
-Extra ')' at end of line.
-
-> + value of that socket.
-> +
-> + Under the hood, the AF_XDP map update function uses the XSK FD value to retrieve the
-> + associated ``struct xdp_sock`` instance.
-> +
-> + The flags argument can be one of the following:
-> +  - BPF_ANY: Create a new element or update an existing element.
-> +  - BPF_NOEXIST: Create a new element only if it did not exist.
-> +  - BPF_EXIST: Update an existing element.
-> +
-> +.. c:function::
-> +    int bpf_map_lookup_elem(int fd, const void *key, void *value)
-> +
-> + AF_XDP socket entries can be retrieved using the ``bpf_map_lookup_elem()``
-> + helper.
-
-returns the ``struct xdp_sock`` or negative error in case of failure.
-
-> +
-> +.. c:function::
-> +    int bpf_map_delete_elem(int fd, const void *key)
-> +
-> + AF_XDP socket entries can be deleted using the ``bpf_map_delete_elem()``
-> + helper. This helper will return 0 on success, or negative error in case of
-> + failure.
-
-Should we note that entries are automatically deleted when the xdp_sock
-is released?
-
-> +
-> +Examples
-> +========
-> +Kernel
-> +------
-> +
-> +The following code snippet shows how to declare a ``BPF_MAP_TYPE_XSKMAP`` called
-> +``xsks_map`` and how to redirect packets to an AF_XDP socket.
-> +
-> +.. code-block:: c
-> +
-> +   struct {
-> +        __uint(type, BPF_MAP_TYPE_XSKMAP);
-> +        __type(key_size, int);
-
-Should be key and __u32
-
-> +        __type(value_size, int);
-
-Should be value and __u32
-
-> +        __uint(max_entries, 64);
-> +    } xsks_map SEC(".maps");
-> +
-> +
-> +    SEC("xdp")
-> +    int xsk_redir_prog(struct xdp_md *ctx)
-> +    {
-> +        int index = ctx->rx_queue_id;
-
-Should be __u32 and ctx->rx_queue_index
-
-> +
-> +        if (bpf_map_lookup_elem(&xsks_map, &index))
-> +            return bpf_redirect_map(&xsks_map, index, 0);
-> +        return XDP_PASS;
-> +    }
-> +
-> +Userspace
-> +---------
-> +
-> +The following code snippet shows how to update an XSK map with an AF_XDP socket
-> +entry.
-> +
-> +.. code-block:: c
-> +
-> +    int update_xsks_map(struct bpf_map *xsks_map, int queue_id, int xsk_fd)
-> +    {
-> +        int ret;
-> +
-> +        ret = bpf_map_update_elem(bpf_map__fd(xsks_map), &queue_id, &xsk_fd, 0);
-> +        if (ret < 0) {
-> +            fprintf(stderr, "Failed to update xsks_map: %s\n",
-> +                strerror(errno));
-> +        }
-> +
-> +        return ret;
-> +    }
-> +
-> +.. note::
-> +    The most comprehensive resource for using XSKMAPs is `libxdp`_.
-> +
-> +.. _libxdp: https://github.com/xdp-project/xdp-tools/tree/master/lib/libxdp
+>         return r;
+>  }
+>  #endif /* CONFIG_KVM_GENERIC_PRIVATE_MEM */
+> @@ -4989,6 +4986,8 @@ static long kvm_vm_ioctl(struct file *filp,
+>  
+>                 r = kvm_vm_ioctl_set_mem_attr(kvm, region.addr,
+>                                               region.size, set);
+> +               if (copy_to_user(argp, &region, sizeof(region)) && !r)
+> +                       r = -EFAULT
+>                 break;
+>         }
+>  #endif
