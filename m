@@ -2,295 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D592C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 15:13:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53BBFC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 15:21:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240658AbiKQPNP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Nov 2022 10:13:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55028 "EHLO
+        id S240651AbiKQPVC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Nov 2022 10:21:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240107AbiKQPMu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 10:12:50 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C55D6786E5
-        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 07:09:22 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id bs21so4331468wrb.4
-        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 07:09:22 -0800 (PST)
+        with ESMTP id S240639AbiKQPUK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 10:20:10 -0500
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB6AA781B6
+        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 07:15:21 -0800 (PST)
+Received: by mail-il1-x132.google.com with SMTP id r2so1040985ilg.8
+        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 07:15:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OBusLlaaNz/2IZSIaqYfgs6/xdT0ROMSHKfiBIhkdsE=;
-        b=NfpbBsBQgrbY75WiJ016e0JTmdGmoYyca7I/NCnJZhfmCCTZjayS9RdRKm4JfS2fcJ
-         fVeXHWNZWpWqOxuAKjFqL87nRYvfdIeS/OGZksL27R8rb8hVNRwXGKXYPRUYovuyOhTQ
-         2KdieC+Lyx97mRgkXg4lB53Eby8Njkv0vJYLjpXxSam8mrjRDYlb2SWZOAdruhuNiKch
-         oimt+1rPmL9CFVQctuwqINnIzoMMDOOHZx1qNiF5cxB4yWYef69Ku4OJl58DzQ7tLFDO
-         9GvANFdmzddlRJJK66Ax9Y8b7HOjXFK6WEOP7Gtp/3GhVHUbB2438tgaxi1Vg2RVLoXk
-         l1kQ==
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0mda3tRJT+iEZZZtBKUMBVJCht+1W2dmNcWwzB9SAAk=;
+        b=enDxqfxXT+UPRRkUoQ0pVpD4o1W5OZKMjO8TbYuZUg/EpmK5WvwM+tyhjnAfthIuWA
+         P1j//kNZxtlDxkx1Ioxdba0X6zL6huywLOEp9wSSg0WWthpiEWIZElc0JsinjKRrMbeo
+         hdAvB7d/tZJAv25MpanKHPy42mT2MjorJ44DA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OBusLlaaNz/2IZSIaqYfgs6/xdT0ROMSHKfiBIhkdsE=;
-        b=cDBZh4lRe2ENtQY8NKGrm8wMObtUJdp1YUfIcEBil3jecqAXQvIi0waJoI7h3Bs62Z
-         QfPLO9lK54wOKqCFg1W0nj0NCEqegM4bbvdlZ8IGfTXGbI0KZp1N/qNbrfPQFaRACVcC
-         WgYfR9Pmt+z/7pv6mHHZejMVm9z5Vhe7M0yCRe8mtS4e/GOYNkYx2sSgrkCOGh5ewblV
-         5YnIjoNPFAzMCV3fVED812/EKfyA6L/ptMhjHd/eCGwSHjmbnyGpSTxd5c4gvdwWRlUG
-         WBarIRQhVaUfmzY4XLWxGW3YVcyv38ZyKqq9nDKzanuvMkJxNZuMyItCIV2lBo7ug+qw
-         Ejbw==
-X-Gm-Message-State: ANoB5pmkp1bny8oJpfzkWWULZK76OxYWBiQhJzVv4pBFoCrscIT0AOY6
-        Qcoiicn40BmS0mOhxw6i07Tl7g==
-X-Google-Smtp-Source: AA0mqf7vvxL/xmrC6/yE9sA9AOuHHRmrasa80rT6NKUjVl0i95jt04rAjvEUusssVu8F+bFzV97rWw==
-X-Received: by 2002:adf:efd2:0:b0:236:e5a2:4f66 with SMTP id i18-20020adfefd2000000b00236e5a24f66mr1861434wrp.357.1668697761285;
-        Thu, 17 Nov 2022 07:09:21 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
-        by smtp.gmail.com with ESMTPSA id r10-20020adfce8a000000b00241b371d73esm1255319wrn.77.2022.11.17.07.09.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Nov 2022 07:09:20 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
-        by zen.linaroharston (Postfix) with ESMTP id 5177C1FFB7;
-        Thu, 17 Nov 2022 15:09:20 +0000 (GMT)
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
- <87cz9o9mr8.fsf@linaro.org> <20221116031441.GA364614@chaop.bj.intel.com>
- <87mt8q90rw.fsf@linaro.org> <20221117134520.GD422408@chaop.bj.intel.com>
-User-agent: mu4e 1.9.2; emacs 28.2.50
-From:   Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Date:   Thu, 17 Nov 2022 15:08:17 +0000
-In-reply-to: <20221117134520.GD422408@chaop.bj.intel.com>
-Message-ID: <87a64p8vof.fsf@linaro.org>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0mda3tRJT+iEZZZtBKUMBVJCht+1W2dmNcWwzB9SAAk=;
+        b=TmL7vqAJvQf9GyJ7VmmgZZq/eoXjSj47XhwX4I0OcNnlR3HWOI5R/APWgy1IA6+JI+
+         FikD1PjT42jILWeuQBeovK34h8MI71x8+UEa/moLoAzrXxaBikHfBnZ6LQ2Uox2YgX85
+         PDFqFNwNV/qVVGDClZglzj1x5vPCrYyC6qwx1ujBZzMK9VledCVTOaq9KNsjHq3pfQXR
+         ueugCjCv/XltBGUB6zKijQ3fyLzlZS4jPv8QxZIvJ9sb9pGKqZlGKnXfUT8xHzH+opRI
+         54QEzqrJZcy/drm5vz/tGhQuG+3XHhFZ7K/3xGBB4pJ+bWx/PEgpDou+rZvG35gvzbTk
+         R/Dg==
+X-Gm-Message-State: ANoB5plHHFN6bWsbZfFDI4jiie1OcnHIEeZ9+Rke2cD5zsHhqmTVTNed
+        xr5jmbNIzaZcp9xQpwznwV2eLizJwlZHkg==
+X-Google-Smtp-Source: AA0mqf5m+qkZtBc8wwtwz04rYnx5EmBcxLhY4MwUUQfCDc9Z/91ys051FLPVZ2Qmt/F14OZN/CubYw==
+X-Received: by 2002:a92:c5a3:0:b0:300:cb74:237 with SMTP id r3-20020a92c5a3000000b00300cb740237mr1394974ilt.118.1668698121021;
+        Thu, 17 Nov 2022 07:15:21 -0800 (PST)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com. [209.85.166.50])
+        by smtp.gmail.com with ESMTPSA id y15-20020a92090f000000b002f9f001de24sm421150ilg.21.2022.11.17.07.15.18
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Nov 2022 07:15:19 -0800 (PST)
+Received: by mail-io1-f50.google.com with SMTP id b2so1533946iof.12
+        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 07:15:18 -0800 (PST)
+X-Received: by 2002:a02:c897:0:b0:374:100a:b0c7 with SMTP id
+ m23-20020a02c897000000b00374100ab0c7mr1243939jao.185.1668698118410; Thu, 17
+ Nov 2022 07:15:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20221114-disable-kexec-reset-v1-0-fb51d20cf871@chromium.org>
+ <20221114-disable-kexec-reset-v1-2-fb51d20cf871@chromium.org> <20221117160650.16e06b37@rotkaeppchen>
+In-Reply-To: <20221117160650.16e06b37@rotkaeppchen>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Thu, 17 Nov 2022 16:15:07 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvyQ66mXbhEgj_qnE_zR4frsxtu1bXaukDrEG0FjrE4yw@mail.gmail.com>
+Message-ID: <CANiDSCvyQ66mXbhEgj_qnE_zR4frsxtu1bXaukDrEG0FjrE4yw@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] kexec: Introduce kexec_reboot_disabled
+To:     Philipp Rudo <prudo@redhat.com>
+Cc:     Eric Biederman <ebiederm@xmission.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+        Ross Zwisler <zwisler@kernel.org>, linux-doc@vger.kernel.org,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Philipp
 
-Chao Peng <chao.p.peng@linux.intel.com> writes:
+Thanks for your review!
 
-> On Wed, Nov 16, 2022 at 07:03:49PM +0000, Alex Benn=C3=A9e wrote:
->>=20
->> Chao Peng <chao.p.peng@linux.intel.com> writes:
->>=20
->> > On Tue, Nov 15, 2022 at 04:56:12PM +0000, Alex Benn=C3=A9e wrote:
->> >>=20
->> >> Chao Peng <chao.p.peng@linux.intel.com> writes:
->> >>=20
->> >> > This new KVM exit allows userspace to handle memory-related errors.=
- It
->> >> > indicates an error happens in KVM at guest memory range [gpa, gpa+s=
-ize).
->> >> > The flags includes additional information for userspace to handle t=
-he
->> >> > error. Currently bit 0 is defined as 'private memory' where '1'
->> >> > indicates error happens due to private memory access and '0' indica=
-tes
->> >> > error happens due to shared memory access.
->> >> >
->> >> > When private memory is enabled, this new exit will be used for KVM =
-to
->> >> > exit to userspace for shared <-> private memory conversion in memory
->> >> > encryption usage. In such usage, typically there are two kind of me=
-mory
->> >> > conversions:
->> >> >   - explicit conversion: happens when guest explicitly calls into K=
-VM
->> >> >     to map a range (as private or shared), KVM then exits to usersp=
-ace
->> >> >     to perform the map/unmap operations.
->> >> >   - implicit conversion: happens in KVM page fault handler where KVM
->> >> >     exits to userspace for an implicit conversion when the page is =
-in a
->> >> >     different state than requested (private or shared).
->> >> >
->> >> > Suggested-by: Sean Christopherson <seanjc@google.com>
->> >> > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
->> >> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
->> >> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
->> >> > ---
->> >> >  Documentation/virt/kvm/api.rst | 23 +++++++++++++++++++++++
->> >> >  include/uapi/linux/kvm.h       |  9 +++++++++
->> >> >  2 files changed, 32 insertions(+)
->> >> >
->> >> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kv=
-m/api.rst
->> >> > index f3fa75649a78..975688912b8c 100644
->> >> > --- a/Documentation/virt/kvm/api.rst
->> >> > +++ b/Documentation/virt/kvm/api.rst
->> >> > @@ -6537,6 +6537,29 @@ array field represents return values. The us=
-erspace should update the return
->> >> >  values of SBI call before resuming the VCPU. For more details on R=
-ISC-V SBI
->> >> >  spec refer, https://github.com/riscv/riscv-sbi-doc.
->> >> >=20=20
->> >> > +::
->> >> > +
->> >> > +		/* KVM_EXIT_MEMORY_FAULT */
->> >> > +		struct {
->> >> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
->> >> > +			__u32 flags;
->> >> > +			__u32 padding;
->> >> > +			__u64 gpa;
->> >> > +			__u64 size;
->> >> > +		} memory;
->> >> > +
->> >> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the=
- VCPU has
->> >> > +encountered a memory error which is not handled by KVM kernel modu=
-le and
->> >> > +userspace may choose to handle it. The 'flags' field indicates the=
- memory
->> >> > +properties of the exit.
->> >> > +
->> >> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is ca=
-used by
->> >> > +   private memory access when the bit is set. Otherwise the memory=
- error is
->> >> > +   caused by shared memory access when the bit is clear.
->> >>=20
->> >> What does a shared memory access failure entail?
->> >
->> > In the context of confidential computing usages, guest can issue a
->> > shared memory access while the memory is actually private from the host
->> > point of view. This exit with bit 0 cleared gives userspace a chance to
->> > convert the private memory to shared memory on host.
->>=20
->> I think this should be explicit rather than implied by the absence of
->> another flag. Sean suggested you might want flags for RWX failures so
->> maybe something like:
->>=20
->> 	KVM_MEMORY_EXIT_SHARED_FLAG_READ	(1 << 0)
->> 	KVM_MEMORY_EXIT_SHARED_FLAG_WRITE	(1 << 1)
->> 	KVM_MEMORY_EXIT_SHARED_FLAG_EXECUTE	(1 << 2)
->>         KVM_MEMORY_EXIT_FLAG_PRIVATE            (1 << 3)
+On Thu, 17 Nov 2022 at 16:07, Philipp Rudo <prudo@redhat.com> wrote:
 >
-> Yes, but I would not add 'SHARED' to RWX, they are not share memory
-> specific, private memory can also set them once introduced.
+> Hi Ricardo,
+>
+> all in all I think this patch makes sense. However, there is one point
+> I don't like...
+>
+> On Mon, 14 Nov 2022 14:18:39 +0100
+> Ricardo Ribalda <ribalda@chromium.org> wrote:
+>
+> > Create a new toogle that disables LINUX_REBOOT_CMD_KEXEC, reducing the
+> > attack surface to a system.
+> >
+> > Without this toogle, an attacker can only reboot into a different kernel
+> > if they can create a panic().
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> >
+> > diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> > index 97394bd9d065..25d019682d33 100644
+> > --- a/Documentation/admin-guide/sysctl/kernel.rst
+> > +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> > @@ -462,6 +462,17 @@ altered.
+> >  Generally used together with the `modules_disabled`_ sysctl.
+> >
+> >
+> > +kexec_reboot_disabled
+> > +=====================
+> > +
+> > +A toggle indicating if ``LINUX_REBOOT_CMD_KEXEC`` has been disabled.
+> > +This value defaults to 0 (false: ``LINUX_REBOOT_CMD_KEXEC`` enabled),
+> > +but can be set to 1 (true: ``LINUX_REBOOT_CMD_KEXEC`` disabled).
+> > +Once true, kexec can no longer be used for reboot and the toggle
+> > +cannot be set back to false.
+> > +This toggle does not affect the use of kexec during a crash.
+> > +
+> > +
+> >  kptr_restrict
+> >  =============
+> >
+> > diff --git a/include/linux/kexec.h b/include/linux/kexec.h
+> > index 41a686996aaa..15c3fad8918b 100644
+> > --- a/include/linux/kexec.h
+> > +++ b/include/linux/kexec.h
+> > @@ -407,6 +407,7 @@ extern int kimage_crash_copy_vmcoreinfo(struct kimage *image);
+> >  extern struct kimage *kexec_image;
+> >  extern struct kimage *kexec_crash_image;
+> >  extern int kexec_load_disabled;
+> > +extern int kexec_reboot_disabled;
+> >
+> >  #ifndef kexec_flush_icache_page
+> >  #define kexec_flush_icache_page(page)
+> > diff --git a/kernel/kexec.c b/kernel/kexec.c
+> > index cb8e6e6f983c..43063f803d81 100644
+> > --- a/kernel/kexec.c
+> > +++ b/kernel/kexec.c
+> > @@ -196,6 +196,10 @@ static inline int kexec_load_check(unsigned long nr_segments,
+> >       if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
+> >               return -EPERM;
+> >
+> > +     /* Check if the system admin has disabled kexec reboot. */
+> > +     if (!(flags & KEXEC_ON_CRASH) && kexec_reboot_disabled)
+> > +             return -EPERM;
+>
+> ... Allowing to load a crashkernel doesn't make sense in my opinion. If
+> an attacker is capable of creating a malicious kernel, planting it on
+> the victims system and then find a way to boot it via kexec this
+> attacker also knows how to load the malicious kernel as crashkernel and
+> trigger a panic. So you haven't really gained anything. That's why I
+> would simply drop this hunk (and the corresponding one from
+> kexec_file_load) and let users who worry about this use a combination of
+> kexec_load_disabled and kexec_reboot_disabled.
 
-OK so how about:
+If for whatever reason your sysadmin configured kexec_reboot_disabed
+it can be nice that when a user try to load it they get a warning.
+It is easier to debug than waiting two steps later when they run kexec -e....
 
- 	KVM_MEMORY_EXIT_FLAG_READ	(1 << 0)
- 	KVM_MEMORY_EXIT_FLAG_WRITE	(1 << 1)
- 	KVM_MEMORY_EXIT_FLAG_EXECUTE	(1 << 2)
-        KVM_MEMORY_EXIT_FLAG_SHARED     (1 << 3)
-        KVM_MEMORY_EXIT_FLAG_PRIVATE    (1 << 4)
+That is why I added it. But i am also ok removing it
 
 >
-> Thanks,
-> Chao
->>=20
->> which would allow you to signal the various failure modes of the shared
->> region, or that you had accessed private memory.
->>=20
->> >
->> >>=20
->> >> If you envision any other failure modes it might be worth making it
->> >> explicit with additional flags.
->> >
->> > Sean mentioned some more usages[1][]2] other than the memory conversion
->> > for confidential usage. But I would leave those flags being added in t=
-he
->> > future after those usages being well discussed.
->> >
->> > [1] https://lkml.kernel.org/r/20200617230052.GB27751@linux.intel.com
->> > [2] https://lore.kernel.org/all/YKxJLcg%2FWomPE422@google.com
->> >
->> >> I also wonder if a bitmask makes sense if
->> >> there can only be one reason for a failure? Maybe all that is needed =
-is
->> >> a reason enum?
->> >
->> > Tough we only have one reason right now but we still want to leave room
->> > for future extension. Enum can express a single value at once well but
->> > bitmask makes it possible to express multiple orthogonal flags.
->>=20
->> I agree if multiple orthogonal failures can occur at once a bitmask is
->> the right choice.
->>=20
->> >
->> > Chao
->> >>=20
->> >> > +
->> >> > +'gpa' and 'size' indicate the memory range the error occurs at. Th=
-e userspace
->> >> > +may handle the error and return to KVM to retry the previous memor=
-y access.
->> >> > +
->> >> >  ::
->> >> >=20=20
->> >> >      /* KVM_EXIT_NOTIFY */
->> >> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
->> >> > index f1ae45c10c94..fa60b032a405 100644
->> >> > --- a/include/uapi/linux/kvm.h
->> >> > +++ b/include/uapi/linux/kvm.h
->> >> > @@ -300,6 +300,7 @@ struct kvm_xen_exit {
->> >> >  #define KVM_EXIT_RISCV_SBI        35
->> >> >  #define KVM_EXIT_RISCV_CSR        36
->> >> >  #define KVM_EXIT_NOTIFY           37
->> >> > +#define KVM_EXIT_MEMORY_FAULT     38
->> >> >=20=20
->> >> >  /* For KVM_EXIT_INTERNAL_ERROR */
->> >> >  /* Emulate instruction failed. */
->> >> > @@ -538,6 +539,14 @@ struct kvm_run {
->> >> >  #define KVM_NOTIFY_CONTEXT_INVALID	(1 << 0)
->> >> >  			__u32 flags;
->> >> >  		} notify;
->> >> > +		/* KVM_EXIT_MEMORY_FAULT */
->> >> > +		struct {
->> >> > +#define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
->> >> > +			__u32 flags;
->> >> > +			__u32 padding;
->> >> > +			__u64 gpa;
->> >> > +			__u64 size;
->> >> > +		} memory;
->> >> >  		/* Fix the size of the union. */
->> >> >  		char padding[256];
->> >> >  	};
->> >>=20
->> >>=20
->> >> --=20
->> >> Alex Benn=C3=A9e
->>=20
->>=20
->> --=20
->> Alex Benn=C3=A9e
+> Thanks
+> Philipp
+>
+> > +
+> >       /* Permit LSMs and IMA to fail the kexec */
+> >       result = security_kernel_load_data(LOADING_KEXEC_IMAGE, false);
+> >       if (result < 0)
+> > diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
+> > index ca2743f9c634..fe82e2525705 100644
+> > --- a/kernel/kexec_core.c
+> > +++ b/kernel/kexec_core.c
+> > @@ -929,6 +929,7 @@ int kimage_load_segment(struct kimage *image,
+> >  struct kimage *kexec_image;
+> >  struct kimage *kexec_crash_image;
+> >  int kexec_load_disabled;
+> > +int kexec_reboot_disabled;
+> >  #ifdef CONFIG_SYSCTL
+> >  static struct ctl_table kexec_core_sysctls[] = {
+> >       {
+> > @@ -941,6 +942,16 @@ static struct ctl_table kexec_core_sysctls[] = {
+> >               .extra1         = SYSCTL_ONE,
+> >               .extra2         = SYSCTL_ONE,
+> >       },
+> > +     {
+> > +             .procname       = "kexec_reboot_disabled",
+> > +             .data           = &kexec_reboot_disabled,
+> > +             .maxlen         = sizeof(int),
+> > +             .mode           = 0644,
+> > +             /* only handle a transition from default "0" to "1" */
+> > +             .proc_handler   = proc_dointvec_minmax,
+> > +             .extra1         = SYSCTL_ONE,
+> > +             .extra2         = SYSCTL_ONE,
+> > +     },
+> >       { }
+> >  };
+> >
+> > @@ -1138,7 +1149,7 @@ int kernel_kexec(void)
+> >
+> >       if (!kexec_trylock())
+> >               return -EBUSY;
+> > -     if (!kexec_image) {
+> > +     if (!kexec_image || kexec_reboot_disabled) {
+> >               error = -EINVAL;
+> >               goto Unlock;
+> >       }
+> > diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
+> > index 45637511e0de..583fba6de5cb 100644
+> > --- a/kernel/kexec_file.c
+> > +++ b/kernel/kexec_file.c
+> > @@ -333,6 +333,11 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
+> >       if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
+> >               return -EPERM;
+> >
+> > +     /* Check if the system admin has disabled kexec reboot. */
+> > +     if (!(flags & (KEXEC_FILE_ON_CRASH | KEXEC_FILE_UNLOAD))
+> > +         && kexec_reboot_disabled)
+> > +             return -EPERM;
+> > +
+> >       /* Make sure we have a legal set of flags */
+> >       if (flags != (flags & KEXEC_FILE_FLAGS))
+> >               return -EINVAL;
+> >
+>
 
 
---=20
-Alex Benn=C3=A9e
+-- 
+Ricardo Ribalda
