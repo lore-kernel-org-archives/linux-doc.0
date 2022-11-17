@@ -2,225 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53BBFC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 15:21:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AA47C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 15:43:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240651AbiKQPVC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Nov 2022 10:21:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39290 "EHLO
+        id S234875AbiKQPnY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Nov 2022 10:43:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240639AbiKQPUK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 10:20:10 -0500
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB6AA781B6
-        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 07:15:21 -0800 (PST)
-Received: by mail-il1-x132.google.com with SMTP id r2so1040985ilg.8
-        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 07:15:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0mda3tRJT+iEZZZtBKUMBVJCht+1W2dmNcWwzB9SAAk=;
-        b=enDxqfxXT+UPRRkUoQ0pVpD4o1W5OZKMjO8TbYuZUg/EpmK5WvwM+tyhjnAfthIuWA
-         P1j//kNZxtlDxkx1Ioxdba0X6zL6huywLOEp9wSSg0WWthpiEWIZElc0JsinjKRrMbeo
-         hdAvB7d/tZJAv25MpanKHPy42mT2MjorJ44DA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0mda3tRJT+iEZZZtBKUMBVJCht+1W2dmNcWwzB9SAAk=;
-        b=TmL7vqAJvQf9GyJ7VmmgZZq/eoXjSj47XhwX4I0OcNnlR3HWOI5R/APWgy1IA6+JI+
-         FikD1PjT42jILWeuQBeovK34h8MI71x8+UEa/moLoAzrXxaBikHfBnZ6LQ2Uox2YgX85
-         PDFqFNwNV/qVVGDClZglzj1x5vPCrYyC6qwx1ujBZzMK9VledCVTOaq9KNsjHq3pfQXR
-         ueugCjCv/XltBGUB6zKijQ3fyLzlZS4jPv8QxZIvJ9sb9pGKqZlGKnXfUT8xHzH+opRI
-         54QEzqrJZcy/drm5vz/tGhQuG+3XHhFZ7K/3xGBB4pJ+bWx/PEgpDou+rZvG35gvzbTk
-         R/Dg==
-X-Gm-Message-State: ANoB5plHHFN6bWsbZfFDI4jiie1OcnHIEeZ9+Rke2cD5zsHhqmTVTNed
-        xr5jmbNIzaZcp9xQpwznwV2eLizJwlZHkg==
-X-Google-Smtp-Source: AA0mqf5m+qkZtBc8wwtwz04rYnx5EmBcxLhY4MwUUQfCDc9Z/91ys051FLPVZ2Qmt/F14OZN/CubYw==
-X-Received: by 2002:a92:c5a3:0:b0:300:cb74:237 with SMTP id r3-20020a92c5a3000000b00300cb740237mr1394974ilt.118.1668698121021;
-        Thu, 17 Nov 2022 07:15:21 -0800 (PST)
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com. [209.85.166.50])
-        by smtp.gmail.com with ESMTPSA id y15-20020a92090f000000b002f9f001de24sm421150ilg.21.2022.11.17.07.15.18
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Nov 2022 07:15:19 -0800 (PST)
-Received: by mail-io1-f50.google.com with SMTP id b2so1533946iof.12
-        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 07:15:18 -0800 (PST)
-X-Received: by 2002:a02:c897:0:b0:374:100a:b0c7 with SMTP id
- m23-20020a02c897000000b00374100ab0c7mr1243939jao.185.1668698118410; Thu, 17
- Nov 2022 07:15:18 -0800 (PST)
+        with ESMTP id S234844AbiKQPnW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 10:43:22 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA7C0BD3;
+        Thu, 17 Nov 2022 07:43:21 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2C96AB820C9;
+        Thu, 17 Nov 2022 15:43:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA88EC4314D;
+        Thu, 17 Nov 2022 15:43:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668699798;
+        bh=IlMz1HuDGTEi4UcjN5UC5MjvYMpLuVoL5C47NsVRGi8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=MV8KXCxPDxlnaKY59Ujsn17Jn1JdwF3WvZA/R6qSE+Vgo8B1k3a66PghuhUHoUAss
+         q1qmQjdYWZ66do8Iotpe05/KaXsL/OOazs1FQlD5C0ptx+UgOdPtPy9PTTgN0cJ685
+         sY5Yb7RLF2M2NYHHcEIT0vHf4q1CLDMkOVgYiJB7hM9K7cBlsRxDWVerLGrMYdr0o4
+         zwWhRKYct7ge6cD3RECAtdsoAXfvaNmc9lYCMT1w7N0VL2GX9ZmgIMb2CBQtQ5a9UL
+         osTF3yuuWf753W3Muwm9jNqMGvDF+HBrLhW/rdAm7AbW2yTaQLoymAeOKqA7ghtOtj
+         dwvVHqvAKTJxA==
+Received: by mail-ed1-f49.google.com with SMTP id a5so3072450edb.11;
+        Thu, 17 Nov 2022 07:43:18 -0800 (PST)
+X-Gm-Message-State: ANoB5pkT9zDdLxFFzArCNXMO3Tc2X+S4iPVtkuXzXvjMEALCd1ZqDm46
+        FNWlqf+ryyroEo9xNQ/+ScC37o8lajhp0kExekQ=
+X-Google-Smtp-Source: AA0mqf6yeL/kc+GepGU3lHwiws6jGGEpvGMgRGXApxJyDYVtsnBS08Lxnq97WJBlvE5zOz5GgDwYWXD1f3rHkpU/XMM=
+X-Received: by 2002:a05:6402:1a:b0:467:30ad:c4ca with SMTP id
+ d26-20020a056402001a00b0046730adc4camr2658516edu.285.1668699796927; Thu, 17
+ Nov 2022 07:43:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20221114-disable-kexec-reset-v1-0-fb51d20cf871@chromium.org>
- <20221114-disable-kexec-reset-v1-2-fb51d20cf871@chromium.org> <20221117160650.16e06b37@rotkaeppchen>
-In-Reply-To: <20221117160650.16e06b37@rotkaeppchen>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 17 Nov 2022 16:15:07 +0100
-X-Gmail-Original-Message-ID: <CANiDSCvyQ66mXbhEgj_qnE_zR4frsxtu1bXaukDrEG0FjrE4yw@mail.gmail.com>
-Message-ID: <CANiDSCvyQ66mXbhEgj_qnE_zR4frsxtu1bXaukDrEG0FjrE4yw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] kexec: Introduce kexec_reboot_disabled
-To:     Philipp Rudo <prudo@redhat.com>
-Cc:     Eric Biederman <ebiederm@xmission.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
-        Ross Zwisler <zwisler@kernel.org>, linux-doc@vger.kernel.org,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Steven Rostedt <rostedt@goodmis.org>
+References: <20221026144208.373504-1-xianting.tian@linux.alibaba.com> <20221026144208.373504-2-xianting.tian@linux.alibaba.com>
+In-Reply-To: <20221026144208.373504-2-xianting.tian@linux.alibaba.com>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Thu, 17 Nov 2022 23:43:05 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTS4XzZXLR_+mhWUce3HFNP0KrVdBAexq+RAxuHrThuhEg@mail.gmail.com>
+Message-ID: <CAJF2gTS4XzZXLR_+mhWUce3HFNP0KrVdBAexq+RAxuHrThuhEg@mail.gmail.com>
+Subject: Re: [PATCH V5 1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
+To:     Xianting Tian <xianting.tian@linux.alibaba.com>
+Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
+        mick@ics.forth.gr, alexandre.ghiti@canonical.com, bhe@redhat.com,
+        vgoyal@redhat.com, dyoung@redhat.com, corbet@lwn.net,
+        Conor.Dooley@microchip.com, bagasdotme@gmail.com,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
+        k-hagio-ab@nec.com, hschauhan@nulltrace.org, yixun.lan@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Philipp
+Tested-by: Guo Ren <guoren@kernel.org>
 
-Thanks for your review!
-
-On Thu, 17 Nov 2022 at 16:07, Philipp Rudo <prudo@redhat.com> wrote:
+On Wed, Oct 26, 2022 at 10:42 PM Xianting Tian
+<xianting.tian@linux.alibaba.com> wrote:
 >
-> Hi Ricardo,
+> Add arch_crash_save_vmcoreinfo(), which exports VM layout(MODULES, VMALLOC,
+> VMEMMAP ranges and KERNEL_LINK_ADDR), va bits and ram base for vmcore.
 >
-> all in all I think this patch makes sense. However, there is one point
-> I don't like...
+> Default pagetable levels and PAGE_OFFSET aren't same for different kernel
+> version as below. For pagetable levels, it sets sv57 by default and falls
+> back to setting sv48 at boot time if sv57 is not supported by the hardware.
 >
-> On Mon, 14 Nov 2022 14:18:39 +0100
-> Ricardo Ribalda <ribalda@chromium.org> wrote:
+> For ram base, the default value is 0x80200000 for qemu riscv64 env and,
+> for example, is 0x200000 on the XuanTie 910 CPU.
 >
-> > Create a new toogle that disables LINUX_REBOOT_CMD_KEXEC, reducing the
-> > attack surface to a system.
-> >
-> > Without this toogle, an attacker can only reboot into a different kernel
-> > if they can create a panic().
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> >
-> > diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> > index 97394bd9d065..25d019682d33 100644
-> > --- a/Documentation/admin-guide/sysctl/kernel.rst
-> > +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> > @@ -462,6 +462,17 @@ altered.
-> >  Generally used together with the `modules_disabled`_ sysctl.
-> >
-> >
-> > +kexec_reboot_disabled
-> > +=====================
-> > +
-> > +A toggle indicating if ``LINUX_REBOOT_CMD_KEXEC`` has been disabled.
-> > +This value defaults to 0 (false: ``LINUX_REBOOT_CMD_KEXEC`` enabled),
-> > +but can be set to 1 (true: ``LINUX_REBOOT_CMD_KEXEC`` disabled).
-> > +Once true, kexec can no longer be used for reboot and the toggle
-> > +cannot be set back to false.
-> > +This toggle does not affect the use of kexec during a crash.
-> > +
-> > +
-> >  kptr_restrict
-> >  =============
-> >
-> > diff --git a/include/linux/kexec.h b/include/linux/kexec.h
-> > index 41a686996aaa..15c3fad8918b 100644
-> > --- a/include/linux/kexec.h
-> > +++ b/include/linux/kexec.h
-> > @@ -407,6 +407,7 @@ extern int kimage_crash_copy_vmcoreinfo(struct kimage *image);
-> >  extern struct kimage *kexec_image;
-> >  extern struct kimage *kexec_crash_image;
-> >  extern int kexec_load_disabled;
-> > +extern int kexec_reboot_disabled;
-> >
-> >  #ifndef kexec_flush_icache_page
-> >  #define kexec_flush_icache_page(page)
-> > diff --git a/kernel/kexec.c b/kernel/kexec.c
-> > index cb8e6e6f983c..43063f803d81 100644
-> > --- a/kernel/kexec.c
-> > +++ b/kernel/kexec.c
-> > @@ -196,6 +196,10 @@ static inline int kexec_load_check(unsigned long nr_segments,
-> >       if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
-> >               return -EPERM;
-> >
-> > +     /* Check if the system admin has disabled kexec reboot. */
-> > +     if (!(flags & KEXEC_ON_CRASH) && kexec_reboot_disabled)
-> > +             return -EPERM;
+>  * Linux Kernel 5.18 ~
+>  *      PGTABLE_LEVELS = 5
+>  *      PAGE_OFFSET = 0xff60000000000000
+>  * Linux Kernel 5.17 ~
+>  *      PGTABLE_LEVELS = 4
+>  *      PAGE_OFFSET = 0xffffaf8000000000
+>  * Linux Kernel 4.19 ~
+>  *      PGTABLE_LEVELS = 3
+>  *      PAGE_OFFSET = 0xffffffe000000000
 >
-> ... Allowing to load a crashkernel doesn't make sense in my opinion. If
-> an attacker is capable of creating a malicious kernel, planting it on
-> the victims system and then find a way to boot it via kexec this
-> attacker also knows how to load the malicious kernel as crashkernel and
-> trigger a panic. So you haven't really gained anything. That's why I
-> would simply drop this hunk (and the corresponding one from
-> kexec_file_load) and let users who worry about this use a combination of
-> kexec_load_disabled and kexec_reboot_disabled.
-
-If for whatever reason your sysadmin configured kexec_reboot_disabed
-it can be nice that when a user try to load it they get a warning.
-It is easier to debug than waiting two steps later when they run kexec -e....
-
-That is why I added it. But i am also ok removing it
-
+> Since these configurations change from time to time and version to version,
+> it is preferable to export them via vmcoreinfo than to change the crash's
+> code frequently, it can simplify the development of crash tool.
 >
-> Thanks
-> Philipp
+> Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
+> ---
+>  arch/riscv/kernel/Makefile     |  1 +
+>  arch/riscv/kernel/crash_core.c | 21 +++++++++++++++++++++
+>  2 files changed, 22 insertions(+)
+>  create mode 100644 arch/riscv/kernel/crash_core.c
 >
-> > +
-> >       /* Permit LSMs and IMA to fail the kexec */
-> >       result = security_kernel_load_data(LOADING_KEXEC_IMAGE, false);
-> >       if (result < 0)
-> > diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
-> > index ca2743f9c634..fe82e2525705 100644
-> > --- a/kernel/kexec_core.c
-> > +++ b/kernel/kexec_core.c
-> > @@ -929,6 +929,7 @@ int kimage_load_segment(struct kimage *image,
-> >  struct kimage *kexec_image;
-> >  struct kimage *kexec_crash_image;
-> >  int kexec_load_disabled;
-> > +int kexec_reboot_disabled;
-> >  #ifdef CONFIG_SYSCTL
-> >  static struct ctl_table kexec_core_sysctls[] = {
-> >       {
-> > @@ -941,6 +942,16 @@ static struct ctl_table kexec_core_sysctls[] = {
-> >               .extra1         = SYSCTL_ONE,
-> >               .extra2         = SYSCTL_ONE,
-> >       },
-> > +     {
-> > +             .procname       = "kexec_reboot_disabled",
-> > +             .data           = &kexec_reboot_disabled,
-> > +             .maxlen         = sizeof(int),
-> > +             .mode           = 0644,
-> > +             /* only handle a transition from default "0" to "1" */
-> > +             .proc_handler   = proc_dointvec_minmax,
-> > +             .extra1         = SYSCTL_ONE,
-> > +             .extra2         = SYSCTL_ONE,
-> > +     },
-> >       { }
-> >  };
-> >
-> > @@ -1138,7 +1149,7 @@ int kernel_kexec(void)
-> >
-> >       if (!kexec_trylock())
-> >               return -EBUSY;
-> > -     if (!kexec_image) {
-> > +     if (!kexec_image || kexec_reboot_disabled) {
-> >               error = -EINVAL;
-> >               goto Unlock;
-> >       }
-> > diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
-> > index 45637511e0de..583fba6de5cb 100644
-> > --- a/kernel/kexec_file.c
-> > +++ b/kernel/kexec_file.c
-> > @@ -333,6 +333,11 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
-> >       if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
-> >               return -EPERM;
-> >
-> > +     /* Check if the system admin has disabled kexec reboot. */
-> > +     if (!(flags & (KEXEC_FILE_ON_CRASH | KEXEC_FILE_UNLOAD))
-> > +         && kexec_reboot_disabled)
-> > +             return -EPERM;
-> > +
-> >       /* Make sure we have a legal set of flags */
-> >       if (flags != (flags & KEXEC_FILE_FLAGS))
-> >               return -EINVAL;
-> >
+> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+> index db6e4b1294ba..4cf303a779ab 100644
+> --- a/arch/riscv/kernel/Makefile
+> +++ b/arch/riscv/kernel/Makefile
+> @@ -81,6 +81,7 @@ obj-$(CONFIG_KGDB)            += kgdb.o
+>  obj-$(CONFIG_KEXEC_CORE)       += kexec_relocate.o crash_save_regs.o machine_kexec.o
+>  obj-$(CONFIG_KEXEC_FILE)       += elf_kexec.o machine_kexec_file.o
+>  obj-$(CONFIG_CRASH_DUMP)       += crash_dump.o
+> +obj-$(CONFIG_CRASH_CORE)       += crash_core.o
+>
+>  obj-$(CONFIG_JUMP_LABEL)       += jump_label.o
+>
+> diff --git a/arch/riscv/kernel/crash_core.c b/arch/riscv/kernel/crash_core.c
+> new file mode 100644
+> index 000000000000..b351a3c01355
+> --- /dev/null
+> +++ b/arch/riscv/kernel/crash_core.c
+> @@ -0,0 +1,21 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include <linux/crash_core.h>
+> +#include <linux/pagemap.h>
+> +
+> +void arch_crash_save_vmcoreinfo(void)
+> +{
+> +       VMCOREINFO_NUMBER(VA_BITS);
+> +       VMCOREINFO_NUMBER(phys_ram_base);
+> +
+> +       vmcoreinfo_append_str("NUMBER(PAGE_OFFSET)=0x%lx\n", PAGE_OFFSET);
+> +       vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n", VMALLOC_START);
+> +       vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n", VMALLOC_END);
+> +       vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", VMEMMAP_START);
+> +       vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", VMEMMAP_END);
+> +#ifdef CONFIG_64BIT
+> +       vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", MODULES_VADDR);
+> +       vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
+> +#endif
+> +       vmcoreinfo_append_str("NUMBER(KERNEL_LINK_ADDR)=0x%lx\n", KERNEL_LINK_ADDR);
+> +}
+> --
+> 2.17.1
 >
 
 
 -- 
-Ricardo Ribalda
+Best Regards
+ Guo Ren
