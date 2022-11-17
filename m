@@ -2,146 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AA47C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 15:43:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FEFDC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 17:01:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234875AbiKQPnY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Nov 2022 10:43:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54866 "EHLO
+        id S240131AbiKQRB4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Nov 2022 12:01:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234844AbiKQPnW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 10:43:22 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA7C0BD3;
-        Thu, 17 Nov 2022 07:43:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2C96AB820C9;
-        Thu, 17 Nov 2022 15:43:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA88EC4314D;
-        Thu, 17 Nov 2022 15:43:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668699798;
-        bh=IlMz1HuDGTEi4UcjN5UC5MjvYMpLuVoL5C47NsVRGi8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=MV8KXCxPDxlnaKY59Ujsn17Jn1JdwF3WvZA/R6qSE+Vgo8B1k3a66PghuhUHoUAss
-         q1qmQjdYWZ66do8Iotpe05/KaXsL/OOazs1FQlD5C0ptx+UgOdPtPy9PTTgN0cJ685
-         sY5Yb7RLF2M2NYHHcEIT0vHf4q1CLDMkOVgYiJB7hM9K7cBlsRxDWVerLGrMYdr0o4
-         zwWhRKYct7ge6cD3RECAtdsoAXfvaNmc9lYCMT1w7N0VL2GX9ZmgIMb2CBQtQ5a9UL
-         osTF3yuuWf753W3Muwm9jNqMGvDF+HBrLhW/rdAm7AbW2yTaQLoymAeOKqA7ghtOtj
-         dwvVHqvAKTJxA==
-Received: by mail-ed1-f49.google.com with SMTP id a5so3072450edb.11;
-        Thu, 17 Nov 2022 07:43:18 -0800 (PST)
-X-Gm-Message-State: ANoB5pkT9zDdLxFFzArCNXMO3Tc2X+S4iPVtkuXzXvjMEALCd1ZqDm46
-        FNWlqf+ryyroEo9xNQ/+ScC37o8lajhp0kExekQ=
-X-Google-Smtp-Source: AA0mqf6yeL/kc+GepGU3lHwiws6jGGEpvGMgRGXApxJyDYVtsnBS08Lxnq97WJBlvE5zOz5GgDwYWXD1f3rHkpU/XMM=
-X-Received: by 2002:a05:6402:1a:b0:467:30ad:c4ca with SMTP id
- d26-20020a056402001a00b0046730adc4camr2658516edu.285.1668699796927; Thu, 17
- Nov 2022 07:43:16 -0800 (PST)
+        with ESMTP id S240433AbiKQRBe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 12:01:34 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE5637C033;
+        Thu, 17 Nov 2022 09:01:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=Vmi6/RojD9d1OxFKL4E7Z1ad9Xu2eaOWEvbqfcXEucU=; b=atuTIcZYof2OikVaDi2a/irx4/
+        k/aN4pt24Bz1QrGqRk3h+E2CnMAVSEGu5d+kLIFJ1ihdP+n6Q+m29Dl9hTpVGd8XLyqWuGzhHgDHJ
+        NKEMrfT5+mrPjNLhvfUFVvZFyK9kum1Ll2G1bak/fNSuGNgE5wSlq7QDcYpW7ywnrjBFtrvz8wBlI
+        x5SoItlev/9/36Wp+yzpsOHBnT9AbxU0ed+MU65fDJwcHGadtJ/rSceZIrTziOTkFzvOywMKeDIkd
+        jbMOotCoxmhRJdd3Ql1zItsDWsEeWH2fNXXgCT5L0hBI14qD0+exyOjwKv3Dzey48OS/1OeLqAS3P
+        gd69Ktaw==;
+Received: from [2601:1c2:d80:3110::a2e7]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oviGF-00GH03-Jy; Thu, 17 Nov 2022 17:01:11 +0000
+Message-ID: <e2948e8b-6e00-abbb-0948-017e7fd584f6@infradead.org>
+Date:   Thu, 17 Nov 2022 09:01:11 -0800
 MIME-Version: 1.0
-References: <20221026144208.373504-1-xianting.tian@linux.alibaba.com> <20221026144208.373504-2-xianting.tian@linux.alibaba.com>
-In-Reply-To: <20221026144208.373504-2-xianting.tian@linux.alibaba.com>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Thu, 17 Nov 2022 23:43:05 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTS4XzZXLR_+mhWUce3HFNP0KrVdBAexq+RAxuHrThuhEg@mail.gmail.com>
-Message-ID: <CAJF2gTS4XzZXLR_+mhWUce3HFNP0KrVdBAexq+RAxuHrThuhEg@mail.gmail.com>
-Subject: Re: [PATCH V5 1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
-To:     Xianting Tian <xianting.tian@linux.alibaba.com>
-Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
-        mick@ics.forth.gr, alexandre.ghiti@canonical.com, bhe@redhat.com,
-        vgoyal@redhat.com, dyoung@redhat.com, corbet@lwn.net,
-        Conor.Dooley@microchip.com, bagasdotme@gmail.com,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
-        k-hagio-ab@nec.com, hschauhan@nulltrace.org, yixun.lan@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v1 1/2] math64: favor kernel-doc from header files
+Content-Language: en-US
+To:     Liam Beguin <liambeguin@gmail.com>, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221117023510.2338176-1-liambeguin@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20221117023510.2338176-1-liambeguin@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tested-by: Guo Ren <guoren@kernel.org>
+Hi--
 
-On Wed, Oct 26, 2022 at 10:42 PM Xianting Tian
-<xianting.tian@linux.alibaba.com> wrote:
->
-> Add arch_crash_save_vmcoreinfo(), which exports VM layout(MODULES, VMALLOC,
-> VMEMMAP ranges and KERNEL_LINK_ADDR), va bits and ram base for vmcore.
->
-> Default pagetable levels and PAGE_OFFSET aren't same for different kernel
-> version as below. For pagetable levels, it sets sv57 by default and falls
-> back to setting sv48 at boot time if sv57 is not supported by the hardware.
->
-> For ram base, the default value is 0x80200000 for qemu riscv64 env and,
-> for example, is 0x200000 on the XuanTie 910 CPU.
->
->  * Linux Kernel 5.18 ~
->  *      PGTABLE_LEVELS = 5
->  *      PAGE_OFFSET = 0xff60000000000000
->  * Linux Kernel 5.17 ~
->  *      PGTABLE_LEVELS = 4
->  *      PAGE_OFFSET = 0xffffaf8000000000
->  * Linux Kernel 4.19 ~
->  *      PGTABLE_LEVELS = 3
->  *      PAGE_OFFSET = 0xffffffe000000000
->
-> Since these configurations change from time to time and version to version,
-> it is preferable to export them via vmcoreinfo than to change the crash's
-> code frequently, it can simplify the development of crash tool.
->
-> Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
+On 11/16/22 18:35, Liam Beguin wrote:
+> Fix the kernel-doc markings for div64 functions to point to the header
+> file instead of the lib/ directory.  This avoids having implementation
+> specific comments in generic documentation.  Furthermore, given that
+> some kernel-doc comments are identical, drop them from lib/math64 and
+> only keep there comments that add implementation details.
+> 
+> Signed-off-by: Liam Beguin <liambeguin@gmail.com>
+
+LGTM.
+
+Could you also fix these 2 warnings?
+
+math64.h:126: warning: No description found for return value of 'div_u64'
+math64.h:139: warning: No description found for return value of 'div_s64'
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
 > ---
->  arch/riscv/kernel/Makefile     |  1 +
->  arch/riscv/kernel/crash_core.c | 21 +++++++++++++++++++++
->  2 files changed, 22 insertions(+)
->  create mode 100644 arch/riscv/kernel/crash_core.c
->
-> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-> index db6e4b1294ba..4cf303a779ab 100644
-> --- a/arch/riscv/kernel/Makefile
-> +++ b/arch/riscv/kernel/Makefile
-> @@ -81,6 +81,7 @@ obj-$(CONFIG_KGDB)            += kgdb.o
->  obj-$(CONFIG_KEXEC_CORE)       += kexec_relocate.o crash_save_regs.o machine_kexec.o
->  obj-$(CONFIG_KEXEC_FILE)       += elf_kexec.o machine_kexec_file.o
->  obj-$(CONFIG_CRASH_DUMP)       += crash_dump.o
-> +obj-$(CONFIG_CRASH_CORE)       += crash_core.o
->
->  obj-$(CONFIG_JUMP_LABEL)       += jump_label.o
->
-> diff --git a/arch/riscv/kernel/crash_core.c b/arch/riscv/kernel/crash_core.c
-> new file mode 100644
-> index 000000000000..b351a3c01355
-> --- /dev/null
-> +++ b/arch/riscv/kernel/crash_core.c
-> @@ -0,0 +1,21 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <linux/crash_core.h>
-> +#include <linux/pagemap.h>
-> +
-> +void arch_crash_save_vmcoreinfo(void)
-> +{
-> +       VMCOREINFO_NUMBER(VA_BITS);
-> +       VMCOREINFO_NUMBER(phys_ram_base);
-> +
-> +       vmcoreinfo_append_str("NUMBER(PAGE_OFFSET)=0x%lx\n", PAGE_OFFSET);
-> +       vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n", VMALLOC_START);
-> +       vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n", VMALLOC_END);
-> +       vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", VMEMMAP_START);
-> +       vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", VMEMMAP_END);
-> +#ifdef CONFIG_64BIT
-> +       vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", MODULES_VADDR);
-> +       vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
-> +#endif
-> +       vmcoreinfo_append_str("NUMBER(KERNEL_LINK_ADDR)=0x%lx\n", KERNEL_LINK_ADDR);
-> +}
-> --
-> 2.17.1
->
-
+>  Documentation/core-api/kernel-api.rst |  3 ---
+>  include/linux/math64.h                | 12 ++++++------
+>  lib/math/div64.c                      | 15 ++-------------
+>  3 files changed, 8 insertions(+), 22 deletions(-)
 
 -- 
-Best Regards
- Guo Ren
+~Randy
