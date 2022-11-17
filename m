@@ -2,66 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7D7FC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 17:03:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A74FC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 17:23:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239397AbiKQRC7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Nov 2022 12:02:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34474 "EHLO
+        id S234725AbiKQRXe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Nov 2022 12:23:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239414AbiKQRCl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 12:02:41 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A43C67DEC7;
-        Thu, 17 Nov 2022 09:02:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=nMNBUQ0gB1BIFI7lqf3e+d2exv3yiKu4pNt7fTaoekk=; b=n8T2mYbQBqFsPUd5HZ94HvFGMe
-        fOuVtq9WOURbgYpta93uZg4mp/MQJMJDPe8EqRK7DWPmBNClpMUBYrJt/gfGnx/1hT1O9ieUOM7I9
-        /qHyPfoOTYytBPw7FGmIbjBDmf8AF6BsIfb0XQv6rco1LjDhdt5bkNqvB/cu5nAx4ItoeaeNz2bdk
-        ZKEF0bYjPKdi54xG2WsPGWnNZ695snVvJq2XxJ9PRJX/W43clK/iIRfUCHo/67lA91obL54EaSW8C
-        WJ/8/E4ZTGp3pETz/bLmomO2jg7ZrGbS+098Dp6C3wgYpqCymjBbYP7wRPNZ8O1e8NJpbzSA+L3U0
-        CAd0VuTQ==;
-Received: from [2601:1c2:d80:3110::a2e7]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oviHU-00GHGC-QO; Thu, 17 Nov 2022 17:02:28 +0000
-Message-ID: <202224b1-ebd6-97b2-0868-c6a9102748a1@infradead.org>
-Date:   Thu, 17 Nov 2022 09:02:28 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v1 2/2] math64: add kernel-doc for DIV64_U64_ROUND_UP
-Content-Language: en-US
-To:     Liam Beguin <liambeguin@gmail.com>, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        with ESMTP id S234614AbiKQRXe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 12:23:34 -0500
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C95ACE16;
+        Thu, 17 Nov 2022 09:23:32 -0800 (PST)
+Received: by mail-qv1-xf29.google.com with SMTP id u7so1617930qvn.13;
+        Thu, 17 Nov 2022 09:23:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=n+f0ffGwOscTxbM5U9SLOAxGKC3QE85aGvCaHj4K1HE=;
+        b=Qtay/nV+Fn/OluEZAkqL3DtU1cTzGVtUoh/fy4laciv4EN4q2903mYrHY7xH5OZ0+4
+         TrlzSOD1HEkR5yW0uIw5njCKSmUzyo6CMRgTXmtopnuizMMgI+ZYDjXTIfUCQE95aQVk
+         0+X1gduCe9vwSdzTTqaBvs1gy5OhcOpQqDslAU4HFAbc0vld1k9jKGc14zruXxgJj9HF
+         mpJyaCG8FcBe6Yp+SUUZCQz1EuBDelVq8qH1/veBGxbQsj8zWLj22nfAWeF4s/PHID/4
+         CqVbpZsdF80PzZ1b/kS/utcQPyduVyLM8gwJ0KKkznvumSfgg/YEGPu5YVjq+7U0d9n2
+         PG9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n+f0ffGwOscTxbM5U9SLOAxGKC3QE85aGvCaHj4K1HE=;
+        b=ojpu4i4hbczgqW4rYV23JSjNDiN2uX7pad+KveIC6PLIWxee4xUoQKL101V5R5o0Yy
+         ijKc4ubM2ne5DwjYcyEvM6dfJfAAmMCCMlAl4yUChFpX3x5UN0Ooirl3rlKlPeXmS9oH
+         VJ4xS7g3snJYi7mVJN3OdD/Lwqa8LjLEHEUy7zviobC4JB7UGiHNFIvMyBZShRix7IJL
+         +4ZCUuVsZX6kEKIchGGUoVpnarrlfWZSdvAFuT40ibUACzGQP48sVsyoG+U3OrNb0LsU
+         Z5bQxAqcJ653HrXPdfFFmt/p0nGTlkfwPuvmHlmLnuIrpslOZFSseFJZlDsaYNnlXFSz
+         hV/g==
+X-Gm-Message-State: ANoB5pl6FJgwEy49oLLZBVdcKkLifxZ26lbx8z8okxEOqvEPdEIWmUR+
+        dCUO3Yyd/88oai4oqnLEVWo=
+X-Google-Smtp-Source: AA0mqf6rRVszZklBI/GCUbRqW0jDJ1ToOyToBlqN9UW3khvWOHk9/0j5v1R2PxV/AjguZ+4U3saxQw==
+X-Received: by 2002:a0c:fe11:0:b0:4bb:64d5:486d with SMTP id x17-20020a0cfe11000000b004bb64d5486dmr3452021qvr.1.1668705811335;
+        Thu, 17 Nov 2022 09:23:31 -0800 (PST)
+Received: from shaak (modemcable055.92-163-184.mc.videotron.ca. [184.163.92.55])
+        by smtp.gmail.com with ESMTPSA id bs42-20020a05620a472a00b006b61b2cb1d2sm809875qkb.46.2022.11.17.09.23.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Nov 2022 09:23:30 -0800 (PST)
+Date:   Thu, 17 Nov 2022 12:23:28 -0500
+From:   Liam Beguin <liambeguin@gmail.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] math64: favor kernel-doc from header files
+Message-ID: <Y3ZuECdzBqUjAUlN@shaak>
 References: <20221117023510.2338176-1-liambeguin@gmail.com>
- <20221117023510.2338176-2-liambeguin@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20221117023510.2338176-2-liambeguin@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <e2948e8b-6e00-abbb-0948-017e7fd584f6@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e2948e8b-6e00-abbb-0948-017e7fd584f6@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Randy,
 
-
-On 11/16/22 18:35, Liam Beguin wrote:
-> Add kernel-doc for DIV64_U64_ROUND_UP so that it appears in the
-> documentation.
+On Thu, Nov 17, 2022 at 09:01:11AM -0800, Randy Dunlap wrote:
+> Hi--
 > 
-> Signed-off-by: Liam Beguin <liambeguin@gmail.com>
+> On 11/16/22 18:35, Liam Beguin wrote:
+> > Fix the kernel-doc markings for div64 functions to point to the header
+> > file instead of the lib/ directory.  This avoids having implementation
+> > specific comments in generic documentation.  Furthermore, given that
+> > some kernel-doc comments are identical, drop them from lib/math64 and
+> > only keep there comments that add implementation details.
+> > 
+> > Signed-off-by: Liam Beguin <liambeguin@gmail.com>
+> 
+> LGTM.
+> 
+> Could you also fix these 2 warnings?
+> 
+> math64.h:126: warning: No description found for return value of 'div_u64'
+> math64.h:139: warning: No description found for return value of 'div_s64'
+> 
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Sure, I'll look into that!
 
-Thanks.
+Cheers,
+Liam
 
-> ---
->  include/linux/math64.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-
--- 
-~Randy
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+> 
+> Thanks.
+> 
+> > ---
+> >  Documentation/core-api/kernel-api.rst |  3 ---
+> >  include/linux/math64.h                | 12 ++++++------
+> >  lib/math/div64.c                      | 15 ++-------------
+> >  3 files changed, 8 insertions(+), 22 deletions(-)
+> 
+> -- 
+> ~Randy
