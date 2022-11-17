@@ -2,120 +2,251 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D121C43219
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 08:43:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0CCEC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 09:55:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239708AbiKQIno (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Nov 2022 03:43:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44354 "EHLO
+        id S239349AbiKQJzU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Nov 2022 04:55:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239680AbiKQInU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 03:43:20 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFBE8748FA;
-        Thu, 17 Nov 2022 00:43:00 -0800 (PST)
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AH84Fct015795;
-        Thu, 17 Nov 2022 08:42:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=content-type :
- mime-version : content-transfer-encoding : in-reply-to : references : to :
- subject : cc : from : message-id : date; s=pp1;
- bh=kVu+7X+SrSJ0orR2t6fwIpIPKWWxtROvgCwe8G7gS+o=;
- b=VFga4VflYY1yBrasKX/8V5gWCqTlUk67f8XIqBMqYOFGZbKyYvmmq7R18N5FzBXJyH8o
- nlZ8UaW1Dpjr8e62+P2BQwgzJb5VZa5dIDsHXcMapxJFWYkcEMDitjQWrM97T42V3077
- EeLHIDAnO/9Yc/jUqDxHZUrvMrqyKeqwpTA/jeP/khw//HivZZwypvntjnEZmqZpwkT7
- DOGKKW44sqtrkosElEWPO5TY8kR7UsY4IE85BkOO9fJ2oO5/2tB3AsR/skyghnNJb4Mx
- 3641KxK4mofDk4COjFn51lo2D3uQIzoh19CzmYY5CFxeAgcixi3nGwAtDYJhkikuyJpV 9g== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kwh4bs3yp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 17 Nov 2022 08:42:52 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AH84wLd017582;
-        Thu, 17 Nov 2022 08:42:51 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kwh4bs3xk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 17 Nov 2022 08:42:51 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-        by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AH8Yjpl012734;
-        Thu, 17 Nov 2022 08:42:49 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-        by ppma03ams.nl.ibm.com with ESMTP id 3kt348y925-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 17 Nov 2022 08:42:48 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2AH8hP5751970464
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 17 Nov 2022 08:43:25 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B0C25A405B;
-        Thu, 17 Nov 2022 08:42:45 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 72CFFA4054;
-        Thu, 17 Nov 2022 08:42:45 +0000 (GMT)
-Received: from t14-nrb (unknown [9.171.65.30])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Thu, 17 Nov 2022 08:42:45 +0000 (GMT)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S239381AbiKQJzA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 04:55:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C9CEBF6B
+        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 01:53:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1668678806;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=iDCB9fgd0Mu9h/tKpdz8x9GzaTGBDxvpI7X/JZuqRQo=;
+        b=K30HaF6T+KfN2ATClJn5bGUaQIOCE3U3jeRT90MrPnD8SKaJpLgdATFVp1NkqO8r1DwypS
+        jj+5c7e+qFU2d/6lW+uwykLAr8Uz68gPOWD1GXEc3yPag53Sbu4JqW+buexkzMBI9obqhZ
+        LPB/vo6pDFXIClaI82ut36TtALgA25A=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-351-gJIvtN8rMLWp9TfNL_1tGw-1; Thu, 17 Nov 2022 04:53:23 -0500
+X-MC-Unique: gJIvtN8rMLWp9TfNL_1tGw-1
+Received: by mail-qk1-f197.google.com with SMTP id h13-20020a05620a244d00b006fb713618b8so1614010qkn.0
+        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 01:53:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iDCB9fgd0Mu9h/tKpdz8x9GzaTGBDxvpI7X/JZuqRQo=;
+        b=bRHv4ngMbfMoJsUZO+V9W1w7Zv9oQl5kyPRF3/lVzXpOwdy6fljkJ2NzBWB5jcSRu0
+         5Zdqq7muWHyYKVctrs2+MHaDxZ/aYQieeFcMIL34JxkidP3Ks+0oe7lyazM3YFV+p/NU
+         Cf1arG+26EJTshSj0X+HAumUhU230H/kXLDUenpDjxKu9Mv1cEJLgPL66k0eCcJHY3jm
+         AxXjA8K7198zk/CwQ9scVcfuMgWDtV6fkdM9dcejXQFLb10gzHMJXauLGTAEGMAolpCr
+         QwIf7eKwg2AT0/szfIdSnJP/+dnYXANi2vDOR3BAUOuos0kF60bRQhHIycm6+mTAicxv
+         I9jg==
+X-Gm-Message-State: ANoB5pkFq+uWAlr1hYIirVqYUJ4i/U+AobFakb8QH83O5H1awQc36zjI
+        R/zugJgyBLZDq/avfwlPRtoJ7Odv21QRGolo94qOfbbF0V30ThmXEWVjFRJ9gaH/TUGqNSyJOuv
+        jGdhAPc1REwhaPxRwlPEI
+X-Received: by 2002:a05:620a:15bc:b0:6fa:e58e:f006 with SMTP id f28-20020a05620a15bc00b006fae58ef006mr938785qkk.343.1668678803248;
+        Thu, 17 Nov 2022 01:53:23 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4qw6LjK9buAd0lPa9YkFN6rXwB2g0BN1k58Cs+CL1eITY/UeS+G+34l2ziHZXW0JYik/SYug==
+X-Received: by 2002:a05:620a:15bc:b0:6fa:e58e:f006 with SMTP id f28-20020a05620a15bc00b006fae58ef006mr938774qkk.343.1668678803014;
+        Thu, 17 Nov 2022 01:53:23 -0800 (PST)
+Received: from nfvsdn-06.testing.baremetal.edge-sites.net (nat-pool-232-132.redhat.com. [66.187.232.132])
+        by smtp.gmail.com with ESMTPSA id t20-20020a05620a451400b006ceb933a9fesm152083qkp.81.2022.11.17.01.53.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Nov 2022 01:53:22 -0800 (PST)
+From:   mtahhan@redhat.com
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     jbrouer@redhat.com, thoiland@redhat.com, donhunte@redhat.com,
+        magnus.karlsson@gmail.com, Maryam Tahhan <mtahhan@redhat.com>
+Subject: [PATCH bpf-next v1 1/1] docs: BPF_MAP_TYPE_XSKMAP
+Date:   Thu, 17 Nov 2022 05:50:44 -0500
+Message-Id: <20221117105044.1935488-1-mtahhan@redhat.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <8708073bdd4c90dbc25ee3711afc59585bc0d740.camel@linux.ibm.com>
-References: <20221012205609.2811294-1-scgl@linux.ibm.com> <20221012205609.2811294-2-scgl@linux.ibm.com> <Y2J61LWSV+HolIeT@osiris> <8708073bdd4c90dbc25ee3711afc59585bc0d740.camel@linux.ibm.com>
-To:     Heiko Carstens <hca@linux.ibm.com>,
-        Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-Subject: Re: [PATCH v2 1/9] s390/uaccess: Add storage key checked cmpxchg access to user space
-Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>
-From:   Nico Boehr <nrb@linux.ibm.com>
-Message-ID: <166867456298.12564.8456237098002804507@t14-nrb.local>
-User-Agent: alot/0.8.1
-Date:   Thu, 17 Nov 2022 09:42:43 +0100
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: RRV_ZocSW71LnlEzr-UF6SRK2rAVMgre
-X-Proofpoint-GUID: tV18gdyHXIQG-md5aQOwiuQ2KbDVylNb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-17_04,2022-11-16_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- phishscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
- spamscore=0 impostorscore=0 adultscore=0 bulkscore=0 malwarescore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211170064
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Janis Schoetterl-Glausch (2022-11-16 20:36:46)
-> On Wed, 2022-11-02 at 15:12 +0100, Heiko Carstens wrote:
-> >=20
-> [...]
->=20
-> > I also did not limit the number of retries for the one and two byte
-> > scenarion. Before doing that we need to have proof that there really is=
- a
-> > problem. Maybe Nico or you will give this a try.
->=20
-> I wrote a memop selftest testcase where the main thread uses the one byte=
- cmpxchg
-> while n vcpus flip adjacent bits. The time the test case runs increases s=
-uperlinearly with n.
-> With 248 vcpus, 1000 one byte cmpxchgs take 25s.
-> I'm not sure how meaningful the test is since the worst case would be if =
-the threads hammering
-> the word would run on a cpu dedicated to them.
->=20
-> In any case, why not err on the side of caution and limit the iterations?
-> I'll send an rfc patch.
+From: Maryam Tahhan <mtahhan@redhat.com>
 
-I agree, limiting sounds like the safe choice.
+Add documentation for BPF_MAP_TYPE_XSKMAP
+including kernel version introduced, usage
+and examples.
+
+Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+---
+ Documentation/bpf/map_xskmap.rst | 161 +++++++++++++++++++++++++++++++
+ 1 file changed, 161 insertions(+)
+ create mode 100644 Documentation/bpf/map_xskmap.rst
+
+diff --git a/Documentation/bpf/map_xskmap.rst b/Documentation/bpf/map_xskmap.rst
+new file mode 100644
+index 000000000000..5699a89851ef
+--- /dev/null
++++ b/Documentation/bpf/map_xskmap.rst
+@@ -0,0 +1,161 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
++
++===================
++BPF_MAP_TYPE_XSKMAP
++===================
++
++.. note::
++   - ``BPF_MAP_TYPE_XSKMAP`` was introduced in kernel version 4.18
++
++The ``BPF_MAP_TYPE_XSKMAP`` is used as a backend map for XDP BPF helper
++call ``bpf_redirect_map()`` and XDP_REDIRECT action, like 'devmap' and 'cpumap'.
++This map type redirects raw XDP frames to AF_XDP sockets (XSKs). An AF_XDP socket
++binds to a single netdev queue. A mapping of XSKs to queues is shown below:
++
++.. code-block:: none
++
++    +---------------------------------------------------+
++    |     xsk A      |     xsk B       |      xsk C     |<---+ Userspace
++    =========================================================|==========
++    |    Queue 0     |     Queue 1     |     Queue 2    |    |  Kernel
++    +---------------------------------------------------+    |
++    |                  Netdev eth0                      |    |
++    +---------------------------------------------------+    |
++    |                            +=============+        |    |
++    |                            | key |  xsk  |        |    |
++    |  +---------+               +=============+        |    |
++    |  |         |               |  0  | xsk A |        |    |
++    |  |         |               +-------------+        |    |
++    |  |         |               |  1  | xsk B |        |    |
++    |  | eBPF    |-- redirect -->+-------------+-------------+
++    |  | prog    |               |  2  | xsk C |        |
++    |  |         |               +-------------+        |
++    |  |         |                                      |
++    |  |         |                                      |
++    |  +---------+                                      |
++    |                                                   |
++    +---------------------------------------------------+
++
++.. note::
++    An AF_XDP socket that is bound to a certain <netdev/queue_id> will *only*
++    accept XDP frames from that <netdev/queue_id>. If an XDP program tries to redirect
++    from a <netdev/queue_id> other than what the socket is bound to, the frame will
++    not be received on the socket.
++
++Typically an XSKMAP is created per netdev. This map contains an array of XSK File
++Descriptors (FDs). The number of array elements is typically set or adjusted using
++the ``max_entries`` map parameter. For AF_XDP ``max_entries`` is equal to the number
++of queues supported by the netdev.
++
++Usage
++=====
++
++Kernel BPF
++----------
++.. c:function::
++     long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
++
++ Redirect the packet to the endpoint referenced by ``map`` at index ``key``.
++ For ``BPF_MAP_TYPE_XSKMAP`` this map contains references to AF_XDP socket FDs
++ for sockets attached to a netdev's queues.
++
++ .. note::
++    If the map is empty at an index, the packet is dropped. This means that it is
++    mandatory to have an XDP program loaded (and one AF_XDP socket in the XSKMAP)
++    to be able to get any traffic to user space through the socket.
++
++.. c:function::
++    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
++
++ XSK FD entries can be retrieved using the ``bpf_map_lookup_elem()`` helper.
++
++Userspace
++---------
++.. note::
++    AF_XDP socket entries can only be updated/deleted from user space and not from
++    an eBPF program. Trying to call these functions from a kernel eBPF program will
++    result in the program failing to load and a verifier warning.
++
++.. c:function::
++   int bpf_map_update_elem(int fd, const void *key, const void *value, __u64 flags)
++
++ AF_XDP socket entries can be added or updated using the ``bpf_map_update_elem()``
++ helper. The ``key`` parameter is equal to the queue_id of the queue the AF_XDP
++ socket is attaching to. And the ``value`` parameter is the file descriptor (fd))
++ value of that socket.
++
++ Under the hood, the AF_XDP map update function uses the XSK FD value to retrieve the
++ associated ``struct xdp_sock`` instance.
++
++ The flags argument can be one of the following:
++  - BPF_ANY: Create a new element or update an existing element.
++  - BPF_NOEXIST: Create a new element only if it did not exist.
++  - BPF_EXIST: Update an existing element.
++
++.. c:function::
++    int bpf_map_lookup_elem(int fd, const void *key, void *value)
++
++ AF_XDP socket entries can be retrieved using the ``bpf_map_lookup_elem()``
++ helper.
++
++.. c:function::
++    int bpf_map_delete_elem(int fd, const void *key)
++
++ AF_XDP socket entries can be deleted using the ``bpf_map_delete_elem()``
++ helper. This helper will return 0 on success, or negative error in case of
++ failure.
++
++Examples
++========
++Kernel
++------
++
++The following code snippet shows how to declare a ``BPF_MAP_TYPE_XSKMAP`` called
++``xsks_map`` and how to redirect packets to an AF_XDP socket.
++
++.. code-block:: c
++
++   struct {
++        __uint(type, BPF_MAP_TYPE_XSKMAP);
++        __type(key_size, int);
++        __type(value_size, int);
++        __uint(max_entries, 64);
++    } xsks_map SEC(".maps");
++
++
++    SEC("xdp")
++    int xsk_redir_prog(struct xdp_md *ctx)
++    {
++        int index = ctx->rx_queue_id;
++
++        if (bpf_map_lookup_elem(&xsks_map, &index))
++            return bpf_redirect_map(&xsks_map, index, 0);
++        return XDP_PASS;
++    }
++
++Userspace
++---------
++
++The following code snippet shows how to update an XSK map with an AF_XDP socket
++entry.
++
++.. code-block:: c
++
++    int update_xsks_map(struct bpf_map *xsks_map, int queue_id, int xsk_fd)
++    {
++        int ret;
++
++        ret = bpf_map_update_elem(bpf_map__fd(xsks_map), &queue_id, &xsk_fd, 0);
++        if (ret < 0) {
++            fprintf(stderr, "Failed to update xsks_map: %s\n",
++                strerror(errno));
++        }
++
++        return ret;
++    }
++
++.. note::
++    The most comprehensive resource for using XSKMAPs is `libxdp`_.
++
++.. _libxdp: https://github.com/xdp-project/xdp-tools/tree/master/lib/libxdp
+-- 
+2.38.1
+
