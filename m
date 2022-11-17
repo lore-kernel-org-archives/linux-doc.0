@@ -2,176 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F285CC4167D
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 08:42:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D121C43219
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 08:43:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239367AbiKQImg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Nov 2022 03:42:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42576 "EHLO
+        id S239708AbiKQIno (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Nov 2022 03:43:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239324AbiKQImd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 03:42:33 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB5FA7340C;
-        Thu, 17 Nov 2022 00:42:31 -0800 (PST)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NCYGm6b1RzqSLX;
-        Thu, 17 Nov 2022 16:38:40 +0800 (CST)
-Received: from localhost.localdomain (10.67.164.66) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 17 Nov 2022 16:42:29 +0800
-From:   Yicong Yang <yangyicong@huawei.com>
-To:     Shaokun Zhang <zhangshaokun@hisilicon.com>, <liuqi6124@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        <jonathan.cameron@huawei.com>, <bagasdotme@gmail.com>
-CC:     <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <linuxarm@huawei.com>, <f.fangjian@huawei.com>,
-        <prime.zeng@huawei.com>, <shenyang39@huawei.com>
-Subject: [PATCH v3 3/4] Documentation: perf: Indent filter options list of hisi-pcie-pmu
-Date:   Thu, 17 Nov 2022 16:41:35 +0800
-Message-ID: <20221117084136.53572-4-yangyicong@huawei.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20221117084136.53572-1-yangyicong@huawei.com>
-References: <20221117084136.53572-1-yangyicong@huawei.com>
+        with ESMTP id S239680AbiKQInU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 03:43:20 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFBE8748FA;
+        Thu, 17 Nov 2022 00:43:00 -0800 (PST)
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AH84Fct015795;
+        Thu, 17 Nov 2022 08:42:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=content-type :
+ mime-version : content-transfer-encoding : in-reply-to : references : to :
+ subject : cc : from : message-id : date; s=pp1;
+ bh=kVu+7X+SrSJ0orR2t6fwIpIPKWWxtROvgCwe8G7gS+o=;
+ b=VFga4VflYY1yBrasKX/8V5gWCqTlUk67f8XIqBMqYOFGZbKyYvmmq7R18N5FzBXJyH8o
+ nlZ8UaW1Dpjr8e62+P2BQwgzJb5VZa5dIDsHXcMapxJFWYkcEMDitjQWrM97T42V3077
+ EeLHIDAnO/9Yc/jUqDxHZUrvMrqyKeqwpTA/jeP/khw//HivZZwypvntjnEZmqZpwkT7
+ DOGKKW44sqtrkosElEWPO5TY8kR7UsY4IE85BkOO9fJ2oO5/2tB3AsR/skyghnNJb4Mx
+ 3641KxK4mofDk4COjFn51lo2D3uQIzoh19CzmYY5CFxeAgcixi3nGwAtDYJhkikuyJpV 9g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kwh4bs3yp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 17 Nov 2022 08:42:52 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AH84wLd017582;
+        Thu, 17 Nov 2022 08:42:51 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kwh4bs3xk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 17 Nov 2022 08:42:51 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+        by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AH8Yjpl012734;
+        Thu, 17 Nov 2022 08:42:49 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+        by ppma03ams.nl.ibm.com with ESMTP id 3kt348y925-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 17 Nov 2022 08:42:48 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2AH8hP5751970464
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 17 Nov 2022 08:43:25 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B0C25A405B;
+        Thu, 17 Nov 2022 08:42:45 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 72CFFA4054;
+        Thu, 17 Nov 2022 08:42:45 +0000 (GMT)
+Received: from t14-nrb (unknown [9.171.65.30])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu, 17 Nov 2022 08:42:45 +0000 (GMT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.67.164.66]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <8708073bdd4c90dbc25ee3711afc59585bc0d740.camel@linux.ibm.com>
+References: <20221012205609.2811294-1-scgl@linux.ibm.com> <20221012205609.2811294-2-scgl@linux.ibm.com> <Y2J61LWSV+HolIeT@osiris> <8708073bdd4c90dbc25ee3711afc59585bc0d740.camel@linux.ibm.com>
+To:     Heiko Carstens <hca@linux.ibm.com>,
+        Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+Subject: Re: [PATCH v2 1/9] s390/uaccess: Add storage key checked cmpxchg access to user space
+Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sven Schnelle <svens@linux.ibm.com>
+From:   Nico Boehr <nrb@linux.ibm.com>
+Message-ID: <166867456298.12564.8456237098002804507@t14-nrb.local>
+User-Agent: alot/0.8.1
+Date:   Thu, 17 Nov 2022 09:42:43 +0100
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: RRV_ZocSW71LnlEzr-UF6SRK2rAVMgre
+X-Proofpoint-GUID: tV18gdyHXIQG-md5aQOwiuQ2KbDVylNb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-17_04,2022-11-16_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ phishscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
+ spamscore=0 impostorscore=0 adultscore=0 bulkscore=0 malwarescore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211170064
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bagas Sanjaya <bagasdotme@gmail.com>
+Quoting Janis Schoetterl-Glausch (2022-11-16 20:36:46)
+> On Wed, 2022-11-02 at 15:12 +0100, Heiko Carstens wrote:
+> >=20
+> [...]
+>=20
+> > I also did not limit the number of retries for the one and two byte
+> > scenarion. Before doing that we need to have proof that there really is=
+ a
+> > problem. Maybe Nico or you will give this a try.
+>=20
+> I wrote a memop selftest testcase where the main thread uses the one byte=
+ cmpxchg
+> while n vcpus flip adjacent bits. The time the test case runs increases s=
+uperlinearly with n.
+> With 248 vcpus, 1000 one byte cmpxchgs take 25s.
+> I'm not sure how meaningful the test is since the worst case would be if =
+the threads hammering
+> the word would run on a cpu dedicated to them.
+>=20
+> In any case, why not err on the side of caution and limit the iterations?
+> I'll send an rfc patch.
 
-The "Filter options" list have a rather ugly indentation. Also, the first
-paragraph after list name is rendered without separator (as continuation
-from the name).
-
-Align the list by indenting the list items and add a blank line
-separator for each list name.
-
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
----
- .../admin-guide/perf/hisi-pcie-pmu.rst        | 80 ++++++++++---------
- 1 file changed, 43 insertions(+), 37 deletions(-)
-
-diff --git a/Documentation/admin-guide/perf/hisi-pcie-pmu.rst b/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
-index bbe66480ff85..645f08f65429 100644
---- a/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
-+++ b/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
-@@ -48,59 +48,65 @@ Filter options
- --------------
- 
- 1. Target filter
--PMU could only monitor the performance of traffic downstream target Root Ports
--or downstream target Endpoint. PCIe PMU driver support "port" and "bdf"
--interfaces for users, and these two interfaces aren't supported at the same
--time.
- 
---port
--"port" filter can be used in all PCIe PMU events, target Root Port can be
--selected by configuring the 16-bits-bitmap "port". Multi ports can be selected
--for AP-layer-events, and only one port can be selected for TL/DL-layer-events.
-+   PMU could only monitor the performance of traffic downstream target Root
-+   Ports or downstream target Endpoint. PCIe PMU driver support "port" and
-+   "bdf" interfaces for users, and these two interfaces aren't supported at the
-+   same time.
- 
--For example, if target Root Port is 0000:00:00.0 (x8 lanes), bit0 of bitmap
--should be set, port=0x1; if target Root Port is 0000:00:04.0 (x4 lanes),
--bit8 is set, port=0x100; if these two Root Ports are both monitored, port=0x101.
-+   - port
- 
--Example usage of perf::
-+     "port" filter can be used in all PCIe PMU events, target Root Port can be
-+     selected by configuring the 16-bits-bitmap "port". Multi ports can be
-+     selected for AP-layer-events, and only one port can be selected for
-+     TL/DL-layer-events.
- 
--  $# perf stat -e hisi_pcie0_core0/rx_mwr_latency,port=0x1/ sleep 5
-+     For example, if target Root Port is 0000:00:00.0 (x8 lanes), bit0 of
-+     bitmap should be set, port=0x1; if target Root Port is 0000:00:04.0 (x4
-+     lanes), bit8 is set, port=0x100; if these two Root Ports are both
-+     monitored, port=0x101.
- 
---bdf
-+     Example usage of perf::
- 
--"bdf" filter can only be used in bandwidth events, target Endpoint is selected
--by configuring BDF to "bdf". Counter only counts the bandwidth of message
--requested by target Endpoint.
-+       $# perf stat -e hisi_pcie0_core0/rx_mwr_latency,port=0x1/ sleep 5
- 
--For example, "bdf=0x3900" means BDF of target Endpoint is 0000:39:00.0.
-+   - bdf
- 
--Example usage of perf::
-+     "bdf" filter can only be used in bandwidth events, target Endpoint is
-+     selected by configuring BDF to "bdf". Counter only counts the bandwidth of
-+     message requested by target Endpoint.
-+
-+     For example, "bdf=0x3900" means BDF of target Endpoint is 0000:39:00.0.
-+
-+     Example usage of perf::
- 
--  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,bdf=0x3900/ sleep 5
-+       $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,bdf=0x3900/ sleep 5
- 
- 2. Trigger filter
--Event statistics start when the first time TLP length is greater/smaller
--than trigger condition. You can set the trigger condition by writing "trig_len",
--and set the trigger mode by writing "trig_mode". This filter can only be used
--in bandwidth events.
- 
--For example, "trig_len=4" means trigger condition is 2^4 DW, "trig_mode=0"
--means statistics start when TLP length > trigger condition, "trig_mode=1"
--means start when TLP length < condition.
-+   Event statistics start when the first time TLP length is greater/smaller
-+   than trigger condition. You can set the trigger condition by writing
-+   "trig_len", and set the trigger mode by writing "trig_mode". This filter can
-+   only be used in bandwidth events.
- 
--Example usage of perf::
-+   For example, "trig_len=4" means trigger condition is 2^4 DW, "trig_mode=0"
-+   means statistics start when TLP length > trigger condition, "trig_mode=1"
-+   means start when TLP length < condition.
-+
-+   Example usage of perf::
- 
--  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,trig_len=0x4,trig_mode=1/ sleep 5
-+     $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,trig_len=0x4,trig_mode=1/ sleep 5
- 
- 3. Threshold filter
--Counter counts when TLP length within the specified range. You can set the
--threshold by writing "thr_len", and set the threshold mode by writing
--"thr_mode". This filter can only be used in bandwidth events.
- 
--For example, "thr_len=4" means threshold is 2^4 DW, "thr_mode=0" means
--counter counts when TLP length >= threshold, and "thr_mode=1" means counts
--when TLP length < threshold.
-+   Counter counts when TLP length within the specified range. You can set the
-+   threshold by writing "thr_len", and set the threshold mode by writing
-+   "thr_mode". This filter can only be used in bandwidth events.
- 
--Example usage of perf::
-+   For example, "thr_len=4" means threshold is 2^4 DW, "thr_mode=0" means
-+   counter counts when TLP length >= threshold, and "thr_mode=1" means counts
-+   when TLP length < threshold.
-+
-+   Example usage of perf::
- 
--  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,thr_len=0x4,thr_mode=1/ sleep 5
-+     $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,thr_len=0x4,thr_mode=1/ sleep 5
--- 
-2.24.0
-
+I agree, limiting sounds like the safe choice.
