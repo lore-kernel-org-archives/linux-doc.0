@@ -2,238 +2,264 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4A05C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 14:21:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 785B8C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Nov 2022 14:48:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240372AbiKQOVf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Nov 2022 09:21:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51196 "EHLO
+        id S240179AbiKQOsg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Nov 2022 09:48:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240373AbiKQOVd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 09:21:33 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F6EC77225;
-        Thu, 17 Nov 2022 06:21:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668694890; x=1700230890;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=QAS2h8V2dfght1SJU/Na0JcJSN/AEZSVl08JRBsGjdI=;
-  b=NNK2xzoKjwI6qrmzmGmeKxLrNmv1MfC5ADjD6m8RHOc5qInpX8GUo6Kc
-   DGxFqUcjxrFSxNgjlG6pAFy+WDmFjandV5TQM4N6SsjF0ito1788+EDl+
-   H5+XYRvEc5yS8+cPIzx8zzTd3zL73kJ1dSrkXXa/Zs6DUma1Ls4bUAUH8
-   7OPnFgL4uM5NiL++90N5G2kik3Z8LhOB4Ee65e3421zTIjyEi7ViQHN+V
-   qUmBIlieRBS0vf/6d1u/PWIq6fQo/FdDSlVTcNrbhFh8rjJeNTtnJJ1ZW
-   0vusI+e60KUZESmSxqDOLI5XdLgX6B/nwtsIM49grAuhoJJhuZ8f1gd25
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="312874347"
-X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; 
-   d="scan'208";a="312874347"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2022 06:21:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="634066426"
-X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; 
-   d="scan'208";a="634066426"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga007.jf.intel.com with ESMTP; 17 Nov 2022 06:21:17 -0800
-Date:   Thu, 17 Nov 2022 22:16:53 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        AKASHI Takahiro <takahiro.akashi@linaro.org>
-Subject: Re: [PATCH v9 0/8] KVM: mm: fd-based approach for supporting KVM
-Message-ID: <20221117141653.GE422408@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <87k03xbvkt.fsf@linaro.org>
- <20221116050022.GC364614@chaop.bj.intel.com>
- <87v8nf8bte.fsf@linaro.org>
+        with ESMTP id S230327AbiKQOsc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 09:48:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC7D156D49
+        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 06:47:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1668696447;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=BPcjTCAkDZiUNNJDjXg6Uw2BjOdtcP/Vh8oJTRYt/tM=;
+        b=g0uGtAHk7h6op0gRTUyx+U7EWt0HEgGP++arC0Qyzamh6UjNHOn/RHZzIv4IqUGE4CYtaz
+        unBM3qCU+d3VUTJu1cHlhGDQCY2G1DsBGqNadL7J+LOqXOYhEzTfIA3uBarw1hjHVP6tvE
+        1sAN5aeQcC8A0sJp1GlebqeMAbjaCK0=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-196-WVYHLnmRNymmV-rlfy543Q-1; Thu, 17 Nov 2022 09:47:25 -0500
+X-MC-Unique: WVYHLnmRNymmV-rlfy543Q-1
+Received: by mail-qt1-f197.google.com with SMTP id i13-20020ac8764d000000b003a4ec8693dcso1828131qtr.14
+        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 06:47:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BPcjTCAkDZiUNNJDjXg6Uw2BjOdtcP/Vh8oJTRYt/tM=;
+        b=43ba6QomLH3asm8xZ7lm46KGoTxDRTETahjX5Nfgf75VmEQ2yjNNCsUZmApExdksTv
+         Nt8L38Nfq17o0WWUZ4Bd5Zs4C0Dnq4wwRh0OlzuW8rLGNTQ5zIPnLoM+7aYgO4nMKM0t
+         df4RmcezvpUtaQX+VQTQIXGYP2uZipb8envCBVHeY11Zdyvr/wgsZrzf1TeG/umm6r9u
+         Fg0fWFQCdoZBBxrYqdcmfRJCx4CTq9nOAt4lT+VIMZwDgY7wvOAjLYtxhHqXPM9IpTCC
+         SKC+G/HnXG5ajJAkEtsL+DhuSdJTgCSN1+UImw5r6BCuysRxe4nuqxxrpcCCtHxraDZn
+         xXGA==
+X-Gm-Message-State: ANoB5pmtzekXpj3aw39rt4IRSNgSxlcYeD482jsHOs8vcRPXWa9G9Bx0
+        j7Yv/7nrUfLVW9mtg3PcInlDRPvJAJZ9WIDPVJj2FJCQTWg2etLSNKGYG9ToKdENgavsV2KbPSh
+        uC56mJOR+DM9g8B8z63In
+X-Received: by 2002:a0c:8051:0:b0:4bb:6c84:62bc with SMTP id 75-20020a0c8051000000b004bb6c8462bcmr2664226qva.80.1668696445342;
+        Thu, 17 Nov 2022 06:47:25 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4+ooNIrNxHzEP8UphiXOR2RBI49QhmDJsm6ZhSpIFjYdZ+r1l44Hchf02OVaHnqLpc+yCEZA==
+X-Received: by 2002:a0c:8051:0:b0:4bb:6c84:62bc with SMTP id 75-20020a0c8051000000b004bb6c8462bcmr2664206qva.80.1668696445049;
+        Thu, 17 Nov 2022 06:47:25 -0800 (PST)
+Received: from nfvsdn-06.testing.baremetal.edge-sites.net (nat-pool-232-132.redhat.com. [66.187.232.132])
+        by smtp.gmail.com with ESMTPSA id bm3-20020a05620a198300b006ecfb2c86d3sm534058qkb.130.2022.11.17.06.47.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Nov 2022 06:47:24 -0800 (PST)
+From:   mtahhan@redhat.com
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     jbrouer@redhat.com, thoiland@redhat.com, donhunte@redhat.com,
+        magnus.karlsson@gmail.com, Maryam Tahhan <mtahhan@redhat.com>
+Subject: [PATCH bpf-next v2 1/1] docs: BPF_MAP_TYPE_XSKMAP
+Date:   Thu, 17 Nov 2022 10:44:46 -0500
+Message-Id: <20221117154446.3684330-1-mtahhan@redhat.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87v8nf8bte.fsf@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 16, 2022 at 09:40:23AM +0000, Alex Bennée wrote:
-> 
-> Chao Peng <chao.p.peng@linux.intel.com> writes:
-> 
-> > On Mon, Nov 14, 2022 at 11:43:37AM +0000, Alex Bennée wrote:
-> >> 
-> >> Chao Peng <chao.p.peng@linux.intel.com> writes:
-> >> 
-> >> <snip>
-> >> > Introduction
-> >> > ============
-> >> > KVM userspace being able to crash the host is horrible. Under current
-> >> > KVM architecture, all guest memory is inherently accessible from KVM
-> >> > userspace and is exposed to the mentioned crash issue. The goal of this
-> >> > series is to provide a solution to align mm and KVM, on a userspace
-> >> > inaccessible approach of exposing guest memory. 
-> >> >
-> >> > Normally, KVM populates secondary page table (e.g. EPT) by using a host
-> >> > virtual address (hva) from core mm page table (e.g. x86 userspace page
-> >> > table). This requires guest memory being mmaped into KVM userspace, but
-> >> > this is also the source where the mentioned crash issue can happen. In
-> >> > theory, apart from those 'shared' memory for device emulation etc, guest
-> >> > memory doesn't have to be mmaped into KVM userspace.
-> >> >
-> >> > This series introduces fd-based guest memory which will not be mmaped
-> >> > into KVM userspace. KVM populates secondary page table by using a
-> >> > fd/offset pair backed by a memory file system. The fd can be created
-> >> > from a supported memory filesystem like tmpfs/hugetlbfs and KVM can
-> >> > directly interact with them with newly introduced in-kernel interface,
-> >> > therefore remove the KVM userspace from the path of accessing/mmaping
-> >> > the guest memory. 
-> >> >
-> >> > Kirill had a patch [2] to address the same issue in a different way. It
-> >> > tracks guest encrypted memory at the 'struct page' level and relies on
-> >> > HWPOISON to reject the userspace access. The patch has been discussed in
-> >> > several online and offline threads and resulted in a design document [3]
-> >> > which is also the original proposal for this series. Later this patch
-> >> > series evolved as more comments received in community but the major
-> >> > concepts in [3] still hold true so recommend reading.
-> >> >
-> >> > The patch series may also be useful for other usages, for example, pure
-> >> > software approach may use it to harden itself against unintentional
-> >> > access to guest memory. This series is designed with these usages in
-> >> > mind but doesn't have code directly support them and extension might be
-> >> > needed.
-> >> 
-> >> There are a couple of additional use cases where having a consistent
-> >> memory interface with the kernel would be useful.
-> >
-> > Thanks very much for the info. But I'm not so confident that the current
-> > memfd_restricted() implementation can be useful for all these usages. 
-> >
-> >> 
-> >>   - Xen DomU guests providing other domains with VirtIO backends
-> >> 
-> >>   Xen by default doesn't give other domains special access to a domains
-> >>   memory. The guest can grant access to regions of its memory to other
-> >>   domains for this purpose. 
-> >
-> > I'm trying to form my understanding on how this could work and what's
-> > the benefit for a DomU guest to provide memory through memfd_restricted().
-> > AFAICS, memfd_restricted() can help to hide the memory from DomU userspace,
-> > but I assume VirtIO backends are still in DomU uerspace and need access
-> > that memory, right?
-> 
-> They need access to parts of the memory. At the moment you run your
-> VirtIO domains in the Dom0 and give them access to the whole of a DomU's
-> address space - however the Xen model is by default the guests memory is
-> inaccessible to other domains on the system. The DomU guest uses the Xen
-> grant model to expose portions of its address space to other domains -
-> namely for the VirtIO queues themselves and any pages containing buffers
-> involved in the VirtIO transaction. My thought was that looks like a
-> guest memory interface which is mostly inaccessible (private) with some
-> holes in it where memory is being explicitly shared with other domains.
+From: Maryam Tahhan <mtahhan@redhat.com>
 
-Yes, similar in conception. For KVM, memfd_restricted() is used by host
-OS, guest will issue conversion between private and shared for its
-memory range. This is similar to Xen DomU guest grants its memory to
-other domains. Similarly, I guess to make memfd_restricted() being really
-useful for Xen, it should be run on the VirtIO backend domain (e.g.
-equivalent to the host position for KVM).
+Add documentation for BPF_MAP_TYPE_XSKMAP
+including kernel version introduced, usage
+and examples.
 
-> 
-> What I want to achieve is a common userspace API with defined semantics
-> for what happens when private and shared regions are accessed. Because
-> having each hypervisor/confidential computing architecture define its
-> own special API for accessing this memory is just a recipe for
-> fragmentation and makes sharing common VirtIO backends impossible.
+Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
 
-Yes, I agree. That's interesting to explore.
+---
+v2:
+- Fixed typos + incorrect return type references.
+- Adjusted examples to use __u32 and fixed references to key_size.
+- Changed `AF_XDP socket` references to XSK.
+- Added note re map key and value size.
+---
+ Documentation/bpf/map_xskmap.rst | 167 +++++++++++++++++++++++++++++++
+ 1 file changed, 167 insertions(+)
+ create mode 100644 Documentation/bpf/map_xskmap.rst
 
-> 
-> >
-> >> 
-> >>   - pKVM on ARM
-> >> 
-> >>   Similar to Xen, pKVM moves the management of the page tables into the
-> >>   hypervisor and again doesn't allow those domains to share memory by
-> >>   default.
-> >
-> > Right, we already had some discussions on this in the past versions.
-> >
-> >> 
-> >>   - VirtIO loopback
-> >> 
-> >>   This allows for VirtIO devices for the host kernel to be serviced by
-> >>   backends running in userspace. Obviously the memory userspace is
-> >>   allowed to access is strictly limited to the buffers and queues
-> >>   because giving userspace unrestricted access to the host kernel would
-> >>   have consequences.
-> >
-> > Okay, but normal memfd_create() should work for it, right? And
-> > memfd_restricted() instead may not work as it unmaps the memory from
-> > userspace.
-> >
-> >> 
-> >> All of these VirtIO backends work with vhost-user which uses memfds to
-> >> pass references to guest memory from the VMM to the backend
-> >> implementation.
-> >
-> > Sounds to me these are the places where normal memfd_create() can act on.
-> > VirtIO backends work on the mmap-ed memory which currently is not the
-> > case for memfd_restricted(). memfd_restricted() has different design
-> > purpose that unmaps the memory from userspace and employs some kernel
-> > callbacks so other kernel modules can make use of the memory with these
-> > callbacks instead of userspace virtual address.
-> 
-> Maybe my understanding is backwards then. Are you saying a guest starts
-> with all its memory exposed and then selectively unmaps the private
-> regions? Is this driven by the VMM or the guest itself?
+diff --git a/Documentation/bpf/map_xskmap.rst b/Documentation/bpf/map_xskmap.rst
+new file mode 100644
+index 000000000000..4fd2f58aa629
+--- /dev/null
++++ b/Documentation/bpf/map_xskmap.rst
+@@ -0,0 +1,167 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
++
++===================
++BPF_MAP_TYPE_XSKMAP
++===================
++
++.. note::
++   - ``BPF_MAP_TYPE_XSKMAP`` was introduced in kernel version 4.18
++
++The ``BPF_MAP_TYPE_XSKMAP`` is used as a backend map for XDP BPF helper
++call ``bpf_redirect_map()`` and ``XDP_REDIRECT`` action, like 'devmap' and 'cpumap'.
++This map type redirects raw XDP frames to AF_XDP sockets (XSKs). An AF_XDP socket
++binds to a single netdev queue. A mapping of XSKs to queues is shown below:
++
++.. code-block:: none
++
++    +---------------------------------------------------+
++    |     xsk A      |     xsk B       |      xsk C     |<---+ Userspace
++    =========================================================|==========
++    |    Queue 0     |     Queue 1     |     Queue 2    |    |  Kernel
++    +---------------------------------------------------+    |
++    |                  Netdev eth0                      |    |
++    +---------------------------------------------------+    |
++    |                            +=============+        |    |
++    |                            | key |  xsk  |        |    |
++    |  +---------+               +=============+        |    |
++    |  |         |               |  0  | xsk A |        |    |
++    |  |         |               +-------------+        |    |
++    |  |         |               |  1  | xsk B |        |    |
++    |  | eBPF    |-- redirect -->+-------------+-------------+
++    |  | prog    |               |  2  | xsk C |        |
++    |  |         |               +-------------+        |
++    |  |         |                                      |
++    |  |         |                                      |
++    |  +---------+                                      |
++    |                                                   |
++    +---------------------------------------------------+
++
++.. note::
++    An AF_XDP socket that is bound to a certain <netdev/queue_id> will *only*
++    accept XDP frames from that <netdev/queue_id>. If an XDP program tries to redirect
++    from a <netdev/queue_id> other than what the socket is bound to, the frame will
++    not be received on the socket.
++
++Typically a XSKMAP is created per netdev. This map contains an array of XSK File
++Descriptors (FDs). The number of array elements is typically set or adjusted using
++the ``max_entries`` map parameter. For AF_XDP ``max_entries`` is equal to the number
++of queues supported by the netdev.
++
++.. note::
++    Both the map key and map value size must be 4 bytes.
++
++Usage
++=====
++
++Kernel BPF
++----------
++.. c:function::
++     long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
++
++ Redirect the packet to the endpoint referenced by ``map`` at index ``key``.
++ For ``BPF_MAP_TYPE_XSKMAP`` this map contains references to XSK FDs
++ for sockets attached to a netdev's queues.
++
++ .. note::
++    If the map is empty at an index, the packet is dropped. This means that it is
++    necessary to have an XDP program loaded with at least one XSK in the
++    XSKMAP to be able to get any traffic to user space through the socket.
++
++.. c:function::
++    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
++
++ XSK entry references of type ``struct xdp_sock *`` can be retrieved using the
++ ``bpf_map_lookup_elem()`` helper.
++
++Userspace
++---------
++.. note::
++    XSK entries can only be updated/deleted from user space and not from
++    an eBPF program. Trying to call these functions from a kernel eBPF program will
++    result in the program failing to load and a verifier warning.
++
++.. c:function::
++	int bpf_map_update_elem(int fd, const void *key, const void *value, __u64 flags)
++
++ XSK entries can be added or updated using the ``bpf_map_update_elem()``
++ helper. The ``key`` parameter is equal to the queue_id of the queue the XSK
++ is attaching to. And the ``value`` parameter is the FD value of that socket.
++
++ Under the hood, the XSKMAP update function uses the XSK FD value to retrieve the
++ associated ``struct xdp_sock`` instance.
++
++ The flags argument can be one of the following:
++
++  - BPF_ANY: Create a new element or update an existing element.
++  - BPF_NOEXIST: Create a new element only if it did not exist.
++  - BPF_EXIST: Update an existing element.
++
++.. c:function::
++    int bpf_map_lookup_elem(int fd, const void *key, void *value)
++
++  Returns ``struct xdp_sock *`` or negative error in case of failure.
++
++.. c:function::
++    int bpf_map_delete_elem(int fd, const void *key)
++
++ XSK entries can be deleted using the ``bpf_map_delete_elem()``
++ helper. This helper will return 0 on success, or negative error in case of
++ failure.
++
++.. note::
++    When `libxdp`_ deletes a XSK it also removes the associated socket
++    entry from the XSKMAP.
++
++Examples
++========
++Kernel
++------
++
++The following code snippet shows how to declare a ``BPF_MAP_TYPE_XSKMAP`` called
++``xsks_map`` and how to redirect packets to a XSK.
++
++.. code-block:: c
++
++   struct {
++        __uint(type, BPF_MAP_TYPE_XSKMAP);
++        __type(key, __u32);
++        __type(value, __u32);
++        __uint(max_entries, 64);
++    } xsks_map SEC(".maps");
++
++
++    SEC("xdp")
++    int xsk_redir_prog(struct xdp_md *ctx)
++    {
++        __u32 index = ctx->rx_queue_index;
++
++        if (bpf_map_lookup_elem(&xsks_map, &index))
++            return bpf_redirect_map(&xsks_map, index, 0);
++        return XDP_PASS;
++    }
++
++Userspace
++---------
++
++The following code snippet shows how to update a XSKMAP with a XSK entry.
++
++.. code-block:: c
++
++    int update_xsks_map(struct bpf_map *xsks_map, int queue_id, int xsk_fd)
++    {
++        int ret;
++
++        ret = bpf_map_update_elem(bpf_map__fd(xsks_map), &queue_id, &xsk_fd, 0);
++        if (ret < 0) {
++            fprintf(stderr, "Failed to update xsks_map: %s\n",
++                strerror(errno));
++        }
++
++        return ret;
++    }
++
++.. note::
++    The most comprehensive resource for using XSKMAPs is `libxdp`_.
++
++.. _libxdp: https://github.com/xdp-project/xdp-tools/tree/master/lib/libxdp
+-- 
+2.38.1
 
-For confidential computing usages, normally guest starts with all guest
-memory being private, e.g,  cannot be accessed by host. The memory will
-be lived in memfd_restricted() memory and not exposed to host userspace
-VMM like QEMU. Guest then can selectively map its private sub regions
-(e.g. VirtIO queue in the guest VirtIO frontend driver) as shared so
-host backend driver in QEMU can see it. When this happens, new shared
-mapping will be established in KVM and the new memory will be provided
-from normal mmap-able memory, then QEMU can do whatever it can do for
-the device emulation.
-
-Thanks,
-Chao
-> 
-> -- 
-> Alex Bennée
