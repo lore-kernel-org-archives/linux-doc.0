@@ -2,138 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68B43C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 09:34:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02515C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 10:12:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241481AbiKRJeI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 04:34:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46844 "EHLO
+        id S239887AbiKRKMu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 05:12:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241965AbiKRJeB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 04:34:01 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3097C74E;
-        Fri, 18 Nov 2022 01:33:58 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id c65-20020a1c3544000000b003cfffd00fc0so3117561wma.1;
-        Fri, 18 Nov 2022 01:33:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zItZ9cjLCKNwbVcWqZT2DVpSg2RkBqa93OmXRyt9amM=;
-        b=V0Jn1xrOE5ElkZ2kYpJp2yRxQ8CtenJf11LAQqL9pFAo9IPewTZ8XguM0b8G/0BhuQ
-         TCTG6HT90fz1exqyoZm7qPt8i6TW6Q9QEZLSVURJT2al2soZpOuM1VK9Go4i75u28Bpe
-         U5cx2sSdwVSxUlH+HLtn647z4X0AANTFlxc6i4gim9nXN7TGFVksVWFftqmTAu0gUFS+
-         /Jy4YaZSDgMj2ENLUJDd/nGhBdU/EW1QdLJGTHyCT9H6I3mcHGXYAmCGDsNUputEWbQi
-         qNskaWf8qUt3epIg9c67c9AXkg/eAv7FMyQx0UkpdPDzrhx0+aveGr57AoBGyBmVHtAG
-         VKdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zItZ9cjLCKNwbVcWqZT2DVpSg2RkBqa93OmXRyt9amM=;
-        b=ql3eqxKIHFWhCT/B/vOWPJYLDXA5nC1wzJWCgZYDaDHpt40IgCyCEx2N5mWeOTZ2SP
-         A7/Tl8XmJ/lIThF9qIQNzmv9b3ZmeY3CLWDEN39XApEhnXCBCEXVcy0VVtxSpsDuWDU9
-         xwR3vOUqvcdhb131WFMRjn34Jd9aqaGAbfPLn66WFGN0HHei4uyWZ8Cm+jC+8He2xrlF
-         DlwpVzhyri660VD4L5cO63s6UHkhSWgzHSGZgRc7crAbkM2ndSV4WBCgsz0nkZ8QFZ61
-         +WyyNXqDTrBDbtaZab5dvSAjgwowgDaTlFYBn6BTyZwlS4SaOJTtNgr6RDPfDySxD7iv
-         KUZg==
-X-Gm-Message-State: ANoB5pmr+0aY6IoIgbdeDY9BATta5gOdlLS66IANlBm6Zzjh1p+1mrfG
-        aNnngTmbnpk4UYta9I21wsU=
-X-Google-Smtp-Source: AA0mqf7CmdV6z3FuaOw/dSV47sa3iGW71bUKaMq+GRV7QaUr982l97wvigtNDQTuYjz0+GzaArM5hA==
-X-Received: by 2002:a05:600c:1604:b0:3cf:7fb1:e217 with SMTP id m4-20020a05600c160400b003cf7fb1e217mr4342349wmn.92.1668764036538;
-        Fri, 18 Nov 2022 01:33:56 -0800 (PST)
-Received: from imac ([2a02:8010:60a0:0:51ad:9be7:a084:1016])
-        by smtp.gmail.com with ESMTPSA id r3-20020a5d6943000000b002383e977920sm3068675wrw.110.2022.11.18.01.33.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 01:33:55 -0800 (PST)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     mtahhan@redhat.com, bpf@vger.kernel.org, donhunte@redhat.com,
-        jbrouer@redhat.com, linux-doc@vger.kernel.org,
-        magnus.karlsson@gmail.com, thoiland@redhat.com
-Subject: Re: [PATCH bpf-next v2 1/1] docs: BPF_MAP_TYPE_XSKMAP
-In-Reply-To: <8d4899f1-fcd2-edc6-31da-363b13f8049b@gmail.com> (Akira
-        Yokosawa's message of "Fri, 18 Nov 2022 11:36:30 +0900")
-Date:   Fri, 18 Nov 2022 09:33:21 +0000
-Message-ID: <m24juwy5cu.fsf@gmail.com>
-References: <20221117154446.3684330-1-mtahhan@redhat.com>
-        <8d4899f1-fcd2-edc6-31da-363b13f8049b@gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
+        with ESMTP id S235073AbiKRKMu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 05:12:50 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 575BF71F31;
+        Fri, 18 Nov 2022 02:12:49 -0800 (PST)
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AIA9uvt032749;
+        Fri, 18 Nov 2022 10:12:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=wcl5icUsxpcfuMwhOzo/VTcRuTygEQLTW6vBKpa0/yk=;
+ b=rRz11gRYT3pGhPADwL+j3/z1i4J6b9ujSpJr72msDN8P4dYso7gIpvVxJbwa9+0e85bC
+ tfI1L0brHDI5ul0NdAe1rmFGDjZxluknTt9abEYSizQVyoIrsN88ZbPSPk3gacVqAPmB
+ naCKjE0Yvwyt9m98unhWYuDHZy6D0NLE68+91vgmdA5QCKd+Z58DZrEbXzAuglN0N5Sb
+ RCygMi9ODTeM9lkTOeapW+f3htuAorI0mp3zAK3SaurnUhvM0QbiWqNqSyFbhOPeHxOm
+ 4j2KkQpwyRIk4ts6QAa0j0H/k8tEh2D34TME1BM+KhC9DZ/Xc+uqA04gw0RLfEt5xKVn gQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kx7bc9444-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 18 Nov 2022 10:12:45 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AIAAwul004894;
+        Fri, 18 Nov 2022 10:12:45 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kx7bc9431-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 18 Nov 2022 10:12:45 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+        by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AIA9gg0002589;
+        Fri, 18 Nov 2022 10:12:42 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+        by ppma06fra.de.ibm.com with ESMTP id 3kwte4gkaw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 18 Nov 2022 10:12:42 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2AIACdxk59310452
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 18 Nov 2022 10:12:39 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4D7415204F;
+        Fri, 18 Nov 2022 10:12:39 +0000 (GMT)
+Received: from osiris (unknown [9.145.17.66])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id B37A95204E;
+        Fri, 18 Nov 2022 10:12:38 +0000 (GMT)
+Date:   Fri, 18 Nov 2022 11:12:37 +0100
+From:   Heiko Carstens <hca@linux.ibm.com>
+To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sven Schnelle <svens@linux.ibm.com>
+Subject: Re: [PATCH v3 1/9] KVM: s390: Extend MEM_OP ioctl by storage key
+ checked cmpxchg
+Message-ID: <Y3dalbP5yb2gflA9@osiris>
+References: <20221117221758.66326-1-scgl@linux.ibm.com>
+ <20221117221758.66326-2-scgl@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221117221758.66326-2-scgl@linux.ibm.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: _3Ebc4G1HOdvvyKR5KujmpmU-wwQgWgy
+X-Proofpoint-GUID: Pk_qYC5A5nG-ngx3HjismAMs3CDi5Ne-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-17_06,2022-11-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
+ mlxlogscore=999 suspectscore=0 spamscore=0 lowpriorityscore=0
+ clxscore=1015 mlxscore=0 bulkscore=0 impostorscore=0 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211180057
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
->
-> So you have two declarations of bpf_map_lookup_elem() in map_xskmap.rst.
->
-> This will cause "make htmldocs" with Sphinx >=3.1 to emit a warning of:
->
-> /linux/Documentation/bpf/map_xskmap.rst:100: WARNING: Duplicate C declaration, also defined at map_xskmap:71.
-> Declaration is '.. c:function:: int bpf_map_lookup_elem(int fd, const void *key, void *value)'.
->
-> , in addition to a bunch of similar warnings observed at bpf-next:
->
-> /linux/Documentation/bpf/map_cpumap.rst:50: WARNING: Duplicate C declaration, also defined at map_array:43.
-> Declaration is '.. c:function:: int bpf_map_update_elem(int fd, const void *key, const void *value, __u64 flags);'.
-> /linux/Documentation/bpf/map_cpumap.rst:72: WARNING: Duplicate C declaration, also defined at map_array:35.
-> Declaration is '.. c:function:: int bpf_map_lookup_elem(int fd, const void *key, void *value);'.
-> /linux/Documentation/bpf/map_hash.rst:37: WARNING: Duplicate C declaration, also defined at map_array:43.
-> Declaration is '.. c:function:: long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)'.
-> ... [bunch of similar warnings]
+On Thu, Nov 17, 2022 at 11:17:50PM +0100, Janis Schoetterl-Glausch wrote:
+> User space can use the MEM_OP ioctl to make storage key checked reads
+> and writes to the guest, however, it has no way of performing atomic,
+> key checked, accesses to the guest.
+> Extend the MEM_OP ioctl in order to allow for this, by adding a cmpxchg
+> mode. For now, support this mode for absolute accesses only.
+> 
+> This mode can be use, for example, to set the device-state-change
+> indicator and the adapter-local-summary indicator atomically.
+> 
+> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+> ---
+>  include/uapi/linux/kvm.h |   5 ++
+>  arch/s390/kvm/gaccess.h  |   3 ++
+>  arch/s390/kvm/gaccess.c  | 101 +++++++++++++++++++++++++++++++++++++++
+>  arch/s390/kvm/kvm-s390.c |  35 +++++++++++++-
+>  4 files changed, 142 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 0d5d4419139a..1f36be5493e6 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -588,6 +588,8 @@ struct kvm_s390_mem_op {
+>  		struct {
+>  			__u8 ar;	/* the access register number */
+>  			__u8 key;	/* access key, ignored if flag unset */
+> +			__u8 pad1[6];	/* ignored */
+> +			__u64 old_p;	/* ignored if flag unset */
 
-That's unfortunate, and I'm responsible for some of those. Not sure how
-we'd know to check for warnings with Sphinx >= 3.1 when
-Documentation/doc-guide/sphinx.rst and
-Documentation/sphinx/requirements.txt both specify version 2.4.4
+Just one comment: the suffix "_p" for pointer is quite unusual within
+the kernel. This also would be the first of its kind within kvm.h.
+Usually there is either no suffix or "_addr".
+So for consistency reasons I would suggest to change this to one of
+the common variants.
 
-> You might want to say you don't care, but they would annoy those
-> who do test "make htmldocs".
->
-> So let me explain why sphinx complains.
->
-> C domain declarations in kernel documentation are for kernel APIs.
-> By default, c:function declarations belong to the top-level namespace,
-> which is intended for kernel APIs.
->
-> IIUC, most APIs described in map*.rst files don't belong to kernel.
-> So I think the way to go is to use the c:namespace directive.
->
-> See: https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#namespacing
->
-> As mentioned there, namespacing works with Sphinx >=3.1.
-> Currently, kernel documentation build scripts support only the
-> "c:namespace" directive, which means you can't switch namespaces in the
-> middle of a .rst file. This limitation comes from the fact that Sphinx
-> 1.7.9 is still in the list for htmldocs at the moment and build scripts
-> emulate namespacing for Sphinx <3.1 in a limited way.
+The code itself looks good from my point of view, even though for the
+sake of simplicity I would have put the complete sign/zero extended
+128 bit old value into the structure, instead of having a pointer to
+the value. Imho that would simplify the interface. Also alignment, as
+pointed out previously, really doesn't matter for this use case.
 
-What's the reason for keeping support for Sphinx 1.7.9 and pinning to
-2.4.4 in Documentation/sphinx/requirements.txt if we want to support
-Sphinx >= 3.1? Given that the latest Sphinx release is 5.3.0, and Python
-2 support was dropped in Sphinx 2.0.0 it seems that we need to have a
-higher minimum version and a higher default version.
-
-> So please avoid putting function declarations of the same name in
-> a .rst file.
-
-The same function name, with different signature gets used as a BPF
-helper and as a userspace function. We'd really like to be able to
-document the semantics of both for a given BPF map type, all on the same
-page.
-
-Is there a better way for us to highlight the function signature,
-without using the c:function:: directive, since they're not really
-function declarations?
-
-> The other duplicate warnings shown above can be silenced by the
-> change attached below. It is only as a suggestion and I'm not putting
-> a S-o-b tag.
->
-> Hope this helps,
->
-> Akira
+But you had already something like that previously and changed it, so
+no reason to go back and forth. Not really important.
