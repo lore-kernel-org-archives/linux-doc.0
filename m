@@ -2,92 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40765C43217
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 17:56:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FF8FC4321E
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 18:23:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235205AbiKRR4h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 12:56:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46774 "EHLO
+        id S242618AbiKRSXt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 13:23:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241622AbiKRR4e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 12:56:34 -0500
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAC3C67F7D;
-        Fri, 18 Nov 2022 09:56:33 -0800 (PST)
-Received: by mail-yb1-xb2a.google.com with SMTP id f201so6480935yba.12;
-        Fri, 18 Nov 2022 09:56:33 -0800 (PST)
+        with ESMTP id S242641AbiKRSXV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 13:23:21 -0500
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDC9942F5;
+        Fri, 18 Nov 2022 10:23:20 -0800 (PST)
+Received: by mail-qt1-x833.google.com with SMTP id s4so3662843qtx.6;
+        Fri, 18 Nov 2022 10:23:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9yPrPKQ5LGcHRBs57UvaycARK1BGynKMDI42dJyNdOM=;
-        b=Q9Qx4OMcZDV3NHQUqOlhaK3/VXidSS9fT1IoEAaE766Rg5oKLrlb3gHSNjJyYCiWgh
-         D1xjEMUb6S/Q+JcoJy08KBrb8HToKFAUxtfgtrxxf4GEc4WlMJzQ/KLwEdY9Al0eA8kB
-         mcznAtJmTYVUaaQXTqe0R6FsmzIT/CQiGEVpi3wZwDLDZNTgqQnC1WQbHz2BK2OuNC1x
-         JJ9kaI72LxPjaIMyOqr4U5W2q5GL254Hu0E/y6QUS5UhY1tEF/I2tA9wCXbOd/eBYNXg
-         jZ2WXST3e3ESXgfjafeU3U5nRfDm0qiqZaJwFCHDseUUt8TN8Vt4sB66pPAFdaN2aEgI
-         Sfiw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vrZu6MxE9V2lrmkTP7p6YrgX3yUV8vdw6JbzZsfWtro=;
+        b=M0mVeRFPGC+9qlEjwEetRK5+DS6SNGvQSlv/m2A+xNrwYtXIbXX24a36XThAaDwvqE
+         bPpb3Sd4xO9/1fiymHJ9y0QaLdoO5d3H0v22bp3hE0eTgowt1cQKRPERbG7SOVgeqBSR
+         rklzhXJeaAqFNEdoYIlES3etk/L3b0bXEqs/JL8s6UVeVQ62FJBnallgIaBFZRu62hZ0
+         sRuomxQ4KQFz/VGKkrysPPj1pBE56FLH7lPkkbP1GoLzNC0aOaOqEJ45CrVSkCMrkEEz
+         jc3vj0qAzLbX5eKbfDY08yx63TZiEOf42bAJdiLWn9q+odepbPy/knIpqBLL4LYu4NZO
+         eskA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9yPrPKQ5LGcHRBs57UvaycARK1BGynKMDI42dJyNdOM=;
-        b=LfwQ23aw6unBk1Y9Xwi89xz/2Y396oGCwYM6AO+qHxVylIlCnZ7ZfRA5w84fiyxjL4
-         6i93tYISMfS5IXEyY1+HEAJz77rxX/DhkrDN+YuiEUZXJWJ4QNimEc4DFngpOl2wtKGv
-         ACfqnLS1nut9ltIWSro7vX4olXlNLApiCn63JGB0XKdlMnOsjgCYptLDWZ3B9Sh2TCtj
-         BDaEm3ErtuGd9EHVI6U5H4pJNqfB0hPuy95Nz9ci1FxRQ7sotnlKmZhvoiDO3dGArZSI
-         SoK/rxaTptyDYtBoMr4LfYNfjKPyP93TWVLqumkj4zheoHJdL7U6MopQC0hcf0psDbBT
-         XFHg==
-X-Gm-Message-State: ANoB5pn/WYzAHl09DcE72UpGQwhHRfhD969+zT3zoIDezEk2dudjro7u
-        LBHYcAkZ+iMa2/iZWXn0Ne6LZixd0Vz2mBagyaU=
-X-Google-Smtp-Source: AA0mqf5UllASHRM9YwksDVI1KOsZmMt5cJvRGnw+Xd3tBlpldd3UfEQ37Dv0XmoSxafk8Nfpyl2qTmSaeeUUnnv+HqA=
-X-Received: by 2002:a25:7655:0:b0:6d3:7617:b8ea with SMTP id
- r82-20020a257655000000b006d37617b8eamr7621071ybc.75.1668794192380; Fri, 18
- Nov 2022 09:56:32 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vrZu6MxE9V2lrmkTP7p6YrgX3yUV8vdw6JbzZsfWtro=;
+        b=W6mARYIapk2iELId0hDmoRhiodXNQG5qQA9lY5iLrQTJx3N+cQCKwrL2tU8+o+gAvz
+         dN0jCMrRapAJX00uRQm03rmlsLQw8tltOYBmCOYEjL6yf7jCv+lFLj33Und2nBrJ0Ocy
+         mhRD5soBuhPiVKjZMkwKVBhOO3QGs+42YCNQeW9ZhagGgKKytuLnq8+u360vZ8APLTh1
+         D0gOz7YTJ9ZVR/7lkNIoNQclkogcRReOA30xMkT5YyWFFNJo7Smy5w86vcNRoWTH+Viy
+         xuX9y+6llzNLyuRPDgFlKme8Mj6fP/yGPVftC8q7S9ReqSuRX0iSWar9xSkIa0iDElX9
+         Ix7A==
+X-Gm-Message-State: ANoB5plTrBseSHQmybrdbwkRqaq8KuAbJDzFLmlCgBKXiQP1E0jNbvXB
+        WOJQx/Ki0mcT0PWUcNvYun8=
+X-Google-Smtp-Source: AA0mqf6R/O3Cj5gBnOvw5T267/VeAkkaVpyito6Zd3ugqbHRvVal8RDe9yr4aL/5iiyUkWHxamslBQ==
+X-Received: by 2002:a05:622a:1e87:b0:3a5:4cee:6eb1 with SMTP id bz7-20020a05622a1e8700b003a54cee6eb1mr7719977qtb.20.1668795799974;
+        Fri, 18 Nov 2022 10:23:19 -0800 (PST)
+Received: from shaak.xiphos.ca (modemcable055.92-163-184.mc.videotron.ca. [184.163.92.55])
+        by smtp.gmail.com with ESMTPSA id q46-20020a05620a2a6e00b006fbcab95d70sm2349025qkp.101.2022.11.18.10.23.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Nov 2022 10:23:19 -0800 (PST)
+From:   Liam Beguin <liambeguin@gmail.com>
+To:     Liam Beguin <liambeguin@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/3] math64: favor kernel-doc from header files
+Date:   Fri, 18 Nov 2022 13:23:07 -0500
+Message-Id: <20221118182309.3824530-1-liambeguin@gmail.com>
+X-Mailer: git-send-email 2.37.1.223.g6a475b71f8c4
 MIME-Version: 1.0
-References: <20221118170942.2588412-1-carlos.bilbao@amd.com>
-In-Reply-To: <20221118170942.2588412-1-carlos.bilbao@amd.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 18 Nov 2022 18:56:21 +0100
-Message-ID: <CANiq72=ANWtA+64O_sZu2r6XzNKnR7Sm_pXEW7XBtSUFYXPNVw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] kernel-docs: New maintainer and Spanish translation
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     corbet@lwn.net, lukas.bulwahn@gmail.com, Dhaval.Giani@amd.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        bilbao@vt.edu, ojeda@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 18, 2022 at 6:09 PM Carlos Bilbao <carlos.bilbao@amd.com> wrote=
-:
->
-> This is a cover letter for just two patches, but I should provide context=
-.
-> I was going to translate kernel-docs.rst when I read:
->
-> =E2=80=9CInitial Author: Juan-Mariano de Goyeneche (<jmseyas@dit.upm.es>;
-> email address is defunct now.)=E2=80=9C
->
-> I figured Juan-Mariano (CCed) may keep a Spanish version of the document,
-> so I searched for his new email. He replied back proposing me to take car=
-e
-> of the document from now on. I will carry the torch with pleasure! This
-> should also make Lukas happy [1].
+Fix the kernel-doc markings for div64 functions to point to the header
+file instead of the lib/ directory.  This avoids having implementation
+specific comments in generic documentation.  Furthermore, given that
+some kernel-doc comments are identical, drop them from lib/math64 and
+only keep there comments that add implementation details.
 
-Maybe some of this context could go into one commit message so that it
-is recorded in Git.
+Signed-off-by: Liam Beguin <liambeguin@gmail.com>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+---
+ Documentation/core-api/kernel-api.rst |  3 ---
+ include/linux/math64.h                | 12 ++++++------
+ lib/math/div64.c                      | 15 ++-------------
+ 3 files changed, 8 insertions(+), 22 deletions(-)
 
-> This cover letter is also a call for anyone interested in adding new, mor=
-e
-> up to date references to kernel-docs.rst. The document has been abandoned
-> for a while but its original goal is still important.
+diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+index 06f4ab122697..c9412eb85552 100644
+--- a/Documentation/core-api/kernel-api.rst
++++ b/Documentation/core-api/kernel-api.rst
+@@ -171,9 +171,6 @@ Division Functions
+ .. kernel-doc:: include/linux/math64.h
+    :internal:
+ 
+-.. kernel-doc:: lib/math/div64.c
+-   :functions: div_s64_rem div64_u64_rem div64_u64 div64_s64
+-
+ .. kernel-doc:: lib/math/gcd.c
+    :export:
+ 
+diff --git a/include/linux/math64.h b/include/linux/math64.h
+index a14f40de1dca..1538844fcb51 100644
+--- a/include/linux/math64.h
++++ b/include/linux/math64.h
+@@ -29,7 +29,7 @@ static inline u64 div_u64_rem(u64 dividend, u32 divisor, u32 *remainder)
+ 	return dividend / divisor;
+ }
+ 
+-/*
++/**
+  * div_s64_rem - signed 64bit divide with 32bit divisor with remainder
+  * @dividend: signed 64bit dividend
+  * @divisor: signed 32bit divisor
+@@ -43,7 +43,7 @@ static inline s64 div_s64_rem(s64 dividend, s32 divisor, s32 *remainder)
+ 	return dividend / divisor;
+ }
+ 
+-/*
++/**
+  * div64_u64_rem - unsigned 64bit divide with 64bit divisor and remainder
+  * @dividend: unsigned 64bit dividend
+  * @divisor: unsigned 64bit divisor
+@@ -57,7 +57,7 @@ static inline u64 div64_u64_rem(u64 dividend, u64 divisor, u64 *remainder)
+ 	return dividend / divisor;
+ }
+ 
+-/*
++/**
+  * div64_u64 - unsigned 64bit divide with 64bit divisor
+  * @dividend: unsigned 64bit dividend
+  * @divisor: unsigned 64bit divisor
+@@ -69,7 +69,7 @@ static inline u64 div64_u64(u64 dividend, u64 divisor)
+ 	return dividend / divisor;
+ }
+ 
+-/*
++/**
+  * div64_s64 - signed 64bit divide with 64bit divisor
+  * @dividend: signed 64bit dividend
+  * @divisor: signed 64bit divisor
+@@ -300,7 +300,7 @@ u64 mul_u64_u64_div_u64(u64 a, u64 mul, u64 div);
+ #define DIV64_U64_ROUND_CLOSEST(dividend, divisor)	\
+ 	({ u64 _tmp = (divisor); div64_u64((dividend) + _tmp / 2, _tmp); })
+ 
+-/*
++/**
+  * DIV_U64_ROUND_CLOSEST - unsigned 64bit divide with 32bit divisor rounded to nearest integer
+  * @dividend: unsigned 64bit dividend
+  * @divisor: unsigned 32bit divisor
+@@ -313,7 +313,7 @@ u64 mul_u64_u64_div_u64(u64 a, u64 mul, u64 div);
+ #define DIV_U64_ROUND_CLOSEST(dividend, divisor)	\
+ 	({ u32 _tmp = (divisor); div_u64((u64)(dividend) + _tmp / 2, _tmp); })
+ 
+-/*
++/**
+  * DIV_S64_ROUND_CLOSEST - signed 64bit divide with 32bit divisor rounded to nearest integer
+  * @dividend: signed 64bit dividend
+  * @divisor: signed 32bit divisor
+diff --git a/lib/math/div64.c b/lib/math/div64.c
+index 46866394fc84..55a81782e271 100644
+--- a/lib/math/div64.c
++++ b/lib/math/div64.c
+@@ -63,12 +63,6 @@ uint32_t __attribute__((weak)) __div64_32(uint64_t *n, uint32_t base)
+ EXPORT_SYMBOL(__div64_32);
+ #endif
+ 
+-/**
+- * div_s64_rem - signed 64bit divide with 64bit divisor and remainder
+- * @dividend:	64bit dividend
+- * @divisor:	64bit divisor
+- * @remainder:  64bit remainder
+- */
+ #ifndef div_s64_rem
+ s64 div_s64_rem(s64 dividend, s32 divisor, s32 *remainder)
+ {
+@@ -89,7 +83,7 @@ s64 div_s64_rem(s64 dividend, s32 divisor, s32 *remainder)
+ EXPORT_SYMBOL(div_s64_rem);
+ #endif
+ 
+-/**
++/*
+  * div64_u64_rem - unsigned 64bit divide with 64bit divisor and remainder
+  * @dividend:	64bit dividend
+  * @divisor:	64bit divisor
+@@ -129,7 +123,7 @@ u64 div64_u64_rem(u64 dividend, u64 divisor, u64 *remainder)
+ EXPORT_SYMBOL(div64_u64_rem);
+ #endif
+ 
+-/**
++/*
+  * div64_u64 - unsigned 64bit divide with 64bit divisor
+  * @dividend:	64bit dividend
+  * @divisor:	64bit divisor
+@@ -163,11 +157,6 @@ u64 div64_u64(u64 dividend, u64 divisor)
+ EXPORT_SYMBOL(div64_u64);
+ #endif
+ 
+-/**
+- * div64_s64 - signed 64bit divide with 64bit divisor
+- * @dividend:	64bit dividend
+- * @divisor:	64bit divisor
+- */
+ #ifndef div64_s64
+ s64 div64_s64(s64 dividend, s64 divisor)
+ {
 
-Indeed, updates would be appreciated!
+base-commit: 59d0d52c30d4991ac4b329f049cc37118e00f5b0
+-- 
+2.37.1.223.g6a475b71f8c4
 
-Cheers,
-Miguel
