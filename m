@@ -2,85 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0D73C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 19:42:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4299DC43219
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 19:44:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235306AbiKRTmI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 14:42:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55174 "EHLO
+        id S234994AbiKRToo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 14:44:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241915AbiKRTlq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 14:41:46 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E1691C18;
-        Fri, 18 Nov 2022 11:41:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6ED1F62769;
-        Fri, 18 Nov 2022 19:41:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DE23C43140;
-        Fri, 18 Nov 2022 19:41:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668800479;
-        bh=+3EX58SiFaImStqvJ4r/d4PsMH6/0v2Cwfofas6RK3Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=P4WpzHo8y+JQNfimsmgcCDI07q4Ve15Hri1lw0PWWcMut4ZlaL0DQe28Pk/+zv3tC
-         NF8djW/LcCjP8mGau2x1Vx7yEdLL/ZyaeNm3XRCmvNok3b3M66YTYovuoK8uJVkvEG
-         9dX+xSYdhMMQ7PdibUHMtNxcG74Y6YQTONHQu6/+3QLWmcxgs0FBFH28Cn4TaGWBnq
-         rfRIx601XTi/u+nYXoV9R+ShLqvfF2idEqBtBvGXNcREgnlPT//tQeCla31uwdh34Y
-         T+lcgj94LMP/nznWgI/0HgpqC4rmIkF7gEA3U+JF1zOCymM6l5Llx6p6rSLxHAPVp2
-         vum3etFRxpsww==
-From:   Will Deacon <will@kernel.org>
-To:     kexec@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        linux-arm-kernel@lists.infradead.org, Baoquan He <bhe@redhat.com>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        linux-kernel@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Vivek Goyal <vgoyal@redhat.com>
-Cc:     kernel-team@android.com, Will Deacon <will@kernel.org>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH v4 0/2] arm64: kdump: Function supplement and performance optimization
-Date:   Fri, 18 Nov 2022 19:40:48 +0000
-Message-Id: <166878087548.1783067.11242325570720961559.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20221116121044.1690-1-thunder.leizhen@huawei.com>
-References: <20221116121044.1690-1-thunder.leizhen@huawei.com>
+        with ESMTP id S233401AbiKRTom (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 14:44:42 -0500
+Received: from forward502o.mail.yandex.net (forward502o.mail.yandex.net [37.140.190.204])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32BEF7818F;
+        Fri, 18 Nov 2022 11:44:37 -0800 (PST)
+Received: from myt6-9bdf92ffd111.qloud-c.yandex.net (myt6-9bdf92ffd111.qloud-c.yandex.net [IPv6:2a02:6b8:c12:468a:0:640:9bdf:92ff])
+        by forward502o.mail.yandex.net (Yandex) with ESMTP id 824F825D4753;
+        Fri, 18 Nov 2022 22:44:34 +0300 (MSK)
+Received: by myt6-9bdf92ffd111.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA id cb4WW6nS5o-iWV82vUV;
+        Fri, 18 Nov 2022 22:44:33 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=clicknet.pro; s=mail; t=1668800673;
+        bh=X2hlUUTmy+wdL5CZtSmKqk3Z0B9hgsCkGcalUOd2Vbw=;
+        h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+        b=BVh1Ji6Vp0PNRo/uwwJw2SrG5NAjQe+7Kwdcbtz/Pfp+xFvl+Vjb+ApeZ6gqfFtpV
+         +MoHAd1E+mVaInB0lnj1Jdz7h1UVJ34Qy0g9Bh86PMrhZC8zpjJcmwaonX64Wl1L1+
+         pWwTuxnvfVI98u9rbQIwZitCeRwR71lE33+ixxhE=
+Authentication-Results: myt6-9bdf92ffd111.qloud-c.yandex.net; dkim=pass header.i=@clicknet.pro
+Message-ID: <536ede34-e360-78a5-ef6f-df032fa30154@clicknet.pro>
+Date:   Fri, 18 Nov 2022 22:44:17 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: Coverity: zblock_alloc(): Memory - illegal accesses
+Content-Language: en-US
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        Vitaly Wool <vitaly.wool@konsulko.com>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        linux-next@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <202211171419.FCDC8EE@keescook>
+ <74337ebd-0222-2e78-9149-8fa40b0c815e@clicknet.pro>
+ <202211180841.39558B5E5@keescook>
+From:   Ananda Badmaev <a.badmaev@clicknet.pro>
+In-Reply-To: <202211180841.39558B5E5@keescook>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 16 Nov 2022 20:10:42 +0800, Zhen Lei wrote:
-> v3 --> v4:
-> 1. Set DEFAULT_CRASH_KERNEL_LOW_SIZE to a fixed 128M.
-> 2. Some lightweight code adjustments based on Catalin Marinas's comments
+18.11.2022 19:43, Kees Cook пишет:
+> Ah-ha, understood. Well, if you do want to catch it if there is ever a
+> typo in the block_desc values (which are not obviously >4096 without
+> sitting down and calculating them), perhaps add:
 > 
-> v2 --> v3:
-> 1. Discard patch 3 in v2, a cleanup patch.
+>          if (WARN_ON(block_type >= ARRAY_SIZE(block_desc))
+>                  return -ENOSPC;
 > 
-> [...]
+> 
 
-Applied to arm64 (for-next/kdump), thanks!
+Probably it would be better to add a single check on the largest 
+slot_size >= PAGE_SIZE at pool creation time.
 
-[1/2] arm64: kdump: Provide default size when crashkernel=Y,low is not specified
-      https://git.kernel.org/arm64/c/a149cf00b158
-[2/2] arm64: kdump: Support crashkernel=X fall back to reserve region above DMA zones
-      https://git.kernel.org/arm64/c/a9ae89df7377
-
-Cheers,
--- 
-Will
-
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
