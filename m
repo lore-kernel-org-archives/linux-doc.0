@@ -2,78 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E10FCC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 18:55:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A304C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 19:41:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242432AbiKRSzv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 13:55:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56442 "EHLO
+        id S235483AbiKRTlG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 14:41:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242869AbiKRSzf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 13:55:35 -0500
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB269A2894;
-        Fri, 18 Nov 2022 10:53:27 -0800 (PST)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-368edbc2c18so57687207b3.13;
-        Fri, 18 Nov 2022 10:53:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UxR9OpGoQxx9yjPAcwW/7PeO4mN55q5wxOodCyNKVa8=;
-        b=iU9ThXBkqq8ayKDcs6HS4ecwuXdH+OMx+gSoNkDyXLNG1AAQ3jF4iExO4F6hPaf4UQ
-         +i86KSRm92hqtZDlZ6hAhaFJt6om1QahZEZRN1dsaqoGNpi1Pk5x5ha4UMdpDHcdfMCl
-         40Wg4SGQ/MCqnx76J4qxaW962YMLHdHPr7IPK9RP4JF09JOtK4V/NEisMsVR+UU92Pyh
-         11i5hi2aRC9wfx/Mhz2Zs2H66JlT8/WttOgU4nddU7PEzMw2Abm80QieTZbMW0QPNHpu
-         9AYVEjLgdkWxq0rFcOZ3G9td9bHHlbYAycrM6U0DBOscUzbDQ89aCwzCApSkkr7jZgvY
-         R6xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UxR9OpGoQxx9yjPAcwW/7PeO4mN55q5wxOodCyNKVa8=;
-        b=qVIv+W0iqkISz/+dl72eqit/3eT/G/KkNUhtVYluzGkZ2dXsOOeacFfjbAbNCdabLp
-         KfYksOHQE8hRppyc4oNT7Z7HpyZ5dI12I+RSV1/V6+t9yUJX35IbspJNGVQWFeQIBRFR
-         cirhZA4bbWiSvpVYLkoftoRK6kUy6sGJzLDXF0iyXY4wKN1u//xViphIt6gMaBHtg0ca
-         OcS511ESY933OqhbA7GVS7HmrcjjDy0vYd4xx8yfQCzO4kbOAblE3FeaKUIfiaGqtLsR
-         byzbAww8HTRz/qiuD6aplCQREYOH2zE//jChVs+PxBkoJZI8xwpisZpGQsv/FyN0GTKp
-         PzJg==
-X-Gm-Message-State: ANoB5pkvsoQaJl2icgY19l3xC9dYGJzSm0n9Y0Dk6dxuvoJw+5Zenh5P
-        VMZyNjyVOJc20PWEtWT7tY/25ELbccLwVpDmONI=
-X-Google-Smtp-Source: AA0mqf436iTUIdbNxYNL0kI0MCShiSQXnPw4sYZnkMf/dPBA5Z7OFdMpauzxWR1rB1uK4CY5kbvsJNlZ3q2yAbbFrec=
-X-Received: by 2002:a81:6a88:0:b0:36a:fd2f:a935 with SMTP id
- f130-20020a816a88000000b0036afd2fa935mr7978610ywc.83.1668797603948; Fri, 18
- Nov 2022 10:53:23 -0800 (PST)
+        with ESMTP id S235577AbiKRTlD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 14:41:03 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D30E68C4A7;
+        Fri, 18 Nov 2022 11:41:02 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8EC97B82505;
+        Fri, 18 Nov 2022 19:41:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39FEAC433D6;
+        Fri, 18 Nov 2022 19:40:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668800460;
+        bh=RS1lv+FW9z1amfhyPMQoQGhqhEaSIsgx5sWtN3v6S1k=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=IlN3L7EA6wJiXKJJXU6MvR46FzDtxduqXi58vaeihXy1ICE2BcaO143y+eRjDX/gE
+         YWZ6udX67LZhgefbEKVghYWUvq+wJdxxd3o1xXF0EmJ1q5uJTpO5KqsUq3bJEMZVUt
+         A58RXxzqLp9fjIEqLywD1Xi8I1gOCqfxHWsgWKTW1h0bE+9HjSxI5lhaHfpNvsovdq
+         IYfRN0ORyldJ0UEPlQw1AyfiwUgV23nPpJ4gIZszZOixkVoHLI+/oohR976NNZJsYq
+         7ED7uBGniI2d4KJfnTKWQ9ixpta2G0AHt2wd9o8cxIrlwrDTYdrRUeyHxUz3BPuu/e
+         u6H6yYCQ/DJwA==
+From:   Will Deacon <will@kernel.org>
+To:     linux-kernel@vger.kernel.org,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        catalin.marinas@arm.com, linux-arm-kernel@lists.infradead.org
+Cc:     kernel-team@android.com, Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        linux-doc@vger.kernel.org, James Morse <james.morse@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH V3 0/2] arm64: errata: Workaround Cortex-A715 errata #2645198
+Date:   Fri, 18 Nov 2022 19:40:40 +0000
+Message-Id: <166879036104.4045194.6085821745248609037.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20221116140915.356601-1-anshuman.khandual@arm.com>
+References: <20221116140915.356601-1-anshuman.khandual@arm.com>
 MIME-Version: 1.0
-References: <20221118170942.2588412-1-carlos.bilbao@amd.com>
- <20221118170942.2588412-2-carlos.bilbao@amd.com> <CANiq72nN7i4yXjnLftdKZ7zo8Qw8c=aM6L+D2SvzH47PVALJYQ@mail.gmail.com>
- <1ee66e1e-4ea0-1a6e-92fd-60831dd938b4@amd.com>
-In-Reply-To: <1ee66e1e-4ea0-1a6e-92fd-60831dd938b4@amd.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 18 Nov 2022 19:53:13 +0100
-Message-ID: <CANiq72=d_khJg-LZqNXgiLnc-c1fBxdMfNhhWrg75pKQXP-quA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] docs: Update maintainer of kernel-docs.rst
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     corbet@lwn.net, lukas.bulwahn@gmail.com, Dhaval.Giani@amd.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        bilbao@vt.edu, ojeda@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 18, 2022 at 7:27 PM Carlos Bilbao <carlos.bilbao@amd.com> wrote:
->
-> Ah, you are right, something like in:
->
-> CODE OF CONDUCT
-> M:      Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> S:      Supported
-> F:      Documentation/process/code-of-conduct-interpretation.rst
-> F:      Documentation/process/code-of-conduct.rst
+On Wed, 16 Nov 2022 19:39:13 +0530, Anshuman Khandual wrote:
+> This series adds Cortex-A715 partnumber and workarounds the errata #2645198
+> which gets triggered when an userspace page mapping permission changes from
+> executable to non-executable, corrupting both ESR_EL1/FAR_EL1 registers
+> when an instruction abort is taken.
+> 
+> This series applies on v6.1-rc5.
+> 
+> [...]
 
-Yeah, that way `get_maintainer.pl` would know about it.
+Applied to arm64 (for-next/errata), thanks!
+
+[1/2] arm64: Add Cortex-715 CPU part definition
+      https://git.kernel.org/arm64/c/07e39e60bbf0
+[2/2] arm64: errata: Workaround possible Cortex-A715 [ESR|FAR]_ELx corruption
+      https://git.kernel.org/arm64/c/44ecda71fd8a
 
 Cheers,
-Miguel
+-- 
+Will
+
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
