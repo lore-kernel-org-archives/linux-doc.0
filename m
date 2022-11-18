@@ -2,218 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A93EBC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 13:36:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F27D3C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 13:46:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241927AbiKRNgn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 08:36:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52840 "EHLO
+        id S235313AbiKRNqI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 08:46:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242177AbiKRNgU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 08:36:20 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D47D91520;
-        Fri, 18 Nov 2022 05:34:40 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id p21so4556127plr.7;
-        Fri, 18 Nov 2022 05:34:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+RPbQDiX/Zy5K2QrYqqrxGkL0efikkW2IcEvpnZvUnM=;
-        b=afa5CPOEpf7VX42vv4gmHNqu8Mhvks8EOB7Qfdle9fDHl+pbzv/c94ufgP7S7YfIZY
-         /g0KJWnHuNaOXzQ3aXeFp3wEkYOb8fGnma5DGncynujm2QkwA+VqlG7Q4PLoxHmPCDLp
-         BKxByYCyFgkRA/GX3hpIhc0BZ3tO4Yh7tSscaKkdLgyCxUuNoOnvgTuah8mSY77vANGr
-         W8T2/Ed/h33sUqUIxdMc878cD+JkZ1TTOEQmMz5AmDXiM4pS5DRY+BFB2ZCIhZO5tOr7
-         wfF8J9nzG96KZVBCF4vliAJlQv7Udjw4RXAQ789O1/BYJzQbjk51dSx4u6ZkGTYsxWvn
-         kWWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+RPbQDiX/Zy5K2QrYqqrxGkL0efikkW2IcEvpnZvUnM=;
-        b=GrCVM5vAoRARwRa+h9lBhYQWupsQWwZH5bJ8t8ucix0nSYSbsa8TA/hOUKS21X+v9o
-         tH2Hjb/aUJs/9Q9pafks5LT5neWE1UnoqtPJtrIVvCtVyCOEZ7xejBW4a1xsJOkqqVts
-         lRt5tEEw0BMHYYoXqJ1TFpqoEwiLQkJZ8xOcMVeKYkAOQgw7ZvKyO7/2oRTa//YpjkYg
-         tB6oMEpAKx0UAeIWbXdQT4ITVfVHVIifo+3WtMkeIkaFzzmStb23djlIlcJbMvp6ryXx
-         NvIlPpsoZl+0Ey8bMW3kX+dW8ZMvvTJFo6W5q0weVnbJWxtTBpt4JeZ1LYN0TLV+TeVE
-         4P/w==
-X-Gm-Message-State: ANoB5pkeYfR3H5ErrAzXm2pPBaqS9C22W6no8wsBhhWqLUphekkvZdA8
-        11Dt/MsNEbXiq3k1dUHIP5Y=
-X-Google-Smtp-Source: AA0mqf5Xxray6D3+mXRLHWF58GvQ7m6HjKU0FFsHL5zPClvSguTfCmLGVG2CAcNgb6Pupq2yit0Ieg==
-X-Received: by 2002:a17:903:26c7:b0:188:4f86:e4ea with SMTP id jg7-20020a17090326c700b001884f86e4eamr7773858plb.59.1668778479580;
-        Fri, 18 Nov 2022 05:34:39 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id o1-20020a170902d4c100b00186b1bfbe79sm3757677plg.66.2022.11.18.05.34.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Nov 2022 05:34:38 -0800 (PST)
-Message-ID: <ed4dac84-1b12-5c58-e4de-93ab9ac67c09@gmail.com>
-Date:   Fri, 18 Nov 2022 22:34:33 +0900
+        with ESMTP id S235225AbiKRNqH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 08:46:07 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5B3487640;
+        Fri, 18 Nov 2022 05:46:05 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2F45623A;
+        Fri, 18 Nov 2022 05:46:11 -0800 (PST)
+Received: from [10.0.2.87] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 91DE53F587;
+        Fri, 18 Nov 2022 05:46:01 -0800 (PST)
+Message-ID: <3bf8bbf1-c2bc-3199-2cee-99a1e3e920c7@arm.com>
+Date:   Fri, 18 Nov 2022 14:45:59 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH bpf-next v2 1/1] docs: BPF_MAP_TYPE_XSKMAP
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     mtahhan@redhat.com, bpf@vger.kernel.org, donhunte@redhat.com,
-        jbrouer@redhat.com, linux-doc@vger.kernel.org,
-        magnus.karlsson@gmail.com, thoiland@redhat.com,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <20221117154446.3684330-1-mtahhan@redhat.com>
- <8d4899f1-fcd2-edc6-31da-363b13f8049b@gmail.com> <m24juwy5cu.fsf@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] sched/topology: Remove EM_MAX_COMPLEXITY limit
 Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <m24juwy5cu.fsf@gmail.com>
+To:     Pierre Gondois <pierre.gondois@arm.com>,
+        linux-kernel@vger.kernel.org
+Cc:     Ionela.Voinescu@arm.com, Lukasz Luba <lukasz.luba@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        linux-doc@vger.kernel.org
+References: <20221028153032.395898-1-pierre.gondois@arm.com>
+From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
+In-Reply-To: <20221028153032.395898-1-pierre.gondois@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Donald,
-
-On Fri, 18 Nov 2022 09:33:21 +0000, Donald Hunter wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
->>
->> So you have two declarations of bpf_map_lookup_elem() in map_xskmap.rst.
->>
->> This will cause "make htmldocs" with Sphinx >=3.1 to emit a warning of:
->>
->> /linux/Documentation/bpf/map_xskmap.rst:100: WARNING: Duplicate C declaration, also defined at map_xskmap:71.
->> Declaration is '.. c:function:: int bpf_map_lookup_elem(int fd, const void *key, void *value)'.
->>
->> , in addition to a bunch of similar warnings observed at bpf-next:
->>
->> /linux/Documentation/bpf/map_cpumap.rst:50: WARNING: Duplicate C declaration, also defined at map_array:43.
->> Declaration is '.. c:function:: int bpf_map_update_elem(int fd, const void *key, const void *value, __u64 flags);'.
->> /linux/Documentation/bpf/map_cpumap.rst:72: WARNING: Duplicate C declaration, also defined at map_array:35.
->> Declaration is '.. c:function:: int bpf_map_lookup_elem(int fd, const void *key, void *value);'.
->> /linux/Documentation/bpf/map_hash.rst:37: WARNING: Duplicate C declaration, also defined at map_array:43.
->> Declaration is '.. c:function:: long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)'.
->> ... [bunch of similar warnings]
+On 28/10/2022 17:30, Pierre Gondois wrote:
+> From: Pierre Gondois <Pierre.Gondois@arm.com>
 > 
-> That's unfortunate, and I'm responsible for some of those. Not sure how
-> we'd know to check for warnings with Sphinx >= 3.1 when
-> Documentation/doc-guide/sphinx.rst and
-> Documentation/sphinx/requirements.txt both specify version 2.4.4
-
-Sorry, I didn't mean to blame anyone. :-/
-
-I think I need to share some background.
-Please read on.
-
+> The Energy Aware Scheduler (EAS) estimates the energy consumption
+> of placing a task on different CPUs. The goal is to minimize this
+> energy consumption. Estimating the energy of different task placements
+> is increasingly complex with the size of the platform. To avoid having
+> a slow wake-up path, EAS is only enabled if this complexity is low
+> enough.
 > 
->> You might want to say you don't care, but they would annoy those
->> who do test "make htmldocs".
->>
->> So let me explain why sphinx complains.
->>
->> C domain declarations in kernel documentation are for kernel APIs.
->> By default, c:function declarations belong to the top-level namespace,
->> which is intended for kernel APIs.
->>
->> IIUC, most APIs described in map*.rst files don't belong to kernel.
->> So I think the way to go is to use the c:namespace directive.
->>
->> See: https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#namespacing
->>
->> As mentioned there, namespacing works with Sphinx >=3.1.
->> Currently, kernel documentation build scripts support only the
->> "c:namespace" directive, which means you can't switch namespaces in the
->> middle of a .rst file. This limitation comes from the fact that Sphinx
->> 1.7.9 is still in the list for htmldocs at the moment and build scripts
->> emulate namespacing for Sphinx <3.1 in a limited way.
+> The current complexity limit was set in:
+> commit b68a4c0dba3b1 ("sched/topology: Disable EAS on inappropriate
+> platforms").
+> base on the first implementation of EAS, which was re-computing
+> the power of the whole platform for each task placement scenario, cf:
+> commit 390031e4c309 ("sched/fair: Introduce an energy estimation helper
+> function").
+> but the complexity of EAS was reduced in:
+> commit eb92692b2544d ("sched/fair: Speed-up energy-aware wake-ups")
+> and find_energy_efficient_cpu() (feec) algorithm was updated in:
+> commit 3e8c6c9aac42 ("sched/fair: Remove task_util from effective
+> utilization in feec()")
 > 
-> What's the reason for keeping support for Sphinx 1.7.9 and pinning to
-> 2.4.4 in Documentation/sphinx/requirements.txt if we want to support
-> Sphinx >= 3.1? Given that the latest Sphinx release is 5.3.0, and Python
-> 2 support was dropped in Sphinx 2.0.0 it seems that we need to have a
-> higher minimum version and a higher default version.
-
-Middle term, progressing to recent versions of Sphinx is highly hoped
-as we'd really like to utilize the namespacing capability in its full
-strength.
-
-Unfortunately, as is mentioned in ./scripts/sphinx_pre:
-
-   Please note that Sphinx >= 3.0 will currently produce false-positive
-   warning when the same name is used for more than one type (functions,
-   structs, enums,...). This is known Sphinx bug. For more details, see:
-	https://github.com/sphinx-doc/sphinx/pull/8313
- 
-, later Sphinx emits a dozen of false positive warnings of duplicates.
-Hence we stick to Sphinx 2.4.4 in doc-guide documents. 2.4.4 or 1.7.9
-is good enough for catching easy-to-fix errors in .rst files.
-
-See https://lore.kernel.org/linux-doc/20220702122311.358c0219@sal.lan/
-for Mauro's thoughts on these issues.
-
-What I'm doing now is manually distinguishing false and real positives
-and asking fixes of the latter, so that transition to later Sphinx
-versions would be smooth as possible. On of such fixes is commit
-c18c20f16219 ("mm, slab: remove duplicate kernel-doc comment for
-ksize()") which landed v6.1-rc5.
-
+> find_energy_efficient_cpu() (feec) is now doing:
+> feec()
+> \_ for_each_pd(pd) [0]
+>   // get max_spare_cap_cpu and compute_prev_delta
+>   \_ for_each_cpu(pd) [1]
 > 
->> So please avoid putting function declarations of the same name in
->> a .rst file.
+>   \_ eenv_pd_busy_time(pd) [2]
+> 	\_ for_each_cpu(pd)
 > 
-> The same function name, with different signature gets used as a BPF
-> helper and as a userspace function. We'd really like to be able to
-> document the semantics of both for a given BPF map type, all on the same
-> page.
+>   // compute_energy(pd) without the task
+>   \_ eenv_pd_max_util(pd, -1) [3.0]
+>     \_ for_each_cpu(pd)
+>   \_ em_cpu_energy(pd, -1)
+>     \_ for_each_ps(pd)
 > 
-> Is there a better way for us to highlight the function signature,
-> without using the c:function:: directive, since they're not really
-> function declarations?
-If you don't feel like bothering with namespacing, your option would
-be to use the code-block directive.
-I see a couple of APIs presented as plain literal blocks in
-map_cgrp_storage.rst.
-
-If you change them to "code-block"s as follows:
-
-diff --git a/Documentation/bpf/map_cgrp_storage.rst b/Documentation/bpf/map_cgrp_storage.rst
-index 5d3f603efffa..be31f250453b 100644
---- a/Documentation/bpf/map_cgrp_storage.rst
-+++ b/Documentation/bpf/map_cgrp_storage.rst
-@@ -18,14 +18,18 @@ Usage
- =====
- 
- The map key must be ``sizeof(int)`` representing a cgroup fd.
--To access the storage in a program, use ``bpf_cgrp_storage_get``::
-+To access the storage in a program, use ``bpf_cgrp_storage_get``:
-+
-+.. code-block:: c
- 
-     void *bpf_cgrp_storage_get(struct bpf_map *map, struct cgroup *cgroup, void *value, u64 flags)
- 
- ``flags`` could be 0 or ``BPF_LOCAL_STORAGE_GET_F_CREATE`` which indicates that
- a new local storage will be created if one does not exist.
- 
--The local storage can be removed with ``bpf_cgrp_storage_delete``::
-+The local storage can be removed with ``bpf_cgrp_storage_delete``:
-+
-+.. code-block:: c
- 
-     long bpf_cgrp_storage_delete(struct bpf_map *map, struct cgroup *cgroup)
- 
-------------
-, you can get highlighted signatures. I'm not sure if you like the
-way they are highlighted, though.
-
-Hope this helps.
-
-Please feel free to ask if you have further questions.
-
-Akira
-
+>   // compute_energy(pd) with the task on prev_cpu
+>   \_ eenv_pd_max_util(pd, prev_cpu) [3.1]
+>     \_ for_each_cpu(pd)
+>   \_ em_cpu_energy(pd, prev_cpu)
+>     \_ for_each_ps(pd)
 > 
->> The other duplicate warnings shown above can be silenced by the
->> change attached below. It is only as a suggestion and I'm not putting
->> a S-o-b tag.
->>
->> Hope this helps,
->>
->> Akira
+>   // compute_energy(pd) with the task on max_spare_cap_cpu
+>   \_ eenv_pd_max_util(pd, max_spare_cap_cpu) [3.2]
+>     \_ for_each_cpu(pd)
+>   \_ em_cpu_energy(pd, max_spare_cap_cpu)
+>     \_ for_each_ps(pd)
+> 
+> [3.1] happens only once since prev_cpu is unique. With the same
+> definitions for nr_pd, nr_cpus and nr_ps, the complexity is of:
+> nr_pd * (2 * [nr_cpus in pd] + 2 * ([nr_cpus in pd] + [nr_ps in pd]))
+> + ([nr_cpus in pd] + [nr_ps in pd])
+> 
+>  [0]  * (     [1] + [2]      +       [3.0] + [3.2]                  )
+> + [3.1]
+> 
+> = nr_pd * (4 * [nr_cpus in pd] + 2 * [nr_ps in pd])
+> + [nr_cpus in prev pd] + nr_ps
+> 
+> The complexity limit was set to 2048 in:
+> commit b68a4c0dba3b1 ("sched/topology: Disable EAS on inappropriate
+> platforms")
+> to make "EAS usable up to 16 CPUs with per-CPU DVFS and less than 8
+> performance states each". For the same platform, the complexity would
+> actually be of:
+> 16 * (4 + 2 * 7) + 1 + 7 = 296
+> 
+> Since the EAS complexity was greatly reduced, bigger platforms can
+> handle EAS. For instance, a platform with 112 CPUs with 7 performance
+> states each would not reach it:
+> 112 * (4 + 2 * 7) + 1 + 7 = 2024
+> 
+> To reflect this improvement, remove the EAS complexity check.
+> 
+> Signed-off-by: Pierre Gondois <Pierre.Gondois@arm.com>
+> Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
+
+OK, let's remove the specific EAS EM complexity check in this case.
+
+But we should still have some info about the decission that EAS is now
+only constraint by EM's own EM_MAX_NUM_CPUS in terms of complexity.
+
+So maybe replace `6.3 - Energy Model complexity` by:
+
+EAS does not impose any complexity limit on numbers of CPUs but relies
+on EM's own EM_MAX_NUM_CPUS.
+
+And also mention this fact in the patch-header for future reference
+regarding this change.
+
+[...]
