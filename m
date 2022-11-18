@@ -2,154 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A309C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 15:59:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C3C0C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 16:07:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241367AbiKRP7U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 10:59:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34350 "EHLO
+        id S235310AbiKRQHu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 11:07:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241234AbiKRP7T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 10:59:19 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E03BDEFC
-        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 07:59:17 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id u6-20020a17090a5e4600b0021881a8d264so3094902pji.4
-        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 07:59:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=BIzAKlqfAaMg368D6jPlp8HmIeVCVtTOFRZVfOrIoRA=;
-        b=s6eyQMrxXlVr7mjyTTlqJhnlh/Xi9X6Am4TwNlENwsPyRh8KvXIqhnsP3MMWC9+MoB
-         oQd97BmjUOsQPxgMsh5zyjcOYLIVp3cqB3U8qN7/Ud5hvTdIANRIWIS/vJblpoBTxukB
-         h0Lxk6Jg3vNqw4OVzI0CkcjluXS6vsT31cdyDImlVx7++g13+ozmNNZ5BkzVdivrg7g+
-         00m3rpeYDbyzY05rk/dB8GnC4ClchfIxtJ5aTCzCQyATv7KhMjKNSIDvnh3cGt1Q5v+L
-         lNMyGoelDxkjB2wAw8ywO8jmucxwhUGJpJ8n7dWOAqcgUj06ocsZtkUfpHvBn0wBdFz1
-         TsrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BIzAKlqfAaMg368D6jPlp8HmIeVCVtTOFRZVfOrIoRA=;
-        b=LWw18T9C63fK4QWn/9MhoYttyfen7FNErONiSbhPq9REniI7854CZcejdycJlvWuTR
-         qFNI5AXXI5+qaHZtOrvxyIThWk+51hxh1IoXrio8Cmd8MHlotcdpdiNMtI/kS/B12uzi
-         YNWgh2Zpjn8A+UsDMEckySHm3dqvFYKzwAMhgngKxYJ3THg7B4ZFL7odEmBrn9TDxluN
-         A8XyqRGi7oVzHrgWMGMTN82pgquLGfMoAVQKMMz/o0blYpobEBZiyxrUvCGDXKU33v5R
-         YmDoXCNC0FziERJXSdUdoAlDfr/lgd764rsQ8DJhH8+hfBtmPJefNsnCf67+4DMw4FzS
-         ZDOQ==
-X-Gm-Message-State: ANoB5pla1a162w46e3yhQx+U4a5LhQRUSsUJwx7O11nJ/OwSw9DCMI8N
-        jSeZI9el9p545W1RL6e4jD+QWw==
-X-Google-Smtp-Source: AA0mqf68z73TZ4LH+iMU8Y7+vIcozkzW9+xI2VfYzqSxI4RUtQBXAdSaqw03S7HKwO0upOzd1Ydjhw==
-X-Received: by 2002:a17:90a:9f03:b0:211:59c6:6133 with SMTP id n3-20020a17090a9f0300b0021159c66133mr8428311pjp.238.1668787156611;
-        Fri, 18 Nov 2022 07:59:16 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id s16-20020a170902a51000b001869f2120a5sm3840359plq.34.2022.11.18.07.59.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 07:59:16 -0800 (PST)
-Date:   Fri, 18 Nov 2022 15:59:12 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Message-ID: <Y3er0M5Rpf1X97W/@google.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
- <87cz9o9mr8.fsf@linaro.org>
- <20221116031441.GA364614@chaop.bj.intel.com>
- <87mt8q90rw.fsf@linaro.org>
- <20221117134520.GD422408@chaop.bj.intel.com>
- <87a64p8vof.fsf@linaro.org>
- <20221118013201.GA456562@chaop.bj.intel.com>
- <87o7t475o7.fsf@linaro.org>
+        with ESMTP id S234455AbiKRQHt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 11:07:49 -0500
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EBA21055D
+        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 08:07:47 -0800 (PST)
+Received: (Authenticated sender: alex@ghiti.fr)
+        by mail.gandi.net (Postfix) with ESMTPSA id 486D520003;
+        Fri, 18 Nov 2022 16:07:40 +0000 (UTC)
+Message-ID: <da4eaceb-9561-4744-d3c9-459b6a70783f@ghiti.fr>
+Date:   Fri, 18 Nov 2022 17:07:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] Documentation: riscv: Document the sv57 VM layout
+Content-Language: en-US
+To:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-riscv@lists.infradead.org,
+        Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Cc:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20221031180230.1420544-1-bjorn@kernel.org>
+From:   Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <20221031180230.1420544-1-bjorn@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87o7t475o7.fsf@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 18, 2022, Alex Benn�e wrote:
-> 
-> Chao Peng <chao.p.peng@linux.intel.com> writes:
-> 
-> > On Thu, Nov 17, 2022 at 03:08:17PM +0000, Alex Benn�e wrote:
-> >> >> I think this should be explicit rather than implied by the absence of
-> >> >> another flag. Sean suggested you might want flags for RWX failures so
-> >> >> maybe something like:
-> >> >> 
-> >> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_READ	(1 << 0)
-> >> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_WRITE	(1 << 1)
-> >> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_EXECUTE	(1 << 2)
-> >> >>         KVM_MEMORY_EXIT_FLAG_PRIVATE            (1 << 3)
-> >> >
-> >> > Yes, but I would not add 'SHARED' to RWX, they are not share memory
-> >> > specific, private memory can also set them once introduced.
-> >> 
-> >> OK so how about:
-> >> 
-> >>  	KVM_MEMORY_EXIT_FLAG_READ	(1 << 0)
-> >>  	KVM_MEMORY_EXIT_FLAG_WRITE	(1 << 1)
-> >>  	KVM_MEMORY_EXIT_FLAG_EXECUTE	(1 << 2)
-> >>         KVM_MEMORY_EXIT_FLAG_SHARED     (1 << 3)
-> >>         KVM_MEMORY_EXIT_FLAG_PRIVATE    (1 << 4)
-> >
-> > We don't actually need a new bit, the opposite side of private is
-> > shared, i.e. flags with KVM_MEMORY_EXIT_FLAG_PRIVATE cleared expresses
-> > 'shared'.
-> 
-> If that is always true and we never expect a 3rd type of memory that is
-> fine. But given we are leaving room for expansion having an explicit bit
-> allows for that as well as making cases of forgetting to set the flags
-> more obvious.
+Hi Björn,
 
-Hrm, I'm on the fence.
+On 10/31/22 19:02, Björn Töpel wrote:
+> From: Björn Töpel <bjorn@rivosinc.com>
+>
+> RISC-V has been supporting the "sv57" address translation mode for a
+> while, but is has not been added to the VM layout documentation. Let
+> us fix that.
+>
+> Signed-off-by: Björn Töpel <bjorn@rivosinc.com>
+> ---
+>   Documentation/riscv/vm-layout.rst | 36 +++++++++++++++++++++++++++++++
+>   1 file changed, 36 insertions(+)
+>
+> diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
+> index 5b36e45fef60..35f76798b6e4 100644
+> --- a/Documentation/riscv/vm-layout.rst
+> +++ b/Documentation/riscv/vm-layout.rst
+> @@ -97,3 +97,39 @@ RISC-V Linux Kernel SV48
+>      ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | modules, BPF
+>      ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | kernel
+>     __________________|____________|__________________|_________|____________________________________________________________
+> +
+> +
+> +RISC-V Linux Kernel SV57
+> +------------------------
+> +
+> +::
+> +
+> + ========================================================================================================================
+> +      Start addr    |   Offset   |     End addr     |  Size   | VM area description
+> + ========================================================================================================================
+> +                    |            |                  |         |
+> +   0000000000000000 |    0       | 00ffffffffffffff |   64 PB | user-space virtual memory, different per mm
+> +  __________________|____________|__________________|_________|___________________________________________________________
+> +                    |            |                  |         |
+> +   0100000000000000 | +64     PB | feffffffffffffff | ~16K PB | ... huge, almost 64 bits wide hole of non-canonical
 
-A dedicated flag isn't strictly needed, e.g. even if we end up with 3+ types in
-this category, the baseline could always be "private".
 
-I do like being explicit, and adding a PRIVATE flag costs KVM practically nothing
-to implement and maintain, but evetually we'll up with flags that are paired with
-an implicit state, e.g. see the many #PF error codes in x86.  In other words,
-inevitably KVM will need to define the default/base state of the access, at which
-point the base state for SHARED vs. PRIVATE is "undefined".  
+Very very nit but "+64" is not correctly aligned :)
 
-The RWX bits are in the same boat, e.g. the READ flag isn't strictly necessary.
-I was thinking more of the KVM_SET_MEMORY_ATTRIBUTES ioctl(), which does need
-the full RWX gamut, when I typed out that response.
 
-So I would say if we add an explicit READ flag, then we might as well add an explicit
-PRIVATE flag too.  But if we omit PRIVATE, then we should omit READ too.
+> +                    |            |                  |         | virtual memory addresses up to the -64 PB
+> +                    |            |                  |         | starting offset of kernel mappings.
+> +  __________________|____________|__________________|_________|___________________________________________________________
+> +                                                              |
+> +                                                              | Kernel-space virtual memory, shared between all processes:
+> +  ____________________________________________________________|___________________________________________________________
+> +                    |            |                  |         |
+> +   ff1bfffffee00000 |  -57    PB | ff1bfffffeffffff |    2 MB | fixmap
+> +   ff1bffffff000000 |  -57    PB | ff1bffffffffffff |   16 MB | PCI io
+> +   ff1c000000000000 |  -57    PB | ff1fffffffffffff |    1 PB | vmemmap
+> +   ff20000000000000 |  -56    PB | ff5fffffffffffff |   16 PB | vmalloc/ioremap space
+> +   ff60000000000000 |  -40    PB | ffdffffeffffffff |   32 PB | direct mapping of all physical memory
+> +   ffdfffff00000000 |  - 8    PB | fffffffeffffffff |    8 PB | kasan
+
+
+To me, the kasan start address is wrong, an sv57 kernel produces the 
+following output for me:
+
+[    0.000000]       fixmap : 0xff1bfffffee00000 - 0xff1bffffff000000   
+(2048 kB)
+[    0.000000]       pci io : 0xff1bffffff000000 - 0xff1c000000000000   
+(  16 MB)
+[    0.000000]      vmemmap : 0xff1c000000000000 - 0xff20000000000000   
+(1024 TB)
+[    0.000000]      vmalloc : 0xff20000000000000 - 0xff60000000000000   
+(16384 TB)
+[    0.000000]      modules : 0xffffffff01e2a000 - 0xffffffff80000000   
+(2017 MB)
+[    0.000000]       lowmem : 0xff60000000000000 - 0xff60000100000000   
+(4096 MB)
+[    0.000000]        kasan : 0xffdf000000000000 - 0xffffffff00000000   
+(8447 TB)
+[    0.000000]       kernel : 0xffffffff80000000 - 0xffffffffffffffff   
+(2047 MB)
+
+Because by definition, KASAN_SHADOW_START is aligned on PGDIR_SIZE 
+(because it is easier to map this way).
+
+And again very very nit: there is a space between the '-' and '8' :)
+
+
+> +  __________________|____________|__________________|_________|____________________________________________________________
+> +                                                              |
+> +                                                              | Identical layout to the 39-bit one from here on:
+> +  ____________________________________________________________|____________________________________________________________
+> +                    |            |                  |         |
+> +   ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | modules, BPF
+> +   ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | kernel
+> +  __________________|____________|__________________|_________|____________________________________________________________
+
+
+Thanks,
+
+Alex
+
