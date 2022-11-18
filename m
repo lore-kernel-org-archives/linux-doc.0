@@ -2,263 +2,323 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF350C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 08:35:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 089E6C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 09:03:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241567AbiKRIfN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 03:35:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52814 "EHLO
+        id S241558AbiKRJDd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 04:03:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241461AbiKRIex (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 03:34:53 -0500
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56B2CEA
-        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 00:34:13 -0800 (PST)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-3691e040abaso42928697b3.9
-        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 00:34:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wyrIZGrkRGaBx3SBlr53l5QP2brkzSvBi6iVTIgs8bA=;
-        b=p/97bDSMHPSl8KJZhheAqVfFItZr4N5ToAF1sL/eRnSDT78a47IjZqZRBiAf1ZRvOg
-         StG+00tSdXWDsXeAgM1Yp4aXIAfaybTBv9cNAchnMtgmo5aXXMYFTmz0irktfNHmHGj6
-         HWDw/TPmRe0g0WB2Bn0IuhYCvVpx8PcVB34dJWrW/PoSrRDMyZ+v49sW/TslbSrrbRWe
-         IuAekW2Aa1UflkJMuh4WDsqRlRIRZieQ1tAGqw8BHbmtlDXAtkrp9FB38PUidu9Tt9Mw
-         +GTq7+MjLHDrW7xbA+tLEmVml4W+IkGZGuucNdqLMkzWITkL4uAGfzxdBda0MyxfbW0k
-         GLmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wyrIZGrkRGaBx3SBlr53l5QP2brkzSvBi6iVTIgs8bA=;
-        b=Ncmyi+Zmq/hRoi1swrBdLSnQBuCIg1TVCM7MUDSFbRuqmMNygRbaGYndP0ke/E/+tG
-         FMN6kl63NdF024Ce2JkRW8bCLy9kaNPNmq8Ne4CoGewaQ281U19qLTvE1pE0I/BKSPMN
-         og+9EOWNIuCA9Hkm8xMEkfJ5GukDJH5FQmLWXJksBoDb99leUp7X/zD052YQMBpuwkiS
-         IbMsAtZXyHdWi8LWB31c8xpvaNNU852L8RjLfsVwudUkoAPtY2r3QseB/Q73ZtD5OcBK
-         yj466MMEeOqMc0yCg13mdJx3oBYwlgjeiJSte2oN112ABU9Iy/3thc3VhJD9W6gGjoWp
-         h6AA==
-X-Gm-Message-State: ANoB5pl9yNuDmzS8Pp0iBUKowu8U2iWE3ezBIQHqI8QemQQTU7aml01M
-        qRM2nXxFmZXxfkjFppoLVUGVEPRvn6/HOe6gGg79kA==
-X-Google-Smtp-Source: AA0mqf6Kvf44HlZn6iojLaECPn2leREJv9EFhtuvAZO/Mw6881fUR5KToU610B8qLHSvq9W6O51u62BW9Qbmllua0rI=
-X-Received: by 2002:a81:1717:0:b0:36f:c0f7:856f with SMTP id
- 23-20020a811717000000b0036fc0f7856fmr5472096ywx.4.1668760453041; Fri, 18 Nov
- 2022 00:34:13 -0800 (PST)
+        with ESMTP id S241530AbiKRJDd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 04:03:33 -0500
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7EC265CE;
+        Fri, 18 Nov 2022 01:03:30 -0800 (PST)
+Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4ND9mS1jQ9zmW4N;
+        Fri, 18 Nov 2022 17:03:04 +0800 (CST)
+Received: from [10.67.110.112] (10.67.110.112) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 18 Nov 2022 17:03:28 +0800
+Subject: Re: [PATCH -next v2 3/6] landlock: add chmod and chown support
+To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
+        =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
+CC:     <paul@paul-moore.com>, <jmorris@namei.org>, <serge@hallyn.com>,
+        <shuah@kernel.org>, <corbet@lwn.net>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+References: <20220827111215.131442-1-xiujianfeng@huawei.com>
+ <20220827111215.131442-4-xiujianfeng@huawei.com> <Ywpw66EYRDTQIyTx@nuc>
+ <de8834b6-0ff2-1a81-f2d3-af33103e9942@huawei.com>
+ <de4620d2-3268-b3cc-71dd-acbbd204435e@digikod.net>
+ <2f286496-f4f8-76f7-2fb6-cc3dd5ffdeaa@huawei.com>
+ <4b69a4ac-28ab-16aa-14b1-04a6f64d5490@digikod.net>
+ <9caccd0a-319e-bbc9-084a-65c62d0b1145@huawei.com>
+ <abc960a1-e66e-792e-6869-cfd201c29dbe@digikod.net>
+From:   xiujianfeng <xiujianfeng@huawei.com>
+Message-ID: <1373bbe5-16b1-bf0e-5f92-14c31cb94897@huawei.com>
+Date:   Fri, 18 Nov 2022 17:03:28 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-References: <20221117233838.give.484-kees@kernel.org> <20221117234328.594699-4-keescook@chromium.org>
-In-Reply-To: <20221117234328.594699-4-keescook@chromium.org>
-From:   Marco Elver <elver@google.com>
-Date:   Fri, 18 Nov 2022 09:33:36 +0100
-Message-ID: <CANpmjNN2oHP0xLhPG9TboqcXFxdvhE9Hh6qKa0xPGnyFyGDRQg@mail.gmail.com>
-Subject: Re: [PATCH v3 4/6] panic: Consolidate open-coded panic_on_warn checks
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Jann Horn <jannh@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Gow <davidgow@google.com>,
-        tangmeng <tangmeng@uniontech.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Petr Mladek <pmladek@suse.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>,
-        kasan-dev@googlegroups.com, linux-mm@kvack.org,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Seth Jenkins <sethjenkins@google.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linus Torvalds <torvalds@linuxfoundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Eric Biggers <ebiggers@google.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Laurent Dufour <ldufour@linux.ibm.com>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <abc960a1-e66e-792e-6869-cfd201c29dbe@digikod.net>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.110.112]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpeml500023.china.huawei.com (7.185.36.114)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 18 Nov 2022 at 00:43, Kees Cook <keescook@chromium.org> wrote:
->
-> Several run-time checkers (KASAN, UBSAN, KFENCE, KCSAN, sched) roll
-> their own warnings, and each check "panic_on_warn". Consolidate this
-> into a single function so that future instrumentation can be added in
-> a single location.
->
-> Cc: Marco Elver <elver@google.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Juri Lelli <juri.lelli@redhat.com>
-> Cc: Vincent Guittot <vincent.guittot@linaro.org>
-> Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Ben Segall <bsegall@google.com>
-> Cc: Mel Gorman <mgorman@suse.de>
-> Cc: Daniel Bristot de Oliveira <bristot@redhat.com>
-> Cc: Valentin Schneider <vschneid@redhat.com>
-> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> Cc: Alexander Potapenko <glider@google.com>
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: David Gow <davidgow@google.com>
-> Cc: tangmeng <tangmeng@uniontech.com>
-> Cc: Jann Horn <jannh@google.com>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Petr Mladek <pmladek@suse.com>
-> Cc: "Paul E. McKenney" <paulmck@kernel.org>
-> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-> Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
-> Cc: kasan-dev@googlegroups.com
-> Cc: linux-mm@kvack.org
-> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-Reviewed-by: Marco Elver <elver@google.com>
 
-> ---
->  include/linux/panic.h | 1 +
->  kernel/kcsan/report.c | 3 +--
->  kernel/panic.c        | 9 +++++++--
->  kernel/sched/core.c   | 3 +--
->  lib/ubsan.c           | 3 +--
->  mm/kasan/report.c     | 4 ++--
->  mm/kfence/report.c    | 3 +--
->  7 files changed, 14 insertions(+), 12 deletions(-)
->
-> diff --git a/include/linux/panic.h b/include/linux/panic.h
-> index c7759b3f2045..979b776e3bcb 100644
-> --- a/include/linux/panic.h
-> +++ b/include/linux/panic.h
-> @@ -11,6 +11,7 @@ extern long (*panic_blink)(int state);
->  __printf(1, 2)
->  void panic(const char *fmt, ...) __noreturn __cold;
->  void nmi_panic(struct pt_regs *regs, const char *msg);
-> +void check_panic_on_warn(const char *origin);
->  extern void oops_enter(void);
->  extern void oops_exit(void);
->  extern bool oops_may_print(void);
-> diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
-> index 67794404042a..e95ce7d7a76e 100644
-> --- a/kernel/kcsan/report.c
-> +++ b/kernel/kcsan/report.c
-> @@ -492,8 +492,7 @@ static void print_report(enum kcsan_value_change value_change,
->         dump_stack_print_info(KERN_DEFAULT);
->         pr_err("==================================================================\n");
->
-> -       if (panic_on_warn)
-> -               panic("panic_on_warn set ...\n");
-> +       check_panic_on_warn("KCSAN");
->  }
->
->  static void release_report(unsigned long *flags, struct other_info *other_info)
-> diff --git a/kernel/panic.c b/kernel/panic.c
-> index d843d036651e..cfa354322d5f 100644
-> --- a/kernel/panic.c
-> +++ b/kernel/panic.c
-> @@ -201,6 +201,12 @@ static void panic_print_sys_info(bool console_flush)
->                 ftrace_dump(DUMP_ALL);
->  }
->
-> +void check_panic_on_warn(const char *origin)
-> +{
-> +       if (panic_on_warn)
-> +               panic("%s: panic_on_warn set ...\n", origin);
-> +}
-> +
->  /**
->   *     panic - halt the system
->   *     @fmt: The text string to print
-> @@ -619,8 +625,7 @@ void __warn(const char *file, int line, void *caller, unsigned taint,
->         if (regs)
->                 show_regs(regs);
->
-> -       if (panic_on_warn)
-> -               panic("panic_on_warn set ...\n");
-> +       check_panic_on_warn("kernel");
->
->         if (!regs)
->                 dump_stack();
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 5800b0623ff3..285ef8821b4f 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -5729,8 +5729,7 @@ static noinline void __schedule_bug(struct task_struct *prev)
->                 pr_err("Preemption disabled at:");
->                 print_ip_sym(KERN_ERR, preempt_disable_ip);
->         }
-> -       if (panic_on_warn)
-> -               panic("scheduling while atomic\n");
-> +       check_panic_on_warn("scheduling while atomic");
->
->         dump_stack();
->         add_taint(TAINT_WARN, LOCKDEP_STILL_OK);
-> diff --git a/lib/ubsan.c b/lib/ubsan.c
-> index 36bd75e33426..60c7099857a0 100644
-> --- a/lib/ubsan.c
-> +++ b/lib/ubsan.c
-> @@ -154,8 +154,7 @@ static void ubsan_epilogue(void)
->
->         current->in_ubsan--;
->
-> -       if (panic_on_warn)
-> -               panic("panic_on_warn set ...\n");
-> +       check_panic_on_warn("UBSAN");
->  }
->
->  void __ubsan_handle_divrem_overflow(void *_data, void *lhs, void *rhs)
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index df3602062bfd..cc98dfdd3ed2 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -164,8 +164,8 @@ static void end_report(unsigned long *flags, void *addr)
->                                        (unsigned long)addr);
->         pr_err("==================================================================\n");
->         spin_unlock_irqrestore(&report_lock, *flags);
-> -       if (panic_on_warn && !test_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags))
-> -               panic("panic_on_warn set ...\n");
-> +       if (!test_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags))
-> +               check_panic_on_warn("KASAN");
->         if (kasan_arg_fault == KASAN_ARG_FAULT_PANIC)
->                 panic("kasan.fault=panic set ...\n");
->         add_taint(TAINT_BAD_PAGE, LOCKDEP_NOW_UNRELIABLE);
-> diff --git a/mm/kfence/report.c b/mm/kfence/report.c
-> index 7e496856c2eb..110c27ca597d 100644
-> --- a/mm/kfence/report.c
-> +++ b/mm/kfence/report.c
-> @@ -268,8 +268,7 @@ void kfence_report_error(unsigned long address, bool is_write, struct pt_regs *r
->
->         lockdep_on();
->
-> -       if (panic_on_warn)
-> -               panic("panic_on_warn set ...\n");
-> +       check_panic_on_warn("KFENCE");
->
->         /* We encountered a memory safety error, taint the kernel! */
->         add_taint(TAINT_BAD_PAGE, LOCKDEP_STILL_OK);
-> --
-> 2.34.1
->
+在 2022/11/14 22:12, Mickaël Salaün 写道:
+> 
+> On 29/10/2022 10:33, xiujianfeng wrote:
+>> Hi,
+>>
+>> 在 2022/9/2 1:34, Mickaël Salaün 写道:
+>>> CCing linux-fsdevel@vger.kernel.org
+>>>
+>>>
+>>> On 01/09/2022 15:06, xiujianfeng wrote:
+>>>> Hi,
+>>>>
+>>>> 在 2022/8/30 0:01, Mickaël Salaün 写道:
+>>>>>
+>>>>> On 29/08/2022 03:17, xiujianfeng wrote:
+>>>>>>
+>>>>>> Hi,
+>>>>>>
+>>>>>> 在 2022/8/28 3:30, Günther Noack 写道:
+>>>>>>> Hello!
+>>>>>>>
+>>>>>>> the mapping between Landlock rights to LSM hooks is now as 
+>>>>>>> follows in
+>>>>>>> your patch set:
+>>>>>>>
+>>>>>>> * LANDLOCK_ACCESS_FS_CHMOD controls hook_path_chmod
+>>>>>>> * LANDLOCK_ACCESS_FS_CHGRP controls hook_path_chown
+>>>>>>>       (this hook can restrict both the chown(2) and chgrp(2) 
+>>>>>>> syscalls)
+>>>>>>>
+>>>>>>> Is this the desired mapping?
+>>>>>>>
+>>>>>>> The previous discussion I found on the topic was in
+>>>>>>>
+>>>>>>> [1]
+>>>>>>> https://lore.kernel.org/all/5873455f-fff9-618c-25b1-8b6a4ec94368@digikod.net/ 
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>> [2]
+>>>>>>> https://lore.kernel.org/all/b1d69dfa-6d93-2034-7854-e2bc4017d20e@schaufler-ca.com/ 
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>> [3]
+>>>>>>> https://lore.kernel.org/all/c369c45d-5aa8-3e39-c7d6-b08b165495fd@digikod.net/ 
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>> In my understanding the main arguments were the ones in [2] and [3].
+>>>>>>>
+>>>>>>> There were no further responses to [3], so I was under the 
+>>>>>>> impression
+>>>>>>> that we were gravitating towards an approach where the
+>>>>>>> file-metadata-modification operations were grouped more coarsely?
+>>>>>>>
+>>>>>>> For example with the approach suggested in [3], which would be to
+>>>>>>> group the operations coarsely into (a) one Landlock right for
+>>>>>>> modifying file metadata that is used in security contexts, and 
+>>>>>>> (b) one
+>>>>>>> Landlock right for modifying metadata that was used in non-security
+>>>>>>> contexts. That would mean that there would be:
+>>>>>>>
+>>>>>>> (a) LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES to control the
+>>>>>>> following operations:
+>>>>>>>       * chmod(2)-variants through hook_path_chmod,
+>>>>>>>       * chown(2)-variants and chgrp(2)-variants through
+>>>>>>> hook_path_chown,
+>>>>>>>       * setxattr(2)-variants and removexattr(2)-variants for 
+>>>>>>> extended
+>>>>>>>         attributes that are not "user extended attributes" as
+>>>>>>> described in
+>>>>>>>         xattr(7) through hook_inode_setxattr and 
+>>>>>>> hook_inode_removexattr
+>>>>>>>
+>>>>>>> (b) LANDLOCK_ACCESS_FS_MODIFY_NON_SECURITY_ATTRIBUTES to control the
+>>>>>>> following operations:
+>>>>>>>       * utimes(2) and other operations for setting other 
+>>>>>>> non-security
+>>>>>>>         sensitive attributes, probably through hook_inode_setattr(?)
+>>>>>>>       * xattr modifications like above, but for the "user extended
+>>>>>>>         attributes", though hook_inode_setxattr and
+>>>>>>> hook_inode_removexattr
+>>>>>>>
+>>>>>>> In my mind, this would be a sensible grouping, and it would also 
+>>>>>>> help
+>>>>>>> to decouple the userspace-exposed API from the underlying
+>>>>>>> implementation, as Casey suggested to do in [2].
+>>>>>>>
+>>>>>>> Specifically for this patch set, if you want to use this 
+>>>>>>> grouping, you
+>>>>>>> would only need to add one new Landlock right
+>>>>>>> (LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES) as described above
+>>>>>>> under (a) (and maybe we can find a shorter name for it... :))?
+>>>>>>>
+>>>>>>> Did I miss any operations here that would be necessary to restrict?
+>>>>>>>
+>>>>>>> Would that make sense to you? Xiu, what is your opinion on how this
+>>>>>>> should be grouped? Do you have use cases in mind where a more
+>>>>>>> fine-grained grouping would be required?
+>>>>>>
+>>>>>> I apologize I may missed that discussion when I prepared v2:(
+>>>>>>
+>>>>>> Yes, agreed, this grouping is more sensible and resonnable. so in 
+>>>>>> this
+>>>>>> patchset only one right will be added, and I suppose the first commit
+>>>>>> which expand access_mask_t to u32 can be droped.
+>>>>>>
+>>>>>>>
+>>>>>>> —Günther
+>>>>>>>
+>>>>>>> P.S.: Regarding utimes: The hook_inode_setattr hook *also* gets 
+>>>>>>> called
+>>>>>>> on a variety on attribute changes including file ownership, file 
+>>>>>>> size
+>>>>>>> and file mode, so it might potentially interact with a bunch of 
+>>>>>>> other
+>>>>>>> existing Landlock rights. Maybe that is not the right approach. 
+>>>>>>> In any
+>>>>>>> case, it seems like it might require more thinking and it might be
+>>>>>>> sensible to do that in a separate patch set IMHO.
+>>>>>>
+>>>>>> Thanks for you reminder, that seems it's more complicated to support
+>>>>>> utimes, so I think we'd better not support it in this patchset.
+>>>>>
+>>>>> The issue with this approach is that it makes it impossible to 
+>>>>> properly
+>>>>> group such access rights. Indeed, to avoid inconsistencies and much 
+>>>>> more
+>>>>> complexity, we cannot extend a Landlock access right once it is 
+>>>>> defined.
+>>>>>
+>>>>> We also need to consider that file ownership and permissions have a
+>>>>> default (e.g. umask), which is also a way to set them. How to
+>>>>> consistently manage that? What if the application wants to protect its
+>>>>> files with chmod 0400?
+>>>>
+>>>> what do you mean by this? do you mean that we should have a set of
+>>>> default permissions for files created by applications within the
+>>>> sandbox, so that it can update metadata of its own file.
+>>>
+>>> I mean that we need a consistent access control system, and for this we
+>>> need to consider all the ways an extended attribute can be set.
+>>>
+>>> We can either extend the meaning of current access rights (controlled
+>>> with a ruleset flag for compatibility reasons), or create new access
+>>> rights. I think it would be better to add new dedicated rights to make
+>>> it more explicit and flexible.
+>>>
+>>> I'm not sure about the right approach to properly control file
+>>> permission. We need to think about it. Do you have some ideas?
+>>>
+>>> BTW, utimes can be controlled with the inode_setattr() LSM hook. Being
+>>> able to control arbitrary file time modification could be part of the
+>>> FS_WRITE_SAFE_METADATA, but modification and access time should always
+>>> be updated according to the file operation.
+>>>
+>>>
+>>>>
+>>>>>
+>>>>> About the naming, I think we can start with:
+>>>>> - LANDLOCK_ACCESS_FS_READ_METADATA (read any file/dir metadata);
+>>>>> - LANDLOCK_ACCESS_FS_WRITE_SAFE_METADATA: change file times, user 
+>>>>> xattr;
+>>>>
+>>>> do you mean we should have permission controls on metadata level or
+>>>> operation level? e.g. should we allow update on user xattr but deny
+>>>> update on security xattr? or should we disallow update on any xattr?
+>>>>
+>>>>> - LANDLOCK_ACCESS_FS_WRITE_UNSAFE_METADATA: interpreted by the kernel
+>>>>> (could change non-Landlock DAC or MAC, which could be considered as a
+>>>>> policy bypass; or other various xattr that might be interpreted by
+>>>>> filesystems), this should be denied most of the time.
+>>>>
+>>>> do you mean FS_WRITE_UNSAFE_METADATA is security-related? and
+>>>> FS_WRITE_SAFE_METADATA is non-security-related?
+>>>
+>>> Yes, FS_WRITE_UNSAFE_METADATA would be for security related
+>>> xattr/chmod/chown, and FS_WRITE_SAFE_METADATA for non-security xattr.
+>>> Both are mutually exclusive. This would involve the inode_setattr and
+>>> inode_setxattr LSM hooks. Looking at the calling sites, it seems
+>>> possible to replace all inode arguments with paths.
+> 
+> I though about differentiating user xattr, atime/mtime, DAC 
+> (chown/chmod, posix ACLs), and other xattr, but it would be too complex 
+> to get a consistent approach because of indirect consequences (e.g. 
+> controlling umask, setegid, settimeofday…). Let's make it simple for now.
+> 
+> Here is an update on my previous proposal:
+> 
+> LANDLOCK_ACCESS_FS_READ_METADATA to read any file/dir metadata (i.e. 
+> inode attr and xattr). In practice, for most use cases, this access 
+> right should be granted whenever LANDLOCK_ACCESS_READ_DIR is allowed.
+> 
+> LANDLOCK_ACCESS_FS_WRITE_METADATA to *explicitly* write any inode attr 
+> or xattr (i.e. chmod, chown, utime, and all xattr). It should be noted 
+> that file modification time and access time should always be updated 
+> according to the file operation (e.g. write, truncate) even when this 
+> access is not explicitly allowed (according to vfs_utimes(), 
+> ATTR_TIMES_SET and ATTR_TOUCH should enable to differentiate from 
+> implicit time changes).
+> 
+Thanks, I analyzed the relevant functions and the use of lsm hooks.
+so I think what to do will be as follows:
+
+LANDLOCK_ACCESS_FS_WRITE_METADATA controls the following hooks:
+1.security_path_chmod
+2.security_path_chown
+3.security_inode_setattr
+4.security_inode_setxattr
+5.security_inode_removexattr
+6.security_inode_set_acl
+
+LANDLOCK_ACCESS_FS_READ_METADATA controls the following hooks:
+1.security_inode_getattr
+2.security_inode_get_acl
+3.security_inode_getxattr
+
+and the following 7 hooks are using struct dentry * as parameter, should 
+be changed to struct path *, and also their callers.
+
+security_inode_setattr
+security_inode_setxattr
+security_inode_removexattr
+security_inode_set_acl
+security_inode_getattr
+security_inode_get_acl
+security_inode_getxattr
+
+Looks like it's a big change.
+
+> 
+>>
+>> Sorry for the late reply, I have problems with this work, for example,
+>> before:
+>> security_inode_setattr(struct user_namespace *mnt_userns,
+>>                                            struct dentry *dentry,
+>>                                            struct iattr *attr)
+>> after:
+>> security_inode_setattr(struct user_namespace *mnt_userns,
+>>                                            struct path *path,
+>>                                            struct iattr *attr)
+>> then I change the second argument in notify_change() from struct *dentry
+>> to struct path *, that makes this kind of changes in fs/overlayfs/
+>> spread to lots of places because overlayfs basicly uses dentry instead
+>> of path, the worst case may be here:
+>>
+>> ovl_special_inode_operations.set_acl hook calls:
+>> -->
+>> ovl_set_acl(struct user_namespace *mnt_userns, struct dentry *dentry,
+>> struct posix_acl *acl, int type)
+>> -->
+>> ovl_setattr(struct user_namespace *mnt_userns, struct dentry
+>> *dentry,struct iattr *attr)
+>> -->
+>> ovl_do_notify_change(struct ovl_fs *ofs, struct dentry *upperdentry,
+>> struct iattr *attr)
+>>
+>> from the top of this callchain, I can not find a path to replace dentry,
+>> did I miss something? or do you have better idea?
+> 
+> I think this can be solved thanks to the ovl_path_real() helper.
+> .
