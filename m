@@ -2,98 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F4163C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 15:36:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A309C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 15:59:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242322AbiKRPgi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 10:36:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51230 "EHLO
+        id S241367AbiKRP7U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 10:59:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242397AbiKRPgc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 10:36:32 -0500
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 9FA0A748F2
-        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 07:36:26 -0800 (PST)
-Received: (qmail 39511 invoked by uid 1000); 18 Nov 2022 10:36:25 -0500
-Date:   Fri, 18 Nov 2022 10:36:25 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH] Documentation: USB: correct possessive "its" usage
-Message-ID: <Y3emeeetkgcGxNAO@rowland.harvard.edu>
-References: <20221118034331.18188-1-rdunlap@infradead.org>
+        with ESMTP id S241234AbiKRP7T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 10:59:19 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E03BDEFC
+        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 07:59:17 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id u6-20020a17090a5e4600b0021881a8d264so3094902pji.4
+        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 07:59:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=BIzAKlqfAaMg368D6jPlp8HmIeVCVtTOFRZVfOrIoRA=;
+        b=s6eyQMrxXlVr7mjyTTlqJhnlh/Xi9X6Am4TwNlENwsPyRh8KvXIqhnsP3MMWC9+MoB
+         oQd97BmjUOsQPxgMsh5zyjcOYLIVp3cqB3U8qN7/Ud5hvTdIANRIWIS/vJblpoBTxukB
+         h0Lxk6Jg3vNqw4OVzI0CkcjluXS6vsT31cdyDImlVx7++g13+ozmNNZ5BkzVdivrg7g+
+         00m3rpeYDbyzY05rk/dB8GnC4ClchfIxtJ5aTCzCQyATv7KhMjKNSIDvnh3cGt1Q5v+L
+         lNMyGoelDxkjB2wAw8ywO8jmucxwhUGJpJ8n7dWOAqcgUj06ocsZtkUfpHvBn0wBdFz1
+         TsrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BIzAKlqfAaMg368D6jPlp8HmIeVCVtTOFRZVfOrIoRA=;
+        b=LWw18T9C63fK4QWn/9MhoYttyfen7FNErONiSbhPq9REniI7854CZcejdycJlvWuTR
+         qFNI5AXXI5+qaHZtOrvxyIThWk+51hxh1IoXrio8Cmd8MHlotcdpdiNMtI/kS/B12uzi
+         YNWgh2Zpjn8A+UsDMEckySHm3dqvFYKzwAMhgngKxYJ3THg7B4ZFL7odEmBrn9TDxluN
+         A8XyqRGi7oVzHrgWMGMTN82pgquLGfMoAVQKMMz/o0blYpobEBZiyxrUvCGDXKU33v5R
+         YmDoXCNC0FziERJXSdUdoAlDfr/lgd764rsQ8DJhH8+hfBtmPJefNsnCf67+4DMw4FzS
+         ZDOQ==
+X-Gm-Message-State: ANoB5pla1a162w46e3yhQx+U4a5LhQRUSsUJwx7O11nJ/OwSw9DCMI8N
+        jSeZI9el9p545W1RL6e4jD+QWw==
+X-Google-Smtp-Source: AA0mqf68z73TZ4LH+iMU8Y7+vIcozkzW9+xI2VfYzqSxI4RUtQBXAdSaqw03S7HKwO0upOzd1Ydjhw==
+X-Received: by 2002:a17:90a:9f03:b0:211:59c6:6133 with SMTP id n3-20020a17090a9f0300b0021159c66133mr8428311pjp.238.1668787156611;
+        Fri, 18 Nov 2022 07:59:16 -0800 (PST)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id s16-20020a170902a51000b001869f2120a5sm3840359plq.34.2022.11.18.07.59.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Nov 2022 07:59:16 -0800 (PST)
+Date:   Fri, 18 Nov 2022 15:59:12 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
+Message-ID: <Y3er0M5Rpf1X97W/@google.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
+ <87cz9o9mr8.fsf@linaro.org>
+ <20221116031441.GA364614@chaop.bj.intel.com>
+ <87mt8q90rw.fsf@linaro.org>
+ <20221117134520.GD422408@chaop.bj.intel.com>
+ <87a64p8vof.fsf@linaro.org>
+ <20221118013201.GA456562@chaop.bj.intel.com>
+ <87o7t475o7.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221118034331.18188-1-rdunlap@infradead.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87o7t475o7.fsf@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 07:43:31PM -0800, Randy Dunlap wrote:
-> Correct uses of "it's" to possessive "its" as needed.
-> Correct associated grammar in one location.
+On Fri, Nov 18, 2022, Alex Bennée wrote:
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-usb@vger.kernel.org
-> ---
->  Documentation/usb/CREDITS          |    4 ++--
->  Documentation/usb/functionfs.rst   |    2 +-
->  Documentation/usb/gadget_multi.rst |    2 +-
->  3 files changed, 4 insertions(+), 4 deletions(-)
+> Chao Peng <chao.p.peng@linux.intel.com> writes:
 > 
-> diff -- a/Documentation/usb/CREDITS b/Documentation/usb/CREDITS
-> --- a/Documentation/usb/CREDITS
-> +++ b/Documentation/usb/CREDITS
-> @@ -126,7 +126,7 @@ THANKS file in Inaky's driver):
->          - Jochen Karrer <karrer@wpfd25.physik.uni-wuerzburg.de>, for
->            pointing out mortal bugs and giving advice.
->  
-> -        - Edmund Humemberger <ed@atnet.at>, for it's great work on
-> +        - Edmund Humemberger <ed@atnet.at>, for its great work on
->            public relationships and general management stuff for the
->            Linux-USB effort.
->  
-> @@ -136,7 +136,7 @@ THANKS file in Inaky's driver):
->          - Ric Klaren <ia_ric@cs.utwente.nl> for doing nice
->            introductory documents (competing with Alberto's :).
->  
-> -        - Christian Groessler <cpg@aladdin.de>, for it's help on those
-> +        - Christian Groessler <cpg@aladdin.de>, for its help on those
->            itchy bits ... :)
->  
+> > On Thu, Nov 17, 2022 at 03:08:17PM +0000, Alex Bennée wrote:
+> >> >> I think this should be explicit rather than implied by the absence of
+> >> >> another flag. Sean suggested you might want flags for RWX failures so
+> >> >> maybe something like:
+> >> >> 
+> >> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_READ	(1 << 0)
+> >> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_WRITE	(1 << 1)
+> >> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_EXECUTE	(1 << 2)
+> >> >>         KVM_MEMORY_EXIT_FLAG_PRIVATE            (1 << 3)
+> >> >
+> >> > Yes, but I would not add 'SHARED' to RWX, they are not share memory
+> >> > specific, private memory can also set them once introduced.
+> >> 
+> >> OK so how about:
+> >> 
+> >>  	KVM_MEMORY_EXIT_FLAG_READ	(1 << 0)
+> >>  	KVM_MEMORY_EXIT_FLAG_WRITE	(1 << 1)
+> >>  	KVM_MEMORY_EXIT_FLAG_EXECUTE	(1 << 2)
+> >>         KVM_MEMORY_EXIT_FLAG_SHARED     (1 << 3)
+> >>         KVM_MEMORY_EXIT_FLAG_PRIVATE    (1 << 4)
+> >
+> > We don't actually need a new bit, the opposite side of private is
+> > shared, i.e. flags with KVM_MEMORY_EXIT_FLAG_PRIVATE cleared expresses
+> > 'shared'.
+> 
+> If that is always true and we never expect a 3rd type of memory that is
+> fine. But given we are leaving room for expansion having an explicit bit
+> allows for that as well as making cases of forgetting to set the flags
+> more obvious.
 
-Shouldn't this pronoun and the one above really be "his" rather than 
-either "it's" or "its"?
+Hrm, I'm on the fence.
 
-Alan Stern
+A dedicated flag isn't strictly needed, e.g. even if we end up with 3+ types in
+this category, the baseline could always be "private".
 
->          - Paul MacKerras for polishing OHCI and pushing me harder for
-> diff -- a/Documentation/usb/functionfs.rst b/Documentation/usb/functionfs.rst
-> --- a/Documentation/usb/functionfs.rst
-> +++ b/Documentation/usb/functionfs.rst
-> @@ -49,7 +49,7 @@ level it would look like this::
->    $ ( cd /dev/ffs-hid && hid-daemon ) &
->  
->  On kernel level the gadget checks ffs_data->dev_name to identify
-> -whether it's FunctionFS designed for MTP ("mtp") or HID ("hid").
-> +whether its FunctionFS is designed for MTP ("mtp") or HID ("hid").
->  
->  If no "functions" module parameters is supplied, the driver accepts
->  just one function with any name.
-> diff -- a/Documentation/usb/gadget_multi.rst b/Documentation/usb/gadget_multi.rst
-> --- a/Documentation/usb/gadget_multi.rst
-> +++ b/Documentation/usb/gadget_multi.rst
-> @@ -9,7 +9,7 @@ The Multifunction Composite Gadget (or g
->  that makes extensive use of the composite framework to provide
->  a... multifunction gadget.
->  
-> -In it's standard configuration it provides a single USB configuration
-> +In its standard configuration it provides a single USB configuration
->  with RNDIS[1] (that is Ethernet), USB CDC[2] ACM (that is serial) and
->  USB Mass Storage functions.
->  
+I do like being explicit, and adding a PRIVATE flag costs KVM practically nothing
+to implement and maintain, but evetually we'll up with flags that are paired with
+an implicit state, e.g. see the many #PF error codes in x86.  In other words,
+inevitably KVM will need to define the default/base state of the access, at which
+point the base state for SHARED vs. PRIVATE is "undefined".  
+
+The RWX bits are in the same boat, e.g. the READ flag isn't strictly necessary.
+I was thinking more of the KVM_SET_MEMORY_ATTRIBUTES ioctl(), which does need
+the full RWX gamut, when I typed out that response.
+
+So I would say if we add an explicit READ flag, then we might as well add an explicit
+PRIVATE flag too.  But if we omit PRIVATE, then we should omit READ too.
