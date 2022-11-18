@@ -2,78 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F274EC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 22:30:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90873C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 23:27:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229720AbiKRWa0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 17:30:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55128 "EHLO
+        id S235736AbiKRX0s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 18:26:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231283AbiKRWaU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 17:30:20 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D13717EC9E;
-        Fri, 18 Nov 2022 14:30:19 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 77E0DB8255F;
-        Fri, 18 Nov 2022 22:30:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2B332C433C1;
-        Fri, 18 Nov 2022 22:30:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668810617;
-        bh=fSARivKSHlBF6ylue5+/lo+e6lFrJaESzm2fTUt/EYM=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=Ne9UgG7dEBMuQsjZ0XXeRSa42dLoLFpvhYkEfeYfeoYtXCsMFafvSB/og8Lh/hpnD
-         65Bszi7gSJcUdiDnkVokYw0oI9MB/+0G0cTrarvm3K4NlPPh7FahJzRAKUEKRcNHha
-         tbrm38B7+ydvOQkHBvk3n1Ckv/aC9qtkfuYqEeFeNhDEmC9rS1YTdgo/rPlGMjXIgS
-         Mo1JeQYu+OgDve3iURT+FPFNA9eOWPDOelFADiD8OCA8r5oPsi0G4v0Q8zR4Lexv8T
-         +G4eGP5X45IMANosJxvawPkoeNrEVr6sS1YBvrOtpm3b37aJ/ZX86SBU+5LNaqSD2y
-         wr5LrKya9zaVQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0D04EE29F43;
-        Fri, 18 Nov 2022 22:30:17 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229686AbiKRX0P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 18:26:15 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75F3557B43;
+        Fri, 18 Nov 2022 15:14:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=sREzeRhgg0pXAQTg+IrSytnIiXO09agL0qguRDMIdrA=; b=sisdyyfwM+JxZ8tr8WlPh+LfjK
+        g8B6zo0p85VB29vDu+nbXx5EnQ3FL5TnlBeqrNpyv/ZpPTyeAI+uHwqLiPF3cnKzK85m5RveRXvW6
+        h8Oy3X4/PNujP5667jZ17BV8RpeyrT4WRnoGlCQ27hjJhUXuAePoUdwf8zSUANJWOjnpg5rusA5Cg
+        2bxY2HlP08nPg8SVYgnpnTA9JDCGDjecy5swTyJdR7VbCMrL3kP0ZMJd4io+yGlPFF7N5DEg1z7Zf
+        KQ0M6MbS64wyogvDZhSGGGotjTgtL2rkKZGhehfAGELy5VcOC1AIvdRjX/sTMuDplBqfpYzDPyWwJ
+        FdEC2srA==;
+Received: from [2601:1c2:d80:3110::a2e7] (helo=casper.infradead.org)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1owAZ7-002lwh-Gr; Fri, 18 Nov 2022 23:14:41 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-doc@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH v2] Documentation: USB: correct possessive "its" usage
+Date:   Fri, 18 Nov 2022 15:14:22 -0800
+Message-Id: <20221118231422.14076-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next v9 1/1] doc: DEVMAPs and XDP_REDIRECT
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166881061704.15254.17480384882519639878.git-patchwork-notify@kernel.org>
-Date:   Fri, 18 Nov 2022 22:30:17 +0000
-References: <20221115144921.165483-1-mtahhan@redhat.com>
-In-Reply-To: <20221115144921.165483-1-mtahhan@redhat.com>
-To:     Maryam Tahhan <mtahhan@redhat.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, jbrouer@redhat.com,
-        thoiland@redhat.com, donhunte@redhat.com, bagasdotme@gmail.com,
-        toke@redhat.com, yhs@fb.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Correct uses of "it's" to possessive "its" or "its" to "it's" as needed.
+Correct associated grammar in one location.
 
-This patch was applied to bpf/bpf-next.git (master)
-by Daniel Borkmann <daniel@iogearbox.net>:
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+---
+v2: use "his" instead of "its" in CREDITS (Alan)
+    Also correct one use of "its" to "it's".
 
-On Tue, 15 Nov 2022 09:49:21 -0500 you wrote:
-> From: Maryam Tahhan <mtahhan@redhat.com>
-> 
-> Add documentation for BPF_MAP_TYPE_DEVMAP and
-> BPF_MAP_TYPE_DEVMAP_HASH including kernel version
-> introduced, usage and examples.
-> 
-> Add documentation that describes XDP_REDIRECT.
-> 
-> [...]
+ Documentation/usb/CREDITS          |    6 +++---
+ Documentation/usb/functionfs.rst   |    2 +-
+ Documentation/usb/gadget_multi.rst |    2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-Here is the summary with links:
-  - [bpf-next,v9,1/1] doc: DEVMAPs and XDP_REDIRECT
-    https://git.kernel.org/bpf/bpf-next/c/d1e91173cd29
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+diff -- a/Documentation/usb/CREDITS b/Documentation/usb/CREDITS
+--- a/Documentation/usb/CREDITS
++++ b/Documentation/usb/CREDITS
+@@ -1,7 +1,7 @@
+ Credits for the Simple Linux USB Driver:
+ 
+ The following people have contributed to this code (in alphabetical
+-order by last name).  I'm sure this list should be longer, its
++order by last name).  I'm sure this list should be longer, it's
+ difficult to maintain, add yourself with a patch if desired.
+ 
+   Georg Acher <acher@informatik.tu-muenchen.de>
+@@ -126,7 +126,7 @@ THANKS file in Inaky's driver):
+         - Jochen Karrer <karrer@wpfd25.physik.uni-wuerzburg.de>, for
+           pointing out mortal bugs and giving advice.
+ 
+-        - Edmund Humemberger <ed@atnet.at>, for it's great work on
++        - Edmund Humemberger <ed@atnet.at>, for his great work on
+           public relationships and general management stuff for the
+           Linux-USB effort.
+ 
+@@ -136,7 +136,7 @@ THANKS file in Inaky's driver):
+         - Ric Klaren <ia_ric@cs.utwente.nl> for doing nice
+           introductory documents (competing with Alberto's :).
+ 
+-        - Christian Groessler <cpg@aladdin.de>, for it's help on those
++        - Christian Groessler <cpg@aladdin.de>, for his help on those
+           itchy bits ... :)
+ 
+         - Paul MacKerras for polishing OHCI and pushing me harder for
+diff -- a/Documentation/usb/functionfs.rst b/Documentation/usb/functionfs.rst
+--- a/Documentation/usb/functionfs.rst
++++ b/Documentation/usb/functionfs.rst
+@@ -49,7 +49,7 @@ level it would look like this::
+   $ ( cd /dev/ffs-hid && hid-daemon ) &
+ 
+ On kernel level the gadget checks ffs_data->dev_name to identify
+-whether it's FunctionFS designed for MTP ("mtp") or HID ("hid").
++whether its FunctionFS is designed for MTP ("mtp") or HID ("hid").
+ 
+ If no "functions" module parameters is supplied, the driver accepts
+ just one function with any name.
+diff -- a/Documentation/usb/gadget_multi.rst b/Documentation/usb/gadget_multi.rst
+--- a/Documentation/usb/gadget_multi.rst
++++ b/Documentation/usb/gadget_multi.rst
+@@ -9,7 +9,7 @@ The Multifunction Composite Gadget (or g
+ that makes extensive use of the composite framework to provide
+ a... multifunction gadget.
+ 
+-In it's standard configuration it provides a single USB configuration
++In its standard configuration it provides a single USB configuration
+ with RNDIS[1] (that is Ethernet), USB CDC[2] ACM (that is serial) and
+ USB Mass Storage functions.
+ 
