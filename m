@@ -2,40 +2,40 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90873C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 23:27:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9322C43219
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 23:43:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235736AbiKRX0s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 18:26:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35284 "EHLO
+        id S236234AbiKRXnL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 18:43:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229686AbiKRX0P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 18:26:15 -0500
+        with ESMTP id S237006AbiKRXmW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 18:42:22 -0500
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75F3557B43;
-        Fri, 18 Nov 2022 15:14:43 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95B6C101E7;
+        Fri, 18 Nov 2022 15:23:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
         Content-Description:In-Reply-To:References;
-        bh=sREzeRhgg0pXAQTg+IrSytnIiXO09agL0qguRDMIdrA=; b=sisdyyfwM+JxZ8tr8WlPh+LfjK
-        g8B6zo0p85VB29vDu+nbXx5EnQ3FL5TnlBeqrNpyv/ZpPTyeAI+uHwqLiPF3cnKzK85m5RveRXvW6
-        h8Oy3X4/PNujP5667jZ17BV8RpeyrT4WRnoGlCQ27hjJhUXuAePoUdwf8zSUANJWOjnpg5rusA5Cg
-        2bxY2HlP08nPg8SVYgnpnTA9JDCGDjecy5swTyJdR7VbCMrL3kP0ZMJd4io+yGlPFF7N5DEg1z7Zf
-        KQ0M6MbS64wyogvDZhSGGGotjTgtL2rkKZGhehfAGELy5VcOC1AIvdRjX/sTMuDplBqfpYzDPyWwJ
-        FdEC2srA==;
+        bh=L1Navczq1wYsve2+F0Sj0wGflk8EnLu/Y0Q5tECbri4=; b=pLqPpOyyarFNuDaaLxrOJpBl7c
+        nPd3J6Roy8E7Bq9Mho5iNehKTqJ5rx4Q8ETIWjnlxU8HDPrdHSAP4lxH5w3fhyUtMznMqEztSzwga
+        FBdpKM227BbZh34irtqkbyV/If7t88IY1ZOGVoUko6y4tgllr+JQ0YsxfA+9L6OpoXSTFn0P2nabS
+        awEZfdI8M03Nb1oLKtAU5CNSPRpZhlLq/REtQtwc5j4T9dPR7RS06BLGexgllC2L+5D4HN69vFSdd
+        yU1lFKnaDDlFfjYNgtUO5Okdfqe0EVUubPRgHNhDH327Vr9vQc8nadhE1U9uwWQeDyZUOfsOH970d
+        4Urqg/6g==;
 Received: from [2601:1c2:d80:3110::a2e7] (helo=casper.infradead.org)
         by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1owAZ7-002lwh-Gr; Fri, 18 Nov 2022 23:14:41 +0000
+        id 1owAhj-002mOk-Ku; Fri, 18 Nov 2022 23:23:28 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-doc@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH v2] Documentation: USB: correct possessive "its" usage
-Date:   Fri, 18 Nov 2022 15:14:22 -0800
-Message-Id: <20221118231422.14076-1-rdunlap@infradead.org>
+        "Darrick J . Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org,
+        linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] Documentation: admin-guide: correct "it's" to possessive "its"
+Date:   Fri, 18 Nov 2022 15:23:17 -0800
+Message-Id: <20221118232317.3244-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -43,73 +43,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct uses of "it's" to possessive "its" or "its" to "it's" as needed.
-Correct associated grammar in one location.
+Correct 2 uses of "it's" to the possessive "its" as needed.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Darrick J. Wong <djwong@kernel.org>
+Cc: linux-xfs@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: Andrew Morton <akpm@linux-foundation.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
 ---
-v2: use "his" instead of "its" in CREDITS (Alan)
-    Also correct one use of "its" to "it's".
+ Documentation/admin-guide/mm/numa_memory_policy.rst |    2 +-
+ Documentation/admin-guide/xfs.rst                   |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
- Documentation/usb/CREDITS          |    6 +++---
- Documentation/usb/functionfs.rst   |    2 +-
- Documentation/usb/gadget_multi.rst |    2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
-
-diff -- a/Documentation/usb/CREDITS b/Documentation/usb/CREDITS
---- a/Documentation/usb/CREDITS
-+++ b/Documentation/usb/CREDITS
-@@ -1,7 +1,7 @@
- Credits for the Simple Linux USB Driver:
+diff -- a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Documentation/admin-guide/mm/numa_memory_policy.rst
+--- a/Documentation/admin-guide/mm/numa_memory_policy.rst
++++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
+@@ -111,7 +111,7 @@ VMA Policy
+ 	* A task may install a new VMA policy on a sub-range of a
+ 	  previously mmap()ed region.  When this happens, Linux splits
+ 	  the existing virtual memory area into 2 or 3 VMAs, each with
+-	  it's own policy.
++	  its own policy.
  
- The following people have contributed to this code (in alphabetical
--order by last name).  I'm sure this list should be longer, its
-+order by last name).  I'm sure this list should be longer, it's
- difficult to maintain, add yourself with a patch if desired.
+ 	* By default, VMA policy applies only to pages allocated after
+ 	  the policy is installed.  Any pages already faulted into the
+diff -- a/Documentation/admin-guide/xfs.rst b/Documentation/admin-guide/xfs.rst
+--- a/Documentation/admin-guide/xfs.rst
++++ b/Documentation/admin-guide/xfs.rst
+@@ -192,7 +192,7 @@ When mounting an XFS filesystem, the fol
+ 	are any integer multiple of a valid ``sunit`` value.
  
-   Georg Acher <acher@informatik.tu-muenchen.de>
-@@ -126,7 +126,7 @@ THANKS file in Inaky's driver):
-         - Jochen Karrer <karrer@wpfd25.physik.uni-wuerzburg.de>, for
-           pointing out mortal bugs and giving advice.
- 
--        - Edmund Humemberger <ed@atnet.at>, for it's great work on
-+        - Edmund Humemberger <ed@atnet.at>, for his great work on
-           public relationships and general management stuff for the
-           Linux-USB effort.
- 
-@@ -136,7 +136,7 @@ THANKS file in Inaky's driver):
-         - Ric Klaren <ia_ric@cs.utwente.nl> for doing nice
-           introductory documents (competing with Alberto's :).
- 
--        - Christian Groessler <cpg@aladdin.de>, for it's help on those
-+        - Christian Groessler <cpg@aladdin.de>, for his help on those
-           itchy bits ... :)
- 
-         - Paul MacKerras for polishing OHCI and pushing me harder for
-diff -- a/Documentation/usb/functionfs.rst b/Documentation/usb/functionfs.rst
---- a/Documentation/usb/functionfs.rst
-+++ b/Documentation/usb/functionfs.rst
-@@ -49,7 +49,7 @@ level it would look like this::
-   $ ( cd /dev/ffs-hid && hid-daemon ) &
- 
- On kernel level the gadget checks ffs_data->dev_name to identify
--whether it's FunctionFS designed for MTP ("mtp") or HID ("hid").
-+whether its FunctionFS is designed for MTP ("mtp") or HID ("hid").
- 
- If no "functions" module parameters is supplied, the driver accepts
- just one function with any name.
-diff -- a/Documentation/usb/gadget_multi.rst b/Documentation/usb/gadget_multi.rst
---- a/Documentation/usb/gadget_multi.rst
-+++ b/Documentation/usb/gadget_multi.rst
-@@ -9,7 +9,7 @@ The Multifunction Composite Gadget (or g
- that makes extensive use of the composite framework to provide
- a... multifunction gadget.
- 
--In it's standard configuration it provides a single USB configuration
-+In its standard configuration it provides a single USB configuration
- with RNDIS[1] (that is Ethernet), USB CDC[2] ACM (that is serial) and
- USB Mass Storage functions.
+ 	Typically the only time these mount options are necessary if
+-	after an underlying RAID device has had it's geometry
++	after an underlying RAID device has had its geometry
+ 	modified, such as adding a new disk to a RAID5 lun and
+ 	reshaping it.
  
