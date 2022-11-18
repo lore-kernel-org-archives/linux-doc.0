@@ -2,136 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02515C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 10:12:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 766E1C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 10:56:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239887AbiKRKMu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 05:12:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43366 "EHLO
+        id S241813AbiKRK4D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 05:56:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235073AbiKRKMu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 05:12:50 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 575BF71F31;
-        Fri, 18 Nov 2022 02:12:49 -0800 (PST)
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AIA9uvt032749;
-        Fri, 18 Nov 2022 10:12:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=wcl5icUsxpcfuMwhOzo/VTcRuTygEQLTW6vBKpa0/yk=;
- b=rRz11gRYT3pGhPADwL+j3/z1i4J6b9ujSpJr72msDN8P4dYso7gIpvVxJbwa9+0e85bC
- tfI1L0brHDI5ul0NdAe1rmFGDjZxluknTt9abEYSizQVyoIrsN88ZbPSPk3gacVqAPmB
- naCKjE0Yvwyt9m98unhWYuDHZy6D0NLE68+91vgmdA5QCKd+Z58DZrEbXzAuglN0N5Sb
- RCygMi9ODTeM9lkTOeapW+f3htuAorI0mp3zAK3SaurnUhvM0QbiWqNqSyFbhOPeHxOm
- 4j2KkQpwyRIk4ts6QAa0j0H/k8tEh2D34TME1BM+KhC9DZ/Xc+uqA04gw0RLfEt5xKVn gQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kx7bc9444-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 18 Nov 2022 10:12:45 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AIAAwul004894;
-        Fri, 18 Nov 2022 10:12:45 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kx7bc9431-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 18 Nov 2022 10:12:45 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
-        by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AIA9gg0002589;
-        Fri, 18 Nov 2022 10:12:42 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
-        by ppma06fra.de.ibm.com with ESMTP id 3kwte4gkaw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 18 Nov 2022 10:12:42 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2AIACdxk59310452
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 18 Nov 2022 10:12:39 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4D7415204F;
-        Fri, 18 Nov 2022 10:12:39 +0000 (GMT)
-Received: from osiris (unknown [9.145.17.66])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id B37A95204E;
-        Fri, 18 Nov 2022 10:12:38 +0000 (GMT)
-Date:   Fri, 18 Nov 2022 11:12:37 +0100
-From:   Heiko Carstens <hca@linux.ibm.com>
-To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>
-Subject: Re: [PATCH v3 1/9] KVM: s390: Extend MEM_OP ioctl by storage key
- checked cmpxchg
-Message-ID: <Y3dalbP5yb2gflA9@osiris>
-References: <20221117221758.66326-1-scgl@linux.ibm.com>
- <20221117221758.66326-2-scgl@linux.ibm.com>
+        with ESMTP id S241619AbiKRK4D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 05:56:03 -0500
+X-Greylist: delayed 401 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 18 Nov 2022 02:56:01 PST
+Received: from utopia.booyaka.com (utopia.booyaka.com [74.50.51.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E3EB9151E
+        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 02:56:01 -0800 (PST)
+Received: (qmail 7247 invoked by uid 1019); 18 Nov 2022 10:49:18 -0000
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 18 Nov 2022 10:49:18 -0000
+Date:   Fri, 18 Nov 2022 10:49:18 +0000 (UTC)
+From:   Paul Walmsley <paul@pwsan.com>
+To:     Palmer Dabbelt <palmer@rivosinc.com>
+cc:     Conor Dooley <conor@kernel.org>, Atish Patra <atishp@rivosinc.com>,
+        corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>, aou@eecs.berkeley.edu,
+        conor.dooley@microchip.com, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux@rivosinc.com
+Subject: Re: [PATCH 2/4] Documentation: RISC-V: Allow patches for non-standard
+ behavior
+In-Reply-To: <20221013045619.18906-3-palmer@rivosinc.com>
+Message-ID: <alpine.DEB.2.21.999.2211181027590.4480@utopia.booyaka.com>
+References: <20221013045619.18906-1-palmer@rivosinc.com> <20221013045619.18906-3-palmer@rivosinc.com>
+User-Agent: Alpine 2.21.999 (DEB 260 2018-02-26)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221117221758.66326-2-scgl@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: _3Ebc4G1HOdvvyKR5KujmpmU-wwQgWgy
-X-Proofpoint-GUID: Pk_qYC5A5nG-ngx3HjismAMs3CDi5Ne-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-17_06,2022-11-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
- mlxlogscore=999 suspectscore=0 spamscore=0 lowpriorityscore=0
- clxscore=1015 mlxscore=0 bulkscore=0 impostorscore=0 priorityscore=1501
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211180057
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 11:17:50PM +0100, Janis Schoetterl-Glausch wrote:
-> User space can use the MEM_OP ioctl to make storage key checked reads
-> and writes to the guest, however, it has no way of performing atomic,
-> key checked, accesses to the guest.
-> Extend the MEM_OP ioctl in order to allow for this, by adding a cmpxchg
-> mode. For now, support this mode for absolute accesses only.
-> 
-> This mode can be use, for example, to set the device-state-change
-> indicator and the adapter-local-summary indicator atomically.
-> 
-> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-> ---
->  include/uapi/linux/kvm.h |   5 ++
->  arch/s390/kvm/gaccess.h  |   3 ++
->  arch/s390/kvm/gaccess.c  | 101 +++++++++++++++++++++++++++++++++++++++
->  arch/s390/kvm/kvm-s390.c |  35 +++++++++++++-
->  4 files changed, 142 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index 0d5d4419139a..1f36be5493e6 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -588,6 +588,8 @@ struct kvm_s390_mem_op {
->  		struct {
->  			__u8 ar;	/* the access register number */
->  			__u8 key;	/* access key, ignored if flag unset */
-> +			__u8 pad1[6];	/* ignored */
-> +			__u64 old_p;	/* ignored if flag unset */
+Hi, 
 
-Just one comment: the suffix "_p" for pointer is quite unusual within
-the kernel. This also would be the first of its kind within kvm.h.
-Usually there is either no suffix or "_addr".
-So for consistency reasons I would suggest to change this to one of
-the common variants.
+On Wed, 12 Oct 2022, Palmer Dabbelt wrote:
 
-The code itself looks good from my point of view, even though for the
-sake of simplicity I would have put the complete sign/zero extended
-128 bit old value into the structure, instead of having a pointer to
-the value. Imho that would simplify the interface. Also alignment, as
-pointed out previously, really doesn't matter for this use case.
+> From: Palmer Dabbelt <palmer@rivosinc.com>
+> 
+> The patch acceptance policy forbids accepting support for non-standard
+> behavior.  This policy was written in order to both steer implementers
+> towards the standards and to avoid coupling the upstream kernel too
+> tightly to vendor-specific features.  Those were good goals, but in
+> practice the policy just isn't working: every RISC-V system we have
+> needs vendor-specific behavior in the kernel and we end up taking that
+> support which violates the policy.  That's confusing for contributors,
+> which is the main reason we have a written policy in the first place.
+> 
+> So let's just start taking code for vendor-defined behavior.
 
-But you had already something like that previously and changed it, so
-no reason to go back and forth. Not really important.
+I think I understand the motivation behind this patch: to align the stated 
+patch acceptance policy with the actual maintenance practice for 
+arch/riscv.  Along those lines, how about the following tweaks, based on 
+your original patch?
+
+Probably the most significant proposed change from what you wrote is to 
+temporarily drop the section about accepting patches for hardware that 
+doesn't yet exist.  I know arch/x86 does this, but my recollection is that 
+the maintainers there started doing that after the key x86 hardware 
+manufacturers established a track record of consistently releasing 
+mass-market hardware that implemented what they promised.  Not sure we're 
+at that point with RISC-V yet.  We'll get there at some point, but maybe 
+we can add that clause back in once that happens?
+
+
+- Paul
+
+From: Paul Walmsley <paul.walmsley@sifive.com>
+Date: Fri, 18 Nov 2022 02:16:17 -0600
+Subject: [PATCH] Documentation: RISC-V: Allow patches for widely available
+ hardware
+
+This patch, based on an earlier patch from Palmer, updates the patch
+acceptance policy to note that the maintainers may also accept patches
+for RISC-V hardware that contains features that may not be strictly
+RISC-V-compliant, but which is widely available.  The intention here
+is to align the stated policy with the de-facto upstream Linux policy.
+
+Link: https://lore.kernel.org/linux-riscv/20221013045619.18906-3-palmer@rivosinc.com/  # Palmer's original patch
+Cc: Palmer Dabbelt <palmer@rivosinc.com>
+Signed-off-by: Paul Walmsley <paul.walmsley@sifive.com>
+---
+ Documentation/riscv/patch-acceptance.rst | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/riscv/patch-acceptance.rst b/Documentation/riscv/patch-acceptance.rst
+index 5da6f9b273d6..2e3f9ecdd977 100644
+--- a/Documentation/riscv/patch-acceptance.rst
++++ b/Documentation/riscv/patch-acceptance.rst
+@@ -29,7 +29,12 @@ their own custom extensions.  These custom extensions aren't required
+ to go through any review or ratification process by the RISC-V
+ Foundation.  To avoid the maintenance complexity and potential
+ performance impact of adding kernel code for implementor-specific
+-RISC-V extensions, we'll only accept patches for extensions that
+-have been officially frozen or ratified by the RISC-V Foundation.
+-(Implementors, may, of course, maintain their own Linux kernel trees
+-containing code for any custom extensions that they wish.)
++RISC-V extensions, we'll only consider patches for extensions that
++either:
++
++- Have been officially frozen or ratified by the RISC-V Foundation, or
++- Have been implemented in hardware that is widely available, per standard
++  Linux practice
++
++(Implementors, may, of course, maintain their own Linux kernel
++trees containing code for any custom extensions that they wish.)
+-- 
+2.38.1
+
