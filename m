@@ -2,173 +2,218 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53CDCC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 13:29:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A93EBC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 13:36:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242042AbiKRN27 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 08:28:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49556 "EHLO
+        id S241927AbiKRNgn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 08:36:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241898AbiKRN2r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 08:28:47 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A47572113
-        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 05:28:43 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id g2so5579089wrv.6
-        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 05:28:42 -0800 (PST)
+        with ESMTP id S242177AbiKRNgU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 08:36:20 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D47D91520;
+        Fri, 18 Nov 2022 05:34:40 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id p21so4556127plr.7;
+        Fri, 18 Nov 2022 05:34:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jFuAN0qalS8PXGclZBpJGpqKwSse98B1zaIXuj/qhsM=;
-        b=X/gqqsl/WLpKtb9vOD4WiP4Oi7fWHjwjntx8mX7OxhsG5wzq+ZEu37/nMAgR/K0NTa
-         w3qxyDj/5ysz05YJVpUs55kmmloX1IkC2zB1+/KzU94RHSvVV8QJIGUQUlri/5EUyK2r
-         mGh3S7znVf5hxcm2FIq10hXZNhSXHhkk0XSUejjdU6tvjBJaDulCkhJ1yHJ5qUwTLhSd
-         MoeZaDkThsztpF4G73yNPcJGkFAhdKPv1GGINAnUYMuW1RHIMFNHAh629fNId0Ygj6h4
-         QlGc8/i2b3sseFW3mxLr72CnhypCMQDx+K68Ypw8eLM56TGZBoLoX2zeC77yyHo3GfeR
-         z9tg==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+RPbQDiX/Zy5K2QrYqqrxGkL0efikkW2IcEvpnZvUnM=;
+        b=afa5CPOEpf7VX42vv4gmHNqu8Mhvks8EOB7Qfdle9fDHl+pbzv/c94ufgP7S7YfIZY
+         /g0KJWnHuNaOXzQ3aXeFp3wEkYOb8fGnma5DGncynujm2QkwA+VqlG7Q4PLoxHmPCDLp
+         BKxByYCyFgkRA/GX3hpIhc0BZ3tO4Yh7tSscaKkdLgyCxUuNoOnvgTuah8mSY77vANGr
+         W8T2/Ed/h33sUqUIxdMc878cD+JkZ1TTOEQmMz5AmDXiM4pS5DRY+BFB2ZCIhZO5tOr7
+         wfF8J9nzG96KZVBCF4vliAJlQv7Udjw4RXAQ789O1/BYJzQbjk51dSx4u6ZkGTYsxWvn
+         kWWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=jFuAN0qalS8PXGclZBpJGpqKwSse98B1zaIXuj/qhsM=;
-        b=stzv8tno46az/fYiEUtqhB+pu1UWz6qQ791PsOUCSKeI5pSbBtt/9Z8CNn3w9fwOo1
-         uVXt1i374ImGw0fXWhmVj+T2FkLyHxGkGeAfXMVKhyyQ88oiFK38c1icLTtkFNTVkRg6
-         SPWf2Q8ijO/RnIGu8KldfDm5877ABCaa8GhkNXwER9YHPyE2TJDiZuDSb+6AurtgdEvX
-         7x8V8kQhK0k0kojRrOedm1yrhRcKb7ObkC99Y8lebZnir+ld35O3wPqBo7J8q13Jk4YN
-         hZows86E+mVe6tRP2dwyp5wol4zW7j2+AwULbkIiZQ8+E8vx7HCqbSV7x9E6LT6Uenza
-         E7tA==
-X-Gm-Message-State: ANoB5pkg+Xftz928uySi1xfusGgN+T+9diyZ9kKrjcyTy3rvKGNJMUnb
-        myISynfAGVBo9TaBvGemxIBi7w==
-X-Google-Smtp-Source: AA0mqf6tYbIf5kiwBxBEeJpBK3Zoi0R3hbVIR4uxKZjI5EAk4XwJowCkhnyQfuyrbXxeKsj5OY9J7w==
-X-Received: by 2002:adf:aa91:0:b0:241:b2b2:a71d with SMTP id h17-20020adfaa91000000b00241b2b2a71dmr4389646wrc.326.1668778121454;
-        Fri, 18 Nov 2022 05:28:41 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
-        by smtp.gmail.com with ESMTPSA id y10-20020adfe6ca000000b00236860e7e9esm3459102wrm.98.2022.11.18.05.28.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 05:28:40 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
-        by zen.linaroharston (Postfix) with ESMTP id 11C631FFB7;
-        Fri, 18 Nov 2022 13:28:40 +0000 (GMT)
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
- <87cz9o9mr8.fsf@linaro.org> <20221116031441.GA364614@chaop.bj.intel.com>
- <87mt8q90rw.fsf@linaro.org> <20221117134520.GD422408@chaop.bj.intel.com>
- <87a64p8vof.fsf@linaro.org> <20221118013201.GA456562@chaop.bj.intel.com>
-User-agent: mu4e 1.9.2; emacs 28.2.50
-From:   Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Date:   Fri, 18 Nov 2022 13:23:51 +0000
-In-reply-to: <20221118013201.GA456562@chaop.bj.intel.com>
-Message-ID: <87o7t475o7.fsf@linaro.org>
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+RPbQDiX/Zy5K2QrYqqrxGkL0efikkW2IcEvpnZvUnM=;
+        b=GrCVM5vAoRARwRa+h9lBhYQWupsQWwZH5bJ8t8ucix0nSYSbsa8TA/hOUKS21X+v9o
+         tH2Hjb/aUJs/9Q9pafks5LT5neWE1UnoqtPJtrIVvCtVyCOEZ7xejBW4a1xsJOkqqVts
+         lRt5tEEw0BMHYYoXqJ1TFpqoEwiLQkJZ8xOcMVeKYkAOQgw7ZvKyO7/2oRTa//YpjkYg
+         tB6oMEpAKx0UAeIWbXdQT4ITVfVHVIifo+3WtMkeIkaFzzmStb23djlIlcJbMvp6ryXx
+         NvIlPpsoZl+0Ey8bMW3kX+dW8ZMvvTJFo6W5q0weVnbJWxtTBpt4JeZ1LYN0TLV+TeVE
+         4P/w==
+X-Gm-Message-State: ANoB5pkeYfR3H5ErrAzXm2pPBaqS9C22W6no8wsBhhWqLUphekkvZdA8
+        11Dt/MsNEbXiq3k1dUHIP5Y=
+X-Google-Smtp-Source: AA0mqf5Xxray6D3+mXRLHWF58GvQ7m6HjKU0FFsHL5zPClvSguTfCmLGVG2CAcNgb6Pupq2yit0Ieg==
+X-Received: by 2002:a17:903:26c7:b0:188:4f86:e4ea with SMTP id jg7-20020a17090326c700b001884f86e4eamr7773858plb.59.1668778479580;
+        Fri, 18 Nov 2022 05:34:39 -0800 (PST)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id o1-20020a170902d4c100b00186b1bfbe79sm3757677plg.66.2022.11.18.05.34.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Nov 2022 05:34:38 -0800 (PST)
+Message-ID: <ed4dac84-1b12-5c58-e4de-93ab9ac67c09@gmail.com>
+Date:   Fri, 18 Nov 2022 22:34:33 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH bpf-next v2 1/1] docs: BPF_MAP_TYPE_XSKMAP
+To:     Donald Hunter <donald.hunter@gmail.com>
+Cc:     mtahhan@redhat.com, bpf@vger.kernel.org, donhunte@redhat.com,
+        jbrouer@redhat.com, linux-doc@vger.kernel.org,
+        magnus.karlsson@gmail.com, thoiland@redhat.com,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <20221117154446.3684330-1-mtahhan@redhat.com>
+ <8d4899f1-fcd2-edc6-31da-363b13f8049b@gmail.com> <m24juwy5cu.fsf@gmail.com>
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <m24juwy5cu.fsf@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Donald,
 
-Chao Peng <chao.p.peng@linux.intel.com> writes:
+On Fri, 18 Nov 2022 09:33:21 +0000, Donald Hunter wrote:
+> Akira Yokosawa <akiyks@gmail.com> writes:
+>>
+>> So you have two declarations of bpf_map_lookup_elem() in map_xskmap.rst.
+>>
+>> This will cause "make htmldocs" with Sphinx >=3.1 to emit a warning of:
+>>
+>> /linux/Documentation/bpf/map_xskmap.rst:100: WARNING: Duplicate C declaration, also defined at map_xskmap:71.
+>> Declaration is '.. c:function:: int bpf_map_lookup_elem(int fd, const void *key, void *value)'.
+>>
+>> , in addition to a bunch of similar warnings observed at bpf-next:
+>>
+>> /linux/Documentation/bpf/map_cpumap.rst:50: WARNING: Duplicate C declaration, also defined at map_array:43.
+>> Declaration is '.. c:function:: int bpf_map_update_elem(int fd, const void *key, const void *value, __u64 flags);'.
+>> /linux/Documentation/bpf/map_cpumap.rst:72: WARNING: Duplicate C declaration, also defined at map_array:35.
+>> Declaration is '.. c:function:: int bpf_map_lookup_elem(int fd, const void *key, void *value);'.
+>> /linux/Documentation/bpf/map_hash.rst:37: WARNING: Duplicate C declaration, also defined at map_array:43.
+>> Declaration is '.. c:function:: long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)'.
+>> ... [bunch of similar warnings]
+> 
+> That's unfortunate, and I'm responsible for some of those. Not sure how
+> we'd know to check for warnings with Sphinx >= 3.1 when
+> Documentation/doc-guide/sphinx.rst and
+> Documentation/sphinx/requirements.txt both specify version 2.4.4
 
-> On Thu, Nov 17, 2022 at 03:08:17PM +0000, Alex Benn=C3=A9e wrote:
->>=20
-<snip>
->> >> >> > +
->> >> >> > +		/* KVM_EXIT_MEMORY_FAULT */
->> >> >> > +		struct {
->> >> >> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
->> >> >> > +			__u32 flags;
->> >> >> > +			__u32 padding;
->> >> >> > +			__u64 gpa;
->> >> >> > +			__u64 size;
->> >> >> > +		} memory;
->> >> >> > +
->> >> >> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that =
-the VCPU has
->> >> >> > +encountered a memory error which is not handled by KVM kernel m=
-odule and
->> >> >> > +userspace may choose to handle it. The 'flags' field indicates =
-the memory
->> >> >> > +properties of the exit.
->> >> >> > +
->> >> >> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is=
- caused by
->> >> >> > +   private memory access when the bit is set. Otherwise the mem=
-ory error is
->> >> >> > +   caused by shared memory access when the bit is clear.
->> >> >>=20
->> >> >> What does a shared memory access failure entail?
->> >> >
->> >> > In the context of confidential computing usages, guest can issue a
->> >> > shared memory access while the memory is actually private from the =
-host
->> >> > point of view. This exit with bit 0 cleared gives userspace a chanc=
-e to
->> >> > convert the private memory to shared memory on host.
->> >>=20
->> >> I think this should be explicit rather than implied by the absence of
->> >> another flag. Sean suggested you might want flags for RWX failures so
->> >> maybe something like:
->> >>=20
->> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_READ	(1 << 0)
->> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_WRITE	(1 << 1)
->> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_EXECUTE	(1 << 2)
->> >>         KVM_MEMORY_EXIT_FLAG_PRIVATE            (1 << 3)
->> >
->> > Yes, but I would not add 'SHARED' to RWX, they are not share memory
->> > specific, private memory can also set them once introduced.
->>=20
->> OK so how about:
->>=20
->>  	KVM_MEMORY_EXIT_FLAG_READ	(1 << 0)
->>  	KVM_MEMORY_EXIT_FLAG_WRITE	(1 << 1)
->>  	KVM_MEMORY_EXIT_FLAG_EXECUTE	(1 << 2)
->>         KVM_MEMORY_EXIT_FLAG_SHARED     (1 << 3)
->>         KVM_MEMORY_EXIT_FLAG_PRIVATE    (1 << 4)
->
-> We don't actually need a new bit, the opposite side of private is
-> shared, i.e. flags with KVM_MEMORY_EXIT_FLAG_PRIVATE cleared expresses
-> 'shared'.
+Sorry, I didn't mean to blame anyone. :-/
 
-If that is always true and we never expect a 3rd type of memory that is
-fine. But given we are leaving room for expansion having an explicit bit
-allows for that as well as making cases of forgetting to set the flags
-more obvious.
+I think I need to share some background.
+Please read on.
 
---=20
-Alex Benn=C3=A9e
+> 
+>> You might want to say you don't care, but they would annoy those
+>> who do test "make htmldocs".
+>>
+>> So let me explain why sphinx complains.
+>>
+>> C domain declarations in kernel documentation are for kernel APIs.
+>> By default, c:function declarations belong to the top-level namespace,
+>> which is intended for kernel APIs.
+>>
+>> IIUC, most APIs described in map*.rst files don't belong to kernel.
+>> So I think the way to go is to use the c:namespace directive.
+>>
+>> See: https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#namespacing
+>>
+>> As mentioned there, namespacing works with Sphinx >=3.1.
+>> Currently, kernel documentation build scripts support only the
+>> "c:namespace" directive, which means you can't switch namespaces in the
+>> middle of a .rst file. This limitation comes from the fact that Sphinx
+>> 1.7.9 is still in the list for htmldocs at the moment and build scripts
+>> emulate namespacing for Sphinx <3.1 in a limited way.
+> 
+> What's the reason for keeping support for Sphinx 1.7.9 and pinning to
+> 2.4.4 in Documentation/sphinx/requirements.txt if we want to support
+> Sphinx >= 3.1? Given that the latest Sphinx release is 5.3.0, and Python
+> 2 support was dropped in Sphinx 2.0.0 it seems that we need to have a
+> higher minimum version and a higher default version.
+
+Middle term, progressing to recent versions of Sphinx is highly hoped
+as we'd really like to utilize the namespacing capability in its full
+strength.
+
+Unfortunately, as is mentioned in ./scripts/sphinx_pre:
+
+   Please note that Sphinx >= 3.0 will currently produce false-positive
+   warning when the same name is used for more than one type (functions,
+   structs, enums,...). This is known Sphinx bug. For more details, see:
+	https://github.com/sphinx-doc/sphinx/pull/8313
+ 
+, later Sphinx emits a dozen of false positive warnings of duplicates.
+Hence we stick to Sphinx 2.4.4 in doc-guide documents. 2.4.4 or 1.7.9
+is good enough for catching easy-to-fix errors in .rst files.
+
+See https://lore.kernel.org/linux-doc/20220702122311.358c0219@sal.lan/
+for Mauro's thoughts on these issues.
+
+What I'm doing now is manually distinguishing false and real positives
+and asking fixes of the latter, so that transition to later Sphinx
+versions would be smooth as possible. On of such fixes is commit
+c18c20f16219 ("mm, slab: remove duplicate kernel-doc comment for
+ksize()") which landed v6.1-rc5.
+
+> 
+>> So please avoid putting function declarations of the same name in
+>> a .rst file.
+> 
+> The same function name, with different signature gets used as a BPF
+> helper and as a userspace function. We'd really like to be able to
+> document the semantics of both for a given BPF map type, all on the same
+> page.
+> 
+> Is there a better way for us to highlight the function signature,
+> without using the c:function:: directive, since they're not really
+> function declarations?
+If you don't feel like bothering with namespacing, your option would
+be to use the code-block directive.
+I see a couple of APIs presented as plain literal blocks in
+map_cgrp_storage.rst.
+
+If you change them to "code-block"s as follows:
+
+diff --git a/Documentation/bpf/map_cgrp_storage.rst b/Documentation/bpf/map_cgrp_storage.rst
+index 5d3f603efffa..be31f250453b 100644
+--- a/Documentation/bpf/map_cgrp_storage.rst
++++ b/Documentation/bpf/map_cgrp_storage.rst
+@@ -18,14 +18,18 @@ Usage
+ =====
+ 
+ The map key must be ``sizeof(int)`` representing a cgroup fd.
+-To access the storage in a program, use ``bpf_cgrp_storage_get``::
++To access the storage in a program, use ``bpf_cgrp_storage_get``:
++
++.. code-block:: c
+ 
+     void *bpf_cgrp_storage_get(struct bpf_map *map, struct cgroup *cgroup, void *value, u64 flags)
+ 
+ ``flags`` could be 0 or ``BPF_LOCAL_STORAGE_GET_F_CREATE`` which indicates that
+ a new local storage will be created if one does not exist.
+ 
+-The local storage can be removed with ``bpf_cgrp_storage_delete``::
++The local storage can be removed with ``bpf_cgrp_storage_delete``:
++
++.. code-block:: c
+ 
+     long bpf_cgrp_storage_delete(struct bpf_map *map, struct cgroup *cgroup)
+ 
+------------
+, you can get highlighted signatures. I'm not sure if you like the
+way they are highlighted, though.
+
+Hope this helps.
+
+Please feel free to ask if you have further questions.
+
+Akira
+
+> 
+>> The other duplicate warnings shown above can be silenced by the
+>> change attached below. It is only as a suggestion and I'm not putting
+>> a S-o-b tag.
+>>
+>> Hope this helps,
+>>
+>> Akira
