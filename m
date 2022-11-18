@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4CFAC3E8A8
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 18:52:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C4E4C4708A
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 18:52:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235403AbiKRSwS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 13:52:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51348 "EHLO
+        id S242382AbiKRSwT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 13:52:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242881AbiKRSv5 (ORCPT
+        with ESMTP id S242882AbiKRSv5 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 13:51:57 -0500
 Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C0518FF9E;
-        Fri, 18 Nov 2022 10:51:56 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EC708F3FD
+        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 10:51:57 -0800 (PST)
 Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 8B219276A;
-        Fri, 18 Nov 2022 19:51:31 +0100 (CET)
+        by mail.3ffe.de (Postfix) with ESMTPSA id 1C257277E;
+        Fri, 18 Nov 2022 19:51:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1668797491;
+        t=1668797492;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=OG+BVTzaBMIaLV8CZzAesSGp8DMidyfnS2AwgUumpzc=;
-        b=wLLRoBWV22ibu36eSl8Pmzp0vTUmUSidcSKUeTZrmB1jxB1CoLZi3tlc9uFHZTneaAKeg+
-        jbIpOoOa3jNxmRHwpqxAdNWTeZXfkXfS4USCkumVgjf/fpLlPeeSEytuEPG0aRDViJh/Hr
-        9uTw3RSyPxh16PoR57nFP5sD/xzohfQoRsQ1AqnWIrFwDZmsxUVTNUDPxH8aW+nbPoHuNf
-        ZpSv+AGhp5F6M8V8IMfCDH3A0gnen7ajIgt0T1ivfC7NellWHFH3GZZLPo92MvWDC/qoPI
-        COKZ5+QpkK8ZOXzfS2Z8Mr0iNLcBiok2mkhnl3pBTN1UgYhlgySC66QCKZvhIg==
+        bh=5hJ+x0t7Feg652ncYtA0Rozjly++kFybl23/BlNYEos=;
+        b=RopdvzAe9TlQPOi0Gkeanh59YifCyxSJrAvHLSBKPiPf0oHCabrNxHsWP3ul8ZDP0rdLqF
+        YhuthUagm7gjd6cM1VWWLoyQ8L32JGvxFAYItW9Z4S0GM1bnkhjhrE07mVFrVkr0IuGAvI
+        cJDJn6fXJP1pA/q8S9iI0kcpLwZO1QiTu//iJisXfHE5eTQvOminP6GCsK5rcKyOMBWGCF
+        4eoF1xT291YkZLKizUvZ2XdW/HoOKqJLYyy5ZJDoh1VHL6Ak4zqSE/qC34qyyd14+YGhVx
+        ZJ1IAL7a8LxGkeTsUXWxCROQvql0EKIz+oKol5EogeKuwcgYbB2c4cpKc72tCA==
 From:   Michael Walle <michael@walle.cc>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -41,9 +41,9 @@ To:     Jonathan Corbet <corbet@lwn.net>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Michael Walle <michael@walle.cc>
-Subject: [PATCH v3 14/18] nvmem: core: provide own priv pointer in post process callback
-Date:   Fri, 18 Nov 2022 19:51:14 +0100
-Message-Id: <20221118185118.1190044-15-michael@walle.cc>
+Subject: [PATCH v3 16/18] MAINTAINERS: add myself as sl28vpd nvmem layout driver
+Date:   Fri, 18 Nov 2022 19:51:16 +0100
+Message-Id: <20221118185118.1190044-17-michael@walle.cc>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221118185118.1190044-1-michael@walle.cc>
 References: <20221118185118.1190044-1-michael@walle.cc>
@@ -54,82 +54,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It doesn't make any more sense to have a opaque pointer set up by the
-nvmem device. Usually, the layout isn't associated with a particular
-nvmem device. Instead, let the caller who set the post process callback
-provide the priv pointer.
+Add myself as a maintainer for the new sl28vpd nvmem layout driver.
 
 Signed-off-by: Michael Walle <michael@walle.cc>
 ---
 changes since v2:
- - don't drop the pointer but let the user specify an opaque pointer
-
-changes since v1:
  - new patch
 
- drivers/nvmem/core.c           | 4 +++-
- include/linux/nvmem-provider.h | 5 ++++-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 9234c7d87a69..e03976f6ad1c 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -53,6 +53,7 @@ struct nvmem_cell_entry {
- 	int			bit_offset;
- 	int			nbits;
- 	nvmem_cell_post_process_t read_post_process;
-+	void			*priv;
- 	struct device_node	*np;
- 	struct nvmem_device	*nvmem;
- 	struct list_head	node;
-@@ -470,6 +471,7 @@ static int nvmem_cell_info_to_nvmem_cell_entry_nodup(struct nvmem_device *nvmem,
- 	cell->bytes = info->bytes;
- 	cell->name = info->name;
- 	cell->read_post_process = info->read_post_process;
-+	cell->priv = info->priv;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1df62c469bd9..ef4b7a31f8b4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19097,6 +19097,12 @@ F:	drivers/irqchip/irq-sl28cpld.c
+ F:	drivers/pwm/pwm-sl28cpld.c
+ F:	drivers/watchdog/sl28cpld_wdt.c
  
- 	cell->bit_offset = info->bit_offset;
- 	cell->nbits = info->nbits;
-@@ -1558,7 +1560,7 @@ static int __nvmem_cell_read(struct nvmem_device *nvmem,
- 		nvmem_shift_read_buffer_in_place(cell, buf);
- 
- 	if (cell->read_post_process) {
--		rc = cell->read_post_process(nvmem->priv, id, index,
-+		rc = cell->read_post_process(cell->priv, id, index,
- 					     cell->offset, buf, cell->bytes);
- 		if (rc)
- 			return rc;
-diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
-index 12833fe4eb4d..cb0814f2ddae 100644
---- a/include/linux/nvmem-provider.h
-+++ b/include/linux/nvmem-provider.h
-@@ -20,7 +20,8 @@ typedef int (*nvmem_reg_write_t)(void *priv, unsigned int offset,
- 				 void *val, size_t bytes);
- /* used for vendor specific post processing of cell data */
- typedef int (*nvmem_cell_post_process_t)(void *priv, const char *id, int index,
--					 unsigned int offset, void *buf, size_t bytes);
-+					 unsigned int offset, void *buf,
-+					 size_t bytes);
- 
- enum nvmem_type {
- 	NVMEM_TYPE_UNKNOWN = 0,
-@@ -56,6 +57,7 @@ struct nvmem_keepout {
-  * @np:		Optional device_node pointer.
-  * @read_post_process:	Callback for optional post processing of cell data
-  *			on reads.
-+ * @priv:	Opaque data passed to the read_post_process hook.
-  */
- struct nvmem_cell_info {
- 	const char		*name;
-@@ -65,6 +67,7 @@ struct nvmem_cell_info {
- 	unsigned int		nbits;
- 	struct device_node	*np;
- 	nvmem_cell_post_process_t read_post_process;
-+	void			*priv;
- };
- 
- /**
++SL28 VPD NVMEM LAYOUT DRIVER
++M:	Michael Walle <michael@walle.cc>
++S:	Maintained
++F:	Documentation/devicetree/bindings/nvmem/layouts/kontron,sl28-vpd.yaml
++F:	drivers/nvmem/layouts/sl28vpd.c
++
+ SLAB ALLOCATOR
+ M:	Christoph Lameter <cl@linux.com>
+ M:	Pekka Enberg <penberg@kernel.org>
 -- 
 2.30.2
 
