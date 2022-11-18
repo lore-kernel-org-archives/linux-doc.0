@@ -2,77 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77FDCC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 00:12:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C23AEC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 00:20:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229580AbiKRAMh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Nov 2022 19:12:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60672 "EHLO
+        id S233315AbiKRAUg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Nov 2022 19:20:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239916AbiKRAMg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 19:12:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1B1E61BAA
-        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 16:11:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1668730302;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=t75IuiAQcMlm4oCjhALxycpb3Fn6D89zCbLbH8xoMhU=;
-        b=RZcU4J8/NRVL5oMka86uKBamtnu9yaG6aFk5SsE9We4SOmaETV3qgrHQgbELjM8qwIWjfi
-        LqyCeYI6/4sYYf1oHFnzGvkzjcbHkNuSiqkQBrc/DfeHpU+ZZKLT8nPMv/3E7UfqW5Loa/
-        n/Tg+atdPWgclgCG0/554EGjQOHjZs8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-300-gFkoYcibN7O9y4IdUg4itA-1; Thu, 17 Nov 2022 19:11:39 -0500
-X-MC-Unique: gFkoYcibN7O9y4IdUg4itA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S235099AbiKRAUf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 19:20:35 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E21B665E76;
+        Thu, 17 Nov 2022 16:20:33 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6114B1C068CC;
-        Fri, 18 Nov 2022 00:11:38 +0000 (UTC)
-Received: from localhost (ovpn-12-17.pek2.redhat.com [10.72.12.17])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DDC1492B04;
-        Fri, 18 Nov 2022 00:11:37 +0000 (UTC)
-Date:   Fri, 18 Nov 2022 08:11:33 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu
-Cc:     Xianting Tian <xianting.tian@linux.alibaba.com>,
-        anup@brainfault.org, heiko@sntech.de, guoren@kernel.org,
-        mick@ics.forth.gr, alexandre.ghiti@canonical.com,
-        vgoyal@redhat.com, dyoung@redhat.com, corbet@lwn.net,
-        Conor.Dooley@microchip.com, bagasdotme@gmail.com,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
-        k-hagio-ab@nec.com, hschauhan@nulltrace.org, yixun.lan@gmail.com
-Subject: Re: [PATCH V5 0/2] Support VMCOREINFO export for RISCV64
-Message-ID: <Y3bNtRekTdzVMMdK@MiWiFi-R3L-srv>
-References: <20221026144208.373504-1-xianting.tian@linux.alibaba.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221026144208.373504-1-xianting.tian@linux.alibaba.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7DEA862257;
+        Fri, 18 Nov 2022 00:20:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0DD1C433C1;
+        Fri, 18 Nov 2022 00:20:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668730832;
+        bh=UPKFz2DsiakqWhGmlH6ehaMqM4wm6M3vd2T7GaE1SQw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=imroKEniBTTIqxq1/mcUCDjw0gXXBCz/5lchVAcVG5jEO3ZeNbN2jlyHR7W2fLaPq
+         WsKOtqPfrLtoxMNvxsBVu0rUhlnsnlrAGbyaILTeLAuRa0I2QJqysQbak1S8I2EkS+
+         SLMy4MKsd/r2wmkrT9XiSrRjf96AaDtD6zD0OlQCdaWnSP9LViEUcpuBmVWxMJHdmy
+         m7rESH7yae05V8s5QOYoMy5IiOIcMESXCWdzXbHOeof6TwOv715rmmPk/YXN2d59Pv
+         +QE4ZIxIJnjN9ifVukmDw7c/VfTTija0hA6eDgt92nbUmt/LKBVFBdHMi++HjOhLGX
+         wELms2dbIY27w==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1ovp7O-006roN-TM;
+        Fri, 18 Nov 2022 00:20:31 +0000
+Date:   Fri, 18 Nov 2022 00:20:30 +0000
+Message-ID: <86r0y1nmep.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Usama Arif <usama.arif@bytedance.com>
+Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, linux@armlinux.org.uk,
+        yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org,
+        steven.price@arm.com, mark.rutland@arm.com, bagasdotme@gmail.com,
+        fam.zheng@bytedance.com, liangma@liangbit.com,
+        punit.agrawal@bytedance.com
+Subject: Re: [External] Re: [v2 0/6] KVM: arm64: implement vcpu_is_preempted check
+In-Reply-To: <180b91af-a2aa-2cfd-eb7f-b2825c4e3dbe@bytedance.com>
+References: <20221104062105.4119003-1-usama.arif@bytedance.com>
+        <87k048f3cm.wl-maz@kernel.org>
+        <180b91af-a2aa-2cfd-eb7f-b2825c4e3dbe@bytedance.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: usama.arif@bytedance.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, linux-doc@vger.kernel.org, virtualization@lists.linux-foundation.org, linux@armlinux.org.uk, yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org, steven.price@arm.com, mark.rutland@arm.com, bagasdotme@gmail.com, fam.zheng@bytedance.com, liangma@liangbit.com, punit.agrawal@bytedance.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi risc-v maintainers,
-
-On 10/26/22 at 10:42pm, Xianting Tian wrote:
-> As disscussed in below patch set, the patch of 'describe VMCOREINFO export in Documentation'
-> need to update according to Bagas's comments. 
-> https://lore.kernel.org/linux-riscv/22AAF52E-8CC8-4D11-99CB-88DE4D113444@kernel.org/
+On Mon, 07 Nov 2022 12:00:44 +0000,
+Usama Arif <usama.arif@bytedance.com> wrote:
 > 
-> As others patches in above patch set already applied, so this patch set only contains below two
-> patches.
+> 
+> 
+> On 06/11/2022 16:35, Marc Zyngier wrote:
+> > On Fri, 04 Nov 2022 06:20:59 +0000,
+> > Usama Arif <usama.arif@bytedance.com> wrote:
+> >> 
+> >> This patchset adds support for vcpu_is_preempted in arm64, which
+> >> allows the guest to check if a vcpu was scheduled out, which is
+> >> useful to know incase it was holding a lock. vcpu_is_preempted can
+> >> be used to improve performance in locking (see owner_on_cpu usage in
+> >> mutex_spin_on_owner, mutex_can_spin_on_owner, rtmutex_spin_on_owner
+> >> and osq_lock) and scheduling (see available_idle_cpu which is used
+> >> in several places in kernel/sched/fair.c for e.g. in wake_affine to
+> >> determine which CPU can run soonest):
+> > 
+> > [...]
+> > 
+> >> pvcy shows a smaller overall improvement (50%) compared to
+> >> vcpu_is_preempted (277%).  Host side flamegraph analysis shows that
+> >> ~60% of the host time when using pvcy is spent in kvm_handle_wfx,
+> >> compared with ~1.5% when using vcpu_is_preempted, hence
+> >> vcpu_is_preempted shows a larger improvement.
+> > 
+> > And have you worked out *why* we spend so much time handling WFE?
+> > 
+> > 	M.
+> 
+> Its from the following change in pvcy patchset:
+> 
+> diff --git a/arch/arm64/kvm/handle_exit.c b/arch/arm64/kvm/handle_exit.c
+> index e778eefcf214..915644816a85 100644
+> --- a/arch/arm64/kvm/handle_exit.c
+> +++ b/arch/arm64/kvm/handle_exit.c
+> @@ -118,7 +118,12 @@ static int kvm_handle_wfx(struct kvm_vcpu *vcpu)
+>         }
+> 
+>         if (esr & ESR_ELx_WFx_ISS_WFE) {
+> -               kvm_vcpu_on_spin(vcpu, vcpu_mode_priv(vcpu));
+> +               int state;
+> +               while ((state = kvm_pvcy_check_state(vcpu)) == 0)
+> +                       schedule();
+> +
+> +               if (state == -1)
+> +                       kvm_vcpu_on_spin(vcpu, vcpu_mode_priv(vcpu));
+>         } else {
+>                 if (esr & ESR_ELx_WFx_ISS_WFxT)
+>                         vcpu_set_flag(vcpu, IN_WFIT);
+> 
+> 
+> If my understanding is correct of the pvcy changes, whenever pvcy
+> returns an unchanged vcpu state, we would schedule to another
+> vcpu. And its the constant scheduling where the time is spent. I guess
+> the affects are much higher when the lock contention is very
+> high. This can be seem from the pvcy host side flamegraph as well with
+> (~67% of the time spent in the schedule() call in kvm_handle_wfx), For
+> reference, I have put the graph at:
+> https://uarif1.github.io/pvlock/perf_host_pvcy_nmi.svg
 
-Could you pick this patchset into risc-v tree since it has got acks
-and two Tested-by?
+The real issue here is that we don't try to pick the right vcpu to
+run, and strictly rely on schedule() to eventually pick something that
+can run.
 
-Thanks
-Baoquan
+An interesting to do would be to try and fit the directed yield
+mechanism there. It would be a lot more interesting than the one-off
+vcpu_is_preempted hack, as it gives us a low-level primitive on which
+to construct things (pvcy is effectively a mwait-like primitive).
 
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
