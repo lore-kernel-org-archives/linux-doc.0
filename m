@@ -2,105 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8589C43217
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 00:05:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77FDCC4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 00:12:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239672AbiKRAFu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Nov 2022 19:05:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57818 "EHLO
+        id S229580AbiKRAMh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Nov 2022 19:12:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233270AbiKRAFt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 19:05:49 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 974D0BC0;
-        Thu, 17 Nov 2022 16:05:48 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S239916AbiKRAMg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 19:12:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1B1E61BAA
+        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 16:11:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1668730302;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=t75IuiAQcMlm4oCjhALxycpb3Fn6D89zCbLbH8xoMhU=;
+        b=RZcU4J8/NRVL5oMka86uKBamtnu9yaG6aFk5SsE9We4SOmaETV3qgrHQgbELjM8qwIWjfi
+        LqyCeYI6/4sYYf1oHFnzGvkzjcbHkNuSiqkQBrc/DfeHpU+ZZKLT8nPMv/3E7UfqW5Loa/
+        n/Tg+atdPWgclgCG0/554EGjQOHjZs8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-300-gFkoYcibN7O9y4IdUg4itA-1; Thu, 17 Nov 2022 19:11:39 -0500
+X-MC-Unique: gFkoYcibN7O9y4IdUg4itA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 32F0C6204B;
-        Fri, 18 Nov 2022 00:05:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 286C3C433D6;
-        Fri, 18 Nov 2022 00:05:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668729947;
-        bh=H8A+VfcBwEu+5oVlM/ylb1vTzqKOVIIzcbV2vdm5TRw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BNCkZVXFUcZFrQOGW2YcialIeFX2flA6n9/RBkJDbCfCY9LmBmCE3MgkOEZQfWc8B
-         r1C0j6NWb7hABNH5zw6S8MnxBvSeFMlZzxMDwOFGI82U9okzQT0I/MYOTHkzR/VBlG
-         ENEIaDjfLvFb3KLLNDmEjQYT7teUAImhdOIlX1ze7TlNZKGj0h/ahNC0kVQnrjTBXD
-         t8C4O6KpOdHy4mcjNkwV1cgZDf0Y5SoGkSAgEpls7z9/IEA5mk9R0x2kJMw7BIi9Pz
-         bvU5pLfmS/8q4QtuzGSU7s3OJNr7sCAjrhGiKIa9pNnqARqduJu4+EYFkIguGMlyx9
-         xr1LcP95PEu+g==
-Date:   Thu, 17 Nov 2022 18:05:32 -0600
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     coverity-bot <keescook@chromium.org>
-Cc:     Ananda <a.badmaev@clicknet.pro>, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, Minchan Kim <minchan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Vitaly Wool <vitaly.wool@konsulko.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        linux-next@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: Coverity: zblock_reclaim_block(): Control flow issues
-Message-ID: <Y3bMTK+558whA1VX@work>
-References: <202211171421.914F0F3719@keescook>
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6114B1C068CC;
+        Fri, 18 Nov 2022 00:11:38 +0000 (UTC)
+Received: from localhost (ovpn-12-17.pek2.redhat.com [10.72.12.17])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DDC1492B04;
+        Fri, 18 Nov 2022 00:11:37 +0000 (UTC)
+Date:   Fri, 18 Nov 2022 08:11:33 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu
+Cc:     Xianting Tian <xianting.tian@linux.alibaba.com>,
+        anup@brainfault.org, heiko@sntech.de, guoren@kernel.org,
+        mick@ics.forth.gr, alexandre.ghiti@canonical.com,
+        vgoyal@redhat.com, dyoung@redhat.com, corbet@lwn.net,
+        Conor.Dooley@microchip.com, bagasdotme@gmail.com,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
+        k-hagio-ab@nec.com, hschauhan@nulltrace.org, yixun.lan@gmail.com
+Subject: Re: [PATCH V5 0/2] Support VMCOREINFO export for RISCV64
+Message-ID: <Y3bNtRekTdzVMMdK@MiWiFi-R3L-srv>
+References: <20221026144208.373504-1-xianting.tian@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202211171421.914F0F3719@keescook>
+In-Reply-To: <20221026144208.373504-1-xianting.tian@linux.alibaba.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 02:21:46PM -0800, coverity-bot wrote:
-> Hello!
-> 
-> This is an experimental semi-automated report about issues detected by
-> Coverity from a scan of next-20221117 as part of the linux-next scan project:
-> https://scan.coverity.com/projects/linux-next-weekly-scan
-> 
-> You're getting this email because you were associated with the identified
-> lines of code (noted below) that were touched by commits:
-> 
->   Wed Nov 16 16:19:12 2022 -0800
->     9097e28c25c8 ("mm: add zblock - new allocator for use via zpool API")
-> 
-> Coverity reported the following:
-> 
-> *** CID 1527349:  Control flow issues  (NO_EFFECT)
-> mm/zblock.c:412 in zblock_reclaim_block()
-> 406     	unsigned long handle, block_type, slot;
-> 407     	int ret, i, reclaimed;
-> 408
-> 409     	/* start with list storing blocks with the worst compression and try
-> 410     	 * to evict the first added (oldest) block in this list
-> 411     	 */
-> vvv     CID 1527349:  Control flow issues  (NO_EFFECT)
-> vvv     This greater-than-or-equal-to-zero comparison of an unsigned value is always true. "block_type >= 0UL".
-> 412     	for (block_type = ARRAY_SIZE(block_desc) - 1; block_type >= 0; --block_type) {
+Hi risc-v maintainers,
 
-This seems like a legit issue.
+On 10/26/22 at 10:42pm, Xianting Tian wrote:
+> As disscussed in below patch set, the patch of 'describe VMCOREINFO export in Documentation'
+> need to update according to Bagas's comments. 
+> https://lore.kernel.org/linux-riscv/22AAF52E-8CC8-4D11-99CB-88DE4D113444@kernel.org/
+> 
+> As others patches in above patch set already applied, so this patch set only contains below two
+> patches.
 
---
-Gustavo
+Could you pick this patchset into risc-v tree since it has got acks
+and two Tested-by?
 
-> 413     		list = &(pool->block_lists[block_type]);
-> 414     		spin_lock(&list->lock);
-> 415
-> 416     		/* find the oldest block in list */
-> 417     		block = list_last_entry(&list->head, struct zblock_block, block_node);
-> 
-> If this is a false positive, please let us know so we can mark it as
-> such, or teach the Coverity rules to be smarter. If not, please make
-> sure fixes get into linux-next. :) For patches fixing this, please
-> include these lines (but double-check the "Fixes" first):
-> 
-> Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
-> Addresses-Coverity-ID: 1527349 ("Control flow issues")
-> Fixes: 9097e28c25c8 ("mm: add zblock - new allocator for use via zpool API")
-> 
-> Thanks for your attention!
-> 
-> -- 
-> Coverity-bot
+Thanks
+Baoquan
+
