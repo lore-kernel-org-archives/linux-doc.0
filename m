@@ -2,102 +2,263 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42E64C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 03:43:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF350C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 08:35:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234922AbiKRDno (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Nov 2022 22:43:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43754 "EHLO
+        id S241567AbiKRIfN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 03:35:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234902AbiKRDnn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 22:43:43 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F54F10B7A;
-        Thu, 17 Nov 2022 19:43:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=IUmiaYAz6hoKjarswFKTVYENfY0zRBptg2j3PpqeP0I=; b=P7Z0iSlbGCC/4f366/QyhyNDk6
-        rgvZ37UWkMEqkU/dckXU9W5Lx/10zkMjZuKO7nobF11uMdXlvBjcYmAErGcaI4o8f10MX3PqTd6Mt
-        +r4TgejG0blzQs6JR6ngIpnGg/yF9KO7i3Taz/2XWhvje1j+MaZhSYxI/pXKwQPjCjnChb27TX9xw
-        Hz33NmgUGxBAvgJ67lo13LyqIX33kudpmN8KjdOvPOoE+GkR1z/lHY3ciw5z7Oo3jGdSJYS+5tjmv
-        a3wkTYT+MHyRWWSxu9QsyhjeAgGbEh/hEW/FMiuML303jH9wCtuYawtCYTjOA4pFMYifPqytzt0Ai
-        zj/pRxiA==;
-Received: from [2601:1c2:d80:3110::a2e7] (helo=casper.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ovsI1-001kkm-Hg; Fri, 18 Nov 2022 03:43:42 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-doc@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH] Documentation: USB: correct possessive "its" usage
-Date:   Thu, 17 Nov 2022 19:43:31 -0800
-Message-Id: <20221118034331.18188-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.38.1
+        with ESMTP id S241461AbiKRIex (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 03:34:53 -0500
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56B2CEA
+        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 00:34:13 -0800 (PST)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-3691e040abaso42928697b3.9
+        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 00:34:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wyrIZGrkRGaBx3SBlr53l5QP2brkzSvBi6iVTIgs8bA=;
+        b=p/97bDSMHPSl8KJZhheAqVfFItZr4N5ToAF1sL/eRnSDT78a47IjZqZRBiAf1ZRvOg
+         StG+00tSdXWDsXeAgM1Yp4aXIAfaybTBv9cNAchnMtgmo5aXXMYFTmz0irktfNHmHGj6
+         HWDw/TPmRe0g0WB2Bn0IuhYCvVpx8PcVB34dJWrW/PoSrRDMyZ+v49sW/TslbSrrbRWe
+         IuAekW2Aa1UflkJMuh4WDsqRlRIRZieQ1tAGqw8BHbmtlDXAtkrp9FB38PUidu9Tt9Mw
+         +GTq7+MjLHDrW7xbA+tLEmVml4W+IkGZGuucNdqLMkzWITkL4uAGfzxdBda0MyxfbW0k
+         GLmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wyrIZGrkRGaBx3SBlr53l5QP2brkzSvBi6iVTIgs8bA=;
+        b=Ncmyi+Zmq/hRoi1swrBdLSnQBuCIg1TVCM7MUDSFbRuqmMNygRbaGYndP0ke/E/+tG
+         FMN6kl63NdF024Ce2JkRW8bCLy9kaNPNmq8Ne4CoGewaQ281U19qLTvE1pE0I/BKSPMN
+         og+9EOWNIuCA9Hkm8xMEkfJ5GukDJH5FQmLWXJksBoDb99leUp7X/zD052YQMBpuwkiS
+         IbMsAtZXyHdWi8LWB31c8xpvaNNU852L8RjLfsVwudUkoAPtY2r3QseB/Q73ZtD5OcBK
+         yj466MMEeOqMc0yCg13mdJx3oBYwlgjeiJSte2oN112ABU9Iy/3thc3VhJD9W6gGjoWp
+         h6AA==
+X-Gm-Message-State: ANoB5pl9yNuDmzS8Pp0iBUKowu8U2iWE3ezBIQHqI8QemQQTU7aml01M
+        qRM2nXxFmZXxfkjFppoLVUGVEPRvn6/HOe6gGg79kA==
+X-Google-Smtp-Source: AA0mqf6Kvf44HlZn6iojLaECPn2leREJv9EFhtuvAZO/Mw6881fUR5KToU610B8qLHSvq9W6O51u62BW9Qbmllua0rI=
+X-Received: by 2002:a81:1717:0:b0:36f:c0f7:856f with SMTP id
+ 23-20020a811717000000b0036fc0f7856fmr5472096ywx.4.1668760453041; Fri, 18 Nov
+ 2022 00:34:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221117233838.give.484-kees@kernel.org> <20221117234328.594699-4-keescook@chromium.org>
+In-Reply-To: <20221117234328.594699-4-keescook@chromium.org>
+From:   Marco Elver <elver@google.com>
+Date:   Fri, 18 Nov 2022 09:33:36 +0100
+Message-ID: <CANpmjNN2oHP0xLhPG9TboqcXFxdvhE9Hh6qKa0xPGnyFyGDRQg@mail.gmail.com>
+Subject: Re: [PATCH v3 4/6] panic: Consolidate open-coded panic_on_warn checks
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Jann Horn <jannh@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Gow <davidgow@google.com>,
+        tangmeng <tangmeng@uniontech.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Petr Mladek <pmladek@suse.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        Tiezhu Yang <yangtiezhu@loongson.cn>,
+        kasan-dev@googlegroups.com, linux-mm@kvack.org,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Seth Jenkins <sethjenkins@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linus Torvalds <torvalds@linuxfoundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Eric Biggers <ebiggers@google.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Laurent Dufour <ldufour@linux.ibm.com>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct uses of "it's" to possessive "its" as needed.
-Correct associated grammar in one location.
+On Fri, 18 Nov 2022 at 00:43, Kees Cook <keescook@chromium.org> wrote:
+>
+> Several run-time checkers (KASAN, UBSAN, KFENCE, KCSAN, sched) roll
+> their own warnings, and each check "panic_on_warn". Consolidate this
+> into a single function so that future instrumentation can be added in
+> a single location.
+>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Juri Lelli <juri.lelli@redhat.com>
+> Cc: Vincent Guittot <vincent.guittot@linaro.org>
+> Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Ben Segall <bsegall@google.com>
+> Cc: Mel Gorman <mgorman@suse.de>
+> Cc: Daniel Bristot de Oliveira <bristot@redhat.com>
+> Cc: Valentin Schneider <vschneid@redhat.com>
+> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+> Cc: Alexander Potapenko <glider@google.com>
+> Cc: Andrey Konovalov <andreyknvl@gmail.com>
+> Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: David Gow <davidgow@google.com>
+> Cc: tangmeng <tangmeng@uniontech.com>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Petr Mladek <pmladek@suse.com>
+> Cc: "Paul E. McKenney" <paulmck@kernel.org>
+> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+> Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
+> Cc: kasan-dev@googlegroups.com
+> Cc: linux-mm@kvack.org
+> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
----
- Documentation/usb/CREDITS          |    4 ++--
- Documentation/usb/functionfs.rst   |    2 +-
- Documentation/usb/gadget_multi.rst |    2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+Reviewed-by: Marco Elver <elver@google.com>
 
-diff -- a/Documentation/usb/CREDITS b/Documentation/usb/CREDITS
---- a/Documentation/usb/CREDITS
-+++ b/Documentation/usb/CREDITS
-@@ -126,7 +126,7 @@ THANKS file in Inaky's driver):
-         - Jochen Karrer <karrer@wpfd25.physik.uni-wuerzburg.de>, for
-           pointing out mortal bugs and giving advice.
- 
--        - Edmund Humemberger <ed@atnet.at>, for it's great work on
-+        - Edmund Humemberger <ed@atnet.at>, for its great work on
-           public relationships and general management stuff for the
-           Linux-USB effort.
- 
-@@ -136,7 +136,7 @@ THANKS file in Inaky's driver):
-         - Ric Klaren <ia_ric@cs.utwente.nl> for doing nice
-           introductory documents (competing with Alberto's :).
- 
--        - Christian Groessler <cpg@aladdin.de>, for it's help on those
-+        - Christian Groessler <cpg@aladdin.de>, for its help on those
-           itchy bits ... :)
- 
-         - Paul MacKerras for polishing OHCI and pushing me harder for
-diff -- a/Documentation/usb/functionfs.rst b/Documentation/usb/functionfs.rst
---- a/Documentation/usb/functionfs.rst
-+++ b/Documentation/usb/functionfs.rst
-@@ -49,7 +49,7 @@ level it would look like this::
-   $ ( cd /dev/ffs-hid && hid-daemon ) &
- 
- On kernel level the gadget checks ffs_data->dev_name to identify
--whether it's FunctionFS designed for MTP ("mtp") or HID ("hid").
-+whether its FunctionFS is designed for MTP ("mtp") or HID ("hid").
- 
- If no "functions" module parameters is supplied, the driver accepts
- just one function with any name.
-diff -- a/Documentation/usb/gadget_multi.rst b/Documentation/usb/gadget_multi.rst
---- a/Documentation/usb/gadget_multi.rst
-+++ b/Documentation/usb/gadget_multi.rst
-@@ -9,7 +9,7 @@ The Multifunction Composite Gadget (or g
- that makes extensive use of the composite framework to provide
- a... multifunction gadget.
- 
--In it's standard configuration it provides a single USB configuration
-+In its standard configuration it provides a single USB configuration
- with RNDIS[1] (that is Ethernet), USB CDC[2] ACM (that is serial) and
- USB Mass Storage functions.
- 
+> ---
+>  include/linux/panic.h | 1 +
+>  kernel/kcsan/report.c | 3 +--
+>  kernel/panic.c        | 9 +++++++--
+>  kernel/sched/core.c   | 3 +--
+>  lib/ubsan.c           | 3 +--
+>  mm/kasan/report.c     | 4 ++--
+>  mm/kfence/report.c    | 3 +--
+>  7 files changed, 14 insertions(+), 12 deletions(-)
+>
+> diff --git a/include/linux/panic.h b/include/linux/panic.h
+> index c7759b3f2045..979b776e3bcb 100644
+> --- a/include/linux/panic.h
+> +++ b/include/linux/panic.h
+> @@ -11,6 +11,7 @@ extern long (*panic_blink)(int state);
+>  __printf(1, 2)
+>  void panic(const char *fmt, ...) __noreturn __cold;
+>  void nmi_panic(struct pt_regs *regs, const char *msg);
+> +void check_panic_on_warn(const char *origin);
+>  extern void oops_enter(void);
+>  extern void oops_exit(void);
+>  extern bool oops_may_print(void);
+> diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
+> index 67794404042a..e95ce7d7a76e 100644
+> --- a/kernel/kcsan/report.c
+> +++ b/kernel/kcsan/report.c
+> @@ -492,8 +492,7 @@ static void print_report(enum kcsan_value_change value_change,
+>         dump_stack_print_info(KERN_DEFAULT);
+>         pr_err("==================================================================\n");
+>
+> -       if (panic_on_warn)
+> -               panic("panic_on_warn set ...\n");
+> +       check_panic_on_warn("KCSAN");
+>  }
+>
+>  static void release_report(unsigned long *flags, struct other_info *other_info)
+> diff --git a/kernel/panic.c b/kernel/panic.c
+> index d843d036651e..cfa354322d5f 100644
+> --- a/kernel/panic.c
+> +++ b/kernel/panic.c
+> @@ -201,6 +201,12 @@ static void panic_print_sys_info(bool console_flush)
+>                 ftrace_dump(DUMP_ALL);
+>  }
+>
+> +void check_panic_on_warn(const char *origin)
+> +{
+> +       if (panic_on_warn)
+> +               panic("%s: panic_on_warn set ...\n", origin);
+> +}
+> +
+>  /**
+>   *     panic - halt the system
+>   *     @fmt: The text string to print
+> @@ -619,8 +625,7 @@ void __warn(const char *file, int line, void *caller, unsigned taint,
+>         if (regs)
+>                 show_regs(regs);
+>
+> -       if (panic_on_warn)
+> -               panic("panic_on_warn set ...\n");
+> +       check_panic_on_warn("kernel");
+>
+>         if (!regs)
+>                 dump_stack();
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index 5800b0623ff3..285ef8821b4f 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -5729,8 +5729,7 @@ static noinline void __schedule_bug(struct task_struct *prev)
+>                 pr_err("Preemption disabled at:");
+>                 print_ip_sym(KERN_ERR, preempt_disable_ip);
+>         }
+> -       if (panic_on_warn)
+> -               panic("scheduling while atomic\n");
+> +       check_panic_on_warn("scheduling while atomic");
+>
+>         dump_stack();
+>         add_taint(TAINT_WARN, LOCKDEP_STILL_OK);
+> diff --git a/lib/ubsan.c b/lib/ubsan.c
+> index 36bd75e33426..60c7099857a0 100644
+> --- a/lib/ubsan.c
+> +++ b/lib/ubsan.c
+> @@ -154,8 +154,7 @@ static void ubsan_epilogue(void)
+>
+>         current->in_ubsan--;
+>
+> -       if (panic_on_warn)
+> -               panic("panic_on_warn set ...\n");
+> +       check_panic_on_warn("UBSAN");
+>  }
+>
+>  void __ubsan_handle_divrem_overflow(void *_data, void *lhs, void *rhs)
+> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> index df3602062bfd..cc98dfdd3ed2 100644
+> --- a/mm/kasan/report.c
+> +++ b/mm/kasan/report.c
+> @@ -164,8 +164,8 @@ static void end_report(unsigned long *flags, void *addr)
+>                                        (unsigned long)addr);
+>         pr_err("==================================================================\n");
+>         spin_unlock_irqrestore(&report_lock, *flags);
+> -       if (panic_on_warn && !test_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags))
+> -               panic("panic_on_warn set ...\n");
+> +       if (!test_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags))
+> +               check_panic_on_warn("KASAN");
+>         if (kasan_arg_fault == KASAN_ARG_FAULT_PANIC)
+>                 panic("kasan.fault=panic set ...\n");
+>         add_taint(TAINT_BAD_PAGE, LOCKDEP_NOW_UNRELIABLE);
+> diff --git a/mm/kfence/report.c b/mm/kfence/report.c
+> index 7e496856c2eb..110c27ca597d 100644
+> --- a/mm/kfence/report.c
+> +++ b/mm/kfence/report.c
+> @@ -268,8 +268,7 @@ void kfence_report_error(unsigned long address, bool is_write, struct pt_regs *r
+>
+>         lockdep_on();
+>
+> -       if (panic_on_warn)
+> -               panic("panic_on_warn set ...\n");
+> +       check_panic_on_warn("KFENCE");
+>
+>         /* We encountered a memory safety error, taint the kernel! */
+>         add_taint(TAINT_BAD_PAGE, LOCKDEP_STILL_OK);
+> --
+> 2.34.1
+>
