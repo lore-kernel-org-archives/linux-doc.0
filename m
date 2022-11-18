@@ -2,223 +2,824 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1761C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 16:21:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEB37C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 16:28:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231194AbiKRQVg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 11:21:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43784 "EHLO
+        id S241686AbiKRQ2u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 11:28:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235221AbiKRQVf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 11:21:35 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D0A9208F;
-        Fri, 18 Nov 2022 08:21:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668788494; x=1700324494;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:mime-version:content-transfer-encoding;
-  bh=KDYnOfGsVc/CJyUx+cJ4afMHHVKDIl34PmJV05JpsTA=;
-  b=KOR+K/yqCl9o0pNx5JKKPoz/BqOWR6PpGz3HmQ6yGetNHOPsqEeqaCGe
-   XbZdj9EWEodnhDct2uSYNIFHpGO0Lad+kphQs+OJflPBxQQVtvFMO/+Mt
-   MEJjMS+p390JcBAgNlNPEoLetDvTEii0/LxJSAtDE8azowgyyorIQ3ReW
-   +23gi3v6e7xmNSJ15gF7QDa8BTVo3SHPN3jqJl5ov46Ro3/hakTemVut1
-   9hxL3QFznrs4UWSR2Pe9bld5yVmUQzRUriut1NZcnzmitdjIyutVhFkyV
-   Y2hJPG0d8Fn8F2Ip4ClgCrjx6BjB39+DILqwhAXO0LY5Ei/aiX8kg6Oxa
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="293560742"
-X-IronPort-AV: E=Sophos;i="5.96,174,1665471600"; 
-   d="scan'208";a="293560742"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2022 08:21:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="782696007"
-X-IronPort-AV: E=Sophos;i="5.96,174,1665471600"; 
-   d="scan'208";a="782696007"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmsmga001.fm.intel.com with ESMTP; 18 Nov 2022 08:21:29 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 18 Nov 2022 08:21:29 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Fri, 18 Nov 2022 08:21:29 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.106)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Fri, 18 Nov 2022 08:21:28 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TmN7TtoSaSrrLx32bwyss0GFl2MbHgUPEUrHI1OEXX3wwq6uZHBtNvu9yNKadN91ChJDU27H+G7EQt3/XWrBKPQWipz/ou51qvqx1UbtF5rI7VN0uuBhj7CSbwDxpbvtOhFPX+n0LbDTbfjdkixHEkUs+Zr9sP2aXEbNMJaHiXo83RBFLzg2M/BThFR5MR990jsSwyloohYSc9MM/qUX+CcjNhzLPu3Y5Gd39BzHDZ+TNfCrxkS1gjODMP+6a+8PQDrma3fb1X66T4nuVIfHrxHIAmxge2OPkjHds2zCdXtGGWdotWHnldFCOv3Le5i8pyR8BrwhIP0Frr9MnvxBiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fLI+4isOMhwAly+DiTRFinORe1AyBvWkNkDaGk77Dqw=;
- b=fekyFPA1dhooGbqhaJuxzH7jydN0s5GbL1KugLR9ORgcyG6LSSrJRLWSfbiJq6zTlqvrOAZxb30mvIqCahiYMSHjRSKEp1Gh14FDP6VGUn58ZlCgBH4WL8uxa87qyWVUGWmgRwmnklLQ66X9G5NUmT5DVdVsOYuqxvmUz4MPbmmK6aQ8BtJh1R0KRJxxl3AbX1dmx9uNerpiMUddonDcGfHL/BCeLe74/p/7KvxkX2awIRaomhRAlaWmpGw9yTOov1C3PYzqxpW6w9QO1UKjR6Q3zvM4K+593If4GbEHj4iFV2LmSpUX4qnHgusV4RgIeO4Vwc2cp/+iGTR7Ndnrmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CY4PR11MB2005.namprd11.prod.outlook.com (2603:10b6:903:2e::18)
- by CH0PR11MB5345.namprd11.prod.outlook.com (2603:10b6:610:b8::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.19; Fri, 18 Nov
- 2022 16:21:20 +0000
-Received: from CY4PR11MB2005.namprd11.prod.outlook.com
- ([fe80::ad04:c349:b06a:c1b4]) by CY4PR11MB2005.namprd11.prod.outlook.com
- ([fe80::ad04:c349:b06a:c1b4%9]) with mapi id 15.20.5813.020; Fri, 18 Nov 2022
- 16:21:20 +0000
-From:   "Schimpe, Christina" <christina.schimpe@intel.com>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>
-CC:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-Subject: RE: [PATCH v3 35/37] x86/cet: Add PTRACE interface for CET
-Thread-Topic: [PATCH v3 35/37] x86/cet: Add PTRACE interface for CET
-Thread-Index: AQHY8J5eaXgH6xugZk20MwPZdy8SOK5AIA2AgACAkACAAnwdkIAAf9AAgAFU61A=
-Date:   Fri, 18 Nov 2022 16:21:20 +0000
-Message-ID: <CY4PR11MB20055995B323E98C10BA159AF9099@CY4PR11MB2005.namprd11.prod.outlook.com>
-References: <20221104223604.29615-1-rick.p.edgecombe@intel.com>
-         <20221104223604.29615-36-rick.p.edgecombe@intel.com>
-         <Y3Olme4Nl+VOkjAH@hirez.programming.kicks-ass.net>
-         <223bf306716f5eb68e4f9fd660414c84cddd9886.camel@intel.com>
-         <CY4PR11MB2005AD47BA1D97BC1A96A769F9069@CY4PR11MB2005.namprd11.prod.outlook.com>
- <a2c2552fcdba1a0fce0d02aeb519d33cac83bfd2.camel@intel.com>
-In-Reply-To: <a2c2552fcdba1a0fce0d02aeb519d33cac83bfd2.camel@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY4PR11MB2005:EE_|CH0PR11MB5345:EE_
-x-ms-office365-filtering-correlation-id: ac394334-2f85-4529-8fa7-08dac980ed56
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: HauJnHPC+CdL2+WnU3nZKiM+uT5F1zhxzds2UJw4fp//gEIz4MRayAYehgqmQW0Mjh1ABQL3yfbx6JTU734X+IcKEiqxVIndm6sp5AbMm4oevUEupWvhWKtw+SPHIF6cTrfMAYRaf6WhIan8EjLPMhw2hU9J6r/wCTEi8e1GMzkhoefO9IeW4KYREh8SFVyQNnG9f7NtCcUvm380QkO/2sZ8V3nakdc3BkatrG5cK+fv7A6JVIqsbnytyCgXvy9UzNwNZW2xxpaxgEFOtz0/XfUfFagMDaX3Lf0AGQBtv6RrJ5XLXPff8+tZ5mcDPDRMh4S88FPS6wqTVF6r3PIgxm2hioHUVTN9ekb5OrBIPWiMisyAkwpl25xim5EHYN4RBTv9r04J+tUkAzxfbuHDboUVyJFP0cgJOoqYU37AA66ckrZW+G1EEzBR4G4/UlrAb4X3N/RNTGj2qZPCPz5SSy0m80AamTStpWm5Ekmc1tLZk3VrFuKen9tEzb3UEUEOHMu6AWOqrkNLn7KNnzL5QZ6PhWmIRHqBiiAipcYCQHVJYlZYjfwx5SvOR9Jjj+h7LllhsV4vcFBUAET/Eq7CH6HFQb9VFhbgvccUh5KZzCTpD5TraQnKCyKwJf2ktDw+I5bIwO21nI7pM5N3EqAY5saNZRbotit/vl9kuR1bSL2LoE3r1f+Xgn54GjgYZZvmZcEB/aAvZfGl0uJa5+2+HQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB2005.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(376002)(366004)(136003)(39860400002)(346002)(451199015)(66476007)(71200400001)(478600001)(52536014)(38070700005)(33656002)(86362001)(7696005)(8936002)(5660300002)(7406005)(7416002)(2906002)(4001150100001)(6506007)(66556008)(110136005)(76116006)(4326008)(8676002)(66946007)(64756008)(41300700001)(66446008)(55016003)(122000001)(9686003)(82960400001)(26005)(54906003)(38100700002)(186003)(316002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RUFiK1NuemxQeFljdjI4eWVsaGlhRzJQV1MwaEZUUEs0WFp5ODdqUUxkZlBW?=
- =?utf-8?B?eURhcnNoeGRJQUN5TStKUFJQcnF2MkFVdEdCWlYvS2FlcG9oWWRwNHNMOHVK?=
- =?utf-8?B?UGEwTTRkT0FaanhUT241eXUvTktTUkFod3ZUL2JtVEM5Z0YwelVXTWJkTDFn?=
- =?utf-8?B?WGR2RVFNRDV2bUJrZ3c4UTlVSmh0M1MyNy9zaStramIyMVFTRVVqdEdaYXNN?=
- =?utf-8?B?UUY2bDY1TlQ2dGFTTjFINk5HSTZPeEtKa0owWjB6czU5a0hMWTRPa0locW9a?=
- =?utf-8?B?VW8wWENBTllCTk9iWVZrWThmdXRNRG93TFZLWUI0bzFsZjA5OXl5RFQweDl2?=
- =?utf-8?B?ZjVTelhydWU4V1JCdlQ5U2drMklzZ1llakJTOVplVUFnZHZaYmJzVk1ONy80?=
- =?utf-8?B?OWpDSnlpR3VDZ2RBcVdQWmY2M3dCR01sYVVJSGJJdFA0Q3h5SWNPandqMjhi?=
- =?utf-8?B?S1hHeVliMTF6OW9SNlNXaWNiZG9OZFhiV2JwUXJqL2pVYXpLK3J3WHRkSFZQ?=
- =?utf-8?B?b1dUYlZDb1hTKytkUkNtK21nL29zT25xM0ZhdWtmc0JBM2ZlbUNjTnNPZlRk?=
- =?utf-8?B?RWgrMDdrYWZ6K0Q3MWFIWkNkVDdZc1BYYWQ4andFckJ2TzFHaHVWTE92VXNP?=
- =?utf-8?B?eWcrNGJLRGxnOXJKVTE2SWNOVlFUeTJuZWJqZ2tiUHlaWmcvd1N4QTZvZGJW?=
- =?utf-8?B?L2s5bkg4TXRNTFJsUTY4Tit0ekk3S2RJZThJN1Vua2hDMjZxMGlQQWhHNDdj?=
- =?utf-8?B?VnJBRG9iSGZiSVVzVXFwVHNxWVlUR3NJaEhBR0hQYnluc25DcFlHN1dhSWlS?=
- =?utf-8?B?dit2ZFkycHUzU1Qxc3JOWWdqV3gvaFFMT00wRkZwYkd3dDd3dktRQU5veUJM?=
- =?utf-8?B?MEZuQ1MveGg0MmVLWDhGZDJkbWg4U2ZKMWoxUFd4N00xL0ZoUTZNbVpoTytQ?=
- =?utf-8?B?dFJzZ1RFWjhZY0pLMVdjc0Y0bDFDenBHQWhZZTlVbTZRK2h6VGtDUU5yWFlr?=
- =?utf-8?B?QWMveTB5Y0lQZEtSSVM0ejY4VW9mcWFDWEl4b1FkdGFIL3RRTUdvaDVyZTFw?=
- =?utf-8?B?TVZLRENOWk5wVGtYQUtHMnZCeCtiS3VQTlFmb3JNbGtxS1hET1ZXWjJXSUpr?=
- =?utf-8?B?YWRBZVkyNmVzYjFHOVJBaW5hZWpyUUd3L21pTUZPNG5ydzB2c1cwQ2hyMDhh?=
- =?utf-8?B?WTBROE15OVIxMC9WdXVNcUlLQ3htV3lxS25jdGxqUVBjODQxa3ZkbEVtSmFv?=
- =?utf-8?B?RXArcmpMQnZYNzl1LzlONHZXb0lCa29qdTZEL0h5RncxTEdTL1FKRlhWTjRR?=
- =?utf-8?B?T2FlYytobmt0ZEhkRndLOGRBdDV5Wk8zWE5ZUDluQUhPNTRMS0tWQ0owTkFu?=
- =?utf-8?B?MDhvS3dDRWM5UmxxZUlRWHNIMThhVk1xalNUbU5rQjIyTmtVNlRFUjZXVmQr?=
- =?utf-8?B?RlZCb04xNjIyL1lBRTF2N3JOelVWMk5yQXJQZFEvWlN1T1hVRTVHS0N1WFpI?=
- =?utf-8?B?TGFXZ0o3ZXBOQjNVbndneVZUZmpWdnp1YzgvbnhCaGVCUnVIckNUaGg4bGJY?=
- =?utf-8?B?NGNnbGNXRnd2VS9nL2hOUGVWSVBoay9UU3pJckZ4NStST1l3Nk9sYjJuaDF2?=
- =?utf-8?B?R01TOFpBRDFtSkV5aU9GNy93dUpaTTFhcHJSR0V3aEtKNUhqdzAxR3A4a0tE?=
- =?utf-8?B?OWp1aHFIT2Z4dmFqQ2crWVdGeC8xclNEOVAzR0k5RVVvUG9qbGVmSzNLZ2tQ?=
- =?utf-8?B?Tm53b0dsRlJZQXRDSUxSdy8zSUJPem1xYlduYVUvOUxzTnpXb1FpM1Z3NTE3?=
- =?utf-8?B?d20vc242bCtacUtNMEM5R0h6dzlpMmIya0hnN0MxKzgvbFFPWU1LWDI1RklH?=
- =?utf-8?B?V3hpUm5lTmFHRFNzR3l3bzlZK1hjc2xYb3ZvWkpTVjA3QldLVGp4MkMra2th?=
- =?utf-8?B?cTJ1cXpDVVhobFJNdndqWlREZ0szL2ZCRTRXVXk3MDJENThGRFd0VitabjBL?=
- =?utf-8?B?YUVabWtGUFJiOE5RU1lqRlRxUzRBUTJnUVRmeEpPeGRTd2VtbUd2bXdrTndy?=
- =?utf-8?B?TGJZNEpJSWRzc3h6YVhuMy9DaHcraEtqOFIzOTdITkk1S0NBZUYxcVlxYTF1?=
- =?utf-8?B?SlYzN0h5YTY4RlhWVEhvRm4zYlNGTTNTNjYvSk96NVJObkVaZloyVml3TVM4?=
- =?utf-8?B?dEE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S235357AbiKRQ2t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 11:28:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0018293720
+        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 08:27:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1668788866;
+        h=from:from:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9JfLP1pnNvTbaCSPJQGDRFPlEFD/SLE7R6FU5v+Vliw=;
+        b=AExp33rxd/TEVklbLuFMX5imS4jvgpC4JiVb6Kl8dyfjgcwz408btGsEZMd11NzT01MfEY
+        +AtmCpZFqY0nCcCsGG8S+LX/DQmtN3/VWwI9M5deTV6uqwTaYHxKA/pIXGr/s8eEkyHEVC
+        un+fbU482C5dtu2P6px2NivIXrCRh9g=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-77-gQcyPhsoPhKpPyHYcmsdUw-1; Fri, 18 Nov 2022 11:27:45 -0500
+X-MC-Unique: gQcyPhsoPhKpPyHYcmsdUw-1
+Received: by mail-wr1-f69.google.com with SMTP id v12-20020adfa1cc000000b00236eaee7197so1767840wrv.0
+        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 08:27:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9JfLP1pnNvTbaCSPJQGDRFPlEFD/SLE7R6FU5v+Vliw=;
+        b=xJ+3Duaq57EJn1qs3AUP5g8FF43IgDFznRXowyPC0uoldrnRhZkaH9f7qFk9XqoXaI
+         svp6MFFcaccLGRoIpRcMY7hTloUsZ4SJs+DJjNo60dGZ+O6dF7Aton1nvejAh+1IJlCo
+         928SNfTs8f5LIhO3uzF0A624TZvG0ejSuapp3CEPKgofwuOnu1x0NuW7Whgu2V47Drlx
+         w61ilIwrH3Ot5RJA9l4AsK0/G0wkC8KMoeI4NRvLOEhHZC47xSuD8al33blhurBybsKN
+         bKWYt1TCkPmhrOFHlLHvB9VmD95og7ZbBsaG/dadMR47WERKO3VxYTO2UIHLypEKM0yx
+         rtgQ==
+X-Gm-Message-State: ANoB5plRFLoUv4vY31sPCzC3GP+qRcZC0u4yZgIQnWygWkfBIDt140VA
+        E5goyN0TGItvqqyYMYcH1ZkfkNuF1tgypZSsnVXcANQBnkvebC86fZki3MJmafbiS+n5mi1nifn
+        K6Xduz1hQRxH1o09H6TjK
+X-Received: by 2002:adf:ecc6:0:b0:236:791e:cedb with SMTP id s6-20020adfecc6000000b00236791ecedbmr4785538wro.64.1668788860039;
+        Fri, 18 Nov 2022 08:27:40 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5XgqhP/FhF/Mne9Is+9GrJvV6Kh/FvnE/n/SKRpMIQ/H/rWbWRwUriEZIbjsb9AUMHYJLfMg==
+X-Received: by 2002:adf:ecc6:0:b0:236:791e:cedb with SMTP id s6-20020adfecc6000000b00236791ecedbmr4785500wro.64.1668788859568;
+        Fri, 18 Nov 2022 08:27:39 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874? ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+        by smtp.gmail.com with ESMTPSA id j15-20020adfe50f000000b002366d1cc198sm3883105wrm.41.2022.11.18.08.27.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Nov 2022 08:27:38 -0800 (PST)
+Message-ID: <0c6ba292-4e65-9a9f-b498-2409482a06b8@redhat.com>
+Date:   Fri, 18 Nov 2022 17:27:35 +0100
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB2005.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac394334-2f85-4529-8fa7-08dac980ed56
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2022 16:21:20.1060
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2yR6rDH6HJN6uazqh+hMyFwdYkFRYtUH6lNYcMR0MqoScUjQ5k9f2bn9i0M8BNMeXsYsVsiwCTq01SiwIrTxNQGgrtIkhEw1CrWVphOT89o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5345
-X-OriginatorOrg: intel.com
-Content-Transfer-Encoding: base64
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Reply-To: eric.auger@redhat.com
+Subject: Re: [PATCH v5 06/19] iommufd: File descriptor, context, kconfig and
+ makefiles
+Content-Language: en-US
+To:     Jason Gunthorpe <jgg@nvidia.com>, bpf@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
+Cc:     Anthony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
+        Lixiao Yang <lixiao.yang@intel.com>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
+References: <6-v5-4001c2997bd0+30c-iommufd_jgg@nvidia.com>
+From:   Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <6-v5-4001c2997bd0+30c-iommufd_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiBPbiBUaHUsIDIwMjItMTEtMTcgYXQgMTI6MjUgKzAwMDAsIFNjaGltcGUsIENocmlzdGluYSB3
-cm90ZToNCj4gPiA+IEhtbSwgd2UgZGVmaW5pdGVseSBuZWVkIHRvIGJlIGFibGUgdG8gc2V0IHRo
-ZSBTU1AuIENocmlzdGluYSwgZG9lcw0KPiA+ID4gR0RCIG5lZWQgYW55dGhpbmcgZWxzZT8gSSB0
-aG91Z2h0IG1heWJlIHRvZ2dsaW5nIFNIU1RLX0VOPw0KPiA+DQo+ID4gSW4gYWRkaXRpb24gdG8g
-dGhlIFNTUCwgd2Ugd2FudCB0byB3cml0ZSB0aGUgQ0VUIHN0YXRlLiBGb3IgaW5zdGFuY2UNCj4g
-PiBmb3IgaW5mZXJpb3IgY2FsbHMsIHdlIHdhbnQgdG8gcmVzZXQgdGhlIElCVCBiaXRzLg0KPiA+
-IEhvd2V2ZXIsIHdlIHdvbid0IHdyaXRlIHN0YXRlcyB0aGF0IGFyZSBkaXNhbGxvd2VkIGJ5IEhX
-Lg0KPiANCj4gU29ycnksIEkgc2hvdWxkIGhhdmUgZ2l2ZW4gbW9yZSBiYWNrZ3JvdW5kLiBQZXRl
-ciBpcyBzYXlpbmcgd2Ugc2hvdWxkIHNwbGl0DQo+IHRoZSBwdHJhY2UgaW50ZXJmYWNlIHNvIHRo
-YXQgc2hhZG93IHN0YWNrIGFuZCBJQlQgYXJlIHNlcGFyYXRlLg0KPiBUaGV5IHdvdWxkIGFsc28g
-bm8gbG9uZ2VyIG5lY2Vzc2FyaWx5IG1pcnJvciB0aGUgQ0VUX1UgTVNSIGZvcm1hdC4NCj4gSW5z
-dGVhZCB0aGUga2VybmVsIHdvdWxkIGV4cG9zZSBhIGtlcm5lbCBzcGVjaWZpYyBmb3JtYXQgdGhh
-dCBoYXMgdGhlDQo+IG5lZWRlZCBiaXRzIG9mIHNoYWRvdyBzdGFjayBzdXBwb3J0LiBBbmQgYSBz
-ZXBhcmF0ZSBvbmUgbGF0ZXIgZm9yIElCVC4NCj4gDQo+IFNvIHRoZSBxdWVzdGlvbiBpcyB3aGF0
-IGRvZXMgc2hhZG93IHN0YWNrIG5lZWQgdG8gc3VwcG9ydCBmb3IgcHRyYWNlDQo+IGJlc2lkZXMg
-U1NQPyBJcyBpdCBvbmx5IFNTUD8gVGhlIG90aGVyIGZlYXR1cmVzIGFyZSBTSFNUS19FTiBhbmQg
-V1JTU19FTi4NCj4gSXQgbWlnaHQgYWN0dWFsbHkgYmUgbmljZSB0byBrZWVwIGhvdyB0aGVzZSBi
-aXRzIGdldCBmbGlwcGVkIG1vcmUgY29udHJvbGxlZA0KPiAocmVtb3ZlIHRoZW0gZnJvbSBwdHJh
-Y2UpLiBJdCBsb29rcyBsaWtlIENSSVUgZGlkbid0IG5lZWQgdGhlbS4NCj4gDQoNCkdEQiBjdXJy
-ZW50bHkgcmVhZHMgdGhlIENFVF9VIGFuZCBTU1AgcmVnaXN0ZXIuIEhvd2V2ZXIsIHdlIGRvbuKA
-mXQgbmVjZXNzYXJpbHkgaGF2ZSB0byByZWFkIEVCX0xFR19CSVRNQVBfQkFTRS4NCkluIGFkZGl0
-aW9uIHRvIFNTUCwgd2Ugd2FudCB0byB3cml0ZSB0aGUgYml0cyBmb3IgdGhlIElCVCBzdGF0ZSBt
-YWNoaW5lIChUUkFDS0VSIGFuZCBTVVBQUkVTUykuDQpIb3dldmVyLCBiZXNpZGVzIHRoYXQgR0RC
-IGRvZXMgbm90IGhhdmUgdG8gd3JpdGUgYW55dGhpbmcgZWxzZS4NCg0KDQpJbnRlbCBEZXV0c2No
-bGFuZCBHbWJIClJlZ2lzdGVyZWQgQWRkcmVzczogQW0gQ2FtcGVvbiAxMCwgODU1NzkgTmV1Ymli
-ZXJnLCBHZXJtYW55ClRlbDogKzQ5IDg5IDk5IDg4NTMtMCwgd3d3LmludGVsLmRlIDxodHRwOi8v
-d3d3LmludGVsLmRlPgpNYW5hZ2luZyBEaXJlY3RvcnM6IENocmlzdGluIEVpc2Vuc2NobWlkLCBT
-aGFyb24gSGVjaywgVGlmZmFueSBEb29uIFNpbHZhICAKQ2hhaXJwZXJzb24gb2YgdGhlIFN1cGVy
-dmlzb3J5IEJvYXJkOiBOaWNvbGUgTGF1ClJlZ2lzdGVyZWQgT2ZmaWNlOiBNdW5pY2gKQ29tbWVy
-Y2lhbCBSZWdpc3RlcjogQW10c2dlcmljaHQgTXVlbmNoZW4gSFJCIDE4NjkyOAo=
+Hi Jason,
+On 11/16/22 22:00, Jason Gunthorpe wrote:
+> This is the basic infrastructure of a new miscdevice to hold the iommufd
+> IOCTL API.
+>
+> It provides:
+>  - A miscdevice to create file descriptors to run the IOCTL interface over
+>
+>  - A table based ioctl dispatch and centralized extendable pre-validation
+>    step
+>
+>  - An xarray mapping userspace ID's to kernel objects. The design has
+>    multiple inter-related objects held within in a single IOMMUFD fd
+>
+>  - A simple usage count to build a graph of object relations and protect
+>    against hostile userspace racing ioctls
+>
+> The only IOCTL provided in this patch is the generic 'destroy any object
+> by handle' operation.
+>
+> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+> Tested-by: Nicolin Chen <nicolinc@nvidia.com>
+> Tested-by: Yi Liu <yi.l.liu@intel.com>
+> Tested-by: Lixiao Yang <lixiao.yang@intel.com>
+> Tested-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> Signed-off-by: Yi Liu <yi.l.liu@intel.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+>  MAINTAINERS                                   |  12 +
+>  drivers/iommu/Kconfig                         |   1 +
+>  drivers/iommu/Makefile                        |   2 +-
+>  drivers/iommu/iommufd/Kconfig                 |  12 +
+>  drivers/iommu/iommufd/Makefile                |   5 +
+>  drivers/iommu/iommufd/iommufd_private.h       | 109 ++++++
+>  drivers/iommu/iommufd/main.c                  | 342 ++++++++++++++++++
+>  include/linux/iommufd.h                       |  31 ++
+>  include/uapi/linux/iommufd.h                  |  55 +++
+>  10 files changed, 569 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/iommu/iommufd/Kconfig
+>  create mode 100644 drivers/iommu/iommufd/Makefile
+>  create mode 100644 drivers/iommu/iommufd/iommufd_private.h
+>  create mode 100644 drivers/iommu/iommufd/main.c
+>  create mode 100644 include/linux/iommufd.h
+>  create mode 100644 include/uapi/linux/iommufd.h
+>
+> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> index 5f81e2a24a5c04..eb045fc495a4e3 100644
+> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> @@ -105,6 +105,7 @@ Code  Seq#    Include File                                           Comments
+>  '8'   all                                                            SNP8023 advanced NIC card
+>                                                                       <mailto:mcr@solidum.com>
+>  ';'   64-7F  linux/vfio.h
+> +';'   80-FF  linux/iommufd.h
+>  '='   00-3f  uapi/linux/ptp_clock.h                                  <mailto:richardcochran@gmail.com>
+>  '@'   00-0F  linux/radeonfb.h                                        conflict!
+>  '@'   00-0F  drivers/video/aty/aty128fb.c                            conflict!
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 379945f82a6438..c0a93779731d7e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10717,6 +10717,18 @@ F:	drivers/iommu/dma-iommu.h
+>  F:	drivers/iommu/iova.c
+>  F:	include/linux/iova.h
+>  
+> +IOMMUFD
+> +M:	Jason Gunthorpe <jgg@nvidia.com>
+> +M:	Kevin Tian <kevin.tian@intel.com>
+> +L:	iommu@lists.linux.dev
+> +S:	Maintained
+> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jgg/iommufd.git
+> +F:	Documentation/userspace-api/iommufd.rst
+> +F:	drivers/iommu/iommufd/
+> +F:	include/linux/iommufd.h
+> +F:	include/uapi/linux/iommufd.h
+> +F:	tools/testing/selftests/iommu/
+> +
+>  IOMMU SUBSYSTEM
+>  M:	Joerg Roedel <joro@8bytes.org>
+>  M:	Will Deacon <will@kernel.org>
+> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> index dc5f7a156ff5ec..319966cde5cf6c 100644
+> --- a/drivers/iommu/Kconfig
+> +++ b/drivers/iommu/Kconfig
+> @@ -188,6 +188,7 @@ config MSM_IOMMU
+>  
+>  source "drivers/iommu/amd/Kconfig"
+>  source "drivers/iommu/intel/Kconfig"
+> +source "drivers/iommu/iommufd/Kconfig"
+>  
+>  config IRQ_REMAP
+>  	bool "Support for Interrupt Remapping"
+> diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
+> index 7fbf6a3376620e..f461d065138564 100644
+> --- a/drivers/iommu/Makefile
+> +++ b/drivers/iommu/Makefile
+> @@ -1,5 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> -obj-y += amd/ intel/ arm/
+> +obj-y += amd/ intel/ arm/ iommufd/
+>  obj-$(CONFIG_IOMMU_API) += iommu.o
+>  obj-$(CONFIG_IOMMU_API) += iommu-traces.o
+>  obj-$(CONFIG_IOMMU_API) += iommu-sysfs.o
+> diff --git a/drivers/iommu/iommufd/Kconfig b/drivers/iommu/iommufd/Kconfig
+> new file mode 100644
+> index 00000000000000..6d65d0f06f169f
+> --- /dev/null
+> +++ b/drivers/iommu/iommufd/Kconfig
+> @@ -0,0 +1,12 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +config IOMMUFD
+> +	tristate "IOMMU Userspace API"
+> +	select INTERVAL_TREE
+> +	select INTERVAL_TREE_SPAN_ITER
+> +	select IOMMU_API
+> +	default n
+> +	help
+> +	  Provides /dev/iommu the user API to control the IOMMU subsystem as
+> +	  it relates to managing IO page tables that point at user space memory.
+nit: missing ',' after /dev/iommu or Provides /dev/iommu user API
+> +
+> +	  If you don't know what to do here, say N.
+> diff --git a/drivers/iommu/iommufd/Makefile b/drivers/iommu/iommufd/Makefile
+> new file mode 100644
+> index 00000000000000..a07a8cffe937c6
+> --- /dev/null
+> +++ b/drivers/iommu/iommufd/Makefile
+> @@ -0,0 +1,5 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +iommufd-y := \
+> +	main.o
+> +
+> +obj-$(CONFIG_IOMMUFD) += iommufd.o
+> diff --git a/drivers/iommu/iommufd/iommufd_private.h b/drivers/iommu/iommufd/iommufd_private.h
+> new file mode 100644
+> index 00000000000000..d523e7967b1440
+> --- /dev/null
+> +++ b/drivers/iommu/iommufd/iommufd_private.h
+> @@ -0,0 +1,109 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/* Copyright (c) 2021-2022, NVIDIA CORPORATION & AFFILIATES
+> + */
+> +#ifndef __IOMMUFD_PRIVATE_H
+> +#define __IOMMUFD_PRIVATE_H
+> +
+> +#include <linux/rwsem.h>
+> +#include <linux/xarray.h>
+> +#include <linux/refcount.h>
+> +#include <linux/uaccess.h>
+> +
+> +struct iommufd_ctx {
+> +	struct file *file;
+> +	struct xarray objects;
+> +};
+> +
+> +struct iommufd_ucmd {
+> +	struct iommufd_ctx *ictx;
+> +	void __user *ubuffer;
+> +	u32 user_size;
+> +	void *cmd;
+> +};
+> +
+> +/* Copy the response in ucmd->cmd back to userspace. */
+> +static inline int iommufd_ucmd_respond(struct iommufd_ucmd *ucmd,
+> +				       size_t cmd_len)
+> +{
+> +	if (copy_to_user(ucmd->ubuffer, ucmd->cmd,
+> +			 min_t(size_t, ucmd->user_size, cmd_len)))
+> +		return -EFAULT;
+> +	return 0;
+> +}
+> +
+> +enum iommufd_object_type {
+> +	IOMMUFD_OBJ_NONE,
+> +	IOMMUFD_OBJ_ANY = IOMMUFD_OBJ_NONE,
+> +};
+> +
+> +/* Base struct for all objects with a userspace ID handle. */
+> +struct iommufd_object {
+> +	struct rw_semaphore destroy_rwsem;
+> +	refcount_t users;
+> +	enum iommufd_object_type type;
+> +	unsigned int id;
+> +};
+> +
+> +static inline bool iommufd_lock_obj(struct iommufd_object *obj)
+> +{
+> +	if (!down_read_trylock(&obj->destroy_rwsem))
+> +		return false;
+> +	if (!refcount_inc_not_zero(&obj->users)) {
+> +		up_read(&obj->destroy_rwsem);
+> +		return false;
+> +	}
+> +	return true;
+> +}
+> +
+> +struct iommufd_object *iommufd_get_object(struct iommufd_ctx *ictx, u32 id,
+> +					  enum iommufd_object_type type);
+> +static inline void iommufd_put_object(struct iommufd_object *obj)
+> +{
+> +	refcount_dec(&obj->users);
+> +	up_read(&obj->destroy_rwsem);
+> +}
+> +
+> +/**
+> + * iommufd_ref_to_users() - Switch from destroy_rwsem to users refcount
+> + *        protection
+> + * @obj - Object to release
+> + *
+> + * Objects have two refcount protections (destroy_rwsem and the refcount_t
+> + * users). Holding either of these will prevent the object from being destroyed.
+> + *
+> + * Depending on the use case, one protection or the other is appropriate.  In
+> + * most cases references are being protected by the destroy_rwsem. This allows
+> + * orderly destruction of the object because iommufd_object_destroy_user() will
+> + * wait for it to become unlocked. However, as a rwsem, it cannot be held across
+> + * a system call return. So cases that have longer term needs must switch
+> + * to the weaker users refcount_t.
+> + *
+> + * With users protection iommufd_object_destroy_user() will return -EBUSY to
+
+iommufd_object_destroy_user() returns false and iommufd_destroy
+ retruns -EBUSY.
+
+> + * userspace and refuse to destroy the object.
+> + */
+> +static inline void iommufd_ref_to_users(struct iommufd_object *obj)
+> +{
+> +	up_read(&obj->destroy_rwsem);
+> +	/* iommufd_lock_obj() obtains users as well */
+Do you have a way to check that put() is done in accordance, ie. we are
+not going to try up_read() the rwsem if this latter is not used anymore?
+> +}
+> +void iommufd_object_abort(struct iommufd_ctx *ictx, struct iommufd_object *obj);
+> +void iommufd_object_abort_and_destroy(struct iommufd_ctx *ictx,
+> +				      struct iommufd_object *obj);
+> +void iommufd_object_finalize(struct iommufd_ctx *ictx,
+> +			     struct iommufd_object *obj);
+> +bool iommufd_object_destroy_user(struct iommufd_ctx *ictx,
+> +				 struct iommufd_object *obj);
+> +struct iommufd_object *_iommufd_object_alloc(struct iommufd_ctx *ictx,
+> +					     size_t size,
+> +					     enum iommufd_object_type type);
+> +
+> +#define iommufd_object_alloc(ictx, ptr, type)                                  \
+> +	container_of(_iommufd_object_alloc(                                    \
+> +			     ictx,                                             \
+> +			     sizeof(*(ptr)) + BUILD_BUG_ON_ZERO(               \
+> +						      offsetof(typeof(*(ptr)), \
+> +							       obj) != 0),     \
+> +			     type),                                            \
+> +		     typeof(*(ptr)), obj)
+> +
+> +#endif
+> diff --git a/drivers/iommu/iommufd/main.c b/drivers/iommu/iommufd/main.c
+> new file mode 100644
+> index 00000000000000..3a705cadb85020
+> --- /dev/null
+> +++ b/drivers/iommu/iommufd/main.c
+> @@ -0,0 +1,342 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* Copyright (C) 2021 Intel Corporation
+> + * Copyright (c) 2021-2022, NVIDIA CORPORATION & AFFILIATES
+> + *
+> + * iommufd provides control over the IOMMU HW objects created by IOMMU kernel
+> + * drivers. IOMMU HW objects revolve around IO page tables that map incoming DMA
+> + * addresses (IOVA) to CPU addresses.
+> + */
+> +#define pr_fmt(fmt) "iommufd: " fmt
+> +
+> +#include <linux/file.h>
+> +#include <linux/fs.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/miscdevice.h>
+> +#include <linux/mutex.h>
+> +#include <linux/bug.h>
+> +#include <uapi/linux/iommufd.h>
+> +#include <linux/iommufd.h>
+> +
+> +#include "iommufd_private.h"
+> +
+> +struct iommufd_object_ops {
+> +	void (*destroy)(struct iommufd_object *obj);
+> +};
+> +static const struct iommufd_object_ops iommufd_object_ops[];
+> +
+> +struct iommufd_object *_iommufd_object_alloc(struct iommufd_ctx *ictx,
+> +					     size_t size,
+> +					     enum iommufd_object_type type)
+> +{
+> +	struct iommufd_object *obj;
+> +	int rc;
+> +
+> +	obj = kzalloc(size, GFP_KERNEL_ACCOUNT);
+> +	if (!obj)
+> +		return ERR_PTR(-ENOMEM);
+> +	obj->type = type;
+> +	init_rwsem(&obj->destroy_rwsem);
+> +	refcount_set(&obj->users, 1);
+> +
+> +	/*
+> +	 * Reserve an ID in the xarray but do not publish the pointer yet since
+> +	 * the caller hasn't initialized it yet. Once the pointer is published
+> +	 * in the xarray and visible to other threads we can't reliably destroy
+> +	 * it anymore, so the caller must complete all errorable operations
+> +	 * before calling iommufd_object_finalize().
+> +	 */
+> +	rc = xa_alloc(&ictx->objects, &obj->id, XA_ZERO_ENTRY,
+> +		      xa_limit_32b, GFP_KERNEL_ACCOUNT);
+> +	if (rc)
+> +		goto out_free;
+> +	return obj;
+> +out_free:
+> +	kfree(obj);
+> +	return ERR_PTR(rc);
+> +}
+> +
+> +/*
+> + * Allow concurrent access to the object.
+> + *
+> + * Once another thread can see the object pointer it can prevent object
+> + * destruction. Expect for special kernel-only objects there is no in-kernel way
+> + * to reliably destroy a single object. Thus all APIs that are creating objects
+> + * must use iommufd_object_abort() to handle their errors and only call
+> + * iommufd_object_finalize() once object creation cannot fail.
+> + */
+> +void iommufd_object_finalize(struct iommufd_ctx *ictx,
+> +			     struct iommufd_object *obj)
+> +{
+> +	void *old;
+> +
+> +	old = xa_store(&ictx->objects, obj->id, obj, GFP_KERNEL);
+> +	/* obj->id was returned from xa_alloc() so the xa_store() cannot fail */
+> +	WARN_ON(old);
+> +}
+> +
+> +/* Undo _iommufd_object_alloc() if iommufd_object_finalize() was not called */
+> +void iommufd_object_abort(struct iommufd_ctx *ictx, struct iommufd_object *obj)
+> +{
+> +	void *old;
+> +
+> +	old = xa_erase(&ictx->objects, obj->id);
+> +	WARN_ON(old);
+> +	kfree(obj);
+> +}
+> +
+> +/*
+> + * Abort an object that has been fully initialized and needs destroy, but has
+> + * not been finalized.
+> + */
+> +void iommufd_object_abort_and_destroy(struct iommufd_ctx *ictx,
+> +				      struct iommufd_object *obj)
+> +{
+> +	iommufd_object_ops[obj->type].destroy(obj);
+> +	iommufd_object_abort(ictx, obj);
+> +}
+> +
+> +struct iommufd_object *iommufd_get_object(struct iommufd_ctx *ictx, u32 id,
+> +					  enum iommufd_object_type type)
+> +{
+> +	struct iommufd_object *obj;
+> +
+> +	xa_lock(&ictx->objects);
+> +	obj = xa_load(&ictx->objects, id);
+> +	if (!obj || (type != IOMMUFD_OBJ_ANY && obj->type != type) ||
+> +	    !iommufd_lock_obj(obj))
+> +		obj = ERR_PTR(-ENOENT);
+> +	xa_unlock(&ictx->objects);
+> +	return obj;
+> +}
+> +
+> +/*
+> + * The caller holds a users refcount and wants to destroy the object. Returns
+> + * true if the object was destroyed. In all cases the caller no longer has a
+> + * reference on obj.
+> + */
+> +bool iommufd_object_destroy_user(struct iommufd_ctx *ictx,
+> +				 struct iommufd_object *obj)
+> +{
+> +	/*
+> +	 * The purpose of the destroy_rwsem is to ensure deterministic
+> +	 * destruction of objects used by external drivers and destroyed by this
+> +	 * function. Any temporary increment of the refcount must hold the read
+> +	 * side of this, such as during ioctl execution.
+> +	 */
+> +	down_write(&obj->destroy_rwsem);
+> +	xa_lock(&ictx->objects);
+> +	refcount_dec(&obj->users);
+> +	if (!refcount_dec_if_one(&obj->users)) {
+> +		xa_unlock(&ictx->objects);
+> +		up_write(&obj->destroy_rwsem);
+> +		return false;
+> +	}
+> +	__xa_erase(&ictx->objects, obj->id);
+> +	xa_unlock(&ictx->objects);
+> +	up_write(&obj->destroy_rwsem);
+> +
+> +	iommufd_object_ops[obj->type].destroy(obj);
+> +	kfree(obj);
+> +	return true;
+> +}
+> +
+> +static int iommufd_destroy(struct iommufd_ucmd *ucmd)
+> +{
+> +	struct iommu_destroy *cmd = ucmd->cmd;
+> +	struct iommufd_object *obj;
+> +
+> +	obj = iommufd_get_object(ucmd->ictx, cmd->id, IOMMUFD_OBJ_ANY);
+> +	if (IS_ERR(obj))
+> +		return PTR_ERR(obj);
+> +	iommufd_ref_to_users(obj);
+> +	/* See iommufd_ref_to_users() */
+> +	if (!iommufd_object_destroy_user(ucmd->ictx, obj))
+> +		return -EBUSY;
+> +	return 0;
+> +}
+> +
+> +static int iommufd_fops_open(struct inode *inode, struct file *filp)
+> +{
+> +	struct iommufd_ctx *ictx;
+> +
+> +	ictx = kzalloc(sizeof(*ictx), GFP_KERNEL_ACCOUNT);
+> +	if (!ictx)
+> +		return -ENOMEM;
+> +
+> +	xa_init_flags(&ictx->objects, XA_FLAGS_ALLOC1 | XA_FLAGS_ACCOUNT);
+> +	ictx->file = filp;
+> +	filp->private_data = ictx;
+> +	return 0;
+> +}
+> +
+> +static int iommufd_fops_release(struct inode *inode, struct file *filp)
+> +{
+> +	struct iommufd_ctx *ictx = filp->private_data;
+> +	struct iommufd_object *obj;
+> +
+> +	/* Destroy the graph from depth first */
+I would suggest: destroy the leaf objects first thanks to the
+hierarchical user ref counting? or something alike
+> +	while (!xa_empty(&ictx->objects)) {
+> +		unsigned int destroyed = 0;
+> +		unsigned long index;
+> +
+> +		xa_for_each(&ictx->objects, index, obj) {
+> +			/*
+> +			 * Since we are in release elevated users must come from
+> +			 * other objects holding the users. We will eventually
+the sentense sounds a bit cryptic to me.
+> +			 * destroy the object that holds this one and the next
+> +			 * pass will progress it.
+> +			 */
+> +			if (!refcount_dec_if_one(&obj->users))
+> +				continue;
+> +			destroyed++;
+> +			xa_erase(&ictx->objects, index);
+> +			iommufd_object_ops[obj->type].destroy(obj);
+> +			kfree(obj);
+
+Use iommufd_object_abort_and_destroy(obj) instead of the above 3 lines?
+
+> +		}
+> +		/* Bug related to users refcount */
+> +		if (WARN_ON(!destroyed))
+> +			break;
+> +	}
+> +	kfree(ictx);
+> +	return 0;
+> +}
+> +
+> +union ucmd_buffer {
+> +	struct iommu_destroy destroy;
+> +};
+> +
+> +struct iommufd_ioctl_op {
+> +	unsigned int size;
+> +	unsigned int min_size;
+> +	unsigned int ioctl_num;
+> +	int (*execute)(struct iommufd_ucmd *ucmd);
+> +};
+> +
+> +#define IOCTL_OP(_ioctl, _fn, _struct, _last)                                  \
+> +	[_IOC_NR(_ioctl) - IOMMUFD_CMD_BASE] = {                               \
+> +		.size = sizeof(_struct) +                                      \
+> +			BUILD_BUG_ON_ZERO(sizeof(union ucmd_buffer) <          \
+> +					  sizeof(_struct)),                    \
+> +		.min_size = offsetofend(_struct, _last),                       \
+> +		.ioctl_num = _ioctl,                                           \
+> +		.execute = _fn,                                                \
+> +	}
+> +static const struct iommufd_ioctl_op iommufd_ioctl_ops[] = {
+> +	IOCTL_OP(IOMMU_DESTROY, iommufd_destroy, struct iommu_destroy, id),
+> +};
+> +
+> +static long iommufd_fops_ioctl(struct file *filp, unsigned int cmd,
+> +			       unsigned long arg)
+> +{
+> +	const struct iommufd_ioctl_op *op;
+> +	struct iommufd_ucmd ucmd = {};
+> +	union ucmd_buffer buf;
+> +	unsigned int nr;
+> +	int ret;
+> +
+> +	ucmd.ictx = filp->private_data;
+> +	ucmd.ubuffer = (void __user *)arg;
+> +	ret = get_user(ucmd.user_size, (u32 __user *)ucmd.ubuffer);
+> +	if (ret)
+> +		return ret;
+> +
+> +	nr = _IOC_NR(cmd);
+> +	if (nr < IOMMUFD_CMD_BASE ||
+> +	    (nr - IOMMUFD_CMD_BASE) >= ARRAY_SIZE(iommufd_ioctl_ops))
+> +		return -ENOIOCTLCMD;
+> +	op = &iommufd_ioctl_ops[nr - IOMMUFD_CMD_BASE];
+> +	if (op->ioctl_num != cmd)
+> +		return -ENOIOCTLCMD;
+> +	if (ucmd.user_size < op->min_size)
+> +		return -EINVAL;
+> +
+> +	ucmd.cmd = &buf;
+> +	ret = copy_struct_from_user(ucmd.cmd, op->size, ucmd.ubuffer,
+> +				    ucmd.user_size);
+> +	if (ret)
+> +		return ret;
+> +	ret = op->execute(&ucmd);
+> +	return ret;
+> +}
+> +
+> +static const struct file_operations iommufd_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = iommufd_fops_open,
+> +	.release = iommufd_fops_release,
+> +	.unlocked_ioctl = iommufd_fops_ioctl,
+> +};
+> +
+> +/**
+> + * iommufd_ctx_get - Get a context reference
+> + * @ictx: Context to get
+> + *
+> + * The caller must already hold a valid reference to ictx.
+> + */
+> +void iommufd_ctx_get(struct iommufd_ctx *ictx)
+> +{
+> +	get_file(ictx->file);
+> +}
+> +EXPORT_SYMBOL_NS_GPL(iommufd_ctx_get, IOMMUFD);
+> +
+> +/**
+> + * iommufd_ctx_from_file - Acquires a reference to the iommufd context
+> + * @file: File to obtain the reference from
+> + *
+> + * Returns a pointer to the iommufd_ctx, otherwise ERR_PTR. The struct file
+> + * remains owned by the caller and the caller must still do fput. On success
+> + * the caller is responsible to call iommufd_ctx_put().
+> + */
+> +struct iommufd_ctx *iommufd_ctx_from_file(struct file *file)
+> +{
+> +	struct iommufd_ctx *ictx;
+> +
+> +	if (file->f_op != &iommufd_fops)
+> +		return ERR_PTR(-EBADFD);
+> +	ictx = file->private_data;
+> +	iommufd_ctx_get(ictx);
+> +	return ictx;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(iommufd_ctx_from_file, IOMMUFD);
+> +
+> +/**
+> + * iommufd_ctx_put - Put back a reference
+> + * @ictx: Context to put back
+> + */
+> +void iommufd_ctx_put(struct iommufd_ctx *ictx)
+> +{
+> +	fput(ictx->file);
+> +}
+> +EXPORT_SYMBOL_NS_GPL(iommufd_ctx_put, IOMMUFD);
+> +
+> +static const struct iommufd_object_ops iommufd_object_ops[] = {
+> +};
+> +
+> +static struct miscdevice iommu_misc_dev = {
+> +	.minor = MISC_DYNAMIC_MINOR,
+> +	.name = "iommu",
+> +	.fops = &iommufd_fops,
+> +	.nodename = "iommu",
+> +	.mode = 0660,
+> +};
+> +
+> +static int __init iommufd_init(void)
+> +{
+> +	int ret;
+> +
+> +	ret = misc_register(&iommu_misc_dev);
+> +	if (ret)
+> +		return ret;
+> +	return 0;
+> +}
+> +
+> +static void __exit iommufd_exit(void)
+> +{
+> +	misc_deregister(&iommu_misc_dev);
+> +}
+> +
+> +module_init(iommufd_init);
+> +module_exit(iommufd_exit);
+> +
+> +MODULE_DESCRIPTION("I/O Address Space Management for passthrough devices");
+> +MODULE_LICENSE("GPL");
+> diff --git a/include/linux/iommufd.h b/include/linux/iommufd.h
+> new file mode 100644
+> index 00000000000000..d1817472c27373
+> --- /dev/null
+> +++ b/include/linux/iommufd.h
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (C) 2021 Intel Corporation
+> + * Copyright (c) 2021-2022, NVIDIA CORPORATION & AFFILIATES
+> + */
+> +#ifndef __LINUX_IOMMUFD_H
+> +#define __LINUX_IOMMUFD_H
+> +
+> +#include <linux/types.h>
+> +#include <linux/errno.h>
+> +#include <linux/err.h>
+> +
+> +struct iommufd_ctx;
+> +struct file;
+> +
+> +void iommufd_ctx_get(struct iommufd_ctx *ictx);
+> +
+> +#if IS_ENABLED(CONFIG_IOMMUFD)
+> +struct iommufd_ctx *iommufd_ctx_from_file(struct file *file);
+> +void iommufd_ctx_put(struct iommufd_ctx *ictx);
+> +#else /* !CONFIG_IOMMUFD */
+> +static inline struct iommufd_ctx *iommufd_ctx_from_file(struct file *file)
+> +{
+> +	return ERR_PTR(-EOPNOTSUPP);
+> +}
+> +
+> +static inline void iommufd_ctx_put(struct iommufd_ctx *ictx)
+> +{
+> +}
+> +#endif /* CONFIG_IOMMUFD */
+> +#endif
+> diff --git a/include/uapi/linux/iommufd.h b/include/uapi/linux/iommufd.h
+> new file mode 100644
+> index 00000000000000..2ad06b27a35fe5
+> --- /dev/null
+> +++ b/include/uapi/linux/iommufd.h
+> @@ -0,0 +1,55 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +/* Copyright (c) 2021-2022, NVIDIA CORPORATION & AFFILIATES.
+> + */
+> +#ifndef _UAPI_IOMMUFD_H
+> +#define _UAPI_IOMMUFD_H
+> +
+> +#include <linux/types.h>
+> +#include <linux/ioctl.h>
+> +
+> +#define IOMMUFD_TYPE (';')
+> +
+> +/**
+> + * DOC: General ioctl format
+> + *
+> + * The ioctl interface follows a general format to allow for extensibility. Each
+> + * ioctl is passed in a structure pointer as the argument providing the size of
+> + * the structure in the first u32. The kernel checks that any structure space
+> + * beyond what it understands is 0. This allows userspace to use the backward
+> + * compatible portion while consistently using the newer, larger, structures.
+> + *
+> + * ioctls use a standard meaning for common errnos:
+> + *
+> + *  - ENOTTY: The IOCTL number itself is not supported at all
+> + *  - E2BIG: The IOCTL number is supported, but the provided structure has
+> + *    non-zero in a part the kernel does not understand.
+> + *  - EOPNOTSUPP: The IOCTL number is supported, and the structure is
+> + *    understood, however a known field has a value the kernel does not
+> + *    understand or support.
+> + *  - EINVAL: Everything about the IOCTL was understood, but a field is not
+> + *    correct.
+> + *  - ENOENT: An ID or IOVA provided does not exist.
+> + *  - ENOMEM: Out of memory.
+> + *  - EOVERFLOW: Mathematics oveflowed.
+overflowed
+> + *
+> + * As well as additional errnos, within specific ioctls.
+> + */
+> +enum {
+> +	IOMMUFD_CMD_BASE = 0x80,
+> +	IOMMUFD_CMD_DESTROY = IOMMUFD_CMD_BASE,
+> +};
+> +
+> +/**
+> + * struct iommu_destroy - ioctl(IOMMU_DESTROY)
+> + * @size: sizeof(struct iommu_destroy)
+> + * @id: iommufd object ID to destroy. Can by any destroyable object type.
+> + *
+> + * Destroy any object held within iommufd.
+> + */
+> +struct iommu_destroy {
+> +	__u32 size;
+> +	__u32 id;
+> +};
+> +#define IOMMU_DESTROY _IO(IOMMUFD_TYPE, IOMMUFD_CMD_DESTROY)
+> +
+> +#endif
+Thanks
+
+Eric
 
