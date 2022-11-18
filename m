@@ -2,186 +2,271 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8365EC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 00:28:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E53D3C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 01:37:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235086AbiKRA1x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Nov 2022 19:27:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40108 "EHLO
+        id S241014AbiKRBhZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Nov 2022 20:37:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240006AbiKRA1p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 19:27:45 -0500
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AC1A6EB42
-        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 16:27:44 -0800 (PST)
-Received: by mail-pg1-x530.google.com with SMTP id s196so3620132pgs.3
-        for <linux-doc@vger.kernel.org>; Thu, 17 Nov 2022 16:27:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ztxf/N067AkE8cSn/2kvfcuUb/GtHbfVkaEhVKHtSlA=;
-        b=b785W2M08rZS9MNhG9zvqME3T9si9Soy8yfoPlzPjLroeHTttXjh3eFMee5T/1jdxP
-         HNLG/6mUjy4Akrz8m+cs128Kbj79/ZeqIcPBtCTuuEMqOgNzoBcxVUX+xJxFDBpIovA/
-         8OCbZsDG1CZDABpEgfmHrYY2qj/an4SbhnPH8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ztxf/N067AkE8cSn/2kvfcuUb/GtHbfVkaEhVKHtSlA=;
-        b=AhZsgGabhpq6BU8sAg+QIyFMrsY9TTmHWuGSe4J1w6FZQ1oxHxsEhV3c0YMYOF2z9S
-         kzslcBB1S1tFGarLa16sfklnJ3Dk8xk7hhDRV+hNx1D/AyXIyaZpW2AfHur9b+VaaVc7
-         KYCevml8i6C/9WhaNQe6FwhyGpCyXaaXJf4b5RZzWrVIAEVCd+ML7Q3trkjPI8xUOtxR
-         1gDSWNyIvPai6mtGBEMOyTaAmVCK2lXW9sPRsKbA7tTthYvdxTPv8AoyGNgzXUUyT3f9
-         ouLaSlz9/Qo0evlBC974RarnvGT8E9FFhvGjqtzSMPpDujwCBnLNTBwBxXFZsBb1cyc7
-         vG0A==
-X-Gm-Message-State: ANoB5pk+FiKcPDGwFzN592/ZqHsW1mqVzeKe3JDYbYaiaBZAYPHhCr/B
-        Km4jXAHJOOfdgtCOvWM4Pg/zAA==
-X-Google-Smtp-Source: AA0mqf4Ii+vqcOdx5O9zsxfXQEkm+1QA3JdQxul/mmEgeO6DecRmffZhBTe+/FxeO5//y1TcQSDXbg==
-X-Received: by 2002:a63:fd08:0:b0:46f:ed91:6664 with SMTP id d8-20020a63fd08000000b0046fed916664mr4319364pgh.558.1668731263832;
-        Thu, 17 Nov 2022 16:27:43 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id u12-20020a170903124c00b00186fd3951f7sm2011902plh.211.2022.11.17.16.27.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Nov 2022 16:27:43 -0800 (PST)
-Date:   Thu, 17 Nov 2022 16:27:42 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Jann Horn <jannh@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S241020AbiKRBgv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Nov 2022 20:36:51 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D232C85EE8;
+        Thu, 17 Nov 2022 17:36:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668735396; x=1700271396;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=PGqeIE9D9mQ0SzWgaCrOjd5GhXHcGRQuoepeW+csvHw=;
+  b=OvEsHXJp/IJA++hIQd40PAA+oJe8q1wn1c1psPicghdSzQDU123GgK0w
+   4Tw9ZkUKhzDrKdfZZmFdsGGUHmuaz/e1GHxTN/UVrWyfZ0ObyuBUrJ33m
+   UYQEfU3iez9Zqqb7eACxOpbFo544w1r/1FIlFMQXJlJimMsSpyUcQzWsy
+   4a+ulVGdo3pkuK63g7SaW1lqZwKTZQuUdDdp63twoEapizd1p6552NK6x
+   p4TXbaZHd7JHfj8s/B/w6t+ikPlWhBBdVp7+4oL3LzmFgoIP32Iyy+si6
+   vj9W9irfyx0VpMrDCri6BHUIRYECg0c51QoeJy+6k/6oDmSlEm/l0bUt1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="399311566"
+X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; 
+   d="scan'208";a="399311566"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2022 17:36:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="703558926"
+X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; 
+   d="scan'208";a="703558926"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by fmsmga008.fm.intel.com with ESMTP; 17 Nov 2022 17:36:26 -0800
+Date:   Fri, 18 Nov 2022 09:32:01 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Eric Biggers <ebiggers@google.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        tangmeng <tangmeng@uniontech.com>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-doc@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
-        Seth Jenkins <sethjenkins@google.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linus Torvalds <torvalds@linuxfoundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        David Gow <davidgow@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Laurent Dufour <ldufour@linux.ibm.com>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-mm@kvack.org,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3 5/6] panic: Introduce warn_limit
-Message-ID: <202211171627.CFC188B@keescook>
-References: <20221117233838.give.484-kees@kernel.org>
- <20221117234328.594699-5-keescook@chromium.org>
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
+Message-ID: <20221118013201.GA456562@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
+ <87cz9o9mr8.fsf@linaro.org>
+ <20221116031441.GA364614@chaop.bj.intel.com>
+ <87mt8q90rw.fsf@linaro.org>
+ <20221117134520.GD422408@chaop.bj.intel.com>
+ <87a64p8vof.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221117234328.594699-5-keescook@chromium.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87a64p8vof.fsf@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 03:43:25PM -0800, Kees Cook wrote:
-> Like oops_limit, add warn_limit for limiting the number of warnings when
-> panic_on_warn is not set.
+On Thu, Nov 17, 2022 at 03:08:17PM +0000, Alex Bennée wrote:
 > 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-> Cc: Eric Biggers <ebiggers@google.com>
-> Cc: Huang Ying <ying.huang@intel.com>
-> Cc: Petr Mladek <pmladek@suse.com>
-> Cc: tangmeng <tangmeng@uniontech.com>
-> Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-> Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
-> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Cc: linux-doc@vger.kernel.org
-> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  Documentation/admin-guide/sysctl/kernel.rst |  9 +++++++++
->  kernel/panic.c                              | 14 ++++++++++++++
->  2 files changed, 23 insertions(+)
+> Chao Peng <chao.p.peng@linux.intel.com> writes:
 > 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 09f3fb2f8585..c385d5319cdf 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -1508,6 +1508,15 @@ entry will default to 2 instead of 0.
->  2 Unprivileged calls to ``bpf()`` are disabled
->  = =============================================================
->  
-> +
-> +warn_limit
-> +==========
-> +
-> +Number of kernel warnings after which the kernel should panic when
-> +``panic_on_warn`` is not set. Setting this to 0 or 1 has the same effect
-> +as setting ``panic_on_warn=1``.
-> +
-> +
->  watchdog
->  ========
->  
-> diff --git a/kernel/panic.c b/kernel/panic.c
-> index cfa354322d5f..e5aab27496d7 100644
-> --- a/kernel/panic.c
-> +++ b/kernel/panic.c
-> @@ -58,6 +58,7 @@ bool crash_kexec_post_notifiers;
->  int panic_on_warn __read_mostly;
->  unsigned long panic_on_taint;
->  bool panic_on_taint_nousertaint = false;
-> +static unsigned int warn_limit __read_mostly = 10000;
->  
->  int panic_timeout = CONFIG_PANIC_TIMEOUT;
->  EXPORT_SYMBOL_GPL(panic_timeout);
-> @@ -88,6 +89,13 @@ static struct ctl_table kern_panic_table[] = {
->  		.extra2         = SYSCTL_ONE,
->  	},
->  #endif
-> +	{
-> +		.procname       = "warn_limit",
-> +		.data           = &warn_limit,
-> +		.maxlen         = sizeof(warn_limit),
-> +		.mode           = 0644,
-> +		.proc_handler   = proc_douintvec,
-> +	},
->  	{ }
->  };
->  
-> @@ -203,8 +211,14 @@ static void panic_print_sys_info(bool console_flush)
->  
->  void check_panic_on_warn(const char *origin)
->  {
-> +	static atomic_t warn_count = ATOMIC_INIT(0);
-> +
->  	if (panic_on_warn)
->  		panic("%s: panic_on_warn set ...\n", origin);
-> +
-> +	if (atomic_inc_return(&warn_count) >= READ_ONCE(warn_limit))
-> +		panic("%s: system warned too often (kernel.warn_limit is %d)",
-> +		      warn_limit);
+> > On Wed, Nov 16, 2022 at 07:03:49PM +0000, Alex Bennée wrote:
+> >> 
+> >> Chao Peng <chao.p.peng@linux.intel.com> writes:
+> >> 
+> >> > On Tue, Nov 15, 2022 at 04:56:12PM +0000, Alex Bennée wrote:
+> >> >> 
+> >> >> Chao Peng <chao.p.peng@linux.intel.com> writes:
+> >> >> 
+> >> >> > This new KVM exit allows userspace to handle memory-related errors. It
+> >> >> > indicates an error happens in KVM at guest memory range [gpa, gpa+size).
+> >> >> > The flags includes additional information for userspace to handle the
+> >> >> > error. Currently bit 0 is defined as 'private memory' where '1'
+> >> >> > indicates error happens due to private memory access and '0' indicates
+> >> >> > error happens due to shared memory access.
+> >> >> >
+> >> >> > When private memory is enabled, this new exit will be used for KVM to
+> >> >> > exit to userspace for shared <-> private memory conversion in memory
+> >> >> > encryption usage. In such usage, typically there are two kind of memory
+> >> >> > conversions:
+> >> >> >   - explicit conversion: happens when guest explicitly calls into KVM
+> >> >> >     to map a range (as private or shared), KVM then exits to userspace
+> >> >> >     to perform the map/unmap operations.
+> >> >> >   - implicit conversion: happens in KVM page fault handler where KVM
+> >> >> >     exits to userspace for an implicit conversion when the page is in a
+> >> >> >     different state than requested (private or shared).
+> >> >> >
+> >> >> > Suggested-by: Sean Christopherson <seanjc@google.com>
+> >> >> > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> >> >> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> >> >> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> >> >> > ---
+> >> >> >  Documentation/virt/kvm/api.rst | 23 +++++++++++++++++++++++
+> >> >> >  include/uapi/linux/kvm.h       |  9 +++++++++
+> >> >> >  2 files changed, 32 insertions(+)
+> >> >> >
+> >> >> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> >> >> > index f3fa75649a78..975688912b8c 100644
+> >> >> > --- a/Documentation/virt/kvm/api.rst
+> >> >> > +++ b/Documentation/virt/kvm/api.rst
+> >> >> > @@ -6537,6 +6537,29 @@ array field represents return values. The userspace should update the return
+> >> >> >  values of SBI call before resuming the VCPU. For more details on RISC-V SBI
+> >> >> >  spec refer, https://github.com/riscv/riscv-sbi-doc.
+> >> >> >  
+> >> >> > +::
+> >> >> > +
+> >> >> > +		/* KVM_EXIT_MEMORY_FAULT */
+> >> >> > +		struct {
+> >> >> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+> >> >> > +			__u32 flags;
+> >> >> > +			__u32 padding;
+> >> >> > +			__u64 gpa;
+> >> >> > +			__u64 size;
+> >> >> > +		} memory;
+> >> >> > +
+> >> >> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VCPU has
+> >> >> > +encountered a memory error which is not handled by KVM kernel module and
+> >> >> > +userspace may choose to handle it. The 'flags' field indicates the memory
+> >> >> > +properties of the exit.
+> >> >> > +
+> >> >> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is caused by
+> >> >> > +   private memory access when the bit is set. Otherwise the memory error is
+> >> >> > +   caused by shared memory access when the bit is clear.
+> >> >> 
+> >> >> What does a shared memory access failure entail?
+> >> >
+> >> > In the context of confidential computing usages, guest can issue a
+> >> > shared memory access while the memory is actually private from the host
+> >> > point of view. This exit with bit 0 cleared gives userspace a chance to
+> >> > convert the private memory to shared memory on host.
+> >> 
+> >> I think this should be explicit rather than implied by the absence of
+> >> another flag. Sean suggested you might want flags for RWX failures so
+> >> maybe something like:
+> >> 
+> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_READ	(1 << 0)
+> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_WRITE	(1 << 1)
+> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_EXECUTE	(1 << 2)
+> >>         KVM_MEMORY_EXIT_FLAG_PRIVATE            (1 << 3)
+> >
+> > Yes, but I would not add 'SHARED' to RWX, they are not share memory
+> > specific, private memory can also set them once introduced.
+> 
+> OK so how about:
+> 
+>  	KVM_MEMORY_EXIT_FLAG_READ	(1 << 0)
+>  	KVM_MEMORY_EXIT_FLAG_WRITE	(1 << 1)
+>  	KVM_MEMORY_EXIT_FLAG_EXECUTE	(1 << 2)
+>         KVM_MEMORY_EXIT_FLAG_SHARED     (1 << 3)
+>         KVM_MEMORY_EXIT_FLAG_PRIVATE    (1 << 4)
 
-Bah. This should be:  origin, warn_limit.
+We don't actually need a new bit, the opposite side of private is
+shared, i.e. flags with KVM_MEMORY_EXIT_FLAG_PRIVATE cleared expresses
+'shared'.
 
--- 
-Kees Cook
+Chao
+> 
+> >
+> > Thanks,
+> > Chao
+> >> 
+> >> which would allow you to signal the various failure modes of the shared
+> >> region, or that you had accessed private memory.
+> >> 
+> >> >
+> >> >> 
+> >> >> If you envision any other failure modes it might be worth making it
+> >> >> explicit with additional flags.
+> >> >
+> >> > Sean mentioned some more usages[1][]2] other than the memory conversion
+> >> > for confidential usage. But I would leave those flags being added in the
+> >> > future after those usages being well discussed.
+> >> >
+> >> > [1] https://lkml.kernel.org/r/20200617230052.GB27751@linux.intel.com
+> >> > [2] https://lore.kernel.org/all/YKxJLcg%2FWomPE422@google.com
+> >> >
+> >> >> I also wonder if a bitmask makes sense if
+> >> >> there can only be one reason for a failure? Maybe all that is needed is
+> >> >> a reason enum?
+> >> >
+> >> > Tough we only have one reason right now but we still want to leave room
+> >> > for future extension. Enum can express a single value at once well but
+> >> > bitmask makes it possible to express multiple orthogonal flags.
+> >> 
+> >> I agree if multiple orthogonal failures can occur at once a bitmask is
+> >> the right choice.
+> >> 
+> >> >
+> >> > Chao
+> >> >> 
+> >> >> > +
+> >> >> > +'gpa' and 'size' indicate the memory range the error occurs at. The userspace
+> >> >> > +may handle the error and return to KVM to retry the previous memory access.
+> >> >> > +
+> >> >> >  ::
+> >> >> >  
+> >> >> >      /* KVM_EXIT_NOTIFY */
+> >> >> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> >> >> > index f1ae45c10c94..fa60b032a405 100644
+> >> >> > --- a/include/uapi/linux/kvm.h
+> >> >> > +++ b/include/uapi/linux/kvm.h
+> >> >> > @@ -300,6 +300,7 @@ struct kvm_xen_exit {
+> >> >> >  #define KVM_EXIT_RISCV_SBI        35
+> >> >> >  #define KVM_EXIT_RISCV_CSR        36
+> >> >> >  #define KVM_EXIT_NOTIFY           37
+> >> >> > +#define KVM_EXIT_MEMORY_FAULT     38
+> >> >> >  
+> >> >> >  /* For KVM_EXIT_INTERNAL_ERROR */
+> >> >> >  /* Emulate instruction failed. */
+> >> >> > @@ -538,6 +539,14 @@ struct kvm_run {
+> >> >> >  #define KVM_NOTIFY_CONTEXT_INVALID	(1 << 0)
+> >> >> >  			__u32 flags;
+> >> >> >  		} notify;
+> >> >> > +		/* KVM_EXIT_MEMORY_FAULT */
+> >> >> > +		struct {
+> >> >> > +#define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+> >> >> > +			__u32 flags;
+> >> >> > +			__u32 padding;
+> >> >> > +			__u64 gpa;
+> >> >> > +			__u64 size;
+> >> >> > +		} memory;
+> >> >> >  		/* Fix the size of the union. */
+> >> >> >  		char padding[256];
+> >> >> >  	};
+> >> >> 
+> >> >> 
+> >> >> -- 
+> >> >> Alex Bennée
+> >> 
+> >> 
+> >> -- 
+> >> Alex Bennée
+> 
+> 
+> -- 
+> Alex Bennée
