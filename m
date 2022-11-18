@@ -2,120 +2,339 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36123C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 16:43:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E147C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 17:06:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242200AbiKRQnc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 11:43:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58784 "EHLO
+        id S242224AbiKRRFr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 12:05:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242172AbiKRQn3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 11:43:29 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF1E5C62
-        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 08:43:24 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id l22-20020a17090a3f1600b00212fbbcfb78so8789314pjc.3
-        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 08:43:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=bFpydVEsN0sToFVtM7jELuhoofQy9t2jPUFLTcIXRx8=;
-        b=PHxZLY8Iha2TaDny05JWQTVe0OvBw0y5kIlu1jrIxQ+y043xEur9SKJwSXJGZdYF/C
-         zq1dqTPaNBWrbbSY2FkMBWe5upYYu4TBKzmWhWP/uY+H7Mu+CtEdN3peJYoo9fHOgNqT
-         R5v38A+RV3qaU4RRHUv5Htt/vmgr5kCH78AXk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bFpydVEsN0sToFVtM7jELuhoofQy9t2jPUFLTcIXRx8=;
-        b=BOePz9qS2WDZsvi4DJgpG7xxSP29zAtyu95j8dow1Q3mxvU3uTonbRk/stQpAHdr4Q
-         I12tLpRMh2fpgvWyXJ/O+WKKqZ4Fes3AhayYUrANGnNPbFuP8XLQ/qciBleir4ERY5Ix
-         BxiDG21bWd9tbq3DjjmN0NHC5IvgGFVwpGE6Vrp5asqqqtjDaSfXHdbTAtETlMRljJBM
-         Q0ktWBLcInMjA39RYnPly5RJHqc5LdQDQKXLBnVDDLojq4T1oxm8N4MoO5A2eV3OOuTZ
-         2HAqam/ngnhetdESsm88DOXh8LFs+LENBLSUKJCIFm1W/2g+OTGkQRTC8l9jcQDJWez0
-         mpGg==
-X-Gm-Message-State: ANoB5pmC/Bp6hWjSWJBnbrCdZ1a2FYSaAoe89Dc0r+RN3rWOJaVNr7tG
-        QDocBIFLGguR2W9HO0xAJYyKhQ==
-X-Google-Smtp-Source: AA0mqf40QW2uM/mdUZtAUwUfmrT0ybXaxtav/kplbk3xWLYOjhj55pBX/fcy0ASDVHC8fxxYw0QVxA==
-X-Received: by 2002:a17:902:7242:b0:17c:4ae7:cf23 with SMTP id c2-20020a170902724200b0017c4ae7cf23mr448359pll.2.1668789804136;
-        Fri, 18 Nov 2022 08:43:24 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id c3-20020a170903234300b0017f59ebafe7sm3928259plh.212.2022.11.18.08.43.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 08:43:20 -0800 (PST)
-Date:   Fri, 18 Nov 2022 08:43:19 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Ananda Badmaev <a.badmaev@clicknet.pro>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        Minchan Kim <minchan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Vitaly Wool <vitaly.wool@konsulko.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        linux-next@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: Coverity: zblock_alloc(): Memory - illegal accesses
-Message-ID: <202211180841.39558B5E5@keescook>
-References: <202211171419.FCDC8EE@keescook>
- <74337ebd-0222-2e78-9149-8fa40b0c815e@clicknet.pro>
+        with ESMTP id S242404AbiKRRFW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 12:05:22 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D35543AF5;
+        Fri, 18 Nov 2022 09:05:20 -0800 (PST)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 593271FDAD;
+        Fri, 18 Nov 2022 17:05:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1668791119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PoBAkgW+tbQL1X9VKozu6shyXKkGgjJ4/KRS+GgGtcI=;
+        b=CmYkPhlTaVqQW2wirDoArBSPlcaI8xIBxw/DvZrPAO7O3BJuYBRDawI2nmT/lj6YJBdG4u
+        M3qOIWRxGUOh7EaWGVXaFsJkgnDiH2KRuLzFXVZln5LMteKtzKYJq1OCOX/66X3WQ5ZQCb
+        ETVRU9hAK8YfxPksIq5I6Lz5UiT2NlE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1668791119;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PoBAkgW+tbQL1X9VKozu6shyXKkGgjJ4/KRS+GgGtcI=;
+        b=wlxI9mM0HjelUGzUi/mDrMDODdAPyJSmG16jxdeeVEIMpK86rXr1ZcUCyE+Akp3RYmBeoz
+        ZFXY1vmYJrq20NDQ==
+Received: from suse.de (mgorman.udp.ovpn2.nue.suse.de [10.163.43.106])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 194072C141;
+        Fri, 18 Nov 2022 17:05:15 +0000 (UTC)
+Date:   Fri, 18 Nov 2022 17:05:10 +0000
+From:   Mel Gorman <mgorman@suse.de>
+To:     Doug Berger <opendmb@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Rapoport <rppt@kernel.org>, Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@suse.com>,
+        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v3 0/9] mm: introduce Designated Movable Blocks
+Message-ID: <20221118170510.kexdiqsfaqwledpm@suse.de>
+References: <20221020215318.4193269-1-opendmb@gmail.com>
+ <20221026105500.n6ddzqqf5ozjswsp@suse.de>
+ <9842ee9c-5fcc-5458-2779-ad9b88468b48@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <74337ebd-0222-2e78-9149-8fa40b0c815e@clicknet.pro>
+In-Reply-To: <9842ee9c-5fcc-5458-2779-ad9b88468b48@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 18, 2022 at 04:05:36PM +0300, Ananda Badmaev wrote:
-> 18.11.2022 01:20, coverity-bot пишет:
-> > Coverity reported the following:
+On Wed, Nov 02, 2022 at 03:33:53PM -0700, Doug Berger wrote:
 > > 
-> > *** CID 1527352:  Memory - illegal accesses  (OVERRUN)
-> > mm/zblock.c:320 in zblock_alloc()
-> > 314     	}
-> > 315     	list = &(pool->block_lists[block_type]);
-> > 316
-> > 317     check:
-> > 318     	spin_lock(&list->lock);
-> > 319     	/* check if there are free slots in cache */
-> > vvv     CID 1527352:  Memory - illegal accesses  (OVERRUN)
-> > vvv     Overrunning array of 10208 bytes at byte offset 10208 by dereferencing pointer "list".
-> > 320     	block = cache_find_block(list);
-> > 321     	if (block)
-> > 322     		goto found;
-> > 323     	spin_unlock(&list->lock);
-> > 324
-> > 325     	/* not found block with free slots try to allocate new empty block */
+> > The three big questions he initially asked were
 > > 
-> > If this is a false positive, please let us know so we can mark it as
-> > such, or teach the Coverity rules to be smarter. If not, please make
-> > sure fixes get into linux-next. :) For patches fixing this, please
-> > include these lines (but double-check the "Fixes" first):
+> > 	How large are these areas typically?
+> > 	How large are they in comparison to other memory in the system?
+> > 	How is this memory currently presented to the system?
+> > 	Can you share some more how exactly ZONE_MOVABLE would help here to make
+> > 		better use of the memory bandwidth?
 > > 
-> > Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
-> > Addresses-Coverity-ID: 1527352 ("Memory - illegal accesses")
-> > Fixes: 9097e28c25c8 ("mm: add zblock - new allocator for use via zpool API")
-> > 
-> > It looks like block_type is not checked to be < ARRAY_SIZE(block_desc)
-> > after exiting the earlier loop, so the access through "list" may be past
-> > the end of pool->block_lists.
-> > 
+> > Zones are about addressing limitations primarily and frankly, ZONE_MOVABLE
+> > was a bad idea in retrospect. Today, the preferred approach would have
+> > been to create a separate NUMA node with distance-1 to the local node
+> > (fudge by adding 1 to the local distance "10" for zonelist purposes)
+> > that was ZONE_MOVABLE with the zonelists structured such that GFP_MOVABLE
+> > allocations would prefer the "movable" node first.
+>
+> I'm afraid I don't completely follow what you are suggesting here.
 > 
-> There is no need for this check because it is guaranteed that this code will
-> be executed only if size <= PAGE_SIZE. Since slot_size for the last list
-> even exceeds PAGE_SIZE, block_type will be always valid.
 
-Ah-ha, understood. Well, if you do want to catch it if there is ever a
-typo in the block_desc values (which are not obviously >4096 without
-sitting down and calculating them), perhaps add:
+It's not especially important how it could have been done but using a
+node would have avoided confusing zones (address limitations) with memory
+partitioning (e.g. MOVABLE). Nodes can also interleave but it would have
+required CONFIG_NUMA so pointless for GKI and the current discussion other
+than with a time machine, GKI might have enabled CONFIG_NUMA :/
 
-        if (WARN_ON(block_type >= ARRAY_SIZE(block_desc))
-                return -ENOSPC;
+> > While I don't recall
+> > why I did not take that approach, it most likely was because CONFIG_NUMA
+> > was not always set, it was only intended for hugetlbfs allocations and
+> > maybe I didn't have the necessary skill or foresight to take that approach.
+>
+> It remains true that CONFIG_NUMA is not always set and that is a key
+> motivator for this patch set. For example, Google is moving to a common GKI
+> kernel for their Google TV platform that they are requiring vendors to
+> support. Currently the arm64 GKI kernel does not set CONFIG_NUMA and it
+> seems unlikely that we will be able to get all vendors to accept such a
+> change.
+> 
 
+Ok.
+
+> > 
+> > Hotplugs requirements are somewhat different, the primary motivation that
+> > I'm aware of is being able to guarantee they can be offlined, particularly
+> > nodes, which can be done in some circumstances. Generally hotplug does
+> > not care what uses the memory as long as it can be removed later. The
+> > requirements for restricted access to high speed memory is different.
+>
+> This is effectively the same requirement that an implementation of
+> 'reusable' reserved memory has. A driver that owns reserved memory may not
+> care what uses the memory as long as the memory can be reclaimed when the
+> driver needs it. This is functionally analogous to memory hotplug. Reserved
+> memory that is 'reusable' and compatible with 'shared-dma-pool' uses the CMA
+> implementation, but there is room for an alternative implementation that
+> shares the memory more aggressively. This is a separate motivator for
+> Designated Movable Block support, but I am deferring that discussion since
+> it is desirable to have a more extended debate over APIs and such.
+> 
+
+There needs to be a better explanation as to why CMA cannot be used or more
+importantly why page_alloc.shuffle= should not be used (more on that later.
+It's not clear how a movable zone shares memory more aggressively than CMA
+would. Both have the problem that the if protected range is too large that
+premature memory exhaustion can occur for kernel allocations.
+
+> > 
+> > There is a high degree of uncertainity of how these regions are to be
+> > used by applications to get access to the high speed memory, to quote
+> > 
+> > 	I'm not certain what is typical because these systems are highly
+> > 	configurable and Broadcom's customers have different ideas about
+> > 	application processing.
+> > 
+> > 	...
+> > 
+> > 	The Designated Movable Block concept introduced here has the
+> > 	potential to offer useful services to different constituencies. I
+> > 	tried to highlight this in my V1 patch set with the hope of
+> > 	attracting some interest, but it can complicate the overall
+> > 	discussion, so I would like to maybe narrow the discussion here. It
+> > 	may be good to keep them in mind when assessing the overall value,
+> > 	but perhaps the "other opportunities" can be covered as a follow
+> > 	on discussion.
+> > 
+> > I note the "potential" part here because we don't actually know.
+>
+> I used "potential" here not as in "it might be useful", but rather that
+> "different constituencies (i.e. people outside of the Broadcom ecosystem)
+> might also find them useful".
+> 
+
+That's very vague unfortunately.
+
+> > A
+> > major limitation of ZONE_MOVABLE is that there is no way of controlling
+> > access from userspace to restrict the high-speed memory to a designated
+> > application, only to all applications in general. The primary interface
+> > to control access to memory with different characteristics is mempolicies
+> > which is NUMA orientated, not zone orientated. So, if there is a special
+> > application that requires exclusive access, it's very difficult to configure
+> > based on zones.  Furthermore, page table pages mapping data located in the
+> > high-speed region are stored in the slower memory which potentially impacts
+> > the performance if the working set of the application exceeds TLB reach.
+> > Finally, while there is mention that Broadcom may have some special
+> > interface to determine what applications can use the high-speed region,
+> > it's hardware-specific as opposed to something that belongs in the core mm.
+> > 
+> > I agree that keeping the high-speed memory in a local node and using "sticky"
+> > pageblocks or CMA has limitations of its own but in itself, that does not
+> > justify using ZONE_MOVABLE in my opinion. The statement that ARM can have
+> > multiple controllers with equal distance and bandwidth (if I'm reading it
+> > correctly) but places them in different zones.... that's just a bit weird if
+> > there are no other addressing limitations. It's not obvious why ARM would do
+> > that, but it also does not matter because it shouldn't be a core mm concern.
+>
+> There appears to be some confusion regarding my explanation of multiple
+> memory controllers on a device like the BCM7278. There is no inherent
+> performance difference between the two memory controllers and their attached
+> DRAM. They merely provide the opportunity to perform memory accesses in
+> parallel for different physical address ranges. The physical address ranges
+> were selected by the SoC designers for reasons only known to them, but I'm
+> sure they had no consideration of zones in their decision making. The
+> selection of zones remains an artifact of the design of Linux.
+> 
+
+Ok, so the channels are equal but the channels are not interleaved in
+hardware so basically you are trying to implement software-based memory
+channel interleaving?
+
+> Since the BCM7278 contains a 4-core SMP cluster and each core can have
+> multiple outstanding memory transactions the speed of DDR transactions can
+> create a bottleneck for the system. If each memory controller has an
+> effective bandwidth of X then, provided the system memory accesses can be
+> distributed across both memory controllers, the combined effective bandwidth
+> can be additive (X + X = 2X). Of course the actual result is highly
+> dependent on the dependent clause "provided the system memory accesses can
+> be distributed across both memory controllers". The accesses do not need to
+> be evenly distributed to gain a benefit. We just want to reduce any idle
+> time on each memory controller.
+> 
+> It was observed that the monotonic zone layout for a non-NUMA system (like
+> this one) creates a bias for kernel space to use lower physical memory
+> addresses and user space to use higher physical memory addresses. Broadcom
+> customers requested the ability to locate movablecore memory within the
+> physical address range of each memory controller and reported that it
+> improved their system performance. Unfortunately, I do not have access to
+> their data and I doubt they would allow me to share it if I did. I don't
+> believe this is really about trying to optimize the performance of a
+> specific application as much as trying to prevent overall system performance
+> degradation from underutilized memory bandwidth.
+> 
+
+So if I'm reading this right, the intent behind using ZONE_MOVABLE at
+fixed address ranges is so most (but not all) user pages end up using
+one controller and all kernel pages and some user pages use the other
+controller. If kernel and userspace accesses are split 50/50, then the
+memory bandwidth usage will be split across channels.  However, if the
+ratio of kernel:user accesses is large then the bandwidth usage will still
+be assymetric.
+
+For example, if there are 10 times more accesses to kernel pages then user
+pages, then one channel will receive most of the traffic. The reverse
+is also true but to a lesser extent as user pages can use all zones and
+kernel accesses use a subset. Depending on the access pattern, creating
+separate zones may not help at all and in some cases, could make the problem
+worse. The trap is that it might happen to work for a fixed appliance like
+a TV with a predictable workload, it may not work in the general case.
+
+Splitting based on the __GFP_MOVABLE does not guarantee that idle time on
+a memory controller can be reduced as it relies on the access pattern.
+
+> > There are already examples of where memory is physically "local" to
+> > the CPU but has different bandwidth or latency including High Bandwidth
+> > (HBM), Sub-NUMA Clustering (SNC), PMEM as a memory-life device and some
+> > AMD EPYC Chips, particularly the first generation where a sockets memory
+> > controllers had different distances. With the broadcom controllers,
+> > it sounds like a local memory controller but the bandwidth available
+> > differs. It's functionally equivalent to HBM.
+>
+> The bandwidth available does not differ, but if too few transactions target
+> one of the memory controllers, that controllers bandwidth is underutilized.
+> 
+
+This is also a limitation of the patch series. Lets say the bulk of
+accesses are to user pages allocated in ZONE_MOVABLE which correlates to
+one memory channel then one channel gets saturated anyway.
+
+It also gets more complicated if there are more controllers because the
+only division possible is between MOVABLE/everything else. An odd number
+of channels will be difficult to split meaningfully.
+
+> > The fact that the memory access is physically local to the CPU socket is
+> > irrelevant when the characteristics of that locality differs. NUMA stands
+> > for Non-Uniform Memory Access and if bandwidth to different address ranges
+> > differs, then the system is inherently NUMA even if that is inconvenient.
+>
+> The bandwidth to different address ranges does not differ. A single threaded
+> application should see no performance difference regardless of where its
+> memory is located. However, if multiple application threads are executing in
+> parallel and the memory is divided between the memory controllers they will
+> be able to do more work per unit of time than if the memory is predominantly
+> located on one memory controller.
+> 
+
+And if multiple application threads dominantly access user pages then
+splitting the zone will not necessarily help, particularly if ZONE_MOVABLE
+is not filled as the bulk of the accesses will still use one memory channel.
+
+> > In the appliance case, it doesn't matter if the intent is that "all
+> > application data should use high bandwidth memory where possible and
+> > the application phase behaviour is predictable" and that may very well
+> > work fine for the users of the Broadcom platforms with multiple memory
+> > controllers. It does not work at all for the general where access must
+> > be restricted to a subset of tasks in a general system that can only be
+> > controlled with memory policies.
+> > 
+> > The high bandwidth memory should be representated as a NUMA node, optionally
+> > to create that node as ZONE_MOVABLE and relying on the zonelists to select
+> > the movable zone as the first preference.
+> > 
+> This patch set is fundamentally about greater control over the placement of
+> movablecore memory. The current implementation of movablecore requires all
+> of the ZONE_MOVABLE memory to be located at the highest physical addresses
+> of the system when CONFIG_NUMA is not set. Allowing the specification of a
+> base address allows greater flexibility on systems where there are benefits.
+> 
+
+Unfortunately, while greater control of the ranges used by ZONE_MOVABLE
+will help in some cases, it will not help in others and may be misleading.
+
+If memory accesses need to be interleaved in software then the free lists
+need to be broken up into arenas within a zone by some boundary whether
+that boundary is is fixed-length ranges, memory sections, memory channels
+or specified explicitly on the kernel command line. Any allocation type
+can use any arena with tasks moving to another arena based on contention,
+pageblock type availability or interleaving round-robin explicitly.
+Unfortunately, it's non-trivial to implement and a *lot* of heavy lifting.
+
+A somewhat awful hack would be to reorder top-level MAX_ORDER-1 list at
+boot time. By default that list is ordered
+
+1, 2, 3 ...... n-2, n-1, n
+
+If at boot time it was reordered to be
+
+1, n, 2, n-1, 3, n-2 ......
+
+This would interleave all the early allocations across memory channels in
+the case where channels are based on large contiguous physical ranges of
+memory. Applications starting early would then interleave between channels
+but after a period of time, it would be pseudo-random and it's weak.
+
+A similar, and probably better, option is to look at what page_alloc.shuffle=
+does and randomly shuffle the free lists to randomly select between the
+memory channels. I haven't looked at the implementation recently and forget
+how it works exactly. Maybe it would benefit from being able to take ranges
+that should be special cased for shuffling, particularly at boot time to
+order it "1, n, 2, n-1" as described above or allowing SHUFFLE_ORDER to
+be a lower value. Either way, shuffling would achieve similar goals of
+spreading allocations between channels without assuming that the access
+ratio of kernel:user is close to 1:1.
 
 -- 
-Kees Cook
+Mel Gorman
+SUSE Labs
