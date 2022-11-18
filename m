@@ -2,95 +2,173 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E10AC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 13:13:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53CDCC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 13:29:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241523AbiKRNNe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 08:13:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39470 "EHLO
+        id S242042AbiKRN27 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 08:28:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235188AbiKRNNc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 08:13:32 -0500
-X-Greylist: delayed 427 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 18 Nov 2022 05:13:27 PST
-Received: from forward502o.mail.yandex.net (forward502o.mail.yandex.net [37.140.190.204])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE911D86;
-        Fri, 18 Nov 2022 05:13:27 -0800 (PST)
-Received: from sas1-37da021029ee.qloud-c.yandex.net (sas1-37da021029ee.qloud-c.yandex.net [IPv6:2a02:6b8:c08:1612:0:640:37da:210])
-        by forward502o.mail.yandex.net (Yandex) with ESMTP id C0A5425D50C0;
-        Fri, 18 Nov 2022 16:05:53 +0300 (MSK)
-Received: by sas1-37da021029ee.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA id eOks44V6nS-5pVmNm92;
-        Fri, 18 Nov 2022 16:05:52 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=clicknet.pro; s=mail; t=1668776752;
-        bh=/wHdhb6bOR6sr6GxP7nToVvgKT4uV8iQ9aNeJQuYTyc=;
-        h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-        b=PnxOE3On7J7+RxaOegVmOD9Cjmq8zBQgeNI4H+6xOoRyil6MRagvAHjkaudPAWb7P
-         Nqeh2yBpd6j1CYWT66JdB6fGmEz23W4qwTJB9nBTn5BmGsWcEI3W1eVSMdoVYzNGRZ
-         jV/kfqMyeoywwn6lL7US2uIkqrxzWQDrodXWQ108=
-Authentication-Results: sas1-37da021029ee.qloud-c.yandex.net; dkim=pass header.i=@clicknet.pro
-Message-ID: <74337ebd-0222-2e78-9149-8fa40b0c815e@clicknet.pro>
-Date:   Fri, 18 Nov 2022 16:05:36 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: Coverity: zblock_alloc(): Memory - illegal accesses
-To:     coverity-bot <keescook@chromium.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        Minchan Kim <minchan@kernel.org>,
+        with ESMTP id S241898AbiKRN2r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 08:28:47 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A47572113
+        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 05:28:43 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id g2so5579089wrv.6
+        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 05:28:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jFuAN0qalS8PXGclZBpJGpqKwSse98B1zaIXuj/qhsM=;
+        b=X/gqqsl/WLpKtb9vOD4WiP4Oi7fWHjwjntx8mX7OxhsG5wzq+ZEu37/nMAgR/K0NTa
+         w3qxyDj/5ysz05YJVpUs55kmmloX1IkC2zB1+/KzU94RHSvVV8QJIGUQUlri/5EUyK2r
+         mGh3S7znVf5hxcm2FIq10hXZNhSXHhkk0XSUejjdU6tvjBJaDulCkhJ1yHJ5qUwTLhSd
+         MoeZaDkThsztpF4G73yNPcJGkFAhdKPv1GGINAnUYMuW1RHIMFNHAh629fNId0Ygj6h4
+         QlGc8/i2b3sseFW3mxLr72CnhypCMQDx+K68Ypw8eLM56TGZBoLoX2zeC77yyHo3GfeR
+         z9tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jFuAN0qalS8PXGclZBpJGpqKwSse98B1zaIXuj/qhsM=;
+        b=stzv8tno46az/fYiEUtqhB+pu1UWz6qQ791PsOUCSKeI5pSbBtt/9Z8CNn3w9fwOo1
+         uVXt1i374ImGw0fXWhmVj+T2FkLyHxGkGeAfXMVKhyyQ88oiFK38c1icLTtkFNTVkRg6
+         SPWf2Q8ijO/RnIGu8KldfDm5877ABCaa8GhkNXwER9YHPyE2TJDiZuDSb+6AurtgdEvX
+         7x8V8kQhK0k0kojRrOedm1yrhRcKb7ObkC99Y8lebZnir+ld35O3wPqBo7J8q13Jk4YN
+         hZows86E+mVe6tRP2dwyp5wol4zW7j2+AwULbkIiZQ8+E8vx7HCqbSV7x9E6LT6Uenza
+         E7tA==
+X-Gm-Message-State: ANoB5pkg+Xftz928uySi1xfusGgN+T+9diyZ9kKrjcyTy3rvKGNJMUnb
+        myISynfAGVBo9TaBvGemxIBi7w==
+X-Google-Smtp-Source: AA0mqf6tYbIf5kiwBxBEeJpBK3Zoi0R3hbVIR4uxKZjI5EAk4XwJowCkhnyQfuyrbXxeKsj5OY9J7w==
+X-Received: by 2002:adf:aa91:0:b0:241:b2b2:a71d with SMTP id h17-20020adfaa91000000b00241b2b2a71dmr4389646wrc.326.1668778121454;
+        Fri, 18 Nov 2022 05:28:41 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+        by smtp.gmail.com with ESMTPSA id y10-20020adfe6ca000000b00236860e7e9esm3459102wrm.98.2022.11.18.05.28.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Nov 2022 05:28:40 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+        by zen.linaroharston (Postfix) with ESMTP id 11C631FFB7;
+        Fri, 18 Nov 2022 13:28:40 +0000 (GMT)
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
+ <87cz9o9mr8.fsf@linaro.org> <20221116031441.GA364614@chaop.bj.intel.com>
+ <87mt8q90rw.fsf@linaro.org> <20221117134520.GD422408@chaop.bj.intel.com>
+ <87a64p8vof.fsf@linaro.org> <20221118013201.GA456562@chaop.bj.intel.com>
+User-agent: mu4e 1.9.2; emacs 28.2.50
+From:   Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Vitaly Wool <vitaly.wool@konsulko.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        linux-next@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <202211171419.FCDC8EE@keescook>
-Content-Language: en-US
-From:   Ananda Badmaev <a.badmaev@clicknet.pro>
-In-Reply-To: <202211171419.FCDC8EE@keescook>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
+Date:   Fri, 18 Nov 2022 13:23:51 +0000
+In-reply-to: <20221118013201.GA456562@chaop.bj.intel.com>
+Message-ID: <87o7t475o7.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-18.11.2022 01:20, coverity-bot пишет:
-> Coverity reported the following:
-> 
-> *** CID 1527352:  Memory - illegal accesses  (OVERRUN)
-> mm/zblock.c:320 in zblock_alloc()
-> 314     	}
-> 315     	list = &(pool->block_lists[block_type]);
-> 316
-> 317     check:
-> 318     	spin_lock(&list->lock);
-> 319     	/* check if there are free slots in cache */
-> vvv     CID 1527352:  Memory - illegal accesses  (OVERRUN)
-> vvv     Overrunning array of 10208 bytes at byte offset 10208 by dereferencing pointer "list".
-> 320     	block = cache_find_block(list);
-> 321     	if (block)
-> 322     		goto found;
-> 323     	spin_unlock(&list->lock);
-> 324
-> 325     	/* not found block with free slots try to allocate new empty block */
-> 
-> If this is a false positive, please let us know so we can mark it as
-> such, or teach the Coverity rules to be smarter. If not, please make
-> sure fixes get into linux-next. :) For patches fixing this, please
-> include these lines (but double-check the "Fixes" first):
-> 
-> Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
-> Addresses-Coverity-ID: 1527352 ("Memory - illegal accesses")
-> Fixes: 9097e28c25c8 ("mm: add zblock - new allocator for use via zpool API")
-> 
-> It looks like block_type is not checked to be < ARRAY_SIZE(block_desc)
-> after exiting the earlier loop, so the access through "list" may be past
-> the end of pool->block_lists.
+
+Chao Peng <chao.p.peng@linux.intel.com> writes:
+
+> On Thu, Nov 17, 2022 at 03:08:17PM +0000, Alex Benn=C3=A9e wrote:
+>>=20
+<snip>
+>> >> >> > +
+>> >> >> > +		/* KVM_EXIT_MEMORY_FAULT */
+>> >> >> > +		struct {
+>> >> >> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+>> >> >> > +			__u32 flags;
+>> >> >> > +			__u32 padding;
+>> >> >> > +			__u64 gpa;
+>> >> >> > +			__u64 size;
+>> >> >> > +		} memory;
+>> >> >> > +
+>> >> >> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that =
+the VCPU has
+>> >> >> > +encountered a memory error which is not handled by KVM kernel m=
+odule and
+>> >> >> > +userspace may choose to handle it. The 'flags' field indicates =
+the memory
+>> >> >> > +properties of the exit.
+>> >> >> > +
+>> >> >> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is=
+ caused by
+>> >> >> > +   private memory access when the bit is set. Otherwise the mem=
+ory error is
+>> >> >> > +   caused by shared memory access when the bit is clear.
+>> >> >>=20
+>> >> >> What does a shared memory access failure entail?
+>> >> >
+>> >> > In the context of confidential computing usages, guest can issue a
+>> >> > shared memory access while the memory is actually private from the =
+host
+>> >> > point of view. This exit with bit 0 cleared gives userspace a chanc=
+e to
+>> >> > convert the private memory to shared memory on host.
+>> >>=20
+>> >> I think this should be explicit rather than implied by the absence of
+>> >> another flag. Sean suggested you might want flags for RWX failures so
+>> >> maybe something like:
+>> >>=20
+>> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_READ	(1 << 0)
+>> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_WRITE	(1 << 1)
+>> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_EXECUTE	(1 << 2)
+>> >>         KVM_MEMORY_EXIT_FLAG_PRIVATE            (1 << 3)
+>> >
+>> > Yes, but I would not add 'SHARED' to RWX, they are not share memory
+>> > specific, private memory can also set them once introduced.
+>>=20
+>> OK so how about:
+>>=20
+>>  	KVM_MEMORY_EXIT_FLAG_READ	(1 << 0)
+>>  	KVM_MEMORY_EXIT_FLAG_WRITE	(1 << 1)
+>>  	KVM_MEMORY_EXIT_FLAG_EXECUTE	(1 << 2)
+>>         KVM_MEMORY_EXIT_FLAG_SHARED     (1 << 3)
+>>         KVM_MEMORY_EXIT_FLAG_PRIVATE    (1 << 4)
 >
+> We don't actually need a new bit, the opposite side of private is
+> shared, i.e. flags with KVM_MEMORY_EXIT_FLAG_PRIVATE cleared expresses
+> 'shared'.
 
-There is no need for this check because it is guaranteed that this code 
-will be executed only if size <= PAGE_SIZE. Since slot_size for the last 
-list even exceeds PAGE_SIZE, block_type will be always valid.
+If that is always true and we never expect a 3rd type of memory that is
+fine. But given we are leaving room for expansion having an explicit bit
+allows for that as well as making cases of forgetting to set the flags
+more obvious.
 
-
-
-
+--=20
+Alex Benn=C3=A9e
