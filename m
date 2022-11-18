@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D071C43217
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 18:52:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCDA0C43219
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 18:52:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235234AbiKRSwI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 13:52:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52166 "EHLO
+        id S242828AbiKRSwK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 13:52:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242860AbiKRSvx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 13:51:53 -0500
+        with ESMTP id S242867AbiKRSvy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 13:51:54 -0500
 Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D54318FE72
-        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 10:51:45 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD9E78FE79;
+        Fri, 18 Nov 2022 10:51:53 -0800 (PST)
 Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id F1A701D49;
-        Fri, 18 Nov 2022 19:51:26 +0100 (CET)
+        by mail.3ffe.de (Postfix) with ESMTPSA id 02CB4266F;
+        Fri, 18 Nov 2022 19:51:30 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1668797487;
+        t=1668797490;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=CKiGrAljNjlp3A3l20oRY7i3erUNxvVRGqt9ATeSMpg=;
-        b=tKc+bhLMBDfkSl3BM60vRFOBQQ6rMQDw8mQU0/MhM6bxgVjdhK8Har1l+XuGsCZ2CNn9+x
-        V6PL+jl0GYnHZp0x3vgYHnhBECxw83sEDmlDg2L/UjZt75sLbCp4+NiipfhqMa2TCGzEV1
-        h6BZE/JjR9KpI7fjtKv+PZK7d/JTy0M+4kAt+Lp8a0Xf+g/BuJj3IPtI/BXPCiddpGZkx4
-        7cLh2W4Yn4XN7b7RqisZv9KkdJ0pxtK10CAab6XxVCftVA1Y+yB9qbn9k6A378i63hjcRA
-        V6sgcQUiCCnTbJGhr4eZEMjZOszqPKb2u2QbPrRAupV3gN7oEDmJDD7SEhBYpg==
+        bh=pGxXXy0kIf1UzrkGm+tZ3CrPqpHJ4nUU5CZdnlTTc7g=;
+        b=f0mo8oXSNw4/RiNHSh8GAYR/ZkmbNaA7R5OGhlLEEt9iwuSlZv+fMcAvaz98TZ6Tg3Yd19
+        j9Ms9zE/bEgbnBZMIeJxZbuT8rC7DP+ga1CVdjO2MS4DVL/ZaGrZi+z0v3iJPPlGYJ2ErF
+        1p5EWzuyNl+k8zlquBLdFZjQGPBgpbhgO1LgVod2Z74rsDFw3968IInmOXtqdZPEdFBUls
+        Gb+5JAWflplGyb+bGKMUZ1Umfs57HCltcYavBcs0Y4Elv1NeSNQvnQBGDz38liYhNmVIfV
+        S4NBfBnjZdDPRxLFofNTS1P3QYUQuNGREpONg12VvdpF1X5lYnzt0Tw2omnN2Q==
 From:   Michael Walle <michael@walle.cc>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -41,9 +41,9 @@ To:     Jonathan Corbet <corbet@lwn.net>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Michael Walle <michael@walle.cc>
-Subject: [PATCH v3 04/18] nvmem: core: add an index parameter to the cell
-Date:   Fri, 18 Nov 2022 19:51:04 +0100
-Message-Id: <20221118185118.1190044-5-michael@walle.cc>
+Subject: [PATCH v3 10/18] nvmem: core: add per-cell post processing
+Date:   Fri, 18 Nov 2022 19:51:10 +0100
+Message-Id: <20221118185118.1190044-11-michael@walle.cc>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221118185118.1190044-1-michael@walle.cc>
 References: <20221118185118.1190044-1-michael@walle.cc>
@@ -54,29 +54,10 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sometimes a cell can represend multiple values. For example, a base
-ethernet address stored in the NVMEM can be expanded into multiple
-discreet ones by adding an offset.
-
-For this use case, introduce an index parameter which is then used to
-distiguish between values. This parameter will then be passed to the
-post process hook which can then use it to create different values
-during reading.
-
-At the moment, there is only support for the device tree path. You can
-add the index to the phandle, e.g.
-
-  &net {
-          nvmem-cells = <&base_mac_address 2>;
-          nvmem-cell-names = "mac-address";
-  };
-
-  &nvmem_provider {
-          base_mac_address: base-mac-address@0 {
-                  #nvmem-cell-cells = <1>;
-                  reg = <0 6>;
-          };
-  };
+Instead of relying on the name the consumer is using for the cell, like
+it is done for the nvmem .cell_post_process configuration parameter,
+provide a per-cell post processing hook. This can then be populated by
+the NVMEM provider (or the NVMEM layout) when adding the cell.
 
 Signed-off-by: Michael Walle <michael@walle.cc>
 ---
@@ -84,160 +65,82 @@ changes since v2:
  - none
 
 changes since v1:
- - none
+ - rename hook to read_post_process
 
- drivers/nvmem/core.c           | 37 ++++++++++++++++++++++++----------
- drivers/nvmem/imx-ocotp.c      |  4 ++--
- include/linux/nvmem-provider.h |  4 ++--
- 3 files changed, 30 insertions(+), 15 deletions(-)
+ drivers/nvmem/core.c           | 17 +++++++++++++++++
+ include/linux/nvmem-provider.h |  3 +++
+ 2 files changed, 20 insertions(+)
 
 diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 205a427f564d..24573e63e5a9 100644
+index 4ad1a02faf30..f0c0bf3b8b25 100644
 --- a/drivers/nvmem/core.c
 +++ b/drivers/nvmem/core.c
-@@ -60,6 +60,7 @@ struct nvmem_cell_entry {
- struct nvmem_cell {
- 	struct nvmem_cell_entry *entry;
- 	const char		*id;
-+	int			index;
- };
+@@ -53,6 +53,7 @@ struct nvmem_cell_entry {
+ 	int			bytes;
+ 	int			bit_offset;
+ 	int			nbits;
++	nvmem_cell_post_process_t read_post_process;
+ 	struct device_node	*np;
+ 	struct nvmem_device	*nvmem;
+ 	struct list_head	node;
+@@ -469,6 +470,7 @@ static int nvmem_cell_info_to_nvmem_cell_entry_nodup(struct nvmem_device *nvmem,
+ 	cell->offset = info->offset;
+ 	cell->bytes = info->bytes;
+ 	cell->name = info->name;
++	cell->read_post_process = info->read_post_process;
  
- static DEFINE_MUTEX(nvmem_mutex);
-@@ -1127,7 +1128,8 @@ struct nvmem_device *devm_nvmem_device_get(struct device *dev, const char *id)
- }
- EXPORT_SYMBOL_GPL(devm_nvmem_device_get);
- 
--static struct nvmem_cell *nvmem_create_cell(struct nvmem_cell_entry *entry, const char *id)
-+static struct nvmem_cell *nvmem_create_cell(struct nvmem_cell_entry *entry,
-+					    const char *id, int index)
- {
- 	struct nvmem_cell *cell;
- 	const char *name = NULL;
-@@ -1146,6 +1148,7 @@ static struct nvmem_cell *nvmem_create_cell(struct nvmem_cell_entry *entry, cons
- 
- 	cell->id = name;
- 	cell->entry = entry;
-+	cell->index = index;
- 
- 	return cell;
- }
-@@ -1184,7 +1187,7 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
- 				__nvmem_device_put(nvmem);
- 				cell = ERR_PTR(-ENOENT);
- 			} else {
--				cell = nvmem_create_cell(cell_entry, con_id);
-+				cell = nvmem_create_cell(cell_entry, con_id, 0);
- 				if (IS_ERR(cell))
- 					__nvmem_device_put(nvmem);
- 			}
-@@ -1232,15 +1235,27 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np, const char *id)
- 	struct nvmem_device *nvmem;
- 	struct nvmem_cell_entry *cell_entry;
- 	struct nvmem_cell *cell;
-+	struct of_phandle_args cell_spec;
- 	int index = 0;
-+	int cell_index = 0;
-+	int ret;
- 
- 	/* if cell name exists, find index to the name */
- 	if (id)
- 		index = of_property_match_string(np, "nvmem-cell-names", id);
- 
--	cell_np = of_parse_phandle(np, "nvmem-cells", index);
--	if (!cell_np)
--		return ERR_PTR(-ENOENT);
-+	ret = of_parse_phandle_with_optional_args(np, "nvmem-cells",
-+						  "#nvmem-cell-cells",
-+						  index, &cell_spec);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	if (cell_spec.args_count > 1)
-+		return ERR_PTR(-EINVAL);
-+
-+	cell_np = cell_spec.np;
-+	if (cell_spec.args_count)
-+		cell_index = cell_spec.args[0];
- 
- 	nvmem_np = of_get_parent(cell_np);
- 	if (!nvmem_np) {
-@@ -1262,7 +1277,7 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np, const char *id)
- 		return ERR_PTR(-ENOENT);
- 	}
- 
--	cell = nvmem_create_cell(cell_entry, id);
-+	cell = nvmem_create_cell(cell_entry, id, cell_index);
- 	if (IS_ERR(cell))
- 		__nvmem_device_put(nvmem);
- 
-@@ -1415,8 +1430,8 @@ static void nvmem_shift_read_buffer_in_place(struct nvmem_cell_entry *cell, void
- }
- 
- static int __nvmem_cell_read(struct nvmem_device *nvmem,
--		      struct nvmem_cell_entry *cell,
--		      void *buf, size_t *len, const char *id)
-+			     struct nvmem_cell_entry *cell,
-+			     void *buf, size_t *len, const char *id, int index)
- {
- 	int rc;
- 
-@@ -1430,7 +1445,7 @@ static int __nvmem_cell_read(struct nvmem_device *nvmem,
+ 	cell->bit_offset = info->bit_offset;
+ 	cell->nbits = info->nbits;
+@@ -1553,6 +1555,13 @@ static int __nvmem_cell_read(struct nvmem_device *nvmem,
+ 	if (cell->bit_offset || cell->nbits)
  		nvmem_shift_read_buffer_in_place(cell, buf);
  
++	if (cell->read_post_process) {
++		rc = cell->read_post_process(nvmem->priv, id, index,
++					     cell->offset, buf, cell->bytes);
++		if (rc)
++			return rc;
++	}
++
  	if (nvmem->cell_post_process) {
--		rc = nvmem->cell_post_process(nvmem->priv, id,
-+		rc = nvmem->cell_post_process(nvmem->priv, id, index,
+ 		rc = nvmem->cell_post_process(nvmem->priv, id, index,
  					      cell->offset, buf, cell->bytes);
- 		if (rc)
- 			return rc;
-@@ -1465,7 +1480,7 @@ void *nvmem_cell_read(struct nvmem_cell *cell, size_t *len)
- 	if (!buf)
- 		return ERR_PTR(-ENOMEM);
+@@ -1661,6 +1670,14 @@ static int __nvmem_cell_entry_write(struct nvmem_cell_entry *cell, void *buf, si
+ 	    (cell->bit_offset == 0 && len != cell->bytes))
+ 		return -EINVAL;
  
--	rc = __nvmem_cell_read(nvmem, cell->entry, buf, len, cell->id);
-+	rc = __nvmem_cell_read(nvmem, cell->entry, buf, len, cell->id, cell->index);
- 	if (rc) {
- 		kfree(buf);
- 		return ERR_PTR(rc);
-@@ -1778,7 +1793,7 @@ ssize_t nvmem_device_cell_read(struct nvmem_device *nvmem,
- 	if (rc)
- 		return rc;
- 
--	rc = __nvmem_cell_read(nvmem, &cell, buf, &len, NULL);
-+	rc = __nvmem_cell_read(nvmem, &cell, buf, &len, NULL, 0);
- 	if (rc)
- 		return rc;
- 
-diff --git a/drivers/nvmem/imx-ocotp.c b/drivers/nvmem/imx-ocotp.c
-index 14284e866f26..e9b52ecb3f72 100644
---- a/drivers/nvmem/imx-ocotp.c
-+++ b/drivers/nvmem/imx-ocotp.c
-@@ -222,8 +222,8 @@ static int imx_ocotp_read(void *context, unsigned int offset,
- 	return ret;
- }
- 
--static int imx_ocotp_cell_pp(void *context, const char *id, unsigned int offset,
--			     void *data, size_t bytes)
-+static int imx_ocotp_cell_pp(void *context, const char *id, int index,
-+			     unsigned int offset, void *data, size_t bytes)
- {
- 	struct ocotp_priv *priv = context;
- 
++	/*
++	 * Any cells which have a read_post_process hook are read-only because
++	 * we cannot reverse the operation and it might affect other cells,
++	 * too.
++	 */
++	if (cell->read_post_process)
++		return -EINVAL;
++
+ 	if (cell->bit_offset || cell->nbits) {
+ 		buf = nvmem_cell_prepare_write_buffer(cell, buf, len);
+ 		if (IS_ERR(buf))
 diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
-index 50caa117cb62..8f964b394292 100644
+index 4185767c114f..1930496d8854 100644
 --- a/include/linux/nvmem-provider.h
 +++ b/include/linux/nvmem-provider.h
-@@ -20,8 +20,8 @@ typedef int (*nvmem_reg_read_t)(void *priv, unsigned int offset,
- typedef int (*nvmem_reg_write_t)(void *priv, unsigned int offset,
- 				 void *val, size_t bytes);
- /* used for vendor specific post processing of cell data */
--typedef int (*nvmem_cell_post_process_t)(void *priv, const char *id, unsigned int offset,
--					  void *buf, size_t bytes);
-+typedef int (*nvmem_cell_post_process_t)(void *priv, const char *id, int index,
-+					 unsigned int offset, void *buf, size_t bytes);
+@@ -54,6 +54,8 @@ struct nvmem_keepout {
+  * @bit_offset:	Bit offset if cell is smaller than a byte.
+  * @nbits:	Number of bits.
+  * @np:		Optional device_node pointer.
++ * @read_post_process:	Callback for optional post processing of cell data
++ *			on reads.
+  */
+ struct nvmem_cell_info {
+ 	const char		*name;
+@@ -62,6 +64,7 @@ struct nvmem_cell_info {
+ 	unsigned int		bit_offset;
+ 	unsigned int		nbits;
+ 	struct device_node	*np;
++	nvmem_cell_post_process_t read_post_process;
+ };
  
- enum nvmem_type {
- 	NVMEM_TYPE_UNKNOWN = 0,
+ /**
 -- 
 2.30.2
 
