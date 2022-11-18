@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01736C4167D
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 18:52:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8A11C41535
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Nov 2022 18:52:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235250AbiKRSwG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 13:52:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52138 "EHLO
+        id S242312AbiKRSwH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 13:52:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242847AbiKRSvx (ORCPT
+        with ESMTP id S242842AbiKRSvx (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 13:51:53 -0500
 Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4D458FE6B
-        for <linux-doc@vger.kernel.org>; Fri, 18 Nov 2022 10:51:43 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1505F8FE6C;
+        Fri, 18 Nov 2022 10:51:43 -0800 (PST)
 Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 6A0D71D3E;
-        Fri, 18 Nov 2022 19:51:26 +0100 (CET)
+        by mail.3ffe.de (Postfix) with ESMTPSA id 39AE72425;
+        Fri, 18 Nov 2022 19:51:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1668797486;
+        t=1668797488;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=T8O2KQMPE2O01M8v+SA8VCZdDXPSXBpYyoavVmhy8dQ=;
-        b=Qee//rjRncNfbLFAxm3ewFj+I//0OcA9y80MhumWzUPQEQB9x1Acvl4IFFqChpXqAl3fmm
-        Bv4ipBpOjzB9rfy58nQ8V2AoP5xFI6d1PbL8OUuomKjsEXRIPyBxWsMNmJklWg4F61AP+h
-        JqDXbbJQt7oNiUc9TwuHGUdphPd+DIB8kB5Yt08tf4VDEXl+jNFxYwAXE78ZBVCrHq2Dg9
-        4LVFYoh+DRfmjvIFWN4/yiGj+1b2tQeIDazBgg6Iu2de+dbencTUHPz81vfzvJC04RLpCQ
-        g6fY/RFz8s4yDskD8NFLf18C0bfOGPb4jWVR0bEMiWQ+3DpfP5LVnexpLGIYPQ==
+        bh=YDoaHvyBqWrvft0gXJEgSIKrah/C9bAdp2KK5WyaSuo=;
+        b=K0nxA0n3Dcsx4aBa3WKEFfgTjORaDsc+tBpmqcqFQm5KQEnA5lshxVjDAz47RlHJ4UkEt9
+        Ej73nTaKXeid1cdQT6+7/vLk10c8chS82RNAjE8H9IBNk5QT1zOmPfeaMYp5RupENvySx8
+        bsCw/nJo5md2u+I2IHSNbdSBMWc7G4HzA4S5+/6fnJwFFiTlDRrMrFwGIXkQ5USDw3UYHG
+        Y2pmNJVplPAS0QUvPQdwFQAkrVGymLPe8EtTXmto/I8YeXtgFu4Z2VFFvrJCkSX1OvThTz
+        0OEnMq9ahyrKUAFOlS9zCtCVsXNu5UEllBjHwPdLK7a0B+1T6PyYqBu7lvgp7w==
 From:   Michael Walle <michael@walle.cc>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -41,9 +41,9 @@ To:     Jonathan Corbet <corbet@lwn.net>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Michael Walle <michael@walle.cc>
-Subject: [PATCH v3 03/18] nvmem: core: fix device node refcounting
-Date:   Fri, 18 Nov 2022 19:51:03 +0100
-Message-Id: <20221118185118.1190044-4-michael@walle.cc>
+Subject: [PATCH v3 06/18] nvmem: core: drop the removal of the cells in nvmem_add_cells()
+Date:   Fri, 18 Nov 2022 19:51:06 +0100
+Message-Id: <20221118185118.1190044-7-michael@walle.cc>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221118185118.1190044-1-michael@walle.cc>
 References: <20221118185118.1190044-1-michael@walle.cc>
@@ -54,48 +54,70 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In of_nvmem_cell_get(), of_get_next_parent() is used on cell_np. This
-will decrement the refcount on cell_np, but cell_np is still used later
-in the code. Use of_get_parent() instead and of_node_put() in the
-appropriate places.
+If nvmem_add_cells() fails, the whole nvmem_register() will fail
+and the cells will then be removed anyway. This is a prepartion
+to introduce a nvmem_add_one_cell() which can then be used by
+nvmem_add_cells().
+
+This is then the same to what nvmem_add_cells_from_table() and
+nvmem_add_cells_from_of() do.
 
 Signed-off-by: Michael Walle <michael@walle.cc>
 ---
 changes since v2:
- - new patch
+ - none
 
- drivers/nvmem/core.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+changes since v1:
+ - none
+
+ drivers/nvmem/core.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 321d7d63e068..205a427f564d 100644
+index 24573e63e5a9..7c76e0e0072e 100644
 --- a/drivers/nvmem/core.c
 +++ b/drivers/nvmem/core.c
-@@ -1242,16 +1242,21 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np, const char *id)
- 	if (!cell_np)
- 		return ERR_PTR(-ENOENT);
+@@ -515,7 +515,7 @@ static int nvmem_add_cells(struct nvmem_device *nvmem,
+ 		    int ncells)
+ {
+ 	struct nvmem_cell_entry **cells;
+-	int i, rval;
++	int i, rval = 0;
  
--	nvmem_np = of_get_next_parent(cell_np);
--	if (!nvmem_np)
-+	nvmem_np = of_get_parent(cell_np);
-+	if (!nvmem_np) {
-+		of_node_put(cell_np);
- 		return ERR_PTR(-EINVAL);
-+	}
+ 	cells = kcalloc(ncells, sizeof(*cells), GFP_KERNEL);
+ 	if (!cells)
+@@ -525,28 +525,22 @@ static int nvmem_add_cells(struct nvmem_device *nvmem,
+ 		cells[i] = kzalloc(sizeof(**cells), GFP_KERNEL);
+ 		if (!cells[i]) {
+ 			rval = -ENOMEM;
+-			goto err;
++			goto out;
+ 		}
  
- 	nvmem = __nvmem_device_get(nvmem_np, device_match_of_node);
- 	of_node_put(nvmem_np);
--	if (IS_ERR(nvmem))
-+	if (IS_ERR(nvmem)) {
-+		of_node_put(cell_np);
- 		return ERR_CAST(nvmem);
-+	}
+ 		rval = nvmem_cell_info_to_nvmem_cell_entry(nvmem, &info[i], cells[i]);
+ 		if (rval) {
+ 			kfree(cells[i]);
+-			goto err;
++			goto out;
+ 		}
  
- 	cell_entry = nvmem_find_cell_entry_by_node(nvmem, cell_np);
-+	of_node_put(cell_np);
- 	if (!cell_entry) {
- 		__nvmem_device_put(nvmem);
- 		return ERR_PTR(-ENOENT);
+ 		nvmem_cell_entry_add(cells[i]);
+ 	}
+ 
++out:
+ 	/* remove tmp array */
+ 	kfree(cells);
+ 
+-	return 0;
+-err:
+-	while (i--)
+-		nvmem_cell_entry_drop(cells[i]);
+-
+-	kfree(cells);
+-
+ 	return rval;
+ }
+ 
 -- 
 2.30.2
 
