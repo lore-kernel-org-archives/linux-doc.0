@@ -2,537 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42D6DC433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Nov 2022 03:00:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 034F5C433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Nov 2022 04:11:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230171AbiKSDAb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Nov 2022 22:00:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60470 "EHLO
+        id S232440AbiKSELY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Nov 2022 23:11:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229963AbiKSDAa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 22:00:30 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27521A4653;
-        Fri, 18 Nov 2022 19:00:29 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id d192so6622526pfd.0;
-        Fri, 18 Nov 2022 19:00:29 -0800 (PST)
+        with ESMTP id S234215AbiKSELB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Nov 2022 23:11:01 -0500
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FD669E94A;
+        Fri, 18 Nov 2022 20:10:20 -0800 (PST)
+Received: by mail-pl1-x62e.google.com with SMTP id y10so5023847plp.3;
+        Fri, 18 Nov 2022 20:10:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=etLGnw2OMt9eI36D0sxpDHeZERvGJG9x4prtGYl1hlw=;
-        b=Gl3dUJ5MhqKzzR2t3XL9fMztRR9RzPTYWLKf22ebbilt0zLXIVAWBAWhsVxvn5DqLc
-         v9JTVSvSS5lDSPU81BglZ9w9bbOnrEHICXduPA6QPqMahXaP4a/xdn8Og1yV7EzsZ736
-         vWO23LYM/WHQxHT1unvTCP2FkUpXoZsu+/xhHt3TDLStMtgwdAWbeSELXNSA5cV2Brzx
-         GkcLjSM2V2pJafYDVMZL0p81EsLWMQ8S2w+A01lDJyagn2szy18YK1pELsAzQzm/gtTH
-         0b4Ov7CGoxG0vgvU8q75r4m/XugF/+41zLPmtAH9AAWNtK2c6IT4NQS+f7lOG3HyWIEM
-         Zvug==
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PYpcDOJfodrsXL7K8gUKnRBne0m8YjW/xpNBqmi9ICU=;
+        b=SdWLDvPlCE/d1s5i2o//GpCZPHL1Muamna4Kmmqen1aocsjGNasTkJcEx5l1X96bcQ
+         LBp4JyqEpbxx3xAWTq4YEI+CtccUeSxmKYbFExPswOypNBGdf+jv0Qrgkl6RkCHCR0pl
+         bGbJbC+qe+gOJlbGLC5YwuvQJh52JQh7T9OTQOH/TqmWj389T8KTzsF/aAj+5piFOJSd
+         MD28hMx3yBgTkS7FQOeEEio8KG/TKbr6LAnRuLZu/c/IgzDYbaVYsGovxEk2ehMkGZvv
+         3uPIiZTNrZxmqrCET3ioE3L8R1+3nd58xjTBP56j3v9G19bk+eOHeK5GwbCvUpombQ9z
+         1nbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=etLGnw2OMt9eI36D0sxpDHeZERvGJG9x4prtGYl1hlw=;
-        b=RrO2my2SELMgYDlS4B64yrhQpkaUt7K5l5QPsqhwc4FnJpZLyBjB55QoUCk7LZ79gq
-         bTLno0BGT11SD7c62SMf3PKBYKfSERNKwrUqbhbx8HMkTBtKbEHP+ug9+v/jUy+9JOT0
-         4qMIp3tFFMnp8QVy84rOwpX5xeTcWuaYhpk36zAK5kxBel8b32bRrHPNbc5mULQ5M9FQ
-         YOh4IJqaVp2tLRwrqh3+q9hOyU+uc95Bes61eO+vXPkJRfXA0itauqv5Vy7v9J6ydJQ6
-         woVBGE4USSeK42snj5lUhVcbghkuhQSNXTAkCWd8PYPAuwH5zxxvrwi8nt4c7EvWgvHE
-         l1xA==
-X-Gm-Message-State: ANoB5pm60sZqU9G2IDk5OitFSsKCp38mGQRCO8Ocz+Zf53P4UGaR5Aav
-        a7ZouvLl1Jt1pZA4Zio8DyonZeCUKfI=
-X-Google-Smtp-Source: AA0mqf7obYmF8GZTQtkqhTJ2PVUxU/0Vdy8nU/xeEuGGZKmTCBjH2HKJFJN3RyAu4Ql94VB163Qv9w==
-X-Received: by 2002:aa7:8092:0:b0:561:ada0:69d7 with SMTP id v18-20020aa78092000000b00561ada069d7mr10815416pff.9.1668826828437;
-        Fri, 18 Nov 2022 19:00:28 -0800 (PST)
-Received: from debian.me (subs03-180-214-233-79.three.co.id. [180.214.233.79])
-        by smtp.gmail.com with ESMTPSA id g8-20020a17090a640800b0020a81cf4a9asm6106030pjj.14.2022.11.18.19.00.27
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PYpcDOJfodrsXL7K8gUKnRBne0m8YjW/xpNBqmi9ICU=;
+        b=p8pOxKvouw4SRjUB2spT1RfX1zJL2tTUl2EfpWwHoQvrhcO12mTVt4YLyMxRMxvnt3
+         8c8zrmxyMIpIUcPH2cbLcQuFroLkaxPKEJihnvGa5OAoGXkmU8FcwfN8a7itBd6md4Au
+         UfhsXku+yFsbF0Q+RF0KPIiPgzXFLHPNNCYPazpDd63ke2Dwzx4QaCiq05sn0Gai3mwx
+         DDfuWTXrg7oi/LMnyI5eY7omr0DvfSN2KMdwX3tDBADp7kSOky4Y111JlEZpw2f6cbVQ
+         ewiT6DbzHMDPd97lbMft2UQjpmbDsJoBWsW0JUfg3357JFxC7sU8xToGGwuT8038dvIb
+         0SKw==
+X-Gm-Message-State: ANoB5pnStA5IMp1fqfwFe94F2QhS27eyKDuh2COi+cYTYVVdEUXVlzhS
+        0CIKmq/1O5VhzS//kAJqBgs=
+X-Google-Smtp-Source: AA0mqf7xmMLhyAVAojMS8sA21zZByg8HH4uipalwhW611N4r57jb2M4QTY6aianvHVUIaRqMlRXJqg==
+X-Received: by 2002:a17:902:bc43:b0:189:1e5:8424 with SMTP id t3-20020a170902bc4300b0018901e58424mr2358884plz.156.1668831019524;
+        Fri, 18 Nov 2022 20:10:19 -0800 (PST)
+Received: from debian.me (subs32-116-206-28-33.three.co.id. [116.206.28.33])
+        by smtp.gmail.com with ESMTPSA id t20-20020a17090a951400b001fb1de10a4dsm3136996pjo.33.2022.11.18.20.10.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 19:00:27 -0800 (PST)
+        Fri, 18 Nov 2022 20:10:18 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-        id 075B410434B; Sat, 19 Nov 2022 10:00:23 +0700 (WIB)
-Date:   Sat, 19 Nov 2022 10:00:23 +0700
+        id 9B2F810131E; Sat, 19 Nov 2022 11:10:15 +0700 (WIB)
+Date:   Sat, 19 Nov 2022 11:10:15 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH bpf-next v5] docs/bpf: Add table of BPF program types to
- libbpf docs
-Message-ID: <Y3hGx1CovMeb/1MN@debian.me>
-References: <20221118152859.69645-1-donald.hunter@gmail.com>
+To:     Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        David Hildenbrand <david@redhat.com>,
+        Hugh Dickins <hughd@google.com>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Peter Xu <peterx@redhat.com>, Yu Zhao <yuzhao@google.com>,
+        Colin Cross <ccross@google.com>, Arnd Bergmann <arnd@arndb.de>,
+        Pasha Tatashin <pasha.tatashin@soleen.com>
+Subject: Cannot parse struct or union error on mm-everything
+Message-ID: <Y3hXJ0D+qAwfpm7B@debian.me>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="6TR2Pzw3ZpEkZAuV"
+        protocol="application/pgp-signature"; boundary="PYM4qzxBlogO0qIF"
 Content-Disposition: inline
-In-Reply-To: <20221118152859.69645-1-donald.hunter@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---6TR2Pzw3ZpEkZAuV
+--PYM4qzxBlogO0qIF
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 18, 2022 at 03:28:59PM +0000, Donald Hunter wrote:
-> Extend the libbpf documentation with a table of program types,
-> attach points and ELF section names.
->=20
-> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-> ---
->  Documentation/bpf/libbpf/index.rst         |   3 +
->  Documentation/bpf/libbpf/program_types.rst | 203 +++++++++++++++++++++
->  Documentation/bpf/programs.rst             |   3 +
->  3 files changed, 209 insertions(+)
->  create mode 100644 Documentation/bpf/libbpf/program_types.rst
->=20
-> diff --git a/Documentation/bpf/libbpf/index.rst b/Documentation/bpf/libbp=
-f/index.rst
-> index 3722537d1384..f9b3b252e28f 100644
-> --- a/Documentation/bpf/libbpf/index.rst
-> +++ b/Documentation/bpf/libbpf/index.rst
-> @@ -1,5 +1,7 @@
->  .. SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-> =20
-> +.. _libbpf:
-> +
->  libbpf
->  =3D=3D=3D=3D=3D=3D
-> =20
-> @@ -7,6 +9,7 @@ libbpf
->     :maxdepth: 1
-> =20
->     API Documentation <https://libbpf.readthedocs.io/en/latest/api.html>
-> +   program_types
->     libbpf_naming_convention
->     libbpf_build
-> =20
-> diff --git a/Documentation/bpf/libbpf/program_types.rst b/Documentation/b=
-pf/libbpf/program_types.rst
-> new file mode 100644
-> index 000000000000..544e1597ff5f
-> --- /dev/null
-> +++ b/Documentation/bpf/libbpf/program_types.rst
-> @@ -0,0 +1,203 @@
-> +.. SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-> +
-> +.. _program_types_and_elf:
-> +
-> +Program Types and ELF Sections
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> +
-> +The table below lists the program types, their attach types where releva=
-nt and the ELF section
-> +names supported by libbpf for them. The ELF section names follow these r=
-ules:
-> +
-> +- ``type`` is an exact match, e.g. ``SEC("socket")``
-> +- ``type+`` means it can be either exact ``SEC("type")`` or well-formed =
-``SEC("type/extras")``
-> +  with a '``/``' separator between ``type`` and ``extras``.
-> +
-> +When ``extras`` are specified, they provide details of how to auto-attac=
-h the BPF program.  The
-> +format of ``extras`` depends on the program type, e.g. ``SEC("tracepoint=
-/<category>/<name>")``
-> +for tracepoints or ``SEC("usdt/<path>:<provider>:<name>")`` for USDT pro=
-bes. The extras are
-> +described in more detail in the footnotes.
-> +
-> +
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| Program Type                              | Attach Type               =
-             | ELF Section Name                 | Sleepable |
-> ++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D+
-> +| ``BPF_PROG_TYPE_CGROUP_DEVICE``           | ``BPF_CGROUP_DEVICE``     =
-             | ``cgroup/dev``                   |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_CGROUP_SKB``              |                           =
-             | ``cgroup/skb``                   |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_INET_EGRESS``=
-             | ``cgroup_skb/egress``            |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_INET_INGRESS`=
-`            | ``cgroup_skb/ingress``           |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_CGROUP_SOCKOPT``          | ``BPF_CGROUP_GETSOCKOPT`` =
-             | ``cgroup/getsockopt``            |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_SETSOCKOPT`` =
-             | ``cgroup/setsockopt``            |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_CGROUP_SOCK_ADDR``        | ``BPF_CGROUP_INET4_BIND`` =
-             | ``cgroup/bind4``                 |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_INET4_CONNECT=
-``           | ``cgroup/connect4``              |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_INET4_GETPEER=
-NAME``       | ``cgroup/getpeername4``          |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_INET4_GETSOCK=
-NAME``       | ``cgroup/getsockname4``          |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_INET6_BIND`` =
-             | ``cgroup/bind6``                 |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_INET6_CONNECT=
-``           | ``cgroup/connect6``              |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_INET6_GETPEER=
-NAME``       | ``cgroup/getpeername6``          |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_INET6_GETSOCK=
-NAME``       | ``cgroup/getsockname6``          |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_UDP4_RECVMSG`=
-`            | ``cgroup/recvmsg4``              |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_UDP4_SENDMSG`=
-`            | ``cgroup/sendmsg4``              |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_UDP6_RECVMSG`=
-`            | ``cgroup/recvmsg6``              |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_UDP6_SENDMSG`=
-`            | ``cgroup/sendmsg6``              |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_CGROUP_SOCK``             | ``BPF_CGROUP_INET4_POST_BI=
-ND``         | ``cgroup/post_bind4``            |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_INET6_POST_BI=
-ND``         | ``cgroup/post_bind6``            |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_INET_SOCK_CRE=
-ATE``        | ``cgroup/sock_create``           |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``cgroup/sock``                  |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_CGROUP_INET_SOCK_REL=
-EASE``       | ``cgroup/sock_release``          |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_CGROUP_SYSCTL``           | ``BPF_CGROUP_SYSCTL``     =
-             | ``cgroup/sysctl``                |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_EXT``                     |                           =
-             | ``freplace+`` [#fentry]_         |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_FLOW_DISSECTOR``          | ``BPF_FLOW_DISSECTOR``    =
-             | ``flow_dissector``               |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_KPROBE``                  |                           =
-             | ``kprobe+`` [#kprobe]_           |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``kretprobe+`` [#kprobe]_        |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``ksyscall+`` [#ksyscall]_       |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             |  ``kretsyscall+`` [#ksyscall]_   |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``uprobe+`` [#uprobe]_           |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``uprobe.s+`` [#uprobe]_         | Yes       |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``uretprobe+`` [#uprobe]_        |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``uretprobe.s+`` [#uprobe]_      | Yes       |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``usdt+`` [#usdt]_               |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_TRACE_KPROBE_MULTI``=
-             | ``kprobe.multi+`` [#kpmulti]_    |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``kretprobe.multi+`` [#kpmulti]_ |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_LIRC_MODE2``              | ``BPF_LIRC_MODE2``        =
-             | ``lirc_mode2``                   |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_LSM``                     | ``BPF_LSM_CGROUP``        =
-             | ``lsm_cgroup+``                  |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_LSM_MAC``           =
-             | ``lsm+`` [#lsm]_                 |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``lsm.s+`` [#lsm]_               | Yes       |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_LWT_IN``                  |                           =
-             | ``lwt_in``                       |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_LWT_OUT``                 |                           =
-             | ``lwt_out``                      |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_LWT_SEG6LOCAL``           |                           =
-             | ``lwt_seg6local``                |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_LWT_XMIT``                |                           =
-             | ``lwt_xmit``                     |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_PERF_EVENT``              |                           =
-             | ``perf_event``                   |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_RAW_TRACEPOINT_WRITABLE`` |                           =
-             | ``raw_tp.w+`` [#rawtp]_          |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``raw_tracepoint.w+``            |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_RAW_TRACEPOINT``          |                           =
-             | ``raw_tp+`` [#rawtp]_            |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``raw_tracepoint+``              |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_SCHED_ACT``               |                           =
-             | ``action``                       |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_SCHED_CLS``               |                           =
-             | ``classifier``                   |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``tc``                           |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_SK_LOOKUP``               | ``BPF_SK_LOOKUP``         =
-             | ``sk_lookup``                    |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_SK_MSG``                  | ``BPF_SK_MSG_VERDICT``    =
-             | ``sk_msg``                       |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_SK_REUSEPORT``            | ``BPF_SK_REUSEPORT_SELECT_=
-OR_MIGRATE`` | ``sk_reuseport/migrate``         |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_SK_REUSEPORT_SELECT`=
-`            | ``sk_reuseport``                 |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_SK_SKB``                  |                           =
-             | ``sk_skb``                       |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_SK_SKB_STREAM_PARSER=
-``           | ``sk_skb/stream_parser``         |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_SK_SKB_STREAM_VERDIC=
-T``          | ``sk_skb/stream_verdict``        |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_SOCKET_FILTER``           |                           =
-             | ``socket``                       |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_SOCK_OPS``                | ``BPF_CGROUP_SOCK_OPS``   =
-             | ``sockops``                      |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_STRUCT_OPS``              |                           =
-             | ``struct_ops+``                  |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_SYSCALL``                 |                           =
-             | ``syscall``                      | Yes       |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_TRACEPOINT``              |                           =
-             | ``tp+`` [#tp]_                   |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``tracepoint+`` [#tp]_           |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_TRACING``                 | ``BPF_MODIFY_RETURN``     =
-             | ``fmod_ret+`` [#fentry]_         |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``fmod_ret.s+`` [#fentry]_       | Yes       |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_TRACE_FENTRY``      =
-             | ``fentry+`` [#fentry]_           |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``fentry.s+`` [#fentry]_         | Yes       |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_TRACE_FEXIT``       =
-             | ``fexit+`` [#fentry]_            |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``fexit.s+`` [#fentry]_          | Yes       |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_TRACE_ITER``        =
-             | ``iter+`` [#iter]_               |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``iter.s+`` [#iter]_             | Yes       |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_TRACE_RAW_TP``      =
-             | ``tp_btf+`` [#fentry]_           |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +| ``BPF_PROG_TYPE_XDP``                     | ``BPF_XDP_CPUMAP``        =
-             | ``xdp.frags/cpumap``             |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``xdp/cpumap``                   |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_XDP_DEVMAP``        =
-             | ``xdp.frags/devmap``             |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``xdp/devmap``                   |           |
-> ++                                           +---------------------------=
--------------+----------------------------------+-----------+
-> +|                                           | ``BPF_XDP``               =
-             | ``xdp.frags``                    |           |
-> ++                                           +                           =
-             +----------------------------------+-----------+
-> +|                                           |                           =
-             | ``xdp``                          |           |
-> ++-------------------------------------------+---------------------------=
--------------+----------------------------------+-----------+
-> +
-> +
-> +.. rubric:: Footnotes
-> +
-> +.. [#fentry] The ``fentry`` attach format is ``fentry[.s]/<function>``.
-> +.. [#kprobe] The ``kprobe`` attach format is ``kprobe/<function>[+<offse=
-t>]``. Valid
-> +             characters for ``function`` are ``a-zA-Z0-9_.`` and ``offse=
-t`` must be a valid
-> +             integer.
-> +.. [#ksyscall] The ``ksyscall`` attach format is ``ksyscall/<syscall>``.
-> +.. [#uprobe] The ``uprobe`` attach format is ``uprobe[.s]/<path>:<functi=
-on>[+<offset>]``.
-> +.. [#usdt] The ``usdt`` attach format is ``usdt/<path>:<provider>:<name>=
-``.
-> +.. [#kpmulti] The ``kprobe.multi`` attach format is ``kprobe.multi/<patt=
-ern>`` where ``pattern``
-> +              supports ``*`` and ``?`` wildcards. Valid characters for p=
-attern are
-> +              ``a-zA-Z0-9_.*?``.
-> +.. [#lsm] The ``lsm`` attachment format is ``lsm[.s]/<hook>``.
-> +.. [#rawtp] The ``raw_tp`` attach format is ``raw_tracepoint[.w]/<tracep=
-oint>``.
-> +.. [#tp] The ``tracepoint`` attach format is ``tracepoint/<category>/<na=
-me>``.
-> +.. [#iter] The ``iter`` attach format is ``iter[.s]/<struct-name>``.
-> diff --git a/Documentation/bpf/programs.rst b/Documentation/bpf/programs.=
-rst
-> index 620eb667ac7a..c99000ab6d9b 100644
-> --- a/Documentation/bpf/programs.rst
-> +++ b/Documentation/bpf/programs.rst
-> @@ -7,3 +7,6 @@ Program Types
->     :glob:
-> =20
->     prog_*
-> +
-> +For a list of all program types, see :ref:`program_types_and_elf` in
-> +the :ref:`libbpf` documentation.
+Greetings,
 
-The doc LGTM, thanks.
+I found a new htmldocs warning on mm-everything:
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-versi=
+on 2.4.4 -internal ./include/linux/mm_types.h' failed with return code 1
+
+Checking the header with './scripts/kernel-doc -v -none=20
+=2E/include/linux/mm_types.h', I got the full error:
+
+include/linux/mm_types.h:255: info: Scanning doc for struct encoded_page
+include/linux/mm_types.h:268: error: Cannot parse struct or union!
+include/linux/mm_types.h:287: info: Scanning doc for struct folio
+include/linux/mm_types.h:917: info: Scanning doc for typedef vm_fault_t
+include/linux/mm_types.h:924: info: Scanning doc for enum vm_fault_reason
+include/linux/mm_types.h:1028: info: Scanning doc for enum fault_flag
+1 errors
+
+The culprit is encoded_page struct, which is null struct (nonexistent type)
+with kernel-doc comments:
+
+/**
+ * struct encoded_page - a nonexistent type marking this pointer
+ *
+ * An 'encoded_page' pointer is a pointer to a regular 'struct page', but
+ * with the low bits of the pointer indicating extra context-dependent
+ * information. Not super-common, but happens in mmu_gather and mlock
+ * handling, and this acts as a type system check on that use.
+ *
+ * We only really have two guaranteed bits in general, although you could
+ * play with 'struct page' alignment (see CONFIG_HAVE_ALIGNED_STRUCT_PAGE)
+ * for more.
+ *
+ * Use the supplied helper functions to endcode/decode the pointer and bits.
+ */
+struct encoded_page;
+
+The struct is introduced by d57ab372568585 ("mm: introduce 'encoded' page
+pointers with embedded extra bits").
+
+Thanks.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---6TR2Pzw3ZpEkZAuV
+--PYM4qzxBlogO0qIF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY3hGwwAKCRD2uYlJVVFO
-o3VBAQDXLlD+HY4hKaBVWINkbWKq2O5Nl+8x81C5IIdetly47QD/adl1joZTvrif
-rngCvkmmM3zf0ixfCLypVWr9Nll63wY=
-=zZXt
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY3hXIgAKCRD2uYlJVVFO
+oy9GAQD3dc8vDZO0faWCSOEfGMQxg+GSElZME4FKGFeSY/aM3AD/XhEPWkai/23w
+f2c8afnHyGooLCnMQc86vQeg4WM13gY=
+=da30
 -----END PGP SIGNATURE-----
 
---6TR2Pzw3ZpEkZAuV--
+--PYM4qzxBlogO0qIF--
