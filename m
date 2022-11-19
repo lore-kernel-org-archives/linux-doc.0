@@ -2,106 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0307C4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Nov 2022 05:27:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06CBFC433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Nov 2022 08:13:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229978AbiKSF07 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 19 Nov 2022 00:26:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50676 "EHLO
+        id S230211AbiKSINE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Nov 2022 03:13:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbiKSF0y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Nov 2022 00:26:54 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A301BF593;
-        Fri, 18 Nov 2022 21:26:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=Oyh1N77AUIR8biKDA4ZZW31e5gFvL6G7BfYmUpcFkYs=; b=T86BOnrA6k/isow+Gz6LM8HKrq
-        RuS6bXLabOUjY+GE8XqjpUGtS0pcdI7qr2m1e9avhc3BlDGzBVD9HAmL49dYR/70R7nvAlp/Ax0nm
-        iHzUIl1bCauWQ/4639Oz3TNFJiinEiIWvYKDP5oKF2V8Mh0XTT9SCgem1CJk4a1nRRrKfef92Hfc7
-        h3h631eiZ7TfnDPXYRpHjqaqcecnXxQdPxsDUFq2YbqTFocAAdy47F1kTaUDKNSlgguWl/iljTw+5
-        FI1T+c4SXpc/KC3FKrHixzKOWTW9NaNHzCpxSwwUn/46pLT/02HZMHb3lWpr9b0dDmbBlxey4hexp
-        810QqjPw==;
-Received: from [2601:1c2:d80:3110::a2e7]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1owGNM-00BNov-Th; Sat, 19 Nov 2022 05:26:49 +0000
-Message-ID: <87c11d37-50ab-2c81-c454-d085c1fdff52@infradead.org>
-Date:   Fri, 18 Nov 2022 21:26:47 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: Cannot parse struct or union error on mm-everything
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        David Hildenbrand <david@redhat.com>,
-        Hugh Dickins <hughd@google.com>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Peter Xu <peterx@redhat.com>, Yu Zhao <yuzhao@google.com>,
-        Colin Cross <ccross@google.com>, Arnd Bergmann <arnd@arndb.de>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>
-References: <Y3hXJ0D+qAwfpm7B@debian.me>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <Y3hXJ0D+qAwfpm7B@debian.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229802AbiKSIND (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Nov 2022 03:13:03 -0500
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5AAD7DEE8
+        for <linux-doc@vger.kernel.org>; Sat, 19 Nov 2022 00:13:00 -0800 (PST)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-393fc59d09fso47883947b3.18
+        for <linux-doc@vger.kernel.org>; Sat, 19 Nov 2022 00:13:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=mxlxAlM6/dget+xcMGAu2YOt8fNlUAK4C29Oqcd00C8=;
+        b=IcwXafexRAl664jaBoJyAa5mMQYLIYMkPXwqAvZb6o4ue+mpDnBlE0xs0UzTUu6YrL
+         J/64TUXc9QJcwIpZb9Yj/DCH6Dwppd6ZMkmAPNMO9NLSQpa+UGz749sgxZn2x0YkNUIf
+         LXPeai2EGngQkB7CfGiliNP7pMyGOorEuwIKH7/iimSqlhTNe9/StKThGkjm1J478yQT
+         FjE1xZ26fMXjtNwEj/vs994FgwWwhpqoI2BaovX8NQreDY9YAYWcG+493mAuAS7O7+Dr
+         a5zzfXgoWCsjb0963b6N3+kOMQOwst8wLhiAngZj5t5raxaGfEX5swv2inf1I1yUiP9c
+         uOiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mxlxAlM6/dget+xcMGAu2YOt8fNlUAK4C29Oqcd00C8=;
+        b=v2BQTVVaYVXQY2hFfDo7D47AbYKS1wCzgNskWFN3LmdUvZbTZCKtmgoD4d43WRY/wS
+         ULp9n3LprTDkFeXTlijWYeJBN85G2G/asNWuyz6Wksr6OWwYUWlx3Eqs0r+4CMHRhtVc
+         loimOc9mf6thjcbZCkoPcUjPeXJv4enKAbkMnst3F6aJVetKPIkEm5fTOEAGpzU3qc3N
+         u/9lduEGAp36Be2Aq5Qk5HzUfmP0Z4alrOTBdqGg/1nZG1oR/+gG2NDPqu8ZVpz/r3yK
+         mKbsYeLqaYNvWJaOxn6yCD7Ol7FZGHzCFE1NPPmpTZFWOeEa1v/Zakko7JIvyJxL2MHP
+         L5hA==
+X-Gm-Message-State: ANoB5pnZ6GSf2v9CuhApTqVZQRFzJLcKGPilcVcKKyQo7pHDiovAJiJr
+        2BQJa4UtFVNl3k+eG9WYOLpxYEePgyFawg==
+X-Google-Smtp-Source: AA0mqf67B7vUfx2Z0il/dhl9vKO2jAAok4f+bf6diQKTxBlXzTpb7pEn7mFBK76m9TQGjgkDGqNWmpmh5ibXWQ==
+X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
+ (user=davidgow job=sendgmr) by 2002:a25:e807:0:b0:6ca:21b3:42ec with SMTP id
+ k7-20020a25e807000000b006ca21b342ecmr9916189ybd.398.1668845579853; Sat, 19
+ Nov 2022 00:12:59 -0800 (PST)
+Date:   Sat, 19 Nov 2022 16:12:50 +0800
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.38.1.584.g0f3c55d4c2-goog
+Message-ID: <20221119081252.3864249-1-davidgow@google.com>
+Subject: [PATCH v3 1/3] kunit: Provide a static key to check if KUnit is
+ actively running tests
+From:   David Gow <davidgow@google.com>
+To:     Brendan Higgins <brendan.higgins@linux.dev>,
+        Daniel Latypov <dlatypov@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Cc:     David Gow <davidgow@google.com>, kunit-dev@googlegroups.com,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+KUnit does a few expensive things when enabled. This hasn't been a
+problem because KUnit was only enabled on test kernels, but with a few
+people enabling (but not _using_) KUnit on production systems, we need a
+runtime way of handling this.
 
+Provide a 'kunit_running' static key (defaulting to false), which allows
+us to hide any KUnit code behind a static branch. This should reduce the
+performance impact (on other code) of having KUnit enabled to a single
+NOP when no tests are running.
 
-On 11/18/22 20:10, Bagas Sanjaya wrote:
-> Greetings,
-> 
-> I found a new htmldocs warning on mm-everything:
-> 
-> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 2.4.4 -internal ./include/linux/mm_types.h' failed with return code 1
-> 
-> Checking the header with './scripts/kernel-doc -v -none 
-> ./include/linux/mm_types.h', I got the full error:
-> 
-> include/linux/mm_types.h:255: info: Scanning doc for struct encoded_page
-> include/linux/mm_types.h:268: error: Cannot parse struct or union!
-> include/linux/mm_types.h:287: info: Scanning doc for struct folio
-> include/linux/mm_types.h:917: info: Scanning doc for typedef vm_fault_t
-> include/linux/mm_types.h:924: info: Scanning doc for enum vm_fault_reason
-> include/linux/mm_types.h:1028: info: Scanning doc for enum fault_flag
-> 1 errors
-> 
-> The culprit is encoded_page struct, which is null struct (nonexistent type)
-> with kernel-doc comments:
-> 
-> /**
->  * struct encoded_page - a nonexistent type marking this pointer
->  *
->  * An 'encoded_page' pointer is a pointer to a regular 'struct page', but
->  * with the low bits of the pointer indicating extra context-dependent
->  * information. Not super-common, but happens in mmu_gather and mlock
->  * handling, and this acts as a type system check on that use.
->  *
->  * We only really have two guaranteed bits in general, although you could
->  * play with 'struct page' alignment (see CONFIG_HAVE_ALIGNED_STRUCT_PAGE)
->  * for more.
->  *
->  * Use the supplied helper functions to endcode/decode the pointer and bits.
->  */
-> struct encoded_page;
-> 
-> The struct is introduced by d57ab372568585 ("mm: introduce 'encoded' page
-> pointers with embedded extra bits").
+Note that, while it looks unintuitive, tests always run entirely within
+__kunit_test_suites_init(), so it's safe to decrement the static key at
+the end of this function, rather than in __kunit_test_suites_exit(),
+which is only there to clean up results in debugfs.
 
-https://lore.kernel.org/all/CAHk-=wiyYSrBiOKJEV3phOBDT7EMgdXCnDUrp57E8HGNT4SFdA@mail.gmail.com/
+Signed-off-by: David Gow <davidgow@google.com>
+---
 
-I guess that nobody has "fixed" it yet.
+This should be a no-op (other than a possible performance improvement)
+functionality-wise, and lays the groundwork for a more optimised static
+stub implementation.
 
+The remaining patches in the series add a kunit_get_current_test()
+function which is a more friendly and performant wrapper around
+current->kunit_test, and use this in the slub test. They also improve
+the documentation a bit.
+
+If there are no objections, we'll take the whole series via the KUnit
+tree.
+
+No changes since v2:
+https://lore.kernel.org/all/20221025071907.1251820-1-davidgow@google.com/
+
+Changes since v1:
+https://lore.kernel.org/linux-kselftest/20221021072854.333010-1-davidgow@google.com/
+- No changes in this patch.
+- Patch 2/3 is reworked, patch 3/3 is new.
+
+---
+ include/kunit/test.h | 4 ++++
+ lib/kunit/test.c     | 6 ++++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/include/kunit/test.h b/include/kunit/test.h
+index d7f60e8aab30..b948c32a7b6b 100644
+--- a/include/kunit/test.h
++++ b/include/kunit/test.h
+@@ -16,6 +16,7 @@
+ #include <linux/container_of.h>
+ #include <linux/err.h>
+ #include <linux/init.h>
++#include <linux/jump_label.h>
+ #include <linux/kconfig.h>
+ #include <linux/kref.h>
+ #include <linux/list.h>
+@@ -27,6 +28,9 @@
+ 
+ #include <asm/rwonce.h>
+ 
++/* Static key: true if any KUnit tests are currently running */
++extern struct static_key_false kunit_running;
++
+ struct kunit;
+ 
+ /* Size of log associated with test. */
+diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+index 90640a43cf62..314717b63080 100644
+--- a/lib/kunit/test.c
++++ b/lib/kunit/test.c
+@@ -20,6 +20,8 @@
+ #include "string-stream.h"
+ #include "try-catch-impl.h"
+ 
++DEFINE_STATIC_KEY_FALSE(kunit_running);
++
+ #if IS_BUILTIN(CONFIG_KUNIT)
+ /*
+  * Fail the current test and print an error message to the log.
+@@ -612,10 +614,14 @@ int __kunit_test_suites_init(struct kunit_suite * const * const suites, int num_
+ 		return 0;
+ 	}
+ 
++	static_branch_inc(&kunit_running);
++
+ 	for (i = 0; i < num_suites; i++) {
+ 		kunit_init_suite(suites[i]);
+ 		kunit_run_tests(suites[i]);
+ 	}
++
++	static_branch_dec(&kunit_running);
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(__kunit_test_suites_init);
 -- 
-~Randy
+2.38.1.584.g0f3c55d4c2-goog
+
