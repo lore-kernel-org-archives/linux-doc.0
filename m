@@ -2,199 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F70FC4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Nov 2022 08:19:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D12D9C433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Nov 2022 08:57:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232440AbiKSITR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 19 Nov 2022 03:19:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38560 "EHLO
+        id S233543AbiKSI5l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Nov 2022 03:57:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232173AbiKSITP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Nov 2022 03:19:15 -0500
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84FD38B847
-        for <linux-doc@vger.kernel.org>; Sat, 19 Nov 2022 00:19:14 -0800 (PST)
-Received: by mail-vs1-xe30.google.com with SMTP id i2so6867343vsc.1
-        for <linux-doc@vger.kernel.org>; Sat, 19 Nov 2022 00:19:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DpKSTG5kZDSxvOFhAMmFmoh+EMy0FtOLjjyM8Ooh+bo=;
-        b=ryWDgoeoMKmettA+I7jP8Gdzp7Qo7mmyAo2wCadHjBvfo8X8Zpvq6Y/dCm3wbB/lt3
-         IOlYpHdSTu25NVHvw13uUnxRhu1fqESj1vAskcbNA7AWpRhsN8xjyw08kqcAFIkWATps
-         7n/dgFYY+LnvsX5TVIJ9YM/ZBbsEEz2mff8dLBTK0VKWQG9fB03LoeDzXTLsBTkhb7wZ
-         q8V1B/q0a1Z6mPhU/MuASN/0PHeMfuHH7HLbVmEjp8XKA9qJhOsTUuKLM/mQFAubG83I
-         6m3xycsyMww4YwJa8Vi5kZotUSb7rXWK5a46Ml60+51sHhNIZCp5sXduLFKUcUDIsPtO
-         85uw==
+        with ESMTP id S229500AbiKSI5j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Nov 2022 03:57:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65E659A269
+        for <linux-doc@vger.kernel.org>; Sat, 19 Nov 2022 00:56:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1668848205;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dTnMAWMcXOaxFIQpcfG6YUPgYRs3mGJmNnh2pJlkTaQ=;
+        b=ZGtVncCjD+C6ov1SM24yf80ykWk2EMw5+ymH7HKEYe+6cOihfIwVBx/vde5kNDnaT75qh+
+        W/J/B9lS3aqavKKLpt+MvwjHVQjr/zZeTmZmZMUAUfQYIjaGZOKafMXcjDDpRNq12FJ9xb
+        /ChvyX9z0jVybzwmsMEly8Qc0T1tkdY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-583-wOSFAK8nMEWMVsY9gRtjkw-1; Sat, 19 Nov 2022 03:56:43 -0500
+X-MC-Unique: wOSFAK8nMEWMVsY9gRtjkw-1
+Received: by mail-wm1-f72.google.com with SMTP id u9-20020a05600c00c900b003cfb12839d6so1742075wmm.5
+        for <linux-doc@vger.kernel.org>; Sat, 19 Nov 2022 00:56:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DpKSTG5kZDSxvOFhAMmFmoh+EMy0FtOLjjyM8Ooh+bo=;
-        b=vvrHnXSWNaNgAyaYWsvtU3gjCMGKzgSeuT36dzdzfwBncp0TZ1cNYJHTeSQ9/Bj+hh
-         QzgPwHbD+rxsVFpFWLcOddzf1y11LBcar+tiMRTbEUypqDR4aILAKTEzLvnep6OILVqy
-         7+SjKp9WUcH90xWphkjJWv3ZtY5oD8Lyg9wlGwC7ymZwnV8A/INjY5B0IccKf//7h8Ji
-         9DXwnrq6PWzhUeRb2CeWHoah9tPE68ie9pX2djgx7T2+LN36qcq0iWzY21A0FjdYXL4m
-         bQP6PXO7pmahlW0tNPwb9957VK2DZw72WjyFObfiM5pmyfxzuvoUiRyduoFnwILBhqoI
-         IpdQ==
-X-Gm-Message-State: ANoB5plACqUck5rDlhJkUwHtAPLXFrUdvJLeIREgI7FuYzQI923Z51Q9
-        t0IOJ4Rj4xyYZwQlp5flQb7A8FzG124817/nvOYH4A==
-X-Google-Smtp-Source: AA0mqf7rBXVosx7q6pT8aPj7hruUwSwblYlzyL9WkKPLwVlBlpa9/4kMFI7LUrpOsAQYG/ySjSt0suzyxAlFFecJkfc=
-X-Received: by 2002:a67:6e47:0:b0:3af:d071:8319 with SMTP id
- j68-20020a676e47000000b003afd0718319mr6562758vsc.71.1668845953556; Sat, 19
- Nov 2022 00:19:13 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dTnMAWMcXOaxFIQpcfG6YUPgYRs3mGJmNnh2pJlkTaQ=;
+        b=Psv4NvhThvL3AFmz5dU1L4nfxULoxj6+DBrQFG2A85zFoqV2oHjLrhWI49azjQVadZ
+         zyhUjLiNLj2/qmXHxuqaM2g8HwBvIUI3CGSajE3wCa90SlELF62DQcWqd9H5cuZq2c7S
+         eOg9mYCnDR7ZI6vRpC3fCq2a8XHpOHEnZ2hHViiHDLYSwMs7HWV5GEhDDwwsfrAJpsaY
+         mEWkRhrhT0V7oAaZtYOkN2p3YdqnsVuUqGGym015OOAupQ+JKTa4NnAENtjqhqlmjzvo
+         tpCEleebm390KfPcngIbGF2Nd3YA/ifzPC4RAalxgKnMip1nVsnpLsPx2jZ7myiYP5PA
+         28iA==
+X-Gm-Message-State: ANoB5pkiTns6EC93AEe51O6yFsMQm0N4pFucTCn22JmJ1Q6MwVRZYgkl
+        RHmPvIS++GUgVyM+NciYI02yHxA72FUpUuDLR1qK9Fvq40phxYmdv4WrKyRhjZeCCrILEMP+KTw
+        9rC+1w1p4D85tLffV9dE0
+X-Received: by 2002:a05:6000:1148:b0:236:71cd:1a71 with SMTP id d8-20020a056000114800b0023671cd1a71mr6301110wrx.712.1668848201915;
+        Sat, 19 Nov 2022 00:56:41 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4iKlUjoSLuaU2OKOfUuMzVhcXhG2yCg6tTKCVerM+oZOqj7tj2WHCkqX1bb1HYERiD2HMfAA==
+X-Received: by 2002:a05:6000:1148:b0:236:71cd:1a71 with SMTP id d8-20020a056000114800b0023671cd1a71mr6301094wrx.712.1668848201599;
+        Sat, 19 Nov 2022 00:56:41 -0800 (PST)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id fc10-20020a05600c524a00b003cf9bf5208esm12708160wmb.19.2022.11.19.00.56.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Nov 2022 00:56:41 -0800 (PST)
+From:   Javier Martinez Canillas <javierm@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Sergio Lopez Pascual <slp@redhat.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 2/2] KVM: Add missing arch for KVM_CREATE_DEVICE and KVM_{SET,GET}_DEVICE_ATTR
+Date:   Sat, 19 Nov 2022 09:56:32 +0100
+Message-Id: <20221119085632.1018994-2-javierm@redhat.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221119085632.1018994-1-javierm@redhat.com>
+References: <20221119085632.1018994-1-javierm@redhat.com>
 MIME-Version: 1.0
-References: <20221111182906.1377191-1-dlatypov@google.com> <20221111182906.1377191-2-dlatypov@google.com>
-In-Reply-To: <20221111182906.1377191-2-dlatypov@google.com>
-From:   David Gow <davidgow@google.com>
-Date:   Sat, 19 Nov 2022 16:19:02 +0800
-Message-ID: <CABVgOSmGV=Aj94zX1wkaknhJFAeZ-ew_YmLdEB+g=wXvk-ki3A@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] Documentation: KUnit: reword description of assertions
-To:     Daniel Latypov <dlatypov@google.com>
-Cc:     brendanhiggins@google.com, rmoar@google.com,
-        linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        skhan@linuxfoundation.org, Sadiya Kazi <sadiyakazi@google.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="00000000000043eedf05edce7a33"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---00000000000043eedf05edce7a33
-Content-Type: text/plain; charset="UTF-8"
+The ioctls are missing an architecture property that is present in others.
 
-On Sat, Nov 12, 2022 at 2:29 AM Daniel Latypov <dlatypov@google.com> wrote:
->
-> The existing wording implies that kunit_kmalloc_array() is "the method
-> under test". We're actually testing the sort() function in that example.
-> This is because the example was changed in commit 953574390634
-> ("Documentation: KUnit: Rework writing page to focus on writing tests"),
-> but the wording was not.
->
-> Also add a `note` telling people they can use the KUNIT_ASSERT_EQ()
-> macros from any function. Some users might be coming from a framework
-> like gUnit where that'll compile but silently do the wrong thing.
->
-> Signed-off-by: Daniel Latypov <dlatypov@google.com>
-> Reviewed-by: Sadiya Kazi <sadiyakazi@google.com>
-> ---
+Suggested-by: Sergio Lopez Pascual <slp@redhat.com>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-Looking good!
+ Documentation/virt/kvm/api.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Reviewed-by: David Gow <davidgow@google.com>
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index c17bac32d25c..0a99858d6d03 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -3293,6 +3293,7 @@ valid entries found.
+ ----------------------
+ 
+ :Capability: KVM_CAP_DEVICE_CTRL
++:Architectures: all
+ :Type: vm ioctl
+ :Parameters: struct kvm_create_device (in/out)
+ :Returns: 0 on success, -1 on error
+@@ -3333,6 +3334,7 @@ number.
+ :Capability: KVM_CAP_DEVICE_CTRL, KVM_CAP_VM_ATTRIBUTES for vm device,
+              KVM_CAP_VCPU_ATTRIBUTES for vcpu device
+              KVM_CAP_SYS_ATTRIBUTES for system (/dev/kvm) device (no set)
++:Architectures: x86, arm64, s390
+ :Type: device ioctl, vm ioctl, vcpu ioctl
+ :Parameters: struct kvm_device_attr
+ :Returns: 0 on success, -1 on error
+-- 
+2.38.1
 
-Cheers,
--- David
-
->  Documentation/dev-tools/kunit/usage.rst | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-> index b0a6c3bc0eeb..22416ebb94ab 100644
-> --- a/Documentation/dev-tools/kunit/usage.rst
-> +++ b/Documentation/dev-tools/kunit/usage.rst
-> @@ -112,11 +112,14 @@ terminates the test case if the condition is not satisfied. For example:
->                         KUNIT_EXPECT_LE(test, a[i], a[i + 1]);
->         }
->
-> -In this example, the method under test should return pointer to a value. If the
-> -pointer returns null or an errno, we want to stop the test since the following
-> -expectation could crash the test case. `ASSERT_NOT_ERR_OR_NULL(...)` allows us
-> -to bail out of the test case if the appropriate conditions are not satisfied to
-> -complete the test.
-> +In this example, we need to be able to allocate an array to test the ``sort()``
-> +function. So we use ``KUNIT_ASSERT_NOT_ERR_OR_NULL()`` to abort the test if
-> +there's an allocation error.
-> +
-> +.. note::
-> +   In other test frameworks, ``ASSERT`` macros are often implemented by calling
-> +   ``return`` so they only work from the test function. In KUnit, we stop the
-> +   current kthread on failure, so you can call them from anywhere.
->
->  Customizing error messages
->  --------------------------
-> --
-> 2.38.1.431.g37b22c650d-goog
->
-
---00000000000043eedf05edce7a33
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-N0A3bgltvER3q1cGraQJMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAxS21FdvRtCQVc
-jgEj+xxSnUr0N9reJlI5J9zRiBCWGxm5yhz965IDka3XVFEbj+beJj/gyHoxbaTGf2AjOufpcMqy
-p4mtqc2l4Csudl8QeiBaOUDx4VKADbgxqpjvwD5zRpSKVj4S9y3BJi9xrRdPOm1Z2ZZYxRUxUz7d
-2MXoxQsFucGJO5a4CwDBaGgJAqvwCXU5Q64rKVIUBk6mtcd3cDwX+PXqx4QrhHFGq6b6oi37YQ8B
-+bhlXqlkLrbPlPFk+4Rh4EaW92iD5g8kvtXCOwvIIvs+15Io0dbpIe2W5UKo2OcyDDFvrOACmUOE
-/GuEkhENcyDVyEs/4/N2u9WYMYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABj4peqtakTCOMXLZ2mEqRMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCC9
-3Uvm96iqa1q1HGy6/wEX2jhhDAQOjYBakFEn/DSK9zAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjExMTkwODE5MTNaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAMwlq2Jf/7Qq06luaPJ5U
-3aH1XOxAwREaQQHYzfZOAq72pjhsP2BbQv67XXS1Xni5o4NBeqCXYiyFwW0JogI2GI5VGBZGJohH
-sQmqQBofPX9b5TGuwm9RkDc8Uh2NPWDmw/fUH7QPeScnU0j7lt9yJhZjO6M3hfRbMyAYhmNagHr6
-WpW0YbXzDKM4vzpHSCuQvPbXGLk2dxiG+cRHq7wMAaKpJtSIQZcw9ZwnaK8v7Si9Bc/wFbtiAjcH
-Kx3jZOntkKiiGIMtra5u2ULLP+GJvvLj2tqzlobgQd+7LdRmj4m78MewTCqlUZ57bEgpgzI0aMSe
-3tx5YIiG2oK7b3ez4w==
---00000000000043eedf05edce7a33--
