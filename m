@@ -2,108 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C978C4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Nov 2022 08:57:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 726C4C433FE
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Nov 2022 01:45:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229500AbiKSI5m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 19 Nov 2022 03:57:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59146 "EHLO
+        id S229455AbiKTBpS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Nov 2022 20:45:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230391AbiKSI5j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Nov 2022 03:57:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A81809E086
-        for <linux-doc@vger.kernel.org>; Sat, 19 Nov 2022 00:56:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1668848203;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=mH+aNM2CVMwH3fEpJlA6Odig9WHLu4rdFuKDTlmn9xw=;
-        b=L3QTLpmlYzgqA0rH6bQNF2uRYhGycwoEvwAVAC0vvcKi11gvATQDWdvIZsXEuq/DrK5UfM
-        VTN59vVcMuRpAOd8OlzVDklaEn+e7ODTu49C1sFwDhwNzpIBMnyV3xFL8MLhgTWO+f4oo3
-        ZBdvL7TOQC7AMAWg1PgdnyPFkLDvFA4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-626-iil2zpqTNbizPpRhMpve7w-1; Sat, 19 Nov 2022 03:56:41 -0500
-X-MC-Unique: iil2zpqTNbizPpRhMpve7w-1
-Received: by mail-wr1-f72.google.com with SMTP id t12-20020adfa2cc000000b0022adcbb248bso2074566wra.1
-        for <linux-doc@vger.kernel.org>; Sat, 19 Nov 2022 00:56:41 -0800 (PST)
+        with ESMTP id S229437AbiKTBpS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Nov 2022 20:45:18 -0500
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2FACB94AE
+        for <linux-doc@vger.kernel.org>; Sat, 19 Nov 2022 17:45:16 -0800 (PST)
+Received: by mail-pg1-x535.google.com with SMTP id v3so8229184pgh.4
+        for <linux-doc@vger.kernel.org>; Sat, 19 Nov 2022 17:45:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=o6d5qGnIGRBzKsQXl05dVgjjiXTsNLkw5ORfFj9rjOM=;
+        b=JAAmPXOmxPT2t+wgJzkz1PLrrEl2558J8GWMAZMnFRcNJ0pjf3I1VsAwpTyhsTxjoc
+         706ptPj9J9tGCrdvoIfaJJ1+EOVpLt6T4UhyqvAZsJpr2zzONvuvP3BV6P10Am80Ldyh
+         msQKGKk1Dn8IaeTQFW+gmxSaI6em4Lo3zUmj4RIQrb1n3K7Ms4wjPAMhIvqnr4jTs5ch
+         7ncAx9u1zXbWwZsrf7myYnR9YE/RjQC9siba61Y7XZDAOuwGRrjz5/vA9eXMEdSX5o7J
+         7bjkN+3BxwbflWWoUbi7CfYdEubGolEWkM8grWzXjDp1vaLe6iAzNzrCh4hawFM40fqQ
+         zEvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mH+aNM2CVMwH3fEpJlA6Odig9WHLu4rdFuKDTlmn9xw=;
-        b=dwIaLvvw7m9GA6qaUCH/uzbJs0m0eeW2Yyyb0H0Q+rmjgEY5OwedqxjWNAcrE/hauV
-         w6uEMuZB0toBn5fP0UsNSgUF4+n9dYx1cBzFSNLjURv00uHo5fStjflW3QEfS2Spl0pz
-         G09qf0ZdDrrnXkTr/wArZWOkAIOBDHFhPzVpKtXNuIBUMRniBMvtfp5wsulCWV6cWs/9
-         dUNPOHhK8itBb2djvo1v2dsK4Ayx7szdZZc6kvKXBgSY+mVkJk2UAsYUcqGuOxf3mCaL
-         vmTRIrO4x8mAFgym/Vu1nMWRjp3jI2Y1mBchmUd2+SS3zOhcimMxT75BBakuLCj47/qH
-         U7PQ==
-X-Gm-Message-State: ANoB5pnxLwsUTU8AmJqzl+gxx8+kN+Cc6QSNa2pqmG/goOcZFubT0vK8
-        Bh4jtJkLvSgUjqWuFYD7QA7FvJpmre6w7lhnfywX3zewK5lGcB5WdXUWSjvHck7pHIj2i8sMRtY
-        BFXi9Bf9jXZQzNucfQ3G/
-X-Received: by 2002:a05:600c:688:b0:3cf:a18d:39a4 with SMTP id a8-20020a05600c068800b003cfa18d39a4mr6918238wmn.125.1668848200569;
-        Sat, 19 Nov 2022 00:56:40 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6qupPcZoq50xJgdSZoP+qL0pA/oAKL+yADqU3RoWWkP/e/BZHdbrcFH9iAJ2xEEvIoj2TvWg==
-X-Received: by 2002:a05:600c:688:b0:3cf:a18d:39a4 with SMTP id a8-20020a05600c068800b003cfa18d39a4mr6918229wmn.125.1668848200359;
-        Sat, 19 Nov 2022 00:56:40 -0800 (PST)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id fc10-20020a05600c524a00b003cf9bf5208esm12708160wmb.19.2022.11.19.00.56.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Nov 2022 00:56:39 -0800 (PST)
-From:   Javier Martinez Canillas <javierm@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Sergio Lopez Pascual <slp@redhat.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 1/2] KVM: Mark KVM_SET_MEMORY_REGION and KVM_SET_MEMORY_ALIAS as obsoleted
-Date:   Sat, 19 Nov 2022 09:56:31 +0100
-Message-Id: <20221119085632.1018994-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.38.1
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o6d5qGnIGRBzKsQXl05dVgjjiXTsNLkw5ORfFj9rjOM=;
+        b=lj+G4gDcmqU3ja7MJ8Lfvr80XTF2Ae3+XdKSYLOgVETRhRs4FfsAZ/WTCRjJvYcbcc
+         S2Mk/tTT8O1RCtOsYszhHSfhkce3q6WJ9HVCEAUZ4jZnWb4T9gXvxxOmvRHSaeuQAtYq
+         h8RQ7GC+qqQc6XiMFUyHbkkbcbMC8OsNYvlG+FDYJXhZYlcNS2EEaHpnB8uOg1Aw2TQz
+         u9pOtVlL/3sxnPax+daQfm7D6lLT9iJKbNayip6sYAi0BjNd/JC1xjdFbzTqu3MRk8N8
+         3kmh+pKRBMyGGpOUzSLDTs9k1X2RbmIaB6+Qp7jgoaxPSEfNClXDqhZep7hUZpRn332M
+         bMXA==
+X-Gm-Message-State: ANoB5plbMj2Ub6+NMzkFJyfrBzwREbWdliC0UFpXm4ZWUrj7UpGdRjQt
+        b0+sJeoGKvrrsQDr0Tk6+wn0L72N8oE=
+X-Google-Smtp-Source: AA0mqf6OCbjLsFSU4wqNUWleb7x2pCWJyROK5fToPD1F1A4KqPrDcjrrX2KyraQlXgOQwdVld94bxw==
+X-Received: by 2002:a63:a54d:0:b0:46f:8466:745c with SMTP id r13-20020a63a54d000000b0046f8466745cmr384717pgu.87.1668908716422;
+        Sat, 19 Nov 2022 17:45:16 -0800 (PST)
+Received: from [192.168.43.80] (subs02-180-214-232-87.three.co.id. [180.214.232.87])
+        by smtp.gmail.com with ESMTPSA id w1-20020a1709027b8100b00181e55d02dcsm6472540pll.139.2022.11.19.17.45.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 19 Nov 2022 17:45:16 -0800 (PST)
+Message-ID: <f3f56a20-cdff-3735-3c9a-babedaaa245f@gmail.com>
+Date:   Sun, 20 Nov 2022 08:45:12 +0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v7] mm: add zblock - new allocator for use via zpool API
+To:     Ananda Badmaev <a.badmaev@clicknet.pro>
+Cc:     linux-mm@kvack.org, vitaly.wool@konsulko.com,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <20221119082159.63636-1-a.badmaev@clicknet.pro>
+ <Y3jQFS55OFV3y8cu@debian.me>
+ <a9aa5944-4094-9c0f-fb1b-017f350857cb@clicknet.pro>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <a9aa5944-4094-9c0f-fb1b-017f350857cb@clicknet.pro>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Other ioctl such as KVM_ARM_SET_DEVICE_ADDR have a (deprecated) next to it
-which makes it easier to determine that is deprecated. Do the same for the
-ioctls that have been obsoleted.
+On 11/20/22 00:24, Ananda Badmaev wrote:
+> 19.11.2022 15:46, Bagas Sanjaya пишет:
+>> On Sat, Nov 19, 2022 at 11:21:59AM +0300, ananda wrote:
+>>> +.. SPDX-License-Identifier: GPL-2.0
+>>> +
+>>> +.. _block:
+>>
+>> Why is the anchor label for doc title _block? Why not _zblock instead?
+>>
+> 
+> This is a typo. It will be fixed in the next version if necessary.
+> 
+> 
+>>> +
+>>> +Zblock stores integer number of compressed objects per block. These
+>>> +blocks consist of several consecutive physical pages (from 1 to 8) and
+>>> +are arranged in lists. The range from 0 to PAGE_SIZE is divided into the
+>>> +number of intervals corresponding to the number of lists and each list
+>>> +only operates objects of size from its interval. Thus the block lists are
+>>> +isolated from each other, which makes it possible to simultaneously
+>>> +perform actions with several objects from different lists.
+>>> +
+>>> +Blocks make it possible to densely arrange objects of various sizes
+>>> +resulting in low internal fragmentation. Also this allocator tries to fill
+>>> +incomplete blocks instead of adding new ones thus in many cases providing
+>>> +a compression ratio substantially higher than z3fold and zbud. Zblock does
+>>> +not require MMU and also is superior to zsmalloc with regard to the worst
+>>> +execution times, thus allowing for better response time and real-time
+>>> +characteristics of the whole system.
+>>> +
+>>> +Like z3fold and zsmalloc zblock_alloc() does not return a dereferenceable
+>>> +pointer. Instead, it returns an unsigned long handle which encodes actual
+>>> +location of the allocated object.
+>>> +
+>>> +Unlike zbud and z3fold zblock works well with objects of various sizes - both
+>>> +highly compressed and poorly compressed including cases where both types
+>>> +are present.
+>>
+>> The wording can be better (including doc title label suggestion):
+>>
+>> ---- >8 ----
+>>
+>> diff --git a/Documentation/mm/zblock.rst b/Documentation/mm/zblock.rst
+>> index 5008ce90b54bef..1eb91a8d175dbb 100644
+>> --- a/Documentation/mm/zblock.rst
+>> +++ b/Documentation/mm/zblock.rst
+>> @@ -1,31 +1,31 @@
+>>   .. SPDX-License-Identifier: GPL-2.0
+>>   -.. _block:
+>> +.. _zblock:
+>>     ======
+>>   zblock
+>>   ======
+>>   -Zblock stores integer number of compressed objects per block. These
+>> -blocks consist of several consecutive physical pages (from 1 to 8) and
+>> -are arranged in lists. The range from 0 to PAGE_SIZE is divided into the
+>> -number of intervals corresponding to the number of lists and each list
+>> -only operates objects of size from its interval. Thus the block lists are
+>> -isolated from each other, which makes it possible to simultaneously
+>> -perform actions with several objects from different lists.
+>> +Zblock stores integer number of compressed objects per block. These blocks
+>> +consist of several consecutive physical pages (from 1 to 8) and are arranged in
+>> +lists. The range from 0 to PAGE_SIZE is divided into the number of intervals
+>> +corresponding to each list and these only operates on objects of size from the
+>> +corresponding interval. Thus the block lists are isolated from each other,
+>> +which makes it possible to simultaneously perform actions with several objects
+>> +from different lists.
+>>   -Blocks make it possible to densely arrange objects of various sizes
+>> +With zblock, it is possible to densely arrange objects of various sizes,
+>>   resulting in low internal fragmentation. Also this allocator tries to fill
+>> -incomplete blocks instead of adding new ones thus in many cases providing
+>> -a compression ratio substantially higher than z3fold and zbud. Zblock does
+>> -not require MMU and also is superior to zsmalloc with regard to the worst
+>> +incomplete blocks instead of adding new ones. As a result, in many cases it
+>> +provides a compression ratio substantially higher than z3fold and zbud. Zblock
+>> +does not require MMU and also is superior to zsmalloc with regard to the worst
+>>   execution times, thus allowing for better response time and real-time
+>>   characteristics of the whole system.
+>>   -Like z3fold and zsmalloc zblock_alloc() does not return a dereferenceable
+>> -pointer. Instead, it returns an unsigned long handle which encodes actual
+>> -location of the allocated object.
+>> +Like similar allocation method from z3fold and zsmalloc, zblock_alloc() does
+>> +not return a dereferenceable pointer. Instead, it returns an unsigned long
+>> +handle which encodes actual location of the allocated object.
+>>   -Unlike zbud and z3fold zblock works well with objects of various sizes - both
+>> -highly compressed and poorly compressed including cases where both types
+>> -are present.
+>> +Unlike zbud and z3fold, zblock works well with objects of various sizes -
+>> +including but not limited to highly compressed and poorly compressed, as well
+>> +as cases where both object types exist.
+>>
+>> Thanks.
+>>
+> 
+> I'm not sure there's much point in simply reformulating the text, but in the next version it may be worth a bit changing this text along with other changes.
+> 
 
-Suggested-by: Sergio Lopez Pascual <slp@redhat.com>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+OK, thanks.
 
- Documentation/virt/kvm/api.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Next time, don't forget to Cc linux-doc list for patches touching Documentation/.
+Adding one since you don't.
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index eee9f857a986..c17bac32d25c 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -272,7 +272,7 @@ the VCPU file descriptor can be mmap-ed, including:
-   KVM_CAP_DIRTY_LOG_RING, see section 8.3.
- 
- 
--4.6 KVM_SET_MEMORY_REGION
-+4.6 KVM_SET_MEMORY_REGION (obsoleted)
- -------------------------
- 
- :Capability: basic
-@@ -368,7 +368,7 @@ see the description of the capability.
- Note that the Xen shared info page, if configured, shall always be assumed
- to be dirty. KVM will not explicitly mark it such.
- 
--4.9 KVM_SET_MEMORY_ALIAS
-+4.9 KVM_SET_MEMORY_ALIAS (obsoleted)
- ------------------------
- 
- :Capability: basic
 -- 
-2.38.1
+An old man doll... just what I always wanted! - Clara
 
