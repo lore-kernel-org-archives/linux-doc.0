@@ -2,47 +2,45 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02090C4332F
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Nov 2022 07:58:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99944C4332F
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Nov 2022 17:29:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbiKTH6G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Nov 2022 02:58:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35254 "EHLO
+        id S229587AbiKTR3X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Nov 2022 12:29:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbiKTH6F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Nov 2022 02:58:05 -0500
-Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F8D120F66;
-        Sat, 19 Nov 2022 23:58:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-        s=s201512; t=1668931078;
-        bh=d4ahvWb2gNc1rhQu8JuZV0eJfYfDExPnefQFcNGCdWU=;
-        h=From:To:Cc:Subject:Date;
-        b=IdNo8jui8le2HIQ8NVTqmg0n8xhxY3Rrrb2D3u9EWgkMAx2fdst1LHI1w5VhxryCA
-         o4y6CQS5jhDyiwWltbLEzJd9iUvSEvBnJtApYs2gbZs3cv7I73k6P0LmFEgiTVs3ZK
-         1UZ0xAAVpkMygeqCKpDCx5tQZOLOl4bzAoTeRnBc=
-Received: from rtoax.. ([111.199.191.46])
-        by newxmesmtplogicsvrszc5-0.qq.com (NewEsmtp) with SMTP
-        id E759BAC1; Sun, 20 Nov 2022 15:57:53 +0800
-X-QQ-mid: xmsmtpt1668931073tm5can0j3
-Message-ID: <tencent_7F84D04F96EBE594CAD5EBD12815A2B00106@qq.com>
-X-QQ-XMAILINFO: OC704IrkdJt6FR5h+jFcRqcFPR/JwCe/gbhfN7SRnUcsP5N5wTBJQteuPOWcKR
-         8/RlE/HbME4+xyU5b4L88i1o+V4EoLyTQz3+ft0vAMVnTn2HpOLMfYK1sjvmb3RIeu/R/X8fxpUZ
-         ycyc07CLGHztvASlhieB/4dPOlJ5xakRKNhF2kbrl0eckBzC5XIyyylp00a1ADcQBcJ3JA1giY1c
-         AQtJ0KDU9GAqDRw+Fr92Q3s5b+BNqVgHDgr1lGD/HLWIj/iqXfIzfc4SSiZIxwVRbkjXR5KDBYIl
-         g+jjxJnjXh0QnH4Ep+BtSkWo96mnT8ycMd5uE34w76Q8N8St+ZnFUZ2DYjbnFpSmIv+47t4E+dKX
-         XJqleWm98zMaD8GhFLADnJmlujjyfd1DxiZaCdladj/DRqPVCaX5+8Q9HQq5InZonXOhQIBnwg57
-         GDbFQ8dujLo6yZ7AIuIVzfuYVaID0EJts5biy+IUJLTb54bgMfQvBlvM8xV7HWP7bdywDCo3/WVL
-         awGaUAeo1d9XOCOq3VNBhouJSTX6zSaSwubQnvh8SU6UfHMM0clGAZb/r2bTqa+lK9cPBjef8ffw
-         RuptJidGmdRjRG7xS/45Lio+ingV4BYEtPWyameAXQuLnceTSAepU0KC0nY3exZm0F9baLv0B46b
-         TEvNDHUK1zzo1lBcltGIAtm1Hn71lJLOFoodZl03/LAshbZSUGdwoE9qry05ed3tCeLPYVt9fEiS
-         /7UJ+k4nxT7IzxA/E5kyLtKFlcZlmt/06EbTUds0H0PNsJ6MeTaqVvVZmXpeURoVql0yR3YCV3cm
-         IZMFvQ0NY50wk/JVEs4iLtGyuwbv9tqbERWRlLXlE8sD2OrgGKpQv7AvIZ4He257awWW7KOLFFCg
-         R73sW/4Uhk6WQ7L7u3HhRy4dB+oMTciqQNDY1WtzVvPijGKIzqY0goA/YLrgn0fntDvK0L4+5YgV
-         xigPDs2444iHvuc5oL9HQKH0aPOdVKvdvypOAkgRO/8kIZapmfGw==
-From:   Rong Tao <rtoax@foxmail.com>
-To:     ast@kernel.org
-Cc:     Rong Tao <rongtao@cestc.cn>,
+        with ESMTP id S229520AbiKTR3W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Nov 2022 12:29:22 -0500
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6779305;
+        Sun, 20 Nov 2022 09:29:21 -0800 (PST)
+Received: by mail-qt1-f169.google.com with SMTP id w9so6073049qtv.13;
+        Sun, 20 Nov 2022 09:29:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2m/oKh2JCFyE3zOn/G6TKOcNovbaWdXH+bxKkKXD33I=;
+        b=oRg5bgvYMF9lYUEYVF7qrIDKg9wY5WQdB+eHVKqxYG+rfxCnwNzFRia2/zXjHVkvNS
+         HS8zoHw15lcneimrtFvxODpRu1oDfmJXsqlnlCg9LiPvimbGcMOUyjKgrRSXlLASFLbo
+         7FsBCN0Srp+6d7ZhtejdLssqo4QmzU9qqiUyv/CX/HOD5LopKY6vRADXQob06FyYl7hW
+         HQ3rSlD5iiLPzE4ZGjFJv5UlOXFoq5t5fKlEd8ZBOe/XcUb9JYuOqq6NIR60pUIXqJFv
+         rZT8xyU8f8PY7erSUxlpMvLz93WHWr4pMzSkCfu+CK9DajLnsZ9+9O2FaJJka9OFhCdK
+         GdbA==
+X-Gm-Message-State: ANoB5pkxDQHmcT2t38eaXLtgdoFN1pSJmI5jX1PEYlLuSfyf6qP4OXOd
+        dOnJDDNN3gI4cfeEBNC5JkE=
+X-Google-Smtp-Source: AA0mqf5iklrigu3ogCld1s+7y6kFYaSrTYriw4iHyNJySr4/kwt/B1Dp0whscLdPjgscK35e6t3GKA==
+X-Received: by 2002:ac8:1306:0:b0:3a5:9fb3:ba72 with SMTP id e6-20020ac81306000000b003a59fb3ba72mr14202220qtj.617.1668965360741;
+        Sun, 20 Nov 2022 09:29:20 -0800 (PST)
+Received: from maniforge.lan (c-24-15-214-156.hsd1.il.comcast.net. [24.15.214.156])
+        by smtp.gmail.com with ESMTPSA id o16-20020a05620a2a1000b006fab68c7e87sm6873447qkp.70.2022.11.20.09.29.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Nov 2022 09:29:19 -0800 (PST)
+Date:   Sun, 20 Nov 2022 11:29:24 -0600
+From:   David Vernet <void@manifault.com>
+To:     Rong Tao <rtoax@foxmail.com>
+Cc:     ast@kernel.org, Rong Tao <rongtao@cestc.cn>,
         Daniel Borkmann <daniel@iogearbox.net>,
         Andrii Nakryiko <andrii@kernel.org>,
         Martin KaFai Lau <martin.lau@linux.dev>,
@@ -52,41 +50,56 @@ Cc:     Rong Tao <rongtao@cestc.cn>,
         Stanislav Fomichev <sdf@google.com>,
         Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        bpf@vger.kernel.org (open list:BPF [GENERAL] (Safe Dynamic Programs and
-        Tools)), linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH bpf-next] docs/bpf: Update btf test programe code
-Date:   Sun, 20 Nov 2022 15:57:51 +0800
-X-OQ-MSGID: <20221120075751.24603-1-rtoax@foxmail.com>
-X-Mailer: git-send-email 2.38.1
+        "open list:BPF [GENERAL] (Safe Dynamic Programs and Tools)" 
+        <bpf@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH bpf-next] docs/bpf: Update btf test programe code
+Message-ID: <Y3pj9FCI5SOEHZXz@maniforge.lan>
+References: <tencent_7F84D04F96EBE594CAD5EBD12815A2B00106@qq.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_7F84D04F96EBE594CAD5EBD12815A2B00106@qq.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rong Tao <rongtao@cestc.cn>
+On Sun, Nov 20, 2022 at 03:57:51PM +0800, Rong Tao wrote:
+> From: Rong Tao <rongtao@cestc.cn>
+> 
+> commit c64779e24e88("selftests/bpf: Merge most of test_btf into
+> test_progs") rename selftests/bpf btf test from 'test_btf.c' to
+> 'prog_tests/btf.c'.
+> 
+> Signed-off-by: Rong Tao <rongtao@cestc.cn>
+> ---
+>  Documentation/bpf/btf.rst | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
+> index cf8722f96090..59ccd9bad1e0 100644
+> --- a/Documentation/bpf/btf.rst
+> +++ b/Documentation/bpf/btf.rst
+> @@ -1062,4 +1062,5 @@ format.::
+>  7. Testing
+>  ==========
+>  
+> -Kernel bpf selftest `test_btf.c` provides extensive set of BTF-related tests.
+> +Kernel bpf selftest `prog_tests/btf.c` provides extensive set of BTF-related
 
-commit c64779e24e88("selftests/bpf: Merge most of test_btf into
-test_progs") rename selftests/bpf btf test from 'test_btf.c' to
-'prog_tests/btf.c'.
+s/Kernel bpf selftest/The kernel BPF selftest
 
-Signed-off-by: Rong Tao <rongtao@cestc.cn>
----
- Documentation/bpf/btf.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+s/provide extensive/provides an extensive
 
-diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
-index cf8722f96090..59ccd9bad1e0 100644
---- a/Documentation/bpf/btf.rst
-+++ b/Documentation/bpf/btf.rst
-@@ -1062,4 +1062,5 @@ format.::
- 7. Testing
- ==========
- 
--Kernel bpf selftest `test_btf.c` provides extensive set of BTF-related tests.
-+Kernel bpf selftest `prog_tests/btf.c` provides extensive set of BTF-related
-+tests.
--- 
-2.38.1
+> +tests.
 
+Thanks for adjusting this. Could you please mirror what prog_lsm.rst
+does [0], and add a link to the file in the linux.git repo?
+
+[0]: https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/tree/Documentation/bpf/prog_lsm.rst#n134
+
+> -- 
+> 2.38.1
+> 
