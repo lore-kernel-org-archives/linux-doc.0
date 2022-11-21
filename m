@@ -2,113 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4CBFC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 05:50:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90307C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 07:30:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229519AbiKUFuU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 00:50:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47458 "EHLO
+        id S229883AbiKUHav (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 02:30:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbiKUFuT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 00:50:19 -0500
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A150927911
-        for <linux-doc@vger.kernel.org>; Sun, 20 Nov 2022 21:50:17 -0800 (PST)
-Received: (Authenticated sender: alex@ghiti.fr)
-        by mail.gandi.net (Postfix) with ESMTPSA id CF5CC1C000A;
-        Mon, 21 Nov 2022 05:50:10 +0000 (UTC)
-Message-ID: <026ac9c0-8994-c76a-9fb6-22abce7f1a3e@ghiti.fr>
-Date:   Mon, 21 Nov 2022 06:50:09 +0100
+        with ESMTP id S229840AbiKUHae (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 02:30:34 -0500
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53037450B1;
+        Sun, 20 Nov 2022 23:29:51 -0800 (PST)
+Received: by mail-qv1-f46.google.com with SMTP id h10so7513602qvq.7;
+        Sun, 20 Nov 2022 23:29:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1MY3mj3l+5CfCCInAcDlHvG3PSUH4yIPKLve52bAsu4=;
+        b=qzVfHEkoMlxwASUliqg0rGXoW5wMBjzwf/hJ7Xav+ikzVov0jHewVMvVzBDneR+HES
+         FjxW5v/yV9h/cpC9tNSVYtBERfXvx+GLc6gL3tbl+s+D0ZAVn1g9IgFuJiy1cCreGkLN
+         sEepvoMov1/JCVAkQ0Tuw6iuidjPG+CtiYL25Alr3oM82xhXHap/GntQDMEechfmjO4t
+         5E5gpMk7eMYCzo3q8X5hcT0Dd7DXlfEL/Em3tJf4XdzoZt5Gng5Iiimkn4M4f5tvN2f7
+         XL1PyksWvwZVKs94Lx89YqhzoXNAI1NfmsP2NQ05MqJPDO2TZ9d0p+j3MOt1gbgkmkB5
+         f0Hw==
+X-Gm-Message-State: ANoB5pkCaPHRlwJU8Onvs5RH0RZ0MLH8hPawz346M1gZ/iKgpabhuZXB
+        1HS2nC/ogANmiHhJP2Y0ld8=
+X-Google-Smtp-Source: AA0mqf7jFCwahDzu6/UEgnqDJ+xx5vPjDH4fb0zlJQA7ZwTmATqqkab/aWh/ah9AOk9CLa8ehGH9og==
+X-Received: by 2002:ad4:414d:0:b0:4b1:9872:85c5 with SMTP id z13-20020ad4414d000000b004b1987285c5mr3215991qvp.23.1669015790198;
+        Sun, 20 Nov 2022 23:29:50 -0800 (PST)
+Received: from maniforge.lan (c-24-15-214-156.hsd1.il.comcast.net. [24.15.214.156])
+        by smtp.gmail.com with ESMTPSA id dt18-20020a05620a479200b006ea7f9d8644sm7721596qkb.96.2022.11.20.23.29.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Nov 2022 23:29:49 -0800 (PST)
+Date:   Mon, 21 Nov 2022 01:29:54 -0600
+From:   David Vernet <void@manifault.com>
+To:     Rong Tao <rtoax@foxmail.com>
+Cc:     andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org,
+        corbet@lwn.net, daniel@iogearbox.net, haoluo@google.com,
+        john.fastabend@gmail.com, jolsa@kernel.org, kpsingh@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        martin.lau@linux.dev, rongtao@cestc.cn, sdf@google.com,
+        song@kernel.org, yhs@fb.com
+Subject: Re: [PATCH bpf-next] docs/bpf: Update btf selftests program and add
+ link
+Message-ID: <Y3so8nndjYTpRVHn@maniforge.lan>
+References: <Y3pj9FCI5SOEHZXz@maniforge.lan>
+ <tencent_A24996F06584CAF86BC2A822E2A2C1BA1006@qq.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2] Documentation: riscv: Document the sv57 VM layout
-Content-Language: en-US
-To:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-riscv@lists.infradead.org
-Cc:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20221118171556.1612190-1-bjorn@kernel.org>
-From:   Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20221118171556.1612190-1-bjorn@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_A24996F06584CAF86BC2A822E2A2C1BA1006@qq.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Björn,
-
-On 11/18/22 18:15, Björn Töpel wrote:
-> From: Björn Töpel <bjorn@rivosinc.com>
->
-> RISC-V has been supporting the "sv57" address translation mode for a
-> while, but is has not been added to the VM layout documentation. Let
-> us fix that.
->
-> Signed-off-by: Björn Töpel <bjorn@rivosinc.com>
+On Mon, Nov 21, 2022 at 10:07:34AM +0800, Rong Tao wrote:
+> From: Rong Tao <rongtao@cestc.cn>
+> 
+> commit c64779e24e88("selftests/bpf: Merge most of test_btf into
+> test_progs") rename selftests/bpf btf test from 'test_btf.c' to
+> 'prog_tests/btf.c'.
+> 
+> Signed-off-by: Rong Tao <rongtao@cestc.cn>
 > ---
-> v2: * Cosmestics (Alex)
->      * Corrected kasan address (Alex)
-> ---
->   Documentation/riscv/vm-layout.rst | 36 +++++++++++++++++++++++++++++++
->   1 file changed, 36 insertions(+)
->
-> diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
-> index 5b36e45fef60..3be44e74ec5d 100644
-> --- a/Documentation/riscv/vm-layout.rst
-> +++ b/Documentation/riscv/vm-layout.rst
-> @@ -97,3 +97,39 @@ RISC-V Linux Kernel SV48
->      ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | modules, BPF
->      ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | kernel
->     __________________|____________|__________________|_________|____________________________________________________________
+
+Please send this out as a v2 patch, as described in [0].
+
+[0]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+
+>  Documentation/bpf/btf.rst | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
+> index cf8722f96090..dca0b0e9dd35 100644
+> --- a/Documentation/bpf/btf.rst
+> +++ b/Documentation/bpf/btf.rst
+> @@ -1062,4 +1062,9 @@ format.::
+>  7. Testing
+>  ==========
+>  
+> -Kernel bpf selftest `test_btf.c` provides extensive set of BTF-related tests.
+> +Kernel bpf selftest `tools/testing/selftests/bpf/prog_tests/btf.c`_ provides
+
+You added the hyperlink, but don't seem to have applied my other
+suggestions. Please do so in v2.
+
+> +extensive set of BTF-related tests.
 > +
-> +
-> +RISC-V Linux Kernel SV57
-> +------------------------
-> +
-> +::
-> +
-> + ========================================================================================================================
-> +      Start addr    |   Offset   |     End addr     |  Size   | VM area description
-> + ========================================================================================================================
-> +                    |            |                  |         |
-> +   0000000000000000 |   0        | 00ffffffffffffff |   64 PB | user-space virtual memory, different per mm
-> +  __________________|____________|__________________|_________|___________________________________________________________
-> +                    |            |                  |         |
-> +   0100000000000000 | +64     PB | feffffffffffffff | ~16K PB | ... huge, almost 64 bits wide hole of non-canonical
-> +                    |            |                  |         | virtual memory addresses up to the -64 PB
-> +                    |            |                  |         | starting offset of kernel mappings.
-> +  __________________|____________|__________________|_________|___________________________________________________________
-> +                                                              |
-> +                                                              | Kernel-space virtual memory, shared between all processes:
-> +  ____________________________________________________________|___________________________________________________________
-> +                    |            |                  |         |
-> +   ff1bfffffee00000 | -57     PB | ff1bfffffeffffff |    2 MB | fixmap
-> +   ff1bffffff000000 | -57     PB | ff1bffffffffffff |   16 MB | PCI io
-> +   ff1c000000000000 | -57     PB | ff1fffffffffffff |    1 PB | vmemmap
-> +   ff20000000000000 | -56     PB | ff5fffffffffffff |   16 PB | vmalloc/ioremap space
-> +   ff60000000000000 | -40     PB | ffdeffffffffffff |   32 PB | direct mapping of all physical memory
-> +   ffdf000000000000 |  -8     PB | fffffffeffffffff |    8 PB | kasan
-> +  __________________|____________|__________________|_________|____________________________________________________________
-> +                                                              |
-> +                                                              | Identical layout to the 39-bit one from here on:
-> +  ____________________________________________________________|____________________________________________________________
-> +                    |            |                  |         |
-> +   ffffffff00000000 |  -4     GB | ffffffff7fffffff |    2 GB | modules, BPF
-> +   ffffffff80000000 |  -2     GB | ffffffffffffffff |    2 GB | kernel
-> +  __________________|____________|__________________|_________|____________________________________________________________
-
-
-Thanks for the corrections, this looks great to me now, you can add:
-
-Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-
-Thanks,
-
-Alex
-
-
+> +.. Links
+> +.. _tools/testing/selftests/bpf/prog_tests/btf.c:
+> +   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/testing/selftests/bpf/prog_tests/btf.c
+> -- 
+> 2.38.1
+> 
