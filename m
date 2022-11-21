@@ -2,99 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D234CC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 15:13:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3528FC4321E
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 15:24:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231883AbiKUPND (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 10:13:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35404 "EHLO
+        id S232304AbiKUPYQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 10:24:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231728AbiKUPMK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 10:12:10 -0500
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 616A7C6D21;
-        Mon, 21 Nov 2022 07:06:17 -0800 (PST)
-Received: by mail-qk1-f173.google.com with SMTP id z17so8145198qki.11;
-        Mon, 21 Nov 2022 07:06:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CupXU2YxQxlgExJK8f3HdC36BFYNv+p0Rq++hKAm9D8=;
-        b=Sx++5u0zoyXf8X1W7k8bacATk2PzKbwB7KBy78cmD7BOyK55s7gwb/SX5ENFmW3dDh
-         Zqq1mLpEW3NSgqKTpZEZnVXCtWPivGmCUFAzzTsd1/wjT3ofycDFXKb1RlOQcn0JoqBn
-         4M3Fvbn+9OEGbPfQirOkgJtUmERzsUq9pKnDhN8eXlTPxXFfIzq9FFqc9zJ75ZXICzR1
-         N4p5ucsktCWuPwb2RiaiNXKZOsZK4u5GEL7hvp0NAxy/Gk0x8XBoWKQhbhW2GCE7nJZ7
-         C8HL5RtIg92h3PJXbYYjuhrs97/y753TEzd0V/zBJDEoaxcMXmKDDSbPLQXMj8tSSsf3
-         h7KQ==
-X-Gm-Message-State: ANoB5pnuw+dw3ft9D7xf5hVJut6ybXe+k8IwZIPaaHhQlRVTH/As9Rr6
-        IZzHQBn0GjL8GsrGYI2Bd10=
-X-Google-Smtp-Source: AA0mqf5b4jDAHm/CLmo93tkGxrH6/0Rjf2Z1b3IxtiV1wPcgTrZ1YOirbk+P97yG6VO9eVy6mS/ZfQ==
-X-Received: by 2002:ae9:d844:0:b0:6fa:b570:2da7 with SMTP id u65-20020ae9d844000000b006fab5702da7mr1090738qkf.597.1669043176150;
-        Mon, 21 Nov 2022 07:06:16 -0800 (PST)
-Received: from maniforge.lan (c-24-15-214-156.hsd1.il.comcast.net. [24.15.214.156])
-        by smtp.gmail.com with ESMTPSA id s19-20020a05620a29d300b006cfc9846594sm8430169qkp.93.2022.11.21.07.06.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Nov 2022 07:06:15 -0800 (PST)
-Date:   Mon, 21 Nov 2022 09:06:20 -0600
-From:   David Vernet <void@manifault.com>
-To:     Rong Tao <rtoax@foxmail.com>
-Cc:     andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org,
-        corbet@lwn.net, daniel@iogearbox.net, haoluo@google.com,
-        john.fastabend@gmail.com, jolsa@kernel.org, kpsingh@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        martin.lau@linux.dev, rongtao@cestc.cn, sdf@google.com,
-        song@kernel.org, yhs@fb.com
-Subject: Re: [PATCH bpf-next v3] docs/bpf: Update btf selftests program and
- add link
-Message-ID: <Y3uT7KfjF3OcbjMG@maniforge.lan>
-References: <tencent_C597352AB3AF24A35A88CC06A3421E590B08@qq.com>
+        with ESMTP id S232312AbiKUPXt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 10:23:49 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E01DAE6F;
+        Mon, 21 Nov 2022 07:23:40 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CD6F4612D2;
+        Mon, 21 Nov 2022 15:23:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3614C433D7;
+        Mon, 21 Nov 2022 15:23:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1669044219;
+        bh=QbQnXvBZPM2Fc+Puldyfu/fVxa2ZZ7i3raAeUOxW3MQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=zcGfBTwiwOaiFCK8+hsJz+ZGUZry2gy4/Qq71811oPcsdPJ5w2Ua8V0qSpuWjyMZD
+         PuiDWwq1SmNYIbUGwtYq5h0W/s/tHnmEaTwcLooxi6JZJXsDtso50DyUFP/CCcwfBG
+         REoi3D5k50/zfLE7EBJLXxYjKgFbRvJt5SOAgtrQ=
+Date:   Mon, 21 Nov 2022 16:23:35 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v7 10/20] gunyah: rsc_mgr: Add resource manager RPC core
+Message-ID: <Y3uX9ywOVLubxYkW@kroah.com>
+References: <20221121140009.2353512-1-quic_eberman@quicinc.com>
+ <20221121140009.2353512-11-quic_eberman@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_C597352AB3AF24A35A88CC06A3421E590B08@qq.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
+In-Reply-To: <20221121140009.2353512-11-quic_eberman@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 21, 2022 at 10:02:39PM +0800, Rong Tao wrote:
-> From: Rong Tao <rongtao@cestc.cn>
+On Mon, Nov 21, 2022 at 05:59:59AM -0800, Elliot Berman wrote:
+> The resource manager is a special virtual machine which is always
+> running on a Gunyah system. It provides APIs for creating and destroying
+> VMs, secure memory management, sharing/lending of memory between VMs,
+> and setup of inter-VM communication. Calls to the resource manager are
+> made via message queues.
 > 
-> commit c64779e24e88("selftests/bpf: Merge most of test_btf into
-> test_progs") rename selftests/bpf btf test from 'test_btf.c' to
-> 'prog_tests/btf.c'.
+> This patch implements the basic probing and RPC mechanism to make those
+> API calls. Request/response calls can be made with gh_rm_call.
+> Drivers can also register to notifications pushed by RM via
+> gh_rm_register_notifier
 > 
-> Signed-off-by: Rong Tao <rongtao@cestc.cn>
+> Specific API calls that resource manager supports will be implemented in
+> subsequent patches.
+> 
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 > ---
-> v3: v2 -> v3
->     s/Kernel bpf selftest/The kernel BPF selftest
->     s/provides extensive/provides an extensive
-> v2: https://lore.kernel.org/lkml/tencent_114656E8259D0AEA2BDB6810E29241995006@qq.com/
-> v1: https://lore.kernel.org/lkml/tencent_7F84D04F96EBE594CAD5EBD12815A2B00106@qq.com/
-> ---
->  Documentation/bpf/btf.rst | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  MAINTAINERS                          |   2 +-
+>  drivers/virt/gunyah/Kconfig          |   7 +
+>  drivers/virt/gunyah/Makefile         |   2 +
+>  drivers/virt/gunyah/gunyah_rm_rpc.c  | 570 +++++++++++++++++++++++++++
+>  drivers/virt/gunyah/gunyah_rsc_mgr.c |  50 +++
+>  drivers/virt/gunyah/rsc_mgr.h        |  37 ++
+>  include/linux/gunyah_rsc_mgr.h       |  18 +
+>  7 files changed, 685 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/virt/gunyah/gunyah_rm_rpc.c
+>  create mode 100644 drivers/virt/gunyah/gunyah_rsc_mgr.c
+>  create mode 100644 drivers/virt/gunyah/rsc_mgr.h
+>  create mode 100644 include/linux/gunyah_rsc_mgr.h
 > 
-> diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
-> index cf8722f96090..681416c86e81 100644
-> --- a/Documentation/bpf/btf.rst
-> +++ b/Documentation/bpf/btf.rst
-> @@ -1062,4 +1062,9 @@ format.::
->  7. Testing
->  ==========
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 502798197b80..b65f7ff444e5 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8948,7 +8948,7 @@ F:	Documentation/virt/gunyah/
+>  F:	arch/arm64/gunyah/
+>  F:	drivers/mailbox/gunyah-msgq.c
+>  F:	drivers/virt/gunyah/
+> -F:	include/linux/gunyah.h
+> +F:	include/linux/gunyah*.h
 >  
-> -Kernel bpf selftest `test_btf.c` provides extensive set of BTF-related tests.
-> +The kernel bpf selftest `tools/testing/selftests/bpf/prog_tests/btf.c`_
-
-s/bpf/BPF
-
-> +provides an extensive set of BTF-related tests.
+>  HABANALABS PCI DRIVER
+>  M:	Oded Gabbay <ogabbay@kernel.org>
+> diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
+> index 127156a678a6..0bb497372d4e 100644
+> --- a/drivers/virt/gunyah/Kconfig
+> +++ b/drivers/virt/gunyah/Kconfig
+> @@ -10,3 +10,10 @@ config GUNYAH
+>  
+>  	  Say Y/M here to enable the drivers needed to interact in a Gunyah
+>  	  virtual environment.
 > +
-> +.. Links
-> +.. _tools/testing/selftests/bpf/prog_tests/btf.c:
-> +   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/testing/selftests/bpf/prog_tests/btf.c
-> -- 
-> 2.38.1
-> 
+> +if GUNYAH
+> +config GUNYAH_RESOURCE_MANAGER
+> +	tristate
+> +	depends on MAILBOX
+> +	select GUNYAH_MESSAGE_QUEUES
+> +endif
+> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+> index 2ac4ee64b89d..b62ac4045621 100644
+> --- a/drivers/virt/gunyah/Makefile
+> +++ b/drivers/virt/gunyah/Makefile
+> @@ -1 +1,3 @@
+>  obj-$(CONFIG_GUNYAH) += gunyah.o
+> +
+> +obj-$(CONFIG_GUNYAH_RESOURCE_MANAGER) += gunyah_rsc_mgr.o gunyah_rm_rpc.o
+> diff --git a/drivers/virt/gunyah/gunyah_rm_rpc.c b/drivers/virt/gunyah/gunyah_rm_rpc.c
+> new file mode 100644
+> index 000000000000..45b1a8691982
+> --- /dev/null
+> +++ b/drivers/virt/gunyah/gunyah_rm_rpc.c
+> @@ -0,0 +1,570 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include <linux/of.h>
+> +#include <linux/slab.h>
+> +#include <linux/mutex.h>
+> +#include <linux/sched.h>
+> +#include <linux/gunyah.h>
+> +#include <linux/module.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/kthread.h>
+> +#include <linux/notifier.h>
+> +#include <linux/workqueue.h>
+> +#include <linux/completion.h>
+> +#include <linux/gunyah_rsc_mgr.h>
+> +#include <linux/platform_device.h>
+
+This should not have anything to do with a platform device, please see
+below.
+
+> +#include <linux/gunyah_rsc_mgr.h>
+> +#include <linux/platform_device.h>
+> +
+> +#include "rsc_mgr.h"
+> +
+> +static int gh_rm_drv_probe(struct platform_device *pdev)
+
+Why is this tied to a platformm device?
+
+I don't understand the relationship here, sorry.
+
+> +{
+> +	struct gh_rm_rpc *rsc_mgr;
+> +
+> +	rsc_mgr = gh_rm_rpc_init(pdev);
+
+Shouldn't this be creating a new one that is just a child passed in?
+Shouldn't this call just take a 'struct device *'?
+
+thanks,
+
+greg k-h
