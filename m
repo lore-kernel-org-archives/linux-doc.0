@@ -2,393 +2,278 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CE62C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 13:49:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFA21C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 14:01:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230489AbiKUNtL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 08:49:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55882 "EHLO
+        id S231211AbiKUOBi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 09:01:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231205AbiKUNtD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 08:49:03 -0500
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1AF5645A;
-        Mon, 21 Nov 2022 05:49:01 -0800 (PST)
-Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NG7yS4ptSzRpQN;
-        Mon, 21 Nov 2022 21:48:32 +0800 (CST)
-Received: from [10.67.110.112] (10.67.110.112) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 21 Nov 2022 21:48:59 +0800
-Subject: Re: [PATCH -next v2 3/6] landlock: add chmod and chown support
-To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
-        =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>,
-        Christian Brauner <brauner@kernel.org>
-CC:     <paul@paul-moore.com>, <jmorris@namei.org>, <serge@hallyn.com>,
-        <shuah@kernel.org>, <corbet@lwn.net>,
-        <linux-security-module@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
-References: <20220827111215.131442-1-xiujianfeng@huawei.com>
- <20220827111215.131442-4-xiujianfeng@huawei.com> <Ywpw66EYRDTQIyTx@nuc>
- <de8834b6-0ff2-1a81-f2d3-af33103e9942@huawei.com>
- <de4620d2-3268-b3cc-71dd-acbbd204435e@digikod.net>
- <2f286496-f4f8-76f7-2fb6-cc3dd5ffdeaa@huawei.com>
- <4b69a4ac-28ab-16aa-14b1-04a6f64d5490@digikod.net>
- <9caccd0a-319e-bbc9-084a-65c62d0b1145@huawei.com>
- <abc960a1-e66e-792e-6869-cfd201c29dbe@digikod.net>
- <1373bbe5-16b1-bf0e-5f92-14c31cb94897@huawei.com>
- <df99abcc-e7ec-ad34-27fa-25abee28a300@digikod.net>
-From:   xiujianfeng <xiujianfeng@huawei.com>
-Message-ID: <72114090-3ecd-b306-3501-ebb0df490f1a@huawei.com>
-Date:   Mon, 21 Nov 2022 21:48:59 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+        with ESMTP id S231612AbiKUOBN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 09:01:13 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66A7AA8179;
+        Mon, 21 Nov 2022 06:01:11 -0800 (PST)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2ALDSXED013940;
+        Mon, 21 Nov 2022 14:00:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=ycEdT0mZ8ugwzguok8hseDtH7rFSzTZwEG8xpe1B7bk=;
+ b=hHRORwQIm6ZRsVN+bdhYl8JXd7G/Q+kvqMg753WYtY4x2Nhy3UQsj1tDdkgSRf6Bb+pV
+ bFNrD4TvmcQ+y/57wRjvH127t9CXxT+SbKOISyP1zitUqarvGIDS+Ek9HEKDKp6nagSo
+ PJDRf2IJJnb5y17OPiX4+nM9Lr4D68IchMi8dd0J9fwuTim2c/8kHYVsFTwmqb34SUVN
+ y7V+VP7wbjaeGFESiUDT7cTImNIaO0yhsGPuA23clSTJkY2iG8kBeD5JbgV1YolYUbk8
+ 2nW/em4RsUj8Fk7BONQfaXsg2lnVUOfOxYgxSKvLD/yNHSkdPRKe1YvTCwfinic/KCVM OQ== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kxrut4haf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 21 Nov 2022 14:00:26 +0000
+Received: from nasanex01b.na.qualcomm.com (corens_vlan604_snip.qualcomm.com [10.53.140.1])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2ALE0Pxs010677
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 21 Nov 2022 14:00:25 GMT
+Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Mon, 21 Nov 2022 06:00:24 -0800
+From:   Elliot Berman <quic_eberman@quicinc.com>
+To:     Bjorn Andersson <quic_bjorande@quicinc.com>
+CC:     Elliot Berman <quic_eberman@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "Lorenzo Pieralisi" <lpieralisi@kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-acpi@vger.kernel.org>
+Subject: [PATCH v7 00/20] Drivers for gunyah hypervisor
+Date:   Mon, 21 Nov 2022 05:59:49 -0800
+Message-ID: <20221121140009.2353512-1-quic_eberman@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <df99abcc-e7ec-ad34-27fa-25abee28a300@digikod.net>
-Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.110.112]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpeml500023.china.huawei.com (7.185.36.114)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: EK8MR9eQ4DqkBd43xLrMIJXCQlX6t8vx
+X-Proofpoint-ORIG-GUID: EK8MR9eQ4DqkBd43xLrMIJXCQlX6t8vx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-21_13,2022-11-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ spamscore=0 malwarescore=0 impostorscore=0 mlxlogscore=884 phishscore=0
+ adultscore=0 clxscore=1011 bulkscore=0 priorityscore=1501 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2211210109
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Gunyah is a Type-1 hypervisor independent of any
+high-level OS kernel, and runs in a higher CPU privilege level. It does
+not depend on any lower-privileged OS kernel/code for its core
+functionality. This increases its security and can support a much smaller
+trusted computing base than a Type-2 hypervisor.
 
-在 2022/11/18 20:32, Mickaël Salaün 写道:
-> 
-> On 18/11/2022 10:03, xiujianfeng wrote:
->>
->>
->> 在 2022/11/14 22:12, Mickaël Salaün 写道:
->>>
->>> On 29/10/2022 10:33, xiujianfeng wrote:
->>>> Hi,
->>>>
->>>> 在 2022/9/2 1:34, Mickaël Salaün 写道:
->>>>> CCing linux-fsdevel@vger.kernel.org
->>>>>
->>>>>
->>>>> On 01/09/2022 15:06, xiujianfeng wrote:
->>>>>> Hi,
->>>>>>
->>>>>> 在 2022/8/30 0:01, Mickaël Salaün 写道:
->>>>>>>
->>>>>>> On 29/08/2022 03:17, xiujianfeng wrote:
->>>>>>>>
->>>>>>>> Hi,
->>>>>>>>
->>>>>>>> 在 2022/8/28 3:30, Günther Noack 写道:
->>>>>>>>> Hello!
->>>>>>>>>
->>>>>>>>> the mapping between Landlock rights to LSM hooks is now as
->>>>>>>>> follows in
->>>>>>>>> your patch set:
->>>>>>>>>
->>>>>>>>> * LANDLOCK_ACCESS_FS_CHMOD controls hook_path_chmod
->>>>>>>>> * LANDLOCK_ACCESS_FS_CHGRP controls hook_path_chown
->>>>>>>>>        (this hook can restrict both the chown(2) and chgrp(2)
->>>>>>>>> syscalls)
->>>>>>>>>
->>>>>>>>> Is this the desired mapping?
->>>>>>>>>
->>>>>>>>> The previous discussion I found on the topic was in
->>>>>>>>>
->>>>>>>>> [1]
->>>>>>>>> https://lore.kernel.org/all/5873455f-fff9-618c-25b1-8b6a4ec94368@digikod.net/ 
->>>>>>>>>
->>>>>>>>>
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> [2]
->>>>>>>>> https://lore.kernel.org/all/b1d69dfa-6d93-2034-7854-e2bc4017d20e@schaufler-ca.com/ 
->>>>>>>>>
->>>>>>>>>
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> [3]
->>>>>>>>> https://lore.kernel.org/all/c369c45d-5aa8-3e39-c7d6-b08b165495fd@digikod.net/ 
->>>>>>>>>
->>>>>>>>>
->>>>>>>>>
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> In my understanding the main arguments were the ones in [2] and 
->>>>>>>>> [3].
->>>>>>>>>
->>>>>>>>> There were no further responses to [3], so I was under the
->>>>>>>>> impression
->>>>>>>>> that we were gravitating towards an approach where the
->>>>>>>>> file-metadata-modification operations were grouped more coarsely?
->>>>>>>>>
->>>>>>>>> For example with the approach suggested in [3], which would be to
->>>>>>>>> group the operations coarsely into (a) one Landlock right for
->>>>>>>>> modifying file metadata that is used in security contexts, and
->>>>>>>>> (b) one
->>>>>>>>> Landlock right for modifying metadata that was used in 
->>>>>>>>> non-security
->>>>>>>>> contexts. That would mean that there would be:
->>>>>>>>>
->>>>>>>>> (a) LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES to control the
->>>>>>>>> following operations:
->>>>>>>>>        * chmod(2)-variants through hook_path_chmod,
->>>>>>>>>        * chown(2)-variants and chgrp(2)-variants through
->>>>>>>>> hook_path_chown,
->>>>>>>>>        * setxattr(2)-variants and removexattr(2)-variants for
->>>>>>>>> extended
->>>>>>>>>          attributes that are not "user extended attributes" as
->>>>>>>>> described in
->>>>>>>>>          xattr(7) through hook_inode_setxattr and
->>>>>>>>> hook_inode_removexattr
->>>>>>>>>
->>>>>>>>> (b) LANDLOCK_ACCESS_FS_MODIFY_NON_SECURITY_ATTRIBUTES to 
->>>>>>>>> control the
->>>>>>>>> following operations:
->>>>>>>>>        * utimes(2) and other operations for setting other
->>>>>>>>> non-security
->>>>>>>>>          sensitive attributes, probably through 
->>>>>>>>> hook_inode_setattr(?)
->>>>>>>>>        * xattr modifications like above, but for the "user 
->>>>>>>>> extended
->>>>>>>>>          attributes", though hook_inode_setxattr and
->>>>>>>>> hook_inode_removexattr
->>>>>>>>>
->>>>>>>>> In my mind, this would be a sensible grouping, and it would also
->>>>>>>>> help
->>>>>>>>> to decouple the userspace-exposed API from the underlying
->>>>>>>>> implementation, as Casey suggested to do in [2].
->>>>>>>>>
->>>>>>>>> Specifically for this patch set, if you want to use this
->>>>>>>>> grouping, you
->>>>>>>>> would only need to add one new Landlock right
->>>>>>>>> (LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES) as described above
->>>>>>>>> under (a) (and maybe we can find a shorter name for it... :))?
->>>>>>>>>
->>>>>>>>> Did I miss any operations here that would be necessary to 
->>>>>>>>> restrict?
->>>>>>>>>
->>>>>>>>> Would that make sense to you? Xiu, what is your opinion on how 
->>>>>>>>> this
->>>>>>>>> should be grouped? Do you have use cases in mind where a more
->>>>>>>>> fine-grained grouping would be required?
->>>>>>>>
->>>>>>>> I apologize I may missed that discussion when I prepared v2:(
->>>>>>>>
->>>>>>>> Yes, agreed, this grouping is more sensible and resonnable. so in
->>>>>>>> this
->>>>>>>> patchset only one right will be added, and I suppose the first 
->>>>>>>> commit
->>>>>>>> which expand access_mask_t to u32 can be droped.
->>>>>>>>
->>>>>>>>>
->>>>>>>>> —Günther
->>>>>>>>>
->>>>>>>>> P.S.: Regarding utimes: The hook_inode_setattr hook *also* gets
->>>>>>>>> called
->>>>>>>>> on a variety on attribute changes including file ownership, file
->>>>>>>>> size
->>>>>>>>> and file mode, so it might potentially interact with a bunch of
->>>>>>>>> other
->>>>>>>>> existing Landlock rights. Maybe that is not the right approach.
->>>>>>>>> In any
->>>>>>>>> case, it seems like it might require more thinking and it might be
->>>>>>>>> sensible to do that in a separate patch set IMHO.
->>>>>>>>
->>>>>>>> Thanks for you reminder, that seems it's more complicated to 
->>>>>>>> support
->>>>>>>> utimes, so I think we'd better not support it in this patchset.
->>>>>>>
->>>>>>> The issue with this approach is that it makes it impossible to
->>>>>>> properly
->>>>>>> group such access rights. Indeed, to avoid inconsistencies and much
->>>>>>> more
->>>>>>> complexity, we cannot extend a Landlock access right once it is
->>>>>>> defined.
->>>>>>>
->>>>>>> We also need to consider that file ownership and permissions have a
->>>>>>> default (e.g. umask), which is also a way to set them. How to
->>>>>>> consistently manage that? What if the application wants to 
->>>>>>> protect its
->>>>>>> files with chmod 0400?
->>>>>>
->>>>>> what do you mean by this? do you mean that we should have a set of
->>>>>> default permissions for files created by applications within the
->>>>>> sandbox, so that it can update metadata of its own file.
->>>>>
->>>>> I mean that we need a consistent access control system, and for 
->>>>> this we
->>>>> need to consider all the ways an extended attribute can be set.
->>>>>
->>>>> We can either extend the meaning of current access rights (controlled
->>>>> with a ruleset flag for compatibility reasons), or create new access
->>>>> rights. I think it would be better to add new dedicated rights to make
->>>>> it more explicit and flexible.
->>>>>
->>>>> I'm not sure about the right approach to properly control file
->>>>> permission. We need to think about it. Do you have some ideas?
->>>>>
->>>>> BTW, utimes can be controlled with the inode_setattr() LSM hook. Being
->>>>> able to control arbitrary file time modification could be part of the
->>>>> FS_WRITE_SAFE_METADATA, but modification and access time should always
->>>>> be updated according to the file operation.
->>>>>
->>>>>
->>>>>>
->>>>>>>
->>>>>>> About the naming, I think we can start with:
->>>>>>> - LANDLOCK_ACCESS_FS_READ_METADATA (read any file/dir metadata);
->>>>>>> - LANDLOCK_ACCESS_FS_WRITE_SAFE_METADATA: change file times, user
->>>>>>> xattr;
->>>>>>
->>>>>> do you mean we should have permission controls on metadata level or
->>>>>> operation level? e.g. should we allow update on user xattr but deny
->>>>>> update on security xattr? or should we disallow update on any xattr?
->>>>>>
->>>>>>> - LANDLOCK_ACCESS_FS_WRITE_UNSAFE_METADATA: interpreted by the 
->>>>>>> kernel
->>>>>>> (could change non-Landlock DAC or MAC, which could be considered 
->>>>>>> as a
->>>>>>> policy bypass; or other various xattr that might be interpreted by
->>>>>>> filesystems), this should be denied most of the time.
->>>>>>
->>>>>> do you mean FS_WRITE_UNSAFE_METADATA is security-related? and
->>>>>> FS_WRITE_SAFE_METADATA is non-security-related?
->>>>>
->>>>> Yes, FS_WRITE_UNSAFE_METADATA would be for security related
->>>>> xattr/chmod/chown, and FS_WRITE_SAFE_METADATA for non-security xattr.
->>>>> Both are mutually exclusive. This would involve the inode_setattr and
->>>>> inode_setxattr LSM hooks. Looking at the calling sites, it seems
->>>>> possible to replace all inode arguments with paths.
->>>
->>> I though about differentiating user xattr, atime/mtime, DAC
->>> (chown/chmod, posix ACLs), and other xattr, but it would be too complex
->>> to get a consistent approach because of indirect consequences (e.g.
->>> controlling umask, setegid, settimeofday…). Let's make it simple for 
->>> now.
->>>
->>> Here is an update on my previous proposal:
->>>
->>> LANDLOCK_ACCESS_FS_READ_METADATA to read any file/dir metadata (i.e.
->>> inode attr and xattr). In practice, for most use cases, this access
->>> right should be granted whenever LANDLOCK_ACCESS_READ_DIR is allowed.
->>>
->>> LANDLOCK_ACCESS_FS_WRITE_METADATA to *explicitly* write any inode attr
->>> or xattr (i.e. chmod, chown, utime, and all xattr). It should be noted
->>> that file modification time and access time should always be updated
->>> according to the file operation (e.g. write, truncate) even when this
->>> access is not explicitly allowed (according to vfs_utimes(),
->>> ATTR_TIMES_SET and ATTR_TOUCH should enable to differentiate from
->>> implicit time changes).
->>>
->> Thanks, I analyzed the relevant functions and the use of lsm hooks.
->> so I think what to do will be as follows:
->>
->> LANDLOCK_ACCESS_FS_WRITE_METADATA controls the following hooks:
->> 1.security_path_chmod
->> 2.security_path_chown
-> 
-> These two chmod/chown hooks would be redundant with 
-> security_inode_setattr(). We then don't need to implement them.
-> 
-> 
->> 3.security_inode_setattr
->> 4.security_inode_setxattr
->> 5.security_inode_removexattr > 6.security_inode_set_acl
-> 
-> Good catch. This new security_inode_set_acl hook is a good example of 
-> API refactoring. BTW, the related Cc list should be included in your 
-> next patch series.
-> 
->>
->> LANDLOCK_ACCESS_FS_READ_METADATA controls the following hooks:
->> 1.security_inode_getattr
->> 2.security_inode_get_acl
->> 3.security_inode_getxattr
-> 
-> Correct
-> 
->>
->> and the following 7 hooks are using struct dentry * as parameter, should
->> be changed to struct path *, and also their callers.
->>
->> security_inode_setattr
->> security_inode_setxattr
->> security_inode_removexattr
->> security_inode_set_acl
->> security_inode_getattr
->> security_inode_get_acl
->> security_inode_getxattr
->>
->> Looks like it's a big change.
-> 
-> Your proposed approach looks good, and this will indeed touch a lot of 
-> files.
-> 
-> Because it interacts a lot with the filesystem subsystem, I propose to 
-> first write a set of patches that refactor the security_inode_*attr and 
-> security_inode_*_acl hooks to use struct file (or struct path when it 
-> makes sense) instead of struct dentry/inode (and to remove struct 
-> user_namespace as argument because it can be inferred thanks to 
-> file_mnt_user_ns). As for [1], using struct file only makes sense for a 
-> specific set of calls, and struct path should be used otherwise (e.g. 
-> syscalls dealing with file descriptors vs. with file paths).
-> 
-> You need to base this work on Christian's branch to be up-to-date with 
-> ongoing FS changes. I suggest to create one patch per function API 
-> change e.g., notify_change (merge the mnt_userns and dentry in a file 
-> argument), struct inode_operations.setattr (use a file argument instead 
-> of dentry)…
+Gunyah is an open source hypervisor. The source repo is available at
+https://github.com/quic/gunyah-hypervisor.
+
+The diagram below shows the architecture.
+
+::
+
+         VM A                    VM B
+     +-----+ +-----+  | +-----+ +-----+ +-----+
+     |     | |     |  | |     | |     | |     |
+ EL0 | APP | | APP |  | | APP | | APP | | APP |
+     |     | |     |  | |     | |     | |     |
+     +-----+ +-----+  | +-----+ +-----+ +-----+
+ ---------------------|-------------------------
+     +--------------+ | +----------------------+
+     |              | | |                      |
+ EL1 | Linux Kernel | | |Linux kernel/Other OS |   ...
+     |              | | |                      |
+     +--------------+ | +----------------------+
+ --------hvc/smc------|------hvc/smc------------
+     +----------------------------------------+
+     |                                        |
+ EL2 |            Gunyah Hypervisor           |
+     |                                        |
+     +----------------------------------------+
+
+Gunyah provides these following features.
+
+- Threads and Scheduling: The scheduler schedules virtual CPUs (VCPUs) on
+physical CPUs and enables time-sharing of the CPUs.
+- Memory Management: Gunyah tracks memory ownership and use of all memory
+under its control. Memory partitioning between VMs is a fundamental
+security feature.
+- Interrupt Virtualization: All interrupts are handled in the hypervisor
+and routed to the assigned VM.
+- Inter-VM Communication: There are several different mechanisms provided
+for communicating between VMs.
+- Device Virtualization: Para-virtualization of devices is supported using
+inter-VM communication. Low level system features and devices such as
+interrupt controllers are supported with emulation where required.
+
+This series adds the basic framework for detecting that Linux is running
+under Gunyah as a virtual machine, communication with the Gunyah Resource
+Manager, and a basic virtual machine manager capable of launching virtual
+machines. In a future series, I'll add more functionality to the VM Manager,
+but functionality is kept limited here to reduce the number of patches to
+review.
+
+Changes in v7:
+ - Refactor to remove gunyah RM bus
+ - Refactor allow multiple RM device instances
+ - Bump UAPI to start at 0x0
+ - Refactor QCOM SCM's platform hooks to allow CONFIG_QCOM_SCM=Y/CONFIG_GUNYAH=M combinations
+
+Changes in v6: https://lore.kernel.org/all/20221026185846.3983888-1-quic_eberman@quicinc.com/
+ - *Replace gunyah-console with gunyah VM Manager*
+ - Move include/asm-generic/gunyah.h into include/linux/gunyah.h
+ - s/gunyah_msgq/gh_msgq/
+ - Minor tweaks and documentation tidying based on comments from Jiri, Greg, Arnd, Dmitry, and Bagas.
+
+Changes in v5: https://lore.kernel.org/all/20221011000840.289033-1-quic_eberman@quicinc.com/
+ - Dropped sysfs nodes
+ - Switch from aux bus to Gunyah RM bus for the subdevices
+ - Cleaning up RM console
+
+Changes in v4: https://lore.kernel.org/all/20220928195633.2348848-1-quic_eberman@quicinc.com/
+ - Tidied up documentation throughout based on questions/feedback received
+ - Switched message queue implementation to use mailboxes
+ - Renamed "gunyah_device" as "gunyah_resource"
+
+Changes in v3: https://lore.kernel.org/all/20220811214107.1074343-1-quic_eberman@quicinc.com/
+ - /Maintained/Supported/ in MAINTAINERS
+ - Tidied up documentation throughout based on questions/feedback received
+ - Moved hypercalls into arch/arm64/gunyah/; following hyper-v's implementation
+ - Drop opaque typedefs
+ - Move sysfs nodes under /sys/hypervisor/gunyah/
+ - Moved Gunyah console driver to drivers/tty/
+ - Reworked gunyah_device design to drop the Gunyah bus.
+
+Changes in v2: https://lore.kernel.org/all/20220801211240.597859-1-quic_eberman@quicinc.com/
+ - DT bindings clean up
+ - Switch hypercalls to follow SMCCC 
+
+v1: https://lore.kernel.org/all/20220223233729.1571114-1-quic_eberman@quicinc.com/
+
+Elliot Berman (20):
+  docs: gunyah: Introduce Gunyah Hypervisor
+  dt-bindings: Add binding for gunyah hypervisor
+  gunyah: Common types and error codes for Gunyah hypercalls
+  arm64: smccc: Include alternative-macros.h
+  virt: gunyah: Add hypercalls to identify Gunyah
+  virt: gunyah: Identify hypervisor version
+  mailbox: Allow direct registration to a channel
+  virt: gunyah: msgq: Add hypercalls to send and receive messages
+  mailbox: Add Gunyah message queue mailbox
+  gunyah: rsc_mgr: Add resource manager RPC core
+  gunyah: rsc_mgr: Add VM lifecycle RPC
+  gunyah: vm_mgr: Introduce basic VM Manager
+  gunyah: rsc_mgr: Add RPC for sharing memory
+  gunyah: vm_mgr: Add/remove user memory regions
+  gunyah: vm_mgr: Add ioctls to support basic non-proxy VM boot
+  samples: Add sample userspace Gunyah VM Manager
+  gunyah: rsc_mgr: Add platform ops on mem_lend/mem_reclaim
+  firmware: qcom_scm: Use fixed width src vm bitmap
+  firmware: qcom_scm: Register Gunyah platform ops
+  docs: gunyah: Document Gunyah VM Manager
+
+ .../bindings/firmware/gunyah-hypervisor.yaml  |  82 ++
+ .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+ Documentation/virt/gunyah/index.rst           | 115 ++
+ Documentation/virt/gunyah/message-queue.rst   |  64 ++
+ Documentation/virt/gunyah/vm-manager.rst      |  91 ++
+ Documentation/virt/index.rst                  |   1 +
+ MAINTAINERS                                   |  13 +
+ arch/arm64/Kbuild                             |   1 +
+ arch/arm64/gunyah/Makefile                    |   1 +
+ arch/arm64/gunyah/gunyah_hypercall.c          | 102 ++
+ drivers/firmware/Kconfig                      |   2 +
+ drivers/firmware/qcom_scm.c                   | 107 +-
+ drivers/mailbox/Kconfig                       |  10 +
+ drivers/mailbox/Makefile                      |   2 +
+ drivers/mailbox/gunyah-msgq.c                 | 229 ++++
+ drivers/mailbox/mailbox.c                     |  96 +-
+ drivers/mailbox/omap-mailbox.c                |  18 +-
+ drivers/mailbox/pcc.c                         |  17 +-
+ drivers/misc/fastrpc.c                        |   6 +-
+ drivers/net/wireless/ath/ath10k/qmi.c         |   4 +-
+ drivers/remoteproc/qcom_q6v5_mss.c            |   8 +-
+ drivers/soc/qcom/rmtfs_mem.c                  |   2 +-
+ drivers/virt/Kconfig                          |   1 +
+ drivers/virt/Makefile                         |   1 +
+ drivers/virt/gunyah/Kconfig                   |  33 +
+ drivers/virt/gunyah/Makefile                  |   7 +
+ drivers/virt/gunyah/gunyah.c                  |  46 +
+ drivers/virt/gunyah/gunyah_platform_hooks.c   |  63 ++
+ drivers/virt/gunyah/gunyah_rm_rpc.c           | 987 ++++++++++++++++++
+ drivers/virt/gunyah/gunyah_rsc_mgr.c          |  70 ++
+ drivers/virt/gunyah/rsc_mgr.h                 | 130 +++
+ drivers/virt/gunyah/vm_mgr.c                  | 291 ++++++
+ drivers/virt/gunyah/vm_mgr.h                  |  68 ++
+ drivers/virt/gunyah/vm_mgr_mm.c               | 246 +++++
+ include/linux/arm-smccc.h                     |   1 +
+ include/linux/gunyah.h                        | 167 +++
+ include/linux/gunyah_rsc_mgr.h                | 137 +++
+ include/linux/mailbox_client.h                |   1 +
+ include/linux/qcom_scm.h                      |   2 +-
+ include/uapi/linux/gunyah.h                   |  53 +
+ samples/Kconfig                               |  10 +
+ samples/Makefile                              |   1 +
+ samples/gunyah/.gitignore                     |   2 +
+ samples/gunyah/Makefile                       |   6 +
+ samples/gunyah/gunyah_vmm.c                   | 270 +++++
+ samples/gunyah/sample_vm.dts                  |  69 ++
+ 46 files changed, 3563 insertions(+), 71 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+ create mode 100644 Documentation/virt/gunyah/index.rst
+ create mode 100644 Documentation/virt/gunyah/message-queue.rst
+ create mode 100644 Documentation/virt/gunyah/vm-manager.rst
+ create mode 100644 arch/arm64/gunyah/Makefile
+ create mode 100644 arch/arm64/gunyah/gunyah_hypercall.c
+ create mode 100644 drivers/mailbox/gunyah-msgq.c
+ create mode 100644 drivers/virt/gunyah/Kconfig
+ create mode 100644 drivers/virt/gunyah/Makefile
+ create mode 100644 drivers/virt/gunyah/gunyah.c
+ create mode 100644 drivers/virt/gunyah/gunyah_platform_hooks.c
+ create mode 100644 drivers/virt/gunyah/gunyah_rm_rpc.c
+ create mode 100644 drivers/virt/gunyah/gunyah_rsc_mgr.c
+ create mode 100644 drivers/virt/gunyah/rsc_mgr.h
+ create mode 100644 drivers/virt/gunyah/vm_mgr.c
+ create mode 100644 drivers/virt/gunyah/vm_mgr.h
+ create mode 100644 drivers/virt/gunyah/vm_mgr_mm.c
+ create mode 100644 include/linux/gunyah.h
+ create mode 100644 include/linux/gunyah_rsc_mgr.h
+ create mode 100644 include/uapi/linux/gunyah.h
+ create mode 100644 samples/gunyah/.gitignore
+ create mode 100644 samples/gunyah/Makefile
+ create mode 100644 samples/gunyah/gunyah_vmm.c
+ create mode 100644 samples/gunyah/sample_vm.dts
 
 
-Thanks Mickaël, your advice is very clear, I will do it first.
+base-commit: 094226ad94f471a9f19e8f8e7140a09c2625abaa
+-- 
+2.25.1
 
-
-> 
-> Once this refactoring will be in -next, the landlock_file_security 
-> changes [1] will already be merged in master, and you will then be able 
-> to work on the Landlock specific parts with the new hooks.
-> 
-> [1] https://git.kernel.org/mic/c/b9f5ce27c8f8
-> 
-> 
->>
->>>
->>>>
->>>> Sorry for the late reply, I have problems with this work, for example,
->>>> before:
->>>> security_inode_setattr(struct user_namespace *mnt_userns,
->>>>                                             struct dentry *dentry,
->>>>                                             struct iattr *attr)
->>>> after:
->>>> security_inode_setattr(struct user_namespace *mnt_userns,
->>>>                                             struct path *path,
->>>>                                             struct iattr *attr)
->>>> then I change the second argument in notify_change() from struct 
->>>> *dentry
->>>> to struct path *, that makes this kind of changes in fs/overlayfs/
->>>> spread to lots of places because overlayfs basicly uses dentry instead
->>>> of path, the worst case may be here:
->>>>
->>>> ovl_special_inode_operations.set_acl hook calls:
->>>> -->
->>>> ovl_set_acl(struct user_namespace *mnt_userns, struct dentry *dentry,
->>>> struct posix_acl *acl, int type)
->>>> -->
->>>> ovl_setattr(struct user_namespace *mnt_userns, struct dentry
->>>> *dentry,struct iattr *attr)
->>>> -->
->>>> ovl_do_notify_change(struct ovl_fs *ofs, struct dentry *upperdentry,
->>>> struct iattr *attr)
->>>>
->>>> from the top of this callchain, I can not find a path to replace 
->>>> dentry,
->>>> did I miss something? or do you have better idea?
->>>
->>> I think this can be solved thanks to the ovl_path_real() helper.
->>> .
-> .
