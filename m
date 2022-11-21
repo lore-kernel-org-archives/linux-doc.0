@@ -2,91 +2,193 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7259BC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 02:12:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B63BBC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 02:17:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229687AbiKUCMC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Nov 2022 21:12:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40982 "EHLO
+        id S229870AbiKUCR3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Nov 2022 21:17:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229551AbiKUCMB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Nov 2022 21:12:01 -0500
-X-Greylist: delayed 130 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 20 Nov 2022 18:12:00 PST
-Received: from out203-205-221-173.mail.qq.com (out203-205-221-173.mail.qq.com [203.205.221.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B0DC13F8C
-        for <linux-doc@vger.kernel.org>; Sun, 20 Nov 2022 18:11:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-        s=s201512; t=1668996717;
-        bh=ysg/xE0/jB77a1d48gs8ohec4NWgPszsHFjZvUt7cfc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=S7ium4SJ/EyreVeQBvk8MNSTMvu93EwTcVwmd2PkAHfDmhmrxz7yKYSWVN13yOVkz
-         8Qqi13EA838zgI9MfTSRKw7XEGUBPYQ2ItQCPy6/ojToLfvrA+xj9QFA4LJysXGyN7
-         mezaNijTluU9/yQeQEkyx+Y9BTfUWeN/GGW7UyVs=
-Received: from rtoax.. ([111.199.191.46])
-        by newxmesmtplogicsvrszb1-0.qq.com (NewEsmtp) with SMTP
-        id 1E48CEB0; Mon, 21 Nov 2022 10:07:36 +0800
-X-QQ-mid: xmsmtpt1668996456ts4u9u6od
-Message-ID: <tencent_A24996F06584CAF86BC2A822E2A2C1BA1006@qq.com>
-X-QQ-XMAILINFO: M7uElAZZZMmF6Oo5VlGWjFJ8jVcfwmDl11vVfqT7M/4lcZM+EGoSmgCgmClyT4
-         VoJRMz5vn8lCzLVFWSHkhdsm61bAd1qCe7BIWIhnSAFxkx4YORGIWet+W6Xeh0+FRrl40ElL5WKh
-         y0RcASU2nli806o1fHQriEQS4GQTpg0x3TYAcKw8V1wrVXj1C8Ddk2YB0R63MEZwr9be2qJhu7Pd
-         zLaMFAetT5YvdtoZkEY4gEfQVCWzfPZ1wtYlQvJKaPiVD5287nrtdW8F1eRH8TQp2WksO8UnDD4W
-         Udac2bVksfRItmUeFw/OTRYYGWEQLpe05c/Kf/eaC7gMkU2h9NDia3LHngGZ0Z21XPGMyAqrIOv8
-         bSs19rv/SByNkjxkNJr3tFSPg/kxfGcKEYvXG6acLQ0G6aW1J7QMC/9aOcWyDi6pzjLSU8N+GeWm
-         1X/t+nKPrPnylX9VBE//Y6cF6hIu2Hn5Q5j2gmbBDex6JJPX+jUh1kbz/SauJl8nfh8W8SpjixE7
-         +ok4yyU62A6W07ZXKmAMBWmO7Q3UNyj1cyINnLTnWP4Tgd05NxOlUHmvzsNBboHLa9c7vIyIk2lj
-         StD9qDnBtoyphBXMg8TP/whuXC5Llnxz3s3C0zPsJ1tMF4B5Hw4A4QERN8+pdYiFlCWAN3fQ4VNH
-         YRrxJHu+qN9fU/f1wF6vUk6FN4AOb/kI6sz5KYh6yqp30Fv/L8/6tcT3JUsrcP662oXCml9FrktJ
-         JQAnPDsQ4vDvDV3hoD2KKgokLBk8/lwN8wz4yFKVwGAO+n9sb4wYVsHsTWF0HoBNR8ZbxP19QDOE
-         bXUDKnSXex46irQ3xp8/9zckuDVyvhzSkFMkwUk0z9b5+i/tI2iBhJ9M/qotc/4aW23q3z2R2XjI
-         RoNz7IO2ciGyrqAevSXmij6Vp+XzoiR10sK94vivyR1giOL1iJL4iImMs9Y2mrEJxqFI8VWVJojj
-         orC1kXi5LEexiYJIepOHiv5NSiJGoZBTOavItgDzO0PYS/pVM3VmZIAI0X3wiY
-From:   Rong Tao <rtoax@foxmail.com>
-To:     void@manifault.com
-Cc:     andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org,
-        corbet@lwn.net, daniel@iogearbox.net, haoluo@google.com,
-        john.fastabend@gmail.com, jolsa@kernel.org, kpsingh@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        martin.lau@linux.dev, rongtao@cestc.cn, rtoax@foxmail.com,
-        sdf@google.com, song@kernel.org, yhs@fb.com
-Subject: [PATCH bpf-next] docs/bpf: Update btf selftests program and add link
-Date:   Mon, 21 Nov 2022 10:07:34 +0800
-X-OQ-MSGID: <20221121020734.5246-1-rtoax@foxmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <Y3pj9FCI5SOEHZXz@maniforge.lan>
-References: <Y3pj9FCI5SOEHZXz@maniforge.lan>
+        with ESMTP id S229848AbiKUCRX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Nov 2022 21:17:23 -0500
+Received: from mail-sh.amlogic.com (mail-sh.amlogic.com [58.32.228.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B527627B17;
+        Sun, 20 Nov 2022 18:16:29 -0800 (PST)
+Received: from droid01-xa.amlogic.com (10.88.11.200) by mail-sh.amlogic.com
+ (10.18.11.5) with Microsoft SMTP Server id 15.1.2507.13; Mon, 21 Nov 2022
+ 10:16:27 +0800
+From:   Jiucheng Xu <jiucheng.xu@amlogic.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Jiucheng Xu <jiucheng.xu@amlogic.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+CC:     Jianxin Pan <jianxin.pan@amlogic.com>,
+        Kelvin Zhang <kelvin.zhang@amlogic.com>,
+        Chris Healy <cphealy@gmail.com>,
+        Chris Healy <healych@amazon.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH v12 2/3] docs/perf: Add documentation for the Amlogic G12 DDR PMU
+Date:   Mon, 21 Nov 2022 10:15:59 +0800
+Message-ID: <20221121021602.3306998-2-jiucheng.xu@amlogic.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221121021602.3306998-1-jiucheng.xu@amlogic.com>
+References: <20221121021602.3306998-1-jiucheng.xu@amlogic.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.88.11.200]
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rong Tao <rongtao@cestc.cn>
+Add a user guide to show how to use DDR PMU to
+monitor DDR bandwidth on Amlogic G12 SoC
 
-commit c64779e24e88("selftests/bpf: Merge most of test_btf into
-test_progs") rename selftests/bpf btf test from 'test_btf.c' to
-'prog_tests/btf.c'.
-
-Signed-off-by: Rong Tao <rongtao@cestc.cn>
+Signed-off-by: Jiucheng Xu <jiucheng.xu@amlogic.com>
+Reviewed-by: Chris Healy <healych@amazon.com>
 ---
- Documentation/bpf/btf.rst | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Changes v11 -> v12:
+  - No change
 
-diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
-index cf8722f96090..dca0b0e9dd35 100644
---- a/Documentation/bpf/btf.rst
-+++ b/Documentation/bpf/btf.rst
-@@ -1062,4 +1062,9 @@ format.::
- 7. Testing
- ==========
- 
--Kernel bpf selftest `test_btf.c` provides extensive set of BTF-related tests.
-+Kernel bpf selftest `tools/testing/selftests/bpf/prog_tests/btf.c`_ provides
-+extensive set of BTF-related tests.
+Changes v10 -> v11:
+  - Reword perf documentation
+
+Changes v9 -> v10:
+  - Rebase code
+  - Add "Reviewed-by" tag
+
+Changes v8 -> v9:
+  - No change
+
+Changes v7 -> v8:
+  - No change
+
+Changes v6 -> v7:
+  - Drop the Reported-by tag
+  - Fix spelling error
+
+Changes v5 -> v6:
+  - No change
+
+Changes v4 -> v5:
+  - Fix building warning
+
+Changes v3 -> v4:
+  - No change
+
+Changes v2 -> v3:
+  - Rename doc name from aml-ddr-pmu.rst to meson-ddr-pmu.rst
+
+Changes v1 -> v2:
+  - Nothing was changed
+---
+ Documentation/admin-guide/perf/index.rst      |  1 +
+ .../admin-guide/perf/meson-ddr-pmu.rst        | 70 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ 3 files changed, 72 insertions(+)
+ create mode 100644 Documentation/admin-guide/perf/meson-ddr-pmu.rst
+
+diff --git a/Documentation/admin-guide/perf/index.rst b/Documentation/admin-guide/perf/index.rst
+index 793e1970bc05..c767e03e4d34 100644
+--- a/Documentation/admin-guide/perf/index.rst
++++ b/Documentation/admin-guide/perf/index.rst
+@@ -19,3 +19,4 @@ Performance monitor support
+    arm_dsu_pmu
+    thunderx2-pmu
+    alibaba_pmu
++   meson-ddr-pmu
+diff --git a/Documentation/admin-guide/perf/meson-ddr-pmu.rst b/Documentation/admin-guide/perf/meson-ddr-pmu.rst
+new file mode 100644
+index 000000000000..8e71be1d6346
+--- /dev/null
++++ b/Documentation/admin-guide/perf/meson-ddr-pmu.rst
+@@ -0,0 +1,70 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+.. Links
-+.. _tools/testing/selftests/bpf/prog_tests/btf.c:
-+   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/testing/selftests/bpf/prog_tests/btf.c
++===========================================================
++Amlogic SoC DDR Bandwidth Performance Monitoring Unit (PMU)
++===========================================================
++
++The Amlogic Meson G12 SoC contains a bandwidth monitor inside DRAM controller.
++The monitor includes 4 channels. Each channel can count the request accessing
++DRAM. The channel can count up to 3 AXI port simultaneously. It can be helpful
++to show if the performance bottleneck is on DDR bandwidth.
++
++Currently, this driver supports the following 5 perf events:
++
+++ meson_ddr_bw/total_rw_bytes/
+++ meson_ddr_bw/chan_1_rw_bytes/
+++ meson_ddr_bw/chan_2_rw_bytes/
+++ meson_ddr_bw/chan_3_rw_bytes/
+++ meson_ddr_bw/chan_4_rw_bytes/
++
++meson_ddr_bw/chan_{1,2,3,4}_rw_bytes/ events are channel-specific events.
++Each channel support filtering, which can let the channel to monitor
++individual IP module in SoC.
++
++Below are DDR access request event filter keywords:
++
+++ arm             - from CPU
+++ vpu_read1       - from OSD + VPP read
+++ gpu             - from 3D GPU
+++ pcie            - from PCIe controller
+++ hdcp            - from HDCP controller
+++ hevc_front      - from HEVC codec front end
+++ usb3_0          - from USB3.0 controller
+++ hevc_back       - from HEVC codec back end
+++ h265enc         - from HEVC encoder
+++ vpu_read2       - from DI read
+++ vpu_write1      - from VDIN write
+++ vpu_write2      - from di write
+++ vdec            - from legacy codec video decoder
+++ hcodec          - from H264 encoder
+++ ge2d            - from ge2d
+++ spicc1          - from SPI controller 1
+++ usb0            - from USB2.0 controller 0
+++ dma             - from system DMA controller 1
+++ arb0            - from arb0
+++ sd_emmc_b       - from SD eMMC b controller
+++ usb1            - from USB2.0 controller 1
+++ audio           - from Audio module
+++ sd_emmc_c       - from SD eMMC c controller
+++ spicc2          - from SPI controller 2
+++ ethernet        - from Ethernet controller
++
++
++Examples:
++
++  + Show the total DDR bandwidth per seconds:
++
++    .. code-block:: bash
++
++       perf stat -a -e meson_ddr_bw/total_rw_bytes/ -I 1000 sleep 10
++
++
++  + Show individual DDR bandwidth from CPU and GPU respectively, as well as
++    sum of them:
++
++    .. code-block:: bash
++
++       perf stat -a -e meson_ddr_bw/chan_1_rw_bytes,arm=1/ -I 1000 sleep 10
++       perf stat -a -e meson_ddr_bw/chan_2_rw_bytes,gpu=1/ -I 1000 sleep 10
++       perf stat -a -e meson_ddr_bw/chan_3_rw_bytes,arm=1,gpu=1/ -I 1000 sleep 10
++
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 415eaa30c523..b76c4deddf22 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1098,6 +1098,7 @@ M:	Jiucheng Xu <jiucheng.xu@amlogic.com>
+ L:	linux-amlogic@lists.infradead.org
+ S:	Supported
+ W:	http://www.amlogic.com
++F:	Documentation/admin-guide/perf/meson-ddr-pmu.rst
+ F:	drivers/perf/amlogic/
+ F:	include/soc/amlogic/
+ 
 -- 
-2.38.1
+2.25.1
 
