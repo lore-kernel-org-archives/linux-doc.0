@@ -2,246 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3D31C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 09:43:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC44AC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 10:13:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229719AbiKUJnt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 04:43:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52448 "EHLO
+        id S231218AbiKUKNF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 05:13:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229693AbiKUJns (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 04:43:48 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1AC3963D7;
-        Mon, 21 Nov 2022 01:43:47 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4B4471FB;
-        Mon, 21 Nov 2022 01:43:53 -0800 (PST)
-Received: from pierre123.arm.com (unknown [10.57.4.253])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CDF743F73D;
-        Mon, 21 Nov 2022 01:43:42 -0800 (PST)
-From:   Pierre Gondois <pierre.gondois@arm.com>
-To:     linux-eng@arm.com
-Cc:     Ionela.Voinescu@arm.com, qperret@google.com,
-        Pierre Gondois <Pierre.Gondois@arm.com>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] sched/topology: Remove EM_MAX_COMPLEXITY limit
-Date:   Mon, 21 Nov 2022 10:43:34 +0100
-Message-Id: <20221121094336.3250917-1-pierre.gondois@arm.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S230232AbiKUKNA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 05:13:00 -0500
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DCBFBF41;
+        Mon, 21 Nov 2022 02:12:59 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id g10so10131132plo.11;
+        Mon, 21 Nov 2022 02:12:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JcrfVzbVII/ixGjW6CzVs+lFc79Nuwer3t6F4w1cDOc=;
+        b=qe0/1odAvG1U4tkPC+b1tQpKv/R4kNC8LqG1JsbtP1wjrD1R7uiDuTHJlQG9s94tUN
+         pSVcDGKuezB3YA0zR+DCbSpZKONwxdFDvlNZQyQfxDO2rS3lK50kZj7rhbykDHX6p8Dd
+         019VpLsO1oJTAXVbjgB6UkPOnnFPQKhEhzZe8BSJ5rQgtT7bn5Nc6NeSmlLtxc3W+RLs
+         GqdXaBn8ozP9QGmC0O9dp8YPwjffeSJOf6F9DiYVFshSP3TYFD1IQ/no/UM42zt6L/8Y
+         7JMkOPXVaZ/lBtl43hfJ66qLauYVyuXgO7b5luKyUhAjuQpHQ2BIMwLSA629xGS2Q7jw
+         Tliw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JcrfVzbVII/ixGjW6CzVs+lFc79Nuwer3t6F4w1cDOc=;
+        b=42vxU9tZhska9TC4d0Oih3EYjrCIyz9PgSth/LwyRyok6NE1VMY0O4iVqjZlJASdhN
+         lZjOURMhRP+F2rDJNtgYy+XKepElEt0MTCO9b4rIqHavoIUCVUox+OtMRML3VoTdTwOm
+         1xIB0hesvMR8LlVQez3x1qMr4lKGx9Z8PXR33dSQeHOrRZ6pleDeZtNXBb1lapdayqIN
+         uccbDeribD4cT8WBL299+Jaa57Hup6RDQttFUBgoAA1iG/7+qNaoV0t2sZVRMwz+oMQ4
+         ax59uDo/9tNuHbuQ5Et2kBlHgrwGF4xN/xmujghuAQrCudxhOa6J2VyCBXRgS5J9V6HM
+         tgYA==
+X-Gm-Message-State: ANoB5pn9q33bHBZyCceLO0RjSuA4sAM59NCd/BNGCne/aU1gk1Uc8lK9
+        mulHhQnR4LMkCBPdqi2KG0SMNjWGi4M=
+X-Google-Smtp-Source: AA0mqf4X7XAJHYWZmsY4H/BNdfWBj2mucoOk/+euz4wnJWV5PHenEU1N5UF1Co84wGl8RXfwilPrwQ==
+X-Received: by 2002:a17:902:e80f:b0:186:f4ba:a817 with SMTP id u15-20020a170902e80f00b00186f4baa817mr3271250plg.97.1669025578623;
+        Mon, 21 Nov 2022 02:12:58 -0800 (PST)
+Received: from debian.. (subs02-180-214-232-69.three.co.id. [180.214.232.69])
+        by smtp.gmail.com with ESMTPSA id jj17-20020a170903049100b0017f5ad327casm4522235plb.103.2022.11.21.02.12.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Nov 2022 02:12:58 -0800 (PST)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-next@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Ahmed S. Darwish" <darwi@linutronix.de>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] PCI/MSI: api: Use bullet lists in kernel-doc comments
+Date:   Mon, 21 Nov 2022 17:12:45 +0700
+Message-Id: <20221121101245.23544-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221121184100.0974cc35@canb.auug.org.au>
+References: <20221121184100.0974cc35@canb.auug.org.au>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4119; i=bagasdotme@gmail.com; h=from:subject; bh=k7u8QF68GBXH09CAMJK6Ok/Q+l2nHiOrmGnVIIIvZXo=; b=owGbwMvMwCH2bWenZ2ig32LG02pJDMnV/rKHN1ycvSDhlCez8+YTRvVrnrVsuco0da2Tv90jjeO7 XLiWdJSyMIhxMMiKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAiWV6MDAvCbO/P3zef/+jCnVUXuW 7nsszaV8Fw4XTT8fvca9Y1hlcz/BU+FuZ9XubSl2J79vBajXciHWpJvI/rxD5MmlKuteS8Ox8A
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Pierre Gondois <Pierre.Gondois@arm.com>
+Stephen Rothwell reported htmldocs warnings when merging tip tree:
 
-The Energy Aware Scheduler (EAS) estimates the energy consumption
-of placing a task on different CPUs. The goal is to minimize this
-energy consumption. Estimating the energy of different task placements
-is increasingly complex with the size of the platform. To avoid having
-a slow wake-up path, EAS is only enabled if this complexity is low
-enough.
+Documentation/PCI/msi-howto:380: drivers/pci/msi/api.c:148: ERROR: Unexpected indentation.
+Documentation/PCI/msi-howto:380: drivers/pci/msi/api.c:149: WARNING: Block quote ends without a blank line; unexpected unindent.
+Documentation/PCI/msi-howto:380: drivers/pci/msi/api.c:236: ERROR: Unexpected indentation.
+Documentation/PCI/msi-howto:380: drivers/pci/msi/api.c:259: ERROR: Unexpected indentation.
 
-The current complexity limit was set in:
-commit b68a4c0dba3b1 ("sched/topology: Disable EAS on inappropriate
-platforms").
-base on the first implementation of EAS, which was re-computing
-the power of the whole platform for each task placement scenario, cf:
-commit 390031e4c309 ("sched/fair: Introduce an energy estimation helper
-function").
-but the complexity of EAS was reduced in:
-commit eb92692b2544d ("sched/fair: Speed-up energy-aware wake-ups")
-and find_energy_efficient_cpu() (feec) algorithm was updated in:
-commit 3e8c6c9aac42 ("sched/fair: Remove task_util from effective
-utilization in feec()")
+Use bullet lists syntax for pci_disable_msix flags and interrupt mode lists
+to fix these warnings.
 
-find_energy_efficient_cpu() (feec) is now doing:
-feec()
-\_ for_each_pd(pd) [0]
-  // get max_spare_cap_cpu and compute_prev_delta
-  \_ for_each_cpu(pd) [1]
-
-  \_ eenv_pd_busy_time(pd) [2]
-	\_ for_each_cpu(pd)
-
-  // compute_energy(pd) without the task
-  \_ eenv_pd_max_util(pd, -1) [3.0]
-    \_ for_each_cpu(pd)
-  \_ em_cpu_energy(pd, -1)
-    \_ for_each_ps(pd)
-
-  // compute_energy(pd) with the task on prev_cpu
-  \_ eenv_pd_max_util(pd, prev_cpu) [3.1]
-    \_ for_each_cpu(pd)
-  \_ em_cpu_energy(pd, prev_cpu)
-    \_ for_each_ps(pd)
-
-  // compute_energy(pd) with the task on max_spare_cap_cpu
-  \_ eenv_pd_max_util(pd, max_spare_cap_cpu) [3.2]
-    \_ for_each_cpu(pd)
-  \_ em_cpu_energy(pd, max_spare_cap_cpu)
-    \_ for_each_ps(pd)
-
-[3.1] happens only once since prev_cpu is unique. With the same
-definitions for nr_pd, nr_cpus and nr_ps, the complexity is of:
-nr_pd * (2 * [nr_cpus in pd] + 2 * ([nr_cpus in pd] + [nr_ps in pd]))
-+ ([nr_cpus in pd] + [nr_ps in pd])
-
- [0]  * (     [1] + [2]      +       [3.0] + [3.2]                  )
-+ [3.1]
-
-= nr_pd * (4 * [nr_cpus in pd] + 2 * [nr_ps in pd])
-+ [nr_cpus in prev pd] + nr_ps
-
-The complexity limit was set to 2048 in:
-commit b68a4c0dba3b1 ("sched/topology: Disable EAS on inappropriate
-platforms")
-to make "EAS usable up to 16 CPUs with per-CPU DVFS and less than 8
-performance states each". For the same platform, the complexity would
-actually be of:
-16 * (4 + 2 * 7) + 1 + 7 = 296
-
-Since the EAS complexity was greatly reduced, bigger platforms can
-handle EAS. For instance, a platform with 112 CPUs with 7 performance
-states each would not reach it:
-112 * (4 + 2 * 7) + 1 + 7 = 2024
-
-To reflect this improvement, remove the EAS complexity check.
-Note that a limit on the number of CPUs still holds against
-EM_MAX_NUM_CPUS to avoid overflows during the energy estimation.
-
-Signed-off-by: Pierre Gondois <Pierre.Gondois@arm.com>
-Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
+Link: https://lore.kernel.org/linux-next/20221121184100.0974cc35@canb.auug.org.au/
+Fixes: 5c0997dc33ac24 ("PCI/MSI: Move pci_alloc_irq_vectors() to api.c")
+Fixes: 017239c8db2093 ("PCI/MSI: Move pci_irq_vector() to api.c")
+Fixes: be37b8428b7b77 ("PCI/MSI: Move pci_irq_get_affinity() to api.c")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
+ drivers/pci/msi/api.c | 33 +++++++++++++++++++--------------
+ 1 file changed, 19 insertions(+), 14 deletions(-)
 
-Notes:
-    v2:
-     - Fix complexity computation in the commit message. [Dietmar]
-     - Use correct/latest function names. [Ionela]
-     - Added Rb from Lukasz.
-    v3:
-     - Keep paragraph 6.3 in sched-energy.rst with just a reference to
-       EM_MAX_NUM_CPUS, reference EM_MAX_NUM_CPUS in the commit message.
-       [Dietmar]
-
- Documentation/scheduler/sched-energy.rst | 29 ++----------------
- kernel/sched/topology.c                  | 39 ++----------------------
- 2 files changed, 6 insertions(+), 62 deletions(-)
-
-diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
-index 8fbce5e767d9..7d84ac11c370 100644
---- a/Documentation/scheduler/sched-energy.rst
-+++ b/Documentation/scheduler/sched-energy.rst
-@@ -359,32 +359,9 @@ in milli-Watts or in an 'abstract scale'.
- 6.3 - Energy Model complexity
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
--The task wake-up path is very latency-sensitive. When the EM of a platform is
--too complex (too many CPUs, too many performance domains, too many performance
--states, ...), the cost of using it in the wake-up path can become prohibitive.
--The energy-aware wake-up algorithm has a complexity of:
--
--	C = Nd * (Nc + Ns)
--
--with: Nd the number of performance domains; Nc the number of CPUs; and Ns the
--total number of OPPs (ex: for two perf. domains with 4 OPPs each, Ns = 8).
--
--A complexity check is performed at the root domain level, when scheduling
--domains are built. EAS will not start on a root domain if its C happens to be
--higher than the completely arbitrary EM_MAX_COMPLEXITY threshold (2048 at the
--time of writing).
--
--If you really want to use EAS but the complexity of your platform's Energy
--Model is too high to be used with a single root domain, you're left with only
--two possible options:
--
--    1. split your system into separate, smaller, root domains using exclusive
--       cpusets and enable EAS locally on each of them. This option has the
--       benefit to work out of the box but the drawback of preventing load
--       balance between root domains, which can result in an unbalanced system
--       overall;
--    2. submit patches to reduce the complexity of the EAS wake-up algorithm,
--       hence enabling it to cope with larger EMs in reasonable time.
-+EAS does not impose any complexity limit on the number of PDs/OPPs/CPUs but
-+restricts the number of CPUs to EM_MAX_NUM_CPUS to prevent overflows during
-+the energy estimation.
- 
- 
- 6.4 - Schedutil governor
-diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
-index 8739c2a5a54e..ce2fa85b2362 100644
---- a/kernel/sched/topology.c
-+++ b/kernel/sched/topology.c
-@@ -346,32 +346,13 @@ static void sched_energy_set(bool has_eas)
-  *    1. an Energy Model (EM) is available;
-  *    2. the SD_ASYM_CPUCAPACITY flag is set in the sched_domain hierarchy.
-  *    3. no SMT is detected.
-- *    4. the EM complexity is low enough to keep scheduling overheads low;
-- *    5. schedutil is driving the frequency of all CPUs of the rd;
-- *    6. frequency invariance support is present;
-- *
-- * The complexity of the Energy Model is defined as:
-- *
-- *              C = nr_pd * (nr_cpus + nr_ps)
-- *
-- * with parameters defined as:
-- *  - nr_pd:    the number of performance domains
-- *  - nr_cpus:  the number of CPUs
-- *  - nr_ps:    the sum of the number of performance states of all performance
-- *              domains (for example, on a system with 2 performance domains,
-- *              with 10 performance states each, nr_ps = 2 * 10 = 20).
-- *
-- * It is generally not a good idea to use such a model in the wake-up path on
-- * very complex platforms because of the associated scheduling overheads. The
-- * arbitrary constraint below prevents that. It makes EAS usable up to 16 CPUs
-- * with per-CPU DVFS and less than 8 performance states each, for example.
-+ *    4. schedutil is driving the frequency of all CPUs of the rd;
-+ *    5. frequency invariance support is present;
+diff --git a/drivers/pci/msi/api.c b/drivers/pci/msi/api.c
+index 6c3ad4863850c3..d48c21295a88c6 100644
+--- a/drivers/pci/msi/api.c
++++ b/drivers/pci/msi/api.c
+@@ -142,12 +142,15 @@ EXPORT_SYMBOL(pci_disable_msix);
+  * @min_vecs: minimum required number of vectors (must be >= 1)
+  * @max_vecs: maximum desired number of vectors
+  * @flags:    One or more of:
+- *            %PCI_IRQ_MSIX      Allow trying MSI-X vector allocations
+- *            %PCI_IRQ_MSI       Allow trying MSI vector allocations
+- *            %PCI_IRQ_LEGACY    Allow trying legacy INTx interrupts, if
+- *                               and only if @min_vecs == 1
+- *            %PCI_IRQ_AFFINITY  Auto-manage IRQs affinity by spreading
+- *                               the vectors around available CPUs
++ *
++ *            * %PCI_IRQ_MSIX - Allow trying MSI-X vector allocations
++ *            * %PCI_IRQ_MSI - Allow trying MSI vector allocations
++ *
++ *            * %PCI_IRQ_LEGACY - Allow trying legacy INTx interrupts, if
++ *              and only if @min_vecs == 1
++ *
++ *            * %PCI_IRQ_AFFINITY - Auto-manage IRQs affinity by spreading
++ *              the vectors around available CPUs
+  *
+  * Allocate up to @max_vecs interrupt vectors on device. MSI-X irq
+  * vector allocation has a higher precedence over plain MSI, which has a
+@@ -232,10 +235,11 @@ EXPORT_SYMBOL(pci_alloc_irq_vectors_affinity);
+  * pci_irq_vector() - Get Linux IRQ number of a device interrupt vector
+  * @dev: the PCI device to operate on
+  * @nr:  device-relative interrupt vector index (0-based); has different
+- *       meanings, depending on interrupt mode
+- *         MSI-X        the index in the MSI-X vector table
+- *         MSI          the index of the enabled MSI vectors
+- *         INTx         must be 0
++ *       meanings, depending on interrupt mode:
++ *
++ *         * MSI-X - the index in the MSI-X vector table
++ *         * MSI - the index of the enabled MSI vectors
++ *         * INTx - must be 0
+  *
+  * Return: the Linux IRQ number, or -EINVAL if @nr is out of range
   */
--#define EM_MAX_COMPLEXITY 2048
--
- extern struct cpufreq_governor schedutil_gov;
- static bool build_perf_domains(const struct cpumask *cpu_map)
- {
--	int i, nr_pd = 0, nr_ps = 0, nr_cpus = cpumask_weight(cpu_map);
-+	int i;
- 	struct perf_domain *pd = NULL, *tmp;
- 	int cpu = cpumask_first(cpu_map);
- 	struct root_domain *rd = cpu_rq(cpu)->rd;
-@@ -429,20 +410,6 @@ static bool build_perf_domains(const struct cpumask *cpu_map)
- 			goto free;
- 		tmp->next = pd;
- 		pd = tmp;
--
--		/*
--		 * Count performance domains and performance states for the
--		 * complexity check.
--		 */
--		nr_pd++;
--		nr_ps += em_pd_nr_perf_states(pd->em_pd);
--	}
--
--	/* Bail out if the Energy Model complexity is too high. */
--	if (nr_pd * (nr_ps + nr_cpus) > EM_MAX_COMPLEXITY) {
--		WARN(1, "rd %*pbl: Failed to start EAS, EM complexity is too high\n",
--						cpumask_pr_args(cpu_map));
--		goto free;
- 	}
- 
- 	perf_domain_debug(cpu_map, pd);
+@@ -255,10 +259,11 @@ EXPORT_SYMBOL(pci_irq_vector);
+  * pci_irq_get_affinity() - Get a device interrupt vector affinity
+  * @dev: the PCI device to operate on
+  * @nr:  device-relative interrupt vector index (0-based); has different
+- *       meanings, depending on interrupt mode
+- *         MSI-X        the index in the MSI-X vector table
+- *         MSI          the index of the enabled MSI vectors
+- *         INTx         must be 0
++ *       meanings, depending on interrupt mode:
++ *
++ *         * MSI-X - the index in the MSI-X vector table
++ *         * MSI - the index of the enabled MSI vectors
++ *         * INTx - must be 0
+  *
+  * Return: MSI/MSI-X vector affinity, NULL if @nr is out of range or if
+  * the MSI(-X) vector was allocated without explicit affinity
+
+base-commit: 15ce088a8698c22cf5a18799dda16f04ed1d1cb7
 -- 
-2.25.1
+An old man doll... just what I always wanted! - Clara
 
