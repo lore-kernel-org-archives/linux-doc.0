@@ -2,119 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20C79C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 07:41:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD6CEC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 07:51:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229922AbiKUHlk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 02:41:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52414 "EHLO
+        id S229689AbiKUHv5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 02:51:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbiKUHlU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 02:41:20 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6491B303F1;
-        Sun, 20 Nov 2022 23:40:30 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 99ABECE0F54;
-        Mon, 21 Nov 2022 07:40:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF4E3C433C1;
-        Mon, 21 Nov 2022 07:40:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669016426;
-        bh=ghyXIiLZQR1VJJWRY9yXFbB0NXqU+1Bza1GDza4IlCg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ON7jOHT51zmDztSDGialBKHHhuuS8etEB+bzLNnYkOPuzYN8CzSyJhiEze7ax2aBO
-         ufY0+yMDRRomJ5SnzKhYhmsL6IFNJvTPXwuvGvC4nRehqiVkfBBVAZCHUpbyuGe7zw
-         8qyR42WL6O0WdCVMdC4iY4YR8BPp6OFE19ah0VVphN7mby7bqoomsRHFPmCmvPqu1I
-         ZnoM9Oh03Xtb+zWDQzFh9M7r0kiExUA3Ljpm5yUnN42RVxbzJFiKEVzguQV+9ZzUqd
-         kosXMOvDYZShEIMFzkfzNMn4c3HLbi7MzR91+xzo1GdrseepOOBii5ghopRFO9hEbc
-         WaVzQsjgH6RiQ==
-Date:   Mon, 21 Nov 2022 09:40:03 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-Subject: Re: [PATCH v3 35/37] x86/cet: Add PTRACE interface for CET
-Message-ID: <Y3srU89TAwMURoEj@kernel.org>
-References: <20221104223604.29615-1-rick.p.edgecombe@intel.com>
- <20221104223604.29615-36-rick.p.edgecombe@intel.com>
- <Y3Olme4Nl+VOkjAH@hirez.programming.kicks-ass.net>
- <223bf306716f5eb68e4f9fd660414c84cddd9886.camel@intel.com>
- <CY4PR11MB2005AD47BA1D97BC1A96A769F9069@CY4PR11MB2005.namprd11.prod.outlook.com>
- <a2c2552fcdba1a0fce0d02aeb519d33cac83bfd2.camel@intel.com>
+        with ESMTP id S229379AbiKUHv4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 02:51:56 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A3C231DF6
+        for <linux-doc@vger.kernel.org>; Sun, 20 Nov 2022 23:51:55 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <sha@pengutronix.de>)
+        id 1ox1ak-0002dr-1P; Mon, 21 Nov 2022 08:51:46 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <sha@pengutronix.de>)
+        id 1ox1ai-00058n-B2; Mon, 21 Nov 2022 08:51:44 +0100
+Date:   Mon, 21 Nov 2022 08:51:44 +0100
+To:     Michael Walle <michael@walle.cc>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 17/18] nvmem: layouts: Add ONIE tlv layout driver
+Message-ID: <20221121075144.GL3143@pengutronix.de>
+References: <20221118185118.1190044-1-michael@walle.cc>
+ <20221118185118.1190044-18-michael@walle.cc>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a2c2552fcdba1a0fce0d02aeb519d33cac83bfd2.camel@intel.com>
+In-Reply-To: <20221118185118.1190044-18-michael@walle.cc>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+From:   Sascha Hauer <sha@pengutronix.de>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 07:57:59PM +0000, Edgecombe, Rick P wrote:
-> On Thu, 2022-11-17 at 12:25 +0000, Schimpe, Christina wrote:
-> > > Hmm, we definitely need to be able to set the SSP. Christina, does
-> > > GDB need
-> > > anything else? I thought maybe toggling SHSTK_EN?
-> > 
-> > In addition to the SSP, we want to write the CET state. For instance
-> > for inferior calls,
-> > we want to reset the IBT bits.
-> > However, we won't write states that are disallowed by HW.
+On Fri, Nov 18, 2022 at 07:51:17PM +0100, Michael Walle wrote:
+> From: Miquel Raynal <miquel.raynal@bootlin.com>
 > 
-> Sorry, I should have given more background. Peter is saying we should
-> split the ptrace interface so that shadow stack and IBT are separate. 
-> They would also no longer necessarily mirror the CET_U MSR format.
-> Instead the kernel would expose a kernel specific format that has the
-> needed bits of shadow stack support. And a separate one later for IBT.
-> 
-> So the question is what does shadow stack need to support for ptrace
-> besides SSP? Is it only SSP? The other features are SHSTK_EN and
-> WRSS_EN. It might actually be nice to keep how these bits get flipped
-> more controlled (remove them from ptrace). It looks like CRIU didn't
-> need them.
- 
-CRIU reads CET_U with ptrace(PTRACE_GETREGSET, NT_X86_CET). It's done
-before the injection of the parasite. The value of SHSTK_EN is used then to
-detect if shadow stack is enabled and to setup victim's shadow stack for
-sigreturn.
+> This layout applies no top of any non volatile storage device containing
+
+s/no/on/
+
+> +	table_len = hdr_len + data_len;
+> +	if (table_len > ONIE_TLV_MAX_LEN) {
+> +		dev_err(dev, "Invalid ONIE TLV data length\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	table = devm_kmalloc(dev, table_len, GFP_KERNEL);
+> +	if (!table)
+> +		return -ENOMEM;
+> +
+> +	ret = nvmem_device_read(nvmem, 0, table_len, table);
+> +	if (ret != table_len)
+> +		goto free_data_buf;
+> +
+> +	if (!onie_tlv_crc_is_valid(dev, table_len, table)) {
+> +		ret = -EINVAL;
+> +		goto free_data_buf;
+> +	}
+> +
+> +	data = table + hdr_len;
+> +	ret = onie_tlv_add_cells(dev, nvmem, data_len, data);
+> +	if (ret)
+> +		goto free_data_buf;
+> +
+> +free_data_buf:
+> +	kfree(table);
+
+This is allocated with devm_kmalloc(), you shouldn't free it here.
+
+Sascha
 
 -- 
-Sincerely yours,
-Mike.
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
