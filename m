@@ -2,45 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77787C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 21:08:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A826BC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 21:10:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229530AbiKUVIA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 16:08:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35768 "EHLO
+        id S231248AbiKUVK5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 16:10:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbiKUVH7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 16:07:59 -0500
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2102193E8
-        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 13:07:56 -0800 (PST)
+        with ESMTP id S229498AbiKUVKz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 16:10:55 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C9D2CD977;
+        Mon, 21 Nov 2022 13:10:55 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 49C64377;
-        Mon, 21 Nov 2022 21:07:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 49C64377
+        by ms.lwn.net (Postfix) with ESMTPSA id EB5745CC;
+        Mon, 21 Nov 2022 21:10:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EB5745CC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1669064876; bh=yCT3qdPFZMMbQpyOfNtkv+ATOSt2TdhUrsnjVpcdEz8=;
+        t=1669065055; bh=ShlWXgU8TkOVBjZb6MNp+8oCHkfumSF5LLBNNLJGyqA=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Dh2SOPTCgrXma6eV3275pl6aT2I1xqIvtqXx2TkLA5niucFJWHpSrUEdZxjDo328U
-         qq0IcUbeXJGSXTCNZmyw7aJSjlyNbdr/Gm6d/DvmcMQXosJFFZ2JtLinXjLzRG7wOE
-         jKcXHFvsOKwwwL+W0LB2JcV7SuGI0znjEYGOJ5EfEZpA+BNMVnGXdhR9Q9bOcA6+o4
-         /QnG9ORRB/Jr9I95MtuMztMWD9+nbMz0iS4DmAA0bk6wXnjttwKRVjZvZ6PDY/nqYs
-         kAoC6RRPvuOWcYFKhdWeWEN3SUgiDdVCw16cfy70nLgVORTJIpNbnLgvIBEy6tFwdf
-         dJKldibQugDcQ==
+        b=JtokOAp1BjsNZx94VBcpo2xCsJH9Fwx6OYqSHHo9GFNZoZmgM0lFFblCGdtsF5Czl
+         TxWltoHj32mgBZPijyfIRvABFfeMeuD8MZNiE0l0jJPy6UT5KR0ajU2Gtj8Jdmj29P
+         c91GmRx7KFzNQ7n0SGTI/uNIXN0/gTYjqYGb9shMNGMNe8muUCmNWK1/g1it+LgkYM
+         Lblho7R7d/r7hbKpuUY+yuP/pJlwAzE0rzyxyZg0+/ZfzxBZYwEcMMA0tphw8bTS3b
+         Efy2hVnhQL9yBt5z1sjxRo5qaRnGA3lbWuISf3a4FXDuGpK+JBAdyyjDS80kYLswzb
+         F/KIVtzZX+Yhg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH] Documentation: devres: add missing PWM helper
-In-Reply-To: <20221117115950.mlzkipddy3qwwp2k@pengutronix.de>
-References: <20221102024430.1444714-1-yangyingliang@huawei.com>
- <20221117115950.mlzkipddy3qwwp2k@pengutronix.de>
-Date:   Mon, 21 Nov 2022 14:07:55 -0700
-Message-ID: <87k03o9ftg.fsf@meer.lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        bilbao@vt.edu, sos-linux-ext-patches@mailman-svr.amd.com,
+        Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH] docs/sp_SP: Add memory-barriers.txt Spanish translation
+In-Reply-To: <20221111174739.2471900-1-carlos.bilbao@amd.com>
+References: <20221111174739.2471900-1-carlos.bilbao@amd.com>
+Date:   Mon, 21 Nov 2022 14:10:54 -0700
+Message-ID: <87fsec9foh.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -48,43 +46,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> writes:
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-> On Wed, Nov 02, 2022 at 10:44:30AM +0800, Yang Yingliang wrote:
->> Add missing devm_pwmchip_add() to devres.rst. It's introduced by
->> commit bcda91bf86c1 ("pwm: Add a device-managed function to add
->> PWM chips").
->>=20
->> Fixes: bcda91bf86c1 ("pwm: Add a device-managed function to add PWM chip=
-s")
->> Cc: Thierry Reding <thierry.reding@gmail.com>
->> Cc: "Uwe Kleine-K=C3=B6nig" <u.kleine-koenig@pengutronix.de>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
->> ---
->>  Documentation/driver-api/driver-model/devres.rst | 1 +
->>  1 file changed, 1 insertion(+)
->>=20
->> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Document=
-ation/driver-api/driver-model/devres.rst
->> index aac9c1e39ebc..2bea236d6919 100644
->> --- a/Documentation/driver-api/driver-model/devres.rst
->> +++ b/Documentation/driver-api/driver-model/devres.rst
->> @@ -402,6 +402,7 @@ POWER
->>    devm_reboot_mode_unregister()
->>=20=20
->>  PWM
->> +  devm_pwmchip_add()
->>    devm_pwm_get()
->>    devm_fwnode_pwm_get()
+> Translate the following documents into Spanish:
 >
-> Oh, didn't know that doc list.
+> - memory-barriers.txt
 >
-> Acked-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> Also include it on index of Spanish translations, following the same
+> approach used by the Korean translation, as a note at the end of the inde=
+x.
 >
-> Is this expected to go via the pwm tree, or will Jonathan pick it up?
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+> ---
+>  Documentation/translations/sp_SP/index.rst    |    4 +
+>  .../translations/sp_SP/memory-barriers.txt    | 3134 +++++++++++++++++
+>  2 files changed, 3138 insertions(+)
+>  create mode 100644 Documentation/translations/sp_SP/memory-barriers.txt
+>
+> diff --git a/Documentation/translations/sp_SP/index.rst b/Documentation/t=
+ranslations/sp_SP/index.rst
+> index e20dd6e875e7..61dace3df9a6 100644
+> --- a/Documentation/translations/sp_SP/index.rst
+> +++ b/Documentation/translations/sp_SP/index.rst
+> @@ -79,3 +79,7 @@ Traducciones al espa=C3=B1ol
+>=20=20
+>     howto
+>     submitting-patches
+> +
+> +.. include:: ./memory-barriers.txt
+> +    :literal:
 
-I've applied it.
+That's an awfully big "note" to add at the end of the index file; I
+don't really think that's the best experience for our readers.  Can this
+be done using the wrapper documents like for English in current
+docs-next?
 
 Thanks,
 
