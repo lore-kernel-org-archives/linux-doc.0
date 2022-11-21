@@ -2,197 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C05C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 16:58:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AC17C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 17:42:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229476AbiKUQ6d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 11:58:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51082 "EHLO
+        id S229961AbiKURmP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 12:42:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbiKUQ6d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 11:58:33 -0500
-Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D800E1C
-        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 08:58:31 -0800 (PST)
-Date:   Tue, 22 Nov 2022 00:58:01 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1669049909;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=lEB5sh1/jYLycgzf6hWVQ3EeKLUvTYuUqdOi39E1eA0=;
-        b=jiGbQ4uJNZ21+fNIJjIv+B2mA3lsqr/SPyq3nARdrS1nQvKMIcLo95l1g/jNScRdSx6eq9
-        bGN6ihBFqSiIIP5jbIau4lq0lJzNSX4XUpwrojxf5CUWggmCbNdgiRfKqmXPBCyObzWn9R
-        rPcYHVaQ+XWiuoqpCXgDykipNJHSwG0=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     chenhuacai@kernel.org, corbet@lwn.net, alexs@kernel.org,
-        seakeel@gmail.com, kernel@xen0n.name, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, loongarch@lists.linux.dev,
-        siyanteng01@gmail.com, Xiaotian Wu <wuxiaotian@loongson.cn>,
-        Yun Liu <liuyun@loongson.cn>
-Subject: Re: [PATCH v1 1/2] docs/LoongArch: Add boot image header
-Message-ID: <Y3uuGXo3SNtzARP0@bobwxc.mipc>
-References: <cover.1669032230.git.siyanteng@loongson.cn>
- <08df007c7488b88ff5400bef6183f9cc68d87616.1669032230.git.siyanteng@loongson.cn>
+        with ESMTP id S229932AbiKURmK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 12:42:10 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62838D28B1;
+        Mon, 21 Nov 2022 09:42:08 -0800 (PST)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2ALGRk4V009093;
+        Mon, 21 Nov 2022 17:42:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=yty/7DiPlJ4v2j4gvgeSX7Mya9x2N/OMpJm8yIe9JO0=;
+ b=IscGch+I0rww/6u5zkNSiki3DY0BP4IIdodchGKr8w4Okr1XKABovJNgv5DuWk7VEjPW
+ z2GWbAhfhS3ZPJBAFxC4uh8O3VtIWIw+kGl/6sJAnP38hpxAFEnLCbEIGC8iXOu8y+02
+ S1B4g1XyWoNxkvfv6fi0dg3RdrJ+nsRhiwo2nkt9QiOeBAmTj2s4VTy94z47v3TZochQ
+ +3tde1b1cTM0id2P5EK5PjxSKNWscxZAVwqxrHCpsQVb6ihxCUs6c9U/esWQnQds8Nuh
+ CijZCJ5Fpcko6Z4H/69VXjXahki0FqGkJZq1vJlAxBOGq5YZJZpABg6HAFk1JjSaXPf9 ww== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m0cvg1qdf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 21 Nov 2022 17:42:02 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2ALHg2Lf017277;
+        Mon, 21 Nov 2022 17:42:02 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m0cvg1qcq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 21 Nov 2022 17:42:02 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+        by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2ALHbE1h001980;
+        Mon, 21 Nov 2022 17:42:00 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+        by ppma06ams.nl.ibm.com with ESMTP id 3kxpdhu1e4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 21 Nov 2022 17:42:00 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2ALHfvsc51118506
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 21 Nov 2022 17:41:57 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5896D5204E;
+        Mon, 21 Nov 2022 17:41:57 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown [9.171.52.183])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id AD65A52050;
+        Mon, 21 Nov 2022 17:41:56 +0000 (GMT)
+Message-ID: <2bee338bddf828a735a7c66473679fd388840851.camel@linux.ibm.com>
+Subject: Re: [PATCH v3 1/9] KVM: s390: Extend MEM_OP ioctl by storage key
+ checked cmpxchg
+From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To:     Heiko Carstens <hca@linux.ibm.com>
+Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sven Schnelle <svens@linux.ibm.com>
+Date:   Mon, 21 Nov 2022 18:41:56 +0100
+In-Reply-To: <Y3dalbP5yb2gflA9@osiris>
+References: <20221117221758.66326-1-scgl@linux.ibm.com>
+         <20221117221758.66326-2-scgl@linux.ibm.com> <Y3dalbP5yb2gflA9@osiris>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <08df007c7488b88ff5400bef6183f9cc68d87616.1669032230.git.siyanteng@loongson.cn>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 2aXbb6tfkp0FHum4hPbro6_tFPL2-4f-
+X-Proofpoint-ORIG-GUID: ef1HfGmyCDiEJjkutdZsunQv77TtVL-a
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-21_14,2022-11-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 phishscore=0 malwarescore=0 impostorscore=0 mlxscore=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 spamscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2210170000 definitions=main-2211210132
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-+Cc: Yun Liu <liuyun@loongson.cn>
-
-2022-11-21 (一) 20:16:30 +0800 Yanteng Si 曰：
-> Describes the meaning and value of the image header field.
+On Fri, 2022-11-18 at 11:12 +0100, Heiko Carstens wrote:
+> On Thu, Nov 17, 2022 at 11:17:50PM +0100, Janis Schoetterl-Glausch wrote:
+> > User space can use the MEM_OP ioctl to make storage key checked reads
+> > and writes to the guest, however, it has no way of performing atomic,
+> > key checked, accesses to the guest.
+> > Extend the MEM_OP ioctl in order to allow for this, by adding a cmpxchg
+> > mode. For now, support this mode for absolute accesses only.
+> > 
+> > This mode can be use, for example, to set the device-state-change
+> > indicator and the adapter-local-summary indicator atomically.
+> > 
+> > Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+> > ---
+> >  include/uapi/linux/kvm.h |   5 ++
+> >  arch/s390/kvm/gaccess.h  |   3 ++
+> >  arch/s390/kvm/gaccess.c  | 101 +++++++++++++++++++++++++++++++++++++++
+> >  arch/s390/kvm/kvm-s390.c |  35 +++++++++++++-
+> >  4 files changed, 142 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> > index 0d5d4419139a..1f36be5493e6 100644
+> > --- a/include/uapi/linux/kvm.h
+> > +++ b/include/uapi/linux/kvm.h
+> > @@ -588,6 +588,8 @@ struct kvm_s390_mem_op {
+> >  		struct {
+> >  			__u8 ar;	/* the access register number */
+> >  			__u8 key;	/* access key, ignored if flag unset */
+> > +			__u8 pad1[6];	/* ignored */
+> > +			__u64 old_p;	/* ignored if flag unset */
 > 
-> Suggested-by: Xiaotian Wu <wuxiaotian@loongson.cn>
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  Documentation/loongarch/boot-image-header.rst | 76 +++++++++++++++++++
->  Documentation/loongarch/index.rst             |  1 +
->  2 files changed, 77 insertions(+)
->  create mode 100644 Documentation/loongarch/boot-image-header.rst
+> Just one comment: the suffix "_p" for pointer is quite unusual within
+> the kernel. This also would be the first of its kind within kvm.h.
+> Usually there is either no suffix or "_addr".
+> So for consistency reasons I would suggest to change this to one of
+> the common variants.
 > 
-> diff --git a/Documentation/loongarch/boot-image-header.rst b/Documentation/loongarch/boot-image-header.rst
-> new file mode 100644
-> index 000000000000..92a953a6f2e6
-> --- /dev/null
-> +++ b/Documentation/loongarch/boot-image-header.rst
-> @@ -0,0 +1,76 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +====================================
-> +Boot image header in LoongArch Linux
-> +====================================
-> +
-> +:Author: Yanteng Si <siyanteng@loongson.cn>
-> +:Date:   18 Nov 2022
-> +
-> +This document only describes the boot image header details for
-> +LoongArch Linux.
-> +
-> +The following 64-byte header is present in decompressed Linux
-> +kernel image::
-> +
-> +	u32	MZ_MAGIC		/* "MZ", MS-DOS header */
-> +	u32	res0 = 0		/* reserved */
-> +	u64	kernel_entry		/* Kernel entry point */
-> +	u64	_end - _text		/* Kernel image effective size */
-> +	u64	0			/* Kernel image load offset from start of RAM */
-> +	u64	res1 = 0		/* reserved */
-> +	u64	res2 = 0		/* reserved */
-> +	u64	res3 = 0		/* reserved */
-> +	u32	res4 = 0		/* reserved */
-> +	u32	pe_header - _head	/* Offset to the PE header */
-> +
+Thanks, good point.
 
-Any code related need to be linked here?
-
-> +
-> +Header notes
-> +============
-> +
-> +Currently, LoongArch has removed the "magic" field.
-> +
-> +According to the EFI specification, the PE/COFF image file header is
-> +required at the beginning of the kernel image; the LoongArch kernel
-> +supports the EFI stub, so the first two bytes of the kernel image header
-> +are "MZ" magic characters, and 0x3c should point to the rest of the
-> +PE/COFF file header, between which The kernel entry point, image
-> +effectivesize, and image load offset layout are as follows::
-> +
-> +          +-----------------------------------------------+
-> +    0x0:  |  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |
-> +          +-----------------------------------------------+
-> +    0x8:  | MZ_MAGIC              |          res0         |
-> +          +-----------------------------------------------+
-> +    0x10: |                 kernel_entry                  |
-> +          +-----------------------------------------------+
-> +    0x18: |                  _end - _text                 |
-> +          +-----------------------------------------------+
-> +    0x20: |                       0                       |
-> +          +-----------------------------------------------+
-> +    0x28: |                      res1                     |
-> +          +-----------------------------------------------+
-> +    0x30: |                      res2                     |
-> +          +-----------------------------------------------+
-> +    0x38: |                      res3                     |
-> +          +-----------------------------------------------+
-> +    0x40: |          res14        |       PE header       |
-> +          +-----------------------------------------------+
-> +
-
-emmm, this figure...
-
-So MZ_MAGIC start from 0x08 ?
-
-Or
-
-            0     1     2     3     4     5     6     7   
-         +-----------------------+-----------------------+
-    0x00 |        MZ_MAGIC       |          res0         |
-         +-----------------------+-----------------------+
-    0x08 |                 kernel_entry                  |
-         +-----------------------------------------------+
-    0x10 |                  _end - _text                 |
-         +-----------------------------------------------+
-    0x18 |                       0                       |
-         +-----------------------------------------------+
-    0x20 |                      res1                     |
-         +-----------------------------------------------+
-    0x28 |                      res2                     |
-         +-----------------------------------------------+
-    0x30 |                      res3                     |
-         +-----------------------+-----------------------+
-    0x38 |          res14        |       PE header       |
-         +-----------------------+-----------------------+
-
-If the figure is too difficult to draw, a simple table can also be used
-to instead.
-
-Offset	Name	Size	Note
-...
-
-> +
-> +All bit fields are in little endian:
-> +
-> +    - MZ: Effective length of 2 bytes;
-> +
-> +    - kernel entry point: leaving 6 bytes blank in front, starting
-> +      from 0x8, with a effective length of 8 bytes;
-> +
-> +    - kernel image effective size: Immediately following the kernel
-> +      entry point, with a effective length of 8 bytes, this field is
-> +      required for the bootloader;
-> +
-> +    - kernel image load offset: Immediately following the kernel
-> +      image effective size, with a effective length of 8 bytes;
-> +
-> +    - Offset to the PE header: leaving 28 bytes blank in front,
-> +      starting from 0x3c, with a effective length of 4 bytes.
-> diff --git a/Documentation/loongarch/index.rst b/Documentation/loongarch/index.rst
-> index aaba648db907..97419821adf9 100644
-> --- a/Documentation/loongarch/index.rst
-> +++ b/Documentation/loongarch/index.rst
-> @@ -10,6 +10,7 @@ LoongArch Architecture
->  
->     introduction
->     irq-chip-model
-> +   boot-image-header
->  
->     features
->  
-> -- 
-> 2.31.1
-> 
-
--- 
-Wu XiangCheng	0x32684A40BCA7AEA7
-
+[...]
