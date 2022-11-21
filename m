@@ -2,63 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F349C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 21:46:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EA7BC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 21:51:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229482AbiKUVq3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 16:46:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36648 "EHLO
+        id S231972AbiKUVvb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 16:51:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229530AbiKUVq2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 16:46:28 -0500
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 682BA11834
-        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 13:46:27 -0800 (PST)
-Received: by mail-qt1-x82a.google.com with SMTP id z6so8170541qtv.5
-        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 13:46:27 -0800 (PST)
+        with ESMTP id S231985AbiKUVvC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 16:51:02 -0500
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FFEDE075E
+        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 13:50:33 -0800 (PST)
+Received: by mail-qk1-x72f.google.com with SMTP id 8so9040803qka.1
+        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 13:50:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:user-agent:message-id:in-reply-to:date:references
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NsVUUQVuDNOLSC3p+V3V0gNV/kXf5423lG9kL/Gcr1g=;
-        b=Ru077cZF1I+WBmBQhe0d5QcSsYdFJPpyiCWfBeX9iJHc98dWl/npuTGVWMIXcnSgaA
-         qe4GvR3VQ8LpP5ci3P+Il7vZ6sSzjOMgd5PKSORfu4rvw25yQGZARCFt8Hmdt9/AN9JK
-         yrt8D7psw2raBvS0XW8vbPHoJCs5sCfw/Vp4Fvsy9OJve+HOEBhMP+WfqTywDvrXob2x
-         V3vEIrVqZN8fQPiRcxxCy50YEaAasv16W66OoaeSoRdq86Rs/wpN/RBjKddij3JugSyh
-         GpN/wyWDIPOZmnTocfjBfj+m9D53W80errAqpMFjQiqukUXLNCaJ/5I8FxYA/We7TfwI
-         m9tg==
+        bh=1XOMV3vn81z+5751tt0TGjKBwkuDeuTgRvYeTdSlTG8=;
+        b=NLFUWbVlKIRKVzxpGtgpPkzpIowhsMjYmIsLuHXpVCDB1Jq5pOEurZ6mtDZCdapY9B
+         rmAS+1tXviwaK3JE4VQQWi23h63OaEAIoApFUGtyMPZNQBotkOYI7FmP+UC43Hc8z5lr
+         /VlYkXgI7Xp9ZpfAODva75fEYnPKoElkfISK5AjtUReGZol/gtxICTg/tDAtPuFoOT+w
+         XGDTxmlcxfz84g5coXrOe37evQawuNz4+snMUm0wjIlDffVEF6zfmYLFM43yVJOsBqJK
+         O2UJJpUiKz0VOJsSoFVEKJ/zHjzaP88zP4oTot62TMRywjmXB/Hhjm+g+W6/Z9YVh0UI
+         Qjfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:user-agent:message-id:in-reply-to:date:references
          :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NsVUUQVuDNOLSC3p+V3V0gNV/kXf5423lG9kL/Gcr1g=;
-        b=x1mXICnNpxrVenfev7vJqfLnAY3j+ZzYkEzx9N9Cvlpiuo0ReuuSmn4fglmhjMUSlC
-         0ug9u+UjeZ8huz/qldoP8w2goG57LZWxzoSYJJ5paURUquZmz2CqUZxH8T3gPUF4ukJY
-         zD8N1gqblXWm53ktjn+8lYcZARGp4ZOm0gVdKPCdNkSQjKmubd1hIME5Bik8kHYH7Wch
-         Q7uXgVMp2ZzFCkRyL033lA/I8Ca6i+72K093nRlQYHBJucKJP4uEEwpPJLGa+BGsofbB
-         FMPazgzx8NRPngm/UEGsb+EFOHsyz6e7Bz2OSEKhEmFtwbLoWAZB5yjs3+FQloULE4KU
-         8czw==
-X-Gm-Message-State: ANoB5pl60WqaQb4Ef4YeRmJHwr8MlbxLPgl0gSA0jv9N+Zi+uV7H0XQk
-        CZpRzqjVYJuac7xMWhkQKPZlcIXByb2GFQ==
-X-Google-Smtp-Source: AA0mqf5yQ6R6sQNc895fCf27ye93QVVKAJajUy41MIJxXMWhznIIb+p2m6R7oEXoe6oXQ+bTbThdCQ==
-X-Received: by 2002:a05:622a:5088:b0:3a5:b02:a408 with SMTP id fp8-20020a05622a508800b003a50b02a408mr2800161qtb.205.1669067186305;
-        Mon, 21 Nov 2022 13:46:26 -0800 (PST)
+        bh=1XOMV3vn81z+5751tt0TGjKBwkuDeuTgRvYeTdSlTG8=;
+        b=BffCfEgEbfuPOIOE6/lCZUrP0rtwM2Kf4T1SapI0K60zLPQLNLgwnL9CsLVzkqiD60
+         WbYqctCeeRqbzyV/2iyRYBecm/X35xsFYArmO8WKYLXvkn5v6BzPBb4OMevlPsL1c6FT
+         ejX4JcXAzstrSkA+9R6yyatJEDAVkebWcL+LKseDMRdUArXEnrL8zSJ253ccORO4e6x5
+         9dAXm764aQdzydWkOnYJfQhB3CqOEIlvs2zGLvTL2LbOLQd69EGYIix5NuDAMq/h99Pe
+         ey6RlbVOCyaN23uwCSrk+IZyetJGm3fOPOWc8UKxzKOCjmJJ3TZm6eVRYdq4mH43y2cG
+         dzZw==
+X-Gm-Message-State: ANoB5plpyIulzOvH+h8W60Zm/eJLD0BJfP/9ZEoT5awWq0PMZjQZTzGQ
+        MKwAcv3H09jksSu2iQ+i7UvyuzC4vjdGJA==
+X-Google-Smtp-Source: AA0mqf6hzChIGAAOFlKClper6rN2Ry/+HrTgpzN18L2jYMOrrJDMbyV+R0KktIA0BGuD9O2ykyyt+w==
+X-Received: by 2002:a37:2c83:0:b0:6fa:7ca:6165 with SMTP id s125-20020a372c83000000b006fa07ca6165mr824933qkh.775.1669067432018;
+        Mon, 21 Nov 2022 13:50:32 -0800 (PST)
 Received: from hurd ([2607:fad8:4:3::1003])
-        by smtp.gmail.com with ESMTPSA id x13-20020a05620a448d00b006fa4ac86bfbsm8877203qkp.55.2022.11.21.13.46.25
+        by smtp.gmail.com with ESMTPSA id f1-20020ac84641000000b00343057845f7sm7143441qto.20.2022.11.21.13.50.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Nov 2022 13:46:26 -0800 (PST)
+        Mon, 21 Nov 2022 13:50:31 -0800 (PST)
 From:   Maxim Cournoyer <maxim.cournoyer@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] doc: add texinfodocs and infodocs targets
+Subject: Re: [PATCH v2 2/2] doc: specify an 'html' build sub-directory for
+ the htmldocs target
 References: <20221116190210.28407-1-maxim.cournoyer@gmail.com>
-        <20221116190210.28407-2-maxim.cournoyer@gmail.com>
-        <877czo9exw.fsf@meer.lwn.net>
-Date:   Mon, 21 Nov 2022 16:46:25 -0500
-In-Reply-To: <877czo9exw.fsf@meer.lwn.net> (Jonathan Corbet's message of "Mon,
-        21 Nov 2022 14:26:51 -0700")
-Message-ID: <87y1s4oua6.fsf@gmail.com>
+        <20221116190210.28407-3-maxim.cournoyer@gmail.com>
+        <8735ac9evv.fsf@meer.lwn.net>
+Date:   Mon, 21 Nov 2022 16:50:30 -0500
+In-Reply-To: <8735ac9evv.fsf@meer.lwn.net> (Jonathan Corbet's message of "Mon,
+        21 Nov 2022 14:28:04 -0700")
+Message-ID: <87tu2sou3d.fsf@gmail.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -72,31 +73,40 @@ Jonathan Corbet <corbet@lwn.net> writes:
 
 > Maxim Cournoyer <maxim.cournoyer@gmail.com> writes:
 >
->> Sphinx supports generating Texinfo sources and Info documentation,
->> which can be navigated easily and is convenient to search (via the
->> indexed nodes or anchors, for example).
+>> Having the generated HTML documentation under its own output
+>> sub-directory makes it easier to install, since it's clean from
+>> .doctrees or other output formats.
 >>
 >> Signed-off-by: Maxim Cournoyer <maxim.cournoyer@gmail.com>
 >> ---
->>  Documentation/Makefile                     | 11 +++++++++++
->>  Documentation/userspace-api/media/Makefile |  3 ++-
->>  Makefile                                   |  2 +-
->>  3 files changed, 14 insertions(+), 2 deletions(-)
+>>  Documentation/Makefile | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/Makefile b/Documentation/Makefile
+>> index bb73dcb5ed05..bd8dac560633 100644
+>> --- a/Documentation/Makefile
+>> +++ b/Documentation/Makefile
+>> @@ -93,7 +93,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+>>  
+>>  htmldocs:
+>>  	@$(srctree)/scripts/sphinx-pre-install --version-check
+>> -	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+>> +	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),html,$(var)))
 >
-> Wow, I thought that HTML output from Sphinx was slow, but texinfo is
-> another thing altogether...
+> I think I'm going to hold off on this one.  As I said before, it would
+> have made sense to do things this way when we made the transition.  At
+> this point, though, I think the potential for trouble outweighs the
+> benefits that would come from moving things around in this way.
 
-Are their timing really that much different?  Since the .doctrees is
-reused, I'd expect the first target to take the most time, the second
-one somewhat less.  In my case, I build HTML first and info after, and I
-*think* info takes less time, although still takes too long to my taste.
-Sadly, setting SPHINXOPTS=jN to attempt some parallelization doesn't
-help any.
+OK.  The potential for troubles would lie with the scripts to deploy the
+doc to the web site, I'd guess?  If that's the place we'd expect
+problems, I'm happy to be pointed to it and can try adjusting the
+scripts for the change.
 
-> Oh well, I guess for some folks it's worth waiting for, so I've applied
-> this patch, thanks.n
-
-Thank you!
+Otherwise, I can keep applying this small patch locally to my build, as
+it makes it much easier to cleanly install both the HTML and info target
+outputs when packaging the kernel and its documentation.
 
 -- 
+Thanks,
 Maxim
