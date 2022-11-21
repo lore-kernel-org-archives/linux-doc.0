@@ -2,111 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EA7BC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 21:51:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9CC5C43217
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 22:19:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231972AbiKUVvb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 16:51:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40424 "EHLO
+        id S231969AbiKUWTI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 17:19:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231985AbiKUVvC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 16:51:02 -0500
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FFEDE075E
-        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 13:50:33 -0800 (PST)
-Received: by mail-qk1-x72f.google.com with SMTP id 8so9040803qka.1
-        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 13:50:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:message-id:in-reply-to:date:references
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1XOMV3vn81z+5751tt0TGjKBwkuDeuTgRvYeTdSlTG8=;
-        b=NLFUWbVlKIRKVzxpGtgpPkzpIowhsMjYmIsLuHXpVCDB1Jq5pOEurZ6mtDZCdapY9B
-         rmAS+1tXviwaK3JE4VQQWi23h63OaEAIoApFUGtyMPZNQBotkOYI7FmP+UC43Hc8z5lr
-         /VlYkXgI7Xp9ZpfAODva75fEYnPKoElkfISK5AjtUReGZol/gtxICTg/tDAtPuFoOT+w
-         XGDTxmlcxfz84g5coXrOe37evQawuNz4+snMUm0wjIlDffVEF6zfmYLFM43yVJOsBqJK
-         O2UJJpUiKz0VOJsSoFVEKJ/zHjzaP88zP4oTot62TMRywjmXB/Hhjm+g+W6/Z9YVh0UI
-         Qjfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:message-id:in-reply-to:date:references
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1XOMV3vn81z+5751tt0TGjKBwkuDeuTgRvYeTdSlTG8=;
-        b=BffCfEgEbfuPOIOE6/lCZUrP0rtwM2Kf4T1SapI0K60zLPQLNLgwnL9CsLVzkqiD60
-         WbYqctCeeRqbzyV/2iyRYBecm/X35xsFYArmO8WKYLXvkn5v6BzPBb4OMevlPsL1c6FT
-         ejX4JcXAzstrSkA+9R6yyatJEDAVkebWcL+LKseDMRdUArXEnrL8zSJ253ccORO4e6x5
-         9dAXm764aQdzydWkOnYJfQhB3CqOEIlvs2zGLvTL2LbOLQd69EGYIix5NuDAMq/h99Pe
-         ey6RlbVOCyaN23uwCSrk+IZyetJGm3fOPOWc8UKxzKOCjmJJ3TZm6eVRYdq4mH43y2cG
-         dzZw==
-X-Gm-Message-State: ANoB5plpyIulzOvH+h8W60Zm/eJLD0BJfP/9ZEoT5awWq0PMZjQZTzGQ
-        MKwAcv3H09jksSu2iQ+i7UvyuzC4vjdGJA==
-X-Google-Smtp-Source: AA0mqf6hzChIGAAOFlKClper6rN2Ry/+HrTgpzN18L2jYMOrrJDMbyV+R0KktIA0BGuD9O2ykyyt+w==
-X-Received: by 2002:a37:2c83:0:b0:6fa:7ca:6165 with SMTP id s125-20020a372c83000000b006fa07ca6165mr824933qkh.775.1669067432018;
-        Mon, 21 Nov 2022 13:50:32 -0800 (PST)
-Received: from hurd ([2607:fad8:4:3::1003])
-        by smtp.gmail.com with ESMTPSA id f1-20020ac84641000000b00343057845f7sm7143441qto.20.2022.11.21.13.50.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Nov 2022 13:50:31 -0800 (PST)
-From:   Maxim Cournoyer <maxim.cournoyer@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] doc: specify an 'html' build sub-directory for
- the htmldocs target
-References: <20221116190210.28407-1-maxim.cournoyer@gmail.com>
-        <20221116190210.28407-3-maxim.cournoyer@gmail.com>
-        <8735ac9evv.fsf@meer.lwn.net>
-Date:   Mon, 21 Nov 2022 16:50:30 -0500
-In-Reply-To: <8735ac9evv.fsf@meer.lwn.net> (Jonathan Corbet's message of "Mon,
-        21 Nov 2022 14:28:04 -0700")
-Message-ID: <87tu2sou3d.fsf@gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
+        with ESMTP id S231961AbiKUWSb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 17:18:31 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1F8854B01;
+        Mon, 21 Nov 2022 14:18:10 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5704FB8169E;
+        Mon, 21 Nov 2022 22:18:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E82DBC433D6;
+        Mon, 21 Nov 2022 22:18:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669069088;
+        bh=fnLEGCWU0CZRgBgvaBbuBKGV/UYuFQTTg3KVwwtUnK0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=jz0lZtAB4JavAh0z4IOW5wDsEgkPlXszZH099BDoMFZaZ3So9nqgYTHo+Wgq4gO7M
+         dR+wz34rtB3pWwGaMlT1iS66iV06T9LdU4gyxKyfDHmmHgTPFCmstYGJE/sZHyzRb6
+         ITVlYokpK1A2uosAtx6dp87P1Zl670aPD9MhogZ9IT52bwcsa+0pCqH6oHm3xAvukg
+         TGxYBwSw8be/Pyf/mlJeVfmDHaxgSNA3CVbXxhRwzOBxuZrWg9y30y9DmmWOVLwNDH
+         bzRXJF8oY7vYiFqNdaX9jlbF/L9BAy19YvhdTv6tT/gFSgFl2PKZnpXYf1NOAspfKL
+         HcFrIVb/BpU7g==
+Date:   Tue, 22 Nov 2022 07:18:05 +0900
+From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] tracing/osnoise: Fix duration type
+Message-Id: <20221122071805.49e316a39fb86859b5a3156d@kernel.org>
+In-Reply-To: <a93d8a8378c7973e9c609de05826533c9e977939.1668692096.git.bristot@kernel.org>
+References: <cover.1668692096.git.bristot@kernel.org>
+        <a93d8a8378c7973e9c609de05826533c9e977939.1668692096.git.bristot@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jonathan,
+On Thu, 17 Nov 2022 14:46:17 +0100
+Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
 
-Jonathan Corbet <corbet@lwn.net> writes:
+> The duration type is a 64 long value, not an int. This was
+> causing some long noise to report wrong values.
+> 
+> Change the duration to a 64 bits value.
 
-> Maxim Cournoyer <maxim.cournoyer@gmail.com> writes:
->
->> Having the generated HTML documentation under its own output
->> sub-directory makes it easier to install, since it's clean from
->> .doctrees or other output formats.
->>
->> Signed-off-by: Maxim Cournoyer <maxim.cournoyer@gmail.com>
->> ---
->>  Documentation/Makefile | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/Documentation/Makefile b/Documentation/Makefile
->> index bb73dcb5ed05..bd8dac560633 100644
->> --- a/Documentation/Makefile
->> +++ b/Documentation/Makefile
->> @@ -93,7 +93,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
->>  
->>  htmldocs:
->>  	@$(srctree)/scripts/sphinx-pre-install --version-check
->> -	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
->> +	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),html,$(var)))
->
-> I think I'm going to hold off on this one.  As I said before, it would
-> have made sense to do things this way when we made the transition.  At
-> this point, though, I think the potential for trouble outweighs the
-> benefits that would come from moving things around in this way.
+This looks good to me.
 
-OK.  The potential for troubles would lie with the scripts to deploy the
-doc to the web site, I'd guess?  If that's the place we'd expect
-problems, I'm happy to be pointed to it and can try adjusting the
-scripts for the change.
+Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 
-Otherwise, I can keep applying this small patch locally to my build, as
-it makes it much easier to cleanly install both the HTML and info target
-outputs when packaging the kernel and its documentation.
+Thank you!
+
+> 
+> Fixes: bce29ac9ce0b ("trace: Add osnoise tracer")
+> Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+> ---
+>  kernel/trace/trace_osnoise.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/kernel/trace/trace_osnoise.c b/kernel/trace/trace_osnoise.c
+> index 78d536d3ff3d..4300c5dc4e5d 100644
+> --- a/kernel/trace/trace_osnoise.c
+> +++ b/kernel/trace/trace_osnoise.c
+> @@ -917,7 +917,7 @@ void osnoise_trace_irq_entry(int id)
+>  void osnoise_trace_irq_exit(int id, const char *desc)
+>  {
+>  	struct osnoise_variables *osn_var = this_cpu_osn_var();
+> -	int duration;
+> +	s64 duration;
+>  
+>  	if (!osn_var->sampling)
+>  		return;
+> @@ -1048,7 +1048,7 @@ static void trace_softirq_entry_callback(void *data, unsigned int vec_nr)
+>  static void trace_softirq_exit_callback(void *data, unsigned int vec_nr)
+>  {
+>  	struct osnoise_variables *osn_var = this_cpu_osn_var();
+> -	int duration;
+> +	s64 duration;
+>  
+>  	if (!osn_var->sampling)
+>  		return;
+> @@ -1144,7 +1144,7 @@ thread_entry(struct osnoise_variables *osn_var, struct task_struct *t)
+>  static void
+>  thread_exit(struct osnoise_variables *osn_var, struct task_struct *t)
+>  {
+> -	int duration;
+> +	s64 duration;
+>  
+>  	if (!osn_var->sampling)
+>  		return;
+> -- 
+> 2.32.0
+> 
+
 
 -- 
-Thanks,
-Maxim
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
