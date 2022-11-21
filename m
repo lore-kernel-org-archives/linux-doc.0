@@ -2,193 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B63BBC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 02:17:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31271C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 03:59:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbiKUCR3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Nov 2022 21:17:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41778 "EHLO
+        id S229633AbiKUD71 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Nov 2022 22:59:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229848AbiKUCRX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Nov 2022 21:17:23 -0500
-Received: from mail-sh.amlogic.com (mail-sh.amlogic.com [58.32.228.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B527627B17;
-        Sun, 20 Nov 2022 18:16:29 -0800 (PST)
-Received: from droid01-xa.amlogic.com (10.88.11.200) by mail-sh.amlogic.com
- (10.18.11.5) with Microsoft SMTP Server id 15.1.2507.13; Mon, 21 Nov 2022
- 10:16:27 +0800
-From:   Jiucheng Xu <jiucheng.xu@amlogic.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Jiucheng Xu <jiucheng.xu@amlogic.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-CC:     Jianxin Pan <jianxin.pan@amlogic.com>,
-        Kelvin Zhang <kelvin.zhang@amlogic.com>,
-        Chris Healy <cphealy@gmail.com>,
-        Chris Healy <healych@amazon.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-amlogic@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v12 2/3] docs/perf: Add documentation for the Amlogic G12 DDR PMU
-Date:   Mon, 21 Nov 2022 10:15:59 +0800
-Message-ID: <20221121021602.3306998-2-jiucheng.xu@amlogic.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221121021602.3306998-1-jiucheng.xu@amlogic.com>
-References: <20221121021602.3306998-1-jiucheng.xu@amlogic.com>
+        with ESMTP id S229446AbiKUD70 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Nov 2022 22:59:26 -0500
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30F962D1C4;
+        Sun, 20 Nov 2022 19:59:24 -0800 (PST)
+Received: by mail-pg1-x531.google.com with SMTP id v3so10059121pgh.4;
+        Sun, 20 Nov 2022 19:59:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=27WM+Y8jWb1LbvGj3DTgTBmDJaPh9BKIXQ56Fw9urpk=;
+        b=W2l2otg0QsQqjjC0xylN6Y9Y9t9QgGoBs8DnaTsfc0PZd88sh6kjbLZ16l2+Be0X6+
+         wWuTINsam5mP8psCVXL5668tpkGyhqKiQzSnGe+0EU6nd7TPhqOb+OkLz61INCHP/2Ki
+         Qvtn52r1ElroAH5F8J196hfAeGmy0SQ56vOxfP/zIf8jBg135myrGz8iUWGII32rfXPU
+         k08oKkLkXOEr+louuFRLOcL+G+HcFbJuXZxqn1ZMDfICRx3Max4TOGV/um28QNCs4j+m
+         z7PhNB/apyViyzHdTnhcwwtBDw/EWNtWEB4pw7lrYyMAP08B0jKLTTzfxhhVXE6MgkJb
+         e5xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=27WM+Y8jWb1LbvGj3DTgTBmDJaPh9BKIXQ56Fw9urpk=;
+        b=eax4mFKA5UmNDdx3JXWUI30plBUS2zkHe1BzpRxjyJPJjwVzHX2BwuDK4ZcmpFIZ7V
+         2573UR14pXrsFGvXgfpMm4A9lxC+JHwEYIPM6bfs78+fmbpYkbajr/NMrWiDZs/TK9CV
+         lrYlNHxIGYSU4nPCFuHNNZGT65p0WIpIBbljIDH1GfJXeG6qvZXsYlivjbEbmfxdDR1H
+         iS0CkWgdRP/vcdSb2wjbjX521ZP+QSSiC8xK4uCwOeH35jvQYPjVc1VGMft/cZUfTlB/
+         t8S6RH5dDrxMR7qk+/8yNE7toDX2veJe/upeM8v6cMg6Cp5lRAzR6g2DRV4F7GuqMxb7
+         at7A==
+X-Gm-Message-State: ANoB5pmvPqCd5K8Hw3nUCHpgDgC8vXHP6ARV0SuvWF5zFLPevKQoLlg+
+        uGt51Oi6Of7I0RJrqXGlRPBvCDnSrFk=
+X-Google-Smtp-Source: AA0mqf49jEfvGyxZO0jXVZ81EVi8wO9jpymaMotqlDjuJYfCHuNg7X8sS421I3+cFgNY3VQ6HT9slQ==
+X-Received: by 2002:a05:6a00:d66:b0:56a:fd45:d054 with SMTP id n38-20020a056a000d6600b0056afd45d054mr2845822pfv.3.1669003163465;
+        Sun, 20 Nov 2022 19:59:23 -0800 (PST)
+Received: from debian.. (subs03-180-214-233-72.three.co.id. [180.214.233.72])
+        by smtp.gmail.com with ESMTPSA id m9-20020a170902f64900b00176d218889esm8393163plg.228.2022.11.20.19.59.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Nov 2022 19:59:23 -0800 (PST)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
+        kernel test robot <lkp@intel.com>
+Cc:     Jiri Pirko <jiri@nvidia.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Wilczynski <michal.wilczynski@intel.com>,
+        Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH net-next] Documentation: devlink: Add blank line padding on numbered lists in Devlink Port documentation
+Date:   Mon, 21 Nov 2022 10:58:55 +0700
+Message-Id: <20221121035854.28411-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <202211200926.kfOPiVti-lkp@intel.com>
+References: <202211200926.kfOPiVti-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.88.11.200]
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2915; i=bagasdotme@gmail.com; h=from:subject; bh=FikTYVYcBbXw6Hy49WYOku8tu7kNbGLfWCUs6r4Xui4=; b=owGbwMvMwCH2bWenZ2ig32LG02pJDMlV3+vWq35h2/c5/h1HMfvSbskN+ypMpH4mH7ohbjXnrIYQ b/C+jlIWBjEOBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAExkxzKGP9wKKzxurLq/431XCXOCya 2vvwq7LwsvDrhwp/fr1ZK78pyMDEtbd1u0vd7ocHFyyt5pTrpbBKJfr5L9mPL95HURxdfOUbwA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a user guide to show how to use DDR PMU to
-monitor DDR bandwidth on Amlogic G12 SoC
+kernel test robot reported indentation warnings:
 
-Signed-off-by: Jiucheng Xu <jiucheng.xu@amlogic.com>
-Reviewed-by: Chris Healy <healych@amazon.com>
+Documentation/networking/devlink/devlink-port.rst:220: WARNING: Unexpected indentation.
+Documentation/networking/devlink/devlink-port.rst:222: WARNING: Block quote ends without a blank line; unexpected unindent.
+
+These warnings cause lists (arbitration flow for which the warnings blame to
+and 3-step subfunction setup) to be rendered inline instead. Also, for the
+former list, automatic list numbering is messed up.
+
+Fix these warnings by adding missing blank line padding.
+
+Link: https://lore.kernel.org/linux-doc/202211200926.kfOPiVti-lkp@intel.com/
+Fixes: 242dd64375b80a ("Documentation: Add documentation for new devlink-rate attributes")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
-Changes v11 -> v12:
-  - No change
+ Documentation/networking/devlink/devlink-port.rst | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-Changes v10 -> v11:
-  - Reword perf documentation
-
-Changes v9 -> v10:
-  - Rebase code
-  - Add "Reviewed-by" tag
-
-Changes v8 -> v9:
-  - No change
-
-Changes v7 -> v8:
-  - No change
-
-Changes v6 -> v7:
-  - Drop the Reported-by tag
-  - Fix spelling error
-
-Changes v5 -> v6:
-  - No change
-
-Changes v4 -> v5:
-  - Fix building warning
-
-Changes v3 -> v4:
-  - No change
-
-Changes v2 -> v3:
-  - Rename doc name from aml-ddr-pmu.rst to meson-ddr-pmu.rst
-
-Changes v1 -> v2:
-  - Nothing was changed
----
- Documentation/admin-guide/perf/index.rst      |  1 +
- .../admin-guide/perf/meson-ddr-pmu.rst        | 70 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 3 files changed, 72 insertions(+)
- create mode 100644 Documentation/admin-guide/perf/meson-ddr-pmu.rst
-
-diff --git a/Documentation/admin-guide/perf/index.rst b/Documentation/admin-guide/perf/index.rst
-index 793e1970bc05..c767e03e4d34 100644
---- a/Documentation/admin-guide/perf/index.rst
-+++ b/Documentation/admin-guide/perf/index.rst
-@@ -19,3 +19,4 @@ Performance monitor support
-    arm_dsu_pmu
-    thunderx2-pmu
-    alibaba_pmu
-+   meson-ddr-pmu
-diff --git a/Documentation/admin-guide/perf/meson-ddr-pmu.rst b/Documentation/admin-guide/perf/meson-ddr-pmu.rst
-new file mode 100644
-index 000000000000..8e71be1d6346
---- /dev/null
-+++ b/Documentation/admin-guide/perf/meson-ddr-pmu.rst
-@@ -0,0 +1,70 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===========================================================
-+Amlogic SoC DDR Bandwidth Performance Monitoring Unit (PMU)
-+===========================================================
-+
-+The Amlogic Meson G12 SoC contains a bandwidth monitor inside DRAM controller.
-+The monitor includes 4 channels. Each channel can count the request accessing
-+DRAM. The channel can count up to 3 AXI port simultaneously. It can be helpful
-+to show if the performance bottleneck is on DDR bandwidth.
-+
-+Currently, this driver supports the following 5 perf events:
-+
-++ meson_ddr_bw/total_rw_bytes/
-++ meson_ddr_bw/chan_1_rw_bytes/
-++ meson_ddr_bw/chan_2_rw_bytes/
-++ meson_ddr_bw/chan_3_rw_bytes/
-++ meson_ddr_bw/chan_4_rw_bytes/
-+
-+meson_ddr_bw/chan_{1,2,3,4}_rw_bytes/ events are channel-specific events.
-+Each channel support filtering, which can let the channel to monitor
-+individual IP module in SoC.
-+
-+Below are DDR access request event filter keywords:
-+
-++ arm             - from CPU
-++ vpu_read1       - from OSD + VPP read
-++ gpu             - from 3D GPU
-++ pcie            - from PCIe controller
-++ hdcp            - from HDCP controller
-++ hevc_front      - from HEVC codec front end
-++ usb3_0          - from USB3.0 controller
-++ hevc_back       - from HEVC codec back end
-++ h265enc         - from HEVC encoder
-++ vpu_read2       - from DI read
-++ vpu_write1      - from VDIN write
-++ vpu_write2      - from di write
-++ vdec            - from legacy codec video decoder
-++ hcodec          - from H264 encoder
-++ ge2d            - from ge2d
-++ spicc1          - from SPI controller 1
-++ usb0            - from USB2.0 controller 0
-++ dma             - from system DMA controller 1
-++ arb0            - from arb0
-++ sd_emmc_b       - from SD eMMC b controller
-++ usb1            - from USB2.0 controller 1
-++ audio           - from Audio module
-++ sd_emmc_c       - from SD eMMC c controller
-++ spicc2          - from SPI controller 2
-++ ethernet        - from Ethernet controller
-+
-+
-+Examples:
-+
-+  + Show the total DDR bandwidth per seconds:
-+
-+    .. code-block:: bash
-+
-+       perf stat -a -e meson_ddr_bw/total_rw_bytes/ -I 1000 sleep 10
-+
-+
-+  + Show individual DDR bandwidth from CPU and GPU respectively, as well as
-+    sum of them:
-+
-+    .. code-block:: bash
-+
-+       perf stat -a -e meson_ddr_bw/chan_1_rw_bytes,arm=1/ -I 1000 sleep 10
-+       perf stat -a -e meson_ddr_bw/chan_2_rw_bytes,gpu=1/ -I 1000 sleep 10
-+       perf stat -a -e meson_ddr_bw/chan_3_rw_bytes,arm=1,gpu=1/ -I 1000 sleep 10
-+
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 415eaa30c523..b76c4deddf22 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1098,6 +1098,7 @@ M:	Jiucheng Xu <jiucheng.xu@amlogic.com>
- L:	linux-amlogic@lists.infradead.org
- S:	Supported
- W:	http://www.amlogic.com
-+F:	Documentation/admin-guide/perf/meson-ddr-pmu.rst
- F:	drivers/perf/amlogic/
- F:	include/soc/amlogic/
+diff --git a/Documentation/networking/devlink/devlink-port.rst b/Documentation/networking/devlink/devlink-port.rst
+index 643f5903d1d8aa..98557c2ab1c11f 100644
+--- a/Documentation/networking/devlink/devlink-port.rst
++++ b/Documentation/networking/devlink/devlink-port.rst
+@@ -130,10 +130,11 @@ it is deployed. Subfunction is created and deployed in unit of 1. Unlike
+ SRIOV VFs, a subfunction doesn't require its own PCI virtual function.
+ A subfunction communicates with the hardware through the parent PCI function.
  
+-To use a subfunction, 3 steps setup sequence is followed.
+-(1) create - create a subfunction;
+-(2) configure - configure subfunction attributes;
+-(3) deploy - deploy the subfunction;
++To use a subfunction, 3 steps setup sequence is followed:
++
++1) create - create a subfunction;
++2) configure - configure subfunction attributes;
++3) deploy - deploy the subfunction;
+ 
+ Subfunction management is done using devlink port user interface.
+ User performs setup on the subfunction management device.
+@@ -216,13 +217,17 @@ nodes with the same priority form a WFQ subgroup in the sibling group
+ and arbitration among them is based on assigned weights.
+ 
+ Arbitration flow from the high level:
++
+ #. Choose a node, or group of nodes with the highest priority that stays
+    within the BW limit and are not blocked. Use ``tx_priority`` as a
+    parameter for this arbitration.
++
+ #. If group of nodes have the same priority perform WFQ arbitration on
+    that subgroup. Use ``tx_weight`` as a parameter for this arbitration.
++
+ #. Select the winner node, and continue arbitration flow among it's children,
+    until leaf node is reached, and the winner is established.
++
+ #. If all the nodes from the highest priority sub-group are satisfied, or
+    overused their assigned BW, move to the lower priority nodes.
+ 
+
+base-commit: 8bd8dcc5e47f0f9dc40187c3b8b42d992181eee1
 -- 
-2.25.1
+An old man doll... just what I always wanted! - Clara
 
