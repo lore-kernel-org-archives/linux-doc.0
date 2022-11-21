@@ -2,83 +2,199 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B97E5C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 10:48:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3A67C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 12:00:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229812AbiKUKsJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 05:48:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49502 "EHLO
+        id S231360AbiKUMAS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 07:00:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229808AbiKUKsC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 05:48:02 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 645FEDD8;
-        Mon, 21 Nov 2022 02:47:28 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7CB671FB;
-        Mon, 21 Nov 2022 02:47:34 -0800 (PST)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 29C4D3F73B;
-        Mon, 21 Nov 2022 02:47:26 -0800 (PST)
-Message-ID: <1c8da30c-d798-729d-c8e5-73a07f8b9f18@arm.com>
-Date:   Mon, 21 Nov 2022 10:47:24 +0000
+        with ESMTP id S231325AbiKUMAP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 07:00:15 -0500
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59C1951309;
+        Mon, 21 Nov 2022 04:00:14 -0800 (PST)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.56])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NG5Xv5FzGzmW5v;
+        Mon, 21 Nov 2022 19:59:43 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 21 Nov 2022 20:00:12 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 21 Nov 2022 20:00:11 +0800
+Subject: Re: [PATCH v4 2/2] arm64: kdump: Support crashkernel=X fall back to
+ reserve region above DMA zones
+To:     Baoquan He <bhe@redhat.com>
+CC:     Dave Young <dyoung@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        <kexec@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        "Dave Kleikamp" <dave.kleikamp@oracle.com>
+References: <20221116121044.1690-1-thunder.leizhen@huawei.com>
+ <20221116121044.1690-3-thunder.leizhen@huawei.com>
+ <Y3s3ZCYj+ZbI3whB@MiWiFi-R3L-srv>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <0c3358aa-251f-cd47-e6d6-6408abacdea5@huawei.com>
+Date:   Mon, 21 Nov 2022 20:00:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v13 1/2] drivers/coresight: Add UltraSoc System Memory
- Buffer driver
+In-Reply-To: <Y3s3ZCYj+ZbI3whB@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-To:     hejunhao <hejunhao3@huawei.com>, mathieu.poirier@linaro.org,
-        mike.leach@linaro.org, leo.yan@linaro.org,
-        jonathan.cameron@huawei.com, john.garry@huawei.com
-Cc:     coresight@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        lpieralisi@kernel.org, linuxarm@huawei.com, yangyicong@huawei.com,
-        liuqi115@huawei.com, f.fangjian@huawei.com,
-        prime.zeng@hisilicon.com
-References: <20221114090316.63157-1-hejunhao3@huawei.com>
- <20221114090316.63157-2-hejunhao3@huawei.com>
- <92291cb2-859c-a994-b05d-806def431376@arm.com>
- <c07e6417-7a37-3cf5-d3dd-b3ce7b3c20b1@huawei.com>
-From:   Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <c07e6417-7a37-3cf5-d3dd-b3ce7b3c20b1@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18/11/2022 12:45, hejunhao wrote:
-> Hi Suzuki ,
-> 
-> 
-> On 2022/11/15 19:06, Suzuki K Poulose wrote:
->> On 14/11/2022 09:03, Junhao He wrote:
->>> From: Qi Liu <liuqi115@huawei.com>
->>>
 
->>> +static void smb_init_hw(struct smb_drv_data *drvdata)
->>> +{
->>> +    /* First disable SMB and clear the status of SMB buffer */
->>> +    smb_reset_buffer_status(drvdata);
->>> +    smb_disable_hw(drvdata);
->>> +    smb_purge_data(drvdata);
->>> +
->>> +    writel(SMB_LB_CFG_LO_DEFAULT, drvdata->base + SMB_LB_CFG_LO_REG);
->>> +    writel(SMB_LB_CFG_HI_DEFAULT, drvdata->base + SMB_LB_CFG_HI_REG);
->>> +    writel(SMB_GLB_CFG_DEFAULT, drvdata->base + SMB_GLB_CFG_REG);
->>> +    writel(SMB_GLB_INT_CFG, drvdata->base + SMB_GLB_INT_REG);
->>> +    writel(SMB_LB_INT_CTRL_CFG, drvdata->base + SMB_LB_INT_CTRL_REG);
+
+On 2022/11/21 16:31, Baoquan He wrote:
+> On 11/16/22 at 08:10pm, Zhen Lei wrote:
+>> For crashkernel=X without '@offset', select a region within DMA zones
+>> first, and fall back to reserve region above DMA zones. This allows
+>> users to use the same configuration on multiple platforms.
 >>
->> Does this come with interrupt on overflow ? Do we not use this ?
+>> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+>> Acked-by: Baoquan He <bhe@redhat.com>
+>> ---
+>>  Documentation/admin-guide/kernel-parameters.txt |  2 +-
+>>  arch/arm64/mm/init.c                            | 17 ++++++++++++++++-
+>>  2 files changed, 17 insertions(+), 2 deletions(-)
 >>
-> When the buffer overflow, no interrupt will come.
-> Interrupt will upgrade SMB_LB_INT_STS_REG register status if start trace.
-> Thanks.
->> Rest looks fine to me.
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index a7b7147447b8bf8..ef6d922ed26b9dc 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -842,7 +842,7 @@
+>>  			memory region [offset, offset + size] for that kernel
+>>  			image. If '@offset' is omitted, then a suitable offset
+>>  			is selected automatically.
+>> -			[KNL, X86-64] Select a region under 4G first, and
+>> +			[KNL, X86-64, ARM64] Select a region under 4G first, and
+>>  			fall back to reserve region above 4G when '@offset'
+>>  			hasn't been specified.
+>>  			See Documentation/admin-guide/kdump/kdump.rst for further details.
+>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+>> index ba7227179822d10..58a0bb2c17f18cf 100644
+>> --- a/arch/arm64/mm/init.c
+>> +++ b/arch/arm64/mm/init.c
+>> @@ -132,6 +132,7 @@ static void __init reserve_crashkernel(void)
+>>  	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+>>  	char *cmdline = boot_command_line;
+>>  	int ret;
+>> +	bool fixed_base = false;
+>>  
+>>  	if (!IS_ENABLED(CONFIG_KEXEC_CORE))
+>>  		return;
+>> @@ -163,12 +164,26 @@ static void __init reserve_crashkernel(void)
+>>  	crash_size = PAGE_ALIGN(crash_size);
+>>  
+>>  	/* User specifies base address explicitly. */
+>> -	if (crash_base)
+>> +	if (crash_base) {
+>> +		fixed_base = true;
+>>  		crash_max = crash_base + crash_size;
+>> +	}
+>>  
+>> +retry:
+>>  	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+>>  					       crash_base, crash_max);
+> 
+> This pachset looks good to me. While we observed a unexpected case,
+> where a reserved region cross the high and low meomry region. I noticed
+> Catalin has pointed that out. Even with the suggested code, we could
+> have the kernel parameters like: crashkernel=512M,high
+> crashkernel=128M,low, we finally have [4G-126M, 4G+386M], [1G, 1G+128M]
+> regions in running kernel. This looks strange.
 
-What is the purpose of the "Interrupt" on the SMB ? It is not clear to
-me.
+Is high-end memory fragmented? Add boot option memblock=debug and watch?
 
-Suzuki
+> 
+> I am wondering if we can specify explicit search_base in
+> memblock_phys_alloc_range() to avoid above case. Like this,
+> crashkernel,high region will only exist in high memory, crashkernel,low
+> region only exists in low memory region. I made a draft patch based on
+> this patchset to present what the code looks like.
 
+Looks good to me.
+
+> 
+> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> index 58a0bb2c17f1..fd9d35e17a62 100644
+> --- a/arch/arm64/mm/init.c
+> +++ b/arch/arm64/mm/init.c
+> @@ -127,7 +127,7 @@ static int __init reserve_crashkernel_low(unsigned long long low_size)
+>   */
+>  static void __init reserve_crashkernel(void)
+>  {
+> -	unsigned long long crash_base, crash_size;
+> +	unsigned long long crash_base, crash_size, search_base;
+
+search_base needs to be initialized to 0.
+
+>  	unsigned long long crash_low_size = 0;
+>  	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+>  	char *cmdline = boot_command_line;
+> @@ -155,6 +155,7 @@ static void __init reserve_crashkernel(void)
+>  		else if (ret)
+>  			return;
+>  
+> +		search_base = CRASH_ADDR_LOW_MAX;
+>  		crash_max = CRASH_ADDR_HIGH_MAX;
+>  	} else if (ret || !crash_size) {
+>  		/* The specified value is invalid */
+> @@ -166,12 +167,13 @@ static void __init reserve_crashkernel(void)
+>  	/* User specifies base address explicitly. */
+>  	if (crash_base) {
+>  		fixed_base = true;
+> +		search_base = crash_base;
+>  		crash_max = crash_base + crash_size;
+>  	}
+>  
+>  retry:
+>  	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+> -					       crash_base, crash_max);
+> +					       search_base, crash_max);
+>  	if (!crash_base) {
+>  		/*
+>  		 * If the first attempt was for low memory, fall back to
+> @@ -180,6 +182,7 @@ static void __init reserve_crashkernel(void)
+>  		 */
+>  		if (!fixed_base && (crash_max == CRASH_ADDR_LOW_MAX)) {
+>  			crash_max = CRASH_ADDR_HIGH_MAX;
+> +			search_base = CRASH_ADDR_LOW_MAX;
+>  			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>  			goto retry;
+>  		}
+> @@ -189,7 +192,7 @@ static void __init reserve_crashkernel(void)
+>  		return;
+>  	}
+>  
+> -	if ((crash_base > CRASH_ADDR_LOW_MAX - crash_low_size) &&
+> +	if ((crash_base > CRASH_ADDR_LOW_MAX) &&
+>  	     crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+>  		memblock_phys_free(crash_base, crash_size);
+>  		return;
+> 
+> .
+> 
+
+-- 
+Regards,
+  Zhen Lei
