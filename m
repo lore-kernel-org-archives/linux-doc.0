@@ -2,92 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4653BC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 10:35:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B97E5C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 10:48:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229620AbiKUKfr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 05:35:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41848 "EHLO
+        id S229812AbiKUKsJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 05:48:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229998AbiKUKf3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 05:35:29 -0500
-Received: from out203-205-221-153.mail.qq.com (out203-205-221-153.mail.qq.com [203.205.221.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 677262871B;
-        Mon, 21 Nov 2022 02:35:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-        s=s201512; t=1669026926;
-        bh=AVLSmtrjCex5981fOssTpM+1X687TZMwrJJVa8zPf+Y=;
-        h=From:To:Cc:Subject:Date;
-        b=uSGaBSDWlQuk4505h6+LxoZtQ+5k5GgUXHmBdQFhSnsY6eLH8A2tEqbaNAGlzyHCi
-         dBxoiO5RwXRQCXFat6kbra9ehHp5Hq6enaef+PcCTQIW+lCkxyWHjd1lcgH3b8Ucrx
-         +MmoU88l++ZNWSeHpyBdsqLKVYtNXS4Z6J88zr+s=
-Received: from rtoax.. ([111.199.191.46])
-        by newxmesmtplogicsvrszc2-0.qq.com (NewEsmtp) with SMTP
-        id 8049C694; Mon, 21 Nov 2022 18:32:04 +0800
-X-QQ-mid: xmsmtpt1669026724thn6meyib
-Message-ID: <tencent_114656E8259D0AEA2BDB6810E29241995006@qq.com>
-X-QQ-XMAILINFO: M/NR0wiIuy70UK1COhJ4T9gM9U9PRI3VM4fIHTdcHCiNdpx3Qjq9dvfYft+4mS
-         zQaoK5Q3gq+Wo5jUAnQmzG1jKTdOx6amEwSprfR/r85kLELPu0eyzkEV+wuuAmcU37edmCptwEAf
-         poNmFJCr6zJalzJ+UjgaEmmeZL46lY81WfCWcN8dVCfUOlfCW9l/O8tY60Px0du0faiRqzEK5M1n
-         ixbR92gVTTbDtzPb/uqB1AnJVKQn9ygT/z51rsP5q0Txb5Ck8PSLZL77onIZKijr10Ut7yib2mPw
-         Zzl5EYbv5fnhZVOHYOvFuFWhIEX3rhr3uV0X+SsfnWF2BI9Rdr7dkmZo36tEGBbUdLNAtU+NActM
-         gMTgG8z76iKsT/TtUI+C+anPc+g/9uRQv5l0vnsMnd/HAYhi9P5S9rV8I6gxz9w8hWdyT51ca9k4
-         POojbswHfm7ephHf9BZ+Gvd7cHRARQgNgQwuiawzSHczKNojM0U82XvaQBWpwbqEz/6p50DUCOiO
-         YciRZ41DYl5QrZ0St5jChBA4ntLMcsgFDUtOrJkQhrQ9TKNEYl9O8FUU/NqdCt3jmGVXNfBpAqBi
-         HvjRWyXBls5/DvhiNCTBKZRnOmMCAVBq7gib3wyi0rfAmGrg3AW2fBY5rbCZ0Q0dj11RTDG8uBjY
-         78Ir9W9u7W/3UW+UVl0Vp0LbrncLDh43oxkycf0gthmNUHxqHWhiYhmqzjRZZMoRgyGWD/LTn9ju
-         Gp1uc+VGFcygbGYbpeKz1zUYjtkhTPRjwN396Xoym1QVy0UjQi28nY1yY0jy9A3G+jSQOxmUBsi0
-         axDyb4j/DwzM8dpTIL1dv3mNMJxo23S76hJgi1y9NmBJAfnneXq5ZyexdTSQvygRbLdLtmtD87qh
-         C3WgQNmfH79gUA4gKpCudvLTRFJfRScaTNvJas7qbDqhuVshSUYjSn3nNBx6gxO6N7mXUFlEuayQ
-         CGVD0pBmsGaeSSL9Bo8XObu9/0Ow+/LlqedVpQD+3e82+GNWI2j0UD4rTtqeBUqxe7JdQteXnKG8
-         7zoxUBVA==
-From:   Rong Tao <rtoax@foxmail.com>
-To:     void@manifault.com
-Cc:     andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org,
-        corbet@lwn.net, daniel@iogearbox.net, haoluo@google.com,
-        john.fastabend@gmail.com, jolsa@kernel.org, kpsingh@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        martin.lau@linux.dev, rongtao@cestc.cn, rtoax@foxmail.com,
-        sdf@google.com, song@kernel.org, yhs@fb.com
-Subject: [PATCH bpf-next v2] docs/bpf: Update btf selftests program and add link
-Date:   Mon, 21 Nov 2022 18:32:03 +0800
-X-OQ-MSGID: <20221121103203.3935-1-rtoax@foxmail.com>
-X-Mailer: git-send-email 2.38.1
+        with ESMTP id S229808AbiKUKsC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 05:48:02 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 645FEDD8;
+        Mon, 21 Nov 2022 02:47:28 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7CB671FB;
+        Mon, 21 Nov 2022 02:47:34 -0800 (PST)
+Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 29C4D3F73B;
+        Mon, 21 Nov 2022 02:47:26 -0800 (PST)
+Message-ID: <1c8da30c-d798-729d-c8e5-73a07f8b9f18@arm.com>
+Date:   Mon, 21 Nov 2022 10:47:24 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v13 1/2] drivers/coresight: Add UltraSoc System Memory
+ Buffer driver
+Content-Language: en-US
+To:     hejunhao <hejunhao3@huawei.com>, mathieu.poirier@linaro.org,
+        mike.leach@linaro.org, leo.yan@linaro.org,
+        jonathan.cameron@huawei.com, john.garry@huawei.com
+Cc:     coresight@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        lpieralisi@kernel.org, linuxarm@huawei.com, yangyicong@huawei.com,
+        liuqi115@huawei.com, f.fangjian@huawei.com,
+        prime.zeng@hisilicon.com
+References: <20221114090316.63157-1-hejunhao3@huawei.com>
+ <20221114090316.63157-2-hejunhao3@huawei.com>
+ <92291cb2-859c-a994-b05d-806def431376@arm.com>
+ <c07e6417-7a37-3cf5-d3dd-b3ce7b3c20b1@huawei.com>
+From:   Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <c07e6417-7a37-3cf5-d3dd-b3ce7b3c20b1@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rong Tao <rongtao@cestc.cn>
+On 18/11/2022 12:45, hejunhao wrote:
+> Hi Suzuki ,
+> 
+> 
+> On 2022/11/15 19:06, Suzuki K Poulose wrote:
+>> On 14/11/2022 09:03, Junhao He wrote:
+>>> From: Qi Liu <liuqi115@huawei.com>
+>>>
 
-commit c64779e24e88("selftests/bpf: Merge most of test_btf into
-test_progs") rename selftests/bpf btf test from 'test_btf.c' to
-'prog_tests/btf.c'.
+>>> +static void smb_init_hw(struct smb_drv_data *drvdata)
+>>> +{
+>>> +    /* First disable SMB and clear the status of SMB buffer */
+>>> +    smb_reset_buffer_status(drvdata);
+>>> +    smb_disable_hw(drvdata);
+>>> +    smb_purge_data(drvdata);
+>>> +
+>>> +    writel(SMB_LB_CFG_LO_DEFAULT, drvdata->base + SMB_LB_CFG_LO_REG);
+>>> +    writel(SMB_LB_CFG_HI_DEFAULT, drvdata->base + SMB_LB_CFG_HI_REG);
+>>> +    writel(SMB_GLB_CFG_DEFAULT, drvdata->base + SMB_GLB_CFG_REG);
+>>> +    writel(SMB_GLB_INT_CFG, drvdata->base + SMB_GLB_INT_REG);
+>>> +    writel(SMB_LB_INT_CTRL_CFG, drvdata->base + SMB_LB_INT_CTRL_REG);
+>>
+>> Does this come with interrupt on overflow ? Do we not use this ?
+>>
+> When the buffer overflow, no interrupt will come.
+> Interrupt will upgrade SMB_LB_INT_STS_REG register status if start trace.
+> Thanks.
+>> Rest looks fine to me.
 
-Signed-off-by: Rong Tao <rongtao@cestc.cn>
----
-v2: Update btf selftests program and add link
-v1: https://lore.kernel.org/lkml/tencent_7F84D04F96EBE594CAD5EBD12815A2B00106@qq.com/
----
- Documentation/bpf/btf.rst | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+What is the purpose of the "Interrupt" on the SMB ? It is not clear to
+me.
 
-diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
-index cf8722f96090..dca0b0e9dd35 100644
---- a/Documentation/bpf/btf.rst
-+++ b/Documentation/bpf/btf.rst
-@@ -1062,4 +1062,9 @@ format.::
- 7. Testing
- ==========
- 
--Kernel bpf selftest `test_btf.c` provides extensive set of BTF-related tests.
-+Kernel bpf selftest `tools/testing/selftests/bpf/prog_tests/btf.c`_ provides
-+extensive set of BTF-related tests.
-+
-+.. Links
-+.. _tools/testing/selftests/bpf/prog_tests/btf.c:
-+   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/testing/selftests/bpf/prog_tests/btf.c
--- 
-2.38.1
+Suzuki
 
