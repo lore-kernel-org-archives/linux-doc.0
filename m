@@ -2,70 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 310ECC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 20:19:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50995C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 20:58:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231861AbiKUUTf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 15:19:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34998 "EHLO
+        id S229460AbiKUU6L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 15:58:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231892AbiKUUTY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 15:19:24 -0500
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACA3DD06FF;
-        Mon, 21 Nov 2022 12:19:23 -0800 (PST)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-39451671bdfso99140377b3.10;
-        Mon, 21 Nov 2022 12:19:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rd4Jm/e508B9fRuPdgkDC5Sv2y4ES1AktySKiiGtLNQ=;
-        b=mjSWppemaP+ZUrOhua9ikIl8SbShMxfOacSlLD9r6VvORUQFrnN2AfMvvIrXhw3U+L
-         sqVsIvhpFAMLO/4BCD4r7o5Sy6hA329l1SmfT4jHPY5GztDosVcQewb3otoDsELXzCgE
-         /NQSVnnvoyvp9Gd6dToBjghzSfysw/SzOwWThFfgymKVTGxlmxp1tgpAYb7Uv/s+F7ve
-         uRTNsp5BIktWAqSnV5ngQPzj/UClEAsHVC+wFDn21CLo7gRT9c1IW/VnJ6meyu84Ve4I
-         RsXDKGsgNYyrZF05nupeMiRMRNaXdd/JxdHVt50XDA3quBfBXo0oHeBoTz0nKLINHZpf
-         OAnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Rd4Jm/e508B9fRuPdgkDC5Sv2y4ES1AktySKiiGtLNQ=;
-        b=s7iFKCtUOmKPFNJ2QV9ooTj9Q/65BN4YtTzna88Z3JRS5qLQYwKDqfmNyByOU4AZXa
-         i7lLjQRaMnCeOFfVNIuk81HCKPMST1FJZ2XCjSQ3Fr4zYhcDtjbADk4buDWZQgB46lHe
-         OTt4eJCmv9wPjz3WtThcVEIX6S2nTpszh/GD5KfaVy+ql3aKjWfSNQIWfnN0CQikJ46x
-         O1S0iUv3oDHCtQlNB4WbkKuakpph12ph6br7C4wjjXfEcjlyMxmHD63DhqK0FQCsUt0s
-         D66trGbpX4VarrDLdN5Bd40+2Ka9ux9qAmo8SczW7eBdFYVrfRWyGr7F0lWg1vBctbJ2
-         NEaA==
-X-Gm-Message-State: ANoB5pkRaA1hX/TLWJk9WsZX5/7XVAs9jPg3YSMzPP4Gj2Gy49PuGGPQ
-        1jICyg4cn0NV2EXU77DNdgeiV7K/d2qFphbWuKc=
-X-Google-Smtp-Source: AA0mqf4qL2P/BkGy1mGCx0oK7tFKngK8cE6O46xq5tRfhvN/kIAkcaUreI9S4mKF+1DY4AizY6WDorp9VIDPmtwha1Y=
-X-Received: by 2002:a81:7cd6:0:b0:385:136f:6e0b with SMTP id
- x205-20020a817cd6000000b00385136f6e0bmr761466ywc.256.1669061962908; Mon, 21
- Nov 2022 12:19:22 -0800 (PST)
+        with ESMTP id S229730AbiKUU6K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 15:58:10 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F92FC6BE0;
+        Mon, 21 Nov 2022 12:58:08 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 6F170377;
+        Mon, 21 Nov 2022 20:58:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6F170377
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1669064288; bh=0Y5tJr46hEduzSZqIT6mT8bVO6wGD5twAYsqE34sHA0=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=kd1w4jN5fSAddXUgstqgCLIDtwUZGYQ9v07Kf/lupnhNL0kG7mRU6v0wNL2mz+bHC
+         sLVCpecopH00dEYM28PAiEKAi34XMBuGdZGokYkevv/yPNAxIKF1iiMRTcvZI2eLpn
+         l3pmolATFkRj1T5MirW6/UdMcdyPUt7wPxBC2Jf/51rqZrcEQDWqpLn3h7SMLsJlAH
+         ynQRL6hsmm2tOYVPeP1uX66CA+lmdB3Dc3oMNB/8AzlCbY9TiCXQyghqSBW13cEyFB
+         rgu7OdFAmNnpUwFsxMYrSXYiPEMdkPSsy5EjMka8uFGdhd/HLUVTJmpIKNPsCvw1xb
+         1XzCnqxxWdpBQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>, lukas.bulwahn@gmail.com
+Cc:     Dhaval.Giani@amd.com, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, bilbao@vt.edu, ojeda@kernel.org,
+        Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH 0/2] kernel-docs: New maintainer and Spanish translation
+In-Reply-To: <20221118170942.2588412-1-carlos.bilbao@amd.com>
+References: <20221118170942.2588412-1-carlos.bilbao@amd.com>
+Date:   Mon, 21 Nov 2022 13:58:07 -0700
+Message-ID: <87wn7o9g9s.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20221121181626.149558-1-carlos.bilbao@amd.com> <20221121181626.149558-3-carlos.bilbao@amd.com>
-In-Reply-To: <20221121181626.149558-3-carlos.bilbao@amd.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 21 Nov 2022 21:19:12 +0100
-Message-ID: <CANiq72kuCc_fbyvoe+DKeiot69=Y_JvTMctYWYUO5x=dHbqe4Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] docs/sp_SP: Add process kernel-docs translation
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     corbet@lwn.net, lukas.bulwahn@gmail.com, ojeda@kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        bilbao@vt.edu, jm@goyeneche.es
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 21, 2022 at 7:17 PM Carlos Bilbao <carlos.bilbao@amd.com> wrote:
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
+
+> This cover letter is also a call for anyone interested in adding new, more
+> up to date references to kernel-docs.rst. The document has been abandoned
+> for a while but its original goal is still important.
+
+FWIW, I made an attempt to update this document a few years back and
+concluded that it was pretty much hopeless.  What is there is
+ancient...what do you replace it with?  There is a vast amount of
+content out there that will go obsolete just as quickly.
+
+I'm certainly not going to stand in the way of anybody who wants to
+update and maintain this document, though; I'd love to be proven wrong
+on its value.
+
+> By the way, Jon, I read in kernel-docs.rst, regarding LWN.net:
 >
-> +escrito por Juan-Mariano de Goyenche
+> ":Description: The title says it all. There's a fixed kernel section
+>   summarizing developers' work, bug fixes, new features and versions
+>   produced during the week. Published every Thursday."
+>
+> but I don't think LWN.net is published every Thursday anymore. Let me know
+> if you want a third patch updating this as well.
 
-Same typo here too.
+Well, we do still put out an edition every Thursday, so it's not
+entirely wrong...
 
-Cheers,
-Miguel
+Thanks,
+
+jon
