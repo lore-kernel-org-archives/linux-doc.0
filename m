@@ -2,77 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E648DC433FE
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Nov 2022 22:30:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7259BC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 02:12:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229604AbiKTWaT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Nov 2022 17:30:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33574 "EHLO
+        id S229687AbiKUCMC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Nov 2022 21:12:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiKTWaS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Nov 2022 17:30:18 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97B3015FE4;
-        Sun, 20 Nov 2022 14:30:17 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id AFD462AE;
-        Sun, 20 Nov 2022 22:30:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AFD462AE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1668983416; bh=etKCjh/3W4labIjyYbdLY0a4N45W3qFVrVuTkExWipU=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=N4Tm3rn18zDsvHLQV1phGO+6Q9je5gcfUuz1kN7V8A2R06+0akmtzVdrz9RaoAOJ4
-         IMh9F5B9v+RkfFEDJpOcMAkQyx3DMhoz/E+NS8fxONdpaEF44dury18yQEwEZ+PnMj
-         FKSzXNEG2m3uQ5wrH1Z0xieWtIU4PhwkswKB622sEO8m5Z3usbTvHV/lVfbUyiEIn1
-         MKQI4yM4dvwuG4ZnM9IGEFoMmBtF8EPRcKzigWKFAQkAN9TuNtZu1/68isy8YO8Q5k
-         F8JVi9wEoLgUrzogs/pOAIKPbQPD5SXe2RWrg5TVi0EzT4C0kngrvcgfcaVz5wUY2Z
-         Lkn+X7WRJJeWA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Nir Levy <bhr166@gmail.com>, grantseltzer@gmail.com,
-        linux-doc@vger.kernel.org
-Cc:     bhr166@gmail.com, netdev@vger.kernel.org
-Subject: Re: [PATCH] Documentation: networking: Update generic_netlink_howto
- URL
-In-Reply-To: <20221120220630.7443-1-bhr166@gmail.com>
-References: <20221120220630.7443-1-bhr166@gmail.com>
-Date:   Sun, 20 Nov 2022 15:30:15 -0700
-Message-ID: <878rk5b6o8.fsf@meer.lwn.net>
+        with ESMTP id S229551AbiKUCMB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Nov 2022 21:12:01 -0500
+X-Greylist: delayed 130 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 20 Nov 2022 18:12:00 PST
+Received: from out203-205-221-173.mail.qq.com (out203-205-221-173.mail.qq.com [203.205.221.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B0DC13F8C
+        for <linux-doc@vger.kernel.org>; Sun, 20 Nov 2022 18:11:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+        s=s201512; t=1668996717;
+        bh=ysg/xE0/jB77a1d48gs8ohec4NWgPszsHFjZvUt7cfc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=S7ium4SJ/EyreVeQBvk8MNSTMvu93EwTcVwmd2PkAHfDmhmrxz7yKYSWVN13yOVkz
+         8Qqi13EA838zgI9MfTSRKw7XEGUBPYQ2ItQCPy6/ojToLfvrA+xj9QFA4LJysXGyN7
+         mezaNijTluU9/yQeQEkyx+Y9BTfUWeN/GGW7UyVs=
+Received: from rtoax.. ([111.199.191.46])
+        by newxmesmtplogicsvrszb1-0.qq.com (NewEsmtp) with SMTP
+        id 1E48CEB0; Mon, 21 Nov 2022 10:07:36 +0800
+X-QQ-mid: xmsmtpt1668996456ts4u9u6od
+Message-ID: <tencent_A24996F06584CAF86BC2A822E2A2C1BA1006@qq.com>
+X-QQ-XMAILINFO: M7uElAZZZMmF6Oo5VlGWjFJ8jVcfwmDl11vVfqT7M/4lcZM+EGoSmgCgmClyT4
+         VoJRMz5vn8lCzLVFWSHkhdsm61bAd1qCe7BIWIhnSAFxkx4YORGIWet+W6Xeh0+FRrl40ElL5WKh
+         y0RcASU2nli806o1fHQriEQS4GQTpg0x3TYAcKw8V1wrVXj1C8Ddk2YB0R63MEZwr9be2qJhu7Pd
+         zLaMFAetT5YvdtoZkEY4gEfQVCWzfPZ1wtYlQvJKaPiVD5287nrtdW8F1eRH8TQp2WksO8UnDD4W
+         Udac2bVksfRItmUeFw/OTRYYGWEQLpe05c/Kf/eaC7gMkU2h9NDia3LHngGZ0Z21XPGMyAqrIOv8
+         bSs19rv/SByNkjxkNJr3tFSPg/kxfGcKEYvXG6acLQ0G6aW1J7QMC/9aOcWyDi6pzjLSU8N+GeWm
+         1X/t+nKPrPnylX9VBE//Y6cF6hIu2Hn5Q5j2gmbBDex6JJPX+jUh1kbz/SauJl8nfh8W8SpjixE7
+         +ok4yyU62A6W07ZXKmAMBWmO7Q3UNyj1cyINnLTnWP4Tgd05NxOlUHmvzsNBboHLa9c7vIyIk2lj
+         StD9qDnBtoyphBXMg8TP/whuXC5Llnxz3s3C0zPsJ1tMF4B5Hw4A4QERN8+pdYiFlCWAN3fQ4VNH
+         YRrxJHu+qN9fU/f1wF6vUk6FN4AOb/kI6sz5KYh6yqp30Fv/L8/6tcT3JUsrcP662oXCml9FrktJ
+         JQAnPDsQ4vDvDV3hoD2KKgokLBk8/lwN8wz4yFKVwGAO+n9sb4wYVsHsTWF0HoBNR8ZbxP19QDOE
+         bXUDKnSXex46irQ3xp8/9zckuDVyvhzSkFMkwUk0z9b5+i/tI2iBhJ9M/qotc/4aW23q3z2R2XjI
+         RoNz7IO2ciGyrqAevSXmij6Vp+XzoiR10sK94vivyR1giOL1iJL4iImMs9Y2mrEJxqFI8VWVJojj
+         orC1kXi5LEexiYJIepOHiv5NSiJGoZBTOavItgDzO0PYS/pVM3VmZIAI0X3wiY
+From:   Rong Tao <rtoax@foxmail.com>
+To:     void@manifault.com
+Cc:     andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org,
+        corbet@lwn.net, daniel@iogearbox.net, haoluo@google.com,
+        john.fastabend@gmail.com, jolsa@kernel.org, kpsingh@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        martin.lau@linux.dev, rongtao@cestc.cn, rtoax@foxmail.com,
+        sdf@google.com, song@kernel.org, yhs@fb.com
+Subject: [PATCH bpf-next] docs/bpf: Update btf selftests program and add link
+Date:   Mon, 21 Nov 2022 10:07:34 +0800
+X-OQ-MSGID: <20221121020734.5246-1-rtoax@foxmail.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <Y3pj9FCI5SOEHZXz@maniforge.lan>
+References: <Y3pj9FCI5SOEHZXz@maniforge.lan>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ah...it's not a proper LF URL if it doesn't break every year or so...
-this is a networking patch, though, so should go to the folks at netdev;
-I'll CC them now.
+From: Rong Tao <rongtao@cestc.cn>
 
-Thanks,
+commit c64779e24e88("selftests/bpf: Merge most of test_btf into
+test_progs") rename selftests/bpf btf test from 'test_btf.c' to
+'prog_tests/btf.c'.
 
-jon
+Signed-off-by: Rong Tao <rongtao@cestc.cn>
+---
+ Documentation/bpf/btf.rst | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Nir Levy <bhr166@gmail.com> writes:
-> Message-Id: <20221120220630.7443-1-bhr166@gmail.com>
+diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
+index cf8722f96090..dca0b0e9dd35 100644
+--- a/Documentation/bpf/btf.rst
++++ b/Documentation/bpf/btf.rst
+@@ -1062,4 +1062,9 @@ format.::
+ 7. Testing
+ ==========
+ 
+-Kernel bpf selftest `test_btf.c` provides extensive set of BTF-related tests.
++Kernel bpf selftest `tools/testing/selftests/bpf/prog_tests/btf.c`_ provides
++extensive set of BTF-related tests.
++
++.. Links
++.. _tools/testing/selftests/bpf/prog_tests/btf.c:
++   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/testing/selftests/bpf/prog_tests/btf.c
+-- 
+2.38.1
 
-> The documentation refers to invalid web page under www.linuxfoundation.org
-> The patch refers to a working URL under wiki.linuxfoundation.org
->
-> Signed-off-by: Nir Levy <bhr166@gmail.com>
-> ---
->  Documentation/networking/generic_netlink.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/networking/generic_netlink.rst b/Documentation/networking/generic_netlink.rst
-> index 59e04ccf80c1..d960dbd7e80e 100644
-> --- a/Documentation/networking/generic_netlink.rst
-> +++ b/Documentation/networking/generic_netlink.rst
-> @@ -6,4 +6,4 @@ Generic Netlink
->  
->  A wiki document on how to use Generic Netlink can be found here:
->  
-> - * http://www.linuxfoundation.org/collaborate/workgroups/networking/generic_netlink_howto
-> + * https://wiki.linuxfoundation.org/networking/generic_netlink_howto
-> -- 
-> 2.34.1
