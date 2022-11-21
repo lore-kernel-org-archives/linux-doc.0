@@ -2,155 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC44AC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 10:13:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4653BC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Nov 2022 10:35:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231218AbiKUKNF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 05:13:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50502 "EHLO
+        id S229620AbiKUKfr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 05:35:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230232AbiKUKNA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 05:13:00 -0500
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DCBFBF41;
-        Mon, 21 Nov 2022 02:12:59 -0800 (PST)
-Received: by mail-pl1-x62d.google.com with SMTP id g10so10131132plo.11;
-        Mon, 21 Nov 2022 02:12:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JcrfVzbVII/ixGjW6CzVs+lFc79Nuwer3t6F4w1cDOc=;
-        b=qe0/1odAvG1U4tkPC+b1tQpKv/R4kNC8LqG1JsbtP1wjrD1R7uiDuTHJlQG9s94tUN
-         pSVcDGKuezB3YA0zR+DCbSpZKONwxdFDvlNZQyQfxDO2rS3lK50kZj7rhbykDHX6p8Dd
-         019VpLsO1oJTAXVbjgB6UkPOnnFPQKhEhzZe8BSJ5rQgtT7bn5Nc6NeSmlLtxc3W+RLs
-         GqdXaBn8ozP9QGmC0O9dp8YPwjffeSJOf6F9DiYVFshSP3TYFD1IQ/no/UM42zt6L/8Y
-         7JMkOPXVaZ/lBtl43hfJ66qLauYVyuXgO7b5luKyUhAjuQpHQ2BIMwLSA629xGS2Q7jw
-         Tliw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JcrfVzbVII/ixGjW6CzVs+lFc79Nuwer3t6F4w1cDOc=;
-        b=42vxU9tZhska9TC4d0Oih3EYjrCIyz9PgSth/LwyRyok6NE1VMY0O4iVqjZlJASdhN
-         lZjOURMhRP+F2rDJNtgYy+XKepElEt0MTCO9b4rIqHavoIUCVUox+OtMRML3VoTdTwOm
-         1xIB0hesvMR8LlVQez3x1qMr4lKGx9Z8PXR33dSQeHOrRZ6pleDeZtNXBb1lapdayqIN
-         uccbDeribD4cT8WBL299+Jaa57Hup6RDQttFUBgoAA1iG/7+qNaoV0t2sZVRMwz+oMQ4
-         ax59uDo/9tNuHbuQ5Et2kBlHgrwGF4xN/xmujghuAQrCudxhOa6J2VyCBXRgS5J9V6HM
-         tgYA==
-X-Gm-Message-State: ANoB5pn9q33bHBZyCceLO0RjSuA4sAM59NCd/BNGCne/aU1gk1Uc8lK9
-        mulHhQnR4LMkCBPdqi2KG0SMNjWGi4M=
-X-Google-Smtp-Source: AA0mqf4X7XAJHYWZmsY4H/BNdfWBj2mucoOk/+euz4wnJWV5PHenEU1N5UF1Co84wGl8RXfwilPrwQ==
-X-Received: by 2002:a17:902:e80f:b0:186:f4ba:a817 with SMTP id u15-20020a170902e80f00b00186f4baa817mr3271250plg.97.1669025578623;
-        Mon, 21 Nov 2022 02:12:58 -0800 (PST)
-Received: from debian.. (subs02-180-214-232-69.three.co.id. [180.214.232.69])
-        by smtp.gmail.com with ESMTPSA id jj17-20020a170903049100b0017f5ad327casm4522235plb.103.2022.11.21.02.12.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Nov 2022 02:12:58 -0800 (PST)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-next@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Ahmed S. Darwish" <darwi@linutronix.de>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] PCI/MSI: api: Use bullet lists in kernel-doc comments
-Date:   Mon, 21 Nov 2022 17:12:45 +0700
-Message-Id: <20221121101245.23544-1-bagasdotme@gmail.com>
+        with ESMTP id S229998AbiKUKf3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 05:35:29 -0500
+Received: from out203-205-221-153.mail.qq.com (out203-205-221-153.mail.qq.com [203.205.221.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 677262871B;
+        Mon, 21 Nov 2022 02:35:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+        s=s201512; t=1669026926;
+        bh=AVLSmtrjCex5981fOssTpM+1X687TZMwrJJVa8zPf+Y=;
+        h=From:To:Cc:Subject:Date;
+        b=uSGaBSDWlQuk4505h6+LxoZtQ+5k5GgUXHmBdQFhSnsY6eLH8A2tEqbaNAGlzyHCi
+         dBxoiO5RwXRQCXFat6kbra9ehHp5Hq6enaef+PcCTQIW+lCkxyWHjd1lcgH3b8Ucrx
+         +MmoU88l++ZNWSeHpyBdsqLKVYtNXS4Z6J88zr+s=
+Received: from rtoax.. ([111.199.191.46])
+        by newxmesmtplogicsvrszc2-0.qq.com (NewEsmtp) with SMTP
+        id 8049C694; Mon, 21 Nov 2022 18:32:04 +0800
+X-QQ-mid: xmsmtpt1669026724thn6meyib
+Message-ID: <tencent_114656E8259D0AEA2BDB6810E29241995006@qq.com>
+X-QQ-XMAILINFO: M/NR0wiIuy70UK1COhJ4T9gM9U9PRI3VM4fIHTdcHCiNdpx3Qjq9dvfYft+4mS
+         zQaoK5Q3gq+Wo5jUAnQmzG1jKTdOx6amEwSprfR/r85kLELPu0eyzkEV+wuuAmcU37edmCptwEAf
+         poNmFJCr6zJalzJ+UjgaEmmeZL46lY81WfCWcN8dVCfUOlfCW9l/O8tY60Px0du0faiRqzEK5M1n
+         ixbR92gVTTbDtzPb/uqB1AnJVKQn9ygT/z51rsP5q0Txb5Ck8PSLZL77onIZKijr10Ut7yib2mPw
+         Zzl5EYbv5fnhZVOHYOvFuFWhIEX3rhr3uV0X+SsfnWF2BI9Rdr7dkmZo36tEGBbUdLNAtU+NActM
+         gMTgG8z76iKsT/TtUI+C+anPc+g/9uRQv5l0vnsMnd/HAYhi9P5S9rV8I6gxz9w8hWdyT51ca9k4
+         POojbswHfm7ephHf9BZ+Gvd7cHRARQgNgQwuiawzSHczKNojM0U82XvaQBWpwbqEz/6p50DUCOiO
+         YciRZ41DYl5QrZ0St5jChBA4ntLMcsgFDUtOrJkQhrQ9TKNEYl9O8FUU/NqdCt3jmGVXNfBpAqBi
+         HvjRWyXBls5/DvhiNCTBKZRnOmMCAVBq7gib3wyi0rfAmGrg3AW2fBY5rbCZ0Q0dj11RTDG8uBjY
+         78Ir9W9u7W/3UW+UVl0Vp0LbrncLDh43oxkycf0gthmNUHxqHWhiYhmqzjRZZMoRgyGWD/LTn9ju
+         Gp1uc+VGFcygbGYbpeKz1zUYjtkhTPRjwN396Xoym1QVy0UjQi28nY1yY0jy9A3G+jSQOxmUBsi0
+         axDyb4j/DwzM8dpTIL1dv3mNMJxo23S76hJgi1y9NmBJAfnneXq5ZyexdTSQvygRbLdLtmtD87qh
+         C3WgQNmfH79gUA4gKpCudvLTRFJfRScaTNvJas7qbDqhuVshSUYjSn3nNBx6gxO6N7mXUFlEuayQ
+         CGVD0pBmsGaeSSL9Bo8XObu9/0Ow+/LlqedVpQD+3e82+GNWI2j0UD4rTtqeBUqxe7JdQteXnKG8
+         7zoxUBVA==
+From:   Rong Tao <rtoax@foxmail.com>
+To:     void@manifault.com
+Cc:     andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org,
+        corbet@lwn.net, daniel@iogearbox.net, haoluo@google.com,
+        john.fastabend@gmail.com, jolsa@kernel.org, kpsingh@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        martin.lau@linux.dev, rongtao@cestc.cn, rtoax@foxmail.com,
+        sdf@google.com, song@kernel.org, yhs@fb.com
+Subject: [PATCH bpf-next v2] docs/bpf: Update btf selftests program and add link
+Date:   Mon, 21 Nov 2022 18:32:03 +0800
+X-OQ-MSGID: <20221121103203.3935-1-rtoax@foxmail.com>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221121184100.0974cc35@canb.auug.org.au>
-References: <20221121184100.0974cc35@canb.auug.org.au>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4119; i=bagasdotme@gmail.com; h=from:subject; bh=k7u8QF68GBXH09CAMJK6Ok/Q+l2nHiOrmGnVIIIvZXo=; b=owGbwMvMwCH2bWenZ2ig32LG02pJDMnV/rKHN1ycvSDhlCez8+YTRvVrnrVsuco0da2Tv90jjeO7 XLiWdJSyMIhxMMiKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAiWV6MDAvCbO/P3zef/+jCnVUXuW 7nsszaV8Fw4XTT8fvca9Y1hlcz/BU+FuZ9XubSl2J79vBajXciHWpJvI/rxD5MmlKuteS8Ox8A
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Stephen Rothwell reported htmldocs warnings when merging tip tree:
+From: Rong Tao <rongtao@cestc.cn>
 
-Documentation/PCI/msi-howto:380: drivers/pci/msi/api.c:148: ERROR: Unexpected indentation.
-Documentation/PCI/msi-howto:380: drivers/pci/msi/api.c:149: WARNING: Block quote ends without a blank line; unexpected unindent.
-Documentation/PCI/msi-howto:380: drivers/pci/msi/api.c:236: ERROR: Unexpected indentation.
-Documentation/PCI/msi-howto:380: drivers/pci/msi/api.c:259: ERROR: Unexpected indentation.
+commit c64779e24e88("selftests/bpf: Merge most of test_btf into
+test_progs") rename selftests/bpf btf test from 'test_btf.c' to
+'prog_tests/btf.c'.
 
-Use bullet lists syntax for pci_disable_msix flags and interrupt mode lists
-to fix these warnings.
-
-Link: https://lore.kernel.org/linux-next/20221121184100.0974cc35@canb.auug.org.au/
-Fixes: 5c0997dc33ac24 ("PCI/MSI: Move pci_alloc_irq_vectors() to api.c")
-Fixes: 017239c8db2093 ("PCI/MSI: Move pci_irq_vector() to api.c")
-Fixes: be37b8428b7b77 ("PCI/MSI: Move pci_irq_get_affinity() to api.c")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Rong Tao <rongtao@cestc.cn>
 ---
- drivers/pci/msi/api.c | 33 +++++++++++++++++++--------------
- 1 file changed, 19 insertions(+), 14 deletions(-)
+v2: Update btf selftests program and add link
+v1: https://lore.kernel.org/lkml/tencent_7F84D04F96EBE594CAD5EBD12815A2B00106@qq.com/
+---
+ Documentation/bpf/btf.rst | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pci/msi/api.c b/drivers/pci/msi/api.c
-index 6c3ad4863850c3..d48c21295a88c6 100644
---- a/drivers/pci/msi/api.c
-+++ b/drivers/pci/msi/api.c
-@@ -142,12 +142,15 @@ EXPORT_SYMBOL(pci_disable_msix);
-  * @min_vecs: minimum required number of vectors (must be >= 1)
-  * @max_vecs: maximum desired number of vectors
-  * @flags:    One or more of:
-- *            %PCI_IRQ_MSIX      Allow trying MSI-X vector allocations
-- *            %PCI_IRQ_MSI       Allow trying MSI vector allocations
-- *            %PCI_IRQ_LEGACY    Allow trying legacy INTx interrupts, if
-- *                               and only if @min_vecs == 1
-- *            %PCI_IRQ_AFFINITY  Auto-manage IRQs affinity by spreading
-- *                               the vectors around available CPUs
-+ *
-+ *            * %PCI_IRQ_MSIX - Allow trying MSI-X vector allocations
-+ *            * %PCI_IRQ_MSI - Allow trying MSI vector allocations
-+ *
-+ *            * %PCI_IRQ_LEGACY - Allow trying legacy INTx interrupts, if
-+ *              and only if @min_vecs == 1
-+ *
-+ *            * %PCI_IRQ_AFFINITY - Auto-manage IRQs affinity by spreading
-+ *              the vectors around available CPUs
-  *
-  * Allocate up to @max_vecs interrupt vectors on device. MSI-X irq
-  * vector allocation has a higher precedence over plain MSI, which has a
-@@ -232,10 +235,11 @@ EXPORT_SYMBOL(pci_alloc_irq_vectors_affinity);
-  * pci_irq_vector() - Get Linux IRQ number of a device interrupt vector
-  * @dev: the PCI device to operate on
-  * @nr:  device-relative interrupt vector index (0-based); has different
-- *       meanings, depending on interrupt mode
-- *         MSI-X        the index in the MSI-X vector table
-- *         MSI          the index of the enabled MSI vectors
-- *         INTx         must be 0
-+ *       meanings, depending on interrupt mode:
-+ *
-+ *         * MSI-X - the index in the MSI-X vector table
-+ *         * MSI - the index of the enabled MSI vectors
-+ *         * INTx - must be 0
-  *
-  * Return: the Linux IRQ number, or -EINVAL if @nr is out of range
-  */
-@@ -255,10 +259,11 @@ EXPORT_SYMBOL(pci_irq_vector);
-  * pci_irq_get_affinity() - Get a device interrupt vector affinity
-  * @dev: the PCI device to operate on
-  * @nr:  device-relative interrupt vector index (0-based); has different
-- *       meanings, depending on interrupt mode
-- *         MSI-X        the index in the MSI-X vector table
-- *         MSI          the index of the enabled MSI vectors
-- *         INTx         must be 0
-+ *       meanings, depending on interrupt mode:
-+ *
-+ *         * MSI-X - the index in the MSI-X vector table
-+ *         * MSI - the index of the enabled MSI vectors
-+ *         * INTx - must be 0
-  *
-  * Return: MSI/MSI-X vector affinity, NULL if @nr is out of range or if
-  * the MSI(-X) vector was allocated without explicit affinity
-
-base-commit: 15ce088a8698c22cf5a18799dda16f04ed1d1cb7
+diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
+index cf8722f96090..dca0b0e9dd35 100644
+--- a/Documentation/bpf/btf.rst
++++ b/Documentation/bpf/btf.rst
+@@ -1062,4 +1062,9 @@ format.::
+ 7. Testing
+ ==========
+ 
+-Kernel bpf selftest `test_btf.c` provides extensive set of BTF-related tests.
++Kernel bpf selftest `tools/testing/selftests/bpf/prog_tests/btf.c`_ provides
++extensive set of BTF-related tests.
++
++.. Links
++.. _tools/testing/selftests/bpf/prog_tests/btf.c:
++   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/testing/selftests/bpf/prog_tests/btf.c
 -- 
-An old man doll... just what I always wanted! - Clara
+2.38.1
 
