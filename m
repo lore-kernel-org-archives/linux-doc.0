@@ -2,62 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6F57C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 14:11:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3915C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 14:39:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234056AbiKVOLS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Nov 2022 09:11:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34284 "EHLO
+        id S232224AbiKVOjy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Nov 2022 09:39:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233876AbiKVOLA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 09:11:00 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE9152CC8D;
-        Tue, 22 Nov 2022 06:10:12 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id z4so10299972wrr.3;
-        Tue, 22 Nov 2022 06:10:12 -0800 (PST)
+        with ESMTP id S232132AbiKVOjy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 09:39:54 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F67D4387A;
+        Tue, 22 Nov 2022 06:39:52 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id a11-20020a05600c2d4b00b003cf6f5fd9f1so11442598wmg.2;
+        Tue, 22 Nov 2022 06:39:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=s2sxIMALN/jhAgeTyHOyVZJuD3alMnqSzP+eykVYVtQ=;
-        b=TmSTQdGRgXfA19BTGoTn31F++Na6tUYPeVbjhIwBzeVX0LZ+F3CC3I0piMXG8DDDre
-         9vveTuZys31wOl0wwRxaSH26yOc1SFbEk9GPFlpiAc2H/WbWixK7HE6wxVVi3T5Gusn4
-         7arJVAyGnHHn7I4nrhlseUy2Sidij00Z4Nr5NH+B0OvA6j0wjlU95i06sbZhuHUqS1ix
-         ayF9CArPmNTTX32Vfs1VJl6gRO1FD0zN2XcsatfDWgvacVxwjQsFFEqozzZjCD7bMt7d
-         A5JwdHxfqU+C6nXwFAEU0UGnyH1jU8kwgfpBv2tX7er6PCEM4Eb5XmCochE9GZbJjZQo
-         2Y0w==
+        bh=WlJM+ofSATO1uMNLBzTdEriQrZsj390BN1kZ4yLqU+w=;
+        b=WXjkZu1KRCyHtz3afdZN6TgxXvbwz+ts2YkNe/dT6Z+B9Od5Lhmo7ZFUAJbaapQ/lw
+         5s2VGv/Nj2Og/+M9AR3GTqXsQWDXfI6IX6TdkU3L89Cqy1pNSddWMTgE/fA13HhJywX7
+         L3ocRmVbnvKyHnvSZtiRpwYkqaLG7W8nJe5se8GKDkRBhVQSM9TYbbCQM1TitzkE4mDX
+         y+RqguCoP2Pm3dFtD9RHGCjSFjfu5RscKjlEXV6A6JYK28I1FtcTeGBByTDXWi8hhHbD
+         lNlo9MdlSUIXDdq1qynW8yW8zxUP/q2IfiD9zkh24doZj+aVjmZPJQaeKqBBC0Is8C7B
+         U70w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=s2sxIMALN/jhAgeTyHOyVZJuD3alMnqSzP+eykVYVtQ=;
-        b=T3C44hCauu0RlPI4FZ2/mgnS9fUBwuzeCzpDhIXWqRdTLV+pbsmflPtTlimWT+S+BW
-         opEPfxk/K0M+Fe9JyOv1PD2t9yMC8vUWlcCfT4QE8zM5NpeR7uZHNPzOSx4PQLvQJ3b/
-         JBEPbA5lJWRwQmuq20pbzGWKciW+nmrMiOy1KtJBVbviN4FtWP/i/OAbBIsmH5t/ODht
-         iWb+st0spXLVhsT9p2xOehI9KLtnFRDtfDuFXYTRSw6qsXuwFONBruakrqDxSYM7k/MV
-         b4nSmaIMR2F66A04S5Q0WJcX9cO0zEbWVYxRNdfyHCvfBf9ClB7IkbyzSQvabhruLs76
-         j6Dg==
-X-Gm-Message-State: ANoB5pkGhyBhDwsfIbpNgoeBGEiq6xEv6DrKcomMxEBvPE7sGt8xM4OW
-        xQYmA9/Iz3BCbRLDi+2+oxBheB6J4X9qpg==
-X-Google-Smtp-Source: AA0mqf5anA48MSpp2rcykGtBfXwPOv2BN5tX5Xn68Bg+uzHZskS35OxENBzK5NQXtIQ+HWYD1uc0pw==
-X-Received: by 2002:adf:f086:0:b0:22e:3725:8acc with SMTP id n6-20020adff086000000b0022e37258accmr6216318wro.330.1669126210228;
-        Tue, 22 Nov 2022 06:10:10 -0800 (PST)
+        bh=WlJM+ofSATO1uMNLBzTdEriQrZsj390BN1kZ4yLqU+w=;
+        b=vIa49iFevnj5B7D5hawNEXNx1WozBmIeGRFakI5s3b+DTBt8fF+ahIfAwRvOVeALgs
+         hVPRFL/rQGHho5YPKCkBeBvw1KHDgf2g/FMuATh5tNhSsRdx21bL1/y++PoZDqbZTwE9
+         lUeSsR1ufsYhpelBneXKvi0sqygz+kTxaXtOMczwvcuUw3Ut2JbsVDinjDUQ3Bst63e0
+         tjW2EwNUAvBrdWl02f1hZC4uJ9fnnR5UUCZ6c7UQefnQpOXPIduWa3XwqyJmKmUkCJ2K
+         FG2/p/Ilaq3AmbNgOZUE9NfZEcS/T9b7dRfKWW6NpYSAzWU23r6e+brkwjcAIPYVz6tD
+         0H2Q==
+X-Gm-Message-State: ANoB5plX9w3KZrlFGA4NJvGVzR3qGxBkrtHlsa8NonpBr/x15Q9kkf7t
+        pc52Njdn245gN0zKjdz7p849f+wLu2r1UA==
+X-Google-Smtp-Source: AA0mqf6Q3Q4qkzYIx3EEdwRgNz7te/zeRpPFBh7LRaWzdo70GAvZIveaD7NDtKFnwIxsRK3e81gMCg==
+X-Received: by 2002:a05:600c:3d10:b0:3cf:8a44:e1eb with SMTP id bh16-20020a05600c3d1000b003cf8a44e1ebmr7366655wmb.189.1669127990192;
+        Tue, 22 Nov 2022 06:39:50 -0800 (PST)
 Received: from imac.fritz.box ([2a02:8010:60a0:0:986c:3a9f:58a6:a738])
-        by smtp.gmail.com with ESMTPSA id bg21-20020a05600c3c9500b003b497138093sm19530441wmb.47.2022.11.22.06.10.08
+        by smtp.gmail.com with ESMTPSA id q125-20020a1c4383000000b003c6cd82596esm21955825wma.43.2022.11.22.06.39.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Nov 2022 06:10:09 -0800 (PST)
+        Tue, 22 Nov 2022 06:39:49 -0800 (PST)
 From:   Donald Hunter <donald.hunter@gmail.com>
 To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
 Cc:     Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
         Andrii Nakryiko <andrii@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH bpf-next v2] bpf, docs: Document BPF_MAP_TYPE_BLOOM_FILTER
-Date:   Tue, 22 Nov 2022 14:08:24 +0000
-Message-Id: <20221122140824.89305-1-donald.hunter@gmail.com>
+        Donald Hunter <donald.hunter@gmail.com>,
+        Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH bpf-next v1] docs/bpf: Fix sphinx warnings in BPF map docs
+Date:   Tue, 22 Nov 2022 14:39:33 +0000
+Message-Id: <20221122143933.91321-1-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -65,198 +66,296 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for BPF_MAP_TYPE_BLOOM_FILTER including
-kernel BPF helper usage, userspace usage and examples.
+Fix duplicate C declaration warnings when using sphinx >= 3.1
 
 Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+Reported-by: Akira Yokosawa <akiyks@gmail.com>
+Link: https://lore.kernel.org/bpf/ed4dac84-1b12-5c58-e4de-93ab9ac67c09@gmail.com
 ---
-v1 -> v2:
-- Fix sphinx warnings for sphinx >= 3.1
+ Documentation/bpf/map_array.rst       | 20 ++++++++++++---
+ Documentation/bpf/map_hash.rst        | 33 ++++++++++++++++++++----
+ Documentation/bpf/map_lpm_trie.rst    | 24 +++++++++++++++---
+ Documentation/bpf/map_of_maps.rst     |  6 ++++-
+ Documentation/bpf/map_queue_stack.rst | 36 ++++++++++++++++++++++-----
+ 5 files changed, 99 insertions(+), 20 deletions(-)
 
- Documentation/bpf/map_bloom_filter.rst | 174 +++++++++++++++++++++++++
- 1 file changed, 174 insertions(+)
- create mode 100644 Documentation/bpf/map_bloom_filter.rst
-
-diff --git a/Documentation/bpf/map_bloom_filter.rst b/Documentation/bpf/map_bloom_filter.rst
-new file mode 100644
-index 000000000000..b96fd5f13e1f
---- /dev/null
-+++ b/Documentation/bpf/map_bloom_filter.rst
-@@ -0,0 +1,174 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2022 Red Hat, Inc.
+diff --git a/Documentation/bpf/map_array.rst b/Documentation/bpf/map_array.rst
+index 97bb80333254..f2f51a53e8ae 100644
+--- a/Documentation/bpf/map_array.rst
++++ b/Documentation/bpf/map_array.rst
+@@ -32,7 +32,11 @@ Usage
+ Kernel BPF
+ ----------
+ 
+-.. c:function::
++bpf_map_lookup_elem()
++~~~~~~~~~~~~~~~~~~~~~
 +
-+=========================
-+BPF_MAP_TYPE_BLOOM_FILTER
-+=========================
++.. code-block:: c
 +
-+.. note::
-+   - ``BPF_MAP_TYPE_BLOOM_FILTER`` was introduced in kernel version 5.16
+    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
+ 
+ Array elements can be retrieved using the ``bpf_map_lookup_elem()`` helper.
+@@ -40,7 +44,11 @@ This helper returns a pointer into the array element, so to avoid data races
+ with userspace reading the value, the user must use primitives like
+ ``__sync_fetch_and_add()`` when updating the value in-place.
+ 
+-.. c:function::
++bpf_map_update_elem()
++~~~~~~~~~~~~~~~~~~~~~
 +
-+``BPF_MAP_TYPE_BLOOM_FILTER`` provides a BPF bloom filter map. Bloom
-+filters are a space-efficient probabilistic data structure used to
-+quickly test whether an element exists in a set. In a bloom filter,
-+false positives are possible whereas false negatives are not.
++.. code-block:: c
 +
-+The bloom filter map does not have keys, only values. When the bloom
-+filter map is created, it must be created with a ``key_size`` of 0.  The
-+bloom filter map supports two operations:
+    long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
+ 
+ Array elements can be updated using the ``bpf_map_update_elem()`` helper.
+@@ -53,7 +61,7 @@ To clear an array element, you may use ``bpf_map_update_elem()`` to insert a
+ zero value to that index.
+ 
+ Per CPU Array
+-~~~~~~~~~~~~~
++-------------
+ 
+ Values stored in ``BPF_MAP_TYPE_ARRAY`` can be accessed by multiple programs
+ across different CPUs. To restrict storage to a single CPU, you may use a
+@@ -63,7 +71,11 @@ When using a ``BPF_MAP_TYPE_PERCPU_ARRAY`` the ``bpf_map_update_elem()`` and
+ ``bpf_map_lookup_elem()`` helpers automatically access the slot for the current
+ CPU.
+ 
+-.. c:function::
++bpf_map_lookup_percpu_elem()
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+- push: adding an element to the map
-+- peek: determining whether an element is present in the map
++.. code-block:: c
 +
-+BPF programs must use ``bpf_map_push_elem`` to add an element to the
-+bloom filter map and ``bpf_map_peek_elem`` to query the map. These
-+operations are exposed to userspace applications using the existing
-+``bpf`` syscall in the following way:
-+
-+- ``BPF_MAP_UPDATE_ELEM`` -> push
-+- ``BPF_MAP_LOOKUP_ELEM`` -> peek
-+
-+The ``max_entries`` size that is specified at map creation time is used
-+to approximate a reasonable bitmap size for the bloom filter, and is not
-+otherwise strictly enforced. If the user wishes to insert more entries
-+into the bloom filter than ``max_entries``, this may lead to a higher
-+false positive rate.
-+
-+The number of hashes to use for the bloom filter is configurable using
-+the lower 4 bits of ``map_extra`` in ``union bpf_attr`` at map creation
-+time. If no number is specified, the default used will be 5 hash
-+functions. In general, using more hashes decreases both the false
-+positive rate and the speed of a lookup.
-+
-+It is not possible to delete elements from a bloom filter map. A bloom
-+filter map may be used as an inner map. The user is responsible for
-+synchronising concurrent updates and lookups to ensure no false negative
-+lookups occur.
-+
-+Usage
-+=====
-+
+    void *bpf_map_lookup_percpu_elem(struct bpf_map *map, const void *key, u32 cpu)
+ 
+ The ``bpf_map_lookup_percpu_elem()`` helper can be used to lookup the array
+diff --git a/Documentation/bpf/map_hash.rst b/Documentation/bpf/map_hash.rst
+index e85120878b27..8669426264c6 100644
+--- a/Documentation/bpf/map_hash.rst
++++ b/Documentation/bpf/map_hash.rst
+@@ -34,7 +34,14 @@ the ``BPF_F_NO_COMMON_LRU`` flag when calling ``bpf_map_create``.
+ Usage
+ =====
+ 
+-.. c:function::
 +Kernel BPF
 +----------
-+
-+bpf_map_push_elem()
-+~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   long bpf_map_push_elem(struct bpf_map *map, const void *value, u64 flags)
-+
-+A ``value`` can be added to a bloom filter using the
-+``bpf_map_push_elem()`` helper. The ``flags`` parameter must be set to
-+``BPF_ANY`` when adding an entry to the bloom filter. This helper
-+returns ``0`` on success, or negative error in case of failure.
-+
-+bpf_map_peek_elem()
-+~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   long bpf_map_peek_elem(struct bpf_map *map, void *value)
-+
-+The ``bpf_map_peek_elem()`` helper is used to determine whether
-+``value`` is present in the bloom filter map. This helper returns ``0``
-+if ``value`` is probably present in the map, or ``-ENOENT`` if ``value``
-+is definitely not present in the map.
-+
-+Userspace
-+---------
 +
 +bpf_map_update_elem()
 +~~~~~~~~~~~~~~~~~~~~~
 +
 +.. code-block:: c
 +
-+   int bpf_map_update_elem (int fd, const void *key, const void *value, __u64 flags)
-+
-+A userspace program can add a ``value`` to a bloom filter using libbpf's
-+``bpf_map_update_elem`` function. The ``key`` parameter must be set to
-+``NULL`` and ``flags`` must be set to ``BPF_ANY``. Returns ``0`` on
-+success, or negative error in case of failure.
-+
+    long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
+ 
+ Hash entries can be added or updated using the ``bpf_map_update_elem()``
+@@ -49,14 +56,22 @@ parameter can be used to control the update behaviour:
+ ``bpf_map_update_elem()`` returns 0 on success, or negative error in
+ case of failure.
+ 
+-.. c:function::
 +bpf_map_lookup_elem()
 +~~~~~~~~~~~~~~~~~~~~~
 +
 +.. code-block:: c
 +
-+   int bpf_map_lookup_elem (int fd, const void *key, void *value)
-+
-+A userspace program can determine the presence of ``value`` in a bloom
-+filter using libbpf's ``bpf_map_lookup_elem`` function. The ``key``
-+parameter must be set to ``NULL``. Returns ``0`` if ``value`` is
-+probably present in the map, or ``-ENOENT`` if ``value`` is definitely
-+not present in the map.
-+
-+Examples
-+========
-+
-+Kernel BPF
-+----------
-+
-+This snippet shows how to declare a bloom filter in a BPF program:
+    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
+ 
+ Hash entries can be retrieved using the ``bpf_map_lookup_elem()``
+ helper. This helper returns a pointer to the value associated with
+ ``key``, or ``NULL`` if no entry was found.
+ 
+-.. c:function::
++bpf_map_delete_elem()
++~~~~~~~~~~~~~~~~~~~~~
 +
 +.. code-block:: c
 +
-+    struct {
-+            __uint(type, BPF_MAP_TYPE_BLOOM_FILTER);
-+            __type(value, __u32);
-+            __uint(max_entries, 1000);
-+            __uint(map_extra, 3);
-+    } bloom_filter SEC(".maps");
-+
-+This snippet shows how to determine presence of a value in a bloom
-+filter in a BPF program:
-+
-+.. code-block:: c
-+
-+    void *lookup(__u32 key)
-+    {
-+            if (bpf_map_peek_elem(&bloom_filter, &key) == 0) {
-+                    /* Verify not a false positive and fetch an associated
-+                     * value using a secondary lookup, e.g. in a hash table
-+                     */
-+                    return bpf_map_lookup_elem(&hash_table, &key);
-+            }
-+            return 0;
-+    }
-+
-+Userspace
-+---------
-+
-+This snippet shows how to use libbpf to create a bloom filter map from
-+userspace:
+    long bpf_map_delete_elem(struct bpf_map *map, const void *key)
+ 
+ Hash entries can be deleted using the ``bpf_map_delete_elem()``
+@@ -70,7 +85,11 @@ For ``BPF_MAP_TYPE_PERCPU_HASH`` and ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
+ the ``bpf_map_update_elem()`` and ``bpf_map_lookup_elem()`` helpers
+ automatically access the hash slot for the current CPU.
+ 
+-.. c:function::
++bpf_map_lookup_percpu_elem()
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
 +.. code-block:: c
 +
-+    int create_bloom()
-+    {
-+            LIBBPF_OPTS(bpf_map_create_opts, opts,
-+                        .map_extra = 3);             /* number of hashes */
-+
-+            return bpf_map_create(BPF_MAP_TYPE_BLOOM_FILTER,
-+                                  "ipv6_bloom",      /* name */
-+                                  0,                 /* key size, must be zero */
-+                                  sizeof(ipv6_addr), /* value size */
-+                                  10000,             /* max entries */
-+                                  &opts);            /* create options */
-+    }
-+
-+This snippet shows how to add an element to a bloom filter from
-+userspace:
+    void *bpf_map_lookup_percpu_elem(struct bpf_map *map, const void *key, u32 cpu)
+ 
+ The ``bpf_map_lookup_percpu_elem()`` helper can be used to lookup the
+@@ -89,7 +108,11 @@ See ``tools/testing/selftests/bpf/progs/test_spin_lock.c``.
+ Userspace
+ ---------
+ 
+-.. c:function::
++bpf_map_get_next_key()
++~~~~~~~~~~~~~~~~~~~~~~
 +
 +.. code-block:: c
 +
-+    int add_element(__u32 value)
-+    {
-+            return bpf_map_update_elem(bloom_fd, 0, &value, BPF_ANY);
-+    }
+    int bpf_map_get_next_key(int fd, const void *cur_key, void *next_key)
+ 
+ In userspace, it is possible to iterate through the keys of a hash using
+diff --git a/Documentation/bpf/map_lpm_trie.rst b/Documentation/bpf/map_lpm_trie.rst
+index 31be1aa7ba2c..74d64a30f500 100644
+--- a/Documentation/bpf/map_lpm_trie.rst
++++ b/Documentation/bpf/map_lpm_trie.rst
+@@ -35,7 +35,11 @@ Usage
+ Kernel BPF
+ ----------
+ 
+-.. c:function::
++bpf_map_lookup_elem()
++~~~~~~~~~~~~~~~~~~~~~
 +
++.. code-block:: c
 +
-+References
-+==========
+    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
+ 
+ The longest prefix entry for a given data value can be found using the
+@@ -48,7 +52,11 @@ performing longest prefix lookups. For example, when searching for the
+ longest prefix match for an IPv4 address, ``prefixlen`` should be set to
+ ``32``.
+ 
+-.. c:function::
++bpf_map_update_elem()
++~~~~~~~~~~~~~~~~~~~~~
 +
-+https://lwn.net/ml/bpf/20210831225005.2762202-1-joannekoong@fb.com/
++.. code-block:: c
++
+    long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
+ 
+ Prefix entries can be added or updated using the ``bpf_map_update_elem()``
+@@ -61,7 +69,11 @@ case of failure.
+     The flags parameter must be one of BPF_ANY, BPF_NOEXIST or BPF_EXIST,
+     but the value is ignored, giving BPF_ANY semantics.
+ 
+-.. c:function::
++bpf_map_delete_elem()
++~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
+    long bpf_map_delete_elem(struct bpf_map *map, const void *key)
+ 
+ Prefix entries can be deleted using the ``bpf_map_delete_elem()``
+@@ -74,7 +86,11 @@ Userspace
+ Access from userspace uses libbpf APIs with the same names as above, with
+ the map identified by ``fd``.
+ 
+-.. c:function::
++bpf_map_get_next_key()
++~~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
+    int bpf_map_get_next_key (int fd, const void *cur_key, void *next_key)
+ 
+ A userspace program can iterate through the entries in an LPM trie using
+diff --git a/Documentation/bpf/map_of_maps.rst b/Documentation/bpf/map_of_maps.rst
+index 07212b9227a9..7b5617c2d017 100644
+--- a/Documentation/bpf/map_of_maps.rst
++++ b/Documentation/bpf/map_of_maps.rst
+@@ -45,7 +45,11 @@ Usage
+ Kernel BPF Helper
+ -----------------
+ 
+-.. c:function::
++bpf_map_lookup_elem()
++~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
+    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
+ 
+ Inner maps can be retrieved using the ``bpf_map_lookup_elem()`` helper. This
+diff --git a/Documentation/bpf/map_queue_stack.rst b/Documentation/bpf/map_queue_stack.rst
+index f20e31a647b9..8d14ed49d6e1 100644
+--- a/Documentation/bpf/map_queue_stack.rst
++++ b/Documentation/bpf/map_queue_stack.rst
+@@ -28,7 +28,11 @@ Usage
+ Kernel BPF
+ ----------
+ 
+-.. c:function::
++bpf_map_push_elem()
++~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
+    long bpf_map_push_elem(struct bpf_map *map, const void *value, u64 flags)
+ 
+ An element ``value`` can be added to a queue or stack using the
+@@ -38,14 +42,22 @@ when the queue or stack is full, the oldest element will be removed to
+ make room for ``value`` to be added. Returns ``0`` on success, or
+ negative error in case of failure.
+ 
+-.. c:function::
++bpf_map_peek_elem()
++~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
+    long bpf_map_peek_elem(struct bpf_map *map, void *value)
+ 
+ This helper fetches an element ``value`` from a queue or stack without
+ removing it. Returns ``0`` on success, or negative error in case of
+ failure.
+ 
+-.. c:function::
++bpf_map_pop_elem()
++~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
+    long bpf_map_pop_elem(struct bpf_map *map, void *value)
+ 
+ This helper removes an element into ``value`` from a queue or
+@@ -55,7 +67,11 @@ stack. Returns ``0`` on success, or negative error in case of failure.
+ Userspace
+ ---------
+ 
+-.. c:function::
++bpf_map_update_elem()
++~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
+    int bpf_map_update_elem (int fd, const void *key, const void *value, __u64 flags)
+ 
+ A userspace program can push ``value`` onto a queue or stack using libbpf's
+@@ -64,7 +80,11 @@ A userspace program can push ``value`` onto a queue or stack using libbpf's
+ same semantics as the ``bpf_map_push_elem`` kernel helper. Returns ``0`` on
+ success, or negative error in case of failure.
+ 
+-.. c:function::
++bpf_map_lookup_elem()
++~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
+    int bpf_map_lookup_elem (int fd, const void *key, void *value)
+ 
+ A userspace program can peek at the ``value`` at the head of a queue or stack
+@@ -72,7 +92,11 @@ using the libbpf ``bpf_map_lookup_elem`` function. The ``key`` parameter must be
+ set to ``NULL``.  Returns ``0`` on success, or negative error in case of
+ failure.
+ 
+-.. c:function::
++bpf_map_lookup_and_delete_elem()
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
+    int bpf_map_lookup_and_delete_elem (int fd, const void *key, void *value)
+ 
+ A userspace program can pop a ``value`` from the head of a queue or stack using
 -- 
 2.38.1
 
