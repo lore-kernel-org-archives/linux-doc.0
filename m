@@ -2,67 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79477C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 00:55:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55C66C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 01:31:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230468AbiKVAzY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 19:55:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38692 "EHLO
+        id S232251AbiKVBbY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 20:31:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231978AbiKVAzD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 19:55:03 -0500
-Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80BF7E0766;
-        Mon, 21 Nov 2022 16:55:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-        s=s201512; t=1669078498;
-        bh=g7gCIlGkU3U+jeFwrooPJAeJ9QmWHloZWrjg/6voWQA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=C04sFJSOtw+OZx8TvteMhi8VwThfzDIjxiNqDcnOkb9m69pZpd8k18mdZhq5dTTzo
-         uGF8QIBo0nT3/ufV8WN2mhTeXTLbHlwbxIR4br8ecvROJXjTeWxvdX+BfrfB+aIu7b
-         YeB79gFCU7EMm9v4pWd6TqyRw+qhcOErxOWWZMV8=
-Received: from rtoax.. ([111.199.191.46])
-        by newxmesmtplogicsvrszc2-1.qq.com (NewEsmtp) with SMTP
-        id DB589AA7; Tue, 22 Nov 2022 08:54:53 +0800
-X-QQ-mid: xmsmtpt1669078493th1ljpq51
-Message-ID: <tencent_942FB754F85E4746D310150D3084F2B22809@qq.com>
-X-QQ-XMAILINFO: MiPTq5wGoKOmZeWHy0N8JLti8+/ncftsUxsvL9Q+CSLnwKZ6otErRfZneLvXXi
-         hWt9HpUWMQWyPw1M/E93jM6z2POBTuKGuwFUBLVSOG98OYhoPhRlYfzriNoOJppZ0cZBHP9ndEzZ
-         LC82FJGEMpEf6/1nH2Wp2aa2ZRCTgz/4lG0USZIeW99vv/mjSTkVgrdTaxz11ziO10CNM+F48qPv
-         oSLV9RE4gmztVhM+CHkndbuNsh2k0btVTUe4AT/6cGYCdjqpRewW6PMuR/cpym8GvacPK7jFCSkw
-         NcqyR+MHAVvXaGCd2eHdF9KUF32GtwVax+pEfv3C9q8bkMKQ0RmUS6V6hi9U92WPPgxZAqXNkXmJ
-         0by2DoUt2O2SywVXWPi9M+w7XT+fmiQa5xr8t7kQUTE4kgR4i9diMTEbKgEOEoq1mPzgcFklDa9H
-         N7zRG7Cn8HH7pEmEweRIka2lQs3W3W/1r82EQujQ0ks1chH1dOqdK60cLw5vRAGatos/Ph/sTiwE
-         NE99l3+ayVqzb7wHK0/BU5FcgzYyXcXbLZbgTo1lBbsm7Dvm7xKhNn6jDSICJ/EBIiLz9xNfPVZV
-         mg+9ZxwPUmthpOU9E1iryVEFnyKoof4dWlKdaukn8cWYlgmX+G28+eXZNPNpZfRlJ2xmykH/Z0rO
-         BVRNWf9zZzTc+gRVFQKHPI/3W0juQYDM3JFQJTe8RkyOJwSIbWICgIga5utLgUVqTDqkSbaUhJCY
-         9SUVITB2X7mjXxtfXY2nNPo3KI7gPkTV45FeP+jvPEcsLekeEFaE9v8ZT1MMSV64nFK+zwW/DCq5
-         inZZJKa0+FgjecvknC0GdwgPID/CTvLi/T7PlaRSGRd0Bx6+a9aOmBZy6RMycphz1QbJf0Fkkll9
-         XiYDw9oaUu3/NoIqFTz0KAUxVipAt1CzewPHTYscGAEDZS4CtgAmnQSwC90ZIub1Qdh/rWEJxXD8
-         pIyVnKPFcfl2/tQlPBYUU+/9fStvRdesGmeSLUuPqPLAZw9hKx7Y65FWWP3BPDUGvbBBY7DIEl4N
-         KW9tOfGQ==
-From:   Rong Tao <rtoax@foxmail.com>
-To:     void@manifault.com
-Cc:     andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org,
-        corbet@lwn.net, daniel@iogearbox.net, haoluo@google.com,
-        john.fastabend@gmail.com, jolsa@kernel.org, kpsingh@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        martin.lau@linux.dev, rongtao@cestc.cn, rtoax@foxmail.com,
-        sdf@google.com, song@kernel.org, yhs@fb.com
-Subject: Re: Re: [PATCH bpf-next v3] docs/bpf: Update btf selftests program and add link
-Date:   Tue, 22 Nov 2022 08:54:53 +0800
-X-OQ-MSGID: <20221122005453.5660-1-rtoax@foxmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <Y3uT7KfjF3OcbjMG@maniforge.lan>
-References: <Y3uT7KfjF3OcbjMG@maniforge.lan>
+        with ESMTP id S232240AbiKVBbU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 20:31:20 -0500
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF047DEAF6
+        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 17:31:15 -0800 (PST)
+Received: by mail-yb1-xb29.google.com with SMTP id 205so15649987ybe.7
+        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 17:31:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=IYRjBqU3ZoHV4i/knmVPjtRYVyj2wBtBdprE9kY1bXY=;
+        b=g5eszoEulUfrD1WqxBnLIM3gUgku3IJD6GBT91ItK1iQ3CxkGoNjn4a2GWvTpmdSFi
+         lVPxF9/dWFtr1nFuFXhSuZJw4FsGD+qKgco89uA/o5CL0rOWhS6iLjHimnSuvw+Zbr3M
+         hd9XngwctwS8u8UKW5cxJm3NuK1i1QaV6Ff5SoqsmPl2knL0bPLiF4P3bruDRLe+ZoBX
+         L/9ygwEcgsHydEymZYpk6EmBs2aPgOYUl33sXvPNl77s93ZF6cTkx57vBtmi9Z2wHKdN
+         2iT20/pBA0ALqF1gCn54EBl5r80A+JsvDMLC+Y4DhkhDE/AKhjh2aazXYzDejfWdkeCy
+         JNew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IYRjBqU3ZoHV4i/knmVPjtRYVyj2wBtBdprE9kY1bXY=;
+        b=ozUfYuIuzp1DN6PHbgXIug85l2mz75mWRJc1eynCRvbrBUa2K4eT9K+nNvSjqBezZy
+         dtfOMngK/kKWs1X2LQfEabUIN4cWHKRGwySk4fXnNwKfTuWjJzb/DYCfmfGVK8bup7Hh
+         BcTV4V+qLWV/4BS2Wmsnggio0OIc3vyIkpTQRSBsQ8MiF3K2T9z3xDpBPDnkIakgA1iZ
+         lU8MZexpe1R1Lrl17nENF497ShPuUMQUYb2dcwDAN8jfGN3al2d8mxWDjpMnb7qb6Civ
+         gTWRnS/n5gT4VOMdaMta5NhNfLbEDvAomd1WisoUci52zm1BFpMioCPcJcEHX1a0Cclj
+         tOtQ==
+X-Gm-Message-State: ANoB5pleGJZt9DyHebCakqAaeyfuncprdj5495ID1T6V1Tzala+7Y8NV
+        765Qz3hGmcHGSHnqqi22gScjgBYzghuIQXyXwqUoGw==
+X-Google-Smtp-Source: AA0mqf4BKdfRzMVGdYVC78GLj287VlFFPylImBY9mMzZlCVRzwhU/woID2KDtu9GDCYShjObFVE7+ndAAu8aVAdZGaQ=
+X-Received: by 2002:a25:d2cf:0:b0:6cf:e761:43e1 with SMTP id
+ j198-20020a25d2cf000000b006cfe76143e1mr20115372ybg.650.1669080674817; Mon, 21
+ Nov 2022 17:31:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221119081252.3864249-1-davidgow@google.com>
+In-Reply-To: <20221119081252.3864249-1-davidgow@google.com>
+From:   Daniel Latypov <dlatypov@google.com>
+Date:   Mon, 21 Nov 2022 17:31:03 -0800
+Message-ID: <CAGS_qxqyyH-v4wMJyD1phPP2YA5_6L98C-t4cJtt_SYsSvR3Ag@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] kunit: Provide a static key to check if KUnit is
+ actively running tests
+To:     David Gow <davidgow@google.com>
+Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks, David. I forgot to modify the case of the BPF, be sure to check
-carefully next time, thanks.
+On Sat, Nov 19, 2022 at 12:13 AM David Gow <davidgow@google.com> wrote:
+>
+> KUnit does a few expensive things when enabled. This hasn't been a
+> problem because KUnit was only enabled on test kernels, but with a few
+> people enabling (but not _using_) KUnit on production systems, we need a
+> runtime way of handling this.
+>
+> Provide a 'kunit_running' static key (defaulting to false), which allows
+> us to hide any KUnit code behind a static branch. This should reduce the
+> performance impact (on other code) of having KUnit enabled to a single
+> NOP when no tests are running.
+>
+> Note that, while it looks unintuitive, tests always run entirely within
+> __kunit_test_suites_init(), so it's safe to decrement the static key at
+> the end of this function, rather than in __kunit_test_suites_exit(),
+> which is only there to clean up results in debugfs.
+>
+> Signed-off-by: David Gow <davidgow@google.com>
 
-Fix this problem in v4:
-  https://lore.kernel.org/lkml/tencent_1FA6904156E8E599CAE4ABDBE80F22830106@qq.com/
+Reviewed-by: Daniel Latypov <dlatypov@google.com>
+
+I didn't know anything about the static key support in the kernel
+before this patch.
+But from what I read and saw of other uses, this looks good to me.
+
+One small question/nit about how we declare the key below.
+
+<snip>
+
+> +/* Static key: true if any KUnit tests are currently running */
+> +extern struct static_key_false kunit_running;
+
+Is there any documented preference between this and
+  DECLARE_STATIC_KEY_FALSE(kunit_running);
+?
+
+I see 89 instances of this macro and 45 of `extern struct static_key_false`.
+So I'd vote for the macro since it seems like the newer approach and
+more common.
+
+Daniel
