@@ -2,315 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94A0CC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 03:21:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42BFBC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 03:43:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229750AbiKVDVD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 22:21:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41508 "EHLO
+        id S232269AbiKVDnt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 22:43:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbiKVDVD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 22:21:03 -0500
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 931A323384;
-        Mon, 21 Nov 2022 19:21:01 -0800 (PST)
-Received: by mail-qk1-f169.google.com with SMTP id d8so9418408qki.13;
-        Mon, 21 Nov 2022 19:21:01 -0800 (PST)
+        with ESMTP id S232302AbiKVDnZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 22:43:25 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 328A42A279;
+        Mon, 21 Nov 2022 19:43:24 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id a1-20020a17090abe0100b00218a7df7789so5060432pjs.5;
+        Mon, 21 Nov 2022 19:43:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NHTOm+Nj6YeoKmxS+LqwM2AhqfRTBI1UCNLdBaAMYYk=;
+        b=OFE5vwKdvDHSfB3eFh0/xl3Fpv2f75QArXXfS/vqi8ET096gWlyMvFZhrS0md04S/J
+         5KTv+enRiyE4SCGE4lbP8BXTnY0/dG+ez5zmjquewhGZQ/6bLxmvkzra5+fK0qIfyxRT
+         CHJwSolAyM4rlwB770hCAPz1iWIHGGYkB73f+wEba4iMmr32lFkPmsB3RaiRlo4EA4PZ
+         2zMGht/7IxqEVUId31li/Ln7DR+3dwf27OvUkfZ1YQVxuN+OBa9j/rd5Lwh2jrsFASIm
+         mbgoYEsUd0OMz5jwnZ6XL1/Nlrn9X03zsvHjhZmudq/+D9shkT7bIBbTQynmITqGMOfB
+         DYDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8Y4XUTF/Qbwf1whciw3Pb3uvCrel4QM3BcAjVpywwMY=;
-        b=T7M2hOrH19m1ROjebFFnPK4Kmcsb2m4hMpukdfm5u7GDITWU/CpvQu5L1sEggdLqYM
-         i3BNSyX920Dt5MHvRIPNF8AOigZW0FvGmmPHwd3iGXcnKd587Mq0DuO4XqnmPAQHTBs+
-         LxCnvX8FElqwF44qMecEwKpXXoLyznh2c81Ker14e4mt4z63KA0xnKLiCKixjpTNaz3a
-         fthsUF1Zzm7MzI5rR4hZBBioZNZpHpWekV/QGdlJAwF9SkrPckM2Lqt67nsNKXZpUf5+
-         rpkT1/JrSdFA7nNyNM8pFhwjFNva6fWPlP+95OiRUgqWFDIzN+4EMFvjLdxQTfMoNiHg
-         ZBPA==
-X-Gm-Message-State: ANoB5pkivqjR26ubMYeG0kAch2Ygr1gUCpMINHDRVrBnea+fiCaiiL+v
-        bYiQ6q4fjFv6wFW+Ce92Q80=
-X-Google-Smtp-Source: AA0mqf58iFr1VUwPl9OigpsdGn56hTW92Fos7sdq9/0vTNG4I+zmDJZvJwk1++xOQofOIfVzJUEztg==
-X-Received: by 2002:ae9:ee08:0:b0:6fb:def9:3fc1 with SMTP id i8-20020ae9ee08000000b006fbdef93fc1mr3439481qkg.335.1669087260428;
-        Mon, 21 Nov 2022 19:21:00 -0800 (PST)
-Received: from maniforge.lan ([2620:10d:c091:480::1:3170])
-        by smtp.gmail.com with ESMTPSA id k1-20020a05620a414100b006eea4b5abcesm9383777qko.89.2022.11.21.19.20.59
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NHTOm+Nj6YeoKmxS+LqwM2AhqfRTBI1UCNLdBaAMYYk=;
+        b=zgQ3EGzMuXmQ+V4CREQUEM/FbNAep1aosm3OiHIQ5rSndo9vhVDQtk8mueX4hoE36x
+         FqHr/PUckkvT7RYam0Xf8YorUH1s4F+o3Z7mXewr5DUMZ86uZ5p4mLBZfjkmdVzeadCs
+         UOt5r1TU3EpBpTLpD/JwZ0Utk7twiYrb8hUT9xv+zNPIQlNHy17oT68TUDECP1GRFnCW
+         nfj5DoURwRusMwkvz7wIO2RyAi7DVLUMJcgvGZDLQEpgQxgV0sUAj3QhGfCwkndZ0ASm
+         GWFrjVuaormx5hjC95glbtvry5bxnScaYFrdvkPriTJpsY2NBn6pzbsZXB/H8rORx4Fl
+         Y0mw==
+X-Gm-Message-State: ANoB5pkI5IODIveF8vOP4pCJDRzWs84CiJTdABSBqdgrrCiWfrH3p1/g
+        yUtIzFOEYSU4bv1JY17ZSGs=
+X-Google-Smtp-Source: AA0mqf479fqewpCQOqaLwg3i0AWgkE7U+8cuCgMYefaRYsxCUZobpZyT1ibMe1lJTEowuySOupKrhw==
+X-Received: by 2002:a17:90a:2ec5:b0:217:cdc4:afef with SMTP id h5-20020a17090a2ec500b00217cdc4afefmr30043330pjs.115.1669088603524;
+        Mon, 21 Nov 2022 19:43:23 -0800 (PST)
+Received: from debian.me (subs03-180-214-233-93.three.co.id. [180.214.233.93])
+        by smtp.gmail.com with ESMTPSA id a8-20020a1709027e4800b00186abb95bfdsm10591277pln.25.2022.11.21.19.43.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Nov 2022 19:21:00 -0800 (PST)
-Date:   Mon, 21 Nov 2022 21:21:05 -0600
-From:   David Vernet <void@manifault.com>
-To:     mtahhan@redhat.com
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, jbrouer@redhat.com,
-        thoiland@redhat.com, donhunte@redhat.com,
-        magnus.karlsson@gmail.com, akiyks@gmail.com
-Subject: Re: [PATCH bpf-next v3 1/1] docs: BPF_MAP_TYPE_XSKMAP
-Message-ID: <Y3xAIdfl0ck2wivj@maniforge.lan>
-References: <20221121142240.40451-1-mtahhan@redhat.com>
+        Mon, 21 Nov 2022 19:43:22 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 87BE2103FB7; Tue, 22 Nov 2022 10:43:19 +0700 (WIB)
+Date:   Tue, 22 Nov 2022 10:43:19 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     "Ahmed S. Darwish" <darwi@linutronix.de>
+Cc:     linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-next@vger.kernel.org, linux-doc@vger.kernel.org,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] PCI/MSI: api: Use bullet lists in kernel-doc comments
+Message-ID: <Y3xFV2IkUlRWPdCd@debian.me>
+References: <20221121184100.0974cc35@canb.auug.org.au>
+ <20221121101245.23544-1-bagasdotme@gmail.com>
+ <Y3t83uo/TZzxc1nL@lx-t490>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Nnb9qd/r+D/pydyJ"
 Content-Disposition: inline
-In-Reply-To: <20221121142240.40451-1-mtahhan@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
+In-Reply-To: <Y3t83uo/TZzxc1nL@lx-t490>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 21, 2022 at 02:22:40PM +0000, mtahhan@redhat.com wrote:
-> From: Maryam Tahhan <mtahhan@redhat.com>
-> 
-> Add documentation for BPF_MAP_TYPE_XSKMAP
-> including kernel version introduced, usage
-> and examples.
-> 
-> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
 
-Hi Maryam,
+--Nnb9qd/r+D/pydyJ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Looks great overall. Left a few comments and suggestions below.
+On Mon, Nov 21, 2022 at 02:27:58PM +0100, Ahmed S. Darwish wrote:
+> Sorry for the trouble.
+>=20
+> While at it, can we please keep the alignment in the original patch?
+> This is supposed to be pretty too for people who look at the C code
+> (most of the actual readers).
+>=20
+> That is:
+>=20
+>  + *
+>  + *            * %PCI_IRQ_MSIX     -  Allow trying MSI-X vector allocati=
+ons
+>  + *            * %PCI_IRQ_MSI      -  Allow trying MSI vector allocations
+>  + *            * %PCI_IRQ_LEGACY   -  Allow trying legacy INTx interrupt=
+s, if
+>  + *              and only if @min_vecs =3D=3D 1
+>  + *            * %PCI_IRQ_AFFINITY - Auto-manage IRQs affinity by spread=
+ing
+>  + *              the vectors around available CPUs
+>=20
 
-> 
-> ---
-> v3:
-> - Fixed duplicate function warnings from Sphinx >= 3.3.
-> 
-> v2:
-> - Fixed typos + incorrect return type references.
-> - Adjusted examples to use __u32 and fixed references to key_size.
-> - Changed `AF_XDP socket` references to XSK.
-> - Added note re map key and value size.
-> ---
->  Documentation/bpf/map_xskmap.rst | 173 +++++++++++++++++++++++++++++++
->  1 file changed, 173 insertions(+)
->  create mode 100644 Documentation/bpf/map_xskmap.rst
-> 
-> diff --git a/Documentation/bpf/map_xskmap.rst b/Documentation/bpf/map_xskmap.rst
-> new file mode 100644
-> index 000000000000..8715034600d4
-> --- /dev/null
-> +++ b/Documentation/bpf/map_xskmap.rst
-> @@ -0,0 +1,173 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +.. Copyright (C) 2022 Red Hat, Inc.
-> +
-> +===================
-> +BPF_MAP_TYPE_XSKMAP
-> +===================
-> +
-> +.. note::
-> +   - ``BPF_MAP_TYPE_XSKMAP`` was introduced in kernel version 4.18
-> +
-> +The ``BPF_MAP_TYPE_XSKMAP`` is used as a backend map for XDP BPF helper
-> +call ``bpf_redirect_map()`` and ``XDP_REDIRECT`` action, like 'devmap' and 'cpumap'.
-> +This map type redirects raw XDP frames to AF_XDP sockets (XSKs). An AF_XDP socket
-> +binds to a single netdev queue. A mapping of XSKs to queues is shown below:
+For the list above, no, since if the alignment is kept, like:
 
-Suggestion: consider providing a bit more background here on what
-exactly an XSK is. The ASCII diagram below is fantastic, but IMO this
-docs writeup would be even more valuable if you provided a slightly more
-thorough high-level explanation of how all of this works. As is, a
-reader who is unfamiliar with these concepts would still have to
-probably read through code to understand what's going on.
+---- >8 ----
 
-If this is already written down elsewhere in Documentation/bpf,
-providing a link to that page would work as well.
+diff --git a/drivers/pci/msi/api.c b/drivers/pci/msi/api.c
+index d48c21295a88c6..13f612bbbb29b2 100644
+--- a/drivers/pci/msi/api.c
++++ b/drivers/pci/msi/api.c
+@@ -143,14 +143,14 @@ EXPORT_SYMBOL(pci_disable_msix);
+  * @max_vecs: maximum desired number of vectors
+  * @flags:    One or more of:
+  *
+- *            * %PCI_IRQ_MSIX - Allow trying MSI-X vector allocations
+- *            * %PCI_IRQ_MSI - Allow trying MSI vector allocations
++ *            * %PCI_IRQ_MSIX     - Allow trying MSI-X vector allocations
++ *            * %PCI_IRQ_MSI      - Allow trying MSI vector allocations
+  *
+- *            * %PCI_IRQ_LEGACY - Allow trying legacy INTx interrupts, if
+- *              and only if @min_vecs =3D=3D 1
++ *            * %PCI_IRQ_LEGACY   - Allow trying legacy INTx interrupts, if
++ *                                  and only if @min_vecs =3D=3D 1
+  *
+  *            * %PCI_IRQ_AFFINITY - Auto-manage IRQs affinity by spreading
+- *              the vectors around available CPUs
++ *                                  the vectors around available CPUs
+  *
+  * Allocate up to @max_vecs interrupt vectors on device. MSI-X irq
+  * vector allocation has a higher precedence over plain MSI, which has a
+@@ -238,8 +238,8 @@ EXPORT_SYMBOL(pci_alloc_irq_vectors_affinity);
+  *       meanings, depending on interrupt mode:
+  *
+  *         * MSI-X - the index in the MSI-X vector table
+- *         * MSI - the index of the enabled MSI vectors
+- *         * INTx - must be 0
++ *         * MSI   - the index of the enabled MSI vectors
++ *         * INTx  - must be 0
+  *
+  * Return: the Linux IRQ number, or -EINVAL if @nr is out of range
+  */
+@@ -262,8 +262,8 @@ EXPORT_SYMBOL(pci_irq_vector);
+  *       meanings, depending on interrupt mode:
+  *
+  *         * MSI-X - the index in the MSI-X vector table
+- *         * MSI - the index of the enabled MSI vectors
+- *         * INTx - must be 0
++ *         * MSI   - the index of the enabled MSI vectors
++ *         * INTx  - must be 0
+  *
+  * Return: MSI/MSI-X vector affinity, NULL if @nr is out of range or if
+  * the MSI(-X) vector was allocated without explicit affinity
 
-> +
-> +.. code-block:: none
-> +
-> +    +---------------------------------------------------+
-> +    |     xsk A      |     xsk B       |      xsk C     |<---+ Userspace
-> +    =========================================================|==========
-> +    |    Queue 0     |     Queue 1     |     Queue 2    |    |  Kernel
-> +    +---------------------------------------------------+    |
-> +    |                  Netdev eth0                      |    |
-> +    +---------------------------------------------------+    |
-> +    |                            +=============+        |    |
-> +    |                            | key |  xsk  |        |    |
-> +    |  +---------+               +=============+        |    |
-> +    |  |         |               |  0  | xsk A |        |    |
-> +    |  |         |               +-------------+        |    |
-> +    |  |         |               |  1  | xsk B |        |    |
-> +    |  | eBPF    |-- redirect -->+-------------+-------------+
-> +    |  | prog    |               |  2  | xsk C |        |
-> +    |  |         |               +-------------+        |
-> +    |  |         |                                      |
-> +    |  |         |                                      |
-> +    |  +---------+                                      |
-> +    |                                                   |
-> +    +---------------------------------------------------+
-> +
-> +.. note::
-> +    An AF_XDP socket that is bound to a certain <netdev/queue_id> will *only*
-> +    accept XDP frames from that <netdev/queue_id>. If an XDP program tries to redirect
-> +    from a <netdev/queue_id> other than what the socket is bound to, the frame will
-> +    not be received on the socket.
-> +
-> +Typically a XSKMAP is created per netdev. This map contains an array of XSK File
+, multi-line entries will be rendered as definition list instead. So, these
+entries must have hanging indent of two spaces after bullet marker (*),
+following alignment of first line of the entry.
 
-s/a XSKMAP/an XSKMAP
+Also, these entries must be separated from other entries by a line, otherwi=
+se
+the list will be broken (rendered inline).
 
-> +Descriptors (FDs). The number of array elements is typically set or adjusted using
-> +the ``max_entries`` map parameter. For AF_XDP ``max_entries`` is equal to the number
-> +of queues supported by the netdev.
-> +
-> +.. note::
-> +    Both the map key and map value size must be 4 bytes.
-> +
-> +Usage
-> +=====
-> +
-> +Kernel BPF
-> +----------
-> +
-> +.. code-block:: c
-> +
-> +     long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
-> +
-> +Redirect the packet to the endpoint referenced by ``map`` at index ``key``.
-> +For ``BPF_MAP_TYPE_XSKMAP`` this map contains references to XSK FDs
-> +for sockets attached to a netdev's queues.
-> +
-> +.. note::
-> +    If the map is empty at an index, the packet is dropped. This means that it is
-> +    necessary to have an XDP program loaded with at least one XSK in the
-> +    XSKMAP to be able to get any traffic to user space through the socket.
-> +
-> +.. code-block:: c
-> +
-> +    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-> +
-> +XSK entry references of type ``struct xdp_sock *`` can be retrieved using the
-> +``bpf_map_lookup_elem()`` helper.
-> +
-> +Userspace
-> +---------
-> +.. note::
-> +    XSK entries can only be updated/deleted from user space and not from
-> +    an eBPF program. Trying to call these functions from a kernel eBPF program will
+Thanks.
 
-In docs, we tend to just say "BPF" rather than "eBPF". So I would
-suggest the following:
+--=20
+An old man doll... just what I always wanted! - Clara
 
-s/an eBPF program/a BPF program
+--Nnb9qd/r+D/pydyJ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-here and elsewhere
+-----BEGIN PGP SIGNATURE-----
 
-> +    result in the program failing to load and a verifier warning.
-> +
-> +.. code-block:: c
-> +
-> +	int bpf_map_update_elem(int fd, const void *key, const void *value, __u64 flags)
-> +
-> +XSK entries can be added or updated using the ``bpf_map_update_elem()``
-> +helper. The ``key`` parameter is equal to the queue_id of the queue the XSK
-> +is attaching to. And the ``value`` parameter is the FD value of that socket.
-> +
-> +Under the hood, the XSKMAP update function uses the XSK FD value to retrieve the
-> +associated ``struct xdp_sock`` instance.
-> +
-> +The flags argument can be one of the following:
-> +
-> +- BPF_ANY: Create a new element or update an existing element.
-> +- BPF_NOEXIST: Create a new element only if it did not exist.
-> +- BPF_EXIST: Update an existing element.
-> +
-> +.. code-block:: c
-> +
-> +    int bpf_map_lookup_elem(int fd, const void *key, void *value)
-> +
-> +Returns ``struct xdp_sock *`` or negative error in case of failure.
-> +
-> +.. code-block:: c
-> +
-> +    int bpf_map_delete_elem(int fd, const void *key)
-> +
-> +XSK entries can be deleted using the ``bpf_map_delete_elem()``
-> +helper. This helper will return 0 on success, or negative error in case of
-> +failure.
-> +
-> +.. note::
-> +    When `libxdp`_ deletes a XSK it also removes the associated socket
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY3xFUAAKCRD2uYlJVVFO
+o0aaAQD/5o5vTbgS/A6biu9BW0U7JS5wkLnxhDBGR0w9w3en2QEAuqbc8AP8ck7e
+SNLAVf1ByC1E1PYFS7eVsRn214LuhgU=
+=emhf
+-----END PGP SIGNATURE-----
 
-s/a XSK/an XSK
-
-> +    entry from the XSKMAP.
-> +
-> +Examples
-> +========
-> +Kernel
-> +------
-> +
-> +The following code snippet shows how to declare a ``BPF_MAP_TYPE_XSKMAP`` called
-> +``xsks_map`` and how to redirect packets to a XSK.
-
-s/a XSK/an XSK
-
-> +
-> +.. code-block:: c
-> +
-> +   struct {
-> +        __uint(type, BPF_MAP_TYPE_XSKMAP);
-> +        __type(key, __u32);
-> +        __type(value, __u32);
-> +        __uint(max_entries, 64);
-> +    } xsks_map SEC(".maps");
-> +
-> +
-> +    SEC("xdp")
-> +    int xsk_redir_prog(struct xdp_md *ctx)
-> +    {
-> +        __u32 index = ctx->rx_queue_index;
-> +
-> +        if (bpf_map_lookup_elem(&xsks_map, &index))
-> +            return bpf_redirect_map(&xsks_map, index, 0);
-> +        return XDP_PASS;
-> +    }
-> +
-> +Userspace
-> +---------
-> +
-> +The following code snippet shows how to update a XSKMAP with a XSK entry.
-
-s/a XSKMAP/an XSKMAP
-
-s/a XSK entry/an XSK entry
-
-> +
-> +.. code-block:: c
-> +
-> +    int update_xsks_map(struct bpf_map *xsks_map, int queue_id, int xsk_fd)
-
-Do you think it's worth including code that shows how to obtain an
-xsk_fd / create an XSK?
-
-> +    {
-> +        int ret;
-> +
-> +        ret = bpf_map_update_elem(bpf_map__fd(xsks_map), &queue_id, &xsk_fd, 0);
-> +        if (ret < 0) {
-> +            fprintf(stderr, "Failed to update xsks_map: %s\n",
-> +                strerror(errno));
-> +        }
-
-nit: Would you mind updating this to follow kernel coding conventions?
-Ideally the sample code in documenation/ will be pristine and perfectly
-reflect what we consider to be correct code. In this case:
-
-- Remove extra {}
-- Fix alignment and use tabs
-- Ideally add some comments explaining what's going on.
-
-> +
-> +        return ret;
-> +    }
-> +
-> +.. note::
-> +    The most comprehensive resource for using XSKMAPs is `libxdp`_.
-> +
-> +.. _libxdp: https://github.com/xdp-project/xdp-tools/tree/master/lib/libxdp
-
-Are there any selftest suites we could also link to?
-
-> -- 
-> 2.34.1
-> 
+--Nnb9qd/r+D/pydyJ--
