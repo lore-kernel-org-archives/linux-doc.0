@@ -2,73 +2,359 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46133C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 02:45:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA1C6C43217
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 03:16:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231827AbiKVCpb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 21:45:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40100 "EHLO
+        id S231855AbiKVDQh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 22:16:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231678AbiKVCpa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 21:45:30 -0500
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CE71769DF;
-        Mon, 21 Nov 2022 18:45:30 -0800 (PST)
-Received: by mail-qt1-f172.google.com with SMTP id c15so8534634qtw.8;
-        Mon, 21 Nov 2022 18:45:30 -0800 (PST)
+        with ESMTP id S231132AbiKVDQg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 22:16:36 -0500
+Received: from mail-vk1-xa31.google.com (mail-vk1-xa31.google.com [IPv6:2607:f8b0:4864:20::a31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BF121FCD4
+        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 19:16:34 -0800 (PST)
+Received: by mail-vk1-xa31.google.com with SMTP id t85so6617210vkb.7
+        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 19:16:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+Q1WUpCpZfcPr4b6PKzXmogZnHR9musvxc68G+p4cpA=;
+        b=VhT9Qh1LnoKKiV4K0IF5nWLqHe9JsNRQi+AoRl9oEgPjDduqPO3QeYMYnIGsy0HOBJ
+         cEy80ZQfgPn7sJewmxboNAmItTyT/HbVWCQuxmI+ym0Aw9N4Rpjk/cUEX94IttG9jpAp
+         y31FbaexXhn0i89vPVFC7sK9jKg/k17YD/gl2xDWEeOuzfsHG5Y+wBq2YHfM2qcE7VAG
+         koSC1NH3KuG0gFDfE/Bh8Uvf6ZG+fdSAx2Fg8gHsgJ88pM4TlV+7hV7eq/8m8p+pOW8I
+         CRsQEOZn6sLTkvp6UtWSkYXct3SpW5CphTjQDof0xDDiRQKaEnx6TJ8zvHZ1myP6aiX/
+         LvWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ULVPlv0CTw8E3LpEMKKjgM3CLUwyZvnmug0wU3B6zTc=;
-        b=Bse0tzk2GoiE9bg2c7qPCpaJA2arYUU+u4hsRCttexZWQVG+TXV4Fuun7fqXSFQUZ1
-         tNajP/kD0ij39kn0tOqdRBHBRW4bZPku8M4eg5E2PLk69yony1t5w/VL+qktajYCLC+3
-         8GwB2viztVXCBbLf5uGkWGm6j55UBFxwlIQuWO4EDdkewzEt4abRcGXycJxAZyNY7dJ0
-         0tHk4S2O6kO9cwWGmGFPQd1A6l3ay1sg1qdndWMjZleXyPOxbUlt4qOppdTwPDKhenEo
-         l2dJi8luegzTtyhvBYxbhx/DnmyAPXWLTBdO6JnLElUZ5GwwEE9oicQ1+bn08mwtigHs
-         jP+A==
-X-Gm-Message-State: ANoB5plrn3RtKbZu+JV8kzif3tkJSLxpmQIMcdo4hnHmA6En/RnybUfW
-        bCI4rUv5/2/Hqk/a5ciR7ok=
-X-Google-Smtp-Source: AA0mqf7eZBixtQcY/BT1SEAfhS0Y4+ZC4G4x5cvX3r9EKtcNN0Ue0013HKSElxmz6MWQ4iVJB3PrkA==
-X-Received: by 2002:ac8:47cd:0:b0:3a5:467c:dae2 with SMTP id d13-20020ac847cd000000b003a5467cdae2mr20017005qtr.121.1669085128368;
-        Mon, 21 Nov 2022 18:45:28 -0800 (PST)
-Received: from maniforge.lan ([2620:10d:c091:480::1:3170])
-        by smtp.gmail.com with ESMTPSA id f14-20020a05622a114e00b003434d3b5938sm7659058qty.2.2022.11.21.18.45.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Nov 2022 18:45:27 -0800 (PST)
-Date:   Mon, 21 Nov 2022 20:45:33 -0600
-From:   David Vernet <void@manifault.com>
-To:     Rong Tao <rtoax@foxmail.com>
-Cc:     andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org,
-        corbet@lwn.net, daniel@iogearbox.net, haoluo@google.com,
-        john.fastabend@gmail.com, jolsa@kernel.org, kpsingh@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        martin.lau@linux.dev, rongtao@cestc.cn, sdf@google.com,
-        song@kernel.org, yhs@fb.com
-Subject: Re: [PATCH bpf-next v4] docs/bpf: Update btf selftests program and
- add link
-Message-ID: <Y3w3ze8lvnJveQNc@maniforge.lan>
-References: <tencent_1FA6904156E8E599CAE4ABDBE80F22830106@qq.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+Q1WUpCpZfcPr4b6PKzXmogZnHR9musvxc68G+p4cpA=;
+        b=i6isSvuvEdxeb6gHBqVr7Hc0rH+vGT1V0Ouyvvt3+L2Wl4IqHUD5+FBCBeQs5MlMrK
+         WzeM5APu3gIISnLvDq3lJ94Pb1dRMkKWWtyz9AyxkD6MWGxYekQl8RAUefYTW6e18OdG
+         +/rz0WFeB541q9NlAsoOoxMSqOAraImPiMT5ZRJO69TuCvNqmMBptlYQ6iIrth/aKiKm
+         mTpCkN+oPxAncdY10L8svCBPAIF9Azjo/9XLGsCLSfI88xNAfTle47ICsgNDHcvz8QDw
+         xzZju473mPr3nnSSeROkUZWGm9gvcQAX6foLPwXKUc0Rqz5TjrOerSyq5pHBXXwtd103
+         nEow==
+X-Gm-Message-State: ANoB5pkhVyEmf5JraqyO0JCxGhsfuYxQEhI+AQUTWx9U0nUiqd4WkvDZ
+        3YDjZv/w1GGAmBSuPuO6YtMSvhAG3MZ6YZ12spgnsA==
+X-Google-Smtp-Source: AA0mqf7i7fdO0g1QCXYVKToJMP19slSxEyxcYGKJ5EuaIYU6dAixRgzNV8uIVMuqe4Oh78YBJNI/VswBMtrr/H75z94=
+X-Received: by 2002:a1f:b247:0:b0:3bb:ea0f:9330 with SMTP id
+ b68-20020a1fb247000000b003bbea0f9330mr1714493vkf.4.1669086993448; Mon, 21 Nov
+ 2022 19:16:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_1FA6904156E8E599CAE4ABDBE80F22830106@qq.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
+References: <20221119081252.3864249-1-davidgow@google.com> <20221119081252.3864249-2-davidgow@google.com>
+ <CAGS_qxqAUiMfKe2ksnqQtyWv0BWYLA4_uGqpu76d=Oh42mAUgQ@mail.gmail.com>
+In-Reply-To: <CAGS_qxqAUiMfKe2ksnqQtyWv0BWYLA4_uGqpu76d=Oh42mAUgQ@mail.gmail.com>
+From:   David Gow <davidgow@google.com>
+Date:   Tue, 22 Nov 2022 11:16:21 +0800
+Message-ID: <CABVgOSmfcJLs76efLe1zXgZwrSXrxKCLPAhSyx3P+WEkzZNR3A@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] kunit: Use the static key when retrieving the
+ current test
+To:     Daniel Latypov <dlatypov@google.com>
+Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sadiya Kazi <sadiyakazi@google.com>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="0000000000005e276705ee069927"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 22, 2022 at 08:50:42AM +0800, Rong Tao wrote:
-> From: Rong Tao <rongtao@cestc.cn>
-> 
-> commit c64779e24e88("selftests/bpf: Merge most of test_btf into
-> test_progs") rename selftests/bpf btf test from 'test_btf.c' to
-> 'prog_tests/btf.c'.
-> 
-> Signed-off-by: Rong Tao <rongtao@cestc.cn>
-> ---
+--0000000000005e276705ee069927
+Content-Type: text/plain; charset="UTF-8"
 
-Looks great, thanks Rong.
+On Tue, Nov 22, 2022 at 10:21 AM Daniel Latypov <dlatypov@google.com> wrote:
+>
+> On Sat, Nov 19, 2022 at 12:13 AM 'David Gow' via KUnit Development
+> <kunit-dev@googlegroups.com> wrote:
+> >
+> > In order to detect if a KUnit test is running, and to access its
+> > context, the 'kunit_test' member of the current task_struct is used.
+> > Usually, this is accessed directly or via the kunit_fail_current_task()
+> > function.
+> >
+> > In order to speed up the case where no test is running, add a wrapper,
+> > kunit_get_current_test(), which uses the static key to fail early.
+> > Equally, Speed up kunit_fail_current_test() by using the static key.
+> >
+> > This should make it convenient for code to call this
+> > unconditionally in fakes or error paths, without worrying that this will
+> > slow the code down significantly.
+> >
+> > If CONFIG_KUNIT=n (or m), this compiles away to nothing. If
+> > CONFIG_KUNIT=y, it will compile down to a NOP (on most architectures) if
+> > no KUnit test is currently running.
+> >
+> > Note that kunit_get_current_test() does not work if KUnit is built as a
+> > module. This mirrors the existing restriction on kunit_fail_current_test().
+> >
+> > Note that the definition of kunit_fail_current_test() still wraps an
+> > empty, inline function if KUnit is not built-in. This is to ensure that
+> > the printf format string __attribute__ will still work.
+> >
+> > Also update the documentation to suggest users use the new
+> > kunit_get_current_test() function, update the example, and to describe
+> > the behaviour when KUnit is disabled better.
+> >
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: Sadiya Kazi <sadiyakazi@google.com>
+> > Signed-off-by: David Gow <davidgow@google.com>
+>
+> Reviewed-by: Daniel Latypov <dlatypov@google.com>
+>
+> Looks good to me, but some small optional nits about the Documentation.
+>
+> I'm a bit sad that the kunit_fail_current_test() macro is now a bit
+> more complicated (has two definitions).
 
-Acked-by: David Vernet <void@manifault.com>
+I'm not too happy with it either, but I think it's worth having the
+printf() format string checking, as well as making it possible to
+optimise the call out (without needing LTO), and I can't think of a
+better way of doing that at the moment.
+
+The only other option I can think of would be to have lots of #ifdefs
+for the _contents_ of the functions, and that seemed more ugly to me.
+
+> Optional: perhaps it's long enough now that we should have a comment
+> after the #endif, i.e.
+> #endif   /* IS_BUILTIN(CONFIG_KUNIT) */
+>
+
+Makes sense to me. Will add in v3.
+
+> <snip>
+>
+> >
+> > diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+> > index 2737863ef365..e70014b82350 100644
+> > --- a/Documentation/dev-tools/kunit/usage.rst
+> > +++ b/Documentation/dev-tools/kunit/usage.rst
+> > @@ -625,17 +625,21 @@ as shown in next section: *Accessing The Current Test*.
+> >  Accessing The Current Test
+> >  --------------------------
+> >
+> > -In some cases, we need to call test-only code from outside the test file.
+> > -For example, see example in section *Injecting Test-Only Code* or if
+> > -we are providing a fake implementation of an ops struct. Using
+> > -``kunit_test`` field in ``task_struct``, we can access it via
+> > -``current->kunit_test``.
+> > +In some cases, we need to call test-only code from outside the test file,
+> > +for example,  when providing a fake implementation of a function, or to fail
+>
+> nit: there are two spaces after "for example, "
+>
+> Personal preference: I'd rather keep "For example," as the start of a
+> new sentence.
+>
+> > +any current test from within an error handler.
+
+
+Hmm... I found it a bit ugly to keep "For example" at the start of the
+sentence, as we then have to stick a (possibly duplicated) verb in to
+make it actually a sentence.
+
+How about:
+In some cases, we need to call test-only code from outside the test
+file. For example, this is useful when providing a fake implementation
+of a function, or if we wish to fail the current test from within an
+error handler.
+
+
+> > +We can do this via the ``kunit_test`` field in ``task_struct``, which we can
+> > +access using the ``kunit_get_current_test`` function in ``kunit/test-bug.h``.
+>
+> Personal preference: kunit_get_current_test()
+> IMO that would make it easier to pick up when the reader is quickly
+> scanning over.
+>
+
+Agreed, will fix in v3.
+
+> >
+> > -The example below includes how to implement "mocking":
+> > +``kunit_get_current_test`` requires KUnit be built-in to the kernel, i.e.
+> > +``CONFIG_KUNIT=y``. It is safe to call even if KUnit is not enabled, is built as a module,
+> > +or no test is currently running, in which case it will quickly return ``NULL``.
+>
+> I find this sentence a bit confusing.
+>
+> I think it's trying to convey that
+> * it can be called no matter how the kernel is built or what cmdline
+> args are given
+> * but it doesn't work properly for CONFIG_KUNIT=m
+> * for CONFIG_KUNIT=n, it's a static inline func that just returns NULL
+> * when booting with `kunit.enabled=0`, it's fast (thanks to static keys)
+>
+
+Yeah: that's the goal.
+
+> But the current wording basically says "the func requires
+> CONFIG_KUNIT=y" then says it's safe to call it even if CONFIG_KUNIT=n.
+> It feels a bit whiplashy.
+>
+> Should this be reworded to say the function can be used regardless of
+> whether KUnit is enabled but add a `note` block about how it doesn't
+> properly for CONFIG_KUNIT=m?
+>
+
+How about:
+``kunit_get_current_test()`` is safe to call even if KUnit is not
+enabled. If KUnit is not enabled (or was built as a module), or no
+test is running, it will return NULL.
+
+Or:
+``kunit_get_current_test()`` is always available, but will only return
+a test if KUnit is built-in to the kernel (i.e, CONFIG_KUNIT=y). In
+all other cases, it will return NULL.
+
+We could add a:
+This will compile to either a no-op or a static key, so will have
+negligible performance impact when no test is running.
+
+Thoughts?
+
+Regardless, the plan is to eventually get rid of the restriction with
+modules, so hopefully that part of the awkwardness won't last too
+long.
+
+> > +
+> > +The example below uses this to implement a "mock" implementation of a function, ``foo``:
+> >
+> >  .. code-block:: c
+> >
+> > -       #include <linux/sched.h> /* for current */
+> > +       #include <kunit/test-bug.h> /* for kunit_get_current_test */
+> >
+> >         struct test_data {
+> >                 int foo_result;
+> > @@ -644,7 +648,7 @@ The example below includes how to implement "mocking":
+> >
+> >         static int fake_foo(int arg)
+> >         {
+> > -               struct kunit *test = current->kunit_test;
+> > +               struct kunit *test = kunit_get_current_test();
+> >                 struct test_data *test_data = test->priv;
+> >
+> >                 KUNIT_EXPECT_EQ(test, test_data->want_foo_called_with, arg);
+> > @@ -675,7 +679,7 @@ Each test can have multiple resources which have string names providing the same
+> >  flexibility as a ``priv`` member, but also, for example, allowing helper
+> >  functions to create resources without conflicting with each other. It is also
+> >  possible to define a clean up function for each resource, making it easy to
+> > -avoid resource leaks. For more information, see Documentation/dev-tools/kunit/api/test.rst.
+> > +avoid resource leaks. For more information, see Documentation/dev-tools/kunit/api/resource.rst.
+>
+> Oops, thanks for cleaning this up.
+> I guess I forgot to update this when splitting out resource.rst or my
+> change raced with the rewrite of this file.
+>
+> >
+> >  Failing The Current Test
+> >  ------------------------
+> > @@ -703,3 +707,6 @@ structures as shown below:
+> >         static void my_debug_function(void) { }
+> >         #endif
+> >
+> > +Note that ``kunit_fail_current_test`` requires KUnit be built-in to the kernel, i.e.
+> > +``CONFIG_KUNIT=y``. It is safe to call even if KUnit is not enabled, is built as a module,
+> > +or no test is currently running, but will do nothing.
+>
+> This is the same wording as above.
+> I think it's clearer since what it's trying to convey is simpler, so
+> it's probably fine.
+>
+> But if we do end up thinking of a good way to reword the previous bit,
+> we might want to reword it here too.
+
+Yeah: I wrote this one first, then copied it above, so that's why this
+one is a bit simpler. If we come up with something better for the
+first one, we can keep it.
+
+_Maybe_ if we moved things to a .. note block, then we could share
+that between both of these sections, though that has its own issues.
+
+--0000000000005e276705ee069927
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+N0A3bgltvER3q1cGraQJMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAxS21FdvRtCQVc
+jgEj+xxSnUr0N9reJlI5J9zRiBCWGxm5yhz965IDka3XVFEbj+beJj/gyHoxbaTGf2AjOufpcMqy
+p4mtqc2l4Csudl8QeiBaOUDx4VKADbgxqpjvwD5zRpSKVj4S9y3BJi9xrRdPOm1Z2ZZYxRUxUz7d
+2MXoxQsFucGJO5a4CwDBaGgJAqvwCXU5Q64rKVIUBk6mtcd3cDwX+PXqx4QrhHFGq6b6oi37YQ8B
++bhlXqlkLrbPlPFk+4Rh4EaW92iD5g8kvtXCOwvIIvs+15Io0dbpIe2W5UKo2OcyDDFvrOACmUOE
+/GuEkhENcyDVyEs/4/N2u9WYMYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABj4peqtakTCOMXLZ2mEqRMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCCg
+zPKGUHTJ1x11tMloR3IPm/F719CrRK2Z/NfWWSNe4jAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjExMjIwMzE2MzNaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAT5da0pA7DGCYtXMzh7s/
+bmJMgfT0UT24Me405XeXMu1qaznpsOgN+ut8NC3K7AIlMWLaqMSktXjdtRBfSSGsFdxp9k+xx1Ke
+8XqjBiED9hLQCVIzuSprw57hSVy5iTnlTlqnuQRFPQvmal2RJ8+mn2R/kD4egBt77qNPvMFSCo28
+/U22wJujzmERc92HjB8c84OVddxtPptfZsIOGsP0vTaZv7vZvkdQxFCu0FIoa61wY5Hm32hi6eSW
+X6aofx5IqmmYk8X7oTSN2S8OlJqv98ZQxBn5uO9637yeZoJM2+3hi1v17lAfvNXTKkYJm4DJ+DoR
+eOghOTzzMXIW2o2v/A==
+--0000000000005e276705ee069927--
