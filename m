@@ -2,113 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93AE5C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 13:23:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23CB6C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 14:08:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233606AbiKVNXz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Nov 2022 08:23:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53042 "EHLO
+        id S233638AbiKVOIp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Nov 2022 09:08:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233065AbiKVNXv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 08:23:51 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B719313EA8;
-        Tue, 22 Nov 2022 05:23:46 -0800 (PST)
-Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.54])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NGlGt4Mw9zqSLS;
-        Tue, 22 Nov 2022 21:19:50 +0800 (CST)
-Received: from dggpeml500002.china.huawei.com (7.185.36.158) by
- dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 22 Nov 2022 21:23:44 +0800
-Received: from [10.67.103.44] (10.67.103.44) by dggpeml500002.china.huawei.com
- (7.185.36.158) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 22 Nov
- 2022 21:23:44 +0800
+        with ESMTP id S234060AbiKVOIK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 09:08:10 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C0EDC67106;
+        Tue, 22 Nov 2022 06:06:27 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 78BE91FB;
+        Tue, 22 Nov 2022 06:06:33 -0800 (PST)
+Received: from [10.57.36.169] (unknown [10.57.36.169])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A3ED13F73D;
+        Tue, 22 Nov 2022 06:06:24 -0800 (PST)
+Message-ID: <2f65e490-c264-9771-b120-e5ce76376170@arm.com>
+Date:   Tue, 22 Nov 2022 14:06:23 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
 Subject: Re: [PATCH v13 1/2] drivers/coresight: Add UltraSoc System Memory
  Buffer driver
-To:     Suzuki Kuruppassery Poulose <suzuki.poulose@arm.com>,
-        <mathieu.poirier@linaro.org>, <mike.leach@linaro.org>,
-        <leo.yan@linaro.org>, <jonathan.cameron@huawei.com>,
-        <john.garry@huawei.com>
+To:     hejunhao <hejunhao3@huawei.com>, mathieu.poirier@linaro.org,
+        mike.leach@linaro.org, leo.yan@linaro.org,
+        jonathan.cameron@huawei.com, john.garry@huawei.com
+Cc:     coresight@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        lpieralisi@kernel.org, linuxarm@huawei.com, yangyicong@huawei.com,
+        liuqi115@huawei.com, f.fangjian@huawei.com,
+        prime.zeng@hisilicon.com
 References: <20221114090316.63157-1-hejunhao3@huawei.com>
  <20221114090316.63157-2-hejunhao3@huawei.com>
  <92291cb2-859c-a994-b05d-806def431376@arm.com>
  <c07e6417-7a37-3cf5-d3dd-b3ce7b3c20b1@huawei.com>
  <1c8da30c-d798-729d-c8e5-73a07f8b9f18@arm.com>
-CC:     <coresight@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <lpieralisi@kernel.org>,
-        <linuxarm@huawei.com>, <yangyicong@huawei.com>,
-        <liuqi115@huawei.com>, <f.fangjian@huawei.com>,
-        <prime.zeng@hisilicon.com>
-From:   hejunhao <hejunhao3@huawei.com>
-Message-ID: <95024107-94d2-6114-4c50-b152c4da362b@huawei.com>
-Date:   Tue, 22 Nov 2022 21:23:44 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
-MIME-Version: 1.0
-In-Reply-To: <1c8da30c-d798-729d-c8e5-73a07f8b9f18@arm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.103.44]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml500002.china.huawei.com (7.185.36.158)
-X-CFilter-Loop: Reflected
+ <95024107-94d2-6114-4c50-b152c4da362b@huawei.com>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <95024107-94d2-6114-4c50-b152c4da362b@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 2022/11/21 18:47, Suzuki Kuruppassery Poulose wrote:
-> On 18/11/2022 12:45, hejunhao wrote:
->> Hi Suzuki ,
+On 22/11/2022 13:23, hejunhao wrote:
+> 
+> On 2022/11/21 18:47, Suzuki Kuruppassery Poulose wrote:
+>> On 18/11/2022 12:45, hejunhao wrote:
+>>> Hi Suzuki ,
+>>>
+>>>
+>>> On 2022/11/15 19:06, Suzuki K Poulose wrote:
+>>>> On 14/11/2022 09:03, Junhao He wrote:
+>>>>> From: Qi Liu <liuqi115@huawei.com>
+>>>>>
 >>
->>
->> On 2022/11/15 19:06, Suzuki K Poulose wrote:
->>> On 14/11/2022 09:03, Junhao He wrote:
->>>> From: Qi Liu <liuqi115@huawei.com>
+>>>>> +static void smb_init_hw(struct smb_drv_data *drvdata)
+>>>>> +{
+>>>>> +    /* First disable SMB and clear the status of SMB buffer */
+>>>>> +    smb_reset_buffer_status(drvdata);
+>>>>> +    smb_disable_hw(drvdata);
+>>>>> +    smb_purge_data(drvdata);
+>>>>> +
+>>>>> +    writel(SMB_LB_CFG_LO_DEFAULT, drvdata->base + SMB_LB_CFG_LO_REG);
+>>>>> +    writel(SMB_LB_CFG_HI_DEFAULT, drvdata->base + SMB_LB_CFG_HI_REG);
+>>>>> +    writel(SMB_GLB_CFG_DEFAULT, drvdata->base + SMB_GLB_CFG_REG);
+>>>>> +    writel(SMB_GLB_INT_CFG, drvdata->base + SMB_GLB_INT_REG);
+>>>>> +    writel(SMB_LB_INT_CTRL_CFG, drvdata->base + SMB_LB_INT_CTRL_REG);
 >>>>
->
->>>> +static void smb_init_hw(struct smb_drv_data *drvdata)
->>>> +{
->>>> +    /* First disable SMB and clear the status of SMB buffer */
->>>> +    smb_reset_buffer_status(drvdata);
->>>> +    smb_disable_hw(drvdata);
->>>> +    smb_purge_data(drvdata);
->>>> +
->>>> +    writel(SMB_LB_CFG_LO_DEFAULT, drvdata->base + SMB_LB_CFG_LO_REG);
->>>> +    writel(SMB_LB_CFG_HI_DEFAULT, drvdata->base + SMB_LB_CFG_HI_REG);
->>>> +    writel(SMB_GLB_CFG_DEFAULT, drvdata->base + SMB_GLB_CFG_REG);
->>>> +    writel(SMB_GLB_INT_CFG, drvdata->base + SMB_GLB_INT_REG);
->>>> +    writel(SMB_LB_INT_CTRL_CFG, drvdata->base + SMB_LB_INT_CTRL_REG);
->>>
->>> Does this come with interrupt on overflow ? Do we not use this ?
->>>
->> When the buffer overflow, no interrupt will come.
->> Interrupt will upgrade SMB_LB_INT_STS_REG register status if start 
->> trace.
->> Thanks.
->>> Rest looks fine to me.
->
-> What is the purpose of the "Interrupt" on the SMB ? It is not clear to
-> me.
-The SMB_LB_INT_CTRL_REG register control the validity of both real-time
-events and interrupts. When logical buffer status changes causes to issue an
-interrupt at the same time as it issues a real-time event.
-Real-time events are used in SMB driver, which needs to get the buffer 
-status.
-Interrupts are used in debugger mode and cannot be registered in kernel.
-  ..._BUF_NOTE_MASK control which events flags or interrupts are valid.
+>>>> Does this come with interrupt on overflow ? Do we not use this ?
+>>>>
+>>> When the buffer overflow, no interrupt will come.
+>>> Interrupt will upgrade SMB_LB_INT_STS_REG register status if start 
+>>> trace.
+>>> Thanks.
+>>>> Rest looks fine to me.
+>>
+>> What is the purpose of the "Interrupt" on the SMB ? It is not clear to
+>> me.
+> The SMB_LB_INT_CTRL_REG register control the validity of both real-time
+> events and interrupts. When logical buffer status changes causes to 
+> issue an
+> interrupt at the same time as it issues a real-time event.
+> Real-time events are used in SMB driver, which needs to get the buffer 
+> status.
+> Interrupts are used in debugger mode and cannot be registered in kernel.
+>   ..._BUF_NOTE_MASK control which events flags or interrupts are valid.
 
-Thanks.
+Please add this to a comment in the code above the register write.
 
-Best regards,
-Junhao.
+Thanks
+Suzuki
 
-> Suzuki
->
-> _______________________________________________
-> CoreSight mailing list -- coresight@lists.linaro.org
-> To unsubscribe send an email to coresight-leave@lists.linaro.org
+> 
+> Thanks.
+> 
+> Best regards,
+> Junhao.
+> 
+>> Suzuki
+>>
+>> _______________________________________________
+>> CoreSight mailing list -- coresight@lists.linaro.org
+>> To unsubscribe send an email to coresight-leave@lists.linaro.org
+> 
 
