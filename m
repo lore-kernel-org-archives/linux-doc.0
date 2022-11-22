@@ -2,137 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F808C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 09:24:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C442C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 09:34:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229750AbiKVJYi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Nov 2022 04:24:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57802 "EHLO
+        id S232755AbiKVJeQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Nov 2022 04:34:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232500AbiKVJYh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 04:24:37 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E9243FB9A;
-        Tue, 22 Nov 2022 01:24:36 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id k2-20020a17090a4c8200b002187cce2f92so11535105pjh.2;
-        Tue, 22 Nov 2022 01:24:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s8JJhKrnJnq6IJLlykHCdHSIPjJqB9EfI3hBa0xq0Z4=;
-        b=ApwQoSk3UzPJuhdouqlGiHxWAKrD6pOmDT4dwFzyGbs3A7/SR2g5gF622jQdsP3JLY
-         cPc2/2OrLw1jaQR3jaB1Oxzmq/zbtwR5yOvfGKpbMnn6KlDFwHW57OYd/sMzdoEycH1e
-         uYiW5dm/S1PGbjgakOk7FgI3wzyrjky5pKOuvlkg6rRGSO71ehsIkpKxoa4eegi7Y/ip
-         YSFsLDoYHB6KnX/FFadOGTFshDS57b9CwqKljn8eIyktEp9Q9bYDKgb1jzMmkmcubz65
-         FKuc03AEl8Zn0G79sAhV9hCqrEVMnn4R3ZicatsjvmfXiFf0Rg7jREbfSdjLNaoVx6h8
-         HgOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s8JJhKrnJnq6IJLlykHCdHSIPjJqB9EfI3hBa0xq0Z4=;
-        b=p3XAviXVIUA++0MtR5zZm9Pn1m88h7x18RySSqpJhQziQVsQkjyChIvtZRfowhbWyC
-         1CwxZcwV6Ojn1Ls7jaLwxtk8mX7Kj0c9jcPnVTnz3GXfWrKDD/I7eyjmxF6NafpgrSsK
-         CLr472SGRRwV+I8QDfnsViBwcQ4Ny/2tXAsgAd/JwEr7Ksy64bBZn2OYbJrBnLwW0XWY
-         puVb2GhTjvgsDFrOlvxKWjyVl+GQ/rGA1GE2o5zdpwAhCvSwZhmXCMTRI8Qwx6c1xAVw
-         XzumedKz+iT1D2smE0dD1xANnnvCpv7BcjMqKxsLVbfZKM2EVdulQCMqYm++NC8I/+It
-         mKPQ==
-X-Gm-Message-State: ANoB5pknnIyifsAL+ZwR74JVdI8aITrfJ4cPV3gnVcuq/6XOv3ojUnC0
-        WUb20BgwMYzr24UJTQ4Jn2gS19tUxaA=
-X-Google-Smtp-Source: AA0mqf7/zp4lIFi/fI8JMT9QscNTXT6F9SMwB9Q3FaO9A34ebbKbaO/+/n3Hr1gKQpX3YP7vsip75w==
-X-Received: by 2002:a17:902:d091:b0:187:337a:b692 with SMTP id v17-20020a170902d09100b00187337ab692mr2899058plv.166.1669109075733;
-        Tue, 22 Nov 2022 01:24:35 -0800 (PST)
-Received: from debian.. (subs03-180-214-233-4.three.co.id. [180.214.233.4])
-        by smtp.gmail.com with ESMTPSA id y13-20020a17090abd0d00b00213ee5a12c9sm9126826pjr.55.2022.11.22.01.24.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Nov 2022 01:24:35 -0800 (PST)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>
-Cc:     Stefan Roesch <shr@devkernel.io>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] mm: fix indentation of bdi sysfs description
-Date:   Tue, 22 Nov 2022 16:24:20 +0700
-Message-Id: <20221122092420.19363-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221122175057.52f0cd9f@canb.auug.org.au>
-References: <20221122175057.52f0cd9f@canb.auug.org.au>
+        with ESMTP id S231923AbiKVJeP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 04:34:15 -0500
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C92C6644C;
+        Tue, 22 Nov 2022 01:34:14 -0800 (PST)
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AM8d916028851;
+        Tue, 22 Nov 2022 09:34:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=waIgJpgjNqSFfMmI93mxxF++m/jo6IpqkSlWNClHgSI=;
+ b=J5AwhQNsQb2eid9FLXbarvCI7GIrmGZVFvU1tm6IHAGMYdHTIxBRjLH7SrfyWf2lvBi4
+ V/N4Wula+o25rreYd+AKYmaBzKVBHcTT7UnaQK7S20DG6IA2IwoR83n9t65zhIkaez7n
+ BHe9QKynsxh9NTZI/3TKA1QTfVIJzHVOvM7URNkfic+TL2j0VgH1uxU1+OAVi+Yw/nQ+
+ XDnG00DZM6avfhCoDSqVjSpr9qm0YEQdP9MgqoaX4Kd7DTq1ubmDQ5AZjQ0QolhWQBPP
+ Oe20NfXNWCbIFK8nVX8h+Mc6quao+WF7dlW54WMP0eYHdRJj0oTgkQ3P/BfOe+FTqhMf rA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m0rhdcwem-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 22 Nov 2022 09:34:09 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AM7mVF9009259;
+        Tue, 22 Nov 2022 09:34:09 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m0rhdcwdt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 22 Nov 2022 09:34:08 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+        by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AM9LU7R031077;
+        Tue, 22 Nov 2022 09:34:07 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+        by ppma03fra.de.ibm.com with ESMTP id 3kxps92vuj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 22 Nov 2022 09:34:06 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2AM9Y3tq6423140
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 22 Nov 2022 09:34:03 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7BE30A4059;
+        Tue, 22 Nov 2022 09:34:03 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C97D3A4051;
+        Tue, 22 Nov 2022 09:34:02 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown [9.171.44.213])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Tue, 22 Nov 2022 09:34:02 +0000 (GMT)
+Message-ID: <71d10db8151c3b78d84a252a688e2892448eaa95.camel@linux.ibm.com>
+Subject: Re: [PATCH v3 5/9] KVM: s390: selftest: memop: Move testlist into
+ main
+From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To:     Thomas Huth <thuth@redhat.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sven Schnelle <svens@linux.ibm.com>
+Date:   Tue, 22 Nov 2022 10:34:02 +0100
+In-Reply-To: <c801611e-61db-73d2-2ff1-cd06350215b2@redhat.com>
+References: <20221117221758.66326-1-scgl@linux.ibm.com>
+         <20221117221758.66326-6-scgl@linux.ibm.com>
+         <c801611e-61db-73d2-2ff1-cd06350215b2@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2786; i=bagasdotme@gmail.com; h=from:subject; bh=2zvRF+e1ifZB6Yjvr2jerEU0wt9FSzO7N8oT7Xykiqs=; b=owGbwMvMwCH2bWenZ2ig32LG02pJDMk1U118/zVJuKZFp93M+flin/wNtnn3bqX+i8+dXJhkNokx Mi26o5SFQYyDQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABMR/MvwV16wa8mn3f0GqrlHjyoU9S xSZktKNKrcPG8XU7eloHDgMkaGh48em88L3yx4VvUu9/8pAmffTWc/MfPo/rxvRpvyTjzPZwIA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: TE8dwqfOiCUvqpW2CEZMTngHlClnv3fj
+X-Proofpoint-GUID: ZUply-oT0HlAwhb8_mCmPxmc8BeHrB4S
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-22_04,2022-11-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ malwarescore=0 impostorscore=0 mlxscore=0 priorityscore=1501
+ mlxlogscore=999 clxscore=1015 adultscore=0 phishscore=0 spamscore=0
+ bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211220070
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Stephen Rothwell reported htmldocs warnings when merging mm tree:
+On Tue, 2022-11-22 at 08:52 +0100, Thomas Huth wrote:
+> On 17/11/2022 23.17, Janis Schoetterl-Glausch wrote:
+> > This allows checking if the necessary requirements for a test case are
+> > met via an arbitrary expression. In particular, it is easy to check if
+> > certain bits are set in the memop extension capability.
+> > 
+> > Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+> > ---
+> >   tools/testing/selftests/kvm/s390x/memop.c | 132 +++++++++++-----------
+> >   1 file changed, 66 insertions(+), 66 deletions(-)
+> > 
+> > diff --git a/tools/testing/selftests/kvm/s390x/memop.c b/tools/testing/selftests/kvm/s390x/memop.c
+> > index 286185a59238..10f34c629cac 100644
+> > --- a/tools/testing/selftests/kvm/s390x/memop.c
+> > +++ b/tools/testing/selftests/kvm/s390x/memop.c
+> > @@ -690,87 +690,87 @@ static void test_errors(void)
+> >   	kvm_vm_free(t.kvm_vm);
+> >   }
+> >   
+[...]
+> > 
+> > +	} testlist[] = {
+> > +		{
+> > +			.name = "simple copy",
+> > +			.test = test_copy,
+> > +			.requirements_met = true,
+> > +		},
+> > +		{
+> > +			.name = "generic error checks",
+> > +			.test = test_errors,
+> > +			.requirements_met = true,
+> > +		},
+> > +		{
+> > +			.name = "copy with storage keys",
+> > +			.test = test_copy_key,
+> > +			.requirements_met = extension_cap > 0,
+> > +		},
+> > +		{
+> > +			.name = "copy with key storage protection override",
+> > +			.test = test_copy_key_storage_prot_override,
+> > +			.requirements_met = extension_cap > 0,
+> > +		},
+> > +		{
+> > +			.name = "copy with key fetch protection",
+> > +			.test = test_copy_key_fetch_prot,
+> > +			.requirements_met = extension_cap > 0,
+> > +		},
+> > +		{
+> > +			.name = "copy with key fetch protection override",
+> > +			.test = test_copy_key_fetch_prot_override,
+> > +			.requirements_met = extension_cap > 0,
+> > +		},
+> > +		{
+> > +			.name = "error checks with key",
+> > +			.test = test_errors_key,
+> > +			.requirements_met = extension_cap > 0,
+> > +		},
+> > +		{
+> > +			.name = "termination",
+> > +			.test = test_termination,
+> > +			.requirements_met = extension_cap > 0,
+> > +		},
+> > +		{
+> > +			.name = "error checks with key storage protection override",
+> > +			.test = test_errors_key_storage_prot_override,
+> > +			.requirements_met = extension_cap > 0,
+> > +		},
+> > +		{
+> > +			.name = "error checks without key fetch prot override",
+> > +			.test = test_errors_key_fetch_prot_override_not_enabled,
+> > +			.requirements_met = extension_cap > 0,
+> > +		},
+> > +		{
+> > +			.name = "error checks with key fetch prot override",
+> > +			.test = test_errors_key_fetch_prot_override_enabled,
+> > +			.requirements_met = extension_cap > 0,
+> 
+> I wonder whether it would rather make sense to check for "extension_cap & 1" 
+> instead of "extension_cap > 0" ?
 
-Documentation/ABI/testing/sysfs-class-bdi:76: WARNING: Unexpected indentation.
-Documentation/ABI/testing/sysfs-class-bdi:89: WARNING: Unexpected indentation.
-Documentation/ABI/testing/sysfs-class-bdi:48: WARNING: Unexpected indentation.
-
-These warnings are due to inconsistent indentation in description of bdi
-sysfs symbols.
-
-Fix these by following indentation of surrounding text.
-
-Link: https://lore.kernel.org/linux-next/20221122175057.52f0cd9f@canb.auug.org.au/
-Fixes: 93e6d447506d8a ("mm: document /sys/class/bdi/<bdi>/min_bytes knob")
-Fixes: a0eef74439b213 ("mm: document /sys/class/bdi/<bdi>/max_ratio_fine knob")
-Fixes: 3aafa9ff1d4f67 ("mm: document /sys/class/bdi/<bdi>/min_ratio_fine knob")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/ABI/testing/sysfs-class-bdi | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/ABI/testing/sysfs-class-bdi b/Documentation/ABI/testing/sysfs-class-bdi
-index b4ed0db680cf69..0d2abd88a18cbd 100644
---- a/Documentation/ABI/testing/sysfs-class-bdi
-+++ b/Documentation/ABI/testing/sysfs-class-bdi
-@@ -54,8 +54,8 @@ Description:
- 
- 	The 'min_ratio_fine' parameter allows assigning a minimum reserve
- 	of the write-back cache to a particular device. The value is
--    expressed as part of 1 million. For example, this is useful for
--    providing a minimum QoS.
-+	expressed as part of 1 million. For example, this is useful for
-+	providing a minimum QoS.
- 
- 	(read-write)
- 
-@@ -78,10 +78,10 @@ Contact:	Stefan Roesch <shr@devkernel.io>
- Description:
- 	Allows limiting a particular device to use not more than the
- 	given value of the write-back cache.  The value is given as part
--    of 1 million. This is useful in situations where we want to avoid
--    one device taking all or most of the write-back cache.  For example
--    in case of an NFS mount that is prone to get stuck, or a FUSE mount
--    which cannot be trusted to play fair.
-+	of 1 million. This is useful in situations where we want to avoid
-+	one device taking all or most of the write-back cache.  For example
-+	in case of an NFS mount that is prone to get stuck, or a FUSE mount
-+	which cannot be trusted to play fair.
- 
- 	(read-write)
- 
-@@ -95,7 +95,7 @@ Description:
- 
- 	The 'min_bytes' parameter allows assigning a minimum
- 	percentage of the write-back cache to a particular device
--    expressed in bytes.
-+	expressed in bytes.
- 	For example, this is useful for providing a minimum QoS.
- 
- 	(read-write)
-
-base-commit: d45f43b2c12b5ec8492c48574cb015c63304161b
--- 
-An old man doll... just what I always wanted! - Clara
-
+The cap should always have been a bitmap, but unfortunately I didn't initially
+define it as one, the storage key extension must be supported if the cap > 0.
+So the test reflects that and may catch an error in the future.
+> 
+> Anyway:
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> 
+Thanks!
