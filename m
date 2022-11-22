@@ -2,359 +2,315 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA1C6C43217
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 03:16:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94A0CC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 03:21:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231855AbiKVDQh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Nov 2022 22:16:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39164 "EHLO
+        id S229750AbiKVDVD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Nov 2022 22:21:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231132AbiKVDQg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 22:16:36 -0500
-Received: from mail-vk1-xa31.google.com (mail-vk1-xa31.google.com [IPv6:2607:f8b0:4864:20::a31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BF121FCD4
-        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 19:16:34 -0800 (PST)
-Received: by mail-vk1-xa31.google.com with SMTP id t85so6617210vkb.7
-        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 19:16:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+Q1WUpCpZfcPr4b6PKzXmogZnHR9musvxc68G+p4cpA=;
-        b=VhT9Qh1LnoKKiV4K0IF5nWLqHe9JsNRQi+AoRl9oEgPjDduqPO3QeYMYnIGsy0HOBJ
-         cEy80ZQfgPn7sJewmxboNAmItTyT/HbVWCQuxmI+ym0Aw9N4Rpjk/cUEX94IttG9jpAp
-         y31FbaexXhn0i89vPVFC7sK9jKg/k17YD/gl2xDWEeOuzfsHG5Y+wBq2YHfM2qcE7VAG
-         koSC1NH3KuG0gFDfE/Bh8Uvf6ZG+fdSAx2Fg8gHsgJ88pM4TlV+7hV7eq/8m8p+pOW8I
-         CRsQEOZn6sLTkvp6UtWSkYXct3SpW5CphTjQDof0xDDiRQKaEnx6TJ8zvHZ1myP6aiX/
-         LvWA==
+        with ESMTP id S229482AbiKVDVD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Nov 2022 22:21:03 -0500
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 931A323384;
+        Mon, 21 Nov 2022 19:21:01 -0800 (PST)
+Received: by mail-qk1-f169.google.com with SMTP id d8so9418408qki.13;
+        Mon, 21 Nov 2022 19:21:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+Q1WUpCpZfcPr4b6PKzXmogZnHR9musvxc68G+p4cpA=;
-        b=i6isSvuvEdxeb6gHBqVr7Hc0rH+vGT1V0Ouyvvt3+L2Wl4IqHUD5+FBCBeQs5MlMrK
-         WzeM5APu3gIISnLvDq3lJ94Pb1dRMkKWWtyz9AyxkD6MWGxYekQl8RAUefYTW6e18OdG
-         +/rz0WFeB541q9NlAsoOoxMSqOAraImPiMT5ZRJO69TuCvNqmMBptlYQ6iIrth/aKiKm
-         mTpCkN+oPxAncdY10L8svCBPAIF9Azjo/9XLGsCLSfI88xNAfTle47ICsgNDHcvz8QDw
-         xzZju473mPr3nnSSeROkUZWGm9gvcQAX6foLPwXKUc0Rqz5TjrOerSyq5pHBXXwtd103
-         nEow==
-X-Gm-Message-State: ANoB5pkhVyEmf5JraqyO0JCxGhsfuYxQEhI+AQUTWx9U0nUiqd4WkvDZ
-        3YDjZv/w1GGAmBSuPuO6YtMSvhAG3MZ6YZ12spgnsA==
-X-Google-Smtp-Source: AA0mqf7i7fdO0g1QCXYVKToJMP19slSxEyxcYGKJ5EuaIYU6dAixRgzNV8uIVMuqe4Oh78YBJNI/VswBMtrr/H75z94=
-X-Received: by 2002:a1f:b247:0:b0:3bb:ea0f:9330 with SMTP id
- b68-20020a1fb247000000b003bbea0f9330mr1714493vkf.4.1669086993448; Mon, 21 Nov
- 2022 19:16:33 -0800 (PST)
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8Y4XUTF/Qbwf1whciw3Pb3uvCrel4QM3BcAjVpywwMY=;
+        b=T7M2hOrH19m1ROjebFFnPK4Kmcsb2m4hMpukdfm5u7GDITWU/CpvQu5L1sEggdLqYM
+         i3BNSyX920Dt5MHvRIPNF8AOigZW0FvGmmPHwd3iGXcnKd587Mq0DuO4XqnmPAQHTBs+
+         LxCnvX8FElqwF44qMecEwKpXXoLyznh2c81Ker14e4mt4z63KA0xnKLiCKixjpTNaz3a
+         fthsUF1Zzm7MzI5rR4hZBBioZNZpHpWekV/QGdlJAwF9SkrPckM2Lqt67nsNKXZpUf5+
+         rpkT1/JrSdFA7nNyNM8pFhwjFNva6fWPlP+95OiRUgqWFDIzN+4EMFvjLdxQTfMoNiHg
+         ZBPA==
+X-Gm-Message-State: ANoB5pkivqjR26ubMYeG0kAch2Ygr1gUCpMINHDRVrBnea+fiCaiiL+v
+        bYiQ6q4fjFv6wFW+Ce92Q80=
+X-Google-Smtp-Source: AA0mqf58iFr1VUwPl9OigpsdGn56hTW92Fos7sdq9/0vTNG4I+zmDJZvJwk1++xOQofOIfVzJUEztg==
+X-Received: by 2002:ae9:ee08:0:b0:6fb:def9:3fc1 with SMTP id i8-20020ae9ee08000000b006fbdef93fc1mr3439481qkg.335.1669087260428;
+        Mon, 21 Nov 2022 19:21:00 -0800 (PST)
+Received: from maniforge.lan ([2620:10d:c091:480::1:3170])
+        by smtp.gmail.com with ESMTPSA id k1-20020a05620a414100b006eea4b5abcesm9383777qko.89.2022.11.21.19.20.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Nov 2022 19:21:00 -0800 (PST)
+Date:   Mon, 21 Nov 2022 21:21:05 -0600
+From:   David Vernet <void@manifault.com>
+To:     mtahhan@redhat.com
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, jbrouer@redhat.com,
+        thoiland@redhat.com, donhunte@redhat.com,
+        magnus.karlsson@gmail.com, akiyks@gmail.com
+Subject: Re: [PATCH bpf-next v3 1/1] docs: BPF_MAP_TYPE_XSKMAP
+Message-ID: <Y3xAIdfl0ck2wivj@maniforge.lan>
+References: <20221121142240.40451-1-mtahhan@redhat.com>
 MIME-Version: 1.0
-References: <20221119081252.3864249-1-davidgow@google.com> <20221119081252.3864249-2-davidgow@google.com>
- <CAGS_qxqAUiMfKe2ksnqQtyWv0BWYLA4_uGqpu76d=Oh42mAUgQ@mail.gmail.com>
-In-Reply-To: <CAGS_qxqAUiMfKe2ksnqQtyWv0BWYLA4_uGqpu76d=Oh42mAUgQ@mail.gmail.com>
-From:   David Gow <davidgow@google.com>
-Date:   Tue, 22 Nov 2022 11:16:21 +0800
-Message-ID: <CABVgOSmfcJLs76efLe1zXgZwrSXrxKCLPAhSyx3P+WEkzZNR3A@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] kunit: Use the static key when retrieving the
- current test
-To:     Daniel Latypov <dlatypov@google.com>
-Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sadiya Kazi <sadiyakazi@google.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="0000000000005e276705ee069927"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221121142240.40451-1-mtahhan@redhat.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---0000000000005e276705ee069927
-Content-Type: text/plain; charset="UTF-8"
+On Mon, Nov 21, 2022 at 02:22:40PM +0000, mtahhan@redhat.com wrote:
+> From: Maryam Tahhan <mtahhan@redhat.com>
+> 
+> Add documentation for BPF_MAP_TYPE_XSKMAP
+> including kernel version introduced, usage
+> and examples.
+> 
+> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
 
-On Tue, Nov 22, 2022 at 10:21 AM Daniel Latypov <dlatypov@google.com> wrote:
->
-> On Sat, Nov 19, 2022 at 12:13 AM 'David Gow' via KUnit Development
-> <kunit-dev@googlegroups.com> wrote:
-> >
-> > In order to detect if a KUnit test is running, and to access its
-> > context, the 'kunit_test' member of the current task_struct is used.
-> > Usually, this is accessed directly or via the kunit_fail_current_task()
-> > function.
-> >
-> > In order to speed up the case where no test is running, add a wrapper,
-> > kunit_get_current_test(), which uses the static key to fail early.
-> > Equally, Speed up kunit_fail_current_test() by using the static key.
-> >
-> > This should make it convenient for code to call this
-> > unconditionally in fakes or error paths, without worrying that this will
-> > slow the code down significantly.
-> >
-> > If CONFIG_KUNIT=n (or m), this compiles away to nothing. If
-> > CONFIG_KUNIT=y, it will compile down to a NOP (on most architectures) if
-> > no KUnit test is currently running.
-> >
-> > Note that kunit_get_current_test() does not work if KUnit is built as a
-> > module. This mirrors the existing restriction on kunit_fail_current_test().
-> >
-> > Note that the definition of kunit_fail_current_test() still wraps an
-> > empty, inline function if KUnit is not built-in. This is to ensure that
-> > the printf format string __attribute__ will still work.
-> >
-> > Also update the documentation to suggest users use the new
-> > kunit_get_current_test() function, update the example, and to describe
-> > the behaviour when KUnit is disabled better.
-> >
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: Sadiya Kazi <sadiyakazi@google.com>
-> > Signed-off-by: David Gow <davidgow@google.com>
->
-> Reviewed-by: Daniel Latypov <dlatypov@google.com>
->
-> Looks good to me, but some small optional nits about the Documentation.
->
-> I'm a bit sad that the kunit_fail_current_test() macro is now a bit
-> more complicated (has two definitions).
+Hi Maryam,
 
-I'm not too happy with it either, but I think it's worth having the
-printf() format string checking, as well as making it possible to
-optimise the call out (without needing LTO), and I can't think of a
-better way of doing that at the moment.
+Looks great overall. Left a few comments and suggestions below.
 
-The only other option I can think of would be to have lots of #ifdefs
-for the _contents_ of the functions, and that seemed more ugly to me.
+> 
+> ---
+> v3:
+> - Fixed duplicate function warnings from Sphinx >= 3.3.
+> 
+> v2:
+> - Fixed typos + incorrect return type references.
+> - Adjusted examples to use __u32 and fixed references to key_size.
+> - Changed `AF_XDP socket` references to XSK.
+> - Added note re map key and value size.
+> ---
+>  Documentation/bpf/map_xskmap.rst | 173 +++++++++++++++++++++++++++++++
+>  1 file changed, 173 insertions(+)
+>  create mode 100644 Documentation/bpf/map_xskmap.rst
+> 
+> diff --git a/Documentation/bpf/map_xskmap.rst b/Documentation/bpf/map_xskmap.rst
+> new file mode 100644
+> index 000000000000..8715034600d4
+> --- /dev/null
+> +++ b/Documentation/bpf/map_xskmap.rst
+> @@ -0,0 +1,173 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +.. Copyright (C) 2022 Red Hat, Inc.
+> +
+> +===================
+> +BPF_MAP_TYPE_XSKMAP
+> +===================
+> +
+> +.. note::
+> +   - ``BPF_MAP_TYPE_XSKMAP`` was introduced in kernel version 4.18
+> +
+> +The ``BPF_MAP_TYPE_XSKMAP`` is used as a backend map for XDP BPF helper
+> +call ``bpf_redirect_map()`` and ``XDP_REDIRECT`` action, like 'devmap' and 'cpumap'.
+> +This map type redirects raw XDP frames to AF_XDP sockets (XSKs). An AF_XDP socket
+> +binds to a single netdev queue. A mapping of XSKs to queues is shown below:
 
-> Optional: perhaps it's long enough now that we should have a comment
-> after the #endif, i.e.
-> #endif   /* IS_BUILTIN(CONFIG_KUNIT) */
->
+Suggestion: consider providing a bit more background here on what
+exactly an XSK is. The ASCII diagram below is fantastic, but IMO this
+docs writeup would be even more valuable if you provided a slightly more
+thorough high-level explanation of how all of this works. As is, a
+reader who is unfamiliar with these concepts would still have to
+probably read through code to understand what's going on.
 
-Makes sense to me. Will add in v3.
+If this is already written down elsewhere in Documentation/bpf,
+providing a link to that page would work as well.
 
-> <snip>
->
-> >
-> > diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-> > index 2737863ef365..e70014b82350 100644
-> > --- a/Documentation/dev-tools/kunit/usage.rst
-> > +++ b/Documentation/dev-tools/kunit/usage.rst
-> > @@ -625,17 +625,21 @@ as shown in next section: *Accessing The Current Test*.
-> >  Accessing The Current Test
-> >  --------------------------
-> >
-> > -In some cases, we need to call test-only code from outside the test file.
-> > -For example, see example in section *Injecting Test-Only Code* or if
-> > -we are providing a fake implementation of an ops struct. Using
-> > -``kunit_test`` field in ``task_struct``, we can access it via
-> > -``current->kunit_test``.
-> > +In some cases, we need to call test-only code from outside the test file,
-> > +for example,  when providing a fake implementation of a function, or to fail
->
-> nit: there are two spaces after "for example, "
->
-> Personal preference: I'd rather keep "For example," as the start of a
-> new sentence.
->
-> > +any current test from within an error handler.
+> +
+> +.. code-block:: none
+> +
+> +    +---------------------------------------------------+
+> +    |     xsk A      |     xsk B       |      xsk C     |<---+ Userspace
+> +    =========================================================|==========
+> +    |    Queue 0     |     Queue 1     |     Queue 2    |    |  Kernel
+> +    +---------------------------------------------------+    |
+> +    |                  Netdev eth0                      |    |
+> +    +---------------------------------------------------+    |
+> +    |                            +=============+        |    |
+> +    |                            | key |  xsk  |        |    |
+> +    |  +---------+               +=============+        |    |
+> +    |  |         |               |  0  | xsk A |        |    |
+> +    |  |         |               +-------------+        |    |
+> +    |  |         |               |  1  | xsk B |        |    |
+> +    |  | eBPF    |-- redirect -->+-------------+-------------+
+> +    |  | prog    |               |  2  | xsk C |        |
+> +    |  |         |               +-------------+        |
+> +    |  |         |                                      |
+> +    |  |         |                                      |
+> +    |  +---------+                                      |
+> +    |                                                   |
+> +    +---------------------------------------------------+
+> +
+> +.. note::
+> +    An AF_XDP socket that is bound to a certain <netdev/queue_id> will *only*
+> +    accept XDP frames from that <netdev/queue_id>. If an XDP program tries to redirect
+> +    from a <netdev/queue_id> other than what the socket is bound to, the frame will
+> +    not be received on the socket.
+> +
+> +Typically a XSKMAP is created per netdev. This map contains an array of XSK File
 
+s/a XSKMAP/an XSKMAP
 
-Hmm... I found it a bit ugly to keep "For example" at the start of the
-sentence, as we then have to stick a (possibly duplicated) verb in to
-make it actually a sentence.
+> +Descriptors (FDs). The number of array elements is typically set or adjusted using
+> +the ``max_entries`` map parameter. For AF_XDP ``max_entries`` is equal to the number
+> +of queues supported by the netdev.
+> +
+> +.. note::
+> +    Both the map key and map value size must be 4 bytes.
+> +
+> +Usage
+> +=====
+> +
+> +Kernel BPF
+> +----------
+> +
+> +.. code-block:: c
+> +
+> +     long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
+> +
+> +Redirect the packet to the endpoint referenced by ``map`` at index ``key``.
+> +For ``BPF_MAP_TYPE_XSKMAP`` this map contains references to XSK FDs
+> +for sockets attached to a netdev's queues.
+> +
+> +.. note::
+> +    If the map is empty at an index, the packet is dropped. This means that it is
+> +    necessary to have an XDP program loaded with at least one XSK in the
+> +    XSKMAP to be able to get any traffic to user space through the socket.
+> +
+> +.. code-block:: c
+> +
+> +    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
+> +
+> +XSK entry references of type ``struct xdp_sock *`` can be retrieved using the
+> +``bpf_map_lookup_elem()`` helper.
+> +
+> +Userspace
+> +---------
+> +.. note::
+> +    XSK entries can only be updated/deleted from user space and not from
+> +    an eBPF program. Trying to call these functions from a kernel eBPF program will
 
-How about:
-In some cases, we need to call test-only code from outside the test
-file. For example, this is useful when providing a fake implementation
-of a function, or if we wish to fail the current test from within an
-error handler.
+In docs, we tend to just say "BPF" rather than "eBPF". So I would
+suggest the following:
 
+s/an eBPF program/a BPF program
 
-> > +We can do this via the ``kunit_test`` field in ``task_struct``, which we can
-> > +access using the ``kunit_get_current_test`` function in ``kunit/test-bug.h``.
->
-> Personal preference: kunit_get_current_test()
-> IMO that would make it easier to pick up when the reader is quickly
-> scanning over.
->
+here and elsewhere
 
-Agreed, will fix in v3.
+> +    result in the program failing to load and a verifier warning.
+> +
+> +.. code-block:: c
+> +
+> +	int bpf_map_update_elem(int fd, const void *key, const void *value, __u64 flags)
+> +
+> +XSK entries can be added or updated using the ``bpf_map_update_elem()``
+> +helper. The ``key`` parameter is equal to the queue_id of the queue the XSK
+> +is attaching to. And the ``value`` parameter is the FD value of that socket.
+> +
+> +Under the hood, the XSKMAP update function uses the XSK FD value to retrieve the
+> +associated ``struct xdp_sock`` instance.
+> +
+> +The flags argument can be one of the following:
+> +
+> +- BPF_ANY: Create a new element or update an existing element.
+> +- BPF_NOEXIST: Create a new element only if it did not exist.
+> +- BPF_EXIST: Update an existing element.
+> +
+> +.. code-block:: c
+> +
+> +    int bpf_map_lookup_elem(int fd, const void *key, void *value)
+> +
+> +Returns ``struct xdp_sock *`` or negative error in case of failure.
+> +
+> +.. code-block:: c
+> +
+> +    int bpf_map_delete_elem(int fd, const void *key)
+> +
+> +XSK entries can be deleted using the ``bpf_map_delete_elem()``
+> +helper. This helper will return 0 on success, or negative error in case of
+> +failure.
+> +
+> +.. note::
+> +    When `libxdp`_ deletes a XSK it also removes the associated socket
 
-> >
-> > -The example below includes how to implement "mocking":
-> > +``kunit_get_current_test`` requires KUnit be built-in to the kernel, i.e.
-> > +``CONFIG_KUNIT=y``. It is safe to call even if KUnit is not enabled, is built as a module,
-> > +or no test is currently running, in which case it will quickly return ``NULL``.
->
-> I find this sentence a bit confusing.
->
-> I think it's trying to convey that
-> * it can be called no matter how the kernel is built or what cmdline
-> args are given
-> * but it doesn't work properly for CONFIG_KUNIT=m
-> * for CONFIG_KUNIT=n, it's a static inline func that just returns NULL
-> * when booting with `kunit.enabled=0`, it's fast (thanks to static keys)
->
+s/a XSK/an XSK
 
-Yeah: that's the goal.
+> +    entry from the XSKMAP.
+> +
+> +Examples
+> +========
+> +Kernel
+> +------
+> +
+> +The following code snippet shows how to declare a ``BPF_MAP_TYPE_XSKMAP`` called
+> +``xsks_map`` and how to redirect packets to a XSK.
 
-> But the current wording basically says "the func requires
-> CONFIG_KUNIT=y" then says it's safe to call it even if CONFIG_KUNIT=n.
-> It feels a bit whiplashy.
->
-> Should this be reworded to say the function can be used regardless of
-> whether KUnit is enabled but add a `note` block about how it doesn't
-> properly for CONFIG_KUNIT=m?
->
+s/a XSK/an XSK
 
-How about:
-``kunit_get_current_test()`` is safe to call even if KUnit is not
-enabled. If KUnit is not enabled (or was built as a module), or no
-test is running, it will return NULL.
+> +
+> +.. code-block:: c
+> +
+> +   struct {
+> +        __uint(type, BPF_MAP_TYPE_XSKMAP);
+> +        __type(key, __u32);
+> +        __type(value, __u32);
+> +        __uint(max_entries, 64);
+> +    } xsks_map SEC(".maps");
+> +
+> +
+> +    SEC("xdp")
+> +    int xsk_redir_prog(struct xdp_md *ctx)
+> +    {
+> +        __u32 index = ctx->rx_queue_index;
+> +
+> +        if (bpf_map_lookup_elem(&xsks_map, &index))
+> +            return bpf_redirect_map(&xsks_map, index, 0);
+> +        return XDP_PASS;
+> +    }
+> +
+> +Userspace
+> +---------
+> +
+> +The following code snippet shows how to update a XSKMAP with a XSK entry.
 
-Or:
-``kunit_get_current_test()`` is always available, but will only return
-a test if KUnit is built-in to the kernel (i.e, CONFIG_KUNIT=y). In
-all other cases, it will return NULL.
+s/a XSKMAP/an XSKMAP
 
-We could add a:
-This will compile to either a no-op or a static key, so will have
-negligible performance impact when no test is running.
+s/a XSK entry/an XSK entry
 
-Thoughts?
+> +
+> +.. code-block:: c
+> +
+> +    int update_xsks_map(struct bpf_map *xsks_map, int queue_id, int xsk_fd)
 
-Regardless, the plan is to eventually get rid of the restriction with
-modules, so hopefully that part of the awkwardness won't last too
-long.
+Do you think it's worth including code that shows how to obtain an
+xsk_fd / create an XSK?
 
-> > +
-> > +The example below uses this to implement a "mock" implementation of a function, ``foo``:
-> >
-> >  .. code-block:: c
-> >
-> > -       #include <linux/sched.h> /* for current */
-> > +       #include <kunit/test-bug.h> /* for kunit_get_current_test */
-> >
-> >         struct test_data {
-> >                 int foo_result;
-> > @@ -644,7 +648,7 @@ The example below includes how to implement "mocking":
-> >
-> >         static int fake_foo(int arg)
-> >         {
-> > -               struct kunit *test = current->kunit_test;
-> > +               struct kunit *test = kunit_get_current_test();
-> >                 struct test_data *test_data = test->priv;
-> >
-> >                 KUNIT_EXPECT_EQ(test, test_data->want_foo_called_with, arg);
-> > @@ -675,7 +679,7 @@ Each test can have multiple resources which have string names providing the same
-> >  flexibility as a ``priv`` member, but also, for example, allowing helper
-> >  functions to create resources without conflicting with each other. It is also
-> >  possible to define a clean up function for each resource, making it easy to
-> > -avoid resource leaks. For more information, see Documentation/dev-tools/kunit/api/test.rst.
-> > +avoid resource leaks. For more information, see Documentation/dev-tools/kunit/api/resource.rst.
->
-> Oops, thanks for cleaning this up.
-> I guess I forgot to update this when splitting out resource.rst or my
-> change raced with the rewrite of this file.
->
-> >
-> >  Failing The Current Test
-> >  ------------------------
-> > @@ -703,3 +707,6 @@ structures as shown below:
-> >         static void my_debug_function(void) { }
-> >         #endif
-> >
-> > +Note that ``kunit_fail_current_test`` requires KUnit be built-in to the kernel, i.e.
-> > +``CONFIG_KUNIT=y``. It is safe to call even if KUnit is not enabled, is built as a module,
-> > +or no test is currently running, but will do nothing.
->
-> This is the same wording as above.
-> I think it's clearer since what it's trying to convey is simpler, so
-> it's probably fine.
->
-> But if we do end up thinking of a good way to reword the previous bit,
-> we might want to reword it here too.
+> +    {
+> +        int ret;
+> +
+> +        ret = bpf_map_update_elem(bpf_map__fd(xsks_map), &queue_id, &xsk_fd, 0);
+> +        if (ret < 0) {
+> +            fprintf(stderr, "Failed to update xsks_map: %s\n",
+> +                strerror(errno));
+> +        }
 
-Yeah: I wrote this one first, then copied it above, so that's why this
-one is a bit simpler. If we come up with something better for the
-first one, we can keep it.
+nit: Would you mind updating this to follow kernel coding conventions?
+Ideally the sample code in documenation/ will be pristine and perfectly
+reflect what we consider to be correct code. In this case:
 
-_Maybe_ if we moved things to a .. note block, then we could share
-that between both of these sections, though that has its own issues.
+- Remove extra {}
+- Fix alignment and use tabs
+- Ideally add some comments explaining what's going on.
 
---0000000000005e276705ee069927
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+> +
+> +        return ret;
+> +    }
+> +
+> +.. note::
+> +    The most comprehensive resource for using XSKMAPs is `libxdp`_.
+> +
+> +.. _libxdp: https://github.com/xdp-project/xdp-tools/tree/master/lib/libxdp
 
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-N0A3bgltvER3q1cGraQJMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAxS21FdvRtCQVc
-jgEj+xxSnUr0N9reJlI5J9zRiBCWGxm5yhz965IDka3XVFEbj+beJj/gyHoxbaTGf2AjOufpcMqy
-p4mtqc2l4Csudl8QeiBaOUDx4VKADbgxqpjvwD5zRpSKVj4S9y3BJi9xrRdPOm1Z2ZZYxRUxUz7d
-2MXoxQsFucGJO5a4CwDBaGgJAqvwCXU5Q64rKVIUBk6mtcd3cDwX+PXqx4QrhHFGq6b6oi37YQ8B
-+bhlXqlkLrbPlPFk+4Rh4EaW92iD5g8kvtXCOwvIIvs+15Io0dbpIe2W5UKo2OcyDDFvrOACmUOE
-/GuEkhENcyDVyEs/4/N2u9WYMYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABj4peqtakTCOMXLZ2mEqRMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCCg
-zPKGUHTJ1x11tMloR3IPm/F719CrRK2Z/NfWWSNe4jAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjExMjIwMzE2MzNaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAT5da0pA7DGCYtXMzh7s/
-bmJMgfT0UT24Me405XeXMu1qaznpsOgN+ut8NC3K7AIlMWLaqMSktXjdtRBfSSGsFdxp9k+xx1Ke
-8XqjBiED9hLQCVIzuSprw57hSVy5iTnlTlqnuQRFPQvmal2RJ8+mn2R/kD4egBt77qNPvMFSCo28
-/U22wJujzmERc92HjB8c84OVddxtPptfZsIOGsP0vTaZv7vZvkdQxFCu0FIoa61wY5Hm32hi6eSW
-X6aofx5IqmmYk8X7oTSN2S8OlJqv98ZQxBn5uO9637yeZoJM2+3hi1v17lAfvNXTKkYJm4DJ+DoR
-eOghOTzzMXIW2o2v/A==
---0000000000005e276705ee069927--
+Are there any selftest suites we could also link to?
+
+> -- 
+> 2.34.1
+> 
