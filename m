@@ -2,121 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE3A5C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 07:06:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D67C7C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 07:48:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232296AbiKVHGr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Nov 2022 02:06:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59530 "EHLO
+        id S232499AbiKVHsd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Nov 2022 02:48:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231583AbiKVHGp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 02:06:45 -0500
-Received: from out199-6.us.a.mail.aliyun.com (out199-6.us.a.mail.aliyun.com [47.90.199.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4887F2A97E;
-        Mon, 21 Nov 2022 23:06:42 -0800 (PST)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=tianjia.zhang@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0VVR3yub_1669100796;
-Received: from localhost(mailfrom:tianjia.zhang@linux.alibaba.com fp:SMTPD_---0VVR3yub_1669100796)
-          by smtp.aliyun-inc.com;
-          Tue, 22 Nov 2022 15:06:37 +0800
-From:   Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-To:     "Theodore Y. Ts o" <tytso@mit.edu>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        linux-fscrypt@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
-Cc:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-Subject: [PATCH v2 2/2] fscrypt: Add SM4 XTS/CTS symmetric algorithm support
-Date:   Tue, 22 Nov 2022 15:06:32 +0800
-Message-Id: <20221122070632.21910-3-tianjia.zhang@linux.alibaba.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
-In-Reply-To: <20221122070632.21910-1-tianjia.zhang@linux.alibaba.com>
-References: <20221122070632.21910-1-tianjia.zhang@linux.alibaba.com>
+        with ESMTP id S232277AbiKVHs3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 02:48:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0290326DD
+        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 23:47:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669103242;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EOlyqNEjSyWRhu789TgVJBojhnd7QCjs246Hat/OGCs=;
+        b=Oeb3eSXDahcKQEomPyxeQD8Q0LnB/5EPm7idAHLvxhft8gxmU3e9uKGU9MRP37NHfG9NJ2
+        y5hhPSDwjWteQrpBWpEFNJFRbfNlrs2LkLFWAZBjQBw9Xif70hHDqfqPy5zWKOp/gLNLKt
+        YZXXhKKJ05NI/Ot+DduaWn1wNCxEu8Q=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-601-X_Umq7u8Mjm2HOCpWm_sEQ-1; Tue, 22 Nov 2022 02:47:21 -0500
+X-MC-Unique: X_Umq7u8Mjm2HOCpWm_sEQ-1
+Received: by mail-wr1-f69.google.com with SMTP id v12-20020adfa1cc000000b00236eaee7197so3941061wrv.0
+        for <linux-doc@vger.kernel.org>; Mon, 21 Nov 2022 23:47:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EOlyqNEjSyWRhu789TgVJBojhnd7QCjs246Hat/OGCs=;
+        b=U+OsU2cUN3fyoG+tX+ajw6oRYeJe1BZT8M22k++El0zGLtpO0zeUhMSUK0BET9UPhu
+         a0fB2ehw3KoWjCeYGnLhzRwrpHhf49WQqX1NkpHpcwDcoVseRv5vMcprci3+TFPeVIBO
+         7XzgHU/lYLGmzxPkuCYS+cFMzHoxMAqZBQ46NurDTK8Ei3RdqyQtHQeiMPSh7Mt7kWuN
+         fNFYkFAdXRrBNIvcXBcZJe+lGB01ZtWZ5mI3lPgSLM8lmx8InlcPrjePdoauFrurzgYO
+         mFDOx7xL7ATJ91PoACQ4gOv37sFpRMU2SuuTEvTVPrQy+TWa5Wq3hRmE/FXwd0+SPstz
+         iOBw==
+X-Gm-Message-State: ANoB5plBb18QcqrpccbQbmVyUo9s9bT+nmQ5JQXBRSqjY/7/XLNa9P4Z
+        AGFMF/kAnFOAFcGCOVUPxWMBxZM1/uQv63krNFbNt5EDE6eTWNGK7j1Mm2CSE3qi9WfndITF+m1
+        Tgc6PBsTCMtAJTObtnQvW
+X-Received: by 2002:a05:600c:3492:b0:3cf:ad59:1465 with SMTP id a18-20020a05600c349200b003cfad591465mr7757612wmq.12.1669103240155;
+        Mon, 21 Nov 2022 23:47:20 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5qTCZJA4RPHbgTxYLrcLE6vAWROLjIVZidpN6a8sJSfb4cCoT7Ya0f5MC2dVrj3W0Qw/zP0A==
+X-Received: by 2002:a05:600c:3492:b0:3cf:ad59:1465 with SMTP id a18-20020a05600c349200b003cfad591465mr7757600wmq.12.1669103239912;
+        Mon, 21 Nov 2022 23:47:19 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-176-72.web.vodafone.de. [109.43.176.72])
+        by smtp.gmail.com with ESMTPSA id 23-20020a05600c229700b003cf75213bb9sm20150358wmf.8.2022.11.21.23.47.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Nov 2022 23:47:19 -0800 (PST)
+Message-ID: <f96b50e2-24ac-4016-d3f1-ffc375516e7c@redhat.com>
+Date:   Tue, 22 Nov 2022 08:47:17 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sven Schnelle <svens@linux.ibm.com>
+References: <20221117221758.66326-1-scgl@linux.ibm.com>
+ <20221117221758.66326-3-scgl@linux.ibm.com>
+From:   Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v3 2/9] Documentation: KVM: s390: Describe
+ KVM_S390_MEMOP_F_CMPXCHG
+In-Reply-To: <20221117221758.66326-3-scgl@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SM4 is a symmetric algorithm widely used in China, this patch enables
-to use SM4-XTS mode to encrypt file content, and use SM4-CBC-CTS to
-encrypt filename.
+On 17/11/2022 23.17, Janis Schoetterl-Glausch wrote:
+> Describe the semantics of the new KVM_S390_MEMOP_F_CMPXCHG flag for
+> absolute vm write memops which allows user space to perform (storage key
+> checked) cmpxchg operations on guest memory.
+> 
+> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+> ---
+...
+>   Supported flags:
+>     * ``KVM_S390_MEMOP_F_CHECK_ONLY``
+>     * ``KVM_S390_MEMOP_F_SKEY_PROTECTION``
+> +  * ``KVM_S390_MEMOP_F_CMPXCHG``
+> +
+> +The semantics of the flags common with logical acesses are as for logical
+> +accesses.
+> +
+> +For write accesses, the KVM_S390_MEMOP_F_CMPXCHG might be supported.
 
-Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
----
- Documentation/filesystems/fscrypt.rst |  1 +
- fs/crypto/keysetup.c                  | 15 +++++++++++++++
- fs/crypto/policy.c                    |  4 ++++
- include/uapi/linux/fscrypt.h          |  2 ++
- 4 files changed, 22 insertions(+)
+I'd maybe merge this with the last sentence:
 
-diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
-index 5ba5817c17c2..af27e7b2c74f 100644
---- a/Documentation/filesystems/fscrypt.rst
-+++ b/Documentation/filesystems/fscrypt.rst
-@@ -336,6 +336,7 @@ Currently, the following pairs of encryption modes are supported:
- 
- - AES-256-XTS for contents and AES-256-CTS-CBC for filenames
- - AES-128-CBC for contents and AES-128-CTS-CBC for filenames
-+- SM4-XTS for contents and SM4-CTS-CBC for filenames
- - Adiantum for both contents and filenames
- - AES-256-XTS for contents and AES-256-HCTR2 for filenames (v2 policies only)
- 
-diff --git a/fs/crypto/keysetup.c b/fs/crypto/keysetup.c
-index f7407071a952..24e55c95abc3 100644
---- a/fs/crypto/keysetup.c
-+++ b/fs/crypto/keysetup.c
-@@ -44,6 +44,21 @@ struct fscrypt_mode fscrypt_modes[] = {
- 		.security_strength = 16,
- 		.ivsize = 16,
- 	},
-+	[FSCRYPT_MODE_SM4_XTS] = {
-+		.friendly_name = "SM4-XTS",
-+		.cipher_str = "xts(sm4)",
-+		.keysize = 32,
-+		.security_strength = 16,
-+		.ivsize = 16,
-+		.blk_crypto_mode = BLK_ENCRYPTION_MODE_SM4_XTS,
-+	},
-+	[FSCRYPT_MODE_SM4_CTS] = {
-+		.friendly_name = "SM4-CTS",
-+		.cipher_str = "cts(cbc(sm4))",
-+		.keysize = 16,
-+		.security_strength = 16,
-+		.ivsize = 16,
-+	},
- 	[FSCRYPT_MODE_ADIANTUM] = {
- 		.friendly_name = "Adiantum",
- 		.cipher_str = "adiantum(xchacha12,aes)",
-diff --git a/fs/crypto/policy.c b/fs/crypto/policy.c
-index 46757c3052ef..8e69bc0c35cd 100644
---- a/fs/crypto/policy.c
-+++ b/fs/crypto/policy.c
-@@ -71,6 +71,10 @@ static bool fscrypt_valid_enc_modes_v1(u32 contents_mode, u32 filenames_mode)
- 	    filenames_mode == FSCRYPT_MODE_AES_128_CTS)
- 		return true;
- 
-+	if (contents_mode == FSCRYPT_MODE_SM4_XTS &&
-+	    filenames_mode == FSCRYPT_MODE_SM4_CTS)
-+		return true;
-+
- 	if (contents_mode == FSCRYPT_MODE_ADIANTUM &&
- 	    filenames_mode == FSCRYPT_MODE_ADIANTUM)
- 		return true;
-diff --git a/include/uapi/linux/fscrypt.h b/include/uapi/linux/fscrypt.h
-index a756b29afcc2..47dbd1994bfe 100644
---- a/include/uapi/linux/fscrypt.h
-+++ b/include/uapi/linux/fscrypt.h
-@@ -26,6 +26,8 @@
- #define FSCRYPT_MODE_AES_256_CTS		4
- #define FSCRYPT_MODE_AES_128_CBC		5
- #define FSCRYPT_MODE_AES_128_CTS		6
-+#define FSCRYPT_MODE_SM4_XTS			7
-+#define FSCRYPT_MODE_SM4_CTS			8
- #define FSCRYPT_MODE_ADIANTUM			9
- #define FSCRYPT_MODE_AES_256_HCTR2		10
- /* If adding a mode number > 10, update FSCRYPT_MODE_MAX in fscrypt_private.h */
--- 
-2.24.3 (Apple Git-128)
+For write accesses, the KVM_S390_MEMOP_F_CMPXCHG flag is supported if 
+KVM_CAP_S390_MEM_OP_EXTENSION has bit 1 (i.e. bit with value 2) set.
+
+... and speaking of that, I wonder whether it's maybe a good idea to 
+introduce some #defines for bit 1 / value 2, to avoid the confusion ?
+
+> +In this case, instead of doing an unconditional write, the access occurs only
+> +if the target location contains the "size" byte long value pointed to by
+> +"old_p". This is performed as an atomic cmpxchg.
+
+I had to read the first sentence twice to understand it ... maybe it's 
+easier to understand if you move the "size" part to the second sentence:
+
+In this case, instead of doing an unconditional write, the access occurs 
+only if the target location contains value pointed to by "old_p". This is 
+performed as an atomic cmpxchg with the length specified by the "size" 
+parameter.
+
+?
+
+> "size" must be a power of two
+> +up to and including 16.
+> +The value at the target location is written to the location "old_p" points to.
+
+IMHO something like this would be better:
+
+The value at the target location is replaced with the value from the 
+location that "old_p" points to.
+
+> +If the exchange did not take place because the target value doesn't match the
+> +old value KVM_S390_MEMOP_R_NO_XCHG is returned.
+> +The KVM_S390_MEMOP_F_CMPXCHG flag is supported if KVM_CAP_S390_MEM_OP_EXTENSION
+> +has bit 1 (i.e. bit with value 2) set.
+
+  Thomas
+
+PS: Please take my suggestions with a grain of salt ... I'm not a native 
+speaker either.
 
