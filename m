@@ -2,65 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7B49C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 19:22:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03B8FC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 23:38:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234666AbiKVTW6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Nov 2022 14:22:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48698 "EHLO
+        id S229728AbiKVXi6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Nov 2022 18:38:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234716AbiKVTW6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 14:22:58 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5525CE12;
-        Tue, 22 Nov 2022 11:22:57 -0800 (PST)
+        with ESMTP id S234684AbiKVXi5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 18:38:57 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13614C6228;
+        Tue, 22 Nov 2022 15:38:55 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 419B7B81D50;
-        Tue, 22 Nov 2022 19:22:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9177BC433C1;
-        Tue, 22 Nov 2022 19:22:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669144974;
-        bh=Nd2SSpX2rnlORZIuluFSyUmIIouCQL/zDa4vN299e4E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GKVDKeWRBnacfdNcZLokrwElYe4jvGQbxsQh6kyyDkSFllijnHydQhaBmNaHeQJ7Y
-         bTMQU8GPNnMcWnjL9KwMShGAnxkAZs9zAyGKWEGnJqdTMB9PM2S/U03A+S9tIF95yc
-         EBcrcd0NzWG3KOwQNIH97dxyqqIb/F0wWvx2xblEWrKRvXKOD+/JO+HlfQCZhU9UnE
-         L/oHVpRp++M6DClMKF+/tPdg3IwjBB8KaPfju8bePj8YYc0hcQ3gqIv17g516fkmb7
-         hvLqLXpc6kvu3V09n+TIzbqIuala1T/vjmSnVR5fih7B7Rd20xe7St7pUSVdwwmPCZ
-         fi7K81DyYHCTg==
-Date:   Tue, 22 Nov 2022 11:22:52 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-Cc:     "Theodore Y. Ts o" <tytso@mit.edu>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        linux-fscrypt@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] fscrypt: Add SM4 XTS/CTS symmetric algorithm
- support
-Message-ID: <Y30hjJq1Vwl4k1dJ@sol.localdomain>
-References: <20221122070632.21910-1-tianjia.zhang@linux.alibaba.com>
- <20221122070632.21910-3-tianjia.zhang@linux.alibaba.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A419B61929;
+        Tue, 22 Nov 2022 23:38:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84523C433D6;
+        Tue, 22 Nov 2022 23:38:53 +0000 (UTC)
+Date:   Tue, 22 Nov 2022 18:38:50 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: doc-guide: use '%' constant indicator in
+ Return: exmaples
+Message-ID: <20221122183850.2cbd942c@gandalf.local.home>
+In-Reply-To: <20221122184909.7764-1-rdunlap@infradead.org>
+References: <20221122184909.7764-1-rdunlap@infradead.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221122070632.21910-3-tianjia.zhang@linux.alibaba.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 22, 2022 at 03:06:32PM +0800, Tianjia Zhang wrote:
-> SM4 is a symmetric algorithm widely used in China, this patch enables
-> to use SM4-XTS mode to encrypt file content, and use SM4-CBC-CTS to
-> encrypt filename.
+On Tue, 22 Nov 2022 10:49:09 -0800
+Randy Dunlap <rdunlap@infradead.org> wrote:
+
+> Use the 'constant' indicator '%' in the examples for the
+> Return: values syntax. This can help encourage people to use it.
 > 
-> Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
 
-There is still no explanation here about why you believe this algorithm is
-useful to support in fscrypt.
+Link: https://lore.kernel.org/lkml/20221121154358.36856ca6@gandalf.local.home/
 
-- Eric
+Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+
+-- Steve
+
+
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Suggested-by: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/doc-guide/kernel-doc.rst |   10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff -- a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+> --- a/Documentation/doc-guide/kernel-doc.rst
+> +++ b/Documentation/doc-guide/kernel-doc.rst
+> @@ -151,9 +151,9 @@ named ``Return``.
+>       line breaks, so if you try to format some text nicely, as in::
+>  
+>  	* Return:
+> -	* 0 - OK
+> -	* -EINVAL - invalid argument
+> -	* -ENOMEM - out of memory
+> +	* %0 - OK
+> +	* %-EINVAL - invalid argument
+> +	* %-ENOMEM - out of memory
+>  
+>       this will all run together and produce::
+>  
+> @@ -163,8 +163,8 @@ named ``Return``.
+>       ReST list, e. g.::
+>  
+>        * Return:
+> -      * * 0		- OK to runtime suspend the device
+> -      * * -EBUSY	- Device should not be runtime suspended
+> +      * * %0		- OK to runtime suspend the device
+> +      * * %-EBUSY	- Device should not be runtime suspended
+>  
+>    #) If the descriptive text you provide has lines that begin with
+>       some phrase followed by a colon, each of those phrases will be taken
+
