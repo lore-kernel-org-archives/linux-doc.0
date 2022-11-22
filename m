@@ -2,184 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC2BFC4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 08:12:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C732C4321E
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 08:33:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232736AbiKVIMJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Nov 2022 03:12:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47582 "EHLO
+        id S232757AbiKVIdS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Nov 2022 03:33:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232697AbiKVIL7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 03:11:59 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A9F83F07D;
-        Tue, 22 Nov 2022 00:11:57 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id w4-20020a17090ac98400b002186f5d7a4cso13039651pjt.0;
-        Tue, 22 Nov 2022 00:11:57 -0800 (PST)
+        with ESMTP id S232815AbiKVIdP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 03:33:15 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B0AF2AC49
+        for <linux-doc@vger.kernel.org>; Tue, 22 Nov 2022 00:33:14 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id e7-20020a17090a77c700b00216928a3917so16619526pjs.4
+        for <linux-doc@vger.kernel.org>; Tue, 22 Nov 2022 00:33:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=btLM7ioiVORnm3lEYHf5T5x/aS6QHwdNoAQEJBXdHAc=;
-        b=M1jLnNubYt0SrwfSW9i33n6YX1ESpn28PZnSjooKh5wdJp0U3GRDiUEoEkEBFtfJDP
-         4dkjfxA1VTmYtoudabd51wBXPWcEaawZxcMTcUZJwZ46wusGDqOZcK3qn4UjMWbLxRui
-         n4byirPUyNnplpDep6IBcqP49UpD/GA09QeuUn6PeUF/6yiNOzcyo83YUX6QuvdrFEbH
-         HxDGK+TPhvn4EniN8wO+Zg3s4Jc0cO82Ha/s8kAorlDgzCKxWkhUQHq8j2FB5Y9GU9mV
-         Cwgjbffjc4fUeAwn6XVyKeJnwcmIO3SUzpKl4jq8MT0Fd5lWQHDSDe6nyjFt8fFXbneW
-         7O+w==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ICq6wKj+fTCmm2GjCUS1L0jcKrWJpIWh5rHEbpke/Aw=;
+        b=F97DvddPsXnZFYx+QA0dfxA6f30QqDBS69xRYssBkziviud34e1LSnX9q7xF/57AuE
+         dP0StyJf+OaVouXPLVZ/Ce+C/uKXJ3gYoZLnAf3E2UnKyLAaykL9jHZe/J0qxWLvcb/3
+         g33c/xMTGng9r4Aucbbcy2yDCaxrt1nzY+QrQn+7LJY5gScK/lNJ81AxkYA6Mkxa0BX6
+         QNcoi8zGYqUflEtd5A7aOuBkTkGgviLK1RaQ5ICYAt2/4eupEedkUzUNheoKnfMJYl/X
+         LaEncu+bZgFb7Dv0ZAnsZdMJJ7eXn3+HMe/TtL6Im+9ZI7GtgiKzgFhM8R9Oej5E7otX
+         0UOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=btLM7ioiVORnm3lEYHf5T5x/aS6QHwdNoAQEJBXdHAc=;
-        b=P0Br42GokGvwuo4qbpP0wlQJUzQlGxkqEcr5Df0qx87cq7mYw70ts+m5zemQ4zowSs
-         QfEtpwW4TqxkY4AO9wiN/MCtNIjL5rE2YWcsalvyYEf88ZuZVGZxuWwLJiN1+SeuqJsJ
-         QtXu4cF3m+/+Z6AveS5X+CmHK8Ny+ckvtTso2/cmu57EYQ7/PMO/WJf8Pq86N2CMnkzW
-         +5woP0e77OQCidM4NmJc2fQKtJLaxc1hqQMkEgD9bYxdhLnkAbBL3LwvGF/RzotS61Ek
-         SPU1Ltk1zrD76zVdC7DD01XAvjzzhZHutytim8QnrhtKu810xTPAYZrOuKuAmY2WWCPO
-         Q1BA==
-X-Gm-Message-State: ANoB5pnHMv6qhex1ozm9BB0QQMuNkYqpQk9zLXmQsictp04d9XGrvZn5
-        ZaR0dg/qOjPgFsFREzTBzHE=
-X-Google-Smtp-Source: AA0mqf4rUn0XDlqrmJJBd6NyKaOBpE5iWvUY5T498CL9cJwO2dSokFPls/EDnGAcTn7P77yiHWPvfg==
-X-Received: by 2002:a17:902:ef44:b0:185:40ca:68b8 with SMTP id e4-20020a170902ef4400b0018540ca68b8mr4368853plx.16.1669104717383;
-        Tue, 22 Nov 2022 00:11:57 -0800 (PST)
-Received: from [192.168.43.80] (subs03-180-214-233-4.three.co.id. [180.214.233.4])
-        by smtp.gmail.com with ESMTPSA id e7-20020aa798c7000000b0056bee23a80bsm9994602pfm.137.2022.11.22.00.11.54
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ICq6wKj+fTCmm2GjCUS1L0jcKrWJpIWh5rHEbpke/Aw=;
+        b=0HYOeHzkaM0HFFIx8NCDwatIkyu7BAo8aIRDY94YWqx3HKN4cPdo5iKi0Lottp3K0B
+         vqcispo6jCfjn56W+hTViCzoImZz6bBXup0HF/b6c7b/zw5ud23fEtYgJcqgGY7JsFIS
+         bhC7+FaH3fGgsWVedTI2x/JRrdrB7K2VK9RtE6ETSmNe5nolqUZjYhwSbHL6hAG6RD4D
+         yrbfB6seTiYBOIXFqaP/RX3sG2Rhg/I5vgQBeUCRiftXlBOLrY023Y/GSYfb0AD8c+Cf
+         YHQbftG+7t0N2gXEVbSEhPMUG9EO2Ofp2W2lLyrgxf0Tm57qLZJeX1JOHdCW1+D/VM9U
+         Iptw==
+X-Gm-Message-State: ANoB5plrR66ZUYGcwko1XsYw5gKtvku1SxKyZf98U0iSEvLctE9P7w/f
+        8nURvbrxS8AR3qJCNBcRIy3gXZdJQcAFRfVe
+X-Google-Smtp-Source: AA0mqf4vL/diUtsIX5LpP10tBGJx/S2/Ws+e7zKi3MOsrP9d2mD1bwtgXW5DaRmMpVUpuJIekszqkg==
+X-Received: by 2002:a17:90a:d38a:b0:218:a7e6:60df with SMTP id q10-20020a17090ad38a00b00218a7e660dfmr11210368pju.38.1669105993608;
+        Tue, 22 Nov 2022 00:33:13 -0800 (PST)
+Received: from [10.254.109.138] ([139.177.225.251])
+        by smtp.gmail.com with ESMTPSA id l12-20020a170903120c00b0016c5306917fsm11448352plh.53.2022.11.22.00.33.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Nov 2022 00:11:57 -0800 (PST)
-Message-ID: <492af720-43ad-15d6-f21c-b94eea5442b5@gmail.com>
-Date:   Tue, 22 Nov 2022 15:11:53 +0700
+        Tue, 22 Nov 2022 00:33:13 -0800 (PST)
+Message-ID: <ff3e9255-028a-7174-3608-2d9c362bdaf7@bytedance.com>
+Date:   Tue, 22 Nov 2022 16:33:09 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH] PCI/MSI: api: Use bullet lists in kernel-doc comments
-Content-Language: en-US
-To:     "Ahmed S. Darwish" <darwi@linutronix.de>
-Cc:     linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-next@vger.kernel.org, linux-doc@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20221121184100.0974cc35@canb.auug.org.au>
- <20221121101245.23544-1-bagasdotme@gmail.com> <Y3t83uo/TZzxc1nL@lx-t490>
- <Y3xFV2IkUlRWPdCd@debian.me> <Y3xkj/3G4JxgXlal@lx-t490>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <Y3xkj/3G4JxgXlal@lx-t490>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
+ pidfd_set_mempolicy().
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
+ <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
+ <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
+ <Y3IqLzvduM6HqPJV@dhcp22.suse.cz>
+ <3a3b4f5b-14d1-27d8-7727-cf23da90988f@bytedance.com>
+ <Y3KFFfMFE55lVdNZ@dhcp22.suse.cz>
+ <82c9c89c-aee2-08a3-e562-359631bb0137@bytedance.com>
+ <0bd0b744-3d97-b4c3-a4fb-6040f8f8024a@bytedance.com>
+ <Y3T6SqZvAmSG5I6W@dhcp22.suse.cz>
+ <6433156f-34a8-400f-e282-91268b242279@bytedance.com>
+ <Y3uNWbPmwHtytKzY@dhcp22.suse.cz>
+From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
+In-Reply-To: <Y3uNWbPmwHtytKzY@dhcp22.suse.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/22/22 12:56, Ahmed S. Darwish wrote:
-> On Tue, Nov 22, 2022 at 10:43:19AM +0700, Bagas Sanjaya wrote:
->>
->> For the list above, no, since if the alignment is kept, like:
->>
-> 
-> NAK.
-> 
-> Below patch works properly on my side, no Sphinx errors and proper HTML
-> view, while still keeping proper-alignment in the C code.
-> 
-> Sorry, you're too focusing on the HTML side.
-> 
-> Making the C code readable, not just the HTML output, is quite
-> important.
-> 
-> =>
-> 
-> From: Bagas Sanjaya <bagasdotme@gmail.com>
-> 
-> Use bullet-list RST syntax for kernel-doc parameters' flags and
-> interrupt mode descriptions. Otherwise Sphinx produces "Unexpected
-> identation" errors and warnings.
-> 
-> Link: https://lore.kernel.org/r/20221121101245.23544-1-bagasdotme@gmail.com
-> Fixes: 5c0997dc33ac24 ("PCI/MSI: Move pci_alloc_irq_vectors() to api.c")
-> Fixes: 017239c8db2093 ("PCI/MSI: Move pci_irq_vector() to api.c")
-> Fixes: be37b8428b7b77 ("PCI/MSI: Move pci_irq_get_affinity() to api.c")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> [darwi@linutronix.de: Match subject-line with other subystem commits]
-> [darwi@linutronix.de: Remove verbose Sphinx log from commit log]
-> [darwi@linutronix.de: For C kernel-doc comments legibility, keep
->  the flags and interrupt mode descriptions aligned.]
-> Acked-by: Ahmed S. Darwish <darwi@linutronix.de>
-> ---
-> 
->  drivers/pci/msi/api.c | 33 +++++++++++++++++++--------------
->  1 file changed, 19 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/pci/msi/api.c b/drivers/pci/msi/api.c
-> index dfcaa77108de..6c0c0f3ad3b8 100644
-> --- a/drivers/pci/msi/api.c
-> +++ b/drivers/pci/msi/api.c
-> @@ -209,12 +209,15 @@ EXPORT_SYMBOL(pci_disable_msix);
->   * @min_vecs: minimum required number of vectors (must be >= 1)
->   * @max_vecs: maximum desired number of vectors
->   * @flags:    One or more of:
-> - *            %PCI_IRQ_MSIX      Allow trying MSI-X vector allocations
-> - *            %PCI_IRQ_MSI       Allow trying MSI vector allocations
-> - *            %PCI_IRQ_LEGACY    Allow trying legacy INTx interrupts, if
-> - *                               and only if @min_vecs == 1
-> - *            %PCI_IRQ_AFFINITY  Auto-manage IRQs affinity by spreading
-> - *                               the vectors around available CPUs
-> + *
-> + *            * %PCI_IRQ_MSIX      Allow trying MSI-X vector allocations
-> + *            * %PCI_IRQ_MSI       Allow trying MSI vector allocations
-> + *
-> + *            * %PCI_IRQ_LEGACY    Allow trying legacy INTx interrupts, if
-> + *              and only if @min_vecs == 1
-> + *
-> + *            * %PCI_IRQ_AFFINITY  Auto-manage IRQs affinity by spreading
-> + *              the vectors around available CPUs
->   *
->   * Allocate up to @max_vecs interrupt vectors on device. MSI-X irq
->   * vector allocation has a higher precedence over plain MSI, which has a
-> @@ -299,10 +302,11 @@ EXPORT_SYMBOL(pci_alloc_irq_vectors_affinity);
->   * pci_irq_vector() - Get Linux IRQ number of a device interrupt vector
->   * @dev: the PCI device to operate on
->   * @nr:  device-relative interrupt vector index (0-based); has different
-> - *       meanings, depending on interrupt mode
-> - *         MSI-X        the index in the MSI-X vector table
-> - *         MSI          the index of the enabled MSI vectors
-> - *         INTx         must be 0
-> + *       meanings, depending on interrupt mode:
-> + *
-> + *         * MSI-X     the index in the MSI-X vector table
-> + *         * MSI       the index of the enabled MSI vectors
-> + *         * INTx      must be 0
->   *
->   * Return: the Linux IRQ number, or -EINVAL if @nr is out of range
->   */
-> @@ -322,10 +326,11 @@ EXPORT_SYMBOL(pci_irq_vector);
->   * pci_irq_get_affinity() - Get a device interrupt vector affinity
->   * @dev: the PCI device to operate on
->   * @nr:  device-relative interrupt vector index (0-based); has different
-> - *       meanings, depending on interrupt mode
-> - *         MSI-X        the index in the MSI-X vector table
-> - *         MSI          the index of the enabled MSI vectors
-> - *         INTx         must be 0
-> + *       meanings, depending on interrupt mode:
-> + *
-> + *         * MSI-X     the index in the MSI-X vector table
-> + *         * MSI       the index of the enabled MSI vectors
-> + *         * INTx      must be 0
->   *
->   * Return: MSI/MSI-X vector affinity, NULL if @nr is out of range or if
->   * the MSI(-X) vector was allocated without explicit affinity
+Hi Michal, thanks for your replay and suggestions.
 
-Personally I'd like to write the entries as:
+> 
+> Yes the memory consumption is going to increase but the question is
+> whether this is something that is a real problem. Is it really common to
+> have many vmas with a dedicated policy?
 
-  * term - definition
+Yes, it does not a realy problem.
 
-But anyway, your suggestion patch LGTM. Thanks!
+> 
+> What I am arguing here is that there are essentially 2 ways forward.
+> Either we continue to build up on top of the existing and arguably very
+> fragile code and make it even more subtle or follow a general pattern of
+> a proper reference counting (with usual tricks to reduce cache line
+> bouncing and similar issues). I do not really see why memory policies
+> should be any different and require very special treatment.
+> 
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+I got it. It is rather subtle and easy to get wrong if we push forward
+with the existing way and it is a good opportunity to get from the
+existing subtle model. I will try that on next version.
 
--- 
-An old man doll... just what I always wanted! - Clara
-
+__
+Best Regards,
+Zhongkun
