@@ -2,175 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40351C43219
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 13:11:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 770D8C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 13:21:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232855AbiKVNLD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Nov 2022 08:11:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40266 "EHLO
+        id S232655AbiKVNVI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Nov 2022 08:21:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232656AbiKVNK4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 08:10:56 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C18E2645;
-        Tue, 22 Nov 2022 05:10:55 -0800 (PST)
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AMAgXdu013705;
-        Tue, 22 Nov 2022 13:10:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=hQ3fVymP4HFlZ5VZh4VL4SoYVcWFpM4fBoyY3KbIllw=;
- b=fCQdtovJW9AM2EGOqGXskr2oOyevGuf1X8WxtrvDicgUlW2gFUCQfkq9b1cyg1GwYNr/
- qxsOepoe6u1g8rdoqmmSzxQcglFix+nuhsmTsb0yLZSHNXLfJ98uKKgwcxK+kRofDYdD
- uRy6qNCiwUZ4j0J0x5s/BFy/GAiqtwvI6TFXWDGCwz4OAgs2KDOFg4K0dE6qZJkYfJHc
- PlwFpTpdxL2iIgbjLJKxpzvlJ/SWa2XIMpZLCjktV8+sqltSwGNK6xzYEbfXKuSlw6Bc
- G51a6o4Hqg94Hs/OeZmafcxSqwYtcs8TX0qkfbH8lU/bsnc4kZWSZwwkJSgPuj15hUs3 0g== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m0tqaq3av-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 22 Nov 2022 13:10:49 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AMCgFQt022109;
-        Tue, 22 Nov 2022 13:10:49 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m0tqaq38w-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 22 Nov 2022 13:10:49 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
-        by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AMD6OaT000661;
-        Tue, 22 Nov 2022 13:10:46 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-        by ppma01fra.de.ibm.com with ESMTP id 3kxps934ns-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 22 Nov 2022 13:10:46 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2AMDBNIT42926526
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 22 Nov 2022 13:11:23 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C4804AE04D;
-        Tue, 22 Nov 2022 13:10:42 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 18530AE045;
-        Tue, 22 Nov 2022 13:10:42 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown [9.171.10.123])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Tue, 22 Nov 2022 13:10:42 +0000 (GMT)
-Message-ID: <e735fa2cde6e9c92dda134634cb3d67b64b23fe9.camel@linux.ibm.com>
-Subject: Re: [PATCH v3 2/9] Documentation: KVM: s390: Describe
- KVM_S390_MEMOP_F_CMPXCHG
-From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To:     Thomas Huth <thuth@redhat.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>
-Date:   Tue, 22 Nov 2022 14:10:41 +0100
-In-Reply-To: <f96b50e2-24ac-4016-d3f1-ffc375516e7c@redhat.com>
-References: <20221117221758.66326-1-scgl@linux.ibm.com>
-         <20221117221758.66326-3-scgl@linux.ibm.com>
-         <f96b50e2-24ac-4016-d3f1-ffc375516e7c@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+        with ESMTP id S232429AbiKVNVI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 08:21:08 -0500
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 50EE963CE6;
+        Tue, 22 Nov 2022 05:21:05 -0800 (PST)
+Received: from loongson.cn (unknown [113.200.148.30])
+        by gateway (Coremail) with SMTP id _____8Dxfeu_zHxj4QcAAA--.106S3;
+        Tue, 22 Nov 2022 21:21:03 +0800 (CST)
+Received: from linux.localdomain (unknown [113.200.148.30])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Axf+C_zHxjUCUYAA--.63200S2;
+        Tue, 22 Nov 2022 21:21:03 +0800 (CST)
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+To:     Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <kernel@xen0n.name>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs/zh_CN/LoongArch: Fix wrong description of FPRs Note
+Date:   Tue, 22 Nov 2022 21:20:57 +0800
+Message-Id: <1669123257-18550-1-git-send-email-yangtiezhu@loongson.cn>
+X-Mailer: git-send-email 2.1.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: eXYljfTqPOrYrIkozEPhxBDypaqjOjXw
-X-Proofpoint-ORIG-GUID: MH03WnBZBvlQkASGvVvGlFEGTrL5rQwE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-22_06,2022-11-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- lowpriorityscore=0 mlxlogscore=763 mlxscore=0 priorityscore=1501
- spamscore=0 impostorscore=0 phishscore=0 malwarescore=0 adultscore=0
- bulkscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211220096
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Axf+C_zHxjUCUYAA--.63200S2
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWruw45KFy8JF4rWryUWF1DGFg_yoW8JF1Dpa
+        s2kr92gF1DA34UAr1kGF1UGF1jqFn7ua1xGa1fKw1DCrsxZr1UtrW8tryqqF4fWr1xAFWF
+        vr4rKr15XF1jyaUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        b7kYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS
+        0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
+        AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1l
+        Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC20s
+        026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
+        JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
+        v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xva
+        j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJV
+        W8JbIYCTnIWIevJa73UjIFyTuYvjxU7_MaUUUUU
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2022-11-22 at 08:47 +0100, Thomas Huth wrote:
-> On 17/11/2022 23.17, Janis Schoetterl-Glausch wrote:
-> > Describe the semantics of the new KVM_S390_MEMOP_F_CMPXCHG flag for
-> > absolute vm write memops which allows user space to perform (storage key
-> > checked) cmpxchg operations on guest memory.
-> > 
-> > Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-> > ---
-> ...
-> >   Supported flags:
-> >     * ``KVM_S390_MEMOP_F_CHECK_ONLY``
-> >     * ``KVM_S390_MEMOP_F_SKEY_PROTECTION``
-> > +  * ``KVM_S390_MEMOP_F_CMPXCHG``
-> > +
-> > +The semantics of the flags common with logical acesses are as for logical
-> > +accesses.
-> > +
-> > +For write accesses, the KVM_S390_MEMOP_F_CMPXCHG might be supported.
-> 
-> I'd maybe merge this with the last sentence:
-> 
-> For write accesses, the KVM_S390_MEMOP_F_CMPXCHG flag is supported if 
-> KVM_CAP_S390_MEM_OP_EXTENSION has bit 1 (i.e. bit with value 2) set.
+The Chinese translation of FPRs Note is not consistent with the original
+English version, $v0/$v1 should be $fv0/$fv1, $a0/$a1 should be $fa0/$fa1,
+fix them.
 
-Ok.
-> 
-> ... and speaking of that, I wonder whether it's maybe a good idea to 
-> introduce some #defines for bit 1 / value 2, to avoid the confusion ?
+Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+---
+ Documentation/translations/zh_CN/loongarch/introduction.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Not sure, I don't feel it's too complicated. Where would you define it?
-Next to the mem_op struct? KVM_S390_MEMOP_EXTENSION_CAP_CMPXCHG?
-> 
-> > +In this case, instead of doing an unconditional write, the access occurs only
-> > +if the target location contains the "size" byte long value pointed to by
-> > +"old_p". This is performed as an atomic cmpxchg.
-> 
-> I had to read the first sentence twice to understand it ... maybe it's 
-> easier to understand if you move the "size" part to the second sentence:
-> 
-> In this case, instead of doing an unconditional write, the access occurs 
-> only if the target location contains value pointed to by "old_p". This is 
-> performed as an atomic cmpxchg with the length specified by the "size" 
-> parameter.
-> 
-> ?
-
-Ok.
-> 
-> > "size" must be a power of two
-> > +up to and including 16.
-> > +The value at the target location is written to the location "old_p" points to.
-> 
-> IMHO something like this would be better:
-> 
-> The value at the target location is replaced with the value from the 
-> location that "old_p" points to.
-
-I'm trying to say the opposite :).
-I went with this:
-
-If the exchange did not take place because the target value doesn't match the
-old value, KVM_S390_MEMOP_R_NO_XCHG is returned.
-In this case the value "old_addr" points to is replaced by the target value.
-> 
-> > +If the exchange did not take place because the target value doesn't match the
-> > +old value KVM_S390_MEMOP_R_NO_XCHG is returned.
-> > +The KVM_S390_MEMOP_F_CMPXCHG flag is supported if KVM_CAP_S390_MEM_OP_EXTENSION
-> > +has bit 1 (i.e. bit with value 2) set.
-> 
->   Thomas
-> 
-> PS: Please take my suggestions with a grain of salt ... I'm not a native 
-> speaker either.
-> 
+diff --git a/Documentation/translations/zh_CN/loongarch/introduction.rst b/Documentation/translations/zh_CN/loongarch/introduction.rst
+index 128878f..f3ec25b 100644
+--- a/Documentation/translations/zh_CN/loongarch/introduction.rst
++++ b/Documentation/translations/zh_CN/loongarch/introduction.rst
+@@ -70,8 +70,8 @@ LA64中每个寄存器为64位宽。 ``$r0`` 的内容总是固定为0，而其
+ ================= ================== =================== ==========
+ 
+ .. note::
+-    注意：在一些遗留代码中有时可能见到 ``$v0`` 和 ``$v1`` ，它们是
+-    ``$a0`` 和 ``$a1`` 的别名，属于已经废弃的用法。
++    注意：在一些遗留代码中有时可能见到 ``$fv0`` 和 ``$fv1`` ，它们是
++    ``$fa0`` 和 ``$fa1`` 的别名，属于已经废弃的用法。
+ 
+ 
+ 向量寄存器
+-- 
+2.1.0
 
