@@ -2,125 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11801C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 14:48:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E04DAC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Nov 2022 14:49:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232665AbiKVOse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Nov 2022 09:48:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34368 "EHLO
+        id S233483AbiKVOt4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Nov 2022 09:49:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233194AbiKVOsc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 09:48:32 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E54558BD2
-        for <linux-doc@vger.kernel.org>; Tue, 22 Nov 2022 06:48:28 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id bs21so25077823wrb.4
-        for <linux-doc@vger.kernel.org>; Tue, 22 Nov 2022 06:48:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y6VQZkRoHrqA7rpJ+k+Bc7BZuP/PY0GhLVjONMwr17o=;
-        b=arkcTSSZ565+8zxaVnvMMkhBjDeyuV8uwARQodCjT/IrprezMx/J6gpGSxOsDOi6W0
-         gzJQa/c/lk4i7feXnNiDgYk1VKfuckuqYMFg49LHY6zQ4i8tiic+81Kt1W8hxwAYNkGD
-         XmZO2UXUf7FwmsVuEr0WLD/XKQQG94xP3axjo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y6VQZkRoHrqA7rpJ+k+Bc7BZuP/PY0GhLVjONMwr17o=;
-        b=UJeEUQ0XK9I6kCV9I4jp+FqwJHVZl65ymJK1BktoRlX2+2y/8CuTQNdslkGGkYKJ81
-         L+11japzwAiB5/s76kDlV5LjXPc9bC92UBkDsxfQ13JP1RL+3DzjvVkM/cCdqHqsJhxe
-         8u2cUnCuzRdVuKjcA0z7I6kV9za1gXoo35aURT/Ru7LqUIkE3L3+/1c834UwXxiqhpXU
-         CzZxoZ3MKJhvS3saHYaUJ1KMZNTmxDwMIXCR+iISQoqXL6I4IMQnRbYIr5X5uDMRZwEs
-         uQYIXraeN0F6kVuavwkq3u8XeuUXPXOB2U9m7uSsg2Ek0fc/PcX1gJZMqlagUBI9dYfv
-         SpDQ==
-X-Gm-Message-State: ANoB5pnyOolGm51SjHhp6dMHCn43yTHDhoPuFpUW8rZi7DvoMa8yDe4I
-        H2ZYG9ahLgMqSsULgvbCTygdSA==
-X-Google-Smtp-Source: AA0mqf74yf0WzGebkyR4zTY7KjsNMhDDBQMASADAm4iZKkPhgzAhOhyQoa4x3u5MiOZWvy6god7z9A==
-X-Received: by 2002:a5d:4ccb:0:b0:236:d611:4fcf with SMTP id c11-20020a5d4ccb000000b00236d6114fcfmr3765675wrt.192.1669128507148;
-        Tue, 22 Nov 2022 06:48:27 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id q14-20020a05600c46ce00b003c5571c27a1sm21728939wmo.32.2022.11.22.06.48.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Nov 2022 06:48:26 -0800 (PST)
-Date:   Tue, 22 Nov 2022 15:48:24 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-doc@vger.kernel.org,
-        Gabriela Bittencourt <gabrielabittencourt00@gmail.com>,
-        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] drm/doc: make drm-uapi igt-tests more readable
-Message-ID: <Y3zhOP6enOmUmapQ@phenom.ffwll.local>
-References: <20221118235137.6859-1-rdunlap@infradead.org>
+        with ESMTP id S233435AbiKVOtv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 09:49:51 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D74A96BDF3;
+        Tue, 22 Nov 2022 06:49:46 -0800 (PST)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 7D40A21BE4;
+        Tue, 22 Nov 2022 14:49:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1669128585; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=j9AuGuLYTdJN+k3uXzcchb8mQnKbhGw+TLUgV+tqJrU=;
+        b=MEQS0+y9gcppN8qOpnYaqU7svgu2b3vPgGRXci1z6NL61cL4i98zh4U8k84lKJCd/gXFRo
+        Yn4RT0BvfG/CQMNRq0mzn65SnyEDIOv0RYOvo1nC+Uhzpjf3f12g+C8FW74uxEvRhF8K98
+        wR702WHORWcWBEPCtw7JhNzXykfXhKY=
+Received: from suse.cz (unknown [10.100.201.202])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 6EEC42C142;
+        Tue, 22 Nov 2022 14:49:44 +0000 (UTC)
+Date:   Tue, 22 Nov 2022 15:49:40 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     Russell King <rmk+kernel@armlinux.org.uk>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        asahi@lists.linux.dev, devicetree@vger.kernel.org,
+        Hector Martin <marcan@marcan.st>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH v3 2/7] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Y3zhhLoqAOaZ7rMz@alley>
+References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
+ <E1osRXO-002mvw-Fp@rmk-PC.armlinux.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221118235137.6859-1-rdunlap@infradead.org>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+In-Reply-To: <E1osRXO-002mvw-Fp@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 18, 2022 at 03:51:37PM -0800, Randy Dunlap wrote:
-> Correct grammar and make the use of the igt-tests more readable.
+On Tue 2022-11-08 16:33:22, Russell King wrote:
+> From: Hector Martin <marcan@marcan.st>
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
-> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-
-Pushed to drm-misc-next, thanks for your patch.
--Daniel
-
+> %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
+> it's useful to be able to print generic 4-character codes formatted as
+> an integer. Extend it to add format specifiers for printing generic
+> 32-bit FOURCCs with various endian semantics:
+> 
+> %p4ch   Host-endian
+> %p4cl	Little-endian
+> %p4cb	Big-endian
+> %p4cr	Reverse-endian
+> 
+> The endianness determines how bytes are interpreted as a u32, and the
+> FOURCC is then always printed MSByte-first (this is the opposite of
+> V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
+> allow printing LSByte-first FOURCCs stored in host endian order
+> (other than the hex form being in character order, not the integer
+> value).
+> 
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 > ---
->  Documentation/gpu/drm-uapi.rst |   12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  Documentation/core-api/printk-formats.rst | 32 +++++++++++++++++++
+>  lib/test_printf.c                         | 39 +++++++++++++++++++----
+>  lib/vsprintf.c                            | 35 ++++++++++++++++----
+>  3 files changed, 93 insertions(+), 13 deletions(-)
 > 
-> diff -- a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -402,19 +402,19 @@ It's possible to run the IGT-tests in a
->  	1. Use IGT inside a VM
->  	2. Use IGT from the host machine and write the results in a shared directory.
+> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> index dbe1aacc79d0..92a488884cf8 100644
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -625,6 +625,38 @@ Passed by reference.
+>  	%p4cc	Y10  little-endian (0x20303159)
+>  	%p4cc	NV12 big-endian (0xb231564e)
 >  
-> -As follow, there is an example of using a VM with a shared directory with
-> -the host machine to run igt-tests. As an example it's used virtme::
-> +Following is an example of using a VM with a shared directory with
-> +the host machine to run igt-tests. This example uses virtme::
->  
->  	$ virtme-run --rwdir /path/for/shared_dir --kdir=path/for/kernel/directory --mods=auto
->  
-> -Run the igt-tests in the guest machine, as example it's ran the 'kms_flip'
-> +Run the igt-tests in the guest machine. This example runs the 'kms_flip'
->  tests::
->  
->  	$ /path/for/igt-gpu-tools/scripts/run-tests.sh -p -s -t "kms_flip.*" -v
->  
-> -In this example, instead of build the igt_runner, Piglit is used
-> -(-p option); it's created html summary of the tests results and it's saved
-> -in the folder "igt-gpu-tools/results"; it's executed only the igt-tests
-> +In this example, instead of building the igt_runner, Piglit is used
-> +(-p option). It creates an HTML summary of the test results and saves
-> +them in the folder "igt-gpu-tools/results". It executes only the igt-tests
->  matching the -t option.
->  
->  Display CRC Support
+> +Generic FourCC code
+> +-------------------
+> +
+> +::
+> +	%p4c[hrbl]	gP00 (0x67503030)
+> +
+> +Print a generic FourCC code, as both ASCII characters and its numerical
+> +value as hexadecimal.
+> +
+> +The additional ``h``, ``r``, ``b``, and ``l`` specifiers are used to specify
+> +host, reversed, big or little endian order data respectively. Host endian
+> +order means the data is interpreted as a 32-bit integer and the most
+> +significant byte is printed first; that is, the character code as printed
+> +matches the byte order stored in memory on big-endian systems, and is reversed
+> +on little-endian systems.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I though a bit more about the semantic and got a bit confused.
+It might be because I am not familiar with FourCC. Anyway,
+the description in the commit message provided some more clues.
+
+The following documentation looks be more clear to me:
+
+<proposal>
+Generic FourCC code
+-------------------
+
+::
+	%p4c[hrbl]	gP00 (0x67503030)
+
+Print a generic FourCC code, as both ASCII characters and its numerical
+value as hexadecimal.
+
+The generic FourCC code is always printed in the the big-endian format,
+the most significant byte first. This is the opposite of V4L/DRM
+FOURCCs.
+
+The additional ``h``, ``r``, ``b``, and ``l`` specifiers define what
+endianes is used to load the stored value as 32-bit integer. The value
+might be stored as host-endian, reverse-host-endian, big-endian,
+or little endian.
+
+Examples for a little-endian machine, host native load &(u32)0x67503030::
+
+	%p4ch	gP00 (0x67503030)
+	%p4cr	00Pg (0x30305067)
+	%p4cb	00Pg (0x30305067)
+	%p4cl	gP00 (0x67503030)
+
+Examples for a big-endian machine, host native load &(u32)0x67503030::
+
+	%p4ch	gP00 (0x67503030)
+	%p4cr	00Pg (0x30305067)
+	%p4cb	gP00 (0x67503030)
+	%p4cl	00Pg (0x30305067)
+</proposal>
+
+Best Regards,
+Petr
