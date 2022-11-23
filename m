@@ -2,150 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F99AC4167D
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 12:38:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDE12C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 13:07:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237179AbiKWMiL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 07:38:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43590 "EHLO
+        id S238616AbiKWNHj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 08:07:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237163AbiKWMiJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 07:38:09 -0500
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3376857B63;
-        Wed, 23 Nov 2022 04:38:07 -0800 (PST)
-Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.53])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4NHLDS0FH9zJnnb;
-        Wed, 23 Nov 2022 20:34:48 +0800 (CST)
-Received: from dggpeml500002.china.huawei.com (7.185.36.158) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 23 Nov 2022 20:38:04 +0800
-Received: from localhost.localdomain (10.69.192.56) by
- dggpeml500002.china.huawei.com (7.185.36.158) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 23 Nov 2022 20:38:03 +0800
-From:   Junhao He <hejunhao3@huawei.com>
-To:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
-        <mike.leach@linaro.org>, <leo.yan@linaro.org>,
-        <jonathan.cameron@huawei.com>, <john.garry@huawei.com>
-CC:     <coresight@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <lpieralisi@kernel.org>,
-        <linuxarm@huawei.com>, <yangyicong@huawei.com>,
-        <liuqi6124@gmail.com>, <f.fangjian@huawei.com>,
-        <prime.zeng@hisilicon.com>, <hejunhao3@huawei.com>
-Subject: [PATCH v14 0/2] Add support for UltraSoc System Memory Buffer
-Date:   Wed, 23 Nov 2022 20:38:21 +0800
-Message-ID: <20221123123823.27973-1-hejunhao3@huawei.com>
-X-Mailer: git-send-email 2.33.0
+        with ESMTP id S238866AbiKWNHQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 08:07:16 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94C4BE0B5A;
+        Wed, 23 Nov 2022 04:50:18 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E4814B81FA2;
+        Wed, 23 Nov 2022 12:50:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 94CB1C43149;
+        Wed, 23 Nov 2022 12:50:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669207815;
+        bh=KIU5zp/fHoYcSmyOn6tMxUQbgOWXMmNWP4dKrv8hHw8=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=AroRLCvktahdpG9E/1xzAbX+pLCQ4UWcDM68y5Vl2CRKd6SU0zfgyCiMDUkfqlxmM
+         9DqStZMZplgx8TkXm+QTurTBPJ9Kxa/JS/+cUcpWgTXfa2xpl0vZrJ/vZXbD6TtLPd
+         mj/sMk/RV9HQaZYm3GN9H5uobHiKnMDbTxuPv9dDcML/Vznqxnh1uvJ9VvrXkXsnP7
+         n9tw9DID2HmpnJQA4Kbh5Jh5rqyB5/510BSaBgwVKiLt30t0H+nKp+kX6fIDDZdOns
+         Qs7cxYWGMqi2Xja27yf2vk6tkrMRRoqGHFqCCrllx2S1yMbhiY12ZhDQp/iBQNKh64
+         4l9tFVjCTnCWw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7F6EDE21EF9;
+        Wed, 23 Nov 2022 12:50:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.69.192.56]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500002.china.huawei.com (7.185.36.158)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] Documentation: devlink: Add blank line padding on
+ numbered lists in Devlink Port documentation
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <166920781551.7047.17657573305612000567.git-patchwork-notify@kernel.org>
+Date:   Wed, 23 Nov 2022 12:50:15 +0000
+References: <20221121035854.28411-1-bagasdotme@gmail.com>
+In-Reply-To: <20221121035854.28411-1-bagasdotme@gmail.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+        gwml@vger.gnuweeb.org, lkp@intel.com, jiri@nvidia.com,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, michal.wilczynski@intel.com,
+        ammarfaizi2@gnuweeb.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for UltraSoc System Memory Buffer.
+Hello:
 
-Change since v13:
-- Modify document and the patches description according to Bagas's comment.
-- Add dependency on config ACPI, drop redundant enable hw in smb_update_buffer(),
-  Modify smb_purge_data() description according to Suzuki's comment.
-- Link: https://lore.kernel.org/lkml/20221114090316.63157-1-hejunhao3@huawei.com/
+This patch was applied to netdev/net-next.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-Change since v12:
-- Modify the code style and add "#ifdef CONFIG_ACPI" according to Jonathan's comment.
-- Address the comments from Yicong, included drop "buf_base"__iomem attribute,
-  modify the "reading" type to bool and fix FIELD_PREP.
-- Link: https://lore.kernel.org/lkml/20221109135008.9485-1-hejunhao3@huawei.com/
+On Mon, 21 Nov 2022 10:58:55 +0700 you wrote:
+> kernel test robot reported indentation warnings:
+> 
+> Documentation/networking/devlink/devlink-port.rst:220: WARNING: Unexpected indentation.
+> Documentation/networking/devlink/devlink-port.rst:222: WARNING: Block quote ends without a blank line; unexpected unindent.
+> 
+> These warnings cause lists (arbitration flow for which the warnings blame to
+> and 3-step subfunction setup) to be rendered inline instead. Also, for the
+> former list, automatic list numbering is messed up.
+> 
+> [...]
 
-Change since v11:
-- Modify the code style and rename the macro according to Jonathan's comment.
-- Link: https://lore.kernel.org/lkml/20221107130624.59886-1-hejunhao3@huawei.com/
+Here is the summary with links:
+  - [net-next] Documentation: devlink: Add blank line padding on numbered lists in Devlink Port documentation
+    https://git.kernel.org/netdev/net-next/c/c84f6f6c2bb5
 
-Change since v10:
-- Rebase onto v6.1-rc4, included similar sysfs register accessors (as same as James's patch)
-- Link: https://lore.kernel.org/lkml/20221022115929.7503-1-hejunhao3@huawei.com/
-
-Change since v9:
-- Update the Contact tag in SMB document. 
-- Replace the spinlock with mutex.
-- Do some clean-ups in "smb_enable()" and "smb_release()".
-- Use classic memory mapped interface.
-- Link: https://lore.kernel.org/linux-arm-kernel/20220818132231.28240-1-hejunhao3@huawei.com/
-
-Change since v8:
-- Insert a blank line at the end of the config tag in Kconfig according to Randy's comment.
-- Link: https://lore.kernel.org/linux-arm-kernel/20220816131634.38195-1-hejunhao3@huawei.com/
-
-Change since v7:
-- Use the macros for register bit flags and numbers of resource.
-- Cleanup punctuation.
-- Update the Date tag and the KernelVersion tag in the document.
-- Link: https://lore.kernel.org/lkml/20220712091353.34540-1-hejunhao3@huawei.com/
-
-Change since v6:
-- Modify the code style and driver description according to Suzuki's comment.
-- Modify configuration of "drvdata->reading", to void problems in open/read
-  concurrency scenario.
-- Rename the macro of "SMB_FLOW_MASK".
-- Use the "handle->head" to determine the page number and offset.
-- Link: https://lore.kernel.org/linux-arm-kernel/20220606130223.57354-1-liuqi115@huawei.com/
-
-  Change since v5:
-- Address the comments from Suzuki, add some comments in SMB document, and modify
-  configuration of "drvdata->reading", to void problems in multi-core concurrency scenario
-- Link: https://lore.kernel.org/linux-arm-kernel/20220416083953.52610-1-liuqi115@huawei.com/
-
-Change since v4:
-- Add a simple document of SMB driver according to Suzuki's comment.
-- Address the comments from Suzuki.
-- Link: https://lore.kernel.org/linux-arm-kernel/20220128061755.31909-1-liuqi115@huawei.com/
-
-Change since v3:
-- Modify the file header according to community specifications.
-- Address the comments from Mathieu.
-- Link: https://lore.kernel.org/linux-arm-kernel/20211118110016.40398-1-liuqi115@huawei.com/
-
-Change since v2:
-- Move ultrasoc driver to drivers/hwtracing/coresight by Mathieu's comment.
-- Link: https://lists.linaro.org/pipermail/coresight/2021-November/007310.html
-
-Change since v1:
-- Drop the document of UltraSoc according to Mathieu's comment.
-- Add comments to explain some private hardware settings.
-- Address the comments from Mathieu.
-- Link: https://lists.linaro.org/pipermail/coresight/2021-August/006842.html
-
-Change since RFC:
-- Move driver to drivers/hwtracing/coresight/ultrasoc.
-- Remove ultrasoc-axi-com.c, as AXI-COM doesn't need to be configured in
-  basic tracing function.
-- Remove ultrasoc.c as SMB does not need to register with the ultrasoc core.
-- Address the comments from Mathieu and Suzuki.
-- Link: https://lists.linaro.org/pipermail/coresight/2021-June/006535.html
-
-Qi Liu (2):
-  drivers/coresight: Add UltraSoc System Memory Buffer driver
-  Documentation: Add document for UltraSoc SMB driver
-
- .../sysfs-bus-coresight-devices-ultra_smb     |  31 +
- .../trace/coresight/ultrasoc-smb.rst          |  83 +++
- drivers/hwtracing/coresight/Kconfig           |  12 +
- drivers/hwtracing/coresight/Makefile          |   1 +
- drivers/hwtracing/coresight/ultrasoc-smb.c    | 658 ++++++++++++++++++
- drivers/hwtracing/coresight/ultrasoc-smb.h    | 129 ++++
- 6 files changed, 914 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
- create mode 100644 Documentation/trace/coresight/ultrasoc-smb.rst
- create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.c
- create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.h
-
+You are awesome, thank you!
 -- 
-2.33.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
