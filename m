@@ -2,267 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55728C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 14:12:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E354C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 14:49:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237676AbiKWOMI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 09:12:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35488 "EHLO
+        id S237585AbiKWOtr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 09:49:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237333AbiKWOMH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 09:12:07 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78E9B238;
-        Wed, 23 Nov 2022 06:12:05 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id l39-20020a05600c1d2700b003cf93c8156dso1372309wms.4;
-        Wed, 23 Nov 2022 06:12:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dd8Tq5iTvEhvWU1xsxOL1BkCF+6inB5UvZq4mNfpGio=;
-        b=PTumY7Q6HUcJ6DLqfQYcwhkfYX8AtccgiyLWyDGbwmZUdM/Y8RExTcmXKhNMhiQ7Fy
-         OU4DUzoJUFFCINXoh1FvhZezLIPIfhvGQY9W/X7naAE+Ie575MSrcCj/JWzWu1Wq/jY/
-         x/873i8HDW5bHElDMinXUoBcLFUmuoEOsMR0lykyi2EWbLL6+I/atUpnqwg97gsQmi3g
-         9U6e2PUPrPYDki0ADChAjhz7evG3FvStplX8XC1O4BF0HN8f+8iataYWqYPTr3W5Q6Id
-         EkrIZX4IljqjT5bkhS4oF4STpgwOrTu172nYm79OUDUXJulSWxQKIYLgq+nTK57cnYum
-         VWbg==
+        with ESMTP id S236447AbiKWOtr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 09:49:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FFFC6DCC9
+        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 06:48:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669214933;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=XVwsHMkeuOJlctKFKAb4Da/8dTubU4VpbLh+0BeUA34=;
+        b=XHcWS4/sHyXelC1GCNqeIT/Yp/tY7Xh0S73ueC/xdqQB2mUoUNcMb0QaO8YH+IJG9dCUT+
+        4CM919R4Gw29+6HMSOdQ0Thv+G9s69OCHrIqVwoPD+A9e56NTPH7AueYthNOoiy1gvVqLQ
+        PyPKptfkkdb4PPx8R/Sj2L4QoE+TGFk=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-303-LuHAxEgbM-ubF5DBBw_xFw-1; Wed, 23 Nov 2022 09:48:51 -0500
+X-MC-Unique: LuHAxEgbM-ubF5DBBw_xFw-1
+Received: by mail-il1-f198.google.com with SMTP id 13-20020a056e0216cd00b003023e8b7d03so12996523ilx.7
+        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 06:48:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Dd8Tq5iTvEhvWU1xsxOL1BkCF+6inB5UvZq4mNfpGio=;
-        b=StfavLeU/qqw7/giNYr/irH3WIXtUK28m61hj726KMBPNC8Xs7YPgUFd7ZbwWabFQv
-         ed34SKh+nY8eAv6hpYnXOUii3bfFsqijsDPPeLX4AmEq4FlQoPOHgVup5skHC+/a0k4v
-         j75zBTlCI9NcS+iUftp+qnEOdn4c6K5GrcQb+Pf6s3B8wsdG2TghLnbwLjBBB3q5qwWO
-         msQ+u/c/4SlYPCgemltk3Fxbmbm+H77nXtjphrJWFa7vh7cIFldhQ7fn6+/S+d4vo4si
-         75Su1SUfpWL3yJOkTkL7nox60JS3ZmNHhtJE/uKo8R4DliptqUv86x661YUxCrdrznNz
-         mbkw==
-X-Gm-Message-State: ANoB5pnjHFvKaRW1xsAZHag+GH1+8S6uUBAqD7CSwqqZMgL/Kpg+w8Bn
-        y+ukLAWUu8Qs7IEH+mvV/00ZYdnj7dPlGQ==
-X-Google-Smtp-Source: AA0mqf44x9SIA8omA0bl3IZQkDlMN212Rl9QeDmiwnbr/G/Kd4Eh5DfXSjz59og3ul29lq047zKB6g==
-X-Received: by 2002:a05:600c:3647:b0:3b4:c00d:2329 with SMTP id y7-20020a05600c364700b003b4c00d2329mr9604361wmq.124.1669212723365;
-        Wed, 23 Nov 2022 06:12:03 -0800 (PST)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:5c53:6546:4fe4:c63a])
-        by smtp.gmail.com with ESMTPSA id n1-20020a5d6b81000000b00226dba960b4sm16818785wrx.3.2022.11.23.06.12.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Nov 2022 06:12:02 -0800 (PST)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joanne Koong <joannelkoong@gmail.com>,
-        Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH bpf-next v3] bpf, docs: Document BPF_MAP_TYPE_BLOOM_FILTER
-Date:   Wed, 23 Nov 2022 14:11:51 +0000
-Message-Id: <20221123141151.54556-1-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.38.1
+        bh=XVwsHMkeuOJlctKFKAb4Da/8dTubU4VpbLh+0BeUA34=;
+        b=nE7OI/HbVQtyg+VVCw6RUtzBkYal/hq/77MUcxH14ms9IJXlfh1vP2AA3fqWehsYhD
+         LaT/LDIldwabfbG2tf5zhVnnQPRg7YKjZ85qBcsh3l6521/Ba9KW+K9rdctuKtYVOicx
+         oRYy8bIKpV3WE8eXg4i9EbuC9Vaaibpuq4VDyPcEDua1zwnawdVTGAodqjqyNA6w4uTQ
+         INMIdxWaNsFARScUOY4NcABlgRtxIR7ag/z6ge1MBTp7DLuetE42KABewYXfwEnHBg6M
+         4FDmysEhn/Bqe9iSpKP6FpQykwCSVbBLusxuTMUOEGK2TmfH17vHONtrcP7DK07NQzux
+         esaA==
+X-Gm-Message-State: ANoB5pnbSkbxdXVOakdWVbTINlX75ZQSz1I8RoX/JtkDZV8kKdiAlc5K
+        eX/FAMUPfw0ntZrWh7JB3mi4087CIufTRE/rxkcTdttaxprSdDv8WeI80OlAIUecOKY0HTE4iYG
+        +gpzSJk2A7gdQ0dunq22qt8VZbq5fqbYJQjK9
+X-Received: by 2002:a92:c691:0:b0:302:75c9:5d55 with SMTP id o17-20020a92c691000000b0030275c95d55mr4126278ilg.34.1669214931053;
+        Wed, 23 Nov 2022 06:48:51 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7t6tBPN8sYXy8dh8uHxD1HawZPKG6isYlau3hUqFJFGOIk/LhU7kZ8leId0LJjjgLzaxuDzjr+0sIG2p/qtrU=
+X-Received: by 2002:a92:c691:0:b0:302:75c9:5d55 with SMTP id
+ o17-20020a92c691000000b0030275c95d55mr4126263ilg.34.1669214930760; Wed, 23
+ Nov 2022 06:48:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221103155756.687789-1-benjamin.tissoires@redhat.com>
+ <20221103155756.687789-4-benjamin.tissoires@redhat.com> <ff1a0b34-71f2-cebe-a6ef-675936b276eb@nvidia.com>
+In-Reply-To: <ff1a0b34-71f2-cebe-a6ef-675936b276eb@nvidia.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 23 Nov 2022 15:48:39 +0100
+Message-ID: <CAO-hwJJZxgeTT8mLwFrYynSVASva=o7qL9Kr4xOywV3KDUu2GA@mail.gmail.com>
+Subject: Re: [PATCH hid v12 03/15] HID: initial BPF implementation
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for BPF_MAP_TYPE_BLOOM_FILTER including
-kernel BPF helper usage, userspace usage and examples.
+Hi Jon,
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-Acked-by: Joanne Koong <joannelkoong@gmail.com>
----
-v2 -> v3:
-- Use NULL instead of 0 and show use of bpf_map__fd()
-  as suggested by Joanne Koong
+On Wed, Nov 23, 2022 at 2:25 PM Jon Hunter <jonathanh@nvidia.com> wrote:
+>
+>
+> On 03/11/2022 15:57, Benjamin Tissoires wrote:
+> > Declare an entry point that can use fmod_ret BPF programs, and
+> > also an API to access and change the incoming data.
+> >
+> > A simpler implementation would consist in just calling
+> > hid_bpf_device_event() for any incoming event and let users deal
+> > with the fact that they will be called for any event of any device.
+> >
+> > The goal of HID-BPF is to partially replace drivers, so this situation
+> > can be problematic because we might have programs which will step on
+> > each other toes.
+> >
+> > For that, we add a new API hid_bpf_attach_prog() that can be called
+> > from a syscall and we manually deal with a jump table in hid-bpf.
+> >
+> > Whenever we add a program to the jump table (in other words, when we
+> > attach a program to a HID device), we keep the number of time we added
+> > this program in the jump table so we can release it whenever there are
+> > no other users.
+> >
+> > HID devices have an RCU protected list of available programs in the
+> > jump table, and those programs are called one after the other thanks
+> > to bpf_tail_call().
+> >
+> > To achieve the detection of users losing their fds on the programs we
+> > attached, we add 2 tracing facilities on bpf_prog_release() (for when
+> > a fd is closed) and bpf_free_inode() (for when a pinned program gets
+> > unpinned).
+> >
+> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+>
+> ...
+>
+> > +static int __init hid_bpf_init(void)
+> > +{
+> > +     int err;
+> > +
+> > +     /* Note: if we exit with an error any time here, we would entirely break HID, which
+> > +      * is probably not something we want. So we log an error and return success.
+> > +      *
+> > +      * This is not a big deal: the syscall allowing to attach a BPF program to a HID device
+> > +      * will not be available, so nobody will be able to use the functionality.
+> > +      */
+> > +
+> > +     err = register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING, &hid_bpf_kfunc_set);
+> > +     if (err) {
+> > +             pr_warn("error while setting HID BPF tracing kfuncs: %d", err);
+> > +             return 0;
+> > +     }
+> > +
+> > +     err = hid_bpf_preload_skel();
+> > +     if (err) {
+> > +             pr_warn("error while preloading HID BPF dispatcher: %d", err);
+> > +             return 0;
+> > +     }
+> > +
+> > +     /* register syscalls after we are sure we can load our preloaded bpf program */
+> > +     err = register_btf_kfunc_id_set(BPF_PROG_TYPE_SYSCALL, &hid_bpf_syscall_kfunc_set);
+> > +     if (err) {
+> > +             pr_warn("error while setting HID BPF syscall kfuncs: %d", err);
+> > +             return 0;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+>
+>
+> We have a kernel test that checks for new warning and error messages on
+> boot and with this change I am now seeing the following error message on
+> our Tegra platforms ...
+>
+>   WARNING KERN hid_bpf: error while preloading HID BPF dispatcher: -13
+>
+> I have a quick look at the code, but I can't say I am familiar with
+> this. So I wanted to ask if a way to fix this or avoid this? I see the
+> code returns 0, so one option would be to make this an informational or
+> debug print.
 
-v1 -> v2:
-- Fix sphinx warnings for sphinx >= 3.1
+I am not in favor of debug in that case, because I suspect it'll hide
+too much when getting a bug report. Informational could do, yes.
 
- Documentation/bpf/map_bloom_filter.rst | 174 +++++++++++++++++++++++++
- 1 file changed, 174 insertions(+)
- create mode 100644 Documentation/bpf/map_bloom_filter.rst
+However, before that, I'd like to dig a little bit more on why it is
+failing. I thought arm64 now has support of tracing bpf programs, so I
+would not expect this to fail.
 
-diff --git a/Documentation/bpf/map_bloom_filter.rst b/Documentation/bpf/map_bloom_filter.rst
-new file mode 100644
-index 000000000000..c82487f2fe0d
---- /dev/null
-+++ b/Documentation/bpf/map_bloom_filter.rst
-@@ -0,0 +1,174 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2022 Red Hat, Inc.
-+
-+=========================
-+BPF_MAP_TYPE_BLOOM_FILTER
-+=========================
-+
-+.. note::
-+   - ``BPF_MAP_TYPE_BLOOM_FILTER`` was introduced in kernel version 5.16
-+
-+``BPF_MAP_TYPE_BLOOM_FILTER`` provides a BPF bloom filter map. Bloom
-+filters are a space-efficient probabilistic data structure used to
-+quickly test whether an element exists in a set. In a bloom filter,
-+false positives are possible whereas false negatives are not.
-+
-+The bloom filter map does not have keys, only values. When the bloom
-+filter map is created, it must be created with a ``key_size`` of 0.  The
-+bloom filter map supports two operations:
-+
-+- push: adding an element to the map
-+- peek: determining whether an element is present in the map
-+
-+BPF programs must use ``bpf_map_push_elem`` to add an element to the
-+bloom filter map and ``bpf_map_peek_elem`` to query the map. These
-+operations are exposed to userspace applications using the existing
-+``bpf`` syscall in the following way:
-+
-+- ``BPF_MAP_UPDATE_ELEM`` -> push
-+- ``BPF_MAP_LOOKUP_ELEM`` -> peek
-+
-+The ``max_entries`` size that is specified at map creation time is used
-+to approximate a reasonable bitmap size for the bloom filter, and is not
-+otherwise strictly enforced. If the user wishes to insert more entries
-+into the bloom filter than ``max_entries``, this may lead to a higher
-+false positive rate.
-+
-+The number of hashes to use for the bloom filter is configurable using
-+the lower 4 bits of ``map_extra`` in ``union bpf_attr`` at map creation
-+time. If no number is specified, the default used will be 5 hash
-+functions. In general, using more hashes decreases both the false
-+positive rate and the speed of a lookup.
-+
-+It is not possible to delete elements from a bloom filter map. A bloom
-+filter map may be used as an inner map. The user is responsible for
-+synchronising concurrent updates and lookups to ensure no false negative
-+lookups occur.
-+
-+Usage
-+=====
-+
-+Kernel BPF
-+----------
-+
-+bpf_map_push_elem()
-+~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   long bpf_map_push_elem(struct bpf_map *map, const void *value, u64 flags)
-+
-+A ``value`` can be added to a bloom filter using the
-+``bpf_map_push_elem()`` helper. The ``flags`` parameter must be set to
-+``BPF_ANY`` when adding an entry to the bloom filter. This helper
-+returns ``0`` on success, or negative error in case of failure.
-+
-+bpf_map_peek_elem()
-+~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   long bpf_map_peek_elem(struct bpf_map *map, void *value)
-+
-+The ``bpf_map_peek_elem()`` helper is used to determine whether
-+``value`` is present in the bloom filter map. This helper returns ``0``
-+if ``value`` is probably present in the map, or ``-ENOENT`` if ``value``
-+is definitely not present in the map.
-+
-+Userspace
-+---------
-+
-+bpf_map_update_elem()
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   int bpf_map_update_elem (int fd, const void *key, const void *value, __u64 flags)
-+
-+A userspace program can add a ``value`` to a bloom filter using libbpf's
-+``bpf_map_update_elem`` function. The ``key`` parameter must be set to
-+``NULL`` and ``flags`` must be set to ``BPF_ANY``. Returns ``0`` on
-+success, or negative error in case of failure.
-+
-+bpf_map_lookup_elem()
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   int bpf_map_lookup_elem (int fd, const void *key, void *value)
-+
-+A userspace program can determine the presence of ``value`` in a bloom
-+filter using libbpf's ``bpf_map_lookup_elem`` function. The ``key``
-+parameter must be set to ``NULL``. Returns ``0`` if ``value`` is
-+probably present in the map, or ``-ENOENT`` if ``value`` is definitely
-+not present in the map.
-+
-+Examples
-+========
-+
-+Kernel BPF
-+----------
-+
-+This snippet shows how to declare a bloom filter in a BPF program:
-+
-+.. code-block:: c
-+
-+    struct {
-+            __uint(type, BPF_MAP_TYPE_BLOOM_FILTER);
-+            __type(value, __u32);
-+            __uint(max_entries, 1000);
-+            __uint(map_extra, 3);
-+    } bloom_filter SEC(".maps");
-+
-+This snippet shows how to determine presence of a value in a bloom
-+filter in a BPF program:
-+
-+.. code-block:: c
-+
-+    void *lookup(__u32 key)
-+    {
-+            if (bpf_map_peek_elem(&bloom_filter, &key) == 0) {
-+                    /* Verify not a false positive and fetch an associated
-+                     * value using a secondary lookup, e.g. in a hash table
-+                     */
-+                    return bpf_map_lookup_elem(&hash_table, &key);
-+            }
-+            return 0;
-+    }
-+
-+Userspace
-+---------
-+
-+This snippet shows how to use libbpf to create a bloom filter map from
-+userspace:
-+
-+.. code-block:: c
-+
-+    int create_bloom()
-+    {
-+            LIBBPF_OPTS(bpf_map_create_opts, opts,
-+                        .map_extra = 3);             /* number of hashes */
-+
-+            return bpf_map_create(BPF_MAP_TYPE_BLOOM_FILTER,
-+                                  "ipv6_bloom",      /* name */
-+                                  0,                 /* key size, must be zero */
-+                                  sizeof(ipv6_addr), /* value size */
-+                                  10000,             /* max entries */
-+                                  &opts);            /* create options */
-+    }
-+
-+This snippet shows how to add an element to a bloom filter from
-+userspace:
-+
-+.. code-block:: c
-+
-+    int add_element(struct bpf_map *bloom_map, __u32 value)
-+    {
-+            int bloom_fd = bpf_map__fd(bloom_map);
-+            return bpf_map_update_elem(bloom_fd, NULL, &value, BPF_ANY);
-+    }
-+
-+References
-+==========
-+
-+https://lwn.net/ml/bpf/20210831225005.2762202-1-joannekoong@fb.com/
--- 
-2.38.1
+Would you mind sending me your .config so I can check in it if you are
+missing anything? I am thinking that maybe I need to also depend on
+BPF_JIT.
+
+Cheers,
+Benjamin
+
+>
+> Thanks
+> Jon
+>
+> --
+> nvpublic
+>
 
