@@ -2,634 +2,314 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 495C6C4167D
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 15:45:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DD29C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 15:48:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236748AbiKWPpF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 10:45:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33170 "EHLO
+        id S238854AbiKWPsp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 10:48:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238197AbiKWPpB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 10:45:01 -0500
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 494A5193E7;
-        Wed, 23 Nov 2022 07:45:00 -0800 (PST)
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-14263779059so20412252fac.1;
-        Wed, 23 Nov 2022 07:45:00 -0800 (PST)
+        with ESMTP id S238364AbiKWPsa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 10:48:30 -0500
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CFD45A6EA
+        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 07:48:27 -0800 (PST)
+Received: by mail-pf1-x431.google.com with SMTP id g62so17678476pfb.10
+        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 07:48:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KpG5CY1IYqDDkijmSAv7ZlFs4APLBm5mzVUMB4zVUDo=;
-        b=jOzuvGYW92hFzOs+ohvKTJLfISc6SE0FJtiFWyXL1qTQ732WCtYe6A39Ejy1JOaQC/
-         kEs5RMokHcQXkimu5UtqKzgaX1pnxgaY32koE8ZExLkGdvyUTYTPEbj3YoIE5S5MiRun
-         PZk6gAshhjieRk7wIhg7V27o9uH0D+ySf0lgPI3JJxq4fcB7UNRZ2AJF7cc9lgzLhpsn
-         f6L39lvMhOTOs5SPHQT9NGbGp6hrnhDv0WcLkLpC/MbvR66XIT061tLGKyImGxP+3vma
-         khJT0e+6SN5PHYblJpJnsqZrYEqmH2j2DF3oU95WCM2KdKpACZxjDRv8N3yTVct/nfCN
-         gQHA==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CogaOYhU5rJYKcosZZYpH+BPGYo5v/qCbF8p4NIZlQk=;
+        b=QCh1P3qKGCWXWNFLoqB+/VFvpe244cW86jbJrqavwhTOIwJ/l8HhgMCxsR1h95yKnW
+         WhoAYG4p/+mg/DFiNdUKsBiYqWvjsH5pD4UWruB7EjBSwtsZflpyvhLbAgfgRLZFVV5Q
+         Fhn1w/djy4SpbNsiWqxnWCVDgREhFMx0bCzDLhfAJQGIxg5WMvm4cPeLaa3LrWpMRpde
+         1oYoEjiiC4hXHBODrc+/2TnUS3rT0jhOH/PpYLsl32IuuSLIvfgHeNUv1krv4K5Jga2y
+         hNkiE2UDPNO45BM1W5zIesrUpwU09BiTawjLJPiALyaLDTgu8gp+q7UMovCAh9600kzb
+         x6TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KpG5CY1IYqDDkijmSAv7ZlFs4APLBm5mzVUMB4zVUDo=;
-        b=OdfZuteyeYMZ+nyYUSIbBrFYWolNu5qTHt/vchyPHPLVj/yaKxVt9iWTsHwt/3KYfZ
-         shMQbJ/GOR7qDUXrkSRq/74ImxBprY2S84KZmbIJCc6jNlli6knsZ+Q4wIi6uG0K7j5r
-         C+UoooKZvguf4qvBUi6DR6Q8gPwNgFfNYIbYkDHKdjSlRcXyBZ/Fz5R8ZrNAwiXOJzoW
-         nnbfSNd23o8F4z4eOFzEghkfKf2PpAp2IxWIDbAlraTuRRZdHxY3O2Nz3OSH0BDHa+rK
-         iUh4vZC9mpai3VygBK/i8tegD4q0IHaExkBfpjcpRNgrXflju6K/TAOeoJ9zI8F+AVYn
-         vCng==
-X-Gm-Message-State: ANoB5pmoruv1cB1UTE86QXtz+QljK6MjRT5UfZlbBtu1K6JuU6Pvdy4G
-        uCF3epnN86W8oehht5PbXSU=
-X-Google-Smtp-Source: AA0mqf5eqfcRhhyG084srT0QMEyQOotb/zvV9diCvGZ+LIP3bMgPOo8qfrB40Hf6rNJlBmfgNGY3WQ==
-X-Received: by 2002:a05:6870:428a:b0:132:4f85:df90 with SMTP id y10-20020a056870428a00b001324f85df90mr5311238oah.288.1669218299416;
-        Wed, 23 Nov 2022 07:44:59 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x53-20020a056830247500b0066c7733be43sm7349128otr.30.2022.11.23.07.44.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Nov 2022 07:44:58 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <bf851fa1-af62-5cdc-8cb4-bcf29b73731a@roeck-us.net>
-Date:   Wed, 23 Nov 2022 07:44:56 -0800
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CogaOYhU5rJYKcosZZYpH+BPGYo5v/qCbF8p4NIZlQk=;
+        b=rc3ai7OyWfYo46C2vvNKnZ5lSztc52943D0aa+fe82KYmG8XRoDELYrAUeYaOAfuq3
+         h9nGy6EGObZa6Ma+6TWP/xnNYLGU2vybaJL9EyXZ/r5HdHuSLu4Ieo717sahq+D/YLtM
+         L6BM1vH0SaFcA5EA/Ulv7VBXzht9W15O4POVwlONzYJ7FBbD6e8uAxyaInYPOmnhfHeG
+         fBvYdxtAOrFvl2tjuNF16rM9ltAa/3gcFsSOl8wWjfaVEtGJFJHZpaYdaqpaXOOW16cX
+         6b9/ARYXCEqWvkP+I80HV/v1nSTCLG0rFqVbf6kX0Au8u96YjRP3kf4TROlbrkPD0lNB
+         cvmA==
+X-Gm-Message-State: ANoB5pnTNM7EuoqTiB4y/JDG52GgN5+0zeMq3T3pLOlF5jQR7B898wyF
+        oRNHbtSRQs/JLScuFIZOrM1cgKIO+En82uq6jARgkg==
+X-Google-Smtp-Source: AA0mqf7Grm5pcLT0zZvlUsRZ3/VqLKGx+80LWNt2LwDFZdqdAdmKL4oeqSbo9WQm0QQoGpWAHgVTmPgK8G+gQ14qRtU=
+X-Received: by 2002:a65:4586:0:b0:476:f119:40b2 with SMTP id
+ o6-20020a654586000000b00476f11940b2mr26182155pgq.330.1669218506684; Wed, 23
+ Nov 2022 07:48:26 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Content-Language: en-US
-To:     Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        joel@jms.id.au, andrew@aj.id.au, lee@kernel.org,
-        thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de,
-        corbet@lwn.net, p.zabel@pengutronix.de,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     kernel test robot <lkp@intel.com>
-References: <20221123061635.32025-1-billy_tsai@aspeedtech.com>
- <20221123061635.32025-6-billy_tsai@aspeedtech.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [v4 5/5] hwmon: Add Aspeed ast2600 TACH support
-In-Reply-To: <20221123061635.32025-6-billy_tsai@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20221119081252.3864249-1-davidgow@google.com> <20221119081252.3864249-2-davidgow@google.com>
+In-Reply-To: <20221119081252.3864249-2-davidgow@google.com>
+From:   Sadiya Kazi <sadiyakazi@google.com>
+Date:   Wed, 23 Nov 2022 21:18:15 +0530
+Message-ID: <CAO2JNKXnePO7Azhsa5+pPpn7+cv862P=VryCX7SmpcnWbZ8xog@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] kunit: Use the static key when retrieving the
+ current test
+To:     David Gow <davidgow@google.com>
+Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
+        Daniel Latypov <dlatypov@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/22/22 22:16, Billy Tsai wrote:
-> Add the support of Tachometer which can use to monitor the frequency of
-> the input. The tach supports up to 16 channels and it's part function of
-> multi-function device "pwm-tach controller".
-> 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> Reported-by: kernel test robot <lkp@intel.com>
+Thank you, David. This looks fine to me but I do have a few comments
+for the documentation. Please see my comments inline below.
+Additionally, it would be great to use second person, but we can
+reserve that change for another time.
 
-The above Reported-by: tag does not make sense for new drivers. Please drop.
+Best Regards,
+Sadiya
 
-Also, PATCH in subject is missing.
 
+
+
+On Sat, Nov 19, 2022 at 1:43 PM 'David Gow' via KUnit Development
+<kunit-dev@googlegroups.com> wrote:
+>
+> In order to detect if a KUnit test is running, and to access its
+> context, the 'kunit_test' member of the current task_struct is used.
+> Usually, this is accessed directly or via the kunit_fail_current_task()
+> function.
+>
+> In order to speed up the case where no test is running, add a wrapper,
+> kunit_get_current_test(), which uses the static key to fail early.
+> Equally, Speed up kunit_fail_current_test() by using the static key.
+>
+> This should make it convenient for code to call this
+> unconditionally in fakes or error paths, without worrying that this will
+> slow the code down significantly.
+>
+> If CONFIG_KUNIT=n (or m), this compiles away to nothing. If
+> CONFIG_KUNIT=y, it will compile down to a NOP (on most architectures) if
+> no KUnit test is currently running.
+>
+> Note that kunit_get_current_test() does not work if KUnit is built as a
+> module. This mirrors the existing restriction on kunit_fail_current_test().
+>
+> Note that the definition of kunit_fail_current_test() still wraps an
+> empty, inline function if KUnit is not built-in. This is to ensure that
+> the printf format string __attribute__ will still work.
+>
+> Also update the documentation to suggest users use the new
+> kunit_get_current_test() function, update the example, and to describe
+> the behaviour when KUnit is disabled better.
+>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Sadiya Kazi <sadiyakazi@google.com>
+> Signed-off-by: David Gow <davidgow@google.com>
 > ---
->   Documentation/hwmon/index.rst               |   1 +
->   Documentation/hwmon/tach-aspeed-ast2600.rst |  24 ++
->   drivers/hwmon/Kconfig                       |   9 +
->   drivers/hwmon/Makefile                      |   1 +
->   drivers/hwmon/tach-aspeed-ast2600.c         | 399 ++++++++++++++++++++
->   5 files changed, 434 insertions(+)
->   create mode 100644 Documentation/hwmon/tach-aspeed-ast2600.rst
->   create mode 100644 drivers/hwmon/tach-aspeed-ast2600.c
-> 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index c1d11cf13eef..8aed4c42ca89 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -193,6 +193,7 @@ Hardware Monitoring Kernel Drivers
->      sparx5-temp
->      stpddc60
->      sy7636a-hwmon
-> +   tach-aspeed-ast2600
->      tc654
->      tc74
->      thmc50
-> diff --git a/Documentation/hwmon/tach-aspeed-ast2600.rst b/Documentation/hwmon/tach-aspeed-ast2600.rst
-> new file mode 100644
-> index 000000000000..4f9501b783a1
-> --- /dev/null
-> +++ b/Documentation/hwmon/tach-aspeed-ast2600.rst
-> @@ -0,0 +1,24 @@
-> +Kernel driver tach-aspeed-ast2600
-> +==============================
-> +
-> +Supported chips:
-> +	ASPEED AST2600
-> +
-> +Authors:
-> +	<billy_tsai@aspeedtech.com>
-> +
-> +Description:
-> +------------
-> +This driver implements support for ASPEED AST2600 Fan Tacho controller.
-> +The controller supports up to 16 tachometer inputs.
-> +
-> +The driver provides the following sensor accesses in sysfs:
-> +=============== ======= =====================================================
-> +fanX_input	ro	provide current fan rotation value in RPM as reported
-> +			by the fan to the device.
-> +fanX_div	rw	Fan divisor: Supported value are power of 4 (1, 4, 16
-> +                        64, ... 4194304)
+>
+> As-is, the only code which will be directly affected by this (via the
+> kunit_fail_current_test() change) will be UBSAN's KUnit integration.
+>
+> Patches to port other tests to use kunit_get_current_test() will be sent
+> separately (other than the SLUB one in patch 3/3). KASAN in particular
+> are reworking their KUnit tests and integration, so we'll use this in a
+> follow up to avoid introducing a conflict.
+>
+> Changes since v2:
+> https://lore.kernel.org/all/20221025071907.1251820-2-davidgow@google.com/
+> - Only add kunit_get_current_test() when KUnit is built-in, as the
+>   static key isn't available otherwise.
+>   - I'm going to try to put together some patches to make things like
+>     this available when CONFIG_KUNIT=m in the future.
+>   - Also update the documentation to note this.
+>
+> Changes since v1:
+> https://lore.kernel.org/linux-kselftest/20221021072854.333010-2-davidgow@google.com/
+> - Fix a missing '}' which broke everything. Thanks Kees, kernel test
+>   robot.
+> - Add the new kunit_get_current_test() function, as most of the cases
+>   where we retrieve the current test (even to fail it) were accessing
+>   current->kunit_test directly, not using kunit_fail_current_test().
+> - Add some documentation comments.
+> - Update the documentation in usage.rst.
+>   - The version in tips.rst was not updated, and will be removed:
+>   https://lore.kernel.org/linux-kselftest/20221025055844.1231592-1-davidgow@google.com/
+>
+> ---
+>  Documentation/dev-tools/kunit/usage.rst | 25 +++++++-----
+>  include/kunit/test-bug.h                | 53 +++++++++++++++++++++++--
+>  2 files changed, 66 insertions(+), 12 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+> index 2737863ef365..e70014b82350 100644
+> --- a/Documentation/dev-tools/kunit/usage.rst
+> +++ b/Documentation/dev-tools/kunit/usage.rst
+> @@ -625,17 +625,21 @@ as shown in next section: *Accessing The Current Test*.
+>  Accessing The Current Test
+>  --------------------------
+>
+> -In some cases, we need to call test-only code from outside the test file.
+> -For example, see example in section *Injecting Test-Only Code* or if
+> -we are providing a fake implementation of an ops struct. Using
+> -``kunit_test`` field in ``task_struct``, we can access it via
+> -``current->kunit_test``.
+> +In some cases, we need to call test-only code from outside the test file,
+> +for example,  when providing a fake implementation of a function, or to fail
+> +any current test from within an error handler.
+> +We can do this via the ``kunit_test`` field in ``task_struct``, which we can
+> +access using the ``kunit_get_current_test`` function in ``kunit/test-bug.h``.
+>
+How about this:
+In some cases, we need to call test-only code from outside the test
+file. This is helpful, for instance, when providing a fake implementation
+of a function, or if we wish to fail the current test from within an
+error handler.
 
-The code doesn't support 1.
+> -The example below includes how to implement "mocking":
+> +``kunit_get_current_test`` requires KUnit be built-in to the kernel, i.e.
+> +``CONFIG_KUNIT=y``. It is safe to call even if KUnit is not enabled, is built as a module,
+> +or no test is currently running, in which case it will quickly return ``NULL``.
 
-> +                        The larger divisor, the less rpm accuracy and the less
-> +                        affected by fan signal glitch.
-> +fanX_pulses	rw      Fan pulses per resolution.
-> +=============== ======= ======================================================
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 7ac3daaf59ce..3196087a7b3e 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -403,6 +403,15 @@ config SENSORS_ASPEED
->   	  This driver can also be built as a module. If so, the module
->   	  will be called aspeed_pwm_tacho.
->   
-> +config SENSORS_TACH_ASPEED_AST2600
-> +	tristate "ASPEED ast2600 Tachometer support"
-> +	select REGMAP
-> +	help
-> +	  This driver provides support for Aspeed ast2600 Tachometer.
+Suggestion:
+Although the function ``kunit get current test()`` is always
+available, it will only
+produce a test if the kernel includes KUnit (i.e., if CONFIG KUNIT=y). It will
+return NULL in all other circumstances.
 > +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called tach-aspeed-ast2600.
+> +The example below uses this to implement a "mock" implementation of a function, ``foo``:
+>
+>  .. code-block:: c
+>
+> -       #include <linux/sched.h> /* for current */
+> +       #include <kunit/test-bug.h> /* for kunit_get_current_test */
+>
+>         struct test_data {
+>                 int foo_result;
+> @@ -644,7 +648,7 @@ The example below includes how to implement "mocking":
+>
+>         static int fake_foo(int arg)
+>         {
+> -               struct kunit *test = current->kunit_test;
+> +               struct kunit *test = kunit_get_current_test();
+>                 struct test_data *test_data = test->priv;
+>
+>                 KUNIT_EXPECT_EQ(test, test_data->want_foo_called_with, arg);
+> @@ -675,7 +679,7 @@ Each test can have multiple resources which have string names providing the same
+>  flexibility as a ``priv`` member, but also, for example, allowing helper
+>  functions to create resources without conflicting with each other. It is also
+>  possible to define a clean up function for each resource, making it easy to
+> -avoid resource leaks. For more information, see Documentation/dev-tools/kunit/api/test.rst.
+> +avoid resource leaks. For more information, see Documentation/dev-tools/kunit/api/resource.rst.
+>
+>  Failing The Current Test
+>  ------------------------
+> @@ -703,3 +707,6 @@ structures as shown below:
+>         static void my_debug_function(void) { }
+>         #endif
+>
+> +Note that ``kunit_fail_current_test`` requires KUnit be built-in to the kernel, i.e.
+> +``CONFIG_KUNIT=y``. It is safe to call even if KUnit is not enabled, is built as a module,
+> +or no test is currently running, but will do nothing.
+
+same as above
+
+> diff --git a/include/kunit/test-bug.h b/include/kunit/test-bug.h
+> index 5fc58081d511..87a953dceeaa 100644
+> --- a/include/kunit/test-bug.h
+> +++ b/include/kunit/test-bug.h
+> @@ -9,16 +9,63 @@
+>  #ifndef _KUNIT_TEST_BUG_H
+>  #define _KUNIT_TEST_BUG_H
+>
+> -#define kunit_fail_current_test(fmt, ...) \
+> -       __kunit_fail_current_test(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
+> -
+>  #if IS_BUILTIN(CONFIG_KUNIT)
+>
+> +#include <linux/jump_label.h> /* For static branch */
+> +#include <linux/sched.h>
 > +
->   config SENSORS_ATXP1
->   	tristate "Attansic ATXP1 VID controller"
->   	depends on I2C
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index 11d076cad8a2..50a139c7c4ca 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -53,6 +53,7 @@ obj-$(CONFIG_SENSORS_ARM_SCMI)	+= scmi-hwmon.o
->   obj-$(CONFIG_SENSORS_ARM_SCPI)	+= scpi-hwmon.o
->   obj-$(CONFIG_SENSORS_AS370)	+= as370-hwmon.o
->   obj-$(CONFIG_SENSORS_ASC7621)	+= asc7621.o
-> +obj-$(CONFIG_SENSORS_TACH_ASPEED_AST2600) += tach-aspeed-ast2600.o
->   obj-$(CONFIG_SENSORS_ASPEED)	+= aspeed-pwm-tacho.o
->   obj-$(CONFIG_SENSORS_ATXP1)	+= atxp1.o
->   obj-$(CONFIG_SENSORS_AXI_FAN_CONTROL) += axi-fan-control.o
-> diff --git a/drivers/hwmon/tach-aspeed-ast2600.c b/drivers/hwmon/tach-aspeed-ast2600.c
-> new file mode 100644
-> index 000000000000..2b8dd5eeb6ec
-> --- /dev/null
-> +++ b/drivers/hwmon/tach-aspeed-ast2600.c
-> @@ -0,0 +1,399 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright (C) ASPEED Technology Inc.
+> +/* Static key if KUnit is running any tests. */
+> +extern struct static_key_false kunit_running;
+> +
+> +/**
+> + * kunit_get_current_test() - Return a pointer to the currently-running
+> + *                           KUnit test.
+Suggestion: You can use "currently running KUnit test" or just say
+"current KUnit test".
+> + *
+> + * If a KUnit test is running in the current task, returns a pointer to
+> + * its associated struct kunit, which can then be passed to any KUnit function
+> + * or assertion. If no test is running (or a test is running in a different
+> + * task), returns NULL.
+
+How about this:
+Returns a pointer to the associated struct kunit if a KUnit test is
+currently running
+in the task. This pointer can then be passed to any KUnit function or assertion.
+Returns NULL if no tests are running (or tests are running in a different task).
+
+> + *
+> + * This function is safe to call even when KUnit is disabled: it will compile
+> + * down to nothing if CONFIG_KUNIT is not enabled, and will be very fast if
+> + * no test is running.
 > + */
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/errno.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/io.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +#include <linux/reset.h>
-> +#include <linux/sysfs.h>
-> +
-> +/* The channel number of Aspeed tach controller */
-> +#define TACH_ASPEED_NR_TACHS		16
-> +/* TACH Control Register */
-> +#define TACH_ASPEED_CTRL(ch)		(((ch) * 0x10) + 0x08)
-> +#define TACH_ASPEED_IER			BIT(31)
-> +#define TACH_ASPEED_INVERS_LIMIT	BIT(30)
-> +#define TACH_ASPEED_LOOPBACK		BIT(29)
-> +#define TACH_ASPEED_ENABLE		BIT(28)
-> +#define TACH_ASPEED_DEBOUNCE_MASK	GENMASK(27, 26)
-> +#define TACH_ASPEED_DEBOUNCE_BIT	26
-> +#define TACH_ASPEED_IO_EDGE_MASK	GENMASK(25, 24)
-> +#define TACH_ASPEED_IO_EDGE_BIT		24
-> +#define TACH_ASPEED_CLK_DIV_T_MASK	GENMASK(23, 20)
-> +#define TACH_ASPEED_CLK_DIV_BIT		20
-> +#define TACH_ASPEED_THRESHOLD_MASK	GENMASK(19, 0)
-> +/* [27:26] */
-> +#define DEBOUNCE_3_CLK			0x00
-> +#define DEBOUNCE_2_CLK			0x01
-> +#define DEBOUNCE_1_CLK			0x02
-> +#define DEBOUNCE_0_CLK			0x03
-> +/* [25:24] */
-> +#define F2F_EDGES			0x00
-> +#define R2R_EDGES			0x01
-> +#define BOTH_EDGES			0x02
-> +/* [23:20] */
-> +/* divisor = 4 to the nth power, n = register value */
-> +#define DEFAULT_TACH_DIV		1024
-> +#define DIV_TO_REG(divisor)		(ilog2(divisor) >> 1)
-> +
-> +/* TACH Status Register */
-> +#define TACH_ASPEED_STS(ch)		(((ch) * 0x10) + 0x0C)
-> +
-> +/*PWM_TACH_STS */
-> +#define TACH_ASPEED_ISR			BIT(31)
-> +#define TACH_ASPEED_PWM_OUT		BIT(25)
-> +#define TACH_ASPEED_PWM_OEN		BIT(24)
-> +#define TACH_ASPEED_DEB_INPUT		BIT(23)
-> +#define TACH_ASPEED_RAW_INPUT		BIT(22)
-> +#define TACH_ASPEED_VALUE_UPDATE	BIT(21)
-> +#define TACH_ASPEED_FULL_MEASUREMENT	BIT(20)
-> +#define TACH_ASPEED_VALUE_MASK		GENMASK(19, 0)
-> +/**********************************************************
-> + * Software setting
-> + *********************************************************/
-> +#define DEFAULT_FAN_PULSE_PR		2
-> +struct aspeed_tach_channel_params {
-> +	int limited_inverse;
-> +	u16 threshold;
-> +	u8 tach_edge;
-> +	u8 tach_debounce;
-> +	u8 pulse_pr;
-> +	u32 divisor;
-> +	u32 sample_period; /* unit is us */
-> +	u32 polling_period; /* unit is us */
-> +};
-> +
-> +struct aspeed_tach_data {
-> +	struct device *dev;
-> +	struct regmap *regmap;
-> +	struct clk *clk;
-> +	struct reset_control *reset;
-> +	bool tach_present[TACH_ASPEED_NR_TACHS];
-> +	struct aspeed_tach_channel_params *tach_channel;
-> +};
-> +
-> +static void aspeed_tach_ch_enable(struct aspeed_tach_data *priv, u8 tach_ch,
-> +				  bool enable)
+
+How about this: You can safely call this function even when KUnit is disabled.
+If CONFIG_KUNIT is not enabled, it will compile to nothing and will
+run quickly if no tests are running.
+
+
+
+> +static inline struct kunit *kunit_get_current_test(void)
 > +{
-> +	if (enable)
-> +		regmap_set_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-> +				TACH_ASPEED_ENABLE);
-> +	else
-> +		regmap_clear_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-> +				  TACH_ASPEED_ENABLE);
+> +       if (!static_branch_unlikely(&kunit_running))
+> +               return NULL;
+> +
+> +       return current->kunit_test;
 > +}
 > +
-> +static u64 aspeed_tach_val_to_rpm(struct aspeed_tach_data *priv, u8 fan_tach_ch,
-> +				  u32 tach_val)
-> +{
-> +	unsigned long clk_source;
-> +	u64 rpm;
-> +	u32 tach_div;
 > +
-> +	/*
-> +	 * We need the mode to determine if the tach_val is double (from
-> +	 * counting both edges).
-> +	 */
-> +	if (priv->tach_channel[fan_tach_ch].tach_edge == BOTH_EDGES)
-> +		tach_val <<= 1;
+> +/**
+> + * kunit_fail_current_test() - If a KUnit test is running, fail it.
+> + *
+> + * If a KUnit test is running in the current task, mark that test as failed.
+> + *
+> + * This macro will only work if KUnit is built-in (though the tests
+> + * themselves can be modules). Otherwise, it compiles down to nothing.
+> + */
+> +#define kunit_fail_current_test(fmt, ...) do {                                 \
+> +               if (static_branch_unlikely(&kunit_running)) {                   \
+> +                       __kunit_fail_current_test(__FILE__, __LINE__,           \
+> +                                                 fmt, ##__VA_ARGS__);          \
+> +               }                                                               \
+> +       } while (0)
 > +
-> +	tach_div = tach_val * (priv->tach_channel[fan_tach_ch].divisor) *
-> +		   (priv->tach_channel[fan_tach_ch].pulse_pr);
 > +
-> +	clk_source = clk_get_rate(priv->clk);
-
-Unless the clock rate can change (which is unlikely, I would suggest
-to read it once during probe and re-use the value instead of reading it
-repeatedly.
-
-> +	dev_dbg(priv->dev, "clk %ld, tach_val %d , tach_div %d\n", clk_source,
-> +		tach_val, tach_div);
+>  extern __printf(3, 4) void __kunit_fail_current_test(const char *file, int line,
+>                                                     const char *fmt, ...);
+>
+>  #else
+>
+> +static inline struct kunit *kunit_get_current_test(void) { return NULL; }
 > +
-> +	rpm = (u64)clk_source * 60;
-> +	do_div(rpm, tach_div);
+> +/* We define this with an empty helper function so format string warnings work */
+> +#define kunit_fail_current_test(fmt, ...) \
+> +               __kunit_fail_current_test(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
 > +
-> +	return rpm;
-> +}
-> +
-> +static int aspeed_get_fan_tach_ch_rpm(struct aspeed_tach_data *priv,
-> +				      u8 fan_tach_ch)
-> +{
-> +	u32 val;
-> +	u64 rpm;
-> +	int ret;
-> +
-> +	ret = regmap_read(priv->regmap, TACH_ASPEED_STS(fan_tach_ch), &val);
-> +
-
-Please drop this empty line.
-
-The existence of a status register makes me wonder what is in there.
-Does the controller report any errors ? If so, it might be worthwile
-adding attribute(s) for it.
-
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!(val & TACH_ASPEED_FULL_MEASUREMENT))
-> +		return 0;
-> +	rpm = aspeed_tach_val_to_rpm(priv, fan_tach_ch,
-> +				     val & TACH_ASPEED_VALUE_MASK);
-> +
-> +	return rpm;
-> +}
-> +
-> +static int aspeed_tach_hwmon_read(struct device *dev,
-> +				  enum hwmon_sensor_types type, u32 attr,
-> +				  int channel, long *val)
-> +{
-> +	struct aspeed_tach_data *priv = dev_get_drvdata(dev);
-> +	u32 reg_val;
-> +	int ret;
-> +
-> +	switch (attr) {
-> +	case hwmon_fan_input:
-> +		ret = aspeed_get_fan_tach_ch_rpm(priv, channel);
-> +		if (ret < 0)
-> +			return ret;
-> +		*val = ret;
-> +		break;
-> +	case hwmon_fan_div:
-> +		regmap_read(priv->regmap, TACH_ASPEED_CTRL(channel), &reg_val);
-> +		reg_val = FIELD_GET(TACH_ASPEED_CLK_DIV_T_MASK, reg_val);
-> +		*val = BIT(reg_val << 1);
-> +		break;
-> +	case hwmon_fan_pulses:
-> +		*val = priv->tach_channel[channel].pulse_pr;
-> +		break;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int aspeed_tach_hwmon_write(struct device *dev,
-> +				   enum hwmon_sensor_types type, u32 attr,
-> +				   int channel, long val)
-> +{
-> +	struct aspeed_tach_data *priv = dev_get_drvdata(dev);
-> +
-> +	switch (attr) {
-> +	case hwmon_fan_div:
-> +		if (!(is_power_of_2(val) && !(ilog2(val) % 2))) {
-> +			dev_err(dev,
-> +				"fan_div value %ld not supported. Only support power of 4\n",
-> +				val);
-
-Please refrain from error messages here. This only clogs the log as
-result of user input.
-
-The arithmetic is confusing.
-		if (!is_power_of_2(val) || (ilog2(val) % 2)))
-
-would be much less confusing and easier to understand.
-
-> +			return -EINVAL;
-> +		}
-
-There should be a range check. The above accepts a divisor value larger than 1024.
-
-> +		priv->tach_channel[channel].divisor = val;
-> +		regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(channel),
-> +				  TACH_ASPEED_CLK_DIV_T_MASK,
-> +				  DIV_TO_REG(priv->tach_channel[channel].divisor)
-> +					  << TACH_ASPEED_CLK_DIV_BIT);
-> +		break;
-> +	case hwmon_fan_pulses:
-> +		priv->tach_channel[channel].pulse_pr = val;
-> +		break;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static umode_t aspeed_tach_dev_is_visible(const void *drvdata,
-> +					  enum hwmon_sensor_types type,
-> +					  u32 attr, int channel)
-> +{
-> +	const struct aspeed_tach_data *priv = drvdata;
-> +
-> +	if (!priv->tach_present[channel])
-> +		return 0;
-> +	switch (attr) {
-> +	case hwmon_fan_input:
-> +		return 0444;
-> +	case hwmon_fan_div:
-> +	case hwmon_fan_pulses:
-> +		return 0644;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static const struct hwmon_ops aspeed_tach_ops = {
-> +	.is_visible = aspeed_tach_dev_is_visible,
-> +	.read = aspeed_tach_hwmon_read,
-> +	.write = aspeed_tach_hwmon_write,
-> +};
-> +
-> +static const struct hwmon_channel_info *aspeed_tach_info[] = {
-> +	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-> +			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-> +			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-> +			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-> +			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-> +			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-> +			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-> +			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-> +			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-> +			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-> +			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-> +			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-> +			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-> +			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-> +			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-> +			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES),
-> +	NULL
-> +};
-> +
-> +static const struct hwmon_chip_info aspeed_tach_chip_info = {
-> +	.ops = &aspeed_tach_ops,
-> +	.info = aspeed_tach_info,
-> +};
-> +
-> +static void aspeed_create_fan_tach_channel(struct aspeed_tach_data *priv,
-> +					   u32 tach_ch)
-> +{
-> +	priv->tach_present[tach_ch] = true;
-> +	priv->tach_channel[tach_ch].limited_inverse = 0;
-> +	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-> +			  TACH_ASPEED_INVERS_LIMIT,
-> +			  priv->tach_channel[tach_ch].limited_inverse ?
-> +				  TACH_ASPEED_INVERS_LIMIT :
-> +				  0);
-> +
-What is the purpose of the above code ? limited_inverse is always 0.
-
-> +	priv->tach_channel[tach_ch].tach_debounce = DEBOUNCE_3_CLK;
-> +	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-> +			  TACH_ASPEED_DEBOUNCE_MASK,
-> +			  priv->tach_channel[tach_ch].tach_debounce
-> +				  << TACH_ASPEED_DEBOUNCE_BIT);
-> +
-> +	priv->tach_channel[tach_ch].tach_edge = F2F_EDGES;
-> +	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-> +			  TACH_ASPEED_IO_EDGE_MASK,
-> +			  priv->tach_channel[tach_ch].tach_edge
-> +				  << TACH_ASPEED_IO_EDGE_BIT);
-> +
-
-limited_inverse, tach_debounce, and tach_edge are constants.
-There is no need to keep constants as per-channel variables.
-
-> +	priv->tach_channel[tach_ch].divisor = DEFAULT_TACH_DIV;
-> +	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-> +			  TACH_ASPEED_CLK_DIV_T_MASK,
-> +			  DIV_TO_REG(priv->tach_channel[tach_ch].divisor)
-> +				  << TACH_ASPEED_CLK_DIV_BIT);
-> +
-> +	priv->tach_channel[tach_ch].threshold = 0;
-> +	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-> +			  TACH_ASPEED_THRESHOLD_MASK,
-> +			  priv->tach_channel[tach_ch].threshold);
-> +
-
-The above applies to threshold as well.
-
-> +	priv->tach_channel[tach_ch].pulse_pr = DEFAULT_FAN_PULSE_PR;
-> +
-> +	aspeed_tach_ch_enable(priv, tach_ch, true);
-> +}
-> +
-
-I kind of can understand that there are no devicetree properties given the
-discussion around it. It is still unfortunate since being involved in that
-discussion might help ensure that a generic property such as fan divisor value
-ends up being supported in the upcoming generic properties.
-
-> +static int aspeed_tach_create_fan(struct device *dev, struct device_node *child,
-> +				  struct aspeed_tach_data *priv)
-> +{
-> +	u32 tach_channel;
-> +	int ret;
-> +
-> +	ret = of_property_read_u32(child, "reg", &tach_channel);
-> +	if (ret)
-> +		return ret;
-> +
-> +	aspeed_create_fan_tach_channel(priv, tach_channel);
-> +
-> +	return 0;
-> +}
-> +
-> +static void aspeed_tach_reset_assert(void *data)
-> +{
-> +	struct reset_control *rst = data;
-> +
-> +	reset_control_assert(rst);
-> +}
-> +
-> +static int aspeed_tach_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct device_node *np, *child;
-> +	struct aspeed_tach_data *priv;
-> +	struct device *hwmon;
-> +	struct platform_device *parent_dev;
-> +	int ret;
-> +
-> +	np = dev->parent->of_node;
-> +	if (!of_device_is_compatible(np, "aspeed,ast2600-pwm-tach"))
-> +		return dev_err_probe(dev, -ENODEV,
-> +				     "Unsupported tach device binding\n");
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +	priv->dev = &pdev->dev;
-> +	priv->tach_channel =
-> +		devm_kcalloc(dev, TACH_ASPEED_NR_TACHS,
-> +			     sizeof(*priv->tach_channel), GFP_KERNEL);
-> +	if (!priv->tach_channel)
-> +		return -ENOMEM;
-
-Why not allocate tach_channel as array within aspeed_tach_data ?
-
-> +
-> +	priv->regmap = syscon_node_to_regmap(np);
-> +	if (IS_ERR(priv->regmap))
-> +		return dev_err_probe(dev, PTR_ERR(priv->regmap),
-> +				     "Couldn't get regmap\n");
-> +	parent_dev = of_find_device_by_node(np);
-
-Isn't that the same as dev->parent ?
-
-> +	priv->clk = devm_clk_get_enabled(&parent_dev->dev, NULL);
-> +	if (IS_ERR(priv->clk))
-> +		return dev_err_probe(dev, PTR_ERR(priv->clk),
-> +				     "Couldn't get clock\n");
-> +
-> +	priv->reset = devm_reset_control_get_shared(&parent_dev->dev, NULL);
-> +	if (IS_ERR(priv->reset))
-> +		return dev_err_probe(dev, PTR_ERR(priv->reset),
-> +				     "Couldn't get reset control\n");
-> +
-> +	ret = reset_control_deassert(priv->reset);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Couldn't deassert reset control\n");
-> +
-> +	ret = devm_add_action_or_reset(dev, aspeed_tach_reset_assert,
-> +				       priv->reset);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for_each_child_of_node(dev->of_node, child) {
-> +		ret = aspeed_tach_create_fan(dev, child, priv);
-> +		if (ret) {
-> +			of_node_put(child);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	hwmon = devm_hwmon_device_register_with_info(dev, "aspeed_tach", priv,
-> +						     &aspeed_tach_chip_info, NULL);
-> +	ret = PTR_ERR_OR_ZERO(hwmon);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Failed to register hwmon device\n");
-> +	return 0;
-
-Why not return the error ? Either it is an error or it isn't. If it is
-not an error, dev_err_probe() is not appropriate. If it is, the error
-should be returned. Either case, if this is on purpose, it needs an
-explanation.
-
-> +}
-> +
-> +static const struct of_device_id of_stach_match_table[] = {
-> +	{
-> +		.compatible = "aspeed,ast2600-tach",
-> +	},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, of_stach_match_table);
-> +
-> +static struct platform_driver aspeed_tach_driver = {
-> +	.probe		= aspeed_tach_probe,
-> +	.driver		= {
-> +		.name	= "aspeed_tach",
-> +		.of_match_table = of_stach_match_table,
-> +	},
-> +};
-> +
-> +module_platform_driver(aspeed_tach_driver);
-> +
-> +MODULE_AUTHOR("Billy Tsai <billy_tsai@aspeedtech.com>");
-> +MODULE_DESCRIPTION("Aspeed ast2600 TACH device driver");
-> +MODULE_LICENSE("GPL");
-
+>  static inline __printf(3, 4) void __kunit_fail_current_test(const char *file, int line,
+>                                                             const char *fmt, ...)
+>  {
+> --
+> 2.38.1.584.g0f3c55d4c2-goog
+>
+> --
+> You received this message because you are subscribed to the Google Groups "KUnit Development" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kunit-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kunit-dev/20221119081252.3864249-2-davidgow%40google.com.
