@@ -2,138 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 106C6C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 06:54:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB539C4321E
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 08:24:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236129AbiKWGyc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 01:54:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50576 "EHLO
+        id S236346AbiKWIYm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 03:24:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235891AbiKWGyb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 01:54:31 -0500
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D602386A56;
-        Tue, 22 Nov 2022 22:54:29 -0800 (PST)
-Received: from dggpeml500026.china.huawei.com (unknown [172.30.72.57])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NHBgB2VRZzRpRY;
-        Wed, 23 Nov 2022 14:53:58 +0800 (CST)
-Received: from dggpeml500002.china.huawei.com (7.185.36.158) by
- dggpeml500026.china.huawei.com (7.185.36.106) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 23 Nov 2022 14:54:28 +0800
-Received: from [10.67.103.44] (10.67.103.44) by dggpeml500002.china.huawei.com
- (7.185.36.158) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Wed, 23 Nov
- 2022 14:54:27 +0800
-Subject: Re: [PATCH v13 1/2] drivers/coresight: Add UltraSoc System Memory
- Buffer driver
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        <mathieu.poirier@linaro.org>, <mike.leach@linaro.org>,
-        <leo.yan@linaro.org>, <jonathan.cameron@huawei.com>,
-        <john.garry@huawei.com>
-References: <20221114090316.63157-1-hejunhao3@huawei.com>
- <20221114090316.63157-2-hejunhao3@huawei.com>
- <92291cb2-859c-a994-b05d-806def431376@arm.com>
- <c07e6417-7a37-3cf5-d3dd-b3ce7b3c20b1@huawei.com>
- <1c8da30c-d798-729d-c8e5-73a07f8b9f18@arm.com>
- <95024107-94d2-6114-4c50-b152c4da362b@huawei.com>
- <2f65e490-c264-9771-b120-e5ce76376170@arm.com>
-CC:     <coresight@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <lpieralisi@kernel.org>,
-        <linuxarm@huawei.com>, <yangyicong@huawei.com>,
-        <liuqi115@huawei.com>, <f.fangjian@huawei.com>,
-        <prime.zeng@hisilicon.com>
-From:   hejunhao <hejunhao3@huawei.com>
-Message-ID: <58f94eac-3b3f-f106-7a22-e33b6c3f8a25@huawei.com>
-Date:   Wed, 23 Nov 2022 14:54:27 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        with ESMTP id S236384AbiKWIYj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 03:24:39 -0500
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46937FC702
+        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 00:24:38 -0800 (PST)
+Received: by mail-lj1-x22e.google.com with SMTP id a15so20546340ljb.7
+        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 00:24:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qQrDHCXSqC/XpmgwTdQyvmX254FcV0tmVuSLVUTqodg=;
+        b=iAB9ioyFKLlNCgKnD6q3l2t859zPNg4auZGsr2Rg5VGBclq0WCjr3EQb0wMWVg22j9
+         UhlgN0IWOGV8Kh5mD/w0pVAMssS9mmhYioVWsmF3g1b07uSH/a0Gmycjw3hGXC/CJvVR
+         voCFLtfj3bYYPgeOuNT/ARyXty0hTIT+rEtUbQYC6YRJgYQB8WuyqwQCacGgsIjZv2sY
+         eDyGI/j/dqPaDd/KQPdJf8ADy3PbJeeAa9wgZiJcIZWzlaZd1VNfIQ30jNdTK6Ov/QPZ
+         jbn8FF1tj8XKvRFIUUGqv2VaMLznuoEreBdkOWFwFHE0VQ+S7ZSQoXQ3GS+Ae8KcJCFt
+         VqcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qQrDHCXSqC/XpmgwTdQyvmX254FcV0tmVuSLVUTqodg=;
+        b=BCaC8YOliNFLwc1Y1cD+tlGXMXXPceNJLNMns6GKut8u49PHRIJe6U99kQIa4BkQ2N
+         cpeySHqaYfYIb7n5RA+MScGYpq5ax4PQVxc6ri2gPCB/b2Yii9gllwrv4GcaxLGhwfyO
+         LAkE64mlTKsN/JhYLYJpU2KmDX+jgkHrRav/oEqEy1Q5svTdWWDzBXd4Wzv/GawMzSK7
+         r6heh3qW++Z87jlnCgBZB1VzEK1aYm5YffptAZYEmqcD9Fr9ZlQDutgOwWI0UH3ewelZ
+         KIR1QMve/SP4uZrq1p4yXyPOrhuL2KGiLm1kTUnqCxWeaOkmXEUDFUSct1kE7yiQPdzH
+         XH9Q==
+X-Gm-Message-State: ANoB5plrhpA339Xb6WXK3dMRpQOMdv2etxa9EGjoopmCSlmh/DH3qx3Y
+        6CC/m99DfEYvqH5KsIfQdfxavg==
+X-Google-Smtp-Source: AA0mqf6iwY1eT/pvUtAt3GMkQhHH6pJs3Gapli4TS8EaFHzKoaH3BxsLR6VynPRL9UadZ7c1M9Qsgw==
+X-Received: by 2002:a05:651c:10a2:b0:279:e41:1481 with SMTP id k2-20020a05651c10a200b002790e411481mr3606750ljn.184.1669191876623;
+        Wed, 23 Nov 2022 00:24:36 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id v3-20020a056512348300b004b4b5da5f80sm2791751lfr.219.2022.11.23.00.24.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Nov 2022 00:24:36 -0800 (PST)
+Message-ID: <c4b188b1-06a4-3cb0-a758-e12942e1f67b@linaro.org>
+Date:   Wed, 23 Nov 2022 09:24:34 +0100
 MIME-Version: 1.0
-In-Reply-To: <2f65e490-c264-9771-b120-e5ce76376170@arm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [v4 1/5] dt-bindings: mfd: Add aspeed pwm-tach binding
+Content-Language: en-US
+To:     Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com,
+        linux@roeck-us.net, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au, andrew@aj.id.au,
+        lee@kernel.org, thierry.reding@gmail.com,
+        u.kleine-koenig@pengutronix.de, corbet@lwn.net,
+        p.zabel@pengutronix.de, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20221123061635.32025-1-billy_tsai@aspeedtech.com>
+ <20221123061635.32025-2-billy_tsai@aspeedtech.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221123061635.32025-2-billy_tsai@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.103.44]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpeml500002.china.huawei.com (7.185.36.158)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Suzuki ,
+On 23/11/2022 07:16, Billy Tsai wrote:
+> Add device binding for aspeed pwm-tach device which is a multi-function
+> device include pwm and tach function.
 
-On 2022/11/22 22:06, Suzuki K Poulose wrote:
-> On 22/11/2022 13:23, hejunhao wrote:
->>
->> On 2022/11/21 18:47, Suzuki Kuruppassery Poulose wrote:
->>> On 18/11/2022 12:45, hejunhao wrote:
->>>> Hi Suzuki ,
->>>>
->>>>
->>>> On 2022/11/15 19:06, Suzuki K Poulose wrote:
->>>>> On 14/11/2022 09:03, Junhao He wrote:
->>>>>> From: Qi Liu <liuqi115@huawei.com>
->>>>>>
->>>
->>>>>> +static void smb_init_hw(struct smb_drv_data *drvdata)
->>>>>> +{
->>>>>> +    /* First disable SMB and clear the status of SMB buffer */
->>>>>> +    smb_reset_buffer_status(drvdata);
->>>>>> +    smb_disable_hw(drvdata);
->>>>>> +    smb_purge_data(drvdata);
->>>>>> +
->>>>>> +    writel(SMB_LB_CFG_LO_DEFAULT, drvdata->base + 
->>>>>> SMB_LB_CFG_LO_REG);
->>>>>> +    writel(SMB_LB_CFG_HI_DEFAULT, drvdata->base + 
->>>>>> SMB_LB_CFG_HI_REG);
->>>>>> +    writel(SMB_GLB_CFG_DEFAULT, drvdata->base + SMB_GLB_CFG_REG);
->>>>>> +    writel(SMB_GLB_INT_CFG, drvdata->base + SMB_GLB_INT_REG);
->>>>>> +    writel(SMB_LB_INT_CTRL_CFG, drvdata->base + 
->>>>>> SMB_LB_INT_CTRL_REG);
->>>>>
->>>>> Does this come with interrupt on overflow ? Do we not use this ?
->>>>>
->>>> When the buffer overflow, no interrupt will come.
->>>> Interrupt will upgrade SMB_LB_INT_STS_REG register status if start 
->>>> trace.
->>>> Thanks.
->>>>> Rest looks fine to me.
->>>
->>> What is the purpose of the "Interrupt" on the SMB ? It is not clear to
->>> me.
->> The SMB_LB_INT_CTRL_REG register control the validity of both real-time
->> events and interrupts. When logical buffer status changes causes to 
->> issue an
->> interrupt at the same time as it issues a real-time event.
->> Real-time events are used in SMB driver, which needs to get the 
->> buffer status.
->> Interrupts are used in debugger mode and cannot be registered in kernel.
->>   ..._BUF_NOTE_MASK control which events flags or interrupts are valid.
->
-> Please add this to a comment in the code above the register write.
->
-> Thanks
-> Suzuki
->
-Yes, thanks for the comment. I will do that.
+Subject: drop second, redundant "bindings".
+Also use proper PATCH prefix.
+
+> 
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> ---
+>  .../bindings/mfd/aspeed,ast2600-pwm-tach.yaml | 73 +++++++++++++++++++
+>  1 file changed, 73 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml b/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
+> new file mode 100644
+> index 000000000000..e2a7be2e0a18
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
+> @@ -0,0 +1,73 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (C) 2021 Aspeed, Inc.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/aspeed,ast2600-pwm-tach.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: PWM Tach controller
+> +
+> +description: |
+> +  The PWM Tach controller is represented as a multi-function device which
+> +  includes:
+> +    PWM
+> +    Tach
+> +
+> +maintainers:
+> +  - Billy Tsai <billy_tsai@aspeedtech.com>
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - aspeed,ast2600-pwm-tach
+> +      - const: syscon
+> +      - const: simple-mfd
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+
+If this is simple-mfd then it cannot take clocks or resets.  Usually the
+recommendation for such case is: This is not simple-mfd, drop it. Drop
+also syscon and make a proper device.
+
+However I am surprised to see such change, so I have no clue why this
+was done.
+
+> +
+> +  pwm:
+> +    type: object
+> +    $ref: "/schemas/pwm/aspeed,ast2600-pwm.yaml"
+
+Drop quotes.
+
+There is no such file. Are you sure you ordered the patches correctly?
+
+> +
+> +  tach:
+> +    type: object
+> +    $ref: "/schemas/hwmon/aspeed,ast2600-tach.yaml"
+
+Drop quotes.
+
+There is no such file.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - resets
 
 Best regards,
-Junhao.
->>
->> Thanks.
->>
->> Best regards,
->> Junhao.
->>
->>> Suzuki
->>>
->>> _______________________________________________
->>> CoreSight mailing list -- coresight@lists.linaro.org
->>> To unsubscribe send an email to coresight-leave@lists.linaro.org
->>
->
-> _______________________________________________
-> CoreSight mailing list -- coresight@lists.linaro.org
-> To unsubscribe send an email to coresight-leave@lists.linaro.org
+Krzysztof
 
