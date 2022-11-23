@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F9E2C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 18:02:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 418EAC3A59F
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 18:02:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239429AbiKWSCd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 13:02:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53704 "EHLO
+        id S239431AbiKWSCe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 13:02:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239227AbiKWSCZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 13:02:25 -0500
-Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3ECF8C7AC;
-        Wed, 23 Nov 2022 10:02:23 -0800 (PST)
+        with ESMTP id S239388AbiKWSC1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 13:02:27 -0500
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B18CF97087;
+        Wed, 23 Nov 2022 10:02:25 -0800 (PST)
 Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 0CFBA3B1D;
-        Wed, 23 Nov 2022 19:02:22 +0100 (CET)
+        by mail.3ffe.de (Postfix) with ESMTPSA id D9EA63B33;
+        Wed, 23 Nov 2022 19:02:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1669226542;
+        t=1669226544;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=dbqJAngAnCItu/kQhrmwoKdD13Z1Ky8qwmXbY0PTXSA=;
-        b=v/5RSiS+j5rt3w7kJZACxzGmYamX7vbD6+QyoLb9F0wfekJVPshLPUfL8jQ7PVLYQx4/1j
-        djfiU2DV47D29uxfvw4BMdtCxpcuiuaDkAPIIYfayKTlmghBR8FxRP/cUQPu9+B9PXeg96
-        4vQueLE3pnYbPuvjAMbutoxAFzXu8FWnZQ4MRgeJWBxE7coja3R20STwIJwE09zG9C91I4
-        0WfBZiPn3jpbhY2dotC5oW/O4WuagisAZgsCShQYbwHYM9fJZf1FNhNuQHdOuhFE0bz7kv
-        iKaENYpuqLt4rB4kxYCjNAQUzOipujW49nGSSwvjv18izu7vZpJR38I3idkWkg==
+        bh=QnWNBJBre5MF1HKaKc5jyQ5wsfU873yuhAWeFwHDAUw=;
+        b=11RGxVtEEkh4n2edyM3mYZ90vfHfq0Ss9Lf39FclnHzf1Eg8lX8TpHzkOz+0G/vCO5Xmd+
+        JBzH6sXy4vc4DlfM9MKYqjme4jF+d4SFj1FrFEZWYoTgdHxD88tBT/iDqRHq+Md1I6eM+f
+        blWHEv99fzIPxvvMcUXVx9C/Cx9ZWBxFy0eVTP1TFqmVY2sXIF3LHLY6hnmcbBNkdx7xW+
+        TNLw4ZC/QCZoNbKsF8jYm3xeYJjmrHRUtRSjKNKVgD8oVQB+jSXXHY9p6TiYnOIG909ZTo
+        zpXdBS376uuvgLldFwjunkphICoWTZkz7uLl3Zg51ZCTK/1BFRUmHn10fu10SA==
 From:   Michael Walle <michael@walle.cc>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -42,9 +42,9 @@ To:     Jonathan Corbet <corbet@lwn.net>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Michael Walle <michael@walle.cc>
-Subject: [PATCH v4 08/20] nvmem: core: drop the removal of the cells in nvmem_add_cells()
-Date:   Wed, 23 Nov 2022 19:01:39 +0100
-Message-Id: <20221123180151.2160033-9-michael@walle.cc>
+Subject: [PATCH v4 12/20] nvmem: core: add per-cell post processing
+Date:   Wed, 23 Nov 2022 19:01:43 +0100
+Message-Id: <20221123180151.2160033-13-michael@walle.cc>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221123180151.2160033-1-michael@walle.cc>
 References: <20221123180151.2160033-1-michael@walle.cc>
@@ -55,73 +55,96 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If nvmem_add_cells() fails, the whole nvmem_register() will fail
-and the cells will then be removed anyway. This is a preparation
-to introduce a nvmem_add_one_cell() which can then be used by
-nvmem_add_cells().
-
-This is then the same to what nvmem_add_cells_from_table() and
-nvmem_add_cells_from_of() do.
+Instead of relying on the name the consumer is using for the cell, like
+it is done for the nvmem .cell_post_process configuration parameter,
+provide a per-cell post processing hook. This can then be populated by
+the NVMEM provider (or the NVMEM layout) when adding the cell.
 
 Signed-off-by: Michael Walle <michael@walle.cc>
 ---
 changes since v3:
- - fix typo, s/prepartion/preparation/
+ - none
 
 changes since v2:
  - none
 
 changes since v1:
- - none
+ - rename hook to read_post_process
 
- drivers/nvmem/core.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ drivers/nvmem/core.c           | 17 +++++++++++++++++
+ include/linux/nvmem-provider.h |  3 +++
+ 2 files changed, 20 insertions(+)
 
 diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 24573e63e5a9..7c76e0e0072e 100644
+index 87ba1e3a5bd4..e75642a675ae 100644
 --- a/drivers/nvmem/core.c
 +++ b/drivers/nvmem/core.c
-@@ -515,7 +515,7 @@ static int nvmem_add_cells(struct nvmem_device *nvmem,
- 		    int ncells)
- {
- 	struct nvmem_cell_entry **cells;
--	int i, rval;
-+	int i, rval = 0;
+@@ -53,6 +53,7 @@ struct nvmem_cell_entry {
+ 	int			bytes;
+ 	int			bit_offset;
+ 	int			nbits;
++	nvmem_cell_post_process_t read_post_process;
+ 	struct device_node	*np;
+ 	struct nvmem_device	*nvmem;
+ 	struct list_head	node;
+@@ -469,6 +470,7 @@ static int nvmem_cell_info_to_nvmem_cell_entry_nodup(struct nvmem_device *nvmem,
+ 	cell->offset = info->offset;
+ 	cell->bytes = info->bytes;
+ 	cell->name = info->name;
++	cell->read_post_process = info->read_post_process;
  
- 	cells = kcalloc(ncells, sizeof(*cells), GFP_KERNEL);
- 	if (!cells)
-@@ -525,28 +525,22 @@ static int nvmem_add_cells(struct nvmem_device *nvmem,
- 		cells[i] = kzalloc(sizeof(**cells), GFP_KERNEL);
- 		if (!cells[i]) {
- 			rval = -ENOMEM;
--			goto err;
-+			goto out;
- 		}
+ 	cell->bit_offset = info->bit_offset;
+ 	cell->nbits = info->nbits;
+@@ -1557,6 +1559,13 @@ static int __nvmem_cell_read(struct nvmem_device *nvmem,
+ 	if (cell->bit_offset || cell->nbits)
+ 		nvmem_shift_read_buffer_in_place(cell, buf);
  
- 		rval = nvmem_cell_info_to_nvmem_cell_entry(nvmem, &info[i], cells[i]);
- 		if (rval) {
- 			kfree(cells[i]);
--			goto err;
-+			goto out;
- 		}
++	if (cell->read_post_process) {
++		rc = cell->read_post_process(nvmem->priv, id, index,
++					     cell->offset, buf, cell->bytes);
++		if (rc)
++			return rc;
++	}
++
+ 	if (nvmem->cell_post_process) {
+ 		rc = nvmem->cell_post_process(nvmem->priv, id, index,
+ 					      cell->offset, buf, cell->bytes);
+@@ -1665,6 +1674,14 @@ static int __nvmem_cell_entry_write(struct nvmem_cell_entry *cell, void *buf, si
+ 	    (cell->bit_offset == 0 && len != cell->bytes))
+ 		return -EINVAL;
  
- 		nvmem_cell_entry_add(cells[i]);
- 	}
++	/*
++	 * Any cells which have a read_post_process hook are read-only because
++	 * we cannot reverse the operation and it might affect other cells,
++	 * too.
++	 */
++	if (cell->read_post_process)
++		return -EINVAL;
++
+ 	if (cell->bit_offset || cell->nbits) {
+ 		buf = nvmem_cell_prepare_write_buffer(cell, buf, len);
+ 		if (IS_ERR(buf))
+diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
+index 4185767c114f..1930496d8854 100644
+--- a/include/linux/nvmem-provider.h
++++ b/include/linux/nvmem-provider.h
+@@ -54,6 +54,8 @@ struct nvmem_keepout {
+  * @bit_offset:	Bit offset if cell is smaller than a byte.
+  * @nbits:	Number of bits.
+  * @np:		Optional device_node pointer.
++ * @read_post_process:	Callback for optional post processing of cell data
++ *			on reads.
+  */
+ struct nvmem_cell_info {
+ 	const char		*name;
+@@ -62,6 +64,7 @@ struct nvmem_cell_info {
+ 	unsigned int		bit_offset;
+ 	unsigned int		nbits;
+ 	struct device_node	*np;
++	nvmem_cell_post_process_t read_post_process;
+ };
  
-+out:
- 	/* remove tmp array */
- 	kfree(cells);
- 
--	return 0;
--err:
--	while (i--)
--		nvmem_cell_entry_drop(cells[i]);
--
--	kfree(cells);
--
- 	return rval;
- }
- 
+ /**
 -- 
 2.30.2
 
