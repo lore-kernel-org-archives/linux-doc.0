@@ -2,189 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34A23C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 13:56:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAA87C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 14:07:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237073AbiKWN4v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 08:56:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45466 "EHLO
+        id S236841AbiKWOHw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 09:07:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237228AbiKWN4a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 08:56:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7927D538
-        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 05:50:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669211409;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=c6zewKWTDgfvIFJXOy081wvDhtOx6ntJm4J8sIpATHc=;
-        b=LwSATn9sm/LoqtM6cNHOMTDS+N1i+gaicL92Cfi/4tsBC1yTcvLAtuKO+ugaGm1lBlfMZd
-        wSyGMOiT3hnFcXvN0V6VNz6tlgC/xQUJHmi49Mp1nVaE1VusY7X8d06jM5t1dY+yI6izjv
-        N4xut0MSnOiKM/YMhHM4lhdh4eurPgs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-527-CousNDlQNeqUYBc6rAHqyw-1; Wed, 23 Nov 2022 08:50:02 -0500
-X-MC-Unique: CousNDlQNeqUYBc6rAHqyw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC9943C0ED4D;
-        Wed, 23 Nov 2022 13:50:01 +0000 (UTC)
-Received: from localhost (ovpn-12-208.pek2.redhat.com [10.72.12.208])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0646E2024CC8;
-        Wed, 23 Nov 2022 13:49:59 +0000 (UTC)
-Date:   Wed, 23 Nov 2022 21:49:55 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Eric Biederman <ebiederm@xmission.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
-        Ross Zwisler <zwisler@kernel.org>, linux-doc@vger.kernel.org,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v1 2/2] kexec: Introduce kexec_reboot_disabled
-Message-ID: <Y335zmhd0us0e7tD@MiWiFi-R3L-srv>
-References: <20221114-disable-kexec-reset-v1-0-fb51d20cf871@chromium.org>
- <20221114-disable-kexec-reset-v1-2-fb51d20cf871@chromium.org>
+        with ESMTP id S238401AbiKWOGy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 09:06:54 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1C36D85A18;
+        Wed, 23 Nov 2022 06:03:18 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B551E1FB;
+        Wed, 23 Nov 2022 06:03:24 -0800 (PST)
+Received: from [10.57.36.169] (unknown [10.57.36.169])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D81E23F73B;
+        Wed, 23 Nov 2022 06:03:15 -0800 (PST)
+Message-ID: <9f5f66fa-0388-6a76-25c9-cacef0e7a4e2@arm.com>
+Date:   Wed, 23 Nov 2022 14:03:14 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221114-disable-kexec-reset-v1-2-fb51d20cf871@chromium.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH v14 1/2] drivers/coresight: Add UltraSoc System Memory
+ Buffer driver
+To:     Junhao He <hejunhao3@huawei.com>, mathieu.poirier@linaro.org,
+        mike.leach@linaro.org, leo.yan@linaro.org,
+        jonathan.cameron@huawei.com, john.garry@huawei.com
+Cc:     coresight@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        lpieralisi@kernel.org, linuxarm@huawei.com, yangyicong@huawei.com,
+        liuqi6124@gmail.com, f.fangjian@huawei.com,
+        prime.zeng@hisilicon.com
+References: <20221123123823.27973-1-hejunhao3@huawei.com>
+ <20221123123823.27973-2-hejunhao3@huawei.com>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20221123123823.27973-2-hejunhao3@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/14/22 at 02:18pm, Ricardo Ribalda wrote:
-> Create a new toogle that disables LINUX_REBOOT_CMD_KEXEC, reducing the
-               ~ toggle
-> attack surface to a system.
+On 23/11/2022 12:38, Junhao He wrote:
+> From: Qi Liu <liuqi115@huawei.com>
 > 
-> Without this toogle, an attacker can only reboot into a different kernel
-  ~~s/without/with/
-> if they can create a panic().
-
-The log just tells what it's doing, but miss the most important why this
-has to be needed, the motivation.
-
-I roughly read the talking between you and Philipp, wondering why do you
-believe panicked kernel, if you worry about the untrusted kernel kexec
-rebooted into. People can change scripts in initramfs, e.g drop into
-emergency shell and switch into rootfs, there are a lot of things people
-can do in there too.
-
+> Add driver for UltraSoc SMB(System Memory Buffer) device.
+> SMB provides a way to buffer messages from ETM, and store
+> these "CPU instructions trace" in system memory.
+> The SMB device is identifier as ACPI HID "HISI03A1". Device
+> system memory address resources are allocated using the _CRS
+> method and buffer modes is the circular buffer mode.
 > 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> SMB is developed by UltraSoc technology, which is acquired by
+> Siemens, and we still use "UltraSoc" to name driver.
 > 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 97394bd9d065..25d019682d33 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -462,6 +462,17 @@ altered.
->  Generally used together with the `modules_disabled`_ sysctl.
->  
->  
-> +kexec_reboot_disabled
-> +=====================
-> +
-> +A toggle indicating if ``LINUX_REBOOT_CMD_KEXEC`` has been disabled.
-> +This value defaults to 0 (false: ``LINUX_REBOOT_CMD_KEXEC`` enabled),
-> +but can be set to 1 (true: ``LINUX_REBOOT_CMD_KEXEC`` disabled).
-> +Once true, kexec can no longer be used for reboot and the toggle
-> +cannot be set back to false.
-> +This toggle does not affect the use of kexec during a crash.
-> +
-> +
->  kptr_restrict
->  =============
->  
-> diff --git a/include/linux/kexec.h b/include/linux/kexec.h
-> index 41a686996aaa..15c3fad8918b 100644
-> --- a/include/linux/kexec.h
-> +++ b/include/linux/kexec.h
-> @@ -407,6 +407,7 @@ extern int kimage_crash_copy_vmcoreinfo(struct kimage *image);
->  extern struct kimage *kexec_image;
->  extern struct kimage *kexec_crash_image;
->  extern int kexec_load_disabled;
-> +extern int kexec_reboot_disabled;
->  
->  #ifndef kexec_flush_icache_page
->  #define kexec_flush_icache_page(page)
-> diff --git a/kernel/kexec.c b/kernel/kexec.c
-> index cb8e6e6f983c..43063f803d81 100644
-> --- a/kernel/kexec.c
-> +++ b/kernel/kexec.c
-> @@ -196,6 +196,10 @@ static inline int kexec_load_check(unsigned long nr_segments,
->  	if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
->  		return -EPERM;
->  
-> +	/* Check if the system admin has disabled kexec reboot. */
-> +	if (!(flags & KEXEC_ON_CRASH) && kexec_reboot_disabled)
-> +		return -EPERM;
-> +
->  	/* Permit LSMs and IMA to fail the kexec */
->  	result = security_kernel_load_data(LOADING_KEXEC_IMAGE, false);
->  	if (result < 0)
-> diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
-> index ca2743f9c634..fe82e2525705 100644
-> --- a/kernel/kexec_core.c
-> +++ b/kernel/kexec_core.c
-> @@ -929,6 +929,7 @@ int kimage_load_segment(struct kimage *image,
->  struct kimage *kexec_image;
->  struct kimage *kexec_crash_image;
->  int kexec_load_disabled;
-> +int kexec_reboot_disabled;
->  #ifdef CONFIG_SYSCTL
->  static struct ctl_table kexec_core_sysctls[] = {
->  	{
-> @@ -941,6 +942,16 @@ static struct ctl_table kexec_core_sysctls[] = {
->  		.extra1		= SYSCTL_ONE,
->  		.extra2		= SYSCTL_ONE,
->  	},
-> +	{
-> +		.procname	= "kexec_reboot_disabled",
-> +		.data		= &kexec_reboot_disabled,
-> +		.maxlen		= sizeof(int),
-> +		.mode		= 0644,
-> +		/* only handle a transition from default "0" to "1" */
-> +		.proc_handler	= proc_dointvec_minmax,
-> +		.extra1		= SYSCTL_ONE,
-> +		.extra2		= SYSCTL_ONE,
-> +	},
->  	{ }
->  };
->  
-> @@ -1138,7 +1149,7 @@ int kernel_kexec(void)
->  
->  	if (!kexec_trylock())
->  		return -EBUSY;
-> -	if (!kexec_image) {
-> +	if (!kexec_image || kexec_reboot_disabled) {
->  		error = -EINVAL;
->  		goto Unlock;
->  	}
-> diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
-> index 45637511e0de..583fba6de5cb 100644
-> --- a/kernel/kexec_file.c
-> +++ b/kernel/kexec_file.c
-> @@ -333,6 +333,11 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
->  	if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
->  		return -EPERM;
->  
-> +	/* Check if the system admin has disabled kexec reboot. */
-> +	if (!(flags & (KEXEC_FILE_ON_CRASH | KEXEC_FILE_UNLOAD))
-> +	    && kexec_reboot_disabled)
-> +		return -EPERM;
-> +
->  	/* Make sure we have a legal set of flags */
->  	if (flags != (flags & KEXEC_FILE_FLAGS))
->  		return -EINVAL;
-> 
-> -- 
-> b4 0.11.0-dev-d93f8
+> Signed-off-by: Qi Liu <liuqi115@huawei.com>
+> Signed-off-by: Junhao He <hejunhao3@huawei.com>
+> Tested-by: JunHao He <hejunhao3@huawei.com>
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> ---
+>   drivers/hwtracing/coresight/Kconfig        |  12 +
+>   drivers/hwtracing/coresight/Makefile       |   1 +
+>   drivers/hwtracing/coresight/ultrasoc-smb.c | 658 +++++++++++++++++++++
+>   drivers/hwtracing/coresight/ultrasoc-smb.h | 129 ++++
+>   4 files changed, 800 insertions(+)
+>   create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.c
+>   create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.h
 > 
 
+> +static void smb_sync_perf_buffer(struct smb_drv_data *drvdata,
+> +				 struct cs_buffers *buf,
+> +				 unsigned long head,
+> +				 unsigned long data_size)
+> +{
+> +	struct smb_data_buffer *sdb = &drvdata->sdb;
+> +	char **dst_pages = (char **)buf->data_pages;
+> +	unsigned long to_copy;
+> +	long pg_idx, pg_offset;
+> +
+> +	pg_idx = head >> PAGE_SHIFT;
+> +	pg_offset = head & (PAGE_SIZE - 1);
+> +
+> +	while (data_size) {
+> +		unsigned long pg_space = PAGE_SIZE - pg_offset;
+> +
+> +		/* Copy parts of trace data when read pointer wrap around */
+> +		if (sdb->rd_offset + pg_space > sdb->buf_size)
+> +			to_copy = sdb->buf_size - sdb->rd_offset;
+> +		else
+> +			to_copy = min(data_size, pg_space);
+> +
+> +		memcpy(dst_pages[pg_idx] + pg_offset,
+> +			      sdb->buf_base + sdb->rd_offset, to_copy);
+> +
+> +		pg_offset += to_copy;
+> +		if (pg_offset >= PAGE_SIZE) {
+> +			pg_offset = 0;
+> +			pg_idx++;
+> +			pg_idx %= buf->nr_pages;
+> +		}
+> +		data_size -= to_copy;
+> +		sdb->rd_offset += to_copy;
+> +		sdb->rd_offset %= sdb->buf_size;
+> +	}
+> +
+> +	sdb->data_size = 0;
+
+
+--8>-- cut here --<8--
+
+> +	writel(sdb->start_addr + sdb->rd_offset,
+> +		drvdata->base + SMB_LB_RD_ADDR_REG);
+> +
+> +	/*
+> +	 * Data remained in link cannot be purged when SMB is full, so
+> +	 * synchronize the read pointer to write pointer, to make sure
+> +	 * these remained data won't influence next trace.
+> +	 */
+> +	if (sdb->full) {
+> +		smb_purge_data(drvdata);
+> +		writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
+> +		       drvdata->base + SMB_LB_RD_ADDR_REG);
+> +	}
+
+--<8-- end here --8>--
+
+As pointed out in the last review, we must do this step
+everytime for perf mode irrespective of whether the buffer
+was "FULL" or not.
+
+i.e, the above block should simply be:
+
+	if (sdb->full)
+		smb_purge_data(drvdata);
+
+	/*
+	 * The uncollected Data must be discarded for perf,
+	 * as it cannot be clubbed with next schedule. We
+	 * any way TRUNCATE the buffer in this case.
+	 */
+	writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
+		drvdata->base + SMB_LB_RD_ADDR_REG);
+
+Suzuki
