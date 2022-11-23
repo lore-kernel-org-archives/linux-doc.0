@@ -2,60 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB539C4321E
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 08:24:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D099C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 08:27:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236346AbiKWIYm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 03:24:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60984 "EHLO
+        id S236481AbiKWI1Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 03:27:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236384AbiKWIYj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 03:24:39 -0500
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46937FC702
-        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 00:24:38 -0800 (PST)
-Received: by mail-lj1-x22e.google.com with SMTP id a15so20546340ljb.7
-        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 00:24:38 -0800 (PST)
+        with ESMTP id S236522AbiKWI1X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 03:27:23 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7A5DFC72C
+        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 00:27:20 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id f13so5572524lfa.6
+        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 00:27:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        h=content-transfer-encoding:in-reply-to:references:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=qQrDHCXSqC/XpmgwTdQyvmX254FcV0tmVuSLVUTqodg=;
-        b=iAB9ioyFKLlNCgKnD6q3l2t859zPNg4auZGsr2Rg5VGBclq0WCjr3EQb0wMWVg22j9
-         UhlgN0IWOGV8Kh5mD/w0pVAMssS9mmhYioVWsmF3g1b07uSH/a0Gmycjw3hGXC/CJvVR
-         voCFLtfj3bYYPgeOuNT/ARyXty0hTIT+rEtUbQYC6YRJgYQB8WuyqwQCacGgsIjZv2sY
-         eDyGI/j/dqPaDd/KQPdJf8ADy3PbJeeAa9wgZiJcIZWzlaZd1VNfIQ30jNdTK6Ov/QPZ
-         jbn8FF1tj8XKvRFIUUGqv2VaMLznuoEreBdkOWFwFHE0VQ+S7ZSQoXQ3GS+Ae8KcJCFt
-         VqcQ==
+        bh=HcQzfS4Peg1BcWVPqA3r5THwZqoD6UuyTScyPfW0+gk=;
+        b=wwsMJSLDaFLkDmDTXJtxCSc0Yi9K/FrzEMP5aqu+f3DlffmLcAneNewS0AeVoruiVA
+         P/UeSJbrk0e1LjmHE43sKXJW9qWXGXevFE80Yxar8Exmw3uJKnxVTottlDgGYvfxX1/s
+         kk/OnKpMdejE9stbilHmFZz4R3CIxE1s4wpsH9FS4U5W8TyTm0TL7e6WX0mvjJwrnPmC
+         comRH/5ZY+VXajexEne/REUOPAHJTj5ssKXbUQNCdIH6VEVSqy2k9eXfiU/TeNpHNTlK
+         viWQ8x4OUOwoHLQCwSs8gLKi2Ggzr70p/tUZPb0B/V1fqvIzQrXjxXdhq9uro2PbBj3C
+         Ra2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        h=content-transfer-encoding:in-reply-to:references:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qQrDHCXSqC/XpmgwTdQyvmX254FcV0tmVuSLVUTqodg=;
-        b=BCaC8YOliNFLwc1Y1cD+tlGXMXXPceNJLNMns6GKut8u49PHRIJe6U99kQIa4BkQ2N
-         cpeySHqaYfYIb7n5RA+MScGYpq5ax4PQVxc6ri2gPCB/b2Yii9gllwrv4GcaxLGhwfyO
-         LAkE64mlTKsN/JhYLYJpU2KmDX+jgkHrRav/oEqEy1Q5svTdWWDzBXd4Wzv/GawMzSK7
-         r6heh3qW++Z87jlnCgBZB1VzEK1aYm5YffptAZYEmqcD9Fr9ZlQDutgOwWI0UH3ewelZ
-         KIR1QMve/SP4uZrq1p4yXyPOrhuL2KGiLm1kTUnqCxWeaOkmXEUDFUSct1kE7yiQPdzH
-         XH9Q==
-X-Gm-Message-State: ANoB5plrhpA339Xb6WXK3dMRpQOMdv2etxa9EGjoopmCSlmh/DH3qx3Y
-        6CC/m99DfEYvqH5KsIfQdfxavg==
-X-Google-Smtp-Source: AA0mqf6iwY1eT/pvUtAt3GMkQhHH6pJs3Gapli4TS8EaFHzKoaH3BxsLR6VynPRL9UadZ7c1M9Qsgw==
-X-Received: by 2002:a05:651c:10a2:b0:279:e41:1481 with SMTP id k2-20020a05651c10a200b002790e411481mr3606750ljn.184.1669191876623;
-        Wed, 23 Nov 2022 00:24:36 -0800 (PST)
+        bh=HcQzfS4Peg1BcWVPqA3r5THwZqoD6UuyTScyPfW0+gk=;
+        b=5c3LmwCRSLHIkVUkHlu+HT0sJn2+X9r6LogPQ59tied3zCITSKpJKwxZDUEpfi7+SC
+         tMYuq6A5JRm9+G7pOHfZg170L90RUFSq9Z8b1J78yIPGrvfwTe8tTIXQug9C2GcSZGpR
+         8dDYeUmeRRHi/vCHHgqCw0Cl4qYT+EEQDHSba1rzOck0hF/NxfL4KUInyflZ/LRaIjEP
+         eGd5YgEPaI54AdcUV0L8VCZO9JJCyO05OAT1I/NlVH6QuPmrWb1KHcsm8e29QMHh6hu7
+         7nRh2/aeaOHbOYyDG79sPb14gQAGJo7A46yTDFETWrtvhvIBg/PIYKGNZ9le5ObbexUq
+         iD6w==
+X-Gm-Message-State: ANoB5plrpAs5s6dFlcCV99rbuU29RMgpVFgeqsc05ragwyCgJPyf5f/L
+        Mbjk5KsS0K0viDv9vxKDBa1QLg==
+X-Google-Smtp-Source: AA0mqf43Wrz+lScpnmQazgR9edsrHf8CWzNzDGSguKpLX4o0m+7qhfGZ6s4+ZcKOiUFO9TVR0WiMOw==
+X-Received: by 2002:a05:6512:2a89:b0:4b4:dffc:62a8 with SMTP id dt9-20020a0565122a8900b004b4dffc62a8mr2147155lfb.585.1669192039230;
+        Wed, 23 Nov 2022 00:27:19 -0800 (PST)
 Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id v3-20020a056512348300b004b4b5da5f80sm2791751lfr.219.2022.11.23.00.24.35
+        by smtp.gmail.com with ESMTPSA id f16-20020a05651c03d000b0026dffd032b8sm2110336ljp.2.2022.11.23.00.27.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Nov 2022 00:24:36 -0800 (PST)
-Message-ID: <c4b188b1-06a4-3cb0-a758-e12942e1f67b@linaro.org>
-Date:   Wed, 23 Nov 2022 09:24:34 +0100
+        Wed, 23 Nov 2022 00:27:18 -0800 (PST)
+Message-ID: <27055c13-11ab-cc73-f2ba-c269785b0e28@linaro.org>
+Date:   Wed, 23 Nov 2022 09:27:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
 Subject: Re: [v4 1/5] dt-bindings: mfd: Add aspeed pwm-tach binding
 Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com,
         linux@roeck-us.net, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au, andrew@aj.id.au,
@@ -67,100 +68,79 @@ To:     Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com,
         linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org
 References: <20221123061635.32025-1-billy_tsai@aspeedtech.com>
  <20221123061635.32025-2-billy_tsai@aspeedtech.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221123061635.32025-2-billy_tsai@aspeedtech.com>
+ <c4b188b1-06a4-3cb0-a758-e12942e1f67b@linaro.org>
+In-Reply-To: <c4b188b1-06a4-3cb0-a758-e12942e1f67b@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 23/11/2022 07:16, Billy Tsai wrote:
-> Add device binding for aspeed pwm-tach device which is a multi-function
-> device include pwm and tach function.
-
-Subject: drop second, redundant "bindings".
-Also use proper PATCH prefix.
-
+On 23/11/2022 09:24, Krzysztof Kozlowski wrote:
+> On 23/11/2022 07:16, Billy Tsai wrote:
+>> Add device binding for aspeed pwm-tach device which is a multi-function
+>> device include pwm and tach function.
 > 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> ---
->  .../bindings/mfd/aspeed,ast2600-pwm-tach.yaml | 73 +++++++++++++++++++
->  1 file changed, 73 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
+> Subject: drop second, redundant "bindings".
+> Also use proper PATCH prefix.
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml b/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
-> new file mode 100644
-> index 000000000000..e2a7be2e0a18
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
-> @@ -0,0 +1,73 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2021 Aspeed, Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/aspeed,ast2600-pwm-tach.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: PWM Tach controller
-> +
-> +description: |
-> +  The PWM Tach controller is represented as a multi-function device which
-> +  includes:
-> +    PWM
-> +    Tach
-> +
-> +maintainers:
-> +  - Billy Tsai <billy_tsai@aspeedtech.com>
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - aspeed,ast2600-pwm-tach
-> +      - const: syscon
-> +      - const: simple-mfd
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
+>>
+>> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+>> ---
+>>  .../bindings/mfd/aspeed,ast2600-pwm-tach.yaml | 73 +++++++++++++++++++
+>>  1 file changed, 73 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml b/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
+>> new file mode 100644
+>> index 000000000000..e2a7be2e0a18
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
+>> @@ -0,0 +1,73 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +# Copyright (C) 2021 Aspeed, Inc.
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/mfd/aspeed,ast2600-pwm-tach.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: PWM Tach controller
+>> +
+>> +description: |
+>> +  The PWM Tach controller is represented as a multi-function device which
+>> +  includes:
+>> +    PWM
+>> +    Tach
+>> +
+>> +maintainers:
+>> +  - Billy Tsai <billy_tsai@aspeedtech.com>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    items:
+>> +      - enum:
+>> +          - aspeed,ast2600-pwm-tach
+>> +      - const: syscon
+>> +      - const: simple-mfd
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+>> +
+>> +  resets:
+>> +    maxItems: 1
+> 
+> If this is simple-mfd then it cannot take clocks or resets.  Usually the
+> recommendation for such case is: This is not simple-mfd, drop it. Drop
+> also syscon and make a proper device.
+> 
+> However I am surprised to see such change, so I have no clue why this
+> was done.
 
-If this is simple-mfd then it cannot take clocks or resets.  Usually the
-recommendation for such case is: This is not simple-mfd, drop it. Drop
-also syscon and make a proper device.
-
-However I am surprised to see such change, so I have no clue why this
-was done.
-
-> +
-> +  pwm:
-> +    type: object
-> +    $ref: "/schemas/pwm/aspeed,ast2600-pwm.yaml"
-
-Drop quotes.
-
-There is no such file. Are you sure you ordered the patches correctly?
-
-> +
-> +  tach:
-> +    type: object
-> +    $ref: "/schemas/hwmon/aspeed,ast2600-tach.yaml"
-
-Drop quotes.
-
-There is no such file.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - resets
+Actually now I see it was like that in previous patch, I just missed it
+during previous review. Anyway this must be fixed.
 
 Best regards,
 Krzysztof
