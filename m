@@ -2,411 +2,267 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 653CFC3A59F
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 14:09:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55728C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 14:12:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238646AbiKWOJx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 09:09:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58680 "EHLO
+        id S237676AbiKWOMI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 09:12:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238611AbiKWOJd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 09:09:33 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 56C6513E19;
-        Wed, 23 Nov 2022 06:08:17 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 815761FB;
-        Wed, 23 Nov 2022 06:08:23 -0800 (PST)
-Received: from [192.168.0.110] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F21F13F73B;
-        Wed, 23 Nov 2022 06:08:06 -0800 (PST)
-Message-ID: <16e3ac80-1d13-60f1-666b-a74fab92b7a6@arm.com>
-Date:   Wed, 23 Nov 2022 19:37:50 +0530
+        with ESMTP id S237333AbiKWOMH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 09:12:07 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78E9B238;
+        Wed, 23 Nov 2022 06:12:05 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id l39-20020a05600c1d2700b003cf93c8156dso1372309wms.4;
+        Wed, 23 Nov 2022 06:12:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dd8Tq5iTvEhvWU1xsxOL1BkCF+6inB5UvZq4mNfpGio=;
+        b=PTumY7Q6HUcJ6DLqfQYcwhkfYX8AtccgiyLWyDGbwmZUdM/Y8RExTcmXKhNMhiQ7Fy
+         OU4DUzoJUFFCINXoh1FvhZezLIPIfhvGQY9W/X7naAE+Ie575MSrcCj/JWzWu1Wq/jY/
+         x/873i8HDW5bHElDMinXUoBcLFUmuoEOsMR0lykyi2EWbLL6+I/atUpnqwg97gsQmi3g
+         9U6e2PUPrPYDki0ADChAjhz7evG3FvStplX8XC1O4BF0HN8f+8iataYWqYPTr3W5Q6Id
+         EkrIZX4IljqjT5bkhS4oF4STpgwOrTu172nYm79OUDUXJulSWxQKIYLgq+nTK57cnYum
+         VWbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Dd8Tq5iTvEhvWU1xsxOL1BkCF+6inB5UvZq4mNfpGio=;
+        b=StfavLeU/qqw7/giNYr/irH3WIXtUK28m61hj726KMBPNC8Xs7YPgUFd7ZbwWabFQv
+         ed34SKh+nY8eAv6hpYnXOUii3bfFsqijsDPPeLX4AmEq4FlQoPOHgVup5skHC+/a0k4v
+         j75zBTlCI9NcS+iUftp+qnEOdn4c6K5GrcQb+Pf6s3B8wsdG2TghLnbwLjBBB3q5qwWO
+         msQ+u/c/4SlYPCgemltk3Fxbmbm+H77nXtjphrJWFa7vh7cIFldhQ7fn6+/S+d4vo4si
+         75Su1SUfpWL3yJOkTkL7nox60JS3ZmNHhtJE/uKo8R4DliptqUv86x661YUxCrdrznNz
+         mbkw==
+X-Gm-Message-State: ANoB5pnjHFvKaRW1xsAZHag+GH1+8S6uUBAqD7CSwqqZMgL/Kpg+w8Bn
+        y+ukLAWUu8Qs7IEH+mvV/00ZYdnj7dPlGQ==
+X-Google-Smtp-Source: AA0mqf44x9SIA8omA0bl3IZQkDlMN212Rl9QeDmiwnbr/G/Kd4Eh5DfXSjz59og3ul29lq047zKB6g==
+X-Received: by 2002:a05:600c:3647:b0:3b4:c00d:2329 with SMTP id y7-20020a05600c364700b003b4c00d2329mr9604361wmq.124.1669212723365;
+        Wed, 23 Nov 2022 06:12:03 -0800 (PST)
+Received: from imac.fritz.box ([2a02:8010:60a0:0:5c53:6546:4fe4:c63a])
+        by smtp.gmail.com with ESMTPSA id n1-20020a5d6b81000000b00226dba960b4sm16818785wrx.3.2022.11.23.06.12.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Nov 2022 06:12:02 -0800 (PST)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joanne Koong <joannelkoong@gmail.com>,
+        Donald Hunter <donald.hunter@gmail.com>
+Subject: [PATCH bpf-next v3] bpf, docs: Document BPF_MAP_TYPE_BLOOM_FILTER
+Date:   Wed, 23 Nov 2022 14:11:51 +0000
+Message-Id: <20221123141151.54556-1-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v7 2/2] arm64: support batched/deferred tlb shootdown
- during page reclamation
-Content-Language: en-US
-To:     Yicong Yang <yangyicong@huawei.com>, akpm@linux-foundation.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        x86@kernel.org, catalin.marinas@arm.com, will@kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     corbet@lwn.net, peterz@infradead.org, arnd@arndb.de,
-        punit.agrawal@bytedance.com, linux-kernel@vger.kernel.org,
-        darren@os.amperecomputing.com, yangyicong@hisilicon.com,
-        huzhanyuan@oppo.com, lipeifeng@oppo.com, zhangshiming@oppo.com,
-        guojian@oppo.com, realmz6@gmail.com, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        Barry Song <21cnbao@gmail.com>, wangkefeng.wang@huawei.com,
-        xhao@linux.alibaba.com, prime.zeng@hisilicon.com,
-        Barry Song <v-songbaohua@oppo.com>,
-        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
-References: <20221117082648.47526-1-yangyicong@huawei.com>
- <20221117082648.47526-3-yangyicong@huawei.com>
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <20221117082648.47526-3-yangyicong@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Add documentation for BPF_MAP_TYPE_BLOOM_FILTER including
+kernel BPF helper usage, userspace usage and examples.
 
+Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+Acked-by: Joanne Koong <joannelkoong@gmail.com>
+---
+v2 -> v3:
+- Use NULL instead of 0 and show use of bpf_map__fd()
+  as suggested by Joanne Koong
 
-On 11/17/22 13:56, Yicong Yang wrote:
-> From: Barry Song <v-songbaohua@oppo.com>
-> 
-> on x86, batched and deferred tlb shootdown has lead to 90%
-> performance increase on tlb shootdown. on arm64, HW can do
-> tlb shootdown without software IPI. But sync tlbi is still
-> quite expensive.
-> 
-> Even running a simplest program which requires swapout can
-> prove this is true,
->  #include <sys/types.h>
->  #include <unistd.h>
->  #include <sys/mman.h>
->  #include <string.h>
-> 
->  int main()
->  {
->  #define SIZE (1 * 1024 * 1024)
->          volatile unsigned char *p = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
->                                           MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-> 
->          memset(p, 0x88, SIZE);
-> 
->          for (int k = 0; k < 10000; k++) {
->                  /* swap in */
->                  for (int i = 0; i < SIZE; i += 4096) {
->                          (void)p[i];
->                  }
-> 
->                  /* swap out */
->                  madvise(p, SIZE, MADV_PAGEOUT);
->          }
->  }
-> 
-> Perf result on snapdragon 888 with 8 cores by using zRAM
-> as the swap block device.
-> 
->  ~ # perf record taskset -c 4 ./a.out
->  [ perf record: Woken up 10 times to write data ]
->  [ perf record: Captured and wrote 2.297 MB perf.data (60084 samples) ]
->  ~ # perf report
->  # To display the perf.data header info, please use --header/--header-only options.
->  # To display the perf.data header info, please use --header/--header-only options.
->  #
->  #
->  # Total Lost Samples: 0
->  #
->  # Samples: 60K of event 'cycles'
->  # Event count (approx.): 35706225414
->  #
->  # Overhead  Command  Shared Object      Symbol
->  # ........  .......  .................  .............................................................................
->  #
->     21.07%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irq
->      8.23%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irqrestore
->      6.67%  a.out    [kernel.kallsyms]  [k] filemap_map_pages
->      6.16%  a.out    [kernel.kallsyms]  [k] __zram_bvec_write
->      5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
->      3.71%  a.out    [kernel.kallsyms]  [k] _raw_spin_lock
->      3.49%  a.out    [kernel.kallsyms]  [k] memset64
->      1.63%  a.out    [kernel.kallsyms]  [k] clear_page
->      1.42%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock
->      1.26%  a.out    [kernel.kallsyms]  [k] mod_zone_state.llvm.8525150236079521930
->      1.23%  a.out    [kernel.kallsyms]  [k] xas_load
->      1.15%  a.out    [kernel.kallsyms]  [k] zram_slot_lock
-> 
-> ptep_clear_flush() takes 5.36% CPU in the micro-benchmark
-> swapping in/out a page mapped by only one process. If the
-> page is mapped by multiple processes, typically, like more
-> than 100 on a phone, the overhead would be much higher as
-> we have to run tlb flush 100 times for one single page.
-> Plus, tlb flush overhead will increase with the number
-> of CPU cores due to the bad scalability of tlb shootdown
-> in HW, so those ARM64 servers should expect much higher
-> overhead.
-> 
-> Further perf annonate shows 95% cpu time of ptep_clear_flush
-> is actually used by the final dsb() to wait for the completion
-> of tlb flush. This provides us a very good chance to leverage
-> the existing batched tlb in kernel. The minimum modification
-> is that we only send async tlbi in the first stage and we send
-> dsb while we have to sync in the second stage.
-> 
-> With the above simplest micro benchmark, collapsed time to
-> finish the program decreases around 5%.
-> 
-> Typical collapsed time w/o patch:
->  ~ # time taskset -c 4 ./a.out
->  0.21user 14.34system 0:14.69elapsed
-> w/ patch:
->  ~ # time taskset -c 4 ./a.out
->  0.22user 13.45system 0:13.80elapsed
-> 
-> Also, Yicong Yang added the following observation.
-> 	Tested with benchmark in the commit on Kunpeng920 arm64 server,
-> 	observed an improvement around 12.5% with command
-> 	`time ./swap_bench`.
-> 		w/o		w/
-> 	real	0m13.460s	0m11.771s
-> 	user	0m0.248s	0m0.279s
-> 	sys	0m12.039s	0m11.458s
-> 
-> 	Originally it's noticed a 16.99% overhead of ptep_clear_flush()
-> 	which has been eliminated by this patch:
-> 
-> 	[root@localhost yang]# perf record -- ./swap_bench && perf report
-> 	[...]
-> 	16.99%  swap_bench  [kernel.kallsyms]  [k] ptep_clear_flush
-> 
-> It is tested on 4,8,128 CPU platforms and shows to be beneficial on
-> large systems but may not have improvement on small systems like on
-> a 4 CPU platform. So make ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH depends
-> on CONFIG_EXPERT for this stage and make this disabled on systems
-> with less than 8 CPUs. User can modify this threshold according to
-> their own platforms by CONFIG_NR_CPUS_FOR_BATCHED_TLB.
-> 
-> This patch extends arch_tlbbatch_add_mm() to take an address of the
-> target page to support the feature on arm64. Also rename it to
-> arch_tlbbatch_add_pending() to better match its function since we
-> don't need to handle the mm on arm64 and add_mm is not proper.
-> add_pending will make sense to both as on x86 we're pending the
-> TLB flush operations while on arm64 we're pending the synchronize
-> operations.
-> 
-> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Nadav Amit <namit@vmware.com>
-> Cc: Mel Gorman <mgorman@suse.de>
-> Tested-by: Yicong Yang <yangyicong@hisilicon.com>
-> Tested-by: Xin Hao <xhao@linux.alibaba.com>
-> Tested-by: Punit Agrawal <punit.agrawal@bytedance.com>
-> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
-> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-> Reviewed-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-> Reviewed-by: Xin Hao <xhao@linux.alibaba.com>
-> ---
+v1 -> v2:
+- Fix sphinx warnings for sphinx >= 3.1
 
-LGTM, FWIW.
+ Documentation/bpf/map_bloom_filter.rst | 174 +++++++++++++++++++++++++
+ 1 file changed, 174 insertions(+)
+ create mode 100644 Documentation/bpf/map_bloom_filter.rst
 
-Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
+diff --git a/Documentation/bpf/map_bloom_filter.rst b/Documentation/bpf/map_bloom_filter.rst
+new file mode 100644
+index 000000000000..c82487f2fe0d
+--- /dev/null
++++ b/Documentation/bpf/map_bloom_filter.rst
+@@ -0,0 +1,174 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
++
++=========================
++BPF_MAP_TYPE_BLOOM_FILTER
++=========================
++
++.. note::
++   - ``BPF_MAP_TYPE_BLOOM_FILTER`` was introduced in kernel version 5.16
++
++``BPF_MAP_TYPE_BLOOM_FILTER`` provides a BPF bloom filter map. Bloom
++filters are a space-efficient probabilistic data structure used to
++quickly test whether an element exists in a set. In a bloom filter,
++false positives are possible whereas false negatives are not.
++
++The bloom filter map does not have keys, only values. When the bloom
++filter map is created, it must be created with a ``key_size`` of 0.  The
++bloom filter map supports two operations:
++
++- push: adding an element to the map
++- peek: determining whether an element is present in the map
++
++BPF programs must use ``bpf_map_push_elem`` to add an element to the
++bloom filter map and ``bpf_map_peek_elem`` to query the map. These
++operations are exposed to userspace applications using the existing
++``bpf`` syscall in the following way:
++
++- ``BPF_MAP_UPDATE_ELEM`` -> push
++- ``BPF_MAP_LOOKUP_ELEM`` -> peek
++
++The ``max_entries`` size that is specified at map creation time is used
++to approximate a reasonable bitmap size for the bloom filter, and is not
++otherwise strictly enforced. If the user wishes to insert more entries
++into the bloom filter than ``max_entries``, this may lead to a higher
++false positive rate.
++
++The number of hashes to use for the bloom filter is configurable using
++the lower 4 bits of ``map_extra`` in ``union bpf_attr`` at map creation
++time. If no number is specified, the default used will be 5 hash
++functions. In general, using more hashes decreases both the false
++positive rate and the speed of a lookup.
++
++It is not possible to delete elements from a bloom filter map. A bloom
++filter map may be used as an inner map. The user is responsible for
++synchronising concurrent updates and lookups to ensure no false negative
++lookups occur.
++
++Usage
++=====
++
++Kernel BPF
++----------
++
++bpf_map_push_elem()
++~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
++   long bpf_map_push_elem(struct bpf_map *map, const void *value, u64 flags)
++
++A ``value`` can be added to a bloom filter using the
++``bpf_map_push_elem()`` helper. The ``flags`` parameter must be set to
++``BPF_ANY`` when adding an entry to the bloom filter. This helper
++returns ``0`` on success, or negative error in case of failure.
++
++bpf_map_peek_elem()
++~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
++   long bpf_map_peek_elem(struct bpf_map *map, void *value)
++
++The ``bpf_map_peek_elem()`` helper is used to determine whether
++``value`` is present in the bloom filter map. This helper returns ``0``
++if ``value`` is probably present in the map, or ``-ENOENT`` if ``value``
++is definitely not present in the map.
++
++Userspace
++---------
++
++bpf_map_update_elem()
++~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
++   int bpf_map_update_elem (int fd, const void *key, const void *value, __u64 flags)
++
++A userspace program can add a ``value`` to a bloom filter using libbpf's
++``bpf_map_update_elem`` function. The ``key`` parameter must be set to
++``NULL`` and ``flags`` must be set to ``BPF_ANY``. Returns ``0`` on
++success, or negative error in case of failure.
++
++bpf_map_lookup_elem()
++~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
++   int bpf_map_lookup_elem (int fd, const void *key, void *value)
++
++A userspace program can determine the presence of ``value`` in a bloom
++filter using libbpf's ``bpf_map_lookup_elem`` function. The ``key``
++parameter must be set to ``NULL``. Returns ``0`` if ``value`` is
++probably present in the map, or ``-ENOENT`` if ``value`` is definitely
++not present in the map.
++
++Examples
++========
++
++Kernel BPF
++----------
++
++This snippet shows how to declare a bloom filter in a BPF program:
++
++.. code-block:: c
++
++    struct {
++            __uint(type, BPF_MAP_TYPE_BLOOM_FILTER);
++            __type(value, __u32);
++            __uint(max_entries, 1000);
++            __uint(map_extra, 3);
++    } bloom_filter SEC(".maps");
++
++This snippet shows how to determine presence of a value in a bloom
++filter in a BPF program:
++
++.. code-block:: c
++
++    void *lookup(__u32 key)
++    {
++            if (bpf_map_peek_elem(&bloom_filter, &key) == 0) {
++                    /* Verify not a false positive and fetch an associated
++                     * value using a secondary lookup, e.g. in a hash table
++                     */
++                    return bpf_map_lookup_elem(&hash_table, &key);
++            }
++            return 0;
++    }
++
++Userspace
++---------
++
++This snippet shows how to use libbpf to create a bloom filter map from
++userspace:
++
++.. code-block:: c
++
++    int create_bloom()
++    {
++            LIBBPF_OPTS(bpf_map_create_opts, opts,
++                        .map_extra = 3);             /* number of hashes */
++
++            return bpf_map_create(BPF_MAP_TYPE_BLOOM_FILTER,
++                                  "ipv6_bloom",      /* name */
++                                  0,                 /* key size, must be zero */
++                                  sizeof(ipv6_addr), /* value size */
++                                  10000,             /* max entries */
++                                  &opts);            /* create options */
++    }
++
++This snippet shows how to add an element to a bloom filter from
++userspace:
++
++.. code-block:: c
++
++    int add_element(struct bpf_map *bloom_map, __u32 value)
++    {
++            int bloom_fd = bpf_map__fd(bloom_map);
++            return bpf_map_update_elem(bloom_fd, NULL, &value, BPF_ANY);
++    }
++
++References
++==========
++
++https://lwn.net/ml/bpf/20210831225005.2762202-1-joannekoong@fb.com/
+-- 
+2.38.1
 
->  .../features/vm/TLB/arch-support.txt          |  2 +-
->  arch/arm64/Kconfig                            |  6 +++
->  arch/arm64/include/asm/tlbbatch.h             | 12 +++++
->  arch/arm64/include/asm/tlbflush.h             | 52 ++++++++++++++++++-
->  arch/x86/include/asm/tlbflush.h               |  5 +-
->  include/linux/mm_types_task.h                 |  4 +-
->  mm/rmap.c                                     | 10 ++--
->  7 files changed, 80 insertions(+), 11 deletions(-)
->  create mode 100644 arch/arm64/include/asm/tlbbatch.h
-> 
-> diff --git a/Documentation/features/vm/TLB/arch-support.txt b/Documentation/features/vm/TLB/arch-support.txt
-> index 039e4e91ada3..2caf815d7c6c 100644
-> --- a/Documentation/features/vm/TLB/arch-support.txt
-> +++ b/Documentation/features/vm/TLB/arch-support.txt
-> @@ -9,7 +9,7 @@
->      |       alpha: | TODO |
->      |         arc: | TODO |
->      |         arm: | TODO |
-> -    |       arm64: | N/A  |
-> +    |       arm64: |  ok  |
->      |        csky: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 505c8a1ccbe0..72975e82c7d7 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -93,6 +93,7 @@ config ARM64
->  	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
->  	select ARCH_SUPPORTS_NUMA_BALANCING
->  	select ARCH_SUPPORTS_PAGE_TABLE_CHECK
-> +	select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH if EXPERT
->  	select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
->  	select ARCH_WANT_DEFAULT_BPF_JIT
->  	select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT
-> @@ -268,6 +269,11 @@ config ARM64_CONT_PMD_SHIFT
->  	default 5 if ARM64_16K_PAGES
->  	default 4
->  
-> +config ARM64_NR_CPUS_FOR_BATCHED_TLB
-> +	int "Threshold to enable batched TLB flush"
-> +	default 8
-> +	depends on ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
-> +
->  config ARCH_MMAP_RND_BITS_MIN
->  	default 14 if ARM64_64K_PAGES
->  	default 16 if ARM64_16K_PAGES
-> diff --git a/arch/arm64/include/asm/tlbbatch.h b/arch/arm64/include/asm/tlbbatch.h
-> new file mode 100644
-> index 000000000000..fedb0b87b8db
-> --- /dev/null
-> +++ b/arch/arm64/include/asm/tlbbatch.h
-> @@ -0,0 +1,12 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _ARCH_ARM64_TLBBATCH_H
-> +#define _ARCH_ARM64_TLBBATCH_H
-> +
-> +struct arch_tlbflush_unmap_batch {
-> +	/*
-> +	 * For arm64, HW can do tlb shootdown, so we don't
-> +	 * need to record cpumask for sending IPI
-> +	 */
-> +};
-> +
-> +#endif /* _ARCH_ARM64_TLBBATCH_H */
-> diff --git a/arch/arm64/include/asm/tlbflush.h b/arch/arm64/include/asm/tlbflush.h
-> index 412a3b9a3c25..41a763cf8c1b 100644
-> --- a/arch/arm64/include/asm/tlbflush.h
-> +++ b/arch/arm64/include/asm/tlbflush.h
-> @@ -254,17 +254,23 @@ static inline void flush_tlb_mm(struct mm_struct *mm)
->  	dsb(ish);
->  }
->  
-> -static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
-> +static inline void __flush_tlb_page_nosync(struct mm_struct *mm,
->  					 unsigned long uaddr)
->  {
->  	unsigned long addr;
->  
->  	dsb(ishst);
-> -	addr = __TLBI_VADDR(uaddr, ASID(vma->vm_mm));
-> +	addr = __TLBI_VADDR(uaddr, ASID(mm));
->  	__tlbi(vale1is, addr);
->  	__tlbi_user(vale1is, addr);
->  }
->  
-> +static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
-> +					 unsigned long uaddr)
-> +{
-> +	return __flush_tlb_page_nosync(vma->vm_mm, uaddr);
-> +}
-> +
->  static inline void flush_tlb_page(struct vm_area_struct *vma,
->  				  unsigned long uaddr)
->  {
-> @@ -272,6 +278,48 @@ static inline void flush_tlb_page(struct vm_area_struct *vma,
->  	dsb(ish);
->  }
->  
-> +#ifdef CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
-> +
-> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
-> +{
-> +	/*
-> +	 * TLB batched flush is proved to be beneficial for systems with large
-> +	 * number of CPUs, especially system with more than 8 CPUs. TLB shutdown
-> +	 * is cheap on small systems which may not need this feature. So use
-> +	 * a threshold for enabling this to avoid potential side effects on
-> +	 * these platforms.
-> +	 */
-> +	if (num_online_cpus() < CONFIG_ARM64_NR_CPUS_FOR_BATCHED_TLB)
-> +		return false;
-> +
-> +	/*
-> +	 * TLB flush deferral is not required on systems, which are affected with
-> +	 * ARM64_WORKAROUND_REPEAT_TLBI, as __tlbi()/__tlbi_user() implementation
-> +	 * will have two consecutive TLBI instructions with a dsb(ish) in between
-> +	 * defeating the purpose (i.e save overall 'dsb ish' cost).
-> +	 */
-> +#ifdef CONFIG_ARM64_WORKAROUND_REPEAT_TLBI
-> +	if (unlikely(cpus_have_const_cap(ARM64_WORKAROUND_REPEAT_TLBI)))
-> +		return false;
-> +#endif
-> +
-> +	return true;
-> +}
-> +
-> +static inline void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
-> +					     struct mm_struct *mm,
-> +					     unsigned long uaddr)
-> +{
-> +	__flush_tlb_page_nosync(mm, uaddr);
-> +}
-> +
-> +static inline void arch_tlbbatch_flush(struct arch_tlbflush_unmap_batch *batch)
-> +{
-> +	dsb(ish);
-> +}
-> +
-> +#endif /* CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH */
-> +
->  /*
->   * This is meant to avoid soft lock-ups on large TLB flushing ranges and not
->   * necessarily a performance improvement.
-> diff --git a/arch/x86/include/asm/tlbflush.h b/arch/x86/include/asm/tlbflush.h
-> index 8a497d902c16..15cada9635c1 100644
-> --- a/arch/x86/include/asm/tlbflush.h
-> +++ b/arch/x86/include/asm/tlbflush.h
-> @@ -263,8 +263,9 @@ static inline u64 inc_mm_tlb_gen(struct mm_struct *mm)
->  	return atomic64_inc_return(&mm->context.tlb_gen);
->  }
->  
-> -static inline void arch_tlbbatch_add_mm(struct arch_tlbflush_unmap_batch *batch,
-> -					struct mm_struct *mm)
-> +static inline void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
-> +					     struct mm_struct *mm,
-> +					     unsigned long uaddr)
->  {
->  	inc_mm_tlb_gen(mm);
->  	cpumask_or(&batch->cpumask, &batch->cpumask, mm_cpumask(mm));
-> diff --git a/include/linux/mm_types_task.h b/include/linux/mm_types_task.h
-> index 0bb4b6da9993..b98098e81390 100644
-> --- a/include/linux/mm_types_task.h
-> +++ b/include/linux/mm_types_task.h
-> @@ -65,8 +65,8 @@ struct tlbflush_unmap_batch {
->  #ifdef CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
->  	/*
->  	 * The arch code makes the following promise: generic code can modify a
-> -	 * PTE, then call arch_tlbbatch_add_mm() (which internally provides all
-> -	 * needed barriers), then call arch_tlbbatch_flush(), and the entries
-> +	 * PTE, then call arch_tlbbatch_add_pending() (which internally provides
-> +	 * all needed barriers), then call arch_tlbbatch_flush(), and the entries
->  	 * will be flushed on all CPUs by the time that arch_tlbbatch_flush()
->  	 * returns.
->  	 */
-> diff --git a/mm/rmap.c b/mm/rmap.c
-> index a9ab10bc0144..603912aa3f19 100644
-> --- a/mm/rmap.c
-> +++ b/mm/rmap.c
-> @@ -640,12 +640,13 @@ void try_to_unmap_flush_dirty(void)
->  #define TLB_FLUSH_BATCH_PENDING_LARGE			\
->  	(TLB_FLUSH_BATCH_PENDING_MASK / 2)
->  
-> -static void set_tlb_ubc_flush_pending(struct mm_struct *mm, bool writable)
-> +static void set_tlb_ubc_flush_pending(struct mm_struct *mm, bool writable,
-> +				      unsigned long uaddr)
->  {
->  	struct tlbflush_unmap_batch *tlb_ubc = &current->tlb_ubc;
->  	int batch, nbatch;
->  
-> -	arch_tlbbatch_add_mm(&tlb_ubc->arch, mm);
-> +	arch_tlbbatch_add_pending(&tlb_ubc->arch, mm, uaddr);
->  	tlb_ubc->flush_required = true;
->  
->  	/*
-> @@ -723,7 +724,8 @@ void flush_tlb_batched_pending(struct mm_struct *mm)
->  	}
->  }
->  #else
-> -static void set_tlb_ubc_flush_pending(struct mm_struct *mm, bool writable)
-> +static void set_tlb_ubc_flush_pending(struct mm_struct *mm, bool writable,
-> +				      unsigned long uaddr)
->  {
->  }
->  
-> @@ -1596,7 +1598,7 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
->  				 */
->  				pteval = ptep_get_and_clear(mm, address, pvmw.pte);
->  
-> -				set_tlb_ubc_flush_pending(mm, pte_dirty(pteval));
-> +				set_tlb_ubc_flush_pending(mm, pte_dirty(pteval), address);
->  			} else {
->  				pteval = ptep_clear_flush(vma, address, pvmw.pte);
->  			}
