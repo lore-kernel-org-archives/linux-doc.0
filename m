@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03140C3A59F
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 18:02:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6251C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 18:03:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239406AbiKWSCk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 13:02:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53714 "EHLO
+        id S239493AbiKWSDK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 13:03:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239295AbiKWSCZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 13:02:25 -0500
+        with ESMTP id S239416AbiKWSCa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 13:02:30 -0500
 Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A9F193715;
-        Wed, 23 Nov 2022 10:02:24 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 146D5B85;
+        Wed, 23 Nov 2022 10:02:26 -0800 (PST)
 Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 5A7923B28;
-        Wed, 23 Nov 2022 19:02:22 +0100 (CET)
+        by mail.3ffe.de (Postfix) with ESMTPSA id AE81A27BF;
+        Wed, 23 Nov 2022 19:02:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1669226542;
+        t=1669226544;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=v/eOHqJ1LIauQnre0RUshOABMUFVK1bneA370Wreibw=;
-        b=UKN6v0DpI83iFSVut+UHaRNSPZUjTnT07PYOJuVNNkKuDAQjAhL+fImT1g0y1Mt7By9NUi
-        p/Qz5V3FaoZrEG/5g7DTvWJPwJLuQEMWB2OT6yhy0ZPEQp5ZL6cf6oKipY0VO0ZwdnBqHx
-        wYltn3J73Ntx3ENBsvvO7FIhdyWUL4F2v7OrkdIBjMs2wOk/JwNJPjRxHgbmK1POUX+/Ty
-        nxLg4CQMpqOC+UqCeN9VFZwA+hCKa+vcRumqZDf2gliFlEDmj5px8pojST5m8X8k3+NvDD
-        krJJ6fBthCP3qW/3vrbPagy8HoHRxzAIT7qdrZUJfphqcStvnDmqFL90+sk1RA==
+        bh=BPNHYJ7cdASLHAEjEX3cpHT6PEI/wCz5wvyevFbTiJM=;
+        b=w86O7N3OKtp8gWhowSQtXL8imOvtNFWH65d7LXHQkMQA8N+Lio0/i8k3YGeixS0gr59oUU
+        tXX17iGKPUfrspytGuLqtk6KK4MWzq5iSjkL07jzHSHE0kSZmJg2xJCOe5rMZjjW1xY8Ds
+        jdpSwNbRk+bSdioshV2RHL26JgkettVKKEQkTjBXCm6o/uoDuUWUc0S8ptQNArh/n4LvBr
+        NtMaJOT2AuRQtQ2XSot9eaSIidHffSTlWSxWmnc+iRTEl3aSceRoUQZgUNO7CKoos7fzUX
+        VaAfCK+yaSa0XxcxiQkm6wXimeKKUGGRtyZBzeJiXyVqlHMO5aAFWY8aaTMo5Q==
 From:   Michael Walle <michael@walle.cc>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -42,9 +42,9 @@ To:     Jonathan Corbet <corbet@lwn.net>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Michael Walle <michael@walle.cc>
-Subject: [PATCH v4 09/20] nvmem: core: add nvmem_add_one_cell()
-Date:   Wed, 23 Nov 2022 19:01:40 +0100
-Message-Id: <20221123180151.2160033-10-michael@walle.cc>
+Subject: [PATCH v4 14/20] nvmem: imx-ocotp: replace global post processing with layouts
+Date:   Wed, 23 Nov 2022 19:01:45 +0100
+Message-Id: <20221123180151.2160033-15-michael@walle.cc>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221123180151.2160033-1-michael@walle.cc>
 References: <20221123180151.2160033-1-michael@walle.cc>
@@ -55,133 +55,89 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new function to add exactly one cell. This will be used by the
-nvmem layout drivers to add custom cells. In contrast to the
-nvmem_add_cells(), this has the advantage that we don't have to assemble
-a list of cells on runtime.
+In preparation of retiring the global post processing hook change this
+driver to use layouts. The layout will be supplied during registration
+and will be used to add the post processing hook to all added cells.
 
 Signed-off-by: Michael Walle <michael@walle.cc>
+Tested-by: Michael Walle <michael@walle.cc> # on kontron-pitx-imx8m
 ---
 changes since v3:
  - none
 
 changes since v2:
- - add EXPORT_SYMBOL_GPL()
-
-changes since v1:
  - none
 
- drivers/nvmem/core.c           | 59 ++++++++++++++++++++--------------
- include/linux/nvmem-provider.h |  8 +++++
- 2 files changed, 43 insertions(+), 24 deletions(-)
+changes since v1:
+ - new patch
 
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 7c76e0e0072e..cb25bf29dea7 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -501,6 +501,36 @@ static int nvmem_cell_info_to_nvmem_cell_entry(struct nvmem_device *nvmem,
+ drivers/nvmem/imx-ocotp.c | 30 +++++++++++++++++++-----------
+ 1 file changed, 19 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/nvmem/imx-ocotp.c b/drivers/nvmem/imx-ocotp.c
+index e9b52ecb3f72..ac0edb6398f1 100644
+--- a/drivers/nvmem/imx-ocotp.c
++++ b/drivers/nvmem/imx-ocotp.c
+@@ -225,18 +225,13 @@ static int imx_ocotp_read(void *context, unsigned int offset,
+ static int imx_ocotp_cell_pp(void *context, const char *id, int index,
+ 			     unsigned int offset, void *data, size_t bytes)
+ {
+-	struct ocotp_priv *priv = context;
++	u8 *buf = data;
++	int i;
+ 
+ 	/* Deal with some post processing of nvmem cell data */
+-	if (id && !strcmp(id, "mac-address")) {
+-		if (priv->params->reverse_mac_address) {
+-			u8 *buf = data;
+-			int i;
+-
+-			for (i = 0; i < bytes/2; i++)
+-				swap(buf[i], buf[bytes - i - 1]);
+-		}
+-	}
++	if (id && !strcmp(id, "mac-address"))
++		for (i = 0; i < bytes / 2; i++)
++			swap(buf[i], buf[bytes - i - 1]);
+ 
  	return 0;
  }
+@@ -488,7 +483,6 @@ static struct nvmem_config imx_ocotp_nvmem_config = {
+ 	.stride = 1,
+ 	.reg_read = imx_ocotp_read,
+ 	.reg_write = imx_ocotp_write,
+-	.cell_post_process = imx_ocotp_cell_pp,
+ };
  
-+/**
-+ * nvmem_add_one_cell() - Add one cell information to an nvmem device
-+ *
-+ * @nvmem: nvmem device to add cells to.
-+ * @info: nvmem cell info to add to the device
-+ *
-+ * Return: 0 or negative error code on failure.
-+ */
-+int nvmem_add_one_cell(struct nvmem_device *nvmem,
-+		       const struct nvmem_cell_info *info)
+ static const struct ocotp_params imx6q_params = {
+@@ -595,6 +589,17 @@ static const struct of_device_id imx_ocotp_dt_ids[] = {
+ };
+ MODULE_DEVICE_TABLE(of, imx_ocotp_dt_ids);
+ 
++static void imx_ocotp_fixup_cell_info(struct nvmem_device *nvmem,
++				      struct nvmem_layout *layout,
++				      struct nvmem_cell_info *cell)
 +{
-+	struct nvmem_cell_entry *cell;
-+	int rval;
-+
-+	cell = kzalloc(sizeof(*cell), GFP_KERNEL);
-+	if (!cell)
-+		return -ENOMEM;
-+
-+	rval = nvmem_cell_info_to_nvmem_cell_entry(nvmem, info, cell);
-+	if (rval) {
-+		kfree(cell);
-+		return rval;
-+	}
-+
-+	nvmem_cell_entry_add(cell);
-+
-+	return 0;
++	cell->read_post_process = imx_ocotp_cell_pp;
 +}
-+EXPORT_SYMBOL_GPL(nvmem_add_one_cell);
 +
- /**
-  * nvmem_add_cells() - Add cell information to an nvmem device
-  *
-@@ -514,34 +544,15 @@ static int nvmem_add_cells(struct nvmem_device *nvmem,
- 		    const struct nvmem_cell_info *info,
- 		    int ncells)
++struct nvmem_layout imx_ocotp_layout = {
++	.fixup_cell_info = imx_ocotp_fixup_cell_info,
++};
++
+ static int imx_ocotp_probe(struct platform_device *pdev)
  {
--	struct nvmem_cell_entry **cells;
--	int i, rval = 0;
--
--	cells = kcalloc(ncells, sizeof(*cells), GFP_KERNEL);
--	if (!cells)
--		return -ENOMEM;
-+	int i, rval;
- 
- 	for (i = 0; i < ncells; i++) {
--		cells[i] = kzalloc(sizeof(**cells), GFP_KERNEL);
--		if (!cells[i]) {
--			rval = -ENOMEM;
--			goto out;
--		}
--
--		rval = nvmem_cell_info_to_nvmem_cell_entry(nvmem, &info[i], cells[i]);
--		if (rval) {
--			kfree(cells[i]);
--			goto out;
--		}
--
--		nvmem_cell_entry_add(cells[i]);
-+		rval = nvmem_add_one_cell(nvmem, &info[i]);
-+		if (rval)
-+			return rval;
- 	}
- 
--out:
--	/* remove tmp array */
--	kfree(cells);
--
--	return rval;
-+	return 0;
- }
- 
- /**
-diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
-index 14a32a1bc249..385d29168008 100644
---- a/include/linux/nvmem-provider.h
-+++ b/include/linux/nvmem-provider.h
-@@ -155,6 +155,9 @@ struct nvmem_device *devm_nvmem_register(struct device *dev,
- void nvmem_add_cell_table(struct nvmem_cell_table *table);
- void nvmem_del_cell_table(struct nvmem_cell_table *table);
- 
-+int nvmem_add_one_cell(struct nvmem_device *nvmem,
-+		       const struct nvmem_cell_info *info);
+ 	struct device *dev = &pdev->dev;
+@@ -619,6 +624,9 @@ static int imx_ocotp_probe(struct platform_device *pdev)
+ 	imx_ocotp_nvmem_config.size = 4 * priv->params->nregs;
+ 	imx_ocotp_nvmem_config.dev = dev;
+ 	imx_ocotp_nvmem_config.priv = priv;
++	if (priv->params->reverse_mac_address)
++		imx_ocotp_nvmem_config.layout = &imx_ocotp_layout;
 +
- #else
+ 	priv->config = &imx_ocotp_nvmem_config;
  
- static inline struct nvmem_device *nvmem_register(const struct nvmem_config *c)
-@@ -172,6 +175,11 @@ devm_nvmem_register(struct device *dev, const struct nvmem_config *c)
- 
- static inline void nvmem_add_cell_table(struct nvmem_cell_table *table) {}
- static inline void nvmem_del_cell_table(struct nvmem_cell_table *table) {}
-+static inline int nvmem_add_one_cell(struct nvmem_device *nvmem,
-+				     const struct nvmem_cell_info *info)
-+{
-+	return -EOPNOTSUPP;
-+}
- 
- #endif /* CONFIG_NVMEM */
- #endif  /* ifndef _LINUX_NVMEM_PROVIDER_H */
+ 	clk_prepare_enable(priv->clk);
 -- 
 2.30.2
 
