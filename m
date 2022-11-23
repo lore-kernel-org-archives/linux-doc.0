@@ -2,148 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96E47C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 04:32:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66648C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 05:13:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235697AbiKWEc1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Nov 2022 23:32:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52290 "EHLO
+        id S229529AbiKWFNd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 00:13:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235627AbiKWEcY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 23:32:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B3567EC9F
-        for <linux-doc@vger.kernel.org>; Tue, 22 Nov 2022 20:31:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669177888;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VQl9ff+pm3Bk3aH204X24mZs6zyamDTWXwNuFP1xLlU=;
-        b=ioS4y6udGto6FdbJOCjiDvPuEcBJbFV86tIH60H4nWp0VAyPjYItmegP1pzJkpbvUP4ysv
-        s+t37dIUrYzUTYwNIuvWzMyi3Zus+BI6cUsMpk5GgeRlaLJE56HwvUnxrpSom1G+fpw6go
-        nS9H9fqIYUPF9yeTZWnd5n8hys5teaY=
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-209-XrRt1m63OU2jy-cRS2dT0A-1; Tue, 22 Nov 2022 23:31:27 -0500
-X-MC-Unique: XrRt1m63OU2jy-cRS2dT0A-1
-Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-13b9bcc6b4cso8069590fac.13
-        for <linux-doc@vger.kernel.org>; Tue, 22 Nov 2022 20:31:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VQl9ff+pm3Bk3aH204X24mZs6zyamDTWXwNuFP1xLlU=;
-        b=2kcAD9oaFhSZ+3g7A9UlUCk1Xz8FeYgYAtwXR2RO+eyAxovpqRA6uXRWRw/J6WGL2I
-         IW0ceErKi7dIdB+2isxJK5mAvmfOG2wNNGjl/uxRPo2WwIboLMrvYMaUHOh8grN1f2G+
-         EJOl+8H0oHAPhoiUZEjZ7Kj5HWSH2IjCpgOklvZmEWTYtDZKP2L49OrPXoOKoReaOeCq
-         HU1zJoMzSKjPNS7Au7/cDUej9Ajeu42wK0qLXxtD0DAVTJgZdBBuA/Hw3P96A/GRACjv
-         BhIDUPApkL4k2jC2V0eTVeYXgokezyzrzpfh9MPjAP89vN+Kkf7Wd2lnrpOn14DPEBhx
-         KOuQ==
-X-Gm-Message-State: ANoB5pkpZrVENX9S0PVYbEdElMRB5pPRsnrIFJDNOGZF9H3H4II1ZoEf
-        SHUeBEUz8XXD1ESwLjHdWKBz/VGf7nu3ypzRm9czJmWUjqSj6d7R2MekXim0NaS5BSU5DcuSAwC
-        ZYZdXLOLEilp5GARfN2QwvMz63q3SIB4VJWd/
-X-Received: by 2002:a4a:94a9:0:b0:480:8f4a:7062 with SMTP id k38-20020a4a94a9000000b004808f4a7062mr3093729ooi.57.1669177886410;
-        Tue, 22 Nov 2022 20:31:26 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5p+2/kgwNtkcV/tZnRU73FzLwSP/0hnFdBUnffLOt1Eb3cLSA1SD07EWvhtzopVZbm5DQMqgdOyOqC6G2YoCA=
-X-Received: by 2002:a4a:94a9:0:b0:480:8f4a:7062 with SMTP id
- k38-20020a4a94a9000000b004808f4a7062mr3093711ooi.57.1669177886199; Tue, 22
- Nov 2022 20:31:26 -0800 (PST)
-MIME-Version: 1.0
-References: <0-v5-4001c2997bd0+30c-iommufd_jgg@nvidia.com> <15-v5-4001c2997bd0+30c-iommufd_jgg@nvidia.com>
- <BN9PR11MB5276B0219008568A30F5A4738C099@BN9PR11MB5276.namprd11.prod.outlook.com>
- <Y3ejMSTWvJuELQ7K@nvidia.com> <BN9PR11MB5276939555C1460EFBFD15A68C0C9@BN9PR11MB5276.namprd11.prod.outlook.com>
-In-Reply-To: <BN9PR11MB5276939555C1460EFBFD15A68C0C9@BN9PR11MB5276.namprd11.prod.outlook.com>
-From:   Jason Wang <jasowang@redhat.com>
-Date:   Wed, 23 Nov 2022 12:31:15 +0800
-Message-ID: <CACGkMEumUoHfWE0NkdmNbnx-nmgXrm3ZL6Jrj6x+M=wSXQK32g@mail.gmail.com>
-Subject: Re: [PATCH v5 15/19] iommufd: vfio container FD ioctl compatibility
-To:     "Tian, Kevin" <kevin.tian@intel.com>
-Cc:     Jason Gunthorpe <jgg@nvidia.com>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        with ESMTP id S234151AbiKWFNc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 00:13:32 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 904DF8F3E4;
+        Tue, 22 Nov 2022 21:13:31 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF33F1FB;
+        Tue, 22 Nov 2022 21:13:37 -0800 (PST)
+Received: from a077893.blr.arm.com (unknown [10.162.43.6])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 737CC3F73B;
+        Tue, 22 Nov 2022 21:13:28 -0800 (PST)
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+To:     linux-mm@kvack.org
+Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        David Woodhouse <dwmw2@infradead.org>,
-        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-        Joerg Roedel <joro@8bytes.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
-        Anthony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        "Martins, Joao" <joao.m.martins@oracle.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "Yang, Lixiao" <lixiao.yang@intel.com>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Shameerali Kolothum Thodi 
-        <shameerali.kolothum.thodi@huawei.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>,
-        Keqian Zhu <zhukeqian1@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] documentation/mm: Update pmd_present() in arch_pgtable_helpers.rst
+Date:   Wed, 23 Nov 2022 10:43:19 +0530
+Message-Id: <20221123051319.1312582-1-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 23, 2022 at 9:33 AM Tian, Kevin <kevin.tian@intel.com> wrote:
->
-> > From: Jason Gunthorpe <jgg@nvidia.com>
-> > Sent: Friday, November 18, 2022 11:22 PM
-> >
-> > On Fri, Nov 18, 2022 at 02:58:49AM +0000, Tian, Kevin wrote:
-> > > > From: Jason Gunthorpe <jgg@nvidia.com>
-> > > > Sent: Thursday, November 17, 2022 5:01 AM
-> > > > index ca28a135b9675f..2fdff04000b326 100644
-> > > > --- a/drivers/iommu/iommufd/Makefile
-> > > > +++ b/drivers/iommu/iommufd/Makefile
-> > > > @@ -5,6 +5,7 @@ iommufd-y := \
-> > > >   io_pagetable.o \
-> > > >   ioas.o \
-> > > >   main.o \
-> > > > - pages.o
-> > > > + pages.o \
-> > > > + vfio_compat.o
-> > > >
-> > >
-> > > move vfio_compat out of core? it's not required if VFIO
-> > > is not configured.
-> >
-> > We can, but I don't know if we should. Compat ioctls are part of
-> > /dev/iommu, and technically have nothing to do with VFIO. A native
-> > iommufd application using VDPA could use them, if it wanted, for
-> > instance.
-> >
->
-> I'm not sure whether that requires further VDPA support. Be safe
-> I'd like VDPA to explicitly select vfio_compact when that new
-> mixed scheme is supported.
->
+Although pmd_present() might seem to indicate a valid and mapped pmd entry,
+in reality it returns true when pmd_page() points to a valid page in memory
+, regardless whether the pmd entry is mapped or not. Andrea Arcangeli had
+earlier explained [1] the required semantics for pmd_present(). This just
+updates the documentation for pmd_present() as required.
 
-This sounds strange. If I don't misunderstand the code, it tries to
-provide ioctl compatibility with the VFIO container. I don't see how
-it can be used for vDPA, the ioctls used by vDPA is not compatible
-with VFIO.
+[1] https://lore.kernel.org/lkml/20181017020930.GN30832@redhat.com/
 
-Thanks
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrea Arcangeli <aarcange@redhat.com>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: linux-mm@kvack.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+---
+This applies on v6.1-rc6
+
+The latest trigger was from an earlier discussion here.
+
+https://lore.kernel.org/all/53c0c955-7afe-905b-468a-cd7ac81238c5@arm.com/
+
+ Documentation/mm/arch_pgtable_helpers.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/mm/arch_pgtable_helpers.rst b/Documentation/mm/arch_pgtable_helpers.rst
+index cbaee9e59241..fd2a19df884e 100644
+--- a/Documentation/mm/arch_pgtable_helpers.rst
++++ b/Documentation/mm/arch_pgtable_helpers.rst
+@@ -94,7 +94,7 @@ PMD Page Table Helpers
+ +---------------------------+--------------------------------------------------+
+ | pmd_trans_huge            | Tests a Transparent Huge Page (THP) at PMD       |
+ +---------------------------+--------------------------------------------------+
+-| pmd_present               | Tests a valid mapped PMD                         |
++| pmd_present               | Tests whether pmd_page() points to valid memory  |
+ +---------------------------+--------------------------------------------------+
+ | pmd_young                 | Tests a young PMD                                |
+ +---------------------------+--------------------------------------------------+
+-- 
+2.25.1
 
