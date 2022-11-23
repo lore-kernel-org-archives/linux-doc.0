@@ -2,65 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58383C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 00:20:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3611C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 00:22:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234091AbiKWAUC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Nov 2022 19:20:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44764 "EHLO
+        id S233560AbiKWAWe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Nov 2022 19:22:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233984AbiKWAUB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 19:20:01 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F0F465E55;
-        Tue, 22 Nov 2022 16:20:00 -0800 (PST)
+        with ESMTP id S234624AbiKWAWa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 19:22:30 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 451D125DC;
+        Tue, 22 Nov 2022 16:22:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669162800; x=1700698800;
+  t=1669162948; x=1700698948;
   h=message-id:date:subject:to:cc:references:from:
    in-reply-to:content-transfer-encoding:mime-version;
-  bh=iqajjKVXsdimEkbQpIRW8Lb+TPmvAoGeX4EmsSXQXIw=;
-  b=FH/wlvi8djbfDJj4PmXRiciTZfb8zcA1qjcgZvTdBlspro5NTj5yPVI3
-   csx4y8dd4DyaTBu9En0c4gn3ihs+zEq7yM+5fpSm26D8Ead+NDhAtccdk
-   J4qii6j8sJf1N/YTpr20793GjyqSbXS2SlYmM56OqK0KbRvmFGVQ2tBhT
-   T/rUxiq/jp1TfT0wZbCBAvuvDE4vjqDc7qRk5CWlT6ho/Y9ccEhj4zadQ
-   TXgqRpmxvNh3xY1M2EEXtfxHNGbSFgEpIPjYtgCindG9SxxiDs5fxNX1r
-   U3kN1SA82ayuy8qKl+JkPIAGTS0O2Ji13IC5OwOY6qnRRvtnvvhpZxCOR
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="294335138"
+  bh=TOmPG2vtUj7/ibXMvJHHpgfaEhGMrTtCFoagD+/mHoA=;
+  b=MGIMMwuRuI7jKYTg5jfN/CROJU5i6cX+UxSISQWLds5Kd/WX66wC2x6N
+   eoST2XB/yx1Lk5Ih2AQcblywihbB73TDL59WwLlJxdOzcCNo4o5N004VE
+   WZOT5Bgda0yL5eO1Xp9AtCcTwurwjLTBuCjhEwKph2HxOTRr19c1q8FNy
+   CXXy7cPXYAchlI/EGiUuYBVgfH679Je2+QIPm2drv+wrvx5Hw0kEdCaMp
+   eWfzaYtuZZZNHrWTRJ5s0Pq3b3CyYu3dSYvNRcBR1m29w7QnRuhfiW4i7
+   VpLn8yeYM5JAtTi2+r+0NeQy7fhnrh7PxfhcEXzGETMllRbKG6/XjQxfi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="340821141"
 X-IronPort-AV: E=Sophos;i="5.96,185,1665471600"; 
-   d="scan'208";a="294335138"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2022 16:20:00 -0800
+   d="scan'208";a="340821141"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2022 16:22:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="970665681"
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="619411639"
 X-IronPort-AV: E=Sophos;i="5.96,185,1665471600"; 
-   d="scan'208";a="970665681"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmsmga005.fm.intel.com with ESMTP; 22 Nov 2022 16:19:56 -0800
+   d="scan'208";a="619411639"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga006.jf.intel.com with ESMTP; 22 Nov 2022 16:22:24 -0800
 Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 22 Nov 2022 16:19:56 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2375.31; Tue, 22 Nov 2022 16:22:23 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 22 Nov 2022 16:19:55 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Tue, 22 Nov 2022 16:19:55 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.103)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ 15.1.2375.31 via Frontend Transport; Tue, 22 Nov 2022 16:22:23 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.105)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Tue, 22 Nov 2022 16:19:55 -0800
+ 15.1.2375.31; Tue, 22 Nov 2022 16:22:23 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Cg75yEBrg4Fp4M68iuQ0Bh4Em5k8DbnoiXfhAe03bo1CvuWS7F3NLi/hmUE/0b50lDRfpPRiry4JR09eIy/FXbtlHhd0kCtcWV2SMTGsMqnrrkrHfMeqU++9Asr+MyPYPPW0qXxuWG0UyrvwMh3nOGxTqdEcC+I9cw1vtd0wFqGGHUncUmkIdzbqDXV0em93CcYc8e25NnMNY8cuhqNEEZCBT2snzZ7v2oOT+ybi8A7L74fiJGHc22ZdHDlSVyiIe7SuLh/0Y5gA/inL7kk6WzPgvN8TI0QGVF8IxnWxJJhA4Pe956Sm0e8MBFAcMYzQFYoKrQ6ip4zJynX8r8qUUw==
+ b=nbC3e/dTFpNAEyJQ0iNlgXmC66tFdCi64wm8T8+cK4ygq7AYDZ6OKLdVVVE91BTfGxVY9NeNwWeYCDF1WiEUA+gE5+XVvZ4vAU3VO3vw/aj5zlquv5+03TzD7EprQoyN7MrBAchEcLXKqlkeLaDJCTD8wK9MUjvk1XemDlo1sx5YP7JjyC/x929sM+iEOMQAEtOIXAu2wIW9s/Bx15X0gnYCzg2s2kb1pBRi6yU5F7jA65QEsn6g3xGrTTBydCSO/GvHcrlZIb5m2wVXshrw0eAczSoECSTJLngK7o6OJcxMzUyjJ+5Exg+1cfdGsChwcu60A+4gTRTbK93XrXqNXQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RCTzk4IcRi64VK2rOnjqSQlCCPJdq+CeLhff2WHdmNE=;
- b=FbocwLewyyNbnjmkEDcYyqL5/CQ6ntDYK0Eo51+yZ5n3v8quf+u5jmyO1GqigbJoHvel8jFmg9MuhSg6RSP28DjwpheT7xklQAv/VDiv5bzPAUz9090NxmLjVtEi1FUuOAEiew7MjgCzIsj15/AJ1Ftdk11J1il+If0U3eTQd65t8ZEHLqJXb0Q7xzdtZh/eZ4xxR6jCO4Y7VO+bIKc/0kVkk69U44WYVHbZSBjhoU71iTd1etI/3lMqE+mdvug8tyscv+DI3Bdtjn3xkYStLet4giz1fLWiUau9cbBrpIjuFInA7tw4/rLF7wV2N3WSTqji8ZSPdn+DePZ9yUg43w==
+ bh=dzSWtUd7Ws7CRgbjT4lg0ZQLzl8sCKXjYY5bRBr/G/k=;
+ b=aK7Ciutuu3BRUqJVCLbSoryeCbDtOUrH+sgEVN9K2KTdw3DxWqi1npRbHpb8axCtj+1mY9HPNR7oQ5CFThySMq/KpyYGWUglaLZ5IL99O2cHBHyPANtPErfWwIkVD5FHTSNy1oHwr6Jb4lACu3MhBjO0PolMam1i/ZPYypUCBE12guuk8OemrcXfN8tkqNvVB8TcWC3WD7WxGQqahlVD9PMMFIuYVK8hqPXpETZiZj8l1Ag0se9GYTmh+E1tahKARFTNasJ9VhbX6e5SPzDw1Qfvdik2NRfe49/nCBfqvnedNm6PgOZ9kFZDXI0Zh0ysr/Oe8+Rfs2tXhTUs0kU2TQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -70,16 +66,16 @@ Received: from CY4PR11MB1862.namprd11.prod.outlook.com (2603:10b6:903:124::18)
  by PH8PR11MB6949.namprd11.prod.outlook.com (2603:10b6:510:227::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Wed, 23 Nov
- 2022 00:19:52 +0000
+ 2022 00:22:20 +0000
 Received: from CY4PR11MB1862.namprd11.prod.outlook.com
  ([fe80::6005:96bf:e2e1:2f7a]) by CY4PR11MB1862.namprd11.prod.outlook.com
  ([fe80::6005:96bf:e2e1:2f7a%12]) with mapi id 15.20.5834.015; Wed, 23 Nov
- 2022 00:19:52 +0000
-Message-ID: <46d00211-e6e2-a0d9-22ca-ee0d3ca15468@intel.com>
-Date:   Tue, 22 Nov 2022 16:19:48 -0800
+ 2022 00:22:20 +0000
+Message-ID: <8be9c390-87ff-b503-59ab-27aa42f22c98@intel.com>
+Date:   Tue, 22 Nov 2022 16:22:15 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Firefox/102.0 Thunderbird/102.5.0
-Subject: Re: [PATCH v8 08/13] x86/resctrl: Add sysfs interface to read
+Subject: Re: [PATCH v8 10/13] x86/resctrl: Add sysfs interface to write
  mbm_total_bytes_config
 Content-Language: en-US
 To:     Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>,
@@ -97,71 +93,71 @@ CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
         <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
         <eranian@google.com>
 References: <166759188265.3281208.11769277079826754455.stgit@bmoger-ubuntu>
- <166759205510.3281208.11437041392524040365.stgit@bmoger-ubuntu>
+ <166759206900.3281208.11975514088019160962.stgit@bmoger-ubuntu>
 From:   Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <166759205510.3281208.11437041392524040365.stgit@bmoger-ubuntu>
+In-Reply-To: <166759206900.3281208.11975514088019160962.stgit@bmoger-ubuntu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0274.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::9) To CY4PR11MB1862.namprd11.prod.outlook.com
+X-ClientProxiedBy: SJ0PR03CA0147.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::32) To CY4PR11MB1862.namprd11.prod.outlook.com
  (2603:10b6:903:124::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CY4PR11MB1862:EE_|PH8PR11MB6949:EE_
-X-MS-Office365-Filtering-Correlation-Id: 095a0008-c937-421a-761a-08dacce8707f
+X-MS-Office365-Filtering-Correlation-Id: 4016f783-c4d7-4790-f8c0-08dacce8c8aa
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7kKNNylpY3b8aJVia9SwlwB7dgS/B5NoivfEM3o3oMoXYSSNR3KQDZv4ervF4WH3xw81vMuA/qGANbBYPNESs/iaan1TJFcrCQQnGgNRmks7+/bE46GU32/6PO+5rnN2r2octUinDaba7gdrDgVcAhdnwcnTD0fLCsPJIqRTGUf7VMA9q5/Q/Uh66xoazd6b6czd/7bJ9013K9EhGVezFwOKGDEMmYB5htWND4Y+FgVdzeiWf0VgSHcAdQXegE/cZ/e4WewZ7ORTOn0SYjd9MTQ9CPtFa44n0ZVeVKCSUZExXQYlOYQdjjwobUEsczS+9vB3aDvx31L1bhfMkGBUC0GvD+5KZ+UdxJ33toXeGEcF/UA5FsM5nihxLQFOZ5QgKCFCQGErnThy+ugPWo2g2KWrSMve3x72S6xdoW1tdHlKtnepPbwYdeVlyMDIhevZlCEHVX2i/gaTLbiRup3bzFsw4hvUg7/PD7aHHrRomI+wHptm26qlGX+nr20s8MKo5bY7IL2CXVlLUe2dMrAffdvcNXbKkLHirSu7fs8ZRqNAFGZ80EwsSEehO3Kezqp+HDGX9d4+wSXUi+O+ywkTLSjVh0LKoLLn6hXDpXRy44Xka5h4JE5EtH4vsdEv493um65JJACe28JcgdPpODOw5eDyNS2XOW/wVZm8vMnb/WshFZJE5rt7PN9QU3Sk16jFZX7+a014ipJyUF6lnU2kWR8TXhyFvx0WcawbBpDS/Sw=
+X-Microsoft-Antispam-Message-Info: 50VzxYrrgfoqTCkNUK1KPwnry6FjTRX6j37YZaDTFNcHnAFeuQlazEgwp2V3F+FZGpfIaEl3K5o67N8Ljx9XQ7M8JFTtup0HqrC2uUJJU5+UCBlMeMILEof77jwsIMrqvSkh0x06RMWuO/5LYSmVeTZ/CBASDwp0N6EVLE1hQ+4+3vzdCh/N+LUa5m6xLyhSmk6ktQ1dUA9KGy35dSatvn7Vk+xXK8tp6R8pjiNpb3ElXFRUHgu8suUHXgpT3cbwCuPRLc+rGtmYTC50bQsOnTgH3UJdd0VSEYCeZg14mFwBUimgwZco3pdf5GF+TT70PchV6x5NQFvievkAKaPi7tnd/f+TuylW7BJWCY5lwIajgO9gBMpnMS9VBs9Ek+A+5FM2l5njob2AwzYl1ayi4DxLBnf/Xy6USXFpnkJ7RFqG4A/JkG5YMsSXPq4oMqbvwvBbQVwscyzc0S9DfXrmqZQ2YAV8ydQUfEbgKvakKl5Lzkl9x5XGmQoxNSORsE5PGmC3BV96IrnRh2Y6IB+coq6AHgEGngB1Dz1WL8ev0dSJ0QgN+NXVZO16WMJQqerXhh5urofyvF4jbSeTouhCzoRzI9H/vjoEr/PVtGyd1YBjpt6wB/oKGSNHeAFu2pRc+/NpWAclEWusl2DwYT15scXQ+bJKkEYXazkIqJC4JRSDTU9kvrVdXUWFn9/hBsbz1OTaU/UYqIGP/4Qv+5U+TVugGCtnQwhXJUTuIsdH7PI=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(39860400002)(396003)(346002)(376002)(366004)(136003)(451199015)(36756003)(31696002)(86362001)(38100700002)(2906002)(5660300002)(7416002)(44832011)(8936002)(186003)(83380400001)(82960400001)(2616005)(316002)(31686004)(478600001)(66946007)(41300700001)(66476007)(4326008)(8676002)(66556008)(6486002)(6666004)(6512007)(6506007)(53546011)(26005)(43740500002)(45980500001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eVo1bTZCL0FvSVV1RGY1Ym5YL0M3Wko1azFnNTBpa2c1UHNDTmwwaCs2TXVy?=
- =?utf-8?B?ZlhwNGE5U2pWOHB3cEM1SkxRUTJzeDV5c1JhWS82bVE3N3kvM1lvZGRJTTZs?=
- =?utf-8?B?RDVVeXVMdzFYYjZFSHU5MjFhNDRwb1hsanNQWHNKbEZmeDlCTFpyb0wrM2xp?=
- =?utf-8?B?dWRxTzFmUnp2ZWxucEVJaU9XOUtuRSt0TGZheWl6WFhmVmVSSW8vNk9KZXhz?=
- =?utf-8?B?ZklLeDhQMkhEQUF2WkFod0plL3pyMFUrTGV6SW81VzlneGFHYnc5bk95S3M0?=
- =?utf-8?B?cFFPcUtpZ0pKa2JmR3NuRUFuU3h2cWNMd04wSDZsaTU3a2h5OTZNL0RpOXRG?=
- =?utf-8?B?d21hbUdUU09MWUdybzNkSVdUcVhaYTBDczZYMTczajV2eG1LbVhqbXpDVU9P?=
- =?utf-8?B?bGxQa1hjL1luaUV6NFRRZTN6eXdxMWFsU1RFU0M4VlBOMklEaTBHbk1XM1FG?=
- =?utf-8?B?ZGJ0V0V1TzQza293MFJZTHlDU1JqKzZwT2RuK2hBbHppdUFkakVIcUJ2UXln?=
- =?utf-8?B?d0tYaEp5Q2FjN01rNFZ0OEhDMXZCaWdUcmV0STB1dlQ0cTRXRGtUamVyYUhM?=
- =?utf-8?B?cWVhWmlHb1pYM0VKRFpIb0hVMHV3RTZDcGJUYUp4bTMrSEZNRmE3YktCMksx?=
- =?utf-8?B?ZTcrRXo3QlNDdlN3aGU2VWc2U2RuOGpScEsrOG11MXo3eWREMlVySk1wVTBj?=
- =?utf-8?B?ZzByTmF3a2NCV3pLZi9PNVZWTFM3YUpxSHczclBMSHEwbWZhQThrU0svcUZu?=
- =?utf-8?B?OWlzcWhCL3VLbWZhczQ0ajdaM1FSOGpvTWk1cGRib0FqclJBNTMyUmQzRC9u?=
- =?utf-8?B?bEJ6T1BBZ2dHY2c4T05iSVNRY2NwTTRncXVNbDJ3aDU4cHkxYWFlbndrcVpN?=
- =?utf-8?B?dHJybmJnYXQvbjlDdTZUUk0rM0VVSnh6a2VBUUs0NUorZEdPc1lzMGZqVjky?=
- =?utf-8?B?T0d2Yjk2bkZoYzNzOWYxRnd6eTBieEhnOHQ3UFpJZ0hiQlpnLzVwL0xuVG5I?=
- =?utf-8?B?TW5EenllU3ZNMERrVHU3RDRjMVdlZ25VN200RlVmOWsxUjNVOUgvbE9mam9H?=
- =?utf-8?B?dGVpTkt5blQzSC8wcU1seWkzRnNQakh1eE5QQU15VDVHcXJ0N2NlQ1NtOEhX?=
- =?utf-8?B?aGl3dzBDS0ZiRkc3SG5NYjBmZWd0M0FxaHd2Wm93V1BzUHQrSVpzdGVNYUxG?=
- =?utf-8?B?bThKaEdzYUo2MHhYWTJLMnQxL0NvWTcvb3I0bFFoanBPQk00VTlKeUF5b2k4?=
- =?utf-8?B?cHVSaFZ6TzMwbWkwdS9XK2lsZXZmQm9EQ3BqRHpwRWlJZSt6TFlDbGlVUDlS?=
- =?utf-8?B?ZFpJa2xVbTlkUkpXTkRyamluVlFTZ0tobk0rMTVTWmdsZ094OTJ6OTBXQi9v?=
- =?utf-8?B?cjlocGk3andDL1YyRVY5bjB4V1dtM3BKVURUcCtVdmZ5Yis4L2NOajAwVTZ1?=
- =?utf-8?B?RE8xN0twb1RvOENtQjFJUEdYMlhsSmRTWnJaSTdhMEs5WXgvV1RXeHZIdGU3?=
- =?utf-8?B?d0R3Q0xZUjl0SEJzYnlDNE8vemN0N1ZqWnd4MDZQSGZsZ3pFTFllWmhZb3Nj?=
- =?utf-8?B?MU5OVFdPcEorVjhwZ1Y4a2lwV2M2ZHJkcE9vRGM3RDNMU2RreUs0aFNCUVRN?=
- =?utf-8?B?MmUvZ3ZZUjVVdUZCVTBDQnVaOHlBRTMyOG9kcEgxRlIyV0pWT2Z0QmpWNGhP?=
- =?utf-8?B?aHBDTWlFY3l6Q2ZVSmNsZW13NjRoVmxZY3ZHV0JnNmgzNjB2b1VrY1MrN0RC?=
- =?utf-8?B?OXBDTDR0L21pTHk2MnBvTzF4a3h4OFRRYi9HUldmNmN2NUplVzhDNEFvZ0dB?=
- =?utf-8?B?Tit5RjVXYnZSQ21sZ1NPUEdacW9kV25SOGdaczZtTHJjNExFVnJXWWZ0UWNs?=
- =?utf-8?B?WFVEMWJEeEJZdUwwblE0WTNaRUNXaTdxZEMyTlljWEh3UTFrT0JXaEFCd3ZX?=
- =?utf-8?B?Q0w0cTFJTkk5TTBHZG1TU3dFZzlBbmR0NXpoMURpZnpLeHUxdytTdi9pQThs?=
- =?utf-8?B?VnE4OE5BZmJnUmZ3Q1grUjNaYkEva2pVZkk1emFnRUh1amFYZG5oeE1TekZN?=
- =?utf-8?B?WDQ2WGlENWp6bmhBUUI5SE04RStSMndwaVRKOWhEMnRZdGZrMitwNTFWODVm?=
- =?utf-8?B?NXY1RzZhZjNoRDR5ZzN0V0wzUWF0U1NLQlNQdkhrUFlpTm9ja0N4Q2loZVJp?=
- =?utf-8?B?a0E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 095a0008-c937-421a-761a-08dacce8707f
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y3dmTTYyOEFLTStobmpJaUF2amV1a3I1anFuVk52ODJHRmtoN2hzUzFGL1Rl?=
+ =?utf-8?B?bWVtTDdGRW1QZVBGWnVzR1pxRkUrNHpFOHYwd0hSQjZ0WTRXcmdQVFo1RXE4?=
+ =?utf-8?B?WC90OURha2J5Q0t6YWVCNnc5N2hRSHNIYkdZbFJTV0haY3IvTnh5cXA2QjRD?=
+ =?utf-8?B?NXpLNU83RWtHZFZaN3ViRDE2SVRGL0N3QmphNU8rbTNqdjBTdXc1Tzd4Ym8w?=
+ =?utf-8?B?VXZDcXZjSDRpbndlSy9tM3ptWVR2VGRtVEFVM0R3L0NuOExmQnVua0dCOHl4?=
+ =?utf-8?B?OUoxSFNHRWpZQXErN2hoUkwrdGpBTmRpTHFmYTFzVzNvOXN6WFR6ZzNoWUIw?=
+ =?utf-8?B?RndnQVVPK2ZUWmszeVM2dE9GOWMrSWtTNWZEMjkxcXBtNEw4NzJBaGhGNzha?=
+ =?utf-8?B?ajBudm53QitpOHhFdXQ2bTRQeDdnSU5ieTVwNE5oL0ZBYU5HdnpKd2xuUndB?=
+ =?utf-8?B?bjRPUWt6amJOMWxPTjhjTCs0RWhXbWpHV3BIa1VYL1czdXpZMGlhMm5ITjA5?=
+ =?utf-8?B?SytwK1BXUGRpa05CeEQxQWNpZ2JaYVhqb1RQRGJRMW54MFVGVkpIemlxWVRt?=
+ =?utf-8?B?L1g1TWUyZ0tNU3piT09iUnVLMFdMc2VzR04vQlMwSHlOZ3RsN3FWUTRBTDdV?=
+ =?utf-8?B?TlNjME96bS9ncDBWa2p3UzJhak9ZUmIyMENPb2J2ZGpUOHkyMGZVNDZRZXdu?=
+ =?utf-8?B?TVRjbmVOUlJXc1Z4UVVjUWYwK2t2Qlc4RVdoenJvSkZOcVpSN2hCTmZuanQv?=
+ =?utf-8?B?eCtSbTkyM1oydExGcUhRZzRxWThKRlIvOFN2SXowcUhRVEg3VmhpQXpjUWpm?=
+ =?utf-8?B?OHhEVlMwTzBrU2ZOZkpXQ3V4aCtTZVAyNGV1N0xNR1lQVHh6L0ovdU43ZkJt?=
+ =?utf-8?B?Y0hxMlRrRzhjTS81YlQ2NFd6bDRqK0pDTWxGSXEycVFFMzNIZHpSQVc2U1ZZ?=
+ =?utf-8?B?OUJEV0o4QkNxcXdxeVR6ZUlJeU55aUJZemdOK2ZMYjR5MlpZdGNPTjZNVDVY?=
+ =?utf-8?B?QWx4Y3NmKzVJaXBCcGthQVNaNVdhdWxYK3R2VzUzVDlyVDVuaW4zaDRwRDJU?=
+ =?utf-8?B?eTNiQ2hraTcvR2VkTXFhdjlvaGttRmhDN2VEWmRwT0x5MTRyYWVQS3QwZ2RK?=
+ =?utf-8?B?V0dSbXRxc0p1U3FINy95Tm9ydEVLcEpOWXNyKzJVLy8yZzZId3hkdlkzT1lJ?=
+ =?utf-8?B?Y3VEcjZURjE2aFJ0N0c5UWJGWHF5bFhDMS85eU1mMVNsVzhvMlQ0NElUdmRJ?=
+ =?utf-8?B?R2dmN0xjYU94UXl3RjlFd2tBODJGV0I3QTJka0UzakpidmNlRVdYU0k5dWhi?=
+ =?utf-8?B?OXk5TVFDZVNHcDhjNFRBMkxXMWdyb1JZYmN0Smk2bWhGaFp5clJQTU8vV0F0?=
+ =?utf-8?B?Q1o1eHR2YmNjS2tqQXRCdEM4cHh5TG9BQnh1NGNlMmwwOGYzSmR6RDVqRC9C?=
+ =?utf-8?B?eUt5cEpzTjY5Z1JoZ3U1bXBaM3ZSa3RvUG91V2tHOWR4cFZ5UjdLNFlDbFhS?=
+ =?utf-8?B?UGZSeGZXUjZLOGtCdzk4cFpTc3drd0U5QlhzUG5PdnVSSVdGVjNzY1Z0RjZu?=
+ =?utf-8?B?Tk94RVRSemJTdTNzUjlPRHNSbEFtL3JoRnA0cU9lNmFobEZYTGpnRXE1TVBv?=
+ =?utf-8?B?U1VISEpHMUNVeXdOaGtMb1JyR2pjNEpIaWpndmRCWmxoWnpPUnh4UnFYY2F6?=
+ =?utf-8?B?M1pGVE1nVFJSOUlmeENMT1NEL005dmYyc0lmK2VoQVVnaVByelFjR0xwUkRa?=
+ =?utf-8?B?UHh5SW5LYUF3dzM1RGJjU3IxenI0L2NkUmVqeVZjRmlzZGJmMFBCTVBMaXRZ?=
+ =?utf-8?B?UCttS1VZQXZEbDNXTHhuQmtFVXVOZ3lDcnM3ZlorR0R5YzJjR09heWxpcEFB?=
+ =?utf-8?B?QlZ1Ni82VkQxOE1HeXIzaWJJcy82UElMa09BUFJKV0dBNlowSTlBeWVvVGNN?=
+ =?utf-8?B?Ni9SQ09TKzYzQWFkRkRxS2FpUUdvWW9Ob3hKdXk1cTNuNkVvNW9sOGhTSUlH?=
+ =?utf-8?B?M2pQYnJHM1hLOUpDNzUyTkJ0dEFyUllkemd1YW5ZQW02OC9vRjBJbTAzakEx?=
+ =?utf-8?B?QkxCVTlqdGNOU3J1TlVpbUNMaVE3QzlHeTNEQ3ZCYmFKNk9kTXo1eU1HWlV4?=
+ =?utf-8?B?SEZ2NnFLZ3lRSVFxR3lIVEFscndmTmkyeUFTanBHTG04TjU0bzNBZC9RWTI5?=
+ =?utf-8?B?cUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4016f783-c4d7-4790-f8c0-08dacce8c8aa
 X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1862.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2022 00:19:52.1039
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2022 00:22:19.9817
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dgJ0ZbEnNHcTPOBIQn/drQKfTwLKA2OlaYDpAyJcF0J2h721TGR2e+yIYJ1DlbdjoHXrfkdcoTXnUbuFqsvECAtHT8dSgdJoGXyXPhutzGw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: AUxq9CRZBabMGimq4W74uwFDemmrLtyNSr+v0pK4b8OgCkOkpC2biJXVsOfQf7y42ZpA49hWnEFSQZg5jTYuQwXaVsND6cJGg+g/62thzqg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6949
 X-OriginatorOrg: intel.com
 Precedence: bulk
@@ -170,13 +166,16 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi Babu,
 
-On 11/4/2022 1:00 PM, Babu Moger wrote:
-> The current event configuration can be viewed by the user by reading
-> the configuration file /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config.
+On 11/4/2022 1:01 PM, Babu Moger wrote:
+> The current event configuration for mbm_total_bytes can be changed by
+> the user by writing to the file
+> /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config.
+> 
 > The event configuration settings are domain specific and will affect all
 > the CPUs in the domain.
 > 
 > Following are the types of events supported:
+> 
 > ====  ===========================================================
 > Bits   Description
 > ====  ===========================================================
@@ -189,239 +188,179 @@ On 11/4/2022 1:00 PM, Babu Moger wrote:
 > 0      Reads to memory in the local NUMA domain
 > ====  ===========================================================
 > 
-> By default, the mbm_total_bytes_config is set to 0x7f to count all the
-> event types.
-> 
 > For example:
->     $cat /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
->     0=0x7f;1=0x7f;2=0x7f;3=0x7f
+> To change the mbm_total_bytes to count only reads on domain 0, the bits
+> 0, 1, 4 and 5 needs to be set, which is 110011b (in hex 0x33). Run the
+> command.
+> 	$echo  0=0x33 > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
 > 
->     In this case, the event mbm_total_bytes is currently configured
->     with 0x7f on domains 0 to 3.
+> To change the mbm_total_bytes to count all the slow memory reads on
+> domain 1, the bits 4 and 5 needs to be set which is 110000b (in hex 0x30).
+> Run the command.
+> 	$echo  1=0x30 > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
 > 
 > Signed-off-by: Babu Moger <babu.moger@amd.com>
 > ---
->  arch/x86/kernel/cpu/resctrl/internal.h |   28 ++++++++++
->  arch/x86/kernel/cpu/resctrl/monitor.c  |    1 
->  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   87 ++++++++++++++++++++++++++++++++
->  3 files changed, 116 insertions(+)
+>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |  130 ++++++++++++++++++++++++++++++++
+>  1 file changed, 129 insertions(+), 1 deletion(-)
 > 
-> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-> index 5459b5022760..c74285fd0f6e 100644
-> --- a/arch/x86/kernel/cpu/resctrl/internal.h
-> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
-> @@ -15,6 +15,7 @@
->  #define MSR_IA32_MBA_THRTL_BASE		0xd50
->  #define MSR_IA32_MBA_BW_BASE		0xc0000200
->  #define MSR_IA32_SMBA_BW_BASE		0xc0000280
-> +#define MSR_IA32_EVT_CFG_BASE		0xc0000400
->  
->  #define MSR_IA32_QM_CTR			0x0c8e
->  #define MSR_IA32_QM_EVTSEL		0x0c8d
-> @@ -41,6 +42,32 @@
->   */
->  #define MBM_CNTR_WIDTH_OFFSET_MAX (62 - MBM_CNTR_WIDTH_BASE)
->  
-> +/* Reads to Local DRAM Memory */
-> +#define READS_TO_LOCAL_MEM		BIT(0)
-> +
-> +/* Reads to Remote DRAM Memory */
-> +#define READS_TO_REMOTE_MEM		BIT(1)
-> +
-> +/* Non-Temporal Writes to Local Memory */
-> +#define NON_TEMP_WRITE_TO_LOCAL_MEM	BIT(2)
-> +
-> +/* Non-Temporal Writes to Remote Memory */
-> +#define NON_TEMP_WRITE_TO_REMOTE_MEM	BIT(3)
-> +
-> +/* Reads to Local Memory the system identifies as "Slow Memory" */
-> +#define READS_TO_LOCAL_S_MEM		BIT(4)
-> +
-> +/* Reads to Remote Memory the system identifies as "Slow Memory" */
-> +#define READS_TO_REMOTE_S_MEM		BIT(5)
-> +
-> +/* Dirty Victims to All Types of Memory */
-> +#define  DIRTY_VICTIMS_TO_ALL_MEM	BIT(6)
-> +
-> +/* Max event bits supported */
-> +#define MAX_EVT_CONFIG_BITS		GENMASK(6, 0)
-> +
-> +/* Max configurable events */
-> +#define MAX_CONFIG_EVENTS		2
->  
-
-This max being disconnected from what it is a max of looks like
-a source of future confusion.
-
->  struct rdt_fs_context {
->  	struct kernfs_fs_context	kfc;
-> @@ -542,5 +569,6 @@ bool has_busy_rmid(struct rdt_resource *r, struct rdt_domain *d);
->  void __check_limbo(struct rdt_domain *d, bool force_free);
->  void rdt_domain_reconfigure_cdp(struct rdt_resource *r);
->  void __init thread_throttle_mode_init(void);
-> +void mbm_config_rftype_init(void);
->  
->  #endif /* _ASM_X86_RESCTRL_INTERNAL_H */
-> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
-> index 06c2dc980855..a188dacab6c8 100644
-> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
-> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-> @@ -787,6 +787,7 @@ int rdt_get_mon_l3_config(struct rdt_resource *r)
->  	if (mon_configurable) {
->  		mbm_total_event.configurable = true;
->  		mbm_local_event.configurable = true;
-> +		mbm_config_rftype_init();
->  	}
->  
->  	l3_mon_evt_init(r);
 > diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index 8342feb54a7f..dea58b6b4aa4 100644
+> index 18f9588a41cf..0cdccb69386e 100644
 > --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
 > +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -1423,6 +1423,78 @@ static int rdtgroup_size_show(struct kernfs_open_file *of,
->  	return ret;
+> @@ -1505,6 +1505,133 @@ static int mbm_local_bytes_config_show(struct kernfs_open_file *of,
+>  	return 0;
 >  }
 >  
-> +struct mon_config_info {
-> +	u32 evtid;
-> +	u32 mon_config;
-> +};
-> +
-> +/**
-> + * mon_event_config_index_get - get the index for the configurable event
-> + * @evtid: event id.
-> + *
-> + * Return: 0 for evtid == QOS_L3_MBM_TOTAL_EVENT_ID
-> + *         1 for evtid == QOS_L3_MBM_LOCAL_EVENT_ID
-> + *         > 1 otherwise
-> + */
-> +static inline unsigned int mon_event_config_index_get(u32 evtid)
-> +{
-> +	return evtid - QOS_L3_MBM_TOTAL_EVENT_ID;
-> +}
-
-It seems strange that the validation of the index is split
-from where the index is determined. I think it would be easier
-to understand, and reduce code duplication, it if is done together.
-
-How about:
-#define INVALID_CONFIG_INDEX   UINT_MAX
-
-static inline unsigned int mon_event_config_index_get(u32 evtid)
-{
-	switch (evtid) {
-	case QOS_L3_MBM_TOTAL_EVENT_ID:
-		return 0;
-	case QOS_L3_MBM_LOCAL_EVENT_ID:
-		return 1;
-	default:
-		/* WARN */
-		return INVALID_CONFIG_INDEX;
-	}
-}
-
-What do you think?
-
-> +
-> +static void mon_event_config_read(void *info)
+> +static void mon_event_config_write(void *info)
 > +{
 > +	struct mon_config_info *mon_info = info;
-> +	u32 h, index;
+> +	u32 index;
 > +
 > +	index = mon_event_config_index_get(mon_info->evtid);
 > +	if (index >= MAX_CONFIG_EVENTS) {
 > +		pr_warn_once("Invalid event id %d\n", mon_info->evtid);
 > +		return;
 > +	}
-> +	rdmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, h);
+> +	wrmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, 0);
 > +}
 > +
-> +static void mondata_config_read(struct rdt_domain *d, struct mon_config_info *mon_info)
-> +{
-> +	smp_call_function_any(&d->cpu_mask, mon_event_config_read, mon_info, 1);
-> +}
-> +
-> +static int mbm_config_show(struct seq_file *s, struct rdt_resource *r, u32 evtid)
+> +static int mbm_config_write(struct rdt_resource *r, struct rdt_domain *d,
+> +			    u32 evtid, u32 val)
 > +{
 > +	struct mon_config_info mon_info = {0};
-
-> +	struct rdt_domain *dom;
-> +	bool sep = false;
+> +	int ret = 0;
 > +
-> +	mutex_lock(&rdtgroup_mutex);
+> +	rdt_last_cmd_clear();
 > +
-> +	list_for_each_entry(dom, &r->domains, list) {
-> +		if (sep)
-> +			seq_puts(s, ";");
-> +
-> +		mon_info.evtid = evtid;
-> +		mondata_config_read(dom, &mon_info);
-> +
-> +		seq_printf(s, "%d=0x%02lx", dom->id,
 
-This is a u32 ... is just x sufficient?
+Why is this extra clear() needed?
 
-> +			   mon_info.mon_config & MAX_EVT_CONFIG_BITS);
-
-Please do this masking within mondata_config_read(). It should
-not be required for every mon_config_read() caller to validate the
-data because they may forget (re. patch 10).
-
-> +		sep = true;
+> +	/* mon_config cannot be more than the supported set of events */
+> +	if (val > MAX_EVT_CONFIG_BITS) {
+> +		rdt_last_cmd_puts("Invalid event configuration\n");
+> +		return -EINVAL;
 > +	}
-> +	seq_puts(s, "\n");
 > +
-> +	mutex_unlock(&rdtgroup_mutex);
+> +	/*
+> +	 * Read the current config value first. If both are same then
+> +	 * we don't need to write it again.
+
+Please no "we". Maybe just "If both are the same then no need to write it again."
+
+> +	 */
+> +	mon_info.evtid = evtid;
+> +	mondata_config_read(d, &mon_info);
+
+Here I see motivation for doing validity check in mondata_config_read() as
+mentioned in feedback for patch #8. If hardware decides to use the other bits
+in that MSR then the check below would have trouble.
+
+> +	if (mon_info.mon_config == val)
+> +		goto write_exit;
 > +
-> +	return 0;
+
+Could you please follow the custom in this area? Please see goto usage in the rest
+of the file that you are changing. The label should reflect the action being
+jumped to. In that sense, "write_exit" is not clear. A simple "goto out"
+would be clear and matches usage in rest of file.
+
+> +	mon_info.mon_config = val;
+> +
+> +	/*
+> +	 * Update MSR_IA32_EVT_CFG_BASE MSRs on all the CPUs in the
+> +	 * domain. The MSRs offset from MSR MSR_IA32_EVT_CFG_BASE
+> +	 * are scoped at the domain level. Writing any of these MSRs
+> +	 * on one CPU is supposed to be observed by all CPUs in the
+> +	 * domain. However, the hardware team recommends to update
+> +	 * these MSRs on all the CPUs in the domain.
+> +	 */
+> +	on_each_cpu_mask(&d->cpu_mask, mon_event_config_write, &mon_info, 1);
+> +
+> +	/*
+> +	 * When an Event Configuration is changed, the bandwidth counters
+> +	 * for all RMIDs and Events will be cleared by the hardware. The
+> +	 * hardware also sets MSR_IA32_QM_CTR.Unavailable (bit 62) for
+> +	 * every RMID on the next read to any event for every RMID.
+> +	 * Subsequent reads will have MSR_IA32_QM_CTR.Unavailable (bit 62)
+> +	 * cleared while it is tracked by the hardware. Clear the
+> +	 * mbm_local and mbm_total counts for all the RMIDs.
+> +	 */
+> +	memset(d->mbm_local, 0, sizeof(struct mbm_state) * r->num_rmid);
+> +	memset(d->mbm_total, 0, sizeof(struct mbm_state) * r->num_rmid);
+> +
+> +write_exit:
+> +	return ret;
 > +}
 > +
-> +static int mbm_total_bytes_config_show(struct kernfs_open_file *of,
-> +				       struct seq_file *seq, void *v)
+> +static int mon_config_parse(struct rdt_resource *r, char *tok, u32 evtid)
+> +{
+> +	char *dom_str = NULL, *id_str;
+> +	unsigned long dom_id, val;
+> +	struct rdt_domain *d;
+> +	int ret = 0;
+> +
+> +next:
+> +	if (!tok || tok[0] == '\0')
+> +		return 0;
+> +
+> +	/* Start processing the strings for each domain */
+> +	dom_str = strim(strsep(&tok, ";"));
+> +	id_str = strsep(&dom_str, "=");
+> +
+> +	if (!dom_str || kstrtoul(id_str, 10, &dom_id)) {
+> +		rdt_last_cmd_puts("Missing '=' or non-numeric domain id\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (!dom_str || kstrtoul(dom_str, 16, &val)) {
+> +		rdt_last_cmd_puts("Missing '=' or non-numeric event configuration value\n");
+> +		return -EINVAL;
+> +	}
+
+There is some duplication above ... both if () statememts
+check for "!dom_str" - is one intended to be "!id_str"? 
+Could both checks really mean that a "=" may be missing?
+
+> +
+> +	list_for_each_entry(d, &r->domains, list) {
+> +		if (d->id == dom_id) {
+> +			ret = mbm_config_write(r, d, evtid, val);
+> +			if (ret)
+> +				return -EINVAL;
+> +			goto next;
+> +		}
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static ssize_t mbm_total_bytes_config_write(struct kernfs_open_file *of,
+> +					    char *buf, size_t nbytes,
+> +					    loff_t off)
 > +{
 > +	struct rdt_resource *r = of->kn->parent->priv;
+> +	int ret;
 > +
-> +	mbm_config_show(seq, r, QOS_L3_MBM_TOTAL_EVENT_ID);
+> +	/* Valid input requires a trailing newline */
+> +	if (nbytes == 0 || buf[nbytes - 1] != '\n')
+> +		return -EINVAL;
 > +
-> +	return 0;
-> +}
+> +	cpus_read_lock();
+> +	mutex_lock(&rdtgroup_mutex);
 > +
->  /* rdtgroup information files for one cache resource. */
->  static struct rftype res_common_files[] = {
->  	{
-> @@ -1521,6 +1593,12 @@ static struct rftype res_common_files[] = {
->  		.seq_show	= max_threshold_occ_show,
->  		.fflags		= RF_MON_INFO | RFTYPE_RES_CACHE,
->  	},
-> +	{
-> +		.name		= "mbm_total_bytes_config",
-> +		.mode		= 0444,
-> +		.kf_ops		= &rdtgroup_kf_single_ops,
-> +		.seq_show	= mbm_total_bytes_config_show,
-> +	},
->  	{
->  		.name		= "cpus",
->  		.mode		= 0644,
-> @@ -1627,6 +1705,15 @@ void __init thread_throttle_mode_init(void)
->  	rft->fflags = RF_CTRL_INFO | RFTYPE_RES_MB;
->  }
->  
-> +void mbm_config_rftype_init(void)
+> +	rdt_last_cmd_clear();
+> +
+> +	buf[nbytes - 1] = '\0';
+> +
+> +	ret = mon_config_parse(r, buf, QOS_L3_MBM_TOTAL_EVENT_ID);
+> +
 
-Does this need __init?
+The naming here does not reflect what is done ... much more than
+parsing is done here.
 
-> +{
-> +	struct rftype *rft;
-> +
-> +	rft = rdtgroup_get_rftype_by_name("mbm_total_bytes_config");
-> +	if (rft)
-> +		rft->fflags = RF_MON_INFO | RFTYPE_RES_CACHE;
-> +}
-> +
->  /**
->   * rdtgroup_kn_mode_restrict - Restrict user access to named resctrl file
->   * @r: The resource group with which the file is associated.
-> 
-> 
+How about renaming mon_config_parse() to mon_config_write(), and
+renaming mon_config_write() to mon_config_write_domain() ? 
+
 
 Reinette
