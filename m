@@ -2,152 +2,246 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B94C4708B
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 18:02:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16D21C4708A
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 18:02:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239423AbiKWSCc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 13:02:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53580 "EHLO
+        id S239411AbiKWSCa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 13:02:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239341AbiKWSCR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 13:02:17 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DA2193715
-        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 10:02:16 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id w15-20020a17090a380f00b0021873113cb4so2550392pjb.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 10:02:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JBAHsDOjy5OO4Ngubx5UMoEA0/sDtPMwp6OMmJM5Kq8=;
-        b=j0pjNho9RlZm19Tehr3FVjo7Db8885B4Y7xkdDdUAoWctaEVu0QXpeH4dAhlT+H/66
-         rXShciLYPKXX/As5ej1NnFhKVYsgqZOAIM86zq/8g4IoL0rpFkAis4hyMIxH32ObpzTD
-         q12ac2q20Bq/175aKSlrDsis/kh1ZErXHlsfXaFF0vLM0VKl7Q/KOGrAwfHxRNQmXI/O
-         driosPsB+7yejIXs59Nh7GScXFt/2qGI69bVfBSTlUwjFNjy1R5omvxslKZApaKKy6Vb
-         bCz1WtnxHp4F2zgsQTYD/KhQpB2n22TuYLklkc67sIj+R3YF0oMYZg8xQcjMBvZBgqVR
-         chmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JBAHsDOjy5OO4Ngubx5UMoEA0/sDtPMwp6OMmJM5Kq8=;
-        b=QQpR97IwCiofbCmSPX1Lj+a60XtvfqXUlDdnefWNVOHUx6iP9ygznN5yV5uuzhnLQf
-         aOIY2YUB5BPkpvbVYF4CP01L8Z8Wa5jb4yzualINnFKBhI460VdWMs9HKzN5a3NFkwTs
-         BU7R7rMn5crZ2j/1I+r7DUvHf6Z113WjJMD9HYBH7Tis+DBXcHIlgTfkwDhVr9RGQckY
-         WuyD7YngLmtJ0rGKuYTVbSygRkqLgpezq55uaHb603p8bgCmeIMa9g1y4Jr9Np+zLeQW
-         s46o7SQxpFYlgtgrFFX+aXvltIXpVH0tUsDsnGHWnAfhWcIbTAVWQwihr7+XoSKhZqnC
-         bgrg==
-X-Gm-Message-State: ANoB5pm2CmH7Bvpecf+eRABPZXSCGaeIyUd0IrFI6eznt4xAsYm28p5M
-        ST87DstvtGhTxozoC/3GXb9IGA==
-X-Google-Smtp-Source: AA0mqf4h/eDzvGfQmUc/ZjBSomm7vgT2Crg1NblOZpQoP8uNf60lMXpAkbUo70CvheBSDG5J9lpZAg==
-X-Received: by 2002:a17:902:da89:b0:189:8b2:b069 with SMTP id j9-20020a170902da8900b0018908b2b069mr10756414plx.13.1669226535720;
-        Wed, 23 Nov 2022 10:02:15 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id w26-20020a63475a000000b00462612c2699sm11075143pgk.86.2022.11.23.10.02.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Nov 2022 10:02:15 -0800 (PST)
-Date:   Wed, 23 Nov 2022 18:02:11 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Alex =?utf-8?B?QmVubu+/vWU=?= <alex.bennee@linaro.org>,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Message-ID: <Y35gI0L8GMt9+OkK@google.com>
-References: <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
- <87cz9o9mr8.fsf@linaro.org>
- <20221116031441.GA364614@chaop.bj.intel.com>
- <87mt8q90rw.fsf@linaro.org>
- <20221117134520.GD422408@chaop.bj.intel.com>
- <87a64p8vof.fsf@linaro.org>
- <20221118013201.GA456562@chaop.bj.intel.com>
- <87o7t475o7.fsf@linaro.org>
- <Y3er0M5Rpf1X97W/@google.com>
- <20221122095022.GA617784@chaop.bj.intel.com>
+        with ESMTP id S239207AbiKWSCZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 13:02:25 -0500
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3503797364;
+        Wed, 23 Nov 2022 10:02:23 -0800 (PST)
+Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.3ffe.de (Postfix) with ESMTPSA id 22DDC3B18;
+        Wed, 23 Nov 2022 19:02:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
+        t=1669226541;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=MYiFNEuKVdNaBDsNXMlXbzjfWQYDtr067TKicS/QZv4=;
+        b=Q6YDH4HZEQNbOvFFPE8rTEiaWiyy0F4V8vP/dW1v5e+NE4TvBLINdEH7NEuBoXAtWdZxbF
+        czJ6bPH65ya+Ag7dmmbHMw1uf8oGsBVprvAOBjwrw0cCx2EuGDRItw8pJKUpieFkxjDWCP
+        Q0h9CMA2OufgtN6sQ7I8WH2hwLLXu3zNDS1wXK14BedVvXdNZtfPhTeBe3JzJu6LNDHsjT
+        4eNW0EnG4ui17CX6QHLDJKIYlPjLo4oOM6Y+yLrlqoniGtRHzozx91on433kM2k9+n6zpx
+        54yEX3r6bM2nS+f9/lw1fruCPEDKb3GFvQMNklIlfjwQSExwO6bqE2sih4ItPQ==
+From:   Michael Walle <michael@walle.cc>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        Michael Walle <michael@walle.cc>
+Subject: [PATCH v4 06/20] nvmem: core: add an index parameter to the cell
+Date:   Wed, 23 Nov 2022 19:01:37 +0100
+Message-Id: <20221123180151.2160033-7-michael@walle.cc>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20221123180151.2160033-1-michael@walle.cc>
+References: <20221123180151.2160033-1-michael@walle.cc>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221122095022.GA617784@chaop.bj.intel.com>
+Content-Transfer-Encoding: 8bit
+X-Spam: Yes
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 22, 2022, Chao Peng wrote:
-> On Fri, Nov 18, 2022 at 03:59:12PM +0000, Sean Christopherson wrote:
-> > On Fri, Nov 18, 2022, Alex Benn?e wrote:
-> > > > We don't actually need a new bit, the opposite side of private is
-> > > > shared, i.e. flags with KVM_MEMORY_EXIT_FLAG_PRIVATE cleared expresses
-> > > > 'shared'.
-> > > 
-> > > If that is always true and we never expect a 3rd type of memory that is
-> > > fine. But given we are leaving room for expansion having an explicit bit
-> > > allows for that as well as making cases of forgetting to set the flags
-> > > more obvious.
-> > 
-> > Hrm, I'm on the fence.
-> > 
-> > A dedicated flag isn't strictly needed, e.g. even if we end up with 3+ types in
-> > this category, the baseline could always be "private".
-> 
-> The baseline for the current code is actually "shared".
+Sometimes a cell can represend multiple values. For example, a base
+ethernet address stored in the NVMEM can be expanded into multiple
+discreet ones by adding an offset.
 
-Ah, right, the baseline needs to be "shared" so that legacy code doesn't end up
-with impossible states.
+For this use case, introduce an index parameter which is then used to
+distiguish between values. This parameter will then be passed to the
+post process hook which can then use it to create different values
+during reading.
 
-> > I do like being explicit, and adding a PRIVATE flag costs KVM practically nothing
-> > to implement and maintain, but evetually we'll up with flags that are paired with
-> > an implicit state, e.g. see the many #PF error codes in x86.  In other words,
-> > inevitably KVM will need to define the default/base state of the access, at which
-> > point the base state for SHARED vs. PRIVATE is "undefined".  
-> 
-> Current memory conversion for confidential usage is bi-directional so we
-> already need both private and shared states and if we use one bit for
-> both "shared" and "private" then we will have to define the default
-> state, e.g, currently the default state is "shared" when we define
-> 
-> 	KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+At the moment, there is only support for the device tree path. You can
+add the index to the phandle, e.g.
 
-...
+  &net {
+          nvmem-cells = <&base_mac_address 2>;
+          nvmem-cell-names = "mac-address";
+  };
 
-> > So I would say if we add an explicit READ flag, then we might as well add an explicit
-> > PRIVATE flag too.  But if we omit PRIVATE, then we should omit READ too.
-> 
-> Since we assume the default state is shared, so we actually only need a
-> PRIVATE flag, e.g. there is no SHARED flag and will ignore the RWX for now.
+  &nvmem_provider {
+          base_mac_address: base-mac-address@0 {
+                  #nvmem-cell-cells = <1>;
+                  reg = <0 6>;
+          };
+  };
 
-Yeah, I'm leading towards "shared" being the implied default state.  Ditto for
-"read" if/when we need to communicate write/execute information  E.g. for VMs
-that don't support guest private memory, the "shared" flag is in some ways
-nonsensical.  Worst case scenario, e.g. if we end up with variations of "shared",
-we'll need something like KVM_MEMORY_EXIT_FLAG_SHARED_RESTRICTIVE or whatever,
-but the basic "shared" default will still work.
+Signed-off-by: Michael Walle <michael@walle.cc>
+---
+changes since v3:
+ - none
+
+changes since v2:
+ - none
+
+changes since v1:
+ - none
+
+ drivers/nvmem/core.c           | 37 ++++++++++++++++++++++++----------
+ drivers/nvmem/imx-ocotp.c      |  4 ++--
+ include/linux/nvmem-provider.h |  4 ++--
+ 3 files changed, 30 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index 205a427f564d..24573e63e5a9 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -60,6 +60,7 @@ struct nvmem_cell_entry {
+ struct nvmem_cell {
+ 	struct nvmem_cell_entry *entry;
+ 	const char		*id;
++	int			index;
+ };
+ 
+ static DEFINE_MUTEX(nvmem_mutex);
+@@ -1127,7 +1128,8 @@ struct nvmem_device *devm_nvmem_device_get(struct device *dev, const char *id)
+ }
+ EXPORT_SYMBOL_GPL(devm_nvmem_device_get);
+ 
+-static struct nvmem_cell *nvmem_create_cell(struct nvmem_cell_entry *entry, const char *id)
++static struct nvmem_cell *nvmem_create_cell(struct nvmem_cell_entry *entry,
++					    const char *id, int index)
+ {
+ 	struct nvmem_cell *cell;
+ 	const char *name = NULL;
+@@ -1146,6 +1148,7 @@ static struct nvmem_cell *nvmem_create_cell(struct nvmem_cell_entry *entry, cons
+ 
+ 	cell->id = name;
+ 	cell->entry = entry;
++	cell->index = index;
+ 
+ 	return cell;
+ }
+@@ -1184,7 +1187,7 @@ nvmem_cell_get_from_lookup(struct device *dev, const char *con_id)
+ 				__nvmem_device_put(nvmem);
+ 				cell = ERR_PTR(-ENOENT);
+ 			} else {
+-				cell = nvmem_create_cell(cell_entry, con_id);
++				cell = nvmem_create_cell(cell_entry, con_id, 0);
+ 				if (IS_ERR(cell))
+ 					__nvmem_device_put(nvmem);
+ 			}
+@@ -1232,15 +1235,27 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np, const char *id)
+ 	struct nvmem_device *nvmem;
+ 	struct nvmem_cell_entry *cell_entry;
+ 	struct nvmem_cell *cell;
++	struct of_phandle_args cell_spec;
+ 	int index = 0;
++	int cell_index = 0;
++	int ret;
+ 
+ 	/* if cell name exists, find index to the name */
+ 	if (id)
+ 		index = of_property_match_string(np, "nvmem-cell-names", id);
+ 
+-	cell_np = of_parse_phandle(np, "nvmem-cells", index);
+-	if (!cell_np)
+-		return ERR_PTR(-ENOENT);
++	ret = of_parse_phandle_with_optional_args(np, "nvmem-cells",
++						  "#nvmem-cell-cells",
++						  index, &cell_spec);
++	if (ret)
++		return ERR_PTR(ret);
++
++	if (cell_spec.args_count > 1)
++		return ERR_PTR(-EINVAL);
++
++	cell_np = cell_spec.np;
++	if (cell_spec.args_count)
++		cell_index = cell_spec.args[0];
+ 
+ 	nvmem_np = of_get_parent(cell_np);
+ 	if (!nvmem_np) {
+@@ -1262,7 +1277,7 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np, const char *id)
+ 		return ERR_PTR(-ENOENT);
+ 	}
+ 
+-	cell = nvmem_create_cell(cell_entry, id);
++	cell = nvmem_create_cell(cell_entry, id, cell_index);
+ 	if (IS_ERR(cell))
+ 		__nvmem_device_put(nvmem);
+ 
+@@ -1415,8 +1430,8 @@ static void nvmem_shift_read_buffer_in_place(struct nvmem_cell_entry *cell, void
+ }
+ 
+ static int __nvmem_cell_read(struct nvmem_device *nvmem,
+-		      struct nvmem_cell_entry *cell,
+-		      void *buf, size_t *len, const char *id)
++			     struct nvmem_cell_entry *cell,
++			     void *buf, size_t *len, const char *id, int index)
+ {
+ 	int rc;
+ 
+@@ -1430,7 +1445,7 @@ static int __nvmem_cell_read(struct nvmem_device *nvmem,
+ 		nvmem_shift_read_buffer_in_place(cell, buf);
+ 
+ 	if (nvmem->cell_post_process) {
+-		rc = nvmem->cell_post_process(nvmem->priv, id,
++		rc = nvmem->cell_post_process(nvmem->priv, id, index,
+ 					      cell->offset, buf, cell->bytes);
+ 		if (rc)
+ 			return rc;
+@@ -1465,7 +1480,7 @@ void *nvmem_cell_read(struct nvmem_cell *cell, size_t *len)
+ 	if (!buf)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	rc = __nvmem_cell_read(nvmem, cell->entry, buf, len, cell->id);
++	rc = __nvmem_cell_read(nvmem, cell->entry, buf, len, cell->id, cell->index);
+ 	if (rc) {
+ 		kfree(buf);
+ 		return ERR_PTR(rc);
+@@ -1778,7 +1793,7 @@ ssize_t nvmem_device_cell_read(struct nvmem_device *nvmem,
+ 	if (rc)
+ 		return rc;
+ 
+-	rc = __nvmem_cell_read(nvmem, &cell, buf, &len, NULL);
++	rc = __nvmem_cell_read(nvmem, &cell, buf, &len, NULL, 0);
+ 	if (rc)
+ 		return rc;
+ 
+diff --git a/drivers/nvmem/imx-ocotp.c b/drivers/nvmem/imx-ocotp.c
+index 14284e866f26..e9b52ecb3f72 100644
+--- a/drivers/nvmem/imx-ocotp.c
++++ b/drivers/nvmem/imx-ocotp.c
+@@ -222,8 +222,8 @@ static int imx_ocotp_read(void *context, unsigned int offset,
+ 	return ret;
+ }
+ 
+-static int imx_ocotp_cell_pp(void *context, const char *id, unsigned int offset,
+-			     void *data, size_t bytes)
++static int imx_ocotp_cell_pp(void *context, const char *id, int index,
++			     unsigned int offset, void *data, size_t bytes)
+ {
+ 	struct ocotp_priv *priv = context;
+ 
+diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
+index 50caa117cb62..8f964b394292 100644
+--- a/include/linux/nvmem-provider.h
++++ b/include/linux/nvmem-provider.h
+@@ -20,8 +20,8 @@ typedef int (*nvmem_reg_read_t)(void *priv, unsigned int offset,
+ typedef int (*nvmem_reg_write_t)(void *priv, unsigned int offset,
+ 				 void *val, size_t bytes);
+ /* used for vendor specific post processing of cell data */
+-typedef int (*nvmem_cell_post_process_t)(void *priv, const char *id, unsigned int offset,
+-					  void *buf, size_t bytes);
++typedef int (*nvmem_cell_post_process_t)(void *priv, const char *id, int index,
++					 unsigned int offset, void *buf, size_t bytes);
+ 
+ enum nvmem_type {
+ 	NVMEM_TYPE_UNKNOWN = 0,
+-- 
+2.30.2
+
