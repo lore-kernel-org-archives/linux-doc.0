@@ -2,94 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18C5AC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 09:52:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92BEFC4321E
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 09:59:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236238AbiKWJwL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 04:52:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46220 "EHLO
+        id S237257AbiKWJ7G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 04:59:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237122AbiKWJvB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 04:51:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82D28A445
-        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 01:47:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669196854;
+        with ESMTP id S236804AbiKWJ6Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 04:58:16 -0500
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA4E2EC0B7;
+        Wed, 23 Nov 2022 01:52:26 -0800 (PST)
+Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.3ffe.de (Postfix) with ESMTPSA id 7420F1D40;
+        Wed, 23 Nov 2022 10:52:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
+        t=1669197144;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=/JvhkIMHaE9tMvv7uV8gHbGibKRYLhWKCV1r10ib1SI=;
-        b=OpAaQbF0oiqGl3q99GKa3XBztE6GAx8QF9kNDhcSYrC2jfCZ+J+hJA1aFzwysuA/LxPBbI
-        MnwbGYxyCL1AEm+qXn+BywXZxvteDq7R8c+a0JXtSKKjhiOGa1ZnguvzPMcz0f4PTLtVyJ
-        iUYK3+Kzi8IdeeBWEEFYfEX0TIVIBzQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-186-wcLG9FRXPSiJz2FVZjmd8Q-1; Wed, 23 Nov 2022 04:47:31 -0500
-X-MC-Unique: wcLG9FRXPSiJz2FVZjmd8Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E70B73C0E460;
-        Wed, 23 Nov 2022 09:47:28 +0000 (UTC)
-Received: from localhost (ovpn-13-118.pek2.redhat.com [10.72.13.118])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 054CB2166B31;
-        Wed, 23 Nov 2022 09:47:27 +0000 (UTC)
-Date:   Wed, 23 Nov 2022 17:47:20 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Eric Biederman <ebiederm@xmission.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
-        Ross Zwisler <zwisler@kernel.org>, linux-doc@vger.kernel.org,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v1 1/2] Documentation: sysctl: Correct kexec_load_disabled
-Message-ID: <Y33sKLOwqjCc7Qwe@MiWiFi-R3L-srv>
-References: <20221114-disable-kexec-reset-v1-0-fb51d20cf871@chromium.org>
- <20221114-disable-kexec-reset-v1-1-fb51d20cf871@chromium.org>
+        bh=zQZCMeZbkCsZ9VF9ouX01MwdWli+CdAZ1Of8k/5J5XM=;
+        b=hcBaH5TJzJwY+q9FCjgme0ERQPLxmXCoJkzjJ/cxpWaUwmckRi41AzIiYh0Mck12fKp3fM
+        zP2qhvUn/QiW6OFlSaJEpXD9M/2ypF94M95QzKQ8vFeg31umjCR7JLDbk21FvOMyEHOWtD
+        6qlVP3lPZPJ6qJKngqQqrZAEUUL1zLg9KB4v+Y/hoiLavO8gqw75X7KQpdHiLXahWjPNn9
+        Hu0gLAUeww2eFY0dBrg00HzXfUnKTsfG757tuLzHiNLK85nITw3uzP9tRIkZmA1DUJGV65
+        n6g+AqPsWAHQhtIY66PK/qP5HA2YqPcUjANVKZ/V5e2RcvlVCcfEy2TIii5VvA==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221114-disable-kexec-reset-v1-1-fb51d20cf871@chromium.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Date:   Wed, 23 Nov 2022 10:52:24 +0100
+From:   Michael Walle <michael@walle.cc>
+To:     Sascha Hauer <sha@pengutronix.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 17/18] nvmem: layouts: Add ONIE tlv layout driver
+In-Reply-To: <20221121075144.GL3143@pengutronix.de>
+References: <20221118185118.1190044-1-michael@walle.cc>
+ <20221118185118.1190044-18-michael@walle.cc>
+ <20221121075144.GL3143@pengutronix.de>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <03a2791283d26c847d07852506e9d48f@walle.cc>
+X-Sender: michael@walle.cc
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/14/22 at 02:18pm, Ricardo Ribalda wrote:
-> kexec_load_disabled affects both ``kexec_load`` and ``kexec_file_load``
-> syscalls. Make it explicit.
+Am 2022-11-21 08:51, schrieb Sascha Hauer:
+> On Fri, Nov 18, 2022 at 07:51:17PM +0100, Michael Walle wrote:
+>> From: Miquel Raynal <miquel.raynal@bootlin.com>
+>> 
+>> This layout applies no top of any non volatile storage device 
+>> containing
 > 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> s/no/on/
 > 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 98d1b198b2b4..97394bd9d065 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -450,9 +450,10 @@ this allows system administrators to override the
->  kexec_load_disabled
->  ===================
->  
-> -A toggle indicating if the ``kexec_load`` syscall has been disabled.
-> -This value defaults to 0 (false: ``kexec_load`` enabled), but can be
-> -set to 1 (true: ``kexec_load`` disabled).
-> +A toggle indicating if the syscalls ``kexec_load`` and
-> +``kexec_file_load`` have been disabled.
-> +This value defaults to 0 (false: ``kexec_*load`` enabled), but can be
-> +set to 1 (true: ``kexec_*load`` disabled).
->  Once true, kexec can no longer be used, and the toggle cannot be set
->  back to false.
->  This allows a kexec image to be loaded before disabling the syscall,
-
-LGTM,
-
-Acked-by: Baoquan He <bhe@redhat.com>
-
+>> +	table_len = hdr_len + data_len;
+>> +	if (table_len > ONIE_TLV_MAX_LEN) {
+>> +		dev_err(dev, "Invalid ONIE TLV data length\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	table = devm_kmalloc(dev, table_len, GFP_KERNEL);
+>> +	if (!table)
+>> +		return -ENOMEM;
+>> +
+>> +	ret = nvmem_device_read(nvmem, 0, table_len, table);
+>> +	if (ret != table_len)
+>> +		goto free_data_buf;
+>> +
+>> +	if (!onie_tlv_crc_is_valid(dev, table_len, table)) {
+>> +		ret = -EINVAL;
+>> +		goto free_data_buf;
+>> +	}
+>> +
+>> +	data = table + hdr_len;
+>> +	ret = onie_tlv_add_cells(dev, nvmem, data_len, data);
+>> +	if (ret)
+>> +		goto free_data_buf;
+>> +
+>> +free_data_buf:
+>> +	kfree(table);
 > 
-> -- 
-> b4 0.11.0-dev-d93f8
-> 
+> This is allocated with devm_kmalloc(), you shouldn't free it here.
 
+Miquel, should I drop your patches or should I fix this in place and
+repost them?
+
+Also, there is a mistake in nvmem_add_cells_from_layout() which doesn't
+handle the return code. Probably a leftover from before when I had
+.add_cells() return void.
+
+-michael
