@@ -2,81 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66648C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 05:13:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5109C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 06:17:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbiKWFNd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 00:13:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47324 "EHLO
+        id S236081AbiKWGRb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 01:17:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234151AbiKWFNc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 00:13:32 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 904DF8F3E4;
-        Tue, 22 Nov 2022 21:13:31 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF33F1FB;
-        Tue, 22 Nov 2022 21:13:37 -0800 (PST)
-Received: from a077893.blr.arm.com (unknown [10.162.43.6])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 737CC3F73B;
-        Tue, 22 Nov 2022 21:13:28 -0800 (PST)
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-To:     linux-mm@kvack.org
-Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] documentation/mm: Update pmd_present() in arch_pgtable_helpers.rst
-Date:   Wed, 23 Nov 2022 10:43:19 +0530
-Message-Id: <20221123051319.1312582-1-anshuman.khandual@arm.com>
+        with ESMTP id S236040AbiKWGRQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 01:17:16 -0500
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C341EF8028
+        for <linux-doc@vger.kernel.org>; Tue, 22 Nov 2022 22:16:24 -0800 (PST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 2AN5pU4J081940;
+        Wed, 23 Nov 2022 13:51:30 +0800 (GMT-8)
+        (envelope-from billy_tsai@aspeedtech.com)
+Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 23 Nov
+ 2022 14:15:55 +0800
+From:   Billy Tsai <billy_tsai@aspeedtech.com>
+To:     <jdelvare@suse.com>, <linux@roeck-us.net>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <joel@jms.id.au>,
+        <andrew@aj.id.au>, <lee@kernel.org>, <thierry.reding@gmail.com>,
+        <u.kleine-koenig@pengutronix.de>, <corbet@lwn.net>,
+        <p.zabel@pengutronix.de>, <billy_tsai@aspeedtech.com>,
+        <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [v4 2/5] dt-bindings: pwm: Add bindings for aspeed pwm controller
+Date:   Wed, 23 Nov 2022 14:16:32 +0800
+Message-ID: <20221123061635.32025-3-billy_tsai@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221123061635.32025-1-billy_tsai@aspeedtech.com>
+References: <20221123061635.32025-1-billy_tsai@aspeedtech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.2.149]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 2AN5pU4J081940
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Although pmd_present() might seem to indicate a valid and mapped pmd entry,
-in reality it returns true when pmd_page() points to a valid page in memory
-, regardless whether the pmd entry is mapped or not. Andrea Arcangeli had
-earlier explained [1] the required semantics for pmd_present(). This just
-updates the documentation for pmd_present() as required.
+Add the aspeed pwm device bindings which should be the child-node of
+pwm-tach mfd.
 
-[1] https://lore.kernel.org/lkml/20181017020930.GN30832@redhat.com/
-
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Andrea Arcangeli <aarcange@redhat.com>
-Cc: Mike Rapoport <rppt@kernel.org>
-Cc: linux-mm@kvack.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 ---
-This applies on v6.1-rc6
+ .../bindings/pwm/aspeed,ast2600-pwm.yaml      | 54 +++++++++++++++++++
+ 1 file changed, 54 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
 
-The latest trigger was from an earlier discussion here.
-
-https://lore.kernel.org/all/53c0c955-7afe-905b-468a-cd7ac81238c5@arm.com/
-
- Documentation/mm/arch_pgtable_helpers.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/mm/arch_pgtable_helpers.rst b/Documentation/mm/arch_pgtable_helpers.rst
-index cbaee9e59241..fd2a19df884e 100644
---- a/Documentation/mm/arch_pgtable_helpers.rst
-+++ b/Documentation/mm/arch_pgtable_helpers.rst
-@@ -94,7 +94,7 @@ PMD Page Table Helpers
- +---------------------------+--------------------------------------------------+
- | pmd_trans_huge            | Tests a Transparent Huge Page (THP) at PMD       |
- +---------------------------+--------------------------------------------------+
--| pmd_present               | Tests a valid mapped PMD                         |
-+| pmd_present               | Tests whether pmd_page() points to valid memory  |
- +---------------------------+--------------------------------------------------+
- | pmd_young                 | Tests a young PMD                                |
- +---------------------------+--------------------------------------------------+
+diff --git a/Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml b/Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
+new file mode 100644
+index 000000000000..68a60fc73902
+--- /dev/null
++++ b/Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
+@@ -0,0 +1,54 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (C) 2021 Aspeed, Inc.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/pwm/aspeed,ast2600-pwm.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Aspeed Ast2600 PWM controller
++
++maintainers:
++  - Billy Tsai <billy_tsai@aspeedtech.com>
++
++description: |
++  The Aspeed PWM controller supports up to 16 PWM outputs.
++  This module is part of the ast2600-pwm-tach multi-function device. For more
++  details see ../mfd/aspeed,ast2600-pwm-tach.yaml.
++
++allOf:
++  - $ref: pwm.yaml#
++
++properties:
++  compatible:
++    enum:
++      - aspeed,ast2600-pwm
++
++  "#pwm-cells":
++    const: 3
++patternProperties:
++  "^pwm@[a-z0-9]+$":
++    description: Set extend properties for each pwm channel.
++    type: object
++    properties:
++      reg:
++        description:
++          The pwm channel index.
++        maxItems: 1
++
++      aspeed,wdt-reload-enable:
++        type: boolean
++        description:
++          Enable the function of wdt reset reload duty point.
++
++      aspeed,wdt-reload-duty-point:
++        description:
++          Define the duty point after wdt reset, 0 = 100%
++        minimum: 0
++        maximum: 255
++    required:
++      - reg
++
++required:
++  - compatible
++
++additionalProperties: false
 -- 
 2.25.1
 
