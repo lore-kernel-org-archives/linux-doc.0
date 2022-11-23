@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 084EFC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 23:02:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 569B9C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 23:06:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229555AbiKWXCY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 18:02:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53132 "EHLO
+        id S229720AbiKWXGP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 18:06:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbiKWXCX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 18:02:23 -0500
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2066.outbound.protection.outlook.com [40.107.94.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B7F459170;
-        Wed, 23 Nov 2022 15:02:21 -0800 (PST)
+        with ESMTP id S229568AbiKWXGM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 18:06:12 -0500
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2064.outbound.protection.outlook.com [40.107.212.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFE3014E6C8;
+        Wed, 23 Nov 2022 15:06:10 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JdP5dc17f17+up6gJgOSB2BxHaXm+NqqsG15R9VMVgze64DeWuWNuhMJfVpx5N1OviWTut1EbPhWoILmULnnDYYnzTuGkTCSmy6zqd5nAhkfcoutTxkpnvamM/qHLHOt2nB4wcqwioGuC7dBNKyD0Qf7U7E/rAjwG4Ga37idIKQQTxVJsWzNdXE4+le8fzn9ty5ogMxIP5gXCw+VTQHqX/4h0wCfARVwRkxrT7IAJ0YJJE8GgEjvmf7RSRFeRAUtMwTaFhIllpXaRIObSnz8KpPlgUjG7lUXAyVnyUiUbpXgl17OuV7Q6Zn9XgDHOa2oID+s/lnOZuidWi/wLpjW1w==
+ b=GNkfo7NOTHPwK/T52ZXbevWstNYyCe7uioe7wUWptoS8rPwCpKXHSg7ix/SqpVaedUM34lcGmf+3+oKf3IgXSnX53hNF1oY99KK0h5hH2MZ1e6dBqRjE/jotC3Ft1eNetiuO8uFDv6Q78F1F16XeKrf/7ETEJ5w00qEUgTrmn/4mS6yawigfgoIb5070KtNsjX+pEfAk6wAuiViZn200loZ5TOh2y/tif6oAumqxiZMC0/5zCl08UWaS8lBDbowAULClljtQUEuRvSGOvnp68eWDyXcZX6quHR6EycrGXxDfeHNnwKzRKzaeMuhgAjykinU0huF3B/PTXEHROV9AUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z7J4LMBhv+5uQ+FwZV+XXB5TQ60WhU6zcwtUkZMs6rI=;
- b=Wc8Xg3tVO+E2u6QNgIG8x0BOrGwmgSo8t8v9mMhn6Qmm02PWSmzDU52REjy0e4r9/BZYe4aT4ARtBJPQEbS9+zzwv4L5lVVLhAedDT8R0+HIvdgWE/afSj0gw1bHHLp5L9MspmA1n2N1mwR1Bs2e68+wLc5aEyB+pLrJc2viszaoO49m/UGrNSw4mZP2Kuwck5QMSHV26acJbldS2L/3SUC8aWJjI9NvjsmcwWsgBmkEjDK4tMUF8We0CUEHfwKXhgjhhPi/ZVOubjCsQKvEgwxPXmIlPjuC/P4/FY9Qma8D5Y6CeRx/i409ephwrE8CpQ5snKADZ01SFfLnE5u7CA==
+ bh=3P88DjNcWPxNE5+1wgUlfsPy8Tn4tBvBuWr9rOSOT+M=;
+ b=nAKuhItwuj17eAwGw1m5a/l9dSnGLQb1Aax8hFPEw0s6l8j6Lpd3Wmy/LyrEHLBeSomHFKluyaTJ3vqE+AoeFoYVKUPk0pbZ1I/vilS6bm4lLLx92xNKDyZDPdY72NgDj3kiaH0Y1zicTGgzuLsr4qV0iARzCiaTUxdkyvqVBPvmAFsMnQKf6W8CywKhOIDmI9pp+CPA5Fwi94BJcl2UY437J6nAjSoMWCbyNioYxS9d+7Fso5RqzDf+iHcjGUzRmYVc/+byXlSwI3S+HP40wxj5Y/OM889Bul3wHOmjY57Ym8nll1x5HuVivUaS8qvK50alODECs6Aj46mZph0YsQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z7J4LMBhv+5uQ+FwZV+XXB5TQ60WhU6zcwtUkZMs6rI=;
- b=MR2TV1UAKxYUObk5XxBF2pOu+DhASMKxFACdVD+0GlU3kHVhTVNCd1LxZdtZZ+ufK0TApWgq/Q0A+dj/BcT7pekcoxV+rkdQQZarRx0pp51JMZEwxu/XNCuGaoz+RHl9vc5HJRhAVK96qG2TOZ1wjxYegY9owKKBK0NCrprmU7M=
+ bh=3P88DjNcWPxNE5+1wgUlfsPy8Tn4tBvBuWr9rOSOT+M=;
+ b=Yil+Zb1AM+hYAwaMk9dcU7UoXbqXXFZ6L1s5dzTowsNgx3X1gg6iATcCsbE5WCFT1EDA8L+FimfRXJIZodwaN9qwf2vTcETsabXeZPms3HdaC/hLr3TbE/BtlpPGzoGmihesFvyqkjsNXF20Vq62yTbQQcAriDf+6I5tmKYApKA=
 Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by MW4PR12MB7382.namprd12.prod.outlook.com (2603:10b6:303:22b::16) with
+ by BN9PR12MB5099.namprd12.prod.outlook.com (2603:10b6:408:118::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.17; Wed, 23 Nov
- 2022 23:02:17 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.18; Wed, 23 Nov
+ 2022 23:06:08 +0000
 Received: from MW3PR12MB4553.namprd12.prod.outlook.com
  ([fe80::790c:da77:2d05:6098]) by MW3PR12MB4553.namprd12.prod.outlook.com
  ([fe80::790c:da77:2d05:6098%4]) with mapi id 15.20.5857.018; Wed, 23 Nov 2022
- 23:02:17 +0000
+ 23:06:08 +0000
 Content-Type: multipart/mixed;
-        boundary="_000_MW3PR12MB4553E324788E568D030C2949950C9MW3PR12MB4553namp_"
+        boundary="_000_MW3PR12MB455343AC89441290B470B949950C9MW3PR12MB4553namp_"
 From:   "Moger, Babu" <Babu.Moger@amd.com>
-To:     Reinette Chatre <reinette.chatre@intel.com>,
+To:     "Yu, Fenghua" <fenghua.yu@intel.com>,
         "corbet@lwn.net" <corbet@lwn.net>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
         "tglx@linutronix.de" <tglx@linutronix.de>,
         "mingo@redhat.com" <mingo@redhat.com>,
         "bp@alien8.de" <bp@alien8.de>
-CC:     "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+CC:     "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
         "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
         "paulmck@kernel.org" <paulmck@kernel.org>,
         "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
@@ -57,488 +57,681 @@ CC:     "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
         "peterz@infradead.org" <peterz@infradead.org>,
         "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
         "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
         "pawan.kumar.gupta@linux.intel.com" 
         <pawan.kumar.gupta@linux.intel.com>,
         "jmattson@google.com" <jmattson@google.com>,
         "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
         "Das1, Sandipan" <Sandipan.Das@amd.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "Luck, Tony" <tony.luck@intel.com>,
         "james.morse@arm.com" <james.morse@arm.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
-        "eranian@google.com" <eranian@google.com>
-Subject: RE: [PATCH v8 13/13] Documentation/x86: Update resctrl.rst for new
- features
-Thread-Topic: [PATCH v8 13/13] Documentation/x86: Update resctrl.rst for new
- features
-Thread-Index: AQHY8Ig+m/4fZyrTD0Codvpxh91Gb65Lw0iAgAF5waA=
-Date:   Wed, 23 Nov 2022 23:02:17 +0000
-Message-ID: <MW3PR12MB4553E324788E568D030C2949950C9@MW3PR12MB4553.namprd12.prod.outlook.com>
+        "Eranian, Stephane" <eranian@google.com>
+Subject: RE: [PATCH v8 03/13] x86/cpufeatures: Add Bandwidth Monitoring Event
+ Configuration feature flag
+Thread-Topic: [PATCH v8 03/13] x86/cpufeatures: Add Bandwidth Monitoring Event
+ Configuration feature flag
+Thread-Index: AQHY8IgTy24Hatwpu0OADGrYWnWs9K5M7pqAgABQRgA=
+Date:   Wed, 23 Nov 2022 23:06:08 +0000
+Message-ID: <MW3PR12MB455343AC89441290B470B949950C9@MW3PR12MB4553.namprd12.prod.outlook.com>
 References: <166759188265.3281208.11769277079826754455.stgit@bmoger-ubuntu>
- <166759208987.3281208.3199784740546752454.stgit@bmoger-ubuntu>
- <d757b376-3e36-da95-b69c-21390a0c92f5@intel.com>
-In-Reply-To: <d757b376-3e36-da95-b69c-21390a0c92f5@intel.com>
+ <166759201032.3281208.8545863740733338256.stgit@bmoger-ubuntu>
+ <IA1PR11MB60979EB9FBE4C95381BF9F8A9B0C9@IA1PR11MB6097.namprd11.prod.outlook.com>
+In-Reply-To: <IA1PR11MB60979EB9FBE4C95381BF9F8A9B0C9@IA1PR11MB6097.namprd11.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: <MW3PR12MB4553E324788E568D030C2949950C9@MW3PR12MB4553.namprd12.prod.outlook.com>
+X-MS-TNEF-Correlator: <MW3PR12MB455343AC89441290B470B949950C9@MW3PR12MB4553.namprd12.prod.outlook.com>
 msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2022-11-23T22:58:06Z;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2022-11-23T23:04:42Z;
  MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
  MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
  MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=af3e3768-0ddc-490e-8469-a25634f50278;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=49a34517-79e8-42b6-9219-21936f314094;
  MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=1
 msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_enabled: true
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_setdate: 2022-11-23T23:02:15Z
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_setdate: 2022-11-23T23:06:06Z
 msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_method: Standard
 msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_name: General
 msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_actionid: 6e6e21b4-8bcd-4a8e-b3c0-cdc090655ef0
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_actionid: bb9c46cb-1a59-4d16-ab98-9be7c9954e7d
 msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_contentbits: 0
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW3PR12MB4553:EE_|MW4PR12MB7382:EE_
-x-ms-office365-filtering-correlation-id: c9ae263f-299a-48b7-c30f-08dacda6c4a2
+x-ms-traffictypediagnostic: MW3PR12MB4553:EE_|BN9PR12MB5099:EE_
+x-ms-office365-filtering-correlation-id: 66206e49-2f4b-43b6-3d2a-08dacda74e33
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LH9YUhHhh3SexqxurtQyx2cX+kdjYgnNFVQLHSsJJ9hiRm+xY+OXFpDvqVeZ4kRxMG7ZjgSFtMqg8+bO6FIPotrPVrOBjKTebM7EMcK4ss/1CDbWxokhIpN7PdHmn+cRDk+EHwacYdfvBkuX9oPXQ56n0oYTxtG5vLWvdCNsSb/VZPq0b9t4u3N46scj1r50/dk/yJrR2u3G7RDX5QhvOuq0p4IOcgnQ4l+uFTwYUrG8RK2N9ae7zQIjbsFQBhzHlYYfptoeRnif0cnHIF3/xz/r/GHLV+/5bpwTeNNGsUMqESnHQKRTGRO4qBcC3eC0eiBh4UOxBEjy7tRChT6o3Q5y2N2iw0fHUUnQqp70oDs0s4cB3qFZtxBGtBxCMiNs3nfiqAVwPfnsaUBNlRlOrstTvjaHPhIKH4cfnEXZ1QXzA/m2fexD5yk+C7Wzy97c8he70aNtTFk3WA0lDcE3OBsWjipzYuTyn4V2205R2o/flrugkf0Sz4lgr1WfbZZ3z4ChwQLdr4OZ6ncEXPTrJvMQXVOOT0AhL44575zh62ZIfvrzhLSHcdU42ILKVmN0h0KavPzlPzMaXjP0UDoyZYzuOx3EY5RN/5nBnhRxAvemEdF9So071HJA59B7gjDtbVtz253ZZ2nifplCxVIi5AjV3dQcqmaxJ3BL2IJ4H1Im+r73CPe8GV5RkJUTj+HZ0SDL+r+ujsqXuQs/RafkKw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(136003)(346002)(376002)(39860400002)(366004)(451199015)(83380400001)(2906002)(186003)(122000001)(6506007)(7696005)(316002)(38100700002)(9686003)(15650500001)(26005)(55016003)(53546011)(478600001)(52536014)(8936002)(110136005)(66446008)(66556008)(41300700001)(66476007)(4326008)(64756008)(86362001)(8676002)(76116006)(66946007)(33656002)(71200400001)(54906003)(7416002)(5660300002)(38070700005);DIR:OUT;SFP:1101;
+x-microsoft-antispam-message-info: =?us-ascii?Q?QKrObbP2VmBi5zJ9HAhSTwywP5w2PXV6vudHB4JqjLHGqLJXe/RYTbkbD9Ff?=
+ =?us-ascii?Q?uqc9r1PwlmUCCZKW38hrQu+uA6axoWwgVlWWkMimV5CD3xIqnByeu9Jbazqs?=
+ =?us-ascii?Q?94Zlk1agE6+TyLn7YosQCfD288dT0njYibkF91MRSw1CC9OodHFX6ICzIsH7?=
+ =?us-ascii?Q?1qraZ+PZaElyOG+qvXbLp/X+vZpEg0yTpuiSgeRIbH9m6OMbqX2HB76wNtTb?=
+ =?us-ascii?Q?iRO2hucrxmmMPXS4D/un2+WKb14zP587jj+s18TGPTwKOtC4JZFFYCI3wyP5?=
+ =?us-ascii?Q?5gNF+KnLm28y/xHI0NoTD/gKZUt3GrATjbna7fA3yVHbXGTO350tI2yWHlap?=
+ =?us-ascii?Q?5hawaEwLlCcCo3bKqYu8x5yq7/kl5quUU4EAChVtOOzP5s3Bz4p/spEz11Jp?=
+ =?us-ascii?Q?6jgsaz6bDcMhBpI/PJRwYGegiF7yFpE7sO/jh3WvdKzx132U9ThW7K0HihSF?=
+ =?us-ascii?Q?h4yxT/4jDd9IsHS0fVE+jL2ziu+lxqp3lYC+0RBGZWIVWtuTJNKJ53OUNY3E?=
+ =?us-ascii?Q?cBk78MLYVChX6yYzwyf7p3U3JE0l5mXrIRbQq9Uez2Ysdk0HfT9ujid0WFHU?=
+ =?us-ascii?Q?KtU0DcJBkwozH6QxMvcxgfBrWsIA40OKgokUL/C2q6+y4f61UMHGbsJAgCav?=
+ =?us-ascii?Q?SGFLbCk0mhEcwu4QETc/C6maiIZnnNvZplNKwPbEX1AduzzJvDveQS/wBWnW?=
+ =?us-ascii?Q?2bW0QGzeq+97d5enPCOCieG418opQdjYZVMFvnNZKCDWwY6Z91UOFBPP55jh?=
+ =?us-ascii?Q?jQEpddjQUiXCHaaK3r7h2ifPfBvMyASMLoLcUk6dAEOuAVKQ/bs/sjs5pq2U?=
+ =?us-ascii?Q?VPZtr2Rq4bZjhjjdEREOBA6eXeIpa3VVnaPFW9owL9b4FQ8yj6v5cEIvMsFk?=
+ =?us-ascii?Q?hWEXWfFDYytRElKfSllfl/SBEwugaXb4vtQznsIAC5vkkArHSx001q/yz5Nz?=
+ =?us-ascii?Q?GvGZUTf7vHSZeAXP95MtAq1F59Wxwc9eROkqh6ne4k0HoFqbcBPAkfox+BHS?=
+ =?us-ascii?Q?VGm33obyp+jCPl908y4l1NV7JqIkzoXNmmVH2Yp+BWi/zK2DSAbUUiDo8toX?=
+ =?us-ascii?Q?DFFMpDJ/YD5G4MFO6JDDSjSSDTevVw=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(346002)(396003)(366004)(39860400002)(376002)(451199015)(52536014)(66446008)(54906003)(110136005)(7416002)(38070700005)(316002)(5660300002)(8936002)(76116006)(186003)(86362001)(66556008)(64756008)(66476007)(66946007)(4326008)(478600001)(8676002)(966005)(26005)(71200400001)(9686003)(6506007)(41300700001)(38100700002)(55016003)(7696005)(53546011)(83380400001)(122000001)(45080400002)(2906002)(33656002);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YTFTZlhHUEplQjY2Uy9uZlpsdDZBRHc5bUY1RTMxUGdONzJDT2lrVEZHRWlz?=
- =?utf-8?B?aGNUWDI0dDlFVm1MMmhXR284dytsWUlteHFEUU4xd1RIdnZRTDRGbWp5SzB4?=
- =?utf-8?B?ODBEenRDUG5BeFBEVHVSOWhoWFZpcnhSaUJUWXR6TGRxcGdBYXU2N3gwM0Ft?=
- =?utf-8?B?anAwb2REcVBhTTY2TVJlOG1lUktHcHhYUXR3WTJrWXk5b0ZrRzhoUTFTSlpt?=
- =?utf-8?B?UmNtZ3loYVNBMHpoR3FxREk0QmhXSjZPZlEweEVFK0FJY1hnb3NNKzEwNER5?=
- =?utf-8?B?MGJPU0s4R2UxRHlObTAvM2xwRXFDZmRDZmJXR0pLRE1HNVdHK28wbE40TWFC?=
- =?utf-8?B?NXlCRURCNmRxQzF4bWx6dVhLL1RrZnB5dm5OaXZUTzd2SFlNVklaK2ZVR2Ry?=
- =?utf-8?B?MFVpeHpQVFdsLyt3NEJ2SXJoRzU1NWFSSDZab1ZxRTBFV2U0OS9pTHhDTGxY?=
- =?utf-8?B?R29sNnVYdCtnNU1qUHZtUzlPVVJlTGZNTStoYXJMdTR5V1dwWlRBQ2JJVzUv?=
- =?utf-8?B?OENiYnVvTUExMTF6Z3NiZmYwY00zWHVWdXBkS1o4MnhMOFNWU2NXbjc0bVhO?=
- =?utf-8?B?ajMra3J5U2YrdE1seERuaW9EOWYwdEJrUjZFc0JPVm1PZ2FjV052NHRUaXhk?=
- =?utf-8?B?UkZ5RzEyenVyN0k4M0hCQ09ldHIxbnFOVjJqRFBNU08zVWE0L0lldHZlYStr?=
- =?utf-8?B?MlZrZ1B2ZWpjZUx0S2tiSUtvaDM4a0F4MnplR2Y4Qkt3cUVDdEg3UXVyWmNW?=
- =?utf-8?B?Mk9xdGZ1dWF5cTBzTy9tcWZmRHVWL0wrU2Zac3ViSnBlODBtYVRRL2grNnhx?=
- =?utf-8?B?emtQRVhQTlBsMHIrbkUxMWZoeVZNTWVMcTVHWkVDVlBPNWR6RU9BNnlUYUN4?=
- =?utf-8?B?THAzRC9lYW1td29sQlpGK3RJclY3Vnh2S0tsbHJvNlpHTzJZK0RBeXFGRTU4?=
- =?utf-8?B?UkZMc2RpbGVZZzd0NWRQMVdQM2Vlanlrd29FUWU1MlZ3RHhpRTI5Z1dkUUxt?=
- =?utf-8?B?bXQ1T0Z3SVZGcm1LSVZXT01ZNWhMSmhkWVBCelVKZzB0YTJyUzRITjkvNjFw?=
- =?utf-8?B?L3dSa0pSS1BsWlQxM3pkbEx2K2ViWW5UcDV6QXc4NGlyeCtQSUxacEgwbml4?=
- =?utf-8?B?N0ZPaS94N0YwdWxMOW52L1NXODNpRW5FMWtqaitZMGV6a05DdG1RZ2NLYTJh?=
- =?utf-8?B?ekFFVDNvQk1XU0lHcmEwcFZSNmcrVk5HK1pwM1J4NVVjOVY3Zmp3Zjl0MWlC?=
- =?utf-8?B?RGppL3V1MG9VdTl6Y3I3clBoOE1zTFJLakZ4WmxtdUJ3UkpRRnN3T1V4MzB6?=
- =?utf-8?B?L3JRL1FNcTFUeEQ1ek9TdWhmZHE4cjJtOE5GdFRPL3NuazVRR1h3WTJOQzJ6?=
- =?utf-8?B?WnZtRWtUN0tjdzNKSFk0UUd6bmI0c3c5VXEyenV5WUoyeE9BdVRFTVcxSWFG?=
- =?utf-8?B?dm1EcmZxMUt2WFQrTVRZeGhmNDhzeUIwa3M5RHZxaml3bUJjSUtwZm1IRUFV?=
- =?utf-8?B?TTAvWGtTVlNjeG1jWXRKa1czSlc5b09lUGd5T3R6dGJZdVlLR21wdytGWFVB?=
- =?utf-8?B?RXd4UU5yRnhpdTJLbXBtNHVUbFM4NGErcm9IdVhRenZSc2ZVWGp5cGhycnIw?=
- =?utf-8?B?aGEwUmc2cXFjSEVZWUw3SU5yaGYwSm53Vmo1cVFlVExPNWZRRyttQlE4S2k0?=
- =?utf-8?B?dk00VjUyajNDNE9saTdyM3dZN3djbmg2b0Z2OXN3SXlpQitTQjNkTnZzdzFx?=
- =?utf-8?B?S0dhalpVcTFhdzlScTBoSnF0NHRDd0k3cVpDV2lmejNzU0tjRnF0MVk0eUMr?=
- =?utf-8?B?RnU2cVRIM0dQQytvY1N2aGUyM1o5NFpsTC9xck9JSTZVM1dtZU0wMk96azJv?=
- =?utf-8?B?aEp1eWludjl6RGIzb3p3d0REdjRmOHZObkFMM1UwUEVqNkVRSzB4MzZXblhv?=
- =?utf-8?B?Z0J6NFgvd0d4SjdXdGRDcHVvQ0R5Y2o0bG5NVE9VU1ZTZ0JRZGZ2eEVESWx3?=
- =?utf-8?B?ZjdhcVJjRUFQa3IrNWIvN1JsS2xBblNVaGVWMDEzdG9kVVgweG5VVmM3L0hX?=
- =?utf-8?B?Ny9jTmZJcXU1bk8xZTNsQlFMLzUzR3Q0WXV6L2JzdG04Vm9RaW9TZ0lzd0hm?=
- =?utf-8?Q?nIoI=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?gvVjxIciCuVWza3xVKVqYJeFM0w6fEcWCfXYbXM6G7KXMZ5A1FMK9tj7lbN5?=
+ =?us-ascii?Q?/EPK4tGTGKlKeyQNjUN7SDn25QLTc0cOj2U2+AmMyxTwrYMOfuW1hd8C+Osn?=
+ =?us-ascii?Q?i1j1XycBmsB1c3qgxoU1RQbgAB+4VgOOTRFpteT2EbceS/EXkGBfNq4mgqmS?=
+ =?us-ascii?Q?nlIWqhVBPLtKIxsVxDNsDg4v9UtUBxjEz4yqtxOsHNG+l/eX7Z7TSPrk2X37?=
+ =?us-ascii?Q?7wV1D/s5MFVtjdABlQoLgndBeHdE3Cmm8zXVyrzR2cY7QlBXhjqsowOpXDsZ?=
+ =?us-ascii?Q?I3NOYhcBDXIhXlfHRl6mB/y0nCHT3nUgB46q05u5zmsJtS6gnyGxvTmMILzp?=
+ =?us-ascii?Q?NIIPhLK7l2Ed8FfA4gE6OFxwxRbjs/IDQqaKsqnyEt2dFUod/fVkm3s+4tnP?=
+ =?us-ascii?Q?p2a1kGPzsyIYpaC8si6BGQviEfX/yyDkp1QWlNG5JaFgTg0FQfwl/xjxdbPO?=
+ =?us-ascii?Q?IiIF3ujEEbQOkjzUWK7xJcpryjw2t0JqnIU4otukvx28R06FdB4Dux+R+oY4?=
+ =?us-ascii?Q?z8p3glyd5CGbdW3A3kQhcrUk7W2fmcYt7E1JE/FqwjnoG5af6YYJe6Vg33k1?=
+ =?us-ascii?Q?1+KTf8pd8vzWjDn428P6gee43lAoY4H+s6WMASQ+6Wqee7dqwOKEfze6qc/X?=
+ =?us-ascii?Q?4luc6a6qpJPs+LWJSOrUnVPsZBVnIcad9/UFQGZfOdj51p+ml8mm3GAXWjz4?=
+ =?us-ascii?Q?cwrV6N7eh4UXsAgoONxWSpt7dtY3Bp9DHzm2XINhTwuWCZtyF/yJPxU4JG7q?=
+ =?us-ascii?Q?XZhPz8LX8pQ+y1UoPKi+3nTeuMVl4EIBrhmZL7wPCA3et9IhfSJs2hztR/Ot?=
+ =?us-ascii?Q?7ebCuijXUsrbYytUsqIXS/m2qK1HKw2vlGT556zy2+ZkKxBxxZET/z2D05Pv?=
+ =?us-ascii?Q?BqA2vvOF4KLOQc9ZFPVIaYBYumXp80WREnuL6SdTikNp8br/29axxYrhwhcq?=
+ =?us-ascii?Q?watditJIvUb0ZgG3MRlIctHtc6Ge6D6qSsmC6CY3gXyOH68TED1D7ed7uMAC?=
+ =?us-ascii?Q?/3JqCGjb6Q92biDWPPJ2ZDPZ/fcM7PCo1LEyF6x5kZqAjssysgD0cghX7U0Q?=
+ =?us-ascii?Q?6J8FHBHbvoHgK/lAKBniv8XlAahfIX0yxu5vmmqdJRKmEJShzvwxdVrNqg+m?=
+ =?us-ascii?Q?ARIvvjNQfZjze7M0nB6542PGyTxeyvgQNCUWslV8QAvgmNLmSkVBO8fkzhwa?=
+ =?us-ascii?Q?7XXydfdGLyCGek9TAz74xwtwPAJXksqpciH+9IJkTRPMscICayPVg0L0DuDO?=
+ =?us-ascii?Q?UFSzeN6RP5X7EdSyX3bGl6N2IX57yjfeqqjUh+u8xvP4m2muzkVDEuDcdeSV?=
+ =?us-ascii?Q?R0PBL3bpceweLnf9ylbV1o/L+IY1dRGcg2z7HgKqvkAeOp3D05EwJczSGOQq?=
+ =?us-ascii?Q?XruprPiCymQy/yPo6iUon1j1CUyFViqdaJHa3iyN1PFHcJk/286kMGZFqGOU?=
+ =?us-ascii?Q?gOsNsniFML485s1r4f85aoPCHVw5rqXQ8FPH4rUS6mOnvGGL30qZzbcpIgeI?=
+ =?us-ascii?Q?CpYbNM5JJCuhPHWwN+YKmR0oZSS+dxgbRkl92rWgYFk5kEIdbr0zqRj4RRnz?=
+ =?us-ascii?Q?/LjC09bcdQtVCEbvzLs=3D?=
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c9ae263f-299a-48b7-c30f-08dacda6c4a2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2022 23:02:17.3456
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66206e49-2f4b-43b6-3d2a-08dacda74e33
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2022 23:06:08.1404
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OdxvtYxxsinYRpsNRx36HzJHiHJTM47lPKQP2FUj/W8K89ABTpR2ZtCB9wK2fivX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7382
+X-MS-Exchange-CrossTenant-userprincipalname: 1iqL80nqaFHYRjVKVB2WC5jN3b1Ngl3/p/Y/Xbf88yJ7fWusXTmDhrQVxY1mW8Y8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5099
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---_000_MW3PR12MB4553E324788E568D030C2949950C9MW3PR12MB4553namp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--_000_MW3PR12MB455343AC89441290B470B949950C9MW3PR12MB4553namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-W0FNRCBPZmZpY2lhbCBVc2UgT25seSAtIEdlbmVyYWxdDQoNCkhpIFJlaW5ldHRlLA0KDQo+IC0t
-LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFJlaW5ldHRlIENoYXRyZSA8cmVpbmV0
-dGUuY2hhdHJlQGludGVsLmNvbT4NCj4gU2VudDogVHVlc2RheSwgTm92ZW1iZXIgMjIsIDIwMjIg
-NjoyNiBQTQ0KPiBUbzogTW9nZXIsIEJhYnUgPEJhYnUuTW9nZXJAYW1kLmNvbT47IGNvcmJldEBs
-d24ubmV0Ow0KPiB0Z2x4QGxpbnV0cm9uaXguZGU7IG1pbmdvQHJlZGhhdC5jb207IGJwQGFsaWVu
-OC5kZQ0KPiBDYzogZmVuZ2h1YS55dUBpbnRlbC5jb207IGRhdmUuaGFuc2VuQGxpbnV4LmludGVs
-LmNvbTsgeDg2QGtlcm5lbC5vcmc7DQo+IGhwYUB6eXRvci5jb207IHBhdWxtY2tAa2VybmVsLm9y
-ZzsgYWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZzsNCj4gcXVpY19uZWVyYWp1QHF1aWNpbmMuY29t
-OyByZHVubGFwQGluZnJhZGVhZC5vcmc7DQo+IGRhbWllbi5sZW1vYWxAb3BlbnNvdXJjZS53ZGMu
-Y29tOyBzb25nbXVjaHVuQGJ5dGVkYW5jZS5jb207DQo+IHBldGVyekBpbmZyYWRlYWQub3JnOyBq
-cG9pbWJvZUBrZXJuZWwub3JnOyBwYm9uemluaUByZWRoYXQuY29tOw0KPiBjaGFuZy5zZW9rLmJh
-ZUBpbnRlbC5jb207IHBhd2FuLmt1bWFyLmd1cHRhQGxpbnV4LmludGVsLmNvbTsNCj4gam1hdHRz
-b25AZ29vZ2xlLmNvbTsgZGFuaWVsLnNuZWRkb25AbGludXguaW50ZWwuY29tOyBEYXMxLCBTYW5k
-aXBhbg0KPiA8U2FuZGlwYW4uRGFzQGFtZC5jb20+OyB0b255Lmx1Y2tAaW50ZWwuY29tOyBqYW1l
-cy5tb3JzZUBhcm0uY29tOw0KPiBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJu
-ZWxAdmdlci5rZXJuZWwub3JnOw0KPiBiYWdhc2RvdG1lQGdtYWlsLmNvbTsgZXJhbmlhbkBnb29n
-bGUuY29tDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjggMTMvMTNdIERvY3VtZW50YXRpb24veDg2
-OiBVcGRhdGUgcmVzY3RybC5yc3QgZm9yIG5ldw0KPiBmZWF0dXJlcw0KPiANCj4gSGkgQmFidSwN
-Cj4gDQo+IE9uIDExLzQvMjAyMiAxOjAxIFBNLCBCYWJ1IE1vZ2VyIHdyb3RlOg0KPiAuLi4NCj4g
-DQo+ID4gQEAgLTQ2NCw2ICs1MzksMjYgQEAgTWVtb3J5IGJhbmR3aWR0aCBkb21haW4gaXMgTDMg
-Y2FjaGUuDQo+ID4NCj4gPiAgCU1COjxjYWNoZV9pZDA+PWJ3X01CcHMwOzxjYWNoZV9pZDE+PWJ3
-X01CcHMxOy4uLg0KPiA+DQo+ID4gK1Nsb3cgTWVtb3J5IEJhbmR3aWR0aCBBbGxvY2F0aW9uIChT
-TUJBKQ0KPiA+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiAr
-QU1EIGhhcmR3YXJlIHN1cHBvcnQgU2xvdyBNZW1vcnkgQmFuZHdpZHRoIEFsbG9jYXRpb24gKFNN
-QkEpIGZlYXR1cmUuDQo+IA0KPiBIb3cgYWJvdXQNCj4gQU1EIGhhcmR3YXJlIHN1cHBvcnRzIHRo
-ZSBTbG93IE1lbW9yeSBCYW5kd2lkdGggQWxsb2NhdGlvbiAoU01CQSkNCj4gZmVhdHVyZS4NCj4g
-b3INCj4gQU1EIGhhcmR3YXJlIHN1cHBvcnRzIFNsb3cgTWVtb3J5IEJhbmR3aWR0aCBBbGxvY2F0
-aW9uIChTTUJBKS4NCg0KU3VyZS4NCj4gDQo+ID4gK0N1cnJlbnRseSwgQ1hMLm1lbW9yeSBpcyB0
-aGUgb25seSBzdXBwb3J0ZWQgInNsb3ciIG1lbW9yeSBkZXZpY2UuDQo+IA0KPiBXaGF0IGRvZXMg
-IkN1cnJlbnRseSIgbWVhbiBoZXJlPyBJZiB0aGVyZSBpcyBhIHBsYW4gZm9yIGNoYW5nZXMsIGNv
-dWxkIHRoYXQgYmUNCj4gc2hhcmVkPyBPdGhlcndpc2UgbWF5YmUganVzdCByZW1vdmUgaXQ6ICJD
-WEwubWVtb3J5IGlzIHRoZSBvbmx5IHN1cHBvcnRlZA0KPiAic2xvdyIgbWVtb3J5IGRldmljZS4i
-DQoNClRoZXJlIGlzIG5vIGNoYW5nZSBvZiBwbGFuLiBJIHdpbGwgcmVtb3ZlICJDdXJyZW50bHki
-DQoNCj4gDQo+ID4gK1dpdGggdGhlIHN1cHBvcnQgb2YgU01CQSwgdGhlIGhhcmR3YXJlIGVuYWJs
-ZXMgYmFuZHdpZHRoIGFsbG9jYXRpb24NCj4gPiArb24gdGhlIHNsb3cgbWVtb3J5IGRldmljZXMu
-IElmIHRoZXJlIGFyZSBtdWx0aXBsZSBzdWNoIGRldmljZXMgaW4gdGhlDQo+ID4gK3N5c3RlbSwg
-dGhlIHRocm90dGxpbmcgbG9naWMgZ3JvdXBzIGFsbCB0aGUgc2xvdyBzb3VyY2VzIHRvZ2V0aGVy
-IGFuZA0KPiA+ICthcHBsaWVzIHRoZSBsaW1pdCBvbiB0aGVtIGFzIGEgd2hvbGUuDQo+ID4gKw0K
-PiA+ICtUaGUgcHJlc2VuY2Ugb2YgU01CQSAod2l0aCBDWEwubWVtb3J5KSBpcyBpbmRlcGVuZGVu
-dCBvZiBzbG93IG1lbW9yeQ0KPiA+ICtkZXZpY2VzIHByZXNlbmNlLiBJZiB0aGVyZSBpcyBubyBz
-dWNoIGRldmljZXMgb24gdGhlIHN5c3RlbSwgdGhlbg0KPiANCj4gTWF5YmUgImlzIG5vIHN1Y2gg
-ZGV2aWNlIiBvciAiYXJlIG5vIHN1Y2ggZGV2aWNlcyI/DQoNCkl0IHNob3VsZCBiZSAiSWYgdGhl
-cmUgYXJlIG5vIHN1Y2ggZGV2aWNlcyIuICAgV2lsbCBjb3JyZWN0IGl0Lg0KDQo+IA0KPiA+ICtz
-ZXR0aW5nIHRoZSBjb25maWd1cmluZyBTTUJBIHdpbGwgaGF2ZSBubyBpbXBhY3Qgb24gdGhlIHBl
-cmZvcm1hbmNlDQo+IA0KPiAic2V0dGluZyB0aGUgY29uZmlndXJpbmcgU01CQSIgaXMgaGFyZCB0
-byBwYXJzZS4gSG93IGFib3V0IGp1c3QgImNvbmZpZ3VyaW5nDQo+IFNNQkEiPw0KDQpTdXJlLg0K
-VGhhbmtzDQpCYWJ1DQo=
+[AMD Official Use Only - General]
 
---_000_MW3PR12MB4553E324788E568D030C2949950C9MW3PR12MB4553namp_
+Hi Fenghua,
+
+> -----Original Message-----
+> From: Yu, Fenghua <fenghua.yu@intel.com>
+> Sent: Wednesday, November 23, 2022 12:17 PM
+> To: Moger, Babu <Babu.Moger@amd.com>; corbet@lwn.net; Chatre, Reinette
+> <reinette.chatre@intel.com>; tglx@linutronix.de; mingo@redhat.com;
+> bp@alien8.de
+> Cc: dave.hansen@linux.intel.com; x86@kernel.org; hpa@zytor.com;
+> paulmck@kernel.org; akpm@linux-foundation.org; quic_neeraju@quicinc.com;
+> rdunlap@infradead.org; damien.lemoal@opensource.wdc.com;
+> songmuchun@bytedance.com; peterz@infradead.org; jpoimboe@kernel.org;
+> pbonzini@redhat.com; Bae, Chang Seok <chang.seok.bae@intel.com>;
+> pawan.kumar.gupta@linux.intel.com; jmattson@google.com;
+> daniel.sneddon@linux.intel.com; Das1, Sandipan <Sandipan.Das@amd.com>;
+> Luck, Tony <tony.luck@intel.com>; james.morse@arm.com; linux-
+> doc@vger.kernel.org; linux-kernel@vger.kernel.org; bagasdotme@gmail.com;
+> Eranian, Stephane <eranian@google.com>
+> Subject: RE: [PATCH v8 03/13] x86/cpufeatures: Add Bandwidth Monitoring
+> Event Configuration feature flag
+>=20
+> Hi, Babu,
+>=20
+> > Newer AMD processors support the new feature Bandwidth Monitoring
+> > Event Configuration (BMEC).
+> >
+> > The feature support is identified via CPUID Fn8000_0020_EBX_x0 (ECX=3D0=
+).
+> > Bits    Field Name    Description
+> > 3       EVT_CFG       Bandwidth Monitoring Event Configuration (BMEC)
+> >
+> > Currently, the bandwidth monitoring events mbm_total_bytes and
+> > mbm_local_bytes are set to count all the total and local reads/writes
+> > respectively. With the introduction of slow memory, the two counters
+> > are not enough to count all the different types of memory events. With
+> > the feature BMEC, the users have the option to configure
+> > mbm_total_bytes and mbm_local_bytes to count the specific type of event=
+s.
+> >
+> > Each BMEC event has a configuration MSR, QOS_EVT_CFG (0xc000_0400h +
+> > EventID) which contains one field for each bandwidth type that can be
+> > used to configure the bandwidth event to track any combination of
+> > supported bandwidth types. The event will count requests from every
+> > bandwidth type bit that is set in the corresponding configuration regis=
+ter.
+> >
+> > Following are the types of events supported:
+> >
+> > =3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > Bits    Description
+> > =3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > 6       Dirty Victims from the QOS domain to all types of memory
+> > 5       Reads to slow memory in the non-local NUMA domain
+> > 4       Reads to slow memory in the local NUMA domain
+> > 3       Non-temporal writes to non-local NUMA domain
+> > 2       Non-temporal writes to local NUMA domain
+> > 1       Reads to memory in the non-local NUMA domain
+> > 0       Reads to memory in the local NUMA domain
+> > =3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > By default, the mbm_total_bytes configuration is set to 0x7F to count
+> > all the event types and the mbm_local_bytes configuration is set to
+> > 0x15 to count all the local memory events.
+> >
+> > Feature description is available in the specification, "AMD64
+> > Technology Platform Quality of Service Extensions, Revision: 1.03
+> > Publication
+> >
+> > Link:
+> > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fwww=
+.
+> > amd.com%2Fen%2Fsupport%2Ftech-docs%2Famd64-technology-
+> &amp;data=3D05%7C0
+> >
+> 1%7Cbabu.moger%40amd.com%7C50e1807651fd4513648908dacd7efac0%7C3
+> dd8961f
+> >
+> e4884e608e11a82d994e183d%7C0%7C0%7C638048242504277761%7CUnknow
+> n%7CTWFp
+> >
+> bGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6
+> Mn
+> >
+> 0%3D%7C3000%7C%7C%7C&amp;sdata=3D5lpXbZkZ78mJ1d9PnLf7WmRT5vPogfs
+> 5HaZLz76
+> > x04I%3D&amp;reserved=3D0
+> > platform-quality-service-extensions
+> > Link:
+> > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fbug=
+z
+> >
+> illa.kernel.org%2Fshow_bug.cgi%3Fid%3D206537&amp;data=3D05%7C01%7Cbab
+> u.m
+> >
+> oger%40amd.com%7C50e1807651fd4513648908dacd7efac0%7C3dd8961fe488
+> 4e608e
+> >
+> 11a82d994e183d%7C0%7C0%7C638048242504277761%7CUnknown%7CTWFpb
+> GZsb3d8ey
+> >
+> JWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7
+> C300
+> >
+> 0%7C%7C%7C&amp;sdata=3D2CjPpzCT4JeA9VPNZIW7zxyL22xpEm2FoXQlhAz5OK
+> o%3D&am
+> > p;reserved=3D0
+> > Signed-off-by: Babu Moger <babu.moger@amd.com>
+> > ---
+> >  arch/x86/include/asm/cpufeatures.h |    1 +
+> >  arch/x86/kernel/cpu/cpuid-deps.c   |    1 +
+> >  arch/x86/kernel/cpu/scattered.c    |    1 +
+> >  3 files changed, 3 insertions(+)
+> >
+> > diff --git a/arch/x86/include/asm/cpufeatures.h
+> > b/arch/x86/include/asm/cpufeatures.h
+> > index d68b4c9c181d..6732ca0117be 100644
+> > --- a/arch/x86/include/asm/cpufeatures.h
+> > +++ b/arch/x86/include/asm/cpufeatures.h
+> > @@ -306,6 +306,7 @@
+> >  #define X86_FEATURE_RSB_VMEXIT_LITE	(11*32+17) /* "" Fill RSB on
+> VM
+> > exit when EIBRS is enabled */
+> >  #define X86_FEATURE_CALL_DEPTH		(11*32+18) /* "" Call depth
+> > tracking for RSB stuffing */
+> >  #define X86_FEATURE_SMBA		(11*32+19) /* Slow Memory
+> > Bandwidth Allocation */
+> > +#define X86_FEATURE_BMEC		(11*32+20) /* AMD
+> Bandwidth
+> > Monitoring Event Configuration (BMEC) */
+> >
+> >  /* Intel-defined CPU features, CPUID level 0x00000007:1 (EAX), word 12=
+ */
+> >  #define X86_FEATURE_AVX_VNNI		(12*32+ 4) /* AVX VNNI
+> > instructions */
+> > diff --git a/arch/x86/kernel/cpu/cpuid-deps.c
+> > b/arch/x86/kernel/cpu/cpuid- deps.c index c881bcafba7d..4555f9596ccf
+> > 100644
+> > --- a/arch/x86/kernel/cpu/cpuid-deps.c
+> > +++ b/arch/x86/kernel/cpu/cpuid-deps.c
+> > @@ -68,6 +68,7 @@ static const struct cpuid_dep cpuid_deps[] =3D {
+> >  	{ X86_FEATURE_CQM_OCCUP_LLC,
+> > 	X86_FEATURE_CQM_LLC   },
+> >  	{ X86_FEATURE_CQM_MBM_TOTAL,
+> > 	X86_FEATURE_CQM_LLC   },
+> >  	{ X86_FEATURE_CQM_MBM_LOCAL,
+> > 	X86_FEATURE_CQM_LLC   },
+> > +	{ X86_FEATURE_BMEC,			X86_FEATURE_CQM_LLC   },
+>=20
+> Shouldn't X86_FEATURE_BMEC really depend on
+> X86_FEATURE_CQM_MBM_LOCAL and _TOTAL?
+>=20
+> CQM_MBM_LOCAL and/or _TOTAL can be disabled but CQM_LLC can still be
+> enabled. In this case, BMEC shouldn't be enabled, right? But with this pa=
+tch,
+> BMEC will be enabled but it won't work well as CQM_MBM_TOTAL/_LOCAL
+> are not enabled.
+
+Yes. You are right.
+>=20
+> You may remove the above line and add these two lines:
+>=20
+> +	{ X86_FEATURE_BMEC,
+> 	X86_FEATURE_CQM_MBM_TOTAL   },
+> +	{ X86_FEATURE_BMEC,
+> 	X86_FEATURE_CQM_MBM_LOCAL   },
+>=20
+
+Sure. Will add these lines.
+Thanks
+Babu
+
+--_000_MW3PR12MB455343AC89441290B470B949950C9MW3PR12MB4553namp_
 Content-Disposition: attachment; filename="winmail.dat"
 Content-Transfer-Encoding: base64
 Content-Type: application/ms-tnef; name="winmail.dat"
 
-eJ8+IldCAQaQCAAEAAAAAAABAAEAAQeQBgAIAAAA5AQAAAAAAADoAAEJgAEAIQAAADY5QThDOEY3
-RDJBRjRDNDg5QkM3REVDNzlGRDQ5NDNEAJMHAQ2ABAACAAAAAgACAAEFgAMADgAAAOYHCwAXABcA
-AgARAAMAPAEBIIADAA4AAADmBwsAFwAXAAIAEQADADwBAQiABwAYAAAASVBNLk1pY3Jvc29mdCBN
-YWlsLk5vdGUAMQgBBIABAEwAAABSRTogW1BBVENIIHY4IDEzLzEzXSBEb2N1bWVudGF0aW9uL3g4
-NjogVXBkYXRlIHJlc2N0cmwucnN0IGZvciBuZXcgZmVhdHVyZXMAQBkBA5AGAHhGAAByAAAAAgF/
-AAEAAABRAAAAPE1XM1BSMTJNQjQ1NTNFMzI0Nzg4RTU2OEQwMzBDMjk0OTk1MEM5QE1XM1BSMTJN
-QjQ1NTMubmFtcHJkMTIucHJvZC5vdXRsb29rLmNvbT4AAAAACwAfDgAAAAACAQkQAQAAACAHAAAc
-BwAADA0AAExaRnWj6nUZYQAKZmJpZAQAAGNjwHBnMTI1MgD+A0PwdGV4dAH3AqQD4wIABGNoCsBz
-ZXQwIO8HbQKDAFARTTIKgAa0AoCWfQqACMg7CWIxOQ7AvwnDFnIKMhZxAoAVYioJsHMJ8ASQYXQF
-sg5QA2Bzom8BgCBFeBHBbhgwXQZSdgSQF7YCEHIAwHR9CFBuGjEQIAXABaAbZGSaIANSIBAiF7Jc
-dgiQ5HdrC4BkNR1TBPAHQA0XcDAKcRfyYmttawZzAZAAICBCTV9C4EVHSU59CvwB8QvwADIgW0FN
-RCBPZwEgDlAHMSBVEgAh4G5AbHkgLSBHGENsaF1cbAuAZQqBI8RImmkH8GUj0QJAZSwjvNY+IwAm
-Uk8FEGcLgCJRck0HkHNhGDAmUyXHRqUDYToktyBDEdB0CXBsIDwJcCTkLhHBKaFA2wuAECBsKnAD
-cD4lxwZgCwIwKMBUClBzZGF5+iwHsG8aMAbQG7EhcCzwAwHQIXE2OjI2IFCSTSXHVG8owE1vGDBq
-cizwQgGgdSnQL+IuoS9zQGFtZCtDOxvRAnItYHRAbHduLock8RYgJdZ0Z2x4MfCNC4B1KaACIGl4
-LgEAxTFwbQuAZ29ACXEpgXMrQjFwYnAw4CPACfA4UzQBJcdDYyjAZgnwZ8BodWEueXUq6DFw2yzA
-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
-QgBhAGIAdQAuAE0AbwBnAGUAcgBAAGEAbQBkAC4AYwBvAG0AAAAfAAFdAQAAACYAAABCAGEAYgB1
-AC4ATQBvAGcAZQByAEAAYQBtAGQALgBjAG8AbQAAAAAACwBAOgEAAAAfABoAAQAAABIAAABJAFAA
-TQAuAE4AbwB0AGUAAAAAAAMA8T8JBAAACwBAOgEAAAADAP0/5AQAAAIBCzABAAAAEAAAAGmoyPfS
-r0xIm8fex5/UlD0DABcAAQAAAEAAOQCAovShj//YAUAACDCQnCSij//YAR8ANwABAAAAmAAAAFIA
-RQA6ACAAWwBQAEEAVABDAEgAIAB2ADgAIAAxADMALwAxADMAXQAgAEQAbwBjAHUAbQBlAG4AdABh
-AHQAaQBvAG4ALwB4ADgANgA6ACAAVQBwAGQAYQB0AGUAIAByAGUAcwBjAHQAcgBsAC4AcgBzAHQA
-IABmAG8AcgAgAG4AZQB3ACAAZgBlAGEAdAB1AHIAZQBzAAAAHwA9AAEAAAAKAAAAUgBFADoAIAAA
-AAAAAwDeP+n9AAALAAIAAQAAAAsAIwAAAAAAAwAmAAAAAAALACkAAAAAAAsAKwAAAAAAAwAuAAAA
-AAADADYAAAAAAB8AcAABAAAAkAAAAFsAUABBAFQAQwBIACAAdgA4ACAAMQAzAC8AMQAzAF0AIABE
-AG8AYwB1AG0AZQBuAHQAYQB0AGkAbwBuAC8AeAA4ADYAOgAgAFUAcABkAGEAdABlACAAcgBlAHMA
-YwB0AHIAbAAuAHIAcwB0ACAAZgBvAHIAIABuAGUAdwAgAGYAZQBhAHQAdQByAGUAcwAAAAIBcQAB
-AAAAIAAAAAEB2PCIPpv+H2cq0w9AqHb6cYfdRm+uS8NIgIABecGgCwAGDAAAAAAfADUQAQAAAKIA
-AAA8AE0AVwAzAFAAUgAxADIATQBCADQANQA1ADMARQAzADIANAA3ADgAOABFADUANgA4AEQAMAAz
-ADAAQwAyADkANAA5ADkANQAwAEMAOQBAAE0AVwAzAFAAUgAxADIATQBCADQANQA1ADMALgBuAGEA
-bQBwAHIAZAAxADIALgBwAHIAbwBkAC4AbwB1AHQAbABvAG8AawAuAGMAbwBtAD4AAAAAAB8AORAB
-AAAAYAEAADwAMQA2ADYANwA1ADkAMQA4ADgAMgA2ADUALgAzADIAOAAxADIAMAA4AC4AMQAxADcA
-NgA5ADIANwA3ADAANwA5ADgAMgA2ADcANQA0ADQANQA1AC4AcwB0AGcAaQB0AEAAYgBtAG8AZwBl
-AHIALQB1AGIAdQBuAHQAdQA+ACAAPAAxADYANgA3ADUAOQAyADAAOAA5ADgANwAuADMAMgA4ADEA
-MgAwADgALgAzADEAOQA5ADcAOAA0ADcANAAwADUANAA2ADcANQAyADQANQA0AC4AcwB0AGcAaQB0
-AEAAYgBtAG8AZwBlAHIALQB1AGIAdQBuAHQAdQA+ACAAPABkADcANQA3AGIAMwA3ADYALQAzAGUA
-MwA2AC0AZABhADkANQAtAGIANgA5AGMALQAyADEAMwA5ADAAYQAwAGMAOQAyAGYANQBAAGkAbgB0
-AGUAbAAuAGMAbwBtAD4AAAAfAEIQAQAAAGIAAAA8AGQANwA1ADcAYgAzADcANgAtADMAZQAzADYA
-LQBkAGEAOQA1AC0AYgA2ADkAYwAtADIAMQAzADkAMABhADAAYwA5ADIAZgA1AEAAaQBuAHQAZQBs
-AC4AYwBvAG0APgAAAAAAAwCAEP////8DABMSAAAAAEAABzDf2gCij//YAQIBEDABAAAARgAAAAAA
-AAAGTj0kvOLsS7n4SuLARRkXBwA2Sqcf7QNJTasIFP1i1ixbAAAAAAELAAA2Sqcf7QNJTasIFP1i
-1ixbAAL6vqhCAAAAAAIBEzABAAAAEAAAAJv+H2cq0w9AqHb6cYfdRm8CARQwAQAAAAwAAAAdAQAA
-OmUcIVsAAAADAFszAQAAAAMAWjYAAAAAAwBoNg0AAAALAPo2AQAAAB8A2T8BAAAAAAIAAFsAQQBN
-AEQAIABPAGYAZgBpAGMAaQBhAGwAIABVAHMAZQAgAE8AbgBsAHkAIAAtACAARwBlAG4AZQByAGEA
-bABdAA0ACgANAAoASABpACAAUgBlAGkAbgBlAHQAdABlACwADQAKAA0ACgA+ACAALQAtAC0ALQAt
-AE8AcgBpAGcAaQBuAGEAbAAgAE0AZQBzAHMAYQBnAGUALQAtAC0ALQAtAA0ACgA+ACAARgByAG8A
-bQA6ACAAUgBlAGkAbgBlAHQAdABlACAAQwBoAGEAdAByAGUAIAA8AHIAZQBpAG4AZQB0AHQAZQAu
-AGMAaABhAHQAcgBlAEAAaQBuAHQAZQBsAC4AYwBvAG0APgANAAoAPgAgAFMAZQBuAHQAOgAgAFQA
-dQBlAHMAZABhAHkALAAgAE4AbwB2AGUAbQBiAGUAcgAgADIAMgAsACAAMgAwADIAMgAgADYAOgAy
-ADYAIABQAE0ADQAKAD4AIABUAG8AOgAgAE0AbwBnAGUAcgAsACAAQgBhAGIAdQAgADwAQgBhAGIA
-dQAuAE0AbwBnAGUAcgBAAGEAbQBkAC4AYwBvAG0APgA7ACAAYwBvAHIAYgBlAHQAQABsAHcAbgAu
-AG4AZQB0ADsADQAKAD4AIAB0AGcAbAB4AEAAbABpAG4AdQB0AHIAbwBuAGkAeAAuAAAAHwD4PwEA
-AAAYAAAATQBvAGcAZQByACwAIABCAGEAYgB1AAAAHwD6PwEAAAAYAAAATQBvAGcAZQByACwAIABC
-AGEAYgB1AAAAHwAiQAEAAAAGAAAARQBYAAAAAAAfACNAAQAAAAIBAAAvAE8APQBFAFgAQwBIAEEA
-TgBHAEUATABBAEIAUwAvAE8AVQA9AEUAWABDAEgAQQBOAEcARQAgAEEARABNAEkATgBJAFMAVABS
-AEEAVABJAFYARQAgAEcAUgBPAFUAUAAgACgARgBZAEQASQBCAE8ASABGADIAMwBTAFAARABMAFQA
-KQAvAEMATgA9AFIARQBDAEkAUABJAEUATgBUAFMALwBDAE4APQBGAEQARQAyADYAMwBBAEYAMgA2
-ADgARQA0ADYAMwBCAEEARAAzAEEANABFAEIAMAA0ADkANgA2ADEAMwBBADcALQBNAE8ARwBFAFIA
-LAAgAEIAQQBCAFUAAAAAAB8AJEABAAAABgAAAEUAWAAAAAAAHwAlQAEAAAACAQAALwBPAD0ARQBY
-AEMASABBAE4ARwBFAEwAQQBCAFMALwBPAFUAPQBFAFgAQwBIAEEATgBHAEUAIABBAEQATQBJAE4A
-SQBTAFQAUgBBAFQASQBWAEUAIABHAFIATwBVAFAAIAAoAEYAWQBEAEkAQgBPAEgARgAyADMAUwBQ
-AEQATABUACkALwBDAE4APQBSAEUAQwBJAFAASQBFAE4AVABTAC8AQwBOAD0ARgBEAEUAMgA2ADMA
-QQBGADIANgA4AEUANAA2ADMAQgBBAEQAMwBBADQARQBCADAANAA5ADYANgAxADMAQQA3AC0ATQBP
-AEcARQBSACwAIABCAEEAQgBVAAAAAAAfADBAAQAAABgAAABNAG8AZwBlAHIALAAgAEIAYQBiAHUA
-AAAfADFAAQAAABgAAABNAG8AZwBlAHIALAAgAEIAYQBiAHUAAAAfADhAAQAAABgAAABNAG8AZwBl
-AHIALAAgAEIAYQBiAHUAAAAfADlAAQAAABgAAABNAG8AZwBlAHIALAAgAEIAYQBiAHUAAAADAFlA
-AAAAAAMAWkAAAAAAAwA3UAEAAAADAAlZAQAAAB8ACl0BAAAAJgAAAEIAYQBiAHUALgBNAG8AZwBl
-AHIAQABhAG0AZAAuAGMAbwBtAAAAAAAfAAtdAQAAACYAAABCAGEAYgB1AC4ATQBvAGcAZQByAEAA
-YQBtAGQALgBjAG8AbQAAAAAAAgEVXQEAAAASAAAAAh+W2D2I5GBOjhGoLZlOGD0BAAACARZdAQAA
-ABIAAAACH5bYPYjkYE6OEagtmU4YPQEAAAsAAIAIIAYAAAAAAMAAAAAAAABGAAAAABSFAAAAAAAA
-AwAAgAggBgAAAAAAwAAAAAAAAEYBAAAAMgAAAEUAeABjAGgAYQBuAGcAZQBBAHAAcABsAGkAYwBh
-AHQAaQBvAG4ARgBsAGEAZwBzAAAAAAAgAAAAHwAAgBOP8kH0gxRBpYTu21prC/8BAAAAFgAAAEMA
-bABpAGUAbgB0AEkAbgBmAG8AAAAAAAEAAAAqAAAAQwBsAGkAZQBuAHQAPQBNAFMARQB4AGMAaABh
-AG4AZwBlAFIAUABDAAAAAAALAACACCAGAAAAAADAAAAAAAAARgAAAAAGhQAAAAAAAAsAAIAIIAYA
-AAAAAMAAAAAAAABGAAAAAAOFAAAAAAAAAwAAgAggBgAAAAAAwAAAAAAAAEYAAAAAAYUAAAAAAAAC
-AQCAE4/yQfSDFEGlhO7bWmsL/wEAAAAuAAAASABlAGEAZABlAHIAQgBvAGQAeQBGAHIAYQBnAG0A
-ZQBuAHQATABpAHMAdAAAAAAAAQAAAEoAAAABAAoAAAAEAAAAAgAAABQAAAAAAAAAAAAAADUAAAAA
-AAAAFAAAAAAAAABtAQAABwQAAAAAAAAUAAAAAAAAADIEAAD/////AAAAAAAACwAAgBOP8kH0gxRB
-pYTu21prC/8BAAAAHAAAAEgAYQBzAFEAdQBvAHQAZQBkAFQAZQB4AHQAAAABAAAACwAAgBOP8kH0
-gxRBpYTu21prC/8BAAAAKAAAAEkAcwBRAHUAbwB0AGUAZABUAGUAeAB0AEMAaABhAG4AZwBlAGQA
-AAABAAAAAgEAgBOP8kH0gxRBpYTu21prC/8BAAAAQAAAAEMAbwBuAHYAZQByAHMAYQB0AGkAbwBu
-AFQAcgBlAGUAUABhAHIAZQBuAHQAUgBlAGMAbwByAGQASwBlAHkAAAABAAAALgAAAAAAAAAGTj0k
-vOLsS7n4SuLARRkXAQA2Sqcf7QNJTasIFP1i1ixbAAS5xV/MAAAAAAMAAIAIIAYAAAAAAMAAAAAA
-AABGAAAAABCFAAAAAAAAHwAAgB+k6zOoei5Cvnt54amOVLMBAAAAOAAAAEMAbwBuAHYAZQByAHMA
-YQB0AGkAbwBuAEkAbgBkAGUAeABUAHIAYQBjAGsAaQBuAGcARQB4AAAAAQAAAPwBAABJAEkAPQBb
-AEMASQBEAD0ANgA3ADEAZgBmAGUAOQBiAC0AZAAzADIAYQAtADQAMAAwAGYALQBhADgANwA2AC0A
-ZgBhADcAMQA4ADcAZABkADQANgA2AGYAOwBJAEQAWABIAEUAQQBEAD0AMAAxAEQAOABGADAAOAA4
-ADMARQA7AEkARABYAEMATwBVAE4AVAA9ADMAXQA7AFMAQgBNAEkARAA9ADEAMQA7AFMAMQA9ADwA
-ZAA3ADUANwBiADMANwA2AC0AMwBlADMANgAtAGQAYQA5ADUALQBiADYAOQBjAC0AMgAxADMAOQAw
-AGEAMABjADkAMgBmADUAQABpAG4AdABlAGwALgBjAG8AbQA+ADsAUgBUAFAAPQBEAGkAcgBlAGMA
-dABDAGgAaQBsAGQAOwBUAEQATgA9AE4AbwBuAEMAbwBuAGMAbAB1AHMAaQB2AGUAOwBUAFAAPQBT
-AGEAbQBlADsAVABGAFIAPQBOAG8AdABGAG8AcgBrAGkAbgBnADsAVgBlAHIAcwBpAG8AbgA9AFYA
-ZQByAHMAaQBvAG4AIAAxADUALgAyADAAIAAoAEIAdQBpAGwAZAAgADUAOAA1ADcALgAwACkALAAg
-AFMAdABhAGcAZQA9AEgAMQA7AFUAUAA9AEQAMAA7AEQAUAA9ADEAMAAxAAAACwAAgAggBgAAAAAA
-wAAAAAAAAEYAAAAADoUAAAAAAAADAACACCAGAAAAAADAAAAAAAAARgAAAAAYhQAAAAAAAAsAAIAI
-IAYAAAAAAMAAAAAAAABGAAAAAIKFAAAAAAAAHwAAgAggBgAAAAAAwAAAAAAAAEYAAAAA2IUAAAEA
-AAASAAAASQBQAE0ALgBOAG8AdABlAAAAAAADAACAUONjC8yc0BG82wCAX8zOBAEAAAAkAAAASQBu
-AGQAZQB4AGkAbgBnAEUAcgByAG8AcgBDAG8AZABlAAAAGwAAAB8AAIBQ42MLzJzQEbzbAIBfzM4E
-AQAAACoAAABJAG4AZABlAHgAaQBuAGcARQByAHIAbwByAE0AZQBzAHMAYQBnAGUAAAAAAAEAAABw
-AAAASQBuAGQAZQB4AGkAbgBnACAAUABlAG4AZABpAG4AZwAgAHcAaABpAGwAZQAgAEIAaQBnAEYA
-dQBuAG4AZQBsAFAATwBJAEkAcwBVAHAAVABvAEQAYQB0AGUAIABpAHMAIABmAGEAbABzAGUALgAA
-AAsAAIBQ42MLzJzQEbzbAIBfzM4EAQAAACYAAABJAHMAUABlAHIAbQBhAG4AZQBuAHQARgBhAGkA
-bAB1AHIAZQAAAAAAAAAAAAIBAIAIIAYAAAAAAMAAAAAAAABGAQAAADYAAABJAG4AVAByAGEAbgBz
-AGkAdABNAGUAcwBzAGEAZwBlAEMAbwByAHIAZQBsAGEAdABvAHIAAAAAAAEAAAAQAAAA7TPrjqZP
-wEeSS/v1WU6oLx8AAICGAwIAAAAAAMAAAAAAAABGAQAAABgAAABtAHMAaQBwAF8AbABhAGIAZQBs
-AHMAAAABAAAACgQAAE0AUwBJAFAAXwBMAGEAYgBlAGwAXwA0ADMANAAyADMAMQA0AGUALQAwAGQA
-ZgA0AC0ANABiADUAOAAtADgANABiAGYALQAzADgAYgBlAGQANgAxADcAMABhADAAZgBfAEUAbgBh
-AGIAbABlAGQAPQB0AHIAdQBlADsAIABNAFMASQBQAF8ATABhAGIAZQBsAF8ANAAzADQAMgAzADEA
-NABlAC0AMABkAGYANAAtADQAYgA1ADgALQA4ADQAYgBmAC0AMwA4AGIAZQBkADYAMQA3ADAAYQAw
-AGYAXwBTAGUAdABEAGEAdABlAD0AMgAwADIAMgAtADEAMQAtADIAMwBUADIAMgA6ADUAOAA6ADAA
-NgBaADsAIABNAFMASQBQAF8ATABhAGIAZQBsAF8ANAAzADQAMgAzADEANABlAC0AMABkAGYANAAt
-ADQAYgA1ADgALQA4ADQAYgBmAC0AMwA4AGIAZQBkADYAMQA3ADAAYQAwAGYAXwBNAGUAdABoAG8A
-ZAA9AFMAdABhAG4AZABhAHIAZAA7ACAATQBTAEkAUABfAEwAYQBiAGUAbABfADQAMwA0ADIAMwAx
-ADQAZQAtADAAZABmADQALQA0AGIANQA4AC0AOAA0AGIAZgAtADMAOABiAGUAZAA2ADEANwAwAGEA
-MABmAF8ATgBhAG0AZQA9AEcAZQBuAGUAcgBhAGwAOwAgAE0AUwBJAFAAXwBMAGEAYgBlAGwAXwA0
-ADMANAAyADMAMQA0AGUALQAwAGQAZgA0AC0ANABiADUAOAAtADgANABiAGYALQAzADgAYgBlAGQA
-NgAxADcAMABhADAAZgBfAFMAaQB0AGUASQBkAD0AMwBkAGQAOAA5ADYAMQBmAC0AZQA0ADgAOAAt
-ADQAZQA2ADAALQA4AGUAMQAxAC0AYQA4ADIAZAA5ADkANABlADEAOAAzAGQAOwAgAE0AUwBJAFAA
-XwBMAGEAYgBlAGwAXwA0ADMANAAyADMAMQA0AGUALQAwAGQAZgA0AC0ANABiADUAOAAtADgANABi
-AGYALQAzADgAYgBlAGQANgAxADcAMABhADAAZgBfAEEAYwB0AGkAbwBuAEkAZAA9AGEAZgAzAGUA
-MwA3ADYAOAAtADAAZABkAGMALQA0ADkAMABlAC0AOAA0ADYAOQAtAGEAMgA1ADYAMwA0AGYANQAw
-ADIANwA4ADsAIABNAFMASQBQAF8ATABhAGIAZQBsAF8ANAAzADQAMgAzADEANABlAC0AMABkAGYA
-NAAtADQAYgA1ADgALQA4ADQAYgBmAC0AMwA4AGIAZQBkADYAMQA3ADAAYQAwAGYAXwBDAG8AbgB0
-AGUAbgB0AEIAaQB0AHMAPQAxAAAAAABIAACAa8U/QDDNxUeG+O3p41oCKwEAAAAcAAAATQBTAEkA
-UABMAGEAYgBlAGwARwB1AGkAZAAAAE4xQkP0DVhLhL84vtYXCg8fAACAKQMCAAAAAADAAAAAAAAA
-RgEAAAAeAAAASQBuAHMAcABlAGMAdABvAHIAQQBpAHAASQBkAAAAAAABAAAASgAAADQAZQA1ADEA
-ZQA3AGMANgAtADkAOQBlADgALQA0ADAAYQBiAC0AYgAzAGYAMAAtAGMAMAA1ADAAYQAxAGIAMAA2
-ADQANgBjAAAAAAAfAACAhgMCAAAAAADAAAAAAAAARgEAAABwAAAAbQBzAGkAcABfAGwAYQBiAGUA
-bABfADQAMwA0ADIAMwAxADQAZQAtADAAZABmADQALQA0AGIANQA4AC0AOAA0AGIAZgAtADMAOABi
-AGUAZAA2ADEANwAwAGEAMABmAF8AZQBuAGEAYgBsAGUAZAAAAAEAAAAKAAAAdAByAHUAZQAAAAAA
-HwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAAcAAAAG0AcwBpAHAAXwBsAGEAYgBlAGwAXwA0ADMANAAy
-ADMAMQA0AGUALQAwAGQAZgA0AC0ANABiADUAOAAtADgANABiAGYALQAzADgAYgBlAGQANgAxADcA
-MABhADAAZgBfAHMAZQB0AGQAYQB0AGUAAAABAAAAKgAAADIAMAAyADIALQAxADEALQAyADMAVAAy
-ADMAOgAwADIAOgAxADUAWgAAAAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAAbgAAAG0AcwBpAHAA
-XwBsAGEAYgBlAGwAXwA0ADMANAAyADMAMQA0AGUALQAwAGQAZgA0AC0ANABiADUAOAAtADgANABi
-AGYALQAzADgAYgBlAGQANgAxADcAMABhADAAZgBfAG0AZQB0AGgAbwBkAAAAAAABAAAAEgAAAFMA
-dABhAG4AZABhAHIAZAAAAAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAAagAAAG0AcwBpAHAAXwBs
+eJ8+IgxRAQaQCAAEAAAAAAABAAEAAQeQBgAIAAAA5AQAAAAAAADoAAEJgAEAIQAAADdFMTU5RDU3
+NkZBQURCNDM5N0FGRjE1RDM3RDYxQ0U4AHIHAQ2ABAACAAAAAgACAAEFgAMADgAAAOYHCwAXABcA
+BgAIAAMANwEBIIADAA4AAADmBwsAFwAXAAYACAADADcBAQiABwAYAAAASVBNLk1pY3Jvc29mdCBN
+YWlsLk5vdGUAMQgBBIABAGAAAABSRTogW1BBVENIIHY4IDAzLzEzXSB4ODYvY3B1ZmVhdHVyZXM6
+IEFkZCBCYW5kd2lkdGggTW9uaXRvcmluZyBFdmVudCBDb25maWd1cmF0aW9uIGZlYXR1cmUgZmxh
+ZwCXIAEDkAYAIFIAAHIAAAACAX8AAQAAAFEAAAA8TVczUFIxMk1CNDU1MzQzQUM4OTQ0MTI5MEI0
+NzBCOTQ5OTUwQzlATVczUFIxMk1CNDU1My5uYW1wcmQxMi5wcm9kLm91dGxvb2suY29tPgAAAAAL
+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
+8NQ3v2MvxMQPt3904Ptg/8BoMNkWD7UPtVn5W+EgWfeg4yPcMwuYD7f55WJtYQAQmhD48PLA8mPv
+/MDoEiRS82NhFvDyYmWg//JgnGDo4zCg5k/Ib8l56tf/yq+++sdt6+/s/+4P0Y3ML+3kaVP7QdmA
+V31C6YjqY30LllRk4TGwD7VWcg+1fQZ9EAD6oAAfAEIAAQAAABgAAABNAG8AZwBlAHIALAAgAEIA
+YQBiAHUAAAAfAGUAAQAAACYAAABCAGEAYgB1AC4ATQBvAGcAZQByAEAAYQBtAGQALgBjAG8AbQAA
+AAAAHwBkAAEAAAAKAAAAUwBNAFQAUAAAAAAAAgFBAAEAAABgAAAAAAAAAIErH6S+oxAZnW4A3QEP
+VAIAAACATQBvAGcAZQByACwAIABCAGEAYgB1AAAAUwBNAFQAUAAAAEIAYQBiAHUALgBNAG8AZwBl
+AHIAQABhAG0AZAAuAGMAbwBtAAAAHwACXQEAAAAmAAAAQgBhAGIAdQAuAE0AbwBnAGUAcgBAAGEA
+bQBkAC4AYwBvAG0AAAAAAB8A5V8BAAAALgAAAHMAaQBwADoAYgBhAGIAdQAuAG0AbwBnAGUAcgBA
+AGEAbQBkAC4AYwBvAG0AAAAAAB8AGgwBAAAAGAAAAE0AbwBnAGUAcgAsACAAQgBhAGIAdQAAAB8A
+HwwBAAAAJgAAAEIAYQBiAHUALgBNAG8AZwBlAHIAQABhAG0AZAAuAGMAbwBtAAAAAAAfAB4MAQAA
+AAoAAABTAE0AVABQAAAAAAACARkMAQAAAGAAAAAAAAAAgSsfpL6jEBmdbgDdAQ9UAgAAAIBNAG8A
+ZwBlAHIALAAgAEIAYQBiAHUAAABTAE0AVABQAAAAQgBhAGIAdQAuAE0AbwBnAGUAcgBAAGEAbQBk
+AC4AYwBvAG0AAAAfAAFdAQAAACYAAABCAGEAYgB1AC4ATQBvAGcAZQByAEAAYQBtAGQALgBjAG8A
+bQAAAAAACwBAOgEAAAAfABoAAQAAABIAAABJAFAATQAuAE4AbwB0AGUAAAAAAAMA8T8JBAAACwBA
+OgEAAAADAP0/5AQAAAIBCzABAAAAEAAAAH4VnVdvqttDl6/xXTfWHOgDABcAAQAAAEAAOQAAcKQr
+kP/YAUAACDC4eLcrkP/YAR8ANwABAAAAwAAAAFIARQA6ACAAWwBQAEEAVABDAEgAIAB2ADgAIAAw
+ADMALwAxADMAXQAgAHgAOAA2AC8AYwBwAHUAZgBlAGEAdAB1AHIAZQBzADoAIABBAGQAZAAgAEIA
+YQBuAGQAdwBpAGQAdABoACAATQBvAG4AaQB0AG8AcgBpAG4AZwAgAEUAdgBlAG4AdAAgAEMAbwBu
+AGYAaQBnAHUAcgBhAHQAaQBvAG4AIABmAGUAYQB0AHUAcgBlACAAZgBsAGEAZwAAAB8APQABAAAA
+CgAAAFIARQA6ACAAAAAAAAMA3j+fTgAACwACAAEAAAALACMAAAAAAAMAJgAAAAAACwApAAAAAAAL
+ACsAAAAAAAMALgAAAAAAAwA2AAAAAAAfAHAAAQAAALgAAABbAFAAQQBUAEMASAAgAHYAOAAgADAA
+MwAvADEAMwBdACAAeAA4ADYALwBjAHAAdQBmAGUAYQB0AHUAcgBlAHMAOgAgAEEAZABkACAAQgBh
+AG4AZAB3AGkAZAB0AGgAIABNAG8AbgBpAHQAbwByAGkAbgBnACAARQB2AGUAbgB0ACAAQwBvAG4A
+ZgBpAGcAdQByAGEAdABpAG8AbgAgAGYAZQBhAHQAdQByAGUAIABmAGwAYQBnAAAAAgFxAAEAAAAg
+AAAAAQHY8IgTy24Hatwpu0OADGrYWnWs9K5M7pqAgABQRgALAAYMAAAAAB8ANRABAAAAogAAADwA
+TQBXADMAUABSADEAMgBNAEIANAA1ADUAMwA0ADMAQQBDADgAOQA0ADQAMQAyADkAMABCADQANwAw
+AEIAOQA0ADkAOQA1ADAAQwA5AEAATQBXADMAUABSADEAMgBNAEIANAA1ADUAMwAuAG4AYQBtAHAA
+cgBkADEAMgAuAHAAcgBvAGQALgBvAHUAdABsAG8AbwBrAC4AYwBvAG0APgAAAAAAHwA5EAEAAACg
+AQAAPAAxADYANgA3ADUAOQAxADgAOAAyADYANQAuADMAMgA4ADEAMgAwADgALgAxADEANwA2ADkA
+MgA3ADcAMAA3ADkAOAAyADYANwA1ADQANAA1ADUALgBzAHQAZwBpAHQAQABiAG0AbwBnAGUAcgAt
+AHUAYgB1AG4AdAB1AD4AIAA8ADEANgA2ADcANQA5ADIAMAAxADAAMwAyAC4AMwAyADgAMQAyADAA
+OAAuADgANQA0ADUAOAA2ADMANwA0ADAANwAzADMAMwAzADgAMgA1ADYALgBzAHQAZwBpAHQAQABi
+AG0AbwBnAGUAcgAtAHUAYgB1AG4AdAB1AD4AIAA8AEkAQQAxAFAAUgAxADEATQBCADYAMAA5ADcA
+OQBFAEIAOQBGAEIARQA0AEMAOQA1ADMAOAAxAEIARgA5AEYAOABBADkAQgAwAEMAOQBAAEkAQQAx
+AFAAUgAxADEATQBCADYAMAA5ADcALgBuAGEAbQBwAHIAZAAxADEALgBwAHIAbwBkAC4AbwB1AHQA
+bABvAG8AawAuAGMAbwBtAD4AAAAfAEIQAQAAAKIAAAA8AEkAQQAxAFAAUgAxADEATQBCADYAMAA5
+ADcAOQBFAEIAOQBGAEIARQA0AEMAOQA1ADMAOAAxAEIARgA5AEYAOABBADkAQgAwAEMAOQBAAEkA
+QQAxAFAAUgAxADEATQBCADYAMAA5ADcALgBuAGEAbQBwAHIAZAAxADEALgBwAHIAbwBkAC4AbwB1
+AHQAbABvAG8AawAuAGMAbwBtAD4AAAAAAAMAgBD/////AwATEgAAAABAAAcwFECdK5D/2AECARAw
+AQAAAEYAAAAAAAAABk49JLzi7Eu5+EriwEUZFwcANkqnH+0DSU2rCBT9YtYsWwAAAAABCwAANkqn
+H+0DSU2rCBT9YtYsWwAC+r6oQwAAAAACARMwAQAAABAAAADLbgdq3Cm7Q4AMathadaz0AgEUMAEA
+AAAMAAAAPQIAAIFtG7FbAAAAAwBbMwEAAAADAFo2AAAAAAMAaDYNAAAACwD6NgEAAAAfANk/AQAA
+AAACAABbAEEATQBEACAATwBmAGYAaQBjAGkAYQBsACAAVQBzAGUAIABPAG4AbAB5ACAALQAgAEcA
+ZQBuAGUAcgBhAGwAXQANAAoADQAKAEgAaQAgAEYAZQBuAGcAaAB1AGEALAANAAoADQAKAD4AIAAt
+AC0ALQAtAC0ATwByAGkAZwBpAG4AYQBsACAATQBlAHMAcwBhAGcAZQAtAC0ALQAtAC0ADQAKAD4A
+IABGAHIAbwBtADoAIABZAHUALAAgAEYAZQBuAGcAaAB1AGEAIAA8AGYAZQBuAGcAaAB1AGEALgB5
+AHUAQABpAG4AdABlAGwALgBjAG8AbQA+AA0ACgA+ACAAUwBlAG4AdAA6ACAAVwBlAGQAbgBlAHMA
+ZABhAHkALAAgAE4AbwB2AGUAbQBiAGUAcgAgADIAMwAsACAAMgAwADIAMgAgADEAMgA6ADEANwAg
+AFAATQANAAoAPgAgAFQAbwA6ACAATQBvAGcAZQByACwAIABCAGEAYgB1ACAAPABCAGEAYgB1AC4A
+TQBvAGcAZQByAEAAYQBtAGQALgBjAG8AbQA+ADsAIABjAG8AcgBiAGUAdABAAGwAdwBuAC4AbgBl
+AHQAOwAgAEMAaABhAHQAcgBlACwAIABSAGUAaQBuAGUAdAB0AGUADQAKAD4AIAA8AHIAZQBpAG4A
+ZQAAAB8A+D8BAAAAGAAAAE0AbwBnAGUAcgAsACAAQgBhAGIAdQAAAB8A+j8BAAAAGAAAAE0AbwBn
+AGUAcgAsACAAQgBhAGIAdQAAAB8AIkABAAAABgAAAEUAWAAAAAAAHwAjQAEAAAACAQAALwBPAD0A
+RQBYAEMASABBAE4ARwBFAEwAQQBCAFMALwBPAFUAPQBFAFgAQwBIAEEATgBHAEUAIABBAEQATQBJ
+AE4ASQBTAFQAUgBBAFQASQBWAEUAIABHAFIATwBVAFAAIAAoAEYAWQBEAEkAQgBPAEgARgAyADMA
+UwBQAEQATABUACkALwBDAE4APQBSAEUAQwBJAFAASQBFAE4AVABTAC8AQwBOAD0ARgBEAEUAMgA2
+ADMAQQBGADIANgA4AEUANAA2ADMAQgBBAEQAMwBBADQARQBCADAANAA5ADYANgAxADMAQQA3AC0A
+TQBPAEcARQBSACwAIABCAEEAQgBVAAAAAAAfACRAAQAAAAYAAABFAFgAAAAAAB8AJUABAAAAAgEA
+AC8ATwA9AEUAWABDAEgAQQBOAEcARQBMAEEAQgBTAC8ATwBVAD0ARQBYAEMASABBAE4ARwBFACAA
+QQBEAE0ASQBOAEkAUwBUAFIAQQBUAEkAVgBFACAARwBSAE8AVQBQACAAKABGAFkARABJAEIATwBI
+AEYAMgAzAFMAUABEAEwAVAApAC8AQwBOAD0AUgBFAEMASQBQAEkARQBOAFQAUwAvAEMATgA9AEYA
+RABFADIANgAzAEEARgAyADYAOABFADQANgAzAEIAQQBEADMAQQA0AEUAQgAwADQAOQA2ADYAMQAz
+AEEANwAtAE0ATwBHAEUAUgAsACAAQgBBAEIAVQAAAAAAHwAwQAEAAAAYAAAATQBvAGcAZQByACwA
+IABCAGEAYgB1AAAAHwAxQAEAAAAYAAAATQBvAGcAZQByACwAIABCAGEAYgB1AAAAHwA4QAEAAAAY
+AAAATQBvAGcAZQByACwAIABCAGEAYgB1AAAAHwA5QAEAAAAYAAAATQBvAGcAZQByACwAIABCAGEA
+YgB1AAAAAwBZQAAAAAADAFpAAAAAAAMAN1ABAAAAAwAJWQEAAAAfAApdAQAAACYAAABCAGEAYgB1
+AC4ATQBvAGcAZQByAEAAYQBtAGQALgBjAG8AbQAAAAAAHwALXQEAAAAmAAAAQgBhAGIAdQAuAE0A
+bwBnAGUAcgBAAGEAbQBkAC4AYwBvAG0AAAAAAAIBFV0BAAAAEgAAAAIfltg9iORgTo4RqC2ZThg9
+AQAAAgEWXQEAAAASAAAAAh+W2D2I5GBOjhGoLZlOGD0BAAALAACACCAGAAAAAADAAAAAAAAARgAA
+AAAUhQAAAAAAAAMAAIAIIAYAAAAAAMAAAAAAAABGAQAAADIAAABFAHgAYwBoAGEAbgBnAGUAQQBw
+AHAAbABpAGMAYQB0AGkAbwBuAEYAbABhAGcAcwAAAAAAIAAAAB8AAIATj/JB9IMUQaWE7ttaawv/
+AQAAABYAAABDAGwAaQBlAG4AdABJAG4AZgBvAAAAAAABAAAAKgAAAEMAbABpAGUAbgB0AD0ATQBT
+AEUAeABjAGgAYQBuAGcAZQBSAFAAQwAAAAAACwAAgAggBgAAAAAAwAAAAAAAAEYAAAAABoUAAAAA
+AAALAACACCAGAAAAAADAAAAAAAAARgAAAAADhQAAAAAAAAMAAIAIIAYAAAAAAMAAAAAAAABGAAAA
+AAGFAAAAAAAAAgEAgBOP8kH0gxRBpYTu21prC/8BAAAALgAAAEgAZQBhAGQAZQByAEIAbwBkAHkA
+RgByAGEAZwBtAGUAbgB0AEwAaQBzAHQAAAAAAAEAAAA2AAAAAQAKAAAABAAAAAEAAAAUAAAAAAAA
+AAAAAAA0AAAAAAAAABQAAAAAAAAAPQEAAP////8AAAAAAAALAACAE4/yQfSDFEGlhO7bWmsL/wEA
+AAAcAAAASABhAHMAUQB1AG8AdABlAGQAVABlAHgAdAAAAAEAAAALAACAE4/yQfSDFEGlhO7bWmsL
+/wEAAAAoAAAASQBzAFEAdQBvAHQAZQBkAFQAZQB4AHQAQwBoAGEAbgBnAGUAZAAAAAEAAAACAQCA
+E4/yQfSDFEGlhO7bWmsL/wEAAABAAAAAQwBvAG4AdgBlAHIAcwBhAHQAaQBvAG4AVAByAGUAZQBQ
+AGEAcgBlAG4AdABSAGUAYwBvAHIAZABLAGUAeQAAAAEAAAAuAAAAAAAAAAZOPSS84uxLufhK4sBF
+GRcBADZKpx/tA0lNqwgU/WLWLFsABLvdkLsAAAAAAwAAgAggBgAAAAAAwAAAAAAAAEYAAAAAEIUA
+AAAAAAAfAACAH6TrM6h6LkK+e3nhqY5UswEAAAA4AAAAQwBvAG4AdgBlAHIAcwBhAHQAaQBvAG4A
+SQBuAGQAZQB4AFQAcgBhAGMAawBpAG4AZwBFAHgAAAABAAAAPAIAAEkASQA9AFsAQwBJAEQAPQA2
+AGEAMAA3ADYAZQBjAGIALQAyADkAZABjAC0ANAAzAGIAYgAtADgAMAAwAGMALQA2AGEAZAA4ADUA
+YQA3ADUAYQBjAGYANAA7AEkARABYAEgARQBBAEQAPQAwADEARAA4AEYAMAA4ADgAMQAzADsASQBE
+AFgAQwBPAFUATgBUAD0AMwBdADsAUwBCAE0ASQBEAD0AMQA0ADsAUwAxAD0APABJAEEAMQBQAFIA
+MQAxAE0AQgA2ADAAOQA3ADkARQBCADkARgBCAEUANABDADkANQAzADgAMQBCAEYAOQBGADgAQQA5
+AEIAMABDADkAQABJAEEAMQBQAFIAMQAxAE0AQgA2ADAAOQA3AC4AbgBhAG0AcAByAGQAMQAxAC4A
+cAByAG8AZAAuAG8AdQB0AGwAbwBvAGsALgBjAG8AbQA+ADsAUgBUAFAAPQBEAGkAcgBlAGMAdABD
+AGgAaQBsAGQAOwBUAEQATgA9AE4AbwBuAEMAbwBuAGMAbAB1AHMAaQB2AGUAOwBUAFAAPQBTAGEA
+bQBlADsAVABGAFIAPQBOAG8AdABGAG8AcgBrAGkAbgBnADsAVgBlAHIAcwBpAG8AbgA9AFYAZQBy
+AHMAaQBvAG4AIAAxADUALgAyADAAIAAoAEIAdQBpAGwAZAAgADUAOAA1ADcALgAwACkALAAgAFMA
+dABhAGcAZQA9AEgAMQA7AFUAUAA9AEQAMAA7AEQAUAA9ADEAMAAxAAAACwAAgAggBgAAAAAAwAAA
+AAAAAEYAAAAADoUAAAAAAAADAACACCAGAAAAAADAAAAAAAAARgAAAAAYhQAAAAAAAAsAAIAIIAYA
+AAAAAMAAAAAAAABGAAAAAIKFAAAAAAAAHwAAgAggBgAAAAAAwAAAAAAAAEYAAAAA2IUAAAEAAAAS
+AAAASQBQAE0ALgBOAG8AdABlAAAAAAADAACAUONjC8yc0BG82wCAX8zOBAEAAAAkAAAASQBuAGQA
+ZQB4AGkAbgBnAEUAcgByAG8AcgBDAG8AZABlAAAAGwAAAB8AAIBQ42MLzJzQEbzbAIBfzM4EAQAA
+ACoAAABJAG4AZABlAHgAaQBuAGcARQByAHIAbwByAE0AZQBzAHMAYQBnAGUAAAAAAAEAAABwAAAA
+SQBuAGQAZQB4AGkAbgBnACAAUABlAG4AZABpAG4AZwAgAHcAaABpAGwAZQAgAEIAaQBnAEYAdQBu
+AG4AZQBsAFAATwBJAEkAcwBVAHAAVABvAEQAYQB0AGUAIABpAHMAIABmAGEAbABzAGUALgAAAAsA
+AIBQ42MLzJzQEbzbAIBfzM4EAQAAACYAAABJAHMAUABlAHIAbQBhAG4AZQBuAHQARgBhAGkAbAB1
+AHIAZQAAAAAAAAAAAAIBAIAIIAYAAAAAAMAAAAAAAABGAQAAADYAAABJAG4AVAByAGEAbgBzAGkA
+dABNAGUAcwBzAGEAZwBlAEMAbwByAHIAZQBsAGEAdABvAHIAAAAAAAEAAAAQAAAALvQQ7GH8B0ie
+lhyvdeydvR8AAICGAwIAAAAAAMAAAAAAAABGAQAAABgAAABtAHMAaQBwAF8AbABhAGIAZQBsAHMA
+AAABAAAACgQAAE0AUwBJAFAAXwBMAGEAYgBlAGwAXwA0ADMANAAyADMAMQA0AGUALQAwAGQAZgA0
+AC0ANABiADUAOAAtADgANABiAGYALQAzADgAYgBlAGQANgAxADcAMABhADAAZgBfAEUAbgBhAGIA
+bABlAGQAPQB0AHIAdQBlADsAIABNAFMASQBQAF8ATABhAGIAZQBsAF8ANAAzADQAMgAzADEANABl
+AC0AMABkAGYANAAtADQAYgA1ADgALQA4ADQAYgBmAC0AMwA4AGIAZQBkADYAMQA3ADAAYQAwAGYA
+XwBTAGUAdABEAGEAdABlAD0AMgAwADIAMgAtADEAMQAtADIAMwBUADIAMwA6ADAANAA6ADQAMgBa
+ADsAIABNAFMASQBQAF8ATABhAGIAZQBsAF8ANAAzADQAMgAzADEANABlAC0AMABkAGYANAAtADQA
+YgA1ADgALQA4ADQAYgBmAC0AMwA4AGIAZQBkADYAMQA3ADAAYQAwAGYAXwBNAGUAdABoAG8AZAA9
+AFMAdABhAG4AZABhAHIAZAA7ACAATQBTAEkAUABfAEwAYQBiAGUAbABfADQAMwA0ADIAMwAxADQA
+ZQAtADAAZABmADQALQA0AGIANQA4AC0AOAA0AGIAZgAtADMAOABiAGUAZAA2ADEANwAwAGEAMABm
+AF8ATgBhAG0AZQA9AEcAZQBuAGUAcgBhAGwAOwAgAE0AUwBJAFAAXwBMAGEAYgBlAGwAXwA0ADMA
+NAAyADMAMQA0AGUALQAwAGQAZgA0AC0ANABiADUAOAAtADgANABiAGYALQAzADgAYgBlAGQANgAx
+ADcAMABhADAAZgBfAFMAaQB0AGUASQBkAD0AMwBkAGQAOAA5ADYAMQBmAC0AZQA0ADgAOAAtADQA
+ZQA2ADAALQA4AGUAMQAxAC0AYQA4ADIAZAA5ADkANABlADEAOAAzAGQAOwAgAE0AUwBJAFAAXwBM
 AGEAYgBlAGwAXwA0ADMANAAyADMAMQA0AGUALQAwAGQAZgA0AC0ANABiADUAOAAtADgANABiAGYA
-LQAzADgAYgBlAGQANgAxADcAMABhADAAZgBfAG4AYQBtAGUAAAAAAAEAAAAQAAAARwBlAG4AZQBy
-AGEAbAAAAB8AAICGAwIAAAAAAMAAAAAAAABGAQAAAG4AAABtAHMAaQBwAF8AbABhAGIAZQBsAF8A
-NAAzADQAMgAzADEANABlAC0AMABkAGYANAAtADQAYgA1ADgALQA4ADQAYgBmAC0AMwA4AGIAZQBk
-ADYAMQA3ADAAYQAwAGYAXwBzAGkAdABlAGkAZAAAAAAAAQAAAEoAAAAzAGQAZAA4ADkANgAxAGYA
-LQBlADQAOAA4AC0ANABlADYAMAAtADgAZQAxADEALQBhADgAMgBkADkAOQA0AGUAMQA4ADMAZAAA
-AAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAAcgAAAG0AcwBpAHAAXwBsAGEAYgBlAGwAXwA0ADMA
-NAAyADMAMQA0AGUALQAwAGQAZgA0AC0ANABiADUAOAAtADgANABiAGYALQAzADgAYgBlAGQANgAx
-ADcAMABhADAAZgBfAGEAYwB0AGkAbwBuAGkAZAAAAAAAAQAAAEoAAAA2AGUANgBlADIAMQBiADQA
-LQA4AGIAYwBkAC0ANABhADgAZQAtAGIAMwBjADAALQBjAGQAYwAwADkAMAA2ADUANQBlAGYAMAAA
-AAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAAeAAAAG0AcwBpAHAAXwBsAGEAYgBlAGwAXwA0ADMA
-NAAyADMAMQA0AGUALQAwAGQAZgA0AC0ANABiADUAOAAtADgANABiAGYALQAzADgAYgBlAGQANgAx
-ADcAMABhADAAZgBfAGMAbwBuAHQAZQBuAHQAYgBpAHQAcwAAAAEAAAAEAAAAMAAAAAMADTT9PwAA
-HwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAALgAAAGEAdQB0AGgAZQBuAHQAaQBjAGEAdABpAG8AbgAt
-AHIAZQBzAHUAbAB0AHMAAAAAAAEAAACyAAAAZABrAGkAbQA9AG4AbwBuAGUAIAAoAG0AZQBzAHMA
-YQBnAGUAIABuAG8AdAAgAHMAaQBnAG4AZQBkACkAIABoAGUAYQBkAGUAcgAuAGQAPQBuAG8AbgBl
-ADsAZABtAGEAcgBjAD0AbgBvAG4AZQAgAGEAYwB0AGkAbwBuAD0AbgBvAG4AZQAgAGgAZQBhAGQA
-ZQByAC4AZgByAG8AbQA9AGEAbQBkAC4AYwBvAG0AOwAAAAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYB
-AAAAHgAAAGEAYwBjAGUAcAB0AGwAYQBuAGcAdQBhAGcAZQAAAAAAAQAAAAwAAABlAG4ALQBVAFMA
-AAAfAACAhgMCAAAAAADAAAAAAAAARgEAAAAgAAAAeAAtAG0AcwAtAGgAYQBzAC0AYQB0AHQAYQBj
-AGgAAAABAAAAAgAAAAAAAAAfAACAa8U/QDDNxUeG+O3p41oCKwEAAAASAAAATQBJAFAATABhAGIA
-ZQBsAAAAAAABAAAAzAEAAFsAewAiAGkAZAAiADoAIgA0ADMANAAyADMAMQA0AGUALQAwAGQAZgA0
-AC0ANABiADUAOAAtADgANABiAGYALQAzADgAYgBlAGQANgAxADcAMABhADAAZgAiACwAIgB0AGkA
-IgA6ACIAMwBkAGQAOAA5ADYAMQBmAC0AZQA0ADgAOAAtADQAZQA2ADAALQA4AGUAMQAxAC0AYQA4
-ADIAZAA5ADkANABlADEAOAAzAGQAIgAsACIAcABpACIAOgAiADAAMAAwADAAMAAwADAAMAAtADAA
-MAAwADAALQAwADAAMAAwAC0AMAAwADAAMAAtADAAMAAwADAAMAAwADAAMAAwADAAMAAwACIALAAi
-AG4AbQAiADoAIgBHAGUAbgBlAHIAYQBsACIALAAiAGEAYwAiADoAMQAsACIAbwBwACIAOgAxACwA
-IgBjAHQAIgA6ACIAMgAwADIAMgAtADEAMQAtADIAMwBUADIAMgA6ADUAOAA6ADAANgBaACIALAAi
-AG0AdAAiADoAIgAwADAAMAAxAC0AMAAxAC0AMAAxAFQAMAAwADoAMAAwADoAMAAwACIALAAiAHUA
-YwAiADoAbgB1AGwAbAB9AF0AAABIAACACCAGAAAAAADAAAAAAAAARgEAAAAiAAAATgBlAHQAdwBv
-AHIAawBNAGUAcwBzAGEAZwBlAEkAZAAAAAAAPyauyZopt0jDDwjazabEoh8AAICGAwIAAAAAAMAA
-AAAAAABGAQAAAC4AAAB4AC0AbQBzAC0AcAB1AGIAbABpAGMAdAByAGEAZgBmAGkAYwB0AHkAcABl
-AAAAAAABAAAADAAAAEUAbQBhAGkAbAAAAB8AAICGAwIAAAAAAMAAAAAAAABGAQAAADYAAAB4AC0A
-bQBzAC0AdAByAGEAZgBmAGkAYwB0AHkAcABlAGQAaQBhAGcAbgBvAHMAdABpAGMAAAAAAAEAAABI
-AAAATQBXADMAUABSADEAMgBNAEIANAA1ADUAMwA6AEUARQBfAHwATQBXADQAUABSADEAMgBNAEIA
-NwAzADgAMgA6AEUARQBfAAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAAUAAAAHgALQBtAHMALQBv
-AGYAZgBpAGMAZQAzADYANQAtAGYAaQBsAHQAZQByAGkAbgBnAC0AYwBvAHIAcgBlAGwAYQB0AGkA
-bwBuAC0AaQBkAAAAAQAAAEoAAABjADkAYQBlADIANgAzAGYALQAyADkAOQBhAC0ANAA4AGIANwAt
-AGMAMwAwAGYALQAwADgAZABhAGMAZABhADYAYwA0AGEAMgAAAAAAHwAAgIYDAgAAAAAAwAAAAAAA
-AEYBAAAAOAAAAHgALQBtAHMALQBlAHgAYwBoAGEAbgBnAGUALQBzAGUAbgBkAGUAcgBhAGQAYwBo
-AGUAYwBrAAAAAQAAAAQAAAAxAAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAAOgAAAHgALQBtAHMA
-LQBlAHgAYwBoAGEAbgBnAGUALQBhAG4AdABpAHMAcABhAG0ALQByAGUAbABhAHkAAAAAAAEAAAAE
-AAAAMAAAAB8AAICGAwIAAAAAAMAAAAAAAABGAQAAACoAAAB4AC0AbQBpAGMAcgBvAHMAbwBmAHQA
-LQBhAG4AdABpAHMAcABhAG0AAAAAAAEAAAAOAAAAQgBDAEwAOgAwADsAAAAAAB8AAICGAwIAAAAA
-AMAAAAAAAABGAQAAAEQAAAB4AC0AbQBpAGMAcgBvAHMAbwBmAHQALQBhAG4AdABpAHMAcABhAG0A
-LQBtAGUAcwBzAGEAZwBlAC0AaQBuAGYAbwAAAAEAAACyBQAATABIADkAWQBVAGgASABoAGgAMwBT
-AGUAeABxAHgAdQByAHQAUQB5AHgAMgBjAFgAKwBrAGQAagBZAGcAbgBOAEYAVgBRAEwASABTAHMA
-SgBKADkAaABpAFIAbQArAHgAWQArAE8AWABGAHAARAB2AHEAVgBlAFoANABrAFIAeABNAEcANwBa
-AGoAZwBTAEYAdABNAHEAZwA4ACsAYgBPADYARgBJAFAAbwB0AHIAUABWAHIATwBCAGoASwBUAGUA
-YgBNADcARQBNAGMASwA0AHMAcwAvADEAQwBEAGIAVwB4AG8AawBoAEkAcABOADcAUABkAEgAbQBu
-ACsAYwBSAEQAawArAEUASAB3AGEAYwBZAGQAZgB2AEIAawB1AFgAOQBvAFAAWABRADUANgBuADAA
-bwBZAFQAeAB0AEcANQB2AEwAVwB2AGQAQwBOAHMAUwBiAC8AVgBaAFAAcQAwAGIAOQB0ADQAdQAz
-AE4ANAA2AHMAYwBqADEAcgA1ADAALwBkAGsALwB5AEoAcgBSADIAdQAzAEcANwBSAEQAWAA1AFEA
-aAB2AE8AdQBxADAAcAA0AEkATwBjAGcAbgBRADQAbAArAHUARgBUAHcAWQBVAHIARwA4AFIASwAy
-AE4AOQBhAGUANwB6AFEASQBqAGIAcwBGAFEAQgBoAHoASABsAFkAWQBmAHAAdABvAGUAUgBuAGkA
-ZgAwAGMAbgBIAEkARgAzAC8AeAB6AC8AcgAvAEcASABMAFYAKwAvADUAYgBwAHcAVABlAE4ATgBH
-AHMAVQBNAHEARQBTAG4ASABRAEsAUgBUAEcAUgBPADQAcQBCAGMAQwAzAGUAQwAwAGUAaQBCAGgA
-NABVAE8AeABCAEUAagB5ADcAdABSAEMAaABUADYAbwAzAFEANQB5ADIATgAyAGkAdwAwAGYASABV
-AFUAbgBRAHEAcAA3ADAAbwBEAHMAMABzADQAYwBCADMAcQBGAFoAdAB4AEIARwB0AEIAeABDAE0A
-aQBOAHMAMwBuAGYAaQBxAEEAVgB3AFAAZgBuAHMAYQBVAEIATgBsAFIAbABPAHIAcwB0AFQAdgBq
-AGEASABQAGgASQBLAEgANABjAGYAbgBFAFgAWgAxAFEAWAB6AEEALwBtADIAZgBlAHgARAA1AHkA
-awArAEMANwBXAHoAeQA5ADcAYwA4AGgAZQA3ADAAYQBOAHQAVABGAGsAMwBXAEEAMABsAEQAYwBF
-ADMATwBCAHMAVwBqAGkAcAB6AFkAdQBUAHkAbgA0AFYAMgAyADAANQBSADIAbwAvAGYAbAByAHUA
-ZwBrAGYAMABTAHoANABsAGcAcgAxAFcAZgBiAFoAWgAzAHoANABDAGgAdwBRAEwAZAByADQATwBa
-ADYAbgBjAEUAWABQAFQAcgBKAHYATQBRAFgAVgBPAE8AVAAwAEEAaABMADQANAA1ADcANQB6AGgA
-NgAyAFoASQBmAHYAcgB6AGgATABTAEgAYwBkAFUANAAyAEkATABLAFYAbQBOADAAaAAwAEsAYQB2
-AFAAegBsAFAAegBNAGEAWABqAFAAMABVAEQAbwB5AFoAWQB6AHUATwB4ADMARQBZADUAUgBOAC8A
-NQBuAEIAbgBoAFIAeABBAHYAZQBtAEUAZABGADkAUwBvADAANwAxAEgASgBBADUAOQBCADcAZwBq
-AEQAdABiAFYAdAB6ADIANQAzAFoAWgAyAG4AaQBmAHAAbABDAHgAVgBJAGkANQBBAGoAVgAzAGQA
-UQBjAHEAbQBhAHgASgAzAEIATAAyAEkASgA0AEgAMQBJAG0AKwByADcAMwBDAFAAZQA4AEcAVgA1
-AFIAawBKAFUAVABqACsASABaADAAUwBEAEwAKwByACsAdQBqAHMAcQBYAHUAUQBzAC8AUgBhAGYA
-awBLAHcAPQA9AAAAAAAfAACAhgMCAAAAAADAAAAAAAAARgEAAAA4AAAAeAAtAGYAbwByAGUAZgBy
-AG8AbgB0AC0AYQBuAHQAaQBzAHAAYQBtAC0AcgBlAHAAbwByAHQAAAABAAAAZAQAAEMASQBQADoA
-MgA1ADUALgAyADUANQAuADIANQA1AC4AMgA1ADUAOwBDAFQAUgBZADoAOwBMAEEATgBHADoAZQBu
-ADsAUwBDAEwAOgAxADsAUwBSAFYAOgA7AEkAUABWADoATgBMAEkAOwBTAEYAVgA6AE4AUwBQAE0A
-OwBIADoATQBXADMAUABSADEAMgBNAEIANAA1ADUAMwAuAG4AYQBtAHAAcgBkADEAMgAuAHAAcgBv
-AGQALgBvAHUAdABsAG8AbwBrAC4AYwBvAG0AOwBQAFQAUgA6ADsAQwBBAFQAOgBOAE8ATgBFADsA
-UwBGAFMAOgAoADEAMwAyADMAMAAwADIAMgApACgANAA2ADMANgAwADAAOQApACgAMwA5ADYAMAAw
-ADMAKQAoADEAMwA2ADAAMAAzACkAKAAzADQANgAwADAAMgApACgAMwA3ADYAMAAwADIAKQAoADMA
-OQA4ADYAMAA0ADAAMAAwADAAMgApACgAMwA2ADYAMAAwADQAKQAoADQANQAxADEAOQA5ADAAMQA1
-ACkAKAA4ADMAMwA4ADAANAAwADAAMAAwADEAKQAoADIAOQAwADYAMAAwADIAKQAoADEAOAA2ADAA
-MAAzACkAKAAxADIAMgAwADAAMAAwADAAMQApACgANgA1ADAANgAwADAANwApACgANwA2ADkANgAw
-ADAANQApACgAMwAxADYAMAAwADIAKQAoADMAOAAxADAAMAA3ADAAMAAwADAAMgApACgAOQA2ADgA
-NgAwADAAMwApACgAMQA1ADYANQAwADUAMAAwADAAMAAxACkAKAAyADYAMAAwADUAKQAoADUANQAw
-ADEANgAwADAAMwApACgANQAzADUANAA2ADAAMQAxACkAKAA0ADcAOAA2ADAAMAAwADAAMQApACgA
-NQAyADUAMwA2ADAAMQA0ACkAKAA4ADkAMwA2ADAAMAAyACkAKAAxADEAMAAxADMANgAwADAANQAp
-ACgANgA2ADQANAA2ADAAMAA4ACkAKAA2ADYANQA1ADYAMAAwADgAKQAoADQAMQAzADAAMAA3ADAA
-MAAwADAAMQApACgANgA2ADQANwA2ADAAMAA3ACkAKAA0ADMAMgA2ADAAMAA4ACkAKAA2ADQANwA1
-ADYAMAAwADgAKQAoADgANgAzADYAMgAwADAAMQApACgAOAA2ADcANgAwADAAMgApACgANwA2ADEA
-MQA2ADAAMAA2ACkAKAA2ADYAOQA0ADYAMAAwADcAKQAoADMAMwA2ADUANgAwADAAMgApACgANwAx
-ADIAMAAwADQAMAAwADAAMAAxACkAKAA1ADQAOQAwADYAMAAwADMAKQAoADcANAAxADYAMAAwADIA
-KQAoADUANgA2ADAAMwAwADAAMAAwADIAKQAoADMAOAAwADcAMAA3ADAAMAAwADAANQApADsARABJ
-AFIAOgBPAFUAVAA7AFMARgBQADoAMQAxADAAMQA7AAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAA
-XAAAAHgALQBtAHMALQBlAHgAYwBoAGEAbgBnAGUALQBhAG4AdABpAHMAcABhAG0ALQBtAGUAcwBz
-AGEAZwBlAGQAYQB0AGEALQBjAGgAdQBuAGsAYwBvAHUAbgB0AAAAAQAAAAQAAAAxAAAAHwAAgIYD
-AgAAAAAAwAAAAAAAAEYBAAAASgAAAHgALQBtAHMALQBlAHgAYwBoAGEAbgBnAGUALQBhAG4AdABp
-AHMAcABhAG0ALQBtAGUAcwBzAGEAZwBlAGQAYQB0AGEALQAwAAAAAAABAAAAWgwAAGEAMQBTAGYA
-WABHAFAASgBlAEIANgA2AFMALwBuAGYAWgBsAHQANgBBAEQAdwA5AG0ARgA1AEUAMwAxAFAAZwBO
-ADcAMgBDAE8AaQBrAFQARgBHAEUAaQBzAGgAYwBUAFgAMgA0AHQAOQBFAFYAbQBMADIAaABXAEcA
-bwA4AHcAKwBsAFkASQBtAHgAcQBEAFEATgAxAHcAVABIAHYAdgBRAEwANABGAG0AagB5AEsAMAB4
-ADgAMABEAHoAdABDAFAAbgBBAHgAUABEAFQAdQBSADkAaABoAFgAVgBpAHIAeABSAGkAQgBUAFkA
-dAB6AEwAZABxAHAAZwBBAGEAdQA2ADcAeAAwADMAQQBtAGoAcAAwAG8AZABEAHEAUABhAE0ANgA2
-AE0AUgBlADgAbQBlAFIASwBHAHAAeABYAFEAdAB3AFkAMgBrAFkAeQA5AG8ARgBrAEcAOABoAFEA
-MQBTAEoAWgBtAFIAYwBtAGcAeQBoAGEAUwBBADAAegBoAEcAcQBxAEQASQA0AEIAaABXAEoANgBP
-AGYAUQAwAHgARQBFACsAQQBJAGMAWABnAG8AcwBNACsAMQAwADQARAB5ADAAYgBPAFMASwA4AEcA
-ZQAxAEQAeQBOAG0AMAAvADMAbABwAEUAcQBDAGYAZABDAGYAYgBXAEcASgBLAEQATQBHADUAVwBH
-ACsAbwAwAGwATgA0AE0AYQBCADUAeQBCAEUARABCADYAZABxAEMAMQB4AG0AbAB6AHUAWABLAC8A
-VABrAGYAcAB5AHYAbgBOAGkAdgBUAE8ANwB2AEgAWQBNAFYASQBaACsAZgBVAEcAZAByADAAVQBp
-AHgAegBQAFQAVwBsAC8AKwB3ADQAQgB2AEkAcgBoAEcANQA1ADUAYQBSAEgANgBaAG8AVgBxAEUA
-MABFAFcAZQA0ADkALwBpAEwAeABDAEwAbABYAEcAbwBsADYAdQBYAHQAKwBnADUATQBqAFAAdgBt
-AFMAOQBPAFUAUgBlAEwAZgBNAE0AKwBoAGEAcgBMAHUANAB5AFcAVwBwAFoAVABBAEMAYgBJAFcA
-NQAvADgAQwBiAGIAdQBvAE0AQQAxADEAMQB6AGcAcwBiAGYAZgAwAGMATQAzAFgAdQBWAHUAcABk
-AEsAWgA4ADIAeABMADgAUwBWAFMAYwBXAG4ANwA0AG0AWABOAGoAMwArAGsAcgB5AFMAZgArAHQA
-TQBsAHgARABuAGkAbwBEADkAZgAwAHQAQgBrAFIANgBFAHMAQgBPAFYAbQBPAGcAYQBjAFcATgB2
-ADQAdABUAGkAeABkAFIARgB5AEcAMQAyAHoAdQByADcASQA4ADMASABCAEMATwBlAHQAcgAxAG4A
-cQBOAFYAMgBqAEQAUABNAFMATwAzAFUAYQA0AC8ASQBlAHQAdgBlAGEAKwBrADIAVgBrAGcAUAB2
-AGUAagBjAGUATAB0AEsAawBiAEkASwBvAGgAMwA4AGsAQQB4ADIAegBlAEcAZgA4AEIASwB3AHEA
-RQBDAHQASAA3AFEAdQByAFoAYwBWADIATwBxAHQAZgB1AHUAYQB5AHEAMABzAE8ALwBtAHEAZgBm
-AEQAdQBWAC8ATAArAFMAZgBaAHMAdQBiAEoAcABlADgAMABtAGEAVABRAC8AaAArADYAeABxAHoA
-awBQAEUAWABQAE4AUABsADAAcgArAG4ARQAxADEAZgBoAHkAVgBNAE0AZQBMAHEANQBHAFoARQBD
-AFYAUABPADUAZAB6AEUATwBBADYAeQBUAGEAQwB4AEwAcAAzAEQALwBlAGEAbQBtAHcAbwBsAEIA
-WgBGACsAdABJAHIAVgA3AFYAeAB2AEsASwBsAGwAcgBvADYAWgBHAE8AMgBZACsARABBAHkAcQBG
-AEUANQA4AFIARgBMAHMAZABpAGwAZQBZAGcANwB0ADUAZABQADEAVwBQADMAZQBlAGoAeQBrAHcA
-bwBFAFEAZQA1ADIAVgB3AEQAeABpAEUAMgA5AGcAVwBkAFEATABtAG0AdAA1AE8ARgB3AEkAVgBG
-AHIAbQBLAEkAVgBXAE8ATQBZADUAaABMAEoAaABkAFkAUABCAHoAVQBKAGcAMAB0AGEAMgByAFMA
-NABIAE4AOQAvADYAMQBwAC8AdwBSAGsASgBSAEsAUABsAFoAVAAxADMAegBkAGwATAB2ACsAZQBi
-AFkAbgBUAHAANQB6AEEAdwA4ADQAaQByAHgAKwBQAEkATABaAHAASAAwAG4AaQB4ADcARgBPAGkA
-LwB4ADcARgAwAHUAbABMADkAbgB2AC8AUwBXADgAMwBpAEUAbgBFADEAawBqAGoAKwBZADAAZQB6
-AGsATgBDAHQAbQBRAGcAYwBLAGEAMgBhAHoAQQBFAFQAMwBvAEIATQBXAFMASQBHAHIAYQAwAHAA
-VgBSADYAZwArAFYATgBHACsAWgBwADMAUgB4ADUAVQBjADkAVgA3AGYAagB3AGYAOQB0ADEAaQBC
-AEQAagBpAC8AdQB1ADAAbwBVAHUAOQB6AGMAcgA3AHIAUABoADgATQBzAEwAUgBLAGoARgB4AFoA
-bABtAHUAQgB3AFIASgBRAEYAcwB3AE8AVQB4ADMAMAB6AC8AcgBRAC8AUQBNAHEAMQBUAHgARAA1
-AHoATwBTAHUAaABmAGQAcQA4AHIAMgBtADgATgBGAHQAVABPAC8AcwBuAGsANQBRAEcAWAB3AFkA
-MgBOAEMAMgB6AFoAdgBtAEUAawBUADcASwBjAHcAMwBKAEgAWQA0AFEARwB6AG4AYgA0AHMAdwA5
-AFUAcQAyAHoAdQB5AFkASgAyAHgATwBBAHUAVABFAE0AVwAxAEkAYQBGAHYAbQBEAHIAZgBxADEA
-SwB2AFgAVAArAE0AVABZAHgAaABmADQAOABzAHkAQgAwAGsAcwA5AEQAdgBxAGoAaQB3AG0AQgBj
-AEkASwBwAGYAbQBIAEUAQQBVAE0AMAAvAFgAawBTAFYAUwBjAHgAbQBjAFkAdABKAGsAVwAzAEoA
-VwA5AG8ATwBlAFAAZwB5AE8AdAB6AHQAYgBZAHUAWQBLAEcAbQBwAHcAKwBGAFgAVQBBAEUAdwB4
-AFEATgByAEYAeABpAHUAMgBLAG0AcABtADQAdQBUAGwAUwA4ADQAYQArAHIAbwBIAHUAWABRAHoA
-dgBSAHMAZgBVAFgAagB5AHAAaAByAHIAcgAwAGgAYQAwAFIAZwA2AHEAcQBjAEgARQBZAFkATAA3
-AEkATgByAGgAZgAwAEoAbgB3AFYAagA1AHEAUQBlAFQATABPADUAZgBRAEcAKwBtAEIAUQA4AEsA
-aQA0AHYATQA0AFYANQAyAGoAMwBDADQATwBsAGkANwByADMAdwBZADcAdwBjAG4AaAA2AG8ARgB2
-ADkAcwB3AEkAeQBpAEIAKwBTAEIAMwBkAE4AdgBzAHcAMQBxAEsARwBhAGoAWgBVAHEAMQBhAHcA
-OQBSAHEAMABoAEoAcQB0ADQAdABDAHcASQA3AHEAWgBDAFcAaQBmAHoAMwBzAFMASwBjAEYAcQB0
-ADEAWQA0AHkAQwArAEYAdQA2AHEAVABIADMARwBQAEMAKwBvAGMAUwB2AGgAZQAyADMAWgA5ADQA
-WgBsAEwALwBxAHIATwBJAEkANgBVADMAVwBtAGUATQAwADIATwB6AGsAMgBvAGgASgB1AHkAaQBu
-AHYAOQB6AEQAYgAzAG8AegB3AHcARABEAHYANABmADgAdgBOAG4AQQBMADMAVQAwAFAARQBqADYA
-RQBRAEsAMAB4ADMANgBXAG4AWABvAGcAQgB6ADQAWAAvAHcARwB4AEoANwBXAHQAZABDAHAAdQBv
-AEMARAB5AGMAagA0AGwAbgBNAFQATwBVAFMAVgBTAGcAQgBRAGQAZgB2AHgARQBEAEkAbAB3AGYA
-NwBhAHEAUgBjAEUAQQBQAGsAcgArADUAYgAvADcAUgBsAEsAbABBAG4AUwBVAGgAZQBWADAAMQAz
-AHQAbwBkAFUAWAAwAHgAbgBVAFYAYwA3AC8ASABXADcALwBjAE4AZgBJAHEAdQA1AG4ATwAxAGUA
-MwBsAEIAUQBMAC8ANQAzAEcAdAA0AFkAdQB6AC8AYgBzAHQAbQA4AFYAbwBRAGkAbwBTAGcASQBz
-AHcASABmAG4ASQBvAEkAPQAAAAAAn0k=
+LQAzADgAYgBlAGQANgAxADcAMABhADAAZgBfAEEAYwB0AGkAbwBuAEkAZAA9ADQAOQBhADMANAA1
+ADEANwAtADcAOQBlADgALQA0ADIAYgA2AC0AOQAyADEAOQAtADIAMQA5ADMANgBmADMAMQA0ADAA
+OQA0ADsAIABNAFMASQBQAF8ATABhAGIAZQBsAF8ANAAzADQAMgAzADEANABlAC0AMABkAGYANAAt
+ADQAYgA1ADgALQA4ADQAYgBmAC0AMwA4AGIAZQBkADYAMQA3ADAAYQAwAGYAXwBDAG8AbgB0AGUA
+bgB0AEIAaQB0AHMAPQAxAAAAAABIAACAa8U/QDDNxUeG+O3p41oCKwEAAAAcAAAATQBTAEkAUABM
+AGEAYgBlAGwARwB1AGkAZAAAAE4xQkP0DVhLhL84vtYXCg8fAACAKQMCAAAAAADAAAAAAAAARgEA
+AAAeAAAASQBuAHMAcABlAGMAdABvAHIAQQBpAHAASQBkAAAAAAABAAAASgAAAGIAYgAyADcAYQA3
+ADUANwAtAGMAYQA1ADMALQA0AGMAMQAxAC0AOAAwADYAMQAtAGMANwA0ADEANgBkADcAMwA0ADcA
+NgAwAAAAAAAfAACAhgMCAAAAAADAAAAAAAAARgEAAABwAAAAbQBzAGkAcABfAGwAYQBiAGUAbABf
+ADQAMwA0ADIAMwAxADQAZQAtADAAZABmADQALQA0AGIANQA4AC0AOAA0AGIAZgAtADMAOABiAGUA
+ZAA2ADEANwAwAGEAMABmAF8AZQBuAGEAYgBsAGUAZAAAAAEAAAAKAAAAdAByAHUAZQAAAAAAHwAA
+gIYDAgAAAAAAwAAAAAAAAEYBAAAAcAAAAG0AcwBpAHAAXwBsAGEAYgBlAGwAXwA0ADMANAAyADMA
+MQA0AGUALQAwAGQAZgA0AC0ANABiADUAOAAtADgANABiAGYALQAzADgAYgBlAGQANgAxADcAMABh
+ADAAZgBfAHMAZQB0AGQAYQB0AGUAAAABAAAAKgAAADIAMAAyADIALQAxADEALQAyADMAVAAyADMA
+OgAwADYAOgAwADYAWgAAAAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAAbgAAAG0AcwBpAHAAXwBs
+AGEAYgBlAGwAXwA0ADMANAAyADMAMQA0AGUALQAwAGQAZgA0AC0ANABiADUAOAAtADgANABiAGYA
+LQAzADgAYgBlAGQANgAxADcAMABhADAAZgBfAG0AZQB0AGgAbwBkAAAAAAABAAAAEgAAAFMAdABh
+AG4AZABhAHIAZAAAAAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAAagAAAG0AcwBpAHAAXwBsAGEA
+YgBlAGwAXwA0ADMANAAyADMAMQA0AGUALQAwAGQAZgA0AC0ANABiADUAOAAtADgANABiAGYALQAz
+ADgAYgBlAGQANgAxADcAMABhADAAZgBfAG4AYQBtAGUAAAAAAAEAAAAQAAAARwBlAG4AZQByAGEA
+bAAAAB8AAICGAwIAAAAAAMAAAAAAAABGAQAAAG4AAABtAHMAaQBwAF8AbABhAGIAZQBsAF8ANAAz
+ADQAMgAzADEANABlAC0AMABkAGYANAAtADQAYgA1ADgALQA4ADQAYgBmAC0AMwA4AGIAZQBkADYA
+MQA3ADAAYQAwAGYAXwBzAGkAdABlAGkAZAAAAAAAAQAAAEoAAAAzAGQAZAA4ADkANgAxAGYALQBl
+ADQAOAA4AC0ANABlADYAMAAtADgAZQAxADEALQBhADgAMgBkADkAOQA0AGUAMQA4ADMAZAAAAAAA
+HwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAAcgAAAG0AcwBpAHAAXwBsAGEAYgBlAGwAXwA0ADMANAAy
+ADMAMQA0AGUALQAwAGQAZgA0AC0ANABiADUAOAAtADgANABiAGYALQAzADgAYgBlAGQANgAxADcA
+MABhADAAZgBfAGEAYwB0AGkAbwBuAGkAZAAAAAAAAQAAAEoAAABiAGIAOQBjADQANgBjAGIALQAx
+AGEANQA5AC0ANABkADEANgAtAGEAYgA5ADgALQA5AGIAZQA3AGMAOQA5ADUANABlADcAZAAAAAAA
+HwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAAeAAAAG0AcwBpAHAAXwBsAGEAYgBlAGwAXwA0ADMANAAy
+ADMAMQA0AGUALQAwAGQAZgA0AC0ANABiADUAOAAtADgANABiAGYALQAzADgAYgBlAGQANgAxADcA
+MABhADAAZgBfAGMAbwBuAHQAZQBuAHQAYgBpAHQAcwAAAAEAAAAEAAAAMAAAAAMADTT9PwAAHwAA
+gIYDAgAAAAAAwAAAAAAAAEYBAAAALgAAAGEAdQB0AGgAZQBuAHQAaQBjAGEAdABpAG8AbgAtAHIA
+ZQBzAHUAbAB0AHMAAAAAAAEAAACyAAAAZABrAGkAbQA9AG4AbwBuAGUAIAAoAG0AZQBzAHMAYQBn
+AGUAIABuAG8AdAAgAHMAaQBnAG4AZQBkACkAIABoAGUAYQBkAGUAcgAuAGQAPQBuAG8AbgBlADsA
+ZABtAGEAcgBjAD0AbgBvAG4AZQAgAGEAYwB0AGkAbwBuAD0AbgBvAG4AZQAgAGgAZQBhAGQAZQBy
+AC4AZgByAG8AbQA9AGEAbQBkAC4AYwBvAG0AOwAAAAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAA
+HgAAAGEAYwBjAGUAcAB0AGwAYQBuAGcAdQBhAGcAZQAAAAAAAQAAAAwAAABlAG4ALQBVAFMAAAAf
+AACAhgMCAAAAAADAAAAAAAAARgEAAAAgAAAAeAAtAG0AcwAtAGgAYQBzAC0AYQB0AHQAYQBjAGgA
+AAABAAAAAgAAAAAAAAAfAACAa8U/QDDNxUeG+O3p41oCKwEAAAASAAAATQBJAFAATABhAGIAZQBs
+AAAAAAABAAAAzAEAAFsAewAiAGkAZAAiADoAIgA0ADMANAAyADMAMQA0AGUALQAwAGQAZgA0AC0A
+NABiADUAOAAtADgANABiAGYALQAzADgAYgBlAGQANgAxADcAMABhADAAZgAiACwAIgB0AGkAIgA6
+ACIAMwBkAGQAOAA5ADYAMQBmAC0AZQA0ADgAOAAtADQAZQA2ADAALQA4AGUAMQAxAC0AYQA4ADIA
+ZAA5ADkANABlADEAOAAzAGQAIgAsACIAcABpACIAOgAiADAAMAAwADAAMAAwADAAMAAtADAAMAAw
+ADAALQAwADAAMAAwAC0AMAAwADAAMAAtADAAMAAwADAAMAAwADAAMAAwADAAMAAwACIALAAiAG4A
+bQAiADoAIgBHAGUAbgBlAHIAYQBsACIALAAiAGEAYwAiADoAMQAsACIAbwBwACIAOgAxACwAIgBj
+AHQAIgA6ACIAMgAwADIAMgAtADEAMQAtADIAMwBUADIAMwA6ADAANAA6ADQAMgBaACIALAAiAG0A
+dAAiADoAIgAwADAAMAAxAC0AMAAxAC0AMAAxAFQAMAAwADoAMAAwADoAMAAwACIALAAiAHUAYwAi
+ADoAbgB1AGwAbAB9AF0AAABIAACACCAGAAAAAADAAAAAAAAARgEAAAAiAAAATgBlAHQAdwBvAHIA
+awBNAGUAcwBzAGEAZwBlAEkAZAAAAAAASW4gZksvtkM9KgjazadOMx8AAICGAwIAAAAAAMAAAAAA
+AABGAQAAAC4AAAB4AC0AbQBzAC0AcAB1AGIAbABpAGMAdAByAGEAZgBmAGkAYwB0AHkAcABlAAAA
+AAABAAAADAAAAEUAbQBhAGkAbAAAAB8AAICGAwIAAAAAAMAAAAAAAABGAQAAADYAAAB4AC0AbQBz
+AC0AdAByAGEAZgBmAGkAYwB0AHkAcABlAGQAaQBhAGcAbgBvAHMAdABpAGMAAAAAAAEAAABIAAAA
+TQBXADMAUABSADEAMgBNAEIANAA1ADUAMwA6AEUARQBfAHwAQgBOADkAUABSADEAMgBNAEIANQAw
+ADkAOQA6AEUARQBfAAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAAUAAAAHgALQBtAHMALQBvAGYA
+ZgBpAGMAZQAzADYANQAtAGYAaQBsAHQAZQByAGkAbgBnAC0AYwBvAHIAcgBlAGwAYQB0AGkAbwBu
+AC0AaQBkAAAAAQAAAEoAAAA2ADYAMgAwADYAZQA0ADkALQAyAGYANABiAC0ANAAzAGIANgAtADMA
+ZAAyAGEALQAwADgAZABhAGMAZABhADcANABlADMAMwAAAAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYB
+AAAAOAAAAHgALQBtAHMALQBlAHgAYwBoAGEAbgBnAGUALQBzAGUAbgBkAGUAcgBhAGQAYwBoAGUA
+YwBrAAAAAQAAAAQAAAAxAAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAAOgAAAHgALQBtAHMALQBl
+AHgAYwBoAGEAbgBnAGUALQBhAG4AdABpAHMAcABhAG0ALQByAGUAbABhAHkAAAAAAAEAAAAEAAAA
+MAAAAB8AAICGAwIAAAAAAMAAAAAAAABGAQAAACoAAAB4AC0AbQBpAGMAcgBvAHMAbwBmAHQALQBh
+AG4AdABpAHMAcABhAG0AAAAAAAEAAAAOAAAAQgBDAEwAOgAwADsAAAAAAB8AAICGAwIAAAAAAMAA
+AAAAAABGAQAAAEQAAAB4AC0AbQBpAGMAcgBvAHMAbwBmAHQALQBhAG4AdABpAHMAcABhAG0ALQBt
+AGUAcwBzAGEAZwBlAC0AaQBuAGYAbwAAAAEAAACyCAAAUQBLAHIATwBiAGIAUAAyAFYAbQBCAGkA
+NQB6AEoAOQBIAEEAaABTAFQAdwB5AHcAUAA1AHcAMgBQAFgAVgA2AHYAdQBkAEgAQgA0AEoAcQBq
+AEwASABHAHEATABKAFgAZQAvAFIAWQBUAGIAawBiAEQAOQBGAGYAdQBxAGMAOQByADEAUAB3AGwA
+bQBVAEMAQwBaAEsAVwAzADgAaAByAFEAdQArAHUAQQA2AGEAeABvAFcAdwBnAFYAbABXAFcAawBN
+AGkAbQBWADUAQwBEADMAeABJAHEAbgBCAHkAZQB1ADkASgBiAGEAegBxAHMAOQA0AFoAbABrADEA
+YQBnAEUANgArAFQAeQBMAG4ANwBZAG8AcwBRAEMAZgBEADIAOAA4AGQAVAAwAG4AagBZAGkAYgBr
+AEYAOQAxAE0AUgBTAHcAMQBDAEMAOQBPAG8AZABIAEYAWAA2AEkAQwB6AEkAcwBIADcAMQBxAHIA
+YQBaACsAUABaAGEARQBsAHkATwBHACsAcQB2AFgAYgBMAHAALwBYACsAdgBaAHAARQBnADAAeQBU
+AHAAdQBpAFMAZwBlAFIASQBiAEgAOQBtADYATwBNAGIAcQBYADIASABCADcANgB3AE4AdABUAGIA
+aQBSAE8AMgBoAHUAYwByAHgAbQBtAE0AUABYAFMANABEAC8AdQBuADIAKwBXAEsAYgAxADQAegBQ
+ADUAOAA3AGoAagArAHMAMQA4AFQARwBQAFQAdwBLAE8AdABDADQASgBaAEYARgBZAEMASQAzAHcA
+eQBQADUANQBnAE4ARgArAEsAbgBMAG0AMgA4AHkALwB4AEgASQAwAE4AbwBUAEQALwBnAEsAWgBV
+AHQAMwBHAHIAQQBUAGoAYgBuAGEANwBmAEEAMwB5AFYASABiAFgARwBUAE8AMwA1ADAAdABJADIA
+eQBXAEgAbABhAHAANQBoAGEAdwBhAEUAdwBMAGwAQwBjAEMAbwAzAGIASwBxAFkAdQA4AHgANQB5
+AHEANwAvAGsAbAA1AHEAdQBVAFUANABFAEEAQwBoAFYAdABPAE8AegBQADUAcwAzAEIAegA0AHAA
+LwBzAHAARQB6ADEAMQBKAHAANgBqAGcAcwBhAHoANgBiAEQAYwBNAGgAQgBwAEkALwBQAEoAUgB3
+AFkARwBlAGcAaQBGADcAeQBGAHAARQA3AHMATwAvAGoAaAAzAFcAdgBkAEsAegB4ADEAMwAyAFUA
+OQBUAGgAVwA3AEsAMABIAGkAaABTAEYAaAA0AHkAeABUAC8ANABqAEQAZAA5AEkAcwBIAFMAMABm
+AFYARQArAGoATAAyAHoAaQB1ACsAbAB4AHEAcAAzAGwAWQBDACsAMABSAEIARwBaAFcASQBWAFcA
+dAB1AFQASgBOAEsASgA1ADMATwBVAE4AWQAzAEUAYwBCAGsANwA4AE0ATABZAFYAQwBoAFgANgB5
+AFkAegB3AHkAZgA3AHAAMwBVADMASgBFADAAbAA1AG0AWAByAEkAUgBiAFEAcQA5AFUAZQB6ADIA
+WQBzAGQAawAwAEgAZgBUADkAdQBqAGkAZAAwAFcARgBIAFUASwB0AFUAMABEAGMASgBCAGsAdwBv
+AHoASAA2AFEAeABNAHYAYwB4AGcAZgBCAHIAVwBzAEkAQQA0ADAATwBLAGcAbwBrAFUATAAvAEMA
+MgBxADYAKwB5ADQAZgA2ADEAVQBNAEgARwBiAHMASgBBAGcAQwBhAHYAUwBHAEYATABiAEMAawAw
+AG0AaABFAGMAdwB1ADQAUQBFAFQAYwAvAEMANgBtAGEAaQBJAFoAbgBuAE4AdgBaAHAAbABOAEsA
+dwBQAGIARQBYADEAQQBkAHUAegB6AEoAdgBEAHYAZQBRAFMALwB3AEIAVwBuAFcAMgBiAFcAMABR
+AEcAegBlAHEAKwA5ADcAZAA1AGUAbgBQAEMATwBDAGkAZQBHADQAMQA4AG8AcABRAGQAagBZAFoA
+VgBNAEYAdgBuAE4AWgBLAEMARABXAHcAWQA2AFoAOQAxAFUATwBGAEIAUABQADUANQBqAGgAagBR
+AEUAcABkAGQAagBRAFUAaQBYAEMASABhAGEASwAzAHIANwBoADIAaQBmAFAAZgBCAHYATQB5AEEA
+UwBNAEwAbwBMAGMAVQBrADYAZABBAEUATwB1AEEAVgBLAFEALwBiAHMALwBzAGoAcwA1AHAAcQAy
+AFUAVgBQAFoAdAByADIAUgBxADQAYgBaAGoAaABqAGoAZABFAFIARQBPAEIAQQA2AGUAWABlAEkA
+cABhADMAVgBWAG4AYQBQAEYAVwA5AG8AdwBMADkAYgA0AEYAUQA4AHkAagA2AHYANQBjAEUASQB2
+AE0AcwBGAGsAaABXAEUAWABXAGYARgBEAFkAeQB0AFIARQBsAEsAZgBTAGwAbABmAGwALwBTAEIA
+RQB3AHUAZwBhAFgAYgA0AHYAdABRAHoAbgBzAEkAQQBDADUAdgBrAGsAQQByAEgAUwB4ADAAMAAx
+AHEALwB5AHoANQBOAHoARwB2AEcAWgBVAFQAZgA3AHYASABTAFoAZQBBAFgAUAA5ADUATQB0AEEA
+cQAxAEYANQA5AFcAeAB3AGMAOQBlAFIATwBrAHEAaAA2AG4AZQA0AGsAMABIAG8ARgBxAGIAYwBC
+AFAAQQBrAGYAbwB4ACsAQgBIAFMAVgBHAG0AMwAzAG8AYgB5AHAAKwBqAEMAUABsADkAMAA4AHkA
+NABsADEATgBWADcASgBxAEkAawB6AG8AWABOAG0AbQBWAEgAMgBZAHAAKwBCAFcAaQAvAHoASwAy
+AEQAUwBBAGIAVQBVAGkARABvADgAdABvAFgARABGAEYATQBwAEQASgAvAFkARAA1AEcANABNAEYA
+TwA2AEoARABEAFMAagBTAFMARABUAGUAdgBWAHcAPQA9AAAAAAAfAACAhgMCAAAAAADAAAAAAAAA
+RgEAAAA4AAAAeAAtAGYAbwByAGUAZgByAG8AbgB0AC0AYQBuAHQAaQBzAHAAYQBtAC0AcgBlAHAA
+bwByAHQAAAABAAAAdAQAAEMASQBQADoAMgA1ADUALgAyADUANQAuADIANQA1AC4AMgA1ADUAOwBD
+AFQAUgBZADoAOwBMAEEATgBHADoAZQBuADsAUwBDAEwAOgAxADsAUwBSAFYAOgA7AEkAUABWADoA
+TgBMAEkAOwBTAEYAVgA6AE4AUwBQAE0AOwBIADoATQBXADMAUABSADEAMgBNAEIANAA1ADUAMwAu
+AG4AYQBtAHAAcgBkADEAMgAuAHAAcgBvAGQALgBvAHUAdABsAG8AbwBrAC4AYwBvAG0AOwBQAFQA
+UgA6ADsAQwBBAFQAOgBOAE8ATgBFADsAUwBGAFMAOgAoADEAMwAyADMAMAAwADIAMgApACgANAA2
+ADMANgAwADAAOQApACgAMQAzADYAMAAwADMAKQAoADMANAA2ADAAMAAyACkAKAAzADkANgAwADAA
+MwApACgAMwA2ADYAMAAwADQAKQAoADMAOQA4ADYAMAA0ADAAMAAwADAAMgApACgAMwA3ADYAMAAw
+ADIAKQAoADQANQAxADEAOQA5ADAAMQA1ACkAKAA1ADIANQAzADYAMAAxADQAKQAoADYANgA0ADQA
+NgAwADAAOAApACgANQA0ADkAMAA2ADAAMAAzACkAKAAxADEAMAAxADMANgAwADAANQApACgANwA0
+ADEANgAwADAAMgApACgAMwA4ADAANwAwADcAMAAwADAAMAA1ACkAKAAzADEANgAwADAAMgApACgA
+NQA2ADYAMAAzADAAMAAwADAAMgApACgAOAA5ADMANgAwADAAMgApACgANwA2ADEAMQA2ADAAMAA2
+ACkAKAAxADgANgAwADAAMwApACgAOAA2ADMANgAyADAAMAAxACkAKAA2ADYANQA1ADYAMAAwADgA
+KQAoADYANAA3ADUANgAwADAAOAApACgANgA2ADQANwA2ADAAMAA3ACkAKAA2ADYAOQA0ADYAMAAw
+ADcAKQAoADQAMwAyADYAMAAwADgAKQAoADQANwA4ADYAMAAwADAAMAAxACkAKAA4ADYANwA2ADAA
+MAAyACkAKAA5ADYANgAwADAANQApACgAMgA2ADAAMAA1ACkAKAA3ADEAMgAwADAANAAwADAAMAAw
+ADEAKQAoADkANgA4ADYAMAAwADMAKQAoADYANQAwADYAMAAwADcAKQAoADQAMQAzADAAMAA3ADAA
+MAAwADAAMQApACgAMwA4ADEAMAAwADcAMAAwADAAMAAyACkAKAA1ADUAMAAxADYAMAAwADMAKQAo
+ADcANgA5ADYAMAAwADUAKQAoADUAMwA1ADQANgAwADEAMQApACgAOAAzADMAOAAwADQAMAAwADAA
+MAAxACkAKAAxADIAMgAwADAAMAAwADAAMQApACgANAA1ADAAOAAwADQAMAAwADAAMAAyACkAKAAy
+ADkAMAA2ADAAMAAyACkAKAAzADMANgA1ADYAMAAwADIAKQA7AEQASQBSADoATwBVAFQAOwBTAEYA
+UAA6ADEAMQAwADEAOwAAAB8AAICGAwIAAAAAAMAAAAAAAABGAQAAAFwAAAB4AC0AbQBzAC0AZQB4
+AGMAaABhAG4AZwBlAC0AYQBuAHQAaQBzAHAAYQBtAC0AbQBlAHMAcwBhAGcAZQBkAGEAdABhAC0A
+YwBoAHUAbgBrAGMAbwB1AG4AdAAAAAEAAAAEAAAAMQAAAB8AAICGAwIAAAAAAMAAAAAAAABGAQAA
+AEoAAAB4AC0AbQBzAC0AZQB4AGMAaABhAG4AZwBlAC0AYQBuAHQAaQBzAHAAYQBtAC0AbQBlAHMA
+cwBhAGcAZQBkAGEAdABhAC0AMAAAAAAAAQAAAFoMAABnAHYAVgBqAHgASQBjAGkAQwB1AFYAVwB6
+AGEAMwB4AFYASwBWAHEAWQBKAGUARgBNADAAdwA2AGYARQBjAFcAQwBmAFgAWQBiAFgATQA2AEcA
+NwBLAFgATQBaADUAQQAxAEYATQBLADkAdABqADcAbABiAE4ANQAvAEUAUABLADQAdABHAFQARwBL
+AGwASwBlAHkAUQBOAGoAVQBOADcAUwBEAG4AMgA1AFEATABUAGMAMABjAE8AagAyAFUAMgArAEEA
+bQBNAHkAeABUAHcAcgBZAE0ATwBmAHUAVwAxAGgAZAA4AEMAKwBPAHMAbgBpADEAagAxAFgAeQBj
+AEIAbQBzAEIAMQBjADMAcQBnAHgAbwBVADEAUgBRAGIAZwBBAEIAKwA0AFYAZwBPAE8AVABSAEYA
+cAB0AGUAVAAyAEUAYgBjAGUAUwAvAEUAWABrAEcAQgBmAE4AcQA0AG0AZwBxAG0AUwBuAGwASQBX
+AHEAaABWAEIAUABMAHQASwBJAHgAcwBWAHgARABOAHMARABnADQAdgA5AFUAdABVAEIAeABqAEUA
+egA0AHkAcQB0AHgATwBzAEgATgBHACsAbAAvAGUAWAA3AFoANwBUAFMAUAByAGsAMgBYADMANwA3
+AHcAVgAxAEQALwBzADUATQBGAFYAdABqAGQAQQBCAGwAUQBvAEwAZwBuAGQAQgBlAEgAZABFADMA
+QwBtAG0AOAB6AFgAVgB5AHIAegBSADIAYwBZADcAUQBsAEIAWABoAGoAcQBzAG8AdwBPAHAAWABE
+AHMAWgBJADMATgBPAFkAaABjAEIARABYAEkAaABYAGwAZgBIAFIAbAA2AG0AQgAvAHkAMABuAEMA
+SABUADMAbgBVAGcAQgA0ADYAcQAwADUAdQA1AHoAbQBzAEoAdABTADYAZwBuAHkARwB4AHYAVABt
+AE0ASQBMAHoAcABOAEkASQBQAGgATABLADcAbAAyAEUAZAA4AEYAZgBBADQAZwBFADYATwBGAHgA
+dwB4AFIAYgBqAHMALwBJAEQAUQBxAGEASwBzAHEAbgB5AEUAdAAyAGQARgBVAG8AZAAvAGYAVgBr
+AG0AMwBzACsANAB0AG4AUABwADIAYQAxAGsARwBQAHoAcwB5AEkAWQBwAGEAQwA4AHMAaQA2AEIA
+RwBRAHYAaQBFAGYAWAAvAHkAeQBEAGsAcAAxAFEAVwBsAE4ARwA1AEoAYQBGAGcAVABnADAARgBR
+AGYAdwBsAC8AeABqAHgAZABiAFAATwBJAGkASQBGADMAdQBqAEUARQBiAFEATwBrAGoAegBVAFcA
+SwA3AHgASgBjAHAAcgB5AGoAdwAyAHQAMABKAHEAbgBJAFUANABvAHQAdQBrAHYAeAAyADgAUgAw
+ADYARgBkAEIANABEAHUAeAArAFIAKwBvAFkANAB6ADgAcAAzAGcAbAB5AGQANQBDAEcAYgBkAFcA
+MwBBADMAawBRAGgAYwByAFUAawA3AFcAMgBmAG0AYwBZAHQANwBFADEASgBFAC8ARgBxAHcAagBu
+AG8ARwA1AGEAZgA2AFkAWQBKAGUANgBWAGcAMwAzAGsAMQAxACsASwBUAGYAOABwAGQAOAB2AHoA
+VwBqAEQAbgA0ADIAOABQADYAZwBlAGUANAAzAGwAQQBvAFkANABIACsAcwA2AFcATQBBAFMAUQAr
+ADYAVwBxAGUAZQA3AGQAcQB3AE8ASwBFAGYAegBlADYAcQBjAC8AWAA0AGwAdQBjADYAYQA2AHEA
+cABKAFAAcwArAEwAVwBKAFMATwByAFUAbgBWAFAAcwBaAEIAVgBuAEkAYwBhAGQAOQAvAFUARgBR
+AEcAWgBmAE8AZABqADUAMQBwACsAbQBsADgAbQBtADMARwBBAFgAVwBqAHoANABjAHcAcgBWADYA
+TgA3AGUAaAA0AFUAWABzAEEAZwBvAE8ATgB4AFcAUwBwAHQANwBkAHQAWQAzAEIAcAA5AEQASAB6
+AG0AMgBYAEkATgBoAFQAdwB1AFcAQwBaAHQAeQBGAC8AeQBKAFAAeABVADQASgBHADcAcQBYAFoA
+aABQAHoAOABMAFgAOABwAFEAKwB5ADEAVQBvAFAASwBpACsAMwBuAFQAZQB1AE0AVgBsADQARQBJ
+AEIAcgBoAG0AWgBMADcAdwBQAEMAQQAzAGUAdAA5AEkAaABmAFMASgBzADIAaAB6AHQAUgAvAE8A
+dAA3AGUAYgBDAHUAaQBqAFgAVQBzAHIAYgBZAHkAdABVAHMAcQBJAFgAUwAvAG0AMgBxAEsAMQBI
+AEsAdwAyAHYAbABHAFQANQA1ADYAegB5ADIAKwBaAGsASwB4AEIAeAB4AFoARQBUAC8AegAyAEQA
+MAA1AFAAdgBCAHEAQQAyAHYAdgBPAEYANABLAEwATwBRAGMAOQBaAEYAUABWAEkAYQBZAEIAWQB1
+AG0AWABwADgAMABXAFIARQBuAHUATAA2AFMAZABUAGkAawBOAHAAOABiAHIALwAyADkAYQB4AHgA
+WQByAGgAdwBoAGMAcQB3AGEAdABkAGkAdABKAEkAdgBVAGIAMABaAGcARwAzAE0AUgBsAEkAYwB0
+AEgAdABjADYARwBlADYARAA2AHEAUwBzAG0AQwA2AEMAWQAzAGcAWAB5AE8ASAA2ADgAVABFAEQA
+MQBEADcAZQBkADcAdQBNAEEAQwAvADMASgBxAEMARwBqAGIANgBRADkAMgBiAGkARABXAFAAUABK
+ADIAWgBEAFAAWgAvAGYAYwBNADcAUABDAG8AMQBMAEUAeQBGADYAeAA1AGsAWgBxAEEAagBzAHMA
+eQBzAGcARAAwAGMAZwBoAFgANwBVADAAUQA2AEoAOABGAEgAQgBIAGIAdgBvAEgAZwBLAC8AbABB
+AEsAQgBuAGkAdgA4AFgAbABBAGEAaABmAEkAWAAwAHkAeAB1ADUAdgBtAG0AcQBkAEoAUgBLAG0A
+RQBKAFMAaAB6AHYAdwB4AGQAVgByAE4AcQBnACsAbQBBAFIASQB2AHYAagBOAFEAZgBaAGoAegBl
+ADcATQAwAG4AQgA2ADUANAAyAFAARwB5AFQAeABlAHkAdgBnAFEATgBDAFUAVwBzAGwAVgA4AFEA
+QQB2AGcAbQBOAEwAbQBTAGsAVgBCAE8AOABmAGsAegBoAHcAYQA3AFgAWAB5AGQAZgBkAEcATAB5
+AEMARwBlAGsAOQBUAEEAegA3ADQAeAB3AHQAdwBQAEEASgBYAGsAcwBxAHAAYwBpAEgAKwA5AEkA
+SgBrAFQAUgBQAE0AcwBjAEkAQwBhAHkAUABWAGcAMABMADAARAB1AEQATwBVAEYAUwB6AGUATgA2
+AFIAUAA1AFgANwBFAGQAUwB5AFgAMwBiAEcAbAA2AE4AMgBJAFgANQA3AHkAagBmAGUAcQBxAGoA
+VQBoACsAdQA4AHgAdgBQADQAbQAyAG0AdQB6AGsAVgBEAEUAdQBEAGMAZABlAFMAVgBSADAAUABC
+AEwAMwBiAHAAYwBlAHcAZQBMAG4AZgA5AHkAbABiAFYAMQBvAC8ATAArAEkAWQAxAGQAUgBHAGMA
+ZwAyAHoANwBIAGcASwBxAHYAawBBAGUATwBwADMARAAwADUARQB3AEoAYwB6AFMARwBPAFEAcQBY
+AHIAdQBwAHIAUABpAEMAeQBtAFEAeQAvAHkAUABvADYAaQBVAG8AbgAxAGoAMQBDAFUAeQBGAFYA
+aQBxAGQAYQBKAEgAYQAzAGkAeQBOADEAUABGAEgAYwBKAGsALwAyADgANgBrAE0ARwBaAEYAcQBH
+AE8AVQBnAE8AcwBOAHMAbgBpAEYATQBMADQAOAA1AHMAMQByADQAZgA4ADUAYQBvAFAAQwBIAFYA
+dwA1AHIAcQBYAFEAOABGAFAASAA0AHIAVQBTADYAbQBPAG4AdgBHAEcATAAzADAAcQBaAHoAYgBj
+AHAASQBnAGUASQBDAHAAWQBiAE4ATQA1AEoASgBDAHUAaABQAEgAVwB3AE4AKwBZAEsAbQBSADAA
+bwBaAFMAUwArAGQAeABnAGIAUgBrAGwAOQAyAHIAVwBnAFkARgBrADUAawBFAEkAZABiAHIAMAB6
+AHEAUgBqADQAUgBSAG4AegAvAEwAagBDADAAOQBiAGMAZABRAHQAVgBDAEUAYgB2AHoATABzAD0A
+AAAAAAtE
 
---_000_MW3PR12MB4553E324788E568D030C2949950C9MW3PR12MB4553namp_--
+--_000_MW3PR12MB455343AC89441290B470B949950C9MW3PR12MB4553namp_--
