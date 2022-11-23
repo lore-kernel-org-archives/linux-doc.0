@@ -2,105 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92BEFC4321E
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 09:59:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EC6AC4167D
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 11:25:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237257AbiKWJ7G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 04:59:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55930 "EHLO
+        id S237309AbiKWLZD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 06:25:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236804AbiKWJ6Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 04:58:16 -0500
-Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA4E2EC0B7;
-        Wed, 23 Nov 2022 01:52:26 -0800 (PST)
-Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 7420F1D40;
-        Wed, 23 Nov 2022 10:52:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1669197144;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=zQZCMeZbkCsZ9VF9ouX01MwdWli+CdAZ1Of8k/5J5XM=;
-        b=hcBaH5TJzJwY+q9FCjgme0ERQPLxmXCoJkzjJ/cxpWaUwmckRi41AzIiYh0Mck12fKp3fM
-        zP2qhvUn/QiW6OFlSaJEpXD9M/2ypF94M95QzKQ8vFeg31umjCR7JLDbk21FvOMyEHOWtD
-        6qlVP3lPZPJ6qJKngqQqrZAEUUL1zLg9KB4v+Y/hoiLavO8gqw75X7KQpdHiLXahWjPNn9
-        Hu0gLAUeww2eFY0dBrg00HzXfUnKTsfG757tuLzHiNLK85nITw3uzP9tRIkZmA1DUJGV65
-        n6g+AqPsWAHQhtIY66PK/qP5HA2YqPcUjANVKZ/V5e2RcvlVCcfEy2TIii5VvA==
+        with ESMTP id S237205AbiKWLYc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 06:24:32 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9995F1D81
+        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 03:24:24 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id b12so15105360wrn.2
+        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 03:24:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b9alsbr8LXN9/Ce1A3UmngFG+xxycHeYjWz0tStEptI=;
+        b=qG38gT7cDar0bBFc9LaB2ehRjEmcZdd1oUbSuzjEaJnu9bmcFlFi4TVeT72IpLjAgm
+         Xl/WeD4q0pWopnb+W4XcYUaZyWMMr+J++nLdUA81gpZTAKRaU6lQKhrrV9EjkITWZSRB
+         Q+Qgi7hpOtQB+45WIUsPwWIVmeF9sCKF8DzCfhbFIfSZUIyOEnI1nZPDkfrbGxg6Ndxj
+         A0Dfb7n5LOHHU5A1b39rut+IwMtiY5tiPN1tUXoGVt7kfGdnzpLbf6T9g6Y0TSjE57eU
+         i2n+k/j67mvEP8qt0e0kJlCuomKqv7KBozTisQgXgqj0qiFTYEfqVCOBVbQrdT3Zyvom
+         X52g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b9alsbr8LXN9/Ce1A3UmngFG+xxycHeYjWz0tStEptI=;
+        b=oYjCkEHtR7Fvnd56aV1d2lBPWCKSVPQF8hrF9EK5p76IOcEMgz3rSdfpZeKlr0Ix8s
+         2viSg6aGTkOJx1uSx+BNenDgOyca5LgSnJtl7npj+MAfMdzVQyTrO6aL06LxLL8j3znI
+         +DuOc84nztBOpauPHXM2B/LGAEgXMk3E4i4bImGOowxUe51e0xCYtIeNa6V8g6Wajvb/
+         Yi2BbYAR1WZXnt8bQig56KYUDB3HeIcbbNfPtMI98yrS9ApadH45UvpOnOtOjArxJHmw
+         jZSnTVebw60NXHCLnkxATCojPIZLJKCLhnamv3qbWLnP1Qc1v21gV0aaa3/dHNwrX7+3
+         aB2A==
+X-Gm-Message-State: ANoB5pn8gCS30OiRkIHNYHfqdOAMgWd6XxWKiRA8J+5moVNNHeTBkZ1j
+        Kw2oDvxZK9koNfHXxK274onP0eJesFm5nw==
+X-Google-Smtp-Source: AA0mqf67H5199ydlGHRMp1g06fK3AiVMjWs0U4FpXpylBAozHOOymxClqVwNDaATOFP4bIy12yqSsg==
+X-Received: by 2002:adf:f142:0:b0:241:71fc:3b3d with SMTP id y2-20020adff142000000b0024171fc3b3dmr17167719wro.268.1669202663234;
+        Wed, 23 Nov 2022 03:24:23 -0800 (PST)
+Received: from brgl-uxlite.home ([2a01:cb1d:334:ac00:ae74:d94f:4677:3378])
+        by smtp.gmail.com with ESMTPSA id jb2-20020a05600c54e200b003c21ba7d7d6sm1881741wmb.44.2022.11.23.03.24.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Nov 2022 03:24:22 -0800 (PST)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: [PATCH] fs: configfs: remove mentions of committable items
+Date:   Wed, 23 Nov 2022 12:24:16 +0100
+Message-Id: <20221123112416.1838597-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Date:   Wed, 23 Nov 2022 10:52:24 +0100
-From:   Michael Walle <michael@walle.cc>
-To:     Sascha Hauer <sha@pengutronix.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 17/18] nvmem: layouts: Add ONIE tlv layout driver
-In-Reply-To: <20221121075144.GL3143@pengutronix.de>
-References: <20221118185118.1190044-1-michael@walle.cc>
- <20221118185118.1190044-18-michael@walle.cc>
- <20221121075144.GL3143@pengutronix.de>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <03a2791283d26c847d07852506e9d48f@walle.cc>
-X-Sender: michael@walle.cc
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 2022-11-21 08:51, schrieb Sascha Hauer:
-> On Fri, Nov 18, 2022 at 07:51:17PM +0100, Michael Walle wrote:
->> From: Miquel Raynal <miquel.raynal@bootlin.com>
->> 
->> This layout applies no top of any non volatile storage device 
->> containing
-> 
-> s/no/on/
-> 
->> +	table_len = hdr_len + data_len;
->> +	if (table_len > ONIE_TLV_MAX_LEN) {
->> +		dev_err(dev, "Invalid ONIE TLV data length\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	table = devm_kmalloc(dev, table_len, GFP_KERNEL);
->> +	if (!table)
->> +		return -ENOMEM;
->> +
->> +	ret = nvmem_device_read(nvmem, 0, table_len, table);
->> +	if (ret != table_len)
->> +		goto free_data_buf;
->> +
->> +	if (!onie_tlv_crc_is_valid(dev, table_len, table)) {
->> +		ret = -EINVAL;
->> +		goto free_data_buf;
->> +	}
->> +
->> +	data = table + hdr_len;
->> +	ret = onie_tlv_add_cells(dev, nvmem, data_len, data);
->> +	if (ret)
->> +		goto free_data_buf;
->> +
->> +free_data_buf:
->> +	kfree(table);
-> 
-> This is allocated with devm_kmalloc(), you shouldn't free it here.
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Miquel, should I drop your patches or should I fix this in place and
-repost them?
+A proposition of implementation of committable items has been rejected
+due to the gpio-sim module being the only user and configfs not getting
+much development in general. In that case, let's remove the notion
+of committable items from docs and headers.
 
-Also, there is a mistake in nvmem_add_cells_from_layout() which doesn't
-handle the return code. Probably a leftover from before when I had
-.add_cells() return void.
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+---
+ Documentation/filesystems/configfs.rst | 48 --------------------------
+ include/linux/configfs.h               |  3 --
+ 2 files changed, 51 deletions(-)
 
--michael
+diff --git a/Documentation/filesystems/configfs.rst b/Documentation/filesystems/configfs.rst
+index 1d3d6f4a82a9..8c9342ed6d25 100644
+--- a/Documentation/filesystems/configfs.rst
++++ b/Documentation/filesystems/configfs.rst
+@@ -289,7 +289,6 @@ config_item_type::
+ 						 const char *name);
+ 		struct config_group *(*make_group)(struct config_group *group,
+ 						   const char *name);
+-		int (*commit_item)(struct config_item *item);
+ 		void (*disconnect_notify)(struct config_group *group,
+ 					  struct config_item *item);
+ 		void (*drop_item)(struct config_group *group,
+@@ -486,50 +485,3 @@ up.  Here, the heartbeat code calls configfs_depend_item().  If it
+ succeeds, then heartbeat knows the region is safe to give to ocfs2.
+ If it fails, it was being torn down anyway, and heartbeat can gracefully
+ pass up an error.
+-
+-Committable Items
+-=================
+-
+-Note:
+-     Committable items are currently unimplemented.
+-
+-Some config_items cannot have a valid initial state.  That is, no
+-default values can be specified for the item's attributes such that the
+-item can do its work.  Userspace must configure one or more attributes,
+-after which the subsystem can start whatever entity this item
+-represents.
+-
+-Consider the FakeNBD device from above.  Without a target address *and*
+-a target device, the subsystem has no idea what block device to import.
+-The simple example assumes that the subsystem merely waits until all the
+-appropriate attributes are configured, and then connects.  This will,
+-indeed, work, but now every attribute store must check if the attributes
+-are initialized.  Every attribute store must fire off the connection if
+-that condition is met.
+-
+-Far better would be an explicit action notifying the subsystem that the
+-config_item is ready to go.  More importantly, an explicit action allows
+-the subsystem to provide feedback as to whether the attributes are
+-initialized in a way that makes sense.  configfs provides this as
+-committable items.
+-
+-configfs still uses only normal filesystem operations.  An item is
+-committed via rename(2).  The item is moved from a directory where it
+-can be modified to a directory where it cannot.
+-
+-Any group that provides the ct_group_ops->commit_item() method has
+-committable items.  When this group appears in configfs, mkdir(2) will
+-not work directly in the group.  Instead, the group will have two
+-subdirectories: "live" and "pending".  The "live" directory does not
+-support mkdir(2) or rmdir(2) either.  It only allows rename(2).  The
+-"pending" directory does allow mkdir(2) and rmdir(2).  An item is
+-created in the "pending" directory.  Its attributes can be modified at
+-will.  Userspace commits the item by renaming it into the "live"
+-directory.  At this point, the subsystem receives the ->commit_item()
+-callback.  If all required attributes are filled to satisfaction, the
+-method returns zero and the item is moved to the "live" directory.
+-
+-As rmdir(2) does not work in the "live" directory, an item must be
+-shutdown, or "uncommitted".  Again, this is done via rename(2), this
+-time from the "live" directory back to the "pending" one.  The subsystem
+-is notified by the ct_group_ops->uncommit_object() method.
+diff --git a/include/linux/configfs.h b/include/linux/configfs.h
+index 97cfd13bae51..2606711adb18 100644
+--- a/include/linux/configfs.h
++++ b/include/linux/configfs.h
+@@ -204,8 +204,6 @@ static struct configfs_bin_attribute _pfx##attr_##_name = {	\
+  * group children.  default_groups may coexist alongsize make_group() or
+  * make_item(), but if the group wishes to have only default_groups
+  * children (disallowing mkdir(2)), it need not provide either function.
+- * If the group has commit(), it supports pending and committed (active)
+- * items.
+  */
+ struct configfs_item_operations {
+ 	void (*release)(struct config_item *);
+@@ -216,7 +214,6 @@ struct configfs_item_operations {
+ struct configfs_group_operations {
+ 	struct config_item *(*make_item)(struct config_group *group, const char *name);
+ 	struct config_group *(*make_group)(struct config_group *group, const char *name);
+-	int (*commit_item)(struct config_item *item);
+ 	void (*disconnect_notify)(struct config_group *group, struct config_item *item);
+ 	void (*drop_item)(struct config_group *group, struct config_item *item);
+ };
+-- 
+2.37.2
+
