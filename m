@@ -2,120 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B41C47089
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 18:02:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B94C4708B
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 18:02:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239409AbiKWSC3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 13:02:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53646 "EHLO
+        id S239423AbiKWSCc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 13:02:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239367AbiKWSCW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 13:02:22 -0500
-Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44A7D9371F;
-        Wed, 23 Nov 2022 10:02:21 -0800 (PST)
-Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 23F7927BF;
-        Wed, 23 Nov 2022 19:02:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1669226539;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6/o1ZODrnXgixeRc40M5DiB6qZMv+p5qkZBjlK/B2Jo=;
-        b=XkpNhRW6GPSZcUMEQAclXA8ulS7pIcJhe4QcBvaZQWhN/eTsw8xVRx02TqAqYdDUIrgXlx
-        hcC1/44PtAw0iD/Iq0+fk6mrk4kO0QKlnaRtm/3JfM26ntp2UMyo95/8Mk/hzdegdpKv+L
-        LD/3De6Sx3swD0vWOQsfnDtd5aAJx5LmWJ7q9BFnfBPwe+2RC8JTmBj5YHXNZX6YvyMYrz
-        hzZ9CWqFcS9xSBA/HBsGZCQDoGOdsMcEWZ3tiQ+BwW3HGDAUvG54+yrCNosn3nnSVx8Skq
-        roLYh3rML5odQoPI96zxLVlksDdybaPmAXWx52FkTZBIGAaoiDu3mJJXwMidxA==
-From:   Michael Walle <michael@walle.cc>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Michael Walle <michael@walle.cc>, Rob Herring <robh@kernel.org>
-Subject: [PATCH v4 02/20] of: base: add of_parse_phandle_with_optional_args()
-Date:   Wed, 23 Nov 2022 19:01:33 +0100
-Message-Id: <20221123180151.2160033-3-michael@walle.cc>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221123180151.2160033-1-michael@walle.cc>
-References: <20221123180151.2160033-1-michael@walle.cc>
+        with ESMTP id S239341AbiKWSCR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 13:02:17 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DA2193715
+        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 10:02:16 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id w15-20020a17090a380f00b0021873113cb4so2550392pjb.0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 10:02:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JBAHsDOjy5OO4Ngubx5UMoEA0/sDtPMwp6OMmJM5Kq8=;
+        b=j0pjNho9RlZm19Tehr3FVjo7Db8885B4Y7xkdDdUAoWctaEVu0QXpeH4dAhlT+H/66
+         rXShciLYPKXX/As5ej1NnFhKVYsgqZOAIM86zq/8g4IoL0rpFkAis4hyMIxH32ObpzTD
+         q12ac2q20Bq/175aKSlrDsis/kh1ZErXHlsfXaFF0vLM0VKl7Q/KOGrAwfHxRNQmXI/O
+         driosPsB+7yejIXs59Nh7GScXFt/2qGI69bVfBSTlUwjFNjy1R5omvxslKZApaKKy6Vb
+         bCz1WtnxHp4F2zgsQTYD/KhQpB2n22TuYLklkc67sIj+R3YF0oMYZg8xQcjMBvZBgqVR
+         chmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JBAHsDOjy5OO4Ngubx5UMoEA0/sDtPMwp6OMmJM5Kq8=;
+        b=QQpR97IwCiofbCmSPX1Lj+a60XtvfqXUlDdnefWNVOHUx6iP9ygznN5yV5uuzhnLQf
+         aOIY2YUB5BPkpvbVYF4CP01L8Z8Wa5jb4yzualINnFKBhI460VdWMs9HKzN5a3NFkwTs
+         BU7R7rMn5crZ2j/1I+r7DUvHf6Z113WjJMD9HYBH7Tis+DBXcHIlgTfkwDhVr9RGQckY
+         WuyD7YngLmtJ0rGKuYTVbSygRkqLgpezq55uaHb603p8bgCmeIMa9g1y4Jr9Np+zLeQW
+         s46o7SQxpFYlgtgrFFX+aXvltIXpVH0tUsDsnGHWnAfhWcIbTAVWQwihr7+XoSKhZqnC
+         bgrg==
+X-Gm-Message-State: ANoB5pm2CmH7Bvpecf+eRABPZXSCGaeIyUd0IrFI6eznt4xAsYm28p5M
+        ST87DstvtGhTxozoC/3GXb9IGA==
+X-Google-Smtp-Source: AA0mqf4h/eDzvGfQmUc/ZjBSomm7vgT2Crg1NblOZpQoP8uNf60lMXpAkbUo70CvheBSDG5J9lpZAg==
+X-Received: by 2002:a17:902:da89:b0:189:8b2:b069 with SMTP id j9-20020a170902da8900b0018908b2b069mr10756414plx.13.1669226535720;
+        Wed, 23 Nov 2022 10:02:15 -0800 (PST)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id w26-20020a63475a000000b00462612c2699sm11075143pgk.86.2022.11.23.10.02.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Nov 2022 10:02:15 -0800 (PST)
+Date:   Wed, 23 Nov 2022 18:02:11 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Alex =?utf-8?B?QmVubu+/vWU=?= <alex.bennee@linaro.org>,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
+Message-ID: <Y35gI0L8GMt9+OkK@google.com>
+References: <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
+ <87cz9o9mr8.fsf@linaro.org>
+ <20221116031441.GA364614@chaop.bj.intel.com>
+ <87mt8q90rw.fsf@linaro.org>
+ <20221117134520.GD422408@chaop.bj.intel.com>
+ <87a64p8vof.fsf@linaro.org>
+ <20221118013201.GA456562@chaop.bj.intel.com>
+ <87o7t475o7.fsf@linaro.org>
+ <Y3er0M5Rpf1X97W/@google.com>
+ <20221122095022.GA617784@chaop.bj.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam: Yes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221122095022.GA617784@chaop.bj.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new variant of the of_parse_phandle_with_args() which treats the
-cells name as optional. If it's missing, it is assumed that the phandle
-has no arguments.
+On Tue, Nov 22, 2022, Chao Peng wrote:
+> On Fri, Nov 18, 2022 at 03:59:12PM +0000, Sean Christopherson wrote:
+> > On Fri, Nov 18, 2022, Alex Benn?e wrote:
+> > > > We don't actually need a new bit, the opposite side of private is
+> > > > shared, i.e. flags with KVM_MEMORY_EXIT_FLAG_PRIVATE cleared expresses
+> > > > 'shared'.
+> > > 
+> > > If that is always true and we never expect a 3rd type of memory that is
+> > > fine. But given we are leaving room for expansion having an explicit bit
+> > > allows for that as well as making cases of forgetting to set the flags
+> > > more obvious.
+> > 
+> > Hrm, I'm on the fence.
+> > 
+> > A dedicated flag isn't strictly needed, e.g. even if we end up with 3+ types in
+> > this category, the baseline could always be "private".
+> 
+> The baseline for the current code is actually "shared".
 
-Up until now, a nvmem node didn't have any arguments, so all the device
-trees haven't any '#*-cells' property. But there is a need for an
-additional argument for the phandle, for which we need a '#*-cells'
-property. Therefore, we need to support nvmem nodes with and without
-this property.
+Ah, right, the baseline needs to be "shared" so that legacy code doesn't end up
+with impossible states.
 
-Signed-off-by: Michael Walle <michael@walle.cc>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
-changes since v3:
- - none
+> > I do like being explicit, and adding a PRIVATE flag costs KVM practically nothing
+> > to implement and maintain, but evetually we'll up with flags that are paired with
+> > an implicit state, e.g. see the many #PF error codes in x86.  In other words,
+> > inevitably KVM will need to define the default/base state of the access, at which
+> > point the base state for SHARED vs. PRIVATE is "undefined".  
+> 
+> Current memory conversion for confidential usage is bi-directional so we
+> already need both private and shared states and if we use one bit for
+> both "shared" and "private" then we will have to define the default
+> state, e.g, currently the default state is "shared" when we define
+> 
+> 	KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
 
-changes since v2:
- - none
+...
 
-changes since v1:
- - none
+> > So I would say if we add an explicit READ flag, then we might as well add an explicit
+> > PRIVATE flag too.  But if we omit PRIVATE, then we should omit READ too.
+> 
+> Since we assume the default state is shared, so we actually only need a
+> PRIVATE flag, e.g. there is no SHARED flag and will ignore the RWX for now.
 
- include/linux/of.h | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
-
-diff --git a/include/linux/of.h b/include/linux/of.h
-index 8b9f94386dc3..98c252d2d851 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -1008,6 +1008,31 @@ static inline int of_parse_phandle_with_fixed_args(const struct device_node *np,
- 					    index, out_args);
- }
- 
-+/**
-+ * of_parse_phandle_with_optional_args() - Find a node pointed by phandle in a list
-+ * @np:		pointer to a device tree node containing a list
-+ * @list_name:	property name that contains a list
-+ * @cells_name:	property name that specifies phandles' arguments count
-+ * @index:	index of a phandle to parse out
-+ * @out_args:	optional pointer to output arguments structure (will be filled)
-+ *
-+ * Same as of_parse_phandle_with_args() except that if the cells_name property
-+ * is not found, cell_count of 0 is assumed.
-+ *
-+ * This is used to useful, if you have a phandle which didn't have arguments
-+ * before and thus doesn't have a '#*-cells' property but is now migrated to
-+ * having arguments while retaining backwards compatibility.
-+ */
-+static inline int of_parse_phandle_with_optional_args(const struct device_node *np,
-+						      const char *list_name,
-+						      const char *cells_name,
-+						      int index,
-+						      struct of_phandle_args *out_args)
-+{
-+	return __of_parse_phandle_with_args(np, list_name, cells_name,
-+					    0, index, out_args);
-+}
-+
- /**
-  * of_property_count_u8_elems - Count the number of u8 elements in a property
-  *
--- 
-2.30.2
-
+Yeah, I'm leading towards "shared" being the implied default state.  Ditto for
+"read" if/when we need to communicate write/execute information  E.g. for VMs
+that don't support guest private memory, the "shared" flag is in some ways
+nonsensical.  Worst case scenario, e.g. if we end up with variations of "shared",
+we'll need something like KVM_MEMORY_EXIT_FLAG_SHARED_RESTRICTIVE or whatever,
+but the basic "shared" default will still work.
