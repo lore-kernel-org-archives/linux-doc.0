@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6561AC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 18:04:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 528A3C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 18:04:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239549AbiKWSE2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 13:04:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54156 "EHLO
+        id S239487AbiKWSEa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 13:04:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239489AbiKWSDK (ORCPT
+        with ESMTP id S239490AbiKWSDK (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 13:03:10 -0500
-Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8280A5F6B;
-        Wed, 23 Nov 2022 10:02:27 -0800 (PST)
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA6EB5FD0;
+        Wed, 23 Nov 2022 10:02:29 -0800 (PST)
 Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id C5B3D27B2;
-        Wed, 23 Nov 2022 19:02:25 +0100 (CET)
+        by mail.3ffe.de (Postfix) with ESMTPSA id D864431FF;
+        Wed, 23 Nov 2022 19:02:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1669226545;
+        t=1669226547;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=gx58Y1T19qV8Bq9PgxKKY6gnXxp8UlcL8mKnK8kjD4w=;
-        b=dRQajWbUb2FkbeedIH/kXXPtAGgDJr31JVvVvqLGyx+wZGtexa2v84wx7N3cJdZ6XlRrH9
-        o+BAzEdw9ANJnwWolU+SUnNgJsttxNRBMNzY9ob6kLQKT/O4pCZ4BhGt6dNJMRDcs/6rg9
-        3CrSo6QVVAPbrkKT3FS3BHgKgasLwk9RmC++wd92i4NmsIZJaffCaCbz7ZYvPjeLzM45OI
-        Ret59ELFrKyaZ03D36sC+aklPCBI+OUOMCgE8ljiSmd85VM/v+Zwwb2i3LKSxFAywObM0Z
-        Oh7dyZ6Vl8IQP7YeHnDpCLMOMVYR+QRAq6ZRlI0Jo+FZHvQlqBvE37BuDiZFJA==
+        bh=4RVfSD2zFNimuLR7aI0Q7JbPv2Gm3wAXrNqA/yxPpQs=;
+        b=ZOCPrLQhgk91EFHHlGUCeMJv2fDAU/c859PquUwi0f6spLBw8iuakRQbr97VLnkxWuEJ31
+        2i/7y6jASZnYPDxiHhTHCRm+M/dkpEGZ8iqNpRa914di6RNKHoRcSBOPFZSFqi29SYgpoL
+        m96ZZsDv+FNCT/AbXSDIU87tAMpi44EbVdJH3fs+GrD5AARAEfH1+r1B+IxrLOA34RHrzO
+        TVhrWB1LeMRlE4ft9YlZ9BjyqPfC2E+D2w4AMJ6lz+NaPmbBAX6yB1tDOxKbX9Ka6knp9v
+        wuWmaaiowkTEfYqIPLzosQc5LBtzkNcypTvgdkHvPFEBHgMFWGTT3IERg+Bdcg==
 From:   Michael Walle <michael@walle.cc>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -42,229 +42,320 @@ To:     Jonathan Corbet <corbet@lwn.net>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Michael Walle <michael@walle.cc>
-Subject: [PATCH v4 17/20] nvmem: layouts: add sl28vpd layout
-Date:   Wed, 23 Nov 2022 19:01:48 +0100
-Message-Id: <20221123180151.2160033-18-michael@walle.cc>
+Subject: [PATCH v4 19/20] nvmem: layouts: Add ONIE tlv layout driver
+Date:   Wed, 23 Nov 2022 19:01:50 +0100
+Message-Id: <20221123180151.2160033-20-michael@walle.cc>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221123180151.2160033-1-michael@walle.cc>
 References: <20221123180151.2160033-1-michael@walle.cc>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam: Yes
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This layout applies to the VPD of the Kontron sl28 boards. The VPD only
-contains a base MAC address. Therefore, we have to add an individual
-offset to it. This is done by taking the second argument of the nvmem
-phandle into account. Also this let us checking the VPD version and the
-checksum.
+From: Miquel Raynal <miquel.raynal@bootlin.com>
 
-Signed-off-by: Michael Walle <michael@walle.cc>
+This layout applies on top of any non volatile storage device containing
+an ONIE table factory flashed. This table follows the tlv
+(type-length-value) organization described in the link below. We cannot
+afford using regular parsers because the content of these tables is
+manufacturer specific and must be dynamically discovered.
+
+Link: https://opencomputeproject.github.io/onie/design-spec/hw_requirements.html
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
 changes since v3:
- - none
+ - don't use kfree()
+ - fix typo, s/no/on/
 
 changes since v2:
- - use of_nvmem_layout_get_container()
+ - new patch
 
-changes since v1:
- - none
-
- drivers/nvmem/layouts/Kconfig   |   9 ++
- drivers/nvmem/layouts/Makefile  |   2 +
- drivers/nvmem/layouts/sl28vpd.c | 153 ++++++++++++++++++++++++++++++++
- 3 files changed, 164 insertions(+)
- create mode 100644 drivers/nvmem/layouts/sl28vpd.c
+ drivers/nvmem/layouts/Kconfig    |   9 ++
+ drivers/nvmem/layouts/Makefile   |   1 +
+ drivers/nvmem/layouts/onie-tlv.c | 244 +++++++++++++++++++++++++++++++
+ 3 files changed, 254 insertions(+)
+ create mode 100644 drivers/nvmem/layouts/onie-tlv.c
 
 diff --git a/drivers/nvmem/layouts/Kconfig b/drivers/nvmem/layouts/Kconfig
-index 9ad3911d1605..75082f6b471d 100644
+index 75082f6b471d..9ad50474cb77 100644
 --- a/drivers/nvmem/layouts/Kconfig
 +++ b/drivers/nvmem/layouts/Kconfig
-@@ -2,4 +2,13 @@
+@@ -11,4 +11,13 @@ config NVMEM_LAYOUT_SL28_VPD
  
- menu "Layout Types"
+ 	  If unsure, say N.
  
-+config NVMEM_LAYOUT_SL28_VPD
-+	bool "Kontron sl28 VPD layout support"
-+	select CRC8
++config NVMEM_LAYOUT_ONIE_TLV
++	bool "ONIE tlv support"
++	select CRC32
 +	help
-+	  Say Y here if you want to support the VPD layout of the Kontron
-+	  SMARC-sAL28 boards.
++	  Say Y here if you want to support the Open Compute Project ONIE
++	  Type-Length-Value standard table.
 +
 +	  If unsure, say N.
 +
  endmenu
 diff --git a/drivers/nvmem/layouts/Makefile b/drivers/nvmem/layouts/Makefile
-index 6fdb3c60a4fa..fc617b9e87d0 100644
+index fc617b9e87d0..2974bd7d33ed 100644
 --- a/drivers/nvmem/layouts/Makefile
 +++ b/drivers/nvmem/layouts/Makefile
-@@ -2,3 +2,5 @@
+@@ -4,3 +4,4 @@
  #
- # Makefile for nvmem layouts.
- #
-+
-+obj-$(CONFIG_NVMEM_LAYOUT_SL28_VPD) += sl28vpd.o
-diff --git a/drivers/nvmem/layouts/sl28vpd.c b/drivers/nvmem/layouts/sl28vpd.c
+ 
+ obj-$(CONFIG_NVMEM_LAYOUT_SL28_VPD) += sl28vpd.o
++obj-$(CONFIG_NVMEM_LAYOUT_ONIE_TLV) += onie-tlv.o
+diff --git a/drivers/nvmem/layouts/onie-tlv.c b/drivers/nvmem/layouts/onie-tlv.c
 new file mode 100644
-index 000000000000..a36800f201a3
+index 000000000000..074c7c700845
 --- /dev/null
-+++ b/drivers/nvmem/layouts/sl28vpd.c
-@@ -0,0 +1,153 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/drivers/nvmem/layouts/onie-tlv.c
+@@ -0,0 +1,244 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * ONIE tlv NVMEM cells provider
++ *
++ * Copyright (C) 2022 Open Compute Group ONIE
++ * Author: Miquel Raynal <miquel.raynal@bootlin.com>
++ * Based on the nvmem driver written by: Vadym Kochan <vadym.kochan@plvision.eu>
++ * Inspired by the first layout written by: Rafał Miłecki <rafal@milecki.pl>
++ */
 +
-+#include <linux/crc8.h>
++#include <linux/crc32.h>
 +#include <linux/etherdevice.h>
 +#include <linux/nvmem-consumer.h>
 +#include <linux/nvmem-provider.h>
 +#include <linux/of.h>
-+#include <uapi/linux/if_ether.h>
 +
-+#define SL28VPD_MAGIC 'V'
++#define ONIE_TLV_MAX_LEN 2048
++#define ONIE_TLV_CRC_FIELD_SZ 6
++#define ONIE_TLV_CRC_SZ 4
++#define ONIE_TLV_HDR_ID	"TlvInfo"
 +
-+struct sl28vpd_header {
-+	u8 magic;
++struct onie_tlv_hdr {
++	u8 id[8];
 +	u8 version;
++	__be16 data_len;
 +} __packed;
 +
-+struct sl28vpd_v1 {
-+	struct sl28vpd_header header;
-+	char serial_number[15];
-+	u8 base_mac_address[ETH_ALEN];
-+	u8 crc8;
++struct onie_tlv {
++	u8 type;
++	u8 len;
 +} __packed;
 +
-+static int sl28vpd_mac_address_pp(void *priv, const char *id, int index,
-+				  unsigned int offset, void *buf,
-+				  size_t bytes)
++static const char *onie_tlv_cell_name(u8 type)
 +{
-+	if (bytes != ETH_ALEN)
-+		return -EINVAL;
++	switch (type) {
++	case 0x21:
++		return "product-name";
++	case 0x22:
++		return "part-number";
++	case 0x23:
++		return "serial-number";
++	case 0x24:
++		return "mac-address";
++	case 0x25:
++		return "manufacture-date";
++	case 0x26:
++		return "device-version";
++	case 0x27:
++		return "label-revision";
++	case 0x28:
++		return "platforn-name";
++	case 0x29:
++		return "onie-version";
++	case 0x2A:
++		return "num-macs";
++	case 0x2B:
++		return "manufacturer";
++	case 0x2C:
++		return "country-code";
++	case 0x2D:
++		return "vendor";
++	case 0x2E:
++		return "diag-version";
++	case 0x2F:
++		return "service-tag";
++	case 0xFD:
++		return "vendor-extension";
++	case 0xFE:
++		return "crc32";
++	default:
++		break;
++	}
 +
-+	if (index < 0)
-+		return -EINVAL;
++	return NULL;
++}
 +
-+	if (!is_valid_ether_addr(buf))
-+		return -EINVAL;
-+
++static int onie_tlv_mac_read_cb(void *priv, const char *id, int index,
++				unsigned int offset, void *buf,
++				size_t bytes)
++{
 +	eth_addr_add(buf, index);
 +
 +	return 0;
 +}
 +
-+static const struct nvmem_cell_info sl28vpd_v1_entries[] = {
-+	{
-+		.name = "serial-number",
-+		.offset = offsetof(struct sl28vpd_v1, serial_number),
-+		.bytes = sizeof_field(struct sl28vpd_v1, serial_number),
-+	},
-+	{
-+		.name = "base-mac-address",
-+		.offset = offsetof(struct sl28vpd_v1, base_mac_address),
-+		.bytes = sizeof_field(struct sl28vpd_v1, base_mac_address),
-+		.read_post_process = sl28vpd_mac_address_pp,
-+	},
-+};
-+
-+static int sl28vpd_v1_check_crc(struct device *dev, struct nvmem_device *nvmem)
++static nvmem_cell_post_process_t onie_tlv_read_cb(u8 type, u8 *buf)
 +{
-+	struct sl28vpd_v1 data_v1;
-+	u8 table[CRC8_TABLE_SIZE];
-+	int ret;
-+	u8 crc;
-+
-+	crc8_populate_msb(table, 0x07);
-+
-+	ret = nvmem_device_read(nvmem, 0, sizeof(data_v1), &data_v1);
-+	if (ret < 0)
-+		return ret;
-+	else if (ret != sizeof(data_v1))
-+		return -EIO;
-+
-+	crc = crc8(table, (void *)&data_v1, sizeof(data_v1) - 1, 0);
-+
-+	if (crc != data_v1.crc8) {
-+		dev_err(dev,
-+			"Checksum is invalid (got %02x, expected %02x).\n",
-+			crc, data_v1.crc8);
-+		return -EINVAL;
++	switch (type) {
++	case 0x24:
++		return &onie_tlv_mac_read_cb;
++	default:
++		break;
 +	}
++
++	return NULL;
++}
++
++static int onie_tlv_add_cells(struct device *dev, struct nvmem_device *nvmem,
++			      size_t data_len, u8 *data)
++{
++	struct nvmem_cell_info cell = {};
++	struct device_node *layout;
++	struct onie_tlv tlv;
++	unsigned int hdr_len = sizeof(struct onie_tlv_hdr);
++	unsigned int offset = 0;
++	int ret;
++
++	layout = of_nvmem_layout_get_container(nvmem);
++	if (!layout)
++		return -ENOENT;
++
++	while (offset < data_len) {
++		memcpy(&tlv, data + offset, sizeof(tlv));
++		if (offset + tlv.len >= data_len) {
++			dev_err(dev, "Out of bounds field (0x%x bytes at 0x%x)\n",
++				tlv.len, hdr_len + offset);
++			break;
++		}
++
++		cell.name = onie_tlv_cell_name(tlv.type);
++		if (!cell.name)
++			continue;
++
++		cell.offset = hdr_len + offset + sizeof(tlv.type) + sizeof(tlv.len);
++		cell.bytes = tlv.len;
++		cell.np = of_get_child_by_name(layout, cell.name);
++		cell.read_post_process = onie_tlv_read_cb(tlv.type, data + offset + sizeof(tlv));
++
++		ret = nvmem_add_one_cell(nvmem, &cell);
++		if (ret) {
++			of_node_put(layout);
++			return ret;
++		}
++
++		offset += sizeof(tlv) + tlv.len;
++	}
++
++	of_node_put(layout);
 +
 +	return 0;
 +}
 +
-+static int sl28vpd_add_cells(struct device *dev, struct nvmem_device *nvmem,
-+			     struct nvmem_layout *layout)
++static bool onie_tlv_hdr_is_valid(struct device *dev, struct onie_tlv_hdr *hdr)
 +{
-+	const struct nvmem_cell_info *pinfo;
-+	struct nvmem_cell_info info = {0};
-+	struct device_node *layout_np;
-+	struct sl28vpd_header hdr;
-+	int ret, i;
++	if (memcmp(hdr->id, ONIE_TLV_HDR_ID, sizeof(hdr->id))) {
++		dev_err(dev, "Invalid header\n");
++		return false;
++	}
 +
-+	/* check header */
++	if (hdr->version != 0x1) {
++		dev_err(dev, "Invalid version number\n");
++		return false;
++	}
++
++	return true;
++}
++
++static bool onie_tlv_crc_is_valid(struct device *dev, size_t table_len, u8 *table)
++{
++	struct onie_tlv crc_hdr;
++	u32 read_crc, calc_crc;
++	__be32 crc_be;
++
++	memcpy(&crc_hdr, table + table_len - ONIE_TLV_CRC_FIELD_SZ, sizeof(crc_hdr));
++	if (crc_hdr.type != 0xfe || crc_hdr.len != ONIE_TLV_CRC_SZ) {
++		dev_err(dev, "Invalid CRC field\n");
++		return false;
++	}
++
++	/* The table contains a JAMCRC, which is XOR'ed compared to the original
++	 * CRC32 implementation as known in the Ethernet world.
++	 */
++	memcpy(&crc_be, table + table_len - ONIE_TLV_CRC_SZ, ONIE_TLV_CRC_SZ);
++	read_crc = be32_to_cpu(crc_be);
++	calc_crc = crc32(~0, table, table_len - ONIE_TLV_CRC_SZ) ^ 0xFFFFFFFF;
++	if (read_crc != calc_crc) {
++		dev_err(dev, "Invalid CRC read: 0x%08x, expected: 0x%08x\n",
++			read_crc, calc_crc);
++		return false;
++	}
++
++	return true;
++}
++
++static int onie_tlv_parse_table(struct device *dev, struct nvmem_device *nvmem,
++				struct nvmem_layout *layout)
++{
++	struct onie_tlv_hdr hdr;
++	size_t table_len, data_len, hdr_len;
++	u8 *table, *data;
++	int ret;
++
 +	ret = nvmem_device_read(nvmem, 0, sizeof(hdr), &hdr);
 +	if (ret < 0)
 +		return ret;
-+	else if (ret != sizeof(hdr))
-+		return -EIO;
 +
-+	if (hdr.magic != SL28VPD_MAGIC) {
-+		dev_err(dev, "Invalid magic value (%02x)\n", hdr.magic);
++	if (!onie_tlv_hdr_is_valid(dev, &hdr)) {
++		dev_err(dev, "Invalid ONIE TLV header\n");
 +		return -EINVAL;
 +	}
 +
-+	if (hdr.version != 1) {
-+		dev_err(dev, "Version %d is unsupported.\n", hdr.version);
++	hdr_len = sizeof(hdr.id) + sizeof(hdr.version) + sizeof(hdr.data_len);
++	data_len = be16_to_cpu(hdr.data_len);
++	table_len = hdr_len + data_len;
++	if (table_len > ONIE_TLV_MAX_LEN) {
++		dev_err(dev, "Invalid ONIE TLV data length\n");
 +		return -EINVAL;
 +	}
 +
-+	ret = sl28vpd_v1_check_crc(dev, nvmem);
-+	if (ret)
++	table = devm_kmalloc(dev, table_len, GFP_KERNEL);
++	if (!table)
++		return -ENOMEM;
++
++	ret = nvmem_device_read(nvmem, 0, table_len, table);
++	if (ret != table_len)
 +		return ret;
 +
-+	layout_np = of_nvmem_layout_get_container(nvmem);
-+	if (!layout_np)
-+		return -ENOENT;
++	if (!onie_tlv_crc_is_valid(dev, table_len, table))
++		return -EINVAL;
 +
-+	for (i = 0; i < ARRAY_SIZE(sl28vpd_v1_entries); i++) {
-+		pinfo = &sl28vpd_v1_entries[i];
-+
-+		info.name = pinfo->name;
-+		info.offset = pinfo->offset;
-+		info.bytes = pinfo->bytes;
-+		info.read_post_process = pinfo->read_post_process;
-+		info.np = of_get_child_by_name(layout_np, pinfo->name);
-+
-+		ret = nvmem_add_one_cell(nvmem, &info);
-+		if (ret) {
-+			of_node_put(layout_np);
-+			return ret;
-+		}
-+	}
-+
-+	of_node_put(layout_np);
++	data = table + hdr_len;
++	ret = onie_tlv_add_cells(dev, nvmem, data_len, data);
++	if (ret)
++		return ret;
 +
 +	return 0;
 +}
 +
-+static const struct of_device_id sl28vpd_of_match_table[] = {
-+	{ .compatible = "kontron,sl28-vpd" },
++static const struct of_device_id onie_tlv_of_match_table[] = {
++	{ .compatible = "onie,tlv-layout", },
 +	{},
 +};
 +
-+struct nvmem_layout sl28vpd_layout = {
-+	.name = "sl28-vpd",
-+	.of_match_table = sl28vpd_of_match_table,
-+	.add_cells = sl28vpd_add_cells,
++static struct nvmem_layout onie_tlv_layout = {
++	.name = "ONIE tlv layout",
++	.of_match_table = onie_tlv_of_match_table,
++	.add_cells = onie_tlv_parse_table,
 +};
 +
-+static int __init sl28vpd_init(void)
++static int __init onie_tlv_init(void)
 +{
-+	return nvmem_layout_register(&sl28vpd_layout);
++	return nvmem_layout_register(&onie_tlv_layout);
 +}
-+subsys_initcall(sl28vpd_init);
++subsys_initcall(onie_tlv_init);
 -- 
 2.30.2
 
