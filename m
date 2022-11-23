@@ -2,164 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EC6AC4167D
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 11:25:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19B0EC4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 12:38:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237309AbiKWLZD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 06:25:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58314 "EHLO
+        id S236199AbiKWMiJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 07:38:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237205AbiKWLYc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 06:24:32 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9995F1D81
-        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 03:24:24 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id b12so15105360wrn.2
-        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 03:24:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=b9alsbr8LXN9/Ce1A3UmngFG+xxycHeYjWz0tStEptI=;
-        b=qG38gT7cDar0bBFc9LaB2ehRjEmcZdd1oUbSuzjEaJnu9bmcFlFi4TVeT72IpLjAgm
-         Xl/WeD4q0pWopnb+W4XcYUaZyWMMr+J++nLdUA81gpZTAKRaU6lQKhrrV9EjkITWZSRB
-         Q+Qgi7hpOtQB+45WIUsPwWIVmeF9sCKF8DzCfhbFIfSZUIyOEnI1nZPDkfrbGxg6Ndxj
-         A0Dfb7n5LOHHU5A1b39rut+IwMtiY5tiPN1tUXoGVt7kfGdnzpLbf6T9g6Y0TSjE57eU
-         i2n+k/j67mvEP8qt0e0kJlCuomKqv7KBozTisQgXgqj0qiFTYEfqVCOBVbQrdT3Zyvom
-         X52g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=b9alsbr8LXN9/Ce1A3UmngFG+xxycHeYjWz0tStEptI=;
-        b=oYjCkEHtR7Fvnd56aV1d2lBPWCKSVPQF8hrF9EK5p76IOcEMgz3rSdfpZeKlr0Ix8s
-         2viSg6aGTkOJx1uSx+BNenDgOyca5LgSnJtl7npj+MAfMdzVQyTrO6aL06LxLL8j3znI
-         +DuOc84nztBOpauPHXM2B/LGAEgXMk3E4i4bImGOowxUe51e0xCYtIeNa6V8g6Wajvb/
-         Yi2BbYAR1WZXnt8bQig56KYUDB3HeIcbbNfPtMI98yrS9ApadH45UvpOnOtOjArxJHmw
-         jZSnTVebw60NXHCLnkxATCojPIZLJKCLhnamv3qbWLnP1Qc1v21gV0aaa3/dHNwrX7+3
-         aB2A==
-X-Gm-Message-State: ANoB5pn8gCS30OiRkIHNYHfqdOAMgWd6XxWKiRA8J+5moVNNHeTBkZ1j
-        Kw2oDvxZK9koNfHXxK274onP0eJesFm5nw==
-X-Google-Smtp-Source: AA0mqf67H5199ydlGHRMp1g06fK3AiVMjWs0U4FpXpylBAozHOOymxClqVwNDaATOFP4bIy12yqSsg==
-X-Received: by 2002:adf:f142:0:b0:241:71fc:3b3d with SMTP id y2-20020adff142000000b0024171fc3b3dmr17167719wro.268.1669202663234;
-        Wed, 23 Nov 2022 03:24:23 -0800 (PST)
-Received: from brgl-uxlite.home ([2a01:cb1d:334:ac00:ae74:d94f:4677:3378])
-        by smtp.gmail.com with ESMTPSA id jb2-20020a05600c54e200b003c21ba7d7d6sm1881741wmb.44.2022.11.23.03.24.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Nov 2022 03:24:22 -0800 (PST)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: [PATCH] fs: configfs: remove mentions of committable items
-Date:   Wed, 23 Nov 2022 12:24:16 +0100
-Message-Id: <20221123112416.1838597-1-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.37.2
+        with ESMTP id S237080AbiKWMiI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 07:38:08 -0500
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CC0B5656C;
+        Wed, 23 Nov 2022 04:38:06 -0800 (PST)
+Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NHLHf2RLdzRpQr;
+        Wed, 23 Nov 2022 20:37:34 +0800 (CST)
+Received: from dggpeml500002.china.huawei.com (7.185.36.158) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 23 Nov 2022 20:38:04 +0800
+Received: from localhost.localdomain (10.69.192.56) by
+ dggpeml500002.china.huawei.com (7.185.36.158) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 23 Nov 2022 20:38:03 +0800
+From:   Junhao He <hejunhao3@huawei.com>
+To:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
+        <mike.leach@linaro.org>, <leo.yan@linaro.org>,
+        <jonathan.cameron@huawei.com>, <john.garry@huawei.com>
+CC:     <coresight@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <lpieralisi@kernel.org>,
+        <linuxarm@huawei.com>, <yangyicong@huawei.com>,
+        <liuqi6124@gmail.com>, <f.fangjian@huawei.com>,
+        <prime.zeng@hisilicon.com>, <hejunhao3@huawei.com>
+Subject: [PATCH v14 2/2] Documentation: Add document for UltraSoc SMB driver
+Date:   Wed, 23 Nov 2022 20:38:23 +0800
+Message-ID: <20221123123823.27973-3-hejunhao3@huawei.com>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20221123123823.27973-1-hejunhao3@huawei.com>
+References: <20221123123823.27973-1-hejunhao3@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.69.192.56]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpeml500002.china.huawei.com (7.185.36.158)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+From: Qi Liu <liuqi115@huawei.com>
 
-A proposition of implementation of committable items has been rejected
-due to the gpio-sim module being the only user and configfs not getting
-much development in general. In that case, let's remove the notion
-of committable items from docs and headers.
+Bring in documentation for UltraSoc SMB driver.
+It simply describes the device, sysfs interface and the
+firmware bindings.
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Signed-off-by: Qi Liu <liuqi115@huawei.com>
+Signed-off-by: Junhao He <hejunhao3@huawei.com>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- Documentation/filesystems/configfs.rst | 48 --------------------------
- include/linux/configfs.h               |  3 --
- 2 files changed, 51 deletions(-)
+ .../sysfs-bus-coresight-devices-ultra_smb     | 31 +++++++
+ .../trace/coresight/ultrasoc-smb.rst          | 83 +++++++++++++++++++
+ 2 files changed, 114 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
+ create mode 100644 Documentation/trace/coresight/ultrasoc-smb.rst
 
-diff --git a/Documentation/filesystems/configfs.rst b/Documentation/filesystems/configfs.rst
-index 1d3d6f4a82a9..8c9342ed6d25 100644
---- a/Documentation/filesystems/configfs.rst
-+++ b/Documentation/filesystems/configfs.rst
-@@ -289,7 +289,6 @@ config_item_type::
- 						 const char *name);
- 		struct config_group *(*make_group)(struct config_group *group,
- 						   const char *name);
--		int (*commit_item)(struct config_item *item);
- 		void (*disconnect_notify)(struct config_group *group,
- 					  struct config_item *item);
- 		void (*drop_item)(struct config_group *group,
-@@ -486,50 +485,3 @@ up.  Here, the heartbeat code calls configfs_depend_item().  If it
- succeeds, then heartbeat knows the region is safe to give to ocfs2.
- If it fails, it was being torn down anyway, and heartbeat can gracefully
- pass up an error.
--
--Committable Items
--=================
--
--Note:
--     Committable items are currently unimplemented.
--
--Some config_items cannot have a valid initial state.  That is, no
--default values can be specified for the item's attributes such that the
--item can do its work.  Userspace must configure one or more attributes,
--after which the subsystem can start whatever entity this item
--represents.
--
--Consider the FakeNBD device from above.  Without a target address *and*
--a target device, the subsystem has no idea what block device to import.
--The simple example assumes that the subsystem merely waits until all the
--appropriate attributes are configured, and then connects.  This will,
--indeed, work, but now every attribute store must check if the attributes
--are initialized.  Every attribute store must fire off the connection if
--that condition is met.
--
--Far better would be an explicit action notifying the subsystem that the
--config_item is ready to go.  More importantly, an explicit action allows
--the subsystem to provide feedback as to whether the attributes are
--initialized in a way that makes sense.  configfs provides this as
--committable items.
--
--configfs still uses only normal filesystem operations.  An item is
--committed via rename(2).  The item is moved from a directory where it
--can be modified to a directory where it cannot.
--
--Any group that provides the ct_group_ops->commit_item() method has
--committable items.  When this group appears in configfs, mkdir(2) will
--not work directly in the group.  Instead, the group will have two
--subdirectories: "live" and "pending".  The "live" directory does not
--support mkdir(2) or rmdir(2) either.  It only allows rename(2).  The
--"pending" directory does allow mkdir(2) and rmdir(2).  An item is
--created in the "pending" directory.  Its attributes can be modified at
--will.  Userspace commits the item by renaming it into the "live"
--directory.  At this point, the subsystem receives the ->commit_item()
--callback.  If all required attributes are filled to satisfaction, the
--method returns zero and the item is moved to the "live" directory.
--
--As rmdir(2) does not work in the "live" directory, an item must be
--shutdown, or "uncommitted".  Again, this is done via rename(2), this
--time from the "live" directory back to the "pending" one.  The subsystem
--is notified by the ct_group_ops->uncommit_object() method.
-diff --git a/include/linux/configfs.h b/include/linux/configfs.h
-index 97cfd13bae51..2606711adb18 100644
---- a/include/linux/configfs.h
-+++ b/include/linux/configfs.h
-@@ -204,8 +204,6 @@ static struct configfs_bin_attribute _pfx##attr_##_name = {	\
-  * group children.  default_groups may coexist alongsize make_group() or
-  * make_item(), but if the group wishes to have only default_groups
-  * children (disallowing mkdir(2)), it need not provide either function.
-- * If the group has commit(), it supports pending and committed (active)
-- * items.
-  */
- struct configfs_item_operations {
- 	void (*release)(struct config_item *);
-@@ -216,7 +214,6 @@ struct configfs_item_operations {
- struct configfs_group_operations {
- 	struct config_item *(*make_item)(struct config_group *group, const char *name);
- 	struct config_group *(*make_group)(struct config_group *group, const char *name);
--	int (*commit_item)(struct config_item *item);
- 	void (*disconnect_notify)(struct config_group *group, struct config_item *item);
- 	void (*drop_item)(struct config_group *group, struct config_item *item);
- };
+diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb b/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
+new file mode 100644
+index 000000000000..deaefd508105
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
+@@ -0,0 +1,31 @@
++What:		/sys/bus/coresight/devices/ultra_smb<N>/enable_sink
++Date:		November 2022
++KernelVersion:	6.2
++Contact:	Junhao He <hejunhao3@huawei.com>
++Description:	(RW) Add/remove a SMB device from a trace path. There can be
++		multiple sources for a single SMB device.
++
++What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/buf_size
++Date:		November 2022
++KernelVersion:	6.2
++Contact:	Junhao He <hejunhao3@huawei.com>
++Description:	(Read) Shows the buffer size of each UltraSoc SMB device.
++
++What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/buf_status
++Date:		November 2022
++KernelVersion:	6.2
++Contact:	Junhao He <hejunhao3@huawei.com>
++Description:	(Read) Shows the value held by UltraSoc SMB status register.
++		BIT(0) is zero means buffer is empty.
++
++What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/read_pos
++Date:		November 2022
++KernelVersion:	6.2
++Contact:	Junhao He <hejunhao3@huawei.com>
++Description:	(Read) Shows the value held by UltraSoc SMB Read Pointer register.
++
++What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/write_pos
++Date:		November 2022
++KernelVersion:	6.2
++Contact:	Junhao He <hejunhao3@huawei.com>
++Description:	(Read) Shows the value held by UltraSoc SMB Write Pointer register.
+diff --git a/Documentation/trace/coresight/ultrasoc-smb.rst b/Documentation/trace/coresight/ultrasoc-smb.rst
+new file mode 100644
+index 000000000000..3f3ebe158272
+--- /dev/null
++++ b/Documentation/trace/coresight/ultrasoc-smb.rst
+@@ -0,0 +1,83 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++======================================
++UltraSoc - HW Assisted Tracing on SoC
++======================================
++   :Author:   Qi Liu <liuqi115@huawei.com>
++   :Date:     November 2022
++
++Introduction
++------------
++
++UltraSoc SMB is a per SCCL (Super CPU Cluster) hardware. It provides a
++way to buffer and store CPU trace messages in a region of shared system
++memory. The device acts as a coresight sink device and the
++corresponding trace generators (ETM) are attached as source devices.
++
++Sysfs files and directories
++---------------------------
++
++The SMB devices appear on the existing coresight bus alongside other
++devices::
++
++	$# ls /sys/bus/coresight/devices/
++	ultra_smb0   ultra_smb1   ultra_smb2   ultra_smb3
++
++The ``ultra_smb<N>`` names SMB device associated with SCCL.::
++
++	$# ls /sys/bus/coresight/devices/ultra_smb0
++	enable_sink   mgmt
++	$# ls /sys/bus/coresight/devices/ultra_smb0/mgmt
++	buf_size  buf_status  read_pos  write_pos
++
++Key file items are:
++
++   * ``read_pos``: Shows the value on the read pointer register.
++   * ``write_pos``: Shows the value on the write pointer register.
++   * ``buf_status``: Shows the value on the status register.
++     BIT(0) is zero value which means the buffer is empty.
++   * ``buf_size``: Shows the buffer size of each device.
++
++Firmware Bindings
++-----------------
++
++The device is only supported with ACPI. Its binding describes device
++identifier, resource information and graph structure.
++
++The device is identified as ACPI HID "HISI03A1". Device resources are allocated
++using the _CRS method. Each device must present two base address; the first one
++is the configuration base address of the device, the second one is the 32-bit
++base address of shared system memory.
++
++Example::
++
++    Device(USMB) {                                               \
++      Name(_HID, "HISI03A1")                                     \
++      Name(_CRS, ResourceTemplate() {                            \
++          QWordMemory (ResourceConsumer, , MinFixed, MaxFixed, NonCacheable, \
++		       ReadWrite, 0x0, 0x95100000, 0x951FFFFF, 0x0, 0x100000) \
++          QWordMemory (ResourceConsumer, , MinFixed, MaxFixed, Cacheable, \
++		       ReadWrite, 0x0, 0x50000000, 0x53FFFFFF, 0x0, 0x4000000) \
++      })                                                         \
++      Name(_DSD, Package() {                                     \
++        ToUUID("ab02a46b-74c7-45a2-bd68-f7d344ef2153"),          \
++	/* Use CoreSight Graph ACPI bindings to describe connections topology */
++        Package() {                                              \
++          0,                                                     \
++          1,                                                     \
++          Package() {                                            \
++            1,                                                   \
++            ToUUID("3ecbc8b6-1d0e-4fb3-8107-e627f805c6cd"),      \
++            8,                                                   \
++            Package() {0x8, 0, \_SB.S00.SL11.CL28.F008, 0},       \
++            Package() {0x9, 0, \_SB.S00.SL11.CL29.F009, 0},       \
++            Package() {0xa, 0, \_SB.S00.SL11.CL2A.F010, 0},       \
++            Package() {0xb, 0, \_SB.S00.SL11.CL2B.F011, 0},       \
++            Package() {0xc, 0, \_SB.S00.SL11.CL2C.F012, 0},       \
++            Package() {0xd, 0, \_SB.S00.SL11.CL2D.F013, 0},       \
++            Package() {0xe, 0, \_SB.S00.SL11.CL2E.F014, 0},       \
++            Package() {0xf, 0, \_SB.S00.SL11.CL2F.F015, 0},       \
++          }                                                      \
++        }                                                        \
++      })                                                         \
++    }
 -- 
-2.37.2
+2.33.0
 
