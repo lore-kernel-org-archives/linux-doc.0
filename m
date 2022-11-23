@@ -2,105 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65133C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 03:13:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96E47C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 04:32:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233346AbiKWDNJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Nov 2022 22:13:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37836 "EHLO
+        id S235697AbiKWEc1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Nov 2022 23:32:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232723AbiKWDNI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 22:13:08 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F87321E06;
-        Tue, 22 Nov 2022 19:13:07 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id a1-20020a17090abe0100b00218a7df7789so705586pjs.5;
-        Tue, 22 Nov 2022 19:13:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/unz/lEUalHOgGim6q4OBHzs/NDaUSDSX4tIVsnogFU=;
-        b=mglh6XMYlB/7Io5lVheqVqM704BdVgqJLDXTCpPrR4h7SOCCfQvbvOr57MqblW35V3
-         B8sc6CsoJmBcmrkqF4SEv4/pUX5HPKqHvgZwPCl9Lu0GwWHw6JUICw/dmfnqTwGzAUP/
-         oXRIg20lPnOIEpDbN/WTnRlkiV8nTVKeuDeqYsDHWqPkjUquLkE88n2QYXp9L2sRd2Fp
-         jiaRhHjdq5lpE9Sk03rGhiKy8JcKS5vigt8kxpCmhJbZp0PYu5WXga8oKCbFJ8HAkyRL
-         f6pbNFSWv5gizroOdP80XIXN/UpICPAYmNy7BmZyVcM8rUKC6xqMM5hOQTszKlaKLnTj
-         md+A==
+        with ESMTP id S235627AbiKWEcY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 23:32:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B3567EC9F
+        for <linux-doc@vger.kernel.org>; Tue, 22 Nov 2022 20:31:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669177888;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VQl9ff+pm3Bk3aH204X24mZs6zyamDTWXwNuFP1xLlU=;
+        b=ioS4y6udGto6FdbJOCjiDvPuEcBJbFV86tIH60H4nWp0VAyPjYItmegP1pzJkpbvUP4ysv
+        s+t37dIUrYzUTYwNIuvWzMyi3Zus+BI6cUsMpk5GgeRlaLJE56HwvUnxrpSom1G+fpw6go
+        nS9H9fqIYUPF9yeTZWnd5n8hys5teaY=
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
+ [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-209-XrRt1m63OU2jy-cRS2dT0A-1; Tue, 22 Nov 2022 23:31:27 -0500
+X-MC-Unique: XrRt1m63OU2jy-cRS2dT0A-1
+Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-13b9bcc6b4cso8069590fac.13
+        for <linux-doc@vger.kernel.org>; Tue, 22 Nov 2022 20:31:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/unz/lEUalHOgGim6q4OBHzs/NDaUSDSX4tIVsnogFU=;
-        b=JTJjWH92z0pxFimjCaYqT8FoLHMZyh2IoI/MbJOLmZsEan9Kkdz5Vk8VVwLp42azxP
-         G/XK0RIG4jmZwPup0flNgG22dL4yB6h4Hx32RbGNFPIlX0QtvT4pjE9n+GFUbwIW3TCR
-         +afKi7dPvor4U2L7McpYsp1Of5uJUyWBN2aPWeDee3nOx5FHUF97/KvCx/SZ2BfH7/FD
-         IFV0q9pPmLQyYqAGY+UIrm8+JagdbHaRszelDDJ5WG6UvQebrIzKiCvDH1QHo+zlOuBL
-         TO7wqC4M4T+5YbZp62d12rseB7SxUgLbPn87kJL6XoU1lbJfoFHzAc/d2oYkYNQUWCn3
-         pZuA==
-X-Gm-Message-State: ANoB5plmcuaGBuMr/o3DosaSOTqkFdhAU6CFhiojlASY1TGP7zWl9pUA
-        vYsDL1RWyNFRrcOy7DVw2zJbsVKSYfM=
-X-Google-Smtp-Source: AA0mqf62mKOkIAUrVuQvqjvr6haWtbUODQm0pRLLOlYzMpjocZpoy8GkEI6TzCl/h8rhW420uhTh8g==
-X-Received: by 2002:a17:902:8503:b0:178:4f50:673e with SMTP id bj3-20020a170902850300b001784f50673emr7185252plb.126.1669173186691;
-        Tue, 22 Nov 2022 19:13:06 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id x22-20020a170902821600b001873aa85e1fsm12589733pln.305.2022.11.22.19.13.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Nov 2022 19:13:06 -0800 (PST)
-Message-ID: <bf664150-a544-76f8-b61f-98e6472dbebb@gmail.com>
-Date:   Wed, 23 Nov 2022 12:13:01 +0900
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VQl9ff+pm3Bk3aH204X24mZs6zyamDTWXwNuFP1xLlU=;
+        b=2kcAD9oaFhSZ+3g7A9UlUCk1Xz8FeYgYAtwXR2RO+eyAxovpqRA6uXRWRw/J6WGL2I
+         IW0ceErKi7dIdB+2isxJK5mAvmfOG2wNNGjl/uxRPo2WwIboLMrvYMaUHOh8grN1f2G+
+         EJOl+8H0oHAPhoiUZEjZ7Kj5HWSH2IjCpgOklvZmEWTYtDZKP2L49OrPXoOKoReaOeCq
+         HU1zJoMzSKjPNS7Au7/cDUej9Ajeu42wK0qLXxtD0DAVTJgZdBBuA/Hw3P96A/GRACjv
+         BhIDUPApkL4k2jC2V0eTVeYXgokezyzrzpfh9MPjAP89vN+Kkf7Wd2lnrpOn14DPEBhx
+         KOuQ==
+X-Gm-Message-State: ANoB5pkpZrVENX9S0PVYbEdElMRB5pPRsnrIFJDNOGZF9H3H4II1ZoEf
+        SHUeBEUz8XXD1ESwLjHdWKBz/VGf7nu3ypzRm9czJmWUjqSj6d7R2MekXim0NaS5BSU5DcuSAwC
+        ZYZdXLOLEilp5GARfN2QwvMz63q3SIB4VJWd/
+X-Received: by 2002:a4a:94a9:0:b0:480:8f4a:7062 with SMTP id k38-20020a4a94a9000000b004808f4a7062mr3093729ooi.57.1669177886410;
+        Tue, 22 Nov 2022 20:31:26 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5p+2/kgwNtkcV/tZnRU73FzLwSP/0hnFdBUnffLOt1Eb3cLSA1SD07EWvhtzopVZbm5DQMqgdOyOqC6G2YoCA=
+X-Received: by 2002:a4a:94a9:0:b0:480:8f4a:7062 with SMTP id
+ k38-20020a4a94a9000000b004808f4a7062mr3093711ooi.57.1669177886199; Tue, 22
+ Nov 2022 20:31:26 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH bpf-next v1 0/2] docs: fix sphinx warnings for cpu+dev
- maps
-Content-Language: en-US
-To:     mtahhan@redhat.com
-Cc:     jbrouer@redhat.com, thoiland@redhat.com, donhunte@redhat.com,
-        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <20221122103738.65980-1-mtahhan@redhat.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20221122103738.65980-1-mtahhan@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <0-v5-4001c2997bd0+30c-iommufd_jgg@nvidia.com> <15-v5-4001c2997bd0+30c-iommufd_jgg@nvidia.com>
+ <BN9PR11MB5276B0219008568A30F5A4738C099@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <Y3ejMSTWvJuELQ7K@nvidia.com> <BN9PR11MB5276939555C1460EFBFD15A68C0C9@BN9PR11MB5276.namprd11.prod.outlook.com>
+In-Reply-To: <BN9PR11MB5276939555C1460EFBFD15A68C0C9@BN9PR11MB5276.namprd11.prod.outlook.com>
+From:   Jason Wang <jasowang@redhat.com>
+Date:   Wed, 23 Nov 2022 12:31:15 +0800
+Message-ID: <CACGkMEumUoHfWE0NkdmNbnx-nmgXrm3ZL6Jrj6x+M=wSXQK32g@mail.gmail.com>
+Subject: Re: [PATCH v5 15/19] iommufd: vfio container FD ioctl compatibility
+To:     "Tian, Kevin" <kevin.tian@intel.com>
+Cc:     Jason Gunthorpe <jgg@nvidia.com>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>,
+        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+        Joerg Roedel <joro@8bytes.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
+        Anthony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        "Martins, Joao" <joao.m.martins@oracle.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "Yang, Lixiao" <lixiao.yang@intel.com>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>,
+        Keqian Zhu <zhukeqian1@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Wed, Nov 23, 2022 at 9:33 AM Tian, Kevin <kevin.tian@intel.com> wrote:
+>
+> > From: Jason Gunthorpe <jgg@nvidia.com>
+> > Sent: Friday, November 18, 2022 11:22 PM
+> >
+> > On Fri, Nov 18, 2022 at 02:58:49AM +0000, Tian, Kevin wrote:
+> > > > From: Jason Gunthorpe <jgg@nvidia.com>
+> > > > Sent: Thursday, November 17, 2022 5:01 AM
+> > > > index ca28a135b9675f..2fdff04000b326 100644
+> > > > --- a/drivers/iommu/iommufd/Makefile
+> > > > +++ b/drivers/iommu/iommufd/Makefile
+> > > > @@ -5,6 +5,7 @@ iommufd-y := \
+> > > >   io_pagetable.o \
+> > > >   ioas.o \
+> > > >   main.o \
+> > > > - pages.o
+> > > > + pages.o \
+> > > > + vfio_compat.o
+> > > >
+> > >
+> > > move vfio_compat out of core? it's not required if VFIO
+> > > is not configured.
+> >
+> > We can, but I don't know if we should. Compat ioctls are part of
+> > /dev/iommu, and technically have nothing to do with VFIO. A native
+> > iommufd application using VDPA could use them, if it wanted, for
+> > instance.
+> >
+>
+> I'm not sure whether that requires further VDPA support. Be safe
+> I'd like VDPA to explicitly select vfio_compact when that new
+> mixed scheme is supported.
+>
 
-On Tue, 22 Nov 2022 10:37:36 +0000, mtahhan@redhat.com wrote:
-> From: Maryam Tahhan <mtahhan@redhat.com>
-> 
-> Sphinx version >=3.3 warns about duplicate function delcarations in the
+This sounds strange. If I don't misunderstand the code, it tries to
+provide ioctl compatibility with the VFIO container. I don't see how
+it can be used for vDPA, the ioctls used by vDPA is not compatible
+with VFIO.
 
-As far as I see, Sphinx >=3.1 complains of these duplicates.
+Thanks
 
-> CPUMAP and DEVMAP documentation. This is because the function name is the
-> same for Kernel and Userspace BPF progs but the parameters and return types
-> they take is what differs. This patch moves from using the ``c:function::``
-> directive to using the ``code-block:: c`` directive. The patches also fix
-> the indentation for the text associated with the "new" code block delcarations.
-I would mention that the missing support of c:namespace-push:: and
-c:namespace-pop:: directives by helper scripts for kernel documentation
-prevented you from using the c:function:: directive with proper namespacing.
-
-Either way, for the series,
-
-Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
-
-> 
-> Maryam Tahhan (2):
->   docs: fix sphinx warnings for cpumap
->   docs: fix sphinx warnings for devmap
-> 
->  Documentation/bpf/map_cpumap.rst | 41 +++++++++++++-----------
->  Documentation/bpf/map_devmap.rst | 54 +++++++++++++++++---------------
->  2 files changed, 52 insertions(+), 43 deletions(-)
-> 
-> --
-> 2.34.1
-> 
