@@ -2,25 +2,25 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63B8EC46467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 073C0C43217
 	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 06:17:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236044AbiKWGRd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 01:17:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51658 "EHLO
+        id S236045AbiKWGRc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 01:17:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236049AbiKWGRR (ORCPT
+        with ESMTP id S236044AbiKWGRR (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 01:17:17 -0500
 Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DB9EF885E
-        for <linux-doc@vger.kernel.org>; Tue, 22 Nov 2022 22:16:29 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DDC4F8027
+        for <linux-doc@vger.kernel.org>; Tue, 22 Nov 2022 22:16:26 -0800 (PST)
 Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 2AN5pU4K081940;
-        Wed, 23 Nov 2022 13:51:31 +0800 (GMT-8)
+        by twspam01.aspeedtech.com with ESMTP id 2AN5pU4I081940;
+        Wed, 23 Nov 2022 13:51:30 +0800 (GMT-8)
         (envelope-from billy_tsai@aspeedtech.com)
 Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 23 Nov
- 2022 14:15:55 +0800
+ 2022 14:15:54 +0800
 From:   Billy Tsai <billy_tsai@aspeedtech.com>
 To:     <jdelvare@suse.com>, <linux@roeck-us.net>, <robh+dt@kernel.org>,
         <krzysztof.kozlowski+dt@linaro.org>, <joel@jms.id.au>,
@@ -31,9 +31,9 @@ To:     <jdelvare@suse.com>, <linux@roeck-us.net>, <robh+dt@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
         <linux-pwm@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: [v4 3/5] dt-bindings: hwmon: Add bindings for aspeed tach controller
-Date:   Wed, 23 Nov 2022 14:16:33 +0800
-Message-ID: <20221123061635.32025-4-billy_tsai@aspeedtech.com>
+Subject: [v4 1/5] dt-bindings: mfd: Add aspeed pwm-tach binding
+Date:   Wed, 23 Nov 2022 14:16:31 +0800
+Message-ID: <20221123061635.32025-2-billy_tsai@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221123061635.32025-1-billy_tsai@aspeedtech.com>
 References: <20221123061635.32025-1-billy_tsai@aspeedtech.com>
@@ -44,62 +44,99 @@ X-Originating-IP: [192.168.2.149]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 2AN5pU4K081940
+X-MAIL: twspam01.aspeedtech.com 2AN5pU4I081940
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the aspeed tach device bindings which should be the child-node of
-pwm-tach mfd.
+Add device binding for aspeed pwm-tach device which is a multi-function
+device include pwm and tach function.
 
 Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 ---
- .../bindings/hwmon/aspeed,ast2600-tach.yaml   | 36 +++++++++++++++++++
- 1 file changed, 36 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml
+ .../bindings/mfd/aspeed,ast2600-pwm-tach.yaml | 73 +++++++++++++++++++
+ 1 file changed, 73 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
 
-diff --git a/Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml b/Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml
+diff --git a/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml b/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
 new file mode 100644
-index 000000000000..f42114f8e3c2
+index 000000000000..e2a7be2e0a18
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml
-@@ -0,0 +1,36 @@
++++ b/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
+@@ -0,0 +1,73 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +# Copyright (C) 2021 Aspeed, Inc.
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/hwmon/aspeed,ast2600-tach.yaml#
++$id: http://devicetree.org/schemas/mfd/aspeed,ast2600-pwm-tach.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Aspeed Ast2600 Tach controller
++title: PWM Tach controller
++
++description: |
++  The PWM Tach controller is represented as a multi-function device which
++  includes:
++    PWM
++    Tach
 +
 +maintainers:
 +  - Billy Tsai <billy_tsai@aspeedtech.com>
 +
-+description: |
-+  The Aspeed Tach controller can support upto 16 fan input.
-+  This module is part of the ast2600-pwm-tach multi-function device. For more
-+  details see ../mfd/aspeed,ast2600-pwm-tach.yaml.
-+
 +properties:
 +  compatible:
-+    enum:
-+      - aspeed,ast2600-tach
-+patternProperties:
-+  "^fan@[a-z0-9]+$":
++    items:
++      - enum:
++          - aspeed,ast2600-pwm-tach
++      - const: syscon
++      - const: simple-mfd
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  pwm:
 +    type: object
-+    properties:
-+      reg:
-+        description:
-+          The tach channel used for this node.
-+        maxItems: 1
-+    required:
-+      - reg
++    $ref: "/schemas/pwm/aspeed,ast2600-pwm.yaml"
++
++  tach:
++    type: object
++    $ref: "/schemas/hwmon/aspeed,ast2600-tach.yaml"
 +
 +required:
 +  - compatible
++  - reg
++  - clocks
++  - resets
 +
 +additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/ast2600-clock.h>
++    pwm_tach: pwm-tach@1e610000 {
++      compatible = "aspeed,ast2600-pwm-tach", "syscon", "simple-mfd";
++      reg = <0x1e610000 0x100>;
++      clocks = <&syscon ASPEED_CLK_AHB>;
++      resets = <&syscon ASPEED_RESET_PWM>;
++
++      pwm: pwm {
++        compatible = "aspeed,ast2600-pwm";
++        #pwm-cells = <3>;
++        pinctrl-names = "default";
++        pinctrl-0 = <&pinctrl_pwm0_default>;
++      };
++
++      tach: tach {
++        compatible = "aspeed,ast2600-tach";
++        pinctrl-names = "default";
++        pinctrl-0 = <&pinctrl_tach0_default>;
++      };
++    };
 -- 
 2.25.1
 
