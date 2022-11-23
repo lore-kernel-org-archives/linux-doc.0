@@ -2,93 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CA51C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 02:41:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65133C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 03:13:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235585AbiKWClM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Nov 2022 21:41:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50628 "EHLO
+        id S233346AbiKWDNJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Nov 2022 22:13:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233346AbiKWClK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 21:41:10 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35A6E6E56A;
-        Tue, 22 Nov 2022 18:41:10 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id w15-20020a17090a380f00b0021873113cb4so672614pjb.0;
-        Tue, 22 Nov 2022 18:41:10 -0800 (PST)
+        with ESMTP id S232723AbiKWDNI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Nov 2022 22:13:08 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F87321E06;
+        Tue, 22 Nov 2022 19:13:07 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id a1-20020a17090abe0100b00218a7df7789so705586pjs.5;
+        Tue, 22 Nov 2022 19:13:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=g6Jv9dgaKHeIKt84vFzHjfQK6aTNPAun2YWKNGfNy8g=;
-        b=Z1raQFEbFQAilRZzpJGT88HO/EyRiuotS3kA0tTOUZcTafDINqEQGUo7LdjUeyklJf
-         4UfXNjDkLknUA78FkzoChOlJHoY1NK1nCYIC9FaoeAQ3cnwnui/DugvmmHDVAv/R428O
-         B2f+GrvDdDRImOq112gsXHIfP8XBNSD4fqPj1VFZlmVsqiEx/qwM4S1SHCsCnWS4gwjw
-         M/sERgqf+BS5jdLN7hvymErjTFbQgHg70iI7pFVByWsMpGMA5j0q/gCByxyDPV0rDUJ+
-         mSjUETIeSEGXmRcy0D+I5PMLRm45oZqzTaS8A2lamuYtr+7A9CDXgjAGXc9cltUW87za
-         nzrQ==
+        bh=/unz/lEUalHOgGim6q4OBHzs/NDaUSDSX4tIVsnogFU=;
+        b=mglh6XMYlB/7Io5lVheqVqM704BdVgqJLDXTCpPrR4h7SOCCfQvbvOr57MqblW35V3
+         B8sc6CsoJmBcmrkqF4SEv4/pUX5HPKqHvgZwPCl9Lu0GwWHw6JUICw/dmfnqTwGzAUP/
+         oXRIg20lPnOIEpDbN/WTnRlkiV8nTVKeuDeqYsDHWqPkjUquLkE88n2QYXp9L2sRd2Fp
+         jiaRhHjdq5lpE9Sk03rGhiKy8JcKS5vigt8kxpCmhJbZp0PYu5WXga8oKCbFJ8HAkyRL
+         f6pbNFSWv5gizroOdP80XIXN/UpICPAYmNy7BmZyVcM8rUKC6xqMM5hOQTszKlaKLnTj
+         md+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g6Jv9dgaKHeIKt84vFzHjfQK6aTNPAun2YWKNGfNy8g=;
-        b=7j0ZavFzSPrR4v/6PxRjsTZfrDw/v3kiTwuDY2T+rJwzi9zSkLBWZzck1XYv/49iVK
-         QRSIvabUvwsJGI5WkhuH4xt9+Z5rExKYTh9YQ45B0bIg/sz0h2jqNt9Ix/RU9TQu3GdV
-         Yl0ZQoAu4sBF0JsvMpBH/iRxM5jFtniVzR+3Jtj6WNkLN6ZatZ72shsb7VgQev2bU/hN
-         dtvBjWcbO30FBLAYQUvFnyhvXoFVn+0pke8SmQd9VKG4Q0r5Y2IKw88ajITUMAN/gAzX
-         2DBsD3tQWInq0zT+czLl/VRrScz63cj76OGgS1DUNzbSxcgE3sNwVmw0lY98Gvz6Qbyd
-         Ld8g==
-X-Gm-Message-State: ANoB5pm9R7JkEtkqcBqjaJ52lj/xAPmv3kYc08d9KdT1eVc1YcLn1vvQ
-        rWCK5HmbA9N7w34llQTwz5Q1KI6knC0=
-X-Google-Smtp-Source: AA0mqf40kXBy0QGL2xk6dsBf3fJy8KQqSJiz4iFy4xz6CbppxnrCMyre0LcItf7Y64r5KnAOaI0Nrg==
-X-Received: by 2002:a17:902:848d:b0:188:f42d:5b1a with SMTP id c13-20020a170902848d00b00188f42d5b1amr6717496plo.26.1669171269589;
-        Tue, 22 Nov 2022 18:41:09 -0800 (PST)
+        bh=/unz/lEUalHOgGim6q4OBHzs/NDaUSDSX4tIVsnogFU=;
+        b=JTJjWH92z0pxFimjCaYqT8FoLHMZyh2IoI/MbJOLmZsEan9Kkdz5Vk8VVwLp42azxP
+         G/XK0RIG4jmZwPup0flNgG22dL4yB6h4Hx32RbGNFPIlX0QtvT4pjE9n+GFUbwIW3TCR
+         +afKi7dPvor4U2L7McpYsp1Of5uJUyWBN2aPWeDee3nOx5FHUF97/KvCx/SZ2BfH7/FD
+         IFV0q9pPmLQyYqAGY+UIrm8+JagdbHaRszelDDJ5WG6UvQebrIzKiCvDH1QHo+zlOuBL
+         TO7wqC4M4T+5YbZp62d12rseB7SxUgLbPn87kJL6XoU1lbJfoFHzAc/d2oYkYNQUWCn3
+         pZuA==
+X-Gm-Message-State: ANoB5plmcuaGBuMr/o3DosaSOTqkFdhAU6CFhiojlASY1TGP7zWl9pUA
+        vYsDL1RWyNFRrcOy7DVw2zJbsVKSYfM=
+X-Google-Smtp-Source: AA0mqf62mKOkIAUrVuQvqjvr6haWtbUODQm0pRLLOlYzMpjocZpoy8GkEI6TzCl/h8rhW420uhTh8g==
+X-Received: by 2002:a17:902:8503:b0:178:4f50:673e with SMTP id bj3-20020a170902850300b001784f50673emr7185252plb.126.1669173186691;
+        Tue, 22 Nov 2022 19:13:06 -0800 (PST)
 Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id u18-20020a17090341d200b00186b04776b0sm12835493ple.118.2022.11.22.18.41.07
+        by smtp.gmail.com with ESMTPSA id x22-20020a170902821600b001873aa85e1fsm12589733pln.305.2022.11.22.19.13.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Nov 2022 18:41:09 -0800 (PST)
-Message-ID: <d9640d74-a353-73cf-d51c-81d9cfb1606b@gmail.com>
-Date:   Wed, 23 Nov 2022 11:41:05 +0900
+        Tue, 22 Nov 2022 19:13:06 -0800 (PST)
+Message-ID: <bf664150-a544-76f8-b61f-98e6472dbebb@gmail.com>
+Date:   Wed, 23 Nov 2022 12:13:01 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH bpf-next v1] docs/bpf: Fix sphinx warnings in BPF map docs
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Akira Yokosawa <akiyks@gmail.com>, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20221122143933.91321-1-donald.hunter@gmail.com>
+Subject: Re: [PATCH bpf-next v1 0/2] docs: fix sphinx warnings for cpu+dev
+ maps
 Content-Language: en-US
+To:     mtahhan@redhat.com
+Cc:     jbrouer@redhat.com, thoiland@redhat.com, donhunte@redhat.com,
+        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <20221122103738.65980-1-mtahhan@redhat.com>
 From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20221122143933.91321-1-donald.hunter@gmail.com>
+In-Reply-To: <20221122103738.65980-1-mtahhan@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Donald,
+Hi,
 
-On Tue, 22 Nov 2022 14:39:33 +0000, Donald Hunter wrote:
-> Fix duplicate C declaration warnings when using sphinx >= 3.1
+On Tue, 22 Nov 2022 10:37:36 +0000, mtahhan@redhat.com wrote:
+> From: Maryam Tahhan <mtahhan@redhat.com>
 > 
-> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-> Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> Link: https://lore.kernel.org/bpf/ed4dac84-1b12-5c58-e4de-93ab9ac67c09@gmail.com
-> ---
->  Documentation/bpf/map_array.rst       | 20 ++++++++++++---
->  Documentation/bpf/map_hash.rst        | 33 ++++++++++++++++++++----
->  Documentation/bpf/map_lpm_trie.rst    | 24 +++++++++++++++---
->  Documentation/bpf/map_of_maps.rst     |  6 ++++-
->  Documentation/bpf/map_queue_stack.rst | 36 ++++++++++++++++++++++-----
->  5 files changed, 99 insertions(+), 20 deletions(-)
+> Sphinx version >=3.3 warns about duplicate function delcarations in the
 
-Thank you for taking care of them!
+As far as I see, Sphinx >=3.1 complains of these duplicates.
 
-Reviewed-by: Akira Yokosawa <akiyks@gmail.com> # Sphinx >= 3.1
+> CPUMAP and DEVMAP documentation. This is because the function name is the
+> same for Kernel and Userspace BPF progs but the parameters and return types
+> they take is what differs. This patch moves from using the ``c:function::``
+> directive to using the ``code-block:: c`` directive. The patches also fix
+> the indentation for the text associated with the "new" code block delcarations.
+I would mention that the missing support of c:namespace-push:: and
+c:namespace-pop:: directives by helper scripts for kernel documentation
+prevented you from using the c:function:: directive with proper namespacing.
 
+Either way, for the series,
+
+Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+
+> 
+> Maryam Tahhan (2):
+>   docs: fix sphinx warnings for cpumap
+>   docs: fix sphinx warnings for devmap
+> 
+>  Documentation/bpf/map_cpumap.rst | 41 +++++++++++++-----------
+>  Documentation/bpf/map_devmap.rst | 54 +++++++++++++++++---------------
+>  2 files changed, 52 insertions(+), 43 deletions(-)
+> 
+> --
+> 2.34.1
+> 
