@@ -2,300 +2,303 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C607EC4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 08:58:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8571EC43217
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Nov 2022 09:02:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236812AbiKWI6l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 03:58:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34400 "EHLO
+        id S236927AbiKWJCI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 04:02:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236827AbiKWI6Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 03:58:24 -0500
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6352725E3
-        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 00:58:22 -0800 (PST)
-Received: by mail-io1-xd31.google.com with SMTP id p184so12694654iof.11
-        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 00:58:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RIByAvzTpWTfKPQ5ysGNwwFAiPYN+RCVA5NjkuuWc2Q=;
-        b=G9Q9zGhnDUmT+5CDQKFEt0UxAEGqBXGpnoZP1YPcaaXGl8R/o4BDpTAp042600L285
-         ci6oLJ/Car9Bf7J2ZlAbggrwWr1h2sjrivIXRgssFRmqnJMOV7W3Ond5Xpxmu18aaBbQ
-         369AbgUAPjKzY3IeoCDywLPpPDWlBoR6iC/VA=
+        with ESMTP id S236924AbiKWJB4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 04:01:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3542CECCCD
+        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 01:00:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669194049;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=E6EIJ5w+PIWfz/dZ3wzqsgofUxnU4yeG1t+4ayq90mM=;
+        b=Pxlfd6iO9qWs8p3ZK9HEWtPpUfwNhfEQBd73CLfDDRSz8zGMvX91QgnUZTEtSTOYOxPLZK
+        hW+wWmnFu2cLl/NR6Xgw3OOXT3D/c4TXfvz0jpwoQoJowTNg55fXziGS+p4V0xSkL9xSsN
+        QhmDljIovf/THELGIiDwA4ChVPlbQP0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-321-8mAaekDEOXWY3gGqaUa_XA-1; Wed, 23 Nov 2022 04:00:48 -0500
+X-MC-Unique: 8mAaekDEOXWY3gGqaUa_XA-1
+Received: by mail-wm1-f71.google.com with SMTP id c10-20020a7bc84a000000b003cf81c2d3efso569656wml.7
+        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 01:00:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RIByAvzTpWTfKPQ5ysGNwwFAiPYN+RCVA5NjkuuWc2Q=;
-        b=z+bnYCC1Xe/33UZFHCoHoEfMNU1XV96+iT3l0V2bjpPL2t/R8jvDbWPWdJKf49HD8K
-         XSKNkHc7c9NWasXE1U5OG07qmpyh1Kenz6Fqw4HUrfYLyoMblZflQc1G9QFWUpeBJ43C
-         jLKpbbqXOWxyVrQRJSk8TJmHyZkvCazdB25Z6S0NfArCDdYPYMLS+LCDXx2Bj9bBhpgu
-         w6+WDe2E+1enyoLYwkHs/lZN7EFf/lFRqF1IBgeDd08r8+KrzBcIO7k1rPZ+T9kLkRwv
-         6Q58U0dat6l7Xs3YYOQCKt0TATmawKxn9cDv9yoEvVrGvOcuAq4evpjJpNYs9fBs9cX2
-         qV5Q==
-X-Gm-Message-State: ANoB5pkAVugdy5+JViLRRdtmTsLUkUpOdZIk63F/EElMg+iJyDtXZXD5
-        3YG6j7+1lg5W4atGqAdfT5RYBTsQMXEiEw==
-X-Google-Smtp-Source: AA0mqf7r4dOeepN0s6BGrPuZ7oovcK6grd6bAuUi9tQ/09/F39iKR0ZQ0nTercxs8ycOmMiTQ5vALA==
-X-Received: by 2002:a5d:9385:0:b0:6da:b0b7:ec83 with SMTP id c5-20020a5d9385000000b006dab0b7ec83mr3334425iol.93.1669193901468;
-        Wed, 23 Nov 2022 00:58:21 -0800 (PST)
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com. [209.85.166.44])
-        by smtp.gmail.com with ESMTPSA id q4-20020a056e02096400b002fab1376ba0sm5574581ilt.85.2022.11.23.00.58.19
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Nov 2022 00:58:20 -0800 (PST)
-Received: by mail-io1-f44.google.com with SMTP id y6so12706635iof.9
-        for <linux-doc@vger.kernel.org>; Wed, 23 Nov 2022 00:58:19 -0800 (PST)
-X-Received: by 2002:a05:6602:4011:b0:6de:a999:203b with SMTP id
- bk17-20020a056602401100b006dea999203bmr8655222iob.144.1669193899391; Wed, 23
- Nov 2022 00:58:19 -0800 (PST)
+        bh=E6EIJ5w+PIWfz/dZ3wzqsgofUxnU4yeG1t+4ayq90mM=;
+        b=z491u2fTOnaYv6wahzd+kxz016P2qkWDmh2EZXf/zrP0bSoSwjtrhG7GoLlUfd7aii
+         /QE5fUgBcmUFYgvqdw6CaLynkM1aVdLBwmSNgVGaZzjnb7rGfxPYuDmG5JT3ulmH8Oq9
+         UaVkF+XrHnlY8wgYwfmlHlgkq6/WX9Nk3gJzkcCwR3yn1WfNUj6BrozXGrOvNc134GR9
+         S1Gq6qi7Txx0ZGtVA9q2eTYLU4TpxCIDh4pUxJYy8T3uKdQJ/izHB2KK5lWTm6EhMNEU
+         CqUBfM7i9g2XQy9dCAskxllCctMVLfs0s+v3iLAHTjCDNVE+W+UyUagPypfcagEv9Xxa
+         ihlg==
+X-Gm-Message-State: ANoB5pkv2800X8B2LlBmwyjLqSvWJplTyQmLCKN2bqDAEwn+CQP9WoSm
+        eu+LnfzdDIdh2CfyeJm6KPH6idnZHVt9Fwcqcg828zZmToUTfd4cHxRjFqfDYGV9kyOobkHU/Hw
+        LBBJtsZbDU+2EIooO1ZsE
+X-Received: by 2002:a7b:c00a:0:b0:3cf:e8f0:ad11 with SMTP id c10-20020a7bc00a000000b003cfe8f0ad11mr23181555wmb.65.1669194046724;
+        Wed, 23 Nov 2022 01:00:46 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4zOjgsuRGPiS63Tp8xZsHmidooWDTcdbUcP1B+oIto3jBpIOtS2Y8FrHWBSGgwpNTU2W5NaQ==
+X-Received: by 2002:a7b:c00a:0:b0:3cf:e8f0:ad11 with SMTP id c10-20020a7bc00a000000b003cfe8f0ad11mr23181534wmb.65.1669194046374;
+        Wed, 23 Nov 2022 01:00:46 -0800 (PST)
+Received: from localhost.localdomain ([78.19.107.254])
+        by smtp.gmail.com with ESMTPSA id e9-20020a5d5949000000b0022e344a63c7sm15947773wri.92.2022.11.23.01.00.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Nov 2022 01:00:45 -0800 (PST)
+From:   mtahhan@redhat.com
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     jbrouer@redhat.com, thoiland@redhat.com, donhunte@redhat.com,
+        magnus.karlsson@gmail.com, akiyks@gmail.com,
+        Maryam Tahhan <mtahhan@redhat.com>
+Subject: [PATCH bpf-next v5 1/1] docs: BPF_MAP_TYPE_XSKMAP
+Date:   Wed, 23 Nov 2022 09:00:43 +0000
+Message-Id: <20221123090043.83945-1-mtahhan@redhat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221114-disable-kexec-reset-v1-0-fb51d20cf871@chromium.org>
- <20221114-disable-kexec-reset-v1-2-fb51d20cf871@chromium.org>
- <20221117160650.16e06b37@rotkaeppchen> <CANiDSCvyQ66mXbhEgj_qnE_zR4frsxtu1bXaukDrEG0FjrE4yw@mail.gmail.com>
- <20221121150948.6f7c1f1f@rotkaeppchen>
-In-Reply-To: <20221121150948.6f7c1f1f@rotkaeppchen>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 23 Nov 2022 09:58:08 +0100
-X-Gmail-Original-Message-ID: <CANiDSCtqYykAjRinx9r4O+DxdTBA=OQSjF8URmM6X54nN7pDUA@mail.gmail.com>
-Message-ID: <CANiDSCtqYykAjRinx9r4O+DxdTBA=OQSjF8URmM6X54nN7pDUA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] kexec: Introduce kexec_reboot_disabled
-To:     Philipp Rudo <prudo@redhat.com>
-Cc:     Eric Biederman <ebiederm@xmission.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
-        Ross Zwisler <zwisler@kernel.org>, linux-doc@vger.kernel.org,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Philipp
+From: Maryam Tahhan <mtahhan@redhat.com>
 
-Thanks for your review.
+Add documentation for BPF_MAP_TYPE_XSKMAP
+including kernel version introduced, usage
+and examples.
 
-My scenario is a trusted system, where even if you are root, your
-access to the system is very limited.
+Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
 
-Let's assume LOADPIN and verity are enabled.
+---
+v5:
+- Fixed references to user space
 
-On Mon, 21 Nov 2022 at 15:10, Philipp Rudo <prudo@redhat.com> wrote:
->
-> Hi Ricardo,
->
-> On Thu, 17 Nov 2022 16:15:07 +0100
-> Ricardo Ribalda <ribalda@chromium.org> wrote:
->
-> > Hi Philipp
-> >
-> > Thanks for your review!
->
-> happy to help.
->
-> >
-> > On Thu, 17 Nov 2022 at 16:07, Philipp Rudo <prudo@redhat.com> wrote:
-> > >
-> > > Hi Ricardo,
-> > >
-> > > all in all I think this patch makes sense. However, there is one point
-> > > I don't like...
-> > >
-> > > On Mon, 14 Nov 2022 14:18:39 +0100
-> > > Ricardo Ribalda <ribalda@chromium.org> wrote:
-> > >
-> > > > Create a new toogle that disables LINUX_REBOOT_CMD_KEXEC, reducing the
-> > > > attack surface to a system.
-> > > >
-> > > > Without this toogle, an attacker can only reboot into a different kernel
-> > > > if they can create a panic().
-> > > >
-> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > >
-> > > > diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> > > > index 97394bd9d065..25d019682d33 100644
-> > > > --- a/Documentation/admin-guide/sysctl/kernel.rst
-> > > > +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> > > > @@ -462,6 +462,17 @@ altered.
-> > > >  Generally used together with the `modules_disabled`_ sysctl.
-> > > >
-> > > >
-> > > > +kexec_reboot_disabled
-> > > > +=====================
-> > > > +
-> > > > +A toggle indicating if ``LINUX_REBOOT_CMD_KEXEC`` has been disabled.
-> > > > +This value defaults to 0 (false: ``LINUX_REBOOT_CMD_KEXEC`` enabled),
-> > > > +but can be set to 1 (true: ``LINUX_REBOOT_CMD_KEXEC`` disabled).
-> > > > +Once true, kexec can no longer be used for reboot and the toggle
-> > > > +cannot be set back to false.
-> > > > +This toggle does not affect the use of kexec during a crash.
-> > > > +
-> > > > +
-> > > >  kptr_restrict
-> > > >  =============
-> > > >
-> > > > diff --git a/include/linux/kexec.h b/include/linux/kexec.h
-> > > > index 41a686996aaa..15c3fad8918b 100644
-> > > > --- a/include/linux/kexec.h
-> > > > +++ b/include/linux/kexec.h
-> > > > @@ -407,6 +407,7 @@ extern int kimage_crash_copy_vmcoreinfo(struct kimage *image);
-> > > >  extern struct kimage *kexec_image;
-> > > >  extern struct kimage *kexec_crash_image;
-> > > >  extern int kexec_load_disabled;
-> > > > +extern int kexec_reboot_disabled;
-> > > >
-> > > >  #ifndef kexec_flush_icache_page
-> > > >  #define kexec_flush_icache_page(page)
-> > > > diff --git a/kernel/kexec.c b/kernel/kexec.c
-> > > > index cb8e6e6f983c..43063f803d81 100644
-> > > > --- a/kernel/kexec.c
-> > > > +++ b/kernel/kexec.c
-> > > > @@ -196,6 +196,10 @@ static inline int kexec_load_check(unsigned long nr_segments,
-> > > >       if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
-> > > >               return -EPERM;
-> > > >
-> > > > +     /* Check if the system admin has disabled kexec reboot. */
-> > > > +     if (!(flags & KEXEC_ON_CRASH) && kexec_reboot_disabled)
-> > > > +             return -EPERM;
-> > >
-> > > ... Allowing to load a crashkernel doesn't make sense in my opinion. If
-> > > an attacker is capable of creating a malicious kernel, planting it on
-> > > the victims system and then find a way to boot it via kexec this
-> > > attacker also knows how to load the malicious kernel as crashkernel and
-> > > trigger a panic. So you haven't really gained anything. That's why I
-> > > would simply drop this hunk (and the corresponding one from
-> > > kexec_file_load) and let users who worry about this use a combination of
-> > > kexec_load_disabled and kexec_reboot_disabled.
-> >
-> > If for whatever reason your sysadmin configured kexec_reboot_disabed
-> > it can be nice that when a user try to load it they get a warning.
-> > It is easier to debug than waiting two steps later when they run kexec -e....
->
-> I'm having second thoughts about this patch. My main problem is that I
-> don't see a real use case where kexec_reboot_disabled is advantageous
-> over kexec_load_disabled. The point is that disabling
-> LINUX_REBOOT_CMD_KEXEC is almost identical to toggling kexec_load_disabled without
-> a loaded kernel (when you don't have a kernel loaded you cannot reboot
-> into it). With this the main use case of kexec_reboot_disabled is
-> already covered by kexec_load_disabled.
+v4:
+- Add more details about AF_XDP sockets and where to find
+  relevant info.
+- Fixup typos.
+- Remove ``c:function::`` block directives.
+- Replace spaces with tabs in code blocks.
 
->
-> However, there are two differences
->
-> 1) with kexec_reboot_disable you can still (re-)load a crash kernel
-> e.g. to update the initramfs after a config change. But as discussed in
-> my first mail this comes on the cost that an attacker could still load a
-> malicious crash kernel and then 'panic into it'.
+v3:
+- Fixed duplicate function warnings from Sphinx >= 3.3.
 
-That crash kernel must be already in the signed malicious kernel.
-which reduces the chances of attack.
-Plus an attacker must be able to panic the current kernel at will,
-instead of just call reset.
+v2:
+- Fixed typos + incorrect return type references.
+- Adjusted examples to use __u32 and fixed references to key_size.
+- Changed `AF_XDP socket` references to XSK.
+- Added note re map key and value size.
+---
+ Documentation/bpf/map_xskmap.rst | 192 +++++++++++++++++++++++++++++++
+ 1 file changed, 192 insertions(+)
+ create mode 100644 Documentation/bpf/map_xskmap.rst
 
->
-> 2) kexec_load_disabled also prevents unloading of a loaded kernel. So
-> once loaded kexec_load_disabled cannot prevent the reboot into this
-> kernel.
->
->
-> For 1) I doubt that this is desired at all. My expectation is that on
-> systems where a sysadmin restricts a user to reboot via kexec the
-> sysadmin also wants to prevent the user to load an arbitrary crash
-> kernel. Especially as this still keeps the loophole open you are trying
-> to close.
->
-> So only 2) is left as real benefit. But that is an extremely specific
-> scenario. How often does this scenario happen in real life? What
-> problem does kexec_reboot_disable solve different implementation
-> (also in userspace) cannot?
->
-> Sorry about being this pedantic but you want to introduce some new uapi
-> which will be hard if not impossible to change once introduced. That's
-> why I want to be a 100% sure it is really needed.
-
-No worries. Completely understand :). Thanks for taking this seriously..
-
-
-Best regards!
->
-> Thanks
-> Philipp
->
->
-> > That is why I added it. But i am also ok removing it
-> >
-> > >
-> > > Thanks
-> > > Philipp
-> > >
-> > > > +
-> > > >       /* Permit LSMs and IMA to fail the kexec */
-> > > >       result = security_kernel_load_data(LOADING_KEXEC_IMAGE, false);
-> > > >       if (result < 0)
-> > > > diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
-> > > > index ca2743f9c634..fe82e2525705 100644
-> > > > --- a/kernel/kexec_core.c
-> > > > +++ b/kernel/kexec_core.c
-> > > > @@ -929,6 +929,7 @@ int kimage_load_segment(struct kimage *image,
-> > > >  struct kimage *kexec_image;
-> > > >  struct kimage *kexec_crash_image;
-> > > >  int kexec_load_disabled;
-> > > > +int kexec_reboot_disabled;
-> > > >  #ifdef CONFIG_SYSCTL
-> > > >  static struct ctl_table kexec_core_sysctls[] = {
-> > > >       {
-> > > > @@ -941,6 +942,16 @@ static struct ctl_table kexec_core_sysctls[] = {
-> > > >               .extra1         = SYSCTL_ONE,
-> > > >               .extra2         = SYSCTL_ONE,
-> > > >       },
-> > > > +     {
-> > > > +             .procname       = "kexec_reboot_disabled",
-> > > > +             .data           = &kexec_reboot_disabled,
-> > > > +             .maxlen         = sizeof(int),
-> > > > +             .mode           = 0644,
-> > > > +             /* only handle a transition from default "0" to "1" */
-> > > > +             .proc_handler   = proc_dointvec_minmax,
-> > > > +             .extra1         = SYSCTL_ONE,
-> > > > +             .extra2         = SYSCTL_ONE,
-> > > > +     },
-> > > >       { }
-> > > >  };
-> > > >
-> > > > @@ -1138,7 +1149,7 @@ int kernel_kexec(void)
-> > > >
-> > > >       if (!kexec_trylock())
-> > > >               return -EBUSY;
-> > > > -     if (!kexec_image) {
-> > > > +     if (!kexec_image || kexec_reboot_disabled) {
-> > > >               error = -EINVAL;
-> > > >               goto Unlock;
-> > > >       }
-> > > > diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
-> > > > index 45637511e0de..583fba6de5cb 100644
-> > > > --- a/kernel/kexec_file.c
-> > > > +++ b/kernel/kexec_file.c
-> > > > @@ -333,6 +333,11 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
-> > > >       if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
-> > > >               return -EPERM;
-> > > >
-> > > > +     /* Check if the system admin has disabled kexec reboot. */
-> > > > +     if (!(flags & (KEXEC_FILE_ON_CRASH | KEXEC_FILE_UNLOAD))
-> > > > +         && kexec_reboot_disabled)
-> > > > +             return -EPERM;
-> > > > +
-> > > >       /* Make sure we have a legal set of flags */
-> > > >       if (flags != (flags & KEXEC_FILE_FLAGS))
-> > > >               return -EINVAL;
-> > > >
-> > >
-> >
-> >
->
-
-
+diff --git a/Documentation/bpf/map_xskmap.rst b/Documentation/bpf/map_xskmap.rst
+new file mode 100644
+index 000000000000..7093b8208451
+--- /dev/null
++++ b/Documentation/bpf/map_xskmap.rst
+@@ -0,0 +1,192 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
++
++===================
++BPF_MAP_TYPE_XSKMAP
++===================
++
++.. note::
++   - ``BPF_MAP_TYPE_XSKMAP`` was introduced in kernel version 4.18
++
++The ``BPF_MAP_TYPE_XSKMAP`` is used as a backend map for XDP BPF helper
++call ``bpf_redirect_map()`` and ``XDP_REDIRECT`` action, like 'devmap' and 'cpumap'.
++This map type redirects raw XDP frames to `AF_XDP`_ sockets (XSKs), a new type of
++address family in the kernel that allows redirection of frames from a driver to
++user space without having to traverse the full network stack. An AF_XDP socket
++binds to a single netdev queue. A mapping of XSKs to queues is shown below:
++
++.. code-block:: none
++
++    +---------------------------------------------------+
++    |     xsk A      |     xsk B       |      xsk C     |<---+ User space
++    =========================================================|==========
++    |    Queue 0     |     Queue 1     |     Queue 2    |    |  Kernel
++    +---------------------------------------------------+    |
++    |                  Netdev eth0                      |    |
++    +---------------------------------------------------+    |
++    |                            +=============+        |    |
++    |                            | key |  xsk  |        |    |
++    |  +---------+               +=============+        |    |
++    |  |         |               |  0  | xsk A |        |    |
++    |  |         |               +-------------+        |    |
++    |  |         |               |  1  | xsk B |        |    |
++    |  | BPF     |-- redirect -->+-------------+-------------+
++    |  | prog    |               |  2  | xsk C |        |
++    |  |         |               +-------------+        |
++    |  |         |                                      |
++    |  |         |                                      |
++    |  +---------+                                      |
++    |                                                   |
++    +---------------------------------------------------+
++
++.. note::
++    An AF_XDP socket that is bound to a certain <netdev/queue_id> will *only*
++    accept XDP frames from that <netdev/queue_id>. If an XDP program tries to redirect
++    from a <netdev/queue_id> other than what the socket is bound to, the frame will
++    not be received on the socket.
++
++Typically an XSKMAP is created per netdev. This map contains an array of XSK File
++Descriptors (FDs). The number of array elements is typically set or adjusted using
++the ``max_entries`` map parameter. For AF_XDP ``max_entries`` is equal to the number
++of queues supported by the netdev.
++
++.. note::
++    Both the map key and map value size must be 4 bytes.
++
++Usage
++=====
++
++Kernel BPF
++----------
++bpf_redirect_map()
++^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++    long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
++
++Redirect the packet to the endpoint referenced by ``map`` at index ``key``.
++For ``BPF_MAP_TYPE_XSKMAP`` this map contains references to XSK FDs
++for sockets attached to a netdev's queues.
++
++.. note::
++    If the map is empty at an index, the packet is dropped. This means that it is
++    necessary to have an XDP program loaded with at least one XSK in the
++    XSKMAP to be able to get any traffic to user space through the socket.
++
++bpf_map_lookup_elem()
++^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
++
++XSK entry references of type ``struct xdp_sock *`` can be retrieved using the
++``bpf_map_lookup_elem()`` helper.
++
++User space
++----------
++.. note::
++    XSK entries can only be updated/deleted from user space and not from
++    a BPF program. Trying to call these functions from a kernel BPF program will
++    result in the program failing to load and a verifier warning.
++
++bpf_map_update_elem()
++^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++	int bpf_map_update_elem(int fd, const void *key, const void *value, __u64 flags)
++
++XSK entries can be added or updated using the ``bpf_map_update_elem()``
++helper. The ``key`` parameter is equal to the queue_id of the queue the XSK
++is attaching to. And the ``value`` parameter is the FD value of that socket.
++
++Under the hood, the XSKMAP update function uses the XSK FD value to retrieve the
++associated ``struct xdp_sock`` instance.
++
++The flags argument can be one of the following:
++
++- BPF_ANY: Create a new element or update an existing element.
++- BPF_NOEXIST: Create a new element only if it did not exist.
++- BPF_EXIST: Update an existing element.
++
++bpf_map_lookup_elem()
++^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++    int bpf_map_lookup_elem(int fd, const void *key, void *value)
++
++Returns ``struct xdp_sock *`` or negative error in case of failure.
++
++bpf_map_delete_elem()
++^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++    int bpf_map_delete_elem(int fd, const void *key)
++
++XSK entries can be deleted using the ``bpf_map_delete_elem()``
++helper. This helper will return 0 on success, or negative error in case of
++failure.
++
++.. note::
++    When `libxdp`_ deletes an XSK it also removes the associated socket
++    entry from the XSKMAP.
++
++Examples
++========
++Kernel
++------
++
++The following code snippet shows how to declare a ``BPF_MAP_TYPE_XSKMAP`` called
++``xsks_map`` and how to redirect packets to an XSK.
++
++.. code-block:: c
++
++	struct {
++		__uint(type, BPF_MAP_TYPE_XSKMAP);
++		__type(key, __u32);
++		__type(value, __u32);
++		__uint(max_entries, 64);
++	} xsks_map SEC(".maps");
++
++
++	SEC("xdp")
++	int xsk_redir_prog(struct xdp_md *ctx)
++	{
++		__u32 index = ctx->rx_queue_index;
++
++		if (bpf_map_lookup_elem(&xsks_map, &index))
++			return bpf_redirect_map(&xsks_map, index, 0);
++		return XDP_PASS;
++	}
++
++User space
++----------
++
++The following code snippet shows how to update an XSKMAP with an XSK entry.
++
++.. code-block:: c
++
++	int update_xsks_map(struct bpf_map *xsks_map, int queue_id, int xsk_fd)
++	{
++		int ret;
++
++		ret = bpf_map_update_elem(bpf_map__fd(xsks_map), &queue_id, &xsk_fd, 0);
++		if (ret < 0)
++			fprintf(stderr, "Failed to update xsks_map: %s\n", strerror(errno));
++
++		return ret;
++	}
++
++For an example on how create AF_XDP sockets, please see the AF_XDP-example and
++AF_XDP-forwarding programs in the `bpf-examples`_ directory in the `libxdp`_ repository.
++For a detailed explaination of the AF_XDP interface please see:
++
++- `libxdp-readme`_.
++- `AF_XDP`_ kernel documentation.
++
++.. note::
++    The most comprehensive resource for using XSKMAPs and AF_XDP is `libxdp`_.
++
++.. _libxdp: https://github.com/xdp-project/xdp-tools/tree/master/lib/libxdp
++.. _AF_XDP: https://www.kernel.org/doc/html/latest/networking/af_xdp.html
++.. _bpf-examples: https://github.com/xdp-project/bpf-examples
++.. _libxdp-readme: https://github.com/xdp-project/xdp-tools/tree/master/lib/libxdp#using-af_xdp-sockets
 -- 
-Ricardo Ribalda
+2.34.1
+
