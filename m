@@ -2,81 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5269CC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 00:10:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E94A0C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 01:25:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229475AbiKXAKU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Nov 2022 19:10:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40710 "EHLO
+        id S229518AbiKXBZt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Nov 2022 20:25:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbiKXAKS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 19:10:18 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBFEC2D740;
-        Wed, 23 Nov 2022 16:10:17 -0800 (PST)
+        with ESMTP id S229459AbiKXBZs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Nov 2022 20:25:48 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03679111E;
+        Wed, 23 Nov 2022 17:25:48 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 74FEA61F83;
-        Thu, 24 Nov 2022 00:10:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C9F3CC433D6;
-        Thu, 24 Nov 2022 00:10:16 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 93D0161F90;
+        Thu, 24 Nov 2022 01:25:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC70EC433D6;
+        Thu, 24 Nov 2022 01:25:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669248616;
-        bh=OQekOYc1r7D8u+bLIKLfVdWn0JN3iU0PVGtiZUjcOzQ=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=td3cYfgPFwdqw74KoTAXU55tfXsAC5C2/TOqCC4lzh0WlxHfiPr8trTmaon0dXaeL
-         eL70r90lKytHxBRJlNRXY5dBK7PMAnSZirVMtxTgWvq+5K/k1hYorn6Yq6MthTFiuA
-         W8Du70W566+aOsO1HzNyT+b2xduvNH3p4XdVU3gIIq60dTpl4veYO1UOtT2wILjiQa
-         zcmq6Euha+ZHQ2PAQDPyCWRuDqObwlKi1uTFIQyCNb12qU2+74tcJ8sHce1znJcNjs
-         MJXGlOCz+BuZ8qkZ3JWESYteT4RTC41AAbypcZRYdbsgJIqLzfhpMobPl9TqO+tqin
-         IKVW9hRiekxPw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B37A4C395EE;
-        Thu, 24 Nov 2022 00:10:16 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        s=k20201202; t=1669253147;
+        bh=BhD4v4hopU8vCegzK9pUd5aj04mnQ/I3a+N/9ByoM68=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=WZrg0xJ6qb3TvOEZVXaoyreAQHNlVE1ug+Oh94/zoZigPEEFMEHlFxeziNl99jBEm
+         hetKH3KJ5pOO4Ce7QW31PzrsMtfsxPq5Do9IY7h0xAAisgDqhZj+I3xQuC7OEE2XBW
+         OTni91PISf5nC0KMzWERobdy9DteOq1k2ElMUiUzAvJcX6toCBZx2tyF0tSahLBSIG
+         4xJx8ICrINED5UIeBh5LaRz7h988JLnxKc4qLlG4viYNfAzAhlylhGQepUtEcUt3t7
+         CrLi7Anavigl7pl8IfvHXIP36HmGWtGDvjsUohdS5KSVooTC+ajJT05oZn8T41RFyd
+         8UtXNZHEPBZNg==
+Date:   Wed, 23 Nov 2022 17:25:45 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>, Nir Levy <bhr166@gmail.com>
+Cc:     grantseltzer@gmail.com, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH] Documentation: networking: Update generic_netlink_howto
+ URL
+Message-ID: <20221123172545.6d74e62d@kernel.org>
+In-Reply-To: <878rk5b6o8.fsf@meer.lwn.net>
+References: <20221120220630.7443-1-bhr166@gmail.com>
+        <878rk5b6o8.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next v1] docs/bpf: Fix sphinx warnings in BPF map docs
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166924861673.26979.2982105409284887364.git-patchwork-notify@kernel.org>
-Date:   Thu, 24 Nov 2022 00:10:16 +0000
-References: <20221122143933.91321-1-donald.hunter@gmail.com>
-In-Reply-To: <20221122143933.91321-1-donald.hunter@gmail.com>
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, ast@kernel.org,
-        daniel@iogearbox.net, andrii@kernel.org, corbet@lwn.net,
-        akiyks@gmail.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+On Sun, 20 Nov 2022 15:30:15 -0700 Jonathan Corbet wrote:
+> Ah...it's not a proper LF URL if it doesn't break every year or so...
+> this is a networking patch, though, so should go to the folks at netdev;
+> I'll CC them now.
 
-This patch was applied to bpf/bpf-next.git (master)
-by Daniel Borkmann <daniel@iogearbox.net>:
-
-On Tue, 22 Nov 2022 14:39:33 +0000 you wrote:
-> Fix duplicate C declaration warnings when using sphinx >= 3.1
-> 
-> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-> Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> Link: https://lore.kernel.org/bpf/ed4dac84-1b12-5c58-e4de-93ab9ac67c09@gmail.com
-> ---
->  Documentation/bpf/map_array.rst       | 20 ++++++++++++---
->  Documentation/bpf/map_hash.rst        | 33 ++++++++++++++++++++----
->  Documentation/bpf/map_lpm_trie.rst    | 24 +++++++++++++++---
->  Documentation/bpf/map_of_maps.rst     |  6 ++++-
->  Documentation/bpf/map_queue_stack.rst | 36 ++++++++++++++++++++++-----
->  5 files changed, 99 insertions(+), 20 deletions(-)
-
-Here is the summary with links:
-  - [bpf-next,v1] docs/bpf: Fix sphinx warnings in BPF map docs
-    https://git.kernel.org/bpf/bpf-next/c/539886a32a6a
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Applied, thanks!
