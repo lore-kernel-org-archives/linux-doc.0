@@ -2,190 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2429DC43217
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 15:51:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C69E3C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 17:02:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229704AbiKXPvT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Nov 2022 10:51:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38306 "EHLO
+        id S229671AbiKXRCu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Nov 2022 12:02:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbiKXPvS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 10:51:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DD7F132F77
-        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 07:50:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669305023;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=RY55+mI/DdVynf6mJobax2x0nouP9gB/94T/eEnCQ84=;
-        b=JhC5IsXvX2RUOh60Vb+22q02Kc/unNt7IEGDy/tw9Q5mNNFqSzrP20w/3NGXXnSWx3ek/0
-        AHWiJ7sLFy6miJ7CsBI4SzL8+kQjcQWYeeSrTw4IYvqs7PylO3g3tfsJ+h43MEwSmW3vQf
-        hhMFMwndpX5olYvtIsRFFUDDKHp3C2A=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-215-6zZltYY1M6OtAv-d1r7ILw-1; Thu, 24 Nov 2022 10:50:22 -0500
-X-MC-Unique: 6zZltYY1M6OtAv-d1r7ILw-1
-Received: by mail-io1-f69.google.com with SMTP id x5-20020a6bda05000000b006db3112c1deso1020472iob.0
-        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 07:50:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RY55+mI/DdVynf6mJobax2x0nouP9gB/94T/eEnCQ84=;
-        b=aDfm2zBaMftLV1JOGXyKFcZy1/n4cu3/z4xPZ20DAAQJjSymmdBU2FQrEb+5sI4yHc
-         K5q3Z+u00W2xsJjg7qfLrjfEpl0jQabWsVs0bbPZn4Dm1DtkZ9wL/kkyMa34dgRkHp8j
-         WtvijbJgCX3fczZRuNJ5lmKYwf53H4mGqh7GFSV3VHkVn0mI2jbpdl033Fnbif9fe8Hx
-         KhkIuKWi0bUbLYUAfY2uYHcYca4fop8GouS6AXtgWu/c1vVz0dTprteSRNu0h4W2NIxw
-         ucLaDtZphe4PihIm7cNaWWfzDtQD64neWoD4/B9kRBqbVt1HGv2lMxdCsm6l945ZB72T
-         FW+w==
-X-Gm-Message-State: ANoB5pkDkTdetE+WrSxnc36oXDI9r2NnaL+jDRpduQRHlb7R3uNs3nIA
-        3lcnZs/mSfyvqd4QL9Vm7EqoPUVS4x31uUnPRrZ3bjKV/msB4svOlUnQ+oSROnjq978dwE0LLEu
-        7VYSWQ3eQowhXsnU2NH1tTDCtWOyuO+mdcu9q
-X-Received: by 2002:a05:6e02:12c2:b0:302:e38e:761b with SMTP id i2-20020a056e0212c200b00302e38e761bmr2982585ilm.61.1669305021750;
-        Thu, 24 Nov 2022 07:50:21 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf50DvoaFAAKrDAN6ynBtlfajIpvDYjTyVfoAXhh1Q93IuTagRMPKBRzK4dRjX385fP/AwgqliXF5ra1BppOhJk=
-X-Received: by 2002:a05:6e02:12c2:b0:302:e38e:761b with SMTP id
- i2-20020a056e0212c200b00302e38e761bmr2982569ilm.61.1669305021479; Thu, 24 Nov
- 2022 07:50:21 -0800 (PST)
+        with ESMTP id S229612AbiKXRCt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 12:02:49 -0500
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F2B418B3C;
+        Thu, 24 Nov 2022 09:02:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R8iIkGQtInmgMcF70nWYBJUkqGKcuw1qB8NkJBkR4Il4RaUe/blB6xcyz3TIWtcytN78tbbyhPdUHm5J5YmRkIbD3aa9B2AOqcoiMcSfEVUXWaNmFF65EgcDFkTW6lIrXZA/fxrKx9k1DmmO3e2yYgeYS90tE9pJT0R6JMbuig0mXb6Yb3oGInobB5JNdXd1s047Sf/162TSn0G4XsXemDmjajrxcmvIrPPywIdvd1SrApVh9+pb8xO/rBxSww41cmCe1XPauL78j8mwqoLfZbfNbIOYzx83dTcg2kN94VPWL1FlxU00t0IGnT+bco6gMUqaVKRd0jHamNAc/g6GrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m99/gTo0KTRMi9E6+WP4aRTN979Dzrg1RBvg3C6icM8=;
+ b=R3k6Gcckh0hH6Rk6Y6IFjg6wAVKk4sTynp9n3eTMqAVQJLCX3TexiKPvaCrZRdZHxl9RyLjfm6n4GvuC9SgIpCnstJs9L1vmlFvVY7lzAghgUkYplKQ0GJGiWizWFWucMheIe4AzJ5ZxScjUPOSWTOp+erT1yOAjWzY0lnT7CCcLVTejKpAbIDaoklWBwV78F+X2quathduaU/q+AyZllIyUHIiqsyJ7APlT5X9g+8egjVkFFnBHv6wTJHVxxxRd4tX/fo8aRR1F6jkV0HVcAz3DuOo1RO3H4am9kjImK7XaxjFcFXecpeoYPxXRlH5OYYZ/kpc6NvKBvM9uNtGDSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m99/gTo0KTRMi9E6+WP4aRTN979Dzrg1RBvg3C6icM8=;
+ b=TKgzYfdLejaovmUzE0HmxfB3sJnP45Gk7dnfMGnUQh5fVmOJmM0fZSvofAIkIC5v9IkJMg95HgeQfgfQcMk5mXA+VItgD0vml1FpqCTwqj8IJkLe9aoB5PNcfe5yVt/BmhmEeuFM7vx2MRJwpEckTtQ/zRT+tFPzGuAjdxfGogI=
+Received: from DM5PR07CA0082.namprd07.prod.outlook.com (2603:10b6:4:ad::47) by
+ MW4PR12MB7144.namprd12.prod.outlook.com (2603:10b6:303:21b::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Thu, 24 Nov
+ 2022 17:02:45 +0000
+Received: from DM6NAM11FT004.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:ad:cafe::ae) by DM5PR07CA0082.outlook.office365.com
+ (2603:10b6:4:ad::47) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.19 via Frontend
+ Transport; Thu, 24 Nov 2022 17:02:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ DM6NAM11FT004.mail.protection.outlook.com (10.13.172.217) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5834.8 via Frontend Transport; Thu, 24 Nov 2022 17:02:44 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 24 Nov
+ 2022 11:02:43 -0600
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 24 Nov
+ 2022 11:02:43 -0600
+Received: from iron-maiden.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
+ Transport; Thu, 24 Nov 2022 11:02:43 -0600
+From:   Carlos Bilbao <carlos.bilbao@amd.com>
+To:     <corbet@lwn.net>, <lukas.bulwahn@gmail.com>, <ojeda@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <bilbao@vt.edu>, Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: [PATCH 0/6] docs: Update kernel-docs and progress translating Spanish
+Date:   Thu, 24 Nov 2022 11:02:36 -0600
+Message-ID: <20221124170242.1892751-1-carlos.bilbao@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221103155756.687789-1-benjamin.tissoires@redhat.com>
- <20221103155756.687789-4-benjamin.tissoires@redhat.com> <ff1a0b34-71f2-cebe-a6ef-675936b276eb@nvidia.com>
- <CAO-hwJJZxgeTT8mLwFrYynSVASva=o7qL9Kr4xOywV3KDUu2GA@mail.gmail.com> <CAADnVQ+kE+EJ9LAfwge9ksC0LR8r+ShQNYi5g-MDajufXq8Yxw@mail.gmail.com>
-In-Reply-To: <CAADnVQ+kE+EJ9LAfwge9ksC0LR8r+ShQNYi5g-MDajufXq8Yxw@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 24 Nov 2022 16:50:10 +0100
-Message-ID: <CAO-hwJJGxvrLRGSt7g0T1rYiuCCigVzQ-L6yKLM1-44EpYqmsQ@mail.gmail.com>
-Subject: Re: [PATCH hid v12 03/15] HID: initial BPF implementation
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Florent Revest <revest@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT004:EE_|MW4PR12MB7144:EE_
+X-MS-Office365-Filtering-Correlation-Id: a71f7cb2-3d3d-4080-68f1-08dace3db4ca
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /vFgysH90LeEmfunAKPkb/5/ABOZ730fG+c1iYjV/FLkkP/lp+Tn3pwEoWH6nQctAtoBrYrwm2rR7WW8Exskn6TrjZ1gfJA5YA9QsZhmW7izno3kgzOr00/ddLwCke1orE7ady3pYIRz2zN8EMLfjV9obC2hTFAhSZmF2aW57GwaCe0zwTAZ66WoOpMgo2kZt9siWqIcfjO1uQt5M+/XG738i/xP8s2a7gkLQWf+pRAFmoLtt2mjCBQrp8zaxYLdFMhtsmoSzp/1M27kts2060hvW7P71kBldLXy6y0uBhBYxt78gGG85EpsuO/syrQG6LKOc16ivMQRSRcdsaCA+AxgZ490T5MZn4/SGl9uKZvxzDL5Khedpfrq3DrJz+U3CtrsgSacDBCrcAVfM8QmgGVzJjLp2oM+LxaG8SVY02G4/XnidjmNgzXVexy4ozUGqEdmg0aMKGaYs+QlcQjp6ZcCHeacrIEtPGUGEi8Y51PWiTXT0AEvqdkO35+mRkmsQnqj2VzcmIS1sns8BalRfu3xCMDfdiWoD85jLMJCUWyHdBqhBIeNl3FZcxNZt7SnvOr/uYv2QkUAJODWGMPHXy+nezv6qEC0zU4WzhZkLS1+gdpC4MMen3+kIKzVLsuyjPUx8n6+lV/lBz65WNMm/+GYNANs4zG8Ca+FdA2IUWt9sK4gOuXFOyQYS6UWUJufKDZC+JPVxRGW+AceubDART8NbCwIVxKfTOXZQefQGSI7Wzg9y4LADVfC7CV2EHfB/Q8J+pKY4KpU0RuzNm2j7Q==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(396003)(376002)(136003)(451199015)(46966006)(40470700004)(36840700001)(36756003)(336012)(5660300002)(83380400001)(2616005)(7696005)(54906003)(44832011)(186003)(1076003)(70586007)(316002)(8676002)(70206006)(4326008)(8936002)(26005)(36860700001)(426003)(82310400005)(356005)(81166007)(82740400003)(2906002)(86362001)(40460700003)(15650500001)(110136005)(47076005)(40480700001)(6666004)(41300700001)(966005)(478600001)(66899015)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2022 17:02:44.7056
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a71f7cb2-3d3d-4080-68f1-08dace3db4ca
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT004.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7144
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 23, 2022 at 9:14 PM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
->
-> On Wed, Nov 23, 2022 at 6:53 AM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > Hi Jon,
-> >
-> > On Wed, Nov 23, 2022 at 2:25 PM Jon Hunter <jonathanh@nvidia.com> wrote:
-> > >
-> > >
-> > > On 03/11/2022 15:57, Benjamin Tissoires wrote:
-> > > > Declare an entry point that can use fmod_ret BPF programs, and
-> > > > also an API to access and change the incoming data.
-> > > >
-> > > > A simpler implementation would consist in just calling
-> > > > hid_bpf_device_event() for any incoming event and let users deal
-> > > > with the fact that they will be called for any event of any device.
-> > > >
-> > > > The goal of HID-BPF is to partially replace drivers, so this situation
-> > > > can be problematic because we might have programs which will step on
-> > > > each other toes.
-> > > >
-> > > > For that, we add a new API hid_bpf_attach_prog() that can be called
-> > > > from a syscall and we manually deal with a jump table in hid-bpf.
-> > > >
-> > > > Whenever we add a program to the jump table (in other words, when we
-> > > > attach a program to a HID device), we keep the number of time we added
-> > > > this program in the jump table so we can release it whenever there are
-> > > > no other users.
-> > > >
-> > > > HID devices have an RCU protected list of available programs in the
-> > > > jump table, and those programs are called one after the other thanks
-> > > > to bpf_tail_call().
-> > > >
-> > > > To achieve the detection of users losing their fds on the programs we
-> > > > attached, we add 2 tracing facilities on bpf_prog_release() (for when
-> > > > a fd is closed) and bpf_free_inode() (for when a pinned program gets
-> > > > unpinned).
-> > > >
-> > > > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > >
-> > > ...
-> > >
-> > > > +static int __init hid_bpf_init(void)
-> > > > +{
-> > > > +     int err;
-> > > > +
-> > > > +     /* Note: if we exit with an error any time here, we would entirely break HID, which
-> > > > +      * is probably not something we want. So we log an error and return success.
-> > > > +      *
-> > > > +      * This is not a big deal: the syscall allowing to attach a BPF program to a HID device
-> > > > +      * will not be available, so nobody will be able to use the functionality.
-> > > > +      */
-> > > > +
-> > > > +     err = register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING, &hid_bpf_kfunc_set);
-> > > > +     if (err) {
-> > > > +             pr_warn("error while setting HID BPF tracing kfuncs: %d", err);
-> > > > +             return 0;
-> > > > +     }
-> > > > +
-> > > > +     err = hid_bpf_preload_skel();
-> > > > +     if (err) {
-> > > > +             pr_warn("error while preloading HID BPF dispatcher: %d", err);
-> > > > +             return 0;
-> > > > +     }
-> > > > +
-> > > > +     /* register syscalls after we are sure we can load our preloaded bpf program */
-> > > > +     err = register_btf_kfunc_id_set(BPF_PROG_TYPE_SYSCALL, &hid_bpf_syscall_kfunc_set);
-> > > > +     if (err) {
-> > > > +             pr_warn("error while setting HID BPF syscall kfuncs: %d", err);
-> > > > +             return 0;
-> > > > +     }
-> > > > +
-> > > > +     return 0;
-> > > > +}
-> > >
-> > >
-> > > We have a kernel test that checks for new warning and error messages on
-> > > boot and with this change I am now seeing the following error message on
-> > > our Tegra platforms ...
-> > >
-> > >   WARNING KERN hid_bpf: error while preloading HID BPF dispatcher: -13
-> > >
-> > > I have a quick look at the code, but I can't say I am familiar with
-> > > this. So I wanted to ask if a way to fix this or avoid this? I see the
-> > > code returns 0, so one option would be to make this an informational or
-> > > debug print.
-> >
-> > I am not in favor of debug in that case, because I suspect it'll hide
-> > too much when getting a bug report. Informational could do, yes.
-> >
-> > However, before that, I'd like to dig a little bit more on why it is
-> > failing. I thought arm64 now has support of tracing bpf programs, so I
-> > would not expect this to fail.
->
-> Unfortunately the patches to add support for such tracing bpf progs got stuck.
-> Florent/Mark can probably share the latest status.
->
+This patch set:
 
-Oh... I noticed Jon's config was lacking CONFIG_FTRACE. So should I
-also add a depends on CONFIG_FTRACE to enable HID-BPF?
+1. Updates the maintainer of kernel-docs.rst. Retires its outdated
+resources and adds new material. More context on [1].
 
-Cheers,
-Benjamin
+2. Makes progress translating kernel documentation to Spanish. In
+particular, it creates translations/sp_SP/process/ and moves documents that
+should go there. It also offers translations of kernel-docs.rst and
+coding-style.rst. 
+
+Carlos Bilbao (6):
+ docs: Update maintainer of kernel-docs.rst
+ docs: Retire old resources from kernel-docs.rst
+ docs: Add book to process/kernel-docs.rst
+ docs: Create translations/sp_SP/process/, move submitting-patches.rst
+ docs/sp_SP: Add kernel-docs.rst Spanish translation
+ docs/sp_SP: Add process coding-style translation
+
+[1] https://lore.kernel.org/lkml/20221118170942.2588412-1-carlos.bilbao@amd.com/
+
+---
+ Documentation/process/kernel-docs.rst         |  477 +-----
+ Documentation/translations/sp_SP/index.rst    |    3 +-
+ .../sp_SP/process/coding-style.rst            | 1315 +++++++++++++++++
+ .../translations/sp_SP/process/index.rst      |   15 +
+ .../sp_SP/process/kernel-docs.rst             |  187 +++
+ .../{ => process}/submitting-patches.rst      |    2 +-
+ MAINTAINERS                                   |    5 +
+ 7 files changed, 1540 insertions(+), 464 deletions(-)
+ create mode 100644 Documentation/translations/sp_SP/process/coding-style.rst
+ create mode 100644 Documentation/translations/sp_SP/process/index.rst
+ create mode 100644 Documentation/translations/sp_SP/process/kernel-docs.rst
+ rename Documentation/translations/sp_SP/{ => process}/submitting-patches.rst (99%)
 
