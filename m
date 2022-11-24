@@ -2,55 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E85F4C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 23:10:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35783C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 23:40:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229487AbiKXXKU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Nov 2022 18:10:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36186 "EHLO
+        id S229601AbiKXXkT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Nov 2022 18:40:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiKXXKT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 18:10:19 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA5BF7DEFD;
-        Thu, 24 Nov 2022 15:10:18 -0800 (PST)
+        with ESMTP id S229518AbiKXXkS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 18:40:18 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3346C114;
+        Thu, 24 Nov 2022 15:40:18 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7ED22B8293C;
-        Thu, 24 Nov 2022 23:10:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 163B2C433D6;
-        Thu, 24 Nov 2022 23:10:16 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D760CB828FD;
+        Thu, 24 Nov 2022 23:40:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 90B4BC433D7;
+        Thu, 24 Nov 2022 23:40:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669331416;
-        bh=/HDv+mAESp1hPabQrG6CtweWqU3lEkCgOtLj6ltj3qI=;
+        s=k20201202; t=1669333215;
+        bh=fK6idouijYo9HkPNrm4PwNjTBLo/DRfdAeopcwIx0O8=;
         h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=Hg5Xjr+sSxFEdZvNvCXxu6Saikb0sLfHAkk2zo5fXn8hEGCvphiCirwThQoll074J
-         DoGfUXW5a6vXKxSrKFK7/61hM7mxVh8/Z9BqEm21ywGjLqWrIPe/jyqRdyQc0Adj2o
-         ClUXcrd/ml+1RE9UkyNtdxzgf6h0SwQqey9kt8gadC5HIAykPKHfQVwnU5v0N7np2B
-         7mvcp7lAnZefuxBKh830F/K4PychpkRA7mKzbKUaUJcIzwB3gHyY6rIjDQY4EiGbBx
-         yzDCZbmh8wZ0pFMEIpBrHS8giXBKSdOCEEM3jrKQS0hizyHL+ryqBooJudVuC9Vr1g
-         YM7WbvksgD+ZQ==
+        b=b6T/PE5VHcvjl/lRcT5ipJjhY7mQQau7mDcqYOlhCLRkH95E4mxSRUi2NOT5ipwx/
+         7wxL5O6qz2GQ5V1gyoR0ct2vDNsJBslntxRuBtYYzxTK5Yv0aDhvQoBbtU5W16Iw/H
+         wi6NeGFHId5SgwCRlkRkEmIQjjMCfcgnWBYE1QrYSqhMqf8ggN6DC3N98Z3gILxnCe
+         M6TBatvkQ42+bLbYsWHBrBnTNuJekThtPFAvqktqJmcgP/a4nKFQSzhVTDSlvojdEe
+         d6P2rfgQNfkcjdqTt+b4etiol2zu60r1DWpNFp5xnyDWPsXsSfIbrxJiGNdp6NBZ+w
+         bcbtMZS0KZC+A==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id ECEB2E270C7;
-        Thu, 24 Nov 2022 23:10:15 +0000 (UTC)
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7653DE270C7;
+        Thu, 24 Nov 2022 23:40:15 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next v4] docs/bpf: Update btf selftests program and add
- link
+Subject: Re: [PATCH bpf-next v5 1/1] docs: BPF_MAP_TYPE_XSKMAP
 From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166933141596.31829.17958400614612608344.git-patchwork-notify@kernel.org>
-Date:   Thu, 24 Nov 2022 23:10:15 +0000
-References: <tencent_1FA6904156E8E599CAE4ABDBE80F22830106@qq.com>
-In-Reply-To: <tencent_1FA6904156E8E599CAE4ABDBE80F22830106@qq.com>
-To:     Rong Tao <rtoax@foxmail.com>
-Cc:     void@manifault.com, andrii@kernel.org, ast@kernel.org,
-        bpf@vger.kernel.org, corbet@lwn.net, daniel@iogearbox.net,
-        haoluo@google.com, john.fastabend@gmail.com, jolsa@kernel.org,
-        kpsingh@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, martin.lau@linux.dev,
-        rongtao@cestc.cn, sdf@google.com, song@kernel.org, yhs@fb.com
+Message-Id: <166933321548.13496.9802101349602354854.git-patchwork-notify@kernel.org>
+Date:   Thu, 24 Nov 2022 23:40:15 +0000
+References: <20221123090043.83945-1-mtahhan@redhat.com>
+In-Reply-To: <20221123090043.83945-1-mtahhan@redhat.com>
+To:     Maryam Tahhan <mtahhan@redhat.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, jbrouer@redhat.com,
+        thoiland@redhat.com, donhunte@redhat.com,
+        magnus.karlsson@gmail.com, akiyks@gmail.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -60,20 +56,20 @@ Hello:
 This patch was applied to bpf/bpf-next.git (master)
 by Daniel Borkmann <daniel@iogearbox.net>:
 
-On Tue, 22 Nov 2022 08:50:42 +0800 you wrote:
-> From: Rong Tao <rongtao@cestc.cn>
+On Wed, 23 Nov 2022 09:00:43 +0000 you wrote:
+> From: Maryam Tahhan <mtahhan@redhat.com>
 > 
-> commit c64779e24e88("selftests/bpf: Merge most of test_btf into
-> test_progs") rename selftests/bpf btf test from 'test_btf.c' to
-> 'prog_tests/btf.c'.
+> Add documentation for BPF_MAP_TYPE_XSKMAP
+> including kernel version introduced, usage
+> and examples.
 > 
-> Signed-off-by: Rong Tao <rongtao@cestc.cn>
+> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
 > 
 > [...]
 
 Here is the summary with links:
-  - [bpf-next,v4] docs/bpf: Update btf selftests program and add link
-    https://git.kernel.org/bpf/bpf-next/c/b74344cbede2
+  - [bpf-next,v5,1/1] docs: BPF_MAP_TYPE_XSKMAP
+    https://git.kernel.org/bpf/bpf-next/c/2b3e8f6f5b93
 
 You are awesome, thank you!
 -- 
