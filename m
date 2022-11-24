@@ -2,178 +2,363 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 377A8C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 13:55:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62406C43217
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 15:02:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229661AbiKXNzc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Nov 2022 08:55:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48634 "EHLO
+        id S229629AbiKXPCd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Nov 2022 10:02:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbiKXNzb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 08:55:31 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CD9EE1227
-        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 05:55:30 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id l39-20020a05600c1d2700b003cf93c8156dso1293357wms.4
-        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 05:55:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pN+fMTXIbwkvTVCL6teMynvLqCQ1zb8psy5cG5agjcI=;
-        b=o29ZVKlW0hg+wTr5SNdc59ZTn7GtkgIjvdfNuhfZ9Go5RYF0bUJQaqw5oksOVSlXKZ
-         gcP9TNLHnjIxApSzZCFmyVSHsnHp5d8nqgupDXaf2I2GRs9KooJHuWeafVn03RAPJtr/
-         0qkPSxuCTWSkaFU8OuSG1Uq66QpY8nhn69mWWtcNAOe2IaA095kW57glzfzcSggluPjv
-         gM2S+9x9+HeAxzpzkyPXaxArRwLN7K37FBGUiotrf5SRPQRRIGyY0GrWM/F6EFK1MOFE
-         SuMysdzefbRAZ6CgZjQ+ih+yQp1V+6yCvXoo5pkoW/Kg6aWhZ65xv+8aFUSMN8tbrBJG
-         aQPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pN+fMTXIbwkvTVCL6teMynvLqCQ1zb8psy5cG5agjcI=;
-        b=aHXnxTaLGGKeg2H+JBHXoI+ZieFwAExhQ373SjP84ErCiGMhYIyz8GtjK52KCqQDCZ
-         Z995xoJFPiYkIoYkTQBfW5xJQi9VHD3YzmXoecwILfP5N8uP9gul53Cn0qn+rrKj9678
-         972xPcve6+1nhLsRKQIwg7JGMiJYGQ7hO73gjAMJOHtCcWdZbC3/zg0YoSQAhTgF9DtE
-         UBKgY93DTW0km5phQciMwXYhzNKN38mQxRVKTDgwIziVwMKWnkrDkbAFxz/uwmpJW6Yh
-         axTF7Pujd5ZBuK1QMdRKBklPLSIRrldl/o4br38yrasCMBrf3SAl9iSPCiWkmY6UP47T
-         1Dfg==
-X-Gm-Message-State: ANoB5pk7yp2lD/E1sMijPfUL6W2C7plKqsVZ2BQPuMHS+SiPxr3Gc3YJ
-        Pq2PG5qJ7q6EMROgot88VsEV8g==
-X-Google-Smtp-Source: AA0mqf7LmgqnY5TT62nL6QBBImocwCh9tlDp2Ug4ekB8tl5kFgZ55ulOqFa7jWHsk4HR1gTXeY+Y4A==
-X-Received: by 2002:a1c:a381:0:b0:3cf:4d14:5705 with SMTP id m123-20020a1ca381000000b003cf4d145705mr12126137wme.35.1669298128503;
-        Thu, 24 Nov 2022 05:55:28 -0800 (PST)
-Received: from ?IPV6:2a02:6b6a:b4d7:0:f0b8:522f:5d6e:d788? ([2a02:6b6a:b4d7:0:f0b8:522f:5d6e:d788])
-        by smtp.gmail.com with ESMTPSA id h20-20020a05600c351400b003b4935f04a4sm2479548wmq.5.2022.11.24.05.55.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Nov 2022 05:55:28 -0800 (PST)
-Message-ID: <95efd030-27f6-5668-a25e-9fbf210bfa1c@bytedance.com>
-Date:   Thu, 24 Nov 2022 13:55:27 +0000
+        with ESMTP id S229497AbiKXPCc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 10:02:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A02153925
+        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 07:01:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669302092;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dlOrFuAYvEXKHPfylT3brcVjkTSeaA/jyuZt2ut5fLM=;
+        b=BsTnBERlAs2J+3EcJQ1APueegSDQnNUr9vb9/SQOzmE6z1P7jwrC9d+m8sfc0MeP9MeL6l
+        QVPUpLqEZavmSCAewJNnnkVxGpTgd8NAmwAAVnqfL1FmbraNVwQLvcpKLBuwpl9eh8zkEs
+        GWiQJ6j1K6KY2h7UyYdHnXrdelYOJbI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-654-OZxD4wzhN_K7JK883xS8KA-1; Thu, 24 Nov 2022 10:01:28 -0500
+X-MC-Unique: OZxD4wzhN_K7JK883xS8KA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 40813811E67;
+        Thu, 24 Nov 2022 15:01:28 +0000 (UTC)
+Received: from rotkaeppchen (unknown [10.39.193.142])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7F22BC15BA5;
+        Thu, 24 Nov 2022 15:01:26 +0000 (UTC)
+Date:   Thu, 24 Nov 2022 16:01:15 +0100
+From:   Philipp Rudo <prudo@redhat.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Eric Biederman <ebiederm@xmission.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+        Ross Zwisler <zwisler@kernel.org>, linux-doc@vger.kernel.org,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v1 2/2] kexec: Introduce kexec_reboot_disabled
+Message-ID: <20221124160115.23ae7928@rotkaeppchen>
+In-Reply-To: <CANiDSCvO+6TrM900Z_Jr4QL=c1uHS21deto7cU9W4mr7KimhJQ@mail.gmail.com>
+References: <20221114-disable-kexec-reset-v1-0-fb51d20cf871@chromium.org>
+        <20221114-disable-kexec-reset-v1-2-fb51d20cf871@chromium.org>
+        <20221117160650.16e06b37@rotkaeppchen>
+        <CANiDSCvyQ66mXbhEgj_qnE_zR4frsxtu1bXaukDrEG0FjrE4yw@mail.gmail.com>
+        <20221121150948.6f7c1f1f@rotkaeppchen>
+        <CANiDSCtqYykAjRinx9r4O+DxdTBA=OQSjF8URmM6X54nN7pDUA@mail.gmail.com>
+        <20221124124000.5af23cad@rotkaeppchen>
+        <CANiDSCvO+6TrM900Z_Jr4QL=c1uHS21deto7cU9W4mr7KimhJQ@mail.gmail.com>
+Organization: Red Hat inc.
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [External] Re: [v2 0/6] KVM: arm64: implement vcpu_is_preempted
- check
-Content-Language: en-US
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, linux@armlinux.org.uk,
-        yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org,
-        steven.price@arm.com, mark.rutland@arm.com, bagasdotme@gmail.com,
-        fam.zheng@bytedance.com, liangma@liangbit.com,
-        punit.agrawal@bytedance.com
-References: <20221104062105.4119003-1-usama.arif@bytedance.com>
- <87k048f3cm.wl-maz@kernel.org>
- <180b91af-a2aa-2cfd-eb7f-b2825c4e3dbe@bytedance.com>
- <86r0y1nmep.wl-maz@kernel.org>
-From:   Usama Arif <usama.arif@bytedance.com>
-In-Reply-To: <86r0y1nmep.wl-maz@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, 24 Nov 2022 13:52:58 +0100
+Ricardo Ribalda <ribalda@chromium.org> wrote:
 
-
-On 18/11/2022 00:20, Marc Zyngier wrote:
-> On Mon, 07 Nov 2022 12:00:44 +0000,
-> Usama Arif <usama.arif@bytedance.com> wrote:
->>
->>
->>
->> On 06/11/2022 16:35, Marc Zyngier wrote:
->>> On Fri, 04 Nov 2022 06:20:59 +0000,
->>> Usama Arif <usama.arif@bytedance.com> wrote:
->>>>
->>>> This patchset adds support for vcpu_is_preempted in arm64, which
->>>> allows the guest to check if a vcpu was scheduled out, which is
->>>> useful to know incase it was holding a lock. vcpu_is_preempted can
->>>> be used to improve performance in locking (see owner_on_cpu usage in
->>>> mutex_spin_on_owner, mutex_can_spin_on_owner, rtmutex_spin_on_owner
->>>> and osq_lock) and scheduling (see available_idle_cpu which is used
->>>> in several places in kernel/sched/fair.c for e.g. in wake_affine to
->>>> determine which CPU can run soonest):
->>>
->>> [...]
->>>
->>>> pvcy shows a smaller overall improvement (50%) compared to
->>>> vcpu_is_preempted (277%).  Host side flamegraph analysis shows that
->>>> ~60% of the host time when using pvcy is spent in kvm_handle_wfx,
->>>> compared with ~1.5% when using vcpu_is_preempted, hence
->>>> vcpu_is_preempted shows a larger improvement.
->>>
->>> And have you worked out *why* we spend so much time handling WFE?
->>>
->>> 	M.
->>
->> Its from the following change in pvcy patchset:
->>
->> diff --git a/arch/arm64/kvm/handle_exit.c b/arch/arm64/kvm/handle_exit.c
->> index e778eefcf214..915644816a85 100644
->> --- a/arch/arm64/kvm/handle_exit.c
->> +++ b/arch/arm64/kvm/handle_exit.c
->> @@ -118,7 +118,12 @@ static int kvm_handle_wfx(struct kvm_vcpu *vcpu)
->>          }
->>
->>          if (esr & ESR_ELx_WFx_ISS_WFE) {
->> -               kvm_vcpu_on_spin(vcpu, vcpu_mode_priv(vcpu));
->> +               int state;
->> +               while ((state = kvm_pvcy_check_state(vcpu)) == 0)
->> +                       schedule();
->> +
->> +               if (state == -1)
->> +                       kvm_vcpu_on_spin(vcpu, vcpu_mode_priv(vcpu));
->>          } else {
->>                  if (esr & ESR_ELx_WFx_ISS_WFxT)
->>                          vcpu_set_flag(vcpu, IN_WFIT);
->>
->>
->> If my understanding is correct of the pvcy changes, whenever pvcy
->> returns an unchanged vcpu state, we would schedule to another
->> vcpu. And its the constant scheduling where the time is spent. I guess
->> the affects are much higher when the lock contention is very
->> high. This can be seem from the pvcy host side flamegraph as well with
->> (~67% of the time spent in the schedule() call in kvm_handle_wfx), For
->> reference, I have put the graph at:
->> https://uarif1.github.io/pvlock/perf_host_pvcy_nmi.svg
+> On Thu, 24 Nov 2022 at 12:40, Philipp Rudo <prudo@redhat.com> wrote:
+> >
+> > Hi Ricardo,
+> >
+> > On Wed, 23 Nov 2022 09:58:08 +0100
+> > Ricardo Ribalda <ribalda@chromium.org> wrote:
+> >  
+> > > Hi Philipp
+> > >
+> > > Thanks for your review.
+> > >
+> > > My scenario is a trusted system, where even if you are root, your
+> > > access to the system is very limited.
+> > >
+> > > Let's assume LOADPIN and verity are enabled.  
+> >
+> > My point is that on such systems I expect that a sysadmin also wants to
+> > control the crash kernel including its initramfs (which also has to be part
+> > of the signed kernel?). But if that's the case a sysadmin can simply arm
+> > kdump early during boot and then toggle kexec_load_disabled. With that
+> > LINUX_REBOOT_CMD_KEXEC also gets disabled as no kexec kernel can be loaded
+> > while kdump works. Thus there is no need to add the new interface. Or am
+> > I missing anything?  
 > 
-> The real issue here is that we don't try to pick the right vcpu to
-> run, and strictly rely on schedule() to eventually pick something that
-> can run.
+> Let's say that you have a script that does something like this
 > 
-> An interesting to do would be to try and fit the directed yield
-> mechanism there. It would be a lot more interesting than the one-off
-> vcpu_is_preempted hack, as it gives us a low-level primitive on which
-> to construct things (pvcy is effectively a mwait-like primitive).
+> 
+> kexec -p dump_kernel
+> echo 1 > /proc/sys/kernel/kexec_load_disabled
+> 
+> If an attacker can DDos the system and make that script crash... then
+> kexec is still accessible
+> 
+> On the other hand, if you load the kernel with the commandline
+> 
+> sysctl.kernel.kexec_load_disabled=1
+		      ^^^^
+		      reboot?
+Otherwise you shouldn't be able to load the crash kernel at all.
 
-We could use kvm_vcpu_yield_to to yield to a specific vcpu, but how 
-would we determine which vcpu to yield to?
+> Then even if the script crashes, the only way to abuse kexec is by
+> panicing the running kernel....
 
-IMO vcpu_is_preempted is very well integrated in a lot of core kernel 
-code, i.e. mutex, rtmutex, rwsem and osq_lock. It is also used in 
-scheduler to determine better which vCPU we can run on soonest, select 
-idle core, etc. I am not sure if all of these cases will be optimized by 
-pvcy? Also, with vcpu_is_preempted, some of the lock heavy benchmarks 
-come down from spending around 50% of the time in lock to less than 1% 
-(so not sure how much more room is there for improvement).
+True. But  when an attacker can DDos the system the final workload is
+already running. So wouldn't it be enough to make sure that the script
+above has finished before starting you workload. E.g. by setting an
+appropriate Before=/After= in the systemd.unit?
 
-We could also use vcpu_is_preempted to optimize IPI performance (along 
-with directed yield to target IPI vCPU) similar to how its done in x86 
-(https://lore.kernel.org/all/1560255830-8656-2-git-send-email-wanpengli@tencent.com/). 
-This case definitely wont be covered by pvcy.
+Furthermore, I don't think that restricting kexec reboot alone is
+sufficient when the attacker can still control the crash kernel. At
+least my assumption is that triggering a panic instead of just
+rebooting is just a mild inconvenience for somebody who is able to pull
+off an attack like that.
 
-Considering all the above, i.e. the core kernel integration already 
-present and possible future usecases of vcpu_is_preempted, maybe its 
-worth making vcpu_is_preempted work on arm independently of pvcy?
+> Would it make you more comfortable if I model this as a kernel config
+> instead of a runtime option?
 
-Thanks,
-Usama
+No, I think the implementation is fine. I'm currently only struggling
+to understand what problem kexec_reboot_disabled solves that cannot be
+solved by kexec_load_disabled.
+
+> Thanks!
+
+Happy to help.
+
+Thanks
+Philipp
 
 > 
-> 	M.
 > 
+> >
+> > Thanks
+> > Philipp
+> >  
+> > >
+> > > On Mon, 21 Nov 2022 at 15:10, Philipp Rudo <prudo@redhat.com> wrote:  
+> > > >
+> > > > Hi Ricardo,
+> > > >
+> > > > On Thu, 17 Nov 2022 16:15:07 +0100
+> > > > Ricardo Ribalda <ribalda@chromium.org> wrote:
+> > > >  
+> > > > > Hi Philipp
+> > > > >
+> > > > > Thanks for your review!  
+> > > >
+> > > > happy to help.
+> > > >  
+> > > > >
+> > > > > On Thu, 17 Nov 2022 at 16:07, Philipp Rudo <prudo@redhat.com> wrote:  
+> > > > > >
+> > > > > > Hi Ricardo,
+> > > > > >
+> > > > > > all in all I think this patch makes sense. However, there is one point
+> > > > > > I don't like...
+> > > > > >
+> > > > > > On Mon, 14 Nov 2022 14:18:39 +0100
+> > > > > > Ricardo Ribalda <ribalda@chromium.org> wrote:
+> > > > > >  
+> > > > > > > Create a new toogle that disables LINUX_REBOOT_CMD_KEXEC, reducing the
+> > > > > > > attack surface to a system.
+> > > > > > >
+> > > > > > > Without this toogle, an attacker can only reboot into a different kernel
+> > > > > > > if they can create a panic().
+> > > > > > >
+> > > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > > > >
+> > > > > > > diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> > > > > > > index 97394bd9d065..25d019682d33 100644
+> > > > > > > --- a/Documentation/admin-guide/sysctl/kernel.rst
+> > > > > > > +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> > > > > > > @@ -462,6 +462,17 @@ altered.
+> > > > > > >  Generally used together with the `modules_disabled`_ sysctl.
+> > > > > > >
+> > > > > > >
+> > > > > > > +kexec_reboot_disabled
+> > > > > > > +=====================
+> > > > > > > +
+> > > > > > > +A toggle indicating if ``LINUX_REBOOT_CMD_KEXEC`` has been disabled.
+> > > > > > > +This value defaults to 0 (false: ``LINUX_REBOOT_CMD_KEXEC`` enabled),
+> > > > > > > +but can be set to 1 (true: ``LINUX_REBOOT_CMD_KEXEC`` disabled).
+> > > > > > > +Once true, kexec can no longer be used for reboot and the toggle
+> > > > > > > +cannot be set back to false.
+> > > > > > > +This toggle does not affect the use of kexec during a crash.
+> > > > > > > +
+> > > > > > > +
+> > > > > > >  kptr_restrict
+> > > > > > >  =============
+> > > > > > >
+> > > > > > > diff --git a/include/linux/kexec.h b/include/linux/kexec.h
+> > > > > > > index 41a686996aaa..15c3fad8918b 100644
+> > > > > > > --- a/include/linux/kexec.h
+> > > > > > > +++ b/include/linux/kexec.h
+> > > > > > > @@ -407,6 +407,7 @@ extern int kimage_crash_copy_vmcoreinfo(struct kimage *image);
+> > > > > > >  extern struct kimage *kexec_image;
+> > > > > > >  extern struct kimage *kexec_crash_image;
+> > > > > > >  extern int kexec_load_disabled;
+> > > > > > > +extern int kexec_reboot_disabled;
+> > > > > > >
+> > > > > > >  #ifndef kexec_flush_icache_page
+> > > > > > >  #define kexec_flush_icache_page(page)
+> > > > > > > diff --git a/kernel/kexec.c b/kernel/kexec.c
+> > > > > > > index cb8e6e6f983c..43063f803d81 100644
+> > > > > > > --- a/kernel/kexec.c
+> > > > > > > +++ b/kernel/kexec.c
+> > > > > > > @@ -196,6 +196,10 @@ static inline int kexec_load_check(unsigned long nr_segments,
+> > > > > > >       if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
+> > > > > > >               return -EPERM;
+> > > > > > >
+> > > > > > > +     /* Check if the system admin has disabled kexec reboot. */
+> > > > > > > +     if (!(flags & KEXEC_ON_CRASH) && kexec_reboot_disabled)
+> > > > > > > +             return -EPERM;  
+> > > > > >
+> > > > > > ... Allowing to load a crashkernel doesn't make sense in my opinion. If
+> > > > > > an attacker is capable of creating a malicious kernel, planting it on
+> > > > > > the victims system and then find a way to boot it via kexec this
+> > > > > > attacker also knows how to load the malicious kernel as crashkernel and
+> > > > > > trigger a panic. So you haven't really gained anything. That's why I
+> > > > > > would simply drop this hunk (and the corresponding one from
+> > > > > > kexec_file_load) and let users who worry about this use a combination of
+> > > > > > kexec_load_disabled and kexec_reboot_disabled.  
+> > > > >
+> > > > > If for whatever reason your sysadmin configured kexec_reboot_disabed
+> > > > > it can be nice that when a user try to load it they get a warning.
+> > > > > It is easier to debug than waiting two steps later when they run kexec -e....  
+> > > >
+> > > > I'm having second thoughts about this patch. My main problem is that I
+> > > > don't see a real use case where kexec_reboot_disabled is advantageous
+> > > > over kexec_load_disabled. The point is that disabling
+> > > > LINUX_REBOOT_CMD_KEXEC is almost identical to toggling kexec_load_disabled without
+> > > > a loaded kernel (when you don't have a kernel loaded you cannot reboot
+> > > > into it). With this the main use case of kexec_reboot_disabled is
+> > > > already covered by kexec_load_disabled.  
+> > >  
+> > > >
+> > > > However, there are two differences
+> > > >
+> > > > 1) with kexec_reboot_disable you can still (re-)load a crash kernel
+> > > > e.g. to update the initramfs after a config change. But as discussed in
+> > > > my first mail this comes on the cost that an attacker could still load a
+> > > > malicious crash kernel and then 'panic into it'.  
+> > >
+> > > That crash kernel must be already in the signed malicious kernel.
+> > > which reduces the chances of attack.
+> > > Plus an attacker must be able to panic the current kernel at will,
+> > > instead of just call reset.
+> > >  
+> > > >
+> > > > 2) kexec_load_disabled also prevents unloading of a loaded kernel. So
+> > > > once loaded kexec_load_disabled cannot prevent the reboot into this
+> > > > kernel.
+> > > >
+> > > >
+> > > > For 1) I doubt that this is desired at all. My expectation is that on
+> > > > systems where a sysadmin restricts a user to reboot via kexec the
+> > > > sysadmin also wants to prevent the user to load an arbitrary crash
+> > > > kernel. Especially as this still keeps the loophole open you are trying
+> > > > to close.
+> > > >
+> > > > So only 2) is left as real benefit. But that is an extremely specific
+> > > > scenario. How often does this scenario happen in real life? What
+> > > > problem does kexec_reboot_disable solve different implementation
+> > > > (also in userspace) cannot?
+> > > >
+> > > > Sorry about being this pedantic but you want to introduce some new uapi
+> > > > which will be hard if not impossible to change once introduced. That's
+> > > > why I want to be a 100% sure it is really needed.  
+> > >
+> > > No worries. Completely understand :). Thanks for taking this seriously..
+> > >
+> > >
+> > > Best regards!  
+> > > >
+> > > > Thanks
+> > > > Philipp
+> > > >
+> > > >  
+> > > > > That is why I added it. But i am also ok removing it
+> > > > >  
+> > > > > >
+> > > > > > Thanks
+> > > > > > Philipp
+> > > > > >  
+> > > > > > > +
+> > > > > > >       /* Permit LSMs and IMA to fail the kexec */
+> > > > > > >       result = security_kernel_load_data(LOADING_KEXEC_IMAGE, false);
+> > > > > > >       if (result < 0)
+> > > > > > > diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
+> > > > > > > index ca2743f9c634..fe82e2525705 100644
+> > > > > > > --- a/kernel/kexec_core.c
+> > > > > > > +++ b/kernel/kexec_core.c
+> > > > > > > @@ -929,6 +929,7 @@ int kimage_load_segment(struct kimage *image,
+> > > > > > >  struct kimage *kexec_image;
+> > > > > > >  struct kimage *kexec_crash_image;
+> > > > > > >  int kexec_load_disabled;
+> > > > > > > +int kexec_reboot_disabled;
+> > > > > > >  #ifdef CONFIG_SYSCTL
+> > > > > > >  static struct ctl_table kexec_core_sysctls[] = {
+> > > > > > >       {
+> > > > > > > @@ -941,6 +942,16 @@ static struct ctl_table kexec_core_sysctls[] = {
+> > > > > > >               .extra1         = SYSCTL_ONE,
+> > > > > > >               .extra2         = SYSCTL_ONE,
+> > > > > > >       },
+> > > > > > > +     {
+> > > > > > > +             .procname       = "kexec_reboot_disabled",
+> > > > > > > +             .data           = &kexec_reboot_disabled,
+> > > > > > > +             .maxlen         = sizeof(int),
+> > > > > > > +             .mode           = 0644,
+> > > > > > > +             /* only handle a transition from default "0" to "1" */
+> > > > > > > +             .proc_handler   = proc_dointvec_minmax,
+> > > > > > > +             .extra1         = SYSCTL_ONE,
+> > > > > > > +             .extra2         = SYSCTL_ONE,
+> > > > > > > +     },
+> > > > > > >       { }
+> > > > > > >  };
+> > > > > > >
+> > > > > > > @@ -1138,7 +1149,7 @@ int kernel_kexec(void)
+> > > > > > >
+> > > > > > >       if (!kexec_trylock())
+> > > > > > >               return -EBUSY;
+> > > > > > > -     if (!kexec_image) {
+> > > > > > > +     if (!kexec_image || kexec_reboot_disabled) {
+> > > > > > >               error = -EINVAL;
+> > > > > > >               goto Unlock;
+> > > > > > >       }
+> > > > > > > diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
+> > > > > > > index 45637511e0de..583fba6de5cb 100644
+> > > > > > > --- a/kernel/kexec_file.c
+> > > > > > > +++ b/kernel/kexec_file.c
+> > > > > > > @@ -333,6 +333,11 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
+> > > > > > >       if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
+> > > > > > >               return -EPERM;
+> > > > > > >
+> > > > > > > +     /* Check if the system admin has disabled kexec reboot. */
+> > > > > > > +     if (!(flags & (KEXEC_FILE_ON_CRASH | KEXEC_FILE_UNLOAD))
+> > > > > > > +         && kexec_reboot_disabled)
+> > > > > > > +             return -EPERM;
+> > > > > > > +
+> > > > > > >       /* Make sure we have a legal set of flags */
+> > > > > > >       if (flags != (flags & KEXEC_FILE_FLAGS))
+> > > > > > >               return -EINVAL;
+> > > > > > >  
+> > > > > >  
+> > > > >
+> > > > >  
+> > > >  
+> > >
+> > >  
+> >  
+> 
+> 
+
