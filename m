@@ -2,141 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EBDAC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 21:21:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6813C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 22:20:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229641AbiKXVVe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Nov 2022 16:21:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53368 "EHLO
+        id S229493AbiKXWUX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Nov 2022 17:20:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229645AbiKXVV3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 16:21:29 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B300950E3;
-        Thu, 24 Nov 2022 13:21:28 -0800 (PST)
+        with ESMTP id S229450AbiKXWUW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 17:20:22 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD13F4EC28;
+        Thu, 24 Nov 2022 14:20:21 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id EB52CB828DB;
-        Thu, 24 Nov 2022 21:21:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39D8FC4347C;
-        Thu, 24 Nov 2022 21:21:25 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 743FA62268;
+        Thu, 24 Nov 2022 22:20:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A604C433B5;
+        Thu, 24 Nov 2022 22:20:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669324885;
-        bh=r1rD9KyNMBqJg8aGe8o3Z8JXG+myDQ882BtgLSHPqNo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qUjgEscQClwo6WemlMmyVkQcyAdOazaD4oNfXaCdV2/UsJsDcRJsDeEGq2OaUHB0Q
-         dZXgZFk9mMS2qVQZEBPnOPMqkJ6eeMeU5XxquL3Mh/lR/iwksqM9Mj2iofHucZwPDQ
-         DhzkcbCF8tsK98kfcM+3CxgJudUlWk4s+59VPkmyRvSbTKFTuQ928ckHt/00s8bCXF
-         Qcb7yPnReQEQNzhEyT0OPXVlsHqal9sqMXP/y5pzAJjcshjaMSy5dBVKU9GTx3+U+3
-         kameP1nAqmJIXnsz3XobD1ANGRnEHhNf7wOw/vMo5uekrxo2lu9HKwvI0lwgQD8otk
-         mFPTE1n1JQD9A==
-From:   SeongJae Park <sj@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, damon@lists.linux.dev,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, SeongJae Park <sj@kernel.org>
-Subject: [RFC PATCH 10/11] Docs/admin-guide/mm/damon/usage: document DAMOS filters of sysfs
-Date:   Thu, 24 Nov 2022 21:21:13 +0000
-Message-Id: <20221124212114.136863-11-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221124212114.136863-1-sj@kernel.org>
-References: <20221124212114.136863-1-sj@kernel.org>
+        s=k20201202; t=1669328420;
+        bh=XH4bQAQgI4eseVSTFvlZqCEPFCpPt/Y+lqbzeKYOX/E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=C18BI9AaVGnv9hcWoLeKvBfykg0tURljrRA9kdalMSWJ4A4V7N2qtX2OLbCRI3Hk3
+         2H+g3iUbiPsu09WN59DcAgXM2jUJs2gr+pQtxuWjpKGEKVAtfCVQI9yYz5u6jptIsc
+         aHfZSF3adyEUf/d3L1my194gi5WIL6NjsdY4Pc3DpGbbf2JO4NFiSL+mCPA06mnQgX
+         raKLVur2feyLf8zVc/uKQ1aoM+zSI8zVAkHi8/GqN3ZAfP29tTBap1iQtskLEvm8+L
+         684yMjb6Oy3Hn0efq+vNVYNeTux0MXoCcrRUVWVguuuQ3Yul7MBQKVl38ZqYXyUFmP
+         NLVvnle7IuAew==
+Date:   Thu, 24 Nov 2022 22:20:16 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Paul Walmsley <paul@pwsan.com>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Atish Patra <atishp@rivosinc.com>, corbet@lwn.net,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>, aou@eecs.berkeley.edu,
+        conor.dooley@microchip.com, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux@rivosinc.com
+Subject: Re: [PATCH 2/4] Documentation: RISC-V: Allow patches for
+ non-standard behavior
+Message-ID: <Y3/uIOxnm3pNHLEJ@spud>
+References: <20221013045619.18906-1-palmer@rivosinc.com>
+ <20221013045619.18906-3-palmer@rivosinc.com>
+ <alpine.DEB.2.21.999.2211181027590.4480@utopia.booyaka.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.999.2211181027590.4480@utopia.booyaka.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document about the newly added files for DAMOS filters on the DAMON
-usage document.
+Hey Paul,
+I thought you'd got an answer but noticed today you'd not so...
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 48 +++++++++++++++++++-
- 1 file changed, 46 insertions(+), 2 deletions(-)
+On Fri, Nov 18, 2022 at 10:49:18AM +0000, Paul Walmsley wrote:
+> Hi, 
+> 
+> On Wed, 12 Oct 2022, Palmer Dabbelt wrote:
+> 
+> > From: Palmer Dabbelt <palmer@rivosinc.com>
+> > 
+> > The patch acceptance policy forbids accepting support for non-standard
+> > behavior.  This policy was written in order to both steer implementers
+> > towards the standards and to avoid coupling the upstream kernel too
+> > tightly to vendor-specific features.  Those were good goals, but in
+> > practice the policy just isn't working: every RISC-V system we have
+> > needs vendor-specific behavior in the kernel and we end up taking that
+> > support which violates the policy.  That's confusing for contributors,
+> > which is the main reason we have a written policy in the first place.
+> > 
+> > So let's just start taking code for vendor-defined behavior.
+> 
+> I think I understand the motivation behind this patch: to align the stated 
+> patch acceptance policy with the actual maintenance practice for 
+> arch/riscv.  Along those lines, how about the following tweaks, based on 
+> your original patch?
+> 
+> Probably the most significant proposed change from what you wrote is to 
+> temporarily drop the section about accepting patches for hardware that 
+> doesn't yet exist.
+> I know arch/x86 does this,
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 1a5b6b71efa1..3d82ca6a17ff 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -87,6 +87,8 @@ comma (","). ::
-     │ │ │ │ │ │ │ quotas/ms,bytes,reset_interval_ms
-     │ │ │ │ │ │ │ │ weights/sz_permil,nr_accesses_permil,age_permil
-     │ │ │ │ │ │ │ watermarks/metric,interval_us,high,mid,low
-+    │ │ │ │ │ │ │ filters/nr_filters
-+    │ │ │ │ │ │ │ │ 0/type,matching,memcg_id
-     │ │ │ │ │ │ │ stats/nr_tried,sz_tried,nr_applied,sz_applied,qt_exceeds
-     │ │ │ │ │ │ │ tried_regions/
-     │ │ │ │ │ │ │ │ 0/start,end,nr_accesses,age
-@@ -151,6 +153,8 @@ number (``N``) to the file creates the number of child directories named as
- moment, only one context per kdamond is supported, so only ``0`` or ``1`` can
- be written to the file.
- 
-+.. _sysfs_contexts:
-+
- contexts/<N>/
- -------------
- 
-@@ -268,8 +272,8 @@ schemes/<N>/
- ------------
- 
- In each scheme directory, five directories (``access_pattern``, ``quotas``,
--``watermarks``, ``stats``, and ``tried_regions``) and one file (``action``)
--exist.
-+``watermarks``, ``filters``, ``stats``, and ``tried_regions``) and one file
-+(``action``) exist.
- 
- The ``action`` file is for setting and getting what action you want to apply to
- memory regions having specific access pattern of the interest.  The keywords
-@@ -347,6 +351,46 @@ as below.
- 
- The ``interval`` should written in microseconds unit.
- 
-+schemes/<N>/filters/
-+--------------------
-+
-+Users could know something more than the kernel for specific types of memory.
-+In the case, users could do their own management for the memory and hence
-+doesn't want DAMOS bothers that.  Users could limit DAMOS by setting the access
-+pattern of the scheme and/or the monitoring regions for the purpose, but that
-+can be inefficient in some cases.  In such cases, users could set non-access
-+pattern driven filters using files in this directory.
-+
-+In the beginning, this directory has only one file, ``nr_filters``.  Writing a
-+number (``N``) to the file creates the number of child directories named ``0``
-+to ``N-1``.  Each directory represents each filter.  The filters are evaluated
-+in the numeric order.
-+
-+Each filter directory contains three files, namely ``type``, ``matcing``, and
-+``memcg_path``.  You can write one of two special keywords, ``anon`` for
-+anonymous pages, or ``memcg`` for specific memory cgroup filtering.  In case of
-+the memory cgroup filtering, you can specify the memory cgroup of the interest
-+by writing the path of the memory cgroup from the cgroups mount point to
-+``memcg_path`` file.  You can write ``Y`` or ``N`` to ``matching`` file to
-+filter out pages that does or does not match to the type, respectively.  Then,
-+the scheme's action will not be applied to the pages that specified to be
-+filtered out.
-+
-+For example, below restricts a DAMOS action to be applied to only non-anonymous
-+pages of all memory cgroups except ``/having_care_already``.::
-+
-+    # echo 2 > nr_filters
-+    # # filter out anonymous pages
-+    echo anon > 0/type
-+    echo Y > 0/matching
-+    # # further filter out all cgroups except one at '/having_care_already'
-+    echo memcg > 1/type
-+    echo /having_care_already > 1/memcg_path
-+    echo N > 1/matching
-+
-+Note that filters could be ignored depend on the running DAMON operations set
-+`implementation <sysfs_contexts>`.
-+
- .. _sysfs_schemes_stats:
- 
- schemes/<N>/stats/
--- 
-2.25.1
+IIRC it was x86 that was cited as the example at LPC...
+
+> but my recollection is that 
+> the maintainers there started doing that after the key x86 hardware 
+> manufacturers established a track record of consistently releasing 
+> mass-market hardware that implemented what they promised.
+
+> Not sure we're at that point with RISC-V yet.
+
+... and you're probably not wrong there either.
+
+> We'll get there at some point, but maybe 
+> we can add that clause back in once that happens?
+
+> 
+> From: Paul Walmsley <paul.walmsley@sifive.com>
+> Date: Fri, 18 Nov 2022 02:16:17 -0600
+> Subject: [PATCH] Documentation: RISC-V: Allow patches for widely available
+>  hardware
+> 
+> This patch, based on an earlier patch from Palmer, updates the patch
+> acceptance policy to note that the maintainers may also accept patches
+> for RISC-V hardware that contains features that may not be strictly
+> RISC-V-compliant, but which is widely available.  The intention here
+> is to align the stated policy with the de-facto upstream Linux policy.
+
+NGL, this commit message is kinda confusing. If this version is used
+instead of Palmer's, then any mention of the earlier patch should be
+dropped IMO. In fact, his original commit message should apply here too,
+no?
+
+> Link: https://lore.kernel.org/linux-riscv/20221013045619.18906-3-palmer@rivosinc.com/  # Palmer's original patch
+> Cc: Palmer Dabbelt <palmer@rivosinc.com>
+> Signed-off-by: Paul Walmsley <paul.walmsley@sifive.com>
+> ---
+>  Documentation/riscv/patch-acceptance.rst | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/riscv/patch-acceptance.rst b/Documentation/riscv/patch-acceptance.rst
+> index 5da6f9b273d6..2e3f9ecdd977 100644
+> --- a/Documentation/riscv/patch-acceptance.rst
+> +++ b/Documentation/riscv/patch-acceptance.rst
+> @@ -29,7 +29,12 @@ their own custom extensions.  These custom extensions aren't required
+>  to go through any review or ratification process by the RISC-V
+>  Foundation.  To avoid the maintenance complexity and potential
+>  performance impact of adding kernel code for implementor-specific
+> +RISC-V extensions, we'll only consider patches for extensions that
+> +either:
+> +
+> +- Have been officially frozen or ratified by the RISC-V Foundation, or
+> +- Have been implemented in hardware that is widely available, per standard
+> +  Linux practice
+> +
+> +(Implementors, may, of course, maintain their own Linux kernel
+> +trees containing code for any custom extensions that they wish.)
+
+I have no preference for whichever version, but I think some of the
+people at LPC did want to be able to add support for stuff that was not
+publicly available who may have one ;)
+
+Folded into the original, I guess this one also is:
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+Certainly less headache potential this way,
+Conor.
 
