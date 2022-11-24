@@ -2,151 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9584C46467
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 10:02:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35059C43219
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 10:43:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229696AbiKXKCu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Nov 2022 05:02:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48798 "EHLO
+        id S229642AbiKXKnh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Nov 2022 05:43:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229946AbiKXKCs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 05:02:48 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11D2E2C12A
-        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 02:02:43 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id fy37so2979756ejc.11
-        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 02:02:43 -0800 (PST)
+        with ESMTP id S229497AbiKXKng (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 05:43:36 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92B3AC654F;
+        Thu, 24 Nov 2022 02:43:35 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id mv18so1104718pjb.0;
+        Thu, 24 Nov 2022 02:43:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+nO9Vy3fwrjuAAleBhHMp2gpM4FHmEXbBSGqIubhkXQ=;
-        b=IYiKyuG/XZATFbUZnH36r+Oy0z+GIPoTPYSJhl1AcG/3XI8GGKbYm/CkEX7wg69WLN
-         KQmtEWNDJ+7EfTvitoma90jso3B2cMp5eTGFUOZN3OHa0jsihBS1E6qcC9LZIeJL8HkD
-         Pb3bUzqu5hvvKxpWsVuOku3ERM3WB82+Y6kLs=
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=D7o+Q8FQkVVgAzFcN2NLb4oct6J+vhahcI9ZllaC/xc=;
+        b=ENsiMTLYW6pY+TXqiwMe9yAzE7xIxAHAvYojejnnesfbaPTF5du1evCp+LELcqgtMr
+         wzilBepNEBUOE7+O4lTmQfemPvWz3bxjj2Hl/O3Pwwj2kOc5dvKQ1ZVhLe+ymVFQ/BO+
+         E1k/tmWy3r+gFaGtbElSPzOj1d5t7Q71hPD2JiwwNhtDYNbtp8Tmnd1q1j7d+mrS0UVr
+         Tds3ILmu6Ow78KSNg4dgQGC3ZAIIEqeZmGTyBSTywL39zfkxGP4v3IKoxi++qshC4Pu7
+         N+aaSzPH80DmRqy9UhgaQI9g4OBKiTCY/JCx3rrQTZMw/+2lx/yiD5mumTi2kUSQAXqV
+         RnBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+nO9Vy3fwrjuAAleBhHMp2gpM4FHmEXbBSGqIubhkXQ=;
-        b=ia8zMabaLyswxdr7imgL5ZIvs93utRxVxd29stymm6RKuWRWkx8q6GlLZjipdk7uVJ
-         UFJRT23PCXylfvAVuCIQ4xorfUJ25DwYsyjOGoIvRD37mEIH5lU3CJaAYNy6SU2G8T4S
-         qDFQsE6/XbKtRs4Q1e/mJxoWPWaH03amtgcS6FfiFEzc+7SQjfriowkdCRGyRzjKm43X
-         Y1B4riA8tKjuHMMHBBuWd2pTOUaBj04ycvjjoMa/iFQC3IF+kZiRUJWDpvmPl1J9yol0
-         Wq0wjx5qqYU+BvPexKVobbSXnkMNgsoCWkNOp/kc+8Rf+XvN/zotqIuPy2vNj4nyAjEE
-         tyGg==
-X-Gm-Message-State: ANoB5pkldau1cJ81tP+3NB3ivWETucRSR9TxbFABOJcnB2KpAgQ8WmHF
-        38VOzuv9viA8IMna2XoJwl30En/Zx4KHsw==
-X-Google-Smtp-Source: AA0mqf4JGzlWXowwkf5ea+Hqesxhryyxri4nH1A1UtNwCP+TWSGdceDIW7i8pJE3N4Rts17zbZ3qoQ==
-X-Received: by 2002:a17:907:80cd:b0:7bb:35b4:777d with SMTP id io13-20020a17090780cd00b007bb35b4777dmr1875336ejc.302.1669284161929;
-        Thu, 24 Nov 2022 02:02:41 -0800 (PST)
-Received: from alco.roam.corp.google.com ([2620:0:1059:10:2a85:84f4:13a1:b293])
-        by smtp.gmail.com with ESMTPSA id i29-20020a50d75d000000b0046a44b2b5e6sm335548edj.32.2022.11.24.02.02.41
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D7o+Q8FQkVVgAzFcN2NLb4oct6J+vhahcI9ZllaC/xc=;
+        b=nv9+Y2sixytkR4+d8u2Lp/CYmrNr/n8KAp/4GnAkRRJF249CJvLmFk/zMP7TueS/69
+         jlD/2qUVn9LikDCAorz46X0vGV7DsSgChxpaEsxhPoSdaEquu1NoPmphLC7xPXh2gT+o
+         0lgLjG5QGUvWV3e88taFdW5y+aASB2JoC2aBA4wJiw+xJ2lwby5pQdUDushnzPX32Uic
+         DDMALV1vTjSCM2hCtb7a55CO9WRQmckeQqptfSsdaID2lDsICuR04gqo48KNkJZTQUmP
+         18GFPYVE13mIuWhWqx+LIQGfWFmXEObkZIbaHyX8dJxVIRts6Adr62jbgmlntDzK7hSx
+         Nw0A==
+X-Gm-Message-State: ANoB5pkpF5h/wi+VMA3goboxT5z51NasJloT0JhBenTIXfITXV+ABkK3
+        cmDszFPYN0SlHiZ8bFM5iXk=
+X-Google-Smtp-Source: AA0mqf7c9YI5PVHpS7E9uLy+27+srHAfhZGrYwmsFfYo8ZR+kxjl6k3hhHGTmywFRno2JGEJ9BHXPQ==
+X-Received: by 2002:a17:90a:2b0e:b0:20b:cd9:be6d with SMTP id x14-20020a17090a2b0e00b0020b0cd9be6dmr21891498pjc.198.1669286614949;
+        Thu, 24 Nov 2022 02:43:34 -0800 (PST)
+Received: from hyeyoo ([114.29.91.56])
+        by smtp.gmail.com with ESMTPSA id i15-20020a17090332cf00b00185402cfedesm924727plr.246.2022.11.24.02.43.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Nov 2022 02:02:41 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 24 Nov 2022 11:02:19 +0100
-Subject: [PATCH v2 2/2] earlycon: Let users set the clock frequency
+        Thu, 24 Nov 2022 02:43:34 -0800 (PST)
+Date:   Thu, 24 Nov 2022 19:43:27 +0900
+From:   Hyeonggon Yoo <42.hyeyoo@gmail.com>
+To:     David Gow <davidgow@google.com>
+Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
+        Daniel Latypov <dlatypov@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        Oliver Glitta <glittao@gmail.com>,
+        Christoph Lameter <cl@linux.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        David Rientjes <rientjes@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v3 3/3] mm: slub: test: Use the kunit_get_current_test()
+ function
+Message-ID: <Y39Kz0hI3IOKoqrJ@hyeyoo>
+References: <20221119081252.3864249-1-davidgow@google.com>
+ <20221119081252.3864249-3-davidgow@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20221123-serial-clk-v2-2-9c03ce8940d8@chromium.org>
-References: <20221123-serial-clk-v2-0-9c03ce8940d8@chromium.org>
-In-Reply-To: <20221123-serial-clk-v2-0-9c03ce8940d8@chromium.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>, linux-doc@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.11.0-dev-d93f8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2648; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=GlzxTbonDjobCDC3muIMtEy4z/d1wWcFQi0sGS7Ze3M=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjf0E4cqJyUa0NGKEMHf8aC+joQ7el/D694QZq89aQ
- 2GbUHESJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY39BOAAKCRDRN9E+zzrEiGEdEA
- Ch5v0zJ+TqOsTTaZUU7j93gNYqnfSYf7UJArX7kocRTbBKo6bFkTPHjR4fyqquZCXGjZI75ziQEiM3
- f906Fnl0YiINUkMOEV1eDTg0x+w9wla37We0ngUYdiQDYV+Db1MPVdwW/B6afyhNE9DlTDCFeTVEuc
- F1E/eI8CkvNiZactTfcZ3roCljsU/8ZL+ywLFGaCqLZ+hhVYF5Bvizzda9vQ7yPcvc2JF8EGz8mzKj
- ODw3Vf5iapLOzTS3OqCdtFdkNf5anTryD2ul+saYiNYhPOAy9kQbB+zTuXMDT2M7nft0/sevTHvM/G
- rm8WtcANRFlk0REqhAXTAs1+fADq8g1FzqND4XwPAA8B37eA1LTnSJr4C999DuRYa9qVCsq4WQg+LR
- PcHdEe8rgW058ww4yYzD4VMhd9ekcmHqTgUwNam3sF1PvrSeprQ4p9AvtDw6QaVSr8A2vYewzuIXdR
- cpnLl1bh0Djy1M0IPwQ4vCJd9O0zu8COjRHCP63SCGjqRmJ500zTOwin6gOiJZ22tMedzP1gKWyQOw
- 3GInPSAPzvm0R3TESW8HwSZhvXXgfZr16WPXEkf1RwtZPhFRUqlNm8rwRUWBCkXGCUxE9pr7nc9JA/
- O29slWnPzT2uTyA5behSWax26SouNwAHpOsyYv+oxv8Pc1NoKTaFbFXmISag==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221119081252.3864249-3-davidgow@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some platforms, namely AMD Picasso, use non standard uart clocks (48M),
-witch makes it impossible to use with earlycon.
+On Sat, Nov 19, 2022 at 04:12:52PM +0800, David Gow wrote:
+> Use the newly-added function kunit_get_current_test() instead of
+> accessing current->kunit_test directly. This function uses a static key
+> to return more quickly when KUnit is enabled, but no tests are actively
+> running. There should therefore be a negligible performance impact to
+> enabling the slub KUnit tests.
+> 
+> Other than the performance improvement, this should be a no-op.
+> 
+> Cc: Oliver Glitta <glittao@gmail.com>
+> Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+> Cc: Christoph Lameter <cl@linux.com>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: David Rientjes <rientjes@google.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Signed-off-by: David Gow <davidgow@google.com>
+> Acked-by: Vlastimil Babka <vbabka@suse.cz>
 
-Let the user select its own frequency.
+Acked-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+with small comment:
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> 
+> This is intended as an example use of the new function. Other users
+> (such as KASAN) will be updated separately, as there would otherwise be
+> conflicts.
+> 
+> We'll take this whole series via the kselftest/kunit tree.
+> 
+> Changes since v2:
+> https://lore.kernel.org/all/20221025071907.1251820-3-davidgow@google.com/
+> - Get rid of a redundant 'likely' (Thanks Vlastimil Babka)
+> - Use current->kunit_test directly when we already know a test is
+>   running. (Thanks Vlastimil Babka)
+> - Add Vlastimil's Acked-by.
+> 
+> There was no v1 of this patch. v1 of the series can be found here:
+> https://lore.kernel.org/linux-kselftest/20221021072854.333010-1-davidgow@google.com/T/#u
+> 
+> Cheers,
+> -- David
+> 
+> ---
+>  lib/slub_kunit.c | 1 +
+>  mm/slub.c        | 3 ++-
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/lib/slub_kunit.c b/lib/slub_kunit.c
+> index 7a0564d7cb7a..8fd19c8301ad 100644
+> --- a/lib/slub_kunit.c
+> +++ b/lib/slub_kunit.c
+> @@ -1,5 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  #include <kunit/test.h>
+> +#include <kunit/test-bug.h>
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a465d5242774..9efb6c3b0486 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1182,10 +1182,10 @@
- 			specified, the serial port must already be setup and
- 			configured.
- 
--		uart[8250],io,<addr>[,options]
--		uart[8250],mmio,<addr>[,options]
--		uart[8250],mmio32,<addr>[,options]
--		uart[8250],mmio32be,<addr>[,options]
-+		uart[8250],io,<addr>[,options[,uartclk]]
-+		uart[8250],mmio,<addr>[,options[,uartclk]]
-+		uart[8250],mmio32,<addr>[,options[,uartclk]]
-+		uart[8250],mmio32be,<addr>[,options[,uartclk]]
- 		uart[8250],0x<addr>[,options]
- 			Start an early, polled-mode console on the 8250/16550
- 			UART at the specified I/O port or MMIO address.
-@@ -1194,7 +1194,9 @@
- 			If none of [io|mmio|mmio32|mmio32be], <addr> is assumed
- 			to be equivalent to 'mmio'. 'options' are specified
- 			in the same format described for "console=ttyS<n>"; if
--			unspecified, the h/w is not initialized.
-+			unspecified, the h/w is not initialized. 'uartclk' is
-+			the uart clock frequency; if unspecified, it is set
-+			to 'BASE_BAUD' * 16.
- 
- 		pl011,<addr>
- 		pl011,mmio32,<addr>
-diff --git a/drivers/tty/serial/earlycon.c b/drivers/tty/serial/earlycon.c
-index 5b73da9487b1..2db92d36351b 100644
---- a/drivers/tty/serial/earlycon.c
-+++ b/drivers/tty/serial/earlycon.c
-@@ -120,9 +120,15 @@ static int __init parse_options(struct earlycon_device *device, char *options)
- 	}
- 
- 	if (options) {
-+		char *uartclk;
-+
- 		if (kstrtouint(options, 0, &device->baud) < 0)
- 			pr_warn("[%s] unsupported earlycon baud rate option\n",
- 				options);
-+		uartclk = strchr(options, ',');
-+		if (uartclk && kstrtouint(uartclk, 0, &port->uartclk) < 0)
-+			pr_warn("[%s] unsupported earlycon uart clkrate option\n",
-+				options);
- 		length = min(strcspn(options, " ") + 1,
- 			     (size_t)(sizeof(device->options)));
- 		strscpy(device->options, options, length);
-@@ -141,7 +147,8 @@ static int __init register_earlycon(char *buf, const struct earlycon_id *match)
- 		buf = NULL;
- 
- 	spin_lock_init(&port->lock);
--	port->uartclk = BASE_BAUD * 16;
-+	if (!port->uartclk)
-+		port->uartclk = BASE_BAUD * 16;
- 	if (port->mapbase)
- 		port->membase = earlycon_map(port->mapbase, 64);
- 
+Is this #include needed in slub_kunit.c?
+
+>  #include <linux/mm.h>
+>  #include <linux/slab.h>
+>  #include <linux/module.h>
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 157527d7101b..1887996cb703 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -39,6 +39,7 @@
+>  #include <linux/memcontrol.h>
+>  #include <linux/random.h>
+>  #include <kunit/test.h>
+> +#include <kunit/test-bug.h>
+>  #include <linux/sort.h>
+>  
+>  #include <linux/debugfs.h>
+> @@ -603,7 +604,7 @@ static bool slab_add_kunit_errors(void)
+>  {
+>  	struct kunit_resource *resource;
+>  
+> -	if (likely(!current->kunit_test))
+> +	if (!kunit_get_current_test())
+>  		return false;
+>  
+>  	resource = kunit_find_named_resource(current->kunit_test, "slab_errors");
+> -- 
+> 2.38.1.584.g0f3c55d4c2-goog
+> 
 
 -- 
-b4 0.11.0-dev-d93f8
+Thanks,
+Hyeonggon
