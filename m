@@ -2,153 +2,399 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6813C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 22:20:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81FADC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 22:32:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbiKXWUX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Nov 2022 17:20:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33552 "EHLO
+        id S229541AbiKXWcv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Nov 2022 17:32:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiKXWUW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 17:20:22 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD13F4EC28;
-        Thu, 24 Nov 2022 14:20:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 743FA62268;
-        Thu, 24 Nov 2022 22:20:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A604C433B5;
-        Thu, 24 Nov 2022 22:20:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669328420;
-        bh=XH4bQAQgI4eseVSTFvlZqCEPFCpPt/Y+lqbzeKYOX/E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=C18BI9AaVGnv9hcWoLeKvBfykg0tURljrRA9kdalMSWJ4A4V7N2qtX2OLbCRI3Hk3
-         2H+g3iUbiPsu09WN59DcAgXM2jUJs2gr+pQtxuWjpKGEKVAtfCVQI9yYz5u6jptIsc
-         aHfZSF3adyEUf/d3L1my194gi5WIL6NjsdY4Pc3DpGbbf2JO4NFiSL+mCPA06mnQgX
-         raKLVur2feyLf8zVc/uKQ1aoM+zSI8zVAkHi8/GqN3ZAfP29tTBap1iQtskLEvm8+L
-         684yMjb6Oy3Hn0efq+vNVYNeTux0MXoCcrRUVWVguuuQ3Yul7MBQKVl38ZqYXyUFmP
-         NLVvnle7IuAew==
-Date:   Thu, 24 Nov 2022 22:20:16 +0000
-From:   Conor Dooley <conor@kernel.org>
-To:     Paul Walmsley <paul@pwsan.com>
-Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
-        Atish Patra <atishp@rivosinc.com>, corbet@lwn.net,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>, aou@eecs.berkeley.edu,
-        conor.dooley@microchip.com, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux@rivosinc.com
-Subject: Re: [PATCH 2/4] Documentation: RISC-V: Allow patches for
- non-standard behavior
-Message-ID: <Y3/uIOxnm3pNHLEJ@spud>
-References: <20221013045619.18906-1-palmer@rivosinc.com>
- <20221013045619.18906-3-palmer@rivosinc.com>
- <alpine.DEB.2.21.999.2211181027590.4480@utopia.booyaka.com>
+        with ESMTP id S229455AbiKXWcv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 17:32:51 -0500
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBE97442ED
+        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 14:32:49 -0800 (PST)
+Received: by mail-io1-xd2e.google.com with SMTP id p141so1982992iod.6
+        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 14:32:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=hIAvL/izjpO+2uGGPdB3hG0A996ekY/SUzBE6N+50z8=;
+        b=LnqvZ1SGx7/tRUrO7a3qrnw8xR1Xxnd2OG+S5dnzTF8fN89yYLHZMZs8Lk2ht2BLG3
+         gXgf5QEyHKdQrda9OzQI80poLA7vkcx5W+XzpqviGDxTXTFHYbVIhHF+UXSrIR3UNxG8
+         vQ90toP/DMqAudEsLwBXLqYokJmterj1Qn5pY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hIAvL/izjpO+2uGGPdB3hG0A996ekY/SUzBE6N+50z8=;
+        b=keC7esSJNcCrJD7VTSxrpeYUtWeJUuBKu+9DUpY+dl7PNCzwpMmi+EJFHvyTg41rOA
+         3/jRIVG3EI1l8KUsaMfQQcoYxPTGI1ZyvMInBWOx+ZGdDfClkuE12f5PPe/GrgJSIRcP
+         7DhgF0wSJskPhrM+US7rQe2EkthCnrcvV7OvxKQ77GrgDEKCLfgTpRP7tU64VjC/P58u
+         e+64+etAeK7tW37MXe1nV44pXaHliIS4vGsqjiOUyh3jP3f6+Sw5VBkTxM7ksfJ81HAD
+         lDA8kTjd/tm7FBgX70NYABv+NdjtBHGl8eli6C7WYi6q2wHdHTIsLkWVecVx0cyGr3we
+         F6qQ==
+X-Gm-Message-State: ANoB5pnjqC4SG6GssXuzE+q5SF0ZvcHcx6KB/aZmginS+hKFFiXvVVE1
+        9apqN3o00L3haRB9xCDy881Wx24d7CYhcs6+
+X-Google-Smtp-Source: AA0mqf6kjVRKPqRwBrZ0Fy/SQLigug8WsAoXiB0azykJ4mxgfQwWryjeQxCGFjIZicweJkZn0I2ORQ==
+X-Received: by 2002:a02:3b56:0:b0:375:8878:9c80 with SMTP id i22-20020a023b56000000b0037588789c80mr14702097jaf.157.1669329168834;
+        Thu, 24 Nov 2022 14:32:48 -0800 (PST)
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com. [209.85.166.169])
+        by smtp.gmail.com with ESMTPSA id o5-20020a92d4c5000000b00302b5d0d07asm769815ilm.17.2022.11.24.14.32.46
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Nov 2022 14:32:46 -0800 (PST)
+Received: by mail-il1-f169.google.com with SMTP id x13so1280548ilp.8
+        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 14:32:46 -0800 (PST)
+X-Received: by 2002:a92:cb85:0:b0:302:624e:e49b with SMTP id
+ z5-20020a92cb85000000b00302624ee49bmr15188788ilo.172.1669329165500; Thu, 24
+ Nov 2022 14:32:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.999.2211181027590.4480@utopia.booyaka.com>
+References: <20221114-disable-kexec-reset-v1-0-fb51d20cf871@chromium.org>
+ <20221114-disable-kexec-reset-v1-2-fb51d20cf871@chromium.org>
+ <20221117160650.16e06b37@rotkaeppchen> <CANiDSCvyQ66mXbhEgj_qnE_zR4frsxtu1bXaukDrEG0FjrE4yw@mail.gmail.com>
+ <20221121150948.6f7c1f1f@rotkaeppchen> <CANiDSCtqYykAjRinx9r4O+DxdTBA=OQSjF8URmM6X54nN7pDUA@mail.gmail.com>
+ <20221124124000.5af23cad@rotkaeppchen> <CANiDSCvO+6TrM900Z_Jr4QL=c1uHS21deto7cU9W4mr7KimhJQ@mail.gmail.com>
+ <20221124160115.23ae7928@rotkaeppchen>
+In-Reply-To: <20221124160115.23ae7928@rotkaeppchen>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Thu, 24 Nov 2022 23:32:34 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvJqPogBXWUvQq6ZZaX_bonLBLhJXFyNQbULb0WnJw5UQ@mail.gmail.com>
+Message-ID: <CANiDSCvJqPogBXWUvQq6ZZaX_bonLBLhJXFyNQbULb0WnJw5UQ@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] kexec: Introduce kexec_reboot_disabled
+To:     Philipp Rudo <prudo@redhat.com>
+Cc:     Eric Biederman <ebiederm@xmission.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+        Ross Zwisler <zwisler@kernel.org>, linux-doc@vger.kernel.org,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hey Paul,
-I thought you'd got an answer but noticed today you'd not so...
+Hi Philipp
 
-On Fri, Nov 18, 2022 at 10:49:18AM +0000, Paul Walmsley wrote:
-> Hi, 
-> 
-> On Wed, 12 Oct 2022, Palmer Dabbelt wrote:
-> 
-> > From: Palmer Dabbelt <palmer@rivosinc.com>
-> > 
-> > The patch acceptance policy forbids accepting support for non-standard
-> > behavior.  This policy was written in order to both steer implementers
-> > towards the standards and to avoid coupling the upstream kernel too
-> > tightly to vendor-specific features.  Those were good goals, but in
-> > practice the policy just isn't working: every RISC-V system we have
-> > needs vendor-specific behavior in the kernel and we end up taking that
-> > support which violates the policy.  That's confusing for contributors,
-> > which is the main reason we have a written policy in the first place.
-> > 
-> > So let's just start taking code for vendor-defined behavior.
-> 
-> I think I understand the motivation behind this patch: to align the stated 
-> patch acceptance policy with the actual maintenance practice for 
-> arch/riscv.  Along those lines, how about the following tweaks, based on 
-> your original patch?
-> 
-> Probably the most significant proposed change from what you wrote is to 
-> temporarily drop the section about accepting patches for hardware that 
-> doesn't yet exist.
-> I know arch/x86 does this,
 
-IIRC it was x86 that was cited as the example at LPC...
+On Thu, 24 Nov 2022 at 16:01, Philipp Rudo <prudo@redhat.com> wrote:
+>
+> On Thu, 24 Nov 2022 13:52:58 +0100
+> Ricardo Ribalda <ribalda@chromium.org> wrote:
+>
+> > On Thu, 24 Nov 2022 at 12:40, Philipp Rudo <prudo@redhat.com> wrote:
+> > >
+> > > Hi Ricardo,
+> > >
+> > > On Wed, 23 Nov 2022 09:58:08 +0100
+> > > Ricardo Ribalda <ribalda@chromium.org> wrote:
+> > >
+> > > > Hi Philipp
+> > > >
+> > > > Thanks for your review.
+> > > >
+> > > > My scenario is a trusted system, where even if you are root, your
+> > > > access to the system is very limited.
+> > > >
+> > > > Let's assume LOADPIN and verity are enabled.
+> > >
+> > > My point is that on such systems I expect that a sysadmin also wants to
+> > > control the crash kernel including its initramfs (which also has to be part
+> > > of the signed kernel?). But if that's the case a sysadmin can simply arm
+> > > kdump early during boot and then toggle kexec_load_disabled. With that
+> > > LINUX_REBOOT_CMD_KEXEC also gets disabled as no kexec kernel can be loaded
+> > > while kdump works. Thus there is no need to add the new interface. Or am
+> > > I missing anything?
+> >
+> > Let's say that you have a script that does something like this
+> >
+> >
+> > kexec -p dump_kernel
+> > echo 1 > /proc/sys/kernel/kexec_load_disabled
+> >
+> > If an attacker can DDos the system and make that script crash... then
+> > kexec is still accessible
+> >
+> > On the other hand, if you load the kernel with the commandline
+> >
+> > sysctl.kernel.kexec_load_disabled=1
+>                       ^^^^
+>                       reboot?
 
-> but my recollection is that 
-> the maintainers there started doing that after the key x86 hardware 
-> manufacturers established a track record of consistently releasing 
-> mass-market hardware that implemented what they promised.
+yes :)  thanks!
 
-> Not sure we're at that point with RISC-V yet.
+> Otherwise you shouldn't be able to load the crash kernel at all.
+>
+> > Then even if the script crashes, the only way to abuse kexec is by
+> > panicing the running kernel....
+>
+> True. But  when an attacker can DDos the system the final workload is
+> already running. So wouldn't it be enough to make sure that the script
+> above has finished before starting you workload. E.g. by setting an
+> appropriate Before=/After= in the systemd.unit?
 
-... and you're probably not wrong there either.
+What if the kexec binary crashes and the unit will never succeed?
 
-> We'll get there at some point, but maybe 
-> we can add that clause back in once that happens?
+Or worse, your distro does not use systemd !!!
 
-> 
-> From: Paul Walmsley <paul.walmsley@sifive.com>
-> Date: Fri, 18 Nov 2022 02:16:17 -0600
-> Subject: [PATCH] Documentation: RISC-V: Allow patches for widely available
->  hardware
-> 
-> This patch, based on an earlier patch from Palmer, updates the patch
-> acceptance policy to note that the maintainers may also accept patches
-> for RISC-V hardware that contains features that may not be strictly
-> RISC-V-compliant, but which is widely available.  The intention here
-> is to align the stated policy with the de-facto upstream Linux policy.
+>
+> Furthermore, I don't think that restricting kexec reboot alone is
+> sufficient when the attacker can still control the crash kernel. At
+> least my assumption is that triggering a panic instead of just
+> rebooting is just a mild inconvenience for somebody who is able to pull
+> off an attack like that.
 
-NGL, this commit message is kinda confusing. If this version is used
-instead of Palmer's, then any mention of the earlier patch should be
-dropped IMO. In fact, his original commit message should apply here too,
-no?
+The attacker does not control the crash kernel completely. loadpin is
+still in place.
+Yes, they can downgrade the whole system to a vulnerable kernel image.
+But the choices are limited :)
 
-> Link: https://lore.kernel.org/linux-riscv/20221013045619.18906-3-palmer@rivosinc.com/  # Palmer's original patch
-> Cc: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Paul Walmsley <paul.walmsley@sifive.com>
-> ---
->  Documentation/riscv/patch-acceptance.rst | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/riscv/patch-acceptance.rst b/Documentation/riscv/patch-acceptance.rst
-> index 5da6f9b273d6..2e3f9ecdd977 100644
-> --- a/Documentation/riscv/patch-acceptance.rst
-> +++ b/Documentation/riscv/patch-acceptance.rst
-> @@ -29,7 +29,12 @@ their own custom extensions.  These custom extensions aren't required
->  to go through any review or ratification process by the RISC-V
->  Foundation.  To avoid the maintenance complexity and potential
->  performance impact of adding kernel code for implementor-specific
-> +RISC-V extensions, we'll only consider patches for extensions that
-> +either:
-> +
-> +- Have been officially frozen or ratified by the RISC-V Foundation, or
-> +- Have been implemented in hardware that is widely available, per standard
-> +  Linux practice
-> +
-> +(Implementors, may, of course, maintain their own Linux kernel
-> +trees containing code for any custom extensions that they wish.)
+With physical access to the device panicing a kernel is easily doable
+(but not trivial). But remotely, it is more challenging.
 
-I have no preference for whichever version, but I think some of the
-people at LPC did want to be able to add support for stuff that was not
-publicly available who may have one ;)
+>
+> > Would it make you more comfortable if I model this as a kernel config
+> > instead of a runtime option?
+>
+> No, I think the implementation is fine. I'm currently only struggling
+> to understand what problem kexec_reboot_disabled solves that cannot be
+> solved by kexec_load_disabled.
+>
+> > Thanks!
+>
+> Happy to help.
+>
+> Thanks
+> Philipp
+>
+> >
+> >
+> > >
+> > > Thanks
+> > > Philipp
+> > >
+> > > >
+> > > > On Mon, 21 Nov 2022 at 15:10, Philipp Rudo <prudo@redhat.com> wrote:
+> > > > >
+> > > > > Hi Ricardo,
+> > > > >
+> > > > > On Thu, 17 Nov 2022 16:15:07 +0100
+> > > > > Ricardo Ribalda <ribalda@chromium.org> wrote:
+> > > > >
+> > > > > > Hi Philipp
+> > > > > >
+> > > > > > Thanks for your review!
+> > > > >
+> > > > > happy to help.
+> > > > >
+> > > > > >
+> > > > > > On Thu, 17 Nov 2022 at 16:07, Philipp Rudo <prudo@redhat.com> wrote:
+> > > > > > >
+> > > > > > > Hi Ricardo,
+> > > > > > >
+> > > > > > > all in all I think this patch makes sense. However, there is one point
+> > > > > > > I don't like...
+> > > > > > >
+> > > > > > > On Mon, 14 Nov 2022 14:18:39 +0100
+> > > > > > > Ricardo Ribalda <ribalda@chromium.org> wrote:
+> > > > > > >
+> > > > > > > > Create a new toogle that disables LINUX_REBOOT_CMD_KEXEC, reducing the
+> > > > > > > > attack surface to a system.
+> > > > > > > >
+> > > > > > > > Without this toogle, an attacker can only reboot into a different kernel
+> > > > > > > > if they can create a panic().
+> > > > > > > >
+> > > > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > > > > >
+> > > > > > > > diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> > > > > > > > index 97394bd9d065..25d019682d33 100644
+> > > > > > > > --- a/Documentation/admin-guide/sysctl/kernel.rst
+> > > > > > > > +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> > > > > > > > @@ -462,6 +462,17 @@ altered.
+> > > > > > > >  Generally used together with the `modules_disabled`_ sysctl.
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > +kexec_reboot_disabled
+> > > > > > > > +=====================
+> > > > > > > > +
+> > > > > > > > +A toggle indicating if ``LINUX_REBOOT_CMD_KEXEC`` has been disabled.
+> > > > > > > > +This value defaults to 0 (false: ``LINUX_REBOOT_CMD_KEXEC`` enabled),
+> > > > > > > > +but can be set to 1 (true: ``LINUX_REBOOT_CMD_KEXEC`` disabled).
+> > > > > > > > +Once true, kexec can no longer be used for reboot and the toggle
+> > > > > > > > +cannot be set back to false.
+> > > > > > > > +This toggle does not affect the use of kexec during a crash.
+> > > > > > > > +
+> > > > > > > > +
+> > > > > > > >  kptr_restrict
+> > > > > > > >  =============
+> > > > > > > >
+> > > > > > > > diff --git a/include/linux/kexec.h b/include/linux/kexec.h
+> > > > > > > > index 41a686996aaa..15c3fad8918b 100644
+> > > > > > > > --- a/include/linux/kexec.h
+> > > > > > > > +++ b/include/linux/kexec.h
+> > > > > > > > @@ -407,6 +407,7 @@ extern int kimage_crash_copy_vmcoreinfo(struct kimage *image);
+> > > > > > > >  extern struct kimage *kexec_image;
+> > > > > > > >  extern struct kimage *kexec_crash_image;
+> > > > > > > >  extern int kexec_load_disabled;
+> > > > > > > > +extern int kexec_reboot_disabled;
+> > > > > > > >
+> > > > > > > >  #ifndef kexec_flush_icache_page
+> > > > > > > >  #define kexec_flush_icache_page(page)
+> > > > > > > > diff --git a/kernel/kexec.c b/kernel/kexec.c
+> > > > > > > > index cb8e6e6f983c..43063f803d81 100644
+> > > > > > > > --- a/kernel/kexec.c
+> > > > > > > > +++ b/kernel/kexec.c
+> > > > > > > > @@ -196,6 +196,10 @@ static inline int kexec_load_check(unsigned long nr_segments,
+> > > > > > > >       if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
+> > > > > > > >               return -EPERM;
+> > > > > > > >
+> > > > > > > > +     /* Check if the system admin has disabled kexec reboot. */
+> > > > > > > > +     if (!(flags & KEXEC_ON_CRASH) && kexec_reboot_disabled)
+> > > > > > > > +             return -EPERM;
+> > > > > > >
+> > > > > > > ... Allowing to load a crashkernel doesn't make sense in my opinion. If
+> > > > > > > an attacker is capable of creating a malicious kernel, planting it on
+> > > > > > > the victims system and then find a way to boot it via kexec this
+> > > > > > > attacker also knows how to load the malicious kernel as crashkernel and
+> > > > > > > trigger a panic. So you haven't really gained anything. That's why I
+> > > > > > > would simply drop this hunk (and the corresponding one from
+> > > > > > > kexec_file_load) and let users who worry about this use a combination of
+> > > > > > > kexec_load_disabled and kexec_reboot_disabled.
+> > > > > >
+> > > > > > If for whatever reason your sysadmin configured kexec_reboot_disabed
+> > > > > > it can be nice that when a user try to load it they get a warning.
+> > > > > > It is easier to debug than waiting two steps later when they run kexec -e....
+> > > > >
+> > > > > I'm having second thoughts about this patch. My main problem is that I
+> > > > > don't see a real use case where kexec_reboot_disabled is advantageous
+> > > > > over kexec_load_disabled. The point is that disabling
+> > > > > LINUX_REBOOT_CMD_KEXEC is almost identical to toggling kexec_load_disabled without
+> > > > > a loaded kernel (when you don't have a kernel loaded you cannot reboot
+> > > > > into it). With this the main use case of kexec_reboot_disabled is
+> > > > > already covered by kexec_load_disabled.
+> > > >
+> > > > >
+> > > > > However, there are two differences
+> > > > >
+> > > > > 1) with kexec_reboot_disable you can still (re-)load a crash kernel
+> > > > > e.g. to update the initramfs after a config change. But as discussed in
+> > > > > my first mail this comes on the cost that an attacker could still load a
+> > > > > malicious crash kernel and then 'panic into it'.
+> > > >
+> > > > That crash kernel must be already in the signed malicious kernel.
+> > > > which reduces the chances of attack.
+> > > > Plus an attacker must be able to panic the current kernel at will,
+> > > > instead of just call reset.
+> > > >
+> > > > >
+> > > > > 2) kexec_load_disabled also prevents unloading of a loaded kernel. So
+> > > > > once loaded kexec_load_disabled cannot prevent the reboot into this
+> > > > > kernel.
+> > > > >
+> > > > >
+> > > > > For 1) I doubt that this is desired at all. My expectation is that on
+> > > > > systems where a sysadmin restricts a user to reboot via kexec the
+> > > > > sysadmin also wants to prevent the user to load an arbitrary crash
+> > > > > kernel. Especially as this still keeps the loophole open you are trying
+> > > > > to close.
+> > > > >
+> > > > > So only 2) is left as real benefit. But that is an extremely specific
+> > > > > scenario. How often does this scenario happen in real life? What
+> > > > > problem does kexec_reboot_disable solve different implementation
+> > > > > (also in userspace) cannot?
+> > > > >
+> > > > > Sorry about being this pedantic but you want to introduce some new uapi
+> > > > > which will be hard if not impossible to change once introduced. That's
+> > > > > why I want to be a 100% sure it is really needed.
+> > > >
+> > > > No worries. Completely understand :). Thanks for taking this seriously..
+> > > >
+> > > >
+> > > > Best regards!
+> > > > >
+> > > > > Thanks
+> > > > > Philipp
+> > > > >
+> > > > >
+> > > > > > That is why I added it. But i am also ok removing it
+> > > > > >
+> > > > > > >
+> > > > > > > Thanks
+> > > > > > > Philipp
+> > > > > > >
+> > > > > > > > +
+> > > > > > > >       /* Permit LSMs and IMA to fail the kexec */
+> > > > > > > >       result = security_kernel_load_data(LOADING_KEXEC_IMAGE, false);
+> > > > > > > >       if (result < 0)
+> > > > > > > > diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
+> > > > > > > > index ca2743f9c634..fe82e2525705 100644
+> > > > > > > > --- a/kernel/kexec_core.c
+> > > > > > > > +++ b/kernel/kexec_core.c
+> > > > > > > > @@ -929,6 +929,7 @@ int kimage_load_segment(struct kimage *image,
+> > > > > > > >  struct kimage *kexec_image;
+> > > > > > > >  struct kimage *kexec_crash_image;
+> > > > > > > >  int kexec_load_disabled;
+> > > > > > > > +int kexec_reboot_disabled;
+> > > > > > > >  #ifdef CONFIG_SYSCTL
+> > > > > > > >  static struct ctl_table kexec_core_sysctls[] = {
+> > > > > > > >       {
+> > > > > > > > @@ -941,6 +942,16 @@ static struct ctl_table kexec_core_sysctls[] = {
+> > > > > > > >               .extra1         = SYSCTL_ONE,
+> > > > > > > >               .extra2         = SYSCTL_ONE,
+> > > > > > > >       },
+> > > > > > > > +     {
+> > > > > > > > +             .procname       = "kexec_reboot_disabled",
+> > > > > > > > +             .data           = &kexec_reboot_disabled,
+> > > > > > > > +             .maxlen         = sizeof(int),
+> > > > > > > > +             .mode           = 0644,
+> > > > > > > > +             /* only handle a transition from default "0" to "1" */
+> > > > > > > > +             .proc_handler   = proc_dointvec_minmax,
+> > > > > > > > +             .extra1         = SYSCTL_ONE,
+> > > > > > > > +             .extra2         = SYSCTL_ONE,
+> > > > > > > > +     },
+> > > > > > > >       { }
+> > > > > > > >  };
+> > > > > > > >
+> > > > > > > > @@ -1138,7 +1149,7 @@ int kernel_kexec(void)
+> > > > > > > >
+> > > > > > > >       if (!kexec_trylock())
+> > > > > > > >               return -EBUSY;
+> > > > > > > > -     if (!kexec_image) {
+> > > > > > > > +     if (!kexec_image || kexec_reboot_disabled) {
+> > > > > > > >               error = -EINVAL;
+> > > > > > > >               goto Unlock;
+> > > > > > > >       }
+> > > > > > > > diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
+> > > > > > > > index 45637511e0de..583fba6de5cb 100644
+> > > > > > > > --- a/kernel/kexec_file.c
+> > > > > > > > +++ b/kernel/kexec_file.c
+> > > > > > > > @@ -333,6 +333,11 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
+> > > > > > > >       if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
+> > > > > > > >               return -EPERM;
+> > > > > > > >
+> > > > > > > > +     /* Check if the system admin has disabled kexec reboot. */
+> > > > > > > > +     if (!(flags & (KEXEC_FILE_ON_CRASH | KEXEC_FILE_UNLOAD))
+> > > > > > > > +         && kexec_reboot_disabled)
+> > > > > > > > +             return -EPERM;
+> > > > > > > > +
+> > > > > > > >       /* Make sure we have a legal set of flags */
+> > > > > > > >       if (flags != (flags & KEXEC_FILE_FLAGS))
+> > > > > > > >               return -EINVAL;
+> > > > > > > >
+> > > > > > >
+> > > > > >
+> > > > > >
+> > > > >
+> > > >
+> > > >
+> > >
+> >
+> >
+>
 
-Folded into the original, I guess this one also is:
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-Certainly less headache potential this way,
-Conor.
-
+-- 
+Ricardo Ribalda
