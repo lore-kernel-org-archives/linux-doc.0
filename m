@@ -2,201 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 074EFC43217
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 13:45:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 377A8C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 13:55:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229693AbiKXNph (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Nov 2022 08:45:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36692 "EHLO
+        id S229661AbiKXNzc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Nov 2022 08:55:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230089AbiKXNpb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 08:45:31 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 575BB10890E;
-        Thu, 24 Nov 2022 05:45:27 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 98A24106F;
-        Thu, 24 Nov 2022 05:45:33 -0800 (PST)
-Received: from [10.57.37.242] (unknown [10.57.37.242])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D19B23F73B;
-        Thu, 24 Nov 2022 05:45:24 -0800 (PST)
-Message-ID: <80cf9c73-4b9a-f2f7-f72d-de985c045f9c@arm.com>
-Date:   Thu, 24 Nov 2022 13:45:23 +0000
+        with ESMTP id S229552AbiKXNzb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 08:55:31 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CD9EE1227
+        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 05:55:30 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id l39-20020a05600c1d2700b003cf93c8156dso1293357wms.4
+        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 05:55:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pN+fMTXIbwkvTVCL6teMynvLqCQ1zb8psy5cG5agjcI=;
+        b=o29ZVKlW0hg+wTr5SNdc59ZTn7GtkgIjvdfNuhfZ9Go5RYF0bUJQaqw5oksOVSlXKZ
+         gcP9TNLHnjIxApSzZCFmyVSHsnHp5d8nqgupDXaf2I2GRs9KooJHuWeafVn03RAPJtr/
+         0qkPSxuCTWSkaFU8OuSG1Uq66QpY8nhn69mWWtcNAOe2IaA095kW57glzfzcSggluPjv
+         gM2S+9x9+HeAxzpzkyPXaxArRwLN7K37FBGUiotrf5SRPQRRIGyY0GrWM/F6EFK1MOFE
+         SuMysdzefbRAZ6CgZjQ+ih+yQp1V+6yCvXoo5pkoW/Kg6aWhZ65xv+8aFUSMN8tbrBJG
+         aQPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pN+fMTXIbwkvTVCL6teMynvLqCQ1zb8psy5cG5agjcI=;
+        b=aHXnxTaLGGKeg2H+JBHXoI+ZieFwAExhQ373SjP84ErCiGMhYIyz8GtjK52KCqQDCZ
+         Z995xoJFPiYkIoYkTQBfW5xJQi9VHD3YzmXoecwILfP5N8uP9gul53Cn0qn+rrKj9678
+         972xPcve6+1nhLsRKQIwg7JGMiJYGQ7hO73gjAMJOHtCcWdZbC3/zg0YoSQAhTgF9DtE
+         UBKgY93DTW0km5phQciMwXYhzNKN38mQxRVKTDgwIziVwMKWnkrDkbAFxz/uwmpJW6Yh
+         axTF7Pujd5ZBuK1QMdRKBklPLSIRrldl/o4br38yrasCMBrf3SAl9iSPCiWkmY6UP47T
+         1Dfg==
+X-Gm-Message-State: ANoB5pk7yp2lD/E1sMijPfUL6W2C7plKqsVZ2BQPuMHS+SiPxr3Gc3YJ
+        Pq2PG5qJ7q6EMROgot88VsEV8g==
+X-Google-Smtp-Source: AA0mqf7LmgqnY5TT62nL6QBBImocwCh9tlDp2Ug4ekB8tl5kFgZ55ulOqFa7jWHsk4HR1gTXeY+Y4A==
+X-Received: by 2002:a1c:a381:0:b0:3cf:4d14:5705 with SMTP id m123-20020a1ca381000000b003cf4d145705mr12126137wme.35.1669298128503;
+        Thu, 24 Nov 2022 05:55:28 -0800 (PST)
+Received: from ?IPV6:2a02:6b6a:b4d7:0:f0b8:522f:5d6e:d788? ([2a02:6b6a:b4d7:0:f0b8:522f:5d6e:d788])
+        by smtp.gmail.com with ESMTPSA id h20-20020a05600c351400b003b4935f04a4sm2479548wmq.5.2022.11.24.05.55.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Nov 2022 05:55:28 -0800 (PST)
+Message-ID: <95efd030-27f6-5668-a25e-9fbf210bfa1c@bytedance.com>
+Date:   Thu, 24 Nov 2022 13:55:27 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH v14 1/2] drivers/coresight: Add UltraSoc System Memory
- Buffer driver
-To:     hejunhao <hejunhao3@huawei.com>, mathieu.poirier@linaro.org,
-        mike.leach@linaro.org, leo.yan@linaro.org,
-        jonathan.cameron@huawei.com
-Cc:     coresight@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        lpieralisi@kernel.org, linuxarm@huawei.com, yangyicong@huawei.com,
-        liuqi6124@gmail.com, f.fangjian@huawei.com,
-        prime.zeng@hisilicon.com
-References: <20221123123823.27973-1-hejunhao3@huawei.com>
- <20221123123823.27973-2-hejunhao3@huawei.com>
- <9f5f66fa-0388-6a76-25c9-cacef0e7a4e2@arm.com>
- <0eb32726-2054-ee00-4b7a-d7a2f0121efd@huawei.com>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <0eb32726-2054-ee00-4b7a-d7a2f0121efd@huawei.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [External] Re: [v2 0/6] KVM: arm64: implement vcpu_is_preempted
+ check
+Content-Language: en-US
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, linux@armlinux.org.uk,
+        yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org,
+        steven.price@arm.com, mark.rutland@arm.com, bagasdotme@gmail.com,
+        fam.zheng@bytedance.com, liangma@liangbit.com,
+        punit.agrawal@bytedance.com
+References: <20221104062105.4119003-1-usama.arif@bytedance.com>
+ <87k048f3cm.wl-maz@kernel.org>
+ <180b91af-a2aa-2cfd-eb7f-b2825c4e3dbe@bytedance.com>
+ <86r0y1nmep.wl-maz@kernel.org>
+From:   Usama Arif <usama.arif@bytedance.com>
+In-Reply-To: <86r0y1nmep.wl-maz@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 24/11/2022 13:33, hejunhao wrote:
-> 
-> On 2022/11/23 22:03, Suzuki K Poulose wrote:
->> On 23/11/2022 12:38, Junhao He wrote:
->>> From: Qi Liu <liuqi115@huawei.com>
+
+
+On 18/11/2022 00:20, Marc Zyngier wrote:
+> On Mon, 07 Nov 2022 12:00:44 +0000,
+> Usama Arif <usama.arif@bytedance.com> wrote:
+>>
+>>
+>>
+>> On 06/11/2022 16:35, Marc Zyngier wrote:
+>>> On Fri, 04 Nov 2022 06:20:59 +0000,
+>>> Usama Arif <usama.arif@bytedance.com> wrote:
+>>>>
+>>>> This patchset adds support for vcpu_is_preempted in arm64, which
+>>>> allows the guest to check if a vcpu was scheduled out, which is
+>>>> useful to know incase it was holding a lock. vcpu_is_preempted can
+>>>> be used to improve performance in locking (see owner_on_cpu usage in
+>>>> mutex_spin_on_owner, mutex_can_spin_on_owner, rtmutex_spin_on_owner
+>>>> and osq_lock) and scheduling (see available_idle_cpu which is used
+>>>> in several places in kernel/sched/fair.c for e.g. in wake_affine to
+>>>> determine which CPU can run soonest):
 >>>
->>> Add driver for UltraSoc SMB(System Memory Buffer) device.
->>> SMB provides a way to buffer messages from ETM, and store
->>> these "CPU instructions trace" in system memory.
->>> The SMB device is identifier as ACPI HID "HISI03A1". Device
->>> system memory address resources are allocated using the _CRS
->>> method and buffer modes is the circular buffer mode.
+>>> [...]
 >>>
->>> SMB is developed by UltraSoc technology, which is acquired by
->>> Siemens, and we still use "UltraSoc" to name driver.
+>>>> pvcy shows a smaller overall improvement (50%) compared to
+>>>> vcpu_is_preempted (277%).  Host side flamegraph analysis shows that
+>>>> ~60% of the host time when using pvcy is spent in kvm_handle_wfx,
+>>>> compared with ~1.5% when using vcpu_is_preempted, hence
+>>>> vcpu_is_preempted shows a larger improvement.
 >>>
->>> Signed-off-by: Qi Liu <liuqi115@huawei.com>
->>> Signed-off-by: Junhao He <hejunhao3@huawei.com>
->>> Tested-by: JunHao He <hejunhao3@huawei.com>
->>> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->>> ---
->>>   drivers/hwtracing/coresight/Kconfig        |  12 +
->>>   drivers/hwtracing/coresight/Makefile       |   1 +
->>>   drivers/hwtracing/coresight/ultrasoc-smb.c | 658 +++++++++++++++++++++
->>>   drivers/hwtracing/coresight/ultrasoc-smb.h | 129 ++++
->>>   4 files changed, 800 insertions(+)
->>>   create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.c
->>>   create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.h
+>>> And have you worked out *why* we spend so much time handling WFE?
 >>>
+>>> 	M.
 >>
->>> +static void smb_sync_perf_buffer(struct smb_drv_data *drvdata,
->>> +                 struct cs_buffers *buf,
->>> +                 unsigned long head,
->>> +                 unsigned long data_size)
->>> +{
->>> +    struct smb_data_buffer *sdb = &drvdata->sdb;
->>> +    char **dst_pages = (char **)buf->data_pages;
->>> +    unsigned long to_copy;
->>> +    long pg_idx, pg_offset;
->>> +
->>> +    pg_idx = head >> PAGE_SHIFT;
->>> +    pg_offset = head & (PAGE_SIZE - 1);
->>> +
->>> +    while (data_size) {
->>> +        unsigned long pg_space = PAGE_SIZE - pg_offset;
->>> +
->>> +        /* Copy parts of trace data when read pointer wrap around */
->>> +        if (sdb->rd_offset + pg_space > sdb->buf_size)
->>> +            to_copy = sdb->buf_size - sdb->rd_offset;
->>> +        else
->>> +            to_copy = min(data_size, pg_space);
->>> +
->>> +        memcpy(dst_pages[pg_idx] + pg_offset,
->>> +                  sdb->buf_base + sdb->rd_offset, to_copy);
->>> +
->>> +        pg_offset += to_copy;
->>> +        if (pg_offset >= PAGE_SIZE) {
->>> +            pg_offset = 0;
->>> +            pg_idx++;
->>> +            pg_idx %= buf->nr_pages;
->>> +        }
->>> +        data_size -= to_copy;
->>> +        sdb->rd_offset += to_copy;
->>> +        sdb->rd_offset %= sdb->buf_size;
->>> +    }
->>> +
->>> +    sdb->data_size = 0;
+>> Its from the following change in pvcy patchset:
+>>
+>> diff --git a/arch/arm64/kvm/handle_exit.c b/arch/arm64/kvm/handle_exit.c
+>> index e778eefcf214..915644816a85 100644
+>> --- a/arch/arm64/kvm/handle_exit.c
+>> +++ b/arch/arm64/kvm/handle_exit.c
+>> @@ -118,7 +118,12 @@ static int kvm_handle_wfx(struct kvm_vcpu *vcpu)
+>>          }
+>>
+>>          if (esr & ESR_ELx_WFx_ISS_WFE) {
+>> -               kvm_vcpu_on_spin(vcpu, vcpu_mode_priv(vcpu));
+>> +               int state;
+>> +               while ((state = kvm_pvcy_check_state(vcpu)) == 0)
+>> +                       schedule();
+>> +
+>> +               if (state == -1)
+>> +                       kvm_vcpu_on_spin(vcpu, vcpu_mode_priv(vcpu));
+>>          } else {
+>>                  if (esr & ESR_ELx_WFx_ISS_WFxT)
+>>                          vcpu_set_flag(vcpu, IN_WFIT);
 >>
 >>
->> --8>-- cut here --<8--
->>
->>> +    writel(sdb->start_addr + sdb->rd_offset,
->>> +        drvdata->base + SMB_LB_RD_ADDR_REG);
->>> +
->>> +    /*
->>> +     * Data remained in link cannot be purged when SMB is full, so
->>> +     * synchronize the read pointer to write pointer, to make sure
->>> +     * these remained data won't influence next trace.
->>> +     */
->>> +    if (sdb->full) {
->>> +        smb_purge_data(drvdata);
->>> +        writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
->>> +               drvdata->base + SMB_LB_RD_ADDR_REG);
->>> +    }
->>
->> --<8-- end here --8>--
->>
->> As pointed out in the last review, we must do this step
->> everytime for perf mode irrespective of whether the buffer
->> was "FULL" or not.
->>
->> i.e, the above block should simply be:
->>
->>     if (sdb->full)
->>         smb_purge_data(drvdata);
->>
->>     /*
->>      * The uncollected Data must be discarded for perf,
->>      * as it cannot be clubbed with next schedule. We
->>      * any way TRUNCATE the buffer in this case.
->>      */
->>     writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
->>         drvdata->base + SMB_LB_RD_ADDR_REG);
->>
->> Suzuki
+>> If my understanding is correct of the pvcy changes, whenever pvcy
+>> returns an unchanged vcpu state, we would schedule to another
+>> vcpu. And its the constant scheduling where the time is spent. I guess
+>> the affects are much higher when the lock contention is very
+>> high. This can be seem from the pvcy host side flamegraph as well with
+>> (~67% of the time spent in the schedule() call in kvm_handle_wfx), For
+>> reference, I have put the graph at:
+>> https://uarif1.github.io/pvlock/perf_host_pvcy_nmi.svg
 > 
-> Hi Suzuki,
+> The real issue here is that we don't try to pick the right vcpu to
+> run, and strictly rely on schedule() to eventually pick something that
+> can run.
 > 
-> We need to update SMB_LB_RD_ADDR_REG register first, then
-> check the "full" flag, whether the register needs to be
-> updated again.
+> An interesting to do would be to try and fit the directed yield
+> mechanism there. It would be a lot more interesting than the one-off
+> vcpu_is_preempted hack, as it gives us a low-level primitive on which
+> to construct things (pvcy is effectively a mwait-like primitive).
 
-Why ? sdb->full is not updated after the write to RD_ADDR_REG.
+We could use kvm_vcpu_yield_to to yield to a specific vcpu, but how 
+would we determine which vcpu to yield to?
+
+IMO vcpu_is_preempted is very well integrated in a lot of core kernel 
+code, i.e. mutex, rtmutex, rwsem and osq_lock. It is also used in 
+scheduler to determine better which vCPU we can run on soonest, select 
+idle core, etc. I am not sure if all of these cases will be optimized by 
+pvcy? Also, with vcpu_is_preempted, some of the lock heavy benchmarks 
+come down from spending around 50% of the time in lock to less than 1% 
+(so not sure how much more room is there for improvement).
+
+We could also use vcpu_is_preempted to optimize IPI performance (along 
+with directed yield to target IPI vCPU) similar to how its done in x86 
+(https://lore.kernel.org/all/1560255830-8656-2-git-send-email-wanpengli@tencent.com/). 
+This case definitely wont be covered by pvcy.
+
+Considering all the above, i.e. the core kernel integration already 
+present and possible future usecases of vcpu_is_preempted, maybe its 
+worth making vcpu_is_preempted work on arm independently of pvcy?
+
+Thanks,
+Usama
 
 > 
-> If we don`t update the value of SMB_LB_RD_ADDR_REG register
-> or reset buffer state, the buffer state will still be "full".
-> The buffer has not free area,so the data will still remain
-> in link.
-
-My issue here is with potentially "leaving the trace from a previous
-session for the next session". i.e., at the end of a run, we must always
-make sure that the buffer is left empty (unlike the sysfs mode).
-
-e.g.,
-
-perf_session_x: RUN0: RD=0x0, WR=0x5000, HANDLE_SIZE=0x3000, full=false.
-At the end of the above routine we will have :
-	RD=0x3000, WR=0x5000,
-
-and if a different perf session comes in, say perf_session_y, it will 
-consume trace written by "x" at 0x3000-0x50000, right ?
-
-This is fine in the sysfs mode as we expect the entire sysfs mode
-to be owned by a single session and is left to the user to split it.
-But for perf mode we cannot do that and thus must make sure we don't
-leak trace from one session to antoher.
-
-Suzuki
-
-
+> 	M.
 > 
-> Thanks.
-> HeJunhao.
-> 
->> _______________________________________________
->> CoreSight mailing list -- coresight@lists.linaro.org
->> To unsubscribe send an email to coresight-leave@lists.linaro.org
->>
->> .
->>
-> 
-
