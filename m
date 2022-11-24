@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32A59C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 17:02:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB644C46467
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 17:02:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229581AbiKXRCu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Nov 2022 12:02:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58986 "EHLO
+        id S229595AbiKXRCv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Nov 2022 12:02:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229615AbiKXRCt (ORCPT
+        with ESMTP id S229640AbiKXRCt (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 12:02:49 -0500
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2052.outbound.protection.outlook.com [40.107.94.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 269CA28E17;
-        Thu, 24 Nov 2022 09:02:48 -0800 (PST)
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2043.outbound.protection.outlook.com [40.107.212.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FEAD2B1BB;
+        Thu, 24 Nov 2022 09:02:49 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T5Ttxe5rm9O9zhrB/SM0kgOCFQWBioV2UJvF3N/ciOupKRywOyXzBfLLG1LFbhFtTvWGCQEDesPdDbxJS68DX9FzPMf47I+RFNEYqhKLwR+T5+s6mxC5v3A+6z2A7TZkWmWhgQ6vP3Uuvip4N7ZQRNOKcK6ir/LgaLIKqXvmXoflnKVt77HVz+gjG7/bsJTstdW7YogJ2jYV0SUOEtIQzjfxFr/KJCqn0kKwmtTzU97gA6/+pdZs69gOKikJfjXB3f2zaLlzXXeouKs/PQUnKsUFi7Ei2dJGNHbfagUMzfgKsHeDf9+ZFEE5CLH8s0IyVuOjqkeGSmwYJSl07S/sPg==
+ b=Pl4kYrQrHORdw5cwvz+dslxaBuDsGlyBynUYBpvfmhPCphGwi9JKXkGaSnQpeefSVDFTyajx4oqEtz8P1kNtoL8xzLEfKTbzUY98x1Hxg5RY4zOjqzTspQ9IzacNXmAkNZs1qeXD4gv4clIDFSNBFoWu0VVTPmpavtsx355j2tDambVuphCi9O4XWZpA5oF7WegfSVOjtJ47BEtLO57NoL0j1+gj13PGQQ1jhlxbNmnzRsgWMQ02LFVCEQrV9grAwumaFrH993lF+7yylGh4cw+ClZPuo0pun85NknINTVUxqrf8Nu1ormYVHXmnDMucSPXosYUVC+LmEqN39LOvZg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rCxUi6Ej7HAvB3psTTvfKgksiyqOsMWJpEj0jytfAls=;
- b=hoIFUrTaMurZS0jLUR2JB1Ezs510lYxC5YpyfEyAIU4a/Cnefe4ySN44wtQroLeIV5GtdCO2LPIRglBn8Y8A4zx6yLF8QZYZ0XPTkUmkIA/G/s9vFkATf2TxaJARb3dcZGg8dEFk557clr0hCI6ducC8b20cY8cCKa4c2lN8iqo3N6WD0MQpUZwBpBQjovB3HTue2rQxvfSVKBhov4+RmAdTGWLH9jrVOea3u97e876/Gpa300FzgnDTdylnMKfweZDTg0gWqEXlX2o3OPX88KBDsiKX78m3nXUd8lRYDj8PHwJDBgpthtgPcatYatcmHiET9l+Vm4lcy/RzwY3YrQ==
+ bh=w7Z6vC4vyHthNCtaqY18LDj/TklJNDVKOARGNkN2GaU=;
+ b=PtJ/G7gTX8XzS2pyzE6quaLwkVGrQIpppOg3u7ZBBZbMnaZQZy7T52fwguBDLoH0P7yDVTJZqQPqWTOdNhsQPEOwHDoPD/1yDvXs7BN0Zcd19MEu0iSRCOqZdIL8TT+RGdfPoesIy212ko6js1ImTksTvc0egg/PoCLgOH6L62dLiVT9mnIXyDpxFUQLof1MOh6qsumT1WcVFqFshaR1qRWdYUUzIuxu7dCKMwVYrC1RuWuPL9LSZSutLFFGtNnbDwSbZR4tEUjoJW4lVT9SamnmLOC2wo2HRGp0MnEb7oK4izlWGTvyOBNNcjJH2ZCn+bbMCYH5kKhT4J1I5RPFBw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rCxUi6Ej7HAvB3psTTvfKgksiyqOsMWJpEj0jytfAls=;
- b=OzRkX2QbFUxDtBgn5ujugXrVz8s/IF+NpSbwWxDqXzCbG22GUC7hRLKLc6Y2RcwTE4yE6SM0Im9UMwSLAfirjb1dqU28TPnH/LH35mVVq2TWjqotdU+BpHkwtf3pH2cbD6d7gNbxs2jP+vi/XP6MPo5OCew+SIzxRo/5b+Rixys=
-Received: from MW4PR03CA0193.namprd03.prod.outlook.com (2603:10b6:303:b8::18)
- by DS0PR12MB7946.namprd12.prod.outlook.com (2603:10b6:8:151::13) with
+ bh=w7Z6vC4vyHthNCtaqY18LDj/TklJNDVKOARGNkN2GaU=;
+ b=qPm6SGLWEMMgH+EQh9dCigrD1Tzmq6huid0HLPL73mvFy9GwHND6rR4NF2892wR70xYIDo1tGHVxSAx1DOSvKEkG5GsIPtn4NcQya5WpnqyiA1OOW3KwYVvjJYdYHMek4/ms2uUO6YmYgkwmH6pwB+m3z5GjOPpKYRjT463lLdY=
+Received: from MW4PR03CA0196.namprd03.prod.outlook.com (2603:10b6:303:b8::21)
+ by PH7PR12MB6658.namprd12.prod.outlook.com (2603:10b6:510:211::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.17; Thu, 24 Nov
- 2022 17:02:46 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.18; Thu, 24 Nov
+ 2022 17:02:47 +0000
 Received: from CO1NAM11FT059.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:b8:cafe::7d) by MW4PR03CA0193.outlook.office365.com
- (2603:10b6:303:b8::18) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:303:b8:cafe::fb) by MW4PR03CA0196.outlook.office365.com
+ (2603:10b6:303:b8::21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.19 via Frontend
- Transport; Thu, 24 Nov 2022 17:02:46 +0000
+ Transport; Thu, 24 Nov 2022 17:02:47 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,25 +48,25 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  CO1NAM11FT059.mail.protection.outlook.com (10.13.174.160) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5857.18 via Frontend Transport; Thu, 24 Nov 2022 17:02:45 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
+ 15.20.5857.18 via Frontend Transport; Thu, 24 Nov 2022 17:02:46 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 24 Nov
- 2022 11:02:44 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ 2022 11:02:45 -0600
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 24 Nov
- 2022 11:02:44 -0600
+ 2022 11:02:45 -0600
 Received: from iron-maiden.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Thu, 24 Nov 2022 11:02:43 -0600
+ Transport; Thu, 24 Nov 2022 11:02:45 -0600
 From:   Carlos Bilbao <carlos.bilbao@amd.com>
 To:     <corbet@lwn.net>, <lukas.bulwahn@gmail.com>, <ojeda@kernel.org>
 CC:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <bilbao@vt.edu>, Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: [PATCH 1/6] docs: Update maintainer of kernel-docs.rst
-Date:   Thu, 24 Nov 2022 11:02:37 -0600
-Message-ID: <20221124170242.1892751-2-carlos.bilbao@amd.com>
+Subject: [PATCH 3/6] docs: Add book to process/kernel-docs.rst
+Date:   Thu, 24 Nov 2022 11:02:39 -0600
+Message-ID: <20221124170242.1892751-4-carlos.bilbao@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221124170242.1892751-1-carlos.bilbao@amd.com>
 References: <20221124170242.1892751-1-carlos.bilbao@amd.com>
@@ -75,81 +75,54 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT059:EE_|DS0PR12MB7946:EE_
-X-MS-Office365-Filtering-Correlation-Id: eff32887-6a65-4e0b-a337-08dace3db552
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT059:EE_|PH7PR12MB6658:EE_
+X-MS-Office365-Filtering-Correlation-Id: 92f45339-59d7-4ff4-fb64-08dace3db5ef
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Q9TvzAEsBcXVcjrzTApq93Ze5U9DgfdywWnhVLmNjzLJI75R5C4UjRLWQHxdv3uMawmGrPl2T5Bn6fISFjuLVZ1+J/FmOWzQUbw9nw67CD5skP+T/KDZ8Ihn06SBHcqDHq1tLps+H1oW268GhXcJB9K6rwmcN0cgpvL6fuzZoB+DF39UOT1eBHYviMQVY8ChfBAjdbQ/NZRvDzOFza0+bStTaIb53qDEurD1oXqanlqhyoM49D5bAKVscLyjSuW987OMgkxVzjYVBZiFtuE1ANZWMXI9IdmdrVbnGkcYqEym3tVxpusAC6IjmvXXAnE7DIamzkcmDALgJJ39J843JBAVkn8NgfSson0NiOPx0UIfeAAV0X/iEuK3CFe+Janeu10eowZAe0X/A+Fa+cX52QQqmEHosalVDmpQnzwo76sfSAQZ1Gb5O92lz8fI1uBobNdWA3JX+YQh0wTS11DmBdn1IiPH6MwzWM3ih7/t6FQzi/HRatSQJm5Xgfvcj4v9K4oTe+rgzAEjiE8j9VUsuF8gIvdB6u33XpSWwXIL1GtjAFY/h/Ke2JmKk/Qa++Ay1Lu8d76EUd1ez+URPxEA4RcAXTGoa8MyUfiy98Tl7XOM2Z/Nj2Uwt1AfWnBA6B3LKdyWcIwosF2dAvLPDyP3DS20tC5SeFIJcbM66AaghVj8R49Bh7MRyNgf6Wt+ttp/rftrNc14xmk2udml/SRfgmvZWmJXXuD/e3AXryfMDitLJpRCz3gAS7gTCm7F8g2BdOvVy6clm9kqezJN7WfOI2LTgJ4enKd0frBx/383ik11nUENzazKs3HT58ak9sAw
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(136003)(396003)(346002)(376002)(451199015)(40470700004)(36840700001)(46966006)(15650500001)(44832011)(36756003)(2906002)(40460700003)(186003)(316002)(82310400005)(426003)(86362001)(2616005)(70586007)(70206006)(8936002)(110136005)(47076005)(81166007)(54906003)(356005)(40480700001)(83380400001)(5660300002)(4326008)(6666004)(8676002)(1076003)(26005)(966005)(336012)(478600001)(82740400003)(7696005)(41300700001)(36860700001)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: RufIFUTsJKBr4txsSNtnzeBjxX9NC6QL4dgRkcbjfD40UKu9mrJu0laM9+WbeFHXFJnX3yjeWpIFsV5m4D1/VP1m6/zVO63ZEuf8jzKTS7upUml2HmIiTjc4carXStZGOh/TuWeqJAzkjVpJIgX1Ie/s5FjCRoX3HaUM0TPxq76NC00S7CiTLInc3jVGlhjPzv5Lcvsj6apqnvW3zqwLLgDGzVDf67NdY6Wa1aMCzUtHHnDJYP7QzaErnYg8d5hhkjMchOuqhfUGCBwG2qHUqGdbnbjgNRrvPKILq3YLiMVnPCLrSBoOMGt24WyAuPyFo1omE70F1m8K7Nolg5tVuW3Q4oyvABukEPXyOoUcGkI8xyvokYxAI9v3r9004ClnYAmpZhCGzPeKGdLs6cdfVpM/9+dSYov1Cew4grSh7LtH4ajbHsX8HXP5gzYjMj/BPGfC2Uh57CqgiBOqNbr/H4zXBiOqLmtsMXDKXZl3+BBdQIwQIxjlEN3jc08yDDzsAvIFjbCEE3w5rdI2pEmYMc0rNeyR0mtK1zqa3qvygvrdbt/qoar1LILbSL3rkxADF2FpY8zBsBqMdcJwzDl6vO+QhO7Vlmie9fHv37aGmqwlB+T5Xb/3Get8Sia7dPF4rzlIFZ8Gb/NttNK/RSSWAM7uIMBa9QpE3Uj9MG/7hmv+RvjlyYML84KDg7w0EUyvrKZVvsCkc1jGlaNZI8WLFp+2jttqxZl5nSga/BnRD8A=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(396003)(346002)(136003)(39860400002)(376002)(451199015)(40470700004)(46966006)(36840700001)(36860700001)(2906002)(86362001)(8936002)(82740400003)(356005)(4744005)(81166007)(44832011)(4326008)(8676002)(41300700001)(5660300002)(40460700003)(70206006)(7696005)(6666004)(26005)(426003)(47076005)(336012)(1076003)(110136005)(316002)(2616005)(54906003)(82310400005)(478600001)(40480700001)(186003)(70586007)(36756003)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2022 17:02:45.5359
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2022 17:02:46.5670
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: eff32887-6a65-4e0b-a337-08dace3db552
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92f45339-59d7-4ff4-fb64-08dace3db5ef
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT059.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7946
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6658
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Set new maintainer of the Index of Further Kernel Documentation (document
-process/kernel_docs.rst). See Link for further context. Also remove line
-that keeps record of last update of the text -this information is already
-available elsewhere.
+Include to process/kernel-docs.rst a book on Linux kernel development
+published in 2021 (with ISBN 978-1789953435).
 
-Link: https://lore.kernel.org/lkml/20221118170942.2588412-1-carlos.bilbao@amd.com/
-Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
 Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
 ---
- Documentation/process/kernel-docs.rst | 8 +++-----
- MAINTAINERS                           | 5 +++++
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ Documentation/process/kernel-docs.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
-index 306ad373a002..5e533c827cef 100644
+index d66ac26e2f27..1c6e2ab92f4e 100644
 --- a/Documentation/process/kernel-docs.rst
 +++ b/Documentation/process/kernel-docs.rst
-@@ -3,9 +3,6 @@
- Index of Further Kernel Documentation
- =====================================
+@@ -75,6 +75,14 @@ On-line docs
+ Published books
+ ---------------
  
--Initial Author: Juan-Mariano de Goyeneche (<jmseyas@dit.upm.es>;
--email address is defunct now.)
--
- The need for a document like this one became apparent in the
- linux-kernel mailing list as the same questions, asking for pointers
- to information, appeared again and again.
-@@ -614,7 +611,8 @@ Miscellaneous
- 
- -------
- 
--Document last updated on Tue 2016-Sep-20
-+This document was originally based on:
- 
--This document is based on:
-  https://www.dit.upm.es/~jmseyas/linux/kernel/hackers-docs.html
++    * Title: **Linux Kernel Programming: A Comprehensive Guide to Kernel Internals, Writing Kernel Modules, and Kernel Synchronization**
 +
-+and written by Juan-Mariano de Goyeneche
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6f2ec7c71a4c..05a76d045df8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10017,6 +10017,11 @@ F:	Documentation/hwmon/ina2xx.rst
- F:	drivers/hwmon/ina2xx.c
- F:	include/linux/platform_data/ina2xx.h
- 
-+INDEX OF FURTHER KERNEL DOCUMENTATION
-+M:	Carlos Bilbao <carlos.bilbao@amd.com>
-+S:	Maintained
-+F:	Documentation/process/kernel-docs.rst
++          :Author: Kaiwan N. Billimoria
++          :Publisher: Packt Publishing Ltd
++          :Date: 2021
++          :Pages: 754
++          :ISBN: 978-1789953435
 +
- INDUSTRY PACK SUBSYSTEM (IPACK)
- M:	Samuel Iglesias Gonsalvez <siglesias@igalia.com>
- M:	Jens Taprogge <jens.taprogge@taprogge.org>
+     * Title: **Linux Kernel Development, 3rd Edition**
+ 
+       :Author: Robert Love
 -- 
 2.34.1
 
