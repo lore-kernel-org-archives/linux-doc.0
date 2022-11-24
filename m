@@ -2,105 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E77A4C43217
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 13:06:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2712FC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 13:33:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229680AbiKXNG1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Nov 2022 08:06:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57312 "EHLO
+        id S229893AbiKXNdF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Nov 2022 08:33:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229622AbiKXNG0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 08:06:26 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8886AFBA82;
-        Thu, 24 Nov 2022 05:06:25 -0800 (PST)
-Received: from zn.tnic (p200300ea9733e75b329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e75b:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1E07D1EC0495;
-        Thu, 24 Nov 2022 14:06:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1669295184;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=Wvd74At+pcA4+9jYxmAyYtLgWvNhXZGr2lofyoupZXI=;
-        b=Ycc60XmKdPRXKxiSOlpccehM0q2xVqFulTuwsozkv2dN2GNGPZ2oM4p+ocT1yCiA+Vo2U9
-        wDUbG5vBZ2Wn9bPr46v+xvgsxxvMOqHgIsCNP394d1LW095HiiKlN0XZv1m492Vf2Zw2d1
-        uOW3ZmoImPSrXnVFz0Z1ERT6/2/jv4E=
-Date:   Thu, 24 Nov 2022 14:06:23 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Kim Phillips <kim.phillips@amd.com>
-Cc:     x86@kernel.org, Babu Moger <Babu.Moger@amd.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] x86/cpu, kvm: Use CPU capabilities for
- CPUID[0x80000021].EAX
-Message-ID: <Y39sT5XYclk2KkvV@zn.tnic>
-References: <20221124000449.79014-1-kim.phillips@amd.com>
- <20221124000449.79014-2-kim.phillips@amd.com>
+        with ESMTP id S229822AbiKXNdF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 08:33:05 -0500
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FD3258BF0;
+        Thu, 24 Nov 2022 05:33:03 -0800 (PST)
+Received: from dggpeml500026.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NHzNd0s6xzqSdR;
+        Thu, 24 Nov 2022 21:29:05 +0800 (CST)
+Received: from dggpeml500002.china.huawei.com (7.185.36.158) by
+ dggpeml500026.china.huawei.com (7.185.36.106) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 24 Nov 2022 21:33:01 +0800
+Received: from [10.67.103.44] (10.67.103.44) by dggpeml500002.china.huawei.com
+ (7.185.36.158) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 24 Nov
+ 2022 21:33:01 +0800
+Subject: Re: [PATCH v14 1/2] drivers/coresight: Add UltraSoc System Memory
+ Buffer driver
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        <mathieu.poirier@linaro.org>, <mike.leach@linaro.org>,
+        <leo.yan@linaro.org>, <jonathan.cameron@huawei.com>,
+        <john.garry@huawei.com>
+References: <20221123123823.27973-1-hejunhao3@huawei.com>
+ <20221123123823.27973-2-hejunhao3@huawei.com>
+ <9f5f66fa-0388-6a76-25c9-cacef0e7a4e2@arm.com>
+CC:     <coresight@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <lpieralisi@kernel.org>,
+        <linuxarm@huawei.com>, <yangyicong@huawei.com>,
+        <liuqi6124@gmail.com>, <f.fangjian@huawei.com>,
+        <prime.zeng@hisilicon.com>
+From:   hejunhao <hejunhao3@huawei.com>
+Message-ID: <0eb32726-2054-ee00-4b7a-d7a2f0121efd@huawei.com>
+Date:   Thu, 24 Nov 2022 21:33:01 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221124000449.79014-2-kim.phillips@amd.com>
+In-Reply-To: <9f5f66fa-0388-6a76-25c9-cacef0e7a4e2@arm.com>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.103.44]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500002.china.huawei.com (7.185.36.158)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 23, 2022 at 06:04:48PM -0600, Kim Phillips wrote:
-> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-> index c92c49a0b35b..61cd33a848cc 100644
-> --- a/arch/x86/kvm/cpuid.c
-> +++ b/arch/x86/kvm/cpuid.c
-> @@ -730,6 +730,25 @@ void kvm_set_cpu_caps(void)
->  		0 /* SME */ | F(SEV) | 0 /* VM_PAGE_FLUSH */ | F(SEV_ES) |
->  		F(SME_COHERENT));
->  
-> +	/*
-> +	 * Pass down these bits:
-> +	 *    EAX      0      NNDBP, Processor ignores nested data breakpoints
-> +	 *    EAX      2      LAS, LFENCE always serializing
-> +	 *    EAX      6      NSCB, Null selector clear base
-> +	 *    EAX      8      Automatic IBRS
-> +	 *
-> +	 * Other defined bits are for MSRs that KVM does not expose:
-> +	 *   EAX      3      SPCL, SMM page configuration lock
-> +	 *   EAX      13     PCMSR, Prefetch control MSR
-> +	 */
-> +	kvm_cpu_cap_init_scattered(CPUID_8000_0021_EAX,
-> +				   SF(NO_NESTED_DATA_BP) | SF(LFENCE_RDTSC) |
-> +				   SF(NULL_SEL_CLR_BASE) | SF(AUTOIBRS));
-> +	if (static_cpu_has(X86_FEATURE_LFENCE_RDTSC))
 
-Also:
+On 2022/11/23 22:03, Suzuki K Poulose wrote:
+> On 23/11/2022 12:38, Junhao He wrote:
+>> From: Qi Liu <liuqi115@huawei.com>
+>>
+>> Add driver for UltraSoc SMB(System Memory Buffer) device.
+>> SMB provides a way to buffer messages from ETM, and store
+>> these "CPU instructions trace" in system memory.
+>> The SMB device is identifier as ACPI HID "HISI03A1". Device
+>> system memory address resources are allocated using the _CRS
+>> method and buffer modes is the circular buffer mode.
+>>
+>> SMB is developed by UltraSoc technology, which is acquired by
+>> Siemens, and we still use "UltraSoc" to name driver.
+>>
+>> Signed-off-by: Qi Liu <liuqi115@huawei.com>
+>> Signed-off-by: Junhao He <hejunhao3@huawei.com>
+>> Tested-by: JunHao He <hejunhao3@huawei.com>
+>> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>> ---
+>>   drivers/hwtracing/coresight/Kconfig        |  12 +
+>>   drivers/hwtracing/coresight/Makefile       |   1 +
+>>   drivers/hwtracing/coresight/ultrasoc-smb.c | 658 +++++++++++++++++++++
+>>   drivers/hwtracing/coresight/ultrasoc-smb.h | 129 ++++
+>>   4 files changed, 800 insertions(+)
+>>   create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.c
+>>   create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.h
+>>
+>
+>> +static void smb_sync_perf_buffer(struct smb_drv_data *drvdata,
+>> +                 struct cs_buffers *buf,
+>> +                 unsigned long head,
+>> +                 unsigned long data_size)
+>> +{
+>> +    struct smb_data_buffer *sdb = &drvdata->sdb;
+>> +    char **dst_pages = (char **)buf->data_pages;
+>> +    unsigned long to_copy;
+>> +    long pg_idx, pg_offset;
+>> +
+>> +    pg_idx = head >> PAGE_SHIFT;
+>> +    pg_offset = head & (PAGE_SIZE - 1);
+>> +
+>> +    while (data_size) {
+>> +        unsigned long pg_space = PAGE_SIZE - pg_offset;
+>> +
+>> +        /* Copy parts of trace data when read pointer wrap around */
+>> +        if (sdb->rd_offset + pg_space > sdb->buf_size)
+>> +            to_copy = sdb->buf_size - sdb->rd_offset;
+>> +        else
+>> +            to_copy = min(data_size, pg_space);
+>> +
+>> +        memcpy(dst_pages[pg_idx] + pg_offset,
+>> +                  sdb->buf_base + sdb->rd_offset, to_copy);
+>> +
+>> +        pg_offset += to_copy;
+>> +        if (pg_offset >= PAGE_SIZE) {
+>> +            pg_offset = 0;
+>> +            pg_idx++;
+>> +            pg_idx %= buf->nr_pages;
+>> +        }
+>> +        data_size -= to_copy;
+>> +        sdb->rd_offset += to_copy;
+>> +        sdb->rd_offset %= sdb->buf_size;
+>> +    }
+>> +
+>> +    sdb->data_size = 0;
+>
+>
+> --8>-- cut here --<8--
+>
+>> +    writel(sdb->start_addr + sdb->rd_offset,
+>> +        drvdata->base + SMB_LB_RD_ADDR_REG);
+>> +
+>> +    /*
+>> +     * Data remained in link cannot be purged when SMB is full, so
+>> +     * synchronize the read pointer to write pointer, to make sure
+>> +     * these remained data won't influence next trace.
+>> +     */
+>> +    if (sdb->full) {
+>> +        smb_purge_data(drvdata);
+>> +        writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
+>> +               drvdata->base + SMB_LB_RD_ADDR_REG);
+>> +    }
+>
+> --<8-- end here --8>--
+>
+> As pointed out in the last review, we must do this step
+> everytime for perf mode irrespective of whether the buffer
+> was "FULL" or not.
+>
+> i.e, the above block should simply be:
+>
+>     if (sdb->full)
+>         smb_purge_data(drvdata);
+>
+>     /*
+>      * The uncollected Data must be discarded for perf,
+>      * as it cannot be clubbed with next schedule. We
+>      * any way TRUNCATE the buffer in this case.
+>      */
+>     writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
+>         drvdata->base + SMB_LB_RD_ADDR_REG);
+>
+> Suzuki
 
-diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-index 61cd33a848cc..acda3883a905 100644
---- a/arch/x86/kvm/cpuid.c
-+++ b/arch/x86/kvm/cpuid.c
-@@ -744,7 +744,7 @@ void kvm_set_cpu_caps(void)
-        kvm_cpu_cap_init_scattered(CPUID_8000_0021_EAX,
-                                   SF(NO_NESTED_DATA_BP) | SF(LFENCE_RDTSC) |
-                                   SF(NULL_SEL_CLR_BASE) | SF(AUTOIBRS));
--       if (static_cpu_has(X86_FEATURE_LFENCE_RDTSC))
-+       if (cpu_feature_enabled(X86_FEATURE_LFENCE_RDTSC))
+Hi Suzuki,
 
--- 
-Regards/Gruss,
-    Boris.
+We need to update SMB_LB_RD_ADDR_REG register first, then
+check the "full" flag, whether the register needs to be
+updated again.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+If we don`t update the value of SMB_LB_RD_ADDR_REG register
+or reset buffer state, the buffer state will still be "full".
+The buffer has not free area,so the data will still remain
+in link.
+
+Thanks.
+HeJunhao.
+
+> _______________________________________________
+> CoreSight mailing list -- coresight@lists.linaro.org
+> To unsubscribe send an email to coresight-leave@lists.linaro.org
+>
+> .
+>
+
