@@ -2,144 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E7F0C43217
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 15:40:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2429DC43217
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 15:51:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229491AbiKXPkZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Nov 2022 10:40:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55972 "EHLO
+        id S229704AbiKXPvT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Nov 2022 10:51:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229728AbiKXPkV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 10:40:21 -0500
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2070.outbound.protection.outlook.com [40.107.95.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 686D01173FE;
-        Thu, 24 Nov 2022 07:40:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IDyul59dqmHbnLzgBTEKEBknnJqLuBSsEIPkQS235erVMeRDwOF164GxQkfmk0QYuy5owQlIr4aPf+qZY8fv5iRYMx4/S8rXm9cW7bge08SiWaIjL5gmgvJfylGP3lNI3Z81sjYVerctRHDsClB6vA+dMirfN9klqCmre7dvUZ5QR9XFWlYcTWsDAl5Xcd1iUnuKZO8cdCi4T13BOIvuDo4kX1ypJMjH/dhbM+je1p75GkvQ0H69E06306HyHHsyVRMgiWIce8e0OS22tqIKgmlvcryRV57ZHCT0H+fp/BmT5x9BBf7hSdXnTgQeuToxGyt4rR+k/dJJ8ubq6JkYSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SIF2Ry+x0r+KQCGDvJ88qgh4x0nS4mhggr7nUPVgXYM=;
- b=CRLkm6WjVRIJyPPZCXxvbdyQxVisfo2bygcej7v/Q+dyqzYPnSPlR73sXoHwQgiSrqJ1EbwhP1opVrWVUAjfIeAHYq7os883t2FR3Zepqm4xJlUxzy8otBe9sbdqpd5s+B1/nxaQKJg7H/wQFtZg6XykZGjTww3Muhxe/E9dyF3+XfpQ0ftvJZ1vZUJ8n5AbD2N8kNxvwRzOC+Pu8L7G29T62M/C5iuXp1JC7fLLkBwhkDvXmGUZsZ1sDzulPOJoWUfd9LTJ/hr6ASaV9riiV3ijbBkesbtIL7o+c7L7iYsymWf8Y9E9xWYClKfyoXBrQN2l1vZOSO1i3+YgXYYQMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SIF2Ry+x0r+KQCGDvJ88qgh4x0nS4mhggr7nUPVgXYM=;
- b=3KNSFYcP2VpfHKJpS0nhtv08ks7DRBdyGIpY6uJITDsTZWIeaettdmnZ2BmFbgukLQyUseTdM0h4vJXXKwX/tV4+dFwC7ajXKkBr4BgXGBbObVLmuFqGVgzqvdnDbnC5NwH71dm71FLAkD/bibixCact2d9C22oTQRF60VxlCX8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
- by BY5PR12MB4081.namprd12.prod.outlook.com (2603:10b6:a03:20e::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.19; Thu, 24 Nov
- 2022 15:40:18 +0000
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::9eca:d454:d407:7ba2]) by BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::9eca:d454:d407:7ba2%3]) with mapi id 15.20.5857.017; Thu, 24 Nov 2022
- 15:40:18 +0000
-Message-ID: <af881ad1-1b40-a22e-08ca-44d75a48b90c@amd.com>
-Date:   Thu, 24 Nov 2022 09:40:15 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 0/2] kernel-docs: New maintainer and Spanish translation
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, lukas.bulwahn@gmail.com
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        bilbao@vt.edu, ojeda@kernel.org, lstoakes@gmail.com
-References: <20221118170942.2588412-1-carlos.bilbao@amd.com>
- <87wn7o9g9s.fsf@meer.lwn.net> <093907af-2e4e-d232-1eb0-7331ff2b9320@amd.com>
- <87a64h8wu6.fsf@meer.lwn.net>
-From:   Carlos Bilbao <carlos.bilbao@amd.com>
-In-Reply-To: <87a64h8wu6.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR03CA0302.namprd03.prod.outlook.com
- (2603:10b6:610:118::24) To BL1PR12MB5874.namprd12.prod.outlook.com
- (2603:10b6:208:396::17)
+        with ESMTP id S229487AbiKXPvS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 10:51:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DD7F132F77
+        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 07:50:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669305023;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=RY55+mI/DdVynf6mJobax2x0nouP9gB/94T/eEnCQ84=;
+        b=JhC5IsXvX2RUOh60Vb+22q02Kc/unNt7IEGDy/tw9Q5mNNFqSzrP20w/3NGXXnSWx3ek/0
+        AHWiJ7sLFy6miJ7CsBI4SzL8+kQjcQWYeeSrTw4IYvqs7PylO3g3tfsJ+h43MEwSmW3vQf
+        hhMFMwndpX5olYvtIsRFFUDDKHp3C2A=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-215-6zZltYY1M6OtAv-d1r7ILw-1; Thu, 24 Nov 2022 10:50:22 -0500
+X-MC-Unique: 6zZltYY1M6OtAv-d1r7ILw-1
+Received: by mail-io1-f69.google.com with SMTP id x5-20020a6bda05000000b006db3112c1deso1020472iob.0
+        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 07:50:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RY55+mI/DdVynf6mJobax2x0nouP9gB/94T/eEnCQ84=;
+        b=aDfm2zBaMftLV1JOGXyKFcZy1/n4cu3/z4xPZ20DAAQJjSymmdBU2FQrEb+5sI4yHc
+         K5q3Z+u00W2xsJjg7qfLrjfEpl0jQabWsVs0bbPZn4Dm1DtkZ9wL/kkyMa34dgRkHp8j
+         WtvijbJgCX3fczZRuNJ5lmKYwf53H4mGqh7GFSV3VHkVn0mI2jbpdl033Fnbif9fe8Hx
+         KhkIuKWi0bUbLYUAfY2uYHcYca4fop8GouS6AXtgWu/c1vVz0dTprteSRNu0h4W2NIxw
+         ucLaDtZphe4PihIm7cNaWWfzDtQD64neWoD4/B9kRBqbVt1HGv2lMxdCsm6l945ZB72T
+         FW+w==
+X-Gm-Message-State: ANoB5pkDkTdetE+WrSxnc36oXDI9r2NnaL+jDRpduQRHlb7R3uNs3nIA
+        3lcnZs/mSfyvqd4QL9Vm7EqoPUVS4x31uUnPRrZ3bjKV/msB4svOlUnQ+oSROnjq978dwE0LLEu
+        7VYSWQ3eQowhXsnU2NH1tTDCtWOyuO+mdcu9q
+X-Received: by 2002:a05:6e02:12c2:b0:302:e38e:761b with SMTP id i2-20020a056e0212c200b00302e38e761bmr2982585ilm.61.1669305021750;
+        Thu, 24 Nov 2022 07:50:21 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf50DvoaFAAKrDAN6ynBtlfajIpvDYjTyVfoAXhh1Q93IuTagRMPKBRzK4dRjX385fP/AwgqliXF5ra1BppOhJk=
+X-Received: by 2002:a05:6e02:12c2:b0:302:e38e:761b with SMTP id
+ i2-20020a056e0212c200b00302e38e761bmr2982569ilm.61.1669305021479; Thu, 24 Nov
+ 2022 07:50:21 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|BY5PR12MB4081:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8b05b533-a0b6-456b-f7d4-08dace323030
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iHd7mgTVKlq00SzGEI/cBS6B7xeoZjIZPX4SLUGGy18uUmQyLyBB6O8Wd0gmplPeYSN+QimMbHQrSS49PGWepWThbl62Nh7L5huh+o2h7RMG6JYHrsy8JCSwOm2YaJ37ITwH6x2wUux4ygH8YzVQCjIrPWcEElOeUy0PuOqtlK5uF7WY8G1yM35olbrtG+j6+TPRcecnNPi/ehZ9Ch8GlOcu839OHOHpeV2ivY/M0l31ZQe+BNuJFhqmJhIDFcQCbFCEoY+XWWUqfeD79ZRxCHBGGcSAXLBve7T4WJjcC6P60R2As2CyskYpYH72CLO9ZLJpHg+El5Bd7BLUJhFv51VW0jkehK1tZA5uCy+LZZWvFZrcwKhj9txT8FGo+rFEzGUdlZ8fwWPoiqYFN08zLAYvHJx5izbyeUphflj2XFTp/blbUt9UYX62aeX7PRC/DsO0ecX03AcD2x6PyG6AZhFTMyJjnQxljWZGi2em013onD0ShamKGgKaZV3ypyuZNbyXMP1WFxSDl96f5vORygQGcafB2eL8Hr6Qh0el8YlhTEkPzvEBq9UhAsKQXCtdpLoip/+DR/5SI9zuU9nt+kJFBO0qwY8KAJkrNio2W2ZjRMADbDXsWmxTcizAhG7BJhY892eG4MFI5gVzMZM3qflTlBD1heMwkq7W6+weDXEbe1KHrM4swSjVoYmIodHTUpDAFTUH++zN3BX9XKmeSlUjN5i08GLq+UQwJCToF1I=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(136003)(376002)(366004)(396003)(346002)(451199015)(31696002)(86362001)(66946007)(38100700002)(66556008)(4326008)(41300700001)(8676002)(66476007)(316002)(2906002)(44832011)(5660300002)(8936002)(4744005)(6486002)(478600001)(2616005)(186003)(6666004)(6506007)(53546011)(6512007)(26005)(31686004)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OTFOeEVvZzlHMWxQVVFCUkROdXV3OTI5SnNGUTBRcFdxRU1SdHcxQkF1SCtL?=
- =?utf-8?B?NUhGRWdweUZ1QnFZUzZXQ09pUE9ocVEyKzkzL1N1NWU5VFU5Y2YrSUU0VGQ1?=
- =?utf-8?B?N3NLOVMrNkdHOGlJcEt2ZEwwdGlvTk04M1BPSU5ieWxQVVJRVTV3Rit3R2V1?=
- =?utf-8?B?VzFOSk03RHV0ZDhGeXVGOEZNYXo4dU1GT0VpamwzMUFRL0hRODZJUk1JdkZs?=
- =?utf-8?B?ZnRUU05TZC9rV0pXVlljaVZyYkUzL1VKU21TMGlkRFhBeDJtZFkrWVJMcWVD?=
- =?utf-8?B?dGQ4Y3dHaGtkVGk3TVBBOW9wVkNBaFFQYXZGQVY2eGpXek9hclo5YW9wODFY?=
- =?utf-8?B?QXVqd0NmdEc4M0Ryc1lqdGl6NG9YV0U0bUhKTkZlaVZvcUkwQnZwYjh1V1dP?=
- =?utf-8?B?andYbmxZR3ZndG9zcXh1Q2N4Q2VUc2tXLzlVdHFEZ3VYR1hzNHJVL2FPWERz?=
- =?utf-8?B?S3lRb0Rpb2JPOW5OSDNDWEwyUGlGcmJJK0ZPbnhMTWduc2dPeVpkUU9IajNR?=
- =?utf-8?B?U0J4ZmVjQ0RlZFM5cURtS0l4eVNUUkI5dkVQZCt2UDUxVDNtWkhmVHVYSFpZ?=
- =?utf-8?B?eDJnYmtjMytqZWRhdDlOZlZzMncvMG1XZlY2QyswUldQdW1GRjNYRXlKRzY4?=
- =?utf-8?B?SXhHRVQvTFNlVnNKM1Byc1ZhWUdTR1U1ZThsRjc2S0thQ25hT0g2aDV2cGpy?=
- =?utf-8?B?ZU5vYzNjQis2T3B6Y20vYmNodlhBRTBYalBmc3ltYnI5QlM5RFdEZmFHTTZR?=
- =?utf-8?B?a081VENXL3FwRCswZVRaOE5RNW9RTE9HTzk0b0JFMzg3QmdQbHk3c3Y3SWlP?=
- =?utf-8?B?K3JVdWFsTXBJRk9iVVB0THA0VzZKb2NmY2llZDRtcmZLQTRucmlRM2p2dVdZ?=
- =?utf-8?B?MnNrZnQ4WmUwam5qR3JtVzBFUnpERzZwZDlJOXhmbTFvMXNJZGwrZzlJb2o1?=
- =?utf-8?B?RDhFQTZYOVJPWGVhdm5xSXpIc09KNEZVMFVyU0VjaHBmUXE5Y2VTRklEOWtv?=
- =?utf-8?B?U2hmSzY3OTNFS0NZWGFoaUVEZlBHTnJNSVdPUElPakxNMDN0WmQyKzQ3eGlD?=
- =?utf-8?B?YkNEWHlNU2Q0dDlMQzhlc01KTVlMek5RMFJYSG1PTVF3NENBczJPcjYyZEsy?=
- =?utf-8?B?QTNCVmlOcHAwU3N0WFVOd3VJcEZtZExDT3Vrd0t1MnB4MTJady9CbFY4OFRi?=
- =?utf-8?B?UHE4N2ZWcTl6WXJrTC9ONjBmMktzUDNWY2UwNUlGdXVTNUovTDFrQ2JScmpj?=
- =?utf-8?B?N0Y2VndtM1MrakUyVWh3dTdnNnRJbDJxaksrcW5PVXBYRmhHRlRWMTc5TU02?=
- =?utf-8?B?TFNVdTJRdjhBYmZJUk9rR0hrV2tvcHhoZGV6bnB0dlFsTHhxck1hd0FOZzVV?=
- =?utf-8?B?VW1yZGgzSHNoYzZ2bEcyTlY0QUpFbVBoVTB3NGJEZ2lzL3pQQUdnK1JiUWIw?=
- =?utf-8?B?b2JtblpzRDdGQ3Q2WlBQK0pGM0pyejV5Rkx1L2J1TXc2dmtlMzRxS2RGbFIw?=
- =?utf-8?B?MUw2N0RyblVxaytuQTdTaVhSeUVXLzNadGpobTZIR0hvd21IbEErcE8wR1Jj?=
- =?utf-8?B?K2t2emtjVFduUHFsVHU5UTBzbmFGRXZxZkVRS0FhQTVSSGhFU1BTdndzN0RT?=
- =?utf-8?B?OHlIdGNDZW1VTVpFREFIYWZVaVNRSHZIOGR2aGNBL2ZpbVVFU2hkSUl5Tk5y?=
- =?utf-8?B?YUI1WGREaURuNHRGY0lNWDhOTlpYTGZncUovSm9YdTFwWVNEYzdwaXZRbndr?=
- =?utf-8?B?WWVEckNnMXl2TjRmVmYrdW1YVUR1WU5KRUs3TEpkS1BrdExNNzdSUk01ZWoz?=
- =?utf-8?B?VlJkaG1ybmx0YkZFb0FsWTJhcGxoMGZCOHBoTGZEVFdqbTI5czlaMCttejhK?=
- =?utf-8?B?QUVtcnNRNUI5Q0NaNkJObE1BS0hlMndIM0FIQkRRbkQ3TWNKMzhjR3RQQTdV?=
- =?utf-8?B?UGgydnEyZzV2aFRWMUdBQUh6aTUvRE1oeVZzVlJsSUEvc2c0NHlKTVdHcnlz?=
- =?utf-8?B?NW9SMVBOdDVmdm1FRW53SWtZNjRHWVNkY0pFWU1mTnhhVzZmcnJxVlRQNjNP?=
- =?utf-8?B?ZXR3R1RiVENQbkVmLzZUWVhKUUFiMlhNZzcvM2FCdHlPTGQ4dkpwdzBqeExn?=
- =?utf-8?Q?VsoVRUUavkg49DZ22uCtvTFj7?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b05b533-a0b6-456b-f7d4-08dace323030
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2022 15:40:18.1048
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xw9r5FZaLBcIRHMGLNk3tVTb0gU0DVcZRPthyTrL8+qTal82k7uly9FMqat9/Z5TLA4jDrfBNLzIWQbTlcjmMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4081
+References: <20221103155756.687789-1-benjamin.tissoires@redhat.com>
+ <20221103155756.687789-4-benjamin.tissoires@redhat.com> <ff1a0b34-71f2-cebe-a6ef-675936b276eb@nvidia.com>
+ <CAO-hwJJZxgeTT8mLwFrYynSVASva=o7qL9Kr4xOywV3KDUu2GA@mail.gmail.com> <CAADnVQ+kE+EJ9LAfwge9ksC0LR8r+ShQNYi5g-MDajufXq8Yxw@mail.gmail.com>
+In-Reply-To: <CAADnVQ+kE+EJ9LAfwge9ksC0LR8r+ShQNYi5g-MDajufXq8Yxw@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 24 Nov 2022 16:50:10 +0100
+Message-ID: <CAO-hwJJGxvrLRGSt7g0T1rYiuCCigVzQ-L6yKLM1-44EpYqmsQ@mail.gmail.com>
+Subject: Re: [PATCH hid v12 03/15] HID: initial BPF implementation
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Florent Revest <revest@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/23/22 10:22, Jonathan Corbet wrote:
-
-> Carlos Bilbao <carlos.bilbao@amd.com> writes:
+On Wed, Nov 23, 2022 at 9:14 PM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
 >
->> I don't know if that would have any success. Worst-case scenario, we end up
->> with an equally outdated list of resources in a few years. But maybe it's
->> worth a try?
-> I'm certainly not opposed to trying! :)
-
-
-I'm starting a new patch set with this, and translating coding-style.rst,
-after fixing the organization of sp_SP/.
-
-
+> On Wed, Nov 23, 2022 at 6:53 AM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > Hi Jon,
+> >
+> > On Wed, Nov 23, 2022 at 2:25 PM Jon Hunter <jonathanh@nvidia.com> wrote:
+> > >
+> > >
+> > > On 03/11/2022 15:57, Benjamin Tissoires wrote:
+> > > > Declare an entry point that can use fmod_ret BPF programs, and
+> > > > also an API to access and change the incoming data.
+> > > >
+> > > > A simpler implementation would consist in just calling
+> > > > hid_bpf_device_event() for any incoming event and let users deal
+> > > > with the fact that they will be called for any event of any device.
+> > > >
+> > > > The goal of HID-BPF is to partially replace drivers, so this situation
+> > > > can be problematic because we might have programs which will step on
+> > > > each other toes.
+> > > >
+> > > > For that, we add a new API hid_bpf_attach_prog() that can be called
+> > > > from a syscall and we manually deal with a jump table in hid-bpf.
+> > > >
+> > > > Whenever we add a program to the jump table (in other words, when we
+> > > > attach a program to a HID device), we keep the number of time we added
+> > > > this program in the jump table so we can release it whenever there are
+> > > > no other users.
+> > > >
+> > > > HID devices have an RCU protected list of available programs in the
+> > > > jump table, and those programs are called one after the other thanks
+> > > > to bpf_tail_call().
+> > > >
+> > > > To achieve the detection of users losing their fds on the programs we
+> > > > attached, we add 2 tracing facilities on bpf_prog_release() (for when
+> > > > a fd is closed) and bpf_free_inode() (for when a pinned program gets
+> > > > unpinned).
+> > > >
+> > > > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > >
+> > > ...
+> > >
+> > > > +static int __init hid_bpf_init(void)
+> > > > +{
+> > > > +     int err;
+> > > > +
+> > > > +     /* Note: if we exit with an error any time here, we would entirely break HID, which
+> > > > +      * is probably not something we want. So we log an error and return success.
+> > > > +      *
+> > > > +      * This is not a big deal: the syscall allowing to attach a BPF program to a HID device
+> > > > +      * will not be available, so nobody will be able to use the functionality.
+> > > > +      */
+> > > > +
+> > > > +     err = register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING, &hid_bpf_kfunc_set);
+> > > > +     if (err) {
+> > > > +             pr_warn("error while setting HID BPF tracing kfuncs: %d", err);
+> > > > +             return 0;
+> > > > +     }
+> > > > +
+> > > > +     err = hid_bpf_preload_skel();
+> > > > +     if (err) {
+> > > > +             pr_warn("error while preloading HID BPF dispatcher: %d", err);
+> > > > +             return 0;
+> > > > +     }
+> > > > +
+> > > > +     /* register syscalls after we are sure we can load our preloaded bpf program */
+> > > > +     err = register_btf_kfunc_id_set(BPF_PROG_TYPE_SYSCALL, &hid_bpf_syscall_kfunc_set);
+> > > > +     if (err) {
+> > > > +             pr_warn("error while setting HID BPF syscall kfuncs: %d", err);
+> > > > +             return 0;
+> > > > +     }
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > >
+> > >
+> > > We have a kernel test that checks for new warning and error messages on
+> > > boot and with this change I am now seeing the following error message on
+> > > our Tegra platforms ...
+> > >
+> > >   WARNING KERN hid_bpf: error while preloading HID BPF dispatcher: -13
+> > >
+> > > I have a quick look at the code, but I can't say I am familiar with
+> > > this. So I wanted to ask if a way to fix this or avoid this? I see the
+> > > code returns 0, so one option would be to make this an informational or
+> > > debug print.
+> >
+> > I am not in favor of debug in that case, because I suspect it'll hide
+> > too much when getting a bug report. Informational could do, yes.
+> >
+> > However, before that, I'd like to dig a little bit more on why it is
+> > failing. I thought arm64 now has support of tracing bpf programs, so I
+> > would not expect this to fail.
 >
-> Thanks,
+> Unfortunately the patches to add support for such tracing bpf progs got stuck.
+> Florent/Mark can probably share the latest status.
 >
-> jon
 
+Oh... I noticed Jon's config was lacking CONFIG_FTRACE. So should I
+also add a depends on CONFIG_FTRACE to enable HID-BPF?
 
-Thanks,
-
-Carlos
+Cheers,
+Benjamin
 
