@@ -2,118 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 080B8C4321E
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 21:21:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FCCAC46467
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 21:21:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229448AbiKXVVW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Nov 2022 16:21:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53260 "EHLO
+        id S229624AbiKXVV0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Nov 2022 16:21:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiKXVVV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 16:21:21 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DDF293CDD;
-        Thu, 24 Nov 2022 13:21:20 -0800 (PST)
+        with ESMTP id S229601AbiKXVVZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 16:21:25 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AC10942D9;
+        Thu, 24 Nov 2022 13:21:24 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0AFC86224C;
-        Thu, 24 Nov 2022 21:21:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6AF5C433C1;
-        Thu, 24 Nov 2022 21:21:18 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 20347B821DD;
+        Thu, 24 Nov 2022 21:21:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67664C433D7;
+        Thu, 24 Nov 2022 21:21:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669324879;
-        bh=4iOIwt/vynOObx+cbBTS/yCN/FRzhSwQ034ah3adW3M=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Y4OVe31iOdgEV546xa8aCvA/8VfNJZZopP38yfSn1Dgq6j0Udifv2qZz7axHqP5cu
-         6Ug5iJ544MYbrGCFtRcBvk4iG/AFauBfSaOTfn0+wyn1bJv3CxtiAJKfjda6KwNami
-         5+K6dJTsg+chpyzH7qXQBSUuXmoG5rm1rl4paeg5MJpN+4IL2q+VitKuQiscMK/Hql
-         Ysg4k0x7PcpdMbvxLPQ3hiz14dE1RmouOccLKGPZ/ExmVKMWAZ+JNuJbABgBG0Mxi0
-         YkRJOBpHLszfu+o/QluuewE1MRqZSTMaOHkHQzEt1+jijxj3KfRQ+KtJtvVdNghFnS
-         xpZ3uRNpNaMvw==
+        s=k20201202; t=1669324881;
+        bh=ew0j918CPCZ3BCkCfl4ilV0ZC0sdlaLXkkNEQyNFiwY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=SJmT6SE5SJA1ZiuoIDKQK7YvF+WpstqdQXLA2OAwmGzcllHfgqeMqHBQmw3fIDzBh
+         6/4db/iEOf/VXaVubqIXasXS+XfUwUpC4hIG+yryfKETPVmo/SatiMQHssPRl9LxF2
+         HHd3aXxHc66tRm4Hs6ZmhQOYs/W4WRl81HNoyDx1kjhPKt9XkO4VkR0oxIeARx/ZWT
+         p2w5sT7EmdFs/6tgNZtVwDDM4WtHoRa1vgujGujBRqBqfAZPEbQYUczoRmlOng9tL9
+         sU3WWusdLWjBWHoAb2N8MZqjiUK1cv71Jw3MesaBo1Rvo7NslMPD8xh+SrC+xjOStS
+         u3xZsD3pP/T2g==
 From:   SeongJae Park <sj@kernel.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, damon@lists.linux.dev,
+Cc:     Jonathan Corbet <corbet@lwn.net>, damon@lists.linux.dev,
         linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 00/11] implement DAMOS filtering for anon pages and
-Date:   Thu, 24 Nov 2022 21:21:03 +0000
-Message-Id: <20221124212114.136863-1-sj@kernel.org>
+        linux-kernel@vger.kernel.org, SeongJae Park <sj@kernel.org>
+Subject: [RFC PATCH 04/11] Docs/admin-guide/damon/reclaim: document 'skip_anon' parameter
+Date:   Thu, 24 Nov 2022 21:21:07 +0000
+Message-Id: <20221124212114.136863-5-sj@kernel.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221124212114.136863-1-sj@kernel.org>
+References: <20221124212114.136863-1-sj@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DAMOS let users do system operations in a data access pattern oriented
-way.  The data access pattern, which is extracted by DAMON, is somewhat
-accurate more than what user space could know in many cases.  However,
-in some situation, users could know something more than the kernel about
-the pattern or some special requirements for some types of memory or
-processes.  For example, some users would have slow swap devices and
-knows latency-ciritical processes and therefore want to use DAMON-based
-proactive reclamation (DAMON_RECLAIM) for only non-anonymous pages of
-non-latency-critical processes.
+Document the newly added 'skip_anon' parameter of DAMON_RECLAIM, which
+can be used to avoid anonymous pages reclamation.
 
-For such restriction, users could exclude the memory regions from the
-initial monitoring regions and use non-dynamic monitoring regions update
-monitoring operations set including fvaddr and paddr.  They could also
-adjust the DAMOS target access pattern.  For dynamically changing memory
-layout and access pattern, those would be not enough.
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/admin-guide/mm/damon/reclaim.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-To help the case, add an interface, namely DAMOS filters, which can be
-used to avoid the DAMOS actions be applied to specific types of memory,
-to DAMON kernel API (damon.h).  At the moment, it supports filtering
-anonymous pages and/or specific memory cgroups in or out for each DAMOS
-scheme.
-
-This patchset adds the support for all DAMOS actions that 'paddr'
-monitoring operations set supports ('pageout', 'lru_prio', and
-'lru_deprio'), and the functionality is exposed via DAMON kernel API
-(damon.h) the DAMON sysfs interface (/sys/kernel/mm/damon/admins/), and
-DAMON_RECLAIM module parameters.
-
-Patches Sequence
-----------------
-
-First patch implements DAMOS filter interface to DAMON kernel API.
-Second patch makes the physical address space monitoring operations set
-to support the filters from all supporting DAMOS actions.  Third patch
-adds anonymous pages filter support to DAMON_RECLAIM, and the fourth
-patch documents the DAMON_RECLAIM's new feature.  Fifth to seventh
-patches implement DAMON sysfs files for support of the filters, and
-eighth patch connects the file to use DAMOS filters feature.  Ninth
-patch adds simple self test cases for DAMOS filters of the sysfs
-interface.  Finally, following two patches (tenth and eleventh) document
-the new features and interfaces.
-
-SeongJae Park (11):
-  mm/damon/core: implement damos filter
-  mm/damon/paddr: support DAMOS filters
-  mm/damon/reclaim: add a parameter called skip_anon for avoiding
-    anonymous pages reclamation
-  Docs/admin-guide/damon/reclaim: document 'skip_anon' parameter
-  mm/damon/sysfs-schemes: implement filters directory
-  mm/damon/sysfs-schemes: implement filter directory
-  mm/damon/sysfs-schemes: connect filter directory and filters directory
-  mm/damon/sysfs-schemes: implement scheme filters
-  selftests/damon/sysfs: test filters directory
-  Docs/admin-guide/mm/damon/usage: document DAMOS filters of sysfs
-  Docs/ABI/damon: document scheme filters files
-
- .../ABI/testing/sysfs-kernel-mm-damon         |  29 ++
- .../admin-guide/mm/damon/reclaim.rst          |   9 +
- Documentation/admin-guide/mm/damon/usage.rst  |  48 ++-
- include/linux/damon.h                         |  51 +++
- mm/damon/core.c                               |  39 ++
- mm/damon/paddr.c                              |  71 +++-
- mm/damon/reclaim.c                            |  19 +
- mm/damon/sysfs-schemes.c                      | 365 +++++++++++++++++-
- tools/testing/selftests/damon/sysfs.sh        |  29 ++
- 9 files changed, 647 insertions(+), 13 deletions(-)
-
+diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
+index 4f1479a11e63..ff335e96e0d8 100644
+--- a/Documentation/admin-guide/mm/damon/reclaim.rst
++++ b/Documentation/admin-guide/mm/damon/reclaim.rst
+@@ -205,6 +205,15 @@ The end physical address of memory region that DAMON_RECLAIM will do work
+ against.  That is, DAMON_RECLAIM will find cold memory regions in this region
+ and reclaims.  By default, biggest System RAM is used as the region.
+ 
++skip_anon
++---------
++
++Skip anonymous pages reclamation.
++
++If this parameter is set as ``Y``, DAMON_RECLAIM does not reclaim anonymous
++pages.  By default, ``N``.
++
++
+ kdamond_pid
+ -----------
+ 
 -- 
 2.25.1
 
