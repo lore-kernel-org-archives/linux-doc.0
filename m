@@ -2,261 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D5C9C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Nov 2022 14:26:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95CE7C4167B
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Nov 2022 16:51:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229480AbiKYO0f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Nov 2022 09:26:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47820 "EHLO
+        id S229491AbiKYQvB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Nov 2022 11:51:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbiKYO0e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Nov 2022 09:26:34 -0500
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 842532AC46;
-        Fri, 25 Nov 2022 06:26:32 -0800 (PST)
-Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NJcbh0FcGzHwC8;
-        Fri, 25 Nov 2022 22:25:52 +0800 (CST)
-Received: from dggpeml500002.china.huawei.com (7.185.36.158) by
- dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 25 Nov 2022 22:26:30 +0800
-Received: from [10.67.103.44] (10.67.103.44) by dggpeml500002.china.huawei.com
- (7.185.36.158) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 25 Nov
- 2022 22:26:30 +0800
-Subject: Re: [PATCH v14 1/2] drivers/coresight: Add UltraSoc System Memory
- Buffer driver
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        <mathieu.poirier@linaro.org>, <mike.leach@linaro.org>,
-        <leo.yan@linaro.org>, <jonathan.cameron@huawei.com>
-References: <20221123123823.27973-1-hejunhao3@huawei.com>
- <20221123123823.27973-2-hejunhao3@huawei.com>
- <9f5f66fa-0388-6a76-25c9-cacef0e7a4e2@arm.com>
- <0eb32726-2054-ee00-4b7a-d7a2f0121efd@huawei.com>
- <80cf9c73-4b9a-f2f7-f72d-de985c045f9c@arm.com>
-CC:     <coresight@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <lpieralisi@kernel.org>,
-        <linuxarm@huawei.com>, <yangyicong@huawei.com>,
-        <liuqi6124@gmail.com>, <f.fangjian@huawei.com>,
-        <prime.zeng@hisilicon.com>
-From:   hejunhao <hejunhao3@huawei.com>
-Message-ID: <8e3b1957-33a7-83ed-6d62-1294cdb679e4@huawei.com>
-Date:   Fri, 25 Nov 2022 22:26:29 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
-MIME-Version: 1.0
-In-Reply-To: <80cf9c73-4b9a-f2f7-f72d-de985c045f9c@arm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.103.44]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500002.china.huawei.com (7.185.36.158)
-X-CFilter-Loop: Reflected
+        with ESMTP id S229850AbiKYQuo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Nov 2022 11:50:44 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FD2421807;
+        Fri, 25 Nov 2022 08:50:26 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id l22-20020a17090a3f1600b00212fbbcfb78so8190283pjc.3;
+        Fri, 25 Nov 2022 08:50:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KfwYrXaErbUOWjxPsFIISqMfJIaUdzQIGOvRpzN2nKo=;
+        b=fdDp0H4hxYRT1ClITZUPzA9Z0MOpbSjNBJUlpGkKulzi2+EPfVXSv5rRC3SI1rSOeC
+         idMuUqX6c8wTWmFGPKBF0Gsw+uHdje5XddS8Mmn7IxIIgx8w5Gum7VQIH/EciGDgr1DM
+         wcsLhr2PHKIeuJ4HisY6pBZlCXcbJ0rz418q4AGSGTgT8rGYvIDf9CrRnZ5eH2UycxJs
+         qaf4znjab6StYPkBciCM90APwXvrymrsd9thMO3iSKrHC/9c7gkM5JnAX3Rif3ltIc+Q
+         r/7tgShFpCFubWcpPOSkHwOKh9lUQV9+OKiwzLTvquKMnra9H9xTtHwz351n1G8IMn9P
+         RMsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KfwYrXaErbUOWjxPsFIISqMfJIaUdzQIGOvRpzN2nKo=;
+        b=zuNcyW9nQN9KwJjE7bIknU9DYpoQCQsb7mQONUrjjb3FivqeAIRZEGjUbTePv+Veuh
+         /BKWHy7O66v6M8Dm8P5CdkuhLF6qhqgzx1ouJJsOrtlI8q0343PlRBQ/CmnalRGBKa2t
+         LAE6oCgXeJYF4JiURd1GfXjISOHmda6LwD/myCIj87jeGsridfevMjK2+yAN9cxbOYzm
+         gGt+Dho68nnNrg9FHX0IzMs0PmSP2qkujoTZauSpigMSYtPi7e1gu4mSm1isD+VXCuz6
+         A25+RAY5NfUPpUjfS5WoGBbdqVp/Fm1N5eeE+r/yUw3PpVTx5ylszZzDcuPY4wlzmwsy
+         OyJw==
+X-Gm-Message-State: ANoB5pk+VdawEZofoY47vZbvbJgIm4BVUOls5j/EX8+bjFwUnKhct7IQ
+        49EJziT+7kNFoaYEOazxUd0sHxiaBf2+QA==
+X-Google-Smtp-Source: AA0mqf591/LJdyKcke50EoqPhdMIyJAjyg8qfuWkR0iQ/7OJ+TNiOSQ+wOnprJ1xunlHvIBDl56Mrw==
+X-Received: by 2002:a17:902:dacd:b0:189:6889:c309 with SMTP id q13-20020a170902dacd00b001896889c309mr3481534plx.3.1669395025398;
+        Fri, 25 Nov 2022 08:50:25 -0800 (PST)
+Received: from localhost ([2406:7400:61:64d5:6ced:a13c:ba7b:305b])
+        by smtp.gmail.com with ESMTPSA id x80-20020a633153000000b004308422060csm2805793pgx.69.2022.11.25.08.50.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Nov 2022 08:50:24 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Fri, 25 Nov 2022 22:20:18 +0530
+Message-Id: <COLJ587CFY67.2E0WQZD08PLBY@skynet-linux>
+Cc:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <~postmarketos/upstreaming@lists.sr.ht>
+Subject: Re: [PATCH v2 0/3] dmaengine: Add support for immediate commands
+From:   "Sireesh Kodali" <sireeshkodali1@gmail.com>
+To:     "Vinod Koul" <vkoul@kernel.org>
+X-Mailer: aerc 0.13.0
+References: <20221027051429.46593-1-sireeshkodali1@gmail.com>
+ <Y2UIS7P0alvqT4jn@matsya> <CO97J91UP8IF.23GNHUUM2KTVH@skynet-linux>
+ <Y3FudBqc1vQ8fEgU@matsya>
+In-Reply-To: <Y3FudBqc1vQ8fEgU@matsya>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 2022/11/24 21:45, Suzuki K Poulose wrote:
-> On 24/11/2022 13:33, hejunhao wrote:
->>
->> On 2022/11/23 22:03, Suzuki K Poulose wrote:
->>> On 23/11/2022 12:38, Junhao He wrote:
->>>> From: Qi Liu <liuqi115@huawei.com>
->>>>
->>>> Add driver for UltraSoc SMB(System Memory Buffer) device.
->>>> SMB provides a way to buffer messages from ETM, and store
->>>> these "CPU instructions trace" in system memory.
->>>> The SMB device is identifier as ACPI HID "HISI03A1". Device
->>>> system memory address resources are allocated using the _CRS
->>>> method and buffer modes is the circular buffer mode.
->>>>
->>>> SMB is developed by UltraSoc technology, which is acquired by
->>>> Siemens, and we still use "UltraSoc" to name driver.
->>>>
->>>> Signed-off-by: Qi Liu <liuqi115@huawei.com>
->>>> Signed-off-by: Junhao He <hejunhao3@huawei.com>
->>>> Tested-by: JunHao He <hejunhao3@huawei.com>
->>>> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->>>> ---
->>>>   drivers/hwtracing/coresight/Kconfig        |  12 +
->>>>   drivers/hwtracing/coresight/Makefile       |   1 +
->>>>   drivers/hwtracing/coresight/ultrasoc-smb.c | 658 
->>>> +++++++++++++++++++++
->>>>   drivers/hwtracing/coresight/ultrasoc-smb.h | 129 ++++
->>>>   4 files changed, 800 insertions(+)
->>>>   create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.c
->>>>   create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.h
->>>>
->>>
->>>> +static void smb_sync_perf_buffer(struct smb_drv_data *drvdata,
->>>> +                 struct cs_buffers *buf,
->>>> +                 unsigned long head,
->>>> +                 unsigned long data_size)
->>>> +{
->>>> +    struct smb_data_buffer *sdb = &drvdata->sdb;
->>>> +    char **dst_pages = (char **)buf->data_pages;
->>>> +    unsigned long to_copy;
->>>> +    long pg_idx, pg_offset;
->>>> +
->>>> +    pg_idx = head >> PAGE_SHIFT;
->>>> +    pg_offset = head & (PAGE_SIZE - 1);
->>>> +
->>>> +    while (data_size) {
->>>> +        unsigned long pg_space = PAGE_SIZE - pg_offset;
->>>> +
->>>> +        /* Copy parts of trace data when read pointer wrap around */
->>>> +        if (sdb->rd_offset + pg_space > sdb->buf_size)
->>>> +            to_copy = sdb->buf_size - sdb->rd_offset;
->>>> +        else
->>>> +            to_copy = min(data_size, pg_space);
->>>> +
->>>> +        memcpy(dst_pages[pg_idx] + pg_offset,
->>>> +                  sdb->buf_base + sdb->rd_offset, to_copy);
->>>> +
->>>> +        pg_offset += to_copy;
->>>> +        if (pg_offset >= PAGE_SIZE) {
->>>> +            pg_offset = 0;
->>>> +            pg_idx++;
->>>> +            pg_idx %= buf->nr_pages;
->>>> +        }
->>>> +        data_size -= to_copy;
->>>> +        sdb->rd_offset += to_copy;
->>>> +        sdb->rd_offset %= sdb->buf_size;
->>>> +    }
->>>> +
->>>> +    sdb->data_size = 0;
->>>
->>>
->>> --8>-- cut here --<8--
->>>
->>>> +    writel(sdb->start_addr + sdb->rd_offset,
->>>> +        drvdata->base + SMB_LB_RD_ADDR_REG);
->>>> +
->>>> +    /*
->>>> +     * Data remained in link cannot be purged when SMB is full, so
->>>> +     * synchronize the read pointer to write pointer, to make sure
->>>> +     * these remained data won't influence next trace.
->>>> +     */
->>>> +    if (sdb->full) {
->>>> +        smb_purge_data(drvdata);
->>>> +        writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
->>>> +               drvdata->base + SMB_LB_RD_ADDR_REG);
->>>> +    }
->>>
->>> --<8-- end here --8>--
->>>
->>> As pointed out in the last review, we must do this step
->>> everytime for perf mode irrespective of whether the buffer
->>> was "FULL" or not.
->>>
->>> i.e, the above block should simply be:
->>>
->>>     if (sdb->full)
->>>         smb_purge_data(drvdata);
->>>
->>>     /*
->>>      * The uncollected Data must be discarded for perf,
->>>      * as it cannot be clubbed with next schedule. We
->>>      * any way TRUNCATE the buffer in this case.
->>>      */
->>>     writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
->>>         drvdata->base + SMB_LB_RD_ADDR_REG);
->>>
->>> Suzuki
->>
->> Hi Suzuki,
->>
->> We need to update SMB_LB_RD_ADDR_REG register first, then
->> check the "full" flag, whether the register needs to be
->> updated again.
+On Mon Nov 14, 2022 at 3:53 AM IST, Vinod Koul wrote:
+> On 11-11-22, 10:42, Sireesh Kodali wrote:
+> > On Fri Nov 4, 2022 at 6:10 PM IST, Vinod Koul wrote:
+> > > On 27-10-22, 10:44, Sireesh Kodali wrote:
+> > > > The IPA v2.x block, found on some older Qualcomm SoCs, uses BAM DMA=
+ to
+> > > > send and receive packets from the AP. It also uses BAM to receive
+> > > > commands from the AP (and possibly the modem). These commands are
+> > > > encoded as "Immediate Commands". They vary from regular BAM DMA
+> > > > commands. Adding support for immediate commands is trivial, but req=
+uires
+> > > > also adding Immediate Commands to the dmaengine API, which is what =
+this
+> > > > patch series does.
+> > >
+> > > Can you explain a bit more. I understand you need "Immediate Commands=
+"
+> > > but am really reluctant to add another interface to support a specifi=
+c
+> > > use case
+> > >
+> >=20
+> > Apologies for the delayed response
+> >=20
+> > BAM supports both regular commands, and "immediate commands". Currently=
+,
+> > commands are used by the Qualcom NAND chip driver, while "immediate
+> > commands" are intended to be used by the (yet to be mainlined) IPA
+> > driver. From the BAM driver perspective, both immediate and regular
+> > commands are simply a matter of setting the appropriate flag in the
+> > descriptor. I don't have access to the documentation on BAM to know
+> > exactly how these two modes differ, however I do know they are not
+> > interchangable. If a different API is suggested, I can change the
+> > implementation as needed.
 >
-> Why ? sdb->full is not updated after the write to RD_ADDR_REG.
+> Ok, can you please explain what is meant by 'regular' cmd and
+> 'immediate', lets see what is required here
+
+Stephan pointed out the APQ8016E TRM has details on BAM. As I understand
+it, 'regular' commands are queued register read/writes for the
+peripheral. Immediate commands on the other hand seem to be interpreted
+by the peripheral's firmware, and don't involve any register
+writes/reads from BAM's perspective.
+
+This is what the TRM has to say:
+
+> Immediate (IMM) (only for BAM-NDP): Allows the software to create
+> descriptors of type immediate, which does not generate any data
+> transmissions or registers configuration, it is simply supplied to the
+> peripheral, the peripheral then parses its fields (which are
+> irrelevant to the BAM). Only the flags of this descriptor are relevant
+> to the BAM, address and size are irrelevant, and BAM simply passes
+> them as is to the peripheral. This can be used for the software to
+> operate peripheral-specific operations within regular data operations.
+> Immediate descriptors are published on the sidebands as 1 byte size
+> descriptor, once BAM_NDP fetches an immediate descriptor, it publishes
+> all recently fetched descriptors including the immediate descriptor
+> with immediate indication, to inform the peripheral that the last
+> published descriptor was immediate descriptor.
+
+> Command (CMD) (only for BAM-lite and BAM-NDP): Allows the software to
+> create descriptors of type command. Descriptors of type command do not
+> generate any data transmissions but configure registers in the
+> peripheral (write and read registers operations)
+
+Regards,
+Sireesh
 >
-Hi Suzuki,
-
-Maybe using the code below is more appropriate.
-i.e,
-
-     writel(sdb->start_addr + sdb->rd_offset,
-         drvdata->base + SMB_LB_RD_ADDR_REG);
-
-     /*
-      * The uncollected Data must be discarded for perf,
-      * as it cannot be clubbed with next schedule. We
-      * any way TRUNCATE the buffer in this case.
-      */
-     smb_update_data_size(drvdata);
-     if (sdb->data_size)
-         writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
-                 drvdata->base + SMB_LB_RD_ADDR_REG);
-
-Best regards,
-Junhao.
-
->>
->> If we don`t update the value of SMB_LB_RD_ADDR_REG register
->> or reset buffer state, the buffer state will still be "full".
->> The buffer has not free area,so the data will still remain
->> in link.
->
-> My issue here is with potentially "leaving the trace from a previous
-> session for the next session". i.e., at the end of a run, we must always
-> make sure that the buffer is left empty (unlike the sysfs mode).
->
-> e.g.,
->
-> perf_session_x: RUN0: RD=0x0, WR=0x5000, HANDLE_SIZE=0x3000, full=false.
-> At the end of the above routine we will have :
->     RD=0x3000, WR=0x5000,
->
-> and if a different perf session comes in, say perf_session_y, it will 
-> consume trace written by "x" at 0x3000-0x50000, right ?
->
-> This is fine in the sysfs mode as we expect the entire sysfs mode
-> to be owned by a single session and is left to the user to split it.
-> But for perf mode we cannot do that and thus must make sure we don't
-> leak trace from one session to antoher.
->
-> Suzuki
->
-
-In this cace:  RUN0: RD=0x0, WR=0x5000, HANDLE_SIZE=0x3000, full=false.
-We will update the "rd_offset" in smb_update_buffer() function.
-like this:
-
-     ...
-     if (data_size > handle->size) {
-         sdb->rd_offset += data_size - handle->size;
-         sdb->rd_offset %= sdb->buf_size;
-         ...
-         }
-     ...
-
-
-So the rd_offset will advance to 0x2000 first,
-then we dump the latest trace data (0x2000 - 0x5000) from "buf_base + 
-rd_offset".
-
-Best regards,
-Junhao.
-
->
->>
->> Thanks.
->> HeJunhao.
->>
->>> _______________________________________________
->>> CoreSight mailing list -- coresight@lists.linaro.org
->>> To unsubscribe send an email to coresight-leave@lists.linaro.org
->>>
->>> .
->>>
->>
->
-> _______________________________________________
-> CoreSight mailing list -- coresight@lists.linaro.org
-> To unsubscribe send an email to coresight-leave@lists.linaro.org
+> --=20
+> ~Vinod
 
