@@ -2,78 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35783C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Nov 2022 23:40:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45820C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Nov 2022 01:41:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229601AbiKXXkT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Nov 2022 18:40:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41450 "EHLO
+        id S229564AbiKYBlL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Nov 2022 20:41:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbiKXXkS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 18:40:18 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3346C114;
-        Thu, 24 Nov 2022 15:40:18 -0800 (PST)
+        with ESMTP id S229506AbiKYBlL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Nov 2022 20:41:11 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A8831A1
+        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 17:41:06 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D760CB828FD;
-        Thu, 24 Nov 2022 23:40:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 90B4BC433D7;
-        Thu, 24 Nov 2022 23:40:15 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D553F62283
+        for <linux-doc@vger.kernel.org>; Fri, 25 Nov 2022 01:41:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40AE1C43470
+        for <linux-doc@vger.kernel.org>; Fri, 25 Nov 2022 01:41:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669333215;
-        bh=fK6idouijYo9HkPNrm4PwNjTBLo/DRfdAeopcwIx0O8=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=b6T/PE5VHcvjl/lRcT5ipJjhY7mQQau7mDcqYOlhCLRkH95E4mxSRUi2NOT5ipwx/
-         7wxL5O6qz2GQ5V1gyoR0ct2vDNsJBslntxRuBtYYzxTK5Yv0aDhvQoBbtU5W16Iw/H
-         wi6NeGFHId5SgwCRlkRkEmIQjjMCfcgnWBYE1QrYSqhMqf8ggN6DC3N98Z3gILxnCe
-         M6TBatvkQ42+bLbYsWHBrBnTNuJekThtPFAvqktqJmcgP/a4nKFQSzhVTDSlvojdEe
-         d6P2rfgQNfkcjdqTt+b4etiol2zu60r1DWpNFp5xnyDWPsXsSfIbrxJiGNdp6NBZ+w
-         bcbtMZS0KZC+A==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7653DE270C7;
-        Thu, 24 Nov 2022 23:40:15 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        s=k20201202; t=1669340465;
+        bh=Y3BHuC/gbFrlwqqRocEoyTJHEdrLgDfaWv7cGqRXibA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=kgn7RiqA0HAdbX+Js/oee5EudXsHbvhMyICPboFz14PGyuY4nZtGrDIEIWoDzbKcn
+         zZ1grrHhfPW4x26F+VmPblbs5Qox2H7RrO2tzuW0RbjtjSiQlzRvh6jyeRyEgM+KYf
+         77/me/hUXNv6sbcU8JbPuCD7m6nzCBp9SJ1tHDAQz+Tm6vdI/Zo2IvOgTi32yrJ7QG
+         f+QZ9FWeWLgDHPsorMEsnvPP3pftuOxLWjWfkrOIqVNv0gaY/yGMrgwT/K2r97UhJQ
+         jYi7g/G+4r5LbBYw4LrQWwVG4o2w9Yv5Vv2b3127VfxC6E0JmtC22FXKTeG23A2TQV
+         PPqcf0/8h1peQ==
+Received: by mail-ej1-f43.google.com with SMTP id kt23so7267756ejc.7
+        for <linux-doc@vger.kernel.org>; Thu, 24 Nov 2022 17:41:05 -0800 (PST)
+X-Gm-Message-State: ANoB5pkp+zNrPTw2O3MUc6X+c9/LtndKB+JGniFFv2RYsc9c3OPCim9L
+        ziMA5tkEp/pG2o+ZdAL1UI5iYncgqkhRaeZcsuo=
+X-Google-Smtp-Source: AA0mqf6pp4RtiVd1wxN3Spsj315yGYT2Ld7iTuXwOKiCAo8yDYdoMSQoNyzyt1gyODyBzbSiqFY1Z5h7ZiD8ljKcQoo=
+X-Received: by 2002:a17:907:2143:b0:7ae:27ed:e90e with SMTP id
+ rk3-20020a170907214300b007ae27ede90emr29440485ejb.224.1669340463433; Thu, 24
+ Nov 2022 17:41:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next v5 1/1] docs: BPF_MAP_TYPE_XSKMAP
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166933321548.13496.9802101349602354854.git-patchwork-notify@kernel.org>
-Date:   Thu, 24 Nov 2022 23:40:15 +0000
-References: <20221123090043.83945-1-mtahhan@redhat.com>
-In-Reply-To: <20221123090043.83945-1-mtahhan@redhat.com>
-To:     Maryam Tahhan <mtahhan@redhat.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, jbrouer@redhat.com,
-        thoiland@redhat.com, donhunte@redhat.com,
-        magnus.karlsson@gmail.com, akiyks@gmail.com
+References: <cover.1669291172.git.siyanteng@loongson.cn>
+In-Reply-To: <cover.1669291172.git.siyanteng@loongson.cn>
+From:   Huacai Chen <chenhuacai@kernel.org>
+Date:   Fri, 25 Nov 2022 09:40:52 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H5ufJgL=cK1b5UAxtb5DDw0at5pNpttV6nGrLu_7k5FDA@mail.gmail.com>
+Message-ID: <CAAhV-H5ufJgL=cK1b5UAxtb5DDw0at5pNpttV6nGrLu_7k5FDA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] docs/LoongArch: Add English and Chinese versions
+ of boot image header
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com,
+        kernel@xen0n.name, wu.xiangcheng@linux.dev,
+        jiaxun.yang@flygoat.com, liuyun@loongson.cn,
+        linux-doc@vger.kernel.org, loongarch@lists.linux.dev,
+        siyanteng01@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Hi, Yanteng,
 
-This patch was applied to bpf/bpf-next.git (master)
-by Daniel Borkmann <daniel@iogearbox.net>:
+I hope you can add a description about boot parameters (a0=efi_boot
+a1=cmdline a2=systemtable), and then rename the file to booting.rst.
 
-On Wed, 23 Nov 2022 09:00:43 +0000 you wrote:
-> From: Maryam Tahhan <mtahhan@redhat.com>
-> 
-> Add documentation for BPF_MAP_TYPE_XSKMAP
-> including kernel version introduced, usage
-> and examples.
-> 
-> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
-> 
-> [...]
+Huacai
 
-Here is the summary with links:
-  - [bpf-next,v5,1/1] docs: BPF_MAP_TYPE_XSKMAP
-    https://git.kernel.org/bpf/bpf-next/c/2b3e8f6f5b93
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+On Thu, Nov 24, 2022 at 8:11 PM Yanteng Si <siyanteng@loongson.cn> wrote:
+>
+> v2:
+> * Fix magic start address.
+> * res14 -> res4.
+>
+> v1:
+> * Add boot image header.
+> * Translate boot-image-header into Chinese.
+>
+> Yanteng Si (2):
+>   docs/LoongArch: Add boot image header
+>   docs/zh_CN: Add boot-image-header Chinese translation
+>
+>  Documentation/loongarch/boot-image-header.rst | 76 ++++++++++++++++++
+>  Documentation/loongarch/index.rst             |  1 +
+>  .../zh_CN/loongarch/boot-image-header.rst     | 77 +++++++++++++++++++
+>  .../translations/zh_CN/loongarch/index.rst    |  1 +
+>  4 files changed, 155 insertions(+)
+>  create mode 100644 Documentation/loongarch/boot-image-header.rst
+>  create mode 100644 Documentation/translations/zh_CN/loongarch/boot-image-header.rst
+>
+> --
+> 2.31.1
+>
+>
