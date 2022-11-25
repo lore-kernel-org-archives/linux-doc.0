@@ -2,55 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 433FFC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Nov 2022 08:43:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CF33C4321E
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Nov 2022 08:43:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229727AbiKYInc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Nov 2022 03:43:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57872 "EHLO
+        id S229803AbiKYIne (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Nov 2022 03:43:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229758AbiKYInQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Nov 2022 03:43:16 -0500
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E4BC2125B
-        for <linux-doc@vger.kernel.org>; Fri, 25 Nov 2022 00:43:15 -0800 (PST)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-39562b26a76so32969537b3.15
-        for <linux-doc@vger.kernel.org>; Fri, 25 Nov 2022 00:43:15 -0800 (PST)
+        with ESMTP id S229879AbiKYIn1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Nov 2022 03:43:27 -0500
+Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8498B218BA
+        for <linux-doc@vger.kernel.org>; Fri, 25 Nov 2022 00:43:24 -0800 (PST)
+Received: by mail-pj1-x1049.google.com with SMTP id z9-20020a17090ab10900b00218c5bdfd55so5160078pjq.9
+        for <linux-doc@vger.kernel.org>; Fri, 25 Nov 2022 00:43:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=dehjIhc0oB2x/7qa8tpHLfPv+8ip2PCtDc/VgLdDFS0=;
-        b=U3tR0OVoZ0hHgA1k6gQVY26XcT3oNgQIup/uX30yKzUfLfrSKpvRJsmcSBuhiAXpTS
-         rTzQMGzMJNRsRtthJ4BxyoK+TidlhhFCJmjhxBf/o1FEDj74nyLKCXv3UoCsEVkyMOeU
-         364amPEiG2TPV7cF3TGX+tLLAPX4almhYT7NCNw9CXxbjzI0V/mb8zoOMitrJVRJA7dj
-         so3SRxWDXfqlFI3Uw6FkxsZS8mgE7neClxz6IKN1K/gUkQhbn5yotHy8A0DKQmNZGmod
-         UisNijbujJ0UGmHkgWBKaLdxRuxz2CsxSAWjZikzhuh6GNn9njbaHLDcXdeN0Mt/hTxE
-         23bg==
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dkxFkrOpjQGLbrLmIP0+FclGqPGzevJvZOLievBv8dk=;
+        b=kqgbzNKEz/EBdl30RURuDttaaXxDeC30LnNegyGkFZc9kDj5JRKrZbbcEP9pwVxxZN
+         G9XRyB4jJukMFOoeTGeBeQ3CnM0EbzUy0iVy1MuX2Azm+2w3BQ9adRyL9kvkdnoRUBgI
+         X6bKvh5wnfqjPenjD+9aZ4sKilQcc3HfOGFYHURPQ69pGtxzEdI0XKeB9kAYdbFzp7Bg
+         iV3xmvTGIdnYEq9akRm0/9IGUCEtjMcs+FCtU+t6i2Mn7bMXvKRnkKAJSxnin4lI09Y7
+         1pZbQEDt8j+6a4aF/rIVEb1uQE3DhbYONBvJrOsxEcU1VcYGwGBsoyKH/GlpFeZvG8ID
+         eajQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dehjIhc0oB2x/7qa8tpHLfPv+8ip2PCtDc/VgLdDFS0=;
-        b=ipW55kPVEslhnxpyLAJYlWBYtBxoKHrSG4dAbTIWz1A4Jhwml5DFeyOgQChS49fNU6
-         qtvJoSNtujv8GQ6Aa97gxQedVbML8GcFBHZsqhLw7CJ2w3zlh+ZoZWB8JRGB8mDGkQat
-         QWwBCszVfMT3G4ZhI1IrOCMczcl96wxS61L0jagjuwqbgSYFYN1duA7u+tp6zoCfkbTg
-         4ImoaJiRozVsZpU+MqgaDP0om+XAsJ/1qHvehB9Zwno/BmFcqYFFTWuUZ/WDSY/M13hW
-         zEB6xnIwelMVS2RJTYfTi0rAeh5VC+v02102zvdGw9oprjb9otujCGO8hNaFBf6ijD+I
-         mlBA==
-X-Gm-Message-State: ANoB5pmZMyi2SmetP1ijAGPZvrJkTi+/xglLQwxMqJjKCahHbsl2+2XD
-        ytc8lU+uH/mU9adenO4mURAN8y3QB6J7Wg==
-X-Google-Smtp-Source: AA0mqf6SIG2nM06vCqr04rh+5zvembhI1If1NZodMNsjqU25om3zZ8oQIazCspuzdvbnHIuLg9UcLSc+CucUsg==
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dkxFkrOpjQGLbrLmIP0+FclGqPGzevJvZOLievBv8dk=;
+        b=7bcisvLn1bRWtO/tPLkUKz5UxtZbF6FQlpo+BQymZjIyaIpu2g9EZL8MNICEnwAV2s
+         /OTEppVTpmK7DQXzfmYz8Ii60huL/IWHk3MWv5AWRHx7dnFgurgZhZhnL/LIjuq956/D
+         9nyPSgHJA0Dpiy5Qz32tVBXwtw6wIRqvONu3og6cLhNKTHJRPdeIbS/fHaShc8FzD5Wh
+         vQroS6/K7CLGyIX66XnMHeWV7TzStZB1CboTBUACE2KGNqX8w7uqF7YmIwo2IFCWXU7T
+         /Tx809efPPQ/5GzFFNNP7uCRpx54gEmDP4NpM/bRxpG7uxJA8akpIPUnM53e6lbR3fZ3
+         NY7A==
+X-Gm-Message-State: ANoB5pkDG1fxsbv6sc3QwBAfxg0TsgeNierucecrPLZEZyAOuMdHN5W1
+        AOzvXm8Q5pa+VvlYaRIQqMRF+NocXTfdBA==
+X-Google-Smtp-Source: AA0mqf7RiYkevlcRuG6Fr8tnCwq1XAC9tTw8xXaio9yL/yIb9hcwf34Ri5nG0oPQNQBwzo8q3vRzqDIvG97ZmA==
 X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a05:6902:114b:b0:6e1:ce17:6c40 with SMTP
- id p11-20020a056902114b00b006e1ce176c40mr9ybu.5.1669365793417; Fri, 25 Nov
- 2022 00:43:13 -0800 (PST)
-Date:   Fri, 25 Nov 2022 16:43:04 +0800
+ (user=davidgow job=sendgmr) by 2002:a17:90b:3809:b0:20a:c64c:ae80 with SMTP
+ id mq9-20020a17090b380900b0020ac64cae80mr28596107pjb.12.1669365803760; Fri,
+ 25 Nov 2022 00:43:23 -0800 (PST)
+Date:   Fri, 25 Nov 2022 16:43:06 +0800
+In-Reply-To: <20221125084306.1063074-1-davidgow@google.com>
 Mime-Version: 1.0
+References: <20221125084306.1063074-1-davidgow@google.com>
 X-Mailer: git-send-email 2.38.1.584.g0f3c55d4c2-goog
-Message-ID: <20221125084306.1063074-1-davidgow@google.com>
-Subject: [PATCH v4 1/3] kunit: Provide a static key to check if KUnit is
- actively running tests
+Message-ID: <20221125084306.1063074-3-davidgow@google.com>
+Subject: [PATCH v4 3/3] mm: slub: test: Use the kunit_get_current_test() function
 From:   David Gow <davidgow@google.com>
 To:     Brendan Higgins <brendan.higgins@linux.dev>,
         Daniel Latypov <dlatypov@google.com>,
@@ -58,109 +59,96 @@ To:     Brendan Higgins <brendan.higgins@linux.dev>,
 Cc:     David Gow <davidgow@google.com>, kunit-dev@googlegroups.com,
         linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
         Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org
+        linux-mm@kvack.org, Oliver Glitta <glittao@gmail.com>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        Christoph Lameter <cl@linux.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        David Rientjes <rientjes@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-KUnit does a few expensive things when enabled. This hasn't been a
-problem because KUnit was only enabled on test kernels, but with a few
-people enabling (but not _using_) KUnit on production systems, we need a
-runtime way of handling this.
+Use the newly-added function kunit_get_current_test() instead of
+accessing current->kunit_test directly. This function uses a static key
+to return more quickly when KUnit is enabled, but no tests are actively
+running. There should therefore be a negligible performance impact to
+enabling the slub KUnit tests.
 
-Provide a 'kunit_running' static key (defaulting to false), which allows
-us to hide any KUnit code behind a static branch. This should reduce the
-performance impact (on other code) of having KUnit enabled to a single
-NOP when no tests are running.
+Other than the performance improvement, this should be a no-op.
 
-Note that, while it looks unintuitive, tests always run entirely within
-__kunit_test_suites_init(), so it's safe to decrement the static key at
-the end of this function, rather than in __kunit_test_suites_exit(),
-which is only there to clean up results in debugfs.
-
+Cc: Oliver Glitta <glittao@gmail.com>
+Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc: Christoph Lameter <cl@linux.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
 Signed-off-by: David Gow <davidgow@google.com>
-Reviewed-by: Daniel Latypov <dlatypov@google.com>
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
+Acked-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 ---
-This should be a no-op (other than a possible performance improvement)
-functionality-wise, and lays the groundwork for a more optimised static
-stub implementation.
 
-The remaining patches in the series add a kunit_get_current_test()
-function which is a more friendly and performant wrapper around
-current->kunit_test, and use this in the slub test. They also improve
-the documentation a bit.
+This is intended as an example use of the new function. Other users
+(such as KASAN) will be updated separately, as there would otherwise be
+conflicts.
 
-If there are no objections, we'll take the whole series via the KUnit
-tree.
+We'll take this whole series via the kselftest/kunit tree.
 
 Changes since v3:
-https://lore.kernel.org/linux-kselftest/20221119081252.3864249-1-davidgow@google.com/
-- Use DECLARE_STATIC_KEY_FALSE() -- thanks Daniel!
+https://lore.kernel.org/linux-kselftest/20221119081252.3864249-3-davidgow@google.com/
+- Add Hyeonggon's Acked-by.
 
-No changes since v2:
-https://lore.kernel.org/all/20221025071907.1251820-1-davidgow@google.com/
+Changes since v2:
+https://lore.kernel.org/all/20221025071907.1251820-3-davidgow@google.com/
+- Get rid of a redundant 'likely' (Thanks Vlastimil Babka)
+- Use current->kunit_test directly when we already know a test is
+  running. (Thanks Vlastimil Babka)
+- Add Vlastimil's Acked-by.
 
-Changes since v1:
-https://lore.kernel.org/linux-kselftest/20221021072854.333010-1-davidgow@google.com/
-- No changes in this patch.
-- Patch 2/3 is reworked, patch 3/3 is new.
+There was no v1 of this patch. v1 of the series can be found here:
+https://lore.kernel.org/linux-kselftest/20221021072854.333010-1-davidgow@google.com/T/#u
+
+Cheers,
+-- David
 
 ---
- include/kunit/test.h | 4 ++++
- lib/kunit/test.c     | 6 ++++++
- 2 files changed, 10 insertions(+)
+ lib/slub_kunit.c | 1 +
+ mm/slub.c        | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index 4666a4d199ea..87ea90576b50 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -16,6 +16,7 @@
- #include <linux/container_of.h>
- #include <linux/err.h>
- #include <linux/init.h>
-+#include <linux/jump_label.h>
- #include <linux/kconfig.h>
- #include <linux/kref.h>
- #include <linux/list.h>
-@@ -27,6 +28,9 @@
+diff --git a/lib/slub_kunit.c b/lib/slub_kunit.c
+index 7a0564d7cb7a..8fd19c8301ad 100644
+--- a/lib/slub_kunit.c
++++ b/lib/slub_kunit.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ #include <kunit/test.h>
++#include <kunit/test-bug.h>
+ #include <linux/mm.h>
+ #include <linux/slab.h>
+ #include <linux/module.h>
+diff --git a/mm/slub.c b/mm/slub.c
+index 157527d7101b..1887996cb703 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -39,6 +39,7 @@
+ #include <linux/memcontrol.h>
+ #include <linux/random.h>
+ #include <kunit/test.h>
++#include <kunit/test-bug.h>
+ #include <linux/sort.h>
  
- #include <asm/rwonce.h>
+ #include <linux/debugfs.h>
+@@ -603,7 +604,7 @@ static bool slab_add_kunit_errors(void)
+ {
+ 	struct kunit_resource *resource;
  
-+/* Static key: true if any KUnit tests are currently running */
-+DECLARE_STATIC_KEY_FALSE(kunit_running);
-+
- struct kunit;
+-	if (likely(!current->kunit_test))
++	if (!kunit_get_current_test())
+ 		return false;
  
- /* Size of log associated with test. */
-diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-index 1c9d8d962d67..87a5d795843b 100644
---- a/lib/kunit/test.c
-+++ b/lib/kunit/test.c
-@@ -20,6 +20,8 @@
- #include "string-stream.h"
- #include "try-catch-impl.h"
- 
-+DEFINE_STATIC_KEY_FALSE(kunit_running);
-+
- #if IS_BUILTIN(CONFIG_KUNIT)
- /*
-  * Fail the current test and print an error message to the log.
-@@ -615,10 +617,14 @@ int __kunit_test_suites_init(struct kunit_suite * const * const suites, int num_
- 		return 0;
- 	}
- 
-+	static_branch_inc(&kunit_running);
-+
- 	for (i = 0; i < num_suites; i++) {
- 		kunit_init_suite(suites[i]);
- 		kunit_run_tests(suites[i]);
- 	}
-+
-+	static_branch_dec(&kunit_running);
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(__kunit_test_suites_init);
+ 	resource = kunit_find_named_resource(current->kunit_test, "slab_errors");
 -- 
 2.38.1.584.g0f3c55d4c2-goog
 
