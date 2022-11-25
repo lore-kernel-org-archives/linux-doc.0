@@ -2,77 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4826C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Nov 2022 18:17:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 301DDC4167B
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Nov 2022 18:24:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229933AbiKYSRN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Nov 2022 13:17:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34154 "EHLO
+        id S229570AbiKYSYL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Nov 2022 13:24:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229891AbiKYSRH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Nov 2022 13:17:07 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B30DC53EFD;
-        Fri, 25 Nov 2022 10:17:06 -0800 (PST)
+        with ESMTP id S229869AbiKYSYK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Nov 2022 13:24:10 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE3F1144B;
+        Fri, 25 Nov 2022 10:24:10 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6351AB82BDA;
-        Fri, 25 Nov 2022 18:17:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ACBDC433D6;
-        Fri, 25 Nov 2022 18:16:59 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 06AE560ADC;
+        Fri, 25 Nov 2022 18:24:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18488C433D6;
+        Fri, 25 Nov 2022 18:24:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669400224;
-        bh=H4hIc3u/3viiMs7hAwqnnqI06dB+Y9jh7P1ZTPHF0Xw=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ZcrlCN7HntNcLK3dNPqFM+WXJc89f25j6tCMdigrI5l2JxiAR/duRckpKJMIS7utX
-         64ebI5XL2DmGlxzVPPZAKhI4LYaK4AFgoK+MNJaDpmqj6YMdzUNJw9eG1ckn+ZKdbY
-         CVTBpRFMlYJQAdt/2oDH2jDis6s2L1XQeMv/CQmh0r5s+U2gBkBsucO+XpOvCsZhHV
-         X6oJrZ9eatq2Dtxbxd6mmHNNiiMiuilrQ3h9fpH8jdVUN6+vLZc5mBFbcvBd2/re5m
-         VYtszJJ2E9s6C2DP1niiYrRx9ujH8N9U6VAvVuk7zoFsb3+NNibFtogkv0N12SqPO3
-         y5cvYXGCjTIOA==
-Message-ID: <871bacc9-6c0b-9841-107e-da60a2c8e01e@kernel.org>
-Date:   Fri, 25 Nov 2022 19:16:56 +0100
+        s=k20201202; t=1669400649;
+        bh=UB/6VuW6a7ynj0jFuUpMvx4UWz72yWtQ5l1fc/HCPM0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Eoz7ku9gVq5fMqJViH4Smf9hUU0hN9cNOwGyDNxFCgtdhX47lHmGi6PckKBlAaX/h
+         swWyAIzF5FPgsYt66PwZu6iZiuv8PwC3EKMh45TNa60nHwnj85TJcjxSBZHp2gPukh
+         57pQuVWOerWidBE6bQQvOGkniqdXlyywNMhmJwxCZvCKUlei+MrQJdpIruoT9PTHjw
+         i9YMjsY7p1o54Qt5CghvextJiC7+akKh43AmykapDZmbfs/Zep5O/M8hnD0EPCP1RA
+         BQUOX7sUE/6PYVxlEwboKdvCo5NAKGGi5vEb6jwWTUU5Q9kskv0Rq/cyWFJrC/kF+w
+         il3mkKgAxIJ0Q==
+Date:   Fri, 25 Nov 2022 10:24:07 -0800
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+Cc:     "Theodore Y. Ts o" <tytso@mit.edu>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        linux-fscrypt@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] fscrypt: Add SM4 XTS/CTS symmetric algorithm
+ support
+Message-ID: <Y4EIR+n8aKutuLo0@sol.localdomain>
+References: <20221125121630.87793-1-tianjia.zhang@linux.alibaba.com>
+ <20221125121630.87793-3-tianjia.zhang@linux.alibaba.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH] Documentation/osnoise: escape underscore of NO_ prefix
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        oe-kbuild-all@lists.linux.dev,
-        Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
-        kernel test robot <lkp@intel.com>
-References: <202211240447.HxRNftE5-lkp@intel.com>
- <20221125034300.24168-1-bagasdotme@gmail.com>
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <20221125034300.24168-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221125121630.87793-3-tianjia.zhang@linux.alibaba.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/25/22 04:43, Bagas Sanjaya wrote:
-> kernel test robot reported unknown target name warning:
-> 
-> Documentation/trace/osnoise-tracer.rst:112: WARNING: Unknown target name: "no".
-> 
-> The warning causes NO_ prefix to be rendered as link text instead, which
-> points to non-existent link target.
-> 
-> Escape the prefix underscore to fix the warning.
-> 
-> Link: https://lore.kernel.org/linux-doc/202211240447.HxRNftE5-lkp@intel.com/
-> Fixes: 67543cd6b8eee5 ("Documentation/osnoise: Add osnoise/options documentation")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+On Fri, Nov 25, 2022 at 08:16:30PM +0800, Tianjia Zhang wrote:
+> diff --git a/fs/crypto/policy.c b/fs/crypto/policy.c
+> index 46757c3052ef..8e69bc0c35cd 100644
+> --- a/fs/crypto/policy.c
+> +++ b/fs/crypto/policy.c
+> @@ -71,6 +71,10 @@ static bool fscrypt_valid_enc_modes_v1(u32 contents_mode, u32 filenames_mode)
+>  	    filenames_mode == FSCRYPT_MODE_AES_128_CTS)
+>  		return true;
+>  
+> +	if (contents_mode == FSCRYPT_MODE_SM4_XTS &&
+> +	    filenames_mode == FSCRYPT_MODE_SM4_CTS)
+> +		return true;
+> +
+>  	if (contents_mode == FSCRYPT_MODE_ADIANTUM &&
+>  	    filenames_mode == FSCRYPT_MODE_ADIANTUM)
+>  		return true;
 
-Acked-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+Sorry, one more thing I didn't notice before.  Since this is a new feature,
+please only allow it in fscrypt_valid_enc_modes_v2(), not in
+fscrypt_valid_enc_modes_v1().  That's what we did for AES-256-XTS +
+AES-256-HCTR2 recently.  There should be no need to add new features to
+v1 encryption policies, which have been deprecated for several years.
 
-Thanks!
--- Daniel
+- Eric
