@@ -2,297 +2,227 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36E5BC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Nov 2022 08:29:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24EF7C4167B
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Nov 2022 08:33:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229754AbiKYI3Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Nov 2022 03:29:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47412 "EHLO
+        id S229489AbiKYId2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Nov 2022 03:33:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbiKYI3Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Nov 2022 03:29:25 -0500
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A7EB30F7C
-        for <linux-doc@vger.kernel.org>; Fri, 25 Nov 2022 00:29:23 -0800 (PST)
-Received: by mail-lj1-x229.google.com with SMTP id r8so4355464ljn.8
-        for <linux-doc@vger.kernel.org>; Fri, 25 Nov 2022 00:29:23 -0800 (PST)
+        with ESMTP id S229687AbiKYIdY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Nov 2022 03:33:24 -0500
+Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEF452F035
+        for <linux-doc@vger.kernel.org>; Fri, 25 Nov 2022 00:33:23 -0800 (PST)
+Received: by mail-ua1-x92b.google.com with SMTP id e24so1312172uam.10
+        for <linux-doc@vger.kernel.org>; Fri, 25 Nov 2022 00:33:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lbfwrVz027Kn0FHAJfS+jf/DBbMwmEQoqxG1FAyNFnY=;
-        b=CZyayG2rb8XXbW8TRWf1De/qC1oDKa3sdzUGz7CFZJGCUJ3hke8Pcv0SeBip81FJ+x
-         JusaXlEkx99owAXC/ie/A2BEOiz9lo96sXqrH9PrILlr9fm7Q74h5txF9/7pdiaQJQaf
-         IwGvVohyPx+WhA5YDvNeNiUqDO5bg5Rr/TOYTB0INb39o0KHXAkCsX+BcJTiEyMe+OWz
-         ndkUFRZtWXJL/+favQy+K7bgw5rgQXLzi+OAa9afoF1GgZzDIeFsJsnNgPtTrGCr5yxx
-         +3b8l72SWqhmqBYEORw5J8iVlxU8K2JmLb1yHTHHBMMiFs3iRUvegzmFBZW5g5ESBZc5
-         PMtw==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xnht8ByxonPiugbLJ8+7sCq0J3nESHH3HQpk+CXNQM0=;
+        b=HHigjPwXOxrRLl4YYOEAcPRiM7uC3SBo3vn26FDKcxExykuxUZc+qAjkI+uDzTqImJ
+         TOgQ9exFUmfemczQtHSlcX2hxQsNxYUwaaVgxkyt8WmBJXF5CXBVcqKwtaPn9SXTJwxh
+         R1mV4ag8OISm/8WN/P/JWcVOZG6by2E8PTw9gz5cmm5RsYhg4DPCMH8M8TTDvhN/5fQl
+         qNcrp913YpA1rj6PXeZvQsL7qsHMcOvY8cOaR4FoXXBLAxe92ULXN38+PsDyt2mkhx0C
+         DqzfT3OKcO4js3puwz13goGG1YQpZ8W7/YRQJpdO+LbUC4uXR+La6lRJl0cxqlp9/4w9
+         aBhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lbfwrVz027Kn0FHAJfS+jf/DBbMwmEQoqxG1FAyNFnY=;
-        b=nM4P4pMITuFOjNzagZjhnou0flcIkaRWWF3xkUAdrw8leHKdAZKCCjbmcAxC2kCkZ0
-         uhpEtAsRepUUAjYLHErzcjU3VWSwjmvQxv5QzAszCBkSSlo0xpovykwWGIjv0qVROCvI
-         lZIVSOZnP9YiHuveiNTJJtMWBuyiuo1ObTtnq+bsGtAqy/3ZN0KZtYRqb3eYia0XLvxb
-         pWZzQojyYUwOARofm9aZeg4vAyg63c3QaZ06mpuCSiTBpk2a4l8dHelkyrFLvgfvcj88
-         33kBdVaaPZSrTu4iGPqC3O62+f/+LqplitXyi3OuyvTaxVwe24dgd/iz9X3ZPLFlvUL7
-         H+2A==
-X-Gm-Message-State: ANoB5pmmlrXEyedSs6wdlTCI6R6Sa03X1OVyzXsOo4JNHWYLPuZKffrc
-        HF+KRZg+Rp40uYJrZCKFcc/n7A==
-X-Google-Smtp-Source: AA0mqf5FUk43GbJYwwcX9qThwDXMqvjhHMe9EIo5ni6bShbP7bgEsHNhrO3aT3+GkPVltba10RRQsQ==
-X-Received: by 2002:a05:651c:1797:b0:277:1caf:679e with SMTP id bn23-20020a05651c179700b002771caf679emr6321914ljb.115.1669364961806;
-        Fri, 25 Nov 2022 00:29:21 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id t24-20020a056512209800b004ae24559388sm433351lfr.111.2022.11.25.00.29.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Nov 2022 00:29:21 -0800 (PST)
-Message-ID: <bb12ea88-b416-7e32-93b9-730b6f009b98@linaro.org>
-Date:   Fri, 25 Nov 2022 09:29:20 +0100
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xnht8ByxonPiugbLJ8+7sCq0J3nESHH3HQpk+CXNQM0=;
+        b=asLvyvxwZSg6VHUisUUIO+uKgu1LNRN7JfoS/eujv+mSxbeUVreGvnf+7QVl9wWd1G
+         5bNLwLjxU7e0f+FpOTca6s2SSE/P/87RIWNZXxqP4qghfPU1+sETHI2/01n8gFDCW3t5
+         P7xmJQWpNiSueD4MGV/m7vqyraOV0p7Mo9OHGgb4zMXWTsEM8mj0Jdk0/El9iWKug+MP
+         VlX/GYUcO6qmF+sssejDzgiCHQphBJkktW2Mign4D2HtJSiRpEwDOC+LxcJA0sfgwS05
+         eGZA2Jcom5EnyeTLeCLfUEAjOOVzsC8626l8ji6FfywbAFy71A+yZdU86luWAt3+DRDZ
+         zzAA==
+X-Gm-Message-State: ANoB5pmaHqz7bfvSb4Chg6RvB5KMdGomzqIFW61KrG3+KxdO+5y1OcyX
+        bQoOPkx+S9utly7r36lz4y1mXcCR1K+6BTpl+yPhWw==
+X-Google-Smtp-Source: AA0mqf6wmh2+DIDulwYb7PQy32QEgIJ3iYVaTQ4wAK6I8iWQQZlxgcXCPLYzZGYTu7+Ao+Q0XPCK02SwGWl4aS8e5c8=
+X-Received: by 2002:a05:6130:316:b0:418:b66a:6f26 with SMTP id
+ ay22-20020a056130031600b00418b66a6f26mr11289425uab.21.1669365202876; Fri, 25
+ Nov 2022 00:33:22 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v1 1/2] dt-bindings: leds: add binding for aw200xx
-Content-Language: en-US
-To:     Martin Kurbanov <mmkurbanov@sberdevices.ru>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel@sberdevices.ru
-References: <20221124204807.1593241-1-mmkurbanov@sberdevices.ru>
- <20221124204807.1593241-2-mmkurbanov@sberdevices.ru>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221124204807.1593241-2-mmkurbanov@sberdevices.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221119081252.3864249-1-davidgow@google.com> <20221119081252.3864249-3-davidgow@google.com>
+ <Y39Kz0hI3IOKoqrJ@hyeyoo>
+In-Reply-To: <Y39Kz0hI3IOKoqrJ@hyeyoo>
+From:   David Gow <davidgow@google.com>
+Date:   Fri, 25 Nov 2022 16:33:11 +0800
+Message-ID: <CABVgOSmCdtnFatO+EU0T9fado1h7ZW0DAzO=Y2jPvt6mTmO57A@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] mm: slub: test: Use the kunit_get_current_test() function
+To:     Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
+        Daniel Latypov <dlatypov@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        Oliver Glitta <glittao@gmail.com>,
+        Christoph Lameter <cl@linux.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        David Rientjes <rientjes@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="000000000000efd94e05ee475f28"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 24/11/2022 21:48, Martin Kurbanov wrote:
-> Add YAML devicetree binding for AWINIC AW20036/AW20052/AW20074
-> led driver.
-> 
-> Signed-off-by: Martin Kurbanov <mmkurbanov@sberdevices.ru>
-> ---
->  .../bindings/leds/leds-aw200xx.yaml           | 110 ++++++++++++++++++
->  include/dt-bindings/leds/leds-aw200xx.h       |  48 ++++++++
->  2 files changed, 158 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-aw200xx.yaml
->  create mode 100644 include/dt-bindings/leds/leds-aw200xx.h
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-aw200xx.yaml b/Documentation/devicetree/bindings/leds/leds-aw200xx.yaml
-> new file mode 100644
-> index 000000000000..3bdadcbc2ee2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-aw200xx.yaml
+--000000000000efd94e05ee475f28
+Content-Type: text/plain; charset="UTF-8"
 
-Filename based on compatibles, so "awinic,aw200xx.yaml"
+On Thu, Nov 24, 2022 at 6:43 PM Hyeonggon Yoo <42.hyeyoo@gmail.com> wrote:
+>
+> On Sat, Nov 19, 2022 at 04:12:52PM +0800, David Gow wrote:
+> > Use the newly-added function kunit_get_current_test() instead of
+> > accessing current->kunit_test directly. This function uses a static key
+> > to return more quickly when KUnit is enabled, but no tests are actively
+> > running. There should therefore be a negligible performance impact to
+> > enabling the slub KUnit tests.
+> >
+> > Other than the performance improvement, this should be a no-op.
+> >
+> > Cc: Oliver Glitta <glittao@gmail.com>
+> > Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+> > Cc: Christoph Lameter <cl@linux.com>
+> > Cc: Vlastimil Babka <vbabka@suse.cz>
+> > Cc: David Rientjes <rientjes@google.com>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Signed-off-by: David Gow <davidgow@google.com>
+> > Acked-by: Vlastimil Babka <vbabka@suse.cz>
+>
+> Acked-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+> with small comment:
+>
 
-> @@ -0,0 +1,110 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-aw200xx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: AWINIC AW200XX LED Driver
+Thanks very much!
 
-What does the "Driver" mean? Linux Driver? If yes, then drop it. Same in
-other places.
+> > ---
+> >
+> > This is intended as an example use of the new function. Other users
+> > (such as KASAN) will be updated separately, as there would otherwise be
+> > conflicts.
+> >
+> > We'll take this whole series via the kselftest/kunit tree.
+> >
+> > Changes since v2:
+> > https://lore.kernel.org/all/20221025071907.1251820-3-davidgow@google.com/
+> > - Get rid of a redundant 'likely' (Thanks Vlastimil Babka)
+> > - Use current->kunit_test directly when we already know a test is
+> >   running. (Thanks Vlastimil Babka)
+> > - Add Vlastimil's Acked-by.
+> >
+> > There was no v1 of this patch. v1 of the series can be found here:
+> > https://lore.kernel.org/linux-kselftest/20221021072854.333010-1-davidgow@google.com/T/#u
+> >
+> > Cheers,
+> > -- David
+> >
+> > ---
+> >  lib/slub_kunit.c | 1 +
+> >  mm/slub.c        | 3 ++-
+> >  2 files changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/lib/slub_kunit.c b/lib/slub_kunit.c
+> > index 7a0564d7cb7a..8fd19c8301ad 100644
+> > --- a/lib/slub_kunit.c
+> > +++ b/lib/slub_kunit.c
+> > @@ -1,5 +1,6 @@
+> >  // SPDX-License-Identifier: GPL-2.0
+> >  #include <kunit/test.h>
+> > +#include <kunit/test-bug.h>
+>
+> Is this #include needed in slub_kunit.c?
+>
 
-> +
-> +maintainers:
-> +  - Martin Kurbanov <mmkurbanov@sberdevices.ru>
-> +
-> +description: |
-> +  This controller is present on AW20036/AW20054/AW20072.
-> +  It is a 3x12/6x9/6x12 matrix LED driver programmed via
-> +  an I2C interface, up to 36/54/72 LEDs or 12/18/24 RGBs,
-> +  3 pattern controllers for auto breathing or group dimming control.
-> +
-> +  For more product information please see the link below:
-> +  aw20036 - https://www.awinic.com/Public/Uploads/uploadfile/files/20200509/20200509151532_5eb65894d205a.pdf
-> +  aw20054 - https://www.awinic.com/Public/Uploads/uploadfile/files/20200509/20200509151602_5eb658b2b77cb.pdf
-> +  aw20072 - https://www.awinic.com/Public/Uploads/uploadfile/files/20200509/20200509151754_5eb659227a145.pdf
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - awinic,aw20036
-> +      - awinic,aw20054
-> +      - awinic,aw20072
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  display-size:
+Yes: kunit_get_current_test() is defined in test-bug.h.
 
-Is it a standard property? Does not look like. Non-standard properties
-need vendor prefix and type ($ref).
+This header contains functions which are always available, even when
+KUnit is not enabled.
 
-> +    maxItems: 1
-> +    description:
-> +      Leds matrix size, see dt-bindings/leds/leds-aw200xx.h
+(It's name isn't great: we may rename/refactor it down the line...)
 
-But judging by your constants, you have the same number of columns, just
-rows differ, so probably you want to describe here number of rows.
+Cheers,
+-- David
 
-> +
-> +  imax:
-> +    maxItems: 1
-> +    description:
-> +      Maximum supply current, see dt-bindings/leds/leds-aw200xx.h
+--000000000000efd94e05ee475f28
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-No. Use existing properties from common.yaml. This looks like
-led-max-microamp and it is per LED, not per entire device.
-
-> +
-> +patternProperties:
-> +  "^led@[0-9a-f]$":
-> +    type: object
-> +    $ref: common.yaml#
-
-unevaluatedProperties: false
-
-> +
-> +    properties:
-> +      reg:
-> +        description:
-> +          LED number
-> +        maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +  - display-size
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/leds/common.h>
-> +    #include <dt-bindings/leds/leds-aw200xx.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        led-controller@3a {
-> +            compatible = "awinic,aw20036";
-> +            reg = <0x3a>;
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            interrupt-parent = <&gpio_intc>;
-> +            interrupts = <13 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +            display-size = <AW20036_DSIZE_3X12>;
-> +            imax = <AW200XX_IMAX_60MA>;
-> +
-> +            led@0 {
-> +                reg = <0x0>;
-> +                color = <LED_COLOR_ID_RED>;
-> +            };
-> +
-> +            led@1 {
-> +                reg = <0x1>;
-> +                color = <LED_COLOR_ID_GREEN>;
-> +            };
-> +
-> +            led@2 {
-> +                reg = <0x2>;
-> +                color = <LED_COLOR_ID_BLUE>;
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/include/dt-bindings/leds/leds-aw200xx.h b/include/dt-bindings/leds/leds-aw200xx.h
-> new file mode 100644
-> index 000000000000..6b2ba4c3c6b1
-> --- /dev/null
-> +++ b/include/dt-bindings/leds/leds-aw200xx.h
-> @@ -0,0 +1,48 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-
-Dual license, like bindings.
-
-> +/**
-> + * This header provides constants for aw200xx LED bindings.
-> + *
-> + * Copyright (c) 2022, SberDevices. All Rights Reserved.
-> + *
-> + * Author: Martin Kurbanov <mmkurbanov@sberdevices.ru>
-> + */
-> +#ifndef _DT_BINDINGS_LEDS_AW200XX_H
-> +#define _DT_BINDINGS_LEDS_AW200XX_H
-> +
-> +/* Global max current (IMAX) */
-> +#define AW200XX_IMAX_3_3MA  8
-> +#define AW200XX_IMAX_6_7MA  9
-
-No. Bindings are not for storing register constants. Feel free to store
-here IDs (ID start from 0 or 1 and is incremented by 1)... but how the
-IMAX even matches any need for "ID"?
-
-> +#define AW200XX_IMAX_10MA   0
-> +#define AW200XX_IMAX_13_3MA 11
-> +#define AW200XX_IMAX_20MA   1
-> +#define AW200XX_IMAX_26_7MA 13
-> +#define AW200XX_IMAX_30MA   2
-> +#define AW200XX_IMAX_40MA   3
-> +#define AW200XX_IMAX_53_3MA 15
-> +#define AW200XX_IMAX_60MA   4
-> +#define AW200XX_IMAX_80MA   5
-> +#define AW200XX_IMAX_120MA  6
-> +#define AW200XX_IMAX_160MA  7
-> +
-> +/* Display size for aw20036 */
-> +#define AW20036_DSIZE_1X12 0
-> +#define AW20036_DSIZE_2X12 1
-> +#define AW20036_DSIZE_3X12 2
-> +
-> +/* Display size for aw20054 */
-> +#define AW20054_DSIZE_1X9 0
-> +#define AW20054_DSIZE_2X9 1
-> +#define AW20054_DSIZE_3X9 2
-> +#define AW20054_DSIZE_4X9 3
-> +#define AW20054_DSIZE_5X9 4
-> +#define AW20054_DSIZE_6X9 5
-> +
-> +/* Display size for aw20072 */
-> +#define AW20072_DSIZE_1X12 0
-> +#define AW20072_DSIZE_2X12 1
-> +#define AW20072_DSIZE_3X12 2
-> +#define AW20072_DSIZE_4X12 3
-> +#define AW20072_DSIZE_5X12 4
-> +#define AW20072_DSIZE_6X12 5
-
-Drop all constants and instead use number of rows without specifying it
-in binding.
-
-So in total entire file can be dropped.
-
-> +
-> +#endif /* !_DT_BINDINGS_LEDS_AW200XX_H */
-
-Best regards,
-Krzysztof
-
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+LmNybDBMBgNVHSAERTBDMEEGCSsGAQQBoDIBKDA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5n
+bG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzANBgkqhkiG9w0BAQsFAAOCAQEANyYcO+9JZYyqQt41
+TMwvFWAw3vLoLOQIfIn48/yea/ekOcParTb0mbhsvVSZ6sGn+txYAZb33wIb1f4wK4xQ7+RUYBfI
+TuTPL7olF9hDpojC2F6Eu8nuEf1XD9qNI8zFd4kfjg4rb+AME0L81WaCL/WhP2kDCnRU4jm6TryB
+CHhZqtxkIvXGPGHjwJJazJBnX5NayIce4fGuUEJ7HkuCthVZ3Rws0UyHSAXesT/0tXATND4mNr1X
+El6adiSQy619ybVERnRi5aDe1PTwE+qNiotEEaeujz1a/+yYaaTY+k+qJcVxi7tbyQ0hi0UB3myM
+A/z2HmGEwO8hx7hDjKmKbDCCA18wggJHoAMCAQICCwQAAAAAASFYUwiiMA0GCSqGSIb3DQEBCwUA
+MEwxIDAeBgNVBAsTF0dsb2JhbFNpZ24gUm9vdCBDQSAtIFIzMRMwEQYDVQQKEwpHbG9iYWxTaWdu
+MRMwEQYDVQQDEwpHbG9iYWxTaWduMB4XDTA5MDMxODEwMDAwMFoXDTI5MDMxODEwMDAwMFowTDEg
+MB4GA1UECxMXR2xvYmFsU2lnbiBSb290IENBIC0gUjMxEzARBgNVBAoTCkdsb2JhbFNpZ24xEzAR
+BgNVBAMTCkdsb2JhbFNpZ24wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDMJXaQeQZ4
+Ihb1wIO2hMoonv0FdhHFrYhy/EYCQ8eyip0EXyTLLkvhYIJG4VKrDIFHcGzdZNHr9SyjD4I9DCuu
+l9e2FIYQebs7E4B3jAjhSdJqYi8fXvqWaN+JJ5U4nwbXPsnLJlkNc96wyOkmDoMVxu9bi9IEYMpJ
+pij2aTv2y8gokeWdimFXN6x0FNx04Druci8unPvQu7/1PQDhBjPogiuuU6Y6FnOM3UEOIDrAtKeh
+6bJPkC4yYOlXy7kEkmho5TgmYHWyn3f/kRTvriBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti
++w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGjQjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8E
+BTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5NUPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEA
+S0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigHM8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9u
+bG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmUY/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaM
+ld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88
+q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcya5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/f
+hO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/XzCCBNgwggPAoAMCAQICEAGPil6q1qRMI4xctnaY
+SpEwDQYJKoZIhvcNAQELBQAwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYt
+c2ExKjAoBgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjMgU01JTUUgQ0EgMjAyMDAeFw0yMjEwMjMw
+ODQ3MTFaFw0yMzA0MjEwODQ3MTFaMCQxIjAgBgkqhkiG9w0BCQEWE2RhdmlkZ293QGdvb2dsZS5j
+b20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDOy5O2GPVtBg1bBqW4oCdA74F9u0dQ
+yp4AdicypXD/HnquyuG5F25nYDqJtIueywO1V0kAbUCUNJS002MWjXx329Y1bv0p5GeXQ1isO49U
+E86YZb+H0Gjz/kU2EUNllD7499UnJUx/36cMNRZ1BytreL0lLR0XNMJnPNzB6nCnWUf2X3sEZKOD
+w+7PhYB7CjsyK8n3MrKkMG3uVxoatKMvdsX3DbllFE/ixNbGLfWTTCaPZYOblLYq7hNuvbb3yGSx
+UWkinNXOLCsVGVLeGsQyMCfs8m4u3MBGfRHWc2svYunGHGheG8ErIVL2jl2Ly1nIJpPzZPui17Kd
+4TY9v0THAgMBAAGjggHUMIIB0DAeBgNVHREEFzAVgRNkYXZpZGdvd0Bnb29nbGUuY29tMA4GA1Ud
+DwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwHQYDVR0OBBYEFCNkhjo/
+N0A3bgltvER3q1cGraQJMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAxS21FdvRtCQVc
+jgEj+xxSnUr0N9reJlI5J9zRiBCWGxm5yhz965IDka3XVFEbj+beJj/gyHoxbaTGf2AjOufpcMqy
+p4mtqc2l4Csudl8QeiBaOUDx4VKADbgxqpjvwD5zRpSKVj4S9y3BJi9xrRdPOm1Z2ZZYxRUxUz7d
+2MXoxQsFucGJO5a4CwDBaGgJAqvwCXU5Q64rKVIUBk6mtcd3cDwX+PXqx4QrhHFGq6b6oi37YQ8B
++bhlXqlkLrbPlPFk+4Rh4EaW92iD5g8kvtXCOwvIIvs+15Io0dbpIe2W5UKo2OcyDDFvrOACmUOE
+/GuEkhENcyDVyEs/4/N2u9WYMYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABj4peqtakTCOMXLZ2mEqRMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCD/
+REs3LgjWnPyijJRNYhE0hnXx9xVprnQ+laPvvoEvNjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjExMjUwODMzMjNaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAQgQ0/kNimCRUd8gQda0L
+9Rht9rpi9jPK58VEmWpy4zVD4gGAstmnBV0r4iET1TK9XzsJhlJ7X5hZSRfwRGIwYPCJ1JcJDyn9
+i+57n4gti5WUUfpdH5tD8ToHFoajXXKhYbNI9eNXQTNlBRMN9PqH4pnvEdAVTF/5S1BGV36MpiYl
+fZ5yxGlmPTkjLLbcminp4Q8Kc+F90706p1x9YSLxDPglmFLE6FT5d9zfTxRuMc+pKA26CxHbVMTV
+HPEY9sHLmWb9h+eVa9rMejVKZhPWzzMRak5u+1YF32eueQW6Mhc389AMYnG+h0A1k+JDxs1cn+tw
+P3XOMYM/o0XyVtXvjA==
+--000000000000efd94e05ee475f28--
