@@ -2,88 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A81EC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Nov 2022 21:01:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A764DC4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Nov 2022 21:20:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229787AbiKYVBK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Nov 2022 16:01:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46256 "EHLO
+        id S229754AbiKYVUg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Nov 2022 16:20:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229495AbiKYVBK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Nov 2022 16:01:10 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4120E391C6
-        for <linux-doc@vger.kernel.org>; Fri, 25 Nov 2022 13:01:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=nYjHXraCbZL/s7fYzcfwWOIuq0wROGjwQAgdKH5+rdw=; b=exKDE1Ez1W+EctazE794vSodMe
-        hK77riafXPch1L1lsOeKiMVxwc3Ppue8ahki8K93TY6UqsGPvLg948LwAkUXz2HiarBGX3HfdLCGc
-        sehbRe955+93fzQTRc7iOlhHi2AixP5Az7Fzro/LfqwnqOQJsN02jTbtz5XU/iF9Ek0ksv2RJOjVe
-        VMQjlM91V1LIIkRgNmS31o7+TAal1T/XAz9j8Omf2BQKkvTbr3+y3wGEiYmPrSXFmOY3cyvXlUt6Z
-        i3QcknBoduB3o7JcaranFbMeOwXBu7ZPPEuuXKL2/fID3dWinrC330xe/ofCo+RxgFVpknIIhGkDI
-        qT/9NJuQ==;
-Received: from [2601:1c2:d80:3110::a2e7] (helo=casper.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oyfop-009tZH-PU; Fri, 25 Nov 2022 21:01:08 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-doc@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        with ESMTP id S229495AbiKYVUg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Nov 2022 16:20:36 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D27E2F3A3;
+        Fri, 25 Nov 2022 13:20:34 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4A599B82AEF;
+        Fri, 25 Nov 2022 21:20:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6352C433D6;
+        Fri, 25 Nov 2022 21:20:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669411232;
+        bh=b1KDjzdBxZ5ZP4MTzrX/vz5Qwe5SW+/B/zXMrOEAQRM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=sqZJcWvIO1ktGavI5TdEpsnAt1tct+5WL+8rpdcnZ2secZ1RZyPH1ZLEnYL5WBBE9
+         dixKel+U9OnnaRCHUqB//R+I+0EMYY7h3RoUt481+tgmTCKYdNiFgoxd/00TI6bnAe
+         ENuS2LZRPBl46eQ8b/FmZG64x3+WaZL3x75WlKL9whrOl4PNO8T+z3vagJWkvUaD5A
+         tksmJqssmS6Gef9SLuk5hgSsj/mPx8kI0kqFuZorJy9x3OFYn48U0CiKik3XA/S1dL
+         AmbzsRsdsr9UOc31sTZ+qwFY6rdFn6nx7tTszV1xQhx30wCIAskQO3QvcLJkYFXlpj
+         OI+gyPyhYCPCw==
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH -next] drm/amdgpu: update docum. filename following rename
-Date:   Fri, 25 Nov 2022 13:00:55 -0800
-Message-Id: <20221125210055.16333-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.38.1
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH V3 0/3] Add osnoise/options options
+Date:   Fri, 25 Nov 2022 22:20:21 +0100
+Message-Id: <cover.1669409262.git.bristot@kernel.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix documentation build errors for amdgpu: correct the filename.
+Was: Allow osnoise tracer to run without workload [1]
 
-Error: Cannot open file ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-Error: Cannot open file ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-Error: Cannot open file ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+After adding the osnoise/options file, a set of on/off options
+came to my mind, most based on discussions while debugging problems
+with Juri and Clark.
 
-WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -sphinx-version 5.3.0 -function MMU Notifier ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c' failed with return code 1
-WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -sphinx-version 5.3.0 -internal ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c' failed with return code 2
+The PANIC_ON_STOP option facilitates the vmcore generation to aid
+in the latency analysis using a crash dump.
 
-Fixes: d9483ecd327b ("drm/amdgpu: rename the files for HMM handling")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
----
- Documentation/gpu/amdgpu/driver-core.rst |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The OSNOISE_PREEMPT_DISABLE and OSNOISE_IRQ_DISABLE options refine
+the type of noise that the osnoise tracer detects, allowing the
+tool to measure only IRQ-related noise, or NMI/HW-related noise,
+respectively.
 
-diff -- a/Documentation/gpu/amdgpu/driver-core.rst b/Documentation/gpu/amdgpu/driver-core.rst
---- a/Documentation/gpu/amdgpu/driver-core.rst
-+++ b/Documentation/gpu/amdgpu/driver-core.rst
-@@ -148,10 +148,10 @@ PRIME Buffer Sharing
- MMU Notifier
- ============
- 
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c
-    :doc: MMU Notifier
- 
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c
-    :internal:
- 
- AMDGPU Virtual Memory
+Each patch has a description of the options and the last patch
+documents them in the osnoise documentation file.
+
+[1] https://lore.kernel.org/r/cover.1668692096.git.bristot@kernel.org/
+
+Changes from v2:
+  - rebased on top of linux-trace.git/ftrace/core
+  - removed the patches already added to the ftrace/core
+Changes from v1:
+  - Changed the cover letter topic
+  - Add Acked-by Masami to the first patch
+  - Add the PANIC_ON_STOP option
+  - Add the OSNOISE_PREEMPT_DISABLE and OSNOISE_IRQ_DISABLE options
+  - Improved the documentation
+
+Daniel Bristot de Oliveira (3):
+  tracing/osnoise: Add PANIC_ON_STOP option
+  tracing/osnoise: Add preempt and/or irq disabled options
+  Documentation/osnoise: Add osnoise/options documentation
+
+ Documentation/trace/osnoise-tracer.rst | 20 ++++++++++--
+ kernel/trace/trace_osnoise.c           | 44 +++++++++++++++++++++++---
+ 2 files changed, 57 insertions(+), 7 deletions(-)
+
+-- 
+2.32.0
+
