@@ -2,82 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B70FC4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Nov 2022 07:15:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA9F0C43217
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Nov 2022 12:39:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230038AbiKZHPR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Nov 2022 02:15:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36090 "EHLO
+        id S229453AbiKZMju (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Nov 2022 07:39:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229551AbiKZHPQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Nov 2022 02:15:16 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E826B28716;
-        Fri, 25 Nov 2022 23:15:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669446915; x=1700982915;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fx/b8350F9FTxPfdI3/sopUD0DQ64MdLCxzwzUxMx88=;
-  b=ZHxh2gKijTI2cttNjSl/1fiMabSEdwVnLKbAQ2892/hRxGV8pRxkgR/S
-   rrlvn/b7OsldQISPjmVRqGhLNLuedsZ5o2ovxACqMjgv/p0wfdrsEFUsN
-   259r2XgFRT2F3MTMMdEbsLNEiFA2OkcZO4PjVSa7E/e2Aa0XYvgyhgoi9
-   rDyP8+26M3xRj2xouNoi6ncO0ODT8tNPCHOJUAEx/fKI7x2+Zcns+9dZo
-   7syijy5gle0GXCVfOcvivW31focAtTJBs6SBr7/XlE/nul+hstfZszHhs
-   IZC+yrkjvdqmcY7XCh22Oa4L0sdoSfwf+qX0gb+2V6ZN8mDdSdm/XkZdR
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="378834717"
-X-IronPort-AV: E=Sophos;i="5.96,194,1665471600"; 
-   d="scan'208";a="378834717"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2022 23:15:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="748788851"
-X-IronPort-AV: E=Sophos;i="5.96,194,1665471600"; 
-   d="scan'208";a="748788851"
-Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 25 Nov 2022 23:15:13 -0800
-Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oypP6-000625-2B;
-        Sat, 26 Nov 2022 07:15:12 +0000
-Date:   Sat, 26 Nov 2022 15:14:31 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        linux-doc@vger.kernel.org
-Subject: [jsarha:topic/cros-sof-v4.19 1264/6555] spdxcheck:
- Documentation/media/uapi/mediactl/media-ioc-request-alloc.rst: 1:39 Invalid
- License ID: GFDL-1.1-or-later
-Message-ID: <202211261557.YUZbHfCe-lkp@intel.com>
+        with ESMTP id S229450AbiKZMju (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Nov 2022 07:39:50 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A179A1FFA4;
+        Sat, 26 Nov 2022 04:39:46 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id w15-20020a17090a380f00b0021873113cb4so6374142pjb.0;
+        Sat, 26 Nov 2022 04:39:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UX7oPzfxEqRosS76R8Lsuk6SvDMI2y8a/cpo44O3R5E=;
+        b=Bz+ABP3BufV81lhyJcAUQ8yJxjPJhZMcr0SlpzdcZXPjMzWJ8svfOK13S/zfigvnlo
+         QSMYHd0y20Xc4BIx+gr4Q2W+cOQOoj6AVO3zlN/2u/pGAj/goIcXwDcZ96JOwam5FkZ3
+         jRfMf+1MF7OuhM6c9fE6regcDp3QJAsTDey/8gTOAnMjb35UbPPJ5SFY1HbSpo7Rv/6t
+         jyn82qajrXSQbZ1M4T8k1arzkREHVd3gBVGE7s6aze/9mhFSynbOtB6xt0wkAUafe9Fj
+         LKU4FWKDgRbQxtosDboyTFiXctQR1Q8PraUxHbmaiZTnGMMiBjd9I2029Uu+MRu8Giix
+         EKxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UX7oPzfxEqRosS76R8Lsuk6SvDMI2y8a/cpo44O3R5E=;
+        b=JlcGquq3H4B3597QJ3lE21oX2mtx2Tia/31I83sUoSNEbWKGW2VbqZ88FZzuMH7/WP
+         Y4AJ54WovIjI7emqLzZdT2XZqbjdV4OfUJturfJOjnWkal4W4lHr1h6+Q7XL+3KQdI/C
+         sMU8/n5zVWbmEWjI/X98XL1MtVlssYt/xQT5SvkfezJOVMZsrTAOShEddDibOIC2Y+yB
+         nBuVSq09IlJ+BWwk4gGY05KY01Y6kaQeQoy2tuJMiR4+6Wm7GBicdh7H/tnBg0/c9GEf
+         py+0y808TjWjZJvBVIJXY5om/DFldjJW/2EcbLSPFFEEe9me0Pz9HGR2yVxb+BY80GxK
+         mEjw==
+X-Gm-Message-State: ANoB5plflwSTcwmF7i16D5WTd0kJHTwcI0oFt1n0rjq7KEDStYH/q8Dn
+        Uv7qpkz/B73x2yAOz1tyuSk=
+X-Google-Smtp-Source: AA0mqf4Q+vG9ybXU6Pv4izAesd3spnim0enjBHyRrf9t79Nwx8UbxYwdypglztLVgyh+mgsXuX/STQ==
+X-Received: by 2002:a17:90a:5298:b0:217:e054:9ac8 with SMTP id w24-20020a17090a529800b00217e0549ac8mr51932482pjh.246.1669466386116;
+        Sat, 26 Nov 2022 04:39:46 -0800 (PST)
+Received: from debian.me (subs09a-223-255-225-68.three.co.id. [223.255.225.68])
+        by smtp.gmail.com with ESMTPSA id q4-20020a170902dac400b00188f6cbd950sm5252997plx.226.2022.11.26.04.39.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Nov 2022 04:39:45 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id DB998104374; Sat, 26 Nov 2022 19:39:41 +0700 (WIB)
+Date:   Sat, 26 Nov 2022 19:39:41 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3 3/3] Documentation/osnoise: Add osnoise/options
+ documentation
+Message-ID: <Y4IJDY2802+x17Ig@debian.me>
+References: <cover.1669409262.git.bristot@kernel.org>
+ <0a8ecf364af29b0c1d5007f4d71265127c114a1f.1669409262.git.bristot@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Fh1KnNgyu1c5IbAd"
 Content-Disposition: inline
+In-Reply-To: <0a8ecf364af29b0c1d5007f4d71265127c114a1f.1669409262.git.bristot@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
-head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
-commit: fafd43c288ef4de7f385fde1dd59e45aec303d45 [1264/6555] UPSTREAM: media: Documentation: v4l: document request API
-reproduce:
-        scripts/spdxcheck.py
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+--Fh1KnNgyu1c5IbAd
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-spdxcheck warnings: (new ones prefixed by >>)
-   include/dt-bindings/reset/amlogic,meson-axg-reset.h: 9:41 Invalid License ID: BSD
->> Documentation/media/uapi/mediactl/media-ioc-request-alloc.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
->> Documentation/media/uapi/mediactl/media-request-ioc-queue.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
->> Documentation/media/uapi/mediactl/media-request-ioc-reinit.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
->> Documentation/media/uapi/mediactl/request-api.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
->> Documentation/media/uapi/mediactl/request-func-close.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
->> Documentation/media/uapi/mediactl/request-func-ioctl.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
->> Documentation/media/uapi/mediactl/request-func-poll.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
+On Fri, Nov 25, 2022 at 10:20:24PM +0100, Daniel Bristot de Oliveira wrote:
+> +Tracer Options
+> +--------------
+> +
+> +The osnoise/options file exposes a set of on/off configuration options f=
+or
+> +the osnoise tracer. These options are:
+> +
+> + - DEFAULTS: reset the options to the default value.
+> + - OSNOISE_WORKLOAD: do not dispatch osnoise workload (see dedicated
+> +   section below).
+> + - PANIC_ON_STOP: call panic() if the tracer stops. This option serves to
+> +    capture a vmcore.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Excessive indentation makes PANIC_ON_STOP item above become definition list
+instead. I have to make a small fixup:
+
+---- >8 ----
+
+diff --git a/Documentation/trace/osnoise-tracer.rst b/Documentation/trace/o=
+snoise-tracer.rst
+index 0641781b00f5e8..f2008e3172231d 100644
+--- a/Documentation/trace/osnoise-tracer.rst
++++ b/Documentation/trace/osnoise-tracer.rst
+@@ -125,7 +125,7 @@ the osnoise tracer. These options are:
+  - OSNOISE_WORKLOAD: do not dispatch osnoise workload (see dedicated
+    section below).
+  - PANIC_ON_STOP: call panic() if the tracer stops. This option serves to
+-    capture a vmcore.
++   capture a vmcore.
+  - OSNOISE_PREEMPT_DISABLE: disable preemption while running the osnoise
+    workload, allowing only IRQ and hardware-related noise.
+  - OSNOISE_IRQ_DISABLE: disable IRQs while running the osnoise workload,
+
+> + - OSNOISE_PREEMPT_DISABLE: disable preemption while running the osnoise
+> +   workload, allowing only IRQ and hardware-related noise.
+> + - OSNOISE_IRQ_DISABLE: disable IRQs while running the osnoise workload,
+> +   allowing only NMIs and hardware-related noise, like hwlat tracer.
+> +
+
+Otherwise LGTM.=20
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--Fh1KnNgyu1c5IbAd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY4IJCQAKCRD2uYlJVVFO
+o0FTAP9skzEDf1UmukIcXkQk/1UVOZeKWUXCHkfVQQ64c/HiogD5AfxVq4Uow1dv
+8CWRcboYwygyHbNvjATE/GYDj7woMgQ=
+=5WqF
+-----END PGP SIGNATURE-----
+
+--Fh1KnNgyu1c5IbAd--
