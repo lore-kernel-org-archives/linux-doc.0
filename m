@@ -2,82 +2,238 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FA59C4321E
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 20:51:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AEE7C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 20:55:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234262AbiK1UvG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Nov 2022 15:51:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60352 "EHLO
+        id S233666AbiK1UzW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Nov 2022 15:55:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233300AbiK1UvF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 15:51:05 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDCBE6576;
-        Mon, 28 Nov 2022 12:51:04 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CFF2F6140F;
-        Mon, 28 Nov 2022 20:50:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F271C433C1;
-        Mon, 28 Nov 2022 20:50:46 +0000 (UTC)
-Date:   Mon, 28 Nov 2022 15:50:44 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        oe-kbuild-all@lists.linux.dev,
-        Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] Documentation/osnoise: escape underscore of NO_ prefix
-Message-ID: <20221128155044.617f8416@gandalf.local.home>
-In-Reply-To: <871bacc9-6c0b-9841-107e-da60a2c8e01e@kernel.org>
-References: <202211240447.HxRNftE5-lkp@intel.com>
-        <20221125034300.24168-1-bagasdotme@gmail.com>
-        <871bacc9-6c0b-9841-107e-da60a2c8e01e@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S233259AbiK1UzV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 15:55:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4AF72B265
+        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 12:54:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669668867;
+        h=from:from:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=mk+d/rFoCYdetXFV05zVEMLzTOsjcYxe9wmFRI7Nhmk=;
+        b=atI6k6iDz0MObPILQ+0s1r8d8RbwB5U2i+8jnSccMxT3+xTG4HwadR8dm3G9XUIFgUkAKK
+        zsO+cB4ArrqndAamRGzMqDqiZwbJ8CPLxcT4f6ptMz9qYJDTxoDwgEPoYSSiIPJQdXjDIB
+        JAmSiptn9E4uloQf6BDLKplmmhPePIY=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-526-Uz-x68QWOVCIG7Ji_fw9zQ-1; Mon, 28 Nov 2022 15:54:25 -0500
+X-MC-Unique: Uz-x68QWOVCIG7Ji_fw9zQ-1
+Received: by mail-qk1-f200.google.com with SMTP id v7-20020a05620a0f0700b006faffce43b2so22477488qkl.9
+        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 12:54:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mk+d/rFoCYdetXFV05zVEMLzTOsjcYxe9wmFRI7Nhmk=;
+        b=a95VoWnDOF+KSP06vcEtGSsZ+LkU48zlwQ0DTC1Ye0o3az0LFaR5NyGSnMLXUI1KiF
+         sN2TXFOybtnKpZlsiwzbjov6nV1vuvYLSf9Z2UpOudFKeHJCRf3YAF5bXXldUzLehQUe
+         ctrxAV9dm+CzdpZAYX5oQkR7HgwALTCVbNGKRhRa+2pg7PvBOfYtJ5TeADuVb2pNg2/r
+         RCRkLoNL5hVbK1tLfZ0KvIdWFETf4sFdrdcBHlSHnTU7Pie9RxbY4LAdE8Np/tiPnziD
+         lW73TQXl998z9iOgeQdRFYW3XyGQ4EElJrXWIWjPgBek3sRpE+PgSEWnfbQ8gIeFs5Hi
+         xvyw==
+X-Gm-Message-State: ANoB5pmJPuhiABBWRrg9+IW82VD6SokkuopGNVMRxdh9tVD/oluxpYws
+        mh0GImDr/3pUdt49GZ/6Nb+1QVLW1Orz/Dt9gwAk2GHqOWUxfNK2OUD5uLic6nGhHPE806guZ1M
+        Jn+ZX3ehymqkRg6KwVb8U
+X-Received: by 2002:a05:6214:80c:b0:4c6:c6b5:1188 with SMTP id df12-20020a056214080c00b004c6c6b51188mr25489125qvb.13.1669668865282;
+        Mon, 28 Nov 2022 12:54:25 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6adcRSfyKR21I2fxnpGfrzzGKRaVH1wA0cwJsYkdX3ndgETdx+KZHJZih2LovlXvvfBOZy0g==
+X-Received: by 2002:a05:6214:80c:b0:4c6:c6b5:1188 with SMTP id df12-20020a056214080c00b004c6c6b51188mr25489104qvb.13.1669668865045;
+        Mon, 28 Nov 2022 12:54:25 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874? ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+        by smtp.gmail.com with ESMTPSA id ay39-20020a05620a17a700b006f7ee901674sm9247466qkb.2.2022.11.28.12.54.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Nov 2022 12:54:23 -0800 (PST)
+Message-ID: <2a0a70e7-be3b-6c7d-2649-d24d06be9855@redhat.com>
+Date:   Mon, 28 Nov 2022 21:54:16 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Reply-To: eric.auger@redhat.com
+Subject: Re: [PATCH v5 15/19] iommufd: vfio container FD ioctl compatibility
+Content-Language: en-US
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     bpf@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
+        Anthony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
+        Lixiao Yang <lixiao.yang@intel.com>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
+References: <15-v5-4001c2997bd0+30c-iommufd_jgg@nvidia.com>
+ <81f898b6-e40f-be72-78d4-b5d836981d8f@redhat.com>
+ <Y4UN4qVpNqTP/JEF@nvidia.com>
+From:   Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <Y4UN4qVpNqTP/JEF@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-Jon,
 
-Care to take this?
+On 11/28/22 20:37, Jason Gunthorpe wrote:
+> On Mon, Nov 28, 2022 at 06:53:12PM +0100, Eric Auger wrote:
+>
+>>> +static int iommufd_vfio_map_dma(struct iommufd_ctx *ictx, unsigned int cmd,
+>>> +				void __user *arg)
+>>> +{
+>>> +	u32 supported_flags = VFIO_DMA_MAP_FLAG_READ | VFIO_DMA_MAP_FLAG_WRITE;
+>>> +	size_t minsz = offsetofend(struct vfio_iommu_type1_dma_map, size);
+>>> +	struct vfio_iommu_type1_dma_map map;
+>>> +	int iommu_prot = IOMMU_CACHE;
+>>> +	struct iommufd_ioas *ioas;
+>>> +	unsigned long iova;
+>>> +	int rc;
+>>> +
+>>> +	if (copy_from_user(&map, arg, minsz))
+>>> +		return -EFAULT;
+>>> +
+>>> +	if (map.argsz < minsz || map.flags & ~supported_flags)
+>>> +		return -EINVAL;
+>>> +
+>>> +	if (map.flags & VFIO_DMA_MAP_FLAG_READ)
+>>> +		iommu_prot |= IOMMU_READ;
+>>> +	if (map.flags & VFIO_DMA_MAP_FLAG_WRITE)
+>>> +		iommu_prot |= IOMMU_WRITE;
+>>> +
+>>> +	ioas = get_compat_ioas(ictx);
+>>> +	if (IS_ERR(ioas))
+>>> +		return PTR_ERR(ioas);
+>>> +
+>>> +	/*
+>>> +	 * Maps created through the legacy interface always use VFIO compatible
+>>> +	 * rlimit accounting. If the user wishes to use the faster user based
+>>> +	 * rlimit accounting then they must use the new interface.
+>> s/they/he
+> "they" has become a common neutral singular pronoun in English.
 
-Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+Oh OK.
+>
+>>> +static int iommufd_vfio_unmap_dma(struct iommufd_ctx *ictx, unsigned int cmd,
+>>> +				  void __user *arg)
+>>> +{
+>>> +	size_t minsz = offsetofend(struct vfio_iommu_type1_dma_unmap, size);
+>>> +	/*
+>>> +	 * VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP is obsoleted by the new
+>>> +	 * dirty tracking direction:
+>>> +	 *  https://lore.kernel.org/kvm/20220731125503.142683-1-yishaih@nvidia.com/
+>>> +	 *  https://lore.kernel.org/kvm/20220428210933.3583-1-joao.m.martins@oracle.com/
+>>> +	 */
+>>> +	u32 supported_flags = VFIO_DMA_UNMAP_FLAG_ALL;
+>>> +	struct vfio_iommu_type1_dma_unmap unmap;
+>>> +	unsigned long unmapped = 0;
+>>> +	struct iommufd_ioas *ioas;
+>>> +	int rc;
+>>> +
+>>> +	if (copy_from_user(&unmap, arg, minsz))
+>>> +		return -EFAULT;
+>>> +
+>>> +	if (unmap.argsz < minsz || unmap.flags & ~supported_flags)
+>>> +		return -EINVAL;
+>>> +
+>>> +	ioas = get_compat_ioas(ictx);
+>>> +	if (IS_ERR(ioas))
+>>> +		return PTR_ERR(ioas);
+>>> +
+>>> +	if (unmap.flags & VFIO_DMA_UNMAP_FLAG_ALL) {
+>>> +		if (unmap.iova != 0 || unmap.size != 0) {
+>>> +			rc = -EINVAL;
+>>> +			goto err_put;
+>>> +		}
+>>> +		rc = iopt_unmap_all(&ioas->iopt, &unmapped);
+>>> +	} else {
+>>> +		if (READ_ONCE(ioas->iopt.disable_large_pages)) {
+>>> +			unsigned long iovas[] = { unmap.iova + unmap.size - 1,
+>>> +						  unmap.iova - 1 };
+>>> +
+>>> +			rc = iopt_cut_iova(&ioas->iopt, iovas,
+>>> +					   unmap.iova ? 2 : 1);
+>> please can you add a comment to explain what this is supposed to do?
+> iova -1 when iova == 0 will underflow and becomes garbage
+>
+> 			/*
+> 			 * Create cuts at the start and last of the requested
+> 			 * range. If the start IOVA is 0 then it doesn't need to
+> 			 * be cut.
+> 			 */
 
-Thanks,
+OK thanks
+>
+>>> +static int iommufd_vfio_set_iommu(struct iommufd_ctx *ictx, unsigned long type)
+>>> +{
+>>> +	struct iommufd_ioas *ioas = NULL;
+>>> +	int rc = 0;
+>>> +
+>>> +	if (type != VFIO_TYPE1_IOMMU && type != VFIO_TYPE1v2_IOMMU)
+>>> +		return -EINVAL;
+>>> +
+>>> +	/* VFIO fails the set_iommu if there is no group */
+>>> +	ioas = get_compat_ioas(ictx);
+>>> +	if (IS_ERR(ioas))
+>>> +		return PTR_ERR(ioas);
+>>> +	if (type == VFIO_TYPE1_IOMMU)
+>>> +		rc = iopt_disable_large_pages(&ioas->iopt);
+>> please can you document/explain this setting?
+> 	/*
+> 	 * The difference between TYPE1 and TYPE1v2 is the ability to unmap in
+> 	 * the middle of mapped ranges. This is complicated by huge page support
+> 	 * which creates single large IOPTEs that cannot be split by the iommu
+> 	 * driver. TYPE1 is very old at this point and likely nothing uses it,
+> 	 * however it is simple enough to emulate by simply disabling the
+> 	 * problematic large IOPTEs. Then we can safely unmap within any range.
+OK makes sense. That's helpful
 
--- Steve
+with those additions,
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+
+Eric
 
 
-On Fri, 25 Nov 2022 19:16:56 +0100
-Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
-
-> On 11/25/22 04:43, Bagas Sanjaya wrote:
-> > kernel test robot reported unknown target name warning:
-> > 
-> > Documentation/trace/osnoise-tracer.rst:112: WARNING: Unknown target name: "no".
-> > 
-> > The warning causes NO_ prefix to be rendered as link text instead, which
-> > points to non-existent link target.
-> > 
-> > Escape the prefix underscore to fix the warning.
-> > 
-> > Link: https://lore.kernel.org/linux-doc/202211240447.HxRNftE5-lkp@intel.com/
-> > Fixes: 67543cd6b8eee5 ("Documentation/osnoise: Add osnoise/options documentation")
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>  
-> 
-> Acked-by: Daniel Bristot de Oliveira <bristot@kernel.org>
-> 
-> Thanks!
-> -- Daniel
+> 	 */
+>
+> Thanks,
+> Jason
+>
 
