@@ -2,116 +2,173 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1838C4167D
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 20:23:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BDD2C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 20:27:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233585AbiK1UXi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Nov 2022 15:23:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36586 "EHLO
+        id S234109AbiK1U0v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Nov 2022 15:26:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234011AbiK1UX1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 15:23:27 -0500
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54CD319C33
-        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 12:23:26 -0800 (PST)
-Received: by mail-oi1-x236.google.com with SMTP id l127so12898181oia.8
-        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 12:23:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dCa69YdEtMn4spqO3MAiWVwYikmJqS2nm+0NXq6y6Ck=;
-        b=Yc4MyIuW2yggdapxAdcen0pJDpU/eLlafTPt80WvP733RUnpDMNqpoY5ETncKVt0EB
-         N9qM7f119WFnJRV4ANVDHKZyi/F8TcWSz+jbOHn49QmLz0NgT7BIOsIri3BAfBMyAKw1
-         5QC6Ov3Hh7HAowwolK8nIN+ZDe59lDcE5VTGd45Q0KYmHZbNlPPl832j2vlOAJOD8Rb9
-         DvoeqKwWM8Ni+2xMFFAAhnNI8KWDPMnCdiUAv+mfkD/76psDAXrM4ecg+SNRk4Nbcb1v
-         7YOtUSJggoEeiegNwhjbxFB0Uq/63+mmNZ8DH7cSn02DoMH4GHbXFjeCN2N+94Oi0DIZ
-         ZCOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dCa69YdEtMn4spqO3MAiWVwYikmJqS2nm+0NXq6y6Ck=;
-        b=h/pmOXFTLKnGEhklU53TGDEEdqudHx+1hj1DQZjeUhLPuyAGGoFfPRjAn/05Mi1AGu
-         /ExsduXjNu4F92noQwNS/mHvw1rZsVgRsia1YTUvMY1558oXjgOvUgjHiKebwfTDreBk
-         VqOKePAm7JX7QeNp4wI8+VUeOSCXMNxWrlLP8i3WmlSIuSTpr/wXn+nk1xQ6EnIT6WOM
-         n474ScNASTTpXSMpUqUXui4gZgSLJ87at7RY0VkzfvjxjL3fobYtkdm86GoUEKDXOtPk
-         bmLSRRzYsUzMOwm1bA5syk1FMXbgO+616cSSrb8KNkTylbRvlkBbDCBsmYKsHFMF7XsU
-         Dw0g==
-X-Gm-Message-State: ANoB5plR8MRTF09ySBZHrdgiKkVWjrlXWXxm/Eh2TgRcrirhLLHGKtAQ
-        twuPT0xbbUC6yPYu5jSeORl6JtU+Xc/LbKJOSBo=
-X-Google-Smtp-Source: AA0mqf6KOpkpp4yLsP+YGWSjXQZkjzqtYGUWdHBw22rjkoo5Mx5ec1jUOGue9xiXqjF0rVRwCM/EibS6SFlNovCm9r0=
-X-Received: by 2002:a05:6808:9b8:b0:34f:97ea:14d with SMTP id
- e24-20020a05680809b800b0034f97ea014dmr15773971oig.96.1669667005543; Mon, 28
- Nov 2022 12:23:25 -0800 (PST)
+        with ESMTP id S234127AbiK1U0r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 15:26:47 -0500
+Received: from smtp-bc08.mail.infomaniak.ch (smtp-bc08.mail.infomaniak.ch [IPv6:2001:1600:4:17::bc08])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A5112DAA4
+        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 12:26:43 -0800 (PST)
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4NLcSf0142zMq4cB;
+        Mon, 28 Nov 2022 21:26:42 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4NLcSd1bktzwy;
+        Mon, 28 Nov 2022 21:26:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1669667201;
+        bh=PYhARmPRWBAR3gdL8U39SstQEnPL+gynR2X4/0WHpoc=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=CmSjedJNvuS3XEb1Y2Y2T0rYh+cTUOiVaMApMO22ISAmkKF4GeFr2btWYul19Z1fh
+         YNHQKt1dZVVlTMSZGT//kwnRFJc31bEYqQoAOP7YT/H+KFEOoMp4Of+VncgnWhLUZI
+         p5O52IFWmoX7jEOGWiow0PYEJC+uNkD+xMt8UZQc=
+Message-ID: <2bce0b5a-a679-93f2-995c-cb0e80c82bf2@digikod.net>
+Date:   Mon, 28 Nov 2022 21:26:40 +0100
 MIME-Version: 1.0
-References: <20221125210055.16333-1-rdunlap@infradead.org>
-In-Reply-To: <20221125210055.16333-1-rdunlap@infradead.org>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Mon, 28 Nov 2022 15:23:14 -0500
-Message-ID: <CADnq5_NaHGrEM++_vRH0n3XKB-ON8ked4YMaFuPBYGv=PQ0xhA@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amdgpu: update docum. filename following rename
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: 
+Subject: Re: [PATCH v8 12/12] landlock: Document Landlock's network support
+Content-Language: en-US
+To:     "Konstantin Meskhidze (A)" <konstantin.meskhidze@huawei.com>
+Cc:     willemdebruijn.kernel@gmail.com, gnoack3000@gmail.com,
+        linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, artem.kuzin@huawei.com,
+        linux-doc@vger.kernel.org
+References: <20221021152644.155136-1-konstantin.meskhidze@huawei.com>
+ <20221021152644.155136-13-konstantin.meskhidze@huawei.com>
+ <8a8ba39f-c7c2-eca6-93b1-f36d982726ca@digikod.net>
+ <73a8a2f2-0d59-970d-eaba-c0da38a1c38b@huawei.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <73a8a2f2-0d59-970d-eaba-c0da38a1c38b@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Infomaniak-Routing: alpha
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Applied.  Thanks!
 
-Alex
+On 28/11/2022 07:44, Konstantin Meskhidze (A) wrote:
+> 
+> 
+> 11/17/2022 9:44 PM, Mickaël Salaün пишет:
+>>
+>> On 21/10/2022 17:26, Konstantin Meskhidze wrote:
+>>> Describes network access rules for TCP sockets. Adds network access
+>>> example in the tutorial. Points out AF_UNSPEC socket family behaviour.
+>>> Adds kernel configuration support for network.
+>>>
+>>> Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+>>> ---
+>>>
+>>> Changes since v7:
+>>> * Fixes documentaion logic errors and typos as Mickaёl suggested:
+>>> https://lore.kernel.org/netdev/9f354862-2bc3-39ea-92fd-53803d9bbc21@digikod.net/
+>>>
+>>> Changes since v6:
+>>> * Adds network support documentaion.
+>>>
+>>> ---
+>>>    Documentation/userspace-api/landlock.rst | 72 +++++++++++++++++++-----
+>>>    1 file changed, 59 insertions(+), 13 deletions(-)
+>>>
+>>> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
+>>> index d8cd8cd9ce25..d0610ec9ce05 100644
+>>> --- a/Documentation/userspace-api/landlock.rst
+>>> +++ b/Documentation/userspace-api/landlock.rst
+>>> @@ -11,10 +11,10 @@ Landlock: unprivileged access control
+>>>    :Date: October 2022
+>>>
+>>>    The goal of Landlock is to enable to restrict ambient rights (e.g. global
+>>> -filesystem access) for a set of processes.  Because Landlock is a stackable
+>>> -LSM, it makes possible to create safe security sandboxes as new security layers
+>>> -in addition to the existing system-wide access-controls. This kind of sandbox
+>>> -is expected to help mitigate the security impact of bugs or
+>>> +filesystem or network access) for a set of processes.  Because Landlock
+>>> +is a stackable LSM, it makes possible to create safe security sandboxes as new
+>>> +security layers in addition to the existing system-wide access-controls. This
+>>> +kind of sandbox is expected to help mitigate the security impact of bugs or
+>>>    unexpected/malicious behaviors in user space applications.  Landlock empowers
+>>>    any process, including unprivileged ones, to securely restrict themselves.
+>>>
+>>> @@ -30,18 +30,20 @@ Landlock rules
+>>>
+>>>    A Landlock rule describes an action on an object.  An object is currently a
+>>>    file hierarchy, and the related filesystem actions are defined with `access
+>>> -rights`_.  A set of rules is aggregated in a ruleset, which can then restrict
+>>> -the thread enforcing it, and its future children.
+>>> +rights`_.  Since ABI version 4 a port data appears with related network actions
+>>> +for TCP socket families.  A set of rules is aggregated in a ruleset, which
+>>> +can then restrict the thread enforcing it, and its future children.
+>>>
+>>>    Defining and enforcing a security policy
+>>>    ----------------------------------------
+>>>
+>>>    We first need to define the ruleset that will contain our rules.  For this
+>>>    example, the ruleset will contain rules that only allow read actions, but write
+>>> -actions will be denied.  The ruleset then needs to handle both of these kind of
+>>> +actions will be denied. The ruleset then needs to handle both of these kind of
+>>>    actions.  This is required for backward and forward compatibility (i.e. the
+>>>    kernel and user space may not know each other's supported restrictions), hence
+>>> -the need to be explicit about the denied-by-default access rights.
+>>> +the need to be explicit about the denied-by-default access rights.  Also ruleset
+>>> +will have network rules for specific ports, so it should handle network actions.
+>>>
+>>>    .. code-block:: c
+>>>
+>>> @@ -62,6 +64,9 @@ the need to be explicit about the denied-by-default access rights.
+>>>                LANDLOCK_ACCESS_FS_MAKE_SYM |
+>>>                LANDLOCK_ACCESS_FS_REFER |
+>>>                LANDLOCK_ACCESS_FS_TRUNCATE,
+>>> +        .handled_access_net =
+>>> +            LANDLOCK_ACCESS_NET_BIND_TCP |
+>>> +            LANDLOCK_ACCESS_NET_CONNECT_TCP,
+>>>        };
+>>>
+>>>    Because we may not know on which kernel version an application will be
+>>> @@ -70,14 +75,18 @@ should try to protect users as much as possible whatever the kernel they are
+>>>    using.  To avoid binary enforcement (i.e. either all security features or
+>>>    none), we can leverage a dedicated Landlock command to get the current version
+>>>    of the Landlock ABI and adapt the handled accesses.  Let's check if we should
+>>> -remove the ``LANDLOCK_ACCESS_FS_REFER`` or ``LANDLOCK_ACCESS_FS_TRUNCATE``
+>>> -access rights, which are only supported starting with the second and third
+>>> -version of the ABI.
+>>> +remove the `LANDLOCK_ACCESS_FS_REFER` or `LANDLOCK_ACCESS_FS_TRUNCATE` or
+>>> +network access rights, which are only supported starting with the second,
+>>
+>> This is a bad rebase.
+> 
+>     Sorry. Did not get it.
 
-On Fri, Nov 25, 2022 at 4:01 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Fix documentation build errors for amdgpu: correct the filename.
->
-> Error: Cannot open file ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-> Error: Cannot open file ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-> Error: Cannot open file ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
->
-> WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -sphinx-ve=
-rsion 5.3.0 -function MMU Notifier ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.=
-c' failed with return code 1
-> WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -sphinx-ve=
-rsion 5.3.0 -internal ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c' failed wit=
-h return code 2
->
-> Fixes: d9483ecd327b ("drm/amdgpu: rename the files for HMM handling")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  Documentation/gpu/amdgpu/driver-core.rst |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff -- a/Documentation/gpu/amdgpu/driver-core.rst b/Documentation/gpu/am=
-dgpu/driver-core.rst
-> --- a/Documentation/gpu/amdgpu/driver-core.rst
-> +++ b/Documentation/gpu/amdgpu/driver-core.rst
-> @@ -148,10 +148,10 @@ PRIME Buffer Sharing
->  MMU Notifier
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c
->     :doc: MMU Notifier
->
-> -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c
->     :internal:
->
->  AMDGPU Virtual Memory
+This hunk (and maybe others) changes unrelated things (e.g. back quotes).
+
+
+>>
+>>
+>>> +third and fourth version of the ABI.
+>>>
+>>>    .. code-block:: c
+>>>
+>>>        int abi;
+>>>
+>>> +    #define ACCESS_NET_BIND_CONNECT ( \
+>>> +    LANDLOCK_ACCESS_NET_BIND_TCP | \
+>>> +    LANDLOCK_ACCESS_NET_CONNECT_TCP)
+>>
+>> Please add a 4-spaces prefix for these two lines.
+> 
+>     Like this??
+> 	#define ACCESS_NET_BIND_CONNECT ( \
+>               LANDLOCK_ACCESS_NET_BIND_TCP | \
+>               LANDLOCK_ACCESS_NET_CONNECT_TCP)
+
+Like for other indentations in the documentation (e.g. ruleset_attr 
+definition):
+
+#define ACCESS_NET_BIND_CONNECT ( \
+     LANDLOCK_ACCESS_NET_BIND_TCP | \
+     LANDLOCK_ACCESS_NET_CONNECT_TCP)
