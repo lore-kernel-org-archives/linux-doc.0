@@ -2,298 +2,253 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E7ECC43217
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 10:56:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94ED0C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 11:07:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229695AbiK1K4t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Nov 2022 05:56:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49424 "EHLO
+        id S231225AbiK1LHP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Nov 2022 06:07:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229729AbiK1K4r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 05:56:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B2B1175A9
-        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 02:55:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669632952;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=QhYdHOX1qbSelyQF1n2caoyOhYaSnNc+Zc/+zPUkQ+s=;
-        b=MnCTK51D2Qu5jJ4sTWWnbYgG+caEDus01LKnlaI1AlEWeQsVuE3KchFdsMKPre3JweFq9u
-        MfNtAurs/hMl4LNUBj9PAuLwydFB/jiPckxrzJtMEWYq3140ofXRiUwR56e6Hly5wxN/2J
-        eJe4nu+ydocXBU6Zi7NCwOqcCgTPOR0=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-621-bHdnn73QOCGA-R7u7-3d3g-1; Mon, 28 Nov 2022 05:55:50 -0500
-X-MC-Unique: bHdnn73QOCGA-R7u7-3d3g-1
-Received: by mail-qv1-f72.google.com with SMTP id mr7-20020a056214348700b004c6806b646dso13098360qvb.14
-        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 02:55:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QhYdHOX1qbSelyQF1n2caoyOhYaSnNc+Zc/+zPUkQ+s=;
-        b=L8gJV4gWZ6S5YEwxWKXrtz1o19ym1+xP7UIFe+BJriwtmO8GVcM3kbLPAcpLcYq0/f
-         jLCsC3R5KItyZIqky8beX+aYCCEfCR4M8j6lBDSHEEjUbUxMAcANS/YT00HOjT6eJQk5
-         HfN6zmp3Kt8KysdfHF4RszWPU1RUnFRRN1WkqpwkgK+ImL5j8wR6nUyyo2oh+HBs+Jeb
-         UdqQvPSOJsJqCTchxT+V65b5HPaz4VTBhLW2qF9/QB1UrWMGfy5J99UxIXu4HeITyPpG
-         KaJEBY5an5HdA/Qzlx2sM8brY80Ng0WT21ddrOZw7n70PwlvwhNrq6SPm0A9FEIUqQ5C
-         RUcA==
-X-Gm-Message-State: ANoB5pnv3/+XmpPjgGeHy+pVhV3nPMqKFw78AAjJdcEbUyjAHlP5Lz/W
-        GSM1uQ+D4mRo1cqLf5U41qjpUCGKftI7I/oXXKD1acfFIUleOLay0iB1pXeoTo4NAgbGvDARumw
-        ESdkpFX1S0UBE73PsCrW3
-X-Received: by 2002:a05:6214:5504:b0:4c6:9399:9335 with SMTP id mb4-20020a056214550400b004c693999335mr41468322qvb.12.1669632950422;
-        Mon, 28 Nov 2022 02:55:50 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6R1JyULPFe65HEgSq/X9lfxRMMZgXu5jvkRqbYJFnB6yxrk1GeFdc2izLM+ws6kfHPBGer7g==
-X-Received: by 2002:a05:6214:5504:b0:4c6:9399:9335 with SMTP id mb4-20020a056214550400b004c693999335mr41468274qvb.12.1669632950103;
-        Mon, 28 Nov 2022 02:55:50 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874? ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
-        by smtp.gmail.com with ESMTPSA id z1-20020ac84541000000b003a530a32f67sm6703684qtn.65.2022.11.28.02.55.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Nov 2022 02:55:49 -0800 (PST)
-Message-ID: <94e6034a-c4c1-be0a-ea8c-f5934dbadd4c@redhat.com>
-Date:   Mon, 28 Nov 2022 11:55:41 +0100
+        with ESMTP id S231179AbiK1LGx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 06:06:53 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4ABF9193E0;
+        Mon, 28 Nov 2022 03:06:41 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 87710D6E;
+        Mon, 28 Nov 2022 03:06:47 -0800 (PST)
+Received: from [10.57.40.62] (unknown [10.57.40.62])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ADF3F3F73B;
+        Mon, 28 Nov 2022 03:06:38 -0800 (PST)
+Message-ID: <d275dde8-9cb3-bd70-eacc-7907e42c59dd@arm.com>
+Date:   Mon, 28 Nov 2022 11:06:37 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Reply-To: eric.auger@redhat.com
-Subject: Re: [PATCH v5 13/19] iommufd: Add kAPI toward external drivers for
- physical devices
-Content-Language: en-US
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     bpf@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
-        Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
-        Anthony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Eric Farman <farman@linux.ibm.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
-        Lixiao Yang <lixiao.yang@intel.com>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Shameerali Kolothum Thodi 
-        <shameerali.kolothum.thodi@huawei.com>,
-        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
-References: <13-v5-4001c2997bd0+30c-iommufd_jgg@nvidia.com>
- <4c429c36-146e-e2b2-0cb4-d256ca659280@redhat.com>
- <Y4P9VzpCv/DyHeaD@nvidia.com>
-From:   Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <Y4P9VzpCv/DyHeaD@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Subject: Re: [PATCH v14 1/2] drivers/coresight: Add UltraSoc System Memory
+ Buffer driver
+To:     hejunhao <hejunhao3@huawei.com>, mathieu.poirier@linaro.org,
+        mike.leach@linaro.org, leo.yan@linaro.org,
+        jonathan.cameron@huawei.com
+Cc:     coresight@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        lpieralisi@kernel.org, linuxarm@huawei.com, yangyicong@huawei.com,
+        liuqi6124@gmail.com, f.fangjian@huawei.com,
+        prime.zeng@hisilicon.com
+References: <20221123123823.27973-1-hejunhao3@huawei.com>
+ <20221123123823.27973-2-hejunhao3@huawei.com>
+ <9f5f66fa-0388-6a76-25c9-cacef0e7a4e2@arm.com>
+ <0eb32726-2054-ee00-4b7a-d7a2f0121efd@huawei.com>
+ <80cf9c73-4b9a-f2f7-f72d-de985c045f9c@arm.com>
+ <8e3b1957-33a7-83ed-6d62-1294cdb679e4@huawei.com>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <8e3b1957-33a7-83ed-6d62-1294cdb679e4@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jason,
+On 25/11/2022 14:26, hejunhao wrote:
+> 
+> On 2022/11/24 21:45, Suzuki K Poulose wrote:
+>> On 24/11/2022 13:33, hejunhao wrote:
+>>>
+>>> On 2022/11/23 22:03, Suzuki K Poulose wrote:
+>>>> On 23/11/2022 12:38, Junhao He wrote:
+>>>>> From: Qi Liu <liuqi115@huawei.com>
+>>>>>
+>>>>> Add driver for UltraSoc SMB(System Memory Buffer) device.
+>>>>> SMB provides a way to buffer messages from ETM, and store
+>>>>> these "CPU instructions trace" in system memory.
+>>>>> The SMB device is identifier as ACPI HID "HISI03A1". Device
+>>>>> system memory address resources are allocated using the _CRS
+>>>>> method and buffer modes is the circular buffer mode.
+>>>>>
+>>>>> SMB is developed by UltraSoc technology, which is acquired by
+>>>>> Siemens, and we still use "UltraSoc" to name driver.
+>>>>>
+>>>>> Signed-off-by: Qi Liu <liuqi115@huawei.com>
+>>>>> Signed-off-by: Junhao He <hejunhao3@huawei.com>
+>>>>> Tested-by: JunHao He <hejunhao3@huawei.com>
+>>>>> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>>>>> ---
+>>>>>   drivers/hwtracing/coresight/Kconfig        |  12 +
+>>>>>   drivers/hwtracing/coresight/Makefile       |   1 +
+>>>>>   drivers/hwtracing/coresight/ultrasoc-smb.c | 658 
+>>>>> +++++++++++++++++++++
+>>>>>   drivers/hwtracing/coresight/ultrasoc-smb.h | 129 ++++
+>>>>>   4 files changed, 800 insertions(+)
+>>>>>   create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.c
+>>>>>   create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.h
+>>>>>
+>>>>
+>>>>> +static void smb_sync_perf_buffer(struct smb_drv_data *drvdata,
+>>>>> +                 struct cs_buffers *buf,
+>>>>> +                 unsigned long head,
+>>>>> +                 unsigned long data_size)
+>>>>> +{
+>>>>> +    struct smb_data_buffer *sdb = &drvdata->sdb;
+>>>>> +    char **dst_pages = (char **)buf->data_pages;
+>>>>> +    unsigned long to_copy;
+>>>>> +    long pg_idx, pg_offset;
+>>>>> +
+>>>>> +    pg_idx = head >> PAGE_SHIFT;
+>>>>> +    pg_offset = head & (PAGE_SIZE - 1);
+>>>>> +
+>>>>> +    while (data_size) {
+>>>>> +        unsigned long pg_space = PAGE_SIZE - pg_offset;
+>>>>> +
+>>>>> +        /* Copy parts of trace data when read pointer wrap around */
+>>>>> +        if (sdb->rd_offset + pg_space > sdb->buf_size)
+>>>>> +            to_copy = sdb->buf_size - sdb->rd_offset;
+>>>>> +        else
+>>>>> +            to_copy = min(data_size, pg_space);
+>>>>> +
+>>>>> +        memcpy(dst_pages[pg_idx] + pg_offset,
+>>>>> +                  sdb->buf_base + sdb->rd_offset, to_copy);
+>>>>> +
+>>>>> +        pg_offset += to_copy;
+>>>>> +        if (pg_offset >= PAGE_SIZE) {
+>>>>> +            pg_offset = 0;
+>>>>> +            pg_idx++;
+>>>>> +            pg_idx %= buf->nr_pages;
+>>>>> +        }
+>>>>> +        data_size -= to_copy;
+>>>>> +        sdb->rd_offset += to_copy;
+>>>>> +        sdb->rd_offset %= sdb->buf_size;
+>>>>> +    }
+>>>>> +
+>>>>> +    sdb->data_size = 0;
+>>>>
+>>>>
+>>>> --8>-- cut here --<8--
+>>>>
+>>>>> +    writel(sdb->start_addr + sdb->rd_offset,
+>>>>> +        drvdata->base + SMB_LB_RD_ADDR_REG);
+>>>>> +
+>>>>> +    /*
+>>>>> +     * Data remained in link cannot be purged when SMB is full, so
+>>>>> +     * synchronize the read pointer to write pointer, to make sure
+>>>>> +     * these remained data won't influence next trace.
+>>>>> +     */
+>>>>> +    if (sdb->full) {
+>>>>> +        smb_purge_data(drvdata);
+>>>>> +        writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
+>>>>> +               drvdata->base + SMB_LB_RD_ADDR_REG);
+>>>>> +    }
+>>>>
+>>>> --<8-- end here --8>--
+>>>>
+>>>> As pointed out in the last review, we must do this step
+>>>> everytime for perf mode irrespective of whether the buffer
+>>>> was "FULL" or not.
+>>>>
+>>>> i.e, the above block should simply be:
+>>>>
+>>>>     if (sdb->full)
+>>>>         smb_purge_data(drvdata);
+>>>>
+>>>>     /*
+>>>>      * The uncollected Data must be discarded for perf,
+>>>>      * as it cannot be clubbed with next schedule. We
+>>>>      * any way TRUNCATE the buffer in this case.
+>>>>      */
+>>>>     writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
+>>>>         drvdata->base + SMB_LB_RD_ADDR_REG);
+>>>>
+>>>> Suzuki
+>>>
+>>> Hi Suzuki,
+>>>
+>>> We need to update SMB_LB_RD_ADDR_REG register first, then
+>>> check the "full" flag, whether the register needs to be
+>>> updated again.
+>>
+>> Why ? sdb->full is not updated after the write to RD_ADDR_REG.
+>>
+> Hi Suzuki,
+> 
+> Maybe using the code below is more appropriate.
+> i.e,
+> 
+>      writel(sdb->start_addr + sdb->rd_offset,
+>          drvdata->base + SMB_LB_RD_ADDR_REG);
+> 
+>      /*
+>       * The uncollected Data must be discarded for perf,
+>       * as it cannot be clubbed with next schedule. We
+>       * any way TRUNCATE the buffer in this case.
+>       */
+>      smb_update_data_size(drvdata);
+>      if (sdb->data_size)
+>          writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
+>                  drvdata->base + SMB_LB_RD_ADDR_REG);
 
-On 11/28/22 01:14, Jason Gunthorpe wrote:
-> On Sun, Nov 27, 2022 at 10:13:55PM +0100, Eric Auger wrote:
->>> +static int iommufd_device_setup_msi(struct iommufd_device *idev,
->>> +				    struct iommufd_hw_pagetable *hwpt,
->>> +				    phys_addr_t sw_msi_start,
->>> +				    unsigned int flags)
->>> +{
->>> +	int rc;
->>> +
->>> +	/*
->>> +	 * IOMMU_CAP_INTR_REMAP means that the platform is isolating MSI, and it
->> rather means that the *IOMMU* implements IRQ remapping.
-> Not really. The name is a mess, but as it is implemented, it means the
-> platform is implementing MSI security. How exactly that is done is not
-> really defined, and it doesn't really belong as an iommu property.
-> However the security is being created is done in a way that is
-> transparent to the iommu_domain user.
-Some 'ARM platforms' implement what you call MSI security but they do
-not advertise IOMMU_CAP_INTR_REMAP
+That should work. However, my question is, we must set the
+RD_ADDR_REG to the WR_ADDR_REG in all cases. So, why not :
 
-Besides refering to include/linux/iommu.h:
-IOMMU_CAP_INTR_REMAP,           /* IOMMU supports interrupt isolation */
+	/*
+	 * We must flush and discard any data left in the
+	 * buffer for a perf session, to avoid mixing
+	 * the data from sessions.
+	 * We TRUNCATE the buffer anyways to indicate
+	 * that the buffer was lost.
+	 */
+	smb_purge_data();
+	writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
+		drvdata->base + SMB_LB_RD_ADDR_REG);
 
->
-> MSI security means that the originating device (eg the RID for PCI) is
-> validated when the MSI is processed. RIDs can only use MSIs they are
-> authorized to use.
-agreed this is what I described below.
->
-> It doesn't matter how it is done, if it remapping HW, fancy
-> iommu_domain tricks, or built into the MSI controller. Set this flag
-> if the platform is secure and doesn't need the code triggered by
-> irq_domain_check_msi_remap().
-this is not what is implemented as of now. If the IOMMU does support
-interrupt isolation, it advertises IOMMU_CAP_INTR_REMAP. On ARM this
-feature is implemented by the ITS MSI controller instead and the only
-way to retrieve the info whether the device MSIs are directed to that
-kind of MSI controller is to use irq_domain_check_msi_remap().
->
->> irq_domain_check_msi_remap() instead means the MSI controller
->> implements that functionality (a given device id is able to trigger
-> Not quite, it means that MSI isolation is available, however it is not
-> transparent and the iommu_domain user must do the little dance that
-> follows.
-No I do not agree on that point. The 'little dance' is needed because
-the SMMU does not bypass MSI writes as done on Intel. And someone must
-take care of the MSI transaction mapping. This is the role of the MSI
-cookie stuff. To me this is independent on the above discussion whether
-MSI isolation is implemented.
->
-> It does not mean the MSI controller implements the security
-> functionality because it is not set on x86.
->
-> Logically on x86 we should consider the remapping logic as part of the
-> MSI controller even if x86 makes them separated for historical
-> reasons.
->
->> MSI #n and this #n gets translated into actual MSI #m) So what you
->> want is to prevent an assigned device from being able to DMA into an
->> MSI doorbell that is not protected by either the IOMMU or the MSI
->> controller. If this happens this means the DMA can generate any kind
->> of MSI traffic that can jeopardize the host or other VMs
-> I don't know of any real systems that work like this. ARM standard GIC
-> uses a shared ITS page, the IOMMU does nothing to provide MSI
-> security. MSI security is built into the GIC because it validates the
-> device ID as part of processing the MSI. The IOMMU is only involved
-> to grant access to the shared ITS page.
+and avoid the extra write ?
 
-?? Yeah that's what I said. The SMMU does nothing about MSI security.
-The ITS does.
->
-> Intel is similar, it provides security through the MSI controller's
-> remapping logic, the only difference is that on Intel the MSI window
-> is always present in every iommu_domain (becuase it occures before the
-> IOMMU), and in ARM you have to do the little dance.
-On Intel the MSI window [FEE0_0000h - FEF0_000h] is bypassed by the
-IOMMU. On ARM MSI transactions are translated except in case of HW MSI
-RESV regions (I think).
->
-> Even if the iommu is to be involved it is all hidden from this layer.
->
->> and afterwards resv_msi is checked to see if we need to create the
->> so-called msi cookie.  This msi cookie tells the MSI writes are
->> translated by the IOMMU and somebody must create a mapping for those
->> transactions.
-> The cookie is always necessary if we are going to use the
-> non-transparent mode. That is what makes it the non transparent
-> mode. We have to supply the reserved IOVA range from one part of the
-> iommu driver to another part.
->
->>> +	 * creates the MSI window by default in the iommu domain. Nothing
->>> +	 * further to do.
->>> +	 */
->>> +	if (device_iommu_capable(idev->dev, IOMMU_CAP_INTR_REMAP))
->>> +		return 0;
->>> +
->>> +	/*
->>> +	 * On ARM systems that set the global IRQ_DOMAIN_FLAG_MSI_REMAP every
->>> +	 * allocated iommu_domain will block interrupts by default and this
->> It sounds there is a confusion between IRQ remapping and the fact MSI
->> writes are not bypassed by the IOMMU.
-> I don't think I'm confused :)
-As soon as there is an SW MSI_RESV region and only in that case you need
-to put in place the msi cookie (because it indicates the IOMMU
-translates MSI transactions).
+>>>
+>>> If we don`t update the value of SMB_LB_RD_ADDR_REG register
+>>> or reset buffer state, the buffer state will still be "full".
+>>> The buffer has not free area,so the data will still remain
+>>> in link.
+>>
+>> My issue here is with potentially "leaving the trace from a previous
+>> session for the next session". i.e., at the end of a run, we must always
+>> make sure that the buffer is left empty (unlike the sysfs mode).
+>>
+>> e.g.,
+>>
+>> perf_session_x: RUN0: RD=0x0, WR=0x5000, HANDLE_SIZE=0x3000, full=false.
+>> At the end of the above routine we will have :
+>>     RD=0x3000, WR=0x5000,
+>>
+>> and if a different perf session comes in, say perf_session_y, it will 
+>> consume trace written by "x" at 0x3000-0x50000, right ?
+>>
+>> This is fine in the sysfs mode as we expect the entire sysfs mode
+>> to be owned by a single session and is left to the user to split it.
+>> But for perf mode we cannot do that and thus must make sure we don't
+>> leak trace from one session to antoher.
+>>
+>> Suzuki
+>>
+> 
+> In this cace:  RUN0: RD=0x0, WR=0x5000, HANDLE_SIZE=0x3000, full=false.
+> We will update the "rd_offset" in smb_update_buffer() function.
+> like this:
+> 
+>      ...
+>      if (data_size > handle->size) {
+>          sdb->rd_offset += data_size - handle->size;
+>          sdb->rd_offset %= sdb->buf_size;
+>          ...
+>          }
+>      ...
+> 
+> 
+> So the rd_offset will advance to 0x2000 first,
+> then we dump the latest trace data (0x2000 - 0x5000) from "buf_base + 
+> rd_offset".
 
-The fact the platform provides MSI security (through IOMMU or MSI
-controller) looks orthogonal to me.
->
->>> +static int iommufd_device_do_attach(struct iommufd_device *idev,
->>> +				    struct iommufd_hw_pagetable *hwpt,
->>> +				    unsigned int flags)
->>> +{
->>> +	phys_addr_t sw_msi_start = 0;
->>> +	int rc;
->>> +
->>> +	mutex_lock(&hwpt->devices_lock);
->>> +
->>> +	/*
->>> +	 * Try to upgrade the domain we have, it is an iommu driver bug to
->>> +	 * report IOMMU_CAP_ENFORCE_CACHE_COHERENCY but fail
->>> +	 * enforce_cache_coherency when there are no devices attached to the
->>> +	 * domain.
->>> +	 */
->>> +	if (idev->enforce_cache_coherency && !hwpt->enforce_cache_coherency) {
->>> +		if (hwpt->domain->ops->enforce_cache_coherency)
->>> +			hwpt->enforce_cache_coherency =
->>> +				hwpt->domain->ops->enforce_cache_coherency(
->>> +					hwpt->domain);
->>> +		if (!hwpt->enforce_cache_coherency) {
->>> +			WARN_ON(list_empty(&hwpt->devices));
->>> +			rc = -EINVAL;
->>> +			goto out_unlock;
->>> +		}
->>> +	}
->>> +
->>> +	rc = iopt_table_enforce_group_resv_regions(&hwpt->ioas->iopt, idev->dev,
->>> +						   idev->group, &sw_msi_start);
->>> +	if (rc)
->>> +		goto out_unlock;
->>> +
->> so in the case of any IOMMU_RESV_MSI, iommufd_device_setup_msi() will be
->> called with *sw_msi_start = 0 which will return -EPERM?
->> I don't think this is what we want. In that case I think we want the
->> RESV_MSI region to be taken into account as a RESV region but we don't
->> need the MSI cookie.
-> This was sort of sloppy copied from VFIO - we should just delete
-> it. The is no driver that sets both, and once the platform asserts
-> irq_domain_check_msi_remap() it is going down the non-transparent path
-> anyhow and must set a cookie to work. [again the names doesn't make
-> any sense for the functionality]
->
-> Failing with EPERM is probably not so bad since the platform is using
-> an invalid configuration. I'm kind of inclined to leave this for right
-I don't understand why it is invalid? HW MSI RESV region is a valid
-config and not sure you tested with that kind of setup, did you?
-> now since it has all be tested and I don't want to make a
-> regression. But I can try to send a patch to tidy it a bit more, maybe
-> add an appropriate WARN_ON.
->
-> The whole thing is actually backwards. The IOMMU_CAP_INTR_REMAP should
-> have been some global irq_has_secure_msi() and everything with
-> interrupt remapping, and ARM should set it.
-You are revisiting this IOMMU_CAP_INTR_REMAP definition ... this is not
-what is documented in the header file.
+Right, that makes sense.
 
->
-> Then the domain should have had a domain cap
-> IOMUU_CAP_REQUIRE_MSI_WINDOW_SETUP to do the little dance ARM drivers
-> need.
->
-> And even better would have been to not have the little dance in the
-> first place, as we don't really need the iommu_domain user to convey
-> the fixed MSI window from one part of the iommu driver to another.
->
-> We may try to fix this up when we get to doing nesting on ARM, or
-> maybe just leave the confusing sort of working thing as-is. I don't
-> know.
->
-> Jason
->
-Eric
+
+Thanks
+Suzuki
+
 
