@@ -2,181 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7AE1C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 09:56:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 374D4C43217
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 09:56:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230085AbiK1J4q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S229586AbiK1J4q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 28 Nov 2022 04:56:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40528 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230042AbiK1J4o (ORCPT
+        with ESMTP id S229612AbiK1J4o (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 04:56:44 -0500
 Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CBAA6193EA
-        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 01:56:42 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 069ED193F3
+        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 01:56:41 -0800 (PST)
 Received: from loongson.cn (unknown [112.20.109.110])
-        by gateway (Coremail) with SMTP id _____8DxtfDZhYRj9qMBAA--.3879S3;
-        Mon, 28 Nov 2022 17:56:41 +0800 (CST)
+        by gateway (Coremail) with SMTP id _____8Cx6+rYhYRj7qMBAA--.3896S3;
+        Mon, 28 Nov 2022 17:56:40 +0800 (CST)
 Received: from localhost.localdomain (unknown [112.20.109.110])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8Cxn+DWhYRjXzUdAA--.9071S3;
-        Mon, 28 Nov 2022 17:56:41 +0800 (CST)
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Cxn+DWhYRjXzUdAA--.9071S2;
+        Mon, 28 Nov 2022 17:56:39 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     chenhuacai@kernel.org, corbet@lwn.net, alexs@kernel.org,
         seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng@loongson.cn>, kernel@xen0n.name,
         wu.xiangcheng@linux.dev, jiaxun.yang@flygoat.com,
         liuyun@loongson.cn, linux-doc@vger.kernel.org,
-        loongarch@lists.linux.dev, siyanteng01@gmail.com,
-        Xiaotian Wu <wuxiaotian@loongson.cn>
-Subject: [PATCH v3 1/2] docs/LoongArch: Add booting
-Date:   Mon, 28 Nov 2022 17:54:02 +0800
-Message-Id: <e8ed14458cde5534a65a5caf37952a4a29476182.1669628226.git.siyanteng@loongson.cn>
+        loongarch@lists.linux.dev, siyanteng01@gmail.com
+Subject: [PATCH v3 0/2] docs/LoongArch: Add English and Chinese versions of booting
+Date:   Mon, 28 Nov 2022 17:54:01 +0800
+Message-Id: <cover.1669628226.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1669628226.git.siyanteng@loongson.cn>
-References: <cover.1669628226.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cxn+DWhYRjXzUdAA--.9071S3
+X-CM-TRANSID: AQAAf8Cxn+DWhYRjXzUdAA--.9071S2
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxXryDuF17ur43Cw45trykAFb_yoWrWw48pr
-        nxJryxJF1DJry3Xr4UJr1UWr15Aw1xJ3WUGF1xKry8XF1UZwn5Jr1Utr18XFyUG348Aa4j
-        q345Jr1jk3WUJw7anT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        bS8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
-        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAa
-        w2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
-        I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2
-        jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262
-        kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km
-        07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r
-        1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8
-        JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r
-        1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1U
-        YxBIdaVFxhVjvjDU0xZFpf9x07jz5lbUUUUU=
+X-Coremail-Antispam: 1Uk129KBjvdXoW7XF1kCF18AF4fXF18ZF48Xrb_yoW3urbEvF
+        n7J3y0y3y7GF15Jayvqr47JF93uF40k3Z0yFn0grW8G3Z0y39xWr97X3s8ury0qFWDZ3s8
+        CrZ7tr1SyFnFgjkaLaAFLSUrUUUU8b8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+        xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
+        A7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
+        AFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
+        6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7
+        xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2kK
+        e7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
+        0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280
+        aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4
+        kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI
+        1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_Jr
+        Wlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j
+        6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr
+        0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUv
+        cSsGvfC2KfnxnUUI43ZEXa7IU0b6pPUUUUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Describes the meaning and value of the image header field.
+v3:
 
-Suggested-by: Xiaotian Wu <wuxiaotian@loongson.cn>
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- Documentation/loongarch/booting.rst | 89 +++++++++++++++++++++++++++++
- Documentation/loongarch/index.rst   |  1 +
- 2 files changed, 90 insertions(+)
+* Add a description about boot parameters (a0=efi_boot a1=cmdline a2=systemtable),
+  and then rename the file to booting.rst.
+* remove some blank line.
+
+v2:
+* Fix magic start address.
+* res14 -> res4.
+
+v1:
+* Add boot image header.
+* Translate boot-image-header into Chinese.
+
+Yanteng Si (2):
+  docs/LoongArch: Add booting
+  docs/zh_CN: Add booting Chinese translation
+
+ Documentation/loongarch/booting.rst           | 89 +++++++++++++++++++
+ Documentation/loongarch/index.rst             |  1 +
+ .../translations/zh_CN/loongarch/booting.rst  | 86 ++++++++++++++++++
+ .../translations/zh_CN/loongarch/index.rst    |  1 +
+ 4 files changed, 177 insertions(+)
  create mode 100644 Documentation/loongarch/booting.rst
+ create mode 100644 Documentation/translations/zh_CN/loongarch/booting.rst
 
-diff --git a/Documentation/loongarch/booting.rst b/Documentation/loongarch/booting.rst
-new file mode 100644
-index 000000000000..f59de4eea39d
---- /dev/null
-+++ b/Documentation/loongarch/booting.rst
-@@ -0,0 +1,89 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====================
-+启动 LoongArch Linux
-+====================
-+
-+:Author: Yanteng Si <siyanteng@loongson.cn>
-+:Date:   18 Nov 2022
-+
-+BootLoader passing parameters to the kernel
-+===========================================
-+
-+LoongArch is an ACPI system and the information that needs to be passed
-+to the kernel are memmap, initrd, cmdline, etc.
-+On LoongArch machines, the BootLoader (EFISTUB/Grub) will pass three
-+valid parameters to the kernel, which are::
-+
-+      a0 = efi_boot
-+      a1 = cmdline
-+      a2 = systemtable
-+
-+where a1 is a pointer to cmdline, a2 contains the memmap, initrd,
-+cmdline and other information that needs to be passed to the kernel.
-+
-+Boot image header in LoongArch Linux
-+====================================
-+
-+The following 64-byte header is present in decompressed Linux
-+kernel image::
-+
-+	u32	MZ_MAGIC		/* "MZ", MS-DOS header */
-+	u32	res0 = 0		/* reserved */
-+	u64	kernel_entry		/* Kernel entry point */
-+	u64	_end - _text		/* Kernel image effective size */
-+	u64	0			/* Kernel image load offset from start of RAM */
-+	u64	res1 = 0		/* reserved */
-+	u64	res2 = 0		/* reserved */
-+	u64	res3 = 0		/* reserved */
-+	u32	res4 = 0		/* reserved */
-+	u32	pe_header - _head	/* Offset to the PE header */
-+
-+Header notes
-+============
-+
-+Currently, LoongArch has removed the "magic" field.
-+
-+According to the EFI specification, the PE/COFF image file header is
-+required at the beginning of the kernel image; the LoongArch kernel
-+supports the EFI stub, so the first two bytes of the kernel image header
-+are "MZ" magic characters, and 0x3c should point to the rest of the
-+PE/COFF file header, between which The kernel entry point, image
-+effectivesize, and image load offset layout are as follows::
-+
-+          +-----------------------------------------------+
-+          |  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |
-+          +-----------------------------------------------+
-+    0x00: |       MZ_MAGIC        |          res0         |
-+          +-----------------------------------------------+
-+    0x08: |                 kernel_entry                  |
-+          +-----------------------------------------------+
-+    0x10: |                  _end - _text                 |
-+          +-----------------------------------------------+
-+    0x18: |                       0                       |
-+          +-----------------------------------------------+
-+    0x20: |                      res1                     |
-+          +-----------------------------------------------+
-+    0x28: |                      res2                     |
-+          +-----------------------------------------------+
-+    0x30: |                      res3                     |
-+          +-----------------------------------------------+
-+    0x38: |          res4         |       PE header       |
-+          +-----------------------------------------------+
-+
-+All bit fields are in little endian:
-+
-+    - MZ: Effective length of 2 bytes;
-+
-+    - kernel entry point: leaving 6 bytes blank in front, starting
-+      from 0x8, with a effective length of 8 bytes;
-+
-+    - kernel image effective size: Immediately following the kernel
-+      entry point, with a effective length of 8 bytes, this field is
-+      required for the bootloader;
-+
-+    - kernel image load offset: Immediately following the kernel
-+      image effective size, with a effective length of 8 bytes;
-+
-+    - Offset to the PE header: leaving 28 bytes blank in front,
-+      starting from 0x3c, with a effective length of 4 bytes.
-diff --git a/Documentation/loongarch/index.rst b/Documentation/loongarch/index.rst
-index aaba648db907..df0174d6d227 100644
---- a/Documentation/loongarch/index.rst
-+++ b/Documentation/loongarch/index.rst
-@@ -10,6 +10,7 @@ LoongArch Architecture
- 
-    introduction
-    irq-chip-model
-+   booting
- 
-    features
- 
 -- 
 2.31.1
 
