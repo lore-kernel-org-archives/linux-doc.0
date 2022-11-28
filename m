@@ -2,292 +2,300 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E18CC46467
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 00:14:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 579F9C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 06:44:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229632AbiK1AOV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Nov 2022 19:14:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50158 "EHLO
+        id S229679AbiK1Goe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Nov 2022 01:44:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbiK1AOT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Nov 2022 19:14:19 -0500
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2085.outbound.protection.outlook.com [40.107.220.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A298CDFFC;
-        Sun, 27 Nov 2022 16:14:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h8xf6Ef3vQLU1LovLg8lNUFvx24kx2i/WI576gy4c2BfACe09hnus2uM/Bs49j0UgA5pzk7KPc6F3q8p7C9r1c+u+J6M4kn7kNpl5TqAbm1Q5GgObJpJOYJGoB4EL4sOO+N9Uf7HzTFanpmKc5Qzi5laeu4nYYykRk9FVtd/0V0latgWAcEL8P/sebc60RzJmbE1WN3aGbQSGpuYEXIt+PUTWYS3sj/LE9NK16L7t9Yvge8PrNtyupFLasO/M4Vz+yNaKmdE8M/9Y2/2p/HV+jXCiz7tCINHYjs9ZGxl4FvW8+xj67UddiK8cUfXxrASMJE5anXC3nnGKsnBkV/gEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q3g447EvWhn9xGj4dlUGZ121BarfYa+Mro4tycEWBXc=;
- b=AXZh3JnE7CsvNbHsrCS43W6bQMwLQhrYibC0/FlgPM6+8uxC3Rd091rrHnjtGz8vzpyg8bE7pYo0cxOe8vpMmoxZYnR3pXGPhtPXkZoADsTjq1KydYi6+u5PsEe6QI/NiVi+gao1Uzx9bw7a6uOnm9hu3dgz0bsICtzeVjyRPWNWYy0JOXx8f0xUEp2Ds66wxpMSUFRFzqIJRWfqdB9k0NOXIOkzSa9rlzWRypZIRHgxOa0TC7cXcpMDxdO6PJ8qG72OyabYNNlWkVZ+PKGuZT5UV5lQnaRmiQI4Z6wbu1G3McT/GNPJcbNfqC30vUim7MPWx8vqPuTXxn2+Hm7zZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q3g447EvWhn9xGj4dlUGZ121BarfYa+Mro4tycEWBXc=;
- b=SnenUDtYxXVQcCTz03fUWXBXUwrXj8HryKzLkcrUxjtS/ZdZ/NzP0CNh9hk2eQr3sRUFbdosU2nVI7p9geGYBEoNdu/DDjJ/ZqbwK8ZqsRQhrK+7auahNTQ3CWg6Xt1q8qTEsK3VAdhtCODYqvVN3FCGz6Sr0bfp2+J7RkFBHuaNH10u/iKiJCrFG4whzt3q4cm4U1PRq+Llpi7XsuBHpXofV+RzEMydYFTPVDs/uxru3l/X0pchTLYnIVKceuNE7nJ83yq5cctLnKqH6kHdwcjRl0oN40u5UiVk6wmqcn2JkHrdZow8SbVTeAQrBmvD/n9xB7dtnZ7WWszQE6wjCw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by IA0PR12MB7628.namprd12.prod.outlook.com (2603:10b6:208:436::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.22; Mon, 28 Nov
- 2022 00:14:16 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f8b0:df13:5f8d:12a]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f8b0:df13:5f8d:12a%9]) with mapi id 15.20.5857.021; Mon, 28 Nov 2022
- 00:14:16 +0000
-Date:   Sun, 27 Nov 2022 20:14:15 -0400
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Eric Auger <eric.auger@redhat.com>
-Cc:     bpf@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
-        Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
-        Anthony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Eric Farman <farman@linux.ibm.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
-        Lixiao Yang <lixiao.yang@intel.com>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Shameerali Kolothum Thodi 
-        <shameerali.kolothum.thodi@huawei.com>,
-        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
-Subject: Re: [PATCH v5 13/19] iommufd: Add kAPI toward external drivers for
- physical devices
-Message-ID: <Y4P9VzpCv/DyHeaD@nvidia.com>
-References: <13-v5-4001c2997bd0+30c-iommufd_jgg@nvidia.com>
- <4c429c36-146e-e2b2-0cb4-d256ca659280@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4c429c36-146e-e2b2-0cb4-d256ca659280@redhat.com>
-X-ClientProxiedBy: BL1PR13CA0248.namprd13.prod.outlook.com
- (2603:10b6:208:2ba::13) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+        with ESMTP id S229602AbiK1God (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 01:44:33 -0500
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D1C15580;
+        Sun, 27 Nov 2022 22:44:31 -0800 (PST)
+Received: from fraeml705-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NLGCc57mZz67Y4H;
+        Mon, 28 Nov 2022 14:44:12 +0800 (CST)
+Received: from lhrpeml500004.china.huawei.com (7.191.163.9) by
+ fraeml705-chm.china.huawei.com (10.206.15.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2375.31; Mon, 28 Nov 2022 07:44:29 +0100
+Received: from [10.122.132.241] (10.122.132.241) by
+ lhrpeml500004.china.huawei.com (7.191.163.9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Mon, 28 Nov 2022 06:44:28 +0000
+Message-ID: <73a8a2f2-0d59-970d-eaba-c0da38a1c38b@huawei.com>
+Date:   Mon, 28 Nov 2022 09:44:27 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|IA0PR12MB7628:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8ca9691-5aaa-40f9-9a39-08dad0d57c5a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nyul23qIEfTr+biFLh5vJbVW8C69D9Ww/D+WYzFrzFG1uMuK7tAwgBpKJn68BttYjD1Y865ysAPfGYCS3vwORsWla5IrrMptxWGaUxZYl53jyCJ4BUFhnemClOiFHXPuGdYYf9nqXybOafHpTeMwa+ccbMfysfJ44St3/Tcl+fWKiNLrpgPolAsIdO82uUwr1abFUkiZmKLlre8XQ28WGcjBeeN+NL7isLoQxu136yIN8MnC30PfwUcZfw46poeAkT0ps68PDSizg8WS0Rz3PXafG1Gxk7f0gogA7+o8gNP2mNKKREKXwBicH6R68qJGHvWgFaC+/3e9H/TZNPsvApryCLVVBFA3yHEfrmNChAGs2yq86V4G/ezIR7bEm5bOuWl4ipydI02gnwhlKsguMNLv4V0/wNSxbZE5NxDuD5zKSUD80rhMTGjCG4EjqFFM2iW5fkf/NLqCUMkEsWg7gTnSvCiwG/ITSa1lvoKThWZJ6LMKBNzIcYXE9uQxyeE0Fd5KUfsA44020BigpkB6Xo69oTMHWnvS1BwGOjADSgWy2wRvyFBafIE/GCLDRp32siU/natkEDsJ9mTlhI5sV+bfRnyjmZbUvuly9acQuuSc1lok1N2AtpVA3bFzVN4N
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(346002)(39860400002)(376002)(136003)(396003)(451199015)(36756003)(86362001)(8936002)(5660300002)(7406005)(7416002)(2616005)(186003)(83380400001)(6486002)(6506007)(478600001)(6512007)(26005)(4326008)(66476007)(66556008)(66946007)(38100700002)(41300700001)(54906003)(6916009)(8676002)(316002)(2906002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mr6wADUZIO9ZIHuBnkb8ucQK60FB++qKD+Lk/5r3CyFVOg0lDZ2hf9KQ2BIj?=
- =?us-ascii?Q?hn6K9DpkcScU9ulG/72sonGGwTSDJNyAjLHn3G3xZPcSHj3qXFUE5X3YrSrV?=
- =?us-ascii?Q?6TWNbExFCFkxiKqGO4xvXHQ4k5BEZvHvAW3Xx5V+hxew+1HKr5JR9t1+dFpc?=
- =?us-ascii?Q?ylBG3+jkAsdyOu7odYYg4/UEJ28h++mGecaWsAvbbiIwQPywnRSoPa34o+XY?=
- =?us-ascii?Q?G7Kgv91E4WOLKKRwBANMw60hktka/o5ralSjJPYJfjXTz+zAScQsfZjZqNSr?=
- =?us-ascii?Q?eqxQnd6Is+f3r0kFlyY7wO8Ce/xBEreNRK7UQ9jqm1W4uYgKQyPvukPo/Zpy?=
- =?us-ascii?Q?WMgKg4z4JSVWl5Q+BMZ6VJMHoR0fzDOnnpbH5OB14dBxVDBjgMsrljKzgkeA?=
- =?us-ascii?Q?Rf+u2FNubdsUDM29aSB/69ghkXCXm0sxxOHuYkQZGjouuOTkio5zKlUs5q57?=
- =?us-ascii?Q?vBxkDb8UuGGv8OqeXXDiqd4dV/mxF7dvOXYITAa1aC6uHNQsHVdwVNwnpdKE?=
- =?us-ascii?Q?ps44xttetNmUx8K8UioXVtdV0lTqm4wDMPUF5Ux9mxao05xnj4UjD76aZpdX?=
- =?us-ascii?Q?RYXm4u5u0MxnltNHrGNnfZyL35tmqWBtgwdTRNkRKLZAA9tFnE4XgpF5EzmU?=
- =?us-ascii?Q?ZOvuL3ezI12MqNWWGCyJ1yMMNsgGLQGe1R/XZqIrIch5UHfxn0KTkwxrVGsB?=
- =?us-ascii?Q?aWHS0uMa2XTeTK5cbK+VReYiR2on5Wu9uoFwkIIu9l33/6CGvqsinoOi7HTY?=
- =?us-ascii?Q?P60zy4aEvt72/xvCMVRzY6iDYRvaNVhiEztFdjQgJVDzyX8X9Z9fTO1l5m0G?=
- =?us-ascii?Q?76L9GgB/toUyXOV/RdsFq/qdLLOyGw2IBiDefWtSN9ASDM2su3zT0LAZjCHE?=
- =?us-ascii?Q?wWFQCQhURoSpZUpGxFjXZkzuDODXTizivl5/+fTRKy5oQnT5w8+2dT39/ijk?=
- =?us-ascii?Q?tN7fupiHrrxWfwjRHk1NO3qflgjfndD9QDzS+qXvk8juLbUXT7EniM2sbwcG?=
- =?us-ascii?Q?5gTSCOshVNmn1vMiyjkChMNxR3kXBoafK2FoDxlwBSk+yYHRPzIJSBlo4LEf?=
- =?us-ascii?Q?H5yhKOKxuj5OUMej9zg+C/alhYfIJ3mlnbmPK9eWf6y0lDreG067qWsiaft8?=
- =?us-ascii?Q?CZ29w6x209neHWqn/jabXZg0+AoH7aoVlhlHf3sNn7d+vbkycp596YfQ8e9t?=
- =?us-ascii?Q?/JNu4KPrGIAqrPSuD+kf+/quVpYvtQ/SVnjC1FRsCDkTs0oYGTAVUnAjD8UE?=
- =?us-ascii?Q?yk6usCwE06vSHQsFT9XGVJK9YPHhxos9Xqkj2D6E4TKpYpjALmJvqBVCmbVn?=
- =?us-ascii?Q?OVNEpp+CbLnmZ+6lt03813RQ7MuXOyHWz7TuxuLnZoWYGwtBruBm/mhuZgw6?=
- =?us-ascii?Q?TKmgOCitXzk9QtaJW0PDIO34oW+PFteuXZh2DKxlEXN37TSVMaXvEJUOFnn7?=
- =?us-ascii?Q?gbgL7qj3ARAItb1wZaJuA366UFvWoLxlNu0qtcfPuae7nsQDlFFk1mjGlKZ8?=
- =?us-ascii?Q?5erxn3/FTeObx54vhIwE2SuWTe3sbMwNjDHAIzW1dBBXZEEotxL5JaW0u5rP?=
- =?us-ascii?Q?lDpwrFokLe1es+uv2s8=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8ca9691-5aaa-40f9-9a39-08dad0d57c5a
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2022 00:14:16.0900
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: R60hQ+SX77odyTlRNWLJO64zXHShq/Zz8rdS2Z0NwU+cOJqGMwZjoyX45MjE649M
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7628
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH v8 12/12] landlock: Document Landlock's network support
+Content-Language: ru
+To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+CC:     <willemdebruijn.kernel@gmail.com>, <gnoack3000@gmail.com>,
+        <linux-security-module@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <netfilter-devel@vger.kernel.org>, <artem.kuzin@huawei.com>,
+        <linux-doc@vger.kernel.org>
+References: <20221021152644.155136-1-konstantin.meskhidze@huawei.com>
+ <20221021152644.155136-13-konstantin.meskhidze@huawei.com>
+ <8a8ba39f-c7c2-eca6-93b1-f36d982726ca@digikod.net>
+From:   "Konstantin Meskhidze (A)" <konstantin.meskhidze@huawei.com>
+In-Reply-To: <8a8ba39f-c7c2-eca6-93b1-f36d982726ca@digikod.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.122.132.241]
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ lhrpeml500004.china.huawei.com (7.191.163.9)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 27, 2022 at 10:13:55PM +0100, Eric Auger wrote:
-> > +static int iommufd_device_setup_msi(struct iommufd_device *idev,
-> > +				    struct iommufd_hw_pagetable *hwpt,
-> > +				    phys_addr_t sw_msi_start,
-> > +				    unsigned int flags)
-> > +{
-> > +	int rc;
-> > +
-> > +	/*
-> > +	 * IOMMU_CAP_INTR_REMAP means that the platform is isolating MSI, and it
-> rather means that the *IOMMU* implements IRQ remapping.
 
-Not really. The name is a mess, but as it is implemented, it means the
-platform is implementing MSI security. How exactly that is done is not
-really defined, and it doesn't really belong as an iommu property.
-However the security is being created is done in a way that is
-transparent to the iommu_domain user.
 
-MSI security means that the originating device (eg the RID for PCI) is
-validated when the MSI is processed. RIDs can only use MSIs they are
-authorized to use.
+11/17/2022 9:44 PM, Mickaël Salaün пишет:
+> 
+> On 21/10/2022 17:26, Konstantin Meskhidze wrote:
+>> Describes network access rules for TCP sockets. Adds network access
+>> example in the tutorial. Points out AF_UNSPEC socket family behaviour.
+>> Adds kernel configuration support for network.
+>> 
+>> Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+>> ---
+>> 
+>> Changes since v7:
+>> * Fixes documentaion logic errors and typos as Mickaёl suggested:
+>> https://lore.kernel.org/netdev/9f354862-2bc3-39ea-92fd-53803d9bbc21@digikod.net/
+>> 
+>> Changes since v6:
+>> * Adds network support documentaion.
+>> 
+>> ---
+>>   Documentation/userspace-api/landlock.rst | 72 +++++++++++++++++++-----
+>>   1 file changed, 59 insertions(+), 13 deletions(-)
+>> 
+>> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
+>> index d8cd8cd9ce25..d0610ec9ce05 100644
+>> --- a/Documentation/userspace-api/landlock.rst
+>> +++ b/Documentation/userspace-api/landlock.rst
+>> @@ -11,10 +11,10 @@ Landlock: unprivileged access control
+>>   :Date: October 2022
+>> 
+>>   The goal of Landlock is to enable to restrict ambient rights (e.g. global
+>> -filesystem access) for a set of processes.  Because Landlock is a stackable
+>> -LSM, it makes possible to create safe security sandboxes as new security layers
+>> -in addition to the existing system-wide access-controls. This kind of sandbox
+>> -is expected to help mitigate the security impact of bugs or
+>> +filesystem or network access) for a set of processes.  Because Landlock
+>> +is a stackable LSM, it makes possible to create safe security sandboxes as new
+>> +security layers in addition to the existing system-wide access-controls. This
+>> +kind of sandbox is expected to help mitigate the security impact of bugs or
+>>   unexpected/malicious behaviors in user space applications.  Landlock empowers
+>>   any process, including unprivileged ones, to securely restrict themselves.
+>> 
+>> @@ -30,18 +30,20 @@ Landlock rules
+>> 
+>>   A Landlock rule describes an action on an object.  An object is currently a
+>>   file hierarchy, and the related filesystem actions are defined with `access
+>> -rights`_.  A set of rules is aggregated in a ruleset, which can then restrict
+>> -the thread enforcing it, and its future children.
+>> +rights`_.  Since ABI version 4 a port data appears with related network actions
+>> +for TCP socket families.  A set of rules is aggregated in a ruleset, which
+>> +can then restrict the thread enforcing it, and its future children.
+>> 
+>>   Defining and enforcing a security policy
+>>   ----------------------------------------
+>> 
+>>   We first need to define the ruleset that will contain our rules.  For this
+>>   example, the ruleset will contain rules that only allow read actions, but write
+>> -actions will be denied.  The ruleset then needs to handle both of these kind of
+>> +actions will be denied. The ruleset then needs to handle both of these kind of
+>>   actions.  This is required for backward and forward compatibility (i.e. the
+>>   kernel and user space may not know each other's supported restrictions), hence
+>> -the need to be explicit about the denied-by-default access rights.
+>> +the need to be explicit about the denied-by-default access rights.  Also ruleset
+>> +will have network rules for specific ports, so it should handle network actions.
+>> 
+>>   .. code-block:: c
+>> 
+>> @@ -62,6 +64,9 @@ the need to be explicit about the denied-by-default access rights.
+>>               LANDLOCK_ACCESS_FS_MAKE_SYM |
+>>               LANDLOCK_ACCESS_FS_REFER |
+>>               LANDLOCK_ACCESS_FS_TRUNCATE,
+>> +        .handled_access_net =
+>> +            LANDLOCK_ACCESS_NET_BIND_TCP |
+>> +            LANDLOCK_ACCESS_NET_CONNECT_TCP,
+>>       };
+>> 
+>>   Because we may not know on which kernel version an application will be
+>> @@ -70,14 +75,18 @@ should try to protect users as much as possible whatever the kernel they are
+>>   using.  To avoid binary enforcement (i.e. either all security features or
+>>   none), we can leverage a dedicated Landlock command to get the current version
+>>   of the Landlock ABI and adapt the handled accesses.  Let's check if we should
+>> -remove the ``LANDLOCK_ACCESS_FS_REFER`` or ``LANDLOCK_ACCESS_FS_TRUNCATE``
+>> -access rights, which are only supported starting with the second and third
+>> -version of the ABI.
+>> +remove the `LANDLOCK_ACCESS_FS_REFER` or `LANDLOCK_ACCESS_FS_TRUNCATE` or
+>> +network access rights, which are only supported starting with the second,
+> 
+> This is a bad rebase.
 
-It doesn't matter how it is done, if it remapping HW, fancy
-iommu_domain tricks, or built into the MSI controller. Set this flag
-if the platform is secure and doesn't need the code triggered by
-irq_domain_check_msi_remap().
+   Sorry. Did not get it.
+> 
+> 
+>> +third and fourth version of the ABI.
+>> 
+>>   .. code-block:: c
+>> 
+>>       int abi;
+>> 
+>> +    #define ACCESS_NET_BIND_CONNECT ( \
+>> +    LANDLOCK_ACCESS_NET_BIND_TCP | \
+>> +    LANDLOCK_ACCESS_NET_CONNECT_TCP)
+> 
+> Please add a 4-spaces prefix for these two lines.
 
-> irq_domain_check_msi_remap() instead means the MSI controller
-> implements that functionality (a given device id is able to trigger
+   Like this??
+	#define ACCESS_NET_BIND_CONNECT ( \
+             LANDLOCK_ACCESS_NET_BIND_TCP | \
+             LANDLOCK_ACCESS_NET_CONNECT_TCP)
+> 
+> 
+>> +
+>>       abi = landlock_create_ruleset(NULL, 0, LANDLOCK_CREATE_RULESET_VERSION);
+>>       if (abi < 0) {
+>>           /* Degrades gracefully if Landlock is not handled. */
+>> @@ -92,6 +101,9 @@ version of the ABI.
+>>       case 2:
+>>           /* Removes LANDLOCK_ACCESS_FS_TRUNCATE for ABI < 3 */
+>>           ruleset_attr.handled_access_fs &= ~LANDLOCK_ACCESS_FS_TRUNCATE;
+>> +    case 3:
+>> +        /* Removes network support for ABI < 4 */
+>> +        ruleset_attr.handled_access_net &= ~ACCESS_NET_BIND_CONNECT;
+>>       }
+>> 
+>>   This enables to create an inclusive ruleset that will contain our rules.
+>> @@ -143,8 +155,22 @@ for the ruleset creation, by filtering access rights according to the Landlock
+>>   ABI version.  In this example, this is not required because all of the requested
+>>   ``allowed_access`` rights are already available in ABI 1.
+>> 
+>> +For network part we can add number of rules containing a port number and actions
+>> +that a process is allowed to do for certian ports.
+> 
+> For the network access-control, we can add a set of rules that allow to
+> use a port number for a specific action.
+> 
+   Ok. Will be fixed.
+>> +
+>> +.. code-block:: c
+>> +
+>> +    struct landlock_net_service_attr net_service = {
+>> +        .allowed_access = LANDLOCK_ACCESS_NET_BIND_TCP,
+>> +        .port = 8080,
+>> +    };
+>> +
+>> +    err = landlock_add_rule(ruleset_fd, LANDLOCK_RULE_NET_SERVICE,
+>> +                            &net_service, 0);
+>> +
+>>   We now have a ruleset with one rule allowing read access to ``/usr`` while > -denying all other handled accesses for the filesystem.  The next 
+> step is to
 
-Not quite, it means that MSI isolation is available, however it is not
-transparent and the iommu_domain user must do the little dance that
-follows.
+   Ok. Thanks.
 
-It does not mean the MSI controller implements the security
-functionality because it is not set on x86.
+>> +denying all other handled accesses for the filesystem.  The ruleset also contains
+>> +a rule allowing to bind current proccess to the port 8080.  The next step is to
+> 
+> We now have a ruleset with the first rule allowing read access to
+> ``/usr`` while denying all other handled accesses for the filesystem,
+> and a second rule allowing TCP binding on port 8080.
+> 
+  Got it. Thanks.
+> 
+>>   restrict the current thread from gaining more privileges (e.g. thanks to a SUID
+>>   binary).
+>> 
+>> @@ -296,6 +322,13 @@ not.  It is also possible to pass such file descriptors between processes,
+>>   keeping their Landlock properties, even when these processes do not have an
+>>   enforced Landlock ruleset.
+>> 
+>> +AF_UNSPEC socket family
+>> +-----------------------
+>> +
+>> +Sockets of AF_UNSPEC family types are treated as AF_INET(IPv4) socket for bind()
+> 
+> ``AF_UNSPEC`` sockets are handled as ``AF_INET`` sockets for the TCP
+> binding action. However, connecting an ``AF_UNSPEC`` socket is always
+> denied if at least one Landlock domain handles
+> ``LANDLOCK_NET_CONNECT_TCP``.  This restriction protects against…
+> 
+> As commented in patch 8/12, I don't think this is the right approach
+> anyway. It may then not be worth a dedicated section.
+> 
+   Ok. Let's discuss it in 8/12 patch.
+> 
+>> +action.  But connect() one is not allowed by Landlock for AF_UNSPEC sockets. This
+>> +logic prevents from disconnecting already connected sockets.
+>> +
+>>   Compatibility
+>>   =============
+>> 
+>> @@ -355,7 +388,7 @@ Access rights
+>>   -------------
+>> 
+>>   .. kernel-doc:: include/uapi/linux/landlock.h
+>> -    :identifiers: fs_access
+>> +    :identifiers: fs_access net_access
+>> 
+>>   Creating a new ruleset
+>>   ----------------------
+>> @@ -374,6 +407,7 @@ Extending a ruleset
+>> 
+>>   .. kernel-doc:: include/uapi/linux/landlock.h
+>>       :identifiers: landlock_rule_type landlock_path_beneath_attr
+>> +                  landlock_net_service_attr
+>> 
+>>   Enforcing a ruleset
+>>   -------------------
+>> @@ -451,6 +485,13 @@ always allowed when using a kernel that only supports the first or second ABI.
+>>   Starting with the Landlock ABI version 3, it is now possible to securely control
+>>   truncation thanks to the new ``LANDLOCK_ACCESS_FS_TRUNCATE`` access right.
+>> 
+>> +Network support (ABI < 4)
+>> +-------------------------
+>> +
+>> +Starting with the Landlock ABI version 4, it is now possible to restrict TCP
+>> +sockets' bind() and connect() actions for specific ports allowing processes
+>> +to establish restricted connections.
+> 
+> it is now possible to restrict TCP bind and connect actions to only a
+> set of allowed ports.
 
-Logically on x86 we should consider the remapping logic as part of the
-MSI controller even if x86 makes them separated for historical
-reasons.
-
-> MSI #n and this #n gets translated into actual MSI #m) So what you
-> want is to prevent an assigned device from being able to DMA into an
-> MSI doorbell that is not protected by either the IOMMU or the MSI
-> controller. If this happens this means the DMA can generate any kind
-> of MSI traffic that can jeopardize the host or other VMs
-
-I don't know of any real systems that work like this. ARM standard GIC
-uses a shared ITS page, the IOMMU does nothing to provide MSI
-security. MSI security is built into the GIC because it validates the
-device ID as part of processing the MSI. The IOMMU is only involved
-to grant access to the shared ITS page.
-
-Intel is similar, it provides security through the MSI controller's
-remapping logic, the only difference is that on Intel the MSI window
-is always present in every iommu_domain (becuase it occures before the
-IOMMU), and in ARM you have to do the little dance.
-
-Even if the iommu is to be involved it is all hidden from this layer.
-
-> and afterwards resv_msi is checked to see if we need to create the
-> so-called msi cookie.  This msi cookie tells the MSI writes are
-> translated by the IOMMU and somebody must create a mapping for those
-> transactions.
-
-The cookie is always necessary if we are going to use the
-non-transparent mode. That is what makes it the non transparent
-mode. We have to supply the reserved IOVA range from one part of the
-iommu driver to another part.
-
-> > +	 * creates the MSI window by default in the iommu domain. Nothing
-> > +	 * further to do.
-> > +	 */
-> > +	if (device_iommu_capable(idev->dev, IOMMU_CAP_INTR_REMAP))
-> > +		return 0;
-> > +
-> > +	/*
-> > +	 * On ARM systems that set the global IRQ_DOMAIN_FLAG_MSI_REMAP every
-> > +	 * allocated iommu_domain will block interrupts by default and this
-> It sounds there is a confusion between IRQ remapping and the fact MSI
-> writes are not bypassed by the IOMMU.
-
-I don't think I'm confused :)
-
-> > +static int iommufd_device_do_attach(struct iommufd_device *idev,
-> > +				    struct iommufd_hw_pagetable *hwpt,
-> > +				    unsigned int flags)
-> > +{
-> > +	phys_addr_t sw_msi_start = 0;
-> > +	int rc;
-> > +
-> > +	mutex_lock(&hwpt->devices_lock);
-> > +
-> > +	/*
-> > +	 * Try to upgrade the domain we have, it is an iommu driver bug to
-> > +	 * report IOMMU_CAP_ENFORCE_CACHE_COHERENCY but fail
-> > +	 * enforce_cache_coherency when there are no devices attached to the
-> > +	 * domain.
-> > +	 */
-> > +	if (idev->enforce_cache_coherency && !hwpt->enforce_cache_coherency) {
-> > +		if (hwpt->domain->ops->enforce_cache_coherency)
-> > +			hwpt->enforce_cache_coherency =
-> > +				hwpt->domain->ops->enforce_cache_coherency(
-> > +					hwpt->domain);
-> > +		if (!hwpt->enforce_cache_coherency) {
-> > +			WARN_ON(list_empty(&hwpt->devices));
-> > +			rc = -EINVAL;
-> > +			goto out_unlock;
-> > +		}
-> > +	}
-> > +
-> > +	rc = iopt_table_enforce_group_resv_regions(&hwpt->ioas->iopt, idev->dev,
-> > +						   idev->group, &sw_msi_start);
-> > +	if (rc)
-> > +		goto out_unlock;
-> > +
-> so in the case of any IOMMU_RESV_MSI, iommufd_device_setup_msi() will be
-> called with *sw_msi_start = 0 which will return -EPERM?
-> I don't think this is what we want. In that case I think we want the
-> RESV_MSI region to be taken into account as a RESV region but we don't
-> need the MSI cookie.
-
-This was sort of sloppy copied from VFIO - we should just delete
-it. The is no driver that sets both, and once the platform asserts
-irq_domain_check_msi_remap() it is going down the non-transparent path
-anyhow and must set a cookie to work. [again the names doesn't make
-any sense for the functionality]
-
-Failing with EPERM is probably not so bad since the platform is using
-an invalid configuration. I'm kind of inclined to leave this for right
-now since it has all be tested and I don't want to make a
-regression. But I can try to send a patch to tidy it a bit more, maybe
-add an appropriate WARN_ON.
-
-The whole thing is actually backwards. The IOMMU_CAP_INTR_REMAP should
-have been some global irq_has_secure_msi() and everything with
-interrupt remapping, and ARM should set it.
-
-Then the domain should have had a domain cap
-IOMUU_CAP_REQUIRE_MSI_WINDOW_SETUP to do the little dance ARM drivers
-need.
-
-And even better would have been to not have the little dance in the
-first place, as we don't really need the iommu_domain user to convey
-the fixed MSI window from one part of the iommu driver to another.
-
-We may try to fix this up when we get to doing nesting on ARM, or
-maybe just leave the confusing sort of working thing as-is. I don't
-know.
-
-Jason
+  Got it. Thanks.
+> 
+>> +
+>>   .. _kernel_support:
+>> 
+>>   Kernel support
+>> @@ -469,6 +510,11 @@ still enable it by adding ``lsm=landlock,[...]`` to
+>>   Documentation/admin-guide/kernel-parameters.rst thanks to the bootloader
+>>   configuration.
+>> 
+>> +To be able to explicitly allow TCP operations (e.g., adding a network rule with
+>> +`LANDLOCK_ACCESS_NET_TCP_BIND`), the kernel must support TCP (`CONFIG_INET=y`).
+> 
+> Please use double backquotes everywhere, cf.
+> https://git.kernel.org/torvalds/c/2fff00c81d4c
+> 
+   Ok. I will check.
+> 
+>> +Otherwise, sys_landlock_add_rule() returns an `EAFNOSUPPORT` error, which can
+>> +safely be ignored because this kind of TCP operation is already not possible.
+>> +
+>>   Questions and answers
+>>   =====================
+>> 
+>> --
+>> 2.25.1
+>> 
+> .
