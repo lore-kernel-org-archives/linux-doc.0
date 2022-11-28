@@ -2,208 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08409C4321E
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 14:18:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77239C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 14:53:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232417AbiK1OSk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Nov 2022 09:18:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44948 "EHLO
+        id S230460AbiK1Oxc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Nov 2022 09:53:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232416AbiK1OSh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 09:18:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E42E622299
-        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 06:17:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669645040;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=jCazpTTy+F7fa4dxFepBnOElkUnDE1h7gUS6HgFedPY=;
-        b=OCkxvK7L1zjcU8P6bg4pxXbUXT7vXz0NTRsLKl5bzpooGH1KFL9no+RI+YNHxWcoMa88ed
-        y8u0Z42Y7fOCdcwmc2z5bw1nkMwHZg4LoOQvRZPfMkeNrL8Ap65sgMrGZs9+IFKSQIzUdG
-        4yN1+xiV3I/ZQ4UD/EWa7hHUteywV3U=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-53--rCOn6oUP2i7LB7Ogh5J9A-1; Mon, 28 Nov 2022 09:17:19 -0500
-X-MC-Unique: -rCOn6oUP2i7LB7Ogh5J9A-1
-Received: by mail-qk1-f198.google.com with SMTP id br8-20020a05620a460800b006fbf8866293so20106256qkb.2
-        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 06:17:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jCazpTTy+F7fa4dxFepBnOElkUnDE1h7gUS6HgFedPY=;
-        b=qooh5LSYhYoZzIKhSJVzMh4xu/3g2Xpe6L6g3ul8HjSxwBpbgt9qHijW07gC9E+bGc
-         pCX7p+06S93bAa3mYdmwVOkD2l13kA3pZUhjMI2TgOgyc6lRWA6Q1LjYuabo/rO1plyK
-         a/cGCdWEMvdR6XbNIXwv4kL5WCwpedwxFLGWS8Z24hO+F1PcMTwmIsiJxUc3srQFbrwZ
-         totAXoaX/XhIvhp7AdFjJCXoPcKupXsX7cVaD/BSNelbueAxC0870LuQJ0gVE/2EFHIL
-         KUPiPW+UtNuM+J/iE10aQdJBgAcFI75kqnMsTanNmFohZunJMexDs9oy9er1ixp1F2Cj
-         dGsw==
-X-Gm-Message-State: ANoB5pk6XHbnqmgvJye8ukiNkxVpiJcIumy1BXoGfPtLimwRFR61wurm
-        USKvTuKSQa0igw6B9V7Cn9k3Es6yZHoXI6B3nCbOih6TcfIKD93hPf6xozwzcOZkr4NJJmNm1BZ
-        BOPK2xaeY+ylm+31kPYnH
-X-Received: by 2002:a05:620a:15f4:b0:6fc:5e75:8452 with SMTP id p20-20020a05620a15f400b006fc5e758452mr12348118qkm.565.1669645038415;
-        Mon, 28 Nov 2022 06:17:18 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7v1fq7/cmmRa8boL0KEKgHvn1ntFy91sfTcqo+21QKxMb9e0oyQ5n2B68KMni02H2rUIIZ6Q==
-X-Received: by 2002:a05:620a:15f4:b0:6fc:5e75:8452 with SMTP id p20-20020a05620a15f400b006fc5e758452mr12348062qkm.565.1669645038027;
-        Mon, 28 Nov 2022 06:17:18 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874? ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
-        by smtp.gmail.com with ESMTPSA id s6-20020a05620a254600b006cbc6e1478csm8423957qko.57.2022.11.28.06.17.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Nov 2022 06:17:17 -0800 (PST)
-Message-ID: <722b8767-daf9-f5b8-8ad7-0d9cb22d4b7d@redhat.com>
-Date:   Mon, 28 Nov 2022 15:17:09 +0100
-MIME-Version: 1.0
+        with ESMTP id S231281AbiK1Oxb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 09:53:31 -0500
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2049.outbound.protection.outlook.com [40.107.95.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 678761F9C7;
+        Mon, 28 Nov 2022 06:53:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SKiiqW2E8wPKVCeEIDNRWIMysGTZT5Yo06EQkck84JQsjgPwvynqd4ykmwKc5+a3WfK6ZjKs/APKmwtroO+FmC9sgSCTIb3LIsMwLeVqmUHNyPBlWjLi4dZ5087rDTJnXUcv+YUJEIRq1aRLxfIzBaic9Cr70OX8pbqr884E7vB9Z02LLwhEm1ulHDHT9nQik6MypKPCu85wckTDa3qrqbb4SD+NMY/CwfMvlXRiH2MfXr8PVgpyuh2YlmwWzr+TvOrj0t4zn73cE3DvQ1CbN46scobODqCHkVF582iEN97DK+EK/UIIZ3nKraYgUp0YZZPnkpq0mnS1XVeznWWTRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hvqANHk1zaYEqCxlAeXiUJGAdTa8cUpg2yNzMST8/FM=;
+ b=JFr4g6XjqpaAdk9kbAHRmQU0OYkldIb24TfEQq5sBHvmvU/vIlmhxDpdatd96AJbZDBuj0XHG0jT5kvAT7Yp6wlofzgqvRaXzVBlYEeWYBsSSH5Fo/kmiNnrocHsiIRjfubCLSzYfHp7KOQ1BXnY6QoCIvaqKD2vDAkaFgpUPZyk6AQRurYJc9pSPciz+NB42P02FBLx3hE5KvLuU2mFs3YBwbf4PGDlOP1/+5drhSHRvaS48SDBZTdn/NjgaqEyeZn8vhAwsqwoMFLDeTSbVJjirStmMKsHstn63wKP9LCZvznFmsAAoMS8a24F+0VK2N0dm0Fd6ZFpVg5WTGiVcw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hvqANHk1zaYEqCxlAeXiUJGAdTa8cUpg2yNzMST8/FM=;
+ b=O99vMvLpfXqo1D3yo4kH1g73qzz1UkScGUdkVSXzG9KISBdb6coO+jW3pY6Lhjdthday5bDo+ki61RdyjV++ha/I0Xy/KumZB1j5DW5UAfx/Fh/hIRgd8hS3uSaJrp/F4VUX0e0sCA9pfGcjZsED0ElbGm82Z0YaytVt3EpCBME=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
+ by BL0PR12MB4884.namprd12.prod.outlook.com (2603:10b6:208:1ca::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Mon, 28 Nov
+ 2022 14:53:28 +0000
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::9eca:d454:d407:7ba2]) by BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::9eca:d454:d407:7ba2%3]) with mapi id 15.20.5857.023; Mon, 28 Nov 2022
+ 14:53:28 +0000
+Message-ID: <6b1d95ed-3000-3baf-81ae-7794c9515e3b@amd.com>
+Date:   Mon, 28 Nov 2022 08:53:25 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Reply-To: eric.auger@redhat.com
-Subject: Re: [PATCH v5 13/19] iommufd: Add kAPI toward external drivers for
- physical devices
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] docs/sp_SP: Add memory-barriers.txt Spanish translation
 Content-Language: en-US
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     bpf@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
-        Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
-        Anthony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Eric Farman <farman@linux.ibm.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
-        Lixiao Yang <lixiao.yang@intel.com>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Shameerali Kolothum Thodi 
-        <shameerali.kolothum.thodi@huawei.com>,
-        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
-References: <13-v5-4001c2997bd0+30c-iommufd_jgg@nvidia.com>
- <4c429c36-146e-e2b2-0cb4-d256ca659280@redhat.com>
- <Y4P9VzpCv/DyHeaD@nvidia.com>
- <94e6034a-c4c1-be0a-ea8c-f5934dbadd4c@redhat.com>
- <Y4S1hYFm9HaP0KdR@nvidia.com>
-From:   Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <Y4S1hYFm9HaP0KdR@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        bilbao@vt.edu, sos-linux-ext-patches@mailman-svr.amd.com
+References: <20221111174739.2471900-1-carlos.bilbao@amd.com>
+ <87fsec9foh.fsf@meer.lwn.net>
+From:   Carlos Bilbao <carlos.bilbao@amd.com>
+In-Reply-To: <87fsec9foh.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CH2PR12CA0005.namprd12.prod.outlook.com
+ (2603:10b6:610:57::15) To BL1PR12MB5874.namprd12.prod.outlook.com
+ (2603:10b6:208:396::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|BL0PR12MB4884:EE_
+X-MS-Office365-Filtering-Correlation-Id: e22bb851-e011-4387-a3ea-08dad1504ee9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yIDhQw/gtqJV2AUBHpDgw1LEWQ/MTPvC4YjNwAVbK/XUaEjEoqoqbtHIprhyArupGGtKhkOXC9EK/ut2Sc/nK6ghC90brNQcC+cM4SGJakf6cBcHBuG8ifYJTBH1ZTUghIzW6vgLDaIt0lHyl/uriunvbEZ8CDlP0VE1tW2MLQ8xkrAmbIE+Nc0x5WgmIVRpkkqqRLE+fruwNkBs/h5fcXejmLIDvzkeEG5WBXGtKnxPserYy5epwDE0aLGBWSmk6D6xPYNBUD3JXFJ8dmCxwQcshQPs4ddg+f4T94sDcQyWK3z8Z8px92CCTylue32oSFd3+CeXlV2Z6ZcLQz3nSVs2TgVmjaZr1ulfspEZSDndnzc0fpPbvMR3wOM124ljbtuxNKqI13KBVpULEV3I3Rhww110BgW7vO6idPk5dpc7Uh02Xf8hFdCQELIKtgbi1dvaw2BsxCupX3c2m8Ca5i37IZB0rkwD1F6axmU/MkVS8v12M9JX455t+kZMpaWEIHGnUcnb0o9OTQoK1YpO9hyUvoSzNUs3SGsCxELk0kwwNWLR44/1VxDDxm6jXCegrU0ruJNz++hFHPo4MN3uyjzfla1lUYWB8wnXSoBcy2S7/fgw+LY5g8VAX2JmP5B8y0nkCCx9slSgm96yS+LWUVYTCScbBpC3B72tZylwyqfFa3lTsenrB+JsI8tYN0gD/vlN7o46vz4EJ1biwBg8SCiPnpSgij+XH7pY88/d/SY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(396003)(39860400002)(346002)(136003)(376002)(451199015)(8936002)(5660300002)(186003)(36756003)(66556008)(8676002)(66946007)(4326008)(41300700001)(66476007)(6916009)(316002)(38100700002)(6486002)(6666004)(2616005)(26005)(86362001)(6512007)(31696002)(6506007)(53546011)(478600001)(2906002)(31686004)(44832011)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RE5VRm9YYmNESi92cjlRMnhyMmw0amxkOTRablo1UDdadkRXamdEcFBYeUFW?=
+ =?utf-8?B?aFA2UXNMMEgzWVh2SGxTdVIrSzZPeWFVNDZIQkcrNDM0KzJKT01ZVEZoNWN0?=
+ =?utf-8?B?bVdFMTlBRFRkQ0tndVFLZGZaZUJMbk5rYUdWZnZVaDltT2RxNXp6MXBtYkFH?=
+ =?utf-8?B?bThnK1FZVnFHbXZOd3NpSE1VNFByYnBWakwzMDFReUJmUUhQWDZPcC9wL2lM?=
+ =?utf-8?B?Uy9JTFc2a0FkTGVRNGErd0k0dVhPekYvbGdzU3VYWWVHR1NNSkF5MnFCczAr?=
+ =?utf-8?B?dndWQWxjSTJoeElkWGpIbVQrdFZET0ZmeXhZa09rVENoaUhlUDNXeDJDWUQ1?=
+ =?utf-8?B?YUdJNnc3QXpjK2MzTm82REJMc2RZUGZ3NmU0TUtIbTYvMXMwOFAyYVpJUElq?=
+ =?utf-8?B?ME1SblNGN1VZME01a3JPQThBcFFxL3hXYnpQUEs5aEtyd0FYZ0FDNFNPSUFP?=
+ =?utf-8?B?OVY4QkdiSkozcnY1ZGNxVzdtcmxjdzVZT2poUTFRZVpOcVJNUElpNVVwUVBU?=
+ =?utf-8?B?eHlvNDRETVFDN1o2U1BWY0lKYTNsNEhLYUNkSEFnZXNCd3BkL2loS05OeW51?=
+ =?utf-8?B?Ny9uQVFVajBXd2svd1g3WWhabTVmYXBJNUZkVmp0bDhsVG5UY2N3Sm5OdllD?=
+ =?utf-8?B?Nm01MzlWMzhRUllJUlI0Wi9ISlZhUzhoRVkxMmIyWEhyYllFMTlORmM3Qk8r?=
+ =?utf-8?B?QzFWYzFUM2V6dlBYekhVbS9LblpUV203cjNwb24zZTQ4ZnNpbU9PdXY5SDJF?=
+ =?utf-8?B?Y3ZCZ3hDY3ZXeUxKNzUraTBieHVueHJpUHFOY1RlUzVkR3FneG1xYW9hU0li?=
+ =?utf-8?B?b3pMN2FyVEFpMnppL2g3MUZGeVJpZlZDWjA2YzJDY2RhWUh2RVlTbFBtZHVr?=
+ =?utf-8?B?Z2ZtSzBzbHo0V1VMY3lwRHRGVk00WHllbHByT1g1OEpHZDEvemRYQmVHQ0xa?=
+ =?utf-8?B?WmVuRSsvNGxmRjU2YkVuZGNQNmNKWUNrQTFBWXlpdTJnTW5GODFQdWZ1SUY2?=
+ =?utf-8?B?OVM5WE1uNzB3RlNPbDQrVzFQazYxclAraG04VnYwRC9ZYVJoZTNtWTVqbDhU?=
+ =?utf-8?B?ejd2bkhYUHU2Y1Rxc0E4clhoT3hpbU9wanRqbnhZNUpkM3p6Y1MyRG9nZ2tU?=
+ =?utf-8?B?dlpFaldsYldrUE1IdjUxU0tIRVI0QVhFQTBLaVFCN0JDNHVNdlcwMUNyNXkw?=
+ =?utf-8?B?RUF6RXd4OUhkMUpnQjFnVG91R016OFhROVQzYUt2c2ViZUVQNFJ3RTJWQ05T?=
+ =?utf-8?B?bVVuVFByby90c29oWWk2MkM4cnFPcCtNa3JHb1dCckVBb0tpcnNxMHpHUGV2?=
+ =?utf-8?B?TUhGOUlvNjgrTEs3NjhXYy9PbmxqYjZ4ZE41Z3kwQXJRam1naW9nWkQvNW1t?=
+ =?utf-8?B?OVlYVkZVVEdnWk1aU2c3ZkIyV1lyQ2J2MnBLb2VGWDNnUGwxVm11OEhZVEhE?=
+ =?utf-8?B?amdlcTdlUXZPV3pEcHg5aVJlYUlZM1FSM1owZWtzeVVVdDBVNEhGR0FkRkg5?=
+ =?utf-8?B?VW1TN1R2clV3S1ZrUXVsVGdkNDVYTSt3K3lEZFoxNGtZNnMxUlBZVHF1aVB0?=
+ =?utf-8?B?SndwK3g5enpaU0VaeHpKOTQ3QW5RQ2RQaHBwUDhrdUFDR1N6eWVENVJZaytn?=
+ =?utf-8?B?OG52RUpvVnhPeTNmcm5Kc1Vadm1VM3RNMW4rSm1lcjBRTUxtMGQ0Tmt0M0Fi?=
+ =?utf-8?B?RFNQOEtzaXg4Z05lM3JmV1NDWG1oVGp1aDlxZG05NElrTGdwdU5OOWhnaVla?=
+ =?utf-8?B?VGVncEJXZ2RvZjl6K0kvSTFoR01oMEgxSWhiQkpwWlUvMUtRQ0tIcS9qeTlp?=
+ =?utf-8?B?dEJIRkhZa213aHR0MGdZOXEvWFRaYVF0dGJnZ1ppUmdiRkpSUC9oejB4ODlw?=
+ =?utf-8?B?R3p6U3FQTTR6VlFVdlFsWjlWWWxNdG5vcU8vTEcyTEUrbU1BVCtQa1Q5MlYz?=
+ =?utf-8?B?Q3ZKVzVHdWRjV2MvbExUY1dwYkhpOStaZjJHeTA2TmNoRVFzMmpHWmJaK2s4?=
+ =?utf-8?B?WlVaenJPWGtodjMwMUp6Z0E0T2pmbXBYTUxNR01BMTkzS25kUm41Q1RWOFJB?=
+ =?utf-8?B?QVFoTWN0KzRmd0lsbWphWENLRjFzcEM1VHVPeE9NVVJPU01CbzBJVVliY0dw?=
+ =?utf-8?Q?o0RH1adTtzRgZFswkDnQP8Me4?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e22bb851-e011-4387-a3ea-08dad1504ee9
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2022 14:53:27.9119
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LubX1UXSKGA7J/QssGvfQID7vrbubqHi85KeYpnIe3guZ5tP+pFxOpdkgSd3B9vD2EWH0xYLVRYeVoHxQkt+TA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4884
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 11/21/22 15:10, Jonathan Corbet wrote:
+
+> Carlos Bilbao <carlos.bilbao@amd.com> writes:
+>
+>> Translate the following documents into Spanish:
+>>
+>> - memory-barriers.txt
+>>
+>> Also include it on index of Spanish translations, following the same
+>> approach used by the Korean translation, as a note at the end of the index.
+>>
+>> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+>> ---
+>>   Documentation/translations/sp_SP/index.rst    |    4 +
+>>   .../translations/sp_SP/memory-barriers.txt    | 3134 +++++++++++++++++
+>>   2 files changed, 3138 insertions(+)
+>>   create mode 100644 Documentation/translations/sp_SP/memory-barriers.txt
+>>
+>> diff --git a/Documentation/translations/sp_SP/index.rst b/Documentation/translations/sp_SP/index.rst
+>> index e20dd6e875e7..61dace3df9a6 100644
+>> --- a/Documentation/translations/sp_SP/index.rst
+>> +++ b/Documentation/translations/sp_SP/index.rst
+>> @@ -79,3 +79,7 @@ Traducciones al español
+>>   
+>>      howto
+>>      submitting-patches
+>> +
+>> +.. include:: ./memory-barriers.txt
+>> +    :literal:
+> That's an awfully big "note" to add at the end of the index file; I
+> don't really think that's the best experience for our readers.  Can this
+> be done using the wrapper documents like for English in current
+> docs-next?
 
 
-On 11/28/22 14:20, Jason Gunthorpe wrote:
-> On Mon, Nov 28, 2022 at 11:55:41AM +0100, Eric Auger wrote:
->
->>> Not really. The name is a mess, but as it is implemented, it means the
->>> platform is implementing MSI security. How exactly that is done is not
->>> really defined, and it doesn't really belong as an iommu property.
->>> However the security is being created is done in a way that is
->>> transparent to the iommu_domain user.
->> Some 'ARM platforms' implement what you call MSI security but they do
->> not advertise IOMMU_CAP_INTR_REMAP
-> Sounds like a bug.
->  
->> Besides refering to include/linux/iommu.h:
->> IOMMU_CAP_INTR_REMAP,           /* IOMMU supports interrupt isolation */
-> Documentation doesn't match code.
->
->>> It doesn't matter how it is done, if it remapping HW, fancy
->>> iommu_domain tricks, or built into the MSI controller. Set this flag
->>> if the platform is secure and doesn't need the code triggered by
->>> irq_domain_check_msi_remap().
->> this is not what is implemented as of now. If the IOMMU does support
->> interrupt isolation, it advertises IOMMU_CAP_INTR_REMAP. On ARM this
->> feature is implemented by the ITS MSI controller instead and the only
->> way to retrieve the info whether the device MSIs are directed to that
->> kind of MSI controller is to use irq_domain_check_msi_remap().
-> It is important to keep the Linux design seperated from what the
-> architecture papers describes. In Linux the IOMMU is represented by
-> the iommu_domain and the iommu_ops. On x86 neither of these objects
-> play any role in interrupt delivery. Yes, the x86 architecture papers
-> place some of the interrupt logic inside what they consider the iommu
-> block, but that is just some historical stuff and shouldn't impact the
-> SW design.
->
-> If we had put the IRTE bits inside the irqchip layer instead of in the
-> iommu driver, it would have made a lot more sense.
->
-> The fact that ARM was allowed to be different (or rather the x86 mess
-> wasn't cleaned up before the ARM mess was overlayed on top) is why
-> this is so confusing. They are doing the same things, just in
-> unnecessarily different ways.
+Yes that makes more sense. Sending v2 :)
 
-fair enough. But that's a separate discussion that needs to happen with
-iommu and irqchip maintainers I think. At the moment things are
-implemented that way.
->
->>>> irq_domain_check_msi_remap() instead means the MSI controller
->>>> implements that functionality (a given device id is able to trigger
->>> Not quite, it means that MSI isolation is available, however it is not
->>> transparent and the iommu_domain user must do the little dance that
->>> follows.
->> No I do not agree on that point. The 'little dance' is needed because
->> the SMMU does not bypass MSI writes as done on Intel. And someone must
->> take care of the MSI transaction mapping. This is the role of the MSI
->> cookie stuff. To me this is independent on the above discussion whether
->> MSI isolation is implemented.
-> OK, so you are worried about someone who sets
-> allow_unsafe_interrupts=1 they will not get the iommu_get_msi_cookie()
-> call done even though they still need it? That does seem wrong.
-yes
->
->>> This was sort of sloppy copied from VFIO - we should just delete
->>> it. The is no driver that sets both, and once the platform asserts
->>> irq_domain_check_msi_remap() it is going down the non-transparent path
->>> anyhow and must set a cookie to work. [again the names doesn't make
->>> any sense for the functionality]
->>>
->>> Failing with EPERM is probably not so bad since the platform is using
->>> an invalid configuration. I'm kind of inclined to leave this for
->>> right
->> I don't understand why it is invalid? HW MSI RESV region is a valid
->> config and not sure you tested with that kind of setup, did you?
-> Why would it be a valid config? No driver sets both..
->
-> HW MSI RESV should set IOMMU_CAP_INTR_REMAP like Intel does.
->
-> irq_domain_check_msi_remap() is only for SW MSI RESV regions.
-In theory no. Nothing prevents from having an MSI isolation capable
-controller (such as the ITS) with an IOMMU HW which wouldn't translate
-MSIs. In the past there has been such kind of problematic I think for
-HiSilicon HW
-https://lore.kernel.org/all/20171006140450.89652-1-shameerali.kolothum.thodi@huawei.com/
-This was eventually addressed differently but Shameer may precise ... 
-
-Eric
 
 >
-> This is what the code implements, and yes it makes no sense.
+> Thanks,
 >
-> Jason
->
+> jon
+
+
+Thanks,
+
+Carlos
 
