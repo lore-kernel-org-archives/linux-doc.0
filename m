@@ -2,174 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D33DC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 20:19:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1838C4167D
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 20:23:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232447AbiK1UTk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Nov 2022 15:19:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34014 "EHLO
+        id S233585AbiK1UXi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Nov 2022 15:23:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231255AbiK1UTk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 15:19:40 -0500
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2068.outbound.protection.outlook.com [40.107.220.68])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EEC41CFDC;
-        Mon, 28 Nov 2022 12:19:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fSx59Ct6SxHXB/+x5snCYQCwWAMcFUioJYLTwAi0ewjf0KSnzmyI5MYuv/XxIOwsQqULgaAY3u32L78RqWcmJtommggElb+HQfrSDnylMCikCvOlTeBw/ofcOuafNTMSUkhgffuYjvQ26OfsVK9Y+oHETkj4HkVu+AkuiJFfkq4hgZqS7MxQk0hgJSJiQGWQjPLm4MAnBGiwfSE7dCb/diQ2QabGsLsrtRIgNHyZ0r8l9iY6xooFPdxGT+CVtIvgov8ENs2iXRYsUQ3YoHZJJ4j/2W44DsjMDT15FFdS4PxDoMXlPD6dXkO72Y2RGwX1XpFkJSqlXm4pxPPSjc/vXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0bjYacb2l+/bfej100wjY2vSvC/9mKoZgjUAIAfJG0I=;
- b=UdP2cyAmkw6DPvtxSoIB7HyM4dW73g+EASwcT1tm0rCYZDV1WhycbQccYhW2hrOxT7DPGaUVrZg9ymk1woS6h5OC/2AOxRD7WaC76YTEaDxvPCr936sLOBFqhsteuhUvDjn/wWc0Ih4+n4qayYsbAK0LkHnvJ8H66lJ4CVeUQ9NKwxrfH059gwWYR8E/b4GI4NKKe6FJyc63tlrGZhlT2KiysROZGo/1SS+D50pIJ3Kh5m3JoS8TqpIXvKRTLne4tyE5YA8Lc4P3zR9albM5y+P319XiIp77du94Ve6ckfm5UFOISKyEHlb7843IY4dkciFHBut8u/VKPxKtkFZibw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0bjYacb2l+/bfej100wjY2vSvC/9mKoZgjUAIAfJG0I=;
- b=u55+i8GR737XgaLSXbToWtDeJ53ybopAX2Aar1G/hZ+mmEPO6umt8VW7cNUnwBwvGxkvD49zhokKZhuDhdIEUlNv7+/DITah8iBVZmMjcu+E4AMX6ScZqQDKuTP7u95SyW5hKXrjqE3IRn3/aaMWcdScRGyPem/kBc4wpHHnWY8=
-Received: from DS7PR03CA0094.namprd03.prod.outlook.com (2603:10b6:5:3b7::9) by
- IA0PR12MB7650.namprd12.prod.outlook.com (2603:10b6:208:436::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.21; Mon, 28 Nov
- 2022 20:19:34 +0000
-Received: from DM6NAM11FT101.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:3b7:cafe::27) by DS7PR03CA0094.outlook.office365.com
- (2603:10b6:5:3b7::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23 via Frontend
- Transport; Mon, 28 Nov 2022 20:19:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT101.mail.protection.outlook.com (10.13.172.208) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5834.8 via Frontend Transport; Mon, 28 Nov 2022 20:19:33 +0000
-Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 28 Nov
- 2022 14:19:33 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB08.amd.com
- (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 28 Nov
- 2022 12:19:33 -0800
-Received: from iron-maiden.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Mon, 28 Nov 2022 14:19:32 -0600
-From:   Carlos Bilbao <carlos.bilbao@amd.com>
-To:     <corbet@lwn.net>, <ojeda@kernel.org>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <bilbao@vt.edu>, Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: [PATCH] docs: Integrate rustdoc-generated output to Rust docs
-Date:   Mon, 28 Nov 2022 14:19:32 -0600
-Message-ID: <20221128201932.168313-1-carlos.bilbao@amd.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S234011AbiK1UX1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 15:23:27 -0500
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54CD319C33
+        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 12:23:26 -0800 (PST)
+Received: by mail-oi1-x236.google.com with SMTP id l127so12898181oia.8
+        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 12:23:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dCa69YdEtMn4spqO3MAiWVwYikmJqS2nm+0NXq6y6Ck=;
+        b=Yc4MyIuW2yggdapxAdcen0pJDpU/eLlafTPt80WvP733RUnpDMNqpoY5ETncKVt0EB
+         N9qM7f119WFnJRV4ANVDHKZyi/F8TcWSz+jbOHn49QmLz0NgT7BIOsIri3BAfBMyAKw1
+         5QC6Ov3Hh7HAowwolK8nIN+ZDe59lDcE5VTGd45Q0KYmHZbNlPPl832j2vlOAJOD8Rb9
+         DvoeqKwWM8Ni+2xMFFAAhnNI8KWDPMnCdiUAv+mfkD/76psDAXrM4ecg+SNRk4Nbcb1v
+         7YOtUSJggoEeiegNwhjbxFB0Uq/63+mmNZ8DH7cSn02DoMH4GHbXFjeCN2N+94Oi0DIZ
+         ZCOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dCa69YdEtMn4spqO3MAiWVwYikmJqS2nm+0NXq6y6Ck=;
+        b=h/pmOXFTLKnGEhklU53TGDEEdqudHx+1hj1DQZjeUhLPuyAGGoFfPRjAn/05Mi1AGu
+         /ExsduXjNu4F92noQwNS/mHvw1rZsVgRsia1YTUvMY1558oXjgOvUgjHiKebwfTDreBk
+         VqOKePAm7JX7QeNp4wI8+VUeOSCXMNxWrlLP8i3WmlSIuSTpr/wXn+nk1xQ6EnIT6WOM
+         n474ScNASTTpXSMpUqUXui4gZgSLJ87at7RY0VkzfvjxjL3fobYtkdm86GoUEKDXOtPk
+         bmLSRRzYsUzMOwm1bA5syk1FMXbgO+616cSSrb8KNkTylbRvlkBbDCBsmYKsHFMF7XsU
+         Dw0g==
+X-Gm-Message-State: ANoB5plR8MRTF09ySBZHrdgiKkVWjrlXWXxm/Eh2TgRcrirhLLHGKtAQ
+        twuPT0xbbUC6yPYu5jSeORl6JtU+Xc/LbKJOSBo=
+X-Google-Smtp-Source: AA0mqf6KOpkpp4yLsP+YGWSjXQZkjzqtYGUWdHBw22rjkoo5Mx5ec1jUOGue9xiXqjF0rVRwCM/EibS6SFlNovCm9r0=
+X-Received: by 2002:a05:6808:9b8:b0:34f:97ea:14d with SMTP id
+ e24-20020a05680809b800b0034f97ea014dmr15773971oig.96.1669667005543; Mon, 28
+ Nov 2022 12:23:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT101:EE_|IA0PR12MB7650:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e7511df-c633-4510-70bd-08dad17ddd26
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jX03JOwtjHu7sxlJi8dQ6mIyn4Whjnp/UqQWHHDvnkh/OLSwFr9eIPpBWd6IFfmwhmKhjZh/gDCYiVbZPfAa83B5RFGsnqDAdYEHST7DSdq3LKZPJNtTNkGaEdtp5S9q3GBE5HD6RQGBNcYBYlMb+MIzmd/E9J6c+FxO0oRCVAmuumrsaD8sUeDOY0fZ8H/SPdEEdsakiqU2xQnsSRWUmYWAmds31bN2TY+nMVSSuToTybUkWz3ekoqIciLdymw/IFUOpJvQXasdklhY2C1M9YPZxzhWCBBgXVpMfM0qCCfE4Fq+90bsnc9cMTUx64pXs2RsQSM14Wy6ShDbbit66ZCSIvfYD6CAGrsumWygz3eo7ThNwj1JzwKGr9p6Kv8HplYox/NVs/3OWH9pbF6C1LsFlW/Fpmj9NoH5pLedjeaEayiONlFVlRGsYCZPazZjAXo1IxqrC2nOa4FKytlgyNZvvofjkmelwkzUH57Nt3bKYTl/SqQN9DACJu4BN9af/DkBNUVYMFZniYP9SHXJU8guycCsdmv9LBRio6ULIlrVW9bvdKY6jGy5TFzT8qGRARrPoc78XTYbhtlIzX+WWLDa1h5MML8ub99rXD+/3PzcUZXrtc9fPn58VEKCXBm+9jXTi+Ylq1TlgZlh/7Lw3hJBpDKvxYiOyImRj7dRZkPnOeW9OFLPrc6OciCcJ02Gvr8gPYlIORDiGPXrjs7ZkYTp4mGdzccFQmcCxBZB26s=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(396003)(136003)(376002)(451199015)(36840700001)(40470700004)(46966006)(356005)(81166007)(40480700001)(40460700003)(86362001)(110136005)(7696005)(36756003)(54906003)(8936002)(478600001)(44832011)(2906002)(5660300002)(2616005)(41300700001)(316002)(4326008)(70586007)(70206006)(8676002)(36860700001)(82310400005)(186003)(26005)(1076003)(83380400001)(336012)(426003)(47076005)(82740400003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2022 20:19:33.6966
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e7511df-c633-4510-70bd-08dad17ddd26
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT101.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7650
+References: <20221125210055.16333-1-rdunlap@infradead.org>
+In-Reply-To: <20221125210055.16333-1-rdunlap@infradead.org>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Mon, 28 Nov 2022 15:23:14 -0500
+Message-ID: <CADnq5_NaHGrEM++_vRH0n3XKB-ON8ked4YMaFuPBYGv=PQ0xhA@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amdgpu: update docum. filename following rename
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Include HTML output generated from rustdoc into the Linux kernel
-documentation on Rust. Add Makefile target `make htmlrust` to combine
-make htmldocs and the generation of Rust documentation.
+Applied.  Thanks!
 
-Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
----
- Documentation/Makefile         | 11 +++++++++++
- Documentation/rust/index.rst   |  1 +
- Documentation/rust/rustdoc.rst | 10 ++++++++++
- Makefile                       |  2 +-
- 4 files changed, 23 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/rust/rustdoc.rst
+Alex
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 64d44c1ecad3..02ed01fa3499 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -95,6 +95,17 @@ htmldocs:
- 	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
- 
-+ifdef CONFIG_RUST
-+htmlrust:
-+	@make rustavailable
-+	@make LLVM=1 rustdoc
-+	@cp -r rust/doc/* Documentation/output/
-+	@make htmldocs
-+else
-+htmlrust:
-+	@echo "Error: CONFIG_RUST must be defined (see .config)"
-+endif
-+
- linkcheckdocs:
- 	@$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,linkcheck,$(var),,$(var)))
- 
-diff --git a/Documentation/rust/index.rst b/Documentation/rust/index.rst
-index 4ae8c66b94fa..5e7a9d39af90 100644
---- a/Documentation/rust/index.rst
-+++ b/Documentation/rust/index.rst
-@@ -13,6 +13,7 @@ in the kernel, please read the quick-start.rst guide.
-     general-information
-     coding-guidelines
-     arch-support
-+    rustdoc
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/rust/rustdoc.rst b/Documentation/rust/rustdoc.rst
-new file mode 100644
-index 000000000000..74581367417b
---- /dev/null
-+++ b/Documentation/rust/rustdoc.rst
-@@ -0,0 +1,10 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Rustdoc output
-+==============
-+
-+If this documentation includes rustdoc-generated HTML, this is the
-+entry point.
-+
-+.. raw:: html
-+    :file: doc/kernel/index.html
-diff --git a/Makefile b/Makefile
-index f41ec8c8426b..c7e00bf928ed 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1785,7 +1785,7 @@ $(help-board-dirs): help-%:
- # Documentation targets
- # ---------------------------------------------------------------------------
- DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
--	       linkcheckdocs dochelp refcheckdocs
-+	       linkcheckdocs dochelp refcheckdocs htmlrust
- PHONY += $(DOC_TARGETS)
- $(DOC_TARGETS):
- 	$(Q)$(MAKE) $(build)=Documentation $@
--- 
-2.34.1
-
+On Fri, Nov 25, 2022 at 4:01 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Fix documentation build errors for amdgpu: correct the filename.
+>
+> Error: Cannot open file ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+> Error: Cannot open file ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+> Error: Cannot open file ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+>
+> WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -sphinx-ve=
+rsion 5.3.0 -function MMU Notifier ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.=
+c' failed with return code 1
+> WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -sphinx-ve=
+rsion 5.3.0 -internal ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c' failed wit=
+h return code 2
+>
+> Fixes: d9483ecd327b ("drm/amdgpu: rename the files for HMM handling")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+>  Documentation/gpu/amdgpu/driver-core.rst |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff -- a/Documentation/gpu/amdgpu/driver-core.rst b/Documentation/gpu/am=
+dgpu/driver-core.rst
+> --- a/Documentation/gpu/amdgpu/driver-core.rst
+> +++ b/Documentation/gpu/amdgpu/driver-core.rst
+> @@ -148,10 +148,10 @@ PRIME Buffer Sharing
+>  MMU Notifier
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c
+>     :doc: MMU Notifier
+>
+> -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c
+>     :internal:
+>
+>  AMDGPU Virtual Memory
