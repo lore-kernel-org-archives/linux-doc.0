@@ -2,173 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BDD2C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 20:27:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66F8EC4321E
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 20:29:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234109AbiK1U0v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Nov 2022 15:26:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39272 "EHLO
+        id S233461AbiK1U3p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Nov 2022 15:29:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234127AbiK1U0r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 15:26:47 -0500
-Received: from smtp-bc08.mail.infomaniak.ch (smtp-bc08.mail.infomaniak.ch [IPv6:2001:1600:4:17::bc08])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A5112DAA4
-        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 12:26:43 -0800 (PST)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4NLcSf0142zMq4cB;
-        Mon, 28 Nov 2022 21:26:42 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4NLcSd1bktzwy;
-        Mon, 28 Nov 2022 21:26:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1669667201;
-        bh=PYhARmPRWBAR3gdL8U39SstQEnPL+gynR2X4/0WHpoc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=CmSjedJNvuS3XEb1Y2Y2T0rYh+cTUOiVaMApMO22ISAmkKF4GeFr2btWYul19Z1fh
-         YNHQKt1dZVVlTMSZGT//kwnRFJc31bEYqQoAOP7YT/H+KFEOoMp4Of+VncgnWhLUZI
-         p5O52IFWmoX7jEOGWiow0PYEJC+uNkD+xMt8UZQc=
-Message-ID: <2bce0b5a-a679-93f2-995c-cb0e80c82bf2@digikod.net>
-Date:   Mon, 28 Nov 2022 21:26:40 +0100
+        with ESMTP id S232924AbiK1U3o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 15:29:44 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C652CE3A
+        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 12:29:43 -0800 (PST)
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5D83E379;
+        Mon, 28 Nov 2022 20:29:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5D83E379
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1669667383; bh=0A6zJEJ0dUnIOp7mNAYz9LjVV+gTCYKtC0FKTPtFkP4=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=td4xQRGcuoNU8veju+zF6LHw2ex+iZeLFOOTGk4hxhhAtYwDbMdbtNXCjND88gLnt
+         h/7m/18k7LV8AkxAeNqfk7/ZkNzJPf8uJYpl8NA1aPp9fhWQXQy/J5pUbOnObRPrk0
+         MEbeRpj6NLs0NGsKiP7TZ9PCnBPTwMpTz5FTDNEbduHkHMJNwyTA4bac5euwP495w/
+         suYCMsjhhQT9YB2s9I89hx5Gm0HaiWXZZjgg4X4YZ+OxlrShntaOKv33kjl4yGejaY
+         RuYgiCkDUoEIEgIw7kF7SY0IXSWJuypCIMsMnQM6qKtI5IbR+GttdD8vfuexBEwGkJ
+         8/LQTHUROy3Kg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Maxim Cournoyer <maxim.cournoyer@gmail.com>
+Cc:     linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] doc: specify an 'html' build sub-directory for
+ the htmldocs target
+In-Reply-To: <87wn7esvrr.fsf@gmail.com>
+References: <20221116190210.28407-1-maxim.cournoyer@gmail.com>
+ <20221116190210.28407-3-maxim.cournoyer@gmail.com>
+ <8735ac9evv.fsf@meer.lwn.net> <87tu2sou3d.fsf@gmail.com>
+ <874juj6p3y.fsf@meer.lwn.net> <87wn7esvrr.fsf@gmail.com>
+Date:   Mon, 28 Nov 2022 13:29:42 -0700
+Message-ID: <87lenu6cw9.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: 
-Subject: Re: [PATCH v8 12/12] landlock: Document Landlock's network support
-Content-Language: en-US
-To:     "Konstantin Meskhidze (A)" <konstantin.meskhidze@huawei.com>
-Cc:     willemdebruijn.kernel@gmail.com, gnoack3000@gmail.com,
-        linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, artem.kuzin@huawei.com,
-        linux-doc@vger.kernel.org
-References: <20221021152644.155136-1-konstantin.meskhidze@huawei.com>
- <20221021152644.155136-13-konstantin.meskhidze@huawei.com>
- <8a8ba39f-c7c2-eca6-93b1-f36d982726ca@digikod.net>
- <73a8a2f2-0d59-970d-eaba-c0da38a1c38b@huawei.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-In-Reply-To: <73a8a2f2-0d59-970d-eaba-c0da38a1c38b@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Maxim Cournoyer <maxim.cournoyer@gmail.com> writes:
 
-On 28/11/2022 07:44, Konstantin Meskhidze (A) wrote:
-> 
-> 
-> 11/17/2022 9:44 PM, Mickaël Salaün пишет:
+> Hi,
+>
+> Jonathan Corbet <corbet@lwn.net> writes:
+>
+>> Maxim Cournoyer <maxim.cournoyer@gmail.com> writes:
 >>
->> On 21/10/2022 17:26, Konstantin Meskhidze wrote:
->>> Describes network access rules for TCP sockets. Adds network access
->>> example in the tutorial. Points out AF_UNSPEC socket family behaviour.
->>> Adds kernel configuration support for network.
+>>> Hi Jonathan,
 >>>
->>> Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
->>> ---
+>>> Jonathan Corbet <corbet@lwn.net> writes:
+>>>> I think I'm going to hold off on this one.  As I said before, it would
+>>>> have made sense to do things this way when we made the transition.  At
+>>>> this point, though, I think the potential for trouble outweighs the
+>>>> benefits that would come from moving things around in this way.
 >>>
->>> Changes since v7:
->>> * Fixes documentaion logic errors and typos as Mickaёl suggested:
->>> https://lore.kernel.org/netdev/9f354862-2bc3-39ea-92fd-53803d9bbc21@digikod.net/
->>>
->>> Changes since v6:
->>> * Adds network support documentaion.
->>>
->>> ---
->>>    Documentation/userspace-api/landlock.rst | 72 +++++++++++++++++++-----
->>>    1 file changed, 59 insertions(+), 13 deletions(-)
->>>
->>> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
->>> index d8cd8cd9ce25..d0610ec9ce05 100644
->>> --- a/Documentation/userspace-api/landlock.rst
->>> +++ b/Documentation/userspace-api/landlock.rst
->>> @@ -11,10 +11,10 @@ Landlock: unprivileged access control
->>>    :Date: October 2022
->>>
->>>    The goal of Landlock is to enable to restrict ambient rights (e.g. global
->>> -filesystem access) for a set of processes.  Because Landlock is a stackable
->>> -LSM, it makes possible to create safe security sandboxes as new security layers
->>> -in addition to the existing system-wide access-controls. This kind of sandbox
->>> -is expected to help mitigate the security impact of bugs or
->>> +filesystem or network access) for a set of processes.  Because Landlock
->>> +is a stackable LSM, it makes possible to create safe security sandboxes as new
->>> +security layers in addition to the existing system-wide access-controls. This
->>> +kind of sandbox is expected to help mitigate the security impact of bugs or
->>>    unexpected/malicious behaviors in user space applications.  Landlock empowers
->>>    any process, including unprivileged ones, to securely restrict themselves.
->>>
->>> @@ -30,18 +30,20 @@ Landlock rules
->>>
->>>    A Landlock rule describes an action on an object.  An object is currently a
->>>    file hierarchy, and the related filesystem actions are defined with `access
->>> -rights`_.  A set of rules is aggregated in a ruleset, which can then restrict
->>> -the thread enforcing it, and its future children.
->>> +rights`_.  Since ABI version 4 a port data appears with related network actions
->>> +for TCP socket families.  A set of rules is aggregated in a ruleset, which
->>> +can then restrict the thread enforcing it, and its future children.
->>>
->>>    Defining and enforcing a security policy
->>>    ----------------------------------------
->>>
->>>    We first need to define the ruleset that will contain our rules.  For this
->>>    example, the ruleset will contain rules that only allow read actions, but write
->>> -actions will be denied.  The ruleset then needs to handle both of these kind of
->>> +actions will be denied. The ruleset then needs to handle both of these kind of
->>>    actions.  This is required for backward and forward compatibility (i.e. the
->>>    kernel and user space may not know each other's supported restrictions), hence
->>> -the need to be explicit about the denied-by-default access rights.
->>> +the need to be explicit about the denied-by-default access rights.  Also ruleset
->>> +will have network rules for specific ports, so it should handle network actions.
->>>
->>>    .. code-block:: c
->>>
->>> @@ -62,6 +64,9 @@ the need to be explicit about the denied-by-default access rights.
->>>                LANDLOCK_ACCESS_FS_MAKE_SYM |
->>>                LANDLOCK_ACCESS_FS_REFER |
->>>                LANDLOCK_ACCESS_FS_TRUNCATE,
->>> +        .handled_access_net =
->>> +            LANDLOCK_ACCESS_NET_BIND_TCP |
->>> +            LANDLOCK_ACCESS_NET_CONNECT_TCP,
->>>        };
->>>
->>>    Because we may not know on which kernel version an application will be
->>> @@ -70,14 +75,18 @@ should try to protect users as much as possible whatever the kernel they are
->>>    using.  To avoid binary enforcement (i.e. either all security features or
->>>    none), we can leverage a dedicated Landlock command to get the current version
->>>    of the Landlock ABI and adapt the handled accesses.  Let's check if we should
->>> -remove the ``LANDLOCK_ACCESS_FS_REFER`` or ``LANDLOCK_ACCESS_FS_TRUNCATE``
->>> -access rights, which are only supported starting with the second and third
->>> -version of the ABI.
->>> +remove the `LANDLOCK_ACCESS_FS_REFER` or `LANDLOCK_ACCESS_FS_TRUNCATE` or
->>> +network access rights, which are only supported starting with the second,
+>>> OK.  The potential for troubles would lie with the scripts to deploy the
+>>> doc to the web site, I'd guess?  If that's the place we'd expect
+>>> problems, I'm happy to be pointed to it and can try adjusting the
+>>> scripts for the change.
 >>
->> This is a bad rebase.
-> 
->     Sorry. Did not get it.
+>> The trouble lies in any number of scripts at any number of sites;
+>> calling this an ABI change would be a stretch, but some of the same
+>> concerns apply.
+>
+> Right.  I wouldn't be too concerned with sites other than the main Linux
+> documentation site, though?
 
-This hunk (and maybe others) changes unrelated things (e.g. back quotes).
+We can't really take that attitude; breaking users is bad.  There may
+(or may not) be any number of companies generating the HTML docs for
+internal use, for example; breaking them would be rude at best.
 
-
+>> Getting the docs build on kernel.org updated would not be a huge
+>> problem, I think, but I don't know what else might break.
 >>
->>
->>> +third and fourth version of the ABI.
->>>
->>>    .. code-block:: c
->>>
->>>        int abi;
->>>
->>> +    #define ACCESS_NET_BIND_CONNECT ( \
->>> +    LANDLOCK_ACCESS_NET_BIND_TCP | \
->>> +    LANDLOCK_ACCESS_NET_CONNECT_TCP)
->>
->> Please add a 4-spaces prefix for these two lines.
-> 
->     Like this??
-> 	#define ACCESS_NET_BIND_CONNECT ( \
->               LANDLOCK_ACCESS_NET_BIND_TCP | \
->               LANDLOCK_ACCESS_NET_CONNECT_TCP)
+>> We can reconsider this, but not before the merge window.
+>
+> Understood.  Thanks for the follow up!  Should I resend when the next
+> window opens?
 
-Like for other indentations in the documentation (e.g. ruleset_attr 
-definition):
+Sure, you can do that.  No guarantees that the benefits of the change
+will seem worth the risk at that time, though.
 
-#define ACCESS_NET_BIND_CONNECT ( \
-     LANDLOCK_ACCESS_NET_BIND_TCP | \
-     LANDLOCK_ACCESS_NET_CONNECT_TCP)
+Thanks,
+
+jon
