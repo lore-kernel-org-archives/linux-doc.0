@@ -2,128 +2,339 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 989DAC43217
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 15:31:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F20C43217
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 15:48:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232048AbiK1PbZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Nov 2022 10:31:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42288 "EHLO
+        id S230454AbiK1Psu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Nov 2022 10:48:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232248AbiK1PbG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 10:31:06 -0500
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2079.outbound.protection.outlook.com [40.107.237.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C3A127FE0
-        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 07:28:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IYQc5/jSHYfUxYhA9oE+x3eRhE+7UB+EYyM5F/x14281jkp0Q8g2ZOVjAYaTpxsxeO0D33QB7q0CwZFSUQxJHMktQk2Ga78Gly6jQXpTxZz1FEJQhy+CeQh1/92YANe74JSimxflEcedle2aIyzwm5oh6Atrcd6HEXNtYmA2SaDPpjZaWCcNPn/kPM1vv61s8rctAHPEGJeCe3M+tlDUr0U+hSjvbD9Ld9YwB+Jfe0jK5bBjATJSd5N1RKGArDbUm7vEbIx8rFvNvCta3qpTFbkYtpC9MeFfOfxxVC2gx2+0MqzXW8SF1n7ThLKuI6mxf34FEv8+W1MO6a8LuvBnXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w1BgGIME83pTJ2mg4IPFIM0hUlkHezpYYdmTvN2Bh7g=;
- b=XO+gt65XZKH1sR2M7+7qrt3pCyp7AJ9hvouFypI1ArapZKwm7fwMiwJwP46dj1RZKZqASKMoICFmbDI5wVU+o5+7+8oCW0SyFdOgOWKnQhARR1K+rTPMbhF/ODErAGjVrD+e1NEBIT8Y9yK8F2Gj+YpYorAtgwI0ZHJUXCHz70yeoFDniNF1nf/6x3gwPRS30lzvvKk4nGi6elkZd9eHzYNrZRC1W8zmjFUvSOmPE8l6y2gETdwan1OwCWECr0xsNfjCrP6MlsUhroYJjVUxu82H9rtVCKjWv1VDKMt/SrcOqUG1HwAOYG/bU/oMg6jg91knLgKBWjGsMcWiKdBiSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w1BgGIME83pTJ2mg4IPFIM0hUlkHezpYYdmTvN2Bh7g=;
- b=b5vAzQ88Dcqe0Eyp4kRGeilFCRnuf+TTEbfE1oL/FHu7aA4JUV9usTlQN2vlIGLWmf1i71sO01BdMwHlHvJjhqEhDTqoj/zAnltrcfOSQaZI/UN043XvnUqixpU1O2E7fdkmox96utzcPzo6sJtqOk403Iaev7PWpwl6YnkhOhI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
- by IA1PR12MB6065.namprd12.prod.outlook.com (2603:10b6:208:3ef::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Mon, 28 Nov
- 2022 15:28:20 +0000
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::9eca:d454:d407:7ba2]) by BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::9eca:d454:d407:7ba2%3]) with mapi id 15.20.5857.023; Mon, 28 Nov 2022
- 15:28:20 +0000
-Message-ID: <003eed0a-fdce-7df2-6a97-8e4a051f1ff7@amd.com>
-Date:   Mon, 28 Nov 2022 09:28:17 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Content-Language: en-US
-To:     linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>
-From:   Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: [PATCH v2] docs/sp_SP: Add memory-barriers.txt Spanish translation
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR20CA0008.namprd20.prod.outlook.com
- (2603:10b6:610:58::18) To BL1PR12MB5874.namprd12.prod.outlook.com
- (2603:10b6:208:396::17)
+        with ESMTP id S232129AbiK1Pso (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 10:48:44 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B3D521A8;
+        Mon, 28 Nov 2022 07:48:42 -0800 (PST)
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 8C9752A0;
+        Mon, 28 Nov 2022 15:48:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8C9752A0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1669650521; bh=+Hwx206NJd9t7OktNCE7G9a3Wt8Nk1NuJRsrehoQEKU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Z1ZY8nKI2M7Jts9IxHuh5JTL11MgkB8bkmd9BZDKgQJSAbMHxz5uSOFBIdNlnoJiT
+         Hmb6UU/GZygkj3zk6X+VjnNs/CtwN97IpmKYFwh23D+hsSeEfT6RKGQmgGHf17ErEF
+         yZRZk8Uz34i0YhEY7rNooORADTccOsMMKwOj+FNP1pM91aBHpNHp3qYjxLR6xRFb8C
+         Eouy5x7dJFqsAGAfNOF+aOSkM6ez8BcWF+Fp4FqN5a8dPcjk/p1E7n7HupvZlbqdof
+         WSWjT1MOwbSrzW8XJLaty70xHZSt4dPcP6fKrNCeciL86NnP4dYEZ9eWHAGdY3QR+8
+         nVb5Lp1oNDo1w==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Qais Yousef <qyousef@layalina.io>, Ingo Molnar <mingo@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        Xuewen Yan <xuewen.yan94@gmail.com>, Wei Wang <wvw@google.com>,
+        Jonathan JMChen <Jonathan.JMChen@mediatek.com>,
+        Hank <han.lin@mediatek.com>, Paul Bone <pbone@mozilla.com>,
+        Qais Yousef <qyousef@layalina.io>
+Subject: Re: [PATCH v2] Documentation: sched: Add a new sched-util-clamp.rst
+In-Reply-To: <20221127142657.1649347-1-qyousef@layalina.io>
+References: <20221127142657.1649347-1-qyousef@layalina.io>
+Date:   Mon, 28 Nov 2022 08:48:40 -0700
+Message-ID: <87cz976pwn.fsf@meer.lwn.net>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|IA1PR12MB6065:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6db22e1b-8bf2-42c0-be5f-08dad1552e02
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /frzoaK2LjyHENtzwnFQmNXtFyEy0sVZI3Hl4WEJQK/5B69xUYpm6vTzPXrIsDLyAcuO9EUktS2/1c5vFIf26sTax51D5Wh+bWstYy3bEwWp4LREYINiX8++90CwkiDZsGyCtGiP1M/airCBYIkbRTgmlxbAvslIG2FE2igHbmCzs7oeVa8RmoP696ZfLwVWWPdWXWy3y3r3T5lKCkagEt5DlKMfXCTtxs7NZmZc1HA9Lckqh4PZPpiuSlZvi/6Xdz3gvXlvZXwmmRqjTxtnAjZrzCyzyK6O/9C2ntvHGiofna/vahlJ05K3/VELgsnrcs0CBLTPphJ/CWSj0DJSDD92H2DiCHJQgTr0hGBNS3wIrl7o8zRFy3MnOO4/oQXPTqMyxFZHZzLNJNtJcv5CVA6ZObFnN5aZljPlDM9AnrkGq+GJTT5JaWzUmYlXji3MndKv4RJ9m15bg/Xqs+fr1lFnv7z9/M5QUlUb2WlItuzZfiH+8iueFXugAr8JZVR71dypK47cL/dfGh9Rh5in2X9hhIoCpiqXBSGSAsAkJAaTaEmjOedow4fc/GqdFMJ0eM2+df1h2Q31titBSnuFgoQCuXkgzP9dyPfTSQ3ZY3HtZE/HBkiI5nLR/iauP7AiifolpPipNxKEVAtyDhlfA1V5BcMxCVPtdiw6ICF7CMbADmnkyXJnWbPtO53p0c9Pjx/U3IbTJ+Ds69E/VmfBqsRf3v9V2MrIcJ7sGcXozTCCJ49z5E1HLEO+vY+hA7xx
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(366004)(136003)(39860400002)(396003)(451199015)(558084003)(31696002)(6512007)(8676002)(66556008)(26005)(66476007)(66946007)(86362001)(8936002)(41300700001)(2616005)(966005)(6506007)(4326008)(6486002)(478600001)(6666004)(6916009)(38100700002)(316002)(5660300002)(44832011)(2906002)(31686004)(186003)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ejIrMFBKc2VJMkc1V04vQ05kWGl3UnpQYlV4bnN5YVd1UFVSdlI2dHM0OS9J?=
- =?utf-8?B?S3oxWWI0NTFlM3RzNStZRnhtR29LTVlIenlEdzhwMTJUcFhrL21MV3lpUkdu?=
- =?utf-8?B?bDFPeWR4TWhzcnNTcWl3R3I3dlNqa1JWMDJhbWlSNEVFT2t4RTdvZTJvZDRr?=
- =?utf-8?B?QThkM2tSenV2RzVrMWZCdVRkYk9VeUhJVCszeHhGc1BWN0FqTHI5aEl3dTRU?=
- =?utf-8?B?S0czSlhMTlZEdTV4SUhjLzdWOHQ1VGh2NHNiN0xLN0FUc3NnYUxDamo4SUhp?=
- =?utf-8?B?WFRmTHpqeTlkdkxLa05hUDFjWVI0cWE1NWdFTXFIQzFhaVNhZ091dWNCaWZ2?=
- =?utf-8?B?a3lJZW5kTW5IQ3cycGZZUEo3R2hEd1ZIM2RpcFIweGpwbDNVcDFXN2FiL25X?=
- =?utf-8?B?RHg2Uk9GelFKWGxhR0d3WXprM01RZHpZZlNtME1GdTQ2cE8rcmdEeUVMakpJ?=
- =?utf-8?B?bHArajJlcVB6bkRaYllZSlFyRXJWdElkSDVPVSttTVVHZHFUSXNaajE4US9X?=
- =?utf-8?B?YklZRkVoajRudlVlemtHNURLMFBvN0ROSk0yMDlrdDZBMmxMWXpLdkV5aDNT?=
- =?utf-8?B?RWg4RG5vcFRSNUdQOFR2TncwcVRxcDVtS1pUTjg5QW9xWXhVbFhZdFVPblg2?=
- =?utf-8?B?b1pqMDNpZmxubTQ2dGNoeU5tQ0VYSmR3OHVRRXE3S0dZdGpIOEl6NHFlZVB5?=
- =?utf-8?B?cWR3OEN4dFI1aUxqZjZLa2lUWEZFRTdJMlZrWnBQaWVLc2tORmVVbDQzTThK?=
- =?utf-8?B?SEdvamRJZjNrYXVZSzZ0cDd0alp4UUNDRWRwUHdNTElPMERVS2twSFovRmh1?=
- =?utf-8?B?VUVQOWNNTUgyazhEMGJCRDE1Y1J6cU5Eem9DL1Y0dXBpZlFNUTFNdUhJckFw?=
- =?utf-8?B?Nm4zM1JYTHlxV2ZDbnJoMkcrSEZxR3N3RTBTcEJ5K3ZrQ3VzTEJtNWxUc29W?=
- =?utf-8?B?cWc3WHhia0l5cE5zM1FBY3lHcWlrZGJ5KzlEdGpJbHRsS25Hbzh5QzlYNHZC?=
- =?utf-8?B?RTY0MlNJNFZXV1dodEYyWlV2bE9ZZS95NDJCK21FQ2pLNDh3bWdOYXNuZG1L?=
- =?utf-8?B?VjFxd2tGVzYzaE4xbVFMUHV5TEsxYnM1a25oaEpyZFIxMWRrL0VoR1R3Lzd4?=
- =?utf-8?B?VGJkYU1HdE10OE0wbFlMZWw2NmFWTDlGNmJEMzVyWGRWVGlzdmJyUGJWR1I4?=
- =?utf-8?B?N3kzd053MmxDQUhNU2NxNzZrdXMvMURTUGVFbUJUdGJ3d05aczlEUDNDV3E4?=
- =?utf-8?B?MFpEVDlqbGczK2JXWmpLWjF6UVN3aUFVTUNuZ2psNlo1NVN4SHRVT2JHeXhL?=
- =?utf-8?B?RkxqanZ5SmRJNGhpbXI0N2RSeE1QaWgrMWxRcmhVSVlZeWdhb1BSRFkwaXlO?=
- =?utf-8?B?N002UG1yK1dSdFl3a1JEUXpBUjlwVkU3Y1FrdFhxbmd3MXNwUUEzajQ1eWRK?=
- =?utf-8?B?L3BkNmR2UWNpZ2RmcStjR1VPSHR1clRtLyt2NldWY0tzSjdBRThCWXluNHRl?=
- =?utf-8?B?WG1tN3U1UGZna3ZZcFBYRDR6blltV0swQkVwaWFwQ05ueTFUSXhpSEdPQVlm?=
- =?utf-8?B?MGdIblFUbEVEbjNyZ1cycXYwZnppbjdXekh1Mm8vTlF2N0tCTkorVERNWm5S?=
- =?utf-8?B?L0FQcTNIVk1uVFM2eURWdk9Jcno2YXNVZ0RDL3c0OFpUR3Z6Rlluckl3bUxG?=
- =?utf-8?B?VERpRWxFMEZuYUNLUXJWK1ZNNXFPaWhvM0k4cWxSa2xzSTBsUE5qaTBMbmd5?=
- =?utf-8?B?andSRndCQzZXRjlnQ0FjRkZFS2tHSTczbmJLQUtXSGhja3IyM0FOMXlOZjVM?=
- =?utf-8?B?TVhsSlZnVHdBWkFoOHU5M2E4RG5va3BQem05NWJRVjFNenlqMnh3TDZWdkVS?=
- =?utf-8?B?TGNzVGVMbWxHQzNYeE1uL2x3VjBYMEozY2FpYk41SFQvc0xHbEZqd0RJQ1ha?=
- =?utf-8?B?UzRRRUNBSDhRdFFFSTVNVGl4N3pXYW5iUlBJOG5iSWU5cHlyb25MMkp3bFQ0?=
- =?utf-8?B?ZERyb3JFNzNVdnF5NFpjT3VwQ3JGY3BqMlF6d1FuKzVyZGMxcitweFBMTG1x?=
- =?utf-8?B?bVFTYTlORjB4NFlteU5wb1FxZ3F2eHFBMXN3dS8yU3dlb2tJNTlyNGNjU3pr?=
- =?utf-8?Q?4MKTb7AuQ4EN9Z38Y9MtUHB54?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6db22e1b-8bf2-42c0-be5f-08dad1552e02
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2022 15:28:20.2109
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TamChVvW+ObOfkx/WschJJyzEWbG09w0Kr2FSNpYnI8FB3BceQBGj58lwWLGpKcf7iajtgw2hOc0zXs6WDQwww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6065
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Just a heads up for subscribers of this list, I just shared the following
-patch:
+Qais Yousef <qyousef@layalina.io> writes:
 
-[PATCH v2] docs/sp_SP: Add memory-barriers.txt Spanish translation
+> The new util clamp feature needs a document explaining what it is and
+> how to use it. The new document hopefully covers everything one needs to
+> know about uclamp.
+>
+> Signed-off-by: Qais Yousef <qais.yousef@arm.com>
+> Signed-off-by: Qais Yousef (Google) <qyousef@layalina.io>
+> ---
+>
+> Changes in v2:
+>
+> 	* Address various style comments from Bagas
 
-but it seems too large for linux-doc, and it got bounced. You can find
-the patch here:
+Just a handful of nits - this looks like a good addition to our
+documentation, thanks.
 
-https://lkml.org/lkml/2022/11/28/741
+>  Documentation/scheduler/index.rst            |   1 +
+>  Documentation/scheduler/sched-util-clamp.rst | 732 +++++++++++++++++++
+>  2 files changed, 733 insertions(+)
+>  create mode 100644 Documentation/scheduler/sched-util-clamp.rst
+>
+> diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+> index b430d856056a..f12d0d06de3a 100644
+> --- a/Documentation/scheduler/index.rst
+> +++ b/Documentation/scheduler/index.rst
+> @@ -15,6 +15,7 @@ Linux Scheduler
+>      sched-capacity
+>      sched-energy
+>      schedutil
+> +    sched-util-clamp
+>      sched-nice-design
+>      sched-rt-group
+>      sched-stats
+> diff --git a/Documentation/scheduler/sched-util-clamp.rst b/Documentation/scheduler/sched-util-clamp.rst
+> new file mode 100644
+> index 000000000000..da1881e293c3
+> --- /dev/null
+> +++ b/Documentation/scheduler/sched-util-clamp.rst
+> @@ -0,0 +1,732 @@
+> +====================
+> +Utilization Clamping
+> +====================
+
+RST files, too, should have SPDX tags at the beginning.  The practice
+rather lags the rule here, but we're trying...
+
+> +1.  Introduction
+> +================
+> +
+> +Utilization clamping is a scheduler feature that allows user space to help in
+> +managing the performance requirement of tasks. It was introduced in v5.3
+> +release. The CGroup support was merged in v5.4.
+> +
+> +It is often referred to as util clamp and uclamp. You'll find all variations
+> +used interchangeably in this documentation and in the source code.
+> +
+> +Uclamp is a hinting mechanism that allows the scheduler to understand the
+> +performance requirements and restrictions of the tasks. Hence help it make
+
+...of the tasks, and thus help it ... 
+
+> +a better placement decision. And when schedutil cpufreq governor is used, util
+> +clamp will influence the frequency selection as well.
+> +
+> +Since scheduler and schedutil are both driven by PELT (util_avg) signals, util
+
+Since *the* scheduler
+
+> +clamp acts on that to achieve its goal by clamping the signal to a certain
+> +point; hence the name. I.e: by clamping utilization we are making the system
+> +run at a certain performance point.
+> +
+> +The right way to view util clamp is as a mechanism to make performance
+> +constraints request/hint. It consists of two components:
+> +
+> +        * UCLAMP_MIN, which sets a lower bound.
+> +        * UCLAMP_MAX, which sets an upper bound.
+> +
+> +These two bounds will ensure a task will operate within this performance range
+> +of the system. UCLAMP_MIN implies boosting a task, while UCLAMP_MAX implies
+> +capping a task.
+> +
+> +One can tell the system (scheduler) that some tasks require a minimum
+> +performance point to operate at to deliver the desired user experience. Or one
+> +can tell the system that some tasks should be restricted from consuming too
+> +much resources and should NOT go above a specific performance point. Viewing
+> +the uclamp values as performance points rather than utilization is a better
+> +abstraction from user space point of view.
+> +
+> +As an example, a game can use util clamp to form a feedback loop with its
+> +perceived FPS. It can dynamically increase the minimum performance point
+
+FPS?
+
+> +required by its display pipeline to ensure no frame is dropped. It can also
+> +dynamically 'prime' up these tasks if it knows in the coming few 100ms
+> +a computationally intensive scene is about to happen.
+> +
+> +On mobile hardware where the capability of the devices varies a lot, this
+> +dynamic feedback loop offers a great flexibility in ensuring best user
+> +experience given the capabilities of any system.
+> +
+> +Of course a static configuration is possible too. The exact usage will depend
+> +on the system, application and the desired outcome.
+> +
+> +Another example is in Android where tasks are classified as background,
+> +foreground, top-app, etc. Util clamp can be used to constraint how much
+
+to *constrain* how
+
+> +resources background tasks are consuming by capping the performance point they
+> +can run at. This constraint helps reserve resources for important tasks, like
+> +the ones belonging to the currently active app (top-app group). Beside this
+> +helps in limiting how much power they consume. This can be more obvious in
+> +heterogeneous systems; the constraint will help bias the background tasks to
+> +stay on the little cores which will ensure that:
+> +
+> +        1. The big cores are free to run top-app tasks immediately. top-app
+> +           tasks are the tasks the user is currently interacting with, hence
+> +           the most important tasks in the system.
+> +        2. They don't run on a power hungry core and drain battery even if they
+> +           are CPU intensive tasks.
+> +
+> +By making these uclamp performance requests, or rather hints, user space can
+> +ensure system resources are used optimally to deliver the best user experience
+> +the system is capable of.
+> +
+> +Another use case is to help with overcoming the ramp up latency inherit in how
+> +scheduler utilization signal is calculated.
+> +
+> +A busy task for instance that requires to run at maximum performance point will
+> +suffer a delay of ~200ms (PELT HALFIFE = 32ms) for the scheduler to realize
+> +that. This is known to affect workloads like gaming on mobile devices where
+> +frames will drop due to slow response time to select the higher frequency
+> +required for the tasks to finish their work in time.
+> +
+> +The overall visible effect goes beyond better perceived user
+> +experience/performance and stretches to help achieve a better overall
+> +performance/watt if used effectively.
+> +
+> +User space can form a feedback loop with thermal subsystem too to ensure the
+
+with *the* thermal subsystem
+
+> +device doesn't heat up to the point where it will throttle.
+> +
+> +Both SCHED_NORMAL/OTHER and SCHED_FIFO/RR honour uclamp requests/hints.
+> +
+> +In SCHED_FIFO/RR case, uclamp gives the option to run RT tasks at any
+
+In *the* SCHED_FIFO...
+
+> +performance point rather than being tied to MAX frequency all the time. Which
+> +can be useful on general purpose systems that run on battery powered devices.
+> +
+> +Note that by design RT tasks don't have per-task PELT signal and must always
+> +run at a constant frequency to combat undeterministic DVFS rampup delays.
+> +
+> +Note that using schedutil always implies a single delay to modify the frequency
+> +when an RT task wakes up. This cost is unchanged by using uclamp. Uclamp only
+> +helps picking what frequency to request instead of schedutil always requesting
+> +MAX for all RT tasks.
+> +
+> +See section 3.4 for default values and 3.4.1 on how to change RT tasks default
+> +value.
+> +
+> +2.  Design
+> +==========
+> +
+> +Util clamp is a property of every task in the system. It sets the boundaries of
+> +its utilization signal; acting as a bias mechanism that influences certain
+> +decisions within the scheduler.
+> +
+> +The actual utilization signal of a task is never clamped in reality. If you
+> +inspect PELT signals at any point of time you should continue to see them as
+> +they are intact. Clamping happens only when needed, e.g: when a task wakes up
+> +and the scheduler needs to select a suitable CPU for it to run on.
+> +
+> +Since the goal of util clamp is to allow requesting a minimum and maximum
+> +performance point for a task to run on, it must be able to influence the
+> +frequency selection as well as task placement to be most effective. Both of
+> +which have implications on the utilization value at rq level, which brings us
+> +to the main design challenge.
+> +
+> +When a task wakes up on an rq, the utilization signal of the rq will be
+> +impacted by the uclamp settings of all the tasks enqueued on it. For example if
+> +a task requests to run at UTIL_MIN = 512, then the util signal of the rq needs
+> +to respect this request as well as all other requests from all of the enqueued
+> +tasks.
+> +
+> +To be able to aggregate the util clamp value of all the tasks attached to the
+> +rq, uclamp must do some housekeeping at every enqueue/dequeue, which is the
+> +scheduler hot path. Hence care must be taken since any slow down will have
+> +significant impact on a lot of use cases and could hinder its usability in
+> +practice.
+> +
+> +The way this is handled is by dividing the utilization range into buckets
+> +(struct uclamp_bucket) which allows us to reduce the search space from every
+> +task on the rq to only a subset of tasks on the top-most bucket.
+> +
+> +When a task is enqueued, we increment a counter in the matching bucket. And on
+> +dequeue we decrement it. This makes keeping track of the effective uclamp value
+> +at rq level a lot easier.
+> +
+> +As we enqueue and dequeue tasks we keep track of the current effective uclamp
+> +value of the rq. See section 2.1 for details on how this works.
+> +
+> +Later at any path that wants to identify the effective uclamp value of the rq,
+> +it will simply need to read this effective uclamp value of the rq at that exact
+> +moment of time it needs to take a decision.
+> +
+> +For task placement case, only Energy Aware and Capacity Aware Scheduling
+> +(EAS/CAS) make use of uclamp for now. This implies heterogeneous systems only.
+> +When a task wakes up, the scheduler will look at the current effective uclamp
+> +value of every rq and compare it with the potential new value if the task were
+> +to be enqueued there. Favoring the rq that will end up with the most energy
+> +efficient combination.
+> +
+> +Similarly in schedutil, when it needs to make a frequency update it will look
+> +at the current effective uclamp value of the rq which is influenced by the set
+> +of tasks currently enqueued there and select the appropriate frequency that
+> +will honour uclamp requests.
+> +
+> +Other paths like setting overutilization state (which effectively disables EAS)
+> +make use of uclamp as well. Such cases are considered necessary housekeeping to
+> +allow the 2 main use cases above and will not be covered in detail here as they
+> +could change with implementation details.
+> +
+> +2.1  Buckets
+> +------------
+> +
+> +::
+> +
+> +                           [struct rq]
+> +
+> +  (bottom)                                                    (top)
+> +
+> +    0                                                          1024
+> +    |                                                           |
+> +    +-----------+-----------+-----------+----   ----+-----------+
+> +    |  Bucket 0 |  Bucket 1 |  Bucket 2 |    ...    |  Bucket N |
+> +    +-----------+-----------+-----------+----   ----+-----------+
+> +       :           :                                   :
+> +       +- p0       +- p3                               +- p4
+> +       :                                               :
+> +       +- p1                                           +- p5
+> +       :
+> +       +- p2
+> +
+> +
+> +.. note::
+> +  The diagram above is an illustration rather than a true depiction of the
+> +  internal data structure.
+> +
+> +To reduce the search space when trying to decide the effective uclamp value of
+> +an rq as tasks are enqueued/dequeued, the whole utilization range is divided
+> +into N buckets where N is configured at compile time by setting
+> +CONFIG_UCLAMP_BUCKETS_COUNT. By default it is set to 5.
+> +
+> +The rq has a bucket for each uclamp_id: [UCLAMP_MIN, UCLAMP_MAX].
+> +
+> +The range of each bucket is 1024/N. For example for the default value of 5 we
+> +will have 5 buckets, each of which will cover the following range:
+> +
+> +.. code-block:: c
+
+If you want to minimize markup, you could use basic literal blocks
+rather than ..code-block::, which really only has the effect of syntax
+coloring in HTML output.  I don't find that worth the extra clutter
+myself, but others clearly disagree with me...
+
+> +        DELTA = round_closest(1024/5) = 204.8 = 205
+> +
+> +        Bucket 0: [0:204]
+> +        Bucket 1: [205:409]
+> +        Bucket 2: [410:614]
+> +        Bucket 3: [615:819]
+> +        Bucket 4: [820:1024]
+> +
+
+I didn't find anything worth quibbling about after this.
 
 Thanks,
-Carlos
 
+jon
