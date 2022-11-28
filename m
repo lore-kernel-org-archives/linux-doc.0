@@ -2,88 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A5E4C4321E
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 21:07:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BE4FC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Nov 2022 22:23:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234472AbiK1VHd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Nov 2022 16:07:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40882 "EHLO
+        id S233861AbiK1WXT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Nov 2022 17:23:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234550AbiK1VHF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 16:07:05 -0500
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E30E92FC12;
-        Mon, 28 Nov 2022 13:06:44 -0800 (PST)
-Received: by mail-yb1-xb2f.google.com with SMTP id k206so13685485ybk.5;
-        Mon, 28 Nov 2022 13:06:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=itftzGt93b0OeDPCi2gURk631oNyukZV1ceD7NGGpvs=;
-        b=pLW0FCAbKb8mEawmOWM1APJCPJUuTuZR9hX1gf0Ekcjy6ofSL9NjiE9axeW98tTVZJ
-         MLov5byEXqDfAQoFnV/ha6psjIa+chvC+wCtCLwCvIqBijOKokUhQ5k/Xz7hLD3c1o2z
-         Hhi6zqluCRcqK1hwAbT2Z5AYV0MnJeZtujWBxEXbSKgkf0W6ihwTNQ20l4Krk+y9edWx
-         p5CLHmhNl6KVCb1D03kflFk/kB933PWMciyPXuRRc12Et+mwwW1wpb2A69UqTQ72aL11
-         k7fVV5h0Q56ijPjNmemPOKJA/yCVPK+Nl7LWneHInf/zJKzOAkq6VZZvoE+/YIEfJZ8e
-         7F8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=itftzGt93b0OeDPCi2gURk631oNyukZV1ceD7NGGpvs=;
-        b=nsaxgHj1m2Lfzk2xPRyBtOWs9se9j+RYj1ax88T4IOB5CoBGsrgHJ27ge90yu78Gad
-         0IgCP6Oct+vctE3eGncnBDabw+1r2bVBVWifNiCDYUt9Lod+buyUGFFdiM3HnTvmjW97
-         UqAoXj/fHReWgjF0yhFOCpMGog0Di0kuqmWyntqSAVtuSq+zGXWJ3HXwYSPzn+TJuI5r
-         TbcYgw4xLhJZFamLG/yGMk7OqcG4uDta29reJX65J9qPmX1RL5KeuBeIsoyAvfcKnpGE
-         osNKKUkRhP0qezk61gjBt6tsTEeh2VAPfEsUltE796JQu2SMH3dUsgtQvr7WOsHC9yew
-         pnKA==
-X-Gm-Message-State: ANoB5pk2SuD9bwCLFJyGJ9pMuz5qRL8a0XT4ZrK0ISh7WdO0WHi/uMnz
-        r8/Y8s8efHyOue22Q6B1fyLf/F7+f6PBADGhWzpDwJcFThAL/A==
-X-Google-Smtp-Source: AA0mqf7uNiMFNSUwfnxqjraK65Yplm6CcnRpl46qkh5m0PAatmT8z+Ai+ZjCJbLHghRi0rJcqhmQ7Ycdy8bTcteIwtA=
-X-Received: by 2002:a25:44c5:0:b0:6cb:16d0:1ae1 with SMTP id
- r188-20020a2544c5000000b006cb16d01ae1mr31215823yba.581.1669669604007; Mon, 28
- Nov 2022 13:06:44 -0800 (PST)
-MIME-Version: 1.0
-References: <20221128201932.168313-1-carlos.bilbao@amd.com>
-In-Reply-To: <20221128201932.168313-1-carlos.bilbao@amd.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 28 Nov 2022 22:06:32 +0100
-Message-ID: <CANiq72md-b75NQ2o7mDuGwK4JaPunrN36GZ2vUDm_yK+yocFtQ@mail.gmail.com>
+        with ESMTP id S232825AbiK1WXS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 17:23:18 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28F43DF94;
+        Mon, 28 Nov 2022 14:23:17 -0800 (PST)
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 934CC2A0;
+        Mon, 28 Nov 2022 22:23:17 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 934CC2A0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1669674197; bh=g8xZ5Hq86pNGmIKbspglzsJBwfgaLPT3Mmoa0BOmMxs=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Xtac6NDgRH+6OtE+74rPltFvlKjcgBrozSVf317lkByQAXhC2f1I3DhKb2QC1j7gH
+         z7kbWSYzN1uo6zYT7yhy65J0PM9FDY8lsKI1B9mMeQuxjninzHyy5272sA2Gh08Euq
+         KZ+LvWM6bkZF2CG9/MsvVa5s98gYtSEERuuniQWPqTEhs/mWdEqSYVbfe5Hkx1BBZ9
+         4iK5d2t2cz/sr4C0NYELeDrJjaG3CMG+ahCWjJ2oGEjKnJp4qfe+tdVDJiF9DdKLqV
+         8HG6HEYQwSHHHta2K5OZfTvwVoOnoPA/M+92ud7DY8bxUCCXv5JRK2Lia5UZV0hmAC
+         /cklvX4wu+m6A==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>, ojeda@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bilbao@vt.edu, Carlos Bilbao <carlos.bilbao@amd.com>
 Subject: Re: [PATCH] docs: Integrate rustdoc-generated output to Rust docs
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     corbet@lwn.net, ojeda@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bilbao@vt.edu,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20221128201932.168313-1-carlos.bilbao@amd.com>
+References: <20221128201932.168313-1-carlos.bilbao@amd.com>
+Date:   Mon, 28 Nov 2022 15:23:16 -0700
+Message-ID: <87h6yi67mz.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 28, 2022 at 9:19 PM Carlos Bilbao <carlos.bilbao@amd.com> wrote:
->
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
+
 > Include HTML output generated from rustdoc into the Linux kernel
 > documentation on Rust. Add Makefile target `make htmlrust` to combine
 > make htmldocs and the generation of Rust documentation.
+>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+> ---
+>  Documentation/Makefile         | 11 +++++++++++
+>  Documentation/rust/index.rst   |  1 +
+>  Documentation/rust/rustdoc.rst | 10 ++++++++++
+>  Makefile                       |  2 +-
+>  4 files changed, 23 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/rust/rustdoc.rst
 
-I think Konstantin (Cc'ing him) wanted us to integrate this into
-`htmldocs`, rather than having a new target. That is, if `CONFIG_RUST`
-is enabled, call the `rustdoc` target there.
+Thanks for doing this.  I do have a number of comments; please let me
+know if you think I'm missing something somewhere.
 
-In any case, I will also comment on this approach below. Thanks for this!
-
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index 64d44c1ecad3..02ed01fa3499 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -95,6 +95,17 @@ htmldocs:
+>  	@$(srctree)/scripts/sphinx-pre-install --version-check
+>  	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+>  
 > +ifdef CONFIG_RUST
 > +htmlrust:
-> +       @make rustavailable
+> +	@make rustavailable
+> +	@make LLVM=1 rustdoc
+> +	@cp -r rust/doc/* Documentation/output/
+> +	@make htmldocs
+> +else
+> +htmlrust:
+> +	@echo "Error: CONFIG_RUST must be defined (see .config)"
+> +endif
 
-Why was this needed?
+First, if at all possible, the Rust documentation should just be built
+along with the rest; no need for a separate make command.  We don't have
+separate build commands for any other subsystem's docs, and Rust should
+be a first-class citizen here too.
 
-> +       @make LLVM=1 rustdoc
-> +       @cp -r rust/doc/* Documentation/output/
+Second, I'm not a big fan of that "cp" command, for a couple of reasons:
 
-We should change `rustdoc` to generate the docs directly in the right
-place now that we have one.
+- It dumps a bunch of stuff into the main output directory, which risks
+  overwriting something someday.  It seems like
+  Documentation/output/html/rust might be a better place.
 
-Cheers,
-Miguel
+- Rather than copying, I'd suggest changing the rustdoc command that
+  generates that output to just put it in the place where it should be.
+  Preferably it should work properly when people use separate build
+  trees as well.
+
+It would also be nice to set up proper dependencies so that the Rust
+docs are only regenerated if something has changed.
+
+Does this all make sense?  Sorry to come back with all this stuff...I
+really do want to see this happen.
+
+Thanks,
+
+jon
