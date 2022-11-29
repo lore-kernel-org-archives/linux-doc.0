@@ -2,192 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C604FC4321E
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 14:11:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF9BCC4321E
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 14:13:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235313AbiK2OLN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Nov 2022 09:11:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46300 "EHLO
+        id S234155AbiK2ONj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Nov 2022 09:13:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235190AbiK2OKu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 09:10:50 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B74BB5E9C8;
-        Tue, 29 Nov 2022 06:10:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669731048; x=1701267048;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=kCh+qqjMcaQj1b5b/Ai4VtSeoBos0JWTLvFP/zM/hG0=;
-  b=QJW1alFgIMednKYKb4BGTSaZt2rGXAxcfyDipr3PuLZt2nqCmmGEMrMZ
-   7ki7F/1X6ARBI8SFSxr04eS1PKeJIRC/zxjo/FwoRXdhpkb+7bddWKrSi
-   vP4QRCSqW7knFd8mSBDYVWb3S0hutNFq01fdXJKMkuxqnwvMByavbGrwy
-   hO62JAJ91GS0860Zop58A2Ohx+GhmuI+hD+d+S1bmCrt1FzJoVswO3Urf
-   B1lP32lUod1UGAEqyXeXJ2+Aj8U+kPnej242APiGxQ4MZr/7bzyxN8oXl
-   Md206TL25XHQQ4R9VCGbw179F8JBbUBJCTfagvbO/MEYt4srHwh+K82+9
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="316950711"
-X-IronPort-AV: E=Sophos;i="5.96,203,1665471600"; 
-   d="scan'208";a="316950711"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2022 06:10:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="707224365"
-X-IronPort-AV: E=Sophos;i="5.96,203,1665471600"; 
-   d="scan'208";a="707224365"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by fmsmga008.fm.intel.com with ESMTP; 29 Nov 2022 06:10:37 -0800
-Date:   Tue, 29 Nov 2022 22:06:15 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Michael Roth <michael.roth@amd.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221129140615.GC902164@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <20221129003725.l34qhx6n44mq2gtl@amd.com>
+        with ESMTP id S233074AbiK2ONU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 09:13:20 -0500
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-ve1eur01on2045.outbound.protection.outlook.com [40.107.14.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7B4B7D4;
+        Tue, 29 Nov 2022 06:12:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EYdB41zQR2myBGpsh7Va00EzzEfNBtx2T7vX4Ncsc/bPrmTBs9ILMHBoetTzjC2jFWJo7a131aumR6jC8vw/3y3QSxbDmYiRDHixRyxbTXzmhfjtwQn4wmqtGwvtg/TQIzBrJHhR8teb/aaua83ebquZrrIyM+rfOviubZKNKUXqPf0ZMfG4hXiLH7b7warGMh6JE2YZJs9iGzrOp86rXchXs4LTb59jm7VkbSkLNBxsENnKQ5ZujcQp3oUmMLhSrqYBTGQaKyl4rJ9a3IW37AslzeN35D5yv0twNBArOKkI/osxTPAqlLtfiLlomw84IwAgFEEu93VLPkg3a3UHZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JWyHTdZFx50lrOJ8mm45qoA7mpswzw+G3u2nOR+johU=;
+ b=TtClcarQlLWrHi4oSPOSqKBI4VjOasBtu5VkhThz0oI5Y09Ir+BEpA8IAnJViaRtkI9MC8bLfj9Ytab9wcZ7ezc5BGHKmyBOtoo1Dk5SI1oqClSU45t4D2GGvzpMhlCdYKVrNASMbbYJ66Ce1c4W3K7n1xRV4kib+SJtcFtG3aZRkL7s9O/Et138iLO9GFQijRqrBNpxBbt3sYya7GIZDX+ksyL6eJmF7IMm/N634jYraCBFZPtIEip4OFAvPzMnDEVG62rSSJILRNnLI+yQP3b9ibnZ2J/P2Aq8zCNRI1vYdmoJD4P7SOl84PWdqOKlugatWrMkUjMAKTLjyd+Q6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JWyHTdZFx50lrOJ8mm45qoA7mpswzw+G3u2nOR+johU=;
+ b=sn8J2Aw6LuWflWXnM2aZA1HIGwHI/bjqui7VhRZhL8NVD0TF6GzYsvj/Kll4St5XPK/x8rArO2FIU7KRY9DO/ZPNAOwMlYsVMlEo1wDTxAJhA00nHMrQTvP+pJ3oxpnTdqyINYJtN+c4chieBYV9SHD296mw6pVxw2H78/vLEEw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB5136.eurprd04.prod.outlook.com (2603:10a6:803:55::19)
+ by AS8PR04MB8724.eurprd04.prod.outlook.com (2603:10a6:20b:42b::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.19; Tue, 29 Nov
+ 2022 14:12:34 +0000
+Received: from VI1PR04MB5136.eurprd04.prod.outlook.com
+ ([fe80::9317:77dc:9be2:63b]) by VI1PR04MB5136.eurprd04.prod.outlook.com
+ ([fe80::9317:77dc:9be2:63b%7]) with mapi id 15.20.5857.023; Tue, 29 Nov 2022
+ 14:12:34 +0000
+From:   Vladimir Oltean <vladimir.oltean@nxp.com>
+To:     netdev@vger.kernel.org
+Cc:     Ioana Ciornei <ioana.ciornei@nxp.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH net-next 01/12] net: dpaa2-eth: don't use -ENOTSUPP error code
+Date:   Tue, 29 Nov 2022 16:12:10 +0200
+Message-Id: <20221129141221.872653-2-vladimir.oltean@nxp.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221129141221.872653-1-vladimir.oltean@nxp.com>
+References: <20221129141221.872653-1-vladimir.oltean@nxp.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: VI1PR0701CA0029.eurprd07.prod.outlook.com
+ (2603:10a6:800:90::15) To VI1PR04MB5136.eurprd04.prod.outlook.com
+ (2603:10a6:803:55::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221129003725.l34qhx6n44mq2gtl@amd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1PR04MB5136:EE_|AS8PR04MB8724:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6f8a25b9-98bf-4543-d380-08dad213c2fe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: z95SJpfO7cZMmYF0sgvEcpoOKIqW+LY+5scqQKriovrCwmVEkj6GgyMaqJj3GrZ5/pm8S6GAwIAKHgE7QaHBmglsTZee0YkJJ8CwmyoOHf7oaMWa81Dp82FlovICjqWCDrC4W3hn2G/c9ecwMKkxtHruARE+igsA/fkza2fHr6HJgXnYH54P4ITMsOafza4CJhuHXJbdTxKEBgoYape27we0frn9LRBO/b8w/HN9gOW0D1C2GqVQOD8jP3mHcKRPoBL8YZYwIp2yiWH5NWKuP3d74/gs416F4shSfRxTwTsmgJei4LVdAxBUUBMp0myCzfdRf5Eh7PwT8FpktBx8O+mShYcW1uyUBlMXi5Kn3+z57ZxH4ncCC4KKcvqIfk563t1iWmA7s3dCTgmWcIe0vOYUzxRRO0TeApZABrgFVwcIBJC0dmpE/g3r4hnufVcFVaZe3EHMu5OFWyseum0K8jX3CD+Go8NJFZtjZ2PLH7urVfAL3j/oul1vx9tXcSPNlKbSgcd0jlHTFlvcWau3mx1t+zLIQ2fIPNvyXbF8ssDhSuScfEZH+2KjEZYr46j9SU1U5t/GwLRg3F+ZSEhexQ2opgK3acCSqZVN+Ww6M8qgCqWbLsD1/PK2wbTtTFptOFHM5ca6d09yTRW4kDbWgTbXB/FPUxN/Zvz5EVrp8BM3ZOCaeLm6v/EwyouI7OfaJNksRWuR6cryMYmUtrKgzw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5136.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(39860400002)(396003)(366004)(346002)(451199015)(6666004)(6506007)(6486002)(478600001)(66476007)(1076003)(36756003)(186003)(66556008)(2616005)(66946007)(8676002)(4326008)(6512007)(52116002)(5660300002)(26005)(316002)(54906003)(6916009)(86362001)(2906002)(83380400001)(41300700001)(44832011)(38350700002)(8936002)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WLvmr+KWWIwKSh8RpvasyZ7Yllu3fWQsv/ajVMKimxMjEQQMwlEJp7CaHG4w?=
+ =?us-ascii?Q?XGTzSJN2yKnlh5qN9fZJ5z1p8jl5lTw4Emobdd7SB5CByKTM2ay5Wm6BCSnv?=
+ =?us-ascii?Q?KVoAu0BPzVqv31mT1pGdKZAgcDOWdLPXA2BFFLOI20pZYzLisDtBczfxhyl+?=
+ =?us-ascii?Q?v2+cRoYX5tpB51aqm0kqFV2uNnVDtxTotUMcIxRFvDevspYEVTz5TnjyViqW?=
+ =?us-ascii?Q?+qVJIgR8Bh5yLk0cwu9BR5sJD280s99KIG5hnb3L2FGxvyZtdeSTqqrg3nsB?=
+ =?us-ascii?Q?oSr/rATo7GdHh9r6Xrlw811Op8L3EF8AXG4QNLwcRM0pXatWx51Lrgqp6/Bh?=
+ =?us-ascii?Q?prZFodyfme+OMx8AwjA6nHE1UyRNKD7OOkaQ5VWg6wElh+mug2Ttg+fK4crc?=
+ =?us-ascii?Q?CmSrsSJEkGbu4mFB7L9uDOO3x5jxfJIeVpTPtEWTXmM8p+ayH4ECrwpw7WUf?=
+ =?us-ascii?Q?eUDvaiZRQ10gZVPPlJDQB0JuXATGCgqzf2LfAxdYUzzoHr/UlDOfwkmpP67q?=
+ =?us-ascii?Q?H53+/vYRKEwztHE6L8s0a9EItka99IWaGnHwnF1feM+u5OsaH0RLnizozbPA?=
+ =?us-ascii?Q?xD6mVRQaswLM1sukNsoEC+ZDKYQOag4Lj9+SrX06jAWX/p93XttZ23yg1SXs?=
+ =?us-ascii?Q?e+iEqfQ0oR+XQ4jMZZnpk5NmfzwhgJ9DqqKtJiWz42HDHfYPrG0Wn2+Lni7q?=
+ =?us-ascii?Q?VjW35c7JHJJadmm4eKllRZoshDGdbgdbkIv+r+D/7RjqxiTYghdUE6CB7/mH?=
+ =?us-ascii?Q?d7T/rEumScxKAhZo+S+meSOr6dzTMIfKCP1t0BX2I3pJXRfAtyHDfSfzVwYu?=
+ =?us-ascii?Q?5uGLg/wL+qyqSK9oC67lhqXoNwcPU8S+ewyJw/ddx6XHQ1F/mINGPrlI8WWM?=
+ =?us-ascii?Q?sd6Q4wY+urS1B6K93gnOln551CrCrWA/Z7zK0bISV1jZ6AVbdejef40qSWxY?=
+ =?us-ascii?Q?eziQEDov/Rf2lEYDnVej3Nkf6RXTZbp+JmwmKE0py/1o2lP9tuJM8T3MtfUL?=
+ =?us-ascii?Q?FxUBCOKbzhAYmRDNg9aER8CiyLqLR45QTy16nfJ4y2Fb3YkkglkaYyEIhnQU?=
+ =?us-ascii?Q?05djxvKrba6qPOIrsdjEd2LQoeSYy3CiGSp/v6PG3RnVZdoQpoOm9A/3+bRf?=
+ =?us-ascii?Q?3JTYLlbWJH/eZ+swuZfJnaZo4z1dIBBao55YUzT42CNWFZQcjdG7BYlZQn/W?=
+ =?us-ascii?Q?VpOC0qly3vAZMtewwSpacjRe7GH+77o2pKgaIpMf20Z9eJpPPgBuwMho6xCY?=
+ =?us-ascii?Q?xgUoFQVlq3kAgKsPb8BqskvIUQkpV8W0NgiFAp6Eg/6sl+9HfJhG7EvumTFF?=
+ =?us-ascii?Q?O8lISHrwbQPWmCsEmLAxfG7yrYTvGU+0S/rnUOwoWoJVdrOUe4cJK8h4q4dW?=
+ =?us-ascii?Q?fagpKa7frjEL91bFXbFqnweKvofbB+MmNm5baEGROmD5eurygEehJ38gzzR+?=
+ =?us-ascii?Q?8I2GJUvdvpWehpr7i9NKuSHOYriOJPhE9G1W94WtnDXtiic9+ZauNUXicKtD?=
+ =?us-ascii?Q?bpe2m78Cp6wWep8leZvqlruOnMXtkxebGgHuNbGpsRU3T5LxfqKxbMr4p70n?=
+ =?us-ascii?Q?CkGx+KQWTbg7/0HJs0juj6vGhLN8SsqmU3ygK0i5bmPy5I+Ve1R2iuvrGPsi?=
+ =?us-ascii?Q?Mg=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f8a25b9-98bf-4543-d380-08dad213c2fe
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5136.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2022 14:12:34.5913
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dgnSa1BQKHJh6rcjqaxzF/ReMBKhtCbzxBGN3HL9z4kjXK0wRNWmaetvFrD5hT2X7244AzfCJurmFKB4D6ZD6w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8724
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 28, 2022 at 06:37:25PM -0600, Michael Roth wrote:
-> On Tue, Oct 25, 2022 at 11:13:37PM +0800, Chao Peng wrote:
-...
-> > +static long restrictedmem_fallocate(struct file *file, int mode,
-> > +				    loff_t offset, loff_t len)
-> > +{
-> > +	struct restrictedmem_data *data = file->f_mapping->private_data;
-> > +	struct file *memfd = data->memfd;
-> > +	int ret;
-> > +
-> > +	if (mode & FALLOC_FL_PUNCH_HOLE) {
-> > +		if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
-> > +			return -EINVAL;
-> > +	}
-> > +
-> > +	restrictedmem_notifier_invalidate(data, offset, offset + len, true);
-> 
-> The KVM restrictedmem ops seem to expect pgoff_t, but here we pass
-> loff_t. For SNP we've made this strange as part of the following patch
-> and it seems to produce the expected behavior:
+dpaa2_eth_setup_dpni() is called from the probe path and
+dpaa2_eth_set_link_ksettings() is propagated to user space.
 
-That's correct. Thanks.
+include/linux/errno.h says that ENOTSUPP is "Defined for the NFSv3
+protocol". Conventional wisdom has it to not use it in networking
+drivers. Replace it with -EOPNOTSUPP.
 
-> 
->   https://github.com/mdroth/linux/commit/d669c7d3003ff7a7a47e73e8c3b4eeadbd2c4eb6
-> 
-> > +	ret = memfd->f_op->fallocate(memfd, mode, offset, len);
-> > +	restrictedmem_notifier_invalidate(data, offset, offset + len, false);
-> > +	return ret;
-> > +}
-> > +
-> 
-> <snip>
-> 
-> > +int restrictedmem_get_page(struct file *file, pgoff_t offset,
-> > +			   struct page **pagep, int *order)
-> > +{
-> > +	struct restrictedmem_data *data = file->f_mapping->private_data;
-> > +	struct file *memfd = data->memfd;
-> > +	struct page *page;
-> > +	int ret;
-> > +
-> > +	ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
-> 
-> This will result in KVM allocating pages that userspace hasn't necessary
-> fallocate()'d. In the case of SNP we need to get the PFN so we can clean
-> up the RMP entries when restrictedmem invalidations are issued for a GFN
-> range.
+Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+---
+ drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c     | 2 +-
+ drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Yes fallocate() is unnecessary unless someone wants to reserve some
-space (e.g. for determination or performance purpose), this matches its
-semantics perfectly at:
-https://www.man7.org/linux/man-pages/man2/fallocate.2.html
+diff --git a/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c b/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
+index 97e1856641b4..515fcd18ed72 100644
+--- a/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
++++ b/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
+@@ -3791,7 +3791,7 @@ static int dpaa2_eth_setup_dpni(struct fsl_mc_device *ls_dev)
+ 		dev_err(dev, "DPNI version %u.%u not supported, need >= %u.%u\n",
+ 			priv->dpni_ver_major, priv->dpni_ver_minor,
+ 			DPNI_VER_MAJOR, DPNI_VER_MINOR);
+-		err = -ENOTSUPP;
++		err = -EOPNOTSUPP;
+ 		goto close;
+ 	}
+ 
+diff --git a/drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c b/drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c
+index 32a38a03db57..ac3a7f2897be 100644
+--- a/drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c
++++ b/drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c
+@@ -117,7 +117,7 @@ dpaa2_eth_set_link_ksettings(struct net_device *net_dev,
+ 	struct dpaa2_eth_priv *priv = netdev_priv(net_dev);
+ 
+ 	if (!dpaa2_eth_is_type_phy(priv))
+-		return -ENOTSUPP;
++		return -EOPNOTSUPP;
+ 
+ 	return phylink_ethtool_ksettings_set(priv->mac->phylink, link_settings);
+ }
+-- 
+2.34.1
 
-> 
-> If the guest supports lazy-acceptance however, these pages may not have
-> been faulted in yet, and if the VMM defers actually fallocate()'ing space
-> until the guest actually tries to issue a shared->private for that GFN
-> (to support lazy-pinning), then there may never be a need to allocate
-> pages for these backends.
-> 
-> However, the restrictedmem invalidations are for GFN ranges so there's
-> no way to know inadvance whether it's been allocated yet or not. The
-> xarray is one option but currently it defaults to 'private' so that
-> doesn't help us here. It might if we introduced a 'uninitialized' state
-> or something along that line instead of just the binary
-> 'shared'/'private' though...
-
-How about if we change the default to 'shared' as we discussed at
-https://lore.kernel.org/all/Y35gI0L8GMt9+OkK@google.com/?
-> 
-> But for now we added a restrictedmem_get_page_noalloc() that uses
-> SGP_NONE instead of SGP_WRITE to avoid accidentally allocating a bunch
-> of memory as part of guest shutdown, and a
-> kvm_restrictedmem_get_pfn_noalloc() variant to go along with that. But
-> maybe a boolean param is better? Or maybe SGP_NOALLOC is the better
-> default, and we just propagate an error to userspace if they didn't
-> fallocate() in advance?
-
-This (making fallocate() a hard requirement) not only complicates the
-userspace but also forces the lazy-faulting going through a long path of
-exiting to userspace. Unless we don't have other options I would not go
-this way.
-
-Chao
-> 
-> -Mike
-> 
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	*pagep = page;
-> > +	if (order)
-> > +		*order = thp_order(compound_head(page));
-> > +
-> > +	SetPageUptodate(page);
-> > +	unlock_page(page);
-> > +
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(restrictedmem_get_page);
-> > -- 
-> > 2.25.1
-> > 
