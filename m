@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 631CDC4321E
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 13:09:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C4B0C4167B
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 13:09:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbiK2NJy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S231970AbiK2NJy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 29 Nov 2022 08:09:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50282 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbiK2NJx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 08:09:53 -0500
+        with ESMTP id S230421AbiK2NJy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 08:09:54 -0500
 Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCA302F2;
-        Tue, 29 Nov 2022 05:09:52 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9307659160;
+        Tue, 29 Nov 2022 05:09:53 -0800 (PST)
 Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2ATBxieW022509;
-        Tue, 29 Nov 2022 05:09:44 -0800
+        by mx0b-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2ATBxieY022509;
+        Tue, 29 Nov 2022 05:09:46 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=pfpt0220;
- bh=d5Cmq6NjnC3mbJUZGLiFJpEuCPO/ckDDocQX/+wDCz4=;
- b=JMfVvqXatAlMipGqi74Y9EMOgfGV/v2+M/yXJoFSUTyet8BFwNVW/+VrVg+TjeH14Vvz
- +EfusUP4OQKwNKGr1jkhRAhSDR8f5XuiJzI/AAPkqcqyeeQSRiuZHBA9ivqHnlBw/IWN
- nrIcQ0usB1rJxuE86zgLF0uzLm0PLvo5tWHln6WSt6qgp2HPFFA00hAxpQ82Jkyqm391
- jXf4/8+ZhmM+0vOuEgpSZWhR6VvJ45cslnJtUc2nheHR2CjaHZUYH4MalQfyShyIYtcH
- y2fyo9g9ercbMamQtRwQ0z6fGDPGpVit9GAepiDOJTJtH+bvO3pyJbhA8+Qh0ZYVmKEe Yg== 
+ bh=qOHmlBNZrt/ESjNhAqgvibQ4IGM9LRRF1u0q2xC6GC8=;
+ b=OqPurvB8Icwj5P8H/HHaUHVc9PJeyDTdnxL0WbikZGj179tHYNws9iuP5wsLlXtMjyCf
+ bvw4JVr7pUBfW6nJp1AVGnG8nFqKEzmWbIBdX6vO3zF5xXiZ+PIE/Kz8Mj3Gb+nwIaVp
+ +nCiqHD/v/IzTocCNywZlkoJ+LLCPkTI37/9T/MceTkRe8MJOJ4GpMxoAfJsdok1fEP+
+ ROJmEkY/MW02pymxyLyQTZbGRTjgV4JRMWpqlkdVDTANisXnMfmFdIPOo0ty4lKUnOFa
+ mCe3OMYMDGaG8sm2dF+WByqY+59OuFvG7Md2ZiTZ63inUxXKWFXy+pHT2ggco5hbLOQ3 xg== 
 Received: from dc5-exch02.marvell.com ([199.233.59.182])
-        by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3m3k6wbcnq-2
+        by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3m3k6wbcnq-4
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Tue, 29 Nov 2022 05:09:44 -0800
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
+        Tue, 29 Nov 2022 05:09:46 -0800
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH02.marvell.com
  (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Tue, 29 Nov
- 2022 05:09:41 -0800
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 29 Nov 2022 05:09:41 -0800
+ 2022 05:09:43 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
+ Transport; Tue, 29 Nov 2022 05:09:43 -0800
 Received: from sburla-PowerEdge-T630.caveonetworks.com (unknown [10.106.27.217])
-        by maili.marvell.com (Postfix) with ESMTP id 88E1F3F7087;
-        Tue, 29 Nov 2022 05:09:41 -0800 (PST)
+        by maili.marvell.com (Postfix) with ESMTP id 9488C3F7084;
+        Tue, 29 Nov 2022 05:09:43 -0800 (PST)
 From:   Veerasenareddy Burru <vburru@marvell.com>
 To:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <lironh@marvell.com>, <aayarekar@marvell.com>,
@@ -49,17 +49,17 @@ CC:     <linux-doc@vger.kernel.org>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>
-Subject: [PATCH net-next v2 3/9] octeon_ep: control mailbox for multiple PFs
-Date:   Tue, 29 Nov 2022 05:09:26 -0800
-Message-ID: <20221129130933.25231-4-vburru@marvell.com>
+Subject: [PATCH net-next v2 5/9] octeon_ep: support asynchronous notifications
+Date:   Tue, 29 Nov 2022 05:09:28 -0800
+Message-ID: <20221129130933.25231-6-vburru@marvell.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20221129130933.25231-1-vburru@marvell.com>
 References: <20221129130933.25231-1-vburru@marvell.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: RZBwNfZLqvsjTxQE2PSPX2GhzPU9rMDR
-X-Proofpoint-ORIG-GUID: RZBwNfZLqvsjTxQE2PSPX2GhzPU9rMDR
+X-Proofpoint-GUID: kHhX36B8sUHspGoB29gPVICq6iHH7kjN
+X-Proofpoint-ORIG-GUID: kHhX36B8sUHspGoB29gPVICq6iHH7kjN
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-11-29_08,2022-11-29_01,2022-06-22_01
@@ -67,8 +67,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add control mailbox support for multiple PFs.
-Update control mbox base address calculation based on PF function link.
+Add asynchronous notification support to the control mailbox.
 
 Signed-off-by: Veerasenareddy Burru <vburru@marvell.com>
 Signed-off-by: Abhijit Ayarekar <aayarekar@marvell.com>
@@ -76,50 +75,56 @@ Signed-off-by: Abhijit Ayarekar <aayarekar@marvell.com>
 v1 -> v2:
  * no change
 
- .../ethernet/marvell/octeon_ep/octep_cn9k_pf.c   | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ .../marvell/octeon_ep/octep_ctrl_net.c        | 29 +++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c b/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c
-index ace2dfd1e918..e307bae62673 100644
---- a/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c
-+++ b/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c
-@@ -13,6 +13,9 @@
- #include "octep_main.h"
- #include "octep_regs_cn9k_pf.h"
- 
-+#define CTRL_MBOX_MAX_PF	128
-+#define CTRL_MBOX_SZ		((size_t)(0x400000 / CTRL_MBOX_MAX_PF))
-+
- /* Names of Hardware non-queue generic interrupts */
- static char *cn93_non_ioq_msix_names[] = {
- 	"epf_ire_rint",
-@@ -199,6 +202,8 @@ static void octep_init_config_cn93_pf(struct octep_device *oct)
- 	struct octep_config *conf = oct->conf;
- 	struct pci_dev *pdev = oct->pdev;
- 	u64 val;
-+	int pos;
-+	u8 link = 0;
- 
- 	/* Read ring configuration:
- 	 * PF ring count, number of VFs and rings per VF supported
-@@ -234,7 +239,16 @@ static void octep_init_config_cn93_pf(struct octep_device *oct)
- 	conf->msix_cfg.ioq_msix = conf->pf_ring_cfg.active_io_rings;
- 	conf->msix_cfg.non_ioq_msix_names = cn93_non_ioq_msix_names;
- 
--	conf->ctrl_mbox_cfg.barmem_addr = (void __iomem *)oct->mmio[2].hw_addr + (0x400000ull * 7);
-+	pos = pci_find_ext_capability(oct->pdev, PCI_EXT_CAP_ID_SRIOV);
-+	if (pos) {
-+		pci_read_config_byte(oct->pdev,
-+				     pos + PCI_SRIOV_FUNC_LINK,
-+				     &link);
-+		link = PCI_DEVFN(PCI_SLOT(oct->pdev->devfn), link);
-+	}
-+	conf->ctrl_mbox_cfg.barmem_addr = (void __iomem *)oct->mmio[2].hw_addr +
-+					   (0x400000ull * 8) +
-+					   (link * CTRL_MBOX_SZ);
+diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
+index 715af1891d0d..80bcd6cd4732 100644
+--- a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
++++ b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
+@@ -279,6 +279,33 @@ static int process_mbox_resp(struct octep_device *oct,
+ 	return 0;
  }
  
- /* Setup registers for a hardware Tx Queue  */
++static int process_mbox_notify(struct octep_device *oct,
++			       struct octep_ctrl_mbox_msg *msg)
++{
++	struct octep_ctrl_net_f2h_req *req;
++	struct net_device *netdev = oct->netdev;
++
++	req = (struct octep_ctrl_net_f2h_req *)msg->sg_list[0].msg;
++	switch (req->hdr.s.cmd) {
++	case OCTEP_CTRL_NET_F2H_CMD_LINK_STATUS:
++		if (netif_running(netdev)) {
++			if (req->link.state) {
++				dev_info(&oct->pdev->dev, "netif_carrier_on\n");
++				netif_carrier_on(netdev);
++			} else {
++				dev_info(&oct->pdev->dev, "netif_carrier_off\n");
++				netif_carrier_off(netdev);
++			}
++		}
++		break;
++	default:
++		pr_info("Unknown mbox req : %u\n", req->hdr.s.cmd);
++		break;
++	}
++
++	return 0;
++}
++
+ int octep_ctrl_net_recv_fw_messages(struct octep_device *oct)
+ {
+ 	static u16 msg_sz = sizeof(union octep_ctrl_net_max_data);
+@@ -303,6 +330,8 @@ int octep_ctrl_net_recv_fw_messages(struct octep_device *oct)
+ 			process_mbox_req(oct, &msg);
+ 		else if (msg.hdr.s.flags & OCTEP_CTRL_MBOX_MSG_HDR_FLAG_RESP)
+ 			process_mbox_resp(oct, &msg);
++		else if (msg.hdr.s.flags & OCTEP_CTRL_MBOX_MSG_HDR_FLAG_NOTIFY)
++			process_mbox_notify(oct, &msg);
+ 	}
+ 
+ 	return 0;
 -- 
 2.36.0
 
