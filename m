@@ -2,87 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE053C4167B
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 11:10:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49F0CC4321E
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 11:21:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232686AbiK2LK4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Nov 2022 06:10:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52220 "EHLO
+        id S231124AbiK2LV5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Nov 2022 06:21:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232635AbiK2LKy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 06:10:54 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CE90BBA;
-        Tue, 29 Nov 2022 03:10:50 -0800 (PST)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NM00707Q0zqSjv;
-        Tue, 29 Nov 2022 19:06:47 +0800 (CST)
-Received: from [10.67.102.169] (10.67.102.169) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 29 Nov 2022 19:10:48 +0800
-CC:     <yangyicong@hisilicon.com>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <linuxarm@huawei.com>, <f.fangjian@huawei.com>,
-        <prime.zeng@huawei.com>, <shenyang39@huawei.com>,
-        <liuqi6124@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        <bagasdotme@gmail.com>, <jonathan.cameron@huawei.com>
-Subject: Re: [PATCH v3 0/4] Add TLP filter support and some fixes for
- HiSilicon PCIe PMU
-To:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Shaokun Zhang <zhangshaokun@hisilicon.com>
-References: <20221117084136.53572-1-yangyicong@huawei.com>
-From:   Yicong Yang <yangyicong@huawei.com>
-Message-ID: <b08447e8-9d2c-3855-97cb-b10e3e080e42@huawei.com>
-Date:   Tue, 29 Nov 2022 19:10:48 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        with ESMTP id S230165AbiK2LV4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 06:21:56 -0500
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F67F53EF9;
+        Tue, 29 Nov 2022 03:21:54 -0800 (PST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.west.internal (Postfix) with ESMTP id 2533C2B0677F;
+        Tue, 29 Nov 2022 06:21:47 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Tue, 29 Nov 2022 06:21:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+         h=cc:cc:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1669720905; x=1669728105; bh=at
+        8ufqDNaxbmVHg+nxQPls4+sUqFCV/uGf26OnoE264=; b=Uj0LUC+Th7V+VSL3Wv
+        EdqIQhblOE9VM+4KQiTy8MVpYzh8ghDALZwrhRGXHOI41QY5rn86ft3C4ExaJyFw
+        tpZeWaahScbyUrqpTrXSNOt014NNHT58TDP2ao1Wb8+zhuAMCd3tKvbmKq5xEZvw
+        GRQNm0PlT5nV6l/SQmT1WSgtxEzBzyg7Uw76OZaEbeZlr0RR1N7H0qU2xhe25qz3
+        nTwhHj01In7y5FlApU2+5t/BrzszBnn8zjqUmq+gYMh5HF69wbQRGbiMModAc+3r
+        cbwLnW72xQF6j87tlPn2Xd7bgEpwCWRQu6wNpPmYi6Jhqvyd/OXiUqiykUpgjcor
+        EgIg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; t=1669720905; x=1669728105; bh=at8ufqDNaxbmVHg+nxQPls4+sUqF
+        CV/uGf26OnoE264=; b=TuZpLKLMppDOmkhizhwn1gXseM7dGDauNCFvwOOmVHx8
+        pnYle/wmPZ1A+qeWsnf+7PZ8+lMCV3kMizSjcRfwnDjo05HDZwKa2TeI7ZwH+eoO
+        YzoXC72/rc3zc9dOzTRT/HcIcdhxZcFN+v0cnq26O/FyC56F0qdhPTvGWdY6X5Qa
+        Hv8jlMOos5zuYL9IhpNNgcitN3LW5+LGtB9JddVw58/wT4IYapD832z243xQj7sn
+        qs2hNx6vJs1mUi6fBWSiihWL29Z7Ilg5XOPf+mMhSvZ4mmdiLYySRjCaFuWk4qxg
+        LgDouMrJdkLCqppqW881D8aWLT+dgl/3Rjaqsw4IpQ==
+X-ME-Sender: <xms:R-uFY0QzbLeoSKoAlkAq6pdKJ7HpMrLqiWy3118_gmS3L3bA0Pmd7A>
+    <xme:R-uFYxwIx9EyfMUsYG0cW3-FsW47K_fzK_YlcLJJ1BwdfQ4BDoZkkNMoTlQ6cwP5c
+    LiB-wsvYS2yStuFvv4>
+X-ME-Received: <xmr:R-uFYx30N9zkFU7156fAB07S_Cv9qNI4M7a1qLZPCcwEfrBVbaXsxkztIaS0Dx4-k_sOxw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrjeeggddvhecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehttddttddttddvnecuhfhrohhmpedfmfhirhhi
+    lhhlucetrdcuufhhuhhtvghmohhvfdcuoehkihhrihhllhesshhhuhhtvghmohhvrdhnrg
+    hmvgeqnecuggftrfgrthhtvghrnhephfeigefhtdefhedtfedthefghedutddvueehtedt
+    tdehjeeukeejgeeuiedvkedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomhepkhhirhhilhhlsehshhhuthgvmhhovhdrnhgrmhgv
+X-ME-Proxy: <xmx:R-uFY4BqxH63XPqRmjg_R04J8UTRl_p20z9c5BYg744mlIjKWEYdBA>
+    <xmx:R-uFY9gclNuv-uxuE7QdwizjoOG-LQKbWfndnp9ime1Ke4uaddCbLQ>
+    <xmx:R-uFY0r0APjq-Sa-AeWZeqZNUjzmln5tKTwYBQ_0JYJoWZhr2aow3g>
+    <xmx:SeuFYxc9K6tiHQdiGlqUGR-x_tz5oQblJEYLMmc2RXaa7pgtSMi6l7xkSCw>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 29 Nov 2022 06:21:42 -0500 (EST)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id A8A4810454E; Tue, 29 Nov 2022 14:21:39 +0300 (+03)
+Date:   Tue, 29 Nov 2022 14:21:39 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Michael Roth <michael.roth@amd.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20221129112139.usp6dqhbih47qpjl@box.shutemov.name>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
+ <20221129000632.sz6pobh6p7teouiu@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20221117084136.53572-1-yangyicong@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221129000632.sz6pobh6p7teouiu@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-a gentle ping for this...
+On Mon, Nov 28, 2022 at 06:06:32PM -0600, Michael Roth wrote:
+> On Tue, Oct 25, 2022 at 11:13:37PM +0800, Chao Peng wrote:
+> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > 
+> 
+> <snip>
+> 
+> > +static struct file *restrictedmem_file_create(struct file *memfd)
+> > +{
+> > +	struct restrictedmem_data *data;
+> > +	struct address_space *mapping;
+> > +	struct inode *inode;
+> > +	struct file *file;
+> > +
+> > +	data = kzalloc(sizeof(*data), GFP_KERNEL);
+> > +	if (!data)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	data->memfd = memfd;
+> > +	mutex_init(&data->lock);
+> > +	INIT_LIST_HEAD(&data->notifiers);
+> > +
+> > +	inode = alloc_anon_inode(restrictedmem_mnt->mnt_sb);
+> > +	if (IS_ERR(inode)) {
+> > +		kfree(data);
+> > +		return ERR_CAST(inode);
+> > +	}
+> > +
+> > +	inode->i_mode |= S_IFREG;
+> > +	inode->i_op = &restrictedmem_iops;
+> > +	inode->i_mapping->private_data = data;
+> > +
+> > +	file = alloc_file_pseudo(inode, restrictedmem_mnt,
+> > +				 "restrictedmem", O_RDWR,
+> > +				 &restrictedmem_fops);
+> > +	if (IS_ERR(file)) {
+> > +		iput(inode);
+> > +		kfree(data);
+> > +		return ERR_CAST(file);
+> > +	}
+> > +
+> > +	file->f_flags |= O_LARGEFILE;
+> > +
+> > +	mapping = memfd->f_mapping;
+> > +	mapping_set_unevictable(mapping);
+> > +	mapping_set_gfp_mask(mapping,
+> > +			     mapping_gfp_mask(mapping) & ~__GFP_MOVABLE);
+> 
+> Is this supposed to prevent migration of pages being used for
+> restrictedmem/shmem backend?
 
-On 2022/11/17 16:41, Yicong Yang wrote:
-> From: Yicong Yang <yangyicong@hisilicon.com>
-> 
-> HiSilicon PCIe PMU support count the bandwidth of TLP headers, TLP payloads
-> or both. Add support for it. User can set this through perf tool's
-> 'len_mode' like:
-> 
->   $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,len_mode=0x1/ sleep 5
-> 
-> Also includes fixes and improvement of both driver and documentation in this
-> series.
-> 
-> Change since v2:
-> - Take Patch 3 advance in the series and drop the fix tag, Per Jonathan
-> - Add tags from Jonathan for Patch 3-4, Thanks.
-> Link: https://lore.kernel.org/lkml/20221110085109.45227-2-yangyicong@huawei.com/
-> 
-> Change since v1:
-> - Refine the documentation per Jonathan and Bagas
-> - Collect tags from Jonathan. Thanks.
-> Link: https://lore.kernel.org/lkml/20221025113242.58271-1-yangyicong@huawei.com/
-> 
-> Bagas Sanjaya (1):
->   Documentation: perf: Indent filter options list of hisi-pcie-pmu
-> 
-> Yicong Yang (3):
->   drivers/perf: hisi: Fix some event id for hisi-pcie-pmu
->   docs: perf: Fix PMU instance name of hisi-pcie-pmu
->   drivers/perf: hisi: Add TLP filter support
-> 
->  .../admin-guide/perf/hisi-pcie-pmu.rst        | 112 +++++++++++-------
->  drivers/perf/hisilicon/hisi_pcie_pmu.c        |  22 +++-
->  2 files changed, 85 insertions(+), 49 deletions(-)
-> 
+Yes, my bad. I expected it to prevent migration, but it is not true.
+
+Looks like we need to bump refcount in restrictedmem_get_page() and reduce
+it back when KVM is no longer use it.
+
+Chao, could you adjust it?
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
