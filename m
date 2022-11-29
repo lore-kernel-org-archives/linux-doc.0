@@ -2,194 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2683FC46467
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 15:06:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB37C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 15:50:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbiK2PGL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Nov 2022 10:06:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38736 "EHLO
+        id S235960AbiK2Puq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Nov 2022 10:50:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229693AbiK2PGK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 10:06:10 -0500
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E8943FBA4;
-        Tue, 29 Nov 2022 07:06:08 -0800 (PST)
-Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-142faa7a207so17281760fac.13;
-        Tue, 29 Nov 2022 07:06:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=kDwNcelrs2eUV+lrqFjarpCKpHkKCs1VhcZri8buYKI=;
-        b=AoZfmFeYKOl4l2lIHPCkTbcdpAwJpSta0pfkYwaOkFHCISQw8IoGt3aERVL2/nqOkC
-         a6BHyldoXF8TPzDrKg0hHQ+iLMySV9kk5duA9ppJwI3nVnZkecI7mqXVjTzxjc1tPf1s
-         Hlx15iEgHrOjRYo0NFhhTx1q/VYw5qA3kSnG/L/75Bylsq7133s9dlcs8Qr30wwEV7OG
-         fNFek9RS1KKxHLxzZ/tujDKRHxDGuDqt7+cMME8GxWqaraogMMeyD/FP/SgXOdZq/OZw
-         5MI31UGRbttIb/R9Kk+rkdl4d+hqpbnXIkdE9XBkr6wnotATQzBzfuZTkWlopIn4Ubmp
-         l5Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kDwNcelrs2eUV+lrqFjarpCKpHkKCs1VhcZri8buYKI=;
-        b=8KgAi9UJw2PaccUuK3Dotv2811EMQ5V/IvQravvE+tF9mACDZ4MB238HbctXyrrDCk
-         thxg1r9uUk8hewiKQ2uYop1kxi5p0n+/I68z0RObAkFRHm/8jQAw2zBYpi0uZrBUh/MJ
-         d3/ELl7AHrWse/u1xSg2RhD77wlOPkDOXbE+xCVpvhpth5ymFDfUBFopU+uiAQII1Wgy
-         EWr5RefFXOUrcwE4VA3OVa8YcJjOvixkU92TPr8Xw6cqopyuHHtUiKAACWJAWL/ml9Gi
-         nIFztwNHQMshzIT1Eiew0FOxTpLsCzmeraq4w2mVirXZdi+tS/D95sDrd4J/enoyDmH0
-         5RrQ==
-X-Gm-Message-State: ANoB5pm2OwqfbBgH5kVMscQqYo/jEhR3H868CIvr9TmplQjgGM51KEAh
-        vxMZL3hyZwY2mZusv4Tedmw=
-X-Google-Smtp-Source: AA0mqf5oDydb9EGtYPiKSPOiYCPpv8fl65qEocklfg33+p3F9hythil2GZwIwm+FvmCbwsKu6AnaMQ==
-X-Received: by 2002:a05:6870:54d2:b0:131:e200:1492 with SMTP id g18-20020a05687054d200b00131e2001492mr21190025oan.44.1669734367149;
-        Tue, 29 Nov 2022 07:06:07 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id h9-20020a4ad009000000b0049be9c3c15dsm5517327oor.33.2022.11.29.07.06.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Nov 2022 07:06:06 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <a0b48e60-59ce-0033-b09f-2f92983753b7@roeck-us.net>
-Date:   Tue, 29 Nov 2022 07:06:03 -0800
+        with ESMTP id S235974AbiK2Pud (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 10:50:33 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAE672AE1C;
+        Tue, 29 Nov 2022 07:50:30 -0800 (PST)
+Received: from zn.tnic (p200300ea9733e724329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e724:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D1AD01EC06D0;
+        Tue, 29 Nov 2022 16:50:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1669737028;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=j5TXiePmxL91SlMInx0lOFxR9R7xf7CDOnkMDEo8NOo=;
+        b=Ug7/ioDiJ/T09VA+AtfybQkW2YwL9YgxTYELmnFF8r+jaBqrkU+AQFPeTLo8qVJBWcp6gs
+        aHItuRxbIdJ6etimD4uwbRIS2BEJfu3QTJM5RELq/MNqpYIVcvLbzVks3WKlUZMp1NBjvF
+        UP+Pzmf4O5YrrB38kp4rtCeJUx9xl3E=
+Date:   Tue, 29 Nov 2022 16:50:24 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Kim Phillips <kim.phillips@amd.com>
+Cc:     x86@kernel.org, Babu Moger <Babu.Moger@amd.com>,
+        Borislav Petkov <bp@suse.de>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] x86/cpu, kvm: Use CPU capabilities for
+ CPUID[0x80000021].EAX
+Message-ID: <Y4YqQO/gGwAmn7jI@zn.tnic>
+References: <20221124000449.79014-1-kim.phillips@amd.com>
+ <20221124000449.79014-2-kim.phillips@amd.com>
+ <Y39qUnlRx05eaGeb@zn.tnic>
+ <849464c8-476a-9a14-afdb-cb8793dd6064@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [v4 5/5] hwmon: Add Aspeed ast2600 TACH support
-Content-Language: en-US
-To:     Billy Tsai <billy_tsai@aspeedtech.com>,
-        "jdelvare@suse.com" <jdelvare@suse.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "lee@kernel.org" <lee@kernel.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Cc:     kernel test robot <lkp@intel.com>
-References: <20221123061635.32025-1-billy_tsai@aspeedtech.com>
- <20221123061635.32025-6-billy_tsai@aspeedtech.com>
- <bf851fa1-af62-5cdc-8cb4-bcf29b73731a@roeck-us.net>
- <D5F454FE-9C4B-4B7E-8817-637D5FCC047A@aspeedtech.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <D5F454FE-9C4B-4B7E-8817-637D5FCC047A@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <849464c8-476a-9a14-afdb-cb8793dd6064@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/28/22 23:08, Billy Tsai wrote:
-> On 2022/11/23, 11:45 PM, "Guenter Roeck" <groeck7@gmail.com on behalf of linux@roeck-us.net> wrote:
+On Mon, Nov 28, 2022 at 05:00:43PM -0600, Kim Phillips wrote:
+> > verify_tags: WARNING: Co-developed-by Babu Moger <Babu.Moger@amd.com> hasn't signed off on the patch!
 > 
->      On 11/22/22 22:16, Billy Tsai wrote:
->      > > +The driver provides the following sensor accesses in sysfs:
->      > > +=============== ======= =====================================================
->      > > +fanX_input	ro	provide current fan rotation value in RPM as reported
->      > > +			by the fan to the device.
->      > > +fanX_div	rw	Fan divisor: Supported value are power of 4 (1, 4, 16
->      > > +                        64, ... 4194304)
-> 
->      > The code doesn't support 1.
-> 
-> The code can support 1.
-> 
-Sorry, leftover from when I misread the code and thought it didn't.
-> 
->      > The existence of a status register makes me wonder what is in there.
->      > Does the controller report any errors ? If so, it might be worthwile
->      > adding attribute(s) for it.
-> 
->      > > +	if (ret)
->      > > +		return ret;
->      > > +
->      > > +	if (!(val & TACH_ASPEED_FULL_MEASUREMENT))
->      > > +		return 0;
->      > > +	rpm = aspeed_tach_val_to_rpm(priv, fan_tach_ch,
->      > > +				     val & TACH_ASPEED_VALUE_MASK);
->      > > +
->      > > +	return rpm;
-> 
-> The status register is the TACH_ASPEED_FULL_MEASUREMENT which is used to indicate that
-> the controller doesn't detect the change in tach pin for a long time.
-> 
->      > > +static void aspeed_create_fan_tach_channel(struct aspeed_tach_data *priv,
->      > > +					   u32 tach_ch)
->      > > +{
->      > > +	priv->tach_present[tach_ch] = true;
->      > > +	priv->tach_channel[tach_ch].limited_inverse = 0;
->      > > +	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
->      > > +			  TACH_ASPEED_INVERS_LIMIT,
->      > > +			  priv->tach_channel[tach_ch].limited_inverse ?
->      > > +				  TACH_ASPEED_INVERS_LIMIT :
->      > > +				  0);
->      > > +
->      > What is the purpose of the above code ? limited_inverse is always 0.
-> 
->      > > +	priv->tach_channel[tach_ch].tach_debounce = DEBOUNCE_3_CLK;
->      > > +	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
->      > > +			  TACH_ASPEED_DEBOUNCE_MASK,
->      > > +			  priv->tach_channel[tach_ch].tach_debounce
->      > > +				  << TACH_ASPEED_DEBOUNCE_BIT);
->      > > +
->      > > +	priv->tach_channel[tach_ch].tach_edge = F2F_EDGES;
->      > > +	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
->      > > +			  TACH_ASPEED_IO_EDGE_MASK,
->      > > +			  priv->tach_channel[tach_ch].tach_edge
->      > > +				  << TACH_ASPEED_IO_EDGE_BIT);
->      > > +
-> 
->      > limited_inverse, tach_debounce, and tach_edge are constants.
->      > There is no need to keep constants as per-channel variables.
-> 
->      > > +	priv->tach_channel[tach_ch].divisor = DEFAULT_TACH_DIV;
->      > > +	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
->      > > +			  TACH_ASPEED_CLK_DIV_T_MASK,
->      > > +			  DIV_TO_REG(priv->tach_channel[tach_ch].divisor)
->      > > +				  << TACH_ASPEED_CLK_DIV_BIT);
->      > > +
->      > > +	priv->tach_channel[tach_ch].threshold = 0;
->      > > +	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
->      > > +			  TACH_ASPEED_THRESHOLD_MASK,
->      > > +			  priv->tach_channel[tach_ch].threshold);
->      > > +
-> 
->      > The above applies to threshold as well.
-> 
-> The above code is used to retain the adjustable feature of the controller.
-> I will remove them until I add the dts property to support them.
-> 
->      > > +	}
->      > > +
->      > > +	hwmon = devm_hwmon_device_register_with_info(dev, "aspeed_tach", priv,
->      > > +						     &aspeed_tach_chip_info, NULL);
->      > > +	ret = PTR_ERR_OR_ZERO(hwmon);
->      > > +	if (ret)
->      > > +		return dev_err_probe(dev, ret,
->      > > +				     "Failed to register hwmon device\n");
->      > > +	return 0;
-> 
->      > Why not return the error ? Either it is an error or it isn't. If it is
->      > not an error, dev_err_probe() is not appropriate. If it is, the error
->      > should be returned. Either case, if this is on purpose, it needs an
->      > explanation.
-> 
-> I have return the return value of the dev_err_probe. Did I miss someting?
-> 
-No, me not having enough coffee when reviewing the code. Sorry for the noise.
+> OK, I'll add his signed-off-by.
 
-Thanks,
-Guenter
+You can't just add his SOB - he needs to give it himself.
 
+"Certificate of Origin" in Documentation/process/submitting-patches.rst
+needs brushing up on, it seems.
+
+> Not sure I follow.  That code (originally from commit f144c49e8c39
+> ("KVM: x86: synthesize CPUID leaf 0x80000021h if useful") doesn't
+> negate that: the code is saying that if we don't have the bug, then
+> set the feature bit that says we don't have the bug.
+
+I was thinking of the case described here:
+
+415de4407664 ("x86/cpu: Fix migration safety with X86_BUG_NULL_SEL")
+
+but I guess we can do that on the host.
+
+> > Which means, you'd have to update check_null_seg_clears_base() too.
+> 
+> Like this?:
+> 
+> diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+> index 73cc546e024d..bbe96d71ff5e 100644
+> --- a/arch/x86/kernel/cpu/common.c
+> +++ b/arch/x86/kernel/cpu/common.c
+> @@ -1682,11 +1682,6 @@ void check_null_seg_clears_base(struct cpuinfo_x86 *c)
+>         if (!IS_ENABLED(CONFIG_X86_64))
+>                 return;
+> 
+> -       /* Zen3 CPUs advertise Null Selector Clears Base in CPUID. */
+> -       if (c->extended_cpuid_level >= 0x80000021 &&
+> -           cpuid_eax(0x80000021) & BIT(6))
+> -               return;
+> -
+
+No, not like this. The above you've removed needs to be
+
+	if (cpu_has(c, X86_FEATURE_NULL_SEL_CLR_BASE))
+		return;
+
+so that you exit early.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
