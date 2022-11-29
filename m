@@ -2,132 +2,212 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0358C4321E
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 23:23:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 031A8C4167B
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 23:58:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229457AbiK2XXK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Nov 2022 18:23:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55410 "EHLO
+        id S230161AbiK2X6h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Nov 2022 18:58:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiK2XXK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 18:23:10 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ED885289E;
-        Tue, 29 Nov 2022 15:23:09 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1BFC06195D;
-        Tue, 29 Nov 2022 23:23:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A426C433C1;
-        Tue, 29 Nov 2022 23:23:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1669764188;
-        bh=0fdNX9QhucmvGYsJWGOg9jQeFn+znvsZsA3GeeD73CM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=oBPkt6FJJWfvsgtGvs6SjxHs/2kYEDb40oxeDjWBuNGLbmZH0jVfpuraJ/TrV9+F4
-         hqoAFA2+L/RlQ1wICENr1s9GsmPkIDc9zBUGenqCJRgb4PHm3qYEnMhYXx+xLEakLb
-         I+GNCiUTX4XFglOckyjmCJUxKp2DIu33twwtFObY=
-Date:   Tue, 29 Nov 2022 15:23:06 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Yicong Yang <yangyicong@huawei.com>
-Cc:     <linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
-        <x86@kernel.org>, <catalin.marinas@arm.com>, <will@kernel.org>,
-        <anshuman.khandual@arm.com>, <linux-doc@vger.kernel.org>,
-        <corbet@lwn.net>, <peterz@infradead.org>, <arnd@arndb.de>,
-        <punit.agrawal@bytedance.com>, <linux-kernel@vger.kernel.org>,
-        <darren@os.amperecomputing.com>, <yangyicong@hisilicon.com>,
-        <huzhanyuan@oppo.com>, <lipeifeng@oppo.com>,
-        <zhangshiming@oppo.com>, <guojian@oppo.com>, <realmz6@gmail.com>,
-        <linux-mips@vger.kernel.org>, <openrisc@lists.librecores.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
-        <linux-s390@vger.kernel.org>, Barry Song <21cnbao@gmail.com>,
-        <wangkefeng.wang@huawei.com>, <xhao@linux.alibaba.com>,
-        <prime.zeng@hisilicon.com>,
-        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
-        Barry Song <baohua@kernel.org>
-Subject: Re: [PATCH v7 1/2] mm/tlbbatch: Introduce
- arch_tlbbatch_should_defer()
-Message-Id: <20221129152306.54b6d439e2a0ca7ece1d1afa@linux-foundation.org>
-In-Reply-To: <20221117082648.47526-2-yangyicong@huawei.com>
-References: <20221117082648.47526-1-yangyicong@huawei.com>
-        <20221117082648.47526-2-yangyicong@huawei.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229919AbiK2X6g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 18:58:36 -0500
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2052.outbound.protection.outlook.com [40.107.94.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDB2A58BDF;
+        Tue, 29 Nov 2022 15:58:34 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FFFeF0alVhw3eyGAxMxah9oad9MM3UvRmyCu8XT3aVRM1d+FYWTZ2pVhPK3hB48GN95w9bdWRUYoLfQvCXWOYxk0Sp5DiMcdEUzGm2UtAY5YpNZuWB4353gBvk9+EGQr6b5EKGDjS66hKPucqV6DSgCt+bMUM3Xs0UwAloEsYxAC80x+DvRm149sOWTBwEAtbNsBo7UfsSd2PFMN2kDbfkRhh8z6R8hPAEZtJPxhOUrrIkr1ZKeYbuxgCK/u8/7prYbQnjdhe4sg0TbQnS3rRqzJzEPgZLvZ9XHkoavrkN+8rkY7d6GdFAaYDt9j6MnXdemjMj0rPXoHCJ1j2Rmo0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I6+1bQw6PtXu1jmBzgBG1pBSV22ydrN9Y5mIUzgvxcY=;
+ b=dhw7YJmwZ2lk4KTrBM5jMnh26C2oo+FglKF9cRcEH2Cl6WuQni3qgpC0U5vVY8eIdgfihkggEaT8yD8qi9w9r8Bn9m3cLY3NJz7EQ6Jl9/kUseYsa5oO/QLG9oGi2WZiVydBLUjIUm5JJzrWxh3fJBqaqBZ5xWjBGelDbm7OSYCyJ51YypB/50QD7UlxVn26AoAuHiZ23i99AuJFa1SaUj+9whmiEzh2M4HRl/ajVopgXY3DD7J+4cppjaZIWsmIPMHpewiGG21+6JTC+FNaK2rlkUcwZ//mubfnDKE6YlQCgXC7xq7Mjfebh05w0OszGgqMTXyfLpcyhkEfkOCwWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I6+1bQw6PtXu1jmBzgBG1pBSV22ydrN9Y5mIUzgvxcY=;
+ b=ODXMpsOQ39Nog4kpsztpRdNy/tMbURn7AqlfJUDh3eJppCqDcnOLv4hZqcCtMkppfxWgWO1OrO9Or6oLJC2x95DJ6VnznKWRljf3N+BnkmkhI/pXwGkb//LYqrqOwJgJEzF7Wpjb1dB5VNHfr6oSFUNFZovtosSq6OFsPEKsYP0=
+Received: from DM6PR17CA0018.namprd17.prod.outlook.com (2603:10b6:5:1b3::31)
+ by MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Tue, 29 Nov
+ 2022 23:58:32 +0000
+Received: from DM6NAM11FT075.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:1b3:cafe::64) by DM6PR17CA0018.outlook.office365.com
+ (2603:10b6:5:1b3::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.17 via Frontend
+ Transport; Tue, 29 Nov 2022 23:58:32 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT075.mail.protection.outlook.com (10.13.173.42) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5857.23 via Frontend Transport; Tue, 29 Nov 2022 23:58:32 +0000
+Received: from fritz.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 29 Nov
+ 2022 17:58:30 -0600
+From:   Kim Phillips <kim.phillips@amd.com>
+To:     <x86@kernel.org>
+CC:     Kim Phillips <kim.phillips@amd.com>,
+        Babu Moger <Babu.Moger@amd.com>,
+        Borislav Petkov <bp@alien8.de>, Borislav Petkov <bp@suse.de>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Konrad Rzeszutek Wilk" <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Alexey Kardashevskiy <aik@amd.com>, <kvm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3 0/7] x86/cpu, kvm: Support AMD Automatic IBRS
+Date:   Tue, 29 Nov 2022 17:58:09 -0600
+Message-ID: <20221129235816.188737-1-kim.phillips@amd.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT075:EE_|MN2PR12MB4192:EE_
+X-MS-Office365-Filtering-Correlation-Id: de5e2818-69da-432a-b805-08dad2659ece
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ipHAQqLKekv+7mFhLhYZrEl0Vs46LDW+hrcji+7QNjNXe7Xgexhyemg0Sc0u5xIotagFVWEyL/Q55hWCavZ8sU5R/w6ZOqhrynPgBTM1PqNVedFJMou/gxVWTLaSuQzgfVioISgsia6FUzLrhM3JJ5R/6hH5WdFenpFrSdXBl04syuvRJUwo79LKFVXuaFQjAATr+ELHli3vSULqEsYkJY3gXkeTiNhvXD+WwKZDTNB80mxYnjU4yUV/0CUMUJBBNfYgLoziZhQK35audUXvbTjHE0WswqGCw5JvLUAU3IK7pwJ0PQL7VMFjVhjwa8t0kzR2KlJn5RriTjACjkJy1t1xPKeGde4uBeVPTVCZPxd1NfsBBe82B3oiABxtVmoTbNuBWpByyq4oR+ZXdijC/nEYI0+Zy3l9aBcGSbSHasglWBFb6LYSdAesne7IZfrtejfeITuYigwrVn1uKNoTdqWgRO/AxsC6rRbPCZc7V+sccjh6c3A9UHSWORENB2NnBsUlujoaEyD8p5jcE3uXA8+j3uMdjKTjqK/IqfM3aBYgjIwx+Verir32VGdqdSFy6ZSNzpBsV482e+8C79gEAXABjgAs/WW3CuN9XN9BH9xlBvfslZHI4BF5R1XMCDXvFLx9VUF6iRboXR3Ev3qtP9xubQPiWR9U47RoUymMZ6ds2b05WmXtwpIy2a+VuGkS7rzMVHNLxyCDICLk6zBhErVtormqBPdgOlwqoueSe7BX5zZAq5GbGX0vtrmL0UpqXfYEJrhX03RDHJhop2eVA3Chh9a69ggdstvUIhSR6PjIup6cgJ4QJRrzAoqzZASJ
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(396003)(346002)(376002)(39860400002)(136003)(451199015)(40470700004)(46966006)(36840700001)(47076005)(426003)(5660300002)(44832011)(7416002)(40480700001)(54906003)(41300700001)(26005)(6916009)(316002)(2616005)(40460700003)(186003)(336012)(16526019)(36756003)(8676002)(70206006)(70586007)(4326008)(82310400005)(81166007)(356005)(8936002)(1076003)(82740400003)(2906002)(83380400001)(36860700001)(86362001)(966005)(7696005)(6666004)(478600001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2022 23:58:32.3442
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: de5e2818-69da-432a-b805-08dad2659ece
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT075.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4192
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 17 Nov 2022 16:26:47 +0800 Yicong Yang <yangyicong@huawei.com> wrote:
+The AMD Zen4 core supports a new feature called Automatic IBRS
+(Indirect Branch Restricted Speculation).
 
-> From: Anshuman Khandual <khandual@linux.vnet.ibm.com>
-> 
-> The entire scheme of deferred TLB flush in reclaim path rests on the
-> fact that the cost to refill TLB entries is less than flushing out
-> individual entries by sending IPI to remote CPUs. But architecture
-> can have different ways to evaluate that. Hence apart from checking
-> TTU_BATCH_FLUSH in the TTU flags, rest of the decision should be
-> architecture specific.
-> 
-> ...
->
-> --- a/arch/x86/include/asm/tlbflush.h
-> +++ b/arch/x86/include/asm/tlbflush.h
-> @@ -240,6 +240,18 @@ static inline void flush_tlb_page(struct vm_area_struct *vma, unsigned long a)
->  	flush_tlb_mm_range(vma->vm_mm, a, a + PAGE_SIZE, PAGE_SHIFT, false);
->  }
->  
-> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
-> +{
-> +	bool should_defer = false;
-> +
-> +	/* If remote CPUs need to be flushed then defer batch the flush */
-> +	if (cpumask_any_but(mm_cpumask(mm), get_cpu()) < nr_cpu_ids)
-> +		should_defer = true;
-> +	put_cpu();
-> +
-> +	return should_defer;
-> +}
-> +
->  static inline u64 inc_mm_tlb_gen(struct mm_struct *mm)
->  {
->  	/*
-> diff --git a/mm/rmap.c b/mm/rmap.c
-> index 2ec925e5fa6a..a9ab10bc0144 100644
-> --- a/mm/rmap.c
-> +++ b/mm/rmap.c
-> @@ -685,17 +685,10 @@ static void set_tlb_ubc_flush_pending(struct mm_struct *mm, bool writable)
->   */
->  static bool should_defer_flush(struct mm_struct *mm, enum ttu_flags flags)
->  {
-> -	bool should_defer = false;
-> -
->  	if (!(flags & TTU_BATCH_FLUSH))
->  		return false;
->  
-> -	/* If remote CPUs need to be flushed then defer batch the flush */
-> -	if (cpumask_any_but(mm_cpumask(mm), get_cpu()) < nr_cpu_ids)
-> -		should_defer = true;
-> -	put_cpu();
-> -
-> -	return should_defer;
-> +	return arch_tlbbatch_should_defer(mm);
->  }
+Enable Automatic IBRS by default if the CPU feature is present.
+It typically provides greater performance over the incumbent
+generic retpolines mitigation.
 
-I think this conversion could have been done better.
+Patches 1-3 take the existing CPUID 0x80000021 EAX feature bits
+that are being propagated to the guest and define scattered
+versions for patch 4.
 
-should_defer_flush() is compiled if
-CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH.  So the patch implicitly
-assumes that only x86 implements
-CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH.  Presently true, but what
-happens if sparc (for example) wants to set
-CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH?  Now sparc needs its private
-version of arch_tlbbatch_should_defer(), even if that is identical to
-x86's.
+Patch 4 moves CPUID 0x80000021 EAX feature bits propagation code
+to kvm_set_cpu_caps().
 
-Wouldn't it be better to make arch_tlbbatch_should_defer() a __weak
-function in rmap.c, or a static inline inside #ifndef
-ARCH_HAS_ARCH_TLBBATCH_SHOULD_DEFER, or whatever technique best fits?
+Patch 5 Defines the AutoIBRS feature bit.
+
+Patch 6 Adds support for AutoIBRS by turning its EFER
+enablement bit on at startup if the feature is available.
+
+Patch 7 Adds support for propagating AutoIBRS to the guest.
+
+Thanks to Babu Moger for helping debug guest propagation.
+Babu, feel free to add your Co-developed and Signed-off-bys
+to patches 4 and/or 7?
+
+v3: Addressed v2 comments:
+    - Remove Co-developed-bys.  They require signed-off-bys,
+      so co-developers need to add them themselves.
+    - update check_null_seg_clears_base() [Boris]
+    - Made the feature bit additions separate patches
+      because v2 patch was clearly doing too many things at once.
+
+v2: https://lkml.org/lkml/2022/11/23/1690
+    - Use synthetic/scattered bits instead of introducing new leaf [Boris]
+    - Combine the rest of the leaf's bits being used [Paolo]
+      Note: Bits not used by the host can be moved to kvm/cpuid.c if
+      maintainers do not want them in cpufeatures.h.
+    - Hoist bitsetting code to kvm_set_cpu_caps(), and use
+      cpuid_entry_override() in __do_cpuid_func() [Paolo]
+    - Reuse SPECTRE_V2_EIBRS spectre_v2_mitigation enum [Boris, PeterZ, D.Hansen]
+      - Change from Boris' diff:
+        Moved setting X86_FEATURE_IBRS_ENHANCED to after BUG_EIBRS_PBRSB
+        so PBRSB mitigations wouldn't be enabled.
+    - Allow for users to specify "autoibrs,lfence/retpoline" instead
+      of actively preventing the extra protections.  AutoIBRS doesn't
+      require the extra protection, but we allow it anyway.
+
+v1: https://lore.kernel.org/lkml/20221104213651.141057-2-kim.phillips@amd.com/, and
+    https://lore.kernel.org/lkml/20221104213651.141057-4-kim.phillips@amd.com/, and
+    https://lore.kernel.org/lkml/20221104213651.141057-3-kim.phillips@amd.com/
+
+Signed-off-by: Kim Phillips <kim.phillips@amd.com>
+Cc: Babu Moger <Babu.Moger@amd.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Borislav Petkov <bp@suse.de>
+Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Joao Martins <joao.m.martins@oracle.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Sean Christopherson <seanjc@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: David Woodhouse <dwmw@amazon.co.uk>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Juergen Gross <jgross@suse.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: Alexey Kardashevskiy <aik@amd.com>
+Cc: kvm@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: x86@kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+Kim Phillips (7):
+  x86/cpu, kvm: Define a scattered No Nested Data Breakpoints feature
+    bit
+  x86/cpu, kvm: Define a scattered Null Selector Clears Base feature bit
+  x86/cpu, kvm: Make X86_FEATURE_LFENCE_RDTSC a scattered feature bit
+  x86/cpu, kvm: Move CPUID 0x80000021 EAX feature bits propagation to
+    kvm_set_cpu_caps
+  x86/cpu, kvm: Define a scattered AMD Automatic IBRS feature bit
+  x86/cpu, kvm: Support AMD Automatic IBRS
+  x86/cpu, kvm: Propagate the AMD Automatic IBRS feature to the guest
+
+ .../admin-guide/kernel-parameters.txt         |  9 +++--
+ arch/x86/include/asm/cpufeatures.h            |  4 ++-
+ arch/x86/include/asm/msr-index.h              |  2 ++
+ arch/x86/kernel/cpu/bugs.c                    | 23 +++++++-----
+ arch/x86/kernel/cpu/common.c                  | 11 ++++--
+ arch/x86/kernel/cpu/scattered.c               |  4 +++
+ arch/x86/kvm/cpuid.c                          | 35 +++++++++++--------
+ arch/x86/kvm/reverse_cpuid.h                  | 24 +++++++++----
+ arch/x86/kvm/svm/svm.c                        |  3 ++
+ arch/x86/kvm/x86.c                            |  3 ++
+ 10 files changed, 83 insertions(+), 35 deletions(-)
+
+-- 
+2.34.1
 
