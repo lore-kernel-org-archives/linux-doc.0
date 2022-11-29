@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23892C47089
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 14:14:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6517FC4167B
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 14:14:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229449AbiK2ON7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Nov 2022 09:13:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49170 "EHLO
+        id S233627AbiK2OOC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Nov 2022 09:14:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235327AbiK2ONb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 09:13:31 -0500
+        with ESMTP id S231625AbiK2ONg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 09:13:36 -0500
 Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-ve1eur01on060d.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe1f::60d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9911D3FBAE;
-        Tue, 29 Nov 2022 06:12:48 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 154BF62057;
+        Tue, 29 Nov 2022 06:13:06 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iaBdXw2zVmnYg8OK8h/nmYHuurjZ58eA+V1WHDF02KuGSrozp6fCLuNxZWrJ32ur7uA5eichVOGz4wb8G6nNjj27ujuzCY0yfmotDBBC9/8hJ+eZHqpYoSYH/Xtq39o+xUPOr2VYFCoWLnEYOQJ/eG5ZzDhvyjk2DBiGqUL7eZ90D4AZ248tYQRw63do80TejWhxwcgBRKnnq01Fgd5yIlXSC0WQM2mQ3SIKEG8OYsBuni0S4lXGSk9/ASW+4+IbVOxUVsfhnaq4JIw0WG6bacyQCI/L7wCOnMXFfUIuCPfu3HgTkH8XLYtT12PQ/UvppmMR8qygUV1f3HSBmE9d9g==
+ b=bDATt6u9kPXerY8IC4eAS6hR+MPICxQY6p3uNaa6XjrmifuMwiYppn0MhWo93MGmaHahNSPuj8ktR/OrvtamDezfnroC4X0wkJut3Jf9kVsY0vLpfJVKNjUlp5xxNv5KSN47NIZeSC1r71WMbOPUwOKLmRGHk4s5hIqdSch+YiVTkx8wmFy6QtN7iNvJqzvILznb6OlAnRZ1RnS12VRYsVNmE304d9gAImi/hqDUBR8FQU9lNVzhjxP5bE0hho4mZDR/5o/D1YgmCfGJ3DzBvfugPQAl+l9MrBSXo2RvSFgCQo5QgtgOVpqlfI1fjcLK2gIkTmu3OprFawvUUm9uWg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e+NjQJ0EKVqLVx7VXfqbReaRqke6H97MkKptkAm4XOY=;
- b=AdjI6jQYXKR9KH5l4r3xKa7N2Ht/1pCVvn/mSZChai22go9dLe5PtN8/GCDVBoVQI84NfigONXiCKEFvVYBlJMOV8cp5oByd66I45ozZnGHjF5ROPXtHO57TavYxUbX0HAHJprIt31ikgrbc35gYyDUt3x+SB6VVgEkM7cEUYzvUhL9Bmg5LdJ8t6WXjaW/AflB/Gbbw88Kd89kXxnFkk9Q2GFfUx0r0nvtQYv1gyMYvc0pGRqqx8t7DBOaxRcj/4X7zsD1+FX1fHxbfzpW+owRDzQvQDyJx6qevjos2qidtEZexU5FY7Vy/eGYe5+tBxDaNiGN9BnKWkAWlEAIpPw==
+ bh=OL7cN229WgYN1n34DlcBKSHuHNhmJvQ06ZayZTOX02s=;
+ b=XJrlF98BNq6FBPsXe2Mv9CB5UWAAIU/oS0wFR542pj6H3XhOu0C3OQ7SLtZJRTVl2UvPxmzWb9Ls9WxBbc8dMLKHmbtIfX4vfidGh+7uo9RYpL5mnhgbVsTMI5FlO+34m3Y6RIDMRb0XCpbBeUHsGgRwThBIZYJy9DU9B7s/f9EMJyYOdmWX0XKsSbar+pGA+Bik6WUqoHWlYFIrlxmviNquVxbPHhnv4PR68VY4B0qpObs1O9cMjcqhRr2roNSLQ21ncD0Ntef4vSLV09YeGVh0hYh9Fv9E/a6uLGK04GWZF7/lmcN5Xm4s1aF+iaFEe+WyiKARLPbj/mxHC+t6Aw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e+NjQJ0EKVqLVx7VXfqbReaRqke6H97MkKptkAm4XOY=;
- b=VMMq2SeHzcxHai008rlgcsGpgJw16mr1P3RNVR9WEnPWxZyjHraNSilY95WgC/kYjaEAld50lVLM1ykqTJsqx+n+pOHx2NmlilJuiebD/+bGeCJC/owwPHHVSnPb+gL3Q4vVR9fT2eF0irjRHkLHGho5LgDLRS165UwgEnBJF3s=
+ bh=OL7cN229WgYN1n34DlcBKSHuHNhmJvQ06ZayZTOX02s=;
+ b=qr9n3JUGT4vbI1JpF/4ybjkDxFUrrVZZOSMAHxqa9mZ8F/6dar02HEX7cvez/alN6FVE0WzcFJpfb2VzyfiRN4Xf57gEsJFpL1yTI7E56y24sXBzLBnBMGHAtsAPfkqu0lE1rN1/JKqen2HxdMfq3Vapa6L1nNZDA49MkM1wEZg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from VI1PR04MB5136.eurprd04.prod.outlook.com (2603:10a6:803:55::19)
  by AS8PR04MB8724.eurprd04.prod.outlook.com (2603:10a6:20b:42b::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.19; Tue, 29 Nov
- 2022 14:12:35 +0000
+ 2022 14:12:39 +0000
 Received: from VI1PR04MB5136.eurprd04.prod.outlook.com
  ([fe80::9317:77dc:9be2:63b]) by VI1PR04MB5136.eurprd04.prod.outlook.com
  ([fe80::9317:77dc:9be2:63b%7]) with mapi id 15.20.5857.023; Tue, 29 Nov 2022
- 14:12:35 +0000
+ 14:12:38 +0000
 From:   Vladimir Oltean <vladimir.oltean@nxp.com>
 To:     netdev@vger.kernel.org
 Cc:     Ioana Ciornei <ioana.ciornei@nxp.com>,
@@ -48,9 +48,9 @@ Cc:     Ioana Ciornei <ioana.ciornei@nxp.com>,
         Paolo Abeni <pabeni@redhat.com>,
         Russell King <linux@armlinux.org.uk>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH net-next 02/12] net: dpaa2: replace dpaa2_mac_is_type_fixed() with dpaa2_mac_is_type_phy()
-Date:   Tue, 29 Nov 2022 16:12:11 +0200
-Message-Id: <20221129141221.872653-3-vladimir.oltean@nxp.com>
+Subject: [PATCH net-next 05/12] net: dpaa2-eth: assign priv->mac after dpaa2_mac_connect() call
+Date:   Tue, 29 Nov 2022 16:12:14 +0200
+Message-Id: <20221129141221.872653-6-vladimir.oltean@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221129141221.872653-1-vladimir.oltean@nxp.com>
 References: <20221129141221.872653-1-vladimir.oltean@nxp.com>
@@ -62,153 +62,150 @@ X-ClientProxiedBy: VI1PR0701CA0029.eurprd07.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: VI1PR04MB5136:EE_|AS8PR04MB8724:EE_
-X-MS-Office365-Filtering-Correlation-Id: 04543228-fe6e-4633-1b57-08dad213c36a
+X-MS-Office365-Filtering-Correlation-Id: e33fb400-03e8-46ee-f2f8-08dad213c4ab
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1M1YSCrkhFlxjqjNhF2UuzdTquTota3ic2p99B2p2t8UfXSPPTC3orvo3C6Y9RFRoeOBUMlzgY2SZX15hSLggMiY+KiiEWiQGRGcO+pADCm2PXG/JLAI8ckLLlxh9Zt7hdtoy16xWpCdlfKReErngR3BtL6GGlrHIUN3wJN2di8GYbI/ji7kqmBcTD81FtuL02Wqbv3TXgQp3Zm+5GjEeqdBA2Ojbq9Wx2Cz9cUziSa1gyvZGaS2Fl5sVrSxVYtdtjypTstnI+n/eeWi2ZVXfTsVLVbyprVaxEEpDjwsQn0g8YttougEhWaqjs+F6QsPJgQoj847x11VdThyGwknUSkVT5j37yY4VP6p9x+dlfy1Z/Rebhi5f1+eIyYo3F9l5CjtGknUEG1fi4LZm2bavIf7SEA+HBMTYCyThOiwdmA+hH1RiqMMHIVdVb3QQFztJUTHEquIRdLZWqRmj/5EZY2o/XxwXUeY9hAw59Zwtev0PsX6PXBMS+SlnAH4TrfpAxZJOyi2GDnJD6ryvGhCm4Wi+BlxKs3C9ciKu+hgiOxuBtRd53mthocvds1HloAAlxGf8qQeV+HVDal4iQuwyfMTt4q1MoTmFoaGnwa91CA6UCOWY6B6ci2E6q6/mQf3eZXajFGo+pQ2nu9QB3+nedaB2lJ6ZkVSY+TwPlMaf13Nk4YRGUlayLnzBBVXqXZy
+X-Microsoft-Antispam-Message-Info: 8i9sQ7H3YS7AXnt7D/WVNoZvNh9d00iZ9oLddJ6M34aWv94vyy25FY70nya3MJr4dr63T874VquRdV9Cy+PAmUENd/xur/u8xS2I7hXtciPdlRAjrOO35dVbah4ZOSlETH2r/PhowYHixDq+wWEnRGA0mUqpW2lWqgK0P6TSx6eSisrEx9dhY9dOQiQfV9w7Enz8sTVTZawH0OyVF+mpcPD4CDqQPXS3cstj2n3/YQ8579AflzNrqvsIdB3yBoUxDcQGIS9oEEOwO6T3cKOcSOJKh+NNoYkXGNNXXEWkzydrJ51nDu+AaZTyD2uEAQc9IAQGqZ8LexodRztSovRl7QLB4gQpVrhfDZO3+u6lzixTx8ItYrIhAZiYA850KsIDoQm7e06XSmp1qtj90OMSQKD/5uuWQjjjsVq7zvua1iDS7frY/ogrWJ/MfnrWS18sY1QODwo/8QA2zDqMcDSRiEFmMNvloaRZsn2XHPGb9/6zpkWOAdQU2Ou+Az2sAf25S63bSgtTN8cPfBfTVInE2QfJJr7Mykq/Q59Euc2lEOBGhkICiDDfBvBcyJ/uJGSdM+aghxF/9WccLPwh/t676gQyS6jo7zMoFQ1rCp4Cdroia+0/o9Fjg9aRupk4LNiybW38AODvALNl/9PyXkFDfRoUR5bj2r7VW+kRvYlPts6UXag/IpsTEy4ARxHM+NYNE3LXjzI3gFtObW/AQK0jAg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5136.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(39860400002)(396003)(366004)(346002)(451199015)(6666004)(6506007)(6486002)(478600001)(66476007)(1076003)(36756003)(186003)(66556008)(2616005)(66946007)(8676002)(4326008)(6512007)(52116002)(5660300002)(26005)(316002)(54906003)(6916009)(86362001)(2906002)(83380400001)(41300700001)(44832011)(38350700002)(8936002)(38100700002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KWPpcKAGllGRr4Bq8/Tpa3rfov+pBsL11oQLTHCzbS2yJKSDkbFF9rvwTp34?=
- =?us-ascii?Q?QYtPN26nh+LGnSBRyNOGxmw/8k08jsBOUK0nsnjIEBsSeXy7YTlBdukIGD7Q?=
- =?us-ascii?Q?4lzoL/Ps5y6ZEa6aCMjQ/T8DF7dzxVTdTtUuujgiNvLjwE4S+9GsfNNaEpaI?=
- =?us-ascii?Q?J7m+R36SIyjoqCf5tx1z54EKRhq+PGKX0rexfoU4x6sOeNRjr0k/5yVOvWOh?=
- =?us-ascii?Q?UbIr40tszDQtbDOfYY0U0EEE5olcuMR3FYAtGeAEO43ww0E+fz/VNJvUZVa/?=
- =?us-ascii?Q?65IVXZRSIgl8+21eEVZ81S9vRVEYpz8nA0pCquYLR+JSJevCEu6HktQTuiJu?=
- =?us-ascii?Q?Y7nEhZyB/NWIe9LLEJg41uC57/M4eU1i+854SI0XLfbdyWQXaAYXPxa4Pn0Y?=
- =?us-ascii?Q?jAoGeQ1EyymL1N2c+0BRpAidP4RIzXBCzKyGbEJ+qPfyTpA0463djeNaHeGr?=
- =?us-ascii?Q?S5/R/6U4dWrGN/MyYB7fdddeNwZlGr7LBk+ctoul4lXrHVbyX9r3/M6b69Zq?=
- =?us-ascii?Q?wvTuP3NcfwvB6KoBA0aOHdLBvf44UCvrtX1+5esJWgeAmdC9lbvFa3twSceJ?=
- =?us-ascii?Q?xVDwfIDLxDG62LPM67jHcQvAqlNt78TpsQyCpfT5Ew8CxJ0Bmx69QrDI9ORf?=
- =?us-ascii?Q?vfnLOmhfD5RInb5BJM8Oh4oGRbkjnckU54cujtyv0eiEXEiNguzPqPD2tVYG?=
- =?us-ascii?Q?wdvA3mUgD19Mm3FmBPgCP959CpO45W4aShT0egSsCmvQNp4bRJYizJEOrRCJ?=
- =?us-ascii?Q?cvRX50VDcYCn0ZgjnnADHCqTvu4q5ZdRlulK1Anmwp2gLoYfJq0ZG5VX2iAw?=
- =?us-ascii?Q?7AIAsbVjRomYJJnph8V2ImUxWoFa1n829Z2/2D+m7bqY7bNPDz8IKmZa1ZOG?=
- =?us-ascii?Q?neSz1xuwMcC8hF3wNX8ZRvjZO1/9a2BdiZQYI0nt0rFaejLfTPXYIw0W3ek3?=
- =?us-ascii?Q?EM7h46VOqRW2MofdL6c7gQyQSvt2Ydg76LGIBYv380q17O0nKBnEHSYaZ7XS?=
- =?us-ascii?Q?LQZGVH7gAUSBY9KHoP7E08sj5qw4bRVhrMjMZ30oJ1FSSaazoIbSvqm3Wc91?=
- =?us-ascii?Q?O/5lqxmDtk0ES67WpFFFj2os3rq/eUDFbmurMu8Xeh4GBtc5XCDmX7BlokeI?=
- =?us-ascii?Q?u/dFpfsYMj4MpACuG0Zs19zYL/Pex/P5+ca2IjjOqqaXjdU3CMC9lvn9AjeI?=
- =?us-ascii?Q?xevLmtHORK3MhSoF1ziH0S5BJOpkPVK6R1zXyf42qlIb4qzkdU2oYwhDry8a?=
- =?us-ascii?Q?MEXnsw+WeL5/4uY7FMr49r6+NITNy5kVXNqOB84SsxHZxva/WuwmPx+QWOeh?=
- =?us-ascii?Q?tUI2thUwkEdOxUQLYiLIAhlznAeGV9QAh2n6ywlmT44ITUwwVHGApKWM4edq?=
- =?us-ascii?Q?cpQaaml09Oglh5hj6NmLKjdbYo8WAqRIuxlEAsWpKqxDN2tzOIILAk8LDY1+?=
- =?us-ascii?Q?6gQEA2aj2U5GKG4RTIdc7L3FMvIjXhBPwSGgFr2mSGePMVWKka8I5LH+b4eP?=
- =?us-ascii?Q?fenr6Y8PBGr/o/kEeSS5SItaQcY8MaAlAO8CWrJ8D4GtmxanmnXitgvfIipe?=
- =?us-ascii?Q?K9cvFeT4DSO+2hP3TIDUz7WM/DgmPoZvYZ2ghxWZRqySz1q+ZcMT5QhO/nTb?=
- =?us-ascii?Q?zA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1gWZjMvs84Wa+j6FRH8T9HdAi16VotA6emdxrf3i9VPeA4eCHhCeQ7TS/m3b?=
+ =?us-ascii?Q?retMkzsy9CYvWvwqpeufs+UYkrpOFoaYACb8/HwZea+dngqFYGobupHFZSYk?=
+ =?us-ascii?Q?A23yecDDBExpH7PMfb/l0od7R4OaZKPvVNwiyy2IGXNlGgtieRUjL6DkkV/I?=
+ =?us-ascii?Q?JukGnW7rUDcuzcIRsu9xXrGFPaplubHCwcW4EZiU2Fjo/I421lC69jRTVseQ?=
+ =?us-ascii?Q?up9agKL/UsRazN8LshfZJP4Nd1nZ3Jrx+uM9J20UdxhOMvy7GFczyt4KtI4j?=
+ =?us-ascii?Q?Vy8vNMbSjvARhFSdYzVReES7zXSzCPocvGe5YlAmG8JrgBuD4hryeWgFQzLL?=
+ =?us-ascii?Q?z39/XIBYoNpzgoNVJY+SX/1sZzVW6a3mCzvYc/3V4s3UkeKkMbO51haVWnO9?=
+ =?us-ascii?Q?SZMCKJdGW6Co7RSmMtdjof3lTkXwHKn001slk7vg0aB4y8xjMfrNw0LmGGPa?=
+ =?us-ascii?Q?RtLdSUkQ4KeUJQznnMz2cidakbPemG+QXC8FWCgL7Tx+FCmI+/SHg583L6Vn?=
+ =?us-ascii?Q?C9J3pBXQQLAJYFtZRxNvHO0tP4tK2/nOrJlQx43TJpQSh0JA7T403iC+zM96?=
+ =?us-ascii?Q?XXWY4fsZM0FKe/Z2Vc+bTvClvhGATrDLjm1x2PbOPuys9Db0s58ufU3amnT3?=
+ =?us-ascii?Q?Y2rHpKGJcJICz1xOnLFISYXZDRT8MX47bzK7dbihZ3iJ2HLccrsdcpEc5PlR?=
+ =?us-ascii?Q?0DyntRgINqgWMAVnZgilx9akNwj7sJR/Bg1Qa3ffDzHZrylCpdip7UeH1R1x?=
+ =?us-ascii?Q?Pf7TFhbbRx1DAhvjsZpnd1pbJ2dhPRtR8WcCyrmWQHbCXAjIeAJFXPt5FDtA?=
+ =?us-ascii?Q?bqiOhEQVLOA9FkwsUqjI7UKcr+j68cUMTZyOH37fK83iqSdyg9jwdGTG0j6/?=
+ =?us-ascii?Q?YSqX6+bERa25mh9o2a/eu4n8b7BD6kOj+uJ2RpD+XSpcyLJ88BXav/kb4jj4?=
+ =?us-ascii?Q?qZh+mhSWnO+LsAhcsemnPWKHFwoIPjXjWvQ5yQK1McY/202DRrVHW4A196Ui?=
+ =?us-ascii?Q?sw9nO91YTOiWHe1N8Ak6X5sB+f3eILXK0t24YqT8GgVaX2tBh5lygsrHQQhh?=
+ =?us-ascii?Q?dcyatSaUnMeMjvZzpu8zgjYEdyKTHr0ew2Amcz82iAOlcFXLwxTvS2X1pnPq?=
+ =?us-ascii?Q?bi+DwoMhStGQ8jcxqqb7wF/WSQmdFgVTtOkMmdebWbOUhyNxZBtpOpmjiZ+D?=
+ =?us-ascii?Q?GBxE+ZDP/g2PENzWCrDc7u39NRVBT+Gvl+PmUn4KcghPJUCCyVtEegH4nsnq?=
+ =?us-ascii?Q?36kT6EBroOPH1PhbIdTtfckxqohWonTEPzK09JFpxK9+djJnvi8B6fFRhH5v?=
+ =?us-ascii?Q?wu4iBt5aR/YkzZZIuhEbl4jv4mqxLke+SH9dORypCl75/PHcS+F4UdzKsx47?=
+ =?us-ascii?Q?8G3FbMsK0gUfTlSc9H1eP9dVx6uOAQol9TtzvD0rf59d79HerHr27e16XoFD?=
+ =?us-ascii?Q?zYSa8MSv4Q21y1sNSFAM0yaI9gcBafa5wK7fURWooAjGwPLQRARjU7emQ93p?=
+ =?us-ascii?Q?RFlTqmpYROn5AavazExLtUfLr0CD2tyFAnCt8NheImnuzvFSSekdqqd3/gIU?=
+ =?us-ascii?Q?VjinPU3VWwhD+8GuKDSvfOg+YSbi+7xU0nNnSxjWaGtYCLYc9lSQTMy/vsNm?=
+ =?us-ascii?Q?TQ=3D=3D?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04543228-fe6e-4633-1b57-08dad213c36a
+X-MS-Exchange-CrossTenant-Network-Message-Id: e33fb400-03e8-46ee-f2f8-08dad213c4ab
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5136.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2022 14:12:35.2943
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2022 14:12:37.3567
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DveAA9Y5CJPyyJ6usU4PBlxEWYyDfu4DGpWee3zW35rl1MNamdz//84ZQp32USQszQgplBkASKflSn9FyIjriw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: WaId8kosgqSVZsHplNVGHWSAfD2CtN6u5xGuFjjfjLu9S38wlTgxdKbBXC0FDwppIFkYl9S1ItJcKtry1lt51w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8724
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-dpaa2_mac_is_type_fixed() is a header with no implementation and no
-callers, which is referenced from the documentation though. It can be
-deleted.
+There are 2 requirements for correct code:
 
-On the other hand, it would be useful to reuse the code between
-dpaa2_eth_is_type_phy() and dpaa2_switch_port_is_type_phy(). That common
-code should be called dpaa2_mac_is_type_phy(), so let's create that.
+- Any time the driver accesses the priv->mac pointer at runtime, it
+  either holds NULL to indicate a DPNI-DPNI connection (or unconnected
+  DPNI), or a struct dpaa2_mac whose phylink instance was fully
+  initialized (created and connected to the PHY). No changes are made to
+  priv->mac while it is being used. Currently, rtnl_lock() watches over
+  the call to dpaa2_eth_connect_mac(), so it serves the purpose of
+  serializing this with all readers of priv->mac.
 
-The removal and the addition are merged into the same patch because,
-in fact, is_type_phy() is the logical opposite of is_type_fixed().
+- dpaa2_mac_connect() should run unlocked, because inside it are 2
+  phylink calls with incompatible locking requirements: phylink_create()
+  requires that the rtnl_mutex isn't held, and phylink_fwnode_phy_connect()
+  requires that the rtnl_mutex is held. The only way to solve those
+  contradictory requirements is to let dpaa2_mac_connect() take
+  rtnl_lock() when it needs to.
+
+To solve both requirements, we need to identify the writer side of the
+priv->mac pointer, which can be wrapped in a mutex private to the driver
+in a future patch. The dpaa2_mac_connect() cannot be part of the writer
+side critical section, because of an AB/BA deadlock with rtnl_lock().
+
+So the strategy needs to be that where we prepare the DPMAC by calling
+dpaa2_mac_connect(), and only make priv->mac point to it once it's fully
+prepared. This ensures that the writer side critical section has the
+absolute minimum surface it can.
+
+The reverse strategy is adopted in the dpaa2_eth_disconnect_mac() code
+path. This makes sure that priv->mac is NULL when we start tearing down
+the DPMAC that we disconnected from, and concurrent code will simply not
+see it.
+
+No locking changes in this patch (concurrent code is still blocked by
+the rtnl_mutex).
 
 Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
 ---
- .../ethernet/freescale/dpaa2/mac-phy-support.rst       |  9 ++++++---
- drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.h       |  7 +------
- drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.h       | 10 ++++++++--
- drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.h    |  7 +------
- 4 files changed, 16 insertions(+), 17 deletions(-)
+ .../net/ethernet/freescale/dpaa2/dpaa2-eth.c  | 21 +++++++++++--------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/mac-phy-support.rst b/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/mac-phy-support.rst
-index 51e6624fb774..1d2f55feca24 100644
---- a/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/mac-phy-support.rst
-+++ b/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/mac-phy-support.rst
-@@ -181,10 +181,13 @@ when necessary using the below listed API::
-  - int dpaa2_mac_connect(struct dpaa2_mac *mac);
-  - void dpaa2_mac_disconnect(struct dpaa2_mac *mac);
+diff --git a/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c b/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
+index 8896a3198bd2..4dbf8a1651cd 100644
+--- a/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
++++ b/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
+@@ -4624,9 +4624,8 @@ static int dpaa2_eth_connect_mac(struct dpaa2_eth_priv *priv)
+ 	err = dpaa2_mac_open(mac);
+ 	if (err)
+ 		goto err_free_mac;
+-	priv->mac = mac;
  
--A phylink integration is necessary only when the partner DPMAC is not of TYPE_FIXED.
--One can check for this condition using the below API::
-+A phylink integration is necessary only when the partner DPMAC is not of
-+``TYPE_FIXED``. This means it is either of ``TYPE_PHY``, or of
-+``TYPE_BACKPLANE`` (the difference being the two that in the ``TYPE_BACKPLANE``
-+mode, the MC firmware does not access the PCS registers). One can check for
-+this condition using the following helper::
+-	if (dpaa2_eth_is_type_phy(priv)) {
++	if (dpaa2_mac_is_type_phy(mac)) {
+ 		err = dpaa2_mac_connect(mac);
+ 		if (err) {
+ 			if (err == -EPROBE_DEFER)
+@@ -4640,11 +4639,12 @@ static int dpaa2_eth_connect_mac(struct dpaa2_eth_priv *priv)
+ 		}
+ 	}
  
-- - bool dpaa2_mac_is_type_fixed(struct fsl_mc_device *dpmac_dev,struct fsl_mc_io *mc_io);
-+ - static inline bool dpaa2_mac_is_type_phy(struct dpaa2_mac *mac);
- 
- Before connection to a MAC, the caller must allocate and populate the
- dpaa2_mac structure with the associated net_device, a pointer to the MC portal
-diff --git a/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.h b/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.h
-index 5d0fc432e5b2..04270ae44d84 100644
---- a/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.h
-+++ b/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.h
-@@ -768,12 +768,7 @@ static inline unsigned int dpaa2_eth_rx_head_room(struct dpaa2_eth_priv *priv)
- 
- static inline bool dpaa2_eth_is_type_phy(struct dpaa2_eth_priv *priv)
- {
--	if (priv->mac &&
--	    (priv->mac->attr.link_type == DPMAC_LINK_TYPE_PHY ||
--	     priv->mac->attr.link_type == DPMAC_LINK_TYPE_BACKPLANE))
--		return true;
--
--	return false;
-+	return dpaa2_mac_is_type_phy(priv->mac);
- }
- 
- static inline bool dpaa2_eth_has_mac(struct dpaa2_eth_priv *priv)
-diff --git a/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.h b/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.h
-index a58cab188a99..c1ec9efd413a 100644
---- a/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.h
-+++ b/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.h
-@@ -30,8 +30,14 @@ struct dpaa2_mac {
- 	struct phy *serdes_phy;
- };
- 
--bool dpaa2_mac_is_type_fixed(struct fsl_mc_device *dpmac_dev,
--			     struct fsl_mc_io *mc_io);
-+static inline bool dpaa2_mac_is_type_phy(struct dpaa2_mac *mac)
-+{
-+	if (!mac)
-+		return false;
++	priv->mac = mac;
 +
-+	return mac->attr.link_type == DPMAC_LINK_TYPE_PHY ||
-+	       mac->attr.link_type == DPMAC_LINK_TYPE_BACKPLANE;
-+}
+ 	return 0;
  
- int dpaa2_mac_open(struct dpaa2_mac *mac);
+ err_close_mac:
+ 	dpaa2_mac_close(mac);
+-	priv->mac = NULL;
+ err_free_mac:
+ 	kfree(mac);
+ 	return err;
+@@ -4652,15 +4652,18 @@ static int dpaa2_eth_connect_mac(struct dpaa2_eth_priv *priv)
  
-diff --git a/drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.h b/drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.h
-index 0002dca4d417..9898073abe01 100644
---- a/drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.h
-+++ b/drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.h
-@@ -230,12 +230,7 @@ static inline bool dpaa2_switch_supports_cpu_traffic(struct ethsw_core *ethsw)
- static inline bool
- dpaa2_switch_port_is_type_phy(struct ethsw_port_priv *port_priv)
+ static void dpaa2_eth_disconnect_mac(struct dpaa2_eth_priv *priv)
  {
--	if (port_priv->mac &&
--	    (port_priv->mac->attr.link_type == DPMAC_LINK_TYPE_PHY ||
--	     port_priv->mac->attr.link_type == DPMAC_LINK_TYPE_BACKPLANE))
--		return true;
--
--	return false;
-+	return dpaa2_mac_is_type_phy(port_priv->mac);
+-	if (dpaa2_eth_is_type_phy(priv))
+-		dpaa2_mac_disconnect(priv->mac);
++	struct dpaa2_mac *mac = priv->mac;
+ 
+-	if (!dpaa2_eth_has_mac(priv))
++	priv->mac = NULL;
++
++	if (!mac)
+ 		return;
+ 
+-	dpaa2_mac_close(priv->mac);
+-	kfree(priv->mac);
+-	priv->mac = NULL;
++	if (dpaa2_mac_is_type_phy(mac))
++		dpaa2_mac_disconnect(mac);
++
++	dpaa2_mac_close(mac);
++	kfree(mac);
  }
  
- static inline bool dpaa2_switch_port_has_mac(struct ethsw_port_priv *port_priv)
+ static irqreturn_t dpni_irq0_handler_thread(int irq_num, void *arg)
 -- 
 2.34.1
 
