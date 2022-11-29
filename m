@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF9BCC4321E
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 14:13:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D542C4321E
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 14:13:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234155AbiK2ONj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Nov 2022 09:13:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47132 "EHLO
+        id S235325AbiK2ON5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Nov 2022 09:13:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233074AbiK2ONU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 09:13:20 -0500
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-ve1eur01on2045.outbound.protection.outlook.com [40.107.14.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7B4B7D4;
-        Tue, 29 Nov 2022 06:12:36 -0800 (PST)
+        with ESMTP id S235123AbiK2ONb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 09:13:31 -0500
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-ve1eur01on2051.outbound.protection.outlook.com [40.107.14.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A782B5C0FE;
+        Tue, 29 Nov 2022 06:12:51 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EYdB41zQR2myBGpsh7Va00EzzEfNBtx2T7vX4Ncsc/bPrmTBs9ILMHBoetTzjC2jFWJo7a131aumR6jC8vw/3y3QSxbDmYiRDHixRyxbTXzmhfjtwQn4wmqtGwvtg/TQIzBrJHhR8teb/aaua83ebquZrrIyM+rfOviubZKNKUXqPf0ZMfG4hXiLH7b7warGMh6JE2YZJs9iGzrOp86rXchXs4LTb59jm7VkbSkLNBxsENnKQ5ZujcQp3oUmMLhSrqYBTGQaKyl4rJ9a3IW37AslzeN35D5yv0twNBArOKkI/osxTPAqlLtfiLlomw84IwAgFEEu93VLPkg3a3UHZA==
+ b=JIeb8S/cDdkcPW2K/rN4o3KyEJUR721f+mQlbEmvDrtJmGF7mtx16KueiqPG5J1rRAwDdeCZ3Gm5I2Rbrn8skDB8c8hwIbTEOQAWsjFnsLXz3uCabHKgHu1ZZt+wWd9uSgXjBUxwCAvBMdsGygCurTSBx7l67CsocD9Jlgud37rXIQEsqCx1vMYbgP8prIfO8bVFNA1eTWcp1vjNvCh20ddmhcLtDzsaA/CPABm+lwF+4iivAzl1YC144y7BfaGDa85k3ARFWeJY42Yog7GG8mRJlZTCe/5Gg2Y4qx9CUoCsLiF5og7PWCHiPNZUfRPyNrbXcnARN6Ngr1GlNxdYbQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JWyHTdZFx50lrOJ8mm45qoA7mpswzw+G3u2nOR+johU=;
- b=TtClcarQlLWrHi4oSPOSqKBI4VjOasBtu5VkhThz0oI5Y09Ir+BEpA8IAnJViaRtkI9MC8bLfj9Ytab9wcZ7ezc5BGHKmyBOtoo1Dk5SI1oqClSU45t4D2GGvzpMhlCdYKVrNASMbbYJ66Ce1c4W3K7n1xRV4kib+SJtcFtG3aZRkL7s9O/Et138iLO9GFQijRqrBNpxBbt3sYya7GIZDX+ksyL6eJmF7IMm/N634jYraCBFZPtIEip4OFAvPzMnDEVG62rSSJILRNnLI+yQP3b9ibnZ2J/P2Aq8zCNRI1vYdmoJD4P7SOl84PWdqOKlugatWrMkUjMAKTLjyd+Q6Q==
+ bh=Kmb7RQ/LWSZJc7y18pps7W1QLlJmq1dDUh8yEoLxUJo=;
+ b=FSGEUQUsHk+u5/SNRjDbnXsV4NW5GgcxB0gZRFYf2Kw/VFUb5At22z4nD9L6U4zO7VeYCDfzMv4aKRjgrZCdukve5HNntWgpDWe9x4ST7kH9no1sj9SVI+XvireMqvJMfEzaKt7k5LaTOSaLeQZ0fRuJR0uVgZsGkAxY1DB/Sc+Hqz33jcf5v1ePk+u2IWpbSn38IOylOlitZwoL27T9DpD/X5AitHJ7AXi15SfjitorrQ1FxC4B9YvVcuoUUfDi0l2LRd/INvSEDJcAWn2A6DGMcLthEjmi0I6jsOtCwmj/abtSmVLrzh0tjV7pg0drGaqYzXyFHa0QUqfoKmHDkw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JWyHTdZFx50lrOJ8mm45qoA7mpswzw+G3u2nOR+johU=;
- b=sn8J2Aw6LuWflWXnM2aZA1HIGwHI/bjqui7VhRZhL8NVD0TF6GzYsvj/Kll4St5XPK/x8rArO2FIU7KRY9DO/ZPNAOwMlYsVMlEo1wDTxAJhA00nHMrQTvP+pJ3oxpnTdqyINYJtN+c4chieBYV9SHD296mw6pVxw2H78/vLEEw=
+ bh=Kmb7RQ/LWSZJc7y18pps7W1QLlJmq1dDUh8yEoLxUJo=;
+ b=BClsoqKAp0FiBbS4S9X/61VX71A+Ih4TJVibdlctIEgTWU/92OGm+GdPHO8yBZfEdS77PXDJUNo876r/1QokbEbxbZnLLNujtcXIjOnq10NuJNk8Sq5NUzCPrVk0U663Mn1HgSqH2jdJecW7S9umwYbm63xaEQ0WYvVDB63CnEI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from VI1PR04MB5136.eurprd04.prod.outlook.com (2603:10a6:803:55::19)
  by AS8PR04MB8724.eurprd04.prod.outlook.com (2603:10a6:20b:42b::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.19; Tue, 29 Nov
- 2022 14:12:34 +0000
+ 2022 14:12:36 +0000
 Received: from VI1PR04MB5136.eurprd04.prod.outlook.com
  ([fe80::9317:77dc:9be2:63b]) by VI1PR04MB5136.eurprd04.prod.outlook.com
  ([fe80::9317:77dc:9be2:63b%7]) with mapi id 15.20.5857.023; Tue, 29 Nov 2022
- 14:12:34 +0000
+ 14:12:36 +0000
 From:   Vladimir Oltean <vladimir.oltean@nxp.com>
 To:     netdev@vger.kernel.org
 Cc:     Ioana Ciornei <ioana.ciornei@nxp.com>,
@@ -48,9 +48,9 @@ Cc:     Ioana Ciornei <ioana.ciornei@nxp.com>,
         Paolo Abeni <pabeni@redhat.com>,
         Russell King <linux@armlinux.org.uk>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH net-next 01/12] net: dpaa2-eth: don't use -ENOTSUPP error code
-Date:   Tue, 29 Nov 2022 16:12:10 +0200
-Message-Id: <20221129141221.872653-2-vladimir.oltean@nxp.com>
+Subject: [PATCH net-next 03/12] net: dpaa2-mac: absorb phylink_start() call into dpaa2_mac_start()
+Date:   Tue, 29 Nov 2022 16:12:12 +0200
+Message-Id: <20221129141221.872653-4-vladimir.oltean@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221129141221.872653-1-vladimir.oltean@nxp.com>
 References: <20221129141221.872653-1-vladimir.oltean@nxp.com>
@@ -62,95 +62,140 @@ X-ClientProxiedBy: VI1PR0701CA0029.eurprd07.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: VI1PR04MB5136:EE_|AS8PR04MB8724:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6f8a25b9-98bf-4543-d380-08dad213c2fe
+X-MS-Office365-Filtering-Correlation-Id: cc866a38-c243-44d2-6336-08dad213c3d5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: z95SJpfO7cZMmYF0sgvEcpoOKIqW+LY+5scqQKriovrCwmVEkj6GgyMaqJj3GrZ5/pm8S6GAwIAKHgE7QaHBmglsTZee0YkJJ8CwmyoOHf7oaMWa81Dp82FlovICjqWCDrC4W3hn2G/c9ecwMKkxtHruARE+igsA/fkza2fHr6HJgXnYH54P4ITMsOafza4CJhuHXJbdTxKEBgoYape27we0frn9LRBO/b8w/HN9gOW0D1C2GqVQOD8jP3mHcKRPoBL8YZYwIp2yiWH5NWKuP3d74/gs416F4shSfRxTwTsmgJei4LVdAxBUUBMp0myCzfdRf5Eh7PwT8FpktBx8O+mShYcW1uyUBlMXi5Kn3+z57ZxH4ncCC4KKcvqIfk563t1iWmA7s3dCTgmWcIe0vOYUzxRRO0TeApZABrgFVwcIBJC0dmpE/g3r4hnufVcFVaZe3EHMu5OFWyseum0K8jX3CD+Go8NJFZtjZ2PLH7urVfAL3j/oul1vx9tXcSPNlKbSgcd0jlHTFlvcWau3mx1t+zLIQ2fIPNvyXbF8ssDhSuScfEZH+2KjEZYr46j9SU1U5t/GwLRg3F+ZSEhexQ2opgK3acCSqZVN+Ww6M8qgCqWbLsD1/PK2wbTtTFptOFHM5ca6d09yTRW4kDbWgTbXB/FPUxN/Zvz5EVrp8BM3ZOCaeLm6v/EwyouI7OfaJNksRWuR6cryMYmUtrKgzw==
+X-Microsoft-Antispam-Message-Info: iuggWXcZJXEOSErb1ZZzjBuqfC/gGe7YeeiwwG0DfVVEQCCXXdBcgjMyJthGRkzpBMKk6ezHaxJPnqimhJPD1A+ncV1kje+1d61V1ZJZBIs5zTRueJnyj3FRb69GR8LzAmKY7Jnkufwhf6mqwHOFT7PcIQFpVnwwgxjnUbNCFAy9KO9BgrPhXpnZwMc0T2rLqeSKEBZVBV6Sq2djSXybZQXu0/4mXzrGFF0Z0s85PFTza3aPXG6FOgljV3FrD13RncP9DXvj9KYLDjzNu4ZDHpoPaITQmTgUxhC7KMXrVLkQ1+W4WZoB6zJlo6btxYx0hBJoyDMOR8KnDN0lcRRYkDqWELfvmS+FT+w+QGKi4GpAhMF3ODd8A7Ngmk3s+3FvsISu+T0v+NcFOImGhgHTU/BGDUuf8dIz67oYyCC7fc0SN4/gC0LWZI+E7DvoCB0LYNc/CNk42gpoObO5ms8QT6qoizSpejYddujHhbPjh0b5F4AwiVP3ho8NKc9AMouMnvDUQAD9nkuWKbUjBVVNxzfj5fJAmoUCbQpZ45j1WH9YhUCLOD+k9DB4SFtW1SWikvDCFJG8j7AHkCeNlN/1QptJyDvtWiCBa0cdy/j2TaDvDb+zPwGf09zQKneb/wdWWHMxRCEURsSDTwDvxp/6HxCMbpTCG3q7Ep8sXDE9UhZKtgZKUL1z2c/m9EG0S/s8G8VC1mt61nz2gXd28QZUnw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5136.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(39860400002)(396003)(366004)(346002)(451199015)(6666004)(6506007)(6486002)(478600001)(66476007)(1076003)(36756003)(186003)(66556008)(2616005)(66946007)(8676002)(4326008)(6512007)(52116002)(5660300002)(26005)(316002)(54906003)(6916009)(86362001)(2906002)(83380400001)(41300700001)(44832011)(38350700002)(8936002)(38100700002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WLvmr+KWWIwKSh8RpvasyZ7Yllu3fWQsv/ajVMKimxMjEQQMwlEJp7CaHG4w?=
- =?us-ascii?Q?XGTzSJN2yKnlh5qN9fZJ5z1p8jl5lTw4Emobdd7SB5CByKTM2ay5Wm6BCSnv?=
- =?us-ascii?Q?KVoAu0BPzVqv31mT1pGdKZAgcDOWdLPXA2BFFLOI20pZYzLisDtBczfxhyl+?=
- =?us-ascii?Q?v2+cRoYX5tpB51aqm0kqFV2uNnVDtxTotUMcIxRFvDevspYEVTz5TnjyViqW?=
- =?us-ascii?Q?+qVJIgR8Bh5yLk0cwu9BR5sJD280s99KIG5hnb3L2FGxvyZtdeSTqqrg3nsB?=
- =?us-ascii?Q?oSr/rATo7GdHh9r6Xrlw811Op8L3EF8AXG4QNLwcRM0pXatWx51Lrgqp6/Bh?=
- =?us-ascii?Q?prZFodyfme+OMx8AwjA6nHE1UyRNKD7OOkaQ5VWg6wElh+mug2Ttg+fK4crc?=
- =?us-ascii?Q?CmSrsSJEkGbu4mFB7L9uDOO3x5jxfJIeVpTPtEWTXmM8p+ayH4ECrwpw7WUf?=
- =?us-ascii?Q?eUDvaiZRQ10gZVPPlJDQB0JuXATGCgqzf2LfAxdYUzzoHr/UlDOfwkmpP67q?=
- =?us-ascii?Q?H53+/vYRKEwztHE6L8s0a9EItka99IWaGnHwnF1feM+u5OsaH0RLnizozbPA?=
- =?us-ascii?Q?xD6mVRQaswLM1sukNsoEC+ZDKYQOag4Lj9+SrX06jAWX/p93XttZ23yg1SXs?=
- =?us-ascii?Q?e+iEqfQ0oR+XQ4jMZZnpk5NmfzwhgJ9DqqKtJiWz42HDHfYPrG0Wn2+Lni7q?=
- =?us-ascii?Q?VjW35c7JHJJadmm4eKllRZoshDGdbgdbkIv+r+D/7RjqxiTYghdUE6CB7/mH?=
- =?us-ascii?Q?d7T/rEumScxKAhZo+S+meSOr6dzTMIfKCP1t0BX2I3pJXRfAtyHDfSfzVwYu?=
- =?us-ascii?Q?5uGLg/wL+qyqSK9oC67lhqXoNwcPU8S+ewyJw/ddx6XHQ1F/mINGPrlI8WWM?=
- =?us-ascii?Q?sd6Q4wY+urS1B6K93gnOln551CrCrWA/Z7zK0bISV1jZ6AVbdejef40qSWxY?=
- =?us-ascii?Q?eziQEDov/Rf2lEYDnVej3Nkf6RXTZbp+JmwmKE0py/1o2lP9tuJM8T3MtfUL?=
- =?us-ascii?Q?FxUBCOKbzhAYmRDNg9aER8CiyLqLR45QTy16nfJ4y2Fb3YkkglkaYyEIhnQU?=
- =?us-ascii?Q?05djxvKrba6qPOIrsdjEd2LQoeSYy3CiGSp/v6PG3RnVZdoQpoOm9A/3+bRf?=
- =?us-ascii?Q?3JTYLlbWJH/eZ+swuZfJnaZo4z1dIBBao55YUzT42CNWFZQcjdG7BYlZQn/W?=
- =?us-ascii?Q?VpOC0qly3vAZMtewwSpacjRe7GH+77o2pKgaIpMf20Z9eJpPPgBuwMho6xCY?=
- =?us-ascii?Q?xgUoFQVlq3kAgKsPb8BqskvIUQkpV8W0NgiFAp6Eg/6sl+9HfJhG7EvumTFF?=
- =?us-ascii?Q?O8lISHrwbQPWmCsEmLAxfG7yrYTvGU+0S/rnUOwoWoJVdrOUe4cJK8h4q4dW?=
- =?us-ascii?Q?fagpKa7frjEL91bFXbFqnweKvofbB+MmNm5baEGROmD5eurygEehJ38gzzR+?=
- =?us-ascii?Q?8I2GJUvdvpWehpr7i9NKuSHOYriOJPhE9G1W94WtnDXtiic9+ZauNUXicKtD?=
- =?us-ascii?Q?bpe2m78Cp6wWep8leZvqlruOnMXtkxebGgHuNbGpsRU3T5LxfqKxbMr4p70n?=
- =?us-ascii?Q?CkGx+KQWTbg7/0HJs0juj6vGhLN8SsqmU3ygK0i5bmPy5I+Ve1R2iuvrGPsi?=
- =?us-ascii?Q?Mg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0FILjFMFlzFRlclFbt3/MDB75yWTheE8IX5WMzdzRUf0oCfDkM4v/TYdrgay?=
+ =?us-ascii?Q?BwPSCTQBlJtWc3CY9ecob9O4JlXM+osklEXmd+CDFgbXaujlgI+Ymq0tfE4o?=
+ =?us-ascii?Q?DBJj4byM3CKSNL3HPjC9PLIl/5bBC7XTbTyuvimRTTFCO6CF+nFVWKLX315+?=
+ =?us-ascii?Q?pvFAAH6wqhVGfIxhjqUtQTUOIv0yzHgGGvzT0rDMXJ5SkRkVWRslpLMtu9yE?=
+ =?us-ascii?Q?jqoqq/m1fxPp7BMkHRmtlRgHMYOvHeH0l2PRLRs8oXL62T7AlwDPFK7Ojr4K?=
+ =?us-ascii?Q?pfnfmyL6abAfVPsqqTOG60+p5Mm/9yq/4rmQjgJWz2bQtgvuk7meG1HUHxjG?=
+ =?us-ascii?Q?5dDPzH56zctE95uU2RWSLFe6Ex1Y0OZxsQJGxO9wggd8ipyyEHZ/yF3AnQSj?=
+ =?us-ascii?Q?WWZLIJ0yqVtxXRIf7r2SW4oJSCL1P0XASFBTxvxWfR2ICyvO68jhMiFcH121?=
+ =?us-ascii?Q?ExnznxUlg8SNMvamP1F56uMWirYTEguceZR0V43EQ94b+taVkn0SV5A/tqJ1?=
+ =?us-ascii?Q?et/itQmf9G3pKFGjelnQzIdTg/hdCQWDyilfjGMh8YkseBEbd4jcelg2goG0?=
+ =?us-ascii?Q?/QK/TcBnJIWDhjAQzZEGHJRq+aUDb8elrwYXemfnJXdOxsKsAkUtuQ79dhB7?=
+ =?us-ascii?Q?B48cjCmpej8kOnsxVtzPmCFE3ZStZDyAmNNXJjBIJQalRbYTph4fiPXlcLPh?=
+ =?us-ascii?Q?3SqwghLSwnX34S7XGltIp1x3q2ImQj1JPpK/7JoLWUETNIgBlBoKJfYD2CFT?=
+ =?us-ascii?Q?tPcEfAgXqjqPBzvm0tmD9nvaCG/aRGlBkmciTT/7MGXXFfVdBn2D8P/vPcud?=
+ =?us-ascii?Q?DkiF6USNDOaCFwMAPuqnXaX+k61vKKvulIutRSEbe7aBVtkho5FhnKXRc2H2?=
+ =?us-ascii?Q?3yCsb834bdBDVTic9s6TjaDfz0t0j/guqv1Njsa65kMkhNvlBGpFdQvpAgOW?=
+ =?us-ascii?Q?/H8m5EW9Bz2ypjpEhVczd1h2yIVaPE2FMYfvsPbal6s4UnyUPaiuaJ4ROBt4?=
+ =?us-ascii?Q?s0RYq7nE0+ObjBdt01YnpiH/3rCawcqfWfwd+ggjTbJo8Fiw3QpYT45JcMeD?=
+ =?us-ascii?Q?ZqxlQ5WRQqtLGyHEGtg4hFLcCaVGVUpG4bFTRX/T9MD4ykcrtyI1OS+pabuS?=
+ =?us-ascii?Q?Q2VklyOIQD6ai4bjF1IisZoijk5sDgNo6h+TQzoX28SS2C+G3rEAXAaefm6a?=
+ =?us-ascii?Q?vW9X3DfV+oJbitojPxX6RzauhnlX2wBpx114kTydCRNCg3DdVYgecxhCFWDg?=
+ =?us-ascii?Q?x8zf4SrKvh86SgGeIp+/C0H7kDu44NC9kc8t0XL/Ik+zkVqQg9FTsoE3zZGm?=
+ =?us-ascii?Q?V83H2cP4y90LJw92m1ECCu9gLYKED6mjBGO/DX8tYMggBkKCXrQzFxpjbQAn?=
+ =?us-ascii?Q?lrAYG1WSpjKWM3853YByq+2FJfqNlmMNQePvZ2kHANG3A9Mrd/9ZeUuTBEGH?=
+ =?us-ascii?Q?t/m1lsUWmo7lHd7sWGo62iewjzaycMQmH9JYLdF4OmGV/3r7ZIHPbbu2no3p?=
+ =?us-ascii?Q?bkKnLa6aHzQOctPpEzvYcIXDzWcIVusNpUUFKLY87Kc+idD3wpWUhR4lT9jv?=
+ =?us-ascii?Q?XLStmnthk/6yjvdTk3SdFq/AVwcX+B8zkJZEh22c09uzM3crfLcHo6lbo/Un?=
+ =?us-ascii?Q?aA=3D=3D?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f8a25b9-98bf-4543-d380-08dad213c2fe
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc866a38-c243-44d2-6336-08dad213c3d5
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5136.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2022 14:12:34.5913
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2022 14:12:35.9662
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dgnSa1BQKHJh6rcjqaxzF/ReMBKhtCbzxBGN3HL9z4kjXK0wRNWmaetvFrD5hT2X7244AzfCJurmFKB4D6ZD6w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: NObDfl2NP+hYJHk1l/VmJ8q4FZy3GaSOeWMUzOnvRuqZMuYIveoe0e4WmIT+sGrnURqiGu2zkm+Czs7u/kdGbA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8724
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-dpaa2_eth_setup_dpni() is called from the probe path and
-dpaa2_eth_set_link_ksettings() is propagated to user space.
-
-include/linux/errno.h says that ENOTSUPP is "Defined for the NFSv3
-protocol". Conventional wisdom has it to not use it in networking
-drivers. Replace it with -EOPNOTSUPP.
+The phylink handling is intended to be hidden inside the dpaa2_mac
+object. Move the phylink_start() call into dpaa2_mac_start(), and
+phylink_stop() into dpaa2_mac_stop().
 
 Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
 ---
- drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c     | 2 +-
- drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c    | 5 +----
+ drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c    | 8 ++++++++
+ drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c | 5 +----
+ 3 files changed, 10 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c b/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
-index 97e1856641b4..515fcd18ed72 100644
+index 515fcd18ed72..8896a3198bd2 100644
 --- a/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
 +++ b/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
-@@ -3791,7 +3791,7 @@ static int dpaa2_eth_setup_dpni(struct fsl_mc_device *ls_dev)
- 		dev_err(dev, "DPNI version %u.%u not supported, need >= %u.%u\n",
- 			priv->dpni_ver_major, priv->dpni_ver_minor,
- 			DPNI_VER_MAJOR, DPNI_VER_MINOR);
--		err = -ENOTSUPP;
-+		err = -EOPNOTSUPP;
- 		goto close;
+@@ -2201,10 +2201,8 @@ static int dpaa2_eth_open(struct net_device *net_dev)
+ 		goto enable_err;
  	}
  
-diff --git a/drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c b/drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c
-index 32a38a03db57..ac3a7f2897be 100644
---- a/drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c
-+++ b/drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c
-@@ -117,7 +117,7 @@ dpaa2_eth_set_link_ksettings(struct net_device *net_dev,
- 	struct dpaa2_eth_priv *priv = netdev_priv(net_dev);
+-	if (dpaa2_eth_is_type_phy(priv)) {
++	if (dpaa2_eth_is_type_phy(priv))
+ 		dpaa2_mac_start(priv->mac);
+-		phylink_start(priv->mac->phylink);
+-	}
  
- 	if (!dpaa2_eth_is_type_phy(priv))
--		return -ENOTSUPP;
-+		return -EOPNOTSUPP;
+ 	return 0;
  
- 	return phylink_ethtool_ksettings_set(priv->mac->phylink, link_settings);
+@@ -2278,7 +2276,6 @@ static int dpaa2_eth_stop(struct net_device *net_dev)
+ 	int retries = 10;
+ 
+ 	if (dpaa2_eth_is_type_phy(priv)) {
+-		phylink_stop(priv->mac->phylink);
+ 		dpaa2_mac_stop(priv->mac);
+ 	} else {
+ 		netif_tx_stop_all_queues(net_dev);
+diff --git a/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c b/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c
+index 61d31ffb5d97..c22ce1c871f3 100644
+--- a/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c
++++ b/drivers/net/ethernet/freescale/dpaa2/dpaa2-mac.c
+@@ -338,12 +338,20 @@ static void dpaa2_mac_set_supported_interfaces(struct dpaa2_mac *mac)
+ 
+ void dpaa2_mac_start(struct dpaa2_mac *mac)
+ {
++	ASSERT_RTNL();
++
+ 	if (mac->serdes_phy)
+ 		phy_power_on(mac->serdes_phy);
++
++	phylink_start(mac->phylink);
  }
+ 
+ void dpaa2_mac_stop(struct dpaa2_mac *mac)
+ {
++	ASSERT_RTNL();
++
++	phylink_stop(mac->phylink);
++
+ 	if (mac->serdes_phy)
+ 		phy_power_off(mac->serdes_phy);
+ }
+diff --git a/drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c b/drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c
+index 14f739e04a3c..42d3290ccd8b 100644
+--- a/drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c
++++ b/drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c
+@@ -702,10 +702,8 @@ static int dpaa2_switch_port_open(struct net_device *netdev)
+ 
+ 	dpaa2_switch_enable_ctrl_if_napi(ethsw);
+ 
+-	if (dpaa2_switch_port_is_type_phy(port_priv)) {
++	if (dpaa2_switch_port_is_type_phy(port_priv))
+ 		dpaa2_mac_start(port_priv->mac);
+-		phylink_start(port_priv->mac->phylink);
+-	}
+ 
+ 	return 0;
+ }
+@@ -717,7 +715,6 @@ static int dpaa2_switch_port_stop(struct net_device *netdev)
+ 	int err;
+ 
+ 	if (dpaa2_switch_port_is_type_phy(port_priv)) {
+-		phylink_stop(port_priv->mac->phylink);
+ 		dpaa2_mac_stop(port_priv->mac);
+ 	} else {
+ 		netif_tx_stop_all_queues(netdev);
 -- 
 2.34.1
 
