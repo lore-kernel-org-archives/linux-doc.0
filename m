@@ -2,123 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBF79C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 03:16:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B1EC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 03:34:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234384AbiK2DQn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Nov 2022 22:16:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42602 "EHLO
+        id S234975AbiK2DeZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Nov 2022 22:34:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230298AbiK2DQm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 22:16:42 -0500
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D064E4733F;
-        Mon, 28 Nov 2022 19:16:41 -0800 (PST)
-Received: by mail-pf1-x429.google.com with SMTP id w79so12446544pfc.2;
-        Mon, 28 Nov 2022 19:16:41 -0800 (PST)
+        with ESMTP id S235265AbiK2DeX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 22:34:23 -0500
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB2E91FF8A;
+        Mon, 28 Nov 2022 19:34:22 -0800 (PST)
+Received: by mail-ot1-x32f.google.com with SMTP id p10-20020a9d76ca000000b0066d6c6bce58so8297175otl.7;
+        Mon, 28 Nov 2022 19:34:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KoHEWJlnQdU5BQ/HIJRZryexzBCV0fcZJO2wF6lQsxg=;
-        b=NJn71kyW76bMkZzipTJaMz3jMXxat2uhF0GN1+WkIGFKsy4bI+Qvof8iaz0BI9k2r8
-         xuJMgHDX7xmMoikw1De7uXNCyqoPXTClnypKiAm0LrHSiP5ixULfvgSjZIDskcwjQAcP
-         pB8JYzq7rWHJ9R/RxFPAdKurAeMP8sghuImUzTCjZ2ooOgnIzxbeXqQNDteDaua2UjWS
-         hzztfmR5NBJkC5y4v0MWLECY/ur7Vc40BZxN/aMWuOXIWEazK6hlCz5Np8SRlP+txGyT
-         YW1IqRXXY995I6j83XENhPSDKVS+7j4z+BSGyxo+YVUFQ27QWbifJ/9YZ4JTba8J6f+0
-         IrPw==
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=bYwdY1J95omVb9JxopVcwTJmuo3xeuEqQ7A2D5mZyKE=;
+        b=RGNv+nxzg+6H/fnxpQOoa/26j6bW/KUmoBbpieRyJZ/jguakTsZXObkUOMkJJQItaq
+         nRkTA2IstplPSY58p3CBBVSSUK9E3g7aQ9Uas+YwdHp4/RoZsJggdayjhNAkI4CG1Ra0
+         NUc9q/M+SkgAp/nVKF7gO6ZCTJrX9XYWUrhm3dlL0iuFy4ZWVPK21V3oqY3EMMRAtRuY
+         iW4pNa70QpFKn7wQtV+j8bSGChFj7IQx/xlMCazAeCE9lbpLjzLeVoNGpojbdzk/Pm2I
+         MTptWCAAnX59gfFcXF/YDXiFLO2AtwFmtiZAHg4IO9OO66zYOaIizMLUKh4uZAinVkz6
+         fiTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KoHEWJlnQdU5BQ/HIJRZryexzBCV0fcZJO2wF6lQsxg=;
-        b=W7MQKSawXBzJY5d7e9omURa5uyVkxYQ0Wah0/Ybd7UFzNmIg2gkr1VW0TpTrpEx6P7
-         t8w1jq74nlV7xq7GhEwDKlo6sxejxfk90HhPB+Le8dpr9dXh9SrPgAKdJEnZ0hx2g8x6
-         FzT74xYWqHHEnnKvdxNCQdopcgRNGoxasgxO1AvuZPHE9qOfECTB75qrwFl08ritJfMp
-         gNCZue/zDNNBC1YK3/CStdHnjHrmdiIRDpPBE5daaVZlzuIxkVr4N/GOQerg0yKxoYPb
-         cbjl2mknGmQewohzlDTFB6cJF2NA/HmMaVTuxxat9MWYyRljiX/kapsVA26WLgIfNba3
-         GJGQ==
-X-Gm-Message-State: ANoB5pmPI9JBANcgt7IsYJfzU9BRApZ336jsUCfMr4D3xFPD9iEmXAgF
-        9NQg7RdRpZhmIDuJU7AI/Sc=
-X-Google-Smtp-Source: AA0mqf4XiGNH/JGWpt4MTBVyFoDPyrL7Q5qTC5rK2Ab8bHc3D6OaCEOTCzp7NPRAQ8vz1UmSoeggvw==
-X-Received: by 2002:aa7:9257:0:b0:56c:cea7:8650 with SMTP id 23-20020aa79257000000b0056ccea78650mr35575788pfp.40.1669691801303;
-        Mon, 28 Nov 2022 19:16:41 -0800 (PST)
-Received: from debian.me (subs28-116-206-12-33.three.co.id. [116.206.12.33])
-        by smtp.gmail.com with ESMTPSA id z20-20020aa79494000000b0056f0753390csm8921576pfk.96.2022.11.28.19.16.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Nov 2022 19:16:40 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 3497B103E11; Tue, 29 Nov 2022 10:16:36 +0700 (WIB)
-Date:   Tue, 29 Nov 2022 10:16:36 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Qais Yousef <qyousef@layalina.io>
-Cc:     Ingo Molnar <mingo@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Lukasz Luba <lukasz.luba@arm.com>,
-        Xuewen Yan <xuewen.yan94@gmail.com>, Wei Wang <wvw@google.com>,
-        Jonathan JMChen <Jonathan.JMChen@mediatek.com>,
-        Hank <han.lin@mediatek.com>, Paul Bone <pbone@mozilla.com>
-Subject: Re: [PATCH v2] Documentation: sched: Add a new sched-util-clamp.rst
-Message-ID: <Y4V5lDHNqYHEzEaI@debian.me>
-References: <20221127142657.1649347-1-qyousef@layalina.io>
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bYwdY1J95omVb9JxopVcwTJmuo3xeuEqQ7A2D5mZyKE=;
+        b=QXa1z9k0z1+hZ500nWwQck8kL6FgUbULffC7e5LvqxMQWtdp3BABLCg9QtGUD5MOw2
+         DEuWeoNoNpC260eEuSY10iKlUVKZOh6vNYsIiwJSW5z7xHGrFl3M44zfHB0t9gyDo6sU
+         nEpoYwm/ZlQkjDkfFNG0hYNqRoIwFcQor//z31yeDP4mWLTgtM2TJ+ttZNdYZSxGB2+0
+         vjSaEO0AdV086bnzXqgMwjoq9R/o7cV5NvsWB2jf0nFbrrnXikJ2D5dVF11C4Sd8Um9S
+         qoNzjiPFrVv1wn1zrP1sOKdmNpLw42i7dwOMPACt+0dYQ9idklnhVr4pGTKZRhpQzcpY
+         FUNQ==
+X-Gm-Message-State: ANoB5pksgRI9NiCon5Ge+Z1osw2e87/GuInNLSI09hhmN7sa9V1ip1ST
+        jnsXZVy3OIJixippj7WaFHI=
+X-Google-Smtp-Source: AA0mqf6XD8PdcjCfIJRBAQKPmcxQBfWha5Zlca4QDLFB278WIwj5bgyb1b/qnQBdizla2nw4jvev/w==
+X-Received: by 2002:a9d:7d16:0:b0:66c:4819:8104 with SMTP id v22-20020a9d7d16000000b0066c48198104mr27997346otn.361.1669692862267;
+        Mon, 28 Nov 2022 19:34:22 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 67-20020a4a0946000000b0049ef7712ee5sm5053002ooa.11.2022.11.28.19.34.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Nov 2022 19:34:21 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <46cecf77-e989-40d9-3e08-fd970ad12a79@roeck-us.net>
+Date:   Mon, 28 Nov 2022 19:34:19 -0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="rQeuJg5WuXGQGv4c"
-Content-Disposition: inline
-In-Reply-To: <20221127142657.1649347-1-qyousef@layalina.io>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 2/6] ABI: sysfs-class-hwmon: add a description for
+ fanY_fault
+Content-Language: en-US
+To:     nick.hawkins@hpe.com, jdelvare@suse.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, verdun@hpe.com, corbet@lwn.net,
+        linux@armlinux.org.uk, linux-hwmon@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20221128230219.39537-1-nick.hawkins@hpe.com>
+ <20221128230219.39537-3-nick.hawkins@hpe.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20221128230219.39537-3-nick.hawkins@hpe.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 11/28/22 15:02, nick.hawkins@hpe.com wrote:
+> From: Nick Hawkins <nick.hawkins@hpe.com>
+> 
+> The fans are capable of reporting a fault to the CPLD controller which
+> then reports it to the GXP SoC via PLREGS. This patch enables hwmon to
+> be able to report these failures up to the HOST OS.
+> 
 
---rQeuJg5WuXGQGv4c
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This change is really completely unrelated to a CPLD or specific SoC.
+The commit description is just confusing. It should simply state that
+it documents the existing fanX_fault attribute.
 
-On Sun, Nov 27, 2022 at 02:26:57PM +0000, Qais Yousef wrote:
-> The new util clamp feature needs a document explaining what it is and
-> how to use it. The new document hopefully covers everything one needs to
-> know about uclamp.
->=20
+Guenter
 
-For patch subject, better say "Documentation: sched: Document util clamp
-feature".
-
-> Signed-off-by: Qais Yousef <qais.yousef@arm.com>
-> Signed-off-by: Qais Yousef (Google) <qyousef@layalina.io>
+> Signed-off-by: Nick Hawkins <nick.hawkins@hpe.com>
+> 
 > ---
->=20
-> Changes in v2:
->=20
-> 	* Address various style comments from Bagas
->=20
+> 
+> v2:
+>   *No change
+> ---
+>   Documentation/ABI/testing/sysfs-class-hwmon | 9 +++++++++
+>   1 file changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-class-hwmon b/Documentation/ABI/testing/sysfs-class-hwmon
+> index 7271781a23b2..638f4c6d4ec7 100644
+> --- a/Documentation/ABI/testing/sysfs-class-hwmon
+> +++ b/Documentation/ABI/testing/sysfs-class-hwmon
+> @@ -276,6 +276,15 @@ Description:
+>   
+>   		RW
+>   
+> +What:		/sys/class/hwmon/hwmonX/fanY_fault
+> +Description:
+> +		Reports if a fan has reported failure.
+> +
+> +		- 1: Failed
+> +		- 0: Ok
+> +
+> +		RO
+> +
+>   What:		/sys/class/hwmon/hwmonX/pwmY
+>   Description:
+>   		Pulse width modulation fan control.
 
-I don't see any of my wording suggestions from [1] being applied. Still
-a rather confused to read (maybe should be applied on top of jon's
-suggestions)?
-
-[1]: https://lore.kernel.org/lkml/Y3II59dyKuvQGIhG@debian.me/
-[2]: https://lore.kernel.org/linux-doc/87cz976pwn.fsf@meer.lwn.net/
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---rQeuJg5WuXGQGv4c
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY4V5iQAKCRD2uYlJVVFO
-o7hbAQC6ZmQaA71Mw+ML1SKY49EnY9RRYz6VAlcRH6LAVHOcCgEAm40jffgXGBdf
-HhLugCwjCmjy1zE2UkxlEe8H3OK3UQM=
-=8Ew3
------END PGP SIGNATURE-----
-
---rQeuJg5WuXGQGv4c--
