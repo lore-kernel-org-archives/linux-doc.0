@@ -2,353 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57F97C4321E
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 13:20:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE896C4708A
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 13:22:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbiK2NUr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Nov 2022 08:20:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33190 "EHLO
+        id S233131AbiK2NWJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Nov 2022 08:22:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229773AbiK2NUq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 08:20:46 -0500
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46E0321813
-        for <linux-doc@vger.kernel.org>; Tue, 29 Nov 2022 05:20:45 -0800 (PST)
-Received: by mail-yb1-xb2a.google.com with SMTP id l67so17420607ybl.1
-        for <linux-doc@vger.kernel.org>; Tue, 29 Nov 2022 05:20:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KcmMHtFArVsxc+G/xoaiHhB3Vq1tHgQdTzX99GzoaVE=;
-        b=UUtTV6G4KOptFxKfRiHFpCE023EfcGcWCS6IdiaAG8cRsdzW/Gq9wfoKH1Y5NVgnD8
-         d6kgKeIJscm8m3YFvonS31hWlcuedgvtA3pCVEEGRsBPMQ/Jnf62NlSxh3tNinzq+ywZ
-         xl8eXTEFrpiIBwmwZ8M9SYj8RyhtvObjTQAvApgP4ENzqrBSj5C8oFHhUkAlUcDl3j+X
-         veANV8wAIwEr7Og5Dg/OCswcp1kiQuqHL6SQZi0ZsgnH14TIaUTnr0+T/QqF3PLeQn0w
-         0l1XKW7/wUPBTLuGOPTAnxzUpXMIxd4+sUZfSq3HXZydsbLrGVZPhVfb0qDntE1pDKVO
-         AeAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KcmMHtFArVsxc+G/xoaiHhB3Vq1tHgQdTzX99GzoaVE=;
-        b=sY/TsG9qIvqg2Ty0pAYxsvcfxVB9SeQYbwy61hy9VD/x5HLYnHU5RhszNWTN7MxSEk
-         3CedLbk5AIKax2IbD1yMgP78caZYGrsZUysaBER5IMOusI0M58dlt+dtxVjjsYi7ve3k
-         8zyybA2dsfuXsi3dyU3h36GxqyjiDz4qWoOY4+IW0lK5MvYppZD4JeToIXgNyusMojL+
-         9t7/zDONHEEAeVafqrKGcFlNpfa1wNxTikxDkaeerdU+nHYKrbsQJetuW03jxI3lVezg
-         3904oCG4VAyn4WKT5GiZ1kmoZVKluDEUfaTi9OYN+EsFca/0hbJeu/R0pF26cNZjJV9P
-         rVyA==
-X-Gm-Message-State: ANoB5pnaE7aHxT4S4gUsQe9q+ZEnUe4mPOTcqYd7kPOS7ch8qGJukC05
-        xhwXqLsXixtl01+2uevdJVKqBZQgHnsk2QyNWVY=
-X-Google-Smtp-Source: AA0mqf7DnzwsNm7jfKGSgqmF2qCFYYh2m9uHcXPFxeajqKi5arYCAhZ3uBAxi92ol5LRbFnMNlaNP66NfbEs6zrWAE4=
-X-Received: by 2002:a25:41d1:0:b0:6f0:8cc2:22ac with SMTP id
- o200-20020a2541d1000000b006f08cc222acmr27560226yba.303.1669728044066; Tue, 29
- Nov 2022 05:20:44 -0800 (PST)
+        with ESMTP id S232598AbiK2NVk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 08:21:40 -0500
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01olkn2074.outbound.protection.outlook.com [40.92.52.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B738756573;
+        Tue, 29 Nov 2022 05:21:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Pearl6HtDHGRuUhp0Mcej4QZUdoSOuS0zdISN3GVOxnJfQYY9GUQhuYKNC7pf0uRReJTiqmdLrf9qlUGCgiifJalffvS0GOXxzjX9ymKAowCJF9yel4Os580Py5pJWSPtB/vCgUCTqF1kP1KWObcEpsM6QJu4cjqnXb9X847StrLMbznwxjaaz4n/8WcST0e+1MGw2d0xA7F75ZYQdGwUovf4oQVgklXFZljm41hxZGwrmatq4l351kyIH4/oxVViIMWnu1Q0Z1p5wvcuSMPw1riSYA2OEliCdvJFe1qgGt+CrU2/vxC2FHwNIn6A7C4E9T+ArXzn7Jc6QVFElcRGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NcHlZyHMmM1LeDIZrUe7hjj/IcsPstLhyYv1534gfn8=;
+ b=U4fHos3t/cxMrn+BwpEwIzSt79eZ2YvmMukZmFIQqTJGCNaVX3/yICOo5csX4qMneDUPaF9kF70wIAJL6a3Nl61VR7+9Rord2slS483SNShY8X4T13axaPokxPm90Uq3xtGcbI6wS4GuL+D52Xw9C6BOmNXm99KW2jq65SLa/WWc/hNT+X3BmBCA4QkoVP/EmFnFAbqvTqsvwlF50BilNZRb6WyyhYqBdRRl8K42N3rTcV/mGPEs85rH0YqNMxqY8EFZ5RSwPtOgdmnIiv4xiLUtkp6gTkeqEeVVsU79MSEY14olxKf9PrkCkH24opaMCB/BRKGBgeJIsA1VCMb9yw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NcHlZyHMmM1LeDIZrUe7hjj/IcsPstLhyYv1534gfn8=;
+ b=mTMBxSF9fYKW9maWTQYjRxyo5zN7obgq56dl9XWrOhortjF0/Iws601nwn6LsZNLCykcS7pZCK/qX7vz8N+XmoOL6A64xqVXSCc4D6/YudEHJSkyE+3aiFL69qQrhl6x8AF9ni55Y9N9CxIwP1T7DwBwxVANPAC+xvAVstlbjeIeOhOtb44PTBnl3m3cWYNRW3ZzPRLjNff1v304oBLosjnoMikYOFQli5n+G0tO7AIu1SAiUYtoi1LlYn6S8TeH15vYoLYbJE8LayVlNq4aSHfLq6tFgZao7ok6kmUhefP92c2CCBsNcP9YXz6/NN/g9St/iG9/DNxhHYYrmvcMqA==
+Received: from SL2PR01MB2812.apcprd01.prod.exchangelabs.com
+ (2603:1096:100:52::18) by KL1PR01MB5229.apcprd01.prod.exchangelabs.com
+ (2603:1096:820:d2::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.22; Tue, 29 Nov
+ 2022 13:21:31 +0000
+Received: from SL2PR01MB2812.apcprd01.prod.exchangelabs.com
+ ([fe80::993a:e6a2:ccfc:8cdd]) by SL2PR01MB2812.apcprd01.prod.exchangelabs.com
+ ([fe80::993a:e6a2:ccfc:8cdd%4]) with mapi id 15.20.5857.023; Tue, 29 Nov 2022
+ 13:21:31 +0000
+From:   Kushagra Verma <kushagra765@outlook.com>
+To:     Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation: Fixed a typo in atomic_t.txt
+Date:   Tue, 29 Nov 2022 18:50:59 +0530
+Message-ID: <SL2PR01MB281219C24708CE54EC1FC610F8129@SL2PR01MB2812.apcprd01.prod.exchangelabs.com>
+X-Mailer: git-send-email 2.38.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN:  [yO4CLxu9Re5qYr6vmjXpx5ZZJhnW9V9SLlz4ihzXMVZl+z4BluHUGlF/glsfLNsO]
+X-ClientProxiedBy: BMXPR01CA0088.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:54::28) To SL2PR01MB2812.apcprd01.prod.exchangelabs.com
+ (2603:1096:100:52::18)
+X-Microsoft-Original-Message-ID: <20221129132059.7027-1-kushagra765@outlook.com>
 MIME-Version: 1.0
-References: <cover.1669686320.git.siyanteng@loongson.cn> <653b590c8e7ca42faff18cabfceb9b7f4b2971c1.1669686320.git.siyanteng@loongson.cn>
- <29198961-5100-8e8c-f5a2-87d15769c550@xen0n.name> <6b84b57f-5293-0636-7a91-235aea910b7a@loongson.cn>
-In-Reply-To: <6b84b57f-5293-0636-7a91-235aea910b7a@loongson.cn>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Tue, 29 Nov 2022 21:20:32 +0800
-Message-ID: <CAEensMz+PkLeGmxwwf4_EWXp9cgAd1egGZEujBa1q5=YHviieg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] docs/LoongArch: Add booting
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     WANG Xuerui <kernel@xen0n.name>, chenhuacai@kernel.org,
-        corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com,
-        wu.xiangcheng@linux.dev, jiaxun.yang@flygoat.com,
-        liuyun@loongson.cn, linux-doc@vger.kernel.org,
-        loongarch@lists.linux.dev, Xiaotian Wu <wuxiaotian@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SL2PR01MB2812:EE_|KL1PR01MB5229:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7474d57d-6c13-44c4-7ac6-08dad20ca072
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mHAufLPWJ3RR4Mwqsa4c4EXMKTl0NUoaxM2EBaxcDDMXj/CcsZDifjSH9Mu6UYAweNWV1pHaVsoP8l4yuOis1erljAr85XeXduws50Sury7xK1bn/kpbGB36dPId4sGHy/Lplx0zZ2JGxECN95J2jJ7BDctjUwRMMQeaZOMWuF8at9SF1d4EFXIjMP6opyreKiWoFfYOATYrT6nuA3EOO/sZMtelcMTw5vdQL04Qv69RfP/aKZdEaf7qDfJdO1ZWWpv5sx0kboK0zxD8STwtc76gkLxSlRAZ1C03jNW1ZseL68WF9EYFfuc3JTz9m5LbTI5UFPv8qIB9aw/4HfH6YagJDpWCF9dIeBap6338V027Gm60/nYfv4MXYdxIlXu9/w2iVs6WE9/QntWU/y3B4LL1uBN7AY3G2qNwJq2wI/vOGeG1AQem96iLE0HbcQzwbBzp9cRmQGVz3ncs20QeHztvh4ZCD8ged42vTHRMRjUcCTIFIXw47tfm2hBgiwJrnUlOZKjIt/9vMxUb64nGjbbwAEowVZLfmYj2SDTcmfZXjNg7difSM6l7KfoeYX/aerrdM6tVuoDPD1GFMtaJ927x7ZRz2xNB8RpBh9d9azQ=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xRPI0Zd6X8/kxwPlLjYq2ZHXS88bcZg6kmYHaSxLARA/G9tct3Ehh3K3zMOt?=
+ =?us-ascii?Q?v+nSC5dl/XTLZp7lRQHl0mKSQdqF+qoAERXrJUvjyTzilUCUze2d0LdXGbW6?=
+ =?us-ascii?Q?S8YDh6gytz6vseMcOTZ7+subaWJWxhpHYc5rfl/jHLKTMQnXFNQoyogOCNGd?=
+ =?us-ascii?Q?ZcZDrAkvVY+mSFJzdb3kSbjPrUSLWdhvMaukMoM2CK1PhqDAv2m3wXoUYoIO?=
+ =?us-ascii?Q?HNOemxzxGym2odtyHKQEHR/q3u5pEgZJC//QWfwNSvYPLpbwo1HWDlOGpY03?=
+ =?us-ascii?Q?cPoZaDkppx+ZHyxQL23GXg219SV1bImZOa/R3HkivMb7e/k4ThJJUHWjaz3c?=
+ =?us-ascii?Q?GTi+9t8kJ16u35iBjrFXyQg3clvaVqz6psv909zaqedOCDgieJtyc+c9rW2E?=
+ =?us-ascii?Q?9Cwym7KCYJW86HISN0CMUBVa+xMkkrjusiBDERHWZBgKFeb706iTIi4LT4AQ?=
+ =?us-ascii?Q?y9F35XQ2nHmWB5uQBbeegyErjdH0+hVUVW/PpRVnHIvaSWOXUkeHp7ipVB89?=
+ =?us-ascii?Q?EUHPa2aFP5IufyLRFShDfHv6iswb12M6uE6q9QN5EOViAePflLvMC4jS7pWY?=
+ =?us-ascii?Q?csiclaBbtDlq6Tj3HzRL1g21H0e5QbPJDG654R5e5Thl5LVinf/mgUh7oqes?=
+ =?us-ascii?Q?XXQSe6iJs6AWllrqo9imE+KaS7TrD+AhaYooEGsSKEVVZP9v2Yg961hwyxPp?=
+ =?us-ascii?Q?CcY6ozBn9kTokCOsf2EpzneOH+d/tx/lhd1+SXmi81PZn93VQ9MeGXRRxQ8R?=
+ =?us-ascii?Q?NbtQuDMQTag27HpUE0CE3BCO4YFZlFGt4IRkcXRFUPq45mm/xe4JnATnZQGs?=
+ =?us-ascii?Q?KqofE+mpEsRdCrAdVF8YNaIoItmjdliDAR1eFJDxlg5NKqfxE4oMGLYZ/Ib9?=
+ =?us-ascii?Q?uQeoMFHKY8XPJ1odByg8x7hYUsj4Ka9enuuAO9k7kcOS3oy9I0yuohbGMUIn?=
+ =?us-ascii?Q?O61GPj6aAY7vnC64XQk0Csz8EPw4JrKId00cY68Nkgtfh5S7Ww414YOTC79I?=
+ =?us-ascii?Q?5g9B8AybLqLIkqMEqj1F8b6fTWCeE2Jk3yAPY2IGmCgsWIaeYjyo0LpXeqom?=
+ =?us-ascii?Q?HaKv6+Yz3g4cdMgB/y048DGkhIM/1k2jZ5LlROt+Rm4xXQa1f3v2+qU0whwI?=
+ =?us-ascii?Q?mhsHgIkMV+WuVdpktYy8O1SY7FYSlNNKBU1f8bSBG/WfbWyCgkLah0o4PSlR?=
+ =?us-ascii?Q?1xnFIOHHsDFJ4abhKlj7FZLUeuMy0bHOIJQw2aF/e7vHkei5bbSrW+FRtbuk?=
+ =?us-ascii?Q?58R9CgbYSDDR6xLAmN77OUl04cKx6rHssHkmdQ04xR0K1O5IP5HMJOY+BS0J?=
+ =?us-ascii?Q?H2P7xh4Oasoa8PvHmOwfoAyXVCEC/zTJXV37/kegN0I+eg=3D=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7474d57d-6c13-44c4-7ac6-08dad20ca072
+X-MS-Exchange-CrossTenant-AuthSource: SL2PR01MB2812.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2022 13:21:30.7924
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR01MB5229
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yanteng Si <siyanteng@loongson.cn> =E4=BA=8E2022=E5=B9=B411=E6=9C=8829=E6=
-=97=A5=E5=91=A8=E4=BA=8C 21:04=E5=86=99=E9=81=93=EF=BC=9A
->
->
-> On 11/29/22 10:40, WANG Xuerui wrote:
->
-> On 11/29/22 09:52, Yanteng Si wrote:
->
-> Describes the meaning and value of the image header field.
->
-> Suggested-by: Xiaotian Wu <wuxiaotian@loongson.cn>
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->   Documentation/loongarch/booting.rst | 89 +++++++++++++++++++++++++++++
->   Documentation/loongarch/index.rst   |  1 +
->   2 files changed, 90 insertions(+)
->   create mode 100644 Documentation/loongarch/booting.rst
->
-> diff --git a/Documentation/loongarch/booting.rst b/Documentation/loongarc=
-h/booting.rst
-> new file mode 100644
-> index 000000000000..90456f713c48
-> --- /dev/null
-> +++ b/Documentation/loongarch/booting.rst
-> @@ -0,0 +1,89 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +=E5=90=AF=E5=8A=A8 LoongArch Linux
->
->
-> Forgot to translate this? ;-)
->
-> Also it's probably more idiomatic to use the "Linux/LoongArch" convention=
- throughout, as can be seen from similar previous usages such as "Linux/Alp=
-ha", "Linux/IA64", "Linux/PA-RISC" or "Linux/MIPS". (Of course it's "RISC-V=
- Linux" according to my grep result but it's probably better to stick to tr=
-aditions here IMO.)
->
-> OK!
->
-> Booting Linux/LoongArch
->
->
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +:Author: Yanteng Si <siyanteng@loongson.cn>
-> +:Date:   18 Nov 2022
-> +
-> +BootLoader passing parameters to the kernel
->
-> "Bootloader" or "Boot loader", but not "BootLoader".
->
-> Ok!
->
-> Bootloader
->
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +LoongArch supports ACPI and FDT. The information that needs to be
-> +passed to the kernel are memmap, initrd, cmdline, fdt, etc.
->
-> Perhaps "... includes the memmap, the initrd, the command line, optionall=
-y the FDT, and so on." could be better?
->
-> Great!
->
-> The information that needs to be passed to the kernel includes the memmap=
-, the initrd, the command line, optionally the FDT, and so on.
->
-> +On LoongArch machines, the BootLoader (EFISTUB/Grub) will pass three
-> +valid parameters to the kernel, which are::
->
->
-> The "on LoongArch machines" seems redundant, we're a LoongArch document s=
-o it's kinda implied information. Also drop "valid" as it's quite obvious t=
-oo.
->
-> And it's not the bootloader that provides the kernel with those 3 argumen=
-ts, kernel_entry isn't directly called by firmware but rather by the EFI st=
-ub. And I doubt the FDT boot flow invokes kernel_entry either. Let's clarif=
-y things then, make the whole paragraph something like this:
->
-> "The kernel is passed the following arguments on `kernel_entry`::"
->
-> OK!
->
->
-> +
-> +      a0 =3D efi_boot
-> +      a1 =3D cmdline
-> +      a2 =3D systemtable
-> +
-> +where a1 is a pointer to cmdline, a2 contains the memmap, initrd,
-> +fdt(opt) and other information that needs to be passed to the kernel.
->
->
-> Please use a list for enumerating the 3 arguments.
->
-> Also the list belongs to the previous sentence, so you shouldn't start th=
-is paragraph with "where" but rather please use a new sentence. And the fac=
-t that a0 is a flag indicating whether full UEFI capabilities are present n=
-eeds mentioning too.
->
-> "`efi_boot` is a flag indicating whether this boot environment is fully U=
-EFI-compliant. `cmdline` is a pointer to the kernel command line. `systemta=
-ble` points to the EFI system table. All pointers involved at this stage ar=
-e in physical addresses."
->
-> OK, thanks!
->
->
-> +
-> +Boot image header in LoongArch Linux
->
-> "Header of Linux/LoongArch kernel images"
->
-> OK!
->
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The following 64-byte header is present in decompressed Linux
-> +kernel image::
->
->
-> Everything becomes crystal clear when you somehow indicate it's just the =
-DOS header of the EFI stub. Also AFAIK no LoongArch bootloader decompress t=
-he kernel image themselves, so it's not like there exists any "compressed L=
-inux kernel image".
->
-> "Linux/LoongArch kernel images are EFI images. Being PE files, they have =
-a 64-byte header structured like::"
->
-> OK!
->
->
-> +
-> +    u32    MZ_MAGIC        /* "MZ", MS-DOS header */
-> +    u32    res0 =3D 0        /* reserved */
-> +    u64    kernel_entry        /* Kernel entry point */
-> +    u64    _end - _text        /* Kernel image effective size */
-> +    u64    0            /* Kernel image load offset from start of RAM */
-> +    u64    res1 =3D 0        /* reserved */
-> +    u64    res2 =3D 0        /* reserved */
-> +    u64    res3 =3D 0        /* reserved */
-> +    u32    res4 =3D 0        /* reserved */
-> +    u32    pe_header - _head    /* Offset to the PE header */
-> +
-> +Header notes
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> No need for a new section: the rest are all explanations to the structure=
- mentioned above.
->
-> OK!
->
-> +
-> +Currently, LoongArch has removed the "magic" field.
->
->
-> Needs more background information, and (IMO) unnatural topicalization.
->
-> "LoongArch has abolished the use of a magic number for identifying the bo=
-ot image as one for the LoongArch, because ..."
->
-> Right now, unfortunately I don't have enough time for providing all the d=
-etails for the justification of removal of magic number, but you can refer =
-to previous (long) threads where the earlier versions of the arch EFI boot =
-code were reviewed. Pay attention especially to ardb's very detailed and in=
--depth explanation, you want to "transplant" the info here.
->
-> OK!
->
->
-> +
-> +According to the EFI specification, the PE/COFF image file header is
-> +required at the beginning of the kernel image; the LoongArch kernel
-> +supports the EFI stub, so the first two bytes of the kernel image header
-> +are "MZ" magic characters, and 0x3c should point to the rest of the
-> +PE/COFF file header, between which The kernel entry point, image
-> +effectivesize, and image load offset layout are as follows::
-> +
-> +          +-----------------------------------------------+
-> +          |  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |
-> +          +-----------------------------------------------+
-> +    0x00: |       MZ_MAGIC        |          res0         |
-> +          +-----------------------------------------------+
-> +    0x08: |                 kernel_entry                  |
-> +          +-----------------------------------------------+
-> +    0x10: |                  _end - _text                 |
-> +          +-----------------------------------------------+
-> +    0x18: |                       0                       |
-> +          +-----------------------------------------------+
-> +    0x20: |                      res1                     |
-> +          +-----------------------------------------------+
-> +    0x28: |                      res2                     |
-> +          +-----------------------------------------------+
-> +    0x30: |                      res3                     |
-> +          +-----------------------------------------------+
-> +    0x38: |          res4         |       PE header       |
-> +          +-----------------------------------------------+
->
->
-> This is repeating the structure described above, only in a pictorial form=
-. I think only one needs to be kept.
->
-> I don't think so.
->
-> The above corresponds to the struct in grub, this diagram is much more re=
-adable.
->
->
->
-> +
-> +All bit fields are in little endian:
-> +
-> +    - MZ: Effective length of 2 bytes;
-> +
-> +    - kernel entry point: leaving 6 bytes blank in front, starting
-> +      from 0x8, with a effective length of 8 bytes;
-> +
-> +    - kernel image effective size: Immediately following the kernel
-> +      entry point, with a effective length of 8 bytes, this field is
-> +      required for the bootloader;
->
->
-> The boot loader probably doesn't care. GRUB2 just chain-loads after recog=
-nizing the image as valid EFI application, and the firmware most certainly =
-just do its routine EFI application launch too without looking at the conte=
-nts here that are all in fact just reserved space. (IIUC only the MZ signat=
-ure and the PE header offset matter here; everything in between is actually=
- part of the DOS stub which is ignored on all modern platforms.)
->
-> So, please clarify which component requires this info; is it the EFI stub=
- instead? (I haven't checked myself though due to limited review time. Sorr=
-y for that.)
->
-> I wrote this article with partial reference to riscv.
->
-> See Documentation/riscv/boot-image-header.rst line 61:
->
-> - Image size is mandatory for boot loader to load kernel image. Booting w=
-ill
->   fail otherwise.
->
->
-> +
-> +    - kernel image load offset: Immediately following the kernel
-> +      image effective size, with a effective length of 8 bytes;
-> +
-> +    - Offset to the PE header: leaving 28 bytes blank in front,
-> +      starting from 0x3c, with a effective length of 4 bytes.
->
-> Drop explanation for trivial things like MZ or the PE header offset, they=
-'re just common PE format thing, and totally unrelated to Linux.
->
-> Here's just a simple description of the header bit fields, which is a pre=
-requisite for understanding the boot image header.
->
->
-> Thanks,
->
-> Yanteng
->
-> diff --git a/Documentation/loongarch/index.rst b/Documentation/loongarch/=
-index.rst
-> index aaba648db907..df0174d6d227 100644
-> --- a/Documentation/loongarch/index.rst
-> +++ b/Documentation/loongarch/index.rst
-> @@ -10,6 +10,7 @@ LoongArch Architecture
->        introduction
->      irq-chip-model
-> +   booting
->        features
->
->
->
-Sorry.
+Fixed a typo in the word 'architecture'.
 
-I don't know why my email client sent the html part, which caused the
-email to be rejected by the list, so I re-copied it to the list.
+Signed-off-by: Kushagra Verma <kushagra765@outlook.com>
+---
+ Documentation/atomic_t.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-Yanteng
+diff --git a/Documentation/atomic_t.txt b/Documentation/atomic_t.txt
+index 0f1ffa03db09..d7adc6d543db 100644
+--- a/Documentation/atomic_t.txt
++++ b/Documentation/atomic_t.txt
+@@ -324,7 +324,7 @@ atomic operations.
+ 
+ Specifically 'simple' cmpxchg() loops are expected to not starve one another
+ indefinitely. However, this is not evident on LL/SC architectures, because
+-while an LL/SC architecure 'can/should/must' provide forward progress
++while an LL/SC architecture 'can/should/must' provide forward progress
+ guarantees between competing LL/SC sections, such a guarantee does not
+ transfer to cmpxchg() implemented using LL/SC. Consider:
+ 
+-- 
+2.38.1
+
