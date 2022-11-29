@@ -2,254 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 951A9C43217
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 02:40:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBF79C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 03:16:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234872AbiK2Ck3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Nov 2022 21:40:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43886 "EHLO
+        id S234384AbiK2DQn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Nov 2022 22:16:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234828AbiK2Ck2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 21:40:28 -0500
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AC3D2C672
-        for <linux-doc@vger.kernel.org>; Mon, 28 Nov 2022 18:40:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
-        t=1669689623; bh=dYOv4utJcmNrRCn/aYqrxyaSFiey9iD+no6SQCAi4Do=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=TOT0fPBFUIrqM73Yrv7pEfTxkRzm2XaefDZezqg2ruuAdt518jacmvAML23h4PFvt
-         7lt14zoJ5i4aXQKhFmoROR/ja5vXhZsWKa4uhO9hcrtKsFGBKJpOAODqrwNpV/TGTO
-         PDuZBkli576rRJbEi5Xq+OBk3gYSMcY1W8e72Zow=
-Received: from [192.168.9.172] (unknown [101.88.134.93])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 1DEDD600D1;
-        Tue, 29 Nov 2022 10:40:23 +0800 (CST)
-Message-ID: <29198961-5100-8e8c-f5a2-87d15769c550@xen0n.name>
-Date:   Tue, 29 Nov 2022 10:40:22 +0800
+        with ESMTP id S230298AbiK2DQm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Nov 2022 22:16:42 -0500
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D064E4733F;
+        Mon, 28 Nov 2022 19:16:41 -0800 (PST)
+Received: by mail-pf1-x429.google.com with SMTP id w79so12446544pfc.2;
+        Mon, 28 Nov 2022 19:16:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KoHEWJlnQdU5BQ/HIJRZryexzBCV0fcZJO2wF6lQsxg=;
+        b=NJn71kyW76bMkZzipTJaMz3jMXxat2uhF0GN1+WkIGFKsy4bI+Qvof8iaz0BI9k2r8
+         xuJMgHDX7xmMoikw1De7uXNCyqoPXTClnypKiAm0LrHSiP5ixULfvgSjZIDskcwjQAcP
+         pB8JYzq7rWHJ9R/RxFPAdKurAeMP8sghuImUzTCjZ2ooOgnIzxbeXqQNDteDaua2UjWS
+         hzztfmR5NBJkC5y4v0MWLECY/ur7Vc40BZxN/aMWuOXIWEazK6hlCz5Np8SRlP+txGyT
+         YW1IqRXXY995I6j83XENhPSDKVS+7j4z+BSGyxo+YVUFQ27QWbifJ/9YZ4JTba8J6f+0
+         IrPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KoHEWJlnQdU5BQ/HIJRZryexzBCV0fcZJO2wF6lQsxg=;
+        b=W7MQKSawXBzJY5d7e9omURa5uyVkxYQ0Wah0/Ybd7UFzNmIg2gkr1VW0TpTrpEx6P7
+         t8w1jq74nlV7xq7GhEwDKlo6sxejxfk90HhPB+Le8dpr9dXh9SrPgAKdJEnZ0hx2g8x6
+         FzT74xYWqHHEnnKvdxNCQdopcgRNGoxasgxO1AvuZPHE9qOfECTB75qrwFl08ritJfMp
+         gNCZue/zDNNBC1YK3/CStdHnjHrmdiIRDpPBE5daaVZlzuIxkVr4N/GOQerg0yKxoYPb
+         cbjl2mknGmQewohzlDTFB6cJF2NA/HmMaVTuxxat9MWYyRljiX/kapsVA26WLgIfNba3
+         GJGQ==
+X-Gm-Message-State: ANoB5pmPI9JBANcgt7IsYJfzU9BRApZ336jsUCfMr4D3xFPD9iEmXAgF
+        9NQg7RdRpZhmIDuJU7AI/Sc=
+X-Google-Smtp-Source: AA0mqf4XiGNH/JGWpt4MTBVyFoDPyrL7Q5qTC5rK2Ab8bHc3D6OaCEOTCzp7NPRAQ8vz1UmSoeggvw==
+X-Received: by 2002:aa7:9257:0:b0:56c:cea7:8650 with SMTP id 23-20020aa79257000000b0056ccea78650mr35575788pfp.40.1669691801303;
+        Mon, 28 Nov 2022 19:16:41 -0800 (PST)
+Received: from debian.me (subs28-116-206-12-33.three.co.id. [116.206.12.33])
+        by smtp.gmail.com with ESMTPSA id z20-20020aa79494000000b0056f0753390csm8921576pfk.96.2022.11.28.19.16.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Nov 2022 19:16:40 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 3497B103E11; Tue, 29 Nov 2022 10:16:36 +0700 (WIB)
+Date:   Tue, 29 Nov 2022 10:16:36 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Qais Yousef <qyousef@layalina.io>
+Cc:     Ingo Molnar <mingo@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Lukasz Luba <lukasz.luba@arm.com>,
+        Xuewen Yan <xuewen.yan94@gmail.com>, Wei Wang <wvw@google.com>,
+        Jonathan JMChen <Jonathan.JMChen@mediatek.com>,
+        Hank <han.lin@mediatek.com>, Paul Bone <pbone@mozilla.com>
+Subject: Re: [PATCH v2] Documentation: sched: Add a new sched-util-clamp.rst
+Message-ID: <Y4V5lDHNqYHEzEaI@debian.me>
+References: <20221127142657.1649347-1-qyousef@layalina.io>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101
- Firefox/109.0 Thunderbird/109.0a1
-Subject: Re: [PATCH v4 1/2] docs/LoongArch: Add booting
-To:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
-Cc:     wu.xiangcheng@linux.dev, jiaxun.yang@flygoat.com,
-        liuyun@loongson.cn, linux-doc@vger.kernel.org,
-        loongarch@lists.linux.dev, siyanteng01@gmail.com,
-        Xiaotian Wu <wuxiaotian@loongson.cn>
-References: <cover.1669686320.git.siyanteng@loongson.cn>
- <653b590c8e7ca42faff18cabfceb9b7f4b2971c1.1669686320.git.siyanteng@loongson.cn>
-Content-Language: en-US
-From:   WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <653b590c8e7ca42faff18cabfceb9b7f4b2971c1.1669686320.git.siyanteng@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="rQeuJg5WuXGQGv4c"
+Content-Disposition: inline
+In-Reply-To: <20221127142657.1649347-1-qyousef@layalina.io>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/29/22 09:52, Yanteng Si wrote:
-> Describes the meaning and value of the image header field.
->
-> Suggested-by: Xiaotian Wu <wuxiaotian@loongson.cn>
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+
+--rQeuJg5WuXGQGv4c
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Nov 27, 2022 at 02:26:57PM +0000, Qais Yousef wrote:
+> The new util clamp feature needs a document explaining what it is and
+> how to use it. The new document hopefully covers everything one needs to
+> know about uclamp.
+>=20
+
+For patch subject, better say "Documentation: sched: Document util clamp
+feature".
+
+> Signed-off-by: Qais Yousef <qais.yousef@arm.com>
+> Signed-off-by: Qais Yousef (Google) <qyousef@layalina.io>
 > ---
->   Documentation/loongarch/booting.rst | 89 +++++++++++++++++++++++++++++
->   Documentation/loongarch/index.rst   |  1 +
->   2 files changed, 90 insertions(+)
->   create mode 100644 Documentation/loongarch/booting.rst
->
-> diff --git a/Documentation/loongarch/booting.rst b/Documentation/loongarch/booting.rst
-> new file mode 100644
-> index 000000000000..90456f713c48
-> --- /dev/null
-> +++ b/Documentation/loongarch/booting.rst
-> @@ -0,0 +1,89 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +====================
-> +启动 LoongArch Linux
+>=20
+> Changes in v2:
+>=20
+> 	* Address various style comments from Bagas
+>=20
 
-Forgot to translate this? ;-)
+I don't see any of my wording suggestions from [1] being applied. Still
+a rather confused to read (maybe should be applied on top of jon's
+suggestions)?
 
-Also it's probably more idiomatic to use the "Linux/LoongArch" 
-convention throughout, as can be seen from similar previous usages such 
-as "Linux/Alpha", "Linux/IA64", "Linux/PA-RISC" or "Linux/MIPS". (Of 
-course it's "RISC-V Linux" according to my grep result but it's probably 
-better to stick to traditions here IMO.)
+[1]: https://lore.kernel.org/lkml/Y3II59dyKuvQGIhG@debian.me/
+[2]: https://lore.kernel.org/linux-doc/87cz976pwn.fsf@meer.lwn.net/
 
-> +====================
-> +
-> +:Author: Yanteng Si <siyanteng@loongson.cn>
-> +:Date:   18 Nov 2022
-> +
-> +BootLoader passing parameters to the kernel
-"Bootloader" or "Boot loader", but not "BootLoader".
-> +===========================================
-> +
-> +LoongArch supports ACPI and FDT. The information that needs to be
-> +passed to the kernel are memmap, initrd, cmdline, fdt, etc.
-Perhaps "... includes the memmap, the initrd, the command line, 
-optionally the FDT, and so on." could be better?
-> +On LoongArch machines, the BootLoader (EFISTUB/Grub) will pass three
-> +valid parameters to the kernel, which are::
+Thanks.
 
-The "on LoongArch machines" seems redundant, we're a LoongArch document 
-so it's kinda implied information. Also drop "valid" as it's quite 
-obvious too.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-And it's not the bootloader that provides the kernel with those 3 
-arguments, kernel_entry isn't directly called by firmware but rather by 
-the EFI stub. And I doubt the FDT boot flow invokes kernel_entry either. 
-Let's clarify things then, make the whole paragraph something like this:
+--rQeuJg5WuXGQGv4c
+Content-Type: application/pgp-signature; name="signature.asc"
 
-"The kernel is passed the following arguments on `kernel_entry`::"
+-----BEGIN PGP SIGNATURE-----
 
-> +
-> +      a0 = efi_boot
-> +      a1 = cmdline
-> +      a2 = systemtable
-> +
-> +where a1 is a pointer to cmdline, a2 contains the memmap, initrd,
-> +fdt(opt) and other information that needs to be passed to the kernel.
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY4V5iQAKCRD2uYlJVVFO
+o7hbAQC6ZmQaA71Mw+ML1SKY49EnY9RRYz6VAlcRH6LAVHOcCgEAm40jffgXGBdf
+HhLugCwjCmjy1zE2UkxlEe8H3OK3UQM=
+=8Ew3
+-----END PGP SIGNATURE-----
 
-Please use a list for enumerating the 3 arguments.
-
-Also the list belongs to the previous sentence, so you shouldn't start 
-this paragraph with "where" but rather please use a new sentence. And 
-the fact that a0 is a flag indicating whether full UEFI capabilities are 
-present needs mentioning too.
-
-"`efi_boot` is a flag indicating whether this boot environment is fully 
-UEFI-compliant. `cmdline` is a pointer to the kernel command line. 
-`systemtable` points to the EFI system table. All pointers involved at 
-this stage are in physical addresses."
-
-> +
-> +Boot image header in LoongArch Linux
-"Header of Linux/LoongArch kernel images"
-> +====================================
-> +
-> +The following 64-byte header is present in decompressed Linux
-> +kernel image::
-
-Everything becomes crystal clear when you somehow indicate it's just the 
-DOS header of the EFI stub. Also AFAIK no LoongArch bootloader 
-decompress the kernel image themselves, so it's not like there exists 
-any "compressed Linux kernel image".
-
-"Linux/LoongArch kernel images are EFI images. Being PE files, they have 
-a 64-byte header structured like::"
-
-> +
-> +	u32	MZ_MAGIC		/* "MZ", MS-DOS header */
-> +	u32	res0 = 0		/* reserved */
-> +	u64	kernel_entry		/* Kernel entry point */
-> +	u64	_end - _text		/* Kernel image effective size */
-> +	u64	0			/* Kernel image load offset from start of RAM */
-> +	u64	res1 = 0		/* reserved */
-> +	u64	res2 = 0		/* reserved */
-> +	u64	res3 = 0		/* reserved */
-> +	u32	res4 = 0		/* reserved */
-> +	u32	pe_header - _head	/* Offset to the PE header */
-> +
-> +Header notes
-> +============
-No need for a new section: the rest are all explanations to the 
-structure mentioned above.
-> +
-> +Currently, LoongArch has removed the "magic" field.
-
-Needs more background information, and (IMO) unnatural topicalization.
-
-"LoongArch has abolished the use of a magic number for identifying the 
-boot image as one for the LoongArch, because ..."
-
-Right now, unfortunately I don't have enough time for providing all the 
-details for the justification of removal of magic number, but you can 
-refer to previous (long) threads where the earlier versions of the arch 
-EFI boot code were reviewed. Pay attention especially to ardb's very 
-detailed and in-depth explanation, you want to "transplant" the info here.
-
-> +
-> +According to the EFI specification, the PE/COFF image file header is
-> +required at the beginning of the kernel image; the LoongArch kernel
-> +supports the EFI stub, so the first two bytes of the kernel image header
-> +are "MZ" magic characters, and 0x3c should point to the rest of the
-> +PE/COFF file header, between which The kernel entry point, image
-> +effectivesize, and image load offset layout are as follows::
-> +
-> +          +-----------------------------------------------+
-> +          |  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |
-> +          +-----------------------------------------------+
-> +    0x00: |       MZ_MAGIC        |          res0         |
-> +          +-----------------------------------------------+
-> +    0x08: |                 kernel_entry                  |
-> +          +-----------------------------------------------+
-> +    0x10: |                  _end - _text                 |
-> +          +-----------------------------------------------+
-> +    0x18: |                       0                       |
-> +          +-----------------------------------------------+
-> +    0x20: |                      res1                     |
-> +          +-----------------------------------------------+
-> +    0x28: |                      res2                     |
-> +          +-----------------------------------------------+
-> +    0x30: |                      res3                     |
-> +          +-----------------------------------------------+
-> +    0x38: |          res4         |       PE header       |
-> +          +-----------------------------------------------+
-
-This is repeating the structure described above, only in a pictorial 
-form. I think only one needs to be kept.
-
-> +
-> +All bit fields are in little endian:
-> +
-> +    - MZ: Effective length of 2 bytes;
-> +
-> +    - kernel entry point: leaving 6 bytes blank in front, starting
-> +      from 0x8, with a effective length of 8 bytes;
-> +
-> +    - kernel image effective size: Immediately following the kernel
-> +      entry point, with a effective length of 8 bytes, this field is
-> +      required for the bootloader;
-
-The boot loader probably doesn't care. GRUB2 just chain-loads after 
-recognizing the image as valid EFI application, and the firmware most 
-certainly just do its routine EFI application launch too without looking 
-at the contents here that are all in fact just reserved space. (IIUC 
-only the MZ signature and the PE header offset matter here; everything 
-in between is actually part of the DOS stub which is ignored on all 
-modern platforms.)
-
-So, please clarify which component requires this info; is it the EFI 
-stub instead? (I haven't checked myself though due to limited review 
-time. Sorry for that.)
-
-> +
-> +    - kernel image load offset: Immediately following the kernel
-> +      image effective size, with a effective length of 8 bytes;
-> +
-> +    - Offset to the PE header: leaving 28 bytes blank in front,
-> +      starting from 0x3c, with a effective length of 4 bytes.
-Drop explanation for trivial things like MZ or the PE header offset, 
-they're just common PE format thing, and totally unrelated to Linux.
-> diff --git a/Documentation/loongarch/index.rst b/Documentation/loongarch/index.rst
-> index aaba648db907..df0174d6d227 100644
-> --- a/Documentation/loongarch/index.rst
-> +++ b/Documentation/loongarch/index.rst
-> @@ -10,6 +10,7 @@ LoongArch Architecture
->   
->      introduction
->      irq-chip-model
-> +   booting
->   
->      features
->   
-
--- 
-WANG "xen0n" Xuerui
-
-Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
-
+--rQeuJg5WuXGQGv4c--
