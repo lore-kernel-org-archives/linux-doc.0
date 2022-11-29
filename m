@@ -2,78 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F6F5C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 18:51:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52047C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Nov 2022 18:54:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236181AbiK2Sv6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Nov 2022 13:51:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57808 "EHLO
+        id S236087AbiK2SyQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Nov 2022 13:54:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236192AbiK2Svy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 13:51:54 -0500
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CA613C6F1;
-        Tue, 29 Nov 2022 10:51:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=XpEeI/9mKQwH7FbdFrYBkMz1l2jJHzNNlZ7rFT6aPG8=; b=2cByblDprP8Xs/49TMYmd39s3/
-        4Z+1m9pffoBseTe8ti59Lh00z6V/yQ8reHGulCF/5AlspB1s0I81IWVt5n9ht8kn14GsEh+i+bol7
-        eRaXzEWqVEWXEI/XC4X6mWAcj1rhVW4jVd925QTolUI35OfZulonxJCktMFD0wAFBIZA=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1p05hq-003u6g-5c; Tue, 29 Nov 2022 19:51:46 +0100
-Date:   Tue, 29 Nov 2022 19:51:46 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc:     netdev@vger.kernel.org, Ioana Ciornei <ioana.ciornei@nxp.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 04/12] net: dpaa2-mac: remove defensive check in
- dpaa2_mac_disconnect()
-Message-ID: <Y4ZUwlGPZZCEDUp9@lunn.ch>
-References: <20221129141221.872653-1-vladimir.oltean@nxp.com>
- <20221129141221.872653-5-vladimir.oltean@nxp.com>
+        with ESMTP id S235964AbiK2SyP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 13:54:15 -0500
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D30EF4E413;
+        Tue, 29 Nov 2022 10:54:14 -0800 (PST)
+Received: by mail-qv1-f43.google.com with SMTP id c14so6391118qvq.0;
+        Tue, 29 Nov 2022 10:54:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tqjJlh60+/poGgPfMfNUOD4lo3vmtRtOphg6/Fz5FDk=;
+        b=NhbcohtzNNZNqqtaY69FqfU+Z2cabzOBz4iNmiI7MtMwbp4PwCEVRxwKXsf8UOZLSq
+         IfK25l3hKnkYdpnuGvDwCxCVZiWtPHiNFf6s0alxdk6ZaUd+PKiz5ikGuDJUgP9FSPu/
+         YTI+fNyQCrdAaZEJoBE8x1h0MhtQuCfXp57gzjqQwkUYVUfuu8Qe7EF8OAe6k3ktlNOq
+         T2mCbowInXgHjzs1X/vPsJtYaujDzlzW2fusQVEah67c+Xh0IMgQvV/fVhch+176E0a/
+         d5ZyEcI0hNGk7O+SKM0+rtHe/D3ZWjLBMO/fUaQQsteaHbg7Z8hlPgWs/cjjDIL2rwKc
+         jygA==
+X-Gm-Message-State: ANoB5pkC2eAoFcNcTG5Fn79EJ/ZpB0eLt1WZk3Zz6o8DXN32ghParHc2
+        99Xvylka28RTfDA3ABw4BrQ=
+X-Google-Smtp-Source: AA0mqf5gAZhU5mj9rpqN3kVXIHgnexqqCVmTdFry+pV3187acgyklmdwNptFqVjDsEUJNsdm8oiOBA==
+X-Received: by 2002:a0c:eb8d:0:b0:4c7:69c:6738 with SMTP id x13-20020a0ceb8d000000b004c7069c6738mr7914410qvo.24.1669748053722;
+        Tue, 29 Nov 2022 10:54:13 -0800 (PST)
+Received: from maniforge.lan (c-24-15-214-156.hsd1.il.comcast.net. [24.15.214.156])
+        by smtp.gmail.com with ESMTPSA id bn31-20020a05620a2adf00b006b95b0a714esm11132232qkb.17.2022.11.29.10.54.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Nov 2022 10:54:13 -0800 (PST)
+Date:   Tue, 29 Nov 2022 12:54:10 -0600
+From:   David Vernet <void@manifault.com>
+To:     Zheng Yejian <zhengyejian1@huawei.com>
+Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+        haoluo@google.com, jolsa@kernel.org, corbet@lwn.net,
+        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf] bpf, docs: Correct the example of BPF_XOR
+Message-ID: <Y4ZVUiwGnVIj/V4U@maniforge.lan>
+References: <20221129134558.2757043-1-zhengyejian1@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221129141221.872653-5-vladimir.oltean@nxp.com>
+In-Reply-To: <20221129134558.2757043-1-zhengyejian1@huawei.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 29, 2022 at 04:12:13PM +0200, Vladimir Oltean wrote:
-> dpaa2_mac_disconnect() will only be called with a NULL mac->phylink if
-> dpaa2_mac_connect() failed, or was never called.
+On Tue, Nov 29, 2022 at 09:45:58PM +0800, Zheng Yejian wrote:
+> Refer to description of BPF_XOR, dst_reg should be used but not src_reg
+> in the examples.
 > 
-> The callers are these:
+> Signed-off-by: Zheng Yejian <zhengyejian1@huawei.com>
+> ---
+>  Documentation/bpf/instruction-set.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> dpaa2_eth_disconnect_mac():
-> 
-> 	if (dpaa2_eth_is_type_phy(priv))
-> 		dpaa2_mac_disconnect(priv->mac);
-> 
-> dpaa2_switch_port_disconnect_mac():
-> 
-> 	if (dpaa2_switch_port_is_type_phy(port_priv))
-> 		dpaa2_mac_disconnect(port_priv->mac);
-> 
-> priv->mac can be NULL, but in that case, dpaa2_eth_is_type_phy() returns
-> false, and dpaa2_mac_disconnect() is never called. Similar for
-> dpaa2-switch.
-> 
-> When priv->mac is non-NULL, it means that dpaa2_mac_connect() returned
-> zero (success), and therefore, priv->mac->phylink is also a valid
-> pointer.
-> 
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> diff --git a/Documentation/bpf/instruction-set.rst b/Documentation/bpf/instruction-set.rst
+> index 5d798437dad4..e672d5ec6cc7 100644
+> --- a/Documentation/bpf/instruction-set.rst
+> +++ b/Documentation/bpf/instruction-set.rst
+> @@ -122,11 +122,11 @@ BPF_END   0xd0   byte swap operations (see `Byte swap instructions`_ below)
+>  
+>  ``BPF_XOR | BPF_K | BPF_ALU`` means::
+>  
+> -  src_reg = (u32) src_reg ^ (u32) imm32
+> +  dst_reg = (u32) dst_reg ^ (u32) imm32
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Shouldn't this be 
 
-    Andrew
+dst_reg = (u32) dst_reg ^ (u32) src_reg
+
+Same idea below for 64 bit
+
+>  
+>  ``BPF_XOR | BPF_K | BPF_ALU64`` means::
+>  
+> -  src_reg = src_reg ^ imm32
+> +  dst_reg = dst_reg ^ imm32
+>  
+>  
+>  Byte swap instructions
+> -- 
+> 2.25.1
+> 
