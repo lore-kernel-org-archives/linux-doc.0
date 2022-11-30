@@ -2,86 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77EC2C4321E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 20:18:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8B8BC4321E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 20:37:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230076AbiK3UR6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Nov 2022 15:17:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56722 "EHLO
+        id S229945AbiK3UhE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Nov 2022 15:37:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230310AbiK3URQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 15:17:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFEDC1180D
-        for <linux-doc@vger.kernel.org>; Wed, 30 Nov 2022 12:12:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669839152;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=O/ACbPWJzhL/TJjykISR4TVd2EF9AhDhJnsvcQ5tN5U=;
-        b=dy2bK47X58V9TS7hYLPmQI4W+emguq+ooO+Q35TyKCTv+UyuRD0YjFBJIgT42voPS1QRvD
-        Bsopm7EDw9kAB5fnecr2/Xtaxo4dbUFlDFmYKkwcoAXidcxjs2/V1nCa8oQZFya6tvKN95
-        HJ4o3e4NAWasOLpMi3yDRpelGg5cMVE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-629-V1fGSWfFOQSbZI-WI4qzng-1; Wed, 30 Nov 2022 15:12:25 -0500
-X-MC-Unique: V1fGSWfFOQSbZI-WI4qzng-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EDAE5801585;
-        Wed, 30 Nov 2022 20:12:24 +0000 (UTC)
-Received: from jtoppins.rdu.csb (unknown [10.22.32.182])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 834A8C15BB4;
-        Wed, 30 Nov 2022 20:12:24 +0000 (UTC)
-From:   Jonathan Toppins <jtoppins@redhat.com>
-To:     netdev@vger.kernel.org
-Cc:     Jay Vosburgh <j.vosburgh@gmail.com>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH net-next 2/2] Documentation: bonding: correct xmit hash steps
-Date:   Wed, 30 Nov 2022 15:12:07 -0500
-Message-Id: <32b70509bb70966e13512c1b33958e1e52dbd81d.1669839127.git.jtoppins@redhat.com>
-In-Reply-To: <4c3f4f0b8f4a8cd3c104d58c106b97ce5f180bc1.1669839127.git.jtoppins@redhat.com>
-References: <4c3f4f0b8f4a8cd3c104d58c106b97ce5f180bc1.1669839127.git.jtoppins@redhat.com>
+        with ESMTP id S229649AbiK3Ugx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 15:36:53 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 648CC1D3;
+        Wed, 30 Nov 2022 12:36:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1669840612; x=1701376612;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r1FDXbnXDjUldZm7GrdgEZtQHBGflDxjpKsRBC7x164=;
+  b=g+PRrf0OCq3/nAYL7eotFFJNgtAt0jKI6mdn2jaWXFbYHI9Lt8pclxPT
+   LpeAwBNChfc3Dy/tyAzN45h1Rox3v2+0gDbYp3Rt05IEC/4oeTHnDrRRB
+   LcGYTQJa1f4vU/fEFooF/+nY8S7WzvJwqd6QApsEWXYyWeS4gjd8AH2E8
+   2MPjvwWyoJWD03W5GLBaDKu5PRSvmUUrLCZawtJIyDdp1YPDopV6AAgAg
+   6+p/SizVETWJX+X2SDeaM7xd2mZkwqz6JP4A8uR8iZGABXrEkMWPFSGcC
+   8fUctPZ0iIuEp3rJ4t9aK9Vqo+WiOjeuIwwg085O9CGCDO9he339rrTTC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="377671777"
+X-IronPort-AV: E=Sophos;i="5.96,207,1665471600"; 
+   d="scan'208";a="377671777"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2022 12:36:51 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="644360640"
+X-IronPort-AV: E=Sophos;i="5.96,207,1665471600"; 
+   d="scan'208";a="644360640"
+Received: from subhadee-mobl.amr.corp.intel.com (HELO desk) ([10.251.3.232])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2022 12:36:51 -0800
+Date:   Wed, 30 Nov 2022 12:36:49 -0800
+From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To:     Kim Phillips <kim.phillips@amd.com>
+Cc:     x86@kernel.org, Babu Moger <Babu.Moger@amd.com>,
+        Borislav Petkov <bp@alien8.de>, Borislav Petkov <bp@suse.de>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 6/7] x86/cpu, kvm: Support AMD Automatic IBRS
+Message-ID: <20221130203649.gwhypmw35mfgwsxh@desk>
+References: <20221129235816.188737-1-kim.phillips@amd.com>
+ <20221129235816.188737-7-kim.phillips@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20221129235816.188737-7-kim.phillips@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct xmit hash steps for layer3+4 as introduced by commit
-49aefd131739 ("bonding: do not discard lowest hash bit for non layer3+4
-hashing").
+On Tue, Nov 29, 2022 at 05:58:15PM -0600, Kim Phillips wrote:
+>--- a/arch/x86/kernel/cpu/common.c
+>+++ b/arch/x86/kernel/cpu/common.c
+>@@ -1406,6 +1406,14 @@ static void __init cpu_set_bug_bits(struct cpuinfo_x86 *c)
+> 	    !(ia32_cap & ARCH_CAP_PBRSB_NO))
+> 		setup_force_cpu_bug(X86_BUG_EIBRS_PBRSB);
+>
+>+	/*
+>+	 * AMD's AutoIBRS is equivalent to Intel's eIBRS - use the Intel flag only
+>+	 * after IBRS_ENHANCED bugs such as BUG_EIBRS_PBRSB above have been
+>+	 * determined.
+>+	 */
 
-Signed-off-by: Jonathan Toppins <jtoppins@redhat.com>
----
- Documentation/networking/bonding.rst | 1 +
- 1 file changed, 1 insertion(+)
+Minor comment, setting NO_EIBRS_PBRSB in cpu_vuln_whitelist for
+non-EIBRS CPUs also (AMD and others) can remove this order dependency.
 
-diff --git a/Documentation/networking/bonding.rst b/Documentation/networking/bonding.rst
-index da57aac73ffc..adc4bf4f3c50 100644
---- a/Documentation/networking/bonding.rst
-+++ b/Documentation/networking/bonding.rst
-@@ -957,6 +957,7 @@ xmit_hash_policy
- 		hash = hash XOR source IP XOR destination IP
- 		hash = hash XOR (hash RSHIFT 16)
- 		hash = hash XOR (hash RSHIFT 8)
-+		hash = hash RSHIFT 1
- 		And then hash is reduced modulo slave count.
- 
- 		If the protocol is IPv6 then the source and destination
--- 
-2.31.1
-
+>+	if (cpu_has(c, X86_FEATURE_AUTOIBRS))
+>+		setup_force_cpu_cap(X86_FEATURE_IBRS_ENHANCED);
