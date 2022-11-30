@@ -2,241 +2,529 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2993C352A1
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 09:44:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8277C352A1
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 10:29:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233842AbiK3JoH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Nov 2022 04:44:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48742 "EHLO
+        id S235668AbiK3K3v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Nov 2022 05:29:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229580AbiK3JoF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 04:44:05 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86C221EEE2;
-        Wed, 30 Nov 2022 01:44:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669801444; x=1701337444;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=S7IFmJUYj2DIJw7QNc2jhnguuUzMp+pGaR87dR42Bvg=;
-  b=lCBjEz5J13wfyd4GwzvbgZN43MlYEZ8wrW6vSDHXR2nK3gvNDQWl/b+F
-   RyYpQEl7oBm+53SnvUbpKn2xYBcH7rdIZSuioe16+dH9gcvQeX9BvIMPa
-   KwthUpBtgEa57piZCRN8rztWUj7qEreupOdB7LYuqTWGnD5QuUMEh4+QK
-   9JdOOd4uHfAf2Zs5zGQeej5wg1RpzvADuHdYN437s3Sr/upVZEMed1tCS
-   vo0Tpe7BDJI2urtizkeEB/muEpid8oGHmlbf2+7IqqJNuQYaBTts1s/de
-   t6YkRnvYSQj6EIzeSW16CVzL+vWkLV2pUN4wUymZaQE6BZxDcuFoR8+zb
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="379633056"
-X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; 
-   d="scan'208";a="379633056"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2022 01:44:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="637934502"
-X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; 
-   d="scan'208";a="637934502"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga007.jf.intel.com with ESMTP; 30 Nov 2022 01:43:53 -0800
-Date:   Wed, 30 Nov 2022 17:39:31 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Michael Roth <michael.roth@amd.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221130093931.GA945726@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <20221129003725.l34qhx6n44mq2gtl@amd.com>
- <20221129140615.GC902164@chaop.bj.intel.com>
- <20221129190658.jefuep7nglp25ugt@amd.com>
- <20221129191815.atuv6arhodjbnvb2@amd.com>
+        with ESMTP id S235635AbiK3K3u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 05:29:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F6B7326E3
+        for <linux-doc@vger.kernel.org>; Wed, 30 Nov 2022 02:28:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669804128;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=gIxDAUeZ+xj1woLu0SbHPPVv3F8ks63V7wyqar7wbYY=;
+        b=MQvdabRgTC0Rp2oqa+TIgxitBvw1RUKdRiroG9FVdxX5pseY8/1wCS+tC8rPsm1Ba2e63D
+        MLUUUcmudzfiFgVGRCiCkG1Zo7AWeWJCYKXocPnA+lnk8TUCNtqz0juRNiWJ4gAMfIYCG9
+        6HeCaies0rGQPMRW3Loo1lM++Ig10B4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-671-ODkuoTyaPOWKFaHLhJNiew-1; Wed, 30 Nov 2022 05:28:47 -0500
+X-MC-Unique: ODkuoTyaPOWKFaHLhJNiew-1
+Received: by mail-wm1-f69.google.com with SMTP id o5-20020a05600c510500b003cfca1a327fso9191146wms.8
+        for <linux-doc@vger.kernel.org>; Wed, 30 Nov 2022 02:28:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gIxDAUeZ+xj1woLu0SbHPPVv3F8ks63V7wyqar7wbYY=;
+        b=PPWn0dcLo5msbHMZAv3dx/+SBrbryBIRc8RKqZXUf4xU7s27ox7Nm2hnbl0/wTZW+P
+         ZdXwLGIIGZ/nrBe4Rcm++mj5ZZVonINis1c1TIlSiLbDpRPGs1cjMzK9yx7e47RolmDX
+         032dk2ewJK/K+xsCauj69+VsGB4aBe6dmQ8/2TJCZFnikrcyD1IscQx09xWP/ZJCkBsk
+         5cCXmAzey9YfJqZ7Tdmeh7WjzfPx3DeUGGVUvff4Y3WTNwmery25toIzyBlKvx+292tU
+         KquaD7/twZkyIU/ABLXBaUoZ5wnq7bFT70buDaSqAR9F8RyrvuUzUPo2sx0H2qm0NaFh
+         WdOg==
+X-Gm-Message-State: ANoB5pmkl/Tr3nslQObk5nLkjLbHlSMe6EgDBL30zbAzAkHH3RmDs9xm
+        cTPP2KIWiVyze3NzyfU3ZnGrtdO1LLmuisUbZL5x5iKQ3tpNr+aOs4T20qUIapGvCQSvPv11Rht
+        8BcLttfkzxN3CYy4SkZ9b
+X-Received: by 2002:a05:600c:4f10:b0:3b4:ff86:25af with SMTP id l16-20020a05600c4f1000b003b4ff8625afmr29592710wmq.68.1669804125631;
+        Wed, 30 Nov 2022 02:28:45 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6EhS76gnzR0pznsS6jNvnCangHl8COLYKCf/GE6A3D/jv24Rd5lPruQY3zhiRzEMm+EengcA==
+X-Received: by 2002:a05:600c:4f10:b0:3b4:ff86:25af with SMTP id l16-20020a05600c4f1000b003b4ff8625afmr29592693wmq.68.1669804125211;
+        Wed, 30 Nov 2022 02:28:45 -0800 (PST)
+Received: from localhost.localdomain ([78.16.131.111])
+        by smtp.gmail.com with ESMTPSA id m18-20020adfe952000000b002421888a011sm1131391wrn.69.2022.11.30.02.28.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Nov 2022 02:28:44 -0800 (PST)
+From:   mtahhan@redhat.com
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     jbrouer@redhat.com, thoiland@redhat.com, donhunte@redhat.com,
+        john.fastabend@gmail.com, Maryam Tahhan <mtahhan@redhat.com>
+Subject: [PATCH bpf-next v1 1/1] docs: BPF_MAP_TYPE_SOCK[MAP|HASH]
+Date:   Wed, 30 Nov 2022 10:28:42 +0000
+Message-Id: <20221130102842.12788-1-mtahhan@redhat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221129191815.atuv6arhodjbnvb2@amd.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 29, 2022 at 01:18:15PM -0600, Michael Roth wrote:
-> On Tue, Nov 29, 2022 at 01:06:58PM -0600, Michael Roth wrote:
-> > On Tue, Nov 29, 2022 at 10:06:15PM +0800, Chao Peng wrote:
-> > > On Mon, Nov 28, 2022 at 06:37:25PM -0600, Michael Roth wrote:
-> > > > On Tue, Oct 25, 2022 at 11:13:37PM +0800, Chao Peng wrote:
-> > > ...
-> > > > > +static long restrictedmem_fallocate(struct file *file, int mode,
-> > > > > +				    loff_t offset, loff_t len)
-> > > > > +{
-> > > > > +	struct restrictedmem_data *data = file->f_mapping->private_data;
-> > > > > +	struct file *memfd = data->memfd;
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	if (mode & FALLOC_FL_PUNCH_HOLE) {
-> > > > > +		if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
-> > > > > +			return -EINVAL;
-> > > > > +	}
-> > > > > +
-> > > > > +	restrictedmem_notifier_invalidate(data, offset, offset + len, true);
-> > > > 
-> > > > The KVM restrictedmem ops seem to expect pgoff_t, but here we pass
-> > > > loff_t. For SNP we've made this strange as part of the following patch
-> > > > and it seems to produce the expected behavior:
-> > > 
-> > > That's correct. Thanks.
-> > > 
-> > > > 
-> > > >   https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fmdroth%2Flinux%2Fcommit%2Fd669c7d3003ff7a7a47e73e8c3b4eeadbd2c4eb6&amp;data=05%7C01%7CMichael.Roth%40amd.com%7C0c26815eb6af4f1a243508dad23cf713%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638053456609134623%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=kAL42bmyBB0alVwh%2FN%2BT3D%2BiVTdxxMsJ7V4TNuCTjM4%3D&amp;reserved=0
-> > > > 
-> > > > > +	ret = memfd->f_op->fallocate(memfd, mode, offset, len);
-> > > > > +	restrictedmem_notifier_invalidate(data, offset, offset + len, false);
-> > > > > +	return ret;
-> > > > > +}
-> > > > > +
-> > > > 
-> > > > <snip>
-> > > > 
-> > > > > +int restrictedmem_get_page(struct file *file, pgoff_t offset,
-> > > > > +			   struct page **pagep, int *order)
-> > > > > +{
-> > > > > +	struct restrictedmem_data *data = file->f_mapping->private_data;
-> > > > > +	struct file *memfd = data->memfd;
-> > > > > +	struct page *page;
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
-> > > > 
-> > > > This will result in KVM allocating pages that userspace hasn't necessary
-> > > > fallocate()'d. In the case of SNP we need to get the PFN so we can clean
-> > > > up the RMP entries when restrictedmem invalidations are issued for a GFN
-> > > > range.
-> > > 
-> > > Yes fallocate() is unnecessary unless someone wants to reserve some
-> > > space (e.g. for determination or performance purpose), this matches its
-> > > semantics perfectly at:
-> > > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.man7.org%2Flinux%2Fman-pages%2Fman2%2Ffallocate.2.html&amp;data=05%7C01%7CMichael.Roth%40amd.com%7C0c26815eb6af4f1a243508dad23cf713%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638053456609134623%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=acBSquFG%2FHtpbcZfHDZrP2O63bu06rI0pjiPJFSJSj8%3D&amp;reserved=0
-> > > 
-> > > > 
-> > > > If the guest supports lazy-acceptance however, these pages may not have
-> > > > been faulted in yet, and if the VMM defers actually fallocate()'ing space
-> > > > until the guest actually tries to issue a shared->private for that GFN
-> > > > (to support lazy-pinning), then there may never be a need to allocate
-> > > > pages for these backends.
-> > > > 
-> > > > However, the restrictedmem invalidations are for GFN ranges so there's
-> > > > no way to know inadvance whether it's been allocated yet or not. The
-> > > > xarray is one option but currently it defaults to 'private' so that
-> > > > doesn't help us here. It might if we introduced a 'uninitialized' state
-> > > > or something along that line instead of just the binary
-> > > > 'shared'/'private' though...
-> > > 
-> > > How about if we change the default to 'shared' as we discussed at
-> > > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2FY35gI0L8GMt9%2BOkK%40google.com%2F&amp;data=05%7C01%7CMichael.Roth%40amd.com%7C0c26815eb6af4f1a243508dad23cf713%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638053456609134623%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=Q1vZWQiZ7mx12Qn5aKl4s8Ea9hNbwCJBb%2BjiA1du3Os%3D&amp;reserved=0?
-> > 
-> > Need to look at this a bit more, but I think that could work as well.
-> > 
-> > > > 
-> > > > But for now we added a restrictedmem_get_page_noalloc() that uses
-> > > > SGP_NONE instead of SGP_WRITE to avoid accidentally allocating a bunch
-> > > > of memory as part of guest shutdown, and a
-> > > > kvm_restrictedmem_get_pfn_noalloc() variant to go along with that. But
-> > > > maybe a boolean param is better? Or maybe SGP_NOALLOC is the better
-> > > > default, and we just propagate an error to userspace if they didn't
-> > > > fallocate() in advance?
-> > > 
-> > > This (making fallocate() a hard requirement) not only complicates the
-> > > userspace but also forces the lazy-faulting going through a long path of
-> > > exiting to userspace. Unless we don't have other options I would not go
-> > > this way.
-> > 
-> > Unless I'm missing something, it's already the case that userspace is
-> > responsible for handling all the shared->private transitions in response
-> > to KVM_EXIT_MEMORY_FAULT or (in our case) KVM_EXIT_VMGEXIT. So it only
-> > places the additional requirements on the VMM that if they *don't*
-> > preallocate, then they'll need to issue the fallocate() prior to issuing
-> > the KVM_MEM_ENCRYPT_REG_REGION ioctl in response to these events.
+From: Maryam Tahhan <mtahhan@redhat.com>
 
-Preallocating and memory conversion between shared<->private are two
-different things. No double fallocate() and conversion can be called
-together in response to KVM_EXIT_MEMORY_FAULT, but they don't have to be
-paired. And the fallocate() does not have to operate on the same memory
-range as memory conversion does.
+Add documentation for BPF_MAP_TYPE_SOCK[MAP|HASH]
+including kernel versions introduced, usage
+and examples.
 
-> > 
-> > QEMU for example already has a separate 'prealloc' option for cases
-> > where they want to prefault all the guest memory, so it makes sense to
-> > continue making that an optional thing with regard to UPM.
+Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+---
+ Documentation/bpf/map_sockmap.rst | 439 ++++++++++++++++++++++++++++++
+ 1 file changed, 439 insertions(+)
+ create mode 100644 Documentation/bpf/map_sockmap.rst
 
-Making 'prealloc' work for UPM in QEMU does sound reasonable. Anyway,
-it's just an option so not change the assumption here.
+diff --git a/Documentation/bpf/map_sockmap.rst b/Documentation/bpf/map_sockmap.rst
+new file mode 100644
+index 000000000000..8824a67b24e8
+--- /dev/null
++++ b/Documentation/bpf/map_sockmap.rst
+@@ -0,0 +1,439 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright Red Hat
++
++==============================================
++BPF_MAP_TYPE_SOCKMAP and BPF_MAP_TYPE_SOCKHASH
++==============================================
++
++.. note::
++   - ``BPF_MAP_TYPE_SOCKMAP`` was introduced in kernel version 4.14
++   - ``BPF_MAP_TYPE_SOCKHASH`` was introduced in kernel version 4.18
++
++``BPF_MAP_TYPE_SOCKMAP`` is backed by an array that uses an integer key as the
++index to lookup a reference to a sock struct. The map values are sockets.
++Similarly, ``BPF_MAP_TYPE_SOCKHASH`` is a hash backed BPF map that holds
++references to sockets.
++
++When these maps are created BPF programs are attached to them. The list of
++allowed programs is shown below:
++
++.. code-block:: c
++
++	struct sk_psock_progs {
++		struct bpf_prog *msg_parser;
++		struct bpf_prog *stream_parser;
++		struct bpf_prog *stream_verdict;
++		struct bpf_prog	*skb_verdict;
++	};
++
++.. note::
++    Users are not allowed to attach ``stream_verdict`` and ``skb_verdict``
++    programs to the same map.
++
++The parser programs determine how much data needs to be queued to come to a
++verdict. The verdict programs return a verdict ``__SK_DROP``, ``__SK_PASS``, or
++``__SK_REDIRECT``.
++
++The attach types for the map programs are:
++
++- ``msg_parser`` program - ``BPF_SK_MSG_VERDICT``.
++- ``stream_parser`` program - ``BPF_SK_SKB_STREAM_PARSER``.
++- ``stream_verdict`` program - ``BPF_SK_SKB_STREAM_VERDICT``.
++- ``skb_verdict`` program - ``BPF_SK_SKB_VERDICT``.
++
++These maps can be used to redirect skbs between sockets or to apply policy at
++the socket level based on the result of a verdict program with the help of the
++BPF helpers ``bpf_sk_redirect_map()``, ``bpf_sk_redirect_hash()``,
++``bpf_msg_redirect_map()`` and ``bpf_msg_redirect_hash()``.
++
++When a socket is inserted into one of these maps, its socket callbacks are
++replaced and a ``struct sk_psock`` is attached to it. Additionally, this
++``sk_psock`` inherits the programs that are attached to the map.
++
++.. note::
++	For more details of the socket callbacks that get replaced please see:
++
++	- TCP BPF functions: ``net/ipv4/tcp_bpf.c``
++	- UDP BPF functions: ``net/ipv4/udp_bpf.c``
++
++There are additional helpers available to use with the parser and verdict
++programs: ``bpf_msg_apply_bytes()`` and ``bpf_msg_cork_bytes()``. With
++``bpf_msg_apply_bytes()`` BPF programs can tell the infrastructure how many
++bytes the given verdict should apply to. The helper ``bpf_msg_cork_bytes()``
++handles a different case where a BPF program can not reach a verdict on a msg
++until it receives more bytes AND the program doesn't want to forward the packet
++until it is known to be good.
++
++Finally, the helpers ``bpf_msg_pull_data()`` and ``bpf_msg_push_data()`` are
++available to ``BPF_PROG_TYPE_SK_MSG`` BPF programs to pull in data and set the
++start and end pointer to given values or to add metadata to the ``struct
++sk_msg_buff *msg``.
++
++Usage
++=====
++Kernel BPF
++----------
++bpf_msg_redirect_map()
++^^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++	long bpf_msg_redirect_map(struct sk_msg_buff *msg, struct bpf_map *map, u32 key, u64 flags)
++
++This helper is used in programs implementing policies at the socket level. If
++the message ``msg`` is allowed to pass (i.e. if the verdict BPF program
++returns ``SK_PASS``), redirect it to the socket referenced by ``map`` (of type
++``BPF_MAP_TYPE_SOCKMAP``) at index ``key``. Both ingress and egress interfaces
++can be used for redirection. The ``BPF_F_INGRESS`` value in ``flags`` is used
++to select the ingress path otherwise the egress path is selected. This is the
++only flag supported for now.
++
++Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
++
++bpf_sk_redirect_map()
++^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++    long bpf_sk_redirect_map(struct sk_buff *skb, struct bpf_map *map, u32 key u64 flags)
++
++Redirect the packet to the socket referenced by ``map``(of type
++``BPF_MAP_TYPE_SOCKMAP``) at index ``key``. Both ingress and egress interfaces
++can be used for redirection. The ``BPF_F_INGRESS`` value in ``flags`` is used
++to select the ingress path otherwise the egress path is selected. This is the
++only flag supported for now.
++
++Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
++
++bpf_map_lookup_elem()
++^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
++
++socket entries of type ``struct sock *`` can be retrieved using the
++``bpf_map_lookup_elem()`` helper.
++
++bpf_sock_map_update()
++^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++    long bpf_sock_map_update(struct bpf_sock_ops *skops, struct bpf_map *map, void *key, u64 flags)
++
++Add an entry to, or update a ``map`` referencing sockets. The ``skops`` is used
++as a new value for the entry associated to ``key``. The ``flags`` argument can
++be one of the following:
++
++- ``BPF_ANY``: Create a new element or update an existing element.
++- ``BPF_NOEXIST``: Create a new element only if it did not exist.
++- ``BPF_EXIST``: Update an existing element.
++
++If the ``map`` has BPF programs (parser and verdict), those will be inherited
++by the socket being added. If the socket is already attached to BPF programs,
++this results in an error.
++
++Returns 0 on success, or a negative error in case of failure.
++
++bpf_sock_hash_update()
++^^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++    long bpf_sock_hash_update(struct bpf_sock_ops *skops, struct bpf_map *map, void *key, u64 flags)
++
++Add an entry to, or update a sockhash ``map`` referencing sockets. The ``skops``
++is used as a new value for the entry associated to ``key``.
++
++The ``flags`` argument can be one of the following:
++
++- ``BPF_ANY``: Create a new element or update an existing element.
++- ``BPF_NOEXIST``: Create a new element only if it did not exist.
++- ``BPF_EXIST``: Update an existing element.
++
++If the ``map`` has BPF programs (parser and verdict), those will be inherited
++by the socket being added. If the socket is already attached to BPF programs,
++this results in an error.
++
++Returns 0 on success, or a negative error in case of failure.
++
++bpf_msg_redirect_hash()
++^^^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++    long bpf_msg_redirect_hash(struct sk_msg_buff *msg, struct bpf_map *map, void *key, u64 flags)
++
++This helper is used in programs implementing policies at the socket level. If
++the message ``msg`` is allowed to pass (i.e. if the verdict BPF program returns
++``SK_PASS``), redirect it to the socket referenced by ``map`` (of type
++``BPF_MAP_TYPE_SOCKHASH``) using hash ``key``. Both ingress and egress
++interfaces can be used for redirection. The ``BPF_F_INGRESS`` value in
++``flags`` is used to select the ingress path otherwise the egress path is
++selected. This is the only flag supported for now.
++
++Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
++
++bpf_sk_redirect_hash()
++^^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++    long bpf_sk_redirect_hash(struct sk_buff *skb, struct bpf_map *map, void *key, u64 flags)
++
++This helper is used in programs implementing policies at the skb socket level.
++If the sk_buff *skb* is allowed to pass (i.e. if the verdict BPF program
++returns ``SK_PASS``), redirect it to the socket referenced by *map* (of type
++``BPF_MAP_TYPE_SOCKHASH``) using hash ``key``. Both ingress and egress
++interfaces can be used for redirection. The ``BPF_F_INGRESS`` value in
++``flags`` is used to select the ingress path otherwise the egress path is
++selected. This is the only flag supported for now.
++
++Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
++
++bpf_msg_apply_bytes()
++^^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++    long bpf_msg_apply_bytes(struct sk_msg_buff *msg, u32 bytes)
++
++For socket policies, apply the verdict of the BPF program to the next (number
++of ``bytes``) of message ``msg``. For example, this helper can be used in the
++following cases:
++
++- A single ``sendmsg()`` or ``sendfile()`` system call contains multiple
++  logical messages that the BPF program is supposed to read and for which it
++  should apply a verdict.
++- A BPF program only cares to read the first ``bytes`` of a ``msg``. If the
++  message has a large payload, then setting up and calling the BPF program
++  repeatedly for all bytes, even though the verdict is already known, would
++  create unnecessary overhead.
++
++Returns 0
++
++bpf_msg_cork_bytes()
++^^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++    long bpf_msg_cork_bytes(struct sk_msg_buff *msg, u32 bytes)
++
++For socket policies, prevent the execution of the verdict BPF program for
++message ``msg`` until the number of ``bytes`` have been accumulated.
++
++This can be used when one needs a specific number of bytes before a verdict can
++be assigned, even if the data spans multiple ``sendmsg()`` or ``sendfile()``
++calls.
++
++Returns 0
++
++bpf_msg_pull_data()
++^^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++    long bpf_msg_pull_data(struct sk_msg_buff *msg, u32 start, u32 end, u64 flags)
++
++For socket policies, pull in non-linear data from user space for ``msg`` and set
++pointers ``msg->data`` and ``msg->data_end`` to ``start`` and ``end`` bytes
++offsets into ``msg``, respectively.
++
++If a program of type ``BPF_PROG_TYPE_SK_MSG`` is run on a ``msg`` it can only
++parse data that the (``data``, ``data_end``) pointers have already consumed.
++For ``sendmsg()`` hooks this is likely the first scatterlist element. But for
++calls relying on the ``sendpage`` handler (e.g. ``sendfile()``) this will be
++the range (**0**, **0**) because the data is shared with user space and by
++default the objective is to avoid allowing user space to modify data while (or
++after) BPF verdict is being decided. This helper can be used to pull in data
++and to set the start and end pointer to given values. Data will be copied if
++necessary (i.e. if data was not linear and if start and end pointers do not
++point to the same chunk).
++
++A call to this helper is susceptible to change the underlying packet buffer.
++Therefore, at load time, all checks on pointers previously done by the verifier
++are invalidated and must be performed again, if the helper is used in
++combination with direct packet access.
++
++All values for ``flags`` are reserved for future usage, and must be left at
++zero.
++
++Returns 0 on success, or a negative error in case of failure.
++
++User space
++----------
++
++bpf_map_update_elem()
++^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++	int bpf_map_update_elem(int fd, const void *key, const void *value, __u64 flags)
++
++sockmap entries can be added or updated using the ``bpf_map_update_elem()``
++helper. The ``key`` parameter is the index value of the sockmap array. And the
++``value`` parameter is the FD value of that socket.
++
++Under the hood, the sockmap update function uses the socket FD value to
++retrieve the associated socket and its attached psock.
++
++The flags argument can be one of the following:
++
++- BPF_ANY: Create a new element or update an existing element.
++- BPF_NOEXIST: Create a new element only if it did not exist.
++- BPF_EXIST: Update an existing element.
++
++bpf_map_lookup_elem()
++^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++    int bpf_map_lookup_elem(int fd, const void *key, void *value)
++
++Sockmap entries can be retrieved using the ``bpf_map_lookup_elem()``
++helper.
++
++bpf_map_delete_elem()
++^^^^^^^^^^^^^^^^^^^^^
++.. code-block:: c
++
++    int bpf_map_delete_elem(int fd, const void *key)
++
++Sockmap entries can be deleted using the ``bpf_map_delete_elem()``
++helper. This helper will return 0 on success, or negative error in case of
++failure.
++
++Examples
++========
++
++Kernel BPF
++----------
++Several examples of the use of sockmap APIs can be found in:
++
++- `tools/testing/selftests/bpf/progs/test_sockmap_kern.h`_
++- `tools/testing/selftests/bpf/progs/sockmap_parse_prog.c`_
++- `tools/testing/selftests/bpf/progs/sockmap_verdict_prog.c`_
++- `tools/testing/selftests/bpf/progs/test_sockmap_listen.c`_
++- `tools/testing/selftests/bpf/progs/test_sockmap_update.c`_
++
++The following code snippet shows how to declare a sockmap.
++
++.. code-block:: c
++
++	struct {
++		__uint(type, BPF_MAP_TYPE_SOCKMAP);
++		__uint(max_entries, 1);
++		__type(key, __u32);
++		__type(value, __u64);
++	} sock_map_rx SEC(".maps");
++
++The following code snippet shows a sample parser program.
++
++.. code-block:: c
++
++	SEC("sk_skb/stream_parser")
++	int bpf_prog_parser(struct __sk_buff *skb)
++	{
++		return skb->len;
++	}
++
++The following code snippet shows a simple verdict program that interacts with a
++sockmap to redirect traffic to another socket based on the local port.
++
++.. code-block:: c
++
++	SEC("sk_skb/stream_verdict")
++	int bpf_prog_verdict(struct __sk_buff *skb)
++	{
++		__u32 lport = skb->local_port;
++		__u32 idx = 0;
++
++		if (lport == 10000)
++			return bpf_sk_redirect_map(skb, &sock_map_rx, idx, 0);
++
++		return SK_PASS;
++	}
++
++The following code snippet shows how to declare a sockhash map.
++
++.. code-block:: c
++
++	struct socket_key {
++		__u32 src_ip;
++		__u32 dst_ip;
++		__u32 src_port;
++		__u32 dst_port;
++	};
++
++	struct {
++		__uint(type, BPF_MAP_TYPE_SOCKHASH);
++		__uint(max_entries, 1);
++		__type(key, struct socket_key);
++		__type(value, __u64);
++	} sock_hash_rx SEC(".maps");
++
++The following code snippet shows a simple verdict program that interacts with a
++sockhash to redirect traffic to another socket based on a hash of some of the
++skb parameters.
++
++.. code-block:: c
++
++	static inline
++	void extract_socket_key(struct __sk_buff *skb, struct socket_key *key)
++	{
++		key->src_ip = skb->remote_ip4;
++		key->dst_ip = skb->local_ip4;
++		key->src_port = skb->remote_port >> 16;
++		key->dst_port = (bpf_htonl(skb->local_port)) >> 16;
++	}
++
++	SEC("sk_skb/stream_verdict")
++	int bpf_prog_verdict(struct __sk_buff *skb)
++	{
++		struct socket_key key;
++
++		extract_socket_key(skb, &key);
++
++		return bpf_sk_redirect_hash(skb, &sock_hash_rx, &key, 0);
++	}
++
++User space
++----------
++Several examples of the use of sockmap APIs can be found in:
++
++- `tools/testing/selftests/bpf/prog_tests/sockmap_basic.c`_
++- `tools/testing/selftests/bpf/test_sockmap.c`_
++- `tools/testing/selftests/bpf/test_maps.c`_
++
++The following code snippet shows how to create a sockmap and add a socket
++entry:
++
++.. code-block:: c
++
++	/* Create a map and populate it with one socket*/
++	static void create_sample_sockmap(int s)
++	{
++		const int index = 0;
++		int map, err;
++
++		map = bpf_map_create(BPF_MAP_TYPE_SOCKMAP, NULL, sizeof(int), sizeof(int), 1, NULL);
++		if (map < 0) {
++			fprintf(stderr, "Failed to create sockmap: %s\n", strerror(errno));
++			goto out;
++		}
++
++		err = bpf_map_update_elem(map, &index, &s, BPF_NOEXIST);
++		if (err) {
++			fprintf(stderr, "Failed to update sockmap: %s\n", strerror(errno));
++			goto out;
++		}
++
++	out:
++		close(map);
++	}
++
++References
++===========
++
++- https://github.com/jrfastab/linux-kernel-xdp/commit/c89fd73cb9d2d7f3c716c3e00836f07b1aeb261f
++- https://lwn.net/Articles/731133/
++- http://vger.kernel.org/lpc_net2018_talks/ktls_bpf_paper.pdf
++- https://lwn.net/Articles/748628/
++
++.. _`tools/testing/selftests/bpf/progs/test_sockmap_kern.h`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/test_sockmap_kern.h
++.. _`tools/testing/selftests/bpf/progs/sockmap_parse_prog.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/sockmap_parse_prog.c
++.. _`tools/testing/selftests/bpf/progs/sockmap_verdict_prog.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/sockmap_verdict_prog.c
++.. _`tools/testing/selftests/bpf/prog_tests/sockmap_basic.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/prog_tests/sockmap_basic.c
++.. _`tools/testing/selftests/bpf/test_sockmap.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/test_sockmap.c
++.. _`tools/testing/selftests/bpf/test_maps.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/test_maps.c
++.. _`tools/testing/selftests/bpf/progs/test_sockmap_listen.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/test_sockmap_listen.c
++.. _`tools/testing/selftests/bpf/progs/test_sockmap_update.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/test_sockmap_update.c
+-- 
+2.34.1
 
-> 
-> Although I guess what you're suggesting doesn't stop userspace from
-> deciding whether they want to prefault or not. I know the Google folks
-> had some concerns over unexpected allocations causing 2x memory usage
-> though so giving userspace full control of what is/isn't allocated in
-> the restrictedmem backend seems to make it easier to guard against this,
-> but I think checking the xarray and defaulting to 'shared' would work
-> for us if that's the direction we end up going.
-
-Yeah, that looks very likely the direction satisfying all people here.
-
-Chao
-> 
-> -Mike
-> 
-> > 
-> > -Mike
-> > 
-> > > 
-> > > Chao
-> > > > 
-> > > > -Mike
-> > > > 
-> > > > > +	if (ret)
-> > > > > +		return ret;
-> > > > > +
-> > > > > +	*pagep = page;
-> > > > > +	if (order)
-> > > > > +		*order = thp_order(compound_head(page));
-> > > > > +
-> > > > > +	SetPageUptodate(page);
-> > > > > +	unlock_page(page);
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +EXPORT_SYMBOL_GPL(restrictedmem_get_page);
-> > > > > -- 
-> > > > > 2.25.1
-> > > > > 
