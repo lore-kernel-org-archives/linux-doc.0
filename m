@@ -2,149 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 419D0C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 12:43:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6FE1C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 13:15:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233918AbiK3Mnp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Nov 2022 07:43:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55068 "EHLO
+        id S230505AbiK3NPJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Nov 2022 08:15:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234278AbiK3Mno (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 07:43:44 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE1CA4B753;
-        Wed, 30 Nov 2022 04:43:43 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id z17so11899292pff.1;
-        Wed, 30 Nov 2022 04:43:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0SYFP0szIO4uQWosjf/DBeQUEddgh/eJCRxGlHyoP1o=;
-        b=lGFEahgyoDkFfO4MTJBxV+WDKKjYFLDSWD9cIm+boSkjj2uoMWRWiQcNtpl/TOm5rK
-         sSHEv/glh5oOTksk41RVezXagw6jbuZ40TXl7NEnFNYManHa/w1R71xZZI36J4lX25UM
-         cbcUfD4gneaUwM4QD+SBL6cBzhU+wznPmwiJK9DMF2KXg2dr+bRBElQibmy510sUXU9m
-         PDGF6zV6GJt6ZojTKhrgyy9u/iQhayTWSqnd1UbNFjJ59iUnn8gey849SPnDD1NkqUem
-         y+2zRdZvWk7CPIYegPztuRmyowZwiKIAvxOhInYXosz5F72MggNoCosSPckKf+1f0vF1
-         S69A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0SYFP0szIO4uQWosjf/DBeQUEddgh/eJCRxGlHyoP1o=;
-        b=x6FeW+M2RH1uyFt2ru45iPSctMNc2R3/x/JKx0QXAc7HUhsVS+RhlFg2BKJCALJHk0
-         b4O+tearRIn3s+Ezl/HrIi0sZU/2KCqvyST6ZiSFgetElmvR6F1yZZCwMr2n+QzUumrI
-         dEYuVpy0DxE9FAGD98MqiiWCYIvUNyYZs3tE9p6TKjUWrGIQB6DelMk1lck9AugA+lgT
-         g7j0wDR7xH0Uu8Kk0mJmyk/lv0kWVMre14SSgzCwG9a57uBPQypAps9kPunBpZMSSDJO
-         Wha0QcL2f5trkUklwhCg8bBiPT6O+kLVkOHEUtAAK3XGuLQFr+XfWixK31uin0bj8CFx
-         i5XA==
-X-Gm-Message-State: ANoB5pkfUwBPXuH1Bqk+YNNeundu6DJc03Z5Kj6bmo8iJaPHH97r/oe5
-        833JW589frlhvvcNjLMffy4=
-X-Google-Smtp-Source: AA0mqf6gJ2VDhQCzPJjGyRfnk3iFdVRCTTJb/bbVvhipQMA64yPolrxBfQn0+QAJf7edKJ9vxrG42g==
-X-Received: by 2002:aa7:9416:0:b0:575:518e:dc11 with SMTP id x22-20020aa79416000000b00575518edc11mr11919945pfo.86.1669812223326;
-        Wed, 30 Nov 2022 04:43:43 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-85.three.co.id. [180.214.232.85])
-        by smtp.gmail.com with ESMTPSA id z9-20020a1709027e8900b00186b8752a78sm1374421pla.80.2022.11.30.04.43.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Nov 2022 04:43:42 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 492AB103FF3; Wed, 30 Nov 2022 19:43:39 +0700 (WIB)
-Date:   Wed, 30 Nov 2022 19:43:39 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Tao pilgrim <pilgrimtao@gmail.com>
+        with ESMTP id S234530AbiK3NPI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 08:15:08 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2816B56D4B;
+        Wed, 30 Nov 2022 05:15:08 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id C695B21ACC;
+        Wed, 30 Nov 2022 13:15:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1669814106; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=78kBTVjk9NN3b//OL4d2dPMzsmFl6kOFvw+wnxdUvC0=;
+        b=CJ5yMJnrkOzf4sfqOWKQ1oSbCwMifCAwlufTAq1pWndcvZ5cAeOuB0nUqN676FKRXuNrLs
+        VanShgHoCm8feQxtJEpumXrdKUFYdFlrhjNoHTeVkyWn3K/SDlL9mo3hqvI/V/M59IYJW1
+        bgTi/RkuuLd/q/bmdszcfp1VvqnOwSE=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9C39C1331F;
+        Wed, 30 Nov 2022 13:15:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id V0ynJVpXh2OuVwAAMHmgww
+        (envelope-from <mhocko@suse.com>); Wed, 30 Nov 2022 13:15:06 +0000
+Date:   Wed, 30 Nov 2022 14:15:06 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     chengkaitao <pilgrimtao@gmail.com>
 Cc:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
-        corbet@lwn.net, mhocko@kernel.org, roman.gushchin@linux.dev,
-        shakeelb@google.com, akpm@linux-foundation.org,
-        songmuchun@bytedance.com, cgel.zte@gmail.com,
-        ran.xiaokai@zte.com.cn, viro@zeniv.linux.org.uk,
-        zhengqi.arch@bytedance.com, ebiederm@xmission.com,
-        Liam.Howlett@oracle.com, chengzhihao1@huawei.com,
-        haolee.swjtu@gmail.com, yuzhao@google.com, willy@infradead.org,
-        vasily.averin@linux.dev, vbabka@suse.cz, surenb@google.com,
-        sfr@canb.auug.org.au, mcgrof@kernel.org, sujiaxun@uniontech.com,
-        feng.tang@intel.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        chengkaitao@didiglobal.com
+        corbet@lwn.net, roman.gushchin@linux.dev, shakeelb@google.com,
+        akpm@linux-foundation.org, songmuchun@bytedance.com,
+        cgel.zte@gmail.com, ran.xiaokai@zte.com.cn,
+        viro@zeniv.linux.org.uk, zhengqi.arch@bytedance.com,
+        ebiederm@xmission.com, Liam.Howlett@oracle.com,
+        chengzhihao1@huawei.com, haolee.swjtu@gmail.com, yuzhao@google.com,
+        willy@infradead.org, vasily.averin@linux.dev, vbabka@suse.cz,
+        surenb@google.com, sfr@canb.auug.org.au, mcgrof@kernel.org,
+        sujiaxun@uniontech.com, feng.tang@intel.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org
 Subject: Re: [PATCH] mm: memcontrol: protect the memory in cgroup from being
  oom killed
-Message-ID: <Y4dP+3VEYl/YUfK1@debian.me>
+Message-ID: <Y4dXWsaLKRwJvWEY@dhcp22.suse.cz>
 References: <20221130070158.44221-1-chengkaitao@didiglobal.com>
- <fd28321c-5f00-ba94-daed-2b8da2292c1f@gmail.com>
- <CAAWJmAYPUK+1GBS0R460pDvDKrLr9zs_X2LT2yQTP_85kND5Ew@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="U2At7WgeybTkF08j"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAAWJmAYPUK+1GBS0R460pDvDKrLr9zs_X2LT2yQTP_85kND5Ew@mail.gmail.com>
+In-Reply-To: <20221130070158.44221-1-chengkaitao@didiglobal.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed 30-11-22 15:01:58, chengkaitao wrote:
+> From: chengkaitao <pilgrimtao@gmail.com>
+> 
+> We created a new interface <memory.oom.protect> for memory, If there is
+> the OOM killer under parent memory cgroup, and the memory usage of a
+> child cgroup is within its effective oom.protect boundary, the cgroup's
+> tasks won't be OOM killed unless there is no unprotected tasks in other
+> children cgroups. It draws on the logic of <memory.min/low> in the
+> inheritance relationship.
 
---U2At7WgeybTkF08j
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Could you be more specific about usecases? How do you tune oom.protect
+wrt to other tunables? How does this interact with the oom_score_adj
+tunining (e.g. a first hand oom victim with the score_adj 1000 sitting
+in a oom protected memcg)?
 
-On Wed, Nov 30, 2022 at 07:33:01PM +0800, Tao pilgrim wrote:
-> On Wed, Nov 30, 2022 at 4:41 PM Bagas Sanjaya <bagasdotme@gmail.com> wrot=
-e:
-> >
-> > On 11/30/22 14:01, chengkaitao wrote:
-> > > From: chengkaitao <pilgrimtao@gmail.com>
-> > >
-> >
-> > Yikes! Another patch from ZTE guys.
-> >
-> > I'm suspicious to patches sent from them due to bad reputation with
-> > kernel development community. First, they sent all patches via
-> > cgel.zte@gmail.com (listed in Cc) but Greg can't sure these are really
-> > sent from them ([1] & [2]). Then they tried to workaround by sending
-> > from their personal Gmail accounts, again with same response from him
-> > [3]. And finally they sent spoofed emails (as he pointed out in [4]) -
-> > they pretend to send from ZTE domain but actually sent from their
-> > different domain (see raw message and look for X-Google-Original-From:
-> > header.
->=20
-> Hi Bagas Sanjaya,
->=20
-> I'm not an employee of ZTE, just an ordinary developer. I really don't kn=
-ow
-> all the details about community and ZTE, The reason why I cc cgel.zte@gma=
-il.com
-> is because the output of the script <get_maintainer.pl> has the
-> address <cgel.zte@gmail.com>.
->=20
-> If there is any error in the format of the email, I will try my best
-> to correct it.
->=20
+I haven't really read through the whole patch but this struck me odd.
 
-OK, thanks for clarification. At first I thought you were ZTE guys.
-Sorry for inconvenience.
+> @@ -552,8 +552,19 @@ static int proc_oom_score(struct seq_file *m, struct pid_namespace *ns,
+>  	unsigned long totalpages = totalram_pages() + total_swap_pages;
+>  	unsigned long points = 0;
+>  	long badness;
+> +#ifdef CONFIG_MEMCG
+> +	struct mem_cgroup *memcg;
+>  
+> -	badness = oom_badness(task, totalpages);
+> +	rcu_read_lock();
+> +	memcg = mem_cgroup_from_task(task);
+> +	if (memcg && !css_tryget(&memcg->css))
+> +		memcg = NULL;
+> +	rcu_read_unlock();
+> +
+> +	update_parent_oom_protection(root_mem_cgroup, memcg);
+> +	css_put(&memcg->css);
+> +#endif
+> +	badness = oom_badness(task, totalpages, MEMCG_OOM_PROTECT);
 
-Now I ask: why do your email seem spoofed (sending from your gmail
-account but there is extra gmail-specific header that makes you like
-"sending" from your corporate email address? Wouldn't it be nice (and
-appropriate) if you can send and receive email with the latter address
-instead?
+the badness means different thing depending on which memcg hierarchy
+subtree you look at. Scaling based on the global oom could get really
+misleading.
 
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---U2At7WgeybTkF08j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY4dP9QAKCRD2uYlJVVFO
-o2fFAP9CcwtLbXBJc0AgmMHIUvGNiyhA9iDVaDQGg5tezc3siAD+MdwAl/MqnXUT
-o9/M5ZNbB5lgA8Gdug0py/N/VDy0TQc=
-=RwhN
------END PGP SIGNATURE-----
-
---U2At7WgeybTkF08j--
+-- 
+Michal Hocko
+SUSE Labs
