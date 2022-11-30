@@ -2,529 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8277C352A1
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 10:29:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94589C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 11:34:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235668AbiK3K3v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Nov 2022 05:29:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59140 "EHLO
+        id S235299AbiK3Lep (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Nov 2022 06:34:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235635AbiK3K3u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 05:29:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F6B7326E3
-        for <linux-doc@vger.kernel.org>; Wed, 30 Nov 2022 02:28:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669804128;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=gIxDAUeZ+xj1woLu0SbHPPVv3F8ks63V7wyqar7wbYY=;
-        b=MQvdabRgTC0Rp2oqa+TIgxitBvw1RUKdRiroG9FVdxX5pseY8/1wCS+tC8rPsm1Ba2e63D
-        MLUUUcmudzfiFgVGRCiCkG1Zo7AWeWJCYKXocPnA+lnk8TUCNtqz0juRNiWJ4gAMfIYCG9
-        6HeCaies0rGQPMRW3Loo1lM++Ig10B4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-671-ODkuoTyaPOWKFaHLhJNiew-1; Wed, 30 Nov 2022 05:28:47 -0500
-X-MC-Unique: ODkuoTyaPOWKFaHLhJNiew-1
-Received: by mail-wm1-f69.google.com with SMTP id o5-20020a05600c510500b003cfca1a327fso9191146wms.8
-        for <linux-doc@vger.kernel.org>; Wed, 30 Nov 2022 02:28:46 -0800 (PST)
+        with ESMTP id S235308AbiK3Ldq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 06:33:46 -0500
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EC6A4B9BC;
+        Wed, 30 Nov 2022 03:33:15 -0800 (PST)
+Received: by mail-lj1-x235.google.com with SMTP id x6so6363079lji.10;
+        Wed, 30 Nov 2022 03:33:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bbgF/8QJth7Q6iZLlIiOpcOOnk+o4nClIAC+d8Lf9z0=;
+        b=cgrBYVcGGaOmhs4NUM2DMBzEteSqsnNo+s1OWAu0xrFfR8SfGHhoYWl6cON5bJQf5H
+         kBXo+HTMLYJlc0NNqyXTeNHVsKFqrN9RnSJvYMAt9wsTzoHjoBDz54HyrId55uPzhcey
+         WrkHDI90HmJoIfjTMzlxSFuMRM+ZEK+h+tp2CXCTYTjqjx+4Ho1p2q1qT5Xh0Pe1NIpw
+         kh3Ph4481EH6HJsaTRzldrzwYx9ab3Q4uT9o4p32qRaA2tLn+Hf0w3FMTq1prgn3d5jp
+         NtxVXq9wW/MEdgV2FWkhhU7TsMvsvlWqvebJsqA+xk8HaXGX4H+zuKYU5RX6czhqRUDe
+         TW5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gIxDAUeZ+xj1woLu0SbHPPVv3F8ks63V7wyqar7wbYY=;
-        b=PPWn0dcLo5msbHMZAv3dx/+SBrbryBIRc8RKqZXUf4xU7s27ox7Nm2hnbl0/wTZW+P
-         ZdXwLGIIGZ/nrBe4Rcm++mj5ZZVonINis1c1TIlSiLbDpRPGs1cjMzK9yx7e47RolmDX
-         032dk2ewJK/K+xsCauj69+VsGB4aBe6dmQ8/2TJCZFnikrcyD1IscQx09xWP/ZJCkBsk
-         5cCXmAzey9YfJqZ7Tdmeh7WjzfPx3DeUGGVUvff4Y3WTNwmery25toIzyBlKvx+292tU
-         KquaD7/twZkyIU/ABLXBaUoZ5wnq7bFT70buDaSqAR9F8RyrvuUzUPo2sx0H2qm0NaFh
-         WdOg==
-X-Gm-Message-State: ANoB5pmkl/Tr3nslQObk5nLkjLbHlSMe6EgDBL30zbAzAkHH3RmDs9xm
-        cTPP2KIWiVyze3NzyfU3ZnGrtdO1LLmuisUbZL5x5iKQ3tpNr+aOs4T20qUIapGvCQSvPv11Rht
-        8BcLttfkzxN3CYy4SkZ9b
-X-Received: by 2002:a05:600c:4f10:b0:3b4:ff86:25af with SMTP id l16-20020a05600c4f1000b003b4ff8625afmr29592710wmq.68.1669804125631;
-        Wed, 30 Nov 2022 02:28:45 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6EhS76gnzR0pznsS6jNvnCangHl8COLYKCf/GE6A3D/jv24Rd5lPruQY3zhiRzEMm+EengcA==
-X-Received: by 2002:a05:600c:4f10:b0:3b4:ff86:25af with SMTP id l16-20020a05600c4f1000b003b4ff8625afmr29592693wmq.68.1669804125211;
-        Wed, 30 Nov 2022 02:28:45 -0800 (PST)
-Received: from localhost.localdomain ([78.16.131.111])
-        by smtp.gmail.com with ESMTPSA id m18-20020adfe952000000b002421888a011sm1131391wrn.69.2022.11.30.02.28.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Nov 2022 02:28:44 -0800 (PST)
-From:   mtahhan@redhat.com
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     jbrouer@redhat.com, thoiland@redhat.com, donhunte@redhat.com,
-        john.fastabend@gmail.com, Maryam Tahhan <mtahhan@redhat.com>
-Subject: [PATCH bpf-next v1 1/1] docs: BPF_MAP_TYPE_SOCK[MAP|HASH]
-Date:   Wed, 30 Nov 2022 10:28:42 +0000
-Message-Id: <20221130102842.12788-1-mtahhan@redhat.com>
-X-Mailer: git-send-email 2.34.1
+        bh=bbgF/8QJth7Q6iZLlIiOpcOOnk+o4nClIAC+d8Lf9z0=;
+        b=NbDaJ4bhCdEyY92Rmg+X9V7pKl7RshHcGab+wiKVGu4QAM6+8t5Ejncj2PcQUpV6KY
+         gFU0yhV+uHOa/LQX1pW0KAXocC6+tvlvT2VCcdBjpHmcZrC0e4qho97BEG5UDGObbfj4
+         rinfUQSX6E7C8Sj8Me4T6C9PtIfpIAYbYpTij27qtaykZC+qqN5jQphgJgZ7MHYlhvEa
+         Y95m25M0T5qgstUdiXaVKX+mhg6+26VezlBXkryXaWn+KJ9fqgY8b+pGJ628o38ENu0c
+         M21vERilU3VlmEqEGrGtFCRfMmwdNoqwA9bZstG5EOcrlgXKs+T5KUrqe4CuBazffj7w
+         jeAg==
+X-Gm-Message-State: ANoB5pnyPrsN30UH5B9l3CRgAsLD+RGXmMmIh7QtXReycuchoadhUUx2
+        CCI7dpjJL3yVp1rHKHupyx+3qdNOumkIyflToXc=
+X-Google-Smtp-Source: AA0mqf4DNgrzSTa3qDkcM1vR3wsA4xbwLoMawo/HYfBGJ5539OEYNPmp+YyAmqJIJYo2LXuFpOGWdNGqzEgPvVjR9QQ=
+X-Received: by 2002:a2e:3815:0:b0:279:8c75:b1a8 with SMTP id
+ f21-20020a2e3815000000b002798c75b1a8mr8432976lja.140.1669807993775; Wed, 30
+ Nov 2022 03:33:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221130070158.44221-1-chengkaitao@didiglobal.com> <fd28321c-5f00-ba94-daed-2b8da2292c1f@gmail.com>
+In-Reply-To: <fd28321c-5f00-ba94-daed-2b8da2292c1f@gmail.com>
+From:   Tao pilgrim <pilgrimtao@gmail.com>
+Date:   Wed, 30 Nov 2022 19:33:01 +0800
+Message-ID: <CAAWJmAYPUK+1GBS0R460pDvDKrLr9zs_X2LT2yQTP_85kND5Ew@mail.gmail.com>
+Subject: Re: [PATCH] mm: memcontrol: protect the memory in cgroup from being
+ oom killed
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
+        corbet@lwn.net, mhocko@kernel.org, roman.gushchin@linux.dev,
+        shakeelb@google.com, akpm@linux-foundation.org,
+        songmuchun@bytedance.com, cgel.zte@gmail.com,
+        ran.xiaokai@zte.com.cn, viro@zeniv.linux.org.uk,
+        zhengqi.arch@bytedance.com, ebiederm@xmission.com,
+        Liam.Howlett@oracle.com, chengzhihao1@huawei.com,
+        haolee.swjtu@gmail.com, yuzhao@google.com, willy@infradead.org,
+        vasily.averin@linux.dev, vbabka@suse.cz, surenb@google.com,
+        sfr@canb.auug.org.au, mcgrof@kernel.org, sujiaxun@uniontech.com,
+        feng.tang@intel.com, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        chengkaitao@didiglobal.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Maryam Tahhan <mtahhan@redhat.com>
+On Wed, Nov 30, 2022 at 4:41 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> On 11/30/22 14:01, chengkaitao wrote:
+> > From: chengkaitao <pilgrimtao@gmail.com>
+> >
+>
+> Yikes! Another patch from ZTE guys.
+>
+> I'm suspicious to patches sent from them due to bad reputation with
+> kernel development community. First, they sent all patches via
+> cgel.zte@gmail.com (listed in Cc) but Greg can't sure these are really
+> sent from them ([1] & [2]). Then they tried to workaround by sending
+> from their personal Gmail accounts, again with same response from him
+> [3]. And finally they sent spoofed emails (as he pointed out in [4]) -
+> they pretend to send from ZTE domain but actually sent from their
+> different domain (see raw message and look for X-Google-Original-From:
+> header.
 
-Add documentation for BPF_MAP_TYPE_SOCK[MAP|HASH]
-including kernel versions introduced, usage
-and examples.
+Hi Bagas Sanjaya,
 
-Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
----
- Documentation/bpf/map_sockmap.rst | 439 ++++++++++++++++++++++++++++++
- 1 file changed, 439 insertions(+)
- create mode 100644 Documentation/bpf/map_sockmap.rst
+I'm not an employee of ZTE, just an ordinary developer. I really don't know
+all the details about community and ZTE, The reason why I cc cgel.zte@gmail.com
+is because the output of the script <get_maintainer.pl> has the
+address <cgel.zte@gmail.com>.
 
-diff --git a/Documentation/bpf/map_sockmap.rst b/Documentation/bpf/map_sockmap.rst
-new file mode 100644
-index 000000000000..8824a67b24e8
---- /dev/null
-+++ b/Documentation/bpf/map_sockmap.rst
-@@ -0,0 +1,439 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright Red Hat
-+
-+==============================================
-+BPF_MAP_TYPE_SOCKMAP and BPF_MAP_TYPE_SOCKHASH
-+==============================================
-+
-+.. note::
-+   - ``BPF_MAP_TYPE_SOCKMAP`` was introduced in kernel version 4.14
-+   - ``BPF_MAP_TYPE_SOCKHASH`` was introduced in kernel version 4.18
-+
-+``BPF_MAP_TYPE_SOCKMAP`` is backed by an array that uses an integer key as the
-+index to lookup a reference to a sock struct. The map values are sockets.
-+Similarly, ``BPF_MAP_TYPE_SOCKHASH`` is a hash backed BPF map that holds
-+references to sockets.
-+
-+When these maps are created BPF programs are attached to them. The list of
-+allowed programs is shown below:
-+
-+.. code-block:: c
-+
-+	struct sk_psock_progs {
-+		struct bpf_prog *msg_parser;
-+		struct bpf_prog *stream_parser;
-+		struct bpf_prog *stream_verdict;
-+		struct bpf_prog	*skb_verdict;
-+	};
-+
-+.. note::
-+    Users are not allowed to attach ``stream_verdict`` and ``skb_verdict``
-+    programs to the same map.
-+
-+The parser programs determine how much data needs to be queued to come to a
-+verdict. The verdict programs return a verdict ``__SK_DROP``, ``__SK_PASS``, or
-+``__SK_REDIRECT``.
-+
-+The attach types for the map programs are:
-+
-+- ``msg_parser`` program - ``BPF_SK_MSG_VERDICT``.
-+- ``stream_parser`` program - ``BPF_SK_SKB_STREAM_PARSER``.
-+- ``stream_verdict`` program - ``BPF_SK_SKB_STREAM_VERDICT``.
-+- ``skb_verdict`` program - ``BPF_SK_SKB_VERDICT``.
-+
-+These maps can be used to redirect skbs between sockets or to apply policy at
-+the socket level based on the result of a verdict program with the help of the
-+BPF helpers ``bpf_sk_redirect_map()``, ``bpf_sk_redirect_hash()``,
-+``bpf_msg_redirect_map()`` and ``bpf_msg_redirect_hash()``.
-+
-+When a socket is inserted into one of these maps, its socket callbacks are
-+replaced and a ``struct sk_psock`` is attached to it. Additionally, this
-+``sk_psock`` inherits the programs that are attached to the map.
-+
-+.. note::
-+	For more details of the socket callbacks that get replaced please see:
-+
-+	- TCP BPF functions: ``net/ipv4/tcp_bpf.c``
-+	- UDP BPF functions: ``net/ipv4/udp_bpf.c``
-+
-+There are additional helpers available to use with the parser and verdict
-+programs: ``bpf_msg_apply_bytes()`` and ``bpf_msg_cork_bytes()``. With
-+``bpf_msg_apply_bytes()`` BPF programs can tell the infrastructure how many
-+bytes the given verdict should apply to. The helper ``bpf_msg_cork_bytes()``
-+handles a different case where a BPF program can not reach a verdict on a msg
-+until it receives more bytes AND the program doesn't want to forward the packet
-+until it is known to be good.
-+
-+Finally, the helpers ``bpf_msg_pull_data()`` and ``bpf_msg_push_data()`` are
-+available to ``BPF_PROG_TYPE_SK_MSG`` BPF programs to pull in data and set the
-+start and end pointer to given values or to add metadata to the ``struct
-+sk_msg_buff *msg``.
-+
-+Usage
-+=====
-+Kernel BPF
-+----------
-+bpf_msg_redirect_map()
-+^^^^^^^^^^^^^^^^^^^^^^
-+.. code-block:: c
-+
-+	long bpf_msg_redirect_map(struct sk_msg_buff *msg, struct bpf_map *map, u32 key, u64 flags)
-+
-+This helper is used in programs implementing policies at the socket level. If
-+the message ``msg`` is allowed to pass (i.e. if the verdict BPF program
-+returns ``SK_PASS``), redirect it to the socket referenced by ``map`` (of type
-+``BPF_MAP_TYPE_SOCKMAP``) at index ``key``. Both ingress and egress interfaces
-+can be used for redirection. The ``BPF_F_INGRESS`` value in ``flags`` is used
-+to select the ingress path otherwise the egress path is selected. This is the
-+only flag supported for now.
-+
-+Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
-+
-+bpf_sk_redirect_map()
-+^^^^^^^^^^^^^^^^^^^^^
-+.. code-block:: c
-+
-+    long bpf_sk_redirect_map(struct sk_buff *skb, struct bpf_map *map, u32 key u64 flags)
-+
-+Redirect the packet to the socket referenced by ``map``(of type
-+``BPF_MAP_TYPE_SOCKMAP``) at index ``key``. Both ingress and egress interfaces
-+can be used for redirection. The ``BPF_F_INGRESS`` value in ``flags`` is used
-+to select the ingress path otherwise the egress path is selected. This is the
-+only flag supported for now.
-+
-+Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
-+
-+bpf_map_lookup_elem()
-+^^^^^^^^^^^^^^^^^^^^^
-+.. code-block:: c
-+
-+    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-+
-+socket entries of type ``struct sock *`` can be retrieved using the
-+``bpf_map_lookup_elem()`` helper.
-+
-+bpf_sock_map_update()
-+^^^^^^^^^^^^^^^^^^^^^
-+.. code-block:: c
-+
-+    long bpf_sock_map_update(struct bpf_sock_ops *skops, struct bpf_map *map, void *key, u64 flags)
-+
-+Add an entry to, or update a ``map`` referencing sockets. The ``skops`` is used
-+as a new value for the entry associated to ``key``. The ``flags`` argument can
-+be one of the following:
-+
-+- ``BPF_ANY``: Create a new element or update an existing element.
-+- ``BPF_NOEXIST``: Create a new element only if it did not exist.
-+- ``BPF_EXIST``: Update an existing element.
-+
-+If the ``map`` has BPF programs (parser and verdict), those will be inherited
-+by the socket being added. If the socket is already attached to BPF programs,
-+this results in an error.
-+
-+Returns 0 on success, or a negative error in case of failure.
-+
-+bpf_sock_hash_update()
-+^^^^^^^^^^^^^^^^^^^^^^
-+.. code-block:: c
-+
-+    long bpf_sock_hash_update(struct bpf_sock_ops *skops, struct bpf_map *map, void *key, u64 flags)
-+
-+Add an entry to, or update a sockhash ``map`` referencing sockets. The ``skops``
-+is used as a new value for the entry associated to ``key``.
-+
-+The ``flags`` argument can be one of the following:
-+
-+- ``BPF_ANY``: Create a new element or update an existing element.
-+- ``BPF_NOEXIST``: Create a new element only if it did not exist.
-+- ``BPF_EXIST``: Update an existing element.
-+
-+If the ``map`` has BPF programs (parser and verdict), those will be inherited
-+by the socket being added. If the socket is already attached to BPF programs,
-+this results in an error.
-+
-+Returns 0 on success, or a negative error in case of failure.
-+
-+bpf_msg_redirect_hash()
-+^^^^^^^^^^^^^^^^^^^^^^^
-+.. code-block:: c
-+
-+    long bpf_msg_redirect_hash(struct sk_msg_buff *msg, struct bpf_map *map, void *key, u64 flags)
-+
-+This helper is used in programs implementing policies at the socket level. If
-+the message ``msg`` is allowed to pass (i.e. if the verdict BPF program returns
-+``SK_PASS``), redirect it to the socket referenced by ``map`` (of type
-+``BPF_MAP_TYPE_SOCKHASH``) using hash ``key``. Both ingress and egress
-+interfaces can be used for redirection. The ``BPF_F_INGRESS`` value in
-+``flags`` is used to select the ingress path otherwise the egress path is
-+selected. This is the only flag supported for now.
-+
-+Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
-+
-+bpf_sk_redirect_hash()
-+^^^^^^^^^^^^^^^^^^^^^^
-+.. code-block:: c
-+
-+    long bpf_sk_redirect_hash(struct sk_buff *skb, struct bpf_map *map, void *key, u64 flags)
-+
-+This helper is used in programs implementing policies at the skb socket level.
-+If the sk_buff *skb* is allowed to pass (i.e. if the verdict BPF program
-+returns ``SK_PASS``), redirect it to the socket referenced by *map* (of type
-+``BPF_MAP_TYPE_SOCKHASH``) using hash ``key``. Both ingress and egress
-+interfaces can be used for redirection. The ``BPF_F_INGRESS`` value in
-+``flags`` is used to select the ingress path otherwise the egress path is
-+selected. This is the only flag supported for now.
-+
-+Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
-+
-+bpf_msg_apply_bytes()
-+^^^^^^^^^^^^^^^^^^^^^^
-+.. code-block:: c
-+
-+    long bpf_msg_apply_bytes(struct sk_msg_buff *msg, u32 bytes)
-+
-+For socket policies, apply the verdict of the BPF program to the next (number
-+of ``bytes``) of message ``msg``. For example, this helper can be used in the
-+following cases:
-+
-+- A single ``sendmsg()`` or ``sendfile()`` system call contains multiple
-+  logical messages that the BPF program is supposed to read and for which it
-+  should apply a verdict.
-+- A BPF program only cares to read the first ``bytes`` of a ``msg``. If the
-+  message has a large payload, then setting up and calling the BPF program
-+  repeatedly for all bytes, even though the verdict is already known, would
-+  create unnecessary overhead.
-+
-+Returns 0
-+
-+bpf_msg_cork_bytes()
-+^^^^^^^^^^^^^^^^^^^^^^
-+.. code-block:: c
-+
-+    long bpf_msg_cork_bytes(struct sk_msg_buff *msg, u32 bytes)
-+
-+For socket policies, prevent the execution of the verdict BPF program for
-+message ``msg`` until the number of ``bytes`` have been accumulated.
-+
-+This can be used when one needs a specific number of bytes before a verdict can
-+be assigned, even if the data spans multiple ``sendmsg()`` or ``sendfile()``
-+calls.
-+
-+Returns 0
-+
-+bpf_msg_pull_data()
-+^^^^^^^^^^^^^^^^^^^^^^
-+.. code-block:: c
-+
-+    long bpf_msg_pull_data(struct sk_msg_buff *msg, u32 start, u32 end, u64 flags)
-+
-+For socket policies, pull in non-linear data from user space for ``msg`` and set
-+pointers ``msg->data`` and ``msg->data_end`` to ``start`` and ``end`` bytes
-+offsets into ``msg``, respectively.
-+
-+If a program of type ``BPF_PROG_TYPE_SK_MSG`` is run on a ``msg`` it can only
-+parse data that the (``data``, ``data_end``) pointers have already consumed.
-+For ``sendmsg()`` hooks this is likely the first scatterlist element. But for
-+calls relying on the ``sendpage`` handler (e.g. ``sendfile()``) this will be
-+the range (**0**, **0**) because the data is shared with user space and by
-+default the objective is to avoid allowing user space to modify data while (or
-+after) BPF verdict is being decided. This helper can be used to pull in data
-+and to set the start and end pointer to given values. Data will be copied if
-+necessary (i.e. if data was not linear and if start and end pointers do not
-+point to the same chunk).
-+
-+A call to this helper is susceptible to change the underlying packet buffer.
-+Therefore, at load time, all checks on pointers previously done by the verifier
-+are invalidated and must be performed again, if the helper is used in
-+combination with direct packet access.
-+
-+All values for ``flags`` are reserved for future usage, and must be left at
-+zero.
-+
-+Returns 0 on success, or a negative error in case of failure.
-+
-+User space
-+----------
-+
-+bpf_map_update_elem()
-+^^^^^^^^^^^^^^^^^^^^^
-+.. code-block:: c
-+
-+	int bpf_map_update_elem(int fd, const void *key, const void *value, __u64 flags)
-+
-+sockmap entries can be added or updated using the ``bpf_map_update_elem()``
-+helper. The ``key`` parameter is the index value of the sockmap array. And the
-+``value`` parameter is the FD value of that socket.
-+
-+Under the hood, the sockmap update function uses the socket FD value to
-+retrieve the associated socket and its attached psock.
-+
-+The flags argument can be one of the following:
-+
-+- BPF_ANY: Create a new element or update an existing element.
-+- BPF_NOEXIST: Create a new element only if it did not exist.
-+- BPF_EXIST: Update an existing element.
-+
-+bpf_map_lookup_elem()
-+^^^^^^^^^^^^^^^^^^^^^
-+.. code-block:: c
-+
-+    int bpf_map_lookup_elem(int fd, const void *key, void *value)
-+
-+Sockmap entries can be retrieved using the ``bpf_map_lookup_elem()``
-+helper.
-+
-+bpf_map_delete_elem()
-+^^^^^^^^^^^^^^^^^^^^^
-+.. code-block:: c
-+
-+    int bpf_map_delete_elem(int fd, const void *key)
-+
-+Sockmap entries can be deleted using the ``bpf_map_delete_elem()``
-+helper. This helper will return 0 on success, or negative error in case of
-+failure.
-+
-+Examples
-+========
-+
-+Kernel BPF
-+----------
-+Several examples of the use of sockmap APIs can be found in:
-+
-+- `tools/testing/selftests/bpf/progs/test_sockmap_kern.h`_
-+- `tools/testing/selftests/bpf/progs/sockmap_parse_prog.c`_
-+- `tools/testing/selftests/bpf/progs/sockmap_verdict_prog.c`_
-+- `tools/testing/selftests/bpf/progs/test_sockmap_listen.c`_
-+- `tools/testing/selftests/bpf/progs/test_sockmap_update.c`_
-+
-+The following code snippet shows how to declare a sockmap.
-+
-+.. code-block:: c
-+
-+	struct {
-+		__uint(type, BPF_MAP_TYPE_SOCKMAP);
-+		__uint(max_entries, 1);
-+		__type(key, __u32);
-+		__type(value, __u64);
-+	} sock_map_rx SEC(".maps");
-+
-+The following code snippet shows a sample parser program.
-+
-+.. code-block:: c
-+
-+	SEC("sk_skb/stream_parser")
-+	int bpf_prog_parser(struct __sk_buff *skb)
-+	{
-+		return skb->len;
-+	}
-+
-+The following code snippet shows a simple verdict program that interacts with a
-+sockmap to redirect traffic to another socket based on the local port.
-+
-+.. code-block:: c
-+
-+	SEC("sk_skb/stream_verdict")
-+	int bpf_prog_verdict(struct __sk_buff *skb)
-+	{
-+		__u32 lport = skb->local_port;
-+		__u32 idx = 0;
-+
-+		if (lport == 10000)
-+			return bpf_sk_redirect_map(skb, &sock_map_rx, idx, 0);
-+
-+		return SK_PASS;
-+	}
-+
-+The following code snippet shows how to declare a sockhash map.
-+
-+.. code-block:: c
-+
-+	struct socket_key {
-+		__u32 src_ip;
-+		__u32 dst_ip;
-+		__u32 src_port;
-+		__u32 dst_port;
-+	};
-+
-+	struct {
-+		__uint(type, BPF_MAP_TYPE_SOCKHASH);
-+		__uint(max_entries, 1);
-+		__type(key, struct socket_key);
-+		__type(value, __u64);
-+	} sock_hash_rx SEC(".maps");
-+
-+The following code snippet shows a simple verdict program that interacts with a
-+sockhash to redirect traffic to another socket based on a hash of some of the
-+skb parameters.
-+
-+.. code-block:: c
-+
-+	static inline
-+	void extract_socket_key(struct __sk_buff *skb, struct socket_key *key)
-+	{
-+		key->src_ip = skb->remote_ip4;
-+		key->dst_ip = skb->local_ip4;
-+		key->src_port = skb->remote_port >> 16;
-+		key->dst_port = (bpf_htonl(skb->local_port)) >> 16;
-+	}
-+
-+	SEC("sk_skb/stream_verdict")
-+	int bpf_prog_verdict(struct __sk_buff *skb)
-+	{
-+		struct socket_key key;
-+
-+		extract_socket_key(skb, &key);
-+
-+		return bpf_sk_redirect_hash(skb, &sock_hash_rx, &key, 0);
-+	}
-+
-+User space
-+----------
-+Several examples of the use of sockmap APIs can be found in:
-+
-+- `tools/testing/selftests/bpf/prog_tests/sockmap_basic.c`_
-+- `tools/testing/selftests/bpf/test_sockmap.c`_
-+- `tools/testing/selftests/bpf/test_maps.c`_
-+
-+The following code snippet shows how to create a sockmap and add a socket
-+entry:
-+
-+.. code-block:: c
-+
-+	/* Create a map and populate it with one socket*/
-+	static void create_sample_sockmap(int s)
-+	{
-+		const int index = 0;
-+		int map, err;
-+
-+		map = bpf_map_create(BPF_MAP_TYPE_SOCKMAP, NULL, sizeof(int), sizeof(int), 1, NULL);
-+		if (map < 0) {
-+			fprintf(stderr, "Failed to create sockmap: %s\n", strerror(errno));
-+			goto out;
-+		}
-+
-+		err = bpf_map_update_elem(map, &index, &s, BPF_NOEXIST);
-+		if (err) {
-+			fprintf(stderr, "Failed to update sockmap: %s\n", strerror(errno));
-+			goto out;
-+		}
-+
-+	out:
-+		close(map);
-+	}
-+
-+References
-+===========
-+
-+- https://github.com/jrfastab/linux-kernel-xdp/commit/c89fd73cb9d2d7f3c716c3e00836f07b1aeb261f
-+- https://lwn.net/Articles/731133/
-+- http://vger.kernel.org/lpc_net2018_talks/ktls_bpf_paper.pdf
-+- https://lwn.net/Articles/748628/
-+
-+.. _`tools/testing/selftests/bpf/progs/test_sockmap_kern.h`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/test_sockmap_kern.h
-+.. _`tools/testing/selftests/bpf/progs/sockmap_parse_prog.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/sockmap_parse_prog.c
-+.. _`tools/testing/selftests/bpf/progs/sockmap_verdict_prog.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/sockmap_verdict_prog.c
-+.. _`tools/testing/selftests/bpf/prog_tests/sockmap_basic.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/prog_tests/sockmap_basic.c
-+.. _`tools/testing/selftests/bpf/test_sockmap.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/test_sockmap.c
-+.. _`tools/testing/selftests/bpf/test_maps.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/test_maps.c
-+.. _`tools/testing/selftests/bpf/progs/test_sockmap_listen.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/test_sockmap_listen.c
-+.. _`tools/testing/selftests/bpf/progs/test_sockmap_update.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/test_sockmap_update.c
+If there is any error in the format of the email, I will try my best
+to correct it.
+
+>
+> I was about to review documentation part of this patch, but due to
+> concerns above, I have to write this reply instead. So I'm not going
+> to review, sorry for inconvenience.
+>
+> PS: Adding Greg to Cc: list.
+>
+> [1]: https://lore.kernel.org/lkml/Yw94xsOp6gvdS0UF@kroah.com/
+> [2]: https://lore.kernel.org/lkml/Yylv5hbSBejJ58nt@kroah.com/
+> [3]: https://lore.kernel.org/lkml/Y1EVnZS9BalesrC1@kroah.com/
+> [4]: https://lore.kernel.org/lkml/Y3NrBvIV7lH2GrWz@kroah.com/
+>
+> --
+> An old man doll... just what I always wanted! - Clara
+>
+
+
 -- 
-2.34.1
-
+Yours,
+Kaitao Cheng
