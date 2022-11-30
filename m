@@ -2,92 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EE27C4321E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 08:18:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59B15C4321E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 08:41:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230049AbiK3IST (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Nov 2022 03:18:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47984 "EHLO
+        id S235632AbiK3Ilu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Nov 2022 03:41:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233944AbiK3ISI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 03:18:08 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AE8150D7C;
-        Wed, 30 Nov 2022 00:18:07 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id d6so15935830pll.7;
-        Wed, 30 Nov 2022 00:18:07 -0800 (PST)
+        with ESMTP id S229689AbiK3Ilt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 03:41:49 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0768929CA4;
+        Wed, 30 Nov 2022 00:41:48 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id mv18so15101635pjb.0;
+        Wed, 30 Nov 2022 00:41:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=d9sMTxC8II1dCsJCjBXb3maOeenY72L6eiTYH4CMWYE=;
-        b=fNgVyKAMXNAgexRoxHMRD+C1AHD6NkAy6KFbRWt6SZIG5ws1j7R+eLixqtGrT4xKE/
-         W7vfxb9XHXyAfxQqASunsEyugTX7odam4s6e0ZWxIg/hOGR6PmMmn8VLelTV2Qzac1cp
-         ivpV6fJYwu694O5BzNGAl/KA7Pj+H0B41r8u8gmCZhkai003PYQiefdjgyzRq/SAJVF/
-         iAahRhQ44EuXtk9GSp4mckaFF4x3gg3nkpYYg0HOBSG0fARKlvE60H0IgEbtNiKq/Flt
-         cvgAI//RIwx6P5YshrBQ69ZNIWUGzJ7P84hKJYDIyedlUURsLWG4EiEGBhJpz2hUHWrG
-         v46A==
+        bh=bClHHbBrNItVLT5DDquRBOoDnrUpgqSvIIymdz67XbA=;
+        b=NZrOB5RgqscSru55svi/ZKjfdzqWbOne67Tfu8bqHX955TBLyuKMqIGaHH/XBd8dAz
+         uUS2+d6mPbQdYR6NJoR9gbuO9kvfyIRDdTrM3xNG1drH6GNoo/J5zpd2N29hk5DEZjgT
+         EPHUHPifO+vGT8CX8hcqw6wcG7CoK9RK9gbVKT26pSuLFj3HmqBLvECPl9QXv1EyaIUB
+         9ybI+54269YSGi7ljWpvTlAfNLGroy9eK4RtyNP6iIbGkG8GjfCoAgEhy7Ypy03YOpzm
+         htf6AdnEqzz3CR9eM4wbEDoVDZr/ys5w8T550YoJmSkD4mx9UaKD4QHvwkORPqAq+Dxx
+         gBSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d9sMTxC8II1dCsJCjBXb3maOeenY72L6eiTYH4CMWYE=;
-        b=yVMv9CfeN/O6n2RZ/LCIRDuYC4BMjcl3uwf3nTr/7eRs0T81f5x0pdgKg8oVlWHi0c
-         G4y+iDeuHdnnv/CrwOMrWdfIwklee1EM0NqC4ghtfYN8Rs9WnRzlYVJblEDKAmbeljFv
-         PcYK+5FSXPaYzbZut+b6J3bHR+hzSn3F+ZWh57SkR0MnYTRKzjEiIx+L8/qmcskXDGkP
-         0DzWe7R25TnyZBb8KKuPfQ9rpKOmJeiKlO1qhoJr+jY/NX+nniC/jMrwlKD+SeJCvj2l
-         hnQI3yzNMSOka1mfHAMcEgf6ILzF4fM19yz0CHjyoRLL5GPddNvRLctziNNM3Izjw4PZ
-         VyOg==
-X-Gm-Message-State: ANoB5pnRxQ6p3CSyxqJwbKJaR0ZbM2TrYV3yuNe8s/kNosVBR6UJh02T
-        LFqL6pSVBXlsFt7e5XXK354xYoV+2fs=
-X-Google-Smtp-Source: AA0mqf77narn1YWb6xAoj/for2X8JOJ/M+lM6+Re/861YZHQGTtKuHYCAQX8dt3geaBfwKbitnVLxg==
-X-Received: by 2002:a17:902:82c2:b0:189:a208:d124 with SMTP id u2-20020a17090282c200b00189a208d124mr4820626plz.143.1669796287104;
-        Wed, 30 Nov 2022 00:18:07 -0800 (PST)
+        bh=bClHHbBrNItVLT5DDquRBOoDnrUpgqSvIIymdz67XbA=;
+        b=Oq+QyJ/T9hAdxrN/jKZOvKEwYf4Se9Es4wN9HrK8gNOvzCwBsEg4BzGeiSRpJNBS9y
+         /DVXYxCY7zWEQDopfc35f8o5eSqo29XUSh5foLWwaJJWCUy8fLz4Wc72McU3ibIuN0vt
+         Mu3np+u8viIJ6WYQpzF0PMqGfvCc83bg/MHBv4S4E7NAtDNcd9HGbly4AgNDTCLLV+3n
+         Fk7O75emwkuzYR/D1puFgW6GU2yQVA2H3wVxfmJjBAf7qed/GV+UX4nB9LZiYXwTV9rS
+         H5kl5hgWwemkBizU3PJQSnqplKWprVyj8w/CjOjS2gCUl3KH1wr1kwjMwyP4MqyKAN5B
+         o8xQ==
+X-Gm-Message-State: ANoB5pkBSwyicTC/U+r1D1Ro6lpSbBOvn7w2Fe0xXIK6CzbvdLZs6PQT
+        08qvDxjmoPfhP5jht0i3DwY=
+X-Google-Smtp-Source: AA0mqf6Vb17rCV6Meg7pI5D8DKJb2nuwYFBlEbNIxw4WL6YgvAsugpHi/F06JEXCyveu7kiKRErAvA==
+X-Received: by 2002:a17:90a:4c:b0:218:b187:d7da with SMTP id 12-20020a17090a004c00b00218b187d7damr48639485pjb.68.1669797707580;
+        Wed, 30 Nov 2022 00:41:47 -0800 (PST)
 Received: from [192.168.43.80] (subs02-180-214-232-19.three.co.id. [180.214.232.19])
-        by smtp.gmail.com with ESMTPSA id z30-20020aa7991e000000b0056da2bf607csm780533pff.214.2022.11.30.00.18.03
+        by smtp.gmail.com with ESMTPSA id d12-20020a17090a2a4c00b0021952b5e9bcsm2512980pjg.53.2022.11.30.00.41.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Nov 2022 00:18:06 -0800 (PST)
-Message-ID: <cfa439e1-e216-8285-8283-1664453ac337@gmail.com>
-Date:   Wed, 30 Nov 2022 15:18:02 +0700
+        Wed, 30 Nov 2022 00:41:47 -0800 (PST)
+Message-ID: <fd28321c-5f00-ba94-daed-2b8da2292c1f@gmail.com>
+Date:   Wed, 30 Nov 2022 15:41:37 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH] Documentation: kunit: Fix "How Do I Use This" / "Next
- Steps" sections
-To:     David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        Sadiya Kazi <sadiyakazi@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Daniel Latypov <dlatypov@google.com>,
-        Rae Moar <rmoar@google.com>, linux-kernel@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20221129094732.306449-1-davidgow@google.com>
+Subject: Re: [PATCH] mm: memcontrol: protect the memory in cgroup from being
+ oom killed
 Content-Language: en-US
+To:     chengkaitao <pilgrimtao@gmail.com>, tj@kernel.org,
+        lizefan.x@bytedance.com, hannes@cmpxchg.org, corbet@lwn.net,
+        mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
+        akpm@linux-foundation.org, songmuchun@bytedance.com
+Cc:     cgel.zte@gmail.com, ran.xiaokai@zte.com.cn,
+        viro@zeniv.linux.org.uk, zhengqi.arch@bytedance.com,
+        ebiederm@xmission.com, Liam.Howlett@Oracle.com,
+        chengzhihao1@huawei.com, haolee.swjtu@gmail.com, yuzhao@google.com,
+        willy@infradead.org, vasily.averin@linux.dev, vbabka@suse.cz,
+        surenb@google.com, sfr@canb.auug.org.au, mcgrof@kernel.org,
+        sujiaxun@uniontech.com, feng.tang@intel.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20221130070158.44221-1-chengkaitao@didiglobal.com>
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20221129094732.306449-1-davidgow@google.com>
+In-Reply-To: <20221130070158.44221-1-chengkaitao@didiglobal.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/29/22 16:47, David Gow wrote:
-> The 'index' and 'start' pages end with very similar "How Do I Use This"
-> / "Next Steps" sections respectively, which link to the other
-> documentation pages. This wasn't updated when the tips.rst page was
-> removed.
-> 
-> Remove the reference to tips.rst, as well as tidy up the descriptions on
-> all of the links (especially given that sphinx gives the page titles
-> anyway.
+On 11/30/22 14:01, chengkaitao wrote:
+> From: chengkaitao <pilgrimtao@gmail.com>
 > 
 
-While this patch is LGTM, what about simply drop these sections and
-replace with "see the sidebar for other KUnit documentations"?
+Yikes! Another patch from ZTE guys.
+
+I'm suspicious to patches sent from them due to bad reputation with
+kernel development community. First, they sent all patches via
+cgel.zte@gmail.com (listed in Cc) but Greg can't sure these are really
+sent from them ([1] & [2]). Then they tried to workaround by sending
+from their personal Gmail accounts, again with same response from him
+[3]. And finally they sent spoofed emails (as he pointed out in [4]) -
+they pretend to send from ZTE domain but actually sent from their
+different domain (see raw message and look for X-Google-Original-From:
+header.
+
+I was about to review documentation part of this patch, but due to
+concerns above, I have to write this reply instead. So I'm not going
+to review, sorry for inconvenience.
+
+PS: Adding Greg to Cc: list.
+
+[1]: https://lore.kernel.org/lkml/Yw94xsOp6gvdS0UF@kroah.com/
+[2]: https://lore.kernel.org/lkml/Yylv5hbSBejJ58nt@kroah.com/
+[3]: https://lore.kernel.org/lkml/Y1EVnZS9BalesrC1@kroah.com/
+[4]: https://lore.kernel.org/lkml/Y3NrBvIV7lH2GrWz@kroah.com/
 
 -- 
 An old man doll... just what I always wanted! - Clara
