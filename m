@@ -2,252 +2,555 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3020CC4321E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 16:30:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAB2CC46467
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 17:12:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230256AbiK3Qa5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Nov 2022 11:30:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51022 "EHLO
+        id S230503AbiK3RM0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Nov 2022 12:12:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230257AbiK3Qay (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 11:30:54 -0500
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on062b.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe0d::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6881886A14;
-        Wed, 30 Nov 2022 08:30:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WgS23VoXFQ/jYg2N6+xkW7xPv/fGxZ7FqkDh9g1+Wvs6CklQUFCAY1DsSYb1nQWzSRJ4ery2mGctOyrCoRzuPxzc7iscpS4dMyik+4ygRIvMnznGrjGt/f++rDkG5y1tOJtmLr882aRjd3iIooMebRMchSEbYY9/iBI9AUpD1+zEk0lCGc2CZjP6UYRr6QOybMG3vf5ODKfAueHuf4+4R3wvcauBB83WtfDaa4V64IUuhhtMpKYGQ/yXkRgVgY4jMr7eZtQOLZrtgMQqsEYxFbEQ24lMtTcBVjwD9VElvflf0dRFpcpysHyP+co1ImQFkrD+nCI108CKE1zma3eH2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+t237TRY4dynb6+fJRLckfJTThy2NkaNg2GqCTrGnTo=;
- b=IcEGj5i7BS3gnklBhhV+aJ6kfzOyrymC/9Vg43qcCxWrWkLqhpRt3ZHjQWFPjpofjpUXjS7b6IUYB5xdNWtkNU0JzcG5fszTi0BaZpEFVMGhW4ctlv2Ph/Y2iFIqYWgniyqpi4aFjL5ayDDcDTXQkTCGNxacbckKaWjHWm0kP1EoVSJrIYKLW9F2XKjLTL7oc2lAqk4V4R7YvpUEp50yTFL9Zi5lb9J4fgxPDfm406mFSeWEQQqt9swrxxzEw6nueuoKxtXkX96C64e9sQvljPWtia8rornVq0/hocDbjX04dMQ57EU0OUdWH0csechkBjxwSf4QzMMz8OH/KLX+RQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+t237TRY4dynb6+fJRLckfJTThy2NkaNg2GqCTrGnTo=;
- b=rJkA3PChKTE5s00fdJDuPYZk8M5ay9pD38YhKCNJoPw6KTRSFogsFZVyaVjgpK7ZLi+Ny0QURrcB/o2CKowyIm2sKjyFRbSiQvMU5iVT68JVnCoe9+uHEwYNa0X5xNGhGdl2fuk//WlkBYUBB0PnqxGmQ3gOLO3QWCW6LxO8nrU=
-Received: from GV1PR04MB9055.eurprd04.prod.outlook.com (2603:10a6:150:1e::22)
- by PAXPR04MB9230.eurprd04.prod.outlook.com (2603:10a6:102:2bc::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Wed, 30 Nov
- 2022 16:30:42 +0000
-Received: from GV1PR04MB9055.eurprd04.prod.outlook.com
- ([fe80::e936:d70e:e239:803c]) by GV1PR04MB9055.eurprd04.prod.outlook.com
- ([fe80::e936:d70e:e239:803c%3]) with mapi id 15.20.5813.018; Wed, 30 Nov 2022
- 16:30:42 +0000
-From:   Ioana Ciornei <ioana.ciornei@nxp.com>
-To:     Vladimir Oltean <vladimir.oltean@nxp.com>
-CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH net-next 00/12] Fix rtnl_mutex deadlock with DPAA2 and SFP
- modules
-Thread-Topic: [PATCH net-next 00/12] Fix rtnl_mutex deadlock with DPAA2 and
- SFP modules
-Thread-Index: AQHZA/yhHlTTL/78G0iCnnvGqd2h965Xqi0A
-Date:   Wed, 30 Nov 2022 16:30:41 +0000
-Message-ID: <20221130163036.hjlqub7oh4oppij6@NXL49225.wbi.nxp.com>
-References: <20221129141221.872653-1-vladimir.oltean@nxp.com>
-In-Reply-To: <20221129141221.872653-1-vladimir.oltean@nxp.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: GV1PR04MB9055:EE_|PAXPR04MB9230:EE_
-x-ms-office365-filtering-correlation-id: 6af95b13-b7b9-439d-0af6-08dad2f038bb
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: M1N2Brx8OV88T+f21p0k36QQko9TVqnPhH7cldBvX1L3T7h9VacrtVnBabUTV4XNBlRmeowLc3utIy3aghBw8m1fPN9Xn5wN/zJlFzwbk1OMQrjnLOOUg8HdC+FQA7VgRbMCKCH8/AewuOHMCu89bWNaFp2J3Flc1y/cRwjCFi/kXjQi+dModI8yt52nofZXgYoDkSxXMN7acJ7OLFtK8uGh0pg3fuNh8Xv1YP2dSaI6qSp9F9A3IUq3WUDVrslRJdYynuUANSTRaOr2sjiFArSozX6TfMyIC3i6FzLWKTG7zFgjkSb2e0QD3yMuJ7Zs2cVzqZc0IkMBTmHmvIbm/crKGAEQ9ELOGORDv3LE3dPBu7PAM0ztqvarWHlE9V7ljz1KIpwCieOjL4zL5JMdnCZZgMkpA/w6esj57FLH4IuP6WzRnXIxYq19W4nb2WNvTKmnhegEV12XlDjo4XTyDkEx4nx5ta7w0ZU3qn4/p6dTxhvueVg0kBBbsEFwu6okuY9E4gmOGmttiBEjUjOwD/bjuAcR8oqOHNyoDq1MQIvvBvg27hbT+ZgAibtN+NvmVwrekuvjoWSbWuFHQVOMHPMDWWzk0UUDjVyBjiCCDpvgMfzshsCXuDLVD6TD7VBFL/kqgBPOpT9aRR6rwfBpvkwPihj9233L6afV0c2MUCiX2uj7/rQtd+1OsvnlMnjflluyaR/LhCj7pLoUobLwxA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR04MB9055.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(136003)(346002)(39860400002)(396003)(376002)(451199015)(41300700001)(8676002)(2906002)(86362001)(5660300002)(66556008)(8936002)(6862004)(66476007)(44832011)(6506007)(64756008)(4326008)(6512007)(83380400001)(1076003)(26005)(186003)(38070700005)(54906003)(6486002)(91956017)(66946007)(76116006)(66446008)(6636002)(478600001)(316002)(38100700002)(122000001)(71200400001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Z0agrtKSj4S7l/E7YwkMUaIfuzRGYujjXC8WkVo26ID220IE6DBATf54tE/f?=
- =?us-ascii?Q?w2zQAqe58zDSjXn09vAHHwX3/CE6Sln7CjLoMLs7LsNbp9aq1oEzBCJP9Gfu?=
- =?us-ascii?Q?aZ9tTSqdyCRBORd4u4WY/NKoZqooKq8Y2gBAMU+QWHyc73UwYcYyZVTA0WIp?=
- =?us-ascii?Q?Vd3xKQ7x1Jnt9EptR8oVQt4QPbJgKeC+G4WdBCP+HNG79+wnunk0qBLU0LT/?=
- =?us-ascii?Q?s7RQ/KMgR8e5j9Dc+2zFpy0P/ko2vFlX+h6xiS941KZhXu5kgei6lU4ts8WR?=
- =?us-ascii?Q?qNv8H7ZmZYKz0P5/DnN0big+I4nYDZ72bFeH6xIz0xHyqf0jAG97HT2hdLYI?=
- =?us-ascii?Q?sjGx3BDYrZ7JKRVLquSBfvqxyScvXJrQOfFAjxfpvwwZFVkimSRSIIyEb26b?=
- =?us-ascii?Q?bbFo6v7Ol33KHX7wtx68X8J8dBVTgtHX2amSO0KzKmS7mdZeBmFHwU4EGuUk?=
- =?us-ascii?Q?Pc6zT9BvgF19wi5/fnaR/EpL+OrUGwL/gpyaOzId1uF/HA98MZFE69UJukOn?=
- =?us-ascii?Q?XiV94dwQi7uWzOHvzYKl4m1b2soaAsb6pjCWA9i8c0WNU+0X6HxmABjpl96H?=
- =?us-ascii?Q?ZiPT8Fqcg2ol+wVeTuA9EUMvr4Ym7KI26ebu38qnkk0Ex25Xt9tZCZBc5XzE?=
- =?us-ascii?Q?MymHcVTu2ku4uXJVfmHV8mTjcRYYOkarrtqfxaWUzo5sg69wcU5KzVaooKW1?=
- =?us-ascii?Q?hFUMMfkGzY1MAsR2RBcyFjjdtMBEFaLmuSxplqIqQyA7ieRDc1ZMn6y8HC2Z?=
- =?us-ascii?Q?fJM0pxn/kLJ00QtcPpEsbuTjFYcCFKi6Y+rbQz2xUzfZU4m11+klbgVMG4UQ?=
- =?us-ascii?Q?h8/u26oHV2ew0Lg0t/zHBdu8pNKjpVL0NiHxaC7PbOINGdPKa9KCFN//yoys?=
- =?us-ascii?Q?7QujOKm1sZA5MgNG8NVZ7ymnzZnQTNlswONyu21EU2u8Mf4o1u/XfhFB2xt/?=
- =?us-ascii?Q?8J7yttbpEwtSh00M7V4qSqaVtInNDq2E/nzQ4oVuDHS18NIsy0tJMlXMvrwn?=
- =?us-ascii?Q?gRP7DYFRuZMmTXSSP/tNKU2BE8vOBV/pX4yWpp/DwrOkSEoKb9YlcZ/nrdSB?=
- =?us-ascii?Q?XuCxuIThZtKez4XZ8OPfGKRyVDYDwcDJAt4Fk8DHviDUNVekLJzx9UU5S9SE?=
- =?us-ascii?Q?FzL/YqpoqgcnYJCfyvHjGnIEnDPn+PBzfbGm98ikDEZQe624doRK0h5t7n1Z?=
- =?us-ascii?Q?NC81yhdh1BbAbxCFfRKi58J8SJRNR9ZdD6E26Y2TkhzQ9zIwovA3eVZf478V?=
- =?us-ascii?Q?CEAAMna0BnQrUE7vDrKRWAKpmB49sXT3N8NrVsvsWdUVKwaLWA8aNjodm9Xd?=
- =?us-ascii?Q?F1dgT8TSvw++tiixZNkhS7FgkV1e/kwJYmS7ePimvZ3OoUbD/7ETambpLrH/?=
- =?us-ascii?Q?d6SyTHjwQlARYzTn1VBcASGh45dU2uZ57UNaCH1bHFsgMePjGKagWlzCT9YV?=
- =?us-ascii?Q?I9Ar4ZjeyO/2hBgkRcOtXSdTpOylrLjc9vu6rnSlDN/6Vxca8c5AkkOWKatm?=
- =?us-ascii?Q?uNiC19q00oMf/xUcxhvnOWVspNyC0rIyZMK4ptMNxxEgKFEd7wkUwUzRosCk?=
- =?us-ascii?Q?nQcT9oFCxqP8qaXwDjEaYYWKsUMa2YWEyqe2BdDc/YJ/tMpIrDdVyQWfUS8Q?=
- =?us-ascii?Q?/w=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <0980D7A14E7C6444AE90A6B000CABF77@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S231349AbiK3RML (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 12:12:11 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C43BE12A98;
+        Wed, 30 Nov 2022 09:07:39 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id x17so28125574wrn.6;
+        Wed, 30 Nov 2022 09:07:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kl6ws3qmIUmS2dmdUw3BftlQDtYI4yJWmdWoeCwIJ5s=;
+        b=cVoMp0WgWGphUkWR66QVAOVEtLf+BPp6NSrjKex5PiX+CFl3FA7/+a546UYflh7wVS
+         94WuUC2wLn1j22jDYSTdMULsg1QemnFr+zSyX/tXzlTEJZlYyWl/Sq8M3ozi/SmDmRnt
+         iICDqrJ+wx4QY59FGRmwdhm2edQSftqdL0MNxDUIuq6IFTKVkJThzXI/CTpxUY0auhVn
+         d2Iu9ILbyJX0OrbKibhypvxsKtwD9IrkCEwdNQRJUlYW7atvrY34HYg9+etQvshsS7Uf
+         G0hbpk8610NqrZGL9Jeu5XlKQhQPK3eSK4BsH61Jqc3YTTe/YMSe2DBJne3Deb+FsVd2
+         Qr5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kl6ws3qmIUmS2dmdUw3BftlQDtYI4yJWmdWoeCwIJ5s=;
+        b=SggZrgJ/VGWc5cvOVQPMsfGuK2rWQ42VT+BZTypjt43EwWrgknS4MLkEHb8MAhslL9
+         M+sEUUkKHD0B5jRm2XEkuyvz9HAWa98tigrepCXeQZbkFiR660q92VFNr/puJ1nZKTmu
+         BDuVN54wvJszefAv1xxh2CrHx87pywdSesTR5i9YM3LFmRksIAvq/37QsHWV+8p9ZMx8
+         fNWiIwVYXfuFlafmDbnquh7HRnxwTK61Dv6ALrvjTqzz1oy3sLbslQkBZeTsDUK+oWiu
+         14FOgR06sBN6iAUlzjwctZJ2FhC8U1GjcPTh4a9kEnL4tw+Ce1W3YNrjMIhAv9s3z33m
+         pfhg==
+X-Gm-Message-State: ANoB5pnFYchjbsY/pHCIvKepTBA2Db3Fsm004f09VjGloRiSK6kqJrof
+        rf3nqDpPfg8dMjHMlTt6G/E=
+X-Google-Smtp-Source: AA0mqf5Cz2IzIeLSEbbEsgC540HFCWw8lbDXcD0cXkZ9EXphDrXi7Nnf1xQa1Jn7q4OQFnxCnBKyJw==
+X-Received: by 2002:a5d:68cc:0:b0:242:1c1a:37e6 with SMTP id p12-20020a5d68cc000000b002421c1a37e6mr8806477wrw.549.1669828057705;
+        Wed, 30 Nov 2022 09:07:37 -0800 (PST)
+Received: from imac ([2a02:8010:60a0:0:4819:a626:a21a:171d])
+        by smtp.gmail.com with ESMTPSA id z12-20020a5d44cc000000b002362f6fcaf5sm2071931wrr.48.2022.11.30.09.07.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Nov 2022 09:07:36 -0800 (PST)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     mtahhan@redhat.com
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, jbrouer@redhat.com,
+        thoiland@redhat.com, donhunte@redhat.com, john.fastabend@gmail.com
+Subject: Re: [PATCH bpf-next v1 1/1] docs: BPF_MAP_TYPE_SOCK[MAP|HASH]
+In-Reply-To: <20221130102842.12788-1-mtahhan@redhat.com> (mtahhan@redhat.com's
+        message of "Wed, 30 Nov 2022 10:28:42 +0000")
+Date:   Wed, 30 Nov 2022 17:07:22 +0000
+Message-ID: <m27czc8j79.fsf@gmail.com>
+References: <20221130102842.12788-1-mtahhan@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: GV1PR04MB9055.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6af95b13-b7b9-439d-0af6-08dad2f038bb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Nov 2022 16:30:41.1487
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TfRFF5SxbquBI3kPgkdZY5T/q6s8f3i8AZgUYNWp/mwOB+/te+GIitJDvNYbNelevZen/zw44HjaTerZ1a6+Yw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9230
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 29, 2022 at 04:12:09PM +0200, Vladimir Oltean wrote:
-> This patch set deliberately targets net-next and lacks Fixes: tags due
-> to caution on my part.
->=20
-> While testing some SFP modules on the Solidrun Honeycomb LX2K platform,
-> I noticed that rebooting causes a deadlock:
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> WARNING: possible recursive locking detected
-> 6.1.0-rc5-07010-ga9b9500ffaac-dirty #656 Not tainted
-> --------------------------------------------
-> systemd-shutdow/1 is trying to acquire lock:
-> ffffa62db6cf42f0 (rtnl_mutex){+.+.}-{4:4}, at: rtnl_lock+0x1c/0x30
->=20
-> but task is already holding lock:
-> ffffa62db6cf42f0 (rtnl_mutex){+.+.}-{4:4}, at: rtnl_lock+0x1c/0x30
->=20
-> other info that might help us debug this:
->  Possible unsafe locking scenario:
->=20
->        CPU0
->        ----
->   lock(rtnl_mutex);
->   lock(rtnl_mutex);
->=20
->  *** DEADLOCK ***
->=20
->  May be due to missing lock nesting notation
->=20
-> 6 locks held by systemd-shutdow/1:
->  #0: ffffa62db6863c70 (system_transition_mutex){+.+.}-{4:4}, at: __do_sys=
-_reboot+0xd4/0x260
->  #1: ffff2f2b0176f100 (&dev->mutex){....}-{4:4}, at: device_shutdown+0xf4=
-/0x260
->  #2: ffff2f2b017be900 (&dev->mutex){....}-{4:4}, at: device_shutdown+0x10=
-4/0x260
->  #3: ffff2f2b017680f0 (&dev->mutex){....}-{4:4}, at: device_release_drive=
-r_internal+0x40/0x260
->  #4: ffff2f2b0e1608f0 (&dev->mutex){....}-{4:4}, at: device_release_drive=
-r_internal+0x40/0x260
->  #5: ffffa62db6cf42f0 (rtnl_mutex){+.+.}-{4:4}, at: rtnl_lock+0x1c/0x30
->=20
-> stack backtrace:
-> CPU: 6 PID: 1 Comm: systemd-shutdow Not tainted 6.1.0-rc5-07010-ga9b9500f=
-faac-dirty #656
-> Hardware name: SolidRun LX2160A Honeycomb (DT)
-> Call trace:
->  lock_acquire+0x68/0x84
->  __mutex_lock+0x98/0x460
->  mutex_lock_nested+0x2c/0x40
->  rtnl_lock+0x1c/0x30
->  sfp_bus_del_upstream+0x1c/0xac
->  phylink_destroy+0x1c/0x50
->  dpaa2_mac_disconnect+0x28/0x70
->  dpaa2_eth_remove+0x1dc/0x1f0
->  fsl_mc_driver_remove+0x24/0x60
->  device_remove+0x70/0x80
->  device_release_driver_internal+0x1f0/0x260
->  device_links_unbind_consumers+0xe0/0x110
->  device_release_driver_internal+0x138/0x260
->  device_release_driver+0x18/0x24
->  bus_remove_device+0x12c/0x13c
->  device_del+0x16c/0x424
->  fsl_mc_device_remove+0x28/0x40
->  __fsl_mc_device_remove+0x10/0x20
->  device_for_each_child+0x5c/0xac
->  dprc_remove+0x94/0xb4
->  fsl_mc_driver_remove+0x24/0x60
->  device_remove+0x70/0x80
->  device_release_driver_internal+0x1f0/0x260
->  device_release_driver+0x18/0x24
->  bus_remove_device+0x12c/0x13c
->  device_del+0x16c/0x424
->  fsl_mc_bus_remove+0x8c/0x10c
->  fsl_mc_bus_shutdown+0x10/0x20
->  platform_shutdown+0x24/0x3c
->  device_shutdown+0x15c/0x260
->  kernel_restart+0x40/0xa4
->  __do_sys_reboot+0x1e4/0x260
->  __arm64_sys_reboot+0x24/0x30
->=20
-> But fixing this appears to be not so simple. The patch set represents my
-> attempt to address it.
->=20
-> In short, the problem is that dpaa2_mac_connect() and dpaa2_mac_disconnec=
-t()
-> call 2 phylink functions in a row, one takes rtnl_lock() itself -
-> phylink_create(), and one which requires rtnl_lock() to be held by the
-> caller - phylink_fwnode_phy_connect(). The existing approach in the
-> drivers is too simple. We take rtnl_lock() when calling dpaa2_mac_connect=
-(),
-> which is what results in the deadlock.
->=20
-> Fixing just that creates another problem. The drivers make use of
-> rtnl_lock() for serializing with other code paths too. I think I've
-> found all those code paths, and established other mechanisms for
-> serializing with them.
->=20
-> Vladimir Oltean (12):
->   net: dpaa2-eth: don't use -ENOTSUPP error code
->   net: dpaa2: replace dpaa2_mac_is_type_fixed() with
->     dpaa2_mac_is_type_phy()
->   net: dpaa2-mac: absorb phylink_start() call into dpaa2_mac_start()
->   net: dpaa2-mac: remove defensive check in dpaa2_mac_disconnect()
->   net: dpaa2-eth: assign priv->mac after dpaa2_mac_connect() call
->   net: dpaa2-switch: assign port_priv->mac after dpaa2_mac_connect()
->     call
->   net: dpaa2: publish MAC stringset to ethtool -S even if MAC is missing
->   net: dpaa2-switch replace direct MAC access with
->     dpaa2_switch_port_has_mac()
->   net: dpaa2-eth: connect to MAC before requesting the "endpoint
->     changed" IRQ
->   net: dpaa2-eth: serialize changes to priv->mac with a mutex
->   net: dpaa2-switch: serialize changes to priv->mac with a mutex
->   net: dpaa2-mac: move rtnl_lock() only around
->     phylink_{,dis}connect_phy()
->=20
->  .../freescale/dpaa2/mac-phy-support.rst       |  9 +-
->  .../net/ethernet/freescale/dpaa2/dpaa2-eth.c  | 87 ++++++++++++-------
->  .../net/ethernet/freescale/dpaa2/dpaa2-eth.h  | 11 +--
->  .../ethernet/freescale/dpaa2/dpaa2-ethtool.c  | 70 ++++++++++-----
->  .../net/ethernet/freescale/dpaa2/dpaa2-mac.c  | 16 +++-
->  .../net/ethernet/freescale/dpaa2/dpaa2-mac.h  | 10 ++-
->  .../freescale/dpaa2/dpaa2-switch-ethtool.c    | 45 ++++++----
->  .../ethernet/freescale/dpaa2/dpaa2-switch.c   | 59 +++++++++----
->  .../ethernet/freescale/dpaa2/dpaa2-switch.h   |  9 +-
->  9 files changed, 212 insertions(+), 104 deletions(-)
+mtahhan@redhat.com writes:
 
-For the entire patch set:
+> From: Maryam Tahhan <mtahhan@redhat.com>
+>
+> Add documentation for BPF_MAP_TYPE_SOCK[MAP|HASH]
+> including kernel versions introduced, usage
+> and examples.
+>
+> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+> ---
+>  Documentation/bpf/map_sockmap.rst | 439 ++++++++++++++++++++++++++++++
+>  1 file changed, 439 insertions(+)
+>  create mode 100644 Documentation/bpf/map_sockmap.rst
+>
+> diff --git a/Documentation/bpf/map_sockmap.rst b/Documentation/bpf/map_sockmap.rst
+> new file mode 100644
+> index 000000000000..8824a67b24e8
+> --- /dev/null
+> +++ b/Documentation/bpf/map_sockmap.rst
+> @@ -0,0 +1,439 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +.. Copyright Red Hat
+> +
+> +==============================================
+> +BPF_MAP_TYPE_SOCKMAP and BPF_MAP_TYPE_SOCKHASH
+> +==============================================
+> +
+> +.. note::
+> +   - ``BPF_MAP_TYPE_SOCKMAP`` was introduced in kernel version 4.14
+> +   - ``BPF_MAP_TYPE_SOCKHASH`` was introduced in kernel version 4.18
+> +
+> +``BPF_MAP_TYPE_SOCKMAP`` is backed by an array that uses an integer key as the
+> +index to lookup a reference to a sock struct. The map values are sockets.
+> +Similarly, ``BPF_MAP_TYPE_SOCKHASH`` is a hash backed BPF map that holds
+> +references to sockets.
 
-Reviewed-by: Ioana Ciornei <ioana.ciornei@nxp.com>
-Tested-by: Ioana Ciornei <ioana.ciornei@nxp.com>
+Should mention that value type must be sizeof(__u32) or sizeof(__u64).
+The reason for supporting __u64 seems to be to return socket cookies to
+userspace. Details here:
+
+https://lore.kernel.org/bpf/20200218171023.844439-7-jakub@cloudflare.com/
+
+> +
+> +When these maps are created BPF programs are attached to them. The list of
+> +allowed programs is shown below:
+> +
+> +.. code-block:: c
+> +
+> +	struct sk_psock_progs {
+> +		struct bpf_prog *msg_parser;
+> +		struct bpf_prog *stream_parser;
+> +		struct bpf_prog *stream_verdict;
+> +		struct bpf_prog	*skb_verdict;
+> +	};
+> +
+> +.. note::
+> +    Users are not allowed to attach ``stream_verdict`` and ``skb_verdict``
+> +    programs to the same map.
+> +
+> +The parser programs determine how much data needs to be queued to come to a
+> +verdict. The verdict programs return a verdict ``__SK_DROP``, ``__SK_PASS``, or
+> +``__SK_REDIRECT``.
+> +
+> +The attach types for the map programs are:
+> +
+> +- ``msg_parser`` program - ``BPF_SK_MSG_VERDICT``.
+> +- ``stream_parser`` program - ``BPF_SK_SKB_STREAM_PARSER``.
+> +- ``stream_verdict`` program - ``BPF_SK_SKB_STREAM_VERDICT``.
+> +- ``skb_verdict`` program - ``BPF_SK_SKB_VERDICT``.
+> +
+> +These maps can be used to redirect skbs between sockets or to apply policy at
+> +the socket level based on the result of a verdict program with the help of the
+> +BPF helpers ``bpf_sk_redirect_map()``, ``bpf_sk_redirect_hash()``,
+> +``bpf_msg_redirect_map()`` and ``bpf_msg_redirect_hash()``.
+> +
+> +When a socket is inserted into one of these maps, its socket callbacks are
+> +replaced and a ``struct sk_psock`` is attached to it. Additionally, this
+> +``sk_psock`` inherits the programs that are attached to the map.
+> +
+> +.. note::
+> +	For more details of the socket callbacks that get replaced please see:
+> +
+> +	- TCP BPF functions: ``net/ipv4/tcp_bpf.c``
+> +	- UDP BPF functions: ``net/ipv4/udp_bpf.c``
+> +
+> +There are additional helpers available to use with the parser and verdict
+> +programs: ``bpf_msg_apply_bytes()`` and ``bpf_msg_cork_bytes()``. With
+> +``bpf_msg_apply_bytes()`` BPF programs can tell the infrastructure how many
+> +bytes the given verdict should apply to. The helper ``bpf_msg_cork_bytes()``
+> +handles a different case where a BPF program can not reach a verdict on a msg
+> +until it receives more bytes AND the program doesn't want to forward the packet
+> +until it is known to be good.
+> +
+> +Finally, the helpers ``bpf_msg_pull_data()`` and ``bpf_msg_push_data()`` are
+> +available to ``BPF_PROG_TYPE_SK_MSG`` BPF programs to pull in data and set the
+> +start and end pointer to given values or to add metadata to the ``struct
+> +sk_msg_buff *msg``.
+> +
+> +Usage
+> +=====
+> +Kernel BPF
+> +----------
+> +bpf_msg_redirect_map()
+> +^^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +	long bpf_msg_redirect_map(struct sk_msg_buff *msg, struct bpf_map *map, u32 key, u64 flags)
+> +
+> +This helper is used in programs implementing policies at the socket level. If
+> +the message ``msg`` is allowed to pass (i.e. if the verdict BPF program
+> +returns ``SK_PASS``), redirect it to the socket referenced by ``map`` (of type
+> +``BPF_MAP_TYPE_SOCKMAP``) at index ``key``. Both ingress and egress interfaces
+> +can be used for redirection. The ``BPF_F_INGRESS`` value in ``flags`` is used
+> +to select the ingress path otherwise the egress path is selected. This is the
+> +only flag supported for now.
+> +
+> +Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
+> +
+> +bpf_sk_redirect_map()
+> +^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    long bpf_sk_redirect_map(struct sk_buff *skb, struct bpf_map *map, u32 key u64 flags)
+> +
+> +Redirect the packet to the socket referenced by ``map``(of type
+
+Missing space between ``map`` and ( is breaking formatting.
+
+> +``BPF_MAP_TYPE_SOCKMAP``) at index ``key``. Both ingress and egress interfaces
+> +can be used for redirection. The ``BPF_F_INGRESS`` value in ``flags`` is used
+> +to select the ingress path otherwise the egress path is selected. This is the
+> +only flag supported for now.
+> +
+> +Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
+> +
+> +bpf_map_lookup_elem()
+> +^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
+> +
+> +socket entries of type ``struct sock *`` can be retrieved using the
+> +``bpf_map_lookup_elem()`` helper.
+> +
+> +bpf_sock_map_update()
+> +^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    long bpf_sock_map_update(struct bpf_sock_ops *skops, struct bpf_map *map, void *key, u64 flags)
+> +
+> +Add an entry to, or update a ``map`` referencing sockets. The ``skops`` is used
+> +as a new value for the entry associated to ``key``. The ``flags`` argument can
+> +be one of the following:
+> +
+> +- ``BPF_ANY``: Create a new element or update an existing element.
+> +- ``BPF_NOEXIST``: Create a new element only if it did not exist.
+> +- ``BPF_EXIST``: Update an existing element.
+> +
+> +If the ``map`` has BPF programs (parser and verdict), those will be inherited
+> +by the socket being added. If the socket is already attached to BPF programs,
+> +this results in an error.
+> +
+> +Returns 0 on success, or a negative error in case of failure.
+> +
+> +bpf_sock_hash_update()
+> +^^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    long bpf_sock_hash_update(struct bpf_sock_ops *skops, struct bpf_map *map, void *key, u64 flags)
+> +
+> +Add an entry to, or update a sockhash ``map`` referencing sockets. The ``skops``
+> +is used as a new value for the entry associated to ``key``.
+> +
+> +The ``flags`` argument can be one of the following:
+> +
+> +- ``BPF_ANY``: Create a new element or update an existing element.
+> +- ``BPF_NOEXIST``: Create a new element only if it did not exist.
+> +- ``BPF_EXIST``: Update an existing element.
+> +
+> +If the ``map`` has BPF programs (parser and verdict), those will be inherited
+> +by the socket being added. If the socket is already attached to BPF programs,
+> +this results in an error.
+> +
+> +Returns 0 on success, or a negative error in case of failure.
+> +
+> +bpf_msg_redirect_hash()
+> +^^^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    long bpf_msg_redirect_hash(struct sk_msg_buff *msg, struct bpf_map *map, void *key, u64 flags)
+> +
+> +This helper is used in programs implementing policies at the socket level. If
+> +the message ``msg`` is allowed to pass (i.e. if the verdict BPF program returns
+> +``SK_PASS``), redirect it to the socket referenced by ``map`` (of type
+> +``BPF_MAP_TYPE_SOCKHASH``) using hash ``key``. Both ingress and egress
+> +interfaces can be used for redirection. The ``BPF_F_INGRESS`` value in
+> +``flags`` is used to select the ingress path otherwise the egress path is
+> +selected. This is the only flag supported for now.
+> +
+> +Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
+> +
+> +bpf_sk_redirect_hash()
+> +^^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    long bpf_sk_redirect_hash(struct sk_buff *skb, struct bpf_map *map, void *key, u64 flags)
+> +
+> +This helper is used in programs implementing policies at the skb socket level.
+> +If the sk_buff *skb* is allowed to pass (i.e. if the verdict BPF program
+
+Should be ``skb``
+
+> +returns ``SK_PASS``), redirect it to the socket referenced by *map* (of type
+
+Should be ``map``
+
+> +``BPF_MAP_TYPE_SOCKHASH``) using hash ``key``. Both ingress and egress
+> +interfaces can be used for redirection. The ``BPF_F_INGRESS`` value in
+> +``flags`` is used to select the ingress path otherwise the egress path is
+> +selected. This is the only flag supported for now.
+> +
+> +Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
+> +
+> +bpf_msg_apply_bytes()
+> +^^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    long bpf_msg_apply_bytes(struct sk_msg_buff *msg, u32 bytes)
+> +
+> +For socket policies, apply the verdict of the BPF program to the next (number
+> +of ``bytes``) of message ``msg``. For example, this helper can be used in the
+> +following cases:
+> +
+> +- A single ``sendmsg()`` or ``sendfile()`` system call contains multiple
+> +  logical messages that the BPF program is supposed to read and for which it
+> +  should apply a verdict.
+> +- A BPF program only cares to read the first ``bytes`` of a ``msg``. If the
+> +  message has a large payload, then setting up and calling the BPF program
+> +  repeatedly for all bytes, even though the verdict is already known, would
+> +  create unnecessary overhead.
+> +
+> +Returns 0
+> +
+> +bpf_msg_cork_bytes()
+> +^^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    long bpf_msg_cork_bytes(struct sk_msg_buff *msg, u32 bytes)
+> +
+> +For socket policies, prevent the execution of the verdict BPF program for
+> +message ``msg`` until the number of ``bytes`` have been accumulated.
+> +
+> +This can be used when one needs a specific number of bytes before a verdict can
+> +be assigned, even if the data spans multiple ``sendmsg()`` or ``sendfile()``
+> +calls.
+> +
+> +Returns 0
+> +
+> +bpf_msg_pull_data()
+> +^^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    long bpf_msg_pull_data(struct sk_msg_buff *msg, u32 start, u32 end, u64 flags)
+> +
+> +For socket policies, pull in non-linear data from user space for ``msg`` and set
+> +pointers ``msg->data`` and ``msg->data_end`` to ``start`` and ``end`` bytes
+> +offsets into ``msg``, respectively.
+> +
+> +If a program of type ``BPF_PROG_TYPE_SK_MSG`` is run on a ``msg`` it can only
+> +parse data that the (``data``, ``data_end``) pointers have already consumed.
+> +For ``sendmsg()`` hooks this is likely the first scatterlist element. But for
+> +calls relying on the ``sendpage`` handler (e.g. ``sendfile()``) this will be
+> +the range (**0**, **0**) because the data is shared with user space and by
+> +default the objective is to avoid allowing user space to modify data while (or
+> +after) BPF verdict is being decided. This helper can be used to pull in data
+> +and to set the start and end pointer to given values. Data will be copied if
+> +necessary (i.e. if data was not linear and if start and end pointers do not
+> +point to the same chunk).
+> +
+> +A call to this helper is susceptible to change the underlying packet buffer.
+> +Therefore, at load time, all checks on pointers previously done by the verifier
+> +are invalidated and must be performed again, if the helper is used in
+> +combination with direct packet access.
+> +
+> +All values for ``flags`` are reserved for future usage, and must be left at
+> +zero.
+> +
+> +Returns 0 on success, or a negative error in case of failure.
+> +
+> +User space
+> +----------
+> +
+> +bpf_map_update_elem()
+> +^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +	int bpf_map_update_elem(int fd, const void *key, const void *value, __u64 flags)
+> +
+> +sockmap entries can be added or updated using the ``bpf_map_update_elem()``
+
+Should be capitalized Sockmap
+
+> +helper. The ``key`` parameter is the index value of the sockmap array. And the
+
+Helpers are kernel BPF things. This is a libbpf function.
+
+> +``value`` parameter is the FD value of that socket.
+> +
+> +Under the hood, the sockmap update function uses the socket FD value to
+> +retrieve the associated socket and its attached psock.
+> +
+> +The flags argument can be one of the following:
+> +
+> +- BPF_ANY: Create a new element or update an existing element.
+> +- BPF_NOEXIST: Create a new element only if it did not exist.
+> +- BPF_EXIST: Update an existing element.
+> +
+> +bpf_map_lookup_elem()
+> +^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    int bpf_map_lookup_elem(int fd, const void *key, void *value)
+> +
+> +Sockmap entries can be retrieved using the ``bpf_map_lookup_elem()``
+> +helper.
+
+Should mention that it's a socket cookie that gets returned to user space.
+
+s/helper/libbpf function/
+
+> +
+> +bpf_map_delete_elem()
+> +^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    int bpf_map_delete_elem(int fd, const void *key)
+> +
+> +Sockmap entries can be deleted using the ``bpf_map_delete_elem()``
+> +helper. This helper will return 0 on success, or negative error in case of
+
+s/helper/libbpf function/
+
+> +failure.
+> +
+> +Examples
+> +========
+> +
+> +Kernel BPF
+> +----------
+> +Several examples of the use of sockmap APIs can be found in:
+> +
+> +- `tools/testing/selftests/bpf/progs/test_sockmap_kern.h`_
+> +- `tools/testing/selftests/bpf/progs/sockmap_parse_prog.c`_
+> +- `tools/testing/selftests/bpf/progs/sockmap_verdict_prog.c`_
+> +- `tools/testing/selftests/bpf/progs/test_sockmap_listen.c`_
+> +- `tools/testing/selftests/bpf/progs/test_sockmap_update.c`_
+> +
+> +The following code snippet shows how to declare a sockmap.
+> +
+> +.. code-block:: c
+> +
+> +	struct {
+> +		__uint(type, BPF_MAP_TYPE_SOCKMAP);
+> +		__uint(max_entries, 1);
+> +		__type(key, __u32);
+> +		__type(value, __u64);
+> +	} sock_map_rx SEC(".maps");
+> +
+> +The following code snippet shows a sample parser program.
+> +
+> +.. code-block:: c
+> +
+> +	SEC("sk_skb/stream_parser")
+> +	int bpf_prog_parser(struct __sk_buff *skb)
+> +	{
+> +		return skb->len;
+> +	}
+> +
+> +The following code snippet shows a simple verdict program that interacts with a
+> +sockmap to redirect traffic to another socket based on the local port.
+> +
+> +.. code-block:: c
+> +
+> +	SEC("sk_skb/stream_verdict")
+> +	int bpf_prog_verdict(struct __sk_buff *skb)
+> +	{
+> +		__u32 lport = skb->local_port;
+> +		__u32 idx = 0;
+> +
+> +		if (lport == 10000)
+> +			return bpf_sk_redirect_map(skb, &sock_map_rx, idx, 0);
+> +
+> +		return SK_PASS;
+> +	}
+> +
+> +The following code snippet shows how to declare a sockhash map.
+> +
+> +.. code-block:: c
+> +
+> +	struct socket_key {
+> +		__u32 src_ip;
+> +		__u32 dst_ip;
+> +		__u32 src_port;
+> +		__u32 dst_port;
+> +	};
+> +
+> +	struct {
+> +		__uint(type, BPF_MAP_TYPE_SOCKHASH);
+> +		__uint(max_entries, 1);
+> +		__type(key, struct socket_key);
+> +		__type(value, __u64);
+> +	} sock_hash_rx SEC(".maps");
+> +
+> +The following code snippet shows a simple verdict program that interacts with a
+> +sockhash to redirect traffic to another socket based on a hash of some of the
+> +skb parameters.
+> +
+> +.. code-block:: c
+> +
+> +	static inline
+> +	void extract_socket_key(struct __sk_buff *skb, struct socket_key *key)
+> +	{
+> +		key->src_ip = skb->remote_ip4;
+> +		key->dst_ip = skb->local_ip4;
+> +		key->src_port = skb->remote_port >> 16;
+> +		key->dst_port = (bpf_htonl(skb->local_port)) >> 16;
+> +	}
+> +
+> +	SEC("sk_skb/stream_verdict")
+> +	int bpf_prog_verdict(struct __sk_buff *skb)
+> +	{
+> +		struct socket_key key;
+> +
+> +		extract_socket_key(skb, &key);
+> +
+> +		return bpf_sk_redirect_hash(skb, &sock_hash_rx, &key, 0);
+> +	}
+> +
+> +User space
+> +----------
+> +Several examples of the use of sockmap APIs can be found in:
+> +
+> +- `tools/testing/selftests/bpf/prog_tests/sockmap_basic.c`_
+> +- `tools/testing/selftests/bpf/test_sockmap.c`_
+> +- `tools/testing/selftests/bpf/test_maps.c`_
+> +
+> +The following code snippet shows how to create a sockmap and add a socket
+> +entry:
+> +
+> +.. code-block:: c
+> +
+> +	/* Create a map and populate it with one socket*/
+> +	static void create_sample_sockmap(int s)
+> +	{
+> +		const int index = 0;
+> +		int map, err;
+> +
+> +		map = bpf_map_create(BPF_MAP_TYPE_SOCKMAP, NULL, sizeof(int), sizeof(int), 1, NULL);
+> +		if (map < 0) {
+> +			fprintf(stderr, "Failed to create sockmap: %s\n", strerror(errno));
+> +			goto out;
+> +		}
+> +
+> +		err = bpf_map_update_elem(map, &index, &s, BPF_NOEXIST);
+> +		if (err) {
+> +			fprintf(stderr, "Failed to update sockmap: %s\n", strerror(errno));
+> +			goto out;
+> +		}
+> +
+> +	out:
+> +		close(map);
+> +	}
+> +
+> +References
+> +===========
+> +
+> +- https://github.com/jrfastab/linux-kernel-xdp/commit/c89fd73cb9d2d7f3c716c3e00836f07b1aeb261f
+> +- https://lwn.net/Articles/731133/
+> +- http://vger.kernel.org/lpc_net2018_talks/ktls_bpf_paper.pdf
+> +- https://lwn.net/Articles/748628/
+> +
+> +.. _`tools/testing/selftests/bpf/progs/test_sockmap_kern.h`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/test_sockmap_kern.h
+> +.. _`tools/testing/selftests/bpf/progs/sockmap_parse_prog.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/sockmap_parse_prog.c
+> +.. _`tools/testing/selftests/bpf/progs/sockmap_verdict_prog.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/sockmap_verdict_prog.c
+> +.. _`tools/testing/selftests/bpf/prog_tests/sockmap_basic.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/prog_tests/sockmap_basic.c
+> +.. _`tools/testing/selftests/bpf/test_sockmap.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/test_sockmap.c
+> +.. _`tools/testing/selftests/bpf/test_maps.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/test_maps.c
+> +.. _`tools/testing/selftests/bpf/progs/test_sockmap_listen.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/test_sockmap_listen.c
+> +.. _`tools/testing/selftests/bpf/progs/test_sockmap_update.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/test_sockmap_update.c
