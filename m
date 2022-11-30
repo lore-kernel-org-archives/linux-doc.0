@@ -2,58 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94589C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 11:34:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 419D0C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 12:43:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235299AbiK3Lep (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Nov 2022 06:34:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51848 "EHLO
+        id S233918AbiK3Mnp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Nov 2022 07:43:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235308AbiK3Ldq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 06:33:46 -0500
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EC6A4B9BC;
-        Wed, 30 Nov 2022 03:33:15 -0800 (PST)
-Received: by mail-lj1-x235.google.com with SMTP id x6so6363079lji.10;
-        Wed, 30 Nov 2022 03:33:15 -0800 (PST)
+        with ESMTP id S234278AbiK3Mno (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 07:43:44 -0500
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE1CA4B753;
+        Wed, 30 Nov 2022 04:43:43 -0800 (PST)
+Received: by mail-pf1-x42d.google.com with SMTP id z17so11899292pff.1;
+        Wed, 30 Nov 2022 04:43:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bbgF/8QJth7Q6iZLlIiOpcOOnk+o4nClIAC+d8Lf9z0=;
-        b=cgrBYVcGGaOmhs4NUM2DMBzEteSqsnNo+s1OWAu0xrFfR8SfGHhoYWl6cON5bJQf5H
-         kBXo+HTMLYJlc0NNqyXTeNHVsKFqrN9RnSJvYMAt9wsTzoHjoBDz54HyrId55uPzhcey
-         WrkHDI90HmJoIfjTMzlxSFuMRM+ZEK+h+tp2CXCTYTjqjx+4Ho1p2q1qT5Xh0Pe1NIpw
-         kh3Ph4481EH6HJsaTRzldrzwYx9ab3Q4uT9o4p32qRaA2tLn+Hf0w3FMTq1prgn3d5jp
-         NtxVXq9wW/MEdgV2FWkhhU7TsMvsvlWqvebJsqA+xk8HaXGX4H+zuKYU5RX6czhqRUDe
-         TW5g==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0SYFP0szIO4uQWosjf/DBeQUEddgh/eJCRxGlHyoP1o=;
+        b=lGFEahgyoDkFfO4MTJBxV+WDKKjYFLDSWD9cIm+boSkjj2uoMWRWiQcNtpl/TOm5rK
+         sSHEv/glh5oOTksk41RVezXagw6jbuZ40TXl7NEnFNYManHa/w1R71xZZI36J4lX25UM
+         cbcUfD4gneaUwM4QD+SBL6cBzhU+wznPmwiJK9DMF2KXg2dr+bRBElQibmy510sUXU9m
+         PDGF6zV6GJt6ZojTKhrgyy9u/iQhayTWSqnd1UbNFjJ59iUnn8gey849SPnDD1NkqUem
+         y+2zRdZvWk7CPIYegPztuRmyowZwiKIAvxOhInYXosz5F72MggNoCosSPckKf+1f0vF1
+         S69A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bbgF/8QJth7Q6iZLlIiOpcOOnk+o4nClIAC+d8Lf9z0=;
-        b=NbDaJ4bhCdEyY92Rmg+X9V7pKl7RshHcGab+wiKVGu4QAM6+8t5Ejncj2PcQUpV6KY
-         gFU0yhV+uHOa/LQX1pW0KAXocC6+tvlvT2VCcdBjpHmcZrC0e4qho97BEG5UDGObbfj4
-         rinfUQSX6E7C8Sj8Me4T6C9PtIfpIAYbYpTij27qtaykZC+qqN5jQphgJgZ7MHYlhvEa
-         Y95m25M0T5qgstUdiXaVKX+mhg6+26VezlBXkryXaWn+KJ9fqgY8b+pGJ628o38ENu0c
-         M21vERilU3VlmEqEGrGtFCRfMmwdNoqwA9bZstG5EOcrlgXKs+T5KUrqe4CuBazffj7w
-         jeAg==
-X-Gm-Message-State: ANoB5pnyPrsN30UH5B9l3CRgAsLD+RGXmMmIh7QtXReycuchoadhUUx2
-        CCI7dpjJL3yVp1rHKHupyx+3qdNOumkIyflToXc=
-X-Google-Smtp-Source: AA0mqf4DNgrzSTa3qDkcM1vR3wsA4xbwLoMawo/HYfBGJ5539OEYNPmp+YyAmqJIJYo2LXuFpOGWdNGqzEgPvVjR9QQ=
-X-Received: by 2002:a2e:3815:0:b0:279:8c75:b1a8 with SMTP id
- f21-20020a2e3815000000b002798c75b1a8mr8432976lja.140.1669807993775; Wed, 30
- Nov 2022 03:33:13 -0800 (PST)
-MIME-Version: 1.0
-References: <20221130070158.44221-1-chengkaitao@didiglobal.com> <fd28321c-5f00-ba94-daed-2b8da2292c1f@gmail.com>
-In-Reply-To: <fd28321c-5f00-ba94-daed-2b8da2292c1f@gmail.com>
-From:   Tao pilgrim <pilgrimtao@gmail.com>
-Date:   Wed, 30 Nov 2022 19:33:01 +0800
-Message-ID: <CAAWJmAYPUK+1GBS0R460pDvDKrLr9zs_X2LT2yQTP_85kND5Ew@mail.gmail.com>
-Subject: Re: [PATCH] mm: memcontrol: protect the memory in cgroup from being
- oom killed
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0SYFP0szIO4uQWosjf/DBeQUEddgh/eJCRxGlHyoP1o=;
+        b=x6FeW+M2RH1uyFt2ru45iPSctMNc2R3/x/JKx0QXAc7HUhsVS+RhlFg2BKJCALJHk0
+         b4O+tearRIn3s+Ezl/HrIi0sZU/2KCqvyST6ZiSFgetElmvR6F1yZZCwMr2n+QzUumrI
+         dEYuVpy0DxE9FAGD98MqiiWCYIvUNyYZs3tE9p6TKjUWrGIQB6DelMk1lck9AugA+lgT
+         g7j0wDR7xH0Uu8Kk0mJmyk/lv0kWVMre14SSgzCwG9a57uBPQypAps9kPunBpZMSSDJO
+         Wha0QcL2f5trkUklwhCg8bBiPT6O+kLVkOHEUtAAK3XGuLQFr+XfWixK31uin0bj8CFx
+         i5XA==
+X-Gm-Message-State: ANoB5pkfUwBPXuH1Bqk+YNNeundu6DJc03Z5Kj6bmo8iJaPHH97r/oe5
+        833JW589frlhvvcNjLMffy4=
+X-Google-Smtp-Source: AA0mqf6gJ2VDhQCzPJjGyRfnk3iFdVRCTTJb/bbVvhipQMA64yPolrxBfQn0+QAJf7edKJ9vxrG42g==
+X-Received: by 2002:aa7:9416:0:b0:575:518e:dc11 with SMTP id x22-20020aa79416000000b00575518edc11mr11919945pfo.86.1669812223326;
+        Wed, 30 Nov 2022 04:43:43 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-85.three.co.id. [180.214.232.85])
+        by smtp.gmail.com with ESMTPSA id z9-20020a1709027e8900b00186b8752a78sm1374421pla.80.2022.11.30.04.43.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Nov 2022 04:43:42 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 492AB103FF3; Wed, 30 Nov 2022 19:43:39 +0700 (WIB)
+Date:   Wed, 30 Nov 2022 19:43:39 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Tao pilgrim <pilgrimtao@gmail.com>
 Cc:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
         corbet@lwn.net, mhocko@kernel.org, roman.gushchin@linux.dev,
         shakeelb@google.com, akpm@linux-foundation.org,
@@ -69,56 +68,83 @@ Cc:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         chengkaitao@didiglobal.com
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] mm: memcontrol: protect the memory in cgroup from being
+ oom killed
+Message-ID: <Y4dP+3VEYl/YUfK1@debian.me>
+References: <20221130070158.44221-1-chengkaitao@didiglobal.com>
+ <fd28321c-5f00-ba94-daed-2b8da2292c1f@gmail.com>
+ <CAAWJmAYPUK+1GBS0R460pDvDKrLr9zs_X2LT2yQTP_85kND5Ew@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="U2At7WgeybTkF08j"
+Content-Disposition: inline
+In-Reply-To: <CAAWJmAYPUK+1GBS0R460pDvDKrLr9zs_X2LT2yQTP_85kND5Ew@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 30, 2022 at 4:41 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->
-> On 11/30/22 14:01, chengkaitao wrote:
-> > From: chengkaitao <pilgrimtao@gmail.com>
+
+--U2At7WgeybTkF08j
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Nov 30, 2022 at 07:33:01PM +0800, Tao pilgrim wrote:
+> On Wed, Nov 30, 2022 at 4:41 PM Bagas Sanjaya <bagasdotme@gmail.com> wrot=
+e:
 > >
->
-> Yikes! Another patch from ZTE guys.
->
-> I'm suspicious to patches sent from them due to bad reputation with
-> kernel development community. First, they sent all patches via
-> cgel.zte@gmail.com (listed in Cc) but Greg can't sure these are really
-> sent from them ([1] & [2]). Then they tried to workaround by sending
-> from their personal Gmail accounts, again with same response from him
-> [3]. And finally they sent spoofed emails (as he pointed out in [4]) -
-> they pretend to send from ZTE domain but actually sent from their
-> different domain (see raw message and look for X-Google-Original-From:
-> header.
+> > On 11/30/22 14:01, chengkaitao wrote:
+> > > From: chengkaitao <pilgrimtao@gmail.com>
+> > >
+> >
+> > Yikes! Another patch from ZTE guys.
+> >
+> > I'm suspicious to patches sent from them due to bad reputation with
+> > kernel development community. First, they sent all patches via
+> > cgel.zte@gmail.com (listed in Cc) but Greg can't sure these are really
+> > sent from them ([1] & [2]). Then they tried to workaround by sending
+> > from their personal Gmail accounts, again with same response from him
+> > [3]. And finally they sent spoofed emails (as he pointed out in [4]) -
+> > they pretend to send from ZTE domain but actually sent from their
+> > different domain (see raw message and look for X-Google-Original-From:
+> > header.
+>=20
+> Hi Bagas Sanjaya,
+>=20
+> I'm not an employee of ZTE, just an ordinary developer. I really don't kn=
+ow
+> all the details about community and ZTE, The reason why I cc cgel.zte@gma=
+il.com
+> is because the output of the script <get_maintainer.pl> has the
+> address <cgel.zte@gmail.com>.
+>=20
+> If there is any error in the format of the email, I will try my best
+> to correct it.
+>=20
 
-Hi Bagas Sanjaya,
+OK, thanks for clarification. At first I thought you were ZTE guys.
+Sorry for inconvenience.
 
-I'm not an employee of ZTE, just an ordinary developer. I really don't know
-all the details about community and ZTE, The reason why I cc cgel.zte@gmail.com
-is because the output of the script <get_maintainer.pl> has the
-address <cgel.zte@gmail.com>.
+Now I ask: why do your email seem spoofed (sending from your gmail
+account but there is extra gmail-specific header that makes you like
+"sending" from your corporate email address? Wouldn't it be nice (and
+appropriate) if you can send and receive email with the latter address
+instead?
 
-If there is any error in the format of the email, I will try my best
-to correct it.
+Thanks.
 
->
-> I was about to review documentation part of this patch, but due to
-> concerns above, I have to write this reply instead. So I'm not going
-> to review, sorry for inconvenience.
->
-> PS: Adding Greg to Cc: list.
->
-> [1]: https://lore.kernel.org/lkml/Yw94xsOp6gvdS0UF@kroah.com/
-> [2]: https://lore.kernel.org/lkml/Yylv5hbSBejJ58nt@kroah.com/
-> [3]: https://lore.kernel.org/lkml/Y1EVnZS9BalesrC1@kroah.com/
-> [4]: https://lore.kernel.org/lkml/Y3NrBvIV7lH2GrWz@kroah.com/
->
-> --
-> An old man doll... just what I always wanted! - Clara
->
+--=20
+An old man doll... just what I always wanted! - Clara
 
+--U2At7WgeybTkF08j
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Yours,
-Kaitao Cheng
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY4dP9QAKCRD2uYlJVVFO
+o2fFAP9CcwtLbXBJc0AgmMHIUvGNiyhA9iDVaDQGg5tezc3siAD+MdwAl/MqnXUT
+o9/M5ZNbB5lgA8Gdug0py/N/VDy0TQc=
+=RwhN
+-----END PGP SIGNATURE-----
+
+--U2At7WgeybTkF08j--
