@@ -2,158 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20CD3C46467
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 15:55:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56B41C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 16:10:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbiK3PzF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Nov 2022 10:55:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48614 "EHLO
+        id S230129AbiK3QKg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Nov 2022 11:10:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229981AbiK3PzE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 10:55:04 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E47372C672;
-        Wed, 30 Nov 2022 07:55:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669823703; x=1701359703;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=pHHx40nNpBcEMGD23l0UjCP+x8Q8o2hccTEsLv7t7vw=;
-  b=Ua8xLNJHl39fcUZ7ZMKyo1axBYNgk2LHDmnrMZ6fL5N9Vn+id7YA87q4
-   AIT9f0vUMVTb8SaViL7MfZFbhfwgj5oUW6v9IN4ScV8+gkGpjOxR1FaDj
-   k61/8cb80fXSUbKNiTM6uZ+giQ7uxs4JssE8Ku7rWK3jlbS1sFQyI/KyQ
-   RouyU93PBnjdt4dggFm+FmtCGckF0dG9pQLA6GdgI1AKwjToT5CKdiCr2
-   Rzy04TknPQ1OP+z7jcPuAc7vQrRVh1DD+WoFZy0itKD/nLAkkzhU0Liuw
-   nO0Bn5n4DdICgOsECVDL10/WQRgXhFFdq0DYKqs+cDfWdy6exN3V7WcMW
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="298799861"
-X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; 
-   d="scan'208";a="298799861"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2022 07:55:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="889336389"
-X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; 
-   d="scan'208";a="889336389"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga006.fm.intel.com with ESMTP; 30 Nov 2022 07:54:59 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 06A62179; Wed, 30 Nov 2022 17:55:26 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Marc Zyngier <maz@kernel.org>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
+        with ESMTP id S230136AbiK3QKb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 11:10:31 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AB9D490B9;
+        Wed, 30 Nov 2022 08:10:30 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EA4A761CC7;
+        Wed, 30 Nov 2022 16:10:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85091C433D6;
+        Wed, 30 Nov 2022 16:10:28 +0000 (UTC)
+Date:   Wed, 30 Nov 2022 11:10:26 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v1 3/3] Documentation: gpio: Replace leading TABs by spaces in the code blocks
-Date:   Wed, 30 Nov 2022 17:55:19 +0200
-Message-Id: <20221130155519.20362-3-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221130155519.20362-1-andriy.shevchenko@linux.intel.com>
-References: <20221130155519.20362-1-andriy.shevchenko@linux.intel.com>
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3 2/3] tracing/osnoise: Add preempt/irq disable options
+Message-ID: <20221130111026.47b9c456@gandalf.local.home>
+In-Reply-To: <700e7f91-00a9-d625-741d-122b9b1e1e1c@kernel.org>
+References: <cover.1669409262.git.bristot@kernel.org>
+        <03d4a8522792fa3a51920c79f8a5074933a2fcb3.1669409262.git.bristot@kernel.org>
+        <20221128153919.33c008d1@gandalf.local.home>
+        <700e7f91-00a9-d625-741d-122b9b1e1e1c@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The code blocks are indented with two spaces, if the leading TAB
-is occurred the syntax highlighting might be broken in some editors.
-To prevent that unify all code blocks by using spaces instead of
-leading TAB(s).
+On Wed, 30 Nov 2022 16:47:29 +0100
+Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- Documentation/driver-api/gpio/driver.rst | 28 ++++++++++++------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+> On 11/28/22 21:39, Steven Rostedt wrote:
+> > On Fri, 25 Nov 2022 22:20:23 +0100
+> > Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
+> >   
+> >> @@ -1308,6 +1315,8 @@ static void notify_new_max_latency(u64 latency)
+> >>   */
+> >>  static int run_osnoise(void)
+> >>  {
+> >> +	bool preempt_disable = test_bit(OSN_PREEMPT_DISABLE, &osnoise_options);
+> >> +	bool irq_disable = test_bit(OSN_IRQ_DISABLE, &osnoise_options);  
+> > 
+> > 	bool irq_disable = test_bit(OSN_IRQ_DISABLE, &osnoise_options);
+> > 	bool preempt_disable = IS_ENABLED(CONFIG_PREEMPT) &&
+> > 			!irq_disable && test_bit(OSN_PREEMPT_DISABLE, &osnoise_options);  
+> 
+> Ooops again, that is not exactly what I wanted, because...
 
-diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
-index 3d2f36001a7a..d69ea7547aee 100644
---- a/Documentation/driver-api/gpio/driver.rst
-+++ b/Documentation/driver-api/gpio/driver.rst
-@@ -7,7 +7,7 @@ This document serves as a guide for writers of GPIO chip drivers.
- Each GPIO controller driver needs to include the following header, which defines
- the structures used to define a GPIO driver::
- 
--	#include <linux/gpio/driver.h>
-+  #include <linux/gpio/driver.h>
- 
- 
- Internal Representation of GPIOs
-@@ -144,7 +144,7 @@ is not open, it will present a high-impedance (tristate) to the external rail::
-      in ----||                   |/
-             ||--+         in ----|
-                 |                |\
--               GND	           GND
-+               GND                 GND
- 
- This configuration is normally used as a way to achieve one of two things:
- 
-@@ -574,10 +574,10 @@ the interrupt separately and go with it:
-   struct my_gpio *g;
-   struct gpio_irq_chip *girq;
- 
--  ret = devm_request_threaded_irq(dev, irq, NULL,
--		irq_thread_fn, IRQF_ONESHOT, "my-chip", g);
-+  ret = devm_request_threaded_irq(dev, irq, NULL, irq_thread_fn,
-+                                  IRQF_ONESHOT, "my-chip", g);
-   if (ret < 0)
--	return ret;
-+      return ret;
- 
-   /* Get a pointer to the gpio_irq_chip */
-   girq = &g->gc.irq;
-@@ -705,12 +705,12 @@ certain operations and keep track of usage inside of the gpiolib subsystem.
- Input GPIOs can be used as IRQ signals. When this happens, a driver is requested
- to mark the GPIO as being used as an IRQ::
- 
--	int gpiochip_lock_as_irq(struct gpio_chip *chip, unsigned int offset)
-+  int gpiochip_lock_as_irq(struct gpio_chip *chip, unsigned int offset)
- 
- This will prevent the use of non-irq related GPIO APIs until the GPIO IRQ lock
- is released::
- 
--	void gpiochip_unlock_as_irq(struct gpio_chip *chip, unsigned int offset)
-+  void gpiochip_unlock_as_irq(struct gpio_chip *chip, unsigned int offset)
- 
- When implementing an irqchip inside a GPIO driver, these two functions should
- typically be called in the .startup() and .shutdown() callbacks from the
-@@ -732,12 +732,12 @@ When a GPIO is used as an IRQ signal, then gpiolib also needs to know if
- the IRQ is enabled or disabled. In order to inform gpiolib about this,
- the irqchip driver should call::
- 
--	void gpiochip_disable_irq(struct gpio_chip *chip, unsigned int offset)
-+  void gpiochip_disable_irq(struct gpio_chip *chip, unsigned int offset)
- 
- This allows drivers to drive the GPIO as an output while the IRQ is
- disabled. When the IRQ is enabled again, a driver should call::
- 
--	void gpiochip_enable_irq(struct gpio_chip *chip, unsigned int offset)
-+  void gpiochip_enable_irq(struct gpio_chip *chip, unsigned int offset)
- 
- When implementing an irqchip inside a GPIO driver, these two functions should
- typically be called in the .irq_disable() and .irq_enable() callbacks from the
-@@ -787,12 +787,12 @@ Sometimes it is useful to allow a GPIO chip driver to request its own GPIO
- descriptors through the gpiolib API. A GPIO driver can use the following
- functions to request and free descriptors::
- 
--	struct gpio_desc *gpiochip_request_own_desc(struct gpio_desc *desc,
--						    u16 hwnum,
--						    const char *label,
--						    enum gpiod_flags flags)
-+  struct gpio_desc *gpiochip_request_own_desc(struct gpio_desc *desc,
-+                                              u16 hwnum,
-+                                              const char *label,
-+                                              enum gpiod_flags flags)
- 
--	void gpiochip_free_own_desc(struct gpio_desc *desc)
-+  void gpiochip_free_own_desc(struct gpio_desc *desc)
- 
- Descriptors requested with gpiochip_request_own_desc() must be released with
- gpiochip_free_own_desc().
--- 
-2.35.1
+Then just remove the "IS_ENABLED()" part and it should work just fine.
 
+> 
+> >>  	struct osnoise_variables *osn_var = this_cpu_osn_var();
+> >>  	u64 start, sample, last_sample;
+> >>  	u64 last_int_count, int_count;
+> >> @@ -1335,6 +1344,14 @@ static int run_osnoise(void)
+> >>  	 */
+> >>  	threshold = tracing_thresh ? : 5000;
+> >>  
+> >> +	/*
+> >> +	 * IRQ disable also implies in preempt disable.
+> >> +	 */
+> >> +	if (irq_disable)
+> >> +		local_irq_disable();  
+> > 
+> > 	if (preempt_disable)  
+> >> +		preempt_disable();
+
+The above is a nop when CONFIG_PREEMPT is false.
+
+> >> +
+> >>  	/*
+> >>  	 * Make sure NMIs see sampling first
+> >>  	 */
+> >> @@ -1422,16 +1439,21 @@ static int run_osnoise(void)
+> >>  		 * cond_resched()
+> >>  		 */
+> >>  		if (IS_ENABLED(CONFIG_PREEMPT_RCU)) {
+> >> -			local_irq_disable();
+> >> +			if (!irq_disable)
+> >> +				local_irq_disable();
+> >> +
+> >>  			rcu_momentary_dyntick_idle();
+> >> -			local_irq_enable();
+> >> +
+> >> +			if (!irq_disable)
+> >> +				local_irq_enable();
+> >>  		}
+> >>  
+> >>  		/*
+> >>  		 * For the non-preemptive kernel config: let threads runs, if
+> >> -		 * they so wish.
+> >> +		 * they so wish, unless set not do to so.
+> >>  		 */  
+> 
+> Then I end up cond_resched'ing here in the non-preemptive kernel.
+
+Sorry, I missed the point that you want to *not* cond_resched() even in a
+CONFIG_PREEMPT is false situation, if preempt_disable flag is set. That's
+the reason I added the IS_ENABLED(CONFIG_PREEMPT) check at the top. I
+originally didn't have that, but then thought this should always happen in
+that case.
+
+> 
+> >> -		cond_resched();
+> >> +		if (!irq_disable && !preempt_disable)
+> >> +			cond_resched();  
+> 
+> But I also want to avoid this cond_resched if preempt_disable is set.
+
+Right, so just remove the IS_ENABLED() part in the beginning.
+
+> 
+> So, I will merge both things:
+> 
+> 	- change the preempt_disable assignment to check !irq_disabled, like:
+> 
+> 		/*
+> 		 * Disabling preemption is only required if IRQs are enabled, and the options is set on.
+> 		 */
+> 		preempt_disable = !irq_disable && test_bit(OSN_PREEMPT_DISABLE, &osnoise_options);
+
+Yep (that's what I original had until I changed it)
+
+> 
+> 	- change the preempt disabled if to
+> 		if (IS_ENABLED(CONFIG_PREEMPT) && preempt_disabled)
+> 			preempt_disable();
+
+No need, preempt_disable() is a nop when CONFIG_PREEMPT is false.
+
+> 
+> I tested with both preemption models (preemptive and not preemptive) and it works fine.
+> 
+> am I missing something?
+
+Just that you don't need to add the IS_ENABLED() part at all.
+
+-- Steve
