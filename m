@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86B13C4321E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 18:21:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CAF9C47088
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 18:36:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230362AbiK3SV0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Nov 2022 13:21:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48652 "EHLO
+        id S230242AbiK3SgU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Nov 2022 13:36:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230314AbiK3SUt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 13:20:49 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F0638BD06;
-        Wed, 30 Nov 2022 10:19:23 -0800 (PST)
+        with ESMTP id S230389AbiK3SgA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 13:36:00 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA84598953;
+        Wed, 30 Nov 2022 10:35:55 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 83F78CE1ACD;
-        Wed, 30 Nov 2022 18:19:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8EEAC43470;
-        Wed, 30 Nov 2022 18:19:17 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7AA2BB81C9C;
+        Wed, 30 Nov 2022 18:35:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B5FEC43470;
+        Wed, 30 Nov 2022 18:35:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669832359;
-        bh=UofQ2Om5TKKPZw19SG+8wKH8TntN+ojXWrOiFhpkAis=;
+        s=k20201202; t=1669833353;
+        bh=IvVRl4+fARp9XLGnHwE9fvcyF8luYUHd16dM9vMV/1A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XMMfsAceNIPA7SVzZd9xgHyYxzJcdYfpp9vfAK/FLUt8535HDUNnn3noVhN0M1G7D
-         fOMtP0q8tDdeTome2UAGMdiwTGteRyuhJ/O2bVmzXbM0PSLpkxQi6dcyFtfbdSnAF5
-         T/fSXL441rkM7QD9tGFQ0Pv/NuvtEADFGpvnH5mAXk1e/tXMvzo59uqxCdeBZiffRR
-         1clWQTueMTNBqloHGE0Ccpkeb2q/I0fUXWfwE1lUrzokBPy7xzu2zPxL8i/fTaNPPl
-         xDVxNl8T4GNj0smUjuAmWKwPP4nyd1S5NYxABS3Yol1YqMkbnl2MsTxbTV5b4fjkDo
-         PomzbCOX1HSDQ==
+        b=XHDHym0fw/am9a6O1+HkdUZhYjS/i9Ib8fXUEfx3TCvQVtbQnDv5q3TH4i8PNdTwU
+         T3Ll1ycSOBJ5l1LAVtpaYW75hthJoCLP4hLQ4kyh4jmHjKqTKadniT7Qaf1yTVm93y
+         OJnkhsy+zZwk7VUBtd9mueaQhsH+OPdSRgUx6dpeBhW5JLhg46Tj+VsUXRsb/TmbOm
+         CrKISttzd85lp40AMkRx7BpYWArFGCSF7NyD1NZnnOrPzBu6Vq97QNh8RveZjBKRN1
+         L6LxCstxWJdTiYzuh9LEnu64SZLS7sggxGmn7mf9iglvHvo809ug6/csr6UukY19Gs
+         UOdfbmKFJ44BA==
 From:   Daniel Bristot de Oliveira <bristot@kernel.org>
 To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
         Steven Rostedt <rostedt@goodmis.org>
@@ -40,9 +40,9 @@ Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
         Clark Williams <williams@redhat.com>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH V4 1/3] tracing/osnoise: Add PANIC_ON_STOP option
-Date:   Wed, 30 Nov 2022 19:19:09 +0100
-Message-Id: <249ce4287c6725543e6db845a6e0df621dc67db5.1669832184.git.bristot@kernel.org>
+Subject: [PATCH V4 3/3] Documentation/osnoise: Add osnoise/options documentation
+Date:   Wed, 30 Nov 2022 19:35:42 +0100
+Message-Id: <255d17a89bcd9ca8eef6931c0052b1a520e0b580.1669832184.git.bristot@kernel.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1669832184.git.bristot@kernel.org>
 References: <cover.1669832184.git.bristot@kernel.org>
@@ -52,56 +52,57 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Often the latency observed in a CPU is not caused by the work being done
-in the CPU itself, but by work done on another CPU that causes the
-hardware to stall all CPUs. In this case, it is interesting to know
-what is happening on ALL CPUs, and the best way to do this is via
-crash dump analysis.
+Add the documentation about the osnoise/options file, the options,
+and some additional explanation about the OSNOISE_WORKLOAD option.
 
-Add the PANIC_ON_STOP option to osnoise/timerlat tracers. The default
-behavior is having this option off. When enabled by the user, the system
-will panic after hitting a stop tracing condition.
-
-This option was motivated by a real scenario that Juri Lelli and I
-were debugging.
-
-Cc: Juri Lelli <juri.lelli@redhat.com>
 Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
 Cc: Steven Rostedt <rostedt@goodmis.org>
 Cc: Masami Hiramatsu <mhiramat@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>
 Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
 ---
- kernel/trace/trace_osnoise.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ Documentation/trace/osnoise-tracer.rst | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/trace/trace_osnoise.c b/kernel/trace/trace_osnoise.c
-index 3f10dd1f2f1c..801eba0b5cf8 100644
---- a/kernel/trace/trace_osnoise.c
-+++ b/kernel/trace/trace_osnoise.c
-@@ -54,10 +54,11 @@
- enum osnoise_options_index {
- 	OSN_DEFAULTS = 0,
- 	OSN_WORKLOAD,
-+	OSN_PANIC_ON_STOP,
- 	OSN_MAX
- };
+diff --git a/Documentation/trace/osnoise-tracer.rst b/Documentation/trace/osnoise-tracer.rst
+index 3c675ed82b27..f2008e317223 100644
+--- a/Documentation/trace/osnoise-tracer.rst
++++ b/Documentation/trace/osnoise-tracer.rst
+@@ -92,8 +92,8 @@ Note that the example above shows a high number of HW noise samples.
+ The reason being is that this sample was taken on a virtual machine,
+ and the host interference is detected as a hardware interference.
  
--static const char * const osnoise_options_str[OSN_MAX] = { "DEFAULTS", "OSNOISE_WORKLOAD" };
-+static const char * const osnoise_options_str[OSN_MAX] = { "DEFAULTS", "OSNOISE_WORKLOAD", "PANIC_ON_STOP" };
+-Tracer options
+----------------------
++Tracer Configuration
++--------------------
  
- #define OSN_DEFAULT_OPTIONS	0x2
- unsigned long osnoise_options	= OSN_DEFAULT_OPTIONS;
-@@ -1270,6 +1271,9 @@ static __always_inline void osnoise_stop_tracing(void)
- 		trace_array_printk_buf(tr->array_buffer.buffer, _THIS_IP_,
- 				"stop tracing hit on cpu %d\n", smp_processor_id());
+ The tracer has a set of options inside the osnoise directory, they are:
  
-+		if (test_bit(OSN_PANIC_ON_STOP, &osnoise_options))
-+			panic("tracer hit stop condition on CPU %d\n", smp_processor_id());
+@@ -115,6 +115,22 @@ The tracer has a set of options inside the osnoise directory, they are:
+    NO_OSNOISE_WORKLOAD disables the OSNOISE_WORKLOAD option. The
+    special DEAFAULTS option resets all options to the default value.
+ 
++Tracer Options
++--------------
 +
- 		tracer_tracing_off(tr);
- 	}
- 	rcu_read_unlock();
++The osnoise/options file exposes a set of on/off configuration options for
++the osnoise tracer. These options are:
++
++ - DEFAULTS: reset the options to the default value.
++ - OSNOISE_WORKLOAD: do not dispatch osnoise workload (see dedicated
++   section below).
++ - PANIC_ON_STOP: call panic() if the tracer stops. This option serves to
++   capture a vmcore.
++ - OSNOISE_PREEMPT_DISABLE: disable preemption while running the osnoise
++   workload, allowing only IRQ and hardware-related noise.
++ - OSNOISE_IRQ_DISABLE: disable IRQs while running the osnoise workload,
++   allowing only NMIs and hardware-related noise, like hwlat tracer.
++
+ Additional Tracing
+ ------------------
+ 
 -- 
 2.32.0
 
