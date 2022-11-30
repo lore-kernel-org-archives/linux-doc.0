@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FE03C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 18:21:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86B13C4321E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 18:21:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230351AbiK3SVM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Nov 2022 13:21:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49600 "EHLO
+        id S230362AbiK3SV0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Nov 2022 13:21:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230288AbiK3SUt (ORCPT
+        with ESMTP id S230314AbiK3SUt (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 13:20:49 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36CBD1B1D2;
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F0638BD06;
         Wed, 30 Nov 2022 10:19:23 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C448961B7C;
-        Wed, 30 Nov 2022 18:19:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DB0BC433B5;
-        Wed, 30 Nov 2022 18:19:20 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 83F78CE1ACD;
+        Wed, 30 Nov 2022 18:19:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8EEAC43470;
+        Wed, 30 Nov 2022 18:19:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669832362;
-        bh=GqkWc/aqvUjp4eNRfDmezwu0hcf18oKW1m9OVrE63ec=;
+        s=k20201202; t=1669832359;
+        bh=UofQ2Om5TKKPZw19SG+8wKH8TntN+ojXWrOiFhpkAis=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=r3K9eMn3+BfW9qWvFSRyI9shOV4eHkdZD76u+7WzqrQBiOGLbHN0HCfjxJWd4R1RV
-         ij2uIluG0XL/XVC95yexetf1y8mhtdrYvW1JQrFX0Uc+PKq1jGXCknM9CoQ50bKqdK
-         q2PNR/ksD3N2NzWZbdt0xSiOgqekKtl+ATsqfoP08APGSuUBheLeLZt3KDozGJOdqF
-         oWUKpS8nrlzngv4UX0tJoYeDT0emRidPWy/ecExywtXtMnnmZQARZZ4oaF+ORvThdM
-         oscUKipdfHl5dwC/wvHpVzwakJvHdhpOixzA3K07Tkp3rIDEINkSnY3DenkY4+eHK9
-         vsDkCR6JEGW/g==
+        b=XMMfsAceNIPA7SVzZd9xgHyYxzJcdYfpp9vfAK/FLUt8535HDUNnn3noVhN0M1G7D
+         fOMtP0q8tDdeTome2UAGMdiwTGteRyuhJ/O2bVmzXbM0PSLpkxQi6dcyFtfbdSnAF5
+         T/fSXL441rkM7QD9tGFQ0Pv/NuvtEADFGpvnH5mAXk1e/tXMvzo59uqxCdeBZiffRR
+         1clWQTueMTNBqloHGE0Ccpkeb2q/I0fUXWfwE1lUrzokBPy7xzu2zPxL8i/fTaNPPl
+         xDVxNl8T4GNj0smUjuAmWKwPP4nyd1S5NYxABS3Yol1YqMkbnl2MsTxbTV5b4fjkDo
+         PomzbCOX1HSDQ==
 From:   Daniel Bristot de Oliveira <bristot@kernel.org>
 To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
         Steven Rostedt <rostedt@goodmis.org>
@@ -40,9 +40,9 @@ Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
         Clark Williams <williams@redhat.com>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH V4 2/3] tracing/osnoise: Add preempt and/or irq disabled options
-Date:   Wed, 30 Nov 2022 19:19:10 +0100
-Message-Id: <ded51c4490cf0cdce4e73e448c77bef9c35d257b.1669832184.git.bristot@kernel.org>
+Subject: [PATCH V4 1/3] tracing/osnoise: Add PANIC_ON_STOP option
+Date:   Wed, 30 Nov 2022 19:19:09 +0100
+Message-Id: <249ce4287c6725543e6db845a6e0df621dc67db5.1669832184.git.bristot@kernel.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1669832184.git.bristot@kernel.org>
 References: <cover.1669832184.git.bristot@kernel.org>
@@ -52,154 +52,56 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The osnoise workload runs with preemption and IRQs enabled in such
-a way as to allow all sorts of noise to disturb osnoise's execution.
-hwlat tracer has a similar workload but works with irq disabled,
-allowing only NMIs and the hardware to generate noise.
+Often the latency observed in a CPU is not caused by the work being done
+in the CPU itself, but by work done on another CPU that causes the
+hardware to stall all CPUs. In this case, it is interesting to know
+what is happening on ALL CPUs, and the best way to do this is via
+crash dump analysis.
 
-While thinking about adding an options file to hwlat tracer to
-allow the system to panic, and other features I was thinking
-to add, like having a tracepoint at each noise detection, it
-came to my mind that is easier to make osnoise and also do
-hardware latency detection than making hwlat "feature compatible"
-with osnoise.
+Add the PANIC_ON_STOP option to osnoise/timerlat tracers. The default
+behavior is having this option off. When enabled by the user, the system
+will panic after hitting a stop tracing condition.
 
-Other points are:
- - osnoise already has an independent cpu file.
- - osnoise has a more intuitive interface, e.g., runtime/period vs.
-   window/width (and people often need help remembering what it is).
- - osnoise: tracepoints
- - osnoise stop options
- - osnoise options file itself
+This option was motivated by a real scenario that Juri Lelli and I
+were debugging.
 
-Moreover, the user-space side (in rtla) is simplified by reusing the
-existing osnoise code.
-
-Finally, people have been asking me about using osnoise for hw latency
-detection, and I have to explain that it was sufficient but not
-necessary. These options make it sufficient and necessary.
-
-Adding a Suggested-by Clark, as he often asked me about this
-possibility.
-
-Cc: Suggested-by: Clark Williams <williams@redhat.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>
 Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
 Cc: Steven Rostedt <rostedt@goodmis.org>
 Cc: Masami Hiramatsu <mhiramat@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
 ---
- kernel/trace/trace_osnoise.c | 48 ++++++++++++++++++++++++++++++++----
- 1 file changed, 43 insertions(+), 5 deletions(-)
+ kernel/trace/trace_osnoise.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/kernel/trace/trace_osnoise.c b/kernel/trace/trace_osnoise.c
-index 801eba0b5cf8..0ec8bb54180f 100644
+index 3f10dd1f2f1c..801eba0b5cf8 100644
 --- a/kernel/trace/trace_osnoise.c
 +++ b/kernel/trace/trace_osnoise.c
-@@ -55,10 +55,17 @@ enum osnoise_options_index {
+@@ -54,10 +54,11 @@
+ enum osnoise_options_index {
  	OSN_DEFAULTS = 0,
  	OSN_WORKLOAD,
- 	OSN_PANIC_ON_STOP,
-+	OSN_PREEMPT_DISABLE,
-+	OSN_IRQ_DISABLE,
++	OSN_PANIC_ON_STOP,
  	OSN_MAX
  };
  
--static const char * const osnoise_options_str[OSN_MAX] = { "DEFAULTS", "OSNOISE_WORKLOAD", "PANIC_ON_STOP" };
-+static const char * const osnoise_options_str[OSN_MAX] = {
-+							"DEFAULTS",
-+							"OSNOISE_WORKLOAD",
-+							"PANIC_ON_STOP",
-+							"OSNOISE_PREEMPT_DISABLE",
-+							"OSNOISE_IRQ_DISABLE" };
+-static const char * const osnoise_options_str[OSN_MAX] = { "DEFAULTS", "OSNOISE_WORKLOAD" };
++static const char * const osnoise_options_str[OSN_MAX] = { "DEFAULTS", "OSNOISE_WORKLOAD", "PANIC_ON_STOP" };
  
  #define OSN_DEFAULT_OPTIONS	0x2
  unsigned long osnoise_options	= OSN_DEFAULT_OPTIONS;
-@@ -1308,6 +1315,7 @@ static void notify_new_max_latency(u64 latency)
-  */
- static int run_osnoise(void)
- {
-+	bool irq_disable = test_bit(OSN_IRQ_DISABLE, &osnoise_options);
- 	struct osnoise_variables *osn_var = this_cpu_osn_var();
- 	u64 start, sample, last_sample;
- 	u64 last_int_count, int_count;
-@@ -1315,11 +1323,18 @@ static int run_osnoise(void)
- 	s64 total, last_total = 0;
- 	struct osnoise_sample s;
- 	unsigned int threshold;
-+	bool preempt_disable;
- 	u64 runtime, stop_in;
- 	u64 sum_noise = 0;
- 	int hw_count = 0;
- 	int ret = -1;
+@@ -1270,6 +1271,9 @@ static __always_inline void osnoise_stop_tracing(void)
+ 		trace_array_printk_buf(tr->array_buffer.buffer, _THIS_IP_,
+ 				"stop tracing hit on cpu %d\n", smp_processor_id());
  
-+	/*
-+	 * Disabling preemption is only required if IRQs are enabled,
-+	 * and the options is set on.
-+	 */
-+	preempt_disable = !irq_disable && test_bit(OSN_PREEMPT_DISABLE, &osnoise_options);
++		if (test_bit(OSN_PANIC_ON_STOP, &osnoise_options))
++			panic("tracer hit stop condition on CPU %d\n", smp_processor_id());
 +
- 	/*
- 	 * Considers the current thread as the workload.
- 	 */
-@@ -1335,6 +1350,15 @@ static int run_osnoise(void)
- 	 */
- 	threshold = tracing_thresh ? : 5000;
- 
-+	/*
-+	 * Apply PREEMPT and IRQ disabled options.
-+	 */
-+	if (irq_disable)
-+		local_irq_disable();
-+
-+	if (preempt_disable)
-+		preempt_disable();
-+
- 	/*
- 	 * Make sure NMIs see sampling first
- 	 */
-@@ -1422,16 +1446,21 @@ static int run_osnoise(void)
- 		 * cond_resched()
- 		 */
- 		if (IS_ENABLED(CONFIG_PREEMPT_RCU)) {
--			local_irq_disable();
-+			if (!irq_disable)
-+				local_irq_disable();
-+
- 			rcu_momentary_dyntick_idle();
--			local_irq_enable();
-+
-+			if (!irq_disable)
-+				local_irq_enable();
- 		}
- 
- 		/*
- 		 * For the non-preemptive kernel config: let threads runs, if
--		 * they so wish.
-+		 * they so wish, unless set not do to so.
- 		 */
--		cond_resched();
-+		if (!irq_disable && !preempt_disable)
-+			cond_resched();
- 
- 		last_sample = sample;
- 		last_int_count = int_count;
-@@ -1450,6 +1479,15 @@ static int run_osnoise(void)
- 	 */
- 	barrier();
- 
-+	/*
-+	 * Return to the preemptive state.
-+	 */
-+	if (preempt_disable)
-+		preempt_enable();
-+
-+	if (irq_disable)
-+		local_irq_enable();
-+
- 	/*
- 	 * Save noise info.
- 	 */
+ 		tracer_tracing_off(tr);
+ 	}
+ 	rcu_read_unlock();
 -- 
 2.32.0
 
