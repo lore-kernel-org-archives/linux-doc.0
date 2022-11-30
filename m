@@ -2,101 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43167C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 16:23:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 864E8C4321E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 16:27:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230115AbiK3QXN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Nov 2022 11:23:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44496 "EHLO
+        id S230201AbiK3Q16 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Nov 2022 11:27:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbiK3QXM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 11:23:12 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3831F43AE2;
-        Wed, 30 Nov 2022 08:23:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669825392; x=1701361392;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hf3CqjgbQVSqURsLVEcOjIfYwu6rzu6lTTAG6MwSyW8=;
-  b=nIN6e4zvGwSPBEtnTMGqLlYVHC+GvQuesS1WZBqFIsX+c6+7MqFHZuMG
-   FGWNsG586Y7Pz9ddn3FjU8gEBEHm4WcdXiIcOLVBmp5NmlGUohkYiLFuo
-   GRlcaui1XE/Fk+WvVS52KfnNgDJpdJPiDUIqVw9+gG5xVq+7zl/yx9CKU
-   l+CwRXyg9ekgfjuxzJUGX0L2j8oXHiPS9Ll1c1VE5yoPl3M/A3sAMXxBE
-   qV64WeU07003wGqivK2s7h3DW3xCU3sMNzoMTeWD5s0ZoWo6QwbTbfbUk
-   8jeLa+QF6tp7QFqziYHj78cR01rPygY8zXJcyCxjGcIo5ed3cUmRExa8H
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="401714824"
-X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; 
-   d="scan'208";a="401714824"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2022 08:22:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="707705570"
-X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; 
-   d="scan'208";a="707705570"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga008.fm.intel.com with ESMTP; 30 Nov 2022 08:22:44 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1p0Pr8-002Lcb-2k;
-        Wed, 30 Nov 2022 18:22:42 +0200
-Date:   Wed, 30 Nov 2022 18:22:42 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Marc Zyngier <maz@kernel.org>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v1 2/3] Documentation: gpio: Add a section on what to
- return in ->get() callback
-Message-ID: <Y4eDUnMgYvOEy/nI@smile.fi.intel.com>
-References: <20221130155519.20362-1-andriy.shevchenko@linux.intel.com>
- <20221130155519.20362-2-andriy.shevchenko@linux.intel.com>
- <8a53e88b-1e74-bf34-62a1-780a1b29bcbc@redhat.com>
- <f54df574-2763-5b3e-84a3-debf13777996@redhat.com>
+        with ESMTP id S230185AbiK3Q16 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 11:27:58 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B08ADF85;
+        Wed, 30 Nov 2022 08:27:56 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 014482129A;
+        Wed, 30 Nov 2022 16:27:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1669825675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=nXfNG6Sww8fGURySTb8eVABizwa45hjeSXnodgsxL7A=;
+        b=K5AhfMD1mmeSLfJHmy5N+Z9Fp6PpPk7Tg6j3Gg7JBI1HUIpk9Q1kujuQk6AXGNNyV145KQ
+        d9PwmobJ2stCSZPjUM0avskb5R4vue2G5ijhEc6FYiczmjflCS0mD9rGkb6uCxCJrsuy3j
+        g3oV+3D2ydZVm0DCiTt0qtKaJSdI6oU=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D03D313A70;
+        Wed, 30 Nov 2022 16:27:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id pufuMYqEh2NEPgAAMHmgww
+        (envelope-from <mhocko@suse.com>); Wed, 30 Nov 2022 16:27:54 +0000
+Date:   Wed, 30 Nov 2022 17:27:54 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     =?utf-8?B?56iL5Z6y5rab?= Chengkaitao Cheng 
+        <chengkaitao@didiglobal.com>
+Cc:     Tao pilgrim <pilgrimtao@gmail.com>,
+        "tj@kernel.org" <tj@kernel.org>,
+        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+        "shakeelb@google.com" <shakeelb@google.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "cgel.zte@gmail.com" <cgel.zte@gmail.com>,
+        "ran.xiaokai@zte.com.cn" <ran.xiaokai@zte.com.cn>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
+        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
+        "yuzhao@google.com" <yuzhao@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "surenb@google.com" <surenb@google.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "mcgrof@kernel.org" <mcgrof@kernel.org>,
+        "sujiaxun@uniontech.com" <sujiaxun@uniontech.com>,
+        "feng.tang@intel.com" <feng.tang@intel.com>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] mm: memcontrol: protect the memory in cgroup from being
+ oom killed
+Message-ID: <Y4eEiqwMMkHv9ELM@dhcp22.suse.cz>
+References: <CAAWJmAYPUK+1GBS0R460pDvDKrLr9zs_X2LT2yQTP_85kND5Ew@mail.gmail.com>
+ <7EF16CB9-C34A-410B-BEBE-0303C1BB7BA0@didiglobal.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f54df574-2763-5b3e-84a3-debf13777996@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7EF16CB9-C34A-410B-BEBE-0303C1BB7BA0@didiglobal.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 30, 2022 at 05:14:38PM +0100, Hans de Goede wrote:
-> On 11/30/22 17:12, Hans de Goede wrote:
-> > On 11/30/22 16:55, Andy Shevchenko wrote:
+On Wed 30-11-22 15:46:19, 程垲涛 Chengkaitao Cheng wrote:
+> On 2022-11-30 21:15:06, "Michal Hocko" <mhocko@suse.com> wrote:
+> > On Wed 30-11-22 15:01:58, chengkaitao wrote:
+> > > From: chengkaitao <pilgrimtao@gmail.com>
+> > >
+> > > We created a new interface <memory.oom.protect> for memory, If there is
+> > > the OOM killer under parent memory cgroup, and the memory usage of a
+> > > child cgroup is within its effective oom.protect boundary, the cgroup's
+> > > tasks won't be OOM killed unless there is no unprotected tasks in other
+> > > children cgroups. It draws on the logic of <memory.min/low> in the
+> > > inheritance relationship.
+> >
+> > Could you be more specific about usecases?
 
-...
+This is a very important question to answer.
 
-> > IHMO the rules for get() should simply be:
-> > 
-> > 1. Device has an input buffer:
-> >    Return input-buffer value for the pin.
-> > 
-> > 2. Devices does not have an input buffer:
-> >    Return last set output-buffer value
+> > How do you tune oom.protect
+> > wrt to other tunables? How does this interact with the oom_score_adj
+> > tunining (e.g. a first hand oom victim with the score_adj 1000 sitting
+> > in a oom protected memcg)?
 > 
-> Quick correction device should be pin here, because it
-> if there is an input buffer or not can differ per pin.
-> So IHMO the rules for get() should simply be:
+> We prefer users to use score_adj and oom.protect independently. Score_adj is 
+> a parameter applicable to host, and oom.protect is a parameter applicable to cgroup. 
+> When the physical machine's memory size is particularly large, the score_adj 
+> granularity is also very large. However, oom.protect can achieve more fine-grained 
+> adjustment.
+
+Let me clarify a bit. I am not trying to defend oom_score_adj. It has
+it's well known limitations and it is is essentially unusable for many
+situations other than - hide or auto-select potential oom victim.
+
+> When the score_adj of the processes are the same, I list the following cases 
+> for explanation,
 > 
-> 1. pin has an input buffer:
->    return input-buffer value for the pin.
+>           root
+>            |
+>         cgroup A
+>        /        \
+>  cgroup B      cgroup C
+> (task m,n)     (task x,y)
 > 
-> 2. pin does not have an input buffer:
->    return the value last set for the pin's output-buffer
+> score_adj(all task) = 0;
+> oom.protect(cgroup A) = 0;
+> oom.protect(cgroup B) = 0;
+> oom.protect(cgroup C) = 3G;
 
-"pin" misleads here. The "pin" can be in native function which may have not be
-even connected to GPIO buffers. There are different hardware topologies.
+How can you enforce protection at C level without any protection at A
+level? This would easily allow arbitrary cgroup to hide from the oom
+killer and spill over to other cgroups.
 
-So, no, not a "pin".
+> usage(task m) = 1G
+> usage(task n) = 2G
+> usage(task x) = 1G
+> usage(task y) = 2G
+> 
+> oom killer order of cgroup A: n > m > y > x
+> oom killer order of host:     y = n > x = m
+> 
+> If cgroup A is a directory maintained by users, users can use oom.protect 
+> to protect relatively important tasks x and y.
+> 
+> However, when score_adj and oom.protect are used at the same time, we 
+> will also consider the impact of both, as expressed in the following formula. 
+> but I have to admit that it is an unstable result.
+> score = task_usage + score_adj * totalpage - eoom.protect * task_usage / local_memcg_usage
 
+I hope I am not misreading but this has some rather unexpected
+properties. First off, bigger memory consumers in a protected memcg are
+protected more. Also I would expect the protection discount would
+be capped by the actual usage otherwise excessive protection
+configuration could skew the results considerably.
+ 
+> > I haven't really read through the whole patch but this struck me odd.
+> 
+> > > @@ -552,8 +552,19 @@ static int proc_oom_score(struct seq_file *m, struct pid_namespace *ns,
+> > > 	unsigned long totalpages = totalram_pages() + total_swap_pages;
+> > > 	unsigned long points = 0;
+> > > 	long badness;
+> > > +#ifdef CONFIG_MEMCG
+> > > +	struct mem_cgroup *memcg;
+> > > 
+> > > -	badness = oom_badness(task, totalpages);
+> > > +	rcu_read_lock();
+> > > +	memcg = mem_cgroup_from_task(task);
+> > > +	if (memcg && !css_tryget(&memcg->css))
+> > > +		memcg = NULL;
+> > > +	rcu_read_unlock();
+> > > +
+> > > +	update_parent_oom_protection(root_mem_cgroup, memcg);
+> > > +	css_put(&memcg->css);
+> > > +#endif
+> > > +	badness = oom_badness(task, totalpages, MEMCG_OOM_PROTECT);
+> >
+> > the badness means different thing depending on which memcg hierarchy
+> > subtree you look at. Scaling based on the global oom could get really
+> > misleading.
+> 
+> I also took it into consideration. I planned to change "/proc/pid/oom_score" 
+> to a writable node. When writing to different cgroup paths, different values 
+> will be output. The default output is root cgroup. Do you think this idea is 
+> feasible?
+
+I do not follow. Care to elaborate?
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Michal Hocko
+SUSE Labs
