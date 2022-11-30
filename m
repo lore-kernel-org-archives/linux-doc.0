@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA0C7C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 00:05:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DEEEC4167B
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 00:13:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231211AbiK3AFf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Nov 2022 19:05:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53914 "EHLO
+        id S232160AbiK3ANq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Nov 2022 19:13:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230033AbiK3AFd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 19:05:33 -0500
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4AE7716D8
-        for <linux-doc@vger.kernel.org>; Tue, 29 Nov 2022 16:05:27 -0800 (PST)
-Received: by mail-pf1-x42e.google.com with SMTP id w129so15283977pfb.5
-        for <linux-doc@vger.kernel.org>; Tue, 29 Nov 2022 16:05:27 -0800 (PST)
+        with ESMTP id S231376AbiK3ANe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 19:13:34 -0500
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 465C57341F
+        for <linux-doc@vger.kernel.org>; Tue, 29 Nov 2022 16:13:14 -0800 (PST)
+Received: by mail-pg1-x52c.google.com with SMTP id 136so14590220pga.1
+        for <linux-doc@vger.kernel.org>; Tue, 29 Nov 2022 16:13:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=78xkKmjZdcyJJX/EKydkrCgU4mT4d8eXN6PXwFhDQLo=;
-        b=KODgIpqJyt1Ud4fI+DS6czurLJ2VemQmXk7RbZDL+iUqI65PIa3EciFifTfHv/qTyD
-         dy55U+P5bZkaiQdnkx0xfwIzCCQjg4N/DtzbuYZzXYtY6Mv1qWDJ/MG1zwsYs6SNC0fU
-         tu0IYWFej3VY3GPYQmYhd1Ts6JjfnMBjzAnKZjFNb4XbhBiUncuxoy8HWjVWMTKyimPv
-         SotKeN8JI+UpTEtSWJ23Zhu+meSIAFJL2NG52t4KW3a/i7AXzMU99HLIadJ4fODoOWcJ
-         sq5jaYtobOA9KzfparlEoR3TwmrROzQ91ajJQL6zbpS34giRUA9VPDDSGiPOt85RAQ/+
-         DDWw==
+        bh=z0DM5tDpbilfkWF6HtGDZ6Fwkblmq8euBR/PI59m22k=;
+        b=X+w2SodLZ4zP5jI4YvydN9gYtqkXs6XJ17MfOs3yOVYADmyFGcbFekq7l8eDLqRUMq
+         TUgj6BA5D7ot9TR25Hc7JDITCAU1AdIQvCrYviFAd+ovUkQzdFs23sujnZksSbzMhl+O
+         8OWtHcmC6O+tqSAnBpdOakp5kPHN2Tr/NL/JJ1vryKqj4omcMULgCm3e7uluZklaGVoN
+         /FC5pesPAm4r4KgZrqojhAEvvtgE1dSbVSqSfevhpfnxNLeNB/RDKjADBEMPnUdi/pU1
+         ONn9d2ZRzlwwQssbmp5dSBs1hLLwxV6RtyqSB9smw+5qPpDc7tXOzIe8F23mLyVtXA6C
+         1SVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=78xkKmjZdcyJJX/EKydkrCgU4mT4d8eXN6PXwFhDQLo=;
-        b=vHMFRuXCsJtrirycT04s38bZZpluhu8xHVWEwHM3Raw5ymx1JruJcONdH9yLQzkBGl
-         9brdFpCJO5EfxfhrSgE+UnCl5bLT48L5/TVvSzFqI8g2RGn3KVg/sik1Yj3hahM20D/D
-         jozrsMMtX1wkubehm6XCgr1Hea1kiRXude9xxMWbNlt+r8o1dIXHlGa1ZUvViUDsUryj
-         0N5LuLv6MtgyewBRU+5JS59tPLkhaHOvbNfihnFLhVrDdZwXGj9gOjHqFjBKbmLE4Skk
-         At83mqBuNu+YOWqr0mRHvinBY6zb45Vz0LPmnigIeqrJC3z4O0MI+amYKABz+eg9bMwf
-         +zYQ==
-X-Gm-Message-State: ANoB5pkV/NvNYeuGubNWrbMzf5RG8ZwPlfr+UXe3hyMJHNNLlpo/GG4B
-        vk9BcOYqnSbW0gEDa77jhHk9Ng==
-X-Google-Smtp-Source: AA0mqf5KWdC4uvoi15DjzFozbTNWpAR+P62QvcL1C1e/IzMkBVRINdThD0PS4d1bisH1+7NMOyP9RA==
-X-Received: by 2002:a63:4946:0:b0:477:7c87:1087 with SMTP id y6-20020a634946000000b004777c871087mr38965938pgk.452.1669766727210;
-        Tue, 29 Nov 2022 16:05:27 -0800 (PST)
+        bh=z0DM5tDpbilfkWF6HtGDZ6Fwkblmq8euBR/PI59m22k=;
+        b=stmBvMtjGUnmk/i1rn+Ig4xMQ1xws0RbRJYUIGbFuPy+9wdV1BucoNVQALBwP/4XAs
+         hCWr+vbY/sbSnLYMf2vmVw6ujT7Vtx9VcvQhQUxsZDFifV7fFDi76056PJ1KqtVPptVV
+         spPtvBPTUhc+c7m8x86OR84EIVFEltksQxk+6uYRaSfX/GcyARxwv7gL1U9N6K/tbu6b
+         esujyV6nsRkWKZmbcHtIGsg7hYMkBuNNBpKgOHIqcCz/RowxidsefUwuOFXkLhIRKJ2M
+         F6R8knrNFmX5881nSyL9palMZ96RLDETIKaBdqaIw+ZTBmmC3CJI/URD/foZWncjuKMV
+         J/dg==
+X-Gm-Message-State: ANoB5pkRH7ISXDB/kPJjiH3ORCmYWrYgUrWEp2pQ0RQkwgcN7l2uO9bn
+        2j7XYyGbYlLy+RGL760YklrJYA==
+X-Google-Smtp-Source: AA0mqf7vrtO27kyWB7weCDRH7BmwrG65H7VSwLRzv7tocPo6tUmL4wlIXj3ONf+Fdd/lvfXEKTP2Hw==
+X-Received: by 2002:a63:1a48:0:b0:477:786:f557 with SMTP id a8-20020a631a48000000b004770786f557mr35233251pgm.476.1669767193543;
+        Tue, 29 Nov 2022 16:13:13 -0800 (PST)
 Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id e4-20020aa79804000000b0056bb0357f5bsm38826pfl.192.2022.11.29.16.05.26
+        by smtp.gmail.com with ESMTPSA id 15-20020a630f4f000000b0047702d44861sm8617542pgp.18.2022.11.29.16.13.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Nov 2022 16:05:26 -0800 (PST)
-Date:   Wed, 30 Nov 2022 00:05:23 +0000
+        Tue, 29 Nov 2022 16:13:13 -0800 (PST)
+Date:   Wed, 30 Nov 2022 00:13:09 +0000
 From:   Sean Christopherson <seanjc@google.com>
 To:     Kim Phillips <kim.phillips@amd.com>
 Cc:     x86@kernel.org, Babu Moger <Babu.Moger@amd.com>,
@@ -69,60 +69,87 @@ Cc:     x86@kernel.org, Babu Moger <Babu.Moger@amd.com>,
         Tom Lendacky <thomas.lendacky@amd.com>,
         Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/7] x86/cpu, kvm: Define a scattered No Nested Data
- Breakpoints feature bit
-Message-ID: <Y4aeQ5Qyu1Y3QtaJ@google.com>
+Subject: Re: [PATCH v3 4/7] x86/cpu, kvm: Move CPUID 0x80000021 EAX feature
+ bits propagation to kvm_set_cpu_caps
+Message-ID: <Y4agFT6OwvZzSgn1@google.com>
 References: <20221129235816.188737-1-kim.phillips@amd.com>
- <20221129235816.188737-2-kim.phillips@amd.com>
+ <20221129235816.188737-5-kim.phillips@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221129235816.188737-2-kim.phillips@amd.com>
+In-Reply-To: <20221129235816.188737-5-kim.phillips@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-No need for "kvm" in the shortlog, this doesn't affect KVM behavior in any way,
-let alone touch KVM code.  Ditto for all the other patches that don't touch KVM.
+() after function names, i.e. kvm_set_cpu_caps().
 
 On Tue, Nov 29, 2022, Kim Phillips wrote:
-> It's a part of the CPUID 0x80000021 leaf, and this allows us to
-> group this and other CPUID 0x80000021 EAX feature bits to being
-> propagated via kvm_set_cpu_caps instead of open-coding them in
+> Since they're now all scattered, group CPUID 0x80000021 EAX feature bits
+
+Nit, scattering feature bits isn't required to use KVM's reverse CPUID magic,
+e.g. see commit 047c72299061 ("KVM: x86: Update KVM-only leaf handling to allow
+for 100% KVM-only leafs") that's sitting in kvm/queue.
+
+The real justification for this patch is that open coding numbers is error prone
+and is very frowned upon in KVM.
+
+> propagation to kvm_set_cpu_caps instead of open-coding them in
+
+kvm_set_cpu_caps()
+
 > __do_cpuid_func().
 > 
 > Signed-off-by: Kim Phillips <kim.phillips@amd.com>
 > ---
->  arch/x86/include/asm/cpufeatures.h | 2 +-
->  arch/x86/kernel/cpu/scattered.c    | 1 +
->  2 files changed, 2 insertions(+), 1 deletion(-)
+>  arch/x86/kvm/cpuid.c         | 35 ++++++++++++++++++++---------------
+>  arch/x86/kvm/reverse_cpuid.h | 22 ++++++++++++++++------
+>  2 files changed, 36 insertions(+), 21 deletions(-)
 > 
-> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-> index b6525491a41b..b16fdcedc2b5 100644
-> --- a/arch/x86/include/asm/cpufeatures.h
-> +++ b/arch/x86/include/asm/cpufeatures.h
-> @@ -306,8 +306,8 @@
->  #define X86_FEATURE_RSB_VMEXIT_LITE	(11*32+17) /* "" Fill RSB on VM exit when EIBRS is enabled */
->  #define X86_FEATURE_SGX_EDECCSSA	(11*32+18) /* "" SGX EDECCSSA user leaf function */
->  #define X86_FEATURE_CALL_DEPTH		(11*32+19) /* "" Call depth tracking for RSB stuffing */
-> -
->  #define X86_FEATURE_MSR_TSX_CTRL	(11*32+20) /* "" MSR IA32_TSX_CTRL (Intel) implemented */
-> +#define X86_FEATURE_NO_NESTED_DATA_BP	(11*32+21) /* "" AMD No Nested Data Breakpoints */
+> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+> index c92c49a0b35b..8e37760cea1b 100644
+> --- a/arch/x86/kvm/cpuid.c
+> +++ b/arch/x86/kvm/cpuid.c
+> @@ -730,6 +730,25 @@ void kvm_set_cpu_caps(void)
+>  		0 /* SME */ | F(SEV) | 0 /* VM_PAGE_FLUSH */ | F(SEV_ES) |
+>  		F(SME_COHERENT));
 >  
->  /* Intel-defined CPU features, CPUID level 0x00000007:1 (EAX), word 12 */
->  #define X86_FEATURE_AVX_VNNI		(12*32+ 4) /* AVX VNNI instructions */
-> diff --git a/arch/x86/kernel/cpu/scattered.c b/arch/x86/kernel/cpu/scattered.c
-> index f53944fb8f7f..079e253e1049 100644
-> --- a/arch/x86/kernel/cpu/scattered.c
-> +++ b/arch/x86/kernel/cpu/scattered.c
-> @@ -45,6 +45,7 @@ static const struct cpuid_bit cpuid_bits[] = {
->  	{ X86_FEATURE_CPB,		CPUID_EDX,  9, 0x80000007, 0 },
->  	{ X86_FEATURE_PROC_FEEDBACK,    CPUID_EDX, 11, 0x80000007, 0 },
->  	{ X86_FEATURE_MBA,		CPUID_EBX,  6, 0x80000008, 0 },
-> +	{ X86_FEATURE_NO_NESTED_DATA_BP,CPUID_EAX,  0, 0x80000021, 0 },
->  	{ X86_FEATURE_PERFMON_V2,	CPUID_EAX,  0, 0x80000022, 0 },
->  	{ X86_FEATURE_AMD_LBR_V2,	CPUID_EAX,  1, 0x80000022, 0 },
->  	{ 0, 0, 0, 0, 0 }
-> -- 
-> 2.34.1
-> 
+> +	/*
+> +	 * Pass down these bits:
+> +	 *    EAX      0      NNDBP, Processor ignores nested data breakpoints
+> +	 *    EAX      2      LAS, LFENCE always serializing
+> +	 *    EAX      6      NSCB, Null selector clear base
+> +	 *    EAX      8      Automatic IBRS
+
+Automatic IBRS isn't advertised as of this patch.  Just drop the comment, it's
+guaranteed to become stale at some point, and one of the main reasons for the
+flag magic is so that the code is self-documenting, i.e. so that we don't need
+comments like this.
+
+> +	 *
+> +	 * Other defined bits are for MSRs that KVM does not expose:
+> +	 *   EAX      3      SPCL, SMM page configuration lock
+> +	 *   EAX      13     PCMSR, Prefetch control MSR
+> +	 */
+> +	kvm_cpu_cap_init_scattered(CPUID_8000_0021_EAX,
+> +				   SF(NO_NESTED_DATA_BP) | SF(LFENCE_RDTSC) |
+> +				   SF(NULL_SEL_CLR_BASE));
+
+Please follow the established style, e.g.
+
+	kvm_cpu_cap_init_scattered(CPUID_8000_0021_EAX,                         
+		SF(NO_NESTED_DATA_BP) | SF(LFENCE_RDTSC) | SF(NULL_SEL_CLR_BASE)
+	);
+
+> +	if (cpu_feature_enabled(X86_FEATURE_LFENCE_RDTSC))
+
+I highly doubt it matters, but using cpu_feature_enabled() instead of static_cpu_has()
+is an unrelated change.  At the very least, it should be mentioned in the changelog.
+
+> +		kvm_cpu_cap_set(X86_FEATURE_LFENCE_RDTSC);
+> +	if (!static_cpu_has_bug(X86_BUG_NULL_SEG))
+> +		kvm_cpu_cap_set(X86_FEATURE_NULL_SEL_CLR_BASE);
+> +
+>  	kvm_cpu_cap_mask(CPUID_C000_0001_EDX,
+>  		F(XSTORE) | F(XSTORE_EN) | F(XCRYPT) | F(XCRYPT_EN) |
+>  		F(ACE2) | F(ACE2_EN) | F(PHE) | F(PHE_EN) |
