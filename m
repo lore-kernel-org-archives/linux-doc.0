@@ -2,184 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16567C4321E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 08:50:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33BF6C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 09:24:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234148AbiK3Iu0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Nov 2022 03:50:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55162 "EHLO
+        id S232986AbiK3JYx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Nov 2022 04:24:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233304AbiK3IuZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 03:50:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E77672C12D
-        for <linux-doc@vger.kernel.org>; Wed, 30 Nov 2022 00:49:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669798169;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=xANXvbQ7iywMEyVlB4xJE5gylEi2EmdID1HL+8vvXPE=;
-        b=PxZyN/eC3+mCkrwvSLGUbQ8yNBTLufUh1mglHN4SGUmv1OWG4g4LQt8p+FSPRvgAqMZpvm
-        2R0jUc1dIPgCCgmuWw/DdpPQuCIXowQpYrvqtbjcd9zeb4eTH1pSXoGpWcBL7cOEuPypBL
-        tsW1zz0bJ7r1+0Gfnuqwcbgu6xwUa9Y=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-644-3Ba3acOgOI2EWUt0ACG9DA-1; Wed, 30 Nov 2022 03:49:28 -0500
-X-MC-Unique: 3Ba3acOgOI2EWUt0ACG9DA-1
-Received: by mail-il1-f200.google.com with SMTP id h20-20020a056e021d9400b00300581edaa5so14618045ila.12
-        for <linux-doc@vger.kernel.org>; Wed, 30 Nov 2022 00:49:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xANXvbQ7iywMEyVlB4xJE5gylEi2EmdID1HL+8vvXPE=;
-        b=B+Zs4ikrS2Hi4DMpx83gK8FgAYxNPfQH4dchP3uEKB0VJ6eQMBOni8OkqLvrLFj32g
-         drO3XiR+NbLbwjzcFZEmLAwgPU6SWF8kmFvKJa0I6HhdfeCh+gmc8bWPwR0Z2rDS0Xtc
-         /r6t+lIqdTf11OTTQpikWXpXacUgffWIApAWjWI1IsQ12iDZoHH2mUvgB8pfwfDIDnTu
-         mj4RecQAj0n4S4QjYUOSNZAv4Z2DKMf9ZyJRGueUM+v4mLWKKFI5Nv+SIT563SxDzohv
-         kofGHaIlDZFec5fK1T2qFsHmrPMyUGNuB8XohUkP3acm4TJro2r4cme+/B/mhoHDq7dl
-         dL+A==
-X-Gm-Message-State: ANoB5pnE6Qb5Gwjqgz7qeW/Z3rYbK/b9gB9qQdUPvkcuCBdUd0C9swBd
-        KmpUsWf6Lk8AAvy64LowJCs9Dcsaxh7IggSS5B5ptWtzcvM+01JQF0r4A+830aggL+QkF52YBx1
-        tIEyMg5mAvjKIcOR0VL/LJ1+eDw8zX/rtfKGC
-X-Received: by 2002:a02:c737:0:b0:375:1c5f:3127 with SMTP id h23-20020a02c737000000b003751c5f3127mr19645299jao.251.1669798167860;
-        Wed, 30 Nov 2022 00:49:27 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7SN6S5FthjsMHHZOOe/zeRLlQAj+dr+Vd7yWgLU3oWLPsaRFF+jtmM/MiCe0/FyZMhWdA7awXCX70M14aatZE=
-X-Received: by 2002:a02:c737:0:b0:375:1c5f:3127 with SMTP id
- h23-20020a02c737000000b003751c5f3127mr19645276jao.251.1669798167237; Wed, 30
- Nov 2022 00:49:27 -0800 (PST)
+        with ESMTP id S232373AbiK3JYx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 04:24:53 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31B9F2A967;
+        Wed, 30 Nov 2022 01:24:50 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C9362B81A99;
+        Wed, 30 Nov 2022 09:24:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D885BC433C1;
+        Wed, 30 Nov 2022 09:24:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669800287;
+        bh=TdyM8hMpRwYA7lJLFOBGQQtN/uspLzJubg/tO0o+fBo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Qg/4JEpHq0VapvPQZG7o5odpmHpLltXvEx5sITQmJKCpHaaMtJZtLnqP50biDk+fP
+         x/wACcZj6kakpvLUFNkXXEG91fjV2fc9frXFy/meS2rYHkYgBA/0pjGITswxQnoLec
+         YS230P55xqjrmSnZNvqouwTSbArGMIT31m6aRWr7Z3op0Tm+Tb5ncKnWA/gwt5JKYn
+         RlhgI9X9Ytne/HP4aJECeB9AuwuPkccN/WmKIzOda6Ia5SHTRuB1Lsvmdywc7lwBmz
+         fISykQFyh8P3jKXuzmBQXeO/RHVlLxsgD8KeuT0y3xU263DpeEjY6NOBsMd556pV7s
+         v+rcRUZRyflgA==
+Date:   Wed, 30 Nov 2022 11:24:43 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Veerasenareddy Burru <vburru@marvell.com>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lironh@marvell.com, aayarekar@marvell.com, sedara@marvell.com,
+        sburla@marvell.com, linux-doc@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [PATCH net-next v2 1/9] octeon_ep: defer probe if firmware not
+ ready
+Message-ID: <Y4chWyR6qTlptkTE@unreal>
+References: <20221129130933.25231-1-vburru@marvell.com>
+ <20221129130933.25231-2-vburru@marvell.com>
 MIME-Version: 1.0
-References: <20221103155756.687789-1-benjamin.tissoires@redhat.com>
- <20221103155756.687789-4-benjamin.tissoires@redhat.com> <ff1a0b34-71f2-cebe-a6ef-675936b276eb@nvidia.com>
- <CAO-hwJJZxgeTT8mLwFrYynSVASva=o7qL9Kr4xOywV3KDUu2GA@mail.gmail.com>
- <CAADnVQ+kE+EJ9LAfwge9ksC0LR8r+ShQNYi5g-MDajufXq8Yxw@mail.gmail.com>
- <CAO-hwJJGxvrLRGSt7g0T1rYiuCCigVzQ-L6yKLM1-44EpYqmsQ@mail.gmail.com> <CABRcYmKyRchQhabi1Vd9RcMQFCcb=EtWyEbFDFRTc-L-U8WhgA@mail.gmail.com>
-In-Reply-To: <CABRcYmKyRchQhabi1Vd9RcMQFCcb=EtWyEbFDFRTc-L-U8WhgA@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 30 Nov 2022 09:49:16 +0100
-Message-ID: <CAO-hwJJz8KpWYbnbK6eJQDzwcY2zsBzEyACnEQ3GzEbMZSiA7g@mail.gmail.com>
-Subject: Re: [PATCH hid v12 03/15] HID: initial BPF implementation
-To:     Florent Revest <revest@chromium.org>
-Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221129130933.25231-2-vburru@marvell.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 29, 2022 at 7:00 PM Florent Revest <revest@chromium.org> wrote:
->
-> On Thu, Nov 24, 2022 at 4:50 PM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > On Wed, Nov 23, 2022 at 9:14 PM Alexei Starovoitov
-> > <alexei.starovoitov@gmail.com> wrote:
-> > >
-> > > On Wed, Nov 23, 2022 at 6:53 AM Benjamin Tissoires
-> > > <benjamin.tissoires@redhat.com> wrote:
-> > > >
-> > > > Hi Jon,
-> > > >
-> > > > On Wed, Nov 23, 2022 at 2:25 PM Jon Hunter <jonathanh@nvidia.com> wrote:
-> > > > >
-> > > > > We have a kernel test that checks for new warning and error messages on
-> > > > > boot and with this change I am now seeing the following error message on
-> > > > > our Tegra platforms ...
-> > > > >
-> > > > >   WARNING KERN hid_bpf: error while preloading HID BPF dispatcher: -13
-> > > > >
-> > > > > I have a quick look at the code, but I can't say I am familiar with
-> > > > > this. So I wanted to ask if a way to fix this or avoid this? I see the
-> > > > > code returns 0, so one option would be to make this an informational or
-> > > > > debug print.
-> > > >
-> > > > I am not in favor of debug in that case, because I suspect it'll hide
-> > > > too much when getting a bug report. Informational could do, yes.
-> > > >
-> > > > However, before that, I'd like to dig a little bit more on why it is
-> > > > failing. I thought arm64 now has support of tracing bpf programs, so I
-> > > > would not expect this to fail.
->
-> We have BPF trampolines on arm64 already but no ftrace direct calls
-> right now. (so trampolines get jitted but don't get called eheh :)) So
-> indeed BPF tracing programs (fentry/fexit/fmod_ret) do not work on
-> arm64 at the moment.
+On Tue, Nov 29, 2022 at 05:09:24AM -0800, Veerasenareddy Burru wrote:
+> Defer probe if firmware is not ready for device usage.
+> 
+> Signed-off-by: Veerasenareddy Burru <vburru@marvell.com>
+> Signed-off-by: Abhijit Ayarekar <aayarekar@marvell.com>
+> Signed-off-by: Satananda Burla <sburla@marvell.com>
+> ---
+> v1 -> v2:
+>  * was scheduling workqueue task to wait for firmware ready,
+>    to probe/initialize the device.
+>  * now, removed the workqueue task; the probe returns EPROBE_DEFER,
+>    if firmware is not ready.
+>  * removed device status oct->status, as it is not required with the
+>    modified implementation.
+> 
+>  .../ethernet/marvell/octeon_ep/octep_main.c   | 26 +++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+> 
+> diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
+> index 5a898fb88e37..aa7d0ced9807 100644
+> --- a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
+> +++ b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
+> @@ -1017,6 +1017,25 @@ static void octep_device_cleanup(struct octep_device *oct)
+>  	oct->conf = NULL;
+>  }
+>  
+> +static u8 get_fw_ready_status(struct pci_dev *pdev)
 
-Oh, OK. Thanks for the explanation.
+Please change this function to return bool, you are not interested in
+status.
 
->
-> > > Unfortunately the patches to add support for such tracing bpf progs got stuck.
-> > > Florent/Mark can probably share the latest status.
->
-> We are working on an implementation of ftrace direct calls that would
-> fit within the constraints of arm64 and play nice with the other users
-> of the ftrace call site. Hopefully we have a patch to share in the
-> next couple of weeks I'd say!
+> +{
+> +	u32 pos = 0;
+> +	u16 vsec_id;
+> +	u8 status;
+> +
+> +	while ((pos = pci_find_next_ext_capability(pdev, pos,
+> +						   PCI_EXT_CAP_ID_VNDR))) {
+> +		pci_read_config_word(pdev, pos + 4, &vsec_id);
+> +#define FW_STATUS_VSEC_ID  0xA3
+> +		if (vsec_id == FW_STATUS_VSEC_ID) {
 
-yay!
+Success oriented flow, plase
+if (vsec_id != FW_STATUS_VSEC_ID)
+ cotitnue;
 
->
-> > Oh... I noticed Jon's config was lacking CONFIG_FTRACE. So should I
-> > also add a depends on CONFIG_FTRACE to enable HID-BPF?
->
-> If HID-BPF fundamentally depends on a fmod_ret program being attached
-> to function, it seems to me that it should depend on both:
->     CONFIG_DYNAMIC_FTRACE_WITH_DIRECT_CALLS (CONFIG_FTRACE or even
-> CONFIG_DYNAMIC_FTRACE aren't enough, there can be architectures that
-> do not support direct calls. here you noticed it on arm64 which
-> luckily should get fixed someday soon but there could be other
-> architectures with that issue too)
-> and
+....
 
-OK
+> +			pci_read_config_byte(pdev, (pos + 8), &status);
+> +			dev_info(&pdev->dev, "Firmware ready %u\n", status);
+> +			return status;
+> +		}
+> +	}
+> +	return 0;
+> +}
+> +
+>  /**
+>   * octep_probe() - Octeon PCI device probe handler.
+>   *
+> @@ -1053,6 +1072,13 @@ static int octep_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>  	pci_enable_pcie_error_reporting(pdev);
+>  	pci_set_master(pdev);
+>  
+> +#define FW_STATUS_READY    1
+> +	if (get_fw_ready_status(pdev) != FW_STATUS_READY) {
 
->     CONFIG_FUNCTION_ERROR_INJECTION (since [1] error injection needs
-> to be explicitly opted-in, it's easy to miss it and fail to attach
-> fmod_ret programs in mysterious ways)
+No need to this new define if you change get_fw_ready_status() to return
+true/false.
 
-Ok as well.
+And I think that you can put this check earlier in octep_probe().
 
->
-> I'm thinking that maybe encoding these two dependencies in the
-> CONFIG_HID_BPF is leaking too much of the bpf tracing abstraction to
-> the user. Maybe the BPF Kconfig could provide "proxy" configs like
-> HAVE_BPF_FENTRY_FEXIT, HAVE_BPF_FMOD_RET (naming is hard) to expose
-> these dependencies better ?
+Thanks
 
-That would be nice, but requires some sort of synchronization between
-our 2 trees, so I'll take the 2 configs in the HID tree, and try to
-submit a patch for the bpf tree with the macro. Then I can reattach to
-that macro when it hits Linus'.
-
->
-> 1: https://lore.kernel.org/lkml/20221121104403.1545f9b5@gandalf.local.home/
->
-
-That thread is a little bit worrying to me. HID-BPF relies on
-CONFIG_FUNCTION_ERROR_INJECTION, and I would definitely like to see
-HID-BPF in production kernels. I don't really care about cloud
-servers, but chromebooks are something I'd like to have enabled. We'll
-see how this thread goes I guess.
-
-Anyway, thanks a lot for the deep explanation and understanding of my code :)
-
-Cheers,
-Benjamin
-
+> +		dev_notice(&pdev->dev, "Firmware not ready; defer probe.\n");
+> +		err = -EPROBE_DEFER;
+> +		goto err_alloc_netdev;
+> +	}
+> +
+>  	netdev = alloc_etherdev_mq(sizeof(struct octep_device),
+>  				   OCTEP_MAX_QUEUES);
+>  	if (!netdev) {
+> -- 
+> 2.36.0
+> 
