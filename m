@@ -2,80 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 436BBC4167B
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 00:45:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46C9DC4167B
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 01:17:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229845AbiK3Apo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Nov 2022 19:45:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49190 "EHLO
+        id S229680AbiK3BRQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Nov 2022 20:17:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbiK3Apo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 19:45:44 -0500
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DCCB6DFEF;
-        Tue, 29 Nov 2022 16:45:43 -0800 (PST)
-Received: by mail-ot1-f51.google.com with SMTP id a13-20020a9d6e8d000000b00668d65fc44fso10263524otr.9;
-        Tue, 29 Nov 2022 16:45:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hlRj9L4gPlL7jJ8/7Pb5E6XtZMfbxof/0/XlLRIjlek=;
-        b=4a2nOP/uGMFZgWJ7X4E6+AshspSZbsRFgmqKNWn0fyrcuVJ4FWHYCG8f63+YQroseM
-         EQSbI8Pkja+Ina0yu4XGLOoi+t8olBNbzgnAs417SD3J+m3oZuEKQYd0xWrGEJYy8ODL
-         TDHIM+d0aL2p1ZiusqhEVkUm8SrDTj25sWVQ1rGqqrYfa/4PnVysSZmPjihOuKq0kr+6
-         esi2r3ru3Zn7t7LkwSfM3Bdb7olXhPtOl3Iu0pSgR6qoRdXlpfNKfzXlLaXJpaE2mCy5
-         orxg4g9tag/mrvah27/UarBbwC6zFeWBpv4CKBFpgmgNB+O5wlSYsrJoVoXw16oCcXN8
-         0pDg==
-X-Gm-Message-State: ANoB5pnE0Xlt78U8lPVgu+frvKiAkUGe7Kbtib/rBh4H9REPS7UQ9u27
-        hxTZ8kZz60rhxFb1teT4oA==
-X-Google-Smtp-Source: AA0mqf52PnpB/uwrsJxq7yLUSVKTk6h9aJ8vMEKCQuSI1A/k9qjW6WtFfYOZzdFYnf0coJ+mbGzEzQ==
-X-Received: by 2002:a9d:51cd:0:b0:665:d7e7:ca59 with SMTP id d13-20020a9d51cd000000b00665d7e7ca59mr20042198oth.348.1669769142725;
-        Tue, 29 Nov 2022 16:45:42 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id b38-20020a056870472600b00143ae7d4ccesm149216oaq.45.2022.11.29.16.45.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Nov 2022 16:45:42 -0800 (PST)
-Received: (nullmailer pid 605002 invoked by uid 1000);
-        Wed, 30 Nov 2022 00:45:41 -0000
-Date:   Tue, 29 Nov 2022 18:45:41 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Michael Walle <michael@walle.cc>
-Cc:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v4 04/20] of: property: add #nvmem-cell-cells property
-Message-ID: <166976914091.604941.18302574495918409424.robh@kernel.org>
-References: <20221123180151.2160033-1-michael@walle.cc>
- <20221123180151.2160033-5-michael@walle.cc>
+        with ESMTP id S229565AbiK3BRP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Nov 2022 20:17:15 -0500
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F40CF6F832;
+        Tue, 29 Nov 2022 17:17:13 -0800 (PST)
+Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NMLrb3r1qzmWGY;
+        Wed, 30 Nov 2022 09:16:31 +0800 (CST)
+Received: from dggpeml100012.china.huawei.com (7.185.36.121) by
+ dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 30 Nov 2022 09:17:11 +0800
+Received: from [10.67.110.218] (10.67.110.218) by
+ dggpeml100012.china.huawei.com (7.185.36.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 30 Nov 2022 09:17:11 +0800
+Message-ID: <58c3e30e-f283-5d50-5aba-1fe16f1257a3@huawei.com>
+Date:   Wed, 30 Nov 2022 09:17:11 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221123180151.2160033-5-michael@walle.cc>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.0
+Subject: Re: [PATCH bpf] bpf, docs: Correct the example of BPF_XOR
+To:     David Vernet <void@manifault.com>
+CC:     <ast@kernel.org>, <daniel@iogearbox.net>, <andrii@kernel.org>,
+        <martin.lau@linux.dev>, <song@kernel.org>, <yhs@fb.com>,
+        <john.fastabend@gmail.com>, <kpsingh@kernel.org>, <sdf@google.com>,
+        <haoluo@google.com>, <jolsa@kernel.org>, <corbet@lwn.net>,
+        <bpf@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20221129134558.2757043-1-zhengyejian1@huawei.com>
+ <Y4ZVUiwGnVIj/V4U@maniforge.lan>
+From:   Zheng Yejian <zhengyejian1@huawei.com>
+In-Reply-To: <Y4ZVUiwGnVIj/V4U@maniforge.lan>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.110.218]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpeml100012.china.huawei.com (7.185.36.121)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 2022/11/30 02:54, David Vernet wrote:
+> On Tue, Nov 29, 2022 at 09:45:58PM +0800, Zheng Yejian wrote:
+>> Refer to description of BPF_XOR, dst_reg should be used but not src_reg
+>> in the examples.
+>>
+>> Signed-off-by: Zheng Yejian <zhengyejian1@huawei.com>
+>> ---
+>>   Documentation/bpf/instruction-set.rst | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/bpf/instruction-set.rst b/Documentation/bpf/instruction-set.rst
+>> index 5d798437dad4..e672d5ec6cc7 100644
+>> --- a/Documentation/bpf/instruction-set.rst
+>> +++ b/Documentation/bpf/instruction-set.rst
+>> @@ -122,11 +122,11 @@ BPF_END   0xd0   byte swap operations (see `Byte swap instructions`_ below)
+>>   
+>>   ``BPF_XOR | BPF_K | BPF_ALU`` means::
+>>   
+>> -  src_reg = (u32) src_reg ^ (u32) imm32
+>> +  dst_reg = (u32) dst_reg ^ (u32) imm32
+> 
+> Shouldn't this be
+> 
+> dst_reg = (u32) dst_reg ^ (u32) src_reg
+> 
+> Same idea below for 64 bit
 
-On Wed, 23 Nov 2022 19:01:35 +0100, Michael Walle wrote:
-> Bindings describe the new '#nvmem-cell-cells' property. Now that the
-> arguments count property is optional, we just add this property to the
-> nvmem-cells.
-> 
-> Signed-off-by: Michael Walle <michael@walle.cc>
-> Tested-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> ---
-> changes since v3:
->  - new patch
-> 
->  drivers/of/property.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+See Chapter 'Instruction classes', BPF_K means "use 32-bit immediate as 
+source operand", so it should be 'imm32' instead of 'src_reg'.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+> 
+>>   
+>>   ``BPF_XOR | BPF_K | BPF_ALU64`` means::
+>>   
+>> -  src_reg = src_reg ^ imm32
+>> +  dst_reg = dst_reg ^ imm32
+>>   
+>>   
+>>   Byte swap instructions
+>> -- 
+>> 2.25.1
+>>
+> 
