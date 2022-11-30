@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E23FCC47088
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 23:42:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52CC5C4321E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Nov 2022 23:42:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229629AbiK3XmD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Nov 2022 18:42:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60840 "EHLO
+        id S229694AbiK3XmH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Nov 2022 18:42:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229744AbiK3XmC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 18:42:02 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31AE24B761;
-        Wed, 30 Nov 2022 15:41:59 -0800 (PST)
+        with ESMTP id S229863AbiK3XmF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 18:42:05 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2A094AF03;
+        Wed, 30 Nov 2022 15:42:03 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C08EDB81D75;
-        Wed, 30 Nov 2022 23:41:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11DB1C433D7;
-        Wed, 30 Nov 2022 23:41:53 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0835061E50;
+        Wed, 30 Nov 2022 23:42:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4780C43146;
+        Wed, 30 Nov 2022 23:41:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669851716;
-        bh=eiDyEPrPFONwuiVxz0Bl5Re71qAslT/jb7BX8jhuC4E=;
-        h=From:To:Cc:Subject:Date:From;
-        b=nGGP8AlviNIGy6DUe4KSoJIk14WQ0lGfsC7QD87q7uSkk74mPS/lE72vj/72ZRYfV
-         YT+6/KwXJ9HmJkBWyfBIcorfnPPGneT0mvB6CwzpkaIx98QGjsAvMU2ODOaOHHTghB
-         bomhVG8ZIwQMpqE9rGROXa44Lcgxv/jnEB6bHywQw9lHO77qSvIjO/+/kI2fj6SgLk
-         ZTufMqnY3Ubw7X6uZNVjRvXYEouyllsZlKb/irw2lpvVnE2LMuQ2EYZ9SwG48vDcek
-         v8GUxsC2JMuh+IEVGwYHlsfizOdfcO6R38/bQjmXAyF6DQFxWQkIAR/8rnr68c3p1X
-         wM2iVPWXxOT+w==
+        s=k20201202; t=1669851722;
+        bh=B0la+6RJs6jm7uimz2FZajJBMnUH9FoBQuI76+kXtl4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=YtBDJB10K9UQhIScS5VPIjV21O/fMZFvs8VBNbVsqhX03H25iyKCeM7s3i+NZFjAU
+         bmbBBqWZ0zzQ+v9UA7nXQIbkOkrj+2CijSK8khQ4qHE1WnXwOxLFI2pASuSSr9mMHc
+         2QRNvyEyJBEr+uOzLcB+JEJ+hsTHyv4uJmhOQdI3B7vyY3v1aZARRIMs98/CL1bGaq
+         Qd4NKWdsQid2GnrZM6wI1uqUqlw2b97ljZHi/IrpCaj/Ikd1ItLa/YdR8TjcTu8Qh7
+         Ev128+zppZt3D/f8xCzCJ5gvumY6KavECn1g5T9kuh4fCxR/m9lEf6dvxJ4+dRsQK6
+         eezkFeuVMyLHQ==
 From:   Conor Dooley <conor@kernel.org>
 To:     Palmer Dabbelt <palmer@dabbelt.com>,
         linux-riscv@lists.infradead.org
@@ -38,10 +38,12 @@ Cc:     Conor Dooley <conor.dooley@microchip.com>, ajones@ventanamicro.com,
         aou@eecs.berkeley.edu, conor@kernel.org, corbet@lwn.net,
         guoren@kernel.org, heiko@sntech.de, paul.walmsley@sifive.com,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v1 0/3] Putting some basic order on isa extension lists
-Date:   Wed, 30 Nov 2022 23:41:23 +0000
-Message-Id: <20221130234125.2722364-1-conor@kernel.org>
+Subject: [PATCH v1 2/3] RISC-V: resort all extensions in consistent orders
+Date:   Wed, 30 Nov 2022 23:41:25 +0000
+Message-Id: <20221130234125.2722364-3-conor@kernel.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221130234125.2722364-1-conor@kernel.org>
+References: <20221130234125.2722364-1-conor@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -50,56 +52,129 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Conor Dooley <conor.dooley@microchip.com>
 
-I don't know for sure that I have not re-ordered something that is
-sacrosanct. It seems that all of these are internal use structs, and
-should be okay, barring the obvious exception of the, intentionally
-re-ordered, isa_ext_arr.
+Ordering between each and every list of extensions is wildly
+inconsistent. Per discussion on the lists pick the following policy:
 
-With that caveat out of the way - all I did here was try to make things
-consistent so that it'd be easier to point patch submitters at a "do
-this order please".
+- The array defining order in /proc/cpuinfo follows a narrow
+  interpretation of the ISA specifications, described in a comment
+  immediately presiding it.
 
-I never know which of these can be moved without breaking stuff - but
-they all seem to be internal use stuff since they're not in uapi?
+- All other lists of extensions are sorted alphabetically.
 
-For v2, I added another path with some uapi docs & switched to Drew's
-suggested ordering of alphabetically, except in the /proc/cpuinfo array,
-as per the discussion today in the pw-sync call. I also added a
-sprinkling of comments around which things should be sorted in which
-way.
+This will hopefully allow for easier review & future additions, and
+reduce conflicts between patchsets as the number of extensions grows.
 
-I guess consider this an RFS, with the S being Screaming in the case of
-me doing something you abhor :)
+Link: https://lore.kernel.org/all/20221129144742.2935581-2-conor.dooley@microchip.com/
+Suggested-by: Andrew Jones <ajones@ventanamicro.com>
+Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+---
+I could not decide between adding an alphabetical comment to each
+alphabetical site or not. I did it anyway. Scream if you hate it!
 
-Thanks,
-Conor.
+I also moved a static branch thingy in this version, but that should not
+matter, right? riightt?
+---
+ arch/riscv/include/asm/hwcap.h | 12 +++++++-----
+ arch/riscv/kernel/cpu.c        |  4 ++--
+ arch/riscv/kernel/cpufeature.c |  6 ++++--
+ 3 files changed, 13 insertions(+), 9 deletions(-)
 
-CC: ajones@ventanamicro.com
-CC: aou@eecs.berkeley.edu
-CC: conor@kernel.org
-CC: conor.dooley@microchip.com
-CC: corbet@lwn.net
-CC: guoren@kernel.org
-CC: heiko@sntech.de
-CC: palmer@dabbelt.com
-CC: paul.walmsley@sifive.com
-
-CC: linux-kernel@vger.kernel.org
-CC: linux-riscv@lists.infradead.org
-CC: linux-doc@vger.kernel.org
-
-Conor Dooley (3):
-  RISC-V: clarify ISA string ordering rules in cpu.c
-  RISC-V: resort all extensions in consistent orders
-  Documentation: riscv: add a section about ISA string ordering in
-    /proc/cpuinfo
-
- Documentation/riscv/uabi.rst   | 42 +++++++++++++++++++++++++++
- arch/riscv/include/asm/hwcap.h | 12 ++++----
- arch/riscv/kernel/cpu.c        | 53 ++++++++++++++++++++++++----------
- arch/riscv/kernel/cpufeature.c |  6 ++--
- 4 files changed, 91 insertions(+), 22 deletions(-)
-
+diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
+index b22525290073..ce522aad641a 100644
+--- a/arch/riscv/include/asm/hwcap.h
++++ b/arch/riscv/include/asm/hwcap.h
+@@ -51,14 +51,15 @@ extern unsigned long elf_hwcap;
+  * RISCV_ISA_EXT_MAX. 0-25 range is reserved for single letter
+  * extensions while all the multi-letter extensions should define the next
+  * available logical extension id.
++ * Entries are sorted alphabetically.
+  */
+ enum riscv_isa_ext_id {
+ 	RISCV_ISA_EXT_SSCOFPMF = RISCV_ISA_EXT_BASE,
++	RISCV_ISA_EXT_SSTC,
++	RISCV_ISA_EXT_SVINVAL,
+ 	RISCV_ISA_EXT_SVPBMT,
+ 	RISCV_ISA_EXT_ZICBOM,
+ 	RISCV_ISA_EXT_ZIHINTPAUSE,
+-	RISCV_ISA_EXT_SSTC,
+-	RISCV_ISA_EXT_SVINVAL,
+ 	RISCV_ISA_EXT_ID_MAX = RISCV_ISA_EXT_MAX,
+ };
+ 
+@@ -66,11 +67,12 @@ enum riscv_isa_ext_id {
+  * This enum represents the logical ID for each RISC-V ISA extension static
+  * keys. We can use static key to optimize code path if some ISA extensions
+  * are available.
++ * Entries are sorted alphabetically.
+  */
+ enum riscv_isa_ext_key {
+ 	RISCV_ISA_EXT_KEY_FPU,		/* For 'F' and 'D' */
+-	RISCV_ISA_EXT_KEY_ZIHINTPAUSE,
+ 	RISCV_ISA_EXT_KEY_SVINVAL,
++	RISCV_ISA_EXT_KEY_ZIHINTPAUSE,
+ 	RISCV_ISA_EXT_KEY_MAX,
+ };
+ 
+@@ -90,10 +92,10 @@ static __always_inline int riscv_isa_ext2key(int num)
+ 		return RISCV_ISA_EXT_KEY_FPU;
+ 	case RISCV_ISA_EXT_d:
+ 		return RISCV_ISA_EXT_KEY_FPU;
+-	case RISCV_ISA_EXT_ZIHINTPAUSE:
+-		return RISCV_ISA_EXT_KEY_ZIHINTPAUSE;
+ 	case RISCV_ISA_EXT_SVINVAL:
+ 		return RISCV_ISA_EXT_KEY_SVINVAL;
++	case RISCV_ISA_EXT_ZIHINTPAUSE:
++		return RISCV_ISA_EXT_KEY_ZIHINTPAUSE;
+ 	default:
+ 		return -EINVAL;
+ 	}
+diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+index 68b2bd0cc3bc..686d41b14206 100644
+--- a/arch/riscv/kernel/cpu.c
++++ b/arch/riscv/kernel/cpu.c
+@@ -161,12 +161,12 @@ device_initcall(riscv_cpuinfo_init);
+  * New entries to this struct should follow the ordering rules described above.
+  */
+ static struct riscv_isa_ext_data isa_ext_arr[] = {
++	__RISCV_ISA_EXT_DATA(zicbom, RISCV_ISA_EXT_ZICBOM),
++	__RISCV_ISA_EXT_DATA(zihintpause, RISCV_ISA_EXT_ZIHINTPAUSE),
+ 	__RISCV_ISA_EXT_DATA(sscofpmf, RISCV_ISA_EXT_SSCOFPMF),
+ 	__RISCV_ISA_EXT_DATA(sstc, RISCV_ISA_EXT_SSTC),
+ 	__RISCV_ISA_EXT_DATA(svinval, RISCV_ISA_EXT_SVINVAL),
+ 	__RISCV_ISA_EXT_DATA(svpbmt, RISCV_ISA_EXT_SVPBMT),
+-	__RISCV_ISA_EXT_DATA(zicbom, RISCV_ISA_EXT_ZICBOM),
+-	__RISCV_ISA_EXT_DATA(zihintpause, RISCV_ISA_EXT_ZIHINTPAUSE),
+ 	__RISCV_ISA_EXT_DATA("", RISCV_ISA_EXT_MAX),
+ };
+ 
+diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+index 694267d1fe81..8a76a6ce70cf 100644
+--- a/arch/riscv/kernel/cpufeature.c
++++ b/arch/riscv/kernel/cpufeature.c
+@@ -199,12 +199,13 @@ void __init riscv_fill_hwcap(void)
+ 				this_hwcap |= isa2hwcap[(unsigned char)(*ext)];
+ 				set_bit(*ext - 'a', this_isa);
+ 			} else {
++				/* sorted alphabetically */
+ 				SET_ISA_EXT_MAP("sscofpmf", RISCV_ISA_EXT_SSCOFPMF);
++				SET_ISA_EXT_MAP("sstc", RISCV_ISA_EXT_SSTC);
++				SET_ISA_EXT_MAP("svinval", RISCV_ISA_EXT_SVINVAL);
+ 				SET_ISA_EXT_MAP("svpbmt", RISCV_ISA_EXT_SVPBMT);
+ 				SET_ISA_EXT_MAP("zicbom", RISCV_ISA_EXT_ZICBOM);
+ 				SET_ISA_EXT_MAP("zihintpause", RISCV_ISA_EXT_ZIHINTPAUSE);
+-				SET_ISA_EXT_MAP("sstc", RISCV_ISA_EXT_SSTC);
+-				SET_ISA_EXT_MAP("svinval", RISCV_ISA_EXT_SVINVAL);
+ 			}
+ #undef SET_ISA_EXT_MAP
+ 		}
+@@ -284,6 +285,7 @@ static bool __init_or_module cpufeature_probe_zicbom(unsigned int stage)
+  * This code may also be executed before kernel relocation, so we cannot use
+  * addresses generated by the address-of operator as they won't be valid in
+  * this context.
++ * Tests, unless otherwise required, are to be added in alphabetical order.
+  */
+ static u32 __init_or_module cpufeature_probe(unsigned int stage)
+ {
 -- 
 2.38.1
 
