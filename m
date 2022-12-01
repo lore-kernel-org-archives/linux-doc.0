@@ -2,310 +2,223 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEDDAC4321E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 00:36:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 493A1C4321E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 01:50:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229461AbiLAAg0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Nov 2022 19:36:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54226 "EHLO
+        id S229700AbiLABu0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Nov 2022 20:50:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbiLAAgY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 19:36:24 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4EDC532EA;
-        Wed, 30 Nov 2022 16:36:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669854983; x=1701390983;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=+1EwT8TFUElk+EMHvagG68RtTqkBgylmDNZDPZiy7R8=;
-  b=hUvXOjeGuaW6eMl5uzIpYpg0FOhoCTCwgb4km/1X0W2YHHGeKnlbHzm7
-   1BLqKyGsDqwPBhjoNA3EnnE/Cq3J+PsbtQjkY4icFv0TCFUWiH/arzzmm
-   y/Rp0DlO3VvS9U+8g1AFkCopse21sb/6I+ZEN3mi8czPogq+tbrAvsmVs
-   ReTigJQaDahn+2527/r1FtzKNlhjCwdggNN7PULZ/q6YxZrXMrt9dHTLP
-   zoDfAGvRjh9CJAhz6zA4xTB0jmvvi9k5N4zMC1xdAEdJQ8Wp4n+QJLcWZ
-   w31tjJ71UAFb5pKk2GvCv6zmISHpHzMJ+M3hJBw7nueaq6q1qv1sv+oH8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="313177202"
-X-IronPort-AV: E=Sophos;i="5.96,207,1665471600"; 
-   d="scan'208";a="313177202"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2022 16:36:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="818835260"
-X-IronPort-AV: E=Sophos;i="5.96,207,1665471600"; 
-   d="scan'208";a="818835260"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orsmga005.jf.intel.com with ESMTP; 30 Nov 2022 16:36:22 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 30 Nov 2022 16:36:22 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 30 Nov 2022 16:36:22 -0800
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.42) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Wed, 30 Nov 2022 16:36:22 -0800
+        with ESMTP id S229603AbiLABuY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 20:50:24 -0500
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44D9B900F9;
+        Wed, 30 Nov 2022 17:50:23 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E2wKPqMyuSXoCMufhH2eCJgF6hy3kOQZxXYD7bvv2H2DeWiPitO+PFBF6x7BidZzm0QXrZcI400pkHVw1RHrm3we18q8eejGw00D/01A23iUcLLpSrWBocIhS3ThEua44NQQqz7j8qJzLIo5KkpNt9jnpvco2V2hu4L77+GUMhGLK7aiG7N2PLtlxYlprhB42yArzJFskThxJpLJ8oxFR+x2kdaDUHXEG+yuxlZqOhqMxN7v+Owz2gK9PBPgVWdZZMI4R/KezOPcrmnTAj5RR+ktd2r4knNseIUi1pwkDkDlqIRUcMfus6RQGfL+9fCgwxrIR7DqosNrGUKSZNivMA==
+ b=NRXaB6tYfqYpxUfbt1tlvI6K+syf6zZdT/iwZV0W+FOvEXdZ/LSvClD9901oHpBssqtg1655eI41vy4FBbK/rbMIWazVVLL+Ctg+y+8xzejr5gC4RWCk+3sNQtvNY/t1SI99dB2QUWtvzT061whP6djr7BQBHOVUCI1OPc6mOyLC3rDhv/5nz/PMsOGViZsjZxx+yPleSoTjrBZvcwU1L64y7tptG6bwVs4nKmlU7kY6TMxCIdhT9elOAHP0BViApTaFz+yEkINOGsN1BHqZVdueWZmkwl0kChX70+zDOEDmVc4L91dcTQpjK4/+Bcs3zYDrYf2tP6lL5FaGfZexeQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VyLoyrBSDkMPtgol6Wyj5wma/FiKW6hzuppW345Gnz0=;
- b=iJ4evfNVY9/j511oSy8J1n2lOS9XkHNvFL3vyK61Z6Th71yZMRAfjSGlfaPRIhguDUWJkyr4cA5BP0tPGIbg624AbxvpAN9B1AUCbEHCq7yuQP3mrHKFfieRw1osYedL0q+QmG325MP9t4o1NnMSa768XXOJ/bLYPe9ciKNW2CeoFv1RlyIux90ovaQ7mWL23xP4hKOJjNfgvR3wN1iuEmCtX04CFyhaY+PgVDfaX2oVxlthk5Phlc1I8TTuDTLp+/mhG/u3A/FZOnURXqDLWyHmZkvTtDfLruox5OM8Q2sLD9djiANLezfon642nZyNg0yBCrTkOXHsfwGM4tkmxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY4PR11MB1862.namprd11.prod.outlook.com (2603:10b6:903:124::18)
- by MW5PR11MB5859.namprd11.prod.outlook.com (2603:10b6:303:19e::9) with
+ bh=xj4z/XsQfhRdIT3YZcbN9OdTZjLNTDWdqDrbZo4Qzy8=;
+ b=jK03VnyvVwfehZ4Ma2iaH3O9LGYoOkREmZ939/KkODxZvaZXRM+AwZ/1OPQFOopuY1XxVqXdqospkquplRQhCAMlXwzy4tPQpYvcPOfxHHEI5VWjSKXTfBe/RWC1Z+0Dt6ZKkhujzN/3otPc5yxRuIbN8Rbj387w4BgNPpFXAey04LOeP75iDJJfCA1xcIJ2EWG+ptaSQPMwRtVilABggGJ799eiNNZvP82ZJThuZYSna+ZkoMPbzy558F9fabFf7gSCrM0XSZeDlQeegO5mOJb0vYgHKvtdMrJzSzRBeqH8E+2nPXT6mOfCnVaxRXLTm5gbQ44Q+9/gR5et8wNCCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xj4z/XsQfhRdIT3YZcbN9OdTZjLNTDWdqDrbZo4Qzy8=;
+ b=F5mjWz/BK7pc2LUF+T4ivDcehHb5xmgEbBIqrdsTGxv8COOHdRQqSI0r1shE0ISzvLx+0Y3IAKQaH4FRaKYv9Gp9Wx+fsXWjk6bwNOAnIrHTUojcpdx7l1uOuWPiOxvH9M5PM59zEW21kaIPchYmz1sIihnGJ9cnNfEirtkTN2E=
+Received: from MN2PR19CA0038.namprd19.prod.outlook.com (2603:10b6:208:19b::15)
+ by MW4PR12MB7032.namprd12.prod.outlook.com (2603:10b6:303:20a::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Thu, 1 Dec
- 2022 00:36:14 +0000
-Received: from CY4PR11MB1862.namprd11.prod.outlook.com
- ([fe80::b518:90b6:52bd:bef9]) by CY4PR11MB1862.namprd11.prod.outlook.com
- ([fe80::b518:90b6:52bd:bef9%12]) with mapi id 15.20.5857.023; Thu, 1 Dec 2022
- 00:36:14 +0000
-Message-ID: <379e4d1b-9b3b-dc83-99b4-e2a179395733@intel.com>
-Date:   Wed, 30 Nov 2022 16:35:52 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.5.0
-Subject: Re: [PATCH v8 05/13] x86/resctrl: Detect and configure Slow Memory
- Bandwidth Allocation
-Content-Language: en-US
-To:     <babu.moger@amd.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
-        <mingo@redhat.com>, <bp@alien8.de>
-CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
-        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
-        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
-        <songmuchun@bytedance.com>, <peterz@infradead.org>,
-        <jpoimboe@kernel.org>, <pbonzini@redhat.com>,
-        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
-        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
-        <sandipan.das@amd.com>, <tony.luck@intel.com>,
-        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
-        <eranian@google.com>
-References: <166759188265.3281208.11769277079826754455.stgit@bmoger-ubuntu>
- <166759202922.3281208.6231300030834095574.stgit@bmoger-ubuntu>
- <d2209b3d-374c-efdd-a91f-217f1db3b4bf@intel.com>
- <764c8eac-7b33-3850-3052-e6444ce496d0@amd.com>
- <5d17741a-c6a6-9ab0-fc05-673337b04a57@intel.com>
- <1b495f25-bc81-6181-e48d-729bf8211dc1@amd.com>
-From:   Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <1b495f25-bc81-6181-e48d-729bf8211dc1@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0241.namprd03.prod.outlook.com
- (2603:10b6:303:b4::6) To CY4PR11MB1862.namprd11.prod.outlook.com
- (2603:10b6:903:124::18)
+ 2022 01:50:20 +0000
+Received: from BL02EPF0000EE3C.namprd05.prod.outlook.com
+ (2603:10b6:208:19b:cafe::3d) by MN2PR19CA0038.outlook.office365.com
+ (2603:10b6:208:19b::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.17 via Frontend
+ Transport; Thu, 1 Dec 2022 01:50:20 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL02EPF0000EE3C.mail.protection.outlook.com (10.167.241.132) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5880.8 via Frontend Transport; Thu, 1 Dec 2022 01:50:20 +0000
+Received: from fritz.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 30 Nov
+ 2022 19:50:17 -0600
+From:   Kim Phillips <kim.phillips@amd.com>
+To:     <x86@kernel.org>
+CC:     Kim Phillips <kim.phillips@amd.com>,
+        Babu Moger <Babu.Moger@amd.com>,
+        Borislav Petkov <bp@alien8.de>, Borislav Petkov <bp@suse.de>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Konrad Rzeszutek Wilk" <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Alexey Kardashevskiy <aik@amd.com>, <kvm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 0/7] x86/cpu, kvm: Support AMD Automatic IBRS
+Date:   Wed, 30 Nov 2022 19:49:56 -0600
+Message-ID: <20221201015003.295769-1-kim.phillips@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PR11MB1862:EE_|MW5PR11MB5859:EE_
-X-MS-Office365-Filtering-Correlation-Id: da6f6c31-d414-49e1-9db4-08dad3340213
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-TrafficTypeDiagnostic: BL02EPF0000EE3C:EE_|MW4PR12MB7032:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9c3b3319-6bad-4d31-3301-08dad33e674f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dPIOnAxr7XRMQolErYjLFxbkHlgvtGCfsRwFMISERcNbWJkFcDEzYDQyOUwhWGURxhYwO3X1WEW7oCuAchn3y+VH26RMYNiFbpuYPI+mNN8GFYbW2A9yqQFNXl1Y09qK1eLo39Bi7oY2WyD2+7zvc6Uk9ThUUCOfSkk0EnFHHGaa4mIWZnMnTHz8Qs/v9QVnOBIrOEc3c9/GanFMajscPTC+ZE9sa6Pr7Zl1/3/pJPbmqlpPuHcT2PnGG80vXJi6ahczfbcJf0qU/b6YNVhGRDrxu7/OE0+IQ+rtlzrmZZMVBPtrtVZQ5yTVbK4luQ0037S4vnIUnWGDmMlH3TRQtek69fdopYn6mbSN04q92K1wHVfX/ZcCt+5+lQrTpc5r1gmH/CjDBvuWWTMcWMkg+JLl7DxlyH3/k4MBhH6x7I7Ry5ALd0qvkmkkL7GXm4qTbr/k6cpsadLElGLcb8ZQNdp8bKspZlo8f1dplUc+M53E079nbId3zlh0g39VyKwnBaCn/DCz20P3i43HJ4xoUI/A2mk/9Ce7gmj86COUghvHhH74Q3rStOwBVykV18Sxbl3YJBF0cp0TKfhY+Lj7a3sZT25hgmp27Kn3G+Mp78Ass0AGbrY2fr13P3bGjOXcAZGNo7sE6Zi1IasXqVoZc2N8R68eJA1jeIacipUm8INW6RfK3sPRz8l9LS/I4eMtMc+34vVLXtcK55L1NScmXZh9fIL7qWq9X4H6UzaRuv0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(396003)(136003)(39860400002)(376002)(366004)(451199015)(5660300002)(36756003)(316002)(83380400001)(6486002)(2616005)(186003)(31696002)(2906002)(7416002)(38100700002)(44832011)(66946007)(86362001)(66476007)(66556008)(8936002)(4326008)(41300700001)(8676002)(82960400001)(26005)(6512007)(6506007)(6666004)(53546011)(478600001)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WEdrem9RSWwydkNOK0VBejg2UEJ4QTllTWRUeDlveU9SZzlwdEdGSGJnclp2?=
- =?utf-8?B?SjNXNSsxMWdSV1J3cG1HS3M3RWJ6czVFRE1uZXdod09CbVQ2dERxNzQ5ci9T?=
- =?utf-8?B?Z0hSUlBQbm1EenY3dm9iSGwrMW1JTkI1Um5aSVJYK0hlcWZkWWlLK290aXpZ?=
- =?utf-8?B?YmZtZXJKU2JrYk9lTUIwQ01nZW9TalFYb3VKbWNoYWJSSWtFaDk2QXlWMVMr?=
- =?utf-8?B?L1JkdlFzL3pZc04vT01jYWRwNU44eDAwbldsM2hCdEw3M013R0Z3SG9vemJO?=
- =?utf-8?B?YjJ6dFVQQ0lQKzhZakFXalJsck9Oc1lib1ByVGdET0dyV3N0cWx1czFiamJ5?=
- =?utf-8?B?UG9VSGROdHR1NlFZSVI3S0pheHhXUDRKZUR4aDlMS2k3QU5PMjRwTi9wTGtL?=
- =?utf-8?B?L0RBWFJITTFiL1luQURxaXFGZlM1Y1YrVTAzbEo2KzhhamVVcDZDM3Fhc0du?=
- =?utf-8?B?RDRWMEpLM1Y5a1BWcE1aV2o4TzRseWw2cWg3VnBaZngvNjBaZUlVUlNlWm1z?=
- =?utf-8?B?M3lFSlVKQ0JGYmdRV2dGZ3l6TW5PeEFzekNWQ3lhTXdSZlhuWUJHekdpNkdl?=
- =?utf-8?B?ZDhpaXFVTHRnZWkrUGpIZzg5V1V2SHJ1bU55K3VmN3VnenRnOXpXMW92eU8y?=
- =?utf-8?B?N1B6VHgwSzU4STFKekJidHdseVJYTnh3NXAzaEpoeExOeGtSUVdXaER4Z09h?=
- =?utf-8?B?VnBBVTBNL1JzMXkzZnp4cXFjcTBFRVgzZU5DNnZGYmY2bkRGamFGaXN2RWcx?=
- =?utf-8?B?NFdHaVdOZnJpQTZhTnNMYVB6TVFQNDVscjlPZ3BqZTZYYmNkeVNyWVNzUTJy?=
- =?utf-8?B?TG96Z0FRdXhzRVBzT3AwV0J5ekM3bm9yaEtvclAzSnN2TlJ6c1NNK0hmd2Ry?=
- =?utf-8?B?T09kdm9CUDlIVWZQNzJHR0xDM1YyUkxJR0lQQWFVUWpZQ3ZpbzQ0ODV5K09W?=
- =?utf-8?B?ZzJkTzhlbWx3OUsrVU1NUG51QUpDV0dEZFpzZ2N0bzJoNVVFMGJpVVJHMzgy?=
- =?utf-8?B?czNlcm5HeG1oZm10VzVLSlNHRUtpd0FzM1JHbWEraVh1dkxKblpkMDVsOXNh?=
- =?utf-8?B?c0djVnRUZmZRZ2twb2U3N2lpTE1NWVBFaGYycm5HSDk5Rkp5TmpESDJzZXgy?=
- =?utf-8?B?d2xsYThnMDhNQklEeXNOSFFXaWxJQWtDVHAwdm9FM1NZeXpCc3hrS09xVzNQ?=
- =?utf-8?B?ZmYrTW9ST3VqTDRiKzNOaVc3b01icnJNQmdGTWk5RzZ4UnpiOU93R09sSEFr?=
- =?utf-8?B?U1JINUJiTlc3K1pIUXFpb3NMYnZWcUlpOFhJT0dVT0RFd2FGZ3FDZHhhR1ly?=
- =?utf-8?B?YlJYamd2NHhCQVpxdWRSK0lMYU5xWVlsK2NHay9NM0pIamM2amhZM2lISXU2?=
- =?utf-8?B?WGgyK1djalJyaE5vNjNnSm1nNXMwKzZGZGw2cGFtNEFsaXp1UnNNeExneG5K?=
- =?utf-8?B?SjNSWlBQbGFoMHIzbkFyNWRMUkdEYVY2b0dIeDM1dThtL1NYdjZ6dnc4b09H?=
- =?utf-8?B?cS8rZ0Z2Qi8wSjFCR3l2TlRBRHpWeW43cStSSDZ5S2krekNyM1QrM3k3R0U3?=
- =?utf-8?B?d2Q2aklYWGVDTHpsaVRYNkIvQmMvVTgzVlNjK05aaVNvVjU2SGNUQk5QMHBY?=
- =?utf-8?B?dk4wekdlcmtlTjRWcUJTWG1mUlI4eUg2aVp2czFNeDFSOEozdUl0UHdLSDBs?=
- =?utf-8?B?VlZFb1FEbnM0RDlIZ0JuaS84UDBublRiVWNSdVFseE8xeWpRdVVreitJNlJy?=
- =?utf-8?B?TkIwTk9vVms1WVh1L1RyWk9zN2RxS29RQVdNYldVR2sza0ZZWFp4WnRqSUt2?=
- =?utf-8?B?amlZSlIwRWc0OFB4cmc2TGRJU0d6dklTTFhKVXJBQnRyTUl0VStzdDRtVWww?=
- =?utf-8?B?TmVmdWt2M1FsR3hLQ0RCMFJqUUthazM2TjdYVWJHcDZVek51S2l2VDNYYjcx?=
- =?utf-8?B?OHp2TTR1YmJkK3MrbUtJTlp4OHBQWWZjVE15VFgycFg2WDdWSDF3WDltd0VP?=
- =?utf-8?B?N2gyYWxXNDhqcUMwWEVkQVNVd3RmM1VKL2ExMnBlNUgwUjFVRnJsdlpBdjBT?=
- =?utf-8?B?RW5NRHNQWTNjN3czbTM1aUJtb2lSOUNML3JxNE83ME41ckU1WFJhSVhMWXB0?=
- =?utf-8?B?MzQreEMxNFp6aXRWYjM3aDkwQXFvamhZMGZ6bXlVZXcvdzZDaVFTN0RoQnBI?=
- =?utf-8?B?RFE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: da6f6c31-d414-49e1-9db4-08dad3340213
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1862.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2022 00:36:13.9180
+X-Microsoft-Antispam-Message-Info: Vv8877LmUNK32X5td1swkJNla/7kKcBCewYxD2RCtbuRzuN760/PfMcPCe9wsHTq7YgrC9Vz0ApSuh5+G+wsbZjlHKQMh4Wu2LGavlC3SWSUiusNyoEuIivYQBW6xUOfAZVWzoEerpNtmlLpbXPQsUf39VOXeSZMlS7VR/gx7UCvewSdr8hOFOOttBQ94ClIWE07lTyEY8p9pZDM3TzgO8nKz01cXuyfOvEQNj3yy8m+pIIT+KmwVDaolYho0IEhLtZeUhamEgcp2ULISjd6BXQ4Khkh2jpqjFMfR2fXgWs4P+uPVXfEOTKDLopwrqlrtBQNKi7DDXjH23wEO5jZ3+Vf+ePXXPeu12X5cjTSYbG/BCWKTD2cOUI0I6FqGn8kZUcDLSu800RA9iOhOUrD9krwQKYc6ocD95QOkCXj2imnK2niboX28+VyDt37DaEuPhYoAPAGvu54dDcjJeRQq7mpgbvH9tBa34u7xgIvne6StN7cqhIgf6vVfrTBiopn2Zp9MCHB/itiuFQlXCwz7yOSNHjv5F97O64E2tGvEujAFJRvVgOiGt2BIByr7rLUuP19oj27y4MvH0UTMhBrm5HaBBgdllcHz1dsdyQFtEfuWYB6zbZOh7E/YAdsCV1bs0xWVNWvkR46NZn2tHWpu2aePbQQGDBpA7YmqC3Y8o6eD63IChC8u1c7J7v4oITk4VmdCJrd2d1/mWkKMQo1m2OPsH86iiIXw6eCZEf///wrXQENyeORCY2KTA58whWy1h8UTOsvzL0xlr01OVYS8w/VOYr/OHDml+am+pwFRdBVVFwzGn7ZEKjuCRA1VGJG
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(136003)(396003)(346002)(39860400002)(376002)(451199015)(46966006)(40470700004)(36840700001)(2906002)(7696005)(966005)(40460700003)(478600001)(40480700001)(356005)(81166007)(36756003)(86362001)(82740400003)(1076003)(26005)(2616005)(426003)(186003)(336012)(47076005)(16526019)(83380400001)(6666004)(41300700001)(70206006)(70586007)(44832011)(4326008)(36860700001)(8676002)(5660300002)(8936002)(7416002)(82310400005)(316002)(6916009)(54906003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2022 01:50:20.0241
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DilFq2mImNvPU6q3LLOfHDUfPQiKG7WfdpDkHgVYXVX+0sXREyes97UyeyF92jMUUSke/AXHc3VZ/blmg9kcxHteaGKBA0gdVfLl94hixC0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5859
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c3b3319-6bad-4d31-3301-08dad33e674f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0000EE3C.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7032
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Babu,
+The AMD Zen4 core supports a new feature called Automatic IBRS
+(Indirect Branch Restricted Speculation).
 
-On 11/30/2022 12:40 PM, Moger, Babu wrote:
-> On 11/30/22 14:07, Reinette Chatre wrote:
->> On 11/30/2022 10:43 AM, Moger, Babu wrote:
->>> On 11/22/22 18:12, Reinette Chatre wrote:
->>>> On 11/4/2022 1:00 PM, Babu Moger wrote:
->>>>> The QoS slow memory configuration details are available via
->>>>> CPUID_Fn80000020_EDX_x02. Detect the available details and
->>>>> initialize the rest to defaults.
->>>>>
->>>>> Signed-off-by: Babu Moger <babu.moger@amd.com>
->>>>> ---
->>>>>  arch/x86/kernel/cpu/resctrl/core.c        |   36 +++++++++++++++++++++++++++--
->>>>>  arch/x86/kernel/cpu/resctrl/ctrlmondata.c |    2 +-
->>>>>  arch/x86/kernel/cpu/resctrl/internal.h    |    1 +
->>>>>  arch/x86/kernel/cpu/resctrl/rdtgroup.c    |    8 ++++--
->>>>>  4 files changed, 41 insertions(+), 6 deletions(-)
->>>>>
->>>>> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
->>>>> index e31c98e2fafc..6571d08e2b0d 100644
->>>>> --- a/arch/x86/kernel/cpu/resctrl/core.c
->>>>> +++ b/arch/x86/kernel/cpu/resctrl/core.c
->>>>> @@ -162,6 +162,13 @@ bool is_mba_sc(struct rdt_resource *r)
->>>>>  	if (!r)
->>>>>  		return rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl.membw.mba_sc;
->>>>>  
->>>>> +	/*
->>>>> +	 * The software controller support is only applicable to MBA resource.
->>>>> +	 * Make sure to check for resource type again.
->>>>> +	 */
->>>> /again/d
->>>>
->>>> Not all callers of is_mba_sc() check if it is called for an MBA resource.
->>>>
->>>>> +	if (r->rid != RDT_RESOURCE_MBA)
->>>>> +		return false;
->>>>> +
->>>>>  	return r->membw.mba_sc;
->>>>>  }
->>>>>  
->>>>> @@ -225,9 +232,15 @@ static bool __rdt_get_mem_config_amd(struct rdt_resource *r)
->>>>>  	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
->>>>>  	union cpuid_0x10_3_eax eax;
->>>>>  	union cpuid_0x10_x_edx edx;
->>>>> -	u32 ebx, ecx;
->>>>> +	u32 ebx, ecx, subleaf;
->>>>>  
->>>>> -	cpuid_count(0x80000020, 1, &eax.full, &ebx, &ecx, &edx.full);
->>>>> +	/*
->>>>> +	 * Query CPUID_Fn80000020_EDX_x01 for MBA and
->>>>> +	 * CPUID_Fn80000020_EDX_x02 for SMBA
->>>>> +	 */
->>>>> +	subleaf = (r->rid == RDT_RESOURCE_SMBA) ? 2 :  1;
->>>>> +
->>>>> +	cpuid_count(0x80000020, subleaf, &eax.full, &ebx, &ecx, &edx.full);
->>>>>  	hw_res->num_closid = edx.split.cos_max + 1;
->>>>>  	r->default_ctrl = MAX_MBA_BW_AMD;
->>>>>  
->>>>> @@ -750,6 +763,19 @@ static __init bool get_mem_config(void)
->>>>>  	return false;
->>>>>  }
->>>>>  
->>>>> +static __init bool get_slow_mem_config(void)
->>>>> +{
->>>>> +	struct rdt_hw_resource *hw_res = &rdt_resources_all[RDT_RESOURCE_SMBA];
->>>>> +
->>>>> +	if (!rdt_cpu_has(X86_FEATURE_SMBA))
->>>>> +		return false;
->>>>> +
->>>>> +	if (boot_cpu_data.x86_vendor == X86_VENDOR_AMD)
->>>>> +		return __rdt_get_mem_config_amd(&hw_res->r_resctrl);
->>>>> +
->>>>> +	return false;
->>>>> +}
->>>>> +
->>>>>  static __init bool get_rdt_alloc_resources(void)
->>>>>  {
->>>>>  	struct rdt_resource *r;
->>>>> @@ -780,6 +806,9 @@ static __init bool get_rdt_alloc_resources(void)
->>>>>  	if (get_mem_config())
->>>>>  		ret = true;
->>>>>  
->>>>> +	if (get_slow_mem_config())
->>>>> +		ret = true;
->>>>> +
->>>>>  	return ret;
->>>>>  }
->>>>>  
->>>>> @@ -869,6 +898,9 @@ static __init void rdt_init_res_defs_amd(void)
->>>>>  		} else if (r->rid == RDT_RESOURCE_MBA) {
->>>>>  			hw_res->msr_base = MSR_IA32_MBA_BW_BASE;
->>>>>  			hw_res->msr_update = mba_wrmsr_amd;
->>>>> +		} else if (r->rid == RDT_RESOURCE_SMBA) {
->>>>> +			hw_res->msr_base = MSR_IA32_SMBA_BW_BASE;
->>>>> +			hw_res->msr_update = mba_wrmsr_amd;
->>>>>  		}
->>>>>  	}
->>>>>  }
->>>> I mentioned earlier that this can be moved to init of
->>>> rdt_resources_all[]. No strong preference, leaving here works
->>>> also.
->>> I am little confused about this comment. Initialization of
->>> rdt_resources_all in core.c is mostly generic initialization. The msr_base
->>> and msr_update routines here are vendor specific. I would prefer to keep
->>> this in
->> This is a contradiction. Yes, rdt_resources_all[] initialization in core.c
->> is indeed generic initialization, so why is SMBA there? If this was really
->> generic initialization then the entire initialization of SMBA resource
->> should rather move to AMD specific code.
->>
->> SMBA is an AMD only feature yet its resource initialization is fragmented
->> with one portion treated as generic and another portion treated as vendor
->> specific while it all is vendor specific.
->>
->> The current fragmentation is not clear to me. Keeping the initialization
->> as you have in patch #2 is the simplest and that is what prompted me
->> to suggest the move to keep initialization together at that location.
->>
->>> rdt_init_res_defs_amd.Is that ok?
->> The generic vs non-generic initialization argument is not convincing to me. 
->> Could you please elaborate why you prefer it this way? I already mentioned
->> that I do not have a strong preference but I would like to understand what
->> the motivation for this split initialization is.
->>
-> I dont have any strong argument. I was thinking, in case Intel supports
-> this resource in the future then they only have to change
-> rdt_init_res_defs_intel.
+Enable Automatic IBRS by default if the CPU feature is present.
+It typically provides greater performance over the incumbent
+generic retpolines mitigation.
 
-I agree that this is not a strong argument. If this happens then Intel can split
-the initialization also. This is also not the only bits that would need
-changing since only __rdt_get_mem_config_amd() can initialize an SMBA
-resource.
+Patches 1-3 take the existing CPUID 0x80000021 EAX feature bits
+that are being propagated to the guest and define scattered
+versions for patch 4.
 
-It does not sound like there is a clear winner. To answer your earlier question
-more succinctly, yes, from my perspective you can keep the change to
-rdt_init_res_defs_amd(). At least with this change things would be more
-familiar between MBA and SMBA and it will be obvious that SMBA is not
-supported by Intel.
+Patch 4 moves CPUID 0x80000021 EAX feature bits propagation code
+to kvm_set_cpu_caps().
 
-Reinette
+Patch 5 Defines the AutoIBRS feature bit.
+
+Patch 6 Adds support for AutoIBRS by turning its EFER
+enablement bit on at startup if the feature is available.
+
+Patch 7 Adds support for propagating AutoIBRS to the guest.
+
+Thanks to Babu Moger for helping debug guest propagation (patch 7).
+
+Also thanks to Boris and Paolo for their early version diffs.
+
+v4: Moved some kvm bits that had crept into patch 6/7 back into 7/7,
+    and addressed v3 comments:
+    - Don't put ", kvm" in titles of patches that don't touch kvm.  [SeanC]
+    - () after function names, i.e. kvm_set_cpu_caps().  [SeanC]
+    - follow the established kvm_cpu_cap_init_scattered() style [SeanC]
+    - Add using cpu_feature_enabled() instead of static_cpu_has() to
+      commit text [SeanC]
+    - Pawan Gupta mentioned that the ordering of enabling the Intel
+      feature bit past Intel EIBRS bug detection could be avoided
+      by setting NO_EIBRS_PBRSB to cpu_vuln_whitelist, so did that
+      which allowed regrouping all EIBRS related code to one place
+      in cpu_set_bug_bits().
+
+v3: https://lore.kernel.org/lkml/20221129235816.188737-1-kim.phillips@amd.com/
+    - Remove Co-developed-bys.  They require signed-off-bys,
+      so co-developers need to add them themselves.
+    - update check_null_seg_clears_base() [Boris]
+    - Made the feature bit additions separate patches
+      because v2 patch was clearly doing too many things at once.
+
+v2: https://lore.kernel.org/lkml/20221124000449.79014-1-kim.phillips@amd.com/
+    https://lkml.org/lkml/2022/11/23/1690
+    - Use synthetic/scattered bits instead of introducing new leaf [Boris]
+    - Combine the rest of the leaf's bits being used [Paolo]
+      Note: Bits not used by the host can be moved to kvm/cpuid.c if
+      maintainers do not want them in cpufeatures.h.
+    - Hoist bitsetting code to kvm_set_cpu_caps(), and use
+      cpuid_entry_override() in __do_cpuid_func() [Paolo]
+    - Reuse SPECTRE_V2_EIBRS spectre_v2_mitigation enum [Boris, PeterZ, D.Hansen]
+      - Change from Boris' diff:
+        Moved setting X86_FEATURE_IBRS_ENHANCED to after BUG_EIBRS_PBRSB
+        so PBRSB mitigations wouldn't be enabled.
+    - Allow for users to specify "autoibrs,lfence/retpoline" instead
+      of actively preventing the extra protections.  AutoIBRS doesn't
+      require the extra protection, but we allow it anyway.
+
+v1: https://lore.kernel.org/lkml/20221104213651.141057-1-kim.phillips@amd.com/
+
+Signed-off-by: Kim Phillips <kim.phillips@amd.com>
+Cc: Babu Moger <Babu.Moger@amd.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Borislav Petkov <bp@suse.de>
+Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Joao Martins <joao.m.martins@oracle.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Sean Christopherson <seanjc@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: David Woodhouse <dwmw@amazon.co.uk>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Juergen Gross <jgross@suse.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: Alexey Kardashevskiy <aik@amd.com>
+Cc: kvm@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: x86@kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+Kim Phillips (7):
+  x86/cpu: Define a scattered No Nested Data Breakpoints feature bit
+  x86/cpu: Define a scattered Null Selector Clears Base feature bit
+  x86/cpu: Make X86_FEATURE_LFENCE_RDTSC a scattered feature bit
+  x86/cpu, kvm: Move CPUID 0x80000021 EAX feature bits propagation to
+    kvm_set_cpu_caps()
+  x86/cpu: Define a scattered AMD Automatic IBRS feature bit
+  x86/cpu: Support AMD Automatic IBRS
+  x86/cpu, kvm: Propagate the AMD Automatic IBRS feature to the guest
+
+ .../admin-guide/kernel-parameters.txt         |  9 ++++---
+ arch/x86/include/asm/cpufeatures.h            |  3 +++
+ arch/x86/include/asm/msr-index.h              |  2 ++
+ arch/x86/kernel/cpu/bugs.c                    | 23 +++++++++++------
+ arch/x86/kernel/cpu/common.c                  | 20 ++++++++-------
+ arch/x86/kernel/cpu/scattered.c               |  4 +++
+ arch/x86/kvm/cpuid.c                          | 25 ++++++++-----------
+ arch/x86/kvm/reverse_cpuid.h                  | 24 +++++++++++++-----
+ arch/x86/kvm/svm/svm.c                        |  3 +++
+ arch/x86/kvm/x86.c                            |  3 +++
+ 10 files changed, 75 insertions(+), 41 deletions(-)
+
+-- 
+2.34.1
+
