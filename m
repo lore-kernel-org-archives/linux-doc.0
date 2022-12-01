@@ -2,133 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89A83C4321E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 03:05:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72365C43217
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 04:00:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229449AbiLADFl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Nov 2022 22:05:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59826 "EHLO
+        id S229520AbiLAEAE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Nov 2022 23:00:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229616AbiLADFk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 22:05:40 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF23A900ED;
-        Wed, 30 Nov 2022 19:05:39 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id c15so602767pfb.13;
-        Wed, 30 Nov 2022 19:05:39 -0800 (PST)
+        with ESMTP id S229483AbiLAEAD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Nov 2022 23:00:03 -0500
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BD5A98001;
+        Wed, 30 Nov 2022 20:00:03 -0800 (PST)
+Received: by mail-pg1-x52a.google.com with SMTP id 62so567220pgb.13;
+        Wed, 30 Nov 2022 20:00:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KK8O7jlMOI6W0R9voFxwxKYumGIiD46HV1X85X98DQI=;
-        b=QUQP0wQHCAxNQFkYjTDu0PpMbOiP/ZuN3mBY8CvUoKnNQV5DqrztBnpcM+iQTXc5X1
-         yG1yfxtnGXI244yiTRPuYjhRUtl5kpK0U8HOn2rCCqMV8fHpC/iywOX4UsADifmAtWMu
-         h5du9ebjS5A5yb0hZio4RtnBJ4iujaH4bwK9g09pY8oKdubxyHQwYndDrcyDOUnkDxjJ
-         t7iCEOm/fs2jR7iYN6zdv1rqVIRVDy3BowZRtVkS3386bIn5V7LQUKlNhmeMPRF710xk
-         YLQdmtL9rcV1aPle1BQN1X7wOHApL9PzW8Dh+b2sW50Uxam6OjJKWmrzThAW2ci8DuDJ
-         ghYA==
+        bh=3u27R2Bek7iv0nteA3mNAW6zlE4Rn+NadTxyOBYNCYE=;
+        b=g7GqNQPPKgBl8AVqOBX1nldXJko08cxXIZol7JMbxv3+9rP80sySJ1EFRkfCf3ns49
+         nQ7i9dnF4dEvjfVCSkyUttpij+3RK0YX94Rpl9Quc0ZOm8Yl47cO0H7PqX4svVOrR5a+
+         ++QvGGeoF06Q7fCuHTA3p6dMOO9P2Zb5AspAnCGWisekHKmyYnEbMAX0/F9U0L/EjfH5
+         Pj7tpA3ZxGEHawsr6YVcYd+K1Fc/wLQBP5PvJItg5aRLnJpTabwjBTZZh6domI/AqyZB
+         RUKyzz6Qb5NHuG6MoPX2uoDoYDggpfEv8ONbW6E4uBLhv0GXLLoGJE3K1A05OEHSSTV0
+         BjgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KK8O7jlMOI6W0R9voFxwxKYumGIiD46HV1X85X98DQI=;
-        b=0xOZNa485VkjFZ9c9v5VxagPE24JjeB6QdoMkgMzqbmCDotnpjRVSU9IvvznAlPUfw
-         QRH2sSaXZa+1Fd6vN5yW/Sg9HGEqowIGJc3HwnwGAuBjTMpL6rYuGwo9buPyeJdEQhsP
-         61LtrZqfLklNcRYdXf5KjDM9BLsWDYYd459XfMc3q5QzRq0E43V2UScfnIRsfR1osAg8
-         sNEbm/PH48Fwc9yWMYY1L1taNt4sWif+5AB8dtyvxdPIaEMt2eLuoHzjs/yFHTQ8szWd
-         JlxB22lnYuVIhq4Wt8SQpfeydc+CqoXPFY9jed5UPpYDQ/HKWZEvhYyPVs0dO0tuGb/i
-         yyHA==
-X-Gm-Message-State: ANoB5pkl4quYgjI11Y+vASlgbAnhrroS49MhpEKGEQj+2FDyZJ+wxe+Y
-        pHAiDm/D9QlPAI7DWzcCmtE=
-X-Google-Smtp-Source: AA0mqf5THWhiH7h71LhvkUzAxi/n2hYMpnESjjEKjTq9xoQUeY6v85Xjn2OS8C7UmdyoEdxcEMhehQ==
-X-Received: by 2002:a63:5719:0:b0:476:ea7d:3ff6 with SMTP id l25-20020a635719000000b00476ea7d3ff6mr41097766pgb.73.1669863939326;
-        Wed, 30 Nov 2022 19:05:39 -0800 (PST)
+        bh=3u27R2Bek7iv0nteA3mNAW6zlE4Rn+NadTxyOBYNCYE=;
+        b=ZXPg9motW54mO6DruzOgQOlQ/H2xEEz2PXQ5Zz51C8eDkk8EY5GPForXx1hydVTXyx
+         EeF+hlSzqzbnOHY7bu3qOnkuRZezHRp185Aat8Lhm1RnrjODH8RFaGpEUL1QzHJkRdOs
+         SI0weFhJJPMfOWDwR4Bqb1J1dNmTALqD6hOjQ9xdc/y/d6TDre8aVgPxarawGW4aOLO1
+         Yrfa8cW9rPubu+amtyQmSlLoQL+jHS6jFAm2dxtJH4z5k4QbdLhSoLl4PdWrg5mxZawk
+         js00bV5K5RVQ2vd+zcMYsFkmRVSy3SrB7vihz5gt2V6woDqchuOcqWmyWHACL7hpnrm/
+         Unpg==
+X-Gm-Message-State: ANoB5pmxwSjhMbtJYbEiP9kAYhxCG75bniHVonLEfCd+O1vcetgALG3i
+        Encb5T0DvGEH6Mcaz4ZFAs4=
+X-Google-Smtp-Source: AA0mqf4G5WsfaoSXAZmk3gLpWitEpaDIQRYw6THB/em0/T4whxOwMsUofXIxCqHW0O/ehE8WSbKR5Q==
+X-Received: by 2002:a63:4246:0:b0:477:98cc:3d01 with SMTP id p67-20020a634246000000b0047798cc3d01mr36685431pga.505.1669867202442;
+        Wed, 30 Nov 2022 20:00:02 -0800 (PST)
 Received: from debian.me (subs02-180-214-232-12.three.co.id. [180.214.232.12])
-        by smtp.gmail.com with ESMTPSA id c1-20020a17090a674100b002191a64b5d5sm3781625pjm.18.2022.11.30.19.05.38
+        by smtp.gmail.com with ESMTPSA id r6-20020a632046000000b0046ec0ef4a7esm1638688pgm.78.2022.11.30.20.00.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Nov 2022 19:05:38 -0800 (PST)
+        Wed, 30 Nov 2022 20:00:01 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-        id AC58B1042F6; Thu,  1 Dec 2022 10:05:33 +0700 (WIB)
-Date:   Thu, 1 Dec 2022 10:05:32 +0700
+        id 073551042F6; Thu,  1 Dec 2022 10:59:57 +0700 (WIB)
+Date:   Thu, 1 Dec 2022 10:59:57 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        linux-riscv@lists.infradead.org,
-        Conor Dooley <conor.dooley@microchip.com>,
-        ajones@ventanamicro.com, aou@eecs.berkeley.edu, corbet@lwn.net,
-        guoren@kernel.org, heiko@sntech.de, paul.walmsley@sifive.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] Documentation: riscv: add a section about ISA
- string ordering in /proc/cpuinfo
-Message-ID: <Y4gZ/KZz9rdYj/0r@debian.me>
-References: <20221130234125.2722364-1-conor@kernel.org>
- <20221130234125.2722364-4-conor@kernel.org>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V4 3/3] Documentation/osnoise: Add osnoise/options
+ documentation
+Message-ID: <Y4gmvRtWP/7hbytz@debian.me>
+References: <cover.1669832184.git.bristot@kernel.org>
+ <255d17a89bcd9ca8eef6931c0052b1a520e0b580.1669832184.git.bristot@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="gGADNEIMdohg5oZc"
+        protocol="application/pgp-signature"; boundary="kQF009BxO1PPXLiK"
 Content-Disposition: inline
-In-Reply-To: <20221130234125.2722364-4-conor@kernel.org>
+In-Reply-To: <255d17a89bcd9ca8eef6931c0052b1a520e0b580.1669832184.git.bristot@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---gGADNEIMdohg5oZc
+--kQF009BxO1PPXLiK
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 30, 2022 at 11:41:26PM +0000, Conor Dooley wrote:
-> +#. Single-letter extensions come first, in "canonical order", so
-> +   "IMAFDQLCBKJTPVH".
-
-"..., that is ... ."
-
-> +#. The first letter following the 'Z' conventionally indicates the most
-> +   closely related alphabetical extension category, IMAFDQLCBKJTPVH.
-> +   If multiple 'Z' extensions are named, they should be ordered first by
-> +   category, then alphabetically within a category.
+On Wed, Nov 30, 2022 at 07:35:42PM +0100, Daniel Bristot de Oliveira wrote:
+> diff --git a/Documentation/trace/osnoise-tracer.rst b/Documentation/trace=
+/osnoise-tracer.rst
+> index 3c675ed82b27..f2008e317223 100644
+> --- a/Documentation/trace/osnoise-tracer.rst
+> +++ b/Documentation/trace/osnoise-tracer.rst
+> @@ -92,8 +92,8 @@ Note that the example above shows a high number of HW n=
+oise samples.
+>  The reason being is that this sample was taken on a virtual machine,
+>  and the host interference is detected as a hardware interference.
+> =20
+> -Tracer options
+> ----------------------
+> +Tracer Configuration
+> +--------------------
+> =20
+>  The tracer has a set of options inside the osnoise directory, they are:
+> =20
+> @@ -115,6 +115,22 @@ The tracer has a set of options inside the osnoise d=
+irectory, they are:
+>     NO_OSNOISE_WORKLOAD disables the OSNOISE_WORKLOAD option. The
+>     special DEAFAULTS option resets all options to the default value.
+> =20
+> +Tracer Options
+> +--------------
 > +
-
-Did you mean "most closely related alphabetical extension category in
-canonical order"?
-
-> +An example string following the order is:
-> +   rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
+> +The osnoise/options file exposes a set of on/off configuration options f=
+or
+> +the osnoise tracer. These options are:
 > +
-=20
-IMO literal code block should be better fit for the example above,
-rather than definition list:
+> + - DEFAULTS: reset the options to the default value.
+> + - OSNOISE_WORKLOAD: do not dispatch osnoise workload (see dedicated
+> +   section below).
+> + - PANIC_ON_STOP: call panic() if the tracer stops. This option serves to
+> +   capture a vmcore.
+> + - OSNOISE_PREEMPT_DISABLE: disable preemption while running the osnoise
+> +   workload, allowing only IRQ and hardware-related noise.
+> + - OSNOISE_IRQ_DISABLE: disable IRQs while running the osnoise workload,
+> +   allowing only NMIs and hardware-related noise, like hwlat tracer.
+> +
+>  Additional Tracing
+>  ------------------
+> =20
 
----- >8 ----
-diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uabi.rst
-index bc3c8ced644bcf..8005add855dc43 100644
---- a/Documentation/riscv/uabi.rst
-+++ b/Documentation/riscv/uabi.rst
-@@ -43,6 +43,7 @@ ordering, so for our purposes the following rules apply:
- #. Non-standard extensions (starts with 'X') will be listed after all
-    standard extensions.
-=20
--An example string following the order is:
-+An example string following the order is::
-+
-    rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
-=20
-Thanks.
+The doc LGTM, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---gGADNEIMdohg5oZc
+--kQF009BxO1PPXLiK
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY4gZ8QAKCRD2uYlJVVFO
-o8LXAQDg6voodFPTVXIYpNCPvF2HkaiCwmKqQbyxHuyY8letmwD9Efrm/nRjGJBW
-Pgs+RY15Td/CNE2QL19Q3dU8AzkiwAE=
-=aqlR
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY4gmuAAKCRD2uYlJVVFO
+o8JhAP4jp+IRUpREErxIO5OHZPE5h2T6Miy3O7TQ5SR/Lj2lxgEA2lcebvXUBfh/
+2kBEqdnXilt77UdD1DHdQucYoyZb0Q0=
+=ejoO
 -----END PGP SIGNATURE-----
 
---gGADNEIMdohg5oZc--
+--kQF009BxO1PPXLiK--
