@@ -2,89 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27F4BC4321E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 21:32:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AC20C4708D
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 21:51:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230127AbiLAVcV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Dec 2022 16:32:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54074 "EHLO
+        id S231181AbiLAVvM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Dec 2022 16:51:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231169AbiLAVcH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 16:32:07 -0500
-Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38B57ABA2C
-        for <linux-doc@vger.kernel.org>; Thu,  1 Dec 2022 13:32:06 -0800 (PST)
-Received: by mail-pg1-x549.google.com with SMTP id e37-20020a635025000000b00476bfca5d31so2732477pgb.21
-        for <linux-doc@vger.kernel.org>; Thu, 01 Dec 2022 13:32:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IfDx/vZZhAqgLTBVAtZpOgxT3AMIFtwt/yJ9iwINIG4=;
-        b=sbHSU0xyULWPTLXrm4btl81eBH5mc9EKqlCz8FBmg/OKAGvwye48d3zFEn0riuTVz+
-         WI135Ntn79yhQRfKeyZF9J31eWKZKbKfBPuZ6/IMFzXeE7bgaaa2yAN6MEz3rn9BS3KN
-         pNq4oLUFZmBCza5DExDhCrhY1gEBUmnnwuPGqI06j6cwAnmA9q0TDNzZ1mv8sSTIT1dN
-         i7JlGJQmI3F0FeNp58IYU82p1+DN2kCgMsZWLPZ80EgvnJx/a3yI/cpU52DcBwD9efhB
-         EZCOpNyNvSM5cmzqGWy8U39bvl1fJXnh98h4aU96DBsH01M0Va7s9KdyfDWD8Tiyn9Ie
-         bEvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IfDx/vZZhAqgLTBVAtZpOgxT3AMIFtwt/yJ9iwINIG4=;
-        b=BuZgHrBauOsDW5HMMj7hXtuopdrvPjlX/DtCr2nXSP902yq7fKdWJnm+4+Ai1x7pP6
-         GShtAbLm/eG89VGAP1njpck3IppuwWyINNL3sQMLjxZoEk3MG3FelW6jJVOFdMz9GMgL
-         fiEmI8g+HC9AhHkISUpyKzyv6FK0hF2t/qrxpNYjb2+i6gBE5H7USC2d6jyS785RYWwS
-         9M1aQ34maLHPya3YMKLzJzxHXcr/n8Evh+MrxZ7cee/bBm1gF0Us/mRtX8IXoVIyWdII
-         60WaNHqyuVoV0Kul3f7F4/dvriEYtcAoQLfT5Cwy4nQxIGCQuiLctz8ALt7+x3hRqLxY
-         Bz1Q==
-X-Gm-Message-State: ANoB5plpuGusmrKWHArEL8aJ16INdSxasUteb6zu40kEKw/Ica/lPz4A
-        tttQRSoSEoun8y+iOjEvf5d3wRy3PeBJEQ==
-X-Google-Smtp-Source: AA0mqf6pgLZ9Fc+K/9bMs2AxM/jvaK3js6zpoUDFS4IqiABOk/6WhwnwrmgPz87CaWY8z9dGCinxzJhJXRwT3w==
-X-Received: from shakeelb.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:262e])
- (user=shakeelb job=sendgmr) by 2002:a17:902:efd6:b0:189:94e6:6a8e with SMTP
- id ja22-20020a170902efd600b0018994e66a8emr18501696plb.72.1669930325681; Thu,
- 01 Dec 2022 13:32:05 -0800 (PST)
-Date:   Thu, 1 Dec 2022 21:32:02 +0000
-In-Reply-To: <20221130020328.1009347-1-almasrymina@google.com>
-Mime-Version: 1.0
-References: <20221130020328.1009347-1-almasrymina@google.com>
-Message-ID: <20221201213202.ycdaymwojd5plyrk@google.com>
-Subject: Re: [RFC PATCH v2] mm: Add nodes= arg to memory.reclaim
-From:   Shakeel Butt <shakeelb@google.com>
-To:     Mina Almasry <almasrymina@google.com>
-Cc:     Huang Ying <ying.huang@intel.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>, weixugc@google.com,
-        gthelen@google.com, fvdl@google.com, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S229890AbiLAVvL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 16:51:11 -0500
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2076.outbound.protection.outlook.com [40.107.96.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E33B3C23DA;
+        Thu,  1 Dec 2022 13:51:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FiBhTNscCwRLOCVrGn3PIxilsVkETQgZ8xMW90QYjyIgaczRZS8Yn0611j6oved45PpUAG2DX2UIE7mGAmPfNMO4PHfnEWsoiHUAXnQfWxOR7aIJvqrOYhUiBPVT31WEhyMCWa0ZXouhZZw1MjNXQRhac1WoZxQCutTzAllN/DzIX6JiCMws5vO12KhsuwvZwgcYiisJ0RP1ie5I6BMOZfmmwG/vH5qXRO2FPqKf3IwJFKdZlGqzF3xvIRuQ+y+bOmBgU3Ws/RClUUEEV7ho8HenUme+tWsIOgsLyMSMVGY1eptNX0vEwp1XqQQcHmJ3smJQ2/nupYxPyrM2m0oDdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F+CkvHGLmrV1/BwqVdC2cQNeywJ0Te6o1r1Ak+NlSb4=;
+ b=l15w7+S9E36yTNgM/gzdyZIdumbMLvXRC7bMEz4M3vANjWDSsIZCIcj1rSKEALd1sEh+pmHSvRvKWs54SARgr0rr0r5AFLZp/QUgWJwecwZ/ObK46ggPZ9R0SQPoZJb4Pqi9f9awNMsMYnD9pXGIJXccecGGS4C1yPdD3yFTVz64ztjOZ9bZi6fxRHVpULa2C3jxjUUwu20JGkPBGAqBx8M19VBHydm5MmfMWU73BMcSxA4JQ8szGFCZ80dPlyPVEQ+tp60G+5UbwZEQd6lpal/e7z+CTc/v+krOs1foM5NZESIIAkBdt5DZjmf+Q31RGvObRhFF6++EegjFkv+xmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F+CkvHGLmrV1/BwqVdC2cQNeywJ0Te6o1r1Ak+NlSb4=;
+ b=3AYmMj11X+VIJiTQIsMfm/kMOUcTWjmU2WgTWNHOuzwOY1iIb+mFQ/1d1X9OVw4NWeV4BmVgNABbl7sh4k9/jGq5iPJrBKIzyxLCf5VJSDKZkQGhfXMPdhqbIlea5gPHlw1knV1Vip2Nux3Ilc7vFJZKeLuVqi2jmKh/4/tr6kU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by MW4PR12MB7261.namprd12.prod.outlook.com (2603:10b6:303:229::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.8; Thu, 1 Dec
+ 2022 21:51:07 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::5d8:f3f2:d940:5350]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::5d8:f3f2:d940:5350%3]) with mapi id 15.20.5857.023; Thu, 1 Dec 2022
+ 21:51:07 +0000
+Message-ID: <36f2e82a-4f60-bc85-3146-e04ce68923a8@amd.com>
+Date:   Thu, 1 Dec 2022 16:51:03 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 2/3] drm/amdgpu: add GART and GTT to glossary
+Content-Language: en-US
+To:     Peter Maucher <bellosilicio@gmail.com>, alexander.deucher@amd.com,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221201153820.257570-1-bellosilicio@gmail.com>
+ <20221201153820.257570-3-bellosilicio@gmail.com>
+From:   Felix Kuehling <felix.kuehling@amd.com>
+Organization: AMD Inc.
+In-Reply-To: <20221201153820.257570-3-bellosilicio@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CH0PR03CA0345.namprd03.prod.outlook.com
+ (2603:10b6:610:11a::29) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|MW4PR12MB7261:EE_
+X-MS-Office365-Filtering-Correlation-Id: fa102f14-a795-48a7-7175-08dad3e626c9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: f824i2mS4fiMI54CC6ZleWniDl6kZD7sfqzgqVF+Fx+BKJ7o30JJP8KDNBhSVni9h9Mtm3jCv8BCQfvMGmHRErPtHHRj3DCQghGhDPCy2bbiCcu+TexGY9hdbhvNRQjXcn2HTPPkUKdYbljqcM+6/MhjBDuU1d/NK8Q4y8e8Tz54ZR1gWLHvJH27SyBurHdyg4Cm+kn5c2u/8xtt4ZEgoBgT2jShPdCMw0PAxoHkzBarpSDQnFrE3orLHSN8hItkxQA2UDjalBg1NGrNm0y0O+EP1zhN5A81jwxui6ETx8KymhtAvN/L79CuTh23CR8DQy4arezmdZq/wzrp0zocawovx/m0oAmgspnAbMUgCuYdNU+DPYBKmBUoY8nfxZsKElQD8+gYRLzi7K+02lSpsmYm7hphJV2kHzRCk0V4WvVeBsQLiDcqV/u1qbtVIAqiNGn/AS/GALSU7cHIfAW+y1YQMmT6AxceL1W2Ct6eeLXFGBBR4tbzDBK4yvr0kVph/B+80OxIRGjxUU6mP6vr5ZY5o7rl/ElnzJK5fo53PHKj6SrfouL2FFCt4qAgYmdkc1IResJZl4x8mSfEfv/whlOANfyFQ2rVhnW3o7f4uarb5WvbZp8XTmQSAfSsL2yF/7CVDJcxXSBetw+oebchHLWWsBmI15xNwUmaIisFmxtx6jKGdCKDdbYOO4gpmh7tZT5f+etXzxwIgRDjKJ9Ckczr3ScSeFC9YyMhvmlyY/M=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5115.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(376002)(346002)(396003)(366004)(136003)(451199015)(2616005)(186003)(31686004)(316002)(6486002)(478600001)(86362001)(38100700002)(31696002)(36756003)(6666004)(6506007)(26005)(53546011)(6512007)(4744005)(2906002)(8936002)(36916002)(44832011)(5660300002)(41300700001)(66476007)(66946007)(8676002)(66556008)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZThLcURtRk02TXpIY2ZrN0tJMWpULzZHdkJmTzJyaVBGUXpkWlcyWU5PSHhH?=
+ =?utf-8?B?NkhKcnpubUxLc0dkTmxBMDlCOVNOVTdhcXMrV04yTGdXakdQd1FOSExsUnND?=
+ =?utf-8?B?WHlpbHJla3ZMNmpkNC9KWFpGd2FJWUFycmNueHdMaXFRWTVOcVdxNzJ4NzIr?=
+ =?utf-8?B?OXJYL0ZWM1dyV3Q3c1Y1cWRMMU9UaU9vT3BXME1RdmZaZkVyNmdxbDFnb0dm?=
+ =?utf-8?B?VGh2OG4vTTRkN2RMaEttcGF3N2t6VUUvNDduN1lDa083MjFQL2h2dkFlOWpt?=
+ =?utf-8?B?ZHg5SkFYazBRa3BLTHdFdktPdWhsK0ZkOVJmMm5PdDJka0RDU0ErNVNIT3JP?=
+ =?utf-8?B?Mm9Eb0ZSRDFFUnVBTWZDU2pyVmU3ZUp6akVxU1pLajZpRVVpdUtSTll3Mmxo?=
+ =?utf-8?B?ZWFlcUpIeEJMUlI1WHNoaksxc0l6di9pWGRaVytFbXlvM3Z5OFFFS21ka3VQ?=
+ =?utf-8?B?cVRnVkQ1UURQaGIvODJSSVVSTUFUdGk2elgwTXRrODNacEpzSUFlYkt0aUM0?=
+ =?utf-8?B?R1l6K0hCYkJmZ1ZZVHVEckk2U1FUNEh5OWJDMXdJdGd1c21uVHVmRWpaZzdQ?=
+ =?utf-8?B?MTJpdnFOWHpvNGk4VnR4SmlGaGJzUHFSenhpM0RFYUVoQ05jWGJ0cVlqOSs3?=
+ =?utf-8?B?UUI1c2wrTVhGZ204bkxENW9TbmRqM0c2K0FxNTZnTURKNHBRRmRkOVFxY21Q?=
+ =?utf-8?B?V0VvbmZpUmdzblQ0MzBnSWpqd2QvRlpicURMaks3TklIZWFyN0ZYSTRVTWhG?=
+ =?utf-8?B?dURxc3hWSmIreFdwYnlGN3Jnc3pyZHpxakc1TkdPUXVIVzYzTXZWNmpXcVhs?=
+ =?utf-8?B?T0lid0lBdnFueHNsNGp5QzU1UkMwaG5Yd01YWndhd2lBM3NnZ05kQTlmdWNF?=
+ =?utf-8?B?a1diTlFTZ1BYb2NmUEtPSmVqdlRIdGlqdDgxcVU4cTNYaUg3N05LdEpMMmZ4?=
+ =?utf-8?B?cHdpdXhhKzNrOTFYajdYUjlCaEV0bjkzREFsV1BnK2VZbU84S2NoZCt4bUM3?=
+ =?utf-8?B?UmRzZXh5a0NwVTk5VW5RUHVJcWNzdVJrSzEyc0FoNFJVOUJXQVlIc3plZFRm?=
+ =?utf-8?B?WlZBZVpMSnh5SWdRS0srNkcvdlRHNnh4YituNm1wbFc3T3V5TzRDTDdyM3c1?=
+ =?utf-8?B?bTJQdThBZWJIS2p4aFZiZ0JMbUNQbG5XNkZsUVA2Z1djakNHQktBM1RKYWI2?=
+ =?utf-8?B?bkFKUzErYjc5a1VxNm8rVm1uQlZqTHd6ZDYrOHdqTUpnSFVDN1pUVlBHMWYw?=
+ =?utf-8?B?OHRtekNQeHE2WGNuU0Z2VnNTZzBZVXNxMUpUbWpsMGVjSkxnZDk3QUpZUEdD?=
+ =?utf-8?B?TlBrTnpWQTU3cTVZWno2N3A4RWpOL2VXR3B6eWNWRnJqS2t5UTRKSENSbUpp?=
+ =?utf-8?B?UzhaTk9KYjZqYUVtN3BXTnI5MkY0UEQxalhsUmJNOTE3ZTJyZUVDVmNnWkQ0?=
+ =?utf-8?B?NmMwVnUyVXBucW5ydlArditROE94bUZaWHNIQ1hwZ05pSjB5SHdQN1A5VVN0?=
+ =?utf-8?B?aFFZb05JZGJIQXFhbGQ0NkNaSmVnRzNIUDJVVmZsdlhzWCtDMHpnUzFNd2pY?=
+ =?utf-8?B?UmVYM1hQZUVLZHFMY2ViaCswaXl4K2NLalQwY3NhWTFMUWp6QjZCamhkeGF3?=
+ =?utf-8?B?ZlZSZ2xhT1pkWjdkWXpzYXNmaGZDRkhMQzAyZ2dQcTUwbWtEWUcya1h4MzRZ?=
+ =?utf-8?B?QndxWnVMSzdsUWU1dWhGY2xLUTZVRVhKdDluVk9sZitnWlRGeU15eFhLd3lW?=
+ =?utf-8?B?YWZ5OUJHSE96RVRjUEdpRnpxRnlLdHV2czhVdGVid2JzbUdrTGRKWVcrVnhr?=
+ =?utf-8?B?dW5WL0gxWkx2ajcrL2F2V3FPdFpYNXBYNVhCQnRTMUxKU0ladndud0YzMWhV?=
+ =?utf-8?B?bEJuUTIvNXdYQjl5QnJSZERSOHBUbm9zdkJDYlEyNUFIM3Bxa05oTzdESFNZ?=
+ =?utf-8?B?Nk9tVitQYjFFQVc2cGJLRWp3dytGeUplWEJrR2N3djNraVc3clhjcHlDY0tl?=
+ =?utf-8?B?YVcrV3RWazZ1dVJwSjVjTnltUmt4cXRhSk5VLzRKYnlZcnhaMmgyc0tYa2Jm?=
+ =?utf-8?B?ODFjc2E5M0dma1htVUdjeVF0alh2VC9JL2p4VmFETkR4a095SjZXbVREOHlv?=
+ =?utf-8?Q?vnZyRtEEbLgK96+S+gIFw0Gtv?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa102f14-a795-48a7-7175-08dad3e626c9
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2022 21:51:07.5051
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RFvQnwPK4klnClmVkcws4sOcTzcFWH121U64EjHiIGTUGgA5usf3ECNkFRc/rVa0nILHLfPT8QQG6nw4hoXCJg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7261
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 29, 2022 at 06:03:27PM -0800, Mina Almasry wrote:
-[...]
-> diff --git a/mm/vmscan.c b/mm/vmscan.c
-> index 7b8e8e43806b..23fc5b523764 100644
-> --- a/mm/vmscan.c
-> +++ b/mm/vmscan.c
-> @@ -6735,7 +6735,8 @@ unsigned long mem_cgroup_shrink_node(struct mem_cgroup *memcg,
->  unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
->  					   unsigned long nr_pages,
->  					   gfp_t gfp_mask,
-> -					   unsigned int reclaim_options)
-> +					   unsigned int reclaim_options,
-> +					   nodemask_t nodemask)
+On 2022-12-01 10:38, Peter Maucher wrote:
+> GART and GTT are two abbreviations that should be mentioned in the
+> glossary.
+>
+> Signed-off-by: Peter Maucher <bellosilicio@gmail.com>
+> ---
+>   Documentation/gpu/amdgpu/amdgpu-glossary.rst | 6 ++++++
+>   1 file changed, 6 insertions(+)
+>
+> diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
+> index 326896e9800d..d86bea7926dc 100644
+> --- a/Documentation/gpu/amdgpu/amdgpu-glossary.rst
+> +++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
+> @@ -30,6 +30,12 @@ we have a dedicated glossary for Display Core at
+>       EOP
+>         End Of Pipe/Pipeline
+>   
+> +    GART
+> +      Graphics Aperture Table
 
-Can you please make this parameter a nodemask_t* and pass NULL instead
-of NODE_MASK_ALL?
+The "R" stands for "Remapping". I've usually seen this as "Graphics 
+Address Remapping Table", but "... Aperture ..." would work too.
+
+Regards,
+   Felix
+
+
+> +
+> +    GTT
+> +      Graphics Translation Table, mostly synonymous to GART
+> +
+>       GC
+>         Graphics and Compute
+>   
