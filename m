@@ -2,95 +2,220 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5A35C47088
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 11:00:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A850DC47088
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 11:23:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230035AbiLALA0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Dec 2022 06:00:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40146 "EHLO
+        id S229795AbiLALXd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Dec 2022 06:23:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230433AbiLAK7x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 05:59:53 -0500
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F0B2EA3222;
-        Thu,  1 Dec 2022 02:59:08 -0800 (PST)
-Received: from loongson.cn (unknown [113.200.148.30])
-        by gateway (Coremail) with SMTP id _____8BxVPD8iIhjgo4CAA--.6052S3;
-        Thu, 01 Dec 2022 18:59:08 +0800 (CST)
-Received: from linux.localdomain (unknown [113.200.148.30])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8CxZ1f5iIhjxVMjAA--.4248S4;
-        Thu, 01 Dec 2022 18:59:07 +0800 (CST)
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-To:     Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] docs/zh_CN/LoongArch: Update links of LoongArch ISA Vol1 and ELF psABI
-Date:   Thu,  1 Dec 2022 18:59:05 +0800
-Message-Id: <1669892345-7763-3-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <1669892345-7763-1-git-send-email-yangtiezhu@loongson.cn>
-References: <1669892345-7763-1-git-send-email-yangtiezhu@loongson.cn>
+        with ESMTP id S230392AbiLALXN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 06:23:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD7F598EA5
+        for <linux-doc@vger.kernel.org>; Thu,  1 Dec 2022 03:18:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669893538;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Z/oQ1dp8pm6na7x2qMu5KCqO3dPrhF5h5HwNnQ1rRCE=;
+        b=YCjqvhabyYkFZVDxE8FT5JjhUHVHtIjACVhKSBXi2hErbPZDm5LnT90rfKDSxTB2Z/ZVLv
+        CqOeB+3Sy4fwvF0I8/3grQGmiTnEPlFNbZnr71/DSNmcTosJf03/gQT4+O9yKcb6ORDOJx
+        mpGxw7bEqOayNBug5fEY4EkWNwmX9Fo=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-586-iWmMbIGBPSq7e3R50sirPQ-1; Thu, 01 Dec 2022 06:18:57 -0500
+X-MC-Unique: iWmMbIGBPSq7e3R50sirPQ-1
+Received: by mail-ed1-f71.google.com with SMTP id b6-20020a056402278600b0046bb01fb9c0so712588ede.3
+        for <linux-doc@vger.kernel.org>; Thu, 01 Dec 2022 03:18:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z/oQ1dp8pm6na7x2qMu5KCqO3dPrhF5h5HwNnQ1rRCE=;
+        b=tbbW9BQ9aBn381Vx1mIcYmoaAvKhuUSMkaAcpghPFrBxj4QWlxeBTp2/rZEWDlvSVX
+         eD5/jFatnVpSLMB32Id1J6ehMHPbppdiC6Bmp8nPqoL8tH2auZlSbEX76NwOsE7kJko/
+         vBPx2OYskSi8JxiBz1LSqzA+JS6Y+bm7XxpQK5xWBKc+V9LwxS7yHbHdsRxyD07noit5
+         s3eJmNh+97PLqmx0WQx4YX20MVxTtk306DwydeuWAHFOxlYeUTNqIi6BtD2FCB5dIrtF
+         8v4QXgJUysV/ITd7TLaXZ3A93w8FsK5EnfoeNcagPQkSAm0f0wvJch1fyiueBpnVkKPb
+         cMjA==
+X-Gm-Message-State: ANoB5pkoLyYRUkJAsRsF6mEHfE9cBtSh1NscIHkChWty+dLM46dOIzv4
+        q0xwtD8OB9M9oCCKEEsgEAFUduIvBuM7xSISIvUb55rA/tEzgtiBA7SWzP1c1dx5zfEj8vNntnG
+        BCKAqe8Z8u8z3ed2THfFG
+X-Received: by 2002:a05:6402:1103:b0:46a:779:4c6a with SMTP id u3-20020a056402110300b0046a07794c6amr38920934edv.201.1669893536376;
+        Thu, 01 Dec 2022 03:18:56 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6c2vc5K+ZToGa38uefpAv8Oh7GdnueV57HtH+dNAkwQmO4405Upj0dcXYRwImA2NFqe5iu5w==
+X-Received: by 2002:a05:6402:1103:b0:46a:779:4c6a with SMTP id u3-20020a056402110300b0046a07794c6amr38920902edv.201.1669893536080;
+        Thu, 01 Dec 2022 03:18:56 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id l2-20020a056402124200b004615f7495e0sm1635425edw.8.2022.12.01.03.18.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Dec 2022 03:18:55 -0800 (PST)
+Message-ID: <5ea0bc88-ccc4-4b67-c444-2b4df0084bd2@redhat.com>
+Date:   Thu, 1 Dec 2022 12:18:54 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v1 2/3] Documentation: gpio: Add a section on what to
+ return in ->get() callback
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Marc Zyngier <maz@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20221130155519.20362-1-andriy.shevchenko@linux.intel.com>
+ <20221130155519.20362-2-andriy.shevchenko@linux.intel.com>
+ <8a53e88b-1e74-bf34-62a1-780a1b29bcbc@redhat.com>
+ <Y4eC6W/wstJFLrEr@smile.fi.intel.com>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Y4eC6W/wstJFLrEr@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxZ1f5iIhjxVMjAA--.4248S4
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7Aw1rJw4kZr4xXr1kKw17Jrb_yoW8uF1xpr
-        4I9ryI9r1Utr45W34kKa4DWF4vgrWxGa1xGF4UKw4FgFnrA3WvvrWrtr4YqF43u34xAFW2
-        q34rKw48KF15AaDanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        b3kYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
-        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAa
-        w2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
-        I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2
-        jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20x
-        vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s02
-        6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF
-        0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvE
-        c7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
-        v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x
-        07jz2NtUUUUU=
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current links of LoongArch ISA Vol1 and ELF psABI are invalid,
-the latest versions are 1.02 and 2.00 respectively, let us update
-the links.
+Hi,
 
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
----
- Documentation/translations/zh_CN/loongarch/introduction.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+On 11/30/22 17:20, Andy Shevchenko wrote:
+> On Wed, Nov 30, 2022 at 05:12:13PM +0100, Hans de Goede wrote:
+>> On 11/30/22 16:55, Andy Shevchenko wrote:
+>>> The ->get() callback depending on other settings and hardware support
+>>> may return different values, while the line outside the chip is kept
+>>> in the same state. Let's discuss that in the documentation.
+> 
+> ...
+> 
+>>> +Considerations of the ->get() returned value
+>>> +--------------------------------------------
+>>> +
+>>> +Due to different possible electrical configurations and software applications
+>>> +the value that ->get() callback returns may vary depending on the other settings.
+>>> +This will allow to use pins in the I2C emulation mode or other not so standard
+>>> +uses.
+>>> +
+>>> +The below table gathered the most used cases.
+>>> +
+>>> +==========  ==========  ===============  =======================
+>>> +  Input       Output         State        What value to return?
+>>> +==========  ==========  ===============  =======================
+>>> + Disabled    Disabled    Hi-Z             input buffer
+>>> + Disabled    OS/OD/etc   Single ended     [cached] output buffer
+>>
+>> You need to clarify what single-ended means here. You mean a pin
+>> which is only capable of output I guess ?  So now way to figure
+>> out if another participant in the OS/OD bus has its transistor
+>> in the "on" state this pulling the bus high / low agains the bias
+>> resistor(s) which determine the state of the bus in rest ?
+>>
+>> Or you mean that the bus is uni-directional, even then being
+>> able to detect a short-circuit is useful.
+> 
+> It's described in the previous chapter(s).
+> 
+>>> +    x        Push-Pull   Out              [cached] output buffer
+>>
+>> Why, most GPIO drivers are protected against short-circuit to
+>> GND / Vdd and actually reading the input-buffer here will allow
+>> GPIO API consumers to detect such short-circuits if they are
+>> interested in this.  This would e.g. be useful to detect
+>> mis-wiring on devices like the Raspberry Pi were users often
+>> connect extra peripherals through breadboards.
+> 
+> I think it is nonsense from electronics point of view.
+> 
+>> IMHO for pins with an input buffer get() should simply
+>> always return the contents of the input buffer. This is what
+>> I believe almost all GPIO drivers currently do and also
+>> keeps the get() methods KISS.
+> 
+> As you can see, I disagree on this.
+> 
+>> Actually implementing the behavior you suggest here requires
+>> the get() method to differentiate between push-pull and
+>> other mode. This makes the get() method implementation
+>> needlessly complicated and will likely be a source of bugs
+>> as people will get this wrong in some cases and people
+>> will very likely not test all possible combinations from
+>> this big table you are adding here.
+> 
+> People already are getting wrong this and here is no documentation
+> on what to do to get it right.
+> 
+>> IHMO the rules for get() should simply be:
+>>
+>> 1. Device has an input buffer:
+>>    Return input-buffer value for the pin.
+> 
+> I disagree on this. It makes no sense to read real hw wire state when output
+> is enabled. If somebody does a short circuit, it's not a Linux issue and
+> should be recognized on the PCB side (using oscilloscope, multi-meter, etc).
 
-diff --git a/Documentation/translations/zh_CN/loongarch/introduction.rst b/Documentation/translations/zh_CN/loongarch/introduction.rst
-index f3ec25b..470c38a 100644
---- a/Documentation/translations/zh_CN/loongarch/introduction.rst
-+++ b/Documentation/translations/zh_CN/loongarch/introduction.rst
-@@ -338,15 +338,15 @@ Loongson与LoongArch的开发者网站（软件与文档资源）：
- 
- LoongArch指令集架构的文档：
- 
--  https://github.com/loongson/LoongArch-Documentation/releases/latest/download/LoongArch-Vol1-v1.00-CN.pdf （中文版）
-+  https://github.com/loongson/LoongArch-Documentation/releases/latest/download/LoongArch-Vol1-v1.02-CN.pdf （中文版）
- 
--  https://github.com/loongson/LoongArch-Documentation/releases/latest/download/LoongArch-Vol1-v1.00-EN.pdf （英文版）
-+  https://github.com/loongson/LoongArch-Documentation/releases/latest/download/LoongArch-Vol1-v1.02-EN.pdf （英文版）
- 
- LoongArch的ELF psABI文档：
- 
--  https://github.com/loongson/LoongArch-Documentation/releases/latest/download/LoongArch-ELF-ABI-v1.00-CN.pdf （中文版）
-+  https://github.com/loongson/LoongArch-Documentation/releases/latest/download/LoongArch-ELF-ABI-v2.00-CN.pdf （中文版）
- 
--  https://github.com/loongson/LoongArch-Documentation/releases/latest/download/LoongArch-ELF-ABI-v1.00-EN.pdf （英文版）
-+  https://github.com/loongson/LoongArch-Documentation/releases/latest/download/LoongArch-ELF-ABI-v2.00-EN.pdf （英文版）
- 
- Loongson与LoongArch的Linux内核源码仓库：
- 
--- 
-2.1.0
+What is the disadvantage of reading the real hw wire state ? 
+
+The list of advantages / disadvantages I can come up with GPIO
+controllers which always allow access to the input buffers is:
+
+Disadvantanges of having get() always return the input-buffer
+
+1. It is slower then returning the last output value cached on
+   the kernel side. But this too wil complicate the driver
+   code, since this requires populating the cache at boot
+   (or relying on regmap caching)
+
+Advantages of having get() always return the input-buffer:
+
+1. It leads to a very simple / KISS get() implementation
+2. One has to wonder why a GPIO API consumer puts a pin
+   in push/pull output mode and then calls get() anyways ?
+   This is an unlikely scenario (making disadvantage 1.
+   not a problem) and in the unlikely case that an API
+   consumer does this they likely want the real hw wire state.
+
+I guess the reason why you want to return a cached output value
+is because not all GPIO controllers allow access to the input
+buffer when in output mode ? At least that is the only good reason
+I can come up with ?
+
+Specifically there are GPIO controllers which have a single data
+register for the GPIOs rather then separate data in + data out
+registers.  Even then chances are that a read from the data
+register *always* goes to the input-buffer rather then reading
+the last written value when in output mode. This is likely since
+simply always latching the data from the input-buffer on a read
+from a shared in/out data register is easier to implement in hw.
+
+So thinking more about this, I believe that the answer what
+to return on a get() from a GPIO configured as push/pull output
+is implementation dependent. For GPIO chips with a shared in/out
+data register it is the value of that register, which may be
+a cached output value or the input-buffer value and for GPIO
+chips with a separate register to read the input-buffer it
+should simply always be the input buffer.
+
+Regards,
+
+Hans
+
+
+
+
+
+> 
+>> 2. Devices does not have an input buffer:
+>>    Return last set output-buffer value
+> 
+>>> + Enabled     Disabled    In               input buffer
+>>> + Enabled     OS/OD/etc   Bidirectional    input buffer
+>>> +==========  ==========  ===============  =======================
+>>> +
+>>> +The [cached] here is used in a broader sense: either pure software cache, or
+>>> +read back value from the GPIO output buffer (not all hardware support that).
+> 
 
