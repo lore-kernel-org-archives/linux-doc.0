@@ -2,170 +2,274 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F15C8C47088
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 08:49:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C399C43217
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 08:49:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229817AbiLAItc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Dec 2022 03:49:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52196 "EHLO
+        id S229512AbiLAItx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Dec 2022 03:49:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229933AbiLAItO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 03:49:14 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E98C8C689;
-        Thu,  1 Dec 2022 00:48:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1669884517; x=1701420517;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e0sGk5FC+bQXFAkQVJL15UcqqaRVlO2Lo1qDc6ms+U8=;
-  b=f9IeOvH49cL2xGrVCDsqD3NlkF76QgXbgm5JbLGgSZKW1BGWGw/viaSP
-   3sMnyAl/d01sBLKw5pw3zy/1pswMPiBZacLoFqZQBItQjl5Umu6bVZ1wY
-   usUYROYBss8YiDMski8otzHBy6ZbPdaZ+xc+Kb0tSwuU0G9lXaVEMQWed
-   lCHxyp5JbBWXLBCOyDDUMnvd8qSHiZ7FQLK77acwHTcjuXlxp434EigEz
-   bi8olOAbxkeCuSBHAD7zWANWsQ7aprn/OMAcpw/lUOJaGJUpmuCI9iQ4y
-   1WT2cTndhgaAq1NWqOnTk6SGiCTW85Th5TbtRzfbpflMxOvCjM1ejmR8c
-   g==;
-X-IronPort-AV: E=Sophos;i="5.96,207,1665471600"; 
-   d="scan'208";a="125953620"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 01 Dec 2022 01:48:36 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Thu, 1 Dec 2022 01:48:36 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
- Transport; Thu, 1 Dec 2022 01:48:34 -0700
-Date:   Thu, 1 Dec 2022 08:48:15 +0000
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Andrew Jones <ajones@ventanamicro.com>
-CC:     Conor Dooley <conor@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        <linux-riscv@lists.infradead.org>, <aou@eecs.berkeley.edu>,
-        <corbet@lwn.net>, <guoren@kernel.org>, <heiko@sntech.de>,
-        <paul.walmsley@sifive.com>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v1 1/3] RISC-V: clarify ISA string ordering rules in cpu.c
-Message-ID: <Y4hqTwpyxMqZTyoC@wendy>
-References: <20221130234125.2722364-1-conor@kernel.org>
- <20221130234125.2722364-2-conor@kernel.org>
- <20221201082743.xjxcnx7zcwycdwy7@kamzik>
+        with ESMTP id S229843AbiLAIte (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 03:49:34 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C157A11A1D;
+        Thu,  1 Dec 2022 00:49:32 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 2D59C1FD68;
+        Thu,  1 Dec 2022 08:49:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1669884568; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=guIxpxNAKGFiX13aZHwKzc4sgDiWlaSOm8SorFitB8w=;
+        b=N3ADfolne44ylq/Uj9XYi305h0aolKKN92dzo6nzondChOAnn42JLZGonKi8piI1EwfYrL
+        5qhGgcY5pZR1iPH0r/oAwVw5Bk3BusbtMcafYF38Bf26AKI3S6FsOcdGIdLeNuc4XPcekJ
+        rezD8+qtp+o1njMbFZ0/5oGMnYYS78Q=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1A4B813B4A;
+        Thu,  1 Dec 2022 08:49:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id gHRmBphqiGM8GgAAMHmgww
+        (envelope-from <mhocko@suse.com>); Thu, 01 Dec 2022 08:49:28 +0000
+Date:   Thu, 1 Dec 2022 09:49:27 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     =?utf-8?B?56iL5Z6y5rab?= Chengkaitao Cheng 
+        <chengkaitao@didiglobal.com>
+Cc:     Tao pilgrim <pilgrimtao@gmail.com>,
+        "tj@kernel.org" <tj@kernel.org>,
+        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+        "shakeelb@google.com" <shakeelb@google.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "cgel.zte@gmail.com" <cgel.zte@gmail.com>,
+        "ran.xiaokai@zte.com.cn" <ran.xiaokai@zte.com.cn>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
+        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
+        "yuzhao@google.com" <yuzhao@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "surenb@google.com" <surenb@google.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "mcgrof@kernel.org" <mcgrof@kernel.org>,
+        "sujiaxun@uniontech.com" <sujiaxun@uniontech.com>,
+        "feng.tang@intel.com" <feng.tang@intel.com>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] mm: memcontrol: protect the memory in cgroup from being
+ oom killed
+Message-ID: <Y4hqlzNeZ6Osu0pI@dhcp22.suse.cz>
+References: <Y4eEiqwMMkHv9ELM@dhcp22.suse.cz>
+ <E5A5BCC3-460E-4E81-8DD3-88B4A2868285@didiglobal.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221201082743.xjxcnx7zcwycdwy7@kamzik>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <E5A5BCC3-460E-4E81-8DD3-88B4A2868285@didiglobal.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 01, 2022 at 09:27:43AM +0100, Andrew Jones wrote:
-> On Wed, Nov 30, 2022 at 11:41:24PM +0000, Conor Dooley wrote:
-> > From: Conor Dooley <conor.dooley@microchip.com>
-> > 
-> > While the current list of rules may have been accurate when created
-> > it now lacks some clarity in the face of isa-manual updates. Instead of
-> > trying to continuously align this rule-set with the one in the
-> > specifications, change the role of this comment.
-> > 
-> > This particular comment is important, as the array it "decorates"
-> > defines the order in which the ISA string appears to userspace in
-> > /proc/cpuinfo.
-> > 
-> > Re-jig and strengthen the wording to provide contributors with a set
-> > order in which to add entries & note why this particular struct needs
-> > more attention than others.
-> > 
-> > While in the area, add some whitespace and tweak some wording for
-> > readability's sake.
-> > 
-> > Suggested-by: Andrew Jones <ajones@ventanamicro.com>
-> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> > ---
-> >  arch/riscv/kernel/cpu.c | 49 ++++++++++++++++++++++++++++++-----------
-> >  1 file changed, 36 insertions(+), 13 deletions(-)
-> > 
-> > diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
-> > index 852ecccd8920..68b2bd0cc3bc 100644
-> > --- a/arch/riscv/kernel/cpu.c
-> > +++ b/arch/riscv/kernel/cpu.c
-> > @@ -120,22 +120,45 @@ device_initcall(riscv_cpuinfo_init);
-> >  		.uprop = #UPROP,				\
-> >  		.isa_ext_id = EXTID,				\
-> >  	}
-> > +
-> >  /*
-> > - * Here are the ordering rules of extension naming defined by RISC-V
-> > - * specification :
-> > - * 1. All extensions should be separated from other multi-letter extensions
-> > - *    by an underscore.
-> > - * 2. The first letter following the 'Z' conventionally indicates the most
-> > + * The canonical order of ISA extension names in the ISA string is defined in
-> > + * chapter 27 of the unprivileged specification.
-> > + *
-> > + * Ordinarily, for in-kernel data structures, this order is unimportant but
-> > + * isa_ext_arr defines the order of the ISA string in /proc/cpuinfo.
-> > + *
-> > + * The specification uses vague wording, such as should, when it comes to
-> > + * ordering so for our purposes the following rules apply:
-> > + *
-> > + * 1. All multi-letter extensions must be separated from other multi-letter
+On Thu 01-12-22 04:52:27, 程垲涛 Chengkaitao Cheng wrote:
+> At 2022-12-01 00:27:54, "Michal Hocko" <mhocko@suse.com> wrote:
+> >On Wed 30-11-22 15:46:19, 程垲涛 Chengkaitao Cheng wrote:
+> >> On 2022-11-30 21:15:06, "Michal Hocko" <mhocko@suse.com> wrote:
+> >> > On Wed 30-11-22 15:01:58, chengkaitao wrote:
+> >> > > From: chengkaitao <pilgrimtao@gmail.com>
+> >> > >
+> >> > > We created a new interface <memory.oom.protect> for memory, If there is
+> >> > > the OOM killer under parent memory cgroup, and the memory usage of a
+> >> > > child cgroup is within its effective oom.protect boundary, the cgroup's
+> >> > > tasks won't be OOM killed unless there is no unprotected tasks in other
+> >> > > children cgroups. It draws on the logic of <memory.min/low> in the
+> >> > > inheritance relationship.
+> >> >
+> >> > Could you be more specific about usecases?
+> >
+> >This is a very important question to answer.
 > 
-> 1. All multi-letter extensions must be separated from other extensions by an
-> underscore.
+> usecases 1: users say that they want to protect an important process 
+> with high memory consumption from being killed by the oom in case 
+> of docker container failure, so as to retain more critical on-site 
+> information or a self recovery mechanism. At this time, they suggest 
+> setting the score_adj of this process to -1000, but I don't agree with 
+> it, because the docker container is not important to other docker 
+> containers of the same physical machine. If score_adj of the process 
+> is set to -1000, the probability of oom in other container processes will 
+> increase.
 > 
-> (Because we always lead multi-letter extensions with underscore, even the
-> first one, which follows the single-letter extensions.)
+> usecases 2: There are many business processes and agent processes 
+> mixed together on a physical machine, and they need to be classified 
+> and protected. However, some agents are the parents of business 
+> processes, and some business processes are the parents of agent 
+> processes, It will be troublesome to set different score_adj for them. 
+> Business processes and agents cannot determine which level their 
+> score_adj should be at, If we create another agent to set all processes's 
+> score_adj, we have to cycle through all the processes on the physical 
+> machine regularly, which looks stupid.
 
-Yah, I need to think as if I am using De Morgan's... The DT ABI requires
-"should" and permits this. The uAPI is "must"/"will" and always has an
-_. I'll propagate that change to the docs patch too.
-
-> > + *    extensions by an underscore.
-> > + *
-> > + * 2. Additional standard extensions (starting with 'Z') must be sorted after
-> > + *    single-letter extensions and before any higher-privileged extensions.
-> > +
-> > + * 3. The first letter following the 'Z' conventionally indicates the most
-> >   *    closely related alphabetical extension category, IMAFDQLCBKJTPVH.
-> > - *    If multiple 'Z' extensions are named, they should be ordered first
-> > - *    by category, then alphabetically within a category.
-> > - * 3. Standard supervisor-level extensions (starts with 'S') should be
-> > - *    listed after standard unprivileged extensions.  If multiple
-> > - *    supervisor-level extensions are listed, they should be ordered
-> > + *    If multiple 'Z' extensions are named, they should be ordered first by
-> > + *    category, then alphabetically within a category.
-> > + *
-> > + * 3. Standard supervisor-level extensions (starting with 'S') must be listed
-> > + *    after standard unprivileged extensions.  If multiple
-> > + *    supervisor-level extensions are listed, they must be ordered
-> >   *    alphabetically.
-> > - * 4. Non-standard extensions (starts with 'X') must be listed after all
-> > - *    standard extensions. They must be separated from other multi-letter
-> > - *    extensions by an underscore.
-> > + *
-> > + * 4. Standard machine-level extensions (starting with 'Zxm') must be listed
-> > + *    after any lower-privileged, standard extensions.  If multiple
-> > + *    machine-level extensions are listed, they must be ordered
-> > + *    alphabetically.
-> > + *
-> > + * 5. Non-standard extensions (starts with 'X') must be listed after all
-> > + *    standard extensions.
->                             ^and alphabetically.
-
-"If multiple non-standard extensions are listed, they must be ordered
-alphabetically." I'll also propagate this to the doc one, if I have not
-already.
-
-> Otherwise,
+I do agree that oom_score_adj is far from ideal tool for these usecases.
+But I also agree with Roman that these could be addressed by an oom
+killer implementation in the userspace which can have much better
+tailored policies. OOM protection limits would require tuning and also
+regular revisions (e.g. memory consumption by any workload might change
+with different kernel versions) to provide what you are looking for.
+ 
+> >> > How do you tune oom.protect
+> >> > wrt to other tunables? How does this interact with the oom_score_adj
+> >> > tunining (e.g. a first hand oom victim with the score_adj 1000 sitting
+> >> > in a oom protected memcg)?
+> >> 
+> >> We prefer users to use score_adj and oom.protect independently. Score_adj is 
+> >> a parameter applicable to host, and oom.protect is a parameter applicable to cgroup. 
+> >> When the physical machine's memory size is particularly large, the score_adj 
+> >> granularity is also very large. However, oom.protect can achieve more fine-grained 
+> >> adjustment.
+> >
+> >Let me clarify a bit. I am not trying to defend oom_score_adj. It has
+> >it's well known limitations and it is is essentially unusable for many
+> >situations other than - hide or auto-select potential oom victim.
+> >
+> >> When the score_adj of the processes are the same, I list the following cases 
+> >> for explanation,
+> >> 
+> >>           root
+> >>            |
+> >>         cgroup A
+> >>        /        \
+> >>  cgroup B      cgroup C
+> >> (task m,n)     (task x,y)
+> >> 
+> >> score_adj(all task) = 0;
+> >> oom.protect(cgroup A) = 0;
+> >> oom.protect(cgroup B) = 0;
+> >> oom.protect(cgroup C) = 3G;
+> >
+> >How can you enforce protection at C level without any protection at A
+> >level? 
 > 
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> The basic idea of this scheme is that all processes in the same cgroup are 
+> equally important. If some processes need extra protection, a new cgroup 
+> needs to be created for unified settings. I don't think it is necessary to 
+> implement protection in cgroup C, because task x and task y are equally 
+> important. Only the four processes (task m, n, x and y) in cgroup A, have 
+> important and secondary differences.
+> 
+> > This would easily allow arbitrary cgroup to hide from the oom
+> > killer and spill over to other cgroups.
+> 
+> I don't think this will happen, because eoom.protect only works on parent 
+> cgroup. If "oom.protect(parent cgroup) = 0", from perspective of 
+> grandpa cgroup, task x and y will not be specially protected.
 
-Cool. I'll give it a bit before respinning, but I think we are at least
-getting less ambiguous as time goes on..
+Just to confirm I am on the same page. This means that there won't be
+any protection in case of the global oom in the above example. So
+effectively the same semantic as the low/min protection.
 
-Thanks,
-Conor.
+> >> usage(task m) = 1G
+> >> usage(task n) = 2G
+> >> usage(task x) = 1G
+> >> usage(task y) = 2G
+> >> 
+> >> oom killer order of cgroup A: n > m > y > x
+> >> oom killer order of host:     y = n > x = m
+> >> 
+> >> If cgroup A is a directory maintained by users, users can use oom.protect 
+> >> to protect relatively important tasks x and y.
+> >> 
+> >> However, when score_adj and oom.protect are used at the same time, we 
+> >> will also consider the impact of both, as expressed in the following formula. 
+> >> but I have to admit that it is an unstable result.
+> >> score = task_usage + score_adj * totalpage - eoom.protect * task_usage / local_memcg_usage
+> >
+> >I hope I am not misreading but this has some rather unexpected
+> >properties. First off, bigger memory consumers in a protected memcg are
+> >protected more. 
+> 
+> Since cgroup needs to reasonably distribute the protection quota to all 
+> processes in the cgroup, I think that processes consuming more memory 
+> should get more quota. It is fair to processes consuming less memory 
+> too, even if processes consuming more memory get more quota, its 
+> oom_score is still higher than the processes consuming less memory. 
+> When the oom killer appears in local cgroup, the order of oom killer 
+> remains unchanged
 
+Why cannot you simply discount the protection from all processes
+equally? I do not follow why the task_usage has to play any role in
+that.
+
+> 
+> >Also I would expect the protection discount would
+> >be capped by the actual usage otherwise excessive protection
+> >configuration could skew the results considerably.
+> 
+> In the calculation, we will select the minimum value of memcg_usage and 
+> oom.protect
+> 
+> >> > I haven't really read through the whole patch but this struck me odd.
+> >> 
+> >> > > @@ -552,8 +552,19 @@ static int proc_oom_score(struct seq_file *m, struct pid_namespace *ns,
+> >> > > 	unsigned long totalpages = totalram_pages() + total_swap_pages;
+> >> > > 	unsigned long points = 0;
+> >> > > 	long badness;
+> >> > > +#ifdef CONFIG_MEMCG
+> >> > > +	struct mem_cgroup *memcg;
+> >> > > 
+> >> > > -	badness = oom_badness(task, totalpages);
+> >> > > +	rcu_read_lock();
+> >> > > +	memcg = mem_cgroup_from_task(task);
+> >> > > +	if (memcg && !css_tryget(&memcg->css))
+> >> > > +		memcg = NULL;
+> >> > > +	rcu_read_unlock();
+> >> > > +
+> >> > > +	update_parent_oom_protection(root_mem_cgroup, memcg);
+> >> > > +	css_put(&memcg->css);
+> >> > > +#endif
+> >> > > +	badness = oom_badness(task, totalpages, MEMCG_OOM_PROTECT);
+> >> >
+> >> > the badness means different thing depending on which memcg hierarchy
+> >> > subtree you look at. Scaling based on the global oom could get really
+> >> > misleading.
+> >> 
+> >> I also took it into consideration. I planned to change "/proc/pid/oom_score" 
+> >> to a writable node. When writing to different cgroup paths, different values 
+> >> will be output. The default output is root cgroup. Do you think this idea is 
+> >> feasible?
+> >
+> >I do not follow. Care to elaborate?
+> 
+> Take two example，
+> cmd: cat /proc/pid/oom_score
+> output: Scaling based on the global oom
+> 
+> cmd: echo "/cgroupA/cgroupB" > /proc/pid/oom_score
+> output: Scaling based on the cgroupB oom
+> (If the task is not in the cgroupB's hierarchy subtree, output: invalid parameter)
+
+This is a terrible interface. First of all it assumes a state for the
+file without any way to guarantee atomicity. How do you deal with two
+different callers accessing the file?
+
+-- 
+Michal Hocko
+SUSE Labs
