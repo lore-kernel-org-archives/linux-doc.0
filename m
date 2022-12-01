@@ -2,121 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 388C2C43217
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 13:08:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77FD2C43217
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 13:52:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230245AbiLANId (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Dec 2022 08:08:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52220 "EHLO
+        id S231654AbiLANwA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Dec 2022 08:52:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229717AbiLANIc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 08:08:32 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EDD845A0C;
-        Thu,  1 Dec 2022 05:08:28 -0800 (PST)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id C27961FD81;
-        Thu,  1 Dec 2022 13:08:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1669900106; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=K/3E4rKV56hZO1ZYVzKhSOwwyXDyBi7M71us9jjagdo=;
-        b=ZC25gQgYpHLJv3sUQUpw833y1NbAm84Kj96hRcqLaxWPqonFdDKoAEQwY8o+h5Urr4f/94
-        sYhbrouqe8Sz2mT73RyW2KuWQ0ZQZVfQyN3N+lHgNLROGt3f2Q2frfuTwFrG8knt0CulCG
-        XireW5USxtH4hjxIvL59nH4fLlaqq3M=
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id A9BA313503;
-        Thu,  1 Dec 2022 13:08:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap1.suse-dmz.suse.de with ESMTPSA
-        id uwI1KUqniGPoBQAAGKfGzw
-        (envelope-from <mhocko@suse.com>); Thu, 01 Dec 2022 13:08:26 +0000
-Date:   Thu, 1 Dec 2022 14:08:26 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     =?utf-8?B?56iL5Z6y5rab?= Chengkaitao Cheng 
-        <chengkaitao@didiglobal.com>
-Cc:     Tao pilgrim <pilgrimtao@gmail.com>,
-        "tj@kernel.org" <tj@kernel.org>,
-        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
-        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
-        "shakeelb@google.com" <shakeelb@google.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
-        "cgel.zte@gmail.com" <cgel.zte@gmail.com>,
-        "ran.xiaokai@zte.com.cn" <ran.xiaokai@zte.com.cn>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
-        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
-        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
-        "yuzhao@google.com" <yuzhao@google.com>,
-        "willy@infradead.org" <willy@infradead.org>,
-        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
-        "vbabka@suse.cz" <vbabka@suse.cz>,
-        "surenb@google.com" <surenb@google.com>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "mcgrof@kernel.org" <mcgrof@kernel.org>,
-        "sujiaxun@uniontech.com" <sujiaxun@uniontech.com>,
-        "feng.tang@intel.com" <feng.tang@intel.com>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] mm: memcontrol: protect the memory in cgroup from being
- oom killed
-Message-ID: <Y4inSsNpmomzRt8J@dhcp22.suse.cz>
-References: <Y4hqlzNeZ6Osu0pI@dhcp22.suse.cz>
- <C2CC36C1-29AE-4B65-A18A-19A745652182@didiglobal.com>
- <Y4ihyRqQzyFFLqh6@dhcp22.suse.cz>
+        with ESMTP id S231339AbiLANv4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 08:51:56 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A58050D69;
+        Thu,  1 Dec 2022 05:51:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1669902715; x=1701438715;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=bav08OV3LsnmXxf0ohUY0Zv4EUZl+WnAgOolhM8CEvc=;
+  b=E9pR5cOHEpOrvWNkeKO6TCO5iw21e8hMnaSMHD1pE1TIZRWWFvh0+4uS
+   xwzyF76N7bQJ/pCf7WI8oDnBVA8U1FrpamL7PvE6SiNZ/k3OwiZRxfuK0
+   jFjJv591u3V7siZMdZW/A8u6YxFWcjL3cpm/P0uEexp/vY3yMyyzHkUhG
+   KibRg/+DNto97OccAMA200zRmNvn+DuqBCMdtYJZmTUz0zy4dQYUT+t3g
+   BEMxboqe6v/ANcSAOsSf61RhOMNRelb8KpnqwppcJMbhqmeyVHamjKkdh
+   AHnroB46KlNAklJUNQFE4adHj4tTGMKW7QjK+K2y3guTlQCRUcfDVKmtR
+   g==;
+X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; 
+   d="scan'208";a="186069167"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 01 Dec 2022 06:51:54 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.12; Thu, 1 Dec 2022 06:51:52 -0700
+Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.12 via Frontend
+ Transport; Thu, 1 Dec 2022 06:51:50 -0700
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Palmer Dabbelt <palmer@dabbelt.com>
+CC:     Conor Dooley <conor.dooley@microchip.com>,
+        <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH] Documentation: riscv: note that counter access is part of the uABI
+Date:   Thu, 1 Dec 2022 13:51:10 +0000
+Message-ID: <20221201135110.3855965-1-conor.dooley@microchip.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <Y4XvnHIPw8ZuBZEk@wendy>
+References: <Y4XvnHIPw8ZuBZEk@wendy>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y4ihyRqQzyFFLqh6@dhcp22.suse.cz>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 01-12-22 13:44:58, Michal Hocko wrote:
-> On Thu 01-12-22 10:52:35, 程垲涛 Chengkaitao Cheng wrote:
-> > At 2022-12-01 16:49:27, "Michal Hocko" <mhocko@suse.com> wrote:
-[...]
-> > >Why cannot you simply discount the protection from all processes
-> > >equally? I do not follow why the task_usage has to play any role in
-> > >that.
-> > 
-> > If all processes are protected equally, the oom protection of cgroup is 
-> > meaningless. For example, if there are more processes in the cgroup, 
-> > the cgroup can protect more mems, it is unfair to cgroups with fewer 
-> > processes. So we need to keep the total amount of memory that all 
-> > processes in the cgroup need to protect consistent with the value of 
-> > eoom.protect.
-> 
-> You are mixing two different concepts together I am afraid. The per
-> memcg protection should protect the cgroup (i.e. all processes in that
-> cgroup) while you want it to be also process aware. This results in a
-> very unclear runtime behavior when a process from a more protected memcg
-> is selected based on its individual memory usage.
+Commit 5a5294fbe020 ("RISC-V: Re-enable counter access from userspace")
+fixed userspace access to CYCLE, TIME & INSTRET counters and left a nice
+comment in-place about why they must not be restricted. Since we now
+have a uABI doc in RISC-V land, add a section documenting it.
 
-Let me be more specific here. Although it is primarily processes which
-are the primary source of memcg charges the memory accounted for the oom
-badness purposes is not really comparable to the overal memcg charged
-memory. Kernel memory, non-mapped memory all that can generate rather
-interesting cornercases.
+Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+---
+Based on an, as yet, unsent v2 of my other uABI changes. I don't expect
+it to be applicable, just getting a patch into patchwork while I don't
+forget about this.
+---
+ Documentation/riscv/uabi.rst | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uabi.rst
+index 8d2651e42fda..638ddce56700 100644
+--- a/Documentation/riscv/uabi.rst
++++ b/Documentation/riscv/uabi.rst
+@@ -3,6 +3,13 @@
+ RISC-V Linux User ABI
+ =====================
+ 
++Counter access
++--------------
++
++Access to the CYCLE, TIME and INSTRET counters, now controlled by the SBI PMU
++extension, were part of the ISA when the uABI was frozen & so remain accessible
++from userspace.
++
+ ISA string ordering in /proc/cpuinfo
+ ------------------------------------
+ 
+
+base-commit: 13ee7ef407cfcf63f4f047460ac5bb6ba5a3447d
+prerequisite-patch-id: d17a9ffb6fcf99eb683728da98cd50e18cd28fe8
+prerequisite-patch-id: 0df4127e3f4a0c02a235fea00bcb69cd94fabb38
+prerequisite-patch-id: 171724b870ba212b714ebbded480269accd83733
 -- 
-Michal Hocko
-SUSE Labs
+2.38.1
+
