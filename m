@@ -2,110 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A398DC43217
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 12:42:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD4EBC4321E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 12:45:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231484AbiLAMma (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Dec 2022 07:42:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53754 "EHLO
+        id S229974AbiLAMpD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Dec 2022 07:45:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231450AbiLAMmW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 07:42:22 -0500
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B3558C681;
-        Thu,  1 Dec 2022 04:42:20 -0800 (PST)
-Received: by mail-yb1-xb29.google.com with SMTP id v206so1856304ybv.7;
-        Thu, 01 Dec 2022 04:42:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gZLFHPHmu42F5vgCZp4ijmCKeW/Bp2vfBJ56tLv98tY=;
-        b=kg0NfjNL+OZtMi114IVofJvt6YDQkbGAEpaviVRhPdIjwYYviGV2s3k43+qZF1bYj+
-         PZvcJoRTQZb7jt0VFVy6VxVIU+mKeStj/sw82fnqzlsBsaTM6SiZlmUblJqG7vGgY63n
-         fnP/0Sbn57tfS23JPWy9myf87Ev7eGvIhH62f/rcucBwbnzRZEb1zAmKIWaodf4XrZkr
-         0yzHIEUQE7/nu520vdvk4z2EUr+3EjiM/bKfq5fN0wkXiuD07lWCn9TYf2w5JDmvEbvW
-         rKqbLRg7zA5ZIqTxC+EgOOjN14v74AAvaffr8BGGBZ9K/GU2D2sfIyC4VFIGM4SLtUxh
-         1aSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gZLFHPHmu42F5vgCZp4ijmCKeW/Bp2vfBJ56tLv98tY=;
-        b=MHXzGojgphhFusO0IdIK58XexMagUwG9g2D3s5tfybuUUeybQp4cFMb5gfrPN6SYi7
-         E1m5hgdMe9ozI11QSa3NON4atrU9VwS7XT5MRCafyIQt7HvhxgpplN1aVzZid5gLL1jt
-         MGifPNxyg6z7Zaa6RlHbwEa2668DlEC5shhhUwHDVI14l2IKKD9f2BimCFStOzos4gn1
-         kKXlexOMSnepo8n/uEwxbxyZHTm9TW+LCMQ3+4izbwUhjV4M0TJCDkT1nN+ZZ2bw0KGt
-         gWdhuoIfnUDOGLk9pNAgJ81nckNUlazSVwzgID2Mm+4xTRBTemgt/2MEhQYoUzzcJnYK
-         hW5Q==
-X-Gm-Message-State: ANoB5plPv8ZEfMFFST+WPPyG5ezTp0aZNDaV2VbpXnv2Ke7JakpzHWep
-        9RZPdxR46oNDMXduySfa4QGhVFtV2gH5hjWEAKE=
-X-Google-Smtp-Source: AA0mqf4+TyrNUMCpYufVvJDLCwKVdwSU4HrNiYDvpS5hHJZK1APaT4dregkaqc2dwCh0X9KeU6wJeozM1gV0AmRrHy8=
-X-Received: by 2002:a25:c589:0:b0:6f5:8253:b125 with SMTP id
- v131-20020a25c589000000b006f58253b125mr22169566ybe.75.1669898539703; Thu, 01
- Dec 2022 04:42:19 -0800 (PST)
+        with ESMTP id S230348AbiLAMpA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 07:45:00 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0E7C8C6AF;
+        Thu,  1 Dec 2022 04:44:59 -0800 (PST)
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 1E60621AC2;
+        Thu,  1 Dec 2022 12:44:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1669898698; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=2usVyVHvq6UpCYGTeYatlo+CIODmj9sJULa7nXifL7I=;
+        b=hVlPQZhQULbKSaUOF1Ptr93R7UHM2CFgYMqevAQOi+JuvHhxUFBIvxcFSM2Vh7Djf7zhEL
+        dlFAaCNFppiO/tq30A6MzlbBRIYJXya8GMZ+SOvkebJl/TRVMO1i2Tyy8KA1wVap+1o63F
+        rrwgJlk321vFBTdqNpCzEqeY/yXhzEU=
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id EB1CB13503;
+        Thu,  1 Dec 2022 12:44:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap1.suse-dmz.suse.de with ESMTPSA
+        id mpA4OcmhiGM3eAAAGKfGzw
+        (envelope-from <mhocko@suse.com>); Thu, 01 Dec 2022 12:44:57 +0000
+Date:   Thu, 1 Dec 2022 13:44:57 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     =?utf-8?B?56iL5Z6y5rab?= Chengkaitao Cheng 
+        <chengkaitao@didiglobal.com>
+Cc:     Tao pilgrim <pilgrimtao@gmail.com>,
+        "tj@kernel.org" <tj@kernel.org>,
+        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+        "shakeelb@google.com" <shakeelb@google.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "cgel.zte@gmail.com" <cgel.zte@gmail.com>,
+        "ran.xiaokai@zte.com.cn" <ran.xiaokai@zte.com.cn>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
+        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
+        "yuzhao@google.com" <yuzhao@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "surenb@google.com" <surenb@google.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "mcgrof@kernel.org" <mcgrof@kernel.org>,
+        "sujiaxun@uniontech.com" <sujiaxun@uniontech.com>,
+        "feng.tang@intel.com" <feng.tang@intel.com>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] mm: memcontrol: protect the memory in cgroup from being
+ oom killed
+Message-ID: <Y4ihyRqQzyFFLqh6@dhcp22.suse.cz>
+References: <Y4hqlzNeZ6Osu0pI@dhcp22.suse.cz>
+ <C2CC36C1-29AE-4B65-A18A-19A745652182@didiglobal.com>
 MIME-Version: 1.0
-References: <20221130220825.1545758-1-carlos.bilbao@amd.com>
-In-Reply-To: <20221130220825.1545758-1-carlos.bilbao@amd.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 1 Dec 2022 13:42:08 +0100
-Message-ID: <CANiq72nMY5f85tJJFg7AFsh4YRrKObhurhT8TVawYqoZU+J-Fg@mail.gmail.com>
-Subject: Re: [PATCH] docs: Integrate rustdoc into Rust documentation
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     corbet@lwn.net, ojeda@kernel.org, bilbao@vt.edu,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        konstantin@linuxfoundation.org, Akira Yokosawa <akiyks@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <C2CC36C1-29AE-4B65-A18A-19A745652182@didiglobal.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 30, 2022 at 11:08 PM Carlos Bilbao <carlos.bilbao@amd.com> wrote:
->
-> Include HTML output generated with rustdoc into the Linux kernel
-> documentation on Rust. Change target `make htmldocs` to combine RST Sphinx
-> and the generation of Rust documentation, when support is available.
+On Thu 01-12-22 10:52:35, 程垲涛 Chengkaitao Cheng wrote:
+> At 2022-12-01 16:49:27, "Michal Hocko" <mhocko@suse.com> wrote:
+> >On Thu 01-12-22 04:52:27, 程垲涛 Chengkaitao Cheng wrote:
+> >> At 2022-12-01 00:27:54, "Michal Hocko" <mhocko@suse.com> wrote:
+> >> >On Wed 30-11-22 15:46:19, 程垲涛 Chengkaitao Cheng wrote:
+> >> >> On 2022-11-30 21:15:06, "Michal Hocko" <mhocko@suse.com> wrote:
+> >> >> > On Wed 30-11-22 15:01:58, chengkaitao wrote:
+> >> >> > > From: chengkaitao <pilgrimtao@gmail.com>
+> >> >> > >
+> >> >> > > We created a new interface <memory.oom.protect> for memory, If there is
+> >> >> > > the OOM killer under parent memory cgroup, and the memory usage of a
+> >> >> > > child cgroup is within its effective oom.protect boundary, the cgroup's
+> >> >> > > tasks won't be OOM killed unless there is no unprotected tasks in other
+> >> >> > > children cgroups. It draws on the logic of <memory.min/low> in the
+> >> >> > > inheritance relationship.
+> >> >> >
+> >> >> > Could you be more specific about usecases?
+> >> >
+> >> >This is a very important question to answer.
+> >> 
+> >> usecases 1: users say that they want to protect an important process 
+> >> with high memory consumption from being killed by the oom in case 
+> >> of docker container failure, so as to retain more critical on-site 
+> >> information or a self recovery mechanism. At this time, they suggest 
+> >> setting the score_adj of this process to -1000, but I don't agree with 
+> >> it, because the docker container is not important to other docker 
+> >> containers of the same physical machine. If score_adj of the process 
+> >> is set to -1000, the probability of oom in other container processes will 
+> >> increase.
+> >> 
+> >> usecases 2: There are many business processes and agent processes 
+> >> mixed together on a physical machine, and they need to be classified 
+> >> and protected. However, some agents are the parents of business 
+> >> processes, and some business processes are the parents of agent 
+> >> processes, It will be troublesome to set different score_adj for them. 
+> >> Business processes and agents cannot determine which level their 
+> >> score_adj should be at, If we create another agent to set all processes's 
+> >> score_adj, we have to cycle through all the processes on the physical 
+> >> machine regularly, which looks stupid.
+> >
+> >I do agree that oom_score_adj is far from ideal tool for these usecases.
+> >But I also agree with Roman that these could be addressed by an oom
+> >killer implementation in the userspace which can have much better
+> >tailored policies. OOM protection limits would require tuning and also
+> >regular revisions (e.g. memory consumption by any workload might change
+> >with different kernel versions) to provide what you are looking for.
+> 
+> There is a misunderstanding, oom.protect does not replace the user's 
+> tailed policies, Its purpose is to make it easier and more efficient for 
+> users to customize policies, or try to avoid users completely abandoning 
+> the oom score to formulate new policies.
 
-Looks better, thanks for this v2! A few comments below...
+Then you should focus on explaining on how this makes those policies and
+easier and moe efficient. I do not see it.
 
-> +ifdef CONFIG_RUST
-> +       @make LLVM=1 rustdoc
-> +endif
+[...]
 
-The Rust docs should probably be built with the build
-system/config/... as given, whether it is GCC, LLVM, etc. This should
-probably use `$(MAKE)` too; and if you intended to remove the command
-line definitions, `MAKEOVERRIDES` too.
+> >Why cannot you simply discount the protection from all processes
+> >equally? I do not follow why the task_usage has to play any role in
+> >that.
+> 
+> If all processes are protected equally, the oom protection of cgroup is 
+> meaningless. For example, if there are more processes in the cgroup, 
+> the cgroup can protect more mems, it is unfair to cgroups with fewer 
+> processes. So we need to keep the total amount of memory that all 
+> processes in the cgroup need to protect consistent with the value of 
+> eoom.protect.
 
-Ideally `htmldocs` would depend on `rustdoc`, though that would
-require shuffling quite a few things since to build the Rust docs we
-need a subset of the Rust dependencies built. Given we may be changing
-things soon anyway on the Rust `Makefile`, we can leave that for the
-future.
-
-By the way, while checking this, I noticed we use some `CONFIG_`s in
-this `Makefile`, but we do not perform a config sync for the `*docs`
-targets, so one needs to do so manually, i.e. it can be a pitfall for
-e.g. `CONFIG_WARN_MISSING_DOCUMENTS` and ` as well as a potential
-`CONFIG_RUST`. Should this be fixed orthogonally, or is it intended?
-(some targets do not need the sync, and the ones that need are
-probably less used, so I guess that could be the reason?).
-
-> +Rustdoc output
-> +==============
-> +
-> +If this documentation includes rustdoc-generated HTML, the entry point
-> +can be found `here. <rustdoc/kernel/index.html>`_
-
-Perhaps this sentence could be moved to the top of the index file, so
-that users do not need two clicks when visiting "Rust"? That way we
-avoid one more file too.
-
-> +RUSTDOC_OUTPUT=$(objtree)/Documentation/output/rust/rustdoc
-
-Please add a space around the equal sign to be consistent with (most)
-of the rest of the file.
-
-Cheers,
-Miguel
+You are mixing two different concepts together I am afraid. The per
+memcg protection should protect the cgroup (i.e. all processes in that
+cgroup) while you want it to be also process aware. This results in a
+very unclear runtime behavior when a process from a more protected memcg
+is selected based on its individual memory usage.
+-- 
+Michal Hocko
+SUSE Labs
