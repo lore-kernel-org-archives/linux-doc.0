@@ -2,104 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DFACC43217
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 12:50:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A76B0C47088
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 12:58:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229974AbiLAMuZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Dec 2022 07:50:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33862 "EHLO
+        id S231232AbiLAM62 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Dec 2022 07:58:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229843AbiLAMuY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 07:50:24 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7CD191C3A;
-        Thu,  1 Dec 2022 04:50:23 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6AA2AB81F3E;
-        Thu,  1 Dec 2022 12:50:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1D218C433D7;
-        Thu,  1 Dec 2022 12:50:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669899018;
-        bh=tHu/RAOQMiQxnwrAgil/D4i7F+V8yl6O/JMiB1Av2Xk=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=p1iJnIIScCz0obgtCvhTltSGf8OHkdanhSeB8S3DoTjJookiLeNnulaibwWc2K0bR
-         keac/9EuibCSDE0k53Az2bmvrADwvkj71J0tJdpSrbEB/vh0lRJ2qClPSmjbnVUfXv
-         Sw/h4qsUEw39XSp/kVSvpZe0BIff6ItfJLGtYw1tyHjyYKGKh7d9MnTLJD6UrGMM0x
-         JbESfEFE73PS29SbCChcMI/KtprwTe4LIT/hPAJXlKpVy04iwGNQClH2oC4ByNvuPl
-         1kplYwAfXee6rxFjlYM3M3DREvQkKHAbn2BQ4XvTNNOUglQsTNl5PtKab0oFge4Ihi
-         s+ZrFNTUow35Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id F2384E21EF1;
-        Thu,  1 Dec 2022 12:50:17 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229843AbiLAM62 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 07:58:28 -0500
+Received: from out30-57.freemail.mail.aliyun.com (out30-57.freemail.mail.aliyun.com [115.124.30.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8875E578ED;
+        Thu,  1 Dec 2022 04:58:25 -0800 (PST)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=tianjia.zhang@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0VW8xlPK_1669899500;
+Received: from localhost(mailfrom:tianjia.zhang@linux.alibaba.com fp:SMTPD_---0VW8xlPK_1669899500)
+          by smtp.aliyun-inc.com;
+          Thu, 01 Dec 2022 20:58:21 +0800
+From:   Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+To:     Eric Biggers <ebiggers@kernel.org>,
+        "Theodore Y. Ts o" <tytso@mit.edu>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        linux-fscrypt@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
+Cc:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+Subject: [PATCH v4 0/2] Add SM4 XTS symmetric algorithm for blk-crypto and fscrypt
+Date:   Thu,  1 Dec 2022 20:58:17 +0800
+Message-Id: <20221201125819.36932-1-tianjia.zhang@linux.alibaba.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next 00/12] Fix rtnl_mutex deadlock with DPAA2 and SFP
- modules
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166989901798.1197.13323886521084195316.git-patchwork-notify@kernel.org>
-Date:   Thu, 01 Dec 2022 12:50:17 +0000
-References: <20221129141221.872653-1-vladimir.oltean@nxp.com>
-In-Reply-To: <20221129141221.872653-1-vladimir.oltean@nxp.com>
-To:     Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc:     netdev@vger.kernel.org, ioana.ciornei@nxp.com, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        linux@armlinux.org.uk, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+SM4 is widely used in China's data encryption software and hardware.
+these algoritms are mandatory in many scenarios. This serial of
+patches enables the SM4-XTS algorithm in blk-crypto and enables the
+SM4-XTS/CTS algorithm in fscrypt to encrypt file content and filename.
 
-This series was applied to netdev/net-next.git (master)
-by Paolo Abeni <pabeni@redhat.com>:
+v4 changes:
+  - only allow the SM4 XTS/CTS algorithm in policy v2 for fscrypt
+  - update git commit message
 
-On Tue, 29 Nov 2022 16:12:09 +0200 you wrote:
-> This patch set deliberately targets net-next and lacks Fixes: tags due
-> to caution on my part.
-> 
-> While testing some SFP modules on the Solidrun Honeycomb LX2K platform,
-> I noticed that rebooting causes a deadlock:
-> 
-> ============================================
-> WARNING: possible recursive locking detected
-> 6.1.0-rc5-07010-ga9b9500ffaac-dirty #656 Not tainted
-> 
-> [...]
+v3 change:
+  - update git commit message
 
-Here is the summary with links:
-  - [net-next,01/12] net: dpaa2-eth: don't use -ENOTSUPP error code
-    https://git.kernel.org/netdev/net-next/c/91c71bf14da4
-  - [net-next,02/12] net: dpaa2: replace dpaa2_mac_is_type_fixed() with dpaa2_mac_is_type_phy()
-    https://git.kernel.org/netdev/net-next/c/320fefa9e2ed
-  - [net-next,03/12] net: dpaa2-mac: absorb phylink_start() call into dpaa2_mac_start()
-    https://git.kernel.org/netdev/net-next/c/385333888154
-  - [net-next,04/12] net: dpaa2-mac: remove defensive check in dpaa2_mac_disconnect()
-    https://git.kernel.org/netdev/net-next/c/ccbd7822950f
-  - [net-next,05/12] net: dpaa2-eth: assign priv->mac after dpaa2_mac_connect() call
-    https://git.kernel.org/netdev/net-next/c/02d61948e8da
-  - [net-next,06/12] net: dpaa2-switch: assign port_priv->mac after dpaa2_mac_connect() call
-    https://git.kernel.org/netdev/net-next/c/88d64367cea0
-  - [net-next,07/12] net: dpaa2: publish MAC stringset to ethtool -S even if MAC is missing
-    https://git.kernel.org/netdev/net-next/c/29811d6e19d7
-  - [net-next,08/12] net: dpaa2-switch replace direct MAC access with dpaa2_switch_port_has_mac()
-    https://git.kernel.org/netdev/net-next/c/bc230671bfb2
-  - [net-next,09/12] net: dpaa2-eth: connect to MAC before requesting the "endpoint changed" IRQ
-    https://git.kernel.org/netdev/net-next/c/55f90a4d07ec
-  - [net-next,10/12] net: dpaa2-eth: serialize changes to priv->mac with a mutex
-    https://git.kernel.org/netdev/net-next/c/2291982e29b1
-  - [net-next,11/12] net: dpaa2-switch: serialize changes to priv->mac with a mutex
-    https://git.kernel.org/netdev/net-next/c/3c7f44fa9c4c
-  - [net-next,12/12] net: dpaa2-mac: move rtnl_lock() only around phylink_{,dis}connect_phy()
-    https://git.kernel.org/netdev/net-next/c/87db82cb6149
+v2 change:
+  - As Eric said, the new FSCRYPT_MODE is defined for the unused numbers 7 and 8
 
-You are awesome, thank you!
+Tianjia Zhang (2):
+  blk-crypto: Add support for SM4-XTS blk crypto mode
+  fscrypt: Add SM4 XTS/CTS symmetric algorithm support
+
+ Documentation/filesystems/fscrypt.rst |  1 +
+ block/blk-crypto.c                    |  6 ++++++
+ fs/crypto/keysetup.c                  | 15 +++++++++++++++
+ fs/crypto/policy.c                    |  5 +++++
+ include/linux/blk-crypto.h            |  1 +
+ include/uapi/linux/fscrypt.h          |  2 ++
+ 6 files changed, 30 insertions(+)
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.24.3 (Apple Git-128)
 
