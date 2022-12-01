@@ -2,170 +2,209 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F903C4321E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 11:38:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDE38C43217
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 12:30:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230162AbiLALic (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Dec 2022 06:38:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54282 "EHLO
+        id S230159AbiLAMac (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Dec 2022 07:30:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbiLALib (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 06:38:31 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3374229CAD
-        for <linux-doc@vger.kernel.org>; Thu,  1 Dec 2022 03:38:28 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id gu23so3489158ejb.10
-        for <linux-doc@vger.kernel.org>; Thu, 01 Dec 2022 03:38:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RmSe80HfKK7FckDSEcPQpoVUBo07goAUQO5ufP8u+m8=;
-        b=gto4jEQ8rmQKpmOUaItlz1cLcGWBm97vuDDJShfFQGtq6ux/d2J517vmppUvppK1Hd
-         qvD18tM9yHEh/h1ZhFLK6Hfi8r+63OeBX3sow55Iqwy7WBBNrel9LaXpIXMbAxYiGQXj
-         fLGvSq7YHKE0xhVwtfXZZAN0oREYSqDD7SgKt7k5Hu3EtzTdr6KdWwO6YhPc3hNSp8Bv
-         BXByjyqfZOc2CnjvFEZfcTTknnXZNt9MdxG4YdLNwwy24fCTMGmBnMiW9Ewe/fLq/KMa
-         AcPP4jMk7ZklXk+7taX/4TfxhkP3gLEYAE1dt5P6pophujeaDdKEI6w1LEE7Fo2Z1PKu
-         3Qxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RmSe80HfKK7FckDSEcPQpoVUBo07goAUQO5ufP8u+m8=;
-        b=jUeFLh9dQwjFOMz1lUO4wgSjYoleOPID8p7T8N1/4WnF253Z92+MayYNMtx85pi2/A
-         nZ75+ZxwqkC3kftGMYhqIvbjEOxc/VzNAQ+QXS47rjl/kGyAsBSLzDd1tQ+pgKZDSDmb
-         ocxvhvzjtbLfuO45S6YadQAkdHzxrwXctuFvThXhSutBhOtgYWXm0JI7RJdtlyOj3BgJ
-         bFRfs6wOU7hbsN9umTJKx3pj6xQd4gOcnr5BU4EUVsX+jLA6yR9ersV7W4iwThfa7zpn
-         pEBpoBKuXvbjw6z2youkhLzFMQryRcLu9HlJ/qyklGTJ6120PmL16cVPyVCEW+SEkxu0
-         sWQw==
-X-Gm-Message-State: ANoB5pnDzA8MM8617cCrP8z1mZezFf/q7S7ZiPBspLk0n62pS72K6utg
-        3LVJxrLgvaPc1EtFFIVIyvb7FQ==
-X-Google-Smtp-Source: AA0mqf7txX1rh2Brl7EAEXMEplhAfLo8/oa9Ruzkyri1NSVBhprWiTA/sHJhLhSoiGiC8woxCpicMQ==
-X-Received: by 2002:a17:906:3109:b0:7a0:b505:cae5 with SMTP id 9-20020a170906310900b007a0b505cae5mr56576723ejx.648.1669894705512;
-        Thu, 01 Dec 2022 03:38:25 -0800 (PST)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
-        by smtp.gmail.com with ESMTPSA id o3-20020a170906768300b007b27fc3a1ffsm1670182ejm.121.2022.12.01.03.38.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Dec 2022 03:38:25 -0800 (PST)
-Date:   Thu, 1 Dec 2022 12:38:24 +0100
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>
-Cc:     Conor Dooley <conor@kernel.org>,
+        with ESMTP id S231415AbiLAMa1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 07:30:27 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3E4CB68C9;
+        Thu,  1 Dec 2022 04:30:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1669897825; x=1701433825;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WA7HrCslX8Gj2DNul0k+rAI/etG0UhniwQU7QIeWfmo=;
+  b=nOQawixEKMPQJ17wo4H92SxxQRpSlymE7M9/Ebs9QqyTjWJEiWRHKzSA
+   bauNgIJbIGwd52E86Oq+fCBsYH5873UmJ4CwQiPvs6J8xFfR8BKqGrbBh
+   70xiXUnP6VleAeBzRkw7IsaWhcQrR78x7YFVBXLgYiQdAPaAEzDPHohvu
+   oYXHmyqFY2Bf5ZrIoI5afIyMx4zn16dfkZfOIpDWoVmyUzXu6FaR5Ss22
+   Xp8/rK6CmOSh56/O3rQzeO5DK9qEU4wA83Ogd8MPxr2vUB2BefRcPBoot
+   zBuNgpC5v+ctLF2axe0z2Uxjd41hYOGz7gNLCl1XccKNDj0ebxQVrGHXy
+   w==;
+X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; 
+   d="scan'208";a="125982533"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 01 Dec 2022 05:30:16 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.12; Thu, 1 Dec 2022 05:30:13 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
+ (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
+ Transport; Thu, 1 Dec 2022 05:30:11 -0700
+Date:   Thu, 1 Dec 2022 12:29:53 +0000
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Andrew Jones <ajones@ventanamicro.com>
+CC:     Conor Dooley <conor@kernel.org>,
         Palmer Dabbelt <palmer@dabbelt.com>,
-        linux-riscv@lists.infradead.org,
-        Conor Dooley <conor.dooley@microchip.com>,
-        aou@eecs.berkeley.edu, corbet@lwn.net, guoren@kernel.org,
-        paul.walmsley@sifive.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
+        <linux-riscv@lists.infradead.org>, <aou@eecs.berkeley.edu>,
+        <corbet@lwn.net>, <guoren@kernel.org>, <heiko@sntech.de>,
+        <paul.walmsley@sifive.com>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
 Subject: Re: [PATCH v1 2/3] RISC-V: resort all extensions in consistent orders
-Message-ID: <20221201113824.hcjijn3z45g2vohv@kamzik>
+Message-ID: <Y4ieQf4Q9ywJivDH@wendy>
 References: <20221130234125.2722364-1-conor@kernel.org>
  <20221130234125.2722364-3-conor@kernel.org>
  <20221201090041.525op4sateq5wq4y@kamzik>
- <46873028.fMDQidcC6G@diego>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <46873028.fMDQidcC6G@diego>
+In-Reply-To: <20221201090041.525op4sateq5wq4y@kamzik>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 01, 2022 at 11:47:04AM +0100, Heiko Stübner wrote:
-> Am Donnerstag, 1. Dezember 2022, 10:00:41 CET schrieb Andrew Jones:
-> > On Wed, Nov 30, 2022 at 11:41:25PM +0000, Conor Dooley wrote:
-> > > From: Conor Dooley <conor.dooley@microchip.com>
-> > > 
-> > > Ordering between each and every list of extensions is wildly
-> > > inconsistent. Per discussion on the lists pick the following policy:
-> > > 
-> > > - The array defining order in /proc/cpuinfo follows a narrow
-> > >   interpretation of the ISA specifications, described in a comment
-> > >   immediately presiding it.
-> > > 
-> > > - All other lists of extensions are sorted alphabetically.
-> > > 
-> > > This will hopefully allow for easier review & future additions, and
-> > > reduce conflicts between patchsets as the number of extensions grows.
-> > > 
-> > > Link: https://lore.kernel.org/all/20221129144742.2935581-2-conor.dooley@microchip.com/
-> > > Suggested-by: Andrew Jones <ajones@ventanamicro.com>
-> > > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> > > ---
-> > > I could not decide between adding an alphabetical comment to each
-> > > alphabetical site or not. I did it anyway. Scream if you hate it!
-> > > 
-> > > I also moved a static branch thingy in this version, but that should not
-> > > matter, right? riightt?
+On Thu, Dec 01, 2022 at 10:00:41AM +0100, Andrew Jones wrote:
+> On Wed, Nov 30, 2022 at 11:41:25PM +0000, Conor Dooley wrote:
+> > From: Conor Dooley <conor.dooley@microchip.com>
 > > 
-> > riiighttt. And it goes away with [1] anyway.
+> > Ordering between each and every list of extensions is wildly
+> > inconsistent. Per discussion on the lists pick the following policy:
 > > 
-> > [1] https://lore.kernel.org/all/20221006070818.3616-1-jszhang@kernel.org/
-> 
-> I'm not sure what became of that series since mid october, though noting
-> that tightly coupling the patching to extensions alone might cause issues [2]
-> which some of the "features" like fast-unaligned access, that are not directly
-> bound to a isa-extension but to an implementation detail
-> 
-> [2] https://lore.kernel.org/all/1991071.yIU609i1g2@phil/
+> > - The array defining order in /proc/cpuinfo follows a narrow
+> >   interpretation of the ISA specifications, described in a comment
+> >   immediately presiding it.
+> > 
+> > - All other lists of extensions are sorted alphabetically.
+> > 
+> > This will hopefully allow for easier review & future additions, and
+> > reduce conflicts between patchsets as the number of extensions grows.
+> > 
+> > Link: https://lore.kernel.org/all/20221129144742.2935581-2-conor.dooley@microchip.com/
+> > Suggested-by: Andrew Jones <ajones@ventanamicro.com>
+> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> > ---
 
-Jisheng said he'd send a refresh soon. Hopefully your comments will be
-taken into consideration. It seems like we need both the concepts of
-cpufeatures and extensions. Where many times a cpufeature directly maps
-to an extension, but not always. Or, we could shoehorn the non-extension
-cpufeatures into the extension framework by calling them "derived
-extensions" or something.
-
-> 
-> 
-> > 
-> > > ---
-> > >  arch/riscv/include/asm/hwcap.h | 12 +++++++-----
-> > >  arch/riscv/kernel/cpu.c        |  4 ++--
-> > >  arch/riscv/kernel/cpufeature.c |  6 ++++--
-> > >  3 files changed, 13 insertions(+), 9 deletions(-)
-> > > 
-> > > diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-> > > index b22525290073..ce522aad641a 100644
-> > > --- a/arch/riscv/include/asm/hwcap.h
-> > > +++ b/arch/riscv/include/asm/hwcap.h
-> > > @@ -51,14 +51,15 @@ extern unsigned long elf_hwcap;
-> > >   * RISCV_ISA_EXT_MAX. 0-25 range is reserved for single letter
-> > >   * extensions while all the multi-letter extensions should define the next
-> > >   * available logical extension id.
-> > > + * Entries are sorted alphabetically.
-> > >   */
-> > >  enum riscv_isa_ext_id {
-> > >  	RISCV_ISA_EXT_SSCOFPMF = RISCV_ISA_EXT_BASE,
-> > > +	RISCV_ISA_EXT_SSTC,
-> > > +	RISCV_ISA_EXT_SVINVAL,
-> > >  	RISCV_ISA_EXT_SVPBMT,
-> > >  	RISCV_ISA_EXT_ZICBOM,
-> > >  	RISCV_ISA_EXT_ZIHINTPAUSE,
-> > > -	RISCV_ISA_EXT_SSTC,
-> > > -	RISCV_ISA_EXT_SVINVAL,
-> > >  	RISCV_ISA_EXT_ID_MAX = RISCV_ISA_EXT_MAX,
-> > >  };
-> > 
-> > Unrelated to this patch, but every time I look at this enum I want to post
-> > the diff below, but I haven't bothered, because this enum also goes away
-> > with [1].
-> > 
-> > @@ -59,8 +59,9 @@ enum riscv_isa_ext_id {
-> >         RISCV_ISA_EXT_ZIHINTPAUSE,
-> >         RISCV_ISA_EXT_SSTC,
-> >         RISCV_ISA_EXT_SVINVAL,
-> > -       RISCV_ISA_EXT_ID_MAX = RISCV_ISA_EXT_MAX,
-> > +       RISCV_ISA_EXT_ID_MAX
+> > diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+> > index 68b2bd0cc3bc..686d41b14206 100644
+> > --- a/arch/riscv/kernel/cpu.c
+> > +++ b/arch/riscv/kernel/cpu.c
+> > @@ -161,12 +161,12 @@ device_initcall(riscv_cpuinfo_init);
+> >   * New entries to this struct should follow the ordering rules described above.
+> >   */
+> >  static struct riscv_isa_ext_data isa_ext_arr[] = {
+> > +	__RISCV_ISA_EXT_DATA(zicbom, RISCV_ISA_EXT_ZICBOM),
+> > +	__RISCV_ISA_EXT_DATA(zihintpause, RISCV_ISA_EXT_ZIHINTPAUSE),
+> >  	__RISCV_ISA_EXT_DATA(sscofpmf, RISCV_ISA_EXT_SSCOFPMF),
+> >  	__RISCV_ISA_EXT_DATA(sstc, RISCV_ISA_EXT_SSTC),
+> >  	__RISCV_ISA_EXT_DATA(svinval, RISCV_ISA_EXT_SVINVAL),
+> >  	__RISCV_ISA_EXT_DATA(svpbmt, RISCV_ISA_EXT_SVPBMT),
+> > -	__RISCV_ISA_EXT_DATA(zicbom, RISCV_ISA_EXT_ZICBOM),
+> > -	__RISCV_ISA_EXT_DATA(zihintpause, RISCV_ISA_EXT_ZIHINTPAUSE),
+> >  	__RISCV_ISA_EXT_DATA("", RISCV_ISA_EXT_MAX),
 > >  };
-> > +static_assert(RISCV_ISA_EXT_ID_MAX <= RISCV_ISA_EXT_MAX);
 > 
-> that sounds like a very reasonable idea ... what's keeping you? :-)
+> Technically we should have leave these in the wrong order if we want to be
+> strict about the ISA string published to userspace, but I'm in favor of
+> changing this array as necessary and hoping we teach userspace to use
+> flexible parsers. Actually, IMO, we shouldn't teach userspace to parse
+> this at all. We should instead create sysfs nodes:
+> 
+>  .../isa/zicbom
+>  .../isa/zihintpause
+>  .../isa/sscofpmf
+> 
+> and teach userspace to list .../isa/ to learn about extensions. That would
+> also allow us to publish extension version numbers which we are not
+> current doing with the proc isa string.
+> 
+>  .../isa/zicbom/major
+>  .../isa/zicbom/minor
+> 
+> and we could add other properties if necessary too, e.g.
+> 
+>  .../isa/zicbom/block_size
 
-Posted :-)
+Yah, this all kinda ties in with Palmer's RFC set that does the hwcap
+stuff. Kinda been holding off on any thoughts on the isa string as a
+valuable anything until that sees a proper respin.
+
+> > diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+> > index 694267d1fe81..8a76a6ce70cf 100644
+> > --- a/arch/riscv/kernel/cpufeature.c
+> > +++ b/arch/riscv/kernel/cpufeature.c
+> > @@ -199,12 +199,13 @@ void __init riscv_fill_hwcap(void)
+> >  				this_hwcap |= isa2hwcap[(unsigned char)(*ext)];
+> >  				set_bit(*ext - 'a', this_isa);
+> >  			} else {
+> > +				/* sorted alphabetically */
+> >  				SET_ISA_EXT_MAP("sscofpmf", RISCV_ISA_EXT_SSCOFPMF);
+> > +				SET_ISA_EXT_MAP("sstc", RISCV_ISA_EXT_SSTC);
+> > +				SET_ISA_EXT_MAP("svinval", RISCV_ISA_EXT_SVINVAL);
+> >  				SET_ISA_EXT_MAP("svpbmt", RISCV_ISA_EXT_SVPBMT);
+> >  				SET_ISA_EXT_MAP("zicbom", RISCV_ISA_EXT_ZICBOM);
+> >  				SET_ISA_EXT_MAP("zihintpause", RISCV_ISA_EXT_ZIHINTPAUSE);
+> > -				SET_ISA_EXT_MAP("sstc", RISCV_ISA_EXT_SSTC);
+> > -				SET_ISA_EXT_MAP("svinval", RISCV_ISA_EXT_SVINVAL);
+> >  			}
+> >  #undef SET_ISA_EXT_MAP
+> >  		}
+> > @@ -284,6 +285,7 @@ static bool __init_or_module cpufeature_probe_zicbom(unsigned int stage)
+> >   * This code may also be executed before kernel relocation, so we cannot use
+> >   * addresses generated by the address-of operator as they won't be valid in
+> >   * this context.
+> > + * Tests, unless otherwise required, are to be added in alphabetical order.
+> >   */
+> >  static u32 __init_or_module cpufeature_probe(unsigned int stage)
+> >  {
+> > -- 
+> > 2.38.1
+> > 
+> 
+> I realize that I have a suggested-by tag in the commit message, but I
+
+I did one thing as a "putting it out there" in the responses to another
+series and you suggested something different entirely. Ordinarily, I'd
+not put review comments in a suggested-by, but figured it was okay this
+time.
+
+> don't really have a strong opinion on how we order extensions where the
+> order doesn't matter. A consistent policy of alphabetical or always at
+> the bottom both work for me. I personally prefer alphabetical when
+> reading the lists, but I realize we'll eventually merge stuff out of
+> order and then that'll generate some churn to reorder (but hopefully not
+> too frequently).
+
+Think I said it at the yoke yesterday, but I don't think that this is
+much of a problem. If it gets out of order, we just get someone that's
+sending a patchset already to fix things up.
+
+> My biggest concern is how much we need to care about the order of the
+> string in proc and whether or not we're allowed to fix its order like
+> we're doing with this patch. I hope we can, and I vote we do.
+
+Being a bit hard-nosed about it:
+- the spec has said for years that this order is not correct
+
+- their parser cannot assume any given extension is even present, so the
+  index at which the extension starts was only ever going to vary wildly
+
+- to break a parser, it must expect to see extension Abcd before Efgh &
+  that order has to change for them
+
+- expecting that a given pair of extensions that appeared one after
+  another would always do so is not something we should worry about
+  breaking as it was always noted in the comment (and by the specs?)
+  that new extensions would be added in alphabetical order (I'd like to
+  think that if a clairvoyant wrote a parser and knew that there'd be
+  nothing in the gap between the extensions we have now & what may be
+  produced they'd also account for this re-ordering...)
+
+- the re-order of sstc is going to land for v6.1 & the addition of sstc
+  out of order landed in v6.0, so either that is an issue too or this is
+  fine
+
+I guess I sent the patches, so my opinion is fairly obvious, but I think
+we change it & see if someone complains about an issue that something
+other than a re-jig would break.
 
 Thanks,
-drew
+Conor.
+
