@@ -2,149 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDD90C43217
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 09:02:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05109C4321E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 09:14:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbiLAJCS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Dec 2022 04:02:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34070 "EHLO
+        id S229723AbiLAJOz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Dec 2022 04:14:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229968AbiLAJCM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 04:02:12 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F29BD41999;
-        Thu,  1 Dec 2022 01:02:07 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id BAD041FD63;
-        Thu,  1 Dec 2022 09:02:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1669885325; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=oLNRgcULxl39VgjFJbWNAjDoQ3yDDlm/yFmMG9HhK6M=;
-        b=Ave28KB7tNiE9ZkiI7R4ytVUUUAZgkBbdNR7IQHcXtu89ZpGOoODAgfa8xscLtJtg0hMJJ
-        6gquAn4cxI2y631J5knFx5hUq5LZS8Udhl8vNAHpi6IWv8yq74McDglEEoEtre9bBwt6TB
-        9OFPwbsrQMhymA6Fhqf+pMPYOfRnQhE=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A3D9E13B4A;
-        Thu,  1 Dec 2022 09:02:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id YsXwJ41tiGOJIQAAMHmgww
-        (envelope-from <mhocko@suse.com>); Thu, 01 Dec 2022 09:02:05 +0000
-Date:   Thu, 1 Dec 2022 10:02:05 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     =?utf-8?B?56iL5Z6y5rab?= Chengkaitao Cheng 
-        <chengkaitao@didiglobal.com>
-Cc:     "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
-        Tao pilgrim <pilgrimtao@gmail.com>,
-        "tj@kernel.org" <tj@kernel.org>,
-        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
-        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "shakeelb@google.com" <shakeelb@google.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
-        "cgel.zte@gmail.com" <cgel.zte@gmail.com>,
-        "ran.xiaokai@zte.com.cn" <ran.xiaokai@zte.com.cn>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
-        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
-        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
-        "yuzhao@google.com" <yuzhao@google.com>,
-        "willy@infradead.org" <willy@infradead.org>,
-        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
-        "vbabka@suse.cz" <vbabka@suse.cz>,
-        "surenb@google.com" <surenb@google.com>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "mcgrof@kernel.org" <mcgrof@kernel.org>,
-        "sujiaxun@uniontech.com" <sujiaxun@uniontech.com>,
-        "feng.tang@intel.com" <feng.tang@intel.com>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] mm: memcontrol: protect the memory in cgroup from being
- oom killed
-Message-ID: <Y4htjRAX1v7ZzC/z@dhcp22.suse.cz>
-References: <E5A5BCC3-460E-4E81-8DD3-88B4A2868285@didiglobal.com>
- <5019F6D4-D341-4A5E-BAA1-1359A090114A@didiglobal.com>
+        with ESMTP id S229629AbiLAJOy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 04:14:54 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13CD270621
+        for <linux-doc@vger.kernel.org>; Thu,  1 Dec 2022 01:14:52 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id e13so1474195edj.7
+        for <linux-doc@vger.kernel.org>; Thu, 01 Dec 2022 01:14:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GZ+kWHZHwj+iACmb2u6Cu3JDoLA7ZyuXRVYodkgg1Bg=;
+        b=gZmWK1FtAjVvJJ5FWTShzqLnADCXlyqM1RNaOW7Y2Fef+Lrz50KogMzXhYmJKgguEn
+         fJYVwvYfdNhPv4hMbO7Tfe6j8hG+4xY7hVw+EY5VDz+j6eXx+OD8CnbChs6ZWNuEXL5j
+         yS7ClHhuOlplJOt2lbo9uRJUJk6k+C7t+t5DK5FyL2kqI+lPFgN1LLRcJNoDjJONXegE
+         90P450GiGm2bZbqTITkfRiK8585fo6fv+SyIm23aYQBdEQ8KyqvN8RtdeOeDQGpniqo4
+         CpCtuJ9vKfdPp51EG8Lqj55JknIFTVdRI5RcES4TE3w8NgZr+Wg3Kcc9sIs3vKxUUSQL
+         /Rbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GZ+kWHZHwj+iACmb2u6Cu3JDoLA7ZyuXRVYodkgg1Bg=;
+        b=JrUJqxxw9ZAZILzpfgBiowiAPM4aEMEfPvBOHizvhvQTx1lbWunFu9A7DX/x39wBW4
+         g9IHFwYl1Yd7/CtaLZLUSeQMb5BEZg6ReFMP/Fq2L+n6bbRJ2b0eT3MTHvxnDEMaYLAv
+         YRpMidlDHkHaWYATGBBLq0/DOKbKC39bR+qBDJCy+8SQTB6QHQTSXO3jXtXEZSibU/sz
+         jsF0Ohenz90E+xHZU7cKAAxL4zM5Exb0nR9vlxFOwgUk3r55xqP+9dzEKbtK3NrWiegg
+         yXwuYaBvPf41Mr1HbNR3+1M6lVWR8Zsqz+H7KRsP5apMsi4RYyrBlA8a9V+Qj0433kCY
+         Dd9w==
+X-Gm-Message-State: ANoB5pmgRQAi2+wu9byW9QNjfy4HraE5BRcKY+kRwEor+nuWWM7GmUOM
+        5XC40UfgfIAmSCBjnfakfOVQuw==
+X-Google-Smtp-Source: AA0mqf70unPfwc4AqZklJ4TK7P8phujtuTUWFR4aVjNeYQN4uWVpaaiuo2HgNhD5LaSrEbZsol3YIQ==
+X-Received: by 2002:a05:6402:505:b0:46b:aa:856a with SMTP id m5-20020a056402050500b0046b00aa856amr20078382edv.171.1669886090590;
+        Thu, 01 Dec 2022 01:14:50 -0800 (PST)
+Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
+        by smtp.gmail.com with ESMTPSA id k2-20020a17090632c200b0078db18d7972sm1511405ejk.117.2022.12.01.01.14.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Dec 2022 01:14:50 -0800 (PST)
+Date:   Thu, 1 Dec 2022 10:14:49 +0100
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-riscv@lists.infradead.org,
+        Conor Dooley <conor.dooley@microchip.com>,
+        aou@eecs.berkeley.edu, corbet@lwn.net, guoren@kernel.org,
+        heiko@sntech.de, paul.walmsley@sifive.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] Documentation: riscv: add a section about ISA
+ string ordering in /proc/cpuinfo
+Message-ID: <20221201091449.q5zyfb2ubsnh6slt@kamzik>
+References: <20221130234125.2722364-1-conor@kernel.org>
+ <20221130234125.2722364-4-conor@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5019F6D4-D341-4A5E-BAA1-1359A090114A@didiglobal.com>
+In-Reply-To: <20221130234125.2722364-4-conor@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 01-12-22 07:49:04, 程垲涛 Chengkaitao Cheng wrote:
-> At 2022-12-01 07:29:11, "Roman Gushchin" <roman.gushchin@linux.dev> wrote:
-[...]
-> >The problem is that the decision which process(es) to kill or preserve
-> >is individual to a specific workload (and can be even time-dependent
-> >for a given workload). 
+On Wed, Nov 30, 2022 at 11:41:26PM +0000, Conor Dooley wrote:
+> From: Conor Dooley <conor.dooley@microchip.com>
 > 
-> It is correct to kill a process with high workload, but it may not be the 
-> most appropriate. I think the specific process to kill needs to be decided 
-> by the user. I think it is the original intention of score_adj design.
+> The RISC-V specs are permissive in what they allow as the ISA string,
+> but how we output this to userspace in /proc/cpuinfo is quasi uAPI.
 
-I guess what Roman tries to say here is that there is no obviously _correct_
-oom victim candidate. Well, except for a very narrow situation when
-there is a memory leak that consumes most of the memory over time. But
-that is really hard to identify by the oom selection algorithm in
-general.
- 
-> >So it's really hard to come up with an in-kernel
-> >mechanism which is at the same time flexible enough to work for the majority
-> >of users and reliable enough to serve as the last oom resort measure (which
-> >is the basic goal of the kernel oom killer).
-> >
-> Our goal is to find a method that is less intrusive to the existing 
-> mechanisms of the kernel, and find a more reasonable supplement 
-> or alternative to the limitations of score_adj.
+uABI
+
 > 
-> >Previously the consensus was to keep the in-kernel oom killer dumb and reliable
-> >and implement complex policies in userspace (e.g. systemd-oomd etc).
-> >
-> >Is there a reason why such approach can't work in your case?
+> Formalise this as part of the uAPI, by documenting the list of rules
+
+uABI
+
+> we use at this point in time.
 > 
-> I think that as kernel developers, we should try our best to provide 
-> users with simpler and more powerful interfaces. It is clear that the 
-> current oom score mechanism has many limitations. Users need to 
-> do a lot of timed loop detection in order to complete work similar 
-> to the oom score mechanism, or develop a new mechanism just to 
-> skip the imperfect oom score mechanism. This is an inefficient and 
-> forced behavior
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+> I've not "tested" these docs. The NIPA-esque pwbot should go and
+> test it AFAICT. If it doesn't, I'll go add that.
+> ---
+>  Documentation/riscv/uabi.rst | 42 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 42 insertions(+)
+> 
+> diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uabi.rst
+> index 21a82cfb6c4d..bc3c8ced644b 100644
+> --- a/Documentation/riscv/uabi.rst
+> +++ b/Documentation/riscv/uabi.rst
+> @@ -3,4 +3,46 @@
+>  RISC-V Linux User ABI
+>  =====================
+>  
+> +Misaligned accesses
+> +-------------------
+> +
+>  Misaligned accesses are supported in userspace, but they may perform poorly.
+> +
+> +ISA string ordering in /proc/cpuinfo
+> +------------------------------------
+> +
+> +The canonical order of ISA extension names in the ISA string is defined in
+> +chapter 27 of the unprivileged specification.
+> +The specification uses vague wording, such as should, when it comes to
+> +ordering, so for our purposes the following rules apply:
+> +
+> +#. Single-letter extensions come first, in "canonical order", so
+> +   "IMAFDQLCBKJTPVH".
+> +
+> +#. All multi-letter extensions will be separated from other multi-letter
+> +   extensions by an underscore.
+> +
+> +#. Additional standard extensions (starting with 'Z') will be sorted after
+> +   single-letter extensions and before any higher-privileged extensions.
+> +
+> +#. The first letter following the 'Z' conventionally indicates the most
+> +   closely related alphabetical extension category, IMAFDQLCBKJTPVH.
+> +   If multiple 'Z' extensions are named, they should be ordered first by
+> +   category, then alphabetically within a category.
+> +
+> +#. Standard supervisor-level extensions (starting with 'S') will be listed
+> +   after standard unprivileged extensions.  If multiple
 
-You are right that it makes sense to address typical usecases in the
-kernel if that is possible. But oom victim selection is really hard
-without a deeper understanding of the actual workload. The more clever
-we try to be the more corner cases we can produce. Please note that this
-has proven to be the case in the long oom development history. We used
-to sacrifice child processes over a large process to preserve work or
-prefer younger processes. Both those strategies led to problems.
+nit: Seems like a short line, at what character are we required to wrap at
+in this file?
 
-Memcg protection based mechanism sounds like an interesting idea because
-it mimics a reclaim protection scheme but I am a bit sceptical it will
-be practically useful. Most for 2 reasons. a) memory reclaim protection
-can be dynamically tuned because on reclaim/refault/psi metrics. oom
-events are rare and mostly a failure situation. This limits any feedback
-based approach IMHO. b) Hierarchical nature of the protection will make
-it quite hard to configure properly with predictable outcome.
+> +   supervisor-level extensions are listed, they will be ordered
+> +   alphabetically.
+> +
+> +#. Standard machine-level extensions (starting with 'Zxm') will be listed
+> +   after any lower-privileged, standard extensions.  If multiple
+> +   machine-level extensions are listed, they will be ordered
+> +   alphabetically.
+> +
+> +#. Non-standard extensions (starts with 'X') will be listed after all
+> +   standard extensions.
+> +
+> +An example string following the order is:
+> +   rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
+> +
+> -- 
+> 2.38.1
+>
 
--- 
-Michal Hocko
-SUSE Labs
+If this uABI hasn't "shipped" yet, giving us the freedom to discuss it
+more, then I'd prefer we don't publish this (which looks like "shipping"
+it) until we're 100% sure that this is the uABI we want.
+
+(I feel like if we can still change the order in proc, as the previous
+patch did, then we haven't yet shipped it.)
+
+Thanks,
+drew
