@@ -2,91 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 954CCC43217
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 15:40:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F787C4321E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 16:24:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232127AbiLAPkh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Dec 2022 10:40:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55132 "EHLO
+        id S230464AbiLAQYB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Dec 2022 11:24:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232033AbiLAPkG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 10:40:06 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 567B9B3921;
-        Thu,  1 Dec 2022 07:39:28 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id m7-20020a05600c090700b003cf8a105d9eso1847369wmp.5;
-        Thu, 01 Dec 2022 07:39:28 -0800 (PST)
+        with ESMTP id S229658AbiLAQYA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 11:24:00 -0500
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com [IPv6:2001:4860:4864:20::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFA5E9075D;
+        Thu,  1 Dec 2022 08:23:59 -0800 (PST)
+Received: by mail-oa1-x2b.google.com with SMTP id 586e51a60fabf-1433ef3b61fso2680814fac.10;
+        Thu, 01 Dec 2022 08:23:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K7khnonYfy4kMw5YrLUdWciangWNF/Rcsht2NfCuP98=;
-        b=JDHX2Ef/eGunqsAS2A/QsNSfTGzQ9HLN3nyTgk0TE4UPI4oNls73HDML6r/m9Vda/X
-         ilej4uBBfLJ1H0X/pjnNPvUyTUwHo8YEcbvn8Z7uvvpsudk1v4Q9IO1ygbLkn71uHIEk
-         8+q6Ecke1blGoEePDwxOhvM9fqUx8zUzqtEiCJPTy4TjGEBf18N1Hbys3jClLejEV+QD
-         TeYkUBDxjnnoBov+qs5ZreYpk0OfznbTl9ntaJl3ia2ETbbmQHMYQbBcKklxr3SIttBU
-         oe44XRPAuhNXi7XPi9RqcJOX0ZJ8zUwpZXJk8JifGgQ6Nf83MFkVlH27AnqQ62hMx+Hw
-         JWdA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KltAmapYpz63pHSS934XDuUCup563TiM194vCjhuy8E=;
+        b=dhMBGMgjjGXudG2yJwPHJvjiMm0oe89iSDLss674ttuPG014RRPaD/1saawpqsgOb5
+         B64o1My4Desw43I5WLnXYoUACE/NXEBDnUuB+nQqjwcOj/aK/qtivktSjg2f6QsmHAHp
+         5X9rjSj/2zwV///VjVRgX3w2a6tI5zJIp8Mm1iVw74WIMXWjM9dmOhlvNnsmVaLvkkPj
+         S/o6tseLe82RugnCpWGBDXCitczR9e677/J/AAwhzMeSNOV7ngR+PtyWSvy6bLJHoUiQ
+         ZhXJQpDFO9aWK90f/H2Ia1PE4u8tl0arXqYGskA2nizwQQyXJa1Uqp3Ln2bD0m28kh/C
+         r9OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K7khnonYfy4kMw5YrLUdWciangWNF/Rcsht2NfCuP98=;
-        b=ILzhmFK/EC+Ibhotp2YM2EKadjA6wuZJJTr58Nt3cf1tXY72ECX07jFpC9Xkppvqo+
-         0mnMx7/Uq7AcKlaQQhslQFBwep4mQX3mC6xiivQ959Tod4QiC5ustuDupitCScfu37XD
-         78X3QZsYdfw2brH/dSmnce6eQzJ+6RJPastaNgcjFTZSE23UHI/dQ6Odjeq0Twf5ZHzZ
-         4RCf/iuiAt7dt8DnINqZaDp3iaFtXdgrspQY8yS74g7wSWJ2yAfFZ6t9A7o0i7zV6UDD
-         q5ZuhkdehP3DEkewjUEcXHKS8vVTXSOTHCF2WbWxm2kZ6zk0cvHkMy5EgwHhbnGgtyhG
-         UNKA==
-X-Gm-Message-State: ANoB5pnkkYnA6yM89m/pvQWJmXGf4UizfDcplPw8/sNVwzBFltv6Fg/7
-        e2VMQozMrPwXJyOoc4Acx0ulBpum6mE=
-X-Google-Smtp-Source: AA0mqf73XEGmHBsINcaGBgXVrgZEX+L3ujME2ZROjhfpOEDJGxp9qHMfj044jAOBJh9ZlwetXJO9YQ==
-X-Received: by 2002:a05:600c:18a1:b0:3cf:a9d5:36c7 with SMTP id x33-20020a05600c18a100b003cfa9d536c7mr34763990wmp.13.1669909167060;
-        Thu, 01 Dec 2022 07:39:27 -0800 (PST)
-Received: from wlan-cl-kit-cs-172-17-20-201.scc.kit.edu ([2a00:1398:9:fb03:6341:588f:5b6d:9173])
-        by smtp.gmail.com with ESMTPSA id fn7-20020a05600c688700b003c6b70a4d69sm5523597wmb.42.2022.12.01.07.39.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Dec 2022 07:39:26 -0800 (PST)
-From:   Peter Maucher <bellosilicio@gmail.com>
-To:     alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KltAmapYpz63pHSS934XDuUCup563TiM194vCjhuy8E=;
+        b=G7e+bVAm9wP+M8GL7TmGuJkEU7NRMoBzhB7VvisQcpYPb5ftPVS+QF6cWdqttr0BqT
+         OkRIFQ9dJWCqGpTVImeKPCWtX46EGXNDMMuUgVpklyZe0hW9IjR40auJfNgyp8MEJZ8m
+         qS9Uxk8f5YopeGpq0Bx/8r8V9M5IC19Ea5BS0of4jL/rkSuFyH70IVbum54oTCQnAK5v
+         Mhbr8XwMwwc2QFkQzh+l3BlxfY4zm/xzxGOJBW8r8xbtkr7yreaOnUzgGM/GQ5LpBXat
+         j4kAeNT26X+l6YxwMyFWF+L2fb81TmwN08UF1+9eArcfr9MLWJLj6uD7S8s+PpvYc0Dw
+         VhmA==
+X-Gm-Message-State: ANoB5pmLMT3UqgFrNhVzIf7aK33qe4qLpbTEPlHHNR7q2pBt4mFdjxc8
+        8cKiiaL7CY0xNWmhRUglWLys//VAzafYqF6H8iQ=
+X-Google-Smtp-Source: AA0mqf7BBlikq4JHSEmVYt/WMn5IrbEFJXCqnlubbwten9TagjFWlXEEC/8TM5xBSFPYMY1B5j1ut1/j0/EerkW9IPk=
+X-Received: by 2002:a05:6870:2b05:b0:12d:58c1:33f9 with SMTP id
+ ld5-20020a0568702b0500b0012d58c133f9mr28251793oab.46.1669911839290; Thu, 01
+ Dec 2022 08:23:59 -0800 (PST)
+MIME-Version: 1.0
+References: <20221201153820.257570-1-bellosilicio@gmail.com>
+In-Reply-To: <20221201153820.257570-1-bellosilicio@gmail.com>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Thu, 1 Dec 2022 11:23:47 -0500
+Message-ID: <CADnq5_NN08omJKjJC3rCSYY4oLzBJpJwhbf-wgfeHUAZ+BMbnw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] amdgpu/drm: Documentation updates
+To:     Peter Maucher <bellosilicio@gmail.com>
+Cc:     alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
         dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     Peter Maucher <bellosilicio@gmail.com>
-Subject: [PATCH 3/3] drm/amdgpu: mention RDNA support in docu
-Date:   Thu,  1 Dec 2022 16:38:24 +0100
-Message-Id: <20221201153820.257570-4-bellosilicio@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221201153820.257570-1-bellosilicio@gmail.com>
-References: <20221201153820.257570-1-bellosilicio@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The amdgpu kernel module has supported RDNA for a while,
-mention that in the module description.
+Applied patches 1 and 3.  Patch 2 is not exactly correct, I'll send
+out an improved version of patch 2.
 
-Signed-off-by: Peter Maucher <bellosilicio@gmail.com>
----
- Documentation/gpu/amdgpu/index.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks!
 
-diff --git a/Documentation/gpu/amdgpu/index.rst b/Documentation/gpu/amdgpu/index.rst
-index a24e1cfa7407..bcc0f5c15f93 100644
---- a/Documentation/gpu/amdgpu/index.rst
-+++ b/Documentation/gpu/amdgpu/index.rst
-@@ -3,7 +3,7 @@
- ==========================
- 
- The drm/amdgpu driver supports all AMD Radeon GPUs based on the Graphics Core
--Next (GCN) architecture.
-+Next (GCN) and Radeon DNA (RDNA) architectures.
- 
- .. toctree::
- 
--- 
-2.38.1
+Alex
 
+On Thu, Dec 1, 2022 at 10:38 AM Peter Maucher <bellosilicio@gmail.com> wrote:
+>
+> Explain difference between gttsize and gartsize
+> module parameters, and amend related documentation.
+> Also, amdgpu does support RDNA GPUs.
+>
+>
+> Peter Maucher (3):
+>   drm/amdgpu: improve GART and GTT documentation
+>   drm/amdgpu: add GART and GTT to glossary
+>   drm/amdgpu: mention RDNA support in docu
+>
+>  Documentation/gpu/amdgpu/amdgpu-glossary.rst |  6 ++++++
+>  Documentation/gpu/amdgpu/index.rst           |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c      | 11 ++++++-----
+>  3 files changed, 13 insertions(+), 6 deletions(-)
+>
+> --
+> 2.38.1
+>
