@@ -2,220 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD4C5C43217
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 17:58:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18D80C47088
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 19:15:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229629AbiLAR6p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Dec 2022 12:58:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53436 "EHLO
+        id S229708AbiLATPS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Dec 2022 14:15:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbiLAR6p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 12:58:45 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E60EB2747;
-        Thu,  1 Dec 2022 09:58:43 -0800 (PST)
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B1HpZw8012737;
-        Thu, 1 Dec 2022 17:58:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=5sZbgbdKGqHM5UqUh6KNFXUP2DY0iB04RWuZc8h+u2Y=;
- b=qhb4HcAlFA9xozlO84cLFiHWHdZ64kRKkHlgqFVCasUGL44hKk/u13/6ynFT+3MZsQVz
- eyxZ01B8hlfHVeE9D6nDDz75zqLM4ITccEkft80Xp+5tw2QEL9FzkGX0V7oFQwkq21/J
- S6ZCO3ZJ8yIY5PDCdUA0415YWRq40V89vbGO/YhEAgv50bqsvXoW9E8Aca1d5SYfibf8
- OKFBCP+OZIXkwLFA1ngynO+uoKRErX3rtaWrb0cv/ewD38K/Y83xg8fOtB1AbZofBjjH
- Az0u4jhVDDUtuNDYxMMqTcMkwBAmotVbQi7uY722+h+xwM3Dro4tAy+G4ZQPCIE4AjhV Ug== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m711s03nc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 01 Dec 2022 17:58:40 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B1Hptj8013602;
-        Thu, 1 Dec 2022 17:58:40 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m711s03mk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 01 Dec 2022 17:58:39 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
-        by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2B1Hnuov032727;
-        Thu, 1 Dec 2022 17:58:37 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
-        by ppma03fra.de.ibm.com with ESMTP id 3m3ae8wmtg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 01 Dec 2022 17:58:37 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2B1Hq1R123003514
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 1 Dec 2022 17:52:01 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id EBD2C4C044;
-        Thu,  1 Dec 2022 17:58:33 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 39B8B4C040;
-        Thu,  1 Dec 2022 17:58:33 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown [9.179.10.216])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Thu,  1 Dec 2022 17:58:33 +0000 (GMT)
-Message-ID: <6a387a2a174572fd2db01451b2832c5fdc60bcf1.camel@linux.ibm.com>
-Subject: Re: [PATCH v3 4/9] KVM: s390: selftest: memop: Replace macros by
- functions
-From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To:     Claudio Imbrenda <imbrenda@linux.ibm.com>
-Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>
-Date:   Thu, 01 Dec 2022 18:58:32 +0100
-In-Reply-To: <20221201172813.027bcd13@p-imbrenda>
-References: <20221117221758.66326-1-scgl@linux.ibm.com>
-         <20221117221758.66326-5-scgl@linux.ibm.com>
-         <20221201172813.027bcd13@p-imbrenda>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1 (3.46.1-1.fc37) 
+        with ESMTP id S229571AbiLATPR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 14:15:17 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BEF6C5E37;
+        Thu,  1 Dec 2022 11:15:16 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 186DF620DC;
+        Thu,  1 Dec 2022 19:15:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 656ECC433C1;
+        Thu,  1 Dec 2022 19:15:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669922115;
+        bh=StPinCnLO/RMc+OOosSfHSVUv5fPcYvPEdBZnrFvtwU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=c8ocGdnvvc1QFD0eqWmDsICrXRmLCM16ste/XF5JGMaubFa93RQ4z8IPJBLLo6+zS
+         cv1KOHuLL6upzZ6MuW0AoLmej037m59Nzv+cOenPVJJo9cx+IZco+4jIG9HX4L2659
+         BIC3XKe0+t/CiDyc7qDdjlr6WNsv6Ie71rlptO5pgLT3QYTY14lGDc6RFg3FreKpLx
+         ZAgSHPIi9gw7Y/u2rL8g13MwFSnqyo+L1JMpYAzM6Ek1neiwkw0mau1LK6Z+pTjq+A
+         h6rEQBlnBufugZoEYpfc3vaY6CQrbnNNkNDHUq9CSXzwxj+I0YQbqY45IStL0H7gRg
+         9pU7OodOoiE3g==
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     linux-fscrypt@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org,
+        Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+Subject: [PATCH] fscrypt: add additional documentation for SM4 support
+Date:   Thu,  1 Dec 2022 11:14:52 -0800
+Message-Id: <20221201191452.6557-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ptHe_V3NTGaxit2MBxKwqLiuMQZXY5U0
-X-Proofpoint-GUID: yLlJAqRcfMRU511D3Q1gfWvLqm3ekpbO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-01_12,2022-12-01_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 spamscore=0
- malwarescore=0 bulkscore=0 impostorscore=0 mlxscore=0 adultscore=0
- lowpriorityscore=0 phishscore=0 priorityscore=1501 clxscore=1015
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212010132
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2022-12-01 at 17:28 +0100, Claudio Imbrenda wrote:
-> On Thu, 17 Nov 2022 23:17:53 +0100
-> Janis Schoetterl-Glausch <scgl@linux.ibm.com> wrote:
->=20
-> > Replace the DEFAULT_* test helpers by functions, as they don't
-> > need the exta flexibility.
-> >=20
-> > Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-> > ---
-> >  tools/testing/selftests/kvm/s390x/memop.c | 82 +++++++++++------------
-> >  1 file changed, 39 insertions(+), 43 deletions(-)
-> >=20
-> > diff --git a/tools/testing/selftests/kvm/s390x/memop.c b/tools/testing/=
-selftests/kvm/s390x/memop.c
-> > index 69869c7e2ab1..286185a59238 100644
-> > --- a/tools/testing/selftests/kvm/s390x/memop.c
-> > +++ b/tools/testing/selftests/kvm/s390x/memop.c
-> > @@ -48,6 +48,8 @@ struct mop_desc {
-> >  	uint8_t key;
-> >  };
-> > =20
-> > +const uint8_t NO_KEY =3D 0xff;
-> > +
-> >  static struct kvm_s390_mem_op ksmo_from_desc(const struct mop_desc *de=
-sc)
-> >  {
-> >  	struct kvm_s390_mem_op ksmo =3D {
-> > @@ -85,7 +87,7 @@ static struct kvm_s390_mem_op ksmo_from_desc(const st=
-ruct mop_desc *desc)
-> >  		ksmo.flags |=3D KVM_S390_MEMOP_F_INJECT_EXCEPTION;
-> >  	if (desc->_set_flags)
-> >  		ksmo.flags =3D desc->set_flags;
-> > -	if (desc->f_key) {
-> > +	if (desc->f_key && desc->key !=3D NO_KEY) {
->=20
-> is this change going to affect the behaviour?
-> if so, please document it in the patch description
+From: Eric Biggers <ebiggers@google.com>
 
-No, previously the absence of a key in the vararg would denote there not be=
-ing a key,
-now that a function is used there is an explicit no key argument, which is =
-checked
-here to see if we use key checking or not
->=20
-> >  		ksmo.flags |=3D KVM_S390_MEMOP_F_SKEY_PROTECTION;
-> >  		ksmo.key =3D desc->key;
-> >  	}
-> > @@ -268,34 +270,28 @@ static void prepare_mem12(void)
-> >  #define ASSERT_MEM_EQ(p1, p2, size) \
-> >  	TEST_ASSERT(!memcmp(p1, p2, size), "Memory contents do not match!")
-> > =20
-> > -#define DEFAULT_WRITE_READ(copy_cpu, mop_cpu, mop_target_p, size, ...)=
-		\
-> > -({										\
-> > -	struct test_info __copy_cpu =3D (copy_cpu), __mop_cpu =3D (mop_cpu);	=
-\
-> > -	enum mop_target __target =3D (mop_target_p);				\
-> > -	uint32_t __size =3D (size);						\
-> > -										\
-> > -	prepare_mem12();							\
-> > -	CHECK_N_DO(MOP, __mop_cpu, __target, WRITE, mem1, __size,		\
-> > -			GADDR_V(mem1), ##__VA_ARGS__);				\
-> > -	HOST_SYNC(__copy_cpu, STAGE_COPIED);					\
-> > -	CHECK_N_DO(MOP, __mop_cpu, __target, READ, mem2, __size,		\
-> > -			GADDR_V(mem2), ##__VA_ARGS__);				\
-> > -	ASSERT_MEM_EQ(mem1, mem2, __size);					\
-> > -})
-> > +static void default_write_read(struct test_info copy_cpu, struct test_=
-info mop_cpu,
-> > +			       enum mop_target mop_target, uint32_t size, uint8_t key)
-> > +{
-> > +	prepare_mem12();
-> > +	CHECK_N_DO(MOP, mop_cpu, mop_target, WRITE, mem1, size,
-> > +		   GADDR_V(mem1), KEY(key));
-> > +	HOST_SYNC(copy_cpu, STAGE_COPIED);
-> > +	CHECK_N_DO(MOP, mop_cpu, mop_target, READ, mem2, size,
-> > +		   GADDR_V(mem2), KEY(key));
-> > +	ASSERT_MEM_EQ(mem1, mem2, size);
-> > +}
-> > =20
-> > -#define DEFAULT_READ(copy_cpu, mop_cpu, mop_target_p, size, ...)		\
-> > -({										\
-> > -	struct test_info __copy_cpu =3D (copy_cpu), __mop_cpu =3D (mop_cpu);	=
-\
-> > -	enum mop_target __target =3D (mop_target_p);				\
-> > -	uint32_t __size =3D (size);						\
-> > -										\
-> > -	prepare_mem12();							\
-> > -	CHECK_N_DO(MOP, __mop_cpu, __target, WRITE, mem1, __size,		\
-> > -			GADDR_V(mem1));						\
-> > -	HOST_SYNC(__copy_cpu, STAGE_COPIED);					\
-> > -	CHECK_N_DO(MOP, __mop_cpu, __target, READ, mem2, __size, ##__VA_ARGS_=
-_);\
-> > -	ASSERT_MEM_EQ(mem1, mem2, __size);					\
-> > -})
-> > +static void default_read(struct test_info copy_cpu, struct test_info m=
-op_cpu,
-> > +			 enum mop_target mop_target, uint32_t size, uint8_t key)
-> > +{
-> > +	prepare_mem12();
-> > +	CHECK_N_DO(MOP, mop_cpu, mop_target, WRITE, mem1, size, GADDR_V(mem1)=
-);
-> > +	HOST_SYNC(copy_cpu, STAGE_COPIED);
-> > +	CHECK_N_DO(MOP, mop_cpu, mop_target, READ, mem2, size,
-> > +		   GADDR_V(mem2), KEY(key));
-> > +	ASSERT_MEM_EQ(mem1, mem2, size);
-> > +}
-> > =20
-> >  static void guest_copy(void)
-> >  {
-> > @@ -310,7 +306,7 @@ static void test_copy(void)
-> > =20
-> >  	HOST_SYNC(t.vcpu, STAGE_INITED);
-> > =20
-> > -	DEFAULT_WRITE_READ(t.vcpu, t.vcpu, LOGICAL, t.size);
-> > +	default_write_read(t.vcpu, t.vcpu, LOGICAL, t.size, NO_KEY);
-> > =20
-> >  	kvm_vm_free(t.kvm_vm);
-> >  }
+Add a paragraph about SM4, like there is for the other modes.
 
-[...]
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+ Documentation/filesystems/fscrypt.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
+index c0784ec055530..ef183387da208 100644
+--- a/Documentation/filesystems/fscrypt.rst
++++ b/Documentation/filesystems/fscrypt.rst
+@@ -370,6 +370,12 @@ CONFIG_CRYPTO_HCTR2 must be enabled.  Also, fast implementations of XCTR and
+ POLYVAL should be enabled, e.g. CRYPTO_POLYVAL_ARM64_CE and
+ CRYPTO_AES_ARM64_CE_BLK for ARM64.
+ 
++SM4 is a Chinese block cipher that is an alternative to AES.  It has
++not seen as much security review as AES, and it only has a 128-bit key
++size.  It may be useful in cases where its use is mandated.
++Otherwise, it should not be used.  For SM4 support to be available, it
++also needs to be enabled in the kernel crypto API.
++
+ New encryption modes can be added relatively easily, without changes
+ to individual filesystems.  However, authenticated encryption (AE)
+ modes are not currently supported because of the difficulty of dealing
+-- 
+2.38.1
+
