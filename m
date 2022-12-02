@@ -2,198 +2,895 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42B00C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 06:53:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D99C47088
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 07:35:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232415AbiLBGxp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Dec 2022 01:53:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43738 "EHLO
+        id S232190AbiLBHfw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Dec 2022 02:35:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232314AbiLBGxn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 01:53:43 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2254BB7C1;
-        Thu,  1 Dec 2022 22:53:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669964022; x=1701500022;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=hsL57ikcNVoLHdsSPb/2quBPJAcrsHQWRoxcjDJhwfk=;
-  b=eT0WFURXcMGeVYPNWIXxRON88XkgDgnK57MP8L9HBxKxsLmaAF3wJG7q
-   rnDKkrgZoX9TcVbQjFOyiHKO0gbbZ9fcMwwssDAXYyl0WJvN4OeI0hfn/
-   Kn0FuzeN0TDa37Lo4FaguVQsHPwL8t1p0mbouzgGyTeMfR+/WJw28w2b8
-   rh2r81QD8/4ACEi8dpcM54W2kVY5TcI1TPegcZnSzlgwg7wDRxmJr7X5t
-   P2v2sBsKA3vddkTIPlScUBDZCzecu1t1zNo639kpdVQMg7YY5Tl2lDL/u
-   KEf8CmRexAJLimiQPuCvaGZlDcib1wrhzm98hW6Vv0ekfUBtGpO0LdthQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="299253379"
-X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; 
-   d="scan'208";a="299253379"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2022 22:53:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="708374082"
-X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; 
-   d="scan'208";a="708374082"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by fmsmga008.fm.intel.com with ESMTP; 01 Dec 2022 22:53:30 -0800
-Date:   Fri, 2 Dec 2022 14:49:09 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Vishal Annapurve <vannapurve@google.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221202064909.GA1070297@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <CAGtprH9Qu==pohH9ZSTzX9rZWSO0QWJ9rGK6NRGaiDetWAPLYg@mail.gmail.com>
+        with ESMTP id S232280AbiLBHfv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 02:35:51 -0500
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57A2BA65B7
+        for <linux-doc@vger.kernel.org>; Thu,  1 Dec 2022 23:35:49 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id q12so4149104pfn.10
+        for <linux-doc@vger.kernel.org>; Thu, 01 Dec 2022 23:35:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fh43l3DeOtX5dzM9pvw++6V+C5LB2IF6G322KEmCXbs=;
+        b=WCmsqDcsrz7cFF88H8y8wRzrJg3ioJZMcONHFygYYvhammV2bAGZ/JTIK30L7g461S
+         n1cQjkEblnNnK71qMnA47Nri7MnhE3IGSp5MV68saWBaYTvLOe6ibOlT8Yb+1iJSs1ws
+         DtZa66g9/f/licPyVu58OF4retQMNeVNkk420=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fh43l3DeOtX5dzM9pvw++6V+C5LB2IF6G322KEmCXbs=;
+        b=EUuZqadhsdtBFXtSfXN3ORVf4ikFs64QebU8f3xBo2VctXabyX/Swx3EOT8QtwzDhk
+         AAAfWJyAZ7e9qYq8dQukGQBuhXE1OEcxY/gXEfpCSpmfcGZOou5v8dU55/u2GEadVn81
+         +cbzWU9QhetsXDBj4254BDup735zLa8gaag/qmE9UC82P9k4NfyhBiPBIEWPcr/cvrgc
+         +o7T9UtqztrgZ20zxjQhZ+4X/2O0zwK4sdwCdK9BOFh6ISj/CV2iEli8WAKFHgO656jx
+         4DFBkQvn8tDZOPqWZvmtRS7Vams6ZMthb6epcN9oJnlYT4N1phT616Y9T0Yg+CciZUMM
+         FWgA==
+X-Gm-Message-State: ANoB5pnX/zDd+GaHAQgAq2lYcBOIrF3gnhISmJ0FsIeSF6b7o/09DlsF
+        Gs9L+9ZKH2Su4sc/+PP6aST96VJhH5kVnkY/TcIrMw==
+X-Google-Smtp-Source: AA0mqf6BQMVGJXBgpvraIoIqy2s0XUigSYP5/f65W2U8C860864wN4LApjoI7kz6NPKCO17sV6TJRZnP7P6VD7l2wWY=
+X-Received: by 2002:a63:4d49:0:b0:46f:5bd0:492f with SMTP id
+ n9-20020a634d49000000b0046f5bd0492fmr61748930pgl.186.1669966548483; Thu, 01
+ Dec 2022 23:35:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGtprH9Qu==pohH9ZSTzX9rZWSO0QWJ9rGK6NRGaiDetWAPLYg@mail.gmail.com>
+References: <20221202040110.14291-1-a.badmaev@clicknet.pro>
+In-Reply-To: <20221202040110.14291-1-a.badmaev@clicknet.pro>
+From:   Vitaly Wool <vitaly.wool@konsulko.com>
+Date:   Fri, 2 Dec 2022 08:35:37 +0100
+Message-ID: <CAM4kBBJ_4WA9bw3_K816kJnxUsXcWH14GZDg3+FPEx-Qr2+oxw@mail.gmail.com>
+Subject: Re: [PATCH v9] mm: add zblock - new allocator for use via zpool API
+To:     Ananda Badmaev <a.badmaev@clicknet.pro>
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 01, 2022 at 06:16:46PM -0800, Vishal Annapurve wrote:
-> On Tue, Oct 25, 2022 at 8:18 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> >
-...
-> > +}
-> > +
-> > +SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
-> > +{
-> 
-> Looking at the underlying shmem implementation, there seems to be no
-> way to enable transparent huge pages specifically for restricted memfd
-> files.
-> 
-> Michael discussed earlier about tweaking
-> /sys/kernel/mm/transparent_hugepage/shmem_enabled setting to allow
-> hugepages to be used while backing restricted memfd. Such a change
-> will affect the rest of the shmem usecases as well. Even setting the
-> shmem_enabled policy to "advise" wouldn't help unless file based
-> advise for hugepage allocation is implemented.
+On Fri, Dec 2, 2022 at 5:01 AM Ananda Badmaev <a.badmaev@clicknet.pro> wrote:
+>
+>     Zblock stores a fixed number of compressed objects per zblock block.
+> These blocks consist of several consecutive physical pages (1/2/4/8) and
+> are arranged in linked lists.
+>     The range from 0 to PAGE_SIZE is divided into the number of intervals
+> corresponding to the number of lists and each list only operates objects
+> of size from its interval. Thus the block lists are isolated from each
+> other, which makes it possible to simultaneously perform actions with
+> several objects from different lists.
+>     With zblock, it is possible to densely arrange objects of various sizes
+> resulting in low internal fragmentation. Also this allocator tries to fill
+> incomplete blocks instead of adding new ones thus in many cases providing a
+> compression ratio substantially higher than z3fold and zbud.
+>     Zblock does not require MMU and also is superior to zsmalloc with
+> regard to the worst execution times, thus allowing for better response time
+> and real-time characteristics of the whole system.
+>
+> Signed-off-by: Ananda Badmaev <a.badmaev@clicknet.pro>
 
-Had a look at fadvise() and looks it does not support HUGEPAGE for any
-filesystem yet.
+Signed-off-by: Vitaly Wool <vitaly.wool@konsulko.com>
 
-> 
-> Does it make sense to provide a flag here to allow creating restricted
-> memfds backed possibly by huge pages to give a more granular control?
-
-We do have a unused 'flags' can be extended for such usage, but I would
-let Kirill have further look, perhaps need more discussions.
-
-Chao
-> 
-> > +       struct file *file, *restricted_file;
-> > +       int fd, err;
-> > +
-> > +       if (flags)
-> > +               return -EINVAL;
-> > +
-> > +       fd = get_unused_fd_flags(0);
-> > +       if (fd < 0)
-> > +               return fd;
-> > +
-> > +       file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
-> > +       if (IS_ERR(file)) {
-> > +               err = PTR_ERR(file);
-> > +               goto err_fd;
-> > +       }
-> > +       file->f_mode |= FMODE_LSEEK | FMODE_PREAD | FMODE_PWRITE;
-> > +       file->f_flags |= O_LARGEFILE;
-> > +
-> > +       restricted_file = restrictedmem_file_create(file);
-> > +       if (IS_ERR(restricted_file)) {
-> > +               err = PTR_ERR(restricted_file);
-> > +               fput(file);
-> > +               goto err_fd;
-> > +       }
-> > +
-> > +       fd_install(fd, restricted_file);
-> > +       return fd;
-> > +err_fd:
-> > +       put_unused_fd(fd);
-> > +       return err;
-> > +}
-> > +
-> > +void restrictedmem_register_notifier(struct file *file,
-> > +                                    struct restrictedmem_notifier *notifier)
-> > +{
-> > +       struct restrictedmem_data *data = file->f_mapping->private_data;
-> > +
-> > +       mutex_lock(&data->lock);
-> > +       list_add(&notifier->list, &data->notifiers);
-> > +       mutex_unlock(&data->lock);
-> > +}
-> > +EXPORT_SYMBOL_GPL(restrictedmem_register_notifier);
-> > +
-> > +void restrictedmem_unregister_notifier(struct file *file,
-> > +                                      struct restrictedmem_notifier *notifier)
-> > +{
-> > +       struct restrictedmem_data *data = file->f_mapping->private_data;
-> > +
-> > +       mutex_lock(&data->lock);
-> > +       list_del(&notifier->list);
-> > +       mutex_unlock(&data->lock);
-> > +}
-> > +EXPORT_SYMBOL_GPL(restrictedmem_unregister_notifier);
-> > +
-> > +int restrictedmem_get_page(struct file *file, pgoff_t offset,
-> > +                          struct page **pagep, int *order)
-> > +{
-> > +       struct restrictedmem_data *data = file->f_mapping->private_data;
-> > +       struct file *memfd = data->memfd;
-> > +       struct page *page;
-> > +       int ret;
-> > +
-> > +       ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       *pagep = page;
-> > +       if (order)
-> > +               *order = thp_order(compound_head(page));
-> > +
-> > +       SetPageUptodate(page);
-> > +       unlock_page(page);
-> > +
-> > +       return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(restrictedmem_get_page);
-> > --
-> > 2.25.1
-> >
+> ---
+>
+> v2: fixed compiler warnings
+>
+> v3: added documentation and const modifier to struct tree_descr
+>
+> v4:
+> - fixed gfp flags for block allocation
+> - fixed potential memory leak when allocating blocks
+> - resolved some issues with code style and warnings from checkpatch
+>   (except warning about single line config symbol description)
+> - moved test results from documentation to changelog
+>
+> v5:
+> - "direct" handle mapping and use of linked lists instead of red-black
+>   trees resulting in faster operations and a bit simpler code
+> - renamed ztree -> zblock
+> - edited various comments and descriptions
+>
+> v6:
+> - fixed tabs (tab size 8 instead of 4)
+> - evict also pages that have not been mapped
+>
+> v7:
+> - fixed potential unsigned overflow of block_type in zblock_reclaim_block
+> - added check on the ability to store objects of size PAGE_SIZE
+>   at pool creation time
+> - added zblock into Documentation/mm/index.rst
+>
+> v8:
+> - fixed typo and improved the wording in zblock.rst and commit description
+>
+> v9:
+> - rephrased the cover message and added extra details to Kconfig description
+>
+>  Documentation/mm/index.rst  |   1 +
+>  Documentation/mm/zblock.rst |  31 ++
+>  MAINTAINERS                 |   7 +
+>  mm/Kconfig                  |  18 +
+>  mm/Makefile                 |   1 +
+>  mm/zblock.c                 | 642 ++++++++++++++++++++++++++++++++++++
+>  6 files changed, 700 insertions(+)
+>  create mode 100644 Documentation/mm/zblock.rst
+>  create mode 100644 mm/zblock.c
+>
+> diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
+> index 4aa12b8be278..3e538e098eb6 100644
+> --- a/Documentation/mm/index.rst
+> +++ b/Documentation/mm/index.rst
+> @@ -66,4 +66,5 @@ above structured documentation, or deleted if it has served its purpose.
+>     vmalloced-kernel-stacks
+>     vmemmap_dedup
+>     z3fold
+> +   zblock
+>     zsmalloc
+> diff --git a/Documentation/mm/zblock.rst b/Documentation/mm/zblock.rst
+> new file mode 100644
+> index 000000000000..7098f1b5e5dc
+> --- /dev/null
+> +++ b/Documentation/mm/zblock.rst
+> @@ -0,0 +1,31 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _zblock:
+> +
+> +======
+> +zblock
+> +======
+> +
+> +Zblock stores a fixed number of compressed objects per block. These blocks
+> +consist of several consecutive physical pages (from 1 to 8) and are arranged
+> +in lists. The range from 0 to PAGE_SIZE is divided into the number of intervals
+> +corresponding to the number of lists and these only operate on objects of size
+> +from its interval. Thus the block lists are isolated from each other, which
+> +makes it possible to simultaneously perform actions with several objects
+> +from different lists.
+> +
+> +With zblock, it is possible to densely arrange objects of various sizes,
+> +resulting in low internal fragmentation. Also this allocator tries to fill
+> +incomplete blocks instead of adding new ones. As a result, in many cases it
+> +provides a compression ratio substantially higher than z3fold and zbud. Zblock
+> +does not require MMU and also is superior to zsmalloc with regard to the worst
+> +execution times, thus allowing for better response time and real-time
+> +characteristics of the whole system.
+> +
+> +Like similar allocation method from z3fold and zsmalloc, zblock_alloc() does
+> +not return a dereferenceable pointer. Instead, it returns an unsigned long
+> +handle which encodes actual location of the allocated object.
+> +
+> +Unlike zbud and z3fold, zblock works well with objects of various sizes -
+> +including but not limited to highly compressed and poorly compressed, as well
+> +as cases where both object types exist.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 69565ac0c224..75499177dceb 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -22729,6 +22729,13 @@ L:     linux-mm@kvack.org
+>  S:     Maintained
+>  F:     mm/z3fold.c
+>
+> +ZBLOCK COMPRESSED PAGE ALLOCATOR
+> +M:     Ananda Badmaev <a.badmaev@clicknet.pro>
+> +M:     Vitaly Wool <vitaly.wool@konsulko.com>
+> +L:     linux-mm@kvack.org
+> +S:     Maintained
+> +F:     mm/zblock.c
+> +
+>  ZD1211RW WIRELESS DRIVER
+>  M:     Ulrich Kunitz <kune@deine-taler.de>
+>  L:     linux-wireless@vger.kernel.org
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index 57e1d8c5b505..dd138db3c029 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -143,6 +143,12 @@ config ZSWAP_ZPOOL_DEFAULT_ZSMALLOC
+>         select ZSMALLOC
+>         help
+>           Use the zsmalloc allocator as the default allocator.
+> +
+> +config ZSWAP_ZPOOL_DEFAULT_ZBLOCK
+> +       bool "zblock"
+> +       select ZBLOCK
+> +       help
+> +         Use the zblock allocator as the default allocator.
+>  endchoice
+>
+>  config ZSWAP_ZPOOL_DEFAULT
+> @@ -151,6 +157,7 @@ config ZSWAP_ZPOOL_DEFAULT
+>         default "zbud" if ZSWAP_ZPOOL_DEFAULT_ZBUD
+>         default "z3fold" if ZSWAP_ZPOOL_DEFAULT_Z3FOLD
+>         default "zsmalloc" if ZSWAP_ZPOOL_DEFAULT_ZSMALLOC
+> +       default "zblock" if ZSWAP_ZPOOL_DEFAULT_ZBLOCK
+>         default ""
+>
+>  config ZBUD
+> @@ -181,6 +188,17 @@ config ZSMALLOC
+>           pages of various compression levels efficiently. It achieves
+>           the highest storage density with the least amount of fragmentation.
+>
+> +config ZBLOCK
+> +       tristate "Simple block allocator (zblock)"
+> +       depends on ZPOOL
+> +       help
+> +         A special purpose allocator for storing compressed pages.
+> +         zblock provides fast read/write, limited worst case time for
+> +         operations and good compression ratio in most scenarios. It's a
+> +         good fit for small RAM devices due to its simplicity and small code
+> +         size. Generally faster than zsmalloc (by 2-7%) and more scalable but
+> +         provides worse compression ratio than zsmalloc (by about 10%).
+> +
+>  config ZSMALLOC_STAT
+>         bool "Export zsmalloc statistics"
+>         depends on ZSMALLOC
+> diff --git a/mm/Makefile b/mm/Makefile
+> index 8e105e5b3e29..f2c89390542c 100644
+> --- a/mm/Makefile
+> +++ b/mm/Makefile
+> @@ -114,6 +114,7 @@ obj-$(CONFIG_ZPOOL) += zpool.o
+>  obj-$(CONFIG_ZBUD)     += zbud.o
+>  obj-$(CONFIG_ZSMALLOC) += zsmalloc.o
+>  obj-$(CONFIG_Z3FOLD)   += z3fold.o
+> +obj-$(CONFIG_ZBLOCK)   += zblock.o
+>  obj-$(CONFIG_GENERIC_EARLY_IOREMAP) += early_ioremap.o
+>  obj-$(CONFIG_CMA)      += cma.o
+>  obj-$(CONFIG_MEMORY_BALLOON) += balloon_compaction.o
+> diff --git a/mm/zblock.c b/mm/zblock.c
+> new file mode 100644
+> index 000000000000..4767a367fa71
+> --- /dev/null
+> +++ b/mm/zblock.c
+> @@ -0,0 +1,642 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * zblock.c
+> + *
+> + * Author: Ananda Badmaev <a.badmaev@clicknet.pro>
+> + * Copyright (C) 2022, Konsulko AB.
+> + *
+> + * This implementation is based on z3fold written by Vitaly Wool.
+> + * Zblock is a small object allocator with the intention to serve as a
+> + * zpool backend. It operates on page blocks which consist of number
+> + * of physical pages being a power of 2 and store integer number of
+> + * compressed pages per block which results in determinism and simplicity.
+> + *
+> + * zblock doesn't export any API and is meant to be used via zpool API.
+> + */
+> +
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +
+> +#include <linux/atomic.h>
+> +#include <linux/list.h>
+> +#include <linux/mm.h>
+> +#include <linux/module.h>
+> +#include <linux/preempt.h>
+> +#include <linux/slab.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/zpool.h>
+> +
+> +#define SLOT_FREE 0
+> +#define SLOT_OCCUPIED 1
+> +#define SLOT_MAPPED 2
+> +#define SLOT_UNMAPPED 3
+> +
+> +#define SLOT_BITS 5
+> +#define MAX_SLOTS (1 << SLOT_BITS)
+> +#define SLOT_MASK ((0x1UL << SLOT_BITS) - 1)
+> +
+> +#define BLOCK_DATA_SIZE(order) ((PAGE_SIZE << order) - sizeof(struct zblock_block))
+> +#define SLOT_SIZE(nslots, order) (round_down((BLOCK_DATA_SIZE(order) / nslots), sizeof(long)))
+> +
+> +#define BLOCK_CACHE_SIZE 32
+> +
+> +struct zblock_pool;
+> +
+> +struct zblock_ops {
+> +       int (*evict)(struct zblock_pool *pool, unsigned long handle);
+> +};
+> +
+> +/**
+> + * struct zblock_block - block metadata
+> + * Block consists of several (1/2/4/8) pages and contains fixed
+> + * integer number of slots for allocating compressed pages.
+> + *
+> + * lock:               protects block
+> + * block_node:         links block into the relevant list in the pool
+> + * slot_info:          contains data about free/occupied slots
+> + * free_slots:         number of free slots in the block
+> + * under_reclaim:      if true shows that block is being evicted
+> + */
+> +struct zblock_block {
+> +       spinlock_t lock;
+> +       struct list_head block_node;
+> +       u8 slot_info[MAX_SLOTS];
+> +       unsigned int free_slots;
+> +       bool under_reclaim;
+> +};
+> +/**
+> + * struct block_desc - general metadata for block lists
+> + * Each block list stores only blocks of corresponding type which means
+> + * that all blocks in it have the same number and size of slots.
+> + * All slots are aligned to size of long.
+> + *
+> + * slot_size:          size of slot for this list
+> + * slots_per_block:    number of slots per block for this list
+> + * order:              order for __get_free_pages
+> + */
+> +static const struct block_desc {
+> +       const unsigned int slot_size;
+> +       const unsigned short slots_per_block;
+> +       const unsigned short order;
+> +} block_desc[] = {
+> +       { SLOT_SIZE(32, 0), 32, 0 },
+> +       { SLOT_SIZE(22, 0), 22, 0 },
+> +       { SLOT_SIZE(17, 0), 17, 0 },
+> +       { SLOT_SIZE(13, 0), 13, 0 },
+> +       { SLOT_SIZE(11, 0), 11, 0 },
+> +       { SLOT_SIZE(9, 0), 9, 0 },
+> +       { SLOT_SIZE(8, 0), 8, 0 },
+> +       { SLOT_SIZE(14, 1), 14, 1 },
+> +       { SLOT_SIZE(12, 1), 12, 1 },
+> +       { SLOT_SIZE(11, 1), 11, 1 },
+> +       { SLOT_SIZE(10, 1), 10, 1 },
+> +       { SLOT_SIZE(9, 1), 9, 1 },
+> +       { SLOT_SIZE(8, 1), 8, 1 },
+> +       { SLOT_SIZE(15, 2), 15, 2 },
+> +       { SLOT_SIZE(14, 2), 14, 2 },
+> +       { SLOT_SIZE(13, 2), 13, 2 },
+> +       { SLOT_SIZE(12, 2), 12, 2 },
+> +       { SLOT_SIZE(11, 2), 11, 2 },
+> +       { SLOT_SIZE(10, 2), 10, 2 },
+> +       { SLOT_SIZE(9, 2), 9, 2 },
+> +       { SLOT_SIZE(8, 2), 8, 2 },
+> +       { SLOT_SIZE(15, 3), 15, 3 },
+> +       { SLOT_SIZE(14, 3), 14, 3 },
+> +       { SLOT_SIZE(13, 3), 13, 3 },
+> +       { SLOT_SIZE(12, 3), 12, 3 },
+> +       { SLOT_SIZE(11, 3), 11, 3 },
+> +       { SLOT_SIZE(10, 3), 10, 3 },
+> +       { SLOT_SIZE(9, 3), 9, 3 },
+> +       { SLOT_SIZE(7, 3), 7, 3 }
+> +};
+> +
+> +/**
+> + * struct block_list - stores metadata of particular list
+> + * lock:               protects list
+> + * head:               head of this list
+> + * block_cache:        blocks with free slots
+> + * block_count:        total number of blocks in the list
+> + */
+> +struct block_list {
+> +       spinlock_t lock;
+> +       struct list_head head;
+> +       struct zblock_block *block_cache[BLOCK_CACHE_SIZE];
+> +       unsigned long block_count;
+> +};
+> +
+> +/**
+> + * struct zblock_pool - stores metadata for each zblock pool
+> + * @block_lists:       array of block lists
+> + * @ops:               pointer to a structure of user defined operations specified at
+> + *                     pool creation time.
+> + * @zpool:             zpool driver
+> + * @zpool_ops:         zpool operations structure with an evict callback
+> + * @alloc_flag:        protects block allocation from memory leak
+> + *
+> + * This structure is allocated at pool creation time and maintains metadata
+> + * for a particular zblock pool.
+> + */
+> +struct zblock_pool {
+> +       struct block_list block_lists[ARRAY_SIZE(block_desc)];
+> +       const struct zblock_ops *ops;
+> +       struct zpool *zpool;
+> +       const struct zpool_ops *zpool_ops;
+> +       atomic_t alloc_flag;
+> +};
+> +
+> +/*****************
+> + * Helpers
+> + *****************/
+> +
+> +static void cache_insert_block(struct zblock_block *block, struct block_list *list)
+> +{
+> +       unsigned int i, min_free_slots, min_index;
+> +
+> +       min_free_slots = MAX_SLOTS;
+> +       for (i = 0; i < BLOCK_CACHE_SIZE; i++) {
+> +               if (!list->block_cache[i] || !(list->block_cache[i])->free_slots) {
+> +                       list->block_cache[i] = block;
+> +                       return;
+> +               }
+> +               if ((list->block_cache[i])->free_slots < min_free_slots) {
+> +                       min_free_slots = (list->block_cache[i])->free_slots;
+> +                       min_index = i;
+> +               }
+> +       }
+> +       list->block_cache[min_index] = block;
+> +}
+> +
+> +static struct zblock_block *cache_find_block(struct block_list *list)
+> +{
+> +       int i;
+> +
+> +       for (i = 0; i < BLOCK_CACHE_SIZE; i++) {
+> +               if (list->block_cache[i] && (list->block_cache[i])->free_slots)
+> +                       return list->block_cache[i];
+> +       }
+> +       return NULL;
+> +}
+> +
+> +static int is_in_cache(struct zblock_block *block, struct block_list *list)
+> +{
+> +       int i;
+> +
+> +       for (i = 0; i < BLOCK_CACHE_SIZE; i++) {
+> +               if (block == list->block_cache[i])
+> +                       return i;
+> +       }
+> +       return -1;
+> +}
+> +
+> +/*
+> + * allocate new block and add it to corresponding block list
+> + */
+> +static struct zblock_block *alloc_block(struct zblock_pool *pool,
+> +                                       int block_type, gfp_t gfp)
+> +{
+> +       struct zblock_block *block;
+> +       struct block_list *list;
+> +
+> +       block = (void *)__get_free_pages(gfp, block_desc[block_type].order);
+> +       if (!block)
+> +               return NULL;
+> +
+> +       list = &(pool->block_lists)[block_type];
+> +
+> +       /* init block data  */
+> +       spin_lock_init(&block->lock);
+> +       memset(block->slot_info, SLOT_FREE, block_desc[block_type].slots_per_block);
+> +       block->free_slots = block_desc[block_type].slots_per_block;
+> +       block->under_reclaim = false;
+> +
+> +       spin_lock(&list->lock);
+> +       /* inserting block into list */
+> +       INIT_LIST_HEAD(&block->block_node);
+> +       list_add(&block->block_node, &list->head);
+> +       cache_insert_block(block, list);
+> +       list->block_count++;
+> +       spin_unlock(&list->lock);
+> +       return block;
+> +}
+> +
+> +/*
+> + * Encodes the handle of a particular slot in the pool using metadata
+> + */
+> +static inline unsigned long metadata_to_handle(struct zblock_block *block,
+> +                                       unsigned int block_type, unsigned int slot)
+> +{
+> +       return (unsigned long)(block) + (block_type << SLOT_BITS) + slot;
+> +}
+> +
+> +/* Returns block, block type and slot in the pool corresponding to handle */
+> +static inline struct zblock_block *handle_to_metadata(unsigned long handle,
+> +                                       unsigned int *block_type, unsigned int *slot)
+> +{
+> +       *block_type = (handle & (PAGE_SIZE - 1)) >> SLOT_BITS;
+> +       *slot = handle & SLOT_MASK;
+> +       return (struct zblock_block *)(handle & PAGE_MASK);
+> +}
+> +
+> +
+> +/*****************
+> + * API Functions
+> + *****************/
+> +/**
+> + * zblock_create_pool() - create a new zblock pool
+> + * @gfp: gfp flags when allocating the zblock pool structure
+> + * @ops: user-defined operations for the zblock pool
+> + *
+> + * Return: pointer to the new zblock pool or NULL if the metadata allocation
+> + * failed.
+> + */
+> +static struct zblock_pool *zblock_create_pool(gfp_t gfp, const struct zblock_ops *ops)
+> +{
+> +       struct zblock_pool *pool;
+> +       struct block_list *list;
+> +       int i, j, arr_sz;
+> +
+> +       pool = kmalloc(sizeof(struct zblock_pool), gfp);
+> +       if (!pool)
+> +               return NULL;
+> +
+> +       arr_sz = ARRAY_SIZE(block_desc);
+> +       if (block_desc[arr_sz - 1].slot_size < PAGE_SIZE)
+> +               return NULL;
+> +
+> +       /* init each block list */
+> +       for (i = 0; i < arr_sz; i++) {
+> +               list = &(pool->block_lists)[i];
+> +               spin_lock_init(&list->lock);
+> +               INIT_LIST_HEAD(&list->head);
+> +               for (j = 0; j < BLOCK_CACHE_SIZE; j++)
+> +                       list->block_cache[j] = NULL;
+> +               list->block_count = 0;
+> +       }
+> +       pool->ops = ops;
+> +       atomic_set(&pool->alloc_flag, 0);
+> +       return pool;
+> +}
+> +
+> +/**
+> + * zblock_destroy_pool() - destroys an existing zblock pool
+> + * @pool: the zblock pool to be destroyed
+> + *
+> + */
+> +static void zblock_destroy_pool(struct zblock_pool *pool)
+> +{
+> +       kfree(pool);
+> +}
+> +
+> +
+> +/**
+> + * zblock_alloc() - allocates a slot of appropriate size
+> + * @pool:      zblock pool from which to allocate
+> + * @size:      size in bytes of the desired allocation
+> + * @gfp:       gfp flags used if the pool needs to grow
+> + * @handle:    handle of the new allocation
+> + *
+> + * Return: 0 if success and handle is set, otherwise -EINVAL if the size or
+> + * gfp arguments are invalid or -ENOMEM if the pool was unable to allocate
+> + * a new slot.
+> + */
+> +static int zblock_alloc(struct zblock_pool *pool, size_t size, gfp_t gfp,
+> +                       unsigned long *handle)
+> +{
+> +       unsigned int block_type, slot;
+> +       struct zblock_block *block;
+> +       struct block_list *list;
+> +
+> +       if (!size)
+> +               return -EINVAL;
+> +
+> +       if (size > PAGE_SIZE)
+> +               return -ENOSPC;
+> +
+> +       /* find basic block type with suitable slot size */
+> +       for (block_type = 0; block_type < ARRAY_SIZE(block_desc); block_type++) {
+> +               if (size <= block_desc[block_type].slot_size)
+> +                       break;
+> +       }
+> +       list = &(pool->block_lists[block_type]);
+> +
+> +check:
+> +       spin_lock(&list->lock);
+> +       /* check if there are free slots in cache */
+> +       block = cache_find_block(list);
+> +       if (block)
+> +               goto found;
+> +       spin_unlock(&list->lock);
+> +
+> +       /* not found block with free slots try to allocate new empty block */
+> +       if (atomic_cmpxchg(&pool->alloc_flag, 0, 1))
+> +               goto check;
+> +       block = alloc_block(pool, block_type, gfp & ~(__GFP_HIGHMEM | __GFP_MOVABLE));
+> +       if (block) {
+> +               spin_lock(&list->lock);
+> +               goto found;
+> +       }
+> +       atomic_set(&pool->alloc_flag, 0);
+> +       return -ENOMEM;
+> +
+> +found:
+> +       spin_lock(&block->lock);
+> +       block->free_slots--;
+> +       spin_unlock(&list->lock);
+> +       /* find the first free slot in block */
+> +       for (slot = 0; slot < block_desc[block_type].slots_per_block; slot++) {
+> +               if (block->slot_info[slot] == SLOT_FREE)
+> +                       break;
+> +       }
+> +       block->slot_info[slot] = SLOT_OCCUPIED;
+> +       spin_unlock(&block->lock);
+> +       *handle = metadata_to_handle(block, block_type, slot);
+> +       atomic_set(&pool->alloc_flag, 0);
+> +       return 0;
+> +}
+> +
+> +/**
+> + * zblock_free() - frees the allocation associated with the given handle
+> + * @pool:      pool in which the allocation resided
+> + * @handle:    handle associated with the allocation returned by zblock_alloc()
+> + *
+> + */
+> +static void zblock_free(struct zblock_pool *pool, unsigned long handle)
+> +{
+> +       unsigned int slot, block_type;
+> +       struct zblock_block *block;
+> +       struct block_list *list;
+> +       int i;
+> +
+> +       block = handle_to_metadata(handle, &block_type, &slot);
+> +       list = &(pool->block_lists[block_type]);
+> +
+> +       if (block->under_reclaim)
+> +               return;
+> +       spin_lock(&list->lock);
+> +       i = is_in_cache(block, list);
+> +       block->free_slots++;
+> +       /* if all slots in block are empty delete whole block */
+> +       if (block->free_slots == block_desc[block_type].slots_per_block) {
+> +               list_del(&block->block_node);
+> +               list->block_count--;
+> +
+> +               /* if cached block to be deleted */
+> +               if (i != -1)
+> +                       list->block_cache[i] = NULL;
+> +               spin_unlock(&list->lock);
+> +               free_pages((unsigned long)block, block_desc[block_type].order);
+> +               return;
+> +       }
+> +       /* if block is not cached update cache */
+> +       if (i == -1)
+> +               cache_insert_block(block, list);
+> +
+> +       spin_lock(&block->lock);
+> +       spin_unlock(&list->lock);
+> +       block->slot_info[slot] = SLOT_FREE;
+> +       spin_unlock(&block->lock);
+> +}
+> +
+> +/**
+> + * zblock_reclaim_block() - evicts allocations from block and frees it
+> + * @pool: pool from which a block will attempt to be evicted
+> + *
+> + * Returns: pages reclaimed count if block is successfully freed
+> + *          otherwise -EINVAL if there are no blocks to evict
+> + */
+> +static int zblock_reclaim_block(struct zblock_pool *pool)
+> +{
+> +       struct zblock_block *block;
+> +       struct block_list *list;
+> +       unsigned long handle;
+> +       int ret, i, reclaimed, block_type, slot;
+> +
+> +       /* start with list storing blocks with the worst compression and try
+> +        * to evict the first added (oldest) block in this list
+> +        */
+> +       for (block_type = ARRAY_SIZE(block_desc) - 1; block_type >= 0; --block_type) {
+> +               list = &(pool->block_lists[block_type]);
+> +               spin_lock(&list->lock);
+> +
+> +               /* find the oldest block in list */
+> +               block = list_last_entry(&list->head, struct zblock_block, block_node);
+> +
+> +               if (!block) {
+> +                       spin_unlock(&list->lock);
+> +                       continue;
+> +               }
+> +               i = is_in_cache(block, list);
+> +               /* skip iteration if this block is cached */
+> +               if (i != -1) {
+> +                       spin_unlock(&list->lock);
+> +                       continue;
+> +               }
+> +               block->under_reclaim = true;
+> +               spin_unlock(&list->lock);
+> +               reclaimed = 0;
+> +
+> +               /* try to evict all OCCUPIED and UNMAPPED slots in block */
+> +               for (slot = 0; slot < block_desc[block_type].slots_per_block; ++slot) {
+> +                       if (block->slot_info[slot] == SLOT_OCCUPIED ||
+> +                               block->slot_info[slot] == SLOT_UNMAPPED) {
+> +                               handle = metadata_to_handle(block, block_type, slot);
+> +                               ret = pool->ops->evict(pool, handle);
+> +                               if (ret)
+> +                                       break;
+> +
+> +                               ++reclaimed;
+> +                               spin_lock(&block->lock);
+> +                               block->slot_info[slot] = SLOT_FREE;
+> +                               spin_unlock(&block->lock);
+> +                               block->free_slots++;
+> +                       }
+> +               }
+> +               spin_lock(&list->lock);
+> +               /* some occupied slots remained - insert block */
+> +               if (block->free_slots != block_desc[block_type].slots_per_block) {
+> +                       block->under_reclaim = false;
+> +                       cache_insert_block(block, list);
+> +                       spin_unlock(&list->lock);
+> +               } else {
+> +               /* all slots are free - delete this block */
+> +                       list_del(&block->block_node);
+> +                       list->block_count--;
+> +                       spin_unlock(&list->lock);
+> +                       free_pages((unsigned long)block, block_desc[block_type].order);
+> +               }
+> +               if (reclaimed != 0)
+> +                       return reclaimed;
+> +               return -EAGAIN;
+> +       }
+> +       return -EINVAL;
+> +}
+> +
+> +
+> +/**
+> + * zblock_map() - maps the allocation associated with the given handle
+> + * @pool:      pool in which the allocation resides
+> + * @handle:    handle associated with the allocation to be mapped
+> + *
+> + *
+> + * Returns: a pointer to the mapped allocation
+> + */
+> +static void *zblock_map(struct zblock_pool *pool, unsigned long handle)
+> +{
+> +       unsigned int block_type, slot;
+> +       struct zblock_block *block;
+> +
+> +       block = handle_to_metadata(handle, &block_type, &slot);
+> +       spin_lock(&block->lock);
+> +       block->slot_info[slot] = SLOT_MAPPED;
+> +       spin_unlock(&block->lock);
+> +       return (void *)(block + 1) + slot * block_desc[block_type].slot_size;
+> +}
+> +
+> +/**
+> + * zblock_unmap() - unmaps the allocation associated with the given handle
+> + * @pool:      pool in which the allocation resides
+> + * @handle:    handle associated with the allocation to be unmapped
+> + */
+> +static void zblock_unmap(struct zblock_pool *pool, unsigned long handle)
+> +{
+> +       unsigned int block_type, slot;
+> +       struct zblock_block *block;
+> +
+> +       block = handle_to_metadata(handle, &block_type, &slot);
+> +       spin_lock(&block->lock);
+> +       block->slot_info[slot] = SLOT_UNMAPPED;
+> +       spin_unlock(&block->lock);
+> +}
+> +
+> +/**
+> + * zblock_get_pool_size() - gets the zblock pool size in bytes
+> + * @pool: pool whose size is being queried
+> + *
+> + * Returns: size in bytes of the given pool.
+> + */
+> +static u64 zblock_get_pool_size(struct zblock_pool *pool)
+> +{
+> +       u64 total_size;
+> +       int i;
+> +
+> +       total_size = 0;
+> +       for (i = 0; i < ARRAY_SIZE(block_desc); i++) {
+> +               total_size += (pool->block_lists)[i].block_count
+> +                               * (PAGE_SIZE << block_desc[i].order);
+> +       }
+> +       return total_size;
+> +}
+> +
+> +/*****************
+> + * zpool
+> + ****************/
+> +
+> +static int zblock_zpool_evict(struct zblock_pool *pool, unsigned long handle)
+> +{
+> +       if (pool->zpool && pool->zpool_ops && pool->zpool_ops->evict)
+> +               return pool->zpool_ops->evict(pool->zpool, handle);
+> +       else
+> +               return -ENOENT;
+> +}
+> +
+> +static const struct zblock_ops zblock_zpool_ops = {
+> +       .evict = zblock_zpool_evict
+> +};
+> +
+> +static void *zblock_zpool_create(const char *name, gfp_t gfp,
+> +                               const struct zpool_ops *zpool_ops,
+> +                               struct zpool *zpool)
+> +{
+> +       struct zblock_pool *pool;
+> +
+> +       pool = zblock_create_pool(gfp, &zblock_zpool_ops);
+> +       if (pool) {
+> +               pool->zpool = zpool;
+> +               pool->zpool_ops = zpool_ops;
+> +       }
+> +       return pool;
+> +}
+> +
+> +static void zblock_zpool_destroy(void *pool)
+> +{
+> +       zblock_destroy_pool(pool);
+> +}
+> +
+> +static int zblock_zpool_malloc(void *pool, size_t size, gfp_t gfp,
+> +                       unsigned long *handle)
+> +{
+> +       return zblock_alloc(pool, size, gfp, handle);
+> +}
+> +
+> +static void zblock_zpool_free(void *pool, unsigned long handle)
+> +{
+> +       zblock_free(pool, handle);
+> +}
+> +
+> +static int zblock_zpool_shrink(void *pool, unsigned int pages,
+> +                       unsigned int *reclaimed)
+> +{
+> +       unsigned int total = 0;
+> +       int ret = -EINVAL;
+> +
+> +       while (total < pages) {
+> +               ret = zblock_reclaim_block(pool);
+> +               if (ret < 0)
+> +                       break;
+> +               total += ret;
+> +       }
+> +       if (reclaimed)
+> +               *reclaimed = total;
+> +
+> +       return ret;
+> +}
+> +
+> +static void *zblock_zpool_map(void *pool, unsigned long handle,
+> +                       enum zpool_mapmode mm)
+> +{
+> +       return zblock_map(pool, handle);
+> +}
+> +
+> +static void zblock_zpool_unmap(void *pool, unsigned long handle)
+> +{
+> +       zblock_unmap(pool, handle);
+> +}
+> +
+> +static u64 zblock_zpool_total_size(void *pool)
+> +{
+> +       return zblock_get_pool_size(pool);
+> +}
+> +
+> +static struct zpool_driver zblock_zpool_driver = {
+> +       .type =         "zblock",
+> +       .owner =        THIS_MODULE,
+> +       .create =       zblock_zpool_create,
+> +       .destroy =      zblock_zpool_destroy,
+> +       .malloc =       zblock_zpool_malloc,
+> +       .free =         zblock_zpool_free,
+> +       .shrink =       zblock_zpool_shrink,
+> +       .map =          zblock_zpool_map,
+> +       .unmap =        zblock_zpool_unmap,
+> +       .total_size =   zblock_zpool_total_size,
+> +};
+> +
+> +MODULE_ALIAS("zpool-zblock");
+> +
+> +static int __init init_zblock(void)
+> +{
+> +       pr_info("loaded\n");
+> +       zpool_register_driver(&zblock_zpool_driver);
+> +       return 0;
+> +}
+> +
+> +static void __exit exit_zblock(void)
+> +{
+> +       zpool_unregister_driver(&zblock_zpool_driver);
+> +       pr_info("unloaded\n");
+> +}
+> +
+> +module_init(init_zblock);
+> +module_exit(exit_zblock);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Ananda Badmaeb <a.badmaev@clicknet.pro>");
+> +MODULE_DESCRIPTION("Block allocator for compressed pages");
+> --
+> 2.34.1
+>
