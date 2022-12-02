@@ -2,109 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71301C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 02:07:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01B17C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 02:14:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231777AbiLBCHX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Dec 2022 21:07:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56372 "EHLO
+        id S231913AbiLBCOR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Dec 2022 21:14:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231578AbiLBCHW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 21:07:22 -0500
+        with ESMTP id S231887AbiLBCOP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 21:14:15 -0500
 Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96529D49D4;
-        Thu,  1 Dec 2022 18:07:21 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id q12so3592403pfn.10;
-        Thu, 01 Dec 2022 18:07:21 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6E488B392;
+        Thu,  1 Dec 2022 18:14:14 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id k79so3616531pfd.7;
+        Thu, 01 Dec 2022 18:14:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6/xJejn7lxcKkGFwbiEwKFAcY7A3VU62mqZWjzoxtHs=;
-        b=mLOLMRuaHHhL/qHeGRv7oD0O6ibFK70oECWPm01RX49BOXMQgVtaMx6tW1MK3YpuuX
-         dDHRrZUzhpM3xoTf7kWQIWcBjigSLWjhMNQjGlCR2m25CAwyDVBoeI87bYxOhCRqfmdk
-         /0R2pl2wBn+o1LI7HWNOZTJa1hkUnoFe/xO7bRCMWulWP3ePd0JyR6OJIFvAZ0a5nxFs
-         X+yAPHs8bl/GfXyp3ukBArL9wtTm79IpVG5uIGxyDuiQrUQ2kuHtSZu2np0svdSt0UGY
-         3yAOHcXxCJiEtBaK81Jyk++GwIAKTB1T54lWyJIOLR+AoKczNiQxHwEZoqyEmlGVANdK
-         XaTQ==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NNVoFsm0p2fmF+8XIvCyUUB0uikNlFRO7bl1K7LYxsY=;
+        b=EjXyetsIzJRIHvrJOub61wyRzOouXl+GPsP+Cnagu+T+FFqE0vn5Zx7VFx2oAiFYdH
+         mCjw+v23+XVU+vi4oBlsfH34JCdgq3nevhoaSs9hllsACh1GlDyvDhROawwyQ3sDSFZe
+         b9xyfXKoQ3+0q6eRqENvAncZaAlBuHJGqwf39Z9qR0bsVT5Y4vdwayOaNmEqQ18gGau0
+         kCk+wBr0aB+4cKu2RdNRbZAKLezJZ5EFiXZ7O/eoxsXCGB1f5+nUEAEMiIMbZ//4zTfd
+         J2Cq8YQS0i6AKYDAJkaM4PvGnKuhDza2gcrFsp+4NJIrso0Ec3DUw/bhzJs7Pf7RuyVb
+         Ftcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6/xJejn7lxcKkGFwbiEwKFAcY7A3VU62mqZWjzoxtHs=;
-        b=bpYsYUXBaSwW2iHQsegSt/Off6oSqW9gFcbP0haStli5urQXlmduatoPHSjfg2syHH
-         0KRygycWLg1qDBVKLoDTLPVb20Jc1IkawA+1Id4D0x4e8tthxswvYkwjkpquS5fEQRm0
-         P7DximZWg+QE1fhCdIAnz6mZ2Nz+6OSCsPVwq+lqjqLu/JgiSSgkORff7n1Xx/ybgsxp
-         MbYIBmbl/dGVyMV2M3aFXYDBay/Sryo8Xr6hWVBjHUkN1yGl98k+JuD4Z+xeok//b+BJ
-         uF7bGfgb/vqCHLBbKbo8SZm9Yv0tblWKguR+CrLftlprzv5Gs9QBmxgFsqj8fZOu1iRU
-         fCGA==
-X-Gm-Message-State: ANoB5pm4Loh5albqdUKy7kErqTu0z1b6NGbl+A3LuIFw3abT7fgbyKh2
-        wQTDHRFl36hEzVxV7bRqdyu2OENKmEA=
-X-Google-Smtp-Source: AA0mqf6IoO+seDHtF6ALvFsegFTRz57JxTLw4GiIZHxypLk/EKqIKFj6ObWQPTx537Ta4sxSr4DrYg==
-X-Received: by 2002:a05:6a00:1413:b0:56b:8e99:a5e9 with SMTP id l19-20020a056a00141300b0056b8e99a5e9mr49606429pfu.24.1669946841126;
-        Thu, 01 Dec 2022 18:07:21 -0800 (PST)
-Received: from debian.me (subs03-180-214-233-26.three.co.id. [180.214.233.26])
-        by smtp.gmail.com with ESMTPSA id b5-20020a170903228500b00186ad73e2d5sm4342551plh.208.2022.12.01.18.07.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Dec 2022 18:07:20 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 47E751044C3; Fri,  2 Dec 2022 09:07:17 +0700 (WIB)
-Date:   Fri, 2 Dec 2022 09:07:16 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     mtahhan@redhat.com
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, jbrouer@redhat.com,
-        thoiland@redhat.com, donhunte@redhat.com, john.fastabend@gmail.com
-Subject: Re: [PATCH bpf-next v2 1/1] docs: BPF_MAP_TYPE_SOCK[MAP|HASH]
-Message-ID: <Y4ld1BsRrXaPtz0L@debian.me>
-References: <20221201151352.34810-1-mtahhan@redhat.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NNVoFsm0p2fmF+8XIvCyUUB0uikNlFRO7bl1K7LYxsY=;
+        b=crguBHc1NGFyB51WZi530xi9+P52Ct6ZcfkSLWFQt0vRvLVSS8l8fyOqhafENUAqFC
+         dXarRvlpj4PgjOW6S7DhNCtshCeG783WzrqbgpBARix1tuZQ5E01IJ2tT9vpX+S84lda
+         l40SLrJQGyuiBzik0eiS9SNzRZw9Cs9x1pYURQPdNGPu89/iQZK6P+aLV0+yQ1Fm3JXG
+         ryaGP3EacanvsxxItsSQGBPRwcWBybkjVpoXgO3LD1uM246fZtpDxAWlE/g9PiIJVjgp
+         Z0aY3eLTdQaS0Z1XU56/aFk+uGMnfYijNSzG+Z6uSgfgxqSRw4FmIe2ExSDwDCC+vt3w
+         Kn4Q==
+X-Gm-Message-State: ANoB5pmhprhv6Jj7KyNMsD36K7ntzxW4rSxuC9SATGLTKbkNbvc/Ypo1
+        PUbpIjtzbIe97TASAMYnfhk=
+X-Google-Smtp-Source: AA0mqf6gz6A13yBGX1W5VBbvMdl3XinEw0aSx1UfmvWSa8VCPJeNADCW+6HFko9k7cS44X/8S1hbTA==
+X-Received: by 2002:a05:6a02:108:b0:46b:3acb:77ab with SMTP id bg8-20020a056a02010800b0046b3acb77abmr42945327pgb.359.1669947254276;
+        Thu, 01 Dec 2022 18:14:14 -0800 (PST)
+Received: from [192.168.43.80] (subs03-180-214-233-26.three.co.id. [180.214.233.26])
+        by smtp.gmail.com with ESMTPSA id e9-20020aa79809000000b0057507bbd704sm3911674pfl.5.2022.12.01.18.14.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Dec 2022 18:14:13 -0800 (PST)
+Message-ID: <66b3fd78-31bc-c435-ccc8-c8682b3cacee@gmail.com>
+Date:   Fri, 2 Dec 2022 09:14:08 +0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="cXOd5jt22bP2DGnc"
-Content-Disposition: inline
-In-Reply-To: <20221201151352.34810-1-mtahhan@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v1 3/3] Documentation: riscv: add a section about ISA
+ string ordering in /proc/cpuinfo
+Content-Language: en-US
+To:     Conor Dooley <conor.dooley@microchip.com>
+Cc:     Conor Dooley <conor@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-riscv@lists.infradead.org, ajones@ventanamicro.com,
+        aou@eecs.berkeley.edu, corbet@lwn.net, guoren@kernel.org,
+        heiko@sntech.de, paul.walmsley@sifive.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20221130234125.2722364-1-conor@kernel.org>
+ <20221130234125.2722364-4-conor@kernel.org> <Y4gZ/KZz9rdYj/0r@debian.me>
+ <Y4hjIWHTuYcf90ja@wendy>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <Y4hjIWHTuYcf90ja@wendy>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 12/1/22 15:17, Conor Dooley wrote:
+> On Thu, Dec 01, 2022 at 10:05:32AM +0700, Bagas Sanjaya wrote:
+>> On Wed, Nov 30, 2022 at 11:41:26PM +0000, Conor Dooley wrote:
+>>> +#. Single-letter extensions come first, in "canonical order", so
+>>> +   "IMAFDQLCBKJTPVH".
+>>
+>> "..., that is ... ."
+> 
+> Hmm, that reads strangely to me. s/that/which/.
+> 
 
---cXOd5jt22bP2DGnc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+OK.
 
-On Thu, Dec 01, 2022 at 03:13:52PM +0000, mtahhan@redhat.com wrote:
-> +When these maps are created BPF programs are attached to them. The list =
-of
-> +allowed programs is shown below:
+>>
+>>> +#. The first letter following the 'Z' conventionally indicates the most
+>>> +   closely related alphabetical extension category, IMAFDQLCBKJTPVH.
+>>> +   If multiple 'Z' extensions are named, they should be ordered first by
+>>> +   category, then alphabetically within a category.
+>>> +
+>>
+>> Did you mean "most closely related alphabetical extension category in
+>> canonical order"?
+> 
+> I am not 100% sure what you are suggesting a replacement of here. I
+> think I may reword this as:
+>   For additional standard extensions, the first letter following the 'Z'
+>   conventionally indicates the most closely related alphabetical
+>   extension category. If multiple 'Z' extensions are named, they will
+>   be ordered first by category, in canonical order as listed above, then
+>   alphabetically within a category.
+> 
 
-Automatically attached BPF programs?
+That LGTM.
 
-Also, "The allowed programs are:"
+>>> +An example string following the order is:
+>>> +   rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
+>>> +
+>>  
+>> IMO literal code block should be better fit for the example above,
+>> rather than definition list:
+> 
+> Uh, sure? I'm not sure what impact that has on the output, but I can
+> switch to a pre-formatted block.
+> 
 
-> +.. note::
-> +	For more details of the socket callbacks that get replaced please see:
-> +
-> +	- TCP BPF functions: ``net/ipv4/tcp_bpf.c``
-> +	- UDP BPF functions: ``net/ipv4/udp_bpf.c``
+Something like ``foo``?
 
-"... please see ``net/ipv4/tcp_bpf.c`` and ``net/ipv4/udp_bpf.c`` for
-TCP and UDP functions, respectively"
+Thanks.
 
-Otherwise LGTM.
-
---=20
+-- 
 An old man doll... just what I always wanted! - Clara
 
---cXOd5jt22bP2DGnc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY4ldzwAKCRD2uYlJVVFO
-o3vqAP9DDTvIAhV7zgWCl5Yqc3NB2lZlztTUMaxqEiuEU754igD/VIG7semAcmZ6
-uCkAK5zIOsLuer5R+1yN5v4zsBeInwg=
-=GVME
------END PGP SIGNATURE-----
-
---cXOd5jt22bP2DGnc--
