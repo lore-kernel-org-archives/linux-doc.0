@@ -2,123 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6109CC4708E
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 16:41:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06E4DC4321E
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 17:24:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233790AbiLBQlp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Dec 2022 11:41:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37204 "EHLO
+        id S232519AbiLBRYn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Dec 2022 12:24:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233561AbiLBQlo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 11:41:44 -0500
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04663C7243
-        for <linux-doc@vger.kernel.org>; Fri,  2 Dec 2022 08:41:43 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id cf42so2454797lfb.1
-        for <linux-doc@vger.kernel.org>; Fri, 02 Dec 2022 08:41:42 -0800 (PST)
+        with ESMTP id S234007AbiLBRYd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 12:24:33 -0500
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4568711807
+        for <linux-doc@vger.kernel.org>; Fri,  2 Dec 2022 09:24:32 -0800 (PST)
+Received: by mail-io1-xd32.google.com with SMTP id q79so2460845iod.4
+        for <linux-doc@vger.kernel.org>; Fri, 02 Dec 2022 09:24:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BAq+fVHmIhCdKS7zABOm6n+xbqhaX7I/kqj6V6QJRdA=;
-        b=cEvbPinNNHFoSzYYRCjmu+dZle00/Om99aGXDsuGwJtsjH0kcHXB3AbG7Fln+3Xe7f
-         9Ed2Du4oJ5VfR09EEqhaFLIbzhnk5sWAK2MB+M56NYEEraFEowoahozwZZ+OWMDVj1va
-         L3Fg4QmE2KsZEk3e5XZTI18U4ZDwDAMHxKNUEHD60Tr1hOTIjff3AcLWl8/9JxEzCjsJ
-         hshnf+ycPMcOSSBoCJEZB4FCrFbyo2cmXpZ01qt7NDSqa2HT1ZL+dnv0wVUdbSFfwf7K
-         PssCqh2six1PYS51W4kh3lg7t4NDp5FR8oEOeim1Ak1FoxS0jWbXqIjzYU8OsSt7oW3Z
-         3QRw==
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ofFR/mVCsDKZj44lDEy/8k5d1m69ZQ2boKHQlr/3NdY=;
+        b=NteYCFzY9P/RDwVHhhAOK1Uw483SNoVV17UFJtHDLJLYGlp3mGvBAvsBoUffOclc+M
+         q5BSW5wje1nc5AdNtDN+njEC+3gXB/ZKqDonnXMFu5Nra059pO6/Cj3uI24f6cEXaAYp
+         wvEqg8R+oeVO1abR93kTH6Kk/WRAgiCrjxOAI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BAq+fVHmIhCdKS7zABOm6n+xbqhaX7I/kqj6V6QJRdA=;
-        b=OR/p430h2BQEWfgMniNI5JXZpZxh7vMFAknw+oW9DLlxNlx9mOu105CO4LqNQkd3Z6
-         UHzk+emnTjWZkUnVlKOwVyKRj2FJ8G/Rlk+d/n9TrWMYZwR50gKX1yWXq5E8v3EZapaU
-         Sg6HgLPhWgQrQ9j14c9o6+2//L+274Nt7vGZ2IUKhfid+ED7hJBlmijdhFfSqf2SgVhH
-         9tf2w4vwuf363G/n/4vxr4Sb3uhVmwCeVV6sEdsl2AEBWN98poVCBu21hchaEvzFgXH0
-         X9YghytNCp7iYGLk3Nc41gzhk/saxuRBnmKwRVnRtEwXCqN53tv0wtw8sF4FO72vG09b
-         Ul1Q==
-X-Gm-Message-State: ANoB5pl+YcTdI0/yU24Huno3At895BCGUperab2GA64lsUgr8jvCqOSL
-        s+M/AWbTFksUDuI1Sje19hfyFg==
-X-Google-Smtp-Source: AA0mqf6oea5Kvs0FUDDil6DVjGdcz2bh7/d3UarMFl9jl+UoVskWak6MPuASvv0rchDNa4BGdJu6aA==
-X-Received: by 2002:a05:6512:484:b0:4a2:33f8:2d0f with SMTP id v4-20020a056512048400b004a233f82d0fmr23443294lfq.140.1669999301382;
-        Fri, 02 Dec 2022 08:41:41 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id f27-20020a19381b000000b004a25468d86asm1075351lfa.68.2022.12.02.08.41.38
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ofFR/mVCsDKZj44lDEy/8k5d1m69ZQ2boKHQlr/3NdY=;
+        b=C8XQ1XzLq2BDV8/Tx9trLTbjISo+JMa9SGe7XNUO0nS0tcCAa83PLa4zqFjAfDxvBv
+         913dBr2WuEG9GureIdq95Ii4VxWS91z/Hyh+bEsjfjF4H/ouKlEupBgQg/syu/N3SdLH
+         sdjV9W2NsDrdW4BRfUnmZrN+eEN7gCKahXZa2K/Pdaip5rPM7UNc0Qk7juDHHeCgHNWb
+         sPlzMmZEvebAalEQqAllfxwWuhaCrrxKuMhrp79alGqCsm/uCaiBjiY3Qv3RKEyhot8X
+         mUZ54SLPQbvyEkcLaQ/2M442OxHLiXCApfD/UKn7Vpx2HxIshaIlbi4GxI/SQUaOqvQy
+         ds3g==
+X-Gm-Message-State: ANoB5plFm3wkER12qsx0XvPXFk7cBG3PugE0nNVHBWPQXLQr9d6fzlUA
+        vG8MjYu1Jz8qAvFatjgoBVBMI1pEuQUfvyfp74w=
+X-Google-Smtp-Source: AA0mqf6kWiQVKdsmuRPSkj3bA++3W76fC5KVGgXo8ASAO0Bne5pQ15+M5QxWRjDwHpgAPUySllHqAg==
+X-Received: by 2002:a05:6638:16c3:b0:389:d9a2:8667 with SMTP id g3-20020a05663816c300b00389d9a28667mr13877433jat.91.1670001871380;
+        Fri, 02 Dec 2022 09:24:31 -0800 (PST)
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com. [209.85.166.44])
+        by smtp.gmail.com with ESMTPSA id x13-20020a056e021cad00b002f5447b47f8sm2649835ill.33.2022.12.02.09.24.30
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Dec 2022 08:41:39 -0800 (PST)
-Message-ID: <620b19f5-2202-21a5-7e3b-816dcd42d1b4@linaro.org>
-Date:   Fri, 2 Dec 2022 17:41:37 +0100
+        Fri, 02 Dec 2022 09:24:30 -0800 (PST)
+Received: by mail-io1-f44.google.com with SMTP id i80so3517935ioa.0
+        for <linux-doc@vger.kernel.org>; Fri, 02 Dec 2022 09:24:30 -0800 (PST)
+X-Received: by 2002:a5e:c64a:0:b0:6cc:e295:7bde with SMTP id
+ s10-20020a5ec64a000000b006cce2957bdemr24816919ioo.183.1670001870306; Fri, 02
+ Dec 2022 09:24:30 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v1 1/2] dt-bindings: leds: add binding for aw200xx
-Content-Language: en-US
-To:     Martin Kurbanov <MMKurbanov@sberdevices.ru>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        kernel <kernel@sberdevices.ru>
-References: <20221124204807.1593241-1-mmkurbanov@sberdevices.ru>
- <20221124204807.1593241-2-mmkurbanov@sberdevices.ru>
- <bb12ea88-b416-7e32-93b9-730b6f009b98@linaro.org>
- <0a9e7d65-4ad7-b753-ec9b-8e58a549b5db@sberdevices.ru>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <0a9e7d65-4ad7-b753-ec9b-8e58a549b5db@sberdevices.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221123-serial-clk-v3-0-49c516980ae0@chromium.org> <20221123-serial-clk-v3-1-49c516980ae0@chromium.org>
+In-Reply-To: <20221123-serial-clk-v3-1-49c516980ae0@chromium.org>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Fri, 2 Dec 2022 18:24:19 +0100
+X-Gmail-Original-Message-ID: <CANiDSCs-CdhdvZF1PsDWivWiTB-=66DK4XOrv5hzbgbC9Z=+Rg@mail.gmail.com>
+Message-ID: <CANiDSCs-CdhdvZF1PsDWivWiTB-=66DK4XOrv5hzbgbC9Z=+Rg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] earlycon: Let users set the clock frequency
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-serial@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28/11/2022 18:43, Martin Kurbanov wrote:
-> Hi. Thank you for quick reply. 
-> 
-> On 25.11.2022 11:29, Krzysztof Kozlowski wrote:
->>> +
->>> +  imax:
->>> +    maxItems: 1
->>> +    description:
->>> +      Maximum supply current, see dt-bindings/leds/leds-aw200xx.h
->>
->> No. Use existing properties from common.yaml. This looks like
->> led-max-microamp and it is per LED, not per entire device.
-> 
-> The AW200XX LED chip does not support imax setup per led.
-> Imax is the global parameter over the all leds. I suppose, it's better
-> to add vendor prefix or take minimum from all subnodes?
-> How do you think?
+Hi Jiri
 
-Have in mind that led-max-microamp is a required property in some cases,
-so skipping it and using per-device properties does not solve the
-problem of adjusting proper currents. What if each LED you set for
-something which in total gives more than your imax?
+is there something else that I am missing here?
 
-> 
-> 
->>> +/* Global max current (IMAX) */
->>> +#define AW200XX_IMAX_3_3MA  8
->>> +#define AW200XX_IMAX_6_7MA  9
->>
->> No. Bindings are not for storing register constants. Feel free to store
->> here IDs (ID start from 0 or 1 and is incremented by 1)... but how the
->> IMAX even matches any need for "ID"?
-> 
-> IMAX can be chosen from the predefined values in the
-> datasheet (10mA, 20mA, etc). Do you mean the IMAX should be round down
-> to nearest supported value in the driver?
+Thanks!
 
-What Linux driver support does not matter here. Bindings should reflect
-hardware and the same time not store register constants but logical
-values (for current this is in uA).
+On Thu, 24 Nov 2022 at 13:39, Ricardo Ribalda <ribalda@chromium.org> wrote:
+>
+> Some platforms, namely AMD Picasso, use non standard uart clocks (48M),
+> witch makes it impossible to use with earlycon.
+>
+> Let the user select its own frequency.
+>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index a465d5242774..9efb6c3b0486 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1182,10 +1182,10 @@
+>                         specified, the serial port must already be setup and
+>                         configured.
+>
+> -               uart[8250],io,<addr>[,options]
+> -               uart[8250],mmio,<addr>[,options]
+> -               uart[8250],mmio32,<addr>[,options]
+> -               uart[8250],mmio32be,<addr>[,options]
+> +               uart[8250],io,<addr>[,options[,uartclk]]
+> +               uart[8250],mmio,<addr>[,options[,uartclk]]
+> +               uart[8250],mmio32,<addr>[,options[,uartclk]]
+> +               uart[8250],mmio32be,<addr>[,options[,uartclk]]
+>                 uart[8250],0x<addr>[,options]
+>                         Start an early, polled-mode console on the 8250/16550
+>                         UART at the specified I/O port or MMIO address.
+> @@ -1194,7 +1194,9 @@
+>                         If none of [io|mmio|mmio32|mmio32be], <addr> is assumed
+>                         to be equivalent to 'mmio'. 'options' are specified
+>                         in the same format described for "console=ttyS<n>"; if
+> -                       unspecified, the h/w is not initialized.
+> +                       unspecified, the h/w is not initialized. 'uartclk' is
+> +                       the uart clock frequency; if unspecified, it is set
+> +                       to 'BASE_BAUD' * 16.
+>
+>                 pl011,<addr>
+>                 pl011,mmio32,<addr>
+> diff --git a/drivers/tty/serial/earlycon.c b/drivers/tty/serial/earlycon.c
+> index a5f380584cda..3a0c88419b6c 100644
+> --- a/drivers/tty/serial/earlycon.c
+> +++ b/drivers/tty/serial/earlycon.c
+> @@ -120,7 +120,13 @@ static int __init parse_options(struct earlycon_device *device, char *options)
+>         }
+>
+>         if (options) {
+> +               char *uartclk;
+> +
+>                 device->baud = simple_strtoul(options, NULL, 0);
+> +               uartclk = strchr(options, ',');
+> +               if (uartclk && kstrtouint(uartclk + 1, 0, &port->uartclk) < 0)
+> +                       pr_warn("[%s] unsupported earlycon uart clkrate option\n",
+> +                               options);
+>                 length = min(strcspn(options, " ") + 1,
+>                              (size_t)(sizeof(device->options)));
+>                 strscpy(device->options, options, length);
+> @@ -139,7 +145,8 @@ static int __init register_earlycon(char *buf, const struct earlycon_id *match)
+>                 buf = NULL;
+>
+>         spin_lock_init(&port->lock);
+> -       port->uartclk = BASE_BAUD * 16;
+> +       if (!port->uartclk)
+> +               port->uartclk = BASE_BAUD * 16;
+>         if (port->mapbase)
+>                 port->membase = earlycon_map(port->mapbase, 64);
+>
+>
+> --
+> b4 0.11.0-dev-d93f8
 
-Best regards,
-Krzysztof
 
+
+-- 
+Ricardo Ribalda
