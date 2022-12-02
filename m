@@ -2,79 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 187E2C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 21:30:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3284FC4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 22:33:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234088AbiLBVaY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Dec 2022 16:30:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44562 "EHLO
+        id S234619AbiLBWdk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Dec 2022 17:33:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233960AbiLBVaX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 16:30:23 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57C4B60B52;
-        Fri,  2 Dec 2022 13:30:22 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DFEF2B822BD;
-        Fri,  2 Dec 2022 21:30:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 84A07C433D6;
-        Fri,  2 Dec 2022 21:30:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670016619;
-        bh=nDPDgygeyz+PSAwztB144Wz/L86h8qovnsGSzx36rGs=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=K1js8FYQR2oVve/fnWt4g35opHXJhUDLuExx3pH64rOEvkgEleTJiCRca2JEmk33V
-         PFIV4djStGNE7X6d6pXf53bIQ63xtiMEFaRS3gsFTlzS3AymIr0eJPVw+q8Ih6qSIL
-         GCnjk1iX9ktoLREaZ28KeDRB8RaKM+t1DDu1HXi8EduRnBpc98lsCmuuqhiTs+srDi
-         atAwwOWmOu66DcGuw6umMPVuHYpfsRChktV9LCcPwNjCoF8KWRdtTNMBVLTdbml2JK
-         V/KSecpUsPpvX9mx6NVOArx13/+lL34lNqOqn+5QGG+5FFiGAi1zl0shsQ/bq9rtPf
-         YxZLUZD5PFRkw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6774BE21EEF;
-        Fri,  2 Dec 2022 21:30:19 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S234590AbiLBWdj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 17:33:39 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82504B2751;
+        Fri,  2 Dec 2022 14:33:38 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id d20so8324337edn.0;
+        Fri, 02 Dec 2022 14:33:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LthvsFA3uIpPeqEsqymC8dZfIMWYhUwLsZlEoJ0BTkk=;
+        b=n/Vghe9upjOsF6LwurV4lq9TyyVrgieFNfscFY6ux1kxDlV1lifno0WwUA3W3j/yMm
+         sFWJfJszC41AiIKxMz7bxl4cqWgaQ4ofFrGrlJv6PJZFdAMe7sAdj7MtA37iA4iaJ3Z6
+         tH9iRcJ/nTi2doR1GSVmy01Jz7L4klm/31dlBMDLGfg1dV+bUQIQTVreJ3qzHZB3SkXX
+         6KWB5XmeJjBBZnesGCO4z3E/NyMhL1wNrwxqZOq1NerLqwJ1bV4m6VKka6JYCEYCPkWJ
+         UT2sJ1Gd79zilIhgM74LmP1CQCplxfpkL2YhmLux6FpwEnpl1oeJGvRvp8bzQc7ZjX4d
+         8paQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LthvsFA3uIpPeqEsqymC8dZfIMWYhUwLsZlEoJ0BTkk=;
+        b=7Vy28ooBDN1CPXaKpFj7SOt/iCrQWjifqdVZbCo4gtR0gMZytUN1bzQoj2HeFj0tFf
+         ARp4dCWsv4DLl+3JfG0ANZL82YKWzy18g+C9jgoU12eeUub89vmunZOHUxnxQArJYAmw
+         6u73qLmIN+NccFbaEm5ZfkOp6fJdvNva7azRH/+Myl03J847PRXPyz5qYp+JYex0KBAe
+         0UczCY9rsiSnWK+3muJQ+EKiD+lo4EaFHMB09jTOnZUzw4JYw1hE0TJQXLBNBlE1wlL2
+         JVZQa+KQuX75jJ9Fw/kQI2e32Xkrxw0ZqMZgYYWjvPcdq1z4JPzoBD4sIQOd6KhDKEKz
+         xXvA==
+X-Gm-Message-State: ANoB5pk9bdcQbfcjziHAfr9mE5AaaX/xKga+/WxSQyM7nbRC9d+Ox8oX
+        XcQsLE3xgOcRcecaHUj8jGE=
+X-Google-Smtp-Source: AA0mqf6HUUrFzheW72d2FhqqR2nNUAOq0Ke5eowpfK/U+FuBAgma/Ew9i2DQWNPXGwHu2bCxys45zQ==
+X-Received: by 2002:a05:6402:104b:b0:461:7d1f:1a7b with SMTP id e11-20020a056402104b00b004617d1f1a7bmr47054751edu.400.1670020416848;
+        Fri, 02 Dec 2022 14:33:36 -0800 (PST)
+Received: from xws.localdomain ([37.120.217.162])
+        by smtp.gmail.com with ESMTPSA id j17-20020a17090623f100b007c0d0dad9c6sm575340ejg.108.2022.12.02.14.33.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Dec 2022 14:33:36 -0800 (PST)
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Sebastian Reichel <sre@kernel.org>
+Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/9] platform/surface: aggregator: Improve target/source handling in SSH messages
+Date:   Fri,  2 Dec 2022 23:33:18 +0100
+Message-Id: <20221202223327.690880-1-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf] bpf, docs: Correct the example of BPF_XOR
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <167001661941.2078.7625325566074444761.git-patchwork-notify@kernel.org>
-Date:   Fri, 02 Dec 2022 21:30:19 +0000
-References: <20221129134558.2757043-1-zhengyejian1@huawei.com>
-In-Reply-To: <20221129134558.2757043-1-zhengyejian1@huawei.com>
-To:     Zheng Yejian <zhengyejian1@huawei.com>
-Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
-        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
-        haoluo@google.com, jolsa@kernel.org, corbet@lwn.net,
-        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+We have some new insights into the Serial Hub protocol, obtained through
+reverse engineering. In particular, regarding the command structure. The
+input/output target IDs actually represent source and target IDs of
+(what looks like) physical entities (specifically: host, SAM EC, KIP EC,
+debug connector, and SurfLink connector).
 
-This patch was applied to bpf/bpf-next.git (master)
-by Daniel Borkmann <daniel@iogearbox.net>:
+This series aims to improve handling of messages with regards to those
+new findings and, mainly, improve clarity of the documentation and usage
+around those fields.
 
-On Tue, 29 Nov 2022 21:45:58 +0800 you wrote:
-> Refer to description of BPF_XOR, dst_reg should be used but not src_reg
-> in the examples.
-> 
-> Signed-off-by: Zheng Yejian <zhengyejian1@huawei.com>
-> ---
->  Documentation/bpf/instruction-set.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+See the discussion in
 
-Here is the summary with links:
-  - [bpf] bpf, docs: Correct the example of BPF_XOR
-    https://git.kernel.org/bpf/bpf-next/c/bc067cacb69c
+    https://github.com/linux-surface/surface-aggregator-module/issues/64
 
-You are awesome, thank you!
+for more details.
+
+There are a couple of standouts:
+
+- Patch 1 ensures that we only handle commands actually intended for us.
+  It's possible that we receive messages not intended for us when we
+  enable debugging. I've kept it intentionally minimal to simplify
+  backporting. The rest of the series patch 9 focuses more on clarity
+  and documentation, which is probably too much to backport.
+
+- Patch 8 touches on multiple subsystems. The intention is to enforce
+  proper usage and documentation of target IDs in the SSAM_SDEV() /
+  SSAM_VDEV() macros. As it directly touches those macros I
+  unfortunately can't split it up by subsystem.
+
+- Patch 9 is a loosely connected cleanup for consistency.
+
+Hans, Jiri, Benjamin, Sebastian: While patch 8 ("platform/surface:
+aggregator: Enforce use of target-ID enum in device ID macros") touches
+multiple subsystems, it should be possible to take the whole series
+through the pdx86 tree. The changes in other subsystems are fairly
+limited.
+
+
+Maximilian Luz (9):
+  platform/surface: aggregator: Ignore command messages not intended for
+    us
+  platform/surface: aggregator: Improve documentation and handling of
+    message target and source IDs
+  platform/surface: aggregator: Add target and source IDs to command
+    trace events
+  platform/surface: aggregator_hub: Use target-ID enum instead of
+    hard-coding values
+  platform/surface: aggregator_tabletsw: Use target-ID enum instead of
+    hard-coding values
+  platform/surface: dtx: Use target-ID enum instead of hard-coding
+    values
+  HID: surface-hid: Use target-ID enum instead of hard-coding values
+  platform/surface: aggregator: Enforce use of target-ID enum in device
+    ID macros
+  platform/surface: aggregator_registry: Fix target-ID of base-hub
+
+ .../driver-api/surface_aggregator/client.rst  |  4 +-
+ .../driver-api/surface_aggregator/ssh.rst     | 36 ++++-----
+ drivers/hid/surface-hid/surface_hid.c         |  2 +-
+ drivers/hid/surface-hid/surface_kbd.c         |  2 +-
+ .../platform/surface/aggregator/controller.c  | 12 +--
+ .../platform/surface/aggregator/ssh_msgb.h    |  4 +-
+ .../surface/aggregator/ssh_request_layer.c    | 15 ++++
+ drivers/platform/surface/aggregator/trace.h   | 73 +++++++++++++++++--
+ .../platform/surface/surface_aggregator_hub.c |  8 +-
+ .../surface/surface_aggregator_registry.c     |  2 +-
+ .../surface/surface_aggregator_tabletsw.c     | 10 +--
+ drivers/platform/surface/surface_dtx.c        | 20 ++---
+ .../surface/surface_platform_profile.c        |  2 +-
+ drivers/power/supply/surface_battery.c        |  4 +-
+ drivers/power/supply/surface_charger.c        |  2 +-
+ include/linux/surface_aggregator/controller.h |  4 +-
+ include/linux/surface_aggregator/device.h     | 50 ++++++-------
+ include/linux/surface_aggregator/serial_hub.h | 40 ++++++----
+ 18 files changed, 191 insertions(+), 99 deletions(-)
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.38.1
 
