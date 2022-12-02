@@ -2,117 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEFAFC47088
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 13:44:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A451C47089
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 16:28:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233375AbiLBNol (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Dec 2022 08:44:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47460 "EHLO
+        id S234156AbiLBQ2K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Dec 2022 11:28:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233420AbiLBNoi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 08:44:38 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D457DD78C4;
-        Fri,  2 Dec 2022 05:44:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669988676; x=1701524676;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=skS3MR2BvQKKKmac1ZclTHHuTXnPM7lSX4PdHSON5iM=;
-  b=etrl713uP9zPN4Y7zzOnpu5bmc+dZ/UHIghKHo1yCxupTaAkrFTKUBaY
-   t4oc46tu8uZ8kkVhwqlV5wk7FYmCZTp4bn4DU0qR1fvvbnCoLMwOTcQwY
-   KyWPe1dM3gcRzgCwwsJW2Pvn8B36fT+vL8QwXI3zGWuGYWkSaKUDeJGmI
-   XcOKz0oM4NmX6dqQuXhEBmtqARggoMic/rL4G6ljl0i4ujXm+hJ6AetCw
-   yBSO/kCPQzE9EobLmy0B/Kk9u4MlqrjSReB22I6yUPeJVVAwP4nEtu4ue
-   1OhcApdKlizefoDn8GRmuom3izr80PksleDMf4MA10VloV3880DgajFx9
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="317102462"
-X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; 
-   d="scan'208";a="317102462"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2022 05:44:35 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="622704069"
-X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; 
-   d="scan'208";a="622704069"
-Received: from valeriya-mobl2.ger.corp.intel.com (HELO box.shutemov.name) ([10.251.211.234])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2022 05:44:23 -0800
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id EC5D610975F; Fri,  2 Dec 2022 16:44:19 +0300 (+03)
-Date:   Fri, 2 Dec 2022 16:44:19 +0300
-From:   "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Vishal Annapurve <vannapurve@google.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        tabba@google.com, Michael Roth <michael.roth@amd.com>,
-        mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221202134419.vjhqzuz5alv3v2ak@box.shutemov.name>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <CAGtprH9Qu==pohH9ZSTzX9rZWSO0QWJ9rGK6NRGaiDetWAPLYg@mail.gmail.com>
- <20221202064909.GA1070297@chaop.bj.intel.com>
+        with ESMTP id S234158AbiLBQ2G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 11:28:06 -0500
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFF696156;
+        Fri,  2 Dec 2022 08:27:36 -0800 (PST)
+Received: by mail-yb1-xb2e.google.com with SMTP id v206so6606995ybv.7;
+        Fri, 02 Dec 2022 08:27:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2GxtvfHCkncjnTNpJW4An3z4TxFNjBybQDia+IbsvAI=;
+        b=AXHkzHOUOB30rgVsOy7suQUPZicLTrqxJk3pFPRFKy9yXV9WDO6ppfKW/okGciqoTV
+         QTR2FidLs3Zqzq0KfXmfdN7umbRjPJzgy369QroyGajw223Em7YI1p7JSJitJeS2/RV9
+         AtAaPfvGfahcbcGadr6p6PUtfhx0KvFYmmea7iDtJCoaRVwc5az1Gq6NVuPUo30+vYXY
+         k860SoFeqz6EQXC9LXalTkmPaX+btA9gwhl/XaP+qZG32I3SR5bxEKvzYVaZr75n76+Y
+         o+hXugqFzoH/2B1ragC/B4rrgwByqUR32ZZgEnf2xtSmUuIkcpg0IuvxRfxSQLYoqgXX
+         nYDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2GxtvfHCkncjnTNpJW4An3z4TxFNjBybQDia+IbsvAI=;
+        b=iVz6kM7s2FHwYbt+ZlMCzKkyhfTBqf9SPB+Qk6f2i5LsGHGnq3A5ce3RUXXK0MZShI
+         WxbbBZ2U2da1bGLmzxXK6oqtVbXlRPc7zQOq08mIIRiYkjNdH9Yun/IvCZQuaybwyCKL
+         JlkSRD0IblOqEE+CogoClCls2X1ID100YSZ9byLH5D9nthtddVq42BanF1jCrQtjP0Zt
+         dcx2bx8m/bF0D05zkinn4nMNBkMLbHjxMJ86gBzwc8yT7dZL2HYdzsXqB8XoqiUMHiGk
+         kdIHFiteK32ZoSwwAiLRtRJLYS2b71by7b6iKqJqO0wQ1nGZa+SAsdWXGVF4/iSP8j0n
+         fPCw==
+X-Gm-Message-State: ANoB5pk9ItQxmoNQ+vMRUzD2TxCZg/c26iHMPuedOM9QDQf98Glwb8gy
+        QIa1pXNvoOHBOe3PyTJSXbDJWkyPVd5oXE4K4ys=
+X-Google-Smtp-Source: AA0mqf7m7pxhWnL1A3FKm5m8WgIh9QG7XLbayOVVXnVFxagacUUAg+TdH567KwyTXyh51iOPeLjMskMvWKff3c8V/gU=
+X-Received: by 2002:a25:44c5:0:b0:6cb:16d0:1ae1 with SMTP id
+ r188-20020a2544c5000000b006cb16d01ae1mr48488932yba.581.1669998455690; Fri, 02
+ Dec 2022 08:27:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221202064909.GA1070297@chaop.bj.intel.com>
+References: <20221130220825.1545758-1-carlos.bilbao@amd.com>
+ <CANiq72nMY5f85tJJFg7AFsh4YRrKObhurhT8TVawYqoZU+J-Fg@mail.gmail.com> <15942593-5ec7-77a6-8637-61ca495d7528@amd.com>
+In-Reply-To: <15942593-5ec7-77a6-8637-61ca495d7528@amd.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Fri, 2 Dec 2022 17:27:24 +0100
+Message-ID: <CANiq72kkkbhYn44Mxn=55SLNHgqoAyiEadOAkprNpQOMaNAHUg@mail.gmail.com>
+Subject: Re: [PATCH] docs: Integrate rustdoc into Rust documentation
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     corbet@lwn.net, ojeda@kernel.org, bilbao@vt.edu,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        konstantin@linuxfoundation.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 02:49:09PM +0800, Chao Peng wrote:
-> On Thu, Dec 01, 2022 at 06:16:46PM -0800, Vishal Annapurve wrote:
-> > On Tue, Oct 25, 2022 at 8:18 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > >
-> ...
-> > > +}
-> > > +
-> > > +SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
-> > > +{
-> > 
-> > Looking at the underlying shmem implementation, there seems to be no
-> > way to enable transparent huge pages specifically for restricted memfd
-> > files.
-> > 
-> > Michael discussed earlier about tweaking
-> > /sys/kernel/mm/transparent_hugepage/shmem_enabled setting to allow
-> > hugepages to be used while backing restricted memfd. Such a change
-> > will affect the rest of the shmem usecases as well. Even setting the
-> > shmem_enabled policy to "advise" wouldn't help unless file based
-> > advise for hugepage allocation is implemented.
-> 
-> Had a look at fadvise() and looks it does not support HUGEPAGE for any
-> filesystem yet.
+On Thu, Dec 1, 2022 at 9:40 PM Carlos Bilbao <carlos.bilbao@amd.com> wrote:
+>
+> I don't understand config sync. Perhaps that, e.g. Documentation/Makefile
+> checks for broken docs, for CONFIG_WARN_MISSING_DOCUMENTS, but we don't
+> do that for rust/Makefile? I'm not sure, but it does sound orthogonal, yes.
 
-Yes, I think fadvise() is the right direction here. The problem is similar
-to NUMA policy where existing APIs are focused around virtual memory
-addresses. We need to extend ABI to take fd+offset as input instead.
+Config sync is what needs to happen to make a bunch of files in
+`include/` up to date with respect to the `.config`. It runs
+automatically for some targets, but not always. For instance, the
+`*docs` targets do not trigger it. So if you enable e.g.
+`CONFIG_WARN_MISSING_DOCUMENTS`, and immediately afterwards run
+`htmldocs`, it will not take it into account.
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+But don't worry about it: that part of my comment was directed at
+others (e.g. Jon, Akira...) that may know the historical context or
+the reason behind it -- no need to fix it here. I mentioned it here
+since it affects `CONFIG_RUST` if we use it there (in the same way as
+the other `CONFIG_*` used there).
+
+Cheers,
+Miguel
