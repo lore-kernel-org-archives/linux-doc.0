@@ -2,104 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB5AFC47088
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 16:32:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6109CC4708E
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 16:41:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233998AbiLBQcT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Dec 2022 11:32:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44280 "EHLO
+        id S233790AbiLBQlp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Dec 2022 11:41:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234227AbiLBQcD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 11:32:03 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FF44EE00;
-        Fri,  2 Dec 2022 08:32:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669998722; x=1701534722;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wSnpR7zDYAssFAg6Gf+Dcdqfe3muYD3GKdvIsPR3ziw=;
-  b=HPXrbcv0/YCdlXFzS54MouKSP9GvmUbc0U6O/ldxKD3E777TeU4UoJxv
-   v57C4l6799+wQ7jTi+Ss1L3EELU0YLwky/kSY3MEq0/2nUCAmCnNX317y
-   d0PylQqPr65Osq/R1Y8m8eG/xRfxcTHELPQMhHCaHYLiAE/kFY0bARiFe
-   xdwzSQopRqLV+iOoO3LVA9yIB/1dLRbSP/qhtc9bS41XcVy8HsF8Q3ihQ
-   ztRcyb6nNdgxaPVIIE4yde/GYlV9LvGWoJs23suMBGFwfiq5kyQn3XV5Y
-   M8O3k7R5cdNOoEChS57sZvOb78XQaCsvvp9aenqh1Jz+EcVzOFofXaYF6
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="402268617"
-X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; 
-   d="scan'208";a="402268617"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2022 08:32:00 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="890201379"
-X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; 
-   d="scan'208";a="890201379"
-Received: from nschade-mobl.amr.corp.intel.com (HELO desk) ([10.209.69.47])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2022 08:31:59 -0800
-Date:   Fri, 2 Dec 2022 08:31:58 -0800
-From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To:     Kim Phillips <kim.phillips@amd.com>
-Cc:     x86@kernel.org, Babu Moger <Babu.Moger@amd.com>,
-        Borislav Petkov <bp@alien8.de>, Borislav Petkov <bp@suse.de>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 6/7] x86/cpu: Support AMD Automatic IBRS
-Message-ID: <20221202163158.p7yuqimmnjbmlzvq@desk>
-References: <20221201015003.295769-1-kim.phillips@amd.com>
- <20221201015003.295769-7-kim.phillips@amd.com>
+        with ESMTP id S233561AbiLBQlo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 11:41:44 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04663C7243
+        for <linux-doc@vger.kernel.org>; Fri,  2 Dec 2022 08:41:43 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id cf42so2454797lfb.1
+        for <linux-doc@vger.kernel.org>; Fri, 02 Dec 2022 08:41:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BAq+fVHmIhCdKS7zABOm6n+xbqhaX7I/kqj6V6QJRdA=;
+        b=cEvbPinNNHFoSzYYRCjmu+dZle00/Om99aGXDsuGwJtsjH0kcHXB3AbG7Fln+3Xe7f
+         9Ed2Du4oJ5VfR09EEqhaFLIbzhnk5sWAK2MB+M56NYEEraFEowoahozwZZ+OWMDVj1va
+         L3Fg4QmE2KsZEk3e5XZTI18U4ZDwDAMHxKNUEHD60Tr1hOTIjff3AcLWl8/9JxEzCjsJ
+         hshnf+ycPMcOSSBoCJEZB4FCrFbyo2cmXpZ01qt7NDSqa2HT1ZL+dnv0wVUdbSFfwf7K
+         PssCqh2six1PYS51W4kh3lg7t4NDp5FR8oEOeim1Ak1FoxS0jWbXqIjzYU8OsSt7oW3Z
+         3QRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BAq+fVHmIhCdKS7zABOm6n+xbqhaX7I/kqj6V6QJRdA=;
+        b=OR/p430h2BQEWfgMniNI5JXZpZxh7vMFAknw+oW9DLlxNlx9mOu105CO4LqNQkd3Z6
+         UHzk+emnTjWZkUnVlKOwVyKRj2FJ8G/Rlk+d/n9TrWMYZwR50gKX1yWXq5E8v3EZapaU
+         Sg6HgLPhWgQrQ9j14c9o6+2//L+274Nt7vGZ2IUKhfid+ED7hJBlmijdhFfSqf2SgVhH
+         9tf2w4vwuf363G/n/4vxr4Sb3uhVmwCeVV6sEdsl2AEBWN98poVCBu21hchaEvzFgXH0
+         X9YghytNCp7iYGLk3Nc41gzhk/saxuRBnmKwRVnRtEwXCqN53tv0wtw8sF4FO72vG09b
+         Ul1Q==
+X-Gm-Message-State: ANoB5pl+YcTdI0/yU24Huno3At895BCGUperab2GA64lsUgr8jvCqOSL
+        s+M/AWbTFksUDuI1Sje19hfyFg==
+X-Google-Smtp-Source: AA0mqf6oea5Kvs0FUDDil6DVjGdcz2bh7/d3UarMFl9jl+UoVskWak6MPuASvv0rchDNa4BGdJu6aA==
+X-Received: by 2002:a05:6512:484:b0:4a2:33f8:2d0f with SMTP id v4-20020a056512048400b004a233f82d0fmr23443294lfq.140.1669999301382;
+        Fri, 02 Dec 2022 08:41:41 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id f27-20020a19381b000000b004a25468d86asm1075351lfa.68.2022.12.02.08.41.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Dec 2022 08:41:39 -0800 (PST)
+Message-ID: <620b19f5-2202-21a5-7e3b-816dcd42d1b4@linaro.org>
+Date:   Fri, 2 Dec 2022 17:41:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20221201015003.295769-7-kim.phillips@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v1 1/2] dt-bindings: leds: add binding for aw200xx
+Content-Language: en-US
+To:     Martin Kurbanov <MMKurbanov@sberdevices.ru>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        kernel <kernel@sberdevices.ru>
+References: <20221124204807.1593241-1-mmkurbanov@sberdevices.ru>
+ <20221124204807.1593241-2-mmkurbanov@sberdevices.ru>
+ <bb12ea88-b416-7e32-93b9-730b6f009b98@linaro.org>
+ <0a9e7d65-4ad7-b753-ec9b-8e58a549b5db@sberdevices.ru>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <0a9e7d65-4ad7-b753-ec9b-8e58a549b5db@sberdevices.ru>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 30, 2022 at 07:50:02PM -0600, Kim Phillips wrote:
->--- a/Documentation/admin-guide/kernel-parameters.txt
->+++ b/Documentation/admin-guide/kernel-parameters.txt
->@@ -5698,9 +5698,12 @@
-> 			retpoline,generic - Retpolines
-> 			retpoline,lfence  - LFENCE; indirect branch
-> 			retpoline,amd     - alias for retpoline,lfence
->-			eibrs		  - enhanced IBRS
->-			eibrs,retpoline   - enhanced IBRS + Retpolines
->-			eibrs,lfence      - enhanced IBRS + LFENCE
->+			eibrs		  - Enhanced/Auto IBRS
->+			autoibrs	  - Enhanced/Auto IBRS
->+			eibrs,retpoline   - Enhanced/Auto IBRS + Retpolines
->+			autoibrs,retpoline- Enhanced/Auto IBRS + Retpolines
->+			eibrs,lfence      - Enhanced/Auto IBRS + LFENCE
->+			autoibrs,lfence   - Enhanced/Auto IBRS + LFENCE
-> 			ibrs		  - use IBRS to protect kernel
+On 28/11/2022 18:43, Martin Kurbanov wrote:
+> Hi. Thank you for quick reply. 
+> 
+> On 25.11.2022 11:29, Krzysztof Kozlowski wrote:
+>>> +
+>>> +  imax:
+>>> +    maxItems: 1
+>>> +    description:
+>>> +      Maximum supply current, see dt-bindings/leds/leds-aw200xx.h
+>>
+>> No. Use existing properties from common.yaml. This looks like
+>> led-max-microamp and it is per LED, not per entire device.
+> 
+> The AW200XX LED chip does not support imax setup per led.
+> Imax is the global parameter over the all leds. I suppose, it's better
+> to add vendor prefix or take minimum from all subnodes?
+> How do you think?
 
-Documentation/admin-guide/hw-vuln/spectre.rst also needs an update.
+Have in mind that led-max-microamp is a required property in some cases,
+so skipping it and using per-device properties does not solve the
+problem of adjusting proper currents. What if each LED you set for
+something which in total gives more than your imax?
 
->--- a/arch/x86/kernel/cpu/common.c
->+++ b/arch/x86/kernel/cpu/common.c
->@@ -1226,7 +1226,7 @@ static const __initconst struct x86_cpu_id cpu_vuln_whitelist[] = {
-> 	VULNWL_AMD(0x12,	NO_MELTDOWN | NO_SSB | NO_L1TF | NO_MDS | NO_SWAPGS | NO_ITLB_MULTIHIT | NO_MMIO),
->
-> 	/* FAMILY_ANY must be last, otherwise 0x0f - 0x12 matches won't work */
->-	VULNWL_AMD(X86_FAMILY_ANY,	NO_MELTDOWN | NO_L1TF | NO_MDS | NO_SWAPGS | NO_ITLB_MULTIHIT | NO_MMIO),
->+	VULNWL_AMD(X86_FAMILY_ANY,	NO_MELTDOWN | NO_L1TF | NO_MDS | NO_SWAPGS | NO_ITLB_MULTIHIT | NO_MMIO | NO_EIBRS_PBRSB),
-> 	VULNWL_HYGON(X86_FAMILY_ANY,	NO_MELTDOWN | NO_L1TF | NO_MDS | NO_SWAPGS | NO_ITLB_MULTIHIT | NO_MMIO),
+> 
+> 
+>>> +/* Global max current (IMAX) */
+>>> +#define AW200XX_IMAX_3_3MA  8
+>>> +#define AW200XX_IMAX_6_7MA  9
+>>
+>> No. Bindings are not for storing register constants. Feel free to store
+>> here IDs (ID start from 0 or 1 and is incremented by 1)... but how the
+>> IMAX even matches any need for "ID"?
+> 
+> IMAX can be chosen from the predefined values in the
+> datasheet (10mA, 20mA, etc). Do you mean the IMAX should be round down
+> to nearest supported value in the driver?
 
-I don't know if Hygon is ever going to get Automatic IBRS, but it
-doesn't hurt to add NO_EIBRS_PBRSB to Hygon as well.
+What Linux driver support does not matter here. Bindings should reflect
+hardware and the same time not store register constants but logical
+values (for current this is in uA).
+
+Best regards,
+Krzysztof
+
