@@ -2,184 +2,341 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97CF1C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 03:14:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BABAC4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 03:26:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231383AbiLBDOs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Dec 2022 22:14:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55936 "EHLO
+        id S231398AbiLBD0j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Dec 2022 22:26:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231379AbiLBDOr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 22:14:47 -0500
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07E8BA47C4;
-        Thu,  1 Dec 2022 19:14:47 -0800 (PST)
-Received: from fraeml703-chm.china.huawei.com (unknown [172.18.147.206])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NNdJT1KK5z6HJLs;
-        Fri,  2 Dec 2022 11:11:37 +0800 (CST)
-Received: from lhrpeml500004.china.huawei.com (7.191.163.9) by
- fraeml703-chm.china.huawei.com (10.206.15.52) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.31; Fri, 2 Dec 2022 04:14:45 +0100
-Received: from [10.122.132.241] (10.122.132.241) by
- lhrpeml500004.china.huawei.com (7.191.163.9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Fri, 2 Dec 2022 03:14:44 +0000
-Message-ID: <8f3f8c93-3669-0240-0d0a-f067dea9d72c@huawei.com>
-Date:   Fri, 2 Dec 2022 06:14:43 +0300
+        with ESMTP id S231181AbiLBD0j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 22:26:39 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 253DAD9B01;
+        Thu,  1 Dec 2022 19:26:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1669951598; x=1701487598;
+  h=from:to:cc:subject:references:date:in-reply-to:
+   message-id:mime-version;
+  bh=G2O1ipvqOEkk0tycNq2YMbH51tXGO4FlNOqpgufvoTY=;
+  b=jS+Fq5i6gqSl4gmxg2t0sR8aN17hXeQhH/mn1QhSE1qeRnwu/xS3ufXd
+   xzK30XTZeGZON249wECcmWP3yk1Hx5/WB3KGABaYlDS9unA15iDysZzVP
+   Sd6d9euJM8oH06J1MMXIsBDfiQ8lWCfhauyvyzMo0+cs8ZWcGoodYANxR
+   c8MPeu2Xu0n3gkzegR1Fgrc3XW+c0Xo0UBHoHd+Q/8pqVrcmxxjzvt8dW
+   KnrhvRtfTTVRoj27F47rL94yjWtdKrtwdNK8fRd6+mEn2oP6l1Zlr6Us6
+   /8uZKMPXwg3keVp4e965QQ63yWB6c4DPuKH3VX9xSlaYhsvaATApKqu+E
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="402141889"
+X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; 
+   d="scan'208";a="402141889"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2022 19:26:37 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="733661676"
+X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; 
+   d="scan'208";a="733661676"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2022 19:26:33 -0800
+From:   "Huang, Ying" <ying.huang@intel.com>
+To:     Mina Almasry <almasrymina@google.com>
+Cc:     Yang Shi <yang.shi@linux.alibaba.com>,
+        Yosry Ahmed <yosryahmed@google.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>, weixugc@google.com,
+        shakeelb@google.com, gthelen@google.com, fvdl@google.com,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Hocko <mhocko@kernel.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH v2] mm: Add nodes= arg to memory.reclaim
+References: <20221130020328.1009347-1-almasrymina@google.com>
+Date:   Fri, 02 Dec 2022 11:25:44 +0800
+In-Reply-To: <20221130020328.1009347-1-almasrymina@google.com> (Mina Almasry's
+        message of "Tue, 29 Nov 2022 18:03:27 -0800")
+Message-ID: <878rjq32rr.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH v8 12/12] landlock: Document Landlock's network support
-Content-Language: ru
-To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-CC:     <willemdebruijn.kernel@gmail.com>, <gnoack3000@gmail.com>,
-        <linux-security-module@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <netfilter-devel@vger.kernel.org>, <artem.kuzin@huawei.com>,
-        <linux-doc@vger.kernel.org>
-References: <20221021152644.155136-1-konstantin.meskhidze@huawei.com>
- <20221021152644.155136-13-konstantin.meskhidze@huawei.com>
- <8a8ba39f-c7c2-eca6-93b1-f36d982726ca@digikod.net>
- <73a8a2f2-0d59-970d-eaba-c0da38a1c38b@huawei.com>
- <2bce0b5a-a679-93f2-995c-cb0e80c82bf2@digikod.net>
-From:   "Konstantin Meskhidze (A)" <konstantin.meskhidze@huawei.com>
-In-Reply-To: <2bce0b5a-a679-93f2-995c-cb0e80c82bf2@digikod.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.122.132.241]
-X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
- lhrpeml500004.china.huawei.com (7.191.163.9)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=ascii
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Mina Almasry <almasrymina@google.com> writes:
 
+> The nodes= arg instructs the kernel to only scan the given nodes for
+> proactive reclaim. For example use cases, consider a 2 tier memory system:
+>
+> nodes 0,1 -> top tier
+> nodes 2,3 -> second tier
+>
+> $ echo "1m nodes=0" > memory.reclaim
+>
+> This instructs the kernel to attempt to reclaim 1m memory from node 0.
+> Since node 0 is a top tier node, demotion will be attempted first. This
+> is useful to direct proactive reclaim to specific nodes that are under
+> pressure.
+>
+> $ echo "1m nodes=2,3" > memory.reclaim
+>
+> This instructs the kernel to attempt to reclaim 1m memory in the second tier,
+> since this tier of memory has no demotion targets the memory will be
+> reclaimed.
+>
+> $ echo "1m nodes=0,1" > memory.reclaim
+>
+> Instructs the kernel to reclaim memory from the top tier nodes, which can
+> be desirable according to the userspace policy if there is pressure on
+> the top tiers. Since these nodes have demotion targets, the kernel will
+> attempt demotion first.
+>
+> Since commit 3f1509c57b1b ("Revert "mm/vmscan: never demote for memcg
+> reclaim""), the proactive reclaim interface memory.reclaim does both
+> reclaim and demotion. Reclaim and demotion incur different latency costs
+> to the jobs in the cgroup. Demoted memory would still be addressable
+> by the userspace at a higher latency, but reclaimed memory would need to
+> incur a pagefault.
+>
+> The 'nodes' arg is useful to allow the userspace to control demotion
+> and reclaim independently according to its policy: if the memory.reclaim
+> is called on a node with demotion targets, it will attempt demotion first;
+> if it is called on a node without demotion targets, it will only attempt
+> reclaim.
+>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 15 +++---
+>  include/linux/swap.h                    |  3 +-
+>  mm/memcontrol.c                         | 67 ++++++++++++++++++++-----
+>  mm/vmscan.c                             |  4 +-
+>  4 files changed, 68 insertions(+), 21 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 74cec76be9f2..ac5fcbcd5ae6 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1245,17 +1245,13 @@ PAGE_SIZE multiple when read back.
+>  	This is a simple interface to trigger memory reclaim in the
+>  	target cgroup.
+>
+> -	This file accepts a single key, the number of bytes to reclaim.
+> -	No nested keys are currently supported.
+> +	This file accepts a string which contains the number of bytes to
+> +	reclaim.
+>
+>  	Example::
+>
+>  	  echo "1G" > memory.reclaim
+>
+> -	The interface can be later extended with nested keys to
+> -	configure the reclaim behavior. For example, specify the
+> -	type of memory to reclaim from (anon, file, ..).
+> -
+>  	Please note that the kernel can over or under reclaim from
+>  	the target cgroup. If less bytes are reclaimed than the
+>  	specified amount, -EAGAIN is returned.
+> @@ -1267,6 +1263,13 @@ PAGE_SIZE multiple when read back.
+>  	This means that the networking layer will not adapt based on
+>  	reclaim induced by memory.reclaim.
+>
+> +	This file also allows the user to specify the nodes to reclaim from,
+> +	via the 'nodes=' key, example::
+> +
+> +	  echo "1G nodes=0,1" > memory.reclaim
+> +
+> +	The above instructs the kernel to reclaim memory from nodes 0,1.
+> +
+>    memory.peak
+>  	A read-only single value file which exists on non-root
+>  	cgroups.
+> diff --git a/include/linux/swap.h b/include/linux/swap.h
+> index b61e2007d156..f542c114dffd 100644
+> --- a/include/linux/swap.h
+> +++ b/include/linux/swap.h
+> @@ -419,7 +419,8 @@ extern unsigned long try_to_free_pages(struct zonelist *zonelist, int order,
+>  extern unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
+>  						  unsigned long nr_pages,
+>  						  gfp_t gfp_mask,
+> -						  unsigned int reclaim_options);
+> +						  unsigned int reclaim_options,
+> +						  nodemask_t nodemask);
+>  extern unsigned long mem_cgroup_shrink_node(struct mem_cgroup *mem,
+>  						gfp_t gfp_mask, bool noswap,
+>  						pg_data_t *pgdat,
+> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> index 23750cec0036..a0d7850173a9 100644
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -63,6 +63,7 @@
+>  #include <linux/resume_user_mode.h>
+>  #include <linux/psi.h>
+>  #include <linux/seq_buf.h>
+> +#include <linux/parser.h>
+>  #include "internal.h"
+>  #include <net/sock.h>
+>  #include <net/ip.h>
+> @@ -2392,7 +2393,8 @@ static unsigned long reclaim_high(struct mem_cgroup *memcg,
+>  		psi_memstall_enter(&pflags);
+>  		nr_reclaimed += try_to_free_mem_cgroup_pages(memcg, nr_pages,
+>  							gfp_mask,
+> -							MEMCG_RECLAIM_MAY_SWAP);
+> +							MEMCG_RECLAIM_MAY_SWAP,
+> +							NODE_MASK_ALL);
+>  		psi_memstall_leave(&pflags);
+>  	} while ((memcg = parent_mem_cgroup(memcg)) &&
+>  		 !mem_cgroup_is_root(memcg));
+> @@ -2683,7 +2685,8 @@ static int try_charge_memcg(struct mem_cgroup *memcg, gfp_t gfp_mask,
+>
+>  	psi_memstall_enter(&pflags);
+>  	nr_reclaimed = try_to_free_mem_cgroup_pages(mem_over_limit, nr_pages,
+> -						    gfp_mask, reclaim_options);
+> +						    gfp_mask, reclaim_options,
+> +						    NODE_MASK_ALL);
+>  	psi_memstall_leave(&pflags);
+>
+>  	if (mem_cgroup_margin(mem_over_limit) >= nr_pages)
+> @@ -3503,7 +3506,8 @@ static int mem_cgroup_resize_max(struct mem_cgroup *memcg,
+>  		}
+>
+>  		if (!try_to_free_mem_cgroup_pages(memcg, 1, GFP_KERNEL,
+> -					memsw ? 0 : MEMCG_RECLAIM_MAY_SWAP)) {
+> +					memsw ? 0 : MEMCG_RECLAIM_MAY_SWAP,
+> +					NODE_MASK_ALL)) {
+>  			ret = -EBUSY;
+>  			break;
+>  		}
+> @@ -3614,7 +3618,8 @@ static int mem_cgroup_force_empty(struct mem_cgroup *memcg)
+>  			return -EINTR;
+>
+>  		if (!try_to_free_mem_cgroup_pages(memcg, 1, GFP_KERNEL,
+> -						  MEMCG_RECLAIM_MAY_SWAP))
+> +						  MEMCG_RECLAIM_MAY_SWAP,
+> +						  NODE_MASK_ALL))
+>  			nr_retries--;
+>  	}
+>
+> @@ -6407,7 +6412,8 @@ static ssize_t memory_high_write(struct kernfs_open_file *of,
+>  		}
+>
+>  		reclaimed = try_to_free_mem_cgroup_pages(memcg, nr_pages - high,
+> -					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP);
+> +					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP,
+> +					NODE_MASK_ALL);
+>
+>  		if (!reclaimed && !nr_retries--)
+>  			break;
+> @@ -6456,7 +6462,8 @@ static ssize_t memory_max_write(struct kernfs_open_file *of,
+>
+>  		if (nr_reclaims) {
+>  			if (!try_to_free_mem_cgroup_pages(memcg, nr_pages - max,
+> -					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP))
+> +					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP,
+> +					NODE_MASK_ALL))
+>  				nr_reclaims--;
+>  			continue;
+>  		}
+> @@ -6579,21 +6586,54 @@ static ssize_t memory_oom_group_write(struct kernfs_open_file *of,
+>  	return nbytes;
+>  }
+>
+> +enum {
+> +	MEMORY_RECLAIM_NODES = 0,
+> +	MEMORY_RECLAIM_NULL,
+> +};
+> +
+> +static const match_table_t if_tokens = {
+> +	{ MEMORY_RECLAIM_NODES, "nodes=%s" },
+> +	{ MEMORY_RECLAIM_NULL, NULL },
+> +};
+> +
+>  static ssize_t memory_reclaim(struct kernfs_open_file *of, char *buf,
+>  			      size_t nbytes, loff_t off)
+>  {
+>  	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
+>  	unsigned int nr_retries = MAX_RECLAIM_RETRIES;
+>  	unsigned long nr_to_reclaim, nr_reclaimed = 0;
+> -	unsigned int reclaim_options;
+> -	int err;
+> +	unsigned int reclaim_options = MEMCG_RECLAIM_MAY_SWAP |
+> +				       MEMCG_RECLAIM_PROACTIVE;
+> +	char *old_buf, *start;
+> +	substring_t args[MAX_OPT_ARGS];
+> +	int token;
+> +	char value[256];
+> +	nodemask_t nodemask = NODE_MASK_ALL;
+>
+>  	buf = strstrip(buf);
+> -	err = page_counter_memparse(buf, "", &nr_to_reclaim);
+> -	if (err)
+> -		return err;
+>
+> -	reclaim_options	= MEMCG_RECLAIM_MAY_SWAP | MEMCG_RECLAIM_PROACTIVE;
+> +	old_buf = buf;
+> +	nr_to_reclaim = memparse(buf, &buf) / PAGE_SIZE;
+> +	if (buf == old_buf)
+> +		return -EINVAL;
+> +
+> +	buf = strstrip(buf);
+> +
+> +	while ((start = strsep(&buf, " ")) != NULL) {
+> +		if (!strlen(start))
+> +			continue;
+> +		token = match_token(start, if_tokens, args);
+> +		match_strlcpy(value, args, sizeof(value));
 
-11/28/2022 11:26 PM, Mickaël Salaün пишет:
-> 
-> On 28/11/2022 07:44, Konstantin Meskhidze (A) wrote:
->> 
->> 
->> 11/17/2022 9:44 PM, Mickaël Salaün пишет:
->>>
->>> On 21/10/2022 17:26, Konstantin Meskhidze wrote:
->>>> Describes network access rules for TCP sockets. Adds network access
->>>> example in the tutorial. Points out AF_UNSPEC socket family behaviour.
->>>> Adds kernel configuration support for network.
->>>>
->>>> Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
->>>> ---
->>>>
->>>> Changes since v7:
->>>> * Fixes documentaion logic errors and typos as Mickaёl suggested:
->>>> https://lore.kernel.org/netdev/9f354862-2bc3-39ea-92fd-53803d9bbc21@digikod.net/
->>>>
->>>> Changes since v6:
->>>> * Adds network support documentaion.
->>>>
->>>> ---
->>>>    Documentation/userspace-api/landlock.rst | 72 +++++++++++++++++++-----
->>>>    1 file changed, 59 insertions(+), 13 deletions(-)
->>>>
->>>> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
->>>> index d8cd8cd9ce25..d0610ec9ce05 100644
->>>> --- a/Documentation/userspace-api/landlock.rst
->>>> +++ b/Documentation/userspace-api/landlock.rst
->>>> @@ -11,10 +11,10 @@ Landlock: unprivileged access control
->>>>    :Date: October 2022
->>>>
->>>>    The goal of Landlock is to enable to restrict ambient rights (e.g. global
->>>> -filesystem access) for a set of processes.  Because Landlock is a stackable
->>>> -LSM, it makes possible to create safe security sandboxes as new security layers
->>>> -in addition to the existing system-wide access-controls. This kind of sandbox
->>>> -is expected to help mitigate the security impact of bugs or
->>>> +filesystem or network access) for a set of processes.  Because Landlock
->>>> +is a stackable LSM, it makes possible to create safe security sandboxes as new
->>>> +security layers in addition to the existing system-wide access-controls. This
->>>> +kind of sandbox is expected to help mitigate the security impact of bugs or
->>>>    unexpected/malicious behaviors in user space applications.  Landlock empowers
->>>>    any process, including unprivileged ones, to securely restrict themselves.
->>>>
->>>> @@ -30,18 +30,20 @@ Landlock rules
->>>>
->>>>    A Landlock rule describes an action on an object.  An object is currently a
->>>>    file hierarchy, and the related filesystem actions are defined with `access
->>>> -rights`_.  A set of rules is aggregated in a ruleset, which can then restrict
->>>> -the thread enforcing it, and its future children.
->>>> +rights`_.  Since ABI version 4 a port data appears with related network actions
->>>> +for TCP socket families.  A set of rules is aggregated in a ruleset, which
->>>> +can then restrict the thread enforcing it, and its future children.
->>>>
->>>>    Defining and enforcing a security policy
->>>>    ----------------------------------------
->>>>
->>>>    We first need to define the ruleset that will contain our rules.  For this
->>>>    example, the ruleset will contain rules that only allow read actions, but write
->>>> -actions will be denied.  The ruleset then needs to handle both of these kind of
->>>> +actions will be denied. The ruleset then needs to handle both of these kind of
->>>>    actions.  This is required for backward and forward compatibility (i.e. the
->>>>    kernel and user space may not know each other's supported restrictions), hence
->>>> -the need to be explicit about the denied-by-default access rights.
->>>> +the need to be explicit about the denied-by-default access rights.  Also ruleset
->>>> +will have network rules for specific ports, so it should handle network actions.
->>>>
->>>>    .. code-block:: c
->>>>
->>>> @@ -62,6 +64,9 @@ the need to be explicit about the denied-by-default access rights.
->>>>                LANDLOCK_ACCESS_FS_MAKE_SYM |
->>>>                LANDLOCK_ACCESS_FS_REFER |
->>>>                LANDLOCK_ACCESS_FS_TRUNCATE,
->>>> +        .handled_access_net =
->>>> +            LANDLOCK_ACCESS_NET_BIND_TCP |
->>>> +            LANDLOCK_ACCESS_NET_CONNECT_TCP,
->>>>        };
->>>>
->>>>    Because we may not know on which kernel version an application will be
->>>> @@ -70,14 +75,18 @@ should try to protect users as much as possible whatever the kernel they are
->>>>    using.  To avoid binary enforcement (i.e. either all security features or
->>>>    none), we can leverage a dedicated Landlock command to get the current version
->>>>    of the Landlock ABI and adapt the handled accesses.  Let's check if we should
->>>> -remove the ``LANDLOCK_ACCESS_FS_REFER`` or ``LANDLOCK_ACCESS_FS_TRUNCATE``
->>>> -access rights, which are only supported starting with the second and third
->>>> -version of the ABI.
->>>> +remove the `LANDLOCK_ACCESS_FS_REFER` or `LANDLOCK_ACCESS_FS_TRUNCATE` or
->>>> +network access rights, which are only supported starting with the second,
->>>
->>> This is a bad rebase.
->> 
->>     Sorry. Did not get it.
-> 
-> This hunk (and maybe others) changes unrelated things (e.g. back quotes).
+Per my understanding, we don't need to copy the string, because strsep()
+has replaced " " with "\0".  Right?
 
-   Ok. Got it. Thanks.
-> 
-> 
->>>
->>>
->>>> +third and fourth version of the ABI.
->>>>
->>>>    .. code-block:: c
->>>>
->>>>        int abi;
->>>>
->>>> +    #define ACCESS_NET_BIND_CONNECT ( \
->>>> +    LANDLOCK_ACCESS_NET_BIND_TCP | \
->>>> +    LANDLOCK_ACCESS_NET_CONNECT_TCP)
->>>
->>> Please add a 4-spaces prefix for these two lines.
->> 
->>     Like this??
->> 	#define ACCESS_NET_BIND_CONNECT ( \
->>               LANDLOCK_ACCESS_NET_BIND_TCP | \
->>               LANDLOCK_ACCESS_NET_CONNECT_TCP)
-> 
-> Like for other indentations in the documentation (e.g. ruleset_attr
-> definition):
-> 
-> #define ACCESS_NET_BIND_CONNECT ( \
->       LANDLOCK_ACCESS_NET_BIND_TCP | \
->       LANDLOCK_ACCESS_NET_CONNECT_TCP)
+Best Regards,
+Huang, Ying
 
-  Ok. Will be fixed.
-> .
+> +		switch (token) {
+> +		case MEMORY_RECLAIM_NODES:
+> +			if (nodelist_parse(value, nodemask) < 0)
+> +				return -EINVAL;
+> +			break;
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+>  	while (nr_reclaimed < nr_to_reclaim) {
+>  		unsigned long reclaimed;
+>
+> @@ -6610,7 +6650,8 @@ static ssize_t memory_reclaim(struct kernfs_open_file *of, char *buf,
+>
+>  		reclaimed = try_to_free_mem_cgroup_pages(memcg,
+>  						nr_to_reclaim - nr_reclaimed,
+> -						GFP_KERNEL, reclaim_options);
+> +						GFP_KERNEL, reclaim_options,
+> +						nodemask);
+>
+>  		if (!reclaimed && !nr_retries--)
+>  			return -EAGAIN;
+> diff --git a/mm/vmscan.c b/mm/vmscan.c
+> index 7b8e8e43806b..23fc5b523764 100644
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -6735,7 +6735,8 @@ unsigned long mem_cgroup_shrink_node(struct mem_cgroup *memcg,
+>  unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
+>  					   unsigned long nr_pages,
+>  					   gfp_t gfp_mask,
+> -					   unsigned int reclaim_options)
+> +					   unsigned int reclaim_options,
+> +					   nodemask_t nodemask)
+>  {
+>  	unsigned long nr_reclaimed;
+>  	unsigned int noreclaim_flag;
+> @@ -6750,6 +6751,7 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
+>  		.may_unmap = 1,
+>  		.may_swap = !!(reclaim_options & MEMCG_RECLAIM_MAY_SWAP),
+>  		.proactive = !!(reclaim_options & MEMCG_RECLAIM_PROACTIVE),
+> +		.nodemask = &nodemask,
+>  	};
+>  	/*
+>  	 * Traverse the ZONELIST_FALLBACK zonelist of the current node to put
+> --
+> 2.38.1.584.g0f3c55d4c2-goog
