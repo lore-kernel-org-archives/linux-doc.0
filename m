@@ -2,132 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DED9C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 21:06:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 187E2C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 21:30:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234207AbiLBVG0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Dec 2022 16:06:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46450 "EHLO
+        id S234088AbiLBVaY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Dec 2022 16:30:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233548AbiLBVGZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 16:06:25 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55667EA5D4
-        for <linux-doc@vger.kernel.org>; Fri,  2 Dec 2022 13:06:24 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id a9so5718187pld.7
-        for <linux-doc@vger.kernel.org>; Fri, 02 Dec 2022 13:06:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=b+Cwu0oORJoqtBf3SwedAguHYFCuhYbPDgOJRY8RxDc=;
-        b=eTjCt2wyDeZrFaTFP2qLMErlY0YdrzSBrPZhKR0WLOuKHEKfcJBdp7tFzCGtTSLbh1
-         kmDWxQa18M/FQqLL+dqsSTz0qVBAp8o1fc833wIKkIqXjXnvUGMEzIdo5hdEwQzR3PuH
-         Vyzb1d4jqy1v0Va24229nMjG1lyIWKPucvJrc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=b+Cwu0oORJoqtBf3SwedAguHYFCuhYbPDgOJRY8RxDc=;
-        b=SaDV1qxEY1R1Ox5hOnjXH8QVaTPHPgdKVV+DqUkZ9JX/gSngU495HPVDwn989gdyee
-         ej1803auZcnFfwXDTuXMZKSvGhlMHTyw71B/iPXxSMmvjWXxugqGWHLQatAU4YNx+ec3
-         zmfIyICQfeEbVYJ/KD4aO/XmjMRkgztq0MkacJ4yYaDG88afodynVQmsqAEfFWIOGXk8
-         4mIHKBhlp2Z0C0FMeWz1Au6NBLE4+Pdxn49/5zFaj+M4hm+5HhWzf2stR8372ODglBzI
-         LSuboLdDLgl2jQefOZ2UBzzD1kyhBIF6aKrWR6PxdIslJntHHgP3YrejZA+A3uXZ+TAk
-         Jz+g==
-X-Gm-Message-State: ANoB5pn1r+dVWmukRfBjbgW61sMGPGedmL9djmk0vdK9wBvqNbgx5O31
-        nk5WDnXUZ1BGe5rmSfi2xc+arQ==
-X-Google-Smtp-Source: AA0mqf4zpsh2KC/91qSTab1MJ4Ka12sB7hBmIJ2N8rQQU05wAOJlARV/Zb9E6UOyKlO8/S0IrUq3/w==
-X-Received: by 2002:a17:902:da82:b0:189:adf8:54f8 with SMTP id j2-20020a170902da8200b00189adf854f8mr13076731plx.81.1670015183731;
-        Fri, 02 Dec 2022 13:06:23 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id e9-20020aa79809000000b0056d98e31439sm5703448pfl.140.2022.12.02.13.06.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 13:06:23 -0800 (PST)
-From:   Kees Cook <keescook@chromium.org>
-To:     Jann Horn <jannh@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Seth Jenkins <sethjenkins@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Eric Biggers <ebiggers@google.com>,
-        Huang Ying <ying.huang@intel.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Joel Savitz <jsavitz@redhat.com>,
-        Laurent Dufour <ldufour@linux.ibm.com>,
-        Rob Herring <robh@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: [PATCH] exit: Allow oops_limit to be disabled
-Date:   Fri,  2 Dec 2022 13:06:21 -0800
-Message-Id: <20221202210617.never.105-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S233960AbiLBVaX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 16:30:23 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57C4B60B52;
+        Fri,  2 Dec 2022 13:30:22 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DFEF2B822BD;
+        Fri,  2 Dec 2022 21:30:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 84A07C433D6;
+        Fri,  2 Dec 2022 21:30:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670016619;
+        bh=nDPDgygeyz+PSAwztB144Wz/L86h8qovnsGSzx36rGs=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=K1js8FYQR2oVve/fnWt4g35opHXJhUDLuExx3pH64rOEvkgEleTJiCRca2JEmk33V
+         PFIV4djStGNE7X6d6pXf53bIQ63xtiMEFaRS3gsFTlzS3AymIr0eJPVw+q8Ih6qSIL
+         GCnjk1iX9ktoLREaZ28KeDRB8RaKM+t1DDu1HXi8EduRnBpc98lsCmuuqhiTs+srDi
+         atAwwOWmOu66DcGuw6umMPVuHYpfsRChktV9LCcPwNjCoF8KWRdtTNMBVLTdbml2JK
+         V/KSecpUsPpvX9mx6NVOArx13/+lL34lNqOqn+5QGG+5FFiGAi1zl0shsQ/bq9rtPf
+         YxZLUZD5PFRkw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6774BE21EEF;
+        Fri,  2 Dec 2022 21:30:19 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2081; h=from:subject:message-id; bh=T618w/j0axgITyjfLRoHa8B3lQ31JWaln373s8Gn90k=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjimjM6qX21BtN+gD442We20DY1hyv1ftI0+cWAqVS K5tQeg6JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCY4pozAAKCRCJcvTf3G3AJghuD/ 9UFGZVzFXoKQtfKm4Z7rtqz7Bk0KS/u8l0ck+I/oBsHNXXAjV+6tN2P2nqF0DQl3da32+fwwQHh0i6 Z6ZKIDsRx7EBxTEYlabrnE7QECT185s0e/iICdJgafEOPopGz+Bl774b/2pOGTJ0uQu6nGP2SqQIPt Wmv4NiR8DEpWPrXyZND8eT51yallcOhfqfR6xkLc522a9eOxUWcucdx/gedtRqTknHTQ/i/dV6hzOK GXrZ8QM51UOYjbd46kEemIUjC8/qTk98x1fPszQ0/qV1NZN8LMLTRXd1W7hSXcL+lQ9QVcvIL2kRGi KahFf4+aZVlmGDa94Gd7LWcPrHjjhH+TiVr+xB1OewiC8A37NCf2XiH20uH9M4CYw2UZkc6V2CbBGi qwXUYkk2uK+QAc/h5o0a/cwYfLjAlCBeZHEGJlTCVno2PXrOugFNJWPuvhtiWEtklH9Bpz348otyIi xyDnD4fpFIvgGtNUHo+SuP4jp0a9XiATdUBsE9nDsT9U1jnALIdN2rX9xxRPpvTJpwgpHJHokmpXkP 0vScld0Rz0VVyCwok2o560CtbEUjtN9H3D27q9uq26BIIbBtxMeY+LmPKBxN1xLMGiQsunmP5DPYKi Vkf5P1XIF/5L19BTArdDGeArZNtd78UqtHN1iXYTeSny1jM65A8zU9w/Ua1g==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH bpf] bpf, docs: Correct the example of BPF_XOR
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <167001661941.2078.7625325566074444761.git-patchwork-notify@kernel.org>
+Date:   Fri, 02 Dec 2022 21:30:19 +0000
+References: <20221129134558.2757043-1-zhengyejian1@huawei.com>
+In-Reply-To: <20221129134558.2757043-1-zhengyejian1@huawei.com>
+To:     Zheng Yejian <zhengyejian1@huawei.com>
+Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+        haoluo@google.com, jolsa@kernel.org, corbet@lwn.net,
+        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In preparation for keeping oops_limit logic in sync with warn_limit,
-have oops_limit == 0 disable checking the Oops counter.
+Hello:
 
-Cc: Jann Horn <jannh@google.com>
-Cc: Seth Jenkins <sethjenkins@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Eric Biggers <ebiggers@google.com>
-Cc: Huang Ying <ying.huang@intel.com>
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
-I've changed the warn_limit logic to match...
----
- Documentation/admin-guide/sysctl/kernel.rst | 5 +++--
- kernel/exit.c                               | 2 +-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+This patch was applied to bpf/bpf-next.git (master)
+by Daniel Borkmann <daniel@iogearbox.net>:
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 09f3fb2f8585..a31d8d81ea07 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -671,8 +671,9 @@ oops_limit
- ==========
- 
- Number of kernel oopses after which the kernel should panic when
--``panic_on_oops`` is not set. Setting this to 0 or 1 has the same effect
--as setting ``panic_on_oops=1``.
-+``panic_on_oops`` is not set. Setting this to 0 disables checking
-+the count. Setting this to  1 has the same effect as setting
-+``panic_on_oops=1``. The default value is 10000.
- 
- 
- osrelease, ostype & version
-diff --git a/kernel/exit.c b/kernel/exit.c
-index dc1a32149f94..deffb8e4b1b2 100644
---- a/kernel/exit.c
-+++ b/kernel/exit.c
-@@ -954,7 +954,7 @@ void __noreturn make_task_dead(int signr)
- 	 * To make sure this can't happen, place an upper bound on how often the
- 	 * kernel may oops without panic().
- 	 */
--	if (atomic_inc_return(&oops_count) >= READ_ONCE(oops_limit))
-+	if (atomic_inc_return(&oops_count) >= READ_ONCE(oops_limit) && oops_limit)
- 		panic("Oopsed too often (kernel.oops_limit is %d)", oops_limit);
- 
- 	/*
+On Tue, 29 Nov 2022 21:45:58 +0800 you wrote:
+> Refer to description of BPF_XOR, dst_reg should be used but not src_reg
+> in the examples.
+> 
+> Signed-off-by: Zheng Yejian <zhengyejian1@huawei.com>
+> ---
+>  Documentation/bpf/instruction-set.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+
+Here is the summary with links:
+  - [bpf] bpf, docs: Correct the example of BPF_XOR
+    https://git.kernel.org/bpf/bpf-next/c/bc067cacb69c
+
+You are awesome, thank you!
 -- 
-2.34.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
