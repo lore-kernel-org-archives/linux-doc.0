@@ -2,50 +2,50 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AFD9C47088
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 00:54:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4A8DC47088
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 00:55:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232182AbiLBAyi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Dec 2022 19:54:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46984 "EHLO
+        id S231962AbiLBAzn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Dec 2022 19:55:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232168AbiLBAyh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 19:54:37 -0500
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36D5CE416
-        for <linux-doc@vger.kernel.org>; Thu,  1 Dec 2022 16:54:36 -0800 (PST)
-Received: by mail-pg1-x534.google.com with SMTP id 136so3133003pga.1
-        for <linux-doc@vger.kernel.org>; Thu, 01 Dec 2022 16:54:36 -0800 (PST)
+        with ESMTP id S231956AbiLBAzm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 19:55:42 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24B64920BA
+        for <linux-doc@vger.kernel.org>; Thu,  1 Dec 2022 16:55:42 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id cm20so3478395pjb.1
+        for <linux-doc@vger.kernel.org>; Thu, 01 Dec 2022 16:55:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qHYGi4hccRkpXmnqsWHqGlJk0rUF38lHPoxZSO5Qzyc=;
-        b=UI50tBxdrwYo1AkTLCVtUhVaHYduXtuPzQvN76OM8fbMoTHKPPBlui8rr+gidv1/Yl
-         jEdYfF30QrKfZuxlUubWJlAZEH9B+hvbfIoe6bNjih73getounWssghoDca5FB8eEnsf
-         2m8LyLwBFFfYR/v303/vtmwg7k2C1Cktsf9Yw=
+        bh=7xl+qejN3tIVmJSkrvPgdLgILrBaOoxJHIfgTJ2nuQg=;
+        b=U+LyVbbvc/EqSA7iugywzm78ANe70elPrUE6NMTdrgNZxzrN3L+KXn1dw/OCBzTVZC
+         1ziu5BU9NNZ4E2l91AsMA/fiQOZTncgXH1a9s7Ci/SxRB1aneAxbUhMBp9Ni35w4S9ez
+         sJ75+Hlki+gge/DYEBT4WOxRPS8Jcf3Y7BgOI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qHYGi4hccRkpXmnqsWHqGlJk0rUF38lHPoxZSO5Qzyc=;
-        b=tcE3WMckqSIJvvryGGJr/4j2GBD23MrgB5h3f8TPf4DoI5EckHVsV7si2DmOl8+4SM
-         LXj2gMczkcBkGXJq1XBayNiwIPYMSzyEn75EPqWoQ9rVRg9lAkB1h3f8k5z8KrDEtFtl
-         5fBJE8qaemlGNha+WBclQNEEo99Fbfmqj/t+NJtPis7p7osereAepoMjuSMENnG2cHGu
-         qT+18c5daZZkq5/BuUDXi2fJibwyNANgxuatlFn2bUoHWJsbfNcSz1tYUMc8iwAqQ9Xf
-         bKutTrpauEOFRH1p9EWgJ9V7dLUtHKHEz62n00xMhhDXd5Bi6PVF95y0wesfBLg19b54
-         e4AQ==
-X-Gm-Message-State: ANoB5pl38ptfyQe+oUcZf4g81M50n3MsnYUbN/hpyOMvbP44FdwTtFgc
-        Hlr89k2lf3VbMv3itIKTAX08+g==
-X-Google-Smtp-Source: AA0mqf5kJfb1ONIrys8W61vNxCK5ToeM9RpLkUWl+1oYBQO7bay6U5spcQ68Ek81GSK/b5VnkHaraA==
-X-Received: by 2002:a63:4d61:0:b0:477:b1a8:531e with SMTP id n33-20020a634d61000000b00477b1a8531emr41488628pgl.158.1669942476366;
-        Thu, 01 Dec 2022 16:54:36 -0800 (PST)
+        bh=7xl+qejN3tIVmJSkrvPgdLgILrBaOoxJHIfgTJ2nuQg=;
+        b=szqmA3IlEoMOSwbgPNGvi+YrQrrXRuqhyI0Nfb5qScW5yk+pUdagWDMJ0EAd5n27VZ
+         FalDHFGwPWdWH3Hyxu7O+69/EWNXDUb6ubHmxxh6qmWc1m7N5FoOJ3nMEY2EgCOzYcWq
+         ch4dl+4sXPGOtxS4Su2/qiK6cixcTas1sR5k1RBSrTXLWZdsMzpy8vJYSn1uqiZgIXhb
+         Al8guFDrOtRFTF5qNVQrRq6mvS94lFEdctQV2y5MIvqMpphuIXBX1hVQYBwZ04D8Yd2y
+         n3Rh73uuxKtl2YkfRB/5l2JOicPVjHxP4OJFl5q/bI1RDRXNVMD0Rxrookyc1Yr8hpIn
+         Adiw==
+X-Gm-Message-State: ANoB5pk1jLfc39l5ZIMTO6yAKCCqGi/O3mLOnIKph5bYP33ig9rEEATQ
+        VlbnWT61fsYpBBfUel1SsTSp3g==
+X-Google-Smtp-Source: AA0mqf4f9epwr9PYq1sO4cqczGzM2TpxtnEKENtU4QLl6r1QIGi9jn92cAb1SK/+1n/byGKTD/iLfQ==
+X-Received: by 2002:a17:902:c194:b0:189:6995:660c with SMTP id d20-20020a170902c19400b001896995660cmr32787116pld.48.1669942541672;
+        Thu, 01 Dec 2022 16:55:41 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id jx24-20020a17090b46d800b00213202d77d9sm3588021pjb.43.2022.12.01.16.54.35
+        by smtp.gmail.com with ESMTPSA id x3-20020aa79ac3000000b00575c5ae50cdsm3949150pfp.142.2022.12.01.16.55.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Dec 2022 16:54:35 -0800 (PST)
-Date:   Thu, 1 Dec 2022 16:54:35 -0800
+        Thu, 01 Dec 2022 16:55:41 -0800 (PST)
+Date:   Thu, 1 Dec 2022 16:55:40 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     David Gow <davidgow@google.com>
 Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
@@ -53,52 +53,40 @@ Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
         Shuah Khan <skhan@linuxfoundation.org>,
         kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, Jonathan Corbet <corbet@lwn.net>,
-        Sadiya Kazi <sadiyakazi@google.com>
-Subject: Re: [PATCH v4 2/3] kunit: Use the static key when retrieving the
- current test
-Message-ID: <202212011654.9BB14785@keescook>
+        linux-mm@kvack.org, Oliver Glitta <glittao@gmail.com>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        Christoph Lameter <cl@linux.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        David Rientjes <rientjes@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v4 3/3] mm: slub: test: Use the kunit_get_current_test()
+ function
+Message-ID: <202212011655.7B32E97C92@keescook>
 References: <20221125084306.1063074-1-davidgow@google.com>
- <20221125084306.1063074-2-davidgow@google.com>
+ <20221125084306.1063074-3-davidgow@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221125084306.1063074-2-davidgow@google.com>
+In-Reply-To: <20221125084306.1063074-3-davidgow@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 25, 2022 at 04:43:05PM +0800, David Gow wrote:
-> In order to detect if a KUnit test is running, and to access its
-> context, the 'kunit_test' member of the current task_struct is used.
-> Usually, this is accessed directly or via the kunit_fail_current_task()
-> function.
+On Fri, Nov 25, 2022 at 04:43:06PM +0800, David Gow wrote:
+> Use the newly-added function kunit_get_current_test() instead of
+> accessing current->kunit_test directly. This function uses a static key
+> to return more quickly when KUnit is enabled, but no tests are actively
+> running. There should therefore be a negligible performance impact to
+> enabling the slub KUnit tests.
 > 
-> In order to speed up the case where no test is running, add a wrapper,
-> kunit_get_current_test(), which uses the static key to fail early.
-> Equally, Speed up kunit_fail_current_test() by using the static key.
+> Other than the performance improvement, this should be a no-op.
 > 
-> This should make it convenient for code to call this
-> unconditionally in fakes or error paths, without worrying that this will
-> slow the code down significantly.
-> 
-> If CONFIG_KUNIT=n (or m), this compiles away to nothing. If
-> CONFIG_KUNIT=y, it will compile down to a NOP (on most architectures) if
-> no KUnit test is currently running.
-> 
-> Note that kunit_get_current_test() does not work if KUnit is built as a
-> module. This mirrors the existing restriction on kunit_fail_current_test().
-> 
-> Note that the definition of kunit_fail_current_test() still wraps an
-> empty, inline function if KUnit is not built-in. This is to ensure that
-> the printf format string __attribute__ will still work.
-> 
-> Also update the documentation to suggest users use the new
-> kunit_get_current_test() function, update the example, and to describe
-> the behaviour when KUnit is disabled better.
-> 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Sadiya Kazi <sadiyakazi@google.com>
+> Cc: Oliver Glitta <glittao@gmail.com>
+> Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+> Cc: Christoph Lameter <cl@linux.com>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: David Rientjes <rientjes@google.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
 > Signed-off-by: David Gow <davidgow@google.com>
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
