@@ -2,350 +2,352 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F29BC4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 22:33:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13EFCC4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 22:37:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234739AbiLBWdo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Dec 2022 17:33:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57158 "EHLO
+        id S234874AbiLBWhS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Dec 2022 17:37:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234485AbiLBWdm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 17:33:42 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45881EBC92;
-        Fri,  2 Dec 2022 14:33:41 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id m19so8207684edj.8;
-        Fri, 02 Dec 2022 14:33:41 -0800 (PST)
+        with ESMTP id S234389AbiLBWhP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 17:37:15 -0500
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B7DCEBC93
+        for <linux-doc@vger.kernel.org>; Fri,  2 Dec 2022 14:37:14 -0800 (PST)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-3b5da1b3130so63435847b3.5
+        for <linux-doc@vger.kernel.org>; Fri, 02 Dec 2022 14:37:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6ZvT2BrJWUgYMbwn3ocx26UrzsJe4/rr8jByj9AM/40=;
-        b=PJUcfZQ2pP0SvbdjdVKl4KmEhk8EznUJVyJ2cwVQy40vub6TzrMXcGVwURBe2m5ZWq
-         WEdtQpvjkVvEqJSkJQbGqJa7HNaOsEOGPIVO/f9yysk+eYuHL5ogzaOdKO1Q6237VWN4
-         xFSk4lKcSb3M1I899YyYeTybqVCpyMEYYtmgEcXax6GWP/HQiBJjVDhMwGgZ4vYxX1mD
-         2tlA18FLic3yI0THcqShNFDnZ1AgGMHb/BY+ObV0qYnabupvAqCuSL6TqbgRDGryJn6+
-         CxaLic9kuifbG9VXnZiQiSWw/uSBRLFIegIjHZZJ0tNUt6wh7TFdII4nvrAKUauhkyqY
-         mqrg==
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+RO437GEZ+WElFZehPW6Ok02BB1y3djf+6Wg2yQ+h9s=;
+        b=LHn2nRg2oFSaB0dJIO0yooCpv3dQ9QXMByKCwdl+egE/WOxwP4FVQGWDYz6Y9tkPE5
+         Jgp0CK7S4yTl0+kb59ClT1OaReoxyzdt+FA3VldMFUb3CnSkvhWbbGUhX/Xy35QjivbK
+         TO20TuKzlLUlQOLWrz0krvOhwUBh7koeYBCRszO+0ZfI78AbvD3Oqx3YxjNGYNKY5M87
+         9/Vr//ig9WyTbABAr+ryFE+y1QKpod6J16FyKzolUGaMMhBukvF/UQe6iw3yqO5cm5hD
+         Dlel/jBqm1zRF7mqaUmelu3Yt6iL0EO5IjYDyTYElc9xM5l/JhwKJVbiEHqf4k/4b4Gn
+         ursQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6ZvT2BrJWUgYMbwn3ocx26UrzsJe4/rr8jByj9AM/40=;
-        b=g6cWlJz/Zz93NzXQAAwsmHM9UxI80d+cdOhJ3gQQu221fNrZhAgqmSdwsiDSIL9p9j
-         CfdrROpEg2jgn0DhcWXhDk7RemFJmrmhH8YPcexshAnpogDL08hN47mTNQ/HG2NujKw9
-         1+Pn3uy5anlQPhIwwPkwlH3fYmDTP1HHsxCIzf7vPjEeL4YuYsBfVfxNZJ0wDsdQh1Gp
-         ZRLTXE4G6FZV2S+cRYYG7dNVAwXxlPfjLwv6e9v/D5H2c13VHAvxohbY/Z9sHQZxemqt
-         CAyQYobW5asi26K02jaMuujOYVVnJApZfxLiyD5Xy2crs34J8nCETUuF+MUxJ+XXE9Bm
-         n7qQ==
-X-Gm-Message-State: ANoB5pkzV+TCkPGIEdd3QFfgKd0u5SPym+UWXqZ779mSAIh1KeBINJcb
-        DXVBacX55E/7rI6vcgU1tLH3CmXjAZNkEA==
-X-Google-Smtp-Source: AA0mqf4gu/fnjQ4meh6apI2V0jFsLHOV40XPRcLgeKOHxviIit0mXbaUHv+Tgeep5O0DFiqwE1VY4w==
-X-Received: by 2002:a05:6402:509:b0:466:7500:b5df with SMTP id m9-20020a056402050900b004667500b5dfmr65577268edv.48.1670020419552;
-        Fri, 02 Dec 2022 14:33:39 -0800 (PST)
-Received: from xws.localdomain ([37.120.217.162])
-        by smtp.gmail.com with ESMTPSA id j17-20020a17090623f100b007c0d0dad9c6sm575340ejg.108.2022.12.02.14.33.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 14:33:38 -0800 (PST)
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+RO437GEZ+WElFZehPW6Ok02BB1y3djf+6Wg2yQ+h9s=;
+        b=yHwdvdoVcuAPeYYuHJ22tx+bRTjBcH0TSLqfQV9xNaOKMJFr0FlQtxNkYVpmSVvXRp
+         FUwK+l0BeeQBIlhm7ACc0GLQcqe0z7eQJt19OBzIEzzKFC5/ah/xbVX4frHWAl7YXQ1C
+         HLGKQmdD4kP9xCUUrqp+idx4RPqS9ntL2t10QiYYT9kwt1mgzVrGwpqg4SK/LDqjlKx3
+         6Z15KVxRpin4NH8D/rPTGUltyjwboEMYkcQWU6cXhhKEJ7ZLifdPEU1w4voPjmbNPYaI
+         z0jbT9idl3hPO3yKxUSkLw72wGvf5RB4ryRuFxiZYcSMJL1nFCKcsLZzg3sIrpZniKTx
+         MxYw==
+X-Gm-Message-State: ANoB5pmluESAbK0s3vT0chqIwzwkJn7thVcVLTWWiKY7LzsCLF8GBNDV
+        X0zACrW/MCZQZDDegQ4W25+jl8lYELjbgV7fKg==
+X-Google-Smtp-Source: AA0mqf4PIdv0aQLEqmeEeWbJELak73oDPHmxGVKwPDJayj60lAtluQD5SfzgXdsUavXKcKM8KW79xWNR2mzBs49Dfg==
+X-Received: from almasrymina.svl.corp.google.com ([2620:15c:2d4:203:e655:31e2:2ad4:2421])
+ (user=almasrymina job=sendgmr) by 2002:a81:fe09:0:b0:3b0:b9aa:46eb with SMTP
+ id j9-20020a81fe09000000b003b0b9aa46ebmr44197742ywn.150.1670020633813; Fri,
+ 02 Dec 2022 14:37:13 -0800 (PST)
+Date:   Fri,  2 Dec 2022 14:35:31 -0800
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.39.0.rc0.267.gcb52ba06e7-goog
+Message-ID: <20221202223533.1785418-1-almasrymina@google.com>
+Subject: [PATCH v3] mm: Add nodes= arg to memory.reclaim
+From:   Mina Almasry <almasrymina@google.com>
+To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/9] platform/surface: aggregator: Improve documentation and handling of message target and source IDs
-Date:   Fri,  2 Dec 2022 23:33:20 +0100
-Message-Id: <20221202223327.690880-3-luzmaximilian@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221202223327.690880-1-luzmaximilian@gmail.com>
-References: <20221202223327.690880-1-luzmaximilian@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Michal Hocko <mhocko@kernel.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Huang Ying <ying.huang@intel.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
+        fvdl@google.com, Mina Almasry <almasrymina@google.com>,
+        Michal Hocko <mhocko@suse.com>, bagasdotme@gmail.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The `tid_in` and `tid_out` fields of the serial hub protocol command
-struct (struct ssh_command) are actually source and target IDs,
-indicating the peer from which the message originated and the peer for
-which it is intended.
+The nodes= arg instructs the kernel to only scan the given nodes for
+proactive reclaim. For example use cases, consider a 2 tier memory system:
 
-Change the naming of those fields accordingly and improve the protocol
-documentation. Additionally, introduce an enum containing all currently
-known peers, i.e. targets and sources.
+nodes 0,1 -> top tier
+nodes 2,3 -> second tier
 
-Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
+$ echo "1m nodes=0" > memory.reclaim
+
+This instructs the kernel to attempt to reclaim 1m memory from node 0.
+Since node 0 is a top tier node, demotion will be attempted first. This
+is useful to direct proactive reclaim to specific nodes that are under
+pressure.
+
+$ echo "1m nodes=2,3" > memory.reclaim
+
+This instructs the kernel to attempt to reclaim 1m memory in the second tier,
+since this tier of memory has no demotion targets the memory will be
+reclaimed.
+
+$ echo "1m nodes=0,1" > memory.reclaim
+
+Instructs the kernel to reclaim memory from the top tier nodes, which can
+be desirable according to the userspace policy if there is pressure on
+the top tiers. Since these nodes have demotion targets, the kernel will
+attempt demotion first.
+
+Since commit 3f1509c57b1b ("Revert "mm/vmscan: never demote for memcg
+reclaim""), the proactive reclaim interface memory.reclaim does both
+reclaim and demotion. Reclaim and demotion incur different latency costs
+to the jobs in the cgroup. Demoted memory would still be addressable
+by the userspace at a higher latency, but reclaimed memory would need to
+incur a pagefault.
+
+The 'nodes' arg is useful to allow the userspace to control demotion
+and reclaim independently according to its policy: if the memory.reclaim
+is called on a node with demotion targets, it will attempt demotion first;
+if it is called on a node without demotion targets, it will only attempt
+reclaim.
+
+Acked-by: Michal Hocko <mhocko@suse.com>
+Signed-off-by: Mina Almasry <almasrymina@google.com>
+
 ---
- .../driver-api/surface_aggregator/client.rst  |  4 +-
- .../driver-api/surface_aggregator/ssh.rst     | 36 +++++++++--------
- .../platform/surface/aggregator/controller.c  | 12 +++---
- .../platform/surface/aggregator/ssh_msgb.h    |  4 +-
- .../surface/aggregator/ssh_request_layer.c    | 11 ++---
- include/linux/surface_aggregator/controller.h |  4 +-
- include/linux/surface_aggregator/serial_hub.h | 40 +++++++++++++------
- 7 files changed, 64 insertions(+), 47 deletions(-)
 
-diff --git a/Documentation/driver-api/surface_aggregator/client.rst b/Documentation/driver-api/surface_aggregator/client.rst
-index 27f95abdbe99..9d7411223a84 100644
---- a/Documentation/driver-api/surface_aggregator/client.rst
-+++ b/Documentation/driver-api/surface_aggregator/client.rst
-@@ -191,7 +191,7 @@ data received from it is converted from little-endian to host endianness.
-             *       they do not correspond to an actual SAM/EC request.
-             */
-            rqst.target_category = SSAM_SSH_TC_SAM;
--           rqst.target_id = 0x01;
-+           rqst.target_id = SSAM_SSH_TID_SAM;
-            rqst.command_id = 0x02;
-            rqst.instance_id = 0x03;
-            rqst.flags = SSAM_REQUEST_HAS_RESPONSE;
-@@ -241,7 +241,7 @@ one of the generator macros, for example via:
- 
-    SSAM_DEFINE_SYNC_REQUEST_W(__ssam_tmp_perf_mode_set, __le32, {
-            .target_category = SSAM_SSH_TC_TMP,
--           .target_id       = 0x01,
-+           .target_id       = SSAM_SSH_TID_SAM,
-            .command_id      = 0x03,
-            .instance_id     = 0x00,
-    });
-diff --git a/Documentation/driver-api/surface_aggregator/ssh.rst b/Documentation/driver-api/surface_aggregator/ssh.rst
-index bf007d6c9873..18fd0f0aee84 100644
---- a/Documentation/driver-api/surface_aggregator/ssh.rst
-+++ b/Documentation/driver-api/surface_aggregator/ssh.rst
-@@ -13,6 +13,7 @@
- .. |DATA_NSQ| replace:: ``DATA_NSQ``
- .. |TC| replace:: ``TC``
- .. |TID| replace:: ``TID``
-+.. |SID| replace:: ``SID``
- .. |IID| replace:: ``IID``
- .. |RQID| replace:: ``RQID``
- .. |CID| replace:: ``CID``
-@@ -219,13 +220,13 @@ following fields, packed together and in order:
-      - |u8|
-      - Target category.
- 
--   * - |TID| (out)
-+   * - |TID|
-      - |u8|
--     - Target ID for outgoing (host to EC) commands.
-+     - Target ID for commands/messages.
- 
--   * - |TID| (in)
-+   * - |SID|
-      - |u8|
--     - Target ID for incoming (EC to host) commands.
-+     - Source ID for commands/messages.
- 
-    * - |IID|
-      - |u8|
-@@ -286,19 +287,20 @@ general, however, a single target category should map to a single reserved
- event request ID.
- 
- Furthermore, requests, responses, and events have an associated target ID
--(``TID``). This target ID is split into output (host to EC) and input (EC to
--host) fields, with the respecting other field (e.g. output field on incoming
--messages) set to zero. Two ``TID`` values are known: Primary (``0x01``) and
--secondary (``0x02``). In general, the response to a request should have the
--same ``TID`` value, however, the field (output vs. input) should be used in
--accordance to the direction in which the response is sent (i.e. on the input
--field, as responses are generally sent from the EC to the host).
+v3:
+- Dropped RFC tag from subject.
+- Added Michal's Ack
+- Applied some of Bagas's comment suggestions.
+- Converted try_to_fre_mem_cgorup_pages() to take nodemask_t* instead of
+  nodemask_t as Shakeel and Muchun suggested.
+
+Cc: bagasdotme@gmail.com
+
+Thanks for the comments and reviews.
+---
+ Documentation/admin-guide/cgroup-v2.rst | 15 +++---
+ include/linux/swap.h                    |  3 +-
+ mm/memcontrol.c                         | 67 ++++++++++++++++++++-----
+ mm/vmscan.c                             |  4 +-
+ 4 files changed, 68 insertions(+), 21 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 74cec76be9f2..c8ae7c897f14 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1245,17 +1245,13 @@ PAGE_SIZE multiple when read back.
+ 	This is a simple interface to trigger memory reclaim in the
+ 	target cgroup.
+
+-	This file accepts a single key, the number of bytes to reclaim.
+-	No nested keys are currently supported.
++	This file accepts a string which contains the number of bytes to
++	reclaim.
+
+ 	Example::
+
+ 	  echo "1G" > memory.reclaim
+
+-	The interface can be later extended with nested keys to
+-	configure the reclaim behavior. For example, specify the
+-	type of memory to reclaim from (anon, file, ..).
 -
--Note that, even though requests and events should be uniquely identifiable
--by target category and command ID alone, the EC may require specific
--target ID and instance ID values to accept a command. A command that is
--accepted for ``TID=1``, for example, may not be accepted for ``TID=2``
--and vice versa.
-+(``TID``) and source ID (``SID``). These two fields indicate where a message
-+originates from (``SID``) and what the intended target of the message is
-+(``TID``). Note that a response to a specific request therefore has the source
-+and target IDs swapped when compared to the original request (i.e. the request
-+target is the response source and the request source is the response target).
-+See (:c:type:`enum ssh_request_id <ssh_request_id>`) for possible values of
-+both.
+ 	Please note that the kernel can over or under reclaim from
+ 	the target cgroup. If less bytes are reclaimed than the
+ 	specified amount, -EAGAIN is returned.
+@@ -1267,6 +1263,13 @@ PAGE_SIZE multiple when read back.
+ 	This means that the networking layer will not adapt based on
+ 	reclaim induced by memory.reclaim.
+
++	This file also allows the user to specify the nodes to reclaim from,
++	via the 'nodes=' key, for example::
 +
-+Note that, even though requests and events should be uniquely identifiable by
-+target category and command ID alone, the EC may require specific target ID and
-+instance ID values to accept a command. A command that is accepted for
-+``TID=1``, for example, may not be accepted for ``TID=2`` and vice versa. While
-+this may not always hold in reality, you can think of different target/source
-+IDs indicating different physical ECs with potentially different feature sets.
- 
- 
- Limitations and Observations
-diff --git a/drivers/platform/surface/aggregator/controller.c b/drivers/platform/surface/aggregator/controller.c
-index 43e765199137..54bfb1f3d2dc 100644
---- a/drivers/platform/surface/aggregator/controller.c
-+++ b/drivers/platform/surface/aggregator/controller.c
-@@ -994,7 +994,7 @@ static void ssam_handle_event(struct ssh_rtl *rtl,
- 
- 	item->rqid = get_unaligned_le16(&cmd->rqid);
- 	item->event.target_category = cmd->tc;
--	item->event.target_id = cmd->tid_in;
-+	item->event.target_id = cmd->sid;
- 	item->event.command_id = cmd->cid;
- 	item->event.instance_id = cmd->iid;
- 	memcpy(&item->event.data[0], data->ptr, data->len);
-@@ -1777,35 +1777,35 @@ EXPORT_SYMBOL_GPL(ssam_request_sync_with_buffer);
- 
- SSAM_DEFINE_SYNC_REQUEST_R(ssam_ssh_get_firmware_version, __le32, {
- 	.target_category = SSAM_SSH_TC_SAM,
--	.target_id       = 0x01,
-+	.target_id       = SSAM_SSH_TID_SAM,
- 	.command_id      = 0x13,
- 	.instance_id     = 0x00,
- });
- 
- SSAM_DEFINE_SYNC_REQUEST_R(ssam_ssh_notif_display_off, u8, {
- 	.target_category = SSAM_SSH_TC_SAM,
--	.target_id       = 0x01,
-+	.target_id       = SSAM_SSH_TID_SAM,
- 	.command_id      = 0x15,
- 	.instance_id     = 0x00,
- });
- 
- SSAM_DEFINE_SYNC_REQUEST_R(ssam_ssh_notif_display_on, u8, {
- 	.target_category = SSAM_SSH_TC_SAM,
--	.target_id       = 0x01,
-+	.target_id       = SSAM_SSH_TID_SAM,
- 	.command_id      = 0x16,
- 	.instance_id     = 0x00,
- });
- 
- SSAM_DEFINE_SYNC_REQUEST_R(ssam_ssh_notif_d0_exit, u8, {
- 	.target_category = SSAM_SSH_TC_SAM,
--	.target_id       = 0x01,
-+	.target_id       = SSAM_SSH_TID_SAM,
- 	.command_id      = 0x33,
- 	.instance_id     = 0x00,
- });
- 
- SSAM_DEFINE_SYNC_REQUEST_R(ssam_ssh_notif_d0_entry, u8, {
- 	.target_category = SSAM_SSH_TC_SAM,
--	.target_id       = 0x01,
-+	.target_id       = SSAM_SSH_TID_SAM,
- 	.command_id      = 0x34,
- 	.instance_id     = 0x00,
- });
-diff --git a/drivers/platform/surface/aggregator/ssh_msgb.h b/drivers/platform/surface/aggregator/ssh_msgb.h
-index f3ecad92eefd..438873e06098 100644
---- a/drivers/platform/surface/aggregator/ssh_msgb.h
-+++ b/drivers/platform/surface/aggregator/ssh_msgb.h
-@@ -189,8 +189,8 @@ static inline void msgb_push_cmd(struct msgbuf *msgb, u8 seq, u16 rqid,
- 
- 	__msgb_push_u8(msgb, SSH_PLD_TYPE_CMD);		/* Payload type. */
- 	__msgb_push_u8(msgb, rqst->target_category);	/* Target category. */
--	__msgb_push_u8(msgb, rqst->target_id);		/* Target ID (out). */
--	__msgb_push_u8(msgb, 0x00);			/* Target ID (in). */
-+	__msgb_push_u8(msgb, rqst->target_id);		/* Target ID. */
-+	__msgb_push_u8(msgb, SSAM_SSH_TID_HOST);	/* Source ID. */
- 	__msgb_push_u8(msgb, rqst->instance_id);	/* Instance ID. */
- 	__msgb_push_u16(msgb, rqid);			/* Request ID. */
- 	__msgb_push_u8(msgb, rqst->command_id);		/* Command ID. */
-diff --git a/drivers/platform/surface/aggregator/ssh_request_layer.c b/drivers/platform/surface/aggregator/ssh_request_layer.c
-index 69132976d297..90634dcacabf 100644
---- a/drivers/platform/surface/aggregator/ssh_request_layer.c
-+++ b/drivers/platform/surface/aggregator/ssh_request_layer.c
-@@ -920,13 +920,14 @@ static void ssh_rtl_rx_command(struct ssh_ptl *p, const struct ssam_span *data)
- 	 * Check if the message was intended for us. If not, drop it.
- 	 *
- 	 * Note: We will need to change this to handle debug messages. On newer
--	 * generation devices, these seem to be sent to tid_out=0x03. We as
--	 * host can still receive them as they can be forwarded via an override
--	 * option on SAM, but doing so does not change tid_out=0x00.
-+	 * generation devices, these seem to be sent to SSAM_SSH_TID_DEBUG. We
-+	 * as host can still receive them as they can be forwarded via an
-+	 * override option on SAM, but doing so does not change the target ID
-+	 * to SSAM_SSH_TID_HOST.
- 	 */
--	if (command->tid_out != 0x00) {
-+	if (command->tid != SSAM_SSH_TID_HOST) {
- 		rtl_warn(rtl, "rtl: dropping message not intended for us (tid = %#04x)\n",
--			 command->tid_out);
-+			 command->tid);
- 		return;
++	  echo "1G nodes=0,1" > memory.reclaim
++
++	The above instructs the kernel to reclaim memory from nodes 0,1.
++
+   memory.peak
+ 	A read-only single value file which exists on non-root
+ 	cgroups.
+diff --git a/include/linux/swap.h b/include/linux/swap.h
+index 0ceed49516ad..2787b84eaf12 100644
+--- a/include/linux/swap.h
++++ b/include/linux/swap.h
+@@ -418,7 +418,8 @@ extern unsigned long try_to_free_pages(struct zonelist *zonelist, int order,
+ extern unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
+ 						  unsigned long nr_pages,
+ 						  gfp_t gfp_mask,
+-						  unsigned int reclaim_options);
++						  unsigned int reclaim_options,
++						  nodemask_t *nodemask);
+ extern unsigned long mem_cgroup_shrink_node(struct mem_cgroup *mem,
+ 						gfp_t gfp_mask, bool noswap,
+ 						pg_data_t *pgdat,
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 23750cec0036..0f02f47a87e4 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -63,6 +63,7 @@
+ #include <linux/resume_user_mode.h>
+ #include <linux/psi.h>
+ #include <linux/seq_buf.h>
++#include <linux/parser.h>
+ #include "internal.h"
+ #include <net/sock.h>
+ #include <net/ip.h>
+@@ -2392,7 +2393,8 @@ static unsigned long reclaim_high(struct mem_cgroup *memcg,
+ 		psi_memstall_enter(&pflags);
+ 		nr_reclaimed += try_to_free_mem_cgroup_pages(memcg, nr_pages,
+ 							gfp_mask,
+-							MEMCG_RECLAIM_MAY_SWAP);
++							MEMCG_RECLAIM_MAY_SWAP,
++							NULL);
+ 		psi_memstall_leave(&pflags);
+ 	} while ((memcg = parent_mem_cgroup(memcg)) &&
+ 		 !mem_cgroup_is_root(memcg));
+@@ -2683,7 +2685,8 @@ static int try_charge_memcg(struct mem_cgroup *memcg, gfp_t gfp_mask,
+
+ 	psi_memstall_enter(&pflags);
+ 	nr_reclaimed = try_to_free_mem_cgroup_pages(mem_over_limit, nr_pages,
+-						    gfp_mask, reclaim_options);
++						    gfp_mask, reclaim_options,
++						    NULL);
+ 	psi_memstall_leave(&pflags);
+
+ 	if (mem_cgroup_margin(mem_over_limit) >= nr_pages)
+@@ -3503,7 +3506,8 @@ static int mem_cgroup_resize_max(struct mem_cgroup *memcg,
+ 		}
+
+ 		if (!try_to_free_mem_cgroup_pages(memcg, 1, GFP_KERNEL,
+-					memsw ? 0 : MEMCG_RECLAIM_MAY_SWAP)) {
++					memsw ? 0 : MEMCG_RECLAIM_MAY_SWAP,
++					NULL)) {
+ 			ret = -EBUSY;
+ 			break;
+ 		}
+@@ -3614,7 +3618,8 @@ static int mem_cgroup_force_empty(struct mem_cgroup *memcg)
+ 			return -EINTR;
+
+ 		if (!try_to_free_mem_cgroup_pages(memcg, 1, GFP_KERNEL,
+-						  MEMCG_RECLAIM_MAY_SWAP))
++						  MEMCG_RECLAIM_MAY_SWAP,
++						  NULL))
+ 			nr_retries--;
  	}
- 
-diff --git a/include/linux/surface_aggregator/controller.h b/include/linux/surface_aggregator/controller.h
-index d11a1c6e3186..8932bc0bae18 100644
---- a/include/linux/surface_aggregator/controller.h
-+++ b/include/linux/surface_aggregator/controller.h
-@@ -912,10 +912,10 @@ enum ssam_event_mask {
- 	})
- 
- #define SSAM_EVENT_REGISTRY_SAM	\
--	SSAM_EVENT_REGISTRY(SSAM_SSH_TC_SAM, 0x01, 0x0b, 0x0c)
-+	SSAM_EVENT_REGISTRY(SSAM_SSH_TC_SAM, SSAM_SSH_TID_SAM, 0x0b, 0x0c)
- 
- #define SSAM_EVENT_REGISTRY_KIP	\
--	SSAM_EVENT_REGISTRY(SSAM_SSH_TC_KIP, 0x02, 0x27, 0x28)
-+	SSAM_EVENT_REGISTRY(SSAM_SSH_TC_KIP, SSAM_SSH_TID_KIP, 0x27, 0x28)
- 
- #define SSAM_EVENT_REGISTRY_REG(tid)\
- 	SSAM_EVENT_REGISTRY(SSAM_SSH_TC_REG, tid, 0x01, 0x02)
-diff --git a/include/linux/surface_aggregator/serial_hub.h b/include/linux/surface_aggregator/serial_hub.h
-index 45501b6e54e8..5c4ae1a26183 100644
---- a/include/linux/surface_aggregator/serial_hub.h
-+++ b/include/linux/surface_aggregator/serial_hub.h
-@@ -83,23 +83,21 @@ enum ssh_payload_type {
- 
- /**
-  * struct ssh_command - Payload of a command-type frame.
-- * @type:    The type of the payload. See &enum ssh_payload_type. Should be
-- *           SSH_PLD_TYPE_CMD for this struct.
-- * @tc:      Command target category.
-- * @tid_out: Output target ID. Should be zero if this an incoming (EC to host)
-- *           message.
-- * @tid_in:  Input target ID. Should be zero if this is an outgoing (host to
-- *           EC) message.
-- * @iid:     Instance ID.
-- * @rqid:    Request ID. Used to match requests with responses and differentiate
-- *           between responses and events.
-- * @cid:     Command ID.
-+ * @type: The type of the payload. See &enum ssh_payload_type. Should be
-+ *        SSH_PLD_TYPE_CMD for this struct.
-+ * @tc:   Command target category.
-+ * @tid:  Target ID. Indicates the target of the message.
-+ * @sid:  Source ID. Indicates the source of the message.
-+ * @iid:  Instance ID.
-+ * @rqid: Request ID. Used to match requests with responses and differentiate
-+ *        between responses and events.
-+ * @cid:  Command ID.
-  */
- struct ssh_command {
- 	u8 type;
- 	u8 tc;
--	u8 tid_out;
--	u8 tid_in;
-+	u8 tid;
-+	u8 sid;
- 	u8 iid;
- 	__le16 rqid;
- 	u8 cid;
-@@ -280,6 +278,22 @@ struct ssam_span {
- 	size_t len;
- };
- 
-+/**
-+ * enum ssam_ssh_tid - Target/source IDs for Serial Hub messages.
-+ * @SSAM_SSH_TID_HOST:     We as the kernel Serial Hub driver.
-+ * @SSAM_SSH_TID_SAM:      The Surface Aggregator EC.
-+ * @SSAM_SSH_TID_KIP:      Keyboard and perihperal controller.
-+ * @SSAM_SSH_TID_DEBUG:    Debug connector.
-+ * @SSAM_SSH_TID_SURFLINK: SurfLink connector.
-+ */
-+enum ssam_ssh_tid {
-+	SSAM_SSH_TID_HOST     = 0x00,
-+	SSAM_SSH_TID_SAM      = 0x01,
-+	SSAM_SSH_TID_KIP      = 0x02,
-+	SSAM_SSH_TID_DEBUG    = 0x03,
-+	SSAM_SSH_TID_SURFLINK = 0x04,
+
+@@ -6407,7 +6412,8 @@ static ssize_t memory_high_write(struct kernfs_open_file *of,
+ 		}
+
+ 		reclaimed = try_to_free_mem_cgroup_pages(memcg, nr_pages - high,
+-					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP);
++					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP,
++					NULL);
+
+ 		if (!reclaimed && !nr_retries--)
+ 			break;
+@@ -6456,7 +6462,8 @@ static ssize_t memory_max_write(struct kernfs_open_file *of,
+
+ 		if (nr_reclaims) {
+ 			if (!try_to_free_mem_cgroup_pages(memcg, nr_pages - max,
+-					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP))
++					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP,
++					NULL))
+ 				nr_reclaims--;
+ 			continue;
+ 		}
+@@ -6579,21 +6586,54 @@ static ssize_t memory_oom_group_write(struct kernfs_open_file *of,
+ 	return nbytes;
+ }
+
++enum {
++	MEMORY_RECLAIM_NODES = 0,
++	MEMORY_RECLAIM_NULL,
 +};
 +
- /*
-  * Known SSH/EC target categories.
-  *
--- 
-2.38.1
++static const match_table_t if_tokens = {
++	{ MEMORY_RECLAIM_NODES, "nodes=%s" },
++	{ MEMORY_RECLAIM_NULL, NULL },
++};
++
+ static ssize_t memory_reclaim(struct kernfs_open_file *of, char *buf,
+ 			      size_t nbytes, loff_t off)
+ {
+ 	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
+ 	unsigned int nr_retries = MAX_RECLAIM_RETRIES;
+ 	unsigned long nr_to_reclaim, nr_reclaimed = 0;
+-	unsigned int reclaim_options;
+-	int err;
++	unsigned int reclaim_options = MEMCG_RECLAIM_MAY_SWAP |
++				       MEMCG_RECLAIM_PROACTIVE;
++	char *old_buf, *start;
++	substring_t args[MAX_OPT_ARGS];
++	int token;
++	char value[256];
++	nodemask_t nodemask = NODE_MASK_ALL;
 
+ 	buf = strstrip(buf);
+-	err = page_counter_memparse(buf, "", &nr_to_reclaim);
+-	if (err)
+-		return err;
+
+-	reclaim_options	= MEMCG_RECLAIM_MAY_SWAP | MEMCG_RECLAIM_PROACTIVE;
++	old_buf = buf;
++	nr_to_reclaim = memparse(buf, &buf) / PAGE_SIZE;
++	if (buf == old_buf)
++		return -EINVAL;
++
++	buf = strstrip(buf);
++
++	while ((start = strsep(&buf, " ")) != NULL) {
++		if (!strlen(start))
++			continue;
++		token = match_token(start, if_tokens, args);
++		match_strlcpy(value, args, sizeof(value));
++		switch (token) {
++		case MEMORY_RECLAIM_NODES:
++			if (nodelist_parse(value, nodemask) < 0)
++				return -EINVAL;
++			break;
++		default:
++			return -EINVAL;
++		}
++	}
++
+ 	while (nr_reclaimed < nr_to_reclaim) {
+ 		unsigned long reclaimed;
+
+@@ -6610,7 +6650,8 @@ static ssize_t memory_reclaim(struct kernfs_open_file *of, char *buf,
+
+ 		reclaimed = try_to_free_mem_cgroup_pages(memcg,
+ 						nr_to_reclaim - nr_reclaimed,
+-						GFP_KERNEL, reclaim_options);
++						GFP_KERNEL, reclaim_options,
++						&nodemask);
+
+ 		if (!reclaimed && !nr_retries--)
+ 			return -EAGAIN;
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index 7b8e8e43806b..62b0c9b46bd2 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -6735,7 +6735,8 @@ unsigned long mem_cgroup_shrink_node(struct mem_cgroup *memcg,
+ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
+ 					   unsigned long nr_pages,
+ 					   gfp_t gfp_mask,
+-					   unsigned int reclaim_options)
++					   unsigned int reclaim_options,
++					   nodemask_t *nodemask)
+ {
+ 	unsigned long nr_reclaimed;
+ 	unsigned int noreclaim_flag;
+@@ -6750,6 +6751,7 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
+ 		.may_unmap = 1,
+ 		.may_swap = !!(reclaim_options & MEMCG_RECLAIM_MAY_SWAP),
+ 		.proactive = !!(reclaim_options & MEMCG_RECLAIM_PROACTIVE),
++		.nodemask = nodemask,
+ 	};
+ 	/*
+ 	 * Traverse the ZONELIST_FALLBACK zonelist of the current node to put
+--
+2.39.0.rc0.267.gcb52ba06e7-goog
