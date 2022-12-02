@@ -2,160 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E687FC47088
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 09:02:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9189EC47088
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 09:43:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232750AbiLBJCy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Dec 2022 04:02:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50166 "EHLO
+        id S232851AbiLBJnx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Dec 2022 04:43:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232294AbiLBJCT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 04:02:19 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FC7798547;
-        Fri,  2 Dec 2022 01:00:42 -0800 (PST)
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B27g5ts013292;
-        Fri, 2 Dec 2022 09:00:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=8xnE/Mb0rP1cjkQQ7k3iLfRpCly+KU3D84URS1QVylo=;
- b=Ua5V/Efa2ZJwhDOyOgGdP3pTKIK0thms7qhlRfn0gaKcR0oon45fGCPDuCVrs7wJ9iAp
- sCNnrdEUNqOm/Q2Rm5R6uR1kGUuWCKfCJFkMNfAEldVZB/fshpHAYTJ97TkVn+guABZZ
- RB+SibMAVqVXZe1tOfMs3gNWQ/imiZ8tNStiAaqu5gxShzFWDn5sWA0COYb9iUQB0XES
- Pt1BcOjBp7K+LpsIJp1g92kvCpvClFzKZ0Yr4npvr0rvOD3EWoInrGrAiZarOpeyfX2k
- mu4XnnDjLoTD3frZbpHvO9fstRvh9foLMKFkBoCz7Q7pnDr4DtHEKdDoWI4qEGBYgbSv jA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m7d6t1w9h-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 02 Dec 2022 09:00:39 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B28UEkL016043;
-        Fri, 2 Dec 2022 09:00:38 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3m7d6t1w88-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 02 Dec 2022 09:00:38 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2B28njd3006167;
-        Fri, 2 Dec 2022 09:00:36 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-        by ppma04ams.nl.ibm.com with ESMTP id 3m3ae9gtk7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 02 Dec 2022 09:00:36 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2B291GEY4195004
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 2 Dec 2022 09:01:16 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0F344A4055;
-        Fri,  2 Dec 2022 09:00:33 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7D90DA4040;
-        Fri,  2 Dec 2022 09:00:31 +0000 (GMT)
-Received: from p-imbrenda (unknown [9.171.31.115])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
-        Fri,  2 Dec 2022 09:00:31 +0000 (GMT)
-Date:   Fri, 2 Dec 2022 10:00:28 +0100
-From:   Claudio Imbrenda <imbrenda@linux.ibm.com>
-To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>
-Subject: Re: [PATCH v3 1/9] KVM: s390: Extend MEM_OP ioctl by storage key
- checked cmpxchg
-Message-ID: <20221202100028.686c605e@p-imbrenda>
-In-Reply-To: <dc192fa099eb1b7d49d19b52c416d21589e22d87.camel@linux.ibm.com>
-References: <20221117221758.66326-1-scgl@linux.ibm.com>
-        <20221117221758.66326-2-scgl@linux.ibm.com>
-        <20221201171528.13f17ec4@p-imbrenda>
-        <dc192fa099eb1b7d49d19b52c416d21589e22d87.camel@linux.ibm.com>
-Organization: IBM
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+        with ESMTP id S232598AbiLBJnw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 04:43:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26CD638A
+        for <linux-doc@vger.kernel.org>; Fri,  2 Dec 2022 01:42:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669974169;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+wLl4vtYCGhwohXxITZQq5I6CY9K6KjTKaeRzYrEEpY=;
+        b=GVyMkVrxHuH6ntzuBs4aff9tewyssz9Vp2M/M4P1m+LoXlEEKm8kH2GbKgdYtd2OJeF+vE
+        RyWKS65gp9qEqlF88IMqgTPxdZZiUdCeYdKGVDv6WMLCE2WO1AivtqZxglgo1HaZW+Wknk
+        BK4lxk/HK8Xti52QOHJO/Z22nhzgWSQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-424-npUUOJNVMp2pkpvfdLzYEA-1; Fri, 02 Dec 2022 04:42:47 -0500
+X-MC-Unique: npUUOJNVMp2pkpvfdLzYEA-1
+Received: by mail-wr1-f71.google.com with SMTP id w11-20020adfbacb000000b002418a90da01so929502wrg.16
+        for <linux-doc@vger.kernel.org>; Fri, 02 Dec 2022 01:42:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+wLl4vtYCGhwohXxITZQq5I6CY9K6KjTKaeRzYrEEpY=;
+        b=bk+E5v5B1UQ4ALaZ++2FQmpMujGKglgieo78oTlHbTOuvIYL5+Yz5sKD8IbiMKI4wW
+         SUQewi4obsldOrSQJmC3p6FBhL1Ppi2H8mGV8jrpATh+9qfkqRyi3VqsfGABFiS6sw8K
+         xjhh+Du6V/mnxI47g0ZLDs3Zf/S4msQRIcEkzovoHuDJdAiHSYCGx1+/4f9EsqgLjv4U
+         NGYr3URqNhKb4D5CrCBDS0ZtvbEGvd6lqWhHcuMBFgfyastaizbkTC0E/HJGQn3neR0v
+         z2q6zLYE5K8z5JanJ+T7x5cGzSMM7y5qM9litX4OQndnOuEyAdBK16tkWR/6hHHvAlDc
+         ZNgw==
+X-Gm-Message-State: ANoB5pnxrVvr+GJjnPSNQhRcC2ZXXmhDsdsW5G8GhgbX6rtbq1kDTZGJ
+        DFtqMDZf9i0Tc73YooIdjimBpUGuRxiAydq6Fw61jBN82yZgrNcVHKnd/zRCkVC4qu3dNI5bmDG
+        590yzoKE8M+u4Lh8nVXXq
+X-Received: by 2002:a5d:6947:0:b0:242:17a5:ee80 with SMTP id r7-20020a5d6947000000b0024217a5ee80mr14530213wrw.628.1669974166726;
+        Fri, 02 Dec 2022 01:42:46 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6UdJV/mDJpmRG4muvnS79yLQAxAfJtB+81SwOHAcWOxkps8MZJhxfA5YRNqhJp3giA0N1wyw==
+X-Received: by 2002:a5d:6947:0:b0:242:17a5:ee80 with SMTP id r7-20020a5d6947000000b0024217a5ee80mr14530202wrw.628.1669974166476;
+        Fri, 02 Dec 2022 01:42:46 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id z5-20020adff745000000b002383fc96509sm6488257wrp.47.2022.12.02.01.42.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Dec 2022 01:42:46 -0800 (PST)
+Message-ID: <3805ed81-2315-4eca-3ea6-b391c1659cc7@redhat.com>
+Date:   Fri, 2 Dec 2022 10:42:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 1/2] KVM: Mark KVM_SET_MEMORY_REGION and
+ KVM_SET_MEMORY_ALIAS as obsoleted
+To:     Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Sergio Lopez Pascual <slp@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20221119085632.1018994-1-javierm@redhat.com>
+ <Y4T+SY9SZIRFBdBM@google.com>
+ <a6a59b75-2ee2-ab9b-3038-2590df17d031@redhat.com>
+Content-Language: en-US
+From:   Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <a6a59b75-2ee2-ab9b-3038-2590df17d031@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: MIE7Tkq8dREDb3bLyBCIWdFsFhwuZl_T
-X-Proofpoint-ORIG-GUID: echR8s-Y313utW3Umn7s9LGDwFrdS-el
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-02_04,2022-12-01_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=999
- adultscore=0 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
- clxscore=1015 impostorscore=0 lowpriorityscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212020065
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 01 Dec 2022 18:44:56 +0100
-Janis Schoetterl-Glausch <scgl@linux.ibm.com> wrote:
+Hello Sean and Paolo,
 
-> > 
-> > please also document -EOPNOTSUPP  
+Thanks for your feedback.
+
+On 11/30/22 15:28, Paolo Bonzini wrote:
+> On 11/28/22 19:30, Sean Christopherson wrote:
+>> E.g. KVM_{CREATE,GET,SET}_PIT are good examples of obsolete ioctls; they've been
+>> supplanted by newer variants, but KVM still supports the old ones too.
+>>
+>> Alternatively (to marking them deprecated), can we completely remove all references
+>> to VM_SET_MEMORY_REGION and KVM_SET_MEMORY_ALIAS?  The cascading updates in api.rst
+>> will be painful, but it's one-time pain.
 > 
-> I'd add "* -EOPNOTSUPP: should never occur", then, that ok with you?
+> Yes, we should.
+>
 
-no, also explain in which conditions it is returned
-
-something like: 
- * -EOPNOTSUPP: if the memslot is not writable (should never occour)
-
-> >   
-> > > + */
-> > > +int cmpxchg_guest_abs_with_key(struct kvm *kvm, gpa_t gpa, int len,
-> > > +			       __uint128_t *old_p, __uint128_t new,
-> > > +			       u8 access_key)
-> > > +{
-> > > +	gfn_t gfn = gpa >> PAGE_SHIFT;
-> > > +	struct kvm_memory_slot *slot = gfn_to_memslot(kvm, gfn);  
-> > 
-> > exchange the above two lines (reverse christmas tree)  
+Ok. I'll do that and post a v2 then.
+ 
+> Paolo
 > 
-> Is this a hard requirement? Since there is a dependency.
-> If I do the initialization further down, the order wouldn't actually change.
 
-ahhhhh right, I had missed that
+-- 
+Best regards,
 
-keep it as it is, of course
-
-[...]
-
-> > I really dislike repeating the same code 5 times, but I guess there was
-> > no other way?  
-> 
-> I could use the function called by cmpxchg_user_key directly, but Heiko won't agree to that.
-> A macro would work too, of course, not sure if I prefer that tho.
-
-ok so there is no other way, let's keep it as it is
-
-[...]
-
-> To me it feels like KVM_S390_MEMOP_R_NO_XCHG is api surface and should be referenced here.
-> cmpxchg_guest_abs_with_key isn't mem op specific
-> (of course that's the only thing it is currently used for).
-
-fair enough
-
-> >   
-> > > +				if (copy_to_user(old_p, &old.raw[off_in_quad], mop->size))
-> > > +					r = -EFAULT;
-> > > +			}
-> > >  		} else {
-> > >  			if (copy_from_user(tmpbuf, uaddr, mop->size)) {
-> > >  				r = -EFAULT;  
-> >   
-> 
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
