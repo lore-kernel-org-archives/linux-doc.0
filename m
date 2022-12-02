@@ -2,82 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C693AC4321E
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 11:20:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87D74C4321E
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 11:38:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233096AbiLBLUZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Dec 2022 06:20:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37182 "EHLO
+        id S233217AbiLBLiK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Dec 2022 06:38:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233067AbiLBLUX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 06:20:23 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAC3B7F8A4;
-        Fri,  2 Dec 2022 03:20:19 -0800 (PST)
+        with ESMTP id S233337AbiLBLhx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 06:37:53 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAEECC44;
+        Fri,  2 Dec 2022 03:37:48 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 89FB4B82142;
-        Fri,  2 Dec 2022 11:20:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4BEC6C433D7;
-        Fri,  2 Dec 2022 11:20:17 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7E86962277;
+        Fri,  2 Dec 2022 11:37:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7995EC433D6;
+        Fri,  2 Dec 2022 11:37:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669980017;
-        bh=ZijqJ5Y0fEiCwwKbkuv4C73PUtqmtzIwS7+w0AJ7XFg=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=lsGMj0R/aGek2z1UyvEyzjVn/8PAuj9lv4d97bptECd2JSPwoU26LbKfOUkjiOT0i
-         7IIEnboOKUClUoo96xZ7ToiNaoIEuArziy2kna3Mm+SiHJBv7WPBXrtqJXF8C1ZPQO
-         8S/ShEVjbt1kzhqkcUo/oFEgIDJLNjvvRwatiCV7ckS9Qc70Py8bdxkUPkWmjpM5JH
-         GVdD8T9WfXhtwxpWWMorEVv827prU/ZHOtGDJ9R8MMeuSRdY6GDwKgelZ2cES3sFJP
-         LqTPu/NRNFyDJn7+HXJVPVw5gzPgm26AWcjwx9VtFZre6LIjYROA8J8jKwnG0MfPcQ
-         81UofL3lMHz+Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2B93BE450B4;
-        Fri,  2 Dec 2022 11:20:17 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        s=k20201202; t=1669981067;
+        bh=YewXzhIS8GyLTLE7PPwddgjQzKBIgxmttnLpVTqiblg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Cm++C5xa4tPbx5jWoaJN6Z8Gn8yBsULaVlvS9EenvDLj3tBu1qotBlqgpFc1GbYle
+         8p1RuOv+rUsLEpqOeE3OWHEA+9HqG4WI1jl7i8K5FTv0ljpjFH1un8Y2ZxIVxawpsy
+         oQaESvOXmVR3Vasytk9X1A0sZuejOt2fwx1nW6E/4yng19flUEsE5TCJQMkhvYxcAZ
+         TPVy7LvI/8NIHoZ7OrlSuFZXx5UCQpEgTAMj+xow5Kf42PHu6w0eC5rKA7WFI70dYR
+         ArknVmEAjSyjamVj8pp1S04Sn7EvIOrbrBircUFpB18pmVtSadfEfGGsYGtTZG3TRO
+         pxhBKT4qH59CQ==
+Date:   Fri, 2 Dec 2022 11:37:42 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-riscv@lists.infradead.org, ajones@ventanamicro.com,
+        aou@eecs.berkeley.edu, corbet@lwn.net, guoren@kernel.org,
+        heiko@sntech.de, paul.walmsley@sifive.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] Documentation: riscv: add a section about ISA
+ string ordering in /proc/cpuinfo
+Message-ID: <Y4njhrGft++1rVRj@spud>
+References: <20221130234125.2722364-1-conor@kernel.org>
+ <20221130234125.2722364-4-conor@kernel.org>
+ <Y4gZ/KZz9rdYj/0r@debian.me>
+ <Y4hjIWHTuYcf90ja@wendy>
+ <66b3fd78-31bc-c435-ccc8-c8682b3cacee@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next 1/2] Documentation: bonding: update miimon default to
- 100
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166998001717.12503.6133600119187941184.git-patchwork-notify@kernel.org>
-Date:   Fri, 02 Dec 2022 11:20:17 +0000
-References: <4c3f4f0b8f4a8cd3c104d58c106b97ce5f180bc1.1669839127.git.jtoppins@redhat.com>
-In-Reply-To: <4c3f4f0b8f4a8cd3c104d58c106b97ce5f180bc1.1669839127.git.jtoppins@redhat.com>
-To:     Jonathan Toppins <jtoppins@redhat.com>
-Cc:     netdev@vger.kernel.org, j.vosburgh@gmail.com, vfalico@gmail.com,
-        andy@greyhouse.net, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
-        maheshb@google.com, jarod@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Q5Y2pBB/5VxqMAhM"
+Content-Disposition: inline
+In-Reply-To: <66b3fd78-31bc-c435-ccc8-c8682b3cacee@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
 
-This series was applied to netdev/net-next.git (master)
-by David S. Miller <davem@davemloft.net>:
+--Q5Y2pBB/5VxqMAhM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 30 Nov 2022 15:12:06 -0500 you wrote:
-> With commit c1f897ce186a ("bonding: set default miimon value for non-arp
-> modes if not set") the miimon default was changed from zero to 100 if
-> arp_interval is also zero. Document this fact in bonding.rst.
-> 
-> Fixes: c1f897ce186a ("bonding: set default miimon value for non-arp modes if not set")
-> Signed-off-by: Jonathan Toppins <jtoppins@redhat.com>
-> 
-> [...]
+On Fri, Dec 02, 2022 at 09:14:08AM +0700, Bagas Sanjaya wrote:
+> On 12/1/22 15:17, Conor Dooley wrote:
+> > On Thu, Dec 01, 2022 at 10:05:32AM +0700, Bagas Sanjaya wrote:
+> >> On Wed, Nov 30, 2022 at 11:41:26PM +0000, Conor Dooley wrote:
+> >>> +#. Single-letter extensions come first, in "canonical order", so
+> >>> +   "IMAFDQLCBKJTPVH".
+> >>
+> >> "..., that is ... ."
+> >=20
+> > Hmm, that reads strangely to me. s/that/which/.
+> >=20
+>=20
+> OK.
+>=20
+> >>
+> >>> +#. The first letter following the 'Z' conventionally indicates the m=
+ost
+> >>> +   closely related alphabetical extension category, IMAFDQLCBKJTPVH.
+> >>> +   If multiple 'Z' extensions are named, they should be ordered firs=
+t by
+> >>> +   category, then alphabetically within a category.
+> >>> +
+> >>
+> >> Did you mean "most closely related alphabetical extension category in
+> >> canonical order"?
+> >=20
+> > I am not 100% sure what you are suggesting a replacement of here. I
+> > think I may reword this as:
+> >   For additional standard extensions, the first letter following the 'Z'
+> >   conventionally indicates the most closely related alphabetical
+> >   extension category. If multiple 'Z' extensions are named, they will
+> >   be ordered first by category, in canonical order as listed above, then
+> >   alphabetically within a category.
+> >=20
+>=20
+> That LGTM.
+>=20
+> >>> +An example string following the order is:
+> >>> +   rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
+> >>> +
+> >> =20
+> >> IMO literal code block should be better fit for the example above,
+> >> rather than definition list:
+> >=20
+> > Uh, sure? I'm not sure what impact that has on the output, but I can
+> > switch to a pre-formatted block.
+> >=20
+>=20
+> Something like ``foo``?
 
-Here is the summary with links:
-  - [net-next,1/2] Documentation: bonding: update miimon default to 100
-    https://git.kernel.org/netdev/net-next/c/f036b97da67f
-  - [net-next,2/2] Documentation: bonding: correct xmit hash steps
-    https://git.kernel.org/netdev/net-next/c/95cce3fae4d9
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Not posting a v2 for another few days, but this is what I currently
+have:
+https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git/tree/Docume=
+ntation/riscv/uabi.rst?h=3Driscv-uabi_docs
 
 
+--Q5Y2pBB/5VxqMAhM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY4njhgAKCRB4tDGHoIJi
+0nG3AQDN11twX+XbGwoN9/XYbdJzgY33yW3WXUGANYI/mtCVIwEA91AUTZo73nDi
+o+yCNCSVVUcFUSw6gPxGDo39EVTHCwQ=
+=8KH2
+-----END PGP SIGNATURE-----
+
+--Q5Y2pBB/5VxqMAhM--
