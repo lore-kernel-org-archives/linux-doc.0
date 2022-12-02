@@ -2,106 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05265C4321E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Dec 2022 22:10:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AD73C4321E
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 00:53:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230367AbiLAWKx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Dec 2022 17:10:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57778 "EHLO
+        id S232054AbiLBAxM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Dec 2022 19:53:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230083AbiLAWKv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 17:10:51 -0500
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com [IPv6:2607:f8b0:4864:20::e31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C7C33D90B
-        for <linux-doc@vger.kernel.org>; Thu,  1 Dec 2022 14:10:50 -0800 (PST)
-Received: by mail-vs1-xe31.google.com with SMTP id d185so3056884vsd.0
-        for <linux-doc@vger.kernel.org>; Thu, 01 Dec 2022 14:10:50 -0800 (PST)
+        with ESMTP id S231201AbiLBAxL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Dec 2022 19:53:11 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E2E29E447
+        for <linux-doc@vger.kernel.org>; Thu,  1 Dec 2022 16:53:09 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id b11so3477842pjp.2
+        for <linux-doc@vger.kernel.org>; Thu, 01 Dec 2022 16:53:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rf84obAKN/8ruolDjM0pM28OtudVnfPduob08XaAHeM=;
-        b=C5A/tE+OvI+/icvXdhe39VigA0TTbTY4PJd9mnXEXbnfkr0SrvZc1sS0BhKGJ9tFbH
-         VrlF6IzPg1aqf/aWu55hvBF9KZc12XIGaiyBaaWM8tzg9pEnKuCYLKsOWIO9iIRoq6fN
-         h+9U6WOdvTl4++/BjtWYxzFMTOs+g5fd6qJ/zeLOaxZ5HqfmU3EFndAxTDwLIhOvufRg
-         lz9HYLOosZUavj+NWHAmwUBmjsPobyVqbSeR7xoIPkhsfX+u6FQFeFXf4lUXDXHETkX+
-         aOg84lpe1797MkZHvW3Z/yK8LBKC0vRON342vgsQ0hEFEvXwFpzRCnmNE0JkU96V1fXe
-         hHqw==
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XyBUNma2/pYbDUwd0AEpCfAW8UmvTyVIMQbvVCIhkjM=;
+        b=bVgUeTsrg8bzGvV93UtCv9XNcvszgWb7QAtIdDr7Me2tepgdsPs2kw+4W0Ika1rn3X
+         dXkgt53D7jkEl0t6LV+LV8A6bjJdYd4q9LxE3xMmUp/ElJdVnmMkT+HbVKl+BcJQrYBP
+         22wTub10PuwV0PKzdO/bFm+2lWgIWrEIiH/fQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Rf84obAKN/8ruolDjM0pM28OtudVnfPduob08XaAHeM=;
-        b=ht2OeG0dQjSh8d/dHcaPWZL9/tRwq918PbZJIPgzF4BrXSCgyl7IoHe8lDUxTXFTMa
-         ece2vEW++XoD2iRY04Gyx/eKBHJtY5ntj4vVJ2rMEj+1eNK2k8WUCe38otVj8bxax3No
-         CdNWVvD2ZZKUAxUvn6gTtCg5X418961C/gaEpTLYGtM/kZxH+UdU8IrtfjD8PfuyItsn
-         DQkdDW1jSHd/ywn4bY8YqaXDjIZbDBPASUSbFCUDpIhTRvdcygbj+AJ0hh0hGD7dFDHj
-         yfbRw8sh+13ddjhwZuvUrxxTU49ID4LEfMEzb2LMDvI7fDM5WAQN/adYDI2st4OBKmnz
-         lvOg==
-X-Gm-Message-State: ANoB5pnJs0q8uAccecFpFBWBVttS1gyC8pzJuvScWfYco9SIUuBJb6i/
-        1s/zMKfC/RQRG1gH2/V3iaHxmRB8aBg8vFmAISzXCQ==
-X-Google-Smtp-Source: AA0mqf7+zcrz2gPmzIkscfmr5SMSSgOcjkv+7kg2SOfHpFg5FBWFgEZt95ZGmuZG032Oshqx0NMxe3bwoGr4Onh742g=
-X-Received: by 2002:a05:6102:cd1:b0:3aa:1bff:a8a5 with SMTP id
- g17-20020a0561020cd100b003aa1bffa8a5mr39103278vst.67.1669932649473; Thu, 01
- Dec 2022 14:10:49 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XyBUNma2/pYbDUwd0AEpCfAW8UmvTyVIMQbvVCIhkjM=;
+        b=TsQxoO6EyM0waO1OiWbK8a8J7fU0AdxBWrwqlp3PuHCAI+8bcUaOhpn/vjLPHmphCQ
+         whv3bTq5zBzWpF9PvuCcZGoDcYvOpC+YfQAXkZC3jKOdFOnNEdU6pxdgPBz5QCHc8oQ8
+         lpvYRM42qUX/WcOwy+2ZeMzON1h+64F1SGsjf2QTXXNuDkh7sQqX9HHlhYuiL5EdL5KP
+         6eXaG5BTiU7UJDOlILKYeLKfO9RbAa0SngpCkmaEIRVSugLJecfVMqm7Yroc+7hjLNGP
+         9STRpo/OWs6PaEza9+8BtEMRLRyZi9/RgJPO5YRUrUFCGR3/9EvHKChpUlNMDeiDxWvq
+         NKyw==
+X-Gm-Message-State: ANoB5pmSgJQNbRrNVmE6BHfaaUf+5WHS9LZRP9l7HnbViaVcCoSvGwqh
+        pHzsw4/J4s+q8YUmRv2Qx1ANza1ioMgm4g==
+X-Google-Smtp-Source: AA0mqf5kY7K6H1Eeevu9SIZH52BCxqvw1zVXLhAShSeJAlQdO1Y5eaWkEBpwalGdUhJ9r/q94Gifsw==
+X-Received: by 2002:a17:902:a514:b0:189:97c3:6382 with SMTP id s20-20020a170902a51400b0018997c36382mr18353098plq.168.1669942388918;
+        Thu, 01 Dec 2022 16:53:08 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id h9-20020a628309000000b00574de4a2fbasm3808867pfe.196.2022.12.01.16.53.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Dec 2022 16:53:07 -0800 (PST)
+Date:   Thu, 1 Dec 2022 16:53:06 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     David Gow <davidgow@google.com>
+Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
+        Daniel Latypov <dlatypov@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v4 1/3] kunit: Provide a static key to check if KUnit is
+ actively running tests
+Message-ID: <202212011652.4E8CB40@keescook>
+References: <20221125084306.1063074-1-davidgow@google.com>
 MIME-Version: 1.0
-References: <20221130020328.1009347-1-almasrymina@google.com> <20221201213202.ycdaymwojd5plyrk@google.com>
-In-Reply-To: <20221201213202.ycdaymwojd5plyrk@google.com>
-From:   Mina Almasry <almasrymina@google.com>
-Date:   Thu, 1 Dec 2022 14:10:37 -0800
-Message-ID: <CAHS8izOn3Kr8vqxHYxEoGVoCXKmysRKNsvXpJ2EumxDU6JfSDQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2] mm: Add nodes= arg to memory.reclaim
-To:     Shakeel Butt <shakeelb@google.com>
-Cc:     Huang Ying <ying.huang@intel.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>, weixugc@google.com,
-        gthelen@google.com, fvdl@google.com, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221125084306.1063074-1-davidgow@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 1, 2022 at 1:32 PM Shakeel Butt <shakeelb@google.com> wrote:
->
-> On Tue, Nov 29, 2022 at 06:03:27PM -0800, Mina Almasry wrote:
-> [...]
-> > diff --git a/mm/vmscan.c b/mm/vmscan.c
-> > index 7b8e8e43806b..23fc5b523764 100644
-> > --- a/mm/vmscan.c
-> > +++ b/mm/vmscan.c
-> > @@ -6735,7 +6735,8 @@ unsigned long mem_cgroup_shrink_node(struct mem_cgroup *memcg,
-> >  unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
-> >                                          unsigned long nr_pages,
-> >                                          gfp_t gfp_mask,
-> > -                                        unsigned int reclaim_options)
-> > +                                        unsigned int reclaim_options,
-> > +                                        nodemask_t nodemask)
->
-> Can you please make this parameter a nodemask_t* and pass NULL instead
-> of NODE_MASK_ALL?
+On Fri, Nov 25, 2022 at 04:43:04PM +0800, David Gow wrote:
+> KUnit does a few expensive things when enabled. This hasn't been a
+> problem because KUnit was only enabled on test kernels, but with a few
+> people enabling (but not _using_) KUnit on production systems, we need a
+> runtime way of handling this.
+> 
+> Provide a 'kunit_running' static key (defaulting to false), which allows
+> us to hide any KUnit code behind a static branch. This should reduce the
+> performance impact (on other code) of having KUnit enabled to a single
+> NOP when no tests are running.
+> 
+> Note that, while it looks unintuitive, tests always run entirely within
+> __kunit_test_suites_init(), so it's safe to decrement the static key at
+> the end of this function, rather than in __kunit_test_suites_exit(),
+> which is only there to clean up results in debugfs.
+> 
+> Signed-off-by: David Gow <davidgow@google.com>
+> Reviewed-by: Daniel Latypov <dlatypov@google.com>
+> ---
+> This should be a no-op (other than a possible performance improvement)
+> functionality-wise, and lays the groundwork for a more optimised static
+> stub implementation.
+> 
+> The remaining patches in the series add a kunit_get_current_test()
+> function which is a more friendly and performant wrapper around
+> current->kunit_test, and use this in the slub test. They also improve
+> the documentation a bit.
+> 
+> If there are no objections, we'll take the whole series via the KUnit
+> tree.
+> 
+> Changes since v3:
+> https://lore.kernel.org/linux-kselftest/20221119081252.3864249-1-davidgow@google.com/
+> - Use DECLARE_STATIC_KEY_FALSE() -- thanks Daniel!
+> 
+> No changes since v2:
+> https://lore.kernel.org/all/20221025071907.1251820-1-davidgow@google.com/
+> 
+> Changes since v1:
+> https://lore.kernel.org/linux-kselftest/20221021072854.333010-1-davidgow@google.com/
+> - No changes in this patch.
+> - Patch 2/3 is reworked, patch 3/3 is new.
+> 
+> ---
+>  include/kunit/test.h | 4 ++++
+>  lib/kunit/test.c     | 6 ++++++
+>  2 files changed, 10 insertions(+)
+> 
+> diff --git a/include/kunit/test.h b/include/kunit/test.h
+> index 4666a4d199ea..87ea90576b50 100644
+> --- a/include/kunit/test.h
+> +++ b/include/kunit/test.h
+> @@ -16,6 +16,7 @@
+>  #include <linux/container_of.h>
+>  #include <linux/err.h>
+>  #include <linux/init.h>
+> +#include <linux/jump_label.h>
+>  #include <linux/kconfig.h>
+>  #include <linux/kref.h>
+>  #include <linux/list.h>
+> @@ -27,6 +28,9 @@
+>  
+>  #include <asm/rwonce.h>
+>  
+> +/* Static key: true if any KUnit tests are currently running */
+> +DECLARE_STATIC_KEY_FALSE(kunit_running);
+> +
+>  struct kunit;
+>  
+>  /* Size of log associated with test. */
+> diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+> index 1c9d8d962d67..87a5d795843b 100644
+> --- a/lib/kunit/test.c
+> +++ b/lib/kunit/test.c
+> @@ -20,6 +20,8 @@
+>  #include "string-stream.h"
+>  #include "try-catch-impl.h"
+>  
+> +DEFINE_STATIC_KEY_FALSE(kunit_running);
+> +
+>  #if IS_BUILTIN(CONFIG_KUNIT)
+>  /*
+>   * Fail the current test and print an error message to the log.
+> @@ -615,10 +617,14 @@ int __kunit_test_suites_init(struct kunit_suite * const * const suites, int num_
+>  		return 0;
+>  	}
+>  
+> +	static_branch_inc(&kunit_running);
 
-Thank you very much for the review. I sure can in the next version. To
-be honest I thought about that and made the parameter nodemask_t
-because I thought the call sites would be more readable. I.e. this:
+Is it expected there will be multiple tests running? (I was expecting
+"static_branch_enable").
 
-    try_to_free_mem_cgroup_pages(memcg, 1, GFP_KERNEL,
-MEMCG_RECLAIM_MAY_SWAP,  NODE_MASK_ALL);
+> +
+>  	for (i = 0; i < num_suites; i++) {
+>  		kunit_init_suite(suites[i]);
+>  		kunit_run_tests(suites[i]);
+>  	}
+> +
+> +	static_branch_dec(&kunit_running);
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(__kunit_test_suites_init);
+> -- 
+> 2.38.1.584.g0f3c55d4c2-goog
+> 
 
-Would be more readable than this:
+Regardless:
 
-    try_to_free_mem_cgroup_pages(memcg, 1, GFP_KERNEL,
-MEMCG_RECLAIM_MAY_SWAP,  NULL);
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-But the tradeoff is that the callers need include/linux/nodemask.h.
-But yes I can fix in the next version.
+-- 
+Kees Cook
