@@ -2,136 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 511A8C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 06:25:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42B00C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Dec 2022 06:53:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232190AbiLBGZI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Dec 2022 01:25:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48330 "EHLO
+        id S232415AbiLBGxp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Dec 2022 01:53:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232362AbiLBGYu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 01:24:50 -0500
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BA7798544
-        for <linux-doc@vger.kernel.org>; Thu,  1 Dec 2022 22:24:26 -0800 (PST)
-Received: by mail-vs1-xe34.google.com with SMTP id k185so3774652vsc.2
-        for <linux-doc@vger.kernel.org>; Thu, 01 Dec 2022 22:24:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Te7nlf3tgyUNylw2aLfROy5KSdSnYYCg2lheu+/mNdA=;
-        b=Art8F8H5odERe6K4OJ3za/Tpr9HcQMtpyUw+7q20j9n80APvjUKLAAlCGf1PtUSU2X
-         Nc6j/6jRvymlfAU/yUZQbQCrW/qVUZa6Wfl8kaPO2RHQe5gbo7mi5RM7qWIZuFUVop/U
-         g86j/y5PvFCJz08peZHJF2OKYM8EGbJrv7R0Ah8CW8xACEEFrLXA18RhzmSGzhijdNr0
-         JZCPDK8PyDAMZOWOrbKygSFcoALwbQzlQu4LgBXoNVfdgnEY8zgoDKsexwFDTrw8Aff2
-         X6n0ewZAndF6JrFPEh/du/7DLAQ0hqZb+9wk4dCFJbWMcIXW5LA9PmPbkMTSKQBIpNbh
-         M5Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Te7nlf3tgyUNylw2aLfROy5KSdSnYYCg2lheu+/mNdA=;
-        b=tItgC+mqMFIAPJkmW76TxzNKIcR0rGZJsv+1+5dwGBzvQe4iiyNSuUTZwf0zWVnGFu
-         nCKdZo3PJhCeSdFliIbrzxoWLLXSba3OwfT2urQEM94o8rBBqz0MKyDQQ77/lirNculK
-         Z+d7zOf1ay/qNVvVASCnid+UmPSzczcW0jE1unOe6B1WohSPI7kvppIcKWUsPsN1KBy4
-         loOSLUldC+vEOO0a9yY4MVSYk//O1pWCf2vW/FlRAUvj5zR4Ehh5XvjICov4nZNw6giz
-         JM5I314m/Y7AgIxwRfoMnGpMLVKd53TcFs2D+GkZCIt85IHLHwka5FcSLRDJX74/VMUG
-         cnOw==
-X-Gm-Message-State: ANoB5pnH+9s3X7avvCwkftRqQLMO1HYdsB4iJzfenyznavlXM2LI8M5V
-        iCkpfHtdGrFLCIe2/MlDE2/erIw2wHY8wTEzXpp76w==
-X-Google-Smtp-Source: AA0mqf4QmtwCZcn/5VHIZ90zxKTawK5ldU4SExw0nN7WHa3pUkMBczRcbMZ/oXhGLeITwGJsSc4e+QbOEqc18xJW9QQ=
-X-Received: by 2002:a05:6102:2758:b0:3b1:1962:24f9 with SMTP id
- p24-20020a056102275800b003b1196224f9mr395682vsu.72.1669962265514; Thu, 01 Dec
- 2022 22:24:25 -0800 (PST)
-MIME-Version: 1.0
-References: <20221130020328.1009347-1-almasrymina@google.com>
- <20221201213202.ycdaymwojd5plyrk@google.com> <CAHS8izOn3Kr8vqxHYxEoGVoCXKmysRKNsvXpJ2EumxDU6JfSDQ@mail.gmail.com>
- <F2917C72-A6F4-4969-B044-211F0D3856F1@linux.dev>
-In-Reply-To: <F2917C72-A6F4-4969-B044-211F0D3856F1@linux.dev>
-From:   Mina Almasry <almasrymina@google.com>
-Date:   Thu, 1 Dec 2022 22:24:14 -0800
-Message-ID: <CAHS8izPCh+=iUMVP4Xa7FLXc=xtWc7VkLSpk2gugL=f0koBb=Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v2] mm: Add nodes= arg to memory.reclaim
-To:     Muchun Song <muchun.song@linux.dev>
-Cc:     Shakeel Butt <shakeelb@google.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>, weixugc@google.com,
-        gthelen@google.com, fvdl@google.com, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        with ESMTP id S232314AbiLBGxn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 01:53:43 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2254BB7C1;
+        Thu,  1 Dec 2022 22:53:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1669964022; x=1701500022;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=hsL57ikcNVoLHdsSPb/2quBPJAcrsHQWRoxcjDJhwfk=;
+  b=eT0WFURXcMGeVYPNWIXxRON88XkgDgnK57MP8L9HBxKxsLmaAF3wJG7q
+   rnDKkrgZoX9TcVbQjFOyiHKO0gbbZ9fcMwwssDAXYyl0WJvN4OeI0hfn/
+   Kn0FuzeN0TDa37Lo4FaguVQsHPwL8t1p0mbouzgGyTeMfR+/WJw28w2b8
+   rh2r81QD8/4ACEi8dpcM54W2kVY5TcI1TPegcZnSzlgwg7wDRxmJr7X5t
+   P2v2sBsKA3vddkTIPlScUBDZCzecu1t1zNo639kpdVQMg7YY5Tl2lDL/u
+   KEf8CmRexAJLimiQPuCvaGZlDcib1wrhzm98hW6Vv0ekfUBtGpO0LdthQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="299253379"
+X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; 
+   d="scan'208";a="299253379"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2022 22:53:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="708374082"
+X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; 
+   d="scan'208";a="708374082"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by fmsmga008.fm.intel.com with ESMTP; 01 Dec 2022 22:53:30 -0800
+Date:   Fri, 2 Dec 2022 14:49:09 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Vishal Annapurve <vannapurve@google.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Muchun Song <songmuchun@bytedance.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        cgroups@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20221202064909.GA1070297@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
+ <CAGtprH9Qu==pohH9ZSTzX9rZWSO0QWJ9rGK6NRGaiDetWAPLYg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGtprH9Qu==pohH9ZSTzX9rZWSO0QWJ9rGK6NRGaiDetWAPLYg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 1, 2022 at 10:05 PM Muchun Song <muchun.song@linux.dev> wrote:
->
->
->
-> > On Dec 2, 2022, at 06:10, Mina Almasry <almasrymina@google.com> wrote:
+On Thu, Dec 01, 2022 at 06:16:46PM -0800, Vishal Annapurve wrote:
+> On Tue, Oct 25, 2022 at 8:18 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
 > >
-> > On Thu, Dec 1, 2022 at 1:32 PM Shakeel Butt <shakeelb@google.com> wrote:
-> >>
-> >> On Tue, Nov 29, 2022 at 06:03:27PM -0800, Mina Almasry wrote:
-> >> [...]
-> >>> diff --git a/mm/vmscan.c b/mm/vmscan.c
-> >>> index 7b8e8e43806b..23fc5b523764 100644
-> >>> --- a/mm/vmscan.c
-> >>> +++ b/mm/vmscan.c
-> >>> @@ -6735,7 +6735,8 @@ unsigned long mem_cgroup_shrink_node(struct mem_cgroup *memcg,
-> >>> unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
-> >>>                                         unsigned long nr_pages,
-> >>>                                         gfp_t gfp_mask,
-> >>> -                                        unsigned int reclaim_options)
-> >>> +                                        unsigned int reclaim_options,
-> >>> +                                        nodemask_t nodemask)
-> >>
-> >> Can you please make this parameter a nodemask_t* and pass NULL instead
-> >> of NODE_MASK_ALL?
-> >
-> > Thank you very much for the review. I sure can in the next version. To
-> > be honest I thought about that and made the parameter nodemask_t
-> > because I thought the call sites would be more readable. I.e. this:
-> >
-> >    try_to_free_mem_cgroup_pages(memcg, 1, GFP_KERNEL,
-> > MEMCG_RECLAIM_MAY_SWAP,  NODE_MASK_ALL);
->
-> nodemask_t is an array, which can be large depending on CONFIG_NODES_SHIFT.
-> I don't think passing a big array is an efficient way. So I agree with Shakeel.
->
+...
+> > +}
+> > +
+> > +SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+> > +{
+> 
+> Looking at the underlying shmem implementation, there seems to be no
+> way to enable transparent huge pages specifically for restricted memfd
+> files.
+> 
+> Michael discussed earlier about tweaking
+> /sys/kernel/mm/transparent_hugepage/shmem_enabled setting to allow
+> hugepages to be used while backing restricted memfd. Such a change
+> will affect the rest of the shmem usecases as well. Even setting the
+> shmem_enabled policy to "advise" wouldn't help unless file based
+> advise for hugepage allocation is implemented.
 
-Ah, yes, I think the nodemask_t ends up compiling to something like:
+Had a look at fadvise() and looks it does not support HUGEPAGE for any
+filesystem yet.
 
-typedef struct {
-    unsigned long name[BITS_TO_LONGS(MAX_NUMNODES)]
- } nodemask_t;
+> 
+> Does it make sense to provide a flag here to allow creating restricted
+> memfds backed possibly by huge pages to give a more granular control?
 
-If it was an array it would be passed by reference anway, but I think
-if it is a struct containing an array the array will get copied
-indeed. Sure, I will fix in the next version.
+We do have a unused 'flags' can be extended for such usage, but I would
+let Kirill have further look, perhaps need more discussions.
 
-> Thanks.
->
+Chao
+> 
+> > +       struct file *file, *restricted_file;
+> > +       int fd, err;
+> > +
+> > +       if (flags)
+> > +               return -EINVAL;
+> > +
+> > +       fd = get_unused_fd_flags(0);
+> > +       if (fd < 0)
+> > +               return fd;
+> > +
+> > +       file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+> > +       if (IS_ERR(file)) {
+> > +               err = PTR_ERR(file);
+> > +               goto err_fd;
+> > +       }
+> > +       file->f_mode |= FMODE_LSEEK | FMODE_PREAD | FMODE_PWRITE;
+> > +       file->f_flags |= O_LARGEFILE;
+> > +
+> > +       restricted_file = restrictedmem_file_create(file);
+> > +       if (IS_ERR(restricted_file)) {
+> > +               err = PTR_ERR(restricted_file);
+> > +               fput(file);
+> > +               goto err_fd;
+> > +       }
+> > +
+> > +       fd_install(fd, restricted_file);
+> > +       return fd;
+> > +err_fd:
+> > +       put_unused_fd(fd);
+> > +       return err;
+> > +}
+> > +
+> > +void restrictedmem_register_notifier(struct file *file,
+> > +                                    struct restrictedmem_notifier *notifier)
+> > +{
+> > +       struct restrictedmem_data *data = file->f_mapping->private_data;
+> > +
+> > +       mutex_lock(&data->lock);
+> > +       list_add(&notifier->list, &data->notifiers);
+> > +       mutex_unlock(&data->lock);
+> > +}
+> > +EXPORT_SYMBOL_GPL(restrictedmem_register_notifier);
+> > +
+> > +void restrictedmem_unregister_notifier(struct file *file,
+> > +                                      struct restrictedmem_notifier *notifier)
+> > +{
+> > +       struct restrictedmem_data *data = file->f_mapping->private_data;
+> > +
+> > +       mutex_lock(&data->lock);
+> > +       list_del(&notifier->list);
+> > +       mutex_unlock(&data->lock);
+> > +}
+> > +EXPORT_SYMBOL_GPL(restrictedmem_unregister_notifier);
+> > +
+> > +int restrictedmem_get_page(struct file *file, pgoff_t offset,
+> > +                          struct page **pagep, int *order)
+> > +{
+> > +       struct restrictedmem_data *data = file->f_mapping->private_data;
+> > +       struct file *memfd = data->memfd;
+> > +       struct page *page;
+> > +       int ret;
+> > +
+> > +       ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       *pagep = page;
+> > +       if (order)
+> > +               *order = thp_order(compound_head(page));
+> > +
+> > +       SetPageUptodate(page);
+> > +       unlock_page(page);
+> > +
+> > +       return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(restrictedmem_get_page);
+> > --
+> > 2.25.1
 > >
-> > Would be more readable than this:
-> >
-> >    try_to_free_mem_cgroup_pages(memcg, 1, GFP_KERNEL,
-> > MEMCG_RECLAIM_MAY_SWAP,  NULL);
-> >
-> > But the tradeoff is that the callers need include/linux/nodemask.h.
-> > But yes I can fix in the next version.
-> >
->
