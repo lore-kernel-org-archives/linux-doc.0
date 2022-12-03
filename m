@@ -2,50 +2,50 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3221C47088
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 02:35:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 507D9C4708E
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 02:37:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235061AbiLCCfE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Dec 2022 21:35:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52382 "EHLO
+        id S235096AbiLCChb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Dec 2022 21:37:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234955AbiLCCfC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 21:35:02 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89444E256F
-        for <linux-doc@vger.kernel.org>; Fri,  2 Dec 2022 18:35:01 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id t17so6529282pjo.3
-        for <linux-doc@vger.kernel.org>; Fri, 02 Dec 2022 18:35:01 -0800 (PST)
+        with ESMTP id S234949AbiLCCh3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 21:37:29 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C303E2AA1
+        for <linux-doc@vger.kernel.org>; Fri,  2 Dec 2022 18:37:28 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id b13-20020a17090a5a0d00b0021906102d05so6671417pjd.5
+        for <linux-doc@vger.kernel.org>; Fri, 02 Dec 2022 18:37:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XQs9tVfGT9YvsTDVtvy9w4wMLhjzx69/QPDnzOH4S3c=;
-        b=BdWCY0D6/wr/oO1soihVhNirwM62d3x+s0tgQ6bwd5Rj7JWEA/AE/XrfRopNOAwoz/
-         05TXAjAuCW+vWbam1c1pbg13GCl4Mz1YtIeOJ4DYFu7vJpwyP3u/pJk7EQbmF1Fsbvxo
-         IbSQDRCtw92dj9E+wfFDvqc9KGav6VtbWimEI=
+        bh=oDrBZAQ9dEymmeztlBFZKPMsI8zCA1Y+uTeDvwebtj0=;
+        b=QXTeqyNf09nL4ihD3rc8zTJ3kQ0m2WTtL1DZTt6tAiD9WLlbJ2V3DUXo16B14iGew9
+         yvF5tqIBHYNZs8q810PNVrKvX10/GGR1yc60nEPB/qL+H1G53m/ugcND1HflOkD83FjL
+         VVTQM23Ooc4TcwV6s0oaObc7nzzwBXlNShCLU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XQs9tVfGT9YvsTDVtvy9w4wMLhjzx69/QPDnzOH4S3c=;
-        b=G10cZvSJDWK5K9xChRGAOVGpc634VZXw8HLbzXJXeRh+g80vQami/1HAt19N7sHHjQ
-         /Nh64ZLtr1UdaJKrlB3git3FfSsPOVxUmZUaqxFlf1j+l2wiALxpaGgyGfksPqpCgSui
-         2J0WNVvnVUNvjGxdij2aWIcwFGV/nfQ2gOSQnRE301+0hgXjv1yTnk8FbhgAlcOsNXLj
-         nwo7CNVVaV4sK+KYQ7rY/tw96A8+XUaFO5GL3GcZXgKHoP+H1TBUDeHmyp9d4PqllLS9
-         0wPSxmcGhVEGvyODuVo/TrberWn3ulfs2y+HVp9cy0pYYHhtuAUuVyttE/QIJz8EIoCO
-         TJPQ==
-X-Gm-Message-State: ANoB5plQ2E1sxeVtUOHo58UVyzMX3jFpiBTM7l6L4doF15vfVp+CzS8Z
-        7GVioWDGD8vJOtk0W+bN9oyzMA==
-X-Google-Smtp-Source: AA0mqf7uStX3Ydoku6VU5WdR7aRvh89xtQi2ykwRpNP9wSfKDZaPCJnsBpzs/d7FPH3HpDywGEnbxA==
-X-Received: by 2002:a17:90a:5918:b0:213:df25:7e8a with SMTP id k24-20020a17090a591800b00213df257e8amr86239470pji.154.1670034901104;
-        Fri, 02 Dec 2022 18:35:01 -0800 (PST)
+        bh=oDrBZAQ9dEymmeztlBFZKPMsI8zCA1Y+uTeDvwebtj0=;
+        b=P1OeOjtlCVF0oP0nSV5GtzXfPkJ9c9vR7iR9LkijkaP9KcoJ5rA22joez0AUIFNF9q
+         +gLv+8XEfP1JU9T7jggnXAcH2rOSw/JhzmIY57+KL9pfWB+P09jVBupLhHX2Yy0HLdt7
+         Ej+MfoM+d/dB1lRoZRmTD4rmCekCMc/WEL0a+6hKoZFy9/yFGF0HM7WgUHC/igkxruMI
+         Ha6VXLzBckxqZcb0ftZ0NHvhgbB7qgMYHur1L8Qfj5Fi0RqiFkfROyStVRD7VDzwRZ71
+         U7HR1y2ZppereMIW1rBFN+50/lZOY7VvtxcWi6UDxgbfqeoTTH3/jDS1E9goagKOEqOP
+         dIeQ==
+X-Gm-Message-State: ANoB5pmqHWbmrZsWA9sr9+uVibHr9jJqONhNNaLXdY2+F2CrYwvxQt3V
+        9tkV6PE01y7CSr5ioc/sgX2xnw==
+X-Google-Smtp-Source: AA0mqf6Yiy5i07xGDs9XahDJ4dz0BQpR9Pb4qYcyOeS+OtU0c7pIrWALrEQ88lg1YSkd43nZoT7wjQ==
+X-Received: by 2002:a17:902:a511:b0:174:7d26:812f with SMTP id s17-20020a170902a51100b001747d26812fmr55899215plq.63.1670035047871;
+        Fri, 02 Dec 2022 18:37:27 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l12-20020a170902e2cc00b00176a6ba5969sm439650plc.98.2022.12.02.18.35.00
+        by smtp.gmail.com with ESMTPSA id g19-20020a170902e39300b00189a540f545sm6186408ple.191.2022.12.02.18.37.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 18:35:00 -0800 (PST)
-Date:   Fri, 2 Dec 2022 18:34:59 -0800
+        Fri, 02 Dec 2022 18:37:27 -0800 (PST)
+Date:   Fri, 2 Dec 2022 18:37:26 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -75,35 +75,50 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         dethoma@microsoft.com, akpm@linux-foundation.org,
         Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
         Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v4 17/39] x86/mm: Update maybe_mkwrite() for shadow stack
-Message-ID: <202212021834.200AFA92BC@keescook>
+Subject: Re: [PATCH v4 18/39] mm: Fixup places that call pte_mkwrite()
+ directly
+Message-ID: <202212021837.73582B63@keescook>
 References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
- <20221203003606.6838-18-rick.p.edgecombe@intel.com>
+ <20221203003606.6838-19-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221203003606.6838-18-rick.p.edgecombe@intel.com>
+In-Reply-To: <20221203003606.6838-19-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 04:35:44PM -0800, Rick Edgecombe wrote:
+On Fri, Dec 02, 2022 at 04:35:45PM -0800, Rick Edgecombe wrote:
 > From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > 
-> When serving a page fault, maybe_mkwrite() makes a PTE writable if there is
-> a write access to it, and its vma has VM_WRITE. Shadow stack accesses to
-> shadow stack vma's are also treated as write accesses by the fault handler.
-> This is because setting shadow stack memory makes it writable via some
-> instructions, so COW has to happen even for shadow stack reads.
+> The x86 Control-flow Enforcement Technology (CET) feature includes a new
+> type of memory called shadow stack. This shadow stack memory has some
+> unusual properties, which requires some core mm changes to function
+> properly.
 > 
-> So maybe_mkwrite() should continue to set VM_WRITE vma's as normally
-> writable, but also set VM_WRITE|VM_SHADOW_STACK vma's as shadow stack.
+> With the introduction of shadow stack memory there are two ways a pte can
+> be writable: regular writable memory and shadow stack memory.
 > 
-> Do this by adding a pte_mkwrite_shstk() and a cross-arch stub. Check for
-> VM_SHADOW_STACK in maybe_mkwrite() and call pte_mkwrite_shstk()
-> accordingly.
+> In past patches, maybe_mkwrite() has been updated to apply pte_mkwrite()
+> or pte_mkwrite_shstk() depending on the VMA flag. This covers most cases
+> where a PTE is made writable. However, there are places where pte_mkwrite()
+> is called directly and the logic should now also create a shadow stack PTE
+> in the case of a shadow stack VMA.
 > 
-> Apply the same changes to maybe_pmd_mkwrite().
+> - do_anonymous_page() and migrate_vma_insert_page() check VM_WRITE
+>   directly and call pte_mkwrite(). Teach it about pte_mkwrite_shstk()
+> 
+> - When userfaultfd is creating a PTE after userspace handles the fault
+>   it calls pte_mkwrite() directly. Teach it about pte_mkwrite_shstk()
+> 
+> To make the code cleaner, introduce is_shstk_write() which simplifies
+> checking for VM_WRITE | VM_SHADOW_STACK together.
+> 
+> In other cases where pte_mkwrite() is called directly, the VMA will not
+> be VM_SHADOW_STACK, and so shadow stack memory should not be created.
+>  - In the case of pte_savedwrite(), shadow stack VMA's are excluded.
+>  - In the case of the "dirty_accountable" optimization in mprotect(),
+>    shadow stack VMA's won't be VM_SHARED, so it is not nessary.
 > 
 > Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 > Tested-by: John Allen <john.allen@amd.com>
