@@ -2,135 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A7BFC352A1
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 05:59:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0212C4332F
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 07:53:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230010AbiLCF7m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Dec 2022 00:59:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54846 "EHLO
+        id S230169AbiLCHxk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Dec 2022 02:53:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229665AbiLCF7l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Dec 2022 00:59:41 -0500
-Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2017.outbound.protection.outlook.com [40.92.103.17])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07E58E5A98;
-        Fri,  2 Dec 2022 21:59:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HpGXJCT0rLIUXqOx3//wnEW/1wST/gUJMpqFgw0v4z5aSOR6PyHhMs5haN60DDuNQYb32bpRPFaAb4g5Lvvsz4PO71G3DxyXsCv0iNj2cpgq+wB5Qm3SNIWeFgOdbQaCL+wT8Z/c59p5C/MVGJHvH8DSEoyWMgzVrlI7XhW798DA5Aj3CcCP2DNuwzIG4Rwu6sNSWl6wU8Wsq49I3KM4iWlqmkPamtvBE444iBUGFIqZqzZCKOge50Ov053rmJnmiLtmQZJE6QOtARx/xnHPD9PnxOeFKNdgAHirUDzyjKwI+qHfsTCaKh6GSjmiU3gUG24veWmWaXBozsdpEex6WA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=giE3QBeBTmVPj62IlLH7PSer47BohKgUrLjg0rvWJOg=;
- b=iP2f2FRJEF4EbsEsVeDqFwiM5udpHqGaCIVRfLdjP4Vtu7g1g36e9pX/4B2E2q2lo86bmZnU3AXc523BiiPZHgY9fuyPl6Ybm0MAKcch8tPTd43F5yzrm6wTgOYDSeucX2xz+Hpp2lmh3VW4nwNt64aa8xThi8PmiTy/Jv5nfsT583y1QBap904KCFVQOxmhj2L9ukRQHnsDdNPmuNDa4xCZsAQMaw2nUfI8PMFIh1fEksUF7+kcZuBO9ecPwFYIo2Foo6RE/nZS5PJmOUPJfSj1XHGgHFlVWK0AGQB/WlOU9X9ndNR8awExBwjA8heOPergDSPRb2uuyBb/RIiO4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=giE3QBeBTmVPj62IlLH7PSer47BohKgUrLjg0rvWJOg=;
- b=Atq8w8KNLs1uUnG9VQl6BT11HnB0Rp9DstD5n9Tots0G/RFsvYVxatsczBi6q1nSXRfGrHsfxgu5rSOox926v42mPX90z4ha48IWT0judYM0YtabWtDgSXXZR5N87oeA0Ird2HluDCuZEL8igvwmgApNrOJjSscaxvJnxAhc6Ep+WBioYQnxSEio9SPu9B537JTxfMAxS+sj8cboeCu6g4tDPcVnp4i8LW8R4lGyzf4ZMgrg1R5c3qALApFKtzwhZht0htOak0OWVcXh04DEOXp3yx4iPSYoN1BZL/s8KS+GMXzGrYRxLAigh18g1Rvhn2rVRsVBlj/+feUGggZH6w==
-Received: from MAZPR01MB5723.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:66::7)
- by PN3PR01MB7000.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:ab::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.11; Sat, 3 Dec
- 2022 05:59:35 +0000
-Received: from MAZPR01MB5723.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::6806:768a:a02f:3aef]) by MAZPR01MB5723.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::6806:768a:a02f:3aef%7]) with mapi id 15.20.5880.010; Sat, 3 Dec 2022
- 05:59:34 +0000
-From:   Conghui Wang <conghui.wang@hotmail.com>
-To:     rafael@kernel.org, viresh.kumar@linaro.org, corbet@lwn.net
-Cc:     linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Conghui Wang <conghui.wang@hotmail.com>
-Subject: [PATCH] cpufreq: Remove CVS version control contents
-Date:   Sat,  3 Dec 2022 13:59:12 +0800
-Message-ID: <MAZPR01MB57230DDF21FC26147D0B0CAF8F169@MAZPR01MB5723.INDPRD01.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN:  [sYfUY2aFGFQaap3C8vJobwdNWpv5DfiS]
-X-ClientProxiedBy: TYCPR01CA0191.jpnprd01.prod.outlook.com
- (2603:1096:400:2b0::16) To MAZPR01MB5723.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:66::7)
-X-Microsoft-Original-Message-ID: <20221203055912.5057-1-conghui.wang@hotmail.com>
+        with ESMTP id S230324AbiLCHxj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Dec 2022 02:53:39 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0D5D7E409;
+        Fri,  2 Dec 2022 23:53:38 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 909ACB81092;
+        Sat,  3 Dec 2022 07:53:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25E44C4314A;
+        Sat,  3 Dec 2022 07:53:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670054016;
+        bh=v+fh+f5UA4ZMllDwmHzwUHLTYaB/xEbSJdsmYPmGyc8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Nak2BiuBVIBjFil7xWnOsIfDvMuVuJBsI472Ldeg2GUE7pcB1ArCRx7eg17HRgeYH
+         0TGSX+xJK4awCHCe6gQSEX3j2UzrqNjRi+WQZCbGMK3fJhdTW5ZetIv07E21tMha2U
+         6UDJKKUbjpDogCTeeBe8mjjKIulcgFe7rBucQyDR7ceVA5CzibAJIqRJEq5CkW7O4Z
+         Re4JncxHC1G5WYvVoKHbleoOJmX1zGPA+LmjSHM93CvBr6hg4Qk1NyBMXJZjsmG09/
+         pSt2yVCi6kyx2OrYWxRfzSX9vOcVVUy5isUUhh3UORRTsNcZPSZX0ATi7CElgwvdVO
+         NHxKWR4GUo3YQ==
+Received: by mail-ej1-f52.google.com with SMTP id bj12so16400695ejb.13;
+        Fri, 02 Dec 2022 23:53:36 -0800 (PST)
+X-Gm-Message-State: ANoB5pm6RS90cgtdAW/q5Y+pbM+j/xuHguaFWGImF8G/Vx2CzMO4eh90
+        9P1AvexeMgcmXsOtb6cfugiWofcKsY3PB6+rY2w=
+X-Google-Smtp-Source: AA0mqf5v7PsMXkly2t9Dyuk1Ofpw2XwAbMWTqS1nzBeDCH1bbzqPn4lCENo9DXWjvMuC+kBTe4Amiepcel2hKDVj6Iw=
+X-Received: by 2002:a17:906:99d3:b0:78d:c7fd:f755 with SMTP id
+ s19-20020a17090699d300b0078dc7fdf755mr6375844ejn.702.1670054014194; Fri, 02
+ Dec 2022 23:53:34 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MAZPR01MB5723:EE_|PN3PR01MB7000:EE_
-X-MS-Office365-Filtering-Correlation-Id: 64e4c52d-c9c2-4bd6-93b7-08dad4f38dc4
-X-MS-Exchange-SLBlob-MailProps: RlF2DIMZ1qXVcfxocZznj9bxwo7Qz0X4M0RJRvTaWePFe7c/7JILwMB9fM8l1mUS59nSzvumNJRW5nv8Hmo6q6lgvfTHo8mKAXnMV0pOJs+17BWxmNof2WaMMImQ2pOHUZ78/EKa9rAvDrzHSUYNZtxoHXqnqFzto9urIbI6gPcHbuA53TSswImSTZrR88ShYNdAxOauwd9d8f2r4xyamrYLpatZrZlY8GfhvUrgMN256vY8KGnho6yMyucIp8BDtQAWsxkKZjdcf3ww0Cz7PkLg1pad3ffUg//njm8k5ZUh4X5M/5iqbyaR4y7TD/Nhf7/Fm70K1dXyXWLoR6SZNOTlJctv4UhpBmh6Uj0eox5ZP0r9b4cG57ghvrfrnH5ixrEO2564JU/Y2XabD0I6swv3hfw/E15kuuD3ZCpHMI/4fin4AJ2yaSK8JPFzwDanu7AcqO4I0fIV4FpIwtiKorKYeD373evqPF45DvORNkXNcY+6NchY1wdijsMwDVDdHe/yXBOw8bnWJ1d9mESFxPFQJQYaKeyQGHFRTJx6WTUghGycQmf1TF0IOCH7Ra+oa7n4LYC77XlyDxy9LSTOqXvL9Nim0S80lmROzN3RpfJ7rulslfjdUcYmbkvrO8JfW0TMFZorKCxO1J77MNMViYKIb4FZ1KCZznBZeiEho8+wPE4O2Su4n7BS4hLXRGjrrUQSVxFSIL3ah5LHAmyzs5UfgargQvzUu3KVqc1Wfh6jUf9eSRlQRygHYzmVdjLCctH0aGILyvKpNZCepNAt8mXutX8RXieaudh/BqIPOkNwYVWGnM6HJm0wVX/ump/P6jRzvrUozP0OYqvhtRixDu7FsY5JVPua
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ywXepMXm95/na34BuKfgqg4P83fdQzw16HXjl/1SPtRkyR9TqSktO6gWliAZDpyKEh4mYFHBpmYrB1uY4QUIuyvigoIx9LMqYW8tWCH5LPh5UdtgWaUTHgNvh85HgaJy3F3SXYNeHM23uLmTjU7gdiSnMLvUc2zx1j92aYovgyNPuuFKk70QW/DvOjHQC+dqSE6+oX6A6BBUhN6Ab0+D4n52p7goVDNBIvlfZOijKZ8rnwGlzmzajW5lfXfsFjFC2C09OCHQxnQQhnJAzMymz0OSvhZDfrrCOrdFAOqfysMaHzGA5IBZHQFXgUl/WO7sBOsCgrp0B0x/EhPEO2JSuDEXBrqEWeC5vqWLIZuxIorP0lLYt6Ebnt2SRhFdYep1JzIU4UncY6cryW95uGKUQyuZQPW65rLE0yyvKxZMbhAsowFdEyFQHCbb7ALfc+WfuER3Gwbkby37Ui5pTpkkomuaQTLRJQflZ/TNaS8vbd107V36mEVENYM/aFd1gYgoJiusFRMvbWUCHzJ93u4uUJr0Ho5oxvBloqL6qRTNu4jb8sppO7mEcbbQkevYihC80KULeSF70xOAFW9nRkI0ayVaxrQa857I8tG0XT3/AC7dEqkbKRkaRdmDTY/C7gxHDAdZBtV71bgQEaarT9ccYw==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XzVXwPKQbxN3ay4U3swXywgxqIhND3/phRd1kO3dugp4JrZp3eIMbCwnL8Mo?=
- =?us-ascii?Q?5MwQABx84x+fbgH40iOq9lQ7CGjRefwKhk5iQp8FBDpv4OeMPgt5t0jpto72?=
- =?us-ascii?Q?PrmSabSO7jqftThF8i57/skBo0P3HxZLvzZ7MNaYS/LPhYU9wFDERLDsZrzu?=
- =?us-ascii?Q?qZ8VB7eX9cO1ILlsMM9zkMTZU9lQ9w0DaPqbZimbRFKV0DZfMofVCJTqZUb5?=
- =?us-ascii?Q?UEV51NtFKgGGOPThU9MELTFcafa4VzJjE3b4rXFWFjFgB3+rl2K2we+/xcwK?=
- =?us-ascii?Q?+A/+jbJ/S/olVUphY6+OpB4D52Xl04PJ0/X9yo6TZiIIWwzTbkvGorBjwvll?=
- =?us-ascii?Q?mQ/s+niBhuIVwMAyDHjdOMifqWq9fIO+7bh9CKxmsUYRrr9Duxs6L4juy8dD?=
- =?us-ascii?Q?VRPHpMq1H/zCQQcylffuPA700+hbPyV3N0rS4/wqrhiT6Iolw2GrsQ3t9Hhj?=
- =?us-ascii?Q?c9hb8xzylD4g9PADCRfamgYhjdM98oQmPcuPUhRkg+mkzwiUYJtm0z9/x45S?=
- =?us-ascii?Q?IiliyyXmlD2hmpjerk9sMZkOukmZnVmPolNCjp0bs3l61gamZvcOROzcH1nO?=
- =?us-ascii?Q?ToaV5FNaOwDEb2US5PGrSiuFWlDnSt1Odffy7g45GzAebkUc+kbGgYh8Kiv/?=
- =?us-ascii?Q?jtGkNVrSGCHvPXcV8glk4XW2sR9UG4mplY6mOKAmaNGO2mQnsfvjdeVIVWlc?=
- =?us-ascii?Q?e8/rotzLQbeQFHc6ycTwJOF6cRwZLtjBF4PRP30eg0VQl6UWMJgY+hXIDTUf?=
- =?us-ascii?Q?L/uAYJ30On39M+2S41VSpFzOB0I+nerRiJ0OQofNzDQ8gFh/ck8nZok/XuJV?=
- =?us-ascii?Q?D+eKYSvGRz3xpOoB6PMzFxbvXYibJreGLpHO2SFBGW5KMn5qnFpQkHOKLimh?=
- =?us-ascii?Q?uDdMQmJOVGi/5ydS5vlfX0IlklFUca/DrSuV2N5Pg89zMWgP8Xr0tYWB1HZD?=
- =?us-ascii?Q?UUMTf8Q7ec3I4hDpjCoJ/tsyhr0jV586sGY9qEQ79tksH27cYTPJN4KlXBiO?=
- =?us-ascii?Q?Bo0ZSIP3x+w/hbZHx1bAT7eCWa20/fR6c1Og30jiHXhGE3C4hqtORypcri3J?=
- =?us-ascii?Q?QxFjM66KJxU1R6OQUeQh+usWcoiuinPMtbB2Qe9jKgVtMbjR5erRo05T4cH8?=
- =?us-ascii?Q?OzZvHG0TG8OKln6zsmJ4GziHLbAqGeZZKKai3Pxg1mDjeCMp+cT36nJuLq4g?=
- =?us-ascii?Q?a6OJ2Pfggg+o05uQC02eHwUxwMOYOIKaleEyonwfpUxwZsBSNhGjH2S99Yi6?=
- =?us-ascii?Q?sWPzausNSzEzz1FaVSS7WtMM40ITG8nqJV0giOsUcQ=3D=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64e4c52d-c9c2-4bd6-93b7-08dad4f38dc4
-X-MS-Exchange-CrossTenant-AuthSource: MAZPR01MB5723.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2022 05:59:34.8688
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB7000
+References: <20221026144208.373504-1-xianting.tian@linux.alibaba.com> <167002857934.4256.16584443879212253129.b4-ty@rivosinc.com>
+In-Reply-To: <167002857934.4256.16584443879212253129.b4-ty@rivosinc.com>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Sat, 3 Dec 2022 15:53:21 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTRYwiPUTZWgWHTS5_k4mJsY9ZivbY+PCRfEDpANKNHXTA@mail.gmail.com>
+Message-ID: <CAJF2gTRYwiPUTZWgWHTS5_k4mJsY9ZivbY+PCRfEDpANKNHXTA@mail.gmail.com>
+Subject: Re: [PATCH V5 0/2] Support VMCOREINFO export for RISCV64
+To:     Palmer Dabbelt <palmer@rivosinc.com>
+Cc:     mick@ics.forth.gr, corbet@lwn.net, alexandre.ghiti@canonical.com,
+        vgoyal@redhat.com, bhe@redhat.com,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        bagasdotme@gmail.com, dyoung@redhat.com,
+        Palmer Dabbelt <palmer@dabbelt.com>, heiko@sntech.de,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        anup@brainfault.org, aou@eecs.berkeley.edu,
+        hschauhan@nulltrace.org, yixun.lan@gmail.com,
+        kexec@lists.infradead.org, heinrich.schuchardt@canonical.com,
+        linux-doc@vger.kernel.org, crash-utility@redhat.com,
+        linux-kernel@vger.kernel.org, k-hagio-ab@nec.com,
+        linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since linux moved to git, CVS contents are no longer used.
+Hi Palmer,
 
-Signed-off-by: Conghui Wang <conghui.wang@hotmail.com>
----
- Documentation/cpu-freq/index.rst | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+Here are another two fix-up patches of kdump for the crash tool.
 
-diff --git a/Documentation/cpu-freq/index.rst b/Documentation/cpu-freq/index.rst
-index aba7831ab1cb..546c9161d906 100644
---- a/Documentation/cpu-freq/index.rst
-+++ b/Documentation/cpu-freq/index.rst
-@@ -20,18 +20,15 @@ Author: Dominik Brodowski  <linux@brodo.de>
- 
- Mailing List
- ------------
--There is a CPU frequency changing CVS commit and general list where
--you can report bugs, problems or submit patches. To post a message,
--send an email to linux-pm@vger.kernel.org.
-+There is a CPU frequency general list where you can report bugs, 
-+problems or submit patches. To post a message, send an email to 
-+linux-pm@vger.kernel.org.
- 
- Links
- -----
- the FTP archives:
- * ftp://ftp.linux.org.uk/pub/linux/cpufreq/
- 
--how to access the CVS repository:
--* http://cvs.arm.linux.org.uk/
--
- the CPUFreq Mailing list:
- * http://vger.kernel.org/vger-lists.html#linux-pm
- 
+https://lore.kernel.org/linux-riscv/20221020141603.2856206-3-guoren@kernel.org/
+https://lore.kernel.org/linux-riscv/20221020141603.2856206-2-guoren@kernel.org/
+
+On Sat, Dec 3, 2022 at 8:56 AM Palmer Dabbelt <palmer@rivosinc.com> wrote:
+>
+> On Wed, 26 Oct 2022 22:42:06 +0800, Xianting Tian wrote:
+> > As disscussed in below patch set, the patch of 'describe VMCOREINFO export in Documentation'
+> > need to update according to Bagas's comments.
+> > https://lore.kernel.org/linux-riscv/22AAF52E-8CC8-4D11-99CB-88DE4D113444@kernel.org/
+> >
+> > As others patches in above patch set already applied, so this patch set only contains below two
+> > patches.
+> >
+> > [...]
+>
+> Applied, thanks!
+>
+> [1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
+>       https://git.kernel.org/palmer/c/649d6b1019a2
+> [2/2] Documentation: kdump: describe VMCOREINFO export for RISCV64
+>       https://git.kernel.org/palmer/c/c5b4216929eb
+>
+> Best regards,
+> --
+> Palmer Dabbelt <palmer@rivosinc.com>
+
+
+
 -- 
-2.25.1
-
+Best Regards
+ Guo Ren
