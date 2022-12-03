@@ -2,64 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 092D9C4332F
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 10:58:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30ADDC4332F
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 11:17:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229750AbiLCK6f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Dec 2022 05:58:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34378 "EHLO
+        id S229588AbiLCLRB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Dec 2022 06:17:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbiLCK6e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Dec 2022 05:58:34 -0500
+        with ESMTP id S229558AbiLCLRA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Dec 2022 06:17:00 -0500
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 784871AF3F;
-        Sat,  3 Dec 2022 02:58:32 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23FF673F51;
+        Sat,  3 Dec 2022 03:16:59 -0800 (PST)
 Received: from localhost (mdns.lwn.net [45.79.72.68])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 93414536;
-        Sat,  3 Dec 2022 10:58:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 93414536
+        by ms.lwn.net (Postfix) with ESMTPSA id BC7C9723;
+        Sat,  3 Dec 2022 11:16:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BC7C9723
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1670065112; bh=IaLxs+J9hAFkKyYzKX+A7hLkgWgPeWlmrS5nyJKqIfk=;
+        t=1670066218; bh=kk7h3jcdGRSAY42RkxDPLTCAc0PdknwtKLmsLOObe4w=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=cSjJxDE5n4TAq9/xyqsXCwgNfNEEu0GHwhQM75DmIX7qXuVYofj0+syxt7D0VCard
-         9kC3Gt5IkjaQck1DbzgXcNOauD+TWvaBF8yIvk3xdtNB1HpVh5p2vyZl+5ULzZh6SZ
-         Qrktg7ryv8NLvF04nOl7i50yyEe0WqzM9Y+e5BKE6GqGLkDZvY/+CnvxP8M7a7mus7
-         MNOgg+b7tM59J4Eni/zoyJhET+EWxXrEYJqhvEyGz4KdKbUSPaHF4O1vvhO7NKLfUN
-         UewZbclpbPfBlQ8gcNaTOCP40MM8nsSobsfcwygGFyRqY38gtudjF0D2b/JXs12uDi
-         2qiJLi2oGHLzQ==
+        b=CPPYmL3PiRwrJ7rA+514mMKT7jPaBN0gWkQZie2uBryWiW7vn4QJgW/PZ3wWbhcuw
+         q7ue4miG2T4Tqp3+45Hk+TPyXp1oPPIoHLp0bNV3SSv2J5LNgmggyaUMukFAnk+jmD
+         1mB/VaucRNNfYTbE2T1r04LvZ9yb//XJY3XQCkDRtWtWo4NKY5Rs2miZ7EynI0omxN
+         76eHgfTTgqXGs/xEFkAdFSCGwV2p7w+HlU/RX0eIB9V4sB6sO1SS6LYzY9HAVQ4w3q
+         qIk2z2cs402wB2IwpMBSjJUqS7einFBW9Qtuf4m+k7H3U/+3HZLrCbZ5I6X7geeq0q
+         js9OCgzeL1iWQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <kernel@xen0n.name>
-Cc:     loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] Update links of LoongArch ISA Vol1 and ELF psABI
-In-Reply-To: <1669892345-7763-1-git-send-email-yangtiezhu@loongson.cn>
-References: <1669892345-7763-1-git-send-email-yangtiezhu@loongson.cn>
-Date:   Sat, 03 Dec 2022 03:58:26 -0700
-Message-ID: <87h6ycoist.fsf@meer.lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        bilbao@vt.edu, Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH v2] docs/sp_SP: Add memory-barriers.txt Spanish translation
+In-Reply-To: <20221128152323.4080455-1-carlos.bilbao@amd.com>
+References: <6b1d95ed-3000-3baf-81ae-7794c9515e3b@amd.com>
+ <20221128152323.4080455-1-carlos.bilbao@amd.com>
+Date:   Sat, 03 Dec 2022 04:16:53 -0700
+Message-ID: <878rjoohy2.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tiezhu Yang <yangtiezhu@loongson.cn> writes:
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-> Tiezhu Yang (2):
->   docs/LoongArch: Update links of LoongArch ISA Vol1 and ELF psABI
->   docs/zh_CN/LoongArch: Update links of LoongArch ISA Vol1 and ELF psABI
+> Translate the following documents into Spanish:
 >
->  Documentation/loongarch/introduction.rst                    | 8 ++++----
->  Documentation/translations/zh_CN/loongarch/introduction.rst | 8 ++++----
->  2 files changed, 8 insertions(+), 8 deletions(-)
+> - memory-barriers.txt
+>
+> using the wrapper documents system.
+>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+> ---
+>  Documentation/translations/sp_SP/index.rst    |    1 +
+>  .../translations/sp_SP/memory-barriers.txt    | 3134 +++++++++++++++++
+>  .../sp_SP/wrappers/memory-barriers.rst        |   19 +
+>  3 files changed, 3154 insertions(+)
+>  create mode 100644 Documentation/translations/sp_SP/memory-barriers.txt
+>  create mode 100644 Documentation/translations/sp_SP/wrappers/memory-barriers.rst
 
-I've applied these - working links are better than broken ones.  I
-assume, though, that the new URLs, too, will break the next time the
-manual is updated?  Is there any chance Loongson could provide a stable
-URL for the current version of this manual instead?
+I've applied this, thanks.
+
+For future reference, it would make life just a little easier if you'd
+put patches inline rather than as attachments.
 
 Thanks,
 
