@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C235C47089
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 00:43:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9929C636F8
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 00:43:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235263AbiLCAno (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Dec 2022 19:43:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41808 "EHLO
+        id S235298AbiLCAn5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Dec 2022 19:43:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235094AbiLCAmG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 19:42:06 -0500
+        with ESMTP id S235145AbiLCAmI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 19:42:08 -0500
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 303B4FA44A;
-        Fri,  2 Dec 2022 16:38:35 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB59CFA477;
+        Fri,  2 Dec 2022 16:38:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670027915; x=1701563915;
+  t=1670027917; x=1701563917;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=Y8HP+6SI6A4E79h0YyqSt+wn/k0j51I/AMnEXqlWOFs=;
-  b=jBl/UXj5+Sgarm3jvEG5JfsuMBTkhPu3cbT20MlfLuo9PksxN9L3Uiey
-   o0VwtFiNfE8ZjJHR8CvLNEIveoUW+ogJTy2tREo108glLf+GFVFeANIjt
-   UBTxqwXa37QCT7tn8/ivH3YF46tTT5jDG3DLuF7VduE6fiQUyEe3Yt8Qe
-   Pd60jMyWTONGCYVFpN1OGm+Dx/7NVgk9iqRemsZ0Osq95c8RQmXaacGQ3
-   GzXwxkwVheZnTwgofK67YIX8f4UYsGj4sS1JENpvxdFbHqCtDiCpFMHhE
-   qr9luA5Hm/sQsJPAjBAl/Aw0utIIHuOeEJU2waA+ZMJDOnTc4zfZERQk9
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10549"; a="313711600"
+  bh=ihrpz4xCBLZQivZyXSYIAMTeYpug2An/yX4B7/nlQAk=;
+  b=Ldddwqru6iEH6rmHwtdhhdyQofSD9ZDYHWreFVP7PySiP6f5P8z1mrzZ
+   6MWo4aS+KFLOVCONv5lQbMiETlTxa0MQf7288+6gWFkT3TvTHcA1VxoGP
+   j4Cx+qcn3EU/2973Su44pVd3KT5moTTEnD8XEUD5IuwHyE6L14sWgXnnj
+   hT4KOn3sriQy8gS9UoiY2CQ9kjdIVDtJRl1zcfK9xQOhjjACZ2y6B+091
+   iS0TRzrs1vLwdGr4F/myFUhLlSYTuJA9n5czDA/vebfKReq7cX6X4N/sH
+   g/wnY1C9aYM8YWBUg1a0OnvZBFX2K+WupYiEfP0ctwSugPj7qUBAddQjx
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10549"; a="313711666"
 X-IronPort-AV: E=Sophos;i="5.96,213,1665471600"; 
-   d="scan'208";a="313711600"
+   d="scan'208";a="313711666"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2022 16:37:50 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10549"; a="787480049"
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2022 16:37:55 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10549"; a="787480067"
 X-IronPort-AV: E=Sophos;i="5.96,213,1665471600"; 
-   d="scan'208";a="787480049"
+   d="scan'208";a="787480067"
 Received: from bgordon1-mobl1.amr.corp.intel.com (HELO rpedgeco-desk.amr.corp.intel.com) ([10.212.211.211])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2022 16:37:46 -0800
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2022 16:37:52 -0800
 From:   Rick Edgecombe <rick.p.edgecombe@intel.com>
 To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -65,10 +65,10 @@ To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
         dethoma@microsoft.com, akpm@linux-foundation.org,
         Andrew.Cooper3@citrix.com, christina.schimpe@intel.com
-Cc:     rick.p.edgecombe@intel.com
-Subject: [PATCH v4 36/39] x86/fpu: Add helper for initing features
-Date:   Fri,  2 Dec 2022 16:36:03 -0800
-Message-Id: <20221203003606.6838-37-rick.p.edgecombe@intel.com>
+Cc:     rick.p.edgecombe@intel.com, Mike Rapoport <rppt@linux.ibm.com>
+Subject: [PATCH v4 38/39] x86/shstk: Add ARCH_SHSTK_UNLOCK
+Date:   Fri,  2 Dec 2022 16:36:05 -0800
+Message-Id: <20221203003606.6838-39-rick.p.edgecombe@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
 References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
@@ -76,133 +76,94 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If an xfeature is saved in a buffer, the xfeature's bit will be set in
-xsave->header.xfeatures. The CPU may opt to not save the xfeature if it
-is in it's init state. In this case the xfeature buffer address cannot
-be retrieved with get_xsave_addr().
+From: Mike Rapoport <rppt@linux.ibm.com>
 
-Future patches will need to handle the case of writing to an xfeature
-that may not be saved. So provide helpers to init an xfeature in an
-xsave buffer.
-
-This could of course be done directly by reaching into the xsave buffer,
-however this would not be robust against future changes to optimize the
-xsave buffer by compacting it. In that case the xsave buffer would need
-to be re-arranged as well. So the logic properly belongs encapsulated
-in a helper where the logic can be unified.
+Userspace loaders may lock features before a CRIU restore operation has
+the chance to set them to whatever state is required by the process
+being restored. Allow a way for CRIU to unlock features. Add it as an
+arch_prctl() like the other shadow stack operations, but restrict it being
+called by the ptrace arch_pctl() interface.
 
 Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 Tested-by: John Allen <john.allen@amd.com>
+Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+[Merged into recent API changes, added commit log and docs]
 Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 ---
 
-v2:
- - New patch
+v4:
+ - Add to docs that it is ptrace only.
+ - Remove "CET" references
 
- arch/x86/kernel/fpu/xstate.c | 58 +++++++++++++++++++++++++++++-------
- arch/x86/kernel/fpu/xstate.h |  6 ++++
- 2 files changed, 53 insertions(+), 11 deletions(-)
+v3:
+ - Depend on CONFIG_CHECKPOINT_RESTORE (Kees)
 
-diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
-index 13a80521dd51..3ff80be0a441 100644
---- a/arch/x86/kernel/fpu/xstate.c
-+++ b/arch/x86/kernel/fpu/xstate.c
-@@ -934,6 +934,24 @@ static void *__raw_xsave_addr(struct xregs_state *xsave, int xfeature_nr)
- 	return (void *)xsave + xfeature_get_offset(xcomp_bv, xfeature_nr);
- }
+ Documentation/x86/shstk.rst       | 4 ++++
+ arch/x86/include/uapi/asm/prctl.h | 1 +
+ arch/x86/kernel/process_64.c      | 1 +
+ arch/x86/kernel/shstk.c           | 9 +++++++--
+ 4 files changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/x86/shstk.rst b/Documentation/x86/shstk.rst
+index 8e0b2fe83ef8..0d7d1ccfff06 100644
+--- a/Documentation/x86/shstk.rst
++++ b/Documentation/x86/shstk.rst
+@@ -73,6 +73,10 @@ arch_prctl(ARCH_SHSTK_LOCK, unsigned long features)
+     are ignored. The mask is ORed with the existing value. So any feature bits
+     set here cannot be enabled or disabled afterwards.
  
-+static int xsave_buffer_access_checks(int xfeature_nr)
-+{
-+	/*
-+	 * Do we even *have* xsave state?
-+	 */
-+	if (!boot_cpu_has(X86_FEATURE_XSAVE))
-+		return 1;
++arch_prctl(ARCH_SHSTK_UNLOCK, unsigned long features)
++    Unlock features. 'features' is a mask of all features to unlock. All
++    bits set are processed, unset bits are ignored. Only works via ptrace.
 +
-+	/*
-+	 * We should not ever be requesting features that we
-+	 * have not enabled.
-+	 */
-+	if (WARN_ON_ONCE(!xfeature_enabled(xfeature_nr)))
-+		return 1;
-+
-+	return 0;
-+}
-+
- /*
-  * Given the xsave area and a state inside, this function returns the
-  * address of the state.
-@@ -954,17 +972,7 @@ static void *__raw_xsave_addr(struct xregs_state *xsave, int xfeature_nr)
-  */
- void *get_xsave_addr(struct xregs_state *xsave, int xfeature_nr)
- {
--	/*
--	 * Do we even *have* xsave state?
--	 */
--	if (!boot_cpu_has(X86_FEATURE_XSAVE))
--		return NULL;
--
--	/*
--	 * We should not ever be requesting features that we
--	 * have not enabled.
--	 */
--	if (WARN_ON_ONCE(!xfeature_enabled(xfeature_nr)))
-+	if (xsave_buffer_access_checks(xfeature_nr))
- 		return NULL;
+ The return values are as following:
+     On success, return 0. On error, errno can be::
  
- 	/*
-@@ -984,6 +992,34 @@ void *get_xsave_addr(struct xregs_state *xsave, int xfeature_nr)
- 	return __raw_xsave_addr(xsave, xfeature_nr);
- }
+diff --git a/arch/x86/include/uapi/asm/prctl.h b/arch/x86/include/uapi/asm/prctl.h
+index f13751c6bae4..0c95688cf58e 100644
+--- a/arch/x86/include/uapi/asm/prctl.h
++++ b/arch/x86/include/uapi/asm/prctl.h
+@@ -30,6 +30,7 @@
+ #define ARCH_SHSTK_ENABLE		0x5001
+ #define ARCH_SHSTK_DISABLE		0x5002
+ #define ARCH_SHSTK_LOCK			0x5003
++#define ARCH_SHSTK_UNLOCK		0x5004
  
-+/*
-+ * Given the xsave area and a state inside, this function
-+ * initializes an xfeature in the buffer.
-+ *
-+ * get_xsave_addr() will return NULL if the feature bit is
-+ * not present in the header. This function will make it so
-+ * the xfeature buffer address is ready to be retrieved by
-+ * get_xsave_addr().
-+ *
-+ * Inputs:
-+ *	xstate: the thread's storage area for all FPU data
-+ *	xfeature_nr: state which is defined in xsave.h (e.g. XFEATURE_FP,
-+ *	XFEATURE_SSE, etc...)
-+ * Output:
-+ *	1 if the feature cannot be inited, 0 on success
-+ */
-+int init_xfeature(struct xregs_state *xsave, int xfeature_nr)
-+{
-+	if (xsave_buffer_access_checks(xfeature_nr))
-+		return 1;
-+
-+	/*
-+	 * Mark the feature inited.
-+	 */
-+	xsave->header.xfeatures |= BIT_ULL(xfeature_nr);
-+	return 0;
-+}
-+
- #ifdef CONFIG_ARCH_HAS_PKEYS
+ /* ARCH_SHSTK_ features bits */
+ #define ARCH_SHSTK_SHSTK		(1ULL <<  0)
+diff --git a/arch/x86/kernel/process_64.c b/arch/x86/kernel/process_64.c
+index 4ddd7d9209e1..2be6e01fb144 100644
+--- a/arch/x86/kernel/process_64.c
++++ b/arch/x86/kernel/process_64.c
+@@ -921,6 +921,7 @@ long do_arch_prctl_64(struct task_struct *task, int option, unsigned long arg2)
+ 	case ARCH_SHSTK_ENABLE:
+ 	case ARCH_SHSTK_DISABLE:
+ 	case ARCH_SHSTK_LOCK:
++	case ARCH_SHSTK_UNLOCK:
+ 		return shstk_prctl(task, option, arg2);
+ 	default:
+ 		ret = -EINVAL;
+diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
+index 5d91e653f77a..95579f7bace3 100644
+--- a/arch/x86/kernel/shstk.c
++++ b/arch/x86/kernel/shstk.c
+@@ -455,9 +455,14 @@ long shstk_prctl(struct task_struct *task, int option, unsigned long features)
+ 		return 0;
+ 	}
  
- /*
-diff --git a/arch/x86/kernel/fpu/xstate.h b/arch/x86/kernel/fpu/xstate.h
-index a4ecb04d8d64..dc06f63063ee 100644
---- a/arch/x86/kernel/fpu/xstate.h
-+++ b/arch/x86/kernel/fpu/xstate.h
-@@ -54,6 +54,12 @@ extern void fpu__init_cpu_xstate(void);
- extern void fpu__init_system_xstate(unsigned int legacy_size);
+-	/* Don't allow via ptrace */
+-	if (task != current)
++	/* Only allow via ptrace */
++	if (task != current) {
++		if (option == ARCH_SHSTK_UNLOCK && IS_ENABLED(CONFIG_CHECKPOINT_RESTORE)) {
++			task->thread.features_locked &= ~features;
++			return 0;
++		}
+ 		return -EINVAL;
++	}
  
- extern void *get_xsave_addr(struct xregs_state *xsave, int xfeature_nr);
-+extern int init_xfeature(struct xregs_state *xsave, int xfeature_nr);
-+
-+static inline int xfeature_saved(struct xregs_state *xsave, int xfeature_nr)
-+{
-+	return xsave->header.xfeatures & BIT_ULL(xfeature_nr);
-+}
- 
- static inline u64 xfeatures_mask_supervisor(void)
- {
+ 	/* Do not allow to change locked features */
+ 	if (features & task->thread.features_locked)
 -- 
 2.17.1
 
