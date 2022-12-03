@@ -2,73 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 814F0C4332F
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 10:54:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B439FC4332F
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 10:56:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229774AbiLCKy5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Dec 2022 05:54:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59506 "EHLO
+        id S229447AbiLCK46 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Dec 2022 05:56:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229765AbiLCKyw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Dec 2022 05:54:52 -0500
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A0F237F8E
-        for <linux-doc@vger.kernel.org>; Sat,  3 Dec 2022 02:54:49 -0800 (PST)
-Received: from localhost (mdns.lwn.net [45.79.72.68])
+        with ESMTP id S229670AbiLCK45 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Dec 2022 05:56:57 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0C143D907;
+        Sat,  3 Dec 2022 02:56:56 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8E4D5536;
-        Sat,  3 Dec 2022 10:54:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8E4D5536
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1670064889; bh=vivpMffdvIcCrtI00WmMjUQezMAm1k4ONLBLuFrWQ6k=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=edjsB4zG9YaW4xb7Okfv7+n6/7F4IO1S3H0EbYsuXs8vaG4g8VXKaknCO4jgmV8TV
-         D1NFRqrQXMNtUUPfswyIhAexiiDaUsYShThWym1Nis2CdfyOyd5KyxdFEEUy+WyvPi
-         /vp5GAVqxw3pvipd3WmrnLjrHjSLKVD4KZN1BMGGfvuZqC8BT2AEuFkHmHYvaW20xs
-         xwmrwaAE5r19W0KpJ/wqV6jJ1TDqfdQJg6UcFCd2bu2HUUo9SWEJsn79PngVF1XTiJ
-         KiG9onSf/12Bnv2GOK5triJSCKonSvYFX6m4q+HUVs6ONI9AwiER4vEN+m0lelIURu
-         akrEtiByFziKw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Wei Li <liwei391@huawei.com>
-Cc:     Guo Ren <guoren@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Patricia Alfonso <trishalfonso@google.com>,
-        Richard Weinberger <richard@nod.at>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        linux-doc@vger.kernel.org, huawei.libin@huawei.com
-Subject: Re: [PATCH] Documentation/features: Update feature lists for 6.1
-In-Reply-To: <20221203093750.4145802-1-liwei391@huawei.com>
-References: <20221203093750.4145802-1-liwei391@huawei.com>
-Date:   Sat, 03 Dec 2022 03:54:42 -0700
-Message-ID: <87lenooiz1.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 728F660B9D;
+        Sat,  3 Dec 2022 10:56:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88071C433C1;
+        Sat,  3 Dec 2022 10:56:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670065015;
+        bh=rPBLAbIQU5/KfDfhpmV4aB0A37Grw8nWz3gWe/n2IIA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aUaIqTomeftDAKUaiw2KZ7m+Rp/8vsvmFj+DsFn7RYJ8gDFwi7uAPW9z9RlIxa2iy
+         lP85bWV9vnGFdwBKuUSFY2fg6ts+L2KnctqLU0V8AXsH0MJw2W3M+33nQmy0x3W60v
+         rYg0/dWBHQSrhTZ/vsKcBFnf/hrHsUWUe+bddhAFfbo3SOrYsf0Z61HuCwmZYTd6yu
+         ZAM6dpHs5R2xLxzLB4Pcg3tPAD4id8Mc6jKSk8y2VvAOtHA+5VY9H68/Yv7n1poo6Q
+         8ZKjI4ku6raLVgFS6d1Jq2z+4qHH7BHXrwSlYpa8d/lTSetDRXm+sSsbs1eHFmzCii
+         vv4H3dlZdwnRg==
+Date:   Sat, 3 Dec 2022 10:56:52 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: riscv: note that counter access is part
+ of the uABI
+Message-ID: <Y4srdBCmYJFx+ypW@spud>
+References: <mhng-72f383f6-a85f-4587-9fa6-f85fb9f27ec8@palmer-ri-x1c9a>
+ <87359wpy9y.fsf@meer.lwn.net>
+ <87y1rooje8.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="cIOy0Str+DzswXPd"
+Content-Disposition: inline
+In-Reply-To: <87y1rooje8.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wei Li <liwei391@huawei.com> writes:
 
-> Run the refresh script to document the recent feature additions
-> on loong, um and csky as of v6.1-rc7.
->
-> Fixes: 5dc615520c4d ("LoongArch: Add BPF JIT support")
-> Fixes: 5f1e001be579 ("LoongArch: Add qspinlock support")
-> Fixes: b37042b2bb7c ("LoongArch: Add perf events support")
-> Fixes: 5b301409e8bc ("UML: add support for KASAN under x86_64")
-> Fixes: 4e8bb4ba5a55 ("csky: Add jump-label implementation")
-> Fixes: 45e15c1a375e ("csky: Add qspinlock support")
-> Signed-off-by: Wei Li <liwei391@huawei.com>
-> ---
->  Documentation/features/core/eBPF-JIT/arch-support.txt         | 2 +-
->  Documentation/features/core/jump-labels/arch-support.txt      | 2 +-
->  Documentation/features/debug/KASAN/arch-support.txt           | 2 +-
->  .../features/locking/queued-spinlocks/arch-support.txt        | 4 ++--
->  Documentation/features/perf/perf-regs/arch-support.txt        | 2 +-
->  Documentation/features/perf/perf-stackdump/arch-support.txt   | 2 +-
->  6 files changed, 7 insertions(+), 7 deletions(-)
+--cIOy0Str+DzswXPd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks.
+On Sat, Dec 03, 2022 at 03:45:35AM -0700, Jonathan Corbet wrote:
+> Jonathan Corbet <corbet@lwn.net> writes:
+>=20
+> > Palmer Dabbelt <palmer@dabbelt.com> writes:
+> >> Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
+> >> Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+> >>
+> >> I think I merged the last one of these, but if the doc folks pick it u=
+p=20
+> >> that's fine with me.  Otherwise I'll take it when it comes back around=
+,=20
+> >> so folks have time to take a look.
+> >
+> > "Doc folks" applied it, thanks. :)
+>=20
+> Actually, I take that back.  I'd missed this part from the patch:
+>=20
+> > Based on an, as yet, unsent v2 of my other uABI changes. I don't expect
+> > it to be applicable, just getting a patch into patchwork while I don't
+> > forget about this.
+>=20
+> ...but b4 happily picked up a couple of *other* patches from this thread
+> and applied them instead; I've now undone that.  Sorry for the noise.
 
-jon
+Huh, I accidentally put an "in-reply-to" header on this patch. I have
+been updating some of my submission helper scripts & I must have left
+the field populated from sending another set by accident:
+https://lore.kernel.org/linux-riscv/20221129144742.2935581-1-conor.dooley@m=
+icrochip.com/
+
+Apologies!
+
+
+--cIOy0Str+DzswXPd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY4srawAKCRB4tDGHoIJi
+0iG/AP0XmMTWGZ5BNQ5fse4/Pi6ZWZLGRKm/cu2uJJeL1h5nvgD+LoVTVJjfsNBo
+t+SdsF9w9KgG8q1LbGORN3MvXU0uQAQ=
+=hMHg
+-----END PGP SIGNATURE-----
+
+--cIOy0Str+DzswXPd--
