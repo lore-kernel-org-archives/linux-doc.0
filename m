@@ -2,151 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB9DCC4708D
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 08:31:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC51BC47090
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 08:58:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231561AbiLCIbC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Dec 2022 03:31:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54972 "EHLO
+        id S231226AbiLCI6P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Dec 2022 03:58:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229781AbiLCIbB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Dec 2022 03:31:01 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AA9B55A8D;
-        Sat,  3 Dec 2022 00:31:00 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id f18so11264244wrj.5;
-        Sat, 03 Dec 2022 00:31:00 -0800 (PST)
+        with ESMTP id S229872AbiLCI6O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Dec 2022 03:58:14 -0500
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC09E17AB0;
+        Sat,  3 Dec 2022 00:58:12 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id 4so6741398pli.0;
+        Sat, 03 Dec 2022 00:58:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2NKv/juivSPtw+aSJEGk+J2nIXdK+8epwWiah37thoY=;
-        b=UlVTP+QiJPPdoGqx7EM454TEl2WZS4s66zkACqW1nk2OToEU3frEbgcS1U7zlTlZ26
-         byYXR6wJx1BwrdURsOkZfKYPtn9vTnaAGQKCImcJ6Xjdu3qhDN8YZiKYZeYdTbMcWLlR
-         dWQgcMd764cSA/m5ARIsVuz/81E3zt8uP+1L7rMyPOfxVGml56uPe4nv5VanIfVNn0KG
-         xIdC4KAGYt4dLbsSJJBSbte9odteS+wAbiOciZuRuA77/rPc1Q2up1WUoPJuQcSwKzC+
-         dW+HyL0icWQA4+ZiIwpK8Z9rLjVlr4JVyYfyodNT4R16ffd7EQWe6JbbrR+KTzvjTI1g
-         8BdQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/sadz1/CeqA5zMnNYCqP/lEzSjdg/kLkwU3QYovJoVo=;
+        b=TCH+a02ERdRFnTf642Vs6jq9crhRaRo1PkxlU1yySN11VeAP+j9DkZ/e3z5G/uoeVs
+         bOXCEs9OBEwem0ZKkvw6e6dmOY/iAHDTJqLxF//foTdrbbbqR/UqTJbNa45Rz86iZJ1R
+         ZT98xw8b7fqFWyQM2gjHgoumxJpOwE6xg0CX0U7h3UN66Ti2+nvlttY14rX3zqCrb5B/
+         Cf6iz0g2o4R2gKRPU1i6PhbrO3LuOXeXc/ADnGNxfFw17De1vpwVriU4QVvjKk8Ne5Bq
+         YwKibxAOf1SMhiAtO206DGehkxjJRZanOsHbiwQEds3kLa+H3Ti+2JKipcb0AVdMsR0E
+         75bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2NKv/juivSPtw+aSJEGk+J2nIXdK+8epwWiah37thoY=;
-        b=zzrcRioz11WvpOYg9x+E3yIl4NlHM36/VWotA1EhKYuoISKHxZNDqc5FBSkeaCdpAD
-         M4JQp2FG8Z4hH/0m0aAc4tbOqqCeFBuSf//2raoE1cxjdAmdmN42GJfs3/robohp3Wui
-         Fz7tQ1VesoaIl9l4n8OcDeJPCgm8tvWV7uS37hWSkyAKWBirvGWzjPLJMEeXWTGUNxRO
-         U8NatWnubXd/qdceqF1+Hc5WVNiiKtXzVUKkMsoJ7l0u1JCs1PClwfbprfX3xplv9X9+
-         H2is+qvwQwtB/kKn05QYEk3ughbFgg82LyQ3fb5RTqN5wx7pwnW/R17KTSwmN2fga8up
-         dbNQ==
-X-Gm-Message-State: ANoB5pkkb+SROAx5xO9z/aWf+oWXJYbT1uZ/AmriA8XPZFWwlyZuR6pS
-        xcSu6qekGeYSXbu33gRnBbU=
-X-Google-Smtp-Source: AA0mqf62BdI2xnqr2YWZgf8DeQsDV3h1bynzlzvldMbkq4bFo4a8TdN2KNYSngbjVCxn59mZWwm2cQ==
-X-Received: by 2002:a5d:59c5:0:b0:241:e4cf:30d9 with SMTP id v5-20020a5d59c5000000b00241e4cf30d9mr18546698wry.186.1670056258593;
-        Sat, 03 Dec 2022 00:30:58 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id p17-20020a5d68d1000000b002420cfcd13dsm8745910wrw.105.2022.12.03.00.30.57
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/sadz1/CeqA5zMnNYCqP/lEzSjdg/kLkwU3QYovJoVo=;
+        b=ujDGxkvV+4THvn137bFSrM7s6HFnCHdd51PE1WvnSGlhMAJ3+bTxQzqSS3sxZb5axC
+         l9j/1TeD0jdwJW/6CChZ9HZiH0DvXtRLOEkoBYBLFFMXSwSDLeL+q4Mn2hi5DjfODEmc
+         GI+Ygvi42AFRK+Lt0kcwxJw6mcZQ5DfoIwdLi3nAfjZbCucrR9GClJi2OdJjkMix5JVd
+         Vr5gzhDX2gEgJCm39I/UrC+RV0MB9euBM424kCq+afVAIxepegtp4p5l+yiqh7S+kBnK
+         5AXav5b1013WT4m0AnMN9/7Q0AqU286g0Vt90OCJUpW59xXuq9BCcBC7+95e2ozY48zc
+         fgXg==
+X-Gm-Message-State: ANoB5pnPkTjDCuo6ldBxH4/u6JYAN3cQxju2XxU3xRe5yJNf50wWHdRq
+        i2+ylgDXwOvGUQ56A2Kgi4U=
+X-Google-Smtp-Source: AA0mqf557Tf4hQ3ox+4h4L3bKmykRUVeioIulyBl3fgPqFmNheBWGxzj30flo9/NXH+QYMoZKV/pzQ==
+X-Received: by 2002:a17:90a:a616:b0:219:6afd:24be with SMTP id c22-20020a17090aa61600b002196afd24bemr16172106pjq.0.1670057892468;
+        Sat, 03 Dec 2022 00:58:12 -0800 (PST)
+Received: from debian.me (subs03-180-214-233-30.three.co.id. [180.214.233.30])
+        by smtp.gmail.com with ESMTPSA id o8-20020a17090a420800b0020a7d076bfesm5848220pjg.2.2022.12.03.00.58.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Dec 2022 00:30:58 -0800 (PST)
-Date:   Sat, 3 Dec 2022 11:30:54 +0300
-From:   Dan Carpenter <error27@gmail.com>
-To:     oe-kbuild@lists.linux.dev, Michael Walle <michael@walle.cc>,
+        Sat, 03 Dec 2022 00:58:11 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 3CEE4104547; Sat,  3 Dec 2022 15:58:08 +0700 (WIB)
+Date:   Sat, 3 Dec 2022 15:58:07 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>
-Cc:     lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Michael Walle <michael@walle.cc>
-Subject: Re: [PATCH v4 10/20] nvmem: core: use nvmem_add_one_cell() in
- nvmem_add_cells_from_of()
-Message-ID: <202212030011.DQpDmsBb-lkp@intel.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v4 01/39] Documentation/x86: Add CET shadow stack
+ description
+Message-ID: <Y4sPn/EQgqQI/sSN@debian.me>
+References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
+ <20221203003606.6838-2-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="4Y6TcVcN9xovNDyq"
 Content-Disposition: inline
-In-Reply-To: <20221123180151.2160033-11-michael@walle.cc>
+In-Reply-To: <20221203003606.6838-2-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Michael,
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+--4Y6TcVcN9xovNDyq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Walle/nvmem-core-introduce-NVMEM-layouts/20221124-020554
-patch link:    https://lore.kernel.org/r/20221123180151.2160033-11-michael%40walle.cc
-patch subject: [PATCH v4 10/20] nvmem: core: use nvmem_add_one_cell() in nvmem_add_cells_from_of()
-config: i386-randconfig-m021
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+On Fri, Dec 02, 2022 at 04:35:28PM -0800, Rick Edgecombe wrote:
+> +An application's CET capability is marked in its ELF note and can be ver=
+ified
+> +from readelf/llvm-readelf output:
+> +
+> +    readelf -n <application> | grep -a SHSTK
+> +        properties: x86 feature: SHSTK
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+Shell commands should be inside literal code block (try double colon).
+Above is rendered as definition lists instead.
 
-New smatch warnings:
-drivers/nvmem/core.c:731 nvmem_add_cells_from_of() warn: possible memory leak of 'cell'
+> +The return values are as following:
+> +    On success, return 0. On error, errno can be::
 
-Old smatch warnings:
-drivers/nvmem/core.c:735 nvmem_add_cells_from_of() warn: possible memory leak of 'cell'
+Drop indentation on the second line, or better yet, continue the line,
+like "... as following. On success, ..."
 
-vim +/cell +731 drivers/nvmem/core.c
+Otherwise LGTM, thanks for review.=20
 
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  689  static int nvmem_add_cells_from_of(struct nvmem_device *nvmem)
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  690  {
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  691  	struct device *dev = &nvmem->dev;
-7ae6478b304bc0 Srinivas Kandagatla 2021-10-13  692  	struct nvmem_cell_entry *cell;
-18f50dbcfd3676 Michael Walle       2022-11-23  693  	struct device_node *child;
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  694  	const __be32 *addr;
-18f50dbcfd3676 Michael Walle       2022-11-23  695  	int len, ret;
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  696  
-18f50dbcfd3676 Michael Walle       2022-11-23  697  	for_each_child_of_node(dev->of_node, child) {
-18f50dbcfd3676 Michael Walle       2022-11-23  698  		struct nvmem_cell_info info = {0};
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  699  
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  700  		addr = of_get_property(child, "reg", &len);
-0445efacec75b8 Ahmad Fatoum        2021-01-29  701  		if (!addr)
-0445efacec75b8 Ahmad Fatoum        2021-01-29  702  			continue;
-0445efacec75b8 Ahmad Fatoum        2021-01-29  703  		if (len < 2 * sizeof(u32)) {
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  704  			dev_err(dev, "nvmem: invalid reg on %pOF\n", child);
-63879e2964bcee Christophe JAILLET  2021-06-11  705  			of_node_put(child);
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  706  			return -EINVAL;
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  707  		}
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  708  
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  709  		cell = kzalloc(sizeof(*cell), GFP_KERNEL);
-63879e2964bcee Christophe JAILLET  2021-06-11  710  		if (!cell) {
-63879e2964bcee Christophe JAILLET  2021-06-11  711  			of_node_put(child);
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  712  			return -ENOMEM;
-63879e2964bcee Christophe JAILLET  2021-06-11  713  		}
+In any case,
 
-Seems like "cell" is not used any more so this just leaks.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  714  
-18f50dbcfd3676 Michael Walle       2022-11-23  715  		info.offset = be32_to_cpup(addr++);
-18f50dbcfd3676 Michael Walle       2022-11-23  716  		info.bytes = be32_to_cpup(addr);
-18f50dbcfd3676 Michael Walle       2022-11-23  717  		info.name = kasprintf(GFP_KERNEL, "%pOFn", child);
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  718  
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  719  		addr = of_get_property(child, "bits", &len);
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  720  		if (addr && len == (2 * sizeof(u32))) {
-18f50dbcfd3676 Michael Walle       2022-11-23  721  			info.bit_offset = be32_to_cpup(addr++);
-18f50dbcfd3676 Michael Walle       2022-11-23  722  			info.nbits = be32_to_cpup(addr);
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  723  		}
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  724  
-18f50dbcfd3676 Michael Walle       2022-11-23  725  		info.np = of_node_get(child);
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  726  
-18f50dbcfd3676 Michael Walle       2022-11-23  727  		ret = nvmem_add_one_cell(nvmem, &info);
-18f50dbcfd3676 Michael Walle       2022-11-23  728  		kfree(info.name);
-18f50dbcfd3676 Michael Walle       2022-11-23  729  		if (ret) {
-63879e2964bcee Christophe JAILLET  2021-06-11  730  			of_node_put(child);
-18f50dbcfd3676 Michael Walle       2022-11-23 @731  			return ret;
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  732  		}
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  733  	}
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  734  
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  735  	return 0;
-e888d445ac33a5 Bartosz Golaszewski 2018-09-21  736  }
+--=20
+An old man doll... just what I always wanted! - Clara
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+--4Y6TcVcN9xovNDyq
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY4sPlAAKCRD2uYlJVVFO
+oxZmAQCvIsfDFABxypzVEB2ZMvgJzikdcI86EKjquJjkppkMVgD+INIDFYBh7cJP
+AirZ9vPVfvl8ojgt9fx0uXFCNhiUvgA=
+=CHdF
+-----END PGP SIGNATURE-----
+
+--4Y6TcVcN9xovNDyq--
