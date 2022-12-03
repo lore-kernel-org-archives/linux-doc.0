@@ -2,50 +2,50 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69823C47088
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 02:45:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05940C47088
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 02:46:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235116AbiLCCp3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Dec 2022 21:45:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35888 "EHLO
+        id S235239AbiLCCqd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Dec 2022 21:46:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234939AbiLCCp3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 21:45:29 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 681756F80B
-        for <linux-doc@vger.kernel.org>; Fri,  2 Dec 2022 18:45:28 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id e7-20020a17090a77c700b00216928a3917so9948840pjs.4
-        for <linux-doc@vger.kernel.org>; Fri, 02 Dec 2022 18:45:28 -0800 (PST)
+        with ESMTP id S234956AbiLCCqc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 21:46:32 -0500
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1C056F80B
+        for <linux-doc@vger.kernel.org>; Fri,  2 Dec 2022 18:46:31 -0800 (PST)
+Received: by mail-pf1-x435.google.com with SMTP id x66so6561824pfx.3
+        for <linux-doc@vger.kernel.org>; Fri, 02 Dec 2022 18:46:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sWPbe7F7je25IvRp5tTWOWJxp/+2tKAEeYAMwrnHX3I=;
-        b=OeqW2Nqj7v6wmWLAIuXU1QUcVafcdaqj28BksV47DQWLlWr4PTt1J4XCOQ454A4bFG
-         TnB8dB810gc+e0jB5mOvXEhdj0JUTzkaMInzsFyeboMhjJ0cJ/qcl4J0adKp4oQMBl4j
-         MniyfBPyATrxtCbDMP4lUaT8Hxyueoc1+DkWw=
+        bh=x+iLzqLDRY8UcQo0kKaaiN6ym6n/piiBIem/JqSdM8A=;
+        b=KLzTo/tj7fIZeyP6gGrmfwf7X2IIEHGD1jltxx9K7xaNqkJIEo2ao0fIlZ0ZxDmUiC
+         qF7c/md/lqiCB6dbfTfOl/Y48oTUdStOp/fhv7niMr2q7sE+u3nPThEVD2d3zq2laFom
+         Y1V+fLsh83W1YJqts6oUwQvUVC6YqhrwGtB4g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sWPbe7F7je25IvRp5tTWOWJxp/+2tKAEeYAMwrnHX3I=;
-        b=rb+5Gau7K06x2S82KL88uHJQLFpg6lLq4hP32Bmlm5rkJjN1xWR/TrEoL21i0MqnPg
-         N1K3onkkEvVQNeuYtfQm8pEZZV+Ee/NBz7Lnrcm42HR/G7/ySq2iGO6y789zL2BZj3Dh
-         AVTqPXfERQM3jwVZ18dZe3qbW4B5ywXrZmvHuq1GBBS0gePPrtGoBfKaKpRTNCh+rQ29
-         +yoX3z8bTEqbyqUHdhtrbRwB40qPs1PvcEH5+o7mZkTsTucLozl/bsRzrFm0GWSdGMXY
-         wtQmukol3zDYxYxnKl1D6RmNaeqd5MBa30dKLs1Kouihxzt1gTJ567jV4xsh/7MTuNtA
-         AZ1A==
-X-Gm-Message-State: ANoB5pk3JA9hEaEyI3XSQpf1sxjDyYoVH5ZtXu+t/i+sFomwbNrG2x85
-        a6OyCjuaQMRAHBEWb2eCk/aJgQ==
-X-Google-Smtp-Source: AA0mqf7RDtFvAEvWe64RZK8PfilyOJ4dzXrwN63EljeiYQe8nUiUTNgCvUVRzgsKQzmQWH/Zqqmtvg==
-X-Received: by 2002:a17:902:ec8d:b0:188:59d2:33e with SMTP id x13-20020a170902ec8d00b0018859d2033emr53749396plg.142.1670035527895;
-        Fri, 02 Dec 2022 18:45:27 -0800 (PST)
+        bh=x+iLzqLDRY8UcQo0kKaaiN6ym6n/piiBIem/JqSdM8A=;
+        b=aUHeeZyL1rVFLLpUh9aLgnKqDmmuGVBCs8qoDujt/U0bX2tJhSDx0HoIpTrSeyEey5
+         wcC1fjuj5P3H2ky+Ovmo0C7Wzsk3fmwRhIDniS5eiu3ydLTx+1SvG7AHIv71rAOsZtbW
+         T+QdH4TLCoipg1vWR4L3BEkWCNiSx8N4pcntw1H1gxsahnuSXq8u3qQT5htx04kpT91G
+         QeOmV/8IFc0WEqRpGWKj64li2a+kRtiMwU9BO+0U6V78+4GslaT3VNKWwvvEevZJNEtv
+         axthNh54kdjyEIRWpvn8VCcCWeAjTV25zn6NrmZ+rdh9SlvnSyNaCmLI4ecxGe7Ke60M
+         UMXQ==
+X-Gm-Message-State: ANoB5pm198XwSiOQwDWzoG+qyMVi4CNVutZceY/xTzvt7h0T8YJ/Hscd
+        I2bhfAVHt3uqhjCZNGhIreM5Kg==
+X-Google-Smtp-Source: AA0mqf6oAj6h5qu6AVbtVOXDQ0T/xnbet5XcclolXxVNuIuRy36+i9HcF8uT5nTMG4W5pJqoQv8dyw==
+X-Received: by 2002:a62:ea0e:0:b0:575:7bb:d6fc with SMTP id t14-20020a62ea0e000000b0057507bbd6fcmr31612264pfh.79.1670035591199;
+        Fri, 02 Dec 2022 18:46:31 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id w10-20020a170902e88a00b00183c67844aesm6288151plg.22.2022.12.02.18.45.27
+        by smtp.gmail.com with ESMTPSA id p2-20020a1709027ec200b0017da2798025sm6153534plb.295.2022.12.02.18.46.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 18:45:27 -0800 (PST)
-Date:   Fri, 2 Dec 2022 18:45:26 -0800
+        Fri, 02 Dec 2022 18:46:30 -0800 (PST)
+Date:   Fri, 2 Dec 2022 18:46:29 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -75,44 +75,50 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         dethoma@microsoft.com, akpm@linux-foundation.org,
         Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
         Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v4 28/39] x86/shstk: Introduce routines modifying shstk
-Message-ID: <202212021845.4A92DA95@keescook>
+Subject: Re: [PATCH v4 29/39] x86/shstk: Handle signals for shadow stack
+Message-ID: <202212021846.AECD42F51@keescook>
 References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
- <20221203003606.6838-29-rick.p.edgecombe@intel.com>
+ <20221203003606.6838-30-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221203003606.6838-29-rick.p.edgecombe@intel.com>
+In-Reply-To: <20221203003606.6838-30-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 04:35:55PM -0800, Rick Edgecombe wrote:
+On Fri, Dec 02, 2022 at 04:35:56PM -0800, Rick Edgecombe wrote:
 > From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > 
-> Shadow stacks are normally written to via CALL/RET or specific CET
-> instuctions like RSTORSSP/SAVEPREVSSP. However during some Linux
-> operations the kernel will need to write to directly using the ring-0 only
-> WRUSS instruction.
+> When a signal is handled normally the context is pushed to the stack
+> before handling it. For shadow stacks, since the shadow stack only track's
+> return addresses, there isn't any state that needs to be pushed. However,
+> there are still a few things that need to be done. These things are
+> userspace visible and which will be kernel ABI for shadow stacks.
 > 
-> A shadow stack restore token marks a restore point of the shadow stack, and
-> the address in a token must point directly above the token, which is within
-> the same shadow stack. This is distinctively different from other pointers
-> on the shadow stack, since those pointers point to executable code area.
+> One is to make sure the restorer address is written to shadow stack, since
+> the signal handler (if not changing ucontext) returns to the restorer, and
+> the restorer calls sigreturn. So add the restorer on the shadow stack
+> before handling the signal, so there is not a conflict when the signal
+> handler returns to the restorer.
 > 
-> Introduce token setup and verify routines. Also introduce WRUSS, which is
-> a kernel-mode instruction but writes directly to user shadow stack.
+> The other thing to do is to place some type of checkable token on the
+> thread's shadow stack before handling the signal and check it during
+> sigreturn. This is an extra layer of protection to hamper attackers
+> calling sigreturn manually as in SROP-like attacks.
 > 
-> In future patches that enable shadow stack to work with signals, the kernel
-> will need something to denote the point in the stack where sigreturn may be
-> called. This will prevent attackers calling sigreturn at arbitrary places
-> in the stack, in order to help prevent SROP attacks.
+> For this token we can use the shadow stack data format defined earlier.
+> Have the data pushed be the previous SSP. In the future the sigreturn
+> might want to return back to a different stack. Storing the SSP (instead
+> of a restore offset or something) allows for future functionality that
+> may want to restore to a different stack.
 > 
-> To do this, something that can only be written by the kernel needs to be
-> placed on the shadow stack. This can be accomplished by setting bit 63 in
-> the frame written to the shadow stack. Userspace return addresses can't
-> have this bit set as it is in the kernel range. It is also can't be a
-> valid restore token.
+> So, when handling a signal push
+>  - the SSP pointing in the shadow stack data format
+>  - the restorer address below the restore token.
+> 
+> In sigreturn, verify SSP is stored in the data format and pop the shadow
+> stack.
 > 
 > Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 > Tested-by: John Allen <john.allen@amd.com>
