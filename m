@@ -2,50 +2,50 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70701C4321E
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 02:38:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C4B5C47089
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 02:39:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235051AbiLCCif (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Dec 2022 21:38:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56634 "EHLO
+        id S235150AbiLCCj4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Dec 2022 21:39:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235068AbiLCCid (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 21:38:33 -0500
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B320EC08C
-        for <linux-doc@vger.kernel.org>; Fri,  2 Dec 2022 18:38:33 -0800 (PST)
-Received: by mail-pg1-x52b.google.com with SMTP id h193so5827191pgc.10
-        for <linux-doc@vger.kernel.org>; Fri, 02 Dec 2022 18:38:33 -0800 (PST)
+        with ESMTP id S235044AbiLCCjk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 21:39:40 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F204DFB8AE
+        for <linux-doc@vger.kernel.org>; Fri,  2 Dec 2022 18:39:37 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id y4so6265795plb.2
+        for <linux-doc@vger.kernel.org>; Fri, 02 Dec 2022 18:39:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gY59Fkmvz/8ABweO9p7GPk5PRE6er0EUBOixMOBIZII=;
-        b=augaWf6GXd9U6BdDDe7DQtiyBUROf4u8aSOBMTvbdV9soqeHINlVqORoAlWlcSnFIJ
-         A6G/rau+z3mESfnnELYgyGtAiSBOoqnQRoNFR81xieE0Lun+vc/zzKgMALA5H3YgRR+h
-         uPPpnIPsKxYgFZlcIItboAh8jK9HLc9g/yUos=
+        bh=puHWTnl4FttUivJr2fjCJ+XKoeeB18dHeiV6LUEyyFM=;
+        b=Zlq5Fnhl2chjzNVLRCXkgHfNkIE0tfHyjGOMS2CEMjgttw/3wjFdU35d78bA06NTwJ
+         r7yHGRy4iqmGmpEYp8tuRXboZ24+1jtm6m8MjiTOPK080wDEO7W6f5LU1UJx6Q81rxqi
+         DbM3puGe2/WxwE1s5DHvG5IQfc/FlVtfPm5PE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gY59Fkmvz/8ABweO9p7GPk5PRE6er0EUBOixMOBIZII=;
-        b=4qEboD6xGdhjXAWrMBSCziGhgagM//6auKVJiDu9H+cjQsJTIGODLGCYs+c9FTln3b
-         5zg0eriGtjBOOn4yWK8jEiTClDAqHfUlG8vzgF1deQEjQNevl4dOYL5Uu//hAJ+seQbl
-         Or4T6Mvi+WI9EXT9mWzm8FOKFAxgTj2byH2tnhdQnQ50DS9DwQhJXv0+vtCcvGh+/DTg
-         jreEOcOF3b5VMt0ddRml3rHxQfsvM8PRGbnUUDRu6EpkyIs86T0n9fPL9RCoVaqVmIf4
-         0Kne66ZE3NM383dWW80zJBH4Jqt4Duc8wHDvKVqFK7BOoE1L7wqNJp7atHp1D4WfRWkT
-         bmaA==
-X-Gm-Message-State: ANoB5pntYhMLhXHtJPYxb66FZYyup+tTln//J26xWy7G3MRnQ5Lim0uI
-        1u8QmLZFtO06TUG8Ciihu3J51Q==
-X-Google-Smtp-Source: AA0mqf6WTehuBNCmz0UyKCIFRRqKtrKxlHeTLSUldJI0j/UdtIvxFRjDpcmmJNpeC3TH41FOco9P2g==
-X-Received: by 2002:a63:f506:0:b0:470:14fa:a294 with SMTP id w6-20020a63f506000000b0047014faa294mr47726112pgh.361.1670035112600;
-        Fri, 02 Dec 2022 18:38:32 -0800 (PST)
+        bh=puHWTnl4FttUivJr2fjCJ+XKoeeB18dHeiV6LUEyyFM=;
+        b=XZrO3asY0gvm5XZfLWLDULeE+UNub8+jz7g8KswRXsTmNGiwAb6dh2V3KFaiRUpALX
+         48bXPfqAbVtJf1veM5rWgBb5j2n+vc2ViHEhkyiXqKMvDGtY03/XVAVuNy33BOlbOAzG
+         sE4AxN7KRGjPYz9Vw7ajyrpTxo5hd1lbKsDfGe8+h/769raSySW5ednDX5Sn7wacriE6
+         bsx6Qps0sshwX2F6mjeWDNFopP4cqYnej37OK86J2nsgBODgTw6HMQUtunivbd9Wz+Id
+         2d1AKhTbROnWjt+ubwap1m61px6qgkFcFmvWAghRFDMfnVV08qcZFY4IivNm81Z7Kxxv
+         tSbQ==
+X-Gm-Message-State: ANoB5pnCGTYFNQfhUjR6iqdfA3HC0gzJaiKr04RdsGtBS1t5uWYUG4PX
+        JHHIc6pEE6VS8boxOVInVdJ9dQ==
+X-Google-Smtp-Source: AA0mqf4dQit9R82se8kWgKsx1FCknHa8rD7qiYgXLaoKAKcCKykz/uB+mYLnym6TuHUG0Vpre+iDAg==
+X-Received: by 2002:a17:90b:374f:b0:219:7bc8:f300 with SMTP id ne15-20020a17090b374f00b002197bc8f300mr10681194pjb.145.1670035177500;
+        Fri, 02 Dec 2022 18:39:37 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y25-20020aa79af9000000b0055f209690c0sm5739192pfp.50.2022.12.02.18.38.31
+        by smtp.gmail.com with ESMTPSA id p2-20020a622902000000b00575acb243besm5707003pfp.1.2022.12.02.18.39.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 18:38:32 -0800 (PST)
-Date:   Fri, 2 Dec 2022 18:38:31 -0800
+        Fri, 02 Dec 2022 18:39:36 -0800 (PST)
+Date:   Fri, 2 Dec 2022 18:39:36 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -73,41 +73,38 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         John Allen <john.allen@amd.com>, kcc@google.com,
         eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
         dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v4 21/39] mm/mprotect: Exclude shadow stack from
- preserve_write
-Message-ID: <202212021838.E8645AD@keescook>
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com
+Subject: Re: [PATCH v4 23/39] mm: Don't allow write GUPs to shadow stack
+ memory
+Message-ID: <202212021839.32C9B178@keescook>
 References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
- <20221203003606.6838-22-rick.p.edgecombe@intel.com>
+ <20221203003606.6838-24-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221203003606.6838-22-rick.p.edgecombe@intel.com>
+In-Reply-To: <20221203003606.6838-24-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 04:35:48PM -0800, Rick Edgecombe wrote:
-> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> 
+On Fri, Dec 02, 2022 at 04:35:50PM -0800, Rick Edgecombe wrote:
 > The x86 Control-flow Enforcement Technology (CET) feature includes a new
 > type of memory called shadow stack. This shadow stack memory has some
 > unusual properties, which requires some core mm changes to function
 > properly.
 > 
-> In change_pte_range(), when a PTE is changed for prot_numa, _PAGE_RW is
-> preserved to avoid the additional write fault after the NUMA hinting fault.
-> However, pte_write() now includes both normal writable and shadow stack
-> (Write=0, Dirty=1) PTEs, but the latter does not have _PAGE_RW and has no
-> need to preserve it.
+> Shadow stack memory is writable only in very specific, controlled ways.
+> However, since it is writable, the kernel treats it as such. As a result
+> there remain many ways for userspace to trigger the kernel to write to
+> shadow stack's via get_user_pages(, FOLL_WRITE) operations. To make this a
+> little less exposed, block writable GUPs for shadow stack VMAs.
 > 
-> Exclude shadow stack from preserve_write test, and apply the same change to
-> change_huge_pmd().
+> Still allow FOLL_FORCE to write through shadow stack protections, as it
+> does for read-only protections.
 > 
 > Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 > Tested-by: John Allen <john.allen@amd.com>
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
