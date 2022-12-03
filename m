@@ -2,99 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06CFFC4332F
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 10:39:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ADC6C4708D
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 10:44:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229491AbiLCKi6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Dec 2022 05:38:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46848 "EHLO
+        id S229447AbiLCKoJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Dec 2022 05:44:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbiLCKi5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Dec 2022 05:38:57 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDF7759FC8;
-        Sat,  3 Dec 2022 02:38:55 -0800 (PST)
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CC32B723;
-        Sat,  3 Dec 2022 10:38:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CC32B723
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1670063935; bh=AcvliI0lkNH/1gvzi1wuMUNaRNRaEKyutJ7x8ZgHioo=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=CHCA02xMNduX7UNI7ipKcoRy8ZCNWX2Db2OFXlJYv4tgtTeJeXByBswOeU1PEWu1/
-         KkGWdqySGqwF+0OGkLS+Oy5Ept6k1UJTHkIq+AUQcj+rnsGSq0HVHiNKweDwUHUOp9
-         XOn/rlfrHkfD2moHIkXbvLpOJVIg79/dY60f3XhyKDh64H1bG1P0EODCMnJ0QHWcWq
-         EFJAVY3zjG+IzkFRVKdR+gQxRzx/F6nxhlpBkF2Mdgb3JOPRzMzk09DVaoZlySONlw
-         AfA7jaUoLSmQaMOQZ1UD3f7ABR93ySW/3+osU1G+CFY948I4zGWUIHLpCtTB2moRmF
-         EfsDMEAMKmINA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Conor Dooley <conor.dooley@microchip.com>
-Cc:     Conor Dooley <conor.dooley@microchip.com>,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: riscv: note that counter access is part
- of the uABI
-In-Reply-To: <mhng-72f383f6-a85f-4587-9fa6-f85fb9f27ec8@palmer-ri-x1c9a>
-References: <mhng-72f383f6-a85f-4587-9fa6-f85fb9f27ec8@palmer-ri-x1c9a>
-Date:   Sat, 03 Dec 2022 03:38:49 -0700
-Message-ID: <87359wpy9y.fsf@meer.lwn.net>
+        with ESMTP id S229472AbiLCKoI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Dec 2022 05:44:08 -0500
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31B45429B8
+        for <linux-doc@vger.kernel.org>; Sat,  3 Dec 2022 02:44:07 -0800 (PST)
+Received: by mail-lj1-x22c.google.com with SMTP id a7so8037154ljq.12
+        for <linux-doc@vger.kernel.org>; Sat, 03 Dec 2022 02:44:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VA6bgdS0eWxkTgT0XZ0SoXlx4jS/fw585JN+2qGw6LU=;
+        b=JkYod0TCwxV83odqnX1BI8Nd4HLmNhA21w18fCZuPeRbW5BF5gMZRsztxQU2yxZD15
+         IX9JscIQJHdBEqSDz8WdAofRaFs7XY6Fz6i/Cbg/APN/Zwn3hXSF7hnsuuTlpgs4ilvy
+         sQ61VmIBiuT+Eeo1L9VHIFTQN8FM2AWk+Xt/ADvxRx4tRdL4gFQrNNp6Vc4xCa4Cr6ak
+         JEeS9QKFoi945AMiu/kZCPpMTiKxkMv69T5rYg78v8u77IDwHc3FzDW2F8pS6NgMG2QM
+         erl2d6HprOJNtkdR/rLHHhfarJHm3/skPewUDi+6Yz5UtM3Qt4wFlKTGYj7PkraXy8oy
+         zTcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VA6bgdS0eWxkTgT0XZ0SoXlx4jS/fw585JN+2qGw6LU=;
+        b=496OXsKFWZ75jutWFPil7FkAIwOhGOAJS30ZdzXvf8ytPWP00PPMx+lVP21sLQMS+N
+         I56nreS2XStmF38Prcj/Z4bLI1BBKcYod/otpxqSZn4uNDNiCqjT3ICMJ1N/4eS7C1hR
+         dMpoJzYey2XH3XIz+HKQd1XcOM/BuO6ua+dnP0aRE6B5+GNe+fd/1YC0YBSHG2tFNBPD
+         QTFov4I4SChiOiwk9hZ1deBHCaczVBEhvlqb5T4hwWI8/mVkTgAdNuSpXcp4hgVXSq7r
+         plFSeJeLOr9VMqCE4RyFGb6Z3T8x8ctZN5rqGy4/2TwB3hmqSUnlg9/HWw7Sw8/FLQB2
+         Uj9A==
+X-Gm-Message-State: ANoB5pnqHjUH1VWZu4AXwmbf7Xhg5ABOnZvHh/NcgU8dSvnzZPKm5DG/
+        2WZq8kOF9g/RYwdPedE1VRPTqw==
+X-Google-Smtp-Source: AA0mqf65bteWp/5x2VGymOoQTMXDSV6uq3dkYvxgSK7hCEwsZMR8HN1bOyqzRgWw+dQpYM/+lHc/tg==
+X-Received: by 2002:a2e:a0c2:0:b0:279:95c2:c154 with SMTP id f2-20020a2ea0c2000000b0027995c2c154mr12495316ljm.44.1670064245500;
+        Sat, 03 Dec 2022 02:44:05 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id c24-20020a056512239800b004b40c1f1c70sm1351910lfv.212.2022.12.03.02.44.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 03 Dec 2022 02:44:04 -0800 (PST)
+Message-ID: <f4c98f85-a39a-77ff-3b69-e461f482fee7@linaro.org>
+Date:   Sat, 3 Dec 2022 11:44:03 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v1 1/2] dt-bindings: leds: add binding for aw200xx
+Content-Language: en-US
+To:     Dmitry Rokosov <ddrokosov@sberdevices.ru>
+Cc:     Martin Kurbanov <MMKurbanov@sberdevices.ru>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        kernel <kernel@sberdevices.ru>
+References: <20221124204807.1593241-1-mmkurbanov@sberdevices.ru>
+ <20221124204807.1593241-2-mmkurbanov@sberdevices.ru>
+ <bb12ea88-b416-7e32-93b9-730b6f009b98@linaro.org>
+ <0a9e7d65-4ad7-b753-ec9b-8e58a549b5db@sberdevices.ru>
+ <620b19f5-2202-21a5-7e3b-816dcd42d1b4@linaro.org>
+ <20221202185308.zh5kesfxvyrco2cr@CAB-WSD-L081021>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221202185308.zh5kesfxvyrco2cr@CAB-WSD-L081021>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Palmer Dabbelt <palmer@dabbelt.com> writes:
+On 02/12/2022 19:53, Dmitry Rokosov wrote:
+> Hello Krzysztof,
+> 
+> On Fri, Dec 02, 2022 at 05:41:37PM +0100, Krzysztof Kozlowski wrote:
+>> On 28/11/2022 18:43, Martin Kurbanov wrote:
+>>> Hi. Thank you for quick reply. 
+>>>
+>>> On 25.11.2022 11:29, Krzysztof Kozlowski wrote:
+>>>>> +
+>>>>> +  imax:
+>>>>> +    maxItems: 1
+>>>>> +    description:
+>>>>> +      Maximum supply current, see dt-bindings/leds/leds-aw200xx.h
+>>>>
+>>>> No. Use existing properties from common.yaml. This looks like
+>>>> led-max-microamp and it is per LED, not per entire device.
+>>>
+>>> The AW200XX LED chip does not support imax setup per led.
+>>> Imax is the global parameter over the all leds. I suppose, it's better
+>>> to add vendor prefix or take minimum from all subnodes?
+>>> How do you think?
+>>
+>> Have in mind that led-max-microamp is a required property in some cases,
+>> so skipping it and using per-device properties does not solve the
+>> problem of adjusting proper currents. What if each LED you set for
+>> something which in total gives more than your imax?
+>>
+> 
+> You are right. From my point of view too, we must build our solutions from
+> HW capabilities. 
 
-> On Thu, 01 Dec 2022 05:51:10 PST (-0800), Conor Dooley wrote:
->> Commit 5a5294fbe020 ("RISC-V: Re-enable counter access from userspace")
->> fixed userspace access to CYCLE, TIME & INSTRET counters and left a nice
->> comment in-place about why they must not be restricted. Since we now
->> have a uABI doc in RISC-V land, add a section documenting it.
->>
->> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
->> ---
->> Based on an, as yet, unsent v2 of my other uABI changes. I don't expect
->> it to be applicable, just getting a patch into patchwork while I don't
->> forget about this.
->> ---
->>  Documentation/riscv/uabi.rst | 7 +++++++
->>  1 file changed, 7 insertions(+)
->>
->> diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uabi.rst
->> index 8d2651e42fda..638ddce56700 100644
->> --- a/Documentation/riscv/uabi.rst
->> +++ b/Documentation/riscv/uabi.rst
->> @@ -3,6 +3,13 @@
->>  RISC-V Linux User ABI
->>  =====================
->>
->> +Counter access
->> +--------------
->> +
->> +Access to the CYCLE, TIME and INSTRET counters, now controlled by the SBI PMU
->> +extension, were part of the ISA when the uABI was frozen & so remain accessible
->> +from userspace.
->> +
->>  ISA string ordering in /proc/cpuinfo
->>  ------------------------------------
->>
->>
->> base-commit: 13ee7ef407cfcf63f4f047460ac5bb6ba5a3447d
->> prerequisite-patch-id: d17a9ffb6fcf99eb683728da98cd50e18cd28fe8
->> prerequisite-patch-id: 0df4127e3f4a0c02a235fea00bcb69cd94fabb38
->> prerequisite-patch-id: 171724b870ba212b714ebbded480269accd83733
->
-> Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
->
-> I think I merged the last one of these, but if the doc folks pick it up 
-> that's fine with me.  Otherwise I'll take it when it comes back around, 
-> so folks have time to take a look.
+And there was no proposal to go around HW capabilities. We talk only
+about representation.
 
-"Doc folks" applied it, thanks. :)
+> In the current situation, AW200XX chips support global
+> Imax value, so it's acceptable decision to use vendor prefix for global
+> imax parameter, why not?
 
-jon
+Jacek made his statement some time ago quite clear:
+
+https://lore.kernel.org/all/5785F17D.3010108@samsung.com/
+
+"If you question the idea of having different maximum brightness per
+sub-LEDs controlled by the same device, then it means that you have
+objections to the entire idea of LED subsystem max_brightness property,
+whereas it has been broadly accepted and successfully used for years."
+
+Best regards,
+Krzysztof
+
