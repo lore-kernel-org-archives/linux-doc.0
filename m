@@ -2,212 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D755C4708E
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 02:57:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C148EC4321E
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 03:23:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235125AbiLCC5a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Dec 2022 21:57:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47432 "EHLO
+        id S230086AbiLCDXN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Dec 2022 22:23:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234930AbiLCC53 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 21:57:29 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CBACE989E
-        for <linux-doc@vger.kernel.org>; Fri,  2 Dec 2022 18:57:28 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id l22-20020a17090a3f1600b00212fbbcfb78so9967394pjc.3
-        for <linux-doc@vger.kernel.org>; Fri, 02 Dec 2022 18:57:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iYhtF06rN01RiKVEwYrT8rPN0UmjLM22d78NkfSy5+o=;
-        b=K2FfUaFyurPTkWOam4j+V72ut4fmD7TRNO64G3a4dBllPRstKCKXLTONhpMSIHWNfh
-         LU0I4KJfF6+4lY1r3y7ihKn16vV3SDNcKKijAo6PGaXpzrMiVHhu40kJavVZbq6IYVBF
-         n65aP1y46hMojSq8pi5plIXamOGD1p/1n4EWs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iYhtF06rN01RiKVEwYrT8rPN0UmjLM22d78NkfSy5+o=;
-        b=lPLGwgaE+EVwSxpkQueeLWGeQPVeKWbAySUKK6m56YWnEbJPKOGdwduzGfv+PAQhbV
-         eKgSIRK7tgFrlQam7EM1udSoThwtjgcMZ17YtBESAFjSFEqtOeJYwPH6PW0Q0gyVeP/C
-         UYhwuNWyRQEOIl/wsl2RWpbBFf40dC5+DEdoCq6vnmZlw7hoQ3lOqOXfXvhfCM42ONWk
-         fWxfpulRgtNgQnwBHDJZfOcn95rX2Zo7ISq9omkbz8SdPK7C0nClbBswdAx3r9/YOvAg
-         pAEI83TpyC/VZ6Ds7W5qZCAnU7Uro8omi7OTH+xfj1JKto11s83wijGIN4oSa+U0igVP
-         h16A==
-X-Gm-Message-State: ANoB5pn8ZlkcqmPewuOA84G4tMhC1/GQkeJLmILvuCOVwcepYktFIG6f
-        yHJslb8JPSsgk5SpWnr5Vcm9nw==
-X-Google-Smtp-Source: AA0mqf4ghrT/87SBIW4BkPBsnLTei7c1aVwVG1GGksav+yaMNE43gjtLSRrT7w5HIU312oIjd2vtlA==
-X-Received: by 2002:a17:902:7604:b0:189:c380:7c8d with SMTP id k4-20020a170902760400b00189c3807c8dmr3103679pll.136.1670036248021;
-        Fri, 02 Dec 2022 18:57:28 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q100-20020a17090a17ed00b002196b5a0efesm4692751pja.47.2022.12.02.18.57.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 18:57:27 -0800 (PST)
-Date:   Fri, 2 Dec 2022 18:57:26 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        with ESMTP id S229951AbiLCDXM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Dec 2022 22:23:12 -0500
+X-Greylist: delayed 334 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 02 Dec 2022 19:23:09 PST
+Received: from out-142.mta0.migadu.com (out-142.mta0.migadu.com [IPv6:2001:41d0:1004:224b::8e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D934460B62
+        for <linux-doc@vger.kernel.org>; Fri,  2 Dec 2022 19:23:08 -0800 (PST)
+Content-Type: text/plain;
+        charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1670037449;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=yB//b1EitRmLn+k+QyZlckrtyNyeyMWH9FzHsotPYVg=;
+        b=ubL93lHJgSTgz+3zzH+QSRUgMV/lU7i9P2hA234RwUQaM5sly2K9vbBgeWb0vwoGJBxdx/
+        glDZK10V70CZbf0v9q9CummWFes9OBw5TNB9xxhy8eM0hCnc5G10YopaPIL8WS7DzpnGzu
+        9hsfB3qvJ5n8shNfCGlcwXzjKpvzL18=
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
+Subject: Re: [PATCH v3] mm: Add nodes= arg to memory.reclaim
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20221202223533.1785418-1-almasrymina@google.com>
+Date:   Sat, 3 Dec 2022 11:17:10 +0800
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com
-Subject: Re: [PATCH v4 39/39] x86/shstk: Add ARCH_SHSTK_STATUS
-Message-ID: <202212021857.938659D@keescook>
-References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
- <20221203003606.6838-40-rick.p.edgecombe@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221203003606.6838-40-rick.p.edgecombe@intel.com>
+        Michal Hocko <mhocko@kernel.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Huang Ying <ying.huang@intel.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
+        fvdl@google.com, Michal Hocko <mhocko@suse.com>,
+        bagasdotme@gmail.com, cgroups@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <EC963F6F-75C3-4168-97B3-544C36C2600A@linux.dev>
+References: <20221202223533.1785418-1-almasrymina@google.com>
+To:     Mina Almasry <almasrymina@google.com>
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 04:36:06PM -0800, Rick Edgecombe wrote:
-> CRIU and GDB need to get the current shadow stack and WRSS enablement
-> status. This information is already available via /proc/pid/status, but
-> this is incovienent for CRIU because it involves parsing the text output
-> in an area of the code where this is difficult. Provide a status
-> arch_prctl(), ARCH_SHSTK_STATUS for retrieving the status. Have arg2 be a
-> userspace address, and make the new arch_prctl simply copy the features
-> out to userspace.
-> 
-> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
-> Requested-by: Mike Rapoport <rppt@kernel.org>
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-> ---
-> 
-> v4:
->  - New patch
-> 
->  Documentation/x86/shstk.rst       | 6 ++++++
->  arch/x86/include/asm/shstk.h      | 4 ++--
->  arch/x86/include/uapi/asm/prctl.h | 1 +
->  arch/x86/kernel/process_64.c      | 1 +
->  arch/x86/kernel/shstk.c           | 8 +++++++-
->  5 files changed, 17 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/x86/shstk.rst b/Documentation/x86/shstk.rst
-> index 0d7d1ccfff06..b3eb87046c27 100644
-> --- a/Documentation/x86/shstk.rst
-> +++ b/Documentation/x86/shstk.rst
-> @@ -77,6 +77,11 @@ arch_prctl(ARCH_SHSTK_UNLOCK, unsigned long features)
->      Unlock features. 'features' is a mask of all features to unlock. All
->      bits set are processed, unset bits are ignored. Only works via ptrace.
->  
-> +arch_prctl(ARCH_SHSTK_STATUS, unsigned long addr)
-> +    Copy the currently enabled features to the address passed in addr. The
-> +    features are described using the bits passed into the others in
-> +    'features'.
-> +
->  The return values are as following:
->      On success, return 0. On error, errno can be::
->  
-> @@ -84,6 +89,7 @@ The return values are as following:
->          -EOPNOTSUPP if the feature is not supported by the hardware or
->           disabled by kernel parameter.
->          -EINVAL arguments (non existing feature, etc)
-> +        -EFAULT if could not copy information back to userspace
->  
->  The feature's bits supported are::
->  
-> diff --git a/arch/x86/include/asm/shstk.h b/arch/x86/include/asm/shstk.h
-> index c82f22fd5e6d..23bfb63c597d 100644
-> --- a/arch/x86/include/asm/shstk.h
-> +++ b/arch/x86/include/asm/shstk.h
-> @@ -15,7 +15,7 @@ struct thread_shstk {
->  	u64	size;
->  };
->  
-> -long shstk_prctl(struct task_struct *task, int option, unsigned long features);
-> +long shstk_prctl(struct task_struct *task, int option, unsigned long arg2);
->  void reset_thread_features(void);
->  int shstk_alloc_thread_stack(struct task_struct *p, unsigned long clone_flags,
->  			     unsigned long stack_size,
-> @@ -31,7 +31,7 @@ static inline bool shstk_enabled(void)
->  }
->  #else
->  static inline long shstk_prctl(struct task_struct *task, int option,
-> -			     unsigned long features) { return -EINVAL; }
-> +			     unsigned long arg2) { return -EINVAL; }
->  static inline void reset_thread_features(void) {}
->  static inline int shstk_alloc_thread_stack(struct task_struct *p,
->  					   unsigned long clone_flags,
-> diff --git a/arch/x86/include/uapi/asm/prctl.h b/arch/x86/include/uapi/asm/prctl.h
-> index 0c95688cf58e..abe3fe6db6d2 100644
-> --- a/arch/x86/include/uapi/asm/prctl.h
-> +++ b/arch/x86/include/uapi/asm/prctl.h
-> @@ -31,6 +31,7 @@
->  #define ARCH_SHSTK_DISABLE		0x5002
->  #define ARCH_SHSTK_LOCK			0x5003
->  #define ARCH_SHSTK_UNLOCK		0x5004
-> +#define ARCH_SHSTK_STATUS		0x5005
->  
->  /* ARCH_SHSTK_ features bits */
->  #define ARCH_SHSTK_SHSTK		(1ULL <<  0)
-> diff --git a/arch/x86/kernel/process_64.c b/arch/x86/kernel/process_64.c
-> index 2be6e01fb144..5dcf5426241b 100644
-> --- a/arch/x86/kernel/process_64.c
-> +++ b/arch/x86/kernel/process_64.c
-> @@ -922,6 +922,7 @@ long do_arch_prctl_64(struct task_struct *task, int option, unsigned long arg2)
->  	case ARCH_SHSTK_DISABLE:
->  	case ARCH_SHSTK_LOCK:
->  	case ARCH_SHSTK_UNLOCK:
-> +	case ARCH_SHSTK_STATUS:
->  		return shstk_prctl(task, option, arg2);
->  	default:
->  		ret = -EINVAL;
-> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
-> index 95579f7bace3..05f8dcc19dbc 100644
-> --- a/arch/x86/kernel/shstk.c
-> +++ b/arch/x86/kernel/shstk.c
-> @@ -448,8 +448,14 @@ SYSCALL_DEFINE3(map_shadow_stack, unsigned long, addr, unsigned long, size, unsi
->  	return alloc_shstk(addr, aligned_size, size, set_tok);
->  }
->  
-> -long shstk_prctl(struct task_struct *task, int option, unsigned long features)
-> +long shstk_prctl(struct task_struct *task, int option, unsigned long arg2)
->  {
-> +	unsigned long features = arg2;
-> +
-> +	if (option == ARCH_SHSTK_STATUS) {
-> +		return put_user(task->thread.features, (unsigned long __user *)arg2);
-> +	}
 
-Doesn't need the braces, but that's fine by me.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+> On Dec 3, 2022, at 06:35, Mina Almasry <almasrymina@google.com> wrote:
+>=20
+> The nodes=3D arg instructs the kernel to only scan the given nodes for
+> proactive reclaim. For example use cases, consider a 2 tier memory =
+system:
+>=20
+> nodes 0,1 -> top tier
+> nodes 2,3 -> second tier
+>=20
+> $ echo "1m nodes=3D0" > memory.reclaim
+>=20
+> This instructs the kernel to attempt to reclaim 1m memory from node 0.
+> Since node 0 is a top tier node, demotion will be attempted first. =
+This
+> is useful to direct proactive reclaim to specific nodes that are under
+> pressure.
+>=20
+> $ echo "1m nodes=3D2,3" > memory.reclaim
+>=20
+> This instructs the kernel to attempt to reclaim 1m memory in the =
+second tier,
+> since this tier of memory has no demotion targets the memory will be
+> reclaimed.
+>=20
+> $ echo "1m nodes=3D0,1" > memory.reclaim
+>=20
+> Instructs the kernel to reclaim memory from the top tier nodes, which =
+can
+> be desirable according to the userspace policy if there is pressure on
+> the top tiers. Since these nodes have demotion targets, the kernel =
+will
+> attempt demotion first.
+>=20
+> Since commit 3f1509c57b1b ("Revert "mm/vmscan: never demote for memcg
+> reclaim""), the proactive reclaim interface memory.reclaim does both
+> reclaim and demotion. Reclaim and demotion incur different latency =
+costs
+> to the jobs in the cgroup. Demoted memory would still be addressable
+> by the userspace at a higher latency, but reclaimed memory would need =
+to
+> incur a pagefault.
+>=20
+> The 'nodes' arg is useful to allow the userspace to control demotion
+> and reclaim independently according to its policy: if the =
+memory.reclaim
+> is called on a node with demotion targets, it will attempt demotion =
+first;
+> if it is called on a node without demotion targets, it will only =
+attempt
+> reclaim.
+>=20
+> Acked-by: Michal Hocko <mhocko@suse.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
 
-> +
->  	if (option == ARCH_SHSTK_LOCK) {
->  		task->thread.features_locked |= features;
->  		return 0;
-> -- 
-> 2.17.1
-> 
+Acked-by: Muchun Song <songmuchun@bytedance.com>
 
--- 
-Kees Cook
+Thanks.=
