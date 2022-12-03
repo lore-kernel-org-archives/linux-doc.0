@@ -2,79 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99543C47088
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 19:43:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3BBDC4332F
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 22:50:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229542AbiLCTno (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Dec 2022 14:43:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43464 "EHLO
+        id S229512AbiLCWuO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Dec 2022 17:50:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbiLCTnn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Dec 2022 14:43:43 -0500
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B91C06552;
-        Sat,  3 Dec 2022 11:43:42 -0800 (PST)
-Received: by mail-pg1-x52a.google.com with SMTP id f9so7092990pgf.7;
-        Sat, 03 Dec 2022 11:43:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8Wip7VNHAeBJSUz4o+dzo5yQSZVeZvNE2xd3eHUcNhY=;
-        b=PWwLZI2D9kN6A8HKAB8NLpg0bDYcB2DMyxEWLe4Yc/L9IjMgAGcRQO6TUQHZHCK9/V
-         xEyadl424A2eS+YxwzzZQUw/VpgyaZ3EB2K12wkGYA3rluLCjaLluQ079Ah0nicQyLnS
-         urRNeVaRWvSoDt7I5jCpyZVIGS7sOH/c37XQbXQ16K0fBTiXeIBBReoaTFJCzhT9XdEq
-         UxMj3DocCSrSOpCiEX/E9nRM8VeePDgld00JmO3plLbNli+vPjiIg80DqLfm/CHMS6Pl
-         uMPXSrFRCe3f1nyHMuLTgIt6M6Ym4DqRVN/74skOCI513efv3W9xU+DREL8Nd1ReBBG/
-         xmXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=8Wip7VNHAeBJSUz4o+dzo5yQSZVeZvNE2xd3eHUcNhY=;
-        b=Ww8mcsqQ5lmmVp3m+L75srmymNn+RT2jJf8djbdr8ygc8qJMdM8X4gpl8YD3CgNfaD
-         RJ6M9tZKbE92jRgP5x49pybSSVqpldEZMqffBph1uxdBt5KJxwtkz9OTNQ4xTIC3Ii2H
-         drlPlEukof3/sJ2gwvaCvS5F2v7oqMcNn2PXhtcoC/J4LwsM2ToC+HkFipr8cusED6Ia
-         qql1UHoQCsYqmmoR5VI0tfsSU2lqGsNPrzV8hTX88AtIWK3AdZVFepQr1wPPMGRLYxH6
-         ZDRPQCTC9/WlWdxxePKZjQYWUTGkBlMv5WVhVlUWXPVSRr5K5OqzcRCu6cTIaxSE2s/J
-         WteQ==
-X-Gm-Message-State: ANoB5pkas1XAyLPZbvYdw602KGeQWIrJwfpWi5PhyDWUWaHMeOvWu07Y
-        N7ohGns3ypxPoRXGZb7CLsZQ3+s9Jls=
-X-Google-Smtp-Source: AA0mqf6YU/p50wfEksJKwYy4ZuwSHxhLVxeZI4DoJs6Ew7clCncgr7tET8iILz3aeKqWh1EW2tEx3Q==
-X-Received: by 2002:aa7:9e1a:0:b0:576:cd93:98cf with SMTP id y26-20020aa79e1a000000b00576cd9398cfmr394653pfq.53.1670096622136;
-        Sat, 03 Dec 2022 11:43:42 -0800 (PST)
-Received: from localhost ([129.95.228.55])
-        by smtp.gmail.com with ESMTPSA id n13-20020a170903404d00b00189548573a2sm7716396pla.161.2022.12.03.11.43.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Dec 2022 11:43:41 -0800 (PST)
-Date:   Sat, 03 Dec 2022 11:43:40 -0800
-From:   John Fastabend <john.fastabend@gmail.com>
-To:     mtahhan@redhat.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     jbrouer@redhat.com, thoiland@redhat.com, donhunte@redhat.com,
-        john.fastabend@gmail.com, Maryam Tahhan <mtahhan@redhat.com>
-Message-ID: <638ba6ecadfaf_16f042086c@john.notmuch>
-In-Reply-To: <20221201151352.34810-1-mtahhan@redhat.com>
-References: <20221201151352.34810-1-mtahhan@redhat.com>
-Subject: RE: [PATCH bpf-next v2 1/1] docs: BPF_MAP_TYPE_SOCK[MAP|HASH]
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229481AbiLCWuN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Dec 2022 17:50:13 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67C021DF15
+        for <linux-doc@vger.kernel.org>; Sat,  3 Dec 2022 14:50:12 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0269560303
+        for <linux-doc@vger.kernel.org>; Sat,  3 Dec 2022 22:50:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53526C43148
+        for <linux-doc@vger.kernel.org>; Sat,  3 Dec 2022 22:50:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670107811;
+        bh=dx6i/zBU0ZeE6IVzzhxnvcG/T5ZK/6cVLN8A6gKBAIg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=hiZpKaTHtcLBdst55X3naUv/ClQHZ2BdUxGzuJRGTVMWhuCLxN913I0WbfEOw28LQ
+         ZX+DHCRTnE+lLS5czSOtX5Fgcay9LdjulUN0LK3X8eVMM6Q/b3NjnqmVr5QIkLtK4F
+         yCXadkL+rKLUlskBP3MZ9+hqukUAXq4R/A+8SWEYbOQu9HhEI7fEUSIhqqDDobrN7A
+         gH2phXjsOpPjjstuMQyDhwsp/nlkSzYnpXYox7KEhSsCnevvB3LjfWD9bb7KkvHROQ
+         btMlseOHA8ME9Splkm/iliED3Ymt/1xY59hLKqAON28JDb+8HR2BTJZrTFrlIKFExb
+         rjqv4bHAwt6DA==
+Received: by mail-ed1-f54.google.com with SMTP id d14so6024432edj.11
+        for <linux-doc@vger.kernel.org>; Sat, 03 Dec 2022 14:50:11 -0800 (PST)
+X-Gm-Message-State: ANoB5pmwdVa6+cXA8lUuFfRZ8odeuAVYry9jiorjcrbY/jnXzUbGMaZr
+        SKmcnbJabSLwgxkEXAfceK6lZ5hmtcYMQVyjooQ74g==
+X-Google-Smtp-Source: AA0mqf6IMKgvOHkA5/c+9soSeuwZRc+52Mb9yRpznfgn0cMyx+TzFtyUF1PqLc7pfmdr25nJCy6wV1Whkg3Cmb9CDSY=
+X-Received: by 2002:a05:6402:3c1:b0:46b:2d74:d970 with SMTP id
+ t1-20020a05640203c100b0046b2d74d970mr26185821edw.138.1670107809384; Sat, 03
+ Dec 2022 14:50:09 -0800 (PST)
+MIME-Version: 1.0
+References: <20221203003606.6838-1-rick.p.edgecombe@intel.com> <20221203003606.6838-34-rick.p.edgecombe@intel.com>
+In-Reply-To: <20221203003606.6838-34-rick.p.edgecombe@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Sat, 3 Dec 2022 14:49:34 -0800
+X-Gmail-Original-Message-ID: <CALCETrVMY4UadSrn3fTim5iCzPVf+XXnkyq57wjvnhVUNV1V5w@mail.gmail.com>
+Message-ID: <CALCETrVMY4UadSrn3fTim5iCzPVf+XXnkyq57wjvnhVUNV1V5w@mail.gmail.com>
+Subject: Re: [PATCH v4 33/39] x86: Prevent 32 bit operations for 64 bit shstk tasks
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-mtahhan@ wrote:
-> From: Maryam Tahhan <mtahhan@redhat.com>
-> 
-> Add documentation for BPF_MAP_TYPE_SOCK[MAP|HASH]
-> including kernel versions introduced, usage
-> and examples.
-> 
-> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+On Fri, Dec 2, 2022 at 4:44 PM Rick Edgecombe
+<rick.p.edgecombe@intel.com> wrote:
+>
 
-Thanks Maryam. LGTM.
+> So since 32 bit is not easy to support, and there are likely not many
+> users. More cleanly don't support 32 bit signals in a 64 bit address
+> space by not allowing 32 bit ABI signal handlers when shadow stack is
+> enabled. Do this by clearing any 32 bit ABI signal handlers when shadow
+> stack is enabled, and disallow any further 32 bit ABI signal handlers.
+> Also, return an error code for the clone operations when in a 32 bit
+> syscall.
+>
 
-Acked-by: John Fastabend <john.fastabend@gmail.com>
+This seems unfortunate.  The result will be a highly incomprehensible
+crash.  Maybe instead deny enabling shadow stack in the first place?
+Or at least pr_warn_once if anything gets flushed.
