@@ -2,102 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0212C4332F
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 07:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB9DCC4708D
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Dec 2022 08:31:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230169AbiLCHxk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Dec 2022 02:53:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60332 "EHLO
+        id S231561AbiLCIbC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Dec 2022 03:31:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230324AbiLCHxj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Dec 2022 02:53:39 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0D5D7E409;
-        Fri,  2 Dec 2022 23:53:38 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 909ACB81092;
-        Sat,  3 Dec 2022 07:53:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25E44C4314A;
-        Sat,  3 Dec 2022 07:53:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670054016;
-        bh=v+fh+f5UA4ZMllDwmHzwUHLTYaB/xEbSJdsmYPmGyc8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Nak2BiuBVIBjFil7xWnOsIfDvMuVuJBsI472Ldeg2GUE7pcB1ArCRx7eg17HRgeYH
-         0TGSX+xJK4awCHCe6gQSEX3j2UzrqNjRi+WQZCbGMK3fJhdTW5ZetIv07E21tMha2U
-         6UDJKKUbjpDogCTeeBe8mjjKIulcgFe7rBucQyDR7ceVA5CzibAJIqRJEq5CkW7O4Z
-         Re4JncxHC1G5WYvVoKHbleoOJmX1zGPA+LmjSHM93CvBr6hg4Qk1NyBMXJZjsmG09/
-         pSt2yVCi6kyx2OrYWxRfzSX9vOcVVUy5isUUhh3UORRTsNcZPSZX0ATi7CElgwvdVO
-         NHxKWR4GUo3YQ==
-Received: by mail-ej1-f52.google.com with SMTP id bj12so16400695ejb.13;
-        Fri, 02 Dec 2022 23:53:36 -0800 (PST)
-X-Gm-Message-State: ANoB5pm6RS90cgtdAW/q5Y+pbM+j/xuHguaFWGImF8G/Vx2CzMO4eh90
-        9P1AvexeMgcmXsOtb6cfugiWofcKsY3PB6+rY2w=
-X-Google-Smtp-Source: AA0mqf5v7PsMXkly2t9Dyuk1Ofpw2XwAbMWTqS1nzBeDCH1bbzqPn4lCENo9DXWjvMuC+kBTe4Amiepcel2hKDVj6Iw=
-X-Received: by 2002:a17:906:99d3:b0:78d:c7fd:f755 with SMTP id
- s19-20020a17090699d300b0078dc7fdf755mr6375844ejn.702.1670054014194; Fri, 02
- Dec 2022 23:53:34 -0800 (PST)
+        with ESMTP id S229781AbiLCIbB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Dec 2022 03:31:01 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AA9B55A8D;
+        Sat,  3 Dec 2022 00:31:00 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id f18so11264244wrj.5;
+        Sat, 03 Dec 2022 00:31:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2NKv/juivSPtw+aSJEGk+J2nIXdK+8epwWiah37thoY=;
+        b=UlVTP+QiJPPdoGqx7EM454TEl2WZS4s66zkACqW1nk2OToEU3frEbgcS1U7zlTlZ26
+         byYXR6wJx1BwrdURsOkZfKYPtn9vTnaAGQKCImcJ6Xjdu3qhDN8YZiKYZeYdTbMcWLlR
+         dWQgcMd764cSA/m5ARIsVuz/81E3zt8uP+1L7rMyPOfxVGml56uPe4nv5VanIfVNn0KG
+         xIdC4KAGYt4dLbsSJJBSbte9odteS+wAbiOciZuRuA77/rPc1Q2up1WUoPJuQcSwKzC+
+         dW+HyL0icWQA4+ZiIwpK8Z9rLjVlr4JVyYfyodNT4R16ffd7EQWe6JbbrR+KTzvjTI1g
+         8BdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2NKv/juivSPtw+aSJEGk+J2nIXdK+8epwWiah37thoY=;
+        b=zzrcRioz11WvpOYg9x+E3yIl4NlHM36/VWotA1EhKYuoISKHxZNDqc5FBSkeaCdpAD
+         M4JQp2FG8Z4hH/0m0aAc4tbOqqCeFBuSf//2raoE1cxjdAmdmN42GJfs3/robohp3Wui
+         Fz7tQ1VesoaIl9l4n8OcDeJPCgm8tvWV7uS37hWSkyAKWBirvGWzjPLJMEeXWTGUNxRO
+         U8NatWnubXd/qdceqF1+Hc5WVNiiKtXzVUKkMsoJ7l0u1JCs1PClwfbprfX3xplv9X9+
+         H2is+qvwQwtB/kKn05QYEk3ughbFgg82LyQ3fb5RTqN5wx7pwnW/R17KTSwmN2fga8up
+         dbNQ==
+X-Gm-Message-State: ANoB5pkkb+SROAx5xO9z/aWf+oWXJYbT1uZ/AmriA8XPZFWwlyZuR6pS
+        xcSu6qekGeYSXbu33gRnBbU=
+X-Google-Smtp-Source: AA0mqf62BdI2xnqr2YWZgf8DeQsDV3h1bynzlzvldMbkq4bFo4a8TdN2KNYSngbjVCxn59mZWwm2cQ==
+X-Received: by 2002:a5d:59c5:0:b0:241:e4cf:30d9 with SMTP id v5-20020a5d59c5000000b00241e4cf30d9mr18546698wry.186.1670056258593;
+        Sat, 03 Dec 2022 00:30:58 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p17-20020a5d68d1000000b002420cfcd13dsm8745910wrw.105.2022.12.03.00.30.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Dec 2022 00:30:58 -0800 (PST)
+Date:   Sat, 3 Dec 2022 11:30:54 +0300
+From:   Dan Carpenter <error27@gmail.com>
+To:     oe-kbuild@lists.linux.dev, Michael Walle <michael@walle.cc>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>
+Cc:     lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        Michael Walle <michael@walle.cc>
+Subject: Re: [PATCH v4 10/20] nvmem: core: use nvmem_add_one_cell() in
+ nvmem_add_cells_from_of()
+Message-ID: <202212030011.DQpDmsBb-lkp@intel.com>
 MIME-Version: 1.0
-References: <20221026144208.373504-1-xianting.tian@linux.alibaba.com> <167002857934.4256.16584443879212253129.b4-ty@rivosinc.com>
-In-Reply-To: <167002857934.4256.16584443879212253129.b4-ty@rivosinc.com>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Sat, 3 Dec 2022 15:53:21 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTRYwiPUTZWgWHTS5_k4mJsY9ZivbY+PCRfEDpANKNHXTA@mail.gmail.com>
-Message-ID: <CAJF2gTRYwiPUTZWgWHTS5_k4mJsY9ZivbY+PCRfEDpANKNHXTA@mail.gmail.com>
-Subject: Re: [PATCH V5 0/2] Support VMCOREINFO export for RISCV64
-To:     Palmer Dabbelt <palmer@rivosinc.com>
-Cc:     mick@ics.forth.gr, corbet@lwn.net, alexandre.ghiti@canonical.com,
-        vgoyal@redhat.com, bhe@redhat.com,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        bagasdotme@gmail.com, dyoung@redhat.com,
-        Palmer Dabbelt <palmer@dabbelt.com>, heiko@sntech.de,
-        Xianting Tian <xianting.tian@linux.alibaba.com>,
-        anup@brainfault.org, aou@eecs.berkeley.edu,
-        hschauhan@nulltrace.org, yixun.lan@gmail.com,
-        kexec@lists.infradead.org, heinrich.schuchardt@canonical.com,
-        linux-doc@vger.kernel.org, crash-utility@redhat.com,
-        linux-kernel@vger.kernel.org, k-hagio-ab@nec.com,
-        linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221123180151.2160033-11-michael@walle.cc>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Palmer,
+Hi Michael,
 
-Here are another two fix-up patches of kdump for the crash tool.
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-https://lore.kernel.org/linux-riscv/20221020141603.2856206-3-guoren@kernel.org/
-https://lore.kernel.org/linux-riscv/20221020141603.2856206-2-guoren@kernel.org/
+url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Walle/nvmem-core-introduce-NVMEM-layouts/20221124-020554
+patch link:    https://lore.kernel.org/r/20221123180151.2160033-11-michael%40walle.cc
+patch subject: [PATCH v4 10/20] nvmem: core: use nvmem_add_one_cell() in nvmem_add_cells_from_of()
+config: i386-randconfig-m021
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
-On Sat, Dec 3, 2022 at 8:56 AM Palmer Dabbelt <palmer@rivosinc.com> wrote:
->
-> On Wed, 26 Oct 2022 22:42:06 +0800, Xianting Tian wrote:
-> > As disscussed in below patch set, the patch of 'describe VMCOREINFO export in Documentation'
-> > need to update according to Bagas's comments.
-> > https://lore.kernel.org/linux-riscv/22AAF52E-8CC8-4D11-99CB-88DE4D113444@kernel.org/
-> >
-> > As others patches in above patch set already applied, so this patch set only contains below two
-> > patches.
-> >
-> > [...]
->
-> Applied, thanks!
->
-> [1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
->       https://git.kernel.org/palmer/c/649d6b1019a2
-> [2/2] Documentation: kdump: describe VMCOREINFO export for RISCV64
->       https://git.kernel.org/palmer/c/c5b4216929eb
->
-> Best regards,
-> --
-> Palmer Dabbelt <palmer@rivosinc.com>
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
+New smatch warnings:
+drivers/nvmem/core.c:731 nvmem_add_cells_from_of() warn: possible memory leak of 'cell'
 
+Old smatch warnings:
+drivers/nvmem/core.c:735 nvmem_add_cells_from_of() warn: possible memory leak of 'cell'
+
+vim +/cell +731 drivers/nvmem/core.c
+
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  689  static int nvmem_add_cells_from_of(struct nvmem_device *nvmem)
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  690  {
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  691  	struct device *dev = &nvmem->dev;
+7ae6478b304bc0 Srinivas Kandagatla 2021-10-13  692  	struct nvmem_cell_entry *cell;
+18f50dbcfd3676 Michael Walle       2022-11-23  693  	struct device_node *child;
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  694  	const __be32 *addr;
+18f50dbcfd3676 Michael Walle       2022-11-23  695  	int len, ret;
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  696  
+18f50dbcfd3676 Michael Walle       2022-11-23  697  	for_each_child_of_node(dev->of_node, child) {
+18f50dbcfd3676 Michael Walle       2022-11-23  698  		struct nvmem_cell_info info = {0};
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  699  
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  700  		addr = of_get_property(child, "reg", &len);
+0445efacec75b8 Ahmad Fatoum        2021-01-29  701  		if (!addr)
+0445efacec75b8 Ahmad Fatoum        2021-01-29  702  			continue;
+0445efacec75b8 Ahmad Fatoum        2021-01-29  703  		if (len < 2 * sizeof(u32)) {
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  704  			dev_err(dev, "nvmem: invalid reg on %pOF\n", child);
+63879e2964bcee Christophe JAILLET  2021-06-11  705  			of_node_put(child);
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  706  			return -EINVAL;
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  707  		}
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  708  
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  709  		cell = kzalloc(sizeof(*cell), GFP_KERNEL);
+63879e2964bcee Christophe JAILLET  2021-06-11  710  		if (!cell) {
+63879e2964bcee Christophe JAILLET  2021-06-11  711  			of_node_put(child);
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  712  			return -ENOMEM;
+63879e2964bcee Christophe JAILLET  2021-06-11  713  		}
+
+Seems like "cell" is not used any more so this just leaks.
+
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  714  
+18f50dbcfd3676 Michael Walle       2022-11-23  715  		info.offset = be32_to_cpup(addr++);
+18f50dbcfd3676 Michael Walle       2022-11-23  716  		info.bytes = be32_to_cpup(addr);
+18f50dbcfd3676 Michael Walle       2022-11-23  717  		info.name = kasprintf(GFP_KERNEL, "%pOFn", child);
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  718  
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  719  		addr = of_get_property(child, "bits", &len);
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  720  		if (addr && len == (2 * sizeof(u32))) {
+18f50dbcfd3676 Michael Walle       2022-11-23  721  			info.bit_offset = be32_to_cpup(addr++);
+18f50dbcfd3676 Michael Walle       2022-11-23  722  			info.nbits = be32_to_cpup(addr);
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  723  		}
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  724  
+18f50dbcfd3676 Michael Walle       2022-11-23  725  		info.np = of_node_get(child);
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  726  
+18f50dbcfd3676 Michael Walle       2022-11-23  727  		ret = nvmem_add_one_cell(nvmem, &info);
+18f50dbcfd3676 Michael Walle       2022-11-23  728  		kfree(info.name);
+18f50dbcfd3676 Michael Walle       2022-11-23  729  		if (ret) {
+63879e2964bcee Christophe JAILLET  2021-06-11  730  			of_node_put(child);
+18f50dbcfd3676 Michael Walle       2022-11-23 @731  			return ret;
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  732  		}
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  733  	}
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  734  
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  735  	return 0;
+e888d445ac33a5 Bartosz Golaszewski 2018-09-21  736  }
 
 -- 
-Best Regards
- Guo Ren
+0-DAY CI Kernel Test Service
+https://01.org/lkp
+
