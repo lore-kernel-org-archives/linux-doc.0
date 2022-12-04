@@ -2,76 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7046FC47090
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Dec 2022 11:53:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BCB7C4708E
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Dec 2022 12:03:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229983AbiLDLxS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Dec 2022 06:53:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50184 "EHLO
+        id S229539AbiLDMDS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Dec 2022 07:03:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229931AbiLDLxQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Dec 2022 06:53:16 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC7C717E19;
-        Sun,  4 Dec 2022 03:53:13 -0800 (PST)
+        with ESMTP id S230029AbiLDMDR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Dec 2022 07:03:17 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 393AA1743D;
+        Sun,  4 Dec 2022 04:03:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670154793; x=1701690793;
+  t=1670155394; x=1701691394;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jQzlbHTQ+n+qWBppNHZKlWw7CJEnkbiDJkYh03GHNmc=;
-  b=KOmu2DvD4ganlNI45x/WNtHmQ2rfvKHkBkI/OLXKUtfss0/QpjvfhCbm
-   p8fqSa4TTNFgR9h0qtDi3wnryHYsNYxDG5MFLVJm1Xab/1VPqkmc2nB//
-   YXox4iMeV50xcWlSq2xUEOPRnAm/2UDJ32j2nI4Pz4cAdDo1RsOzsUaaU
-   H9/mBp3umUTs+KRLrpPIb8gPmPkPa/Vx01Wow+pSIybA8t9lbOhBPWTnY
-   vcgKniGuvgq44LdwlCngsQfgBrls7XYzlVA2EQRitPnmv4O3WtXfA6dTx
-   Un0cM3wo+sHvPAKDtTqVdq5pWkMVidYg3tqjNj4RwEDxzJd8z8VJLGCJO
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10550"; a="317333915"
+  bh=tEontwBJvREf0ihi9OEYWPT1ZuGB3b8ZXtpOEQEhJVk=;
+  b=WLfn5QnR87+L00j8MqeiFHbY5ly7XNLZFfa+oGjGnJEF7V0i2CpP3aTa
+   de4qEvVOL7jsmYPafGWOv+O1cpGLPsMRqqY+3nV6JG7R2ZQZpnqaSKNP2
+   MiwRUKzDvvbOXGsnkiK33q9wkT2J0fiKMO8SEVs+HI8EM54W/ZvNxZnMW
+   wxdjiynQ0S4AIYoiZtDXj3pbOmeeYL8h9AU4BkQIo2x0iHttSqsWz0SRS
+   ZzeZ+AoNS31VL+2Co3d+U0iCtPSweUvOTubSkFor13FXGP6P0/FY8Rd/L
+   1wJBpoTO53pzpA9JBtueD95qgtlH9xL52eLXBwhQCBqGYeETiUPQ6RPA5
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10550"; a="295888659"
 X-IronPort-AV: E=Sophos;i="5.96,217,1665471600"; 
-   d="scan'208";a="317333915"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2022 03:53:13 -0800
+   d="scan'208";a="295888659"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2022 04:03:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10550"; a="676298402"
+X-IronPort-AV: E=McAfee;i="6500,9779,10550"; a="645517697"
 X-IronPort-AV: E=Sophos;i="5.96,217,1665471600"; 
-   d="scan'208";a="676298402"
+   d="scan'208";a="645517697"
 Received: from lkp-server01.sh.intel.com (HELO 4d912534d779) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 04 Dec 2022 03:53:10 -0800
+  by orsmga002.jf.intel.com with ESMTP; 04 Dec 2022 04:03:10 -0800
 Received: from kbuild by 4d912534d779 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1p1nYU-0000lv-0N;
-        Sun, 04 Dec 2022 11:53:10 +0000
-Date:   Sun, 4 Dec 2022 19:52:09 +0800
+        id 1p1niA-0000mD-0r;
+        Sun, 04 Dec 2022 12:03:10 +0000
+Date:   Sun, 4 Dec 2022 20:02:17 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     Robert Schlabbach <robert_s@gmx.net>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [linux-next:master 10545/12617] htmldocs:
- Documentation/output/frontend.h.rst:6: WARNING: undefined label: fec-1-3 (if
- the link has no caption the label must precede a section header)
-Message-ID: <202212041959.Y2fRgy9r-lkp@intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+        Robert Hu <robert.hu@intel.com>,
+        Farrah Chen <farrah.chen@intel.com>,
+        Danmei Wei <danmei.wei@intel.com>, linux-doc@vger.kernel.org
+Subject: [kvm:queue 228/260] htmldocs: Documentation/virt/kvm/api.rst:7287:
+ WARNING: Block quote ends without a blank line; unexpected unindent.
+Message-ID: <202212041933.aBJnZNj5-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="Jl6nBhegsy9/QjrU"
+Content-Type: multipart/mixed; boundary="chS4zkEqh5DC1wO1"
 Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---Jl6nBhegsy9/QjrU
+--chS4zkEqh5DC1wO1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   5be860bfc73408bc1a8af9167955e480ecebba84
-commit: 6508a50fe84f9858e8b59b53dce3847aaeeab744 [10545/12617] media: dvb: add DVB-C2 and DVB-S2X parameter values
+tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+head:   5656374b168c98377b6feee8d7500993eebda230
+commit: 1f158147181b83c5ae02273d0b3b9eddaebcc854 [228/260] KVM: x86: Clean up KVM_CAP_X86_USER_SPACE_MSR documentation
 reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=6508a50fe84f9858e8b59b53dce3847aaeeab744
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 6508a50fe84f9858e8b59b53dce3847aaeeab744
+        # https://git.kernel.org/pub/scm/virt/kvm/kvm.git/commit/?id=1f158147181b83c5ae02273d0b3b9eddaebcc854
+        git remote add kvm https://git.kernel.org/pub/scm/virt/kvm/kvm.git
+        git fetch --no-tags kvm queue
+        git checkout 1f158147181b83c5ae02273d0b3b9eddaebcc854
         make menuconfig
         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
         make htmldocs
@@ -81,21 +80,23 @@ If you fix the issue, kindly add following tag where applicable
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/output/frontend.h.rst:6: WARNING: undefined label: fec-1-3 (if the link has no caption the label must precede a section header)
->> Documentation/output/frontend.h.rst:6: WARNING: undefined label: apsk-8-l (if the link has no caption the label must precede a section header)
->> Documentation/output/frontend.h.rst:6: WARNING: undefined label: apsk-64 (if the link has no caption the label must precede a section header)
->> Documentation/output/frontend.h.rst:6: WARNING: undefined label: qam-1024 (if the link has no caption the label must precede a section header)
->> Documentation/output/frontend.h.rst:6: WARNING: undefined label: guard-interval-1-64 (if the link has no caption the label must precede a section header)
->> Documentation/output/frontend.h.rst:6: WARNING: undefined label: rolloff-15 (if the link has no caption the label must precede a section header)
->> Documentation/output/frontend.h.rst:6: WARNING: undefined label: sys-dvbc2 (if the link has no caption the label must precede a section header)
+>> Documentation/virt/kvm/api.rst:7287: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-vim +6 Documentation/output/frontend.h.rst
+vim +7287 Documentation/virt/kvm/api.rst
+
+  7283	
+  7284		KVM_MSR_EXIT_REASON_UNKNOWN - intercept accesses to unknown (to KVM) MSRs
+  7285		KVM_MSR_EXIT_REASON_INVAL   - intercept accesses that are architecturally
+  7286	                                invalid according to the vCPU model and/or mode
+> 7287		KVM_MSR_EXIT_REASON_FILTER  - intercept accesses that are denied by userspace
+  7288	                                via KVM_X86_SET_MSR_FILTER
+  7289	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---Jl6nBhegsy9/QjrU
+--chS4zkEqh5DC1wO1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -1727,4 +1728,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---Jl6nBhegsy9/QjrU--
+--chS4zkEqh5DC1wO1--
