@@ -2,83 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C171C4321E
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Dec 2022 05:50:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5598BC4332F
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Dec 2022 08:33:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229630AbiLDFuZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Dec 2022 00:50:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44106 "EHLO
+        id S229765AbiLDIdI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Dec 2022 03:33:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229579AbiLDFuY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Dec 2022 00:50:24 -0500
-Received: from xry111.site (xry111.site [89.208.246.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B292D18349;
-        Sat,  3 Dec 2022 21:50:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
-        s=default; t=1670133022;
-        bh=d5CBndCz5Aq6+L0ashGvauRZhtuj3uLvYtyZUaEAr9E=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=KcC1zQ3KQ4RBSPVPLgtbyGbbp7R0ByHq2cOFksZhjkxDhqfyumagsUhBCvoGEL71K
-         IIvn6V/NaJinAhJ5Nq+KvX6fBZsBxk7brR/FKvyBgWf73nUjEQERwtqRvhfPvZ1OvK
-         doSQEp/g+hS4rM1ubiHyVIiFWWHnNAi0yoVti8vc=
-Received: from localhost.localdomain (xry111.site [IPv6:2001:470:683e::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
-        (Client did not present a certificate)
-        (Authenticated sender: xry111@xry111.site)
-        by xry111.site (Postfix) with ESMTPSA id 5287B66764;
-        Sun,  4 Dec 2022 00:50:21 -0500 (EST)
-Message-ID: <413486cc20a6f822362419d51f83dfd508b5021a.camel@xry111.site>
-Subject: Re: [PATCH 0/2] Update links of LoongArch ISA Vol1 and ELF psABI
-From:   Xi Ruoyao <xry111@xry111.site>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <kernel@xen0n.name>
-Cc:     loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Sun, 04 Dec 2022 13:50:19 +0800
-In-Reply-To: <87h6ycoist.fsf@meer.lwn.net>
-References: <1669892345-7763-1-git-send-email-yangtiezhu@loongson.cn>
-         <87h6ycoist.fsf@meer.lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.0 
+        with ESMTP id S229539AbiLDIdH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Dec 2022 03:33:07 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C6D3F581;
+        Sun,  4 Dec 2022 00:33:06 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 24A24B8069A;
+        Sun,  4 Dec 2022 08:33:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4446C43470;
+        Sun,  4 Dec 2022 08:33:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670142783;
+        bh=cmjY5oszLL7IRjxDpwx8/GqvDU1hN+fhIgQ9aF+UIUw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Uvd5hYbtk/8v0q44tA1WFnaaNVso30QVka3cc23N+E6jBeX49qGYiC0mrGX+MjVP6
+         DsnDfEUHCU1m3kf6+IZTU5Wglymllf4ayCV37NuJurBpdJjnRliAMihMXL0vPGkV8E
+         ttwJBz1t5Fh8HVicTs+cwrl6Q2PGR/7UruWTgEjUe7rGmjULJUNSSd6or4HnyY24Tj
+         lLHswewTYPdFw6n6orP4N+L0fl8HtbiEclZPGXreKThgj4I52cYB4w22KXhibiLsDW
+         rAk0CFgKhdeFpfn5zisCNQr1Bac5Mr4OIzN8E2DrsKfvnmy8Pnl71n9p4t1GjzzsN2
+         BViO+4oXvjvXg==
+Received: by mail-ej1-f50.google.com with SMTP id o13so21062163ejm.1;
+        Sun, 04 Dec 2022 00:33:03 -0800 (PST)
+X-Gm-Message-State: ANoB5pmppjdWAOgkBjaCG9SkYs+a92IuPvSEx24i+KH4SErTTeb616aW
+        XLiZy0YHMKPkd7iBuT3ZTg3C1UMkMcUf44+rfOQ=
+X-Google-Smtp-Source: AA0mqf58+X/wXxb7q0m22yo39wScLYrmU5UKy4nZGHPlOQ3YaxDJRvaVlpR6W95uXnCBzLHd2MBQsXtg/OUIRuKl0Mk=
+X-Received: by 2002:a17:907:9951:b0:7b2:7e7a:11c1 with SMTP id
+ kl17-20020a170907995100b007b27e7a11c1mr49182169ejc.684.1670142781798; Sun, 04
+ Dec 2022 00:33:01 -0800 (PST)
 MIME-Version: 1.0
+References: <1669892345-7763-1-git-send-email-yangtiezhu@loongson.cn>
+In-Reply-To: <1669892345-7763-1-git-send-email-yangtiezhu@loongson.cn>
+From:   Huacai Chen <chenhuacai@kernel.org>
+Date:   Sun, 4 Dec 2022 16:32:46 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H6ayYzo-khc3ephhw2jAcjtdyckdTXahjS8twpHxQQNAg@mail.gmail.com>
+Message-ID: <CAAhV-H6ayYzo-khc3ephhw2jAcjtdyckdTXahjS8twpHxQQNAg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Update links of LoongArch ISA Vol1 and ELF psABI
+To:     Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc:     WANG Xuerui <kernel@xen0n.name>, Jonathan Corbet <corbet@lwn.net>,
+        loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 2022-12-03 at 03:58 -0700, Jonathan Corbet wrote:
-> Tiezhu Yang <yangtiezhu@loongson.cn> writes:
->=20
-> > Tiezhu Yang (2):
-> > =C2=A0=C2=A0 docs/LoongArch: Update links of LoongArch ISA Vol1 and ELF=
- psABI
-> > =C2=A0=C2=A0 docs/zh_CN/LoongArch: Update links of LoongArch ISA Vol1 a=
-nd ELF psABI
-> >=20
-> > =C2=A0 Documentation/loongarch/introduction.rst=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 8 ++++----
-> > =C2=A0 Documentation/translations/zh_CN/loongarch/introduction.rst | 8 =
-++++----
-> > =C2=A0 2 files changed, 8 insertions(+), 8 deletions(-)
->=20
-> I've applied these - working links are better than broken ones.=C2=A0 I
-> assume, though, that the new URLs, too, will break the next time the
-> manual is updated?=C2=A0 Is there any chance Loongson could provide a sta=
-ble
-> URL for the current version of this manual instead?
+For the whole series,
+Acked-by: Huacai Chen <chenhuacai@loongson.cn>
 
-Use a URL with tag name instead of "latest", like
-
-https://github.com/loongson/LoongArch-Documentation/releases/download/2022.=
-08.12/LoongArch-Vol1-v1.02-CN.pdf
-
-It will still refer to an outdated doc if the doc is updated, but at
-least it won't be broken.
-
---=20
-Xi Ruoyao <xry111@xry111.site>
-School of Aerospace Science and Technology, Xidian University
+On Thu, Dec 1, 2022 at 6:59 PM Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+>
+> Tiezhu Yang (2):
+>   docs/LoongArch: Update links of LoongArch ISA Vol1 and ELF psABI
+>   docs/zh_CN/LoongArch: Update links of LoongArch ISA Vol1 and ELF psABI
+>
+>  Documentation/loongarch/introduction.rst                    | 8 ++++----
+>  Documentation/translations/zh_CN/loongarch/introduction.rst | 8 ++++----
+>  2 files changed, 8 insertions(+), 8 deletions(-)
+>
+> --
+> 2.1.0
+>
