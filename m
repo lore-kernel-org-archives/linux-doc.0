@@ -2,162 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD4F5C4321E
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Dec 2022 16:15:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FAF0C4321E
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Dec 2022 17:11:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230140AbiLDQPU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Dec 2022 11:15:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41130 "EHLO
+        id S229954AbiLDRL6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Dec 2022 12:11:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230152AbiLDQPS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Dec 2022 11:15:18 -0500
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A01E14088
-        for <linux-doc@vger.kernel.org>; Sun,  4 Dec 2022 08:15:17 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id a14so5161973pfa.1
-        for <linux-doc@vger.kernel.org>; Sun, 04 Dec 2022 08:15:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=svRUdELzl130u78ZHoVrQ8kLS3/B/K+fs5QOXxsPpJs=;
-        b=CrJxh2mLnr2Kc1c43TsZ5hHQRYXrbNQuNpWgBlRAvtB/ZBHABi5itLHDIbZd9ExahR
-         3YhQ/UvkZtGBvY2umOJvuIjTbtfwpJVuACQgmYsiIFvBCm8OMQ9nQcISiO/c1kTwDUFb
-         5YK2bw4i6KPFIMryLYNRkzut5BKoOOW7855jORF73gHk67NU1Lb+PjeQX16PBo8F6vrJ
-         EqCEfGdMdTesLZ0vAlCC9I/lmpri57kmdp1Jv/+R1qNOJaOEdq+bACUBpqwWHURkDW/+
-         pV0OhPAxrXggkfQmCHVVuyH1zHQ+E2N0SbOEgaTovcU1BNRjQgD27KP7d1RX6X5q+7Y0
-         Iwjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=svRUdELzl130u78ZHoVrQ8kLS3/B/K+fs5QOXxsPpJs=;
-        b=pKfFyJxZvhT1BII+GXP4I+2qCdGYaoD7s7BO2KcQRtUMIAIWReymZBb5k+i4ZtC91s
-         KQExmK5vjrDeJI/7yg8IccU1hSCwb0Wbokoch+K4irlAW0OAUrGfG+GyQAOSUJu5mFpx
-         XZ/7yFp2YX0f+2g5sSDXISZG9BWjN0V7EZ9W8k5zGwEOEfeQ46+dkMFaIXObIa12KBOt
-         jtt2T3nrjQzqSlHtrgPmLJl3qdWvF60m4ggxP0v1pbGgkJ98MaZkOO5TJjfvqF6a40/w
-         goaD7fdql6a42gv7SI//fR615AndDDRhHYlUSGv8NLipbQryj9U9W9gYYzGcxRoTEes9
-         H62A==
-X-Gm-Message-State: ANoB5pnlfGqoqnGyrw5WS6oz6KU4ujX3oguw0ngas86Mq0IW+AU0AKAw
-        MsQxezWNFwnY9BMexjzGZeyLhw==
-X-Google-Smtp-Source: AA0mqf697SbKrqDrxqm/6K/eBjLuuHJ5KWVPXCJa7SzwMYf019swaV3VwP+EN36vxJGvS2skm/TMSA==
-X-Received: by 2002:a63:1f63:0:b0:460:ec46:3645 with SMTP id q35-20020a631f63000000b00460ec463645mr73298033pgm.92.1670170516616;
-        Sun, 04 Dec 2022 08:15:16 -0800 (PST)
-Received: from Tower.bytedance.net ([139.177.225.248])
-        by smtp.gmail.com with ESMTPSA id n16-20020a170903111000b0016cf3f124e1sm9000323plh.234.2022.12.04.08.15.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Dec 2022 08:15:16 -0800 (PST)
-From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
-To:     mhocko@suse.com, akpm@linux-foundation.org
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, wuyun.abel@bytedance.com,
-        Zhongkun He <hezhongkun.hzk@bytedance.com>
-Subject: [PATCH 3/3] mm: add __rcu symbol for task->mempolicy
-Date:   Mon,  5 Dec 2022 00:14:32 +0800
-Message-Id: <20221204161432.2149375-4-hezhongkun.hzk@bytedance.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221204161432.2149375-1-hezhongkun.hzk@bytedance.com>
-References: <20221204161432.2149375-1-hezhongkun.hzk@bytedance.com>
-MIME-Version: 1.0
+        with ESMTP id S229949AbiLDRL5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Dec 2022 12:11:57 -0500
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01olkn2079.outbound.protection.outlook.com [40.92.52.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1238612A8C;
+        Sun,  4 Dec 2022 09:11:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hO371UINyFLpM4YvtDQ7JsluBEkY5vHNbo3Fr/TPETb/2EJzIMwquVZCs8v8Xz3Xha5hpWXKZbwruru8m6I5B4QCRjy7L6pJFPayvYoIBBJY1UHAgi0uWlNFMvgyEyMzorBrBHp0V13UEkAECtf3jJsgeVoA7lpvUdn81xY4myn+/WXLmTD0Ju2LVg9Koy7nvhlnT2INnRidTVLiUQ6mmYficWNrv+7B+kUoUBqvNvludTYB9Wu1YJRFLSQniHW68P5UvorvhyXvIl+TvTwzzrpHZRRF8N64b6Qw6J2nkeh13MLEXhhgRTMj38wQUebjhdKMd0qyRJR11oGNRDVUvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hzxoiPA7+XUkBdGacXVr8b3uRRVKpmaGFJzlxuHlg2E=;
+ b=eHJzt4P6ZNWTCJVSzVqQxTqsifeaf+Dr7hJA9ZOzinuHZ1B168biNhwW2GNqVDkvxUefAC3++/7bQHTkpqWBCeyHUaqgcWR3AvH4LsW49b5LGLwn5iAlCzg9Heu7xH6bYTVH7SQC79RJFN8GqmQUyXk6FUjJBwEGndjHlE2OrxG3rqh0EaHaTOXiIP7C7ALELs3IkZ45gjXjiIOF3/dS/WKX4sLdRh2MjwV/HNTI7XWE9EsABVoDocxnFfFzlAFdzsogwe8nDk3mkWw2+Jmd8HS19trjk4/UG7EnrRtmB+1XA0jbyvYtPx5RJ5MCLMwOPLT43yfPKp97WVfAbtz/hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hzxoiPA7+XUkBdGacXVr8b3uRRVKpmaGFJzlxuHlg2E=;
+ b=vMndUFmeqPHS0I7emGMnFPZzVys34+tTx/sqfJF8Oqme1xZp6R0bUBJKSSn13qDw+I8V76GwKm+/EwG58DjMgAv4+0k7DbFIPNozXajSWhQpJxNUlYsd/smdX2tohc6hPsLha6GA4laNmcCdihWqmSp5ks5k8nGlKgxfCAA1lwhOdv6yAVVLFCfgVz5OSFeaIlKUxaFZbt1D+m/a8u31f1CYe3X6GfMuArMP156egynRJuc1Uek78M9oR/v8ZrjDUqoHOep8FppqyyzTAgp1qaC3uIx6T0/xKYxCbCk6l3GX2jRxGEnWHVKk3IVcnQdgMJfWEjRpbOnTSAU/AIm2tA==
+Received: from HK0PR01MB2801.apcprd01.prod.exchangelabs.com
+ (2603:1096:203:95::22) by KL1PR01MB4669.apcprd01.prod.exchangelabs.com
+ (2603:1096:820:c4::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.8; Sun, 4 Dec
+ 2022 17:11:52 +0000
+Received: from HK0PR01MB2801.apcprd01.prod.exchangelabs.com
+ ([fe80::483e:25f7:b655:9528]) by HK0PR01MB2801.apcprd01.prod.exchangelabs.com
+ ([fe80::483e:25f7:b655:9528%6]) with mapi id 15.20.5880.013; Sun, 4 Dec 2022
+ 17:11:52 +0000
+From:   Kushagra Verma <kushagra765@outlook.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: mm: Fixed a typo in balance.rst
+Date:   Sun,  4 Dec 2022 22:41:27 +0530
+Message-ID: <HK0PR01MB28010D0398A34AD3031CE42EF8199@HK0PR01MB2801.apcprd01.prod.exchangelabs.com>
+X-Mailer: git-send-email 2.38.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN:  [VIJDzyOm0Y7o81dZ7jejOB3uJcjcvlZ83JT5GofIGWgsjoBcykiAcTgcOAyWFwFgin+hNsnx5hk=]
+X-ClientProxiedBy: PN3PR01CA0057.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:99::8) To HK0PR01MB2801.apcprd01.prod.exchangelabs.com
+ (2603:1096:203:95::22)
+X-Microsoft-Original-Message-ID: <20221204171127.11269-1-kushagra765@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: HK0PR01MB2801:EE_|KL1PR01MB4669:EE_
+X-MS-Office365-Filtering-Correlation-Id: fd16557b-d386-4df3-0d0c-08dad61aa322
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: f/G+erGN5cKVxwEShY2Dw+p/snpVwzGVHt0h7YnapgB2/QfpuHIPflto7wz1crzMm2qN4aQEcGi36KVnL1gAsLN2anuRUY9aZXHpUhmSXe0SXVzct05Ec9ZffwulFQ7Qnne1yf+r+j10gEZmFOdiuCB9ZK+LcXIIIQdcFNzQAG3sCzwrMcPyBdAtkGJDmW+L8eUL2BOkdi2ljlavkqykyESbmFHRtocUf3rJwF+Jn6u/77V39VCcQl4c01BN2y5tHbI430r6u02rXT2HaeLlexDuDXvsNNKsRY9ClrKUfoP/+I0+pRndMMgqMzTonq8utAoApVWd9DOFJG767SpORv1yLVPPIpG0Trd+q4T/Dg1LBLYP9Xb7sVJvE8+XDeaf3sic7QdhHG0AvN4891MnDShcl0uMiEtuyMNYgY/BUIog89YJYBTz98PIiVhtgI2wYeEfZmKf56wJKaSR4RwsujsJiK8GODgDC/GUierfkC+QHX9dhd1UTANiWibVm9jh6+pMNLlhhoBijI5GBamGEsfs3PkPQOfyVJyGaZ/8EaWShk6YTcKnx7ZxLx6d8/JL440mLlA+g6bPMyKj02/C1wbnVNA8HBoSQenyNsD9lbI=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aDIvKLPWcFolvPclT6owfDSzL6Efa82Pz4f8fYiXefSJma0NedcPCkCBqyAQ?=
+ =?us-ascii?Q?bLEN9ATRSUvqmHYNgjzNI9xlrZZ0sBQSUY/wSvrVMK0gC4xv3dIPPguo9Bup?=
+ =?us-ascii?Q?00eKUmabFJDFfEDulxONOcmjyfBTxXlghap0xRjXa19fMjlfTr/HHWdMZcTm?=
+ =?us-ascii?Q?Jup1tJ0avoOIKxbPGm7wuwJ4XVl+vZ1jWr44IQLNkYk0wgMspLL+5Kg8hBd+?=
+ =?us-ascii?Q?Sa4F1SsiEir59ar3xvXD1UdPcSCmmNabfvuUFXZdIlvIrNPo42oV9/vDh4um?=
+ =?us-ascii?Q?ec+a2d3yhDTHZQw8/1X5ZzhcRHxYJwyOW59CI4Y2Xyl0apuahUhhZBzNiTF8?=
+ =?us-ascii?Q?UPUmcfjw8alJ631d0zvCdsZxPRwEJLmMWl1GbhDqA+T+dZzxHKDHCi/GzWAI?=
+ =?us-ascii?Q?PznJwg5f9IKQEcZcdMVJNq0ywsS7JwwBOYIO6UwFSmA6ix7zhpdMcUqY6SBg?=
+ =?us-ascii?Q?cKkc63OFF+YYYx/pHjipp98dXa4AVpgTZSBZBmbOlxn1IgR302RmEXKJ/CdN?=
+ =?us-ascii?Q?+cpk3dGkNF7ChzJVjKtoLnD5UlnGbuKkUCaJGJT9VPZtGx0wI/esDkg/qZC7?=
+ =?us-ascii?Q?I4pgHmuxHK/OS5NwUvbhXDOdFsu+QoCQCIAUAie6aCn6b//x/qEBUHzepR99?=
+ =?us-ascii?Q?p6VCUkChTbqKkbGo1XTCY1qLz/DEFJ0domivKq0BtfEcMM70BKJCwd1rt2WR?=
+ =?us-ascii?Q?I/k3y7erNRv86WnEIfh/XDvQ7vGWaXCwUPklP5JDsLZeC+fCD2l1X8vM8QmX?=
+ =?us-ascii?Q?robiQSMwBeqcd6n5ZKZWq6PPUz2DLG/rxHwA50P9xN9e01F4dOPobd5QZZ9b?=
+ =?us-ascii?Q?eVn17gunQqKkt6qhMldhM3TwCiaESFy9XS44BWGZlVrlp6GoqWnTVkROPwTy?=
+ =?us-ascii?Q?aKjG8AKCZ9KcmfTF6WFHxO3kCMKuqak613V/jWXw8R4nBeRWpiWhu+3mk2hE?=
+ =?us-ascii?Q?RS7XmZl2oQK3Y2oUgX3xfgE+bjKP/ZH/dpKcmv+2Vbid3oWsdIyvLJ666pKM?=
+ =?us-ascii?Q?E3lcOry8ckV67L7CzX3HH1tQRHQ+WH7bWtcsFCCKUkZmuBI2iDmJqFh0XwiD?=
+ =?us-ascii?Q?HkOlDgpE8p+lZ8+s5HmyelmwghPRVTQi0WrrQA2sScI0+TF83n09nnTr+nmP?=
+ =?us-ascii?Q?lJDyn2ox5DhTAzT+kYydGLSKHycb/1NC8VMv1xjosyIBwoAml3QAwnNRp/93?=
+ =?us-ascii?Q?o7NPy8r0XpKgxWVGSD+PEfGUyt4ruia/7MTCOCid8y8RHytHLWnEH9I034r4?=
+ =?us-ascii?Q?hGrgdv5hg7I/KS4JNJXcSDxJ48WY8VbY9+UCxX++G0DYxfl6Eg3H/jpEvzbO?=
+ =?us-ascii?Q?u37QkrJyiH2dtOAea9miXjr2jcA3JmCoN9MAQXwQc53cIqrTK8l6qDMNfuOW?=
+ =?us-ascii?Q?iCBkVVU=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd16557b-d386-4df3-0d0c-08dad61aa322
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR01MB2801.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2022 17:11:52.5132
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR01MB4669
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The task->mempolicy is protected by task_lock in slow path,
-but there is no locking and reference in hot path for performance.
-It will be difficult if other processes want to adjust it.
-It is for these reasons to add __rcu symbol for task mempolicy.
-There is no need to add RCU protection to vma mempolicy, which
-is protected by mmap_lock.
+Fixed a typo in the word 'watermark'.
 
-Suggested-by: Michal Hocko <mhocko@suse.com>
-Signed-off-by: Zhongkun He <hezhongkun.hzk@bytedance.com>
+Signed-off-by: Kushagra Verma <kushagra765@outlook.com>
 ---
- include/linux/sched.h | 2 +-
- mm/mempolicy.c        | 9 ++++-----
- mm/slab.c             | 5 +++--
- 3 files changed, 8 insertions(+), 8 deletions(-)
+ Documentation/mm/balance.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index ffb6eb55cd13..c8a297ca61ab 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1252,7 +1252,7 @@ struct task_struct {
- #endif
- #ifdef CONFIG_NUMA
- 	/* Protected by alloc_lock: */
--	struct mempolicy		*mempolicy;
-+	struct mempolicy __rcu		*mempolicy;
- 	short				il_prev;
- 	short				pref_node_fork;
- #endif
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index 0feffb7ff01e..837083fff9c8 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -894,8 +894,7 @@ static long do_set_mempolicy(unsigned short mode, unsigned short flags,
- 		goto out;
- 	}
+diff --git a/Documentation/mm/balance.rst b/Documentation/mm/balance.rst
+index 6a1fadf3e173..3cab51dbe649 100644
+--- a/Documentation/mm/balance.rst
++++ b/Documentation/mm/balance.rst
+@@ -83,7 +83,7 @@ Page stealing from process memory and shm is done if stealing the page would
+ alleviate memory pressure on any zone in the page's node that has fallen below
+ its watermark.
  
--	old = current->mempolicy;
--	current->mempolicy = new;
-+	old = rcu_replace_pointer(current->mempolicy, new, true);
- 	if (new && new->mode == MPOL_INTERLEAVE)
- 		current->il_prev = MAX_NUMNODES-1;
- 	task_unlock(current);
-@@ -999,7 +998,7 @@ static long do_get_mempolicy(int *policy, nodemask_t *nmask,
- 			if (err < 0)
- 				goto out;
- 			*policy = err;
--		} else if (pol == current->mempolicy &&
-+		} else if (pol == rcu_access_pointer(current->mempolicy) &&
- 				pol->mode == MPOL_INTERLEAVE) {
- 			*policy = next_node_in(current->il_prev, pol->nodes);
- 		} else {
-@@ -2065,7 +2064,7 @@ bool init_nodemask_of_mempolicy(nodemask_t *mask)
- {
- 	struct mempolicy *mempolicy;
- 
--	if (!(mask && current->mempolicy))
-+	if (!(mask && rcu_access_pointer(current->mempolicy)))
- 		return false;
- 
- 	task_lock(current);
-@@ -2426,7 +2425,7 @@ struct mempolicy *__mpol_dup(struct mempolicy *old)
- 		return ERR_PTR(-ENOMEM);
- 
- 	/* task's mempolicy is protected by alloc_lock */
--	if (old == current->mempolicy) {
-+	if (old == rcu_access_pointer(current->mempolicy)) {
- 		task_lock(current);
- 		*new = *old;
- 		task_unlock(current);
-diff --git a/mm/slab.c b/mm/slab.c
-index 59c8e28f7b6a..f205869d6c36 100644
---- a/mm/slab.c
-+++ b/mm/slab.c
-@@ -3052,7 +3052,7 @@ static void *alternate_node_alloc(struct kmem_cache *cachep, gfp_t flags)
- 	nid_alloc = nid_here = numa_mem_id();
- 	if (cpuset_do_slab_mem_spread() && (cachep->flags & SLAB_MEM_SPREAD))
- 		nid_alloc = cpuset_slab_spread_node();
--	else if (current->mempolicy)
-+	else if (rcu_access_pointer(current->mempolicy))
- 		nid_alloc = mempolicy_slab_node();
- 	if (nid_alloc != nid_here)
- 		return ____cache_alloc_node(cachep, flags, nid_alloc);
-@@ -3188,7 +3188,8 @@ __do_cache_alloc(struct kmem_cache *cachep, gfp_t flags, int nodeid)
- 	int slab_node = numa_mem_id();
- 
- 	if (nodeid == NUMA_NO_NODE) {
--		if (current->mempolicy || cpuset_do_slab_mem_spread()) {
-+		if (rcu_access_pointer(current->mempolicy) ||
-+				cpuset_do_slab_mem_spread()) {
- 			objp = alternate_node_alloc(cachep, flags);
- 			if (objp)
- 				goto out;
+-watemark[WMARK_MIN/WMARK_LOW/WMARK_HIGH]/low_on_memory/zone_wake_kswapd: These
++watermark[WMARK_MIN/WMARK_LOW/WMARK_HIGH]/low_on_memory/zone_wake_kswapd: These
+ are per-zone fields, used to determine when a zone needs to be balanced. When
+ the number of pages falls below watermark[WMARK_MIN], the hysteric field
+ low_on_memory gets set. This stays set till the number of free pages becomes
 -- 
-2.25.1
+2.38.1
 
