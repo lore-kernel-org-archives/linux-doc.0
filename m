@@ -2,655 +2,384 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB455C4332F
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Dec 2022 12:19:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA7CC4321E
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Dec 2022 16:14:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230101AbiLDMTS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Dec 2022 07:19:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35740 "EHLO
+        id S229785AbiLDQO3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Dec 2022 11:14:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbiLDMTR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Dec 2022 07:19:17 -0500
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9E2FE13F95;
-        Sun,  4 Dec 2022 04:19:14 -0800 (PST)
-Received: from loongson.cn (unknown [113.200.148.30])
-        by gateway (Coremail) with SMTP id _____8CxKelBkIxjNRYDAA--.4014S3;
-        Sun, 04 Dec 2022 20:19:13 +0800 (CST)
-Received: from linux.localdomain (unknown [113.200.148.30])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxbuA8kIxjkmMlAA--.26442S4;
-        Sun, 04 Dec 2022 20:19:11 +0800 (CST)
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] Documentation/features: Use loongarch instead of loong
-Date:   Sun,  4 Dec 2022 20:18:47 +0800
-Message-Id: <1670156327-9631-3-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <1670156327-9631-1-git-send-email-yangtiezhu@loongson.cn>
-References: <1670156327-9631-1-git-send-email-yangtiezhu@loongson.cn>
-X-CM-TRANSID: AQAAf8DxbuA8kIxjkmMlAA--.26442S4
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBjvAXoWfCF45ZrW7XFW5GrW8tw43Wrg_yoW8KFWUZo
-        ZavFWI934Dur1UX3Z5t342y34xJr1ftrs3A3yxGa15GrW7tF429Fy8u3WIqasFqr93Wryf
-        JrW0k3s8XF18Ganrn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
-        J3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJU
-        UUkFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s
-        0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-        Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
-        ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
-        M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4
-        xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVWUJVW8
-        JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I
-        8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AK
-        xVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
-        AFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8I
-        cIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r
-        1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j0dgAUUUUU=
+        with ESMTP id S229638AbiLDQO3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Dec 2022 11:14:29 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58F5B12D04
+        for <linux-doc@vger.kernel.org>; Sun,  4 Dec 2022 08:14:27 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id b21so8765788plc.9
+        for <linux-doc@vger.kernel.org>; Sun, 04 Dec 2022 08:14:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lGtwndgI8UEqPOO0PnTJqltJ8cF0ZzIkZVGVoqx5g7U=;
+        b=S0Ssw7m4ARRRMu6nW+Kva05PXKWvf3Acb9LK+/1Lzo0yS1urLj4vk42azWsOYQ9Mk/
+         vvgKvSKyOcbYvAexkvypjjQmxY++qgHnSFy3MvAWiH11SO7bGxPjPcUcIb+rp3mK6Jzj
+         C1tzmjY+3x8CS19H+EX5X7k9ob7kvqxiAT1nRj7OTDvHraIRpoMmC9X2Hq6hFydwsqTR
+         DH2LoqxHSAPr2ANb1nWI2JJyLA/V5QOSZdfdiMNs07UruRG1cGgztWOcxfIkOY8k5kmz
+         qQqlMJ4ioaaOQ3JF/LU8C3DtpdRIsiXTw/cwDrfrRglzMiCaXwhFHbEfIa0q861c/8XF
+         Bj7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lGtwndgI8UEqPOO0PnTJqltJ8cF0ZzIkZVGVoqx5g7U=;
+        b=tyWp5HEPJMMmshs+0fxZmLa9lbP2qjVeKR1BTpwSGAHsJKH3V8xlCFiQUMdheZ9SsD
+         L6+RYDh5YdvWWShfwIo6qH+2XKv54LOO3W7sU8x01u2a5I0QxJD/hpxd53pcfOq4ci6B
+         xy0FxuUWRmTvSjG6cmwRhZNES7XS+p8j+7ldOHNPsfls4B60PQanK3KCstScUXLW1Ny/
+         zhO1QOZ2W0Zs8RhiIzCE5ojz07sY2eMJibIEbZfJLfmiAfsAZgW1edtj2EkMTkYIZmyx
+         MJwLalYni7R1cz24DzkpGY8/ahC6UdqHxg4rU5/7FpRg8igC2krEDZU8sWTL0GpMt4bj
+         48zw==
+X-Gm-Message-State: ANoB5pkGG8AS5RAwt/hA88/mTLwS8vGs4e6Kdb/PK8VbV/3N8jVpM+sM
+        4hz22XpwwtpeISSMk+zhFqOT4g==
+X-Google-Smtp-Source: AA0mqf6DgK4LnvIuxU4aE0M808KiJy5SK/exM7V/gZ3r5yAsh/0gzfLzHvsgZX1lH+4WUu9xA/vCbg==
+X-Received: by 2002:a17:902:ef44:b0:189:6793:644f with SMTP id e4-20020a170902ef4400b001896793644fmr44945148plx.38.1670170466768;
+        Sun, 04 Dec 2022 08:14:26 -0800 (PST)
+Received: from Tower.bytedance.net ([139.177.225.248])
+        by smtp.gmail.com with ESMTPSA id n16-20020a170903111000b0016cf3f124e1sm9000323plh.234.2022.12.04.08.14.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Dec 2022 08:14:26 -0800 (PST)
+From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
+To:     mhocko@suse.com, akpm@linux-foundation.org
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, wuyun.abel@bytedance.com,
+        Zhongkun He <hezhongkun.hzk@bytedance.com>
+Subject: [PATCH 0/3] mm: replace atomic_t with percpu_ref in mempolicy.
+Date:   Mon,  5 Dec 2022 00:14:29 +0800
+Message-Id: <20221204161432.2149375-1-hezhongkun.hzk@bytedance.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The official arch name is LoongArch [1], we should use small letter
-loongarch instead of loong in Documentation/features, just use the
-features-refresh.sh to refresh all the related files.
+All vma manipulation is somewhat protected by a down_read on
+mmap_lock, so vma mempolicy is clear to obtain a reference.
+But there is no locking in process context and have a mix
+of reference counting and per-task requirements which is rather
+subtle and easy to get wrong.
 
-[1] https://www.kernel.org/doc/html/latest/loongarch/index.html
+we would have get_vma_policy() always returning a reference
+counted policy, except for static policy. For better performance,
+we replace atomic_t ref with percpu_ref in mempolicy, which is
+usually the performance bottleneck in hot path.
 
-Fixes: 5860800e8696 ("Documentation/features: Update the arch support status files")
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+This series adjust the reference of mempolicy in process context,
+which will be protected by RCU in read hot path. Besides,
+task->mempolicy is also protected by task_lock(). Percpu_ref
+is a good way to reduce cache line bouncing.
+
+The mpol_get/put() can just increment or decrement the local
+counter. Mpol_kill() must be called to initiate the destruction
+of mempolicy. A mempolicy will be freed when the mpol_kill()
+is called and the reference count decrese to zero.
+
+Suggested-by: Michal Hocko <mhocko@suse.com>
+Signed-off-by: Zhongkun He <hezhongkun.hzk@bytedance.com>
 ---
- Documentation/features/core/cBPF-JIT/arch-support.txt              | 2 +-
- Documentation/features/core/eBPF-JIT/arch-support.txt              | 2 +-
- Documentation/features/core/generic-idle-thread/arch-support.txt   | 2 +-
- Documentation/features/core/jump-labels/arch-support.txt           | 2 +-
- Documentation/features/core/thread-info-in-task/arch-support.txt   | 2 +-
- Documentation/features/core/tracehook/arch-support.txt             | 2 +-
- Documentation/features/debug/KASAN/arch-support.txt                | 2 +-
- Documentation/features/debug/debug-vm-pgtable/arch-support.txt     | 2 +-
- Documentation/features/debug/gcov-profile-all/arch-support.txt     | 2 +-
- Documentation/features/debug/kcov/arch-support.txt                 | 2 +-
- Documentation/features/debug/kgdb/arch-support.txt                 | 2 +-
- Documentation/features/debug/kmemleak/arch-support.txt             | 2 +-
- Documentation/features/debug/kprobes-on-ftrace/arch-support.txt    | 2 +-
- Documentation/features/debug/kprobes/arch-support.txt              | 2 +-
- Documentation/features/debug/kretprobes/arch-support.txt           | 2 +-
- Documentation/features/debug/optprobes/arch-support.txt            | 2 +-
- Documentation/features/debug/stackprotector/arch-support.txt       | 2 +-
- Documentation/features/debug/uprobes/arch-support.txt              | 2 +-
- Documentation/features/debug/user-ret-profiler/arch-support.txt    | 2 +-
- Documentation/features/io/dma-contiguous/arch-support.txt          | 2 +-
- Documentation/features/locking/cmpxchg-local/arch-support.txt      | 2 +-
- Documentation/features/locking/lockdep/arch-support.txt            | 2 +-
- Documentation/features/locking/queued-rwlocks/arch-support.txt     | 2 +-
- Documentation/features/locking/queued-spinlocks/arch-support.txt   | 2 +-
- Documentation/features/perf/kprobes-event/arch-support.txt         | 2 +-
- Documentation/features/perf/perf-regs/arch-support.txt             | 2 +-
- Documentation/features/perf/perf-stackdump/arch-support.txt        | 2 +-
- Documentation/features/sched/membarrier-sync-core/arch-support.txt | 2 +-
- Documentation/features/sched/numa-balancing/arch-support.txt       | 2 +-
- Documentation/features/seccomp/seccomp-filter/arch-support.txt     | 2 +-
- Documentation/features/time/arch-tick-broadcast/arch-support.txt   | 2 +-
- Documentation/features/time/clockevents/arch-support.txt           | 2 +-
- Documentation/features/time/context-tracking/arch-support.txt      | 2 +-
- Documentation/features/time/irq-time-acct/arch-support.txt         | 2 +-
- Documentation/features/time/virt-cpuacct/arch-support.txt          | 2 +-
- Documentation/features/vm/ELF-ASLR/arch-support.txt                | 2 +-
- Documentation/features/vm/PG_uncached/arch-support.txt             | 2 +-
- Documentation/features/vm/THP/arch-support.txt                     | 2 +-
- Documentation/features/vm/TLB/arch-support.txt                     | 2 +-
- Documentation/features/vm/huge-vmap/arch-support.txt               | 2 +-
- Documentation/features/vm/ioremap_prot/arch-support.txt            | 2 +-
- Documentation/features/vm/pte_special/arch-support.txt             | 2 +-
- 42 files changed, 42 insertions(+), 42 deletions(-)
+ include/linux/mempolicy.h      | 65 +++++++++++++++++++------------
+ include/uapi/linux/mempolicy.h |  2 +-
+ mm/mempolicy.c                 | 71 ++++++++++++++++++++++------------
+ 3 files changed, 89 insertions(+), 49 deletions(-)
 
-diff --git a/Documentation/features/core/cBPF-JIT/arch-support.txt b/Documentation/features/core/cBPF-JIT/arch-support.txt
-index a053667..0a1f5bb 100644
---- a/Documentation/features/core/cBPF-JIT/arch-support.txt
-+++ b/Documentation/features/core/cBPF-JIT/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/core/eBPF-JIT/arch-support.txt b/Documentation/features/core/eBPF-JIT/arch-support.txt
-index 7d968c4..6c0f3d7 100644
---- a/Documentation/features/core/eBPF-JIT/arch-support.txt
-+++ b/Documentation/features/core/eBPF-JIT/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/core/generic-idle-thread/arch-support.txt b/Documentation/features/core/generic-idle-thread/arch-support.txt
-index c9bfff2..0b94099 100644
---- a/Documentation/features/core/generic-idle-thread/arch-support.txt
-+++ b/Documentation/features/core/generic-idle-thread/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: |  ok  |
-     |        ia64: |  ok  |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/core/jump-labels/arch-support.txt b/Documentation/features/core/jump-labels/arch-support.txt
-index 20cbefb..2328ead 100644
---- a/Documentation/features/core/jump-labels/arch-support.txt
-+++ b/Documentation/features/core/jump-labels/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/core/thread-info-in-task/arch-support.txt b/Documentation/features/core/thread-info-in-task/arch-support.txt
-index 9b3e2ce..9c5d39e 100644
---- a/Documentation/features/core/thread-info-in-task/arch-support.txt
-+++ b/Documentation/features/core/thread-info-in-task/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: | TODO |
-diff --git a/Documentation/features/core/tracehook/arch-support.txt b/Documentation/features/core/tracehook/arch-support.txt
-index 9c7ffec..aed5679 100644
---- a/Documentation/features/core/tracehook/arch-support.txt
-+++ b/Documentation/features/core/tracehook/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: |  ok  |
-     |        ia64: |  ok  |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/debug/KASAN/arch-support.txt b/Documentation/features/debug/KASAN/arch-support.txt
-index 04afee1..bf0124f 100644
---- a/Documentation/features/debug/KASAN/arch-support.txt
-+++ b/Documentation/features/debug/KASAN/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: | TODO |
-diff --git a/Documentation/features/debug/debug-vm-pgtable/arch-support.txt b/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
-index c45711e..9ec5d13 100644
---- a/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
-+++ b/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: | TODO |
-diff --git a/Documentation/features/debug/gcov-profile-all/arch-support.txt b/Documentation/features/debug/gcov-profile-all/arch-support.txt
-index 0b3ba24..dc4014f 100644
---- a/Documentation/features/debug/gcov-profile-all/arch-support.txt
-+++ b/Documentation/features/debug/gcov-profile-all/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: |  ok  |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/debug/kcov/arch-support.txt b/Documentation/features/debug/kcov/arch-support.txt
-index 0a91f5c..ffcc9f2 100644
---- a/Documentation/features/debug/kcov/arch-support.txt
-+++ b/Documentation/features/debug/kcov/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/debug/kgdb/arch-support.txt b/Documentation/features/debug/kgdb/arch-support.txt
-index 04120d2..958498f 100644
---- a/Documentation/features/debug/kgdb/arch-support.txt
-+++ b/Documentation/features/debug/kgdb/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: |  ok  |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: |  ok  |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/debug/kmemleak/arch-support.txt b/Documentation/features/debug/kmemleak/arch-support.txt
-index e487c35..0cfa5f0 100644
---- a/Documentation/features/debug/kmemleak/arch-support.txt
-+++ b/Documentation/features/debug/kmemleak/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: |  ok  |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-index b3697f4..bcc29d3 100644
---- a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-+++ b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: | TODO |
-diff --git a/Documentation/features/debug/kprobes/arch-support.txt b/Documentation/features/debug/kprobes/arch-support.txt
-index 452385a..8a77d62 100644
---- a/Documentation/features/debug/kprobes/arch-support.txt
-+++ b/Documentation/features/debug/kprobes/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: |  ok  |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/debug/kretprobes/arch-support.txt b/Documentation/features/debug/kretprobes/arch-support.txt
-index daecf04..cf4723c 100644
---- a/Documentation/features/debug/kretprobes/arch-support.txt
-+++ b/Documentation/features/debug/kretprobes/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: |  ok  |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/debug/optprobes/arch-support.txt b/Documentation/features/debug/optprobes/arch-support.txt
-index adb1bd0..83a4639 100644
---- a/Documentation/features/debug/optprobes/arch-support.txt
-+++ b/Documentation/features/debug/optprobes/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: | TODO |
-diff --git a/Documentation/features/debug/stackprotector/arch-support.txt b/Documentation/features/debug/stackprotector/arch-support.txt
-index ddcd716..71cd4ba 100644
---- a/Documentation/features/debug/stackprotector/arch-support.txt
-+++ b/Documentation/features/debug/stackprotector/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/debug/uprobes/arch-support.txt b/Documentation/features/debug/uprobes/arch-support.txt
-index 2512120..d53f2f9 100644
---- a/Documentation/features/debug/uprobes/arch-support.txt
-+++ b/Documentation/features/debug/uprobes/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/debug/user-ret-profiler/arch-support.txt b/Documentation/features/debug/user-ret-profiler/arch-support.txt
-index f2fcff8..059110a 100644
---- a/Documentation/features/debug/user-ret-profiler/arch-support.txt
-+++ b/Documentation/features/debug/user-ret-profiler/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: | TODO |
-diff --git a/Documentation/features/io/dma-contiguous/arch-support.txt b/Documentation/features/io/dma-contiguous/arch-support.txt
-index 95e485c..bfe0921 100644
---- a/Documentation/features/io/dma-contiguous/arch-support.txt
-+++ b/Documentation/features/io/dma-contiguous/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: |  ok  |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/locking/cmpxchg-local/arch-support.txt b/Documentation/features/locking/cmpxchg-local/arch-support.txt
-index 8b1a8d9..68329e9 100644
---- a/Documentation/features/locking/cmpxchg-local/arch-support.txt
-+++ b/Documentation/features/locking/cmpxchg-local/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: | TODO |
-diff --git a/Documentation/features/locking/lockdep/arch-support.txt b/Documentation/features/locking/lockdep/arch-support.txt
-index ab69e8f..ddb9452 100644
---- a/Documentation/features/locking/lockdep/arch-support.txt
-+++ b/Documentation/features/locking/lockdep/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: |  ok  |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: |  ok  |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/locking/queued-rwlocks/arch-support.txt b/Documentation/features/locking/queued-rwlocks/arch-support.txt
-index 0bfb72a..5deb845 100644
---- a/Documentation/features/locking/queued-rwlocks/arch-support.txt
-+++ b/Documentation/features/locking/queued-rwlocks/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/locking/queued-spinlocks/arch-support.txt b/Documentation/features/locking/queued-spinlocks/arch-support.txt
-index 59ee62b..2d3961b 100644
---- a/Documentation/features/locking/queued-spinlocks/arch-support.txt
-+++ b/Documentation/features/locking/queued-spinlocks/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/perf/kprobes-event/arch-support.txt b/Documentation/features/perf/kprobes-event/arch-support.txt
-index 0d0647b..641a7d2 100644
---- a/Documentation/features/perf/kprobes-event/arch-support.txt
-+++ b/Documentation/features/perf/kprobes-event/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: |  ok  |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/perf/perf-regs/arch-support.txt b/Documentation/features/perf/perf-regs/arch-support.txt
-index 3732e1c..33866eb 100644
---- a/Documentation/features/perf/perf-regs/arch-support.txt
-+++ b/Documentation/features/perf/perf-regs/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/perf/perf-stackdump/arch-support.txt b/Documentation/features/perf/perf-stackdump/arch-support.txt
-index 4cc3b15..c8e4c7c 100644
---- a/Documentation/features/perf/perf-stackdump/arch-support.txt
-+++ b/Documentation/features/perf/perf-stackdump/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/sched/membarrier-sync-core/arch-support.txt b/Documentation/features/sched/membarrier-sync-core/arch-support.txt
-index 336d728b..1e51614c 100644
---- a/Documentation/features/sched/membarrier-sync-core/arch-support.txt
-+++ b/Documentation/features/sched/membarrier-sync-core/arch-support.txt
-@@ -36,7 +36,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: | TODO |
-diff --git a/Documentation/features/sched/numa-balancing/arch-support.txt b/Documentation/features/sched/numa-balancing/arch-support.txt
-index 76d0121..532cc67 100644
---- a/Documentation/features/sched/numa-balancing/arch-support.txt
-+++ b/Documentation/features/sched/numa-balancing/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ..  |
-     |     hexagon: |  ..  |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: |  ..  |
-     |  microblaze: |  ..  |
-     |        mips: | TODO |
-diff --git a/Documentation/features/seccomp/seccomp-filter/arch-support.txt b/Documentation/features/seccomp/seccomp-filter/arch-support.txt
-index a86b8b1..dc71bf7 100644
---- a/Documentation/features/seccomp/seccomp-filter/arch-support.txt
-+++ b/Documentation/features/seccomp/seccomp-filter/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/time/arch-tick-broadcast/arch-support.txt b/Documentation/features/time/arch-tick-broadcast/arch-support.txt
-index 364169f..9bffac8 100644
---- a/Documentation/features/time/arch-tick-broadcast/arch-support.txt
-+++ b/Documentation/features/time/arch-tick-broadcast/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/time/clockevents/arch-support.txt b/Documentation/features/time/clockevents/arch-support.txt
-index 6ea2747..6251600 100644
---- a/Documentation/features/time/clockevents/arch-support.txt
-+++ b/Documentation/features/time/clockevents/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: |  ok  |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: |  ok  |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/time/context-tracking/arch-support.txt b/Documentation/features/time/context-tracking/arch-support.txt
-index e59071a..72bc5ba 100644
---- a/Documentation/features/time/context-tracking/arch-support.txt
-+++ b/Documentation/features/time/context-tracking/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/time/irq-time-acct/arch-support.txt b/Documentation/features/time/irq-time-acct/arch-support.txt
-index fd17d8d..ceb0366 100644
---- a/Documentation/features/time/irq-time-acct/arch-support.txt
-+++ b/Documentation/features/time/irq-time-acct/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: |  ..  |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/time/virt-cpuacct/arch-support.txt b/Documentation/features/time/virt-cpuacct/arch-support.txt
-index 1a859ac..c063dff 100644
---- a/Documentation/features/time/virt-cpuacct/arch-support.txt
-+++ b/Documentation/features/time/virt-cpuacct/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ok  |
-     |     hexagon: | TODO |
-     |        ia64: |  ok  |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/vm/ELF-ASLR/arch-support.txt b/Documentation/features/vm/ELF-ASLR/arch-support.txt
-index b122995..15164f3 100644
---- a/Documentation/features/vm/ELF-ASLR/arch-support.txt
-+++ b/Documentation/features/vm/ELF-ASLR/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/vm/PG_uncached/arch-support.txt b/Documentation/features/vm/PG_uncached/arch-support.txt
-index 02f325f..5acd64b 100644
---- a/Documentation/features/vm/PG_uncached/arch-support.txt
-+++ b/Documentation/features/vm/PG_uncached/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: |  ok  |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: | TODO |
-diff --git a/Documentation/features/vm/THP/arch-support.txt b/Documentation/features/vm/THP/arch-support.txt
-index 9bfff97..9dd7d75 100644
---- a/Documentation/features/vm/THP/arch-support.txt
-+++ b/Documentation/features/vm/THP/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: |  ..  |
-     |     hexagon: |  ..  |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: |  ..  |
-     |  microblaze: |  ..  |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/vm/TLB/arch-support.txt b/Documentation/features/vm/TLB/arch-support.txt
-index 039e4e9..7f049c2 100644
---- a/Documentation/features/vm/TLB/arch-support.txt
-+++ b/Documentation/features/vm/TLB/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: |  ..  |
-     |  microblaze: |  ..  |
-     |        mips: | TODO |
-diff --git a/Documentation/features/vm/huge-vmap/arch-support.txt b/Documentation/features/vm/huge-vmap/arch-support.txt
-index 13b4940..82b0be4 100644
---- a/Documentation/features/vm/huge-vmap/arch-support.txt
-+++ b/Documentation/features/vm/huge-vmap/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: | TODO |
-+    |   loongarch: | TODO |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: | TODO |
-diff --git a/Documentation/features/vm/ioremap_prot/arch-support.txt b/Documentation/features/vm/ioremap_prot/arch-support.txt
-index 6bd78eb..a24149e 100644
---- a/Documentation/features/vm/ioremap_prot/arch-support.txt
-+++ b/Documentation/features/vm/ioremap_prot/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
-diff --git a/Documentation/features/vm/pte_special/arch-support.txt b/Documentation/features/vm/pte_special/arch-support.txt
-index fc3687b..d2b22a0 100644
---- a/Documentation/features/vm/pte_special/arch-support.txt
-+++ b/Documentation/features/vm/pte_special/arch-support.txt
-@@ -13,7 +13,7 @@
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
--    |       loong: |  ok  |
-+    |   loongarch: |  ok  |
-     |        m68k: | TODO |
-     |  microblaze: | TODO |
-     |        mips: |  ok  |
+diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
+index d232de7cdc56..9178b008eadf 100644
+--- a/include/linux/mempolicy.h
++++ b/include/linux/mempolicy.h
+@@ -28,12 +28,16 @@ struct mm_struct;
+  * of the current process.
+  *
+  * Locking policy for interleave:
+- * In process context there is no locking because only the process accesses
+- * its own state. All vma manipulation is somewhat protected by a down_read on
++ * percpu_ref is used to reduce cache line bouncing.
++ * In process context we should obtain a reference via mpol_get()
++ * protected by RCU.
++ * All vma manipulation is somewhat protected by a down_read on
+  * mmap_lock.
+  *
+  * Freeing policy:
+- * Mempolicy objects are reference counted.  A mempolicy will be freed when
++ * Mempolicy objects are reference counted. The mpol_get/put can just increment
++ * or decrement the local counter. Mpol_kill() must be called to initiate the
++ * destruction of mempolicy. A mempolicy will be freed when mpol_kill()/
+  * mpol_put() decrements the reference count to zero.
+  *
+  * Duplicating policy objects:
+@@ -42,43 +46,36 @@ struct mm_struct;
+  * to 1, representing the caller of mpol_dup().
+  */
+ struct mempolicy {
+-	atomic_t refcnt;
+-	unsigned short mode; 	/* See MPOL_* above */
++	struct percpu_ref refcnt;	/* reduce cache line bouncing */
++	unsigned short mode;	/* See MPOL_* above */
+ 	unsigned short flags;	/* See set_mempolicy() MPOL_F_* above */
++	int home_node;          /* Home node to use for MPOL_BIND and MPOL_PREFERRED_MANY */
+ 	nodemask_t nodes;	/* interleave/bind/perfer */
+-	int home_node;		/* Home node to use for MPOL_BIND and MPOL_PREFERRED_MANY */
+ 
+ 	union {
+ 		nodemask_t cpuset_mems_allowed;	/* relative to these nodes */
+ 		nodemask_t user_nodemask;	/* nodemask passed by user */
++		struct rcu_head rcu;	/* used for freeing in an RCU-safe manner */
+ 	} w;
+ };
+ 
+ /*
+- * Support for managing mempolicy data objects (clone, copy, destroy)
+- * The default fast path of a NULL MPOL_DEFAULT policy is always inlined.
++ * Mempolicy pol need explicit unref after use, except for
++ * static policies(default_policy, preferred_node_policy).
+  */
+-
+-extern void __mpol_put(struct mempolicy *pol);
+-static inline void mpol_put(struct mempolicy *pol)
++static inline int mpol_needs_cond_ref(struct mempolicy *pol)
+ {
+-	if (pol)
+-		__mpol_put(pol);
++	return (pol && !(pol->flags & MPOL_F_STATIC));
+ }
+ 
+ /*
+- * Does mempolicy pol need explicit unref after use?
+- * Currently only needed for shared policies.
++ * Put a mpol reference obtained via mpol_get().
+  */
+-static inline int mpol_needs_cond_ref(struct mempolicy *pol)
+-{
+-	return (pol && (pol->flags & MPOL_F_SHARED));
+-}
+ 
+-static inline void mpol_cond_put(struct mempolicy *pol)
++static inline void mpol_put(struct mempolicy *pol)
+ {
+ 	if (mpol_needs_cond_ref(pol))
+-		__mpol_put(pol);
++		percpu_ref_put(&pol->refcnt);
+ }
+ 
+ extern struct mempolicy *__mpol_dup(struct mempolicy *pol);
+@@ -91,12 +88,28 @@ static inline struct mempolicy *mpol_dup(struct mempolicy *pol)
+ 
+ #define vma_policy(vma) ((vma)->vm_policy)
+ 
++/* Obtain a reference on the specified mpol */
+ static inline void mpol_get(struct mempolicy *pol)
+ {
+ 	if (pol)
+-		atomic_inc(&pol->refcnt);
++		percpu_ref_get(&pol->refcnt);
++}
++
++static inline bool mpol_tryget(struct mempolicy *pol)
++{
++	return pol && percpu_ref_tryget(&pol->refcnt);
+ }
+ 
++/*
++ * This function initiates destruction of mempolicy.
++ */
++static inline void mpol_kill(struct mempolicy *pol)
++{
++        if (pol)
++                percpu_ref_kill(&pol->refcnt);
++}
++
++
+ extern bool __mpol_equal(struct mempolicy *a, struct mempolicy *b);
+ static inline bool mpol_equal(struct mempolicy *a, struct mempolicy *b)
+ {
+@@ -197,11 +210,15 @@ static inline void mpol_put(struct mempolicy *p)
+ {
+ }
+ 
+-static inline void mpol_cond_put(struct mempolicy *pol)
++static inline void mpol_get(struct mempolicy *pol)
+ {
+ }
+ 
+-static inline void mpol_get(struct mempolicy *pol)
++static inline bool mpol_tryget(struct mempolicy *pol)
++{
++}
++
++static inline void mpol_kill(struct mempolicy *pol)
+ {
+ }
+ 
+diff --git a/include/uapi/linux/mempolicy.h b/include/uapi/linux/mempolicy.h
+index 046d0ccba4cd..940e1a88a4da 100644
+--- a/include/uapi/linux/mempolicy.h
++++ b/include/uapi/linux/mempolicy.h
+@@ -60,7 +60,7 @@ enum {
+  * "mode flags".  These flags are allocated from bit 0 up, as they
+  * are never OR'ed into the mode in mempolicy API arguments.
+  */
+-#define MPOL_F_SHARED  (1 << 0)	/* identify shared policies */
++#define MPOL_F_STATIC	(1 << 0) /* identify static policies(e.g default_policy) */
+ #define MPOL_F_MOF	(1 << 3) /* this policy wants migrate on fault */
+ #define MPOL_F_MORON	(1 << 4) /* Migrate On protnone Reference On Node */
+ 
+diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+index 61aa9aedb728..ee3e2ed5ef07 100644
+--- a/mm/mempolicy.c
++++ b/mm/mempolicy.c
+@@ -124,8 +124,8 @@ enum zone_type policy_zone = 0;
+  * run-time system-wide default policy => local allocation
+  */
+ static struct mempolicy default_policy = {
+-	.refcnt = ATOMIC_INIT(1), /* never free it */
+ 	.mode = MPOL_LOCAL,
++	.flags = MPOL_F_STATIC,
+ };
+ 
+ static struct mempolicy preferred_node_policy[MAX_NUMNODES];
+@@ -158,9 +158,32 @@ int numa_map_to_online_node(int node)
+ }
+ EXPORT_SYMBOL_GPL(numa_map_to_online_node);
+ 
++/* Obtain a reference on the specified task mempolicy */
++static mempolicy *get_task_mpol(struct task_struct *p)
++{
++	struct mempolicy *pol;
++
++	rcu_read_lock();
++	pol = rcu_dereference(p->mempolicy);
++
++	if (!pol || mpol_tryget(pol))
++		pol = NULL;
++	rcu_read_unlock();
++
++	return pol;
++}
++
++static void mpol_release(struct percpu_ref *ref)
++{
++	struct mempolicy *mpol = container_of(ref, struct mempolicy, refcnt);
++
++	percpu_ref_exit(ref);
++	kfree_rcu(mpol, w.rcu);
++}
++
+ struct mempolicy *get_task_policy(struct task_struct *p)
+ {
+-	struct mempolicy *pol = p->mempolicy;
++	struct mempolicy *pol = get_task_mpol(p);
+ 	int node;
+ 
+ 	if (pol)
+@@ -296,7 +319,12 @@ static struct mempolicy *mpol_new(unsigned short mode, unsigned short flags,
+ 	policy = kmem_cache_alloc(policy_cache, GFP_KERNEL);
+ 	if (!policy)
+ 		return ERR_PTR(-ENOMEM);
+-	atomic_set(&policy->refcnt, 1);
++
++	if (percpu_ref_init(&policy->refcnt, mpol_release, 0,
++			GFP_KERNEL)) {
++		kmem_cache_free(policy_cache, policy);
++		return ERR_PTR(-ENOMEM);
++	}
+ 	policy->mode = mode;
+ 	policy->flags = flags;
+ 	policy->home_node = NUMA_NO_NODE;
+@@ -304,14 +332,6 @@ static struct mempolicy *mpol_new(unsigned short mode, unsigned short flags,
+ 	return policy;
+ }
+ 
+-/* Slow path of a mpol destructor. */
+-void __mpol_put(struct mempolicy *p)
+-{
+-	if (!atomic_dec_and_test(&p->refcnt))
+-		return;
+-	kmem_cache_free(policy_cache, p);
+-}
+-
+ static void mpol_rebind_default(struct mempolicy *pol, const nodemask_t *nodes)
+ {
+ }
+@@ -1759,14 +1779,8 @@ struct mempolicy *__get_vma_policy(struct vm_area_struct *vma,
+ 		} else if (vma->vm_policy) {
+ 			pol = vma->vm_policy;
+ 
+-			/*
+-			 * shmem_alloc_page() passes MPOL_F_SHARED policy with
+-			 * a pseudo vma whose vma->vm_ops=NULL. Take a reference
+-			 * count on these policies which will be dropped by
+-			 * mpol_cond_put() later
+-			 */
+-			if (mpol_needs_cond_ref(pol))
+-				mpol_get(pol);
++			/* vma policy is protected by mmap_lock. */
++			mpol_get(pol);
+ 		}
+ 	}
+ 
+@@ -2423,7 +2437,13 @@ struct mempolicy *__mpol_dup(struct mempolicy *old)
+ 		nodemask_t mems = cpuset_mems_allowed(current);
+ 		mpol_rebind_policy(new, &mems);
+ 	}
+-	atomic_set(&new->refcnt, 1);
++
++	if (percpu_ref_init(&new->refcnt, mpol_release, 0,
++			GFP_KERNEL)) {
++		kmem_cache_free(policy_cache, new);
++		return ERR_PTR(-ENOMEM);
++	}
++
+ 	return new;
+ }
+ 
+@@ -2687,7 +2707,6 @@ static struct sp_node *sp_alloc(unsigned long start, unsigned long end,
+ 		kmem_cache_free(sn_cache, n);
+ 		return NULL;
+ 	}
+-	newpol->flags |= MPOL_F_SHARED;
+ 	sp_node_init(n, start, end, newpol);
+ 
+ 	return n;
+@@ -2720,7 +2739,10 @@ static int shared_policy_replace(struct shared_policy *sp, unsigned long start,
+ 					goto alloc_new;
+ 
+ 				*mpol_new = *n->policy;
+-				atomic_set(&mpol_new->refcnt, 1);
++				ret = percpu_ref_init(&mpol_new->refcnt,
++						mpol_release, 0, GFP_KERNEL);
++				if (ret)
++					goto err_out;
+ 				sp_node_init(n_new, end, n->end, mpol_new);
+ 				n->end = start;
+ 				sp_insert(sp, n_new);
+@@ -2756,7 +2778,7 @@ static int shared_policy_replace(struct shared_policy *sp, unsigned long start,
+ 	mpol_new = kmem_cache_alloc(policy_cache, GFP_KERNEL);
+ 	if (!mpol_new)
+ 		goto err_out;
+-	atomic_set(&mpol_new->refcnt, 1);
++
+ 	goto restart;
+ }
+ 
+@@ -2917,7 +2939,8 @@ void __init numa_policy_init(void)
+ 		preferred_node_policy[nid] = (struct mempolicy) {
+ 			.refcnt = ATOMIC_INIT(1),
+ 			.mode = MPOL_PREFERRED,
+-			.flags = MPOL_F_MOF | MPOL_F_MORON,
++			.flags = MPOL_F_MOF | MPOL_F_MORON
++				| MPOL_F_STATIC,
+ 			.nodes = nodemask_of_node(nid),
+ 		};
+ 	}
 -- 
-2.1.0
+2.25.1
 
