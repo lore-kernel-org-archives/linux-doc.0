@@ -2,192 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 039C7C4321E
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 13:44:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E842C4321E
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 14:46:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232006AbiLENoL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Dec 2022 08:44:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35752 "EHLO
+        id S232141AbiLEOqT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Dec 2022 09:46:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232385AbiLENnq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 08:43:46 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F138C1DA6C
-        for <linux-doc@vger.kernel.org>; Mon,  5 Dec 2022 05:43:14 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id h10so9104407wrx.3
-        for <linux-doc@vger.kernel.org>; Mon, 05 Dec 2022 05:43:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PSfDwZPeG8ibIdq5sbKvkL1VsqUlUscnguEB5oSOxSc=;
-        b=ZhFQOk5sHEFKzbm8fBjTNTecUMb6srGFq09hOHXW6kISqLW8gBDE3jNN0izPXaaE3X
-         DVOXi2YDNUqfzOv8xB3pFAgcYIuK1FmRV4esx3+KJ3cyZFEiVKFzu7NPXpA2+JEoADaD
-         13amI67POzIZYrUkAoNZH8B4OE4iZiDvYqvAJYQnER8FK5PwsZr6ShoWEvnTLGky3x/A
-         HhQd1huG4wKL1p1O37IhT2z73k7GLly9/OUH08rQU99hjNPkV9UzyOOqX2HNMEd3rXei
-         1tFaqBk4u8sgKKmkYUA8ncwGRbe6Jl7fYsJpJVyDCV6HGhhlyfUEgS5LpfZztLytNEiy
-         wlog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PSfDwZPeG8ibIdq5sbKvkL1VsqUlUscnguEB5oSOxSc=;
-        b=OTt+bfMdw67azJMq7elNAKFXfqZe82gyyYkQ8TzGSIW9kGxmr14myhXlTtJ0E1TyuM
-         sEq292q+rQQPgluHtnurP6/doDSc5viexxHqoN1PgkSlCnvSrprAgPEQRH5oF/BZCuas
-         TPIMddd7EJCAj7H+KZnLzcNkyaaiACpN4o+150omkdpapTomVTzEjecSkVapkRVwYCc0
-         cAzNO7ODMyJVanui/WHqvqwoGe2MLbtBdvMYLuAvAfa0NydiK3wQaDzjwDexMJ/LU7P5
-         t5TgiQAQ+VzsDzdV00uf4/nKPZDUO+V1rq43KIMdrGlJCgMjjkTed3Lm8ZXwhqa1KF+C
-         T8Ug==
-X-Gm-Message-State: ANoB5pmaiqLrkHaeGZgQCwmzImaTUm96iQgk8CtVn4bml+uVhbXJ8dbW
-        c8aQ5U4pF16DHHkA03HP+gv+lA==
-X-Google-Smtp-Source: AA0mqf68CFsZMOCd88AhAlMizn4w9UrnERv3KIachtaDvBlHTCAHLOEwLF5Gb8KkdqSMJF8Id58Pag==
-X-Received: by 2002:a5d:6e8e:0:b0:236:5e77:b58e with SMTP id k14-20020a5d6e8e000000b002365e77b58emr44809235wrz.320.1670247793408;
-        Mon, 05 Dec 2022 05:43:13 -0800 (PST)
-Received: from ?IPV6:2a02:6b6a:b4bd:0:4759:d90c:43ca:e8f0? ([2a02:6b6a:b4bd:0:4759:d90c:43ca:e8f0])
-        by smtp.gmail.com with ESMTPSA id n3-20020a05600c3b8300b003cfbbd54178sm28603622wms.2.2022.12.05.05.43.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Dec 2022 05:43:12 -0800 (PST)
-Message-ID: <66bc7368-aabc-9ec3-f4ba-a3bbeed5938b@bytedance.com>
-Date:   Mon, 5 Dec 2022 13:43:12 +0000
+        with ESMTP id S231969AbiLEOqR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 09:46:17 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CCC41B1FE;
+        Mon,  5 Dec 2022 06:46:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1670251576; x=1701787576;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=/A732PXUzOa5QEDZseaW4QKYJ4f5uZaINwwbpO826ps=;
+  b=YlOznsoeWfXvfw00ixYArB5bTZOboFkNqaRL97SW3/kf76ms/zr5XKhk
+   qxehEX10fyl2082DgWmGXwQgG6oA61rOsJbkXFFjXRay2hkepBRvXN+DI
+   kyptBhMNij1iHcIxlz79pEjAfcqBuSsGH9mYDUlQOVSuFzwftyCrc2aMD
+   8TZMnCJfXnW/UvFC/l3BFOubilIgSPMSNv6r2jerEzX3GAemOsEqcnxS/
+   CK+5/wyPChp3EgBsLlrzxhCo886yMaVp7XyKsSJvvR1w3r4WeRzlfrPxx
+   NdwpmLMioozarvU1Ye00pXHXSqt3Qw7bOTPUW5b1TYA68M0xT+NxJhJLK
+   w==;
+X-IronPort-AV: E=Sophos;i="5.96,219,1665471600"; 
+   d="scan'208";a="202640917"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 05 Dec 2022 07:46:15 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.12; Mon, 5 Dec 2022 07:46:14 -0700
+Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex04.mchp-main.com
+ (10.10.85.152) with Microsoft SMTP Server id 15.1.2507.12 via Frontend
+ Transport; Mon, 5 Dec 2022 07:46:12 -0700
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     <linux-riscv@lists.infradead.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>
+CC:     Conor Dooley <conor.dooley@microchip.com>,
+        <ajones@ventanamicro.com>, <aou@eecs.berkeley.edu>,
+        <conor@kernel.org>, <corbet@lwn.net>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <paul.walmsley@sifive.com>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH v2 1/3] RISC-V: clarify ISA string ordering rules in cpu.c
+Date:   Mon, 5 Dec 2022 14:45:24 +0000
+Message-ID: <20221205144525.2148448-2-conor.dooley@microchip.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221205144525.2148448-1-conor.dooley@microchip.com>
+References: <20221205144525.2148448-1-conor.dooley@microchip.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [External] Re: [v2 0/6] KVM: arm64: implement vcpu_is_preempted
- check
-Content-Language: en-US
-From:   Usama Arif <usama.arif@bytedance.com>
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, linux@armlinux.org.uk,
-        yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org,
-        steven.price@arm.com, mark.rutland@arm.com, bagasdotme@gmail.com,
-        fam.zheng@bytedance.com, liangma@liangbit.com,
-        punit.agrawal@bytedance.com
-References: <20221104062105.4119003-1-usama.arif@bytedance.com>
- <87k048f3cm.wl-maz@kernel.org>
- <180b91af-a2aa-2cfd-eb7f-b2825c4e3dbe@bytedance.com>
- <86r0y1nmep.wl-maz@kernel.org>
- <95efd030-27f6-5668-a25e-9fbf210bfa1c@bytedance.com>
-In-Reply-To: <95efd030-27f6-5668-a25e-9fbf210bfa1c@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+While the current list of rules may have been accurate when created
+it now lacks some clarity in the face of isa-manual updates. Instead of
+trying to continuously align this rule-set with the one in the
+specifications, change the role of this comment.
 
+This particular comment is important, as the array it "decorates"
+defines the order in which the ISA string appears to userspace in
+/proc/cpuinfo.
 
-On 24/11/2022 13:55, Usama Arif wrote:
-> 
-> 
-> On 18/11/2022 00:20, Marc Zyngier wrote:
->> On Mon, 07 Nov 2022 12:00:44 +0000,
->> Usama Arif <usama.arif@bytedance.com> wrote:
->>>
->>>
->>>
->>> On 06/11/2022 16:35, Marc Zyngier wrote:
->>>> On Fri, 04 Nov 2022 06:20:59 +0000,
->>>> Usama Arif <usama.arif@bytedance.com> wrote:
->>>>>
->>>>> This patchset adds support for vcpu_is_preempted in arm64, which
->>>>> allows the guest to check if a vcpu was scheduled out, which is
->>>>> useful to know incase it was holding a lock. vcpu_is_preempted can
->>>>> be used to improve performance in locking (see owner_on_cpu usage in
->>>>> mutex_spin_on_owner, mutex_can_spin_on_owner, rtmutex_spin_on_owner
->>>>> and osq_lock) and scheduling (see available_idle_cpu which is used
->>>>> in several places in kernel/sched/fair.c for e.g. in wake_affine to
->>>>> determine which CPU can run soonest):
->>>>
->>>> [...]
->>>>
->>>>> pvcy shows a smaller overall improvement (50%) compared to
->>>>> vcpu_is_preempted (277%).  Host side flamegraph analysis shows that
->>>>> ~60% of the host time when using pvcy is spent in kvm_handle_wfx,
->>>>> compared with ~1.5% when using vcpu_is_preempted, hence
->>>>> vcpu_is_preempted shows a larger improvement.
->>>>
->>>> And have you worked out *why* we spend so much time handling WFE?
->>>>
->>>>     M.
->>>
->>> Its from the following change in pvcy patchset:
->>>
->>> diff --git a/arch/arm64/kvm/handle_exit.c b/arch/arm64/kvm/handle_exit.c
->>> index e778eefcf214..915644816a85 100644
->>> --- a/arch/arm64/kvm/handle_exit.c
->>> +++ b/arch/arm64/kvm/handle_exit.c
->>> @@ -118,7 +118,12 @@ static int kvm_handle_wfx(struct kvm_vcpu *vcpu)
->>>          }
->>>
->>>          if (esr & ESR_ELx_WFx_ISS_WFE) {
->>> -               kvm_vcpu_on_spin(vcpu, vcpu_mode_priv(vcpu));
->>> +               int state;
->>> +               while ((state = kvm_pvcy_check_state(vcpu)) == 0)
->>> +                       schedule();
->>> +
->>> +               if (state == -1)
->>> +                       kvm_vcpu_on_spin(vcpu, vcpu_mode_priv(vcpu));
->>>          } else {
->>>                  if (esr & ESR_ELx_WFx_ISS_WFxT)
->>>                          vcpu_set_flag(vcpu, IN_WFIT);
->>>
->>>
->>> If my understanding is correct of the pvcy changes, whenever pvcy
->>> returns an unchanged vcpu state, we would schedule to another
->>> vcpu. And its the constant scheduling where the time is spent. I guess
->>> the affects are much higher when the lock contention is very
->>> high. This can be seem from the pvcy host side flamegraph as well with
->>> (~67% of the time spent in the schedule() call in kvm_handle_wfx), For
->>> reference, I have put the graph at:
->>> https://uarif1.github.io/pvlock/perf_host_pvcy_nmi.svg
->>
->> The real issue here is that we don't try to pick the right vcpu to
->> run, and strictly rely on schedule() to eventually pick something that
->> can run.
->>
->> An interesting to do would be to try and fit the directed yield
->> mechanism there. It would be a lot more interesting than the one-off
->> vcpu_is_preempted hack, as it gives us a low-level primitive on which
->> to construct things (pvcy is effectively a mwait-like primitive).
-> 
-> We could use kvm_vcpu_yield_to to yield to a specific vcpu, but how 
-> would we determine which vcpu to yield to?
-> 
-> IMO vcpu_is_preempted is very well integrated in a lot of core kernel 
-> code, i.e. mutex, rtmutex, rwsem and osq_lock. It is also used in 
-> scheduler to determine better which vCPU we can run on soonest, select 
-> idle core, etc. I am not sure if all of these cases will be optimized by 
-> pvcy? Also, with vcpu_is_preempted, some of the lock heavy benchmarks 
-> come down from spending around 50% of the time in lock to less than 1% 
-> (so not sure how much more room is there for improvement).
-> 
-> We could also use vcpu_is_preempted to optimize IPI performance (along 
-> with directed yield to target IPI vCPU) similar to how its done in x86 
-> (https://lore.kernel.org/all/1560255830-8656-2-git-send-email-wanpengli@tencent.com/). 
-> This case definitely wont be covered by pvcy.
-> 
-> Considering all the above, i.e. the core kernel integration already 
-> present and possible future usecases of vcpu_is_preempted, maybe its 
-> worth making vcpu_is_preempted work on arm independently of pvcy?
-> 
+Re-jig and strengthen the wording to provide contributors with a set
+order in which to add entries & note why this particular struct needs
+more attention than others.
 
-Hi,
+While in the area, add some whitespace and tweak some wording for
+readability's sake.
 
-Just wanted to check if there are any comments on above? I can send a v3 
-with the doc and code fixes suggested in the earlier reviews if it makes 
-sense?
+Suggested-by: Andrew Jones <ajones@ventanamicro.com>
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+---
+ arch/riscv/kernel/cpu.c | 49 ++++++++++++++++++++++++++++++-----------
+ 1 file changed, 36 insertions(+), 13 deletions(-)
 
-Thanks,
-Usama
+diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+index 1b9a5a66e55a..db8b16ad9342 100644
+--- a/arch/riscv/kernel/cpu.c
++++ b/arch/riscv/kernel/cpu.c
+@@ -144,22 +144,45 @@ arch_initcall(riscv_cpuinfo_init);
+ 		.uprop = #UPROP,				\
+ 		.isa_ext_id = EXTID,				\
+ 	}
++
+ /*
+- * Here are the ordering rules of extension naming defined by RISC-V
+- * specification :
+- * 1. All extensions should be separated from other multi-letter extensions
+- *    by an underscore.
+- * 2. The first letter following the 'Z' conventionally indicates the most
++ * The canonical order of ISA extension names in the ISA string is defined in
++ * chapter 27 of the unprivileged specification.
++ *
++ * Ordinarily, for in-kernel data structures, this order is unimportant but
++ * isa_ext_arr defines the order of the ISA string in /proc/cpuinfo.
++ *
++ * The specification uses vague wording, such as should, when it comes to
++ * ordering, so for our purposes the following rules apply:
++ *
++ * 1. All multi-letter extensions must be separated from other extensions by an
++ *    underscore.
++ *
++ * 2. Additional standard extensions (starting with 'Z') must be sorted after
++ *    single-letter extensions and before any higher-privileged extensions.
++
++ * 3. The first letter following the 'Z' conventionally indicates the most
+  *    closely related alphabetical extension category, IMAFDQLCBKJTPVH.
+- *    If multiple 'Z' extensions are named, they should be ordered first
+- *    by category, then alphabetically within a category.
+- * 3. Standard supervisor-level extensions (starts with 'S') should be
+- *    listed after standard unprivileged extensions.  If multiple
+- *    supervisor-level extensions are listed, they should be ordered
++ *    If multiple 'Z' extensions are named, they must be ordered first by
++ *    category, then alphabetically within a category.
++ *
++ * 3. Standard supervisor-level extensions (starting with 'S') must be listed
++ *    after standard unprivileged extensions.  If multiple supervisor-level
++ *    extensions are listed, they must be ordered alphabetically.
++ *
++ * 4. Standard machine-level extensions (starting with 'Zxm') must be listed
++ *    after any lower-privileged, standard extensions.  If multiple
++ *    machine-level extensions are listed, they must be ordered
+  *    alphabetically.
+- * 4. Non-standard extensions (starts with 'X') must be listed after all
+- *    standard extensions. They must be separated from other multi-letter
+- *    extensions by an underscore.
++ *
++ * 5. Non-standard extensions (starting with 'X') must be listed after all
++ *    standard extensions. If multiple non-standard extensions are listed, they
++ *    must be ordered alphabetically.
++ *
++ * An example string following the order is:
++ *    rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
++ *
++ * New entries to this struct should follow the ordering rules described above.
+  */
+ static struct riscv_isa_ext_data isa_ext_arr[] = {
+ 	__RISCV_ISA_EXT_DATA(sscofpmf, RISCV_ISA_EXT_SSCOFPMF),
+-- 
+2.38.1
 
-> Thanks,
-> Usama
-> 
->>
->>     M.
->>
