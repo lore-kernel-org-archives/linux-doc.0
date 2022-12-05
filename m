@@ -2,99 +2,222 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DA94C4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 16:09:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13E21C4332F
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 16:16:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231497AbiLEQJH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Dec 2022 11:09:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42224 "EHLO
+        id S231537AbiLEQQM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Dec 2022 11:16:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229999AbiLEQJG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 11:09:06 -0500
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FADA1CFC6;
-        Mon,  5 Dec 2022 08:09:05 -0800 (PST)
-Received: by mail-yb1-xb34.google.com with SMTP id y135so10485941yby.12;
-        Mon, 05 Dec 2022 08:09:05 -0800 (PST)
+        with ESMTP id S230229AbiLEQQL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 11:16:11 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 006B4273F;
+        Mon,  5 Dec 2022 08:16:09 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id n16-20020a05600c3b9000b003d08febff59so5392114wms.3;
+        Mon, 05 Dec 2022 08:16:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OaB3OQ0URDFHXxjcwHhCyd2CAPTUuyAJq3NmN97aOGw=;
-        b=NsnK1UsAhHKkQnNGGN8UQkIhv7lgQpwMQAhtas/rsjSjePwq98T3s59Ht3FfWMGwrD
-         Fx/jP34bmNxTanMHz4qb0UUS4kHNBASdRy4dpZ8QJPmVt4Zd6mjkOaqpkSHBOYHSul1e
-         YdGVLxEC7bUaXgy3a2m9CL3TRFMeCsrIyCN8P7xJanjQCi2Xk4hR6EZhpNPNgmnreYGV
-         P6jU8usu6lnG2V3GCJKj9J0JDE7m8xL+R/KKo7hJQyTB+zSwwKGnCFsF+yyrVpuGn/FV
-         731ZbI328eUTR3u64a7gtzNuRpyG4RQhnCQESsnqA5hpncSLpe2QDTwqsReSeRLKP6kt
-         9hOA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5+qxFvyZ68J9KkefVwXjrljIu6tiSqfHk3mjKfN4Iac=;
+        b=GGWV9fd2ancmpFmA0TvgcQQs+y+bSwSwALBh6QfnIG1lWBhxRVNT6VFFSLO838pdKz
+         nMQfhhSsADV1SaEnixyZLhShsn7Lc+Wj+/yt+tdjwKfREB0D6IR48LftCds/mNXq7pkz
+         HFnjinE7aqdGMujWaxr6A4qqV0L3b5gT4Eg7dGL0sqOjh2cgbVGVOYcNec59u32mUhhY
+         V/FsgZ+/eiKJD2dKQqfSukiYcA6FY1aNRD4zXqM4AZWZsx8hIZVCRASASMQLKTTh7G4e
+         5hB042VMzNvMY/UIqpdbRNEDv4Dsk1V/QWc53raZ8TaR8QGt4bovi3G8JcOtc8JyiPHv
+         vVew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OaB3OQ0URDFHXxjcwHhCyd2CAPTUuyAJq3NmN97aOGw=;
-        b=OZZsCLsU0HmUkMu/NoRGSP+V/LZoDRplLlrakw6jZRw4GDok9wsofY9yJtotCvZeXC
-         tt/5NTkLCGs4ReHtJsXVrl508YVSe79CzEMSw8J4Nuxsjk64XcdXdg2f4mOSOhBl6eJ1
-         RM7CcUz3WmAiGvWK1WXoz3o3/pe/sAfcRcp+b6731fTp1i/IdTewAI2qAvQCejPUmS2O
-         3D7ALUyPPr+Zr1z/9UxWtM1Swa7UmP7+j2VjEkn1zytVXhVhbY9FTje52eMJq7/+7I3T
-         eYD0XXWHPYN0Mp1ATXhGTYF/56RkUyT8A64Zqyf3hdYj2lCkkrhtGYCYYzlC5bVYZoKc
-         TGlA==
-X-Gm-Message-State: ANoB5pkm5SF0BYwtsV6D8AkPh2JU3/mL3maQwD1bBHgdhMptIyULVFjD
-        wFZL7unZaMlEUegGiX2l9lHnnaXpU69kCYnYv+4=
-X-Google-Smtp-Source: AA0mqf76z/xCHPVEzDlCWMWnxbwgn5zTPtlVIz/8XQEs9QQlKsK2YQV0m3h/92Y/qUtWYeS7rlh/MYYQ7yGY2xQKyUI=
-X-Received: by 2002:a25:ca58:0:b0:6f4:3ced:f7f8 with SMTP id
- a85-20020a25ca58000000b006f43cedf7f8mr41164333ybg.489.1670256544692; Mon, 05
- Dec 2022 08:09:04 -0800 (PST)
+        bh=5+qxFvyZ68J9KkefVwXjrljIu6tiSqfHk3mjKfN4Iac=;
+        b=rgMSwk44kZYNGWxY/DAf4XbUs7Z4vS8aC8CjpbAi3RsxafBideBOv0JrHCK4z49lzm
+         bxZ7uiLOie8mIIcZ3qZK0ZtIm7952zVLHO0XNQodsuy7XcY7c2VxDow0XxBmq02T6qU2
+         areLoVoHtgsnM/yb+ZCBpHDq1r1grk6YubE/aJJJSxlLEciTBI/2fu9TU/fkJHbvg913
+         1JqwYx6RJldoO0n7iGJutIJMuMCxHs4A9TQjotxAK+Z3CpfEFUCOlSpoyTGtgY4Fmp21
+         QoXpWDcBgYqSibrFcM3h0d/VQPVe49nN2R2pBdP6GXIQWf2iY+FhMTfY2HbzKnOn3LPo
+         xSCA==
+X-Gm-Message-State: ANoB5pmYyc3GlhgJ7D43SD2M74fqnGeEVXODLoVrF4T3WE14MWe4OziR
+        QFegUetRBxZ4fIAZWcASFWW8mHe91GwyyQ==
+X-Google-Smtp-Source: AA0mqf5Eib78dyLVR/PyQDZI9I2hHs0cb0L1bgLFPBl/2gNVo77npFgvV+R64FDUZWE3izQn1DuXeQ==
+X-Received: by 2002:a1c:f616:0:b0:3cf:b1c2:c911 with SMTP id w22-20020a1cf616000000b003cfb1c2c911mr52264123wmc.16.1670256967928;
+        Mon, 05 Dec 2022 08:16:07 -0800 (PST)
+Received: from imac.fritz.box ([2a02:8010:60a0:0:8553:ec6:7ede:322a])
+        by smtp.gmail.com with ESMTPSA id f18-20020a05600c4e9200b003c6c182bef9sm30333831wmq.36.2022.12.05.08.16.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Dec 2022 08:16:07 -0800 (PST)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Donald Hunter <donald.hunter@gmail.com>
+Subject: [PATCH bpf-next v1] docs/bpf: Add documentation for BPF_MAP_TYPE_SK_STORAGE
+Date:   Mon,  5 Dec 2022 16:15:55 +0000
+Message-Id: <20221205161555.34943-1-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221130220825.1545758-1-carlos.bilbao@amd.com>
- <20221201204814.2141401-1-carlos.bilbao@amd.com> <a019a3f1-7ff1-15b2-d930-e1d722847e0c@gmail.com>
-In-Reply-To: <a019a3f1-7ff1-15b2-d930-e1d722847e0c@gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 5 Dec 2022 17:08:53 +0100
-Message-ID: <CANiq72=ud1EB+jcKE=iudFSgKNcqd=8Xe-M0YgxikmUuQ+TjGA@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: Integrate rustdoc into Rust documentation
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Carlos Bilbao <carlos.bilbao@amd.com>, ojeda@kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        bilbao@vt.edu, corbet@lwn.net, konstantin@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 5, 2022 at 2:06 AM Akira Yokosawa <akiyks@gmail.com> wrote:
->
-> So, this means "make htmldocs" will require kernel .config if CONFIG_RUST=y.
-> I'm not sure this new requirement is acceptable for kernel documentation
-> testers who just want to build kernel documentation.
+Add documentation for the BPF_MAP_TYPE_SK_STORAGE including
+kernel version introduced, usage and examples.
 
-If the worry is that "full tree testers" (or CIs in general) cannot
-fully test the docs anymore without a config, that is definitely a
-change, and one of the reasons why I initially didn't add it to
-`htmldocs`.
+Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+---
+ Documentation/bpf/map_sk_storage.rst | 138 +++++++++++++++++++++++++++
+ 1 file changed, 138 insertions(+)
+ create mode 100644 Documentation/bpf/map_sk_storage.rst
 
-However, full tree testers will need other changes anyway (at least
-installing the Rust toolchain), even if there was no need for a
-config. So it may be not too bad, and putting it in `htmldocs` means
-not having to call another target in the CIs; and for humans, less
-chance of forgetting etc.
+diff --git a/Documentation/bpf/map_sk_storage.rst b/Documentation/bpf/map_sk_storage.rst
+new file mode 100644
+index 000000000000..abb0c60ec5a4
+--- /dev/null
++++ b/Documentation/bpf/map_sk_storage.rst
+@@ -0,0 +1,138 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
++
++=======================
++BPF_MAP_TYPE_SK_STORAGE
++=======================
++
++.. note::
++   - ``BPF_MAP_TYPE_SK_STORAGE`` was introduced in kernel version 5.2
++
++``BPF_MAP_TYPE_SK_STORAGE`` is used to provide socket-local storage for BPF programs. A map of
++type ``BPF_MAP_TYPE_SK_STORAGE`` declares the type of storage to be provided and acts as the
++handle for accessing the socket-local storage from a BPF program. The key type must be ``int``
++and ``max_entries`` must be set to ``0``.
++
++The ``BPF_F_NO_PREALLOC`` must be used when creating a map for socket-local storage. The kernel
++is responsible for allocating storage for a socket when requested and for freeing the storage
++when either the map or the socket is deleted.
++
++Usage
++=====
++
++Kernel BPF
++----------
++
++bpf_sk_storage_get()
++~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
++   long bpf_sk_storage_get(struct bpf_map *map, struct bpf_sock *sk, void *value, u64 flags)
++
++Socket-local storage can be retrieved using the ``bpf_sk_storage_get()`` helper. The helper gets
++the storage from ``sk`` that is identified by ``map``.  If the
++``BPF_LOCAL_STORAGE_GET_F_CREATE`` flag is used then ``bpf_sk_storage_get()`` will create the
++storage for ``sk`` if it does not already exist. ``value`` can be used together with
++``BPF_LOCAL_STORAGE_GET_F_CREATE`` to initialize the storage value, otherwise it will be zero
++initialized. Returns a pointer to the storage on success, or ``0`` in case of failure.
++
++bpf_sk_storage_delete()
++~~~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
++   long bpf_sk_storage_delete(struct bpf_map *map, struct bpf_sock *sk)
++
++Socket-local storage can be deleted using the ``bpf_sk_storage_delete()`` helper. The helper
++deletes the storage from ``sk`` that is identified by ``map``. Returns ``0`` on success, or negative
++error in case of failure.
++
++User space
++----------
++
++bpf_map_update_elem()
++~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
++   int bpf_map_update_elem(int map_fd, const void *key, const void *value, __u64 flags)
++
++Socket-local storage with type identified by ``map_fd`` for the socket identified by ``key`` can
++be added or updated using the ``bpf_map_update_elem()`` libbpf function. ``key`` must be a
++pointer to a valid ``fd`` in the user space program. The ``flags`` parameter can be used to
++control the update behaviour:
++
++- ``BPF_ANY`` will create storage for ``fd`` or update existing storage.
++- ``BPF_NOEXIST`` will create storage for ``fd`` only if it did not already
++  exist
++- ``BPF_EXIST`` will update existing storage for ``fd``
++
++Returns ``0`` on success, or negative error in case of failure.
++
++bpf_map_lookup_elem()
++~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
++   int bpf_map_lookup_elem(int map_fd, const void *key, void *value)
++
++Socket-local storage for the socket identified by ``key`` belonging to ``map_fd`` can be
++retrieved using the ``bpf_map_lookup_elem()`` libbpf function. ``key`` must be a pointer to a
++valid ``fd`` in the user space program. Returns ``0`` on success, or negative error in case of
++failure.
++
++bpf_map_delete_elem()
++~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
++   int bpf_map_delete_elem (int map_fd, const void *key)
++
++Socket-local storage for the socket identified by ``key`` belonging to ``map_fd`` can be deleted
++using the ``bpf_map_delete_elem()`` libbpf function. Returns ``0`` on success, or negative error
++in case of failure.
++
++Examples
++========
++
++Kernel BPF
++----------
++
++This snippet shows how to declare socket-local storage in a BPF program:
++
++.. code-block:: c
++
++    struct {
++            __uint(type, BPF_MAP_TYPE_SK_STORAGE);
++            __uint(map_flags, BPF_F_NO_PREALLOC);
++            __type(key, int);
++            __type(value, struct my_storage);
++    } socket_storage SEC(".maps");
++
++This snippet shows how to retrieve socket-local storage in a BPF program:
++
++.. code-block:: c
++
++    SEC("sockops")
++    int _sockops(struct bpf_sock_ops *ctx)
++    {
++            struct my_storage *storage;
++            struct bpf_sock *sk;
++
++            sk = ctx->sk;
++            if (!sk)
++                    return 1;
++
++            storage = bpf_sk_storage_get(&socket_storage, sk, 0,
++                                         BPF_SK_STORAGE_GET_F_CREATE);
++            if (!storage)
++                    return 1;
++
++            /* Use 'storage' here */
++    }
++
++References
++==========
++
++https://lwn.net/ml/netdev/20190426171103.61892-1-kafai@fb.com/
+-- 
+2.38.1
 
-(It is also why I wondered above about
-`CONFIG_WARN_MISSING_DOCUMENTS`: if `Documentation/` intended to
-require a config as a whole, then it would be fine. I assume that is
-not the case, though, but not doing the sync is nevertheless a bit
-confusing)
-
-> By the way, is rustdoc's requirement of .config only for CONFIG_RUST?
-> In other words, are contents of rustdoc affected by other config settings?
->
-> If not, I think rustdoc can be generated regardless of config settings as
-> far as necessary tools (rustc, bindgen, etc.) are available.
-
-Yeah, at the moment the config affects what gets generated. However,
-that may change in the future: there has been some movement around the
-Rust features needed for this recently, so I want to try that approach
-again (it would require some other changes, though).
-
-Cheers,
-Miguel
