@@ -2,97 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24ED4C4321E
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 19:46:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86513C4321E
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 20:03:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235054AbiLETqY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Dec 2022 14:46:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47852 "EHLO
+        id S231713AbiLEUDV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Dec 2022 15:03:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235056AbiLETqF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 14:46:05 -0500
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B62C52DA98;
-        Mon,  5 Dec 2022 11:42:26 -0800 (PST)
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-143ffc8c2b2so14723838fac.2;
-        Mon, 05 Dec 2022 11:42:26 -0800 (PST)
+        with ESMTP id S232149AbiLEUDM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 15:03:12 -0500
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCFAA10CB;
+        Mon,  5 Dec 2022 12:03:10 -0800 (PST)
+Received: by mail-ot1-f46.google.com with SMTP id cn2-20020a056830658200b0066c74617e3dso7963040otb.2;
+        Mon, 05 Dec 2022 12:03:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kwtUnWRhcXi3vHuwS7fJ1x5P4unvbDZKnLOAXO8tzqQ=;
-        b=vytJSjguo358gTWWGPgDDnGu0VuHKmjk21EabO/bSI/k+9ACMIwkFq+9TfNZHG5Lve
-         et/1ZopXwvTJXVk4N4OvIaSu/n2b/58+8Vg3c/Qsm55AOGTowubAnVxUyqKMcuiJV4m7
-         7I6iuMVb7lMs5uVOxBniOEXvNOCtgXrdGch4WfGemMhbyHzb+HyMh4tOoYACjetyfCz2
-         Odq99hQlP50Q7YAi8Jj8vPuf2bcNga7ZjCvMnuDi0dWrbZCr7ciB/nlPrK4/PFSYuhjM
-         G2hk4GIsJxtQWz+XHyKu6yn7L/li9vlFLQKrVaLC1fHjxjC+qq2QSL/2/PT6jeR9q7hR
-         nD2w==
-X-Gm-Message-State: ANoB5plIEUrgXEwk+L+qUKbll5bg9Om9dhzPaQMNw1jZuJyaKNy3pSJu
-        O9yJYMY1ChcuuekUP+JDBA==
-X-Google-Smtp-Source: AA0mqf7mIsgmwqlw8/wmvAHtTjOWt43bx7CJhpx5R1PKP7Ypb/aP8Ye3Bws7U3SFMAb8D4rKuV/myA==
-X-Received: by 2002:a05:6870:6c1b:b0:144:307b:c88a with SMTP id na27-20020a0568706c1b00b00144307bc88amr10087441oab.267.1670269345827;
-        Mon, 05 Dec 2022 11:42:25 -0800 (PST)
+        bh=+W1sj6RAGXizx4i/Qzvpsvihqw6KYbgIgrAWRGb7Mos=;
+        b=rS2Hjmd1NI/0ZJb0kFceq8+fyQwI4LUfsJAv3U2QDZfxatyDN7WxFS+srZ8TauCUMz
+         JzyRZklCIMFthCscsUJ7Ofpmj5WsKydOqAY6jvNh+vo2nlIu4jpMZEealcjOSzSNg4DP
+         aGzLbaCdmaH2tKTbBh9+HVIGd13GYPKOPpG+Zl2XxxKgIjLiAN2ZXipbWb4ChfceJBKO
+         0eOBARM42qDap9xruyzx5XTRsobuWD9QjD1NcnVz2wFVvTUFOUSqo63spWTUUm3N1Eym
+         dmHeBMBVG8L0CAVokc7PYhDgyioUDS55jyqXtAamECGnvISF3ZpF66ZUU7uiQU4IS+Pk
+         6chg==
+X-Gm-Message-State: ANoB5pl8CSIlkO1Shd5VCuvq7OOCGCeHqea4BsCdJayLHsR68YF+eRq/
+        sV1msEFRsb4qcM9486HWXA==
+X-Google-Smtp-Source: AA0mqf4cy9gGp0M4GuPbOqNQwOUFNqLWLBMdSYtbIP79ziXVLqNr5+8hFB9zk2AYaadp3H7A0yZHoQ==
+X-Received: by 2002:a9d:2941:0:b0:66c:2a6d:e5a0 with SMTP id d59-20020a9d2941000000b0066c2a6de5a0mr30900337otb.373.1670270590064;
+        Mon, 05 Dec 2022 12:03:10 -0800 (PST)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id o12-20020a4abe8c000000b0049f3f5afcbasm906400oop.13.2022.12.05.11.42.24
+        by smtp.gmail.com with ESMTPSA id u19-20020a4ae693000000b004a0cb488f14sm1601735oot.23.2022.12.05.12.03.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 11:42:25 -0800 (PST)
-Received: (nullmailer pid 2470894 invoked by uid 1000);
-        Mon, 05 Dec 2022 19:42:24 -0000
-Date:   Mon, 5 Dec 2022 13:42:24 -0600
+        Mon, 05 Dec 2022 12:03:09 -0800 (PST)
+Received: (nullmailer pid 2500878 invoked by uid 1000);
+        Mon, 05 Dec 2022 20:03:08 -0000
+Date:   Mon, 5 Dec 2022 14:03:08 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-acpi@vger.kernel.org,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>
-Subject: Re: [PATCH v7 02/20] dt-bindings: Add binding for gunyah hypervisor
-Message-ID: <167026934327.2470835.18397895386816332012.robh@kernel.org>
-References: <20221121140009.2353512-1-quic_eberman@quicinc.com>
- <20221121140009.2353512-3-quic_eberman@quicinc.com>
+To:     nick.hawkins@hpe.com
+Cc:     verdun@hpe.com, linux@armlinux.org.uk, linux-hwmon@vger.kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux@roeck-us.net,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        robh+dt@kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, corbet@lwn.net,
+        jdelvare@suse.com
+Subject: Re: [PATCH v3 3/6] dt-bindings: hwmon: Add hpe,gxp-fan-ctrl
+Message-ID: <167027058851.2500814.11700544023248077261.robh@kernel.org>
+References: <20221130200846.4226-1-nick.hawkins@hpe.com>
+ <20221130200846.4226-4-nick.hawkins@hpe.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221121140009.2353512-3-quic_eberman@quicinc.com>
+In-Reply-To: <20221130200846.4226-4-nick.hawkins@hpe.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-On Mon, 21 Nov 2022 05:59:51 -0800, Elliot Berman wrote:
-> When Linux is booted as a guest under the Gunyah hypervisor, the Gunyah
-> Resource Manager applies a devicetree overlay describing the virtual
-> platform configuration of the guest VM, such as the message queue
-> capability IDs for communicating with the Resource Manager. This
-> information is not otherwise discoverable by a VM: the Gunyah hypervisor
-> core does not provide a direct interface to discover capability IDs nor
-> a way to communicate with RM without having already known the
-> corresponding message queue capability ID. Add the DT bindings that
-> Gunyah adheres for the hypervisor node and message queues.
+On Wed, 30 Nov 2022 14:08:43 -0600, nick.hawkins@hpe.com wrote:
+> From: Nick Hawkins <nick.hawkins@hpe.com>
 > 
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> Create documentation for the binding to support control of the fans on
+> HPE platforms.
+> 
+> Signed-off-by: Nick Hawkins <nick.hawkins@hpe.com>
 > ---
->  .../bindings/firmware/gunyah-hypervisor.yaml  | 82 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  2 files changed, 83 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+>  .../bindings/hwmon/hpe,gxp-fan-ctrl.yaml      | 45 +++++++++++++++++++
+>  1 file changed, 45 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/hpe,gxp-fan-ctrl.yaml
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
