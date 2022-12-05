@@ -2,118 +2,289 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 042BCC47088
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 04:18:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C753C47089
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 04:27:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231346AbiLEES1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Dec 2022 23:18:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40382 "EHLO
+        id S231384AbiLEE13 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Dec 2022 23:27:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231132AbiLEESZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Dec 2022 23:18:25 -0500
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B170DF23;
-        Sun,  4 Dec 2022 20:18:25 -0800 (PST)
-Received: by mail-pf1-x431.google.com with SMTP id d82so1435135pfd.11;
-        Sun, 04 Dec 2022 20:18:25 -0800 (PST)
+        with ESMTP id S231372AbiLEE10 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Dec 2022 23:27:26 -0500
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E79D12D19
+        for <linux-doc@vger.kernel.org>; Sun,  4 Dec 2022 20:27:24 -0800 (PST)
+Received: by mail-pg1-x531.google.com with SMTP id 6so9436502pgm.6
+        for <linux-doc@vger.kernel.org>; Sun, 04 Dec 2022 20:27:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UzqPnNGw36VuLWg2EJymliVOhlDxnG0AxreG33VazHA=;
-        b=eOYTzni4Zhxcuma9RSPCd3F+Rm4mgIKw+gjVm89TaRE/6nagK5CD3EEmMuxU1t8dNF
-         /oHeAqXqsis+006sHvarL8N+Oqlv1Wm+SJUZ2wyVxfiR2CflKveeChlyHOOwTnKXjL8X
-         NdAb5LfP+LkItT6teaTIb3p2E5ZJScfixILY3Zq7ro34j8d/XKEq8jFqq06bxvl8wFUW
-         AXCxTlzk8XsRpg+3nr9SQlHRUeCLf52Dr2uef7lS6vwLvARM+qkcQ4t3RHuykZf3HRd0
-         QaY9wmAxY2bJ9iBwBZ/c3/bZ0/3A3vDpBIfkDP9Oq6xryHFPGnQonH44BZzjU3LdU1p1
-         OgNw==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2r1Ei9Rq+Q7TrA7bT1bxXLueCKoVPQlRD8D3iXufRkg=;
+        b=bAAn+zlfT5xTI/PL0xMY3tAEDYvFLbc+Ht708ZM8uVnoDOiH868h+Hx0a81j+5k3ng
+         qi6sbj+/rJ9wCkjo8xK0acI91mTawXwf5HYctgBjHenIVT+zOB5IXBw5kBDLGdfs2khp
+         XLBbgUAfQ3gRCJAll/5R7brL//BclwNh8BOc1MLUcngxrw4YHjXNMKbR8g4tFIm562I3
+         EXtp9MiT5sf1TjvKkkb0IJPwe2ywTtmAT0MXK+xl9y/XP/ybLPX2qG5iNxnYH+5o9Ua+
+         /mXN4qaU9RH1kKJTXFkCm3UavJ408UJ4Bh5SA2sQbHzpGI4zyU7tn30W2C03lapkBcyt
+         JU9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UzqPnNGw36VuLWg2EJymliVOhlDxnG0AxreG33VazHA=;
-        b=H7tx+fkH9U2piJthGe+0L6Kq6pw7Q2GrxDyYoW4BrO9ZigaMklmZbU4W9eKUbG2z29
-         jqICu7/dB7HlLA2uXs3SU7ao8Ma2YZ8sxNnreSe8YTuBRjZ61hvZhQhW3wu8lvJoIj/p
-         bKDvyIKwb1XMy64jF+XwtbHOPjavhhFOK5A+Uv5Pg66JNcvK/0zXdFLJBE5uVrla6ISg
-         lSgQ/lNj/tFIA70TydVjOHpyXwCb8BI5AHI/By6ZeQ2QMNZatA9b8XdDgQkY1yos7sXz
-         5a3dmuwgPp3y1Pu+OvqxMWXp91oLUHWRZZLkEwWyV32dnbYE+PUqFeg4AcJQlbMGWLp5
-         I+oA==
-X-Gm-Message-State: ANoB5pnjEvRY+ahJVaV57JGzPLNVHuRWIlc/eQyaKlBYP1KWavg7kuvY
-        4z00OFFuYM+ud3cjBCKZ4TC8xI2Ilr0=
-X-Google-Smtp-Source: AA0mqf69N2768Mi9R5BJR1VStSEofSrc28CRlgLRmWW3L0zE/FHXe6N50KF0o2S/nAYmFZijtFnVJQ==
-X-Received: by 2002:a63:e510:0:b0:470:60a5:146d with SMTP id r16-20020a63e510000000b0047060a5146dmr61600765pgh.156.1670213904544;
-        Sun, 04 Dec 2022 20:18:24 -0800 (PST)
-Received: from [192.168.43.80] (subs02-180-214-232-22.three.co.id. [180.214.232.22])
-        by smtp.gmail.com with ESMTPSA id m17-20020a656a11000000b00478a3079b7esm2489764pgu.19.2022.12.04.20.18.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 04 Dec 2022 20:18:24 -0800 (PST)
-Message-ID: <97e37f71-7748-114f-ab96-7d29d81a4155@gmail.com>
-Date:   Mon, 5 Dec 2022 11:18:20 +0700
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2r1Ei9Rq+Q7TrA7bT1bxXLueCKoVPQlRD8D3iXufRkg=;
+        b=kKhOSF8ftubHCpw13r/Tcko8DDeQ5OFuaMeEUnp/41Pnh8Sx6LH+ePbPXnlhMEtZqP
+         DRhmghR8YeuBqC5GZTOiGLwC+qROQQ6DZ+fCL3k67ikiSMDcsWYYdd7e5F/zbJ3hroBD
+         5ApUGFzOqOzRslxJX2fxOooAA6fhSQ2w1/zYgmH8zDLH0gkFObsn70dniNEKDCqCNB/E
+         AtMqBAvnccjWrp+nnQQ9OOV2WCDdEXb7I1u0AhrJRUkYL9QiWnoAShmMtHUSfK2upcCp
+         slIDdIWB8oDiV9kCwWJZvG5M5nwSi8cM5nTUdxy5HVVNaMzSCQ/CzCPqKJrS89zpjS7z
+         iYZQ==
+X-Gm-Message-State: ANoB5pmS3CcYR9VyjrvIFWwmJb2Utw5KEM1CT37EoK/UGQj+U0Okp2zv
+        hGVYw9+B38/S/bfYyO0Jzj+nxdgHSYfGLhRBal364w==
+X-Google-Smtp-Source: AA0mqf75EOuooQoQNvnD15mj/Nu4X8c9ckjAkSPYrU/SE7RCW4qlz08psq99ZWJrN1V9nNNH4wJClYQhOrAzGie6Mec=
+X-Received: by 2002:a63:4d4c:0:b0:478:ba69:9ce3 with SMTP id
+ n12-20020a634d4c000000b00478ba699ce3mr3240085pgl.393.1670214443505; Sun, 04
+ Dec 2022 20:27:23 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [linux-next:master 10545/12617] htmldocs:
- Documentation/output/frontend.h.rst:6: WARNING: undefined label: fec-1-3 (if
- the link has no caption the label must precede a section header)
-Content-Language: en-US
-To:     kernel test robot <lkp@intel.com>,
-        Robert Schlabbach <robert_s@gmx.net>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-doc@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-References: <202212041959.Y2fRgy9r-lkp@intel.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <202212041959.Y2fRgy9r-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221125084306.1063074-1-davidgow@google.com> <20221125084306.1063074-2-davidgow@google.com>
+In-Reply-To: <20221125084306.1063074-2-davidgow@google.com>
+From:   Sadiya Kazi <sadiyakazi@google.com>
+Date:   Mon, 5 Dec 2022 09:57:12 +0530
+Message-ID: <CAO2JNKUsBx6sro87vbhbUqmMa0ZupG=92qK-2bXAAn-r5Huetw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] kunit: Use the static key when retrieving the
+ current test
+To:     David Gow <davidgow@google.com>
+Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
+        Daniel Latypov <dlatypov@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/4/22 18:52, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   5be860bfc73408bc1a8af9167955e480ecebba84
-> commit: 6508a50fe84f9858e8b59b53dce3847aaeeab744 [10545/12617] media: dvb: add DVB-C2 and DVB-S2X parameter values
-> reproduce:
->         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=6508a50fe84f9858e8b59b53dce3847aaeeab744
->         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
->         git fetch --no-tags linux-next master
->         git checkout 6508a50fe84f9858e8b59b53dce3847aaeeab744
->         make menuconfig
->         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
->         make htmldocs
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: fec-1-3 (if the link has no caption the label must precede a section header)
->>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: apsk-8-l (if the link has no caption the label must precede a section header)
->>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: apsk-64 (if the link has no caption the label must precede a section header)
->>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: qam-1024 (if the link has no caption the label must precede a section header)
->>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: guard-interval-1-64 (if the link has no caption the label must precede a section header)
->>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: rolloff-15 (if the link has no caption the label must precede a section header)
->>> Documentation/output/frontend.h.rst:6: WARNING: undefined label: sys-dvbc2 (if the link has no caption the label must precede a section header)
-> 
-> vim +6 Documentation/output/frontend.h.rst
-> 
+On Fri, Nov 25, 2022 at 2:13 PM 'David Gow' via KUnit Development
+<kunit-dev@googlegroups.com> wrote:
+>
+> In order to detect if a KUnit test is running, and to access its
+> context, the 'kunit_test' member of the current task_struct is used.
+> Usually, this is accessed directly or via the kunit_fail_current_task()
+> function.
+>
+> In order to speed up the case where no test is running, add a wrapper,
+> kunit_get_current_test(), which uses the static key to fail early.
+> Equally, Speed up kunit_fail_current_test() by using the static key.
+>
+> This should make it convenient for code to call this
+> unconditionally in fakes or error paths, without worrying that this will
+> slow the code down significantly.
+>
+> If CONFIG_KUNIT=n (or m), this compiles away to nothing. If
+> CONFIG_KUNIT=y, it will compile down to a NOP (on most architectures) if
+> no KUnit test is currently running.
+>
+> Note that kunit_get_current_test() does not work if KUnit is built as a
+> module. This mirrors the existing restriction on kunit_fail_current_test().
+>
+> Note that the definition of kunit_fail_current_test() still wraps an
+> empty, inline function if KUnit is not built-in. This is to ensure that
+> the printf format string __attribute__ will still work.
+>
+> Also update the documentation to suggest users use the new
+> kunit_get_current_test() function, update the example, and to describe
+> the behaviour when KUnit is disabled better.
+>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Sadiya Kazi <sadiyakazi@google.com>
+> Signed-off-by: David Gow <davidgow@google.com>
+> Reviewed-by: Daniel Latypov <dlatypov@google.com>
+> ---
+Thank you, David. This looks great to me.
+Reviewed-by: Sadiya Kazi <sadiyakazi@google.com>
 
-My htmldocs build doesn't catch these warnings above, yet it says there
-are 62 warnings...
-
-Looking at the resulting frontend.h.rst, I didn't see any of these new
-labels.
-
-Cc'ing Akira and Randy to help sorting out.
-
-Thanks anyway.
-
--- 
-An old man doll... just what I always wanted! - Clara
-
+Best Regards,
+Sadiya Kazi
+>
+> As-is, the only code which will be directly affected by this (via the
+> kunit_fail_current_test() change) will be UBSAN's KUnit integration.
+>
+> Patches to port other tests to use kunit_get_current_test() will be sent
+> separately (other than the SLUB one in patch 3/3). KASAN in particular
+> are reworking their KUnit tests and integration, so we'll use this in a
+> follow up to avoid introducing a conflict.
+>
+> Changes since v3:
+> https://lore.kernel.org/linux-kselftest/20221119081252.3864249-2-davidgow@google.com/
+> - Use DECLARE_STATIC_KEY_FALSE() -- Thanks Daniel.
+> - Some documentation rewording to make the behaviour a bit clearer.
+>   - Thanks Daniel and Sadiya
+>
+> Changes since v2:
+> https://lore.kernel.org/all/20221025071907.1251820-2-davidgow@google.com/
+> - Only add kunit_get_current_test() when KUnit is built-in, as the
+>   static key isn't available otherwise.
+>   - I'm going to try to put together some patches to make things like
+>     this available when CONFIG_KUNIT=m in the future.
+>   - Also update the documentation to note this.
+>
+> Changes since v1:
+> https://lore.kernel.org/linux-kselftest/20221021072854.333010-2-davidgow@google.com/
+> - Fix a missing '}' which broke everything. Thanks Kees, kernel test
+>   robot.
+> - Add the new kunit_get_current_test() function, as most of the cases
+>   where we retrieve the current test (even to fail it) were accessing
+>   current->kunit_test directly, not using kunit_fail_current_test().
+> - Add some documentation comments.
+> - Update the documentation in usage.rst.
+>   - The version in tips.rst was not updated, and will be removed:
+>   https://lore.kernel.org/linux-kselftest/20221025055844.1231592-1-davidgow@google.com/
+>
+> ---
+>  Documentation/dev-tools/kunit/usage.rst | 30 +++++++++-----
+>  include/kunit/test-bug.h                | 53 +++++++++++++++++++++++--
+>  2 files changed, 71 insertions(+), 12 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+> index 22416ebb94ab..48f8196d5aad 100644
+> --- a/Documentation/dev-tools/kunit/usage.rst
+> +++ b/Documentation/dev-tools/kunit/usage.rst
+> @@ -641,17 +641,23 @@ as shown in next section: *Accessing The Current Test*.
+>  Accessing The Current Test
+>  --------------------------
+>
+> -In some cases, we need to call test-only code from outside the test file.
+> -For example, see example in section *Injecting Test-Only Code* or if
+> -we are providing a fake implementation of an ops struct. Using
+> -``kunit_test`` field in ``task_struct``, we can access it via
+> -``current->kunit_test``.
+> +In some cases, we need to call test-only code from outside the test file.  This
+> +is helpful, for example, when providing a fake implementation of a function, or
+> +to fail any current test from within an error handler.
+> +We can do this via the ``kunit_test`` field in ``task_struct``, which we can
+> +access using the ``kunit_get_current_test()`` function in ``kunit/test-bug.h``.
+>
+> -The example below includes how to implement "mocking":
+> +``kunit_get_current_test()`` is safe to call even if KUnit is not enabled. If
+> +KUnit is not enabled, was built as a module (``CONFIG_KUNIT=m``), or no test is
+> +running in the current task, it will return ``NULL``. This compiles down to
+> +either a no-op or a static key check, so will have a negligible performance
+> +impact when no test is running.
+> +
+> +The example below uses this to implement a "mock" implementation of a function, ``foo``:
+>
+>  .. code-block:: c
+>
+> -       #include <linux/sched.h> /* for current */
+> +       #include <kunit/test-bug.h> /* for kunit_get_current_test */
+>
+>         struct test_data {
+>                 int foo_result;
+> @@ -660,7 +666,7 @@ The example below includes how to implement "mocking":
+>
+>         static int fake_foo(int arg)
+>         {
+> -               struct kunit *test = current->kunit_test;
+> +               struct kunit *test = kunit_get_current_test();
+>                 struct test_data *test_data = test->priv;
+>
+>                 KUNIT_EXPECT_EQ(test, test_data->want_foo_called_with, arg);
+> @@ -691,7 +697,7 @@ Each test can have multiple resources which have string names providing the same
+>  flexibility as a ``priv`` member, but also, for example, allowing helper
+>  functions to create resources without conflicting with each other. It is also
+>  possible to define a clean up function for each resource, making it easy to
+> -avoid resource leaks. For more information, see Documentation/dev-tools/kunit/api/test.rst.
+> +avoid resource leaks. For more information, see Documentation/dev-tools/kunit/api/resource.rst.
+>
+>  Failing The Current Test
+>  ------------------------
+> @@ -719,3 +725,9 @@ structures as shown below:
+>         static void my_debug_function(void) { }
+>         #endif
+>
+> +``kunit_fail_current_test()`` is safe to call even if KUnit is not enabled. If
+> +KUnit is not enabled, was built as a module (``CONFIG_KUNIT=m``), or no test is
+> +running in the current task, it will do nothing. This compiles down to either a
+> +no-op or a static key check, so will have a negligible performance impact when
+> +no test is running.
+> +
+> diff --git a/include/kunit/test-bug.h b/include/kunit/test-bug.h
+> index 5fc58081d511..c1b2e14eab64 100644
+> --- a/include/kunit/test-bug.h
+> +++ b/include/kunit/test-bug.h
+> @@ -9,16 +9,63 @@
+>  #ifndef _KUNIT_TEST_BUG_H
+>  #define _KUNIT_TEST_BUG_H
+>
+> -#define kunit_fail_current_test(fmt, ...) \
+> -       __kunit_fail_current_test(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
+> -
+>  #if IS_BUILTIN(CONFIG_KUNIT)
+>
+> +#include <linux/jump_label.h> /* For static branch */
+> +#include <linux/sched.h>
+> +
+> +/* Static key if KUnit is running any tests. */
+> +DECLARE_STATIC_KEY_FALSE(kunit_running);
+> +
+> +/**
+> + * kunit_get_current_test() - Return a pointer to the currently running
+> + *                           KUnit test.
+> + *
+> + * If a KUnit test is running in the current task, returns a pointer to its
+> + * associated struct kunit. This pointer can then be passed to any KUnit
+> + * function or assertion. If no test is running (or a test is running in a
+> + * different task), returns NULL.
+> + *
+> + * This function is safe to call even when KUnit is disabled. If CONFIG_KUNIT
+> + * is not enabled, it will compile down to nothing and will return quickly no
+> + * test is running.
+> + */
+> +static inline struct kunit *kunit_get_current_test(void)
+> +{
+> +       if (!static_branch_unlikely(&kunit_running))
+> +               return NULL;
+> +
+> +       return current->kunit_test;
+> +}
+> +
+> +
+> +/**
+> + * kunit_fail_current_test() - If a KUnit test is running, fail it.
+> + *
+> + * If a KUnit test is running in the current task, mark that test as failed.
+> + *
+> + * This macro will only work if KUnit is built-in (though the tests
+> + * themselves can be modules). Otherwise, it compiles down to nothing.
+> + */
+> +#define kunit_fail_current_test(fmt, ...) do {                                 \
+> +               if (static_branch_unlikely(&kunit_running)) {                   \
+> +                       __kunit_fail_current_test(__FILE__, __LINE__,           \
+> +                                                 fmt, ##__VA_ARGS__);          \
+> +               }                                                               \
+> +       } while (0)
+> +
+> +
+>  extern __printf(3, 4) void __kunit_fail_current_test(const char *file, int line,
+>                                                     const char *fmt, ...);
+>
+>  #else
+>
+> +static inline struct kunit *kunit_get_current_test(void) { return NULL; }
+> +
+> +/* We define this with an empty helper function so format string warnings work */
+> +#define kunit_fail_current_test(fmt, ...) \
+> +               __kunit_fail_current_test(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
+> +
+>  static inline __printf(3, 4) void __kunit_fail_current_test(const char *file, int line,
+>                                                             const char *fmt, ...)
+>  {
+> --
+> 2.38.1.584.g0f3c55d4c2-goog
+>
+> --
+> You received this message because you are subscribed to the Google Groups "KUnit Development" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kunit-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kunit-dev/20221125084306.1063074-2-davidgow%40google.com.
