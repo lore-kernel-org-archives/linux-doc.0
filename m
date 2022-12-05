@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92D5EC4708C
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 23:34:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12CA5C63706
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 23:34:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231814AbiLEXeH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Dec 2022 18:34:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50982 "EHLO
+        id S232156AbiLEXeh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Dec 2022 18:34:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232958AbiLEXdz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 18:33:55 -0500
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2066.outbound.protection.outlook.com [40.107.220.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8962518372;
-        Mon,  5 Dec 2022 15:33:45 -0800 (PST)
+        with ESMTP id S232851AbiLEXe2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 18:34:28 -0500
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2078.outbound.protection.outlook.com [40.107.220.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A0611F9D2;
+        Mon,  5 Dec 2022 15:34:10 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K6OX0nBCf48vM8+oJPJbPYOwkxem03kv6QgXxGcE4qmn/GybHVYpW6iQ9T8ESpkpbA1hIkz7JOGJhKF5gHex8UNXM6eo+zImgRwBGKa14mbeTChmQsXwHdQElhkNwquhmiUOUnkZLuaMpV2JMMjKUaxu8rbrfkWCQTUEYTAgIyg46QoFr/Qq/CS75dRZuZ0LJQhIyWAHVg40LV/wtEF/mAU8nsiZ8GOaHfv3RUUM6rmeWnYmk8GDoUfC7JdikYJXJL/OiNK7XczdgDMSIm+AMgaQWGlVdWPBpxUiVIXCCfb6jV/1lDLiuJv2PmEevUspHkc9pgX+e3NpbbttL6On1A==
+ b=HtI+LEhRCaZ39hZwvQPF2zPN3jS3N3yNGEXBzCG3KSyyVpt3kNgQhDiSgIMLYBDbAZwYEG3KjTDiVHVBxvFpJRsTUmMKw10j4ESA+upri2ZFuHuIVWqwSIfqiwgUq/fZqE/dcHT11ziXWOAMj4TK+A4wncQ+mlg74PPSZY8FyPZit890pmXGfeDVyaCm5qs20Ms5DpnMvUxsCD9Oh3ci6L5WkBbg1ys7E0wwwu23421h59nsxtweSV0Od0+zujkLx5CV3j9UlBL7FL5PLfguPCEL/SpOMom06NaYpUD9HuR0HGkpG+oQD8NgiJo4uBFs09EIuJjgroscDpGD559xUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aJNYRfHM869rcVG5ek02QXWp90OIOOF7VmnPInzVI0g=;
- b=KcNpU7TJH/cxi+Sw3C1UjgSE5iUrC8LmHrOQVkMlIskF4EY8W+98zpGW3Jbm45dwy02ri9EEL6TrktzrIed6IZJPgeSjooSX8oZHpX54xLh2r7P+k+tIhCPnaHX/3B9bFnHvLEa8+78vFmFc2ovo3/FLWlryEuUPtmDAVZd68HkreLJMXGIoXiJjGNnREgKVZ9Is+0G/6Rs6EQllEl8JiyqV+oL5GrZZBdxcnQLK2gfB/XGiTKAQfCIt1tCq3XpXoQiHWL2mTyvYkItKz29iAixfF14LI0kF0bKNRm+2WS/n2gzPbmJDT/kChpp4DU44IYrigSFuM8Ha05a9jA4eqQ==
+ bh=QtbEVcIXKPcNUDK5Ed3i+L8em6ijJ026n5PAVD1LpfY=;
+ b=Zo8DPNW9pcGj4In+tJfrg91aj/OaSLUyoOwJq8PWfAFeL8DJfm1AvRp4HMe1GAHbGxu9A80BIRcsF4YxZCYUUKWFUyjGkQYeHWsBE7HQdwRJzbPWPx5xK4yRxiFbWHlyAPP63GIrX0iDoXPv4cZwhjzY8nKLFuvU3002mV6n3u3iPGcoQLbI6mO5mt54cYgL0xhkWBa0iQYV+6XLwAy1OiOsWlv6BTR3TMZE1/ejba1AIDDMZqh9F5tqQ8x/MFROzAUa+XyjCegt3TPj/NYW3uTUElSyTtsd4dsdlXuK/bWDhPVswAdQAh/ghkIXptI0+Z+KhQjy/+RSmbYh8pAQig==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aJNYRfHM869rcVG5ek02QXWp90OIOOF7VmnPInzVI0g=;
- b=ZoTYCvQyk0MHaWLmNUl+4IHmHJqwQ5I2ZOyiyqriFj19b0YPBY7PwyITPs19ncNxQFIoy0UowHXt8odp7T7LY1jAS5Hq38GprpV/RuCZkODAVidsgf5uoUoHe/GnowExiEICY5pGkdYMq0MsqcVTZu+1z2gJ+KkLEeT4JOpdrwQ=
-Received: from DS7PR03CA0273.namprd03.prod.outlook.com (2603:10b6:5:3ad::8) by
- MW4PR12MB7357.namprd12.prod.outlook.com (2603:10b6:303:219::16) with
+ bh=QtbEVcIXKPcNUDK5Ed3i+L8em6ijJ026n5PAVD1LpfY=;
+ b=d27I1oWs4zGNT9F24X0qS0EhzhO2viKKNnEbJNYVOir4+Qm2UeXmX4Z5uplVmyandR8IoAkYOP2R9hfIvQGx9Ltlny6uopJV5uGA6flfLKUDsu2mJfj7tX12HHwq4Rqwl0svI6EYY4Zfi1Lmm+4p9Zz96liHHXXqnSm26uA+ySk=
+Received: from DS7PR05CA0027.namprd05.prod.outlook.com (2603:10b6:5:3b9::32)
+ by SJ0PR12MB6989.namprd12.prod.outlook.com (2603:10b6:a03:448::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.13; Mon, 5 Dec
- 2022 23:33:43 +0000
-Received: from DS1PEPF0000E642.namprd02.prod.outlook.com
- (2603:10b6:5:3ad:cafe::12) by DS7PR03CA0273.outlook.office365.com
- (2603:10b6:5:3ad::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14 via Frontend
- Transport; Mon, 5 Dec 2022 23:33:42 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Mon, 5 Dec
+ 2022 23:34:07 +0000
+Received: from DS1PEPF0000E645.namprd02.prod.outlook.com
+ (2603:10b6:5:3b9:cafe::6a) by DS7PR05CA0027.outlook.office365.com
+ (2603:10b6:5:3b9::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5901.8 via Frontend
+ Transport; Mon, 5 Dec 2022 23:34:07 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -46,13 +46,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS1PEPF0000E642.mail.protection.outlook.com (10.167.17.198) with Microsoft
+ DS1PEPF0000E645.mail.protection.outlook.com (10.167.17.203) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5880.8 via Frontend Transport; Mon, 5 Dec 2022 23:33:42 +0000
+ 15.20.5880.8 via Frontend Transport; Mon, 5 Dec 2022 23:34:07 +0000
 Received: from fritz.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 5 Dec
- 2022 17:33:40 -0600
+ 2022 17:34:04 -0600
 From:   Kim Phillips <kim.phillips@amd.com>
 To:     <x86@kernel.org>
 CC:     Kim Phillips <kim.phillips@amd.com>,
@@ -75,9 +75,9 @@ CC:     Kim Phillips <kim.phillips@amd.com>,
         Tom Lendacky <thomas.lendacky@amd.com>,
         Alexey Kardashevskiy <aik@amd.com>, <kvm@vger.kernel.org>,
         <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 4/7] x86/cpu, kvm: Move CPUID 0x80000021 EAX feature bits propagation to kvm_set_cpu_caps()
-Date:   Mon, 5 Dec 2022 17:32:32 -0600
-Message-ID: <20221205233235.622491-5-kim.phillips@amd.com>
+Subject: [PATCH v5 6/7] x86/cpu: Support AMD Automatic IBRS
+Date:   Mon, 5 Dec 2022 17:32:34 -0600
+Message-ID: <20221205233235.622491-7-kim.phillips@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221205233235.622491-1-kim.phillips@amd.com>
 References: <20221205233235.622491-1-kim.phillips@amd.com>
@@ -89,137 +89,208 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0000E642:EE_|MW4PR12MB7357:EE_
-X-MS-Office365-Filtering-Correlation-Id: 83d102b9-eccb-4651-b83a-08dad7192554
+X-MS-TrafficTypeDiagnostic: DS1PEPF0000E645:EE_|SJ0PR12MB6989:EE_
+X-MS-Office365-Filtering-Correlation-Id: 86d44ee2-d085-467a-55a9-08dad7193444
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sfFixoy256pbkMw+oX6f/GCsm06z1AmEnq83DsxcUWgEoY/ExL7Kw910wYxMnQagPlIQugWnJvoKK14v6ATQB1iN5p/y5zujVQbIY8x/NjZO4jhqF/k+gzJwxiKT9ly748qB9axykccVKFs6wi0I4i1TkT/Ac9wuamcNlZHAxSQb2RstLz69rI+4RA9JGDYprrb7VpKhZORTkX8pfk+RyAZzbVMva4XDwqtQBKExFYfdlhHi7bENQWh5K2wYcUV8PFC/H1PiXXom/WdXhcYN+RaMqWhgO7ur/FuB5b0e6/rRbU7vUq0UPfaKD1mIlcOPbONYA3D1/R5uuGb41ORh9EE7AC0Wv8LAGxYIVOt4CrhDVTDehMd3DgxsDRdB29i0itY7BDmXl2v0HdgP2Y/uyFAGalp+3xl+jLJAiS69ZVQIVwnEkUGxmrFsXjKgfncvltx9FHmmOILKt8XEPzhFhNXcbHVfLFGxUc9JKkxmvY+eP6CdiLJhMuMph2UAYNQUFiiegk3Guj9VbtogXH/nb9JbkAWNyreq7fqIz3bU6nOTLXQqbJ1FukcuGy/HzRdT4UJj/LcpKiNfUKg4CylwUDOrqpDCV2hd04SNS6xCy0QAGhg/LcJYQDCORoO3kq3xwN/jHgMFP2kY9N+Qu+l31/n8pgdBVdRZ5suGNUn+/C3plcavyjccyBUAtFokqwYSEBjzE7NDTp7i9F/G3OIFs44G2zg68dsEw1jvVrlmvmQ=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(376002)(396003)(39860400002)(136003)(346002)(451199015)(36840700001)(40470700004)(46966006)(8936002)(70586007)(356005)(81166007)(36860700001)(54906003)(316002)(82310400005)(82740400003)(6916009)(4326008)(41300700001)(70206006)(86362001)(7416002)(8676002)(40460700003)(44832011)(36756003)(2906002)(478600001)(5660300002)(40480700001)(6666004)(186003)(26005)(7696005)(426003)(47076005)(16526019)(336012)(83380400001)(2616005)(1076003)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: s5h0yqurSRhuPkdKVzW7eXE0mfVZV7AEdHZjx8OojtMLMrPodd/jUwO2H0fll1NJfgfRyMxaihixZjibGegNvMW7lCftxxmqG7Ydw1aMuYBAIpxaWb/aA5dJqp5b7LSYlJDmDF9es52OM76Rm0L+mE/8p6iuMp9BbreIeF/hDNRxmQKJsJxgXocRdKpzOX1g6qYB1Xx66WVi/VUXFX9im9aJ9qWMsuAZMsh8mCRD7/wc8iu74AUrjAy80/Aot7rhiIiMGBz7gy9RKYsRaSw4YdSN0sITW+CCFL8MEeyzfyVBGFlsjeM1q+jBkJoO6GLxNwb7spcDiyArkyJKEja45jURmDlpwivA3F8fuYzR5QZ8X2E72qU0NM3QRi2sDCQ9IYVbyEnOpl9CItXtA49JK8DeTxlT6RVYV/VyiKhRdD15juaJGfSyKKicvkluu1+pIGZJGmw7MMd9ERwfu06B58LGhZnLOVCrAONtzAXdP4tm+2xenVwY8E3oYLspSegNoWsTRXGxcTMLoKZkumhZA/Om85hI5bZSKuefOUuASx6vQiicWHBjkSuFpj30szxojd3Hv6+zRyIfRAXjB1eK2TnO5YD7mSs27ixO8khLZjFnLZ77lICClAB53Qj7x4bNR53/AqKqkyhM4zqwiOBKNQQOwg0ZOUKqJAOEAoP2UUsx7gVRZCcIlCgDLfw0AiZv4jPqcgyQt8L7q3ZDYekCz1H0ccKmDRW0WfSdyfBV4H4=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(346002)(376002)(396003)(39860400002)(136003)(451199015)(36840700001)(46966006)(40470700004)(186003)(16526019)(336012)(41300700001)(356005)(2616005)(81166007)(82740400003)(1076003)(426003)(47076005)(2906002)(83380400001)(82310400005)(36860700001)(36756003)(7416002)(5660300002)(8936002)(40460700003)(44832011)(6666004)(40480700001)(7696005)(478600001)(86362001)(70586007)(70206006)(8676002)(4326008)(26005)(316002)(6916009)(54906003)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2022 23:33:42.6028
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2022 23:34:07.6613
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83d102b9-eccb-4651-b83a-08dad7192554
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86d44ee2-d085-467a-55a9-08dad7193444
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E642.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E645.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7357
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6989
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Move CPUID 0x80000021 EAX feature bits guest propagation to
-kvm_set_cpu_caps() instead of open-coding them in __do_cpuid_func().
-Drop the bit description comments now the code is more self-describing.
+The AMD Zen4 core supports a new feature called Automatic IBRS.
 
-Whilst there, switch to using the more efficient cpu_feature_enabled()
-instead of static_cpu_has().
+It is a "set-and-forget" feature that means that, like
+Intel's Enhanced IBRS, h/w manages its IBRS mitigation
+resources automatically across CPL transitions.
+
+The feature is advertised by CPUID_Fn80000021_EAX bit 8 and is
+enabled by setting MSR C000_0080 (EFER) bit 21.
+
+Enable Automatic IBRS by default if the CPU feature is present.
+It typically provides greater performance over the incumbent
+generic retpolines mitigation.
+
+Reuse the SPECTRE_V2_EIBRS spectre_v2_mitigation enum.
+AMD Automatic IBRS and Intel Enhanced IBRS have similar
+bugs.c enablement.  Add NO_EIBRS_PBRSB to cpu_vuln_whitelist,
+since AMD Automatic IBRS isn't affected by PBRSB-eIBRS.
+
+The kernel command line option spectre_v2=eibrs is
+used to select AMD Automatic IBRS, if available.
 
 Signed-off-by: Kim Phillips <kim.phillips@amd.com>
 ---
- arch/x86/kvm/cpuid.c         | 25 ++++++++++---------------
- arch/x86/kvm/reverse_cpuid.h | 22 ++++++++++++++++------
- 2 files changed, 26 insertions(+), 21 deletions(-)
+ Documentation/admin-guide/hw-vuln/spectre.rst |  6 +++---
+ .../admin-guide/kernel-parameters.txt         |  6 +++---
+ arch/x86/include/asm/msr-index.h              |  2 ++
+ arch/x86/kernel/cpu/bugs.c                    | 20 +++++++++++--------
+ arch/x86/kernel/cpu/common.c                  | 19 ++++++++++--------
+ 5 files changed, 31 insertions(+), 22 deletions(-)
 
-diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-index c92c49a0b35b..dd0fe79521eb 100644
---- a/arch/x86/kvm/cpuid.c
-+++ b/arch/x86/kvm/cpuid.c
-@@ -730,6 +730,15 @@ void kvm_set_cpu_caps(void)
- 		0 /* SME */ | F(SEV) | 0 /* VM_PAGE_FLUSH */ | F(SEV_ES) |
- 		F(SME_COHERENT));
+diff --git a/Documentation/admin-guide/hw-vuln/spectre.rst b/Documentation/admin-guide/hw-vuln/spectre.rst
+index c4dcdb3d0d45..3fe6511c5405 100644
+--- a/Documentation/admin-guide/hw-vuln/spectre.rst
++++ b/Documentation/admin-guide/hw-vuln/spectre.rst
+@@ -610,9 +610,9 @@ kernel command line.
+                 retpoline,generic       Retpolines
+                 retpoline,lfence        LFENCE; indirect branch
+                 retpoline,amd           alias for retpoline,lfence
+-                eibrs                   enhanced IBRS
+-                eibrs,retpoline         enhanced IBRS + Retpolines
+-                eibrs,lfence            enhanced IBRS + LFENCE
++                eibrs                   Enhanced/Auto IBRS
++                eibrs,retpoline         Enhanced/Auto IBRS + Retpolines
++                eibrs,lfence            Enhanced/Auto IBRS + LFENCE
+                 ibrs                    use IBRS to protect kernel
  
-+	kvm_cpu_cap_init_scattered(CPUID_8000_0021_EAX,
-+		SF(NO_NESTED_DATA_BP) | SF(LFENCE_RDTSC) | 0 /* SmmPgCfgLock */ |
-+		SF(NULL_SEL_CLR_BASE) | 0 /* PrefetchCtlMsr */
-+	);
-+	if (cpu_feature_enabled(X86_FEATURE_LFENCE_RDTSC))
-+		kvm_cpu_cap_set(X86_FEATURE_LFENCE_RDTSC);
-+	if (!static_cpu_has_bug(X86_BUG_NULL_SEG))
-+		kvm_cpu_cap_set(X86_FEATURE_NULL_SEL_CLR_BASE);
-+
- 	kvm_cpu_cap_mask(CPUID_C000_0001_EDX,
- 		F(XSTORE) | F(XSTORE_EN) | F(XCRYPT) | F(XCRYPT_EN) |
- 		F(ACE2) | F(ACE2_EN) | F(PHE) | F(PHE_EN) |
-@@ -1211,21 +1220,7 @@ static inline int __do_cpuid_func(struct kvm_cpuid_array *array, u32 function)
- 		break;
- 	case 0x80000021:
- 		entry->ebx = entry->ecx = entry->edx = 0;
--		/*
--		 * Pass down these bits:
--		 *    EAX      0      NNDBP, Processor ignores nested data breakpoints
--		 *    EAX      2      LAS, LFENCE always serializing
--		 *    EAX      6      NSCB, Null selector clear base
--		 *
--		 * Other defined bits are for MSRs that KVM does not expose:
--		 *   EAX      3      SPCL, SMM page configuration lock
--		 *   EAX      13     PCMSR, Prefetch control MSR
--		 */
--		entry->eax &= BIT(0) | BIT(2) | BIT(6);
--		if (static_cpu_has(X86_FEATURE_LFENCE_RDTSC))
--			entry->eax |= BIT(2);
--		if (!static_cpu_has_bug(X86_BUG_NULL_SEG))
--			entry->eax |= BIT(6);
-+		cpuid_entry_override(entry, CPUID_8000_0021_EAX);
- 		break;
- 	/*Add support for Centaur's CPUID instruction*/
- 	case 0xC0000000:
-diff --git a/arch/x86/kvm/reverse_cpuid.h b/arch/x86/kvm/reverse_cpuid.h
-index 4e5b8444f161..184614e27d5b 100644
---- a/arch/x86/kvm/reverse_cpuid.h
-+++ b/arch/x86/kvm/reverse_cpuid.h
-@@ -13,6 +13,7 @@
-  */
- enum kvm_only_cpuid_leafs {
- 	CPUID_12_EAX	 = NCAPINTS,
-+	CPUID_8000_0021_EAX,
- 	NR_KVM_CPU_CAPS,
+ 		Not specifying this option is equivalent to
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 42af9ca0127e..3e8322acf665 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5698,9 +5698,9 @@
+ 			retpoline,generic - Retpolines
+ 			retpoline,lfence  - LFENCE; indirect branch
+ 			retpoline,amd     - alias for retpoline,lfence
+-			eibrs		  - enhanced IBRS
+-			eibrs,retpoline   - enhanced IBRS + Retpolines
+-			eibrs,lfence      - enhanced IBRS + LFENCE
++			eibrs		  - Enhanced/Auto IBRS
++			eibrs,retpoline   - Enhanced/Auto IBRS + Retpolines
++			eibrs,lfence      - Enhanced/Auto IBRS + LFENCE
+ 			ibrs		  - use IBRS to protect kernel
  
- 	NKVMCAPINTS = NR_KVM_CPU_CAPS - NCAPINTS,
-@@ -25,6 +26,11 @@ enum kvm_only_cpuid_leafs {
- #define KVM_X86_FEATURE_SGX2		KVM_X86_FEATURE(CPUID_12_EAX, 1)
- #define KVM_X86_FEATURE_SGX_EDECCSSA	KVM_X86_FEATURE(CPUID_12_EAX, 11)
+ 			Not specifying this option is equivalent to
+diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+index 37ff47552bcb..6843d6241203 100644
+--- a/arch/x86/include/asm/msr-index.h
++++ b/arch/x86/include/asm/msr-index.h
+@@ -25,6 +25,7 @@
+ #define _EFER_SVME		12 /* Enable virtualization */
+ #define _EFER_LMSLE		13 /* Long Mode Segment Limit Enable */
+ #define _EFER_FFXSR		14 /* Enable Fast FXSAVE/FXRSTOR */
++#define _EFER_AUTOIBRS		21 /* Enable Automatic IBRS */
  
-+/* AMD-defined Extended Feature 2 EAX, CPUID level 0x80000021 (EAX) */
-+#define KVM_X86_FEATURE_NO_NESTED_DATA_BP	KVM_X86_FEATURE(CPUID_8000_0021_EAX, 0)
-+#define KVM_X86_FEATURE_LFENCE_RDTSC		KVM_X86_FEATURE(CPUID_8000_0021_EAX, 2)
-+#define KVM_X86_FEATURE_NULL_SEL_CLR_BASE	KVM_X86_FEATURE(CPUID_8000_0021_EAX, 6)
-+
- struct cpuid_reg {
- 	u32 function;
- 	u32 index;
-@@ -49,6 +55,7 @@ static const struct cpuid_reg reverse_cpuid[] = {
- 	[CPUID_7_1_EAX]       = {         7, 1, CPUID_EAX},
- 	[CPUID_12_EAX]        = {0x00000012, 0, CPUID_EAX},
- 	[CPUID_8000_001F_EAX] = {0x8000001f, 0, CPUID_EAX},
-+	[CPUID_8000_0021_EAX] = {0x80000021, 0, CPUID_EAX},
+ #define EFER_SCE		(1<<_EFER_SCE)
+ #define EFER_LME		(1<<_EFER_LME)
+@@ -33,6 +34,7 @@
+ #define EFER_SVME		(1<<_EFER_SVME)
+ #define EFER_LMSLE		(1<<_EFER_LMSLE)
+ #define EFER_FFXSR		(1<<_EFER_FFXSR)
++#define EFER_AUTOIBRS		(1<<_EFER_AUTOIBRS)
+ 
+ /* Intel MSRs. Some also available on other CPUs */
+ 
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index 84c14e11db90..fc8fab82cc44 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -1222,9 +1222,9 @@ static const char * const spectre_v2_strings[] = {
+ 	[SPECTRE_V2_NONE]			= "Vulnerable",
+ 	[SPECTRE_V2_RETPOLINE]			= "Mitigation: Retpolines",
+ 	[SPECTRE_V2_LFENCE]			= "Mitigation: LFENCE",
+-	[SPECTRE_V2_EIBRS]			= "Mitigation: Enhanced IBRS",
+-	[SPECTRE_V2_EIBRS_LFENCE]		= "Mitigation: Enhanced IBRS + LFENCE",
+-	[SPECTRE_V2_EIBRS_RETPOLINE]		= "Mitigation: Enhanced IBRS + Retpolines",
++	[SPECTRE_V2_EIBRS]			= "Mitigation: Enhanced / Automatic IBRS",
++	[SPECTRE_V2_EIBRS_LFENCE]		= "Mitigation: Enhanced / Automatic IBRS + LFENCE",
++	[SPECTRE_V2_EIBRS_RETPOLINE]		= "Mitigation: Enhanced / Automatic IBRS + Retpolines",
+ 	[SPECTRE_V2_IBRS]			= "Mitigation: IBRS",
  };
  
- /*
-@@ -75,12 +82,15 @@ static __always_inline void reverse_cpuid_check(unsigned int x86_leaf)
-  */
- static __always_inline u32 __feature_translate(int x86_feature)
- {
--	if (x86_feature == X86_FEATURE_SGX1)
--		return KVM_X86_FEATURE_SGX1;
--	else if (x86_feature == X86_FEATURE_SGX2)
--		return KVM_X86_FEATURE_SGX2;
--	else if (x86_feature == X86_FEATURE_SGX_EDECCSSA)
--		return KVM_X86_FEATURE_SGX_EDECCSSA;
-+	switch (x86_feature) {
-+	case X86_FEATURE_SGX1:			return KVM_X86_FEATURE_SGX1;
-+	case X86_FEATURE_SGX2:			return KVM_X86_FEATURE_SGX2;
-+	case X86_FEATURE_SGX_EDECCSSA:		return KVM_X86_FEATURE_SGX_EDECCSSA;
-+	case X86_FEATURE_NO_NESTED_DATA_BP:	return KVM_X86_FEATURE_NO_NESTED_DATA_BP;
-+	case X86_FEATURE_LFENCE_RDTSC:		return KVM_X86_FEATURE_LFENCE_RDTSC;
-+	case X86_FEATURE_NULL_SEL_CLR_BASE:	return KVM_X86_FEATURE_NULL_SEL_CLR_BASE;
-+	default: break;
+@@ -1293,7 +1293,7 @@ static enum spectre_v2_mitigation_cmd __init spectre_v2_parse_cmdline(void)
+ 	     cmd == SPECTRE_V2_CMD_EIBRS_LFENCE ||
+ 	     cmd == SPECTRE_V2_CMD_EIBRS_RETPOLINE) &&
+ 	    !boot_cpu_has(X86_FEATURE_IBRS_ENHANCED)) {
+-		pr_err("%s selected but CPU doesn't have eIBRS. Switching to AUTO select\n",
++		pr_err("%s selected but CPU doesn't have Enhanced or Automatic IBRS. Switching to AUTO select\n",
+ 		       mitigation_options[i].option);
+ 		return SPECTRE_V2_CMD_AUTO;
+ 	}
+@@ -1479,8 +1479,12 @@ static void __init spectre_v2_select_mitigation(void)
+ 		pr_err(SPECTRE_V2_EIBRS_EBPF_MSG);
+ 
+ 	if (spectre_v2_in_ibrs_mode(mode)) {
+-		x86_spec_ctrl_base |= SPEC_CTRL_IBRS;
+-		write_spec_ctrl_current(x86_spec_ctrl_base, true);
++		if (boot_cpu_has(X86_FEATURE_AUTOIBRS)) {
++			msr_set_bit(MSR_EFER, _EFER_AUTOIBRS);
++		} else {
++			x86_spec_ctrl_base |= SPEC_CTRL_IBRS;
++			write_spec_ctrl_current(x86_spec_ctrl_base, true);
++		}
+ 	}
+ 
+ 	switch (mode) {
+@@ -1564,8 +1568,8 @@ static void __init spectre_v2_select_mitigation(void)
+ 	/*
+ 	 * Retpoline protects the kernel, but doesn't protect firmware.  IBRS
+ 	 * and Enhanced IBRS protect firmware too, so enable IBRS around
+-	 * firmware calls only when IBRS / Enhanced IBRS aren't otherwise
+-	 * enabled.
++	 * firmware calls only when IBRS / Enhanced / Automatic IBRS aren't
++	 * otherwise enabled.
+ 	 *
+ 	 * Use "mode" to check Enhanced IBRS instead of boot_cpu_has(), because
+ 	 * the user might select retpoline on the kernel command line and if
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 8d28cd7c9072..57efc4b6eac3 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -1226,8 +1226,8 @@ static const __initconst struct x86_cpu_id cpu_vuln_whitelist[] = {
+ 	VULNWL_AMD(0x12,	NO_MELTDOWN | NO_SSB | NO_L1TF | NO_MDS | NO_SWAPGS | NO_ITLB_MULTIHIT | NO_MMIO),
+ 
+ 	/* FAMILY_ANY must be last, otherwise 0x0f - 0x12 matches won't work */
+-	VULNWL_AMD(X86_FAMILY_ANY,	NO_MELTDOWN | NO_L1TF | NO_MDS | NO_SWAPGS | NO_ITLB_MULTIHIT | NO_MMIO),
+-	VULNWL_HYGON(X86_FAMILY_ANY,	NO_MELTDOWN | NO_L1TF | NO_MDS | NO_SWAPGS | NO_ITLB_MULTIHIT | NO_MMIO),
++	VULNWL_AMD(X86_FAMILY_ANY,	NO_MELTDOWN | NO_L1TF | NO_MDS | NO_SWAPGS | NO_ITLB_MULTIHIT | NO_MMIO | NO_EIBRS_PBRSB),
++	VULNWL_HYGON(X86_FAMILY_ANY,	NO_MELTDOWN | NO_L1TF | NO_MDS | NO_SWAPGS | NO_ITLB_MULTIHIT | NO_MMIO | NO_EIBRS_PBRSB),
+ 
+ 	/* Zhaoxin Family 7 */
+ 	VULNWL(CENTAUR,	7, X86_MODEL_ANY,	NO_SPECTRE_V2 | NO_SWAPGS | NO_MMIO),
+@@ -1338,8 +1338,16 @@ static void __init cpu_set_bug_bits(struct cpuinfo_x86 *c)
+ 	   !cpu_has(c, X86_FEATURE_AMD_SSB_NO))
+ 		setup_force_cpu_bug(X86_BUG_SPEC_STORE_BYPASS);
+ 
+-	if (ia32_cap & ARCH_CAP_IBRS_ALL)
++	/*
++	 * AMD's AutoIBRS is equivalent to Intel's eIBRS - use the Intel feature
++	 * flag and protect from vendor-specific bugs via the whitelist.
++	 */
++	if ((ia32_cap & ARCH_CAP_IBRS_ALL) || cpu_has(c, X86_FEATURE_AUTOIBRS)) {
+ 		setup_force_cpu_cap(X86_FEATURE_IBRS_ENHANCED);
++		if (!cpu_matches(cpu_vuln_whitelist, NO_EIBRS_PBRSB) &&
++		    !(ia32_cap & ARCH_CAP_PBRSB_NO))
++			setup_force_cpu_bug(X86_BUG_EIBRS_PBRSB);
 +	}
  
- 	return x86_feature;
- }
+ 	if (!cpu_matches(cpu_vuln_whitelist, NO_MDS) &&
+ 	    !(ia32_cap & ARCH_CAP_MDS_NO)) {
+@@ -1401,11 +1409,6 @@ static void __init cpu_set_bug_bits(struct cpuinfo_x86 *c)
+ 			setup_force_cpu_bug(X86_BUG_RETBLEED);
+ 	}
+ 
+-	if (cpu_has(c, X86_FEATURE_IBRS_ENHANCED) &&
+-	    !cpu_matches(cpu_vuln_whitelist, NO_EIBRS_PBRSB) &&
+-	    !(ia32_cap & ARCH_CAP_PBRSB_NO))
+-		setup_force_cpu_bug(X86_BUG_EIBRS_PBRSB);
+-
+ 	if (cpu_matches(cpu_vuln_whitelist, NO_MELTDOWN))
+ 		return;
+ 
 -- 
 2.34.1
 
