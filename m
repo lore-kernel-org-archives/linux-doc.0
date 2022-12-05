@@ -2,125 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAE5EC47089
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 14:46:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4595C47089
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 15:36:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231770AbiLEOq0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Dec 2022 09:46:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49854 "EHLO
+        id S231592AbiLEPgJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Dec 2022 10:36:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232179AbiLEOqY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 09:46:24 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B1F51B788;
-        Mon,  5 Dec 2022 06:46:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1670251584; x=1701787584;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=xa3lQ5br274pHlzqKFXObTMHjy86GvzTLCwrJSJFAKA=;
-  b=mshFdZZvsdpyH+TXzhniEQuHZl2sUUW1EBmLfZxio/WcDoVpwNqAUGpl
-   Pl+KNrO+7DWQ2m98pEbs+V4H+NJCaXLbOFQWqfbbHUH5c1qh5BmdduxAs
-   F/Z8BSpanbtH/w/rU1qAzjVrOXJ4ssvT2Hf0UwfVYS9e6Mhl87gX3gQ8s
-   Zx7t8xLQrtH+PcIeclo+6yzQPi/CCPTnU1ED0n5lRBsDa4MVU1Sd18IDW
-   9GK3n+scoFQh3Ohv1GR8YggehZx+5COOxf1jrUnjt+WI0S8FZDrNVykev
-   PiqiCXL14IGa95xQdYtgXyrCYLpLOb4IEaAYPl3065nac/CC7/9PgtsuQ
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.96,219,1665471600"; 
-   d="scan'208";a="202640941"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 05 Dec 2022 07:46:20 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Mon, 5 Dec 2022 07:46:19 -0700
-Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server id 15.1.2507.12 via Frontend
- Transport; Mon, 5 Dec 2022 07:46:17 -0700
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     <linux-riscv@lists.infradead.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>
-CC:     Conor Dooley <conor.dooley@microchip.com>,
-        <ajones@ventanamicro.com>, <aou@eecs.berkeley.edu>,
-        <conor@kernel.org>, <corbet@lwn.net>, <guoren@kernel.org>,
-        <heiko@sntech.de>, <paul.walmsley@sifive.com>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH v2 3/3] Documentation: riscv: add a section about ISA string ordering in /proc/cpuinfo
-Date:   Mon, 5 Dec 2022 14:45:26 +0000
-Message-ID: <20221205144525.2148448-4-conor.dooley@microchip.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221205144525.2148448-1-conor.dooley@microchip.com>
-References: <20221205144525.2148448-1-conor.dooley@microchip.com>
+        with ESMTP id S231802AbiLEPgH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 10:36:07 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1F162D2;
+        Mon,  5 Dec 2022 07:36:06 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id o12so11550312pjo.4;
+        Mon, 05 Dec 2022 07:36:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=U1vH1dvrgSyDnedzoMQstWazi20nrn3iOOtx2zZamBg=;
+        b=gXYdttr/hZGmqCeq49R45h++zeLTuzTtdy5viSA5VeqJIUlCP4fCq4hGlPTuXAeWSB
+         O85YPq35CJQsSpSf70AJyL8tYDKuSdAcQbswkkGD9FFUnYwUqISjZP1QYQVBBifGHp/+
+         qsfkDKv4Li/ZFV9U6Nf5AtKHblX8swFcifPv/fmqtJ13I+Y+56bm67T7Lw7YwHbPbWEX
+         m1OBU2jafVf49PlIKOKMgN9+g9Sixh1NVRppGTIKQL5e30YZ3d/YKiw954tq2+A74Gyr
+         emZ6e6zrZaVXPbZLgthM1zGLncjLx9F3IIVchi0q8A3cCM52w8EjbETOjw2TvBxYrltA
+         qgUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U1vH1dvrgSyDnedzoMQstWazi20nrn3iOOtx2zZamBg=;
+        b=EilNxQhnVc4WEeuK4ohahOvQJNtooKLAIgxSzNLu2nGtOPEoXv3OLQ/TGddmhhRN45
+         ajFlEykyrGpCpkr79tnki4Lmux51sqmpIRZuZVQvwzJU1FqFYMnbZ9bLtn36biYXD18j
+         cfzJIZKKbhzUrYf9pk7pGmgMg2ECjQ7Eeemr5R/N280k9M2ETkDQVX7k2BN8ZZj2aLTF
+         9yagjihs9Jkd7RDUjd56gjUAIccipNvrXhsoj+hXEBb0uX7YvwWyk6XvLMRZb3y40Q/4
+         D+0bSrPUf2MztO0nIuxf/55e29MttPy7Zjwcr9E3pPo2RL4nCkld3ade60P944WmebGT
+         VNjg==
+X-Gm-Message-State: ANoB5pkCVlAHaMGStx5a8d7GQAl5XFGaiA1bQCqjnO+AtnOxdkXffpeG
+        Qb7zf3SBKMU15stoZT16C8A=
+X-Google-Smtp-Source: AA0mqf5c4Cau2Vpe+MTJhXmVTeWAFvXgR1+7eJNPK0+/QMr+kP4KI5MC3I3jE/FLZwxuUJisPRQDhQ==
+X-Received: by 2002:a17:903:3306:b0:189:7d4d:b9a3 with SMTP id jk6-20020a170903330600b001897d4db9a3mr43284505plb.156.1670254566271;
+        Mon, 05 Dec 2022 07:36:06 -0800 (PST)
+Received: from sol (110-174-14-241.tpgi.com.au. [110.174.14.241])
+        by smtp.gmail.com with ESMTPSA id g2-20020a17090adb0200b0020ad53b5883sm9440899pjv.14.2022.12.05.07.36.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Dec 2022 07:36:05 -0800 (PST)
+Date:   Mon, 5 Dec 2022 23:35:59 +0800
+From:   Kent Gibson <warthog618@gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Marc Zyngier <maz@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v1 2/3] Documentation: gpio: Add a section on what to
+ return in ->get() callback
+Message-ID: <Y44P3811P1KB5pEl@sol>
+References: <20221130155519.20362-1-andriy.shevchenko@linux.intel.com>
+ <20221130155519.20362-2-andriy.shevchenko@linux.intel.com>
+ <CACRpkdaQWZE6=BNEh5hSH9=jBK=TcLoD1uUb=JyNYmHFvaSAfg@mail.gmail.com>
+ <Y41MxPthLjitvzEl@sol>
+ <Y43fQFBcPgKtuKRZ@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y43fQFBcPgKtuKRZ@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The RISC-V specs are permissive in what they allow as the ISA string,
-but how we output this to userspace in /proc/cpuinfo is quasi uABI.
+On Mon, Dec 05, 2022 at 02:08:32PM +0200, Andy Shevchenko wrote:
+> On Mon, Dec 05, 2022 at 09:43:32AM +0800, Kent Gibson wrote:
+> > On Sat, Dec 03, 2022 at 10:38:45AM +0100, Linus Walleij wrote:
+> > > On Wed, Nov 30, 2022 at 4:55 PM Andy Shevchenko
+> > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > 
+> > > > +The below table gathered the most used cases.
+> > > > +
+> > > > +==========  ==========  ===============  =======================
+> > > > +  Input       Output         State        What value to return?
+> > > > +==========  ==========  ===============  =======================
+> > > > + Disabled    Disabled    Hi-Z             input buffer
+> > > > + Disabled    OS/OD/etc   Single ended     [cached] output buffer
+> > > > +    x        Push-Pull   Out              [cached] output buffer
+> > > > + Enabled     Disabled    In               input buffer
+> > > > + Enabled     OS/OD/etc   Bidirectional    input buffer
+> > > > +==========  ==========  ===============  =======================
+> > > 
+> > > This looks about right to me, but we need more input, Kent?
+> > > 
+> > 
+> > Firstly, I'm all for tightening up the driver contract, and hope that
+> > whatever is decided will also be updated in driver.h itself.
+> > 
+> > I can also understand Andy wanting to add support for Bidirectional
+> > using the existing API.
+> > 
+> > But, and please correct me if I'm wrong, the user has no control over
+> > whether an open drain output is single ended or bidirectional, and
+> > no visibility as to which the driver supports or chooses.
+> > So the contract is still vague.
+> > 
+> > My preference would be for the driver API to be extended with a new
+> > callback for the output buffer, say get_output(), and have the existing
+> > get() always return the input buffer.  Both would return an error if the
+> > buffer is unavailable or disconnected, e.g. in the Hi-Z case.
+> > As per Hans' suggestions, this would keep the drivers simple.
+> 
+> That's not about keeping driver simple, it's about how from hardware
+> (electrical) point of view we should recognize the GPIO signal value.
+> And I disagree on the input buffer to be always involved (in particular,
+> not all hardware may support that anyway). That said, I will send an answer
+> to all you guys, but just to make sure that we are on the different pages
+> here I state yet another time that this is not about solely software p.o.v.
+> And yes, there is no simple answer to the question.
+> 
 
-Formalise this as part of the uABI, by documenting the list of rules
-we use at this point in time.
+To be clear, my suggestion is focussed on providing visibility to allow
+the user to determine if their hardware supports their use case - without
+them having to get out a scope to check.
+And it doesn't care what those use cases are.
 
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
- Documentation/riscv/uabi.rst | 42 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+The fact that it also keeps the driver logic simple is a happy
+coincidence, but I agree with Hans that that is a huge benefit and so
+reiterated it above.  My bad if that gave the impression that was my
+primary focus.
 
-diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uabi.rst
-index 21a82cfb6c4d..2ebec4c52230 100644
---- a/Documentation/riscv/uabi.rst
-+++ b/Documentation/riscv/uabi.rst
-@@ -3,4 +3,46 @@
- RISC-V Linux User ABI
- =====================
- 
-+ISA string ordering in /proc/cpuinfo
-+------------------------------------
-+
-+The canonical order of ISA extension names in the ISA string is defined in
-+chapter 27 of the unprivileged specification.
-+The specification uses vague wording, such as should, when it comes to ordering,
-+so for our purposes the following rules apply:
-+
-+#. Single-letter extensions come first, in canonical order.
-+   The canonical order is "IMAFDQLCBKJTPVH".
-+
-+#. All multi-letter extensions will be separated from other extensions by an
-+   underscore.
-+
-+#. Additional standard extensions (starting with 'Z') will be sorted after
-+   single-letter extensions and before any higher-privileged extensions.
-+
-+#. For additional standard extensions, the first letter following the 'Z'
-+  conventionally indicates the most closely related alphabetical
-+  extension category. If multiple 'Z' extensions are named, they will be ordered
-+  first by category, in canonical order, as listed above, then alphabetically
-+  within a category.
-+
-+#. Standard supervisor-level extensions (starting with 'S') will be listed
-+   after standard unprivileged extensions.  If multiple supervisor-level
-+   extensions are listed, they will be ordered alphabetically.
-+
-+#. Standard machine-level extensions (starting with 'Zxm') will be listed
-+   after any lower-privileged, standard extensions. If multiple machine-level
-+   extensions are listed, they will be ordered alphabetically.
-+
-+#. Non-standard extensions (starting with 'X') will be listed after all standard
-+   extensions. If multiple non-standard extensions are listed, they will be
-+   ordered alphabetically.
-+
-+An example string following the order is::
-+
-+   rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
-+
-+Misaligned accesses
-+-------------------
-+
- Misaligned accesses are supported in userspace, but they may perform poorly.
--- 
-2.38.1
+> > Then cdev could determine the approriate buffer to return, depending
+> > on the mode.  Or, better yet, we extend that through the uAPI and
+> > handball that decision to the user.
+> 
+> TL;DR: I don't like this idea.
+> 
+
+And yours paints us into a corner.
+
+Cheers,
+Kent.
 
