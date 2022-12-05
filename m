@@ -2,93 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42662C4321E
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 06:51:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25BF6C4321E
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 08:10:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231255AbiLEGvp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Dec 2022 01:51:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35386 "EHLO
+        id S231925AbiLEIK5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Dec 2022 03:10:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231156AbiLEGvp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 01:51:45 -0500
-Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5F48120BC;
-        Sun,  4 Dec 2022 22:51:43 -0800 (PST)
-Date:   Mon, 5 Dec 2022 14:51:16 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1670223101;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Nn8i4Q+q4Hh2rs3eznePR5yQ1tk1+KZhU8FkQgcnNAE=;
-        b=J2y9Gkt8iE7aK5MCo5BLD7+1KW14EKKslnt1aUd6uYzeshCkM3IV8jRZ7s26ocPiSa9bpU
-        ZXYK1Zbt5OQX8kjqqHLffrJBMo7j9mCf6JOvwkZaEfSUzED4RDUYO63VZGipkhdjwPQPgr
-        OvJ/l8FVduX78MKbRPTVlJAUkeNk0tk=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Alex Shi <alexs@kernel.org>, Wu XiangCheng <bobwxc@email.cn>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: Fix '.. only::' directive's expression
-Message-ID: <Y42U5BL9KSFQeCMm@bobwxc.mipc>
-References: <20221205032622.8697-1-akiyks@gmail.com>
+        with ESMTP id S231843AbiLEIKn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 03:10:43 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EE5112768;
+        Mon,  5 Dec 2022 00:10:42 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id BA1B1CE0E70;
+        Mon,  5 Dec 2022 08:10:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24F31C433C1;
+        Mon,  5 Dec 2022 08:10:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670227838;
+        bh=bJfx2nisTz0YoKUNfyf6INNDFLiT9EB6dkRFocRpzEo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UXypBBHuFXuB/WTm2gRXmQlrRlINa08iA/+Rm5vw64/4uj4uMXlCLCfAqVjRSUDy5
+         xfTbNfyQr3WxHRi1ceV9MCCaLq89CJ3gsqU6RGTePGin2CTWCUsVbbItr0qPM9hqmN
+         yF8Z/d2nSfWc/kFnruNiCkrq0q/09lNOC4CLT5KBfBUNlgnf4uKrYxCBILoJPBbmvO
+         J8QrShIAhdcvCmkgnQSWcQJ6OOTW1exbeiEcsWdnhkw+qhGeNbuNLTl45gr3pG51/0
+         FvfPHvaoA46PINU7CQ8ZN/kqCg5nFKRRNTsLLPOkVENCvqr3k+biKGG/p/wfg4PUzS
+         aGLWiass2x7vw==
+Date:   Mon, 5 Dec 2022 10:10:34 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Veerasenareddy Burru <vburru@marvell.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Liron Himi <lironh@marvell.com>,
+        Abhijit Ayarekar <aayarekar@marvell.com>,
+        Sathesh B Edara <sedara@marvell.com>,
+        Satananda Burla <sburla@marvell.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [EXT] Re: [PATCH net-next v2 2/9] octeon_ep: poll for control
+ messages
+Message-ID: <Y42nerLmNeAIn5w9@unreal>
+References: <20221129130933.25231-1-vburru@marvell.com>
+ <20221129130933.25231-3-vburru@marvell.com>
+ <Y4cirWdJipOxmNaT@unreal>
+ <BYAPR18MB242397C352B0086140106A46CC159@BYAPR18MB2423.namprd18.prod.outlook.com>
+ <Y4hhpFVsENaM45Ho@unreal>
+ <BYAPR18MB2423229A66D1C98C6C744EE1CC189@BYAPR18MB2423.namprd18.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221205032622.8697-1-akiyks@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <BYAPR18MB2423229A66D1C98C6C744EE1CC189@BYAPR18MB2423.namprd18.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2022-12-05 (一) 12:26:24 +0900 Akira Yokosawa 曰：
-> Commit febe6c2f859e ("docs/zh_CN: Add translation
-> zh_CN/doc-guide/index.rst") translated ".. only::" directive too much.
-> Use the one as found in the original doc-guide/index.rst.
+On Mon, Dec 05, 2022 at 04:46:31AM +0000, Veerasenareddy Burru wrote:
 > 
-> Fixes: febe6c2f859e ("docs/zh_CN: Add translation zh_CN/doc-guide/index.rst")
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Cc: Wu XiangCheng <bobwxc@email.cn>
-> Cc: Yanteng Si <siyanteng@loongson.cn>
-> Cc: Alex Shi <alexs@kernel.org>
-> ---
-> Hi,
 > 
-> I came across this error while grepping ".. only::" under Documentation/.
+> > -----Original Message-----
+> > From: Leon Romanovsky <leon@kernel.org>
+> > Sent: Thursday, December 1, 2022 12:11 AM
+> > To: Veerasenareddy Burru <vburru@marvell.com>
+> > Cc: netdev@vger.kernel.org; linux-kernel@vger.kernel.org; Liron Himi
+> > <lironh@marvell.com>; Abhijit Ayarekar <aayarekar@marvell.com>; Sathesh
+> > B Edara <sedara@marvell.com>; Satananda Burla <sburla@marvell.com>;
+> > linux-doc@vger.kernel.org; David S. Miller <davem@davemloft.net>; Eric
+> > Dumazet <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>;
+> > Paolo Abeni <pabeni@redhat.com>
+> > Subject: Re: [EXT] Re: [PATCH net-next v2 2/9] octeon_ep: poll for control
+> > messages
+> > 
+> > On Wed, Nov 30, 2022 at 03:44:30PM +0000, Veerasenareddy Burru wrote:
+> > >
+> > >
+> > > > -----Original Message-----
+> > > > From: Leon Romanovsky <leon@kernel.org>
+> > > > Sent: Wednesday, November 30, 2022 1:30 AM
+> > > > To: Veerasenareddy Burru <vburru@marvell.com>
+> > > > Cc: netdev@vger.kernel.org; linux-kernel@vger.kernel.org; Liron Himi
+> > > > <lironh@marvell.com>; Abhijit Ayarekar <aayarekar@marvell.com>;
+> > > > Sathesh B Edara <sedara@marvell.com>; Satananda Burla
+> > > > <sburla@marvell.com>; linux-doc@vger.kernel.org; David S. Miller
+> > > > <davem@davemloft.net>; Eric Dumazet <edumazet@google.com>;
+> > Jakub
+> > > > Kicinski <kuba@kernel.org>; Paolo Abeni <pabeni@redhat.com>
+> > > > Subject: [EXT] Re: [PATCH net-next v2 2/9] octeon_ep: poll for
+> > > > control messages
+> > > >
+> > > > External Email
+> > > >
+> > > > --------------------------------------------------------------------
+> > > > -- On Tue, Nov 29, 2022 at 05:09:25AM -0800, Veerasenareddy Burru
+> > > > wrote:
+> > > > > Poll for control messages until interrupts are enabled.
+> > > > > All the interrupts are enabled in ndo_open().
+> > > >
+> > > > So what are you saying if I have your device and didn't enable
+> > > > network device, you will poll forever?
+> > > Yes, Leon. It will poll periodically until network interface is enabled.
+> > 
+> > I don't know if it is acceptable behaviour in netdev, but it doesn't sound right
+> > to me. What type of control messages will be sent by FW, which PF should
+> > listen to them?
+> > 
 > 
->         Thanks, Akira
+> These messages include periodic keep alive (heartbeat) messages from FW and control messages from VFs.
+> Every PF will be listening for its own control messages.
 
-Thanks, good catch!
+@netdev, as I said, I don't know if it is valid behaviour in netdev.
+Can you please comment?
 
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
-
-> ---
->  Documentation/translations/zh_CN/doc-guide/index.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/doc-guide/index.rst b/Documentation/translations/zh_CN/doc-guide/index.rst
-> index 5151953c196f..78c2e9a1697f 100644
-> --- a/Documentation/translations/zh_CN/doc-guide/index.rst
-> +++ b/Documentation/translations/zh_CN/doc-guide/index.rst
-> @@ -19,7 +19,7 @@
->     contributing
->     maintainer-profile
->  
-> -.. only::  子项目与HTML
-> +.. only::  subproject and html
->  
->     目录
->     ====
-> 
-> base-commit: f8e9e32f7d04336666d66893f2da1347dd8263b1
-> -- 
-> 2.25.1
-> 
-
--- 
-Wu XiangCheng	0x32684A40BCA7AEA7
-
+Thanks
