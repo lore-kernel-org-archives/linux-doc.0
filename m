@@ -2,85 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D6EC47089
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 09:48:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F030C4321E
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 10:02:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230405AbiLEJsO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Dec 2022 04:48:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59522 "EHLO
+        id S230156AbiLEKC1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Dec 2022 05:02:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231406AbiLEJsK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 04:48:10 -0500
+        with ESMTP id S230012AbiLEKC0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 05:02:26 -0500
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8220531D;
-        Mon,  5 Dec 2022 01:48:08 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32F1217596;
+        Mon,  5 Dec 2022 02:02:26 -0800 (PST)
 Received: from localhost (mdns.lwn.net [45.79.72.68])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 483972C5;
-        Mon,  5 Dec 2022 09:48:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 483972C5
+        by ms.lwn.net (Postfix) with ESMTPSA id 9778A2C5;
+        Mon,  5 Dec 2022 10:02:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9778A2C5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1670233688; bh=PA9hQFJgCtk68OD5hAoWj68bJSPD076D1QMQekUjfk8=;
+        t=1670234545; bh=ookYcONnjY6hxSDBsXVx74LJy/vSHoGH6jArwP3li6Q=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=mduFeciCq2cjBgjg9O4xkyN1ZlKg4Ql7zxIg3vBwJ4oV3NMOBgCeUVSuET31ImvZy
-         Ntgner7meSZBiRGe7vSZ1gt92p6m9NCgKc6tumKKMkixNLxTepUkJ3jWxZXjDRSXlr
-         B7K6NgmZUoEwCpoGywSvCR5D9lQ4VUDQxJbzX9soD+dJRHxEbZrNVnHfgr0/XiYZGl
-         opuY4sUN94fwsKUdV+w1p3YZkA0NzpO9ss2PDr/Tx2s1NJeZimpIIeGeYqYWfzybuR
-         xMfIq3QLlhFLezICS+TUoNBNYmJRHJhxxPOT2Gs4ATPcm4E/M87TeI+oEbL2Xb2pGz
-         zyjsiN926B3xQ==
+        b=QtKjcu+Nxoc8ZEHjEv6F+U4sBHak2SZs0uj6W8hTtBkUgKtJ3QkUTfbRA1xcP2jKN
+         eftBordTZRUOAa8JSv5OlgH5Av3a0LZTiFV5pUjILvPGmuM5W7eLFoEOIByE/03cOb
+         fs7cuBc23Sti/55XQ8dUAcZn/5jS/va9zzCuDRKVTlpC1ur3azXj9mKIwJta1SV5MK
+         TJubyfjNDpSP4Bo4DGuOkRCYyd5N1Ejox0gYHs/u/E9cGcKDobleiesaQrCzwfv5Fh
+         tXy3BultFAyKv+zmxPTK7WqFtKwQnj+sEhi4G5bB66v6dMUR37UyE+J4W5EzUeAmo6
+         KyHLJMu7BXpMA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Akira Yokosawa <akiyks@gmail.com>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Alex Shi <alexs@kernel.org>, Wu XiangCheng <bobwxc@email.cn>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: Fix '.. only::' directive's expression
-In-Reply-To: <20221205032622.8697-1-akiyks@gmail.com>
-References: <20221205032622.8697-1-akiyks@gmail.com>
-Date:   Mon, 05 Dec 2022 02:48:01 -0700
-Message-ID: <87r0xembam.fsf@meer.lwn.net>
+To:     Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc:     loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] Documentation/features-refresh.sh: Only sed the
+ beginning "arch" of ARCH_DIR
+In-Reply-To: <1670156327-9631-2-git-send-email-yangtiezhu@loongson.cn>
+References: <1670156327-9631-1-git-send-email-yangtiezhu@loongson.cn>
+ <1670156327-9631-2-git-send-email-yangtiezhu@loongson.cn>
+Date:   Mon, 05 Dec 2022 03:02:18 -0700
+Message-ID: <87k036mamt.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Tiezhu Yang <yangtiezhu@loongson.cn> writes:
 
-> Commit febe6c2f859e ("docs/zh_CN: Add translation
-> zh_CN/doc-guide/index.rst") translated ".. only::" directive too much.
-> Use the one as found in the original doc-guide/index.rst.
+> It should only sed the beginning "arch" of ARCH_DIR in features-refresh.sh,
+> otherwise loongarch is recognized as loong, that is not what we want.
 >
-> Fixes: febe6c2f859e ("docs/zh_CN: Add translation zh_CN/doc-guide/index.r=
-st")
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Cc: Wu XiangCheng <bobwxc@email.cn>
-> Cc: Yanteng Si <siyanteng@loongson.cn>
-> Cc: Alex Shi <alexs@kernel.org>
+> Fixes: be99f610a110 ("Documentation/features: Add script that refreshes the arch support status files in place")
+> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
 > ---
-> Hi,
->
-> I came across this error while grepping ".. only::" under Documentation/.
->
->         Thanks, Akira
-> ---
->  Documentation/translations/zh_CN/doc-guide/index.rst | 2 +-
+>  Documentation/features/scripts/features-refresh.sh | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/translations/zh_CN/doc-guide/index.rst b/Docum=
-entation/translations/zh_CN/doc-guide/index.rst
-> index 5151953c196f..78c2e9a1697f 100644
-> --- a/Documentation/translations/zh_CN/doc-guide/index.rst
-> +++ b/Documentation/translations/zh_CN/doc-guide/index.rst
-> @@ -19,7 +19,7 @@
->     contributing
->     maintainer-profile
->=20=20
-> -.. only::  =E5=AD=90=E9=A1=B9=E7=9B=AE=E4=B8=8EHTML
-> +.. only::  subproject and html
->=20=20
-Heh ... that's only been there for a year and a half...applied, thanks.
+> diff --git a/Documentation/features/scripts/features-refresh.sh b/Documentation/features/scripts/features-refresh.sh
+> index 9e72d38..c228812 100755
+> --- a/Documentation/features/scripts/features-refresh.sh
+> +++ b/Documentation/features/scripts/features-refresh.sh
+> @@ -60,7 +60,7 @@ for F_FILE in Documentation/features/*/*/arch-support.txt; do
+>  	echo "    |         arch |status|" >> $T_FILE
+>  	echo "    -----------------------" >> $T_FILE
+>  	for ARCH_DIR in arch/*/; do
+> -		ARCH=$(echo $ARCH_DIR | sed -e 's/arch//g' | sed -e 's/\///g')
+> +		ARCH=$(echo $ARCH_DIR | sed -e 's/^arch//g' | sed -e 's/\///g')
+
+So ... looking at this now, it strikes me as a bit of a convoluted way
+to reimplement "basename" - obviously incorrectly before this fix.  Oh
+well, this is better than before, so I've applied the series.
+
+Thanks,
 
 jon
