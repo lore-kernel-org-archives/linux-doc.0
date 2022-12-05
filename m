@@ -2,317 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01833C47089
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 09:24:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E60C4321E
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Dec 2022 09:29:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230402AbiLEJYf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Dec 2022 04:24:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44536 "EHLO
+        id S230415AbiLEJ3J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Dec 2022 04:29:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230419AbiLEJYb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 04:24:31 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76790175AD
-        for <linux-doc@vger.kernel.org>; Mon,  5 Dec 2022 01:24:28 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id b13so6631904lfo.3
-        for <linux-doc@vger.kernel.org>; Mon, 05 Dec 2022 01:24:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Owo0phbbJOrq6sWBiQ2bW5Gab2bMQcmAUmytHNbH9wo=;
-        b=CBfUM4ABoy4rHbnJbQWlgFZPr36WGkyWiutGX6w63I8DmF/IJiild6FcVSNN7OWJZ7
-         pXxUiVma9yq+PhDIrUun9M9Va0gKBpKxjzL4hSd+yyVkziX/hM+hdNnS2HrixHqWqr+w
-         9uPS+gbUSproyB0am3JO8sKBKWWHQ/lzz53ju3Q567AM4L0/1VsnFw7a7e+xLX5dqtAL
-         ltPfrvJFTtJCH5f/cWONsgU7aRsJDDYFPsxECnuUV1Upx768mYuIz8CszK1XiyhlQVRZ
-         mn1NjlqoOAVwrxhEaj2jBzLXfvyd3qLezPV3GfuypCofEI10LU/+uMeT5vEdTm2OxrYD
-         evrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Owo0phbbJOrq6sWBiQ2bW5Gab2bMQcmAUmytHNbH9wo=;
-        b=77iJkI6s7EmTZNW+vposuSB38cX5NsFPDZqhDd8+mYiujdhLoq3ku78SkTUNwmrY1i
-         8ICSQ0iMfQ370F3V7WEswj7F04WGcCS0e52nnZUVff/U/Hvu+yrtIVSeaUiA8yrc2NxK
-         JwzdwJJIfBGX2zHLiSVy0CTGH1PaOHu0rR0QbEl1/LD3vLFBaFjn4h/PyN9y4RQlpq7w
-         j06f3yBh3HKbretYTPVVPzbrSun/FS8tUwZ7Z3wascCcIuQ96NJVChcgWyyzLl2dlYFH
-         /vS71IfRrAA1WAlfJu2Y+K1dgmC1oKGjXnrOLyhHrXGNfNaawZhYaGR4wnMwpoBkB20t
-         OK/w==
-X-Gm-Message-State: ANoB5pm/RuP7Qe9Jwp8wG4JQTnHwVDcrd89J97jGW0hNnCQSXVU4CHjS
-        tyrgzMgSg0sc81KWBmYQ18tDrE3gZmXd/d4OFSleww==
-X-Google-Smtp-Source: AA0mqf7hmc7cmV5dRxw88/fxJnTLIThfoQtt0oTYjymTMQQZpTJzvpZeXdF6ZMUHCf5Dbxm0DrPC0sEiLurEnocH1bU=
-X-Received: by 2002:a05:6512:104e:b0:4b5:604a:5b24 with SMTP id
- c14-20020a056512104e00b004b5604a5b24mr2898439lfb.550.1670232266434; Mon, 05
- Dec 2022 01:24:26 -0800 (PST)
+        with ESMTP id S230142AbiLEJ3I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Dec 2022 04:29:08 -0500
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7DDD915800
+        for <linux-doc@vger.kernel.org>; Mon,  5 Dec 2022 01:29:06 -0800 (PST)
+Received: from loongson.cn (unknown [112.20.109.110])
+        by gateway (Coremail) with SMTP id _____8DxfevhuY1jCD4DAA--.7574S3;
+        Mon, 05 Dec 2022 17:29:05 +0800 (CST)
+Received: from [192.168.100.127] (unknown [112.20.109.110])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8BxTuDfuY1jB94lAA--.27647S3;
+        Mon, 05 Dec 2022 17:29:04 +0800 (CST)
+Message-ID: <2eca3c45-b0b2-6a3e-c0b1-a8b42e350b1a@loongson.cn>
+Date:   Mon, 5 Dec 2022 17:29:02 +0800
 MIME-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com> <20221202061347.1070246-6-chao.p.peng@linux.intel.com>
-In-Reply-To: <20221202061347.1070246-6-chao.p.peng@linux.intel.com>
-From:   Fuad Tabba <tabba@google.com>
-Date:   Mon, 5 Dec 2022 09:23:49 +0000
-Message-ID: <CA+EHjTy5+Ke_7Uh72p--H9kGcE-PK4EVmp7ym6Q1-PO28u6CCQ@mail.gmail.com>
-Subject: Re: [PATCH v10 5/9] KVM: Use gfn instead of hva for mmu_notifier_retry
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v4 1/2] docs/LoongArch: Add booting
+Content-Language: en-US
+To:     WANG Xuerui <kernel@xen0n.name>, chenhuacai@kernel.org,
+        corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
+Cc:     wu.xiangcheng@linux.dev, jiaxun.yang@flygoat.com,
+        liuyun@loongson.cn, linux-doc@vger.kernel.org,
+        loongarch@lists.linux.dev, siyanteng01@gmail.com,
+        Xiaotian Wu <wuxiaotian@loongson.cn>
+References: <cover.1669686320.git.siyanteng@loongson.cn>
+ <653b590c8e7ca42faff18cabfceb9b7f4b2971c1.1669686320.git.siyanteng@loongson.cn>
+ <29198961-5100-8e8c-f5a2-87d15769c550@xen0n.name>
+ <6b84b57f-5293-0636-7a91-235aea910b7a@loongson.cn>
+ <202a3cb4-a197-f26d-b9cc-72a017cd00a0@xen0n.name>
+From:   Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <202a3cb4-a197-f26d-b9cc-72a017cd00a0@xen0n.name>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8BxTuDfuY1jB94lAA--.27647S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW3JFyxuF15Wry8Jr4UZF45GFg_yoWxGF45pr
+        1fJF17tFyDJr1fJr17Kw1UXr9Fyr18J3WUXr1UJFy8Jr1qvr1qqr1UXr1vgFyUJrWfJFyj
+        qr1UJr9rZF15ArDanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bfxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2kK
+        e7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
+        0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280
+        aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2
+        xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xF
+        xVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
+        C2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_
+        JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
+        WUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBI
+        daVFxhVjvjDU0xZFpf9x07jFE__UUUUU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Chao,
 
-On Fri, Dec 2, 2022 at 6:19 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> Currently in mmu_notifier invalidate path, hva range is recorded and
-> then checked against by mmu_notifier_retry_hva() in the page fault
-> handling path. However, for the to be introduced private memory, a page
-> fault may not have a hva associated, checking gfn(gpa) makes more sense.
->
-> For existing hva based shared memory, gfn is expected to also work. The
-> only downside is when aliasing multiple gfns to a single hva, the
-> current algorithm of checking multiple ranges could result in a much
-> larger range being rejected. Such aliasing should be uncommon, so the
-> impact is expected small.
->
-> Suggested-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  arch/x86/kvm/mmu/mmu.c   |  8 +++++---
->  include/linux/kvm_host.h | 33 +++++++++++++++++++++------------
->  virt/kvm/kvm_main.c      | 32 +++++++++++++++++++++++---------
->  3 files changed, 49 insertions(+), 24 deletions(-)
->
-> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index 4736d7849c60..e2c70b5afa3e 100644
-> --- a/arch/x86/kvm/mmu/mmu.c
-> +++ b/arch/x86/kvm/mmu/mmu.c
-> @@ -4259,7 +4259,7 @@ static bool is_page_fault_stale(struct kvm_vcpu *vcpu,
->                 return true;
->
->         return fault->slot &&
-> -              mmu_invalidate_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
-> +              mmu_invalidate_retry_gfn(vcpu->kvm, mmu_seq, fault->gfn);
->  }
->
->  static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-> @@ -6098,7 +6098,9 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
->
->         write_lock(&kvm->mmu_lock);
->
-> -       kvm_mmu_invalidate_begin(kvm, gfn_start, gfn_end);
-> +       kvm_mmu_invalidate_begin(kvm);
-> +
-> +       kvm_mmu_invalidate_range_add(kvm, gfn_start, gfn_end);
->
->         flush = kvm_rmap_zap_gfn_range(kvm, gfn_start, gfn_end);
->
-> @@ -6112,7 +6114,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
->                 kvm_flush_remote_tlbs_with_address(kvm, gfn_start,
->                                                    gfn_end - gfn_start);
->
-> -       kvm_mmu_invalidate_end(kvm, gfn_start, gfn_end);
-> +       kvm_mmu_invalidate_end(kvm);
->
->         write_unlock(&kvm->mmu_lock);
->  }
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 02347e386ea2..3d69484d2704 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -787,8 +787,8 @@ struct kvm {
->         struct mmu_notifier mmu_notifier;
->         unsigned long mmu_invalidate_seq;
->         long mmu_invalidate_in_progress;
-> -       unsigned long mmu_invalidate_range_start;
-> -       unsigned long mmu_invalidate_range_end;
-> +       gfn_t mmu_invalidate_range_start;
-> +       gfn_t mmu_invalidate_range_end;
->  #endif
->         struct list_head devices;
->         u64 manual_dirty_log_protect;
-> @@ -1389,10 +1389,9 @@ void kvm_mmu_free_memory_cache(struct kvm_mmu_memory_cache *mc);
->  void *kvm_mmu_memory_cache_alloc(struct kvm_mmu_memory_cache *mc);
->  #endif
->
-> -void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
-> -                             unsigned long end);
-> -void kvm_mmu_invalidate_end(struct kvm *kvm, unsigned long start,
-> -                           unsigned long end);
-> +void kvm_mmu_invalidate_begin(struct kvm *kvm);
-> +void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end);
-> +void kvm_mmu_invalidate_end(struct kvm *kvm);
->
->  long kvm_arch_dev_ioctl(struct file *filp,
->                         unsigned int ioctl, unsigned long arg);
-> @@ -1963,9 +1962,9 @@ static inline int mmu_invalidate_retry(struct kvm *kvm, unsigned long mmu_seq)
->         return 0;
->  }
->
-> -static inline int mmu_invalidate_retry_hva(struct kvm *kvm,
-> +static inline int mmu_invalidate_retry_gfn(struct kvm *kvm,
->                                            unsigned long mmu_seq,
-> -                                          unsigned long hva)
-> +                                          gfn_t gfn)
->  {
->         lockdep_assert_held(&kvm->mmu_lock);
->         /*
-> @@ -1974,10 +1973,20 @@ static inline int mmu_invalidate_retry_hva(struct kvm *kvm,
->          * that might be being invalidated. Note that it may include some false
+在 11/29/22 22:02, WANG Xuerui 写道:
+> On 11/29/22 21:03, Yanteng Si wrote:
+>>
+>> On 11/29/22 10:40, WANG Xuerui wrote:
+>>> On 11/29/22 09:52, Yanteng Si wrote:
+>>>> Describes the meaning and value of the image header field.
+>>>>
+>>>> Suggested-by: Xiaotian Wu <wuxiaotian@loongson.cn>
+>>>> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+>>>> ---
+>>>>   Documentation/loongarch/booting.rst | 89 
+>>>> +++++++++++++++++++++++++++++
+>>>>   Documentation/loongarch/index.rst   |  1 +
+>>>>   2 files changed, 90 insertions(+)
+>>>>   create mode 100644 Documentation/loongarch/booting.rst
+>>>>
+>>>> diff --git a/Documentation/loongarch/booting.rst 
+>>>> b/Documentation/loongarch/booting.rst
+>>>> new file mode 100644
+>>>> index 000000000000..90456f713c48
+>>>> --- /dev/null
+>>>> +++ b/Documentation/loongarch/booting.rst
+>>>>
+>>>> [snip]
+>>>>
+>>>>> +
+>>>>> +According to the EFI specification, the PE/COFF image file header is
+>>>>> +required at the beginning of the kernel image; the LoongArch kernel
+>>>>> +supports the EFI stub, so the first two bytes of the kernel image 
+>>>>> header
+>>>>> +are "MZ" magic characters, and 0x3c should point to the rest of the
+>>>>> +PE/COFF file header, between which The kernel entry point, image
+>>>>> +effectivesize, and image load offset layout are as follows::
+>>>>> +
+>>>>> + +-----------------------------------------------+
+>>>>> +          |  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7 |
+>>>>> + +-----------------------------------------------+
+>>>>> +    0x00: |       MZ_MAGIC        |          res0 |
+>>>>> + +-----------------------------------------------+
+>>>>> +    0x08: |                 kernel_entry |
+>>>>> + +-----------------------------------------------+
+>>>>> +    0x10: |                  _end - _text |
+>>>>> + +-----------------------------------------------+
+>>>>> +    0x18: |                       0 |
+>>>>> + +-----------------------------------------------+
+>>>>> +    0x20: |                      res1 |
+>>>>> + +-----------------------------------------------+
+>>>>> +    0x28: |                      res2 |
+>>>>> + +-----------------------------------------------+
+>>>>> +    0x30: |                      res3 |
+>>>>> + +-----------------------------------------------+
+>>>>> +    0x38: |          res4         |       PE header |
+>>>>> + +-----------------------------------------------+
+>>>>
+>>>> This is repeating the structure described above, only in a 
+>>>> pictorial form. I think only one needs to be kept.
+>>
+>> I don't think so.
+>>
+>> The above corresponds to the struct in grub, this diagram is much 
+>> more readable.
+> How is an EFI stub image's header different in grub than somewhere else?
+OK, remove it.
+>>
+>>>
+>>>> +
+>>>> +All bit fields are in little endian:
+>>>> +
+>>>> +    - MZ: Effective length of 2 bytes;
+>>>> +
+>>>> +    - kernel entry point: leaving 6 bytes blank in front, starting
+>>>> +      from 0x8, with a effective length of 8 bytes;
+>>>> +
+>>>> +    - kernel image effective size: Immediately following the kernel
+>>>> +      entry point, with a effective length of 8 bytes, this field is
+>>>> +      required for the bootloader;
+>>>
+>>> The boot loader probably doesn't care. GRUB2 just chain-loads after 
+>>> recognizing the image as valid EFI application, and the firmware 
+>>> most certainly just do its routine EFI application launch too 
+>>> without looking at the contents here that are all in fact just 
+>>> reserved space. (IIUC only the MZ signature and the PE header offset 
+>>> matter here; everything in between is actually part of the DOS stub 
+>>> which is ignored on all modern platforms.)
+>>>
+>>> So, please clarify which component requires this info; is it the EFI 
+>>> stub instead? (I haven't checked myself though due to limited review 
+>>> time. Sorry for that.)
+>>
+>> I wrote this article with partial reference to riscv.
+>>
+>> See Documentation/riscv/boot-image-header.rst line 61:
+>>
+>> - Image size is mandatory for boot loader to load kernel image. 
+>> Booting will
+>>   fail otherwise.
+> No, the LoongArch EFI boot protocol is not the same as that of RISC-V, 
+> we've taken lessons and I believe the LoongArch GRUB2 simply 
+> chain-loads the image without any of the extra Linux-specific 
+> checking. Please read the previous EFI boot patch threads carefully, 
+> and you can also ask Xiaotian or Huacai for details (they're both CC'd 
+> on this thread so they should have the context).
+Now, MAGIC is back.
+>>
+>>>
+>>>> +
+>>>> +    - kernel image load offset: Immediately following the kernel
+>>>> +      image effective size, with a effective length of 8 bytes;
+>>>> +
+>>>> +    - Offset to the PE header: leaving 28 bytes blank in front,
+>>>> +      starting from 0x3c, with a effective length of 4 bytes.
+>>> Drop explanation for trivial things like MZ or the PE header offset, 
+>>> they're just common PE format thing, and totally unrelated to Linux.
+>>
+>> Here's just a simple description of the header bit fields, which is a 
+>> prerequisite for understanding the boot image header.
+> Since the boot image is just a PE file, and it's clearly mandated in 
+> the UEFI spec, I think some knowledge of the PE format should be 
+> necessary after all? In which case the reader could be pointed to the 
+> PE spec for the parts not related to Linux or LoongArch, and this 
+> document can stay focused on its main topic.
 
-nit: "might be" (or) "is being"
+OK.
 
->          * positives, due to shortcuts when handing concurrent invalidations.
 
-nit: handling
+Thanks,
 
->          */
-> -       if (unlikely(kvm->mmu_invalidate_in_progress) &&
-> -           hva >= kvm->mmu_invalidate_range_start &&
-> -           hva < kvm->mmu_invalidate_range_end)
-> -               return 1;
-> +       if (unlikely(kvm->mmu_invalidate_in_progress)) {
-> +               /*
-> +                * Dropping mmu_lock after bumping mmu_invalidate_in_progress
-> +                * but before updating the range is a KVM bug.
-> +                */
-> +               if (WARN_ON_ONCE(kvm->mmu_invalidate_range_start == INVALID_GPA ||
-> +                                kvm->mmu_invalidate_range_end == INVALID_GPA))
+Yanteng
 
-INVALID_GPA is an x86-specific define in
-arch/x86/include/asm/kvm_host.h, so this doesn't build on other
-architectures. The obvious fix is to move it to
-include/linux/kvm_host.h.
+>>
+>>
+>> Thanks,
+>>
+>> Yanteng
+>>
+>>>> diff --git a/Documentation/loongarch/index.rst 
+>>>> b/Documentation/loongarch/index.rst
+>>>> index aaba648db907..df0174d6d227 100644
+>>>> --- a/Documentation/loongarch/index.rst
+>>>> +++ b/Documentation/loongarch/index.rst
+>>>> @@ -10,6 +10,7 @@ LoongArch Architecture
+>>>>        introduction
+>>>>      irq-chip-model
+>>>> +   booting
+>>>>        features
+>>>
 
-Cheers,
-/fuad
-
-> +                       return 1;
-> +
-> +               if (gfn >= kvm->mmu_invalidate_range_start &&
-> +                   gfn < kvm->mmu_invalidate_range_end)
-> +                       return 1;
-> +       }
-> +
->         if (kvm->mmu_invalidate_seq != mmu_seq)
->                 return 1;
->         return 0;
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index b882eb2c76a2..ad55dfbc75d7 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -540,9 +540,7 @@ static void kvm_mmu_notifier_invalidate_range(struct mmu_notifier *mn,
->
->  typedef bool (*hva_handler_t)(struct kvm *kvm, struct kvm_gfn_range *range);
->
-> -typedef void (*on_lock_fn_t)(struct kvm *kvm, unsigned long start,
-> -                            unsigned long end);
-> -
-> +typedef void (*on_lock_fn_t)(struct kvm *kvm);
->  typedef void (*on_unlock_fn_t)(struct kvm *kvm);
->
->  struct kvm_hva_range {
-> @@ -628,7 +626,8 @@ static __always_inline int __kvm_handle_hva_range(struct kvm *kvm,
->                                 locked = true;
->                                 KVM_MMU_LOCK(kvm);
->                                 if (!IS_KVM_NULL_FN(range->on_lock))
-> -                                       range->on_lock(kvm, range->start, range->end);
-> +                                       range->on_lock(kvm);
-> +
->                                 if (IS_KVM_NULL_FN(range->handler))
->                                         break;
->                         }
-> @@ -715,8 +714,7 @@ static void kvm_mmu_notifier_change_pte(struct mmu_notifier *mn,
->         kvm_handle_hva_range(mn, address, address + 1, pte, kvm_set_spte_gfn);
->  }
->
-> -void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
-> -                             unsigned long end)
-> +void kvm_mmu_invalidate_begin(struct kvm *kvm)
->  {
->         /*
->          * The count increase must become visible at unlock time as no
-> @@ -724,6 +722,17 @@ void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
->          * count is also read inside the mmu_lock critical section.
->          */
->         kvm->mmu_invalidate_in_progress++;
-> +
-> +       if (likely(kvm->mmu_invalidate_in_progress == 1)) {
-> +               kvm->mmu_invalidate_range_start = INVALID_GPA;
-> +               kvm->mmu_invalidate_range_end = INVALID_GPA;
-> +       }
-> +}
-> +
-> +void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end)
-> +{
-> +       WARN_ON_ONCE(!kvm->mmu_invalidate_in_progress);
-> +
->         if (likely(kvm->mmu_invalidate_in_progress == 1)) {
->                 kvm->mmu_invalidate_range_start = start;
->                 kvm->mmu_invalidate_range_end = end;
-> @@ -744,6 +753,12 @@ void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
->         }
->  }
->
-> +static bool kvm_mmu_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
-> +{
-> +       kvm_mmu_invalidate_range_add(kvm, range->start, range->end);
-> +       return kvm_unmap_gfn_range(kvm, range);
-> +}
-> +
->  static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
->                                         const struct mmu_notifier_range *range)
->  {
-> @@ -752,7 +767,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
->                 .start          = range->start,
->                 .end            = range->end,
->                 .pte            = __pte(0),
-> -               .handler        = kvm_unmap_gfn_range,
-> +               .handler        = kvm_mmu_unmap_gfn_range,
->                 .on_lock        = kvm_mmu_invalidate_begin,
->                 .on_unlock      = kvm_arch_guest_memory_reclaimed,
->                 .flush_on_ret   = true,
-> @@ -791,8 +806,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
->         return 0;
->  }
->
-> -void kvm_mmu_invalidate_end(struct kvm *kvm, unsigned long start,
-> -                           unsigned long end)
-> +void kvm_mmu_invalidate_end(struct kvm *kvm)
->  {
->         /*
->          * This sequence increase will notify the kvm page fault that
-> --
-> 2.25.1
->
