@@ -2,348 +2,324 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63E59C352A1
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 15:50:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B19C8C352A1
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 16:38:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231133AbiLFPtz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Dec 2022 10:49:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39180 "EHLO
+        id S235613AbiLFQie (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Dec 2022 11:38:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233613AbiLFPta (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 10:49:30 -0500
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A84D527B2F
-        for <linux-doc@vger.kernel.org>; Tue,  6 Dec 2022 07:49:28 -0800 (PST)
-Received: by mail-lj1-x22f.google.com with SMTP id f20so4509094lja.4
-        for <linux-doc@vger.kernel.org>; Tue, 06 Dec 2022 07:49:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZgXzVCO1OCRwjAZ65xIfYxlpH5JEmDjmLd1r8UgB90I=;
-        b=YDlQIMLZ1TrD8HLPFmpAy1nUjSqrC6DimAKnD5PX/9U/Hkfbl+PAuaqn6eyudePAL/
-         XdAO4Y2LJu8jK/u/vHUKJ4Yrg4Bu6CcI9Cp13NQSd4EEALaMTAF43oGOBbkSHLMWJZew
-         VBVjPJhisKdIegVeU2j+I1gfsP+HHDHSdHqItbK0ObvCJ3vGHDcvYAVHdqiK+hpVDt6A
-         aGqh+YFoCDDnlu6vbz0TU8iT9GjKwmc4omVbFWDhRxxhtyC86vojtae5sUA2v56QZaQS
-         XofeqJgFBJ7sIBVYgxziNf/pL9NIeN66U/SJva0SZj6ungKTfSgVexSSbj4DvlFx82mM
-         v0tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZgXzVCO1OCRwjAZ65xIfYxlpH5JEmDjmLd1r8UgB90I=;
-        b=QlzZ9xqQzMoIjQB6qiof83Paj689quEOHsc03cwliW+CHUcgruiBPbTFROq0VHoqM2
-         W8O/oO4ie/dHbElXLAXfqH6clcPeRUDOWpZLoPA/kyAFNqRXZj9Whpzc4g76pJf4U+X8
-         OOhyctswvV9eHNKoED/FiFFi2k09ycjgj9DX8WSFV3bWt0so6UIB6GqEQGSWg9O0KP9l
-         KOTunDOOrab1CGbIy8scB3t0DJapvyzyzFHqknc2gRokzZ7Zb6hFQTOC5ITppBTU+Z73
-         r0sIoEJuXcAeWXNINMBq9q6vP+gf7q1e9j4jPmCbXCGYUYkHGDRzlRCS5sYWXwqirQVI
-         5itw==
-X-Gm-Message-State: ANoB5pm7qB0wOlrPtO4L34asRlq9sdNDfvFpHy+a3QwmolCy6GyHA6VJ
-        Yk0wpOeoMXPrxE13JfZT4UcckMGnmefCQRbesRZaWQ==
-X-Google-Smtp-Source: AA0mqf53ULfcaVf99mN6yfwo/i5dAXkqh588pxGSl1Mpx6AZ2ttTevA2OsFQ6+Jwt2fKkYQ85oGqqCkL/Y3QkpgFpUk=
-X-Received: by 2002:a2e:964c:0:b0:279:f197:440d with SMTP id
- z12-20020a2e964c000000b00279f197440dmr4247034ljh.517.1670341766820; Tue, 06
- Dec 2022 07:49:26 -0800 (PST)
+        with ESMTP id S235618AbiLFQh4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 11:37:56 -0500
+Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5CDC2703;
+        Tue,  6 Dec 2022 08:37:03 -0800 (PST)
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+        by m0089730.ppops.net (8.17.1.19/8.17.1.19) with ESMTP id 2B6A9AXC003558;
+        Tue, 6 Dec 2022 08:36:46 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=s2048-2021-q4;
+ bh=H+M0DGK3aKG13yQQYcn5NNLZloNTmiKDldnmNunbC7k=;
+ b=Eo5xDCD0PH3ONMaQYj1dowmodA+RZNho0imRjRtdH9hzBJEy/2Ce+mMwIzhVYQlTeRZK
+ +eYhSxLDyMzQbhzZeDiKhg33EqS4kyGyawftee8l+2FSjKLNB2oLx7lqiWvTc7V+DFQv
+ fZKC53JBWDLes0oTEnX1hdxcCxTuwfQwLjsO67LXjKjVgZ9jHGyi3eDbxzEI3mfZ5TJj
+ wsM5OsaLMi6deV/bxRb3WfddFSNywo+O5b3GFfv3iIILwQLtylEw0T1tHM/UERiK8rEY
+ J2zevFDWLTOGCnQgMinP7v1EJVL8HU3YHafJIwCsJ1SKX4YTgSq2TDAroiPhefNYlJWu jA== 
+Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam04lp2044.outbound.protection.outlook.com [104.47.74.44])
+        by m0089730.ppops.net (PPS) with ESMTPS id 3m9s5pwecu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 06 Dec 2022 08:36:46 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K23XAlRep/EqXSv3loJfbKgwfppx/3zEcuHv+T8XPa9FY5QK1FEycvcBlZWxpf5fTz/HtlW4MmG1b5RRcVLBaCxumtkaxz4z4a0b8WPmBkUn4uK5WmHaFMxfJW+l/Glf7hLVETP1Gi1wIWhAkP1CXNuLmTkXg8yWBtcXQpmkz/unal5hN8IapRORYyl/3Qahg9/ftEREdS2Ggi3sNBjU99ykjGWHZ/mA6f6fH9D10cdVxY86m1PboyPZVr20cf404I8Vq0PjuJ4k6Rn/PGEwUcv9AlbA9MzkgieN8yDUcQgCVLkQ9HQXWFn/TEv0oK44FGDzd3Hh2/sjRIHCJsPhKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eRBLGLcSUR7YI1Seg7FU7sbsKsWRqXC/I0Uhr5tPdDs=;
+ b=HgkWLhAVx0IUhP3M6ys/S4c7c0IuyOvlerIU6I6XEdfd+eA7V0PPgBQDwSqkFpTb7FiwodZVVgbecxW+5EjOAjBm5vUJIW3ZHXlKJyv1WHJrsBFyyuakjMfgcB6JcQXGDflHemnxB3yUfn0E6rS8LcWW8ro22BFmanUD0ZlMNewm8HvHUWvgkyh+oILgYcX5gR5F3I4pWgTayYOynw5lTb3xvUfnEbGHlpngtoSgxhb9fv6FSzFWHGCYtCBmcoDv/EfwD6Wzhhwex49kgRNug/x1aek96Z+XAsRDsmrG1i4IQJepqqpHYZsN2LlW7qmq2ibsRx/RHK0yywdVKFBuKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=meta.com; dmarc=pass action=none header.from=meta.com;
+ dkim=pass header.d=meta.com; arc=none
+Received: from SN6PR1501MB2064.namprd15.prod.outlook.com (2603:10b6:805:d::27)
+ by BLAPR15MB3842.namprd15.prod.outlook.com (2603:10b6:208:279::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.8; Tue, 6 Dec
+ 2022 16:36:44 +0000
+Received: from SN6PR1501MB2064.namprd15.prod.outlook.com
+ ([fe80::d665:7e05:61d1:aebf]) by SN6PR1501MB2064.namprd15.prod.outlook.com
+ ([fe80::d665:7e05:61d1:aebf%7]) with mapi id 15.20.5880.014; Tue, 6 Dec 2022
+ 16:36:43 +0000
+Message-ID: <12e622e6-7b6c-50bf-b691-f750dea20655@meta.com>
+Date:   Tue, 6 Dec 2022 08:36:40 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH bpf-next v2] docs/bpf: Add documentation for
+ BPF_MAP_TYPE_SK_STORAGE
+To:     Donald Hunter <donald.hunter@gmail.com>, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20221206105552.74372-1-donald.hunter@gmail.com>
+Content-Language: en-US
+From:   Yonghong Song <yhs@meta.com>
+In-Reply-To: <20221206105552.74372-1-donald.hunter@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: BY3PR05CA0051.namprd05.prod.outlook.com
+ (2603:10b6:a03:39b::26) To SN6PR1501MB2064.namprd15.prod.outlook.com
+ (2603:10b6:805:d::27)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR1501MB2064:EE_|BLAPR15MB3842:EE_
+X-MS-Office365-Filtering-Correlation-Id: c04973ae-7f30-46c6-4958-08dad7a80ef1
+X-FB-Source: Internal
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lyTWwzfkeg2vcioTKK9C1OuOvnmGaVVpcTY2kHU4ytwJar3qKtsKpmcw/i/YP9e1ao66ai2qXVeHtXwYJb1H/vErrQmoyeg5c/UfWXUfQau7nX9fIQ07wJ0O3D3cMJAnr3ruxf23401ZQxwcIcUYFJF49oP/8wvUcuTNMP4bkyCjBla2HqP0Gu3Akw8AlLjp5pJMdpA1mai94ibuUtlHJzCMR2s0UK13o4isRy4JBSH/LwPBtGSzvTSRVaRkToPTa7Qqkzuya8soaU1lW0baIDHuBO1dlYK67dfwI+MkMYVFM3n+tpzHe7TwCnITYygWEgWKTvDaNEieeAiD6Rrba99vqBqcZ3Lzmv7nhrX5EWdgak6CU9eV/V++e6dcDgWMn5f0lSAgGLDWUmJ1g0Oo9ZPKs+AVj9a5MP2N70N7xWFer/Mn5VmVSqt8jxMdX1va+It8MxhSjKXKOXWKv5vVbet2p+U+eTiNKUeHVGvTsdLmqnqrSGnxz8Be0cpZz8cEkUA4Y+cmI1DYdNUVeq9OuCIFZNG2D2w7R7Gb6btgks3gjKmCuNl7lnzNJzTEvSg0BYolg4J+FwPhoBhzST3euhsXFwgZfChVZw7MopshlRqtNx1Aw6xbpahW2zdbQVcOvxYbzHY9MHMrMPPiRNB4Yyzg27kbURf3OUIJJBr3l8xwFWMBOdYarJzWAhMoLROFOrtN4JeMyDs3X9rIQWITlL//vemZjvU6lKNad0bnYVdmDSO+4gq4v0ncmKrRtvMW
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR1501MB2064.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(376002)(366004)(396003)(39860400002)(136003)(451199015)(2906002)(83380400001)(31686004)(36756003)(186003)(41300700001)(66946007)(31696002)(86362001)(66476007)(38100700002)(6512007)(8676002)(8936002)(66556008)(2616005)(4326008)(478600001)(5660300002)(54906003)(316002)(6506007)(53546011)(6486002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RVhVSU5WMHh1Rm8rN05JbFlUeVROWnpycE9HU3BFQkxvaGJtY2tHN1dTNHJy?=
+ =?utf-8?B?SzBCYkVRbkU0NzQ0Yi81dHdxZUNWYVU5TmVROG1RK2tPWXh3TzVrYlA0RmRH?=
+ =?utf-8?B?T3lGNEI0dCt1RC9USmlVVnNSckFkdWpLNEpCaVAwSkNmUWRhU0ZkUkpmWm5V?=
+ =?utf-8?B?VFVSN3Z0c2JQOGY5QTNZRTZybFRtcWNRVWxBLzlFY2ZndTVTOVhUNWwvREtR?=
+ =?utf-8?B?c2dPVnlqWmh3RC8yTE9CQWMrcnRtc1VPKzh3RXBiWVRFLzRJSDluUGxyTlA5?=
+ =?utf-8?B?SXpxWHJ1RUg3N2tTRndqZFo4VWlzdVJQWUxKekhwcDY0eUNSTXAvc084VSs2?=
+ =?utf-8?B?dHZ2U3RiSTk3TVFFT00va2M2b0ZCdllQbW04ZnlNaEtRWEVHMVp1bm92Wm1z?=
+ =?utf-8?B?MWJDNG84dGNCQ05lSWE2Ry9HMTg2VnZQc2s0ZjF6OXVldnI2OVoyMVVPT0VH?=
+ =?utf-8?B?dnBMZmVBUkdpNUJjZ21tUEEvS3Q1eWhtZXVDWUtBY1B0aHVCa3k3VkJCTDE0?=
+ =?utf-8?B?dEpFWFc3dWpxdS9ycTU2TFpNcEIxaW5oZm12dFNPR000WmpGZTJnRXA1YzRp?=
+ =?utf-8?B?a2RkRDhqUlhpTmYrSnJHOCtKdFNIYW9rT3JoaWNmSGp4N2dFMmZuSU0vWGZk?=
+ =?utf-8?B?bUF1ZkdPOWV1dDFGU0tYTGZlbVcxV1QySkI3a2NQK3djZ2pzSmNlV3FVNVc2?=
+ =?utf-8?B?enNLMUh6M2kxWjlJTGxDYVIyVWZyejRMRmNLTjhURUtUcENRVGh0M0hibkFp?=
+ =?utf-8?B?eVYyQ1oweFJNQVJjeHBoM2RQcUNwYlhucEVXbFE2OHNmQzJQSzZvTFNHTFRj?=
+ =?utf-8?B?N24weUxLRGNETjhGUzlqUHFzNktMN2k4TFpvd3JvcGFNR0FaOEl3NStLN2gw?=
+ =?utf-8?B?ZTY2NHlkSW5iK0hrT28zMWFoSjFaT09BUTR1REl0MlhMdlhMcyt1T2F1dDdR?=
+ =?utf-8?B?S3F0cms0Um5sTHZXNWJYZ3NEYlV2SlpaWHZHdGxwOU9qNmNQRDRQcHNkeTZv?=
+ =?utf-8?B?Ym9YWlcxYURUNUZxUFNhRFl0Rm50d0hSYlZaQnNMYWNtdStjZ1dVQ1RBWTVv?=
+ =?utf-8?B?MUZBOTFKTGV0K1NGcWlpRDE1SGhhdW96d0t6YTFjdmMyTVJxMFBWNmNPcUR3?=
+ =?utf-8?B?VkIxdmFLTlV1Q0loMC9pUHlOTEdWWnVPVDBqbjBWSUZCRG9iSmNrZjVHcSs0?=
+ =?utf-8?B?SkUrVXhEYVZCSFI0U0lYczM1QWk1M1h6S05BWmY3YlkxcFNDMkwzakkyM2E1?=
+ =?utf-8?B?L0UwazFrbGZ4VCthS0VWQ3hMTUk4KzZLWEhYT0ZmZzBTTS9ZUkw4QWdjTHp6?=
+ =?utf-8?B?YXAxM0E4K3IwYURubjMra2pjWlpZQmlsMlMwcndDZkFJRXJYZ0tsK0EzL3lz?=
+ =?utf-8?B?MmpsVlhQREFSQzhEVURkYlEzb3B0bC9oYTYyL1U1LytjT0VHL0IwVU1xb3Zm?=
+ =?utf-8?B?WDF3bE1tN1NveDNzTFgwVVhJajY1WTZobUVmL3BZOUFncEtkOXE2T1RhazNz?=
+ =?utf-8?B?THRKMUp5ZmJwd0hCTGluSzRObGpZNGE2d1hBS1hQVllvZTRXTllLRk9DVmR1?=
+ =?utf-8?B?VFg2ZExFUVFVMWZlWGgxRndlYmpaSUdUL1YyNmJjRFFWSE5TeDNXQnVqOUJO?=
+ =?utf-8?B?WFlIa2QrdUZ2cDljWjNDRGNOVzVpWXpmaC9YU1hVM2hxbG9EazdKWFV0alFX?=
+ =?utf-8?B?cTBnV1ZHU2Ixd3NQWEtkWVcyY0QyYXFxeUlXNExOWjVXRzRZNWlWMzFLMU5O?=
+ =?utf-8?B?bjRRbFBhRlphVWttMHN2d2YrRmZScUwxOVNndU12S0J0Z0hiZ2xsMk96aGtF?=
+ =?utf-8?B?SWhQV1U1d1crcUZZU1ZnM3puQmNpZVJ2UTZ6Z2VpSm0vL2w5OVBiY1gxRVQ2?=
+ =?utf-8?B?a29rdllQYkFNdmdoTm52MEd0R2FRcU03c0J4NFRrWHZreWc3dTdTVjV3QkNF?=
+ =?utf-8?B?dUZCRGIrR0R6NWVYU2RvVEJ0YlFWanJRanFLRkI0SzlHTE1ELy9wZWVJU1pM?=
+ =?utf-8?B?bjFtOXZRQ1NGckNYNFhac2ZjQjNBN3BXNWJjeDhzcG1MQ1RmUXN0NzZ0TmNY?=
+ =?utf-8?B?STRTMHNiRzNzd3ZDOGFJUk1HNnJwdElLVy9nMmVJWkVGWjdqdThPczRBWjZj?=
+ =?utf-8?B?R0NJcG80RUdlSlVZWmNBbjd6c283T0lxZDJkbHJZcWV2QnJxdVpWUm9OTFNT?=
+ =?utf-8?B?OEE9PQ==?=
+X-OriginatorOrg: meta.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c04973ae-7f30-46c6-4958-08dad7a80ef1
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR1501MB2064.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2022 16:36:43.3392
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: e9aBC9RX/VOBkvqbMgNapRjvEkU6RZAQPJLzeCqi7TlH8XVM6OyOodmGb4IXnrI8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR15MB3842
+X-Proofpoint-GUID: qPakB0pD5JrFRH9rPm1ZIVY9sh5nbCOA
+X-Proofpoint-ORIG-GUID: qPakB0pD5JrFRH9rPm1ZIVY9sh5nbCOA
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 1 URL was un-rewritten
 MIME-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-6-chao.p.peng@linux.intel.com> <CA+EHjTy5+Ke_7Uh72p--H9kGcE-PK4EVmp7ym6Q1-PO28u6CCQ@mail.gmail.com>
- <20221206115623.GB1216605@chaop.bj.intel.com>
-In-Reply-To: <20221206115623.GB1216605@chaop.bj.intel.com>
-From:   Fuad Tabba <tabba@google.com>
-Date:   Tue, 6 Dec 2022 15:48:50 +0000
-Message-ID: <CA+EHjTx3_Vkh9Jb_ZJNi5Xx=O24eM-jpF0gR+UGf9W0ORgNyhQ@mail.gmail.com>
-Subject: Re: [PATCH v10 5/9] KVM: Use gfn instead of hva for mmu_notifier_retry
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-06_10,2022-12-06_01,2022-06-22_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On Tue, Dec 6, 2022 at 12:01 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> On Mon, Dec 05, 2022 at 09:23:49AM +0000, Fuad Tabba wrote:
-> > Hi Chao,
-> >
-> > On Fri, Dec 2, 2022 at 6:19 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > >
-> > > Currently in mmu_notifier invalidate path, hva range is recorded and
-> > > then checked against by mmu_notifier_retry_hva() in the page fault
-> > > handling path. However, for the to be introduced private memory, a page
-> > > fault may not have a hva associated, checking gfn(gpa) makes more sense.
-> > >
-> > > For existing hva based shared memory, gfn is expected to also work. The
-> > > only downside is when aliasing multiple gfns to a single hva, the
-> > > current algorithm of checking multiple ranges could result in a much
-> > > larger range being rejected. Such aliasing should be uncommon, so the
-> > > impact is expected small.
-> > >
-> > > Suggested-by: Sean Christopherson <seanjc@google.com>
-> > > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > > ---
-> > >  arch/x86/kvm/mmu/mmu.c   |  8 +++++---
-> > >  include/linux/kvm_host.h | 33 +++++++++++++++++++++------------
-> > >  virt/kvm/kvm_main.c      | 32 +++++++++++++++++++++++---------
-> > >  3 files changed, 49 insertions(+), 24 deletions(-)
-> > >
-> > > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> > > index 4736d7849c60..e2c70b5afa3e 100644
-> > > --- a/arch/x86/kvm/mmu/mmu.c
-> > > +++ b/arch/x86/kvm/mmu/mmu.c
-> > > @@ -4259,7 +4259,7 @@ static bool is_page_fault_stale(struct kvm_vcpu *vcpu,
-> > >                 return true;
-> > >
-> > >         return fault->slot &&
-> > > -              mmu_invalidate_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
-> > > +              mmu_invalidate_retry_gfn(vcpu->kvm, mmu_seq, fault->gfn);
-> > >  }
-> > >
-> > >  static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-> > > @@ -6098,7 +6098,9 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
-> > >
-> > >         write_lock(&kvm->mmu_lock);
-> > >
-> > > -       kvm_mmu_invalidate_begin(kvm, gfn_start, gfn_end);
-> > > +       kvm_mmu_invalidate_begin(kvm);
-> > > +
-> > > +       kvm_mmu_invalidate_range_add(kvm, gfn_start, gfn_end);
-> > >
-> > >         flush = kvm_rmap_zap_gfn_range(kvm, gfn_start, gfn_end);
-> > >
-> > > @@ -6112,7 +6114,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
-> > >                 kvm_flush_remote_tlbs_with_address(kvm, gfn_start,
-> > >                                                    gfn_end - gfn_start);
-> > >
-> > > -       kvm_mmu_invalidate_end(kvm, gfn_start, gfn_end);
-> > > +       kvm_mmu_invalidate_end(kvm);
-> > >
-> > >         write_unlock(&kvm->mmu_lock);
-> > >  }
-> > > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> > > index 02347e386ea2..3d69484d2704 100644
-> > > --- a/include/linux/kvm_host.h
-> > > +++ b/include/linux/kvm_host.h
-> > > @@ -787,8 +787,8 @@ struct kvm {
-> > >         struct mmu_notifier mmu_notifier;
-> > >         unsigned long mmu_invalidate_seq;
-> > >         long mmu_invalidate_in_progress;
-> > > -       unsigned long mmu_invalidate_range_start;
-> > > -       unsigned long mmu_invalidate_range_end;
-> > > +       gfn_t mmu_invalidate_range_start;
-> > > +       gfn_t mmu_invalidate_range_end;
-> > >  #endif
-> > >         struct list_head devices;
-> > >         u64 manual_dirty_log_protect;
-> > > @@ -1389,10 +1389,9 @@ void kvm_mmu_free_memory_cache(struct kvm_mmu_memory_cache *mc);
-> > >  void *kvm_mmu_memory_cache_alloc(struct kvm_mmu_memory_cache *mc);
-> > >  #endif
-> > >
-> > > -void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
-> > > -                             unsigned long end);
-> > > -void kvm_mmu_invalidate_end(struct kvm *kvm, unsigned long start,
-> > > -                           unsigned long end);
-> > > +void kvm_mmu_invalidate_begin(struct kvm *kvm);
-> > > +void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end);
-> > > +void kvm_mmu_invalidate_end(struct kvm *kvm);
-> > >
-> > >  long kvm_arch_dev_ioctl(struct file *filp,
-> > >                         unsigned int ioctl, unsigned long arg);
-> > > @@ -1963,9 +1962,9 @@ static inline int mmu_invalidate_retry(struct kvm *kvm, unsigned long mmu_seq)
-> > >         return 0;
-> > >  }
-> > >
-> > > -static inline int mmu_invalidate_retry_hva(struct kvm *kvm,
-> > > +static inline int mmu_invalidate_retry_gfn(struct kvm *kvm,
-> > >                                            unsigned long mmu_seq,
-> > > -                                          unsigned long hva)
-> > > +                                          gfn_t gfn)
-> > >  {
-> > >         lockdep_assert_held(&kvm->mmu_lock);
-> > >         /*
-> > > @@ -1974,10 +1973,20 @@ static inline int mmu_invalidate_retry_hva(struct kvm *kvm,
-> > >          * that might be being invalidated. Note that it may include some false
-> >
-> > nit: "might be" (or) "is being"
-> >
-> > >          * positives, due to shortcuts when handing concurrent invalidations.
-> >
-> > nit: handling
->
-> Both are existing code, but I can fix it either.
-
-That was just a nit, please feel free to ignore it, especially if it
-might cause headaches in the future with merges.
->
-> >
-> > >          */
-> > > -       if (unlikely(kvm->mmu_invalidate_in_progress) &&
-> > > -           hva >= kvm->mmu_invalidate_range_start &&
-> > > -           hva < kvm->mmu_invalidate_range_end)
-> > > -               return 1;
-> > > +       if (unlikely(kvm->mmu_invalidate_in_progress)) {
-> > > +               /*
-> > > +                * Dropping mmu_lock after bumping mmu_invalidate_in_progress
-> > > +                * but before updating the range is a KVM bug.
-> > > +                */
-> > > +               if (WARN_ON_ONCE(kvm->mmu_invalidate_range_start == INVALID_GPA ||
-> > > +                                kvm->mmu_invalidate_range_end == INVALID_GPA))
-> >
-> > INVALID_GPA is an x86-specific define in
-> > arch/x86/include/asm/kvm_host.h, so this doesn't build on other
-> > architectures. The obvious fix is to move it to
-> > include/linux/kvm_host.h.
->
-> Hmm, INVALID_GPA is defined as ZERO for x86, not 100% confident this is
-> correct choice for other architectures, but after search it has not been
-> used for other architectures, so should be safe to make it common.
-
-With this fixed,
-
-Reviewed-by: Fuad Tabba <tabba@google.com>
-And the necessary work to port to arm64 (on qemu/arm64):
-Tested-by: Fuad Tabba <tabba@google.com>
-
-Cheers,
-/fuad
 
 
->
-> Thanks,
-> Chao
-> >
-> > Cheers,
-> > /fuad
-> >
-> > > +                       return 1;
-> > > +
-> > > +               if (gfn >= kvm->mmu_invalidate_range_start &&
-> > > +                   gfn < kvm->mmu_invalidate_range_end)
-> > > +                       return 1;
-> > > +       }
-> > > +
-> > >         if (kvm->mmu_invalidate_seq != mmu_seq)
-> > >                 return 1;
-> > >         return 0;
-> > > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> > > index b882eb2c76a2..ad55dfbc75d7 100644
-> > > --- a/virt/kvm/kvm_main.c
-> > > +++ b/virt/kvm/kvm_main.c
-> > > @@ -540,9 +540,7 @@ static void kvm_mmu_notifier_invalidate_range(struct mmu_notifier *mn,
-> > >
-> > >  typedef bool (*hva_handler_t)(struct kvm *kvm, struct kvm_gfn_range *range);
-> > >
-> > > -typedef void (*on_lock_fn_t)(struct kvm *kvm, unsigned long start,
-> > > -                            unsigned long end);
-> > > -
-> > > +typedef void (*on_lock_fn_t)(struct kvm *kvm);
-> > >  typedef void (*on_unlock_fn_t)(struct kvm *kvm);
-> > >
-> > >  struct kvm_hva_range {
-> > > @@ -628,7 +626,8 @@ static __always_inline int __kvm_handle_hva_range(struct kvm *kvm,
-> > >                                 locked = true;
-> > >                                 KVM_MMU_LOCK(kvm);
-> > >                                 if (!IS_KVM_NULL_FN(range->on_lock))
-> > > -                                       range->on_lock(kvm, range->start, range->end);
-> > > +                                       range->on_lock(kvm);
-> > > +
-> > >                                 if (IS_KVM_NULL_FN(range->handler))
-> > >                                         break;
-> > >                         }
-> > > @@ -715,8 +714,7 @@ static void kvm_mmu_notifier_change_pte(struct mmu_notifier *mn,
-> > >         kvm_handle_hva_range(mn, address, address + 1, pte, kvm_set_spte_gfn);
-> > >  }
-> > >
-> > > -void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
-> > > -                             unsigned long end)
-> > > +void kvm_mmu_invalidate_begin(struct kvm *kvm)
-> > >  {
-> > >         /*
-> > >          * The count increase must become visible at unlock time as no
-> > > @@ -724,6 +722,17 @@ void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
-> > >          * count is also read inside the mmu_lock critical section.
-> > >          */
-> > >         kvm->mmu_invalidate_in_progress++;
-> > > +
-> > > +       if (likely(kvm->mmu_invalidate_in_progress == 1)) {
-> > > +               kvm->mmu_invalidate_range_start = INVALID_GPA;
-> > > +               kvm->mmu_invalidate_range_end = INVALID_GPA;
-> > > +       }
-> > > +}
-> > > +
-> > > +void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end)
-> > > +{
-> > > +       WARN_ON_ONCE(!kvm->mmu_invalidate_in_progress);
-> > > +
-> > >         if (likely(kvm->mmu_invalidate_in_progress == 1)) {
-> > >                 kvm->mmu_invalidate_range_start = start;
-> > >                 kvm->mmu_invalidate_range_end = end;
-> > > @@ -744,6 +753,12 @@ void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
-> > >         }
-> > >  }
-> > >
-> > > +static bool kvm_mmu_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
-> > > +{
-> > > +       kvm_mmu_invalidate_range_add(kvm, range->start, range->end);
-> > > +       return kvm_unmap_gfn_range(kvm, range);
-> > > +}
-> > > +
-> > >  static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
-> > >                                         const struct mmu_notifier_range *range)
-> > >  {
-> > > @@ -752,7 +767,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
-> > >                 .start          = range->start,
-> > >                 .end            = range->end,
-> > >                 .pte            = __pte(0),
-> > > -               .handler        = kvm_unmap_gfn_range,
-> > > +               .handler        = kvm_mmu_unmap_gfn_range,
-> > >                 .on_lock        = kvm_mmu_invalidate_begin,
-> > >                 .on_unlock      = kvm_arch_guest_memory_reclaimed,
-> > >                 .flush_on_ret   = true,
-> > > @@ -791,8 +806,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
-> > >         return 0;
-> > >  }
-> > >
-> > > -void kvm_mmu_invalidate_end(struct kvm *kvm, unsigned long start,
-> > > -                           unsigned long end)
-> > > +void kvm_mmu_invalidate_end(struct kvm *kvm)
-> > >  {
-> > >         /*
-> > >          * This sequence increase will notify the kvm page fault that
-> > > --
-> > > 2.25.1
-> > >
+On 12/6/22 2:55 AM, Donald Hunter wrote:
+> Add documentation for the BPF_MAP_TYPE_SK_STORAGE including
+> kernel version introduced, usage and examples.
+> 
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+> ---
+> v1 -> v2:
+> - Fix bpf_sk_storage_* function signatures, reported by Yonghong Song
+> - Fix NULL return on failure, reported by Yonghong Song
+> 
+> Documentation/bpf/map_sk_storage.rst | 142 +++++++++++++++++++++++++++
+>   1 file changed, 142 insertions(+)
+>   create mode 100644 Documentation/bpf/map_sk_storage.rst
+> 
+> diff --git a/Documentation/bpf/map_sk_storage.rst b/Documentation/bpf/map_sk_storage.rst
+> new file mode 100644
+> index 000000000000..38b385c53da9
+> --- /dev/null
+> +++ b/Documentation/bpf/map_sk_storage.rst
+> @@ -0,0 +1,142 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +.. Copyright (C) 2022 Red Hat, Inc.
+> +
+> +=======================
+> +BPF_MAP_TYPE_SK_STORAGE
+> +=======================
+> +
+> +.. note::
+> +   - ``BPF_MAP_TYPE_SK_STORAGE`` was introduced in kernel version 5.2
+> +
+> +``BPF_MAP_TYPE_SK_STORAGE`` is used to provide socket-local storage for BPF programs. A map of
+> +type ``BPF_MAP_TYPE_SK_STORAGE`` declares the type of storage to be provided and acts as the
+> +handle for accessing the socket-local storage from a BPF program. The key type must be ``int``
+> +and ``max_entries`` must be set to ``0``.
+> +
+> +The ``BPF_F_NO_PREALLOC`` must be used when creating a map for socket-local storage. The kernel
+> +is responsible for allocating storage for a socket when requested and for freeing the storage
+> +when either the map or the socket is deleted.
+> +
+> +Usage
+> +=====
+> +
+> +Kernel BPF
+> +----------
+> +
+> +bpf_sk_storage_get()
+> +~~~~~~~~~~~~~~~~~~~~
+> +
+> +.. code-block:: c
+> +
+> +   long bpf_sk_storage_get(struct bpf_map *map, void *sk, void *value, u64 flags)
+
+void *bpf_sk_storage_get(...)
+
+> +
+> +Socket-local storage can be retrieved using the ``bpf_sk_storage_get()`` helper. The helper gets
+> +the storage from ``sk`` that is identified by ``map``.  If the
+> +``BPF_LOCAL_STORAGE_GET_F_CREATE`` flag is used then ``bpf_sk_storage_get()`` will create the
+> +storage for ``sk`` if it does not already exist. ``value`` can be used together with
+> +``BPF_LOCAL_STORAGE_GET_F_CREATE`` to initialize the storage value, otherwise it will be zero
+> +initialized. Returns a pointer to the storage on success, or ``NULL`` in case of failure.
+> +
+> +.. note::
+> +   - ``sk`` is a kernel ``struct sock`` pointer for LSM program.
+> +   - ``sk`` is a ``struct bpf_sock`` pointer for other program types.
+
+The above is taken from uapi header. The above
+    ``sk`` is a kernel ``struct sock`` pointer for LSM program.
+should be changed to
+    ``sk`` is a kernel ``struct sock`` pointer for LSM or tracing program.
+
+See bpf_trace.c
+const struct bpf_func_proto *
+tracing_prog_func_proto(enum bpf_func_id func_id, const struct bpf_prog 
+*prog)
+{
+...
+         case BPF_FUNC_sk_storage_get:
+                 return &bpf_sk_storage_get_tracing_proto;
+...
+}
+
+> +
+> +bpf_sk_storage_delete()
+> +~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +.. code-block:: c
+> +
+> +   long bpf_sk_storage_delete(struct bpf_map *map, void *sk)
+> +
+> +Socket-local storage can be deleted using the ``bpf_sk_storage_delete()`` helper. The helper
+> +deletes the storage from ``sk`` that is identified by ``map``. Returns ``0`` on success, or negative
+> +error in case of failure.
+> +
+> +User space
+> +----------
+> +
+> +bpf_map_update_elem()
+> +~~~~~~~~~~~~~~~~~~~~~
+> +
+> +.. code-block:: c
+> +
+> +   int bpf_map_update_elem(int map_fd, const void *key, const void *value, __u64 flags)
+> +
+> +Socket-local storage with type identified by ``map_fd`` for the socket identified by ``key`` can
+> +be added or updated using the ``bpf_map_update_elem()`` libbpf function. ``key`` must be a
+> +pointer to a valid ``fd`` in the user space program. The ``flags`` parameter can be used to
+> +control the update behaviour:
+> +
+> +- ``BPF_ANY`` will create storage for ``fd`` or update existing storage.
+> +- ``BPF_NOEXIST`` will create storage for ``fd`` only if it did not already
+> +  exist
+> +- ``BPF_EXIST`` will update existing storage for ``fd``
+> +
+> +Returns ``0`` on success, or negative error in case of failure.
+> +
+> +bpf_map_lookup_elem()
+> +~~~~~~~~~~~~~~~~~~~~~
+> +
+> +.. code-block:: c
+> +
+> +   int bpf_map_lookup_elem(int map_fd, const void *key, void *value)
+> +
+> +Socket-local storage for the socket identified by ``key`` belonging to ``map_fd`` can be
+> +retrieved using the ``bpf_map_lookup_elem()`` libbpf function. ``key`` must be a pointer to a
+> +valid ``fd`` in the user space program. Returns ``0`` on success, or negative error in case of
+> +failure.
+> +
+> +bpf_map_delete_elem()
+> +~~~~~~~~~~~~~~~~~~~~~
+> +
+> +.. code-block:: c
+> +
+> +   int bpf_map_delete_elem (int map_fd, const void *key)
+> +
+> +Socket-local storage for the socket identified by ``key`` belonging to ``map_fd`` can be deleted
+> +using the ``bpf_map_delete_elem()`` libbpf function. Returns ``0`` on success, or negative error
+> +in case of failure.
+> +
+> +Examples
+> +========
+> +
+> +Kernel BPF
+> +----------
+> +
+> +This snippet shows how to declare socket-local storage in a BPF program:
+> +
+> +.. code-block:: c
+> +
+> +    struct {
+> +            __uint(type, BPF_MAP_TYPE_SK_STORAGE);
+> +            __uint(map_flags, BPF_F_NO_PREALLOC);
+> +            __type(key, int);
+> +            __type(value, struct my_storage);
+> +    } socket_storage SEC(".maps");
+> +
+> +This snippet shows how to retrieve socket-local storage in a BPF program:
+> +
+> +.. code-block:: c
+> +
+> +    SEC("sockops")
+> +    int _sockops(struct bpf_sock_ops *ctx)
+> +    {
+> +            struct my_storage *storage;
+> +            struct bpf_sock *sk;
+> +
+> +            sk = ctx->sk;
+> +            if (!sk)
+> +                    return 1;
+> +
+> +            storage = bpf_sk_storage_get(&socket_storage, sk, 0,
+> +                                         BPF_LOCAL_STORAGE_GET_F_CREATE);
+> +            if (!storage)
+> +                    return 1;
+> +
+> +            /* Use 'storage' here */
+> +    }
+> +
+> +References
+> +==========
+> +
+> +https://lwn.net/ml/netdev/20190426171103.61892-1-kafai@fb.com/
