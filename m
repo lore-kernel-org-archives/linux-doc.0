@@ -2,284 +2,311 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC1D3C4708E
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 13:34:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEBC9C352A1
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 14:22:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234390AbiLFNel (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Dec 2022 08:34:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36370 "EHLO
+        id S234901AbiLFOWg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Dec 2022 09:22:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232676AbiLFNek (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 08:34:40 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D60EEBC36;
-        Tue,  6 Dec 2022 05:34:36 -0800 (PST)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 79BDE1FE58;
-        Tue,  6 Dec 2022 13:34:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1670333675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=dRjMqe9XUfWybRrbUF7GOm/XPQRxXJ5e2gntwceUOoI=;
-        b=rMUnPAsfEpWIJsbRvlnc4Kq8LUTLvMgy4L7RRJsI38/Pmp/I/IQPIER3EVlgM35dwn6gLF
-        9ZOffk1YPWciOp0dX967xPXIahIWRQ/5YzUUD9f2frz4WDMV5fLhJNjg4n1USKz1p0k6RD
-        nGflIZSZE9DevBpSu3wVbSjTUepE5JY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1670333675;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=dRjMqe9XUfWybRrbUF7GOm/XPQRxXJ5e2gntwceUOoI=;
-        b=bYBAhVZ4hM49gizquEVGwEMgfkUk376WJJmV6+Gbni2jnjdakO1jwryltaQqbVYP29g2vR
-        iDS88CFVOgK4GaAA==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 82E5D13326;
-        Tue,  6 Dec 2022 13:34:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap1.suse-dmz.suse.de with ESMTPSA
-        id /kz2H+pEj2MYBwAAGKfGzw
-        (envelope-from <farosas@suse.de>); Tue, 06 Dec 2022 13:34:34 +0000
-From:   Fabiano Rosas <farosas@suse.de>
-To:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-In-Reply-To: <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
-Date:   Tue, 06 Dec 2022 10:34:32 -0300
-Message-ID: <877cz4ac5z.fsf@suse.de>
+        with ESMTP id S234968AbiLFOWd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 09:22:33 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AC6E2DA99;
+        Tue,  6 Dec 2022 06:22:31 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id h33so13470590pgm.9;
+        Tue, 06 Dec 2022 06:22:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vMgzu0iWUBeUpifu7obIKbBGzuPvL5tzOlwVM/8tox8=;
+        b=LpeeHMU/bHmIhuzoGWYsKr6J/bLPxqDRH4GiPefb0tD5w+v7qgo+o5y4iNQyNtGy37
+         ovG7W/9AHi89srBPOgZVIOzNwUn3XTyMZPVyd7Xru9+GORGR6ki0adBCZWYhvG6ABulk
+         Biwyf4RcdXrDy9RD7NNWoetwji4TbuIkiYrjDOfpO2m11mL5tSux7Y+kSvubV/5Y2Z/Z
+         i3nccdr3B8j4VR2PEgiFhQtxlyc4V0VMjiOHvlfKQtzgOVzEPXlQQbGJZlQbBDwfXCmY
+         j5+tmPfkm5ccPIQLeP+pJwQjlkBdVEBsDmDLcstjE7w6Sam0eqU2VMqFTmOMnvIKJni6
+         l6yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vMgzu0iWUBeUpifu7obIKbBGzuPvL5tzOlwVM/8tox8=;
+        b=C5e0sxrOopgNtptgnZOAhuhKW1UhdEEYoQcEygyHzRrxkW97svWlEArbpe/E0Ncijt
+         Ag0vJLbvnpbZIBQPrTZoy1nPhYzyd4/dN1SuhKh/Cf0/Llyhrkfw9rNNbBowTr43ZfbO
+         zdoxrN4Qk0bnxMCQhpMwXbURL5hELZHFvud0FEHe5A6CFw5SSdgfafpP/WxeGVdbtTRb
+         aSbMd3Suc6hKgDeWnrzI2lqtZBa/bhBunlspmIZ32M4AXIuanja7GEILKq026U43A0hd
+         QnKZSIYTnvou1rg2m4FpdQME5ZeSCvpkUu/0d1DJz77wfZJSINTGiPGlYzk3ILkpz7kQ
+         NLaw==
+X-Gm-Message-State: ANoB5pk8fBVDLXmmbLqYCnUAHYvcvCrzM2MwPbYpUt9MrvOaxHvDjkfK
+        hBCZVagJx4BIyG1EOcfpVSi8bTwCFic=
+X-Google-Smtp-Source: AA0mqf6GznOkZFV23X91yVCivgJuatvXjycEJIU7Sk4QqAJRFAjz8eHl4uOjMir/BO21WoAuk0ipXQ==
+X-Received: by 2002:aa7:8a02:0:b0:573:846c:b88 with SMTP id m2-20020aa78a02000000b00573846c0b88mr234494pfa.23.1670336550405;
+        Tue, 06 Dec 2022 06:22:30 -0800 (PST)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id a24-20020aa795b8000000b00575d06e53edsm10695896pfk.149.2022.12.06.06.22.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Dec 2022 06:22:29 -0800 (PST)
+Message-ID: <3e5f2b84-a351-2e6d-f620-421876908aba@gmail.com>
+Date:   Tue, 6 Dec 2022 23:22:26 +0900
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2] docs: Integrate rustdoc into Rust documentation
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        bilbao@vt.edu, corbet@lwn.net, konstantin@linuxfoundation.org,
+        ojeda@kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <20221130220825.1545758-1-carlos.bilbao@amd.com>
+ <20221201204814.2141401-1-carlos.bilbao@amd.com>
+ <a019a3f1-7ff1-15b2-d930-e1d722847e0c@gmail.com>
+ <dd0a67d6-0ba3-66e2-851c-7498b0bc99d1@amd.com>
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <dd0a67d6-0ba3-66e2-851c-7498b0bc99d1@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Chao Peng <chao.p.peng@linux.intel.com> writes:
+On Mon, 5 Dec 2022 10:36:11 -0600, Carlos Bilbao wrote:
+> On 12/4/22 19:06, Akira Yokosawa wrote:
+>=20
+>> Hi,
+>>
+>> On Thu, 1 Dec 2022 14:48:14 -0600, Carlos Bilbao wrote:
+>>> Include HTML output generated with rustdoc into the Linux kernel
+>>> documentation on Rust. Change target `make htmldocs` to combine RST S=
+phinx
+>>> and the generation of Rust documentation, when support is available.
+>>>
+>>> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+>>> ---
+>>>
+>>> Changes since V1:
+>>> =C2=A0 - Work on top of v6.1-rc1.
+>> Thank you for the rebase.
+>>
+>>> =C2=A0 - Don't use rustdoc.rst, instead add link to Documentation/rus=
+t/index.rst.
+>>> =C2=A0 - In Documentation/Makefile, replace @make rustdoc for $(Q)$(M=
+AKE) rustdoc.
+>>> =C2=A0 - Don't do LLVM=3D1 for all rustdoc generation within `make ht=
+mldocs`.
+>>> =C2=A0 - Add spaces on definition of RUSTDOC_OUTPUT, for consistency.=
 
-> In confidential computing usages, whether a page is private or shared is
-> necessary information for KVM to perform operations like page fault
-> handling, page zapping etc. There are other potential use cases for
-> per-page memory attributes, e.g. to make memory read-only (or no-exec,
-> or exec-only, etc.) without having to modify memslots.
->
-> Introduce two ioctls (advertised by KVM_CAP_MEMORY_ATTRIBUTES) to allow
-> userspace to operate on the per-page memory attributes.
->   - KVM_SET_MEMORY_ATTRIBUTES to set the per-page memory attributes to
->     a guest memory range.
->   - KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES to return the KVM supported
->     memory attributes.
->
-> KVM internally uses xarray to store the per-page memory attributes.
->
-> Suggested-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> Link: https://lore.kernel.org/all/Y2WB48kD0J4VGynX@google.com/
-> ---
->  Documentation/virt/kvm/api.rst | 63 ++++++++++++++++++++++++++++
->  arch/x86/kvm/Kconfig           |  1 +
->  include/linux/kvm_host.h       |  3 ++
->  include/uapi/linux/kvm.h       | 17 ++++++++
->  virt/kvm/Kconfig               |  3 ++
->  virt/kvm/kvm_main.c            | 76 ++++++++++++++++++++++++++++++++++
->  6 files changed, 163 insertions(+)
->
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 5617bc4f899f..bb2f709c0900 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -5952,6 +5952,59 @@ delivery must be provided via the "reg_aen" struct.
->  The "pad" and "reserved" fields may be used for future extensions and should be
->  set to 0s by userspace.
->  
-> +4.138 KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES
-> +-----------------------------------------
-> +
-> +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
-> +:Architectures: x86
-> +:Type: vm ioctl
-> +:Parameters: u64 memory attributes bitmask(out)
-> +:Returns: 0 on success, <0 on error
-> +
-> +Returns supported memory attributes bitmask. Supported memory attributes will
-> +have the corresponding bits set in u64 memory attributes bitmask.
-> +
-> +The following memory attributes are defined::
-> +
-> +  #define KVM_MEMORY_ATTRIBUTE_READ              (1ULL << 0)
-> +  #define KVM_MEMORY_ATTRIBUTE_WRITE             (1ULL << 1)
-> +  #define KVM_MEMORY_ATTRIBUTE_EXECUTE           (1ULL << 2)
-> +  #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
-> +
-> +4.139 KVM_SET_MEMORY_ATTRIBUTES
-> +-----------------------------------------
-> +
-> +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
-> +:Architectures: x86
-> +:Type: vm ioctl
-> +:Parameters: struct kvm_memory_attributes(in/out)
-> +:Returns: 0 on success, <0 on error
-> +
-> +Sets memory attributes for pages in a guest memory range. Parameters are
-> +specified via the following structure::
-> +
-> +  struct kvm_memory_attributes {
-> +	__u64 address;
-> +	__u64 size;
-> +	__u64 attributes;
-> +	__u64 flags;
-> +  };
-> +
-> +The user sets the per-page memory attributes to a guest memory range indicated
-> +by address/size, and in return KVM adjusts address and size to reflect the
-> +actual pages of the memory range have been successfully set to the attributes.
+>>>
+>>> ---
+>>> =C2=A0 Documentation/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 4 ++++
+>>> =C2=A0 Documentation/rust/index.rst |=C2=A0 3 +++
+>>> =C2=A0 rust/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 15 +++++++++------
+>>> =C2=A0 3 files changed, 16 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/Documentation/Makefile b/Documentation/Makefile
+>>> index 64d44c1ecad3..f537cf558af6 100644
+>>> --- a/Documentation/Makefile
+>>> +++ b/Documentation/Makefile
+>>> @@ -92,6 +92,10 @@ quiet_cmd_sphinx =3D SPHINX=C2=A0 $@ --> file://$(=
+abspath $(BUILDDIR)/$3/$4)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
+>>> =C2=A0 =C2=A0 htmldocs:
+>>> +# If Rust support is available, add rustdoc generated contents
+>>> +ifdef CONFIG_RUST
+>>> +=C2=A0=C2=A0=C2=A0 $(Q)$(MAKE) rustdoc
+>>> +endif
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 @$(srctree)/scripts/sphinx-pre-install=
+ --version-check
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 @+$(foreach var,$(SPHINXDIRS),$(call l=
+oop_cmd,sphinx,html,$(var),,$(var)))
+>> So, this means "make htmldocs" will require kernel .config if CONFIG_R=
+UST=3Dy.
+>> I'm not sure this new requirement is acceptable for kernel documentati=
+on
+>> testers who just want to build kernel documentation.
+>=20
+>=20
+> This is already kind of the case for Rust-related business.
+>=20
+>=20
+>>
+>> You are doing three things in this patch.
+>>
+>> =C2=A0 1) Change the destination of rustdoc to under Documentation/out=
+put/
+>> =C2=A0 2) Add a cross reference to the generated rustdoc in
+>> =C2=A0=C2=A0=C2=A0=C2=A0 Documentation/rust/index.rst.
+>> =C2=A0 3) Integrate rustdoc generation into htmldocs.
+>>
+>> I'm OK with 1) and 2).
+>> Can you separate 3) into another patch and respin?
+>=20
+>=20
+> Glad we can agree on 1) and 2). Why moving 3)? This is a small patch wi=
+th
+> one overall purpose (Integrate rustdoc into website).
 
-This wording could cause some confusion, what about a simpler:
+Yes, I agree that 3) is a small change. I understand what you want to
+do. But there are a couple of options for _how_ to do it.
+My current position is that Documentation/Makefile is _not_ the right
+place for the change, as mentioned in my reply to Miguel.
 
-"reflect the range of pages that had its attributes successfully set"
+>=20
+>=20
+>>
+>> By the way, is rustdoc's requirement of .config only for CONFIG_RUST?
+>> In other words, are contents of rustdoc affected by other config setti=
+ngs?
+>>
+>> If not, I think rustdoc can be generated regardless of config settings=
+ as
+>> far as necessary tools (rustc, bindgen, etc.) are available.
+>=20
+>=20
+> Yes, but someone with the tools may not want to use them. Keep in mind =
+that
+> generating rustdoc takes a few extra seconds.
 
-> +If the call returns 0, "address" is updated to the last successful address + 1
-> +and "size" is updated to the remaining address size that has not been set
-> +successfully.
+As mentioned in another reply, I'm convinced of the dependency on .config=
+=2E
 
-"address + 1 page" or "subsequent page" perhaps.
+>=20
+>=20
+>>
+>>> =C2=A0 diff --git a/Documentation/rust/index.rst b/Documentation/rust=
+/index.rst
+>>> index 4ae8c66b94fa..4005326c3ba9 100644
+>>> --- a/Documentation/rust/index.rst
+>>> +++ b/Documentation/rust/index.rst
+>>> @@ -6,6 +6,9 @@ Rust
+>>> =C2=A0 Documentation related to Rust within the kernel. To start usin=
+g Rust
+>>> =C2=A0 in the kernel, please read the quick-start.rst guide.
+>>> =C2=A0 +If this documentation includes rustdoc-generated HTML, the en=
+try point can
+>>> +be found `here. <rustdoc/kernel/index.html>`_
+>> This cross reference will only make sense in htmldocs build.
+>> Perhaps, you can use the "only::" directive [1] as follows:
+>>
+>> .. only:: html
+>=20
+>=20
+> This I can gladly do on a V3. I will wait for an answer on issues above=
+=2E
 
-In fact, wouldn't this all become simpler if size were number of pages instead?
+OK.
 
-> The user should check the return value as well as the size to
-> +decide if the operation succeeded for the whole range or not. The user may want
-> +to retry the operation with the returned address/size if the previous range was
-> +partially successful.
-> +
-> +Both address and size should be page aligned and the supported attributes can be
-> +retrieved with KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES.
-> +
-> +The "flags" field may be used for future extensions and should be set to 0s.
-> +
+So if you split this into a two-patch series, 1/2 for 1) and 2), and 2/2
+for 3) (or an updated one), I'm glad to give my RB tag to 1/2 for Miguel
+to be able take it for v6.2 (timing is tight!). 2/2 will need at least
+a couple of respins, I guess.
 
-...
+        Thanks, Akira
+>=20
+>=20
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0 If this documentation includes rustdoc-genera=
+ted HTML, the entry point can
+>> =C2=A0=C2=A0=C2=A0=C2=A0 be found `here. <rustdoc/kernel/index.html>`_=
 
-> +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
-> +					   struct kvm_memory_attributes *attrs)
-> +{
-> +	gfn_t start, end;
-> +	unsigned long i;
-> +	void *entry;
-> +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
-> +
-> +	/* flags is currently not used. */
-> +	if (attrs->flags)
-> +		return -EINVAL;
-> +	if (attrs->attributes & ~supported_attrs)
-> +		return -EINVAL;
-> +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
-> +		return -EINVAL;
-> +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
-> +		return -EINVAL;
-> +
-> +	start = attrs->address >> PAGE_SHIFT;
-> +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
-
-Here PAGE_SIZE and -1 cancel out.
-
-Consider using gpa_to_gfn as well.
-
-> +
-> +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
-> +
-> +	mutex_lock(&kvm->lock);
-> +	for (i = start; i < end; i++)
-> +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
-> +				    GFP_KERNEL_ACCOUNT)))
-> +			break;
-> +	mutex_unlock(&kvm->lock);
-> +
-> +	attrs->address = i << PAGE_SHIFT;
-> +	attrs->size = (end - i) << PAGE_SHIFT;
-> +
-> +	return 0;
-> +}
-> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
-> +
->  struct kvm_memory_slot *gfn_to_memslot(struct kvm *kvm, gfn_t gfn)
->  {
->  	return __gfn_to_memslot(kvm_memslots(kvm), gfn);
-> @@ -4459,6 +4508,9 @@ static long kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
->  #ifdef CONFIG_HAVE_KVM_MSI
->  	case KVM_CAP_SIGNAL_MSI:
->  #endif
-> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> +	case KVM_CAP_MEMORY_ATTRIBUTES:
-> +#endif
->  #ifdef CONFIG_HAVE_KVM_IRQFD
->  	case KVM_CAP_IRQFD:
->  	case KVM_CAP_IRQFD_RESAMPLE:
-> @@ -4804,6 +4856,30 @@ static long kvm_vm_ioctl(struct file *filp,
->  		break;
->  	}
->  #endif /* CONFIG_HAVE_KVM_IRQ_ROUTING */
-> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> +	case KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES: {
-> +		u64 attrs = kvm_supported_mem_attributes(kvm);
-> +
-> +		r = -EFAULT;
-> +		if (copy_to_user(argp, &attrs, sizeof(attrs)))
-> +			goto out;
-> +		r = 0;
-> +		break;
-> +	}
-> +	case KVM_SET_MEMORY_ATTRIBUTES: {
-> +		struct kvm_memory_attributes attrs;
-> +
-> +		r = -EFAULT;
-> +		if (copy_from_user(&attrs, argp, sizeof(attrs)))
-> +			goto out;
-> +
-> +		r = kvm_vm_ioctl_set_mem_attributes(kvm, &attrs);
-> +
-> +		if (!r && copy_to_user(argp, &attrs, sizeof(attrs)))
-> +			r = -EFAULT;
-> +		break;
-> +	}
-> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
->  	case KVM_CREATE_DEVICE: {
->  		struct kvm_create_device cd;
+>>
+>> [1]: https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F=
+%2Fwww.sphinx-doc.org%2Fen%2Fmaster%2Fusage%2Frestructuredtext%2Fdirectiv=
+es.html%23directive-only&amp;data=3D05%7C01%7Ccarlos.bilbao%40amd.com%7C1=
+63763a795284a542e4f08dad65cf4c6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C=
+0%7C638057991984040258%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIj=
+oiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DDU8n=
+mQp7gCCGNMUR6urtHHCz5nXAtomeV17%2BzB%2F4L38%3D&amp;reserved=3D0
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Thanks, Akira
+>>
+>>> +
+>>> =C2=A0 .. toctree::
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :maxdepth: 1
+>>> =C2=A0 diff --git a/rust/Makefile b/rust/Makefile
+>>> index 7700d3853404..080c07048065 100644
+>>> --- a/rust/Makefile
+>>> +++ b/rust/Makefile
+>>> @@ -1,5 +1,8 @@
+>>> =C2=A0 # SPDX-License-Identifier: GPL-2.0
+>>> =C2=A0 +# Where to place rustdoc generated documentation
+>>> +RUSTDOC_OUTPUT =3D $(objtree)/Documentation/output/rust/rustdoc
+>>> +
+>>> =C2=A0 always-$(CONFIG_RUST) +=3D target.json
+>>> =C2=A0 no-clean-files +=3D target.json
+>>> =C2=A0 @@ -58,7 +61,7 @@ quiet_cmd_rustdoc =3D RUSTDOC $(if $(rustdoc=
+_host),H, ) $<
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 OBJTREE=3D$(abspath $(objtree)) \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $(RUSTDOC) $(if $(rustdoc_host),$(rust=
+_common_flags),$(rust_flags)) \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $(rustc_target=
+_flags) -L$(objtree)/$(obj) \
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --output $(objtree)/$(obj=
+)/doc \
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --output $(RUSTDOC_OUTPUT=
+) \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --crate-name $=
+(subst rustdoc-,,$@) \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 @$(objtree)/in=
+clude/generated/rustc_cfg $<
+>>> =C2=A0 @@ -75,15 +78,15 @@ quiet_cmd_rustdoc =3D RUSTDOC $(if $(rustd=
+oc_host),H, ) $<
+>>> =C2=A0 # and then retouch the generated files.
+>>> =C2=A0 rustdoc: rustdoc-core rustdoc-macros rustdoc-compiler_builtins=
+ \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rustdoc-alloc rustdoc-kernel
+>>> -=C2=A0=C2=A0=C2=A0 $(Q)cp $(srctree)/Documentation/images/logo.svg $=
+(objtree)/$(obj)/doc
+>>> -=C2=A0=C2=A0=C2=A0 $(Q)cp $(srctree)/Documentation/images/COPYING-lo=
+go $(objtree)/$(obj)/doc
+>>> -=C2=A0=C2=A0=C2=A0 $(Q)find $(objtree)/$(obj)/doc -name '*.html' -ty=
+pe f -print0 | xargs -0 sed -Ei \
+>>> +=C2=A0=C2=A0=C2=A0 $(Q)cp $(srctree)/Documentation/images/logo.svg $=
+(RUSTDOC_OUTPUT)
+>>> +=C2=A0=C2=A0=C2=A0 $(Q)cp $(srctree)/Documentation/images/COPYING-lo=
+go $(RUSTDOC_OUTPUT)
+>>> +=C2=A0=C2=A0=C2=A0 $(Q)find $(RUSTDOC_OUTPUT) -name '*.html' -type f=
+ -print0 | xargs -0 sed -Ei \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -e 's:rust-log=
+o\.svg:logo.svg:g' \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -e 's:rust-log=
+o\.png:logo.svg:g' \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -e 's:favicon\=
+=2Esvg:logo.svg:g' \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -e 's:<link re=
+l=3D"alternate icon" type=3D"image/png" href=3D"[./]*favicon-(16x16|32x32=
+)\.png">::g'
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $(Q)echo '.logo-container > img { obje=
+ct-fit: contain; }' \
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 >> $(objtree)/$(obj)/doc/=
+rustdoc.css
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 >> $(RUSTDOC_OUTPUT)/rust=
+doc.css
+>>> =C2=A0 =C2=A0 rustdoc-macros: private rustdoc_host =3D yes
+>>> =C2=A0 rustdoc-macros: private rustc_target_flags =3D --crate-type pr=
+oc-macro \
+>>> @@ -141,7 +144,7 @@ quiet_cmd_rustdoc_test =3D RUSTDOC T $<
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 @$(objtree)/in=
+clude/generated/rustc_cfg \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $(rustc_target=
+_flags) $(rustdoc_test_target_flags) \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --sysroot $(ob=
+jtree)/$(obj)/test/sysroot $(rustdoc_test_quiet) \
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -L$(objtree)/$(obj)/test =
+--output $(objtree)/$(obj)/doc \
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -L$(objtree)/$(obj)/test =
+--output $(RUSTDOC_OUTPUT) \
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --crate-name $=
+(subst rusttest-,,$@) $<
+>>> =C2=A0 =C2=A0 # We cannot use `-Zpanic-abort-tests` because some test=
+s are dynamic,
+>>>
+>>> base-commit: 9abf2313adc1ca1b6180c508c25f22f9395cc780
+>=20
+>=20
+> Thanks,
+> Carlos
