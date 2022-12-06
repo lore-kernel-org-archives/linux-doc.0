@@ -2,230 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D7C5C352A1
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 10:56:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D8E3C47090
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 11:27:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234443AbiLFK4T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Dec 2022 05:56:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45778 "EHLO
+        id S231888AbiLFL1G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Dec 2022 06:27:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234417AbiLFK4S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 05:56:18 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DC897646;
-        Tue,  6 Dec 2022 02:56:17 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id q7so22904396wrr.8;
-        Tue, 06 Dec 2022 02:56:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dVlIS9HqoRWgdQRFba7pm/vsCW9bALpjGInH8aBIHBA=;
-        b=CskNLxD8s+73CC1mfx9c8D3nXRfqWSmuai6glVwbjQfHP4nGjdWj3oiMMY16W2spQv
-         WpfX1ywKRj7d9jbreITzNtC7zk5qUVY96crdjO97GZ70yTZcbRV7i7rREnmz5/rcBLxJ
-         /RISbHYGmzMr1ktzQCs8rANL5vvI+NKGQqJ0nYg6uUg9P8qd0bq87A0Y4fLdvtHFeR8E
-         frOHpUOW13CwBkMv+D51TC/fbXxJGe0X8BVh3fWiGS6AIXqb6hDbnfAaqD9SjCPWcHMg
-         2hjK/WlZwRRr0Oi8KxNkGajvY4oW1dr6wpKoPO8TkJ39nqaPAnwlvNDJibQHwhFCTiS+
-         yb9Q==
+        with ESMTP id S234331AbiLFL0k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 06:26:40 -0500
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 897A020BD4;
+        Tue,  6 Dec 2022 03:26:32 -0800 (PST)
+Received: by mail-qt1-f175.google.com with SMTP id l15so13467193qtv.4;
+        Tue, 06 Dec 2022 03:26:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dVlIS9HqoRWgdQRFba7pm/vsCW9bALpjGInH8aBIHBA=;
-        b=WaLiCKDM8BKbJxcS51Yy2IV3hDWQpjPYMC3vVRp5BFW5nr2O56KoDAw/HfgMJHO9zp
-         4JyD+/BBrM85x7DVgcdy56D1Gnx+pMzycD+wyi2H7sp0Sx0LOtUdAyBJ+ruJtC1Et7Cr
-         AOlLeTDEibvJhBRME2r1XtUcqkqsEQHOwu27jSRfScxvR175zhTKEMSNx4aoBTjI1erZ
-         PxQObOxrvEsY6zzIFb6BCTEn4CR7/0M7SrhuoA4gf5D3At03B3mCmTFunjPeu1/y1LPX
-         Tz73THpxSUDeS6Ckwq1oUVpyyUnrD1pYpxmoOnWW5JLp717RVsLcExbIRKUzpvfIpyDz
-         BtFA==
-X-Gm-Message-State: ANoB5pn37lZ7+l20cazI6gbZfOBn9QaMVEvrZccTuCKvcvVTM/7wpFR0
-        141VwelCJudH2U+KC9Q+m6BEeMt/1PvZug==
-X-Google-Smtp-Source: AA0mqf7jyV+yrsnMNmCtiT26cXnXi2i/lekuy4Aj5Re7IGRjhmmPFgnURj0AuchUaXQGClfYzJX7yg==
-X-Received: by 2002:a5d:67ca:0:b0:242:7174:c82f with SMTP id n10-20020a5d67ca000000b002427174c82fmr3166399wrw.259.1670324175094;
-        Tue, 06 Dec 2022 02:56:15 -0800 (PST)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:98f:4f05:72a0:75f0])
-        by smtp.gmail.com with ESMTPSA id n10-20020adffe0a000000b00241bd7a7165sm15997055wrr.82.2022.12.06.02.56.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Dec 2022 02:56:14 -0800 (PST)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Yonghong Song <yhs@meta.com>,
-        Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH bpf-next v2] docs/bpf: Add documentation for BPF_MAP_TYPE_SK_STORAGE
-Date:   Tue,  6 Dec 2022 10:55:52 +0000
-Message-Id: <20221206105552.74372-1-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.38.1
+        bh=7dCrxb6SjU7+iy5Xbh0SeqdRn/Rhezi+lNHMuTEUibQ=;
+        b=lcWeXk3X5AcnTGWqWgBC1rYLSDv4GQr/WLe5TpEaz4/iol06ODBfatagPR1ScKpYj3
+         DljJXqhN5WqraV0xOMexlbxtbtGaeypLfBu76ln2tOwxWSOvEapnzJp0CgaiKp2OOIe/
+         MFjIkG35TXT3qwdVXdt/8kA6UJJ65IUJYEP3YFDA1vhNMnvsPSQ2DjQEENMBlAOxHfKv
+         wuCi1WvzHkjfzli0OA0rZ9Ia9rN58m113d2xA2XxQB7RZf2ZYMpCwbX8IiiOMGqqP7S9
+         jaI/CkesHgNViTfJzXpvQdX+lcFVwwc8hhqMpb958rfBXO/q1KGfieoa5PvYRFtqT/hI
+         4m7w==
+X-Gm-Message-State: ANoB5pnY4gZbtwCu2LoqvxKAaqluvUP45+hVJTelfzSCfTExU2qS4sWU
+        PG/mlMD9BMu8plzPC5aF0Tt48EFnkCkZ9U84ofA=
+X-Google-Smtp-Source: AA0mqf5E2TWLF+azulQ+MNLQ3mwqL4nIvU/EQqPYQGsYHagKqnSncfnPIrCyyNAzHuTGX8qrGsoxuHwTvrnuw6r5/us=
+X-Received: by 2002:ac8:1482:0:b0:3a5:1e6f:7e05 with SMTP id
+ l2-20020ac81482000000b003a51e6f7e05mr62302238qtj.357.1670325991705; Tue, 06
+ Dec 2022 03:26:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <MAZPR01MB57230DDF21FC26147D0B0CAF8F169@MAZPR01MB5723.INDPRD01.PROD.OUTLOOK.COM>
+In-Reply-To: <MAZPR01MB57230DDF21FC26147D0B0CAF8F169@MAZPR01MB5723.INDPRD01.PROD.OUTLOOK.COM>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 6 Dec 2022 12:26:19 +0100
+Message-ID: <CAJZ5v0hp0eyp=ybOBOzFk=COSKmE0RDbCi9tsFtmHuSrZhxWRA@mail.gmail.com>
+Subject: Re: [PATCH] cpufreq: Remove CVS version control contents
+To:     Conghui Wang <conghui.wang@hotmail.com>
+Cc:     rafael@kernel.org, viresh.kumar@linaro.org, corbet@lwn.net,
+        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for the BPF_MAP_TYPE_SK_STORAGE including
-kernel version introduced, usage and examples.
+On Sat, Dec 3, 2022 at 6:59 AM Conghui Wang <conghui.wang@hotmail.com> wrote:
+>
+> Since linux moved to git, CVS contents are no longer used.
+>
+> Signed-off-by: Conghui Wang <conghui.wang@hotmail.com>
+> ---
+>  Documentation/cpu-freq/index.rst | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/cpu-freq/index.rst b/Documentation/cpu-freq/index.rst
+> index aba7831ab1cb..546c9161d906 100644
+> --- a/Documentation/cpu-freq/index.rst
+> +++ b/Documentation/cpu-freq/index.rst
+> @@ -20,18 +20,15 @@ Author: Dominik Brodowski  <linux@brodo.de>
+>
+>  Mailing List
+>  ------------
+> -There is a CPU frequency changing CVS commit and general list where
+> -you can report bugs, problems or submit patches. To post a message,
+> -send an email to linux-pm@vger.kernel.org.
+> +There is a CPU frequency general list where you can report bugs,
+> +problems or submit patches. To post a message, send an email to
+> +linux-pm@vger.kernel.org.
+>
+>  Links
+>  -----
+>  the FTP archives:
+>  * ftp://ftp.linux.org.uk/pub/linux/cpufreq/
+>
+> -how to access the CVS repository:
+> -* http://cvs.arm.linux.org.uk/
+> -
+>  the CPUFreq Mailing list:
+>  * http://vger.kernel.org/vger-lists.html#linux-pm
+>
+> --
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
-v1 -> v2:
-- Fix bpf_sk_storage_* function signatures, reported by Yonghong Song
-- Fix NULL return on failure, reported by Yonghong Song
+Applied as 6.2 material under edited subject and with some changelog
+edits and white space fixes in the patch.
 
-Documentation/bpf/map_sk_storage.rst | 142 +++++++++++++++++++++++++++
- 1 file changed, 142 insertions(+)
- create mode 100644 Documentation/bpf/map_sk_storage.rst
-
-diff --git a/Documentation/bpf/map_sk_storage.rst b/Documentation/bpf/map_sk_storage.rst
-new file mode 100644
-index 000000000000..38b385c53da9
---- /dev/null
-+++ b/Documentation/bpf/map_sk_storage.rst
-@@ -0,0 +1,142 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2022 Red Hat, Inc.
-+
-+=======================
-+BPF_MAP_TYPE_SK_STORAGE
-+=======================
-+
-+.. note::
-+   - ``BPF_MAP_TYPE_SK_STORAGE`` was introduced in kernel version 5.2
-+
-+``BPF_MAP_TYPE_SK_STORAGE`` is used to provide socket-local storage for BPF programs. A map of
-+type ``BPF_MAP_TYPE_SK_STORAGE`` declares the type of storage to be provided and acts as the
-+handle for accessing the socket-local storage from a BPF program. The key type must be ``int``
-+and ``max_entries`` must be set to ``0``.
-+
-+The ``BPF_F_NO_PREALLOC`` must be used when creating a map for socket-local storage. The kernel
-+is responsible for allocating storage for a socket when requested and for freeing the storage
-+when either the map or the socket is deleted.
-+
-+Usage
-+=====
-+
-+Kernel BPF
-+----------
-+
-+bpf_sk_storage_get()
-+~~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   long bpf_sk_storage_get(struct bpf_map *map, void *sk, void *value, u64 flags)
-+
-+Socket-local storage can be retrieved using the ``bpf_sk_storage_get()`` helper. The helper gets
-+the storage from ``sk`` that is identified by ``map``.  If the
-+``BPF_LOCAL_STORAGE_GET_F_CREATE`` flag is used then ``bpf_sk_storage_get()`` will create the
-+storage for ``sk`` if it does not already exist. ``value`` can be used together with
-+``BPF_LOCAL_STORAGE_GET_F_CREATE`` to initialize the storage value, otherwise it will be zero
-+initialized. Returns a pointer to the storage on success, or ``NULL`` in case of failure.
-+
-+.. note::
-+   - ``sk`` is a kernel ``struct sock`` pointer for LSM program.
-+   - ``sk`` is a ``struct bpf_sock`` pointer for other program types.
-+
-+bpf_sk_storage_delete()
-+~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   long bpf_sk_storage_delete(struct bpf_map *map, void *sk)
-+
-+Socket-local storage can be deleted using the ``bpf_sk_storage_delete()`` helper. The helper
-+deletes the storage from ``sk`` that is identified by ``map``. Returns ``0`` on success, or negative
-+error in case of failure.
-+
-+User space
-+----------
-+
-+bpf_map_update_elem()
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   int bpf_map_update_elem(int map_fd, const void *key, const void *value, __u64 flags)
-+
-+Socket-local storage with type identified by ``map_fd`` for the socket identified by ``key`` can
-+be added or updated using the ``bpf_map_update_elem()`` libbpf function. ``key`` must be a
-+pointer to a valid ``fd`` in the user space program. The ``flags`` parameter can be used to
-+control the update behaviour:
-+
-+- ``BPF_ANY`` will create storage for ``fd`` or update existing storage.
-+- ``BPF_NOEXIST`` will create storage for ``fd`` only if it did not already
-+  exist
-+- ``BPF_EXIST`` will update existing storage for ``fd``
-+
-+Returns ``0`` on success, or negative error in case of failure.
-+
-+bpf_map_lookup_elem()
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   int bpf_map_lookup_elem(int map_fd, const void *key, void *value)
-+
-+Socket-local storage for the socket identified by ``key`` belonging to ``map_fd`` can be
-+retrieved using the ``bpf_map_lookup_elem()`` libbpf function. ``key`` must be a pointer to a
-+valid ``fd`` in the user space program. Returns ``0`` on success, or negative error in case of
-+failure.
-+
-+bpf_map_delete_elem()
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   int bpf_map_delete_elem (int map_fd, const void *key)
-+
-+Socket-local storage for the socket identified by ``key`` belonging to ``map_fd`` can be deleted
-+using the ``bpf_map_delete_elem()`` libbpf function. Returns ``0`` on success, or negative error
-+in case of failure.
-+
-+Examples
-+========
-+
-+Kernel BPF
-+----------
-+
-+This snippet shows how to declare socket-local storage in a BPF program:
-+
-+.. code-block:: c
-+
-+    struct {
-+            __uint(type, BPF_MAP_TYPE_SK_STORAGE);
-+            __uint(map_flags, BPF_F_NO_PREALLOC);
-+            __type(key, int);
-+            __type(value, struct my_storage);
-+    } socket_storage SEC(".maps");
-+
-+This snippet shows how to retrieve socket-local storage in a BPF program:
-+
-+.. code-block:: c
-+
-+    SEC("sockops")
-+    int _sockops(struct bpf_sock_ops *ctx)
-+    {
-+            struct my_storage *storage;
-+            struct bpf_sock *sk;
-+
-+            sk = ctx->sk;
-+            if (!sk)
-+                    return 1;
-+
-+            storage = bpf_sk_storage_get(&socket_storage, sk, 0,
-+                                         BPF_LOCAL_STORAGE_GET_F_CREATE);
-+            if (!storage)
-+                    return 1;
-+
-+            /* Use 'storage' here */
-+    }
-+
-+References
-+==========
-+
-+https://lwn.net/ml/netdev/20190426171103.61892-1-kafai@fb.com/
--- 
-2.38.1
-
+Thanks!
