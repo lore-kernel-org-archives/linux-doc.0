@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4ACDC63707
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 20:07:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92E68C6370A
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 20:08:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229743AbiLFUH6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Dec 2022 15:07:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45016 "EHLO
+        id S229514AbiLFUH7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Dec 2022 15:07:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229715AbiLFUHz (ORCPT
+        with ESMTP id S229722AbiLFUHz (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 15:07:55 -0500
 Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA9B3D2EA;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB59B12745;
         Tue,  6 Dec 2022 12:07:51 -0800 (PST)
 Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id A50803B28;
-        Tue,  6 Dec 2022 21:07:48 +0100 (CET)
+        by mail.3ffe.de (Postfix) with ESMTPSA id C77293B2D;
+        Tue,  6 Dec 2022 21:07:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1670357268;
+        t=1670357269;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=0p2I5HS7ONU/w4jyInXwMyvq84/GI3/niID7ktTA84g=;
-        b=iPQL7UZpEggmdZC21h8CNYAchb00M7jJP9hFmVO68NH1Aoq6L1DqOPUiUESa3QCM3RxOmS
-        hFlxcjpPHoFyaDpHFiN+wNAOfsTegJ8zaQQFhyOB9GvgXodaEiX45QKf2YE6LN07P/5R7W
-        PABgorR2RdBI9AehiU27bTuCKQvjUjddyoR2sRW0fimRHFOb4lqvg6PQ+UI5XtIDuHhV9t
-        +ai38+f2GCPQfZfL0CDZLWJ6pBGy3PnSon/6XCBZGKDv9q9JaMxIaJSfnZnTqDTH5F+nOt
-        c+VkbXs/fuWNayROQUe+T0OWzhqlOW0+Gi2BKvt8DRCH3WpqXoVbvO3HA5rzZQ==
+        bh=PFEDTEXwsw2qqq6elYOKJxReUTOIeiJ26cX4UKFFZhU=;
+        b=IsIO4ZeTGs/giCwkE4n+Iii9BjTI40C8PHHjOY/4aauaDAntY4B7sP8zdOeRbEyv3ZWC5y
+        5iZgZTeODbK055lb9RNszIdTL4gb1E4k+yPBuyaggp8Etw6eS8cOTOdDu9b2WRXQ3oxPJv
+        k7OhiMYjec85gjmk3h0zXJhiNirIqSbebYti1qVCwrcrwqD98x30norhBJdWGVUDEWuq9B
+        ltxVYomdCj+GS7QuKqagDxklZ6GDT/RsHhmLVOFwezSU0u0IBoQqp+4cbXhNKaGt8o/JTt
+        Lkqn9xkk1SoYZXl39GtaTfKVdDG4kqXJh0Mvu+ANzQKA/uWHNQQKbHj0oJiVsg==
 From:   Michael Walle <michael@walle.cc>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -43,9 +43,9 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Michael Walle <michael@walle.cc>,
         Dan Carpenter <error27@gmail.com>
-Subject: [PATCH v5 05/21] nvmem: core: fix device node refcounting
-Date:   Tue,  6 Dec 2022 21:07:24 +0100
-Message-Id: <20221206200740.3567551-6-michael@walle.cc>
+Subject: [PATCH v5 07/21] nvmem: core: move struct nvmem_cell_info to nvmem-provider.h
+Date:   Tue,  6 Dec 2022 21:07:26 +0100
+Message-Id: <20221206200740.3567551-8-michael@walle.cc>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221206200740.3567551-1-michael@walle.cc>
 References: <20221206200740.3567551-1-michael@walle.cc>
@@ -56,10 +56,15 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In of_nvmem_cell_get(), of_get_next_parent() is used on cell_np. This
-will decrement the refcount on cell_np, but cell_np is still used later
-in the code. Use of_get_parent() instead and of_node_put() in the
-appropriate places.
+struct nvmem_cell_info is used to describe a cell. Thus this should
+really be in the nvmem-provider's header. There are two (unused) nvmem
+access methods which use the nvmem_cell_info to describe the cell to be
+accesses. One can argue, that they will create a cell before accessing,
+thus they are both a provider and a consumer.
+
+struct nvmem_cell_info will get used more and more by nvmem-providers,
+don't force them to also include the consumer header, although they are
+not.
 
 Signed-off-by: Michael Walle <michael@walle.cc>
 ---
@@ -70,40 +75,73 @@ changes since v3:
  - none
 
 changes since v2:
+ - none
+
+changes since v1:
  - new patch
 
- drivers/nvmem/core.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ include/linux/nvmem-consumer.h | 10 +---------
+ include/linux/nvmem-provider.h | 19 ++++++++++++++++++-
+ 2 files changed, 19 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 321d7d63e068..205a427f564d 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -1242,16 +1242,21 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np, const char *id)
- 	if (!cell_np)
- 		return ERR_PTR(-ENOENT);
+diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
+index 980f9c9ac0bc..1f62f7ba71ca 100644
+--- a/include/linux/nvmem-consumer.h
++++ b/include/linux/nvmem-consumer.h
+@@ -18,15 +18,7 @@ struct device_node;
+ /* consumer cookie */
+ struct nvmem_cell;
+ struct nvmem_device;
+-
+-struct nvmem_cell_info {
+-	const char		*name;
+-	unsigned int		offset;
+-	unsigned int		bytes;
+-	unsigned int		bit_offset;
+-	unsigned int		nbits;
+-	struct device_node	*np;
+-};
++struct nvmem_cell_info;
  
--	nvmem_np = of_get_next_parent(cell_np);
--	if (!nvmem_np)
-+	nvmem_np = of_get_parent(cell_np);
-+	if (!nvmem_np) {
-+		of_node_put(cell_np);
- 		return ERR_PTR(-EINVAL);
-+	}
+ /**
+  * struct nvmem_cell_lookup - cell lookup entry
+diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
+index 8f964b394292..14a32a1bc249 100644
+--- a/include/linux/nvmem-provider.h
++++ b/include/linux/nvmem-provider.h
+@@ -14,7 +14,6 @@
+ #include <linux/gpio/consumer.h>
  
- 	nvmem = __nvmem_device_get(nvmem_np, device_match_of_node);
- 	of_node_put(nvmem_np);
--	if (IS_ERR(nvmem))
-+	if (IS_ERR(nvmem)) {
-+		of_node_put(cell_np);
- 		return ERR_CAST(nvmem);
-+	}
+ struct nvmem_device;
+-struct nvmem_cell_info;
+ typedef int (*nvmem_reg_read_t)(void *priv, unsigned int offset,
+ 				void *val, size_t bytes);
+ typedef int (*nvmem_reg_write_t)(void *priv, unsigned int offset,
+@@ -47,6 +46,24 @@ struct nvmem_keepout {
+ 	unsigned char value;
+ };
  
- 	cell_entry = nvmem_find_cell_entry_by_node(nvmem, cell_np);
-+	of_node_put(cell_np);
- 	if (!cell_entry) {
- 		__nvmem_device_put(nvmem);
- 		return ERR_PTR(-ENOENT);
++/**
++ * struct nvmem_cell_info - NVMEM cell description
++ * @name:	Name.
++ * @offset:	Offset within the NVMEM device.
++ * @bytes:	Length of the cell.
++ * @bit_offset:	Bit offset if cell is smaller than a byte.
++ * @nbits:	Number of bits.
++ * @np:		Optional device_node pointer.
++ */
++struct nvmem_cell_info {
++	const char		*name;
++	unsigned int		offset;
++	unsigned int		bytes;
++	unsigned int		bit_offset;
++	unsigned int		nbits;
++	struct device_node	*np;
++};
++
+ /**
+  * struct nvmem_config - NVMEM device configuration
+  *
 -- 
 2.30.2
 
