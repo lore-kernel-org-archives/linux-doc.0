@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4DCFC63708
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 20:08:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61060C352A1
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 20:08:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbiLFUIG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Dec 2022 15:08:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45016 "EHLO
+        id S229806AbiLFUIL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Dec 2022 15:08:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229612AbiLFUH6 (ORCPT
+        with ESMTP id S229700AbiLFUH6 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 15:07:58 -0500
-Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B9C62CE0D;
-        Tue,  6 Dec 2022 12:07:53 -0800 (PST)
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74C192FC26;
+        Tue,  6 Dec 2022 12:07:56 -0800 (PST)
 Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 988363B90;
-        Tue,  6 Dec 2022 21:07:51 +0100 (CET)
+        by mail.3ffe.de (Postfix) with ESMTPSA id C8F6E3BC9;
+        Tue,  6 Dec 2022 21:07:53 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1670357271;
+        t=1670357274;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=hbnNUSvmfhHi6lTYOiI6oAkGVTiu1RFu39sudHX/mdw=;
-        b=w+RYT0ZGcbDlne1msZoKbX3FOaqaYZ/ZBGfdNpwKTha60i0Z6KbOful1kuWjAdamEn6W4e
-        Kve9uhvn33A4rmLo3sXyS/K+hJbokvDzqTXXASVCWEWgj+B01uYRn1EX5oW5CZ1G6rUPhO
-        fa42gD0tloUjoSDNZe5iXHVaXMMbA5hiehPIW9/dc+0lLC/sLrltj57C22U7lkrxjPBvsw
-        521ZgR3wa0UEvwWEl+qczq2KaUTCO1z6tlcmh8ItkjbjAzi5/ip/zeYAWAm6S6T944Vkpc
-        UhJNkzgnfaklbFr3V80vwXjigyR1y4nOY78i/4GC3qjVPtp1vpdauzCaC2arTA==
+        bh=PB/NBD6nl2FVxdhufUcH2eKTgfvjlle8iT4ntIbVN0Y=;
+        b=RwBxKOeiHvTIYT4ZCIORPh1Gs+CYgNtYxhVfJSZTKRIVb66P6CsWw6ph1HkrFLKtqp/SYc
+        YV9OBFVZM4Ex/t9Fv11+FBeJjGKXTAepws0aQgMYwjTKrxFV1anwV6W6KpIRMF+YPQMvTW
+        oV7Gt03AJFMLFmuzl94GyLLhnYxm97LkPQOwE4pa0J4KgQZco1mTubCdazI6FRaZR7xHJU
+        CqMFmVHZSqqFCrq2kMmsBgc6aysQGpxLBuIieC3ChlqYDf9N5XszW9Gsf7YWP3GJkziVfv
+        aR9deq8Pc2fNyLjS3mLBK2PT/BrLBxAUAaAkkrEuwPhyxOa7jRSb2ZWCRq6yDg==
 From:   Michael Walle <michael@walle.cc>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -43,9 +43,9 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Michael Walle <michael@walle.cc>,
         Dan Carpenter <error27@gmail.com>
-Subject: [PATCH v5 12/21] nvmem: core: introduce NVMEM layouts
-Date:   Tue,  6 Dec 2022 21:07:31 +0100
-Message-Id: <20221206200740.3567551-13-michael@walle.cc>
+Subject: [PATCH v5 18/21] nvmem: layouts: add sl28vpd layout
+Date:   Tue,  6 Dec 2022 21:07:37 +0100
+Message-Id: <20221206200740.3567551-19-michael@walle.cc>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221206200740.3567551-1-michael@walle.cc>
 References: <20221206200740.3567551-1-michael@walle.cc>
@@ -56,419 +56,219 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-NVMEM layouts are used to generate NVMEM cells during runtime. Think of
-an EEPROM with a well-defined conent. For now, the content can be
-described by a device tree or a board file. But this only works if the
-offsets and lengths are static and don't change. One could also argue
-that putting the layout of the EEPROM in the device tree is the wrong
-place. Instead, the device tree should just have a specific compatible
-string.
+This layout applies to the VPD of the Kontron sl28 boards. The VPD only
+contains a base MAC address. Therefore, we have to add an individual
+offset to it. This is done by taking the second argument of the nvmem
+phandle into account. Also this let us checking the VPD version and the
+checksum.
 
-Right now there are two use cases:
- (1) The NVMEM cell needs special processing. E.g. if it only specifies
-     a base MAC address offset and you need to add an offset, or it
-     needs to parse a MAC from ASCII format or some proprietary format.
-     (Post processing of cells is added in a later commit).
- (2) u-boot environment parsing. The cells don't have a particular
-     offset but it needs parsing the content to determine the offsets
-     and length.
-
-Co-developed-by: Miquel Raynal <miquel.raynal@bootlin.com>
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 Signed-off-by: Michael Walle <michael@walle.cc>
 ---
 changes since v4:
  - none
 
 changes since v3:
- - check return code of .add_cells()
+ - none
 
 changes since v2:
- - look for "nvmem-layout" node and its compatible
- - add of_nvmem_layout_get_container()
- - special handling in of_nvmem_cell_get()
+ - use of_nvmem_layout_get_container()
 
 changes since v1:
- - add documentation in nvmem.rst
- - add nvmem_layout_unregister() + necessary module tracking
- - make it possible to supply a layout via nvmem_register()
- - check add_cells, before calling
+ - none
 
- Documentation/driver-api/nvmem.rst |  15 ++++
- drivers/nvmem/Kconfig              |   4 +
- drivers/nvmem/Makefile             |   1 +
- drivers/nvmem/core.c               | 118 +++++++++++++++++++++++++++++
- drivers/nvmem/layouts/Kconfig      |   5 ++
- drivers/nvmem/layouts/Makefile     |   4 +
- include/linux/nvmem-consumer.h     |   7 ++
- include/linux/nvmem-provider.h     |  51 +++++++++++++
- 8 files changed, 205 insertions(+)
- create mode 100644 drivers/nvmem/layouts/Kconfig
- create mode 100644 drivers/nvmem/layouts/Makefile
+ drivers/nvmem/layouts/Kconfig   |   9 ++
+ drivers/nvmem/layouts/Makefile  |   2 +
+ drivers/nvmem/layouts/sl28vpd.c | 153 ++++++++++++++++++++++++++++++++
+ 3 files changed, 164 insertions(+)
+ create mode 100644 drivers/nvmem/layouts/sl28vpd.c
 
-diff --git a/Documentation/driver-api/nvmem.rst b/Documentation/driver-api/nvmem.rst
-index e3366322d46c..de221e91c8e3 100644
---- a/Documentation/driver-api/nvmem.rst
-+++ b/Documentation/driver-api/nvmem.rst
-@@ -185,3 +185,18 @@ ex::
- =====================
- 
- See Documentation/devicetree/bindings/nvmem/nvmem.txt
-+
-+8. NVMEM layouts
-+================
-+
-+NVMEM layouts are yet another mechanism to create cells. With the device
-+tree binding it is possible to specify simple cells by using an offset
-+and a length. Sometimes, the cells doesn't have a static offset, but
-+the content is still well defined, e.g. tag-length-values. In this case,
-+the NVMEM device content has to be first parsed and the cells need to
-+be added accordingly. Layouts let you read the content of the NVMEM device
-+and let you add cells dynamically.
-+
-+Another use case for layouts is the post processing of cells. With layouts,
-+it is possible to associate a custom post processing hook to a cell. It
-+even possible to add this hook to cells not created by the layout itself.
-diff --git a/drivers/nvmem/Kconfig b/drivers/nvmem/Kconfig
-index 755f551426b5..0e10b5b094b9 100644
---- a/drivers/nvmem/Kconfig
-+++ b/drivers/nvmem/Kconfig
-@@ -21,6 +21,10 @@ config NVMEM_SYSFS
- 	 This interface is mostly used by userspace applications to
- 	 read/write directly into nvmem.
- 
-+# Layouts
-+
-+source "drivers/nvmem/layouts/Kconfig"
-+
- # Devices
- 
- config NVMEM_APPLE_EFUSES
-diff --git a/drivers/nvmem/Makefile b/drivers/nvmem/Makefile
-index fa80fe17e567..4cf87ef6c24d 100644
---- a/drivers/nvmem/Makefile
-+++ b/drivers/nvmem/Makefile
-@@ -5,6 +5,7 @@
- 
- obj-$(CONFIG_NVMEM)		+= nvmem_core.o
- nvmem_core-y			:= core.o
-+obj-y				+= layouts/
- 
- # Devices
- obj-$(CONFIG_NVMEM_APPLE_EFUSES)	+= nvmem-apple-efuses.o
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 0993e1ebdeaf..748a850a1960 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -40,6 +40,7 @@ struct nvmem_device {
- 	nvmem_reg_write_t	reg_write;
- 	nvmem_cell_post_process_t cell_post_process;
- 	struct gpio_desc	*wp_gpio;
-+	struct nvmem_layout	*layout;
- 	void *priv;
- };
- 
-@@ -74,6 +75,9 @@ static LIST_HEAD(nvmem_lookup_list);
- 
- static BLOCKING_NOTIFIER_HEAD(nvmem_notifier);
- 
-+static DEFINE_SPINLOCK(nvmem_layout_lock);
-+static LIST_HEAD(nvmem_layouts);
-+
- static int __nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
- 			    void *val, size_t bytes)
- {
-@@ -728,6 +732,99 @@ static int nvmem_add_cells_from_of(struct nvmem_device *nvmem)
- 	return 0;
- }
- 
-+int __nvmem_layout_register(struct nvmem_layout *layout, struct module *owner)
-+{
-+	layout->owner = owner;
-+
-+	spin_lock(&nvmem_layout_lock);
-+	list_add(&layout->node, &nvmem_layouts);
-+	spin_unlock(&nvmem_layout_lock);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(__nvmem_layout_register);
-+
-+void nvmem_layout_unregister(struct nvmem_layout *layout)
-+{
-+	spin_lock(&nvmem_layout_lock);
-+	list_del(&layout->node);
-+	spin_unlock(&nvmem_layout_lock);
-+}
-+EXPORT_SYMBOL_GPL(nvmem_layout_unregister);
-+
-+static struct nvmem_layout *nvmem_layout_get(struct nvmem_device *nvmem)
-+{
-+	struct device_node *layout_np, *np = nvmem->dev.of_node;
-+	struct nvmem_layout *l, *layout = NULL;
-+
-+	layout_np = of_get_child_by_name(np, "nvmem-layout");
-+	if (!layout_np)
-+		return NULL;
-+
-+	spin_lock(&nvmem_layout_lock);
-+
-+	list_for_each_entry(l, &nvmem_layouts, node) {
-+		if (of_match_node(l->of_match_table, layout_np)) {
-+			if (try_module_get(l->owner))
-+				layout = l;
-+
-+			break;
-+		}
-+	}
-+
-+	spin_unlock(&nvmem_layout_lock);
-+	of_node_put(layout_np);
-+
-+	return layout;
-+}
-+
-+static void nvmem_layout_put(struct nvmem_layout *layout)
-+{
-+	if (layout)
-+		module_put(layout->owner);
-+}
-+
-+static int nvmem_add_cells_from_layout(struct nvmem_device *nvmem)
-+{
-+	struct nvmem_layout *layout = nvmem->layout;
-+	int ret;
-+
-+	if (layout && layout->add_cells) {
-+		ret = layout->add_cells(&nvmem->dev, nvmem, layout);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+#if IS_ENABLED(CONFIG_OF)
-+/**
-+ * of_nvmem_layout_get_container() - Get OF node to layout container.
-+ *
-+ * @nvmem: nvmem device.
-+ *
-+ * Return: a node pointer with refcount incremented or NULL if no
-+ * container exists. Use of_node_put() on it when done.
-+ */
-+struct device_node *of_nvmem_layout_get_container(struct nvmem_device *nvmem)
-+{
-+	return of_get_child_by_name(nvmem->dev.of_node, "nvmem-layout");
-+}
-+EXPORT_SYMBOL_GPL(of_nvmem_layout_get_container);
-+#endif
-+
-+const void *nvmem_layout_get_match_data(struct nvmem_device *nvmem,
-+					struct nvmem_layout *layout)
-+{
-+	const struct of_device_id *match;
-+
-+	match = of_match_node(layout->of_match_table, nvmem->dev.of_node);
-+
-+	return match ? match->data : NULL;
-+}
-+EXPORT_SYMBOL_GPL(nvmem_layout_get_match_data);
-+
- /**
-  * nvmem_register() - Register a nvmem device for given nvmem_config.
-  * Also creates a binary entry in /sys/bus/nvmem/devices/dev-name/nvmem
-@@ -842,6 +939,12 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
- 			goto err_device_del;
- 	}
- 
-+	/*
-+	 * If the driver supplied a layout by config->layout, the module
-+	 * pointer will be NULL and nvmem_layout_put() will be a noop.
-+	 */
-+	nvmem->layout = config->layout ?: nvmem_layout_get(nvmem);
-+
- 	if (config->cells) {
- 		rval = nvmem_add_cells(nvmem, config->cells, config->ncells);
- 		if (rval)
-@@ -856,6 +959,10 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
- 	if (rval)
- 		goto err_remove_cells;
- 
-+	rval = nvmem_add_cells_from_layout(nvmem);
-+	if (rval)
-+		goto err_remove_cells;
-+
- 	blocking_notifier_call_chain(&nvmem_notifier, NVMEM_ADD, nvmem);
- 
- 	return nvmem;
-@@ -864,6 +971,7 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
- 	nvmem_device_remove_all_cells(nvmem);
- 	if (config->compat)
- 		nvmem_sysfs_remove_compat(nvmem, config);
-+	nvmem_layout_put(nvmem->layout);
- err_device_del:
- 	device_del(&nvmem->dev);
- err_put_device:
-@@ -885,6 +993,7 @@ static void nvmem_device_release(struct kref *kref)
- 		device_remove_bin_file(nvmem->base_dev, &nvmem->eeprom);
- 
- 	nvmem_device_remove_all_cells(nvmem);
-+	nvmem_layout_put(nvmem->layout);
- 	device_unregister(&nvmem->dev);
- }
- 
-@@ -1250,6 +1359,15 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np, const char *id)
- 		return ERR_PTR(-EINVAL);
- 	}
- 
-+	/* nvmem layouts produce cells within the nvmem-layout container */
-+	if (of_node_name_eq(nvmem_np, "nvmem-layout")) {
-+		nvmem_np = of_get_next_parent(nvmem_np);
-+		if (!nvmem_np) {
-+			of_node_put(cell_np);
-+			return ERR_PTR(-EINVAL);
-+		}
-+	}
-+
- 	nvmem = __nvmem_device_get(nvmem_np, device_match_of_node);
- 	of_node_put(nvmem_np);
- 	if (IS_ERR(nvmem)) {
 diff --git a/drivers/nvmem/layouts/Kconfig b/drivers/nvmem/layouts/Kconfig
-new file mode 100644
-index 000000000000..9ad3911d1605
---- /dev/null
+index 9ad3911d1605..75082f6b471d 100644
+--- a/drivers/nvmem/layouts/Kconfig
 +++ b/drivers/nvmem/layouts/Kconfig
-@@ -0,0 +1,5 @@
-+# SPDX-License-Identifier: GPL-2.0
+@@ -2,4 +2,13 @@
+ 
+ menu "Layout Types"
+ 
++config NVMEM_LAYOUT_SL28_VPD
++	bool "Kontron sl28 VPD layout support"
++	select CRC8
++	help
++	  Say Y here if you want to support the VPD layout of the Kontron
++	  SMARC-sAL28 boards.
 +
-+menu "Layout Types"
++	  If unsure, say N.
 +
-+endmenu
+ endmenu
 diff --git a/drivers/nvmem/layouts/Makefile b/drivers/nvmem/layouts/Makefile
-new file mode 100644
-index 000000000000..6fdb3c60a4fa
---- /dev/null
+index 6fdb3c60a4fa..fc617b9e87d0 100644
+--- a/drivers/nvmem/layouts/Makefile
 +++ b/drivers/nvmem/layouts/Makefile
-@@ -0,0 +1,4 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Makefile for nvmem layouts.
-+#
-diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
-index 1f62f7ba71ca..fa030d93b768 100644
---- a/include/linux/nvmem-consumer.h
-+++ b/include/linux/nvmem-consumer.h
-@@ -239,6 +239,7 @@ struct nvmem_cell *of_nvmem_cell_get(struct device_node *np,
- 				     const char *id);
- struct nvmem_device *of_nvmem_device_get(struct device_node *np,
- 					 const char *name);
-+struct device_node *of_nvmem_layout_get_container(struct nvmem_device *nvmem);
- #else
- static inline struct nvmem_cell *of_nvmem_cell_get(struct device_node *np,
- 						   const char *id)
-@@ -251,6 +252,12 @@ static inline struct nvmem_device *of_nvmem_device_get(struct device_node *np,
- {
- 	return ERR_PTR(-EOPNOTSUPP);
- }
+@@ -2,3 +2,5 @@
+ #
+ # Makefile for nvmem layouts.
+ #
 +
-+static inline struct device_node *
-+of_nvmem_layout_get_container(struct nvmem_device *nvmem)
++obj-$(CONFIG_NVMEM_LAYOUT_SL28_VPD) += sl28vpd.o
+diff --git a/drivers/nvmem/layouts/sl28vpd.c b/drivers/nvmem/layouts/sl28vpd.c
+new file mode 100644
+index 000000000000..a36800f201a3
+--- /dev/null
++++ b/drivers/nvmem/layouts/sl28vpd.c
+@@ -0,0 +1,153 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <linux/crc8.h>
++#include <linux/etherdevice.h>
++#include <linux/nvmem-consumer.h>
++#include <linux/nvmem-provider.h>
++#include <linux/of.h>
++#include <uapi/linux/if_ether.h>
++
++#define SL28VPD_MAGIC 'V'
++
++struct sl28vpd_header {
++	u8 magic;
++	u8 version;
++} __packed;
++
++struct sl28vpd_v1 {
++	struct sl28vpd_header header;
++	char serial_number[15];
++	u8 base_mac_address[ETH_ALEN];
++	u8 crc8;
++} __packed;
++
++static int sl28vpd_mac_address_pp(void *priv, const char *id, int index,
++				  unsigned int offset, void *buf,
++				  size_t bytes)
 +{
-+	return ERR_PTR(-EOPNOTSUPP);
-+}
- #endif /* CONFIG_NVMEM && CONFIG_OF */
- 
- #endif  /* ifndef _LINUX_NVMEM_CONSUMER_H */
-diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
-index 385d29168008..4185767c114f 100644
---- a/include/linux/nvmem-provider.h
-+++ b/include/linux/nvmem-provider.h
-@@ -89,6 +89,7 @@ struct nvmem_cell_info {
-  * @priv:	User context passed to read/write callbacks.
-  * @wp-gpio:	Write protect pin
-  * @ignore_wp:  Write Protect pin is managed by the provider.
-+ * @layout:	Fixed layout associated with this nvmem device.
-  *
-  * Note: A default "nvmem<id>" name will be assigned to the device if
-  * no name is specified in its configuration. In such case "<id>" is
-@@ -111,6 +112,7 @@ struct nvmem_config {
- 	bool			read_only;
- 	bool			root_only;
- 	bool			ignore_wp;
-+	struct nvmem_layout	*layout;
- 	struct device_node	*of_node;
- 	bool			no_of_node;
- 	nvmem_reg_read_t	reg_read;
-@@ -144,6 +146,33 @@ struct nvmem_cell_table {
- 	struct list_head	node;
- };
- 
-+/**
-+ * struct nvmem_layout - NVMEM layout definitions
-+ *
-+ * @name:		Layout name.
-+ * @of_match_table:	Open firmware match table.
-+ * @add_cells:		Will be called if a nvmem device is found which
-+ *			has this layout. The function will add layout
-+ *			specific cells with nvmem_add_one_cell().
-+ * @owner:		Pointer to struct module.
-+ * @node:		List node.
-+ *
-+ * A nvmem device can hold a well defined structure which can just be
-+ * evaluated during runtime. For example a TLV list, or a list of "name=val"
-+ * pairs. A nvmem layout can parse the nvmem device and add appropriate
-+ * cells.
-+ */
-+struct nvmem_layout {
-+	const char *name;
-+	const struct of_device_id *of_match_table;
-+	int (*add_cells)(struct device *dev, struct nvmem_device *nvmem,
-+			 struct nvmem_layout *layout);
++	if (bytes != ETH_ALEN)
++		return -EINVAL;
 +
-+	/* private */
-+	struct module *owner;
-+	struct list_head node;
++	if (index < 0)
++		return -EINVAL;
++
++	if (!is_valid_ether_addr(buf))
++		return -EINVAL;
++
++	eth_addr_add(buf, index);
++
++	return 0;
++}
++
++static const struct nvmem_cell_info sl28vpd_v1_entries[] = {
++	{
++		.name = "serial-number",
++		.offset = offsetof(struct sl28vpd_v1, serial_number),
++		.bytes = sizeof_field(struct sl28vpd_v1, serial_number),
++	},
++	{
++		.name = "base-mac-address",
++		.offset = offsetof(struct sl28vpd_v1, base_mac_address),
++		.bytes = sizeof_field(struct sl28vpd_v1, base_mac_address),
++		.read_post_process = sl28vpd_mac_address_pp,
++	},
 +};
 +
- #if IS_ENABLED(CONFIG_NVMEM)
- 
- struct nvmem_device *nvmem_register(const struct nvmem_config *cfg);
-@@ -158,6 +187,14 @@ void nvmem_del_cell_table(struct nvmem_cell_table *table);
- int nvmem_add_one_cell(struct nvmem_device *nvmem,
- 		       const struct nvmem_cell_info *info);
- 
-+int __nvmem_layout_register(struct nvmem_layout *layout, struct module *owner);
-+#define nvmem_layout_register(layout) \
-+	__nvmem_layout_register(layout, THIS_MODULE)
-+void nvmem_layout_unregister(struct nvmem_layout *layout);
-+
-+const void *nvmem_layout_get_match_data(struct nvmem_device *nvmem,
-+					struct nvmem_layout *layout);
-+
- #else
- 
- static inline struct nvmem_device *nvmem_register(const struct nvmem_config *c)
-@@ -181,5 +218,19 @@ static inline int nvmem_add_one_cell(struct nvmem_device *nvmem,
- 	return -EOPNOTSUPP;
- }
- 
-+static inline int nvmem_layout_register(struct nvmem_layout *layout)
++static int sl28vpd_v1_check_crc(struct device *dev, struct nvmem_device *nvmem)
 +{
-+	return -EOPNOTSUPP;
++	struct sl28vpd_v1 data_v1;
++	u8 table[CRC8_TABLE_SIZE];
++	int ret;
++	u8 crc;
++
++	crc8_populate_msb(table, 0x07);
++
++	ret = nvmem_device_read(nvmem, 0, sizeof(data_v1), &data_v1);
++	if (ret < 0)
++		return ret;
++	else if (ret != sizeof(data_v1))
++		return -EIO;
++
++	crc = crc8(table, (void *)&data_v1, sizeof(data_v1) - 1, 0);
++
++	if (crc != data_v1.crc8) {
++		dev_err(dev,
++			"Checksum is invalid (got %02x, expected %02x).\n",
++			crc, data_v1.crc8);
++		return -EINVAL;
++	}
++
++	return 0;
 +}
 +
-+static inline void nvmem_layout_unregister(struct nvmem_layout *layout) {}
-+
-+static inline const void *
-+nvmem_layout_get_match_data(struct nvmem_device *nvmem,
-+			    struct nvmem_layout *layout)
++static int sl28vpd_add_cells(struct device *dev, struct nvmem_device *nvmem,
++			     struct nvmem_layout *layout)
 +{
-+	return NULL;
++	const struct nvmem_cell_info *pinfo;
++	struct nvmem_cell_info info = {0};
++	struct device_node *layout_np;
++	struct sl28vpd_header hdr;
++	int ret, i;
++
++	/* check header */
++	ret = nvmem_device_read(nvmem, 0, sizeof(hdr), &hdr);
++	if (ret < 0)
++		return ret;
++	else if (ret != sizeof(hdr))
++		return -EIO;
++
++	if (hdr.magic != SL28VPD_MAGIC) {
++		dev_err(dev, "Invalid magic value (%02x)\n", hdr.magic);
++		return -EINVAL;
++	}
++
++	if (hdr.version != 1) {
++		dev_err(dev, "Version %d is unsupported.\n", hdr.version);
++		return -EINVAL;
++	}
++
++	ret = sl28vpd_v1_check_crc(dev, nvmem);
++	if (ret)
++		return ret;
++
++	layout_np = of_nvmem_layout_get_container(nvmem);
++	if (!layout_np)
++		return -ENOENT;
++
++	for (i = 0; i < ARRAY_SIZE(sl28vpd_v1_entries); i++) {
++		pinfo = &sl28vpd_v1_entries[i];
++
++		info.name = pinfo->name;
++		info.offset = pinfo->offset;
++		info.bytes = pinfo->bytes;
++		info.read_post_process = pinfo->read_post_process;
++		info.np = of_get_child_by_name(layout_np, pinfo->name);
++
++		ret = nvmem_add_one_cell(nvmem, &info);
++		if (ret) {
++			of_node_put(layout_np);
++			return ret;
++		}
++	}
++
++	of_node_put(layout_np);
++
++	return 0;
 +}
 +
- #endif /* CONFIG_NVMEM */
- #endif  /* ifndef _LINUX_NVMEM_PROVIDER_H */
++static const struct of_device_id sl28vpd_of_match_table[] = {
++	{ .compatible = "kontron,sl28-vpd" },
++	{},
++};
++
++struct nvmem_layout sl28vpd_layout = {
++	.name = "sl28-vpd",
++	.of_match_table = sl28vpd_of_match_table,
++	.add_cells = sl28vpd_add_cells,
++};
++
++static int __init sl28vpd_init(void)
++{
++	return nvmem_layout_register(&sl28vpd_layout);
++}
++subsys_initcall(sl28vpd_init);
 -- 
 2.30.2
 
