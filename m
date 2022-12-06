@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7281C63706
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 20:07:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4986C352A1
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 20:07:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229559AbiLFUHy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S229637AbiLFUHy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 6 Dec 2022 15:07:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44910 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229588AbiLFUHu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 15:07:50 -0500
-Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB857D2EA;
-        Tue,  6 Dec 2022 12:07:48 -0800 (PST)
+        with ESMTP id S229638AbiLFUHv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 15:07:51 -0500
+Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58BBB13DEE;
+        Tue,  6 Dec 2022 12:07:50 -0800 (PST)
 Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 9F6E4278D;
-        Tue,  6 Dec 2022 21:07:46 +0100 (CET)
+        by mail.3ffe.de (Postfix) with ESMTPSA id 272073A62;
+        Tue,  6 Dec 2022 21:07:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1670357266;
+        t=1670357268;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=+oTAXQpoCidxlLbZC4v2hQz+9CJI63MwuPQoTWNzrSE=;
-        b=G+prJL8edoMbAGl4YKYXudV+7MCxqku9xax3khiiNxfu8VDY2ki3XT1wQaccu8Y916H7LM
-        NdCdNu9FslNEOxJl4yVAEHDzMcQdhMMOVwBimaF8HEYuL72rmdnAmSqkLpvUy1j26F4PGs
-        84c1Fz2N6xzHoISyHfjvt8awlS+FhzEww9xN+9l8Rq1IIRZ9M29NSuV88s8ER9WxLICg5c
-        m4/onuOACBjp0dxJvGT6ZSnt9EhmB+ud/nzAhGz8Yw1LKK4rc3SL8d2B4OmN4hcpsFqPnA
-        t9Dmw62NisRHkJztKSO+fmHTFD5nGCLECfxPG9ik6XE9nYUjZ4hK29ovqhWukQ==
+        bh=GCZpm6/evBFKawi2OWlASxbon9/Fiv+QHvyBCaZrlYo=;
+        b=zN68/BsmClkxX9MC259Yv06/STiNDey+57CWO29U78jnq9aDIUuxFBrNCmgZd5vtJymFF6
+        A4dVUQq701M+CKN1i63HU30QTWwR5o4qS5DluALRTxbZiNZyMb6N+/F8QPdHe5EBJ2r0Nm
+        eO2b6CcZmWCRskk9brQH2VPh1SyhJKwoiB2CyQnccIEv6TLPhXDXpFIb7yNNKjetqDL9WE
+        oBCuuBjSxHK8PSr59M9uXzIuxL8xesCUA/Opr1Udu+EVTsfbb5S3/dSFVcgQ6nn0g8Zuxw
+        fgF5zF/E0gZW1nzqLj5+ETEvDKMgzJhAkyZTPQXvHHr6iYnTXc3S8S7PPrcB1g==
 From:   Michael Walle <michael@walle.cc>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -44,9 +44,9 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michael Walle <michael@walle.cc>,
         Dan Carpenter <error27@gmail.com>,
         Rob Herring <robh@kernel.org>
-Subject: [PATCH v5 02/21] of: base: add of_parse_phandle_with_optional_args()
-Date:   Tue,  6 Dec 2022 21:07:21 +0100
-Message-Id: <20221206200740.3567551-3-michael@walle.cc>
+Subject: [PATCH v5 04/21] of: property: add #nvmem-cell-cells property
+Date:   Tue,  6 Dec 2022 21:07:23 +0100
+Message-Id: <20221206200740.3567551-5-michael@walle.cc>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221206200740.3567551-1-michael@walle.cc>
 References: <20221206200740.3567551-1-michael@walle.cc>
@@ -57,70 +57,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new variant of the of_parse_phandle_with_args() which treats the
-cells name as optional. If it's missing, it is assumed that the phandle
-has no arguments.
-
-Up until now, a nvmem node didn't have any arguments, so all the device
-trees haven't any '#*-cells' property. But there is a need for an
-additional argument for the phandle, for which we need a '#*-cells'
-property. Therefore, we need to support nvmem nodes with and without
-this property.
+Bindings describe the new '#nvmem-cell-cells' property. Now that the
+arguments count property is optional, we just add this property to the
+nvmem-cells.
 
 Signed-off-by: Michael Walle <michael@walle.cc>
+Tested-by: Miquel Raynal <miquel.raynal@bootlin.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 changes since v4:
- - none
+ - new patch
 
 changes since v3:
- - none
+ - new patch
 
-changes since v2:
- - none
+ drivers/of/property.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-changes since v1:
- - none
-
- include/linux/of.h | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
-
-diff --git a/include/linux/of.h b/include/linux/of.h
-index 8b9f94386dc3..98c252d2d851 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -1008,6 +1008,31 @@ static inline int of_parse_phandle_with_fixed_args(const struct device_node *np,
- 					    index, out_args);
- }
- 
-+/**
-+ * of_parse_phandle_with_optional_args() - Find a node pointed by phandle in a list
-+ * @np:		pointer to a device tree node containing a list
-+ * @list_name:	property name that contains a list
-+ * @cells_name:	property name that specifies phandles' arguments count
-+ * @index:	index of a phandle to parse out
-+ * @out_args:	optional pointer to output arguments structure (will be filled)
-+ *
-+ * Same as of_parse_phandle_with_args() except that if the cells_name property
-+ * is not found, cell_count of 0 is assumed.
-+ *
-+ * This is used to useful, if you have a phandle which didn't have arguments
-+ * before and thus doesn't have a '#*-cells' property but is now migrated to
-+ * having arguments while retaining backwards compatibility.
-+ */
-+static inline int of_parse_phandle_with_optional_args(const struct device_node *np,
-+						      const char *list_name,
-+						      const char *cells_name,
-+						      int index,
-+						      struct of_phandle_args *out_args)
-+{
-+	return __of_parse_phandle_with_args(np, list_name, cells_name,
-+					    0, index, out_args);
-+}
-+
- /**
-  * of_property_count_u8_elems - Count the number of u8 elements in a property
-  *
+diff --git a/drivers/of/property.c b/drivers/of/property.c
+index 3043ca7735db..8d9ba20a8f90 100644
+--- a/drivers/of/property.c
++++ b/drivers/of/property.c
+@@ -1307,7 +1307,7 @@ DEFINE_SIMPLE_PROP(dmas, "dmas", "#dma-cells")
+ DEFINE_SIMPLE_PROP(power_domains, "power-domains", "#power-domain-cells")
+ DEFINE_SIMPLE_PROP(hwlocks, "hwlocks", "#hwlock-cells")
+ DEFINE_SIMPLE_PROP(extcon, "extcon", NULL)
+-DEFINE_SIMPLE_PROP(nvmem_cells, "nvmem-cells", NULL)
++DEFINE_SIMPLE_PROP(nvmem_cells, "nvmem-cells", "#nvmem-cell-cells")
+ DEFINE_SIMPLE_PROP(phys, "phys", "#phy-cells")
+ DEFINE_SIMPLE_PROP(wakeup_parent, "wakeup-parent", NULL)
+ DEFINE_SIMPLE_PROP(pinctrl0, "pinctrl-0", NULL)
 -- 
 2.30.2
 
