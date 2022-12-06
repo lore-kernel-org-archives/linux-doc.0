@@ -2,179 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4441C4708C
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 15:32:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7AF1C352A1
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 15:40:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234261AbiLFPcD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Dec 2022 10:32:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54906 "EHLO
+        id S234771AbiLFPkL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Dec 2022 10:40:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232458AbiLFPcA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 10:32:00 -0500
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2066.outbound.protection.outlook.com [40.107.92.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 768CF2980D;
-        Tue,  6 Dec 2022 07:31:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Gcqg4aYMzlqKxrXOqk7PcIx/FZaRSf2b2bPGh/mYzKekIgSfwq6LDVS0YXvUlKfPcdAArrsTm59w5xcbh+QUvyIKE02SSWma2W66u0kRnjVyyoSoKP2Cn11PZOlJ8Lfe2NVQoLRMGH8ckxgLNfmqRA8TMr0KOyPH5nOpDVPe4IbX8xeVGXrQbzu+mIFxLWN1s3iKQMImeVjnQd8Ef/YlGmItaL9Qro3k60c2ric6S0F6/sUSBgq7Iy4qK60MEE2N+9dseR6h0k9mmzx++1GCeJAu37RkIbCIIaW/sXN5XkfoY/QFffCyX18pM/lu7MtN3rpLnNs93OvjJO98jUif5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D0ozFJe66DXmXYLYyIKEpSwRsVAAJajiNk3FfCc337s=;
- b=YLwWCCarhfZDlXrJZyDuMkRempymgGSS3j7cywFmTqnWqmolI8EG6NkOgjwLkTRteTP6UVV7dJmYNkLyp2CSN9gUoJ/FrGWeQS0UaewKyIalx9mw7gOJQ8D8wZrQv3Cu5Fxy5MIxw32WqIaqcfsxIyChvpFiYSX0MBIChv5o8SoII0TPHqPE7czEnr7sdB8VeyHL4XiRfJ0Jr1vCDzN6/HL3FdQ21MR1LjfKzcCmiefuRdHhQ5TmBZiNi/G4kVClMUMhpuEm/koXIWPJBScEPsrOJfnO1K5hzZ/nRql3pwEDodMGAwWgS9BqQuac/dmooCuFDlVwFtQ1i54XPJXfxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D0ozFJe66DXmXYLYyIKEpSwRsVAAJajiNk3FfCc337s=;
- b=YkFWG1Th1Xf2Q+GRbSxkpMne27N8MBRYuFh0k+0oblJXM54oBpUwTNEOIexATP1cyTUh5J+v9YDpfVIZ9VyVgzqmD9kzdblBdrDcJYgeMcsKEDyyykYn/g9fCAsi1f7bPg7EVolwt6pHVR1Z5cEPTnla29zapLN8UN+Q/FM3yek=
-Received: from DM5PR07CA0076.namprd07.prod.outlook.com (2603:10b6:4:ad::41) by
- SJ0PR12MB6925.namprd12.prod.outlook.com (2603:10b6:a03:483::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.11; Tue, 6 Dec
- 2022 15:31:54 +0000
-Received: from DM6NAM11FT087.eop-nam11.prod.protection.outlook.com
- (2603:10b6:4:ad:cafe::ca) by DM5PR07CA0076.outlook.office365.com
- (2603:10b6:4:ad::41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14 via Frontend
- Transport; Tue, 6 Dec 2022 15:31:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DM6NAM11FT087.mail.protection.outlook.com (10.13.172.150) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5901.14 via Frontend Transport; Tue, 6 Dec 2022 15:31:54 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 6 Dec
- 2022 09:31:53 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 6 Dec
- 2022 09:31:53 -0600
-Received: from iron-maiden.amd.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Tue, 6 Dec 2022 09:31:52 -0600
-From:   Carlos Bilbao <carlos.bilbao@amd.com>
-To:     <corbet@lwn.net>, <akiyks@gmail.com>, <ojeda@kernel.org>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <bilbao@vt.edu>, <konstantin@linuxfoundation.org>,
-        Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: [PATCH v3 1/2] docs: Move rustdoc output, cross-reference it
-Date:   Tue, 6 Dec 2022 09:31:50 -0600
-Message-ID: <20221206153151.771038-2-carlos.bilbao@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221206153151.771038-1-carlos.bilbao@amd.com>
-References: <20221201204814.2141401-1-carlos.bilbao@amd.com>
- <20221206153151.771038-1-carlos.bilbao@amd.com>
+        with ESMTP id S233317AbiLFPkK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 10:40:10 -0500
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B19E9639F;
+        Tue,  6 Dec 2022 07:40:09 -0800 (PST)
+Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-3704852322fso155845457b3.8;
+        Tue, 06 Dec 2022 07:40:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4ThPSGliMj5FPf9Xlzh2ID2mJISM67fNXi8L9naNkpQ=;
+        b=ocIEVhLuDpE6UrWQf/lROjffPcfMDB0BSRXZwk2c/UXVzOuSY5MeO51ToLnVRO9hSY
+         Au2jJ0zXHS7x2rjoPlR5+WH6b19m33Te6UqZmjgf1kdPdCGRVmPsnJUpoPZNX9pmDJrS
+         hvyLxxckphZFRdUZg8SO67zNS2I+Ib1SkTMREbQMsFBPST7n6qFwd/PlVwzA2pXGDPtm
+         rqYvFFdd0/hNGe3b8OHYnjKnUTLH5cHG19sk+7Dx3gm1IT6rOLR9rdUnWh2GIpfxTBNb
+         +zB+RmC5dPV/ma/zIMYx15uMZ22NdbhYmZQlkyjOq3qOn8TzahHcJs5UGU1Gw0i9sDDK
+         QCNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4ThPSGliMj5FPf9Xlzh2ID2mJISM67fNXi8L9naNkpQ=;
+        b=LRJam4fLOCb7vZFLuFIXakfH2421MZp5Da6K1UdyeAwqObiK2SFvlm2KJzp9eumTTR
+         9k3OUmqK04nxH47J/fxrkRwqziMtannfCQFZ2BJKZo+VwHO3ck20IpdFtdyE/+Z4d9pe
+         RZTTnwb8H7P4rgWBOdrAWfje/vhZS0ogI5oJm7tApxeXCni4DIcUCTplPz1MV3i1cwT1
+         PNXfsxzHZlkU2UpzgYSMkDyLeMkYLH+fIYcaiQ+oIxefH6g3MCJ4u2LQDN3DIB7ZAhIS
+         7KpcbH6GPNRPHADvVUFa1lEHU7ULEOVzf3iKloJ8zzIxAMDjM28IkIJUk0WnK6fsoQkO
+         qwIQ==
+X-Gm-Message-State: ANoB5pne54/tCHSHyUaUUd5orIFlQEH2+Qmr8s7v7TcEPMBUOkKiNrH+
+        vemlD3LKA3DgWJJva334XRZLdR7Do7L1RV/fxWrh+qeDxTUh5w==
+X-Google-Smtp-Source: AA0mqf7hz5YkLETJYzgyEGHN4God22Lr8Sw3xTxkTUtCsmX82IorWw2CktG3RaNB4F/9rkGDafaGPyIxd/upY0xm69w=
+X-Received: by 2002:a0d:e6c4:0:b0:3bc:7270:cb70 with SMTP id
+ p187-20020a0de6c4000000b003bc7270cb70mr49390172ywe.83.1670341208893; Tue, 06
+ Dec 2022 07:40:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT087:EE_|SJ0PR12MB6925:EE_
-X-MS-Office365-Filtering-Correlation-Id: 70d78836-500f-45a6-b45c-08dad79f00f7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Zq1zBZZdNH5mWLt7UgCAI9BVIpKL7cwQInyFLAa4ocprq9PG2PhBrCmJC5PdDe3FNeg8r/c7Z48CfmsIsFwEo5MnAKObZwset10WFDLR3ffFg16yfIEF5nn73JJuIMesCd5XAOZc8XsBGCQF8A8d6sX6Z0Ix5n3Tx0vli6FHnJ8ETzWOQGMKylWEMAg+/Fwr4MbvNPSgZqmxaCdMClQB1+G3RMdXFcZ8acyrCivoc44evSCzJaoN1IBSlrEYGxpglOkkb3j5mbFoAoaPYUjYwgZU/x/BLGW7YzXuiOF59axIkOnXWEY2cXo9pAq9S9ODSgz1Jxx6AR16lKXx/cvOYzKI1/y0m6II4lNhAYnJywqZv9rIM2ZLwxvEAB54/Ld/ejWDyc7OFaq55NofvgigGCQg8ZzeD9Kl0aY9QiPU1zo1G0SPFFvJ42I4JM5JaThONle000IDr0LfVCo/KfCRWT2F0E/ewTAUfd8Rzx0mk5FMMqnrnql4nPges4DyWJmk+42YZDAOpqlG+T6+J2SrOtsVRjbOIgND/Zp5dPbw6z7W8ZjC+bQFwcOawy6eotr5Vg6FeVtV2PseVnmIksiZPYyuWr1i/XKofsx+jm94GGltV+wUvSlbnma5U8psUJ6cfjF3XsxZ6TIdiyHsnV39LVoeiW1DrCTLzEfA35wtswSTZjy7WyzYdCdjAtl6vfFSANtQs2Amz25OAe/HMcf9lytnlBkdBM+vIGFODTzrsVc=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(376002)(346002)(136003)(396003)(451199015)(40470700004)(36840700001)(46966006)(70586007)(8936002)(110136005)(36860700001)(81166007)(356005)(82310400005)(316002)(54906003)(82740400003)(41300700001)(86362001)(4326008)(40460700003)(70206006)(8676002)(44832011)(2906002)(36756003)(5660300002)(478600001)(40480700001)(26005)(186003)(7696005)(426003)(47076005)(83380400001)(336012)(2616005)(1076003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2022 15:31:54.1727
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70d78836-500f-45a6-b45c-08dad79f00f7
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT087.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6925
+References: <20221130220825.1545758-1-carlos.bilbao@amd.com>
+ <20221201204814.2141401-1-carlos.bilbao@amd.com> <a019a3f1-7ff1-15b2-d930-e1d722847e0c@gmail.com>
+ <CANiq72=ud1EB+jcKE=iudFSgKNcqd=8Xe-M0YgxikmUuQ+TjGA@mail.gmail.com> <e3523f33-847b-81da-7b20-83ee54597d9f@gmail.com>
+In-Reply-To: <e3523f33-847b-81da-7b20-83ee54597d9f@gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 6 Dec 2022 16:39:57 +0100
+Message-ID: <CANiq72nTaA=w9BuXxityy6nqQ5OiwuSkhxZCENC580n-7C+Axw@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: Integrate rustdoc into Rust documentation
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Carlos Bilbao <carlos.bilbao@amd.com>, ojeda@kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        bilbao@vt.edu, corbet@lwn.net, konstantin@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Generate rustdoc documentation with the rest of subsystem's documentation
-in Documentation/output. Add a cross reference to the generated rustdoc in
-Documentation/rust/index.rst.
+On Tue, Dec 6, 2022 at 2:32 PM Akira Yokosawa <akiyks@gmail.com> wrote:
+>
+> Why is RUSTDOC invoked when there is no change in rustdoc?
 
-Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
----
- Documentation/rust/index.rst |  5 +++++
- rust/Makefile                | 15 +++++++++------
- 2 files changed, 14 insertions(+), 6 deletions(-)
+I think we can give proper dependencies to `rustdoc`, so if that is
+the main concern, then it should be OK.
 
-diff --git a/Documentation/rust/index.rst b/Documentation/rust/index.rst
-index 4ae8c66b94fa..416d6b3de1e4 100644
---- a/Documentation/rust/index.rst
-+++ b/Documentation/rust/index.rst
-@@ -6,6 +6,11 @@ Rust
- Documentation related to Rust within the kernel. To start using Rust
- in the kernel, please read the quick-start.rst guide.
- 
-+.. only:: html
-+
-+	If this documentation includes rustdoc-generated HTML, the entry
-+	point can be found `here <rustdoc/kernel/index.html>`_.
-+
- .. toctree::
-     :maxdepth: 1
- 
-diff --git a/rust/Makefile b/rust/Makefile
-index 7700d3853404..080c07048065 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -1,5 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0
- 
-+# Where to place rustdoc generated documentation
-+RUSTDOC_OUTPUT = $(objtree)/Documentation/output/rust/rustdoc
-+
- always-$(CONFIG_RUST) += target.json
- no-clean-files += target.json
- 
-@@ -58,7 +61,7 @@ quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
- 	OBJTREE=$(abspath $(objtree)) \
- 	$(RUSTDOC) $(if $(rustdoc_host),$(rust_common_flags),$(rust_flags)) \
- 		$(rustc_target_flags) -L$(objtree)/$(obj) \
--		--output $(objtree)/$(obj)/doc \
-+		--output $(RUSTDOC_OUTPUT) \
- 		--crate-name $(subst rustdoc-,,$@) \
- 		@$(objtree)/include/generated/rustc_cfg $<
- 
-@@ -75,15 +78,15 @@ quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
- # and then retouch the generated files.
- rustdoc: rustdoc-core rustdoc-macros rustdoc-compiler_builtins \
-     rustdoc-alloc rustdoc-kernel
--	$(Q)cp $(srctree)/Documentation/images/logo.svg $(objtree)/$(obj)/doc
--	$(Q)cp $(srctree)/Documentation/images/COPYING-logo $(objtree)/$(obj)/doc
--	$(Q)find $(objtree)/$(obj)/doc -name '*.html' -type f -print0 | xargs -0 sed -Ei \
-+	$(Q)cp $(srctree)/Documentation/images/logo.svg $(RUSTDOC_OUTPUT)
-+	$(Q)cp $(srctree)/Documentation/images/COPYING-logo $(RUSTDOC_OUTPUT)
-+	$(Q)find $(RUSTDOC_OUTPUT) -name '*.html' -type f -print0 | xargs -0 sed -Ei \
- 		-e 's:rust-logo\.svg:logo.svg:g' \
- 		-e 's:rust-logo\.png:logo.svg:g' \
- 		-e 's:favicon\.svg:logo.svg:g' \
- 		-e 's:<link rel="alternate icon" type="image/png" href="[./]*favicon-(16x16|32x32)\.png">::g'
- 	$(Q)echo '.logo-container > img { object-fit: contain; }' \
--		>> $(objtree)/$(obj)/doc/rustdoc.css
-+		>> $(RUSTDOC_OUTPUT)/rustdoc.css
- 
- rustdoc-macros: private rustdoc_host = yes
- rustdoc-macros: private rustc_target_flags = --crate-type proc-macro \
-@@ -141,7 +144,7 @@ quiet_cmd_rustdoc_test = RUSTDOC T $<
- 		@$(objtree)/include/generated/rustc_cfg \
- 		$(rustc_target_flags) $(rustdoc_test_target_flags) \
- 		--sysroot $(objtree)/$(obj)/test/sysroot $(rustdoc_test_quiet) \
--		-L$(objtree)/$(obj)/test --output $(objtree)/$(obj)/doc \
-+		-L$(objtree)/$(obj)/test --output $(RUSTDOC_OUTPUT) \
- 		--crate-name $(subst rusttest-,,$@) $<
- 
- # We cannot use `-Zpanic-abort-tests` because some tests are dynamic,
--- 
-2.34.1
+But note that `htmldocs` also calls Sphinx every run. It does a subset
+of the work, but perhaps we can save some time there if we could
+detect whether anything changed.
 
+> I think you can add a new target in the top-devel Makefile which
+> runs both rustdoc and htmldocs for CIs. Something like 'htmldocsboth'
+> or 'htmldocsall'???
+>
+> htmldocs and other *docs targets are the most primitive ones for
+> running Sphinx, so my gut feeling tells me _not_ to contaminate
+> htmldocs with rustdoc or vice versa.
+
+That is reasonable, but others wanted it in `htmldocs` (and the goal
+is to eventually do so, so if we can do it already, even better).
+
+Cheers,
+Miguel
