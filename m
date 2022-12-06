@@ -2,154 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D991C352A1
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 22:56:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26B90C352A1
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 23:05:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229513AbiLFW4g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Dec 2022 17:56:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45360 "EHLO
+        id S229513AbiLFXFS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Dec 2022 18:05:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229480AbiLFW4e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 17:56:34 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33D194A056;
-        Tue,  6 Dec 2022 14:56:33 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id t11-20020a17090a024b00b0021932afece4so19413301pje.5;
-        Tue, 06 Dec 2022 14:56:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aCtW+MA1B2sGv6cbDKFnxVnKAKT7UQXyOCBUBu2RYBQ=;
-        b=m+ogv/Qvnsr9dPyrYaqWb9CWuyH0R+XVDxQFi135JzdHs3k1U3H5kel3PcvqiQalDr
-         gxz7txQo94fNHfVP/NYV7cyfj0J/ENrfPArB/+SsTod8Ie3k1NZF0GsajssOtzaeSoAe
-         0adGYLiwK7UHoQYblzUd3OeDiHDm2yIOmOoQg8r4AuyiNaBpZIoGyvVVPi7AhzUGv0Jd
-         O8nJ0o+AOAo6gtOUGCe4ct6Tn2gQGIbNBv4Se/FL4NndhwcCZDIdpGri78BYFrGoAV5D
-         H3N73cLJnxqN6QwK5Em+/uHG1WsghkDQtFKiUyzSaOcJnL0GfQOiaNnjl9eyUxJy2LOu
-         3E8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aCtW+MA1B2sGv6cbDKFnxVnKAKT7UQXyOCBUBu2RYBQ=;
-        b=2ZZ3dU62DVDFlGXxWBd0/d0tZ2wSnJWtKoeFk+JPNh3UETwbIVPhtlNS0jUxJTkRhH
-         qtesf7WLvn25eUrFNBmGStWpiGzlojnizALk+ecX3f3vpqTOpwTlQ26WczOseYDb7yLg
-         PPPMihJ5zIaL8FSvUQTMpgpfLUwUKkzUMfWsZelXTvMZNl500RyaoVSk2oguQFNuFooc
-         QoN1r3UvycOpT8lV4UZ2sWwgO9rabvouscMxq+rQh76Q3siy8Al6TSUfVXUDBvSSH7lY
-         O/hvtRlomnP7phbOU4+z6IxjVC0cH6llXy9SotxxEK/VtSiA0jSK+DG3DCC8MeZw6Mev
-         wyAg==
-X-Gm-Message-State: ANoB5pnHjfVX/G8TK8EhgrUxVFcCLXiHx08fqkMZ23PEcncVYxaxBhIR
-        jVYvl5fwpmRf2E4hvYq/FNs9satwezg=
-X-Google-Smtp-Source: AA0mqf7+fxL1WGmNTHR1EPWdHlIa1qMLmpJjTGVsj11j8AMLbtFxDUVMUbm4DYiE0mlZumljT5KTRQ==
-X-Received: by 2002:a17:902:cccf:b0:187:2f28:bfd6 with SMTP id z15-20020a170902cccf00b001872f28bfd6mr602131ple.21.1670367392639;
-        Tue, 06 Dec 2022 14:56:32 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id w22-20020a1709026f1600b001872999f58esm13103290plk.189.2022.12.06.14.56.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Dec 2022 14:56:32 -0800 (PST)
-Message-ID: <f54802a3-cf2f-8746-2273-0ae462a7f4eb@gmail.com>
-Date:   Wed, 7 Dec 2022 07:56:27 +0900
+        with ESMTP id S229452AbiLFXFR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 18:05:17 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEFE8B6A;
+        Tue,  6 Dec 2022 15:05:16 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6C4F0B81A68;
+        Tue,  6 Dec 2022 23:05:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50D9EC433D7;
+        Tue,  6 Dec 2022 23:05:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670367914;
+        bh=og+XXRY2fcLp4gyF1cWGrNQBduIHbwxbJ9D95CNM7Ok=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=umT7knoeOpvPszf6KmB4AiA4y/HSTcRedLIFNwXhTf0A1KEFJzXgh4Zz8XEpILLLl
+         w8OeIYneZ+B52rdVoywZiSMDpKBn4knhvD14tNPX6NGrewdF5r6AyQxbM3hWv3rL7C
+         6lAqtIKwdtfsGeMOtupyCHk14w4fHcyB4sewVB00bPCiWwQ2oFxzjd+PANn1Rrfy70
+         YFVdIatqoVfh+WPvf0vkDIpScqmvBy2odt7AO35IttAOAeZRULI18c59y+r/ZCqxAX
+         H3FTqf54Pbxf/VuHXasDtm6Hjif4p4SmWoqtLg/2VZHYimxkyT/JIvWbSTnln+UvO4
+         jb/UP6+RRIpmw==
+Date:   Tue, 6 Dec 2022 23:05:06 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Xianting Tian <xianting.tian@linux.alibaba.com>
+Cc:     mick@ics.forth.gr, corbet@lwn.net, alexandre.ghiti@canonical.com,
+        vgoyal@redhat.com, bhe@redhat.com,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        bagasdotme@gmail.com, dyoung@redhat.com,
+        Palmer Dabbelt <palmer@dabbelt.com>, heiko@sntech.de,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        guoren@kernel.org, anup@brainfault.org, aou@eecs.berkeley.edu,
+        hschauhan@nulltrace.org, yixun.lan@gmail.com,
+        kexec@lists.infradead.org, heinrich.schuchardt@canonical.com,
+        linux-doc@vger.kernel.org, crash-utility@redhat.com,
+        linux-kernel@vger.kernel.org, k-hagio-ab@nec.com,
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH V5 0/2] Support VMCOREINFO export for RISCV64
+Message-ID: <Y4/KoiFhdvRBDdzH@spud>
+References: <20221026144208.373504-1-xianting.tian@linux.alibaba.com>
+ <167002857934.4256.16584443879212253129.b4-ty@rivosinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 1/2] docs: Move rustdoc output, cross-reference it
-To:     Carlos Bilbao <carlos.bilbao@amd.com>, corbet@lwn.net,
-        ojeda@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bilbao@vt.edu, konstantin@linuxfoundation.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <20221201204814.2141401-1-carlos.bilbao@amd.com>
- <20221206153151.771038-1-carlos.bilbao@amd.com>
- <20221206153151.771038-2-carlos.bilbao@amd.com>
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20221206153151.771038-2-carlos.bilbao@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="wfcBHXZ3OW3XTejR"
+Content-Disposition: inline
+In-Reply-To: <167002857934.4256.16584443879212253129.b4-ty@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 6 Dec 2022 09:31:50 -0600, Carlos Bilbao wrote:
-> Generate rustdoc documentation with the rest of subsystem's documentation
-> in Documentation/output. Add a cross reference to the generated rustdoc in
-> Documentation/rust/index.rst.
-> 
-> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
 
-Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+--wfcBHXZ3OW3XTejR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->  Documentation/rust/index.rst |  5 +++++
->  rust/Makefile                | 15 +++++++++------
->  2 files changed, 14 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/rust/index.rst b/Documentation/rust/index.rst
-> index 4ae8c66b94fa..416d6b3de1e4 100644
-> --- a/Documentation/rust/index.rst
-> +++ b/Documentation/rust/index.rst
-> @@ -6,6 +6,11 @@ Rust
->  Documentation related to Rust within the kernel. To start using Rust
->  in the kernel, please read the quick-start.rst guide.
->  
-> +.. only:: html
-> +
-> +	If this documentation includes rustdoc-generated HTML, the entry
-> +	point can be found `here <rustdoc/kernel/index.html>`_.
-> +
->  .. toctree::
->      :maxdepth: 1
->  
-> diff --git a/rust/Makefile b/rust/Makefile
-> index 7700d3853404..080c07048065 100644
-> --- a/rust/Makefile
-> +++ b/rust/Makefile
-> @@ -1,5 +1,8 @@
->  # SPDX-License-Identifier: GPL-2.0
->  
-> +# Where to place rustdoc generated documentation
-> +RUSTDOC_OUTPUT = $(objtree)/Documentation/output/rust/rustdoc
-> +
->  always-$(CONFIG_RUST) += target.json
->  no-clean-files += target.json
->  
-> @@ -58,7 +61,7 @@ quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
->  	OBJTREE=$(abspath $(objtree)) \
->  	$(RUSTDOC) $(if $(rustdoc_host),$(rust_common_flags),$(rust_flags)) \
->  		$(rustc_target_flags) -L$(objtree)/$(obj) \
-> -		--output $(objtree)/$(obj)/doc \
-> +		--output $(RUSTDOC_OUTPUT) \
->  		--crate-name $(subst rustdoc-,,$@) \
->  		@$(objtree)/include/generated/rustc_cfg $<
->  
-> @@ -75,15 +78,15 @@ quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
->  # and then retouch the generated files.
->  rustdoc: rustdoc-core rustdoc-macros rustdoc-compiler_builtins \
->      rustdoc-alloc rustdoc-kernel
-> -	$(Q)cp $(srctree)/Documentation/images/logo.svg $(objtree)/$(obj)/doc
-> -	$(Q)cp $(srctree)/Documentation/images/COPYING-logo $(objtree)/$(obj)/doc
-> -	$(Q)find $(objtree)/$(obj)/doc -name '*.html' -type f -print0 | xargs -0 sed -Ei \
-> +	$(Q)cp $(srctree)/Documentation/images/logo.svg $(RUSTDOC_OUTPUT)
-> +	$(Q)cp $(srctree)/Documentation/images/COPYING-logo $(RUSTDOC_OUTPUT)
-> +	$(Q)find $(RUSTDOC_OUTPUT) -name '*.html' -type f -print0 | xargs -0 sed -Ei \
->  		-e 's:rust-logo\.svg:logo.svg:g' \
->  		-e 's:rust-logo\.png:logo.svg:g' \
->  		-e 's:favicon\.svg:logo.svg:g' \
->  		-e 's:<link rel="alternate icon" type="image/png" href="[./]*favicon-(16x16|32x32)\.png">::g'
->  	$(Q)echo '.logo-container > img { object-fit: contain; }' \
-> -		>> $(objtree)/$(obj)/doc/rustdoc.css
-> +		>> $(RUSTDOC_OUTPUT)/rustdoc.css
->  
->  rustdoc-macros: private rustdoc_host = yes
->  rustdoc-macros: private rustc_target_flags = --crate-type proc-macro \
-> @@ -141,7 +144,7 @@ quiet_cmd_rustdoc_test = RUSTDOC T $<
->  		@$(objtree)/include/generated/rustc_cfg \
->  		$(rustc_target_flags) $(rustdoc_test_target_flags) \
->  		--sysroot $(objtree)/$(obj)/test/sysroot $(rustdoc_test_quiet) \
-> -		-L$(objtree)/$(obj)/test --output $(objtree)/$(obj)/doc \
-> +		-L$(objtree)/$(obj)/test --output $(RUSTDOC_OUTPUT) \
->  		--crate-name $(subst rusttest-,,$@) $<
->  
->  # We cannot use `-Zpanic-abort-tests` because some tests are dynamic,
+Hey Palmer, Xianting,
+
+On Fri, Dec 02, 2022 at 04:49:39PM -0800, Palmer Dabbelt wrote:
+> On Wed, 26 Oct 2022 22:42:06 +0800, Xianting Tian wrote:
+> > As disscussed in below patch set, the patch of 'describe VMCOREINFO exp=
+ort in Documentation'
+> > need to update according to Bagas's comments.
+> > https://lore.kernel.org/linux-riscv/22AAF52E-8CC8-4D11-99CB-88DE4D11344=
+4@kernel.org/
+> >=20
+> > As others patches in above patch set already applied, so this patch set=
+ only contains below two
+> > patches.
+> >=20
+> > [...]
+>=20
+> Applied, thanks!
+>=20
+> [1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
+>       https://git.kernel.org/palmer/c/649d6b1019a2
+
+So this patch seems to be causing issues for the nommu build:
+https://lore.kernel.org/oe-kbuild-all/202212062250.tR0otHcz-lkp@intel.com/
+
+I had a bit of a poke at trying to see if there were some headers we
+could pull in before actually checking the .config only to see:
+# CONFIG_MMU is not set
+
+Do we have to wrap the whole thing in a `#ifdef CONFIG_MMU` to fix
+compilation here?
+
+Thanks,
+Conor.
+
+
+--wfcBHXZ3OW3XTejR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY4/KogAKCRB4tDGHoIJi
+0pEgAQDO1wUgu3/ufYbAAAOzCbPjVQcdX8ujzegnAAh5TgId0gD/ZtqmgZf/j7Cp
+hVtujGiLlEEzQkgyBIg36ipLFTYYsQ8=
+=gIhU
+-----END PGP SIGNATURE-----
+
+--wfcBHXZ3OW3XTejR--
