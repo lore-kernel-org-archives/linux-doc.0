@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3239EC3A5A7
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 20:07:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 172C8C63704
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 20:07:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229663AbiLFUHw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Dec 2022 15:07:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44908 "EHLO
+        id S229701AbiLFUHx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Dec 2022 15:07:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229619AbiLFUHu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 15:07:50 -0500
-Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41F62CE05;
-        Tue,  6 Dec 2022 12:07:48 -0800 (PST)
+        with ESMTP id S229621AbiLFUHv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 15:07:51 -0500
+Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5736E12745;
+        Tue,  6 Dec 2022 12:07:49 -0800 (PST)
 Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 05674256D;
-        Tue,  6 Dec 2022 21:07:46 +0100 (CET)
+        by mail.3ffe.de (Postfix) with ESMTPSA id 5D69C27AA;
+        Tue,  6 Dec 2022 21:07:47 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1670357266;
+        t=1670357267;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ILxP0jW0nBzAhvh7z1J9P1H1PJrtvXTRHQ4DduPRocE=;
-        b=Q5qPxmm//GWuGUlu28YuGCCZP07ElXzUaoHnPSgrXHcDyHCa2WZcE7jxPiIik1qKI0Iqgh
-        KMJveO7U2Ty0lStusmHGY8dOCKR0XyQpbK29xr/XoAqQafBs7PzHIBduj9TVG2U+Eg5jg2
-        Z+oF/N7bfk13aGNnL++TvrhJpN/DGKskUQPoUTQM+ycjfETt4ClSZKOeY4NEO64EOOlpVM
-        GhOIx/KDDJieM3CaJ8oVIu6KUambo+SdO58wK1djNdh4qnXZybtKSEYu9LQUQpOfbM+ifc
-        zVjzZ+6aUFnOqOQHlDcJoL7LWM6poTCgv1yIKBVLu/5M9GCmUKijOwkgA3T8SA==
+        bh=jccYpGhRy5gogBWLLHj7E2HN2uMWlo2JC7ssSIFLQtc=;
+        b=KBD7cnd9QOSO/57qGehuqF4Cc+qXERoCaSlpkkNU8U3/56TH9CVIMhSNXn3X/SW+LPlt1d
+        YKPbpeU47AaBZvH/Bee9NMJzI7zD/is71U+4YMLqrc2QOzYLkU1eWWBXIrmNTzI5nspuKI
+        vH89q/FjWOSL8MJv8i/mMl/gqmCT9YcHJ4uK/Ufc6LzTH+84QSusG4Pqv0tYnjJ0a88Nqf
+        O8XH7QzR8imcMpibVswnbano7GLtLUqSHkto0cvsRD0npwvxlyzrE6eCq/pFKCdUYKOX2t
+        9PJ9Y872A6dlBbDzaefu4hiqbZZ5K1febkNV0iFcTK7QD6L86PYiChquMcr1Uw==
 From:   Michael Walle <michael@walle.cc>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -43,10 +43,10 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Michael Walle <michael@walle.cc>,
         Dan Carpenter <error27@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH v5 01/21] net: add helper eth_addr_add()
-Date:   Tue,  6 Dec 2022 21:07:20 +0100
-Message-Id: <20221206200740.3567551-2-michael@walle.cc>
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v5 03/21] of: property: make #.*-cells optional for simple props
+Date:   Tue,  6 Dec 2022 21:07:22 +0100
+Message-Id: <20221206200740.3567551-4-michael@walle.cc>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221206200740.3567551-1-michael@walle.cc>
 References: <20221206200740.3567551-1-michael@walle.cc>
@@ -57,53 +57,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a helper to add an offset to a ethernet address. This comes in handy
-if you have a base ethernet address for multiple interfaces.
+Sometimes, future bindings for phandles will get additional arguments.
+Thus the target node of the phandle will need a new #.*-cells property.
+To be backwards compatible, this needs to be optional.
+
+Prepare the DEFINE_SIMPLE_PROPS() to handle the cells name as optional.
 
 Signed-off-by: Michael Walle <michael@walle.cc>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-Acked-by: Jakub Kicinski <kuba@kernel.org>
+Tested-by: Miquel Raynal <miquel.raynal@bootlin.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 changes since v4:
  - none
 
 changes since v3:
- - fix typo s/and/an/
+ - new patch
 
-changes since v2:
- - none
+ drivers/of/property.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-changes since v1:
- - none
-
- include/linux/etherdevice.h | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/include/linux/etherdevice.h b/include/linux/etherdevice.h
-index a541f0c4f146..224645f17c33 100644
---- a/include/linux/etherdevice.h
-+++ b/include/linux/etherdevice.h
-@@ -507,6 +507,20 @@ static inline void eth_addr_inc(u8 *addr)
- 	u64_to_ether_addr(u, addr);
- }
+diff --git a/drivers/of/property.c b/drivers/of/property.c
+index 134cfc980b70..3043ca7735db 100644
+--- a/drivers/of/property.c
++++ b/drivers/of/property.c
+@@ -1256,8 +1256,8 @@ static struct device_node *parse_suffix_prop_cells(struct device_node *np,
+ 	if (strcmp_suffix(prop_name, suffix))
+ 		return NULL;
  
-+/**
-+ * eth_addr_add() - Add (or subtract) an offset to/from the given MAC address.
-+ *
-+ * @offset: Offset to add.
-+ * @addr: Pointer to a six-byte array containing Ethernet address to increment.
-+ */
-+static inline void eth_addr_add(u8 *addr, long offset)
-+{
-+	u64 u = ether_addr_to_u64(addr);
-+
-+	u += offset;
-+	u64_to_ether_addr(u, addr);
-+}
-+
- /**
-  * is_etherdev_addr - Tell if given Ethernet address belongs to the device.
-  * @dev: Pointer to a device structure
+-	if (of_parse_phandle_with_args(np, prop_name, cells_name, index,
+-				       &sup_args))
++	if (__of_parse_phandle_with_args(np, prop_name, cells_name, 0, index,
++					 &sup_args))
+ 		return NULL;
+ 
+ 	return sup_args.np;
 -- 
 2.30.2
 
