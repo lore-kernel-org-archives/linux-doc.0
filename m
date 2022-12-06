@@ -2,36 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 172C8C63704
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 20:07:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97C7FC47090
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 20:07:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229701AbiLFUHx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Dec 2022 15:07:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44928 "EHLO
+        id S229675AbiLFUHw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Dec 2022 15:07:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229621AbiLFUHv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 15:07:51 -0500
-Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5736E12745;
-        Tue,  6 Dec 2022 12:07:49 -0800 (PST)
+        with ESMTP id S229612AbiLFUHu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 15:07:50 -0500
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41E2AC775;
+        Tue,  6 Dec 2022 12:07:47 -0800 (PST)
 Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 5D69C27AA;
-        Tue,  6 Dec 2022 21:07:47 +0100 (CET)
+        by mail.3ffe.de (Postfix) with ESMTPSA id A99D42247;
+        Tue,  6 Dec 2022 21:07:45 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1670357267;
+        t=1670357265;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=jccYpGhRy5gogBWLLHj7E2HN2uMWlo2JC7ssSIFLQtc=;
-        b=KBD7cnd9QOSO/57qGehuqF4Cc+qXERoCaSlpkkNU8U3/56TH9CVIMhSNXn3X/SW+LPlt1d
-        YKPbpeU47AaBZvH/Bee9NMJzI7zD/is71U+4YMLqrc2QOzYLkU1eWWBXIrmNTzI5nspuKI
-        vH89q/FjWOSL8MJv8i/mMl/gqmCT9YcHJ4uK/Ufc6LzTH+84QSusG4Pqv0tYnjJ0a88Nqf
-        O8XH7QzR8imcMpibVswnbano7GLtLUqSHkto0cvsRD0npwvxlyzrE6eCq/pFKCdUYKOX2t
-        9PJ9Y872A6dlBbDzaefu4hiqbZZ5K1febkNV0iFcTK7QD6L86PYiChquMcr1Uw==
+         content-transfer-encoding:content-transfer-encoding;
+        bh=+5VJCq6HrWVbUfh7jLp9RMyTddhCI3UUSk7hyWXiihk=;
+        b=e1ZKqZWDyGy1cz7MiWVPa8brkrG1dhqG0Lm33epbGYEnVpKKMlWB+IvXqcBt5nCFnOcnHI
+        r9ZoRYTAc+KAg6qT1/sFpIza/1a77DSoo1V72AeOgLtstbENkS6cdKrfOin//Oe6Hzaz2c
+        l/LDYPIaLcYrayKFsCC5blOeIZ1T4XlfP6xgYzcVuxzXSCrWNbEN/HUR7RO3xsyMbNY35I
+        HTRy6VB0I3yF+ix7jbNJT+kZ1iiu29w+Dz0CiNXc4zU4TcwlgYqioT8j+CJfR/k80hhMrg
+        VbOdQzz3Q0undA4BTBLf/XCiMHD8YIUiOZ3v+6mmobIPFoZRvr7zT4KVFenoeg==
 From:   Michael Walle <michael@walle.cc>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -42,14 +41,11 @@ To:     Jonathan Corbet <corbet@lwn.net>,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Michael Walle <michael@walle.cc>,
-        Dan Carpenter <error27@gmail.com>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v5 03/21] of: property: make #.*-cells optional for simple props
-Date:   Tue,  6 Dec 2022 21:07:22 +0100
-Message-Id: <20221206200740.3567551-4-michael@walle.cc>
+        Dan Carpenter <error27@gmail.com>
+Subject: [PATCH v5 00/21] nvmem: core: introduce NVMEM layouts
+Date:   Tue,  6 Dec 2022 21:07:19 +0100
+Message-Id: <20221206200740.3567551-1-michael@walle.cc>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221206200740.3567551-1-michael@walle.cc>
-References: <20221206200740.3567551-1-michael@walle.cc>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam: Yes
@@ -57,40 +53,84 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sometimes, future bindings for phandles will get additional arguments.
-Thus the target node of the phandle will need a new #.*-cells property.
-To be backwards compatible, this needs to be optional.
+This is now the third attempt to fetch the MAC addresses from the VPD
+for the Kontron sl28 boards. Previous discussions can be found here:
+https://lore.kernel.org/lkml/20211228142549.1275412-1-michael@walle.cc/
 
-Prepare the DEFINE_SIMPLE_PROPS() to handle the cells name as optional.
 
-Signed-off-by: Michael Walle <michael@walle.cc>
-Tested-by: Miquel Raynal <miquel.raynal@bootlin.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
-changes since v4:
- - none
+NVMEM cells are typically added by board code or by the devicetree. But
+as the cells get more complex, there is (valid) push back from the
+devicetree maintainers to not put that handling in the devicetree.
 
-changes since v3:
- - new patch
+Therefore, introduce NVMEM layouts. They operate on the NVMEM device and
+can add cells during runtime. That way it is possible to add more complex
+cells than it is possible right now with the offset/length/bits
+description in the device tree. For example, you can have post processing
+for individual cells (think of endian swapping, or ethernet offset
+handling).
 
- drivers/of/property.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The imx-ocotp driver is the only user of the global post processing hook,
+convert it to nvmem layouts and drop the global post pocessing hook.
 
-diff --git a/drivers/of/property.c b/drivers/of/property.c
-index 134cfc980b70..3043ca7735db 100644
---- a/drivers/of/property.c
-+++ b/drivers/of/property.c
-@@ -1256,8 +1256,8 @@ static struct device_node *parse_suffix_prop_cells(struct device_node *np,
- 	if (strcmp_suffix(prop_name, suffix))
- 		return NULL;
- 
--	if (of_parse_phandle_with_args(np, prop_name, cells_name, index,
--				       &sup_args))
-+	if (__of_parse_phandle_with_args(np, prop_name, cells_name, 0, index,
-+					 &sup_args))
- 		return NULL;
- 
- 	return sup_args.np;
+For now, the layouts are selected by the device tree. But the idea is
+that also board files or other drivers could set a layout. Although no
+code for that exists yet.
+
+Thanks to Miquel, the device tree bindings are already approved and merged.
+
+NVMEM layouts as modules?
+While possible in principle, it doesn't make any sense because the NVMEM
+core can't be compiled as a module. The layouts needs to be available at
+probe time. (That is also the reason why they get registered with
+subsys_initcall().) So if the NVMEM core would be a module, the layouts
+could be modules, too.
+
+Michael Walle (19):
+  net: add helper eth_addr_add()
+  of: base: add of_parse_phandle_with_optional_args()
+  of: property: make #.*-cells optional for simple props
+  of: property: add #nvmem-cell-cells property
+  nvmem: core: fix device node refcounting
+  nvmem: core: add an index parameter to the cell
+  nvmem: core: move struct nvmem_cell_info to nvmem-provider.h
+  nvmem: core: drop the removal of the cells in nvmem_add_cells()
+  nvmem: core: fix cell removal on error
+  nvmem: core: add nvmem_add_one_cell()
+  nvmem: core: use nvmem_add_one_cell() in nvmem_add_cells_from_of()
+  nvmem: core: introduce NVMEM layouts
+  nvmem: core: add per-cell post processing
+  nvmem: core: allow to modify a cell before adding it
+  nvmem: imx-ocotp: replace global post processing with layouts
+  nvmem: cell: drop global cell_post_process
+  nvmem: core: provide own priv pointer in post process callback
+  nvmem: layouts: add sl28vpd layout
+  MAINTAINERS: add myself as sl28vpd nvmem layout driver
+
+Miquel Raynal (2):
+  nvmem: layouts: Add ONIE tlv layout driver
+  MAINTAINERS: Add myself as ONIE tlv NVMEM layout maintainer
+
+ Documentation/driver-api/nvmem.rst |  15 ++
+ MAINTAINERS                        |  12 ++
+ drivers/nvmem/Kconfig              |   4 +
+ drivers/nvmem/Makefile             |   1 +
+ drivers/nvmem/core.c               | 295 +++++++++++++++++++++--------
+ drivers/nvmem/imx-ocotp.c          |  34 ++--
+ drivers/nvmem/layouts/Kconfig      |  23 +++
+ drivers/nvmem/layouts/Makefile     |   7 +
+ drivers/nvmem/layouts/onie-tlv.c   | 244 ++++++++++++++++++++++++
+ drivers/nvmem/layouts/sl28vpd.c    | 153 +++++++++++++++
+ drivers/of/property.c              |   6 +-
+ include/linux/etherdevice.h        |  14 ++
+ include/linux/nvmem-consumer.h     |  17 +-
+ include/linux/nvmem-provider.h     |  95 +++++++++-
+ include/linux/of.h                 |  25 +++
+ 15 files changed, 837 insertions(+), 108 deletions(-)
+ create mode 100644 drivers/nvmem/layouts/Kconfig
+ create mode 100644 drivers/nvmem/layouts/Makefile
+ create mode 100644 drivers/nvmem/layouts/onie-tlv.c
+ create mode 100644 drivers/nvmem/layouts/sl28vpd.c
+
 -- 
 2.30.2
 
