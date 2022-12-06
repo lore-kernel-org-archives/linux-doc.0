@@ -2,88 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7AF1C352A1
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 15:40:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3183C47090
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 15:48:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234771AbiLFPkL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Dec 2022 10:40:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32818 "EHLO
+        id S231869AbiLFPsU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Dec 2022 10:48:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233317AbiLFPkK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 10:40:10 -0500
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B19E9639F;
-        Tue,  6 Dec 2022 07:40:09 -0800 (PST)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-3704852322fso155845457b3.8;
-        Tue, 06 Dec 2022 07:40:09 -0800 (PST)
+        with ESMTP id S231630AbiLFPsC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 10:48:02 -0500
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EECBE025
+        for <linux-doc@vger.kernel.org>; Tue,  6 Dec 2022 07:47:59 -0800 (PST)
+Received: by mail-lj1-x22b.google.com with SMTP id x6so17672958lji.10
+        for <linux-doc@vger.kernel.org>; Tue, 06 Dec 2022 07:47:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4ThPSGliMj5FPf9Xlzh2ID2mJISM67fNXi8L9naNkpQ=;
-        b=ocIEVhLuDpE6UrWQf/lROjffPcfMDB0BSRXZwk2c/UXVzOuSY5MeO51ToLnVRO9hSY
-         Au2jJ0zXHS7x2rjoPlR5+WH6b19m33Te6UqZmjgf1kdPdCGRVmPsnJUpoPZNX9pmDJrS
-         hvyLxxckphZFRdUZg8SO67zNS2I+Ib1SkTMREbQMsFBPST7n6qFwd/PlVwzA2pXGDPtm
-         rqYvFFdd0/hNGe3b8OHYnjKnUTLH5cHG19sk+7Dx3gm1IT6rOLR9rdUnWh2GIpfxTBNb
-         +zB+RmC5dPV/ma/zIMYx15uMZ22NdbhYmZQlkyjOq3qOn8TzahHcJs5UGU1Gw0i9sDDK
-         QCNw==
+        bh=m1kCqWlRYfobNKnwTTmG2lD4ZIH0ubVAosfgV6W3Dk4=;
+        b=km4nt3h3SHb/kEB2LuEUazieUkF9KftHb5F5G6SyTF0tkPyKfN2VeOikiWxEBRycBp
+         HsbvpDP5MQFX5lKttQgca1p57UvCAGjzgI85ey19QT3BdjKfqI9Cvl6Wv6b4IRjUUGio
+         SNCBKhia8UVi2JEXoKNgW6LJLeJ34+7z8/13c3LqbFAKDJMO8Gy/+VyTLMrA7AhhENd1
+         TNOqx+MF6+0Q7sMMqfp/4fXIA6AYYQUMyiQMrZUKrOwSlFwEERF41f5MgnrniS4C+Zx7
+         aT0+T5Mh7IQLLskdVC1oVbKnMT2sukhYGiYH6rQJUVqDRrBUtxo2Y0A4TZ8KfOE3PyHH
+         RKTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4ThPSGliMj5FPf9Xlzh2ID2mJISM67fNXi8L9naNkpQ=;
-        b=LRJam4fLOCb7vZFLuFIXakfH2421MZp5Da6K1UdyeAwqObiK2SFvlm2KJzp9eumTTR
-         9k3OUmqK04nxH47J/fxrkRwqziMtannfCQFZ2BJKZo+VwHO3ck20IpdFtdyE/+Z4d9pe
-         RZTTnwb8H7P4rgWBOdrAWfje/vhZS0ogI5oJm7tApxeXCni4DIcUCTplPz1MV3i1cwT1
-         PNXfsxzHZlkU2UpzgYSMkDyLeMkYLH+fIYcaiQ+oIxefH6g3MCJ4u2LQDN3DIB7ZAhIS
-         7KpcbH6GPNRPHADvVUFa1lEHU7ULEOVzf3iKloJ8zzIxAMDjM28IkIJUk0WnK6fsoQkO
-         qwIQ==
-X-Gm-Message-State: ANoB5pne54/tCHSHyUaUUd5orIFlQEH2+Qmr8s7v7TcEPMBUOkKiNrH+
-        vemlD3LKA3DgWJJva334XRZLdR7Do7L1RV/fxWrh+qeDxTUh5w==
-X-Google-Smtp-Source: AA0mqf7hz5YkLETJYzgyEGHN4God22Lr8Sw3xTxkTUtCsmX82IorWw2CktG3RaNB4F/9rkGDafaGPyIxd/upY0xm69w=
-X-Received: by 2002:a0d:e6c4:0:b0:3bc:7270:cb70 with SMTP id
- p187-20020a0de6c4000000b003bc7270cb70mr49390172ywe.83.1670341208893; Tue, 06
- Dec 2022 07:40:08 -0800 (PST)
+        bh=m1kCqWlRYfobNKnwTTmG2lD4ZIH0ubVAosfgV6W3Dk4=;
+        b=Ixw3EKiJRx1Z9XyJoiCh0t9EobTaL/ogng1CjQehUGt/KEJlbNl1tiAaDC1qT8+yI8
+         67/fJuC9rPRiW1lVWG88FJYPyBO3ketf2P56W1oRmw7DFg/oiZajojUBTHGwGbIyvBya
+         p+LNSmx2acAc7RVIPu9r9riEetQ7Bs8uOzKV8N7BR93eFNjbyL2QMQF3eixCDH0r1Ir3
+         ELxntl/CmoJHHvBPqlWfSY+EMjRW/Kw4lu/Efduijv8K98OQ5whLBird1XPa8K3YxMlP
+         JsmnbI3I6KGl1t/aG+5vq/yt6EL/lwFi7oDfg8t6sjyoukvDGbwIDhCYxtS1skmtvmF9
+         2JLw==
+X-Gm-Message-State: ANoB5pkz/VPw6JHUNzsRfvL6yaoFK+nTxt9y/1oTCrtgLhuLrXN3CiuR
+        ZjlMRLqxuJbWtcFgJAYq1x49QEJ0iLIEN+TGQw687g==
+X-Google-Smtp-Source: AA0mqf670rgKAoKyVamK5fGEwo/r7qIQAwktaBqfm7a0tY0XJdGyAcQGRLzmDTdXbe+6R04s2ufEeuo3JFvMsirw8Vc=
+X-Received: by 2002:a2e:a80d:0:b0:277:1295:31ca with SMTP id
+ l13-20020a2ea80d000000b00277129531camr27009331ljq.280.1670341677228; Tue, 06
+ Dec 2022 07:47:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20221130220825.1545758-1-carlos.bilbao@amd.com>
- <20221201204814.2141401-1-carlos.bilbao@amd.com> <a019a3f1-7ff1-15b2-d930-e1d722847e0c@gmail.com>
- <CANiq72=ud1EB+jcKE=iudFSgKNcqd=8Xe-M0YgxikmUuQ+TjGA@mail.gmail.com> <e3523f33-847b-81da-7b20-83ee54597d9f@gmail.com>
-In-Reply-To: <e3523f33-847b-81da-7b20-83ee54597d9f@gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 6 Dec 2022 16:39:57 +0100
-Message-ID: <CANiq72nTaA=w9BuXxityy6nqQ5OiwuSkhxZCENC580n-7C+Axw@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: Integrate rustdoc into Rust documentation
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Carlos Bilbao <carlos.bilbao@amd.com>, ojeda@kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        bilbao@vt.edu, corbet@lwn.net, konstantin@linuxfoundation.org
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com> <20221202061347.1070246-5-chao.p.peng@linux.intel.com>
+In-Reply-To: <20221202061347.1070246-5-chao.p.peng@linux.intel.com>
+From:   Fuad Tabba <tabba@google.com>
+Date:   Tue, 6 Dec 2022 15:47:20 +0000
+Message-ID: <CA+EHjTyzZ2n8kQxH_Qx72aRq1k+dETJXTsoOM3tggPZAZkYbCA@mail.gmail.com>
+Subject: Re: [PATCH v10 4/9] KVM: Add KVM_EXIT_MEMORY_FAULT exit
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 6, 2022 at 2:32 PM Akira Yokosawa <akiyks@gmail.com> wrote:
+Hi,
+
+On Fri, Dec 2, 2022 at 6:19 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
 >
-> Why is RUSTDOC invoked when there is no change in rustdoc?
-
-I think we can give proper dependencies to `rustdoc`, so if that is
-the main concern, then it should be OK.
-
-But note that `htmldocs` also calls Sphinx every run. It does a subset
-of the work, but perhaps we can save some time there if we could
-detect whether anything changed.
-
-> I think you can add a new target in the top-devel Makefile which
-> runs both rustdoc and htmldocs for CIs. Something like 'htmldocsboth'
-> or 'htmldocsall'???
+> This new KVM exit allows userspace to handle memory-related errors. It
+> indicates an error happens in KVM at guest memory range [gpa, gpa+size).
+> The flags includes additional information for userspace to handle the
+> error. Currently bit 0 is defined as 'private memory' where '1'
+> indicates error happens due to private memory access and '0' indicates
+> error happens due to shared memory access.
 >
-> htmldocs and other *docs targets are the most primitive ones for
-> running Sphinx, so my gut feeling tells me _not_ to contaminate
-> htmldocs with rustdoc or vice versa.
+> When private memory is enabled, this new exit will be used for KVM to
+> exit to userspace for shared <-> private memory conversion in memory
+> encryption usage. In such usage, typically there are two kind of memory
+> conversions:
+>   - explicit conversion: happens when guest explicitly calls into KVM
+>     to map a range (as private or shared), KVM then exits to userspace
+>     to perform the map/unmap operations.
+>   - implicit conversion: happens in KVM page fault handler where KVM
+>     exits to userspace for an implicit conversion when the page is in a
+>     different state than requested (private or shared).
+>
+> Suggested-by: Sean Christopherson <seanjc@google.com>
+> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> Reviewed-by: Fuad Tabba <tabba@google.com>
+> ---
+>  Documentation/virt/kvm/api.rst | 22 ++++++++++++++++++++++
+>  include/uapi/linux/kvm.h       |  8 ++++++++
+>  2 files changed, 30 insertions(+)
+>
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 99352170c130..d9edb14ce30b 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -6634,6 +6634,28 @@ array field represents return values. The userspace should update the return
+>  values of SBI call before resuming the VCPU. For more details on RISC-V SBI
+>  spec refer, https://github.com/riscv/riscv-sbi-doc.
+>
+> +::
+> +
+> +               /* KVM_EXIT_MEMORY_FAULT */
+> +               struct {
+> +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE (1ULL << 0)
+> +                       __u64 flags;
 
-That is reasonable, but others wanted it in `htmldocs` (and the goal
-is to eventually do so, so if we can do it already, even better).
+I see you've removed the padding and increased the flag size.
+
+Reviewed-by: Fuad Tabba <tabba@google.com>
+Tested-by: Fuad Tabba <tabba@google.com>
 
 Cheers,
-Miguel
+/fuad
+
+
+
+
+> +                       __u64 gpa;
+> +                       __u64 size;
+> +               } memory;
+> +
+> +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VCPU has
+> +encountered a memory error which is not handled by KVM kernel module and
+> +userspace may choose to handle it. The 'flags' field indicates the memory
+> +properties of the exit.
+> +
+> + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is caused by
+> +   private memory access when the bit is set. Otherwise the memory error is
+> +   caused by shared memory access when the bit is clear.
+> +
+> +'gpa' and 'size' indicate the memory range the error occurs at. The userspace
+> +may handle the error and return to KVM to retry the previous memory access.
+> +
+>  ::
+>
+>      /* KVM_EXIT_NOTIFY */
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 13bff963b8b0..c7e9d375a902 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -300,6 +300,7 @@ struct kvm_xen_exit {
+>  #define KVM_EXIT_RISCV_SBI        35
+>  #define KVM_EXIT_RISCV_CSR        36
+>  #define KVM_EXIT_NOTIFY           37
+> +#define KVM_EXIT_MEMORY_FAULT     38
+>
+>  /* For KVM_EXIT_INTERNAL_ERROR */
+>  /* Emulate instruction failed. */
+> @@ -541,6 +542,13 @@ struct kvm_run {
+>  #define KVM_NOTIFY_CONTEXT_INVALID     (1 << 0)
+>                         __u32 flags;
+>                 } notify;
+> +               /* KVM_EXIT_MEMORY_FAULT */
+> +               struct {
+> +#define KVM_MEMORY_EXIT_FLAG_PRIVATE   (1ULL << 0)
+> +                       __u64 flags;
+> +                       __u64 gpa;
+> +                       __u64 size;
+> +               } memory;
+>                 /* Fix the size of the union. */
+>                 char padding[256];
+>         };
+> --
+> 2.25.1
+>
