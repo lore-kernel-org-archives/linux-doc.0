@@ -2,707 +2,306 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 254C3C352A1
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 15:03:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6657EC4708C
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Dec 2022 15:06:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235081AbiLFPD4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Dec 2022 10:03:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57520 "EHLO
+        id S235114AbiLFPG2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Dec 2022 10:06:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235114AbiLFPDc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 10:03:32 -0500
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09745637A
-        for <linux-doc@vger.kernel.org>; Tue,  6 Dec 2022 06:57:43 -0800 (PST)
-Received: by mail-lj1-x230.google.com with SMTP id l8so17473574ljh.13
-        for <linux-doc@vger.kernel.org>; Tue, 06 Dec 2022 06:57:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0XPbXdU92A3Vbo6jx2Cx531jASa7Ki17T5/Nsb9rRng=;
-        b=XqMSBIgfXZ97PVcBvD1U1HvfJDnv2ulxZ4lUJNkDwdHKji8COqlfTO6ipYkPimEezz
-         iFTEvo+SDi51jVNIqvUww8ZbHZHR6eMlDmrsidSu74ph8aNEfNWYg1WPjGx4wJeqwNHQ
-         Cch6QEXQS9sNl7vdgTjz2smXr4cV9JOOm8HPtXqHN0rNowD59k5QGHdGFHRAki/8d6De
-         bjY3biz+emJMXqQgCsv5mbV6SceEQJU4KWkMXx69hDktIJDwN0M0RM2OEfMP9bmFETNK
-         kMY5x+/sRwzmk9/yUhiTgVK9VFWwVD76O/i1J9h9ZF0RkkY6PetFKDInF8I8PWheDLwt
-         cr2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0XPbXdU92A3Vbo6jx2Cx531jASa7Ki17T5/Nsb9rRng=;
-        b=DT05GCsiW2iR+zokU7vmGohhRgdFbMb/7G/eRvZm45cqnjkGWEws7GSTzbFhbAa6EF
-         CtD7H1lxr1jj7ZG18CLPS7c7IwlGbo8r74KJ7iTfnnDU3HLRkZ7ajKc4IKwoDcgQ/iMN
-         HsH4yJgLZqz/VmYdAL2dczTr8oHu2qfWIfkgTXaZzuHHbwE8T6zlsvo54tZg1C+7MlSo
-         x99M+qV1b8NoW5TJ/ccSnun5WuNb5ECtmQ9su8hiyOt1bQ529dVsBJs4OYmDPLDaK8Mc
-         q7rgE0GwUxfbNgYXR5XvIpWEaqQpTRvvtYJaIMyB5/q2hjHtJ4aAMI4E3/7ymidYVIYe
-         WsiA==
-X-Gm-Message-State: ANoB5pnjz/BYAwguUEdxumT+dPmjjQk4BZ3UsD6EAZjK/S1clmad20vH
-        +AjW9YpvEXQKRbNEFANcnc0Ss3SikwIjKZIkEoi52w==
-X-Google-Smtp-Source: AA0mqf5y0IHxa1cY6lA+S2VRxPAmszz8YG5YXRqVfKmJwXsSnLzKVgXJZSMC2rc0NSzJ88PFVF+vSqyeLihmyTrbbR8=
-X-Received: by 2002:a2e:bf17:0:b0:277:394:34e with SMTP id c23-20020a2ebf17000000b002770394034emr19956934ljr.18.1670338661326;
- Tue, 06 Dec 2022 06:57:41 -0800 (PST)
+        with ESMTP id S232642AbiLFPGL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 10:06:11 -0500
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2069.outbound.protection.outlook.com [40.107.223.69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89FE42934D;
+        Tue,  6 Dec 2022 07:01:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NMVIVOZfO18Luj3gVRPuPoxe5p7TtF4zbhfSsvPHpitSYJlfNVWJbUGv9KHxcbva092vGzqt/F4eLqKWLzbNCdQXJGBeETDY3kxZHOzJt+69Mj/bmMqdW0LJiwVqyehaDQhIXMoGmC1JU1/PG3sfWCxJQeqB/No7iMVm8Gslsfl4AfLw7xbgIim1sSFrTFdngHZ49OE1t6UyncCcMM8vGnuRkzpkYPyhu8yUSxixaa9y+LROBjRQrT4TU927tf+BGoA2dTQsgySQ3VMIj0vcwgVV5YmzQe0mi8lyR8Nt/9TAqHHMYEUg24cYFYvumRQakjWdKvC2BwBgGjPl2oi20w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Mzet6x3hrnn/X7G5ydxWVnQuGr8GAWvlngxhGifLsRM=;
+ b=D7jKJfOalKzpeq5Yyvsum1fd188J/LXIjZXiMSYxO34IKxxyMLtQW7W0uSD3145WMW4x+/mqGVbCLWBFLdoyUC0jDQJEMojifkVg4dvO+3k2d3L0Y4YUfBNjw/1sZ2CZCeXql0psZ2iF00jTa7NM6/onezFvosdaG9AkV6Rx/Q9xIsT454ZVCci7HHGbEpX2NvaaesNDyp2SHruhgXlbKszMSUc+hpVV91VA+i6PuEBoq0WlklsES0N0gpWkqdnZ0wWdAUcJLSXxlp/j173zsXZuPjnbgcvGAy8SknmxJ+ST5VHbTIQOnW45jv/l7SQ2jzJkxVgKjUoNE1+pYrVd8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Mzet6x3hrnn/X7G5ydxWVnQuGr8GAWvlngxhGifLsRM=;
+ b=Khug/7Z24wUtP+ug/nm/Kajf5i2A8Pq8FjqxYF996EtlYCsPKTvo5R4Xjakk7Ao+M2W5p/sVaGtrZDUpI+DO1ZUdMXk5P8xRcVBXJ1WIaXeR2Pt/mRTauGWXxY3DY4JVi/puqY3cX5zjC67RUsay2iXcMHxifE2clcI5qFTqGn8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
+ by IA1PR12MB7544.namprd12.prod.outlook.com (2603:10b6:208:42c::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Tue, 6 Dec
+ 2022 15:01:28 +0000
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::45b1:34fb:e14d:96e4]) by BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::45b1:34fb:e14d:96e4%5]) with mapi id 15.20.5880.013; Tue, 6 Dec 2022
+ 15:01:28 +0000
+Message-ID: <3b904a05-9faa-c7e0-f364-a80c1248a66b@amd.com>
+Date:   Tue, 6 Dec 2022 09:01:26 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2] docs: Integrate rustdoc into Rust documentation
+Content-Language: en-US
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        bilbao@vt.edu, corbet@lwn.net, konstantin@linuxfoundation.org,
+        ojeda@kernel.org
+References: <20221130220825.1545758-1-carlos.bilbao@amd.com>
+ <20221201204814.2141401-1-carlos.bilbao@amd.com>
+ <a019a3f1-7ff1-15b2-d930-e1d722847e0c@gmail.com>
+ <dd0a67d6-0ba3-66e2-851c-7498b0bc99d1@amd.com>
+ <3e5f2b84-a351-2e6d-f620-421876908aba@gmail.com>
+From:   Carlos Bilbao <carlos.bilbao@amd.com>
+In-Reply-To: <3e5f2b84-a351-2e6d-f620-421876908aba@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MN2PR08CA0006.namprd08.prod.outlook.com
+ (2603:10b6:208:239::11) To BL1PR12MB5874.namprd12.prod.outlook.com
+ (2603:10b6:208:396::17)
 MIME-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com> <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
-In-Reply-To: <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
-From:   Fuad Tabba <tabba@google.com>
-Date:   Tue, 6 Dec 2022 14:57:04 +0000
-Message-ID: <CA+EHjTykpY_oUtNSEKR+JY_BRVDJDEsNM4GzoTHfBb6EyRVJDg@mail.gmail.com>
-Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
- create restricted user memory
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|IA1PR12MB7544:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1844b1cd-d754-4c50-f4a6-08dad79ac0bd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hqlHleI/WAB/FOm35s6AAzUnJvAj2tTzMGu6bIAkzqyVdGbSLuLIVquBdI7QjXZmlCjnaeS4g2tOuYiYUhrf9dwytK7lTB74V3Uc2BWZQOrzG1XU1ttqqoQJ4BRKXvTd9/LO9lnNO9RLS1P7fG+CCrJ6NJVAXA/hUz4Rh/hU7O+TGlAhVeEyU73Jj7LTIoQZ/gwOwputvB5DFHjBWAWZ3E4NP7Lmq9TrdWYM3+tEIiR3oNjkAaAk8mcL/ACwTHL+OoPzloXTHLX4N5ung4MDm3VzIBSAZpxrG4OjBtvmwGNaPabxe5NpqOekTv5u8dBoMYoCaclnI/+wh69rmjy2CVQ9ipu0qGo2asl7irKZPB8ul2wL8y109b+0V9FOFxJ74qXl9fLorzkNzhwB2m3A/p9EpLeBLh8K1o4nuIj3CT9n1xaRQKUihFuda6L4LQwRyde4V9DVDhs2j0yM+2ttwuGmXJKlinYLLFub/FUY1h2/0OOqZ0RgEwvhUcsATaPVsSkubKQPwV2TRVBUVjMkghLdgKYh1XT2h5k4MQ9KdrMULjzqrpKZJhjSOMf2HmIFkpBxBlqIQX2KprdCI3DBMHvWdmg5et8+yQvjMpLqOIKjcRCu1KcuUqZ0DfgAEJ1DK+mdD1Y7zyI/7IspT49LBFS7BoEYuip5vUcs4On8t5Y8vvgSZuGRMQKdrF8QZzEM6C3kkXmZF4luNrFypaYq8s6Cn4J5F/z7kdkzCuoFKKtrwndLM4290yRXNUu9kyWk68E/FXKJL14PvBg9q2ISAH3sOdRSG11adfaFqPBK2gmOGxhBjeH33/pmZhZadm4c
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(136003)(366004)(376002)(396003)(346002)(451199015)(8676002)(6506007)(4326008)(38100700002)(83380400001)(316002)(6916009)(26005)(186003)(6512007)(44832011)(66946007)(66556008)(66476007)(45080400002)(36756003)(53546011)(8936002)(2906002)(5660300002)(41300700001)(31686004)(2616005)(966005)(86362001)(6486002)(478600001)(31696002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVF5SXJoLyswWjlXVUFDbWx1M0VYNWJDaXp3dkdEQVRyWTJ2b1hQUU5rSFg0?=
+ =?utf-8?B?cGtMdEFBSzU4WS8xTy8yaEpGajhYY2RGbVBENm81SUJ2aGdjVHpnKy9NTGN2?=
+ =?utf-8?B?WGd2L1NjR29UN0Rid296VVpyZVE0WUFyak1IVXcrZk5iN2NDZjVKOEZ6Y0xl?=
+ =?utf-8?B?OFI4RWE5MzIyKzFoemlUR0hTUy9Rb1RyQUQ2aEIrTTUvNFRiOTlKT2RONFJt?=
+ =?utf-8?B?YXNWNEJsdElUdi9jMG1VRlk3Y0lHY0J3dlZEYmtnNmZYUG1YNXhGaUEvK0RE?=
+ =?utf-8?B?NWFqYXllSXVLT3JBVFAvcUxjTlI1OVhIQ2dJM2s2VWlnZU5ySDVKUHNENVdS?=
+ =?utf-8?B?ektsUXpqbTBTV3pwSlZ5WEYrcjE3Nmo5QVpwTDdpcSt3Q0t2REVhL2FaYWVY?=
+ =?utf-8?B?QTZ5SzFYYnNiMUkzVHhKaS84UmFIU0svWkJiNklZc0RER09QYVZTSnE4UFNT?=
+ =?utf-8?B?U3VxeDJsWTJObk9jTVhQbVNOd01HR25vRUlhb1l4SHp4UU94TDZnbjE3a2Zj?=
+ =?utf-8?B?RHJrM1pZTmxMaVNHWkNZSGwwazZrM1lreGlERmhjSkY5Wmo2OWh3Z1oyWlNT?=
+ =?utf-8?B?Nkp2bFNITUVRWGRwNkNrcGpMSGJkS3Q3RTZCUVkwY3NjdlErakFzbUdpdFNx?=
+ =?utf-8?B?STNXQWVNaE1iNnpIUmFTMVBxRExFajY3bHdIaFBEaGt5S2xYa0xNVGVDc1dC?=
+ =?utf-8?B?ajBWdElJdUV4V2Q4dEhrN1ErY3FZeFhVelpESzJUZGxCN3lvdVN3eUx2RXN5?=
+ =?utf-8?B?Q0dxWnNWRHV4S1JRNkdsbGlRZ3VnZElMZlVrV1kxbC80NmdrNnlML1JtZndr?=
+ =?utf-8?B?b1RYelFwbm8wUmZrTG14U29HMU4rdllLVzkxRmJmUGRSTVBJWG50dnZ2ajFX?=
+ =?utf-8?B?SEJyRDNFakpaeW14VWRScm1DS1BoWXZjall1ZlA0UitEU1FLcmVvRGtBWkt5?=
+ =?utf-8?B?RC9zODd5UWxPeGFQaHlwb2lYWUJNd1RSZUs3dFdrVHhBMG1VcUJOM3ZWNmc4?=
+ =?utf-8?B?SWJqR2dkYnBXUXBsMWs1QjJENmY3TEN0R3RkdHRCUytwREt5N0F3WnQwMVg1?=
+ =?utf-8?B?MTQxSHA0U3NKWXB1VFZxK09DTnp0U3pzc01MeXhkTmx4VTNXeTAyemUvTGls?=
+ =?utf-8?B?aUZIMzlnUTV2ejZ2U0t6REJ0MTBvVVRCMzhEeU9kUXpaMmRHemxqUzBQb0pJ?=
+ =?utf-8?B?ejR4RHNCTlNOOGQ5Mm5iSXp3L2NZcGRtaDZENENYTFp3ckJVbHRKQVhjem9l?=
+ =?utf-8?B?MG9Qb1ZrNVR4Sk16VHFnSFo2UXdyRVdYTytCZC92TElYbEVrck5DMXpTRGp5?=
+ =?utf-8?B?Z0piWDlHTnlQb01TUndrLzhTNy9mSjcybTV3M01mcklOSGtZeXkwZTlCc1NR?=
+ =?utf-8?B?SG1wRVlTWjErZHB6c3p6RWVzeTRaUEJPS2RLM1phNDlEcUZzYlJ0bE1VWllN?=
+ =?utf-8?B?UGJqak9jZUYxUk14MnZiVndrQWIweUgvTFVoN1lsQVdHTzVVc1E5ejA4OHFs?=
+ =?utf-8?B?eFE1eFZQVFJ3eDl1MHZJbDl1S1NaZWd4bkx4L1IzcXM2S0NwazVJUXhyZWo5?=
+ =?utf-8?B?aXdwTml2MmhscVp4OHIyNllQaTYyVGQ3d2pRak9KNVVyWmhUdTY3bURsN3Yr?=
+ =?utf-8?B?LytTU1RLN0VoNjlsenhOVEMxSEN0YUc0L0V5aktNM3dEUGRUWWRzL3JJNlRJ?=
+ =?utf-8?B?QUNPOEJvTHM2Yzg2Ni84ODB1QkNwQ094ZHZiNldqSnZ0T0lCL2xhcHZ4Nmxl?=
+ =?utf-8?B?bXh5ZjNmTUxRZ09XZ05yS1orN1o0WmJjRXNGRm05RFRiWDNscVNZY2MrQWFP?=
+ =?utf-8?B?amJiV2h0WFZQejMxK25kbmZiNi9NZ0ZyZkRiZllCdmNROUptbGVTSWZIbGti?=
+ =?utf-8?B?V3RLUTh5WkxlbG1kZU9OUEhxU2JLWlJQYzFSZ3BCaS9IYm5IbzQ0Z1VNaVA1?=
+ =?utf-8?B?ZDNSVWt1clhDeGc3OGRCQXZDUVRBQ3FjZVdGd29XTHBDNVAyWTdwQUVrdlor?=
+ =?utf-8?B?aVkzcHpHdmp4cFpWcDVHb1RWZHdTMVpOWU05NzhMSzR3OGZXdGNjT0d2VFll?=
+ =?utf-8?B?a0IwUHI1SjBOZEZhRmt6Mlg1K1NORC9CdUhZU3c3NENTVWF2WFRsbDhJUkNq?=
+ =?utf-8?Q?f/DkduSTTN6RAkmVLvLPi5zP+?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1844b1cd-d754-4c50-f4a6-08dad79ac0bd
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2022 15:01:28.5893
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kAvkvqamuCu7yCBBPqsFt5RgLQPHSP2F+tAB6YhuVOOCXt4Phi4r4H0NiGSfcLColR9uEHsuZKUNAP6+InUB8A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7544
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On 12/6/22 08:22, Akira Yokosawa wrote:
 
-On Fri, Dec 2, 2022 at 6:18 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
->
-> Introduce 'memfd_restricted' system call with the ability to create
-> memory areas that are restricted from userspace access through ordinary
-> MMU operations (e.g. read/write/mmap). The memory content is expected to
-> be used through the new in-kernel interface by a third kernel module.
->
-> memfd_restricted() is useful for scenarios where a file descriptor(fd)
-> can be used as an interface into mm but want to restrict userspace's
-> ability on the fd. Initially it is designed to provide protections for
-> KVM encrypted guest memory.
->
-> Normally KVM uses memfd memory via mmapping the memfd into KVM userspace
-> (e.g. QEMU) and then using the mmaped virtual address to setup the
-> mapping in the KVM secondary page table (e.g. EPT). With confidential
-> computing technologies like Intel TDX, the memfd memory may be encrypted
-> with special key for special software domain (e.g. KVM guest) and is not
-> expected to be directly accessed by userspace. Precisely, userspace
-> access to such encrypted memory may lead to host crash so should be
-> prevented.
->
-> memfd_restricted() provides semantics required for KVM guest encrypted
-> memory support that a fd created with memfd_restricted() is going to be
-> used as the source of guest memory in confidential computing environment
-> and KVM can directly interact with core-mm without the need to expose
-> the memoy content into KVM userspace.
+> On Mon, 5 Dec 2022 10:36:11 -0600, Carlos Bilbao wrote:
+>> On 12/4/22 19:06, Akira Yokosawa wrote:
+>>
+>>> Hi,
+>>>
+>>> On Thu, 1 Dec 2022 14:48:14 -0600, Carlos Bilbao wrote:
+>>>> Include HTML output generated with rustdoc into the Linux kernel
+>>>> documentation on Rust. Change target `make htmldocs` to combine RST Sphinx
+>>>> and the generation of Rust documentation, when support is available.
+>>>>
+>>>> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+>>>> ---
+>>>>
+>>>> Changes since V1:
+>>>>    - Work on top of v6.1-rc1.
+>>> Thank you for the rebase.
+>>>
+>>>>    - Don't use rustdoc.rst, instead add link to Documentation/rust/index.rst.
+>>>>    - In Documentation/Makefile, replace @make rustdoc for $(Q)$(MAKE) rustdoc.
+>>>>    - Don't do LLVM=1 for all rustdoc generation within `make htmldocs`.
+>>>>    - Add spaces on definition of RUSTDOC_OUTPUT, for consistency.
+>>>>
+>>>> ---
+>>>>    Documentation/Makefile       |  4 ++++
+>>>>    Documentation/rust/index.rst |  3 +++
+>>>>    rust/Makefile                | 15 +++++++++------
+>>>>    3 files changed, 16 insertions(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/Makefile b/Documentation/Makefile
+>>>> index 64d44c1ecad3..f537cf558af6 100644
+>>>> --- a/Documentation/Makefile
+>>>> +++ b/Documentation/Makefile
+>>>> @@ -92,6 +92,10 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+>>>>        fi
+>>>>      htmldocs:
+>>>> +# If Rust support is available, add rustdoc generated contents
+>>>> +ifdef CONFIG_RUST
+>>>> +    $(Q)$(MAKE) rustdoc
+>>>> +endif
+>>>>        @$(srctree)/scripts/sphinx-pre-install --version-check
+>>>>        @+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+>>> So, this means "make htmldocs" will require kernel .config if CONFIG_RUST=y.
+>>> I'm not sure this new requirement is acceptable for kernel documentation
+>>> testers who just want to build kernel documentation.
+>>
+>> This is already kind of the case for Rust-related business.
+>>
+>>
+>>> You are doing three things in this patch.
+>>>
+>>>    1) Change the destination of rustdoc to under Documentation/output/
+>>>    2) Add a cross reference to the generated rustdoc in
+>>>       Documentation/rust/index.rst.
+>>>    3) Integrate rustdoc generation into htmldocs.
+>>>
+>>> I'm OK with 1) and 2).
+>>> Can you separate 3) into another patch and respin?
+>>
+>> Glad we can agree on 1) and 2). Why moving 3)? This is a small patch with
+>> one overall purpose (Integrate rustdoc into website).
+> Yes, I agree that 3) is a small change. I understand what you want to
+> do. But there are a couple of options for _how_ to do it.
+> My current position is that Documentation/Makefile is _not_ the right
+> place for the change, as mentioned in my reply to Miguel.
 
-nit: memory
 
->
-> KVM userspace is still in charge of the lifecycle of the fd. It should
-> pass the created fd to KVM. KVM uses the new restrictedmem_get_page() to
-> obtain the physical memory page and then uses it to populate the KVM
-> secondary page table entries.
->
-> The userspace restricted memfd can be fallocate-ed or hole-punched
-> from userspace. When hole-punched, KVM can get notified through
-> invalidate_start/invalidate_end() callbacks, KVM then gets chance to
-> remove any mapped entries of the range in the secondary page tables.
->
-> Machine check can happen for memory pages in the restricted memfd,
-> instead of routing this directly to userspace, we call the error()
-> callback that KVM registered. KVM then gets chance to handle it
-> correctly.
->
-> memfd_restricted() itself is implemented as a shim layer on top of real
-> memory file systems (currently tmpfs). Pages in restrictedmem are marked
-> as unmovable and unevictable, this is required for current confidential
-> usage. But in future this might be changed.
->
-> By default memfd_restricted() prevents userspace read, write and mmap.
-> By defining new bit in the 'flags', it can be extended to support other
-> restricted semantics in the future.
->
-> The system call is currently wired up for x86 arch.
-
-Reviewed-by: Fuad Tabba <tabba@google.com>
-After wiring the system call for arm64 (on qemu/arm64):
-Tested-by: Fuad Tabba <tabba@google.com>
-
-Cheers,
-/fuad
-
+Actually, I originally used `make rustdocs` [1] but good arguments were
+given to use `make htmldocs` instead, and I was convinced too.
 
 
 >
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  arch/x86/entry/syscalls/syscall_32.tbl |   1 +
->  arch/x86/entry/syscalls/syscall_64.tbl |   1 +
->  include/linux/restrictedmem.h          |  71 ++++++
->  include/linux/syscalls.h               |   1 +
->  include/uapi/asm-generic/unistd.h      |   5 +-
->  include/uapi/linux/magic.h             |   1 +
->  kernel/sys_ni.c                        |   3 +
->  mm/Kconfig                             |   4 +
->  mm/Makefile                            |   1 +
->  mm/memory-failure.c                    |   3 +
->  mm/restrictedmem.c                     | 318 +++++++++++++++++++++++++
->  11 files changed, 408 insertions(+), 1 deletion(-)
->  create mode 100644 include/linux/restrictedmem.h
->  create mode 100644 mm/restrictedmem.c
+>>
+>>> By the way, is rustdoc's requirement of .config only for CONFIG_RUST?
+>>> In other words, are contents of rustdoc affected by other config settings?
+>>>
+>>> If not, I think rustdoc can be generated regardless of config settings as
+>>> far as necessary tools (rustc, bindgen, etc.) are available.
+>>
+>> Yes, but someone with the tools may not want to use them. Keep in mind that
+>> generating rustdoc takes a few extra seconds.
+> As mentioned in another reply, I'm convinced of the dependency on .config.
 >
-> diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-> index 320480a8db4f..dc70ba90247e 100644
-> --- a/arch/x86/entry/syscalls/syscall_32.tbl
-> +++ b/arch/x86/entry/syscalls/syscall_32.tbl
-> @@ -455,3 +455,4 @@
->  448    i386    process_mrelease        sys_process_mrelease
->  449    i386    futex_waitv             sys_futex_waitv
->  450    i386    set_mempolicy_home_node         sys_set_mempolicy_home_node
-> +451    i386    memfd_restricted        sys_memfd_restricted
-> diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-> index c84d12608cd2..06516abc8318 100644
-> --- a/arch/x86/entry/syscalls/syscall_64.tbl
-> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
-> @@ -372,6 +372,7 @@
->  448    common  process_mrelease        sys_process_mrelease
->  449    common  futex_waitv             sys_futex_waitv
->  450    common  set_mempolicy_home_node sys_set_mempolicy_home_node
-> +451    common  memfd_restricted        sys_memfd_restricted
+>>
+>>>>    diff --git a/Documentation/rust/index.rst b/Documentation/rust/index.rst
+>>>> index 4ae8c66b94fa..4005326c3ba9 100644
+>>>> --- a/Documentation/rust/index.rst
+>>>> +++ b/Documentation/rust/index.rst
+>>>> @@ -6,6 +6,9 @@ Rust
+>>>>    Documentation related to Rust within the kernel. To start using Rust
+>>>>    in the kernel, please read the quick-start.rst guide.
+>>>>    +If this documentation includes rustdoc-generated HTML, the entry point can
+>>>> +be found `here. <rustdoc/kernel/index.html>`_
+>>> This cross reference will only make sense in htmldocs build.
+>>> Perhaps, you can use the "only::" directive [1] as follows:
+>>>
+>>> .. only:: html
+>>
+>> This I can gladly do on a V3. I will wait for an answer on issues above.
+> OK.
 >
->  #
->  # Due to a historical design error, certain syscalls are numbered differently
-> diff --git a/include/linux/restrictedmem.h b/include/linux/restrictedmem.h
-> new file mode 100644
-> index 000000000000..c2700c5daa43
-> --- /dev/null
-> +++ b/include/linux/restrictedmem.h
-> @@ -0,0 +1,71 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +#ifndef _LINUX_RESTRICTEDMEM_H
-> +
-> +#include <linux/file.h>
-> +#include <linux/magic.h>
-> +#include <linux/pfn_t.h>
-> +
-> +struct restrictedmem_notifier;
-> +
-> +struct restrictedmem_notifier_ops {
-> +       void (*invalidate_start)(struct restrictedmem_notifier *notifier,
-> +                                pgoff_t start, pgoff_t end);
-> +       void (*invalidate_end)(struct restrictedmem_notifier *notifier,
-> +                              pgoff_t start, pgoff_t end);
-> +       void (*error)(struct restrictedmem_notifier *notifier,
-> +                              pgoff_t start, pgoff_t end);
-> +};
-> +
-> +struct restrictedmem_notifier {
-> +       struct list_head list;
-> +       const struct restrictedmem_notifier_ops *ops;
-> +};
-> +
-> +#ifdef CONFIG_RESTRICTEDMEM
-> +
-> +void restrictedmem_register_notifier(struct file *file,
-> +                                    struct restrictedmem_notifier *notifier);
-> +void restrictedmem_unregister_notifier(struct file *file,
-> +                                      struct restrictedmem_notifier *notifier);
-> +
-> +int restrictedmem_get_page(struct file *file, pgoff_t offset,
-> +                          struct page **pagep, int *order);
-> +
-> +static inline bool file_is_restrictedmem(struct file *file)
-> +{
-> +       return file->f_inode->i_sb->s_magic == RESTRICTEDMEM_MAGIC;
-> +}
-> +
-> +void restrictedmem_error_page(struct page *page, struct address_space *mapping);
-> +
-> +#else
-> +
-> +static inline void restrictedmem_register_notifier(struct file *file,
-> +                                    struct restrictedmem_notifier *notifier)
-> +{
-> +}
-> +
-> +static inline void restrictedmem_unregister_notifier(struct file *file,
-> +                                      struct restrictedmem_notifier *notifier)
-> +{
-> +}
-> +
-> +static inline int restrictedmem_get_page(struct file *file, pgoff_t offset,
-> +                                        struct page **pagep, int *order)
-> +{
-> +       return -1;
-> +}
-> +
-> +static inline bool file_is_restrictedmem(struct file *file)
-> +{
-> +       return false;
-> +}
-> +
-> +static inline void restrictedmem_error_page(struct page *page,
-> +                                           struct address_space *mapping)
-> +{
-> +}
-> +
-> +#endif /* CONFIG_RESTRICTEDMEM */
-> +
-> +#endif /* _LINUX_RESTRICTEDMEM_H */
-> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-> index a34b0f9a9972..f9e9e0c820c5 100644
-> --- a/include/linux/syscalls.h
-> +++ b/include/linux/syscalls.h
-> @@ -1056,6 +1056,7 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
->  asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
->                                             unsigned long home_node,
->                                             unsigned long flags);
-> +asmlinkage long sys_memfd_restricted(unsigned int flags);
+> So if you split this into a two-patch series, 1/2 for 1) and 2), and 2/2
+> for 3) (or an updated one), I'm glad to give my RB tag to 1/2 for Miguel
+> to be able take it for v6.2 (timing is tight!). 2/2 will need at least
+> a couple of respins, I guess.
+
+
+Sounds good, I will divide for v3.
+
+
 >
->  /*
->   * Architecture-specific system calls
-> diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-> index 45fa180cc56a..e93cd35e46d0 100644
-> --- a/include/uapi/asm-generic/unistd.h
-> +++ b/include/uapi/asm-generic/unistd.h
-> @@ -886,8 +886,11 @@ __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
->  #define __NR_set_mempolicy_home_node 450
->  __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
->
-> +#define __NR_memfd_restricted 451
-> +__SYSCALL(__NR_memfd_restricted, sys_memfd_restricted)
-> +
->  #undef __NR_syscalls
-> -#define __NR_syscalls 451
-> +#define __NR_syscalls 452
->
->  /*
->   * 32 bit systems traditionally used different
-> diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
-> index 6325d1d0e90f..8aa38324b90a 100644
-> --- a/include/uapi/linux/magic.h
-> +++ b/include/uapi/linux/magic.h
-> @@ -101,5 +101,6 @@
->  #define DMA_BUF_MAGIC          0x444d4142      /* "DMAB" */
->  #define DEVMEM_MAGIC           0x454d444d      /* "DMEM" */
->  #define SECRETMEM_MAGIC                0x5345434d      /* "SECM" */
-> +#define RESTRICTEDMEM_MAGIC    0x5245534d      /* "RESM" */
->
->  #endif /* __LINUX_MAGIC_H__ */
-> diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
-> index 860b2dcf3ac4..7c4a32cbd2e7 100644
-> --- a/kernel/sys_ni.c
-> +++ b/kernel/sys_ni.c
-> @@ -360,6 +360,9 @@ COND_SYSCALL(pkey_free);
->  /* memfd_secret */
->  COND_SYSCALL(memfd_secret);
->
-> +/* memfd_restricted */
-> +COND_SYSCALL(memfd_restricted);
-> +
->  /*
->   * Architecture specific weak syscall entries.
->   */
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index 57e1d8c5b505..06b0e1d6b8c1 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -1076,6 +1076,10 @@ config IO_MAPPING
->  config SECRETMEM
->         def_bool ARCH_HAS_SET_DIRECT_MAP && !EMBEDDED
->
-> +config RESTRICTEDMEM
-> +       bool
-> +       depends on TMPFS
-> +
->  config ANON_VMA_NAME
->         bool "Anonymous VMA name support"
->         depends on PROC_FS && ADVISE_SYSCALLS && MMU
-> diff --git a/mm/Makefile b/mm/Makefile
-> index 8e105e5b3e29..bcbb0edf9ba1 100644
-> --- a/mm/Makefile
-> +++ b/mm/Makefile
-> @@ -121,6 +121,7 @@ obj-$(CONFIG_PAGE_EXTENSION) += page_ext.o
->  obj-$(CONFIG_PAGE_TABLE_CHECK) += page_table_check.o
->  obj-$(CONFIG_CMA_DEBUGFS) += cma_debug.o
->  obj-$(CONFIG_SECRETMEM) += secretmem.o
-> +obj-$(CONFIG_RESTRICTEDMEM) += restrictedmem.o
->  obj-$(CONFIG_CMA_SYSFS) += cma_sysfs.o
->  obj-$(CONFIG_USERFAULTFD) += userfaultfd.o
->  obj-$(CONFIG_IDLE_PAGE_TRACKING) += page_idle.o
-> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> index 145bb561ddb3..f91b444e471e 100644
-> --- a/mm/memory-failure.c
-> +++ b/mm/memory-failure.c
-> @@ -62,6 +62,7 @@
->  #include <linux/page-isolation.h>
->  #include <linux/pagewalk.h>
->  #include <linux/shmem_fs.h>
-> +#include <linux/restrictedmem.h>
->  #include "swap.h"
->  #include "internal.h"
->  #include "ras/ras_event.h"
-> @@ -940,6 +941,8 @@ static int me_pagecache_clean(struct page_state *ps, struct page *p)
->                 goto out;
->         }
->
-> +       restrictedmem_error_page(p, mapping);
-> +
->         /*
->          * The shmem page is kept in page cache instead of truncating
->          * so is expected to have an extra refcount after error-handling.
-> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
-> new file mode 100644
-> index 000000000000..56953c204e5c
-> --- /dev/null
-> +++ b/mm/restrictedmem.c
-> @@ -0,0 +1,318 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +#include "linux/sbitmap.h"
-> +#include <linux/pagemap.h>
-> +#include <linux/pseudo_fs.h>
-> +#include <linux/shmem_fs.h>
-> +#include <linux/syscalls.h>
-> +#include <uapi/linux/falloc.h>
-> +#include <uapi/linux/magic.h>
-> +#include <linux/restrictedmem.h>
-> +
-> +struct restrictedmem_data {
-> +       struct mutex lock;
-> +       struct file *memfd;
-> +       struct list_head notifiers;
-> +};
-> +
-> +static void restrictedmem_invalidate_start(struct restrictedmem_data *data,
-> +                                          pgoff_t start, pgoff_t end)
-> +{
-> +       struct restrictedmem_notifier *notifier;
-> +
-> +       mutex_lock(&data->lock);
-> +       list_for_each_entry(notifier, &data->notifiers, list) {
-> +               notifier->ops->invalidate_start(notifier, start, end);
-> +       }
-> +       mutex_unlock(&data->lock);
-> +}
-> +
-> +static void restrictedmem_invalidate_end(struct restrictedmem_data *data,
-> +                                        pgoff_t start, pgoff_t end)
-> +{
-> +       struct restrictedmem_notifier *notifier;
-> +
-> +       mutex_lock(&data->lock);
-> +       list_for_each_entry(notifier, &data->notifiers, list) {
-> +               notifier->ops->invalidate_end(notifier, start, end);
-> +       }
-> +       mutex_unlock(&data->lock);
-> +}
-> +
-> +static void restrictedmem_notifier_error(struct restrictedmem_data *data,
-> +                                        pgoff_t start, pgoff_t end)
-> +{
-> +       struct restrictedmem_notifier *notifier;
-> +
-> +       mutex_lock(&data->lock);
-> +       list_for_each_entry(notifier, &data->notifiers, list) {
-> +               notifier->ops->error(notifier, start, end);
-> +       }
-> +       mutex_unlock(&data->lock);
-> +}
-> +
-> +static int restrictedmem_release(struct inode *inode, struct file *file)
-> +{
-> +       struct restrictedmem_data *data = inode->i_mapping->private_data;
-> +
-> +       fput(data->memfd);
-> +       kfree(data);
-> +       return 0;
-> +}
-> +
-> +static long restrictedmem_punch_hole(struct restrictedmem_data *data, int mode,
-> +                                    loff_t offset, loff_t len)
-> +{
-> +       int ret;
-> +       pgoff_t start, end;
-> +       struct file *memfd = data->memfd;
-> +
-> +       if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
-> +               return -EINVAL;
-> +
-> +       start = offset >> PAGE_SHIFT;
-> +       end = (offset + len) >> PAGE_SHIFT;
-> +
-> +       restrictedmem_invalidate_start(data, start, end);
-> +       ret = memfd->f_op->fallocate(memfd, mode, offset, len);
-> +       restrictedmem_invalidate_end(data, start, end);
-> +
-> +       return ret;
-> +}
-> +
-> +static long restrictedmem_fallocate(struct file *file, int mode,
-> +                                   loff_t offset, loff_t len)
-> +{
-> +       struct restrictedmem_data *data = file->f_mapping->private_data;
-> +       struct file *memfd = data->memfd;
-> +
-> +       if (mode & FALLOC_FL_PUNCH_HOLE)
-> +               return restrictedmem_punch_hole(data, mode, offset, len);
-> +
-> +       return memfd->f_op->fallocate(memfd, mode, offset, len);
-> +}
-> +
-> +static const struct file_operations restrictedmem_fops = {
-> +       .release = restrictedmem_release,
-> +       .fallocate = restrictedmem_fallocate,
-> +};
-> +
-> +static int restrictedmem_getattr(struct user_namespace *mnt_userns,
-> +                                const struct path *path, struct kstat *stat,
-> +                                u32 request_mask, unsigned int query_flags)
-> +{
-> +       struct inode *inode = d_inode(path->dentry);
-> +       struct restrictedmem_data *data = inode->i_mapping->private_data;
-> +       struct file *memfd = data->memfd;
-> +
-> +       return memfd->f_inode->i_op->getattr(mnt_userns, path, stat,
-> +                                            request_mask, query_flags);
-> +}
-> +
-> +static int restrictedmem_setattr(struct user_namespace *mnt_userns,
-> +                                struct dentry *dentry, struct iattr *attr)
-> +{
-> +       struct inode *inode = d_inode(dentry);
-> +       struct restrictedmem_data *data = inode->i_mapping->private_data;
-> +       struct file *memfd = data->memfd;
-> +       int ret;
-> +
-> +       if (attr->ia_valid & ATTR_SIZE) {
-> +               if (memfd->f_inode->i_size)
-> +                       return -EPERM;
-> +
-> +               if (!PAGE_ALIGNED(attr->ia_size))
-> +                       return -EINVAL;
-> +       }
-> +
-> +       ret = memfd->f_inode->i_op->setattr(mnt_userns,
-> +                                           file_dentry(memfd), attr);
-> +       return ret;
-> +}
-> +
-> +static const struct inode_operations restrictedmem_iops = {
-> +       .getattr = restrictedmem_getattr,
-> +       .setattr = restrictedmem_setattr,
-> +};
-> +
-> +static int restrictedmem_init_fs_context(struct fs_context *fc)
-> +{
-> +       if (!init_pseudo(fc, RESTRICTEDMEM_MAGIC))
-> +               return -ENOMEM;
-> +
-> +       fc->s_iflags |= SB_I_NOEXEC;
-> +       return 0;
-> +}
-> +
-> +static struct file_system_type restrictedmem_fs = {
-> +       .owner          = THIS_MODULE,
-> +       .name           = "memfd:restrictedmem",
-> +       .init_fs_context = restrictedmem_init_fs_context,
-> +       .kill_sb        = kill_anon_super,
-> +};
-> +
-> +static struct vfsmount *restrictedmem_mnt;
-> +
-> +static __init int restrictedmem_init(void)
-> +{
-> +       restrictedmem_mnt = kern_mount(&restrictedmem_fs);
-> +       if (IS_ERR(restrictedmem_mnt))
-> +               return PTR_ERR(restrictedmem_mnt);
-> +       return 0;
-> +}
-> +fs_initcall(restrictedmem_init);
-> +
-> +static struct file *restrictedmem_file_create(struct file *memfd)
-> +{
-> +       struct restrictedmem_data *data;
-> +       struct address_space *mapping;
-> +       struct inode *inode;
-> +       struct file *file;
-> +
-> +       data = kzalloc(sizeof(*data), GFP_KERNEL);
-> +       if (!data)
-> +               return ERR_PTR(-ENOMEM);
-> +
-> +       data->memfd = memfd;
-> +       mutex_init(&data->lock);
-> +       INIT_LIST_HEAD(&data->notifiers);
-> +
-> +       inode = alloc_anon_inode(restrictedmem_mnt->mnt_sb);
-> +       if (IS_ERR(inode)) {
-> +               kfree(data);
-> +               return ERR_CAST(inode);
-> +       }
-> +
-> +       inode->i_mode |= S_IFREG;
-> +       inode->i_op = &restrictedmem_iops;
-> +       inode->i_mapping->private_data = data;
-> +
-> +       file = alloc_file_pseudo(inode, restrictedmem_mnt,
-> +                                "restrictedmem", O_RDWR,
-> +                                &restrictedmem_fops);
-> +       if (IS_ERR(file)) {
-> +               iput(inode);
-> +               kfree(data);
-> +               return ERR_CAST(file);
-> +       }
-> +
-> +       file->f_flags |= O_LARGEFILE;
-> +
-> +       /*
-> +        * These pages are currently unmovable so don't place them into movable
-> +        * pageblocks (e.g. CMA and ZONE_MOVABLE).
-> +        */
-> +       mapping = memfd->f_mapping;
-> +       mapping_set_unevictable(mapping);
-> +       mapping_set_gfp_mask(mapping,
-> +                            mapping_gfp_mask(mapping) & ~__GFP_MOVABLE);
-> +
-> +       return file;
-> +}
-> +
-> +SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
-> +{
-> +       struct file *file, *restricted_file;
-> +       int fd, err;
-> +
-> +       if (flags)
-> +               return -EINVAL;
-> +
-> +       fd = get_unused_fd_flags(0);
-> +       if (fd < 0)
-> +               return fd;
-> +
-> +       file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
-> +       if (IS_ERR(file)) {
-> +               err = PTR_ERR(file);
-> +               goto err_fd;
-> +       }
-> +       file->f_mode |= FMODE_LSEEK | FMODE_PREAD | FMODE_PWRITE;
-> +       file->f_flags |= O_LARGEFILE;
-> +
-> +       restricted_file = restrictedmem_file_create(file);
-> +       if (IS_ERR(restricted_file)) {
-> +               err = PTR_ERR(restricted_file);
-> +               fput(file);
-> +               goto err_fd;
-> +       }
-> +
-> +       fd_install(fd, restricted_file);
-> +       return fd;
-> +err_fd:
-> +       put_unused_fd(fd);
-> +       return err;
-> +}
-> +
-> +void restrictedmem_register_notifier(struct file *file,
-> +                                    struct restrictedmem_notifier *notifier)
-> +{
-> +       struct restrictedmem_data *data = file->f_mapping->private_data;
-> +
-> +       mutex_lock(&data->lock);
-> +       list_add(&notifier->list, &data->notifiers);
-> +       mutex_unlock(&data->lock);
-> +}
-> +EXPORT_SYMBOL_GPL(restrictedmem_register_notifier);
-> +
-> +void restrictedmem_unregister_notifier(struct file *file,
-> +                                      struct restrictedmem_notifier *notifier)
-> +{
-> +       struct restrictedmem_data *data = file->f_mapping->private_data;
-> +
-> +       mutex_lock(&data->lock);
-> +       list_del(&notifier->list);
-> +       mutex_unlock(&data->lock);
-> +}
-> +EXPORT_SYMBOL_GPL(restrictedmem_unregister_notifier);
-> +
-> +int restrictedmem_get_page(struct file *file, pgoff_t offset,
-> +                          struct page **pagep, int *order)
-> +{
-> +       struct restrictedmem_data *data = file->f_mapping->private_data;
-> +       struct file *memfd = data->memfd;
-> +       struct folio *folio;
-> +       struct page *page;
-> +       int ret;
-> +
-> +       ret = shmem_get_folio(file_inode(memfd), offset, &folio, SGP_WRITE);
-> +       if (ret)
-> +               return ret;
-> +
-> +       page = folio_file_page(folio, offset);
-> +       *pagep = page;
-> +       if (order)
-> +               *order = thp_order(compound_head(page));
-> +
-> +       SetPageUptodate(page);
-> +       unlock_page(page);
-> +
-> +       return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(restrictedmem_get_page);
-> +
-> +void restrictedmem_error_page(struct page *page, struct address_space *mapping)
-> +{
-> +       struct super_block *sb = restrictedmem_mnt->mnt_sb;
-> +       struct inode *inode, *next;
-> +
-> +       if (!shmem_mapping(mapping))
-> +               return;
-> +
-> +       spin_lock(&sb->s_inode_list_lock);
-> +       list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
-> +               struct restrictedmem_data *data = inode->i_mapping->private_data;
-> +               struct file *memfd = data->memfd;
-> +
-> +               if (memfd->f_mapping == mapping) {
-> +                       pgoff_t start, end;
-> +
-> +                       spin_unlock(&sb->s_inode_list_lock);
-> +
-> +                       start = page->index;
-> +                       end = start + thp_nr_pages(page);
-> +                       restrictedmem_notifier_error(data, start, end);
-> +                       return;
-> +               }
-> +       }
-> +       spin_unlock(&sb->s_inode_list_lock);
-> +}
-> --
-> 2.25.1
->
+>          Thanks, Akira
+>>
+>>>       If this documentation includes rustdoc-generated HTML, the entry point can
+>>>       be found `here. <rustdoc/kernel/index.html>`_
+>>>
+>>> [1]: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.sphinx-doc.org%2Fen%2Fmaster%2Fusage%2Frestructuredtext%2Fdirectives.html%23directive-only&amp;data=05%7C01%7Ccarlos.bilbao%40amd.com%7Cbed091b8fae74b3d314408dad7954fc2%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638059333550278394%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=xGbmhYsge%2BoPo%2BRrsc6fCW8htY3yh0dHk4E8gQBQV9o%3D&amp;reserved=0
+>>>
+>>>           Thanks, Akira
+>>>
+>>>> +
+>>>>    .. toctree::
+>>>>        :maxdepth: 1
+>>>>    diff --git a/rust/Makefile b/rust/Makefile
+>>>> index 7700d3853404..080c07048065 100644
+>>>> --- a/rust/Makefile
+>>>> +++ b/rust/Makefile
+>>>> @@ -1,5 +1,8 @@
+>>>>    # SPDX-License-Identifier: GPL-2.0
+>>>>    +# Where to place rustdoc generated documentation
+>>>> +RUSTDOC_OUTPUT = $(objtree)/Documentation/output/rust/rustdoc
+>>>> +
+>>>>    always-$(CONFIG_RUST) += target.json
+>>>>    no-clean-files += target.json
+>>>>    @@ -58,7 +61,7 @@ quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
+>>>>        OBJTREE=$(abspath $(objtree)) \
+>>>>        $(RUSTDOC) $(if $(rustdoc_host),$(rust_common_flags),$(rust_flags)) \
+>>>>            $(rustc_target_flags) -L$(objtree)/$(obj) \
+>>>> -        --output $(objtree)/$(obj)/doc \
+>>>> +        --output $(RUSTDOC_OUTPUT) \
+>>>>            --crate-name $(subst rustdoc-,,$@) \
+>>>>            @$(objtree)/include/generated/rustc_cfg $<
+>>>>    @@ -75,15 +78,15 @@ quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
+>>>>    # and then retouch the generated files.
+>>>>    rustdoc: rustdoc-core rustdoc-macros rustdoc-compiler_builtins \
+>>>>        rustdoc-alloc rustdoc-kernel
+>>>> -    $(Q)cp $(srctree)/Documentation/images/logo.svg $(objtree)/$(obj)/doc
+>>>> -    $(Q)cp $(srctree)/Documentation/images/COPYING-logo $(objtree)/$(obj)/doc
+>>>> -    $(Q)find $(objtree)/$(obj)/doc -name '*.html' -type f -print0 | xargs -0 sed -Ei \
+>>>> +    $(Q)cp $(srctree)/Documentation/images/logo.svg $(RUSTDOC_OUTPUT)
+>>>> +    $(Q)cp $(srctree)/Documentation/images/COPYING-logo $(RUSTDOC_OUTPUT)
+>>>> +    $(Q)find $(RUSTDOC_OUTPUT) -name '*.html' -type f -print0 | xargs -0 sed -Ei \
+>>>>            -e 's:rust-logo\.svg:logo.svg:g' \
+>>>>            -e 's:rust-logo\.png:logo.svg:g' \
+>>>>            -e 's:favicon\.svg:logo.svg:g' \
+>>>>            -e 's:<link rel="alternate icon" type="image/png" href="[./]*favicon-(16x16|32x32)\.png">::g'
+>>>>        $(Q)echo '.logo-container > img { object-fit: contain; }' \
+>>>> -        >> $(objtree)/$(obj)/doc/rustdoc.css
+>>>> +        >> $(RUSTDOC_OUTPUT)/rustdoc.css
+>>>>      rustdoc-macros: private rustdoc_host = yes
+>>>>    rustdoc-macros: private rustc_target_flags = --crate-type proc-macro \
+>>>> @@ -141,7 +144,7 @@ quiet_cmd_rustdoc_test = RUSTDOC T $<
+>>>>            @$(objtree)/include/generated/rustc_cfg \
+>>>>            $(rustc_target_flags) $(rustdoc_test_target_flags) \
+>>>>            --sysroot $(objtree)/$(obj)/test/sysroot $(rustdoc_test_quiet) \
+>>>> -        -L$(objtree)/$(obj)/test --output $(objtree)/$(obj)/doc \
+>>>> +        -L$(objtree)/$(obj)/test --output $(RUSTDOC_OUTPUT) \
+>>>>            --crate-name $(subst rusttest-,,$@) $<
+>>>>      # We cannot use `-Zpanic-abort-tests` because some tests are dynamic,
+>>>>
+>>>> base-commit: 9abf2313adc1ca1b6180c508c25f22f9395cc780
+>>
+>> Thanks,
+>> Carlos
+
+[1] 
+https://lore.kernel.org/lkml/a019a3f1-7ff1-15b2-d930-e1d722847e0c@gmail.com/T/
+
+
+Thanks,
+Carlos
+
