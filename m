@@ -2,75 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 945D7C352A1
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 01:27:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53EEAC3A5A7
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 02:17:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229602AbiLGB05 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Dec 2022 20:26:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46182 "EHLO
+        id S229621AbiLGCRr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Dec 2022 21:17:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229544AbiLGB05 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 20:26:57 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A77151C27;
-        Tue,  6 Dec 2022 17:26:56 -0800 (PST)
+        with ESMTP id S229627AbiLGCRq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 21:17:46 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42131DFBD;
+        Tue,  6 Dec 2022 18:17:44 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 30CADB81B91;
-        Wed,  7 Dec 2022 01:26:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77237C433D6;
-        Wed,  7 Dec 2022 01:26:53 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 508AF611DE;
+        Wed,  7 Dec 2022 02:17:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3596C433C1;
+        Wed,  7 Dec 2022 02:17:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670376413;
-        bh=uAhPANtQG8vNwsDMnta3XtQvv7+ogOxGq/VNCkqvbnQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=qO6IuAsDB5W4SkID05tr1ksBMwt2O+HHvk6UVnfPs8yyYHGQu5iHwwx0E2d4YDrRX
-         FzTi5ZxefSZJxeOeYR/VWwBzNY9SpbUNSaTTQsQehKam374EKBUpaRvJw/tRMCe9vI
-         p4Q8lg+j7D/5ZhmJSwZgUGEuoE3+X/E51XECrijSGJ34O3VYnUkn9IOoBQ1WRDs/jd
-         D/3Jn+aKWhxW6HRvFn9ZJkkXYdN/NZtu9+WLeA7PpAtnsJuP0Q/XTKhjWVemabyeN6
-         ftYXFXjOODufORJC/iEcxRXjH62M3iGbkW5+CpRd1NSo4A0ckGfTIiKVYRxfTR06Tn
-         liYIjYbnFm8Qw==
-Date:   Tue, 6 Dec 2022 17:26:52 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Veerasenareddy Burru <vburru@marvell.com>
-Cc:     Leon Romanovsky <leon@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Liron Himi <lironh@marvell.com>,
-        Abhijit Ayarekar <aayarekar@marvell.com>,
-        Sathesh B Edara <sedara@marvell.com>,
-        Satananda Burla <sburla@marvell.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [EXT] Re: [PATCH net-next v2 2/9] octeon_ep: poll for control
- messages
-Message-ID: <20221206172652.34ed158a@kernel.org>
-In-Reply-To: <BYAPR18MB24234E1E6566B47FCA609BF8CC1B9@BYAPR18MB2423.namprd18.prod.outlook.com>
-References: <20221129130933.25231-1-vburru@marvell.com>
-        <20221129130933.25231-3-vburru@marvell.com>
-        <Y4cirWdJipOxmNaT@unreal>
-        <BYAPR18MB242397C352B0086140106A46CC159@BYAPR18MB2423.namprd18.prod.outlook.com>
-        <Y4hhpFVsENaM45Ho@unreal>
-        <BYAPR18MB2423229A66D1C98C6C744EE1CC189@BYAPR18MB2423.namprd18.prod.outlook.com>
-        <Y42nerLmNeAIn5w9@unreal>
-        <20221205161626.088e383f@kernel.org>
-        <Y48ERxYICkG9lQc1@unreal>
-        <20221206092352.7a86a744@kernel.org>
-        <BYAPR18MB24234E1E6566B47FCA609BF8CC1B9@BYAPR18MB2423.namprd18.prod.outlook.com>
+        s=k20201202; t=1670379462;
+        bh=lxh+qkWtrAkQD6FWNVfNsV2V1Ki+c1iwrz1a+xcetr0=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=rshxMWMbp4jY5A3Nq2O5c7KmmaX6MZr80aizs8RFHHgf5gnyu5edJNDFxhhk7z7/Y
+         ckBIRqkHc0yxl7ApXxB+NTs8/dTIiruW8ELggtlnE7epcE0x7bWR2SWPuX8q5hf4fG
+         dVeJLhQrgpM5XWrCuJbWrbCcY5C5HrE7HmFyHyBM4pakwkMAj9Urz9TrRAWFu2d0QO
+         vvDb4UkZZXe0rhD+MGA6otPd8oBVuFRPrVns2+L6zwtkorJou3Z7aXhSdwdphbsaFU
+         wgJQBRZPAyOXQVs6C1I0uwvoGkcQl0R06amskDTpcv7UMC1TLnWflgELbrNjep7c4U
+         tyLzbSifoOr9A==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <45463950-7a4f-758d-d6a1-b8fdf9bfd319@seco.com>
+References: <20221027191113.403712-1-sean.anderson@seco.com> <20221027191113.403712-5-sean.anderson@seco.com> <20221027230331.19C2FC433D6@smtp.kernel.org> <5f00ede6-10f5-c11c-ee21-54460c1f98b0@seco.com> <d13ff3b2-79f0-2a72-c9da-2c310c4e3bb8@seco.com> <20221101201020.B6180C433C1@smtp.kernel.org> <45463950-7a4f-758d-d6a1-b8fdf9bfd319@seco.com>
+Subject: Re: [PATCH v8 4/9] phy: fsl: Add Lynx 10G SerDes driver
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Camelia Alexandra Groza <camelia.groza@nxp.com>,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org, linux-doc@vger.kernel.org
+To:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Sean Anderson <sean.anderson@seco.com>,
+        Vinod Koul <vkoul@kernel.org>, linux-phy@lists.infradead.org
+Date:   Tue, 06 Dec 2022 18:17:40 -0800
+User-Agent: alot/0.10
+Message-Id: <20221207021742.A3596C433C1@smtp.kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 6 Dec 2022 21:19:26 +0000 Veerasenareddy Burru wrote:
-> > That said, looking at what this set does - how are the VFs configured?
-> > That's the showstopper for the series in my mind.  
-> 
-> VFs are created by writing to sriov_numvfs.
+Quoting Sean Anderson (2022-11-01 16:27:21)
+> On 11/1/22 16:10, Stephen Boyd wrote:
+> >>=20
+> >> Oh, I remember why I did this. I need the reference clock for clk_hw_r=
+ound_rate,
+> >> which is AFAICT the only correct way to implement round_rate.
+> >>=20
+> >=20
+> > Is the reference clk the parent of the clk implementing
+> > clk_ops::round_rate()?
+>=20
+> Yes. We may be able to produce a given output with multiple reference
+> rates. However, the clock API provides no mechanism to say "Don't ask
+> for the parent clock to be rate X, you just tried it and the parent
+> clock can't support it." So instead, we loop over the possible reference
+> rates and pick the first one which the parent says it can round to.
+>=20
 
-Configured, not enabled.
+Sorry, I'm lost. Why can't you loop over possible reference rates in
+determine_rate/round_rate clk op here?
