@@ -2,142 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84B2DC4708E
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 15:50:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55A58C4708E
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 16:41:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229949AbiLGPuj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 10:50:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50802 "EHLO
+        id S229606AbiLGQlo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Dec 2022 11:41:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229872AbiLGPt6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 10:49:58 -0500
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2082.outbound.protection.outlook.com [40.107.220.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01F9E5D690;
-        Wed,  7 Dec 2022 07:49:58 -0800 (PST)
+        with ESMTP id S229911AbiLGQlm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 11:41:42 -0500
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4958B55A95;
+        Wed,  7 Dec 2022 08:41:38 -0800 (PST)
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B7EoDgY012885;
+        Wed, 7 Dec 2022 08:41:21 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=s2048-2021-q4;
+ bh=eoQs2DXVYn+0bucR+yVgOZPW2Ns0nkiAjanYWvF9wXI=;
+ b=P2ecSCibiGzULU3SiLIakG+1WWrzONhajpr7r7XYxQYSCDukZ9l156mQPRZN2M5zt217
+ +6tABoHXkaE1JJEqRWmWHoBJB78LGk2wuODhv6sSEIf2ij9OQ6BYaK+TltDuL4jG2m+C
+ BP/3vpjgw3xhrE46HQaD0jm88zAtvgDIYhtV9uT/FoladdRHlc1pwbaJPbf0BqCTkYUj
+ aVlab+lIIuzKEyPqnvrBw7IeFo9FeDmLBXRGOR6GlfCpDX+Zoue0y8gYAmeMlQbsMvc2
+ FygYv+jYJM37UHVWClIma1s3xBnTyeR2NBSIo3qLSz8vqz2qROTMtj0cscvxAuP2AhdR 8w== 
+Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2169.outbound.protection.outlook.com [104.47.73.169])
+        by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3mavtegv7m-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 07 Dec 2022 08:41:21 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IpIAnjDJ3WjWy3BSS3GMVXOAccUUMZ/6OswVjHcW5rjWqJE43+xjIOOXku2Lw/aPlIpMQs8WhQCu/EYgiJOoSt0OIR4R7Et292ume416kZ9f0rg+cJOxfl+NPjRSUj/X6zyXBKZTsLMxcIUrZwmGeCO5GMh0CyzNmWa7Bk6SkRS37fr55SrCVj7Jv0KvupYKJn4S1i2hwBCjcVSDN7+/Znht9jCKx2Avnk+7nsGcW4OJX1ydOM5zaEP3a7OXnRQj0JkKD37ZR/3XVCFJB99yoQDvP8xCdtMEDJCHrSq5hBmPSbYmipqM42XAM1jghPKN6AOvFkBoBXFXvtaHf7mI+w==
+ b=aMlCzTm1U0mQIuaIp7iJTAK1zRq8cHzSQrWUpFEriv0dKS0faKZvxe0FfD2YFUvkCfxPiGbiAk65TxUb+QuCZN1LgAJLbOrNGcSbcVkAFwJy5lFCX4PVOjPdsMR3g+3G9kIr/xfkRyIBhRSPyXo6t86kwes9tAJP+uiOYiLEPfkKoJoKUnOwUwBgtxjmqajdLZu3QNb2rNBHRfUxLA2NxQ7tUoV63xJT9a2j/ayomF7u0uhtUIPfGTo+OlgS+w0Dk+on/G0PtK1UkFcRP/a1fIhMGiwINsDpmxtRrISRRrGVsRzAT+SCXu+ZpCweJIn0vyzGxu2K3y2CafF1SLzhhA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tdTCKrYg4Vocmoj1X2D2pS5MTAwtyjEWaMTIrs2/9Fs=;
- b=mdZk+yT3heE2Ux+tT4WakgZjb2ATb5yszd1IDCB28y1bKlwKid8UAS4UrJpzbz9K3NdpV5vdMy73Q2EVlNlfNhhFAIhRrwL9z9+eO0rTy75kRqDSq6o8HID7QJiBuNrASEVSc9EWIsOqn/uyEyVV3IprWKrETtQMs8mPh2V5Hebek0DHUBEmZrZO2vbK7hC/6yp3fg9ApoTn0XP+44fPRUMOt/qmwdEBvkaz5f//dU4Pz/zbcWrgVwVm1pB+fnBcdgOg7mkb7rawJ4uXqr5pPjX3/biG2Cp2orNYF81i9oluXz1MvI3dyN69ChksPamNZNMX9VgLEYb4Pe+8ierIGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tdTCKrYg4Vocmoj1X2D2pS5MTAwtyjEWaMTIrs2/9Fs=;
- b=P9KQHibSNLgJYOpp0vP13j3fi6ba5PhuZuk1o9iGYsBEXhxqiU4MFnJqI3jeJZOF+okwgvFXTZDPGVGzgmPh/pejDPRHJhH9GjjZWGMlZ5GNV6noJFA5pWi2AQQ/cCJ8omvF2G2n9kb+cmpdFkOOAlxPW3TRIAYE4n4lXDrnfVo=
-Received: from BN8PR04CA0049.namprd04.prod.outlook.com (2603:10b6:408:d4::23)
- by MW5PR12MB5649.namprd12.prod.outlook.com (2603:10b6:303:19d::13) with
+ bh=eoQs2DXVYn+0bucR+yVgOZPW2Ns0nkiAjanYWvF9wXI=;
+ b=c2/h8XK1Go3GEk83ww1K5J503CLFhVpu/U/jzwmpMZh31FmD9S9fMD7etOpLocHjR8xQc4/y0BnrNgKUuszRcZghC79dJMrPeO+MzwplYhgeRCxRJ7m4be+iK7Q4lLFEgqGTMrXCylTrXowR7DPmv+miayHtT1uZReEbHx6aKKo5gpCJrejAy7P6YKM0jTYTIkqT8Z5bGn2OzCZuxfzQWloQXcW3inXr/WIgrJ+bp4yrblW6/XArPVSl5N/1AAAbLwEPPfN6oP2Y31iVAK1AQOwxoQf0xZspEjVxR9WMPs3tyxlz3/Gig0b6c+C0IiQwM8Ceh67R7td2EmFjVvw1dg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=meta.com; dmarc=pass action=none header.from=meta.com;
+ dkim=pass header.d=meta.com; arc=none
+Received: from SN6PR1501MB2064.namprd15.prod.outlook.com (2603:10b6:805:d::27)
+ by BN8PR15MB3121.namprd15.prod.outlook.com (2603:10b6:408:8c::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Wed, 7 Dec
- 2022 15:49:56 +0000
-Received: from BN8NAM11FT073.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:d4:cafe::b3) by BN8PR04CA0049.outlook.office365.com
- (2603:10b6:408:d4::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14 via Frontend
- Transport; Wed, 7 Dec 2022 15:49:55 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT073.mail.protection.outlook.com (10.13.177.231) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5901.16 via Frontend Transport; Wed, 7 Dec 2022 15:49:55 +0000
-Received: from beas.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 7 Dec
- 2022 09:49:50 -0600
-From:   Wyes Karny <wyes.karny@amd.com>
-To:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>
-CC:     Jonathan Corbet <corbet@lwn.net>, Huang Rui <ray.huang@amd.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        <Mario.Limonciello@amd.com>, <Perry.Yuan@amd.com>,
-        Ananth Narayan <ananth.narayan@amd.com>,
-        <gautham.shenoy@amd.com>, Wyes Karny <wyes.karny@amd.com>
-Subject: [PATCH 4/4] Documentation: amd_pstate: Add amd_pstate state sysfs file
-Date:   Wed, 7 Dec 2022 15:46:48 +0000
-Message-ID: <20221207154648.233759-5-wyes.karny@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221207154648.233759-1-wyes.karny@amd.com>
-References: <20221207154648.233759-1-wyes.karny@amd.com>
+ 2022 16:41:18 +0000
+Received: from SN6PR1501MB2064.namprd15.prod.outlook.com
+ ([fe80::d665:7e05:61d1:aebf]) by SN6PR1501MB2064.namprd15.prod.outlook.com
+ ([fe80::d665:7e05:61d1:aebf%7]) with mapi id 15.20.5880.014; Wed, 7 Dec 2022
+ 16:41:18 +0000
+Message-ID: <76806a76-bb80-16f0-4b8f-affc0d933348@meta.com>
+Date:   Wed, 7 Dec 2022 08:41:15 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH bpf-next v3] docs/bpf: Add documentation for
+ BPF_MAP_TYPE_SK_STORAGE
+Content-Language: en-US
+To:     Donald Hunter <donald.hunter@gmail.com>, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20221207102721.33378-1-donald.hunter@gmail.com>
+From:   Yonghong Song <yhs@meta.com>
+In-Reply-To: <20221207102721.33378-1-donald.hunter@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0235.namprd03.prod.outlook.com
+ (2603:10b6:a03:39f::30) To SN6PR1501MB2064.namprd15.prod.outlook.com
+ (2603:10b6:805:d::27)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT073:EE_|MW5PR12MB5649:EE_
-X-MS-Office365-Filtering-Correlation-Id: 10d2e681-5b36-4222-592b-08dad86ab00b
+X-MS-TrafficTypeDiagnostic: SN6PR1501MB2064:EE_|BN8PR15MB3121:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4eb1ec8d-7b60-412a-c2be-08dad871dd53
+X-FB-Source: Internal
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VhR5+KGNOJ7yhq4E1zsbMURCoDRnhD4Bdzjrhoq0Ztj7hO/R88xYSu92oNhtQ/iZOPVhqcdb3rE/y1BPHAaCiMAehid60iF9ZoTAhbgHmMeF0obn2zCZD+i98paIjpj2yEEcRCchLxNPhWfQvihbpdTlofHtfhVE+Hj9s/j43pKqldtllUaE9/B+RZ5r3MzzcOOCQGekbKrbW0r4E7PG+x2L5yLSiC/cOduRymY5gCkdyOlAVF2jml7DNeLQkCOBvu2AYsBmiMSFCqjQT83v7uFhCDuwyFmj7Vp/o3zekD5uPghxaV/1G2PZo5ZBxhTAlt12GMTSHA+ZBsbMZipSJPqiyRuppwEPZH+ej4y8wydk+OkWmRt/KBfZkvO8QhfsCitSKvnnx+2Og3diS2smU5PtgnMn0qC3wnUHJUsv3m0HVQ0IDDUE12ys5iN59GTc1SO9+ARRLboNs+A7BXiqo/HUJt4xdPBkbj08nirLocGWkCFj4OquCLPs1K4sTGtkZTcDjKVUnQyhRTWIXJpXCbeYYWJRYD38ijvgLJAOtSKasJnYa8wUN1u6R/XQwdqxFtZrsaa7jR2KwFKk0HSD1wYlBOK1SCZ/90bR1HmyyRPb8xI1giBwUByuv91KiG57Dvl0iEVDj+KX5XHgYRShhPTTvGdI8wnOPyHtMKYCVyHdM4g/FU/P/hud0ojVukWnbxc6oc1RmAR4x+5AhklmwY4Q7NDwurVTx05jrCVdW1s=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(396003)(136003)(376002)(451199015)(40470700004)(46966006)(36840700001)(478600001)(82740400003)(36860700001)(356005)(2616005)(2906002)(81166007)(7696005)(26005)(44832011)(5660300002)(83380400001)(82310400005)(47076005)(36756003)(16526019)(336012)(186003)(86362001)(41300700001)(40460700003)(426003)(54906003)(110136005)(316002)(1076003)(8936002)(4326008)(8676002)(40480700001)(70586007)(70206006)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2022 15:49:55.7544
+X-Microsoft-Antispam-Message-Info: z6RD5qRPunBWyW89ursy6ugNH4sLM+3g9v+dFv6g1S1+EYRlEokc+/5q5uCuCBeO0w7OU+88IyObXVzUBc56XhRfDLQK2GoM3DaPF0gpBEml6Ci7YmBMgrhZS7Kk9uc/AK5IJiC1xExXGLrmbdRRhgO0bCtgvYsaQGraTxrbCaPawnyub8aMuBkEuCUFQ2xYo81bHviARKpHGRjULrZF1ggutFjhU0ico8PNRsNz+sO6b/c9dgSGgimAsDsZq8G55HN7ZBVuk9owB4ZrERj4714ZETKgiAy/RUgGiwYIWi0rT7lbnGaOMRvHRWAinM81jkI2VhMcMlvGXNTT+v8+0n/eyAM+1wUkk/OZVTxJXHEYUaRDjciZkIHRggHA9wtNQ+HFtmzjIesk1nVBXkN8kxqrxlNGj5JA1hV5PvSgNfGcNVJnT7/UBEVa6RGhrPE/CHFj0uq4deJ/hPA1th+Uwh1U/ncbFf/plDw/R3bFjl7FBMS92lZkGxXZDMikSeGlBeApa2wgY4egg+PouxeL8U1iAP7PSddXNNbhVxFipCNZnPOMmfQicIdGJ8z/1my6Bbuzz7QzzDswpUNbTI2nR0qSXfj4KkofYETPiJX9kgoW7kqdzE46qJLJt/1k5TgXa2dJraRKIeinPC+teNWf+1F/80kddeE58vu2IV1eJ1dINOzna4DtuL8UrqlYQKK5yHu7EvUovPvLL+vyERGhG294DN4amZaWA7DBHS+sFQg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR1501MB2064.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(376002)(396003)(39860400002)(366004)(136003)(451199015)(41300700001)(2616005)(38100700002)(36756003)(8936002)(5660300002)(2906002)(8676002)(31686004)(6486002)(558084003)(6666004)(478600001)(54906003)(66946007)(316002)(4326008)(66476007)(66556008)(53546011)(6512007)(86362001)(6506007)(186003)(31696002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?am5aTTgrRFRKN0ltcVpTSFBqVDk3T2hVV2t5eDEyWmRCdDBUYy9vSUF3Q2hF?=
+ =?utf-8?B?VVl2STRzKzJRUUdBQUVOT2tNYmpHbXFqUGt1d3FOKzVHTk5ZUEh4MlNHUlZN?=
+ =?utf-8?B?QVBZNzdERENISk9aSXRLU21md2toKzlDSENETDBIdGpDUHVWY0RjMS9NQ3lJ?=
+ =?utf-8?B?YTVOdFVQOVhoYUtEUC9YZk84NmExOFEyN0VoSk8wRkxZcHZ4YmxGRk5tUit1?=
+ =?utf-8?B?bGs4d2xSTlY0cmpHZ1RnczRJUUlKQzZGa1hZWG1pNkVvWEZkOGNxNWMrQ2dj?=
+ =?utf-8?B?MjdoR0FyYWpUaXZ6dzVHWDlYSnhyb21jYWdWcDFCZzZkNUJJeU1sb1dQUVJD?=
+ =?utf-8?B?OEdrZzVFQUlSOWE2WktsaE82U09QZFRyczhDeHdrTUp2RGNyZkZPUGxiMW5y?=
+ =?utf-8?B?ODlBRWNKc0p5eHo1WjVobXRpZnVxZUZnMEx0RWU5QUhDUE9zSHdoN3NQdVdZ?=
+ =?utf-8?B?TEZ1OFdDdnV0Sm05cU5tbjZPWnFkL2VyUkNVRXp2anZoYUFpVkhyTFZJYjR5?=
+ =?utf-8?B?S0hQU0ZxZVUyb09GTnlheHhtTXE3di9tSGtMUlpIRUhOdERienNZTGZ5eXpj?=
+ =?utf-8?B?SUpIYzdQWkgvbjR5NkxaRFBFaWhWZldMdE92OUpLOTFBTkVEN0EyeTVZSXdl?=
+ =?utf-8?B?OFF3aE9XNE5TWU42WW1hVmozUjdaWFNRa2hRdmV6Z3REallKUlBheXMzcWxW?=
+ =?utf-8?B?aXlzcWpZUXJDMHhvQ2RqMHpnSEFOaU9NZ3JDZExWeEp1U0I1R1JuUnJNbGpX?=
+ =?utf-8?B?T2U2Zzh0dVRZdDBSb2hXNHZSY2Y4VUh6UU1GK1VnSDcxOGQxem0wUURJVy9I?=
+ =?utf-8?B?N2pZTmZ4Q3VObENZT0Y2amp0L0I1NVcyT1Y4ZCtDSVdlbVMrc1Q1S05CUDlU?=
+ =?utf-8?B?UFp4KytvVHVSTkJkU1B5RTlzd3NaK3dIQ2EwQ2NzVDk3ajBKalRsa2xYYTBD?=
+ =?utf-8?B?M0owYm1CcWt6d1FaSlo2NmFvcEl5eGhoeWh2eHdkQ3FTMnB3MEZhSXFrdjRK?=
+ =?utf-8?B?MWxXQXZmQmZremNzaklJV25KWEZPUVBPQTNTME4ycTR6b0pqcUZIZFJnbktO?=
+ =?utf-8?B?dUpkdTkwckYvamVwS2VBYVRGck5MdjNDbTFPRVFCQ1V0MUZidUJLa0JISzlZ?=
+ =?utf-8?B?dUxGaVBtNnNlWVlvblh3RTJqQVRSdzFhQ2NOdUtxQ2VYV2NUeGY0SkViOTdG?=
+ =?utf-8?B?YXZSeXZQU1ZEQkpQNEt2WUhVZ2ZxQzltUk1vS2xhejcxaFVKVXNPK1RLTWZX?=
+ =?utf-8?B?RlJNVUw0OVFJNVFTR0NvK0ZLM0M2Vk11SG5kZUZxUXVyNWE3NDVKZFVoZDVv?=
+ =?utf-8?B?SXR6bzg5UVg0UjVoVDJwWW15QWdoQWRWZTRVUUZqRmhHUkhzQU1ycnVyNU5Q?=
+ =?utf-8?B?cUdFTy9aazJUREYraHJqRGpJNFRxb3NRbE10c3k0Z1g0b2pzUHFLMGdIOWc2?=
+ =?utf-8?B?RWtyb3ZhWHFOOHk1dnJXQWxUVHI5ams2S20rMTRxYlVvVzVvRytZMVNNakdF?=
+ =?utf-8?B?QXN5d2taR1dVbHRsZ3NIdFZzbmFpTGs1WVEzbW00QXh5Q2dobHJrTHYxa1hJ?=
+ =?utf-8?B?bVZSb0k1djFtZUFSQU9RYkZaQjdMZmlvcnhvbnMrTVdkU0RkWE1veTZwbjc5?=
+ =?utf-8?B?NVU1eGgrV3piajkwaWl0UUptc0JFL2ZpRTA0bkIrQWJBTEdGVXFzV3lxNktB?=
+ =?utf-8?B?b051RWpzN1lhNUNLZjBsVHJGcGFlYWlUb3I0dml1Z2E2RWhnbEhqYTdNYk5z?=
+ =?utf-8?B?eFh2YlVBM2IrZk03dTlJVkRJdkR0QW12SFJaRDlqN3VTSHhGWFdSRkJUUzNE?=
+ =?utf-8?B?N21DN1dESHlYaS9INU1kazYvRVFoVEoraEp4RmhYK0NYWHh6U3FwWTlsVGNT?=
+ =?utf-8?B?ZHZBZmx4MzFHNTkyQSt3aUhDVmNubS94VjZnL2dlTXc1ZFdEU0RnNzdDcW1S?=
+ =?utf-8?B?MTA3bTh1bHBTR3Q2REhDQVRCSUtOdFRSbDdCd3ZBdnlDQzVIWkFjMDU1Q21p?=
+ =?utf-8?B?MyszaVF2WWZlR0NzTmN2cXdOZlpnekJxa2ZuK3BQcXYrQWlOZWpBQTR0dmFP?=
+ =?utf-8?B?Mnl0dXh6dGUySXNoSTA3R1NiZWN5ZzkxV1NaK1ZuNmtWSkVrb1FtTkNWcXhp?=
+ =?utf-8?B?SXJ4eDdOWHhINU1EUU9lTVQwOXF6eXJWVVc0anBLU2Y0aDU5ckRzd2VPYmpJ?=
+ =?utf-8?B?YUE9PQ==?=
+X-OriginatorOrg: meta.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4eb1ec8d-7b60-412a-c2be-08dad871dd53
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR1501MB2064.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2022 16:41:18.4535
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10d2e681-5b36-4222-592b-08dad86ab00b
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT073.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5649
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tuLv/fE/phHjjGzWsQ5Vq2gEdawWmetf+aGagLTKBFSztLQ0vFURhPVD4H/zGB5h
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR15MB3121
+X-Proofpoint-GUID: etpiBXyqWuGQhviL3AisLTMCA2vpD3sJ
+X-Proofpoint-ORIG-GUID: etpiBXyqWuGQhviL3AisLTMCA2vpD3sJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-07_08,2022-12-07_01,2022-06-22_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for amd_pstate `state` interface.
-User can see the current state of the driver with the help of this sysfs
-interface:
-  # cat /sys/devices/system/cpu/amd_pstate/state
-  # disable [passive] guided
 
-User can load/unload driver with the help of `state` sysfs interface.
-- Load driver with passive mode:
-  # echo passive > /sys/devices/system/cpu/amd_pstate/state
-- Unload the driver:
-  # echo disable > /sys/devices/system/cpu/amd_pstate/state
-- To switch to guided mode:
-  # echo guided > /sys/devices/system/cpu/amd_pstate/state
 
-Signed-off-by: Wyes Karny <wyes.karny@amd.com>
----
- Documentation/admin-guide/pm/amd-pstate.rst | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+On 12/7/22 2:27 AM, Donald Hunter wrote:
+> Add documentation for the BPF_MAP_TYPE_SK_STORAGE including
+> kernel version introduced, usage and examples.
+> 
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
 
-diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
-index 06e23538f79c..4d3783516ddc 100644
---- a/Documentation/admin-guide/pm/amd-pstate.rst
-+++ b/Documentation/admin-guide/pm/amd-pstate.rst
-@@ -265,6 +265,17 @@ This attribute is read-only.
- Other performance and frequency values can be read back from
- ``/sys/devices/system/cpu/cpuX/acpi_cppc/``, see :ref:`cppc_sysfs`.
- 
-+``state``
-+
-+``amd_pstate`` also exposes a sysfs interface to view and control the driver state.
-+The driver state can be one of the following:
-+``disable``     : indicates driver is in unloaded state.
-+``passive``     : indicates driver is loaded and currently in passive mode.
-+``guided`` : indicates driver is loaded and currenlty in guided autonomous mode.
-+This file can be found here: ``/sys/devices/system/cpu/amd_pstate/state``.
-+
-+To switch to passive mode: ``echo passive > /sys/devices/system/cpu/amd_pstate/state``
-+To switch to guided mode: ``echo guided > /sys/devices/system/cpu/amd_pstate/state``
- 
- ``amd-pstate`` vs ``acpi-cpufreq``
- ======================================
--- 
-2.34.1
-
+Acked-by: Yonghong Song <yhs@fb.com>
