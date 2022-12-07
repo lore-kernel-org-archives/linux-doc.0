@@ -2,66 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2690AC47089
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 09:52:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 761F2C47089
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 09:56:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229854AbiLGJwC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 04:52:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57158 "EHLO
+        id S229680AbiLGJ4C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Dec 2022 04:56:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229671AbiLGJv6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 04:51:58 -0500
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A5FC2FC0D;
-        Wed,  7 Dec 2022 01:51:56 -0800 (PST)
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NRsy25p30z4xVnZ;
-        Wed,  7 Dec 2022 17:51:54 +0800 (CST)
-Received: from szxlzmapp04.zte.com.cn ([10.5.231.166])
-        by mse-fl1.zte.com.cn with SMTP id 2B79pgNq036714;
-        Wed, 7 Dec 2022 17:51:42 +0800 (+08)
-        (envelope-from yang.yang29@zte.com.cn)
-Received: from mapi (szxlzmapp02[null])
-        by mapi (Zmail) with MAPI id mid14;
-        Wed, 7 Dec 2022 17:51:45 +0800 (CST)
-Date:   Wed, 7 Dec 2022 17:51:45 +0800 (CST)
-X-Zmail-TransId: 2b04639062313ab2552a
-X-Mailer: Zmail v1.0
-Message-ID: <202212071751456693879@zte.com.cn>
-In-Reply-To: <35cb3dad-7bae-7713-3bad-b151fa6831dd@gmail.com>
-References: 202212071423496852423@zte.com.cn,35cb3dad-7bae-7713-3bad-b151fa6831dd@gmail.com
-Mime-Version: 1.0
-From:   <yang.yang29@zte.com.cn>
-To:     <bagasdotme@gmail.com>
-Cc:     <corbet@lwn.net>, <kuba@kernel.org>, <davem@davemloft.net>,
-        <hannes@cmpxchg.org>, <linux-kernel@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCBsaW51eC1uZXh0XcKgZG9jczogcHJvYy5yc3Q6IGFkZMKgc29mdG5ldF9zdGF0?=
-Content-Type: text/plain;
-        charset="UTF-8"
-X-MAIL: mse-fl1.zte.com.cn 2B79pgNq036714
-X-Fangmail-Gw-Spam-Type: 0
-X-FangMail-Miltered: at cgslv5.04-192.168.250.138.novalocal with ID 6390623A.000 by FangMail milter!
-X-FangMail-Envelope: 1670406714/4NRsy25p30z4xVnZ/6390623A.000/10.5.228.132/[10.5.228.132]/mse-fl1.zte.com.cn/<yang.yang29@zte.com.cn>
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6390623A.000/4NRsy25p30z4xVnZ
+        with ESMTP id S229489AbiLGJ4B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 04:56:01 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C762E10041;
+        Wed,  7 Dec 2022 01:56:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670406960; x=1701942960;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=W9p3iWoLP22mdK8lH1mdoYcGXRJk0lUpSxNqmRWLEp4=;
+  b=jPRpWa52l55GVUEK8EZ7GkNc0Afk/p72xjIXZO5WE14JoINGYLpHRoqh
+   gIMWNHJeMekZh7/aBTjWEgrktb3U/cDT+y7YzrLSPW8gqFwzaxCzY139R
+   8UD7/Yys+MDKw7373KYdJQ2N8HSSGcMgks6feuqmmnESGE9pKhaM9U9em
+   z6AkNprKI9DbzlPO1Fe324Q1IW9bXKmSHB+fGKqjVMzYtaSoLSVKfE7dE
+   WF5SfUjwLN7dkCEHiduJdZ69MmvG4D5TZ2/+7VXiKaVuSi1i3pTh/7Wnc
+   5lA/8/qaHcEe4clkY8XSOD8LJURaNEfh56bo9LEE2B64472mI1scgdg+p
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="316866808"
+X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; 
+   d="scan'208";a="316866808"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2022 01:55:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="648674941"
+X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; 
+   d="scan'208";a="648674941"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga007.fm.intel.com with ESMTP; 07 Dec 2022 01:55:53 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1p2r9b-005hPw-0O;
+        Wed, 07 Dec 2022 11:55:51 +0200
+Date:   Wed, 7 Dec 2022 11:55:50 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Kent Gibson <warthog618@gmail.com>, Marc Zyngier <maz@kernel.org>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v1 2/3] Documentation: gpio: Add a section on what to
+ return in ->get() callback
+Message-ID: <Y5BjJmz5Mvdr8cAR@smile.fi.intel.com>
+References: <20221130155519.20362-1-andriy.shevchenko@linux.intel.com>
+ <20221130155519.20362-2-andriy.shevchenko@linux.intel.com>
+ <CACRpkdaQWZE6=BNEh5hSH9=jBK=TcLoD1uUb=JyNYmHFvaSAfg@mail.gmail.com>
+ <Y41MxPthLjitvzEl@sol>
+ <CACRpkdb67ygsEuZhRZ9TGmmNXhiU2LsuefD0-48xtCLx3fq-KA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACRpkdb67ygsEuZhRZ9TGmmNXhiU2LsuefD0-48xtCLx3fq-KA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/7/22 17:10, bagasdotme@gmail.com wrote:
-> Add softnet_stat to what table? I have to read the actual documentation
-> and found that you mean /proc/net table. Please mention that in patch
-> subject.
+On Wed, Dec 07, 2022 at 01:06:46AM +0100, Linus Walleij wrote:
+> On Mon, Dec 5, 2022 at 2:43 AM Kent Gibson <warthog618@gmail.com> wrote:
+> 
+> > My preference would be for the driver API to be extended with a new
+> > callback for the output buffer, say get_output(), and have the existing
+> > get() always return the input buffer.
+> 
+> This has a certain elegance to it, as it cuts to the bone of the
+> problem and partition it in two halves, reflecting the two pieces
+> of hardware: input and output buffer. Also follows Rusty Russells
+> API hierarchy.
 
-OK, I will add this to subject.
+The (one of) problem is that not all hardware may support input and output
+be enabled at the same time. What would that new API return in that case
+and how it would be better with get() returning the value depending on
+direction?
 
-> Regardless, this patch is from ZTE people, for which they have a
-> reputation for ignoring critical code reviews and "atypical" email
-> setup that needs to be fixed
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Really sorry for that, We will try to avoid this.
 
-Thanks.
