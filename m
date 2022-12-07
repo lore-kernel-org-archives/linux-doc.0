@@ -2,81 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 767E3C3A5A7
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 00:07:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 945D7C352A1
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 01:27:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbiLGAHD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Dec 2022 19:07:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56374 "EHLO
+        id S229602AbiLGB05 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Dec 2022 20:26:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229717AbiLGAHA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 19:07:00 -0500
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 664AB131
-        for <linux-doc@vger.kernel.org>; Tue,  6 Dec 2022 16:06:59 -0800 (PST)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-3b56782b3f6so169438757b3.13
-        for <linux-doc@vger.kernel.org>; Tue, 06 Dec 2022 16:06:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HXgLDr1n/+xAVukg6gKX/0TpU9mRimvh3G5TlxnBz6g=;
-        b=exXeum7wqVGnbRYbAY94VKseR8t66PoiNTCRjhOGL/vlm2QFvt3vuqCTXZGjwEKndU
-         OmlWvpPP7jQLFPDVRSdkBN4AvuazSC2Ms4+zr/ZinuI5FdHTdaprcsJIbtOIehN7ZHEO
-         gjRrhK3l9HMImsfvw4e72Et0ELcVyvvq3/bQDlRtCt3LlHJYP38mqb9pUm3dNsR/bx4r
-         Jp68TCQNz6gaVaSfi0rl9oOrawK/lPrzGdraukItASK8mYqeSredcJ7NTN30kAdxMmiD
-         Vq7RKEbvEneN6XNwKWQm7cuGUlYTzWrfOYcHnLoqgz/0IwEO3JHSaAzWoHuELVrv0/vD
-         x3uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HXgLDr1n/+xAVukg6gKX/0TpU9mRimvh3G5TlxnBz6g=;
-        b=IO6jjsUq1gL9sAdp0xf8JyIH1jPuSaUibQIcXwTESc6oJAB9zlXN/atVQlQALuwShq
-         4vPXR568ZlHHOleRNADRsullLi9x11AIE7cQF5Fnb1RROxZIh7uPsurBkKWbVaswMk61
-         exAmp1rXj5mxNY1pCZbfq+n6aOrT5t5t7yFDjE6HOmrdTVtFELt08KxwnuOdfEEGHmum
-         YLXUyPxkt+AfI9xg3xTR1/QbtKq6meF4YEa/0+22LGDG9T9GWVhD1Q93twmQ7lnWYFvE
-         4lN+2uVLu2Fyrq+zm8mYyo0PM73sCYdRbGUFe5gnIOUE1TyZatucZQkVW/vXra6mQ5aN
-         +8DQ==
-X-Gm-Message-State: ANoB5pm+q+OZNXqCcYfHGJc6PktmTniP93Xq21JpEpnVe8B098kp/W4D
-        qn+iIgyoKQ04d+HRxt8Dl5LN/GMHe309N9uv59OyxA==
-X-Google-Smtp-Source: AA0mqf4cnAiozi/iWQDnrGVKXZ+2ZUzCBo8345aoW0itQwcsuYnRsud83YCR6WxeMt6XiOBmd49ALiNgx93e6J+m2M0=
-X-Received: by 2002:a0d:d751:0:b0:3e8:76df:4afd with SMTP id
- z78-20020a0dd751000000b003e876df4afdmr14015886ywd.380.1670371618632; Tue, 06
- Dec 2022 16:06:58 -0800 (PST)
+        with ESMTP id S229544AbiLGB05 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 20:26:57 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A77151C27;
+        Tue,  6 Dec 2022 17:26:56 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 30CADB81B91;
+        Wed,  7 Dec 2022 01:26:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77237C433D6;
+        Wed,  7 Dec 2022 01:26:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670376413;
+        bh=uAhPANtQG8vNwsDMnta3XtQvv7+ogOxGq/VNCkqvbnQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=qO6IuAsDB5W4SkID05tr1ksBMwt2O+HHvk6UVnfPs8yyYHGQu5iHwwx0E2d4YDrRX
+         FzTi5ZxefSZJxeOeYR/VWwBzNY9SpbUNSaTTQsQehKam374EKBUpaRvJw/tRMCe9vI
+         p4Q8lg+j7D/5ZhmJSwZgUGEuoE3+X/E51XECrijSGJ34O3VYnUkn9IOoBQ1WRDs/jd
+         D/3Jn+aKWhxW6HRvFn9ZJkkXYdN/NZtu9+WLeA7PpAtnsJuP0Q/XTKhjWVemabyeN6
+         ftYXFXjOODufORJC/iEcxRXjH62M3iGbkW5+CpRd1NSo4A0ckGfTIiKVYRxfTR06Tn
+         liYIjYbnFm8Qw==
+Date:   Tue, 6 Dec 2022 17:26:52 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Veerasenareddy Burru <vburru@marvell.com>
+Cc:     Leon Romanovsky <leon@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Liron Himi <lironh@marvell.com>,
+        Abhijit Ayarekar <aayarekar@marvell.com>,
+        Sathesh B Edara <sedara@marvell.com>,
+        Satananda Burla <sburla@marvell.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [EXT] Re: [PATCH net-next v2 2/9] octeon_ep: poll for control
+ messages
+Message-ID: <20221206172652.34ed158a@kernel.org>
+In-Reply-To: <BYAPR18MB24234E1E6566B47FCA609BF8CC1B9@BYAPR18MB2423.namprd18.prod.outlook.com>
+References: <20221129130933.25231-1-vburru@marvell.com>
+        <20221129130933.25231-3-vburru@marvell.com>
+        <Y4cirWdJipOxmNaT@unreal>
+        <BYAPR18MB242397C352B0086140106A46CC159@BYAPR18MB2423.namprd18.prod.outlook.com>
+        <Y4hhpFVsENaM45Ho@unreal>
+        <BYAPR18MB2423229A66D1C98C6C744EE1CC189@BYAPR18MB2423.namprd18.prod.outlook.com>
+        <Y42nerLmNeAIn5w9@unreal>
+        <20221205161626.088e383f@kernel.org>
+        <Y48ERxYICkG9lQc1@unreal>
+        <20221206092352.7a86a744@kernel.org>
+        <BYAPR18MB24234E1E6566B47FCA609BF8CC1B9@BYAPR18MB2423.namprd18.prod.outlook.com>
 MIME-Version: 1.0
-References: <20221130155519.20362-1-andriy.shevchenko@linux.intel.com>
- <20221130155519.20362-2-andriy.shevchenko@linux.intel.com>
- <CACRpkdaQWZE6=BNEh5hSH9=jBK=TcLoD1uUb=JyNYmHFvaSAfg@mail.gmail.com> <Y41MxPthLjitvzEl@sol>
-In-Reply-To: <Y41MxPthLjitvzEl@sol>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 7 Dec 2022 01:06:46 +0100
-Message-ID: <CACRpkdb67ygsEuZhRZ9TGmmNXhiU2LsuefD0-48xtCLx3fq-KA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] Documentation: gpio: Add a section on what to
- return in ->get() callback
-To:     Kent Gibson <warthog618@gmail.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Marc Zyngier <maz@kernel.org>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 5, 2022 at 2:43 AM Kent Gibson <warthog618@gmail.com> wrote:
+On Tue, 6 Dec 2022 21:19:26 +0000 Veerasenareddy Burru wrote:
+> > That said, looking at what this set does - how are the VFs configured?
+> > That's the showstopper for the series in my mind.  
+> 
+> VFs are created by writing to sriov_numvfs.
 
-> My preference would be for the driver API to be extended with a new
-> callback for the output buffer, say get_output(), and have the existing
-> get() always return the input buffer.
-
-This has a certain elegance to it, as it cuts to the bone of the
-problem and partition it in two halves, reflecting the two pieces
-of hardware: input and output buffer. Also follows Rusty Russells
-API hierarchy.
-
-Yours,
-Linus Walleij
+Configured, not enabled.
