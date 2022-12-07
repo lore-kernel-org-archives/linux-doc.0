@@ -2,162 +2,202 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A094C47089
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 08:27:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64C04C63708
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 08:58:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229601AbiLGI1V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 03:27:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32930 "EHLO
+        id S229575AbiLGI6q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Dec 2022 03:58:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbiLGI1U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 03:27:20 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 652E932B9D;
-        Wed,  7 Dec 2022 00:27:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670401639; x=1701937639;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=R/XiBBCtv6aOIMjJO4KmAzY1OO8RFbwEEx7Bwkl7GJ8=;
-  b=Iyh6hc9uzicKnzapW9iAOGk7RONCWyAB9iGushUTphUYydASo3bWvZUB
-   WAXZ399HiCzApYDUX5pMsuVt9xM+rcS1x7SkWvtUClYpV6wsEtOtMMNrr
-   nfvMuBUdgAoWYLw6Ti77uG+LrYZZRaIhEViXx6TQmNbr1Azha2BUCVXO8
-   xkrqxnC6UR9UEazB3wO42jbnQgWfvIqt/x6wdxNSW5s782qtakwE/e5Iq
-   gzYfLecBN2fKRtQhzbhTSwIdqJpOhi/DWNPDSPhAHvdIaa1NdaCgkHaSP
-   plyIo/QdK/mgRwq16GrVMnuWtnGXYXTvlab1K6zt7zRmxXIucNi/ZpM8a
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="300255826"
-X-IronPort-AV: E=Sophos;i="5.96,223,1665471600"; 
-   d="scan'208";a="300255826"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2022 00:27:18 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="820880970"
-X-IronPort-AV: E=Sophos;i="5.96,223,1665471600"; 
-   d="scan'208";a="820880970"
-Received: from fbackhou-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.36.192])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2022 00:27:14 -0800
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>, corbet@lwn.net,
-        akiyks@gmail.com, ojeda@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bilbao@vt.edu, konstantin@linuxfoundation.org,
-        Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: Re: [PATCH v3 1/2] docs: Move rustdoc output, cross-reference it
-In-Reply-To: <20221206153151.771038-2-carlos.bilbao@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221201204814.2141401-1-carlos.bilbao@amd.com>
- <20221206153151.771038-1-carlos.bilbao@amd.com>
- <20221206153151.771038-2-carlos.bilbao@amd.com>
-Date:   Wed, 07 Dec 2022 10:27:11 +0200
-Message-ID: <87359r39gg.fsf@intel.com>
+        with ESMTP id S229514AbiLGI6e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 03:58:34 -0500
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59B4EBEA;
+        Wed,  7 Dec 2022 00:58:32 -0800 (PST)
+Received: by mail-pf1-x42a.google.com with SMTP id n3so12700673pfq.10;
+        Wed, 07 Dec 2022 00:58:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3kRlTBcDxyj5ptNZ14o1YVXGmrqFxRI2/QpD88qWYiQ=;
+        b=pgoiqd8jUZVnnOCnDAzMxflF6HGuST/I9gEfUjqkMJROwp6XfWDHZNniCByRWCa7+t
+         RnC61XywTSJpzGwcFk6BamEkmE0TXLUXuBJw9eYmqFY6ZYzXW7nOD4FCUBzvlslwE4hh
+         K0pelResXxqzJigLV+9v0/HKhyR7+uBGdGzBvQnVFPFW3qjkP+m90rlXFQPR1JI9D/VH
+         L5g6nidU/g4vdofdkkcBoJVm68l8jnzFvszrmr/K6mfzVdhYtAoTpkG5xY/PAyO16kOv
+         cEikK3MA3tiPlBpiZasPoz3R1O914R9QuaM/oOTufXTHdD8gYkS6RHO9X6YRaEGcsecB
+         HpTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3kRlTBcDxyj5ptNZ14o1YVXGmrqFxRI2/QpD88qWYiQ=;
+        b=sSgyWjaLrC4WkZEZRIFMGIQBWtUOBJ9qfSS3ZbJl/UkhHvk62qT0N8TbFnZrOP1tG5
+         mWG9YJSyh7XmZkLPgjSX5ksnK7VPzUIdINLjBDYlsnt5jUvHWtPVRmY8ALTMlTq2gxBo
+         H04qNJn83mYTuAWPB+p0ACarMVje8gFm04cTUpaFzY+eP8L94C3qroHGcxkIR3Mp0rtg
+         Wx4Rt/SVYcsf9vw+UJSD9HE/kuifsxYF6kc32hYEzBJEVzWw+EOXdA14eA9Chr+Is2tC
+         B1jFuRJ7+nRF9jqG3386Lx/jGJphc5g3MwEXho3BSDXB7ziz8PI0r4NxA2BcnooyK4SF
+         ZjGA==
+X-Gm-Message-State: ANoB5pnFx6gxsqK+ueMxZnI89Ca2/zIgkzN6PKHRyfxoRyjwciH3t65o
+        cZmXNNIIWwt8CKhjkJGOecw=
+X-Google-Smtp-Source: AA0mqf4ZgSAfgs0hcNgueeE8FLs2MF0/38xphbpqsrdRo44kAFrVjIjUCGSHiF/dC/wUBsv7UacLBw==
+X-Received: by 2002:a63:1e49:0:b0:46b:1590:2625 with SMTP id p9-20020a631e49000000b0046b15902625mr62802011pgm.569.1670403511826;
+        Wed, 07 Dec 2022 00:58:31 -0800 (PST)
+Received: from debian.me (subs03-180-214-233-90.three.co.id. [180.214.233.90])
+        by smtp.gmail.com with ESMTPSA id ml13-20020a17090b360d00b00219f8eb271fsm740610pjb.5.2022.12.07.00.58.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Dec 2022 00:58:31 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id B381A1042C6; Wed,  7 Dec 2022 15:58:28 +0700 (WIB)
+Date:   Wed, 7 Dec 2022 15:58:28 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     David Gow <davidgow@google.com>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        Sadiya Kazi <sadiyakazi@google.com>,
+        Rae Moar <rmoar@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Daniel Latypov <dlatypov@google.com>,
+        linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: kunit: Fix "How Do I Use This" / "Next
+ Steps" sections
+Message-ID: <Y5BVtHjnwpn5CFzf@debian.me>
+References: <20221207043319.1890954-1-davidgow@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="gQZZMfvjrIhTAV6r"
+Content-Disposition: inline
+In-Reply-To: <20221207043319.1890954-1-davidgow@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 06 Dec 2022, Carlos Bilbao <carlos.bilbao@amd.com> wrote:
-> Generate rustdoc documentation with the rest of subsystem's documentation
-> in Documentation/output. Add a cross reference to the generated rustdoc in
-> Documentation/rust/index.rst.
->
-> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+
+--gQZZMfvjrIhTAV6r
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Dec 07, 2022 at 12:33:19PM +0800, David Gow wrote:
+> The "How Do I Use This" section of index.rst and "Next Steps" section of
+> start.rst were just copies of the table of contents, and therefore
+> weren't really useful either when looking a sphinx generated output
+> (which already had the TOC visible) or when reading the source (where
+> it's just a list of files that ls could give you).
+>=20
+> Instead, provide a small number of concrete next steps, and a bit more
+> description about what the pages contain.
+>=20
+> This also removes the broken reference to 'tips.rst', which was
+> previously removed.
+>=20
+> Fixes: 4399c737a97d ("Documentation: kunit: Remove redundant 'tips.rst' p=
+age")
+> Signed-off-by: David Gow <davidgow@google.com>
 > ---
->  Documentation/rust/index.rst |  5 +++++
->  rust/Makefile                | 15 +++++++++------
->  2 files changed, 14 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/rust/index.rst b/Documentation/rust/index.rst
-> index 4ae8c66b94fa..416d6b3de1e4 100644
-> --- a/Documentation/rust/index.rst
-> +++ b/Documentation/rust/index.rst
-> @@ -6,6 +6,11 @@ Rust
->  Documentation related to Rust within the kernel. To start using Rust
->  in the kernel, please read the quick-start.rst guide.
->  
-> +.. only:: html
+>=20
+> Thanks everyone for reviewing v1. Since this is pretty much a complete
+> rewrite, I've left Reviewed-by tags off, as I don't feel the previous
+> reviews totally apply. Feel free to review again if you have any
+> comments.
+>=20
+> Cheers,
+> -- David
+>=20
+> Changes since v1:
+> https://lore.kernel.org/linux-kselftest/20221129094732.306449-1-davidgow@=
+google.com/
+> - Totally rewrite both sections to only include (and provide more
+>   context for) the most concrete next steps.
+>   - Thanks Bagas for pointing out that this basically duplicates the TOC
+>     as-is.
+>=20
+> ---
+>  Documentation/dev-tools/kunit/index.rst | 19 ++++++++-----------
+>  Documentation/dev-tools/kunit/start.rst | 19 +++++++++----------
+>  2 files changed, 17 insertions(+), 21 deletions(-)
+>=20
+> diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-=
+tools/kunit/index.rst
+> index d5629817cd72..b3593ae29ace 100644
+> --- a/Documentation/dev-tools/kunit/index.rst
+> +++ b/Documentation/dev-tools/kunit/index.rst
+> @@ -99,14 +99,11 @@ Read also :ref:`kinds-of-tests`.
+>  How do I use it?
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> -*   Documentation/dev-tools/kunit/start.rst - for KUnit new users.
+> -*   Documentation/dev-tools/kunit/architecture.rst - KUnit architecture.
+> -*   Documentation/dev-tools/kunit/run_wrapper.rst - run kunit_tool.
+> -*   Documentation/dev-tools/kunit/run_manual.rst - run tests without kun=
+it_tool.
+> -*   Documentation/dev-tools/kunit/usage.rst - write tests.
+> -*   Documentation/dev-tools/kunit/tips.rst - best practices with
+> -    examples.
+> -*   Documentation/dev-tools/kunit/api/index.rst - KUnit APIs
+> -    used for testing.
+> -*   Documentation/dev-tools/kunit/faq.rst - KUnit common questions and
+> -    answers.
+> +You can find a step-by-step guide to writing and running KUnit tests in
+> +Documentation/dev-tools/kunit/start.rst
 > +
-> +	If this documentation includes rustdoc-generated HTML, the entry
-> +	point can be found `here <rustdoc/kernel/index.html>`_.
+> +Alternatively, feel free to look through the rest of the KUnit documenta=
+tion,
+> +or to experiment with tools/testing/kunit/kunit.py and the example test =
+under
+> +lib/kunit/kunit-example-test.c
+> +
+> +Happy testing!
+> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-=
+tools/kunit/start.rst
+> index f4f504f1fb15..224387a43543 100644
+> --- a/Documentation/dev-tools/kunit/start.rst
+> +++ b/Documentation/dev-tools/kunit/start.rst
+> @@ -294,13 +294,12 @@ Congrats! You just wrote your first KUnit test.
+>  Next Steps
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> -*   Documentation/dev-tools/kunit/architecture.rst - KUnit architecture.
+> -*   Documentation/dev-tools/kunit/run_wrapper.rst - run kunit_tool.
+> -*   Documentation/dev-tools/kunit/run_manual.rst - run tests without kun=
+it_tool.
+> -*   Documentation/dev-tools/kunit/usage.rst - write tests.
+> -*   Documentation/dev-tools/kunit/tips.rst - best practices with
+> -    examples.
+> -*   Documentation/dev-tools/kunit/api/index.rst - KUnit APIs
+> -    used for testing.
+> -*   Documentation/dev-tools/kunit/faq.rst - KUnit common questions and
+> -    answers.
+> +If you're interested in using some of the more advanced features of kuni=
+t.py,
+> +take a look at Documentation/dev-tools/kunit/run_wrapper.rst
+> +
+> +If you'd like to run tests without using kunit.py, check out
+> +Documentation/dev-tools/kunit/run_manual.rst
+> +
+> +For more information on writing KUnit tests (including some common techn=
+iques
+> +for testing different things), see Documentation/dev-tools/kunit/usage.r=
+st
 > +
 
-It's a bit meh to have documentation that points to places that might
-404 and the user has to figure it out.
+Much better, thanks!
 
-We can do better than that.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-You could use CONFIG_RUST to pass e.g. "-t rustdoc" to Sphinx in the
-Makefile, and use:
+--=20
+An old man doll... just what I always wanted! - Clara
 
-.. only:: rustdoc
+--gQZZMfvjrIhTAV6r
+Content-Type: application/pgp-signature; name="signature.asc"
 
-and
+-----BEGIN PGP SIGNATURE-----
 
-.. only:: not rustdoc
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY5BVrwAKCRD2uYlJVVFO
+o90qAP0W0QiL12+wE0JzXPGrOMlc9sFK4uQuxOTzzy+QLsgflwEA+ZWGwB0Yy8f8
+m2zrxJFPUg5QDxd6u2KAbBX0ztNinAg=
+=m9er
+-----END PGP SIGNATURE-----
 
-And document accordingly.
-
-Also, please don't use "here" as the link text.
-
-BR,
-Jani.
-
-
->  .. toctree::
->      :maxdepth: 1
->  
-> diff --git a/rust/Makefile b/rust/Makefile
-> index 7700d3853404..080c07048065 100644
-> --- a/rust/Makefile
-> +++ b/rust/Makefile
-> @@ -1,5 +1,8 @@
->  # SPDX-License-Identifier: GPL-2.0
->  
-> +# Where to place rustdoc generated documentation
-> +RUSTDOC_OUTPUT = $(objtree)/Documentation/output/rust/rustdoc
-> +
->  always-$(CONFIG_RUST) += target.json
->  no-clean-files += target.json
->  
-> @@ -58,7 +61,7 @@ quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
->  	OBJTREE=$(abspath $(objtree)) \
->  	$(RUSTDOC) $(if $(rustdoc_host),$(rust_common_flags),$(rust_flags)) \
->  		$(rustc_target_flags) -L$(objtree)/$(obj) \
-> -		--output $(objtree)/$(obj)/doc \
-> +		--output $(RUSTDOC_OUTPUT) \
->  		--crate-name $(subst rustdoc-,,$@) \
->  		@$(objtree)/include/generated/rustc_cfg $<
->  
-> @@ -75,15 +78,15 @@ quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
->  # and then retouch the generated files.
->  rustdoc: rustdoc-core rustdoc-macros rustdoc-compiler_builtins \
->      rustdoc-alloc rustdoc-kernel
-> -	$(Q)cp $(srctree)/Documentation/images/logo.svg $(objtree)/$(obj)/doc
-> -	$(Q)cp $(srctree)/Documentation/images/COPYING-logo $(objtree)/$(obj)/doc
-> -	$(Q)find $(objtree)/$(obj)/doc -name '*.html' -type f -print0 | xargs -0 sed -Ei \
-> +	$(Q)cp $(srctree)/Documentation/images/logo.svg $(RUSTDOC_OUTPUT)
-> +	$(Q)cp $(srctree)/Documentation/images/COPYING-logo $(RUSTDOC_OUTPUT)
-> +	$(Q)find $(RUSTDOC_OUTPUT) -name '*.html' -type f -print0 | xargs -0 sed -Ei \
->  		-e 's:rust-logo\.svg:logo.svg:g' \
->  		-e 's:rust-logo\.png:logo.svg:g' \
->  		-e 's:favicon\.svg:logo.svg:g' \
->  		-e 's:<link rel="alternate icon" type="image/png" href="[./]*favicon-(16x16|32x32)\.png">::g'
->  	$(Q)echo '.logo-container > img { object-fit: contain; }' \
-> -		>> $(objtree)/$(obj)/doc/rustdoc.css
-> +		>> $(RUSTDOC_OUTPUT)/rustdoc.css
->  
->  rustdoc-macros: private rustdoc_host = yes
->  rustdoc-macros: private rustc_target_flags = --crate-type proc-macro \
-> @@ -141,7 +144,7 @@ quiet_cmd_rustdoc_test = RUSTDOC T $<
->  		@$(objtree)/include/generated/rustc_cfg \
->  		$(rustc_target_flags) $(rustdoc_test_target_flags) \
->  		--sysroot $(objtree)/$(obj)/test/sysroot $(rustdoc_test_quiet) \
-> -		-L$(objtree)/$(obj)/test --output $(objtree)/$(obj)/doc \
-> +		-L$(objtree)/$(obj)/test --output $(RUSTDOC_OUTPUT) \
->  		--crate-name $(subst rusttest-,,$@) $<
->  
->  # We cannot use `-Zpanic-abort-tests` because some tests are dynamic,
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+--gQZZMfvjrIhTAV6r--
