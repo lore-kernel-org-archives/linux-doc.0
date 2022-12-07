@@ -2,261 +2,436 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E63E8C63705
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 21:13:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B983C4708D
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 22:06:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229501AbiLGVNQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 16:13:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50814 "EHLO
+        id S229807AbiLGWGA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Dec 2022 17:06:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbiLGVNO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 16:13:14 -0500
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71F412AEE;
-        Wed,  7 Dec 2022 13:13:13 -0800 (PST)
-Received: by mail-qk1-f171.google.com with SMTP id k3so4547666qki.13;
-        Wed, 07 Dec 2022 13:13:13 -0800 (PST)
+        with ESMTP id S230072AbiLGWFa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 17:05:30 -0500
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2802FDE81;
+        Wed,  7 Dec 2022 14:05:04 -0800 (PST)
+Received: by mail-qk1-f174.google.com with SMTP id x18so11024131qki.4;
+        Wed, 07 Dec 2022 14:05:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JxspKIvwELlYMl5b5/5UA+ETxGu6sHx66bMq1Pow9yE=;
-        b=0D/1c6E3KgPGnLmFBCmRlgNneNYg9jFqsXqvlkPlxZzYQTKwV2vAcl3yowekuhk35e
-         e7Uo5XVAjhXRj4wGlum8MLPM+NNZGdxySWEPlMmQan3WICwkpd5KYCgYLE/a5zq0ByCf
-         fGntnYCS6YrMdPzzJJT1pb6zwzKoTucS0t77IhZVVnSsbNCXAvXurJ4eMiqxkopXW0ok
-         ZI9pRWBQ1kItGs0uo9OiSuHxJ1IPOq1MJXeFLtnHledGSiTGLHR42a38+RT9l5CHqlzT
-         rkZ0cTEcrfzwxTEDGlDFphvTqeS+2HtolsEyLxa9LHsgNtyb1lMrpxRhwEn1P6//rCip
-         cZjQ==
-X-Gm-Message-State: ANoB5pl2PCRcbW5ElsonNZmfo/YNyVwMcYZZ+TFTbUovsYrCRHHgQXUr
-        RiTeGovTlq2LrrcqzRR0vMM=
-X-Google-Smtp-Source: AA0mqf6UBseXI/R7pKABAVtU1SHmUNJnKrf1UrYJl18SGvtxTpwGt6pGAcs2qDxXPvMkUN434LOb0A==
-X-Received: by 2002:a37:9181:0:b0:6e9:fd9d:65c5 with SMTP id t123-20020a379181000000b006e9fd9d65c5mr81705677qkd.370.1670447592303;
-        Wed, 07 Dec 2022 13:13:12 -0800 (PST)
+        bh=gI+yHmsKWDV9rDnDoEVF7JHAoXUt+16u+BnTF0vBdnE=;
+        b=ar4zj5H8Zd7aRHGJq+9sgGqWwhSmciLpya0NhJ/BmE8Psrp7lyHdj7+Bmezw4a+b90
+         ezoFwqATvk7Rmloxo0RVT3iaLfeC4LkrbhYTkXQ8n+snacXV0w/Q0PQWmHXtvdtqHjZC
+         Vi9auiWggFHs1Ri2CJMOVxAqZqU66Va1aIKTicE1oNesiEg0wENKAs5e8a8oB60hj5HL
+         Y4o6auto4mYy+JvnyXL+WsX/G+nrn+nbnkoB0dYN29PXosfXkoIrBZX8Nn2ysuEExrOo
+         g8giC4eOBjP6hWoSVZ2SpTL0Z9NwbkCeTw7tNP05swcItOd3kfJXGwhlxIBM3rri4+A7
+         adsg==
+X-Gm-Message-State: ANoB5pkg3RdznWW6USketlW1Z8Gy29nSjLXRn06rVAVtZ0Oe4EK3VMN7
+        O35xkDQRnwEBf4ASzYUpEYI=
+X-Google-Smtp-Source: AA0mqf4wtgNYEt8sOnBeI5GbBXrjj3tXgfr3yoUlv7MDAo75tTRhdG2iByWHaVmaWvbRqb1339vVuA==
+X-Received: by 2002:a05:620a:159c:b0:6fe:efbe:7b9d with SMTP id d28-20020a05620a159c00b006feefbe7b9dmr2339284qkk.133.1670450702848;
+        Wed, 07 Dec 2022 14:05:02 -0800 (PST)
 Received: from maniforge.lan ([2620:10d:c091:480::1:629d])
-        by smtp.gmail.com with ESMTPSA id u19-20020a05620a0c5300b006fa84082b6dsm17913501qki.128.2022.12.07.13.13.11
+        by smtp.gmail.com with ESMTPSA id dt2-20020a05620a478200b006fbf88667bcsm8554839qkb.77.2022.12.07.14.05.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Dec 2022 13:13:11 -0800 (PST)
-Date:   Wed, 7 Dec 2022 15:13:08 -0600
+        Wed, 07 Dec 2022 14:05:02 -0800 (PST)
+Date:   Wed, 7 Dec 2022 16:04:59 -0600
 From:   David Vernet <void@manifault.com>
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Yonghong Song <yhs@meta.com>
-Subject: Re: [PATCH bpf-next v3] docs/bpf: Add documentation for
- BPF_MAP_TYPE_SK_STORAGE
-Message-ID: <Y5EB5E5NgtN/ihG/@maniforge.lan>
-References: <20221207102721.33378-1-donald.hunter@gmail.com>
+To:     mtahhan@redhat.com
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, jbrouer@redhat.com,
+        thoiland@redhat.com, donhunte@redhat.com, john.fastabend@gmail.com,
+        bagasdotme@gmail.com
+Subject: Re: [PATCH bpf-next v3 1/1] docs: BPF_MAP_TYPE_SOCK[MAP|HASH]
+Message-ID: <Y5EOC7HjtaRFAVfq@maniforge.lan>
+References: <20221202114010.22477-1-mtahhan@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221207102721.33378-1-donald.hunter@gmail.com>
+In-Reply-To: <20221202114010.22477-1-mtahhan@redhat.com>
 User-Agent: Mutt/2.2.7 (2022-08-07)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 07, 2022 at 10:27:21AM +0000, Donald Hunter wrote:
-> Add documentation for the BPF_MAP_TYPE_SK_STORAGE including
-> kernel version introduced, usage and examples.
+On Fri, Dec 02, 2022 at 11:40:10AM +0000, mtahhan@redhat.com wrote:
+> From: Maryam Tahhan <mtahhan@redhat.com>
 > 
-> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+> Add documentation for BPF_MAP_TYPE_SOCK[MAP|HASH]
+> including kernel versions introduced, usage
+> and examples.
+> 
+> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+
+Hi Maryam,
+
+Thanks a lot for adding these extensive docs. Overall this is looking
+great, but I think readers who aren't yet familiar with these concepts
+(and are here to try to better understand them) are potentially going to
+struggle a bit to understand some of this without adding a bit more
+explanation to a few things.
+
+See suggestions below.
+
 > ---
-> v2 -> v3:
-> - Fix void * return, reported by Yonghong Song
-> - Add tracing programs to API note, reported by Yonghong Song
-> v1 -> v2:
-> - Fix bpf_sk_storage_* function signatures, reported by Yonghong Song
-> - Fix NULL return on failure, reported by Yonghong Song
+> v3:
+> - Call out that the user attaches the BPF programs to
+>   the sock[map|hash] maps explicitly.
+> - Rephrase the note that references the TCP and UDP
+>   functions that get replaced.
+> - Update simple example to attach verdict and parser
+>   progs to a map.
 > 
->  Documentation/bpf/map_sk_storage.rst | 142 +++++++++++++++++++++++++++
->  1 file changed, 142 insertions(+)
->  create mode 100644 Documentation/bpf/map_sk_storage.rst
+> v2:
+> - Fixed typos and user space references to BPF helpers.
+> - Added update, lookup and delete BPF helpers.
+> ---
+> ---
+>  Documentation/bpf/map_sockmap.rst | 493 ++++++++++++++++++++++++++++++
+>  1 file changed, 493 insertions(+)
+>  create mode 100644 Documentation/bpf/map_sockmap.rst
 > 
-> diff --git a/Documentation/bpf/map_sk_storage.rst b/Documentation/bpf/map_sk_storage.rst
+> diff --git a/Documentation/bpf/map_sockmap.rst b/Documentation/bpf/map_sockmap.rst
 > new file mode 100644
-> index 000000000000..955b287bb7de
+> index 000000000000..e2ef3054fe09
 > --- /dev/null
-> +++ b/Documentation/bpf/map_sk_storage.rst
-> @@ -0,0 +1,142 @@
+> +++ b/Documentation/bpf/map_sockmap.rst
+> @@ -0,0 +1,493 @@
 > +.. SPDX-License-Identifier: GPL-2.0-only
-> +.. Copyright (C) 2022 Red Hat, Inc.
+> +.. Copyright Red Hat
 > +
-> +=======================
-> +BPF_MAP_TYPE_SK_STORAGE
-> +=======================
+> +==============================================
+> +BPF_MAP_TYPE_SOCKMAP and BPF_MAP_TYPE_SOCKHASH
+> +==============================================
 > +
 > +.. note::
-> +   - ``BPF_MAP_TYPE_SK_STORAGE`` was introduced in kernel version 5.2
+> +   - ``BPF_MAP_TYPE_SOCKMAP`` was introduced in kernel version 4.14
+> +   - ``BPF_MAP_TYPE_SOCKHASH`` was introduced in kernel version 4.18
 > +
-> +``BPF_MAP_TYPE_SK_STORAGE`` is used to provide socket-local storage for BPF programs. A map of
-> +type ``BPF_MAP_TYPE_SK_STORAGE`` declares the type of storage to be provided and acts as the
-> +handle for accessing the socket-local storage from a BPF program. The key type must be ``int``
-> +and ``max_entries`` must be set to ``0``.
+> +``BPF_MAP_TYPE_SOCKMAP`` is backed by an array that uses an integer key as the
+> +index to lookup a reference to a sock struct. The map values are sockets.
+> +Similarly, ``BPF_MAP_TYPE_SOCKHASH`` is a hash backed BPF map that holds
+> +references to sockets.
+
+I think it may confuse / throw some readers off for their first
+introduction to BPF_MAP_TYPE_SOCKMAP to be an implementation detail.
+Can you "introduce" the map type by first explaining what it's used for
+at a high level, and only _then_ going into more detail as to how it's
+implemented? Consider the fact that someone trying to use
+BPF_MAP_TYPE_SOCKMAP doesn't really need to know the fact that it's
+backed by an array.
+
 > +
-> +The ``BPF_F_NO_PREALLOC`` must be used when creating a map for socket-local storage. The kernel
-> +is responsible for allocating storage for a socket when requested and for freeing the storage
-> +when either the map or the socket is deleted.
+> +.. note::
+> +    - The value type must be __u32 or __u64.
+> +    - The value type of __u64 is to support socket cookies.
 
-Hi Donald,
+I think this may also confuse some readers. Above you say that the
+"value" is a socket, but here you're saying that its value type is __u32
+or __u64. IMO describing the connection between the two would be useful.
 
-Thanks for writing these excellent docs.
+> +
+> +When a user creates these types of maps, they typically attach BPF programs to
+> +them. The allowed programs are:
+> +
+> +.. code-block:: c
+> +
+> +	struct sk_psock_progs {
+> +		struct bpf_prog *msg_parser;
+> +		struct bpf_prog *stream_parser;
+> +		struct bpf_prog *stream_verdict;
+> +		struct bpf_prog	*skb_verdict;
+> +	};
+> +
+> +.. note::
+> +    Users are not allowed to attach ``stream_verdict`` and ``skb_verdict``
+> +    programs to the same map.
 
-Would you mind please wrapping your text to 80 columns (throughout the
-document)? It's not a hard and fast rule, but it would be ideal to keep
-text that can wrap without formatting issues to 80 columns. For
-documentation where you're e.g. showing a function signature (such as
-bpf_sk_storage_get() below), it's fine to exceed it.
+I think this note should maybe be moved a bit lower down in the doc. We
+have to explain what these prog types are before we start to tell
+readers how they're not allowed to use them.
 
+> +
+> +The parser programs determine how much data needs to be queued to come to a
+> +verdict. The verdict programs return a verdict ``__SK_DROP``, ``__SK_PASS``, or
+> +``__SK_REDIRECT``.
+
+Can you provide a slightly higher level overview of parser programs and
+verdicts? This would include defining "parser" and "verdict", and
+explaining their purposes in the larger skb-processing pipeline. No need
+to go too crazy here, but I think that at least giving a high level
+overview in a few sentences would go a long way.
+
+> +
+> +The attach types for the map programs are:
+> +
+> +- ``msg_parser`` program - ``BPF_SK_MSG_VERDICT``.
+> +- ``stream_parser`` program - ``BPF_SK_SKB_STREAM_PARSER``.
+> +- ``stream_verdict`` program - ``BPF_SK_SKB_STREAM_VERDICT``.
+> +- ``skb_verdict`` program - ``BPF_SK_SKB_VERDICT``.
+> +
+> +These maps can be used to redirect skbs between sockets or to apply policy at
+> +the socket level based on the result of a verdict program with the help of the
+> +BPF helpers ``bpf_sk_redirect_map()``, ``bpf_sk_redirect_hash()``,
+> +``bpf_msg_redirect_map()`` and ``bpf_msg_redirect_hash()``.
+
+Can you add a short sentence informing readers that these helpers (and
+the ones below) are described in more details below?
+
+> +
+> +When a socket is inserted into one of these maps, its socket callbacks are
+> +replaced and a ``struct sk_psock`` is attached to it. Additionally, this
+> +``sk_psock`` inherits the programs that are attached to the map.
+> +
+> +.. note::
+> +	For more details of the socket callbacks that get replaced please see
+> +	``net/ipv4/tcp_bpf.c`` and ``net/ipv4/udp_bpf.c`` for TCP and UDP
+> +	functions, respectively.
+> +
+> +There are additional helpers available to use with the parser and verdict
+> +programs: ``bpf_msg_apply_bytes()`` and ``bpf_msg_cork_bytes()``. With
+> +``bpf_msg_apply_bytes()`` BPF programs can tell the infrastructure how many
+> +bytes the given verdict should apply to. The helper ``bpf_msg_cork_bytes()``
+> +handles a different case where a BPF program can not reach a verdict on a msg
+> +until it receives more bytes AND the program doesn't want to forward the packet
+> +until it is known to be good.
+> +
+> +Finally, the helpers ``bpf_msg_pull_data()`` and ``bpf_msg_push_data()`` are
+> +available to ``BPF_PROG_TYPE_SK_MSG`` BPF programs to pull in data and set the
+> +start and end pointer to given values or to add metadata to the ``struct
+> +sk_msg_buff *msg``.
 > +
 > +Usage
 > +=====
-> +
 > +Kernel BPF
 > +----------
-> +
-> +bpf_sk_storage_get()
-> +~~~~~~~~~~~~~~~~~~~~
-> +
+> +bpf_msg_redirect_map()
+> +^^^^^^^^^^^^^^^^^^^^^^
 > +.. code-block:: c
 > +
-> +   void *bpf_sk_storage_get(struct bpf_map *map, void *sk, void *value, u64 flags)
+> +	long bpf_msg_redirect_map(struct sk_msg_buff *msg, struct bpf_map *map, u32 key, u64 flags)
 > +
-> +Socket-local storage can be retrieved using the ``bpf_sk_storage_get()`` helper. The helper gets
-> +the storage from ``sk`` that is identified by ``map``.  If the
-> +``BPF_LOCAL_STORAGE_GET_F_CREATE`` flag is used then ``bpf_sk_storage_get()`` will create the
-> +storage for ``sk`` if it does not already exist. ``value`` can be used together with
-> +``BPF_LOCAL_STORAGE_GET_F_CREATE`` to initialize the storage value, otherwise it will be zero
-> +initialized. Returns a pointer to the storage on success, or ``NULL`` in case of failure.
+> +This helper is used in programs implementing policies at the socket level. If
+> +the message ``msg`` is allowed to pass (i.e. if the verdict BPF program
+> +returns ``SK_PASS``), redirect it to the socket referenced by ``map`` (of type
+> +``BPF_MAP_TYPE_SOCKMAP``) at index ``key``. Both ingress and egress interfaces
+> +can be used for redirection. The ``BPF_F_INGRESS`` value in ``flags`` is used
+> +to select the ingress path otherwise the egress path is selected. This is the
+> +only flag supported for now.
 > +
-> +.. note::
-> +   - ``sk`` is a kernel ``struct sock`` pointer for LSM or tracing programs.
-> +   - ``sk`` is a ``struct bpf_sock`` pointer for other program types.
+> +Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
 > +
-> +bpf_sk_storage_delete()
-> +~~~~~~~~~~~~~~~~~~~~~~~
-> +
+> +bpf_sk_redirect_map()
+> +^^^^^^^^^^^^^^^^^^^^^
 > +.. code-block:: c
 > +
-> +   long bpf_sk_storage_delete(struct bpf_map *map, void *sk)
+> +    long bpf_sk_redirect_map(struct sk_buff *skb, struct bpf_map *map, u32 key u64 flags)
 > +
-> +Socket-local storage can be deleted using the ``bpf_sk_storage_delete()`` helper. The helper
-> +deletes the storage from ``sk`` that is identified by ``map``. Returns ``0`` on success, or negative
-> +error in case of failure.
+> +Redirect the packet to the socket referenced by ``map`` (of type
+> +``BPF_MAP_TYPE_SOCKMAP``) at index ``key``. Both ingress and egress interfaces
+> +can be used for redirection. The ``BPF_F_INGRESS`` value in ``flags`` is used
+> +to select the ingress path otherwise the egress path is selected. This is the
+> +only flag supported for now.
 > +
-> +User space
-> +----------
-> +
-> +bpf_map_update_elem()
-> +~~~~~~~~~~~~~~~~~~~~~
-> +
-> +.. code-block:: c
-> +
-> +   int bpf_map_update_elem(int map_fd, const void *key, const void *value, __u64 flags)
-> +
-> +Socket-local storage with type identified by ``map_fd`` for the socket identified by ``key`` can
-
-Could you please clarify what you mean by "with type identified by"?
-``map_fd`` just corresponds to the fd of the map, correct? Not following
-what's meant by "type".
-
-> +be added or updated using the ``bpf_map_update_elem()`` libbpf function. ``key`` must be a
-> +pointer to a valid ``fd`` in the user space program. The ``flags`` parameter can be used to
-> +control the update behaviour:
-> +
-> +- ``BPF_ANY`` will create storage for ``fd`` or update existing storage.
-> +- ``BPF_NOEXIST`` will create storage for ``fd`` only if it did not already
-> +  exist
-
-I believe that if BPF_NOEXIST is specified, if storage already exists
-then in addition to storage not being created, the call will fail with
--EEXIST.
-
-> +- ``BPF_EXIST`` will update existing storage for ``fd``
-
-Can we also mention that if BPF_EXIST is specified, and no element is
-present with the specified ``key``, that the call will fail with
--ENOENT?
-
-> +
-> +Returns ``0`` on success, or negative error in case of failure.
+> +Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
 > +
 > +bpf_map_lookup_elem()
-> +~~~~~~~~~~~~~~~~~~~~~
+> +^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
+> +
+> +socket entries of type ``struct sock *`` can be retrieved using the
+> +``bpf_map_lookup_elem()`` helper.
+> +
+> +bpf_sock_map_update()
+> +^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    long bpf_sock_map_update(struct bpf_sock_ops *skops, struct bpf_map *map, void *key, u64 flags)
+> +
+> +Add an entry to, or update a ``map`` referencing sockets. The ``skops`` is used
+> +as a new value for the entry associated to ``key``. The ``flags`` argument can
+> +be one of the following:
+> +
+> +- ``BPF_ANY``: Create a new element or update an existing element.
+> +- ``BPF_NOEXIST``: Create a new element only if it did not exist.
+> +- ``BPF_EXIST``: Update an existing element.
+> +
+> +If the ``map`` has BPF programs (parser and verdict), those will be inherited
+> +by the socket being added. If the socket is already attached to BPF programs,
+> +this results in an error.
+> +
+> +Returns 0 on success, or a negative error in case of failure.
+> +
+> +bpf_sock_hash_update()
+> +^^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    long bpf_sock_hash_update(struct bpf_sock_ops *skops, struct bpf_map *map, void *key, u64 flags)
+> +
+> +Add an entry to, or update a sockhash ``map`` referencing sockets. The ``skops``
+> +is used as a new value for the entry associated to ``key``.
+> +
+> +The ``flags`` argument can be one of the following:
+> +
+> +- ``BPF_ANY``: Create a new element or update an existing element.
+> +- ``BPF_NOEXIST``: Create a new element only if it did not exist.
+> +- ``BPF_EXIST``: Update an existing element.
+> +
+> +If the ``map`` has BPF programs (parser and verdict), those will be inherited
+> +by the socket being added. If the socket is already attached to BPF programs,
+> +this results in an error.
+> +
+> +Returns 0 on success, or a negative error in case of failure.
+> +
+> +bpf_msg_redirect_hash()
+> +^^^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    long bpf_msg_redirect_hash(struct sk_msg_buff *msg, struct bpf_map *map, void *key, u64 flags)
+> +
+> +This helper is used in programs implementing policies at the socket level. If
+> +the message ``msg`` is allowed to pass (i.e. if the verdict BPF program returns
+> +``SK_PASS``), redirect it to the socket referenced by ``map`` (of type
+> +``BPF_MAP_TYPE_SOCKHASH``) using hash ``key``. Both ingress and egress
+> +interfaces can be used for redirection. The ``BPF_F_INGRESS`` value in
+> +``flags`` is used to select the ingress path otherwise the egress path is
+> +selected. This is the only flag supported for now.
+> +
+> +Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
+> +
+> +bpf_sk_redirect_hash()
+> +^^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    long bpf_sk_redirect_hash(struct sk_buff *skb, struct bpf_map *map, void *key, u64 flags)
+> +
+> +This helper is used in programs implementing policies at the skb socket level.
+> +If the sk_buff ``skb`` is allowed to pass (i.e. if the verdict BPF program
+> +returns ``SK_PASS``), redirect it to the socket referenced by ``map`` (of type
+> +``BPF_MAP_TYPE_SOCKHASH``) using hash ``key``. Both ingress and egress
+> +interfaces can be used for redirection. The ``BPF_F_INGRESS`` value in
+> +``flags`` is used to select the ingress path otherwise the egress path is
+> +selected. This is the only flag supported for now.
+> +
+> +Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
+> +
+> +bpf_msg_apply_bytes()
+> +^^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    long bpf_msg_apply_bytes(struct sk_msg_buff *msg, u32 bytes)
+> +
+> +For socket policies, apply the verdict of the BPF program to the next (number
+> +of ``bytes``) of message ``msg``. For example, this helper can be used in the
+> +following cases:
+> +
+> +- A single ``sendmsg()`` or ``sendfile()`` system call contains multiple
+> +  logical messages that the BPF program is supposed to read and for which it
+> +  should apply a verdict.
+> +- A BPF program only cares to read the first ``bytes`` of a ``msg``. If the
+> +  message has a large payload, then setting up and calling the BPF program
+> +  repeatedly for all bytes, even though the verdict is already known, would
+> +  create unnecessary overhead.
+> +
+> +Returns 0
+> +
+> +bpf_msg_cork_bytes()
+> +^^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    long bpf_msg_cork_bytes(struct sk_msg_buff *msg, u32 bytes)
+> +
+> +For socket policies, prevent the execution of the verdict BPF program for
+> +message ``msg`` until the number of ``bytes`` have been accumulated.
+> +
+> +This can be used when one needs a specific number of bytes before a verdict can
+> +be assigned, even if the data spans multiple ``sendmsg()`` or ``sendfile()``
+> +calls.
+> +
+> +Returns 0
+> +
+> +bpf_msg_pull_data()
+> +^^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +    long bpf_msg_pull_data(struct sk_msg_buff *msg, u32 start, u32 end, u64 flags)
+> +
+> +For socket policies, pull in non-linear data from user space for ``msg`` and set
+> +pointers ``msg->data`` and ``msg->data_end`` to ``start`` and ``end`` bytes
+> +offsets into ``msg``, respectively.
+> +
+> +If a program of type ``BPF_PROG_TYPE_SK_MSG`` is run on a ``msg`` it can only
+> +parse data that the (``data``, ``data_end``) pointers have already consumed.
+> +For ``sendmsg()`` hooks this is likely the first scatterlist element. But for
+> +calls relying on the ``sendpage`` handler (e.g. ``sendfile()``) this will be
+> +the range (**0**, **0**) because the data is shared with user space and by
+> +default the objective is to avoid allowing user space to modify data while (or
+> +after) BPF verdict is being decided. This helper can be used to pull in data
+
+s/BPF verdict/a BPF verdict
+
+> +and to set the start and end pointer to given values. Data will be copied if
+> +necessary (i.e. if data was not linear and if start and end pointers do not
+> +point to the same chunk).
+
+If the scenario in parens is just one of several possible examples of
+when the data will be copied, I think "e.g." is correct rather than
+"i.e.".
+
+> +
+> +A call to this helper is susceptible to change the underlying packet buffer.
+> +Therefore, at load time, all checks on pointers previously done by the verifier
+> +are invalidated and must be performed again, if the helper is used in
+> +combination with direct packet access.
+> +
+> +All values for ``flags`` are reserved for future usage, and must be left at
+> +zero.
+> +
+> +Returns 0 on success, or a negative error in case of failure.
+> +
+> +bpf_map_lookup_elem()
+> +^^^^^^^^^^^^^^^^^^^^^
 > +
 > +.. code-block:: c
 > +
-> +   int bpf_map_lookup_elem(int map_fd, const void *key, void *value)
+> +	void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
 > +
-> +Socket-local storage for the socket identified by ``key`` belonging to ``map_fd`` can be
-> +retrieved using the ``bpf_map_lookup_elem()`` libbpf function. ``key`` must be a pointer to a
-> +valid ``fd`` in the user space program. Returns ``0`` on success, or negative error in case of
-> +failure.
+> +Lookup a socket entry in the sockmap or sockhash map.
+> +
+> +Returns the socket entry associated to ``key``, or NULL if no entry was found.
+> +
+> +bpf_map_update_elem()
+> +^^^^^^^^^^^^^^^^^^^^^
+> +.. code-block:: c
+> +
+> +	long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
+> +
+> +Add or update a socket entry in a sockmap or sockhash.
+> +
+> +The flags argument can be one of the following:
+> +
+> +- BPF_ANY: Create a new element or update an existing element.
+> +- BPF_NOEXIST: Create a new element only if it did not exist.
+> +- BPF_EXIST: Update an existing element.
+> +
+> +Returns 0 on success, or a negative error in case of failure.
 > +
 > +bpf_map_delete_elem()
-> +~~~~~~~~~~~~~~~~~~~~~
-> +
+> +^^^^^^^^^^^^^^^^^^^^^^
 > +.. code-block:: c
 > +
-> +   int bpf_map_delete_elem (int map_fd, const void *key)
+> +    long bpf_map_delete_elem(struct bpf_map *map, const void *key)
+> +
+> +Delete a socket entry from a sockmap or a sockhash.
+> +
+> +Returns	0 on success, or a negative error in case of failure.
 
-Extra space between _elem and (.
+Can you make this tab a space to make it uniform with the rest of the
+doc?
 
-> +
-> +Socket-local storage for the socket identified by ``key`` belonging to ``map_fd`` can be deleted
-> +using the ``bpf_map_delete_elem()`` libbpf function. Returns ``0`` on success, or negative error
-> +in case of failure.
-> +
-> +Examples
-> +========
-> +
-> +Kernel BPF
-> +----------
-> +
-> +This snippet shows how to declare socket-local storage in a BPF program:
-> +
-> +.. code-block:: c
-> +
-> +    struct {
-> +            __uint(type, BPF_MAP_TYPE_SK_STORAGE);
-> +            __uint(map_flags, BPF_F_NO_PREALLOC);
-> +            __type(key, int);
-> +            __type(value, struct my_storage);
-> +    } socket_storage SEC(".maps");
-> +
-> +This snippet shows how to retrieve socket-local storage in a BPF program:
-> +
-> +.. code-block:: c
-> +
-> +    SEC("sockops")
-> +    int _sockops(struct bpf_sock_ops *ctx)
-> +    {
-> +            struct my_storage *storage;
-> +            struct bpf_sock *sk;
-> +
-> +            sk = ctx->sk;
-> +            if (!sk)
-> +                    return 1;
+Otherwise everything looks great. Thanks again for writing these docs.
 
-Don't feel strongly about this one, but IMO it's nice for examples to
-illustrate code that's as close to real and pristine as possible. To
-that point, should this example perhaps be updated to return -ENOENT
-here, and -ENOMEM below?
-
-> +
-> +            storage = bpf_sk_storage_get(&socket_storage, sk, 0,
-> +                                         BPF_LOCAL_STORAGE_GET_F_CREATE);
-> +            if (!storage)
-> +                    return 1;
-> +
-> +            /* Use 'storage' here */
-
-Let's return 0 at the end to make the example program technically
-correct.
-
-> +    }
-
-Thanks,
-David
+- David
