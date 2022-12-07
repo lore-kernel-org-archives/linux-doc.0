@@ -2,111 +2,233 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC462C352A1
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 10:12:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD030C352A1
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 10:28:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230314AbiLGKMH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 05:12:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40984 "EHLO
+        id S229912AbiLGK2X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Dec 2022 05:28:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230242AbiLGKMD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 05:12:03 -0500
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6CEA4092E;
-        Wed,  7 Dec 2022 02:12:02 -0800 (PST)
-Received: by mail-pf1-x432.google.com with SMTP id n3so12861568pfq.10;
-        Wed, 07 Dec 2022 02:12:02 -0800 (PST)
+        with ESMTP id S230045AbiLGK1d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 05:27:33 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5480D18B;
+        Wed,  7 Dec 2022 02:27:32 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id q7so27419309wrr.8;
+        Wed, 07 Dec 2022 02:27:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=p+P1xMnkCCBz9CXQ/HSo+U65ScICwkDZ83BVNMvEKZk=;
-        b=NZsAuyNjTb4ztrX0KgkavB2VvvMs21qQi3kR56jkqnPSEYFcfuCrPgNJqSvgnfBFVp
-         6SmeY90qC82fFxB0YYLdKwSaG9Gng35gGvug8pg6bDX8APJNPwcgYtOb5iAdChL6fGve
-         3k98IbCHJgV+/WG8SQhubAQ9NQShX2qOdqye5lONQ0aKW44Z2m60t3sc8nCzzcQn+Zyn
-         Dp29sAAS0JG1mLNe53IO/3NMbj5jjdMqLLEd2gW0ZOAQxM6vx83lmLIkE8UdxNohsEtb
-         rKosAsRiItTOhnaw0ydWwbR5b/Ln0gsgLkg163grxi0ApWKYChjOlx3Xwwend6dp3C3C
-         BM4w==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ldf8d0n8Tv+nxCdjhSi8ttPgMXIPCUcaARiXNvFu6fE=;
+        b=lxjn8UcJk4Jy9HLpjX1IpUjkWGmVMtSnrrXAFbPazaYWybsnjO/6BcPCm9T7w/ZNFM
+         5u0/EHaaeX/iExvC8auih09G4F+hxkmRj9obcRKqI0HhBaLmI1nIboUuc2vamkxgHA2i
+         xQHk7Q5WhTa3070+jDNWGBr8MuOV+Nz49xW+xC8eioJrCHDnLX+XdF2uoQZITJD1jrL+
+         sCewO8qdtTwdj9frCAsPt7ao0+jHJMRq1s3pioNYICLlSBMdsN77CG+pkO0umTGEI8BU
+         2KJcSwjNM3PKMCqZeyTzVl9/4jsugBO9m85kQxI2oocR6rlEwmoh7GiFT/ar0XbAuXmg
+         rhUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p+P1xMnkCCBz9CXQ/HSo+U65ScICwkDZ83BVNMvEKZk=;
-        b=4K3nMixH91XkNA2c1Hlcrt2Vq6VqAbzHZ4xWt29/ACBK5sQa2jsCN2eqGT6UI9BhEH
-         4h2XP9RYzdfwccCsZMYjD3sRbaAQYYPZbEEBPDt0RkN1AzQ1ViyuhldZfLb+p+JZiDhO
-         GE08ebMW1XExF1vEMw7BXF8LaRXNrMysWdgtdTLw6zph3FN+eSXXcHULPjhjwTveyKtw
-         dYpwvfZLipgBaY13+INW/Sakk+bn5tQSNBsH3UDlRMSsjk5eKugE0Egd67gwGAGET3pM
-         v+wlVY8veU3WPiTZUmQLeoMxPVwzNz6VqXcqaYNV4/d2f2vEBwnYvpiJYFNWb7gi9h+8
-         xtxQ==
-X-Gm-Message-State: ANoB5pkD0iemhl/V5Gl4mJW+m+xXZ2yczo2bNOTPJO0AWUTHGwmWyQvP
-        qlGOTZTAjNsEVyls4TL8fgU=
-X-Google-Smtp-Source: AA0mqf6HUg62PrOsODpLPCv8Q5It7/v8kLLYdJaBk9BU/+DnNWPO1P84+r0fZhFEy8CQmMCCfOD58Q==
-X-Received: by 2002:a63:cd44:0:b0:478:1391:fc43 with SMTP id a4-20020a63cd44000000b004781391fc43mr42038466pgj.431.1670407922191;
-        Wed, 07 Dec 2022 02:12:02 -0800 (PST)
-Received: from sol (110-174-14-241.tpgi.com.au. [110.174.14.241])
-        by smtp.gmail.com with ESMTPSA id c6-20020a170902d48600b0017f72a430adsm14257355plg.71.2022.12.07.02.11.58
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ldf8d0n8Tv+nxCdjhSi8ttPgMXIPCUcaARiXNvFu6fE=;
+        b=yE+4+d+BgBDJuDm0OfhhDY3YFawHtrjSljz3BDXKMri2HSo19RKATFGV9gP17Jt5hR
+         Ao5dpqtQwXW4tRAsAutq9j5kzciiaQDMDcmBgi55168bZcAZqt6OOOC0sb/KieY01Bma
+         V6lCWp4z5Cbs1nhM4n/3wd+O4NWxT/eQM6YqsMvtPE+T7qVIEupOABVl/X5iGje6iLax
+         qlNCV3JUFDfQoaf0dS+Nnofe02H5BiObVXg3ORF7jdVUM1A5idtl0D2wWpx4mqQPfBhw
+         kGSvvwIsc03jA51xihEH8WBtpHqOepLQUT0LfeI5A1OaLlPIoVW1N0BOxA1ugaPMwYv/
+         lT8w==
+X-Gm-Message-State: ANoB5pnLxRAmFwQ2Neqvz93KHAOhoKQ1bzLUu6S7Rp5Dh1THs5P8WO1o
+        vKLLtHUcACNgWsbr4iXn49zTlUD/k7nfuA==
+X-Google-Smtp-Source: AA0mqf6tD/drvEoieA0U8UXlvHBpQmATNwbD+x61hxsbPonp1nv6Nj2JGic9F1cCy6JT/DvkmwUHZA==
+X-Received: by 2002:a5d:4f92:0:b0:242:1845:8097 with SMTP id d18-20020a5d4f92000000b0024218458097mr26032286wru.666.1670408850086;
+        Wed, 07 Dec 2022 02:27:30 -0800 (PST)
+Received: from imac.fritz.box ([2a02:8010:60a0:0:b95c:6432:1154:81bb])
+        by smtp.gmail.com with ESMTPSA id d1-20020adff841000000b002420d51e581sm18649195wrq.67.2022.12.07.02.27.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Dec 2022 02:12:01 -0800 (PST)
-Date:   Wed, 7 Dec 2022 18:11:55 +0800
-From:   Kent Gibson <warthog618@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Marc Zyngier <maz@kernel.org>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v1 2/3] Documentation: gpio: Add a section on what to
- return in ->get() callback
-Message-ID: <Y5Bm6+ZKMaWCPDxi@sol>
-References: <20221130155519.20362-1-andriy.shevchenko@linux.intel.com>
- <20221130155519.20362-2-andriy.shevchenko@linux.intel.com>
- <CACRpkdaQWZE6=BNEh5hSH9=jBK=TcLoD1uUb=JyNYmHFvaSAfg@mail.gmail.com>
- <Y41MxPthLjitvzEl@sol>
- <CACRpkdb67ygsEuZhRZ9TGmmNXhiU2LsuefD0-48xtCLx3fq-KA@mail.gmail.com>
- <Y5BjJmz5Mvdr8cAR@smile.fi.intel.com>
+        Wed, 07 Dec 2022 02:27:29 -0800 (PST)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yonghong Song <yhs@meta.com>,
+        Donald Hunter <donald.hunter@gmail.com>
+Subject: [PATCH bpf-next v3] docs/bpf: Add documentation for BPF_MAP_TYPE_SK_STORAGE
+Date:   Wed,  7 Dec 2022 10:27:21 +0000
+Message-Id: <20221207102721.33378-1-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y5BjJmz5Mvdr8cAR@smile.fi.intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 07, 2022 at 11:55:50AM +0200, Andy Shevchenko wrote:
-> On Wed, Dec 07, 2022 at 01:06:46AM +0100, Linus Walleij wrote:
-> > On Mon, Dec 5, 2022 at 2:43 AM Kent Gibson <warthog618@gmail.com> wrote:
-> > 
-> > > My preference would be for the driver API to be extended with a new
-> > > callback for the output buffer, say get_output(), and have the existing
-> > > get() always return the input buffer.
-> > 
-> > This has a certain elegance to it, as it cuts to the bone of the
-> > problem and partition it in two halves, reflecting the two pieces
-> > of hardware: input and output buffer. Also follows Rusty Russells
-> > API hierarchy.
-> 
-> The (one of) problem is that not all hardware may support input and output
-> be enabled at the same time.
+Add documentation for the BPF_MAP_TYPE_SK_STORAGE including
+kernel version introduced, usage and examples.
 
-Exactly - and you want to hide that from the user.
+Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+---
+v2 -> v3:
+- Fix void * return, reported by Yonghong Song
+- Add tracing programs to API note, reported by Yonghong Song
+v1 -> v2:
+- Fix bpf_sk_storage_* function signatures, reported by Yonghong Song
+- Fix NULL return on failure, reported by Yonghong Song
 
-> What would that new API return in that case
-> and how it would be better with get() returning the value depending on
-> direction?
-> 
+ Documentation/bpf/map_sk_storage.rst | 142 +++++++++++++++++++++++++++
+ 1 file changed, 142 insertions(+)
+ create mode 100644 Documentation/bpf/map_sk_storage.rst
 
-It would return an error for whichever is not supported.  So get()
-returns an error when the input buffer is unavailable, and get_output()
-returns an error when the output buffer is unavailable.  And that is for
-whatever reason, e.g. the selected mode or lacking hardware or driver
-support.
+diff --git a/Documentation/bpf/map_sk_storage.rst b/Documentation/bpf/map_sk_storage.rst
+new file mode 100644
+index 000000000000..955b287bb7de
+--- /dev/null
++++ b/Documentation/bpf/map_sk_storage.rst
+@@ -0,0 +1,142 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
++
++=======================
++BPF_MAP_TYPE_SK_STORAGE
++=======================
++
++.. note::
++   - ``BPF_MAP_TYPE_SK_STORAGE`` was introduced in kernel version 5.2
++
++``BPF_MAP_TYPE_SK_STORAGE`` is used to provide socket-local storage for BPF programs. A map of
++type ``BPF_MAP_TYPE_SK_STORAGE`` declares the type of storage to be provided and acts as the
++handle for accessing the socket-local storage from a BPF program. The key type must be ``int``
++and ``max_entries`` must be set to ``0``.
++
++The ``BPF_F_NO_PREALLOC`` must be used when creating a map for socket-local storage. The kernel
++is responsible for allocating storage for a socket when requested and for freeing the storage
++when either the map or the socket is deleted.
++
++Usage
++=====
++
++Kernel BPF
++----------
++
++bpf_sk_storage_get()
++~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
++   void *bpf_sk_storage_get(struct bpf_map *map, void *sk, void *value, u64 flags)
++
++Socket-local storage can be retrieved using the ``bpf_sk_storage_get()`` helper. The helper gets
++the storage from ``sk`` that is identified by ``map``.  If the
++``BPF_LOCAL_STORAGE_GET_F_CREATE`` flag is used then ``bpf_sk_storage_get()`` will create the
++storage for ``sk`` if it does not already exist. ``value`` can be used together with
++``BPF_LOCAL_STORAGE_GET_F_CREATE`` to initialize the storage value, otherwise it will be zero
++initialized. Returns a pointer to the storage on success, or ``NULL`` in case of failure.
++
++.. note::
++   - ``sk`` is a kernel ``struct sock`` pointer for LSM or tracing programs.
++   - ``sk`` is a ``struct bpf_sock`` pointer for other program types.
++
++bpf_sk_storage_delete()
++~~~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
++   long bpf_sk_storage_delete(struct bpf_map *map, void *sk)
++
++Socket-local storage can be deleted using the ``bpf_sk_storage_delete()`` helper. The helper
++deletes the storage from ``sk`` that is identified by ``map``. Returns ``0`` on success, or negative
++error in case of failure.
++
++User space
++----------
++
++bpf_map_update_elem()
++~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
++   int bpf_map_update_elem(int map_fd, const void *key, const void *value, __u64 flags)
++
++Socket-local storage with type identified by ``map_fd`` for the socket identified by ``key`` can
++be added or updated using the ``bpf_map_update_elem()`` libbpf function. ``key`` must be a
++pointer to a valid ``fd`` in the user space program. The ``flags`` parameter can be used to
++control the update behaviour:
++
++- ``BPF_ANY`` will create storage for ``fd`` or update existing storage.
++- ``BPF_NOEXIST`` will create storage for ``fd`` only if it did not already
++  exist
++- ``BPF_EXIST`` will update existing storage for ``fd``
++
++Returns ``0`` on success, or negative error in case of failure.
++
++bpf_map_lookup_elem()
++~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
++   int bpf_map_lookup_elem(int map_fd, const void *key, void *value)
++
++Socket-local storage for the socket identified by ``key`` belonging to ``map_fd`` can be
++retrieved using the ``bpf_map_lookup_elem()`` libbpf function. ``key`` must be a pointer to a
++valid ``fd`` in the user space program. Returns ``0`` on success, or negative error in case of
++failure.
++
++bpf_map_delete_elem()
++~~~~~~~~~~~~~~~~~~~~~
++
++.. code-block:: c
++
++   int bpf_map_delete_elem (int map_fd, const void *key)
++
++Socket-local storage for the socket identified by ``key`` belonging to ``map_fd`` can be deleted
++using the ``bpf_map_delete_elem()`` libbpf function. Returns ``0`` on success, or negative error
++in case of failure.
++
++Examples
++========
++
++Kernel BPF
++----------
++
++This snippet shows how to declare socket-local storage in a BPF program:
++
++.. code-block:: c
++
++    struct {
++            __uint(type, BPF_MAP_TYPE_SK_STORAGE);
++            __uint(map_flags, BPF_F_NO_PREALLOC);
++            __type(key, int);
++            __type(value, struct my_storage);
++    } socket_storage SEC(".maps");
++
++This snippet shows how to retrieve socket-local storage in a BPF program:
++
++.. code-block:: c
++
++    SEC("sockops")
++    int _sockops(struct bpf_sock_ops *ctx)
++    {
++            struct my_storage *storage;
++            struct bpf_sock *sk;
++
++            sk = ctx->sk;
++            if (!sk)
++                    return 1;
++
++            storage = bpf_sk_storage_get(&socket_storage, sk, 0,
++                                         BPF_LOCAL_STORAGE_GET_F_CREATE);
++            if (!storage)
++                    return 1;
++
++            /* Use 'storage' here */
++    }
++
++References
++==========
++
++https://lwn.net/ml/netdev/20190426171103.61892-1-kafai@fb.com/
+-- 
+2.38.1
 
-It is better because the user is explicitly informed that the buffer
-they are trying to read from is not supported by the current
-configuration.  And they get to choose which buffer they want to read
-as they see fit - not have that selection made for them by magic.
-
-Cheers,
-Kent.
