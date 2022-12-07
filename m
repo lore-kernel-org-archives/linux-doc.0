@@ -2,202 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64C04C63708
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 08:58:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99B13C47089
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 09:10:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229575AbiLGI6q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 03:58:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50120 "EHLO
+        id S229925AbiLGJKe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Dec 2022 04:10:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbiLGI6e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 03:58:34 -0500
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59B4EBEA;
-        Wed,  7 Dec 2022 00:58:32 -0800 (PST)
-Received: by mail-pf1-x42a.google.com with SMTP id n3so12700673pfq.10;
-        Wed, 07 Dec 2022 00:58:32 -0800 (PST)
+        with ESMTP id S229700AbiLGJKc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 04:10:32 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B6602CE2E;
+        Wed,  7 Dec 2022 01:10:31 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id q15so15942854pja.0;
+        Wed, 07 Dec 2022 01:10:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3kRlTBcDxyj5ptNZ14o1YVXGmrqFxRI2/QpD88qWYiQ=;
-        b=pgoiqd8jUZVnnOCnDAzMxflF6HGuST/I9gEfUjqkMJROwp6XfWDHZNniCByRWCa7+t
-         RnC61XywTSJpzGwcFk6BamEkmE0TXLUXuBJw9eYmqFY6ZYzXW7nOD4FCUBzvlslwE4hh
-         K0pelResXxqzJigLV+9v0/HKhyR7+uBGdGzBvQnVFPFW3qjkP+m90rlXFQPR1JI9D/VH
-         L5g6nidU/g4vdofdkkcBoJVm68l8jnzFvszrmr/K6mfzVdhYtAoTpkG5xY/PAyO16kOv
-         cEikK3MA3tiPlBpiZasPoz3R1O914R9QuaM/oOTufXTHdD8gYkS6RHO9X6YRaEGcsecB
-         HpTQ==
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pmV/ylB/SbTzN29Fyk+GXH3nZHECjvwCeA1ibmHfhMQ=;
+        b=GfvTCv0FdA4O9e1udwwfLH8ZsR8VFMej6NTVJLhLfW3zw+bXTLcB8NcoPbMaoPk+N0
+         OqF7sYIVDaokwQsZxHgRw91fvIBI2aRD9FlcbG7CStYEyPt2zYk5oreS3Ke2WPoSia9n
+         D8yanAevyPbdG4fiYlH/HnmupHkvWF2SiF0mfKBMAeVS/DAZjW1xACxuBIWBc3M+l6zJ
+         gDeZ2RnRXKjz7/VCJYfMcrWIZjEJjOSXYds3vwXuET112w8F4ULoNfl/zjVf06mPMase
+         Co6UWt2BJ1elePOIAFgmD0sltcThMzgkVmiIbWltQPZjXJolCCyHdeho8CWWybvhbe/y
+         BDNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3kRlTBcDxyj5ptNZ14o1YVXGmrqFxRI2/QpD88qWYiQ=;
-        b=sSgyWjaLrC4WkZEZRIFMGIQBWtUOBJ9qfSS3ZbJl/UkhHvk62qT0N8TbFnZrOP1tG5
-         mWG9YJSyh7XmZkLPgjSX5ksnK7VPzUIdINLjBDYlsnt5jUvHWtPVRmY8ALTMlTq2gxBo
-         H04qNJn83mYTuAWPB+p0ACarMVje8gFm04cTUpaFzY+eP8L94C3qroHGcxkIR3Mp0rtg
-         Wx4Rt/SVYcsf9vw+UJSD9HE/kuifsxYF6kc32hYEzBJEVzWw+EOXdA14eA9Chr+Is2tC
-         B1jFuRJ7+nRF9jqG3386Lx/jGJphc5g3MwEXho3BSDXB7ziz8PI0r4NxA2BcnooyK4SF
-         ZjGA==
-X-Gm-Message-State: ANoB5pnFx6gxsqK+ueMxZnI89Ca2/zIgkzN6PKHRyfxoRyjwciH3t65o
-        cZmXNNIIWwt8CKhjkJGOecw=
-X-Google-Smtp-Source: AA0mqf4ZgSAfgs0hcNgueeE8FLs2MF0/38xphbpqsrdRo44kAFrVjIjUCGSHiF/dC/wUBsv7UacLBw==
-X-Received: by 2002:a63:1e49:0:b0:46b:1590:2625 with SMTP id p9-20020a631e49000000b0046b15902625mr62802011pgm.569.1670403511826;
-        Wed, 07 Dec 2022 00:58:31 -0800 (PST)
-Received: from debian.me (subs03-180-214-233-90.three.co.id. [180.214.233.90])
-        by smtp.gmail.com with ESMTPSA id ml13-20020a17090b360d00b00219f8eb271fsm740610pjb.5.2022.12.07.00.58.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Dec 2022 00:58:31 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id B381A1042C6; Wed,  7 Dec 2022 15:58:28 +0700 (WIB)
-Date:   Wed, 7 Dec 2022 15:58:28 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     David Gow <davidgow@google.com>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        Sadiya Kazi <sadiyakazi@google.com>,
-        Rae Moar <rmoar@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Daniel Latypov <dlatypov@google.com>,
-        linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: kunit: Fix "How Do I Use This" / "Next
- Steps" sections
-Message-ID: <Y5BVtHjnwpn5CFzf@debian.me>
-References: <20221207043319.1890954-1-davidgow@google.com>
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pmV/ylB/SbTzN29Fyk+GXH3nZHECjvwCeA1ibmHfhMQ=;
+        b=ygtycNIGkcwhz/e+YQGkmnm3G2XpI19P4A3zLBuEz1A6P/PSlxkwq/nk5xJk/niWly
+         trQWEuJLFtwoMO/y64nx4lhC5qEnzP1i/LEFdM0WeWNY2/CTObuJV+710Zmzc3vOPBl5
+         UmnZw1oJbne+HaTDDNed0+YRM/g0DYXGGEy41cI0Gk4HgXWH5gEzz8AZkru2OtCi/Rwo
+         gY45ZGComrpS9RIZEbY+dup3B9t3OEpELhwsdJvqglfi556QvG07KMA5woVsSFTqprsx
+         V73XvOeRHw/E2THYOoZZ+UxjfehU9z3ieaEALH/bHjmdqbsc42ysLhhjHbtMLqWhYWaD
+         +YRQ==
+X-Gm-Message-State: ANoB5pnQzAMdflM14navKFlZbL/zIVecm/HWkX6RXqvffsMYEGSU5kBd
+        kX654b8kjx1Fy1v2h5ImUCA=
+X-Google-Smtp-Source: AA0mqf596k22JlatRZtn9FsoaYCarP4PAd5xF+A9spjaycNFK6EmW9R8bwkQkRwWAsr6tc5Yym8p4g==
+X-Received: by 2002:a17:902:d88c:b0:186:a7f1:8d2b with SMTP id b12-20020a170902d88c00b00186a7f18d2bmr75853185plz.137.1670404231051;
+        Wed, 07 Dec 2022 01:10:31 -0800 (PST)
+Received: from [192.168.43.80] (subs03-180-214-233-90.three.co.id. [180.214.233.90])
+        by smtp.gmail.com with ESMTPSA id a2-20020a17090abe0200b0020ae09e9724sm734543pjs.53.2022.12.07.01.10.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Dec 2022 01:10:30 -0800 (PST)
+Message-ID: <35cb3dad-7bae-7713-3bad-b151fa6831dd@gmail.com>
+Date:   Wed, 7 Dec 2022 16:10:25 +0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="gQZZMfvjrIhTAV6r"
-Content-Disposition: inline
-In-Reply-To: <20221207043319.1890954-1-davidgow@google.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCBsaW51eC1uZXh0XcKgZG9jczogcHJvYy5yc3Q6IGFk?=
+ =?UTF-8?B?ZMKgc29mdG5ldF9zdGF0?=
+To:     yang.yang29@zte.com.cn, corbet@lwn.net, kuba@kernel.org
+Cc:     davem@davemloft.net, hannes@cmpxchg.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <202212071423496852423@zte.com.cn>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <202212071423496852423@zte.com.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 12/7/22 13:23, yang.yang29@zte.com.cn wrote:
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index e224b6d5b642..9d5fd9424e8b 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -1284,6 +1284,7 @@ support this. Table 1-9 lists the files and their meaning.
+>   rt_cache      Routing cache
+>   snmp          SNMP data
+>   sockstat      Socket statistics
+> + softnet_stat  Per-CPU incoming packets queues statistics of online CPUs
+>   tcp           TCP  sockets
+>   udp           UDP sockets
+>   unix          UNIX domain sockets
 
---gQZZMfvjrIhTAV6r
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add softnet_stat to what table? I have to read the actual documentation
+and found that you mean /proc/net table. Please mention that in patch
+subject.
 
-On Wed, Dec 07, 2022 at 12:33:19PM +0800, David Gow wrote:
-> The "How Do I Use This" section of index.rst and "Next Steps" section of
-> start.rst were just copies of the table of contents, and therefore
-> weren't really useful either when looking a sphinx generated output
-> (which already had the TOC visible) or when reading the source (where
-> it's just a list of files that ls could give you).
->=20
-> Instead, provide a small number of concrete next steps, and a bit more
-> description about what the pages contain.
->=20
-> This also removes the broken reference to 'tips.rst', which was
-> previously removed.
->=20
-> Fixes: 4399c737a97d ("Documentation: kunit: Remove redundant 'tips.rst' p=
-age")
-> Signed-off-by: David Gow <davidgow@google.com>
-> ---
->=20
-> Thanks everyone for reviewing v1. Since this is pretty much a complete
-> rewrite, I've left Reviewed-by tags off, as I don't feel the previous
-> reviews totally apply. Feel free to review again if you have any
-> comments.
->=20
-> Cheers,
-> -- David
->=20
-> Changes since v1:
-> https://lore.kernel.org/linux-kselftest/20221129094732.306449-1-davidgow@=
-google.com/
-> - Totally rewrite both sections to only include (and provide more
->   context for) the most concrete next steps.
->   - Thanks Bagas for pointing out that this basically duplicates the TOC
->     as-is.
->=20
-> ---
->  Documentation/dev-tools/kunit/index.rst | 19 ++++++++-----------
->  Documentation/dev-tools/kunit/start.rst | 19 +++++++++----------
->  2 files changed, 17 insertions(+), 21 deletions(-)
->=20
-> diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-=
-tools/kunit/index.rst
-> index d5629817cd72..b3593ae29ace 100644
-> --- a/Documentation/dev-tools/kunit/index.rst
-> +++ b/Documentation/dev-tools/kunit/index.rst
-> @@ -99,14 +99,11 @@ Read also :ref:`kinds-of-tests`.
->  How do I use it?
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> -*   Documentation/dev-tools/kunit/start.rst - for KUnit new users.
-> -*   Documentation/dev-tools/kunit/architecture.rst - KUnit architecture.
-> -*   Documentation/dev-tools/kunit/run_wrapper.rst - run kunit_tool.
-> -*   Documentation/dev-tools/kunit/run_manual.rst - run tests without kun=
-it_tool.
-> -*   Documentation/dev-tools/kunit/usage.rst - write tests.
-> -*   Documentation/dev-tools/kunit/tips.rst - best practices with
-> -    examples.
-> -*   Documentation/dev-tools/kunit/api/index.rst - KUnit APIs
-> -    used for testing.
-> -*   Documentation/dev-tools/kunit/faq.rst - KUnit common questions and
-> -    answers.
-> +You can find a step-by-step guide to writing and running KUnit tests in
-> +Documentation/dev-tools/kunit/start.rst
-> +
-> +Alternatively, feel free to look through the rest of the KUnit documenta=
-tion,
-> +or to experiment with tools/testing/kunit/kunit.py and the example test =
-under
-> +lib/kunit/kunit-example-test.c
-> +
-> +Happy testing!
-> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-=
-tools/kunit/start.rst
-> index f4f504f1fb15..224387a43543 100644
-> --- a/Documentation/dev-tools/kunit/start.rst
-> +++ b/Documentation/dev-tools/kunit/start.rst
-> @@ -294,13 +294,12 @@ Congrats! You just wrote your first KUnit test.
->  Next Steps
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> -*   Documentation/dev-tools/kunit/architecture.rst - KUnit architecture.
-> -*   Documentation/dev-tools/kunit/run_wrapper.rst - run kunit_tool.
-> -*   Documentation/dev-tools/kunit/run_manual.rst - run tests without kun=
-it_tool.
-> -*   Documentation/dev-tools/kunit/usage.rst - write tests.
-> -*   Documentation/dev-tools/kunit/tips.rst - best practices with
-> -    examples.
-> -*   Documentation/dev-tools/kunit/api/index.rst - KUnit APIs
-> -    used for testing.
-> -*   Documentation/dev-tools/kunit/faq.rst - KUnit common questions and
-> -    answers.
-> +If you're interested in using some of the more advanced features of kuni=
-t.py,
-> +take a look at Documentation/dev-tools/kunit/run_wrapper.rst
-> +
-> +If you'd like to run tests without using kunit.py, check out
-> +Documentation/dev-tools/kunit/run_manual.rst
-> +
-> +For more information on writing KUnit tests (including some common techn=
-iques
-> +for testing different things), see Documentation/dev-tools/kunit/usage.r=
-st
-> +
+Regardless, this patch is from ZTE people, for which they have a
+reputation for ignoring critical code reviews and "atypical" email
+setup that needs to be fixed (try searching for `tc:"zte.com.cn" AND
+f:"gregkh@linuxfoundation.org"` on LKML for details). If you can
+receive this email, please hit "Reply all", "Group Reply" or similar.
+Remember don't top-post, reply inline with appropriate context instead.
 
-Much better, thanks!
+Thanks.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
+-- 
 An old man doll... just what I always wanted! - Clara
 
---gQZZMfvjrIhTAV6r
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY5BVrwAKCRD2uYlJVVFO
-o90qAP0W0QiL12+wE0JzXPGrOMlc9sFK4uQuxOTzzy+QLsgflwEA+ZWGwB0Yy8f8
-m2zrxJFPUg5QDxd6u2KAbBX0ztNinAg=
-=m9er
------END PGP SIGNATURE-----
-
---gQZZMfvjrIhTAV6r--
