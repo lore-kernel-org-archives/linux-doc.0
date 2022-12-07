@@ -2,122 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E1A9C3A5A7
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 00:06:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 767E3C3A5A7
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 00:07:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229534AbiLGAG3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Dec 2022 19:06:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55988 "EHLO
+        id S229775AbiLGAHD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Dec 2022 19:07:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbiLGAG1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 19:06:27 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BBAC131;
-        Tue,  6 Dec 2022 16:06:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=p1wOiIfc+a4pCzMjBOs4Bm1NL5HxcZtXMxPYcz1MUfc=; b=IJ5v6Yh54UMyU/IzKFFJkP5IpC
-        RzgDR5aPwuvnOeyuYigSl9SEBhA6VBUxZUQ2Em5l3u3scY8WOe4XMhRvZkXGs/DiwTmQi1X718cO1
-        CHLU29OqKGdwR6RuN4uKW4RUGN3jeaAbxKMO2Uh0KrN8IdYQQf9lwOK5Ci3vO7EAvpk7aQ2/Yv6JW
-        uAGRcQitj1/Nkv+S/XD7xfQR5WqbbWPCbPeUvNLGmXLuF2UlDiciv21G1TslnqB2T5/TKjEfhjCfJ
-        3WmzzA91AT6y2i+9z02pahJoWFdrtBNaeTZr3J+gCcVd7fM4mcRw8Nkiw7qmciIHAOL8IxqVo+9do
-        0Hm+xb0w==;
-Received: from [2601:1c2:d80:3110::a2e7]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1p2hx3-00623S-Am; Wed, 07 Dec 2022 00:06:17 +0000
-Message-ID: <0ac78a21-1fa3-8bbd-83c5-efdada189983@infradead.org>
-Date:   Tue, 6 Dec 2022 16:06:16 -0800
+        with ESMTP id S229717AbiLGAHA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Dec 2022 19:07:00 -0500
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 664AB131
+        for <linux-doc@vger.kernel.org>; Tue,  6 Dec 2022 16:06:59 -0800 (PST)
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-3b56782b3f6so169438757b3.13
+        for <linux-doc@vger.kernel.org>; Tue, 06 Dec 2022 16:06:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HXgLDr1n/+xAVukg6gKX/0TpU9mRimvh3G5TlxnBz6g=;
+        b=exXeum7wqVGnbRYbAY94VKseR8t66PoiNTCRjhOGL/vlm2QFvt3vuqCTXZGjwEKndU
+         OmlWvpPP7jQLFPDVRSdkBN4AvuazSC2Ms4+zr/ZinuI5FdHTdaprcsJIbtOIehN7ZHEO
+         gjRrhK3l9HMImsfvw4e72Et0ELcVyvvq3/bQDlRtCt3LlHJYP38mqb9pUm3dNsR/bx4r
+         Jp68TCQNz6gaVaSfi0rl9oOrawK/lPrzGdraukItASK8mYqeSredcJ7NTN30kAdxMmiD
+         Vq7RKEbvEneN6XNwKWQm7cuGUlYTzWrfOYcHnLoqgz/0IwEO3JHSaAzWoHuELVrv0/vD
+         x3uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HXgLDr1n/+xAVukg6gKX/0TpU9mRimvh3G5TlxnBz6g=;
+        b=IO6jjsUq1gL9sAdp0xf8JyIH1jPuSaUibQIcXwTESc6oJAB9zlXN/atVQlQALuwShq
+         4vPXR568ZlHHOleRNADRsullLi9x11AIE7cQF5Fnb1RROxZIh7uPsurBkKWbVaswMk61
+         exAmp1rXj5mxNY1pCZbfq+n6aOrT5t5t7yFDjE6HOmrdTVtFELt08KxwnuOdfEEGHmum
+         YLXUyPxkt+AfI9xg3xTR1/QbtKq6meF4YEa/0+22LGDG9T9GWVhD1Q93twmQ7lnWYFvE
+         4lN+2uVLu2Fyrq+zm8mYyo0PM73sCYdRbGUFe5gnIOUE1TyZatucZQkVW/vXra6mQ5aN
+         +8DQ==
+X-Gm-Message-State: ANoB5pm+q+OZNXqCcYfHGJc6PktmTniP93Xq21JpEpnVe8B098kp/W4D
+        qn+iIgyoKQ04d+HRxt8Dl5LN/GMHe309N9uv59OyxA==
+X-Google-Smtp-Source: AA0mqf4cnAiozi/iWQDnrGVKXZ+2ZUzCBo8345aoW0itQwcsuYnRsud83YCR6WxeMt6XiOBmd49ALiNgx93e6J+m2M0=
+X-Received: by 2002:a0d:d751:0:b0:3e8:76df:4afd with SMTP id
+ z78-20020a0dd751000000b003e876df4afdmr14015886ywd.380.1670371618632; Tue, 06
+ Dec 2022 16:06:58 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v3 2/2] docs: Integrate rustdoc generation into htmldocs
-Content-Language: en-US
-To:     Akira Yokosawa <akiyks@gmail.com>,
-        Carlos Bilbao <carlos.bilbao@amd.com>, corbet@lwn.net,
-        ojeda@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bilbao@vt.edu, konstantin@linuxfoundation.org
-References: <20221201204814.2141401-1-carlos.bilbao@amd.com>
- <20221206153151.771038-1-carlos.bilbao@amd.com>
- <20221206153151.771038-3-carlos.bilbao@amd.com>
- <6079a282-c802-9836-1ae7-d67526a205c9@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <6079a282-c802-9836-1ae7-d67526a205c9@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221130155519.20362-1-andriy.shevchenko@linux.intel.com>
+ <20221130155519.20362-2-andriy.shevchenko@linux.intel.com>
+ <CACRpkdaQWZE6=BNEh5hSH9=jBK=TcLoD1uUb=JyNYmHFvaSAfg@mail.gmail.com> <Y41MxPthLjitvzEl@sol>
+In-Reply-To: <Y41MxPthLjitvzEl@sol>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 7 Dec 2022 01:06:46 +0100
+Message-ID: <CACRpkdb67ygsEuZhRZ9TGmmNXhiU2LsuefD0-48xtCLx3fq-KA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] Documentation: gpio: Add a section on what to
+ return in ->get() callback
+To:     Kent Gibson <warthog618@gmail.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marc Zyngier <maz@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hans de Goede <hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Dec 5, 2022 at 2:43 AM Kent Gibson <warthog618@gmail.com> wrote:
 
+> My preference would be for the driver API to be extended with a new
+> callback for the output buffer, say get_output(), and have the existing
+> get() always return the input buffer.
 
-On 12/6/22 15:11, Akira Yokosawa wrote:
-> On Tue, 6 Dec 2022 09:31:51 -0600, Carlos Bilbao wrote:
->> Change target `make htmldocs` to combine RST Sphinx and the
->> generation of Rust documentation, when support is available.
->>
->> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
->> ---
->>  Documentation/Makefile | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/Documentation/Makefile b/Documentation/Makefile
->> index 64d44c1ecad3..f537cf558af6 100644
->> --- a/Documentation/Makefile
->> +++ b/Documentation/Makefile
->> @@ -92,6 +92,10 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
->>  	fi
->>  
->>  htmldocs:
->> +# If Rust support is available, add rustdoc generated contents
->> +ifdef CONFIG_RUST
->> +	$(Q)$(MAKE) rustdoc
->> +endif
->>  	@$(srctree)/scripts/sphinx-pre-install --version-check
->>  	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
->>  
-> 
-> What about patch below on top of this?
-> This way, it is possible to skip rustdoc generation by saying:
-> 
->     make CONFIG_RUST=n SPHINXDIRS=doc-guide htmldocs
-> 
-> The reordering is to complete Sphinx runs even if rustdoc generation
-> ends up in error.
-> 
-> With this applied on top,
-> 
-> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
-> 
->         Thanks, Akira
-> 
+This has a certain elegance to it, as it cuts to the bone of the
+problem and partition it in two halves, reflecting the two pieces
+of hardware: input and output buffer. Also follows Rusty Russells
+API hierarchy.
 
-Oh yes, I like both of those changes.
-Thanks.
-
-> ------
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index 2cf3e0fd7839..4d334468aaaf 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -92,12 +92,12 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
->  	fi
->  
->  htmldocs:
-> +	@$(srctree)/scripts/sphinx-pre-install --version-check
-> +	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
->  # If Rust support is available, add rustdoc generated contents
-> -ifdef CONFIG_RUST
-> +ifeq ($(CONFIG_RUST),y)
->  	$(Q)$(MAKE) rustdoc
->  endif
-> -	@$(srctree)/scripts/sphinx-pre-install --version-check
-> -	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
->  
->  texinfodocs:
->  	@$(srctree)/scripts/sphinx-pre-install --version-check
-
--- 
-~Randy
+Yours,
+Linus Walleij
