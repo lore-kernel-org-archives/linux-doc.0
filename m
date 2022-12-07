@@ -2,111 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FA5DC352A1
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 08:00:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67823C352A1
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 08:08:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229627AbiLGIAh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 03:00:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48990 "EHLO
+        id S229452AbiLGIIn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Dec 2022 03:08:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbiLGIAg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 03:00:36 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA6ECDF9E;
-        Wed,  7 Dec 2022 00:00:33 -0800 (PST)
-Date:   Wed, 7 Dec 2022 09:00:29 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1670400031;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wKDkOx0HlWRonLHxoYKpkkIPzXELWNRGE8f2sh6dWn4=;
-        b=FztapfyXQvvcURZVkmrjRLVDpPa6ZPN5boUQdlMmLKFsX5vJkaY//PUztOqY92SrOo8G8B
-        SLoVfXgVMXn85Liq5FCfNNcvNGUxsZENDigDzVxAtE9ZEM3+OMLhdo5B5qXaPdIqwZhK6v
-        VctHFevjvTXT+KG58RvEZTEQ6cLm0kYCDGws7TzEyaDW8sJcZ5iLco8VvMNCBXYtnpZC8S
-        es5zLl42QQF2G16cX2DeMzrKvD8jVejEfWrUmk0KVW9nFQ/KTiSy//6Ni8UNeI4XJKKczt
-        5Hyor+wia27pASnc2ganH+p9SQGGk3COCkshNY2wPyVv2W3Wu6le415qx5snng==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1670400031;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wKDkOx0HlWRonLHxoYKpkkIPzXELWNRGE8f2sh6dWn4=;
-        b=WOp/gj5libGx/W+qHdWiQ5H6ool2s1vfj8ByaK8sUZ+b8Oj5TjUZqg8s5hIQ5OizCW0yqO
-        ZtraWhg4BVPe3vCw==
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Peter Zijlstra <a.p.zijlstra@chello.nl>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH] mm/highmem: Add notes about conversions from
- kmap{,_atomic}()
-Message-ID: <Y5BIHdnP4yeJ8svL@linutronix.de>
-References: <20221206070029.7342-1-fmdefrancesco@gmail.com>
- <Y472ipY908pHip+B@linutronix.de>
- <2093077.OBFZWjSADL@suse>
+        with ESMTP id S229560AbiLGIIk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 03:08:40 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AD2222501;
+        Wed,  7 Dec 2022 00:08:39 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 9D706CE1B06;
+        Wed,  7 Dec 2022 08:08:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CAACC433B5;
+        Wed,  7 Dec 2022 08:08:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670400515;
+        bh=dh0NHFxS6FH0MAIpFjCQ0xsK44R9nD77S1vwGB4tbXY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=u2Z0XGwzU5rhxZ47IGdJC4cZ5SWxwZd2PAfrFapRuH0ECUlff0pUfQyCPposur7v+
+         ZkZCSIu8ispQ0Gt6qmlEHBThxzZyqIfBj+q1qqa+fg+vi93Sz72X1c2RkBa2GIp61O
+         RKrtBMKBn643EiWuVW4W4rEa9Z5Fe6cLZKyuQSPlG9RQhhmodr5vP1OAHcpsEV0Wm1
+         G13PZv4TTkqVcXJjY/MPOCeVICt3C20fnrJjxTuiBHlcLpOROHCt1i44s0TZ1cx/FJ
+         BwqQI0tRqdUkWErUJ0G0AmVuNF5aOjMxFID+QV2v0vU/yFjxR5e3vq8tdOsnAI/Wwh
+         ScGJZMPNlng/A==
+Date:   Wed, 7 Dec 2022 08:08:28 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Guo Ren <guoren@kernel.org>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        mick@ics.forth.gr, corbet@lwn.net, alexandre.ghiti@canonical.com,
+        vgoyal@redhat.com, bhe@redhat.com,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        bagasdotme@gmail.com, dyoung@redhat.com,
+        Palmer Dabbelt <palmer@dabbelt.com>, heiko@sntech.de,
+        anup@brainfault.org, aou@eecs.berkeley.edu,
+        hschauhan@nulltrace.org, yixun.lan@gmail.com,
+        kexec@lists.infradead.org, heinrich.schuchardt@canonical.com,
+        linux-doc@vger.kernel.org, crash-utility@redhat.com,
+        linux-kernel@vger.kernel.org, k-hagio-ab@nec.com,
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH V5 0/2] Support VMCOREINFO export for RISCV64
+Message-ID: <Y5BJ/EeBTEJK2QLF@spud>
+References: <20221026144208.373504-1-xianting.tian@linux.alibaba.com>
+ <167002857934.4256.16584443879212253129.b4-ty@rivosinc.com>
+ <Y4/KoiFhdvRBDdzH@spud>
+ <CAJF2gTQX6361ME9UkOykvUEQifqioLMqovbfpqugkk174pKqfA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="kTp0eC94p1NhUqFh"
 Content-Disposition: inline
-In-Reply-To: <2093077.OBFZWjSADL@suse>
+In-Reply-To: <CAJF2gTQX6361ME9UkOykvUEQifqioLMqovbfpqugkk174pKqfA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-12-06 20:12:13 [+0100], Fabio M. De Francesco wrote:
-> >   Furthermore, code between the kmap_atomic() and kunmap_atomic()
-> >   functions may implicitly depended 
-> 
-> I suppose it should be "depend"? Shouldn't it?
 
-Ehm, yes, correct.
+--kTp0eC94p1NhUqFh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> >   on the side effects of kmap_atomic()
-> >   namely disabling pagefaults or preemption or both.
-> 
-> I agree with you for rephrasing, mainly because it is 
-> written in poor English.
-> 
-> However, I still have doubts about why you deleted "migration". 
-> AFAIK, __kmap_local_pfn_prot() always takes care of disabling migration for 
-> HIGHMEM enabled kernels. 
+On Wed, Dec 07, 2022 at 11:34:57AM +0800, Guo Ren wrote:
+> On Wed, Dec 7, 2022 at 7:05 AM Conor Dooley <conor@kernel.org> wrote:
+> >
+> > Hey Palmer, Xianting,
+> >
+> > On Fri, Dec 02, 2022 at 04:49:39PM -0800, Palmer Dabbelt wrote:
+> > > On Wed, 26 Oct 2022 22:42:06 +0800, Xianting Tian wrote:
+> > > > As disscussed in below patch set, the patch of 'describe VMCOREINFO=
+ export in Documentation'
+> > > > need to update according to Bagas's comments.
+> > > > https://lore.kernel.org/linux-riscv/22AAF52E-8CC8-4D11-99CB-88DE4D1=
+13444@kernel.org/
+> > > >
+> > > > As others patches in above patch set already applied, so this patch=
+ set only contains below two
+> > > > patches.
+> > > >
+> > > > [...]
+> > >
+> > > Applied, thanks!
+> > >
+> > > [1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
+> > >       https://git.kernel.org/palmer/c/649d6b1019a2
+> >
+> > So this patch seems to be causing issues for the nommu build:
+> > https://lore.kernel.org/oe-kbuild-all/202212062250.tR0otHcz-lkp@intel.c=
+om/
+> >
+> > I had a bit of a poke at trying to see if there were some headers we
+> > could pull in before actually checking the .config only to see:
+> > # CONFIG_MMU is not set
+> >
+> > Do we have to wrap the whole thing in a `#ifdef CONFIG_MMU` to fix
+> > compilation here?
+> The problem does not belong to the patch.
+>=20
+> Could I send a fixup patch? like this?
 
-That is correct. Historically kmap_atomic() never had a
-migrate_disable() statement - only preempt_disable(). With disabled
-preemption the task migration is implicitly disabled.
+That seems like a sane dependancy, but did you build that config?
+This doesn't fix the problem for me :/
 
-> How about !HIGHMEM, where kmap_local_page() is an indirect call to 
-> page_address()? Did you mean that, if the code between kmap_atomic() and 
-> kunmap_atomic() depended on migrate_disable() (in PREEMPT_RT) we should always 
-> just stay safe and call preempt_disable() together with conversion to 
-> kmap_local_page()?
+>=20
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index ef8d66de5f38..d8c07999426c 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -512,6 +512,7 @@ config ARCH_HAS_KEXEC_PURGATORY
+>=20
+>  config CRASH_DUMP
+>         bool "Build kdump crash kernel"
+> +       depends on KEXEC
+>         help
+>           Generate crash dump after being started by kexec. This should
+>           be normally only set in special crash dump kernels which are
+>=20
+> >
+> > Thanks,
+> > Conor.
+> >
+>=20
+>=20
+> --=20
+> Best Regards
+>  Guo Ren
 
-Even in the !HIGHMEM case it always uses preempt_disable(). With
-PREEMPT_RT it is different as it never disabled preemption and always
-did a migrate_disable() instead. If you talk about what needs to be
-considered while migrating away from kmap_atomic() then I wouldn't add
-the PREEMPT_RT bits to it since it was never in the picture while the
-code (using kmap_atomic()) was originally written.
+--kTp0eC94p1NhUqFh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> If so, I understand and I again agree with you. If not, I'm missing something; 
-> so please let me understand properly.
-> 
-> Aside from the above, I'm not sure whether you deleted the last phrase before 
-> your suggestion. What about making it to become "For the above-mentioned 
-> cases, conversions should also explicitly disable page-faults and/or 
-> preemption"? 
+-----BEGIN PGP SIGNATURE-----
 
-They need to disable preemption or page-faults or both if it is needed
-(not unconditionally) and where it is needed. This means not
-unconditionally over the whole kmap-ed section.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY5BJ8gAKCRB4tDGHoIJi
+0ubRAPoCBXcQ4wIxwjTftwrdbA4d0c0vUsTpCiuxvofCAdWZkQD9FBTHcyzfFOqY
+ZAI3YncP+u9hP81Ipg8Mzi7iCHql9gk=
+=PuCV
+-----END PGP SIGNATURE-----
 
-> Thanks again for noticing my mistakes.
-> 
-> Fabio
-
-Sebastian
+--kTp0eC94p1NhUqFh--
