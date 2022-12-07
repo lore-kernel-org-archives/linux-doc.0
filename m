@@ -2,95 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C329C63706
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 05:20:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F7FFC352A1
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 06:23:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229602AbiLGFUP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 00:20:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49588 "EHLO
+        id S229462AbiLGGX5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Dec 2022 01:23:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbiLGFUO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 00:20:14 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8525C5477E;
-        Tue,  6 Dec 2022 21:20:13 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id t11-20020a17090a024b00b0021932afece4so424276pje.5;
-        Tue, 06 Dec 2022 21:20:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GNGhpjlW4qLEt6OLZu34U3BRZ2e6HzCsg12lOUw/1YA=;
-        b=i4v9yin+xhLKmKakXQ2BhgKZEHeuryEJRm4sJU1+dmd/nnb33YIGs9/Iu0TUNDNigZ
-         JgMvrRXf7IG12UWcvb7BQRYzEhobeABigGl9Udk5A9dzSkvhtcMOFxA++brhkuB3ILek
-         zN584wNSGci/WPbkxDNu89eNgzjHgc2zMK2/dydU0NkO6F8xUelBy60ShL3o/+NR7b8Z
-         RpNx59VxCbxMjN9b1vcVPZEIE4mCYI8eN/I//PwHoIbSiBKZPvlmB7JWcEBw44PiZKbl
-         Mx+94LBYznBYhLQeX+iXJSwRGtdNrzm5HMVtPFSiKmpm/IXz7Rqjl+KwZVavTpekYfCh
-         Vejw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=GNGhpjlW4qLEt6OLZu34U3BRZ2e6HzCsg12lOUw/1YA=;
-        b=tVapBT+cQ2hzg+B3zBg51Id9sEmEw13DpWLyAOu0ItZYQ/l3cscD4dghQN84CwbuMk
-         gux1Hq2gg7rB4/JfXEDtYPBZtkbFRbnn2QqFGGUmDChN36vsyePEo8Ekm4hzzfAv6VmW
-         byycVhTBEJlqGftg2R4h045DEuO3pBrc4K1fS7eU+/h+5RwRuhNgIMcfR+v9QxdAqQy6
-         uJsSPiNkQfynJDx4GoPOPL2l2KkdSgXBYBrb1eh+Qo71Y3Eoo6L5eeAHoTVUyzozx2Ql
-         e40b0SbsVWr8WM/KYaaF8OCTp2/Kj1tDjm+8eHEtQ29Ye/hrPa6p/NJFFyrdJG79HSQ5
-         b2Xg==
-X-Gm-Message-State: ANoB5pm9PevHnavBC1BfzpMEn5NFcBCrn7NZiGLdvAz9PMmSSUq+n0N5
-        k65QySP0oWruNG7hBfJHeqQ=
-X-Google-Smtp-Source: AA0mqf7Erw9TgQAj4ayg4TMx0pfKZODacuCej75AXZt2xrojyGQJJ7cP8ACRdBkvD5zEgkl+tfA5YA==
-X-Received: by 2002:a17:90a:7a82:b0:211:55d8:4cdd with SMTP id q2-20020a17090a7a8200b0021155d84cddmr95903229pjf.133.1670390412962;
-        Tue, 06 Dec 2022 21:20:12 -0800 (PST)
-Received: from localhost ([98.97.38.190])
-        by smtp.gmail.com with ESMTPSA id w6-20020a170902a70600b00174f7d10a03sm4113399plq.86.2022.12.06.21.20.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Dec 2022 21:20:12 -0800 (PST)
-Date:   Tue, 06 Dec 2022 21:20:08 -0800
-From:   John Fastabend <john.fastabend@gmail.com>
-To:     mtahhan@redhat.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     jbrouer@redhat.com, thoiland@redhat.com, donhunte@redhat.com,
-        john.fastabend@gmail.com, bagasdotme@gmail.com,
-        Maryam Tahhan <mtahhan@redhat.com>
-Message-ID: <63902288c7bd_bb362086d@john.notmuch>
-In-Reply-To: <20221202114010.22477-1-mtahhan@redhat.com>
-References: <20221202114010.22477-1-mtahhan@redhat.com>
-Subject: RE: [PATCH bpf-next v3 1/1] docs: BPF_MAP_TYPE_SOCK[MAP|HASH]
+        with ESMTP id S229437AbiLGGX4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 01:23:56 -0500
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36F325984D;
+        Tue,  6 Dec 2022 22:23:53 -0800 (PST)
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NRnKz2vdkz8R040;
+        Wed,  7 Dec 2022 14:23:51 +0800 (CST)
+Received: from szxlzmapp01.zte.com.cn ([10.5.231.85])
+        by mse-fl1.zte.com.cn with SMTP id 2B76NlVm041235;
+        Wed, 7 Dec 2022 14:23:47 +0800 (+08)
+        (envelope-from yang.yang29@zte.com.cn)
+Received: from mapi (szxlzmapp02[null])
+        by mapi (Zmail) with MAPI id mid14;
+        Wed, 7 Dec 2022 14:23:49 +0800 (CST)
+Date:   Wed, 7 Dec 2022 14:23:49 +0800 (CST)
+X-Zmail-TransId: 2b04639031752c0b96a8
+X-Mailer: Zmail v1.0
+Message-ID: <202212071423496852423@zte.com.cn>
 Mime-Version: 1.0
+From:   <yang.yang29@zte.com.cn>
+To:     <corbet@lwn.net>, <kuba@kernel.org>
+Cc:     <davem@davemloft.net>, <hannes@cmpxchg.org>,
+        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHRdwqBkb2NzOiBwcm9jLnJzdDogYWRkwqBzb2Z0bmV0X3N0YXQ=?=
 Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+        charset="UTF-8"
+X-MAIL: mse-fl1.zte.com.cn 2B76NlVm041235
+X-Fangmail-Gw-Spam-Type: 0
+X-FangMail-Miltered: at cgslv5.04-192.168.250.137.novalocal with ID 63903177.000 by FangMail milter!
+X-FangMail-Envelope: 1670394231/4NRnKz2vdkz8R040/63903177.000/10.5.228.132/[10.5.228.132]/mse-fl1.zte.com.cn/<yang.yang29@zte.com.cn>
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 63903177.000/4NRnKz2vdkz8R040
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-mtahhan@ wrote:
-> From: Maryam Tahhan <mtahhan@redhat.com>
-> 
-> Add documentation for BPF_MAP_TYPE_SOCK[MAP|HASH]
-> including kernel versions introduced, usage
-> and examples.
-> 
-> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
-> 
-> ---
-> v3:
-> - Call out that the user attaches the BPF programs to
->   the sock[map|hash] maps explicitly.
-> - Rephrase the note that references the TCP and UDP
->   functions that get replaced.
-> - Update simple example to attach verdict and parser
->   progs to a map.
-> 
-> v2:
-> - Fixed typos and user space references to BPF helpers.
-> - Added update, lookup and delete BPF helpers.
-> ---
-> ---
+From: Yang Yang <yang.yang29@zte.com.cn>
 
-Still LGTM.
+Softnet_stat shows statistics of struct softnet_data of online CPUs.
+Struct softnet_data manages incoming and output packets on
+per-CPU queues. Notice that fastroute and cpu_collision in
+softnet_stat are obsoleted, their value is always 0.
 
-Acked-by: John Fastabend <john.fastabend@gmail.com>
+Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
+Reviewed-by: xu xin <xu.xin16@zte.com.cn>
+Reviewed-by: Zhang Yunkai <zhang.yunkai@zte.com.cn>
+---
+ Documentation/filesystems/proc.rst | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index e224b6d5b642..9d5fd9424e8b 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1284,6 +1284,7 @@ support this. Table 1-9 lists the files and their meaning.
+  rt_cache      Routing cache
+  snmp          SNMP data
+  sockstat      Socket statistics
++ softnet_stat  Per-CPU incoming packets queues statistics of online CPUs
+  tcp           TCP  sockets
+  udp           UDP sockets
+  unix          UNIX domain sockets
+-- 
+2.15.2
