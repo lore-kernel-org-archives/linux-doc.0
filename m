@@ -2,81 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BF35C4708D
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 11:23:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 935B4C63705
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 12:49:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbiLGLXh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 06:23:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37498 "EHLO
+        id S229649AbiLGMtn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Dec 2022 07:49:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229751AbiLGLXc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 06:23:32 -0500
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55973228;
-        Wed,  7 Dec 2022 03:23:30 -0800 (PST)
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+        with ESMTP id S229564AbiLGMtl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 07:49:41 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 109892FA72;
+        Wed,  7 Dec 2022 04:49:41 -0800 (PST)
+Received: from zn.tnic (p200300ea9733e711329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e711:329c:23ff:fea6:a903])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NRvzg3QsYz8RV6B;
-        Wed,  7 Dec 2022 19:23:27 +0800 (CST)
-Received: from szxlzmapp06.zte.com.cn ([10.5.230.252])
-        by mse-fl2.zte.com.cn with SMTP id 2B7BNF5m061437;
-        Wed, 7 Dec 2022 19:23:15 +0800 (+08)
-        (envelope-from yang.yang29@zte.com.cn)
-Received: from mapi (szxlzmapp02[null])
-        by mapi (Zmail) with MAPI id mid14;
-        Wed, 7 Dec 2022 19:23:18 +0800 (CST)
-Date:   Wed, 7 Dec 2022 19:23:18 +0800 (CST)
-X-Zmail-TransId: 2b04639077a61acce282
-X-Mailer: Zmail v1.0
-Message-ID: <202212071923184146141@zte.com.cn>
-Mime-Version: 1.0
-From:   <yang.yang29@zte.com.cn>
-To:     <corbet@lwn.net>, <kuba@kernel.org>, <bagasdotme@gmail.com>
-Cc:     <davem@davemloft.net>, <hannes@cmpxchg.org>,
-        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHQgdjJdIGRvY3M6IHByb2MucnN0OiBhZGQgc29mdG5ldF9zdGF0IHRvIC9wcm9jL25ldA==?=
-Content-Type: text/plain;
-        charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 2B7BNF5m061437
-X-Fangmail-Gw-Spam-Type: 0
-X-FangMail-Miltered: at cgslv5.04-192.168.250.137.novalocal with ID 639077AF.001 by FangMail milter!
-X-FangMail-Envelope: 1670412207/4NRvzg3QsYz8RV6B/639077AF.001/10.5.228.133/[10.5.228.133]/mse-fl2.zte.com.cn/<yang.yang29@zte.com.cn>
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 639077AF.001/4NRvzg3QsYz8RV6B
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 92DB91EC0683;
+        Wed,  7 Dec 2022 13:49:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1670417379;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=Sbaj5o43ffgVtyPksCtVluOhwVf735Cxu4waTP4cQmQ=;
+        b=rtwv536EWfGY4YZjI7jb2l7/4qP0s4vCoWkyUU3bDgbYYjiOHIIJ2S/x2h0N14kYjWHOxk
+        BRUpXe3Z7Zw0qypSE8lU8IUC3wfcvXirkeAEzkOnBi9AKVnqY8RPD4Gnu/HsN+qXZETm+C
+        baLuSFoBSDnB5+9oTn08Cs96TM+t1EQ=
+Date:   Wed, 7 Dec 2022 13:49:39 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v4 04/39] x86/cpufeatures: Enable CET CR4 bit for shadow
+ stack
+Message-ID: <Y5CL4ySPtcTLVrrM@zn.tnic>
+References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
+ <20221203003606.6838-5-rick.p.edgecombe@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221203003606.6838-5-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yang Yang <yang.yang29@zte.com.cn>
+On Fri, Dec 02, 2022 at 04:35:31PM -0800, Rick Edgecombe wrote:
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> 
+> Setting CR4.CET is a prerequisite for utilizing any CET features, most of
+> which also require setting MSRs.
 
-/proc/net/softnet_stat exists for a long time, but proc.rst miss it.
-Softnet_stat shows some statistics of struct softnet_data of online
-CPUs. Struct softnet_data manages incoming and output packets
-on per-CPU queues. Notice that fastroute and cpu_collision in
-softnet_stat are obsoleted, their value is always 0.
+...
 
-Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
-Reviewed-by: xu xin <xu.xin16@zte.com.cn>
-Reviewed-by: Zhang Yunkai <zhang.yunkai@zte.com.cn>
+>  arch/x86/kernel/cpu/common.c | 37 ++++++++++++++++++++++++++++++------
+>  1 file changed, 31 insertions(+), 6 deletions(-)
+
+Looks better.
+
+Let's get rid of the ifdeffery and simplify it even more. Diff ontop:
+
 ---
-Changes since v1: - refine patch subject
----
- Documentation/filesystems/proc.rst | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index e224b6d5b642..9d5fd9424e8b 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1284,6 +1284,7 @@ support this. Table 1-9 lists the files and their meaning.
-  rt_cache      Routing cache
-  snmp          SNMP data
-  sockstat      Socket statistics
-+ softnet_stat  Per-CPU incoming packets queues statistics of online CPUs
-  tcp           TCP  sockets
-  udp           UDP sockets
-  unix          UNIX domain sockets
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 579f10222432..c364f3067121 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -597,12 +597,14 @@ __noendbr void ibt_restore(u64 save)
+ 
+ #endif
+ 
+-#ifdef CONFIG_X86_CET
+ static __always_inline void setup_cet(struct cpuinfo_x86 *c)
+ {
+-	bool kernel_ibt = HAS_KERNEL_IBT && cpu_feature_enabled(X86_FEATURE_IBT);
+-	bool user_shstk;
+-	u64 msr = 0;
++	bool kernel_ibt, user_shstk;
++
++	if (!IS_ENABLED(CONFIG_X86_CET))
++		return;
++
++	kernel_ibt = HAS_KERNEL_IBT && cpu_feature_enabled(X86_FEATURE_IBT);
+ 
+ 	/*
+ 	 * Enable user shadow stack only if the Linux defined user shadow stack
+@@ -618,21 +620,18 @@ static __always_inline void setup_cet(struct cpuinfo_x86 *c)
+ 		set_cpu_cap(c, X86_FEATURE_USER_SHSTK);
+ 
+ 	if (kernel_ibt)
+-		msr = CET_ENDBR_EN;
++		wrmsrl(MSR_IA32_S_CET, CET_ENDBR_EN);
++	else
++		wrmsrl(MSR_IA32_S_CET, 0);
+ 
+-	wrmsrl(MSR_IA32_S_CET, msr);
+ 	cr4_set_bits(X86_CR4_CET);
+ 
+ 	if (kernel_ibt && !ibt_selftest()) {
+ 		pr_err("IBT selftest: Failed!\n");
+ 		wrmsrl(MSR_IA32_S_CET, 0);
+ 		setup_clear_cpu_cap(X86_FEATURE_IBT);
+-		return;
+ 	}
+ }
+-#else /* CONFIG_X86_CET */
+-static inline void setup_cet(struct cpuinfo_x86 *c) {}
+-#endif
+ 
+ __noendbr void cet_disable(void)
+ {
+
 -- 
-2.15.2
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
