@@ -2,143 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 935B4C63705
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 12:49:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D902C4708E
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 13:01:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbiLGMtn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 07:49:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60814 "EHLO
+        id S229806AbiLGNB6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Dec 2022 08:01:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229564AbiLGMtl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 07:49:41 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 109892FA72;
-        Wed,  7 Dec 2022 04:49:41 -0800 (PST)
-Received: from zn.tnic (p200300ea9733e711329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e711:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 92DB91EC0683;
-        Wed,  7 Dec 2022 13:49:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1670417379;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=Sbaj5o43ffgVtyPksCtVluOhwVf735Cxu4waTP4cQmQ=;
-        b=rtwv536EWfGY4YZjI7jb2l7/4qP0s4vCoWkyUU3bDgbYYjiOHIIJ2S/x2h0N14kYjWHOxk
-        BRUpXe3Z7Zw0qypSE8lU8IUC3wfcvXirkeAEzkOnBi9AKVnqY8RPD4Gnu/HsN+qXZETm+C
-        baLuSFoBSDnB5+9oTn08Cs96TM+t1EQ=
-Date:   Wed, 7 Dec 2022 13:49:39 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v4 04/39] x86/cpufeatures: Enable CET CR4 bit for shadow
- stack
-Message-ID: <Y5CL4ySPtcTLVrrM@zn.tnic>
-References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
- <20221203003606.6838-5-rick.p.edgecombe@intel.com>
+        with ESMTP id S229763AbiLGNBz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 08:01:55 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD93A56D5A;
+        Wed,  7 Dec 2022 05:01:54 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id co23so532211wrb.4;
+        Wed, 07 Dec 2022 05:01:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0YVq0+UudzmdQRaa093Lbr3RyPe8FvBPlb/bI7jjFrI=;
+        b=CMORAutNrxMOSyZ3nsb0/8TpMLFDIPZ1Qz88/ymw+/kMn53Q+YInmlWDf+8eXThgQP
+         pUArjM4WqUjQv0jcKnrLBQ1l74ru2Ca4yQkYzeqpqamSIhlhLgmkbwsWkiznpae1DFzd
+         OEx/COJhWbu07iLBtfhMjVhjZEvnYxtVJha7KpunLVu9soEiJW7v2q3StiQXbtjUapkf
+         8P0fbk8Yak01+o9CcBErx3J3UDmDGKQmj9JgAbtgcaCXoMbz0i8Hlv3fOToMJX0aW87y
+         j3goQM/7HUnfnInWniUErWN+jKWLADK8mbhPWSmBFYqK3X69t5vOF67W5e0TBLkeLOJL
+         qczw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0YVq0+UudzmdQRaa093Lbr3RyPe8FvBPlb/bI7jjFrI=;
+        b=fm0ODJsgHQC5AjMNB9B6cxJZ8ihkqja0DKLiF3+aQfnuUVaghaCYzYVsTDRMrqTrym
+         WEhuK6ijhJpu75DbIZ272Uz9Sreoq+uMFJOvou76xAcpr3E0duzSsqbebBoaMOo5tKQB
+         JDBtY4e4a70n0R8K9z1mNnBWuZ/ksbfwhmGfayJwtVOk/WK/2XCDLHm5h704XmFUNjxM
+         C6JHeaJi8X9+aF+x646pWp3iR1g83Icw8Ft04vMBRWcpnZIYBgzbg7ILrWQAwqUdySit
+         Zgbdn0Qd6bKQkkxPK442tMi3FSw9JZ+6FyaVAsy613A2WSyqxutk1ssGzUzW7qzn+fC9
+         oBbA==
+X-Gm-Message-State: ANoB5pkZgszRwagpbtT7xGIHrGtHfFsw01SQzFBg3p8Xcp923Lw0v1ej
+        YQ1TBEuq/mTh0VWFmnc/TSA=
+X-Google-Smtp-Source: AA0mqf6XKt9c4pFnmhN0NNmHU8welUubyeVCDFFUuu+/FqSi0mi4la0JgJ4FBHRH0u3/QFEiWQ2ICA==
+X-Received: by 2002:adf:da4c:0:b0:242:137d:9ce4 with SMTP id r12-20020adfda4c000000b00242137d9ce4mr325754wrl.3.1670418112988;
+        Wed, 07 Dec 2022 05:01:52 -0800 (PST)
+Received: from suse.localnet (host-79-26-108-238.retail.telecomitalia.it. [79.26.108.238])
+        by smtp.gmail.com with ESMTPSA id m18-20020adfe952000000b002421888a011sm19432882wrn.69.2022.12.07.05.01.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Dec 2022 05:01:52 -0800 (PST)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Peter Zijlstra <a.p.zijlstra@chello.nl>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] mm/highmem: Add notes about conversions from kmap{,_atomic}()
+Date:   Wed, 07 Dec 2022 14:01:50 +0100
+Message-ID: <2130641.irdbgypaU6@suse>
+In-Reply-To: <Y5BIHdnP4yeJ8svL@linutronix.de>
+References: <20221206070029.7342-1-fmdefrancesco@gmail.com> <2093077.OBFZWjSADL@suse> <Y5BIHdnP4yeJ8svL@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221203003606.6838-5-rick.p.edgecombe@intel.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 04:35:31PM -0800, Rick Edgecombe wrote:
-> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> 
-> Setting CR4.CET is a prerequisite for utilizing any CET features, most of
-> which also require setting MSRs.
+On mercoled=EC 7 dicembre 2022 09:00:29 CET Sebastian Andrzej Siewior wrote:
+> On 2022-12-06 20:12:13 [+0100], Fabio M. De Francesco wrote:
+> > >   Furthermore, code between the kmap_atomic() and kunmap_atomic()
+> > >   functions may implicitly depended
+> >=20
+> > I suppose it should be "depend"? Shouldn't it?
+>=20
+> Ehm, yes, correct.
+>=20
+> > >   on the side effects of kmap_atomic()
+> > >   namely disabling pagefaults or preemption or both.
+> >=20
+> > I agree with you for rephrasing, mainly because it is
+> > written in poor English.
+> >=20
+> > However, I still have doubts about why you deleted "migration".
+> > AFAIK, __kmap_local_pfn_prot() always takes care of disabling migration=
+=20
+for
+> > HIGHMEM enabled kernels.
+>=20
+> That is correct. Historically kmap_atomic() never had a
+> migrate_disable() statement - only preempt_disable(). With disabled
+> preemption the task migration is implicitly disabled.
 
-...
+Sure, I understand this mechanism: task migration is implicitly disabled wi=
+th=20
+disabled preemption.
 
->  arch/x86/kernel/cpu/common.c | 37 ++++++++++++++++++++++++++++++------
->  1 file changed, 31 insertions(+), 6 deletions(-)
+>=20
+> > How about !HIGHMEM, where kmap_local_page() is an indirect call to
+> > page_address()? Did you mean that, if the code between kmap_atomic() and
+> > kunmap_atomic() depended on migrate_disable() (in PREEMPT_RT) we should
+> > always just stay safe and call preempt_disable() together with conversi=
+on
+> > to kmap_local_page()?
+>=20
+> Even in the !HIGHMEM case it always uses preempt_disable().
 
-Looks better.
+With the only exception of PREEMPT_RT kernels, which instead use=20
+migrate_disable().
 
-Let's get rid of the ifdeffery and simplify it even more. Diff ontop:
+> With
+> PREEMPT_RT it is different as it never disabled preemption and always
+> did a migrate_disable() instead.
 
----
+OK, I see that I'm recalling correctly :-)=20
 
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 579f10222432..c364f3067121 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -597,12 +597,14 @@ __noendbr void ibt_restore(u64 save)
- 
- #endif
- 
--#ifdef CONFIG_X86_CET
- static __always_inline void setup_cet(struct cpuinfo_x86 *c)
- {
--	bool kernel_ibt = HAS_KERNEL_IBT && cpu_feature_enabled(X86_FEATURE_IBT);
--	bool user_shstk;
--	u64 msr = 0;
-+	bool kernel_ibt, user_shstk;
-+
-+	if (!IS_ENABLED(CONFIG_X86_CET))
-+		return;
-+
-+	kernel_ibt = HAS_KERNEL_IBT && cpu_feature_enabled(X86_FEATURE_IBT);
- 
- 	/*
- 	 * Enable user shadow stack only if the Linux defined user shadow stack
-@@ -618,21 +620,18 @@ static __always_inline void setup_cet(struct cpuinfo_x86 *c)
- 		set_cpu_cap(c, X86_FEATURE_USER_SHSTK);
- 
- 	if (kernel_ibt)
--		msr = CET_ENDBR_EN;
-+		wrmsrl(MSR_IA32_S_CET, CET_ENDBR_EN);
-+	else
-+		wrmsrl(MSR_IA32_S_CET, 0);
- 
--	wrmsrl(MSR_IA32_S_CET, msr);
- 	cr4_set_bits(X86_CR4_CET);
- 
- 	if (kernel_ibt && !ibt_selftest()) {
- 		pr_err("IBT selftest: Failed!\n");
- 		wrmsrl(MSR_IA32_S_CET, 0);
- 		setup_clear_cpu_cap(X86_FEATURE_IBT);
--		return;
- 	}
- }
--#else /* CONFIG_X86_CET */
--static inline void setup_cet(struct cpuinfo_x86 *c) {}
--#endif
- 
- __noendbr void cet_disable(void)
- {
+> If you talk about what needs to be
+> considered while migrating away from kmap_atomic()
 
--- 
-Regards/Gruss,
-    Boris.
+Yes, I'm trying to explain what needs to be considered while converting fro=
+m=20
+kmap_atomic() by looking at all the different cases.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+> then I wouldn't add
+> the PREEMPT_RT bits to it since it was never in the picture while the
+> code (using kmap_atomic()) was originally written.
+
+Ah, OK. Now I understand why you changed my last phrase.
+I agree with you, so I won't add anything about the special PREEMPT_RT case.
+
+> > If so, I understand and I again agree with you. If not, I'm missing
+> > something; so please let me understand properly.
+> >=20
+> > Aside from the above, I'm not sure whether you deleted the last phrase
+> > before
+> > your suggestion. What about making it to become "For the above-mentioned
+> > cases, conversions should also explicitly disable page-faults and/or
+> > preemption"?
+>=20
+> They need to disable preemption or page-faults or both if it is needed
+> (not unconditionally) and where it is needed. This means not
+> unconditionally over the whole kmap-ed section.
+
+I never meant to suggest to _unconditionally_ disable page-faults=20
+and/or preemption. I was only trying to say that developers must carefully=
+=20
+check whether or not the whole kmap-ed section depended on those side effec=
+ts.
+
+If so, they must _explicitly_ disable preemption or page-faults or both=20
+together with the use of kmap_local_page(). Instead, if the section doesn't=
+=20
+depend on preemption and/or page-faults disabling, they must only replace=20
+kmap_atomic() with kmap_local_page().
+
+I had probably used a bad wording when trying to say the same things that y=
+ou=20
+wrote much more clearly.
+
+Thanks,
+
+=46abio
+
+>=20
+> > Thanks again for noticing my mistakes.
+> >=20
+> > Fabio
+>=20
+> Sebastian
+
+
+
+
