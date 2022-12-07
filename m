@@ -2,406 +2,237 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B2DCC4708E
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 17:18:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97482C352A1
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 17:21:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229739AbiLGRSM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 12:18:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55720 "EHLO
+        id S229562AbiLGRVZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Dec 2022 12:21:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229701AbiLGRRo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 12:17:44 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E19FA69A82
-        for <linux-doc@vger.kernel.org>; Wed,  7 Dec 2022 09:17:12 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id d6so29708010lfs.10
-        for <linux-doc@vger.kernel.org>; Wed, 07 Dec 2022 09:17:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KOvIV73YgnEG59cUZf5Ci+GOdoXUPasVeUFnMPAdLwM=;
-        b=htG26Fer6Pxq8JTaoQ5v/dHBa5s5MmKyXHrJZjHvyjfixvrwz1XQB39yAuduHohAHu
-         Vph6fvk22IPPPQBksZiyiaPt/Wezn0I16HY0yeZms+dOb+OPaSercM3yB9tDRNJUGnWr
-         biwvuGc4m/EW6HOuTuNB04E9KE9+f+ZIWpjDcYGcWjq1Sx2IhvqdxhGytEybiS64YF7C
-         5PU2s0H31mQK/0DGoGl7GpJGJDzQsMKjuCfeqHyRgC5z78ZBPtKNgmI9r6XfpZCRZ9+L
-         gAkr097mPTp1LmBnj7uGSb3JWq6d2b5ck+VaIjm6ALX0+hKNwITUlhuVSRI+rqmcpj+n
-         NRpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KOvIV73YgnEG59cUZf5Ci+GOdoXUPasVeUFnMPAdLwM=;
-        b=sPK/SrZ+f7aOMFciZO8OQgwEyDoIrjjbqUD/zNUWaj+GU55PzcbYPBB73mK6K2pLEt
-         go+e+3BG/NHwYc+UW3mp8LmmmTvo2vwLwwk23j5Hl49ULc3L9Tl/36tYb84R+MJdjRQN
-         kleEo5h83ITLrfqsznnS2FbdK3y/V1EI9qoA4Vm9/G7Cx+MaoM/5Zg2wRybssFO7UAGL
-         CKzJQLZvl60v5W3mqaPCd10tDhTo3eRSlFlo6dYz4CfMC9Jm7thYVW/Bkk9hSJqCo1Mp
-         m13Kh59C++iNdh5X4A1oKRX0/xtTZ28q2xnOe/4qK/JcTngHnRwK6KZpOK+uMAx8p38M
-         r1Mg==
-X-Gm-Message-State: ANoB5pl3ktTpoQx/TwRyl/+gFF26WHXP1jrjpeXUcMmk/z2BjEd3cgFe
-        4u9AElS7MhyeKGvKVT5U5G+AzvQrSrnvWIEBYtAgPg==
-X-Google-Smtp-Source: AA0mqf7XJjVD1zzSSchYDQKkSsZlg5aPfGQxCBPJwi0Mel7MS0RZkYnek7XAkRieowSHQgdZ2IuMBsfBg7rRBbW39EI=
-X-Received: by 2002:ac2:5628:0:b0:4b5:2958:bd06 with SMTP id
- b8-20020ac25628000000b004b52958bd06mr11920460lff.26.1670433431057; Wed, 07
- Dec 2022 09:17:11 -0800 (PST)
+        with ESMTP id S229745AbiLGRVA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 12:21:00 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 46B2B62E91;
+        Wed,  7 Dec 2022 09:20:44 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9FECF23A;
+        Wed,  7 Dec 2022 09:20:50 -0800 (PST)
+Received: from [10.1.197.38] (unknown [10.1.197.38])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 312853F73B;
+        Wed,  7 Dec 2022 09:20:39 -0800 (PST)
+Message-ID: <7ce5bcda-bb42-4166-ab7e-8a07b8fb28a7@arm.com>
+Date:   Wed, 7 Dec 2022 17:20:32 +0000
 MIME-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com> <20221202061347.1070246-7-chao.p.peng@linux.intel.com>
-In-Reply-To: <20221202061347.1070246-7-chao.p.peng@linux.intel.com>
-From:   Fuad Tabba <tabba@google.com>
-Date:   Wed, 7 Dec 2022 17:16:34 +0000
-Message-ID: <CA+EHjTxwxsAPGYGgBGqDnNvecKNztrBY4j9a9FHmSTJG3Senpg@mail.gmail.com>
-Subject: Re: [PATCH v10 6/9] KVM: Unmap existing mappings when change the
- memory attributes
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v8 10/13] x86/resctrl: Add sysfs interface to write
+ mbm_total_bytes_config
+Content-Language: en-GB
+To:     Babu Moger <babu.moger@amd.com>
+Cc:     fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bagasdotme@gmail.com, eranian@google.com, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        reinette.chatre@intel.com
+References: <166759188265.3281208.11769277079826754455.stgit@bmoger-ubuntu>
+ <166759206900.3281208.11975514088019160962.stgit@bmoger-ubuntu>
+From:   James Morse <james.morse@arm.com>
+In-Reply-To: <166759206900.3281208.11975514088019160962.stgit@bmoger-ubuntu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hi Babu,
 
-On Fri, Dec 2, 2022 at 6:19 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> Unmap the existing guest mappings when memory attribute is changed
-> between shared and private. This is needed because shared pages and
-> private pages are from different backends, unmapping existing ones
-> gives a chance for page fault handler to re-populate the mappings
-> according to the new attribute.
->
-> Only architecture has private memory support needs this and the
-> supported architecture is expected to rewrite the weak
-> kvm_arch_has_private_mem().
+(Nit: all the 'sysfs' in the subjects should really be 'resctrl', but as they already have
+'x86/resctrl', could you just remove the sysfs?
+This patch would be "x86/resctrl: Add interface to write mbm_total_bytes_config")
 
-This kind of ties into the discussion of being able to share memory in
-place. For pKVM for example, shared and private memory would have the
-same backend, and the unmapping wouldn't be needed.
+On 04/11/2022 20:01, Babu Moger wrote:
+> The current event configuration for mbm_total_bytes can be changed by
+> the user by writing to the file
+> /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config.
+> 
+> The event configuration settings are domain specific and will affect all
+> the CPUs in the domain.
+> 
+> Following are the types of events supported:
+> 
+> ====  ===========================================================
+> Bits   Description
+> ====  ===========================================================
+> 6      Dirty Victims from the QOS domain to all types of memory
+> 5      Reads to slow memory in the non-local NUMA domain
+> 4      Reads to slow memory in the local NUMA domain
+> 3      Non-temporal writes to non-local NUMA domain
+> 2      Non-temporal writes to local NUMA domain
+> 1      Reads to memory in the non-local NUMA domain
+> 0      Reads to memory in the local NUMA domain
+> ====  ===========================================================
+> 
+> For example:
+> To change the mbm_total_bytes to count only reads on domain 0, the bits
+> 0, 1, 4 and 5 needs to be set, which is 110011b (in hex 0x33). Run the
+> command.
+> 	$echo  0=0x33 > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
+> 
+> To change the mbm_total_bytes to count all the slow memory reads on
+> domain 1, the bits 4 and 5 needs to be set which is 110000b (in hex 0x30).
+> Run the command.
+> 	$echo  1=0x30 > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
 
-So I guess that, instead of kvm_arch_has_private_mem(), can the check
-be done differently, e.g., with a different function, say
-kvm_arch_private_notify_attribute_change() (but maybe with a more
-friendly name than what I suggested :) )?
+> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> index 18f9588a41cf..0cdccb69386e 100644
+> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> @@ -1505,6 +1505,133 @@ static int mbm_local_bytes_config_show(struct kernfs_open_file *of,
+>  	return 0;
+>  }
+>  
+> +static void mon_event_config_write(void *info)
+> +{
+> +	struct mon_config_info *mon_info = info;
+> +	u32 index;
+> +
+> +	index = mon_event_config_index_get(mon_info->evtid);
+> +	if (index >= MAX_CONFIG_EVENTS) {
+> +		pr_warn_once("Invalid event id %d\n", mon_info->evtid);
+> +		return;
+> +	}
+> +	wrmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, 0);
+> +}
+> +
+> +static int mbm_config_write(struct rdt_resource *r, struct rdt_domain *d,
+> +			    u32 evtid, u32 val)
+> +{
+> +	struct mon_config_info mon_info = {0};
+> +	int ret = 0;
+> +
+> +	rdt_last_cmd_clear();
+> +
+> +	/* mon_config cannot be more than the supported set of events */
+> +	if (val > MAX_EVT_CONFIG_BITS) {
+> +		rdt_last_cmd_puts("Invalid event configuration\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	/*
+> +	 * Read the current config value first. If both are same then
+> +	 * we don't need to write it again.
+> +	 */
+> +	mon_info.evtid = evtid;
+
+> +	mondata_config_read(d, &mon_info);
+
+This reads the MSR on this CPU, which gets the result for this domain...
+
+
+> +	if (mon_info.mon_config == val)
+> +		goto write_exit;
+> +
+> +	mon_info.mon_config = val;
+> +
+> +	/*
+> +	 * Update MSR_IA32_EVT_CFG_BASE MSRs on all the CPUs in the
+> +	 * domain. The MSRs offset from MSR MSR_IA32_EVT_CFG_BASE
+> +	 * are scoped at the domain level. Writing any of these MSRs
+> +	 * on one CPU is supposed to be observed by all CPUs in the
+> +	 * domain. However, the hardware team recommends to update
+> +	 * these MSRs on all the CPUs in the domain.
+> +	 */
+
+> +	on_each_cpu_mask(&d->cpu_mask, mon_event_config_write, &mon_info, 1);
+
+... but here you IPI all the CPUs in the target domain to update them.
+
+This means you unnecessarily IPI the CPUs in the target domain if they already had this
+value, but the write syscall occurred on a domain that differs. This isn't what you
+intended, but its benign.
+More of a problem is: Won't this get skipped if the write syscall occurs on a domain that
+happens to have the target configuration already?
+
+Because you need the same value to be written on every CPU ... what happens to CPUs that
+are offline when the configuration is changed? Do they keep their previous value, or does
+it get reset?
+
+
+I think this is best solved with a percpu variable for the current value of the MSR. You
+can then read it for CPUs in a remote domain, and only issue IPIs to 'sync' the value if
+needed. You can then re-use the sync call in resctrl_online_cpu() to set the MSR to
+whatever value it should currently be.
+
+
+> +
+> +	/*
+> +	 * When an Event Configuration is changed, the bandwidth counters
+> +	 * for all RMIDs and Events will be cleared by the hardware. The
+> +	 * hardware also sets MSR_IA32_QM_CTR.Unavailable (bit 62) for
+> +	 * every RMID on the next read to any event for every RMID.
+> +	 * Subsequent reads will have MSR_IA32_QM_CTR.Unavailable (bit 62)
+> +	 * cleared while it is tracked by the hardware. Clear the
+> +	 * mbm_local and mbm_total counts for all the RMIDs.
+> +	 */
+> +	memset(d->mbm_local, 0, sizeof(struct mbm_state) * r->num_rmid);
+> +	memset(d->mbm_total, 0, sizeof(struct mbm_state) * r->num_rmid);
+> +
+> +write_exit:
+> +	return ret;
+> +}
+
+
+> +static int mon_config_parse(struct rdt_resource *r, char *tok, u32 evtid)
+> +{
+> +	char *dom_str = NULL, *id_str;
+> +	unsigned long dom_id, val;
+> +	struct rdt_domain *d;
+> +	int ret = 0;
+> +
+> +next:
+> +	if (!tok || tok[0] == '\0')
+> +		return 0;
+> +
+> +	/* Start processing the strings for each domain */
+> +	dom_str = strim(strsep(&tok, ";"));
+> +	id_str = strsep(&dom_str, "=");
+> +
+> +	if (!dom_str || kstrtoul(id_str, 10, &dom_id)) {
+> +		rdt_last_cmd_puts("Missing '=' or non-numeric domain id\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (!dom_str || kstrtoul(dom_str, 16, &val)) {
+> +		rdt_last_cmd_puts("Missing '=' or non-numeric event configuration value\n");
+> +		return -EINVAL;
+> +	}
+
+This is parsing the same format strings as parse_line(). Is there any chance that code
+could be re-used instead of duplicated? This way anything that is added to the format (or
+bugs found!) only need supporting in once place.
+
+
+
+> +	list_for_each_entry(d, &r->domains, list) {
+> +		if (d->id == dom_id) {
+> +			ret = mbm_config_write(r, d, evtid, val);
+> +			if (ret)
+> +				return -EINVAL;
+> +			goto next;
+> +		}
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+
 
 Thanks,
-/fuad
 
->
-> Also, during memory attribute changing and the unmapping time frame,
-> page fault handler may happen in the same memory range and can cause
-> incorrect page state, invoke kvm_mmu_invalidate_* helpers to let the
-> page fault handler retry during this time frame.
->
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  include/linux/kvm_host.h |   7 +-
->  virt/kvm/kvm_main.c      | 168 ++++++++++++++++++++++++++-------------
->  2 files changed, 116 insertions(+), 59 deletions(-)
->
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 3d69484d2704..3331c0c92838 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -255,7 +255,6 @@ bool kvm_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
->  int kvm_async_pf_wakeup_all(struct kvm_vcpu *vcpu);
->  #endif
->
-> -#ifdef KVM_ARCH_WANT_MMU_NOTIFIER
->  struct kvm_gfn_range {
->         struct kvm_memory_slot *slot;
->         gfn_t start;
-> @@ -264,6 +263,8 @@ struct kvm_gfn_range {
->         bool may_block;
->  };
->  bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range);
-> +
-> +#ifdef KVM_ARCH_WANT_MMU_NOTIFIER
->  bool kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
->  bool kvm_test_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
->  bool kvm_set_spte_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
-> @@ -785,11 +786,12 @@ struct kvm {
->
->  #if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
->         struct mmu_notifier mmu_notifier;
-> +#endif
->         unsigned long mmu_invalidate_seq;
->         long mmu_invalidate_in_progress;
->         gfn_t mmu_invalidate_range_start;
->         gfn_t mmu_invalidate_range_end;
-> -#endif
-> +
->         struct list_head devices;
->         u64 manual_dirty_log_protect;
->         struct dentry *debugfs_dentry;
-> @@ -1480,6 +1482,7 @@ bool kvm_arch_dy_has_pending_interrupt(struct kvm_vcpu *vcpu);
->  int kvm_arch_post_init_vm(struct kvm *kvm);
->  void kvm_arch_pre_destroy_vm(struct kvm *kvm);
->  int kvm_arch_create_vm_debugfs(struct kvm *kvm);
-> +bool kvm_arch_has_private_mem(struct kvm *kvm);
->
->  #ifndef __KVM_HAVE_ARCH_VM_ALLOC
->  /*
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index ad55dfbc75d7..4e1e1e113bf0 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -520,6 +520,62 @@ void kvm_destroy_vcpus(struct kvm *kvm)
->  }
->  EXPORT_SYMBOL_GPL(kvm_destroy_vcpus);
->
-> +void kvm_mmu_invalidate_begin(struct kvm *kvm)
-> +{
-> +       /*
-> +        * The count increase must become visible at unlock time as no
-> +        * spte can be established without taking the mmu_lock and
-> +        * count is also read inside the mmu_lock critical section.
-> +        */
-> +       kvm->mmu_invalidate_in_progress++;
-> +
-> +       if (likely(kvm->mmu_invalidate_in_progress == 1)) {
-> +               kvm->mmu_invalidate_range_start = INVALID_GPA;
-> +               kvm->mmu_invalidate_range_end = INVALID_GPA;
-> +       }
-> +}
-> +
-> +void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end)
-> +{
-> +       WARN_ON_ONCE(!kvm->mmu_invalidate_in_progress);
-> +
-> +       if (likely(kvm->mmu_invalidate_in_progress == 1)) {
-> +               kvm->mmu_invalidate_range_start = start;
-> +               kvm->mmu_invalidate_range_end = end;
-> +       } else {
-> +               /*
-> +                * Fully tracking multiple concurrent ranges has diminishing
-> +                * returns. Keep things simple and just find the minimal range
-> +                * which includes the current and new ranges. As there won't be
-> +                * enough information to subtract a range after its invalidate
-> +                * completes, any ranges invalidated concurrently will
-> +                * accumulate and persist until all outstanding invalidates
-> +                * complete.
-> +                */
-> +               kvm->mmu_invalidate_range_start =
-> +                       min(kvm->mmu_invalidate_range_start, start);
-> +               kvm->mmu_invalidate_range_end =
-> +                       max(kvm->mmu_invalidate_range_end, end);
-> +       }
-> +}
-> +
-> +void kvm_mmu_invalidate_end(struct kvm *kvm)
-> +{
-> +       /*
-> +        * This sequence increase will notify the kvm page fault that
-> +        * the page that is going to be mapped in the spte could have
-> +        * been freed.
-> +        */
-> +       kvm->mmu_invalidate_seq++;
-> +       smp_wmb();
-> +       /*
-> +        * The above sequence increase must be visible before the
-> +        * below count decrease, which is ensured by the smp_wmb above
-> +        * in conjunction with the smp_rmb in mmu_invalidate_retry().
-> +        */
-> +       kvm->mmu_invalidate_in_progress--;
-> +}
-> +
->  #if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
->  static inline struct kvm *mmu_notifier_to_kvm(struct mmu_notifier *mn)
->  {
-> @@ -714,45 +770,6 @@ static void kvm_mmu_notifier_change_pte(struct mmu_notifier *mn,
->         kvm_handle_hva_range(mn, address, address + 1, pte, kvm_set_spte_gfn);
->  }
->
-> -void kvm_mmu_invalidate_begin(struct kvm *kvm)
-> -{
-> -       /*
-> -        * The count increase must become visible at unlock time as no
-> -        * spte can be established without taking the mmu_lock and
-> -        * count is also read inside the mmu_lock critical section.
-> -        */
-> -       kvm->mmu_invalidate_in_progress++;
-> -
-> -       if (likely(kvm->mmu_invalidate_in_progress == 1)) {
-> -               kvm->mmu_invalidate_range_start = INVALID_GPA;
-> -               kvm->mmu_invalidate_range_end = INVALID_GPA;
-> -       }
-> -}
-> -
-> -void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end)
-> -{
-> -       WARN_ON_ONCE(!kvm->mmu_invalidate_in_progress);
-> -
-> -       if (likely(kvm->mmu_invalidate_in_progress == 1)) {
-> -               kvm->mmu_invalidate_range_start = start;
-> -               kvm->mmu_invalidate_range_end = end;
-> -       } else {
-> -               /*
-> -                * Fully tracking multiple concurrent ranges has diminishing
-> -                * returns. Keep things simple and just find the minimal range
-> -                * which includes the current and new ranges. As there won't be
-> -                * enough information to subtract a range after its invalidate
-> -                * completes, any ranges invalidated concurrently will
-> -                * accumulate and persist until all outstanding invalidates
-> -                * complete.
-> -                */
-> -               kvm->mmu_invalidate_range_start =
-> -                       min(kvm->mmu_invalidate_range_start, start);
-> -               kvm->mmu_invalidate_range_end =
-> -                       max(kvm->mmu_invalidate_range_end, end);
-> -       }
-> -}
-> -
->  static bool kvm_mmu_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
->  {
->         kvm_mmu_invalidate_range_add(kvm, range->start, range->end);
-> @@ -806,23 +823,6 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
->         return 0;
->  }
->
-> -void kvm_mmu_invalidate_end(struct kvm *kvm)
-> -{
-> -       /*
-> -        * This sequence increase will notify the kvm page fault that
-> -        * the page that is going to be mapped in the spte could have
-> -        * been freed.
-> -        */
-> -       kvm->mmu_invalidate_seq++;
-> -       smp_wmb();
-> -       /*
-> -        * The above sequence increase must be visible before the
-> -        * below count decrease, which is ensured by the smp_wmb above
-> -        * in conjunction with the smp_rmb in mmu_invalidate_retry().
-> -        */
-> -       kvm->mmu_invalidate_in_progress--;
-> -}
-> -
->  static void kvm_mmu_notifier_invalidate_range_end(struct mmu_notifier *mn,
->                                         const struct mmu_notifier_range *range)
->  {
-> @@ -1140,6 +1140,11 @@ int __weak kvm_arch_create_vm_debugfs(struct kvm *kvm)
->         return 0;
->  }
->
-> +bool __weak kvm_arch_has_private_mem(struct kvm *kvm)
-> +{
-> +       return false;
-> +}
-> +
->  static struct kvm *kvm_create_vm(unsigned long type, const char *fdname)
->  {
->         struct kvm *kvm = kvm_arch_alloc_vm();
-> @@ -2349,15 +2354,47 @@ static u64 kvm_supported_mem_attributes(struct kvm *kvm)
->         return 0;
->  }
->
-> +static void kvm_unmap_mem_range(struct kvm *kvm, gfn_t start, gfn_t end)
-> +{
-> +       struct kvm_gfn_range gfn_range;
-> +       struct kvm_memory_slot *slot;
-> +       struct kvm_memslots *slots;
-> +       struct kvm_memslot_iter iter;
-> +       int i;
-> +       int r = 0;
-> +
-> +       gfn_range.pte = __pte(0);
-> +       gfn_range.may_block = true;
-> +
-> +       for (i = 0; i < KVM_ADDRESS_SPACE_NUM; i++) {
-> +               slots = __kvm_memslots(kvm, i);
-> +
-> +               kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
-> +                       slot = iter.slot;
-> +                       gfn_range.start = max(start, slot->base_gfn);
-> +                       gfn_range.end = min(end, slot->base_gfn + slot->npages);
-> +                       if (gfn_range.start >= gfn_range.end)
-> +                               continue;
-> +                       gfn_range.slot = slot;
-> +
-> +                       r |= kvm_unmap_gfn_range(kvm, &gfn_range);
-> +               }
-> +       }
-> +
-> +       if (r)
-> +               kvm_flush_remote_tlbs(kvm);
-> +}
-> +
->  static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
->                                            struct kvm_memory_attributes *attrs)
->  {
->         gfn_t start, end;
->         unsigned long i;
->         void *entry;
-> +       int idx;
->         u64 supported_attrs = kvm_supported_mem_attributes(kvm);
->
-> -       /* flags is currently not used. */
-> +       /* 'flags' is currently not used. */
->         if (attrs->flags)
->                 return -EINVAL;
->         if (attrs->attributes & ~supported_attrs)
-> @@ -2372,6 +2409,13 @@ static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
->
->         entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
->
-> +       if (kvm_arch_has_private_mem(kvm)) {
-> +               KVM_MMU_LOCK(kvm);
-> +               kvm_mmu_invalidate_begin(kvm);
-> +               kvm_mmu_invalidate_range_add(kvm, start, end);
-> +               KVM_MMU_UNLOCK(kvm);
-> +       }
-> +
->         mutex_lock(&kvm->lock);
->         for (i = start; i < end; i++)
->                 if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
-> @@ -2379,6 +2423,16 @@ static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
->                         break;
->         mutex_unlock(&kvm->lock);
->
-> +       if (kvm_arch_has_private_mem(kvm)) {
-> +               idx = srcu_read_lock(&kvm->srcu);
-> +               KVM_MMU_LOCK(kvm);
-> +               if (i > start)
-> +                       kvm_unmap_mem_range(kvm, start, i);
-> +               kvm_mmu_invalidate_end(kvm);
-> +               KVM_MMU_UNLOCK(kvm);
-> +               srcu_read_unlock(&kvm->srcu, idx);
-> +       }
-> +
->         attrs->address = i << PAGE_SHIFT;
->         attrs->size = (end - i) << PAGE_SHIFT;
->
-> --
-> 2.25.1
->
+James
