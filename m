@@ -2,101 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99B13C47089
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 09:10:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04B1EC4708E
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 09:16:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229925AbiLGJKe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 04:10:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56954 "EHLO
+        id S230199AbiLGJQz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Dec 2022 04:16:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229700AbiLGJKc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 04:10:32 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B6602CE2E;
-        Wed,  7 Dec 2022 01:10:31 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id q15so15942854pja.0;
-        Wed, 07 Dec 2022 01:10:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pmV/ylB/SbTzN29Fyk+GXH3nZHECjvwCeA1ibmHfhMQ=;
-        b=GfvTCv0FdA4O9e1udwwfLH8ZsR8VFMej6NTVJLhLfW3zw+bXTLcB8NcoPbMaoPk+N0
-         OqF7sYIVDaokwQsZxHgRw91fvIBI2aRD9FlcbG7CStYEyPt2zYk5oreS3Ke2WPoSia9n
-         D8yanAevyPbdG4fiYlH/HnmupHkvWF2SiF0mfKBMAeVS/DAZjW1xACxuBIWBc3M+l6zJ
-         gDeZ2RnRXKjz7/VCJYfMcrWIZjEJjOSXYds3vwXuET112w8F4ULoNfl/zjVf06mPMase
-         Co6UWt2BJ1elePOIAFgmD0sltcThMzgkVmiIbWltQPZjXJolCCyHdeho8CWWybvhbe/y
-         BDNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pmV/ylB/SbTzN29Fyk+GXH3nZHECjvwCeA1ibmHfhMQ=;
-        b=ygtycNIGkcwhz/e+YQGkmnm3G2XpI19P4A3zLBuEz1A6P/PSlxkwq/nk5xJk/niWly
-         trQWEuJLFtwoMO/y64nx4lhC5qEnzP1i/LEFdM0WeWNY2/CTObuJV+710Zmzc3vOPBl5
-         UmnZw1oJbne+HaTDDNed0+YRM/g0DYXGGEy41cI0Gk4HgXWH5gEzz8AZkru2OtCi/Rwo
-         gY45ZGComrpS9RIZEbY+dup3B9t3OEpELhwsdJvqglfi556QvG07KMA5woVsSFTqprsx
-         V73XvOeRHw/E2THYOoZZ+UxjfehU9z3ieaEALH/bHjmdqbsc42ysLhhjHbtMLqWhYWaD
-         +YRQ==
-X-Gm-Message-State: ANoB5pnQzAMdflM14navKFlZbL/zIVecm/HWkX6RXqvffsMYEGSU5kBd
-        kX654b8kjx1Fy1v2h5ImUCA=
-X-Google-Smtp-Source: AA0mqf596k22JlatRZtn9FsoaYCarP4PAd5xF+A9spjaycNFK6EmW9R8bwkQkRwWAsr6tc5Yym8p4g==
-X-Received: by 2002:a17:902:d88c:b0:186:a7f1:8d2b with SMTP id b12-20020a170902d88c00b00186a7f18d2bmr75853185plz.137.1670404231051;
-        Wed, 07 Dec 2022 01:10:31 -0800 (PST)
-Received: from [192.168.43.80] (subs03-180-214-233-90.three.co.id. [180.214.233.90])
-        by smtp.gmail.com with ESMTPSA id a2-20020a17090abe0200b0020ae09e9724sm734543pjs.53.2022.12.07.01.10.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Dec 2022 01:10:30 -0800 (PST)
-Message-ID: <35cb3dad-7bae-7713-3bad-b151fa6831dd@gmail.com>
-Date:   Wed, 7 Dec 2022 16:10:25 +0700
+        with ESMTP id S230139AbiLGJQe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 04:16:34 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 648C42FFF9;
+        Wed,  7 Dec 2022 01:16:04 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 055C560F0A;
+        Wed,  7 Dec 2022 09:16:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B959C433B5;
+        Wed,  7 Dec 2022 09:16:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670404563;
+        bh=M6Ekm/pBdbN2VgTeBU6QuIeBCliKnzJIhys71gOS+d0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=SBj3erXrpM7SKu2ifbOUpX3wKID68lmLvBnU0RGS2/++cQNasZXKvMM2OJ9LTK1eh
+         gc8Ub8ieF6mOax/guLupkvNN6UCV9Mlz86F13PIukxhrLZGPGKnk4zG2kpPmEC5Hws
+         AVdIYQLv09SWsTNXr+6/3iv66otl/zTN+ac2d1BPO1ZREPcEAGbXCKW88gm/jAnON9
+         uSsr2h5EBygWTHNAoFmrj2uiPvmrUAs6uOc9JFBFpEuzElQvo4tzB1EWvZ8l7LUTpK
+         TGS71hUMTk9TFeTQU7+lGkMAqzsXcPRhYRnBmXZkFwhojgKS2+ihPibqENF75FZoCc
+         lPOvHVd3/8j9g==
+Received: by mail-ej1-f53.google.com with SMTP id m18so10914503eji.5;
+        Wed, 07 Dec 2022 01:16:03 -0800 (PST)
+X-Gm-Message-State: ANoB5pn3LdjrlVLsy6J/lbjfi2BitRw4GAsD0k6hUdIM2yEWTOAnv6fN
+        9LQjLhcdP0upuFkGrHMRLgkvnHQH2OztbB0iUqQ=
+X-Google-Smtp-Source: AA0mqf67yTNxeGO6KdbhCdkH31rJ/Paiugzi9lc5kAdca+uBigxLbwyxQZlYijCAZ9E2wUfKATEqoUcb5D3fczCp98c=
+X-Received: by 2002:a17:906:8309:b0:7c0:dab0:d722 with SMTP id
+ j9-20020a170906830900b007c0dab0d722mr13703762ejx.353.1670404561525; Wed, 07
+ Dec 2022 01:16:01 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCBsaW51eC1uZXh0XcKgZG9jczogcHJvYy5yc3Q6IGFk?=
- =?UTF-8?B?ZMKgc29mdG5ldF9zdGF0?=
-To:     yang.yang29@zte.com.cn, corbet@lwn.net, kuba@kernel.org
-Cc:     davem@davemloft.net, hannes@cmpxchg.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <202212071423496852423@zte.com.cn>
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <202212071423496852423@zte.com.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221026144208.373504-1-xianting.tian@linux.alibaba.com>
+ <167002857934.4256.16584443879212253129.b4-ty@rivosinc.com>
+ <Y4/KoiFhdvRBDdzH@spud> <CAJF2gTQX6361ME9UkOykvUEQifqioLMqovbfpqugkk174pKqfA@mail.gmail.com>
+ <Y5BJ/EeBTEJK2QLF@spud>
+In-Reply-To: <Y5BJ/EeBTEJK2QLF@spud>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Wed, 7 Dec 2022 17:15:49 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTRFif+Ntkq0MUekRy74uFn1gnzZcGNOAdQakNi68djS_g@mail.gmail.com>
+Message-ID: <CAJF2gTRFif+Ntkq0MUekRy74uFn1gnzZcGNOAdQakNi68djS_g@mail.gmail.com>
+Subject: Re: [PATCH V5 0/2] Support VMCOREINFO export for RISCV64
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        mick@ics.forth.gr, corbet@lwn.net, alexandre.ghiti@canonical.com,
+        vgoyal@redhat.com, bhe@redhat.com,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        bagasdotme@gmail.com, dyoung@redhat.com,
+        Palmer Dabbelt <palmer@dabbelt.com>, heiko@sntech.de,
+        anup@brainfault.org, aou@eecs.berkeley.edu,
+        hschauhan@nulltrace.org, yixun.lan@gmail.com,
+        kexec@lists.infradead.org, heinrich.schuchardt@canonical.com,
+        linux-doc@vger.kernel.org, crash-utility@redhat.com,
+        linux-kernel@vger.kernel.org, k-hagio-ab@nec.com,
+        linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/7/22 13:23, yang.yang29@zte.com.cn wrote:
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index e224b6d5b642..9d5fd9424e8b 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -1284,6 +1284,7 @@ support this. Table 1-9 lists the files and their meaning.
->   rt_cache      Routing cache
->   snmp          SNMP data
->   sockstat      Socket statistics
-> + softnet_stat  Per-CPU incoming packets queues statistics of online CPUs
->   tcp           TCP  sockets
->   udp           UDP sockets
->   unix          UNIX domain sockets
+On Wed, Dec 7, 2022 at 4:08 PM Conor Dooley <conor@kernel.org> wrote:
+>
+> On Wed, Dec 07, 2022 at 11:34:57AM +0800, Guo Ren wrote:
+> > On Wed, Dec 7, 2022 at 7:05 AM Conor Dooley <conor@kernel.org> wrote:
+> > >
+> > > Hey Palmer, Xianting,
+> > >
+> > > On Fri, Dec 02, 2022 at 04:49:39PM -0800, Palmer Dabbelt wrote:
+> > > > On Wed, 26 Oct 2022 22:42:06 +0800, Xianting Tian wrote:
+> > > > > As disscussed in below patch set, the patch of 'describe VMCOREINFO export in Documentation'
+> > > > > need to update according to Bagas's comments.
+> > > > > https://lore.kernel.org/linux-riscv/22AAF52E-8CC8-4D11-99CB-88DE4D113444@kernel.org/
+> > > > >
+> > > > > As others patches in above patch set already applied, so this patch set only contains below two
+> > > > > patches.
+> > > > >
+> > > > > [...]
+> > > >
+> > > > Applied, thanks!
+> > > >
+> > > > [1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
+> > > >       https://git.kernel.org/palmer/c/649d6b1019a2
+> > >
+> > > So this patch seems to be causing issues for the nommu build:
+> > > https://lore.kernel.org/oe-kbuild-all/202212062250.tR0otHcz-lkp@intel.com/
+> > >
+> > > I had a bit of a poke at trying to see if there were some headers we
+> > > could pull in before actually checking the .config only to see:
+> > > # CONFIG_MMU is not set
+> > >
+> > > Do we have to wrap the whole thing in a `#ifdef CONFIG_MMU` to fix
+> > > compilation here?
+> > The problem does not belong to the patch.
+> >
+> > Could I send a fixup patch? like this?
+>
+> That seems like a sane dependancy, but did you build that config?
+> This doesn't fix the problem for me :/
+Sorry, It's the wrong fixup. Here is the new version, and tested. Thx
+for the report.
 
-Add softnet_stat to what table? I have to read the actual documentation
-and found that you mean /proc/net table. Please mention that in patch
-subject.
+https://lore.kernel.org/linux-riscv/20221207091112.2258674-1-guoren@kernel.org/
 
-Regardless, this patch is from ZTE people, for which they have a
-reputation for ignoring critical code reviews and "atypical" email
-setup that needs to be fixed (try searching for `tc:"zte.com.cn" AND
-f:"gregkh@linuxfoundation.org"` on LKML for details). If you can
-receive this email, please hit "Reply all", "Group Reply" or similar.
-Remember don't top-post, reply inline with appropriate context instead.
+>
+> >
+> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> > index ef8d66de5f38..d8c07999426c 100644
+> > --- a/arch/riscv/Kconfig
+> > +++ b/arch/riscv/Kconfig
+> > @@ -512,6 +512,7 @@ config ARCH_HAS_KEXEC_PURGATORY
+> >
+> >  config CRASH_DUMP
+> >         bool "Build kdump crash kernel"
+> > +       depends on KEXEC
+> >         help
+> >           Generate crash dump after being started by kexec. This should
+> >           be normally only set in special crash dump kernels which are
+> >
+> > >
+> > > Thanks,
+> > > Conor.
+> > >
+> >
+> >
+> > --
+> > Best Regards
+> >  Guo Ren
 
-Thanks.
+
 
 -- 
-An old man doll... just what I always wanted! - Clara
-
+Best Regards
+ Guo Ren
