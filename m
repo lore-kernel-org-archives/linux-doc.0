@@ -2,436 +2,246 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B983C4708D
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 22:06:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12ECFC63705
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 22:36:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229807AbiLGWGA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 17:06:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43930 "EHLO
+        id S229626AbiLGWgK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Dec 2022 17:36:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230072AbiLGWFa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 17:05:30 -0500
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2802FDE81;
-        Wed,  7 Dec 2022 14:05:04 -0800 (PST)
-Received: by mail-qk1-f174.google.com with SMTP id x18so11024131qki.4;
-        Wed, 07 Dec 2022 14:05:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gI+yHmsKWDV9rDnDoEVF7JHAoXUt+16u+BnTF0vBdnE=;
-        b=ar4zj5H8Zd7aRHGJq+9sgGqWwhSmciLpya0NhJ/BmE8Psrp7lyHdj7+Bmezw4a+b90
-         ezoFwqATvk7Rmloxo0RVT3iaLfeC4LkrbhYTkXQ8n+snacXV0w/Q0PQWmHXtvdtqHjZC
-         Vi9auiWggFHs1Ri2CJMOVxAqZqU66Va1aIKTicE1oNesiEg0wENKAs5e8a8oB60hj5HL
-         Y4o6auto4mYy+JvnyXL+WsX/G+nrn+nbnkoB0dYN29PXosfXkoIrBZX8Nn2ysuEExrOo
-         g8giC4eOBjP6hWoSVZ2SpTL0Z9NwbkCeTw7tNP05swcItOd3kfJXGwhlxIBM3rri4+A7
-         adsg==
-X-Gm-Message-State: ANoB5pkg3RdznWW6USketlW1Z8Gy29nSjLXRn06rVAVtZ0Oe4EK3VMN7
-        O35xkDQRnwEBf4ASzYUpEYI=
-X-Google-Smtp-Source: AA0mqf4wtgNYEt8sOnBeI5GbBXrjj3tXgfr3yoUlv7MDAo75tTRhdG2iByWHaVmaWvbRqb1339vVuA==
-X-Received: by 2002:a05:620a:159c:b0:6fe:efbe:7b9d with SMTP id d28-20020a05620a159c00b006feefbe7b9dmr2339284qkk.133.1670450702848;
-        Wed, 07 Dec 2022 14:05:02 -0800 (PST)
-Received: from maniforge.lan ([2620:10d:c091:480::1:629d])
-        by smtp.gmail.com with ESMTPSA id dt2-20020a05620a478200b006fbf88667bcsm8554839qkb.77.2022.12.07.14.05.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Dec 2022 14:05:02 -0800 (PST)
-Date:   Wed, 7 Dec 2022 16:04:59 -0600
-From:   David Vernet <void@manifault.com>
-To:     mtahhan@redhat.com
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, jbrouer@redhat.com,
-        thoiland@redhat.com, donhunte@redhat.com, john.fastabend@gmail.com,
-        bagasdotme@gmail.com
-Subject: Re: [PATCH bpf-next v3 1/1] docs: BPF_MAP_TYPE_SOCK[MAP|HASH]
-Message-ID: <Y5EOC7HjtaRFAVfq@maniforge.lan>
-References: <20221202114010.22477-1-mtahhan@redhat.com>
+        with ESMTP id S229437AbiLGWgI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 17:36:08 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89E3767210;
+        Wed,  7 Dec 2022 14:36:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670452564; x=1701988564;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=9QP8xfgzXuiqrzBWsRGwghB5HCYaR+FYOzwJtuuL3B4=;
+  b=EImFF4z2ez0kJa4n1n4QxbZb3BqlgbPsYoGQSlqqbQr+3i/q8d2UJbVU
+   Gs9wQtLkyY4CJfeMUwk6pXqDDTYR0HnRhDSv+3S3QbrduZ/HYBSJIwKVv
+   A6ebGhDH62PuuQccZ9zt9hEK+pIAhncp/+2rIyxjnQ1u0INpzFOLRZ6Sc
+   gKoZrq/tGTSXowBzhQ1axpVLHvWXMIn1TWagPuTfuFcLcK3Wv7F7c5PEh
+   oRTkdK3C3Vq5ey/Blb1//rWFKWciuZyZJJVVJGhYI1m2SMaRYi98nOq1f
+   uwYNmUQzCNSx9g8qZ8hn5Oouw4/r2LuZUCKxTsEJopKHc/00IiFDb6F92
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="317030600"
+X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; 
+   d="scan'208";a="317030600"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2022 14:36:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="679299921"
+X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; 
+   d="scan'208";a="679299921"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga001.jf.intel.com with ESMTP; 07 Dec 2022 14:36:03 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 7 Dec 2022 14:36:03 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 7 Dec 2022 14:36:02 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Wed, 7 Dec 2022 14:36:02 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Wed, 7 Dec 2022 14:36:02 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FzU11fx+On9mJeiIuMwUxFXwl06KYoQoYTMFTp+SnumWQnpYYoS7Y/oJ9Lv8dPbObnKgGj1HLS7ND5HVbjGttllemsU0JuHw4xSLrviQRrpN58oBRzMZYOD0cZnxBif3ZXXh+3sya5c/hkaFCs7h2Vd9q8t2t9i+dGDjcOnezvPMhAdxFrrMd9jq9PCE49+vrAekvAXclt04yaDaOuB8ixeHs+LRqr+Zvikl92d9Ulscw0hQxIU9vSRXcZ7SsYeI781jhgoVOT/bjv25FgFILKvZSKAmb02kb2h5DHKTI+e9BvKT+fUaTcbD4Ga5k5o8avdkyohaWngRH3swWobEPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9QP8xfgzXuiqrzBWsRGwghB5HCYaR+FYOzwJtuuL3B4=;
+ b=ghNz94WtY7qiiAiYX1g8NnHdxvNHMhqUlCHku6caJheADFO7AtG+cZnue41LI06pBuO8es1hsxB5Amj81J45x5SZ6GHIRho8FoU7vp3BDenLI0dyQ55qxVpFOswO8TOyvQnACx9d4mBqGhsuJKvRShtJJZFS6YyY/VOhx8PpEgUi1DiqPI2qH2Sf66vY+2mfFI0OoLrHU7R8/r3sArshmVLvobiFQy/PULNJtDXqu+0EH8J4d3lhzhqZtIxuyfVcyPyfZ72Eio6GK+qgdxpDlR/9iw9F6vjVJs+lxsxBSZrDFqfooXe5GLTqYqHPlV4x0mYP10CE/2PF7nmppe4yew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MWHPR11MB1392.namprd11.prod.outlook.com (2603:10b6:300:24::14)
+ by PH7PR11MB6451.namprd11.prod.outlook.com (2603:10b6:510:1f4::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.13; Wed, 7 Dec
+ 2022 22:35:59 +0000
+Received: from MWHPR11MB1392.namprd11.prod.outlook.com
+ ([fe80::7ed5:a749:7b4f:ceff]) by MWHPR11MB1392.namprd11.prod.outlook.com
+ ([fe80::7ed5:a749:7b4f:ceff%5]) with mapi id 15.20.5880.014; Wed, 7 Dec 2022
+ 22:35:59 +0000
+From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+To:     "bp@alien8.de" <bp@alien8.de>
+CC:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH v4 03/39] x86/cpufeatures: Add CPU feature flags for
+ shadow stacks
+Thread-Topic: [PATCH v4 03/39] x86/cpufeatures: Add CPU feature flags for
+ shadow stacks
+Thread-Index: AQHZBq9P6foD+mjitEm+M0R8QR7zt65iSPYAgADCOAA=
+Date:   Wed, 7 Dec 2022 22:35:59 +0000
+Message-ID: <63ea77f5d14739f8184ea51a4df939a58b4764ab.camel@intel.com>
+References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
+         <20221203003606.6838-4-rick.p.edgecombe@intel.com>
+         <Y5ByYmOZ/x5BbS9o@zn.tnic>
+In-Reply-To: <Y5ByYmOZ/x5BbS9o@zn.tnic>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MWHPR11MB1392:EE_|PH7PR11MB6451:EE_
+x-ms-office365-filtering-correlation-id: 428445a1-9ee0-45a6-3d9c-08dad8a369ed
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ji4U5O8AIVufVbZz8g3VvC9qL3Ny92zGadxJmDoFxPEkz3Vygn3tLpRGJuCohvCRVJXwFyd1Bcb/NGNIMtlOmTlyrAAVjfqEHGHwNq1hpyuZUDuvw2c4bAF80UnHCtDRO9zWpkn+Ae4AtHckpTmLAJp53rVbPb1lphxyf9wTaI64SVp0cIDpjATQtd7wvhd7pLZDyMbZYfugRBsqKQiRNm1IgetO+niCjm35WTYMpFAJZ6/opuAGMPJOw6nTP5I2zEMfbHFTQHzF19v9zZWxGR3+WWaG04oRfohUmoU9Sxe7rzsdaPrhMlKd8v7FBZ2X3i8N9Fwwo3ixyFrWIer0vaWjFHs6NrQ7ZaEy25Qlr6AYS5QWbC8/aPqV2PRA4P1x5py4qPQSMRWbqR6GCxfaDdxd4mUOcD23ym1zZ0Dhz0EZMzxKMS0oXQM6jctpMZ0zahhMy93f6qhqh7nPIfxT1h9a0PTjfw895tKNWUVHd/UTdkQJqVKH56DGcmQm2axsxL0w6ZnBVX9v8CoP/M1V5c1wFXyugoZPef5DA23vxw1AaD1Qg6x6qLwJfV8xFJbCvtlsxjbZaQDHS+J8nMc6TjB7FdkMhoYcRo9QAg6WG63+B9kA8SNNjx8t868cGQMiYH3g91o8U9nlcv1+Qa/7o+D3IK7Ot5ymfEmlvVTNtNfg+El5lUp/D+s+jx0iHffi7eF8O3Ek2zTVygBQ1SSYav9JJdCZ5MfgEFNABLA+E2c=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB1392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(366004)(39860400002)(376002)(396003)(346002)(451199015)(7406005)(54906003)(36756003)(5660300002)(478600001)(6916009)(7416002)(71200400001)(6486002)(316002)(6512007)(122000001)(82960400001)(38070700005)(86362001)(6506007)(2616005)(41300700001)(38100700002)(8936002)(186003)(26005)(2906002)(66476007)(66556008)(64756008)(66446008)(4326008)(76116006)(66946007)(91956017)(8676002)(99106002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RlVqeXk0b0ZPdFRleTlSZWQrOHFhWHE5S1NoNFpmamtvSWtzYys4dHA0OTFn?=
+ =?utf-8?B?UlZLRGhNdlplMmVHRTZhRjRkaElaRU1BbEFYU1RTQnhYdzM3RGU4NVEvVk1Z?=
+ =?utf-8?B?SEpuY0FmZ3NhbDI2eitZazl2Rk8zSVlxa0MzRXpESjZUUzRoKzliRDd3d0xJ?=
+ =?utf-8?B?Um1DUHI2cVBROWpkTWZHWEFCMmRCa3ducjhJaVBFcFJ2WXBjSk11WGt6RXhV?=
+ =?utf-8?B?T3c0OGI0SFlEVzdUQ3doRWlKT3ZGVGV1SytIN1R1R3o4NDhEWm5tTlZyeTA1?=
+ =?utf-8?B?MExyb3M4elRhd2lFNXJqK1VJVSt4eXdQeWNzb0tZOFNvcFBMcjQyVng2VWtk?=
+ =?utf-8?B?SkZ2L3phblhQRGorUXhaSWlQbkNIWGpLOWZTUDZRRGl4UlVFVUYySlJXbE8v?=
+ =?utf-8?B?Q2djeTZURkt3anE2aVJBcERaUC9RckJFSm96M0ZVYVJuWW13cmxRMjVBNzU4?=
+ =?utf-8?B?VDlHdWE3VDRmdG1yMFBCV085VFZ0WnozczNMUmg4N1U0TmJuaitMT1pEYWxO?=
+ =?utf-8?B?T1VLaENqRHFrLzl5UmxHVVc5cHJjTlY0SFFjeklOUzhETEVUci9udVNRSGNs?=
+ =?utf-8?B?T2xWeXg1S2pWK1Z0bUFmMDNkVDhJWEdLOFAyZjFKMlhtSGlKQ0U4djl1OEtV?=
+ =?utf-8?B?L05wWTRuTTNYclo1R0pHRlZEdkp2M3R3UkxpUmMwT2FaRnRkOWxNd1NjTi85?=
+ =?utf-8?B?Zmd2VlpNMjhYakpONS9WNTFlOGdEQ3BLc1BMQnJRTTV4OS9aTTFmUE9ycHZZ?=
+ =?utf-8?B?bUZDbUFIQkpPbG91ajJTaEkxR0VHZ2xOdEdzQ0QxK2drcjRQSy9wbVNkemYz?=
+ =?utf-8?B?TlBKc09vMDVtZHlvakoyZC8xM3FXd29BYWVVTWpFNVlGeXpOWjlnRkJGdHNU?=
+ =?utf-8?B?bU9GRFlaWTZyMC9ramgya3pqazVDV0pKaThsK3RrNUVsbzAwZlQ0ZU5OVXVr?=
+ =?utf-8?B?MkFlRjVLM3Nqa0xmTExtaW53N3FsRTJGN0xreW9CekRKb3VkTkVqcDZkbnRS?=
+ =?utf-8?B?cWwxTmowR0xuS3ZVYWdCSjlxdDZ1T0ZjMTVBdzVUQ0tESmU1aVlPYmxCMDd2?=
+ =?utf-8?B?UjY2YXVKZkl4Z0tsY01ibElqM0V6cUs4cG82SVdCM3AvZXI0YkNSUDB3dEpj?=
+ =?utf-8?B?RjJrdUFnbjBrRTdPQ2hzckJsZHdUNTZSU0M1UHRUeDlYcHJ5RzhYS2FKTlkw?=
+ =?utf-8?B?TUZ2WnFuQlJ3Q0RyQ2Q1VDlLQ1VrT1NiZFEvTUUybytDR3E1U1N5bE8vOEND?=
+ =?utf-8?B?QkcrMHMzekpBT2ZpZGR2aGNuQ2JlWFVXWlVSUkRqQ3BoTGg4cFBRaWFWV1cx?=
+ =?utf-8?B?S1dBWDRick84b29yTkx1czR0T1Fad0NhUmFnWUlnbU5oUG01d0UyM2d6QzN4?=
+ =?utf-8?B?eXk1RnpnTWl2b0NaYWY4aWxzczhmdnFsdFVtejBMSXFsRmQrcVM3WWgvR0V0?=
+ =?utf-8?B?V3kvMzZvZWxyNkR3QjFIU05qYVEyQ1MyOUJiais3WEVRK3pmcnRtYlk1NCs0?=
+ =?utf-8?B?YjlkamgybnpiNWhVK2F2OXpOZzR3cTZKUlozbW1GbjhQRVoxRDhvQzhIbTU2?=
+ =?utf-8?B?c3poQkN5VnEyeEhXZGVBdHdERFVzMHhuSGduczhnVWdIbE02VGVQb3lINXR2?=
+ =?utf-8?B?RHZlemliWHEzSU9jdGxnVEpNMXhnYW5mc1Jsd2dBWFR2SWJocWJTbDI2cmMv?=
+ =?utf-8?B?eWJwMGFsYS9qRnpLWW1lR3FKdnhvZ0VmTmgvVmluR0V5eDFpTXBZQWVPNk5z?=
+ =?utf-8?B?NE5XV3FoU2JSWlZpWnB5dFZVZXVJb2VLVkhzTFhEZjhvWml2Z3YzT3JOVzJt?=
+ =?utf-8?B?bEtIM3RGTXNsOVlwU2hMQlVtSCtXazcydHdydFFOMWhPUUw5Q3NUSzRTL0NB?=
+ =?utf-8?B?cVk3ME9qU2dRbmMveitRZkZQQzVsU2NOalM5RWRpcFN0MjJGRzJQMHN4b0ZH?=
+ =?utf-8?B?em5nR0tRWCtoYnFhUkIwdDc4cVlqM2tYNGRhbTRXdi9Oblp0ekE2VVdQTkcy?=
+ =?utf-8?B?MHV6bWMrTVFobGxuVzFVOVJPdCtBY1EzVXNWdHJFOEd3azR2MkxvTWRpR1Fa?=
+ =?utf-8?B?Vk9kRitRMDhFNlV2NVp6REVhd0hkNnB2SnExZ2tGaW1DaGF1clFneDNLZk45?=
+ =?utf-8?B?cmRrTEQvbnNySnoyUmpZZDhqamFnUkpKY1RMS3VNWmhpazgzcFdCZWg5SW1v?=
+ =?utf-8?Q?B9PCdc7m1jaQUmvu1OA5efw=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <213A20207056504BA2DE58E2CAAAF861@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221202114010.22477-1-mtahhan@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 428445a1-9ee0-45a6-3d9c-08dad8a369ed
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Dec 2022 22:35:59.4145
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: T1eqYrgIXXCPXwOa5I/yegkFfSO84+85ZB41lKOKakPDmOAs1CS9qCtnHIuOUZ0bKYSelUTqYvz5ZY/C65s3FxnAvVmYD8boq6J/KYpwrE4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6451
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 11:40:10AM +0000, mtahhan@redhat.com wrote:
-> From: Maryam Tahhan <mtahhan@redhat.com>
-> 
-> Add documentation for BPF_MAP_TYPE_SOCK[MAP|HASH]
-> including kernel versions introduced, usage
-> and examples.
-> 
-> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
-
-Hi Maryam,
-
-Thanks a lot for adding these extensive docs. Overall this is looking
-great, but I think readers who aren't yet familiar with these concepts
-(and are here to try to better understand them) are potentially going to
-struggle a bit to understand some of this without adding a bit more
-explanation to a few things.
-
-See suggestions below.
-
-> ---
-> v3:
-> - Call out that the user attaches the BPF programs to
->   the sock[map|hash] maps explicitly.
-> - Rephrase the note that references the TCP and UDP
->   functions that get replaced.
-> - Update simple example to attach verdict and parser
->   progs to a map.
-> 
-> v2:
-> - Fixed typos and user space references to BPF helpers.
-> - Added update, lookup and delete BPF helpers.
-> ---
-> ---
->  Documentation/bpf/map_sockmap.rst | 493 ++++++++++++++++++++++++++++++
->  1 file changed, 493 insertions(+)
->  create mode 100644 Documentation/bpf/map_sockmap.rst
-> 
-> diff --git a/Documentation/bpf/map_sockmap.rst b/Documentation/bpf/map_sockmap.rst
-> new file mode 100644
-> index 000000000000..e2ef3054fe09
-> --- /dev/null
-> +++ b/Documentation/bpf/map_sockmap.rst
-> @@ -0,0 +1,493 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +.. Copyright Red Hat
-> +
-> +==============================================
-> +BPF_MAP_TYPE_SOCKMAP and BPF_MAP_TYPE_SOCKHASH
-> +==============================================
-> +
-> +.. note::
-> +   - ``BPF_MAP_TYPE_SOCKMAP`` was introduced in kernel version 4.14
-> +   - ``BPF_MAP_TYPE_SOCKHASH`` was introduced in kernel version 4.18
-> +
-> +``BPF_MAP_TYPE_SOCKMAP`` is backed by an array that uses an integer key as the
-> +index to lookup a reference to a sock struct. The map values are sockets.
-> +Similarly, ``BPF_MAP_TYPE_SOCKHASH`` is a hash backed BPF map that holds
-> +references to sockets.
-
-I think it may confuse / throw some readers off for their first
-introduction to BPF_MAP_TYPE_SOCKMAP to be an implementation detail.
-Can you "introduce" the map type by first explaining what it's used for
-at a high level, and only _then_ going into more detail as to how it's
-implemented? Consider the fact that someone trying to use
-BPF_MAP_TYPE_SOCKMAP doesn't really need to know the fact that it's
-backed by an array.
-
-> +
-> +.. note::
-> +    - The value type must be __u32 or __u64.
-> +    - The value type of __u64 is to support socket cookies.
-
-I think this may also confuse some readers. Above you say that the
-"value" is a socket, but here you're saying that its value type is __u32
-or __u64. IMO describing the connection between the two would be useful.
-
-> +
-> +When a user creates these types of maps, they typically attach BPF programs to
-> +them. The allowed programs are:
-> +
-> +.. code-block:: c
-> +
-> +	struct sk_psock_progs {
-> +		struct bpf_prog *msg_parser;
-> +		struct bpf_prog *stream_parser;
-> +		struct bpf_prog *stream_verdict;
-> +		struct bpf_prog	*skb_verdict;
-> +	};
-> +
-> +.. note::
-> +    Users are not allowed to attach ``stream_verdict`` and ``skb_verdict``
-> +    programs to the same map.
-
-I think this note should maybe be moved a bit lower down in the doc. We
-have to explain what these prog types are before we start to tell
-readers how they're not allowed to use them.
-
-> +
-> +The parser programs determine how much data needs to be queued to come to a
-> +verdict. The verdict programs return a verdict ``__SK_DROP``, ``__SK_PASS``, or
-> +``__SK_REDIRECT``.
-
-Can you provide a slightly higher level overview of parser programs and
-verdicts? This would include defining "parser" and "verdict", and
-explaining their purposes in the larger skb-processing pipeline. No need
-to go too crazy here, but I think that at least giving a high level
-overview in a few sentences would go a long way.
-
-> +
-> +The attach types for the map programs are:
-> +
-> +- ``msg_parser`` program - ``BPF_SK_MSG_VERDICT``.
-> +- ``stream_parser`` program - ``BPF_SK_SKB_STREAM_PARSER``.
-> +- ``stream_verdict`` program - ``BPF_SK_SKB_STREAM_VERDICT``.
-> +- ``skb_verdict`` program - ``BPF_SK_SKB_VERDICT``.
-> +
-> +These maps can be used to redirect skbs between sockets or to apply policy at
-> +the socket level based on the result of a verdict program with the help of the
-> +BPF helpers ``bpf_sk_redirect_map()``, ``bpf_sk_redirect_hash()``,
-> +``bpf_msg_redirect_map()`` and ``bpf_msg_redirect_hash()``.
-
-Can you add a short sentence informing readers that these helpers (and
-the ones below) are described in more details below?
-
-> +
-> +When a socket is inserted into one of these maps, its socket callbacks are
-> +replaced and a ``struct sk_psock`` is attached to it. Additionally, this
-> +``sk_psock`` inherits the programs that are attached to the map.
-> +
-> +.. note::
-> +	For more details of the socket callbacks that get replaced please see
-> +	``net/ipv4/tcp_bpf.c`` and ``net/ipv4/udp_bpf.c`` for TCP and UDP
-> +	functions, respectively.
-> +
-> +There are additional helpers available to use with the parser and verdict
-> +programs: ``bpf_msg_apply_bytes()`` and ``bpf_msg_cork_bytes()``. With
-> +``bpf_msg_apply_bytes()`` BPF programs can tell the infrastructure how many
-> +bytes the given verdict should apply to. The helper ``bpf_msg_cork_bytes()``
-> +handles a different case where a BPF program can not reach a verdict on a msg
-> +until it receives more bytes AND the program doesn't want to forward the packet
-> +until it is known to be good.
-> +
-> +Finally, the helpers ``bpf_msg_pull_data()`` and ``bpf_msg_push_data()`` are
-> +available to ``BPF_PROG_TYPE_SK_MSG`` BPF programs to pull in data and set the
-> +start and end pointer to given values or to add metadata to the ``struct
-> +sk_msg_buff *msg``.
-> +
-> +Usage
-> +=====
-> +Kernel BPF
-> +----------
-> +bpf_msg_redirect_map()
-> +^^^^^^^^^^^^^^^^^^^^^^
-> +.. code-block:: c
-> +
-> +	long bpf_msg_redirect_map(struct sk_msg_buff *msg, struct bpf_map *map, u32 key, u64 flags)
-> +
-> +This helper is used in programs implementing policies at the socket level. If
-> +the message ``msg`` is allowed to pass (i.e. if the verdict BPF program
-> +returns ``SK_PASS``), redirect it to the socket referenced by ``map`` (of type
-> +``BPF_MAP_TYPE_SOCKMAP``) at index ``key``. Both ingress and egress interfaces
-> +can be used for redirection. The ``BPF_F_INGRESS`` value in ``flags`` is used
-> +to select the ingress path otherwise the egress path is selected. This is the
-> +only flag supported for now.
-> +
-> +Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
-> +
-> +bpf_sk_redirect_map()
-> +^^^^^^^^^^^^^^^^^^^^^
-> +.. code-block:: c
-> +
-> +    long bpf_sk_redirect_map(struct sk_buff *skb, struct bpf_map *map, u32 key u64 flags)
-> +
-> +Redirect the packet to the socket referenced by ``map`` (of type
-> +``BPF_MAP_TYPE_SOCKMAP``) at index ``key``. Both ingress and egress interfaces
-> +can be used for redirection. The ``BPF_F_INGRESS`` value in ``flags`` is used
-> +to select the ingress path otherwise the egress path is selected. This is the
-> +only flag supported for now.
-> +
-> +Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
-> +
-> +bpf_map_lookup_elem()
-> +^^^^^^^^^^^^^^^^^^^^^
-> +.. code-block:: c
-> +
-> +    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-> +
-> +socket entries of type ``struct sock *`` can be retrieved using the
-> +``bpf_map_lookup_elem()`` helper.
-> +
-> +bpf_sock_map_update()
-> +^^^^^^^^^^^^^^^^^^^^^
-> +.. code-block:: c
-> +
-> +    long bpf_sock_map_update(struct bpf_sock_ops *skops, struct bpf_map *map, void *key, u64 flags)
-> +
-> +Add an entry to, or update a ``map`` referencing sockets. The ``skops`` is used
-> +as a new value for the entry associated to ``key``. The ``flags`` argument can
-> +be one of the following:
-> +
-> +- ``BPF_ANY``: Create a new element or update an existing element.
-> +- ``BPF_NOEXIST``: Create a new element only if it did not exist.
-> +- ``BPF_EXIST``: Update an existing element.
-> +
-> +If the ``map`` has BPF programs (parser and verdict), those will be inherited
-> +by the socket being added. If the socket is already attached to BPF programs,
-> +this results in an error.
-> +
-> +Returns 0 on success, or a negative error in case of failure.
-> +
-> +bpf_sock_hash_update()
-> +^^^^^^^^^^^^^^^^^^^^^^
-> +.. code-block:: c
-> +
-> +    long bpf_sock_hash_update(struct bpf_sock_ops *skops, struct bpf_map *map, void *key, u64 flags)
-> +
-> +Add an entry to, or update a sockhash ``map`` referencing sockets. The ``skops``
-> +is used as a new value for the entry associated to ``key``.
-> +
-> +The ``flags`` argument can be one of the following:
-> +
-> +- ``BPF_ANY``: Create a new element or update an existing element.
-> +- ``BPF_NOEXIST``: Create a new element only if it did not exist.
-> +- ``BPF_EXIST``: Update an existing element.
-> +
-> +If the ``map`` has BPF programs (parser and verdict), those will be inherited
-> +by the socket being added. If the socket is already attached to BPF programs,
-> +this results in an error.
-> +
-> +Returns 0 on success, or a negative error in case of failure.
-> +
-> +bpf_msg_redirect_hash()
-> +^^^^^^^^^^^^^^^^^^^^^^^
-> +.. code-block:: c
-> +
-> +    long bpf_msg_redirect_hash(struct sk_msg_buff *msg, struct bpf_map *map, void *key, u64 flags)
-> +
-> +This helper is used in programs implementing policies at the socket level. If
-> +the message ``msg`` is allowed to pass (i.e. if the verdict BPF program returns
-> +``SK_PASS``), redirect it to the socket referenced by ``map`` (of type
-> +``BPF_MAP_TYPE_SOCKHASH``) using hash ``key``. Both ingress and egress
-> +interfaces can be used for redirection. The ``BPF_F_INGRESS`` value in
-> +``flags`` is used to select the ingress path otherwise the egress path is
-> +selected. This is the only flag supported for now.
-> +
-> +Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
-> +
-> +bpf_sk_redirect_hash()
-> +^^^^^^^^^^^^^^^^^^^^^^
-> +.. code-block:: c
-> +
-> +    long bpf_sk_redirect_hash(struct sk_buff *skb, struct bpf_map *map, void *key, u64 flags)
-> +
-> +This helper is used in programs implementing policies at the skb socket level.
-> +If the sk_buff ``skb`` is allowed to pass (i.e. if the verdict BPF program
-> +returns ``SK_PASS``), redirect it to the socket referenced by ``map`` (of type
-> +``BPF_MAP_TYPE_SOCKHASH``) using hash ``key``. Both ingress and egress
-> +interfaces can be used for redirection. The ``BPF_F_INGRESS`` value in
-> +``flags`` is used to select the ingress path otherwise the egress path is
-> +selected. This is the only flag supported for now.
-> +
-> +Returns ``SK_PASS`` on success, or ``SK_DROP`` on error.
-> +
-> +bpf_msg_apply_bytes()
-> +^^^^^^^^^^^^^^^^^^^^^^
-> +.. code-block:: c
-> +
-> +    long bpf_msg_apply_bytes(struct sk_msg_buff *msg, u32 bytes)
-> +
-> +For socket policies, apply the verdict of the BPF program to the next (number
-> +of ``bytes``) of message ``msg``. For example, this helper can be used in the
-> +following cases:
-> +
-> +- A single ``sendmsg()`` or ``sendfile()`` system call contains multiple
-> +  logical messages that the BPF program is supposed to read and for which it
-> +  should apply a verdict.
-> +- A BPF program only cares to read the first ``bytes`` of a ``msg``. If the
-> +  message has a large payload, then setting up and calling the BPF program
-> +  repeatedly for all bytes, even though the verdict is already known, would
-> +  create unnecessary overhead.
-> +
-> +Returns 0
-> +
-> +bpf_msg_cork_bytes()
-> +^^^^^^^^^^^^^^^^^^^^^^
-> +.. code-block:: c
-> +
-> +    long bpf_msg_cork_bytes(struct sk_msg_buff *msg, u32 bytes)
-> +
-> +For socket policies, prevent the execution of the verdict BPF program for
-> +message ``msg`` until the number of ``bytes`` have been accumulated.
-> +
-> +This can be used when one needs a specific number of bytes before a verdict can
-> +be assigned, even if the data spans multiple ``sendmsg()`` or ``sendfile()``
-> +calls.
-> +
-> +Returns 0
-> +
-> +bpf_msg_pull_data()
-> +^^^^^^^^^^^^^^^^^^^^^^
-> +.. code-block:: c
-> +
-> +    long bpf_msg_pull_data(struct sk_msg_buff *msg, u32 start, u32 end, u64 flags)
-> +
-> +For socket policies, pull in non-linear data from user space for ``msg`` and set
-> +pointers ``msg->data`` and ``msg->data_end`` to ``start`` and ``end`` bytes
-> +offsets into ``msg``, respectively.
-> +
-> +If a program of type ``BPF_PROG_TYPE_SK_MSG`` is run on a ``msg`` it can only
-> +parse data that the (``data``, ``data_end``) pointers have already consumed.
-> +For ``sendmsg()`` hooks this is likely the first scatterlist element. But for
-> +calls relying on the ``sendpage`` handler (e.g. ``sendfile()``) this will be
-> +the range (**0**, **0**) because the data is shared with user space and by
-> +default the objective is to avoid allowing user space to modify data while (or
-> +after) BPF verdict is being decided. This helper can be used to pull in data
-
-s/BPF verdict/a BPF verdict
-
-> +and to set the start and end pointer to given values. Data will be copied if
-> +necessary (i.e. if data was not linear and if start and end pointers do not
-> +point to the same chunk).
-
-If the scenario in parens is just one of several possible examples of
-when the data will be copied, I think "e.g." is correct rather than
-"i.e.".
-
-> +
-> +A call to this helper is susceptible to change the underlying packet buffer.
-> +Therefore, at load time, all checks on pointers previously done by the verifier
-> +are invalidated and must be performed again, if the helper is used in
-> +combination with direct packet access.
-> +
-> +All values for ``flags`` are reserved for future usage, and must be left at
-> +zero.
-> +
-> +Returns 0 on success, or a negative error in case of failure.
-> +
-> +bpf_map_lookup_elem()
-> +^^^^^^^^^^^^^^^^^^^^^
-> +
-> +.. code-block:: c
-> +
-> +	void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-> +
-> +Lookup a socket entry in the sockmap or sockhash map.
-> +
-> +Returns the socket entry associated to ``key``, or NULL if no entry was found.
-> +
-> +bpf_map_update_elem()
-> +^^^^^^^^^^^^^^^^^^^^^
-> +.. code-block:: c
-> +
-> +	long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
-> +
-> +Add or update a socket entry in a sockmap or sockhash.
-> +
-> +The flags argument can be one of the following:
-> +
-> +- BPF_ANY: Create a new element or update an existing element.
-> +- BPF_NOEXIST: Create a new element only if it did not exist.
-> +- BPF_EXIST: Update an existing element.
-> +
-> +Returns 0 on success, or a negative error in case of failure.
-> +
-> +bpf_map_delete_elem()
-> +^^^^^^^^^^^^^^^^^^^^^^
-> +.. code-block:: c
-> +
-> +    long bpf_map_delete_elem(struct bpf_map *map, const void *key)
-> +
-> +Delete a socket entry from a sockmap or a sockhash.
-> +
-> +Returns	0 on success, or a negative error in case of failure.
-
-Can you make this tab a space to make it uniform with the rest of the
-doc?
-
-Otherwise everything looks great. Thanks again for writing these docs.
-
-- David
+T24gV2VkLCAyMDIyLTEyLTA3IGF0IDEyOjAwICswMTAwLCBCb3Jpc2xhdiBQZXRrb3Ygd3JvdGU6
+DQo+IE9uIEZyaSwgRGVjIDAyLCAyMDIyIGF0IDA0OjM1OjMwUE0gLTA4MDAsIFJpY2sgRWRnZWNv
+bWJlIHdyb3RlOg0KPiA+IGRpZmYgLS1naXQgYS9hcmNoL3g4Ni9pbmNsdWRlL2FzbS9jcHVmZWF0
+dXJlcy5oDQo+ID4gYi9hcmNoL3g4Ni9pbmNsdWRlL2FzbS9jcHVmZWF0dXJlcy5oDQo+ID4gaW5k
+ZXggMTFhMGUwNjM2MmU0Li5hYWI3ZmE0MTA0ZDcgMTAwNjQ0DQo+ID4gLS0tIGEvYXJjaC94ODYv
+aW5jbHVkZS9hc20vY3B1ZmVhdHVyZXMuaA0KPiA+ICsrKyBiL2FyY2gveDg2L2luY2x1ZGUvYXNt
+L2NwdWZlYXR1cmVzLmgNCj4gPiBAQCAtMzA3LDYgKzMwNyw3IEBADQo+ID4gICAjZGVmaW5lIFg4
+Nl9GRUFUVVJFX1NHWF9FREVDQ1NTQSAgICAgKDExKjMyKzE4KSAvKiAiIiBTR1gNCj4gPiBFREVD
+Q1NTQSB1c2VyIGxlYWYgZnVuY3Rpb24gKi8NCj4gPiAgICNkZWZpbmUgWDg2X0ZFQVRVUkVfQ0FM
+TF9ERVBUSCAgICAgICAgICAgICAgICgxMSozMisxOSkgLyogIiINCj4gPiBDYWxsIGRlcHRoIHRy
+YWNraW5nIGZvciBSU0Igc3R1ZmZpbmcgKi8NCj4gPiAgICNkZWZpbmUgWDg2X0ZFQVRVUkVfTVNS
+X1RTWF9DVFJMICAgICAoMTEqMzIrMjApIC8qICIiIE1TUg0KPiA+IElBMzJfVFNYX0NUUkwgKElu
+dGVsKSBpbXBsZW1lbnRlZCAqLw0KPiA+ICsjZGVmaW5lIFg4Nl9GRUFUVVJFX1VTRVJfU0hTVEsg
+ICAgICAgICAgICAgICAoMTEqMzIrMjEpIC8qIFNoYWRvdw0KPiA+IHN0YWNrIHN1cHBvcnQgZm9y
+IHVzZXIgbW9kZSBhcHBsaWNhdGlvbnMgKi8NCj4gPiAgIA0KPiA+ICAgLyogSW50ZWwtZGVmaW5l
+ZCBDUFUgZmVhdHVyZXMsIENQVUlEIGxldmVsIDB4MDAwMDAwMDc6MSAoRUFYKSwNCj4gPiB3b3Jk
+IDEyICovDQo+ID4gICAjZGVmaW5lIFg4Nl9GRUFUVVJFX0FWWF9WTk5JICAgICAgICAgKDEyKjMy
+KyA0KSAvKiBBVlggVk5OSQ0KPiA+IGluc3RydWN0aW9ucyAqLw0KPiA+IEBAIC0zNjksNiArMzcw
+LDcgQEANCj4gPiAgICNkZWZpbmUgWDg2X0ZFQVRVUkVfT1NQS0UgICAgICAgICAgICAoMTYqMzIr
+IDQpIC8qIE9TIFByb3RlY3Rpb24NCj4gPiBLZXlzIEVuYWJsZSAqLw0KPiA+ICAgI2RlZmluZSBY
+ODZfRkVBVFVSRV9XQUlUUEtHICAgICAgICAgICgxNiozMisgNSkgLyoNCj4gPiBVTU9OSVRPUi9V
+TVdBSVQvVFBBVVNFIEluc3RydWN0aW9ucyAqLw0KPiA+ICAgI2RlZmluZSBYODZfRkVBVFVSRV9B
+Vlg1MTJfVkJNSTIgICAgICgxNiozMisgNikgLyogQWRkaXRpb25hbA0KPiA+IEFWWDUxMiBWZWN0
+b3IgQml0IE1hbmlwdWxhdGlvbiBJbnN0cnVjdGlvbnMgKi8NCj4gPiArI2RlZmluZSBYODZfRkVB
+VFVSRV9TSFNUSyAgICAgICAgICAgICgxNiozMisgNykgLyogU2hhZG93IFN0YWNrICovDQo+ID4g
+ICAjZGVmaW5lIFg4Nl9GRUFUVVJFX0dGTkkgICAgICAgICAgICAgKDE2KjMyKyA4KSAvKiBHYWxv
+aXMgRmllbGQNCj4gPiBOZXcgSW5zdHJ1Y3Rpb25zICovDQo+ID4gICAjZGVmaW5lIFg4Nl9GRUFU
+VVJFX1ZBRVMgICAgICAgICAgICAgKDE2KjMyKyA5KSAvKiBWZWN0b3IgQUVTICovDQo+ID4gICAj
+ZGVmaW5lIFg4Nl9GRUFUVVJFX1ZQQ0xNVUxRRFEgICAgICAgICAgICAgICAoMTYqMzIrMTApIC8q
+IENhcnJ5LQ0KPiA+IExlc3MgTXVsdGlwbGljYXRpb24gRG91YmxlIFF1YWR3b3JkICovDQo+IA0K
+PiBXaGF0IGlzIHRoZSBlbmQgZ29hbCBoZXJlPw0KPiANCj4gVG8gaGF2ZSBYODZfRkVBVFVSRV9L
+RVJORUxfU0hTVEsgb3Igc28gc29tZWRheSB0b28/DQo+IA0KPiBJZiBzbywgdGhlbiB0aGUgaGFy
+ZHdhcmUgYml0IFg4Nl9GRUFUVVJFX1NIU1RLIHNob3VsZCBiZSBoaWRkZW4gaW4NCj4gL3Byb2Mv
+Y3B1aW5mbywgaS5lLiwNCj4gDQo+ICNkZWZpbmUgWDg2X0ZFQVRVUkVfU0hTVEsgICAgICAgICAg
+ICAoMTYqMzIrIDcpIC8qICIiIFNoYWRvdyBTdGFjaw0KPiBoYXJkd2FyZSBzdXBwb3J0ICovDQo+
+IA0KPiBub3RlIHRoZSAiIiwgb3RoZXJ3aXNlIHlvdSdsbCBoYXZlIHBlb3BsZSBnbzoNCj4gDQo+
+ICJoZXksIEkgaGF2ZSAic2hzdGsiIGluIC9wcm9jL2NwdWluZm8gb24gbXkgbWFjaGluZS4gV2h5
+IGRvZXNuJ3QgaXQNCj4gZG8NCj4gYW55dGhpbmc/Ig0KPiANCj4gT3IgYW0gSSBtaXNyZWFkaW5n
+IHdoZXJlIHRoaXMgaXMgaGVhZGVkPw0KDQpZZXMsIHRoZSBzdWdnZXN0aW9uIHdhcyB0byBoYXZl
+IG9uZSBmb3Iga2VybmVsIGFuZCBvbmUgZm9yIHVzZXIuIEJ1dCBJDQp3YXMgYWxzbyB0aGlua2lu
+ZyBhYm91dCBob3cgS1ZNIGNvdWxkIGh5cG90aGV0aWNhbGx5IHN1cHBvcnQgc2hhZG93DQpzdGFj
+ayBpbiBndWVzdHMgaW4gdGhlIG5vbiAhQ09ORklHX1g4Nl9VU0VSX1NIQURPV19TVEFDSyBjYXNl
+IChpdCBvbmx5DQpuZWVkcyBDRVRfVSB4c2F2ZSBzdXBwb3J0KS4gU28gdGhhdCBjb25maWd1cmF0
+aW9uIHdvdWxkbid0IGV4cG9zZQ0KdXNlcl9zaHN0ayBhbmQgc2luY2UgS1ZNJ3MgZ3Vlc3QgZmVh
+dHVyZSBzdXBwb3J0IGlzIHJldHJpZXZlZA0KcHJvZ3JhbW1hdGljYWxseSwgaXQgY291bGQgYmUg
+bmljZSB0byBoYXZlIHNvbWUgaGludCBmb3IgS1ZNIHVzZXJzIHRoYXQNCnRoZXkgY291bGQgdHJ5
+LiBNYXliZSBpdCdzIHNpbXBsZXIgdG8ganVzdCB0aWUgS1ZNIGFuZCBob3N0IHN1cHBvcnQNCnRv
+Z2V0aGVyIHRob3VnaC4gSSdsbCByZW1vdmUgInNoc3RrIi4NCg0K
