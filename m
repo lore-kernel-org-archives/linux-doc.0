@@ -2,398 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B93BEC4708E
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 08:13:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A094C47089
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Dec 2022 08:27:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229638AbiLGINp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 03:13:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55652 "EHLO
+        id S229601AbiLGI1V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Dec 2022 03:27:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229827AbiLGINf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 03:13:35 -0500
+        with ESMTP id S229536AbiLGI1U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 03:27:20 -0500
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6F7732060;
-        Wed,  7 Dec 2022 00:13:29 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 652E932B9D;
+        Wed,  7 Dec 2022 00:27:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670400809; x=1701936809;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yl9Co3r7F4v8TdI2qEH3YDUHsczbjLHcjIbxeDPrfJA=;
-  b=dGYp/gBUW1f73sWEU1+EB0Nc95e3zaSd7pP9A1hUxAHiPHF8bau7ScMN
-   9Mawy3S+xtV5lx3/3vvEwUw35v86ZDJc2OtnIip3FSKMnNUXvD2aLEpjU
-   2V0LNnabAIfa+/ZdFF7E3vxQtunM+Jg1wRzoqBwsmbuyhTVOPFypVHzAh
-   IYVYJQ0wbSdNErxn5NZoWcyVmb5+LfWdgFVJeI+KDy1g2HJ5H8v0RBJR5
-   kzQMpB7BeIn3B2IJHRN7uQ9u5oEk8lWdgwHksWz/VYB37ngCNj62ROn+M
-   3g7lymSRwmiYbeNUzwnV27TGGmw3PZogWANIwiDAy57k8gyTsVgSU7X4t
+  t=1670401639; x=1701937639;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=R/XiBBCtv6aOIMjJO4KmAzY1OO8RFbwEEx7Bwkl7GJ8=;
+  b=Iyh6hc9uzicKnzapW9iAOGk7RONCWyAB9iGushUTphUYydASo3bWvZUB
+   WAXZ399HiCzApYDUX5pMsuVt9xM+rcS1x7SkWvtUClYpV6wsEtOtMMNrr
+   nfvMuBUdgAoWYLw6Ti77uG+LrYZZRaIhEViXx6TQmNbr1Azha2BUCVXO8
+   xkrqxnC6UR9UEazB3wO42jbnQgWfvIqt/x6wdxNSW5s782qtakwE/e5Iq
+   gzYfLecBN2fKRtQhzbhTSwIdqJpOhi/DWNPDSPhAHvdIaa1NdaCgkHaSP
+   plyIo/QdK/mgRwq16GrVMnuWtnGXYXTvlab1K6zt7zRmxXIucNi/ZpM8a
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="300252457"
+X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="300255826"
 X-IronPort-AV: E=Sophos;i="5.96,223,1665471600"; 
-   d="scan'208";a="300252457"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2022 00:13:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="596880364"
+   d="scan'208";a="300255826"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2022 00:27:18 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="820880970"
 X-IronPort-AV: E=Sophos;i="5.96,223,1665471600"; 
-   d="scan'208";a="596880364"
-Received: from yy-desk-7060.sh.intel.com (HELO localhost) ([10.239.159.76])
-  by orsmga003.jf.intel.com with ESMTP; 07 Dec 2022 00:13:14 -0800
-Date:   Wed, 7 Dec 2022 16:13:14 +0800
-From:   Yuan Yao <yuan.yao@linux.intel.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 6/9] KVM: Unmap existing mappings when change the
- memory attributes
-Message-ID: <20221207081314.hfyavisybcraezrh@yy-desk-7060>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-7-chao.p.peng@linux.intel.com>
+   d="scan'208";a="820880970"
+Received: from fbackhou-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.36.192])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2022 00:27:14 -0800
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>, corbet@lwn.net,
+        akiyks@gmail.com, ojeda@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bilbao@vt.edu, konstantin@linuxfoundation.org,
+        Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH v3 1/2] docs: Move rustdoc output, cross-reference it
+In-Reply-To: <20221206153151.771038-2-carlos.bilbao@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221201204814.2141401-1-carlos.bilbao@amd.com>
+ <20221206153151.771038-1-carlos.bilbao@amd.com>
+ <20221206153151.771038-2-carlos.bilbao@amd.com>
+Date:   Wed, 07 Dec 2022 10:27:11 +0200
+Message-ID: <87359r39gg.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221202061347.1070246-7-chao.p.peng@linux.intel.com>
-User-Agent: NeoMutt/20171215
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 02:13:44PM +0800, Chao Peng wrote:
-> Unmap the existing guest mappings when memory attribute is changed
-> between shared and private. This is needed because shared pages and
-> private pages are from different backends, unmapping existing ones
-> gives a chance for page fault handler to re-populate the mappings
-> according to the new attribute.
+On Tue, 06 Dec 2022, Carlos Bilbao <carlos.bilbao@amd.com> wrote:
+> Generate rustdoc documentation with the rest of subsystem's documentation
+> in Documentation/output. Add a cross reference to the generated rustdoc in
+> Documentation/rust/index.rst.
 >
-> Only architecture has private memory support needs this and the
-> supported architecture is expected to rewrite the weak
-> kvm_arch_has_private_mem().
->
-> Also, during memory attribute changing and the unmapping time frame,
-> page fault handler may happen in the same memory range and can cause
-> incorrect page state, invoke kvm_mmu_invalidate_* helpers to let the
-> page fault handler retry during this time frame.
->
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
 > ---
->  include/linux/kvm_host.h |   7 +-
->  virt/kvm/kvm_main.c      | 168 ++++++++++++++++++++++++++-------------
->  2 files changed, 116 insertions(+), 59 deletions(-)
+>  Documentation/rust/index.rst |  5 +++++
+>  rust/Makefile                | 15 +++++++++------
+>  2 files changed, 14 insertions(+), 6 deletions(-)
 >
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 3d69484d2704..3331c0c92838 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -255,7 +255,6 @@ bool kvm_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
->  int kvm_async_pf_wakeup_all(struct kvm_vcpu *vcpu);
->  #endif
->
-> -#ifdef KVM_ARCH_WANT_MMU_NOTIFIER
->  struct kvm_gfn_range {
->  	struct kvm_memory_slot *slot;
->  	gfn_t start;
-> @@ -264,6 +263,8 @@ struct kvm_gfn_range {
->  	bool may_block;
->  };
->  bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range);
+> diff --git a/Documentation/rust/index.rst b/Documentation/rust/index.rst
+> index 4ae8c66b94fa..416d6b3de1e4 100644
+> --- a/Documentation/rust/index.rst
+> +++ b/Documentation/rust/index.rst
+> @@ -6,6 +6,11 @@ Rust
+>  Documentation related to Rust within the kernel. To start using Rust
+>  in the kernel, please read the quick-start.rst guide.
+>  
+> +.. only:: html
 > +
-> +#ifdef KVM_ARCH_WANT_MMU_NOTIFIER
->  bool kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
->  bool kvm_test_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
->  bool kvm_set_spte_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
-> @@ -785,11 +786,12 @@ struct kvm {
->
->  #if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
->  	struct mmu_notifier mmu_notifier;
-> +#endif
->  	unsigned long mmu_invalidate_seq;
->  	long mmu_invalidate_in_progress;
->  	gfn_t mmu_invalidate_range_start;
->  	gfn_t mmu_invalidate_range_end;
-> -#endif
+> +	If this documentation includes rustdoc-generated HTML, the entry
+> +	point can be found `here <rustdoc/kernel/index.html>`_.
 > +
->  	struct list_head devices;
->  	u64 manual_dirty_log_protect;
->  	struct dentry *debugfs_dentry;
-> @@ -1480,6 +1482,7 @@ bool kvm_arch_dy_has_pending_interrupt(struct kvm_vcpu *vcpu);
->  int kvm_arch_post_init_vm(struct kvm *kvm);
->  void kvm_arch_pre_destroy_vm(struct kvm *kvm);
->  int kvm_arch_create_vm_debugfs(struct kvm *kvm);
-> +bool kvm_arch_has_private_mem(struct kvm *kvm);
->
->  #ifndef __KVM_HAVE_ARCH_VM_ALLOC
->  /*
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index ad55dfbc75d7..4e1e1e113bf0 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -520,6 +520,62 @@ void kvm_destroy_vcpus(struct kvm *kvm)
->  }
->  EXPORT_SYMBOL_GPL(kvm_destroy_vcpus);
->
-> +void kvm_mmu_invalidate_begin(struct kvm *kvm)
-> +{
-> +	/*
-> +	 * The count increase must become visible at unlock time as no
-> +	 * spte can be established without taking the mmu_lock and
-> +	 * count is also read inside the mmu_lock critical section.
-> +	 */
-> +	kvm->mmu_invalidate_in_progress++;
-> +
-> +	if (likely(kvm->mmu_invalidate_in_progress == 1)) {
-> +		kvm->mmu_invalidate_range_start = INVALID_GPA;
-> +		kvm->mmu_invalidate_range_end = INVALID_GPA;
-> +	}
-> +}
-> +
-> +void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end)
-> +{
-> +	WARN_ON_ONCE(!kvm->mmu_invalidate_in_progress);
-> +
-> +	if (likely(kvm->mmu_invalidate_in_progress == 1)) {
-> +		kvm->mmu_invalidate_range_start = start;
-> +		kvm->mmu_invalidate_range_end = end;
-> +	} else {
-> +		/*
-> +		 * Fully tracking multiple concurrent ranges has diminishing
-> +		 * returns. Keep things simple and just find the minimal range
-> +		 * which includes the current and new ranges. As there won't be
-> +		 * enough information to subtract a range after its invalidate
-> +		 * completes, any ranges invalidated concurrently will
-> +		 * accumulate and persist until all outstanding invalidates
-> +		 * complete.
-> +		 */
-> +		kvm->mmu_invalidate_range_start =
-> +			min(kvm->mmu_invalidate_range_start, start);
-> +		kvm->mmu_invalidate_range_end =
-> +			max(kvm->mmu_invalidate_range_end, end);
-> +	}
-> +}
-> +
-> +void kvm_mmu_invalidate_end(struct kvm *kvm)
-> +{
-> +	/*
-> +	 * This sequence increase will notify the kvm page fault that
-> +	 * the page that is going to be mapped in the spte could have
-> +	 * been freed.
-> +	 */
-> +	kvm->mmu_invalidate_seq++;
-> +	smp_wmb();
-> +	/*
-> +	 * The above sequence increase must be visible before the
-> +	 * below count decrease, which is ensured by the smp_wmb above
-> +	 * in conjunction with the smp_rmb in mmu_invalidate_retry().
-> +	 */
-> +	kvm->mmu_invalidate_in_progress--;
-> +}
-> +
->  #if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
->  static inline struct kvm *mmu_notifier_to_kvm(struct mmu_notifier *mn)
->  {
-> @@ -714,45 +770,6 @@ static void kvm_mmu_notifier_change_pte(struct mmu_notifier *mn,
->  	kvm_handle_hva_range(mn, address, address + 1, pte, kvm_set_spte_gfn);
->  }
->
-> -void kvm_mmu_invalidate_begin(struct kvm *kvm)
-> -{
-> -	/*
-> -	 * The count increase must become visible at unlock time as no
-> -	 * spte can be established without taking the mmu_lock and
-> -	 * count is also read inside the mmu_lock critical section.
-> -	 */
-> -	kvm->mmu_invalidate_in_progress++;
-> -
-> -	if (likely(kvm->mmu_invalidate_in_progress == 1)) {
-> -		kvm->mmu_invalidate_range_start = INVALID_GPA;
-> -		kvm->mmu_invalidate_range_end = INVALID_GPA;
-> -	}
-> -}
-> -
-> -void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end)
-> -{
-> -	WARN_ON_ONCE(!kvm->mmu_invalidate_in_progress);
-> -
-> -	if (likely(kvm->mmu_invalidate_in_progress == 1)) {
-> -		kvm->mmu_invalidate_range_start = start;
-> -		kvm->mmu_invalidate_range_end = end;
-> -	} else {
-> -		/*
-> -		 * Fully tracking multiple concurrent ranges has diminishing
-> -		 * returns. Keep things simple and just find the minimal range
-> -		 * which includes the current and new ranges. As there won't be
-> -		 * enough information to subtract a range after its invalidate
-> -		 * completes, any ranges invalidated concurrently will
-> -		 * accumulate and persist until all outstanding invalidates
-> -		 * complete.
-> -		 */
-> -		kvm->mmu_invalidate_range_start =
-> -			min(kvm->mmu_invalidate_range_start, start);
-> -		kvm->mmu_invalidate_range_end =
-> -			max(kvm->mmu_invalidate_range_end, end);
-> -	}
-> -}
-> -
->  static bool kvm_mmu_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
->  {
->  	kvm_mmu_invalidate_range_add(kvm, range->start, range->end);
-> @@ -806,23 +823,6 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
->  	return 0;
->  }
->
-> -void kvm_mmu_invalidate_end(struct kvm *kvm)
-> -{
-> -	/*
-> -	 * This sequence increase will notify the kvm page fault that
-> -	 * the page that is going to be mapped in the spte could have
-> -	 * been freed.
-> -	 */
-> -	kvm->mmu_invalidate_seq++;
-> -	smp_wmb();
-> -	/*
-> -	 * The above sequence increase must be visible before the
-> -	 * below count decrease, which is ensured by the smp_wmb above
-> -	 * in conjunction with the smp_rmb in mmu_invalidate_retry().
-> -	 */
-> -	kvm->mmu_invalidate_in_progress--;
-> -}
-> -
->  static void kvm_mmu_notifier_invalidate_range_end(struct mmu_notifier *mn,
->  					const struct mmu_notifier_range *range)
->  {
-> @@ -1140,6 +1140,11 @@ int __weak kvm_arch_create_vm_debugfs(struct kvm *kvm)
->  	return 0;
->  }
->
-> +bool __weak kvm_arch_has_private_mem(struct kvm *kvm)
-> +{
-> +	return false;
-> +}
-> +
->  static struct kvm *kvm_create_vm(unsigned long type, const char *fdname)
->  {
->  	struct kvm *kvm = kvm_arch_alloc_vm();
-> @@ -2349,15 +2354,47 @@ static u64 kvm_supported_mem_attributes(struct kvm *kvm)
->  	return 0;
->  }
->
-> +static void kvm_unmap_mem_range(struct kvm *kvm, gfn_t start, gfn_t end)
-> +{
-> +	struct kvm_gfn_range gfn_range;
-> +	struct kvm_memory_slot *slot;
-> +	struct kvm_memslots *slots;
-> +	struct kvm_memslot_iter iter;
-> +	int i;
-> +	int r = 0;
-> +
-> +	gfn_range.pte = __pte(0);
-> +	gfn_range.may_block = true;
-> +
-> +	for (i = 0; i < KVM_ADDRESS_SPACE_NUM; i++) {
-> +		slots = __kvm_memslots(kvm, i);
-> +
-> +		kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
-> +			slot = iter.slot;
-> +			gfn_range.start = max(start, slot->base_gfn);
-> +			gfn_range.end = min(end, slot->base_gfn + slot->npages);
-> +			if (gfn_range.start >= gfn_range.end)
-> +				continue;
-> +			gfn_range.slot = slot;
-> +
-> +			r |= kvm_unmap_gfn_range(kvm, &gfn_range);
-> +		}
-> +	}
-> +
-> +	if (r)
-> +		kvm_flush_remote_tlbs(kvm);
-> +}
-> +
->  static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
->  					   struct kvm_memory_attributes *attrs)
->  {
->  	gfn_t start, end;
->  	unsigned long i;
->  	void *entry;
-> +	int idx;
->  	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
->
-> -	/* flags is currently not used. */
-> +	/* 'flags' is currently not used. */
->  	if (attrs->flags)
->  		return -EINVAL;
->  	if (attrs->attributes & ~supported_attrs)
-> @@ -2372,6 +2409,13 @@ static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
->
->  	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
->
-> +	if (kvm_arch_has_private_mem(kvm)) {
-> +		KVM_MMU_LOCK(kvm);
-> +		kvm_mmu_invalidate_begin(kvm);
-> +		kvm_mmu_invalidate_range_add(kvm, start, end);
 
-Nit: this works for KVM_MEMORY_ATTRIBUTE_PRIVATE, but
-the invalidation should be necessary yet for attribute change of:
+It's a bit meh to have documentation that points to places that might
+404 and the user has to figure it out.
 
-KVM_MEMORY_ATTRIBUTE_READ
-KVM_MEMORY_ATTRIBUTE_WRITE
-KVM_MEMORY_ATTRIBUTE_EXECUTE
+We can do better than that.
 
-> +		KVM_MMU_UNLOCK(kvm);
-> +	}
+You could use CONFIG_RUST to pass e.g. "-t rustdoc" to Sphinx in the
+Makefile, and use:
+
+.. only:: rustdoc
+
+and
+
+.. only:: not rustdoc
+
+And document accordingly.
+
+Also, please don't use "here" as the link text.
+
+BR,
+Jani.
+
+
+>  .. toctree::
+>      :maxdepth: 1
+>  
+> diff --git a/rust/Makefile b/rust/Makefile
+> index 7700d3853404..080c07048065 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -1,5 +1,8 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  
+> +# Where to place rustdoc generated documentation
+> +RUSTDOC_OUTPUT = $(objtree)/Documentation/output/rust/rustdoc
 > +
->  	mutex_lock(&kvm->lock);
->  	for (i = start; i < end; i++)
->  		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
-> @@ -2379,6 +2423,16 @@ static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
->  			break;
->  	mutex_unlock(&kvm->lock);
->
-> +	if (kvm_arch_has_private_mem(kvm)) {
-> +		idx = srcu_read_lock(&kvm->srcu);
-> +		KVM_MMU_LOCK(kvm);
-> +		if (i > start)
-> +			kvm_unmap_mem_range(kvm, start, i);
-> +		kvm_mmu_invalidate_end(kvm);
+>  always-$(CONFIG_RUST) += target.json
+>  no-clean-files += target.json
+>  
+> @@ -58,7 +61,7 @@ quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
+>  	OBJTREE=$(abspath $(objtree)) \
+>  	$(RUSTDOC) $(if $(rustdoc_host),$(rust_common_flags),$(rust_flags)) \
+>  		$(rustc_target_flags) -L$(objtree)/$(obj) \
+> -		--output $(objtree)/$(obj)/doc \
+> +		--output $(RUSTDOC_OUTPUT) \
+>  		--crate-name $(subst rustdoc-,,$@) \
+>  		@$(objtree)/include/generated/rustc_cfg $<
+>  
+> @@ -75,15 +78,15 @@ quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
+>  # and then retouch the generated files.
+>  rustdoc: rustdoc-core rustdoc-macros rustdoc-compiler_builtins \
+>      rustdoc-alloc rustdoc-kernel
+> -	$(Q)cp $(srctree)/Documentation/images/logo.svg $(objtree)/$(obj)/doc
+> -	$(Q)cp $(srctree)/Documentation/images/COPYING-logo $(objtree)/$(obj)/doc
+> -	$(Q)find $(objtree)/$(obj)/doc -name '*.html' -type f -print0 | xargs -0 sed -Ei \
+> +	$(Q)cp $(srctree)/Documentation/images/logo.svg $(RUSTDOC_OUTPUT)
+> +	$(Q)cp $(srctree)/Documentation/images/COPYING-logo $(RUSTDOC_OUTPUT)
+> +	$(Q)find $(RUSTDOC_OUTPUT) -name '*.html' -type f -print0 | xargs -0 sed -Ei \
+>  		-e 's:rust-logo\.svg:logo.svg:g' \
+>  		-e 's:rust-logo\.png:logo.svg:g' \
+>  		-e 's:favicon\.svg:logo.svg:g' \
+>  		-e 's:<link rel="alternate icon" type="image/png" href="[./]*favicon-(16x16|32x32)\.png">::g'
+>  	$(Q)echo '.logo-container > img { object-fit: contain; }' \
+> -		>> $(objtree)/$(obj)/doc/rustdoc.css
+> +		>> $(RUSTDOC_OUTPUT)/rustdoc.css
+>  
+>  rustdoc-macros: private rustdoc_host = yes
+>  rustdoc-macros: private rustc_target_flags = --crate-type proc-macro \
+> @@ -141,7 +144,7 @@ quiet_cmd_rustdoc_test = RUSTDOC T $<
+>  		@$(objtree)/include/generated/rustc_cfg \
+>  		$(rustc_target_flags) $(rustdoc_test_target_flags) \
+>  		--sysroot $(objtree)/$(obj)/test/sysroot $(rustdoc_test_quiet) \
+> -		-L$(objtree)/$(obj)/test --output $(objtree)/$(obj)/doc \
+> +		-L$(objtree)/$(obj)/test --output $(RUSTDOC_OUTPUT) \
+>  		--crate-name $(subst rusttest-,,$@) $<
+>  
+>  # We cannot use `-Zpanic-abort-tests` because some tests are dynamic,
 
-Ditto.
-
-> +		KVM_MMU_UNLOCK(kvm);
-> +		srcu_read_unlock(&kvm->srcu, idx);
-> +	}
-> +
->  	attrs->address = i << PAGE_SHIFT;
->  	attrs->size = (end - i) << PAGE_SHIFT;
->
-> --
-> 2.25.1
->
->
+-- 
+Jani Nikula, Intel Open Source Graphics Center
