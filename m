@@ -2,164 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10B48C63708
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 15:38:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8973C4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 16:04:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229892AbiLHPh7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Dec 2022 10:37:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54332 "EHLO
+        id S230031AbiLHQEx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Dec 2022 11:04:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229909AbiLHPhk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 10:37:40 -0500
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2078.outbound.protection.outlook.com [40.107.22.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B48417509E;
-        Thu,  8 Dec 2022 07:36:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y9kphbdSsZ9b0dft95gPArwf4wtGQ3yQtg4ZSBu4GRPIZGSkv3eUZAgCK9MlqG3X07GLbeUL8rqytv1pN+xpmnfX0hlvEJCAbI6bMYb16ML5eqnOUIhIcMM6flh4N1XSxowsWfTOprJGmYa1O/OJcLLyQp2idEdIVz1IM2GIPrs0MkQfbJb/4H24U3b38jajlSDSkJBFpbfiN4BInwckfkPecB0wTsujii4I8nmv4et83pBQBz9cmypH+EiOOpMWj2IdEIR7VSGs2ko6fp8k7IRIXw99KPfwkFwsi3iB7QY8R1NolBgg9ox/6+R80EfYInqG7PnDZslvvxDRfCCl1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5I5xcRaF8L3+CpoQNYe4Us5Sbm9Pb+Sf5SDlAS2uY14=;
- b=hDB+iTJD/3F3lDncOB0s1Ke1BDv9Xf1fFzY2ZDrMpHQWTmH31jI2Ij/9UFnsS6aIvdJCPtPBe+uggOGs+FAOQnUEhgzqNrRKB+l5yG2K7Zsr2D4ZPsZGOA0wyxvMZ52spxJsKPYADFGRdReDBmmHAnXf+klV87lxB/XtGvRareADvS+Iy/VGwaloEExZA4Q+8d3pRXzuh0irNYWJyiwO4geS93kVXsfbcFCp4KseZ28Sqrn4R2RRc8WNLL5nNyvM3fB6xxhHGnMBcDVqJJVmmcrH9dD8WmlkBfU3XLGlDm5vstUz1BaxbilThaShYFX2goH2cpVIUaS6kONvPlQAGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
- dkim=pass header.d=seco.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5I5xcRaF8L3+CpoQNYe4Us5Sbm9Pb+Sf5SDlAS2uY14=;
- b=pfMvuv5hx16lG4s5p8KSw/6mv9X+OxTz7TrpAUVhQLdSZHEWRc3/cJrkCeM/jvJUmH12NfkjxeXU3CHIPiBbT4grazA0uEuPE2miPI4d/8m1ZTzuQ2xppPLaenvN7zF6nGDNdQ8NhcB3iwCma+peJ/7cGAW1IFioGygBUYrO9DFjpeZLftpVrztarHFasBCHE49//yZA5teoWHJe3sRzveorG0tjgL6CyZRZd74KUQSUxSY0u31ejWwmQeI1ImLOQSToPRNXnDn90qd8PrTqtaL7JbXF/YMc+I6s3JuUNW2p7CWGZCLjrds8mEPMFFbx6b79luUbry+Mu24I9CaKNw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=seco.com;
-Received: from DB9PR03MB8847.eurprd03.prod.outlook.com (2603:10a6:10:3dd::13)
- by PR3PR03MB6665.eurprd03.prod.outlook.com (2603:10a6:102:7d::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.11; Thu, 8 Dec
- 2022 15:36:53 +0000
-Received: from DB9PR03MB8847.eurprd03.prod.outlook.com
- ([fe80::2b95:1fe4:5d8f:22fb]) by DB9PR03MB8847.eurprd03.prod.outlook.com
- ([fe80::2b95:1fe4:5d8f:22fb%7]) with mapi id 15.20.5880.014; Thu, 8 Dec 2022
- 15:36:52 +0000
-Message-ID: <8b42763d-5fc3-3853-c421-227494c0144a@seco.com>
-Date:   Thu, 8 Dec 2022 10:36:45 -0500
+        with ESMTP id S230046AbiLHQEs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 11:04:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29FF99E468
+        for <linux-doc@vger.kernel.org>; Thu,  8 Dec 2022 08:03:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1670515422;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=IXsbEpWWvRn6V4K4AQAglneXzBPO0+xjG/LZYZe3/qc=;
+        b=gYNk+s5934zWqbXnDymsz2MdrnhogO0DW6MIEG21Pz7amThbMHzhSCrww9lJce9EbpKd3l
+        cepls96kcKn+l7eRfuhbYDv0EmFjq4W4Ciur7ikug2rxEQOhcoUb2ww87qAKC1hymO/GSP
+        ccZnx/mwvaErHGb4BBo/e7rLBBp8SR0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-596-JEhxGLu9PEaf-GK91Z1Fvw-1; Thu, 08 Dec 2022 11:03:41 -0500
+X-MC-Unique: JEhxGLu9PEaf-GK91Z1Fvw-1
+Received: by mail-ej1-f71.google.com with SMTP id hr21-20020a1709073f9500b007b29ccd1228so1432841ejc.16
+        for <linux-doc@vger.kernel.org>; Thu, 08 Dec 2022 08:03:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IXsbEpWWvRn6V4K4AQAglneXzBPO0+xjG/LZYZe3/qc=;
+        b=dGRgm2u32+waM3haQy7TT9vQ1S/X/tOJINfVwCkK+1777nouANVtpFrEUEQgQImIe6
+         ZyCJwbysJ/JnDvtMknL5dS0l97rKYR7CD5Cfq8uIOEE3RqAew9ZNUGREFlF22CUJHJQg
+         UxVszETG6rK2/VpdED+8Nhk0nPJkf/SYF4vWGznUF3RNCWQ4r0dmmb/MVr2CZEGKDtLW
+         RjXxLVgslBoSrTQiuABPJKU9c6U5tZ7lVeflQJ1wKedmuth8sg5S4VXSXrO0cjgWuzBo
+         umvkP94BoS86fO6EmL/ZFgGdp7o48km/SGGf5wXq7/s/rjz95e74zsu8duPv5J0q1/ag
+         Zs0Q==
+X-Gm-Message-State: ANoB5pl0/Db9zKE0HUmbiAG9VtBVfz4eHXXMSwiHyWEXFhqDuPx+gyp9
+        R1QlTMEmYLHx0xDr6dr18DtE5/txRkqnXqdg4CAeANGxWs/4MfWpZ3DeBIT+XGzxumghUFzdLMe
+        P4mrBCxENrVPh/yJDVPqC
+X-Received: by 2002:a17:906:c51:b0:7b2:91e8:1553 with SMTP id t17-20020a1709060c5100b007b291e81553mr2320258ejf.20.1670515420125;
+        Thu, 08 Dec 2022 08:03:40 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6uLmr2ps/eoyIFTKExf/xJaLtd19e4nt+MMsCSb4MkIRG9XBk/nHAPLf9ph+m7OFZKDow9IA==
+X-Received: by 2002:a17:906:c51:b0:7b2:91e8:1553 with SMTP id t17-20020a1709060c5100b007b291e81553mr2320247ejf.20.1670515419917;
+        Thu, 08 Dec 2022 08:03:39 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id fe17-20020a1709072a5100b0077a8fa8ba55sm9850087ejc.210.2022.12.08.08.03.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Dec 2022 08:03:39 -0800 (PST)
+Message-ID: <c09c9cef-14ac-2ab3-5e01-13189823a053@redhat.com>
+Date:   Thu, 8 Dec 2022 17:03:38 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v8 4/9] phy: fsl: Add Lynx 10G SerDes driver
-Content-Language: en-US
-To:     Stephen Boyd <sboyd@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>, linux-phy@lists.infradead.org
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Camelia Alexandra Groza <camelia.groza@nxp.com>,
-        Madalin Bucur <madalin.bucur@nxp.com>,
+ Thunderbird/102.5.1
+Subject: Re: [PATCH 0/9] platform/surface: aggregator: Improve target/source
+ handling in SSH messages
+Content-Language: en-US, nl
+To:     Maximilian Luz <luzmaximilian@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Sebastian Reichel <sre@kernel.org>
+Cc:     Mark Gross <markgross@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20221027191113.403712-1-sean.anderson@seco.com>
- <20221027191113.403712-5-sean.anderson@seco.com>
- <20221027230331.19C2FC433D6@smtp.kernel.org>
- <5f00ede6-10f5-c11c-ee21-54460c1f98b0@seco.com>
- <d13ff3b2-79f0-2a72-c9da-2c310c4e3bb8@seco.com>
- <20221101201020.B6180C433C1@smtp.kernel.org>
- <45463950-7a4f-758d-d6a1-b8fdf9bfd319@seco.com>
- <20221207021742.A3596C433C1@smtp.kernel.org>
-From:   Sean Anderson <sean.anderson@seco.com>
-In-Reply-To: <20221207021742.A3596C433C1@smtp.kernel.org>
+        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20221202223327.690880-1-luzmaximilian@gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20221202223327.690880-1-luzmaximilian@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL1PR13CA0092.namprd13.prod.outlook.com
- (2603:10b6:208:2b9::7) To DB9PR03MB8847.eurprd03.prod.outlook.com
- (2603:10a6:10:3dd::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR03MB8847:EE_|PR3PR03MB6665:EE_
-X-MS-Office365-Filtering-Correlation-Id: d3af0bde-735a-497b-448f-08dad93206b1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bS0eFpD/eJrArJkz1QJLEL5ll4OnC5NZ+7stbRNu63YEBQC9SdeSGVqCVeVWUY0DfSj/dA53QCy58xdiNYGI415v4SIogMwPxeuZ0r9sKLv+HA8Ixkt9Yj3P4ZXV0DJoGb1/WE/vaMX7QtNiv7DSLOEGrUzZKUNhm4MjtEw54rRQeast33zZfFRr/0FJlN2d290vD/aevFEVC+k/j8zxsaMC4AqaQJKsB3CvcwHqypvBA0D9bfzBikhq5oWsr/yhlwkkRVL4dKpJWizxVfXCPvyamxZaZPnAhpFj7q5hA57x5iLLLbPLjicgJdBxWX4SobhuwcwsAEc9i8VyRedXACKXvkIz4nKZuUKLZFyPaLDYAOOnDhzWyIDr+5JVlbtVJADXxKrHaKVLuZelAhvBdwRs3GfaiNHsD3FqheV0j9Bf4wscnP6OeB2JPEOmoTaLNx6/yrYqQb2G+o7BgZVax+6J7kwZ9P6ZK/7EMgPf1Mw2pbOyWuS3qHT1DJiyat1gunV4m6vo5EjXQRW06W4cIHrY9TaAbpEJbBR9pL17P9yc7ANEoKJG+WjI4E/lUzoR25WzfCc3JVCuJ1OpaAqpSzrsL+4OCEpHVWvAVeYIIrLZJuGMzfNWf1hOr9r7WPnGp901IzUieazCM+thXb1pGUkrpN9XPa+gpM560Qv9F57fjPwLL7tzGfajuvx9OV9WpfMXMnsr+SLpkJxPwzBBmoUD61jrRUFtYDNYK5QjiEdBrwZVbd0iyw3sUrl/kabi5+WCODhSofpVMi3eRxzFfg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB8847.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(39850400004)(346002)(366004)(376002)(136003)(451199015)(8936002)(83380400001)(31696002)(38100700002)(38350700002)(44832011)(7416002)(86362001)(5660300002)(4326008)(2906002)(8676002)(41300700001)(6512007)(53546011)(52116002)(26005)(6666004)(186003)(6506007)(316002)(110136005)(478600001)(6486002)(54906003)(66476007)(2616005)(66946007)(66556008)(31686004)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SXYrZHhJTnltMTlnRnprbm8yNjRsMnh0dGlWa2JOK21WUWVSNldPRlB5V1VZ?=
- =?utf-8?B?c3Z6ajdzZkZBRDdpZkYvSjhaNkpLQVRiVHgyTE9KSnRyRmZxeHRyWUtxY0ox?=
- =?utf-8?B?dFdEcjI0T0JCSHRqTFo2aGtTeG5XWWZSamJ1SWJOMWJKUllWMHZpRHpCeFBI?=
- =?utf-8?B?YzEwNTVNUGNlMUQrU3U0bmZ5ZW9wa0pqS3FlNWdhR1BzSEVPTEE1MHBWSGRw?=
- =?utf-8?B?N3p2U3dHcENXMFdId1grOXZhbGp3dStBREoyYmlSVkMzdG45OWxiMmJHV2ZH?=
- =?utf-8?B?T1AySnllNDJDNGkxVitxZmE2Y2MvMlVwdGExLzZEaG1mejYyNGl2TGk3bVFL?=
- =?utf-8?B?RGRialRpNGNMcXJCNDg4SDMwQmhvWVJJMzBNazNReE12VWhxNUQraXRFZzNF?=
- =?utf-8?B?SE04MWQ3NldOQW1wbDBDVStVT2NoRFZ0RlAzU3dZNk5pd0Q0enk3bStEOG54?=
- =?utf-8?B?bjM1bGZNMFYwcjROQ1RVcGhPOXZ3N0JzUGFEbW94OWkyYUgyVEFveGQ3cHhT?=
- =?utf-8?B?dzdwdE9RbGJRSUZQU0tOdWgxblZYSzhVeUk2LzBudWthU3VuRHhPVVNNMkEy?=
- =?utf-8?B?Z2h3Q28rYjhmZHNTU3ArVnhwVHlNQmpMSTk2d2hZVjBhTVcwU0FRNmkxNU5n?=
- =?utf-8?B?bDZ0ZG1pL1pSdmNHcGU1SC9MM0tBc3IvMStGd08wWjJ4OGczYjRqajg4TkJO?=
- =?utf-8?B?RTR3WWtCUzNWMVhGbjZTZ0JhZ3hJOXJaWTkrY0ZiN0szWmRYUXh1OXFPVlhX?=
- =?utf-8?B?ZlBiaU1vVTlTdnkwd2lPUVAwNklaUkFtZzFOYTlpM0lTeFNQNVBKWDhTcEgz?=
- =?utf-8?B?QUYwN1ZLcml0ZnJNOEVLWm1jUGVUcGVpdmh0cjFpcG9aNTlHc2pPdlN0WEhG?=
- =?utf-8?B?NDVucGJrN3hmOUU2RGQzK2RzajVadCt5Rm0yTGgrQW5rVE5GZGFqWmZrZVRN?=
- =?utf-8?B?aGZjU3kvYTRaMVBENkV4NXFtZitteXRjYllBZW04ZDZmYmhmdGVwRkJDSWor?=
- =?utf-8?B?VTdKalQ3TUJGaHZsRzdIK251Q1RJRTFxV24vblJlTEY0WVY2Rk5GNCtGRG1o?=
- =?utf-8?B?Z3dpSW9maEVUdzRyVldSd0ZNYlFtbE9lZExaL2JoTWJRdnRaUi9WS0dSYTRo?=
- =?utf-8?B?cU1oRnE1OFJiQWZrSlIrMGFyNjUvU3ZENGhRQ1VKOFNaOXczY3JlcGhpUm9r?=
- =?utf-8?B?aStWYkdKOWEwM1FSMnpTMzRCNHo0NUpqYjl6WWIxK0JGWnBtS3oyREMxelBE?=
- =?utf-8?B?b1Y3ZXg5ci9PSU9yNXJ3SXlmbkJRLzlSOEVLRFgzM0xyRUNhUWx2eHByVGcy?=
- =?utf-8?B?KzZtOTZNYVpiVVJhR0pFSi9XU1RhSEc1MjE2UlNhdlJtbmY3dHNkM3hOV1l5?=
- =?utf-8?B?S1hmQ3Y0UmZmR3pWT2tzSVh3V0MrMzB2cHhFc1hFSzR1Y3krMkNvUEdYZEN0?=
- =?utf-8?B?R2FRWTc5NDVsaVR6MUtDSEpwa0lWTkxIZzFWTUtZSWJ3ZXVxZWxCZ3FvZE9E?=
- =?utf-8?B?djZXMzhKbkdHT1E4alFQZkJUbVJ6WGpXL2d6ZUppWlAwWnFoK3JLeDJvdWVn?=
- =?utf-8?B?RlJham02RUFPQmgreHMyb05tVkdUN3JvSTAxYkpHQUR0cVZ4R0tHZmNOb2Zm?=
- =?utf-8?B?aXprcnFGK3RCbVBJQXIvTHpuUi9xbFcrcjd2clYvSm5PTk5weStVbjllTFBG?=
- =?utf-8?B?a2J4Qk5BTDUwK1ArQkV5Rjk5NFpJNGREV00zREt4cmhXRkZsVm5SNTlFS2sz?=
- =?utf-8?B?OWNzQ25PVXgraThOa1pGRC8yaUZ5NjVtOFd1ZnFSdGkwVnVKN3JMcmRaMm1M?=
- =?utf-8?B?dkN3VEpaOWQxSytEM0lTTS84UWFlSkMxS0dpeW1MYjN5bzMvbXFmR1grTlFJ?=
- =?utf-8?B?cXptNDlkcE4weFN4VXhRNldZQm9zaDFpeFIzajdCM25aSDgyOFdDUUpRdUlT?=
- =?utf-8?B?MHNaZXlBcjVkMFl4c0hwc0ZSVlJ3ZlRiaDFqeTZ0UGluK3lqVkUxZjJNWVJT?=
- =?utf-8?B?ZDk1ZlkvUHNtWXVhUkp6QXFCV1RPeWc2WjZmT0NCYXdGTlV1Mm84V3BoNG5j?=
- =?utf-8?B?Zkx5bVNnMkpaTHduK0tTaFA1eURsdElKWVZuS2JsN2xBeEZvVlA5U0hQOUZ1?=
- =?utf-8?B?TkM5ZXI4R0FDOHlPU3VuMVBGUktqZThpbEhnMUt6U1A4ZDdvV0ZTYkVzNS9J?=
- =?utf-8?B?Tnc9PQ==?=
-X-OriginatorOrg: seco.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3af0bde-735a-497b-448f-08dad93206b1
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB8847.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2022 15:36:52.6309
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ao1fYTFHzGMMCBmau9NPohj3LEpseNLU3oFwa4CPl/UC6tDiVAHZwN9FdzqEy6xabul4INN15zQAU7C869jbxQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR03MB6665
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/6/22 21:17, Stephen Boyd wrote:
-> Quoting Sean Anderson (2022-11-01 16:27:21)
->> On 11/1/22 16:10, Stephen Boyd wrote:
->> >> 
->> >> Oh, I remember why I did this. I need the reference clock for clk_hw_round_rate,
->> >> which is AFAICT the only correct way to implement round_rate.
->> >> 
->> > 
->> > Is the reference clk the parent of the clk implementing
->> > clk_ops::round_rate()?
->> 
->> Yes. We may be able to produce a given output with multiple reference
->> rates. However, the clock API provides no mechanism to say "Don't ask
->> for the parent clock to be rate X, you just tried it and the parent
->> clock can't support it." So instead, we loop over the possible reference
->> rates and pick the first one which the parent says it can round to.
->> 
+Hi Maximilian,
+
+On 12/2/22 23:33, Maximilian Luz wrote:
+> We have some new insights into the Serial Hub protocol, obtained through
+> reverse engineering. In particular, regarding the command structure. The
+> input/output target IDs actually represent source and target IDs of
+> (what looks like) physical entities (specifically: host, SAM EC, KIP EC,
+> debug connector, and SurfLink connector).
 > 
-> Sorry, I'm lost. Why can't you loop over possible reference rates in
-> determine_rate/round_rate clk op here?
+> This series aims to improve handling of messages with regards to those
+> new findings and, mainly, improve clarity of the documentation and usage
+> around those fields.
+> 
+> See the discussion in
+> 
+>     https://github.com/linux-surface/surface-aggregator-module/issues/64
+> 
+> for more details.
+> 
+> There are a couple of standouts:
+> 
+> - Patch 1 ensures that we only handle commands actually intended for us.
+>   It's possible that we receive messages not intended for us when we
+>   enable debugging. I've kept it intentionally minimal to simplify
+>   backporting. The rest of the series patch 9 focuses more on clarity
+>   and documentation, which is probably too much to backport.
+> 
+> - Patch 8 touches on multiple subsystems. The intention is to enforce
+>   proper usage and documentation of target IDs in the SSAM_SDEV() /
+>   SSAM_VDEV() macros. As it directly touches those macros I
+>   unfortunately can't split it up by subsystem.
+> 
+> - Patch 9 is a loosely connected cleanup for consistency.
 
-This is what I do currently, but you need to have the parent clock to do
-so. With your suggested method, we never actually get a struct clk(_hw)
-which we can query for rate support.
+Thank you for the patches. Unfortunately I don't have time atm to
+review this.
 
---Sean
+And the next 2 weeks are the merge window, followed by 2 weeks
+of christmas vacation.
+
+So I'm afraid that I likely won't get around to reviewing
+this until the week of January 9th.
+
+> Hans, Jiri, Benjamin, Sebastian: While patch 8 ("platform/surface:
+> aggregator: Enforce use of target-ID enum in device ID macros") touches
+> multiple subsystems, it should be possible to take the whole series
+> through the pdx86 tree. The changes in other subsystems are fairly
+> limited.
+
+I agree that it will be best to take all of this upstream through the
+pdx86 tree. Sebastian thank you for the ack for patch 8/9.
+
+Jiri or Benjamin may we have your ack for merging patch 7/9 + 8/9
+through the pdx86 tree ?
+
+Regards,
+
+Hans
+
+
+
+
+> Maximilian Luz (9):
+>   platform/surface: aggregator: Ignore command messages not intended for
+>     us
+>   platform/surface: aggregator: Improve documentation and handling of
+>     message target and source IDs
+>   platform/surface: aggregator: Add target and source IDs to command
+>     trace events
+>   platform/surface: aggregator_hub: Use target-ID enum instead of
+>     hard-coding values
+>   platform/surface: aggregator_tabletsw: Use target-ID enum instead of
+>     hard-coding values
+>   platform/surface: dtx: Use target-ID enum instead of hard-coding
+>     values
+>   HID: surface-hid: Use target-ID enum instead of hard-coding values
+>   platform/surface: aggregator: Enforce use of target-ID enum in device
+>     ID macros
+>   platform/surface: aggregator_registry: Fix target-ID of base-hub
+> 
+>  .../driver-api/surface_aggregator/client.rst  |  4 +-
+>  .../driver-api/surface_aggregator/ssh.rst     | 36 ++++-----
+>  drivers/hid/surface-hid/surface_hid.c         |  2 +-
+>  drivers/hid/surface-hid/surface_kbd.c         |  2 +-
+>  .../platform/surface/aggregator/controller.c  | 12 +--
+>  .../platform/surface/aggregator/ssh_msgb.h    |  4 +-
+>  .../surface/aggregator/ssh_request_layer.c    | 15 ++++
+>  drivers/platform/surface/aggregator/trace.h   | 73 +++++++++++++++++--
+>  .../platform/surface/surface_aggregator_hub.c |  8 +-
+>  .../surface/surface_aggregator_registry.c     |  2 +-
+>  .../surface/surface_aggregator_tabletsw.c     | 10 +--
+>  drivers/platform/surface/surface_dtx.c        | 20 ++---
+>  .../surface/surface_platform_profile.c        |  2 +-
+>  drivers/power/supply/surface_battery.c        |  4 +-
+>  drivers/power/supply/surface_charger.c        |  2 +-
+>  include/linux/surface_aggregator/controller.h |  4 +-
+>  include/linux/surface_aggregator/device.h     | 50 ++++++-------
+>  include/linux/surface_aggregator/serial_hub.h | 40 ++++++----
+>  18 files changed, 191 insertions(+), 99 deletions(-)
+> 
+
