@@ -2,111 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36A33C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 11:34:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 223EBC63709
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 11:50:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229555AbiLHLeh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Dec 2022 06:34:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60530 "EHLO
+        id S230035AbiLHLuS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Dec 2022 06:50:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbiLHLeg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 06:34:36 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B64A66C92;
-        Thu,  8 Dec 2022 03:34:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670499274; x=1702035274;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=BNKj0Q3HaLW0QQmlzFra5ewPCCLiShH0XE7KzON/axc=;
-  b=ZBdy+j/fchQRGmGKP7GDgoYIYvGsgJV4ZOXLhYPAn8C0c++ME7RVjpkJ
-   cBlA8tUIxFHdKaTCPFLfgzUi8EQnBhQLOI3deLcWW7UBkWFKP0AJN8dBa
-   SNFnztz9sNY8zj2/Frtf8hEWFtCgsJQie62pcz5dvhCBlBT0G4QN3ahA1
-   qclFaZFnIVcscJ5hXHqncfBMdr7Yaa3HlW+CxOMbiXG+muzeoABvVVqE/
-   Y6Eno96YqlLZLJpGhZuhSkqyflapfejVrEgmlr6G2gD90HUPDhZ6dsQRu
-   k+/mVeN9omqrHS+5msglRxsGzOzTGWsQ/4TNCQfjBhl+dhG7tMMH7NTQ4
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="315865225"
-X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; 
-   d="scan'208";a="315865225"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2022 03:34:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="624670349"
-X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; 
-   d="scan'208";a="624670349"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga006.jf.intel.com with ESMTP; 08 Dec 2022 03:34:22 -0800
-Date:   Thu, 8 Dec 2022 19:30:03 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Xiaoyao Li <xiaoyao.li@intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <20221208113003.GE1304936@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
- <cd950a78-5c5b-16ef-d0a6-ad2878af067e@intel.com>
+        with ESMTP id S230164AbiLHLt5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 06:49:57 -0500
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD3A08BD31;
+        Thu,  8 Dec 2022 03:48:54 -0800 (PST)
+Received: by mail-qk1-f173.google.com with SMTP id j13so589341qka.3;
+        Thu, 08 Dec 2022 03:48:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rqUzGXz7fqT2+R6ToUJYMObx3cVBIGdpHtqiUhY3CCc=;
+        b=YVZA8htQVW0wKkb2lQZjV8L7C4kw4TQWWEAMWY64haFklLJkdi7X+ZHQuUaRK7H6UG
+         PDl4+c0pK1SzSGDq4mtL+tP8vYCiWvDD0V4m/WIIYX6iIMPso0mNS2dFxjG7hVSXRw6T
+         2vj32STAbNRuHWc6rLCu0K03sP/v5YupPMg7fsNytxFhdJqoOPJrAELV8kbZ9UQkbRB1
+         ghpTAVJkVElMFFXcdVlyo1+dGycm3luaD+ufGmjDlBaq/MUCmlGiiJ4RQUtG1tg+4BNC
+         jWWtEfdEfGaFZO1zzld02SwP8WSLC9YzX0FUTzHT12YPepzZRE0YSalFlMzHxpbBhcXC
+         lHvQ==
+X-Gm-Message-State: ANoB5pl6fjexNGhs7ww5cs/gvMTel70OgtRJT1h0okjvzkG1Uxx+v9Tn
+        ayLv2Z0PEU9EuSj0VRs+ZdNVV7IGhx8tqcc1Xnk=
+X-Google-Smtp-Source: AA0mqf4qdTUUqtmr44UYCGTE6at5UCsdamG6GPfpg/kGvcJNMILloKwxDc5hSuhNb+dxOEpmY7OZE6L2/OMnVAEO3LQ=
+X-Received: by 2002:a37:b901:0:b0:6ec:2b04:5099 with SMTP id
+ j1-20020a37b901000000b006ec2b045099mr69561695qkf.501.1670500132067; Thu, 08
+ Dec 2022 03:48:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cd950a78-5c5b-16ef-d0a6-ad2878af067e@intel.com>
+References: <20221207154648.233759-1-wyes.karny@amd.com>
+In-Reply-To: <20221207154648.233759-1-wyes.karny@amd.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 8 Dec 2022 12:48:41 +0100
+Message-ID: <CAJZ5v0gy+sZJp_SD2zF-n-zD=hCL4jXd+=cMuOujQqZOUUCHMQ@mail.gmail.com>
+Subject: Re: [PATCH 0/4] amd_pstate: Add guided autonomous mode support
+To:     Wyes Karny <wyes.karny@amd.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Huang Rui <ray.huang@amd.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Mario.Limonciello@amd.com, Perry.Yuan@amd.com,
+        Ananth Narayan <ananth.narayan@amd.com>, gautham.shenoy@amd.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 08, 2022 at 04:37:03PM +0800, Xiaoyao Li wrote:
-> On 12/2/2022 2:13 PM, Chao Peng wrote:
-> 
-> ..
-> 
-> > Together with the change, a new config HAVE_KVM_RESTRICTED_MEM is added
-> > and right now it is selected on X86_64 only.
-> > 
-> 
-> From the patch implementation, I have no idea why HAVE_KVM_RESTRICTED_MEM is
-> needed.
+On Wed, Dec 7, 2022 at 4:47 PM Wyes Karny <wyes.karny@amd.com> wrote:
+>
+> From ACPI spec[1] below 3 modes for CPPC can be defined:
+> 1. Non autonomous: OS scaling governor specifies operating frequency/
+>    performance level through `Desired Performance` register and PMFW
+> follows that.
+> 2. Guided autonomous: OS scaling governor specifies min and max
+>    frequencies/ performance levels through `Minimum Performance` and
+> `Maximum Performance` register, and PMFW can autonomously select an
+> operating frequency in this range.
+> 3. Fully autonomous: OS only hints (via EPP) to PMFW for the required
+>    energy performance preference for the workload and PMFW autonomously
+> scales the frequency.
+>
+> Currently (1) is supported by amd_pstate as passive mode, and (3) is
+> implemented by EPP support[2]. This change is to support (2).
 
-The reason is we want KVM further controls the feature enabling. An
-opt-in CONFIG_RESTRICTEDMEM can cause problem if user sets that for
-unsupported architectures.
+Well, can you guys please agree on priorities?  Like which one is more
+important and so it should go in first?
 
-Here is the original discussion:
-https://lore.kernel.org/all/YkJLFu98hZOvTSrL@google.com/
+At this point I'm not sure what the ordering assumptions with respect
+to the EPP series are.
 
-Thanks,
-Chao
+Also this submission is late for 6.2, so I will only regard it as 6.3
+material on the condition the above gets clarified.  In the meantime,
+please address review comments and consider resending after 6.2-rc1 is
+out.
+
+Thanks!
