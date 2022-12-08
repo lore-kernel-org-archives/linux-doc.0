@@ -2,223 +2,690 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C18EC4708D
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 03:17:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 302E6C4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 03:47:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229634AbiLHDRy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 22:17:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58876 "EHLO
+        id S229507AbiLHDrJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Dec 2022 22:47:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229676AbiLHDRw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 22:17:52 -0500
-Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16ED932063;
-        Wed,  7 Dec 2022 19:17:49 -0800 (PST)
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B80XY14002489;
-        Wed, 7 Dec 2022 19:17:37 -0800
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2108.outbound.protection.outlook.com [104.47.55.108])
-        by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3m86ushyrf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 07 Dec 2022 19:17:37 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oBQqepeX45+kbXiuVqvXlc4Cb3uU37ln3SU6Lt1vXnTFfM832mdU6z5qA/9eov0ugBZTMnI3auNDvKg23Oe+zqswZMnjg1Kx2IemZwg8vkbWQ9CWxPJpzWAUsvulterfvpYEUXi9FS03Qg7iuC46+cdGKbnP9U1Iz37tO9K/Ox1O5GFmmvxoDm/7OqoKlB59ZvuM35EyriDwAbUp/mko+4yPknvJ+g52sXkVwQanhvAbSfe3eBov6IBoWbvZw7tUep7xBLGe/UMC7ReraNQsacdg+ZDQNngZ9HgSDSd8XBm4QM+uVrPCgbYO7wjGu6iqHZ7rkNBU1vTb8UbANz6ygQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uhmqCFdIbapAfL1x6m3Vdw2CT1u4FpfsgKsAxApjNkk=;
- b=iC7buM+Z3ZhXn6bQ1OIff4HGujTTgcXi2kZ7Tz5jW5Flo9iiDtUdOXpEkSJ1tHPOvJMPIpyMORk+vP3qcrEaBuAfXGmOgyrejKQwR59eAcpYrZhn1l/mK1Cn8TNBZFageXpkALVCtbypvc3gv4k0hxMb/zBt2ASn9SmLHwJii/FqYr+LdSfOVgSk7sh9WIyUxwSNOANjMzkJHMrickLbjGum9FTjsUgFryhPAnBif9qNNttxIkBTWxm4kIXBtWsHREP907ndafnLopEAuGwFlHZFbI/kOwFbgRTR7s3J8TBQSXnjdhj3plj1EqZ27I0G2Txd9EEtWZNe4i6FnzaixA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
+        with ESMTP id S229602AbiLHDrI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 22:47:08 -0500
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8467E7E417;
+        Wed,  7 Dec 2022 19:47:06 -0800 (PST)
+Received: by mail-pg1-x52c.google.com with SMTP id f9so201204pgf.7;
+        Wed, 07 Dec 2022 19:47:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uhmqCFdIbapAfL1x6m3Vdw2CT1u4FpfsgKsAxApjNkk=;
- b=BNQ9/WwC6FwYUC5UCq3OnYwr7e2Y1mRXThqOvLrzrCrgCxWBj8RMCtXvvvp3lF4YXYA9lWn3RobNpMIcS22rq1jw5V1yVezUokj7AFbljFHQL1dOQy3WtPMc7zFihUO13wBCWqvY4hz+5uR7QjAVM27mCEvgCppr0mi5mqTHNBM=
-Received: from BYAPR18MB2423.namprd18.prod.outlook.com (2603:10b6:a03:132::28)
- by PH0PR18MB5192.namprd18.prod.outlook.com (2603:10b6:510:167::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Thu, 8 Dec
- 2022 03:17:34 +0000
-Received: from BYAPR18MB2423.namprd18.prod.outlook.com
- ([fe80::81c8:f21b:cf9e:df2d]) by BYAPR18MB2423.namprd18.prod.outlook.com
- ([fe80::81c8:f21b:cf9e:df2d%3]) with mapi id 15.20.5880.014; Thu, 8 Dec 2022
- 03:17:33 +0000
-From:   Veerasenareddy Burru <vburru@marvell.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-CC:     Leon Romanovsky <leon@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Liron Himi <lironh@marvell.com>,
-        Abhijit Ayarekar <aayarekar@marvell.com>,
-        Sathesh B Edara <sedara@marvell.com>,
-        Satananda Burla <sburla@marvell.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [EXT] Re: [PATCH net-next v2 2/9] octeon_ep: poll for control
- messages
-Thread-Topic: [EXT] Re: [PATCH net-next v2 2/9] octeon_ep: poll for control
- messages
-Thread-Index: AQHZA/PZs+9RX6z1+0m5ZGIy8eBWva5XNNSAgABoFsCAARQmAIACoOYQgAOoOwCAAQ3cAIAAkfKAgACNHgCAABTMEIAAcicAgAAy6jA=
-Date:   Thu, 8 Dec 2022 03:17:33 +0000
-Message-ID: <BYAPR18MB24234AE72EF29F506E0B7480CC1D9@BYAPR18MB2423.namprd18.prod.outlook.com>
-References: <20221129130933.25231-1-vburru@marvell.com>
-        <20221129130933.25231-3-vburru@marvell.com>     <Y4cirWdJipOxmNaT@unreal>
-        <BYAPR18MB242397C352B0086140106A46CC159@BYAPR18MB2423.namprd18.prod.outlook.com>
-        <Y4hhpFVsENaM45Ho@unreal>
-        <BYAPR18MB2423229A66D1C98C6C744EE1CC189@BYAPR18MB2423.namprd18.prod.outlook.com>
-        <Y42nerLmNeAIn5w9@unreal>       <20221205161626.088e383f@kernel.org>
-        <Y48ERxYICkG9lQc1@unreal>       <20221206092352.7a86a744@kernel.org>
-        <BYAPR18MB24234E1E6566B47FCA609BF8CC1B9@BYAPR18MB2423.namprd18.prod.outlook.com>
- <20221206172652.34ed158a@kernel.org>
-In-Reply-To: <20221206172652.34ed158a@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcdmJ1cnJ1XGFw?=
- =?us-ascii?Q?cGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEy?=
- =?us-ascii?Q?OWUzNWJcbXNnc1xtc2ctZDk0NDA4MDQtNzZhNi0xMWVkLTgzNzMtZjRhNDc1?=
- =?us-ascii?Q?OWE1OGFjXGFtZS10ZXN0XGQ5NDQwODA2LTc2YTYtMTFlZC04MzczLWY0YTQ3?=
- =?us-ascii?Q?NTlhNThhY2JvZHkudHh0IiBzej0iMTE2MCIgdD0iMTMzMTQ5NDMwNTEwNjAx?=
- =?us-ascii?Q?NDM2IiBoPSJzVng2RTliSjh1cG1qMFg1eWk3SXhuNjhuOE09IiBpZD0iIiBi?=
- =?us-ascii?Q?bD0iMCIgYm89IjEiIGNpPSJjQUFBQUVSSFUxUlNSVUZOQ2dVQUFOZ0hBQURj?=
- =?us-ascii?Q?UktHYnN3clpBVG93L1pGZGMxUnNPakQ5a1YxelZHd01BQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBSEFBQUFCb0J3QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?RUFBUUFCQUFBQTNUekZBQUFBQUFBQUFBQUFBQUFBQUo0QUFBQmhBR1FBWkFC?=
- =?us-ascii?Q?eUFHVUFjd0J6QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFF?=
- =?us-ascii?Q?QUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdNQWRRQnpBSFFBYndCdEFGOEFjQUJs?=
- =?us-ascii?Q?QUhJQWN3QnZBRzRBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFnQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFBQUNBQUFB?=
- =?us-ascii?Q?QUFDZUFBQUFZd0IxQUhNQWRBQnZBRzBBWHdCd0FHZ0Fid0J1QUdVQWJnQjFB?=
- =?us-ascii?Q?RzBBWWdCbEFISUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBSjRBQUFCakFIVUFj?=
- =?us-ascii?Q?d0IwQUc4QWJRQmZBSE1BY3dCdUFGOEFaQUJoQUhNQWFBQmZBSFlBTUFBeUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
-x-dg-refone: =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR01B?=
- =?us-ascii?Q?ZFFCekFIUUFid0J0QUY4QWN3QnpBRzRBWHdCckFHVUFlUUIzQUc4QWNnQmtB?=
- =?us-ascii?Q?SE1BQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFRQUFBQUFBQUFBQ0FBQUFBQUNlQUFBQVl3QjFBSE1BZEFCdkFHMEFY?=
- =?us-ascii?Q?d0J6QUhNQWJnQmZBRzRBYndCa0FHVUFiQUJwQUcwQWFRQjBBR1VBY2dCZkFI?=
- =?us-ascii?Q?WUFNQUF5QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFB?=
- =?us-ascii?Q?QUlBQUFBQUFKNEFBQUJqQUhVQWN3QjBBRzhBYlFCZkFITUFjd0J1QUY4QWN3?=
- =?us-ascii?Q?QndBR0VBWXdCbEFGOEFkZ0F3QURJQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFH?=
- =?us-ascii?Q?UUFiQUJ3QUY4QWN3QnJBSGtBY0FCbEFGOEFZd0JvQUdFQWRBQmZBRzBBWlFC?=
- =?us-ascii?Q?ekFITUFZUUJuQUdVQVh3QjJBREFBTWdBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQVFBQUFBQUFBQUFDQUFBQUFBQ2VBQUFBWkFCc0FIQUFYd0J6QUd3?=
- =?us-ascii?Q?QVlRQmpBR3NBWHdCakFHZ0FZUUIwQUY4QWJRQmxBSE1BY3dCaEFHY0FaUUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
-x-dg-reftwo: QUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFBQmtBR3dBY0FCZkFIUUFaUUJoQUcwQWN3QmZBRzhBYmdCbEFHUUFjZ0JwQUhZQVpRQmZBR1lBYVFCc0FHVUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdVQWJRQmhBR2tBYkFCZkFHRUFaQUJrQUhJQVpRQnpBSE1BQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQURRQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFBQUNBQUFBQUFDZUFBQUFiUUJoQUhJQWRnQmxBR3dBYkFCZkFIUUFaUUJ5QUcwQWFRQnVBSFVBY3dBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBQT09Ii8+PC9tZXRhPg==
-x-dg-rorf: true
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BYAPR18MB2423:EE_|PH0PR18MB5192:EE_
-x-ms-office365-filtering-correlation-id: ca07b474-f745-41f0-eadf-08dad8cabfc9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: CIWj9eJiJi3DM0IgiK0g8iRxzr5KI/Xm+hvSqTfnslM6h339cD4wxKgz7rUoECqyb3jUD2NlHOgCOc2s3Eybm9NZDNoygz/vBp+aAQf+DX+8ax6c8DSmMr+XAy6u0BPm1UNZas7qJVm2tvwJcMejJBS58IenGMu6SHZygqO2H504dmTMJnXzGcph0kPo7hW5G8FvjM48Qnxu7OmhJ0Pa0juZASZpEgBTt7g0XCSbgJxpGzzTmFjlrpGoJ0E0f+xchYg4GPp0EUmPoteEe/08WV0AsCoiQiQQxyQX9KYdTzZsy7bVi1RQzGoeHEWzQUY9UoPp2MMmmsEko/X6ua/FkS8oMEsukzeAtnXIp1nQY58d45jmNcEh5C19RV3Anch9hYkB3oubdgZPwsoDA+xs+wBq3Vjup4FH37Ka5zKHtiGft14pXHWIlqEW7a4CUjfAVTaXDcJQN+jznPZJLkvNfJh3X2kyq1A2iP20pajhF3nJO5FNuBl9AJC58H44GeeSn2t17fONok+MD04obKRE0z8xhTG3iExWQC24DdMIAnblGZsreiSbbyCDRphq7l2kiWUjQLmPoYDqBG6doJqHlgj4PSzu2z7Ps8IUm2ddUpm+I/FT/KmgsMUg7iDCxwdgupdaqHvHex79zvSvsZGkHftjDZ5azZCwNo3mGV0/zoMw0y7UnIiAkb19jx8M/sBUcWg5TSQDv686uYiHfUH53gWwZPpz9zwqT6wLvBPsfu0=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR18MB2423.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(346002)(39860400002)(376002)(136003)(366004)(451199015)(54906003)(4744005)(2906002)(86362001)(8936002)(5660300002)(33656002)(4326008)(38070700005)(38100700002)(15650500001)(71200400001)(83380400001)(478600001)(122000001)(66946007)(66446008)(66556008)(6916009)(76116006)(316002)(55016003)(8676002)(52536014)(9686003)(41300700001)(6506007)(186003)(53546011)(64756008)(7696005)(66476007)(26005)(21314003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?KucpEM4aUMX7807XSjfHma6Ob2n4O9OxqTaXgfrF/QmXyQ9FBpH6iHT4RIrw?=
- =?us-ascii?Q?xQuZbxir0rGLQa636HRl6lxOAyAwJhAOPR7T+E6J0RuFXXnJY1RV4b+9ag5f?=
- =?us-ascii?Q?qA35mRkaWNxOPOGW58jy/o7IPj6Xh3vozW+BQe2MxZAmOJo6oHMZtWHXQC7X?=
- =?us-ascii?Q?tQkKkXD7g1vtjGhz+Xo/zpEZJvUAenk78WLf5aLh5JciSfNsx514LTGW9BP6?=
- =?us-ascii?Q?LhJd6J6v7+J+Fam4pGGMuABWgmefrMPg6Wj/Vxrn/t/6LLp96X7rqEPSVogf?=
- =?us-ascii?Q?hetJdRFtg5PwoOu1GudO896eDZ7FtJFKhDG+S+hlXquTfnNwGaw7sDX2mk89?=
- =?us-ascii?Q?BPrfoyR9S8d2m8SoXOi+9x97mKNZVc/WO/H+Dz/1f/wFdXtBcscCD/p1/TMg?=
- =?us-ascii?Q?WXwjvKxx2UMTRyXkwiocusHmyMmSy5HtMZc+qW1JH3zTXTzpPOvovPy9ncPG?=
- =?us-ascii?Q?1X+UMS/1xow+OD2ty+S/It+kG/EoF979qV9HuG3pzEJRnxtNv98u0jh5ymK9?=
- =?us-ascii?Q?TdscImTmMzHrJVSKewv8PDwadrUO7zBhNrxsFDVeHuDvmuUVFW6SEEo6ohzy?=
- =?us-ascii?Q?9/ylZk2pJdpK157G/k3z4Ixw5/U2beLR+STuOc4YhQ8J83oGEho9zWxyL9m1?=
- =?us-ascii?Q?QUsZ4OJV6P9XwnuVXBswrUTjWHQhUSVcfg8yM5jVORVdC+y3ysK/KQLwyVu4?=
- =?us-ascii?Q?jr7yNiYUq7USGAP3drkgTMpdvIOAH2FQZWWw+xXaZ86t6Hr4h3kUrzNAfPiE?=
- =?us-ascii?Q?FGn/0x2QQMgWGNFpiduFIQeiJZJNG8iP7X42A/D2lw8FsY7Dyv1DFB5fBB89?=
- =?us-ascii?Q?6OIRXs6vI1hSPmfy2tXr1K4lQz99VSlI/5WujT5391TVe607LVvrHfBNJP98?=
- =?us-ascii?Q?3R5ryy4LC5xtjuLs16oAGWh7roWuzpyIOXS0srAdkawnh91bZ4a6tMPkH3B/?=
- =?us-ascii?Q?OJ7Y8axq6T5fBVWwk9Gbc3TtxxdjSNlDb7xXaVzmOU5Jrlc+HcUV1W4L/f02?=
- =?us-ascii?Q?MPQFpxfGx9r1unWu/LFMgyGhcWanRWm31SJT6BYaCsb9UfLjOeUEM/5Ro0FP?=
- =?us-ascii?Q?yAXp5Z07hpplJedLXzFFzQPq7TkekEcUCuRN/HLVTAi8eybzRav8Kb5jih4b?=
- =?us-ascii?Q?l8wIXhoqJyRuKzw7Xv91iIHPQGYFR/YUwTa7GHRPQEhsKeiep3BQ+4ZnI7Xm?=
- =?us-ascii?Q?nz0xEIaTK4Xp2ULTquO4cN0ZA+pQzKQMxLeaUJKkRMDLW41kcCXNlugO5Hmy?=
- =?us-ascii?Q?8QrfxclRPhzZNDAbybEXBJQmT8CvPVJL/2xiGnirYiW6BhtVtvB2nbcxkUZw?=
- =?us-ascii?Q?X8T0YsDJ9gaLiWluWye/YJwZhlYlX8dZaYNlGSh33B0Keq2AR5ERYZ0u7ynJ?=
- =?us-ascii?Q?JTvUGQ+wrIw+zj42fAkweUn+p67f6VrxZInIJOtzV5vXrgvryj+4Ymdt1tOY?=
- =?us-ascii?Q?yh/i9mg0dBRtz/1u+9VtWGm1/QOOdIQWcsT9oUuWcWb5HmQavVEDhUSB04kk?=
- =?us-ascii?Q?wdN2TA5yyWw7lztqy5HldKmeFHHcGHhEKgJkiaFiH1hejrY0zFdAx3L3f1ai?=
- =?us-ascii?Q?5qm9LJ0oULlxvDI1c+NrqFR66zliMC48Zz8Mr+3n?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9lw3DErgZW6BEo8z/4+VUT27ju4f204humTK/R4UrAc=;
+        b=l8dl0ovLtpw3TJwSKVK9s6bfi1t6RWl95rGuot/jMxoJLEwVvLkPbTTAC6M6JSOoU4
+         ehRElY5S0Z4B6c9BO+5e4nXAs4am6XxO4F8KokGJxQ9ChRCYO1tXYZNPl27QPvjGWCCP
+         s0qJKMvJXUKu4jwZo1T2sM75lo/unylMidxd3d2xvAXMSs9O+QOlXaUpq5WVa7HhD6Co
+         oqwL1CuDk3ecyvUDiMxpVs9GKsrAcX6tL9eegoqMkszO1Q755a7IqrehYnPHfjQ1n1Ve
+         2ItPhvm9Iwmw0vURwgcI3uD6J7haX2RxaLeDkGxJMkC6qXqNFXtSPkC6gPaK0v9VgqbT
+         dIgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9lw3DErgZW6BEo8z/4+VUT27ju4f204humTK/R4UrAc=;
+        b=ZrdeP8u4TqdoMUSM3ptzeH2cxghRd1zaFCqQ+RlT9PuMf6/rNPpcyE8MmYM91mRvkL
+         9RTNqcVF17zikD1Ko4HMzMx1EB3ecMnMoPsuZRcgYroo+O+CBZagF60y49vWNADTMNVd
+         yOqAj0ZIqk8FWr9Ba6qqGm4k3LiIPJsbDJauAeFJwibZub0qvkQLNUQ9UHChiNKJ3xO/
+         +OqT02yGjnkPOin0C1YTW272rIGlXE57PzLXTOoWuEiWmlfiSB0LZGIeZI3bGMj+QGc/
+         fUtquk6QwKIrjZBmHV3ZkCH79p6Vxh89C46meutSi/ThHJEAi8FkQkCgP6pFWstc2CD3
+         BR2w==
+X-Gm-Message-State: ANoB5pnW2rn+bLaKMaPcFXMpObqiIJ+INAdaK8kSm21mMgUAQJhutcmD
+        ucEBMRQ8hLC20uqQKKZPTrQ=
+X-Google-Smtp-Source: AA0mqf55KrZPgVT25z9i3M1hBM2bnVGznApt4amBHk/MRf6Um9Jy5G9OUF3KCZK58WFHPXO6oEbVYQ==
+X-Received: by 2002:a62:4ece:0:b0:577:3126:704d with SMTP id c197-20020a624ece000000b005773126704dmr1388245pfb.17.1670471225800;
+        Wed, 07 Dec 2022 19:47:05 -0800 (PST)
+Received: from localhost.localdomain ([120.244.202.232])
+        by smtp.gmail.com with ESMTPSA id b207-20020a621bd8000000b00562677968aesm14237774pfb.72.2022.12.07.19.46.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Dec 2022 19:47:05 -0800 (PST)
+From:   chengkaitao <pilgrimtao@gmail.com>
+X-Google-Original-From: chengkaitao <chengkaitao@didiglobal.com>
+To:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
+        corbet@lwn.net, mhocko@kernel.org, roman.gushchin@linux.dev,
+        shakeelb@google.com, akpm@linux-foundation.org,
+        songmuchun@bytedance.com
+Cc:     chengkaitao@didiglobal.com, viro@zeniv.linux.org.uk,
+        zhengqi.arch@bytedance.com, ebiederm@xmission.com,
+        Liam.Howlett@Oracle.com, chengzhihao1@huawei.com,
+        pilgrimtao@gmail.com, haolee.swjtu@gmail.com, yuzhao@google.com,
+        willy@infradead.org, vasily.averin@linux.dev, vbabka@suse.cz,
+        surenb@google.com, sfr@canb.auug.org.au, mcgrof@kernel.org,
+        sujiaxun@uniontech.com, feng.tang@intel.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: [PATCH v2] mm: memcontrol: protect the memory in cgroup from being oom killed
+Date:   Thu,  8 Dec 2022 11:46:44 +0800
+Message-Id: <20221208034644.3077-1-chengkaitao@didiglobal.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-X-OriginatorOrg: marvell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR18MB2423.namprd18.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca07b474-f745-41f0-eadf-08dad8cabfc9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Dec 2022 03:17:33.8396
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JYhUhvFiX2QMOWXlYVKYZpXn/PDv0OAo2yy7StVRackRSM78qc+1TMhj8TmtCRgvnP9CwZS34T3qGOFwUw8tGQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR18MB5192
-X-Proofpoint-GUID: K5Ur00WpGgAITNWc3HSvzzYICH2SYSWH
-X-Proofpoint-ORIG-GUID: K5Ur00WpGgAITNWc3HSvzzYICH2SYSWH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-07_11,2022-12-07_01,2022-06-22_01
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: chengkaitao <pilgrimtao@gmail.com>
 
+We created a new interface <memory.oom.protect> for memory, If there is
+the OOM killer under parent memory cgroup, and the memory usage of a
+child cgroup is within its effective oom.protect boundary, the cgroup's
+tasks won't be OOM killed unless there is no unprotected tasks in other
+children cgroups. It draws on the logic of <memory.min/low> in the
+inheritance relationship.
 
-> -----Original Message-----
-> From: Jakub Kicinski <kuba@kernel.org>
-> Sent: Tuesday, December 6, 2022 5:27 PM
-> To: Veerasenareddy Burru <vburru@marvell.com>
-> Cc: Leon Romanovsky <leon@kernel.org>; David S. Miller
-> <davem@davemloft.net>; Eric Dumazet <edumazet@google.com>; Paolo
-> Abeni <pabeni@redhat.com>; netdev@vger.kernel.org; linux-
-> kernel@vger.kernel.org; Liron Himi <lironh@marvell.com>; Abhijit Ayarekar
-> <aayarekar@marvell.com>; Sathesh B Edara <sedara@marvell.com>;
-> Satananda Burla <sburla@marvell.com>; linux-doc@vger.kernel.org
-> Subject: Re: [EXT] Re: [PATCH net-next v2 2/9] octeon_ep: poll for contro=
-l
-> messages
->=20
-> On Tue, 6 Dec 2022 21:19:26 +0000 Veerasenareddy Burru wrote:
-> > > That said, looking at what this set does - how are the VFs configured=
-?
-> > > That's the showstopper for the series in my mind.
-> >
-> > VFs are created by writing to sriov_numvfs.
->=20
-> Configured, not enabled.
+It has the following advantages,
+1. We have the ability to protect more important processes, when there
+is a memcg's OOM killer. The oom.protect only takes effect local memcg,
+and does not affect the OOM killer of the host.
+2. Historically, we can often use oom_score_adj to control a group of
+processes, It requires that all processes in the cgroup must have a
+common parent processes, we have to set the common parent process's
+oom_score_adj, before it forks all children processes. So that it is
+very difficult to apply it in other situations. Now oom.protect has no
+such restrictions, we can protect a cgroup of processes more easily. The
+cgroup can keep some memory, even if the OOM killer has to be called.
 
-We have a follow up patch after this series implementing ndo_get_vf_xxx() a=
-nd ndo_set_vf_xxx().
+Signed-off-by: chengkaitao <pilgrimtao@gmail.com>
+---
+v2: Modify the formula of the process request memcg protection quota.
+---
+ Documentation/admin-guide/cgroup-v2.rst |  22 +++-
+ fs/proc/base.c                          |  17 ++-
+ include/linux/memcontrol.h              |  45 +++++++-
+ include/linux/oom.h                     |   3 +-
+ include/linux/page_counter.h            |   6 ++
+ mm/memcontrol.c                         | 182 ++++++++++++++++++++++++++++++++
+ mm/oom_kill.c                           |  25 +++--
+ mm/page_counter.c                       |  26 +++++
+ 8 files changed, 305 insertions(+), 21 deletions(-)
 
-Thanks
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 74cec76be9f2..e816172c80a5 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1191,7 +1191,7 @@ PAGE_SIZE multiple when read back.
+ 	cgroup is within its effective low boundary, the cgroup's
+ 	memory won't be reclaimed unless there is no reclaimable
+ 	memory available in unprotected cgroups.
+-	Above the effective low	boundary (or 
++	Above the effective low	boundary (or
+ 	effective min boundary if it is higher), pages are reclaimed
+ 	proportionally to the overage, reducing reclaim pressure for
+ 	smaller overages.
+@@ -1292,6 +1292,24 @@ PAGE_SIZE multiple when read back.
+ 	to kill any tasks outside of this cgroup, regardless
+ 	memory.oom.group values of ancestor cgroups.
+ 
++  memory.oom.protect
++	A read-write single value file which exists on non-root
++	cgroups. The default value is "0".
++
++	If there is the OOM killer under parent memory cgroup, and
++	the memory usage of a child cgroup is within its effective
++	oom.protect boundary, the cgroup's processes won't be oom killed
++	unless there is no unprotected processes in other children
++	cgroups. About the effective oom.protect boundary, we assign it
++	to each process in this cgroup in proportion to the actual usage.
++	this factor will be taken into account when calculating the
++	oom_score. Effective oom.protect boundary is limited by
++	memory.oom.protect values of all ancestor cgroups. If there is
++	memory.oom.protect overcommitment (child cgroup or cgroups are
++	requiring more protected memory than parent will allow), then each
++	child cgroup will get the part of parent's protection proportional
++	to its actual memory usage below memory.oom.protect.
++
+   memory.events
+ 	A read-only flat-keyed file which exists on non-root cgroups.
+ 	The following entries are defined.  Unless specified
+@@ -1891,7 +1909,7 @@ of the two is enforced.
+ 
+ cgroup writeback requires explicit support from the underlying
+ filesystem.  Currently, cgroup writeback is implemented on ext2, ext4,
+-btrfs, f2fs, and xfs.  On other filesystems, all writeback IOs are 
++btrfs, f2fs, and xfs.  On other filesystems, all writeback IOs are
+ attributed to the root cgroup.
+ 
+ There are inherent differences in memory and writeback management
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 9e479d7d202b..f169abcfbe21 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -552,8 +552,19 @@ static int proc_oom_score(struct seq_file *m, struct pid_namespace *ns,
+ 	unsigned long totalpages = totalram_pages() + total_swap_pages;
+ 	unsigned long points = 0;
+ 	long badness;
++#ifdef CONFIG_MEMCG
++	struct mem_cgroup *memcg;
+ 
+-	badness = oom_badness(task, totalpages);
++	rcu_read_lock();
++	memcg = mem_cgroup_from_task(task);
++	if (memcg && !css_tryget(&memcg->css))
++		memcg = NULL;
++	rcu_read_unlock();
++
++	update_parent_oom_protection(root_mem_cgroup, memcg);
++	css_put(&memcg->css);
++#endif
++	badness = oom_badness(task, totalpages, MEMCG_OOM_PROTECT);
+ 	/*
+ 	 * Special case OOM_SCORE_ADJ_MIN for all others scale the
+ 	 * badness value into [0, 2000] range which we have been
+@@ -2657,7 +2668,7 @@ static struct dentry *proc_pident_instantiate(struct dentry *dentry,
+ 	return d_splice_alias(inode, dentry);
+ }
+ 
+-static struct dentry *proc_pident_lookup(struct inode *dir, 
++static struct dentry *proc_pident_lookup(struct inode *dir,
+ 					 struct dentry *dentry,
+ 					 const struct pid_entry *p,
+ 					 const struct pid_entry *end)
+@@ -2870,7 +2881,7 @@ static const struct pid_entry attr_dir_stuff[] = {
+ 
+ static int proc_attr_dir_readdir(struct file *file, struct dir_context *ctx)
+ {
+-	return proc_pident_readdir(file, ctx, 
++	return proc_pident_readdir(file, ctx,
+ 				   attr_dir_stuff, ARRAY_SIZE(attr_dir_stuff));
+ }
+ 
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index e1644a24009c..d1628b1859d4 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -53,6 +53,11 @@ enum memcg_memory_event {
+ 	MEMCG_NR_MEMORY_EVENTS,
+ };
+ 
++enum memcg_oom_evaluate {
++	MEMCG_OOM_EVALUATE_NONE,
++	MEMCG_OOM_PROTECT,
++};
++
+ struct mem_cgroup_reclaim_cookie {
+ 	pg_data_t *pgdat;
+ 	unsigned int generation;
+@@ -614,6 +619,14 @@ static inline void mem_cgroup_protection(struct mem_cgroup *root,
+ 
+ void mem_cgroup_calculate_protection(struct mem_cgroup *root,
+ 				     struct mem_cgroup *memcg);
++void mem_cgroup_calculate_oom_protection(struct mem_cgroup *root,
++				     struct mem_cgroup *memcg);
++void update_parent_oom_protection(struct mem_cgroup *root,
++				     struct mem_cgroup *memcg);
++unsigned long get_task_eoom_protect(struct task_struct *p, long points);
++struct mem_cgroup *mem_cgroup_from_task(struct task_struct *p);
++struct mem_cgroup *get_mem_cgroup_from_mm(struct mm_struct *mm);
++bool is_root_oom_protect(void);
+ 
+ static inline bool mem_cgroup_supports_protection(struct mem_cgroup *memcg)
+ {
+@@ -746,10 +759,6 @@ static inline struct lruvec *folio_lruvec(struct folio *folio)
+ 	return mem_cgroup_lruvec(memcg, folio_pgdat(folio));
+ }
+ 
+-struct mem_cgroup *mem_cgroup_from_task(struct task_struct *p);
+-
+-struct mem_cgroup *get_mem_cgroup_from_mm(struct mm_struct *mm);
+-
+ struct lruvec *folio_lruvec_lock(struct folio *folio);
+ struct lruvec *folio_lruvec_lock_irq(struct folio *folio);
+ struct lruvec *folio_lruvec_lock_irqsave(struct folio *folio,
+@@ -805,6 +814,8 @@ struct mem_cgroup *mem_cgroup_iter(struct mem_cgroup *,
+ void mem_cgroup_iter_break(struct mem_cgroup *, struct mem_cgroup *);
+ int mem_cgroup_scan_tasks(struct mem_cgroup *,
+ 			  int (*)(struct task_struct *, void *), void *);
++int mem_cgroup_scan_tasks_update_eoom(struct mem_cgroup *memcg,
++		int (*fn)(struct task_struct *, void *, int), void *arg);
+ 
+ static inline unsigned short mem_cgroup_id(struct mem_cgroup *memcg)
+ {
+@@ -1209,6 +1220,16 @@ static inline void mem_cgroup_calculate_protection(struct mem_cgroup *root,
+ {
+ }
+ 
++static inline void mem_cgroup_calculate_oom_protection(struct mem_cgroup *root,
++						   struct mem_cgroup *memcg)
++{
++}
++
++static inline void update_parent_oom_protection(struct mem_cgroup *root,
++						struct mem_cgroup *memcg)
++{
++}
++
+ static inline bool mem_cgroup_below_low(struct mem_cgroup *memcg)
+ {
+ 	return false;
+@@ -1219,6 +1240,16 @@ static inline bool mem_cgroup_below_min(struct mem_cgroup *memcg)
+ 	return false;
+ }
+ 
++static inline unsigned long get_task_eoom_protect(struct task_struct *p, long points)
++{
++	return 0;
++}
++
++static inline bool is_root_oom_protect(void)
++{
++	return 0;
++}
++
+ static inline int mem_cgroup_charge(struct folio *folio,
+ 		struct mm_struct *mm, gfp_t gfp)
+ {
+@@ -1338,6 +1369,12 @@ static inline int mem_cgroup_scan_tasks(struct mem_cgroup *memcg,
+ 	return 0;
+ }
+ 
++static inline int mem_cgroup_scan_tasks_update_eoom(struct mem_cgroup *memcg,
++		int (*fn)(struct task_struct *, void *, int), void *arg)
++{
++	return 0;
++}
++
+ static inline unsigned short mem_cgroup_id(struct mem_cgroup *memcg)
+ {
+ 	return 0;
+diff --git a/include/linux/oom.h b/include/linux/oom.h
+index 7d0c9c48a0c5..04b6daca5a9c 100644
+--- a/include/linux/oom.h
++++ b/include/linux/oom.h
+@@ -97,8 +97,7 @@ static inline vm_fault_t check_stable_address_space(struct mm_struct *mm)
+ 	return 0;
+ }
+ 
+-long oom_badness(struct task_struct *p,
+-		unsigned long totalpages);
++long oom_badness(struct task_struct *p, unsigned long totalpages, int flags);
+ 
+ extern bool out_of_memory(struct oom_control *oc);
+ 
+diff --git a/include/linux/page_counter.h b/include/linux/page_counter.h
+index c141ea9a95ef..d730a7373c1d 100644
+--- a/include/linux/page_counter.h
++++ b/include/linux/page_counter.h
+@@ -25,6 +25,10 @@ struct page_counter {
+ 	atomic_long_t low_usage;
+ 	atomic_long_t children_low_usage;
+ 
++	unsigned long eoom_protect;
++	atomic_long_t oom_protect_usage;
++	atomic_long_t children_oom_protect_usage;
++
+ 	unsigned long watermark;
+ 	unsigned long failcnt;
+ 
+@@ -35,6 +39,7 @@ struct page_counter {
+ 	unsigned long low;
+ 	unsigned long high;
+ 	unsigned long max;
++	unsigned long oom_protect;
+ 	struct page_counter *parent;
+ } ____cacheline_internodealigned_in_smp;
+ 
+@@ -65,6 +70,7 @@ bool page_counter_try_charge(struct page_counter *counter,
+ void page_counter_uncharge(struct page_counter *counter, unsigned long nr_pages);
+ void page_counter_set_min(struct page_counter *counter, unsigned long nr_pages);
+ void page_counter_set_low(struct page_counter *counter, unsigned long nr_pages);
++void page_counter_set_oom_protect(struct page_counter *counter, unsigned long nr_pages);
+ 
+ static inline void page_counter_set_high(struct page_counter *counter,
+ 					 unsigned long nr_pages)
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 23750cec0036..1da956a80d56 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -1263,6 +1263,52 @@ int mem_cgroup_scan_tasks(struct mem_cgroup *memcg,
+ 	return ret;
+ }
+ 
++/**
++ * mem_cgroup_scan_tasks_update_eoom - iterate over tasks of a memory cgroup
++ * hierarchy and update memcg's eoom_protect
++ * @memcg: hierarchy root
++ * @fn: function to call for each task
++ * @arg: argument passed to @fn
++ *
++ * This function iterates over tasks attached to @memcg or to any of its
++ * descendants and update all memcg's eoom_protect, then calls @fn for each
++ * task. If @fn returns a non-zero value, the function breaks the iteration
++ * loop and returns the value. Otherwise, it will iterate over all tasks and
++ * return 0.
++ *
++ * This function may be called for the root memory cgroup.
++ */
++int mem_cgroup_scan_tasks_update_eoom(struct mem_cgroup *memcg,
++		int (*fn)(struct task_struct *, void *, int), void *arg)
++{
++	struct mem_cgroup *iter;
++	int ret = 0;
++
++	for_each_mem_cgroup_tree(iter, memcg) {
++		struct css_task_iter it;
++		struct task_struct *task;
++
++		mem_cgroup_calculate_oom_protection(memcg, iter);
++		css_task_iter_start(&iter->css, CSS_TASK_ITER_PROCS, &it);
++		while (!ret && (task = css_task_iter_next(&it)))
++			ret = fn(task, arg, MEMCG_OOM_PROTECT);
++		css_task_iter_end(&it);
++		if (ret) {
++			mem_cgroup_iter_break(memcg, iter);
++			break;
++		}
++	}
++	return ret;
++}
++
++bool is_root_oom_protect(void)
++{
++	if (mem_cgroup_disabled())
++		return 0;
++
++	return !!atomic_long_read(&root_mem_cgroup->memory.children_oom_protect_usage);
++}
++
+ #ifdef CONFIG_DEBUG_VM
+ void lruvec_memcg_debug(struct lruvec *lruvec, struct folio *folio)
+ {
+@@ -6579,6 +6625,29 @@ static ssize_t memory_oom_group_write(struct kernfs_open_file *of,
+ 	return nbytes;
+ }
+ 
++static int memory_oom_protect_show(struct seq_file *m, void *v)
++{
++	return seq_puts_memcg_tunable(m,
++		READ_ONCE(mem_cgroup_from_seq(m)->memory.oom_protect));
++}
++
++static ssize_t memory_oom_protect_write(struct kernfs_open_file *of,
++				char *buf, size_t nbytes, loff_t off)
++{
++	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
++	unsigned long oom_protect;
++	int err;
++
++	buf = strstrip(buf);
++	err = page_counter_memparse(buf, "max", &oom_protect);
++	if (err)
++		return err;
++
++	page_counter_set_oom_protect(&memcg->memory, oom_protect);
++
++	return nbytes;
++}
++
+ static ssize_t memory_reclaim(struct kernfs_open_file *of, char *buf,
+ 			      size_t nbytes, loff_t off)
+ {
+@@ -6684,6 +6753,12 @@ static struct cftype memory_files[] = {
+ 		.seq_show = memory_oom_group_show,
+ 		.write = memory_oom_group_write,
+ 	},
++	{
++		.name = "oom.protect",
++		.flags = CFTYPE_NOT_ON_ROOT,
++		.seq_show = memory_oom_protect_show,
++		.write = memory_oom_protect_write,
++	},
+ 	{
+ 		.name = "reclaim",
+ 		.flags = CFTYPE_NS_DELEGATABLE,
+@@ -6880,6 +6955,113 @@ void mem_cgroup_calculate_protection(struct mem_cgroup *root,
+ 			atomic_long_read(&parent->memory.children_low_usage)));
+ }
+ 
++static void __mem_cgroup_calculate_oom_protection(struct mem_cgroup *root,
++				     struct mem_cgroup *memcg)
++{
++	unsigned long usage, parent_usage;
++	struct mem_cgroup *parent;
++
++	usage = page_counter_read(&memcg->memory);
++	if (!usage)
++		return;
++
++	parent = parent_mem_cgroup(memcg);
++
++	if (parent == root) {
++		memcg->memory.eoom_protect = READ_ONCE(memcg->memory.oom_protect);
++		return;
++	}
++
++	parent_usage = page_counter_read(&parent->memory);
++
++	WRITE_ONCE(memcg->memory.eoom_protect, effective_protection(usage, parent_usage,
++			READ_ONCE(memcg->memory.oom_protect),
++			READ_ONCE(parent->memory.eoom_protect),
++			atomic_long_read(&parent->memory.children_oom_protect_usage)));
++}
++
++/**
++ * mem_cgroup_calculate_oom_protection - check if memory consumption is in the
++ * normal range of oom's protection
++ * @root: the top ancestor of the sub-tree being checked
++ * @memcg: the memory cgroup to check
++ *
++ * WARNING: This function is not stateless! It can only be used as part
++ *          of a top-down tree iteration, not for isolated queries.
++ */
++void mem_cgroup_calculate_oom_protection(struct mem_cgroup *root,
++				     struct mem_cgroup *memcg)
++{
++	if (mem_cgroup_disabled())
++		return;
++
++	if (!root)
++		root = root_mem_cgroup;
++
++	/*
++	 * Effective values of the reclaim targets are ignored so they
++	 * can be stale. Have a look at mem_cgroup_protection for more
++	 * details.
++	 * TODO: calculation should be more robust so that we do not need
++	 * that special casing.
++	 */
++	if (memcg == root)
++		return;
++
++	__mem_cgroup_calculate_oom_protection(root, memcg);
++}
++
++static void lsit_postorder_for_memcg_parent(
++		struct mem_cgroup *root, struct mem_cgroup *memcg,
++		void (*fn)(struct mem_cgroup *, struct mem_cgroup *))
++{
++	struct mem_cgroup *parent;
++
++	if (!memcg || memcg == root)
++		return;
++
++	parent = parent_mem_cgroup(memcg);
++	lsit_postorder_for_memcg_parent(root, parent, fn);
++	fn(root, memcg);
++}
++
++void update_parent_oom_protection(struct mem_cgroup *root,
++						struct mem_cgroup *memcg)
++{
++	if (mem_cgroup_disabled())
++		return;
++
++	if (!root)
++		root = root_mem_cgroup;
++
++	lsit_postorder_for_memcg_parent(root, memcg,
++			__mem_cgroup_calculate_oom_protection);
++}
++
++unsigned long get_task_eoom_protect(struct task_struct *p, long points)
++{
++	struct mem_cgroup *memcg;
++	unsigned long usage, eoom;
++
++	rcu_read_lock();
++	memcg = mem_cgroup_from_task(p);
++
++	if (!memcg || !mem_cgroup_supports_protection(memcg)) {
++		rcu_read_unlock();
++		return 0;
++	}
++
++	if (do_memsw_account())
++		usage = page_counter_read(&memcg->memsw);
++	else
++		usage = page_counter_read(&memcg->memory)
++			+ page_counter_read(&memcg->swap);
++	eoom = READ_ONCE(memcg->memory.eoom_protect) * points / usage;
++	rcu_read_unlock();
++
++	return eoom;
++}
++
+ static int charge_memcg(struct folio *folio, struct mem_cgroup *memcg,
+ 			gfp_t gfp)
+ {
+diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+index 1276e49b31b0..d07b10778754 100644
+--- a/mm/oom_kill.c
++++ b/mm/oom_kill.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+  *  linux/mm/oom_kill.c
+- * 
++ *
+  *  Copyright (C)  1998,2000  Rik van Riel
+  *	Thanks go out to Claus Fischer for some serious inspiration and
+  *	for goading me into coding this file...
+@@ -193,15 +193,16 @@ static bool should_dump_unreclaim_slab(void)
+  * oom_badness - heuristic function to determine which candidate task to kill
+  * @p: task struct of which task we should calculate
+  * @totalpages: total present RAM allowed for page allocation
++ * @flag: if you want to skip oom_protect function
+  *
+  * The heuristic for determining which task to kill is made to be as simple and
+  * predictable as possible.  The goal is to return the highest value for the
+  * task consuming the most memory to avoid subsequent oom failures.
+  */
+-long oom_badness(struct task_struct *p, unsigned long totalpages)
++long oom_badness(struct task_struct *p, unsigned long totalpages, int flag)
+ {
+-	long points;
+-	long adj;
++	long points, adj, val = 0;
++	unsigned long shmem;
+ 
+ 	if (oom_unkillable_task(p))
+ 		return LONG_MIN;
+@@ -229,11 +230,15 @@ long oom_badness(struct task_struct *p, unsigned long totalpages)
+ 	 */
+ 	points = get_mm_rss(p->mm) + get_mm_counter(p->mm, MM_SWAPENTS) +
+ 		mm_pgtables_bytes(p->mm) / PAGE_SIZE;
++
++	shmem = get_mm_counter(p->mm, MM_SHMEMPAGES);
+ 	task_unlock(p);
+ 
++	if (flag == MEMCG_OOM_PROTECT)
++		val = get_task_eoom_protect(p, points - shmem);
+ 	/* Normalize to oom_score_adj units */
+ 	adj *= totalpages / 1000;
+-	points += adj;
++	points = points + adj - val;
+ 
+ 	return points;
+ }
+@@ -305,7 +310,7 @@ static enum oom_constraint constrained_alloc(struct oom_control *oc)
+ 	return CONSTRAINT_NONE;
+ }
+ 
+-static int oom_evaluate_task(struct task_struct *task, void *arg)
++static int oom_evaluate_task(struct task_struct *task, void *arg, int flag)
+ {
+ 	struct oom_control *oc = arg;
+ 	long points;
+@@ -338,7 +343,7 @@ static int oom_evaluate_task(struct task_struct *task, void *arg)
+ 		goto select;
+ 	}
+ 
+-	points = oom_badness(task, oc->totalpages);
++	points = oom_badness(task, oc->totalpages, flag);
+ 	if (points == LONG_MIN || points < oc->chosen_points)
+ 		goto next;
+ 
+@@ -365,14 +370,14 @@ static void select_bad_process(struct oom_control *oc)
+ {
+ 	oc->chosen_points = LONG_MIN;
+ 
+-	if (is_memcg_oom(oc))
+-		mem_cgroup_scan_tasks(oc->memcg, oom_evaluate_task, oc);
++	if (is_memcg_oom(oc) || is_root_oom_protect())
++		mem_cgroup_scan_tasks_update_eoom(oc->memcg, oom_evaluate_task, oc);
+ 	else {
+ 		struct task_struct *p;
+ 
+ 		rcu_read_lock();
+ 		for_each_process(p)
+-			if (oom_evaluate_task(p, oc))
++			if (oom_evaluate_task(p, oc, MEMCG_OOM_EVALUATE_NONE))
+ 				break;
+ 		rcu_read_unlock();
+ 	}
+diff --git a/mm/page_counter.c b/mm/page_counter.c
+index db20d6452b71..43987cc59443 100644
+--- a/mm/page_counter.c
++++ b/mm/page_counter.c
+@@ -39,6 +39,15 @@ static void propagate_protected_usage(struct page_counter *c,
+ 		if (delta)
+ 			atomic_long_add(delta, &c->parent->children_low_usage);
+ 	}
++
++	protected = min(usage, READ_ONCE(c->oom_protect));
++	old_protected = atomic_long_read(&c->oom_protect_usage);
++	if (protected != old_protected) {
++		old_protected = atomic_long_xchg(&c->oom_protect_usage, protected);
++		delta = protected - old_protected;
++		if (delta)
++			atomic_long_add(delta, &c->parent->children_oom_protect_usage);
++	}
+ }
+ 
+ /**
+@@ -234,6 +243,23 @@ void page_counter_set_low(struct page_counter *counter, unsigned long nr_pages)
+ 		propagate_protected_usage(c, atomic_long_read(&c->usage));
+ }
+ 
++/**
++ * page_counter_set_oom_protect - set the amount of oom protected memory
++ * @counter: counter
++ * @nr_pages: value to set
++ *
++ * The caller must serialize invocations on the same counter.
++ */
++void page_counter_set_oom_protect(struct page_counter *counter, unsigned long nr_pages)
++{
++	struct page_counter *c;
++
++	WRITE_ONCE(counter->oom_protect, nr_pages);
++
++	for (c = counter; c; c = c->parent)
++		propagate_protected_usage(c, atomic_long_read(&c->usage));
++}
++
+ /**
+  * page_counter_memparse - memparse() for page counter limits
+  * @buf: string to parse
+-- 
+2.14.1
 
