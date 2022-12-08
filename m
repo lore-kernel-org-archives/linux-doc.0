@@ -2,291 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D689AC4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 12:06:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E314BC3A5A7
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 12:56:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229877AbiLHMGa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Dec 2022 07:06:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54282 "EHLO
+        id S230149AbiLHM4t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Dec 2022 07:56:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229634AbiLHMG2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 07:06:28 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F07588B57;
-        Thu,  8 Dec 2022 04:06:27 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id p13-20020a05600c468d00b003cf8859ed1bso857336wmo.1;
-        Thu, 08 Dec 2022 04:06:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xpDU9yx+8MEMdflS6TVE8l/8qDtq/Bs5OoO4TH4Ckk0=;
-        b=ACeXfIxk8VzJ1wl4681g/zJMybscbQcyIYrmKaA/vXh91ZVVhHNdKOoCEmhnrtzqYb
-         4+cUsxVDZQaN1KGXUDQV20zeG1OZVar/DgaB6TqizRJ8TyymkrsKiwijz6C4wveim/qZ
-         0gO9pt+3LRMsyZzoqgkA/TVd87BwlIhU1aAsXVg7qxexczsUB4jVNJOr0sRLMF798GbH
-         GP8c2c56zwQcpCu7Fnt6YZEn51OgwHKUPO+oI7p8j25fijmBmlkoTqnNXLaskdpji61o
-         TaSRd1LtcA8jxcC0AM4pQTauqPP4heKIHTX4bf5BtW/1z0/Kzf9qDmhWZxR8vTehoVrn
-         XW8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xpDU9yx+8MEMdflS6TVE8l/8qDtq/Bs5OoO4TH4Ckk0=;
-        b=NgLU4m88ty6+24bJrwQH+6IPP5crDssERhhicmysQxhs2WWM0Kax3XwUwVqSsuYOGq
-         v7wHfHMW2/6tBOp6/xStlLhw+OTMVjcowhilzGI1acFzqmNXyEbnoPFuw71frBXrg5DD
-         9VFkU01tvE+PywQ5w7raS3YwBQzgtNAfzQMpL2I6SGJSudy/R2oduRRWAlWDY/BW9sL+
-         MZhuYVV21SxrrL4C5Ze/wlzYAQheEQCDvKn6oxD4/6DTY66CzVaushAM77R7lL0s8sw2
-         g7Tp5D48InN/8OsmuNf+sy0LmmpBjzSiBPXnvsupXpcNw/+gGeS8dN7D4YbCKRtuoMkW
-         py3Q==
-X-Gm-Message-State: ANoB5pniIIQGCwYxNlurntzAjpSmnqBQkSqABPjjpFo7apw5mFr0x2za
-        VzgCT4/+vfx4M/PvRWsCxIY=
-X-Google-Smtp-Source: AA0mqf7R81Sb7JwXeizwlca2O688t7fbWHJKh/no4olRvvvC5aKXDeP5O/c9dqyLR90+TivJNT/uCA==
-X-Received: by 2002:a7b:c301:0:b0:3cf:82b9:2fe6 with SMTP id k1-20020a7bc301000000b003cf82b92fe6mr2148808wmj.8.1670501185785;
-        Thu, 08 Dec 2022 04:06:25 -0800 (PST)
-Received: from imac ([2a02:8010:60a0:0:b4fd:1d0f:5a09:5056])
-        by smtp.gmail.com with ESMTPSA id f16-20020a05600c4e9000b003c6c182bef9sm6990804wmq.36.2022.12.08.04.06.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Dec 2022 04:06:25 -0800 (PST)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     David Vernet <void@manifault.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Yonghong Song <yhs@meta.com>
-Subject: Re: [PATCH bpf-next v3] docs/bpf: Add documentation for
- BPF_MAP_TYPE_SK_STORAGE
-In-Reply-To: <Y5EB5E5NgtN/ihG/@maniforge.lan> (David Vernet's message of "Wed,
-        7 Dec 2022 15:13:08 -0600")
-Date:   Thu, 08 Dec 2022 12:05:58 +0000
-Message-ID: <m2r0xagkwp.fsf@gmail.com>
-References: <20221207102721.33378-1-donald.hunter@gmail.com>
-        <Y5EB5E5NgtN/ihG/@maniforge.lan>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
+        with ESMTP id S230219AbiLHM4q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 07:56:46 -0500
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E893D8C69E
+        for <linux-doc@vger.kernel.org>; Thu,  8 Dec 2022 04:56:44 -0800 (PST)
+Received: from loongson.cn (unknown [112.20.108.31])
+        by gateway (Coremail) with SMTP id _____8AxjusL35FjmhwEAA--.9703S3;
+        Thu, 08 Dec 2022 20:56:43 +0800 (CST)
+Received: from localhost.localdomain (unknown [112.20.108.31])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Bxj+AJ35Fj+BQoAA--.32260S3;
+        Thu, 08 Dec 2022 20:56:43 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     alexs@kernel.org, seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
+        bobwxc@email.cn, chenhuacai@kernel.org, linux-doc@vger.kernel.org,
+        siyanteng01@gmail.com
+Subject: [PATCH v1 01/13] docs/zh_CN: Update the translation of delay-accounting to 6.1-rc8
+Date:   Thu,  8 Dec 2022 20:57:06 +0800
+Message-Id: <c8e34775309a85114a49b3f291e960d13332d9ce.1670502763.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1670502763.git.siyanteng@loongson.cn>
+References: <cover.1670502763.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Bxj+AJ35Fj+BQoAA--.32260S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7Kr4UAry3Xr4kuw47ur1Utrb_yoW8Cr48p3
+        4qk34xGF1rta4ay3W8W34UW3W8Way7Cws0yFW8XasFvr10qrs3Xr1Utr9IyFnFgrZ3ZFWa
+        g392gFyUuF4jkrDanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        b3xYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2kK
+        e7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
+        0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280
+        aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28Icx
+        kI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E
+        5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtV
+        W8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY
+        1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI
+        0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7I
+        U8uuWJUUUUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-David Vernet <void@manifault.com> writes:
+Update to commit f347c9d2697f ("filemap: make the accounting
+of thrashing more consistent").
 
-> On Wed, Dec 07, 2022 at 10:27:21AM +0000, Donald Hunter wrote:
->> Add documentation for the BPF_MAP_TYPE_SK_STORAGE including
->> kernel version introduced, usage and examples.
->> 
->> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
->> ---
->> v2 -> v3:
->> - Fix void * return, reported by Yonghong Song
->> - Add tracing programs to API note, reported by Yonghong Song
->> v1 -> v2:
->> - Fix bpf_sk_storage_* function signatures, reported by Yonghong Song
->> - Fix NULL return on failure, reported by Yonghong Song
->> 
->>  Documentation/bpf/map_sk_storage.rst | 142 +++++++++++++++++++++++++++
->>  1 file changed, 142 insertions(+)
->>  create mode 100644 Documentation/bpf/map_sk_storage.rst
->> 
->> diff --git a/Documentation/bpf/map_sk_storage.rst b/Documentation/bpf/map_sk_storage.rst
->> new file mode 100644
->> index 000000000000..955b287bb7de
->> --- /dev/null
->> +++ b/Documentation/bpf/map_sk_storage.rst
->> @@ -0,0 +1,142 @@
->> +.. SPDX-License-Identifier: GPL-2.0-only
->> +.. Copyright (C) 2022 Red Hat, Inc.
->> +
->> +=======================
->> +BPF_MAP_TYPE_SK_STORAGE
->> +=======================
->> +
->> +.. note::
->> +   - ``BPF_MAP_TYPE_SK_STORAGE`` was introduced in kernel version 5.2
->> +
->> +``BPF_MAP_TYPE_SK_STORAGE`` is used to provide socket-local storage for BPF programs. A map of
->> +type ``BPF_MAP_TYPE_SK_STORAGE`` declares the type of storage to be provided and acts as the
->> +handle for accessing the socket-local storage from a BPF program. The key type must be ``int``
->> +and ``max_entries`` must be set to ``0``.
->> +
->> +The ``BPF_F_NO_PREALLOC`` must be used when creating a map for socket-local storage. The kernel
->> +is responsible for allocating storage for a socket when requested and for freeing the storage
->> +when either the map or the socket is deleted.
->
-> Hi Donald,
->
-> Thanks for writing these excellent docs.
->
-> Would you mind please wrapping your text to 80 columns (throughout the
-> document)? It's not a hard and fast rule, but it would be ideal to keep
-> text that can wrap without formatting issues to 80 columns. For
-> documentation where you're e.g. showing a function signature (such as
-> bpf_sk_storage_get() below), it's fine to exceed it.
+Commit 662ce1dc9caf ("delayacct: track delays from write-protect copy").
 
-Yes, of course. That was an oversight on my part.
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ .../translations/zh_CN/accounting/delay-accounting.rst     | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
->> +
->> +Usage
->> +=====
->> +
->> +Kernel BPF
->> +----------
->> +
->> +bpf_sk_storage_get()
->> +~~~~~~~~~~~~~~~~~~~~
->> +
->> +.. code-block:: c
->> +
->> +   void *bpf_sk_storage_get(struct bpf_map *map, void *sk, void *value, u64 flags)
->> +
->> +Socket-local storage can be retrieved using the ``bpf_sk_storage_get()`` helper. The helper gets
->> +the storage from ``sk`` that is identified by ``map``.  If the
->> +``BPF_LOCAL_STORAGE_GET_F_CREATE`` flag is used then ``bpf_sk_storage_get()`` will create the
->> +storage for ``sk`` if it does not already exist. ``value`` can be used together with
->> +``BPF_LOCAL_STORAGE_GET_F_CREATE`` to initialize the storage value, otherwise it will be zero
->> +initialized. Returns a pointer to the storage on success, or ``NULL`` in case of failure.
->> +
->> +.. note::
->> +   - ``sk`` is a kernel ``struct sock`` pointer for LSM or tracing programs.
->> +   - ``sk`` is a ``struct bpf_sock`` pointer for other program types.
->> +
->> +bpf_sk_storage_delete()
->> +~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +.. code-block:: c
->> +
->> +   long bpf_sk_storage_delete(struct bpf_map *map, void *sk)
->> +
->> +Socket-local storage can be deleted using the ``bpf_sk_storage_delete()`` helper. The helper
->> +deletes the storage from ``sk`` that is identified by ``map``. Returns ``0`` on success, or negative
->> +error in case of failure.
->> +
->> +User space
->> +----------
->> +
->> +bpf_map_update_elem()
->> +~~~~~~~~~~~~~~~~~~~~~
->> +
->> +.. code-block:: c
->> +
->> +   int bpf_map_update_elem(int map_fd, const void *key, const void *value, __u64 flags)
->> +
->> +Socket-local storage with type identified by ``map_fd`` for the socket identified by ``key`` can
->
-> Could you please clarify what you mean by "with type identified by"?
-> ``map_fd`` just corresponds to the fd of the map, correct? Not following
-> what's meant by "type".
+diff --git a/Documentation/translations/zh_CN/accounting/delay-accounting.rst b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
+index f1849411018e..71a3c1f2b07a 100644
+--- a/Documentation/translations/zh_CN/accounting/delay-accounting.rst
++++ b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
+@@ -17,8 +17,9 @@ a) 等待一个CPU（任务为可运行）
+ b) 完成由该任务发起的块I/O同步请求
+ c) 页面交换
+ d) 内存回收
+-e) 页缓存抖动
++e) 抖动
+ f) 直接规整
++g) 写保护复制
+ 
+ 并将这些统计信息通过taskstats接口提供给用户空间。
+ 
+@@ -42,7 +43,7 @@ f) 直接规整
+      include/uapi/linux/taskstats.h
+ 
+ 其描述了延时计数相关字段。系统通常以计数器形式返回 CPU、同步块 I/O、交换、内存
+-回收、页缓存抖动、直接规整等的累积延时。
++回收、页缓存抖动、直接规整、写保护复制等的累积延时。
+ 
+ 取任务某计数器两个连续读数的差值，将得到任务在该时间间隔内等待对应资源的总延时。
+ 
+@@ -100,6 +101,8 @@ getdelays命令的一般格式::
+ 	                    0              0              0ms
+ 	COMPACT         count    delay total  delay average
+ 	                    0              0              0ms
++    WPCOPY          count    delay total  delay average
++	                    0              0              0ms
+ 
+ 获取pid为1的IO计数，它只和-p一起使用::
+ 	# ./getdelays -i -p 1
+-- 
+2.31.1
 
-A clumsy attempt to say that the map definition declares the type of the
-storage that gets added to the socket, as opposed to behaving like a
-traditional map. I'll rework this to be more clear.
-
->> +be added or updated using the ``bpf_map_update_elem()`` libbpf function. ``key`` must be a
->> +pointer to a valid ``fd`` in the user space program. The ``flags`` parameter can be used to
->> +control the update behaviour:
->> +
->> +- ``BPF_ANY`` will create storage for ``fd`` or update existing storage.
->> +- ``BPF_NOEXIST`` will create storage for ``fd`` only if it did not already
->> +  exist
->
-> I believe that if BPF_NOEXIST is specified, if storage already exists
-> then in addition to storage not being created, the call will fail with
-> -EEXIST.
-
-Good point, I'll add this.
-
->> +- ``BPF_EXIST`` will update existing storage for ``fd``
->
-> Can we also mention that if BPF_EXIST is specified, and no element is
-> present with the specified ``key``, that the call will fail with
-> -ENOENT?
-
-I'll add this too.
-
->> +
->> +Returns ``0`` on success, or negative error in case of failure.
->> +
->> +bpf_map_lookup_elem()
->> +~~~~~~~~~~~~~~~~~~~~~
->> +
->> +.. code-block:: c
->> +
->> +   int bpf_map_lookup_elem(int map_fd, const void *key, void *value)
->> +
->> +Socket-local storage for the socket identified by ``key`` belonging to ``map_fd`` can be
->> +retrieved using the ``bpf_map_lookup_elem()`` libbpf function. ``key`` must be a pointer to a
->> +valid ``fd`` in the user space program. Returns ``0`` on success, or negative error in case of
->> +failure.
->> +
->> +bpf_map_delete_elem()
->> +~~~~~~~~~~~~~~~~~~~~~
->> +
->> +.. code-block:: c
->> +
->> +   int bpf_map_delete_elem (int map_fd, const void *key)
->
-> Extra space between _elem and (.
-
-Good catch, thx.
-
->> +
->> +Socket-local storage for the socket identified by ``key`` belonging to ``map_fd`` can be deleted
->> +using the ``bpf_map_delete_elem()`` libbpf function. Returns ``0`` on success, or negative error
->> +in case of failure.
->> +
->> +Examples
->> +========
->> +
->> +Kernel BPF
->> +----------
->> +
->> +This snippet shows how to declare socket-local storage in a BPF program:
->> +
->> +.. code-block:: c
->> +
->> +    struct {
->> +            __uint(type, BPF_MAP_TYPE_SK_STORAGE);
->> +            __uint(map_flags, BPF_F_NO_PREALLOC);
->> +            __type(key, int);
->> +            __type(value, struct my_storage);
->> +    } socket_storage SEC(".maps");
->> +
->> +This snippet shows how to retrieve socket-local storage in a BPF program:
->> +
->> +.. code-block:: c
->> +
->> +    SEC("sockops")
->> +    int _sockops(struct bpf_sock_ops *ctx)
->> +    {
->> +            struct my_storage *storage;
->> +            struct bpf_sock *sk;
->> +
->> +            sk = ctx->sk;
->> +            if (!sk)
->> +                    return 1;
->
-> Don't feel strongly about this one, but IMO it's nice for examples to
-> illustrate code that's as close to real and pristine as possible. To
-> that point, should this example perhaps be updated to return -ENOENT
-> here, and -ENOMEM below?
-
-Will do.
-
->> +
->> +            storage = bpf_sk_storage_get(&socket_storage, sk, 0,
->> +                                         BPF_LOCAL_STORAGE_GET_F_CREATE);
->> +            if (!storage)
->> +                    return 1;
->> +
->> +            /* Use 'storage' here */
->
-> Let's return 0 at the end to make the example program technically
-> correct.
-
-Will do.
-
->> +    }
->
-> Thanks,
-> David
