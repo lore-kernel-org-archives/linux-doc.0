@@ -2,85 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7178C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 04:47:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 278B1C4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 06:04:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229470AbiLHErR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Dec 2022 23:47:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44264 "EHLO
+        id S229479AbiLHGEj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Dec 2022 01:04:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiLHErQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Dec 2022 23:47:16 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9A4F259;
-        Wed,  7 Dec 2022 20:47:15 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 64946B82035;
-        Thu,  8 Dec 2022 04:47:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82677C433C1;
-        Thu,  8 Dec 2022 04:47:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670474833;
-        bh=pPEVBly9bfwd8dphaKuIkNzoSFzBZukDoXkitwRnVEE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=N5Rb44oVO9LtVec07iBkQLxBQ2ZAEuPj/95jjmfqdn2yPGHCpUxeIIRlwX9tRt8sd
-         o3tiZ+RtOVe2I9Lnt5aWsapT5pR6YeoJr9KeMRzqNryDf+HTPs592QXcGguATUUHV4
-         2vQhLweqtzolFWoZ/BUAv23F6gHoPw8Zyc80JP420P9FXiWw9EpqAqUIDXC8yQ2z2I
-         zz6s7/d9FwXcdATyGJKb3dUkJGDzJoNbv7SGCe9ptII8fN9ojA4ClB076pafzfMP1g
-         DJfboz7hDEEhS1R1Qa7Zk/WyYxQ8YPN6EGtzFQgC2A4cC6xdrTWaZDSMBs1CYi/KF4
-         04pJyCUj/frgA==
-Date:   Wed, 7 Dec 2022 20:47:11 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Veerasenareddy Burru <vburru@marvell.com>
-Cc:     Leon Romanovsky <leon@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Liron Himi <lironh@marvell.com>,
-        Abhijit Ayarekar <aayarekar@marvell.com>,
-        Sathesh B Edara <sedara@marvell.com>,
-        Satananda Burla <sburla@marvell.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [EXT] Re: [PATCH net-next v2 2/9] octeon_ep: poll for control
- messages
-Message-ID: <20221207204711.6599d8ba@kernel.org>
-In-Reply-To: <BYAPR18MB24231B717F9FF380623E74F4CC1D9@BYAPR18MB2423.namprd18.prod.outlook.com>
-References: <20221129130933.25231-1-vburru@marvell.com>
-        <20221129130933.25231-3-vburru@marvell.com>
-        <Y4cirWdJipOxmNaT@unreal>
-        <BYAPR18MB242397C352B0086140106A46CC159@BYAPR18MB2423.namprd18.prod.outlook.com>
-        <Y4hhpFVsENaM45Ho@unreal>
-        <BYAPR18MB2423229A66D1C98C6C744EE1CC189@BYAPR18MB2423.namprd18.prod.outlook.com>
-        <Y42nerLmNeAIn5w9@unreal>
-        <20221205161626.088e383f@kernel.org>
-        <Y48ERxYICkG9lQc1@unreal>
-        <20221206092352.7a86a744@kernel.org>
-        <BYAPR18MB24234E1E6566B47FCA609BF8CC1B9@BYAPR18MB2423.namprd18.prod.outlook.com>
-        <20221206172652.34ed158a@kernel.org>
-        <BYAPR18MB24234AE72EF29F506E0B7480CC1D9@BYAPR18MB2423.namprd18.prod.outlook.com>
-        <20221207200204.6819575a@kernel.org>
-        <BYAPR18MB24231B717F9FF380623E74F4CC1D9@BYAPR18MB2423.namprd18.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229513AbiLHGEi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 01:04:38 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A45657BC17;
+        Wed,  7 Dec 2022 22:04:37 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id cm20so682119pjb.1;
+        Wed, 07 Dec 2022 22:04:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BLHfW6s0354dS6xMkZ1vVfUR8MGj8TL54fGBDhGzvJ8=;
+        b=d26yQEkZprDklFdMN/SqemVEjPBMHYFNwVRyHcVEpIZ83UkINmO8hMAq6pgD4dOG77
+         o2k1QM2OGXaQS3+e799eboI6qVY4LmJlVlsArryUe81L9fDXDRM/WnZH300gZaoJctX8
+         rxjjsvK5juVw6/rXrEGRSJPN5n/bg5ZuMNFOReSiZCDob/AsTZJNIKoOT/cEgwBHxg+p
+         cvNRLR+ZblsjlYCq3ecn9W3E5TJsvwyn1yHJzRf141dEfPsUzScmLwbBKG/UuEAP82+a
+         X7tr/Y6oVIsLLxaCpFZUWIwz8igAJwv8TxZoLdOy1W9un5iQGyx1o3X6HNPR7bXwu+Pg
+         TskA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BLHfW6s0354dS6xMkZ1vVfUR8MGj8TL54fGBDhGzvJ8=;
+        b=PNnT49o8tLPbS6YScfod25jQ+sr3vxTaMoBtcNDg8TZ5ck1+LqPH2dq6OoPlgd20pa
+         /sBXAfXuWtopL4JGqulJ51K0pFBK/yGeCXi5xKSOSLyJa5wMzrufV1crTuioDCi8xVhz
+         zteJmJFbGZOloRddvL30E6KL9DN56AZFf/nDTnWdXZjbvwqXAlvJWJRpFq+Ik8Ajm9go
+         Gp1tpfgESeg4EIZFd2cCbfht9az3xEfWL5ii/8jzveqAnnfi3WumwCNv62gUHxjTR5G4
+         3Xpsg/P/K8AhvBjVw9DlEtm0o4lKqrX9fFlv4RK27b1M/jk/28wLWVInlGcNHhYq1CMt
+         VYpA==
+X-Gm-Message-State: ANoB5pk9EDnLzTKglrY9a26debBBYqtTjnVsU6vxDxgZ9NjtKC3qaqWG
+        6PC81SWOptdLlGgeU6K6Jm5mahCBzytMNDgghEw=
+X-Google-Smtp-Source: AA0mqf6QMmz/LGOX9ZEkvJy2MiF1cIIeYLu6y9UsW7STbhaIpA7MaxSFZVRDSQFR1bDr5yz7NChqOQ==
+X-Received: by 2002:a05:6a20:691a:b0:9d:efbf:6607 with SMTP id q26-20020a056a20691a00b0009defbf6607mr2898747pzj.21.1670479477109;
+        Wed, 07 Dec 2022 22:04:37 -0800 (PST)
+Received: from PS-CAN-014uA51.localdomain ([58.63.247.51])
+        by smtp.googlemail.com with ESMTPSA id p2-20020a622902000000b0056e8eb09d58sm14966949pfp.170.2022.12.07.22.04.32
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 07 Dec 2022 22:04:36 -0800 (PST)
+From:   Chen Xiao <abigwc@gmail.com>
+To:     corbet@lwn.net
+Cc:     akpm@linux-foundation.org, yejiajian2018@email.szu.edu.cn,
+        caoyixuan2019@email.szu.edu.cn, zhangyinan2019@email.szu.edu.cn,
+        akiyks@gmail.com, rppt@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Chen Xiao <abigwc@gmail.com>
+Subject: [PATCH] docs: mm/page_owner: fix spelling mistakes
+Date:   Thu,  8 Dec 2022 14:04:03 +0800
+Message-Id: <1670479443-8484-1-git-send-email-abigwc@gmail.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 8 Dec 2022 04:41:56 +0000 Veerasenareddy Burru wrote:
-> > On Thu, 8 Dec 2022 03:17:33 +0000 Veerasenareddy Burru wrote:  
-> > > We have a follow up patch after this series implementing
-> > > ndo_get_vf_xxx() and ndo_set_vf_xxx().  
-> > 
-> > We don't accept new drivers which use those interfaces.  
-> 
-> Kindly suggest the acceptable interface.
+Fix several spelling mistakes in page_owner documentation.
 
-Kindly make the minimal effort to follow the list :/
+Signed-off-by: Chen Xiao <abigwc@gmail.com>
+---
+ Documentation/mm/page_owner.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Perhaps others have the time to explain things to you, 
-I believe my time is best spent elsewhere.
+diff --git a/Documentation/mm/page_owner.rst b/Documentation/mm/page_owner.rst
+index 1275149..0f4cb59 100644
+--- a/Documentation/mm/page_owner.rst
++++ b/Documentation/mm/page_owner.rst
+@@ -52,7 +52,7 @@ pages are investigated and marked as allocated in initialization phase.
+ Although it doesn't mean that they have the right owner information,
+ at least, we can tell whether the page is allocated or not,
+ more accurately. On 2GB memory x86-64 VM box, 13343 early allocated pages
+-are catched and marked, although they are mostly allocated from struct
++are caught and marked, although they are mostly allocated from struct
+ page extension feature. Anyway, after that, no page is left in
+ un-tracking state.
+ 
+@@ -178,7 +178,7 @@ STANDARD FORMAT SPECIFIERS
+ 	at		alloc_ts	timestamp of the page when it was allocated
+ 	ator		allocator	memory allocator for pages
+ 
+-  For --curl option:
++  For --cull option:
+ 
+ 	KEY		LONG		DESCRIPTION
+ 	p		pid		process ID
+-- 
+1.8.3.1
+
