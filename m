@@ -2,94 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 278B1C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 06:04:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06327C4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 06:09:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229479AbiLHGEj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Dec 2022 01:04:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48984 "EHLO
+        id S229628AbiLHGJo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Dec 2022 01:09:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbiLHGEi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 01:04:38 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A45657BC17;
-        Wed,  7 Dec 2022 22:04:37 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id cm20so682119pjb.1;
-        Wed, 07 Dec 2022 22:04:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BLHfW6s0354dS6xMkZ1vVfUR8MGj8TL54fGBDhGzvJ8=;
-        b=d26yQEkZprDklFdMN/SqemVEjPBMHYFNwVRyHcVEpIZ83UkINmO8hMAq6pgD4dOG77
-         o2k1QM2OGXaQS3+e799eboI6qVY4LmJlVlsArryUe81L9fDXDRM/WnZH300gZaoJctX8
-         rxjjsvK5juVw6/rXrEGRSJPN5n/bg5ZuMNFOReSiZCDob/AsTZJNIKoOT/cEgwBHxg+p
-         cvNRLR+ZblsjlYCq3ecn9W3E5TJsvwyn1yHJzRf141dEfPsUzScmLwbBKG/UuEAP82+a
-         X7tr/Y6oVIsLLxaCpFZUWIwz8igAJwv8TxZoLdOy1W9un5iQGyx1o3X6HNPR7bXwu+Pg
-         TskA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BLHfW6s0354dS6xMkZ1vVfUR8MGj8TL54fGBDhGzvJ8=;
-        b=PNnT49o8tLPbS6YScfod25jQ+sr3vxTaMoBtcNDg8TZ5ck1+LqPH2dq6OoPlgd20pa
-         /sBXAfXuWtopL4JGqulJ51K0pFBK/yGeCXi5xKSOSLyJa5wMzrufV1crTuioDCi8xVhz
-         zteJmJFbGZOloRddvL30E6KL9DN56AZFf/nDTnWdXZjbvwqXAlvJWJRpFq+Ik8Ajm9go
-         Gp1tpfgESeg4EIZFd2cCbfht9az3xEfWL5ii/8jzveqAnnfi3WumwCNv62gUHxjTR5G4
-         3Xpsg/P/K8AhvBjVw9DlEtm0o4lKqrX9fFlv4RK27b1M/jk/28wLWVInlGcNHhYq1CMt
-         VYpA==
-X-Gm-Message-State: ANoB5pk9EDnLzTKglrY9a26debBBYqtTjnVsU6vxDxgZ9NjtKC3qaqWG
-        6PC81SWOptdLlGgeU6K6Jm5mahCBzytMNDgghEw=
-X-Google-Smtp-Source: AA0mqf6QMmz/LGOX9ZEkvJy2MiF1cIIeYLu6y9UsW7STbhaIpA7MaxSFZVRDSQFR1bDr5yz7NChqOQ==
-X-Received: by 2002:a05:6a20:691a:b0:9d:efbf:6607 with SMTP id q26-20020a056a20691a00b0009defbf6607mr2898747pzj.21.1670479477109;
-        Wed, 07 Dec 2022 22:04:37 -0800 (PST)
-Received: from PS-CAN-014uA51.localdomain ([58.63.247.51])
-        by smtp.googlemail.com with ESMTPSA id p2-20020a622902000000b0056e8eb09d58sm14966949pfp.170.2022.12.07.22.04.32
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 07 Dec 2022 22:04:36 -0800 (PST)
-From:   Chen Xiao <abigwc@gmail.com>
-To:     corbet@lwn.net
+        with ESMTP id S229462AbiLHGJn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 01:09:43 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 756039AE00;
+        Wed,  7 Dec 2022 22:09:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=IouOJhYsJRR92hwgDzyBCpNlX2nskfbFvVhQT042CPI=; b=i+3wPArKnvDiG9y/DB0vHbj/na
+        qslhAIXoM4MORqAXfjRa8hUgKP79gAluYtS5l+pl+CFcbxKo6S4jloBh4eCUIN54MSEXjHFqGukAO
+        Yejby9/9vbn+in/dKkpDpNE1OrFWML4Zlq+wncNclfdl/DId8mdO1WSxZ0q8tOwMYnOkaNP8za5Ol
+        B+JQ1YgiN0I14RU94oiunBf3JNPbcX9IZCaqTFhivvB9tWxN0ocJ4NPjpXj0YqhtX6emVJIfIGseY
+        2oGEKW1W7UEpn11ppkFd8ByZI1EKOoSSEypcIYuVQCAlAtUoXg0O6s/J5dcK8H2cuaJrKDbhVEw2r
+        b9mJGnbw==;
+Received: from [2601:1c2:d80:3110::a2e7]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1p3A69-0030t8-KX; Thu, 08 Dec 2022 06:09:33 +0000
+Message-ID: <b54d9dd6-8bf5-3327-61ae-7fff7e320988@infradead.org>
+Date:   Wed, 7 Dec 2022 22:09:31 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH] docs: mm/page_owner: fix spelling mistakes
+Content-Language: en-US
+To:     Chen Xiao <abigwc@gmail.com>, corbet@lwn.net
 Cc:     akpm@linux-foundation.org, yejiajian2018@email.szu.edu.cn,
         caoyixuan2019@email.szu.edu.cn, zhangyinan2019@email.szu.edu.cn,
         akiyks@gmail.com, rppt@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Chen Xiao <abigwc@gmail.com>
-Subject: [PATCH] docs: mm/page_owner: fix spelling mistakes
-Date:   Thu,  8 Dec 2022 14:04:03 +0800
-Message-Id: <1670479443-8484-1-git-send-email-abigwc@gmail.com>
-X-Mailer: git-send-email 1.8.3.1
+        linux-kernel@vger.kernel.org
+References: <1670479443-8484-1-git-send-email-abigwc@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <1670479443-8484-1-git-send-email-abigwc@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix several spelling mistakes in page_owner documentation.
 
-Signed-off-by: Chen Xiao <abigwc@gmail.com>
----
- Documentation/mm/page_owner.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/mm/page_owner.rst b/Documentation/mm/page_owner.rst
-index 1275149..0f4cb59 100644
---- a/Documentation/mm/page_owner.rst
-+++ b/Documentation/mm/page_owner.rst
-@@ -52,7 +52,7 @@ pages are investigated and marked as allocated in initialization phase.
- Although it doesn't mean that they have the right owner information,
- at least, we can tell whether the page is allocated or not,
- more accurately. On 2GB memory x86-64 VM box, 13343 early allocated pages
--are catched and marked, although they are mostly allocated from struct
-+are caught and marked, although they are mostly allocated from struct
- page extension feature. Anyway, after that, no page is left in
- un-tracking state.
- 
-@@ -178,7 +178,7 @@ STANDARD FORMAT SPECIFIERS
- 	at		alloc_ts	timestamp of the page when it was allocated
- 	ator		allocator	memory allocator for pages
- 
--  For --curl option:
-+  For --cull option:
- 
- 	KEY		LONG		DESCRIPTION
- 	p		pid		process ID
+On 12/7/22 22:04, Chen Xiao wrote:
+> Fix several spelling mistakes in page_owner documentation.
+> 
+> Signed-off-by: Chen Xiao <abigwc@gmail.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  Documentation/mm/page_owner.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/mm/page_owner.rst b/Documentation/mm/page_owner.rst
+> index 1275149..0f4cb59 100644
+> --- a/Documentation/mm/page_owner.rst
+> +++ b/Documentation/mm/page_owner.rst
+> @@ -52,7 +52,7 @@ pages are investigated and marked as allocated in initialization phase.
+>  Although it doesn't mean that they have the right owner information,
+>  at least, we can tell whether the page is allocated or not,
+>  more accurately. On 2GB memory x86-64 VM box, 13343 early allocated pages
+> -are catched and marked, although they are mostly allocated from struct
+> +are caught and marked, although they are mostly allocated from struct
+>  page extension feature. Anyway, after that, no page is left in
+>  un-tracking state.
+>  
+> @@ -178,7 +178,7 @@ STANDARD FORMAT SPECIFIERS
+>  	at		alloc_ts	timestamp of the page when it was allocated
+>  	ator		allocator	memory allocator for pages
+>  
+> -  For --curl option:
+> +  For --cull option:
+>  
+>  	KEY		LONG		DESCRIPTION
+>  	p		pid		process ID
+
 -- 
-1.8.3.1
-
+~Randy
