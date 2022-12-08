@@ -2,97 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E82D0C63708
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 12:56:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFBC4C3A5A7
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 12:56:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230203AbiLHM4v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Dec 2022 07:56:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54348 "EHLO
+        id S229619AbiLHM4w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Dec 2022 07:56:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230132AbiLHM4q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 07:56:46 -0500
+        with ESMTP id S229942AbiLHM4r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 07:56:47 -0500
 Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E87B28C460
-        for <linux-doc@vger.kernel.org>; Thu,  8 Dec 2022 04:56:44 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A26FB8C458
+        for <linux-doc@vger.kernel.org>; Thu,  8 Dec 2022 04:56:46 -0800 (PST)
 Received: from loongson.cn (unknown [112.20.108.31])
-        by gateway (Coremail) with SMTP id _____8Dx_+sL35FjlRwEAA--.9587S3;
-        Thu, 08 Dec 2022 20:56:43 +0800 (CST)
+        by gateway (Coremail) with SMTP id _____8Dx_+sN35FjpBwEAA--.9588S3;
+        Thu, 08 Dec 2022 20:56:45 +0800 (CST)
 Received: from localhost.localdomain (unknown [112.20.108.31])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8Bxj+AJ35Fj+BQoAA--.32260S2;
-        Thu, 08 Dec 2022 20:56:42 +0800 (CST)
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Bxj+AJ35Fj+BQoAA--.32260S5;
+        Thu, 08 Dec 2022 20:56:44 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     alexs@kernel.org, seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
         bobwxc@email.cn, chenhuacai@kernel.org, linux-doc@vger.kernel.org,
         siyanteng01@gmail.com
-Subject: [PATCH v1 00/13] docs/zh_CN: Update the translation to 6.1-rc8
-Date:   Thu,  8 Dec 2022 20:57:05 +0800
-Message-Id: <cover.1670502763.git.siyanteng@loongson.cn>
+Subject: [PATCH v1 03/13] docs/zh_CN: Update the translation of mm-api to 6.1-rc8
+Date:   Thu,  8 Dec 2022 20:57:08 +0800
+Message-Id: <0862de27ca80e3363bb970047d1cf90d058fedf8.1670502763.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1670502763.git.siyanteng@loongson.cn>
+References: <cover.1670502763.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Bxj+AJ35Fj+BQoAA--.32260S2
+X-CM-TRANSID: AQAAf8Bxj+AJ35Fj+BQoAA--.32260S5
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7Ww4kJFy5Gr1kWF45ZrW7twb_yoW8AFy3pF
-        93KFyfZ3Z7AFy3uw1fCrW8ZF4rXa1kJ398tw12qwnYyw4vqw4UtFyUXFyag3y2vrWfZF1f
-        Ar4rCr4Du34jkw7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        b7xYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
-        x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AI
-        xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
-        kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJwAm
-        72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I3I
-        0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWU
-        GVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI
-        0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0
-        rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r
-        4UYxBIdaVFxhVjvjDU0xZFpf9x07jYSoJUUUUU=
+X-Coremail-Antispam: 1Uk129KBjvdXoWrZw48WFW5Aw4fWFWfWF18AFb_yoWfJrX_Za
+        n7tF40yryIqryIvwn5G3W8AF1F9a1F9wna9r15t3s0ka909w4kW3srXa4vvayDXwsruwnx
+        CFZ7Ww4fXrnFqjkaLaAFLSUrUUUU1b8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+        xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
+        q7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
+        AFIxvE14AKwVWUGVWUXwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
+        6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7
+        xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_GcWln4kS
+        14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+        1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv
+        67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2
+        Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAq
+        x4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r
+        43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF
+        7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
+        W8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU
+        4miiDUUUU
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-v1:
-The following files were updated to 6.1-rc8:
-accounting
-admin-guide/mm
-core-api
-dev-tools
-mm
-PCI
-power
+Update to commit def76fd549c5 ("mm/page_alloc: remove
+obsolete gfpflags_normal_context()").
 
-Yanteng Si (13):
-  docs/zh_CN: Update the translation of delay-accounting to 6.1-rc8
-  docs/zh_CN: Update the translation of kernel-api to 6.1-rc8
-  docs/zh_CN: Update the translation of mm-api to 6.1-rc8
-  docs/zh_CN: Update the translation of highmem to 6.1-rc8
-  docs/zh_CN: Update the translation of page_owner to 6.1-rc8
-  docs/zh_CN: Update the translation of kasan to 6.1-rc8
-  docs/zh_CN: Update the translation of testing-overview to 6.1-rc8
-  docs/zh_CN: Update the translation of reclaim to 6.1-rc8
-  docs/zh_CN: Update the translation of start to 6.1-rc8
-  docs/zh_CN: Update the translation of usage to 6.1-rc8
-  docs/zh_CN: Update the translation of ksm to 6.1-rc8
-  docs/zh_CN: Update the translation of msi-howto to 6.1-rc8
-  docs/zh_CN: Update the translation of energy-model to 6.1-rc8
+Commit 7343f2b0db49 ("headers/deps: mm: align
+MANITAINERS and Docs with new gfp.h structure")
 
- .../translations/zh_CN/PCI/msi-howto.rst      | 11 +++
- .../zh_CN/accounting/delay-accounting.rst     |  7 +-
- .../zh_CN/admin-guide/mm/damon/reclaim.rst    |  4 -
- .../zh_CN/admin-guide/mm/damon/start.rst      | 12 +--
- .../zh_CN/admin-guide/mm/damon/usage.rst      | 68 +++++++++++-----
- .../translations/zh_CN/admin-guide/mm/ksm.rst | 50 ++++++++++++
- .../zh_CN/core-api/kernel-api.rst             | 10 ++-
- .../translations/zh_CN/core-api/mm-api.rst    |  2 +-
- .../translations/zh_CN/dev-tools/kasan.rst    | 77 +++++++++++--------
- .../zh_CN/dev-tools/testing-overview.rst      | 27 +++++++
- .../translations/zh_CN/mm/highmem.rst         | 20 ++++-
- .../translations/zh_CN/mm/page_owner.rst      | 17 +---
- .../translations/zh_CN/power/energy-model.rst | 36 +++++++--
- 13 files changed, 246 insertions(+), 95 deletions(-)
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ Documentation/translations/zh_CN/core-api/mm-api.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/Documentation/translations/zh_CN/core-api/mm-api.rst b/Documentation/translations/zh_CN/core-api/mm-api.rst
+index a732b0eebf16..113359bdb7be 100644
+--- a/Documentation/translations/zh_CN/core-api/mm-api.rst
++++ b/Documentation/translations/zh_CN/core-api/mm-api.rst
+@@ -37,7 +37,7 @@ mm/gup.c
+ 
+ 该API在以下内核代码中:
+ 
+-include/linux/gfp.h
++include/linux/gfp_types.h
+ 
+ Slab缓存
+ ========
 -- 
 2.31.1
 
