@@ -2,163 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 542DFC001B2
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 18:26:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC06AC4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 20:06:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbiLHS0q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Dec 2022 13:26:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44578 "EHLO
+        id S229513AbiLHUGC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Dec 2022 15:06:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbiLHS0o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 13:26:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF9D38B1A4
-        for <linux-doc@vger.kernel.org>; Thu,  8 Dec 2022 10:25:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1670523950;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+1VVUcW2d/r4TNKwvpnKWV11TO1c/pvTjCV/IvxcjRo=;
-        b=WJb7TRXwnCFuj+7XPr7gVVGIYQk9GBARIM1HWWhmjDSzT7J4/qELYi4WzPvNuVQFDTggds
-        aQY+SSiaGEAVh7y2242SoPZROZp5EjQhkXogimzlVjonKesPYTPtjxvziI7v8vJCiwKCXz
-        lr6bdzW3c+CKN4djW2hXeQXDbfHMtnc=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-260-Fco5iKHONweAKxYa5oZu5Q-1; Thu, 08 Dec 2022 13:25:49 -0500
-X-MC-Unique: Fco5iKHONweAKxYa5oZu5Q-1
-Received: by mail-io1-f72.google.com with SMTP id o15-20020a6bf80f000000b006de313e5cfeso716086ioh.6
-        for <linux-doc@vger.kernel.org>; Thu, 08 Dec 2022 10:25:49 -0800 (PST)
+        with ESMTP id S229501AbiLHUGB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 15:06:01 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3455E6932E;
+        Thu,  8 Dec 2022 12:06:00 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id f13-20020a1cc90d000000b003d08c4cf679so1897470wmb.5;
+        Thu, 08 Dec 2022 12:06:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5HJzctfs0A7+67wrWEyjqiiApDxFj7bBAuqDA0docR8=;
+        b=JFXQzVZhIytYnODAFNYIoJhU3fu85Q0qDIXPnks2LUwHobMp1Qfh9ik/oOO9ZeC7SS
+         G60FU533BawspTAQ91j0mrt+c1qedmr+Szh4qB0pJjQpwc2G5KYy5QM1nv0BGX7MXCuR
+         yougPIUeWVYgoJmNtehonr0Lij5RO4aL8dl2psOKLQYML08draDBICLRWTL3dfTG/g5h
+         cIrk1YEnC3hkOgte/f+AbMhssZlo8s+3PRGqmm/uqg4ni3F/pCXwRqOpsyAgcb4Dl6pS
+         dcfsLNWp1+1tLkFIX6cN3ZTcflhCtsQoKfxkwbBrk5IRfVeGRsv3GvUgbCZv7Cz1LjJZ
+         BIsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+1VVUcW2d/r4TNKwvpnKWV11TO1c/pvTjCV/IvxcjRo=;
-        b=RUl5CT3y5jl7JnIqCmYiTVQ+tqwoy7MJRljtxb4Q6pplKnbu9VEsEKI3eIHS0Uow6n
-         6CuaCTAHUhUSFy58OsB4WUlJfUSfraiV0vzcclZsHJxYCHwE0skdHj50A6KxiYXlGxls
-         q+mRoogR1FmaBctvyM0hleF71+m+b069tLJCrlsEJ8qIt9+7UQGV/TGIz/7HbMaMrOs3
-         898mpprrK8pXUbDuDtaw1NOEUF9nGBCPEsMKvSOXlrV59YhEb7dp+kfIJ+IjKhiuZ4nZ
-         TOP4nsIdnzM8z1125RvJhTsgOiWanZPa0BboVVi/nvAqnZy9HbCMtWkMKSzn30OVCD0E
-         H+LA==
-X-Gm-Message-State: ANoB5pltq1GFnVeXIcK/k5Cwtus/qfV8G0TeUj20eU121lsRAELNMJi3
-        B3RQQk2nSK6kKMI2T9gSXrlF5hpLQ5smYkYOmlzEhYTPJqJ8bvAF4RnB3AJescZSXjqyIi8TID2
-        Rqb4bJ5/3LfgQvf6ZdiCNrDz75i9wljhX3oJz
-X-Received: by 2002:a02:c737:0:b0:375:1c5f:3127 with SMTP id h23-20020a02c737000000b003751c5f3127mr35668690jao.251.1670523948073;
-        Thu, 08 Dec 2022 10:25:48 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7XCBcc0cLWH0jfXhA5ZbFHiNTG82whiCD4Mw1h1hz6rEL64t1cqCthrqMh8k4p9AolzPHI251n+gp0C6VYXbE=
-X-Received: by 2002:a02:c737:0:b0:375:1c5f:3127 with SMTP id
- h23-20020a02c737000000b003751c5f3127mr35668682jao.251.1670523947849; Thu, 08
- Dec 2022 10:25:47 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5HJzctfs0A7+67wrWEyjqiiApDxFj7bBAuqDA0docR8=;
+        b=HIs0/2Mphhx7SHe+2q48JBx07nzeAcwJmL+SRS1XJMKnsTq9e4mDwo5o1Rv97uU/hA
+         VqJKGBjBpEWUN7k4FIT3+9AxLcwQb31SrJoBVkobeOTAquqdGAZoSxAS3vZkeXig8Tc1
+         NfCpHhbUDKfxAP5RDkW0GuVal0ZO8k3Q/+1yb9egXiI3fu05+ttNcUIMQBFcyqXWAp6h
+         Kpw0+II/7tOEbLfniKkfu52WqCOyqpqjg1b9Z3TwWDpxW50yhrzDRY+dtudJgpW0iE97
+         HFtGNn9TS9zn3CC9B8uUgDs/D+y0Yf+oIV8l77j7JN9ihBNk8BYcjGPlc1rN3n3iWqud
+         nJPw==
+X-Gm-Message-State: ANoB5plqeIznSCLhA8bKszIMgU1VyGTt4CoByahM1EHxYLRHZkbbjdjB
+        mxkrVLX56g+1bZQMiFmUZmv3WaxtjX8=
+X-Google-Smtp-Source: AA0mqf53iw5pBXG2lLUX2tXR2ljdn/DuiP0//O+YiWqTgo+EuFU1OoZ/hwTOfToMwL2LqnpV3AoYWA==
+X-Received: by 2002:a05:600c:1d98:b0:3cf:74b4:c3c8 with SMTP id p24-20020a05600c1d9800b003cf74b4c3c8mr2940495wms.17.1670529958638;
+        Thu, 08 Dec 2022 12:05:58 -0800 (PST)
+Received: from suse.localnet (host-79-26-108-238.retail.telecomitalia.it. [79.26.108.238])
+        by smtp.gmail.com with ESMTPSA id j42-20020a05600c1c2a00b003c6d21a19a0sm7068929wms.29.2022.12.08.12.05.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Dec 2022 12:05:57 -0800 (PST)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Peter Zijlstra <a.p.zijlstra@chello.nl>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v2] mm/highmem: Add notes about conversions from kmap{,_atomic}()
+Date:   Thu, 08 Dec 2022 21:05:56 +0100
+Message-ID: <21697972.EfDdHjke4D@suse>
+In-Reply-To: <Y5FmjdBNEO8aP/Ls@debian.me>
+References: <20221207225308.8290-1-fmdefrancesco@gmail.com> <Y5FmjdBNEO8aP/Ls@debian.me>
 MIME-Version: 1.0
-References: <20221202223327.690880-1-luzmaximilian@gmail.com>
- <c09c9cef-14ac-2ab3-5e01-13189823a053@redhat.com> <CAO-hwJLHzRCJF96gKJwj7zCCPxRLoEw=cQ2w8=yLBOfyZz-c8w@mail.gmail.com>
- <304bce39-2ece-863c-33b3-b432685faa2d@gmail.com>
-In-Reply-To: <304bce39-2ece-863c-33b3-b432685faa2d@gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 8 Dec 2022 19:25:36 +0100
-Message-ID: <CAO-hwJJ3MLvSeEkqdT_aj6kHLWzk2sVNRVsaeyfk4VpTdzK5Gw@mail.gmail.com>
-Subject: Re: [PATCH 0/9] platform/surface: aggregator: Improve target/source
- handling in SSH messages
-To:     Maximilian Luz <luzmaximilian@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Gross <markgross@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 8, 2022 at 5:49 PM Maximilian Luz <luzmaximilian@gmail.com> wrote:
->
-> On 12/8/22 17:24, Benjamin Tissoires wrote:
-> > On Thu, Dec 8, 2022 at 5:03 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> >>
-> >> Hi Maximilian,
-> >>
-> >> On 12/2/22 23:33, Maximilian Luz wrote:
-> >>> We have some new insights into the Serial Hub protocol, obtained through
-> >>> reverse engineering. In particular, regarding the command structure. The
-> >>> input/output target IDs actually represent source and target IDs of
-> >>> (what looks like) physical entities (specifically: host, SAM EC, KIP EC,
-> >>> debug connector, and SurfLink connector).
-> >>>
-> >>> This series aims to improve handling of messages with regards to those
-> >>> new findings and, mainly, improve clarity of the documentation and usage
-> >>> around those fields.
-> >>>
-> >>> See the discussion in
-> >>>
-> >>>      https://github.com/linux-surface/surface-aggregator-module/issues/64
-> >>>
-> >>> for more details.
-> >>>
-> >>> There are a couple of standouts:
-> >>>
-> >>> - Patch 1 ensures that we only handle commands actually intended for us.
-> >>>    It's possible that we receive messages not intended for us when we
-> >>>    enable debugging. I've kept it intentionally minimal to simplify
-> >>>    backporting. The rest of the series patch 9 focuses more on clarity
-> >>>    and documentation, which is probably too much to backport.
-> >>>
-> >>> - Patch 8 touches on multiple subsystems. The intention is to enforce
-> >>>    proper usage and documentation of target IDs in the SSAM_SDEV() /
-> >>>    SSAM_VDEV() macros. As it directly touches those macros I
-> >>>    unfortunately can't split it up by subsystem.
-> >>>
-> >>> - Patch 9 is a loosely connected cleanup for consistency.
-> >>
-> >> Thank you for the patches. Unfortunately I don't have time atm to
-> >> review this.
-> >>
-> >> And the next 2 weeks are the merge window, followed by 2 weeks
-> >> of christmas vacation.
-> >>
-> >> So I'm afraid that I likely won't get around to reviewing
-> >> this until the week of January 9th.
-> >>
-> >>> Hans, Jiri, Benjamin, Sebastian: While patch 8 ("platform/surface:
-> >>> aggregator: Enforce use of target-ID enum in device ID macros") touches
-> >>> multiple subsystems, it should be possible to take the whole series
-> >>> through the pdx86 tree. The changes in other subsystems are fairly
-> >>> limited.
-> >>
-> >> I agree that it will be best to take all of this upstream through the
-> >> pdx86 tree. Sebastian thank you for the ack for patch 8/9.
-> >>
-> >> Jiri or Benjamin may we have your ack for merging patch 7/9 + 8/9
-> >> through the pdx86 tree ?
-> >
-> > I can give you an ack for taking those through your tree, but I can
-> > not review the patches themselves because I was only CC-ed to those 2,
-> > and so was linux-input. Given that SSAM_SSH_TID_KIP is not in my
-> > current tree I assume it comes from this series.
-> >
-> > Anyway, enough ranting :)
->
-> Apologies for that. I should have included you in the CC on at least
-> patch 2 as well, which introduces this symbol.
+On gioved=EC 8 dicembre 2022 05:22:37 CET Bagas Sanjaya wrote:
+> On Wed, Dec 07, 2022 at 11:53:08PM +0100, Fabio M. De Francesco wrote:
+> > diff --git a/Documentation/mm/highmem.rst b/Documentation/mm/highmem.rst
+> > index 0f731d9196b0..59d1078f53df 100644
+> > --- a/Documentation/mm/highmem.rst
+> > +++ b/Documentation/mm/highmem.rst
+> > @@ -57,7 +57,8 @@ list shows them in order of preference of use.
+> >=20
+> >    It can be invoked from any context (including interrupts) but the
+> >    mappings
+> >    can only be used in the context which acquired them.
+> >=20
+> > -  This function should be preferred, where feasible, over all the othe=
+rs.
+> > +  This function should always be used. kmap_atomic() and kmap() have b=
+een
+> > +  deprecated.
+>=20
+> "... always be used, whereas ..."
+>=20
+> > +  NOTE: Conversions to kmap_local_page() must take care to follow the
+> > mapping +  restrictions imposed on kmap_local_page(). Furthermore, the=
+=20
+code
+> > between +  calls to kmap_atomic() and kunmap_atomic() may implicitly=20
+depend
+> > on the side +  effects of atomic mappings, i.e. disabling page faults or
+> > preemption, or both. +  In that case, explicit calls to=20
+pagefault_disable()
+> > or preempt_disable() or +  both must be made in conjunction with the us=
+e=20
+of
+> > kmap_local_page(). +
+> > <snipped>...
+> > +  NOTE: Conversions to kmap_local_page() must take care to follow the
+> > mapping +  restrictions imposed on kmap_local_page(). In particular, it=
+ is
+> > necessary to +  make sure that the kernel virtual memory pointer is only
+> > valid in the thread +  that obtained it.
+> > +
+>=20
+> What about using note block to signify conversion notes above?
+>=20
+> ---- >8 ----
+>=20
+> diff --git a/Documentation/mm/highmem.rst b/Documentation/mm/highmem.rst
+> index 59d1078f53df57..ef53eb580d4cda 100644
+> --- a/Documentation/mm/highmem.rst
+> +++ b/Documentation/mm/highmem.rst
+> @@ -103,12 +103,14 @@ list shows them in order of preference of use.
+>=20
+>  * kmap_atomic(). This function has been deprecated; use kmap_local_page(=
+).
+>=20
+> -  NOTE: Conversions to kmap_local_page() must take care to follow the=20
+mapping
+> -  restrictions imposed on kmap_local_page(). Furthermore, the code betwe=
+en=20
+=2D
+>  calls to kmap_atomic() and kunmap_atomic() may implicitly depend on the=
+=20
+side
+> -  effects of atomic mappings, i.e. disabling page faults or preemption, =
+or
+> both. -  In that case, explicit calls to pagefault_disable() or
+> preempt_disable() or -  both must be made in conjunction with the use of
+> kmap_local_page(). +  .. note::
+> +     Conversions to kmap_local_page() must take care to follow the mappi=
+ng
+> +     restrictions imposed on kmap_local_page(). Furthermore, the code=20
+between
+> +     calls to kmap_atomic() and kunmap_atomic() may implicitly depend on=
+=20
+the
+> +     side effects of atomic mappings, i.e. disabling page faults or
+> preemption, +     or both. In that case, explicit calls to
+> pagefault_disable() or +     preempt_disable() or both must be made in
+> conjunction with the use of +     kmap_local_page().
+>=20
+>    [Legacy documentation]
+>=20
+> @@ -129,10 +131,11 @@ list shows them in order of preference of use.
+>=20
+>  * kmap(). This function has been deprecated; use kmap_local_page().
+>=20
+> -  NOTE: Conversions to kmap_local_page() must take care to follow the=20
+mapping
+> -  restrictions imposed on kmap_local_page(). In particular, it is necess=
+ary
+> to -  make sure that the kernel virtual memory pointer is only valid in t=
+he
+> thread -  that obtained it.
+> +  .. note::
+> +     Conversions to kmap_local_page() must take care to follow the mappi=
+ng
+> +     restrictions imposed on kmap_local_page(). In particular, it is
+> necessary +     to make sure that the kernel virtual memory pointer is on=
+ly
+> valid in the +     thread that obtained it.
+>=20
+>    [Legacy documentation]
+>=20
+> Thanks.
+>=20
+> --
+> An old man doll... just what I always wanted! - Clara
 
-No need to apologize. There is a tight balance between not annoying
-people with too many emails and then having those people wanting to
-have all of the series :)
+You provided valid suggestions, thanks!
+However, immediately after submitting this v2 patch, Andrew added it to the=
+ -
+mm mm-unstable branch.
+I'll do the changes that you suggested in a subsequent patch which will bui=
+ld=20
+on this.
 
-I have enough trust in Hans to know that when he reviewed the series,
-he did it correctly.
+Again thanks,
 
->
-> FWIW, here's the patchwork link to this series:
->
->    https://patchwork.kernel.org/project/platform-driver-x86/list/?series=701392
+=46abio
 
-thanks!
 
-Cheers,
-Benjamin
+
 
