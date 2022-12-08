@@ -2,141 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8183C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 08:14:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32619C4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 08:34:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229841AbiLHIOb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Dec 2022 03:14:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55790 "EHLO
+        id S229530AbiLHIe0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Dec 2022 03:34:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229877AbiLHIOU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 03:14:20 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 770615B595;
-        Thu,  8 Dec 2022 00:14:12 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 28E733369B;
-        Thu,  8 Dec 2022 08:14:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1670487251; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=u0hWHCxU1/envycw51Ct9du7tEezNa6pk2WQ6bJqy/w=;
-        b=qSOLY1dx+vkJzivbCTsCM6e4XSENfZXkIpKv/uIg1CATNmHjNY4qQmbEfTF1zBvlpfBfZT
-        kuFp6GA6Rdwoo2SHhC7mZK5EewUghzIzzQc8AXOLSmLt0/rP/+25c/0VjGpPh0kd2FCN9f
-        GxRQzJWB1DXd3jhReywaSOAFI2wqhaE=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EE926138E0;
-        Thu,  8 Dec 2022 08:14:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id Uy66OdKckWMOHgAAMHmgww
-        (envelope-from <mhocko@suse.com>); Thu, 08 Dec 2022 08:14:10 +0000
-Date:   Thu, 8 Dec 2022 09:14:10 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     =?utf-8?B?56iL5Z6y5rab?= Chengkaitao Cheng 
-        <chengkaitao@didiglobal.com>
-Cc:     chengkaitao <pilgrimtao@gmail.com>,
-        "tj@kernel.org" <tj@kernel.org>,
-        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
-        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
-        "shakeelb@google.com" <shakeelb@google.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
-        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
-        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
-        "yuzhao@google.com" <yuzhao@google.com>,
-        "willy@infradead.org" <willy@infradead.org>,
-        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
-        "vbabka@suse.cz" <vbabka@suse.cz>,
-        "surenb@google.com" <surenb@google.com>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "mcgrof@kernel.org" <mcgrof@kernel.org>,
-        "sujiaxun@uniontech.com" <sujiaxun@uniontech.com>,
-        "feng.tang@intel.com" <feng.tang@intel.com>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>
-Subject: Re: [PATCH v2] mm: memcontrol: protect the memory in cgroup from
- being oom killed
-Message-ID: <Y5Gc0jiDlWlRlMYH@dhcp22.suse.cz>
-References: <Y5GTM5HLhGrx9zFO@dhcp22.suse.cz>
- <CEFD5AB7-17FB-4CC0-B818-1988484B8E55@didiglobal.com>
+        with ESMTP id S229462AbiLHIeZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 03:34:25 -0500
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C8C60EA5;
+        Thu,  8 Dec 2022 00:34:25 -0800 (PST)
+Received: by mail-pf1-x435.google.com with SMTP id 124so770852pfy.0;
+        Thu, 08 Dec 2022 00:34:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BZ7BqfAhscppPd/MMMpuIWNmxf+bevD/qEdzAfh6TaA=;
+        b=i4WtgrRFZFtuWZpu0rjYVGQ0WZiSRkT4KxWWsX62cUJsJiIC+5aqn2OQpn9fBZh2fF
+         +evj1UKVOAfpBKVnWpYLsc7pEhJa1O9bXKs5+103J9Hu61HpO6u4V3fzqzgy1QP34JSp
+         kcci03OZEbgzsk8r9dk1AX8NXlt6KLZcTUwyoWzux4oyJCc5H3gLrV9gU320mgVRQabc
+         9oJ2yMhfzLxe4qpAO0KrrhQo7g5/84pGIEYgPGYmTwO3uZhBZDKXO31my+lUdSdu8y/a
+         qiW6paHrwp5uIkyBuCvrfTUYL/X4/YxJMFgzpVYtwl2HezbEH57z0uHcMmivRsCl3RT9
+         V83w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BZ7BqfAhscppPd/MMMpuIWNmxf+bevD/qEdzAfh6TaA=;
+        b=NsVi6RmDWnidbjTa4mAnhHeX1Pdx75zlfXh+ACWnFqCab5vB90VI634Nq0hbtnEcl7
+         CJzbkiwSROqMtBXfbH2sNYM4wKaVZcQH76AgtNiE+7BV8zAzrhPwrvUYhtQIdHTeiHNX
+         o7XAuCf8CK0V6VIkp5cRzCRmO81s8PQzMvJjg+QqCTxteUqJ5CrMToTwBrLBvOaPBWt9
+         1WM6MMX3qcBvPf2Lu31T7PaU/VqksszSOIh0VcRrU3WjIzXhy9KGMm4V0O4EErKKXxa6
+         y+Ma7rR+hl0bZJsvwk93IDrukeE05wKmKV315hdNqssnI6ScCTw+7kn4zaZyR2Ri1zSE
+         XNzg==
+X-Gm-Message-State: ANoB5pk223DFOImDWOozPUSJw9WtqqWqNKGnqNXqpHRXUMbBQlSfsodH
+        r1jQo/74P9r/p71nKilFl6M=
+X-Google-Smtp-Source: AA0mqf6aFICfOn7lllVd/nJdh2oYrJ2tni0ymgClNyq5cUlsGJT07TT+CUlYUqxbEC5bWIlK2s5yEw==
+X-Received: by 2002:a63:120c:0:b0:477:6ccd:9f4 with SMTP id h12-20020a63120c000000b004776ccd09f4mr73105104pgl.534.1670488464697;
+        Thu, 08 Dec 2022 00:34:24 -0800 (PST)
+Received: from localhost.localdomain ([185.216.119.110])
+        by smtp.googlemail.com with ESMTPSA id j9-20020a654d49000000b0046ae5cfc3d5sm12445980pgt.61.2022.12.08.00.34.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Dec 2022 00:34:23 -0800 (PST)
+From:   Wang Yong <yongw.kernel@gmail.com>
+To:     alexs@kernel.org, siyanteng@loongson.cn, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Wang Yong <yongw.kernel@gmail.com>
+Subject: [PATCH] docs/zh_CN: fix a typo in howto
+Date:   Thu,  8 Dec 2022 08:33:53 +0000
+Message-Id: <20221208083353.160152-1-yongw.kernel@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CEFD5AB7-17FB-4CC0-B818-1988484B8E55@didiglobal.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 08-12-22 07:59:27, 程垲涛 Chengkaitao Cheng wrote:
-> At 2022-12-08 15:33:07, "Michal Hocko" <mhocko@suse.com> wrote:
-> >On Thu 08-12-22 11:46:44, chengkaitao wrote:
-> >> From: chengkaitao <pilgrimtao@gmail.com>
-> >> 
-> >> We created a new interface <memory.oom.protect> for memory, If there is
-> >> the OOM killer under parent memory cgroup, and the memory usage of a
-> >> child cgroup is within its effective oom.protect boundary, the cgroup's
-> >> tasks won't be OOM killed unless there is no unprotected tasks in other
-> >> children cgroups. It draws on the logic of <memory.min/low> in the
-> >> inheritance relationship.
-> >> 
-> >> It has the following advantages,
-> >> 1. We have the ability to protect more important processes, when there
-> >> is a memcg's OOM killer. The oom.protect only takes effect local memcg,
-> >> and does not affect the OOM killer of the host.
-> >> 2. Historically, we can often use oom_score_adj to control a group of
-> >> processes, It requires that all processes in the cgroup must have a
-> >> common parent processes, we have to set the common parent process's
-> >> oom_score_adj, before it forks all children processes. So that it is
-> >> very difficult to apply it in other situations. Now oom.protect has no
-> >> such restrictions, we can protect a cgroup of processes more easily. The
-> >> cgroup can keep some memory, even if the OOM killer has to be called.
-> >> 
-> >> Signed-off-by: chengkaitao <pilgrimtao@gmail.com>
-> >> ---
-> >> v2: Modify the formula of the process request memcg protection quota.
-> >
-> >The new formula doesn't really address concerns expressed previously.
-> >Please read my feedback carefully again and follow up with questions if
-> >something is not clear.
-> 
-> The previous discussion was quite scattered. Can you help me summarize
-> your concerns again?
+Fix a typo in Chinese translation of howto.rst
 
-The most important part is http://lkml.kernel.org/r/Y4jFnY7kMdB8ReSW@dhcp22.suse.cz
-: Let me just emphasise that we are talking about fundamental disconnect.
-: Rss based accounting has been used for the OOM killer selection because
-: the memory gets unmapped and _potentially_ freed when the process goes
-: away. Memcg changes are bound to the object life time and as said in
-: many cases there is no direct relation with any process life time.
+Fixes: 40d93e496180 ("docs/zh_CN: update howto.rst to latest version")
+Signed-off-by: Wang Yong <yongw.kernel@gmail.com>
+---
+ Documentation/translations/zh_CN/process/howto.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-That is to the per-process discount based on rss or any per-process
-memory metrics.
-
-Another really important question is the actual configurability. The
-hierarchical protection has to be enforced and that means that same as
-memory reclaim protection it has to be enforced top-to-bottom in the
-cgroup hierarchy. That makes the oom protection rather non-trivial to
-configure without having a good picture of a larger part of the cgroup
-hierarchy as it cannot be tuned based on a reclaim feedback.
+diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
+index 888978a62db3..10254751df6a 100644
+--- a/Documentation/translations/zh_CN/process/howto.rst
++++ b/Documentation/translations/zh_CN/process/howto.rst
+@@ -254,7 +254,7 @@ Linux-next 集成测试树
+         https://git.kernel.org/?p=linux/kernel/git/next/linux-next.git
+ 
+ 通过这种方式，Linux-next 对下一个合并阶段将进入主线内核的内容给出了一个概要
+-展望。非常欢冒险的测试者运行测试Linux-next。
++展望。非常欢迎冒险的测试者运行测试Linux-next。
+ 
+ 多个主要版本的稳定版内核树
+ -----------------------------------
 -- 
-Michal Hocko
-SUSE Labs
+2.25.1
+
