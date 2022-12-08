@@ -2,300 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56CEDC3A5A7
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 06:19:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A23BC4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 07:33:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbiLHGTG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Dec 2022 01:19:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57674 "EHLO
+        id S229550AbiLHHdQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Dec 2022 02:33:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229715AbiLHGS6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 01:18:58 -0500
-Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com [IPv6:2607:f8b0:4864:20::449])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 507059D2D5
-        for <linux-doc@vger.kernel.org>; Wed,  7 Dec 2022 22:18:57 -0800 (PST)
-Received: by mail-pf1-x449.google.com with SMTP id u3-20020a056a00124300b0056d4ab0c7cbso530290pfi.7
-        for <linux-doc@vger.kernel.org>; Wed, 07 Dec 2022 22:18:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dixzBTqR6W2lf2lGg4zzNK1qhk/3AaEd5DQKmAdu8So=;
-        b=C6USAdKHXsrbV+nVcbBs84pLoSjrTraU/I0n0WC9VfqSIlRkdC2CCAiT4w/IvSzZ12
-         FvyXEanNx0F/xfDh8006b7OModo1euXWJK+UHCOm4U7zAEuikAt3TGVhWUI0402ZkM5N
-         Es54vXnc/dM/9Z1NKXJHkX+Aa8s7cmAosAyWr9BRGmq0eMpWxG52BX6AvdWPmXdcP9xw
-         9KzrxIshlDiQKlQpzwKiKsW24QPN0ZHxlMv4b0uqbtdh+1mJDt4xwkuloD8GANrJ9mGh
-         oqkHNYGCH0VuGnAjFvUoqFIUcrDNBt4y9EwepDWgtjHlVjLQq6j8I/ZIqaIP6tzU4c4f
-         17CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dixzBTqR6W2lf2lGg4zzNK1qhk/3AaEd5DQKmAdu8So=;
-        b=0o0kfm8T93b1ZHSDwP+1I5e6gSkwmLBtZWfQDOBJvH5ensQ4DaGhpr28sQPm3ndUS1
-         QTshDP9nFn/2jiTS2kau3AenH/62eqByMLT6ce2lS+GkoLwb/hEBO9tCsZ1hsPY1Kdmj
-         ltHjy36QiYqxAyUoPiGW99Bml3//vnqpbPhX+9zoJAMM91JBdINb4tRvMr2fALM01IAb
-         3x7StFb1oNy43SZLu0NmgwP5GMueMFauYKfE5cjOxS8x4jZvxnZRW5IK++C9zti19Ri4
-         R5Eoum4EIOMSE6CorADX8Ehx2rCA4RBky0MRpFViBmzlfpWNdMST+2Zk9XvV0N5uFfeh
-         aTQQ==
-X-Gm-Message-State: ANoB5pmrjHQ71d1B+MSgUuomaFXaQUgHe8nanv84W95tIn3E9eqzAFqs
-        uiqer1S+vg21iX2uE3u754kF/2nFtd/L2g==
-X-Google-Smtp-Source: AA0mqf59koQdDw+judIns5F4v45fcJArw3/Rsb1sWhGt0Zkjs3aCSaqicc3HkvJkZyIwaglYqWwEUreXAsUDQw==
-X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a17:90a:5317:b0:213:34f7:fb14 with SMTP
- id x23-20020a17090a531700b0021334f7fb14mr104602681pjh.25.1670480336794; Wed,
- 07 Dec 2022 22:18:56 -0800 (PST)
-Date:   Thu,  8 Dec 2022 14:18:41 +0800
-In-Reply-To: <20221208061841.2186447-1-davidgow@google.com>
-Mime-Version: 1.0
-References: <20221208061841.2186447-1-davidgow@google.com>
-X-Mailer: git-send-email 2.39.0.rc0.267.gcb52ba06e7-goog
-Message-ID: <20221208061841.2186447-3-davidgow@google.com>
-Subject: [PATCH 2/2] Documentation: Add Function Redirection API docs
-From:   David Gow <davidgow@google.com>
-To:     Brendan Higgins <brendan.higgins@linux.dev>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Daniel Latypov <dlatypov@google.com>,
-        Kees Cook <keescook@chromium.org>
-Cc:     Sadiya Kazi <sadiyakazi@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joe Fradley <joefradley@google.com>,
-        Steve Muckle <smuckle@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        with ESMTP id S229725AbiLHHdK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 02:33:10 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E68125C56;
+        Wed,  7 Dec 2022 23:33:09 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id D305620717;
+        Thu,  8 Dec 2022 07:33:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1670484787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=JXDfWNY3Qbfl8rtTtlddtnpeaKhAduAL7p+BYr8IZ2k=;
+        b=nDYXvrFzHssNJikFT/o1HPTD29lvSXSarooGqRFa9kKWHGxdsciSmZFTpedjC7WMaWFBAN
+        3NkUZ+LYtt1ZA3o52N+KGeToMqt34WShBl8hgNMKmGxggv5/v4inFygp7VUzQs8Nwgr4HB
+        sOfiPaSwz3k+ByjhpMiDeFZADJ63wqo=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AA243138E0;
+        Thu,  8 Dec 2022 07:33:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id FLl/KTOTkWOuDQAAMHmgww
+        (envelope-from <mhocko@suse.com>); Thu, 08 Dec 2022 07:33:07 +0000
+Date:   Thu, 8 Dec 2022 08:33:07 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     chengkaitao <pilgrimtao@gmail.com>
+Cc:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
+        corbet@lwn.net, roman.gushchin@linux.dev, shakeelb@google.com,
+        akpm@linux-foundation.org, songmuchun@bytedance.com,
+        chengkaitao@didiglobal.com, viro@zeniv.linux.org.uk,
+        zhengqi.arch@bytedance.com, ebiederm@xmission.com,
+        Liam.Howlett@oracle.com, chengzhihao1@huawei.com,
+        haolee.swjtu@gmail.com, yuzhao@google.com, willy@infradead.org,
+        vasily.averin@linux.dev, vbabka@suse.cz, surenb@google.com,
+        sfr@canb.auug.org.au, mcgrof@kernel.org, sujiaxun@uniontech.com,
+        feng.tang@intel.com, cgroups@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        David Gow <davidgow@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2] mm: memcontrol: protect the memory in cgroup from
+ being oom killed
+Message-ID: <Y5GTM5HLhGrx9zFO@dhcp22.suse.cz>
+References: <20221208034644.3077-1-chengkaitao@didiglobal.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221208034644.3077-1-chengkaitao@didiglobal.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Sadiya Kazi <sadiyakazi@google.com>
+On Thu 08-12-22 11:46:44, chengkaitao wrote:
+> From: chengkaitao <pilgrimtao@gmail.com>
+> 
+> We created a new interface <memory.oom.protect> for memory, If there is
+> the OOM killer under parent memory cgroup, and the memory usage of a
+> child cgroup is within its effective oom.protect boundary, the cgroup's
+> tasks won't be OOM killed unless there is no unprotected tasks in other
+> children cgroups. It draws on the logic of <memory.min/low> in the
+> inheritance relationship.
+> 
+> It has the following advantages,
+> 1. We have the ability to protect more important processes, when there
+> is a memcg's OOM killer. The oom.protect only takes effect local memcg,
+> and does not affect the OOM killer of the host.
+> 2. Historically, we can often use oom_score_adj to control a group of
+> processes, It requires that all processes in the cgroup must have a
+> common parent processes, we have to set the common parent process's
+> oom_score_adj, before it forks all children processes. So that it is
+> very difficult to apply it in other situations. Now oom.protect has no
+> such restrictions, we can protect a cgroup of processes more easily. The
+> cgroup can keep some memory, even if the OOM killer has to be called.
+> 
+> Signed-off-by: chengkaitao <pilgrimtao@gmail.com>
+> ---
+> v2: Modify the formula of the process request memcg protection quota.
 
-Added a new page (functionredirection.rst) that describes the Function
-Redirection (static stubbing) API. This page will be expanded if we add,
-for example, ftrace-based stubbing.
-
-In addition,
-1. Updated the api/index.rst page to create an entry for function
-   redirection api
-2. Updated the toctree to be hidden, reducing redundancy on the
-   generated page.
-
-Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
-Co-developed-by: David Gow <davidgow@google.com>
-Signed-off-by: David Gow <davidgow@google.com>
----
-
-Note that this patch is new to v1 of the series, and wasn't included in
-the previous RFCs.
-
----
- .../kunit/api/functionredirection.rst         | 162 ++++++++++++++++++
- Documentation/dev-tools/kunit/api/index.rst   |  13 +-
- 2 files changed, 172 insertions(+), 3 deletions(-)
- create mode 100644 Documentation/dev-tools/kunit/api/functionredirection.rst
-
-diff --git a/Documentation/dev-tools/kunit/api/functionredirection.rst b/Documentation/dev-tools/kunit/api/functionredirection.rst
-new file mode 100644
-index 000000000000..fc7644dfea65
---- /dev/null
-+++ b/Documentation/dev-tools/kunit/api/functionredirection.rst
-@@ -0,0 +1,162 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================
-+Function Redirection API
-+========================
-+
-+Overview
-+========
-+
-+When writing unit tests, it's important to be able to isolate the code being
-+tested from other parts of the kernel. This ensures the reliability of the test
-+(it won't be affected by external factors), reduces dependencies on specific
-+hardware or config options (making the test easier to run), and protects the
-+stability of the rest of the system (making it less likely for test-specific
-+state to interfere with the rest of the system).
-+
-+While for some code (typically generic data structures, helpers, and toher
-+"pure function") this is trivial, for others (like device drivers, filesystems,
-+core subsystems) the code is heavily coupled with other parts of the kernel.
-+
-+This often involves global state in some way: be it global lists of devices,
-+the filesystem, or hardware state, this needs to be either carefully managed,
-+isolated, and restored, or avoided altogether by replacing access to and
-+mutation of this state with a "fake" or "mock" variant.
-+
-+This can be done by refactoring the code to abstract out access to such state,
-+by introducing a layer of indirection which can use or emulate a separate set of
-+test state. However, such refactoring comes with its own costs (and undertaking
-+significant refactoring before being able to write tests is suboptimal).
-+
-+A simpler way to intercept some of the function calls is to use function
-+redirection via static stubs.
-+
-+
-+Static Stubs
-+============
-+
-+Static stubs are a way of redirecting calls to one function (the "real"
-+function) to another function (the "replacement" function).
-+
-+It works by adding a macro to the "real" function which checks to see if a test
-+is running, and if a replacement function is available. If so, that function is
-+called in place of the original.
-+
-+Using static stubs is pretty straightforward:
-+
-+1. Add the KUNIT_STATIC_STUB_REDIRECT() macro to the start of the "real"
-+   function.
-+
-+   This should be the first statement in the function, after any variable
-+   declarations. KUNIT_STATIC_STUB_REDIRECT() takes the name of the
-+   function, followed by all of the arguments passed to the real function.
-+
-+   For example:
-+
-+   .. code-block:: c
-+
-+	void send_data_to_hardware(const char *str)
-+	{
-+		KUNIT_STATIC_STUB_REDIRECT(send_data_to_hardware, str);
-+		/* real implementation */
-+	}
-+
-+2. Write one or more replacement functions.
-+
-+   These functions should have the same function signature as the real function.
-+   In the event they need to access or modify test-specific state, they can use
-+   kunit_get_current_test() to get a struct kunit pointer. This can then
-+   be passed to the expectation/assertion macros, or used to look up KUnit
-+   resources.
-+
-+   For example:
-+
-+   .. code-block:: c
-+
-+	void fake_send_data_to_hardware(const char *str)
-+	{
-+		struct kunit *test = kunit_get_current_test();
-+		KUNIT_EXPECT_STREQ(test, str, "Hello World!");
-+	}
-+
-+3. Activate the static stub from your test.
-+
-+   From within a test, the redirection can be enabled with
-+   kunit_activate_static_stub(), which accepts a struct kunit pointer,
-+   the real function, and the replacement function. You can call this several
-+   times with different replacement functions to swap out implementations of the
-+   function.
-+
-+   In our example, this would be
-+
-+   .. code-block:: c
-+
-+        kunit_activate_static_stub(test,
-+                                   send_data_to_hardware,
-+                                   fake_send_data_to_hardware);
-+
-+4. Call (perhaps indirectly) the real function.
-+
-+   Once the redirection is activated, any call to the real function will call
-+   the replacement function instead. Such calls may be buried deep in the
-+   implementation of another function, but must occur from the test's kthread.
-+
-+   For example:
-+
-+   .. code-block:: c
-+
-+        send_data_to_hardware("Hello World!"); /* Succeeds */
-+        send_data_to_hardware("Something else"); /* Fails the test. */
-+
-+5. (Optionally) disable the stub.
-+
-+   When you no longer need it, the redirection can be disabled (and hence the
-+   original behaviour of the 'real' function resumed) using
-+   kunit_deactivate_static_stub(). If the stub is not manually deactivated, it
-+   will nevertheless be disabled when the test finishes.
-+
-+   For example:
-+
-+   .. code-block:: c
-+
-+        kunit_deactivate_static_stub(test, send_data_to_hardware);
-+
-+
-+It's also possible to use these replacement functions to test to see if a
-+function is called at all, for example:
-+
-+.. code-block:: c
-+
-+	void send_data_to_hardware(const char *str)
-+	{
-+		KUNIT_STATIC_STUB_REDIRECT(send_data_to_hardware, str);
-+		/* real implementation */
-+	}
-+
-+	/* In test file */
-+	int times_called = 0;
-+	void fake_send_data_to_hardware(const char *str)
-+	{
-+		/* fake implementation */
-+		times_called++;
-+	}
-+	...
-+	/* In the test case, redirect calls for the duration of the test */
-+	kunit_activate_static_stub(test, send_data_to_hardware, fake_send_data_to_hardware);
-+
-+	send_data_to_hardware("hello");
-+	KUNIT_EXPECT_EQ(test, times_called, 1);
-+
-+	/* Can also deactivate the stub early, if wanted */
-+	kunit_deactivate_static_stub(test, send_data_to_hardware);
-+
-+	send_data_to_hardware("hello again");
-+	KUNIT_EXPECT_EQ(test, times_called, 1);
-+
-+
-+
-+API Reference
-+=============
-+
-+.. kernel-doc:: include/kunit/static_stub.h
-+   :internal:
-diff --git a/Documentation/dev-tools/kunit/api/index.rst b/Documentation/dev-tools/kunit/api/index.rst
-index 45ce04823f9f..2d8f756aab56 100644
---- a/Documentation/dev-tools/kunit/api/index.rst
-+++ b/Documentation/dev-tools/kunit/api/index.rst
-@@ -4,17 +4,24 @@
- API Reference
- =============
- .. toctree::
-+	:hidden:
- 
- 	test
- 	resource
-+	functionredirection
- 
--This section documents the KUnit kernel testing API. It is divided into the
-+
-+This page documents the KUnit kernel testing API. It is divided into the
- following sections:
- 
- Documentation/dev-tools/kunit/api/test.rst
- 
-- - documents all of the standard testing API
-+ - Documents all of the standard testing API
- 
- Documentation/dev-tools/kunit/api/resource.rst
- 
-- - documents the KUnit resource API
-+ - Documents the KUnit resource API
-+
-+Documentation/dev-tools/kunit/api/functionredirection.rst
-+
-+ - Documents the KUnit Function Redirection API
+The new formula doesn't really address concerns expressed previously.
+Please read my feedback carefully again and follow up with questions if
+something is not clear.
 -- 
-2.39.0.rc0.267.gcb52ba06e7-goog
-
+Michal Hocko
+SUSE Labs
