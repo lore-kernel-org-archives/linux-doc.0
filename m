@@ -2,101 +2,346 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BCD9C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 08:37:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B503CC63705
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 10:07:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbiLHIhZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Dec 2022 03:37:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41990 "EHLO
+        id S229612AbiLHKHR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Dec 2022 05:07:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229786AbiLHIhT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 03:37:19 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3078761BB1;
-        Thu,  8 Dec 2022 00:37:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670488637; x=1702024637;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=mp8wMDnH+XvlgDi27JmuMhnOonriOi5aQPBcwc8cBlo=;
-  b=kyIWeA5d58X7lbTcAwJtGqHsBLOoZv9LE5uk8KxHQNSnwxkMX0mxh/ff
-   Yxgbcg5kkP7sauuW6C+MHGKS324V6YPNcTePd04X2r+n320xfaQOQn5RW
-   tNewBKzhh13nIlRV4d1LhnI5Z41ATrWqcFS67qTAlWdSPM4R9m0wTG/hZ
-   xrqumd5GzgH8GLnql7asl63xHU0OTqXUOXoSasRuO0HXNpEeexm0HzZsS
-   xQHz8gMCF1EgHwabZOk4avgZgE8+H6kPC+vTBRFKmjOsbcPsXsOVZbEF5
-   LZQtbn4FUqBCN1+vdorKtagDwRx4+MLHyeGNZIrtgms3h9dpBUKAQ42kI
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="296808118"
-X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; 
-   d="scan'208";a="296808118"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2022 00:37:16 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="710381311"
-X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; 
-   d="scan'208";a="710381311"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.174.177]) ([10.249.174.177])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2022 00:37:05 -0800
-Message-ID: <cd950a78-5c5b-16ef-d0a6-ad2878af067e@intel.com>
-Date:   Thu, 8 Dec 2022 16:37:03 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.5.1
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-Content-Language: en-US
-To:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S229572AbiLHKHO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 05:07:14 -0500
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFB59537C9;
+        Thu,  8 Dec 2022 02:07:12 -0800 (PST)
+Received: by mail-pg1-x529.google.com with SMTP id v3so814017pgh.4;
+        Thu, 08 Dec 2022 02:07:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=azH8vhU54GosLh7lwHUracVYJc2QuzVFmCokYEdpuKk=;
+        b=cRa07z0qLNahcn2gcM9CaS5oBzSUQpWuhiBwerSzQL+V4dFZZ82bYj0Qy2DOvNePiy
+         QXt4ZQbTFN+UxYryuKuXt5TjadRCMo1KhVKPp3y9sKjGlTbLg7xcQywHMhX4Q2hl/2Bq
+         z9UPuA2BgWPRSYmm6iZGEe2gMh0bk+BJV3xWitWevsII0Aff9uklZHke/pRn89Qg7qVt
+         C+Yedc11osnH5OBEzWj3/g0g0D4PY4NaAO6kqrpCHlg1+MDlIl9HUPphfj6EVrrux8ak
+         ta0OvwJTNkpxwrO42K9Sd37Nr360o+B5KUaeQtfUJ+1IX66AvyR4dZHmUFAjJsLJBfVh
+         8Q3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=azH8vhU54GosLh7lwHUracVYJc2QuzVFmCokYEdpuKk=;
+        b=kIc3Cfw6sJieaVltCt0Gf5+oVkz83ndP3PQVkO4YGjkxyD1GEKQqN9ziW+zjrBTjPt
+         gT9d9TdAfEvhMSA/C1ydU44zpIEYxrtXK+gLCIuhAfGhiOg9L3Bk6e9iGyU0bg+CjGHo
+         +pKVKxXtRAbhVHelvI+WGUXnm59eM611FtM/gvIkGkDXlT6IWrmIn2Eq25QzEwDP1JGE
+         0O+P1h+Vkr/EBpHRkKgaMY0qYojJ1qv5Q6xHCkag80BntUy5dWgp65FSZP9mEz4Y9OEa
+         7g4eRNshti8Nv0mc+4+W6W2FLgEMDipelqF02jwjtVmHFDb/ybYWuWCA2amtNsIA0Al5
+         CieA==
+X-Gm-Message-State: ANoB5plCf3tDkNkVMUl613YY3XnyJ4EHpzyEoGBluVsMQTSRYNlYM1mP
+        34mXnnq2JjEQ0tJa5xOmN8o=
+X-Google-Smtp-Source: AA0mqf6SVpF926Fsz2vwiTZjxtt4SS8JuW/eiU+4U6tuBet8aOM/vVXu4CgLqvK3nmex1Hmd8TKG3A==
+X-Received: by 2002:a62:1792:0:b0:56b:e975:cf98 with SMTP id 140-20020a621792000000b0056be975cf98mr78781249pfx.63.1670494032361;
+        Thu, 08 Dec 2022 02:07:12 -0800 (PST)
+Received: from debian.me (subs03-180-214-233-1.three.co.id. [180.214.233.1])
+        by smtp.gmail.com with ESMTPSA id p128-20020a62d086000000b00574db8ca00fsm7765499pfg.185.2022.12.08.02.07.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Dec 2022 02:07:11 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 5209A104652; Thu,  8 Dec 2022 17:07:05 +0700 (WIB)
+Date:   Thu, 8 Dec 2022 17:07:05 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     David Gow <davidgow@google.com>
+Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Daniel Latypov <dlatypov@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Sadiya Kazi <sadiyakazi@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joe Fradley <joefradley@google.com>,
+        Steve Muckle <smuckle@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
-From:   Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] Documentation: Add Function Redirection API docs
+Message-ID: <Y5G3SVt+oQvLjW1e@debian.me>
+References: <20221208061841.2186447-1-davidgow@google.com>
+ <20221208061841.2186447-3-davidgow@google.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Qj61xjsUlsZVQwL+"
+Content-Disposition: inline
+In-Reply-To: <20221208061841.2186447-3-davidgow@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/2/2022 2:13 PM, Chao Peng wrote:
 
-..
+--Qj61xjsUlsZVQwL+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Together with the change, a new config HAVE_KVM_RESTRICTED_MEM is added
-> and right now it is selected on X86_64 only.
-> 
+On Thu, Dec 08, 2022 at 02:18:41PM +0800, David Gow wrote:
+> From: Sadiya Kazi <sadiyakazi@google.com>
+>=20
+> Added a new page (functionredirection.rst) that describes the Function
+> Redirection (static stubbing) API. This page will be expanded if we add,
+> for example, ftrace-based stubbing.
 
- From the patch implementation, I have no idea why 
-HAVE_KVM_RESTRICTED_MEM is needed.
+s/Added/Add
 
+> diff --git a/Documentation/dev-tools/kunit/api/functionredirection.rst b/=
+Documentation/dev-tools/kunit/api/functionredirection.rst
+> new file mode 100644
+> index 000000000000..fc7644dfea65
+> --- /dev/null
+> +++ b/Documentation/dev-tools/kunit/api/functionredirection.rst
+> @@ -0,0 +1,162 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Function Redirection API
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Overview
+> +=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +When writing unit tests, it's important to be able to isolate the code b=
+eing
+> +tested from other parts of the kernel. This ensures the reliability of t=
+he test
+> +(it won't be affected by external factors), reduces dependencies on spec=
+ific
+> +hardware or config options (making the test easier to run), and protects=
+ the
+> +stability of the rest of the system (making it less likely for test-spec=
+ific
+> +state to interfere with the rest of the system).
+
+Test reliability is test independence, right?
+
+> +
+> +While for some code (typically generic data structures, helpers, and toh=
+er
+> +"pure function") this is trivial, for others (like device drivers, files=
+ystems,
+> +core subsystems) the code is heavily coupled with other parts of the ker=
+nel.
+> +
+> +This often involves global state in some way: be it global lists of devi=
+ces,
+> +the filesystem, or hardware state, this needs to be either carefully man=
+aged,
+> +isolated, and restored, or avoided altogether by replacing access to and
+> +mutation of this state with a "fake" or "mock" variant.
+
+"... or hardware state; this needs ..."
+
+> +
+> +This can be done by refactoring the code to abstract out access to such =
+state,
+> +by introducing a layer of indirection which can use or emulate a separat=
+e set of
+> +test state. However, such refactoring comes with its own costs (and unde=
+rtaking
+> +significant refactoring before being able to write tests is suboptimal).
+> +
+> +A simpler way to intercept some of the function calls is to use function
+> +redirection via static stubs.
+> +
+> +
+> +Static Stubs
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Static stubs are a way of redirecting calls to one function (the "real"
+> +function) to another function (the "replacement" function).
+> +
+> +It works by adding a macro to the "real" function which checks to see if=
+ a test
+> +is running, and if a replacement function is available. If so, that func=
+tion is
+> +called in place of the original.
+> +
+> +Using static stubs is pretty straightforward:
+> +
+> +1. Add the KUNIT_STATIC_STUB_REDIRECT() macro to the start of the "real"
+> +   function.
+> +
+> +   This should be the first statement in the function, after any variable
+> +   declarations. KUNIT_STATIC_STUB_REDIRECT() takes the name of the
+> +   function, followed by all of the arguments passed to the real functio=
+n.
+> +
+> +   For example:
+> +
+> +   .. code-block:: c
+> +
+> +	void send_data_to_hardware(const char *str)
+> +	{
+> +		KUNIT_STATIC_STUB_REDIRECT(send_data_to_hardware, str);
+> +		/* real implementation */
+> +	}
+> +
+> +2. Write one or more replacement functions.
+> +
+> +   These functions should have the same function signature as the real f=
+unction.
+> +   In the event they need to access or modify test-specific state, they =
+can use
+> +   kunit_get_current_test() to get a struct kunit pointer. This can then
+> +   be passed to the expectation/assertion macros, or used to look up KUn=
+it
+> +   resources.
+> +
+> +   For example:
+> +
+> +   .. code-block:: c
+> +
+> +	void fake_send_data_to_hardware(const char *str)
+> +	{
+> +		struct kunit *test =3D kunit_get_current_test();
+> +		KUNIT_EXPECT_STREQ(test, str, "Hello World!");
+> +	}
+> +
+> +3. Activate the static stub from your test.
+> +
+> +   From within a test, the redirection can be enabled with
+> +   kunit_activate_static_stub(), which accepts a struct kunit pointer,
+> +   the real function, and the replacement function. You can call this se=
+veral
+> +   times with different replacement functions to swap out implementation=
+s of the
+> +   function.
+> +
+> +   In our example, this would be
+> +
+> +   .. code-block:: c
+> +
+> +        kunit_activate_static_stub(test,
+> +                                   send_data_to_hardware,
+> +                                   fake_send_data_to_hardware);
+> +
+> +4. Call (perhaps indirectly) the real function.
+> +
+> +   Once the redirection is activated, any call to the real function will=
+ call
+> +   the replacement function instead. Such calls may be buried deep in the
+> +   implementation of another function, but must occur from the test's kt=
+hread.
+> +
+> +   For example:
+> +
+> +   .. code-block:: c
+> +
+> +        send_data_to_hardware("Hello World!"); /* Succeeds */
+> +        send_data_to_hardware("Something else"); /* Fails the test. */
+> +
+> +5. (Optionally) disable the stub.
+> +
+> +   When you no longer need it, the redirection can be disabled (and henc=
+e the
+> +   original behaviour of the 'real' function resumed) using
+> +   kunit_deactivate_static_stub(). If the stub is not manually deactivat=
+ed, it
+> +   will nevertheless be disabled when the test finishes.
+> +
+> +   For example:
+> +
+> +   .. code-block:: c
+> +
+> +        kunit_deactivate_static_stub(test, send_data_to_hardware);
+> +
+> +
+> +It's also possible to use these replacement functions to test to see if a
+> +function is called at all, for example:
+> +
+> +.. code-block:: c
+> +
+> +	void send_data_to_hardware(const char *str)
+> +	{
+> +		KUNIT_STATIC_STUB_REDIRECT(send_data_to_hardware, str);
+> +		/* real implementation */
+> +	}
+> +
+> +	/* In test file */
+> +	int times_called =3D 0;
+> +	void fake_send_data_to_hardware(const char *str)
+> +	{
+> +		/* fake implementation */
+> +		times_called++;
+> +	}
+> +	...
+> +	/* In the test case, redirect calls for the duration of the test */
+> +	kunit_activate_static_stub(test, send_data_to_hardware, fake_send_data_=
+to_hardware);
+> +
+> +	send_data_to_hardware("hello");
+> +	KUNIT_EXPECT_EQ(test, times_called, 1);
+> +
+> +	/* Can also deactivate the stub early, if wanted */
+> +	kunit_deactivate_static_stub(test, send_data_to_hardware);
+> +
+> +	send_data_to_hardware("hello again");
+> +	KUNIT_EXPECT_EQ(test, times_called, 1);
+> +
+> +
+> +
+> +API Reference
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +.. kernel-doc:: include/kunit/static_stub.h
+> +   :internal:
+> diff --git a/Documentation/dev-tools/kunit/api/index.rst b/Documentation/=
+dev-tools/kunit/api/index.rst
+> index 45ce04823f9f..2d8f756aab56 100644
+> --- a/Documentation/dev-tools/kunit/api/index.rst
+> +++ b/Documentation/dev-tools/kunit/api/index.rst
+> @@ -4,17 +4,24 @@
+>  API Reference
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>  .. toctree::
+> +	:hidden:
+> =20
+>  	test
+>  	resource
+> +	functionredirection
+> =20
+> -This section documents the KUnit kernel testing API. It is divided into =
+the
+> +
+> +This page documents the KUnit kernel testing API. It is divided into the
+>  following sections:
+> =20
+>  Documentation/dev-tools/kunit/api/test.rst
+> =20
+> - - documents all of the standard testing API
+> + - Documents all of the standard testing API
+> =20
+>  Documentation/dev-tools/kunit/api/resource.rst
+> =20
+> - - documents the KUnit resource API
+> + - Documents the KUnit resource API
+> +
+> +Documentation/dev-tools/kunit/api/functionredirection.rst
+> +
+> + - Documents the KUnit Function Redirection API
+
+Otherwise LGTM.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--Qj61xjsUlsZVQwL+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY5G3QQAKCRD2uYlJVVFO
+o7d9AP9hdicMpUSxiGamNuKbr1vGWMZHglVBa3X8VEbpOEOEAAD9Hb7THLpE/FPT
+Hbhs1yr+LPO498vT2Ks4MJJFMP+UKQk=
+=tRls
+-----END PGP SIGNATURE-----
+
+--Qj61xjsUlsZVQwL+--
