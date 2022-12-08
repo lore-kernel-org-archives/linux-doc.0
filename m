@@ -2,195 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B8E9C3A5A7
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 14:25:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10B48C63708
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 15:38:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229558AbiLHOZH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Dec 2022 09:25:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48892 "EHLO
+        id S229892AbiLHPh7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Dec 2022 10:37:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229979AbiLHOYp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 09:24:45 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B50C45080;
-        Thu,  8 Dec 2022 06:23:58 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 3F65B208CE;
-        Thu,  8 Dec 2022 14:23:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1670509437; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=DX6YDzb8PyIKMrTf468EmhvBSzk6iJctUJatHJ6cuIA=;
-        b=Qz7O1fJU8HHKKGBJmw8kfV/cErZ0iiN4f0bZfE5jsTRKpgLCCwWA2WlbQKYkLPlqYUsdIv
-        QL4Tw0VatsYd6IlM50vHZ/Vh+5Gf/HUmlVUUZOZbte/Xefcdyd2eJjwb7GOYwzbCqbDOFp
-        u3emrcIcxK2r4dEtCLvHkYxAVTnsGc0=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1574913416;
-        Thu,  8 Dec 2022 14:23:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id SgCvBH3zkWODbAAAMHmgww
-        (envelope-from <mhocko@suse.com>); Thu, 08 Dec 2022 14:23:57 +0000
-Date:   Thu, 8 Dec 2022 15:23:56 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     =?utf-8?B?56iL5Z6y5rab?= Chengkaitao Cheng 
-        <chengkaitao@didiglobal.com>
-Cc:     chengkaitao <pilgrimtao@gmail.com>,
-        "tj@kernel.org" <tj@kernel.org>,
-        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
-        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
-        "shakeelb@google.com" <shakeelb@google.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
-        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
-        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
-        "yuzhao@google.com" <yuzhao@google.com>,
-        "willy@infradead.org" <willy@infradead.org>,
-        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
-        "vbabka@suse.cz" <vbabka@suse.cz>,
-        "surenb@google.com" <surenb@google.com>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "mcgrof@kernel.org" <mcgrof@kernel.org>,
-        "sujiaxun@uniontech.com" <sujiaxun@uniontech.com>,
-        "feng.tang@intel.com" <feng.tang@intel.com>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>
-Subject: Re: [PATCH v2] mm: memcontrol: protect the memory in cgroup from
- being oom killed
-Message-ID: <Y5HzfLB7lu4+BOu1@dhcp22.suse.cz>
-References: <Y5Gc0jiDlWlRlMYH@dhcp22.suse.cz>
- <3E260DAC-2E2F-48B7-98BB-036EF0A423DC@didiglobal.com>
+        with ESMTP id S229909AbiLHPhk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 10:37:40 -0500
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2078.outbound.protection.outlook.com [40.107.22.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B48417509E;
+        Thu,  8 Dec 2022 07:36:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y9kphbdSsZ9b0dft95gPArwf4wtGQ3yQtg4ZSBu4GRPIZGSkv3eUZAgCK9MlqG3X07GLbeUL8rqytv1pN+xpmnfX0hlvEJCAbI6bMYb16ML5eqnOUIhIcMM6flh4N1XSxowsWfTOprJGmYa1O/OJcLLyQp2idEdIVz1IM2GIPrs0MkQfbJb/4H24U3b38jajlSDSkJBFpbfiN4BInwckfkPecB0wTsujii4I8nmv4et83pBQBz9cmypH+EiOOpMWj2IdEIR7VSGs2ko6fp8k7IRIXw99KPfwkFwsi3iB7QY8R1NolBgg9ox/6+R80EfYInqG7PnDZslvvxDRfCCl1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5I5xcRaF8L3+CpoQNYe4Us5Sbm9Pb+Sf5SDlAS2uY14=;
+ b=hDB+iTJD/3F3lDncOB0s1Ke1BDv9Xf1fFzY2ZDrMpHQWTmH31jI2Ij/9UFnsS6aIvdJCPtPBe+uggOGs+FAOQnUEhgzqNrRKB+l5yG2K7Zsr2D4ZPsZGOA0wyxvMZ52spxJsKPYADFGRdReDBmmHAnXf+klV87lxB/XtGvRareADvS+Iy/VGwaloEExZA4Q+8d3pRXzuh0irNYWJyiwO4geS93kVXsfbcFCp4KseZ28Sqrn4R2RRc8WNLL5nNyvM3fB6xxhHGnMBcDVqJJVmmcrH9dD8WmlkBfU3XLGlDm5vstUz1BaxbilThaShYFX2goH2cpVIUaS6kONvPlQAGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5I5xcRaF8L3+CpoQNYe4Us5Sbm9Pb+Sf5SDlAS2uY14=;
+ b=pfMvuv5hx16lG4s5p8KSw/6mv9X+OxTz7TrpAUVhQLdSZHEWRc3/cJrkCeM/jvJUmH12NfkjxeXU3CHIPiBbT4grazA0uEuPE2miPI4d/8m1ZTzuQ2xppPLaenvN7zF6nGDNdQ8NhcB3iwCma+peJ/7cGAW1IFioGygBUYrO9DFjpeZLftpVrztarHFasBCHE49//yZA5teoWHJe3sRzveorG0tjgL6CyZRZd74KUQSUxSY0u31ejWwmQeI1ImLOQSToPRNXnDn90qd8PrTqtaL7JbXF/YMc+I6s3JuUNW2p7CWGZCLjrds8mEPMFFbx6b79luUbry+Mu24I9CaKNw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com (2603:10a6:10:3dd::13)
+ by PR3PR03MB6665.eurprd03.prod.outlook.com (2603:10a6:102:7d::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.11; Thu, 8 Dec
+ 2022 15:36:53 +0000
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::2b95:1fe4:5d8f:22fb]) by DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::2b95:1fe4:5d8f:22fb%7]) with mapi id 15.20.5880.014; Thu, 8 Dec 2022
+ 15:36:52 +0000
+Message-ID: <8b42763d-5fc3-3853-c421-227494c0144a@seco.com>
+Date:   Thu, 8 Dec 2022 10:36:45 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v8 4/9] phy: fsl: Add Lynx 10G SerDes driver
+Content-Language: en-US
+To:     Stephen Boyd <sboyd@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>, linux-phy@lists.infradead.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Camelia Alexandra Groza <camelia.groza@nxp.com>,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20221027191113.403712-1-sean.anderson@seco.com>
+ <20221027191113.403712-5-sean.anderson@seco.com>
+ <20221027230331.19C2FC433D6@smtp.kernel.org>
+ <5f00ede6-10f5-c11c-ee21-54460c1f98b0@seco.com>
+ <d13ff3b2-79f0-2a72-c9da-2c310c4e3bb8@seco.com>
+ <20221101201020.B6180C433C1@smtp.kernel.org>
+ <45463950-7a4f-758d-d6a1-b8fdf9bfd319@seco.com>
+ <20221207021742.A3596C433C1@smtp.kernel.org>
+From:   Sean Anderson <sean.anderson@seco.com>
+In-Reply-To: <20221207021742.A3596C433C1@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL1PR13CA0092.namprd13.prod.outlook.com
+ (2603:10b6:208:2b9::7) To DB9PR03MB8847.eurprd03.prod.outlook.com
+ (2603:10a6:10:3dd::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3E260DAC-2E2F-48B7-98BB-036EF0A423DC@didiglobal.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR03MB8847:EE_|PR3PR03MB6665:EE_
+X-MS-Office365-Filtering-Correlation-Id: d3af0bde-735a-497b-448f-08dad93206b1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bS0eFpD/eJrArJkz1QJLEL5ll4OnC5NZ+7stbRNu63YEBQC9SdeSGVqCVeVWUY0DfSj/dA53QCy58xdiNYGI415v4SIogMwPxeuZ0r9sKLv+HA8Ixkt9Yj3P4ZXV0DJoGb1/WE/vaMX7QtNiv7DSLOEGrUzZKUNhm4MjtEw54rRQeast33zZfFRr/0FJlN2d290vD/aevFEVC+k/j8zxsaMC4AqaQJKsB3CvcwHqypvBA0D9bfzBikhq5oWsr/yhlwkkRVL4dKpJWizxVfXCPvyamxZaZPnAhpFj7q5hA57x5iLLLbPLjicgJdBxWX4SobhuwcwsAEc9i8VyRedXACKXvkIz4nKZuUKLZFyPaLDYAOOnDhzWyIDr+5JVlbtVJADXxKrHaKVLuZelAhvBdwRs3GfaiNHsD3FqheV0j9Bf4wscnP6OeB2JPEOmoTaLNx6/yrYqQb2G+o7BgZVax+6J7kwZ9P6ZK/7EMgPf1Mw2pbOyWuS3qHT1DJiyat1gunV4m6vo5EjXQRW06W4cIHrY9TaAbpEJbBR9pL17P9yc7ANEoKJG+WjI4E/lUzoR25WzfCc3JVCuJ1OpaAqpSzrsL+4OCEpHVWvAVeYIIrLZJuGMzfNWf1hOr9r7WPnGp901IzUieazCM+thXb1pGUkrpN9XPa+gpM560Qv9F57fjPwLL7tzGfajuvx9OV9WpfMXMnsr+SLpkJxPwzBBmoUD61jrRUFtYDNYK5QjiEdBrwZVbd0iyw3sUrl/kabi5+WCODhSofpVMi3eRxzFfg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB8847.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(39850400004)(346002)(366004)(376002)(136003)(451199015)(8936002)(83380400001)(31696002)(38100700002)(38350700002)(44832011)(7416002)(86362001)(5660300002)(4326008)(2906002)(8676002)(41300700001)(6512007)(53546011)(52116002)(26005)(6666004)(186003)(6506007)(316002)(110136005)(478600001)(6486002)(54906003)(66476007)(2616005)(66946007)(66556008)(31686004)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SXYrZHhJTnltMTlnRnprbm8yNjRsMnh0dGlWa2JOK21WUWVSNldPRlB5V1VZ?=
+ =?utf-8?B?c3Z6ajdzZkZBRDdpZkYvSjhaNkpLQVRiVHgyTE9KSnRyRmZxeHRyWUtxY0ox?=
+ =?utf-8?B?dFdEcjI0T0JCSHRqTFo2aGtTeG5XWWZSamJ1SWJOMWJKUllWMHZpRHpCeFBI?=
+ =?utf-8?B?YzEwNTVNUGNlMUQrU3U0bmZ5ZW9wa0pqS3FlNWdhR1BzSEVPTEE1MHBWSGRw?=
+ =?utf-8?B?N3p2U3dHcENXMFdId1grOXZhbGp3dStBREoyYmlSVkMzdG45OWxiMmJHV2ZH?=
+ =?utf-8?B?T1AySnllNDJDNGkxVitxZmE2Y2MvMlVwdGExLzZEaG1mejYyNGl2TGk3bVFL?=
+ =?utf-8?B?RGRialRpNGNMcXJCNDg4SDMwQmhvWVJJMzBNazNReE12VWhxNUQraXRFZzNF?=
+ =?utf-8?B?SE04MWQ3NldOQW1wbDBDVStVT2NoRFZ0RlAzU3dZNk5pd0Q0enk3bStEOG54?=
+ =?utf-8?B?bjM1bGZNMFYwcjROQ1RVcGhPOXZ3N0JzUGFEbW94OWkyYUgyVEFveGQ3cHhT?=
+ =?utf-8?B?dzdwdE9RbGJRSUZQU0tOdWgxblZYSzhVeUk2LzBudWthU3VuRHhPVVNNMkEy?=
+ =?utf-8?B?Z2h3Q28rYjhmZHNTU3ArVnhwVHlNQmpMSTk2d2hZVjBhTVcwU0FRNmkxNU5n?=
+ =?utf-8?B?bDZ0ZG1pL1pSdmNHcGU1SC9MM0tBc3IvMStGd08wWjJ4OGczYjRqajg4TkJO?=
+ =?utf-8?B?RTR3WWtCUzNWMVhGbjZTZ0JhZ3hJOXJaWTkrY0ZiN0szWmRYUXh1OXFPVlhX?=
+ =?utf-8?B?ZlBiaU1vVTlTdnkwd2lPUVAwNklaUkFtZzFOYTlpM0lTeFNQNVBKWDhTcEgz?=
+ =?utf-8?B?QUYwN1ZLcml0ZnJNOEVLWm1jUGVUcGVpdmh0cjFpcG9aNTlHc2pPdlN0WEhG?=
+ =?utf-8?B?NDVucGJrN3hmOUU2RGQzK2RzajVadCt5Rm0yTGgrQW5rVE5GZGFqWmZrZVRN?=
+ =?utf-8?B?aGZjU3kvYTRaMVBENkV4NXFtZitteXRjYllBZW04ZDZmYmhmdGVwRkJDSWor?=
+ =?utf-8?B?VTdKalQ3TUJGaHZsRzdIK251Q1RJRTFxV24vblJlTEY0WVY2Rk5GNCtGRG1o?=
+ =?utf-8?B?Z3dpSW9maEVUdzRyVldSd0ZNYlFtbE9lZExaL2JoTWJRdnRaUi9WS0dSYTRo?=
+ =?utf-8?B?cU1oRnE1OFJiQWZrSlIrMGFyNjUvU3ZENGhRQ1VKOFNaOXczY3JlcGhpUm9r?=
+ =?utf-8?B?aStWYkdKOWEwM1FSMnpTMzRCNHo0NUpqYjl6WWIxK0JGWnBtS3oyREMxelBE?=
+ =?utf-8?B?b1Y3ZXg5ci9PSU9yNXJ3SXlmbkJRLzlSOEVLRFgzM0xyRUNhUWx2eHByVGcy?=
+ =?utf-8?B?KzZtOTZNYVpiVVJhR0pFSi9XU1RhSEc1MjE2UlNhdlJtbmY3dHNkM3hOV1l5?=
+ =?utf-8?B?S1hmQ3Y0UmZmR3pWT2tzSVh3V0MrMzB2cHhFc1hFSzR1Y3krMkNvUEdYZEN0?=
+ =?utf-8?B?R2FRWTc5NDVsaVR6MUtDSEpwa0lWTkxIZzFWTUtZSWJ3ZXVxZWxCZ3FvZE9E?=
+ =?utf-8?B?djZXMzhKbkdHT1E4alFQZkJUbVJ6WGpXL2d6ZUppWlAwWnFoK3JLeDJvdWVn?=
+ =?utf-8?B?RlJham02RUFPQmgreHMyb05tVkdUN3JvSTAxYkpHQUR0cVZ4R0tHZmNOb2Zm?=
+ =?utf-8?B?aXprcnFGK3RCbVBJQXIvTHpuUi9xbFcrcjd2clYvSm5PTk5weStVbjllTFBG?=
+ =?utf-8?B?a2J4Qk5BTDUwK1ArQkV5Rjk5NFpJNGREV00zREt4cmhXRkZsVm5SNTlFS2sz?=
+ =?utf-8?B?OWNzQ25PVXgraThOa1pGRC8yaUZ5NjVtOFd1ZnFSdGkwVnVKN3JMcmRaMm1M?=
+ =?utf-8?B?dkN3VEpaOWQxSytEM0lTTS84UWFlSkMxS0dpeW1MYjN5bzMvbXFmR1grTlFJ?=
+ =?utf-8?B?cXptNDlkcE4weFN4VXhRNldZQm9zaDFpeFIzajdCM25aSDgyOFdDUUpRdUlT?=
+ =?utf-8?B?MHNaZXlBcjVkMFl4c0hwc0ZSVlJ3ZlRiaDFqeTZ0UGluK3lqVkUxZjJNWVJT?=
+ =?utf-8?B?ZDk1ZlkvUHNtWXVhUkp6QXFCV1RPeWc2WjZmT0NCYXdGTlV1Mm84V3BoNG5j?=
+ =?utf-8?B?Zkx5bVNnMkpaTHduK0tTaFA1eURsdElKWVZuS2JsN2xBeEZvVlA5U0hQOUZ1?=
+ =?utf-8?B?TkM5ZXI4R0FDOHlPU3VuMVBGUktqZThpbEhnMUt6U1A4ZDdvV0ZTYkVzNS9J?=
+ =?utf-8?B?Tnc9PQ==?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3af0bde-735a-497b-448f-08dad93206b1
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB8847.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2022 15:36:52.6309
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ao1fYTFHzGMMCBmau9NPohj3LEpseNLU3oFwa4CPl/UC6tDiVAHZwN9FdzqEy6xabul4INN15zQAU7C869jbxQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR03MB6665
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 08-12-22 14:07:06, 程垲涛 Chengkaitao Cheng wrote:
-> At 2022-12-08 16:14:10, "Michal Hocko" <mhocko@suse.com> wrote:
-> >On Thu 08-12-22 07:59:27, 程垲涛 Chengkaitao Cheng wrote:
-> >> At 2022-12-08 15:33:07, "Michal Hocko" <mhocko@suse.com> wrote:
-> >> >On Thu 08-12-22 11:46:44, chengkaitao wrote:
-> >> >> From: chengkaitao <pilgrimtao@gmail.com>
-> >> >> 
-> >> >> We created a new interface <memory.oom.protect> for memory, If there is
-> >> >> the OOM killer under parent memory cgroup, and the memory usage of a
-> >> >> child cgroup is within its effective oom.protect boundary, the cgroup's
-> >> >> tasks won't be OOM killed unless there is no unprotected tasks in other
-> >> >> children cgroups. It draws on the logic of <memory.min/low> in the
-> >> >> inheritance relationship.
-> >> >> 
-> >> >> It has the following advantages,
-> >> >> 1. We have the ability to protect more important processes, when there
-> >> >> is a memcg's OOM killer. The oom.protect only takes effect local memcg,
-> >> >> and does not affect the OOM killer of the host.
-> >> >> 2. Historically, we can often use oom_score_adj to control a group of
-> >> >> processes, It requires that all processes in the cgroup must have a
-> >> >> common parent processes, we have to set the common parent process's
-> >> >> oom_score_adj, before it forks all children processes. So that it is
-> >> >> very difficult to apply it in other situations. Now oom.protect has no
-> >> >> such restrictions, we can protect a cgroup of processes more easily. The
-> >> >> cgroup can keep some memory, even if the OOM killer has to be called.
-> >> >> 
-> >> >> Signed-off-by: chengkaitao <pilgrimtao@gmail.com>
-> >> >> ---
-> >> >> v2: Modify the formula of the process request memcg protection quota.
-> >> >
-> >> >The new formula doesn't really address concerns expressed previously.
-> >> >Please read my feedback carefully again and follow up with questions if
-> >> >something is not clear.
-> >> 
-> >> The previous discussion was quite scattered. Can you help me summarize
-> >> your concerns again?
-> >
-> >The most important part is http://lkml.kernel.org/r/Y4jFnY7kMdB8ReSW@dhcp22.suse.cz
-> >: Let me just emphasise that we are talking about fundamental disconnect.
-> >: Rss based accounting has been used for the OOM killer selection because
-> >: the memory gets unmapped and _potentially_ freed when the process goes
-> >: away. Memcg changes are bound to the object life time and as said in
-> >: many cases there is no direct relation with any process life time.
-> >
-> We need to discuss the relationship between memcg's mem and process's mem, 
+On 12/6/22 21:17, Stephen Boyd wrote:
+> Quoting Sean Anderson (2022-11-01 16:27:21)
+>> On 11/1/22 16:10, Stephen Boyd wrote:
+>> >> 
+>> >> Oh, I remember why I did this. I need the reference clock for clk_hw_round_rate,
+>> >> which is AFAICT the only correct way to implement round_rate.
+>> >> 
+>> > 
+>> > Is the reference clk the parent of the clk implementing
+>> > clk_ops::round_rate()?
+>> 
+>> Yes. We may be able to produce a given output with multiple reference
+>> rates. However, the clock API provides no mechanism to say "Don't ask
+>> for the parent clock to be rate X, you just tried it and the parent
+>> clock can't support it." So instead, we loop over the possible reference
+>> rates and pick the first one which the parent says it can round to.
+>> 
 > 
-> task_usage = task_anon(rss_anon) + task_mapped_file(rss_file) 
-> 	 + task_mapped_share(rss_share) + task_pgtables + task_swapents
-> 
-> memcg_usage	= memcg_anon + memcg_file + memcg_pgtables + memcg_share
-> 	= all_task_anon + all_task_mapped_file + all_task_mapped_share 
-> 	 + all_task_pgtables + unmapped_file + unmapped_share
-> 	= all_task_usage + unmapped_file + unmapped_share - all_task_swapents
+> Sorry, I'm lost. Why can't you loop over possible reference rates in
+> determine_rate/round_rate clk op here?
 
-You are missing all the kernel charged objects (aka __GFP_ACCOUNT
-allocations resp. SLAB_ACCOUNT for slab caches). Depending on the
-workload this can be really a very noticeable portion. So not this is
-not just about unmapped cache or shm.
+This is what I do currently, but you need to have the parent clock to do
+so. With your suggested method, we never actually get a struct clk(_hw)
+which we can query for rate support.
 
-> >That is to the per-process discount based on rss or any per-process
-> >memory metrics.
-> >
-> >Another really important question is the actual configurability. The
-> >hierarchical protection has to be enforced and that means that same as
-> >memory reclaim protection it has to be enforced top-to-bottom in the
-> >cgroup hierarchy. That makes the oom protection rather non-trivial to
-> >configure without having a good picture of a larger part of the cgroup
-> >hierarchy as it cannot be tuned based on a reclaim feedback.
-> 
-> There is an essential difference between reclaim and oom killer.
-
-oom killer is a memory reclaim of the last resort. So yes, there is some
-difference but fundamentally it is about releasing some memory. And long
-term we have learned that the more clever it tries to be the more likely
-corner cases can happen. It is simply impossible to know the best
-candidate so this is a just a best effort. We try to aim for
-predictability at least.
-
-> The reclaim 
-> cannot be directly perceived by users,
-
-I very strongly disagree with this statement. First the direct reclaim is a
-direct source of latencies because the work is done on behalf of the
-allocating process. There are side effect possible as well because
-refaults have their cost as well.
-
-> so memcg need to count indicators 
-> similar to pgscan_(kswapd/direct). However, when the user process is killed 
-> by oom killer, users can clearly perceive and count (such as the number of 
-> restarts of a certain type of process). At the same time, the kernel also has 
-> memory.events to count some information about the oom killer, which can 
-> also be used for feedback adjustment.
-
-Yes we have those metrics already. I suspect I haven't made myself
-clear. I didn't say there are no measures to see how oom behaves. What
-I've said that I _suspect_ that oom protection would be really hard to
-configure correctly because unlike the memory reclaim which happens
-during the normal operation, oom is a relatively rare event and it is
-quite hard to use it for any feedback mechanisms. But I am really open
-to be convinced otherwise and this is in fact what I have been asking
-for since the beginning. I would love to see some examples on the
-reasonable configuration for a practical usecase. It is one thing to say
-that you can set the protection to a certain value and a different one
-to have a way to determine that value. See my point?
-
--- 
-Michal Hocko
-SUSE Labs
+--Sean
