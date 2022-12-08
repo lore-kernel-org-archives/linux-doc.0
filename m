@@ -2,192 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C052C63703
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 16:25:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F27DAC4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Dec 2022 16:35:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229947AbiLHQZX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Dec 2022 11:25:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37286 "EHLO
+        id S229724AbiLHQfj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Dec 2022 11:35:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230190AbiLHQZS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 11:25:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DCAC165A7
-        for <linux-doc@vger.kernel.org>; Thu,  8 Dec 2022 08:24:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1670516658;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=DOVvOqJbqLIZ2AhZtG8cGPrhcnZ2LRyU5svGNQICX+U=;
-        b=JfuORu6XlatX5EiCKvnRxDtS5fi7iIrNlMREkwzeWqA94lXo+jovymZcAzHKVwd6F4Tlo3
-        UJfMGc4e2vG4+VrhY5PNo2RIK8GXahEApsdlfSy9TRj2W9Nh4wbsTF/NXEB1WvDfMEGauo
-        HVJ8TPPJ55Xa3XcNf9CnVBF0ZNyRVMk=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-636-NOxZTGFNP8m6YemXCq4LVw-1; Thu, 08 Dec 2022 11:24:17 -0500
-X-MC-Unique: NOxZTGFNP8m6YemXCq4LVw-1
-Received: by mail-il1-f197.google.com with SMTP id g7-20020a056e021a2700b0030326ba44e4so1713133ile.13
-        for <linux-doc@vger.kernel.org>; Thu, 08 Dec 2022 08:24:17 -0800 (PST)
+        with ESMTP id S229637AbiLHQfi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 11:35:38 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A6161533;
+        Thu,  8 Dec 2022 08:35:37 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id u12so2247726wrr.11;
+        Thu, 08 Dec 2022 08:35:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jMvTJpwD2DfF9b3qQIeOBpddMqouD6FclP0a62AEJDk=;
+        b=OC1xYnxEXybL21GOzrXmpGpOrKbCnZFGKZlDDHDjrtF7XPa1hOQWVakVTpGK4a2PXg
+         PcRU+ugcE9L72xr7FpXfJWZTcbToUFnpJ0EIkbHubYAof9GtOVfm6PCMBv/KTebPZjDJ
+         pI5acHfwEu7/g8/Azzas6k+/fRUZghMEZrjfIhn63rPkQllqkLG0QpFeHaH/NJomPXb5
+         W/CCg9N8nOBe0n3RYPZux5pwyzkQ6wJw+72b3l14ePR3rslDKDLoRP6pXAiz2wVrJpgE
+         liVxtx3uHGSYzwlyXiJu32JX352HYEB9EUEJX44XciiAiq1hobMKfUJdMqi7XIKve6MX
+         gK+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DOVvOqJbqLIZ2AhZtG8cGPrhcnZ2LRyU5svGNQICX+U=;
-        b=R5koA6s48U8a7PMBYPhctD3rMjTeA+puxFSnuvZz6YbhBjTWtJhDdugXRkgX+w5MRq
-         RzO66fCC0aMZ3QDKJzTIBpuNQoja90Htxe42H1f5KwqNSIgv/5FGCOoG9BAMDWlejprf
-         wxrtpkTFZ8nRoBcN9vjXXkp8wTtxUCp/NT3wn+mOM61EIEYWqrfZJ9Pv7K9fTFghAw+j
-         eSyOyN9Fhy79uFReQyveadBb8xAiSBplZSqoBVIQLhNG4oNAVA3ocEBNQI/jwqpK939o
-         WmqGg0YiPaqRsR6TfJhGuHg1KA+E6hTnvUoqPhraCiUGYo7EEkzcPs2/2RQPfm2z7Ek7
-         0xng==
-X-Gm-Message-State: ANoB5pnrOXaHHJkYhq/dyC0evWfJRQCkLUN5MNRgie049YlyvkLajmnm
-        5OX7WZR8P5subbAN6fClatZtsLLsbGu3dGLZ+TI87i2MwcX0fWOSFcFDIzQNXUH5oHkIoqXHVAY
-        rfDJl2nbsEV8SkJhXXXMSS2ASafumNO5TqscD
-X-Received: by 2002:a92:da48:0:b0:302:ebf5:a7ae with SMTP id p8-20020a92da48000000b00302ebf5a7aemr32196404ilq.34.1670516656856;
-        Thu, 08 Dec 2022 08:24:16 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7Udv+66R4PY489KYK6uqupbMm3pq26p9nW3CFM8lXhyRn0ECXJZkRltfUaVhLCYBfeqsKfZB0RTc8vTPJrYHk=
-X-Received: by 2002:a92:da48:0:b0:302:ebf5:a7ae with SMTP id
- p8-20020a92da48000000b00302ebf5a7aemr32196398ilq.34.1670516656630; Thu, 08
- Dec 2022 08:24:16 -0800 (PST)
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jMvTJpwD2DfF9b3qQIeOBpddMqouD6FclP0a62AEJDk=;
+        b=GWeuEQ3eDeNI9Vxs1gTax1+nRUGAAezKFzSZpPy7zWSzj2D709dVWF6qKudaARs3G8
+         fnzOYlqX9JMazA3LTXxItE2CLr4y3tze3o1+BhMavo0AANF8ItXaV2cbQEInFLRlNpDp
+         a4c18z38M6E2IEexH4S06rOL8a+5gpFhqyes/57CK5eUeeQIdOzJhtBgtHVLnN9BCCti
+         X1VJ6Ypz82R9IJMhIgHYHxdrY/dS078++/wlFEet8/3t8CoF5SriugWCqiWxFdCHwgwU
+         I5I4/FCg2L5arUkqAEg3+nCcC1yLUoTFdyEYkE9CHAZQNR3+P4C7eUjJglIDJJPCj2ze
+         i0WA==
+X-Gm-Message-State: ANoB5pkgqAqMQ2PPwOAfE7raD0gPCqoN5FAXx2vhldIF7xFb5odwsItb
+        099Zc3+7RNvWZMN9aqLyWDiS87qM//eEig==
+X-Google-Smtp-Source: AA0mqf5kf4TXdeZRdFYHpZPm+4lTlScdI8vZaxuN6qxS/+LAGAR3kOL8RmV3HOQSmKWSILKaBOHTEg==
+X-Received: by 2002:a5d:69c9:0:b0:242:4cf5:f385 with SMTP id s9-20020a5d69c9000000b002424cf5f385mr1856779wrw.34.1670517335467;
+        Thu, 08 Dec 2022 08:35:35 -0800 (PST)
+Received: from imac ([88.97.103.74])
+        by smtp.gmail.com with ESMTPSA id s5-20020adfeb05000000b002423dc3b1a9sm18908513wrn.52.2022.12.08.08.35.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Dec 2022 08:35:34 -0800 (PST)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     David Vernet <void@manifault.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yonghong Song <yhs@meta.com>
+Subject: Re: [PATCH bpf-next v3] docs/bpf: Add documentation for
+ BPF_MAP_TYPE_SK_STORAGE
+In-Reply-To: <m2r0xagkwp.fsf@gmail.com> (Donald Hunter's message of "Thu, 08
+        Dec 2022 12:05:58 +0000")
+Date:   Thu, 08 Dec 2022 16:35:14 +0000
+Message-ID: <m2wn71yhtp.fsf@gmail.com>
+References: <20221207102721.33378-1-donald.hunter@gmail.com>
+        <Y5EB5E5NgtN/ihG/@maniforge.lan> <m2r0xagkwp.fsf@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
 MIME-Version: 1.0
-References: <20221202223327.690880-1-luzmaximilian@gmail.com> <c09c9cef-14ac-2ab3-5e01-13189823a053@redhat.com>
-In-Reply-To: <c09c9cef-14ac-2ab3-5e01-13189823a053@redhat.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 8 Dec 2022 17:24:05 +0100
-Message-ID: <CAO-hwJLHzRCJF96gKJwj7zCCPxRLoEw=cQ2w8=yLBOfyZz-c8w@mail.gmail.com>
-Subject: Re: [PATCH 0/9] platform/surface: aggregator: Improve target/source
- handling in SSH messages
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Gross <markgross@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 8, 2022 at 5:03 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi Maximilian,
->
-> On 12/2/22 23:33, Maximilian Luz wrote:
-> > We have some new insights into the Serial Hub protocol, obtained through
-> > reverse engineering. In particular, regarding the command structure. The
-> > input/output target IDs actually represent source and target IDs of
-> > (what looks like) physical entities (specifically: host, SAM EC, KIP EC,
-> > debug connector, and SurfLink connector).
-> >
-> > This series aims to improve handling of messages with regards to those
-> > new findings and, mainly, improve clarity of the documentation and usage
-> > around those fields.
-> >
-> > See the discussion in
-> >
-> >     https://github.com/linux-surface/surface-aggregator-module/issues/64
-> >
-> > for more details.
-> >
-> > There are a couple of standouts:
-> >
-> > - Patch 1 ensures that we only handle commands actually intended for us.
-> >   It's possible that we receive messages not intended for us when we
-> >   enable debugging. I've kept it intentionally minimal to simplify
-> >   backporting. The rest of the series patch 9 focuses more on clarity
-> >   and documentation, which is probably too much to backport.
-> >
-> > - Patch 8 touches on multiple subsystems. The intention is to enforce
-> >   proper usage and documentation of target IDs in the SSAM_SDEV() /
-> >   SSAM_VDEV() macros. As it directly touches those macros I
-> >   unfortunately can't split it up by subsystem.
-> >
-> > - Patch 9 is a loosely connected cleanup for consistency.
->
-> Thank you for the patches. Unfortunately I don't have time atm to
-> review this.
->
-> And the next 2 weeks are the merge window, followed by 2 weeks
-> of christmas vacation.
->
-> So I'm afraid that I likely won't get around to reviewing
-> this until the week of January 9th.
->
-> > Hans, Jiri, Benjamin, Sebastian: While patch 8 ("platform/surface:
-> > aggregator: Enforce use of target-ID enum in device ID macros") touches
-> > multiple subsystems, it should be possible to take the whole series
-> > through the pdx86 tree. The changes in other subsystems are fairly
-> > limited.
->
-> I agree that it will be best to take all of this upstream through the
-> pdx86 tree. Sebastian thank you for the ack for patch 8/9.
->
-> Jiri or Benjamin may we have your ack for merging patch 7/9 + 8/9
-> through the pdx86 tree ?
+Donald Hunter <donald.hunter@gmail.com> writes:
 
-I can give you an ack for taking those through your tree, but I can
-not review the patches themselves because I was only CC-ed to those 2,
-and so was linux-input. Given that SSAM_SSH_TID_KIP is not in my
-current tree I assume it comes from this series.
-
-Anyway, enough ranting :)
-
-If you think the patches are OK, they are really small concerning the
-HID part, so feel free to take them through your tree Hans.
-
-Cheers,
-Benjamin
-
+> David Vernet <void@manifault.com> writes:
 >
-> Regards,
+>> On Wed, Dec 07, 2022 at 10:27:21AM +0000, Donald Hunter wrote:
+>>> +
+>>> +This snippet shows how to retrieve socket-local storage in a BPF program:
+>>> +
+>>> +.. code-block:: c
+>>> +
+>>> +    SEC("sockops")
+>>> +    int _sockops(struct bpf_sock_ops *ctx)
+>>> +    {
+>>> +            struct my_storage *storage;
+>>> +            struct bpf_sock *sk;
+>>> +
+>>> +            sk = ctx->sk;
+>>> +            if (!sk)
+>>> +                    return 1;
+>>
+>> Don't feel strongly about this one, but IMO it's nice for examples to
+>> illustrate code that's as close to real and pristine as possible. To
+>> that point, should this example perhaps be updated to return -ENOENT
+>> here, and -ENOMEM below?
 >
-> Hans
->
->
->
->
-> > Maximilian Luz (9):
-> >   platform/surface: aggregator: Ignore command messages not intended for
-> >     us
-> >   platform/surface: aggregator: Improve documentation and handling of
-> >     message target and source IDs
-> >   platform/surface: aggregator: Add target and source IDs to command
-> >     trace events
-> >   platform/surface: aggregator_hub: Use target-ID enum instead of
-> >     hard-coding values
-> >   platform/surface: aggregator_tabletsw: Use target-ID enum instead of
-> >     hard-coding values
-> >   platform/surface: dtx: Use target-ID enum instead of hard-coding
-> >     values
-> >   HID: surface-hid: Use target-ID enum instead of hard-coding values
-> >   platform/surface: aggregator: Enforce use of target-ID enum in device
-> >     ID macros
-> >   platform/surface: aggregator_registry: Fix target-ID of base-hub
-> >
-> >  .../driver-api/surface_aggregator/client.rst  |  4 +-
-> >  .../driver-api/surface_aggregator/ssh.rst     | 36 ++++-----
-> >  drivers/hid/surface-hid/surface_hid.c         |  2 +-
-> >  drivers/hid/surface-hid/surface_kbd.c         |  2 +-
-> >  .../platform/surface/aggregator/controller.c  | 12 +--
-> >  .../platform/surface/aggregator/ssh_msgb.h    |  4 +-
-> >  .../surface/aggregator/ssh_request_layer.c    | 15 ++++
-> >  drivers/platform/surface/aggregator/trace.h   | 73 +++++++++++++++++--
-> >  .../platform/surface/surface_aggregator_hub.c |  8 +-
-> >  .../surface/surface_aggregator_registry.c     |  2 +-
-> >  .../surface/surface_aggregator_tabletsw.c     | 10 +--
-> >  drivers/platform/surface/surface_dtx.c        | 20 ++---
-> >  .../surface/surface_platform_profile.c        |  2 +-
-> >  drivers/power/supply/surface_battery.c        |  4 +-
-> >  drivers/power/supply/surface_charger.c        |  2 +-
-> >  include/linux/surface_aggregator/controller.h |  4 +-
-> >  include/linux/surface_aggregator/device.h     | 50 ++++++-------
-> >  include/linux/surface_aggregator/serial_hub.h | 40 ++++++----
-> >  18 files changed, 191 insertions(+), 99 deletions(-)
-> >
+> Will do.
 >
 
+After digging into this a bit more I notice that the sockops programs in
+tools/testing/selftests/bpf/progs mostly return 1 in all cases.
+
+I'm assuming that sockops programs should return valid values for
+some op types such as BPF_SOCK_OPS_TIMEOUT_INIT. Other than that I can't
+find a definitive list. Do you know if valid return values are
+enumerated anywhere, or do I need to dig some more?
+
+>>> +
+>>> +            storage = bpf_sk_storage_get(&socket_storage, sk, 0,
+>>> +                                         BPF_LOCAL_STORAGE_GET_F_CREATE);
+>>> +            if (!storage)
+>>> +                    return 1;
+>>> +
+>>> +            /* Use 'storage' here */
+>>
+>> Let's return 0 at the end to make the example program technically
+>> correct.
+>
+> Will do.
+>
+>>> +    }
+>>
+>> Thanks,
+>> David
