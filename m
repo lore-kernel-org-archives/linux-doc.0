@@ -2,204 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4CA2C4167B
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 21:46:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9E9EC4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 22:07:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229961AbiLIVpd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Dec 2022 16:45:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39354 "EHLO
+        id S229811AbiLIWG7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Dec 2022 17:06:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229989AbiLIVpE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 16:45:04 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E41603D381;
-        Fri,  9 Dec 2022 13:45:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670622303; x=1702158303;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=mwMQmcynqENJ3y9naQPa+ubp3a09jXnV9/AxFHnqRKo=;
-  b=eEyHE4BqpIBEmztxPevIm5xRhUVH7m8UPktBJ668ZE9kyvr637QJ1c9A
-   FrlNKBRLvtFgCaq7E4T1eS4bIi1aYDTxrO0q/kIA5/Zw5jPvEY1Xm4QD+
-   Jvw9ihpSmKuS5s9oGMIo/93zbD5CqcUJc8gZWYu+2fPj2FJcY35DSPZ2z
-   vdBzR8AGQsC30EJikr3AdDuQFKugW7OZkeomckac8pO2jElOQ0tH3i3d6
-   c3ACwzdKgndUTgANAB3yytAIb++0ADsp8V6pcQ2G7jkGo9HX3in0veQ0i
-   yqFbutys3PUcw+F0Ipu0g/xP5HOhdXOHZj9ijMKv8Ls19W7GeiwtiLFWY
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="300975530"
-X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; 
-   d="scan'208";a="300975530"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2022 13:45:01 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="711031688"
-X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; 
-   d="scan'208";a="711031688"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2022 13:45:00 -0800
-From:   matthew.gerlach@linux.intel.com
-To:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        andriy.shevchenko@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
-        marpagan@redhat.com
-Cc:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Subject: [PATCH v6 1/4] Documentation: fpga: dfl: Add documentation for DFHv1
-Date:   Fri,  9 Dec 2022 13:45:20 -0800
-Message-Id: <20221209214523.3484193-2-matthew.gerlach@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221209214523.3484193-1-matthew.gerlach@linux.intel.com>
-References: <20221209214523.3484193-1-matthew.gerlach@linux.intel.com>
+        with ESMTP id S229897AbiLIWG3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 17:06:29 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5804A5DE3;
+        Fri,  9 Dec 2022 14:06:04 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6905BB82939;
+        Fri,  9 Dec 2022 22:06:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19DBCC433EF;
+        Fri,  9 Dec 2022 22:05:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670623562;
+        bh=xhGA8QOjljLpEDGY+74NnEPLPXQ6/MDsLE1V+TwRSe8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=NGeEu4h2Y1MVWU4BWOQxmqfv2h7Q8r8v8gTd9KD2Q36leUgDTC07dNWqj4ttEXKw5
+         DQQb7Dlbme3iIr7rdkAsOV+g2k50nQgrefzyb3UaUN2yZVj+STDNCgNEzbmjX16+82
+         +Z854OJlLNnp8XPhKizSEOIKzZ0fxir4hKSJF4A99mbrSya+JMOlI8nhPhT+WsCT51
+         nKDXbIkEurHeB09Zn2Dda454f8JAcmieoNtDpZo7kaYI9dLlX3c5BCyC06zYFM+Ttj
+         OkP4GKIB9wkfU58gh+a6KrbBWZYmXnUAtvEuo+oVmFFS/lUxmEXRgdb05Bo6brcNAU
+         kjm8W7GtkP/6w==
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH V5 0/3] Add osnoise/options options
+Date:   Fri,  9 Dec 2022 23:05:51 +0100
+Message-Id: <cover.1670623111.git.bristot@kernel.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+After adding the osnoise/options file, a set of on/off options
+came to my mind, most based on discussions while debugging problems
+with Juri and Clark.
 
-Add documentation describing the extensions provided by Version
-1 of the Device Feature Header (DFHv1).
+The PANIC_ON_STOP option facilitates the vmcore generation to aid
+in the latency analysis using a crash dump.
 
-Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
----
-v5: use neested list for field descriptions
-    clean up prose
-    add reviewed-by and comments from Ilpo Järvinen
+The OSNOISE_PREEMPT_DISABLE and OSNOISE_IRQ_DISABLE options refine
+the type of noise that the osnoise tracer detects, allowing the
+tool to measure only IRQ-related noise, or NMI/HW-related noise,
+respectively.
 
-v4: Remove marketing speak and separate v0 and v1 descriptions.
-    Fix errors reported by "make htmldocs".
+Each patch has a description of the options and the last patch
+documents them in the osnoise documentation file.
 
-v3: no change
+[1] https://lore.kernel.org/r/cover.1668692096.git.bristot@kernel.org/
 
-v2: s/GUILD/GUID/
-    add picture
----
- Documentation/fpga/dfl.rst | 103 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 103 insertions(+)
+Changes from V4:
+  - rename preempt_disable/irq_disable variables to
+    disable_preemption/disable_irq (Steven Rostedt)
+Changes from V3:
+  - Fix documentation (Bagas Sanjaya)
+  - Optmize the preempt disable option (Steven Rostedt)
+Changes from v2:
+  - rebased on top of linux-trace.git/ftrace/core
+  - removed the patches already added to the ftrace/core
+Changes from v1:
+  - Changed the cover letter topic
+  - Add Acked-by Masami to the first patch
+  - Add the PANIC_ON_STOP option
+  - Add the OSNOISE_PREEMPT_DISABLE and OSNOISE_IRQ_DISABLE options
+  - Improved the documentation
 
-diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-index 15b670926084..606b4b070c33 100644
---- a/Documentation/fpga/dfl.rst
-+++ b/Documentation/fpga/dfl.rst
-@@ -561,6 +561,109 @@ new DFL feature via UIO direct access, its feature id should be added to the
- driver's id_table.
- 
- 
-+Device Feature Header - Version 0
-+===========================================
-+Version 0 (DFHv0) is the original version of the Device Feature Header.
-+The format of DFHv0 is shown below::
-+
-+    +-----------------------------------------------------------------------+
-+    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 ID 0| 0x00
-+    +-----------------------------------------------------------------------+
-+    |63                                 GUID_L                             0| 0x08
-+    +-----------------------------------------------------------------------+
-+    |63                                 GUID_H                             0| 0x10
-+    +-----------------------------------------------------------------------+
-+
-+- Offset 0x00
-+
-+  * Type - The type of DFH (e.g. FME, AFU, or private feature).
-+  * DFH VER - The version of the DFH.
-+  * Rsvd - Currently unused.
-+  * EOL - Set if this DFH is the end of the Device Feature List (DFL).
-+  * Next - The offset of the next DFH in the DFL from the start of the DFH. If EOL is set, Next is the size of MMIO ofthe last feature in the list.
-+  * ID - The ID of the feature if Type is private feature.
-+
-+- Offset 0x08
-+
-+  * GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier (present only if Type is FME or AFU).
-+
-+- Offset 0x10
-+
-+  * GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier (present only if Type is FME or AFU).
-+
-+
-+Device Feature Header - Version 1
-+===========================================
-+Version 1 (DFHv1) of the Device Feature Header adds the following functionality:
-+
-+* Provides a standardized mechanism for features to describe parameters/capabilities to software.
-+* Standardize the use of a GUID for all DFHv1 types.
-+* Decouples the location of the DFH from the register space of the feature itself.
-+
-+The format of Version 1 of the Device Feature Header (DFH) is shown below::
-+
-+    +-----------------------------------------------------------------------+
-+    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 ID 0| 0x00
-+    +-----------------------------------------------------------------------+
-+    |63                                 GUID_L                             0| 0x08
-+    +-----------------------------------------------------------------------+
-+    |63                                 GUID_H                             0| 0x10
-+    +-----------------------------------------------------------------------+
-+    |63                   Reg Address/Offset                      1|  Rel  0| 0x18
-+    +-----------------------------------------------------------------------+
-+    |63        Reg Size       32|Params 31|30 Group    16|15 Instance      0| 0x20
-+    +-----------------------------------------------------------------------+
-+    |63 Next    35|34RSV33|EOP32|31 Param Version 16|15 Param ID           0| 0x28
-+    +-----------------------------------------------------------------------+
-+    |63                 Parameter Data                                     0| 0x30
-+    +-----------------------------------------------------------------------+
-+
-+                                  ...
-+
-+    +-----------------------------------------------------------------------+
-+    |63 Next    35|34RSV33|EOP32|31 Param Version 16|15 Param ID           0|
-+    +-----------------------------------------------------------------------+
-+    |63                 Parameter Data                                     0|
-+    +-----------------------------------------------------------------------+
-+
-+- Offset 0x00
-+
-+  * Type - The type of DFH (e.g. FME, AFU, or private feature).
-+  * DFH VER - The version of the DFH.
-+  * Rsvd - Currently unused.
-+  * EOL - Set if this DFH is the end of the Device Feature List (DFL).
-+  * Next - The offset of the next DFH in the DFL from the start of the DFH.
-+  * ID - The ID of the feature if Type is private feature.
-+
-+- Offset 0x08
-+
-+  * GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier.
-+
-+- Offset 0x10
-+
-+  * GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier.
-+
-+- Offset 0x18
-+
-+  * Reg Address/Offset - If Rel bit is set, then the value is the high 63 bits of a 16 bit aligned absolute address of the feature's registers. If Rel bit is clear, then the value is the offset from the start of the DFH of the feature's registers.
-+
-+- Offset 0x20
-+
-+  * Reg Size - Size of feature's register set in bytes.
-+  * Params - Set if DFH has a list of parameter blocks.
-+  * Group - Id of group if feature is part of a group.
-+  * Instance - Id of instance of feature within a group.
-+
-+- Offset 0x28 if feature has parameters
-+
-+  * Next - Offset to the next parameter block in 8 byte words. If EOP set, size in 8 byte words of last parameter.
-+  * Param Version - Version of Param ID.
-+  * Param ID - ID of parameter.
-+
-+- Offset 0x30
-+
-+  * Parameter Data - Parameter data whose size and format is defined by version and ID of the parameter.
-+
- Open discussion
- ===============
- FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial reconfiguration
+Daniel Bristot de Oliveira (3):
+  tracing/osnoise: Add PANIC_ON_STOP option
+  tracing/osnoise: Add preempt and/or irq disabled options
+  Documentation/osnoise: Add osnoise/options documentation
+
+ Documentation/trace/osnoise-tracer.rst | 20 +++++++++-
+ kernel/trace/trace_osnoise.c           | 52 +++++++++++++++++++++++---
+ 2 files changed, 65 insertions(+), 7 deletions(-)
+
 -- 
-2.25.1
+2.32.0
 
