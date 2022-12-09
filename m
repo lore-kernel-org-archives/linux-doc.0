@@ -2,110 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68D18C4167B
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 07:48:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF006C04FDE
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 08:25:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229843AbiLIHsW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Dec 2022 02:48:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47906 "EHLO
+        id S229542AbiLIIZm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Dec 2022 03:25:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbiLIHsV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 02:48:21 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABED34FF9D
-        for <linux-doc@vger.kernel.org>; Thu,  8 Dec 2022 23:48:17 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id y25so5763789lfa.9
-        for <linux-doc@vger.kernel.org>; Thu, 08 Dec 2022 23:48:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NsuZyFPaWs/2xOslubtL3bTv7xZraftR6tRWln/UHA0=;
-        b=L0ObW+6jVYepqRQlOuSGYejbeGJxoK2QtyeJ8hUusQv0T1wIqZbpYlI1rbKASAM82q
-         Tsuu631UcDvh3dpORs7Dkq6MOiW73wcKDfoQqx2+ex12mu7QgOIgpy8L0iKqc/Y2wxeO
-         MVlQwsOrl86I/ULPLD5Pmu636m8TPx3+MzPsQbLfKWcWvb8+e2RX2P9dsW+aRBdh2nQw
-         DlcubyQYjk9X3/XCK41jJeOSxOV+V69sKUyp2q1ON3R4oX9jMkWZ3rAazapizSgNtGUq
-         jaN3VrungIzhOox1TjRfJNmXEPsdB51mws3POhJ7RwD/NlZ/U4kiQJ7aigL6pnMTbGMa
-         lVyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NsuZyFPaWs/2xOslubtL3bTv7xZraftR6tRWln/UHA0=;
-        b=qacbkliADmbtAwk6AKtt41sOX35i+twHhvE4Kd3Cpj0CEJH5RM0u7xrlqJ+zaNiqmx
-         dwb/HNCoIBwL2rFd9Jtg0TYu17ncHjGwUMZHzm1tTXkdinvI+00aSNrRBRm3C503G3Ij
-         9V1U1WjvSUs0ljXlhNSjq+xfbiztZOmn1oztXa2dxIMqCIgP7uXT8r1kPldokVdCSJYY
-         iXhE/NuL2tUP6idoaiE9L0uhQoB695aZLD09+X31yYNSC5vBMOuBR6dgAvNlQ25Rmhjd
-         gd9rq96lROgqJuFBa9JYFuY2g6T+w4MYqtwfHtQrKpar0qetxEKlK3EmXjtrteC+DNW3
-         Te0w==
-X-Gm-Message-State: ANoB5pmsYezsFCMWimNKfdB5aFgfh5MMCkyIp9xl/yzNsUG8wiNv7ZIw
-        tRin2tvX3J92Vriwy+7uyl4ZJQ==
-X-Google-Smtp-Source: AA0mqf50R8kzIqUKGZ8njOLQTZPpV95PUHF/rpYhGJtY+iZVQ8Z32kmn45AQFCSJtdOmMzqch/n1Uw==
-X-Received: by 2002:a05:6512:16a1:b0:4a4:68b8:f4d6 with SMTP id bu33-20020a05651216a100b004a468b8f4d6mr1739705lfb.28.1670572096037;
-        Thu, 08 Dec 2022 23:48:16 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id a6-20020a19f806000000b004b5766f48d8sm155053lff.19.2022.12.08.23.48.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Dec 2022 23:48:15 -0800 (PST)
-Message-ID: <41500a04-b004-0e2c-20a1-3a3092b90e6d@linaro.org>
-Date:   Fri, 9 Dec 2022 08:48:13 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [v4 1/5] dt-bindings: mfd: Add aspeed pwm-tach binding
-To:     Billy Tsai <billy_tsai@aspeedtech.com>,
-        "jdelvare@suse.com" <jdelvare@suse.com>,
-        "linux@roeck-us.net" <linux@roeck-us.net>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "lee@kernel.org" <lee@kernel.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+        with ESMTP id S229571AbiLIIZk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 03:25:40 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7253056D46;
+        Fri,  9 Dec 2022 00:25:39 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 282851FE57;
+        Fri,  9 Dec 2022 08:25:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1670574338; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Yg8Dy91nslxvuXyFZO8v15npgrF13z71XGIrk7x/zmg=;
+        b=Gnl1efSl8C1V561RAp72h3ej4lDX6Hv8yQ8w86HPJq65Ge6RaZnEvRYmYPoSJ9jiiv1NGv
+        Fx9fSt/Cl1opw8apuCmh5dW02+cRgRM0sOsgUb5228e0NfEAvX3nWN0tgPL+Ob+UcDzKtb
+        TWx/69xXPo0xOpP4HauT3GvHY0m9jyM=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 024D2138E0;
+        Fri,  9 Dec 2022 08:25:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id M/+IAALxkmOgQgAAMHmgww
+        (envelope-from <mhocko@suse.com>); Fri, 09 Dec 2022 08:25:38 +0000
+Date:   Fri, 9 Dec 2022 09:25:37 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     =?utf-8?B?56iL5Z6y5rab?= Chengkaitao Cheng 
+        <chengkaitao@didiglobal.com>
+Cc:     chengkaitao <pilgrimtao@gmail.com>,
+        "tj@kernel.org" <tj@kernel.org>,
+        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
         "corbet@lwn.net" <corbet@lwn.net>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+        "shakeelb@google.com" <shakeelb@google.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
+        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
+        "yuzhao@google.com" <yuzhao@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "surenb@google.com" <surenb@google.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "mcgrof@kernel.org" <mcgrof@kernel.org>,
+        "sujiaxun@uniontech.com" <sujiaxun@uniontech.com>,
+        "feng.tang@intel.com" <feng.tang@intel.com>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20221123061635.32025-1-billy_tsai@aspeedtech.com>
- <20221123061635.32025-2-billy_tsai@aspeedtech.com>
- <c4b188b1-06a4-3cb0-a758-e12942e1f67b@linaro.org>
- <27055c13-11ab-cc73-f2ba-c269785b0e28@linaro.org>
- <A5EA19E5-21D8-4954-9636-9B28AC8D946A@aspeedtech.com>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <A5EA19E5-21D8-4954-9636-9B28AC8D946A@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+Subject: Re: [PATCH v2] mm: memcontrol: protect the memory in cgroup from
+ being oom killed
+Message-ID: <Y5LxAbOB2AYp42hi@dhcp22.suse.cz>
+References: <Y5HzfLB7lu4+BOu1@dhcp22.suse.cz>
+ <114DF8F0-3E68-4F2B-8E35-0943EC2F51AE@didiglobal.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <114DF8F0-3E68-4F2B-8E35-0943EC2F51AE@didiglobal.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/12/2022 01:54, Billy Tsai wrote:
->     > > However I am surprised to see such change, so I have no clue why this
->     > > was done.
+On Fri 09-12-22 05:07:15, 程垲涛 Chengkaitao Cheng wrote:
+> At 2022-12-08 22:23:56, "Michal Hocko" <mhocko@suse.com> wrote:
+[...]
+> >oom killer is a memory reclaim of the last resort. So yes, there is some
+> >difference but fundamentally it is about releasing some memory. And long
+> >term we have learned that the more clever it tries to be the more likely
+> >corner cases can happen. It is simply impossible to know the best
+> >candidate so this is a just a best effort. We try to aim for
+> >predictability at least.
 > 
->     > Actually now I see it was like that in previous patch, I just missed it
->     > during previous review. Anyway this must be fixed.
+> Is the current oom_score strategy predictable? I don't think so. The score_adj 
+> has broken the predictability of oom_score (it is no longer simply killing the 
+> process that uses the most mems).
+
+oom_score as reported to the userspace already considers oom_score_adj
+which means that you can compare processes and get a reasonable guess
+what would be the current oom_victim. There is a certain fuzz level
+because this is not atomic and also there is no clear candidate when
+multiple processes have equal score. So yes, it is not 100% predictable.
+memory.reclaim as you propose doesn't change that though.
+
+Is oom_score_adj a good interface? No, not really. If I could go back in
+time I would nack it but here we are. We have an interface that
+promises quite much but essentially it only allows two usecases
+(OOM_SCORE_ADJ_MIN, OOM_SCORE_ADJ_MAX) reliably. Everything in between
+is clumsy at best because a real user space oom policy would require to
+re-evaluate the whole oom domain (be it global or memcg oom) as the
+memory consumption evolves over time. I am really worried that your
+memory.oom.protection directs a very similar trajectory because
+protection really needs to consider other memcgs to balance properly.
+
+[...]
+
+> > But I am really open
+> >to be convinced otherwise and this is in fact what I have been asking
+> >for since the beginning. I would love to see some examples on the
+> >reasonable configuration for a practical usecase.
 > 
-> I have two module (PWM and TACH) but share with the same base address,
-> The PWM will use the offset (N*0x10) + 0x0 and 0x04.
-> The TACH will use the offset (N*0x10) + 0x8 and 0x0c.
-> The range of the N is 0~15.
-> Can you give me some advice to fix this problem without using simple-mfd?
+> Here is a simple example. In a docker container, users can divide all processes 
+> into two categories (important and normal), and put them in different cgroups. 
+> One cgroup's oom.protect is set to "max", the other is set to "0". In this way, 
+> important processes in the container can be protected.
 
-
-Use regular driver which populates children.
-
-Best regards,
-Krzysztof
-
+That is effectivelly oom_score_adj = OOM_SCORE_ADJ_MIN - 1 to all
+processes in the important group. I would argue you can achieve a very
+similar result by the process launcher to set the oom_score_adj and
+inherit it to all processes in that important container. You do not need
+any memcg tunable for that. I am really much more interested in examples
+when the protection is to be fine tuned.
+-- 
+Michal Hocko
+SUSE Labs
