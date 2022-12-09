@@ -2,96 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91CCCC4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 17:41:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8E98C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 17:50:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229951AbiLIRlu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Dec 2022 12:41:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54530 "EHLO
+        id S229626AbiLIRuS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Dec 2022 12:50:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230154AbiLIRls (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 12:41:48 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D0B186F40
-        for <linux-doc@vger.kernel.org>; Fri,  9 Dec 2022 09:41:44 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id n65-20020a17090a2cc700b0021bc5ef7a14so5716880pjd.0
-        for <linux-doc@vger.kernel.org>; Fri, 09 Dec 2022 09:41:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZFm1mHWqGIzhe+rb1eJUuw0XvgXopgBYaEtqlXPVfz0=;
-        b=hKQY4J/pRm6CWAMtVWIamF1UR1S5ytG4Q0dHLvMKrbYlyUycxPoWBv9Nvh4aE85080
-         MWzlNOjWwFO925vt2GUNcS/9BsF/orNKSvNrMiJHpxpXZP/fsRzj2P95wFaUt+bI8jC4
-         HKRo33TkZwcuRzKPFMZ/Et6g/CaKhLpD6XEakiYyIPyXFiTK9hpXRej8x43ZakzvAdnu
-         cc2uWLlT8LDekFoJ0DodzV9KIG5fEqwrWeJJE5FFSWTew4hhwEfHkkmQuMbzZJ1BkUaR
-         /AoTD8PntICNQW80RuAfzK6ZOG6OUwhJeXxnL+Z8dW9hRID7YD/0yMk+1SSU/RwDz4Iv
-         IAeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZFm1mHWqGIzhe+rb1eJUuw0XvgXopgBYaEtqlXPVfz0=;
-        b=vGuOTRVcIYtq1ZmMMkn6Sz+L45+SeTytqU5x0RNs+Z10WXa9/ynePjEuEd0m8dXjAs
-         xXRmD3fCIPYzPK0q/KzkPDvIo+asmOa2Aw5O7Oj+enBiSVVBuRcq3wsXaXSppU2DROoW
-         h4sJ/XyT3D7P+xfY0UqPLp7Xd8eqmqR1y6tRiV1ZF6M9PR/DNLslPFqYg1KFNaMZBw9P
-         mMccvy2FnMHjaPMi3RwQDBpEeGoU+xkcOPwPtqHoO0zDV0FSGtxzEKXZknsOkweTCra1
-         YHBkaa3zlxwfrrvTVOQZC6A44z/hZphs/PaDMRudUpYKXPvwls1XVL2NDkHRluXwH1yD
-         YFew==
-X-Gm-Message-State: ANoB5plrcoq7TPoGJps07yRYp4L+bdoLob+Mqh9Gttk2N9mD1KD/Hx9g
-        1i/va76adGggO7TSImnByY5wDuduKCKA6q9RATFH
-X-Google-Smtp-Source: AA0mqf42Th/ALMFAQak9uQXYbmo+LSPCJ2qrOZQ93/pWBADQWGsh/kyFsqjnomlO+PB/OJ41SRslxU9sOKyJx0wF70I=
-X-Received: by 2002:a17:90b:2743:b0:20d:4173:faf9 with SMTP id
- qi3-20020a17090b274300b0020d4173faf9mr108635116pjb.147.1670607703640; Fri, 09
- Dec 2022 09:41:43 -0800 (PST)
+        with ESMTP id S229724AbiLIRuR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 12:50:17 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 983747A192;
+        Fri,  9 Dec 2022 09:50:16 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3646C622E8;
+        Fri,  9 Dec 2022 17:50:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9009BC433F0;
+        Fri,  9 Dec 2022 17:50:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670608215;
+        bh=9qzt9BQpb73mPkbaBSKVFKBm13JD2EkP8hbzXLiTBnQ=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=g74Ndkk9OkIuv+LVReNyJ1hp5bCJ9csAILmVly+jpeop8fB5IZmsSCR+gYDgbSIjb
+         YrqE6nuoy826mCBq6spHqmLGfKj8pzc8Cmvb40bgqEnkxYEi9ew8X5awipNVRWiQ9k
+         PFU0mPVHKfjpi443c6NZ8e4GSp0kde6QF6PT9nGTPypNTh5O5qt63YSTv43T7jQIxN
+         1qGaXzH7Cip2JCKvWA+b/8ug525XpdsPwTt8vDvi7vnwHegdeB7JB3r+VL8xmXJtR5
+         f+VpvkC6Ql5f5VmOZ+FzH/rhD7PFMMvhbIb4WBE0cg881h2xXzLU26DIlTyR8F0JVU
+         iQ1kq5hQSFBqg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 74EE3E1B4D9;
+        Fri,  9 Dec 2022 17:50:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20221209082936.892416-1-roberto.sassu@huaweicloud.com> <20221209082936.892416-2-roberto.sassu@huaweicloud.com>
-In-Reply-To: <20221209082936.892416-2-roberto.sassu@huaweicloud.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Fri, 9 Dec 2022 12:41:32 -0500
-Message-ID: <CAHC9VhSz6b9AcpKzAn2Lz_9SW0yNqiQ0Ub8fXytFy7sSBmXipQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] doc: Fix fs_context_parse_param description in mount_api.rst
-To:     Roberto Sassu <roberto.sassu@huaweicloud.com>
-Cc:     corbet@lwn.net, casey@schaufler-ca.com, omosnace@redhat.com,
-        john.johansen@canonical.com, kpsingh@kernel.org,
-        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Roberto Sassu <roberto.sassu@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH bpf-next v4] docs/bpf: Add documentation for
+ BPF_MAP_TYPE_SK_STORAGE
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <167060821547.31126.2706063406083427383.git-patchwork-notify@kernel.org>
+Date:   Fri, 09 Dec 2022 17:50:15 +0000
+References: <20221209112401.69319-1-donald.hunter@gmail.com>
+In-Reply-To: <20221209112401.69319-1-donald.hunter@gmail.com>
+To:     Donald Hunter <donald.hunter@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, ast@kernel.org,
+        daniel@iogearbox.net, andrii@kernel.org, corbet@lwn.net,
+        yhs@meta.com, void@manifault.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 9, 2022 at 3:30 AM Roberto Sassu
-<roberto.sassu@huaweicloud.com> wrote:
->
-> From: Roberto Sassu <roberto.sassu@huawei.com>
->
-> Align with the description of fs_context_parse_param in lsm_hooks.h, which
-> seems the right one according to the code.
->
-> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+Hello:
+
+This patch was applied to bpf/bpf-next.git (master)
+by Alexei Starovoitov <ast@kernel.org>:
+
+On Fri,  9 Dec 2022 11:24:01 +0000 you wrote:
+> Add documentation for the BPF_MAP_TYPE_SK_STORAGE including
+> kernel version introduced, usage and examples.
+> 
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
 > ---
->  Documentation/filesystems/mount_api.rst | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+> v3 -> v4:
+> - Update intro paragraph with detail about storage locality.
+> - Remove confusing text from bpf_map_update_elem()
+>   as reported by David Vernet
+> - Updated BPF_EXIST and BPF_NOEXIST behaviour as suggested
+>   by David Vernet
+> - Fixed extra space in function signature as reported by
+>   David Vernet
+> - Added reference to selftests for complete examples as
+>   suggested by Yonghong Song
+> v2 -> v3:
+> - Fix void * return, reported by Yonghong Song
+> - Add tracing programs to API note, reported by Yonghong Song
+> v1 -> v2:
+> - Fix bpf_sk_storage_* function signatures, reported by Yonghong Song
+> - Fix NULL return on failure, reported by Yonghong Song
+> 
+> [...]
 
-I'm going to leave this patch as a "hold" for right now.  The existing
-text is arguably not great, but I'm not really in love with the
-replacement text taken from the LSM hook comments; given the merge
-window opens in a couple of days, we don't have much time to fiddle
-with the wording so let's just hold this for a little bit.
+Here is the summary with links:
+  - [bpf-next,v4] docs/bpf: Add documentation for BPF_MAP_TYPE_SK_STORAGE
+    https://git.kernel.org/bpf/bpf-next/c/f3212ad5b7e9
 
-These comment corrections (which are very welcome!) have also reminded
-me that we really should move the hook comment blocks out of the
-header file and into security.c like every other kernel function.
-This should help increase their discoverability while also making it
-easier to maintain the comments over time.  I'm going to post a first
-pass at this as soon as the merge window closes, and once that is done
-we can do further work to cleanup the descriptions and add more detail
-(including notes both for the other kernel subsystems that call the
-hooks and the LSM devs who provide implementations).
-
+You are awesome, thank you!
 -- 
-paul-moore.com
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
