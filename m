@@ -2,187 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E601C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 18:48:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03461C4167B
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 19:38:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229798AbiLISr7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Dec 2022 13:47:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36358 "EHLO
+        id S229777AbiLITir (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Dec 2022 14:38:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbiLISr6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 13:47:58 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF489218A2
-        for <linux-doc@vger.kernel.org>; Fri,  9 Dec 2022 10:47:56 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id m19so475798wms.5
-        for <linux-doc@vger.kernel.org>; Fri, 09 Dec 2022 10:47:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=colorfullife-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=a/OvMNsAzsgvJI+DZSdj+rRXl8KhhsBZiWxKq1VinuU=;
-        b=jKuZ2r1dZ9JWyv8xEkfsg1ahawfcwPcqDQoraXkbZWZ4QIJ++dVVmyX5gAU4P8Io6r
-         9coPM6MsAWm4lQxNiw38VgBJZcwIGJAWBUMlk1+7gXNnM7m96lun8idFeh5suqj+uhoc
-         HjRULtC/TJ+I5PchhXGQJaeoZh1cEqMvLO7Q6pBzsZYhJZ0FhRlQ/OSU8F+42Sw3VJuR
-         zvVmQSr/ljRQc5kf6d8XW9XseoXr8QlHkBNxMrXDD9+5XYT2j9NWcIjGCu+qon4a82Yh
-         zuq7K6JFlP3qcL9NJivzznEpiEd7O4J4D03rZ+AwNgKi+nTBbUVgg0sy0CmhmwJuD9B/
-         BBJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=a/OvMNsAzsgvJI+DZSdj+rRXl8KhhsBZiWxKq1VinuU=;
-        b=6GQ90Zm0hvdVY/Qis4yKXu1Z1bznIqkbBQT5G+QoZCI/e1HN2BPEnoXCRpb5ddNm1K
-         m9gEsqzARyw65hlzEdrphSoX0TCIj2ITo8cJXDnjZBljqNMRQKWtHGXhqY1vlgq32K2A
-         ZRh8HjpipHuNCD9jXWooXZ3l1oVmU8NG/B3BhWYheR9oFf29FEd3lAk83ls8YWXEH2qE
-         iPwJzAhZz52yb1L18NwqNQfSx5LYxHSSjDrlBcUkBDLsgTxh8VQTnGjK3F8VXqXs/XL/
-         gc0ymFtE4OXy/9RBIPJQokhc/VSUpw3cDqtipC7xUJ3GIrUm6d2KQRJaO1Jv642jxYuW
-         C+Gg==
-X-Gm-Message-State: ANoB5pmjOhjUWo4nvwYfPjhLpsbb1agA13WfcbscFrRLJ+Y8BFxamria
-        uXF3k3qMQHqFtKiPjNCE41MIfg==
-X-Google-Smtp-Source: AA0mqf4UtXIeSfB9Qa5J05ZKIxiW/RlaRPZKaGNAZ49pGJH6Vt8aX5PWE/7qp5pgk18fXnOeuSAkrg==
-X-Received: by 2002:a05:600c:5012:b0:3cf:6c16:2622 with SMTP id n18-20020a05600c501200b003cf6c162622mr5684378wmr.33.1670611675506;
-        Fri, 09 Dec 2022 10:47:55 -0800 (PST)
-Received: from ?IPV6:2003:d9:9703:3100:a3be:b12f:5235:421? (p200300d997033100a3beb12f52350421.dip0.t-ipconnect.de. [2003:d9:9703:3100:a3be:b12f:5235:421])
-        by smtp.googlemail.com with ESMTPSA id bu26-20020a056000079a00b0024207ed4ce0sm2057346wrb.58.2022.12.09.10.47.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Dec 2022 10:47:55 -0800 (PST)
-Message-ID: <be5a4c10-3b69-1c2d-d413-62f79ccc178b@colorfullife.com>
-Date:   Fri, 9 Dec 2022 19:47:52 +0100
+        with ESMTP id S229628AbiLITip (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 14:38:45 -0500
+Received: from smtp-42ad.mail.infomaniak.ch (smtp-42ad.mail.infomaniak.ch [IPv6:2001:1600:3:17::42ad])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C6537D0AE
+        for <linux-doc@vger.kernel.org>; Fri,  9 Dec 2022 11:38:40 -0800 (PST)
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4NTLt63cVmzMpnsK;
+        Fri,  9 Dec 2022 20:38:38 +0100 (CET)
+Received: from localhost (unknown [23.97.221.149])
+        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4NTLt46h1RzMppKQ;
+        Fri,  9 Dec 2022 20:38:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1670614718;
+        bh=pXPAtHXHqBncbIfMVnhcyz8L2tQrjjvVbLn9r0UM1Yo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=RESVifONnt9wYqh/YMW3PuZNgZ16tg7cxpPbGf9b43w1Hs/KIwkn2WfeSBjNv9x1I
+         AgsIxT74yI9B2ymXQz44N8UIJ8gedurrt47iPaLdNF9qqpiFEFbQvZm8/DRRflIUpb
+         GaqJhIE5GjAMdJ/yHdx59AY2lCw08/xJ31gaDYGE=
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Alejandro Colomar <alx.manpages@gmail.com>,
+        James Morris <jmorris@namei.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+        Paul Moore <paul@paul-moore.com>,
+        "Serge E . Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: [PATCH v2] landlock: Explain file descriptor access rights
+Date:   Fri,  9 Dec 2022 20:38:13 +0100
+Message-Id: <20221209193813.972012-1-mic@digikod.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: Invalid locking pattern in
- Documentation/kernel-hacking/locking.rst?
-To:     "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        1vier1@web.de
-References: <442ecdf402f8e726f2be4ab19c7299d272e27c0b.camel@siemens.com>
-Content-Language: en-US
-From:   Manfred Spraul <manfred@colorfullife.com>
-In-Reply-To: <442ecdf402f8e726f2be4ab19c7299d272e27c0b.camel@siemens.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Infomaniak-Routing: alpha
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alexander,
+Starting with LANDLOCK_ACCESS_FS_TRUNCATE, it is worth explaining why we
+choose to restrict access checks at open time.  This new "File
+descriptor access rights" section is complementary to the existing
+"Inode access rights" section.  Add a new guiding principle related to
+this section.
 
-On 12/9/22 13:23, Sverdlin, Alexander wrote:
-> Dear documentation maintainers,
->
-> the latest version of locking.rst contains the following (since 2005):
->
-> "Manfred Spraul points out that you can still do this, even if the data
-> is very occasionally accessed in user context or softirqs/tasklets. The
-> irq handler doesn't use a lock, and all other accesses are done as so::
->
->          spin_lock(&lock);
->          disable_irq(irq);
-> "
->
-> Isn't it "sleeping in atomic" actually because of the sleeping
-> disable_irq()?
+Cc: Günther Noack <gnoack3000@gmail.com>
+Signed-off-by: Mickaël Salaün <mic@digikod.net>
+Link: https://lore.kernel.org/r/20221209193813.972012-1-mic@digikod.net
+---
 
-Good catch!
+Changes since v1:
+https://lore.kernel.org/r/20221205112621.3530557-1-mic@digikod.net
+* Reworded the new section based on Günther suggestions.
+* Added a new guiding principle.
+* Update date.
+---
+ Documentation/security/landlock.rst | 33 ++++++++++++++++++++++++++---
+ 1 file changed, 30 insertions(+), 3 deletions(-)
 
-The documentation of disable_irq() claims that the function is safe to 
-be called from IRQ context (for careful callers)
+diff --git a/Documentation/security/landlock.rst b/Documentation/security/landlock.rst
+index c0029d5d02eb..95a0e4726dc5 100644
+--- a/Documentation/security/landlock.rst
++++ b/Documentation/security/landlock.rst
+@@ -7,7 +7,7 @@ Landlock LSM: kernel documentation
+ ==================================
+ 
+ :Author: Mickaël Salaün
+-:Date: September 2022
++:Date: December 2022
+ 
+ Landlock's goal is to create scoped access-control (i.e. sandboxing).  To
+ harden a whole system, this feature should be available to any process,
+@@ -41,12 +41,15 @@ Guiding principles for safe access controls
+   processes.
+ * Computation related to Landlock operations (e.g. enforcing a ruleset) shall
+   only impact the processes requesting them.
++* Resources (e.g. file descriptors) directly obtained from the kernel by a
++  sandboxed process shall retain their scoped accesses whatever process use
++  them.  Cf. `File descriptor access rights`_.
+ 
+ Design choices
+ ==============
+ 
+-Filesystem access rights
+-------------------------
++Inode access rights
++-------------------
+ 
+ All access rights are tied to an inode and what can be accessed through it.
+ Reading the content of a directory does not imply to be allowed to read the
+@@ -57,6 +60,30 @@ directory, not the unlinked inode.  This is the reason why
+ ``LANDLOCK_ACCESS_FS_REMOVE_FILE`` or ``LANDLOCK_ACCESS_FS_REFER`` are not
+ allowed to be tied to files but only to directories.
+ 
++File descriptor access rights
++-----------------------------
++
++Access rights are checked and tied to file descriptors at open time.  The
++underlying principle is that equivalent sequences of operations should lead to
++the same results, when they are executed under the same Landlock domain.
++
++Taking the ``LANDLOCK_ACCESS_FS_TRUNCATE`` right as an example, it may be
++allowed to open a file for writing without being allowed to
++:manpage:`ftruncate` the resulting file descriptor if the related file
++hierarchy doesn't grant such access right.  The following sequences of
++operations have the same semantic and should then have the same result:
++
++* ``truncate(path);``
++* ``int fd = open(path, O_WRONLY); ftruncate(fd); close(fd);``
++
++Similarly to file access modes (e.g. ``O_RDWR``), Landlock access rights
++attached to file descriptors are retained even if they are passed between
++processes (e.g. through a Unix domain socket).  Such access rights will then be
++enforced even if the receiving process is not sandboxed by Landlock.  Indeed,
++this is required to keep a consistent access control over the whole system, and
++avoid unattended bypasses through file descriptor passing (i.e. confused deputy
++attack).
++
+ Tests
+ =====
+ 
 
-But it calls synchronize_irq(). And synchronize_irq() claims that the 
-function can be called only from preemptible code.
-
-The change was in 2009:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v6.1-rc8&id=3aa551c9b4c40018f0e261a178e3d25478dc04a9 
-
-
-@Thomas/@Ingo: What do we want?
-
-Declare disable_irq()&synchronize_irq() as safe from irq context only if 
-no threaded irq handlers are used?
-
-Or declare both function as preemptible context only?
-
-
-The update for locking.rst would be to switch from spin_lock() to 
-mutex_lock().
-
-
-https://elixir.bootlin.com/linux/latest/source/kernel/irq/manage.c#L126
-
-> /**
-> * synchronize_irq - wait for pending IRQ handlers (on other CPUs)
-> * @irq: interrupt number to wait for
-> *
-> * This function waits for any pending IRQ handlers for this interrupt
-> * to complete before returning. If you use this function while
-> * holding a resource the IRQ handler may need you will deadlock.
-> *
-> * Can only be called from preemptible code as it might sleep when
-> * an interrupt thread is associated to @irq.
-> *
-> * It optionally makes sure (when the irq chip supports that method)
-> * that the interrupt is not pending in any CPU and waiting for
-> * service.
-> */
-> void  synchronize_irq 
-> <https://elixir.bootlin.com/linux/latest/C/ident/synchronize_irq>(unsigned  int  irq)
-> {
-> 	struct  irq_desc <https://elixir.bootlin.com/linux/latest/C/ident/irq_desc>  *desc  =  irq_to_desc 
-> <https://elixir.bootlin.com/linux/latest/C/ident/irq_to_desc>(irq);
->
-> 	if  (desc)  {
-> 		__synchronize_hardirq 
-> <https://elixir.bootlin.com/linux/latest/C/ident/__synchronize_hardirq>(desc,  true <https://elixir.bootlin.com/linux/latest/C/ident/true>);
-> 		/*
-> * We made sure that no hardirq handler is
-> * running. Now verify that no threaded handlers are
-> * active.
-> */
-> 		wait_event 
-> <https://elixir.bootlin.com/linux/latest/C/ident/wait_event>(desc->wait_for_threads 
-> <https://elixir.bootlin.com/linux/latest/C/ident/wait_for_threads>,
-> 			!atomic_read 
-> <https://elixir.bootlin.com/linux/latest/C/ident/atomic_read>(&desc->threads_active 
-> <https://elixir.bootlin.com/linux/latest/C/ident/threads_active>));
-> 	}
-> }
-> EXPORT_SYMBOL 
-> <https://elixir.bootlin.com/linux/latest/C/ident/EXPORT_SYMBOL>(synchronize_irq 
-> <https://elixir.bootlin.com/linux/latest/C/ident/synchronize_irq>);
-
-https://elixir.bootlin.com/linux/latest/source/kernel/irq/manage.c#L716
-
-> /**
-> * disable_irq - disable an irq and wait for completion
-> * @irq: Interrupt to disable
-> *
-> * Disable the selected interrupt line. Enables and Disables are
-> * nested.
-> * This function waits for any pending IRQ handlers for this interrupt
-> * to complete before returning. If you use this function while
-> * holding a resource the IRQ handler may need you will deadlock.
-> *
-> * This function may be called - with care - from IRQ context.
-> */
-> void  disable_irq 
-> <https://elixir.bootlin.com/linux/latest/C/ident/disable_irq>(unsigned  int  irq)
-> {
-> 	if  (!__disable_irq_nosync 
-> <https://elixir.bootlin.com/linux/latest/C/ident/__disable_irq_nosync>(irq))
-> 		synchronize_irq 
-> <https://elixir.bootlin.com/linux/latest/C/ident/synchronize_irq>(irq);
-> }
->
---
-
-     Manfred
+base-commit: 0b4ab8cd635e8b21e42c14b9e4810ca701babd11
+-- 
+2.38.1
 
