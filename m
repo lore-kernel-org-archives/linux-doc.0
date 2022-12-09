@@ -2,89 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5479BC4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 03:36:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3444AC4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 03:40:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229710AbiLIDf7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Dec 2022 22:35:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53056 "EHLO
+        id S229498AbiLIDkn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Dec 2022 22:40:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbiLIDf6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 22:35:58 -0500
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2402CA432F;
-        Thu,  8 Dec 2022 19:35:50 -0800 (PST)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-3704852322fso37290057b3.8;
-        Thu, 08 Dec 2022 19:35:50 -0800 (PST)
+        with ESMTP id S229694AbiLIDkl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Dec 2022 22:40:41 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B43529375;
+        Thu,  8 Dec 2022 19:40:35 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id k7so3571414pll.6;
+        Thu, 08 Dec 2022 19:40:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=JoAXY4oz3//YssskB6bdc2J+HywWJ8gfQL6OHbwqXnQ=;
-        b=qPn/IdpAvQN0x1RC9GZAUdQ3nX8aRjRiJGGxyRZTTQHtzAxnkku+L2enxOQsRz6mYN
-         xM1s6Yz+kYWZnXV//Bt6nVgS8dU1Av3lbElqBhOYzIsntAYAIDPgY5Tpy/NpAxPMcb9r
-         IygSDTTz4x1zKlkhbRoQFppo0Md6r7wdPAk7qk78XbM1GMYvUuV6+SDUNa11OjOvjGyx
-         psmVEICiz6O8Pg6/uHd2ZV1h4c2hQ9Cg8cqVlYHQBsXd6+9iSKzcAGCO4otG64Z0ZflB
-         TMTFJBz4XmVu5kTwPP1kMn6+aFPV0BSpo+zmm7qMowcyuVpqkhJgex8cKdU7Hk+Wdi4g
-         DVNg==
+        bh=Hpzq7q0AtVmt+5quybT/3fAvERrq3OOIi4p4YNPtaTc=;
+        b=DojONSdiNcdZpkybGACZ9c+pNuMYFdOoIfqCLTuXwL3AJtQapVO5ajfeIx95oiEwt4
+         a+WdpVdwfodiz/WJvEWpa3fPAKctr6uy+ZGU0dqhcylGZHs4oPeaSHi63eHfHDMyk+8m
+         sQKRaNfCwaM4pEhyB4KWzZnqIgw7iQCg3k/w07NaTYv2LWtUUSy8XhwBo2eovm8XllTf
+         xGd1o8YJrFYRQYUxHc86ft/YrgHO5a9kiu/sNhyfX/CmhoAiFBPTOJBga4lWqeSuj97h
+         JD5WIKuV5fHmbxqBCpsS8lfkk7Hsz+ZCX2VGOiGj7I/oF/lxO0b3gCTEoBCpf0EUp+Ch
+         H9Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JoAXY4oz3//YssskB6bdc2J+HywWJ8gfQL6OHbwqXnQ=;
-        b=B00M59bGEdz3E/s1LASR9chlZoBgbAT54hZGvxfHB+ZaSs6/9DeojH+1j0dKslJdU6
-         2nT1cuzbhnNzqZ7ERL5hR7FsIhSFcWz1FvLLLuVGioakZvV5+a1UnkpszaKuYkBetW5/
-         Ccek/6vrDqsOa+7/IJNnUv32/6TwL2idxeNHuZOsEKzmDAcdujUczpVpMwjB21X/Ef2m
-         lOg07rR4Krz8D5chJJVod1/PFbctm3oXWwwFOALP//zy6l/NXUKL1cOywOAntzjM5AA1
-         QH5neHkwUiLBbbmS/3+BSfYTFb9L09AhO7X6S007zdjhPUdhkw3w5UPgZrXOtPdMHdmS
-         xcig==
-X-Gm-Message-State: ANoB5plghXZpbyzKA+1A/WU7ECgoVCuj9BO9qrm2ASa1kb+NMNE+zT/p
-        N/gDWLMIMJrL5GqW3tlDFciupXgjN0U=
-X-Google-Smtp-Source: AA0mqf7SL0bj3yP2oDTllApvM/dkL5rh5Zlw++oHpdvVmI0Xkrz3dAETMZMSzTjg8ShPpvSf9ECX/A==
-X-Received: by 2002:a05:6a21:78a1:b0:a4:829e:de65 with SMTP id bf33-20020a056a2178a100b000a4829ede65mr7391414pzc.9.1670556420116;
-        Thu, 08 Dec 2022 19:27:00 -0800 (PST)
+        bh=Hpzq7q0AtVmt+5quybT/3fAvERrq3OOIi4p4YNPtaTc=;
+        b=SOzT6QXjoiNuy2AQVmPhm5bpOwoL0B+GMT3v1a3kDfO5heNzPp501GLCgT2iUz/H4Q
+         ttfPOS64WUNrxrUhep0qtIkwGZhhkG/PUpZ3vVyhRQ5fFivbaZ1lhMdFEPB9bQetajr0
+         4xw++WClYQ6ovTPyLgXJf6NSq/alO28C0TvTBFn1WFxqAeqqjg3HLMmQbznkO9kzjOHl
+         Ss0T8ycC7FtdaD+oT5Bs4T4tGw2lCznvAPlgvlOTt3uYDipCr8dVb6wIDRsKilCjhv+S
+         jRvdJ1Vsp77kxwDVIHcm2OCZ4tassYO0qouFfIqo/+wJwDz61V7m94ChWe40jJdxhW0I
+         bvnA==
+X-Gm-Message-State: ANoB5pl9J1D/FU+w6WQsgu0nA7NR8i5JLjggiGBfc57Lsm4yqsicG6es
+        ZrgsZzU7fl+7Nbh48+RUH3hWkAOdTMI=
+X-Google-Smtp-Source: AA0mqf7fgDEj8Aqmbw0AkJYqClY4HWkPzSDZXGf405cNj0lXff6xOP9SNWNlV+JRZVZmcB1zTZgXoA==
+X-Received: by 2002:a17:90b:b04:b0:219:70fd:d8c0 with SMTP id bf4-20020a17090b0b0400b0021970fdd8c0mr4241899pjb.11.1670557234757;
+        Thu, 08 Dec 2022 19:40:34 -0800 (PST)
 Received: from [192.168.43.80] (subs32-116-206-28-21.three.co.id. [116.206.28.21])
-        by smtp.gmail.com with ESMTPSA id w206-20020a627bd7000000b005748aca80fesm230979pfc.32.2022.12.08.19.26.56
+        by smtp.gmail.com with ESMTPSA id q34-20020a17090a752500b00200461cfa99sm316334pjk.11.2022.12.08.19.40.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Dec 2022 19:26:59 -0800 (PST)
-Message-ID: <a755a60a-7ab7-0d7d-5817-c4c88b7781c6@gmail.com>
-Date:   Fri, 9 Dec 2022 10:26:54 +0700
+        Thu, 08 Dec 2022 19:40:34 -0800 (PST)
+Message-ID: <ed94e67b-a42b-26de-39a1-70a31828aaea@gmail.com>
+Date:   Fri, 9 Dec 2022 10:40:30 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
-Subject: Re: [PATCH v2] mm/highmem: Add notes about conversions from
- kmap{,_atomic}()
+Subject: Re: [PATCH linux-next v2] docs: proc.rst: add softnet_stat to
+ /proc/net
 Content-Language: en-US
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Peter Zijlstra <a.p.zijlstra@chello.nl>,
-        Thomas Gleixner <tglx@linutronix.de>
-References: <20221207225308.8290-1-fmdefrancesco@gmail.com>
- <Y5FmjdBNEO8aP/Ls@debian.me> <21697972.EfDdHjke4D@suse>
+To:     yang.yang29@zte.com.cn, corbet@lwn.net, kuba@kernel.org
+Cc:     davem@davemloft.net, hannes@cmpxchg.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <202212071923184146141@zte.com.cn>
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <21697972.EfDdHjke4D@suse>
+In-Reply-To: <202212071923184146141@zte.com.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/9/22 03:05, Fabio M. De Francesco wrote:
-> You provided valid suggestions, thanks!
-> However, immediately after submitting this v2 patch, Andrew added it to the -
-> mm mm-unstable branch.
-> I'll do the changes that you suggested in a subsequent patch which will build 
-> on this.
+On 12/7/22 18:23, yang.yang29@zte.com.cn wrote:
+> From: Yang Yang <yang.yang29@zte.com.cn>
 > 
+> /proc/net/softnet_stat exists for a long time, but proc.rst miss it.
+"..., however it isn't described in /proc/net table of proc.rst
+documentation."
+> Softnet_stat shows some statistics of struct softnet_data of online
+"softnet_stat" (programming language keywords and variable/const name
+should always using proper capitalization, i.e. lowercase)
+> CPUs. Struct softnet_data manages incoming and output packets
+> on per-CPU queues. Notice that fastroute and cpu_collision in
+> softnet_stat are obsoleted, their value is always 0.
+> 
+"Note that ... are obsolete and ..."
 
-OK, thanks!
+For patch subject: "... /proc/net table".
+
+Thanks.
 
 -- 
 An old man doll... just what I always wanted! - Clara
