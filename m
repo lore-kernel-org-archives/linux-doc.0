@@ -2,257 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FBB9C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 11:24:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2630EC4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 12:23:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229723AbiLILYO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Dec 2022 06:24:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48910 "EHLO
+        id S229750AbiLIMXw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Dec 2022 07:23:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbiLILYN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 06:24:13 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DB9C67235;
-        Fri,  9 Dec 2022 03:24:12 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id ja4-20020a05600c556400b003cf6e77f89cso5756005wmb.0;
-        Fri, 09 Dec 2022 03:24:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IhybnMAirMpwasI4k5OijgVj9rfZZaM80xqCzvQmMuI=;
-        b=H1CVfzkdTojKkj8z0tWgXgXiKmGc3kyUYUeRXLChJm0xLSoSrLwuXwGkklyrXACgF6
-         SEKCqNGz/e8iJeyLnn4HyPoM5svhNLNlQsHLWtgJu/Uz3rLoSEb/UQmyxOemP2mh3KBd
-         Pg2dYYhR61X49bzSjpazI+JmzBbfRwzruw2ts+TksytDsADAdXkrcz7y30KW4N67B2ZR
-         1RftQ+RelL9+kQKYFWD4gvLP71re58kYd7JkdLClLBdICQD1dH+hEmbPC0MWEJOE4ma9
-         D4colfBzkpzFkHH7WfP+fCznU/aejjwHDWsHf8ljeOXd7VEZFzJQ275qVieY7qE7SqQm
-         qpXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IhybnMAirMpwasI4k5OijgVj9rfZZaM80xqCzvQmMuI=;
-        b=4l/sOXYnIy6B+BI9SgM9a/S+8w8XLBl2QV8ozT/swcdpFDFqu4ZLzL5iWLsJGVKkPL
-         7mBnHodw25oysx3Wazghxp73so1fJs/uNrvX2UpriWQzS3WWKryAzEzTsiZk4V3Ubraa
-         g+BUEI3PqRweobGFY69tjs9wH372MxdQn+CXkVHZ5OpnWF0kmkZy0devPgenQSAZS5XP
-         K5SxHhe9ZHYd3tcwe42S5bv9SmjMaMp3AGMUUPVoKGNjTMIRSSBTrwKtGWgxNYUNF8NR
-         4FvnIeukhFadzWRQ0fBkpFVl2AEOEPKPDPoyjQomJz4ACr0BreXTvlMz/+39ak+5YMfV
-         HaTA==
-X-Gm-Message-State: ANoB5plJZ4dHdM6kCqJFfWYQGcK7G8WEkEOcldUAgLEokNQyjYe7pRGu
-        f6G7bYn6mf7AbRkEI+WQrmIqEQryK2m73w==
-X-Google-Smtp-Source: AA0mqf5NYuuDPXfeHaCinG9Pg6WMUc+TJMaqhUwX9SOKv3zOjPwJthjIfrxv108nXcUT/3znviJxfw==
-X-Received: by 2002:a05:600c:4fd1:b0:3d0:6c60:b4d1 with SMTP id o17-20020a05600c4fd100b003d06c60b4d1mr5636139wmq.6.1670585049929;
-        Fri, 09 Dec 2022 03:24:09 -0800 (PST)
-Received: from imac.redhat.com ([88.97.103.74])
-        by smtp.gmail.com with ESMTPSA id h5-20020a05600c2ca500b003c6bbe910fdsm9845293wmc.9.2022.12.09.03.24.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Dec 2022 03:24:09 -0800 (PST)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Yonghong Song <yhs@meta.com>,
-        David Vernet <void@manifault.com>,
-        Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH bpf-next v4] docs/bpf: Add documentation for BPF_MAP_TYPE_SK_STORAGE
-Date:   Fri,  9 Dec 2022 11:24:01 +0000
-Message-Id: <20221209112401.69319-1-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.38.1
+        with ESMTP id S229468AbiLIMXv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 07:23:51 -0500
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2062.outbound.protection.outlook.com [40.107.6.62])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C75117075;
+        Fri,  9 Dec 2022 04:23:50 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XcyhGBXPEaoydnHaOo+YpDWiYO+nkRGUerVvKKED6xhDevHUxphwFCGkzB+7P7qHUAFR/nkopThjiw3FPujQhZQw5mp3yCbd2OylUqVMuC3pFuSB+UPOTk5F9M1cW8h2dHbff8ucnp7Ch3m8GWLs+8iHUl09eJH7iNNBI3UFmBs3FFVKdgEl13la25wMK4M+xUkaydwLIaseZ/6oNC/SPdyKafHGyriOOO8H/ALng4SghAf1WF5sdufyJVKDZXRy5zLshv2czF8MYCmrNacYnix88nFKESasxNzRsgqWtvnH+EVr6xqindhmfD+95+Vox39OrW4/IZM+uLX48MZGog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CLXgzl7WybghGwMOvWudOEtANkN5AdXC2ranCY3TH0I=;
+ b=AJv1/Xwu91oBt6CkSvJj4QMnMH/+SQEkFP5zH+C3qUdoFq4S3Wlb0GyhushBu83rwFdVIu6Pi+h0NTdlV+OIyvBGDty+xI09Xn8HSfgCA7cEx6TO8MWhdteeshu/K3zL7aPuAiU6Fj6GVGjX/U+eQ7MtjlLXi79G73jx79Oj2ZV8jsG1pA1BD1KAUXedSOjH9ue6oy3llXNfsBmGhza4a4fnAsrunFA+DeZA1+saF37tMpKP48K4EMIkB7ThFq//tccMTDEXOP7/JfwyYHpjW4GWTC830CeWG/crcLnn81gJXuyhEwMjhCUdM6qccwUIPofhkLZfaY19TkVhMOZisQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CLXgzl7WybghGwMOvWudOEtANkN5AdXC2ranCY3TH0I=;
+ b=ukMQBOckBdE3x4Oxv/MSyS+Rl0ln44FdV4HRhSVFu7M00B75Sjmnl1aO0CYrSe3dHUr/hDNqN1ZvqHk4eVWMIeKuuy+CADsaatxCJsvnA6BxOIm0RI4DVTA+txh9Qp0UVwsq0R7II1VEMqGwTQI44nx8LbQaiB4ouZV2LMjsZbJiXqz579CSeM1Dg7pUkVWtZDNJmbeBllQSpy55kel2hnBsndRyeLl7HfzUR9YASMaGY+y0NsqdElp/1ITXSQ3h+B1YZO3cN54c/ada66Bl2XgRlA9YdRWLAAcdAc+Ef4Ix+iBbBes5fM8VgMqtBrIlkezNIL7IKkkZ/vJdw3UDdg==
+Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5b6::22)
+ by AS8PR10MB6866.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5b7::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Fri, 9 Dec
+ 2022 12:23:47 +0000
+Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6180:97c1:d0ad:56a9]) by AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6180:97c1:d0ad:56a9%2]) with mapi id 15.20.5880.014; Fri, 9 Dec 2022
+ 12:23:47 +0000
+From:   "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
+To:     "corbet@lwn.net" <corbet@lwn.net>,
+        "manfred@colorfullife.com" <manfred@colorfullife.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Invalid locking pattern in Documentation/kernel-hacking/locking.rst?
+Thread-Topic: Invalid locking pattern in
+ Documentation/kernel-hacking/locking.rst?
+Thread-Index: AQHZC8kWpSEVmt/EpU6oN/KdN6T7cw==
+Date:   Fri, 9 Dec 2022 12:23:47 +0000
+Message-ID: <442ecdf402f8e726f2be4ab19c7299d272e27c0b.camel@siemens.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8PR10MB6867:EE_|AS8PR10MB6866:EE_
+x-ms-office365-filtering-correlation-id: da29c54f-255a-4ff3-5eeb-08dad9e0388a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /8oSs9ogSYiQjRuw3a6LQ+BrEqVXCysJYZGkiB4b/is9qlezynX9F2ENfHjGsvTuIuHLNhGAktEvGcl2mQ/o6UGv6Ub8hzO58bBXCMZ96YKOyNyT68XPTrZ7A4WvyjK+3BDqn2qH13qpnryskq1ZZTADQPdGwO3/rYPMD1ovtaDAhG7nNTuteYG1ZDN5ot2bDDbMARh90LE/sO8X0Ymfeck9UB9WHRqbcp+8//gowS2w+N3onO3RvoAhsf16+SuHN32X3eyC//yeYokMVDprHt0taUw2bjlcY11W4Dkp1txJWRKRpSyV+9Gioeg7W3qxVapk7LW9i1dm8vFhm0Xne7xW0kxeVpu6xxSh2RJJo3zzCM3vjP0yDbtkOs+/MytpHtJ6MeDljm2wk8h2OKNFqsRZdeGTl/Gup0YBskzPOMKch5mTPTdhlMzwzNfa+JTZ1JLfox3WRlDVtJgmTQnKHetQdV298IuQG3LHmpP05OCD/5VJSLhNZDRgp5pWa9Pbebz1qhVvYSRbC7vN5DXq3mEd2YkboiLyrA/soNW7tEzMEfss4/WqYXURrJwK3/1NKzcZCIPgFtaWpXT0INxlmIzLSXOF82YWA9ksYXlUDR87KCQtVKh0WRzeueJjXBOQbEckmMwzv+AneW/IlQN5ns0/CcaLbWe8WqsjRf20Iwe0tdHF7TqcXBzOx1gViH2rFL+9l+0LwdiY8XJqXrJStWlDyNU7H0wlfU2BjZi3ESBpZPKhmQ06YCTbBHiMu9JAsI6B62x/UmVL4bmdqi1CUQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(366004)(376002)(136003)(346002)(396003)(451199015)(66946007)(478600001)(66446008)(64756008)(91956017)(66556008)(122000001)(66476007)(8676002)(4326008)(38100700002)(6486002)(82960400001)(2906002)(6512007)(110136005)(186003)(71200400001)(26005)(76116006)(83380400001)(86362001)(6506007)(38070700005)(36756003)(41300700001)(8936002)(5660300002)(15974865002)(4744005)(2616005)(316002)(55236004)(18886075002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SnhDREJDcEhCdklsOVhoUGRJS2p5cFB3ampXbmkvTnFKcnBTMkxmTkZtME9v?=
+ =?utf-8?B?QnlvN01tdE1qMUhBbEpTZTY1MTdSaVNFQW1DcFBhSExkdjFUcmoxZFEvbWJC?=
+ =?utf-8?B?MkI1M0U5djVrNVpHaDdGWjNJbFZEOEJvcnNZMzZIeUVPcURTckJpMkxZcitu?=
+ =?utf-8?B?NDhZc0dpOVhxUDhzWVBacDZlcWVod2dTcDhFcUdZYTJrQTMxcFNEemU3emlP?=
+ =?utf-8?B?K0N6Z2srWVl1N1ZVaWxCWmJHNzJLdmtiRWE2b1RLYUFab1gwWGlib3dSazU3?=
+ =?utf-8?B?VVorMVlUUmNNaElRazJkNU9xUUZVemJPbFBUZ2Vmb20yRzl5eEJxSUwycStW?=
+ =?utf-8?B?Uk1jbzBpR2FyL2g5YTg4enBJSWFZTzY4NWFtWGE5UG05SmEwclM1cHNoNTlO?=
+ =?utf-8?B?d0hlOTNzTG5JUXQ0eSt0S2JDYXA3WmxXY09rZGVKTUMxU0NPYTJMR09iOHVU?=
+ =?utf-8?B?UGMrSThsWm1kT1BaRmN2TTBNN2diNWVyKzViK01zQko2TUJjOXN2RUpROUdY?=
+ =?utf-8?B?UTF3T01WV2tEUzhHb2cxQWhMbWVRWnUxK2RCODFaZ1JmWlFoODhMQWxra1hI?=
+ =?utf-8?B?ZHhoeHNhOVVVY3h2UStHb25vclFPL1VjdDN0NDVUNXg5NDl4Vlpjdk5WUWVx?=
+ =?utf-8?B?TklHb3JIZkxHbTJabGNhalhtZFBqVysyRG1lYXRSaDJmK01FU3N1YzlWc292?=
+ =?utf-8?B?K1gvNithWmp4b0F5U0tDc2N5aEoyaTdVRlVWanlxd0dWOVh4V3o2Q3ozQi9G?=
+ =?utf-8?B?czQyTURQMEdWb3Exbks3OE1lajJwNjRCbnBreEhEV2p6aG5uRjEwZ0pyQ3p4?=
+ =?utf-8?B?dm84UUFYVmdPa3VWOTRzQjZNZFdqakM2NHdYK2J3NjFFdEQ3Q3FjR2tZR0s1?=
+ =?utf-8?B?SlVEcFlORDhpY3J3WjZSeU52MDlIY015ZGE2a0hpdHRrN1IwbzJGWG9vdUFk?=
+ =?utf-8?B?MXEyUnVndjFlV2dRTUg3b01abjN0blNBa3FwZlhKamF2bkFXaVdjeE1GREps?=
+ =?utf-8?B?RUxyTThWWnBUclQ3Q0E1VWcvMjM0cVNHWi9hTFAwVllIT1FOVnJDc3d4SVFm?=
+ =?utf-8?B?ekhJUlUybFljQmFoZWJVK0h3TmNyMUs5QVJRRm55ZDFVeWp0aEFqeFBXY2ky?=
+ =?utf-8?B?YjNlT0Rkclh5MzJDVlN2WWl3NytVeUtzeC9zR3l6NldzNlhBMnljTUlFa1RS?=
+ =?utf-8?B?WG80QkwzSlIwUDMvaEhUb1FqTm9nK0xOb2FydEdWU3djRFI0VHV0cW1IdGtl?=
+ =?utf-8?B?YUV0TnhRR1UyODA5bGFaeWdLUEZxL05SaTNJS3pnWi9tcHdaTmNFZHQxOGpW?=
+ =?utf-8?B?bXhwN0lGaFlWZzZKeDkwZVI0U3YwS3RDVjJGVEI3emR6SG1LZVprTERoN25X?=
+ =?utf-8?B?VGxnUGJFc1dlOFZMK0FDWUVLdktUUDlob0Njbm9EdGx6Qm9JcDJnU1BTUkNm?=
+ =?utf-8?B?azMwbkQrMHljaThrVzZoWm5kQXBGZm0yWHhpWks2cjZySEVLR1d1bmpOZ081?=
+ =?utf-8?B?ME9NTy9RMGEyWGF0eW9CR2FQOFl3ZjkrSHplRnY1VFpTdWJ0V2pvL2xlUFlW?=
+ =?utf-8?B?Q1JibU9RbHhUVFJ0dUpXZ3IzYmJQeEhuK0prcUpUNy9JdXhCR1dMdHpMRXp0?=
+ =?utf-8?B?aURHbS8vcUpUQm1Fdnk1eEorRk5RMmZ0dmNuVEtVeFIvaFR6WnFKY1JEMjQx?=
+ =?utf-8?B?Q1pHUWV2UDJyQmJaNTd5U3pWaEkrRVBUWEVUM1ovWlErbmJjbzJqVFkwek9m?=
+ =?utf-8?B?QjlIN3NuVzJob05lb3pTbnhPNzZXNDhkblEzZ1RPSkRGRFNiWWN5UGhtR0gx?=
+ =?utf-8?B?QTkybmVJVmxZMDNaMzVKY0MvbVR5eUEzcGFWS1NWOUxKem5rOXpiaDJPNk1V?=
+ =?utf-8?B?NEU5SHhnYW5KeTBFZXpUV0JUR0x5dC85TjliNkxCUEFYOERxOVpOandkTGlk?=
+ =?utf-8?B?T2xIWTJVNElVdk5Jc1NQWDdJSUVqUklEMmZza1psbWUvSXh6eEp0eUJKTTFO?=
+ =?utf-8?B?bitJemFFNnZxTVJIM1IwOGVSZG5CWnhZdEZxZEZpWVI0ZE5PVTR4ZnM4MFVa?=
+ =?utf-8?B?dUUvZnJaOGhKbkNQd1RZV09TMWhsWVVtM1FySURQdVJaV1FDZHhjRGRFUFdR?=
+ =?utf-8?B?TThHdk1hUWZwMWhhaHd0V1lQVzNBZHhUQXB6U2lEMTlIbEovRXVwSDVnbGsw?=
+ =?utf-8?Q?Js5jbT1EljmeeuobPiX2RtE=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <10882FA944CB05439B5980E2F8BB621F@EURPRD10.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: da29c54f-255a-4ff3-5eeb-08dad9e0388a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Dec 2022 12:23:47.0684
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4wvc7a/8Vao+tWxp6KYqzByL8mSqqnbTCN3NMA3hyzvVfb5mngvDZXl5OLGdOpPhULxP1IMj4zWMseNPhgaDgGUCTNc3DH0j+k8+asNnbg4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB6866
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for the BPF_MAP_TYPE_SK_STORAGE including
-kernel version introduced, usage and examples.
-
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
-v3 -> v4:
-- Update intro paragraph with detail about storage locality.
-- Remove confusing text from bpf_map_update_elem()
-  as reported by David Vernet
-- Updated BPF_EXIST and BPF_NOEXIST behaviour as suggested
-  by David Vernet
-- Fixed extra space in function signature as reported by
-  David Vernet
-- Added reference to selftests for complete examples as
-  suggested by Yonghong Song
-v2 -> v3:
-- Fix void * return, reported by Yonghong Song
-- Add tracing programs to API note, reported by Yonghong Song
-v1 -> v2:
-- Fix bpf_sk_storage_* function signatures, reported by Yonghong Song
-- Fix NULL return on failure, reported by Yonghong Song
-
- Documentation/bpf/map_sk_storage.rst | 155 +++++++++++++++++++++++++++
- 1 file changed, 155 insertions(+)
- create mode 100644 Documentation/bpf/map_sk_storage.rst
-
-diff --git a/Documentation/bpf/map_sk_storage.rst b/Documentation/bpf/map_sk_storage.rst
-new file mode 100644
-index 000000000000..047e16c8aaa8
---- /dev/null
-+++ b/Documentation/bpf/map_sk_storage.rst
-@@ -0,0 +1,155 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2022 Red Hat, Inc.
-+
-+=======================
-+BPF_MAP_TYPE_SK_STORAGE
-+=======================
-+
-+.. note::
-+   - ``BPF_MAP_TYPE_SK_STORAGE`` was introduced in kernel version 5.2
-+
-+``BPF_MAP_TYPE_SK_STORAGE`` is used to provide socket-local storage for BPF
-+programs. A map of type ``BPF_MAP_TYPE_SK_STORAGE`` declares the type of storage
-+to be provided and acts as the handle for accessing the socket-local
-+storage. The values for maps of type ``BPF_MAP_TYPE_SK_STORAGE`` are stored
-+locally with each socket instead of with the map. The kernel is responsible for
-+allocating storage for a socket when requested and for freeing the storage when
-+either the map or the socket is deleted.
-+
-+.. note::
-+  - The key type must be ``int`` and ``max_entries`` must be set to ``0``.
-+  - The ``BPF_F_NO_PREALLOC`` flag must be used when creating a map for
-+    socket-local storage.
-+
-+Usage
-+=====
-+
-+Kernel BPF
-+----------
-+
-+bpf_sk_storage_get()
-+~~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   void *bpf_sk_storage_get(struct bpf_map *map, void *sk, void *value, u64 flags)
-+
-+Socket-local storage can be retrieved using the ``bpf_sk_storage_get()``
-+helper. The helper gets the storage from ``sk`` that is associated with ``map``.
-+If the ``BPF_LOCAL_STORAGE_GET_F_CREATE`` flag is used then
-+``bpf_sk_storage_get()`` will create the storage for ``sk`` if it does not
-+already exist. ``value`` can be used together with
-+``BPF_LOCAL_STORAGE_GET_F_CREATE`` to initialize the storage value, otherwise it
-+will be zero initialized. Returns a pointer to the storage on success, or
-+``NULL`` in case of failure.
-+
-+.. note::
-+   - ``sk`` is a kernel ``struct sock`` pointer for LSM or tracing programs.
-+   - ``sk`` is a ``struct bpf_sock`` pointer for other program types.
-+
-+bpf_sk_storage_delete()
-+~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   long bpf_sk_storage_delete(struct bpf_map *map, void *sk)
-+
-+Socket-local storage can be deleted using the ``bpf_sk_storage_delete()``
-+helper. The helper deletes the storage from ``sk`` that is identified by
-+``map``. Returns ``0`` on success, or negative error in case of failure.
-+
-+User space
-+----------
-+
-+bpf_map_update_elem()
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   int bpf_map_update_elem(int map_fd, const void *key, const void *value, __u64 flags)
-+
-+Socket-local storage for the socket identified by ``key`` belonging to
-+``map_fd`` can be added or updated using the ``bpf_map_update_elem()`` libbpf
-+function. ``key`` must be a pointer to a valid ``fd`` in the user space
-+program. The ``flags`` parameter can be used to control the update behaviour:
-+
-+- ``BPF_ANY`` will create storage for ``fd`` or update existing storage.
-+- ``BPF_NOEXIST`` will create storage for ``fd`` only if it did not already
-+  exist, otherwise the call will fail with ``-EEXIST``.
-+- ``BPF_EXIST`` will update existing storage for ``fd`` if it already exists,
-+  otherwise the call will fail with ``-ENOENT``.
-+
-+Returns ``0`` on success, or negative error in case of failure.
-+
-+bpf_map_lookup_elem()
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   int bpf_map_lookup_elem(int map_fd, const void *key, void *value)
-+
-+Socket-local storage for the socket identified by ``key`` belonging to
-+``map_fd`` can be retrieved using the ``bpf_map_lookup_elem()`` libbpf
-+function. ``key`` must be a pointer to a valid ``fd`` in the user space
-+program. Returns ``0`` on success, or negative error in case of failure.
-+
-+bpf_map_delete_elem()
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+   int bpf_map_delete_elem(int map_fd, const void *key)
-+
-+Socket-local storage for the socket identified by ``key`` belonging to
-+``map_fd`` can be deleted using the ``bpf_map_delete_elem()`` libbpf
-+function. Returns ``0`` on success, or negative error in case of failure.
-+
-+Examples
-+========
-+
-+Kernel BPF
-+----------
-+
-+This snippet shows how to declare socket-local storage in a BPF program:
-+
-+.. code-block:: c
-+
-+    struct {
-+            __uint(type, BPF_MAP_TYPE_SK_STORAGE);
-+            __uint(map_flags, BPF_F_NO_PREALLOC);
-+            __type(key, int);
-+            __type(value, struct my_storage);
-+    } socket_storage SEC(".maps");
-+
-+This snippet shows how to retrieve socket-local storage in a BPF program:
-+
-+.. code-block:: c
-+
-+    SEC("sockops")
-+    int _sockops(struct bpf_sock_ops *ctx)
-+    {
-+            struct my_storage *storage;
-+            struct bpf_sock *sk;
-+
-+            sk = ctx->sk;
-+            if (!sk)
-+                    return 1;
-+
-+            storage = bpf_sk_storage_get(&socket_storage, sk, 0,
-+                                         BPF_LOCAL_STORAGE_GET_F_CREATE);
-+            if (!storage)
-+                    return 1;
-+
-+            /* Use 'storage' here */
-+
-+            return 1;
-+    }
-+
-+
-+Please see the ``tools/testing/selftests/bpf`` directory for functional
-+examples.
-+
-+References
-+==========
-+
-+https://lwn.net/ml/netdev/20190426171103.61892-1-kafai@fb.com/
--- 
-2.38.1
-
+RGVhciBkb2N1bWVudGF0aW9uIG1haW50YWluZXJzLA0KDQp0aGUgbGF0ZXN0IHZlcnNpb24gb2Yg
+bG9ja2luZy5yc3QgY29udGFpbnMgdGhlIGZvbGxvd2luZyAoc2luY2UgMjAwNSk6DQoNCiJNYW5m
+cmVkIFNwcmF1bCBwb2ludHMgb3V0IHRoYXQgeW91IGNhbiBzdGlsbCBkbyB0aGlzLCBldmVuIGlm
+IHRoZSBkYXRhDQppcyB2ZXJ5IG9jY2FzaW9uYWxseSBhY2Nlc3NlZCBpbiB1c2VyIGNvbnRleHQg
+b3Igc29mdGlycXMvdGFza2xldHMuIFRoZQ0KaXJxIGhhbmRsZXIgZG9lc24ndCB1c2UgYSBsb2Nr
+LCBhbmQgYWxsIG90aGVyIGFjY2Vzc2VzIGFyZSBkb25lIGFzIHNvOjoNCg0KICAgICAgICBzcGlu
+X2xvY2soJmxvY2spOw0KICAgICAgICBkaXNhYmxlX2lycShpcnEpOw0KIg0KDQpJc24ndCBpdCAi
+c2xlZXBpbmcgaW4gYXRvbWljIiBhY3R1YWxseSBiZWNhdXNlIG9mIHRoZSBzbGVlcGluZw0KZGlz
+YWJsZV9pcnEoKT8NCg0KLS0gDQpBbGV4YW5kZXIgU3ZlcmRsaW4NClNpZW1lbnMgQUcNCnd3dy5z
+aWVtZW5zLmNvbQ0K
