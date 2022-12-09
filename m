@@ -2,468 +2,312 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6CE9C04FDE
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 09:11:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC0CFC4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 10:05:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230025AbiLIJLs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Dec 2022 04:11:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39728 "EHLO
+        id S229864AbiLIKE7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Dec 2022 05:04:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbiLIJLq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 04:11:46 -0500
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3068761763
-        for <linux-doc@vger.kernel.org>; Fri,  9 Dec 2022 01:11:42 -0800 (PST)
-Received: by mail-lj1-x22e.google.com with SMTP id s10so4310494ljg.1
-        for <linux-doc@vger.kernel.org>; Fri, 09 Dec 2022 01:11:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vVAuT2VAl8HSgBtmMoMcytfxocfU7OG7x60P/5jbFLQ=;
-        b=lX5M+N/6bU4HIzuFDOOcutTJ/4Q4wYmGYE0aQSCJkT10nXdgln59BJXRkFyQvVtBfg
-         5Tt+ADEuHwxHmYWoo9Avr1LCUAQ5cSF6A5zf8gI72s0fRtfnyf0vQUj3x8E1c2LjBzl0
-         K60I9PxS15NPK0uquHBFD5VtNOw1H8O5dA3eHgkkIqlotUc7/39VG5f6pIvM2eG2i+CJ
-         Lr4rd6idF3siurTwh8bixJsQbd3BYTtBz8sUkkIHej2slw5AjryLd9hFM3bIdZ78kB7W
-         BwJe/q5Ph/mjCbzcRQAJJ2lfymeFTl0Bi7WPJQrQSAHK+WUOloI+x5ts/ZdjZovT9WRV
-         q9vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vVAuT2VAl8HSgBtmMoMcytfxocfU7OG7x60P/5jbFLQ=;
-        b=evvh2w1HJJmhxXz01CTslPk4m6MUUfLyhe7n9eacuMBLXVwQocGfWZx4b0mGsazCxe
-         oTgPNzlU2vRSt+049y0QX4CXQzZlsnkKrW+ACZa2zSlLb1Y2mNliJuvS19wxjC6FLR9m
-         zGEVtwpZuBPj7D6S/VJCF4zbgN5jxgQg2vLR+iFmkMDOW4CddVkLPl/k79MgOY/SgYvr
-         NDVjtt1h2LOUs1+ScM8XId4kfnzx657xEEt+qYVI9/wjbIhRD7tyChK/yHbBIDPwhpZj
-         XK7PbhQn09TV7qnK9kXbnnPPYA9pYnFOSCpcxgxHIaH3s3u6qkofynrOsFtbzaEVAk6A
-         i6ow==
-X-Gm-Message-State: ANoB5plMHoc4f05PNAc1JiCm4GKn5GV7suKf3bMdQXrhgE3WPjuRfCJP
-        aG1OaEHuSH0I9AHgvZY1sTDxW+SjYq/lKPvbAxL9VQ==
-X-Google-Smtp-Source: AA0mqf7/rRxOZLXii+aeI9/qslxKjks6CQQi1s3lmRhVVbbNRaVxNPLR7lYmarjHgoPvJiZijDv4+WHvZ/AMjr/iK5c=
-X-Received: by 2002:a2e:9256:0:b0:279:823d:77c7 with SMTP id
- v22-20020a2e9256000000b00279823d77c7mr18932642ljg.92.1670577100923; Fri, 09
- Dec 2022 01:11:40 -0800 (PST)
-MIME-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com> <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
-In-Reply-To: <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
-From:   Fuad Tabba <tabba@google.com>
-Date:   Fri, 9 Dec 2022 09:11:04 +0000
-Message-ID: <CA+EHjTzN1QGSnmT=JJuHwvrgBsD+Nev8+Db4DPPQoU-8k_432g@mail.gmail.com>
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S229816AbiLIKEp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 05:04:45 -0500
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2070.outbound.protection.outlook.com [40.107.93.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE8F763B90;
+        Fri,  9 Dec 2022 02:04:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KzbcV48YyBWwgqpCWaUoWl/Rh2/WeXMzX2esW8b8RJz7rRD/WcMhQKwJMrhM0dKymuwQQ9TicqUGIlMrj6DJX3dJJY68euzGu/x/2qWsGqen/70uSBDn+4jBOJ8txJOhzl/IfhnwO9/eS1U51/jZQX+3qlFSa19SIJRlDDh+2py3U9vtnHupV6JNAckaCPfg236ZV4/cGGDCZzrPb2oQaVIn0fpcK+y8hDgHHGQ6FEPoUBnM3QBdLiMBMrKRQ+YKsOsvBvTkBrllzXmBFNy76Qi0DX2Gmp58FsgzvidyTurfKh7kF+Gf6auUaNyK58vbgGxqExYVUsnrKkOf/gr8sw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2uHmQkfTVeLQQ3ARz6mPCHvI5t/ufkyMypamyJu2OSQ=;
+ b=AqB0TBpth1jsyZVswCxsWGVH4G5/lku7tedSthle0Vi/lwnrWOP7k7T65xhuO032hxwLXgXcisjkhKT54BT2TT29uYeT7lu8+ntAsewUAeYOgpRvk68pJxgEtw8b9bLl2jJ9OU9rW4I3eXoYjc7SQAZCkIzRtRNcc70dJqrfs5wJyzYAf23fwZUr5+D9oK7BCLp8Ji5/REcJpdcV9cGOuTW8R+Yaji3b7qoX5Ky18jOYmuYjOaEChD3mQ6DEuFIQAY4HFJp18nbgZhTLy0jsRRArEETzvvyKFoitDivbIjoLNS+gK4zmNRaBTUS62kB2trjmxwq5hGgPSYpuBSuR0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2uHmQkfTVeLQQ3ARz6mPCHvI5t/ufkyMypamyJu2OSQ=;
+ b=bbPz/RxUAbp9ae1lWjxtWnYYNy+hM9DyLvXAT7tYTkSJoadAajykJP2YBoXwCPz5c9Erlh9yk+EZTH4PUlKcq1uLM6sSlwLSgH/hEccW76iCsYP4fpuXdvjRDYT8dlmvE/KBKQTIxSugo7Xx7KbIiSB73ofQ0cT2jgHxEql6Aw8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BY5PR12MB3876.namprd12.prod.outlook.com (2603:10b6:a03:1a7::26)
+ by DM4PR12MB6302.namprd12.prod.outlook.com (2603:10b6:8:a4::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Fri, 9 Dec
+ 2022 10:04:41 +0000
+Received: from BY5PR12MB3876.namprd12.prod.outlook.com
+ ([fe80::45ef:724b:4b64:b98]) by BY5PR12MB3876.namprd12.prod.outlook.com
+ ([fe80::45ef:724b:4b64:b98%3]) with mapi id 15.20.5880.016; Fri, 9 Dec 2022
+ 10:04:41 +0000
+Message-ID: <99fdd501-9cc3-1570-21fb-7d5878e21543@amd.com>
+Date:   Fri, 9 Dec 2022 15:34:28 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/4] cpufreq: amd_pstate: Add guided autonomous mode
+Content-Language: en-US
+To:     Huang Rui <ray.huang@amd.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+        "Yuan, Perry" <Perry.Yuan@amd.com>,
+        "Narayan, Ananth" <Ananth.Narayan@amd.com>,
+        "Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>
+References: <20221207154648.233759-1-wyes.karny@amd.com>
+ <20221207154648.233759-2-wyes.karny@amd.com> <Y5LnB+zUjy7aJmOr@amd.com>
+From:   Wyes Karny <wyes.karny@amd.com>
+In-Reply-To: <Y5LnB+zUjy7aJmOr@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0156.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:c8::9) To BY5PR12MB3876.namprd12.prod.outlook.com
+ (2603:10b6:a03:1a7::26)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR12MB3876:EE_|DM4PR12MB6302:EE_
+X-MS-Office365-Filtering-Correlation-Id: f08f7174-dbba-4f56-222c-08dad9ccca05
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: U87VgzdIsvudEl4SvcFJJovjfYgFWd2remKg50EdiDAEUbHS0EVhHi94MOkk+joy422RMQ7MYm2pltTT6tsEfahN0bje304KxI9+ezfYRhR5TeWnV/Gi5rGc9gKSrZSW1b0kKY7Lz4wMLi/yzfbfMGVM9drz2U3xopXQOQ+p3ZIiWrrIFyBTI605VvDLGroS2Js5Mrja38JvasbnVtFVXtOO2NcVybhvar8vdk2OtKdF00PQXdllA5PS+V6TkV8Nz/5i3rnSAhKYZL8s0PF5477WuH8v/5k+TkfYj4nwlV0A+AiAc0OvboDjTaE4/TnSZZG3uQCWejQgCqZKIxqZO9XiHtaZdiHVGu42TZnL14+3UmxVfmCyLDqPJcp1awj7ZroYLmRWtYdW4R3s5s02MbeMBPTGlSkZoWWdVNM7tsZyFtyBtVgluty2EDfPsmMzehHxgA2TeJAzjhm79AmV33lR00FLzihMMXrn5jZ2ftc+JX2N5QqlzkjEOxPuc3l/QBfNtd+L3YQtfHmgJvfoqrIw66RNWHUVIoFkIjqY6iGnrzRa+n5HXvoAbQFKo0rRUuwiQjl1rlHHLR631ATkMIBl+YQ4a5DcffpaNHZRZn6BsEh+J3PTDNBvmn+4PH4RVuVVdvepcmCBuxJ0QnfCrLNZRFEuBDlXC8rwrkROBvPDwju3pTc4s9kaS2P6RcJupm4h1VRIkRoQNwvccBUivfuH578HVIdcL8UVp2pfLx4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB3876.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(396003)(136003)(376002)(39860400002)(366004)(451199015)(6512007)(83380400001)(6506007)(26005)(53546011)(186003)(6666004)(2616005)(38100700002)(31696002)(36756003)(6486002)(478600001)(86362001)(66556008)(37006003)(8936002)(66946007)(66476007)(6636002)(4326008)(316002)(5660300002)(44832011)(41300700001)(54906003)(2906002)(8676002)(6862004)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bW5hNThqeG1JS3A5WVpjQzZ0L29tTVBvZytQTnVtL0o1S2Npb3FUcUJseUZh?=
+ =?utf-8?B?QWFaTC9JZGxzVVdiRmJ4VVp3RGVic251Zjl0V3FHNm5WUWg5MmhKcmFhNEVn?=
+ =?utf-8?B?THpwK3VNc1dkMXFaQmRiYmZIdVJGWUFKY1grTDVsSUlJdmF6OENnMzJXOWJx?=
+ =?utf-8?B?NEMyc2RVdmQ0dzAzS0NPam0zMlRJOUZ6UnMrckJwMklkWHVtbXhseFU3d2xT?=
+ =?utf-8?B?bXNTTFFCSXh3cDNzblR4d3k5S3JZTk41WUp0eFduWWhmbVFmdnltZlQrdHpn?=
+ =?utf-8?B?T2JmSXNHTFFuRFgyMUNKL3YyZVROWnRJV1o0VVVIK2V3d3hhSHQyY0tpUHl4?=
+ =?utf-8?B?UTdUN0hTTGlhZFY5N2MvczREd1V3K0VvMTNPZkthSWZRblp4RC93azRtREhz?=
+ =?utf-8?B?clI1S0RDS0hibFlFSHdxVHQyWXVDV29wUUVpcld0ejY1dEJzdVd2RDlJTmNi?=
+ =?utf-8?B?cFhNUkZvWXpEUDZoeWVrSHB0bU1IQkMrUFdObjBjYmpGV3E0T3lzd3hKSjNr?=
+ =?utf-8?B?M3lwei94U2ZrbFZWTC9rUTNSY3JWSDhhQ0pza2JWUlJ3TmhnM1luMUk3bWNi?=
+ =?utf-8?B?dHExN3pnaGdUdFRKWnpyZUVNeDZoSkNQWFdHSU1BWUgrQVFJVUR6RWg2S1ZD?=
+ =?utf-8?B?Y0s0aGFEekVLVmV0b0dDbVZLY1BiSEpNNlhKRk5ySEY4NFZsUTlRZVFlMmI1?=
+ =?utf-8?B?U0RjdFRteUJRQndwUmZnbnIwRkQ2LzF5SkhKUklLME9tYXc5VUh2U3hkSEcx?=
+ =?utf-8?B?TjVTWWVLNm1DWUk4VTdZdmY0b3AzNi8xV3U5dFpyMWs1RlZDL01OWFpDTVk3?=
+ =?utf-8?B?blZITjh1ZExidm5xc0ZRS1F1RVA4UVZraytmcjBVNnBlVEwyVXpmSXVybmJE?=
+ =?utf-8?B?U3ZJWklNTmQya1RCWFQrUnNjOWNVM3BlR09vYVBsQktTeDRzY1dhc3ZwT0o3?=
+ =?utf-8?B?aC85Zk82SlkvVER5cTB3Y0lkaHpIeHU0SnRVOWhDbGMvc2ZUNTBBZHZ5MVJE?=
+ =?utf-8?B?a2wrc3lJZ3JkaFpFeER3b0N4UXZpSHZYU3VjZEI3S3RqYTFmNWN2dno2eExB?=
+ =?utf-8?B?RjZzQjZNbjBVcDZTR2ZWckU5K3hiK3dZbmo3UnRJQmhKN29LeXg5NFdlZ3Ns?=
+ =?utf-8?B?eWNWQlE2ei9YclpXZEh0cXpEM0M5MjdwNk0wekFZRnE4TUxuZ05qREt5SXVj?=
+ =?utf-8?B?akRsMXNySWVLbTF3bmlaQU1obHZGQWJEdHorK2lIa3c3WkNaUUdXc0V1RE9j?=
+ =?utf-8?B?VHV6WHc5a2VmUDEyS0Y0S1djanVJMlU1U1UvYTIvaTZoUWlLdjc5Q1lGMW9J?=
+ =?utf-8?B?aEs4RVlSOHY1SW1tOG5IKzhCYzJ5MlBzL2VVZ0owNlQ3RXF1TTltQlFFb0g3?=
+ =?utf-8?B?QUphQUc1dUgzTy9rcG9yWDF1cFlqTkI1eGx2SlBaUTVZK1NGSzE4SDNXdzBT?=
+ =?utf-8?B?eWF4TFZMb3NoS3R2RE85K2xjeTFSaW5neXNtNTkzOEJMaFJyMHdpZUcyTmNh?=
+ =?utf-8?B?MmZGM3RpbDg5VXZkb0x5V1ZLbTc1SStwd2lremp1ZHZCQnA2N0hZK0ZQeGR3?=
+ =?utf-8?B?V2xMVVN5USsveEIzYmg5WHlpZ0s3UlQyWVFJczE4ZUdlbWtscnFlbFFVbTZi?=
+ =?utf-8?B?NTFEUHR1YWU2UFIxbWRucjliSjczaDUvYmdpN1Z1eUlQRkluQlloQ1JwaXBt?=
+ =?utf-8?B?ODF6YmFKaFptRSt0bVFXTXZBOGhUWVc2Snp4dWlKZnNMWENadDBNQitLTit2?=
+ =?utf-8?B?SjFpRHE3V1NpNFI5dWdWS1lEOHFKcm5DRjRxTlA4djVYazl5TWM3UDBPMnBI?=
+ =?utf-8?B?QzlpMHZPVi9LbWROc1FoQkN0U0lvQUNQaEtzQXlneS9aTUUwQmlPak5VWTVv?=
+ =?utf-8?B?ai9aUDJQVVVGV1dFQ1NCN3UvOSs3a3ZFS1lCQ1NzdlIxeElpMG9xZjFjdVNB?=
+ =?utf-8?B?cjdEQkFZTnYvbC9UQmhvU0hUaEgzaEtqU0RBaVV3Y0NaT1Z4bkVGbStIS2R0?=
+ =?utf-8?B?VEdveDZLWVdmcEFxZFFjVkQ3Nm9xV0RVOHF6UFZSaE84dXBua3doNXc2aGU4?=
+ =?utf-8?B?ZzVqNDh0UUt5QkRiSFZWdW4yRVNOSUNZQkYxZmQ2cnQ1bXpDNk83RFZpekJz?=
+ =?utf-8?Q?C+Q6Dq7V82gSShBXuMrodyYYk?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f08f7174-dbba-4f56-222c-08dad9ccca05
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB3876.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2022 10:04:41.6142
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: v4saKOp0pRrEsvoVt0PTGtePkRk7Y9Omg/0A/iqOsq/nh9mz7DRnqjVplycbRLsS+sTaB+DwbUDiAewgAi9ErA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6302
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hi Ray,
 
-On Fri, Dec 2, 2022 at 6:20 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> Register/unregister private memslot to fd-based memory backing store
-> restrictedmem and implement the callbacks for restrictedmem_notifier:
->   - invalidate_start()/invalidate_end() to zap the existing memory
->     mappings in the KVM page table.
->   - error() to request KVM_REQ_MEMORY_MCE and later exit to userspace
->     with KVM_EXIT_SHUTDOWN.
->
-> Expose KVM_MEM_PRIVATE for memslot and KVM_MEMORY_ATTRIBUTE_PRIVATE for
-> KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES to userspace but either are
-> controlled by kvm_arch_has_private_mem() which should be rewritten by
-> architecture code.
->
-> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> Reviewed-by: Fuad Tabba <tabba@google.com>
+On 12/9/2022 1:13 PM, Huang Rui wrote:
+> On Wed, Dec 07, 2022 at 11:46:45PM +0800, Karny, Wyes wrote:
+>> From ACPI spec below 3 modes for CPPC can be defined:
+>> 1. Non autonomous: OS scaling governor specifies operating frequency/
+>>    performance level through `Desired Performance` register and PMFW
+>> follows that.
+>> 2. Guided autonomous: OS scaling governor specifies min and max
+>>    frequencies/ performance levels through `Minimum Performance` and
+>> `Maximum Performance` register, and PMFW can autonomously select an
+>> operating frequency in this range.
+>> 3. Fully autonomous: OS only hints (via EPP) to PMFW for the required
+>>    energy performance preference for the workload and PMFW autonomously
+>> scales the frequency.
+>>
+>> Currently (1) is supported by amd_pstate as passive mode, and (3) is
+>> implemented by EPP support. This change is to support (2).
+>>
+>> In guided autonomous mode the min_perf is based on the input from the
+>> scaling governor. For example, in case of schedutil this value depends
+>> on the current utilization. And max_perf is set to max capacity.
+>>
+>> To activate guided auto mode ``amd_pstate=guided`` command line
+>> parameter has to be passed in the kernel.
+>>
+>> Signed-off-by: Wyes Karny <wyes.karny@amd.com>
+>> ---
+>>  .../admin-guide/kernel-parameters.txt         |  4 ++
+>>  drivers/cpufreq/amd-pstate.c                  | 60 +++++++++++++++----
+>>  2 files changed, 53 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 42af9ca0127e..75e57afba77e 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -6970,3 +6970,7 @@
+>>  			  management firmware translates the requests into actual
+>>  			  hardware states (core frequency, data fabric and memory
+>>  			  clocks etc.)
+>> +			guided
+>> +			  Activate guided autonomous mode. Driver requests minimum
+>> +			  performance and maximum performance and the PMFW autonomously
+>> +			  selects frequencies in this range.
+>> diff --git a/drivers/cpufreq/amd-pstate.c b/drivers/cpufreq/amd-pstate.c
+>> index 204e39006dda..05e4003a77ee 100644
+>> --- a/drivers/cpufreq/amd-pstate.c
+>> +++ b/drivers/cpufreq/amd-pstate.c
+>> @@ -50,6 +50,20 @@
+>>  #define AMD_PSTATE_TRANSITION_LATENCY	20000
+>>  #define AMD_PSTATE_TRANSITION_DELAY	1000
+>>  
+>> +enum amd_pstate_mode {
+>> +	CPPC_DISABLE = 0,
+>> +	CPPC_PASSIVE,
+>> +	CPPC_GUIDED,
+>> +	CPPC_MODE_MAX,
+>> +};
+>> +
+>> +static const char * const amd_pstate_mode_string[] = {
+>> +	[CPPC_DISABLE]     = "disable",
+>> +	[CPPC_PASSIVE]     = "passive",
+>> +	[CPPC_GUIDED]      = "guided",
+>> +	NULL,
+>> +};
+>> +
+>>  /*
+>>   * TODO: We need more time to fine tune processors with shared memory solution
+>>   * with community together.
+>> @@ -60,7 +74,18 @@
+>>   * module parameter to be able to enable it manually for debugging.
+>>   */
+>>  static struct cpufreq_driver amd_pstate_driver;
+>> -static int cppc_load __initdata;
+>> +static int cppc_state = CPPC_DISABLE;
+>> +
+>> +static inline int get_mode_idx_from_str(const char *str, size_t size)
+>> +{
+>> +	int i = 0;
+>> +
+>> +	for (; i < CPPC_MODE_MAX; ++i) {
+>> +		if (!strncmp(str, amd_pstate_mode_string[i], size))
+>> +			return i;
+>> +	}
+>> +	return -EINVAL;
+>> +}
+>>  
+>>  static inline int pstate_enable(bool enable)
+>>  {
+>> @@ -212,12 +237,18 @@ static inline bool amd_pstate_sample(struct amd_cpudata *cpudata)
+>>  }
+>>  
+>>  static void amd_pstate_update(struct amd_cpudata *cpudata, u32 min_perf,
+>> -			      u32 des_perf, u32 max_perf, bool fast_switch)
+>> +			      u32 des_perf, u32 max_perf, bool fast_switch, int flags)
+>>  {
+>>  	u64 prev = READ_ONCE(cpudata->cppc_req_cached);
+>>  	u64 value = prev;
+>>  
+>>  	des_perf = clamp_t(unsigned long, des_perf, min_perf, max_perf);
+>> +
+>> +	if (cppc_state == CPPC_GUIDED && flags & CPUFREQ_GOV_DYNAMIC_SWITCHING) {
+>> +		min_perf = des_perf;
+>> +		des_perf = 0;
+>> +	}
+> 
+> Since we would like to modify the min_perf on share memory processors as
+> well. The current cppc_set_perf() in cppc_acpi doesn't provide the MIN/MAX
+> values. Could you please add the max_perf/min_perf in cppc_acpi.c as well?
+> Then the APIs will be available on the share memory processors like Rome.
 
-With the code to port it to pKVM/arm64:
-Tested-by: Fuad Tabba <tabba@google.com>
+Sure. Thanks for pointing this out.
 
-Cheers,
-/fuad
+> 
+> Thanks,
+> Ray
+> 
+>> +
+>>  	value &= ~AMD_CPPC_MIN_PERF(~0L);
+>>  	value |= AMD_CPPC_MIN_PERF(min_perf);
+>>  
+>> @@ -272,7 +303,7 @@ static int amd_pstate_target(struct cpufreq_policy *policy,
+>>  
+>>  	cpufreq_freq_transition_begin(policy, &freqs);
+>>  	amd_pstate_update(cpudata, min_perf, des_perf,
+>> -			  max_perf, false);
+>> +			  max_perf, false, policy->governor->flags);
+>>  	cpufreq_freq_transition_end(policy, &freqs, false);
+>>  
+>>  	return 0;
+>> @@ -306,7 +337,8 @@ static void amd_pstate_adjust_perf(unsigned int cpu,
+>>  	if (max_perf < min_perf)
+>>  		max_perf = min_perf;
+>>  
+>> -	amd_pstate_update(cpudata, min_perf, des_perf, max_perf, true);
+>> +	amd_pstate_update(cpudata, min_perf, des_perf, max_perf, true,
+>> +			policy->governor->flags);
+>>  }
+>>  
+>>  static int amd_get_min_freq(struct amd_cpudata *cpudata)
+>> @@ -627,7 +659,7 @@ static int __init amd_pstate_init(void)
+>>  	 * enable the amd_pstate passive mode driver explicitly
+>>  	 * with amd_pstate=passive in kernel command line
+>>  	 */
+>> -	if (!cppc_load) {
+>> +	if (cppc_state == CPPC_DISABLE) {
+>>  		pr_debug("driver load is disabled, boot with amd_pstate=passive to enable this\n");
+>>  		return -ENODEV;
+>>  	}
+>> @@ -670,16 +702,22 @@ device_initcall(amd_pstate_init);
+>>  
+>>  static int __init amd_pstate_param(char *str)
+>>  {
+>> +	int size, mode_idx;
+>> +
+>>  	if (!str)
+>>  		return -EINVAL;
+>>  
+>> -	if (!strcmp(str, "disable")) {
+>> -		cppc_load = 0;
+>> -		pr_info("driver is explicitly disabled\n");
+>> -	} else if (!strcmp(str, "passive"))
+>> -		cppc_load = 1;
+>> +	size = strlen(str);
+>> +	mode_idx = get_mode_idx_from_str(str, size);
+>>  
+>> -	return 0;
+>> +	if (mode_idx >= CPPC_DISABLE && mode_idx < CPPC_MODE_MAX) {
+>> +		cppc_state = mode_idx;
+>> +		if (cppc_state == CPPC_DISABLE)
+>> +			pr_info("driver is explicitly disabled\n");
+>> +		return 0;
+>> +	}
+>> +
+>> +	return -EINVAL;
+>>  }
+>>  early_param("amd_pstate", amd_pstate_param);
+>>  
+>> -- 
+>> 2.34.1
+>>
 
-
-> ---
->  arch/x86/include/asm/kvm_host.h |   1 +
->  arch/x86/kvm/x86.c              |  13 +++
->  include/linux/kvm_host.h        |   3 +
->  virt/kvm/kvm_main.c             | 179 +++++++++++++++++++++++++++++++-
->  4 files changed, 191 insertions(+), 5 deletions(-)
->
-> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-> index 7772ab37ac89..27ef31133352 100644
-> --- a/arch/x86/include/asm/kvm_host.h
-> +++ b/arch/x86/include/asm/kvm_host.h
-> @@ -114,6 +114,7 @@
->         KVM_ARCH_REQ_FLAGS(31, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
->  #define KVM_REQ_HV_TLB_FLUSH \
->         KVM_ARCH_REQ_FLAGS(32, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
-> +#define KVM_REQ_MEMORY_MCE             KVM_ARCH_REQ(33)
->
->  #define CR0_RESERVED_BITS                                               \
->         (~(unsigned long)(X86_CR0_PE | X86_CR0_MP | X86_CR0_EM | X86_CR0_TS \
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 5aefcff614d2..c67e22f3e2ee 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -6587,6 +6587,13 @@ int kvm_arch_pm_notifier(struct kvm *kvm, unsigned long state)
->  }
->  #endif /* CONFIG_HAVE_KVM_PM_NOTIFIER */
->
-> +#ifdef CONFIG_HAVE_KVM_RESTRICTED_MEM
-> +void kvm_arch_memory_mce(struct kvm *kvm)
-> +{
-> +       kvm_make_all_cpus_request(kvm, KVM_REQ_MEMORY_MCE);
-> +}
-> +#endif
-> +
->  static int kvm_vm_ioctl_get_clock(struct kvm *kvm, void __user *argp)
->  {
->         struct kvm_clock_data data = { 0 };
-> @@ -10357,6 +10364,12 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
->
->                 if (kvm_check_request(KVM_REQ_UPDATE_CPU_DIRTY_LOGGING, vcpu))
->                         static_call(kvm_x86_update_cpu_dirty_logging)(vcpu);
-> +
-> +               if (kvm_check_request(KVM_REQ_MEMORY_MCE, vcpu)) {
-> +                       vcpu->run->exit_reason = KVM_EXIT_SHUTDOWN;
-> +                       r = 0;
-> +                       goto out;
-> +               }
->         }
->
->         if (kvm_check_request(KVM_REQ_EVENT, vcpu) || req_int_win ||
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 153842bb33df..f032d878e034 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -590,6 +590,7 @@ struct kvm_memory_slot {
->         struct file *restricted_file;
->         loff_t restricted_offset;
->         struct restrictedmem_notifier notifier;
-> +       struct kvm *kvm;
->  };
->
->  static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
-> @@ -2363,6 +2364,8 @@ static inline int kvm_restricted_mem_get_pfn(struct kvm_memory_slot *slot,
->         *pfn = page_to_pfn(page);
->         return ret;
->  }
-> +
-> +void kvm_arch_memory_mce(struct kvm *kvm);
->  #endif /* CONFIG_HAVE_KVM_RESTRICTED_MEM */
->
->  #endif
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index e107afea32f0..ac835fc77273 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -936,6 +936,121 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
->
->  #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
->
-> +#ifdef CONFIG_HAVE_KVM_RESTRICTED_MEM
-> +static bool restrictedmem_range_is_valid(struct kvm_memory_slot *slot,
-> +                                        pgoff_t start, pgoff_t end,
-> +                                        gfn_t *gfn_start, gfn_t *gfn_end)
-> +{
-> +       unsigned long base_pgoff = slot->restricted_offset >> PAGE_SHIFT;
-> +
-> +       if (start > base_pgoff)
-> +               *gfn_start = slot->base_gfn + start - base_pgoff;
-> +       else
-> +               *gfn_start = slot->base_gfn;
-> +
-> +       if (end < base_pgoff + slot->npages)
-> +               *gfn_end = slot->base_gfn + end - base_pgoff;
-> +       else
-> +               *gfn_end = slot->base_gfn + slot->npages;
-> +
-> +       if (*gfn_start >= *gfn_end)
-> +               return false;
-> +
-> +       return true;
-> +}
-> +
-> +static void kvm_restrictedmem_invalidate_begin(struct restrictedmem_notifier *notifier,
-> +                                              pgoff_t start, pgoff_t end)
-> +{
-> +       struct kvm_memory_slot *slot = container_of(notifier,
-> +                                                   struct kvm_memory_slot,
-> +                                                   notifier);
-> +       struct kvm *kvm = slot->kvm;
-> +       gfn_t gfn_start, gfn_end;
-> +       struct kvm_gfn_range gfn_range;
-> +       int idx;
-> +
-> +       if (!restrictedmem_range_is_valid(slot, start, end,
-> +                                         &gfn_start, &gfn_end))
-> +               return;
-> +
-> +       gfn_range.start = gfn_start;
-> +       gfn_range.end = gfn_end;
-> +       gfn_range.slot = slot;
-> +       gfn_range.pte = __pte(0);
-> +       gfn_range.may_block = true;
-> +
-> +       idx = srcu_read_lock(&kvm->srcu);
-> +       KVM_MMU_LOCK(kvm);
-> +
-> +       kvm_mmu_invalidate_begin(kvm);
-> +       kvm_mmu_invalidate_range_add(kvm, gfn_start, gfn_end);
-> +       if (kvm_unmap_gfn_range(kvm, &gfn_range))
-> +               kvm_flush_remote_tlbs(kvm);
-> +
-> +       KVM_MMU_UNLOCK(kvm);
-> +       srcu_read_unlock(&kvm->srcu, idx);
-> +}
-> +
-> +static void kvm_restrictedmem_invalidate_end(struct restrictedmem_notifier *notifier,
-> +                                            pgoff_t start, pgoff_t end)
-> +{
-> +       struct kvm_memory_slot *slot = container_of(notifier,
-> +                                                   struct kvm_memory_slot,
-> +                                                   notifier);
-> +       struct kvm *kvm = slot->kvm;
-> +       gfn_t gfn_start, gfn_end;
-> +
-> +       if (!restrictedmem_range_is_valid(slot, start, end,
-> +                                         &gfn_start, &gfn_end))
-> +               return;
-> +
-> +       KVM_MMU_LOCK(kvm);
-> +       kvm_mmu_invalidate_end(kvm);
-> +       KVM_MMU_UNLOCK(kvm);
-> +}
-> +
-> +static void kvm_restrictedmem_error(struct restrictedmem_notifier *notifier,
-> +                                   pgoff_t start, pgoff_t end)
-> +{
-> +       struct kvm_memory_slot *slot = container_of(notifier,
-> +                                                   struct kvm_memory_slot,
-> +                                                   notifier);
-> +       kvm_arch_memory_mce(slot->kvm);
-> +}
-> +
-> +static struct restrictedmem_notifier_ops kvm_restrictedmem_notifier_ops = {
-> +       .invalidate_start = kvm_restrictedmem_invalidate_begin,
-> +       .invalidate_end = kvm_restrictedmem_invalidate_end,
-> +       .error = kvm_restrictedmem_error,
-> +};
-> +
-> +static inline void kvm_restrictedmem_register(struct kvm_memory_slot *slot)
-> +{
-> +       slot->notifier.ops = &kvm_restrictedmem_notifier_ops;
-> +       restrictedmem_register_notifier(slot->restricted_file, &slot->notifier);
-> +}
-> +
-> +static inline void kvm_restrictedmem_unregister(struct kvm_memory_slot *slot)
-> +{
-> +       restrictedmem_unregister_notifier(slot->restricted_file,
-> +                                         &slot->notifier);
-> +}
-> +
-> +#else /* !CONFIG_HAVE_KVM_RESTRICTED_MEM */
-> +
-> +static inline void kvm_restrictedmem_register(struct kvm_memory_slot *slot)
-> +{
-> +       WARN_ON_ONCE(1);
-> +}
-> +
-> +static inline void kvm_restrictedmem_unregister(struct kvm_memory_slot *slot)
-> +{
-> +       WARN_ON_ONCE(1);
-> +}
-> +
-> +#endif /* CONFIG_HAVE_KVM_RESTRICTED_MEM */
-> +
->  #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
->  static int kvm_pm_notifier_call(struct notifier_block *bl,
->                                 unsigned long state,
-> @@ -980,6 +1095,11 @@ static void kvm_destroy_dirty_bitmap(struct kvm_memory_slot *memslot)
->  /* This does not remove the slot from struct kvm_memslots data structures */
->  static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot)
->  {
-> +       if (slot->flags & KVM_MEM_PRIVATE) {
-> +               kvm_restrictedmem_unregister(slot);
-> +               fput(slot->restricted_file);
-> +       }
-> +
->         kvm_destroy_dirty_bitmap(slot);
->
->         kvm_arch_free_memslot(kvm, slot);
-> @@ -1551,10 +1671,14 @@ static void kvm_replace_memslot(struct kvm *kvm,
->         }
->  }
->
-> -static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
-> +static int check_memory_region_flags(struct kvm *kvm,
-> +                                    const struct kvm_user_mem_region *mem)
->  {
->         u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
->
-> +       if (kvm_arch_has_private_mem(kvm))
-> +               valid_flags |= KVM_MEM_PRIVATE;
-> +
->  #ifdef __KVM_HAVE_READONLY_MEM
->         valid_flags |= KVM_MEM_READONLY;
->  #endif
-> @@ -1630,6 +1754,9 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
->  {
->         int r;
->
-> +       if (change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
-> +               kvm_restrictedmem_register(new);
-> +
->         /*
->          * If dirty logging is disabled, nullify the bitmap; the old bitmap
->          * will be freed on "commit".  If logging is enabled in both old and
-> @@ -1658,6 +1785,9 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
->         if (r && new && new->dirty_bitmap && (!old || !old->dirty_bitmap))
->                 kvm_destroy_dirty_bitmap(new);
->
-> +       if (r && change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
-> +               kvm_restrictedmem_unregister(new);
-> +
->         return r;
->  }
->
-> @@ -1963,7 +2093,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
->         int as_id, id;
->         int r;
->
-> -       r = check_memory_region_flags(mem);
-> +       r = check_memory_region_flags(kvm, mem);
->         if (r)
->                 return r;
->
-> @@ -1982,6 +2112,10 @@ int __kvm_set_memory_region(struct kvm *kvm,
->              !access_ok((void __user *)(unsigned long)mem->userspace_addr,
->                         mem->memory_size))
->                 return -EINVAL;
-> +       if (mem->flags & KVM_MEM_PRIVATE &&
-> +               (mem->restricted_offset & (PAGE_SIZE - 1) ||
-> +                mem->restricted_offset > U64_MAX - mem->memory_size))
-> +               return -EINVAL;
->         if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
->                 return -EINVAL;
->         if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
-> @@ -2020,6 +2154,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
->                 if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
->                         return -EINVAL;
->         } else { /* Modify an existing slot. */
-> +               /* Private memslots are immutable, they can only be deleted. */
-> +               if (mem->flags & KVM_MEM_PRIVATE)
-> +                       return -EINVAL;
->                 if ((mem->userspace_addr != old->userspace_addr) ||
->                     (npages != old->npages) ||
->                     ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
-> @@ -2048,10 +2185,28 @@ int __kvm_set_memory_region(struct kvm *kvm,
->         new->npages = npages;
->         new->flags = mem->flags;
->         new->userspace_addr = mem->userspace_addr;
-> +       if (mem->flags & KVM_MEM_PRIVATE) {
-> +               new->restricted_file = fget(mem->restricted_fd);
-> +               if (!new->restricted_file ||
-> +                   !file_is_restrictedmem(new->restricted_file)) {
-> +                       r = -EINVAL;
-> +                       goto out;
-> +               }
-> +               new->restricted_offset = mem->restricted_offset;
-> +       }
-> +
-> +       new->kvm = kvm;
->
->         r = kvm_set_memslot(kvm, old, new, change);
->         if (r)
-> -               kfree(new);
-> +               goto out;
-> +
-> +       return 0;
-> +
-> +out:
-> +       if (new->restricted_file)
-> +               fput(new->restricted_file);
-> +       kfree(new);
->         return r;
->  }
->  EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
-> @@ -2351,6 +2506,8 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
->  #ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
->  static u64 kvm_supported_mem_attributes(struct kvm *kvm)
->  {
-> +       if (kvm_arch_has_private_mem(kvm))
-> +               return KVM_MEMORY_ATTRIBUTE_PRIVATE;
->         return 0;
->  }
->
-> @@ -4822,16 +4979,28 @@ static long kvm_vm_ioctl(struct file *filp,
->         }
->         case KVM_SET_USER_MEMORY_REGION: {
->                 struct kvm_user_mem_region mem;
-> -               unsigned long size = sizeof(struct kvm_userspace_memory_region);
-> +               unsigned int flags_offset = offsetof(typeof(mem), flags);
-> +               unsigned long size;
-> +               u32 flags;
->
->                 kvm_sanity_check_user_mem_region_alias();
->
-> +               memset(&mem, 0, sizeof(mem));
-> +
->                 r = -EFAULT;
-> +               if (get_user(flags, (u32 __user *)(argp + flags_offset)))
-> +                       goto out;
-> +
-> +               if (flags & KVM_MEM_PRIVATE)
-> +                       size = sizeof(struct kvm_userspace_memory_region_ext);
-> +               else
-> +                       size = sizeof(struct kvm_userspace_memory_region);
-> +
->                 if (copy_from_user(&mem, argp, size))
->                         goto out;
->
->                 r = -EINVAL;
-> -               if (mem.flags & KVM_MEM_PRIVATE)
-> +               if ((flags ^ mem.flags) & KVM_MEM_PRIVATE)
->                         goto out;
->
->                 r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
-> --
-> 2.25.1
->
+-- 
+Thanks & Regards,
+Wyes
