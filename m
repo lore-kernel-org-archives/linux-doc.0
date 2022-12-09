@@ -2,84 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B5C0C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 21:43:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CDB1C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 21:45:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229677AbiLIVnB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Dec 2022 16:43:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38238 "EHLO
+        id S229988AbiLIVpc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Dec 2022 16:45:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbiLIVnB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 16:43:01 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54CAF1E736;
-        Fri,  9 Dec 2022 13:42:59 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E2BEA6234A;
-        Fri,  9 Dec 2022 21:42:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5694C433D2;
-        Fri,  9 Dec 2022 21:42:57 +0000 (UTC)
-Date:   Fri, 9 Dec 2022 16:42:55 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Donglin Peng <dolinux.peng@gmail.com>
-Cc:     tzanussi@gmail.com, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: ftrace: fix a issue with duplicated subtitle
- number
-Message-ID: <20221209164255.6c15e535@gandalf.local.home>
-In-Reply-To: <20221209025119.1371570-1-dolinux.peng@gmail.com>
-References: <20221209025119.1371570-1-dolinux.peng@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S230016AbiLIVpC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 16:45:02 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAE913D386;
+        Fri,  9 Dec 2022 13:45:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670622302; x=1702158302;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=TuSrvu1jx9I5ZHmEkMMea0Y8tKsaVWKLe+FE0ZgyQOc=;
+  b=nGZSv+gwEgjeIptDiFQSHELWkNfMGmfN6+8A6AgGTKPfJR9cjixaVTum
+   Urmz88gqvg6PC/TZtSIlVzoLQw1sPZGVIYmn6lsxpghQfFQAG+bKwgATw
+   abGUF2M2aRloOkwrO1gmciyWOmzTdtNcDWOF5OPbkO22Ps90svZHl79cw
+   baY6oifccWHo4MnD3vNG3ZIycj/N0bIMNTRZpiFr1iqoeSv7yuKvdXtmR
+   yHb1WWt9FIRVa7+xgil5F5j9CvL/O0Exg7RUcg0weOxIUhXViyOQJer4U
+   uL9iZwAw+xZ4Cgrm9K1h8OsvtISweNNvDKe0qMuczeyxnIu2568k+u513
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="300975520"
+X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; 
+   d="scan'208";a="300975520"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2022 13:45:00 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="711031664"
+X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; 
+   d="scan'208";a="711031664"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2022 13:44:59 -0800
+From:   matthew.gerlach@linux.intel.com
+To:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com
+Cc:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Subject: [PATCH v6 0/4] Enhance definition of DFH and use enhancements for UART driver
+Date:   Fri,  9 Dec 2022 13:45:19 -0800
+Message-Id: <20221209214523.3484193-1-matthew.gerlach@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  8 Dec 2022 18:51:19 -0800
-Donglin Peng <dolinux.peng@gmail.com> wrote:
+From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 
-> The subtitle "5.3 Clearing filters" and "5.3 Subsystem filters" has
-> the same index number, let's fix it.
-> 
-> Fixes: 95b696088c1c ("tracing/filters: add filter Documentation")
-> Signed-off-by: Donglin Peng <dolinux.peng@gmail.com>
+This patchset enhances the definition of the Device Feature Header (DFH) used by
+the Device Feature List (DFL) bus and then uses the new enhancements in a UART
+driver.
 
-Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+The enhancements to the DFH includes the introduction of parameter blocks.
+Like PCI capabilities, the DFH parameter blocks further describe
+the hardware to software. In the case of the UART, the parameter blocks
+provide information for the interrupt, clock frequency, and register layout.
 
-Jon, care to take this?
+Duplication of code parsing of the parameter blocks in multiple DFL drivers
+is a concern. Using swnodes was considered to help minimize parsing code 
+duplication, but their use did not help the problem. Furthermore the highly
+changeable nature of FPGAs employing the DFL bus makes the use of swnodes
+inappropriate. 
 
-Thanks!
+Patch 1 updates the DFL documentation to describe the added functionality to DFH.
 
--- Steve
+Patch 2 adds the definitions for DFHv1.
 
-> ---
->  Documentation/trace/events.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
-> index c47f381d0c00..8f86eef1bada 100644
-> --- a/Documentation/trace/events.rst
-> +++ b/Documentation/trace/events.rst
-> @@ -258,7 +258,7 @@ file.
->  To clear the filters for all events in a subsystem, write a '0' to the
->  subsystem's filter file.
->  
-> -5.3 Subsystem filters
-> +5.4 Subsystem filters
->  ---------------------
->  
->  For convenience, filters for every event in a subsystem can be set or
-> @@ -305,7 +305,7 @@ their old filters)::
->  	# cat sched_wakeup/filter
->  	common_pid == 0
->  
-> -5.4 PID filtering
-> +5.5 PID filtering
->  -----------------
->  
->  The set_event_pid file in the same directory as the top events directory
+Patch 3 adds basic support for DFHv1. It adds functionality to parse parameter blocks
+and adds the functionality to parse the explicit location of a feature's register set.
+
+Patch 4 adds a DFL UART driver that makes use of the new features of DFHv1.
+
+Basheer Ahmed Muddebihal (1):
+  fpga: dfl: Add DFHv1 Register Definitions
+
+Matthew Gerlach (3):
+  Documentation: fpga: dfl: Add documentation for DFHv1
+  fpga: dfl: add basic support for DFHv1
+  tty: serial: 8250: add DFL bus driver for Altera 16550.
+
+ Documentation/fpga/dfl.rst         | 103 +++++++++++++
+ drivers/fpga/dfl.c                 | 234 ++++++++++++++++++++++-------
+ drivers/fpga/dfl.h                 |  41 +++++
+ drivers/tty/serial/8250/8250_dfl.c | 154 +++++++++++++++++++
+ drivers/tty/serial/8250/Kconfig    |  12 ++
+ drivers/tty/serial/8250/Makefile   |   1 +
+ include/linux/dfl.h                |   4 +
+ 7 files changed, 498 insertions(+), 51 deletions(-)
+ create mode 100644 drivers/tty/serial/8250/8250_dfl.c
+
+-- 
+2.25.1
 
