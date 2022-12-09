@@ -2,130 +2,187 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B55C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 18:06:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E601C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 18:48:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229538AbiLISGa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Dec 2022 13:06:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38580 "EHLO
+        id S229798AbiLISr7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Dec 2022 13:47:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229626AbiLISG3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 13:06:29 -0500
-X-Greylist: delayed 461 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 09 Dec 2022 10:06:28 PST
-Received: from out-158.mta0.migadu.com (out-158.mta0.migadu.com [91.218.175.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FDBE8D1AE
-        for <linux-doc@vger.kernel.org>; Fri,  9 Dec 2022 10:06:27 -0800 (PST)
-Message-ID: <189b3ec2-1aaf-1935-0f93-4a2036fba440@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1670608724;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=AUU3VuhwJEqSqmjJhuVHZUaFv9m2N8IV06++evUr/Gg=;
-        b=DiHCvfL895YQaRpttruQUr1HFK+/OvyPhOY24qDqzu6fnsiyMiOv1yPb64w1P1Qvm1eokc
-        gKEuAaJea5BpDCMdGeh34Op3hgy1eY/y4TZ9gviTeeNsK6U4nc9KyiPp+YsBKrMnisXX6M
-        t+qH2CJlxlyMH8bHo4noHt+e2RoqCdE=
-Date:   Fri, 9 Dec 2022 09:58:40 -0800
+        with ESMTP id S229482AbiLISr6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 13:47:58 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF489218A2
+        for <linux-doc@vger.kernel.org>; Fri,  9 Dec 2022 10:47:56 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id m19so475798wms.5
+        for <linux-doc@vger.kernel.org>; Fri, 09 Dec 2022 10:47:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=colorfullife-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=a/OvMNsAzsgvJI+DZSdj+rRXl8KhhsBZiWxKq1VinuU=;
+        b=jKuZ2r1dZ9JWyv8xEkfsg1ahawfcwPcqDQoraXkbZWZ4QIJ++dVVmyX5gAU4P8Io6r
+         9coPM6MsAWm4lQxNiw38VgBJZcwIGJAWBUMlk1+7gXNnM7m96lun8idFeh5suqj+uhoc
+         HjRULtC/TJ+I5PchhXGQJaeoZh1cEqMvLO7Q6pBzsZYhJZ0FhRlQ/OSU8F+42Sw3VJuR
+         zvVmQSr/ljRQc5kf6d8XW9XseoXr8QlHkBNxMrXDD9+5XYT2j9NWcIjGCu+qon4a82Yh
+         zuq7K6JFlP3qcL9NJivzznEpiEd7O4J4D03rZ+AwNgKi+nTBbUVgg0sy0CmhmwJuD9B/
+         BBJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=a/OvMNsAzsgvJI+DZSdj+rRXl8KhhsBZiWxKq1VinuU=;
+        b=6GQ90Zm0hvdVY/Qis4yKXu1Z1bznIqkbBQT5G+QoZCI/e1HN2BPEnoXCRpb5ddNm1K
+         m9gEsqzARyw65hlzEdrphSoX0TCIj2ITo8cJXDnjZBljqNMRQKWtHGXhqY1vlgq32K2A
+         ZRh8HjpipHuNCD9jXWooXZ3l1oVmU8NG/B3BhWYheR9oFf29FEd3lAk83ls8YWXEH2qE
+         iPwJzAhZz52yb1L18NwqNQfSx5LYxHSSjDrlBcUkBDLsgTxh8VQTnGjK3F8VXqXs/XL/
+         gc0ymFtE4OXy/9RBIPJQokhc/VSUpw3cDqtipC7xUJ3GIrUm6d2KQRJaO1Jv642jxYuW
+         C+Gg==
+X-Gm-Message-State: ANoB5pmjOhjUWo4nvwYfPjhLpsbb1agA13WfcbscFrRLJ+Y8BFxamria
+        uXF3k3qMQHqFtKiPjNCE41MIfg==
+X-Google-Smtp-Source: AA0mqf4UtXIeSfB9Qa5J05ZKIxiW/RlaRPZKaGNAZ49pGJH6Vt8aX5PWE/7qp5pgk18fXnOeuSAkrg==
+X-Received: by 2002:a05:600c:5012:b0:3cf:6c16:2622 with SMTP id n18-20020a05600c501200b003cf6c162622mr5684378wmr.33.1670611675506;
+        Fri, 09 Dec 2022 10:47:55 -0800 (PST)
+Received: from ?IPV6:2003:d9:9703:3100:a3be:b12f:5235:421? (p200300d997033100a3beb12f52350421.dip0.t-ipconnect.de. [2003:d9:9703:3100:a3be:b12f:5235:421])
+        by smtp.googlemail.com with ESMTPSA id bu26-20020a056000079a00b0024207ed4ce0sm2057346wrb.58.2022.12.09.10.47.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Dec 2022 10:47:55 -0800 (PST)
+Message-ID: <be5a4c10-3b69-1c2d-d413-62f79ccc178b@colorfullife.com>
+Date:   Fri, 9 Dec 2022 19:47:52 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v4] docs/bpf: Add documentation for
- BPF_MAP_TYPE_SK_STORAGE
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: Invalid locking pattern in
+ Documentation/kernel-hacking/locking.rst?
+To:     "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        1vier1@web.de
+References: <442ecdf402f8e726f2be4ab19c7299d272e27c0b.camel@siemens.com>
 Content-Language: en-US
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Donald Hunter <donald.hunter@gmail.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Yonghong Song <yhs@meta.com>,
-        David Vernet <void@manifault.com>, bpf <bpf@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20221209112401.69319-1-donald.hunter@gmail.com>
- <516f48a6-cd8d-4e35-a4e5-69a2c462a7b1@linux.dev>
- <CAADnVQ+E-fONc6BhT_HxErG43tHu32KE5uWtJTXu95HFb8EvLg@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Martin KaFai Lau <martin.lau@linux.dev>
-In-Reply-To: <CAADnVQ+E-fONc6BhT_HxErG43tHu32KE5uWtJTXu95HFb8EvLg@mail.gmail.com>
+From:   Manfred Spraul <manfred@colorfullife.com>
+In-Reply-To: <442ecdf402f8e726f2be4ab19c7299d272e27c0b.camel@siemens.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/9/22 9:54 AM, Alexei Starovoitov wrote:
-> On Fri, Dec 9, 2022 at 9:52 AM Martin KaFai Lau <martin.lau@linux.dev> wrote:
->>
->> On 12/9/22 3:24 AM, Donald Hunter wrote:
->>> Add documentation for the BPF_MAP_TYPE_SK_STORAGE including
->>> kernel version introduced, usage and examples.
->>
->> Thanks for writing the doc for sk_storage!
->>
->>> +User space
->>> +----------
->>> +
->>> +bpf_map_update_elem()
->>> +~~~~~~~~~~~~~~~~~~~~~
->>> +
->>> +.. code-block:: c
->>> +
->>> +   int bpf_map_update_elem(int map_fd, const void *key, const void *value, __u64 flags)
->>> +
->>> +Socket-local storage for the socket identified by ``key`` belonging to
->>> +``map_fd`` can be added or updated using the ``bpf_map_update_elem()`` libbpf > +function. ``key`` must be a pointer to a valid ``fd`` in the user space
->>> +program. The ``flags`` parameter can be used to control the update behaviour:
->>
->> The "``key`` belonging to ``map_fd``" seems confusing.  Also, it is useful to
->> highlight the ``key`` is a _socket_ ``fd``.
->>
->> May be something like:
->>
->> A socket-local storage can be added/updated locally to a socket identified by a
->> _socket_ ``fd`` stored in the pointer ``key``.  The pointer ``value`` has the
->> data to be added/updated to the socket ``fd``.  The type and size of ``value``
->> should be the same as the value type of the map definition.
->>
->> Feel free to rephrase the above in a better way.
->>
->>> +
->>> +- ``BPF_ANY`` will create storage for ``fd`` or update existing storage.
->>> +- ``BPF_NOEXIST`` will create storage for ``fd`` only if it did not already
->>> +  exist, otherwise the call will fail with ``-EEXIST``.
->>> +- ``BPF_EXIST`` will update existing storage for ``fd`` if it already exists,
->>> +  otherwise the call will fail with ``-ENOENT``.
->>> +
->>> +Returns ``0`` on success, or negative error in case of failure.
->>> +
->>> +bpf_map_lookup_elem()
->>> +~~~~~~~~~~~~~~~~~~~~~
->>> +
->>> +.. code-block:: c
->>> +
->>> +   int bpf_map_lookup_elem(int map_fd, const void *key, void *value)
->>> +
->>> +Socket-local storage for the socket identified by ``key`` belonging to
->>> +``map_fd`` can be retrieved using the ``bpf_map_lookup_elem()`` libbpf
->>> +function. ``key`` must be a pointer to a valid ``fd`` in the user space
->>
->> Same here.
->>
->>> +program. Returns ``0`` on success, or negative error in case of failure.
->>> +
->>> +bpf_map_delete_elem()
->>> +~~~~~~~~~~~~~~~~~~~~~
->>> +
->>> +.. code-block:: c
->>> +
->>> +   int bpf_map_delete_elem(int map_fd, const void *key)
->>> +
->>> +Socket-local storage for the socket identified by ``key`` belonging to
->>> +``map_fd`` can be deleted using the ``bpf_map_delete_elem()`` libbpf
->>> +function. Returns ``0`` on success, or negative error in case of failure.
->>
->> Same here.
-> 
-> 
-> Sorry Martin. I just applied it without seeing your comments.
-> Should I revert or this can be done in the follow up?
-Ah, just noticed that also.  My bad that only catching up till v4.  It can 
-definitely be a followup.
+Hi Alexander,
+
+On 12/9/22 13:23, Sverdlin, Alexander wrote:
+> Dear documentation maintainers,
+>
+> the latest version of locking.rst contains the following (since 2005):
+>
+> "Manfred Spraul points out that you can still do this, even if the data
+> is very occasionally accessed in user context or softirqs/tasklets. The
+> irq handler doesn't use a lock, and all other accesses are done as so::
+>
+>          spin_lock(&lock);
+>          disable_irq(irq);
+> "
+>
+> Isn't it "sleeping in atomic" actually because of the sleeping
+> disable_irq()?
+
+Good catch!
+
+The documentation of disable_irq() claims that the function is safe to 
+be called from IRQ context (for careful callers)
+
+But it calls synchronize_irq(). And synchronize_irq() claims that the 
+function can be called only from preemptible code.
+
+The change was in 2009:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v6.1-rc8&id=3aa551c9b4c40018f0e261a178e3d25478dc04a9 
+
+
+@Thomas/@Ingo: What do we want?
+
+Declare disable_irq()&synchronize_irq() as safe from irq context only if 
+no threaded irq handlers are used?
+
+Or declare both function as preemptible context only?
+
+
+The update for locking.rst would be to switch from spin_lock() to 
+mutex_lock().
+
+
+https://elixir.bootlin.com/linux/latest/source/kernel/irq/manage.c#L126
+
+> /**
+> * synchronize_irq - wait for pending IRQ handlers (on other CPUs)
+> * @irq: interrupt number to wait for
+> *
+> * This function waits for any pending IRQ handlers for this interrupt
+> * to complete before returning. If you use this function while
+> * holding a resource the IRQ handler may need you will deadlock.
+> *
+> * Can only be called from preemptible code as it might sleep when
+> * an interrupt thread is associated to @irq.
+> *
+> * It optionally makes sure (when the irq chip supports that method)
+> * that the interrupt is not pending in any CPU and waiting for
+> * service.
+> */
+> void  synchronize_irq 
+> <https://elixir.bootlin.com/linux/latest/C/ident/synchronize_irq>(unsigned  int  irq)
+> {
+> 	struct  irq_desc <https://elixir.bootlin.com/linux/latest/C/ident/irq_desc>  *desc  =  irq_to_desc 
+> <https://elixir.bootlin.com/linux/latest/C/ident/irq_to_desc>(irq);
+>
+> 	if  (desc)  {
+> 		__synchronize_hardirq 
+> <https://elixir.bootlin.com/linux/latest/C/ident/__synchronize_hardirq>(desc,  true <https://elixir.bootlin.com/linux/latest/C/ident/true>);
+> 		/*
+> * We made sure that no hardirq handler is
+> * running. Now verify that no threaded handlers are
+> * active.
+> */
+> 		wait_event 
+> <https://elixir.bootlin.com/linux/latest/C/ident/wait_event>(desc->wait_for_threads 
+> <https://elixir.bootlin.com/linux/latest/C/ident/wait_for_threads>,
+> 			!atomic_read 
+> <https://elixir.bootlin.com/linux/latest/C/ident/atomic_read>(&desc->threads_active 
+> <https://elixir.bootlin.com/linux/latest/C/ident/threads_active>));
+> 	}
+> }
+> EXPORT_SYMBOL 
+> <https://elixir.bootlin.com/linux/latest/C/ident/EXPORT_SYMBOL>(synchronize_irq 
+> <https://elixir.bootlin.com/linux/latest/C/ident/synchronize_irq>);
+
+https://elixir.bootlin.com/linux/latest/source/kernel/irq/manage.c#L716
+
+> /**
+> * disable_irq - disable an irq and wait for completion
+> * @irq: Interrupt to disable
+> *
+> * Disable the selected interrupt line. Enables and Disables are
+> * nested.
+> * This function waits for any pending IRQ handlers for this interrupt
+> * to complete before returning. If you use this function while
+> * holding a resource the IRQ handler may need you will deadlock.
+> *
+> * This function may be called - with care - from IRQ context.
+> */
+> void  disable_irq 
+> <https://elixir.bootlin.com/linux/latest/C/ident/disable_irq>(unsigned  int  irq)
+> {
+> 	if  (!__disable_irq_nosync 
+> <https://elixir.bootlin.com/linux/latest/C/ident/__disable_irq_nosync>(irq))
+> 		synchronize_irq 
+> <https://elixir.bootlin.com/linux/latest/C/ident/synchronize_irq>(irq);
+> }
+>
+--
+
+     Manfred
+
