@@ -2,139 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF006C04FDE
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 08:25:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C8CCC4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 08:45:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229542AbiLIIZm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Dec 2022 03:25:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40920 "EHLO
+        id S229564AbiLIIpT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Dec 2022 03:45:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229571AbiLIIZk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 03:25:40 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7253056D46;
-        Fri,  9 Dec 2022 00:25:39 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 282851FE57;
-        Fri,  9 Dec 2022 08:25:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1670574338; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Yg8Dy91nslxvuXyFZO8v15npgrF13z71XGIrk7x/zmg=;
-        b=Gnl1efSl8C1V561RAp72h3ej4lDX6Hv8yQ8w86HPJq65Ge6RaZnEvRYmYPoSJ9jiiv1NGv
-        Fx9fSt/Cl1opw8apuCmh5dW02+cRgRM0sOsgUb5228e0NfEAvX3nWN0tgPL+Ob+UcDzKtb
-        TWx/69xXPo0xOpP4HauT3GvHY0m9jyM=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 024D2138E0;
-        Fri,  9 Dec 2022 08:25:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id M/+IAALxkmOgQgAAMHmgww
-        (envelope-from <mhocko@suse.com>); Fri, 09 Dec 2022 08:25:38 +0000
-Date:   Fri, 9 Dec 2022 09:25:37 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     =?utf-8?B?56iL5Z6y5rab?= Chengkaitao Cheng 
-        <chengkaitao@didiglobal.com>
-Cc:     chengkaitao <pilgrimtao@gmail.com>,
-        "tj@kernel.org" <tj@kernel.org>,
-        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
-        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
-        "shakeelb@google.com" <shakeelb@google.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
-        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
-        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
-        "yuzhao@google.com" <yuzhao@google.com>,
-        "willy@infradead.org" <willy@infradead.org>,
-        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
-        "vbabka@suse.cz" <vbabka@suse.cz>,
-        "surenb@google.com" <surenb@google.com>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "mcgrof@kernel.org" <mcgrof@kernel.org>,
-        "sujiaxun@uniontech.com" <sujiaxun@uniontech.com>,
-        "feng.tang@intel.com" <feng.tang@intel.com>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>
-Subject: Re: [PATCH v2] mm: memcontrol: protect the memory in cgroup from
- being oom killed
-Message-ID: <Y5LxAbOB2AYp42hi@dhcp22.suse.cz>
-References: <Y5HzfLB7lu4+BOu1@dhcp22.suse.cz>
- <114DF8F0-3E68-4F2B-8E35-0943EC2F51AE@didiglobal.com>
+        with ESMTP id S229478AbiLIIpS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 03:45:18 -0500
+X-Greylist: delayed 907 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 09 Dec 2022 00:45:17 PST
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4F494FF83;
+        Fri,  9 Dec 2022 00:45:16 -0800 (PST)
+Received: from mail02.huawei.com (unknown [172.18.147.229])
+        by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4NT3v26L37z9v7bc;
+        Fri,  9 Dec 2022 16:23:26 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.204.63.22])
+        by APP1 (Coremail) with SMTP id LxC2BwBnUG318ZJjXxnRAA--.238S3;
+        Fri, 09 Dec 2022 09:29:55 +0100 (CET)
+From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
+To:     corbet@lwn.net, paul@paul-moore.com, casey@schaufler-ca.com,
+        omosnace@redhat.com, john.johansen@canonical.com,
+        kpsingh@kernel.org
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Roberto Sassu <roberto.sassu@huawei.com>
+Subject: [PATCH 2/2] doc: Fix fs_context_parse_param description in mount_api.rst
+Date:   Fri,  9 Dec 2022 09:29:36 +0100
+Message-Id: <20221209082936.892416-2-roberto.sassu@huaweicloud.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221209082936.892416-1-roberto.sassu@huaweicloud.com>
+References: <20221209082936.892416-1-roberto.sassu@huaweicloud.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <114DF8F0-3E68-4F2B-8E35-0943EC2F51AE@didiglobal.com>
+X-CM-TRANSID: LxC2BwBnUG318ZJjXxnRAA--.238S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7WF4ruw48Xw1xGw4kCrW3ZFb_yoW8XFW5pa
+        yF9r18K3s7Jr10kr98Ca1rXFWfCrs2yF4jgFWvvw18ZwsIqr1F9rnxKF1Y9r18Ga48uFWY
+        qr4S9Fyj9F9rA3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUP2b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUGw
+        A2048vs2IY020Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+        w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+        WxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+        Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMc
+        Ij6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_
+        Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI
+        0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
+        67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
+        IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
+        14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
+        0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0An
+        Y5UUUUU==
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgABBF1jj4J1LgABsu
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 09-12-22 05:07:15, 程垲涛 Chengkaitao Cheng wrote:
-> At 2022-12-08 22:23:56, "Michal Hocko" <mhocko@suse.com> wrote:
-[...]
-> >oom killer is a memory reclaim of the last resort. So yes, there is some
-> >difference but fundamentally it is about releasing some memory. And long
-> >term we have learned that the more clever it tries to be the more likely
-> >corner cases can happen. It is simply impossible to know the best
-> >candidate so this is a just a best effort. We try to aim for
-> >predictability at least.
-> 
-> Is the current oom_score strategy predictable? I don't think so. The score_adj 
-> has broken the predictability of oom_score (it is no longer simply killing the 
-> process that uses the most mems).
+From: Roberto Sassu <roberto.sassu@huawei.com>
 
-oom_score as reported to the userspace already considers oom_score_adj
-which means that you can compare processes and get a reasonable guess
-what would be the current oom_victim. There is a certain fuzz level
-because this is not atomic and also there is no clear candidate when
-multiple processes have equal score. So yes, it is not 100% predictable.
-memory.reclaim as you propose doesn't change that though.
+Align with the description of fs_context_parse_param in lsm_hooks.h, which
+seems the right one according to the code.
 
-Is oom_score_adj a good interface? No, not really. If I could go back in
-time I would nack it but here we are. We have an interface that
-promises quite much but essentially it only allows two usecases
-(OOM_SCORE_ADJ_MIN, OOM_SCORE_ADJ_MAX) reliably. Everything in between
-is clumsy at best because a real user space oom policy would require to
-re-evaluate the whole oom domain (be it global or memcg oom) as the
-memory consumption evolves over time. I am really worried that your
-memory.oom.protection directs a very similar trajectory because
-protection really needs to consider other memcgs to balance properly.
+Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+---
+ Documentation/filesystems/mount_api.rst | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-[...]
-
-> > But I am really open
-> >to be convinced otherwise and this is in fact what I have been asking
-> >for since the beginning. I would love to see some examples on the
-> >reasonable configuration for a practical usecase.
-> 
-> Here is a simple example. In a docker container, users can divide all processes 
-> into two categories (important and normal), and put them in different cgroups. 
-> One cgroup's oom.protect is set to "max", the other is set to "0". In this way, 
-> important processes in the container can be protected.
-
-That is effectivelly oom_score_adj = OOM_SCORE_ADJ_MIN - 1 to all
-processes in the important group. I would argue you can achieve a very
-similar result by the process launcher to set the oom_score_adj and
-inherit it to all processes in that important container. You do not need
-any memcg tunable for that. I am really much more interested in examples
-when the protection is to be fine tuned.
+diff --git a/Documentation/filesystems/mount_api.rst b/Documentation/filesystems/mount_api.rst
+index eb358a00be27..fc3b12cb39d1 100644
+--- a/Documentation/filesystems/mount_api.rst
++++ b/Documentation/filesystems/mount_api.rst
+@@ -349,13 +349,12 @@ number of operations used by the new mount code for this purpose:
+ 					    struct fs_parameter *param);
+ 
+      Called for each mount parameter, including the source.  The arguments are
+-     as for the ->parse_param() method.  It should return 0 to indicate that
+-     the parameter should be passed on to the filesystem, 1 to indicate that
+-     the parameter should be discarded or an error to indicate that the
+-     parameter should be rejected.
++     as for the ->parse_param() method.  It might reject the mount parameter
++     with an error and might return 0, if the mount parameter is used by an LSM;
++     otherwise returns -ENOPARAM to pass it on to the filesystem.
+ 
+      The value pointed to by param may be modified (if a string) or stolen
+-     (provided the value pointer is NULL'd out).  If it is stolen, 1 must be
++     (provided the value pointer is NULL'd out).  If it is stolen, 0 must be
+      returned to prevent it being passed to the filesystem.
+ 
+    * ::
 -- 
-Michal Hocko
-SUSE Labs
+2.25.1
+
