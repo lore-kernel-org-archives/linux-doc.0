@@ -2,289 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 041CDC4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 07:43:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68D18C4167B
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 07:48:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229721AbiLIHnd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Dec 2022 02:43:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45726 "EHLO
+        id S229843AbiLIHsW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Dec 2022 02:48:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbiLIHnc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 02:43:32 -0500
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2065.outbound.protection.outlook.com [40.107.223.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C18C1EEEA;
-        Thu,  8 Dec 2022 23:43:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k8nR3jy0E4sMbsmkrpH9wBPTqDsWsgQyRE8JLGtdxYZY9DZq7gTMvmLCrtBX048g1iWBZ4D8gkea/Qu9gjMqWQq4CLOGjYcP4bCckipeHy6p1b7Cv7+vf2VAYl3M2jLeOQhjkAQqL2VnF1xmn/aC5FzYhaiXfRn+VaJiTMgKbwJntJkbsV9/ZiIxIDPOxNu74YSQ6EuXuXmEcJyd1W4W9WQSKuGsEjFfTqhqr7E84czVTJo/4SCjRrMS86Pb4daApFWZRTNdKDhYN2xCpKVrBDb0JwTia8d4DrmGTKtcJacl++qjPZvZ4/u4n09t/5JNseFkVD55i1KlzhQQ/0ocLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0V9J9zgRGIBK/uP2Yx0h5oCgiL9GgQ2pbBkjQxR3kbc=;
- b=ddR5rzF1ZBCYfi3ovKG/O/+vvFaajOyh1f3JFHKF1V6nEcfZ2YqXGFjI9xbeWneiydq8KMVJ1y8fRnVwjqJynmTh2OR6i/al82JIFX3e6l5FMzfaDSpgfrOHgB3KlZPpU/Rq1k4e4HTcdd005og1cB37iryqJJzEnbFLE6DTK0CX3/1n8EB6yqXD6Q5yG6CAa6/+1bZtB9F5rhAhp/Sx9fxuOqw+XUfGtTsH1VsslGi1xBiIYENW/ZtJ8zHic3LmiWYisxXl6aR4sLBGDTyU4j9FLuOSv58C0IApyriGj62Qk4+ZR5Ao/1Vge4YWHx+erEtnwhUGqL1ggY1HwMWf/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0V9J9zgRGIBK/uP2Yx0h5oCgiL9GgQ2pbBkjQxR3kbc=;
- b=bJ62DeXYdcBJCZyeQKcW5q/tXSKb99Kv6yaM6dnZAMw557kcUYKUpcHEi8DvKb/7ZC/AZsXEHdZLwfGe6Y27vyI3yG3BUMTruPd9GP5FiOPJa46u/6RE4LEpskriafqZGbaGVMB/S2FnvOPI8bI0D5nzEDe0WKH/yr9wdWx0MgQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) by
- LV2PR12MB5847.namprd12.prod.outlook.com (2603:10b6:408:174::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5880.14; Fri, 9 Dec 2022 07:43:25 +0000
-Received: from DM5PR12MB2504.namprd12.prod.outlook.com
- ([fe80::2443:424:1c7c:17cc]) by DM5PR12MB2504.namprd12.prod.outlook.com
- ([fe80::2443:424:1c7c:17cc%6]) with mapi id 15.20.5857.023; Fri, 9 Dec 2022
- 07:43:25 +0000
-Date:   Fri, 9 Dec 2022 15:43:03 +0800
-From:   Huang Rui <ray.huang@amd.com>
-To:     "Karny, Wyes" <Wyes.Karny@amd.com>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        "Limonciello, Mario" <Mario.Limonciello@amd.com>,
-        "Yuan, Perry" <Perry.Yuan@amd.com>,
-        "Narayan, Ananth" <Ananth.Narayan@amd.com>,
-        "Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>
-Subject: Re: [PATCH 1/4] cpufreq: amd_pstate: Add guided autonomous mode
-Message-ID: <Y5LnB+zUjy7aJmOr@amd.com>
-References: <20221207154648.233759-1-wyes.karny@amd.com>
- <20221207154648.233759-2-wyes.karny@amd.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221207154648.233759-2-wyes.karny@amd.com>
-X-ClientProxiedBy: TYAPR01CA0139.jpnprd01.prod.outlook.com
- (2603:1096:404:2d::31) To DM5PR12MB2504.namprd12.prod.outlook.com
- (2603:10b6:4:b5::19)
+        with ESMTP id S229460AbiLIHsV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 02:48:21 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABED34FF9D
+        for <linux-doc@vger.kernel.org>; Thu,  8 Dec 2022 23:48:17 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id y25so5763789lfa.9
+        for <linux-doc@vger.kernel.org>; Thu, 08 Dec 2022 23:48:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=NsuZyFPaWs/2xOslubtL3bTv7xZraftR6tRWln/UHA0=;
+        b=L0ObW+6jVYepqRQlOuSGYejbeGJxoK2QtyeJ8hUusQv0T1wIqZbpYlI1rbKASAM82q
+         Tsuu631UcDvh3dpORs7Dkq6MOiW73wcKDfoQqx2+ex12mu7QgOIgpy8L0iKqc/Y2wxeO
+         MVlQwsOrl86I/ULPLD5Pmu636m8TPx3+MzPsQbLfKWcWvb8+e2RX2P9dsW+aRBdh2nQw
+         DlcubyQYjk9X3/XCK41jJeOSxOV+V69sKUyp2q1ON3R4oX9jMkWZ3rAazapizSgNtGUq
+         jaN3VrungIzhOox1TjRfJNmXEPsdB51mws3POhJ7RwD/NlZ/U4kiQJ7aigL6pnMTbGMa
+         lVyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NsuZyFPaWs/2xOslubtL3bTv7xZraftR6tRWln/UHA0=;
+        b=qacbkliADmbtAwk6AKtt41sOX35i+twHhvE4Kd3Cpj0CEJH5RM0u7xrlqJ+zaNiqmx
+         dwb/HNCoIBwL2rFd9Jtg0TYu17ncHjGwUMZHzm1tTXkdinvI+00aSNrRBRm3C503G3Ij
+         9V1U1WjvSUs0ljXlhNSjq+xfbiztZOmn1oztXa2dxIMqCIgP7uXT8r1kPldokVdCSJYY
+         iXhE/NuL2tUP6idoaiE9L0uhQoB695aZLD09+X31yYNSC5vBMOuBR6dgAvNlQ25Rmhjd
+         gd9rq96lROgqJuFBa9JYFuY2g6T+w4MYqtwfHtQrKpar0qetxEKlK3EmXjtrteC+DNW3
+         Te0w==
+X-Gm-Message-State: ANoB5pmsYezsFCMWimNKfdB5aFgfh5MMCkyIp9xl/yzNsUG8wiNv7ZIw
+        tRin2tvX3J92Vriwy+7uyl4ZJQ==
+X-Google-Smtp-Source: AA0mqf50R8kzIqUKGZ8njOLQTZPpV95PUHF/rpYhGJtY+iZVQ8Z32kmn45AQFCSJtdOmMzqch/n1Uw==
+X-Received: by 2002:a05:6512:16a1:b0:4a4:68b8:f4d6 with SMTP id bu33-20020a05651216a100b004a468b8f4d6mr1739705lfb.28.1670572096037;
+        Thu, 08 Dec 2022 23:48:16 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id a6-20020a19f806000000b004b5766f48d8sm155053lff.19.2022.12.08.23.48.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Dec 2022 23:48:15 -0800 (PST)
+Message-ID: <41500a04-b004-0e2c-20a1-3a3092b90e6d@linaro.org>
+Date:   Fri, 9 Dec 2022 08:48:13 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR12MB2504:EE_|LV2PR12MB5847:EE_
-X-MS-Office365-Filtering-Correlation-Id: b3af91ae-fbed-4ea4-e97a-08dad9b90d9a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KknDmMV9Tt9wBJBsrrxCuvZEN+r876L7yLv0SrfmbXoP17oHTV665NiRj1Pc8U0hbzu7AERbm+md6Ly0Vc2KbBshoq58aNaJ2vu0uLDK5/FVIjEOe8lOqNYEW8vgyllPX1L0FPYh7t+e6XDG2+XI9x+9SsayISqcUxzUeX5YnnEniV2Z8tSjgENPiUtnZ7HgqRCarNmhLpFsAjgrFhht/5vQidmjzWTvacM3iaf6EiuS7TMfvmS4gVYnLobyBXFU4lsnwNgnHQuv2GayvGp1unLwOJVB+1H9m/x+RdOdu1V9W4HvEsUEOy1EqwNh/5AGmBTuXqcucCfTY8xo/QiW/juSO960JVH1bV4A4mGHsMzqpq9piY6YS9Bf3c2633wZtWwN/dgAG2Jx9TtpXruE4cMY9oNnpLOZT1q8poNQEgJSfWnIrGcwI7sy2lDPb1EmN3uy5ERm82RaOPdYqD39SzV/CQtzX/OAOz1kVrcj6/vEXpdJJszjp6yO0R7xFUbQyksFzy3arRfHad6EIDMtaZ3mYmLF+MW4wwErxI9BdvlygSLqnN86VBIfopC+Dsy2umF7nKJQ421f2E4haznyGaQk7aAjGY0B2phF/vJ2+WTW3Lh4GdmjcTbso6+Q1Wl4rRHRx/uT37lch5aB3k/YrCKeQXofdubRZUUq33faiRVotjLTEv99/Ci+ntf+WR+0
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR12MB2504.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(136003)(366004)(376002)(396003)(451199015)(26005)(186003)(6512007)(54906003)(6636002)(37006003)(6506007)(316002)(6486002)(8676002)(478600001)(6666004)(66946007)(4326008)(2616005)(66556008)(66476007)(41300700001)(8936002)(6862004)(2906002)(5660300002)(38100700002)(83380400001)(36756003)(86362001)(67856001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6ItxKXqwgJUquqfP95X8klK0G46O5pmeSSJiSXwgVUx36AvqwAG2iZaX84/S?=
- =?us-ascii?Q?xwhrYFxcK9r4plKN+HVt2e6fjLxmUBC3+W+kWMDIM21J4lIobNQkKLrbaGxr?=
- =?us-ascii?Q?hdac5o11FN3IlgjEyI25TDPG54kwuOJLwjN+B32au+kpV6FXl2GRrQWGoMc6?=
- =?us-ascii?Q?RpvDHoN9bU2jw0q9SVOYGxXVTnRoC+bY/d+ah1S1o7IlBlj9mgvORTY0hpHW?=
- =?us-ascii?Q?aBs445Av+/wmfHvdmuiWDrQRym5EBTfDa1pMg9pWD8gwB2VYhb01JF2I20fD?=
- =?us-ascii?Q?J8c84Y3QpJOMh+oJKFYyJk9R2Qnr5Ens5pdA27UkWw4VYc7S2YVT57rMqVQV?=
- =?us-ascii?Q?g9kmzlrvlfZ+JomTO8DGd7QBuFkdbvRwCoO75fYK+cw99EuO2DVH5igJ7Qjo?=
- =?us-ascii?Q?F76q2Ye+yvihG9wVib3yWPUcfg+VqLMciqEplb86qfkwfmIE8TwdPygvYcma?=
- =?us-ascii?Q?I5SE29mGMV81Hfv02YkHgbUyDyam1pt586zce6TwRXy7BLGsKLfxtkHJXskj?=
- =?us-ascii?Q?w6vd5Tq8NV9FmqXsZV3AtEbG9e2QU2VkhrtkLSqbY6EixUabIqRClP1YJCRm?=
- =?us-ascii?Q?tKeO8K+6wzDBZN04uJ+cFGYxmOQHfAPQcBZNszUOld+RltnoLbF8kqDGRKMk?=
- =?us-ascii?Q?QmydGwUY9JQlZRMAzzBHfNbpYZpWkoE8pTDf75FwUq8RixgFIv/3DRWAOL/d?=
- =?us-ascii?Q?xHprtiWaJ2u1VfNM7WVXMosRyhvnEcbQSEhhbet+x+MiltlXOWrcrRb8/a7E?=
- =?us-ascii?Q?vmd8U7bk/9wUP+eED37ujsnzPWm1uWzkXQy5uv5YS6jXg1JMfOzL7yHgHQFJ?=
- =?us-ascii?Q?wtim5DYK0kVCls8Gj1ttX1bUkcnlt7Mep40KHOwpz5JUKNPtF+4DYwhQjDuG?=
- =?us-ascii?Q?jMOq7YXKiYflFNX6GoICAnnvDv0ubVKDFmuQxG5dLa7ml/QWjb8YzAbYzqvg?=
- =?us-ascii?Q?hJfx4yfMVMPQX+h7nOQBMyj/luzKLXuCLkHin4NpDgijIXlT5LTCbzquy5DZ?=
- =?us-ascii?Q?pJ1rUf9tHrEhiUo7lPYYr/h52udJaRneJvnmhPLUjF6r1Aezb0/aVermbxAt?=
- =?us-ascii?Q?SLyqv2UTvsaAXdMExlrlC7EdrjyipHQe/RZ50Jwl4xpj9hVzwTnOPXWwlJoA?=
- =?us-ascii?Q?kzQB/nYeqhfWwUFe74dWQegm+N55nXGY7DYm6oyPYC0Sp6hU6xHJvuI18xn5?=
- =?us-ascii?Q?3BFAUZkHJvxRWlUfSZgMYHJYTK+0QvwGz1jGX1VM6EkjMqAaKHp6ksDPbEG5?=
- =?us-ascii?Q?JiPQwsQE3Ku/esNuIfh1/VQMVIyt4SUsjVs8IDZXeQqQVUmp8iXLpdjp/KH1?=
- =?us-ascii?Q?ZZ50tGSRsHwa1XmSeU2Ie3kkfjktd1dMAh2TnhsyJ417tLjxlfiAUoCrYyNK?=
- =?us-ascii?Q?mnDtaWtShJ8q6kqGZybny6uGdi+VVCsXg90/qwZ7E8WBrjFZsMd6gNq4IvDB?=
- =?us-ascii?Q?h6rj4r5pM55iOctQQq2Bkq0eVIcrjWGwxSdceycQbZVwxQX4hWqtnXedFnVb?=
- =?us-ascii?Q?q2D6K3nAsk9LnUWeYgReVi55n/AY9AV5hOxuCLJH9mcBkPAWYsdTG3wE4E0K?=
- =?us-ascii?Q?4C5jur4tk32/3LaKhLig2s6O7ootjsUAvsne5wDP?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3af91ae-fbed-4ea4-e97a-08dad9b90d9a
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2504.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2022 07:43:24.8967
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AbvLrXj9j0Ftapdh+fO8QNJQZW6p2pc2RlgX5DM2bwifoiQCTSrp9dA4dSe09qAMC8yhMKK0n5+wg6eps3NdjQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5847
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [v4 1/5] dt-bindings: mfd: Add aspeed pwm-tach binding
+To:     Billy Tsai <billy_tsai@aspeedtech.com>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "lee@kernel.org" <lee@kernel.org>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20221123061635.32025-1-billy_tsai@aspeedtech.com>
+ <20221123061635.32025-2-billy_tsai@aspeedtech.com>
+ <c4b188b1-06a4-3cb0-a758-e12942e1f67b@linaro.org>
+ <27055c13-11ab-cc73-f2ba-c269785b0e28@linaro.org>
+ <A5EA19E5-21D8-4954-9636-9B28AC8D946A@aspeedtech.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <A5EA19E5-21D8-4954-9636-9B28AC8D946A@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 07, 2022 at 11:46:45PM +0800, Karny, Wyes wrote:
-> From ACPI spec below 3 modes for CPPC can be defined:
-> 1. Non autonomous: OS scaling governor specifies operating frequency/
->    performance level through `Desired Performance` register and PMFW
-> follows that.
-> 2. Guided autonomous: OS scaling governor specifies min and max
->    frequencies/ performance levels through `Minimum Performance` and
-> `Maximum Performance` register, and PMFW can autonomously select an
-> operating frequency in this range.
-> 3. Fully autonomous: OS only hints (via EPP) to PMFW for the required
->    energy performance preference for the workload and PMFW autonomously
-> scales the frequency.
+On 09/12/2022 01:54, Billy Tsai wrote:
+>     > > However I am surprised to see such change, so I have no clue why this
+>     > > was done.
 > 
-> Currently (1) is supported by amd_pstate as passive mode, and (3) is
-> implemented by EPP support. This change is to support (2).
+>     > Actually now I see it was like that in previous patch, I just missed it
+>     > during previous review. Anyway this must be fixed.
 > 
-> In guided autonomous mode the min_perf is based on the input from the
-> scaling governor. For example, in case of schedutil this value depends
-> on the current utilization. And max_perf is set to max capacity.
-> 
-> To activate guided auto mode ``amd_pstate=guided`` command line
-> parameter has to be passed in the kernel.
-> 
-> Signed-off-by: Wyes Karny <wyes.karny@amd.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         |  4 ++
->  drivers/cpufreq/amd-pstate.c                  | 60 +++++++++++++++----
->  2 files changed, 53 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 42af9ca0127e..75e57afba77e 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6970,3 +6970,7 @@
->  			  management firmware translates the requests into actual
->  			  hardware states (core frequency, data fabric and memory
->  			  clocks etc.)
-> +			guided
-> +			  Activate guided autonomous mode. Driver requests minimum
-> +			  performance and maximum performance and the PMFW autonomously
-> +			  selects frequencies in this range.
-> diff --git a/drivers/cpufreq/amd-pstate.c b/drivers/cpufreq/amd-pstate.c
-> index 204e39006dda..05e4003a77ee 100644
-> --- a/drivers/cpufreq/amd-pstate.c
-> +++ b/drivers/cpufreq/amd-pstate.c
-> @@ -50,6 +50,20 @@
->  #define AMD_PSTATE_TRANSITION_LATENCY	20000
->  #define AMD_PSTATE_TRANSITION_DELAY	1000
->  
-> +enum amd_pstate_mode {
-> +	CPPC_DISABLE = 0,
-> +	CPPC_PASSIVE,
-> +	CPPC_GUIDED,
-> +	CPPC_MODE_MAX,
-> +};
-> +
-> +static const char * const amd_pstate_mode_string[] = {
-> +	[CPPC_DISABLE]     = "disable",
-> +	[CPPC_PASSIVE]     = "passive",
-> +	[CPPC_GUIDED]      = "guided",
-> +	NULL,
-> +};
-> +
->  /*
->   * TODO: We need more time to fine tune processors with shared memory solution
->   * with community together.
-> @@ -60,7 +74,18 @@
->   * module parameter to be able to enable it manually for debugging.
->   */
->  static struct cpufreq_driver amd_pstate_driver;
-> -static int cppc_load __initdata;
-> +static int cppc_state = CPPC_DISABLE;
-> +
-> +static inline int get_mode_idx_from_str(const char *str, size_t size)
-> +{
-> +	int i = 0;
-> +
-> +	for (; i < CPPC_MODE_MAX; ++i) {
-> +		if (!strncmp(str, amd_pstate_mode_string[i], size))
-> +			return i;
-> +	}
-> +	return -EINVAL;
-> +}
->  
->  static inline int pstate_enable(bool enable)
->  {
-> @@ -212,12 +237,18 @@ static inline bool amd_pstate_sample(struct amd_cpudata *cpudata)
->  }
->  
->  static void amd_pstate_update(struct amd_cpudata *cpudata, u32 min_perf,
-> -			      u32 des_perf, u32 max_perf, bool fast_switch)
-> +			      u32 des_perf, u32 max_perf, bool fast_switch, int flags)
->  {
->  	u64 prev = READ_ONCE(cpudata->cppc_req_cached);
->  	u64 value = prev;
->  
->  	des_perf = clamp_t(unsigned long, des_perf, min_perf, max_perf);
-> +
-> +	if (cppc_state == CPPC_GUIDED && flags & CPUFREQ_GOV_DYNAMIC_SWITCHING) {
-> +		min_perf = des_perf;
-> +		des_perf = 0;
-> +	}
+> I have two module (PWM and TACH) but share with the same base address,
+> The PWM will use the offset (N*0x10) + 0x0 and 0x04.
+> The TACH will use the offset (N*0x10) + 0x8 and 0x0c.
+> The range of the N is 0~15.
+> Can you give me some advice to fix this problem without using simple-mfd?
 
-Since we would like to modify the min_perf on share memory processors as
-well. The current cppc_set_perf() in cppc_acpi doesn't provide the MIN/MAX
-values. Could you please add the max_perf/min_perf in cppc_acpi.c as well?
-Then the APIs will be available on the share memory processors like Rome.
 
-Thanks,
-Ray
+Use regular driver which populates children.
 
-> +
->  	value &= ~AMD_CPPC_MIN_PERF(~0L);
->  	value |= AMD_CPPC_MIN_PERF(min_perf);
->  
-> @@ -272,7 +303,7 @@ static int amd_pstate_target(struct cpufreq_policy *policy,
->  
->  	cpufreq_freq_transition_begin(policy, &freqs);
->  	amd_pstate_update(cpudata, min_perf, des_perf,
-> -			  max_perf, false);
-> +			  max_perf, false, policy->governor->flags);
->  	cpufreq_freq_transition_end(policy, &freqs, false);
->  
->  	return 0;
-> @@ -306,7 +337,8 @@ static void amd_pstate_adjust_perf(unsigned int cpu,
->  	if (max_perf < min_perf)
->  		max_perf = min_perf;
->  
-> -	amd_pstate_update(cpudata, min_perf, des_perf, max_perf, true);
-> +	amd_pstate_update(cpudata, min_perf, des_perf, max_perf, true,
-> +			policy->governor->flags);
->  }
->  
->  static int amd_get_min_freq(struct amd_cpudata *cpudata)
-> @@ -627,7 +659,7 @@ static int __init amd_pstate_init(void)
->  	 * enable the amd_pstate passive mode driver explicitly
->  	 * with amd_pstate=passive in kernel command line
->  	 */
-> -	if (!cppc_load) {
-> +	if (cppc_state == CPPC_DISABLE) {
->  		pr_debug("driver load is disabled, boot with amd_pstate=passive to enable this\n");
->  		return -ENODEV;
->  	}
-> @@ -670,16 +702,22 @@ device_initcall(amd_pstate_init);
->  
->  static int __init amd_pstate_param(char *str)
->  {
-> +	int size, mode_idx;
-> +
->  	if (!str)
->  		return -EINVAL;
->  
-> -	if (!strcmp(str, "disable")) {
-> -		cppc_load = 0;
-> -		pr_info("driver is explicitly disabled\n");
-> -	} else if (!strcmp(str, "passive"))
-> -		cppc_load = 1;
-> +	size = strlen(str);
-> +	mode_idx = get_mode_idx_from_str(str, size);
->  
-> -	return 0;
-> +	if (mode_idx >= CPPC_DISABLE && mode_idx < CPPC_MODE_MAX) {
-> +		cppc_state = mode_idx;
-> +		if (cppc_state == CPPC_DISABLE)
-> +			pr_info("driver is explicitly disabled\n");
-> +		return 0;
-> +	}
-> +
-> +	return -EINVAL;
->  }
->  early_param("amd_pstate", amd_pstate_param);
->  
-> -- 
-> 2.34.1
-> 
+Best regards,
+Krzysztof
+
