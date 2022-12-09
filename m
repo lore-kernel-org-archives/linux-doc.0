@@ -2,211 +2,468 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CADDC04FDE
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 09:02:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6CE9C04FDE
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 09:11:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229981AbiLIJCb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Dec 2022 04:02:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32934 "EHLO
+        id S230025AbiLIJLs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Dec 2022 04:11:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230010AbiLIJCT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 04:02:19 -0500
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on20600.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe59::600])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A17DF61BA3;
-        Fri,  9 Dec 2022 01:02:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CBLT9eTWKPoCg1ZvhJNLjTZC/53pqCc4vy3BiHlrIXWibuZqd0Z6LXoC+sopEVU8QP6ZStTkD6ccLv7ljvpQnNeqXtIz8bx8N/LtourkQJGliDaOw3xGTeN+/DksST8eaz4V6skykmaNlFoWltIg1v3IcSlV8j0lGOKfO5Hnb/nzixlSTZf8R8WDlA0iMhDCtAizkMDm3iXu2Rr9FxdkMeuobwkn16bZoF8xqZx3uUyMPBPupM2e8F/KCvkehVGdJGbdIrjqhO9iLaFGrwQy73cJPXUKpBOog9GEU+98TinrZBAzBh73thCP+AjvD03i/nrPsYBmJzmyi/L4vmqtow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wgNMzQb1JfP3ipPsZrEQbh0peZa9AmXvQZpGqQ03rqU=;
- b=QSblAP2LQIUtgXqZ2Cccxx/91VLh00owA13NwE5yBx0Ba/OzadX6zG/uUDH3N4w5KOlP+PU9Ccc0pePeAl9IplK34mN/cF+rC76AaUoKH/hfxn6QmGE83K34HYYXTjuhLgICOlbF6FeWXWwd5Xoh0+VY1fG3kruOPzHifdv/hBilVB/HcA+7pRnPsUdxvjeDuBuxUpYMiD1w28qO6BAhoP2jIl4tBJWj/IFEqW7uxEjh+2MZO50zaeKwwsXGb3PQk0fAfNPub3byO4U0WPux9fPbywd1E1fcPC3jNC6JAciijPGLJFWsdQXb3zWwDL3Rm34zBs2FyihSiw8AbRng8w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wgNMzQb1JfP3ipPsZrEQbh0peZa9AmXvQZpGqQ03rqU=;
- b=y2ljFMBMIp4TkKxx8DHb44WPNQKKeuHsdwt3yMLtDJgod9c1XtPzaQyZ4+gWDtPVv5RT5LnoLpXFrbWdtvd0hYCWdf5Gkh48kTE6XwSmcjZQ0fz0NXI3AiC+lPopvN6ISGkzzOhEHoUlQVGyUTDo4uFt69EZGue6uNarxBpUaUs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BY5PR12MB3876.namprd12.prod.outlook.com (2603:10b6:a03:1a7::26)
- by PH8PR12MB7373.namprd12.prod.outlook.com (2603:10b6:510:217::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.16; Fri, 9 Dec
- 2022 09:02:08 +0000
-Received: from BY5PR12MB3876.namprd12.prod.outlook.com
- ([fe80::45ef:724b:4b64:b98]) by BY5PR12MB3876.namprd12.prod.outlook.com
- ([fe80::45ef:724b:4b64:b98%3]) with mapi id 15.20.5880.016; Fri, 9 Dec 2022
- 09:02:08 +0000
-Message-ID: <bf226a20-f22c-cf8f-4f19-eb21033ae1c8@amd.com>
-Date:   Fri, 9 Dec 2022 14:31:56 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 4/4] Documentation: amd_pstate: Add amd_pstate state sysfs
- file
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Huang Rui <ray.huang@amd.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Mario.Limonciello@amd.com, Perry.Yuan@amd.com,
-        Ananth Narayan <ananth.narayan@amd.com>, gautham.shenoy@amd.com
-References: <20221207154648.233759-1-wyes.karny@amd.com>
- <20221207154648.233759-5-wyes.karny@amd.com> <Y5FTHGsezkdzwvUa@debian.me>
-From:   Wyes Karny <wyes.karny@amd.com>
-In-Reply-To: <Y5FTHGsezkdzwvUa@debian.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0068.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:99::9) To BY5PR12MB3876.namprd12.prod.outlook.com
- (2603:10b6:a03:1a7::26)
+        with ESMTP id S230006AbiLIJLq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 04:11:46 -0500
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3068761763
+        for <linux-doc@vger.kernel.org>; Fri,  9 Dec 2022 01:11:42 -0800 (PST)
+Received: by mail-lj1-x22e.google.com with SMTP id s10so4310494ljg.1
+        for <linux-doc@vger.kernel.org>; Fri, 09 Dec 2022 01:11:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vVAuT2VAl8HSgBtmMoMcytfxocfU7OG7x60P/5jbFLQ=;
+        b=lX5M+N/6bU4HIzuFDOOcutTJ/4Q4wYmGYE0aQSCJkT10nXdgln59BJXRkFyQvVtBfg
+         5Tt+ADEuHwxHmYWoo9Avr1LCUAQ5cSF6A5zf8gI72s0fRtfnyf0vQUj3x8E1c2LjBzl0
+         K60I9PxS15NPK0uquHBFD5VtNOw1H8O5dA3eHgkkIqlotUc7/39VG5f6pIvM2eG2i+CJ
+         Lr4rd6idF3siurTwh8bixJsQbd3BYTtBz8sUkkIHej2slw5AjryLd9hFM3bIdZ78kB7W
+         BwJe/q5Ph/mjCbzcRQAJJ2lfymeFTl0Bi7WPJQrQSAHK+WUOloI+x5ts/ZdjZovT9WRV
+         q9vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vVAuT2VAl8HSgBtmMoMcytfxocfU7OG7x60P/5jbFLQ=;
+        b=evvh2w1HJJmhxXz01CTslPk4m6MUUfLyhe7n9eacuMBLXVwQocGfWZx4b0mGsazCxe
+         oTgPNzlU2vRSt+049y0QX4CXQzZlsnkKrW+ACZa2zSlLb1Y2mNliJuvS19wxjC6FLR9m
+         zGEVtwpZuBPj7D6S/VJCF4zbgN5jxgQg2vLR+iFmkMDOW4CddVkLPl/k79MgOY/SgYvr
+         NDVjtt1h2LOUs1+ScM8XId4kfnzx657xEEt+qYVI9/wjbIhRD7tyChK/yHbBIDPwhpZj
+         XK7PbhQn09TV7qnK9kXbnnPPYA9pYnFOSCpcxgxHIaH3s3u6qkofynrOsFtbzaEVAk6A
+         i6ow==
+X-Gm-Message-State: ANoB5plMHoc4f05PNAc1JiCm4GKn5GV7suKf3bMdQXrhgE3WPjuRfCJP
+        aG1OaEHuSH0I9AHgvZY1sTDxW+SjYq/lKPvbAxL9VQ==
+X-Google-Smtp-Source: AA0mqf7/rRxOZLXii+aeI9/qslxKjks6CQQi1s3lmRhVVbbNRaVxNPLR7lYmarjHgoPvJiZijDv4+WHvZ/AMjr/iK5c=
+X-Received: by 2002:a2e:9256:0:b0:279:823d:77c7 with SMTP id
+ v22-20020a2e9256000000b00279823d77c7mr18932642ljg.92.1670577100923; Fri, 09
+ Dec 2022 01:11:40 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR12MB3876:EE_|PH8PR12MB7373:EE_
-X-MS-Office365-Filtering-Correlation-Id: 88f8d25a-1cb2-4bee-816e-08dad9c40ccc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lXeTYX48GiPKxTTuyeC5+Nbag9Elix4FnOROHQ274f+g5U5FnxIY9t/B586RZkg15V6M4TpRRQrzi1sPe0cE5XYVHitLyz+1NIN9wIqxhKySC3vdK8k9QLPMDdmzVACwAg8/G+iPM5vOV/BGKpPwNK3Moy5qvt9i5GN9S5ttzfeWidOxdIqKOhgJLdDEDAyOf8KD8NyjK+fEd/MceoR/iRjuH5GAvujiQAFnSJQHHH8Bsj7mL9rwBH3dgGPR686L6X4MBeONF68lMDrX7UNEGC5SG6/aYubqp+hWuAfAkWjjB2SI3LNHcAq3+KCESIAryhkDO7YNm0m9Lknrs/mlkx5EcnUITAjg6z7LhHL2FzCY2plM07WY4IYbhcSy3TgS3QNgECalxyq7XeYvxfGk+uUC4u0WFr7A8JEALq1HDk/2tFZGT+QR/MTr91VknBmU9kcBKFlMkxlT8K3h5qliOiQitYKXpMracMH35m602PqeccPLSTsFBJp/Cw1qBaRA61pTZvmYWnTHPZGcAh/kg0vp6UqHobonYqnIm2KHoohPReI8l32/siLTHmvRnXbAZwT8XmrY7ntO/AmpIWQFLerycp3W9kyKspR19I0WhsWwtAtUW9NWa+rAdONS+etuNOgAdKzjeY2brb/0GOou3c1HVmKFpYYmoLqXYEMPSWfyFUXCCuRjgdtBzIQcjjJCn4QwonIGOxcOCvnfwNGNdH89BgLEOVugx5mpx5f8jQU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB3876.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(396003)(346002)(136003)(376002)(39860400002)(451199015)(44832011)(36756003)(31696002)(2906002)(86362001)(83380400001)(2616005)(54906003)(6666004)(186003)(6512007)(6486002)(6506007)(53546011)(478600001)(38100700002)(41300700001)(5660300002)(8936002)(66946007)(66556008)(66476007)(4326008)(8676002)(316002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aUFBVDdvRTArRGdscWc5eWVLUXBjYUNrNER4WFA2WHJ3UHJ5M0doOW5yU09Q?=
- =?utf-8?B?K2E4b2RoTzMweDc5ekpwc1A0TzhrZ21mU3pYNHlvZ3FTTFFYV2Z4akxWNFpT?=
- =?utf-8?B?MS81SXhyY09rU0pjZEkrekJCZTFaenlHaDdaSnJ6eDhFTkphLy9tWEVMR21n?=
- =?utf-8?B?RmJUUGloMituTzN0Vk5yY21ZcjliYXB1SkJCY0ZWaFJuMUFQOW1CeVdkRFpu?=
- =?utf-8?B?OExGUEhRUmxZN1BRVUVlYlQyc2NMaWNnNFhQMlF1UFhtR0NSOVFKZ3lCQkE3?=
- =?utf-8?B?ZmgyZUZZVFRicmhVdU9MdktrakdsZ1lDSzROMnQrRFgvelhOSGJpdE5GbVJK?=
- =?utf-8?B?cUs5L09zV21BY29ndFNKS3JLWHlKVkF4YjhvNnQrZHp5S0R1S0dVU2hRU1Ew?=
- =?utf-8?B?RGIwUlp6d2tMRmE4Uk5aSDBIa2lsSDlseXlJMnVpYUpENFlWNjdzN1NwL05a?=
- =?utf-8?B?TE1SU2pFWEl0M29YYm5tTlpxYS9HRGVzVWJzVjZQTVZ3LzFGajJLQzArTHp2?=
- =?utf-8?B?Y1JSL200d3hUMTZsZ2JHNWZTa3lESGtGeUdmUXBCUzg1V01aeXlGMm5SYlFT?=
- =?utf-8?B?Y0FDNkZ0S1N6ZVZkd2pHSU9JeTNDV1orcWV0Nm1nTExhRkVVV2wzclFFMUZT?=
- =?utf-8?B?c2Y2YkxUdWREakMxV0w0MjdveUptWlNFVS9iblR1eDlPc0xiMmUvaG5kV1ZU?=
- =?utf-8?B?d3RtWnYvRG5mbEY4N1N0QWxjL1h2L2hDejAzTjg4NmRSM25sZTRpV09keXMw?=
- =?utf-8?B?dmZoNDFIOTJEZXZVb0tSTU1Cekx2WnZCcTJhNjBSTVc2WU5LRklZay9XTUhp?=
- =?utf-8?B?NmNFaDBkUWREbWplTWN2bFFEcGJJdk00dXp3VnU4RGxFMVJCY2k3ZjZQV2Fq?=
- =?utf-8?B?dmpSLzJUbGIvMmFUL0lpT1ZkeEhEbGRQOGd3Yk9QQVNwb3ZDR3U0WmlMcVFC?=
- =?utf-8?B?KzZWLzhWTHJWY0VqZnVXeUVxcitlSEtyTjRmNFhtdVc1bWxMUklrb3NjZmlG?=
- =?utf-8?B?cFlSWkhUWXBPM0o3WkFsRVRxdUsrV0w4Z0lUcE9PMENrdm4zWVUwVTNqR29l?=
- =?utf-8?B?K3lsTUx6NTgvNzlDb3M3c3BOcHlDdThXdExJSWdnNUpFSE5adlJGVmxEeHBU?=
- =?utf-8?B?T0lUaHdMOUxYVzVqaWFmb0xzQUlXZmJVOExIclpURGxySjQ5bU5EOVlwZDNn?=
- =?utf-8?B?c29jUXhXNXc1djhVSWtMaFdOOHMweGNuSE5FdCtSVVVHdXNGUytzcEl1WGVY?=
- =?utf-8?B?b2ZsWGpVUmxybkJtM0poNGlGSitEcDlyWU1OWFhqT0NrRDdpUUh5RnIrcEdL?=
- =?utf-8?B?ZnlTbzJSQW1XeHVIRFZuNkl5M0RrWkQ3d3ExRCtKZTJHL1VHWWdvMmZwcTBX?=
- =?utf-8?B?eENxdzZNL1Q4T29KK1JJVHA0bnQ1S1o0R0QwSGpDL0JjZ3R6a1BlbEFpWTUr?=
- =?utf-8?B?TG5xWHRiM1dybk05dmRLQ2xuWWZKWE5tQ0g5UHRyQ0J5MHVEWU1CVWJtMm5P?=
- =?utf-8?B?eDg3Q3UzZWhnQnVINXEvVnVKMGkwbEV2aVo1MXFLLzNTV29LM3gvRVp4RytD?=
- =?utf-8?B?R3J1N2k4Skp4VGdzY28vNlhQZW13VTVDZEF5SjVOUGk3ZXk1S05PQ29ETTQv?=
- =?utf-8?B?SW1hNDhpcnl0ZitFbFJqbHQ5b1VLOUNHb0FsenB6WEI1cklHZHg1SXdaMW9n?=
- =?utf-8?B?TkJpVExkT0VPNDBlY0VESkE5UDZvYzhMQzRpM2lLU2NFRGplMEs0T3kyTGIv?=
- =?utf-8?B?MnhSQ0FjdVVJVTlXZHlKWmc3QXZYTVoxckNhUWdQN1k2UDFRaUltVWRFbzJa?=
- =?utf-8?B?ejlqaTBnditzU3FwREpKTDB0YjFhQ1NGTEZNNWJ2bkd1UEdXS1I2aG93Wndu?=
- =?utf-8?B?WU0yZFc4NGZKdXFDVzV0ODg1dC80SUFkQnNHM3dzRVFCa0dXUkJzeXVOTTNm?=
- =?utf-8?B?YUJJRUJ2bGtSWjc3YWdLdDJXV2crQ0RjUVJCTk4zd1c1ajYxUTM2bEE4SzN3?=
- =?utf-8?B?MUxUQmphenlpcWxMUXU0aFNaaGtDdkxFZjVmeVl4VGlJZW5XalVQU0JNcU5J?=
- =?utf-8?B?TEhZUW8xMlRnUmhnaTNMbVFRTnpOQ0RqUWdqQlhnN3ErWTJ1VVZYTzl2VjIw?=
- =?utf-8?B?dVBxUWVDbVFkdGxXOFdQV2ZvUnFKNzFLMzdKYWs3dDFtUkZCMVZ2cU5NeCtO?=
- =?utf-8?Q?AosJD66YTeK043UphuGOSG+Ye6peOfCaWM+eQGR2yngS?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88f8d25a-1cb2-4bee-816e-08dad9c40ccc
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB3876.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2022 09:02:08.2111
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gyWydhTDj10HHITFDfUsHxrNUfg3qJlUrvAPJT8A7qHPPrS8+vzdcCwtjMPtSRx4AUxOoL11KIV16Jao+Q9Q0A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7373
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com> <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
+In-Reply-To: <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
+From:   Fuad Tabba <tabba@google.com>
+Date:   Fri, 9 Dec 2022 09:11:04 +0000
+Message-ID: <CA+EHjTzN1QGSnmT=JJuHwvrgBsD+Nev8+Db4DPPQoU-8k_432g@mail.gmail.com>
+Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
+
+On Fri, Dec 2, 2022 at 6:20 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+>
+> Register/unregister private memslot to fd-based memory backing store
+> restrictedmem and implement the callbacks for restrictedmem_notifier:
+>   - invalidate_start()/invalidate_end() to zap the existing memory
+>     mappings in the KVM page table.
+>   - error() to request KVM_REQ_MEMORY_MCE and later exit to userspace
+>     with KVM_EXIT_SHUTDOWN.
+>
+> Expose KVM_MEM_PRIVATE for memslot and KVM_MEMORY_ATTRIBUTE_PRIVATE for
+> KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES to userspace but either are
+> controlled by kvm_arch_has_private_mem() which should be rewritten by
+> architecture code.
+>
+> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> Reviewed-by: Fuad Tabba <tabba@google.com>
+
+With the code to port it to pKVM/arm64:
+Tested-by: Fuad Tabba <tabba@google.com>
+
+Cheers,
+/fuad
 
 
-On 12/8/2022 8:29 AM, Bagas Sanjaya wrote:
-> On Wed, Dec 07, 2022 at 03:46:48PM +0000, Wyes Karny wrote:
->> +``state``
->> +
->> +``amd_pstate`` also exposes a sysfs interface to view and control the driver state.
->> +The driver state can be one of the following:
->> +``disable``     : indicates driver is in unloaded state.
->> +``passive``     : indicates driver is loaded and currently in passive mode.
->> +``guided`` : indicates driver is loaded and currenlty in guided autonomous mode.
-> 
-> Use bullet lists for above:
-> 
-> ---- >8 ----
-> 
-> diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
-> index 4d3783516ddc2c..0d0e0affa3adb2 100644
-> --- a/Documentation/admin-guide/pm/amd-pstate.rst
-> +++ b/Documentation/admin-guide/pm/amd-pstate.rst
-> @@ -269,9 +269,12 @@ Other performance and frequency values can be read back from
->  
->  ``amd_pstate`` also exposes a sysfs interface to view and control the driver state.
->  The driver state can be one of the following:
-> -``disable``     : indicates driver is in unloaded state.
-> -``passive``     : indicates driver is loaded and currently in passive mode.
-> -``guided`` : indicates driver is loaded and currenlty in guided autonomous mode.
+> ---
+>  arch/x86/include/asm/kvm_host.h |   1 +
+>  arch/x86/kvm/x86.c              |  13 +++
+>  include/linux/kvm_host.h        |   3 +
+>  virt/kvm/kvm_main.c             | 179 +++++++++++++++++++++++++++++++-
+>  4 files changed, 191 insertions(+), 5 deletions(-)
+>
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index 7772ab37ac89..27ef31133352 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -114,6 +114,7 @@
+>         KVM_ARCH_REQ_FLAGS(31, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+>  #define KVM_REQ_HV_TLB_FLUSH \
+>         KVM_ARCH_REQ_FLAGS(32, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+> +#define KVM_REQ_MEMORY_MCE             KVM_ARCH_REQ(33)
+>
+>  #define CR0_RESERVED_BITS                                               \
+>         (~(unsigned long)(X86_CR0_PE | X86_CR0_MP | X86_CR0_EM | X86_CR0_TS \
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 5aefcff614d2..c67e22f3e2ee 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -6587,6 +6587,13 @@ int kvm_arch_pm_notifier(struct kvm *kvm, unsigned long state)
+>  }
+>  #endif /* CONFIG_HAVE_KVM_PM_NOTIFIER */
+>
+> +#ifdef CONFIG_HAVE_KVM_RESTRICTED_MEM
+> +void kvm_arch_memory_mce(struct kvm *kvm)
+> +{
+> +       kvm_make_all_cpus_request(kvm, KVM_REQ_MEMORY_MCE);
+> +}
+> +#endif
 > +
-> +  - ``disable``     : indicates driver is in unloaded state.
-> +  - ``passive``     : indicates driver is loaded and currently in passive mode.
-> +  - ``guided``      : indicates driver is loaded and currenlty in guided
-> +    autonomous mode.
+>  static int kvm_vm_ioctl_get_clock(struct kvm *kvm, void __user *argp)
+>  {
+>         struct kvm_clock_data data = { 0 };
+> @@ -10357,6 +10364,12 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
+>
+>                 if (kvm_check_request(KVM_REQ_UPDATE_CPU_DIRTY_LOGGING, vcpu))
+>                         static_call(kvm_x86_update_cpu_dirty_logging)(vcpu);
 > +
->  This file can be found here: ``/sys/devices/system/cpu/amd_pstate/state``.
->  
->  To switch to passive mode: ``echo passive > /sys/devices/system/cpu/amd_pstate/state``
-> 
->> +This file can be found here: ``/sys/devices/system/cpu/amd_pstate/state``.
->> +
->> +To switch to passive mode: ``echo passive > /sys/devices/system/cpu/amd_pstate/state``
->> +To switch to guided mode: ``echo guided > /sys/devices/system/cpu/amd_pstate/state``
->>  
-> 
-> What about these wordings instead?
-> 
-> ---- >8 ----
->  
-> diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
-> index 4d3783516ddc2c..6465bd39b7dcbc 100644
-> --- a/Documentation/admin-guide/pm/amd-pstate.rst
-> +++ b/Documentation/admin-guide/pm/amd-pstate.rst
-> @@ -267,15 +267,16 @@ Other performance and frequency values can be read back from
->  
->  ``state``
->  
-> -``amd_pstate`` also exposes a sysfs interface to view and control the driver state.
-> -The driver state can be one of the following:
-> -``disable``     : indicates driver is in unloaded state.
-> -``passive``     : indicates driver is loaded and currently in passive mode.
-> -``guided`` : indicates driver is loaded and currenlty in guided autonomous mode.
-> -This file can be found here: ``/sys/devices/system/cpu/amd_pstate/state``.
-> +``amd_pstate`` also exposes a sysfs interface to view and control the driver
-> +state, named ``/sys/devices/system/cpu/amd_pstate/state``. The driver state
-> +can be one of the following:
->  
-> -To switch to passive mode: ``echo passive > /sys/devices/system/cpu/amd_pstate/state``
-> -To switch to guided mode: ``echo guided > /sys/devices/system/cpu/amd_pstate/state``
-> +  - ``disable``     : the driver is disabled
-> +  - ``passive``     : the driver is in passive mode.
-> +  - ``guided``      : the driver is in guided autonomous mode.
+> +               if (kvm_check_request(KVM_REQ_MEMORY_MCE, vcpu)) {
+> +                       vcpu->run->exit_reason = KVM_EXIT_SHUTDOWN;
+> +                       r = 0;
+> +                       goto out;
+> +               }
+>         }
+>
+>         if (kvm_check_request(KVM_REQ_EVENT, vcpu) || req_int_win ||
+> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> index 153842bb33df..f032d878e034 100644
+> --- a/include/linux/kvm_host.h
+> +++ b/include/linux/kvm_host.h
+> @@ -590,6 +590,7 @@ struct kvm_memory_slot {
+>         struct file *restricted_file;
+>         loff_t restricted_offset;
+>         struct restrictedmem_notifier notifier;
+> +       struct kvm *kvm;
+>  };
+>
+>  static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
+> @@ -2363,6 +2364,8 @@ static inline int kvm_restricted_mem_get_pfn(struct kvm_memory_slot *slot,
+>         *pfn = page_to_pfn(page);
+>         return ret;
+>  }
 > +
-> +To switch between these modes above, write the appropriate value to the
-> +aforementioned sysfs file.
-
-LGTM. I'll reword. Thanks!
-
->  
->  ``amd-pstate`` vs ``acpi-cpufreq``
->  ======================================
-> 
-> Thanks.
-> 
-
--- 
-Thanks & Regards,
-Wyes
+> +void kvm_arch_memory_mce(struct kvm *kvm);
+>  #endif /* CONFIG_HAVE_KVM_RESTRICTED_MEM */
+>
+>  #endif
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index e107afea32f0..ac835fc77273 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -936,6 +936,121 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
+>
+>  #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
+>
+> +#ifdef CONFIG_HAVE_KVM_RESTRICTED_MEM
+> +static bool restrictedmem_range_is_valid(struct kvm_memory_slot *slot,
+> +                                        pgoff_t start, pgoff_t end,
+> +                                        gfn_t *gfn_start, gfn_t *gfn_end)
+> +{
+> +       unsigned long base_pgoff = slot->restricted_offset >> PAGE_SHIFT;
+> +
+> +       if (start > base_pgoff)
+> +               *gfn_start = slot->base_gfn + start - base_pgoff;
+> +       else
+> +               *gfn_start = slot->base_gfn;
+> +
+> +       if (end < base_pgoff + slot->npages)
+> +               *gfn_end = slot->base_gfn + end - base_pgoff;
+> +       else
+> +               *gfn_end = slot->base_gfn + slot->npages;
+> +
+> +       if (*gfn_start >= *gfn_end)
+> +               return false;
+> +
+> +       return true;
+> +}
+> +
+> +static void kvm_restrictedmem_invalidate_begin(struct restrictedmem_notifier *notifier,
+> +                                              pgoff_t start, pgoff_t end)
+> +{
+> +       struct kvm_memory_slot *slot = container_of(notifier,
+> +                                                   struct kvm_memory_slot,
+> +                                                   notifier);
+> +       struct kvm *kvm = slot->kvm;
+> +       gfn_t gfn_start, gfn_end;
+> +       struct kvm_gfn_range gfn_range;
+> +       int idx;
+> +
+> +       if (!restrictedmem_range_is_valid(slot, start, end,
+> +                                         &gfn_start, &gfn_end))
+> +               return;
+> +
+> +       gfn_range.start = gfn_start;
+> +       gfn_range.end = gfn_end;
+> +       gfn_range.slot = slot;
+> +       gfn_range.pte = __pte(0);
+> +       gfn_range.may_block = true;
+> +
+> +       idx = srcu_read_lock(&kvm->srcu);
+> +       KVM_MMU_LOCK(kvm);
+> +
+> +       kvm_mmu_invalidate_begin(kvm);
+> +       kvm_mmu_invalidate_range_add(kvm, gfn_start, gfn_end);
+> +       if (kvm_unmap_gfn_range(kvm, &gfn_range))
+> +               kvm_flush_remote_tlbs(kvm);
+> +
+> +       KVM_MMU_UNLOCK(kvm);
+> +       srcu_read_unlock(&kvm->srcu, idx);
+> +}
+> +
+> +static void kvm_restrictedmem_invalidate_end(struct restrictedmem_notifier *notifier,
+> +                                            pgoff_t start, pgoff_t end)
+> +{
+> +       struct kvm_memory_slot *slot = container_of(notifier,
+> +                                                   struct kvm_memory_slot,
+> +                                                   notifier);
+> +       struct kvm *kvm = slot->kvm;
+> +       gfn_t gfn_start, gfn_end;
+> +
+> +       if (!restrictedmem_range_is_valid(slot, start, end,
+> +                                         &gfn_start, &gfn_end))
+> +               return;
+> +
+> +       KVM_MMU_LOCK(kvm);
+> +       kvm_mmu_invalidate_end(kvm);
+> +       KVM_MMU_UNLOCK(kvm);
+> +}
+> +
+> +static void kvm_restrictedmem_error(struct restrictedmem_notifier *notifier,
+> +                                   pgoff_t start, pgoff_t end)
+> +{
+> +       struct kvm_memory_slot *slot = container_of(notifier,
+> +                                                   struct kvm_memory_slot,
+> +                                                   notifier);
+> +       kvm_arch_memory_mce(slot->kvm);
+> +}
+> +
+> +static struct restrictedmem_notifier_ops kvm_restrictedmem_notifier_ops = {
+> +       .invalidate_start = kvm_restrictedmem_invalidate_begin,
+> +       .invalidate_end = kvm_restrictedmem_invalidate_end,
+> +       .error = kvm_restrictedmem_error,
+> +};
+> +
+> +static inline void kvm_restrictedmem_register(struct kvm_memory_slot *slot)
+> +{
+> +       slot->notifier.ops = &kvm_restrictedmem_notifier_ops;
+> +       restrictedmem_register_notifier(slot->restricted_file, &slot->notifier);
+> +}
+> +
+> +static inline void kvm_restrictedmem_unregister(struct kvm_memory_slot *slot)
+> +{
+> +       restrictedmem_unregister_notifier(slot->restricted_file,
+> +                                         &slot->notifier);
+> +}
+> +
+> +#else /* !CONFIG_HAVE_KVM_RESTRICTED_MEM */
+> +
+> +static inline void kvm_restrictedmem_register(struct kvm_memory_slot *slot)
+> +{
+> +       WARN_ON_ONCE(1);
+> +}
+> +
+> +static inline void kvm_restrictedmem_unregister(struct kvm_memory_slot *slot)
+> +{
+> +       WARN_ON_ONCE(1);
+> +}
+> +
+> +#endif /* CONFIG_HAVE_KVM_RESTRICTED_MEM */
+> +
+>  #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
+>  static int kvm_pm_notifier_call(struct notifier_block *bl,
+>                                 unsigned long state,
+> @@ -980,6 +1095,11 @@ static void kvm_destroy_dirty_bitmap(struct kvm_memory_slot *memslot)
+>  /* This does not remove the slot from struct kvm_memslots data structures */
+>  static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot)
+>  {
+> +       if (slot->flags & KVM_MEM_PRIVATE) {
+> +               kvm_restrictedmem_unregister(slot);
+> +               fput(slot->restricted_file);
+> +       }
+> +
+>         kvm_destroy_dirty_bitmap(slot);
+>
+>         kvm_arch_free_memslot(kvm, slot);
+> @@ -1551,10 +1671,14 @@ static void kvm_replace_memslot(struct kvm *kvm,
+>         }
+>  }
+>
+> -static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
+> +static int check_memory_region_flags(struct kvm *kvm,
+> +                                    const struct kvm_user_mem_region *mem)
+>  {
+>         u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
+>
+> +       if (kvm_arch_has_private_mem(kvm))
+> +               valid_flags |= KVM_MEM_PRIVATE;
+> +
+>  #ifdef __KVM_HAVE_READONLY_MEM
+>         valid_flags |= KVM_MEM_READONLY;
+>  #endif
+> @@ -1630,6 +1754,9 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
+>  {
+>         int r;
+>
+> +       if (change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
+> +               kvm_restrictedmem_register(new);
+> +
+>         /*
+>          * If dirty logging is disabled, nullify the bitmap; the old bitmap
+>          * will be freed on "commit".  If logging is enabled in both old and
+> @@ -1658,6 +1785,9 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
+>         if (r && new && new->dirty_bitmap && (!old || !old->dirty_bitmap))
+>                 kvm_destroy_dirty_bitmap(new);
+>
+> +       if (r && change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
+> +               kvm_restrictedmem_unregister(new);
+> +
+>         return r;
+>  }
+>
+> @@ -1963,7 +2093,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
+>         int as_id, id;
+>         int r;
+>
+> -       r = check_memory_region_flags(mem);
+> +       r = check_memory_region_flags(kvm, mem);
+>         if (r)
+>                 return r;
+>
+> @@ -1982,6 +2112,10 @@ int __kvm_set_memory_region(struct kvm *kvm,
+>              !access_ok((void __user *)(unsigned long)mem->userspace_addr,
+>                         mem->memory_size))
+>                 return -EINVAL;
+> +       if (mem->flags & KVM_MEM_PRIVATE &&
+> +               (mem->restricted_offset & (PAGE_SIZE - 1) ||
+> +                mem->restricted_offset > U64_MAX - mem->memory_size))
+> +               return -EINVAL;
+>         if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
+>                 return -EINVAL;
+>         if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
+> @@ -2020,6 +2154,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
+>                 if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
+>                         return -EINVAL;
+>         } else { /* Modify an existing slot. */
+> +               /* Private memslots are immutable, they can only be deleted. */
+> +               if (mem->flags & KVM_MEM_PRIVATE)
+> +                       return -EINVAL;
+>                 if ((mem->userspace_addr != old->userspace_addr) ||
+>                     (npages != old->npages) ||
+>                     ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
+> @@ -2048,10 +2185,28 @@ int __kvm_set_memory_region(struct kvm *kvm,
+>         new->npages = npages;
+>         new->flags = mem->flags;
+>         new->userspace_addr = mem->userspace_addr;
+> +       if (mem->flags & KVM_MEM_PRIVATE) {
+> +               new->restricted_file = fget(mem->restricted_fd);
+> +               if (!new->restricted_file ||
+> +                   !file_is_restrictedmem(new->restricted_file)) {
+> +                       r = -EINVAL;
+> +                       goto out;
+> +               }
+> +               new->restricted_offset = mem->restricted_offset;
+> +       }
+> +
+> +       new->kvm = kvm;
+>
+>         r = kvm_set_memslot(kvm, old, new, change);
+>         if (r)
+> -               kfree(new);
+> +               goto out;
+> +
+> +       return 0;
+> +
+> +out:
+> +       if (new->restricted_file)
+> +               fput(new->restricted_file);
+> +       kfree(new);
+>         return r;
+>  }
+>  EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
+> @@ -2351,6 +2506,8 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
+>  #ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
+>  static u64 kvm_supported_mem_attributes(struct kvm *kvm)
+>  {
+> +       if (kvm_arch_has_private_mem(kvm))
+> +               return KVM_MEMORY_ATTRIBUTE_PRIVATE;
+>         return 0;
+>  }
+>
+> @@ -4822,16 +4979,28 @@ static long kvm_vm_ioctl(struct file *filp,
+>         }
+>         case KVM_SET_USER_MEMORY_REGION: {
+>                 struct kvm_user_mem_region mem;
+> -               unsigned long size = sizeof(struct kvm_userspace_memory_region);
+> +               unsigned int flags_offset = offsetof(typeof(mem), flags);
+> +               unsigned long size;
+> +               u32 flags;
+>
+>                 kvm_sanity_check_user_mem_region_alias();
+>
+> +               memset(&mem, 0, sizeof(mem));
+> +
+>                 r = -EFAULT;
+> +               if (get_user(flags, (u32 __user *)(argp + flags_offset)))
+> +                       goto out;
+> +
+> +               if (flags & KVM_MEM_PRIVATE)
+> +                       size = sizeof(struct kvm_userspace_memory_region_ext);
+> +               else
+> +                       size = sizeof(struct kvm_userspace_memory_region);
+> +
+>                 if (copy_from_user(&mem, argp, size))
+>                         goto out;
+>
+>                 r = -EINVAL;
+> -               if (mem.flags & KVM_MEM_PRIVATE)
+> +               if ((flags ^ mem.flags) & KVM_MEM_PRIVATE)
+>                         goto out;
+>
+>                 r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
+> --
+> 2.25.1
+>
