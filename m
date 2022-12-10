@@ -2,64 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A016DC4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Dec 2022 22:57:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E31E7C10F1B
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Dec 2022 23:02:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229568AbiLJW5r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 10 Dec 2022 17:57:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55020 "EHLO
+        id S229950AbiLJXCm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 10 Dec 2022 18:02:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbiLJW5p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Dec 2022 17:57:45 -0500
-Received: from mx2.veeam.com (mx2.veeam.com [64.129.123.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B628CCD;
-        Sat, 10 Dec 2022 14:57:43 -0800 (PST)
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx2.veeam.com (Postfix) with ESMTPS id 45035403E4;
-        Sat, 10 Dec 2022 17:57:40 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
-        s=mx2-2022; t=1670713060;
-        bh=8hEeAZyiSBtGooQxdC/TTRUYL6HjB7JGCmD1KZrPD4k=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To:From;
-        b=Xf7OurNODCSrJw4PpvybDT7Nb7eOxlwnlWEv4bPTDRVPD0u3Wxw4obq/UOFWur1dP
-         ua2fKrkSYYnpQtS95tcToOzenHfEsXly0Ugf3yzyjC8gJJB1ElgPKWXk+j7HN43BZr
-         gyTKRDyK3gAYTnTi9v4yFuLflX9rgyrI8pt+BXjGT35nVCbBQ9IH4KMl6DsCum94xc
-         QJk9PfIog6EY1V3LfQJ5xSEozg5qgHxBH70QpguvKNwoAHVV7TS9V0gmt1GG/ZEDSe
-         inzxPFZ9zrKwp5nOWFHPZMpZO38UmBHphBkOCexuDgjQQD+qafCe3po3ZSJ4sWH/DX
-         vJ1J7eH+UvAUg==
-Received: from [172.24.10.107] (172.24.10.107) by prgmbx01.amust.local
- (172.24.128.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.20; Sat, 10 Dec
- 2022 23:57:35 +0100
-Message-ID: <6c07d130-0f49-f6b1-aacb-746a73d027ba@veeam.com>
-Date:   Sat, 10 Dec 2022 23:57:33 +0100
+        with ESMTP id S229810AbiLJXC3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Dec 2022 18:02:29 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D74291402E;
+        Sat, 10 Dec 2022 15:02:27 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id 21so6157178pfw.4;
+        Sat, 10 Dec 2022 15:02:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fbQVHhDJyzijvT4x1l1d64e6Tgo3Ph+ZZvjIzYq/8P0=;
+        b=BC51zln0pmZC6OGmdhqN2MW43ldQkZqt7n/UKeTJ2K5nyKNKixaasUFdg1UtQr/7Dy
+         7dwNkuh7zWWPAZ3DR1gk7EH9nwVHvm2vP1BBAeK/f3luz0TviH5CTGJOhY8mD7UF7e1P
+         xjS/w5zerB9WfgCmdrewkqOkW30R5ptrhehbA9gwHFlWTgumHLf5h2HBCjOojKyn2Ryz
+         0qY+ywf3tuBtmsHlktfEeUuUkWOb6AF6UwksylVoOcedPUeFzOQj0bHq3poA+6rUxHkW
+         WTAfLI1sqbuEnJ4hD2vp8Zt6lJBjWJ8f/u6ig8rB9N56Jezq4pdfC4KjNhKcj0Melnj7
+         t6qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fbQVHhDJyzijvT4x1l1d64e6Tgo3Ph+ZZvjIzYq/8P0=;
+        b=KlTE8NTK7lPOnr22VVdSfkalf186aLmXOWbr/j3JtJgwSeFe/xzsg3HHm9+GDokjAS
+         8jVJttogs/CmdD/bx03M+no8nQlsj5oFO6WfKndEd6AYu11X6YJZUzPBWJXo6F28O5sU
+         vj+zcQy9ZH144w+1Rpxmnmrb78ILI82TCkavpSoK5kObwTay7zot2lcQuoAN+dDYqC0F
+         1WjleDyoUfllBR7UjZ8F5Kjsg5lMKhpnZG6jsGf9XILoppF6XRHwvSvMUf3n/3AugsZ7
+         3Q8vN6j5oCuicy+hNdC33twPDrZgw2Th+vaNUMI90dBUUvJH4l3k5s2AqfqSHr6Y5YCr
+         ZqHA==
+X-Gm-Message-State: ANoB5plLMgm7jqOrKEcDV7TKGh7Z/cPWE73LOQNyuQmTBuIlevIe4e6M
+        hhVJrPMNJv/7AIwREJSCcPE=
+X-Google-Smtp-Source: AA0mqf69H0IH7rB1HqJxeoajFYEA7oWnuviAeVEtYkeQoTZagMb+BHeXO24tP/bnf9r379qO3dgZxw==
+X-Received: by 2002:aa7:9089:0:b0:566:900d:8242 with SMTP id i9-20020aa79089000000b00566900d8242mr2345930pfa.3.1670713347279;
+        Sat, 10 Dec 2022 15:02:27 -0800 (PST)
+Received: from mail.google.com (125-237-37-88-fibre.sparkbb.co.nz. [125.237.37.88])
+        by smtp.gmail.com with ESMTPSA id x12-20020aa79acc000000b0057725613627sm3283714pfp.142.2022.12.10.15.02.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Dec 2022 15:02:26 -0800 (PST)
+Date:   Sun, 11 Dec 2022 12:02:18 +1300
+From:   Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Vipin Sharma <vipinsh@google.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        paulo.miguel.almeida.rodenas@gmail.com
+Subject: [PATCH v2] scripts/tags.sh: choose which directories to exclude from
+ being indexed
+Message-ID: <Y5UP+tnnxNgoi6A2@mail.google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v2 00/21] blksnap - block devices snapshots module
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-CC:     <axboe@kernel.dk>, <corbet@lwn.net>, <linux-block@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20221209142331.26395-1-sergei.shtepa@veeam.com>
- <Y5P7qDolYickFyBJ@debian.me>
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-In-Reply-To: <Y5P7qDolYickFyBJ@debian.me>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.24.10.107]
-X-ClientProxiedBy: colmbx01.amust.local (172.18.0.171) To prgmbx01.amust.local
- (172.24.128.102)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29240315566D7566
-X-Veeam-MMEX: True
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y5T66yWNVAZNIaJ0@mail.google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bagas!
+It's common for drivers that share same physical components to also
+duplicate source code (or at least portions of it). A good example is
+both drivers/gpu/drm/amdgpu/* and drivers/gpu/drm/radeon/* have a header
+file called atombios.h.
 
-Thanks a lot for the review.
-I will definitely correct the shortcomings that you have indicated.
+While their contents aren't the same, a lot of their structs have
+the exact same names which makes navigating through the code base a bit
+messy as cscope will show up 'references' across drivers which aren't
+exactly correct.
+
+This patch makes it possible for the devs to specify which folders
+they don't want to include into database as part of the
+find_other_sources func if a makefile variable IGNOREDIRS is present,
+otherwise the original behaviour is kept.
+
+Example:
+        make ARCH=x86 IGNOREDIRS=drivers/gpu/drm/radeon,tools cscope
+
+Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+---
+Changelog:
+
+- v2: change approach to include everything unless specified by the
+  IGNOREDIRS variable: (Req: Vipin Sharma)
+- v1: https://lore.kernel.org/lkml/Y5OKDvbGk4Kro6MK@mail.google.com/
+---
+ Documentation/kbuild/kbuild.rst |  7 +++++++
+ scripts/tags.sh                 | 11 +++++++++--
+ 2 files changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+index 08f575e6236c..5f99f30e20d8 100644
+--- a/Documentation/kbuild/kbuild.rst
++++ b/Documentation/kbuild/kbuild.rst
+@@ -278,6 +278,13 @@ To get all available archs you can also specify all. E.g.::
+ 
+     $ make ALLSOURCE_ARCHS=all tags
+ 
++IGNOREDIRS
++---------------
++For tags/TAGS/cscope targets, you can choose which directories won't
++be included in the databases, separated by comma. E.g.:
++
++    $ make IGNOREDIRS=drivers/gpu/drm/radeon,tools cscope
++
+ KBUILD_BUILD_TIMESTAMP
+ ----------------------
+ Setting this to a date string overrides the timestamp used in the
+diff --git a/scripts/tags.sh b/scripts/tags.sh
+index e137cf15aae9..554721e9cad2 100755
+--- a/scripts/tags.sh
++++ b/scripts/tags.sh
+@@ -59,10 +59,17 @@ find_include_sources()
+ }
+ 
+ # find sources in rest of tree
+-# we could benefit from a list of dirs to search in here
+ find_other_sources()
+ {
+-	find ${tree}* $ignore \
++	local loc_ignore=${ignore}
++	if [ -n "${IGNOREDIRS}" ]; then
++		exp_ignored_dirs=$(sed 's/,/ /g' <<< ${IGNOREDIRS})
++		for i in ${exp_ignored_dirs}; do
++			loc_ignore="${loc_ignore} ( -path $i ) -prune -o"
++		done
++	fi
++
++	find ${tree}* ${loc_ignore} \
+ 	     \( -path ${tree}include -o -path ${tree}arch -o -name '.tmp_*' \) -prune -o \
+ 	       -name "$1" -not -type l -print;
+ }
+-- 
+2.38.1
+
