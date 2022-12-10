@@ -2,108 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 777B5C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Dec 2022 22:07:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40C4AC4332F
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Dec 2022 02:44:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229918AbiLIWHD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Dec 2022 17:07:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54070 "EHLO
+        id S229683AbiLJCoi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Dec 2022 21:44:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230023AbiLIWGi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 17:06:38 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEA72BB0ED;
-        Fri,  9 Dec 2022 14:06:10 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 68A4B62370;
-        Fri,  9 Dec 2022 22:06:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6F0FC433D2;
-        Fri,  9 Dec 2022 22:06:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670623569;
-        bh=13oCDAnt7f3rlE9DpU68cvHeHJUi8m64xEllotvf6ZU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gmQSdEO+0XTok1DL97OAd+O33z9ldHg0Mc3wdZy6DDVpRFbmqa2P+Lu3LrpZRF5y2
-         30Fcj1wrkIWjSnBh/PEe0JUjzfmGCI0FSITsU7X+JZMP4bRrGcceUxSFHFTIrzX6oO
-         aTZ6CEiTwHDWq+Vjl243S/0Ux84N1EizjhNKWzpKh2zERTBfwGEhj4+JVoZA7qyMt5
-         CD58o4vnOvf68dGlvcgMKm39NuoigakSmuJsCVKIYv5b/Z8Bl6a+GZqZz6MQ0hGYGE
-         OFD+bt9nq4BaWHcbNav/ytZqSqJmpHnCjSpJShJYcNT3CEpBgnI4/+5u9o8rjzz0BO
-         7YemLWYNj1OAg==
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH V5 3/3] Documentation/osnoise: Add osnoise/options documentation
-Date:   Fri,  9 Dec 2022 23:05:54 +0100
-Message-Id: <fde5567a4bae364f67fd1e9a644d1d62862618a6.1670623111.git.bristot@kernel.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <cover.1670623111.git.bristot@kernel.org>
-References: <cover.1670623111.git.bristot@kernel.org>
+        with ESMTP id S229634AbiLJCoh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 21:44:37 -0500
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4C156511C1;
+        Fri,  9 Dec 2022 18:44:35 -0800 (PST)
+Received: from loongson.cn (unknown [112.20.108.31])
+        by gateway (Coremail) with SMTP id _____8Dx_+uR8pNjGpcEAA--.10598S3;
+        Sat, 10 Dec 2022 10:44:34 +0800 (CST)
+Received: from [192.168.100.127] (unknown [112.20.108.31])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Dx_1eP8pNj9eopAA--.36994S3;
+        Sat, 10 Dec 2022 10:44:31 +0800 (CST)
+Message-ID: <ec8602fe-2781-dd86-1011-fb901219f7f8@loongson.cn>
+Date:   Sat, 10 Dec 2022 10:44:30 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] docs/zh_CN: fix a typo in howto
+To:     Wang Yong <yongw.kernel@gmail.com>, alexs@kernel.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20221208083353.160152-1-yongw.kernel@gmail.com>
+Content-Language: en-US
+From:   Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <20221208083353.160152-1-yongw.kernel@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Dx_1eP8pNj9eopAA--.36994S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7JF4UKFykJrWrtFWrJrW7XFb_yoW8Jr4Upa
+        sxKrn7G3W8Jr15uayfGr4xWFW7GF97GrZ7Kr9rtw1rJrn2yws7tFnFyryvgr97XryrGFWU
+        uF4F9rn0934IkrDanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bfAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+        n4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+        ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E
+        87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+        AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km
+        07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r
+        1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWU
+        JVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r
+        1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUv
+        cSsGvfC2KfnxnUUI43ZEXa7IU88Ma5UUUUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the documentation about the osnoise/options file, the options,
-and some additional explanation about the OSNOISE_WORKLOAD option.
 
-Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/trace/osnoise-tracer.rst | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/trace/osnoise-tracer.rst b/Documentation/trace/osnoise-tracer.rst
-index 3c675ed82b27..f2008e317223 100644
---- a/Documentation/trace/osnoise-tracer.rst
-+++ b/Documentation/trace/osnoise-tracer.rst
-@@ -92,8 +92,8 @@ Note that the example above shows a high number of HW noise samples.
- The reason being is that this sample was taken on a virtual machine,
- and the host interference is detected as a hardware interference.
- 
--Tracer options
-----------------------
-+Tracer Configuration
-+--------------------
- 
- The tracer has a set of options inside the osnoise directory, they are:
- 
-@@ -115,6 +115,22 @@ The tracer has a set of options inside the osnoise directory, they are:
-    NO_OSNOISE_WORKLOAD disables the OSNOISE_WORKLOAD option. The
-    special DEAFAULTS option resets all options to the default value.
- 
-+Tracer Options
-+--------------
-+
-+The osnoise/options file exposes a set of on/off configuration options for
-+the osnoise tracer. These options are:
-+
-+ - DEFAULTS: reset the options to the default value.
-+ - OSNOISE_WORKLOAD: do not dispatch osnoise workload (see dedicated
-+   section below).
-+ - PANIC_ON_STOP: call panic() if the tracer stops. This option serves to
-+   capture a vmcore.
-+ - OSNOISE_PREEMPT_DISABLE: disable preemption while running the osnoise
-+   workload, allowing only IRQ and hardware-related noise.
-+ - OSNOISE_IRQ_DISABLE: disable IRQs while running the osnoise workload,
-+   allowing only NMIs and hardware-related noise, like hwlat tracer.
-+
- Additional Tracing
- ------------------
- 
--- 
-2.32.0
+在 12/8/22 16:33, Wang Yong 写道:
+> Fix a typo in Chinese translation of howto.rst
+>
+> Fixes: 40d93e496180 ("docs/zh_CN: update howto.rst to latest version")
+> Signed-off-by: Wang Yong <yongw.kernel@gmail.com>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>   Documentation/translations/zh_CN/process/howto.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
+> index 888978a62db3..10254751df6a 100644
+> --- a/Documentation/translations/zh_CN/process/howto.rst
+> +++ b/Documentation/translations/zh_CN/process/howto.rst
+> @@ -254,7 +254,7 @@ Linux-next 集成测试树
+>           https://git.kernel.org/?p=linux/kernel/git/next/linux-next.git
+>   
+>   通过这种方式，Linux-next 对下一个合并阶段将进入主线内核的内容给出了一个概要
+> -展望。非常欢冒险的测试者运行测试Linux-next。
+> +展望。非常欢迎冒险的测试者运行测试Linux-next。
+>   
+>   多个主要版本的稳定版内核树
+>   -----------------------------------
 
