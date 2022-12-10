@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F04EC4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Dec 2022 03:04:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C82BCC4332F
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Dec 2022 03:07:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229538AbiLJDEL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Dec 2022 22:04:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55826 "EHLO
+        id S229761AbiLJDHC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Dec 2022 22:07:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbiLJDEJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 22:04:09 -0500
+        with ESMTP id S229470AbiLJDHC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 22:07:02 -0500
 Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3CA163720C
-        for <linux-doc@vger.kernel.org>; Fri,  9 Dec 2022 19:04:08 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 959A43E0BB
+        for <linux-doc@vger.kernel.org>; Fri,  9 Dec 2022 19:07:00 -0800 (PST)
 Received: from loongson.cn (unknown [112.20.108.31])
-        by gateway (Coremail) with SMTP id _____8CxpfAn95NjqJcEAA--.10284S3;
-        Sat, 10 Dec 2022 11:04:07 +0800 (CST)
+        by gateway (Coremail) with SMTP id _____8Dx++rT95NjwpcEAA--.10762S3;
+        Sat, 10 Dec 2022 11:06:59 +0800 (CST)
 Received: from [192.168.100.127] (unknown [112.20.108.31])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8BxtuMm95Nj8O4pAA--.37156S3;
-        Sat, 10 Dec 2022 11:04:06 +0800 (CST)
-Message-ID: <d7e64b9b-119c-7cd1-f65f-0bf21a522bf5@loongson.cn>
-Date:   Sat, 10 Dec 2022 11:04:06 +0800
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8AxiFfS95NjZu8pAA--.19624S3;
+        Sat, 10 Dec 2022 11:06:58 +0800 (CST)
+Message-ID: <c98aeff0-1552-124a-0c57-41faac43d01d@loongson.cn>
+Date:   Sat, 10 Dec 2022 11:06:57 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v1 11/13] docs/zh_CN: Update the translation of ksm to
- 6.1-rc8
+Subject: Re: [PATCH v1 13/13] docs/zh_CN: Update the translation of
+ energy-model to 6.1-rc8
 Content-Language: en-US
 To:     Wu XiangCheng <wu.xiangcheng@linux.dev>
 Cc:     alexs@kernel.org, seakeel@gmail.com, corbet@lwn.net,
         chenhuacai@kernel.org, linux-doc@vger.kernel.org,
         siyanteng01@gmail.com
 References: <cover.1670502763.git.siyanteng@loongson.cn>
- <ebb3d10b22f0b11305a819ad03e6a0a531ec6678.1670502763.git.siyanteng@loongson.cn>
- <Y5LfP5oGiSCpYYP8@bobwxc.mipc>
+ <efff53f92a5c34957c51b8e519b7866e51723a0f.1670502763.git.siyanteng@loongson.cn>
+ <Y5LfwAZxBv9Dk5A4@bobwxc.mipc>
 From:   Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <Y5LfP5oGiSCpYYP8@bobwxc.mipc>
+In-Reply-To: <Y5LfwAZxBv9Dk5A4@bobwxc.mipc>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxtuMm95Nj8O4pAA--.37156S3
+X-CM-TRANSID: AQAAf8AxiFfS95NjZu8pAA--.19624S3
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxWF1rCry7Xr48XrWDCw1kAFb_yoWrWF48pF
-        yq9FWIgF47AF9ruFy7Kr1UuFsxtrs7Gr47Kw17tas7X3sYya92qr40kFyrGF1xZrykA3yY
-        yFWqqFn3CF9Yy3DanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW3Gr48Ww15tw4fWw1kJFW8WFg_yoWxCw4kpa
+        4qg3ySqw47tFyqvryv9ay8Xw1IkFWxAw47urs7GFy3Xr4rtFZ0kw4Yy3W3XFZrX34jyFyv
+        yFZxua4Iyr12y37anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
         qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
         bIxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
         wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
         x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
         e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
@@ -56,82 +56,98 @@ X-Coremail-Antispam: 1Uk129KBjvJXoWxWF1rCry7Xr48XrWDCw1kAFb_yoWrWF48pF
         Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwI
         xGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWx
         JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcV
-        C2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8QJ57UUUUU==
+        C2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8l38UUUUUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-在 12/9/22 15:09, Wu XiangCheng 写道:
->> Update to commit 21b7bdb504ae ("ksm: add profit monitoring
->> documentation")
+在 12/9/22 15:12, Wu XiangCheng 写道:
+>> Update to commit c5d39fae8992 ("Documentation: EM: Switch to
+>> micro-Watts scale")
 >>
->> commit 94bfe85bde18 ("mm/vmstat: add events for ksm cow")
+>> commit f48a0c475c2a ("Documentation: EM: Describe new registration
+>> method using DT")
+>> commit 75a3a99a5a98 ("PM: EM: Change the order of arguments in the
+>> .active_power() callback")
+>> commit 015f569c4649 ("Documentation: EM: Add artificial EM
+>> registration description")
 >>
 >> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 >> ---
->>   .../translations/zh_CN/admin-guide/mm/ksm.rst | 50 +++++++++++++++++++
->>   1 file changed, 50 insertions(+)
+>>   .../translations/zh_CN/power/energy-model.rst | 36 ++++++++++++++-----
+>>   1 file changed, 28 insertions(+), 8 deletions(-)
 >>
->> diff --git a/Documentation/translations/zh_CN/admin-guide/mm/ksm.rst b/Documentation/translations/zh_CN/admin-guide/mm/ksm.rst
->> index 4829156ef1ae..e27806aa90dc 100644
->> --- a/Documentation/translations/zh_CN/admin-guide/mm/ksm.rst
->> +++ b/Documentation/translations/zh_CN/admin-guide/mm/ksm.rst
->> @@ -146,3 +146,53 @@ stable_node_dups
+>> diff --git a/Documentation/translations/zh_CN/power/energy-model.rst b/Documentation/translations/zh_CN/power/energy-model.rst
+>> index c7da1b6aefee..d740bbe22fde 100644
+>> --- a/Documentation/translations/zh_CN/power/energy-model.rst
+>> +++ b/Documentation/translations/zh_CN/power/energy-model.rst
+>> @@ -23,15 +23,15 @@
+>>   实现支持，EM框架作为一个抽象层介入，它在内核中对功率成本表的格式进行标准化，
+>>   因此能够避免多余的工作。
 >>   
->>   比值 ``pages_sharing/pages_shared`` 的最大值受限制于 ``max_page_sharing``
->>   的设定。要想增加该比值，则相应地要增加 ``max_page_sharing`` 的值。
->> +
->> +监测KSM的好处
-> 好处 => 收益
+>> -功率值可以用毫瓦或“抽象刻度”表示。多个子系统可能使用EM，由系统集成商来检查
+>> +功率值可以用微瓦或“抽象刻度”表示。多个子系统可能使用EM，由系统集成商来检查
+>>   功率值刻度类型的要求是否满足。可以在能量感知调度器的文档中找到一个例子
+>>   Documentation/scheduler/sched-energy.rst。对于一些子系统，比如热能或
+>>   powercap，用“抽象刻度”描述功率值可能会导致问题。这些子系统对过去使用的功率的
+>> -估算值更感兴趣，因此可能需要真实的毫瓦。这些要求的一个例子可以在智能功率分配
+>> +估算值更感兴趣，因此可能需要真实的微瓦。这些要求的一个例子可以在智能功率分配
+>>   Documentation/driver-api/thermal/power_allocator.rst文档中找到。
+>>   
+>>   内核子系统可能（基于EM内部标志位）实现了对EM注册设备是否具有不一致刻度的自动
+>> -检查。要记住的重要事情是，当功率值以“抽象刻度”表示时，从中推导以毫焦耳为单位
+>> +检查。要记住的重要事情是，当功率值以“抽象刻度”表示时，从中推导以微焦耳为单位
+>>   的真实能量消耗是不可能的。
+>>   
+>>   下图描述了一个驱动的例子（这里是针对Arm的，但该方法适用于任何体系结构），它
+>> @@ -89,20 +89,40 @@ Documentation/driver-api/thermal/power_allocator.rst文档中找到。
+>>   驱动程序应通过以下API将性能域注册到EM框架中::
+>>   
+>>     int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
+>> -		struct em_data_callback *cb, cpumask_t *cpus, bool milliwatts);
+>> +		struct em_data_callback *cb, cpumask_t *cpus, bool microwatts);
+>>   
+>>   驱动程序必须提供一个回调函数，为每个性能状态返回<频率,功率>元组。驱动程序
+>>   提供的回调函数可以自由地从任何相关位置（DT、固件......）以及以任何被认为是
+>>   必要的方式获取数据。只有对于CPU设备，驱动程序必须使用cpumask指定性能域的CPU。
+>>   对于CPU以外的其他设备，最后一个参数必须被设置为NULL。
+>>   
+>> -最后一个参数“milliwatts”（毫瓦）设置成正确的值是很重要的，使用EM的内核
+>> +最后一个参数“microwatts”（微瓦）设置成正确的值是很重要的，使用EM的内核
+>>   子系统可能会依赖这个标志来检查所有的EM设备是否使用相同的刻度。如果有不同的
+>> -刻度，这些子系统可能决定：返回警告/错误，停止工作或崩溃（panic）。
+>> +刻度，这些子系统可能决定返回警告/错误，停止工作或崩溃（panic）。
+>>   
+>>   关于实现这个回调函数的驱动程序的例子，参见第3节。或者在第2.4节阅读这个API
+>>   的更多文档。
+>>   
+>> +使用DT EM的注册
+> 使用DT的EM注册
 OK!
->> +=============
->> +
->> +KSM可以通过合并相同的页面来节省内存，但也会消耗额外的内存，因为它需要生成一些rmap_items
->> +来保存每个扫描页面的简要rmap信息。其中有些页面可能会被合并，但有些页面在被检查几次
->> +后可能无法被合并，这些都是无益的内存消耗。
->> +
->> +1) 如何确定KSM在全系统范围内是节省内存还是消耗内存？这里有一个简单的近似计算方法供参考::
->> +
->> +       general_profit =~ pages_sharing * sizeof(page) - (all_rmap_items) *
->> +                         sizeof(rmap_item);
->> +
->> +   其中all_rmap_items可以通过对 ``pages_sharing`` 、 ``pages_shared`` 、 ``pages_unshared``
->> +   和 ``pages_volatile`` 的求和而轻松获得。
->> +
->> +2) KSM的好处在一个单一的进程中也可以通过以下近似的计算得到::
-> 单一进程中KSM的收益
-ok!
 >
+>> +===============
 >> +
->> +       process_profit =~ ksm_merging_pages * sizeof(page) -
->> +                         ksm_rmap_items * sizeof(rmap_item).
+>> +EM也可以使用OPP框架和DT "操作点-v2 "中的信息注册。DT中的每个OPP条目都可
+>> +以用一个包含微瓦特功率值的属性 "op-microwatt "来扩展。这个OPP DT属性允
+>> +许平台注册反映总功率（静态+动态）的EM功率值。这些功率值可能直接来自实验和
+>> +测量。
 >> +
->> +   其中ksm_merging_pages显示在 ``/proc/<pid>/`` 目录下，而ksm_rmap_items
->> +   显示在 ``/proc/<pid>/ksm_stat`` 。
+>> +“人工”EM的注册
+>> +==============
 >> +
->> +从应用的角度来看， ``ksm_rmap_items`` 和 ``ksm_merging_pages`` 的高比例意
->> +味着不好的madvise-applied策略，所以开发者或管理员必须重新考虑如何改变madvis策
->> +略。举个例子供参考，一个页面的大小通常是4K，而rmap_item的大小在32位CPU架构上分
->> +别是32B，在64位CPU架构上是64B。所以如果 ``ksm_rmap_items/ksm_merging_pages``
->> +的比例在64位CPU上超过64，或者在32位CPU上超过128，那么应用程序的madvise策略应
->> +该被放弃，因为ksm好处大约为零或负值。
-> 好处 => 收益
-OK！
->> +
->> +监控KSM事件
->> +===========
->> +
->> +在/proc/vmstat中有一些计数器，可以用来监控KSM事件。KSM可能有助于节省内存，这是
->> +一种权衡，因为它可能会在KSM COW或复制中的交换上遭受延迟。这些事件可以帮助用户评估
->> +是否或如何使用KSM。例如，如果cow_ksm增加得太快，用户可以减少madvise(, , MADV_MERGEABLE)
->> +的范围。
->> +
->> +cow_ksm
->> +        在每次KSM页面触发写时拷贝（COW）时都会被递增，当用户试图写到KSM页面时，
-> 写到 => 写入
+>> +有一个选项可以为缺少关于每个性能状态的功率值的详细知识的驱动程序提供一个自
+>> +定义回调。回调.get_cost()是可选的，它提供EAS使用的“成本”值。这对那些只提
+>> +供CPU类型之间相对效率信息的平台很有用，人们可以利用这些信息来创建一个抽象的
+>> +功率模型。但是，考虑到输入功率值的大小限制，即使是抽象的功率模型有时也很难装
+>> +进去。.get_cost()允许提供反映CPU效率的“成本”值。这将允许提供EAS信息，它
+>> +与EM内部计算'成本'值的公式有不同的关系。要为这样的平台注册EM，驱动程序必须
+>> +将标志“microwatts”设置为0，提供.get_power()回调和.get_cost()回调。EM
+>> +框架会在注册过程中正确处理这样的平台。一个标志EM_PERF_DOMAIN_ARTIFICIAL
+>> +被设置为这种平台。其他使用EM的框架应该特别注意测试和正确对待这个标志。
+> 这种平台会被设置EM_PERF_DOMAIN_ARTIFICIAL标志。
 
-OK！
+OK!
 
 
 Thanks,
@@ -139,15 +155,19 @@ Thanks,
 Yanteng
 
 >
->> +        我们必须做一个拷贝。
->> +
->> +ksm_swpin_copy
->> +        在换入时，每次KSM页被复制时都会被递增。请注意，KSM页在换入时可能会被复
->> +        制，因为do_swap_page()不能做所有的锁，而需要重组一个跨anon_vma的KSM页。
->> +
->> +--
->> +Izik Eidus,
->> +Hugh Dickins, 2009年11月17日。
+>> “简单”EM的注册
+>> ~~~~~~~~~~~~~~~~
+>> @@ -147,8 +167,8 @@ cpufreq_driver::register_em()。这个回调必须为每个特定的驱动程序
+>>   
+>>     -> drivers/cpufreq/foo_cpufreq.c
+>>   
+>> -  01	static int est_power(unsigned long *mW, unsigned long *KHz,
+>> -  02			struct device *dev)
+>> +  01   static int est_power(struct device *dev, unsigned long *mW,
+>> +  02                   unsigned long *KHz)
+>>     03	{
+>>     04		long freq, power;
+>>     05
 >> -- 
 >> 2.31.1
 >>
