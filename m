@@ -2,195 +2,388 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E50EC4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Dec 2022 03:11:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88276C4332F
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Dec 2022 03:17:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229555AbiLJDLa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Dec 2022 22:11:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57550 "EHLO
+        id S229658AbiLJDRU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Dec 2022 22:17:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbiLJDL3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 22:11:29 -0500
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 534BC55CA9
-        for <linux-doc@vger.kernel.org>; Fri,  9 Dec 2022 19:11:28 -0800 (PST)
-Received: from loongson.cn (unknown [112.20.108.31])
-        by gateway (Coremail) with SMTP id _____8Dx+Ojf+JNj35cEAA--.7235S3;
-        Sat, 10 Dec 2022 11:11:27 +0800 (CST)
-Received: from [192.168.100.127] (unknown [112.20.108.31])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8AxiFfe+JNjafApAA--.19635S3;
-        Sat, 10 Dec 2022 11:11:26 +0800 (CST)
-Message-ID: <42dff1c7-dea1-cc59-300a-2212b2494032@loongson.cn>
-Date:   Sat, 10 Dec 2022 11:11:26 +0800
+        with ESMTP id S229470AbiLJDRS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 22:17:18 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEEBE31375;
+        Fri,  9 Dec 2022 19:17:15 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id fy4so6412106pjb.0;
+        Fri, 09 Dec 2022 19:17:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=IfcCAQaJ3kmduYpB+rQFe6/68zr6eEOSwUILoiuNatw=;
+        b=Xjq6quRw4g+29K0K78R7a4vLy44NwsFzw6TZSBK9OCfyQRx170exAX73wg3cm/uuov
+         FUNCfoF7IoEw4A3AxQw4s1uQRQKazTCWKnmF5OKGZeUPM9/2g2OUedRJA8GXMHgHM4CT
+         i0dfazNwsh7gDUk9x6QaOiQJgvk5FzoMdL7Ip9pFZKB5qfm/Hed02yyChkZGhjGy5Oes
+         PyrOqjq0FDGq876qkkckC5sOykLxGzUeGJOXzxeqrNVk8LcPvqM32orucn//1F4xOZW6
+         n9i7dY4kyyRFelPJo4Jkmth/Yx3CHpunRMRgIkAmOasILtalMGeWBLwvdkQpjQK2S5pp
+         AI4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IfcCAQaJ3kmduYpB+rQFe6/68zr6eEOSwUILoiuNatw=;
+        b=oVnCNFfnxzKcQtN3k0aExCkFjxA4CCrLwWW2auMA6FiLM2LiEAPMe0o6EdkWSx2+AP
+         TnjAWtciGsjnqR55mcCTAHSA3I90KdGfEplesAszecJhlhoX0TiBNdfsaqSS14LaIP25
+         T+uhLmnwRf2OsAikJZtaQBjVwFcgf7KQPtKEhDcYY07iJVM2Zhg26+kzFvkrikOmKWZs
+         X4APWIj53iXKtXQL4OIlGWFRcugK4EGT3tM3/AC66vLHNmqUBtkpaMF/E+91YqxfsAKV
+         a9NzZdk0x79y2aNMVdZNyI9GpbQjsWBiGDr1m1ApkHqGl/AfitDrpKcf4zdzoF9Gnl4m
+         cejA==
+X-Gm-Message-State: ANoB5pnArcc0gBNRkZ8WsAnQOnK5kiRG9RsbAUo9G2bN/7Izd+I6bZDW
+        TT/Nv/X+0YhvcyxFWJ8u0RIijl+K678=
+X-Google-Smtp-Source: AA0mqf6ojaModjo5JyfiHSc0P0dszlj8oHPmvLBUk1QMqMk0FkyE1RFBGz4RkV0BJXKBL+JL48Vytg==
+X-Received: by 2002:a17:902:f647:b0:189:101d:9bad with SMTP id m7-20020a170902f64700b00189101d9badmr9451391plg.59.1670642235205;
+        Fri, 09 Dec 2022 19:17:15 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-76.three.co.id. [180.214.232.76])
+        by smtp.gmail.com with ESMTPSA id e6-20020a170902d38600b0018982bf03b4sm1970629pld.117.2022.12.09.19.17.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Dec 2022 19:17:14 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 241A3103E00; Sat, 10 Dec 2022 10:17:10 +0700 (WIB)
+Date:   Sat, 10 Dec 2022 10:17:10 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     matthew.gerlach@linux.intel.com, hao.wu@intel.com,
+        yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com
+Subject: Re: [PATCH v6 1/4] Documentation: fpga: dfl: Add documentation for
+ DFHv1
+Message-ID: <Y5P6NjDxy/S7nlF7@debian.me>
+References: <20221209214523.3484193-1-matthew.gerlach@linux.intel.com>
+ <20221209214523.3484193-2-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v1 06/13] docs/zh_CN: Update the translation of kasan to
- 6.1-rc8
-Content-Language: en-US
-To:     Wu XiangCheng <wu.xiangcheng@linux.dev>
-Cc:     alexs@kernel.org, seakeel@gmail.com, corbet@lwn.net,
-        chenhuacai@kernel.org, linux-doc@vger.kernel.org,
-        siyanteng01@gmail.com
-References: <cover.1670502763.git.siyanteng@loongson.cn>
- <bbb8e1702cb9739f43bf872428c130e90cfaf3b4.1670502763.git.siyanteng@loongson.cn>
- <Y5LkvRULM6N7EILs@bobwxc.mipc>
-From:   Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <Y5LkvRULM6N7EILs@bobwxc.mipc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxiFfe+JNjafApAA--.19635S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3JFWxKF1ktw15uF1DJFyUGFg_yoWxXw13pF
-        9rWa48Cr4a9F1Yqry2yr4DZry5C3s7Ca4xAry5K3s3J3yDC39rtrZ29FyDWry8WryxJFyv
-        ywnYyF1rZr42q37anT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        bS8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
-        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
-        n4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
-        ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E
-        87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
-        AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km
-        07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r
-        1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8
-        JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r
-        1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1U
-        YxBIdaVFxhVjvjDU0xZFpf9x07jz2NtUUUUU=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="HlPKI/korhvKEuYx"
+Content-Disposition: inline
+In-Reply-To: <20221209214523.3484193-2-matthew.gerlach@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-在 12/9/22 15:33, Wu XiangCheng 写道:
->> Update to commit cd36d84d2571 ("kasan: allow sampling
->> page_alloc allocations for HW_TAGS")
->>
->> Commit 80b92bfe3bb7 ("kasan: dynamically allocate
->> stack ring entries")
->> Commit 7ebfce331251 ("kasan: support kasan.stacktrace
->> for SW_TAGS")
->> Commit ca89f2a2e66d ("kasan: move boot parameters
->> section in documentation")
->>
->> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
->> ---
->>   .../translations/zh_CN/dev-tools/kasan.rst    | 77 +++++++++++--------
->>   1 file changed, 44 insertions(+), 33 deletions(-)
->>
->> diff --git a/Documentation/translations/zh_CN/dev-tools/kasan.rst b/Documentation/translations/zh_CN/dev-tools/kasan.rst
->> index fe76cbe77ad6..c645b1b6cc53 100644
->> --- a/Documentation/translations/zh_CN/dev-tools/kasan.rst
->> +++ b/Documentation/translations/zh_CN/dev-tools/kasan.rst
->> @@ -90,6 +90,50 @@ KASAN只支持SLUB。
->>   ``CONFIG_STACKTRACE`` 。要包括受影响物理页面的分配和释放堆栈跟踪的话，
->>   请启用 ``CONFIG_PAGE_OWNER`` 并使用 ``page_owner=on`` 进行引导。
->>   
->> +启动参数
->> +~~~~~~~~
->> +
->> +KASAN受到通用 ``panic_on_warn`` 命令行参数的影响。当它被启用时，KASAN
->> +在打印出错误报告后会使内核恐慌。
->> +
->> +默认情况下，KASAN只对第一个无效的内存访问打印错误报告。使用
->> +``kasan_multi_shot``，KASAN对每一个无效的访问都打印一份报告。这有效地
-> 有效地 => 会
-ok!
->
->> +禁用了KASAN报告的 ``panic_on_warn``。
->> +
->> +另外，独立于 ``panic_on_warn`` 、 ``kasan.fault=`` boot参数可以用
->> +来控制恐慌和报告行为。
->> +
->> +- ``kasan.fault=report`` 或 ``=panic`` 控制是否只打印KASAN报告或
->> +  同时使内核恐慌（默认： ``报告`` ）。即使 ``kasan_multi_shot`` 被
-> 报告 => report
-OK！
->
->> +  启用，恐慌也会发生。
->> +
->> +基于软件和硬件标签的KASAN模式（见下面关于各种模式的部分）支持改变堆栈跟
->> +踪收集行为：
->> +
->> +- ``kasan.stacktrace=off`` 或 ``=on`` 禁用或启用分配和释放堆栈痕
->> +  迹的收集（默认： ``on`` ）。
->> +
->> +- ``kasan.stack_ring_size=<number of entries>`` 指定堆栈环的条
->> +  目数（默认： ``32768`` ）。
->> +
->> +基于硬件标签的KASAN模式是为了在生产中作为一种安全缓解措施使用。因此，它
->> +支持额外的启动参数，允许完全禁用KASAN或控制其功能。
->> +
->> +- ``kasan=off`` 或 ``=on`` 控制KASAN是否被启用（默认： ``on`` ）。
->> +
->> +- ``kasan.mode=sync``, ``=async`` or ``=asymm`` 控制KASAN是否
->> +  被配置为同步、异步或非对称的执行模式（默认： ``同步`` ）。
->> +  同步模式：当标签检查异常发生时，会立即检测到不良访问。
->> +  异步模式：不良访问的检测是延迟的。当标签检查异常发生时，信息被存储在硬
->> +  件中（对于arm64来说是在TFSR_EL1寄存器中）。内核周期性地检查硬件，并\
->> +  且只在这些检查中报告标签异常。
->> +  非对称模式：读取时同步检测不良访问，写入时异步检测。
->> +
->> +- ``kasan.vmalloc=off`` or ``=on`` 禁用或启用vmalloc分配的标记（默认： ``on`` ）。
->> +
->> +- ``kasan.page_alloc.sample=<sampling frequency>`` 使得KASAN
->> +  只对每N次page_alloc分配进行标记，其中N是参数的值（默认值： ``1`` ）。
-> Remove previous paragraph.
+--HlPKI/korhvKEuYx
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-OK!
+On Fri, Dec 09, 2022 at 01:45:20PM -0800, matthew.gerlach@linux.intel.com w=
+rote:
+> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+> index 15b670926084..606b4b070c33 100644
+> --- a/Documentation/fpga/dfl.rst
+> +++ b/Documentation/fpga/dfl.rst
+> @@ -561,6 +561,109 @@ new DFL feature via UIO direct access, its feature =
+id should be added to the
+>  driver's id_table.
+> =20
+> =20
+> +Device Feature Header - Version 0
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Version 0 (DFHv0) is the original version of the Device Feature Header.
+> +The format of DFHv0 is shown below::
+> +
+> +    +-------------------------------------------------------------------=
+----+
+> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 =
+ID 0| 0x00
+> +    +-------------------------------------------------------------------=
+----+
+> +    |63                                 GUID_L                          =
+   0| 0x08
+> +    +-------------------------------------------------------------------=
+----+
+> +    |63                                 GUID_H                          =
+   0| 0x10
+> +    +-------------------------------------------------------------------=
+----+
+> +
+> +- Offset 0x00
+> +
+> +  * Type - The type of DFH (e.g. FME, AFU, or private feature).
+> +  * DFH VER - The version of the DFH.
+> +  * Rsvd - Currently unused.
+> +  * EOL - Set if this DFH is the end of the Device Feature List (DFL).
+> +  * Next - The offset of the next DFH in the DFL from the start of the D=
+FH. If EOL is set, Next is the size of MMIO ofthe last feature in the list.
+> +  * ID - The ID of the feature if Type is private feature.
+> +
+> +- Offset 0x08
+> +
+> +  * GUID_L - Least significant 64 bits of a 128 bit Globally Unique Iden=
+tifier (present only if Type is FME or AFU).
+> +
+> +- Offset 0x10
+> +
+> +  * GUID_H - Most significant 64 bits of a 128 bit Globally Unique Ident=
+ifier (present only if Type is FME or AFU).
+> +
+> +
+> +Device Feature Header - Version 1
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Version 1 (DFHv1) of the Device Feature Header adds the following functi=
+onality:
+> +
+> +* Provides a standardized mechanism for features to describe parameters/=
+capabilities to software.
+> +* Standardize the use of a GUID for all DFHv1 types.
+> +* Decouples the location of the DFH from the register space of the featu=
+re itself.
+> +
+> +The format of Version 1 of the Device Feature Header (DFH) is shown belo=
+w::
+> +
+> +    +-------------------------------------------------------------------=
+----+
+> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 =
+ID 0| 0x00
+> +    +-------------------------------------------------------------------=
+----+
+> +    |63                                 GUID_L                          =
+   0| 0x08
+> +    +-------------------------------------------------------------------=
+----+
+> +    |63                                 GUID_H                          =
+   0| 0x10
+> +    +-------------------------------------------------------------------=
+----+
+> +    |63                   Reg Address/Offset                      1|  Re=
+l  0| 0x18
+> +    +-------------------------------------------------------------------=
+----+
+> +    |63        Reg Size       32|Params 31|30 Group    16|15 Instance   =
+   0| 0x20
+> +    +-------------------------------------------------------------------=
+----+
+> +    |63 Next    35|34RSV33|EOP32|31 Param Version 16|15 Param ID        =
+   0| 0x28
+> +    +-------------------------------------------------------------------=
+----+
+> +    |63                 Parameter Data                                  =
+   0| 0x30
+> +    +-------------------------------------------------------------------=
+----+
+> +
+> +                                  ...
+> +
+> +    +-------------------------------------------------------------------=
+----+
+> +    |63 Next    35|34RSV33|EOP32|31 Param Version 16|15 Param ID        =
+   0|
+> +    +-------------------------------------------------------------------=
+----+
+> +    |63                 Parameter Data                                  =
+   0|
+> +    +-------------------------------------------------------------------=
+----+
+> +
+> +- Offset 0x00
+> +
+> +  * Type - The type of DFH (e.g. FME, AFU, or private feature).
+> +  * DFH VER - The version of the DFH.
+> +  * Rsvd - Currently unused.
+> +  * EOL - Set if this DFH is the end of the Device Feature List (DFL).
+> +  * Next - The offset of the next DFH in the DFL from the start of the D=
+FH.
+> +  * ID - The ID of the feature if Type is private feature.
+> +
+> +- Offset 0x08
+> +
+> +  * GUID_L - Least significant 64 bits of a 128 bit Globally Unique Iden=
+tifier.
+> +
+> +- Offset 0x10
+> +
+> +  * GUID_H - Most significant 64 bits of a 128 bit Globally Unique Ident=
+ifier.
+> +
+> +- Offset 0x18
+> +
+> +  * Reg Address/Offset - If Rel bit is set, then the value is the high 6=
+3 bits of a 16 bit aligned absolute address of the feature's registers. If =
+Rel bit is clear, then the value is the offset from the start of the DFH of=
+ the feature's registers.
+> +
+> +- Offset 0x20
+> +
+> +  * Reg Size - Size of feature's register set in bytes.
+> +  * Params - Set if DFH has a list of parameter blocks.
+> +  * Group - Id of group if feature is part of a group.
+> +  * Instance - Id of instance of feature within a group.
+> +
+> +- Offset 0x28 if feature has parameters
+> +
+> +  * Next - Offset to the next parameter block in 8 byte words. If EOP se=
+t, size in 8 byte words of last parameter.
+> +  * Param Version - Version of Param ID.
+> +  * Param ID - ID of parameter.
+> +
+> +- Offset 0x30
+> +
+> +  * Parameter Data - Parameter data whose size and format is defined by =
+version and ID of the parameter.
+> +
+>  Open discussion
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>  FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial reconfig=
+uration
 
+What about this wording below (including fitting the prose within 80 column=
+s)?
 
-Thanks,
+---- >8 ----
+diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+index 606b4b070c3321..3d8f8dde6021db 100644
+--- a/Documentation/fpga/dfl.rst
++++ b/Documentation/fpga/dfl.rst
+@@ -579,26 +579,30 @@ The format of DFHv0 is shown below::
+   * Type - The type of DFH (e.g. FME, AFU, or private feature).
+   * DFH VER - The version of the DFH.
+   * Rsvd - Currently unused.
+-  * EOL - Set if this DFH is the end of the Device Feature List (DFL).
+-  * Next - The offset of the next DFH in the DFL from the start of the DFH=
+=2E If EOL is set, Next is the size of MMIO ofthe last feature in the list.
+-  * ID - The ID of the feature if Type is private feature.
++  * EOL - Set if the DFH is the end of the Device Feature List (DFL).
++  * Next - The offset of the next DFH in the DFL from the DFH start. If EO=
+L is
++    set, Next is the size of MMIO of the last feature in the list.
++  * ID - The feature ID if Type is private feature.
+=20
+ - Offset 0x08
+=20
+-  * GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identi=
+fier (present only if Type is FME or AFU).
++  * GUID_L - Least significant 64 bits of a 128-bit Globally Unique Identi=
+fier
++    (present only if Type is FME or AFU).
+=20
+ - Offset 0x10
+=20
+-  * GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identif=
+ier (present only if Type is FME or AFU).
++  * GUID_H - Most significant 64 bits of a 128-bit Globally Unique Identif=
+ier
++    (present only if Type is FME or AFU).
+=20
+=20
+ Device Feature Header - Version 1
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ Version 1 (DFHv1) of the Device Feature Header adds the following function=
+ality:
+=20
+-* Provides a standardized mechanism for features to describe parameters/ca=
+pabilities to software.
++* Provides a standardized mechanism for features to describe
++  parameters/capabilities to software.
+ * Standardize the use of a GUID for all DFHv1 types.
+-* Decouples the location of the DFH from the register space of the feature=
+ itself.
++* Decouples the DFH location from the register space of the feature itself.
+=20
+ The format of Version 1 of the Device Feature Header (DFH) is shown below::
+=20
+@@ -631,38 +635,43 @@ The format of Version 1 of the Device Feature Header =
+(DFH) is shown below::
+   * Type - The type of DFH (e.g. FME, AFU, or private feature).
+   * DFH VER - The version of the DFH.
+   * Rsvd - Currently unused.
+-  * EOL - Set if this DFH is the end of the Device Feature List (DFL).
+-  * Next - The offset of the next DFH in the DFL from the start of the DFH.
+-  * ID - The ID of the feature if Type is private feature.
++  * EOL - Set if the DFH is the end of the Device Feature List (DFL).
++  * Next - The offset of the next DFH in the DFL from the DFH start.
++  * ID - The feature ID if Type is private feature.
+=20
+ - Offset 0x08
+=20
+-  * GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identi=
+fier.
++  * GUID_L - Least significant 64 bits of a 128-bit Globally Unique Identi=
+fier.
+=20
+ - Offset 0x10
+=20
+-  * GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identif=
+ier.
++  * GUID_H - Most significant 64 bits of a 128-bit Globally Unique Identif=
+ier.
+=20
+ - Offset 0x18
+=20
+-  * Reg Address/Offset - If Rel bit is set, then the value is the high 63 =
+bits of a 16 bit aligned absolute address of the feature's registers. If Re=
+l bit is clear, then the value is the offset from the start of the DFH of t=
+he feature's registers.
++  * Reg Address/Offset - If Rel bit is set, then the value is the high 63 =
+bits
++    of a 16-bit aligned absolute address of the feature's registers. Other=
+wise
++    the value is the offset from the start of the DFH of the feature's
++    registers.
+=20
+ - Offset 0x20
+=20
+   * Reg Size - Size of feature's register set in bytes.
+   * Params - Set if DFH has a list of parameter blocks.
+-  * Group - Id of group if feature is part of a group.
+-  * Instance - Id of instance of feature within a group.
++  * Group - ID of group if feature is part of a group.
++  * Instance - ID of feature instance within a group.
+=20
+ - Offset 0x28 if feature has parameters
+=20
+-  * Next - Offset to the next parameter block in 8 byte words. If EOP set,=
+ size in 8 byte words of last parameter.
++  * Next - Offset to the next parameter block in 8 byte words. If EOP set,
++    the value is size in 8 byte words of last parameter.
+   * Param Version - Version of Param ID.
+   * Param ID - ID of parameter.
+=20
+ - Offset 0x30
+=20
+-  * Parameter Data - Parameter data whose size and format is defined by ve=
+rsion and ID of the parameter.
++  * Parameter Data - Parameter data whose size and format is defined by
++    version and ID of the parameter.
+=20
+ Open discussion
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Yanteng
+Thanks.
 
->
->> +
->>   错误报告
->>   ~~~~~~~~
->>   
->> @@ -194,39 +238,6 @@ slab对象的描述以及关于访问的内存页的信息。
->>   通用KASAN还报告两个辅助调用堆栈跟踪。这些堆栈跟踪指向代码中与对象交互但不直接
->>   出现在错误访问堆栈跟踪中的位置。目前，这包括 call_rcu() 和排队的工作队列。
->>   
->> -启动参数
->> -~~~~~~~~
->> -
->> -KASAN受通用 ``panic_on_warn`` 命令行参数的影响。启用该功能后，KASAN在打印错误
->> -报告后会引起内核恐慌。
->> -
->> -默认情况下，KASAN只为第一次无效内存访问打印错误报告。使用 ``kasan_multi_shot`` ，
->> -KASAN会针对每个无效访问打印报告。这有效地禁用了KASAN报告的 ``panic_on_warn`` 。
->> -
->> -另外，独立于 ``panic_on_warn`` , ``kasan.fault=`` 引导参数可以用来控制恐慌和报
->> -告行为:
->> -
->> -- ``kasan.fault=report`` 或 ``=panic`` 控制是只打印KASAN报告还是同时使内核恐慌
->> -  (默认: ``report`` )。即使启用了 ``kasan_multi_shot`` ，也会发生内核恐慌。
->> -
->> -基于硬件标签的KASAN模式（请参阅下面有关各种模式的部分）旨在在生产中用作安全缓解
->> -措施。因此，它支持允许禁用KASAN或控制其功能的附加引导参数。
->> -
->> -- ``kasan=off`` 或 ``=on`` 控制KASAN是否启用 (默认: ``on`` )。
->> -
->> -- ``kasan.mode=sync`` 、 ``=async`` 或 ``=asymm`` 控制KASAN是否配置
->> -  为同步或异步执行模式(默认:``sync`` )。
->> -  同步模式：当标签检查错误发生时，立即检测到错误访问。
->> -  异步模式：延迟错误访问检测。当标签检查错误发生时，信息存储在硬件中（在arm64的
->> -  TFSR_EL1寄存器中）。内核会定期检查硬件，并且仅在这些检查期间报告标签错误。
->> -  非对称模式：读取时同步检测不良访问，写入时异步检测。
->> -
->> -- ``kasan.vmalloc=off`` 或 ``=on`` 禁用或启用vmalloc分配的标记（默认：``on`` ）。
->> -
->> -- ``kasan.stacktrace=off`` 或 ``=on`` 禁用或启用alloc和free堆栈跟踪收集
->> -  (默认: ``on`` )。
->> -
->> -
->>   实施细则
->>   --------
->>   
->> -- 
->> 2.31.1
->>
+--=20
+An old man doll... just what I always wanted! - Clara
 
+--HlPKI/korhvKEuYx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY5P6LAAKCRD2uYlJVVFO
+o85tAQCQ/X7C1BEESFknhpc4XhzPdvuzYCUGCrYY8DoHuUzFcwEApc18F0w7QxFL
+9q1TeTSERdjvegYjcO0UIpLDCmSE2Qc=
+=0Q96
+-----END PGP SIGNATURE-----
+
+--HlPKI/korhvKEuYx--
