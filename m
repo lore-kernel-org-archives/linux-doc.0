@@ -2,150 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C82BCC4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Dec 2022 03:07:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E50EC4332F
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Dec 2022 03:11:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229761AbiLJDHC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Dec 2022 22:07:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56204 "EHLO
+        id S229555AbiLJDLa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Dec 2022 22:11:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbiLJDHC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 22:07:02 -0500
+        with ESMTP id S229470AbiLJDL3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 22:11:29 -0500
 Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 959A43E0BB
-        for <linux-doc@vger.kernel.org>; Fri,  9 Dec 2022 19:07:00 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 534BC55CA9
+        for <linux-doc@vger.kernel.org>; Fri,  9 Dec 2022 19:11:28 -0800 (PST)
 Received: from loongson.cn (unknown [112.20.108.31])
-        by gateway (Coremail) with SMTP id _____8Dx++rT95NjwpcEAA--.10762S3;
-        Sat, 10 Dec 2022 11:06:59 +0800 (CST)
+        by gateway (Coremail) with SMTP id _____8Dx+Ojf+JNj35cEAA--.7235S3;
+        Sat, 10 Dec 2022 11:11:27 +0800 (CST)
 Received: from [192.168.100.127] (unknown [112.20.108.31])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8AxiFfS95NjZu8pAA--.19624S3;
-        Sat, 10 Dec 2022 11:06:58 +0800 (CST)
-Message-ID: <c98aeff0-1552-124a-0c57-41faac43d01d@loongson.cn>
-Date:   Sat, 10 Dec 2022 11:06:57 +0800
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8AxiFfe+JNjafApAA--.19635S3;
+        Sat, 10 Dec 2022 11:11:26 +0800 (CST)
+Message-ID: <42dff1c7-dea1-cc59-300a-2212b2494032@loongson.cn>
+Date:   Sat, 10 Dec 2022 11:11:26 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v1 13/13] docs/zh_CN: Update the translation of
- energy-model to 6.1-rc8
+Subject: Re: [PATCH v1 06/13] docs/zh_CN: Update the translation of kasan to
+ 6.1-rc8
 Content-Language: en-US
 To:     Wu XiangCheng <wu.xiangcheng@linux.dev>
 Cc:     alexs@kernel.org, seakeel@gmail.com, corbet@lwn.net,
         chenhuacai@kernel.org, linux-doc@vger.kernel.org,
         siyanteng01@gmail.com
 References: <cover.1670502763.git.siyanteng@loongson.cn>
- <efff53f92a5c34957c51b8e519b7866e51723a0f.1670502763.git.siyanteng@loongson.cn>
- <Y5LfwAZxBv9Dk5A4@bobwxc.mipc>
+ <bbb8e1702cb9739f43bf872428c130e90cfaf3b4.1670502763.git.siyanteng@loongson.cn>
+ <Y5LkvRULM6N7EILs@bobwxc.mipc>
 From:   Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <Y5LfwAZxBv9Dk5A4@bobwxc.mipc>
+In-Reply-To: <Y5LkvRULM6N7EILs@bobwxc.mipc>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxiFfS95NjZu8pAA--.19624S3
+X-CM-TRANSID: AQAAf8AxiFfe+JNjafApAA--.19635S3
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3Gr48Ww15tw4fWw1kJFW8WFg_yoWxCw4kpa
-        4qg3ySqw47tFyqvryv9ay8Xw1IkFWxAw47urs7GFy3Xr4rtFZ0kw4Yy3W3XFZrX34jyFyv
-        yFZxua4Iyr12y37anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW3JFWxKF1ktw15uF1DJFyUGFg_yoWxXw13pF
+        9rWa48Cr4a9F1Yqry2yr4DZry5C3s7Ca4xAry5K3s3J3yDC39rtrZ29FyDWry8WryxJFyv
+        ywnYyF1rZr42q37anT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
         qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        bIxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        bS8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
         1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
         wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
         x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
-        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
-        IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r4j6F4U
-        McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
-        AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
-        Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwI
-        xGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWx
-        JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcV
-        C2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8l38UUUUUU==
+        n4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+        ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E
+        87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+        AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km
+        07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r
+        1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8
+        JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r
+        1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1U
+        YxBIdaVFxhVjvjDU0xZFpf9x07jz2NtUUUUU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-在 12/9/22 15:12, Wu XiangCheng 写道:
->> Update to commit c5d39fae8992 ("Documentation: EM: Switch to
->> micro-Watts scale")
+在 12/9/22 15:33, Wu XiangCheng 写道:
+>> Update to commit cd36d84d2571 ("kasan: allow sampling
+>> page_alloc allocations for HW_TAGS")
 >>
->> commit f48a0c475c2a ("Documentation: EM: Describe new registration
->> method using DT")
->> commit 75a3a99a5a98 ("PM: EM: Change the order of arguments in the
->> .active_power() callback")
->> commit 015f569c4649 ("Documentation: EM: Add artificial EM
->> registration description")
+>> Commit 80b92bfe3bb7 ("kasan: dynamically allocate
+>> stack ring entries")
+>> Commit 7ebfce331251 ("kasan: support kasan.stacktrace
+>> for SW_TAGS")
+>> Commit ca89f2a2e66d ("kasan: move boot parameters
+>> section in documentation")
 >>
 >> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 >> ---
->>   .../translations/zh_CN/power/energy-model.rst | 36 ++++++++++++++-----
->>   1 file changed, 28 insertions(+), 8 deletions(-)
+>>   .../translations/zh_CN/dev-tools/kasan.rst    | 77 +++++++++++--------
+>>   1 file changed, 44 insertions(+), 33 deletions(-)
 >>
->> diff --git a/Documentation/translations/zh_CN/power/energy-model.rst b/Documentation/translations/zh_CN/power/energy-model.rst
->> index c7da1b6aefee..d740bbe22fde 100644
->> --- a/Documentation/translations/zh_CN/power/energy-model.rst
->> +++ b/Documentation/translations/zh_CN/power/energy-model.rst
->> @@ -23,15 +23,15 @@
->>   实现支持，EM框架作为一个抽象层介入，它在内核中对功率成本表的格式进行标准化，
->>   因此能够避免多余的工作。
+>> diff --git a/Documentation/translations/zh_CN/dev-tools/kasan.rst b/Documentation/translations/zh_CN/dev-tools/kasan.rst
+>> index fe76cbe77ad6..c645b1b6cc53 100644
+>> --- a/Documentation/translations/zh_CN/dev-tools/kasan.rst
+>> +++ b/Documentation/translations/zh_CN/dev-tools/kasan.rst
+>> @@ -90,6 +90,50 @@ KASAN只支持SLUB。
+>>   ``CONFIG_STACKTRACE`` 。要包括受影响物理页面的分配和释放堆栈跟踪的话，
+>>   请启用 ``CONFIG_PAGE_OWNER`` 并使用 ``page_owner=on`` 进行引导。
 >>   
->> -功率值可以用毫瓦或“抽象刻度”表示。多个子系统可能使用EM，由系统集成商来检查
->> +功率值可以用微瓦或“抽象刻度”表示。多个子系统可能使用EM，由系统集成商来检查
->>   功率值刻度类型的要求是否满足。可以在能量感知调度器的文档中找到一个例子
->>   Documentation/scheduler/sched-energy.rst。对于一些子系统，比如热能或
->>   powercap，用“抽象刻度”描述功率值可能会导致问题。这些子系统对过去使用的功率的
->> -估算值更感兴趣，因此可能需要真实的毫瓦。这些要求的一个例子可以在智能功率分配
->> +估算值更感兴趣，因此可能需要真实的微瓦。这些要求的一个例子可以在智能功率分配
->>   Documentation/driver-api/thermal/power_allocator.rst文档中找到。
->>   
->>   内核子系统可能（基于EM内部标志位）实现了对EM注册设备是否具有不一致刻度的自动
->> -检查。要记住的重要事情是，当功率值以“抽象刻度”表示时，从中推导以毫焦耳为单位
->> +检查。要记住的重要事情是，当功率值以“抽象刻度”表示时，从中推导以微焦耳为单位
->>   的真实能量消耗是不可能的。
->>   
->>   下图描述了一个驱动的例子（这里是针对Arm的，但该方法适用于任何体系结构），它
->> @@ -89,20 +89,40 @@ Documentation/driver-api/thermal/power_allocator.rst文档中找到。
->>   驱动程序应通过以下API将性能域注册到EM框架中::
->>   
->>     int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
->> -		struct em_data_callback *cb, cpumask_t *cpus, bool milliwatts);
->> +		struct em_data_callback *cb, cpumask_t *cpus, bool microwatts);
->>   
->>   驱动程序必须提供一个回调函数，为每个性能状态返回<频率,功率>元组。驱动程序
->>   提供的回调函数可以自由地从任何相关位置（DT、固件......）以及以任何被认为是
->>   必要的方式获取数据。只有对于CPU设备，驱动程序必须使用cpumask指定性能域的CPU。
->>   对于CPU以外的其他设备，最后一个参数必须被设置为NULL。
->>   
->> -最后一个参数“milliwatts”（毫瓦）设置成正确的值是很重要的，使用EM的内核
->> +最后一个参数“microwatts”（微瓦）设置成正确的值是很重要的，使用EM的内核
->>   子系统可能会依赖这个标志来检查所有的EM设备是否使用相同的刻度。如果有不同的
->> -刻度，这些子系统可能决定：返回警告/错误，停止工作或崩溃（panic）。
->> +刻度，这些子系统可能决定返回警告/错误，停止工作或崩溃（panic）。
->>   
->>   关于实现这个回调函数的驱动程序的例子，参见第3节。或者在第2.4节阅读这个API
->>   的更多文档。
->>   
->> +使用DT EM的注册
-> 使用DT的EM注册
-OK!
+>> +启动参数
+>> +~~~~~~~~
+>> +
+>> +KASAN受到通用 ``panic_on_warn`` 命令行参数的影响。当它被启用时，KASAN
+>> +在打印出错误报告后会使内核恐慌。
+>> +
+>> +默认情况下，KASAN只对第一个无效的内存访问打印错误报告。使用
+>> +``kasan_multi_shot``，KASAN对每一个无效的访问都打印一份报告。这有效地
+> 有效地 => 会
+ok!
 >
->> +===============
+>> +禁用了KASAN报告的 ``panic_on_warn``。
 >> +
->> +EM也可以使用OPP框架和DT "操作点-v2 "中的信息注册。DT中的每个OPP条目都可
->> +以用一个包含微瓦特功率值的属性 "op-microwatt "来扩展。这个OPP DT属性允
->> +许平台注册反映总功率（静态+动态）的EM功率值。这些功率值可能直接来自实验和
->> +测量。
+>> +另外，独立于 ``panic_on_warn`` 、 ``kasan.fault=`` boot参数可以用
+>> +来控制恐慌和报告行为。
 >> +
->> +“人工”EM的注册
->> +==============
+>> +- ``kasan.fault=report`` 或 ``=panic`` 控制是否只打印KASAN报告或
+>> +  同时使内核恐慌（默认： ``报告`` ）。即使 ``kasan_multi_shot`` 被
+> 报告 => report
+OK！
+>
+>> +  启用，恐慌也会发生。
 >> +
->> +有一个选项可以为缺少关于每个性能状态的功率值的详细知识的驱动程序提供一个自
->> +定义回调。回调.get_cost()是可选的，它提供EAS使用的“成本”值。这对那些只提
->> +供CPU类型之间相对效率信息的平台很有用，人们可以利用这些信息来创建一个抽象的
->> +功率模型。但是，考虑到输入功率值的大小限制，即使是抽象的功率模型有时也很难装
->> +进去。.get_cost()允许提供反映CPU效率的“成本”值。这将允许提供EAS信息，它
->> +与EM内部计算'成本'值的公式有不同的关系。要为这样的平台注册EM，驱动程序必须
->> +将标志“microwatts”设置为0，提供.get_power()回调和.get_cost()回调。EM
->> +框架会在注册过程中正确处理这样的平台。一个标志EM_PERF_DOMAIN_ARTIFICIAL
->> +被设置为这种平台。其他使用EM的框架应该特别注意测试和正确对待这个标志。
-> 这种平台会被设置EM_PERF_DOMAIN_ARTIFICIAL标志。
+>> +基于软件和硬件标签的KASAN模式（见下面关于各种模式的部分）支持改变堆栈跟
+>> +踪收集行为：
+>> +
+>> +- ``kasan.stacktrace=off`` 或 ``=on`` 禁用或启用分配和释放堆栈痕
+>> +  迹的收集（默认： ``on`` ）。
+>> +
+>> +- ``kasan.stack_ring_size=<number of entries>`` 指定堆栈环的条
+>> +  目数（默认： ``32768`` ）。
+>> +
+>> +基于硬件标签的KASAN模式是为了在生产中作为一种安全缓解措施使用。因此，它
+>> +支持额外的启动参数，允许完全禁用KASAN或控制其功能。
+>> +
+>> +- ``kasan=off`` 或 ``=on`` 控制KASAN是否被启用（默认： ``on`` ）。
+>> +
+>> +- ``kasan.mode=sync``, ``=async`` or ``=asymm`` 控制KASAN是否
+>> +  被配置为同步、异步或非对称的执行模式（默认： ``同步`` ）。
+>> +  同步模式：当标签检查异常发生时，会立即检测到不良访问。
+>> +  异步模式：不良访问的检测是延迟的。当标签检查异常发生时，信息被存储在硬
+>> +  件中（对于arm64来说是在TFSR_EL1寄存器中）。内核周期性地检查硬件，并\
+>> +  且只在这些检查中报告标签异常。
+>> +  非对称模式：读取时同步检测不良访问，写入时异步检测。
+>> +
+>> +- ``kasan.vmalloc=off`` or ``=on`` 禁用或启用vmalloc分配的标记（默认： ``on`` ）。
+>> +
+>> +- ``kasan.page_alloc.sample=<sampling frequency>`` 使得KASAN
+>> +  只对每N次page_alloc分配进行标记，其中N是参数的值（默认值： ``1`` ）。
+> Remove previous paragraph.
 
 OK!
 
@@ -155,19 +146,50 @@ Thanks,
 Yanteng
 
 >
->> “简单”EM的注册
->> ~~~~~~~~~~~~~~~~
->> @@ -147,8 +167,8 @@ cpufreq_driver::register_em()。这个回调必须为每个特定的驱动程序
+>> +
+>>   错误报告
+>>   ~~~~~~~~
 >>   
->>     -> drivers/cpufreq/foo_cpufreq.c
+>> @@ -194,39 +238,6 @@ slab对象的描述以及关于访问的内存页的信息。
+>>   通用KASAN还报告两个辅助调用堆栈跟踪。这些堆栈跟踪指向代码中与对象交互但不直接
+>>   出现在错误访问堆栈跟踪中的位置。目前，这包括 call_rcu() 和排队的工作队列。
 >>   
->> -  01	static int est_power(unsigned long *mW, unsigned long *KHz,
->> -  02			struct device *dev)
->> +  01   static int est_power(struct device *dev, unsigned long *mW,
->> +  02                   unsigned long *KHz)
->>     03	{
->>     04		long freq, power;
->>     05
+>> -启动参数
+>> -~~~~~~~~
+>> -
+>> -KASAN受通用 ``panic_on_warn`` 命令行参数的影响。启用该功能后，KASAN在打印错误
+>> -报告后会引起内核恐慌。
+>> -
+>> -默认情况下，KASAN只为第一次无效内存访问打印错误报告。使用 ``kasan_multi_shot`` ，
+>> -KASAN会针对每个无效访问打印报告。这有效地禁用了KASAN报告的 ``panic_on_warn`` 。
+>> -
+>> -另外，独立于 ``panic_on_warn`` , ``kasan.fault=`` 引导参数可以用来控制恐慌和报
+>> -告行为:
+>> -
+>> -- ``kasan.fault=report`` 或 ``=panic`` 控制是只打印KASAN报告还是同时使内核恐慌
+>> -  (默认: ``report`` )。即使启用了 ``kasan_multi_shot`` ，也会发生内核恐慌。
+>> -
+>> -基于硬件标签的KASAN模式（请参阅下面有关各种模式的部分）旨在在生产中用作安全缓解
+>> -措施。因此，它支持允许禁用KASAN或控制其功能的附加引导参数。
+>> -
+>> -- ``kasan=off`` 或 ``=on`` 控制KASAN是否启用 (默认: ``on`` )。
+>> -
+>> -- ``kasan.mode=sync`` 、 ``=async`` 或 ``=asymm`` 控制KASAN是否配置
+>> -  为同步或异步执行模式(默认:``sync`` )。
+>> -  同步模式：当标签检查错误发生时，立即检测到错误访问。
+>> -  异步模式：延迟错误访问检测。当标签检查错误发生时，信息存储在硬件中（在arm64的
+>> -  TFSR_EL1寄存器中）。内核会定期检查硬件，并且仅在这些检查期间报告标签错误。
+>> -  非对称模式：读取时同步检测不良访问，写入时异步检测。
+>> -
+>> -- ``kasan.vmalloc=off`` 或 ``=on`` 禁用或启用vmalloc分配的标记（默认：``on`` ）。
+>> -
+>> -- ``kasan.stacktrace=off`` 或 ``=on`` 禁用或启用alloc和free堆栈跟踪收集
+>> -  (默认: ``on`` )。
+>> -
+>> -
+>>   实施细则
+>>   --------
+>>   
 >> -- 
 >> 2.31.1
 >>
