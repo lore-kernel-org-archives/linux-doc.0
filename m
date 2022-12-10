@@ -2,100 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0D96C4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Dec 2022 03:24:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22446C04FDE
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Dec 2022 03:24:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229470AbiLJDYe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S229677AbiLJDYe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 9 Dec 2022 22:24:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33310 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229677AbiLJDYd (ORCPT
+        with ESMTP id S229684AbiLJDYd (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Dec 2022 22:24:33 -0500
 Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D650925C4B
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1C59026100
         for <linux-doc@vger.kernel.org>; Fri,  9 Dec 2022 19:24:31 -0800 (PST)
 Received: from loongson.cn (unknown [112.20.108.31])
-        by gateway (Coremail) with SMTP id _____8BxlfDu+5NjApgEAA--.10331S3;
-        Sat, 10 Dec 2022 11:24:30 +0800 (CST)
+        by gateway (Coremail) with SMTP id _____8Dxvuvv+5NjB5gEAA--.10729S3;
+        Sat, 10 Dec 2022 11:24:31 +0800 (CST)
 Received: from localhost.localdomain (unknown [112.20.108.31])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8Cxb+Lt+5NjY_IpAA--.37197S2;
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Cxb+Lt+5NjY_IpAA--.37197S3;
         Sat, 10 Dec 2022 11:24:30 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     alexs@kernel.org, seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
         bobwxc@email.cn, chenhuacai@kernel.org, linux-doc@vger.kernel.org,
         siyanteng01@gmail.com
-Subject: [PATCH v2 00/13] docs/zh_CN: Update the translation to 6.1-rc8
-Date:   Sat, 10 Dec 2022 11:24:45 +0800
-Message-Id: <cover.1670642548.git.siyanteng@loongson.cn>
+Subject: [PATCH v2 01/13] docs/zh_CN: Update the translation of delay-accounting to 6.1-rc8
+Date:   Sat, 10 Dec 2022 11:24:46 +0800
+Message-Id: <798990521e991697f9f2b75f4dc4a485d31c1311.1670642548.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1670642548.git.siyanteng@loongson.cn>
+References: <cover.1670642548.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cxb+Lt+5NjY_IpAA--.37197S2
+X-CM-TRANSID: AQAAf8Cxb+Lt+5NjY_IpAA--.37197S3
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxJr17KryUAryrZFWfAw1UKFg_yoW8Cr48pF
-        93KFyfX3Z2yFy3uw1fCrWUZF4rXa18J398tw12qwn5tw1vqw4UtFyUJFyag3y2vrWfZF1f
-        Ar4rCr4Du34jkw7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW7Kr4UAry3Xr4kuw47ur1Utrb_yoW8Cr48p3
+        4qk34xKF1rta4Yyw18W34UW3W8Way7CwsIyFW8XasFvr18trs3Xr1Utr9IvFnFgrs3AFWa
+        9rZ2gFyUuF40krDanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
         qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        b28YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        b3AYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
         1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
         x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
-        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
-        IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r4j6F4U
-        McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCFx2
-        IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v2
-        6r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67
-        AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IY
-        s7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr
-        0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jOb18UUUUU=
+        n4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+        ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E
+        87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82
+        IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2Iq
+        xVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r
+        1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY
+        6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67
+        AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuY
+        vjxU4AhLUUUUU
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-v2:
-Modify some words under Xiangcheng's advice.
+Update to commit f347c9d2697f ("filemap: make the accounting
+of thrashing more consistent").
 
-v1:
-The following files were updated to 6.1-rc8:
-accounting
-admin-guide/mm
-core-api
-dev-tools
-mm
-PCI
-power
+Commit 662ce1dc9caf ("delayacct: track delays from write-protect copy").
 
-Yanteng Si (13):
-  docs/zh_CN: Update the translation of delay-accounting to 6.1-rc8
-  docs/zh_CN: Update the translation of kernel-api to 6.1-rc8
-  docs/zh_CN: Update the translation of mm-api to 6.1-rc8
-  docs/zh_CN: Update the translation of highmem to 6.1-rc8
-  docs/zh_CN: Update the translation of page_owner to 6.1-rc8
-  docs/zh_CN: Update the translation of kasan to 6.1-rc8
-  docs/zh_CN: Update the translation of testing-overview to 6.1-rc8
-  docs/zh_CN: Update the translation of reclaim to 6.1-rc8
-  docs/zh_CN: Update the translation of start to 6.1-rc8
-  docs/zh_CN: Update the translation of usage to 6.1-rc8
-  docs/zh_CN: Update the translation of ksm to 6.1-rc8
-  docs/zh_CN: Update the translation of msi-howto to 6.1-rc8
-  docs/zh_CN: Update the translation of energy-model to 6.1-rc8
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ .../translations/zh_CN/accounting/delay-accounting.rst     | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
- .../translations/zh_CN/PCI/msi-howto.rst      | 11 +++
- .../zh_CN/accounting/delay-accounting.rst     |  7 +-
- .../zh_CN/admin-guide/mm/damon/reclaim.rst    |  4 -
- .../zh_CN/admin-guide/mm/damon/start.rst      | 12 +--
- .../zh_CN/admin-guide/mm/damon/usage.rst      | 68 ++++++++++++-----
- .../translations/zh_CN/admin-guide/mm/ksm.rst | 50 +++++++++++++
- .../zh_CN/core-api/kernel-api.rst             | 10 ++-
- .../translations/zh_CN/core-api/mm-api.rst    |  2 +-
- .../translations/zh_CN/dev-tools/kasan.rst    | 74 ++++++++++---------
- .../zh_CN/dev-tools/testing-overview.rst      | 27 +++++++
- .../translations/zh_CN/mm/highmem.rst         | 20 ++++-
- .../translations/zh_CN/mm/page_owner.rst      | 17 +----
- .../translations/zh_CN/power/energy-model.rst | 36 +++++++--
- 13 files changed, 243 insertions(+), 95 deletions(-)
-
+diff --git a/Documentation/translations/zh_CN/accounting/delay-accounting.rst b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
+index f1849411018e..a01dc3d5b0db 100644
+--- a/Documentation/translations/zh_CN/accounting/delay-accounting.rst
++++ b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
+@@ -17,8 +17,9 @@ a) 等待一个CPU（任务为可运行）
+ b) 完成由该任务发起的块I/O同步请求
+ c) 页面交换
+ d) 内存回收
+-e) 页缓存抖动
++e) 抖动
+ f) 直接规整
++g) 写保护复制
+ 
+ 并将这些统计信息通过taskstats接口提供给用户空间。
+ 
+@@ -42,7 +43,7 @@ f) 直接规整
+      include/uapi/linux/taskstats.h
+ 
+ 其描述了延时计数相关字段。系统通常以计数器形式返回 CPU、同步块 I/O、交换、内存
+-回收、页缓存抖动、直接规整等的累积延时。
++回收、页缓存抖动、直接规整、写保护复制等的累积延时。
+ 
+ 取任务某计数器两个连续读数的差值，将得到任务在该时间间隔内等待对应资源的总延时。
+ 
+@@ -100,6 +101,8 @@ getdelays命令的一般格式::
+ 	                    0              0              0ms
+ 	COMPACT         count    delay total  delay average
+ 	                    0              0              0ms
++    WPCOPY          count    delay total  delay average
++                       0              0              0ms
+ 
+ 获取pid为1的IO计数，它只和-p一起使用::
+ 	# ./getdelays -i -p 1
 -- 
 2.31.1
 
