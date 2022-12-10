@@ -2,73 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24BFDC4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Dec 2022 13:43:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35356C4332F
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Dec 2022 21:38:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229655AbiLJNm7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 10 Dec 2022 08:42:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59318 "EHLO
+        id S229634AbiLJViJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 10 Dec 2022 16:38:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229640AbiLJNm4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Dec 2022 08:42:56 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E34D11815
-        for <linux-doc@vger.kernel.org>; Sat, 10 Dec 2022 05:42:53 -0800 (PST)
+        with ESMTP id S229475AbiLJViI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Dec 2022 16:38:08 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1071413D19
+        for <linux-doc@vger.kernel.org>; Sat, 10 Dec 2022 13:38:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670679773; x=1702215773;
+  t=1670708286; x=1702244286;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GdH+yZeHsNJUvwxNacrW00BH/QXKcbOl0Qd4t60a2fo=;
-  b=LxzjOluU//xzTPWVmqOAxd0i1UwLapNaYowzfzQAn+h2N2220VcTNz73
-   tYzKbGke6WdHYNLVxxRExeB7LamZZGpt6mo8jvvWubHZvi3+nn3iwCt+O
-   YGqNcd3/4wpkT6LyVdEN9/MrYozjZrJDEhr1PdF3FG/LRFLqLW5SugAvX
-   2DB3Fy1EMszS5TdBWWRr1/P1PsAmZT8CJtGrR3wQAdAkLa4EtsbA9+Yot
-   oJGjMi2Rz98uS/2iEqPu+30F2SeyhuXBQMFxaM6Lh4X8sRZt7SUrXvBtj
-   e+YTbczPHqwMEx0W0Ydh4PIFtQCOlx3fx/QBPqkx80AllaVoYpStthYqD
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10557"; a="316318986"
-X-IronPort-AV: E=Sophos;i="5.96,234,1665471600"; 
-   d="scan'208";a="316318986"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2022 05:42:52 -0800
+  bh=Av/U2Y3onYvjGEchyI8JsDXpUmaOntMgnnQenepf58E=;
+  b=LbcMgcPPo5ejk8qGQL9Yw4mk6llAuJTSyvl5lv5K6bzZd9tQXUhBPi5a
+   p0Ozj9i5a/tWMic6PrSRwj97vmYqNRkMv7xkGLz21hyPNSxCzvzE9OxN4
+   aBP/Wk6oC0mR+DDJozRH+BlJPBKJiVqPvA9WudSUv6AWZcwjCn/VHxU2m
+   7Wlg77xZvPYmjbfBm1ppYkkq/CAoriRrhoftW27UaAXcQLY2NLsaW+MRD
+   Vt59Y0ZZvtrSweG98E1ndv8jibDdVvrT6CSWrTbDjUXsCaW5oHalde+2U
+   fSOo/sbz7SEpXn5nqUcOBt942b/5CT/HGdlzbmk0tZM6niSd/NeQqw6Uh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10557"; a="317676445"
+X-IronPort-AV: E=Sophos;i="5.96,235,1665471600"; 
+   d="scan'208";a="317676445"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2022 13:38:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10557"; a="822011785"
-X-IronPort-AV: E=Sophos;i="5.96,234,1665471600"; 
-   d="scan'208";a="822011785"
+X-IronPort-AV: E=McAfee;i="6500,9779,10557"; a="647746168"
+X-IronPort-AV: E=Sophos;i="5.96,235,1665471600"; 
+   d="scan'208";a="647746168"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 10 Dec 2022 05:42:49 -0800
+  by orsmga002.jf.intel.com with ESMTP; 10 Dec 2022 13:38:03 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1p407s-0002UZ-2b;
-        Sat, 10 Dec 2022 13:42:48 +0000
-Date:   Sat, 10 Dec 2022 21:42:43 +0800
+        id 1p47Xm-0002fX-1C;
+        Sat, 10 Dec 2022 21:38:02 +0000
+Date:   Sun, 11 Dec 2022 05:37:14 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-        =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-        linux-doc@vger.kernel.org
-Subject: [drm-misc:drm-misc-next 20/26] htmldocs:
- Documentation/gpu/vc4.rst:65: WARNING: Unexpected indentation.
-Message-ID: <202212102116.A10vg3jG-lkp@intel.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Luis Chamberlain <mcgrof@kernel.org>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 11904/14039] htmldocs: Warning:
+ /sys/kernel/oops_count is defined 2 times:
+  ./Documentation/ABI/testing/sysfs-kernel-warn_count:0
+  ./Documentation/ABI/testing/sysfs-kernel-oops_count:0
+Message-ID: <202212110529.A3Qav8aR-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="o7kENDbrHPJCJX+M"
+Content-Type: multipart/mixed; boundary="u9DtX6QdxpuIR7YB"
 Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---o7kENDbrHPJCJX+M
+--u9DtX6QdxpuIR7YB
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   612e241fb4bcd98d8ff9da7a795abb86b8ccfe38
-commit: 5304c8e60100120c25557037edcc85791cb33a9a [20/26] Documentation: gpu: vc4: Add KUnit Tests Section
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f925116b24c0c42dc6d5ab5111c55fd7f74e8dc7
+commit: 8b05aa26336113c4cea25f1c333ee8cd4fc212a6 [11904/14039] panic: Expose "warn_count" to sysfs
 reproduce:
-        git remote add drm-misc git://anongit.freedesktop.org/drm/drm-misc
-        git fetch --no-tags drm-misc drm-misc-next
-        git checkout 5304c8e60100120c25557037edcc85791cb33a9a
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=8b05aa26336113c4cea25f1c333ee8cd4fc212a6
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 8b05aa26336113c4cea25f1c333ee8cd4fc212a6
         make menuconfig
         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
         make htmldocs
@@ -78,29 +81,19 @@ If you fix the issue, kindly add following tag where applicable
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/gpu/vc4.rst:65: WARNING: Unexpected indentation.
-
-vim +65 Documentation/gpu/vc4.rst
-
-    62	
-    63	These tests are using a mock driver and can be ran using the
-    64	command::
-  > 65		./tools/testing/kunit/kunit.py run \
-    66			--kunitconfig=drivers/gpu/drm/vc4/tests/.kunitconfig \
-    67			--cross_compile aarch64-linux-gnu- --arch arm64
-    68	
+>> Warning: /sys/kernel/oops_count is defined 2 times:  ./Documentation/ABI/testing/sysfs-kernel-warn_count:0  ./Documentation/ABI/testing/sysfs-kernel-oops_count:0
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---o7kENDbrHPJCJX+M
+--u9DtX6QdxpuIR7YB
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86_64 6.1.0-rc6 Kernel Configuration
+# Linux/x86_64 6.1.0-rc1 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc-11 (Debian 11.3.0-8) 11.3.0"
 CONFIG_CC_IS_GCC=y
@@ -256,6 +249,7 @@ CONFIG_NAMESPACES=y
 CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE=y
 # CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
 CONFIG_LD_ORPHAN_WARN=y
+CONFIG_LD_ORPHAN_WARN_LEVEL="warn"
 CONFIG_SYSCTL=y
 CONFIG_SYSCTL_EXCEPTION_TRACE=y
 CONFIG_HAVE_PCSPKR_PLATFORM=y
@@ -1726,4 +1720,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---o7kENDbrHPJCJX+M--
+--u9DtX6QdxpuIR7YB--
