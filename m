@@ -2,93 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B907C4332F
-	for <linux-doc@archiver.kernel.org>; Sun, 11 Dec 2022 12:45:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D099AC4167B
+	for <linux-doc@archiver.kernel.org>; Sun, 11 Dec 2022 20:28:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229845AbiLKMpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 11 Dec 2022 07:45:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48590 "EHLO
+        id S230317AbiLKU2F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 11 Dec 2022 15:28:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229835AbiLKMo7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Dec 2022 07:44:59 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88A9BE31;
-        Sun, 11 Dec 2022 04:44:58 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id fy4so8996794pjb.0;
-        Sun, 11 Dec 2022 04:44:58 -0800 (PST)
+        with ESMTP id S229471AbiLKU2E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Dec 2022 15:28:04 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 694B0E4A;
+        Sun, 11 Dec 2022 12:28:03 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id js9so8908582pjb.2;
+        Sun, 11 Dec 2022 12:28:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/BIynU2NWG7vKdIOfvZ+4asmhXgFyDxZr8sjMOqoFm8=;
-        b=VLTR7S/5ahNq29JrLlj5T02niU5r0jRh5WDqvlUJIfcTSpIEpzp81s8kGrBPHDXP0B
-         tOZN0FlJjcKYQwFlxGliUGZTkgXsKcQc3RbSg3t9HqcCLJ2sYbN65lsRdjEv4d3Ieipd
-         /++8MJEOed7jHqmpcLZRBpL6fxIgF5bnecqhSUejVteb9/vPQW06qcwOHn0sok3JZoOO
-         js6Jk/GGYyV3M2lHhJ5Tae1CGHfTY8+Nvz1idEjTvRwOEq++Zj4MFSLqu8XwLTqyxX8c
-         v8dbXeurnS/gLdxLUrM/xLQhp8LQwFg2BTGpf47mhbi20bXhzX+IdV9hoRhu5vfwW1qM
-         fKog==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=by9IvQrNC4n3hMJPqWVgJdj265wMQ5fsMcjx5CkRMb0=;
+        b=Gvluwy8JmJ35C4rhygAyMhL+GuwkXWeHQDfujZWe2lpeshB2WQwe8zU/oDmPrdNcNz
+         CD6szyiJYLnPouNh7PdPMCRSQXLtRZQ74900pzOfX9tJiRNXq0R4SnMzTFMYe3Q9sYWs
+         nuqQKIgkZasvDWg3OnLuLZwUcCHlvrxpWUicdx1b5rYcZcCFjjCcg5l1b52gBZ/7wWjo
+         577wUQcVyQ9CruX0RRyH5m0J+F9oixQ/Ea3HWdnF9ZpV4yJScVDkQJceaepUkJlrEkcq
+         d9FfFWRoboee96aSzpYxNwux8m3l0kNJTjbf15fwYKTetvqUSS/QNa64NluQ3HHIPINl
+         AJNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/BIynU2NWG7vKdIOfvZ+4asmhXgFyDxZr8sjMOqoFm8=;
-        b=PPKK+/z+XeXnRGEw+lZBACFF8NToFRSFXb3W8X4xT3g8e91Z5Ksiz5sTNOkDPRhWxm
-         uPLVZxvq4lmJFUhpDC2UDuyq/YQKhaXAt+nmgNHK0ysxl+ZK0a4pGwLJjdNJcKidNnS6
-         4eXbFKTY1OWWkZlpeG5WMNqtkUV/E/b/qw7BUqAjd9lWMszB/5NsbDa1h9pv5DlYf6eK
-         0C91IEfZ1VjMHeOeE3eZ3TXwXJY+XvFbLyaAMBMr+e86N8t7JGVDnaLaMLauH5xuxVTM
-         bNlDIG6Dt8/hLrkKtXKK6g5hKmbM5KsxAhiSL8msDFNnVE13yB3gkLaGol4SrG10clRN
-         lz6A==
-X-Gm-Message-State: ANoB5pkIBJwS05jpTNXTUpCC7ok4rBa5+H7MD3s7CPYI8ayod+Dv3dAH
-        s82iWgybJkWFzMebkGC1zl0=
-X-Google-Smtp-Source: AA0mqf7yK/8RDsOO7DyGcjv6lNtY/SWehdEVnXgQu3jHlPDi09fOM7Wba1DgYdpDPCZKOaXs9yAeeA==
-X-Received: by 2002:a05:6a20:ce4a:b0:a4:69a2:6dd7 with SMTP id id10-20020a056a20ce4a00b000a469a26dd7mr15160149pzb.0.1670762698199;
-        Sun, 11 Dec 2022 04:44:58 -0800 (PST)
-Received: from [192.168.43.80] (subs03-180-214-233-66.three.co.id. [180.214.233.66])
-        by smtp.gmail.com with ESMTPSA id w15-20020a17090a4f4f00b00218fb3bec27sm3620808pjl.56.2022.12.11.04.44.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Dec 2022 04:44:57 -0800 (PST)
-Message-ID: <38ad5cab-bcb1-bb23-b141-7ffc07acde78@gmail.com>
-Date:   Sun, 11 Dec 2022 19:44:50 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH] Documentation: gpu: vc4: add blank line separator before
- KUnit code block
-Content-Language: en-US
-To:     =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=by9IvQrNC4n3hMJPqWVgJdj265wMQ5fsMcjx5CkRMb0=;
+        b=vPsk2/GUUIXG8+SazL6ejyb9vixOZ0blMEY9QqNDkKnlcWt+YPUOKv4ubBc3iKjsN3
+         yLp1hnfiqnPwdrOMcHhfll63DpxoRewHOzUl+SMjljz2vwc4SrCnOlLYMnGz2dzkEblA
+         QDlHJniLxRfTIZy8mcPg4/06OL5ZN6yQAEsuT0VmyQQDgn4DHa+OfNU2n7hc141322DU
+         wjUuvfG17ATgLBP7P8PPNnVnT5JdBXZoA483DONICFbnFmNVb8Lg44LlDvR4RyULBsP1
+         xnbIcLBbmMbLiDCoEO8mgxd6zvQHmpTnmus7HXLa8pI/R67hJyQlVi8nYu9DwgJUaeZu
+         iGzg==
+X-Gm-Message-State: ANoB5pkJz0dCcSVpKZjBm05DuW8JcLBVxTqi6RdrWQVyhcazxZI1dA2Q
+        BSqFQvNyIB6g62+Nv0R/VB0=
+X-Google-Smtp-Source: AA0mqf4GK7azKp1g/5pH5O5L6eYpB3GPoNtYfq1K6iRvncnGG1DylBHg8K05syopNMajOeARdzRoUQ==
+X-Received: by 2002:a17:902:f285:b0:189:f0ac:191d with SMTP id k5-20020a170902f28500b00189f0ac191dmr3559258plc.4.1670790482873;
+        Sun, 11 Dec 2022 12:28:02 -0800 (PST)
+Received: from mail.google.com ([103.229.249.253])
+        by smtp.gmail.com with ESMTPSA id u14-20020a17090341ce00b001754fa42065sm4749908ple.143.2022.12.11.12.27.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Dec 2022 12:28:02 -0800 (PST)
+Date:   Mon, 12 Dec 2022 09:27:55 +1300
+From:   Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
         Jonathan Corbet <corbet@lwn.net>,
-        kernel test robot <lkp@intel.com>
-References: <202212102116.A10vg3jG-lkp@intel.com>
- <20221211053051.18125-1-bagasdotme@gmail.com>
- <fb978a9e-43af-865a-00c6-d98499414ec5@igalia.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <fb978a9e-43af-865a-00c6-d98499414ec5@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Vipin Sharma <vipinsh@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] scripts/tags.sh: choose which directories to exclude
+ from being indexed
+Message-ID: <Y5Y9S0qSOAL/KHp1@mail.google.com>
+References: <Y5T66yWNVAZNIaJ0@mail.google.com>
+ <Y5UP+tnnxNgoi6A2@mail.google.com>
+ <Y5VazQnY7s4+cXdM@debian.me>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y5VazQnY7s4+cXdM@debian.me>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/11/22 18:32, Maíra Canal wrote:
-> I believe Maxime fixed this issue on [1], but it hasn't been yet merged
-> into drm-misc-next.
+On Sun, Dec 11, 2022 at 11:21:33AM +0700, Bagas Sanjaya wrote:
+> On Sun, Dec 11, 2022 at 12:02:18PM +1300, Paulo Miguel Almeida wrote:
+> > This patch makes it possible for the devs to specify which folders
+> > they don't want to include into database as part of the
+> > find_other_sources func if a makefile variable IGNOREDIRS is present,
+> > otherwise the original behaviour is kept.
 > 
-> [1]
-> https://lore.kernel.org/dri-devel/20221208094727.2848310-1-maxime@cerno.tech/
+> Better say "Add IGNOREDIRS variable, which specifies which directories
+> to be ignored from indexing."
 > 
+> > @@ -278,6 +278,13 @@ To get all available archs you can also specify all. E.g.::
+> >  
+> >      $ make ALLSOURCE_ARCHS=all tags
+> >  
+> > +IGNOREDIRS
+> > +---------------
+> > +For tags/TAGS/cscope targets, you can choose which directories won't
+> > +be included in the databases, separated by comma. E.g.:
+> > +
+> > +    $ make IGNOREDIRS=drivers/gpu/drm/radeon,tools cscope
+> > +
+> 
+> Use two-colon syntax (::) for code block above to be consistent with
+> other code blocks.
+> 
+> Thanks. 
+> 
+> -- 
+> An old man doll... just what I always wanted! - Clara
 
-Ah! I don't see that!
+Hi Bagas,
 
-Thanks anyway.
+thanks for taking the time to review this patch. I will make the changes
+that you've pointed out.
 
--- 
-An old man doll... just what I always wanted! - Clara
+thanks!
+
+- Paulo A,
 
