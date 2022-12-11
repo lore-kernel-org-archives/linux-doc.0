@@ -2,42 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1005FC4167B
-	for <linux-doc@archiver.kernel.org>; Sun, 11 Dec 2022 11:32:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B907C4332F
+	for <linux-doc@archiver.kernel.org>; Sun, 11 Dec 2022 12:45:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230172AbiLKLcz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 11 Dec 2022 06:32:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58666 "EHLO
+        id S229845AbiLKMpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 11 Dec 2022 07:45:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbiLKLcz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Dec 2022 06:32:55 -0500
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67E78BC3B;
-        Sun, 11 Dec 2022 03:32:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=LC4w5TQb+qnsn84K9tIiy6j9WGBF4Nr7PFZvJNYeVsQ=; b=Af4S3atyPpFDdv0H6xz3dvStnP
-        oKPoXxnx3s8aPEwEkGNnZ14V3EtfpCbB8hMHkI92mJOQovMDm/c99fHh3xjN7uBlVy1+iZloNmo+R
-        OtSg4o6s5GmxxkgDo2gnXB4c5EZL9IpzQ2S0wtkBcRqh9pN7o/fzD+/SM/aPoEYlQJqX2U5rTLcZU
-        UxxvD3BhIRKJMvspQonmXs6Rax/0pKIvMCmndwHMNqGVNtLmxKSI3wU3DeVOvwBKbrz6yRlJL3bIO
-        2v/5GGcFQjtBdV49v9osQNJcOcq0Bg4uzjuuf8U7nhH77K710XR+U7AiRHfGpfzPaa88CyuFupANV
-        SDnrVMMg==;
-Received: from [177.34.169.227] (helo=[192.168.0.8])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1p4KZW-001I4U-CT; Sun, 11 Dec 2022 12:32:42 +0100
-Message-ID: <fb978a9e-43af-865a-00c6-d98499414ec5@igalia.com>
-Date:   Sun, 11 Dec 2022 08:32:35 -0300
+        with ESMTP id S229835AbiLKMo7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Dec 2022 07:44:59 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88A9BE31;
+        Sun, 11 Dec 2022 04:44:58 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id fy4so8996794pjb.0;
+        Sun, 11 Dec 2022 04:44:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/BIynU2NWG7vKdIOfvZ+4asmhXgFyDxZr8sjMOqoFm8=;
+        b=VLTR7S/5ahNq29JrLlj5T02niU5r0jRh5WDqvlUJIfcTSpIEpzp81s8kGrBPHDXP0B
+         tOZN0FlJjcKYQwFlxGliUGZTkgXsKcQc3RbSg3t9HqcCLJ2sYbN65lsRdjEv4d3Ieipd
+         /++8MJEOed7jHqmpcLZRBpL6fxIgF5bnecqhSUejVteb9/vPQW06qcwOHn0sok3JZoOO
+         js6Jk/GGYyV3M2lHhJ5Tae1CGHfTY8+Nvz1idEjTvRwOEq++Zj4MFSLqu8XwLTqyxX8c
+         v8dbXeurnS/gLdxLUrM/xLQhp8LQwFg2BTGpf47mhbi20bXhzX+IdV9hoRhu5vfwW1qM
+         fKog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/BIynU2NWG7vKdIOfvZ+4asmhXgFyDxZr8sjMOqoFm8=;
+        b=PPKK+/z+XeXnRGEw+lZBACFF8NToFRSFXb3W8X4xT3g8e91Z5Ksiz5sTNOkDPRhWxm
+         uPLVZxvq4lmJFUhpDC2UDuyq/YQKhaXAt+nmgNHK0ysxl+ZK0a4pGwLJjdNJcKidNnS6
+         4eXbFKTY1OWWkZlpeG5WMNqtkUV/E/b/qw7BUqAjd9lWMszB/5NsbDa1h9pv5DlYf6eK
+         0C91IEfZ1VjMHeOeE3eZ3TXwXJY+XvFbLyaAMBMr+e86N8t7JGVDnaLaMLauH5xuxVTM
+         bNlDIG6Dt8/hLrkKtXKK6g5hKmbM5KsxAhiSL8msDFNnVE13yB3gkLaGol4SrG10clRN
+         lz6A==
+X-Gm-Message-State: ANoB5pkIBJwS05jpTNXTUpCC7ok4rBa5+H7MD3s7CPYI8ayod+Dv3dAH
+        s82iWgybJkWFzMebkGC1zl0=
+X-Google-Smtp-Source: AA0mqf7yK/8RDsOO7DyGcjv6lNtY/SWehdEVnXgQu3jHlPDi09fOM7Wba1DgYdpDPCZKOaXs9yAeeA==
+X-Received: by 2002:a05:6a20:ce4a:b0:a4:69a2:6dd7 with SMTP id id10-20020a056a20ce4a00b000a469a26dd7mr15160149pzb.0.1670762698199;
+        Sun, 11 Dec 2022 04:44:58 -0800 (PST)
+Received: from [192.168.43.80] (subs03-180-214-233-66.three.co.id. [180.214.233.66])
+        by smtp.gmail.com with ESMTPSA id w15-20020a17090a4f4f00b00218fb3bec27sm3620808pjl.56.2022.12.11.04.44.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 11 Dec 2022 04:44:57 -0800 (PST)
+Message-ID: <38ad5cab-bcb1-bb23-b141-7ffc07acde78@gmail.com>
+Date:   Sun, 11 Dec 2022 19:44:50 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
 Subject: Re: [PATCH] Documentation: gpu: vc4: add blank line separator before
  KUnit code block
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+Content-Language: en-US
+To:     =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
         dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
 Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -48,53 +68,27 @@ Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         kernel test robot <lkp@intel.com>
 References: <202212102116.A10vg3jG-lkp@intel.com>
  <20221211053051.18125-1-bagasdotme@gmail.com>
-Content-Language: en-US
-From:   =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20221211053051.18125-1-bagasdotme@gmail.com>
+ <fb978a9e-43af-865a-00c6-d98499414ec5@igalia.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <fb978a9e-43af-865a-00c6-d98499414ec5@igalia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I believe Maxime fixed this issue on [1], but it hasn't been yet merged
-into drm-misc-next.
+On 12/11/22 18:32, Maíra Canal wrote:
+> I believe Maxime fixed this issue on [1], but it hasn't been yet merged
+> into drm-misc-next.
+> 
+> [1]
+> https://lore.kernel.org/dri-devel/20221208094727.2848310-1-maxime@cerno.tech/
+> 
 
-[1]
-https://lore.kernel.org/dri-devel/20221208094727.2848310-1-maxime@cerno.tech/
+Ah! I don't see that!
 
-Best Regards,
-- Maíra Canal
+Thanks anyway.
 
-On 12/11/22 02:30, Bagas Sanjaya wrote:
-> kernel test robot reports htmldocs warning:
-> 
-> Documentation/gpu/vc4.rst:65: WARNING: Unexpected indentation.
-> 
-> The warning is due to missing blank line separator between KUnit mock
-> driver sentence and its code block.
-> 
-> Add the separator to fix the warning.
-> 
-> Link: https://lore.kernel.org/linux-doc/202212102116.A10vg3jG-lkp@intel.com/
-> Fixes: 5304c8e6010012 ("Documentation: gpu: vc4: Add KUnit Tests Section")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/gpu/vc4.rst | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/gpu/vc4.rst b/Documentation/gpu/vc4.rst
-> index a2375f1584e6d9..ec920c4f5bb322 100644
-> --- a/Documentation/gpu/vc4.rst
-> +++ b/Documentation/gpu/vc4.rst
-> @@ -62,6 +62,7 @@ integration tests.
->  
->  These tests are using a mock driver and can be ran using the
->  command::
-> +
->  	./tools/testing/kunit/kunit.py run \
->  		--kunitconfig=drivers/gpu/drm/vc4/tests/.kunitconfig \
->  		--cross_compile aarch64-linux-gnu- --arch arm64
-> 
-> base-commit: 612e241fb4bcd98d8ff9da7a795abb86b8ccfe38
+-- 
+An old man doll... just what I always wanted! - Clara
+
