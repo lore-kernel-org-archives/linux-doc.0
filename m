@@ -2,55 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E31E7C10F1B
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Dec 2022 23:02:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84DFBC4332F
+	for <linux-doc@archiver.kernel.org>; Sun, 11 Dec 2022 04:21:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229950AbiLJXCm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 10 Dec 2022 18:02:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56044 "EHLO
+        id S229656AbiLKEVl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 10 Dec 2022 23:21:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229810AbiLJXC3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Dec 2022 18:02:29 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D74291402E;
-        Sat, 10 Dec 2022 15:02:27 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id 21so6157178pfw.4;
-        Sat, 10 Dec 2022 15:02:27 -0800 (PST)
+        with ESMTP id S229475AbiLKEVj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Dec 2022 23:21:39 -0500
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 718261146B;
+        Sat, 10 Dec 2022 20:21:38 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id d82so6371037pfd.11;
+        Sat, 10 Dec 2022 20:21:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fbQVHhDJyzijvT4x1l1d64e6Tgo3Ph+ZZvjIzYq/8P0=;
-        b=BC51zln0pmZC6OGmdhqN2MW43ldQkZqt7n/UKeTJ2K5nyKNKixaasUFdg1UtQr/7Dy
-         7dwNkuh7zWWPAZ3DR1gk7EH9nwVHvm2vP1BBAeK/f3luz0TviH5CTGJOhY8mD7UF7e1P
-         xjS/w5zerB9WfgCmdrewkqOkW30R5ptrhehbA9gwHFlWTgumHLf5h2HBCjOojKyn2Ryz
-         0qY+ywf3tuBtmsHlktfEeUuUkWOb6AF6UwksylVoOcedPUeFzOQj0bHq3poA+6rUxHkW
-         WTAfLI1sqbuEnJ4hD2vp8Zt6lJBjWJ8f/u6ig8rB9N56Jezq4pdfC4KjNhKcj0Melnj7
-         t6qA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bMVMrit7nmPd+cdKSCUflKKdRPMxLQ3NyLKJxmy3PRY=;
+        b=chJcEmrvK3Vj1qVnT1U7bLz7Ljzjv89psKK6aiIjNRqR0zC0Sq2+BT09HrI0HSIZvl
+         B8kq7qWh6t3PUF3aS/3Ko+wJortsEF2oc2p5kG0b1H8tud22NnuukrE1R3qY+C75ujgs
+         QEHVCcz/D/UDhxc3jIiCvs7crK1qvmOqnsdAbELnriU7BefOrrWEjvWMDeB+H6gHetxV
+         DoR5641amWkbYIBHCsV1CRui8pdCnYekI2z4aIvdOnVRjXjxjfPIHzSTW8gH5N7OagrF
+         fHcINIzo/tTICG/FA5abn0wdEdU4R6w2NlfqdBjjDlUipyfJ9QrIunRmJpJzxAiLwkbQ
+         N0AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fbQVHhDJyzijvT4x1l1d64e6Tgo3Ph+ZZvjIzYq/8P0=;
-        b=KlTE8NTK7lPOnr22VVdSfkalf186aLmXOWbr/j3JtJgwSeFe/xzsg3HHm9+GDokjAS
-         8jVJttogs/CmdD/bx03M+no8nQlsj5oFO6WfKndEd6AYu11X6YJZUzPBWJXo6F28O5sU
-         vj+zcQy9ZH144w+1Rpxmnmrb78ILI82TCkavpSoK5kObwTay7zot2lcQuoAN+dDYqC0F
-         1WjleDyoUfllBR7UjZ8F5Kjsg5lMKhpnZG6jsGf9XILoppF6XRHwvSvMUf3n/3AugsZ7
-         3Q8vN6j5oCuicy+hNdC33twPDrZgw2Th+vaNUMI90dBUUvJH4l3k5s2AqfqSHr6Y5YCr
-         ZqHA==
-X-Gm-Message-State: ANoB5plLMgm7jqOrKEcDV7TKGh7Z/cPWE73LOQNyuQmTBuIlevIe4e6M
-        hhVJrPMNJv/7AIwREJSCcPE=
-X-Google-Smtp-Source: AA0mqf69H0IH7rB1HqJxeoajFYEA7oWnuviAeVEtYkeQoTZagMb+BHeXO24tP/bnf9r379qO3dgZxw==
-X-Received: by 2002:aa7:9089:0:b0:566:900d:8242 with SMTP id i9-20020aa79089000000b00566900d8242mr2345930pfa.3.1670713347279;
-        Sat, 10 Dec 2022 15:02:27 -0800 (PST)
-Received: from mail.google.com (125-237-37-88-fibre.sparkbb.co.nz. [125.237.37.88])
-        by smtp.gmail.com with ESMTPSA id x12-20020aa79acc000000b0057725613627sm3283714pfp.142.2022.12.10.15.02.21
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bMVMrit7nmPd+cdKSCUflKKdRPMxLQ3NyLKJxmy3PRY=;
+        b=7Vb2g74UPdq/34dD1sS+VbidjXENORVSSj0orOEwc6fNgZu8qF1HmLb0AcgsOzbhSI
+         ckzjusHCi9vhp3lKIeUY3WKMRlhYlEc0gwgBpjyTwslRBzVSntOBY3krDnoSq/K/h9p0
+         kmwih6uB01Jhk+3loxHR1IPaW6JtFBMMN3276ohShCB8v99TY53aIzZMp8pYERNDIDgw
+         wVc/4YiLtd6OAnT1R+2nLlkgltyjuTijUOqJYiGAPItlOvS9YeIzMnDEEFZr1TAID8oe
+         VKy4+hYP3DLItw/uWfPOeQfZODD+CzFeYY9BOwd1UyF7vwQKoY4rSbSKd9JMaZelcff0
+         73CA==
+X-Gm-Message-State: ANoB5pl+YvVU1zqKnuuzz/QODyVwIegkElN5FcCKek/lv8JnAI8mlQyu
+        VZIFLbK8S0uEufdpvc49jyU=
+X-Google-Smtp-Source: AA0mqf6J9xg8gJrz2gh7MjXOEU+3sEtNN0JWDzlWdwIwht5BWmpsM3a1LrWRG+EOXDE/+ruVRrk8nw==
+X-Received: by 2002:a62:4ecd:0:b0:577:22cb:1f12 with SMTP id c196-20020a624ecd000000b0057722cb1f12mr12765480pfb.12.1670732497829;
+        Sat, 10 Dec 2022 20:21:37 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-69.three.co.id. [180.214.232.69])
+        by smtp.gmail.com with ESMTPSA id f74-20020a62384d000000b005772f762e43sm3498139pfa.13.2022.12.10.20.21.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Dec 2022 15:02:26 -0800 (PST)
-Date:   Sun, 11 Dec 2022 12:02:18 +1300
-From:   Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Sat, 10 Dec 2022 20:21:37 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id E5119103F4B; Sun, 11 Dec 2022 11:21:33 +0700 (WIB)
+Date:   Sun, 11 Dec 2022 11:21:33 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
@@ -59,91 +62,66 @@ To:     Masahiro Yamada <masahiroy@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Vipin Sharma <vipinsh@google.com>
 Cc:     linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        paulo.miguel.almeida.rodenas@gmail.com
-Subject: [PATCH v2] scripts/tags.sh: choose which directories to exclude from
- being indexed
-Message-ID: <Y5UP+tnnxNgoi6A2@mail.google.com>
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] scripts/tags.sh: choose which directories to exclude
+ from being indexed
+Message-ID: <Y5VazQnY7s4+cXdM@debian.me>
+References: <Y5T66yWNVAZNIaJ0@mail.google.com>
+ <Y5UP+tnnxNgoi6A2@mail.google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ifAjQU90ZpY8pISa"
 Content-Disposition: inline
-In-Reply-To: <Y5T66yWNVAZNIaJ0@mail.google.com>
+In-Reply-To: <Y5UP+tnnxNgoi6A2@mail.google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It's common for drivers that share same physical components to also
-duplicate source code (or at least portions of it). A good example is
-both drivers/gpu/drm/amdgpu/* and drivers/gpu/drm/radeon/* have a header
-file called atombios.h.
 
-While their contents aren't the same, a lot of their structs have
-the exact same names which makes navigating through the code base a bit
-messy as cscope will show up 'references' across drivers which aren't
-exactly correct.
+--ifAjQU90ZpY8pISa
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This patch makes it possible for the devs to specify which folders
-they don't want to include into database as part of the
-find_other_sources func if a makefile variable IGNOREDIRS is present,
-otherwise the original behaviour is kept.
+On Sun, Dec 11, 2022 at 12:02:18PM +1300, Paulo Miguel Almeida wrote:
+> This patch makes it possible for the devs to specify which folders
+> they don't want to include into database as part of the
+> find_other_sources func if a makefile variable IGNOREDIRS is present,
+> otherwise the original behaviour is kept.
 
-Example:
-        make ARCH=x86 IGNOREDIRS=drivers/gpu/drm/radeon,tools cscope
+Better say "Add IGNOREDIRS variable, which specifies which directories
+to be ignored from indexing."
 
-Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
----
-Changelog:
+> @@ -278,6 +278,13 @@ To get all available archs you can also specify all.=
+ E.g.::
+> =20
+>      $ make ALLSOURCE_ARCHS=3Dall tags
+> =20
+> +IGNOREDIRS
+> +---------------
+> +For tags/TAGS/cscope targets, you can choose which directories won't
+> +be included in the databases, separated by comma. E.g.:
+> +
+> +    $ make IGNOREDIRS=3Ddrivers/gpu/drm/radeon,tools cscope
+> +
 
-- v2: change approach to include everything unless specified by the
-  IGNOREDIRS variable: (Req: Vipin Sharma)
-- v1: https://lore.kernel.org/lkml/Y5OKDvbGk4Kro6MK@mail.google.com/
----
- Documentation/kbuild/kbuild.rst |  7 +++++++
- scripts/tags.sh                 | 11 +++++++++--
- 2 files changed, 16 insertions(+), 2 deletions(-)
+Use two-colon syntax (::) for code block above to be consistent with
+other code blocks.
 
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 08f575e6236c..5f99f30e20d8 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -278,6 +278,13 @@ To get all available archs you can also specify all. E.g.::
- 
-     $ make ALLSOURCE_ARCHS=all tags
- 
-+IGNOREDIRS
-+---------------
-+For tags/TAGS/cscope targets, you can choose which directories won't
-+be included in the databases, separated by comma. E.g.:
-+
-+    $ make IGNOREDIRS=drivers/gpu/drm/radeon,tools cscope
-+
- KBUILD_BUILD_TIMESTAMP
- ----------------------
- Setting this to a date string overrides the timestamp used in the
-diff --git a/scripts/tags.sh b/scripts/tags.sh
-index e137cf15aae9..554721e9cad2 100755
---- a/scripts/tags.sh
-+++ b/scripts/tags.sh
-@@ -59,10 +59,17 @@ find_include_sources()
- }
- 
- # find sources in rest of tree
--# we could benefit from a list of dirs to search in here
- find_other_sources()
- {
--	find ${tree}* $ignore \
-+	local loc_ignore=${ignore}
-+	if [ -n "${IGNOREDIRS}" ]; then
-+		exp_ignored_dirs=$(sed 's/,/ /g' <<< ${IGNOREDIRS})
-+		for i in ${exp_ignored_dirs}; do
-+			loc_ignore="${loc_ignore} ( -path $i ) -prune -o"
-+		done
-+	fi
-+
-+	find ${tree}* ${loc_ignore} \
- 	     \( -path ${tree}include -o -path ${tree}arch -o -name '.tmp_*' \) -prune -o \
- 	       -name "$1" -not -type l -print;
- }
--- 
-2.38.1
+Thanks.=20
 
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--ifAjQU90ZpY8pISa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY5VayAAKCRD2uYlJVVFO
+o+AKAP9nQhJMgCph+/u7XSX0+UsDfW4lQBG3ttu97FueusN3pQD/akMYkzTrrDG1
+iW6fWNZIfQ4SO57vdzad9F2KEy0YrQY=
+=fAQU
+-----END PGP SIGNATURE-----
+
+--ifAjQU90ZpY8pISa--
