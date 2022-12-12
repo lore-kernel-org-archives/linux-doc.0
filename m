@@ -2,57 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57156C00145
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Dec 2022 13:57:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75415C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Dec 2022 14:13:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233157AbiLLN5W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Dec 2022 08:57:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58648 "EHLO
+        id S232032AbiLLONG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Dec 2022 09:13:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233212AbiLLN5U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Dec 2022 08:57:20 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AAC4CC7;
-        Mon, 12 Dec 2022 05:57:19 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9BF2D60FF4;
-        Mon, 12 Dec 2022 13:57:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B939C433D2;
-        Mon, 12 Dec 2022 13:57:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1670853438;
-        bh=mgb8zhVHcuWeR2Z4DGXOLQzTDYWFEAir/vKAyK/Bo/0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=zR1SV6GfLhX+Tln/A3D6W/vlY8rS6OOyOgSoxgvu55xkfp0+fd2xHualnP1GUIEWB
-         5/f3qGuoIv20iYvJAz/S8Rgen9x5Mepo/A1Zc/TwAT9jL/SzWcV8BoYZ8/zTD2sSds
-         3JkuukCAUnP8z00APo4zQNUGwClw+f/8Uj3aXHlk=
-Date:   Mon, 12 Dec 2022 14:39:03 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] earlycon: Let users set the clock frequency
-Message-ID: <Y5cu9xyxYe7Lkn/l@kroah.com>
-References: <20221123-serial-clk-v3-0-49c516980ae0@chromium.org>
- <20221123-serial-clk-v3-1-49c516980ae0@chromium.org>
- <CANiDSCs-CdhdvZF1PsDWivWiTB-=66DK4XOrv5hzbgbC9Z=+Rg@mail.gmail.com>
+        with ESMTP id S231724AbiLLONF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Dec 2022 09:13:05 -0500
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88A3DF65;
+        Mon, 12 Dec 2022 06:13:02 -0800 (PST)
+Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-144bd860fdbso8536688fac.0;
+        Mon, 12 Dec 2022 06:13:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a9rfKTTYo4jfNFMQT0vPoE9C87G5mdKIDQuVUwzPMq0=;
+        b=ZizvXih1N7i56aqVMm60hittl1I2LnJA+l70gFz1+fA/ej68ogfO4oSSJ3KHITwR3/
+         D2zI/rlPe3WWJKAQYvqx6xlOaItHcpOKXeS0eRek1yZsxHuRWdF7yikkGqLtd/esZMXe
+         eg5gl/XTCVr4MSMLO8H1dlRFHFuFQnHx0GRDzXUaRg9XzZUSC/GU7gpGpdloHDC0NzEU
+         wKuwMZDRUtNRAb2Sj95ituBbpqKmLYGwxsiwTPt3Q6Z+kR6QdfpRRh0RyNt8XTrLJLtF
+         0VCLnvEqWsoaQmfYLiMccBG8QYapw7cSnEsot0/WRjgAo2O5sMwkUCUAlZ1+31MguCXP
+         bvyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a9rfKTTYo4jfNFMQT0vPoE9C87G5mdKIDQuVUwzPMq0=;
+        b=eho1AUL2dOLy0QPFho2YGCJLJgEYbuWN/6o4pjXT1GM3mP92pIuwmy0ZUk+YtCftFq
+         ys9hr7qA2qUjIT5/VrM9LMjjAFWlPKeLBZ7CeZuM2LUfKLL/bjAMcpE9EB8YOUCd4s6e
+         JQXnQK71TlqOlAOmASJLqCTZF3EzWP+9qJ5l4XAzXR9DJp5Epc4NEzE7rDrK2Soz46Jv
+         IbXGPE40VDhIkissGfTSAQJSRK21FgvieJJfLm+g5QH3TaGZeebDlky+7V1qBUH/i8QM
+         5J4ys6l+JYuFfyNN2AHgFzGKFC4zsLNzo7wQxtjcaqlET+ieikY5+s0YqAdxXPa9KDfv
+         lPVQ==
+X-Gm-Message-State: ANoB5pmoCbCxgRuphxtsdp3++HMqd35yejodvPon0TNjqMB2Z+fiQBpu
+        hV7JZa+JJM5f2+6NfmB1tRw=
+X-Google-Smtp-Source: AA0mqf565XGm8oqtIG2kadWuBQ6sV79yu7/2q7IiIpCASNBwnlCFJOMILtsqR4jPjV2nAszYV59M9w==
+X-Received: by 2002:a05:6871:450c:b0:144:870e:5859 with SMTP id nj12-20020a056871450c00b00144870e5859mr8007379oab.57.1670854381815;
+        Mon, 12 Dec 2022 06:13:01 -0800 (PST)
+Received: from smeagol.fibertel.com.ar ([201.235.4.68])
+        by smtp.gmail.com with ESMTPSA id e14-20020a056870d10e00b00144e18d8525sm4934164oac.25.2022.12.12.06.12.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Dec 2022 06:13:00 -0800 (PST)
+From:   =?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= 
+        <samsagax@gmail.com>
+To:     jdelvare@suse.com
+Cc:     linux@roeck-us.net, corbet@lwn.net, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= 
+        <samsagax@gmail.com>
+Subject: [PATCH] docs: hwmon: Use file modes explicitly
+Date:   Mon, 12 Dec 2022 11:12:46 -0300
+Message-Id: <20221212141245.52935-1-samsagax@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiDSCs-CdhdvZF1PsDWivWiTB-=66DK4XOrv5hzbgbC9Z=+Rg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 06:24:19PM +0100, Ricardo Ribalda wrote:
-> Hi Jiri
-> 
-> is there something else that I am missing here?
+As stated in the mainling list[1] and by checkpatch output, the file modes
+for is_visible_func should be returned explicitly. Change that in the
+documentation to avoid confusion.
 
-Sorry, been busy with other reviews.  I will queue this up after 6.2-rc1
-is out, thanks.
+[1]https://lore.kernel.org/linux-hwmon/506a6e7f-4566-2dcf-37f3-0f41f4ce983b@roeck-us.net/
 
-greg k-h
+Signed-off-by: Joaquín Ignacio Aramendía <samsagax@gmail.com>
+---
+ Documentation/hwmon/hwmon-kernel-api.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/hwmon/hwmon-kernel-api.rst b/Documentation/hwmon/hwmon-kernel-api.rst
+index f3276b3a381a..26cf55303c61 100644
+--- a/Documentation/hwmon/hwmon-kernel-api.rst
++++ b/Documentation/hwmon/hwmon-kernel-api.rst
+@@ -299,7 +299,7 @@ Parameters:
+ 
+ Return value:
+ 	The file mode for this attribute. Typically, this will be 0 (the
+-	attribute will not be created), S_IRUGO, or 'S_IRUGO | S_IWUSR'.
++	attribute will not be created), 0444, or 0644.
+ 
+ ::
+ 
+-- 
+2.38.1
+
