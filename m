@@ -2,192 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 512ADC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Dec 2022 21:28:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4653AC00145
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Dec 2022 21:44:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229600AbiLLV2T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Dec 2022 16:28:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60926 "EHLO
+        id S233385AbiLLVoT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Dec 2022 16:44:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233011AbiLLV2Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Dec 2022 16:28:16 -0500
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B1332DC0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Dec 2022 13:28:15 -0800 (PST)
-Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-3e45d25de97so165731577b3.6
-        for <linux-doc@vger.kernel.org>; Mon, 12 Dec 2022 13:28:15 -0800 (PST)
+        with ESMTP id S233333AbiLLVoR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Dec 2022 16:44:17 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15A8D18B22
+        for <linux-doc@vger.kernel.org>; Mon, 12 Dec 2022 13:44:16 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id s7so13494741plk.5
+        for <linux-doc@vger.kernel.org>; Mon, 12 Dec 2022 13:44:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=chromium.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bjozKbUPp2aSy7H80qOc83Wx7QmZ8foKl3aEy6/ZtSU=;
-        b=aDrhhFmvvBTmdmJGxUnEwEWAgqlgRJDCfh6CqevYvMpXDuusmx6aHiHlYPYu1HbZEp
-         RpqRY8H9t36pDH0XWMsNAvJNtF5Zt/F2MbbgR8B0bhxkE1rIcqrkw4chdpIWRJ7b9+Ri
-         +c4ZVW0xU2W02AQ5hLxH2bzjOtmacPBXhvltfYX57LN8Z9goC+3U0Nhk5y0uGsMQxp7q
-         eJwxz/A/3kNAXsVJqvX3MSy6XFrOQs6VyYspR2eqnQfvN3cG+av+FOUPqqyhIFR8QL29
-         csITXurmbAfKEcE7gydokmNy9cuv349+7cJwfKxnm72quB2/fhmN/Bq00Ze9A55B3Zt9
-         mHPA==
+        bh=A+ag/PhyV4lazzaYSTLTzsH3BZMXMT1SW00v66ePL4c=;
+        b=hoXlROpzKSmvO37lOPrXW/ff8+sY5+Zu9u0y8qRxtFyMRPcHMtiujUoJEMNmxQMtyx
+         5uTPAaNn1u5Hrl56fcYAaiIL9DdecnkOfi9VtUV+9ZWD071hR2fOqfGCRBl8vuvPqagR
+         dZ6j0Jl1l4vfokpJAv9vBTaGZVHQQJU3Wp/2c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bjozKbUPp2aSy7H80qOc83Wx7QmZ8foKl3aEy6/ZtSU=;
-        b=AeITr4knVoJwt1bJyGwt3UZZ5PnCPj51CNWEB+T3Lb7efcScNDht2w0lsFZRAGLrAm
-         Tnn71Y9Yx1rRBOYq3tU0LaOT9DEphDKFw9S2UyzXUmrcdUATZMqvdCBR7pTeoi4d2rDh
-         M+t2pWREA0W8aqJPpCZs/WNQ9v9tcLrb6oc4i3jj58jnc6eyo34EP/xykmYqIHxNDGU4
-         vgYiH/i1VsgfOs10NjFyIK0zPlD+4YMSttx3Lp79jfbYTEUZcJpeq1GkUy0RvWKdKKkw
-         m8lJtvc30ZWNwr1Dcj+gnn9PLLr+E6pilLAw2+8aTFVOD++2ISV4pkONIW7/HwVLDCBU
-         56lA==
-X-Gm-Message-State: ANoB5pmf152POdjBth1jQDJenX5C7g2lsDQYc+jjjiBbNz9lTy1gi1Fg
-        wz5oJFq3dSXADY2tQHeCXuP+1WznWQy+YV9kDmD/BA==
-X-Google-Smtp-Source: AA0mqf6khbUWi9FVmzVgGsmHTliSQ/NEmQiq9QEXBSyOKr90cObsr0i+iRwcKQwf7gNtS6NCoVevpDkgAon+4KdANvk=
-X-Received: by 2002:a0d:dd8a:0:b0:391:c415:f872 with SMTP id
- g132-20020a0ddd8a000000b00391c415f872mr9059013ywe.318.1670880493965; Mon, 12
- Dec 2022 13:28:13 -0800 (PST)
+        bh=A+ag/PhyV4lazzaYSTLTzsH3BZMXMT1SW00v66ePL4c=;
+        b=A0ei+SP/BbOXuuS2GPz0QnvE+iME/TReJJThRTblpZDaFjt9ikLKThz85jPvtLe99r
+         cc4egA73aFqZ4Nq5V88wrPpRFSsZEkweGIOgkWrwpdXvAVIAtJIBVnsFG0oadv2Ht1j4
+         eDCk2ssGorF9aD3v7+1s76RekgYhepMVCWRkXeKWk8yb7dRyL5rE10EFGsFWIrrz1S9b
+         mVHjYaeU1klDpwm2I+85Uto5Eo0PaGxWWc86+nUJseVEYpnZ9GvcLqnoiz1jNJVFKV8I
+         CB423IxydlmABH/SDU7JtRqqvDkAMNpHaQlU+8hXl7T5Zpcr5+bO6Xm37497cZfq70O5
+         +zFw==
+X-Gm-Message-State: ANoB5plCFb9ff0w/M4riaMhY9YYH9XP00L2SftiYJETpDzwUhll9jbp1
+        mmwiMMejnF0xfDbrTJSkFqc/dFdhoMIB+iJJ5/g=
+X-Google-Smtp-Source: AA0mqf53ctD+tz3vRoqMVekPXKZI1Dx3ITqwHZywiMafUQuQzEzFVGt9d2MF1QVgWdPDLMVK+Ys80Q==
+X-Received: by 2002:a17:903:328c:b0:189:85e9:f6d0 with SMTP id jh12-20020a170903328c00b0018985e9f6d0mr17335400plb.47.1670881455413;
+        Mon, 12 Dec 2022 13:44:15 -0800 (PST)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com. [209.85.216.41])
+        by smtp.gmail.com with ESMTPSA id h2-20020a170902f7c200b00187022627d7sm6875475plw.36.2022.12.12.13.44.11
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Dec 2022 13:44:12 -0800 (PST)
+Received: by mail-pj1-f41.google.com with SMTP id fy4so1289128pjb.0
+        for <linux-doc@vger.kernel.org>; Mon, 12 Dec 2022 13:44:11 -0800 (PST)
+X-Received: by 2002:a17:90a:644f:b0:219:8132:70db with SMTP id
+ y15-20020a17090a644f00b00219813270dbmr61283pjm.183.1670881450434; Mon, 12 Dec
+ 2022 13:44:10 -0800 (PST)
 MIME-Version: 1.0
-References: <Y5T66yWNVAZNIaJ0@mail.google.com> <Y5UP+tnnxNgoi6A2@mail.google.com>
-In-Reply-To: <Y5UP+tnnxNgoi6A2@mail.google.com>
-From:   Vipin Sharma <vipinsh@google.com>
-Date:   Mon, 12 Dec 2022 13:27:37 -0800
-Message-ID: <CAHVum0eOzd8MgP0FGObHWvqG_oPVoTmk_5gkEB0sAJK9JgCsFg@mail.gmail.com>
-Subject: Re: [PATCH v2] scripts/tags.sh: choose which directories to exclude
- from being indexed
-To:     Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
+References: <20221114-disable-kexec-reset-v1-0-fb51d20cf871@chromium.org>
+ <20221114-disable-kexec-reset-v1-2-fb51d20cf871@chromium.org>
+ <20221117160650.16e06b37@rotkaeppchen> <CANiDSCvyQ66mXbhEgj_qnE_zR4frsxtu1bXaukDrEG0FjrE4yw@mail.gmail.com>
+ <20221121150948.6f7c1f1f@rotkaeppchen> <CANiDSCtqYykAjRinx9r4O+DxdTBA=OQSjF8URmM6X54nN7pDUA@mail.gmail.com>
+ <20221124124000.5af23cad@rotkaeppchen> <CANiDSCvO+6TrM900Z_Jr4QL=c1uHS21deto7cU9W4mr7KimhJQ@mail.gmail.com>
+ <20221124160115.23ae7928@rotkaeppchen> <20221128114200.72b3e2fe@gandalf.local.home>
+ <20221129144450.75a7181e@rotkaeppchen> <20221129093245.599903e7@gandalf.local.home>
+In-Reply-To: <20221129093245.599903e7@gandalf.local.home>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Mon, 12 Dec 2022 22:43:59 +0100
+X-Gmail-Original-Message-ID: <CANiDSCs6jyNBiO+wO-MHB3qv5am0mmGbv7y4eHv1PSLQh5EPTA@mail.gmail.com>
+Message-ID: <CANiDSCs6jyNBiO+wO-MHB3qv5am0mmGbv7y4eHv1PSLQh5EPTA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] kexec: Introduce kexec_reboot_disabled
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Philipp Rudo <prudo@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+        Ross Zwisler <zwisler@kernel.org>, linux-doc@vger.kernel.org,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Dec 10, 2022 at 3:02 PM Paulo Miguel Almeida
-<paulo.miguel.almeida.rodenas@gmail.com> wrote:
->
-> It's common for drivers that share same physical components to also
-> duplicate source code (or at least portions of it). A good example is
-> both drivers/gpu/drm/amdgpu/* and drivers/gpu/drm/radeon/* have a header
-> file called atombios.h.
->
-> While their contents aren't the same, a lot of their structs have
-> the exact same names which makes navigating through the code base a bit
-> messy as cscope will show up 'references' across drivers which aren't
-> exactly correct.
->
-> This patch makes it possible for the devs to specify which folders
-> they don't want to include into database as part of the
-> find_other_sources func if a makefile variable IGNOREDIRS is present,
-> otherwise the original behaviour is kept.
->
-> Example:
->         make ARCH=x86 IGNOREDIRS=drivers/gpu/drm/radeon,tools cscope
->
-> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-> ---
-> Changelog:
->
-> - v2: change approach to include everything unless specified by the
->   IGNOREDIRS variable: (Req: Vipin Sharma)
-> - v1: https://lore.kernel.org/lkml/Y5OKDvbGk4Kro6MK@mail.google.com/
-> ---
->  Documentation/kbuild/kbuild.rst |  7 +++++++
->  scripts/tags.sh                 | 11 +++++++++--
->  2 files changed, 16 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-> index 08f575e6236c..5f99f30e20d8 100644
-> --- a/Documentation/kbuild/kbuild.rst
-> +++ b/Documentation/kbuild/kbuild.rst
-> @@ -278,6 +278,13 @@ To get all available archs you can also specify all. E.g.::
->
->      $ make ALLSOURCE_ARCHS=all tags
->
-> +IGNOREDIRS
-> +---------------
-> +For tags/TAGS/cscope targets, you can choose which directories won't
-> +be included in the databases, separated by comma. E.g.:
-> +
-> +    $ make IGNOREDIRS=drivers/gpu/drm/radeon,tools cscope
-> +
->  KBUILD_BUILD_TIMESTAMP
->  ----------------------
->  Setting this to a date string overrides the timestamp used in the
-> diff --git a/scripts/tags.sh b/scripts/tags.sh
-> index e137cf15aae9..554721e9cad2 100755
-> --- a/scripts/tags.sh
-> +++ b/scripts/tags.sh
-> @@ -59,10 +59,17 @@ find_include_sources()
->  }
->
->  # find sources in rest of tree
-> -# we could benefit from a list of dirs to search in here
->  find_other_sources()
->  {
-> -       find ${tree}* $ignore \
-> +       local loc_ignore=${ignore}
-> +       if [ -n "${IGNOREDIRS}" ]; then
-> +               exp_ignored_dirs=$(sed 's/,/ /g' <<< ${IGNOREDIRS})
-> +               for i in ${exp_ignored_dirs}; do
-> +                       loc_ignore="${loc_ignore} ( -path $i ) -prune -o"
-> +               done
-> +       fi
-> +
+Hi Philipp
 
-This should be global overwrite instead of just in this function.
-Before find_other_sources() is executed, this script finds files in
-arch directories. So, if you keep it local then those files cannot be
-excluded which makes execution of the command incorrect:
+On Tue, 29 Nov 2022 at 15:32, Steven Rostedt <rostedt@goodmis.org> wrote:
+>
+> On Tue, 29 Nov 2022 14:44:50 +0100
+> Philipp Rudo <prudo@redhat.com> wrote:
+>
+> > An alternative approach and sort of compromise I see is to convert
+> > kexec_load_disabled from a simple on/off switch to a counter on how
+> > often a kexec load can be made (in practice a tristate on/off/one-shot
+> > should be sufficient). Ideally the reboot and panic path will
+> > have separate counters. With that you could for example use
+> > kexec_load_limit.reboot=0 and kexec_load_limit.panic=1 to disable the
+> > load of images for reboot while still allow to load a crash kernel
+> > once. With this you have the flexibility you need while also preventing
+> > a race where an attacker overwrites your crash kernel before you can
+> > toggle the switch. What do you think?
+>
+> I actually like this idea :-)
 
-make IGNOREDIRS=arch/x86 cscope
+In case you missed it.  I sent an initial implementation of this at
+https://lore.kernel.org/lkml/20221114-disable-kexec-reset-v2-0-c498313c1bb5@chromium.org/
 
-Above command will still index all of the code in arch/x86. Something
-like this will be better.
+Regards!
 
---- a/scripts/tags.sh
-+++ b/scripts/tags.sh
-@@ -17,6 +17,13 @@ ignore="$(echo "$RCS_FIND_IGNORE" | sed 's|\\||g' )"
- # tags and cscope files should also ignore MODVERSION *.mod.c files
- ignore="$ignore ( -name *.mod.c ) -prune -o"
-
-+if [ -n "${IGNOREDIRS}" ]; then
-+       exp_ignored_dirs=$(sed 's/,/ /g' <<< ${IGNOREDIRS})
-+       for i in ${exp_ignored_dirs}; do
-+               ignore="${ignore} ( -path $i ) -prune -o"
-+       done
-+fi
-+
- # Use make KBUILD_ABS_SRCTREE=1 {tags|cscope}
- # to force full paths for a non-O= build
- if [ "${srctree}" = "." -o -z "${srctree}" ]; then
-@@ -62,9 +69,9 @@ find_include_sources()
- # we could benefit from a list of dirs to search in here
- find_other_sources()
- {
--       find ${tree}* $ignore \
--            \( -path ${tree}include -o -path ${tree}arch -o -name
-'.tmp_*' \) -prune -o \
--              -name "$1" -not -type l -print;
-+       find ${tree}* ${ignore} \
-+               \( -path ${tree}include -o -path ${tree}arch -o -name
-'.tmp_*' \) -prune -o \
-+               -name "$1" -not -type l -print;
- }
-
-We will still have to specify arch/x86 and arch/x86/include but this
-works and keeps the definition of IGNOREDIRS relatively correct.
+>
+> -- Steve
 
 
-> +       find ${tree}* ${loc_ignore} \
->              \( -path ${tree}include -o -path ${tree}arch -o -name '.tmp_*' \) -prune -o \
->                -name "$1" -not -type l -print;
->  }
-> --
-> 2.38.1
->
+
+-- 
+Ricardo Ribalda
