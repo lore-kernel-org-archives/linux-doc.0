@@ -2,97 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05EFBC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Dec 2022 13:07:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57156C00145
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Dec 2022 13:57:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231892AbiLLNHr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Dec 2022 08:07:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37380 "EHLO
+        id S233157AbiLLN5W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Dec 2022 08:57:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231766AbiLLNHq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Dec 2022 08:07:46 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44B8AF15;
-        Mon, 12 Dec 2022 05:07:43 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id u5so11952894pjy.5;
-        Mon, 12 Dec 2022 05:07:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3Qae+3gpjlZ4aHtJW4a8rsj6ywaTrkotTIcu0bHPlFE=;
-        b=OHFOZTNfAqJ5xEqEKu74b3+pJARjGTpEK0Q++tj63X9V2c0yhZDbx3cArL0HhKR6cg
-         9vspm+r/fnEe64a1tkTGl3eVoo3Pk2xv0uwq5wp4Mmybk4Z81QL0sMATKc1xGeCYWgAl
-         5598IQWDeSo6dGgyfgn93daBXfsnC/gG4F+tI+VpPNtkuFUXhnMG2Y1N8HcU3A1/WQuH
-         TbpJCl8X46k7firn7BTTNTTb8ZmNeOXLicNiX+9ZJmuxQNjtMSwC+mPco4iR7UOz7QHo
-         tI2wh6OK9rapv8HgYYNy+200eVgBcenqIeU3p7DqYDaZxmPGav22+kg6lx0ftWrGjbmO
-         HL9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Qae+3gpjlZ4aHtJW4a8rsj6ywaTrkotTIcu0bHPlFE=;
-        b=gdujsdITrue4A4hd5HZRmbBZwI9GB2fYaLjFq4VOHz5I1MjSrhKLI1FExF/a24iVNV
-         QLexdrynjTRY9bLlNG1D11p/Zdb42ceEWAYGP2280US86f3SUBqtAWQwM5YIPHaGKEn6
-         oCDElhedNxRitG6E9AgyUXXSOJJpdr843kXzP17mhCKSYRsm+Z674SqJnp+pbF9b+Ex9
-         GLPEOfPut8Drjqu6ZFyM+c9xuPiT00pjPuTM+kohK0nlUZ+Ou9VaH4XCPcg+/HcdN+Qj
-         9eHMEQA8UDnpbjh9oaTaOOHf3ndbKglbz+WX27JFCfSAdmnYrkarRSJvTb3G3xN1AK9E
-         InYw==
-X-Gm-Message-State: ANoB5pnOwU9b0YgSJNPw4iLR4iRl0FDcR9fvmlRfegLWQw6YQusiQY0X
-        9Ock0CLNKz3/kQY03DwEr/w=
-X-Google-Smtp-Source: AA0mqf7GwQ9YL4IWroFx4lL1um52eBZPIcNibAiTFzMf6RCbyVR7cUx5wt2jvqRCugtTfqIcNMFYkg==
-X-Received: by 2002:a17:902:aa47:b0:185:441e:222a with SMTP id c7-20020a170902aa4700b00185441e222amr16485008plr.37.1670850462684;
-        Mon, 12 Dec 2022 05:07:42 -0800 (PST)
-Received: from [192.168.43.80] (subs03-180-214-233-27.three.co.id. [180.214.233.27])
-        by smtp.gmail.com with ESMTPSA id c11-20020a170903234b00b001885041d7b8sm6301725plh.293.2022.12.12.05.07.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Dec 2022 05:07:42 -0800 (PST)
-Message-ID: <fd419b09-4514-7785-bd72-f912d0fe85c8@gmail.com>
-Date:   Mon, 12 Dec 2022 20:07:32 +0700
+        with ESMTP id S233212AbiLLN5U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Dec 2022 08:57:20 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AAC4CC7;
+        Mon, 12 Dec 2022 05:57:19 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9BF2D60FF4;
+        Mon, 12 Dec 2022 13:57:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B939C433D2;
+        Mon, 12 Dec 2022 13:57:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1670853438;
+        bh=mgb8zhVHcuWeR2Z4DGXOLQzTDYWFEAir/vKAyK/Bo/0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=zR1SV6GfLhX+Tln/A3D6W/vlY8rS6OOyOgSoxgvu55xkfp0+fd2xHualnP1GUIEWB
+         5/f3qGuoIv20iYvJAz/S8Rgen9x5Mepo/A1Zc/TwAT9jL/SzWcV8BoYZ8/zTD2sSds
+         3JkuukCAUnP8z00APo4zQNUGwClw+f/8Uj3aXHlk=
+Date:   Mon, 12 Dec 2022 14:39:03 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] earlycon: Let users set the clock frequency
+Message-ID: <Y5cu9xyxYe7Lkn/l@kroah.com>
+References: <20221123-serial-clk-v3-0-49c516980ae0@chromium.org>
+ <20221123-serial-clk-v3-1-49c516980ae0@chromium.org>
+ <CANiDSCs-CdhdvZF1PsDWivWiTB-=66DK4XOrv5hzbgbC9Z=+Rg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH 28/31] sched_ext: Add
- Documentation/scheduler/sched-ext.rst
-To:     Tejun Heo <tj@kernel.org>
-Cc:     torvalds@linux-foundation.org, mingo@redhat.com,
-        peterz@infradead.org, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, vschneid@redhat.com, ast@kernel.org,
-        daniel@iogearbox.net, andrii@kernel.org, martin.lau@kernel.org,
-        joshdon@google.com, brho@google.com, pjt@google.com,
-        derkling@google.com, haoluo@google.com, dvernet@meta.com,
-        dschatzberg@meta.com, dskarlat@cs.cmu.edu, riel@surriel.com,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20221130082313.3241517-1-tj@kernel.org>
- <20221130082313.3241517-29-tj@kernel.org> <Y5anpn997mR2g8Ur@debian.me>
- <Y5bKGXG0o4dReJ8C@slm.duckdns.org>
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <Y5bKGXG0o4dReJ8C@slm.duckdns.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiDSCs-CdhdvZF1PsDWivWiTB-=66DK4XOrv5hzbgbC9Z=+Rg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/12/22 13:28, Tejun Heo wrote:
->> No patch description? Really? Please write one.
+On Fri, Dec 02, 2022 at 06:24:19PM +0100, Ricardo Ribalda wrote:
+> Hi Jiri
 > 
-> That's unnecessarily grating. I can add some blurb but here's an honest
-> question. What pertinent information would the description contain that
-> shouldn't be in the doc itself?
-> 
+> is there something else that I am missing here?
 
-Sorry I don't know the answer, but the description should at least
-expand from the patch subject.
+Sorry, been busy with other reviews.  I will queue this up after 6.2-rc1
+is out, thanks.
 
-Thanks anyway.
-
--- 
-An old man doll... just what I always wanted! - Clara
-
+greg k-h
