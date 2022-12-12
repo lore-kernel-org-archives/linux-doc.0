@@ -2,77 +2,192 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6354C4708D
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Dec 2022 21:01:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 512ADC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Dec 2022 21:28:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233597AbiLLVBh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Dec 2022 16:01:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41732 "EHLO
+        id S229600AbiLLV2T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Dec 2022 16:28:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233412AbiLLVBK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Dec 2022 16:01:10 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C87861901E;
-        Mon, 12 Dec 2022 13:00:18 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7FEE0B80E4C;
-        Mon, 12 Dec 2022 21:00:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 14156C433F0;
-        Mon, 12 Dec 2022 21:00:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670878816;
-        bh=olY/2/zUA2Vqrl5pxOVYLl11ZZ2pXRb7tLPrGknn3wE=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=Xoinmmtiepef7+orbXQY2ZcqS/1ba0WFQ8oBIdfyDFf2kKya8ADtB7jeHe13WQ3v3
-         HBvlSwSurz6ldFHQyySWMbzPRLrdKA+N67R7iURPzQBJm/vu24ZvI5SJd747/utHVN
-         PD3/yviMqJOK4ifcgZxAqde+qlZjxXuayxfv02et9+0OwVDN3eGPY7hGsDhjMG/XsD
-         6u8rNYZif591chD40EAxQpf7iG+raafH/+t76FibHVKv/EPf1w3SO4OLn5eCTdDP4H
-         ARvm0QITjFcDrjIvr31yHyIxBaJf7oMlutT24R5djegz59z7GKUDFTGIiFfrxkHRRb
-         ATZJDBm/kWY5g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id EB4E7C41606;
-        Mon, 12 Dec 2022 21:00:15 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S233011AbiLLV2Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Dec 2022 16:28:16 -0500
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B1332DC0
+        for <linux-doc@vger.kernel.org>; Mon, 12 Dec 2022 13:28:15 -0800 (PST)
+Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-3e45d25de97so165731577b3.6
+        for <linux-doc@vger.kernel.org>; Mon, 12 Dec 2022 13:28:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bjozKbUPp2aSy7H80qOc83Wx7QmZ8foKl3aEy6/ZtSU=;
+        b=aDrhhFmvvBTmdmJGxUnEwEWAgqlgRJDCfh6CqevYvMpXDuusmx6aHiHlYPYu1HbZEp
+         RpqRY8H9t36pDH0XWMsNAvJNtF5Zt/F2MbbgR8B0bhxkE1rIcqrkw4chdpIWRJ7b9+Ri
+         +c4ZVW0xU2W02AQ5hLxH2bzjOtmacPBXhvltfYX57LN8Z9goC+3U0Nhk5y0uGsMQxp7q
+         eJwxz/A/3kNAXsVJqvX3MSy6XFrOQs6VyYspR2eqnQfvN3cG+av+FOUPqqyhIFR8QL29
+         csITXurmbAfKEcE7gydokmNy9cuv349+7cJwfKxnm72quB2/fhmN/Bq00Ze9A55B3Zt9
+         mHPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bjozKbUPp2aSy7H80qOc83Wx7QmZ8foKl3aEy6/ZtSU=;
+        b=AeITr4knVoJwt1bJyGwt3UZZ5PnCPj51CNWEB+T3Lb7efcScNDht2w0lsFZRAGLrAm
+         Tnn71Y9Yx1rRBOYq3tU0LaOT9DEphDKFw9S2UyzXUmrcdUATZMqvdCBR7pTeoi4d2rDh
+         M+t2pWREA0W8aqJPpCZs/WNQ9v9tcLrb6oc4i3jj58jnc6eyo34EP/xykmYqIHxNDGU4
+         vgYiH/i1VsgfOs10NjFyIK0zPlD+4YMSttx3Lp79jfbYTEUZcJpeq1GkUy0RvWKdKKkw
+         m8lJtvc30ZWNwr1Dcj+gnn9PLLr+E6pilLAw2+8aTFVOD++2ISV4pkONIW7/HwVLDCBU
+         56lA==
+X-Gm-Message-State: ANoB5pmf152POdjBth1jQDJenX5C7g2lsDQYc+jjjiBbNz9lTy1gi1Fg
+        wz5oJFq3dSXADY2tQHeCXuP+1WznWQy+YV9kDmD/BA==
+X-Google-Smtp-Source: AA0mqf6khbUWi9FVmzVgGsmHTliSQ/NEmQiq9QEXBSyOKr90cObsr0i+iRwcKQwf7gNtS6NCoVevpDkgAon+4KdANvk=
+X-Received: by 2002:a0d:dd8a:0:b0:391:c415:f872 with SMTP id
+ g132-20020a0ddd8a000000b00391c415f872mr9059013ywe.318.1670880493965; Mon, 12
+ Dec 2022 13:28:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next v1] docs/bpf: Reword docs for BPF_MAP_TYPE_SK_STORAGE
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <167087881595.21711.9569936101646684324.git-patchwork-notify@kernel.org>
-Date:   Mon, 12 Dec 2022 21:00:15 +0000
-References: <20221212101600.56026-1-donald.hunter@gmail.com>
-In-Reply-To: <20221212101600.56026-1-donald.hunter@gmail.com>
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        martin.lau@linux.dev, ast@kernel.org, daniel@iogearbox.net,
-        andrii@kernel.org, corbet@lwn.net, yhs@meta.com, void@manifault.com
+References: <Y5T66yWNVAZNIaJ0@mail.google.com> <Y5UP+tnnxNgoi6A2@mail.google.com>
+In-Reply-To: <Y5UP+tnnxNgoi6A2@mail.google.com>
+From:   Vipin Sharma <vipinsh@google.com>
+Date:   Mon, 12 Dec 2022 13:27:37 -0800
+Message-ID: <CAHVum0eOzd8MgP0FGObHWvqG_oPVoTmk_5gkEB0sAJK9JgCsFg@mail.gmail.com>
+Subject: Re: [PATCH v2] scripts/tags.sh: choose which directories to exclude
+ from being indexed
+To:     Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+On Sat, Dec 10, 2022 at 3:02 PM Paulo Miguel Almeida
+<paulo.miguel.almeida.rodenas@gmail.com> wrote:
+>
+> It's common for drivers that share same physical components to also
+> duplicate source code (or at least portions of it). A good example is
+> both drivers/gpu/drm/amdgpu/* and drivers/gpu/drm/radeon/* have a header
+> file called atombios.h.
+>
+> While their contents aren't the same, a lot of their structs have
+> the exact same names which makes navigating through the code base a bit
+> messy as cscope will show up 'references' across drivers which aren't
+> exactly correct.
+>
+> This patch makes it possible for the devs to specify which folders
+> they don't want to include into database as part of the
+> find_other_sources func if a makefile variable IGNOREDIRS is present,
+> otherwise the original behaviour is kept.
+>
+> Example:
+>         make ARCH=x86 IGNOREDIRS=drivers/gpu/drm/radeon,tools cscope
+>
+> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+> ---
+> Changelog:
+>
+> - v2: change approach to include everything unless specified by the
+>   IGNOREDIRS variable: (Req: Vipin Sharma)
+> - v1: https://lore.kernel.org/lkml/Y5OKDvbGk4Kro6MK@mail.google.com/
+> ---
+>  Documentation/kbuild/kbuild.rst |  7 +++++++
+>  scripts/tags.sh                 | 11 +++++++++--
+>  2 files changed, 16 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+> index 08f575e6236c..5f99f30e20d8 100644
+> --- a/Documentation/kbuild/kbuild.rst
+> +++ b/Documentation/kbuild/kbuild.rst
+> @@ -278,6 +278,13 @@ To get all available archs you can also specify all. E.g.::
+>
+>      $ make ALLSOURCE_ARCHS=all tags
+>
+> +IGNOREDIRS
+> +---------------
+> +For tags/TAGS/cscope targets, you can choose which directories won't
+> +be included in the databases, separated by comma. E.g.:
+> +
+> +    $ make IGNOREDIRS=drivers/gpu/drm/radeon,tools cscope
+> +
+>  KBUILD_BUILD_TIMESTAMP
+>  ----------------------
+>  Setting this to a date string overrides the timestamp used in the
+> diff --git a/scripts/tags.sh b/scripts/tags.sh
+> index e137cf15aae9..554721e9cad2 100755
+> --- a/scripts/tags.sh
+> +++ b/scripts/tags.sh
+> @@ -59,10 +59,17 @@ find_include_sources()
+>  }
+>
+>  # find sources in rest of tree
+> -# we could benefit from a list of dirs to search in here
+>  find_other_sources()
+>  {
+> -       find ${tree}* $ignore \
+> +       local loc_ignore=${ignore}
+> +       if [ -n "${IGNOREDIRS}" ]; then
+> +               exp_ignored_dirs=$(sed 's/,/ /g' <<< ${IGNOREDIRS})
+> +               for i in ${exp_ignored_dirs}; do
+> +                       loc_ignore="${loc_ignore} ( -path $i ) -prune -o"
+> +               done
+> +       fi
+> +
 
-This patch was applied to bpf/bpf-next.git (master)
-by Martin KaFai Lau <martin.lau@kernel.org>:
+This should be global overwrite instead of just in this function.
+Before find_other_sources() is executed, this script finds files in
+arch directories. So, if you keep it local then those files cannot be
+excluded which makes execution of the command incorrect:
 
-On Mon, 12 Dec 2022 10:16:00 +0000 you wrote:
-> Improve the grammar of the function descriptions and highlight
-> that the key is a socket fd.
-> 
-> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-> Fixes: f3212ad5b7e9 ("docs/bpf: Add documentation for BPF_MAP_TYPE_SK_STORAGE")
-> Reported-by: Martin KaFai Lau <martin.lau@linux.dev>
-> 
-> [...]
+make IGNOREDIRS=arch/x86 cscope
 
-Here is the summary with links:
-  - [bpf-next,v1] docs/bpf: Reword docs for BPF_MAP_TYPE_SK_STORAGE
-    https://git.kernel.org/bpf/bpf-next/c/2e75f9aa2bdc
+Above command will still index all of the code in arch/x86. Something
+like this will be better.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+--- a/scripts/tags.sh
++++ b/scripts/tags.sh
+@@ -17,6 +17,13 @@ ignore="$(echo "$RCS_FIND_IGNORE" | sed 's|\\||g' )"
+ # tags and cscope files should also ignore MODVERSION *.mod.c files
+ ignore="$ignore ( -name *.mod.c ) -prune -o"
+
++if [ -n "${IGNOREDIRS}" ]; then
++       exp_ignored_dirs=$(sed 's/,/ /g' <<< ${IGNOREDIRS})
++       for i in ${exp_ignored_dirs}; do
++               ignore="${ignore} ( -path $i ) -prune -o"
++       done
++fi
++
+ # Use make KBUILD_ABS_SRCTREE=1 {tags|cscope}
+ # to force full paths for a non-O= build
+ if [ "${srctree}" = "." -o -z "${srctree}" ]; then
+@@ -62,9 +69,9 @@ find_include_sources()
+ # we could benefit from a list of dirs to search in here
+ find_other_sources()
+ {
+-       find ${tree}* $ignore \
+-            \( -path ${tree}include -o -path ${tree}arch -o -name
+'.tmp_*' \) -prune -o \
+-              -name "$1" -not -type l -print;
++       find ${tree}* ${ignore} \
++               \( -path ${tree}include -o -path ${tree}arch -o -name
+'.tmp_*' \) -prune -o \
++               -name "$1" -not -type l -print;
+ }
+
+We will still have to specify arch/x86 and arch/x86/include but this
+works and keeps the definition of IGNOREDIRS relatively correct.
 
 
+> +       find ${tree}* ${loc_ignore} \
+>              \( -path ${tree}include -o -path ${tree}arch -o -name '.tmp_*' \) -prune -o \
+>                -name "$1" -not -type l -print;
+>  }
+> --
+> 2.38.1
+>
