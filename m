@@ -2,139 +2,356 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5319DC04FDE
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Dec 2022 08:56:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6690EC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Dec 2022 09:25:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229496AbiLLIz7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Dec 2022 03:55:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34254 "EHLO
+        id S231877AbiLLJZz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Dec 2022 04:25:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229726AbiLLIz5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Dec 2022 03:55:57 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F009C09;
-        Mon, 12 Dec 2022 00:55:56 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        with ESMTP id S231898AbiLLJZO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Dec 2022 04:25:14 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3D826353;
+        Mon, 12 Dec 2022 01:25:12 -0800 (PST)
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id D6ACF338A2;
-        Mon, 12 Dec 2022 08:55:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1670835354; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=TGVOMJbI5VSuu2tCry8NVGy56zUSkKbZBynEIgKf3Ms=;
-        b=e7WlOo+Kk87BEbCBNwskXM7yzdzJaKGsFfe8oyqFNEfXIitKdo5y7ay8NCB+3SVFXff3cJ
-        GR5vhrP/1xCsq6oCvRi6mNucyOzWGdMku6SHUqxKcvu0y7JCY81V/IY3luS2NOgA/C0S7+
-        YTMgtj+HVc6jHmGNR/MARafPRYQAziM=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B449913456;
-        Mon, 12 Dec 2022 08:55:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id CQPRKZrslmMoGgAAMHmgww
-        (envelope-from <mhocko@suse.com>); Mon, 12 Dec 2022 08:55:54 +0000
-Date:   Mon, 12 Dec 2022 09:55:54 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Mina Almasry <almasrymina@google.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Huang Ying <ying.huang@intel.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
-        fvdl@google.com, bagasdotme@gmail.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v3] mm: Add nodes= arg to memory.reclaim
-Message-ID: <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz>
-References: <20221202223533.1785418-1-almasrymina@google.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id 3CBDA5BF;
+        Mon, 12 Dec 2022 09:25:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3CBDA5BF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1670837112; bh=aMbHfMFhftas6iWhYBEfDllOeoQFT5eEg3+UmWp/IZM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=oLRPb7qOKRR5np21ijVy7QKgVP9EYxAhqrp0WAg24ctIaO+Xt8o2zIcQhpsY8zj2M
+         MWZLtFVkNkEiFKcvxHFVARWXsLQsS8gIUFG/zH6qhso/wiCmzPfugAFKK3hQKi33Np
+         UL9egTxzRWXEvBozkde76gAcz4xf08YO3ghn2uPFKd2WWqk8qZkuoslKJCqUqSBA9f
+         ydVdGR242inR9HJtBNHTenX1ZyRol0Uqvp4Exsm4AoebDFxV62M4WbC/Pi1rYK6TZO
+         kI72tm23BjLbpB8TeBCcvCcahvdeiNeCLxsj9MXe1ltmRw4dLCnFAg5ikDbk253MnM
+         RQbPaOGH+BK/Q==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [GIT PULL] Documentation for 6.2
+Date:   Mon, 12 Dec 2022 02:25:07 -0700
+Message-ID: <87359lj7nw.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221202223533.1785418-1-almasrymina@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 02-12-22 14:35:31, Mina Almasry wrote:
-> The nodes= arg instructs the kernel to only scan the given nodes for
-> proactive reclaim. For example use cases, consider a 2 tier memory system:
-> 
-> nodes 0,1 -> top tier
-> nodes 2,3 -> second tier
-> 
-> $ echo "1m nodes=0" > memory.reclaim
-> 
-> This instructs the kernel to attempt to reclaim 1m memory from node 0.
-> Since node 0 is a top tier node, demotion will be attempted first. This
-> is useful to direct proactive reclaim to specific nodes that are under
-> pressure.
-> 
-> $ echo "1m nodes=2,3" > memory.reclaim
-> 
-> This instructs the kernel to attempt to reclaim 1m memory in the second tier,
-> since this tier of memory has no demotion targets the memory will be
-> reclaimed.
-> 
-> $ echo "1m nodes=0,1" > memory.reclaim
-> 
-> Instructs the kernel to reclaim memory from the top tier nodes, which can
-> be desirable according to the userspace policy if there is pressure on
-> the top tiers. Since these nodes have demotion targets, the kernel will
-> attempt demotion first.
-> 
-> Since commit 3f1509c57b1b ("Revert "mm/vmscan: never demote for memcg
-> reclaim""), the proactive reclaim interface memory.reclaim does both
-> reclaim and demotion. Reclaim and demotion incur different latency costs
-> to the jobs in the cgroup. Demoted memory would still be addressable
-> by the userspace at a higher latency, but reclaimed memory would need to
-> incur a pagefault.
-> 
-> The 'nodes' arg is useful to allow the userspace to control demotion
-> and reclaim independently according to its policy: if the memory.reclaim
-> is called on a node with demotion targets, it will attempt demotion first;
-> if it is called on a node without demotion targets, it will only attempt
-> reclaim.
-> 
-> Acked-by: Michal Hocko <mhocko@suse.com>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
+The following changes since commit 2f3f53d62307262f0086804ea7cea99b0e085450:
 
-After discussion in [1] I have realized that I haven't really thought
-through all the consequences of this patch and therefore I am retracting
-my ack here. I am not nacking the patch at this statge but I also think
-this shouldn't be merged now and we should really consider all the
-consequences.
+  docs/process/howto: Replace C89 with C11 (2022-10-24 11:27:51 -0600)
 
-Let me summarize my main concerns here as well. The proposed
-implementation doesn't apply the provided nodemask to the whole reclaim
-process. This means that demotion can happen outside of the mask so the
-the user request cannot really control demotion targets and that limits
-the interface should there be any need for a finer grained control in
-the future (see an example in [2]).
-Another problem is that this can limit future reclaim extensions because
-of existing assumptions of the interface [3] - specify only top-tier
-node to force the aging without actually reclaiming any charges and
-(ab)use the interface only for aging on multi-tier system. A change to
-the reclaim to not demote in some cases could break this usecase.
+are available in the Git repository at:
 
-My counter proposal would be to define the nodemask for memory.reclaim
-as a domain to constrain the charge reclaim. That means both aging and
-reclaim including demotion which is a part of aging. This will allow
-to control where to demote for balancing purposes (e.g. demote to node 2
-rather than 3) which is impossible with the proposed scheme.
+  git://git.lwn.net/linux.git tags/docs-6.2
 
-[1] http://lkml.kernel.org/r/20221206023406.3182800-1-almasrymina@google.com
-[2] http://lkml.kernel.org/r/Y5bnRtJ6sojtjgVD@dhcp22.suse.cz
-[3] http://lkml.kernel.org/r/CAAPL-u8rgW-JACKUT5ChmGSJiTDABcDRjNzW_QxMjCTk9zO4sg@mail.gmail.com
--- 
-Michal Hocko
-SUSE Labs
+for you to fetch changes up to cc8c418b4fc09ed58ddd27b8e90ec797e9ca1e67:
+
+  Documentation/features: Use loongarch instead of loong (2022-12-05 02:50:=
+12 -0700)
+
+----------------------------------------------------------------
+This was a not-too-busy cycle for documentation; highlights include:
+
+- The beginnings of a set of translations into Spanish, headed up by Carlos
+  Bilbao.
+
+- More Chinese translations.
+
+- A change to the Sphinx "alabaster" theme by default for HTML generation.
+  Unlike the previous default (Read the Docs), alabaster is shipped with
+  Sphinx by default, reducing the number of other dependencies that need to
+  be installed.  It also (IMO) produces a cleaner and more readable result.
+
+- The ability to render the documentation into the texinfo format
+  (something Sphinx could always do, we just never wired it up until now).
+
+Plus the usual collection of typo fixes, build-warning fixes, and minor
+updates.
+
+MEA CULPA: there is a messy set of merges into docs-next that really
+should not be there.  I tried a different Git workflow this time around
+and clearly didn't get it quite right.  Those merges were not meant to be
+in the history at all, but I misbased the alabaster work and, worse,
+didn't notice until now.  I've opted to show my messiness to the world
+rather than engage in last-second rebasing, but I can easily clean that
+up if you would prefer.  Won't happen again either way.
+
+----------------------------------------------------------------
+Akira Yokosawa (2):
+      docs/ja_JP/howto: Update for v6.1
+      docs/zh_CN: Fix '.. only::' directive's expression
+
+Albert Zhou (1):
+      Documentation: eisa: Fix typo
+
+Alexander Potapenko (1):
+      docs: kmsan: fix formatting of "Example report"
+
+Binbin Zhou (3):
+      docs/zh_CN: core-api: Add this_cpu_ops Chinese translation
+      docs/zh_CN: core-api: Add timekeeping Chinese translation
+      docs/zh_CN: core-api: Add errseq Chinese translation
+
+Bj=C3=B6rn T=C3=B6pel (1):
+      Documentation: riscv: Document the sv57 VM layout
+
+Carlos Bilbao (10):
+      Documentation: Start translations to Spanish
+      Documentation: Add HOWTO Spanish translation into rst based build sys=
+tem
+      docs/sp_SP: Add process submitting-patches translation
+      docs: Update maintainer of kernel-docs.rst
+      docs: Retire old resources from kernel-docs.rst
+      docs: Add book to process/kernel-docs.rst
+      docs: Create translations/sp_SP/process/, move submitting-patches.rst
+      docs/sp_SP: Add kernel-docs.rst Spanish translation
+      docs/sp_SP: Add process coding-style translation
+      docs/sp_SP: Add memory-barriers.txt Spanish translation
+
+Chen Linxuan (1):
+      Documentation: update the description of TracerPid in procfs.rst
+
+Daniel Vetter (1):
+      docs/sphinx: More depth in the rtd sidebar toc
+
+David Heidelberg (1):
+      Docs/admin-guide/mm/zswap: remove a paragraph about zswap being a new=
+ feature
+
+Jonathan Corbet (15):
+      Merge branch 'docs-mw' into docs-next
+      Merge branch 'docs-mw' into docs-next
+      Merge branch 'docs-mw' into docs-next
+      Merge branch 'docs-mw' into docs-next
+      Merge branch 'docs-mw' into docs-next
+      docs: Switch the default HTML theme to alabaster
+      docs: tweak some Alabaster style parameters
+      docs: update sphinx.rst to reflect the default theme change
+      docs: sphinx-pre-install: don't require the RTD theme
+      docs: improve the HTML formatting of kerneldoc comments
+      docs: decruft Documentation/conf.py
+      Merge branch 'alabaster-rb' into docs-mw
+      Revert "docs/zh_CN: core-api: Add timekeeping Chinese translation"
+      docs: Don't wire font sizes for HTML output
+      Merge branch 'docs-fixes' into docs-mw
+
+Jonathan Neusch=C3=A4fer (2):
+      docs: admin-guide: hw_random: Make document title more generic and co=
+ncise
+      docs: ia64: Fix a typo ("identify mappings")
+
+Kushagra Verma (1):
+      Documentation: Fixed a typo in bootconfig.rst
+
+Liam Beguin (3):
+      math64: favor kernel-doc from header files
+      math64: add kernel-doc for DIV64_U64_ROUND_UP
+      math64: fix kernel-doc return value warnings
+
+Maxim Cournoyer (1):
+      doc: add texinfodocs and infodocs targets
+
+Pali Roh=C3=A1r (1):
+      Documentation: arm: marvell: Add Orion codenames and archive homepage
+
+Randy Dunlap (3):
+      sysfs: update Documentation
+      debugfs: small Documentation cleaning
+      Documentation: USB: correct possessive "its" usage
+
+Rui Li (9):
+      docs/zh_CN: Add userspace-api/index Chinese translation
+      docs/zh_CN: Add userspace-api/ebpf Chinese translation
+      docs/zh_CN: Add staging/index Chinese translation
+      docs/zh_CN: Add staging/xz Chinese translation
+      docs/zh_CN: Add userspace-api/no_new_privs Chinese translation
+      docs/zh_CN: Add userspace-api/sysfs-platform_profile Chinese translat=
+ion
+      docs/zh_CN: Add userspace-api/seccomp_filter Chinese translation
+      docs/zh_CN: Add userspace-api/futex2 Chinese translation
+      docs/zh_CN: Add userspace-api/accelerators/ocxl Chinese translation
+
+Stephen Kitt (5):
+      docs: sysctl/fs: remove references to inode-max
+      docs: sysctl/fs: remove references to dquot-max/-nr
+      docs: sysctl/fs: merge the aio sections
+      docs: sysctl/fs: remove references to super-max/-nr
+      docs: sysctl/fs: re-order, prettify
+
+Tiezhu Yang (4):
+      docs/LoongArch: Update links of LoongArch ISA Vol1 and ELF psABI
+      docs/zh_CN/LoongArch: Update links of LoongArch ISA Vol1 and ELF psABI
+      Documentation/features-refresh.sh: Only sed the beginning "arch" of A=
+RCH_DIR
+      Documentation/features: Use loongarch instead of loong
+
+Wei Li (1):
+      Documentation/features: Update feature lists for 6.1
+
+Yang Yingliang (3):
+      Documentation: devres: add missing IIO helpers
+      Documentation: devres: add missing LED helpers
+      Documentation: devres: add missing PWM helper
+
+Yanteng Si (5):
+      docs/zh_CN: Add rust index Chinese translation
+      docs/zh_CN: Add rust quick-start Chinese translation
+      docs/zh_CN: Add rust general-information Chinese translation
+      docs/zh_CN: Add rust coding-guidelines Chinese translation
+      docs/zh_CN: Add rust arch-support Chinese translation
+
+ Documentation/Makefile                             |   11 +
+ Documentation/admin-guide/bootconfig.rst           |    2 +-
+ Documentation/admin-guide/hw_random.rst            |    6 +-
+ Documentation/admin-guide/mm/zswap.rst             |    8 +-
+ Documentation/admin-guide/sysctl/fs.rst            |  240 +-
+ Documentation/admin-guide/sysctl/kernel.rst        |    2 +
+ Documentation/arm/marvell.rst                      |   12 +-
+ Documentation/conf.py                              |  211 +-
+ Documentation/core-api/kernel-api.rst              |    3 -
+ Documentation/dev-tools/kmsan.rst                  |    1 +
+ Documentation/doc-guide/sphinx.rst                 |   16 +-
+ Documentation/driver-api/driver-model/devres.rst   |    8 +
+ Documentation/driver-api/eisa.rst                  |    2 +-
+ .../features/core/cBPF-JIT/arch-support.txt        |    2 +-
+ .../features/core/eBPF-JIT/arch-support.txt        |    2 +-
+ .../core/generic-idle-thread/arch-support.txt      |    2 +-
+ .../features/core/jump-labels/arch-support.txt     |    4 +-
+ .../core/thread-info-in-task/arch-support.txt      |    2 +-
+ .../features/core/tracehook/arch-support.txt       |    2 +-
+ .../features/debug/KASAN/arch-support.txt          |    4 +-
+ .../debug/debug-vm-pgtable/arch-support.txt        |    2 +-
+ .../debug/gcov-profile-all/arch-support.txt        |    2 +-
+ Documentation/features/debug/kcov/arch-support.txt |    2 +-
+ Documentation/features/debug/kgdb/arch-support.txt |    2 +-
+ .../features/debug/kmemleak/arch-support.txt       |    2 +-
+ .../debug/kprobes-on-ftrace/arch-support.txt       |    2 +-
+ .../features/debug/kprobes/arch-support.txt        |    2 +-
+ .../features/debug/kretprobes/arch-support.txt     |    2 +-
+ .../features/debug/optprobes/arch-support.txt      |    2 +-
+ .../features/debug/stackprotector/arch-support.txt |    2 +-
+ .../features/debug/uprobes/arch-support.txt        |    2 +-
+ .../debug/user-ret-profiler/arch-support.txt       |    2 +-
+ .../features/io/dma-contiguous/arch-support.txt    |    2 +-
+ .../locking/cmpxchg-local/arch-support.txt         |    2 +-
+ .../features/locking/lockdep/arch-support.txt      |    2 +-
+ .../locking/queued-rwlocks/arch-support.txt        |    2 +-
+ .../locking/queued-spinlocks/arch-support.txt      |    4 +-
+ .../features/perf/kprobes-event/arch-support.txt   |    2 +-
+ .../features/perf/perf-regs/arch-support.txt       |    2 +-
+ .../features/perf/perf-stackdump/arch-support.txt  |    2 +-
+ .../sched/membarrier-sync-core/arch-support.txt    |    2 +-
+ .../features/sched/numa-balancing/arch-support.txt |    2 +-
+ Documentation/features/scripts/features-refresh.sh |    2 +-
+ .../seccomp/seccomp-filter/arch-support.txt        |    2 +-
+ .../time/arch-tick-broadcast/arch-support.txt      |    2 +-
+ .../features/time/clockevents/arch-support.txt     |    2 +-
+ .../time/context-tracking/arch-support.txt         |    2 +-
+ .../features/time/irq-time-acct/arch-support.txt   |    2 +-
+ .../features/time/virt-cpuacct/arch-support.txt    |    2 +-
+ .../features/vm/ELF-ASLR/arch-support.txt          |    2 +-
+ .../features/vm/PG_uncached/arch-support.txt       |    2 +-
+ Documentation/features/vm/THP/arch-support.txt     |    2 +-
+ Documentation/features/vm/TLB/arch-support.txt     |    2 +-
+ .../features/vm/huge-vmap/arch-support.txt         |    2 +-
+ .../features/vm/ioremap_prot/arch-support.txt      |    2 +-
+ .../features/vm/pte_special/arch-support.txt       |    2 +-
+ Documentation/filesystems/debugfs.rst              |    8 +-
+ Documentation/filesystems/proc.rst                 |    3 +-
+ Documentation/filesystems/sysfs.rst                |   41 +-
+ Documentation/ia64/aliasing.rst                    |    2 +-
+ Documentation/loongarch/introduction.rst           |    8 +-
+ Documentation/process/kernel-docs.rst              |  477 +--
+ Documentation/riscv/vm-layout.rst                  |   36 +
+ Documentation/sphinx-static/custom.css             |   29 +
+ Documentation/sphinx/requirements.txt              |    1 -
+ Documentation/translations/index.rst               |    1 +
+ Documentation/translations/ja_JP/howto.rst         |   66 +-
+ Documentation/translations/sp_SP/disclaimer-sp.rst |    6 +
+ Documentation/translations/sp_SP/howto.rst         |  617 ++++
+ Documentation/translations/sp_SP/index.rst         |   81 +
+ .../translations/sp_SP/memory-barriers.txt         | 3134 ++++++++++++++++=
+++++
+ .../translations/sp_SP/process/coding-style.rst    | 1315 ++++++++
+ Documentation/translations/sp_SP/process/index.rst |   15 +
+ .../translations/sp_SP/process/kernel-docs.rst     |  187 ++
+ .../sp_SP/process/submitting-patches.rst           |  894 ++++++
+ .../sp_SP/wrappers/memory-barriers.rst             |   19 +
+ .../translations/zh_CN/core-api/errseq.rst         |  145 +
+ .../translations/zh_CN/core-api/index.rst          |    6 +-
+ .../translations/zh_CN/core-api/this_cpu_ops.rst   |  285 ++
+ .../translations/zh_CN/doc-guide/index.rst         |    2 +-
+ Documentation/translations/zh_CN/index.rst         |   11 +-
+ .../translations/zh_CN/loongarch/introduction.rst  |    8 +-
+ .../translations/zh_CN/rust/arch-support.rst       |   23 +
+ .../translations/zh_CN/rust/coding-guidelines.rst  |  192 ++
+ .../zh_CN/rust/general-information.rst             |   75 +
+ Documentation/translations/zh_CN/rust/index.rst    |   28 +
+ .../translations/zh_CN/rust/quick-start.rst        |  211 ++
+ Documentation/translations/zh_CN/staging/index.rst |   26 +
+ Documentation/translations/zh_CN/staging/xz.rst    |  100 +
+ .../zh_CN/userspace-api/accelerators/ocxl.rst      |  168 ++
+ .../zh_CN/userspace-api/ebpf/index.rst             |   22 +
+ .../zh_CN/userspace-api/ebpf/syscall.rst           |   29 +
+ .../translations/zh_CN/userspace-api/futex2.rst    |   80 +
+ .../translations/zh_CN/userspace-api/index.rst     |   50 +
+ .../zh_CN/userspace-api/no_new_privs.rst           |   57 +
+ .../zh_CN/userspace-api/seccomp_filter.rst         |  293 ++
+ .../zh_CN/userspace-api/sysfs-platform_profile.rst |   40 +
+ Documentation/usb/CREDITS                          |    6 +-
+ Documentation/usb/functionfs.rst                   |    2 +-
+ Documentation/usb/gadget_multi.rst                 |    2 +-
+ Documentation/userspace-api/media/Makefile         |    3 +-
+ MAINTAINERS                                        |   10 +
+ Makefile                                           |    2 +-
+ include/linux/math64.h                             |   26 +-
+ lib/math/div64.c                                   |   15 +-
+ scripts/kernel-doc                                 |   54 +-
+ scripts/sphinx-pre-install                         |    8 -
+ 107 files changed, 8540 insertions(+), 993 deletions(-)
+ create mode 100644 Documentation/sphinx-static/custom.css
+ create mode 100644 Documentation/translations/sp_SP/disclaimer-sp.rst
+ create mode 100644 Documentation/translations/sp_SP/howto.rst
+ create mode 100644 Documentation/translations/sp_SP/index.rst
+ create mode 100644 Documentation/translations/sp_SP/memory-barriers.txt
+ create mode 100644 Documentation/translations/sp_SP/process/coding-style.r=
+st
+ create mode 100644 Documentation/translations/sp_SP/process/index.rst
+ create mode 100644 Documentation/translations/sp_SP/process/kernel-docs.rst
+ create mode 100644 Documentation/translations/sp_SP/process/submitting-pat=
+ches.rst
+ create mode 100644 Documentation/translations/sp_SP/wrappers/memory-barrie=
+rs.rst
+ create mode 100644 Documentation/translations/zh_CN/core-api/errseq.rst
+ create mode 100644 Documentation/translations/zh_CN/core-api/this_cpu_ops.=
+rst
+ create mode 100644 Documentation/translations/zh_CN/rust/arch-support.rst
+ create mode 100644 Documentation/translations/zh_CN/rust/coding-guidelines=
+.rst
+ create mode 100644 Documentation/translations/zh_CN/rust/general-informati=
+on.rst
+ create mode 100644 Documentation/translations/zh_CN/rust/index.rst
+ create mode 100644 Documentation/translations/zh_CN/rust/quick-start.rst
+ create mode 100644 Documentation/translations/zh_CN/staging/index.rst
+ create mode 100644 Documentation/translations/zh_CN/staging/xz.rst
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/accelera=
+tors/ocxl.rst
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/ebpf/ind=
+ex.rst
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/ebpf/sys=
+call.rst
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/futex2.r=
+st
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/index.rst
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/no_new_p=
+rivs.rst
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/seccomp_=
+filter.rst
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/sysfs-pl=
+atform_profile.rst
