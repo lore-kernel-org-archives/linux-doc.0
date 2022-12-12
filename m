@@ -2,94 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75415C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Dec 2022 14:13:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 857CBC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Dec 2022 14:43:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232032AbiLLONG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Dec 2022 09:13:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40134 "EHLO
+        id S232056AbiLLOns (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Dec 2022 09:43:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231724AbiLLONF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Dec 2022 09:13:05 -0500
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88A3DF65;
-        Mon, 12 Dec 2022 06:13:02 -0800 (PST)
-Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-144bd860fdbso8536688fac.0;
-        Mon, 12 Dec 2022 06:13:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=a9rfKTTYo4jfNFMQT0vPoE9C87G5mdKIDQuVUwzPMq0=;
-        b=ZizvXih1N7i56aqVMm60hittl1I2LnJA+l70gFz1+fA/ej68ogfO4oSSJ3KHITwR3/
-         D2zI/rlPe3WWJKAQYvqx6xlOaItHcpOKXeS0eRek1yZsxHuRWdF7yikkGqLtd/esZMXe
-         eg5gl/XTCVr4MSMLO8H1dlRFHFuFQnHx0GRDzXUaRg9XzZUSC/GU7gpGpdloHDC0NzEU
-         wKuwMZDRUtNRAb2Sj95ituBbpqKmLYGwxsiwTPt3Q6Z+kR6QdfpRRh0RyNt8XTrLJLtF
-         0VCLnvEqWsoaQmfYLiMccBG8QYapw7cSnEsot0/WRjgAo2O5sMwkUCUAlZ1+31MguCXP
-         bvyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a9rfKTTYo4jfNFMQT0vPoE9C87G5mdKIDQuVUwzPMq0=;
-        b=eho1AUL2dOLy0QPFho2YGCJLJgEYbuWN/6o4pjXT1GM3mP92pIuwmy0ZUk+YtCftFq
-         ys9hr7qA2qUjIT5/VrM9LMjjAFWlPKeLBZ7CeZuM2LUfKLL/bjAMcpE9EB8YOUCd4s6e
-         JQXnQK71TlqOlAOmASJLqCTZF3EzWP+9qJ5l4XAzXR9DJp5Epc4NEzE7rDrK2Soz46Jv
-         IbXGPE40VDhIkissGfTSAQJSRK21FgvieJJfLm+g5QH3TaGZeebDlky+7V1qBUH/i8QM
-         5J4ys6l+JYuFfyNN2AHgFzGKFC4zsLNzo7wQxtjcaqlET+ieikY5+s0YqAdxXPa9KDfv
-         lPVQ==
-X-Gm-Message-State: ANoB5pmoCbCxgRuphxtsdp3++HMqd35yejodvPon0TNjqMB2Z+fiQBpu
-        hV7JZa+JJM5f2+6NfmB1tRw=
-X-Google-Smtp-Source: AA0mqf565XGm8oqtIG2kadWuBQ6sV79yu7/2q7IiIpCASNBwnlCFJOMILtsqR4jPjV2nAszYV59M9w==
-X-Received: by 2002:a05:6871:450c:b0:144:870e:5859 with SMTP id nj12-20020a056871450c00b00144870e5859mr8007379oab.57.1670854381815;
-        Mon, 12 Dec 2022 06:13:01 -0800 (PST)
-Received: from smeagol.fibertel.com.ar ([201.235.4.68])
-        by smtp.gmail.com with ESMTPSA id e14-20020a056870d10e00b00144e18d8525sm4934164oac.25.2022.12.12.06.12.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Dec 2022 06:13:00 -0800 (PST)
-From:   =?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= 
-        <samsagax@gmail.com>
-To:     jdelvare@suse.com
-Cc:     linux@roeck-us.net, corbet@lwn.net, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= 
-        <samsagax@gmail.com>
-Subject: [PATCH] docs: hwmon: Use file modes explicitly
-Date:   Mon, 12 Dec 2022 11:12:46 -0300
-Message-Id: <20221212141245.52935-1-samsagax@gmail.com>
-X-Mailer: git-send-email 2.38.1
+        with ESMTP id S231481AbiLLOnr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Dec 2022 09:43:47 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 668F06424;
+        Mon, 12 Dec 2022 06:43:46 -0800 (PST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1670856225;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Mc//3PLDbSRDt2VwTyd9NngL7trzTV+j6zIM1+K7Tks=;
+        b=q3OL99uE092Nlh5tXBUVTqa/DPFN1PxY+r2Z0hOZyNDVlu6BPBsR4UmfSDtaX9W9YbxMlQ
+        Jn6eZqLbCxXlfvvhQRcGvR/z7me3z5R+YSskUUh6/kLJ2+PGy1soXStLFavf1/+taBIfap
+        XqndSH5Kge4pf+Ze0I91vHXR+ZF9akmzsf31zKhbv7Y3wYVOE4jDwOopu62LTXT5gwqKrd
+        wTEcty6JdvkaLh6GKYfRqI7DROKe/zUxVDrrerNeDJBrMs780QR8vkS3pcXNuNUBZp/RTl
+        4kQroOUv5DBWtuLxGBU2w4wfHwVm4ACpr2RfvNMnLgizaY6zuHmM/gGdz6y2QA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1670856225;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Mc//3PLDbSRDt2VwTyd9NngL7trzTV+j6zIM1+K7Tks=;
+        b=9gQCHhH8BwNCaimjXcwY4KzobwZ0tI10wE/N9lUSET3pYfDLCcfvr1O79wE8CRjubphd7j
+        SwbKST2MIv2kqXAA==
+To:     Manfred Spraul <manfred@colorfullife.com>,
+        "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Ingo Molnar <mingo@kernel.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        1vier1@web.de
+Subject: Re: Invalid locking pattern in
+ Documentation/kernel-hacking/locking.rst?
+In-Reply-To: <be5a4c10-3b69-1c2d-d413-62f79ccc178b@colorfullife.com>
+References: <442ecdf402f8e726f2be4ab19c7299d272e27c0b.camel@siemens.com>
+ <be5a4c10-3b69-1c2d-d413-62f79ccc178b@colorfullife.com>
+Date:   Mon, 12 Dec 2022 15:43:44 +0100
+Message-ID: <87k02wbs2n.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As stated in the mainling list[1] and by checkpatch output, the file modes
-for is_visible_func should be returned explicitly. Change that in the
-documentation to avoid confusion.
+On Fri, Dec 09 2022 at 19:47, Manfred Spraul wrote:
+> On 12/9/22 13:23, Sverdlin, Alexander wrote:
+>> the latest version of locking.rst contains the following (since 2005):
+>>
+>> "Manfred Spraul points out that you can still do this, even if the data
+>> is very occasionally accessed in user context or softirqs/tasklets. The
+>> irq handler doesn't use a lock, and all other accesses are done as so::
+>>
+>>          spin_lock(&lock);
+>>          disable_irq(irq);
+>> "
+>>
+>> Isn't it "sleeping in atomic" actually because of the sleeping
+>> disable_irq()?
+>
+> Good catch!
+>
+> The documentation of disable_irq() claims that the function is safe to 
+> be called from IRQ context (for careful callers)
+>
+> But it calls synchronize_irq(). And synchronize_irq() claims that the 
+> function can be called only from preemptible code.
+>
+> The change was in 2009:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v6.1-rc8&id=3aa551c9b4c40018f0e261a178e3d25478dc04a9 
+>
+>
+> @Thomas/@Ingo: What do we want?
+>
+> Declare disable_irq()&synchronize_irq() as safe from irq context only if 
+> no threaded irq handlers are used?
+>
+> Or declare both function as preemptible context only?
 
-[1]https://lore.kernel.org/linux-hwmon/506a6e7f-4566-2dcf-37f3-0f41f4ce983b@roeck-us.net/
+The latter.
 
-Signed-off-by: Joaquín Ignacio Aramendía <samsagax@gmail.com>
----
- Documentation/hwmon/hwmon-kernel-api.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The comment for disable_irq() needs to go away too:
 
-diff --git a/Documentation/hwmon/hwmon-kernel-api.rst b/Documentation/hwmon/hwmon-kernel-api.rst
-index f3276b3a381a..26cf55303c61 100644
---- a/Documentation/hwmon/hwmon-kernel-api.rst
-+++ b/Documentation/hwmon/hwmon-kernel-api.rst
-@@ -299,7 +299,7 @@ Parameters:
- 
- Return value:
- 	The file mode for this attribute. Typically, this will be 0 (the
--	attribute will not be created), S_IRUGO, or 'S_IRUGO | S_IWUSR'.
-+	attribute will not be created), 0444, or 0644.
- 
- ::
- 
--- 
-2.38.1
+ "This function may be called - with care - from IRQ context."
+
+Obviously it can't be called from the interrupt context which it
+tries to disable as it will live-lock on the "in progress" flag.
+
+So that leaves the option to call it from some unrelated interrupt
+context which does not make much sense. In fact, back in the days when
+this comment was added it was still allowed to reenable interrupts in
+the interrupt handler, which obviously opens the window for some other
+interrupt to come in which then tries to disable the one it just
+interrupted. Not an issue anymore, but the synchronize_irq() change to
+handle threaded interrupts made it more or less impossible.
+
+Thanks,
+
+        tglx
+
+
 
