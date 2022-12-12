@@ -2,115 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D099AC4167B
-	for <linux-doc@archiver.kernel.org>; Sun, 11 Dec 2022 20:28:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 034D6C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Dec 2022 02:46:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230317AbiLKU2F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 11 Dec 2022 15:28:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35350 "EHLO
+        id S230105AbiLLCql (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 11 Dec 2022 21:46:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbiLKU2E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Dec 2022 15:28:04 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 694B0E4A;
-        Sun, 11 Dec 2022 12:28:03 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id js9so8908582pjb.2;
-        Sun, 11 Dec 2022 12:28:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=by9IvQrNC4n3hMJPqWVgJdj265wMQ5fsMcjx5CkRMb0=;
-        b=Gvluwy8JmJ35C4rhygAyMhL+GuwkXWeHQDfujZWe2lpeshB2WQwe8zU/oDmPrdNcNz
-         CD6szyiJYLnPouNh7PdPMCRSQXLtRZQ74900pzOfX9tJiRNXq0R4SnMzTFMYe3Q9sYWs
-         nuqQKIgkZasvDWg3OnLuLZwUcCHlvrxpWUicdx1b5rYcZcCFjjCcg5l1b52gBZ/7wWjo
-         577wUQcVyQ9CruX0RRyH5m0J+F9oixQ/Ea3HWdnF9ZpV4yJScVDkQJceaepUkJlrEkcq
-         d9FfFWRoboee96aSzpYxNwux8m3l0kNJTjbf15fwYKTetvqUSS/QNa64NluQ3HHIPINl
-         AJNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=by9IvQrNC4n3hMJPqWVgJdj265wMQ5fsMcjx5CkRMb0=;
-        b=vPsk2/GUUIXG8+SazL6ejyb9vixOZ0blMEY9QqNDkKnlcWt+YPUOKv4ubBc3iKjsN3
-         yLp1hnfiqnPwdrOMcHhfll63DpxoRewHOzUl+SMjljz2vwc4SrCnOlLYMnGz2dzkEblA
-         QDlHJniLxRfTIZy8mcPg4/06OL5ZN6yQAEsuT0VmyQQDgn4DHa+OfNU2n7hc141322DU
-         wjUuvfG17ATgLBP7P8PPNnVnT5JdBXZoA483DONICFbnFmNVb8Lg44LlDvR4RyULBsP1
-         xnbIcLBbmMbLiDCoEO8mgxd6zvQHmpTnmus7HXLa8pI/R67hJyQlVi8nYu9DwgJUaeZu
-         iGzg==
-X-Gm-Message-State: ANoB5pkJz0dCcSVpKZjBm05DuW8JcLBVxTqi6RdrWQVyhcazxZI1dA2Q
-        BSqFQvNyIB6g62+Nv0R/VB0=
-X-Google-Smtp-Source: AA0mqf4GK7azKp1g/5pH5O5L6eYpB3GPoNtYfq1K6iRvncnGG1DylBHg8K05syopNMajOeARdzRoUQ==
-X-Received: by 2002:a17:902:f285:b0:189:f0ac:191d with SMTP id k5-20020a170902f28500b00189f0ac191dmr3559258plc.4.1670790482873;
-        Sun, 11 Dec 2022 12:28:02 -0800 (PST)
-Received: from mail.google.com ([103.229.249.253])
-        by smtp.gmail.com with ESMTPSA id u14-20020a17090341ce00b001754fa42065sm4749908ple.143.2022.12.11.12.27.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Dec 2022 12:28:02 -0800 (PST)
-Date:   Mon, 12 Dec 2022 09:27:55 +1300
-From:   Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+        with ESMTP id S229799AbiLLCqk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Dec 2022 21:46:40 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0C81A44E;
+        Sun, 11 Dec 2022 18:46:39 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7E75D60EA4;
+        Mon, 12 Dec 2022 02:46:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55368C433D2;
+        Mon, 12 Dec 2022 02:46:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670813198;
+        bh=0cSYutYmLiE4Dzs5PkSS2If4OMmjtOOGuQ3HzAfp/5M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=H2mytzc1shzWuSFZbqJcGEHZLglq1xpRIZYm8ok8kcJzxwuFQaPBb4LMysIOmLksc
+         nUUl0LEca4/JSXE7je/iY25W5MpgAZHcurk44TBYOPZRKEAdXM/mQnaWodLAiUmNVX
+         NeWDwHquFugXqGgOYcsFw/FnJnuQm4jnP6QfAauyEYs0m7AGo82zFjpj8gze46nM0a
+         2+vE+nG9O+okXCy1Hdm1uNiNuEJ7cfAoeI2apWSLd1XNrJ/xXodyST1fNNXI0PyOI4
+         GmMTIjTYf/8u1riqk/Lni5Zc+fPjJgBa8iKsXkIFA1OXTAH6qlxXkE2Tmjahq2Ivzd
+         8aivyNKzxG1Yg==
+From:   "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     bpf@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Florent Revest <revest@chromium.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Vipin Sharma <vipinsh@google.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] scripts/tags.sh: choose which directories to exclude
- from being indexed
-Message-ID: <Y5Y9S0qSOAL/KHp1@mail.google.com>
-References: <Y5T66yWNVAZNIaJ0@mail.google.com>
- <Y5UP+tnnxNgoi6A2@mail.google.com>
- <Y5VazQnY7s4+cXdM@debian.me>
+        Christoph Hellwig <hch@infradead.org>,
+        Chris Mason <clm@meta.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 0/2] error-injection: Clarify the requirements of error injectable functions
+Date:   Mon, 12 Dec 2022 11:46:33 +0900
+Message-Id: <167081319306.387937.10079195394503045678.stgit@devnote3>
+X-Mailer: git-send-email 2.39.0.rc1.256.g54fd8350bd-goog
+User-Agent: StGit/0.19
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y5VazQnY7s4+cXdM@debian.me>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Dec 11, 2022 at 11:21:33AM +0700, Bagas Sanjaya wrote:
-> On Sun, Dec 11, 2022 at 12:02:18PM +1300, Paulo Miguel Almeida wrote:
-> > This patch makes it possible for the devs to specify which folders
-> > they don't want to include into database as part of the
-> > find_other_sources func if a makefile variable IGNOREDIRS is present,
-> > otherwise the original behaviour is kept.
-> 
-> Better say "Add IGNOREDIRS variable, which specifies which directories
-> to be ignored from indexing."
-> 
-> > @@ -278,6 +278,13 @@ To get all available archs you can also specify all. E.g.::
-> >  
-> >      $ make ALLSOURCE_ARCHS=all tags
-> >  
-> > +IGNOREDIRS
-> > +---------------
-> > +For tags/TAGS/cscope targets, you can choose which directories won't
-> > +be included in the databases, separated by comma. E.g.:
-> > +
-> > +    $ make IGNOREDIRS=drivers/gpu/drm/radeon,tools cscope
-> > +
-> 
-> Use two-colon syntax (::) for code block above to be consistent with
-> other code blocks.
-> 
-> Thanks. 
-> 
-> -- 
-> An old man doll... just what I always wanted! - Clara
+Hi,
 
-Hi Bagas,
+Here are the patches for clarifying the requirement of error injectable
+functions and remove confusing EI_ETYPE_NONE.
 
-thanks for taking the time to review this patch. I will make the changes
-that you've pointed out.
+Here is the thread of discussions which leads this series.
 
-thanks!
+https://lore.kernel.org/all/167019256481.3792653.4369637751468386073.stgit@devnote3/T/#u
 
-- Paulo A,
+I agreed that NACK the taint flag itself, and I thought I need to update
+the function error injection so that the developers understand the
+requirements and carefully use the ALLOW_ERROR_INJECTION() macro.
+So I removed the confusing EI_ETYPE_NONE (this should not be there,
+use errno instead), and update the document about error injectable
+functions.
 
+Thank you,
+
+---
+
+Masami Hiramatsu (Google) (2):
+      error-injection: Remove EI_ETYPE_NONE
+      docs: fault-injection: Add requirements of error injectable functions
+
+
+ Documentation/fault-injection/fault-injection.rst |   65 +++++++++++++++++++++
+ include/asm-generic/error-injection.h             |    7 +-
+ include/linux/error-injection.h                   |    2 -
+ lib/error-inject.c                                |    2 -
+ 4 files changed, 71 insertions(+), 5 deletions(-)
+
+--
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
