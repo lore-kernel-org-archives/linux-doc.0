@@ -2,64 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F06F1C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Dec 2022 10:16:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14C8FC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Dec 2022 12:24:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231646AbiLLKQn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Dec 2022 05:16:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46826 "EHLO
+        id S231651AbiLLMY4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Dec 2022 07:24:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231757AbiLLKQj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Dec 2022 05:16:39 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE28C6592;
-        Mon, 12 Dec 2022 02:16:37 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id y16so11545456wrm.2;
-        Mon, 12 Dec 2022 02:16:37 -0800 (PST)
+        with ESMTP id S231314AbiLLMYz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Dec 2022 07:24:55 -0500
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4A1C5583;
+        Mon, 12 Dec 2022 04:24:53 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id h8-20020a1c2108000000b003d1efd60b65so5005081wmh.0;
+        Mon, 12 Dec 2022 04:24:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+6CvzDc3g730+qXKZLiK6NaEy5ZkbFhBBsP4UvcP+jc=;
-        b=dmOB28GWl+3NoZ6i49PcH+E5sODsDFQ+urrX6EIsVzFYF5vtuxsP7YHEy5TSqj73gc
-         pjPT696uqhzNdGy3CP+H/eBywiHX9VBHZSe4IXyFt6DyXuqOor1G9GGuYlSUu1tF2lCt
-         MNAdeYjf2M9ZIIyAUAP3psqK+OS/gt4ZHoH9LA6C0Rcnxlep/jKHNlrDfjN/qn5MQAva
-         IqdoNMjHpdMSYwQZINKcnUErov61ErZ5pkcQL17IzYg2TLkBnJLIjvRDgdH7PiKOQHHi
-         1rQyE4B/R5O6taH/0KjMI5Br7FKB/YQO3HtPlQBcF6va8t/l5aQGC7zPvGkd/lOwg99/
-         DvkA==
+        bh=ixs5N2khRg8fKX67dpAyhfXfluvpw3rq81sA0oxApXQ=;
+        b=W++k1jq5AW5NQ/CnTgGd/K6G2riAxH8Dx1cit6KhDLoHco/Wsvn0xRh7owyzRHThuf
+         zdAedtb7iUpx5FmzgeVVazNBvDaIaHlEidp/daXoACOOmcEdIytQ7JZEGiOpwdCqbfff
+         cuOqh+fe/gyhVLFfmMRhnVvl7FeH2fb0M1VvPjtv3l9Vdjo9USHLBcZ5gkrx8eD1C45J
+         qVvpXuWDws3JKJ0RJymjmCUuutdfJ15XwQvW0QnTjeR0laNR6TvkheV5aw0iZX9oztX0
+         QJWtvyDF63Hj4CbLsA7kHQ8wjSFj0w+2+szJWF6O/uV2dQLej8O/sd+bBxbDi2sY+FdO
+         8Cyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+6CvzDc3g730+qXKZLiK6NaEy5ZkbFhBBsP4UvcP+jc=;
-        b=5W9UFvhcS24brwS/cSzMqrpSIDhaWC4mcyS3envWCCT11c6sXde/JUGWUrHrYoOkIb
-         a5eqV0LgM0MIlGYSojFexFiryO7mxC7EnfU8bfI0JXUxDkvmWV5RSEzcpgwAz9E+kKQh
-         7lLfJgIoPyXdYZaFofRucRPB49/BKj4mDvelvhckuMPlrlwXh6PZTQf4mP7v5WFcvmm+
-         MITcouysNnEFG/7IQutm6wBQsMcLb9pdmGNLHaUdizT8suWXzKXEdjsp/W62LOd1IrTm
-         U3yFd4SYNnZSeD8KIKIsQ9BBGh56NMmMifVu9Bcn3yFImDvhIr8IOUJY2kgaBlN7Sir7
-         joVw==
-X-Gm-Message-State: ANoB5pmgG3Vv4aesoaI4zbOERLmkz5lI+loPiSvsSqaZw/t2GANK2w9k
-        IZ8mpVsxwVzwcBVzcM3AR/pverseC5wvHQ==
-X-Google-Smtp-Source: AA0mqf5Xb4Ok+KYwLRr+Vz9DyUCrE2Ecn7X74DbrpxqY6Ii902XTigGGXuhoODkO3EQSQLt+PguUeQ==
-X-Received: by 2002:a5d:45ce:0:b0:242:4383:7e80 with SMTP id b14-20020a5d45ce000000b0024243837e80mr9664650wrs.22.1670840195842;
-        Mon, 12 Dec 2022 02:16:35 -0800 (PST)
+        bh=ixs5N2khRg8fKX67dpAyhfXfluvpw3rq81sA0oxApXQ=;
+        b=r3vJjtxxfPMAN3BKM0aqj6jgs2jwb2ECOzj4TTQlFpA/H2LgglJpNEnQ7OOpp1njn0
+         smB8wzdX5iy4qHc5fbcy6SMOzUGrRxRH0ZKSuV/fMd/uc0CpZOPcCB4Vzm7LKOZt4CZi
+         aCBpesVin+L3DOidjJBZYc8WdF7XH88Pufsl9PjxkZHWjmgtErYsyWIKkaezn9RTGctD
+         QAl1bajGPCxRk6UX0V5oe6kmaWn1ZCW8IYttOLduVZLFyOBJ7Mfhg45rWtjNUfbBjCdW
+         66XvvS1D5rbMURBjHJ9Zdh1G0ic8Q3a73+MPnv6k1T0K+DBJGy2oXIPUE5XhZXwcBkyz
+         bjGg==
+X-Gm-Message-State: ANoB5pn5i1Br+uxPJQ4MwWT+JYJ9/InTHknAXmVToeJpyJGUswYlaUgs
+        4ogUnmgdoG2tzPX8nb7UpWx6jPNVf2nwaA==
+X-Google-Smtp-Source: AA0mqf4o9Cai53YxEGx0GUAWeqwGhD2C9/ybolnlspuj5JOqwDUJbGHOJNZm4DsZhnNSzLrB8q1NUg==
+X-Received: by 2002:a05:600c:3ac8:b0:3c6:e63e:89c5 with SMTP id d8-20020a05600c3ac800b003c6e63e89c5mr12444303wms.33.1670847891637;
+        Mon, 12 Dec 2022 04:24:51 -0800 (PST)
 Received: from imac.fritz.box ([2a02:8010:60a0:0:f1ca:f257:9b2b:4489])
-        by smtp.gmail.com with ESMTPSA id b17-20020adfde11000000b00236545edc91sm8397506wrm.76.2022.12.12.02.16.34
+        by smtp.gmail.com with ESMTPSA id l8-20020a05600c4f0800b003cf54b77bfesm9450187wmq.28.2022.12.12.04.24.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Dec 2022 02:16:34 -0800 (PST)
+        Mon, 12 Dec 2022 04:24:50 -0800 (PST)
 From:   Donald Hunter <donald.hunter@gmail.com>
 To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Martin KaFai Lau <martin.lau@linux.dev>
+        Jesper Dangaard Brouer <jbrouer@redhat.com>,
+        =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
 Cc:     Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
         Andrii Nakryiko <andrii@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, Yonghong Song <yhs@meta.com>,
-        David Vernet <void@manifault.com>,
         Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH bpf-next v1] docs/bpf: Reword docs for BPF_MAP_TYPE_SK_STORAGE
-Date:   Mon, 12 Dec 2022 10:16:00 +0000
-Message-Id: <20221212101600.56026-1-donald.hunter@gmail.com>
+Subject: [PATCH bpf-next v1] docs/bpf: Add docs for BPF_PROG_TYPE_XDP
+Date:   Mon, 12 Dec 2022 12:24:00 +0000
+Message-Id: <20221212122400.64415-1-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -67,112 +67,196 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Improve the grammar of the function descriptions and highlight
-that the key is a socket fd.
+Document XDP programs (BPF_PROG_TYPE_XDP) and the XDP data path.
 
 Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-Fixes: f3212ad5b7e9 ("docs/bpf: Add documentation for BPF_MAP_TYPE_SK_STORAGE")
-Reported-by: Martin KaFai Lau <martin.lau@linux.dev>
 ---
- Documentation/bpf/map_sk_storage.rst | 56 +++++++++++++++-------------
- 1 file changed, 30 insertions(+), 26 deletions(-)
+ Documentation/bpf/prog_xdp.rst | 176 +++++++++++++++++++++++++++++++++
+ 1 file changed, 176 insertions(+)
+ create mode 100644 Documentation/bpf/prog_xdp.rst
 
-diff --git a/Documentation/bpf/map_sk_storage.rst b/Documentation/bpf/map_sk_storage.rst
-index 047e16c8aaa8..4e9d23ab9ecd 100644
---- a/Documentation/bpf/map_sk_storage.rst
-+++ b/Documentation/bpf/map_sk_storage.rst
-@@ -34,13 +34,12 @@ bpf_sk_storage_get()
- 
-    void *bpf_sk_storage_get(struct bpf_map *map, void *sk, void *value, u64 flags)
- 
--Socket-local storage can be retrieved using the ``bpf_sk_storage_get()``
--helper. The helper gets the storage from ``sk`` that is associated with ``map``.
--If the ``BPF_LOCAL_STORAGE_GET_F_CREATE`` flag is used then
--``bpf_sk_storage_get()`` will create the storage for ``sk`` if it does not
--already exist. ``value`` can be used together with
--``BPF_LOCAL_STORAGE_GET_F_CREATE`` to initialize the storage value, otherwise it
--will be zero initialized. Returns a pointer to the storage on success, or
-+Socket-local storage for ``map`` can be retrieved from socket ``sk`` using the
-+``bpf_sk_storage_get()`` helper. If the ``BPF_LOCAL_STORAGE_GET_F_CREATE``
-+flag is used then ``bpf_sk_storage_get()`` will create the storage for ``sk``
-+if it does not already exist. ``value`` can be used together with
-+``BPF_LOCAL_STORAGE_GET_F_CREATE`` to initialize the storage value, otherwise
-+it will be zero initialized. Returns a pointer to the storage on success, or
- ``NULL`` in case of failure.
- 
- .. note::
-@@ -54,9 +53,9 @@ bpf_sk_storage_delete()
- 
-    long bpf_sk_storage_delete(struct bpf_map *map, void *sk)
- 
--Socket-local storage can be deleted using the ``bpf_sk_storage_delete()``
--helper. The helper deletes the storage from ``sk`` that is identified by
--``map``. Returns ``0`` on success, or negative error in case of failure.
-+Socket-local storage for ``map`` can be deleted from socket ``sk`` using the
-+``bpf_sk_storage_delete()`` helper. Returns ``0`` on success, or negative
-+error in case of failure.
- 
- User space
- ----------
-@@ -68,16 +67,20 @@ bpf_map_update_elem()
- 
-    int bpf_map_update_elem(int map_fd, const void *key, const void *value, __u64 flags)
- 
--Socket-local storage for the socket identified by ``key`` belonging to
--``map_fd`` can be added or updated using the ``bpf_map_update_elem()`` libbpf
--function. ``key`` must be a pointer to a valid ``fd`` in the user space
--program. The ``flags`` parameter can be used to control the update behaviour:
-+Socket-local storage for map ``map_fd`` can be added or updated locally to a
-+socket using the ``bpf_map_update_elem()`` libbpf function. The socket is
-+identified by a `socket` ``fd`` stored in the pointer ``key``. The pointer
-+``value`` has the data to be added or updated to the socket ``fd``. The type
-+and size of ``value`` should be the same as the value type of the map
-+definition.
- 
--- ``BPF_ANY`` will create storage for ``fd`` or update existing storage.
--- ``BPF_NOEXIST`` will create storage for ``fd`` only if it did not already
--  exist, otherwise the call will fail with ``-EEXIST``.
--- ``BPF_EXIST`` will update existing storage for ``fd`` if it already exists,
--  otherwise the call will fail with ``-ENOENT``.
-+The ``flags`` parameter can be used to control the update behaviour:
+diff --git a/Documentation/bpf/prog_xdp.rst b/Documentation/bpf/prog_xdp.rst
+new file mode 100644
+index 000000000000..69b001a6c7d2
+--- /dev/null
++++ b/Documentation/bpf/prog_xdp.rst
+@@ -0,0 +1,176 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
 +
-+- ``BPF_ANY`` will create storage for `socket` ``fd`` or update existing storage.
-+- ``BPF_NOEXIST`` will create storage for `socket` ``fd`` only if it did not
-+  already exist, otherwise the call will fail with ``-EEXIST``.
-+- ``BPF_EXIST`` will update existing storage for `socket` ``fd`` if it already
-+  exists, otherwise the call will fail with ``-ENOENT``.
- 
- Returns ``0`` on success, or negative error in case of failure.
- 
-@@ -88,10 +91,10 @@ bpf_map_lookup_elem()
- 
-    int bpf_map_lookup_elem(int map_fd, const void *key, void *value)
- 
--Socket-local storage for the socket identified by ``key`` belonging to
--``map_fd`` can be retrieved using the ``bpf_map_lookup_elem()`` libbpf
--function. ``key`` must be a pointer to a valid ``fd`` in the user space
--program. Returns ``0`` on success, or negative error in case of failure.
-+Socket-local storage for map ``map_fd`` can be retrieved from a socket using
-+the ``bpf_map_lookup_elem()`` libbpf function. The storage is retrieved from
-+the socket identified by a `socket` ``fd`` stored in the pointer
-+``key``. Returns ``0`` on success, or negative error in case of failure.
- 
- bpf_map_delete_elem()
- ~~~~~~~~~~~~~~~~~~~~~
-@@ -100,9 +103,10 @@ bpf_map_delete_elem()
- 
-    int bpf_map_delete_elem(int map_fd, const void *key)
- 
--Socket-local storage for the socket identified by ``key`` belonging to
--``map_fd`` can be deleted using the ``bpf_map_delete_elem()`` libbpf
--function. Returns ``0`` on success, or negative error in case of failure.
-+Socket-local storage for map ``map_fd`` can be deleted from a socket using the
-+``bpf_map_delete_elem()`` libbpf function. The storage is deleted from the
-+socket identified by a `socket` ``fd`` stored in the pointer ``key``. Returns
-+``0`` on success, or negative error in case of failure.
- 
- Examples
- ========
++================
++XDP BPF Programs
++================
++
++XDP (eXpress Data Path) is a fast path in the kernel network stack. XDP allows
++for packet processing by BPF programs before the packets traverse the L4-L7
++network stack. Programs of type ``BPF_PROG_TYPE_XDP`` are attached to the XDP
++hook of a specific interface in one of three modes:
++
++- ``SKB_MODE`` - The hook point is in the generic net device
++- ``DRV_MODE`` - The hook point is in the driver for the interface
++- ``HW_MODE`` - The BPF program is offloaded to the NIC
++
++The BPF program attached to an interface's XDP hook gets called for each L2
++frame that is received on the interface. The program is passed a ``struct xdp_md
++*ctx`` which gives access to the L2 data frame as well as some essential
++metadata for the frame:
++
++.. code-block:: c
++
++    struct xdp_md {
++            __u32 data;
++            __u32 data_end;
++            __u32 data_meta;
++
++            __u32 ingress_ifindex; /* rxq->dev->ifindex */
++            __u32 rx_queue_index;  /* rxq->queue_index  */
++            __u32 egress_ifindex;  /* txq->dev->ifindex */
++    };
++
++The BPF program can read and modify the frame before deciding what action should
++be taken for the packet. The program returns one of the following action values
++in order to tell the driver or net device how to process the packet (details in
++:ref:`xdp_packet_actions`):
++
++- ``XDP_DROP`` - Drop the packet without any further processing
++- ``XDP_PASS`` - Pass the packet to the kernel network stack for further
++  processing
++- ``XDP_TX`` - Transmit the packet out of the same interface
++- ``XDP_REDIRECT`` - Redirect the packet to a specific destination
++- ``XDP_ABORTED`` - Drop the packet and notify an exception state
++
++There are many BPF helper functions available to XDP programs for accessing and
++modifying packet data, for interacting with the kernel networking stack and for
++using BPF maps. `bpf-helpers(7)`_ describes the helpers available to XDP
++programs.
++
++The `libxdp`_ library provides functions for attaching XDP programs to network
++interfaces and for using ``AF_XDP`` sockets.
++
++XDP Modes
++=========
++
++SKB Mode
++--------
++
++An XDP program attached in SKB mode gets executed by the kernel network stack
++*after* the driver has created a ``struct sk_buff`` (SKB) and passed it to the
++networking stack. SKB mode is also referred to as *generic* mode and is always
++available, whether or not the driver is XDP-enabled. An XDP program in SKB mode
++is run by the netdev before classifiers or ``tc`` BPF programs are run.
++
++Driver Mode
++-----------
++
++An XDP program attached in driver mode gets executed by the network driver for
++an interface *before* the driver creates a ``struct sk_buff`` (SKB) for the
++incoming packet. The XDP program runs immediately after the driver receives the
++packet. This gives the XDP program an opportunity to entirely avoid the cost of
++SKB creation and kernel network stack processing.
++
++Driver mode requires the driver to be XDP-enabled so is not always available.
++
++Hardware Mode
++-------------
++
++Some devices may support hardware offload of BPF programs, which they do in a
++hardware specific way.
++
++.. _xdp_packet_actions:
++
++XDP Packet Actions
++==================
++
++XDP_DROP
++--------
++
++The ``XDP_DROP`` action tells the driver or netdev to drop the XDP frame without
++any further processing.
++
++XDP_PASS
++--------
++
++The ``XDP_PASS`` action tells the driver to convert the XDP frame into an SKB
++and the driver or netdev to pass the SKB on to the kernel network stack for
++normal processing.
++
++XDP_TX
++------
++
++The ``XDP_TX`` action tells the driver or netdev to transmit the XDP frame out
++of the associated interface.
++
++XDP_REDIRECT
++------------
++
++The ``XDP_REDIRECT`` action tells the driver to redirect the packet for further
++processing. There are several types of redirect available to the XDP program:
++
++- Redirect to another device by ifindex
++- Redirect to another device using a devmap
++- Redirect into an ``AF_XDP`` socket using an xskmap
++- Redirect to another CPU using a cpumap, before delivering to the network stack
++
++The ``bpf_redirect()`` and ``bpf_redirect_map()`` helper functions are used
++to set up the desired redirect destination before returning ``XDP_REDIRECT`` to
++the driver.
++
++.. code-block:: c
++
++    long bpf_redirect(u32 ifindex, u64 flags)
++
++The ``bpf_redirect()`` helper function redirects the packet to the net device
++identified by ``ifindex``.
++
++.. code-block:: c
++
++    long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
++
++The ``bpf_redirect_map()`` helper function redirects the packet to the
++destination referenced by ``map`` at index ``key``. The type of destination
++depends on the type ``map`` that is used:
++
++- ``BPF_MAP_TYPE_DEVMAP`` and ``BPF_MAP_TYPE_DEVMAP_HASH`` redirects the packet
++  to another net device
++- ``BPF_MAP_TYPE_CPUMAP`` redirects the packet processing to a specific CPU
++- ``BPF_MAP_TYPE_XSKMAP`` redirects the packet to an ``AF_XDP`` socket. See
++  ../networking/af_xdp.rst for more information.
++
++Detailed behaviour of ``bpf_redirect()`` and ``bpf_redirect_map()`` is described
++in `bpf-helpers(7)`_. ``XDP_REDIRECT`` is described in more detail in
++redirect.rst.
++
++XDP_ABORTED
++-----------
++
++The ``XDP_ABORTED`` action tells the driver that the BPF program exited in an
++exception state. The driver will drop the packet in the same way as if the BPF
++program returned ``XDP_DROP`` but the ``trace_xdp_exception`` trace point is also
++triggered.
++
++Examples
++========
++
++An example XDP program that uses ``XDP_REDIRECT`` can be found in
++`tools/testing/selftests/bpf/progs/xdp_redirect_multi_kern.c`_ and the
++corresponding user space code in
++`tools/testing/selftests/bpf/xdp_redirect_multi.c`_
++
++References
++==========
++
++- https://github.com/xdp-project/xdp-tools
++- https://github.com/xdp-project/xdp-tutorial
++- https://docs.cilium.io/en/latest/bpf/progtypes
++
++.. Links
++.. _bpf-helpers(7): https://man7.org/linux/man-pages/man7/bpf-helpers.7.html
++.. _libxdp: https://github.com/xdp-project/xdp-tools/tree/master/lib/libxdp
++.. _tools/testing/selftests/bpf/progs/xdp_redirect_multi_kern.c:
++   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/testing/selftests/bpf/progs/xdp_redirect_multi_kern.c
++.. _tools/testing/selftests/bpf/xdp_redirect_multi.c:
++   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/testing/selftests/bpf/xdp_redirect_multi.c
 -- 
 2.38.1
 
