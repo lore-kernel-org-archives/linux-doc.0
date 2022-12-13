@@ -2,168 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4602C10F1B
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 19:53:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1AB3C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 20:30:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236601AbiLMTx6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Dec 2022 14:53:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52772 "EHLO
+        id S238359AbiLMUaR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Dec 2022 15:30:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236516AbiLMTx4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 14:53:56 -0500
-Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8FAE14002
-        for <linux-doc@vger.kernel.org>; Tue, 13 Dec 2022 11:53:54 -0800 (PST)
-Received: by mail-vs1-xe35.google.com with SMTP id 3so15784709vsq.7
-        for <linux-doc@vger.kernel.org>; Tue, 13 Dec 2022 11:53:54 -0800 (PST)
+        with ESMTP id S236984AbiLMU3y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 15:29:54 -0500
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E45CFD1B;
+        Tue, 13 Dec 2022 12:26:25 -0800 (PST)
+Received: by mail-pg1-x52b.google.com with SMTP id f9so614891pgf.7;
+        Tue, 13 Dec 2022 12:26:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=G68UrwkYoX/Qe/LoWiVKT0TgPWlsfh6ss6fYKw0/u6Q=;
-        b=Sm8jgscfl0bxKQljesMfB/GLmzJaJD2vpXZGfn0SUkb5+iYT7soSkMXvoJkuAmGEi8
-         Xf50Z0xzzN+cwQkwCYl+q6vPKzbkk4kB1e8tTanObV8TGNuryvpt+NjUQ2TkXxxqIzpO
-         LYcjE7/r+2zyTzC2NQSG5lb8ylYzAAhsRfiQYBJ4M7f2VPPi5KYBls3PFjee2xiNgiCU
-         +k3NJS+AJ0CdsG4wCv36sgBuDF+yZcefMFa7BEGCR1GbvSbdSINRBb/q5jrbF0UZrufz
-         3hLaS3wKXAXEwWDVCMxik4Ytq8v6dEUK4LcVueiRfgrW+BpP7dnoSEuoNaVY6dRzSENK
-         AT+Q==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3eunpPqNIioAIh6oggqPAPCImtIarWZxO3LlqXOoyfU=;
+        b=ZnAX3SjX1+BI5veXj4o/UF4Lsjtb07nZ9a2RWWK17Atuf+n8l8h8pwKO4X3pY/k5om
+         pFPjNE/Z5TnrLtLq/iYWa0hr/tkfmpGJuJNLQYs1g0ei1E7Pd5oHPBn9b32fRHmGyXiT
+         4e8XTZvXfK5En7qf/QBAWwdOwUAW+kQoklPu6nL5fv9la9TudN3ka3hszUE0hdeR0lVs
+         9psLKqVnh23ekJf/rd69lngrisc7GazzY/XI4VFKB76qyZag4FF4SRnEFKaStcawU2b8
+         TsOVwKBEWt1P+S9CCOrdMtT3FXDWTKsreHocqTJw4rb9MhmOqFMuk/SfskhOetNSknCN
+         Rr6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=G68UrwkYoX/Qe/LoWiVKT0TgPWlsfh6ss6fYKw0/u6Q=;
-        b=RbVUobkhB3rxcAJRgE2iTVjNu3Xv1Su7hHEFYARg0zNuLkQCtaH7IHDuLaJSrbilSV
-         npQaY1xlzXAuV1XkVB/n6r9aTzYZqjX3zFu1b3OCB4d/3TUUl1KP3emJy1xQIQlVTtcs
-         mjjDSXGedHP7XOP1Ec1jWPyyJLEyY65B5SF9GHcLQzhr+CSuIV/beNFBSbtnvROzilip
-         FO+S7Setkg/sdh660LMz7lHCGFm0hplwRyM1VOOKQY1z+PUXop3PmOiEUSRkZJQUT7PU
-         LS31BaeVjx82TLc3wv0IwR2lExRA59cUf8GXzna5it3oxpM+gXtYZK6QqPVTWafLYWYm
-         Xd6A==
-X-Gm-Message-State: ANoB5pmFb9qoWPGqp0vI8hOEuNc2VG4XEDGn0Nv5UFAaK35+uoUCXmii
-        h/2QpWk7WE0QeYf1srEOqyTbJsuFGQ6k2VqzzOiXhw==
-X-Google-Smtp-Source: AA0mqf6neKya6HOBCrEDVGywH2EKFZpIFqYaI1I7eSYfNlwOM6XXk5c5BHVV+2II+AgVkhYA1AerI7HFu29tEnLXKD0=
-X-Received: by 2002:a05:6102:cd1:b0:3aa:1bff:a8a5 with SMTP id
- g17-20020a0561020cd100b003aa1bffa8a5mr55883869vst.67.1670961233827; Tue, 13
- Dec 2022 11:53:53 -0800 (PST)
-MIME-Version: 1.0
-References: <20221202223533.1785418-1-almasrymina@google.com>
- <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz> <CAHS8izM-XdLgFrQ1k13X-4YrK=JGayRXV_G3c3Qh4NLKP7cH_g@mail.gmail.com>
- <Y5g41HF2TcLzro4o@dhcp22.suse.cz> <Y5iet+ch24YrvExA@cmpxchg.org>
-In-Reply-To: <Y5iet+ch24YrvExA@cmpxchg.org>
-From:   Mina Almasry <almasrymina@google.com>
-Date:   Tue, 13 Dec 2022 11:53:42 -0800
-Message-ID: <CAHS8izPVbCZOeXxr=Fawa6N92WqJ=6CgP4vHuh-LA_aOH1QOvQ@mail.gmail.com>
-Subject: Re: [PATCH v3] mm: Add nodes= arg to memory.reclaim
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Michal Hocko <mhocko@suse.com>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
+        bh=3eunpPqNIioAIh6oggqPAPCImtIarWZxO3LlqXOoyfU=;
+        b=4H62Wx+17nxJynR6dysR9ma4rt0cUKkoM5glLfzVDUA8sBE1Py2nCUHWTiLu1AMp9c
+         5uekvtL+j0OOXpPev51mY9xGnX/+vZAkbj2xCCXQnpsHg3vfEXrljZbMLyr994jUV551
+         /ZMP/3vkpOT/2SgFmUSGhjq2DEMlIf+v5d9Ml57XjKU4SCnxRKnfPBjKfFG5+mqSwZQL
+         uA2qR1vCaVI+2BqMXOa3tsxLiB93TSNdnTxBiB5TV6W7sRM6IgZFXAJlb3rwayK+zByz
+         MHyB97tGXX5ufj4c0Y1A0+K5NqCi/YCByGoreHKDs3EqkCsMYEe/GLBH6UV2WdKWY6Vz
+         m7kA==
+X-Gm-Message-State: ANoB5pmEc+rGAMbd1LLyEVD67lkXKEAoAZhWjpdqKGSJG4SurQ3swY5s
+        liTOiNmHCwtKR9m/Bq1YVnA=
+X-Google-Smtp-Source: AA0mqf7kzaiTGwjM7e0zM0LMUECvs/p0b9BGGN/53EWoMXlVd6Nkf4r5tdCqhn5+fPq5BAK3cjMoFw==
+X-Received: by 2002:aa7:8b48:0:b0:56b:ae1d:a3c6 with SMTP id i8-20020aa78b48000000b0056bae1da3c6mr5043203pfd.1.1670963184803;
+        Tue, 13 Dec 2022 12:26:24 -0800 (PST)
+Received: from mail.google.com (125-237-37-88-fibre.sparkbb.co.nz. [125.237.37.88])
+        by smtp.gmail.com with ESMTPSA id e9-20020aa79809000000b00571bdf45888sm8023394pfl.154.2022.12.13.12.26.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Dec 2022 12:26:24 -0800 (PST)
+Date:   Wed, 14 Dec 2022 09:26:15 +1300
+From:   Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
         Jonathan Corbet <corbet@lwn.net>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Huang Ying <ying.huang@intel.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
-        fvdl@google.com, bagasdotme@gmail.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+        Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>,
+        Vipin Sharma <vipinsh@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+Subject: [PATCH v3] scripts/tags.sh: choose which directories to exclude from
+ being indexed
+Message-ID: <Y5jf59VCL/HAt60q@mail.google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y5fdgI4uTpXZQ9yn@mail.google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 13, 2022 at 7:58 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
->
-> On Tue, Dec 13, 2022 at 09:33:24AM +0100, Michal Hocko wrote:
-> > I do recognize your need to control the demotion but I argue that it is
-> > a bad idea to rely on an implicit behavior of the memory reclaim and an
-> > interface which is _documented_ to primarily _reclaim_ memory.
->
-> I think memory.reclaim should demote as part of page aging. What I'd
-> like to avoid is *having* to manually control the aging component in
-> the interface (e.g. making memory.reclaim *only* reclaim, and
-> *requiring* a coordinated use of memory.demote to ensure progress.)
->
-> > Really, consider that the current demotion implementation will change
-> > in the future and based on a newly added heuristic memory reclaim or
-> > compression would be preferred over migration to a different tier.  This
-> > might completely break your current assumptions and break your usecase
-> > which relies on an implicit demotion behavior.  Do you see that as a
-> > potential problem at all? What shall we do in that case? Special case
-> > memory.reclaim behavior?
->
-> Shouldn't that be derived from the distance propertiers in the tier
-> configuration?
->
-> I.e. if local compression is faster than demoting to a slower node, we
-> should maybe have a separate tier for that. Ignoring proactive reclaim
-> or demotion commands for a second: on that node, global memory
-> pressure should always compress first, while the oldest pages from the
-> compression cache should demote to the other node(s) - until they
-> eventually get swapped out.
->
-> However fine-grained we make proactive reclaim control over these
-> stages, it should at least be possible for the user to request the
-> default behavior that global pressure follows, without jumping through
-> hoops or requiring the coordinated use of multiple knobs. So IMO there
-> is an argument for having a singular knob that requests comprehensive
-> aging and reclaiming across the configured hierarchy.
->
-> As far as explicit control over the individual stages goes - no idea
-> if you would call the compression stage demotion or reclaim. The
-> distinction still does not make much of sense to me, since reclaim is
-> just another form of demotion. Sure, page faults have a different
-> access latency than dax to slower memory. But you could also have 3
-> tiers of memory where the difference between tier 1 and 2 is much
-> smaller than the difference between 2 and 3, and you might want to
-> apply different demotion rates between them as well.
->
-> The other argument is that demotion does not free cgroup memory,
-> whereas reclaim does. But with multiple memory tiers of vastly
-> different performance, isn't there also an argument for granting
-> cgroups different shares of each memory? So that a higher priority
-> group has access to a bigger share of the fastest memory, and lower
-> prio cgroups are relegated to lower tiers. If we split those pools,
-> then "demotion" will actually free memory in a cgroup.
->
+It's common for drivers that share same physical components to also
+duplicate source code (or at least portions of it). A good example is
+both drivers/gpu/drm/amdgpu/* and drivers/gpu/drm/radeon/* have a header
+file called atombios.h.
 
-I would also like to say I implemented something in line with that in [1].
+While their contents aren't the same, a lot of their structs have
+the exact same names which makes navigating through the code base a bit
+messy as cscope will show up 'references' across drivers which aren't
+exactly correct.
 
-In this patch, pages demoted from inside the nodemask to outside the
-nodemask count as 'reclaimed'. This, in my mind, is a very generic
-solution to the 'should demoted pages count as reclaim?' problem, and
-will work in all scenarios as long as the nodemask passed to
-shrink_folio_list() is set correctly by the call stack.
+Add IGNORE_DIRS variable, which specifies which directories
+to be ignored from indexing.
 
-> This is why I liked adding a nodes= argument to memory.reclaim the
-> best. It doesn't encode a distinction that may not last for long.
->
-> The problem comes from how to interpret the input argument and the
-> return value, right? Could we solve this by requiring the passed
-> nodes= to all be of the same memory tier? Then there is no confusion
-> around what is requested and what the return value means.
->
+Example:
+        make ARCH=x86 IGNORE_DIRS="drivers/gpu/drm/radeon tools" cscope
 
-I feel like I arrived at a better solution in [1], where pages demoted
-from inside of the nodemask to outside count as reclaimed and the rest
-don't. But I think we could solve this by explicit checks that nodes=
-arg are from the same tier, yes.
+Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+---
+Changelog:
 
-> And if no nodes are passed, it means reclaim (from the lowest memory
-> tier) X pages and demote as needed, then return the reclaimed pages.
->
-> > Now to your specific usecase. If there is a need to do a memory
-> > distribution balancing then fine but this should be a well defined
-> > interface. E.g. is there a need to not only control demotion but
-> > promotions as well? I haven't heard anybody requesting that so far
-> > but I can easily imagine that like outsourcing the memory reclaim to
-> > the userspace someone might want to do the same thing with the numa
-> > balancing because $REASONS. Should that ever happen, I am pretty sure
-> > hooking into memory.reclaim is not really a great idea.
->
-> Should this ever happen, it would seem fair that that be a separate
-> knob anyway, no? One knob to move the pipeline in one direction
-> (aging), one knob to move it the other way.
+- v3: change commit message wording and rst syntax (Req Bagas Sanjaya)
+      change makefile variable scope to global, use blank space
+      separator and change variable name to IGNORE_DIRS.
+      (Req: Vipin Sharma)
+- v2: change approach to include everything unless specified by the 
+  IGNOREDIRS variable: (Req: Vipin Sharma)
+- v1: https://lore.kernel.org/lkml/Y5OKDvbGk4Kro6MK@mail.google.com/
+---
+ Documentation/kbuild/kbuild.rst | 7 +++++++
+ scripts/tags.sh                 | 7 +++++++
+ 2 files changed, 14 insertions(+)
 
-[1] https://lore.kernel.org/linux-mm/20221206023406.3182800-1-almasrymina@google.com/
+diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+index 08f575e6236c..5202186728b4 100644
+--- a/Documentation/kbuild/kbuild.rst
++++ b/Documentation/kbuild/kbuild.rst
+@@ -278,6 +278,13 @@ To get all available archs you can also specify all. E.g.::
+ 
+     $ make ALLSOURCE_ARCHS=all tags
+ 
++IGNORE_DIRS
++-----------
++For tags/TAGS/cscope targets, you can choose which directories won't
++be included in the databases, separated by blank space. E.g.::
++
++    $ make IGNORE_DIRS="drivers/gpu/drm/radeon tools" cscope
++
+ KBUILD_BUILD_TIMESTAMP
+ ----------------------
+ Setting this to a date string overrides the timestamp used in the
+diff --git a/scripts/tags.sh b/scripts/tags.sh
+index e137cf15aae9..1ad45f17179a 100755
+--- a/scripts/tags.sh
++++ b/scripts/tags.sh
+@@ -17,6 +17,13 @@ ignore="$(echo "$RCS_FIND_IGNORE" | sed 's|\\||g' )"
+ # tags and cscope files should also ignore MODVERSION *.mod.c files
+ ignore="$ignore ( -name *.mod.c ) -prune -o"
+ 
++# ignore arbitrary directories
++if [ -n "${IGNORE_DIRS}" ]; then
++	for i in ${IGNORE_DIRS}; do
++		ignore="${ignore} ( -path $i ) -prune -o"
++	done
++fi
++
+ # Use make KBUILD_ABS_SRCTREE=1 {tags|cscope}
+ # to force full paths for a non-O= build
+ if [ "${srctree}" = "." -o -z "${srctree}" ]; then
+-- 
+2.38.1
+
