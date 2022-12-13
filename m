@@ -2,225 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E39B0C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 03:40:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C411C4167B
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 05:36:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234107AbiLMDkN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Dec 2022 22:40:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46434 "EHLO
+        id S229611AbiLMFgT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Dec 2022 00:36:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233011AbiLMDkL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Dec 2022 22:40:11 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2151165B0;
-        Mon, 12 Dec 2022 19:40:10 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4F73B60010;
-        Tue, 13 Dec 2022 03:40:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12435C433EF;
-        Tue, 13 Dec 2022 03:40:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670902809;
-        bh=PuaMtd9Ko9oKGDiXgVRIj/a4xvUODdQ/B4oxxqDZ7c8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=XYP8Megaky1qyd/xQdpdFApyCOwndCcbK+hx81uMA4QDknyfTelScxtjKXwLbMUmr
-         tK0LYU7XlzPu2R6mtVIufEJKn+62gE5LlLhsA4M8RZDv7qwmV+Bh07a0cQAzF509/j
-         XJHMKgxNPJ2RieeVdfjW1YdIm4F9GbRM6fcIlcbT621i0NzCto/hXekI6EDu7Gk/Z5
-         iba2clS4rMJdF2wSxvU69Cokeh9dhn5PFNuz9MQjfXi22lWKtmxFlNVQo8oAej93J/
-         6fK+EYD42JyikLEI71tYyaJmH58spZtnWFpO0FLrSDWXi4qBd1iqGsY4qi9ayjbOkG
-         oMQq+GUoeUfvQ==
-Date:   Tue, 13 Dec 2022 12:40:03 +0900
-From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To:     kernel test robot <lkp@intel.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, llvm@lists.linux.dev,
-        oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-        Borislav Petkov <bp@alien8.de>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Kees Cook <keescook@chromium.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Florent Revest <revest@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Chris Mason <chris.mason@fusionio.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] error-injection: Remove EI_ETYPE_NONE
-Message-Id: <20221213124003.0326455ee28b9cdae474bbae@kernel.org>
-In-Reply-To: <202212121204.d4rb2G55-lkp@intel.com>
-References: <167081320421.387937.4259807348852421112.stgit@devnote3>
-        <202212121204.d4rb2G55-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229570AbiLMFgR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 00:36:17 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05D9713E16;
+        Mon, 12 Dec 2022 21:36:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670909777; x=1702445777;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=liEEZEKTglWJ0qgi+YWfT/4zgdb8ql5I6ijkBiYHO9c=;
+  b=PfleHhoHKodcotL3Mo47NYJXozQDkhMTevk4NehTWe0+6rmIaHOajotL
+   uRz9fbL8dhvV7pCjBICY4Fkh0/WVhSSumf7sTl7aXYiFyOCgihxfKQ6VK
+   u9CbYpwqFG0lm7tt7NI991nfBBTjmiAc4ifPdniH4IrmShrJ9UbN+2BJ1
+   5Qkv1q6D9Cdih2jCMgNOYrkMrNU79UsomXgAvF2jiPnmfEpSVtHmQLYwh
+   tzOcwNgn2UHvBZW+uPemWwDghF/WFHHxPBEoCVW/XEZMjjRUIW5cDehPi
+   D6DNgv1dPOX7eXaaWZmVkhxi6qyTMINEgPzsVzIPP/t4Asttl6LUy7d+/
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="301461473"
+X-IronPort-AV: E=Sophos;i="5.96,240,1665471600"; 
+   d="scan'208";a="301461473"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2022 21:36:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="755248060"
+X-IronPort-AV: E=Sophos;i="5.96,240,1665471600"; 
+   d="scan'208";a="755248060"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by fmsmga002.fm.intel.com with ESMTP; 12 Dec 2022 21:36:11 -0800
+Date:   Tue, 13 Dec 2022 13:26:20 +0800
+From:   Xu Yilun <yilun.xu@intel.com>
+To:     matthew.gerlach@linux.intel.com
+Cc:     hao.wu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com
+Subject: Re: [PATCH v6 3/4] fpga: dfl: add basic support for DFHv1
+Message-ID: <Y5gM/L3wufo0/m0y@yilunxu-OptiPlex-7050>
+References: <20221209214523.3484193-1-matthew.gerlach@linux.intel.com>
+ <20221209214523.3484193-4-matthew.gerlach@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221209214523.3484193-4-matthew.gerlach@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 12 Dec 2022 12:55:24 +0800
-kernel test robot <lkp@intel.com> wrote:
+On 2022-12-09 at 13:45:22 -0800, matthew.gerlach@linux.intel.com wrote:
+> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 
-> Hi Masami,
-> 
-> Thank you for the patch! Yet something to improve:
-> 
-> [auto build test ERROR on arnd-asm-generic/master]
-> [also build test ERROR on linus/master v6.1 next-20221208]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/error-injection-Clarify-the-requirements-of-error-injectable-functions/20221212-104859
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
-> patch link:    https://lore.kernel.org/r/167081320421.387937.4259807348852421112.stgit%40devnote3
-> patch subject: [PATCH 1/2] error-injection: Remove EI_ETYPE_NONE
-> config: hexagon-randconfig-r045-20221211
-> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 6e4cea55f0d1104408b26ac574566a0e4de48036)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/ffd600c8d5c881bc0e58401c24c7457a566f6207
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Masami-Hiramatsu-Google/error-injection-Clarify-the-requirements-of-error-injectable-functions/20221212-104859
->         git checkout ffd600c8d5c881bc0e58401c24c7457a566f6207
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash fs/btrfs/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from fs/btrfs/tree-checker.c:20:
-> >> include/linux/error-injection.h:22:10: error: use of undeclared identifier 'EOPNOTSUPP'
->            return -EOPNOTSUPP;
+[...]
+ 
+>  /*
+>   * when create sub feature instances, for private features, it doesn't need
+>   * to provide resource size and feature id as they could be read from DFH
+> @@ -1023,39 +1125,69 @@ static int
+>  create_feature_instance(struct build_feature_devs_info *binfo,
+>  			resource_size_t ofst, resource_size_t size, u16 fid)
+>  {
+> -	unsigned int irq_base, nr_irqs;
+>  	struct dfl_feature_info *finfo;
+> +	resource_size_t start, end;
+> +	int dfh_psize = 0;
+>  	u8 revision = 0;
+> +	u64 v, addr_off;
+> +	u8 dfh_ver = 0;
+>  	int ret;
+> -	u64 v;
+>  
+>  	if (fid != FEATURE_ID_AFU) {
+>  		v = readq(binfo->ioaddr + ofst);
+>  		revision = FIELD_GET(DFH_REVISION, v);
+> -
+> +		dfh_ver = FIELD_GET(DFH_VERSION, v);
+>  		/* read feature size and id if inputs are invalid */
+>  		size = size ? size : feature_size(v);
+>  		fid = fid ? fid : feature_id(v);
+> +		if (dfh_ver == 1) {
+> +			dfh_psize = dfh_get_psize(binfo->ioaddr + ofst, size);
+> +			if (dfh_psize < 0) {
+> +				dev_err(binfo->dev,
+> +					"failed to read size of DFHv1 parameters %d\n",
+> +					dfh_psize);
+> +				return dfh_psize;
+> +			}
+> +			dev_dbg(binfo->dev, "dfhv1_psize %d\n", dfh_psize);
+> +		}
+>  	}
+>  
+>  	if (binfo->len - ofst < size)
+>  		return -EINVAL;
+>  
+> -	ret = parse_feature_irqs(binfo, ofst, fid, &irq_base, &nr_irqs);
+> -	if (ret)
+> -		return ret;
+> -
+> -	finfo = kzalloc(sizeof(*finfo), GFP_KERNEL);
+> +	finfo = kzalloc(sizeof(*finfo) + dfh_psize, GFP_KERNEL);
 
-Oops, I need to include linux/errno.h. Let me update it.
+Please use size_add(). See Documentation/process/deprecated.rst for
+details.
 
-Thanks!
+Others look good to me.
 
->                    ^
->    In file included from fs/btrfs/tree-checker.c:21:
->    In file included from fs/btrfs/ctree.h:9:
->    In file included from include/linux/mm.h:737:
->    In file included from include/linux/huge_mm.h:8:
->    In file included from include/linux/fs.h:33:
->    In file included from include/linux/percpu-rwsem.h:7:
->    In file included from include/linux/rcuwait.h:6:
->    In file included from include/linux/sched/signal.h:6:
->    include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
->                    return (set->sig[3] | set->sig[2] |
->                            ^        ~
->    include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
->            unsigned long sig[_NSIG_WORDS];
->            ^
->    In file included from fs/btrfs/tree-checker.c:21:
->    In file included from fs/btrfs/ctree.h:9:
->    In file included from include/linux/mm.h:737:
->    In file included from include/linux/huge_mm.h:8:
->    In file included from include/linux/fs.h:33:
->    In file included from include/linux/percpu-rwsem.h:7:
->    In file included from include/linux/rcuwait.h:6:
->    In file included from include/linux/sched/signal.h:6:
->    include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
->                    return (set->sig[3] | set->sig[2] |
->                                          ^        ~
->    include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
->            unsigned long sig[_NSIG_WORDS];
->            ^
->    In file included from fs/btrfs/tree-checker.c:21:
->    In file included from fs/btrfs/ctree.h:9:
->    In file included from include/linux/mm.h:737:
->    In file included from include/linux/huge_mm.h:8:
->    In file included from include/linux/fs.h:33:
->    In file included from include/linux/percpu-rwsem.h:7:
->    In file included from include/linux/rcuwait.h:6:
->    In file included from include/linux/sched/signal.h:6:
->    include/linux/signal.h:113:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
->                    return  (set1->sig[3] == set2->sig[3]) &&
->                             ^         ~
->    include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
->            unsigned long sig[_NSIG_WORDS];
->            ^
->    In file included from fs/btrfs/tree-checker.c:21:
->    In file included from fs/btrfs/ctree.h:9:
->    In file included from include/linux/mm.h:737:
->    In file included from include/linux/huge_mm.h:8:
->    In file included from include/linux/fs.h:33:
->    In file included from include/linux/percpu-rwsem.h:7:
->    In file included from include/linux/rcuwait.h:6:
->    In file included from include/linux/sched/signal.h:6:
->    include/linux/signal.h:113:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
->                    return  (set1->sig[3] == set2->sig[3]) &&
->                                             ^         ~
->    include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
->            unsigned long sig[_NSIG_WORDS];
->            ^
->    In file included from fs/btrfs/tree-checker.c:21:
->    In file included from fs/btrfs/ctree.h:9:
->    In file included from include/linux/mm.h:737:
->    In file included from include/linux/huge_mm.h:8:
->    In file included from include/linux/fs.h:33:
->    In file included from include/linux/percpu-rwsem.h:7:
->    In file included from include/linux/rcuwait.h:6:
->    In file included from include/linux/sched/signal.h:6:
->    include/linux/signal.h:114:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
->                            (set1->sig[2] == set2->sig[2]) &&
->                             ^         ~
->    include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
->            unsigned long sig[_NSIG_WORDS];
->            ^
->    In file included from fs/btrfs/tree-checker.c:21:
->    In file included from fs/btrfs/ctree.h:9:
->    In file included from include/linux/mm.h:737:
->    In file included from include/linux/huge_mm.h:8:
->    In file included from include/linux/fs.h:33:
->    In file included from include/linux/percpu-rwsem.h:7:
->    In file included from include/linux/rcuwait.h:6:
->    In file included from include/linux/sched/signal.h:6:
->    include/linux/signal.h:114:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
->                            (set1->sig[2] == set2->sig[2]) &&
->                                             ^         ~
->    include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
->            unsigned long sig[_NSIG_WORDS];
->            ^
->    In file included from fs/btrfs/tree-checker.c:21:
->    In file included from fs/btrfs/ctree.h:9:
->    In file included from include/linux/mm.h:737:
->    In file included from include/linux/huge_mm.h:8:
->    In file included from include/linux/fs.h:33:
->    In file included from include/linux/percpu-rwsem.h:7:
->    In file included from include/linux/rcuwait.h:6:
->    In file included from include/linux/sched/signal.h:6:
->    include/linux/signal.h:156:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
->    _SIG_SET_BINOP(sigorsets, _sig_or)
->    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/signal.h:137:8: note: expanded from macro '_SIG_SET_BINOP'
->                    a3 = a->sig[3]; a2 = a->sig[2];                         \
->                         ^      ~
-> 
-> 
-> vim +/EOPNOTSUPP +22 include/linux/error-injection.h
-> 
->     19	
->     20	static inline int get_injectable_error_type(unsigned long addr)
->     21	{
->   > 22		return -EOPNOTSUPP;
->     23	}
->     24	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://01.org/lkp
-
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Yilun
