@@ -2,168 +2,311 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BECCEC10F1B
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 17:47:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79F68C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 17:55:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236346AbiLMRrU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Dec 2022 12:47:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59502 "EHLO
+        id S235719AbiLMRzk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Dec 2022 12:55:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235907AbiLMRrT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 12:47:19 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BEA621E36;
-        Tue, 13 Dec 2022 09:47:18 -0800 (PST)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BDHKWoH023109;
-        Tue, 13 Dec 2022 17:47:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=iiCTz8qQkxR5QpavDy8ro1sdHP7oTSzVGuJJIj3InVQ=;
- b=FYrlAsVp+6eQ3VBHagRekuP/5sI9znkaGr22C6cXngfu8U3gsUQQik/9O44nvxpWXmpL
- 0vq4h0pnoSmCDLORChK6hwnDp7WrkffYly2UWD+shofdTuq8bKRbhWmshSIEz7LWXY95
- 28cHLyl35k2Va76RLPQ3RgYMnB/BkAbrj5yHZ6iAThP3ImEA+mzFDhKChASxCnsCXlao
- MS75yNPQ3+rHZXw4Cro6FqCiD//zwUFupdft+bHhFRYzXKrOiBNiomaEN1GmzviiYVwD
- 6oOS8wd8NE+8QSRDwGJoFDGiYRRpKUH6Tb9eWpCTqdgKoblGX7rxT3xTKs10qSDv2+ej IQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mewq6rn1d-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Dec 2022 17:47:13 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BDHKg7b023344;
-        Tue, 13 Dec 2022 17:47:12 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mewq6rn0j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Dec 2022 17:47:12 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-        by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BDH4QTp007817;
-        Tue, 13 Dec 2022 17:47:10 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-        by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3mchcf4j1a-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Dec 2022 17:47:10 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-        by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2BDHl6Ds46596430
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 13 Dec 2022 17:47:06 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 59F2520040;
-        Tue, 13 Dec 2022 17:47:06 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0706520049;
-        Tue, 13 Dec 2022 17:47:06 +0000 (GMT)
-Received: from p-imbrenda (unknown [9.152.224.56])
-        by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Tue, 13 Dec 2022 17:47:05 +0000 (GMT)
-Date:   Tue, 13 Dec 2022 18:32:25 +0100
-From:   Claudio Imbrenda <imbrenda@linux.ibm.com>
-To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>
-Subject: Re: [PATCH v4 2/9] Documentation: KVM: s390: Describe
- KVM_S390_MEMOP_F_CMPXCHG
-Message-ID: <20221213183225.3f49ceb8@p-imbrenda>
-In-Reply-To: <20221213165405.2953539-3-scgl@linux.ibm.com>
-References: <20221213165405.2953539-1-scgl@linux.ibm.com>
-        <20221213165405.2953539-3-scgl@linux.ibm.com>
-Organization: IBM
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+        with ESMTP id S229820AbiLMRzi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 12:55:38 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 118DF2314B;
+        Tue, 13 Dec 2022 09:55:37 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3A3962F4;
+        Tue, 13 Dec 2022 09:56:17 -0800 (PST)
+Received: from [10.1.196.46] (eglon.cambridge.arm.com [10.1.196.46])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EEECE3F73B;
+        Tue, 13 Dec 2022 09:55:32 -0800 (PST)
+Message-ID: <c02bdc4f-d209-1fd2-cf5f-b747e324bb2b@arm.com>
+Date:   Tue, 13 Dec 2022 17:55:20 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v8 10/13] x86/resctrl: Add sysfs interface to write
+ mbm_total_bytes_config
+Content-Language: en-GB
+To:     "Moger, Babu" <Babu.Moger@amd.com>
+Cc:     "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+        "Das1, Sandipan" <Sandipan.Das@amd.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+        "eranian@google.com" <eranian@google.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "reinette.chatre@intel.com" <reinette.chatre@intel.com>
+References: <166759188265.3281208.11769277079826754455.stgit@bmoger-ubuntu>
+ <166759206900.3281208.11975514088019160962.stgit@bmoger-ubuntu>
+ <7ce5bcda-bb42-4166-ab7e-8a07b8fb28a7@arm.com>
+ <MW3PR12MB45538A17F57BF80C21BB46C4951D9@MW3PR12MB4553.namprd12.prod.outlook.com>
+From:   James Morse <james.morse@arm.com>
+In-Reply-To: <MW3PR12MB45538A17F57BF80C21BB46C4951D9@MW3PR12MB4553.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: cHAf5-ZPumGPVVyEgG3Lc3qiPP8oj_94
-X-Proofpoint-ORIG-GUID: ow_0cXBSTlZIltbwAVhI5CLUy75PCki0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-13_03,2022-12-13_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 phishscore=0
- mlxlogscore=779 suspectscore=0 mlxscore=0 spamscore=0 priorityscore=1501
- malwarescore=0 clxscore=1015 impostorscore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212130155
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 13 Dec 2022 17:53:58 +0100
-Janis Schoetterl-Glausch <scgl@linux.ibm.com> wrote:
+Hi Babu,
 
-> Describe the semantics of the new KVM_S390_MEMOP_F_CMPXCHG flag for
-> absolute vm write memops which allows user space to perform (storage key
-> checked) cmpxchg operations on guest memory.
+On 08/12/2022 00:02, Moger, Babu wrote:
+> [AMD Official Use Only - General]
+>> -----Original Message-----
+>> From: James Morse <james.morse@arm.com>
+>> Sent: Wednesday, December 7, 2022 11:21 AM
+>> To: Moger, Babu <Babu.Moger@amd.com>
+>> Cc: fenghua.yu@intel.com; dave.hansen@linux.intel.com; x86@kernel.org;
+>> hpa@zytor.com; paulmck@kernel.org; akpm@linux-foundation.org;
+>> quic_neeraju@quicinc.com; rdunlap@infradead.org;
+>> damien.lemoal@opensource.wdc.com; songmuchun@bytedance.com;
+>> peterz@infradead.org; jpoimboe@kernel.org; pbonzini@redhat.com;
+>> chang.seok.bae@intel.com; pawan.kumar.gupta@linux.intel.com;
+>> jmattson@google.com; daniel.sneddon@linux.intel.com; Das1, Sandipan
+>> <Sandipan.Das@amd.com>; tony.luck@intel.com; linux-doc@vger.kernel.org;
+>> linux-kernel@vger.kernel.org; bagasdotme@gmail.com; eranian@google.com;
+>> corbet@lwn.net; tglx@linutronix.de; mingo@redhat.com; bp@alien8.de;
+>> reinette.chatre@intel.com
+>> Subject: Re: [PATCH v8 10/13] x86/resctrl: Add sysfs interface to write
+>> mbm_total_bytes_config
+
+>> On 04/11/2022 20:01, Babu Moger wrote:
+>>> The current event configuration for mbm_total_bytes can be changed by
+>>> the user by writing to the file
+>>> /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config.
+>>>
+>>> The event configuration settings are domain specific and will affect
+>>> all the CPUs in the domain.
+>>>
+>>> Following are the types of events supported:
+>>>
+>>> ====
+>> ===========================================================
+>>> Bits   Description
+>>> ====
+>> ===========================================================
+>>> 6      Dirty Victims from the QOS domain to all types of memory
+>>> 5      Reads to slow memory in the non-local NUMA domain
+>>> 4      Reads to slow memory in the local NUMA domain
+>>> 3      Non-temporal writes to non-local NUMA domain
+>>> 2      Non-temporal writes to local NUMA domain
+>>> 1      Reads to memory in the non-local NUMA domain
+>>> 0      Reads to memory in the local NUMA domain
+>>> ====
+>> ===========================================================
+>>>
+>>> For example:
+>>> To change the mbm_total_bytes to count only reads on domain 0, the
+>>> bits 0, 1, 4 and 5 needs to be set, which is 110011b (in hex 0x33).
+>>> Run the command.
+>>> 	$echo  0=0x33 > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
+>>>
+>>> To change the mbm_total_bytes to count all the slow memory reads on
+>>> domain 1, the bits 4 and 5 needs to be set which is 110000b (in hex 0x30).
+>>> Run the command.
+>>> 	$echo  1=0x30 > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
+>>
+>>> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>>> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>>> index 18f9588a41cf..0cdccb69386e 100644
+>>> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>>> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>>> @@ -1505,6 +1505,133 @@ static int mbm_local_bytes_config_show(struct
+>> kernfs_open_file *of,
+>>>  	return 0;
+>>>  }
+>>>
+>>> +static void mon_event_config_write(void *info) {
+>>> +	struct mon_config_info *mon_info = info;
+>>> +	u32 index;
+>>> +
+>>> +	index = mon_event_config_index_get(mon_info->evtid);
+>>> +	if (index >= MAX_CONFIG_EVENTS) {
+>>> +		pr_warn_once("Invalid event id %d\n", mon_info->evtid);
+>>> +		return;
+>>> +	}
+>>> +	wrmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, 0);
+>> }
+>>> +
+>>> +static int mbm_config_write(struct rdt_resource *r, struct rdt_domain *d,
+>>> +			    u32 evtid, u32 val)
+>>> +{
+>>> +	struct mon_config_info mon_info = {0};
+>>> +	int ret = 0;
+>>> +
+>>> +	rdt_last_cmd_clear();
+>>> +
+>>> +	/* mon_config cannot be more than the supported set of events */
+>>> +	if (val > MAX_EVT_CONFIG_BITS) {
+>>> +		rdt_last_cmd_puts("Invalid event configuration\n");
+>>> +		return -EINVAL;
+>>> +	}
+>>> +
+>>> +	/*
+>>> +	 * Read the current config value first. If both are same then
+>>> +	 * we don't need to write it again.
+>>> +	 */
+>>> +	mon_info.evtid = evtid;
+>>
+>>> +	mondata_config_read(d, &mon_info);
+>>
+>> This reads the MSR on this CPU, which gets the result for this domain...
 > 
-> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-> ---
->  Documentation/virt/kvm/api.rst | 20 ++++++++++++++++++--
->  1 file changed, 18 insertions(+), 2 deletions(-)
+> [1] No. This read happens at the target domain. 
+
+Oops ... looks like I muddled that with mon_event_config_read().
+
+
+> static void mondata_config_read(struct rdt_domain *d, struct mon_config_info *mon_info)
+> {
+>         smp_call_function_any(&d->cpu_mask, mon_event_config_read, mon_info, 1);
+> }
+
+>>> +	if (mon_info.mon_config == val)
+>>> +		goto write_exit;
+>>> +
+>>> +	mon_info.mon_config = val;
+>>> +
+>>> +	/*
+>>> +	 * Update MSR_IA32_EVT_CFG_BASE MSRs on all the CPUs in the
+>>> +	 * domain. The MSRs offset from MSR MSR_IA32_EVT_CFG_BASE
+>>> +	 * are scoped at the domain level. Writing any of these MSRs
+>>> +	 * on one CPU is supposed to be observed by all CPUs in the
+>>> +	 * domain. However, the hardware team recommends to update
+>>> +	 * these MSRs on all the CPUs in the domain.
+>>> +	 */
+>>
+>>> +	on_each_cpu_mask(&d->cpu_mask, mon_event_config_write,
+>> &mon_info,
+>>> +1);
+>>
+>> ... but here you IPI all the CPUs in the target domain to update them.
+
+> [2] There have been some changes in this area recently. The requirement of writing the
+> value on all the CPUs in the domain is not required anymore. I am working on verifying
+> this right now.  If everything works, then I can do 
+> smp_call_function_any(&d->cpu_mask, mon_event_config_write,  &mon_info, 1);
 > 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index eee9f857a986..98f5a35088b8 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -3753,7 +3753,8 @@ The fields in each entry are defined as follows:
->  :Parameters: struct kvm_s390_mem_op (in)
->  :Returns: = 0 on success,
->            < 0 on generic error (e.g. -EFAULT or -ENOMEM),
-> -          > 0 if an exception occurred while walking the page tables  
-> +          16 bit program exception code if the access causes such an exception
+> I will confirm this soon.
 
-s/$/,/
+Okay, that makes my next question more confusing then ....
 
-> +          other code > 0xffff with special meaning
 
-s/$/./
+>> This means you unnecessarily IPI the CPUs in the target domain if they already
+>> had this value, but the write syscall occurred on a domain that differs. This isn't
+>> what you intended, but its benign.
+>> More of a problem is: Won't this get skipped if the write syscall occurs on a
+>> domain that happens to have the target configuration already?
 
-with those two nits fixed:
+> Do you still think this is a problem after my comment [1] above?  Or Am I missing something?
 
-Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+I'd muddled two similarly named functions. Sorry for the noise!
 
->  
->  Read or write data from/to the VM's memory.
->  The KVM_CAP_S390_MEM_OP_EXTENSION capability specifies what functionality is
-> @@ -3771,6 +3772,8 @@ Parameters are specified via the following structure::
->  		struct {
->  			__u8 ar;	/* the access register number */
->  			__u8 key;	/* access key, ignored if flag unset */
-> +			__u8 pad1[6];	/* ignored */
-> +			__u64 old_addr;	/* ignored if flag unset */
->  		};
->  		__u32 sida_offset; /* offset into the sida */
->  		__u8 reserved[32]; /* ignored */
-> @@ -3853,8 +3856,21 @@ Absolute accesses are permitted for non-protected guests only.
->  Supported flags:
->    * ``KVM_S390_MEMOP_F_CHECK_ONLY``
->    * ``KVM_S390_MEMOP_F_SKEY_PROTECTION``
-> +  * ``KVM_S390_MEMOP_F_CMPXCHG``
-> +
-> +The semantics of the flags common with logical accesses are as for logical
-> +accesses.
-> +
-> +For write accesses, the KVM_S390_MEMOP_F_CMPXCHG flag is supported if
-> +KVM_CAP_S390_MEM_OP_EXTENSION has flag KVM_S390_MEMOP_EXTENSION_CAP_CMPXCHG set.
-> +In this case, instead of doing an unconditional write, the access occurs
-> +only if the target location contains the value pointed to by "old_addr".
-> +This is performed as an atomic cmpxchg with the length specified by the "size"
-> +parameter. "size" must be a power of two up to and including 16.
-> +If the exchange did not take place because the target value doesn't match the
-> +old value, KVM_S390_MEMOP_R_NO_XCHG is returned.
-> +In this case the value "old_addr" points to is replaced by the target value.
->  
-> -The semantics of the flags are as for logical accesses.
->  
->  SIDA read/write:
->  ^^^^^^^^^^^^^^^^
+I think what you're left with is the question "What is the monitor config for CPUs that
+were offline when it was last changed?". If its preserved by the CPU, then its some
+unknown value, and needs to be made the same as the value user-space/the-domain currently
+expects.
 
+If there is only one config value for the domain (as your comment above suggests), then
+nothing needs doing here.
+
+
+>> Because you need the same value to be written on every CPU ... what happens
+>> to CPUs that are offline when the configuration is changed? Do they keep their
+>> previous value, or does it get reset?
+> 
+> The contents of this MSR register are held outside of all the cores.  If the value changes
+> while a cpu is offline, and it reads it once it comes online, it will get the new value.
+
+This fits with your new description of the value only needing to be written from one CPU
+in the domain.
+
+
+>> I think this is best solved with a percpu variable for the current value of the
+>> MSR. You can then read it for CPUs in a remote domain, and only issue IPIs to
+>> 'sync' the value if needed. You can then re-use the sync call in
+>> resctrl_online_cpu() to set the MSR to whatever value it should currently be.
+> 
+> This may not be required with my comment 1 and 2 above.
+> 
+>>
+>>
+>>> +
+>>> +	/*
+>>> +	 * When an Event Configuration is changed, the bandwidth counters
+>>> +	 * for all RMIDs and Events will be cleared by the hardware. The
+>>> +	 * hardware also sets MSR_IA32_QM_CTR.Unavailable (bit 62) for
+>>> +	 * every RMID on the next read to any event for every RMID.
+>>> +	 * Subsequent reads will have MSR_IA32_QM_CTR.Unavailable (bit 62)
+>>> +	 * cleared while it is tracked by the hardware. Clear the
+>>> +	 * mbm_local and mbm_total counts for all the RMIDs.
+>>> +	 */
+>>> +	memset(d->mbm_local, 0, sizeof(struct mbm_state) * r->num_rmid);
+>>> +	memset(d->mbm_total, 0, sizeof(struct mbm_state) * r->num_rmid);
+>>> +
+>>> +write_exit:
+>>> +	return ret;
+>>> +}
+>>
+>>
+>>> +static int mon_config_parse(struct rdt_resource *r, char *tok, u32
+>>> +evtid) {
+>>> +	char *dom_str = NULL, *id_str;
+>>> +	unsigned long dom_id, val;
+>>> +	struct rdt_domain *d;
+>>> +	int ret = 0;
+>>> +
+>>> +next:
+>>> +	if (!tok || tok[0] == '\0')
+>>> +		return 0;
+>>> +
+>>> +	/* Start processing the strings for each domain */
+>>> +	dom_str = strim(strsep(&tok, ";"));
+>>> +	id_str = strsep(&dom_str, "=");
+>>> +
+>>> +	if (!dom_str || kstrtoul(id_str, 10, &dom_id)) {
+>>> +		rdt_last_cmd_puts("Missing '=' or non-numeric domain id\n");
+>>> +		return -EINVAL;
+>>> +	}
+>>> +
+>>> +	if (!dom_str || kstrtoul(dom_str, 16, &val)) {
+>>> +		rdt_last_cmd_puts("Missing '=' or non-numeric event
+>> configuration value\n");
+>>> +		return -EINVAL;
+>>> +	}
+>>
+>> This is parsing the same format strings as parse_line(). Is there any chance that
+>> code could be re-used instead of duplicated? This way anything that is added to
+>> the format (or bugs found!) only need supporting in once place.
+> 
+> I have checked on reusing the parse_line. The parse_line is specifically written for
+> schemata.  We can't reuse parse_line without changing it completely.
+
+I agree its a little more complicated than it looked at first. I might have a go at it
+later...
+
+
+Thanks,
+
+James
