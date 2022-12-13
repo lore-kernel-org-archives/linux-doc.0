@@ -2,177 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF62C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 07:49:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C75C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 08:00:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234525AbiLMHtM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Dec 2022 02:49:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57536 "EHLO
+        id S234568AbiLMIAF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Dec 2022 03:00:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234244AbiLMHtL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 02:49:11 -0500
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8194A13D67
-        for <linux-doc@vger.kernel.org>; Mon, 12 Dec 2022 23:49:10 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id jn7so14757463plb.13
-        for <linux-doc@vger.kernel.org>; Mon, 12 Dec 2022 23:49:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dl3Yao6mN2AiSPWnXX8BOx2+Ij0ONLiwggaARdAt/rY=;
-        b=BF6k7/wCZJJeVxACOt4nifXw3+9QOrchqEkwguMyLH9KMLyKBzoTjrJOHvJn6OgLKJ
-         B6qpK9Ui9Qomqp1FshqQPWe713zL2W3CbZ4e3iNV6mDsT8lzwwm33pwMNluRWMNv+63/
-         KcN6ZybzVkfi+Vj4164zGqEhyhYQdzUJn7df3ZS3uyqbHxQO+ix6+v2oQl1FLlYm61jq
-         QVHrjItXSh2K+Xpvh/LMFNjjElVXq119hLWpnRPYD2Kx8NzbqmOJpThq2wfnHfv/147X
-         jLKB7EdtKMtLd9B6/SCHmMskYvAP8IHxZj59dCtpSX53oJgfuGzHHUsvkuZM/MsH7LH1
-         EZWg==
+        with ESMTP id S234438AbiLMIAD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 03:00:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F06C17AB4
+        for <linux-doc@vger.kernel.org>; Mon, 12 Dec 2022 23:59:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1670918355;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VFqAyp486VxHBW/rh0z5cNT8CQKi3KWcwqHcpX33JJc=;
+        b=HApDkL/dPOVCslOfSFPS36LR9DB3HdtuZNAXBMZA7ccYP3Hld5dZz13oXDssIchbXYGIWz
+        PsuxxKqSuCPGrqtTSVGo68lQj+HF+b4Hr16PBLy9rH8AOlod3sgAL43ffj0NYwklDCgoLE
+        PUnf0SkFC4RHQFGFyM8u6XEXHCvEygI=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-428-yY30IRIJOCuMxKdW0TlF5Q-1; Tue, 13 Dec 2022 02:59:14 -0500
+X-MC-Unique: yY30IRIJOCuMxKdW0TlF5Q-1
+Received: by mail-il1-f199.google.com with SMTP id w15-20020a056e021a6f00b00303520bff1dso6986820ilv.20
+        for <linux-doc@vger.kernel.org>; Mon, 12 Dec 2022 23:59:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Dl3Yao6mN2AiSPWnXX8BOx2+Ij0ONLiwggaARdAt/rY=;
-        b=Tkng8NnCwns5vHZacv4O4mS0HfXjFmqM4OVnRyovIkuyu6LnP720xhhXj0bCdPWQOj
-         Dsz6lYaao4wS9ZIjcxSsFmdO2e5OngzUcUW2LtwMq7+eYzV4LA9n7SMD9w8yRUg+6J1P
-         tM7uTBuFTGyHl7RRfTsdexYgWUR+Ebvt97tDF8cFzt4qS2ncS4f3+BRnBivLCO/Hp+Ps
-         R+UOI/z15SkgbhVw1HBJo6c2E60uSmOqhuYfgdR2bqAERwjB+BJ/xjuRW1JmkBz6sqaJ
-         ItxCg39lX9RONqDFeQiyfDNlwQtYsiImpafiF6qwgzlxofv8q9xRLi13ynj0InmWRLbT
-         gobQ==
-X-Gm-Message-State: ANoB5pmQ0u2KNcBRlyf9tthn+l3xkk9fdhLZxTpwJ5BheT5kiNjFls/8
-        +CXwAO1wDlJNi9a5Sa2SmfzaguBsBzA2QIxnLfFScA==
-X-Google-Smtp-Source: AA0mqf5/FDPvLYc/mxAtrbLrcnbPofqKLabduN34kSKBzNK6U2S3XMzJH70onUnjgE/t15YXkH/N083y3c/M+TEQY6I=
-X-Received: by 2002:a17:90a:8b06:b0:219:41ef:a812 with SMTP id
- y6-20020a17090a8b0600b0021941efa812mr233907pjn.153.1670917749693; Mon, 12 Dec
- 2022 23:49:09 -0800 (PST)
+        bh=VFqAyp486VxHBW/rh0z5cNT8CQKi3KWcwqHcpX33JJc=;
+        b=ZDW6nWlHLBx1p44txc6CCtXXp3p+UWOaxCSQjf+RuMYE/9HMvhnYaefIclDupLqLkE
+         crCC+N52SHPHE56wzV7Zd2C6ph+FEzroQ5il1lJ4Z+sxoM8W2H9lqV23LjfaOOLpoBED
+         0ppvUzkDD0d/igESijV+UjdxPPiTyhuNivHZlDdTabqDmLKtwRrcqyHp68xA3O/dd92Q
+         GC4arCLJ2b6o8RqJL3Eq6ZgkjMLOTfZ3E3ovspGt77Zp6bYD5k2a4Mb8BLAcD1tlRwip
+         Qex8qlGq7HOEXF+9E2X02jek5kmz0aTHe9zcaTo0RHkOPiIZEhoORJ4E0jmGI3QEdmN4
+         LNWQ==
+X-Gm-Message-State: ANoB5plzQF74bzhWdPBnUxrS0vOQPoxoo4RCmQ+8C06hw9/J8k0TLxlt
+        U4Uguj8mX7dzkW337h7VmgAG7XTzvFgVS6X3bImgb8mi05y0zqaZZ6hPaOJwdN6OjTPh0FtlNgc
+        r9pjKnvstFLCLe05tlcdqeXUMcTcJxANhlJAQ
+X-Received: by 2002:a05:6e02:de1:b0:303:4414:8ea8 with SMTP id m1-20020a056e020de100b0030344148ea8mr12363603ilj.124.1670918353391;
+        Mon, 12 Dec 2022 23:59:13 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf51VT1t55LjXTVNhkuJSBctYXn0AktGweNXi3fQ/x2ZU6mKpAxCi6mJtBBpovEerJCMzX2bPS9ksh1rccU3g5o=
+X-Received: by 2002:a05:6e02:de1:b0:303:4414:8ea8 with SMTP id
+ m1-20020a056e020de100b0030344148ea8mr12363601ilj.124.1670918353170; Mon, 12
+ Dec 2022 23:59:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20221202223533.1785418-1-almasrymina@google.com>
- <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz> <CAHS8izM-XdLgFrQ1k13X-4YrK=JGayRXV_G3c3Qh4NLKP7cH_g@mail.gmail.com>
- <87k02volwe.fsf@yhuang6-desk2.ccr.corp.intel.com>
-In-Reply-To: <87k02volwe.fsf@yhuang6-desk2.ccr.corp.intel.com>
-From:   Wei Xu <weixugc@google.com>
-Date:   Mon, 12 Dec 2022 23:48:57 -0800
-Message-ID: <CAAPL-u-cvVuhMJa48zEzFf_e3Gsttq4J7KFm=rva=E++m2zBLQ@mail.gmail.com>
-Subject: Re: [PATCH v3] mm: Add nodes= arg to memory.reclaim
-To:     "Huang, Ying" <ying.huang@intel.com>
-Cc:     Mina Almasry <almasrymina@google.com>,
-        Michal Hocko <mhocko@suse.com>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+References: <20221103155756.687789-1-benjamin.tissoires@redhat.com>
+ <20221103155756.687789-6-benjamin.tissoires@redhat.com> <CAO-hwJ+fYvpD5zbDNq-f-gUEVpxsrdJ7K-ceNd37nLxzBxYL+g@mail.gmail.com>
+ <53f21d98-4ee6-c0e9-1c0a-5fae23c1b9a8@meta.com> <Y5dxAz3QTQnaB71Q@kroah.com>
+ <43e6e9ec-3a0c-7238-30b2-daa7e71b169b@meta.com> <Y5gbg820K5LHI7K6@kroah.com>
+In-Reply-To: <Y5gbg820K5LHI7K6@kroah.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 13 Dec 2022 08:59:02 +0100
+Message-ID: <CAO-hwJLs3a41cUvQ-sU04Pg4vJDiBGHfU=N_d_APhjEdQsR3Xg@mail.gmail.com>
+Subject: Re: [PATCH hid v12 05/15] HID: bpf jmp table: simplify the logic of
+ cleaning up programs
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Yonghong Song <yhs@meta.com>, Jiri Kosina <jikos@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>, fvdl@google.com,
-        bagasdotme@gmail.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
+        Shuah Khan <shuah@kernel.org>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 12, 2022 at 10:32 PM Huang, Ying <ying.huang@intel.com> wrote:
+On Tue, Dec 13, 2022 at 7:28 AM Greg KH <gregkh@linuxfoundation.org> wrote:
 >
-> Mina Almasry <almasrymina@google.com> writes:
+> On Mon, Dec 12, 2022 at 10:39:26AM -0800, Yonghong Song wrote:
+> >
+> >
+> > On 12/12/22 10:20 AM, Greg KH wrote:
+> > > On Mon, Dec 12, 2022 at 09:52:03AM -0800, Yonghong Song wrote:
+> > > >
+> > > >
+> > > > On 12/12/22 9:02 AM, Benjamin Tissoires wrote:
+> > > > > On Thu, Nov 3, 2022 at 4:58 PM Benjamin Tissoires
+> > > > > <benjamin.tissoires@redhat.com> wrote:
+> > > > > >
+> > > > > > Kind of a hack, but works for now:
+> > > > > >
+> > > > > > Instead of listening for any close of eBPF program, we now
+> > > > > > decrement the refcount when we insert it in our internal
+> > > > > > map of fd progs.
+> > > > > >
+> > > > > > This is safe to do because:
+> > > > > > - we listen to any call of destructor of programs
+> > > > > > - when a program is being destroyed, we disable it by removing
+> > > > > >     it from any RCU list used by any HID device (so it will never
+> > > > > >     be called)
+> > > > > > - we then trigger a job to cleanup the prog fd map, but we overwrite
+> > > > > >     the removal of the elements to not do anything on the programs, just
+> > > > > >     remove the allocated space
+> > > > > >
+> > > > > > This is better than previously because we can remove the map of known
+> > > > > > programs and their usage count. We now rely on the refcount of
+> > > > > > bpf, which has greater chances of being accurate.
+> > > > > >
+> > > > > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > > > > >
+> > > > > > ---
+> > > > >
+> > > > > So... I am a little bit embarrassed, but it turns out that this hack
+> > > > > is not safe enough.
+> > > > >
+> > > > > If I compile the kernel with LLVM=1, the function
+> > > > > bpf_prog_put_deferred() is optimized in a weird way: if we are not in
+> > > > > irq, the function is inlined into __bpf_prog_put(), but if we are, the
+> > > > > function is still kept around as it is called in a scheduled work
+> > > > > item.
+> > > > >
+> > > > > This is something I completely overlooked: I assume that if the
+> > > > > function would be inlined, the HID entrypoint BPF preloaded object
+> > > > > would not be able to bind, thus deactivating HID-BPF safely. But if a
+> > > > > function can be both inlined and not inlined, then I have no
+> > > > > guarantees that my cleanup call will be called. Meaning that a HID
+> > > > > device might believe there is still a bpf function to call. And things
+> > > > > will get messy, with kernel crashes and others.
+> > > >
+> > > > You should not rely fentry to a static function. This is unstable
+> > > > as compiler could inline it if that static function is called
+> > > > directly. You could attach to a global function if it is not
+> > > > compiled with lto.
+> > >
+> > > But now that the kernel does support LTO, how can you be sure this will
+> > > always work properly?  The code author does not know if LTO will kick in
+> > > and optimize this away or not, that's the linker's job.
+> >
+> > Ya, that is right. So for in-kernel bpf programs, attaching to global
+> > functions are not safe either. For other not-in-kernel bpf programs, it
+> > may not work but that is user's responsibility to adjust properly
+> > (to different functions based on a particular build, etc.).
 >
-> > On Mon, Dec 12, 2022 at 12:55 AM Michal Hocko <mhocko@suse.com> wrote:
-> >>
-> >> On Fri 02-12-22 14:35:31, Mina Almasry wrote:
-> >> > The nodes= arg instructs the kernel to only scan the given nodes for
-> >> > proactive reclaim. For example use cases, consider a 2 tier memory system:
-> >> >
-> >> > nodes 0,1 -> top tier
-> >> > nodes 2,3 -> second tier
-> >> >
-> >> > $ echo "1m nodes=0" > memory.reclaim
-> >> >
-> >> > This instructs the kernel to attempt to reclaim 1m memory from node 0.
-> >> > Since node 0 is a top tier node, demotion will be attempted first. This
-> >> > is useful to direct proactive reclaim to specific nodes that are under
-> >> > pressure.
-> >> >
-> >> > $ echo "1m nodes=2,3" > memory.reclaim
-> >> >
-> >> > This instructs the kernel to attempt to reclaim 1m memory in the second tier,
-> >> > since this tier of memory has no demotion targets the memory will be
-> >> > reclaimed.
-> >> >
-> >> > $ echo "1m nodes=0,1" > memory.reclaim
-> >> >
-> >> > Instructs the kernel to reclaim memory from the top tier nodes, which can
-> >> > be desirable according to the userspace policy if there is pressure on
-> >> > the top tiers. Since these nodes have demotion targets, the kernel will
-> >> > attempt demotion first.
-> >> >
-> >> > Since commit 3f1509c57b1b ("Revert "mm/vmscan: never demote for memcg
-> >> > reclaim""), the proactive reclaim interface memory.reclaim does both
-> >> > reclaim and demotion. Reclaim and demotion incur different latency costs
-> >> > to the jobs in the cgroup. Demoted memory would still be addressable
-> >> > by the userspace at a higher latency, but reclaimed memory would need to
-> >> > incur a pagefault.
-> >> >
-> >> > The 'nodes' arg is useful to allow the userspace to control demotion
-> >> > and reclaim independently according to its policy: if the memory.reclaim
-> >> > is called on a node with demotion targets, it will attempt demotion first;
-> >> > if it is called on a node without demotion targets, it will only attempt
-> >> > reclaim.
-> >> >
-> >> > Acked-by: Michal Hocko <mhocko@suse.com>
-> >> > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> >>
-> >> After discussion in [1] I have realized that I haven't really thought
-> >> through all the consequences of this patch and therefore I am retracting
-> >> my ack here. I am not nacking the patch at this statge but I also think
-> >> this shouldn't be merged now and we should really consider all the
-> >> consequences.
-> >>
-> >> Let me summarize my main concerns here as well. The proposed
-> >> implementation doesn't apply the provided nodemask to the whole reclaim
-> >> process. This means that demotion can happen outside of the mask so the
-> >> the user request cannot really control demotion targets and that limits
-> >> the interface should there be any need for a finer grained control in
-> >> the future (see an example in [2]).
-> >> Another problem is that this can limit future reclaim extensions because
-> >> of existing assumptions of the interface [3] - specify only top-tier
-> >> node to force the aging without actually reclaiming any charges and
-> >> (ab)use the interface only for aging on multi-tier system. A change to
-> >> the reclaim to not demote in some cases could break this usecase.
-> >>
-> >
-> > I think this is correct. My use case is to request from the kernel to
-> > do demotion without reclaim in the cgroup, and the reason for that is
-> > stated in the commit message:
-> >
-> > "Reclaim and demotion incur different latency costs to the jobs in the
-> > cgroup. Demoted memory would still be addressable by the userspace at
-> > a higher latency, but reclaimed memory would need to incur a
-> > pagefault."
-> >
-> > For jobs of some latency tiers, we would like to trigger proactive
-> > demotion (which incurs relatively low latency on the job), but not
-> > trigger proactive reclaim (which incurs a pagefault). I initially had
-> > proposed a separate interface for this, but Johannes directed me to
-> > this interface instead in [1]. In the same email Johannes also tells
-> > me that meta's reclaim stack relies on memory.reclaim triggering
-> > demotion, so it seems that I'm not the first to take a dependency on
-> > this. Additionally in [2] Johannes also says it would be great if in
-> > the long term reclaim policy and demotion policy do not diverge.
-> >
-> > [1] https://lore.kernel.org/linux-mm/Y35fw2JSAeAddONg@cmpxchg.org/
-> > [2] https://lore.kernel.org/linux-mm/Y36fIGFCFKiocAd6@cmpxchg.org/
->
-> After these discussion, I think the solution maybe use different
-> interfaces for "proactive demote" and "proactive reclaim".  That is,
-> reconsider "memory.demote".  In this way, we will always uncharge the
-> cgroup for "memory.reclaim".  This avoid the possible confusion there.
-> And, because demotion is considered aging, we don't need to disable
-> demotion for "memory.reclaim", just don't count it.
+> So if in-kernel bpf programs will not work or are not safe, how will
+> in-kernel bpf programs properly attach?
 
-+1 on memory.demote.
+Sorry if that wasn't clear. Loading a bpf program from the kernel is
+fine and safe. But it was the use of it that wasn't.
 
-> Best Regards,
-> Huang, Ying
->
+In my case, HID-BPF to fix devices is safe (whether the program is
+loaded from the kernel or from userspace): the bpf JIT/verifier
+ensures that there are no out of bound read/write and the API is
+properly defined. But the problem I am facing with the generic bpf
+implementation is that it is made to be a global processing and to
+attach to one given function, when I wanted to have a couple function
++ device.
+
+So in this patch, I actually abused BPF to get free event
+notifications when the bpf program was released.
+The first implementation (HID: initial BPF implementation) was safer
+than this patch because I was using BPF for notifications of my
+internals but I wasn't messing up with the reference count. So if I
+did not get the events, I wouldn't decrement the bpf_prog and the end
+result means that the bpf program would stay forever attached to the
+device. Not user friendly but it doesn't introduce a kernel crash.
+
+However, this patch is messing with reference counting of an internal
+kernel object assuming I would always get the event. This is not the
+case and so I get read after free errors.
+
+TL;DR: (ab)using BPF internally for kernel introspection to manage
+kernel structures is just plain wrong. Mea culpa.
+
+Cheers,
+Benjamin
+
