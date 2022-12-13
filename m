@@ -2,138 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41433C4167B
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 12:22:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5D08C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 12:29:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235603AbiLMMWY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Dec 2022 07:22:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38808 "EHLO
+        id S230061AbiLMM3E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Dec 2022 07:29:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235605AbiLMMWX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 07:22:23 -0500
-X-Greylist: delayed 336 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 13 Dec 2022 04:22:21 PST
-Received: from condef-07.nifty.com (condef-07.nifty.com [202.248.20.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AAFCBB4;
-        Tue, 13 Dec 2022 04:22:21 -0800 (PST)
-Received: from conssluserg-04.nifty.com ([10.126.8.83])by condef-07.nifty.com with ESMTP id 2BDCDaMo002832;
-        Tue, 13 Dec 2022 21:13:36 +0900
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 2BDCDLx9026781;
-        Tue, 13 Dec 2022 21:13:21 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 2BDCDLx9026781
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1670933602;
-        bh=jPEostDy9/vEakl3XTQVCX9XEz9FU/Jk6r+V9qKfjuM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=XkNtsEc2kUycZSbesW77QvhHxPLP+HrgS5y2pZh2Fd3AVApyqQByCoNUJx8cQ8pIW
-         Z8FsuqyhbWCQjsP22d50IQ04MeKJrSmGXO5fc01qf8sFSfZ6jK0MbeOSCcW6b152oS
-         CWPREXqmPpXeWbq/NEgQZoQra0IJyqECITY0PtI0Gc3MOx/zzoRBUPr8CMUqJ6fKHE
-         UJSXMs2+9AHdB3oq4f6ZrhZmTWr2NPl2BvFR1aZh1Jy54JCSE391pPYAFD/lhEixUZ
-         EiP/b7/FiQycEvqIXuwLvzoGvOBPZLHdqjtfX0kPUX09g3eWcNl4Akq/z77q0D9WSd
-         +8FTc86AocKBw==
-X-Nifty-SrcIP: [209.85.210.54]
-Received: by mail-ot1-f54.google.com with SMTP id v19-20020a9d5a13000000b0066e82a3872dso9131256oth.5;
-        Tue, 13 Dec 2022 04:13:21 -0800 (PST)
-X-Gm-Message-State: ANoB5plwf/ZKM7javm3u8024Q22wmGipfjajHGrY83RI3R+AJVS78lrt
-        gvFkGsYSmiUucq3XC80ewGCdeDZ1PMadai1Wwc4=
-X-Google-Smtp-Source: AA0mqf49GboRoHKfWueMtOx43I//pF5NCXtfCT1dwFlEom7xK6kmRBG/C/T/6hUEeQlY1UGliE3yoMjpLOmtuyXm0eo=
-X-Received: by 2002:a9d:6748:0:b0:670:64b2:ae66 with SMTP id
- w8-20020a9d6748000000b0067064b2ae66mr4036347otm.225.1670933600853; Tue, 13
- Dec 2022 04:13:20 -0800 (PST)
+        with ESMTP id S235673AbiLMM3C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 07:29:02 -0500
+X-Greylist: delayed 905 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 13 Dec 2022 04:29:00 PST
+Received: from smtp.tiscali.it (santino-notr.mail.tiscali.it [213.205.33.215])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8283DDFFF
+        for <linux-doc@vger.kernel.org>; Tue, 13 Dec 2022 04:28:59 -0800 (PST)
+Received: from [192.168.178.50] ([87.15.83.83])
+        by santino.mail.tiscali.it with 
+        id voDn2802s1ns05j01oDoMD; Tue, 13 Dec 2022 12:13:52 +0000
+x-auth-user: fantonifabio@tiscali.it
+Message-ID: <e42dd6c7-6365-75be-0fcd-3329b8f8ba35@tiscali.it>
+Date:   Tue, 13 Dec 2022 13:13:45 +0100
 MIME-Version: 1.0
-References: <20221012181841.333325-1-masahiroy@kernel.org>
-In-Reply-To: <20221012181841.333325-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 13 Dec 2022 21:12:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATncU_o3JDi4k-F4ALOb3LbVZbSmA4X6kfkHf2fb1omUg@mail.gmail.com>
-Message-ID: <CAK7LNATncU_o3JDi4k-F4ALOb3LbVZbSmA4X6kfkHf2fb1omUg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: raise minimum supported version of
- binutils to 2.25
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     linux-arch@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Reply-To: fantonifabio@tiscali.it
+Subject: Re: [PATCH v2 03/21] documentation, capability: fix Generic Block
+ Device Capability
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
+        corbet@lwn.net
+Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20221209142331.26395-1-sergei.shtepa@veeam.com>
+ <20221209142331.26395-4-sergei.shtepa@veeam.com>
+From:   Fabio Fantoni <fantonifabio@tiscali.it>
+In-Reply-To: <20221209142331.26395-4-sergei.shtepa@veeam.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Avast (VPS 221213-0, 13/12/2022), Outbound message
+X-Antivirus-Status: Clean
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tiscali.it; s=smtp;
+        t=1670933632; bh=zUNL1AzJb7Uzdlx47B9/0o8wRh3Bhbs6NWEEPysoQb8=;
+        h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To;
+        b=eQh/KfFfLAjfYWZWcanbu/k/4syXDE+y1hNr1/pJi0yo36II7H7RgDvQezdqNDhE0
+         GqDtTrjW5QHyB8nEXv7G/33M+fBM3o90+kqHKU6pA763b1hnCOS7kj4bkY/BIv4AvZ
+         uFTevywFPyDhLQ9vzpRyVYCus6H9XNfbR7Es0d+s=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 13, 2022 at 3:19 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+Il 09/12/2022 15:23, Sergei Shtepa ha scritto:
+> When adding documentation for blkfilter, new lines of documentation
+> appeared in the file include/linux/blkdev.h. To preserve the appearance
+> of this document, the required sections and function descriptions were
+> explicitly specified.
 >
-> Binutils 2.23 was released in 2012. Almost 10 years old.
->
-> We already require GCC 5.1, released in 2015.
->
-> Bump the binutils version to 2.25, which was released one year before
-> GCC 5.1.
->
-> With this applied, some subsystems can start to clean up code.
-> Examples:
->   arch/arm/Kconfig.assembler
->   arch/mips/vdso/Kconfig
->   arch/powerpc/Makefile
->   arch/x86/Kconfig.assembler
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-
-
-I will pick this up to the kbuild tree
-because it got Linus' ack.
-
-
-
-
-
-
+> Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
 > ---
+>   Documentation/block/capability.rst | 3 +++
+>   1 file changed, 3 insertions(+)
 >
->  Documentation/process/changes.rst | 4 ++--
->  scripts/min-tool-version.sh       | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> index 9844ca3a71a6..ef540865ad22 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -35,7 +35,7 @@ Rust (optional)        1.62.0           rustc --version
->  bindgen (optional)     0.56.0           bindgen --version
->  GNU make               3.82             make --version
->  bash                   4.2              bash --version
-> -binutils               2.23             ld -v
-> +binutils               2.25             ld -v
->  flex                   2.5.35           flex --version
->  bison                  2.0              bison --version
->  pahole                 1.16             pahole --version
-> @@ -119,7 +119,7 @@ Bash 4.2 or newer is needed.
->  Binutils
->  --------
->
-> -Binutils 2.23 or newer is needed to build the kernel.
-> +Binutils 2.25 or newer is needed to build the kernel.
->
->  pkg-config
->  ----------
-> diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
-> index 8766e248ffbb..4e5b45d9b526 100755
-> --- a/scripts/min-tool-version.sh
-> +++ b/scripts/min-tool-version.sh
-> @@ -14,7 +14,7 @@ fi
->
->  case "$1" in
->  binutils)
-> -       echo 2.23.0
-> +       echo 2.25.0
->         ;;
->  gcc)
->         echo 5.1.0
-> --
-> 2.34.1
->
+> diff --git a/Documentation/block/capability.rst b/Documentation/block/capability.rst
+> index 2ae7f064736a..8fad791980bb 100644
+> --- a/Documentation/block/capability.rst
+> +++ b/Documentation/block/capability.rst
+> @@ -8,3 +8,6 @@ This file documents the sysfs file ``block/<disk>/capability``.
+>   capabilities a specific block device supports:
+>   
+>   .. kernel-doc:: include/linux/blkdev.h
+> +	:DOC: genhd capability flags
+> +.. kernel-doc:: include/linux/blkdev.h
+> +	:functions: disk_openers blk_alloc_disk bio_end_io_acct
+Thanks for spotting this, I think this is not related to blkfilter patch 
+but was already wrong/broken before and should be posted in a single 
+patch out of the blksnap serie (also fixing title, as reported by Bagas 
+Sanjaya, like "documentation: fix Generic Block Device Capability")
 
+from a fast look seems to me should have only:
 
--- 
-Best Regards
-Masahiro Yamada
++    :DOC: genhd capability flags
+
+and out of that looking older version of doc 
+(https://www.kernel.org/doc/html/v5.10/block/capability.html) seems to 
+me that this DOC in blkdev.h need improvement as it seems to me it was 
+better in the past, for example also reporting the corresponding 
+hexadecimal value in parentheses
