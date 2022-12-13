@@ -2,165 +2,201 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7F9EC4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 06:32:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CFA1C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 06:54:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234496AbiLMGcN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Dec 2022 01:32:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60150 "EHLO
+        id S234255AbiLMGyV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Dec 2022 01:54:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234645AbiLMGcC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 01:32:02 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB79B1F610;
-        Mon, 12 Dec 2022 22:32:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670913120; x=1702449120;
-  h=from:to:cc:subject:references:date:in-reply-to:
-   message-id:mime-version;
-  bh=RRn4X9Gdnegzf1sgNDrCXchtLeBUYjVOO9r5f4wlFyE=;
-  b=AP7hYFzAaexLawNiFKtq3/JiYfE6/BB/yWkckKMj8j2pITxPnOMkJGSr
-   tNT03SAebeqnQjXADhBzIEH37T8k5E75kb/LHmwcluXcfKa8SrE1bVVw+
-   XpvF2Gg8to1M2RHoQOHjx01TvekRFqxrGUaTxqUW7LApYq+QccAlSZbXj
-   KVolPuykPVN5hZKDraPtaoJmoCSgaG7SmFjkixkK6dL0CBQmGaMgLxQha
-   011Jn2TnGBzFVLsBToqCZedGGs0j9OHxB0/j26fZbLbR7qEIOJyZRjYi5
-   2s1ZWyLqEu20vtlCLWwWl6beunZWpl2Quch7rudgc+PBKyKIG18DkGKqu
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="319199737"
-X-IronPort-AV: E=Sophos;i="5.96,240,1665471600"; 
-   d="scan'208";a="319199737"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2022 22:32:00 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="648454227"
-X-IronPort-AV: E=Sophos;i="5.96,240,1665471600"; 
-   d="scan'208";a="648454227"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2022 22:31:54 -0800
-From:   "Huang, Ying" <ying.huang@intel.com>
-To:     Mina Almasry <almasrymina@google.com>,
-        Michal Hocko <mhocko@suse.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
-        fvdl@google.com, bagasdotme@gmail.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v3] mm: Add nodes= arg to memory.reclaim
-References: <20221202223533.1785418-1-almasrymina@google.com>
-        <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz>
-        <CAHS8izM-XdLgFrQ1k13X-4YrK=JGayRXV_G3c3Qh4NLKP7cH_g@mail.gmail.com>
-Date:   Tue, 13 Dec 2022 14:30:57 +0800
-In-Reply-To: <CAHS8izM-XdLgFrQ1k13X-4YrK=JGayRXV_G3c3Qh4NLKP7cH_g@mail.gmail.com>
-        (Mina Almasry's message of "Mon, 12 Dec 2022 16:54:27 -0800")
-Message-ID: <87k02volwe.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        with ESMTP id S229645AbiLMGyR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 01:54:17 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82BC02DD6;
+        Mon, 12 Dec 2022 22:54:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=tJc0C+VnMuXijCnhz8V7XfDaJJMUgV2yyf/tTbhpF2A=; b=KWpayS/2cVmMcuSb9pzBn/FcaH
+        YUE2cEb+w/fgUiZy60lHgq7ZEeor19l78LbtE320I/gpLZA1c/eqf7cNDd98NRSHh852K08tHtbZ9
+        YrT0R9QQwL6kAm6/bRjWfmkhzqWa4NI2fZ/fNgocQMXlCYBbKqd7RignCr0NC7ybfos/GllkdzUvE
+        jFN8yrHW5TxV9zm0oQkLdTpV0MYYp/fS376moiCk3TtCx46o0NwtShslYsyLRWO9Npq208x0UqViT
+        LC+oQkI4Vd4Y58+4ml0FobBdWhngsp5epooyx6eyOPN4IYTAFcBYnm2TtlJmjUO59tLLhrcjz5gP8
+        YKRLncjg==;
+Received: from [2601:1c2:d80:3110::a2e7]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1p4zB3-00Buir-TP; Tue, 13 Dec 2022 06:54:10 +0000
+Message-ID: <35654230-fdd3-0a94-5de2-ab5b03efa0ae@infradead.org>
+Date:   Mon, 12 Dec 2022 22:54:08 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH 2/2] docs: fault-injection: Add requirements of error
+ injectable functions
+Content-Language: en-US
+To:     "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Cc:     bpf@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Florent Revest <revest@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Chris Mason <clm@meta.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+References: <167081319306.387937.10079195394503045678.stgit@devnote3>
+ <167081321427.387937.15475445689482551048.stgit@devnote3>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <167081321427.387937.15475445689482551048.stgit@devnote3>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mina Almasry <almasrymina@google.com> writes:
+Hi--
 
-> On Mon, Dec 12, 2022 at 12:55 AM Michal Hocko <mhocko@suse.com> wrote:
->>
->> On Fri 02-12-22 14:35:31, Mina Almasry wrote:
->> > The nodes= arg instructs the kernel to only scan the given nodes for
->> > proactive reclaim. For example use cases, consider a 2 tier memory system:
->> >
->> > nodes 0,1 -> top tier
->> > nodes 2,3 -> second tier
->> >
->> > $ echo "1m nodes=0" > memory.reclaim
->> >
->> > This instructs the kernel to attempt to reclaim 1m memory from node 0.
->> > Since node 0 is a top tier node, demotion will be attempted first. This
->> > is useful to direct proactive reclaim to specific nodes that are under
->> > pressure.
->> >
->> > $ echo "1m nodes=2,3" > memory.reclaim
->> >
->> > This instructs the kernel to attempt to reclaim 1m memory in the second tier,
->> > since this tier of memory has no demotion targets the memory will be
->> > reclaimed.
->> >
->> > $ echo "1m nodes=0,1" > memory.reclaim
->> >
->> > Instructs the kernel to reclaim memory from the top tier nodes, which can
->> > be desirable according to the userspace policy if there is pressure on
->> > the top tiers. Since these nodes have demotion targets, the kernel will
->> > attempt demotion first.
->> >
->> > Since commit 3f1509c57b1b ("Revert "mm/vmscan: never demote for memcg
->> > reclaim""), the proactive reclaim interface memory.reclaim does both
->> > reclaim and demotion. Reclaim and demotion incur different latency costs
->> > to the jobs in the cgroup. Demoted memory would still be addressable
->> > by the userspace at a higher latency, but reclaimed memory would need to
->> > incur a pagefault.
->> >
->> > The 'nodes' arg is useful to allow the userspace to control demotion
->> > and reclaim independently according to its policy: if the memory.reclaim
->> > is called on a node with demotion targets, it will attempt demotion first;
->> > if it is called on a node without demotion targets, it will only attempt
->> > reclaim.
->> >
->> > Acked-by: Michal Hocko <mhocko@suse.com>
->> > Signed-off-by: Mina Almasry <almasrymina@google.com>
->>
->> After discussion in [1] I have realized that I haven't really thought
->> through all the consequences of this patch and therefore I am retracting
->> my ack here. I am not nacking the patch at this statge but I also think
->> this shouldn't be merged now and we should really consider all the
->> consequences.
->>
->> Let me summarize my main concerns here as well. The proposed
->> implementation doesn't apply the provided nodemask to the whole reclaim
->> process. This means that demotion can happen outside of the mask so the
->> the user request cannot really control demotion targets and that limits
->> the interface should there be any need for a finer grained control in
->> the future (see an example in [2]).
->> Another problem is that this can limit future reclaim extensions because
->> of existing assumptions of the interface [3] - specify only top-tier
->> node to force the aging without actually reclaiming any charges and
->> (ab)use the interface only for aging on multi-tier system. A change to
->> the reclaim to not demote in some cases could break this usecase.
->>
->
-> I think this is correct. My use case is to request from the kernel to
-> do demotion without reclaim in the cgroup, and the reason for that is
-> stated in the commit message:
->
-> "Reclaim and demotion incur different latency costs to the jobs in the
-> cgroup. Demoted memory would still be addressable by the userspace at
-> a higher latency, but reclaimed memory would need to incur a
-> pagefault."
->
-> For jobs of some latency tiers, we would like to trigger proactive
-> demotion (which incurs relatively low latency on the job), but not
-> trigger proactive reclaim (which incurs a pagefault). I initially had
-> proposed a separate interface for this, but Johannes directed me to
-> this interface instead in [1]. In the same email Johannes also tells
-> me that meta's reclaim stack relies on memory.reclaim triggering
-> demotion, so it seems that I'm not the first to take a dependency on
-> this. Additionally in [2] Johannes also says it would be great if in
-> the long term reclaim policy and demotion policy do not diverge.
->
-> [1] https://lore.kernel.org/linux-mm/Y35fw2JSAeAddONg@cmpxchg.org/
-> [2] https://lore.kernel.org/linux-mm/Y36fIGFCFKiocAd6@cmpxchg.org/
+On 12/11/22 18:46, Masami Hiramatsu (Google) wrote:
+> From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> 
+> Add a section about the requirements of the error injectable functions
+> and the type of errors.
+> Since this section must be read before using ALLOW_ERROR_INJECTION()
+> macro, that section is referred from the comment of the macro too.
+> 
+> Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> Link: https://lore.kernel.org/all/20221211115218.2e6e289bb85f8cf53c11aa97@kernel.org/T/#u
+> ---
+>  Documentation/fault-injection/fault-injection.rst |   65 +++++++++++++++++++++
+>  include/asm-generic/error-injection.h             |    6 +-
+>  2 files changed, 69 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/fault-injection/fault-injection.rst b/Documentation/fault-injection/fault-injection.rst
+> index 17779a2772e5..da6c5796b1f8 100644
+> --- a/Documentation/fault-injection/fault-injection.rst
+> +++ b/Documentation/fault-injection/fault-injection.rst
+> @@ -233,6 +233,71 @@ proc entries
+>  	This feature is intended for systematic testing of faults in a single
+>  	system call. See an example below.
+>  
+> +
+> +Error Injectable Functions
+> +--------------------------
+> +
+> +This part is for the kenrel developers considering to add a function to
 
-After these discussion, I think the solution maybe use different
-interfaces for "proactive demote" and "proactive reclaim".  That is,
-reconsider "memory.demote".  In this way, we will always uncharge the
-cgroup for "memory.reclaim".  This avoid the possible confusion there.
-And, because demotion is considered aging, we don't need to disable
-demotion for "memory.reclaim", just don't count it.
+                        kernel developers considering adding a function
 
-Best Regards,
-Huang, Ying
+> +ALLOW_ERROR_INJECTION() macro.
+
+   using the ALLOW_ERROR_INJECTION() macro.
+
+> +
+> +Requirements for the Error Injectable Functions
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +Since the function-level error injection forcibly changes the code path
+> +and returns an error even if the input and conditions are proper, this can
+> +cause unexpected kernel crash if you allow error injection on the function
+> +which is NOT error injectable. Thus, you (and reviewers) must ensure;
+> +
+> +- The function returns an error code if it fails, and the callers must check
+> +  it correctly (need to recover from it).
+> +
+> +- The function does not execute any code which can change any state before
+> +  the first error return. The state includes global or local, or input
+> +  variable. For example, clear output address storage (e.g. `*ret = NULL`),
+> +  increments/decrements counter, set a flag, preempt/irq disable or get
+
+     increment/decrement a counter,
+
+> +  a lock (if those are recovered before returning error, that will be OK.)
+> +
+> +The first requirement is important, and it will result in that the release
+> +(free objects) functions are usually harder to inject errors than allocate
+> +functions. If errors of such release functions are not correctly handled
+> +it will cause a memory leak easily (the caller will confuse that the object
+> +has been released or corrupted.)
+> +
+> +The second one is for the caller which expects the function should always
+> +does something. Thus if the function error injection skips whole of the
+
+   do something.                                        skips all of the
+
+> +function, the expectation is betrayed and causes an unexpected error.
+> +
+> +Type of the Error Injectable Functions
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +Each error injectable functions will have the error type specified by the
+
+                         function
+
+> +ALLOW_ERROR_INJECTION() macro. You have to choose it carefully if you add
+> +a new error injectable function. If the wrong error type is chosen, the
+> +kernel may crash because it may not be able to handle the error.
+> +There are 4 types of errors defined in include/asm-generic/error-injection.h
+> +
+> +EI_ETYPE_NULL
+> +  This function will return `NULL` if it fails. e.g. return an allocateed
+
+                                                                  allocated
+
+> +  object address.
+> +
+> +EI_ETYPE_ERRNO
+> +  This function will return an `-errno` error code if it fails. e.g. return
+> +  -EINVAL if the input is wrong. This will include the functions which will
+> +  return an address which encodes `-errno` by ERR_PTR() macro.
+> +
+> +EI_ETYPE_ERRNO_NULL
+> +  This function will return an `-errno` or `NULL` if it fails. If the caller
+> +  of this function checks the return value with IS_ERR_OR_NULL() macro, this
+> +  type will be appropriate.
+> +
+> +EI_ETYPE_TRUE
+> +  This function will return `true` (non-zero positive value) if it fails.
+> +
+> +If you specifies a wrong type, for example, EI_TYPE_ERRNO for the function
+
+          specify
+
+> +which returns an allocated object, it may cause a problem because the returned
+> +value is not an object address and the caller can not access to the address.
+> +
+> +
+>  How to add new fault injection capability
+>  -----------------------------------------
+>  
+> diff --git a/include/asm-generic/error-injection.h b/include/asm-generic/error-injection.h
+> index c0b9d3217ed9..b05253f68eaa 100644
+> --- a/include/asm-generic/error-injection.h
+> +++ b/include/asm-generic/error-injection.h
+> @@ -19,8 +19,10 @@ struct pt_regs;
+>  
+>  #ifdef CONFIG_FUNCTION_ERROR_INJECTION
+>  /*
+> - * Whitelist generating macro. Specify functions which can be
+> - * error-injectable using this macro.
+> + * Whitelist generating macro. Specify functions which can be error-injectable
+> + * using this macro. If you unsure what is required for the error-injectable
+
+                        If you are unsure ...
+
+> + * functions, please read Documentation/fault-injection/fault-injection.rst
+> + * 'Error Injectable Functions' section.
+>   */
+>  #define ALLOW_ERROR_INJECTION(fname, _etype)				\
+>  static struct error_injection_entry __used				\
+> 
+
+-- 
+~Randy
