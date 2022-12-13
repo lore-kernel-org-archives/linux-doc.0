@@ -2,154 +2,298 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABB6FC4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 15:59:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B8AAC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 16:50:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235861AbiLMP7A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Dec 2022 10:59:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52766 "EHLO
+        id S235918AbiLMQuY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Dec 2022 11:50:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235547AbiLMP67 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 10:58:59 -0500
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C07EF36
-        for <linux-doc@vger.kernel.org>; Tue, 13 Dec 2022 07:58:56 -0800 (PST)
-Received: by mail-qv1-xf30.google.com with SMTP id a17so10707105qvt.9
-        for <linux-doc@vger.kernel.org>; Tue, 13 Dec 2022 07:58:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BmoHPjxBfuv0L4/bABJBapiPnoh74ZtmvdJi1uPpypQ=;
-        b=tYSHyL3uT8BsXSP/ddwQ0c6U4nhdyNjgWj87JFBf3wKrv2/u1Rhvnbh0tcm5zQCdx+
-         Z3m6/3BDj8GObhrJtaTfOHOsj6JxliVkHsNt/y0O1l9MVpjQIn91+Sy3NrwwQeqcfZlQ
-         S2PfH5LtOg/HYacxDBleObOg3/CePMpki5SMd7deB8e96YqDEQIAuxEAcxD2M+UZJxtA
-         QqHXZx0xJUBuB9rXKD3WnIIY7Wo9FVQuTVEQnC4OudC5oSNZSw/P1OO6bf97dDABhUhK
-         XjMDuG/ga6AuWOT2s47vBi+LPy3BfEM7s61d4FNSk/qXm+kDo6TDYl+nyQ5a4+92oU8M
-         hROg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BmoHPjxBfuv0L4/bABJBapiPnoh74ZtmvdJi1uPpypQ=;
-        b=u+NXerMgbNlXieUnS/V4qlGLFzbRYyAjxacZmoaAfymVBgo1vUFQ4M8W8CHO+xSfgF
-         cd6EU1ID2lUsI3xzjfcq1vML/9z6L4Gzq7Uen3p7OyoI97deU/On2ttbHFBNJO83XhCZ
-         RaQlE//qEaXhtWXK/FCsq7p9Gu9fCKqlO8t1sag3u3Oh0XI7I1WQECKWf28KZJAlJEkV
-         8SyKo9ympy/BRKoZebyY1fKjlh2YTMPTL9B6EgRktEAAiFBZfiUwqYWnX2Y3SQDmjM1v
-         CycDll+ZN9msk8h7QtTsktNeUGssqiUj1SCZDS1WosJFrd95481AiJ9uhRrfDm/KUEOr
-         rmtQ==
-X-Gm-Message-State: ANoB5ply0ufWBnudTCIiR6adPgmZJ43eTTJ44Xcflc6PTYBcuZIj2W/u
-        y7TG3Ju5jCwIFgLYXXD8CV+apw==
-X-Google-Smtp-Source: AA0mqf5TsTMn5+hH2JXzp36mG6kJIiORg6nfBCGE6ywjeW1MWc0UXgnjNCPVcFfhtcJ34w+X/VIqXg==
-X-Received: by 2002:a05:6214:2b8b:b0:4c7:82c7:8e12 with SMTP id kr11-20020a0562142b8b00b004c782c78e12mr29021586qvb.39.1670947135706;
-        Tue, 13 Dec 2022 07:58:55 -0800 (PST)
-Received: from localhost ([107.116.82.98])
-        by smtp.gmail.com with ESMTPSA id bk24-20020a05620a1a1800b006ee77f1ecc3sm8067725qkb.31.2022.12.13.07.58.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Dec 2022 07:58:55 -0800 (PST)
-Date:   Tue, 13 Dec 2022 16:58:50 +0100
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Mina Almasry <almasrymina@google.com>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Huang Ying <ying.huang@intel.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
-        fvdl@google.com, bagasdotme@gmail.com, cgroups@vger.kernel.org,
+        with ESMTP id S235574AbiLMQuV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 11:50:21 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AAC6E51;
+        Tue, 13 Dec 2022 08:50:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670950217; x=1702486217;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=q0Bp6JbVuQOPKT7fZaFBaeBR9lMZGHX79ZiOWdxZYyg=;
+  b=lXf8XxBLImKgo8I1MnErtq/1BjR8x/U5CKB+P1wsOT8CItyRr7pXwEJf
+   h5Rm+L1Mx4PYNuy04HUuXbgFcSBFYNe4CJ8bP396EU7u5wM2ZMkUgcsX7
+   VCLyT/f8FjOnJROVy0knoatqyhPzEsK1ljgpOld/ZmgVcE9WKQDOcy/GY
+   Tbco4q3vYcvRPQPOCXsglHGUO0r7RpDrAIMEspMEywj91hBgCcfjT99BK
+   6mgyDLE682MShjGJM+LxEzOfuAQ2bfhYkfoiXB2n9rQOM8KNVB4VCcGpC
+   k/TwNPyDKObBimTo8MtWYmVb8PgPvM9AQATZnXio+Mgh6k26fv7MxfzVZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10560"; a="404438129"
+X-IronPort-AV: E=Sophos;i="5.96,241,1665471600"; 
+   d="scan'208";a="404438129"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 08:50:16 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10560"; a="681178113"
+X-IronPort-AV: E=Sophos;i="5.96,241,1665471600"; 
+   d="scan'208";a="681178113"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 08:50:14 -0800
+Date:   Tue, 13 Dec 2022 08:50:25 -0800 (PST)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v3] mm: Add nodes= arg to memory.reclaim
-Message-ID: <Y5iet+ch24YrvExA@cmpxchg.org>
-References: <20221202223533.1785418-1-almasrymina@google.com>
- <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz>
- <CAHS8izM-XdLgFrQ1k13X-4YrK=JGayRXV_G3c3Qh4NLKP7cH_g@mail.gmail.com>
- <Y5g41HF2TcLzro4o@dhcp22.suse.cz>
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com
+Subject: Re: [PATCH v6 1/4] Documentation: fpga: dfl: Add documentation for
+ DFHv1
+In-Reply-To: <Y5P6NjDxy/S7nlF7@debian.me>
+Message-ID: <alpine.DEB.2.22.394.2212130844330.3732069@rhweight-WRK1>
+References: <20221209214523.3484193-1-matthew.gerlach@linux.intel.com> <20221209214523.3484193-2-matthew.gerlach@linux.intel.com> <Y5P6NjDxy/S7nlF7@debian.me>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y5g41HF2TcLzro4o@dhcp22.suse.cz>
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 13, 2022 at 09:33:24AM +0100, Michal Hocko wrote:
-> I do recognize your need to control the demotion but I argue that it is
-> a bad idea to rely on an implicit behavior of the memory reclaim and an
-> interface which is _documented_ to primarily _reclaim_ memory.
 
-I think memory.reclaim should demote as part of page aging. What I'd
-like to avoid is *having* to manually control the aging component in
-the interface (e.g. making memory.reclaim *only* reclaim, and
-*requiring* a coordinated use of memory.demote to ensure progress.)
 
-> Really, consider that the current demotion implementation will change
-> in the future and based on a newly added heuristic memory reclaim or
-> compression would be preferred over migration to a different tier.  This
-> might completely break your current assumptions and break your usecase
-> which relies on an implicit demotion behavior.  Do you see that as a
-> potential problem at all? What shall we do in that case? Special case
-> memory.reclaim behavior?
+On Sat, 10 Dec 2022, Bagas Sanjaya wrote:
 
-Shouldn't that be derived from the distance propertiers in the tier
-configuration?
+> On Fri, Dec 09, 2022 at 01:45:20PM -0800, matthew.gerlach@linux.intel.com wrote:
+>> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+>> index 15b670926084..606b4b070c33 100644
+>> --- a/Documentation/fpga/dfl.rst
+>> +++ b/Documentation/fpga/dfl.rst
+>> @@ -561,6 +561,109 @@ new DFL feature via UIO direct access, its feature id should be added to the
+>>  driver's id_table.
+>>
+>>
+>> +Device Feature Header - Version 0
+>> +===========================================
+>> +Version 0 (DFHv0) is the original version of the Device Feature Header.
+>> +The format of DFHv0 is shown below::
+>> +
+>> +    +-----------------------------------------------------------------------+
+>> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 ID 0| 0x00
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                                 GUID_L                             0| 0x08
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                                 GUID_H                             0| 0x10
+>> +    +-----------------------------------------------------------------------+
+>> +
+>> +- Offset 0x00
+>> +
+>> +  * Type - The type of DFH (e.g. FME, AFU, or private feature).
+>> +  * DFH VER - The version of the DFH.
+>> +  * Rsvd - Currently unused.
+>> +  * EOL - Set if this DFH is the end of the Device Feature List (DFL).
+>> +  * Next - The offset of the next DFH in the DFL from the start of the DFH. If EOL is set, Next is the size of MMIO ofthe last feature in the list.
+>> +  * ID - The ID of the feature if Type is private feature.
+>> +
+>> +- Offset 0x08
+>> +
+>> +  * GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier (present only if Type is FME or AFU).
+>> +
+>> +- Offset 0x10
+>> +
+>> +  * GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier (present only if Type is FME or AFU).
+>> +
+>> +
+>> +Device Feature Header - Version 1
+>> +===========================================
+>> +Version 1 (DFHv1) of the Device Feature Header adds the following functionality:
+>> +
+>> +* Provides a standardized mechanism for features to describe parameters/capabilities to software.
+>> +* Standardize the use of a GUID for all DFHv1 types.
+>> +* Decouples the location of the DFH from the register space of the feature itself.
+>> +
+>> +The format of Version 1 of the Device Feature Header (DFH) is shown below::
+>> +
+>> +    +-----------------------------------------------------------------------+
+>> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 ID 0| 0x00
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                                 GUID_L                             0| 0x08
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                                 GUID_H                             0| 0x10
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                   Reg Address/Offset                      1|  Rel  0| 0x18
+>> +    +-----------------------------------------------------------------------+
+>> +    |63        Reg Size       32|Params 31|30 Group    16|15 Instance      0| 0x20
+>> +    +-----------------------------------------------------------------------+
+>> +    |63 Next    35|34RSV33|EOP32|31 Param Version 16|15 Param ID           0| 0x28
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                 Parameter Data                                     0| 0x30
+>> +    +-----------------------------------------------------------------------+
+>> +
+>> +                                  ...
+>> +
+>> +    +-----------------------------------------------------------------------+
+>> +    |63 Next    35|34RSV33|EOP32|31 Param Version 16|15 Param ID           0|
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                 Parameter Data                                     0|
+>> +    +-----------------------------------------------------------------------+
+>> +
+>> +- Offset 0x00
+>> +
+>> +  * Type - The type of DFH (e.g. FME, AFU, or private feature).
+>> +  * DFH VER - The version of the DFH.
+>> +  * Rsvd - Currently unused.
+>> +  * EOL - Set if this DFH is the end of the Device Feature List (DFL).
+>> +  * Next - The offset of the next DFH in the DFL from the start of the DFH.
+>> +  * ID - The ID of the feature if Type is private feature.
+>> +
+>> +- Offset 0x08
+>> +
+>> +  * GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier.
+>> +
+>> +- Offset 0x10
+>> +
+>> +  * GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier.
+>> +
+>> +- Offset 0x18
+>> +
+>> +  * Reg Address/Offset - If Rel bit is set, then the value is the high 63 bits of a 16 bit aligned absolute address of the feature's registers. If Rel bit is clear, then the value is the offset from the start of the DFH of the feature's registers.
+>> +
+>> +- Offset 0x20
+>> +
+>> +  * Reg Size - Size of feature's register set in bytes.
+>> +  * Params - Set if DFH has a list of parameter blocks.
+>> +  * Group - Id of group if feature is part of a group.
+>> +  * Instance - Id of instance of feature within a group.
+>> +
+>> +- Offset 0x28 if feature has parameters
+>> +
+>> +  * Next - Offset to the next parameter block in 8 byte words. If EOP set, size in 8 byte words of last parameter.
+>> +  * Param Version - Version of Param ID.
+>> +  * Param ID - ID of parameter.
+>> +
+>> +- Offset 0x30
+>> +
+>> +  * Parameter Data - Parameter data whose size and format is defined by version and ID of the parameter.
+>> +
+>>  Open discussion
+>>  ===============
+>>  FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial reconfiguration
+>
+> What about this wording below (including fitting the prose within 80 columns)?
 
-I.e. if local compression is faster than demoting to a slower node, we
-should maybe have a separate tier for that. Ignoring proactive reclaim
-or demotion commands for a second: on that node, global memory
-pressure should always compress first, while the oldest pages from the
-compression cache should demote to the other node(s) - until they
-eventually get swapped out.
+The wording you suggest is an improvement. I will include your 
+suggestions.  I mistakenly thought that Restructured Text needed list 
+items to be a single line and checkpatch.pl did not flag the long lines.
 
-However fine-grained we make proactive reclaim control over these
-stages, it should at least be possible for the user to request the
-default behavior that global pressure follows, without jumping through
-hoops or requiring the coordinated use of multiple knobs. So IMO there
-is an argument for having a singular knob that requests comprehensive
-aging and reclaiming across the configured hierarchy.
+Thanks,
+Matthew Gerlach
 
-As far as explicit control over the individual stages goes - no idea
-if you would call the compression stage demotion or reclaim. The
-distinction still does not make much of sense to me, since reclaim is
-just another form of demotion. Sure, page faults have a different
-access latency than dax to slower memory. But you could also have 3
-tiers of memory where the difference between tier 1 and 2 is much
-smaller than the difference between 2 and 3, and you might want to
-apply different demotion rates between them as well.
-
-The other argument is that demotion does not free cgroup memory,
-whereas reclaim does. But with multiple memory tiers of vastly
-different performance, isn't there also an argument for granting
-cgroups different shares of each memory? So that a higher priority
-group has access to a bigger share of the fastest memory, and lower
-prio cgroups are relegated to lower tiers. If we split those pools,
-then "demotion" will actually free memory in a cgroup.
-
-This is why I liked adding a nodes= argument to memory.reclaim the
-best. It doesn't encode a distinction that may not last for long.
-
-The problem comes from how to interpret the input argument and the
-return value, right? Could we solve this by requiring the passed
-nodes= to all be of the same memory tier? Then there is no confusion
-around what is requested and what the return value means.
-
-And if no nodes are passed, it means reclaim (from the lowest memory
-tier) X pages and demote as needed, then return the reclaimed pages.
-
-> Now to your specific usecase. If there is a need to do a memory
-> distribution balancing then fine but this should be a well defined
-> interface. E.g. is there a need to not only control demotion but
-> promotions as well? I haven't heard anybody requesting that so far
-> but I can easily imagine that like outsourcing the memory reclaim to
-> the userspace someone might want to do the same thing with the numa
-> balancing because $REASONS. Should that ever happen, I am pretty sure
-> hooking into memory.reclaim is not really a great idea.
-
-Should this ever happen, it would seem fair that that be a separate
-knob anyway, no? One knob to move the pipeline in one direction
-(aging), one knob to move it the other way.
+>
+> ---- >8 ----
+> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+> index 606b4b070c3321..3d8f8dde6021db 100644
+> --- a/Documentation/fpga/dfl.rst
+> +++ b/Documentation/fpga/dfl.rst
+> @@ -579,26 +579,30 @@ The format of DFHv0 is shown below::
+>   * Type - The type of DFH (e.g. FME, AFU, or private feature).
+>   * DFH VER - The version of the DFH.
+>   * Rsvd - Currently unused.
+> -  * EOL - Set if this DFH is the end of the Device Feature List (DFL).
+> -  * Next - The offset of the next DFH in the DFL from the start of the DFH. If EOL is set, Next is the size of MMIO ofthe last feature in the list.
+> -  * ID - The ID of the feature if Type is private feature.
+> +  * EOL - Set if the DFH is the end of the Device Feature List (DFL).
+> +  * Next - The offset of the next DFH in the DFL from the DFH start. If EOL is
+> +    set, Next is the size of MMIO of the last feature in the list.
+> +  * ID - The feature ID if Type is private feature.
+>
+> - Offset 0x08
+>
+> -  * GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier (present only if Type is FME or AFU).
+> +  * GUID_L - Least significant 64 bits of a 128-bit Globally Unique Identifier
+> +    (present only if Type is FME or AFU).
+>
+> - Offset 0x10
+>
+> -  * GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier (present only if Type is FME or AFU).
+> +  * GUID_H - Most significant 64 bits of a 128-bit Globally Unique Identifier
+> +    (present only if Type is FME or AFU).
+>
+>
+> Device Feature Header - Version 1
+> ===========================================
+> Version 1 (DFHv1) of the Device Feature Header adds the following functionality:
+>
+> -* Provides a standardized mechanism for features to describe parameters/capabilities to software.
+> +* Provides a standardized mechanism for features to describe
+> +  parameters/capabilities to software.
+> * Standardize the use of a GUID for all DFHv1 types.
+> -* Decouples the location of the DFH from the register space of the feature itself.
+> +* Decouples the DFH location from the register space of the feature itself.
+>
+> The format of Version 1 of the Device Feature Header (DFH) is shown below::
+>
+> @@ -631,38 +635,43 @@ The format of Version 1 of the Device Feature Header (DFH) is shown below::
+>   * Type - The type of DFH (e.g. FME, AFU, or private feature).
+>   * DFH VER - The version of the DFH.
+>   * Rsvd - Currently unused.
+> -  * EOL - Set if this DFH is the end of the Device Feature List (DFL).
+> -  * Next - The offset of the next DFH in the DFL from the start of the DFH.
+> -  * ID - The ID of the feature if Type is private feature.
+> +  * EOL - Set if the DFH is the end of the Device Feature List (DFL).
+> +  * Next - The offset of the next DFH in the DFL from the DFH start.
+> +  * ID - The feature ID if Type is private feature.
+>
+> - Offset 0x08
+>
+> -  * GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier.
+> +  * GUID_L - Least significant 64 bits of a 128-bit Globally Unique Identifier.
+>
+> - Offset 0x10
+>
+> -  * GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier.
+> +  * GUID_H - Most significant 64 bits of a 128-bit Globally Unique Identifier.
+>
+> - Offset 0x18
+>
+> -  * Reg Address/Offset - If Rel bit is set, then the value is the high 63 bits of a 16 bit aligned absolute address of the feature's registers. If Rel bit is clear, then the value is the offset from the start of the DFH of the feature's registers.
+> +  * Reg Address/Offset - If Rel bit is set, then the value is the high 63 bits
+> +    of a 16-bit aligned absolute address of the feature's registers. Otherwise
+> +    the value is the offset from the start of the DFH of the feature's
+> +    registers.
+>
+> - Offset 0x20
+>
+>   * Reg Size - Size of feature's register set in bytes.
+>   * Params - Set if DFH has a list of parameter blocks.
+> -  * Group - Id of group if feature is part of a group.
+> -  * Instance - Id of instance of feature within a group.
+> +  * Group - ID of group if feature is part of a group.
+> +  * Instance - ID of feature instance within a group.
+>
+> - Offset 0x28 if feature has parameters
+>
+> -  * Next - Offset to the next parameter block in 8 byte words. If EOP set, size in 8 byte words of last parameter.
+> +  * Next - Offset to the next parameter block in 8 byte words. If EOP set,
+> +    the value is size in 8 byte words of last parameter.
+>   * Param Version - Version of Param ID.
+>   * Param ID - ID of parameter.
+>
+> - Offset 0x30
+>
+> -  * Parameter Data - Parameter data whose size and format is defined by version and ID of the parameter.
+> +  * Parameter Data - Parameter data whose size and format is defined by
+> +    version and ID of the parameter.
+>
+> Open discussion
+> ===============
+>
+> Thanks.
+>
+> -- 
+> An old man doll... just what I always wanted! - Clara
+>
