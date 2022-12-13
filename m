@@ -2,101 +2,290 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8751FC10F1B
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 20:41:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E301C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 21:24:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237019AbiLMUk6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Dec 2022 15:40:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49056 "EHLO
+        id S236458AbiLMVYE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Dec 2022 16:24:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236726AbiLMUk4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 15:40:56 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F99915721;
-        Tue, 13 Dec 2022 12:40:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670964054; x=1702500054;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=SJZ5dxjy2IoP7M1/SfzQe61iypYUZ8AnkAmDD0aKUFw=;
-  b=Zo+rJJQ1wBA5W13cQzWICvZNCaDJ+5wB6EQIJYN6jsSg4tIba/+Kp7Et
-   xOHr3u/oZ4mSYF+XmAo0eDU8lAkti9x0Ybn7awnQ9N1d3/yuEgISE5x7k
-   ReHSRbecm49O3Orcfk652sbjjvMYEf6zFn83E3U0jGUM4uFd3DPOvPKMl
-   R+8A9L8NBEsbxfn/KYl3q8JtiYIZrI5Tt0DDvYSyShawvdbfI5r0cz4KH
-   iS+bMI1oCCB7UpNE+PKtz+iddn3JGlRX/E1TdKaGiTaOPIliN+iQmDN8U
-   iHa0SdeQYlkg6W2OJEoaxDud9Bs9GsiJ1hagjlrCJXLTr7D7pQNOJJVD1
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10560"; a="305871924"
-X-IronPort-AV: E=Sophos;i="5.96,242,1665471600"; 
-   d="scan'208";a="305871924"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 12:40:53 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10560"; a="894030103"
-X-IronPort-AV: E=Sophos;i="5.96,242,1665471600"; 
-   d="scan'208";a="894030103"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 12:40:52 -0800
-Date:   Tue, 13 Dec 2022 12:41:13 -0800 (PST)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-cc:     Bagas Sanjaya <bagasdotme@gmail.com>, hao.wu@intel.com,
-        yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
-        marpagan@redhat.com
-Subject: Re: [PATCH v6 1/4] Documentation: fpga: dfl: Add documentation for
- DFHv1
-In-Reply-To: <Y5jX/eXrFdAO7xml@smile.fi.intel.com>
-Message-ID: <alpine.DEB.2.22.394.2212131239410.3747445@rhweight-WRK1>
-References: <20221209214523.3484193-1-matthew.gerlach@linux.intel.com> <20221209214523.3484193-2-matthew.gerlach@linux.intel.com> <Y5P6NjDxy/S7nlF7@debian.me> <alpine.DEB.2.22.394.2212130844330.3732069@rhweight-WRK1> <Y5jX/eXrFdAO7xml@smile.fi.intel.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S229532AbiLMVYC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 16:24:02 -0500
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B8BD218AF;
+        Tue, 13 Dec 2022 13:24:00 -0800 (PST)
+Received: by mail-qt1-f170.google.com with SMTP id fz10so1000332qtb.3;
+        Tue, 13 Dec 2022 13:24:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wVbuTlw5StqCpUnT2Z3N8qBlMp/3yxGOfym0r6um0Eo=;
+        b=Eo16T/j40jJgSBILOV2+Ev1y9PzX1x8XZeETL2WQk90vNXWb/nqB5/w1wLwGqce2lZ
+         wSlkY3a4RMfk+jTNwt+sPGK7fJQZXrfvG4PfacbaIuMtrBcn5LDE+cWYof5LpOZJFUK+
+         8nKXHxRFRQyx91pKgMTVc4mQ0ngjlRUAgLuONWBCl7agzMLX+TdOO7WfXbcb9sILclNi
+         7iM9MXGES5JAtAexg7tJ/lzPTiZ1inb38wO+cVnzDVzAj33ZZcw8G9lBTb7+LxB5XQlL
+         ibP1nCSj7keui84VfcTfxrM9ENWLHO9dBygj04VN5af4srZVGe0IFjPeYKAQmegN661w
+         Julg==
+X-Gm-Message-State: ANoB5pl7wGj2R2xK5Dx6+i9QUjvFdwjf28h7d9etA8Dwh/DZQXZy/i1n
+        t1K4QE7SACnSWJFAIlP82Go=
+X-Google-Smtp-Source: AA0mqf7r+QLWexqUutWYZ8ep9dyvSW9rbCjW2XVm2ChH8tW1CD4Qa+Ida5fK+XEb1bmXPdTgun3PEQ==
+X-Received: by 2002:a05:622a:6108:b0:3a7:e838:11c8 with SMTP id hg8-20020a05622a610800b003a7e83811c8mr24898099qtb.45.1670966639395;
+        Tue, 13 Dec 2022 13:23:59 -0800 (PST)
+Received: from maniforge.lan ([2620:10d:c091:480::1:8faa])
+        by smtp.gmail.com with ESMTPSA id k10-20020ac8074a000000b00397b1c60780sm511190qth.61.2022.12.13.13.23.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Dec 2022 13:23:58 -0800 (PST)
+Date:   Tue, 13 Dec 2022 15:23:57 -0600
+From:   David Vernet <void@manifault.com>
+To:     "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, bpf@vger.kernel.org,
+        Borislav Petkov <bp@alien8.de>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Florent Revest <revest@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Chris Mason <clm@meta.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Akinobu Mita <akinobu.mita@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 2/2] docs: fault-injection: Add requirements of error
+ injectable functions
+Message-ID: <Y5jtbcmXrkPCvrjj@maniforge.lan>
+References: <167094067084.608798.11303550366840600235.stgit@devnote3>
+ <167094069168.608798.9644454927302716989.stgit@devnote3>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <167094069168.608798.9644454927302716989.stgit@devnote3>
+User-Agent: Mutt/2.2.7 (2022-08-07)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Dec 13, 2022 at 11:11:31PM +0900, Masami Hiramatsu (Google) wrote:
+> From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> 
+> Add a section about the requirements of the error injectable functions
+> and the type of errors.
+> Since this section must be read before using ALLOW_ERROR_INJECTION()
+> macro, that section is referred from the comment of the macro too.
+> 
+> Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 
+Hi Masami,
 
-On Tue, 13 Dec 2022, Andy Shevchenko wrote:
+Thanks for writing this up. I have a few suggestions and some small
+grammar nits, please see below.
 
-> On Tue, Dec 13, 2022 at 08:50:25AM -0800, matthew.gerlach@linux.intel.com wrote:
->> On Sat, 10 Dec 2022, Bagas Sanjaya wrote:
->>> On Fri, Dec 09, 2022 at 01:45:20PM -0800, matthew.gerlach@linux.intel.com wrote:
->
-> ...
->
->>>>  Open discussion
->>>>  ===============
->>>>  FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial reconfiguration
->>>
->>> What about this wording below (including fitting the prose within 80 columns)?
->>
->> The wording you suggest is an improvement. I will include your suggestions.
->> I mistakenly thought that Restructured Text needed list items to be a single
->> line and checkpatch.pl did not flag the long lines.
->
-> I usually test the output with rst2pdf. You can also try kernel doc script to
-> produce man and HTML and see how they are rendered.
+> Link: https://lore.kernel.org/all/20221211115218.2e6e289bb85f8cf53c11aa97@kernel.org/T/#u
+> ---
+>  Changes in v2:
+>   - Fix typos and misses according to Randy's comment.
+> ---
+>  Documentation/fault-injection/fault-injection.rst |   65 +++++++++++++++++++++
+>  include/asm-generic/error-injection.h             |    6 +-
+>  2 files changed, 69 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/fault-injection/fault-injection.rst b/Documentation/fault-injection/fault-injection.rst
+> index 17779a2772e5..76bc9c857761 100644
+> --- a/Documentation/fault-injection/fault-injection.rst
+> +++ b/Documentation/fault-injection/fault-injection.rst
+> @@ -233,6 +233,71 @@ proc entries
+>  	This feature is intended for systematic testing of faults in a single
+>  	system call. See an example below.
+>  
+> +
+> +Error Injectable Functions
+> +--------------------------
+> +
+> +This part is for the kenrel developers considering adding a function
 
-I have been using 'make htmldocs' and viewing the output.  I will checkout 
-rst2pdf as well.
+s/kenrel/kernel
 
-Thanks for the feedback,
-Matthew Gerlach
+> +using the ALLOW_ERROR_INJECTION() macro.
+> +
+> +Requirements for the Error Injectable Functions
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
->
-> -- 
-> With Best Regards,
-> Andy Shevchenko
->
->
->
+s/for the Error/for Error
+
+> +
+> +Since the function-level error injection forcibly changes the code path
+> +and returns an error even if the input and conditions are proper, this can
+> +cause unexpected kernel crash if you allow error injection on the function
+
+s/cause unexpected/cause an unexpected
+
+Starting off this paragraph with a few sentences describing the
+high-level purpose of the macro may be useful here as well.
+
+> +which is NOT error injectable. Thus, you (and reviewers) must ensure;
+
+IMO the wording in the "...this can cause unexpected kernel crash if you
+allow error injection on the function which is NOT error injectable"
+part of the sentence could be improved. The function is error
+injectable, so saying the kernel could crash if you allow error
+injection on a function that's not error injectable is a bit confusing.
+What about something like this for the whole sentence?
+
+Because function-level error injection may forcibly change a function's
+return value, a function that enables it may return an error _any_ time
+it returns a value, including if it is invoked with expected parameters
+and under proper conditions. This means that you must _always_ ensure
+the following requirements are met in orer to avoid a kernel crash:
+
+> +
+> +- The function returns an error code if it fails, and the callers must check
+
+I'm a bit confused by the first part of this sentence. The point is that
+we're overriding the returned error code, right? What about something
+like this:
+
+Callers must always check for errors on every invocation of an
+error-injectable function, and must safely recover if any error is
+observed.
+
+> +  it correctly (need to recover from it).
+> +
+> +- The function does not execute any code which can change any state before
+> +  the first error return. The state includes global or local, or input
+> +  variable. For example, clear output address storage (e.g. `*ret = NULL`),
+
+s/global or local, or input variable/global, local, and input variables
+
+> +  increment/decrement counter, set a flag, preempt/irq disable or get
+> +  a lock (if those are recovered before returning error, that will be OK.)
+
+small nit: s/get a lock/acquire a lock
+
+Also, the presence of this caveat suggests to me that this second bullet
+should possibly be rephrased in general:
+>(if those are recovered before returning error, that will be OK.)
+
+If I understand correctly, the larger point is that the caller should
+never observe any side effects when calling an error-injectable function
+if that function returns an error, correct? The caller expecting that
+the function will always change some state before its first return
+statement is definitely a violation of that, but I think it could apply
+to other parts of the function as well.
+
+What do you think about this:
+
+An error-injectable function should never leak any observable state to
+the caller if an error is returned, and the caller should never rely on
+some state always being changed when the function is called. For
+example, it would be a bug if a function ever returned -EBUSY with a
+lock held, or if the caller assumed that a global counter would always
+be incremented. Other examples of improper state change visibility
+include writing to a pointer argument without restoring the original
+value on any error path, enabling or disabling preemption or IRQs,
+flushing a buffer, etc.
+
+> +
+> +The first requirement is important, and it will result in that the release
+> +(free objects) functions are usually harder to inject errors than allocate
+> +functions. If errors of such release functions are not correctly handled
+> +it will cause a memory leak easily (the caller will confuse that the object
+> +has been released or corrupted.)
+
+I don't quite understand why release functions would be different than
+calling any other error-injectable kernel function that needs to clean
+up state, but I readily admit that I may be missing some context. Also,
+such functions are typically void anyways, no? So wouldn't they usually
+be less of a pain? Again, apologies if I'm missing context here.
+
+> +
+> +The second one is for the caller which expects the function should always
+> +do something. Thus if the function error injection skips all of the
+> +function, the expectation is betrayed and causes an unexpected error.
+
+I would personally scrap this part, but it's up to you. I think it's all
+well captured in the second bullet-point already.
+
+> +
+> +Type of the Error Injectable Functions
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +Each error injectable function will have the error type specified by the
+> +ALLOW_ERROR_INJECTION() macro. You have to choose it carefully if you add
+> +a new error injectable function. If the wrong error type is chosen, the
+
+I would consider removing the second two sentences in this paragraph.
+We're working in the kernel, so being careful should be the baseline no
+matter what you're doing. Also, it seems fairly clear that choosing the
+wrong error-return type could cause a crash, unspecified behavior, etc.
+
+> +kernel may crash because it may not be able to handle the error.
+> +There are 4 types of errors defined in include/asm-generic/error-injection.h
+
+s/4 types of errors/4 return types
+
+I realize that we've been using 'error types' up to now for error
+injection, but IMO it's really return types that we're concerned with.
+Feel free to ignore if you disagree.
+
+> +
+> +EI_ETYPE_NULL
+> +  This function will return `NULL` if it fails. e.g. return an allocated
+> +  object address.
+> +
+> +EI_ETYPE_ERRNO
+> +  This function will return an `-errno` error code if it fails. e.g. return
+> +  -EINVAL if the input is wrong. This will include the functions which will
+> +  return an address which encodes `-errno` by ERR_PTR() macro.
+> +
+> +EI_ETYPE_ERRNO_NULL
+> +  This function will return an `-errno` or `NULL` if it fails. If the caller
+> +  of this function checks the return value with IS_ERR_OR_NULL() macro, this
+> +  type will be appropriate.
+> +
+> +EI_ETYPE_TRUE
+> +  This function will return `true` (non-zero positive value) if it fails.
+> +
+> +If you specify a wrong type, for example, EI_TYPE_ERRNO for the function
+
+s/a wrong type/the wrong type
+
+also, s/for the function/for a function
+
+> +which returns an allocated object, it may cause a problem because the returned
+> +value is not an object address and the caller can not access to the address.
+
+s/can not access to the address/cannot dereference it
+
+or just drop everything after "is not an object address". If it's not an
+address, you probably shouldn't be accessing it :-) (modulo masking out
+flags, etc).
+
+> +
+> +
+>  How to add new fault injection capability
+>  -----------------------------------------
+>  
+> diff --git a/include/asm-generic/error-injection.h b/include/asm-generic/error-injection.h
+> index c0b9d3217ed9..18324d7aa56d 100644
+> --- a/include/asm-generic/error-injection.h
+> +++ b/include/asm-generic/error-injection.h
+> @@ -19,8 +19,10 @@ struct pt_regs;
+>  
+>  #ifdef CONFIG_FUNCTION_ERROR_INJECTION
+>  /*
+> - * Whitelist generating macro. Specify functions which can be
+> - * error-injectable using this macro.
+> + * Whitelist generating macro. Specify functions which can be error-injectable
+> + * using this macro. If you are unsure what is required for the error-injectable
+> + * functions, please read Documentation/fault-injection/fault-injection.rst
+> + * 'Error Injectable Functions' section.
+>   */
+>  #define ALLOW_ERROR_INJECTION(fname, _etype)				\
+>  static struct error_injection_entry __used				\
+> 
