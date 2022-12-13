@@ -2,144 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1AB3C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 20:30:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8751FC10F1B
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 20:41:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238359AbiLMUaR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Dec 2022 15:30:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44000 "EHLO
+        id S237019AbiLMUk6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Dec 2022 15:40:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236984AbiLMU3y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 15:29:54 -0500
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E45CFD1B;
-        Tue, 13 Dec 2022 12:26:25 -0800 (PST)
-Received: by mail-pg1-x52b.google.com with SMTP id f9so614891pgf.7;
-        Tue, 13 Dec 2022 12:26:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3eunpPqNIioAIh6oggqPAPCImtIarWZxO3LlqXOoyfU=;
-        b=ZnAX3SjX1+BI5veXj4o/UF4Lsjtb07nZ9a2RWWK17Atuf+n8l8h8pwKO4X3pY/k5om
-         pFPjNE/Z5TnrLtLq/iYWa0hr/tkfmpGJuJNLQYs1g0ei1E7Pd5oHPBn9b32fRHmGyXiT
-         4e8XTZvXfK5En7qf/QBAWwdOwUAW+kQoklPu6nL5fv9la9TudN3ka3hszUE0hdeR0lVs
-         9psLKqVnh23ekJf/rd69lngrisc7GazzY/XI4VFKB76qyZag4FF4SRnEFKaStcawU2b8
-         TsOVwKBEWt1P+S9CCOrdMtT3FXDWTKsreHocqTJw4rb9MhmOqFMuk/SfskhOetNSknCN
-         Rr6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3eunpPqNIioAIh6oggqPAPCImtIarWZxO3LlqXOoyfU=;
-        b=4H62Wx+17nxJynR6dysR9ma4rt0cUKkoM5glLfzVDUA8sBE1Py2nCUHWTiLu1AMp9c
-         5uekvtL+j0OOXpPev51mY9xGnX/+vZAkbj2xCCXQnpsHg3vfEXrljZbMLyr994jUV551
-         /ZMP/3vkpOT/2SgFmUSGhjq2DEMlIf+v5d9Ml57XjKU4SCnxRKnfPBjKfFG5+mqSwZQL
-         uA2qR1vCaVI+2BqMXOa3tsxLiB93TSNdnTxBiB5TV6W7sRM6IgZFXAJlb3rwayK+zByz
-         MHyB97tGXX5ufj4c0Y1A0+K5NqCi/YCByGoreHKDs3EqkCsMYEe/GLBH6UV2WdKWY6Vz
-         m7kA==
-X-Gm-Message-State: ANoB5pmEc+rGAMbd1LLyEVD67lkXKEAoAZhWjpdqKGSJG4SurQ3swY5s
-        liTOiNmHCwtKR9m/Bq1YVnA=
-X-Google-Smtp-Source: AA0mqf7kzaiTGwjM7e0zM0LMUECvs/p0b9BGGN/53EWoMXlVd6Nkf4r5tdCqhn5+fPq5BAK3cjMoFw==
-X-Received: by 2002:aa7:8b48:0:b0:56b:ae1d:a3c6 with SMTP id i8-20020aa78b48000000b0056bae1da3c6mr5043203pfd.1.1670963184803;
-        Tue, 13 Dec 2022 12:26:24 -0800 (PST)
-Received: from mail.google.com (125-237-37-88-fibre.sparkbb.co.nz. [125.237.37.88])
-        by smtp.gmail.com with ESMTPSA id e9-20020aa79809000000b00571bdf45888sm8023394pfl.154.2022.12.13.12.26.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Dec 2022 12:26:24 -0800 (PST)
-Date:   Wed, 14 Dec 2022 09:26:15 +1300
-From:   Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-        Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>,
-        Vipin Sharma <vipinsh@google.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Subject: [PATCH v3] scripts/tags.sh: choose which directories to exclude from
- being indexed
-Message-ID: <Y5jf59VCL/HAt60q@mail.google.com>
+        with ESMTP id S236726AbiLMUk4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 15:40:56 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F99915721;
+        Tue, 13 Dec 2022 12:40:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670964054; x=1702500054;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=SJZ5dxjy2IoP7M1/SfzQe61iypYUZ8AnkAmDD0aKUFw=;
+  b=Zo+rJJQ1wBA5W13cQzWICvZNCaDJ+5wB6EQIJYN6jsSg4tIba/+Kp7Et
+   xOHr3u/oZ4mSYF+XmAo0eDU8lAkti9x0Ybn7awnQ9N1d3/yuEgISE5x7k
+   ReHSRbecm49O3Orcfk652sbjjvMYEf6zFn83E3U0jGUM4uFd3DPOvPKMl
+   R+8A9L8NBEsbxfn/KYl3q8JtiYIZrI5Tt0DDvYSyShawvdbfI5r0cz4KH
+   iS+bMI1oCCB7UpNE+PKtz+iddn3JGlRX/E1TdKaGiTaOPIliN+iQmDN8U
+   iHa0SdeQYlkg6W2OJEoaxDud9Bs9GsiJ1hagjlrCJXLTr7D7pQNOJJVD1
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10560"; a="305871924"
+X-IronPort-AV: E=Sophos;i="5.96,242,1665471600"; 
+   d="scan'208";a="305871924"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 12:40:53 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10560"; a="894030103"
+X-IronPort-AV: E=Sophos;i="5.96,242,1665471600"; 
+   d="scan'208";a="894030103"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 12:40:52 -0800
+Date:   Tue, 13 Dec 2022 12:41:13 -0800 (PST)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+cc:     Bagas Sanjaya <bagasdotme@gmail.com>, hao.wu@intel.com,
+        yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com
+Subject: Re: [PATCH v6 1/4] Documentation: fpga: dfl: Add documentation for
+ DFHv1
+In-Reply-To: <Y5jX/eXrFdAO7xml@smile.fi.intel.com>
+Message-ID: <alpine.DEB.2.22.394.2212131239410.3747445@rhweight-WRK1>
+References: <20221209214523.3484193-1-matthew.gerlach@linux.intel.com> <20221209214523.3484193-2-matthew.gerlach@linux.intel.com> <Y5P6NjDxy/S7nlF7@debian.me> <alpine.DEB.2.22.394.2212130844330.3732069@rhweight-WRK1> <Y5jX/eXrFdAO7xml@smile.fi.intel.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y5fdgI4uTpXZQ9yn@mail.google.com>
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It's common for drivers that share same physical components to also
-duplicate source code (or at least portions of it). A good example is
-both drivers/gpu/drm/amdgpu/* and drivers/gpu/drm/radeon/* have a header
-file called atombios.h.
 
-While their contents aren't the same, a lot of their structs have
-the exact same names which makes navigating through the code base a bit
-messy as cscope will show up 'references' across drivers which aren't
-exactly correct.
 
-Add IGNORE_DIRS variable, which specifies which directories
-to be ignored from indexing.
+On Tue, 13 Dec 2022, Andy Shevchenko wrote:
 
-Example:
-        make ARCH=x86 IGNORE_DIRS="drivers/gpu/drm/radeon tools" cscope
+> On Tue, Dec 13, 2022 at 08:50:25AM -0800, matthew.gerlach@linux.intel.com wrote:
+>> On Sat, 10 Dec 2022, Bagas Sanjaya wrote:
+>>> On Fri, Dec 09, 2022 at 01:45:20PM -0800, matthew.gerlach@linux.intel.com wrote:
+>
+> ...
+>
+>>>>  Open discussion
+>>>>  ===============
+>>>>  FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial reconfiguration
+>>>
+>>> What about this wording below (including fitting the prose within 80 columns)?
+>>
+>> The wording you suggest is an improvement. I will include your suggestions.
+>> I mistakenly thought that Restructured Text needed list items to be a single
+>> line and checkpatch.pl did not flag the long lines.
+>
+> I usually test the output with rst2pdf. You can also try kernel doc script to
+> produce man and HTML and see how they are rendered.
 
-Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
----
-Changelog:
+I have been using 'make htmldocs' and viewing the output.  I will checkout 
+rst2pdf as well.
 
-- v3: change commit message wording and rst syntax (Req Bagas Sanjaya)
-      change makefile variable scope to global, use blank space
-      separator and change variable name to IGNORE_DIRS.
-      (Req: Vipin Sharma)
-- v2: change approach to include everything unless specified by the 
-  IGNOREDIRS variable: (Req: Vipin Sharma)
-- v1: https://lore.kernel.org/lkml/Y5OKDvbGk4Kro6MK@mail.google.com/
----
- Documentation/kbuild/kbuild.rst | 7 +++++++
- scripts/tags.sh                 | 7 +++++++
- 2 files changed, 14 insertions(+)
+Thanks for the feedback,
+Matthew Gerlach
 
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 08f575e6236c..5202186728b4 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -278,6 +278,13 @@ To get all available archs you can also specify all. E.g.::
- 
-     $ make ALLSOURCE_ARCHS=all tags
- 
-+IGNORE_DIRS
-+-----------
-+For tags/TAGS/cscope targets, you can choose which directories won't
-+be included in the databases, separated by blank space. E.g.::
-+
-+    $ make IGNORE_DIRS="drivers/gpu/drm/radeon tools" cscope
-+
- KBUILD_BUILD_TIMESTAMP
- ----------------------
- Setting this to a date string overrides the timestamp used in the
-diff --git a/scripts/tags.sh b/scripts/tags.sh
-index e137cf15aae9..1ad45f17179a 100755
---- a/scripts/tags.sh
-+++ b/scripts/tags.sh
-@@ -17,6 +17,13 @@ ignore="$(echo "$RCS_FIND_IGNORE" | sed 's|\\||g' )"
- # tags and cscope files should also ignore MODVERSION *.mod.c files
- ignore="$ignore ( -name *.mod.c ) -prune -o"
- 
-+# ignore arbitrary directories
-+if [ -n "${IGNORE_DIRS}" ]; then
-+	for i in ${IGNORE_DIRS}; do
-+		ignore="${ignore} ( -path $i ) -prune -o"
-+	done
-+fi
-+
- # Use make KBUILD_ABS_SRCTREE=1 {tags|cscope}
- # to force full paths for a non-O= build
- if [ "${srctree}" = "." -o -z "${srctree}" ]; then
--- 
-2.38.1
-
+>
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+>
+>
+>
