@@ -2,187 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75BC5C4167B
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 13:30:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF23EC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 13:43:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235548AbiLMNav (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Dec 2022 08:30:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45896 "EHLO
+        id S235749AbiLMNnP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Dec 2022 08:43:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235356AbiLMNau (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 08:30:50 -0500
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5B4F11B
-        for <linux-doc@vger.kernel.org>; Tue, 13 Dec 2022 05:30:48 -0800 (PST)
-Received: by mail-ed1-x544.google.com with SMTP id d20so17770704edn.0
-        for <linux-doc@vger.kernel.org>; Tue, 13 Dec 2022 05:30:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GkAga1fPXNCvgWWr0y17vOcwxqzOIKIhEW49YSLUBLs=;
-        b=zXfkNNv5mXOMPEanvux+4bWlBQnFuzxE2MzUd22vOUfuSUzuyhRUOfDzB0ggA71T8F
-         U4BoSvDNvouPUsFnxzBhZ9PkJKNOOi+r+fWw9vIFexrfG0KwcjqamyWJH78bxvSa+wEK
-         sviWJZdff4IfSH7PcbdsfV9IggXAnSU97epnS/d0NovCmFSRag3LxiwLBWEbw0wia48V
-         YbDPBVUWD+T8qS9AWX0q7GxruKFPjvBYZuFfVuhZJcW2vVgQJ/wUPa1YAkGfHLEO3TNv
-         ut45RL2Pkoauar+k5MQKvHAfX+4LQXjfZ+Tr4d/sXdDmzrGpjYfmw5ayEfmXxR2ffeRd
-         2uuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GkAga1fPXNCvgWWr0y17vOcwxqzOIKIhEW49YSLUBLs=;
-        b=XSLLI3zA3CTqXI1X8MIbXb++/kyowZIYbPSifnV/LHMFP/oO3Ry2JPGMsFy7F/ZTmH
-         GKyL5GRlLSg/S2u/K4NGn34o20Mistp1TRXifSrGvCLnlT53KY+yE3e4lGnREP04uVuG
-         jdVDcGZsDKARQlvetY9Y4J0EJPiFbQ9YNDcOpm3ltJDQFZky/halU9OkdFRaRcM4AY2Y
-         BB9GCxs9/owrFh35eSvj0ykEJ5QEskadIcM1e/l2p4FSadqruxYwazpJjIfKmSy7Rg6a
-         Tnn6hEhIQW4NWZnuA17eZT8rIsgOzmn9uAGwiZNsXKHtEqOnlcyDLzVJMBUVryTZDnCV
-         uk8g==
-X-Gm-Message-State: ANoB5pl71KXWxrcCvlA5VgM/SfoqRU7XE3W1LNxfI1C9zRgA5pWzmgIP
-        j4DuOPH8qjl5M1UShEfpWehfzA==
-X-Google-Smtp-Source: AA0mqf55nZH+ZFdawcdqg2GbkWyleEiww6bqn+BU/p1ARK9riCKQWs9Ju9dLnhFZ+gdPQNXQCWCLww==
-X-Received: by 2002:a05:6402:c08:b0:46d:83ea:44e8 with SMTP id co8-20020a0564020c0800b0046d83ea44e8mr18308556edb.21.1670938247443;
-        Tue, 13 Dec 2022 05:30:47 -0800 (PST)
-Received: from localhost (ip-046-005-139-011.um12.pools.vodafone-ip.de. [46.5.139.11])
-        by smtp.gmail.com with ESMTPSA id d7-20020aa7ce07000000b0046951b43e84sm4945096edv.55.2022.12.13.05.30.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Dec 2022 05:30:47 -0800 (PST)
-Date:   Tue, 13 Dec 2022 14:30:40 +0100
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     "Huang, Ying" <ying.huang@intel.com>
-Cc:     Mina Almasry <almasrymina@google.com>,
-        Michal Hocko <mhocko@suse.com>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
+        with ESMTP id S235768AbiLMNnC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 08:43:02 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B95A0D8E;
+        Tue, 13 Dec 2022 05:43:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670938981; x=1702474981;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=XCQGGTjFZDCNegxIbrsrKbDLonWPRMS8SgLrOu3wwKk=;
+  b=VZmYsUSKZjvlKomuMD689fIIhTd7j1Tw8vbxBgtYJ+6oqZ92WTB85Ffp
+   EZmmiN2bzre3pupahYqFTq5ZmtgSPFnm/OJdW0shvRsfyvadYANythArN
+   W1jL9ZeTStSxPaF4wACKyrY8zZj5QyEyP2tsJ25jCQhX0JV3XGfKTLJNT
+   y+hlmnAXkrxkxWT3RfBFwRLtNp4X+nIn5/bxJocLPoY2irCip8HXrUJHv
+   IKgCh+6028QZIC0xWxUzwoO95ZZC/EdFa+y8HS02EjL3epJiJg5AqFuwC
+   HPagXXrvgxOpNS/DbLTnwKO3GdO1fsms75rzOVqBn/m+vu21ih6dUW/xg
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="297810521"
+X-IronPort-AV: E=Sophos;i="5.96,241,1665471600"; 
+   d="scan'208";a="297810521"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 05:43:01 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="790936440"
+X-IronPort-AV: E=Sophos;i="5.96,241,1665471600"; 
+   d="scan'208";a="790936440"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 05:42:57 -0800
+From:   "Huang, Ying" <ying.huang@intel.com>
+To:     Michal Hocko <mhocko@suse.com>,
+        Mina Almasry <almasrymina@google.com>, weixugc@google.com
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Roman Gushchin <roman.gushchin@linux.dev>,
         Shakeel Butt <shakeelb@google.com>,
         Muchun Song <songmuchun@bytedance.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
-        fvdl@google.com, bagasdotme@gmail.com, cgroups@vger.kernel.org,
+        Yosry Ahmed <yosryahmed@google.com>, fvdl@google.com,
+        bagasdotme@gmail.com, cgroups@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org
 Subject: Re: [PATCH v3] mm: Add nodes= arg to memory.reclaim
-Message-ID: <Y5h+gHBneexFQcR3@cmpxchg.org>
+In-Reply-To: <Y5g9D12uEr7HpP5K@dhcp22.suse.cz> (Michal Hocko's message of
+        "Tue, 13 Dec 2022 09:51:27 +0100")
 References: <20221202223533.1785418-1-almasrymina@google.com>
- <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz>
- <CAHS8izM-XdLgFrQ1k13X-4YrK=JGayRXV_G3c3Qh4NLKP7cH_g@mail.gmail.com>
- <87k02volwe.fsf@yhuang6-desk2.ccr.corp.intel.com>
+        <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz>
+        <CAHS8izM-XdLgFrQ1k13X-4YrK=JGayRXV_G3c3Qh4NLKP7cH_g@mail.gmail.com>
+        <87k02volwe.fsf@yhuang6-desk2.ccr.corp.intel.com>
+        <Y5g9D12uEr7HpP5K@dhcp22.suse.cz>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+Date:   Tue, 13 Dec 2022 21:42:02 +0800
+Message-ID: <87bko7h13p.fsf@yhuang6-desk2.ccr.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87k02volwe.fsf@yhuang6-desk2.ccr.corp.intel.com>
+Content-Type: text/plain; charset=ascii
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 13, 2022 at 02:30:57PM +0800, Huang, Ying wrote:
-> Mina Almasry <almasrymina@google.com> writes:
-> 
-> > On Mon, Dec 12, 2022 at 12:55 AM Michal Hocko <mhocko@suse.com> wrote:
-> >>
-> >> On Fri 02-12-22 14:35:31, Mina Almasry wrote:
-> >> > The nodes= arg instructs the kernel to only scan the given nodes for
-> >> > proactive reclaim. For example use cases, consider a 2 tier memory system:
-> >> >
-> >> > nodes 0,1 -> top tier
-> >> > nodes 2,3 -> second tier
-> >> >
-> >> > $ echo "1m nodes=0" > memory.reclaim
-> >> >
-> >> > This instructs the kernel to attempt to reclaim 1m memory from node 0.
-> >> > Since node 0 is a top tier node, demotion will be attempted first. This
-> >> > is useful to direct proactive reclaim to specific nodes that are under
-> >> > pressure.
-> >> >
-> >> > $ echo "1m nodes=2,3" > memory.reclaim
-> >> >
-> >> > This instructs the kernel to attempt to reclaim 1m memory in the second tier,
-> >> > since this tier of memory has no demotion targets the memory will be
-> >> > reclaimed.
-> >> >
-> >> > $ echo "1m nodes=0,1" > memory.reclaim
-> >> >
-> >> > Instructs the kernel to reclaim memory from the top tier nodes, which can
-> >> > be desirable according to the userspace policy if there is pressure on
-> >> > the top tiers. Since these nodes have demotion targets, the kernel will
-> >> > attempt demotion first.
-> >> >
-> >> > Since commit 3f1509c57b1b ("Revert "mm/vmscan: never demote for memcg
-> >> > reclaim""), the proactive reclaim interface memory.reclaim does both
-> >> > reclaim and demotion. Reclaim and demotion incur different latency costs
-> >> > to the jobs in the cgroup. Demoted memory would still be addressable
-> >> > by the userspace at a higher latency, but reclaimed memory would need to
-> >> > incur a pagefault.
-> >> >
-> >> > The 'nodes' arg is useful to allow the userspace to control demotion
-> >> > and reclaim independently according to its policy: if the memory.reclaim
-> >> > is called on a node with demotion targets, it will attempt demotion first;
-> >> > if it is called on a node without demotion targets, it will only attempt
-> >> > reclaim.
-> >> >
-> >> > Acked-by: Michal Hocko <mhocko@suse.com>
-> >> > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> >>
-> >> After discussion in [1] I have realized that I haven't really thought
-> >> through all the consequences of this patch and therefore I am retracting
-> >> my ack here. I am not nacking the patch at this statge but I also think
-> >> this shouldn't be merged now and we should really consider all the
-> >> consequences.
-> >>
-> >> Let me summarize my main concerns here as well. The proposed
-> >> implementation doesn't apply the provided nodemask to the whole reclaim
-> >> process. This means that demotion can happen outside of the mask so the
-> >> the user request cannot really control demotion targets and that limits
-> >> the interface should there be any need for a finer grained control in
-> >> the future (see an example in [2]).
-> >> Another problem is that this can limit future reclaim extensions because
-> >> of existing assumptions of the interface [3] - specify only top-tier
-> >> node to force the aging without actually reclaiming any charges and
-> >> (ab)use the interface only for aging on multi-tier system. A change to
-> >> the reclaim to not demote in some cases could break this usecase.
-> >>
-> >
-> > I think this is correct. My use case is to request from the kernel to
-> > do demotion without reclaim in the cgroup, and the reason for that is
-> > stated in the commit message:
-> >
-> > "Reclaim and demotion incur different latency costs to the jobs in the
-> > cgroup. Demoted memory would still be addressable by the userspace at
-> > a higher latency, but reclaimed memory would need to incur a
-> > pagefault."
-> >
-> > For jobs of some latency tiers, we would like to trigger proactive
-> > demotion (which incurs relatively low latency on the job), but not
-> > trigger proactive reclaim (which incurs a pagefault). I initially had
-> > proposed a separate interface for this, but Johannes directed me to
-> > this interface instead in [1]. In the same email Johannes also tells
-> > me that meta's reclaim stack relies on memory.reclaim triggering
-> > demotion, so it seems that I'm not the first to take a dependency on
-> > this. Additionally in [2] Johannes also says it would be great if in
-> > the long term reclaim policy and demotion policy do not diverge.
-> >
-> > [1] https://lore.kernel.org/linux-mm/Y35fw2JSAeAddONg@cmpxchg.org/
-> > [2] https://lore.kernel.org/linux-mm/Y36fIGFCFKiocAd6@cmpxchg.org/
-> 
-> After these discussion, I think the solution maybe use different
-> interfaces for "proactive demote" and "proactive reclaim".  That is,
-> reconsider "memory.demote".  In this way, we will always uncharge the
-> cgroup for "memory.reclaim".  This avoid the possible confusion there.
-> And, because demotion is considered aging, we don't need to disable
-> demotion for "memory.reclaim", just don't count it.
+Michal Hocko <mhocko@suse.com> writes:
 
-Hm, so in summary:
+> On Tue 13-12-22 14:30:57, Huang, Ying wrote:
+>> Mina Almasry <almasrymina@google.com> writes:
+> [...]
+>> After these discussion, I think the solution maybe use different
+>> interfaces for "proactive demote" and "proactive reclaim".  That is,
+>> reconsider "memory.demote".  In this way, we will always uncharge the
+>> cgroup for "memory.reclaim".  This avoid the possible confusion there.
+>> And, because demotion is considered aging, we don't need to disable
+>> demotion for "memory.reclaim", just don't count it.
+>
+> As already pointed out in my previous email, we should really think more
+> about future requirements. Do we add memory.promote interface when there
+> is a request to implement numa balancing into the userspace? Maybe yes
+> but maybe the node balancing should be more generic than bound to memory
+> tiering and apply to a more fine grained nodemask control.
+>
+> Fundamentally we already have APIs to age (MADV_COLD, MADV_FREE),
+> reclaim (MADV_PAGEOUT, MADV_DONTNEED) and MADV_WILLNEED to prioritize
+> (swap in, or read ahead) which are per mm/file. Their primary usability
+> issue is that they are process centric and that requires a very deep
+> understanding of the process mm layout so it is not really usable for a
+> larger scale orchestration.
+> The important part of those interfaces is that they do not talk about
+> demotion because that is an implementation detail. I think we want to
+> follow that model at least. From a higher level POV I believe we really
+> need an interface to age&reclaim and balance memory among nodes. Are
+> there more higher level usecases?
 
-1) memory.reclaim would demote and reclaim like today, but it would
-   change to only count reclaimed pages against the goal.
+Yes.  If the high level interface can satisfy the requirements, we
+should use them or define them.  But I guess Mina and Xu has some
+requirements at the level of memory tiers (demotion/promotion)?
 
-2) memory.demote would only demote.
-
-   a) What if the demotion targets are full? Would it reclaim or fail?
-
-3) Would memory.reclaim and memory.demote still need nodemasks? Would
-   they return -EINVAL if a) memory.reclaim gets passed only toptier
-   nodes or b) memory.demote gets passed any lasttier nodes?
+Best Regards,
+Huang, Ying
