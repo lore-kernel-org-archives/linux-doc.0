@@ -2,102 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B6AAC10F1D
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 14:03:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76821C10F1D
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 14:13:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235459AbiLMODX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Dec 2022 09:03:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33204 "EHLO
+        id S235903AbiLMOM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Dec 2022 09:12:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229803AbiLMODW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 09:03:22 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F17E063B2;
-        Tue, 13 Dec 2022 06:03:21 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        with ESMTP id S235901AbiLMOM2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 09:12:28 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D26A63B0;
+        Tue, 13 Dec 2022 06:11:17 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 799EF22C51;
-        Tue, 13 Dec 2022 14:03:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1670940200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=XKy/NcC13yXOmU25oapyqo2lixJpYFXoptQAq2pSWKk=;
-        b=OXYUAfMi2KkrqhWQhsIVfKCRYnn9puhrGfj1DKpChL2k4O+RB+uq/EZhyif4+UQRAMXvNh
-        PM2zJr7QsmnppAyzVtHWA6+e2xcA1xU5R6hRRo3HDFKfJZYSdkZ/SkyYWM4bRPZYMh2VoW
-        AzNkVq0gLDdu0r4il93PtD7Xrdo8wZw=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 51E73138F9;
-        Tue, 13 Dec 2022 14:03:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id vJ3IESiGmGOJYgAAMHmgww
-        (envelope-from <mhocko@suse.com>); Tue, 13 Dec 2022 14:03:20 +0000
-Date:   Tue, 13 Dec 2022 15:03:19 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     "Huang, Ying" <ying.huang@intel.com>,
-        Mina Almasry <almasrymina@google.com>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <songmuchun@bytedance.com>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A77FD61536;
+        Tue, 13 Dec 2022 14:11:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4399C433D2;
+        Tue, 13 Dec 2022 14:11:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670940675;
+        bh=hJEn/SyT7u4Ea+9kLZem5aYnwJxDKn16rRrjp1PMzuQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lVhRbsKzj5sq7nUjIwdRL7l1GtF0DsBMd5E3EehvoiPEe4PzNWg6G1PazM95pIzff
+         aLOqjzzsf87ZZ6ukB08hp1Umy209D5LEfNmCT6zT9j4HGSqIKatpYRSNamhrRFpfmM
+         dsR3CqI90eNoq2rLwsJMa8WaQS2U+WmzorKrw9JxzGlBjl5a/DtsalsZC1x8LGC708
+         qFQ3iocJdOzrI5/ozOub7d5IYYpkAkm64ueDvg+lpRVNDLXnJ6/CNfqn+R5Zi0BxrW
+         Q74Jg0d3GInuq6ibPAeYn41iLVO3O1M8Hj0MwhmSe2W3NoA09lKrVxG2OCWxRTu8ma
+         wI5Lbqh/M4pgw==
+From:   "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     bpf@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
-        fvdl@google.com, bagasdotme@gmail.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v3] mm: Add nodes= arg to memory.reclaim
-Message-ID: <Y5iGJ/9PMmSCwqLj@dhcp22.suse.cz>
-References: <20221202223533.1785418-1-almasrymina@google.com>
- <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz>
- <CAHS8izM-XdLgFrQ1k13X-4YrK=JGayRXV_G3c3Qh4NLKP7cH_g@mail.gmail.com>
- <87k02volwe.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <Y5h+gHBneexFQcR3@cmpxchg.org>
+        Peter Zijlstra <peterz@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Florent Revest <revest@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Chris Mason <clm@meta.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Akinobu Mita <akinobu.mita@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v2 0/2] error-injection: Clarify the requirements of error injectable functions
+Date:   Tue, 13 Dec 2022 23:11:10 +0900
+Message-Id: <167094067084.608798.11303550366840600235.stgit@devnote3>
+X-Mailer: git-send-email 2.39.0.rc1.256.g54fd8350bd-goog
+User-Agent: StGit/0.19
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y5h+gHBneexFQcR3@cmpxchg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 13-12-22 14:30:40, Johannes Weiner wrote:
-> On Tue, Dec 13, 2022 at 02:30:57PM +0800, Huang, Ying wrote:
-[...]
-> > After these discussion, I think the solution maybe use different
-> > interfaces for "proactive demote" and "proactive reclaim".  That is,
-> > reconsider "memory.demote".  In this way, we will always uncharge the
-> > cgroup for "memory.reclaim".  This avoid the possible confusion there.
-> > And, because demotion is considered aging, we don't need to disable
-> > demotion for "memory.reclaim", just don't count it.
-> 
-> Hm, so in summary:
-> 
-> 1) memory.reclaim would demote and reclaim like today, but it would
->    change to only count reclaimed pages against the goal.
-> 
-> 2) memory.demote would only demote.
-> 
->    a) What if the demotion targets are full? Would it reclaim or fail?
-> 
-> 3) Would memory.reclaim and memory.demote still need nodemasks? Would
->    they return -EINVAL if a) memory.reclaim gets passed only toptier
->    nodes or b) memory.demote gets passed any lasttier nodes?
+Hi,
 
-I would also add
-4) Do we want to allow to control the demotion path (e.g. which node to
-   demote from and to) and how to achieve that?
-5) Is the demotion api restricted to multi-tier systems or any numa
-   configuration allowed as well?
+Here is the 2nd version of the series to clarify the requirement of error
+injectable functions and remove confusing EI_ETYPE_NONE.
 
--- 
-Michal Hocko
-SUSE Labs
+Here is the thread of discussions which leads this series.
+
+https://lore.kernel.org/all/167019256481.3792653.4369637751468386073.stgit@devnote3/T/#u
+
+I agreed that NACK the taint flag itself, and I thought I need to update
+the function error injection so that the developers understand the
+requirements and carefully use the ALLOW_ERROR_INJECTION() macro.
+So I removed the confusing EI_ETYPE_NONE (this should not be there,
+use errno instead), and update the document about error injectable
+functions.
+
+Thank you,
+
+---
+
+Masami Hiramatsu (Google) (2):
+      error-injection: Remove EI_ETYPE_NONE
+      docs: fault-injection: Add requirements of error injectable functions
+
+
+ Documentation/fault-injection/fault-injection.rst |   65 +++++++++++++++++++++
+ include/asm-generic/error-injection.h             |    7 +-
+ include/linux/error-injection.h                   |    3 +
+ lib/error-inject.c                                |    2 -
+ 4 files changed, 72 insertions(+), 5 deletions(-)
+
+--
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
