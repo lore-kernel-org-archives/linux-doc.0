@@ -2,97 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B62A7C4167B
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 19:52:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4602C10F1B
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Dec 2022 19:53:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235875AbiLMTwn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Dec 2022 14:52:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52054 "EHLO
+        id S236601AbiLMTx6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Dec 2022 14:53:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230061AbiLMTwm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 14:52:42 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D8B71147;
-        Tue, 13 Dec 2022 11:52:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670961159; x=1702497159;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MU6rFsdcfnzIZ8FnppA/8eHjC/2nt+tjADR1U5/R7l0=;
-  b=P3NQ9AA4pZXPhverRN7FZsV+uGtLaUWgf5Gk2nSDkyvoVcNMHRCSgFgB
-   jUvPsPeYZL2FpxX8eKh3giHaazxTwbCetPIWmYgD9WNxftYxgJ2f3FPtH
-   ROj6xpXw/ImJ0MIYOB9M17LBe37RtHcHtHrDGJkHm7Tp6QW5BTV9j+AGZ
-   xHOtlIvjTVx0xM/jI//13F/Uv/3+3U03Y+7jZNkByY/jLgpukxToI0arb
-   /+iTF+7hiVOnQJZtWx6qgC81m9SuVd70pTcr3Ampzc4/G5t4wdsVlStio
-   +QlosJB19SLiE4Vwx+4NMw31iCC/+UWjzO52vECHsUaNQG+Db/jSzCsb0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10560"; a="320087110"
-X-IronPort-AV: E=Sophos;i="5.96,242,1665471600"; 
-   d="scan'208";a="320087110"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 11:52:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10560"; a="717325838"
-X-IronPort-AV: E=Sophos;i="5.96,242,1665471600"; 
-   d="scan'208";a="717325838"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Dec 2022 11:52:32 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1p5BKI-009RL9-07;
-        Tue, 13 Dec 2022 21:52:30 +0200
-Date:   Tue, 13 Dec 2022 21:52:29 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     matthew.gerlach@linux.intel.com
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, hao.wu@intel.com,
-        yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
-        marpagan@redhat.com
-Subject: Re: [PATCH v6 1/4] Documentation: fpga: dfl: Add documentation for
- DFHv1
-Message-ID: <Y5jX/eXrFdAO7xml@smile.fi.intel.com>
-References: <20221209214523.3484193-1-matthew.gerlach@linux.intel.com>
- <20221209214523.3484193-2-matthew.gerlach@linux.intel.com>
- <Y5P6NjDxy/S7nlF7@debian.me>
- <alpine.DEB.2.22.394.2212130844330.3732069@rhweight-WRK1>
+        with ESMTP id S236516AbiLMTx4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 14:53:56 -0500
+Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8FAE14002
+        for <linux-doc@vger.kernel.org>; Tue, 13 Dec 2022 11:53:54 -0800 (PST)
+Received: by mail-vs1-xe35.google.com with SMTP id 3so15784709vsq.7
+        for <linux-doc@vger.kernel.org>; Tue, 13 Dec 2022 11:53:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=G68UrwkYoX/Qe/LoWiVKT0TgPWlsfh6ss6fYKw0/u6Q=;
+        b=Sm8jgscfl0bxKQljesMfB/GLmzJaJD2vpXZGfn0SUkb5+iYT7soSkMXvoJkuAmGEi8
+         Xf50Z0xzzN+cwQkwCYl+q6vPKzbkk4kB1e8tTanObV8TGNuryvpt+NjUQ2TkXxxqIzpO
+         LYcjE7/r+2zyTzC2NQSG5lb8ylYzAAhsRfiQYBJ4M7f2VPPi5KYBls3PFjee2xiNgiCU
+         +k3NJS+AJ0CdsG4wCv36sgBuDF+yZcefMFa7BEGCR1GbvSbdSINRBb/q5jrbF0UZrufz
+         3hLaS3wKXAXEwWDVCMxik4Ytq8v6dEUK4LcVueiRfgrW+BpP7dnoSEuoNaVY6dRzSENK
+         AT+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G68UrwkYoX/Qe/LoWiVKT0TgPWlsfh6ss6fYKw0/u6Q=;
+        b=RbVUobkhB3rxcAJRgE2iTVjNu3Xv1Su7hHEFYARg0zNuLkQCtaH7IHDuLaJSrbilSV
+         npQaY1xlzXAuV1XkVB/n6r9aTzYZqjX3zFu1b3OCB4d/3TUUl1KP3emJy1xQIQlVTtcs
+         mjjDSXGedHP7XOP1Ec1jWPyyJLEyY65B5SF9GHcLQzhr+CSuIV/beNFBSbtnvROzilip
+         FO+S7Setkg/sdh660LMz7lHCGFm0hplwRyM1VOOKQY1z+PUXop3PmOiEUSRkZJQUT7PU
+         LS31BaeVjx82TLc3wv0IwR2lExRA59cUf8GXzna5it3oxpM+gXtYZK6QqPVTWafLYWYm
+         Xd6A==
+X-Gm-Message-State: ANoB5pmFb9qoWPGqp0vI8hOEuNc2VG4XEDGn0Nv5UFAaK35+uoUCXmii
+        h/2QpWk7WE0QeYf1srEOqyTbJsuFGQ6k2VqzzOiXhw==
+X-Google-Smtp-Source: AA0mqf6neKya6HOBCrEDVGywH2EKFZpIFqYaI1I7eSYfNlwOM6XXk5c5BHVV+2II+AgVkhYA1AerI7HFu29tEnLXKD0=
+X-Received: by 2002:a05:6102:cd1:b0:3aa:1bff:a8a5 with SMTP id
+ g17-20020a0561020cd100b003aa1bffa8a5mr55883869vst.67.1670961233827; Tue, 13
+ Dec 2022 11:53:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2212130844330.3732069@rhweight-WRK1>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221202223533.1785418-1-almasrymina@google.com>
+ <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz> <CAHS8izM-XdLgFrQ1k13X-4YrK=JGayRXV_G3c3Qh4NLKP7cH_g@mail.gmail.com>
+ <Y5g41HF2TcLzro4o@dhcp22.suse.cz> <Y5iet+ch24YrvExA@cmpxchg.org>
+In-Reply-To: <Y5iet+ch24YrvExA@cmpxchg.org>
+From:   Mina Almasry <almasrymina@google.com>
+Date:   Tue, 13 Dec 2022 11:53:42 -0800
+Message-ID: <CAHS8izPVbCZOeXxr=Fawa6N92WqJ=6CgP4vHuh-LA_aOH1QOvQ@mail.gmail.com>
+Subject: Re: [PATCH v3] mm: Add nodes= arg to memory.reclaim
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Michal Hocko <mhocko@suse.com>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Huang Ying <ying.huang@intel.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
+        fvdl@google.com, bagasdotme@gmail.com, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 13, 2022 at 08:50:25AM -0800, matthew.gerlach@linux.intel.com wrote:
-> On Sat, 10 Dec 2022, Bagas Sanjaya wrote:
-> > On Fri, Dec 09, 2022 at 01:45:20PM -0800, matthew.gerlach@linux.intel.com wrote:
+On Tue, Dec 13, 2022 at 7:58 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
+>
+> On Tue, Dec 13, 2022 at 09:33:24AM +0100, Michal Hocko wrote:
+> > I do recognize your need to control the demotion but I argue that it is
+> > a bad idea to rely on an implicit behavior of the memory reclaim and an
+> > interface which is _documented_ to primarily _reclaim_ memory.
+>
+> I think memory.reclaim should demote as part of page aging. What I'd
+> like to avoid is *having* to manually control the aging component in
+> the interface (e.g. making memory.reclaim *only* reclaim, and
+> *requiring* a coordinated use of memory.demote to ensure progress.)
+>
+> > Really, consider that the current demotion implementation will change
+> > in the future and based on a newly added heuristic memory reclaim or
+> > compression would be preferred over migration to a different tier.  This
+> > might completely break your current assumptions and break your usecase
+> > which relies on an implicit demotion behavior.  Do you see that as a
+> > potential problem at all? What shall we do in that case? Special case
+> > memory.reclaim behavior?
+>
+> Shouldn't that be derived from the distance propertiers in the tier
+> configuration?
+>
+> I.e. if local compression is faster than demoting to a slower node, we
+> should maybe have a separate tier for that. Ignoring proactive reclaim
+> or demotion commands for a second: on that node, global memory
+> pressure should always compress first, while the oldest pages from the
+> compression cache should demote to the other node(s) - until they
+> eventually get swapped out.
+>
+> However fine-grained we make proactive reclaim control over these
+> stages, it should at least be possible for the user to request the
+> default behavior that global pressure follows, without jumping through
+> hoops or requiring the coordinated use of multiple knobs. So IMO there
+> is an argument for having a singular knob that requests comprehensive
+> aging and reclaiming across the configured hierarchy.
+>
+> As far as explicit control over the individual stages goes - no idea
+> if you would call the compression stage demotion or reclaim. The
+> distinction still does not make much of sense to me, since reclaim is
+> just another form of demotion. Sure, page faults have a different
+> access latency than dax to slower memory. But you could also have 3
+> tiers of memory where the difference between tier 1 and 2 is much
+> smaller than the difference between 2 and 3, and you might want to
+> apply different demotion rates between them as well.
+>
+> The other argument is that demotion does not free cgroup memory,
+> whereas reclaim does. But with multiple memory tiers of vastly
+> different performance, isn't there also an argument for granting
+> cgroups different shares of each memory? So that a higher priority
+> group has access to a bigger share of the fastest memory, and lower
+> prio cgroups are relegated to lower tiers. If we split those pools,
+> then "demotion" will actually free memory in a cgroup.
+>
 
-...
+I would also like to say I implemented something in line with that in [1].
 
-> > >  Open discussion
-> > >  ===============
-> > >  FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial reconfiguration
-> > 
-> > What about this wording below (including fitting the prose within 80 columns)?
-> 
-> The wording you suggest is an improvement. I will include your suggestions.
-> I mistakenly thought that Restructured Text needed list items to be a single
-> line and checkpatch.pl did not flag the long lines.
+In this patch, pages demoted from inside the nodemask to outside the
+nodemask count as 'reclaimed'. This, in my mind, is a very generic
+solution to the 'should demoted pages count as reclaim?' problem, and
+will work in all scenarios as long as the nodemask passed to
+shrink_folio_list() is set correctly by the call stack.
 
-I usually test the output with rst2pdf. You can also try kernel doc script to
-produce man and HTML and see how they are rendered.
+> This is why I liked adding a nodes= argument to memory.reclaim the
+> best. It doesn't encode a distinction that may not last for long.
+>
+> The problem comes from how to interpret the input argument and the
+> return value, right? Could we solve this by requiring the passed
+> nodes= to all be of the same memory tier? Then there is no confusion
+> around what is requested and what the return value means.
+>
 
--- 
-With Best Regards,
-Andy Shevchenko
+I feel like I arrived at a better solution in [1], where pages demoted
+from inside of the nodemask to outside count as reclaimed and the rest
+don't. But I think we could solve this by explicit checks that nodes=
+arg are from the same tier, yes.
 
+> And if no nodes are passed, it means reclaim (from the lowest memory
+> tier) X pages and demote as needed, then return the reclaimed pages.
+>
+> > Now to your specific usecase. If there is a need to do a memory
+> > distribution balancing then fine but this should be a well defined
+> > interface. E.g. is there a need to not only control demotion but
+> > promotions as well? I haven't heard anybody requesting that so far
+> > but I can easily imagine that like outsourcing the memory reclaim to
+> > the userspace someone might want to do the same thing with the numa
+> > balancing because $REASONS. Should that ever happen, I am pretty sure
+> > hooking into memory.reclaim is not really a great idea.
+>
+> Should this ever happen, it would seem fair that that be a separate
+> knob anyway, no? One knob to move the pipeline in one direction
+> (aging), one knob to move it the other way.
 
+[1] https://lore.kernel.org/linux-mm/20221206023406.3182800-1-almasrymina@google.com/
