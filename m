@@ -2,141 +2,350 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57065C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Dec 2022 07:21:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 877B2C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Dec 2022 09:20:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237518AbiLNHV6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Dec 2022 02:21:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51910 "EHLO
+        id S237868AbiLNJUB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Dec 2022 04:20:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbiLNHVw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Dec 2022 02:21:52 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F011DF82;
-        Tue, 13 Dec 2022 23:21:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671002511; x=1702538511;
-  h=from:to:cc:subject:references:date:in-reply-to:
-   message-id:mime-version;
-  bh=HblZg3PBBDPB1t0Kwe0mL0LavoSCTJKSmagehy3+X4s=;
-  b=ETqGdD7/E42oW4bO01VSLjPb1JDuSgIkMD41yknUIqV1smCLYGhLACn/
-   nzO0dOUZZb8iJfadQL48gzzs6NsXS08Xc/aEjUIh/ipy8LbALiQhdDf3j
-   ZLjn3OaYTmjOT5mYGCLDuWbVI4AdoHnQLRuqK5JoJnYcF0oTbC6B1vNvK
-   pO0WRET25nt8nRmOiyIyUsxQCxzFftmGrgTh5zIkVHS7RRJPRFH7RW8yC
-   7b27LRe6AS1D3ljIsEYeYpK/OAVvaFcuJfXlg1nUxeIODtV036VkZ8fNu
-   nNtbrCjNewF6U3gOgXRenv/hkcMaKWWW2peQ/N9LfxoXqnqylhzrhhZcr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10560"; a="320195450"
-X-IronPort-AV: E=Sophos;i="5.96,243,1665471600"; 
-   d="scan'208";a="320195450"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 23:21:50 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10560"; a="712410374"
-X-IronPort-AV: E=Sophos;i="5.96,243,1665471600"; 
-   d="scan'208";a="712410374"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 23:21:46 -0800
-From:   "Huang, Ying" <ying.huang@intel.com>
-To:     Mina Almasry <almasrymina@google.com>
-Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@suse.com>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
-        fvdl@google.com, bagasdotme@gmail.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v3] mm: Add nodes= arg to memory.reclaim
-References: <20221202223533.1785418-1-almasrymina@google.com>
-        <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz>
-        <CAHS8izM-XdLgFrQ1k13X-4YrK=JGayRXV_G3c3Qh4NLKP7cH_g@mail.gmail.com>
-        <Y5g41HF2TcLzro4o@dhcp22.suse.cz> <Y5iet+ch24YrvExA@cmpxchg.org>
-        <CAHS8izPVbCZOeXxr=Fawa6N92WqJ=6CgP4vHuh-LA_aOH1QOvQ@mail.gmail.com>
-Date:   Wed, 14 Dec 2022 15:20:58 +0800
-In-Reply-To: <CAHS8izPVbCZOeXxr=Fawa6N92WqJ=6CgP4vHuh-LA_aOH1QOvQ@mail.gmail.com>
-        (Mina Almasry's message of "Tue, 13 Dec 2022 11:53:42 -0800")
-Message-ID: <87bko6fo2t.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        with ESMTP id S237374AbiLNJT7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Dec 2022 04:19:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 956E1108B
+        for <linux-doc@vger.kernel.org>; Wed, 14 Dec 2022 01:19:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1671009557;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HoUGAyklYAnx52Tpq8z0T6HC4NEbzOMs2xbzmoR67Zs=;
+        b=Cu2nAXZz7hV4Q3rMfAJjIML1l1DUefL8OgJ6ribzeMhRfjnkoGv6pT+PEd6WMRlItjtP52
+        4Bew1WHvRQVwpuuf9jOWEHBfmjvPYGi7azm2xWQuYcNyZjVjnLWIRp39wo3KLypRCGDrAQ
+        0Rr61FBXjjIUqRYKBmY/QGF9lFa2CD0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-21-VRIfG0qAM86IkG8G_No5tA-1; Wed, 14 Dec 2022 04:19:16 -0500
+X-MC-Unique: VRIfG0qAM86IkG8G_No5tA-1
+Received: by mail-wm1-f71.google.com with SMTP id f20-20020a7bc8d4000000b003d1cda5bd6fso3905945wml.9
+        for <linux-doc@vger.kernel.org>; Wed, 14 Dec 2022 01:19:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HoUGAyklYAnx52Tpq8z0T6HC4NEbzOMs2xbzmoR67Zs=;
+        b=DrLCRRO3dZ0dt5NIuTCYz6CsJNhabTPiEn3Fo/0Pdnq9+8gw4xpLUbxgvF4+eaeRHb
+         CifBM5+LFDK3k97IVmZ5GHOWXhjVCWWXST6ntAXcd+ZJQG8guWIytcYwgZ2RfvXCDkBk
+         rqBwsTcHNSZvzUVaPHLFFz8zGPnxaXUOyAmkN12ARkoyQ5EOjEfltUgnlQWfISy4KRVv
+         5UlNPZolDsPmY9xPv0Y+V8BBuxUQ14vKYpgt/q3B1lmQ04RordocTCR27N0yBRUsjA9w
+         l33U3ulMzV5MKxQhHc6ifPtLRZ0+tdPtEPBw7sefh0W8w3TkOO5+q7mNuoUAY9h31A/x
+         hGhw==
+X-Gm-Message-State: ANoB5pkLGaiXbh5FYFYFy2SZRpQGCm1PQr0akKOIOsWhVnHqRIm7B7hB
+        mU9P7KheB9rlFbhsMzhLa7zHX4cRCFf4onDmkVIkmCC0qoy/zF/GFjcG4+KLkiuMZ78OVFRQC0v
+        9pTD9M8Ib11DRH69rwwuk
+X-Received: by 2002:a05:600c:21c1:b0:3cf:8833:1841 with SMTP id x1-20020a05600c21c100b003cf88331841mr18404642wmj.39.1671009555472;
+        Wed, 14 Dec 2022 01:19:15 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4ZsxbaSySB91CVjJpj7oHdhC9I/G0p1kdN01fM0L7otn3MVMadRczuW8LH58MNXjShT5aMsg==
+X-Received: by 2002:a05:600c:21c1:b0:3cf:8833:1841 with SMTP id x1-20020a05600c21c100b003cf88331841mr18404626wmj.39.1671009555123;
+        Wed, 14 Dec 2022 01:19:15 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-178-56.web.vodafone.de. [109.43.178.56])
+        by smtp.gmail.com with ESMTPSA id u6-20020a5d4686000000b002421a8f4fa6sm2191822wrq.92.2022.12.14.01.19.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Dec 2022 01:19:14 -0800 (PST)
+Message-ID: <44816a09-8567-b2be-84ef-ada621d1beb4@redhat.com>
+Date:   Wed, 14 Dec 2022 10:19:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v4 1/9] KVM: s390: Extend MEM_OP ioctl by storage key
+ checked cmpxchg
+Content-Language: en-US
+To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sven Schnelle <svens@linux.ibm.com>
+References: <20221213165405.2953539-1-scgl@linux.ibm.com>
+ <20221213165405.2953539-2-scgl@linux.ibm.com>
+From:   Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221213165405.2953539-2-scgl@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mina Almasry <almasrymina@google.com> writes:
+On 13/12/2022 17.53, Janis Schoetterl-Glausch wrote:
+> User space can use the MEM_OP ioctl to make storage key checked reads
+> and writes to the guest, however, it has no way of performing atomic,
+> key checked, accesses to the guest.
+> Extend the MEM_OP ioctl in order to allow for this, by adding a cmpxchg
+> mode. For now, support this mode for absolute accesses only.
+> 
+> This mode can be use, for example, to set the device-state-change
+> indicator and the adapter-local-summary indicator atomically.
+> 
+> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+> ---
+>   include/uapi/linux/kvm.h |   7 +++
+>   arch/s390/kvm/gaccess.h  |   3 ++
+>   arch/s390/kvm/gaccess.c  | 102 +++++++++++++++++++++++++++++++++++++++
+>   arch/s390/kvm/kvm-s390.c |  39 ++++++++++++++-
+>   4 files changed, 149 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 0d5d4419139a..f106db1af5ee 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -588,6 +588,8 @@ struct kvm_s390_mem_op {
+>   		struct {
+>   			__u8 ar;	/* the access register number */
+>   			__u8 key;	/* access key, ignored if flag unset */
+> +			__u8 pad1[6];	/* ignored */
+> +			__u64 old_addr;	/* ignored if flag unset */
+>   		};
+>   		__u32 sida_offset; /* offset into the sida */
+>   		__u8 reserved[32]; /* ignored */
+> @@ -604,6 +606,11 @@ struct kvm_s390_mem_op {
+>   #define KVM_S390_MEMOP_F_CHECK_ONLY		(1ULL << 0)
+>   #define KVM_S390_MEMOP_F_INJECT_EXCEPTION	(1ULL << 1)
+>   #define KVM_S390_MEMOP_F_SKEY_PROTECTION	(1ULL << 2)
+> +#define KVM_S390_MEMOP_F_CMPXCHG		(1ULL << 3)
+> +/* flags specifying extension support */
+> +#define KVM_S390_MEMOP_EXTENSION_CAP_CMPXCHG 0x2
+> +/* Non program exception return codes (pgm codes are 16 bit) */
+> +#define KVM_S390_MEMOP_R_NO_XCHG		(1 << 16)
+>   
+>   /* for KVM_INTERRUPT */
+>   struct kvm_interrupt {
+> diff --git a/arch/s390/kvm/gaccess.h b/arch/s390/kvm/gaccess.h
+> index 9408d6cc8e2c..92a3b9fb31ec 100644
+> --- a/arch/s390/kvm/gaccess.h
+> +++ b/arch/s390/kvm/gaccess.h
+> @@ -206,6 +206,9 @@ int access_guest_with_key(struct kvm_vcpu *vcpu, unsigned long ga, u8 ar,
+>   int access_guest_real(struct kvm_vcpu *vcpu, unsigned long gra,
+>   		      void *data, unsigned long len, enum gacc_mode mode);
+>   
+> +int cmpxchg_guest_abs_with_key(struct kvm *kvm, gpa_t gpa, int len,
+> +			       __uint128_t *old, __uint128_t new, u8 access_key);
+> +
+>   /**
+>    * write_guest_with_key - copy data from kernel space to guest space
+>    * @vcpu: virtual cpu
+> diff --git a/arch/s390/kvm/gaccess.c b/arch/s390/kvm/gaccess.c
+> index 0243b6e38d36..6165e761a637 100644
+> --- a/arch/s390/kvm/gaccess.c
+> +++ b/arch/s390/kvm/gaccess.c
+> @@ -1161,6 +1161,108 @@ int access_guest_real(struct kvm_vcpu *vcpu, unsigned long gra,
+>   	return rc;
+>   }
+>   
+> +/**
+> + * cmpxchg_guest_abs_with_key() - Perform cmpxchg on guest absolute address.
+> + * @kvm: Virtual machine instance.
+> + * @gpa: Absolute guest address of the location to be changed.
+> + * @len: Operand length of the cmpxchg, required: 1 <= len <= 16. Providing a
+> + *       non power of two will result in failure.
+> + * @old_addr: Pointer to old value. If the location at @gpa contains this value, the
+> + *         exchange will succeed. After calling cmpxchg_guest_abs_with_key() *@old
+> + *         contains the value at @gpa before the attempt to exchange the value.
+> + * @new: The value to place at @gpa.
+> + * @access_key: The access key to use for the guest access.
+> + *
+> + * Atomically exchange the value at @gpa by @new, if it contains *@old.
+> + * Honors storage keys.
+> + *
+> + * Return: * 0: successful exchange
+> + *         * 1: exchange unsuccessful
+> + *         * a program interruption code indicating the reason cmpxchg could
+> + *           not be attempted
+> + *         * -EINVAL: address misaligned or len not power of two
+> + *         * -EAGAIN: transient failure (len 1 or 2)
+> + *         * -EOPNOTSUPP: read-only memslot (should never occur)
+> + */
+> +int cmpxchg_guest_abs_with_key(struct kvm *kvm, gpa_t gpa, int len,
+> +			       __uint128_t *old_addr, __uint128_t new,
+> +			       u8 access_key)
+> +{
+> +	gfn_t gfn = gpa >> PAGE_SHIFT;
+> +	struct kvm_memory_slot *slot = gfn_to_memslot(kvm, gfn);
+> +	bool writable;
+> +	hva_t hva;
+> +	int ret;
+> +
+> +	if (!IS_ALIGNED(gpa, len))
+> +		return -EINVAL;
+> +
+> +	hva = gfn_to_hva_memslot_prot(slot, gfn, &writable);
+> +	if (kvm_is_error_hva(hva))
+> +		return PGM_ADDRESSING;
+> +	/*
+> +	 * Check if it's a read-only memslot, even though that cannot occur
+> +	 * since those are unsupported.
+> +	 * Don't try to actually handle that case.
+> +	 */
+> +	if (!writable)
+> +		return -EOPNOTSUPP;
+> +
+> +	hva += offset_in_page(gpa);
+> +	switch (len) {
+> +	case 1: {
+> +		u8 old;
+> +
+> +		ret = cmpxchg_user_key((u8 *)hva, &old, *old_addr, new, access_key);
+> +		ret = ret < 0 ? ret : old != *old_addr;
+> +		*old_addr = old;
+> +		break;
+> +	}
+> +	case 2: {
+> +		u16 old;
+> +
+> +		ret = cmpxchg_user_key((u16 *)hva, &old, *old_addr, new, access_key);
+> +		ret = ret < 0 ? ret : old != *old_addr;
+> +		*old_addr = old;
+> +		break;
+> +	}
+> +	case 4: {
+> +		u32 old;
+> +
+> +		ret = cmpxchg_user_key((u32 *)hva, &old, *old_addr, new, access_key);
+> +		ret = ret < 0 ? ret : old != *old_addr;
+> +		*old_addr = old;
+> +		break;
+> +	}
+> +	case 8: {
+> +		u64 old;
+> +
+> +		ret = cmpxchg_user_key((u64 *)hva, &old, *old_addr, new, access_key);
+> +		ret = ret < 0 ? ret : old != *old_addr;
+> +		*old_addr = old;
+> +		break;
+> +	}
+> +	case 16: {
+> +		__uint128_t old;
+> +
+> +		ret = cmpxchg_user_key((__uint128_t *)hva, &old, *old_addr, new, access_key);
+> +		ret = ret < 0 ? ret : old != *old_addr;
+> +		*old_addr = old;
+> +		break;
+> +	}
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +	mark_page_dirty_in_slot(kvm, slot, gfn);
+> +	/*
+> +	 * Assume that the fault is caused by protection, either key protection
+> +	 * or user page write protection.
+> +	 */
+> +	if (ret == -EFAULT)
+> +		ret = PGM_PROTECTION;
+> +	return ret;
+> +}
+> +
+>   /**
+>    * guest_translate_address_with_key - translate guest logical into guest absolute address
+>    * @vcpu: virtual cpu
+> diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
+> index 45d4b8182b07..47bcf2cb4345 100644
+> --- a/arch/s390/kvm/kvm-s390.c
+> +++ b/arch/s390/kvm/kvm-s390.c
+> @@ -576,7 +576,6 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>   	case KVM_CAP_S390_VCPU_RESETS:
+>   	case KVM_CAP_SET_GUEST_DEBUG:
+>   	case KVM_CAP_S390_DIAG318:
+> -	case KVM_CAP_S390_MEM_OP_EXTENSION:
+>   		r = 1;
+>   		break;
+>   	case KVM_CAP_SET_GUEST_DEBUG2:
+> @@ -590,6 +589,14 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>   	case KVM_CAP_S390_MEM_OP:
+>   		r = MEM_OP_MAX_SIZE;
+>   		break;
+> +	case KVM_CAP_S390_MEM_OP_EXTENSION:
+> +		/*
+> +		 * Flag bits indicating which extensions are supported.
+> +		 * The first extension doesn't use a flag, but pretend it does,
+> +		 * this way that can be changed in the future.
+> +		 */
+> +		r = KVM_S390_MEMOP_EXTENSION_CAP_CMPXCHG | 1;
+> +		break;
+>   	case KVM_CAP_NR_VCPUS:
+>   	case KVM_CAP_MAX_VCPUS:
+>   	case KVM_CAP_MAX_VCPU_ID:
+> @@ -2714,12 +2721,19 @@ static bool access_key_invalid(u8 access_key)
+>   static int kvm_s390_vm_mem_op(struct kvm *kvm, struct kvm_s390_mem_op *mop)
+>   {
+>   	void __user *uaddr = (void __user *)mop->buf;
+> +	void __user *old_addr = (void __user *)mop->old_addr;
+> +	union {
+> +		__uint128_t quad;
+> +		char raw[sizeof(__uint128_t)];
+> +	} old = { .quad = 0}, new = { .quad = 0 };
+> +	unsigned int off_in_quad = sizeof(new) - mop->size;
+>   	u64 supported_flags;
+>   	void *tmpbuf = NULL;
+>   	int r, srcu_idx;
+>   
+>   	supported_flags = KVM_S390_MEMOP_F_SKEY_PROTECTION
+> -			  | KVM_S390_MEMOP_F_CHECK_ONLY;
+> +			  | KVM_S390_MEMOP_F_CHECK_ONLY
+> +			  | KVM_S390_MEMOP_F_CMPXCHG;
+>   	if (mop->flags & ~supported_flags || !mop->size)
+>   		return -EINVAL;
+>   	if (mop->size > MEM_OP_MAX_SIZE)
+> @@ -2741,6 +2755,19 @@ static int kvm_s390_vm_mem_op(struct kvm *kvm, struct kvm_s390_mem_op *mop)
+>   	} else {
+>   		mop->key = 0;
+>   	}
+> +	if (mop->flags & KVM_S390_MEMOP_F_CMPXCHG) {
+> +		/*
+> +		 * This validates off_in_quad. Checking that size is a power
+> +		 * of two is not necessary, as cmpxchg_guest_abs_with_key
+> +		 * takes care of that
+> +		 */
+> +		if (mop->size > sizeof(new))
+> +			return -EINVAL;
 
-> On Tue, Dec 13, 2022 at 7:58 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
->>
->> On Tue, Dec 13, 2022 at 09:33:24AM +0100, Michal Hocko wrote:
->> > I do recognize your need to control the demotion but I argue that it is
->> > a bad idea to rely on an implicit behavior of the memory reclaim and an
->> > interface which is _documented_ to primarily _reclaim_ memory.
->>
->> I think memory.reclaim should demote as part of page aging. What I'd
->> like to avoid is *having* to manually control the aging component in
->> the interface (e.g. making memory.reclaim *only* reclaim, and
->> *requiring* a coordinated use of memory.demote to ensure progress.)
->>
->> > Really, consider that the current demotion implementation will change
->> > in the future and based on a newly added heuristic memory reclaim or
->> > compression would be preferred over migration to a different tier.  This
->> > might completely break your current assumptions and break your usecase
->> > which relies on an implicit demotion behavior.  Do you see that as a
->> > potential problem at all? What shall we do in that case? Special case
->> > memory.reclaim behavior?
->>
->> Shouldn't that be derived from the distance propertiers in the tier
->> configuration?
->>
->> I.e. if local compression is faster than demoting to a slower node, we
->> should maybe have a separate tier for that. Ignoring proactive reclaim
->> or demotion commands for a second: on that node, global memory
->> pressure should always compress first, while the oldest pages from the
->> compression cache should demote to the other node(s) - until they
->> eventually get swapped out.
->>
->> However fine-grained we make proactive reclaim control over these
->> stages, it should at least be possible for the user to request the
->> default behavior that global pressure follows, without jumping through
->> hoops or requiring the coordinated use of multiple knobs. So IMO there
->> is an argument for having a singular knob that requests comprehensive
->> aging and reclaiming across the configured hierarchy.
->>
->> As far as explicit control over the individual stages goes - no idea
->> if you would call the compression stage demotion or reclaim. The
->> distinction still does not make much of sense to me, since reclaim is
->> just another form of demotion. Sure, page faults have a different
->> access latency than dax to slower memory. But you could also have 3
->> tiers of memory where the difference between tier 1 and 2 is much
->> smaller than the difference between 2 and 3, and you might want to
->> apply different demotion rates between them as well.
->>
->> The other argument is that demotion does not free cgroup memory,
->> whereas reclaim does. But with multiple memory tiers of vastly
->> different performance, isn't there also an argument for granting
->> cgroups different shares of each memory? So that a higher priority
->> group has access to a bigger share of the fastest memory, and lower
->> prio cgroups are relegated to lower tiers. If we split those pools,
->> then "demotion" will actually free memory in a cgroup.
->>
->
-> I would also like to say I implemented something in line with that in [1].
->
-> In this patch, pages demoted from inside the nodemask to outside the
-> nodemask count as 'reclaimed'. This, in my mind, is a very generic
-> solution to the 'should demoted pages count as reclaim?' problem, and
-> will work in all scenarios as long as the nodemask passed to
-> shrink_folio_list() is set correctly by the call stack.
+I'd maybe add a check for mop->op == KVM_S390_MEMOP_ABSOLUTE_WRITE here, 
+since calling the _READ function with the F_CMPXCHG flag set does not make 
+too much sense.
 
-It's still not clear that how many pages should be demoted among the
-nodes inside the nodemask.  One possibility is to keep as many higher
-tier pages as possible.
+Anyway, patch looks good to me, so with or without that additional check:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Best Regards,
-Huang, Ying
+> +		if (copy_from_user(&new.raw[off_in_quad], uaddr, mop->size))
+> +			return -EFAULT;
+> +		if (copy_from_user(&old.raw[off_in_quad], old_addr, mop->size))
+> +			return -EFAULT;
+> +	}
+>   	if (!(mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY)) {
+>   		tmpbuf = vmalloc(mop->size);
+>   		if (!tmpbuf)
+> @@ -2771,6 +2798,14 @@ static int kvm_s390_vm_mem_op(struct kvm *kvm, struct kvm_s390_mem_op *mop)
+>   	case KVM_S390_MEMOP_ABSOLUTE_WRITE: {
+>   		if (mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY) {
+>   			r = check_gpa_range(kvm, mop->gaddr, mop->size, GACC_STORE, mop->key);
+> +		} else if (mop->flags & KVM_S390_MEMOP_F_CMPXCHG) {
+> +			r = cmpxchg_guest_abs_with_key(kvm, mop->gaddr, mop->size,
+> +						       &old.quad, new.quad, mop->key);
+> +			if (r == 1) {
+> +				r = KVM_S390_MEMOP_R_NO_XCHG;
+> +				if (copy_to_user(old_addr, &old.raw[off_in_quad], mop->size))
+> +					r = -EFAULT;
+> +			}
+>   		} else {
+>   			if (copy_from_user(tmpbuf, uaddr, mop->size)) {
+>   				r = -EFAULT;
+
