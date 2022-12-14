@@ -2,79 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CE8DC001B2
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Dec 2022 22:05:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E741AC001B2
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Dec 2022 23:28:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229719AbiLNWFl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Dec 2022 17:05:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45942 "EHLO
+        id S229603AbiLNX23 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Dec 2022 18:28:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229496AbiLNWFk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Dec 2022 17:05:40 -0500
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47D756341;
-        Wed, 14 Dec 2022 14:05:39 -0800 (PST)
-Received: by mail-yb1-xb2c.google.com with SMTP id y135so1398335yby.12;
-        Wed, 14 Dec 2022 14:05:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SpKzu7aG3ujDPekivj+JPQB6+3jB4z7ZL3rmRKl8tl8=;
-        b=hi6ZQGWA3wU6GVmxcLYtynfzwvZ/FdhnOqMBNkzTOAS9LOO3IC4lTzdNBeLKNQKTEX
-         IY9CjGMLbdBg1qj+wDHlu7IdFoEHZumUWPaY/rBzjVjEDK2elZpnAGSzsd5Cuqg+ghFe
-         ZNy0XPpz31s4xAMTd/TCmtJ8nmGgoRDa7stXmGiPVk0/QqOnkHTGP0BPGZ4pum6ahePh
-         IGcpPL+dGk6PmGGvTLfYBMYWTrdCw63GQR7FepCnjI8OfmMx5sTlkTcBW59emBpOQAot
-         Cv3fKXeKO2NesdeKWspD3kDAXyH0ih5gYeMHZdpsL48xGCu3NFTpMAAzWDsTDQLKc6Ev
-         L11g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SpKzu7aG3ujDPekivj+JPQB6+3jB4z7ZL3rmRKl8tl8=;
-        b=CUxXtEonr4vzSgJXY1JcGyk+nWQZPV4zxMumfR056WItcjMnmMVOH1YX87BlbEuDbc
-         22bH6MGvPg0CnQ89S2ELkcwtEwnCt5XW2/xtTOwxPByJaFUDhAtw0il4Hbm5/ShtKPzi
-         XZxaF72VoZzVPwq/PZVnVycDktXzYsYbh4Tj5Ddoz/Y96AJXHRHRAJ3qFUwGhBrRZh7F
-         BagorfS1zNkT+yxAnNiPwpF5gQleT/iR+XrAviuUl0b/vWEayijwbsks6KECaDOGSLi8
-         Z6xBKUu1EvCHQrirdRYjbUZnHGDfzvRsxOyzVIV/hmcy4Ay1IvQSErdQLUaQXWl7d5N4
-         GTrA==
-X-Gm-Message-State: ANoB5pmUG5D1i3YqsLIQCe6GPGF0gS7tpXw6seiLiS8oEBHhApFOrT4U
-        +HvEL4epwQ+li0dB7pSLHD6sHXI8oHoPpK7EEZ0=
-X-Google-Smtp-Source: AA0mqf7k3wgF69TeQYhG+tSTr5IwX5mnWuQUHyQh70Z+MwGNtUDRLrkzVSNqXD4cTjl8p3AiKyzN9Ed6Sp7p4rzmYy4=
-X-Received: by 2002:a25:bcd1:0:b0:705:fc5e:4313 with SMTP id
- l17-20020a25bcd1000000b00705fc5e4313mr11143141ybm.180.1671055538495; Wed, 14
- Dec 2022 14:05:38 -0800 (PST)
-MIME-Version: 1.0
-References: <20221214153908.99926-1-derekjohn.clark@gmail.com>
-In-Reply-To: <20221214153908.99926-1-derekjohn.clark@gmail.com>
-From:   Joaquin Aramendia <samsagax@gmail.com>
-Date:   Wed, 14 Dec 2022 19:05:27 -0300
-Message-ID: <CABgtM3ibh0k8LcEnSNUx7DwJBQfMK6K3G_Rhk4GR5oSsx+Rmaw@mail.gmail.com>
-Subject: Re: [PATCH v2] hwmon: (oxp-sensors) Add AYANEO AIR and AIR Pro
-To:     "Derek J. Clark" <derekjohn.clark@gmail.com>
-Cc:     linux@roeck-us.net, Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        with ESMTP id S229614AbiLNX2E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Dec 2022 18:28:04 -0500
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23FB5442E3;
+        Wed, 14 Dec 2022 15:26:11 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.west.internal (Postfix) with ESMTP id 7DB95320070D;
+        Wed, 14 Dec 2022 18:26:09 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Wed, 14 Dec 2022 18:26:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
+        :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm1; t=1671060369; x=1671146769; bh=2H
+        //0Y9RAGciK3bd0PHbQuXcwoJvkHSOlJrDofxj0TQ=; b=NJF57KhZRRHZv9r1KI
+        w85sWf7gHbiL3cPoHEEmvQaLA1D19YDCUCbC8jCyjbewolrunXGZxEvsftXXmHJY
+        ZiZGAsTFeSIwuEMOvO8+qo9SP2wbdadp0bwS5047K29uUfroQ3mCBv8aBPEKrvrz
+        ax363pnE66mvXugJKistXkPFOyfKCOLe7C1WAmocPI8qgu+oPZeHArwlZxJF1LdX
+        kxprYT5jvjNuioAtFfz1MhIq3p3gvVOBPUClI8JuSi6G4V1q8NCqcclyINCBFDJZ
+        njYjTQG1Qd9URCnz5UZqaZvxvvn6OP2d7kshMxGbnOIC1YxBkkNJmhCuP6Jpc8sF
+        5KfQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1671060369; x=1671146769; bh=2H//0Y9RAGciK
+        3bd0PHbQuXcwoJvkHSOlJrDofxj0TQ=; b=V8UGbeDVbBUBu96dosQh5lLxITdvy
+        H95LItiFmZNrp08k2Ppmbdf6FlSbQfFbgbUPbGRk0iR47jcxhBZiaNpN51iv62r5
+        v2cohqnDCC9W0ORS1sqdpIVAbd2u+gJvplOcSFssVSZdRsUyxWatcSWyftrYHm2v
+        qdaxyGVps3bIz8IGcP1XJTOfw35SqtcIhRAQPxoZsukQPUTXujWxCx9yVUJ4gFo1
+        9HLiym0KI3z721R7/sxyyJeLTlZOEPSSY/DSA1z6EX4GxJ9HCCz/wpFD95s9F9H+
+        ZK3ZFc8QoBpNMmvSCRMYBcunBeYUOjlk5IMdCxAfkCT9gpxiRpvfiwmSA==
+X-ME-Sender: <xms:kFuaY4ue91ffPe3IUtLx4CNVWGjlEftN0f7tM7nLHqx9pbQfW7tu3w>
+    <xme:kFuaY1d_-eYaV0ikm0POm-cIVEuKZ4uiMK_91AJyV1r2zfAe1rAc6rIb86udc6t1Q
+    Sg7R1t04qpNOi1VYQ>
+X-ME-Received: <xmr:kFuaYzy6N044jjvOYyJ_pai5miT6wJaq5YqfiXg7HU8ZQHWwhY--VTk_sZQxzBtQGQMJ2E6GI1Q-nzAKzP_rvI80OeZ1HAEzQxf-H2HWsgE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeggddtjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
+    hrlhcuvffnffculdejtddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredt
+    tdenucfhrhhomhepffgrnhhivghlucgiuhcuoegugihusegugihuuhhurdighiiiqeenuc
+    ggtffrrghtthgvrhhnpefgfefggeejhfduieekvdeuteffleeifeeuvdfhheejleejjeek
+    gfffgefhtddtteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpegugihusegugihuuhhurdighiii
+X-ME-Proxy: <xmx:kFuaY7OfP1v9sh9nMQL8hxYdz7j9pzFpG6JHWqIie4yRSKLilsuAUA>
+    <xmx:kFuaY4-V2bK36Qjfy4eQPUu6f7QkgF5U3ArqrhxJhE8rug3Pb5RhhQ>
+    <xmx:kFuaYzXEvQX9SbsNpP_1SWyrMBUIMad5sp0dPGZbh7Jah9QJ5Hi6sA>
+    <xmx:kVuaY7fQgvCKPqatmycKvbKXuLGt4HiizHNKFYGs9HGg6PpVL6PtsQ>
+Feedback-ID: i6a694271:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 14 Dec 2022 18:26:07 -0500 (EST)
+From:   Daniel Xu <dxu@dxuuu.xyz>
+To:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     ppenkov@aviatrix.com, dbird@aviatrix.com, bpf@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: [PATCH bpf-next 2/6] bpf: verifier: Support KF_CHANGES_PKT flag
+Date:   Wed, 14 Dec 2022 16:25:29 -0700
+Message-Id: <fc37530d6cf954c3ebd1173d2bdc6b731c733134.1671049840.git.dxu@dxuuu.xyz>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <cover.1671049840.git.dxu@dxuuu.xyz>
+References: <cover.1671049840.git.dxu@dxuuu.xyz>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->  Currently the driver supports the following handhelds:
->
->   - AOK ZOE A1
-> + - Aya Neo AIR
-> + - Aya Neo AIR Pro
->   - OneXPlayer AMD
->   - OneXPlayer mini AMD
->   - OneXPlayer mini AMD PRO
+KF_CHANGES_PKT indicates that the kfunc call may change packet data.
+This is analogous to bpf_helper_changes_pkt_data().
 
-Since there is more support now for this type of device and not only
-from one brand (even though it seems they all come from the same
-manufacturer) I might be sending a patch to change the name of the
-driver after this gets merged.
---=20
-Joaqu=C3=ADn I. Aramend=C3=ADa
+Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
+---
+ Documentation/bpf/kfuncs.rst | 7 +++++++
+ include/linux/btf.h          | 1 +
+ kernel/bpf/verifier.c        | 8 ++++++++
+ 3 files changed, 16 insertions(+)
+
+diff --git a/Documentation/bpf/kfuncs.rst b/Documentation/bpf/kfuncs.rst
+index 9fd7fb539f85..061ab392a02f 100644
+--- a/Documentation/bpf/kfuncs.rst
++++ b/Documentation/bpf/kfuncs.rst
+@@ -200,6 +200,13 @@ single argument which must be a trusted argument or a MEM_RCU pointer.
+ The argument may have reference count of 0 and the kfunc must take this
+ into consideration.
+ 
++2.4.9 KF_CHANGES_PKT flag
++-----------------
++
++The KF_CHANGES_PKT is used for kfuncs that may change packet data.
++After calls to such kfuncs, existing packet pointers will be invalidated
++and must be revalidated before the prog can access packet data.
++
+ 2.5 Registering the kfuncs
+ --------------------------
+ 
+diff --git a/include/linux/btf.h b/include/linux/btf.h
+index 5f628f323442..0575f530e40b 100644
+--- a/include/linux/btf.h
++++ b/include/linux/btf.h
+@@ -71,6 +71,7 @@
+ #define KF_SLEEPABLE    (1 << 5) /* kfunc may sleep */
+ #define KF_DESTRUCTIVE  (1 << 6) /* kfunc performs destructive actions */
+ #define KF_RCU          (1 << 7) /* kfunc only takes rcu pointer arguments */
++#define KF_CHANGES_PKT  (1 << 8) /* kfunc may change packet data */
+ 
+ /*
+  * Return the name of the passed struct, if exists, or halt the build if for
+diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+index a5255a0dcbb6..0ac505cbd6ba 100644
+--- a/kernel/bpf/verifier.c
++++ b/kernel/bpf/verifier.c
+@@ -8213,6 +8213,11 @@ static bool is_kfunc_rcu(struct bpf_kfunc_call_arg_meta *meta)
+ 	return meta->kfunc_flags & KF_RCU;
+ }
+ 
++static bool is_kfunc_changes_pkt(struct bpf_kfunc_call_arg_meta *meta)
++{
++	return meta->kfunc_flags & KF_CHANGES_PKT;
++}
++
+ static bool is_kfunc_arg_kptr_get(struct bpf_kfunc_call_arg_meta *meta, int arg)
+ {
+ 	return arg == 0 && (meta->kfunc_flags & KF_KPTR_GET);
+@@ -9313,6 +9318,9 @@ static int check_kfunc_call(struct bpf_verifier_env *env, struct bpf_insn *insn,
+ 			mark_btf_func_reg_size(env, regno, t->size);
+ 	}
+ 
++	if (is_kfunc_changes_pkt(&meta))
++		clear_all_pkt_pointers(env);
++
+ 	return 0;
+ }
+ 
+-- 
+2.39.0
+
