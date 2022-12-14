@@ -2,156 +2,201 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E741AC001B2
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Dec 2022 23:28:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 946F7C001B2
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Dec 2022 23:58:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229603AbiLNX23 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Dec 2022 18:28:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57676 "EHLO
+        id S229918AbiLNX6y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Dec 2022 18:58:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbiLNX2E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Dec 2022 18:28:04 -0500
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23FB5442E3;
-        Wed, 14 Dec 2022 15:26:11 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 7DB95320070D;
-        Wed, 14 Dec 2022 18:26:09 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Wed, 14 Dec 2022 18:26:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
-        :cc:content-transfer-encoding:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1671060369; x=1671146769; bh=2H
-        //0Y9RAGciK3bd0PHbQuXcwoJvkHSOlJrDofxj0TQ=; b=NJF57KhZRRHZv9r1KI
-        w85sWf7gHbiL3cPoHEEmvQaLA1D19YDCUCbC8jCyjbewolrunXGZxEvsftXXmHJY
-        ZiZGAsTFeSIwuEMOvO8+qo9SP2wbdadp0bwS5047K29uUfroQ3mCBv8aBPEKrvrz
-        ax363pnE66mvXugJKistXkPFOyfKCOLe7C1WAmocPI8qgu+oPZeHArwlZxJF1LdX
-        kxprYT5jvjNuioAtFfz1MhIq3p3gvVOBPUClI8JuSi6G4V1q8NCqcclyINCBFDJZ
-        njYjTQG1Qd9URCnz5UZqaZvxvvn6OP2d7kshMxGbnOIC1YxBkkNJmhCuP6Jpc8sF
-        5KfQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1671060369; x=1671146769; bh=2H//0Y9RAGciK
-        3bd0PHbQuXcwoJvkHSOlJrDofxj0TQ=; b=V8UGbeDVbBUBu96dosQh5lLxITdvy
-        H95LItiFmZNrp08k2Ppmbdf6FlSbQfFbgbUPbGRk0iR47jcxhBZiaNpN51iv62r5
-        v2cohqnDCC9W0ORS1sqdpIVAbd2u+gJvplOcSFssVSZdRsUyxWatcSWyftrYHm2v
-        qdaxyGVps3bIz8IGcP1XJTOfw35SqtcIhRAQPxoZsukQPUTXujWxCx9yVUJ4gFo1
-        9HLiym0KI3z721R7/sxyyJeLTlZOEPSSY/DSA1z6EX4GxJ9HCCz/wpFD95s9F9H+
-        ZK3ZFc8QoBpNMmvSCRMYBcunBeYUOjlk5IMdCxAfkCT9gpxiRpvfiwmSA==
-X-ME-Sender: <xms:kFuaY4ue91ffPe3IUtLx4CNVWGjlEftN0f7tM7nLHqx9pbQfW7tu3w>
-    <xme:kFuaY1d_-eYaV0ikm0POm-cIVEuKZ4uiMK_91AJyV1r2zfAe1rAc6rIb86udc6t1Q
-    Sg7R1t04qpNOi1VYQ>
-X-ME-Received: <xmr:kFuaYzy6N044jjvOYyJ_pai5miT6wJaq5YqfiXg7HU8ZQHWwhY--VTk_sZQxzBtQGQMJ2E6GI1Q-nzAKzP_rvI80OeZ1HAEzQxf-H2HWsgE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeggddtjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
-    hrlhcuvffnffculdejtddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredt
-    tdenucfhrhhomhepffgrnhhivghlucgiuhcuoegugihusegugihuuhhurdighiiiqeenuc
-    ggtffrrghtthgvrhhnpefgfefggeejhfduieekvdeuteffleeifeeuvdfhheejleejjeek
-    gfffgefhtddtteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpegugihusegugihuuhhurdighiii
-X-ME-Proxy: <xmx:kFuaY7OfP1v9sh9nMQL8hxYdz7j9pzFpG6JHWqIie4yRSKLilsuAUA>
-    <xmx:kFuaY4-V2bK36Qjfy4eQPUu6f7QkgF5U3ArqrhxJhE8rug3Pb5RhhQ>
-    <xmx:kFuaYzXEvQX9SbsNpP_1SWyrMBUIMad5sp0dPGZbh7Jah9QJ5Hi6sA>
-    <xmx:kVuaY7fQgvCKPqatmycKvbKXuLGt4HiizHNKFYGs9HGg6PpVL6PtsQ>
-Feedback-ID: i6a694271:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 14 Dec 2022 18:26:07 -0500 (EST)
-From:   Daniel Xu <dxu@dxuuu.xyz>
-To:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     ppenkov@aviatrix.com, dbird@aviatrix.com, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH bpf-next 2/6] bpf: verifier: Support KF_CHANGES_PKT flag
-Date:   Wed, 14 Dec 2022 16:25:29 -0700
-Message-Id: <fc37530d6cf954c3ebd1173d2bdc6b731c733134.1671049840.git.dxu@dxuuu.xyz>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <cover.1671049840.git.dxu@dxuuu.xyz>
-References: <cover.1671049840.git.dxu@dxuuu.xyz>
+        with ESMTP id S229832AbiLNX6b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Dec 2022 18:58:31 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C071C37F89;
+        Wed, 14 Dec 2022 15:55:36 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id bg10so12639441wmb.1;
+        Wed, 14 Dec 2022 15:55:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=g0acZiAt08vPMW/QCN34b28bDKVCUpWRirnFpjrDBh8=;
+        b=oBa4p7v0MTw11EnJHwrSnuNi2eoVVvWAIf2Ys/jzUfa2IU/hs2sSEH0JsBwnXwnN3g
+         ueNtvegrhMsYKkGirDyKyt3k8djsY5Z0bLh4dmgqlsvpLQ14GosnZiR3AGOr6MhY6CFC
+         6flKl5/kRWaTPxpwI0PUBzHRzgohSfl7H9scj46EgGZ2/x32m6d82qHOWIHilLnauNsk
+         SUjrioCmX3J0G00g3RgLi9sErOK0iXTuxi+6xwoVezWh90bGHQo36GQCxPhqUeAxiiR7
+         PAWdP8D7jeyt63bdCz0vMGMM36AkdlWNJRFIbIeil8ECsQZo7cBhJXciPW/0Jaxatgy1
+         JFHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g0acZiAt08vPMW/QCN34b28bDKVCUpWRirnFpjrDBh8=;
+        b=IeX2pNm1PjLTXlR/tN6/MboRuB63hriEYhbq/nG26P9YB6EEXZME4Hqx2cFkRtgvo6
+         oEcywLDOY9UJFMXAkOsYU296by4/RXOYnRdhNYYI5fhOYjMXVmCHIbnLDg3QHGZjaEtL
+         R3J2uGhHELN8sXwR1LJYSWPLLOUsepmYkoa2yOd1itb59BIAQYM8yruhvt/goUe5mrcx
+         X5z6+Nm/aRxvLnAsckXXxdzZtAWILrCTOOcirbFwRV0i6NU+XAXQne5djEvdBrNpmVrX
+         kRUUrGa2sm1lSkDt6xvLEEoj0fSEJPf9Li9tVxlHD5z22tUQQFwv5ZPtx5rxHT06hgYN
+         xioA==
+X-Gm-Message-State: ANoB5pm8cprtqQlre5q7EinLY6xjR7otFmXt0h9oSvc5swATiCHbtdr4
+        UQHPHl751dCGqUW1GZ/2uxs=
+X-Google-Smtp-Source: AA0mqf5eKk5Xt5xKisW4kLpGaP4bMina+srdRvA69aSzaFVS9eniboyL5Y9NaYXKn754SoAUD/nOpg==
+X-Received: by 2002:a05:600c:3c90:b0:3cf:6f4d:c259 with SMTP id bg16-20020a05600c3c9000b003cf6f4dc259mr21151780wmb.39.1671062106592;
+        Wed, 14 Dec 2022 15:55:06 -0800 (PST)
+Received: from localhost.localdomain (93-42-71-18.ip85.fastwebnet.it. [93.42.71.18])
+        by smtp.googlemail.com with ESMTPSA id u2-20020adff882000000b00241d21d4652sm4163549wrp.21.2022.12.14.15.55.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Dec 2022 15:55:05 -0800 (PST)
+From:   Christian Marangi <ansuelsmth@gmail.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Subject: [PATCH v7 00/11] Adds support for PHY LEDs with offload triggers
+Date:   Thu, 15 Dec 2022 00:54:27 +0100
+Message-Id: <20221214235438.30271-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-KF_CHANGES_PKT indicates that the kfunc call may change packet data.
-This is analogous to bpf_helper_changes_pkt_data().
+This is another attempt on adding this feature on LEDs, hoping this is
+the right time and someone finally notice this.
 
-Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
----
- Documentation/bpf/kfuncs.rst | 7 +++++++
- include/linux/btf.h          | 1 +
- kernel/bpf/verifier.c        | 8 ++++++++
- 3 files changed, 16 insertions(+)
 
-diff --git a/Documentation/bpf/kfuncs.rst b/Documentation/bpf/kfuncs.rst
-index 9fd7fb539f85..061ab392a02f 100644
---- a/Documentation/bpf/kfuncs.rst
-+++ b/Documentation/bpf/kfuncs.rst
-@@ -200,6 +200,13 @@ single argument which must be a trusted argument or a MEM_RCU pointer.
- The argument may have reference count of 0 and the kfunc must take this
- into consideration.
- 
-+2.4.9 KF_CHANGES_PKT flag
-+-----------------
-+
-+The KF_CHANGES_PKT is used for kfuncs that may change packet data.
-+After calls to such kfuncs, existing packet pointers will be invalidated
-+and must be revalidated before the prog can access packet data.
-+
- 2.5 Registering the kfuncs
- --------------------------
- 
-diff --git a/include/linux/btf.h b/include/linux/btf.h
-index 5f628f323442..0575f530e40b 100644
---- a/include/linux/btf.h
-+++ b/include/linux/btf.h
-@@ -71,6 +71,7 @@
- #define KF_SLEEPABLE    (1 << 5) /* kfunc may sleep */
- #define KF_DESTRUCTIVE  (1 << 6) /* kfunc performs destructive actions */
- #define KF_RCU          (1 << 7) /* kfunc only takes rcu pointer arguments */
-+#define KF_CHANGES_PKT  (1 << 8) /* kfunc may change packet data */
- 
- /*
-  * Return the name of the passed struct, if exists, or halt the build if for
-diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-index a5255a0dcbb6..0ac505cbd6ba 100644
---- a/kernel/bpf/verifier.c
-+++ b/kernel/bpf/verifier.c
-@@ -8213,6 +8213,11 @@ static bool is_kfunc_rcu(struct bpf_kfunc_call_arg_meta *meta)
- 	return meta->kfunc_flags & KF_RCU;
- }
- 
-+static bool is_kfunc_changes_pkt(struct bpf_kfunc_call_arg_meta *meta)
-+{
-+	return meta->kfunc_flags & KF_CHANGES_PKT;
-+}
-+
- static bool is_kfunc_arg_kptr_get(struct bpf_kfunc_call_arg_meta *meta, int arg)
- {
- 	return arg == 0 && (meta->kfunc_flags & KF_KPTR_GET);
-@@ -9313,6 +9318,9 @@ static int check_kfunc_call(struct bpf_verifier_env *env, struct bpf_insn *insn,
- 			mark_btf_func_reg_size(env, regno, t->size);
- 	}
- 
-+	if (is_kfunc_changes_pkt(&meta))
-+		clear_all_pkt_pointers(env);
-+
- 	return 0;
- }
- 
+Most of the times Switch/PHY have connected multiple LEDs that are
+controlled by HW based on some rules/event. Currently we lack any
+support for a generic way to control the HW part and normally we
+either never implement the feature or only add control for brightness
+or hw blink.
+
+This is based on Marek idea of providing some API to cled but use a
+different implementation that in theory should be more generilized.
+
+The current idea is:
+- LED driver implement 3 API (hw_control_status/start/stop).
+  They are used to put the LED in hardware mode and to configure the
+  various trigger.
+- We have hardware triggers that are used to expose to userspace the
+  supported hardware mode and set the hardware mode on trigger
+  activation.
+- We can also have triggers that both support hardware and software mode.
+- The LED driver will declare each supported hardware blink mode and
+  communicate with the trigger all the supported blink modes that will
+  be available by sysfs.
+- A trigger will use blink_set to configure the blink mode to active
+  in hardware mode.
+- On hardware trigger activation, only the hardware mode is enabled but
+  the blink modes are not configured. The LED driver should reset any
+  link mode active by default.
+
+Each LED driver will have to declare explicit support for the offload
+trigger (or return not supported error code) as we the trigger_data that
+the LED driver will elaborate and understand what is referring to (based
+on the current active trigger).
+
+I posted a user for this new implementation that will benefit from this
+and will add a big feature to it. Currently qca8k can have up to 3 LEDs
+connected to each PHY port and we have some device that have only one of
+them connected and the default configuration won't work for that.
+
+The netdev trigger is expanded and it does now support hardware only
+triggers.
+The idea is to use hardware mode when a device_name is not defined.
+An additional sysfs entry is added to give some info about the available
+trigger modes supported in the current configuration.
+
+
+It was reported that at least 3 other switch family would benefits by
+this as they all lack support for a generic way to setup their leds and
+netdev team NACK each try to add special code to support LEDs present
+on switch in favor of a generic solution.
+
+v7:
+- Rebase on top of net-next (for qca8k changes)
+- Fix some typo in commit description
+- Fix qca8k leds documentation warning
+- Remove RFC tag
+v6:
+- Back to RFC.
+- Drop additional trigger
+- Rework netdev trigger to support common modes used by switch and
+  hardware only triggers
+- Refresh qca8k leds logic and driver
+v5:
+- Move out of RFC. (no comments from Andrew this is the right path?)
+- Fix more spelling mistake (thx Randy)
+- Fix error reported by kernel test bot
+- Drop the additional HW_CONTROL flag. It does simplify CONFIG
+  handling and hw control should be available anyway to support
+  triggers as module.
+v4:
+- Rework implementation and drop hw_configure logic.
+  We now expand blink_set.
+- Address even more spelling mistake. (thx a lot Randy)
+- Drop blink option and use blink_set delay.
+- Rework phy-activity trigger to actually make the groups dynamic.
+v3:
+- Rework start/stop as Andrew asked.
+- Introduce more logic to permit a trigger to run in hardware mode.
+- Add additional patch with netdev hardware support.
+- Use test_bit API to check flag passed to hw_control_configure.
+- Added a new cmd to hw_control_configure to reset any active blink_mode.
+- Refactor all the patches to follow this new implementation.
+v2:
+- Fix spelling mistake (sorry)
+- Drop patch 02 "permit to declare supported offload triggers".
+  Change the logic, now the LED driver declare support for them
+  using the configure_offload with the cmd TRIGGER_SUPPORTED.
+- Rework code to follow this new implementation.
+- Update Documentation to better describe how this offload
+  implementation work.
+
+Christian Marangi (11):
+  leds: add support for hardware driven LEDs
+  leds: add function to configure hardware controlled LED
+  leds: trigger: netdev: drop NETDEV_LED_MODE_LINKUP from mode
+  leds: trigger: netdev: rename and expose NETDEV trigger enum modes
+  leds: trigger: netdev: convert device attr to macro
+  leds: trigger: netdev: add hardware control support
+  leds: trigger: netdev: use mutex instead of spinlocks
+  leds: trigger: netdev: add available mode sysfs attr
+  leds: trigger: netdev: add additional hardware only triggers
+  net: dsa: qca8k: add LEDs support
+  dt-bindings: net: dsa: qca8k: add LEDs definition example
+
+ .../devicetree/bindings/net/dsa/qca8k.yaml    |  24 ++
+ Documentation/leds/leds-class.rst             |  53 +++
+ drivers/leds/Kconfig                          |  11 +
+ drivers/leds/led-class.c                      |  27 ++
+ drivers/leds/led-triggers.c                   |  29 ++
+ drivers/leds/trigger/ledtrig-netdev.c         | 385 ++++++++++++-----
+ drivers/net/dsa/qca/Kconfig                   |   9 +
+ drivers/net/dsa/qca/Makefile                  |   1 +
+ drivers/net/dsa/qca/qca8k-8xxx.c              |   4 +
+ drivers/net/dsa/qca/qca8k-leds.c              | 406 ++++++++++++++++++
+ drivers/net/dsa/qca/qca8k.h                   |  62 +++
+ include/linux/leds.h                          | 103 ++++-
+ 12 files changed, 1015 insertions(+), 99 deletions(-)
+ create mode 100644 drivers/net/dsa/qca/qca8k-leds.c
+
 -- 
-2.39.0
+2.37.2
 
