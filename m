@@ -2,98 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60B91C4167B
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Dec 2022 02:43:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91EE7C4167B
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Dec 2022 03:23:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237124AbiLNCnr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Dec 2022 21:43:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43848 "EHLO
+        id S237278AbiLNDXs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Dec 2022 22:23:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237047AbiLNCnq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 21:43:46 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4460663DA
-        for <linux-doc@vger.kernel.org>; Tue, 13 Dec 2022 18:43:45 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id z8-20020a17090abd8800b00219ed30ce47so5662904pjr.3
-        for <linux-doc@vger.kernel.org>; Tue, 13 Dec 2022 18:43:45 -0800 (PST)
+        with ESMTP id S237247AbiLNDXo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Dec 2022 22:23:44 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3166A201B7;
+        Tue, 13 Dec 2022 19:23:42 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id hd14-20020a17090b458e00b0021909875bccso2751096pjb.1;
+        Tue, 13 Dec 2022 19:23:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=m3zpX62kQveyNiO1OeyJ4tAWYrKdI77Jk/E75RXvoys=;
-        b=0jeSheK30XGJEY2/8YVZb5H42sPDzyWChJv0LM5DXGQkr4Rp1tcJYsSYcwhaeHaws5
-         13r/iVQG2//SX9o8YqZmdqMz4vnF7EVFbHuI2t0+noHned9FfCDXaMIHgHFFQthwDw6g
-         nyzZqYHCrdaZW15mjKnhYr7BxncWpncnJ570HtD3Rn1euKPAxBUxeIHLhg+GpJAB8xxa
-         G9wO/TWuK6fKHURvUyXokt/S1QAjKThkNqCxr/2nwd4eRKBNyBmU2o8mhpoOBi67ZThv
-         tmekbr0XJowvGgDjDYyzPsqzAoKPHyxEvn2QAbV65V/QUBE9lUmrlThE1GlVS12k8R87
-         1L1A==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5yGUeywFIfhfjfxIX9USrHFHb67BMZ0a0rJ9P+bxw1U=;
+        b=CPFgVoTnhSfvAm3IStMi6qj/VBBTDC1AoYMvuwlsJiZ84AAxzUi0f7sVO+I9PFpk51
+         Fw0sXp/cSsuxF57uXjQZKJ4isRdiOUU2jF9NJdaXrps0drOvacEvE+TdnWLPLgvnVMek
+         QPh5sQZctYnJOeYQ4RZhlcup+g9h2CXsYyRkFQLwDVwr/oGX1CLAGh7PU91cNnfnw9+B
+         /ds6XWfTDt7Snp4t7CGG+YweNdZ/08OFaTMpD9jzHDOgqmxHaKrm54r890SM7+WRiyV5
+         RC7gqrdC39sssJecunnTcqZKdP+lYUQAHCwAIPTAazMI+5bc+iusgQxuFdOox4A8BX4B
+         lz6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m3zpX62kQveyNiO1OeyJ4tAWYrKdI77Jk/E75RXvoys=;
-        b=KgSmRs+SIt70fevTguc4vLeTgzHolKGWmYZ6a+4evZxfxO1LKC//LKXCgWcLeXs8ED
-         Aw27BPMTBqL62HBJ2z2vA1ElzZgqdwdlE71aN/k5JnmbryQwF/f0QmpmEt6iC/3Iz2JY
-         NOUms2rza0Y+l/hbnSnuSkc6n+VMpM5dA27QI5/dBcwU7pUXTpO4w3Vk63stfbzLeMrm
-         SSPXk4MdgGYsV0nZfUSAON5BEPqCIlWanUjVkXKZE0gMXjrSDxqxoqfft1T5SXQpVY2P
-         6boDqg0i/D5diekDaQyT6GHoJ1LIZRlWqtAAyK/IqsLenr7NlJBQg3yd6PrzXhM0/A9h
-         UsXQ==
-X-Gm-Message-State: AFqh2krIaQsCyOX4fb3ncl3QN8YXq0quetcj+//a4J8u+kZ9G7aJjPrn
-        64TYR/7AZsYQJLyznOvwCPUMp5VpzCRwPCxB2KQT
-X-Google-Smtp-Source: AMrXdXsAFqasEGUKk60MS2TQ0dx9fzOfbpL9oe4Ce2NTauHwaDuuWdH3Aa3wRVZtRYkllfhLAVvVDdYUy6Xfi1rkrsI=
-X-Received: by 2002:a17:90a:1912:b0:219:8ee5:8dc0 with SMTP id
- 18-20020a17090a191200b002198ee58dc0mr98556pjg.72.1670985824675; Tue, 13 Dec
- 2022 18:43:44 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5yGUeywFIfhfjfxIX9USrHFHb67BMZ0a0rJ9P+bxw1U=;
+        b=tUfyeuU0VwgVJEZuH8wP5Fr72ygza3xboVfpqC85Uox3qwQsj6J1kwl9amHJuGmufp
+         ZDZ/gnnbqkPckeUwnQS4DFvzhsU369vlyhJ1QcbselA/B5BOKFKutmnrT5aYu+XVwN3z
+         jvyU0Ysmpd0mqtFQIAehxUsYkJOtnJA2Yf2ArCzmwosNc7PkakYpDTE90R/Xjb8AThmE
+         +rKRVZDbmrDzkLyj0FLvsSlAwO08SKxlNKF2JqZKRRfXzQ6qzXLYNSfw7cWAbUrhsNwh
+         YvhoKBIas0kLNK8WDp7k0zF33m8exwiLS/oSFJF7P4uCeQT1rSKTppj96FgTWS5fBRU8
+         u0pA==
+X-Gm-Message-State: ANoB5pkFXtfrPSybwdNCZnZu9u01qGx0vJnDLhAa4XvcqDfE0H0hUd9L
+        ZbJIciMGBvJhO3xMf7q0ecI=
+X-Google-Smtp-Source: AA0mqf6vyDaBVou6wponF5I0BA0YeNyoWdiJjXRJkhtR58bPIUVx2G7A4tJCblN7lx2KD7RAFUxi+Q==
+X-Received: by 2002:a05:6a20:2aa4:b0:ad:d982:5c0 with SMTP id v36-20020a056a202aa400b000add98205c0mr6600552pzh.44.1670988221935;
+        Tue, 13 Dec 2022 19:23:41 -0800 (PST)
+Received: from debian.me (subs03-180-214-233-75.three.co.id. [180.214.233.75])
+        by smtp.gmail.com with ESMTPSA id u192-20020a6279c9000000b00575bab45644sm8392725pfc.61.2022.12.13.19.23.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Dec 2022 19:23:41 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 938D31038B6; Wed, 14 Dec 2022 10:23:37 +0700 (WIB)
+Date:   Wed, 14 Dec 2022 10:23:37 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     "Derek J. Clark" <derekjohn.clark@gmail.com>
+Cc:     linux@roeck-us.net, Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= 
+        <samsagax@gmail.com>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (oxp-sensors) Add AYANEO AIR and AIR Pro
+Message-ID: <Y5lBue87IXkhNs42@debian.me>
+References: <20221213225511.77442-1-derekjohn.clark@gmail.com>
 MIME-Version: 1.0
-References: <20221209082936.892416-1-roberto.sassu@huaweicloud.com> <167098009860.3547.3800457811769489703.git-patchwork-notify@kernel.org>
-In-Reply-To: <167098009860.3547.3800457811769489703.git-patchwork-notify@kernel.org>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Tue, 13 Dec 2022 21:43:33 -0500
-Message-ID: <CAHC9VhSv66DPsJ+5ewmHQ68D3uFh76TpNC9kGXcns_rV-tbaig@mail.gmail.com>
-Subject: Re: [PATCH 1/2] lsm: Fix description of fs_context_parse_param
-To:     patchwork-bot+netdevbpf@kernel.org
-Cc:     Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
-        casey@schaufler-ca.com, omosnace@redhat.com,
-        john.johansen@canonical.com, kpsingh@kernel.org,
-        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, roberto.sassu@huawei.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="RgS/zDzB4VTPWHzp"
+Content-Disposition: inline
+In-Reply-To: <20221213225511.77442-1-derekjohn.clark@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 13, 2022 at 8:08 PM <patchwork-bot+netdevbpf@kernel.org> wrote:
->
-> Hello:
->
-> This series was applied to netdev/net.git (master)
-> by Paul Moore <paul@paul-moore.com>:
->
-> On Fri,  9 Dec 2022 09:29:35 +0100 you wrote:
-> > From: Roberto Sassu <roberto.sassu@huawei.com>
-> >
-> > The fs_context_parse_param hook already has a description, which seems the
-> > right one according to the code.
-> >
-> > Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> >
-> > [...]
->
-> Here is the summary with links:
->   - [1/2] lsm: Fix description of fs_context_parse_param
->     https://git.kernel.org/netdev/net/c/577cc1434e4c
->   - [2/2] doc: Fix fs_context_parse_param description in mount_api.rst
->     (no matching commit)
->
-> You are awesome, thank you!
-> --
-> Deet-doot-dot, I am a bot.
-> https://korg.docs.kernel.org/patchwork/pwbot.html
 
-It looks like the bot has a few screws loose as this went up to Linus
-via the LSM tree :)
+--RgS/zDzB4VTPWHzp
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-paul-moore.com
+On Tue, Dec 13, 2022 at 02:55:11PM -0800, Derek J. Clark wrote:
+> Adds support for the AYANEO AIR and AYANEO AIR Pro models of handheld
+s/Adds/Add/
+> devices. These devices use the same EC registers and logic as the One X
+> Player mini AMD. Previous AYANEO models are not supported as they use a
+> different EC and do not have the necessary fan speed write enable and
+> setting registers. Tested on Aya Neo AIR. AIR Pro model EC functionality
+"The driver is tested on ..., while ..."
+> and DMI data were verified using command line tools by another user.
+>=20
+> The added devices are:
+> - AYANEO AIR (AMD 5560U)
+> - AYANEO AIR Pro (AMD 5560U)
+> - AYANEO AIR Pro (AMD 5825U)
+>=20
+> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> ---
+>  Documentation/hwmon/oxp-sensors.rst | 17 +++++----
+>  MAINTAINERS                         |  6 ++++
+>  drivers/hwmon/oxp-sensors.c         | 54 ++++++++++++++++++++++++-----
+>  3 files changed, 63 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/Documentation/hwmon/oxp-sensors.rst b/Documentation/hwmon/ox=
+p-sensors.rst
+> index 39c588ec5c50..b93892c892c5 100644
+> --- a/Documentation/hwmon/oxp-sensors.rst
+> +++ b/Documentation/hwmon/oxp-sensors.rst
+> @@ -3,18 +3,21 @@
+>  Kernel driver oxp-sensors
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> =20
+> -Author:
+> +Authors:
+> +    - Derek John Clark <derekjohn.clark@gmail.com>
+>      - Joaqu=C3=ADn Ignacio Aramend=C3=ADa <samsagax@gmail.com>
+> =20
+>  Description:
+>  ------------
+
+Trim the trailing colon as it is not needed for section title.
+
+> =20
+> -One X Player devices from One Netbook provide fan readings and fan contr=
+ol
+> -through its Embedded Controller.
+> +Handheld devices from One Netbook and Aya Neo provide fan readings and f=
+an
+> +control through their Embedded Controllers.
+
+s/Embedded Controllers/embedded controllers/
+
+> =20
+> -Currently only supports AMD boards from the One X Player and AOK ZOE lin=
+eup.
+> -Intel boards could be supported if we could figure out the EC registers =
+and
+> -values to write to since the EC layout and model is different.
+> +Currently only supports AMD boards from One X Player, AOK ZOE, and some =
+Aya
+> +Neo devices. One X PLayer Intel boards could be supported if we could fi=
+gure
+> +out the EC registers and values to write to since the EC layout and mode=
+l is
+> +different. Aya Neo devices preceding the AIR may not be usable as the EC=
+ model
+> +is different and do not appear to have manual control capabiltities.
+> =20
+>  Supported devices
+>  -----------------
+> @@ -22,6 +25,8 @@ Supported devices
+>  Currently the driver supports the following handhelds:
+> =20
+>   - AOK ZOE A1
+> + - Aya Neo AIR
+> + - Aya Neo AIR Pro
+>   - OneXPlayer AMD
+>   - OneXPlayer mini AMD
+>   - OneXPlayer mini AMD PRO
+
+Otherwise LGTM, thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--RgS/zDzB4VTPWHzp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY5lBtAAKCRD2uYlJVVFO
+o7LuAP41lOEEBtUdIbqsqp8XNq1N4hXdExfsPLKTJStBNtt3twD/WD3IPJAKdmNM
+butxrHEN/axvjVAhMzPAWXAp9pSnSAY=
+=cHGG
+-----END PGP SIGNATURE-----
+
+--RgS/zDzB4VTPWHzp--
