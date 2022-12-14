@@ -2,243 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48D03C46467
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Dec 2022 15:47:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 142B9C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Dec 2022 16:38:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238893AbiLNPr5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Dec 2022 10:47:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50528 "EHLO
+        id S230206AbiLNQiX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Dec 2022 11:38:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238850AbiLNPrd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Dec 2022 10:47:33 -0500
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEC4A27FE6;
-        Wed, 14 Dec 2022 07:47:17 -0800 (PST)
-Received: by mail-oo1-xc34.google.com with SMTP id f184-20020a4a58c1000000b004a3c01646a0so2310106oob.12;
-        Wed, 14 Dec 2022 07:47:17 -0800 (PST)
+        with ESMTP id S238502AbiLNQiW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Dec 2022 11:38:22 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB14B60E7
+        for <linux-doc@vger.kernel.org>; Wed, 14 Dec 2022 08:38:20 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id h10so319559wrx.3
+        for <linux-doc@vger.kernel.org>; Wed, 14 Dec 2022 08:38:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MB+cjJ0APVSPLYKSXokJmYfJJzb5hyUnGFn3uvrOCQs=;
-        b=VknEFKrJmu9Pr/B/X9LlnnHGqp1nZzP9w+qqAkBG+UBa5JNhLLcWpOlBltqY/z9/7+
-         yd/oHDf6H8tbtxDUCWGQbI2O9B7Cq+P/cB0vV0cIuUDigV1N/ZMx5dtjATaUcwo+Zrjl
-         pmdtVyaS8CoZuYBs9Kqfs1DR/B5acRfI25qWN6pkBgKx8b1DrswACaCx29NwOzKrtjYj
-         GMdHgzxZIefyoePCFeX3IxhD5rOIoyFRtUMWQ3yPdmM/KVlwUPT8od2t7PxnIcfW4PLG
-         3ztosdgEWlInX6BtPzv4V7SZx3DXs5KGg3hQsA93dc30TbVwo8p0iGSxREgbbRITpz74
-         IU+g==
+        bh=7XQ9UK+L/0iK+KFqjWQesqR3gEiIaaEkyB4WhDQSSEk=;
+        b=1sRvZWk4v6BhCyZTXJ2+f46RRZoXBbAchW/Nd0IonBe71PFBY3xQlZJN78/B1C9AOX
+         O6U60oJ6kHQUPkFxgtYaux8Z8Fz+bVSKvBTLykYbGs5prvLBsaqwXgWA0XV/ice73Hdf
+         oyz7kh52knuU7/BrncKSqlfagE7nHPX4LaaaoYADWYkF3baBh0tDQXVbXNlj+KL6St5x
+         lxvKv88iCD2u8zD/Wm89B0n6pfUBOjctLvm+HkFc/sqZG/Bx8btVe/MC/JOZN3vDCW1B
+         4i7BO8w0bu5RWUH2A5OAHRRc9OupsX7aegDRYTPXh8MsbK8IJcJlCoNc6CptrKQ2pg50
+         ku+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MB+cjJ0APVSPLYKSXokJmYfJJzb5hyUnGFn3uvrOCQs=;
-        b=gJSFFXFO0IF56KU5C3PhOBBKUC5CCCJX0g1n6EL4TWuaRxI6spTFWE1dC9LqtvM4uh
-         bkdrpXOGgHSCGK7ZtQiqjwb7SrmbgC4HgikinJc/bS0fbF/fFrpmVSF+OKaz2JeJNJAt
-         7Veor+PQn8vK91kTmKT6J9oJ8OZ3EKPmjTgdhDBI2+Fy4NO7U+tBPurecFA7M3yu+gGH
-         PDkKs5qW48VfmpzovIyvDw1bVWwUp+AIj6W0ht9AIKKsWaNbF5LsshLyRF4TR34Q00r1
-         MBWR3ysNw0cAMO/HN7ESaTVCimbcZrACYh9gUxnhbF4CdgTOQo625JjsESmqhVEvjseC
-         QFFA==
-X-Gm-Message-State: ANoB5plWAiyiI7vMPOkGQW+T6H38IIy8U9DdPTldcBUkaNvcBJ+RiUqa
-        fWsx0XmVox36DHMI8L5ivtk=
-X-Google-Smtp-Source: AA0mqf4haL+cQbuRxCnem1h+c5sf2MFQ7DNmFMcC4n1xjH0BM9e9aVMOR8ADEbdobsXs41hj7MitqA==
-X-Received: by 2002:a4a:e511:0:b0:4a0:9e4e:11ac with SMTP id r17-20020a4ae511000000b004a09e4e11acmr11549450oot.7.1671032837009;
-        Wed, 14 Dec 2022 07:47:17 -0800 (PST)
-Received: from localhost.localdomain (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id v9-20020a4ae049000000b004a3543fbfbbsm2386367oos.14.2022.12.14.07.47.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Dec 2022 07:47:16 -0800 (PST)
-From:   "Derek J. Clark" <derekjohn.clark@gmail.com>
-To:     linux@roeck-us.net
-Cc:     "Derek J. Clark" <derekjohn.clark@gmail.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= 
-        <samsagax@gmail.com>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] hwmon: (oxp-sensors) Add AYANEO AIR and AIR Pro
-Date:   Wed, 14 Dec 2022 07:47:13 -0800
-Message-Id: <20221214154713.100648-1-derekjohn.clark@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <Y5lBue87IXkhNs42@debian.me>
-References: <Y5lBue87IXkhNs42@debian.me>
+        bh=7XQ9UK+L/0iK+KFqjWQesqR3gEiIaaEkyB4WhDQSSEk=;
+        b=P2NXSrf9qaUbt5BSW8qDVOwLVKgYHoKx36UiwuODfRCxxATZ2MxMiHDVBRK9bp3IOs
+         I4wznO0FxvdE652dIp1XNOy6ny0vUqxVnqhmT8XExH1c7sjdxStQpDSHBHZ4xONZgghH
+         oBFd6mDtHxjtA8thR7cVI7Rj98EDFDHywJXz7kSj+cHPhrZQ2nNpvhBgMpgvBgIDAfRZ
+         GxL2rQitxKoKpXS6rg0OCxDtaAdGaoF1e8t/3crNqZhnX0nrAhu0bd2l+/KNeHViDVrm
+         J7W/zfcCq9jUcRv6g0zMWK+YYBrmq9rQZ/pV9HXGSSbAqUSkWn69AadgaIY5ARKSAvIK
+         zAIA==
+X-Gm-Message-State: ANoB5plRiMrxfiIF0SegOCsDNFCjXzJ0NzQBOXTuIoEdx/DPdM43mBnI
+        lqnTXptuue8HhvEaSPYIeF1auQC5p8BAknQSDy7T9w==
+X-Google-Smtp-Source: AA0mqf7Vq9T9tV5/hj5nHZjSecDz/ZDSCVTGbOpMMHcUxGzyHQ6ylbSGIsEibGaAkuvj3IzOFsHOLo7QrFmxZzz/y1E=
+X-Received: by 2002:a05:6000:1a4e:b0:242:71b:e3cf with SMTP id
+ t14-20020a0560001a4e00b00242071be3cfmr36380152wry.144.1671035899393; Wed, 14
+ Dec 2022 08:38:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20221214143311.960266-1-alexghiti@rivosinc.com> <87cz8m3sha.fsf@all.your.base.are.belong.to.us>
+In-Reply-To: <87cz8m3sha.fsf@all.your.base.are.belong.to.us>
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+Date:   Wed, 14 Dec 2022 17:38:08 +0100
+Message-ID: <CAHVXubidb5gQBHSFMJiY=egoi4QOiqOh884VvAhxYqADxNDB6A@mail.gmail.com>
+Subject: Re: [PATCH] riscv: Allow to downgrade paging mode from the command line
+To:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for the AYANEO AIR and AYANEO AIR Pro models of handheld
-devices. These devices use the same EC registers and logic as the One X
-Player mini AMD. Previous AYANEO models are not supported as they use a
-different EC and do not have the necessary fan speed write enable and
-setting registers. Tihe driver is tested on Aya Neo AIR while AIR Pro
-model EC functionality and DMI data were verified using command line
-tools by another user.
+On Wed, Dec 14, 2022 at 4:39 PM Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org> wr=
+ote:
+>
+> Alexandre Ghiti <alexghiti@rivosinc.com> writes:
+>
+> > diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+> > index b56a0a75533f..8140fefe0e57 100644
+> > --- a/arch/riscv/mm/init.c
+> > +++ b/arch/riscv/mm/init.c
+> > @@ -752,12 +752,35 @@ static void __init disable_pgtable_l4(void)
+> >   * then read SATP to see if the configuration was taken into account
+> >   * meaning sv48 is supported.
+> >   */
+> > -static __init void set_satp_mode(void)
+> > +static __init void set_satp_mode(uintptr_t dtb_pa)
+> >  {
+> >       u64 identity_satp, hw_satp;
+> >       uintptr_t set_satp_mode_pmd =3D ((unsigned long)set_satp_mode) & =
+PMD_MASK;
+> >       bool check_l4 =3D false;
+> >
+> > +#ifndef CONFIG_KASAN
+> > +     /*
+> > +      * The below fdt functions are kasan instrumented, since at this =
+point
+> > +      * there is no mapping for the kasan shadow memory, this can't be=
+ used
+> > +      * when kasan is enabled.
+> > +      */
+> > +     int chosen_node;
+> > +
+> > +     chosen_node =3D fdt_path_offset((void *)dtb_pa, "/chosen");
+> > +     if (chosen_node >=3D 0) {
+> > +             const char *cmdline =3D fdt_getprop((void *)dtb_pa, chose=
+n_node,
+> > +                                               "bootargs", NULL);
+>
+> The command line handling needs to honor CONFIG_CMDLINE_FORCE and
+> CONFIG_CMDLINE_EXTEND (which makes it possible to use no{4,5}lvl *and*
+> KASAN ;-)).
+>
 
-The added devices are:
-- AYANEO AIR (AMD 5560U)
-- AYANEO AIR Pro (AMD 5560U)
-- AYANEO AIR Pro (AMD 5825U)
+Indeed, I forgot that, thanks for noticing! I'll prepare the "real"
+command line before matching the new parameters.
 
-Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
----
- Documentation/hwmon/oxp-sensors.rst | 19 ++++++----
- MAINTAINERS                         |  1 +
- drivers/hwmon/oxp-sensors.c         | 54 ++++++++++++++++++++++++-----
- 3 files changed, 59 insertions(+), 15 deletions(-)
+Thanks again,
 
-diff --git a/Documentation/hwmon/oxp-sensors.rst b/Documentation/hwmon/oxp-sensors.rst
-index 39c588ec5c50..a53c961065b2 100644
---- a/Documentation/hwmon/oxp-sensors.rst
-+++ b/Documentation/hwmon/oxp-sensors.rst
-@@ -3,18 +3,21 @@
- Kernel driver oxp-sensors
- =========================
- 
--Author:
-+Authors:
-+    - Derek John Clark <derekjohn.clark@gmail.com>
-     - Joaquín Ignacio Aramendía <samsagax@gmail.com>
- 
--Description:
-+Description
- ------------
- 
--One X Player devices from One Netbook provide fan readings and fan control
--through its Embedded Controller.
-+Handheld devices from One Netbook and Aya Neo provide fan readings and fan
-+control through their embedded controllers.
- 
--Currently only supports AMD boards from the One X Player and AOK ZOE lineup.
--Intel boards could be supported if we could figure out the EC registers and
--values to write to since the EC layout and model is different.
-+Currently only supports AMD boards from One X Player, AOK ZOE, and some Aya
-+Neo devices. One X PLayer Intel boards could be supported if we could figure
-+out the EC registers and values to write to since the EC layout and model is
-+different. Aya Neo devices preceding the AIR may not be usable as the EC model
-+is different and do not appear to have manual control capabiltities.
- 
- Supported devices
- -----------------
-@@ -22,6 +25,8 @@ Supported devices
- Currently the driver supports the following handhelds:
- 
-  - AOK ZOE A1
-+ - Aya Neo AIR
-+ - Aya Neo AIR Pro
-  - OneXPlayer AMD
-  - OneXPlayer mini AMD
-  - OneXPlayer mini AMD PRO
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 90220659206c..8bce95170f12 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15346,6 +15346,7 @@ F:	drivers/mtd/nand/onenand/
- F:	include/linux/mtd/onenand*.h
- 
- ONEXPLAYER FAN DRIVER
-+M:	Derek John Clark <derekjohn.clark@gmail.com>
- M:	Joaquín Ignacio Aramendía <samsagax@gmail.com>
- L:	linux-hwmon@vger.kernel.org
- S:	Maintained
-diff --git a/drivers/hwmon/oxp-sensors.c b/drivers/hwmon/oxp-sensors.c
-index f84ec8f8eda9..7adc0199ea66 100644
---- a/drivers/hwmon/oxp-sensors.c
-+++ b/drivers/hwmon/oxp-sensors.c
-@@ -1,12 +1,12 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * Platform driver for OXP Handhelds that expose fan reading and control
-- * via hwmon sysfs.
-+ * Platform driver for Handhelds that expose fan reading and control via
-+ * hwmon sysfs.
-  *
-- * Old boards have the same DMI strings and they are told appart by the
-- * boot cpu vendor (Intel/AMD). Currently only AMD boards are supported
-- * but the code is made to be simple to add other handheld boards in the
-- * future.
-+ * Old OXP boards have the same DMI strings and they are told appart by
-+ * the boot cpu vendor (Intel/AMD). Currently only AMD boards are
-+ * supported but the code is made to be simple to add other handheld
-+ * boards in the future.
-  * Fan control is provided via pwm interface in the range [0-255].
-  * Old AMD boards use [0-100] as range in the EC, the written value is
-  * scaled to accommodate for that. Newer boards like the mini PRO and
-@@ -42,6 +42,8 @@ static bool unlock_global_acpi_lock(void)
- 
- enum oxp_board {
- 	aok_zoe_a1 = 1,
-+	aya_neo_air,
-+	aya_neo_air_pro,
- 	oxp_mini_amd,
- 	oxp_mini_amd_pro,
- };
-@@ -60,6 +62,20 @@ static const struct dmi_system_id dmi_table[] = {
- 		},
- 		.driver_data = (void *) &(enum oxp_board) {aok_zoe_a1},
- 	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AIR"),
-+		},
-+		.driver_data = (void *) &(enum oxp_board) {aya_neo_air},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AIR Pro"),
-+		},
-+		.driver_data = (void *) &(enum oxp_board) {aya_neo_air_pro},
-+	},
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "ONE-NETBOOK"),
-@@ -161,8 +177,19 @@ static int oxp_platform_read(struct device *dev, enum hwmon_sensor_types type,
- 			ret = read_from_ec(OXP_SENSOR_PWM_REG, 1, val);
- 			if (ret)
- 				return ret;
--			if (board == oxp_mini_amd)
-+			switch (board) {
-+			case aok_zoe_a1:
-+				break;
-+			case aya_neo_air:
-+			case aya_neo_air_pro:
-+			case oxp_mini_amd:
- 				*val = (*val * 255) / 100;
-+				break;
-+			case oxp_mini_amd_pro:
-+				break;
-+			default:
-+				break;
-+			}
- 			return 0;
- 		case hwmon_pwm_enable:
- 			return read_from_ec(OXP_SENSOR_PWM_ENABLE_REG, 1, val);
-@@ -191,8 +218,19 @@ static int oxp_platform_write(struct device *dev, enum hwmon_sensor_types type,
- 		case hwmon_pwm_input:
- 			if (val < 0 || val > 255)
- 				return -EINVAL;
--			if (board == oxp_mini_amd)
-+			switch (board) {
-+			case aok_zoe_a1:
-+				break;
-+			case aya_neo_air:
-+			case aya_neo_air_pro:
-+			case oxp_mini_amd:
- 				val = (val * 100) / 255;
-+				break;
-+			case oxp_mini_amd_pro:
-+				break;
-+			default:
-+				break;
-+			}
- 			return write_to_ec(dev, OXP_SENSOR_PWM_REG, val);
- 		default:
- 			break;
--- 
-2.38.1
+Alex
 
+>
+> Bj=C3=B6rn
