@@ -2,163 +2,209 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8122CC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 06:39:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 520CFC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 06:39:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229480AbiLOGjf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Dec 2022 01:39:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41870 "EHLO
+        id S229448AbiLOGji (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Dec 2022 01:39:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbiLOGje (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 01:39:34 -0500
+        with ESMTP id S229510AbiLOGjg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 01:39:36 -0500
 Received: from mx0b-002e3701.pphosted.com (mx0b-002e3701.pphosted.com [148.163.143.35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72FB04666F;
-        Wed, 14 Dec 2022 22:39:33 -0800 (PST)
-Received: from pps.filterd (m0148664.ppops.net [127.0.0.1])
-        by mx0b-002e3701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BF4NmK2019951;
-        Thu, 15 Dec 2022 06:39:27 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E50B4876B;
+        Wed, 14 Dec 2022 22:39:35 -0800 (PST)
+Received: from pps.filterd (m0150245.ppops.net [127.0.0.1])
+        by mx0b-002e3701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BF526gf014205;
+        Thu, 15 Dec 2022 06:39:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type :
+ : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pps0720;
- bh=bMZz3ogq7xp78XE+RPxado7j16RTnLC9xdcSvwwG144=;
- b=gOCXf/3UFNf/s7VHiU3ThM76RagyGVuKwd3BGiTild05d1GX239rWDIaZhSFah6rYdL6
- Dg8XHTDMQwAQea4r7J+Fh1mQ7DL6N3HzZYNMUYLBEw5hMPHdLrmuJkgSWXo46I5c7FpL
- a3IoPWCuZizYE5CYQnKf8OY6/P/mOyPpCTgPMqpDH56YzEGTuaenskX/nD51JLNvagNI
- 2erHonQP2pmXT6zPKYPqPAsZgNVL8JsNgt6+jJ4exsQwwgXl1Tr2WPDMDwPxWmsC+bmg
- 8E2NgxnmK2fq05+O1xkXCj7+OJmerRid9UoGKEXi1wvYdK1WaVk8QtA7EhALsUZLQobs nA== 
+ bh=1DDzeZH6s0CceZ3jMIt18KfkIYHpzJkKm7d81VrfBXE=;
+ b=i3lDLix5P3tQMPD96uhBr+F6D7KAmjM2hd0nUKZww7HIVpBSva42dLfOBCqsD0aQdNp0
+ CG8mQLCJFGYYUFxp0Ex3XD6hztrkcZePEDc5rtHNAVpJRGxy6YT3Nnu2tiZ/GfUDyk4z
+ K9bYbCRbvn/8AQgWFs7S/3vaX0VONDYnyA3T5EgE4c4hARwzAjkILKJVj8aBRzoCNiwo
+ mVQdToRW5tMEIV7UpH08hl0VJyHMWbWdZ8pvuqR6tB33j/2itiAeGbIPLmwyeG94J0KB
+ /gSkx4EqYE2zirM4mliqB3RlnrJ61cOjaWtbH8jJ3Im9TU12BOXuWGW8b31eZl2TyBqT 1Q== 
 Received: from p1lg14880.it.hpe.com (p1lg14880.it.hpe.com [16.230.97.201])
-        by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 3mfvgj0smp-1
+        by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 3mfm57uu7k-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 15 Dec 2022 06:39:26 +0000
+        Thu, 15 Dec 2022 06:39:30 +0000
 Received: from p1lg14886.dc01.its.hpecorp.net (unknown [10.119.18.237])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by p1lg14880.it.hpe.com (Postfix) with ESMTPS id 3F393807130;
-        Thu, 15 Dec 2022 06:39:26 +0000 (UTC)
+        by p1lg14880.it.hpe.com (Postfix) with ESMTPS id DC030807131;
+        Thu, 15 Dec 2022 06:39:29 +0000 (UTC)
 Received: from adevxp033-sys.us.rdlabs.hpecorp.net (unknown [16.231.227.36])
-        by p1lg14886.dc01.its.hpecorp.net (Postfix) with ESMTP id 9680880BE0E;
-        Thu, 15 Dec 2022 06:39:24 +0000 (UTC)
+        by p1lg14886.dc01.its.hpecorp.net (Postfix) with ESMTP id 89CA380C77C;
+        Thu, 15 Dec 2022 06:39:29 +0000 (UTC)
 From:   Robert Elliott <elliott@hpe.com>
 To:     herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net,
         linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Robert Elliott <elliott@hpe.com>
-Subject: [PATCH 0/8] crypto: kernel-doc for assembly language
-Date:   Thu, 15 Dec 2022 00:38:49 -0600
-Message-Id: <20221215063857.161665-1-elliott@hpe.com>
+Subject: [PATCH 2/8] doc: support kernel-doc for asm functions
+Date:   Thu, 15 Dec 2022 00:38:51 -0600
+Message-Id: <20221215063857.161665-3-elliott@hpe.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221215063857.161665-1-elliott@hpe.com>
+References: <20221215063857.161665-1-elliott@hpe.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: 6LDG-wbVDkSAbm-1bHmkrSWym1RedlMG
-X-Proofpoint-GUID: 6LDG-wbVDkSAbm-1bHmkrSWym1RedlMG
+X-Proofpoint-GUID: T3aVu_cFQCLclcq6Mryyelc1M6rhVEW9
+X-Proofpoint-ORIG-GUID: T3aVu_cFQCLclcq6Mryyelc1M6rhVEW9
 X-HPE-SCL: -1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-15_02,2022-12-14_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
- spamscore=0 malwarescore=0 impostorscore=0 bulkscore=0 clxscore=1015
- mlxlogscore=999 adultscore=0 phishscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212150050
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ mlxlogscore=999 clxscore=1015 spamscore=0 priorityscore=1501 mlxscore=0
+ phishscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2212150050
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Clean up the existing kernel-doc headers in the crypto subsystem,
-then add support for kernel-doc headers in assembly language files
-for functions called from C code.
+Support kernel-doc comments in assembly language files for functions
+called by C functions.
 
-This provides a place to document the assumptions made by the
-assembly language functions about their arguments (e.g., how
-they handle length values of 0, less than some value, not
-multiples of some value, etc.).
+The comment must include a line containing:
+    * Prototype: asmlinkage ... rest of C prototype...
 
-Not all the assembly language files are tackled yet - just some
-of the x86 files pending changes related to kernel_fpu_begin/end.
+and that function name must match the name used in line like:
+    SYM_FUNC_START(name)
+    SYM_FUNC_START_SOMETHING(name)
 
-Example man page formatted output for one of them:
+or
+    SOMETHING name
+
+which is used in a few places in which SYM_FUNC_START is nested.
+
+Signed-off-by: Robert Elliott <elliott@hpe.com>
 ---
-$ nroff -man /tmp/man/sha1_transform_avx2.9
-sha1_transform_avx2(9)      Kernel Hacker's Manual      sha1_transform_avx2(9)
+ scripts/kernel-doc | 48 ++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 46 insertions(+), 2 deletions(-)
 
-
-
-NAME
-       sha1_transform_avx2  -  Calculate  SHA1 hash using the x86 AVX2 feature
-       set
-
-SYNOPSIS
-       void sha1_transform_avx2 (u32 *digest , const u8 *data , int blocks );
-
-ARGUMENTS
-       digest      address of current 20-byte hash value (rdi, CTX macro)
-
-       data        address of data (rsi, BUF macro); data size must be a mul‐
-                   tiple of 64 bytes
-
-       blocks      number of 64-byte blocks (rdx, CNT macro)
-
-DESCRIPTION
-       This function supports 64-bit CPUs.
-
-RETURN
-       none
-
-PROTOTYPE
-       asmlinkage  void  sha1_transform_avx2(u32  *digest, const u8 *data, int
-       blocks)
-
-
-
-December 2022                 sha1_transform_avx2 sha1_transform_avx2(9)
-
-
-
-Robert Elliott (8):
-  crypto: clean up kernel-doc headers
-  doc: support kernel-doc for asm functions
-  crypto: x86/sha - add kernel-doc comments to assembly
-  crypto: x86/crc - add kernel-doc comments to assembly
-  crypto: x86/sm3 - add kernel-doc comments to assembly
-  crypto: x86/ghash - add kernel-doc comments to assembly
-  crypto: x86/blake2s - add kernel-doc comments to assembly
-  crypto: x86/chacha - add kernel-doc comments to assembly
-
- .../mips/cavium-octeon/crypto/octeon-crypto.c | 19 ++--
- arch/x86/crypto/blake2s-core.S                | 26 +++++
- arch/x86/crypto/chacha-avx2-x86_64.S          | 90 ++++++++++++------
- arch/x86/crypto/chacha-avx512vl-x86_64.S      | 94 ++++++++++++-------
- arch/x86/crypto/chacha-ssse3-x86_64.S         | 75 ++++++++++-----
- arch/x86/crypto/crc32-pclmul_asm.S            | 24 ++---
- arch/x86/crypto/crc32c-pcl-intel-asm_64.S     | 29 +++---
- arch/x86/crypto/crct10dif-pcl-asm_64.S        | 24 +++--
- arch/x86/crypto/ghash-clmulni-intel_asm.S     | 27 +++++-
- arch/x86/crypto/sha1_avx2_x86_64_asm.S        | 32 +++----
- arch/x86/crypto/sha1_ni_asm.S                 | 22 +++--
- arch/x86/crypto/sha1_ssse3_asm.S              | 33 ++++---
- arch/x86/crypto/sha256-avx-asm.S              | 24 +++--
- arch/x86/crypto/sha256-avx2-asm.S             | 25 +++--
- arch/x86/crypto/sha256-ssse3-asm.S            | 26 ++---
- arch/x86/crypto/sha256_ni_asm.S               | 25 ++---
- arch/x86/crypto/sha512-avx-asm.S              | 33 +++----
- arch/x86/crypto/sha512-avx2-asm.S             | 34 +++----
- arch/x86/crypto/sha512-ssse3-asm.S            | 36 ++++---
- arch/x86/crypto/sm3-avx-asm_64.S              | 18 ++--
- crypto/asymmetric_keys/verify_pefile.c        |  2 +-
- crypto/async_tx/async_pq.c                    | 11 +--
- crypto/async_tx/async_tx.c                    |  4 +-
- crypto/crypto_engine.c                        |  2 +-
- include/crypto/acompress.h                    |  2 +-
- include/crypto/des.h                          |  4 +-
- include/crypto/if_alg.h                       | 26 ++---
- include/crypto/internal/ecc.h                 |  8 +-
- include/crypto/internal/rsa.h                 |  2 +-
- include/crypto/kdf_sp800108.h                 | 39 ++++----
- scripts/kernel-doc                            | 48 +++++++++-
- 31 files changed, 545 insertions(+), 319 deletions(-)
-
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index aea04365bc69..f3a89301e3ab 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -174,6 +174,7 @@ my %nosymbol_table = ();
+ my $declaration_start_line;
+ my ($type, $declaration_name, $return_type);
+ my ($newsection, $newcontents, $prototype, $brcount, %source_map);
++my %asmprototypes;
+ 
+ if (defined($ENV{'KBUILD_VERBOSE'})) {
+ 	$verbose = "$ENV{'KBUILD_VERBOSE'}";
+@@ -248,7 +249,7 @@ my $doc_decl = $doc_com . '(\w+)';
+ # while trying to not match literal block starts like "example::"
+ #
+ my $doc_sect = $doc_com .
+-    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:([^:].*)?$';
++    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|prototype|notes?|examples?)\s*:([^:].*)?$';
+ my $doc_content = $doc_com_body . '(.*)';
+ my $doc_block = $doc_com . 'DOC:\s*(.*)?';
+ my $doc_inline_start = '^\s*/\*\*\s*$';
+@@ -277,6 +278,7 @@ my $section_intro = "Introduction";
+ my $section = $section_default;
+ my $section_context = "Context";
+ my $section_return = "Return";
++my $section_asmprototype = "Prototype";
+ 
+ my $undescribed = "-- undescribed --";
+ 
+@@ -468,6 +470,13 @@ sub dump_section {
+             $new_start_line = 0;
+ 	}
+     }
++
++    if ($name eq $section_asmprototype) {
++        # extract the function name for future matching to SYM_FUNC_START.*(name)
++        # since that doesn't include arguments like a C function call
++        my ($func) = ($contents =~ /^.*\s+(\S+)\(/);
++	$asmprototypes{$func} = $contents;
++    }
+ }
+ 
+ ##
+@@ -1848,9 +1857,31 @@ sub syscall_munge() {
+ sub process_proto_function($$) {
+     my $x = shift;
+     my $file = shift;
++    my $funcname;
+ 
+     $x =~ s@\/\/.*$@@gos; # strip C99-style comments to end of line
+ 
++    # support asm functions declared with one of these starting in
++    # the first column:
++    #     SYM_FUNC_START(name)
++    #     SYM_FUNC_START_LOCAL(name)
++    #     SYM_FUNC_START_WEAK(name)
++    # or for nested macros:
++    #     SOMESTRING<whitespace>name
++    if ($file =~ /\.S$/) {
++        if ($x =~ /^SYM_FUNC_START/) {
++	    ($funcname) = ($x =~ /^SYM_FUNC_START.*\((.*)\)/);
++        } elsif ($x =~ /^[A-Za-z0-9_]+\s+[A-Za-z0-9_]+/) {
++	    ($funcname) = ($x =~ /^[A-Za-z0-9_]+\s+([A-Za-z0-9_]+)/);
++        }
++    }
++    if (defined $funcname) {
++	$prototype = $asmprototypes{$funcname};
++	dump_function($asmprototypes{$funcname}, $file);
++	reset_state();
++	return;
++    }
++
+     if ($x =~ m#\s*/\*\s+MACDOC\s*#io || ($x =~ /^#/ && $x !~ /^#\s*define/)) {
+ 	# do nothing
+     }
+@@ -2085,6 +2116,8 @@ sub process_body($$) {
+ 	    $newsection = $section_default;
+ 	} elsif ($newsection =~ m/^context$/i) {
+ 	    $newsection = $section_context;
++	} elsif ($newsection =~ m/^prototype$/i) {
++	    $newsection = $section_asmprototype;
+ 	} elsif ($newsection =~ m/^returns?$/i) {
+ 	    $newsection = $section_return;
+ 	} elsif ($newsection =~ m/^\@return$/) {
+@@ -2135,6 +2168,16 @@ sub process_body($$) {
+ 		$contents = "";
+ 		$new_start_line = $.;
+ 		$state = STATE_BODY;
++	    } elsif ($section eq $section_asmprototype) {
++		my ($protoline) = /Prototype:\s+(.+)$/;
++		my ($funcname) = $protoline =~ /Prototype\.*\s+(\S+)\(/;
++
++		$asmprototypes{$funcname} = $protoline;
++		dump_section($file, $section, $contents);
++		$section = $section_default;
++		$contents = "";
++		$new_start_line = $.;
++		$state = STATE_BODY;
+ 	    } else {
+ 		if ($section ne $section_default) {
+ 		    $state = STATE_BODY_WITH_BLANK_LINE;
+@@ -2150,7 +2193,7 @@ sub process_body($$) {
+ 	    $declaration_purpose =~ s/\s+/ /g;
+ 	} else {
+ 	    my $cont = $1;
+-	    if ($section =~ m/^@/ || $section eq $section_context) {
++	    if ($section =~ m/^@/ || $section eq $section_context || $section eq $section_asmprototype) {
+ 		if (!defined $leading_space) {
+ 		    if ($cont =~ m/^(\s+)/) {
+ 			$leading_space = $1;
+@@ -2286,6 +2329,7 @@ sub process_file($) {
+ 	}
+ 	# Replace tabs by spaces
+         while ($_ =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {};
++
+ 	# Hand this line to the appropriate state handler
+ 	if ($state == STATE_NORMAL) {
+ 	    process_normal();
 -- 
 2.38.1
 
