@@ -2,68 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8104C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 10:46:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA952C3DA6E
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 11:31:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229937AbiLOKqy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Dec 2022 05:46:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50778 "EHLO
+        id S229991AbiLOLbA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Dec 2022 06:31:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230036AbiLOKqw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 05:46:52 -0500
-Received: from mx1.veeam.com (mx1.veeam.com [216.253.77.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42C5A1C410;
-        Thu, 15 Dec 2022 02:46:49 -0800 (PST)
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
+        with ESMTP id S229979AbiLOLaw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 06:30:52 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A9A75FA5;
+        Thu, 15 Dec 2022 03:30:50 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.veeam.com (Postfix) with ESMTPS id D099241D42;
-        Thu, 15 Dec 2022 05:47:41 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
-        s=mx1-2022; t=1671101262;
-        bh=xhll34qBllbleKx66EAPbdWrQOO5TZUZ0637lrp11Nc=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To:From;
-        b=TKrwTfOBXBuHz/g0VqQ2IiMSFrcARyCoIRxkmMNuLSh3CfzQE5657obtdA8fxCebV
-         VR09826PnxKczE2lZv0AUwj2g7e1g0UJoxqpvMdHcOdk+paSt3nJORTW+kYmD3ZMC/
-         FFpjN6uHi2LuGH4aOVDc9mb05UUXP8W1CoGb9YrzmI9/9uJIoXnq9iRbUHYAOFjz/4
-         3zcWPe4GuMFHoZfSqu7artJAHbCTbLAzsLG+l+bbJY2u21J8STR9+OXhgLvak5Glxs
-         dqhFxDCLLCC1m/TQCOe0YSjPStdyUPu9S4NZAZyldw7Nj3OwWEbrHEnquUdBVbd7dz
-         pQBWfxyL+K7sg==
-Received: from [172.24.10.107] (172.24.10.107) by prgmbx01.amust.local
- (172.24.128.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.20; Thu, 15 Dec
- 2022 11:46:43 +0100
-Message-ID: <28b715eb-f9bc-c0d3-8dfd-22d0f84080c0@veeam.com>
-Date:   Thu, 15 Dec 2022 11:46:35 +0100
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 95CEE61DA2;
+        Thu, 15 Dec 2022 11:30:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5CDEC433D2;
+        Thu, 15 Dec 2022 11:30:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1671103849;
+        bh=Nhsq9EwuWdUHCHQ1oKOOCcbZzOAeZ9yikbOc2qNSucE=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=S7/vajs7OQ829o5woYBdBs+p46PqaG896EX/Vmy0yKmoYKVVzh6a4ovDWn1PgvE3N
+         BN4MQoVbLQJuQPtI4SJR8/B9QAbqm4F4l1O/men0bD51plkQvAqsTgqt8vihrwj5Vj
+         6T95KO3NLIYDP8ubTe/bG8lssJ3CZ8GCqFcyIIxyqEopjkic/OMKn9E8LJAO9qVjy0
+         JoyMArXIuSnSlaKiyJ9ySHSg6usf3zBU2hQbaNIjoRE9JvVeoimVudjpmvAldf8Zzd
+         9B0Mq17n5/jCC0uS73mDJLG19UoY62B1jmCc23ETbmySfw0ZyUkHCXUhtjSZpj5lN8
+         ZdcMOkIqgo0zQ==
+From:   =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: Re: [PATCH v2] riscv: Allow to downgrade paging mode from the
+ command line
+In-Reply-To: <20221215081948.1256610-1-alexghiti@rivosinc.com>
+References: <20221215081948.1256610-1-alexghiti@rivosinc.com>
+Date:   Thu, 15 Dec 2022 12:30:46 +0100
+Message-ID: <87359ggazd.fsf@all.your.base.are.belong.to.us>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v2 02/21] block, blkfilter: Block Device Filtering
- Mechanism
-Content-Language: en-US
-To:     Christoph Hellwig <hch@infradead.org>
-CC:     <axboe@kernel.dk>, <corbet@lwn.net>, <linux-block@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20221209142331.26395-1-sergei.shtepa@veeam.com>
- <20221209142331.26395-3-sergei.shtepa@veeam.com>
- <Y5roR3jjhQwgFWVM@infradead.org>
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-In-Reply-To: <Y5roR3jjhQwgFWVM@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.24.10.107]
-X-ClientProxiedBy: colmbx01.amust.local (172.18.0.171) To prgmbx01.amust.local
- (172.24.128.102)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29240315566D7061
-X-Veeam-MMEX: True
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I am very glad to see your comments, Christoph.
-Thank you so much for the review.
+Alexandre Ghiti <alexghiti@rivosinc.com> writes:
 
-I have read all the comments and agree with them.
-Now I see new ways to make the code of the filter and the blksnap module better.
-There seems to be a lot of work to be done. :)
+> Add 2 early command line parameters called "no5lvl" and "no4lvl" (using
+> the same naming as x86) to allow a user to downgrade from sv57 (the
+> default mode if the hardware supports it) to sv48 or sv39.
+>
+> Note that going through the device tree to get the kernel command line
+> works with ACPI too since the efi stub creates a device tree anyway with
+> the command line.
+>
+> Also, as those params are treated very early in the boot process and we
+> use standard device tree functions that may be kasan instrumented, we
+> only enable them for !KASAN configurations.
+>
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+
+Reviewed-by: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
