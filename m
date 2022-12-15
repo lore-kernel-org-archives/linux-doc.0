@@ -2,56 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AFEDC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 10:06:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8104C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 10:46:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230040AbiLOKG2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Dec 2022 05:06:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59464 "EHLO
+        id S229937AbiLOKqy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Dec 2022 05:46:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229945AbiLOKG1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 05:06:27 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92C76FDD;
-        Thu, 15 Dec 2022 02:06:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=iRzkPWuCkQml6FYGQ4TeSDfpbXjzHlPcMLaQkvZAaQE=; b=2V1qG2uHmplQmT3bRDjmbko+Ot
-        HY9m8IrWLuV49vQ/8DgONSsiWewojZXnbLNKHm/FdweSHW90r6i7onM+uXP9jPMahqSBNW+RiE6Ix
-        jnE9iIFRM+4hRDUhauomEVtIo2ZRZ2qE5w0hxa/Cw1xOoLPLzwNhTUFx41OACjAgdO3o5wjvaRK1J
-        DVtqQC7NAiVFfF4ik3p/Y61CtKdO7jVliVCIEEJ8VYSy1G/lLfi1MqIkVFRkB0Dk0/w8E2+WxKmQ0
-        /GnElXVHFDtAU0TSJgq1gVova4ZCO/X8a0OFn6ehKzhFSUjwHQj+dceCySI9ibpAqAUD0cnapqLUV
-        0SRsX12A==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1p5l8A-008ffS-Mn; Thu, 15 Dec 2022 10:06:22 +0000
-Date:   Thu, 15 Dec 2022 02:06:22 -0800
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Sergei Shtepa <sergei.shtepa@veeam.com>
-Cc:     axboe@kernel.dk, corbet@lwn.net, linux-block@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 13/21] block, blksnap: functions and structures for
- performing block I/O operations
-Message-ID: <Y5rxnsKpQga5GRzY@infradead.org>
-References: <20221209142331.26395-1-sergei.shtepa@veeam.com>
- <20221209142331.26395-14-sergei.shtepa@veeam.com>
+        with ESMTP id S230036AbiLOKqw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 05:46:52 -0500
+Received: from mx1.veeam.com (mx1.veeam.com [216.253.77.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42C5A1C410;
+        Thu, 15 Dec 2022 02:46:49 -0800 (PST)
+Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx1.veeam.com (Postfix) with ESMTPS id D099241D42;
+        Thu, 15 Dec 2022 05:47:41 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
+        s=mx1-2022; t=1671101262;
+        bh=xhll34qBllbleKx66EAPbdWrQOO5TZUZ0637lrp11Nc=;
+        h=Date:Subject:To:CC:References:From:In-Reply-To:From;
+        b=TKrwTfOBXBuHz/g0VqQ2IiMSFrcARyCoIRxkmMNuLSh3CfzQE5657obtdA8fxCebV
+         VR09826PnxKczE2lZv0AUwj2g7e1g0UJoxqpvMdHcOdk+paSt3nJORTW+kYmD3ZMC/
+         FFpjN6uHi2LuGH4aOVDc9mb05UUXP8W1CoGb9YrzmI9/9uJIoXnq9iRbUHYAOFjz/4
+         3zcWPe4GuMFHoZfSqu7artJAHbCTbLAzsLG+l+bbJY2u21J8STR9+OXhgLvak5Glxs
+         dqhFxDCLLCC1m/TQCOe0YSjPStdyUPu9S4NZAZyldw7Nj3OwWEbrHEnquUdBVbd7dz
+         pQBWfxyL+K7sg==
+Received: from [172.24.10.107] (172.24.10.107) by prgmbx01.amust.local
+ (172.24.128.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.20; Thu, 15 Dec
+ 2022 11:46:43 +0100
+Message-ID: <28b715eb-f9bc-c0d3-8dfd-22d0f84080c0@veeam.com>
+Date:   Thu, 15 Dec 2022 11:46:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221209142331.26395-14-sergei.shtepa@veeam.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v2 02/21] block, blkfilter: Block Device Filtering
+ Mechanism
+Content-Language: en-US
+To:     Christoph Hellwig <hch@infradead.org>
+CC:     <axboe@kernel.dk>, <corbet@lwn.net>, <linux-block@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20221209142331.26395-1-sergei.shtepa@veeam.com>
+ <20221209142331.26395-3-sergei.shtepa@veeam.com>
+ <Y5roR3jjhQwgFWVM@infradead.org>
+From:   Sergei Shtepa <sergei.shtepa@veeam.com>
+In-Reply-To: <Y5roR3jjhQwgFWVM@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.24.10.107]
+X-ClientProxiedBy: colmbx01.amust.local (172.18.0.171) To prgmbx01.amust.local
+ (172.24.128.102)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A29240315566D7061
+X-Veeam-MMEX: True
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> +	bio = bio_alloc_bioset(diff_region->bdev, nr_iovecs, opf, gfp_mask,
-> +			       &diff_io_bioset);
-> +	if (unlikely(!bio)) {
-> +		if (is_nowait)
-> +			ret = -EAGAIN;
-> +		else
-> +			ret = -ENOMEM;
-> +		goto fail;
+I am very glad to see your comments, Christoph.
+Thank you so much for the review.
 
-bio_alloc_bioset can't fail for the !is_nowait case.
+I have read all the comments and agree with them.
+Now I see new ways to make the code of the filter and the blksnap module better.
+There seems to be a lot of work to be done. :)
