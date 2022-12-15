@@ -2,81 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCCBDC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 18:32:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F089C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 18:39:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230082AbiLOScX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Dec 2022 13:32:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55114 "EHLO
+        id S229496AbiLOSj1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Dec 2022 13:39:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229895AbiLOSbY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 13:31:24 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B397211150;
-        Thu, 15 Dec 2022 10:30:49 -0800 (PST)
+        with ESMTP id S230305AbiLOSjG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 13:39:06 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 639B7C4C;
+        Thu, 15 Dec 2022 10:38:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671129050; x=1702665050;
+  t=1671129536; x=1702665536;
   h=message-id:date:subject:to:cc:references:from:
    in-reply-to:content-transfer-encoding:mime-version;
-  bh=YNvCOExFlsip5+ialnPbI00Af2vBmhjuknMTmatuPvE=;
-  b=Gvpk9J5IUW5n9rQv3kqQZwHiV8JYHsw8/wol+fe+Keov1kQL4ScfHSTV
-   iyZVSiCYY/QM6GHGYLzuBLa2Xn0nJDcpNuswYmlK+2x/6FoTJdpOxxvYu
-   98LqQ5B238goyZwJOHE8mjZg6PZxfIKwIGiOVHkkQU/doH5Plpy/Q0zLp
-   T7jZ1tAsA98FkQYAuP7hxx0dPXe4JfrdoHSOUD8jtWDUKF/uOtmyCSD+m
-   kkpVSsNyh99dUt8PiTq440zuIvTYOfMDA5zSs6o+oFehOWKwz5cW0/Yg9
-   DUXOl/2twyerNIA6BkSRZmQoK1ez7vkWGgaSuuC+aiIu89cGWdXwN1yhy
+  bh=Rl6zmOdIMCJiG0fh+6dP59e74oUe5BMzsDxeDw672nw=;
+  b=R0mDyGo9TaJx1WNGA75xL2BRdRlbT7mDuQOxN7WBtpIv6EmzyhuZBrxn
+   rfeDxNEyQCkxgwadXkhmA3L2h4vwbmhWBGsDjEd/EeK047jrMwCtr5cBo
+   t8lz5HJciaq48ZyEId5YvXCB7chsLVgjcTIQoygdSgLrUJ+BFFV6Ov6Bt
+   QppI6nHoNi0EYbbj9jfp76ke1vLSvJCVdyOoCoq00YdCCRMcKK8MFyAId
+   viQHwFMRsCpqfBs9SExeQJ0iUTu2dAMUbistu1o/Z5nPwN5fnJ1L/aqgg
+   ij6e4gGKYIFCLabHGWuPwGMqsH/q0bfzsZphU7EwxgIbPHLcWn7DY7VvG
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="299109131"
+X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="317468132"
 X-IronPort-AV: E=Sophos;i="5.96,248,1665471600"; 
-   d="scan'208";a="299109131"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2022 10:30:46 -0800
+   d="scan'208";a="317468132"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2022 10:38:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="642998300"
+X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="713009225"
 X-IronPort-AV: E=Sophos;i="5.96,248,1665471600"; 
-   d="scan'208";a="642998300"
+   d="scan'208";a="713009225"
 Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga007.jf.intel.com with ESMTP; 15 Dec 2022 10:30:44 -0800
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+  by fmsmga008.fm.intel.com with ESMTP; 15 Dec 2022 10:38:53 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
  fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 15 Dec 2022 10:30:43 -0800
+ 15.1.2507.16; Thu, 15 Dec 2022 10:38:52 -0800
 Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 15 Dec 2022 10:30:43 -0800
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.170)
+ 15.1.2507.16 via Frontend Transport; Thu, 15 Dec 2022 10:38:52 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
  by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 15 Dec 2022 10:30:42 -0800
+ 15.1.2507.16; Thu, 15 Dec 2022 10:38:52 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Cudo9sIo8G2YytNKyc+5ZCvtItM1pPzLVHd7wrocmRiKpItaGWsv4GZ4zdgnFNkTteU5d8dMcyHBCK8x0CwKEQ6l0YonInoCNNTd5pF2Jm/XTV7IQEXpkw5/oInaympynIlTmL7IaCyokonLcc3piWIVJUajFCATJVtInYzRABtgNJ/HEO9n6EZ96SHlb9wpd8ZEyj2Hl97IYinpaGOE/zcg+19w1ISq/ffyJoLeZ3IkDxrLkhRL9EngjBvgoOfssKPvoPWfR0Pee1H6+/krEQ/aPjRxLA2grq96J2NvUG8s90CwgbiCEm+O3oiwzXeO6FNwf1XgqXPV4mi04mECAA==
+ b=jzQt6aP/62nxeKx//t6W8nYvx+x62eTo+g9Z+6QQaXVG7WxbcOqAEnuY1GeMqUEN7wZEe4AyOf18v6fTMJicdTuQWha7G1qA3mj4t63Clem5+m2h5obQ+ES/gVGjBEbjAPyyNeNhdJkqZJnXyFSqor1ujKweJSVTjfw+ZAcgc6Jx0rVAsUa3nbQDpa/BDYwGL0pEf0tgqXuogBmeKLj16VM/4+1aHCT2+49ySphypLoelK55EznSYsvNNpfXOoYratuhKV6kILcJPAYY1PkV2LONv6Jdhj764kVGG/j/KgOzn+KrNGuIBvIJbfX9UVsaBPZ8gkF763Q2ZlOzgYmJEg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C8TJPCgJJWjHgiK3/cu7XYr8WRTcN5UgP2FTazO/nQ8=;
- b=d5dflZi9wM4LnCu8xDLpGlBWqZcI3i7ZqGvIeCS9RyCHWfJgrZ2YOGcOhF+BPWWv5suDNd9FbShoRTz6svlSdD4yZiyvrIynqaapM93m9z7j79Z9zSwX0rDyNsxGADPvfgO46KclNX1AydmC06q2zuB5FTvidlVHhUFJ52NKPB/NNBST+Pgy/OZQJeJ+U+sMoQ7d2AJEjU126opmbRsgJ2HnvYcigmd8WMvzq8jzO1GfQWiiFxM+/j5PoIsNC51AQTjQ0wopRWwwOLRHPrpMEx7dmaFmbS4y4KLgvMm1WTIzTDaqalSvgL/bx6SXes6mU/KkduVlW2AVdxSdkHbbZw==
+ bh=Rl6zmOdIMCJiG0fh+6dP59e74oUe5BMzsDxeDw672nw=;
+ b=lA9dnxtNDwe3ZodeWpkONoiXF6ZxbddaLqY4R4YpupjMClNd/LIRbAndvZaOrcH1nA/y2dOY9smlTtTW/wUzfCLxL+R34/lJFHBUwEDd1YsHw8oGpUkoYNMJ2rzWymWnfPCVMpQPB3lXZWI+Uudj9Vvz5v6XZQpQbq+8vtEUdzw8cSP5B5NI9W67NssFtC5aWEatylL/11wPzFivYuefmKtKMJJa7aZZxYRwhbd0BiJAbPydj/xCotTju798cagPWA/tlj9A9VOJcIfm+WHfnS7/lbTw3uNzHV+NrKj4lUQzvohn9em/vW7G2hnZnP9Qt63vvTCP2TFOQC6kNx5HtA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from CY4PR11MB1862.namprd11.prod.outlook.com (2603:10b6:903:124::18)
- by CO1PR11MB4849.namprd11.prod.outlook.com (2603:10b6:303:90::13) with
+ by CH0PR11MB5268.namprd11.prod.outlook.com (2603:10b6:610:e3::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.12; Thu, 15 Dec
- 2022 18:30:37 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.19; Thu, 15 Dec
+ 2022 18:38:49 +0000
 Received: from CY4PR11MB1862.namprd11.prod.outlook.com
  ([fe80::a1f7:e4c4:e60:c5b3]) by CY4PR11MB1862.namprd11.prod.outlook.com
  ([fe80::a1f7:e4c4:e60:c5b3%6]) with mapi id 15.20.5924.012; Thu, 15 Dec 2022
- 18:30:37 +0000
-Message-ID: <14aca9af-e649-19a7-1be5-2389d6f8348b@intel.com>
-Date:   Thu, 15 Dec 2022 10:30:33 -0800
+ 18:38:49 +0000
+Message-ID: <2174535b-1f95-d286-2884-cfa7d0a8491f@intel.com>
+Date:   Thu, 15 Dec 2022 10:38:41 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Firefox/102.0 Thunderbird/102.6.0
-Subject: Re: [PATCH v9 13/13] Documentation/x86: Update resctrl.rst for new
- features
+Subject: Re: [PATCH v9 00/13] Support for AMD QoS new features
 Content-Language: en-US
 To:     Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>,
         <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
@@ -95,72 +94,71 @@ CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
         <jarkko@kernel.org>, <adrian.hunter@intel.com>,
         <quic_jiles@quicinc.com>, <peternewman@google.com>
 References: <166990882621.17806.16780480657453071426.stgit@bmoger-ubuntu>
- <166990905693.17806.6942517971262471285.stgit@bmoger-ubuntu>
 From:   Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <166990905693.17806.6942517971262471285.stgit@bmoger-ubuntu>
+In-Reply-To: <166990882621.17806.16780480657453071426.stgit@bmoger-ubuntu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0194.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::19) To CY4PR11MB1862.namprd11.prod.outlook.com
+X-ClientProxiedBy: BY3PR05CA0054.namprd05.prod.outlook.com
+ (2603:10b6:a03:39b::29) To CY4PR11MB1862.namprd11.prod.outlook.com
  (2603:10b6:903:124::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PR11MB1862:EE_|CO1PR11MB4849:EE_
-X-MS-Office365-Filtering-Correlation-Id: a5f97d47-f2f1-4aad-2809-08dadeca7616
+X-MS-TrafficTypeDiagnostic: CY4PR11MB1862:EE_|CH0PR11MB5268:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2969eb02-c9a5-4b43-bb84-08dadecb9af1
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: W3tQjyMJkLCTC+yuu6F5zdN/NP3Tcuqo/JrotkBwi8DIltim9GRPJsHCF2xNArMPlMvSmsh9KJMcgk2R2j6bHP87uZa4U4cJTOOK4tfLZrl/PdFWVWleg9gbKW4OJZgohbrRCkOAbEU7D4R8j9VUDgYFLnnrtTMcpBHyhjdsPx8E253G16rCw1sEPf28zAn9AUzHJOHXS9TcMxx9Um4LC7oeveyU8vMf1BWSwcW++p1LGLn/n1IBNMFloTABmXbMvnGW8zehDh6ql2z0A5ny+vjSbPvrThHoxdS/TcVOWiJtG/jy/5uiw9MKHoMzCnO4twxG1MYHesxkslHZLnX3iVj3oKD4XyGEX5Ed95QKZ8GiJ1GkhGjbBqyPu+YuspqJMxlit8IquaPpPSa7f05azYYZbxUi8B313AnuVbdvMDmVAxk9qYYMTumINmm+5nSIRtZiT2kr7bUJ+KFJJzkOz7827UR2hFf96xy4E5ZnYvRFuF2u4C8mJQEzXrx7EiNMvyJUfL4m38Tb6vlHGl2xRcgT+bEdoMuLPYKUDgfdeRs2kxkt0c8trwIAqnh6rRBYKWkQNJNqUc9x/DSoIrMax/uk1knub0h8okETNkZcIA1Xnrqv62NxjUwg3eH698oBpHqkhGc6MPqNkmhOc14eYtU4VUBg2FjwiK2U9D9UX9F6Kgjn3F2xLziEPKCovbcUP+k2PUfUK2m9s1IGjx0jon6b26g1/iLyyiCEW5sDDII=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(136003)(39860400002)(376002)(396003)(366004)(451199015)(83380400001)(86362001)(31696002)(82960400001)(44832011)(15650500001)(2906002)(5660300002)(8936002)(7406005)(41300700001)(7416002)(4326008)(6506007)(6666004)(186003)(26005)(2616005)(6512007)(316002)(66476007)(66946007)(66556008)(8676002)(53546011)(31686004)(478600001)(6486002)(38100700002)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: jO6YHIzh4rv92wYOXPYd8JhL6/Ys977qa50spzVWvQWkWri2RIcBQRDdjisFmWTTOLHpI4CQKo394aQ5FAyDGaFVmeYlHaf0U4tPUeDmVyf9obMhsM4J8k1bImMYKkIbYrYR5AFVOumU5yP5Jwtkd4R2QMGdv6W64go4YUo2VXQdF6Tv310r2bPWOFTPUUWVNDpUai/xafWDDQb6YnjoPGC3ABztw2pi97V5iWiuc6ZsWz3xJilaje1lqDn7VxtgcsCBUCD4hTmNEOCeCePjfahbZDqgz28hMvsTlbSgRjgNbdtKLsowRzdLneW2u2RH84Q/eMMnS7qQg4fyYjdOUjFMIuQ+NxGPD/N+1+idKKUxM6ggUM7kLUQXhQQLI4Gemsa+cD7W+oOQ1lMJAuBd7G33XSbHYLK8+36fm/eHdrNq5XnexgY5Gw2iwVQmoUa6nVV118Sh23z/uejnzdZPx3nQyZZK4SAq1dv88u6nE8sudZbK3THvLMs241CCDwOt3tOtF6Ko+aLedFBva5rkdsUw8B0AcmNO5K4va1IwIPz1RcKDosaA8RuZwOiaObpuPe3aNN4hWzB97TCyQ53MzuTJ4DoiQMLu456Vn9PmOvdR6cyEhNnPSpqK/PSpY5sKcStiSu1k2IR5AhM3gBmj6cZfOqkShtp86PL0q9eoPvgwPopBDetuDU5wkUe0JL9BJSY1UQGVBnDl86DKHLxxX9MKvCzkU27AfMfD1MCJYGM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(39860400002)(136003)(366004)(346002)(376002)(451199015)(478600001)(31696002)(82960400001)(8936002)(41300700001)(38100700002)(6486002)(7406005)(86362001)(6666004)(316002)(4326008)(7416002)(66556008)(186003)(2906002)(6506007)(66476007)(6512007)(26005)(8676002)(2616005)(44832011)(5660300002)(31686004)(66946007)(36756003)(558084003)(45980500001)(43740500002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dDJ4VGR4SVFBdVFpbi9LeXozM1hrZnNEVUloRnFEbW1Kc3Vva1ZGUjZ1b0p1?=
- =?utf-8?B?azE3bzBGa28xMEtpYjNDMllRSHl4OFpXT2ozdWlxL0FBK3hGczZUOGRIRDIw?=
- =?utf-8?B?K015d2RrUStiYVJLbW92WEoyWWU2SDN2RjBqdDJkc2NNUG5iNE8yQjB1d2ho?=
- =?utf-8?B?VTlsUzhWbkFtRGduc1BXanlJb0EvR2MrRE1wT25qWkVqM3VBUFZQb3dCTytN?=
- =?utf-8?B?WW9sRHRZTnA5Zk1VNlBENCt1QnkybmFRTUk3UE1GU0pGYUg5MGdCalptMWRs?=
- =?utf-8?B?c2JLZzVja2FLMWhzM05oQXhjSjVLenN4dXZSNmVBVGh5ZXlDWXUxRHZuUlp6?=
- =?utf-8?B?ZG5FaTVRSHoxcElmaUFEMmVIUGJRYVFkVEJmeDlYRVpXQ2tLUkFrWFFZZE1O?=
- =?utf-8?B?eXFBMVc1akhhQ09MNWh4dEtHek9BcUxGbWhoMk9ldjlJN1Y1VHFSVGtxN3ZB?=
- =?utf-8?B?NFFzYVgzeElja004Mi9kRzBHNmdOTVFucTM5ajZwbnlMNlNGckJwNmNuRVhw?=
- =?utf-8?B?dys4cEt3OE5uTC9XbHg3SVA0c1V2QkFZaWpwQXEyWmdNL1B1bFIxZ0JrOWE0?=
- =?utf-8?B?RmkyQ2J5amhJNlAyeUQ2Q2l6QWJnV3hsaU9yZjF1dnE0aFhOZ1RHL0FESjFn?=
- =?utf-8?B?aTRTUUp4RVJzajU0Y3h1NjdPYndSTVVoc0FQNlZ3TkxCMWtneDRMZGRmRUlj?=
- =?utf-8?B?akk2UmlpYkl6V0w1MHZlRm11UW81N3M0WVJmd1VtMDNRd3V0VWRVSDNVR2pt?=
- =?utf-8?B?dW9Qa255NDdibnZlZkd6NGp1cmlHcWJWN1cxblJ6T28rMUtWaGtOajFTK3Jw?=
- =?utf-8?B?QWhzeEptMFZoWG9PM0ZOVHNDVHAvUjFCMHN4cDJhdUc2MDdJbmc0QVF0WkJQ?=
- =?utf-8?B?SXRRQURLbzg3SU9MMjVCcWJRNTVNT3FwYVB4dVduemM0Z1phakhHd2djV093?=
- =?utf-8?B?UXFjT0N6NncweXJ0QjBSa1ZTL2tEZks5SmtCVm5FREFjNkN4cXlTcUVQZ3NF?=
- =?utf-8?B?UTJtMFNrbndpRVJRMmtZM1htWko5cG5EZit2dnk4aENNQ0U5T1dVTTBrb2Y2?=
- =?utf-8?B?N3JURXNkR2RWbDZhQ1ZLQ0FzcU1MRDUvcDF6andoOFhGUHlyNzVPcWVwTjNM?=
- =?utf-8?B?Q3RFMUlaNWVPNjQ5aGtrQ1Bldkp6Z0lSK2gwbHh2MWF6K0tEQ2E5Vmc5TmxC?=
- =?utf-8?B?SUlNUnYweGRsTTRpWmhsMm9KUXVlWkdsNVg1aGYzU3NMb3dheWYwNlNiYzZZ?=
- =?utf-8?B?MjdlL2xkdDdHNko0V3l0UzRubjVVU0ovY0RCbTVJdVJCYVdvRC9NL2JFOU5J?=
- =?utf-8?B?RktwcGdnalJvcFNmRUt3RVJIWTVteEdDSjUzTVB1TjhxWGVwa212eWxKc0Fh?=
- =?utf-8?B?MGJHaHpNU1psa0hlSEJrMHROaUFBMkdoWjIvSEw2ckhBMEp1MWM2OVNsNHhI?=
- =?utf-8?B?Vm02WjJSU2o4ek5aVE9KRVBkSkt6aHB0WUxPZmp3MXBrd2RycEJGSU1qYVcz?=
- =?utf-8?B?cXNnREpZcUNjcjNyTzRFS25YZXRrd0JQUGlLQXA5UFoxWTNLcUlYMDZqNW1Y?=
- =?utf-8?B?MkhNNG9GbEs5aE5ZdStlbU5mYXdjeEJXeEVzYWpHc3BXd0xSa3ZwVjVWU1dz?=
- =?utf-8?B?cGZtTjlLazVrd0wxbVVxMS9CczkwS3lnRHdwQ2s4anh5amJ0dWpUVlhnTzVy?=
- =?utf-8?B?U2REek5kK0lEeWdtdnBXbi9RYlZZaFNPV25tWlFqU0VYeEZscHN6NHp3TTFo?=
- =?utf-8?B?YVdoaDhERW93bjAraXFrbkc4MDFxRk4zUnR6Mm9UeVFqa1o3clB3WmE4dWEw?=
- =?utf-8?B?TVo5UGsxR3l2RS91SGdNMG9ieGZYaGhjcFBEVGt3UFZMejY3UGJhTHNDckRZ?=
- =?utf-8?B?aWhUWUE4emNLVGRkRDZLL1NnbWQvUGlTZ213SEdqK0EzY3RPUmpETGpMSjBX?=
- =?utf-8?B?ZHNObDRQb25yckNVWklRd1k5cXBFZDhEdEw1aERpaFFkejlBVUFEdElncTVY?=
- =?utf-8?B?ZG1rMEc4UHpITzFOalRMTTdxWExEZGdMMVBjVkxUOVFUc3o5eUE0QVc5ckpz?=
- =?utf-8?B?cFFTUlc2d3dySFFPNXdhUnUvSmNXUUwzS0NzdUltMnV4SGJiaEtJQ2VSWjlR?=
- =?utf-8?B?VFVMRW5LOWh3ODJPMWR0YVhsaHlOOUlvQzNnRC9TTVlINnVpL3EyQjdRdXc3?=
- =?utf-8?B?L0E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5f97d47-f2f1-4aad-2809-08dadeca7616
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SDlYMXdTWWlHY3prcER2RHdqbnZJYTVNU0hqYTg1WDF2L1g2aXU2alZ4TkxC?=
+ =?utf-8?B?SmUwTUZZSCt0OFd5UjFCdkRUOUo3dlpCdkhUQmJ0YmJoZjM3bnYzaGVwTnpt?=
+ =?utf-8?B?Tmp2Sm1ydVpEVGFJK3hXUGZCUmFVWGZRN09yMU1lNmZ4R3NGRHRiSElLVFBt?=
+ =?utf-8?B?QTJ6Sm16dGNLWFdpSDBzOEJRYk9jUzZCSm5VODVkS0ZJSUJVaXlqeFhwS29T?=
+ =?utf-8?B?YW5qL1AwT0Nwa04zajdQL1V1NVFOVmZ6aW9iSGdhdUpaMVA4UExTN2hOd0dJ?=
+ =?utf-8?B?TnRCRDZaL0R1emR6UmFsbWhrMERjRUR1alB3NmdJZk9pSFdhNmFVcDA2dndH?=
+ =?utf-8?B?Rjl5SDVqcS9lVDkxOWJaTEpHandLRndwNC93eHNnd1I4Y1ptd0pzZmhrRTAw?=
+ =?utf-8?B?dEFUZ3Y3eWpBUlM0dDMxYnZWazBROElxN2hnNW5ueDMxK3FDSms2WjZRN0pZ?=
+ =?utf-8?B?ZUl6a1hvSjQ5c2pod2lGRWpvNE9ORE11NFcrMVhwanhwT0M2TEdKb01BQ1lS?=
+ =?utf-8?B?ZDYzaDYxSytyL2dSUDE4cjNQQUxhZUJpc2ZCNzJMaUxFWjUvdkIyVkEyNm91?=
+ =?utf-8?B?OURWWlB2NnBkcmM1V2lxV1FWRjAwZUlOY3B0RjdjeHhFVFo3dGorWmovYStz?=
+ =?utf-8?B?MzJ3V3lXSkZ3ZUFPWDlFZ1JTY1BtSElTdDVkS2RwOFZSVmxpbHlwQm1TTXRm?=
+ =?utf-8?B?NklVN0ppSkNPWk1QeTlvRE13M3J2MlFJQndLVHdQSDJSU1Z4Qnhmb1ZYTjA4?=
+ =?utf-8?B?cXE3UVJpZ1ltQk1yNlJPK1B6eVZkZDVYYjlhNXBZYktIb0dtcXpLc0d6b1dI?=
+ =?utf-8?B?Y3BpVmJYTFdWeUhCcEJhd1R6Ym9DWENXeEV4TjgybjR0QmUzVmVhSHI0VWdS?=
+ =?utf-8?B?U0h2eFBldUordHlPczdYZWdyKzNqb1RZNXh3ZythR0RES0l3MzBUMkxhODRJ?=
+ =?utf-8?B?VmQwYmdFbzQ5NHhTZXo0LzBNVUtLeDBUZi9iTkptTFhDNVdBSDdaM0ZCVGE1?=
+ =?utf-8?B?MnY3aFhNYkpGSCt5NVg5dndXeDQrTktNSGN2UjNpNVU2LzNxSE5kU1NHQTJV?=
+ =?utf-8?B?ci9LT0hkajNjeUE2bGJUS0pvOFh2dS9ycWswZnhTWVNiMGxVUkswdEFXWmFT?=
+ =?utf-8?B?UVdFVlBkcGJ5VzcwUkxQbnF3VU1pMWx4dVZ6TlZnZkxjbmhXZDVaV3ptVVZE?=
+ =?utf-8?B?REFWTFRKS1VuT1pRcHhxSk96dHJaKy9yQytuKzJMKzlzdWtRbm5CeDZ0N1VE?=
+ =?utf-8?B?NmJLem51YS81ZVljZVBTYldZMzNKUHhVaEtVZDQycERPWW9xVWJkMXA4cDVo?=
+ =?utf-8?B?NDd3QzArUUEwOTBXUy9JenkvL1lRWVJBd3ZTTXNGSVRnMlI2NTJMK1NSczcz?=
+ =?utf-8?B?WmkvMjlpaXV2djV4bWFYOXlBZngvNkI3aEhIaGdtVkdmYlhvQU5Ea0lIN2tG?=
+ =?utf-8?B?cnZtZzRYSjBVb3hYRVppTWZlY2FSVS84WXlVNU9nRitBVkJOaWpOWjdJRG56?=
+ =?utf-8?B?eVNDckhwenNlQTZkb2RtSFl6T1llOFdyQTNXcnRXVmZkaTlzY20zbkdlVUpW?=
+ =?utf-8?B?Um8vRFB0L3ZKcVdxVVR2QlJuWmgwOTNTQzBXUElsc2E1TGJGdnBwelc3Rktl?=
+ =?utf-8?B?dWNaQUVZeFl0aWZyRG5rbGlxc1M2T1JGWjdLOHlPSFdsN0hSY3pxTE5nQW55?=
+ =?utf-8?B?enM0ZS9Ua1pVMnA0cGZyUVhUcXh4enl5ZWdETFlFQVd0VkJJZ3pLck1nNEtX?=
+ =?utf-8?B?RUdyVms4UVV3QzhzTCtMRmxTRi9nejRFZG5YRGl3RXlvMzBNTjQ4V04reXli?=
+ =?utf-8?B?Vm5FckdkWDhGVXlNN1VuYVg1cHY1NHR6WXZFOWVjK2M2Q25xeXFRSnNZV29L?=
+ =?utf-8?B?VUNLeDhkVEF5V2kxTXBZZHlDQ1dnZStoZ1ZnbnBKb2hvbzdFZFlxTjBiWmZL?=
+ =?utf-8?B?M1NmM2NocG9PS2RwdXJzcnRZaHNVeVZ5UG5takpONElSdDZGZUJobTM5ekJo?=
+ =?utf-8?B?YXFnUmxPOEJRWWNGTEJRQWhNUFE4VG1BV0xjbVNBRW5HVE9Xc2ZWTGtGTVpT?=
+ =?utf-8?B?Z3pnbVIxUmFKWllrUVhXa3FYSG5CcnlSaE9pZmJ6MUo0SnRyWlFDZzg5Y25q?=
+ =?utf-8?B?RUpBV25EbHI1dEJuMTRCNEFqNmlpZmpCQmtLWS9aU0d4bHZVMHpKUzlqaGhY?=
+ =?utf-8?B?d3c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2969eb02-c9a5-4b43-bb84-08dadecb9af1
 X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1862.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2022 18:30:37.4301
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2022 18:38:48.8263
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wQ4bF85JRM6I01upuYPBMao3ODFoRfgroY/LeUlIB+uddg0Hp+atI45VsgyNJ1Eqi+b1saHlOhR5a+Fegjk3XPNeYIMkSdB8ZoU/ksv+nCI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4849
+X-MS-Exchange-CrossTenant-UserPrincipalName: HYf6nf0EzM7CLXBr+jkZZlYwY1fcSw7YmpyEAfYpjGAHvTv1nrv3VRsPtUJToRLZZIyKTGbhEQW933tlpgAk113ltjYaPnlJU+YIpPD31ng=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5268
 X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -168,222 +166,6 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi Babu,
 
-On 12/1/2022 7:37 AM, Babu Moger wrote:
-> Update the documentation for the new features:
-> 1. Slow Memory Bandwidth allocation (SMBA).
->    With this feature, the QOS  enforcement policies can be applied
->    to the external slow memory connected to the host. QOS enforcement
->    is accomplished by assigning a Class Of Service (COS) to a processor
->    and specifying allocations or limits for that COS for each resource
->    to be allocated.
-> 
-> 2. Bandwidth Monitoring Event Configuration (BMEC).
->    The bandwidth monitoring events mbm_total_bytes and mbm_local_bytes
->    are set to count all the total and local reads/writes respectively.
->    With the introduction of slow memory, the two counters are not
->    enough to count all the different types of memory events. With the
->    feature BMEC, the users have the option to configure mbm_total_bytes
->    and mbm_local_bytes to count the specific type of events.
-> 
-> Also add configuration instructions with examples.
-> 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/x86/resctrl.rst |  138 ++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 136 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
-> index 71a531061e4e..60761a6f9087 100644
-> --- a/Documentation/x86/resctrl.rst
-> +++ b/Documentation/x86/resctrl.rst
-> @@ -17,14 +17,16 @@ AMD refers to this feature as AMD Platform Quality of Service(AMD QoS).
->  This feature is enabled by the CONFIG_X86_CPU_RESCTRL and the x86 /proc/cpuinfo
->  flag bits:
->  
-> -=============================================	================================
-> +===============================================	================================
->  RDT (Resource Director Technology) Allocation	"rdt_a"
->  CAT (Cache Allocation Technology)		"cat_l3", "cat_l2"
->  CDP (Code and Data Prioritization)		"cdp_l3", "cdp_l2"
->  CQM (Cache QoS Monitoring)			"cqm_llc", "cqm_occup_llc"
->  MBM (Memory Bandwidth Monitoring)		"cqm_mbm_total", "cqm_mbm_local"
->  MBA (Memory Bandwidth Allocation)		"mba"
-> -=============================================	================================
-> +SMBA (Slow Memory Bandwidth Allocation)         "smba"
-> +BMEC (Bandwidth Monitoring Event Configuration) "bmec"
-> +===============================================	================================
->  
->  To use the feature mount the file system::
->  
-> @@ -161,6 +163,79 @@ with the following files:
->  "mon_features":
->  		Lists the monitoring events if
->  		monitoring is enabled for the resource.
-> +                Example::
-> +
-> +                   # cat /sys/fs/resctrl/info/L3_MON/mon_features
-> +                   llc_occupancy
-> +                   mbm_total_bytes
-> +                   mbm_local_bytes
-> +
-> +                If the system supports Bandwidth Monitoring Event
-> +                Configuration (BMEC), then the bandwidth events will
-> +                be configurable. The output will be::
-> +
-> +                   # cat /sys/fs/resctrl/info/L3_MON/mon_features
-> +                   llc_occupancy
-> +                   mbm_total_bytes
-> +                   mbm_total_bytes_config
-> +                   mbm_local_bytes
-> +                   mbm_local_bytes_config
-> +
-> +"mbm_total_bytes_config", "mbm_local_bytes_config":
-> +        These files contain the current event configuration for the events
-
-"These files" is redundant. Note that this is already introduced with "the
-following files:".
-To match similar files it could read:
-"Read/write files containing the configuration for the mbm_total_bytes and
-mbm_local_bytes events, respectively, ..."
-
-> +        mbm_total_bytes and mbm_local_bytes, respectively, when the
-> +        Bandwidth Monitoring Event Configuration (BMEC) feature is supported.
-> +        The event configuration settings are domain specific and will affect
-
-"will" can be dropped?
-
-> +        all the CPUs in the domain.
-> +
-> +        Following are the types of events supported:
-> +
-> +        ====    ========================================================
-> +        Bits    Description
-> +        ====    ========================================================
-> +        6       Dirty Victims from the QOS domain to all types of memory
-> +        5       Reads to slow memory in the non-local NUMA domain
-> +        4       Reads to slow memory in the local NUMA domain
-> +        3       Non-temporal writes to non-local NUMA domain
-> +        2       Non-temporal writes to local NUMA domain
-> +        1       Reads to memory in the non-local NUMA domain
-> +        0       Reads to memory in the local NUMA domain
-> +        ====    ========================================================
-> +
-> +        By default, the mbm_total_bytes configuration is set to 0x7f to count
-> +        all the event types and the mbm_local_bytes configuration is set to
-> +        0x15 to count all the local memory events.
-> +
-> +        Examples:
-> +
-> +        * To view the current configuration::
-> +          ::
-> +
-> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
-> +            0=0x7f;1=0x7f;2=0x7f;3=0x7f
-> +
-> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_local_bytes_config
-> +            0=0x15;1=0x15;3=0x15;4=0x15
-> +
-> +        * To change the mbm_total_bytes to count only reads on domain 0,
-> +          the bits 0, 1, 4 and 5 needs to be set, which is 110011b in binary
-> +          (in hexadecimal 0x33):
-> +          ::
-> +
-> +            # echo  "0=0x33" > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
-> +
-> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
-> +            0=0x33;1=0x7f;2=0x7f;3=0x7f
-> +
-> +        * To change the mbm_local_bytes to count all the slow memory reads on
-> +          domain 0 and 1, the bits 4 and 5 needs to be set, which is 110000b
-> +          in binary (in hexadecimal 0x30):
-> +          ::
-> +
-> +            # echo  "0=0x30;1=0x30" > /sys/fs/resctrl/info/L3_MON/mbm_local_bytes_config
-> +
-> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_local_bytes_config
-> +            0=0x30;1=0x30;3=0x15;4=0x15
->  
->  "max_threshold_occupancy":
->  		Read/write file provides the largest value (in
-> @@ -464,6 +539,25 @@ Memory bandwidth domain is L3 cache.
->  
->  	MB:<cache_id0>=bw_MBps0;<cache_id1>=bw_MBps1;...
->  
-> +Slow Memory Bandwidth Allocation (SMBA)
-> +---------------------------------------
-> +AMD hardware supports Slow Memory Bandwidth Allocation (SMBA).
-> +CXL.memory is the only supported "slow" memory device. With the
-> +support of SMBA, the hardware enables bandwidth allocation on
-> +the slow memory devices. If there are multiple such devices in
-> +the system, the throttling logic groups all the slow sources
-> +together and applies the limit on them as a whole.
-> +
-> +The presence of SMBA (with CXL.memory) is independent of slow memory
-> +devices presence. If there are no such devices on the system, then
-> +configuring SMBA will have no impact on the performance of the system.
-> +
-> +The bandwidth domain for slow memory is L3 cache. Its schemata file
-> +is formatted as:
-> +::
-> +
-> +	SMBA:<cache_id0>=bandwidth0;<cache_id1>=bandwidth1;...
-> +
->  Reading/writing the schemata file
->  ---------------------------------
->  Reading the schemata file will show the state of all resources
-> @@ -479,6 +573,46 @@ which you wish to change.  E.g.
->    L3DATA:0=fffff;1=fffff;2=3c0;3=fffff
->    L3CODE:0=fffff;1=fffff;2=fffff;3=fffff
->  
-> +Reading/writing the schemata file (on AMD systems)
-> +--------------------------------------------------
-> +Reading the schemata file will show the current bandwidth limit on all
-> +domains. The allocated resources are in multiples of one eighth GB/s.
-> +When writing to the file, you need to specify what cache id you wish to
-> +configure the bandwidth limit.
-> +
-> +For example, to allocate 2GB/s limit on the first cache id:
-> +
-> +::
-> +
-> +  # cat schemata
-> +    MB:0=2048;1=2048;2=2048;3=2048
-> +    L3:0=ffff;1=ffff;2=ffff;3=ffff
-> +
-> +  # echo "MB:1=16" > schemata
-> +  # cat schemata
-> +    MB:0=2048;1=  16;2=2048;3=2048
-> +    L3:0=ffff;1=ffff;2=ffff;3=ffff
-> +
-> +Reading/writing the schemata file (on AMD systems) with SMBA feature
-> +--------------------------------------------------------------------
-> +Reading and writing the schemata file is the same as without SMBA in
-> +above section.
-> +
-> +For example, to allocate 8GB/s limit on the first cache id:
-> +
-> +::
-> +
-> +  # cat schemata
-> +    SMBA:0=2048;1=2048;2=2048;3=2048
-> +      MB:0=2048;1=2048;2=2048;3=2048
-> +      L3:0=ffff;1=ffff;2=ffff;3=ffff
-> +
-> +  # echo "SMBA:1=64" > schemata
-> +  # cat schemata
-> +    SMBA:0=2048;1=  64;2=2048;3=2048
-> +      MB:0=2048;1=2048;2=2048;3=2048
-> +      L3:0=ffff;1=ffff;2=ffff;3=ffff
-> +
->  Cache Pseudo-Locking
->  ====================
->  CAT enables a user to specify the amount of cache space that an
-> 
-> 
-
-Based on earlier comments I am awaiting information to understand if some
-more detail/example is needed to describe to the user what can be expected
-after a counter configuration is made.
+Please also use the x86/resctrl prefix in the cover letter's subject.
 
 Reinette
