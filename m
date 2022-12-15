@@ -2,170 +2,377 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F089C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 18:39:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC8B2C25B04
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 18:55:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229496AbiLOSj1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Dec 2022 13:39:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36966 "EHLO
+        id S230486AbiLOSzJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Dec 2022 13:55:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230305AbiLOSjG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 13:39:06 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 639B7C4C;
-        Thu, 15 Dec 2022 10:38:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671129536; x=1702665536;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Rl6zmOdIMCJiG0fh+6dP59e74oUe5BMzsDxeDw672nw=;
-  b=R0mDyGo9TaJx1WNGA75xL2BRdRlbT7mDuQOxN7WBtpIv6EmzyhuZBrxn
-   rfeDxNEyQCkxgwadXkhmA3L2h4vwbmhWBGsDjEd/EeK047jrMwCtr5cBo
-   t8lz5HJciaq48ZyEId5YvXCB7chsLVgjcTIQoygdSgLrUJ+BFFV6Ov6Bt
-   QppI6nHoNi0EYbbj9jfp76ke1vLSvJCVdyOoCoq00YdCCRMcKK8MFyAId
-   viQHwFMRsCpqfBs9SExeQJ0iUTu2dAMUbistu1o/Z5nPwN5fnJ1L/aqgg
-   ij6e4gGKYIFCLabHGWuPwGMqsH/q0bfzsZphU7EwxgIbPHLcWn7DY7VvG
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="317468132"
-X-IronPort-AV: E=Sophos;i="5.96,248,1665471600"; 
-   d="scan'208";a="317468132"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2022 10:38:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="713009225"
-X-IronPort-AV: E=Sophos;i="5.96,248,1665471600"; 
-   d="scan'208";a="713009225"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Dec 2022 10:38:53 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 15 Dec 2022 10:38:52 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 15 Dec 2022 10:38:52 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 15 Dec 2022 10:38:52 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jzQt6aP/62nxeKx//t6W8nYvx+x62eTo+g9Z+6QQaXVG7WxbcOqAEnuY1GeMqUEN7wZEe4AyOf18v6fTMJicdTuQWha7G1qA3mj4t63Clem5+m2h5obQ+ES/gVGjBEbjAPyyNeNhdJkqZJnXyFSqor1ujKweJSVTjfw+ZAcgc6Jx0rVAsUa3nbQDpa/BDYwGL0pEf0tgqXuogBmeKLj16VM/4+1aHCT2+49ySphypLoelK55EznSYsvNNpfXOoYratuhKV6kILcJPAYY1PkV2LONv6Jdhj764kVGG/j/KgOzn+KrNGuIBvIJbfX9UVsaBPZ8gkF763Q2ZlOzgYmJEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rl6zmOdIMCJiG0fh+6dP59e74oUe5BMzsDxeDw672nw=;
- b=lA9dnxtNDwe3ZodeWpkONoiXF6ZxbddaLqY4R4YpupjMClNd/LIRbAndvZaOrcH1nA/y2dOY9smlTtTW/wUzfCLxL+R34/lJFHBUwEDd1YsHw8oGpUkoYNMJ2rzWymWnfPCVMpQPB3lXZWI+Uudj9Vvz5v6XZQpQbq+8vtEUdzw8cSP5B5NI9W67NssFtC5aWEatylL/11wPzFivYuefmKtKMJJa7aZZxYRwhbd0BiJAbPydj/xCotTju798cagPWA/tlj9A9VOJcIfm+WHfnS7/lbTw3uNzHV+NrKj4lUQzvohn9em/vW7G2hnZnP9Qt63vvTCP2TFOQC6kNx5HtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY4PR11MB1862.namprd11.prod.outlook.com (2603:10b6:903:124::18)
- by CH0PR11MB5268.namprd11.prod.outlook.com (2603:10b6:610:e3::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.19; Thu, 15 Dec
- 2022 18:38:49 +0000
-Received: from CY4PR11MB1862.namprd11.prod.outlook.com
- ([fe80::a1f7:e4c4:e60:c5b3]) by CY4PR11MB1862.namprd11.prod.outlook.com
- ([fe80::a1f7:e4c4:e60:c5b3%6]) with mapi id 15.20.5924.012; Thu, 15 Dec 2022
- 18:38:49 +0000
-Message-ID: <2174535b-1f95-d286-2884-cfa7d0a8491f@intel.com>
-Date:   Thu, 15 Dec 2022 10:38:41 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.0
-Subject: Re: [PATCH v9 00/13] Support for AMD QoS new features
-Content-Language: en-US
-To:     Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>,
-        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
-CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
-        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
-        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
-        <songmuchun@bytedance.com>, <peterz@infradead.org>,
-        <jpoimboe@kernel.org>, <pbonzini@redhat.com>,
-        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
-        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
-        <sandipan.das@amd.com>, <tony.luck@intel.com>,
-        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
-        <eranian@google.com>, <christophe.leroy@csgroup.eu>,
-        <jarkko@kernel.org>, <adrian.hunter@intel.com>,
-        <quic_jiles@quicinc.com>, <peternewman@google.com>
-References: <166990882621.17806.16780480657453071426.stgit@bmoger-ubuntu>
-From:   Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <166990882621.17806.16780480657453071426.stgit@bmoger-ubuntu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR05CA0054.namprd05.prod.outlook.com
- (2603:10b6:a03:39b::29) To CY4PR11MB1862.namprd11.prod.outlook.com
- (2603:10b6:903:124::18)
+        with ESMTP id S230471AbiLOSzF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 13:55:05 -0500
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F00A37FA8
+        for <linux-doc@vger.kernel.org>; Thu, 15 Dec 2022 10:55:04 -0800 (PST)
+Received: by mail-pf1-x431.google.com with SMTP id c7so198656pfc.12
+        for <linux-doc@vger.kernel.org>; Thu, 15 Dec 2022 10:55:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tql803N7RKHuASaIdu+UkrN+NkU/fpU+hod/+Xu+0bY=;
+        b=EYuI77zPNcW0wzWblw74hpUTvu8AQLpoMzPSRWgKRX5K3Vurk9HKM3ALv7PnYwOOOJ
+         1nzN7Acw0nmSqxgF1ul41UiPrrzfOKzgdOGKz1TSfoBMkTyCm7JptAA9nmUvV15xKZEA
+         UP5sAxUXSxU6V9Waxi3TGHcR6p6Yya+0/Q/PCpmVYwmhrhjlw3rZ95TYanDLDHm03yK7
+         i1q6iP6eVAz/oZIcVJrPbiaSi/M+e9sGtoIHv29vp472kY1mlwmPWa+Zki6MRyBqFWuT
+         1TdS49C7hYQ/ui7UmrRZA0E3V1D/oWBZGqQXut9wplm+cCH2UlPnjRKMbRaZXqnqcaAr
+         I4HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Tql803N7RKHuASaIdu+UkrN+NkU/fpU+hod/+Xu+0bY=;
+        b=k+uu2ks69p+3LLDGt+uI1WvYGWPg/X2COfIV/CmzDgLLWHMAtjcl5NM7bS067v+bpL
+         ygWAj3z1L9WHVBszklbIC8cKHE2YPHDLAIm9R/LmpQtbbvrmqVRZbTv0/pShSzoRgL8J
+         U3piaY+m8J23Gpx1OPOz6Vnslzd3xqvVTxz1G+29gh890OoAK19C0i6vMS0xfuI1ee3y
+         YTQPdUmQuTAD4oT21zo8M0/v2MpcwDiBw1wVPdXXT/oBPluU+8eJ5YEQFVCoXsysWfC/
+         qsAExG58DjiOv74Xv1ubxDhgqqCV5tWfN9vpIruZ4RjIaZt5FVywKvwiyz9R1Mhhnc1a
+         Tqfw==
+X-Gm-Message-State: ANoB5plcbtoB//jsJl2D65vw404N4dmtNN97Odt9HetqNTnGRF6p3xqz
+        9N3OUbwwwgvd1uoGNW2K6qXmQQIfYTmW+Y7YDN8QeQ==
+X-Google-Smtp-Source: AA0mqf7K7vyKkq01+H38YVBuJRxakQHpgkN7io9XEQ0BlOl7dyKzTDVORCw3/HzdJh1c79jWOtmX6fG7j17fiuTfCR0=
+X-Received: by 2002:a62:1812:0:b0:56c:afe:e8bf with SMTP id
+ 18-20020a621812000000b0056c0afee8bfmr80788681pfy.51.1671130503191; Thu, 15
+ Dec 2022 10:55:03 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PR11MB1862:EE_|CH0PR11MB5268:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2969eb02-c9a5-4b43-bb84-08dadecb9af1
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jO6YHIzh4rv92wYOXPYd8JhL6/Ys977qa50spzVWvQWkWri2RIcBQRDdjisFmWTTOLHpI4CQKo394aQ5FAyDGaFVmeYlHaf0U4tPUeDmVyf9obMhsM4J8k1bImMYKkIbYrYR5AFVOumU5yP5Jwtkd4R2QMGdv6W64go4YUo2VXQdF6Tv310r2bPWOFTPUUWVNDpUai/xafWDDQb6YnjoPGC3ABztw2pi97V5iWiuc6ZsWz3xJilaje1lqDn7VxtgcsCBUCD4hTmNEOCeCePjfahbZDqgz28hMvsTlbSgRjgNbdtKLsowRzdLneW2u2RH84Q/eMMnS7qQg4fyYjdOUjFMIuQ+NxGPD/N+1+idKKUxM6ggUM7kLUQXhQQLI4Gemsa+cD7W+oOQ1lMJAuBd7G33XSbHYLK8+36fm/eHdrNq5XnexgY5Gw2iwVQmoUa6nVV118Sh23z/uejnzdZPx3nQyZZK4SAq1dv88u6nE8sudZbK3THvLMs241CCDwOt3tOtF6Ko+aLedFBva5rkdsUw8B0AcmNO5K4va1IwIPz1RcKDosaA8RuZwOiaObpuPe3aNN4hWzB97TCyQ53MzuTJ4DoiQMLu456Vn9PmOvdR6cyEhNnPSpqK/PSpY5sKcStiSu1k2IR5AhM3gBmj6cZfOqkShtp86PL0q9eoPvgwPopBDetuDU5wkUe0JL9BJSY1UQGVBnDl86DKHLxxX9MKvCzkU27AfMfD1MCJYGM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(39860400002)(136003)(366004)(346002)(376002)(451199015)(478600001)(31696002)(82960400001)(8936002)(41300700001)(38100700002)(6486002)(7406005)(86362001)(6666004)(316002)(4326008)(7416002)(66556008)(186003)(2906002)(6506007)(66476007)(6512007)(26005)(8676002)(2616005)(44832011)(5660300002)(31686004)(66946007)(36756003)(558084003)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SDlYMXdTWWlHY3prcER2RHdqbnZJYTVNU0hqYTg1WDF2L1g2aXU2alZ4TkxC?=
- =?utf-8?B?SmUwTUZZSCt0OFd5UjFCdkRUOUo3dlpCdkhUQmJ0YmJoZjM3bnYzaGVwTnpt?=
- =?utf-8?B?Tmp2Sm1ydVpEVGFJK3hXUGZCUmFVWGZRN09yMU1lNmZ4R3NGRHRiSElLVFBt?=
- =?utf-8?B?QTJ6Sm16dGNLWFdpSDBzOEJRYk9jUzZCSm5VODVkS0ZJSUJVaXlqeFhwS29T?=
- =?utf-8?B?YW5qL1AwT0Nwa04zajdQL1V1NVFOVmZ6aW9iSGdhdUpaMVA4UExTN2hOd0dJ?=
- =?utf-8?B?TnRCRDZaL0R1emR6UmFsbWhrMERjRUR1alB3NmdJZk9pSFdhNmFVcDA2dndH?=
- =?utf-8?B?Rjl5SDVqcS9lVDkxOWJaTEpHandLRndwNC93eHNnd1I4Y1ptd0pzZmhrRTAw?=
- =?utf-8?B?dEFUZ3Y3eWpBUlM0dDMxYnZWazBROElxN2hnNW5ueDMxK3FDSms2WjZRN0pZ?=
- =?utf-8?B?ZUl6a1hvSjQ5c2pod2lGRWpvNE9ORE11NFcrMVhwanhwT0M2TEdKb01BQ1lS?=
- =?utf-8?B?ZDYzaDYxSytyL2dSUDE4cjNQQUxhZUJpc2ZCNzJMaUxFWjUvdkIyVkEyNm91?=
- =?utf-8?B?OURWWlB2NnBkcmM1V2lxV1FWRjAwZUlOY3B0RjdjeHhFVFo3dGorWmovYStz?=
- =?utf-8?B?MzJ3V3lXSkZ3ZUFPWDlFZ1JTY1BtSElTdDVkS2RwOFZSVmxpbHlwQm1TTXRm?=
- =?utf-8?B?NklVN0ppSkNPWk1QeTlvRE13M3J2MlFJQndLVHdQSDJSU1Z4Qnhmb1ZYTjA4?=
- =?utf-8?B?cXE3UVJpZ1ltQk1yNlJPK1B6eVZkZDVYYjlhNXBZYktIb0dtcXpLc0d6b1dI?=
- =?utf-8?B?Y3BpVmJYTFdWeUhCcEJhd1R6Ym9DWENXeEV4TjgybjR0QmUzVmVhSHI0VWdS?=
- =?utf-8?B?U0h2eFBldUordHlPczdYZWdyKzNqb1RZNXh3ZythR0RES0l3MzBUMkxhODRJ?=
- =?utf-8?B?VmQwYmdFbzQ5NHhTZXo0LzBNVUtLeDBUZi9iTkptTFhDNVdBSDdaM0ZCVGE1?=
- =?utf-8?B?MnY3aFhNYkpGSCt5NVg5dndXeDQrTktNSGN2UjNpNVU2LzNxSE5kU1NHQTJV?=
- =?utf-8?B?ci9LT0hkajNjeUE2bGJUS0pvOFh2dS9ycWswZnhTWVNiMGxVUkswdEFXWmFT?=
- =?utf-8?B?UVdFVlBkcGJ5VzcwUkxQbnF3VU1pMWx4dVZ6TlZnZkxjbmhXZDVaV3ptVVZE?=
- =?utf-8?B?REFWTFRKS1VuT1pRcHhxSk96dHJaKy9yQytuKzJMKzlzdWtRbm5CeDZ0N1VE?=
- =?utf-8?B?NmJLem51YS81ZVljZVBTYldZMzNKUHhVaEtVZDQycERPWW9xVWJkMXA4cDVo?=
- =?utf-8?B?NDd3QzArUUEwOTBXUy9JenkvL1lRWVJBd3ZTTXNGSVRnMlI2NTJMK1NSczcz?=
- =?utf-8?B?WmkvMjlpaXV2djV4bWFYOXlBZngvNkI3aEhIaGdtVkdmYlhvQU5Ea0lIN2tG?=
- =?utf-8?B?cnZtZzRYSjBVb3hYRVppTWZlY2FSVS84WXlVNU9nRitBVkJOaWpOWjdJRG56?=
- =?utf-8?B?eVNDckhwenNlQTZkb2RtSFl6T1llOFdyQTNXcnRXVmZkaTlzY20zbkdlVUpW?=
- =?utf-8?B?Um8vRFB0L3ZKcVdxVVR2QlJuWmgwOTNTQzBXUElsc2E1TGJGdnBwelc3Rktl?=
- =?utf-8?B?dWNaQUVZeFl0aWZyRG5rbGlxc1M2T1JGWjdLOHlPSFdsN0hSY3pxTE5nQW55?=
- =?utf-8?B?enM0ZS9Ua1pVMnA0cGZyUVhUcXh4enl5ZWdETFlFQVd0VkJJZ3pLck1nNEtX?=
- =?utf-8?B?RUdyVms4UVV3QzhzTCtMRmxTRi9nejRFZG5YRGl3RXlvMzBNTjQ4V04reXli?=
- =?utf-8?B?Vm5FckdkWDhGVXlNN1VuYVg1cHY1NHR6WXZFOWVjK2M2Q25xeXFRSnNZV29L?=
- =?utf-8?B?VUNLeDhkVEF5V2kxTXBZZHlDQ1dnZStoZ1ZnbnBKb2hvbzdFZFlxTjBiWmZL?=
- =?utf-8?B?M1NmM2NocG9PS2RwdXJzcnRZaHNVeVZ5UG5takpONElSdDZGZUJobTM5ekJo?=
- =?utf-8?B?YXFnUmxPOEJRWWNGTEJRQWhNUFE4VG1BV0xjbVNBRW5HVE9Xc2ZWTGtGTVpT?=
- =?utf-8?B?Z3pnbVIxUmFKWllrUVhXa3FYSG5CcnlSaE9pZmJ6MUo0SnRyWlFDZzg5Y25q?=
- =?utf-8?B?RUpBV25EbHI1dEJuMTRCNEFqNmlpZmpCQmtLWS9aU0d4bHZVMHpKUzlqaGhY?=
- =?utf-8?B?d3c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2969eb02-c9a5-4b43-bb84-08dadecb9af1
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1862.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2022 18:38:48.8263
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HYf6nf0EzM7CLXBr+jkZZlYwY1fcSw7YmpyEAfYpjGAHvTv1nrv3VRsPtUJToRLZZIyKTGbhEQW933tlpgAk113ltjYaPnlJU+YIpPD31ng=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5268
-X-OriginatorOrg: intel.com
+References: <20221208061841.2186447-1-davidgow@google.com> <20221208061841.2186447-3-davidgow@google.com>
+In-Reply-To: <20221208061841.2186447-3-davidgow@google.com>
+From:   Daniel Latypov <dlatypov@google.com>
+Date:   Thu, 15 Dec 2022 10:54:51 -0800
+Message-ID: <CAGS_qxqUuaGeeUSpERLduvm7f6A7c+psBwUr=RiBFzPFRipHkg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Documentation: Add Function Redirection API docs
+To:     David Gow <davidgow@google.com>
+Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Sadiya Kazi <sadiyakazi@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joe Fradley <joefradley@google.com>,
+        Steve Muckle <smuckle@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Babu,
+On Wed, Dec 7, 2022 at 10:18 PM 'David Gow' via KUnit Development
+<kunit-dev@googlegroups.com> wrote:
+>
+> From: Sadiya Kazi <sadiyakazi@google.com>
+>
+> Added a new page (functionredirection.rst) that describes the Function
+> Redirection (static stubbing) API. This page will be expanded if we add,
+> for example, ftrace-based stubbing.
+>
+> In addition,
+> 1. Updated the api/index.rst page to create an entry for function
+>    redirection api
+> 2. Updated the toctree to be hidden, reducing redundancy on the
+>    generated page.
+>
+> Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
+> Co-developed-by: David Gow <davidgow@google.com>
+> Signed-off-by: David Gow <davidgow@google.com>
 
-Please also use the x86/resctrl prefix in the cover letter's subject.
+Since I wrote the example code snippets (over at
+https://kunit.dev/mocking.html#compile-time), I wasn't sure if I
+should give an Rb tag.
+But the majority of this doc is text I had no part in writing, so with
+that caveat:
 
-Reinette
+Reviewed-by: Daniel Latypov <dlatypov@google.com>
+
+I noticed a few typos we could fix.
+The rest of my comments are optional suggestions about rewording some
+bits and adding `` to identifiers.
+
+> ---
+>
+> Note that this patch is new to v1 of the series, and wasn't included in
+> the previous RFCs.
+>
+> ---
+>  .../kunit/api/functionredirection.rst         | 162 ++++++++++++++++++
+>  Documentation/dev-tools/kunit/api/index.rst   |  13 +-
+>  2 files changed, 172 insertions(+), 3 deletions(-)
+>  create mode 100644 Documentation/dev-tools/kunit/api/functionredirection.rst
+>
+> diff --git a/Documentation/dev-tools/kunit/api/functionredirection.rst b/Documentation/dev-tools/kunit/api/functionredirection.rst
+> new file mode 100644
+> index 000000000000..fc7644dfea65
+> --- /dev/null
+> +++ b/Documentation/dev-tools/kunit/api/functionredirection.rst
+> @@ -0,0 +1,162 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +========================
+> +Function Redirection API
+> +========================
+> +
+> +Overview
+> +========
+> +
+> +When writing unit tests, it's important to be able to isolate the code being
+> +tested from other parts of the kernel. This ensures the reliability of the test
+> +(it won't be affected by external factors), reduces dependencies on specific
+> +hardware or config options (making the test easier to run), and protects the
+> +stability of the rest of the system (making it less likely for test-specific
+> +state to interfere with the rest of the system).
+> +
+> +While for some code (typically generic data structures, helpers, and toher
+
+s/toher/other
+
+> +"pure function") this is trivial, for others (like device drivers, filesystems,
+
+s/function/functions, perhaps?
+
+> +core subsystems) the code is heavily coupled with other parts of the kernel.
+> +
+> +This often involves global state in some way: be it global lists of devices,
+
+s/be it/be it a
+
+> +the filesystem, or hardware state, this needs to be either carefully managed,
+> +isolated, and restored, or avoided altogether by replacing access to and
+> +mutation of this state with a "fake" or "mock" variant.
+
+optional nit: this sentence feels a bit long.
+If we can find a way to split it up, that would be nice.
+
+Perhaps something like:
+This coupling is often due to global state: be it a global list of devices...
+Tests need to either carefully manage, isolate, and restore state or
+they can avoid it altogether by...
+
+> +
+> +This can be done by refactoring the code to abstract out access to such state,
+> +by introducing a layer of indirection which can use or emulate a separate set of
+
+optional nit: "abstract our access... by introducing a layer of
+indirection" feels a bit redundant.
+These are the same thing.
+
+Perhaps instead: "abstract out access to such state so tests can..."
+
+> +test state. However, such refactoring comes with its own costs (and undertaking
+> +significant refactoring before being able to write tests is suboptimal).
+> +
+> +A simpler way to intercept some of the function calls is to use function
+> +redirection via static stubs.
+
+Maybs s/intercept/replace?
+Intercept makes it sounds like we're supporting "test spies", but if
+you use the macro below, you have no way of implementing such a thing.
+
+E.g. it makes it sound like we can have
+  int func() {
+    if (intercepted) { ++func_called; }
+    // still run the rest of func
+  }
+
+> +
+> +
+> +Static Stubs
+> +============
+> +
+> +Static stubs are a way of redirecting calls to one function (the "real"
+> +function) to another function (the "replacement" function).
+> +
+> +It works by adding a macro to the "real" function which checks to see if a test
+> +is running, and if a replacement function is available. If so, that function is
+> +called in place of the original.
+> +
+> +Using static stubs is pretty straightforward:
+> +
+> +1. Add the KUNIT_STATIC_STUB_REDIRECT() macro to the start of the "real"
+
+nit: should we use ``KUNIT_STATIC_STUB_REDIRECT()`` to format it as code?
+
+> +   function.
+> +
+> +   This should be the first statement in the function, after any variable
+> +   declarations. KUNIT_STATIC_STUB_REDIRECT() takes the name of the
+
+ditto ``
+
+> +   function, followed by all of the arguments passed to the real function.
+> +
+> +   For example:
+> +
+> +   .. code-block:: c
+> +
+> +       void send_data_to_hardware(const char *str)
+> +       {
+> +               KUNIT_STATIC_STUB_REDIRECT(send_data_to_hardware, str);
+> +               /* real implementation */
+> +       }
+> +
+> +2. Write one or more replacement functions.
+> +
+> +   These functions should have the same function signature as the real function.
+> +   In the event they need to access or modify test-specific state, they can use
+> +   kunit_get_current_test() to get a struct kunit pointer. This can then
+
+ditto for ``kunit_get_current_test`` and ``struct kunit``
+
+> +   be passed to the expectation/assertion macros, or used to look up KUnit
+> +   resources.
+> +
+> +   For example:
+> +
+> +   .. code-block:: c
+> +
+> +       void fake_send_data_to_hardware(const char *str)
+> +       {
+> +               struct kunit *test = kunit_get_current_test();
+> +               KUNIT_EXPECT_STREQ(test, str, "Hello World!");
+> +       }
+> +
+> +3. Activate the static stub from your test.
+> +
+> +   From within a test, the redirection can be enabled with
+> +   kunit_activate_static_stub(), which accepts a struct kunit pointer,
+
+ditto here
+
+> +   the real function, and the replacement function. You can call this several
+> +   times with different replacement functions to swap out implementations of the
+> +   function.
+> +
+> +   In our example, this would be
+> +
+> +   .. code-block:: c
+> +
+> +        kunit_activate_static_stub(test,
+> +                                   send_data_to_hardware,
+> +                                   fake_send_data_to_hardware);
+> +
+> +4. Call (perhaps indirectly) the real function.
+> +
+> +   Once the redirection is activated, any call to the real function will call
+> +   the replacement function instead. Such calls may be buried deep in the
+> +   implementation of another function, but must occur from the test's kthread.
+> +
+> +   For example:
+> +
+> +   .. code-block:: c
+> +
+> +        send_data_to_hardware("Hello World!"); /* Succeeds */
+> +        send_data_to_hardware("Something else"); /* Fails the test. */
+> +
+> +5. (Optionally) disable the stub.
+> +
+> +   When you no longer need it, the redirection can be disabled (and hence the
+> +   original behaviour of the 'real' function resumed) using
+> +   kunit_deactivate_static_stub(). If the stub is not manually deactivated, it
+> +   will nevertheless be disabled when the test finishes.
+
+optional nit: this block of text feels overly long to me, personally.
+
+Perhaps something shorter like:
+When you no longer need it, you can disable the stub manually by
+calling ``kunit_deactive_static_stub()``.
+Otherwise, it will be disabled automatically at the end of the test.
+
+> +
+> +   For example:
+> +
+> +   .. code-block:: c
+> +
+> +        kunit_deactivate_static_stub(test, send_data_to_hardware);
+> +
+> +
+> +It's also possible to use these replacement functions to test to see if a
+> +function is called at all, for example:
+> +
+> +.. code-block:: c
+> +
+> +       void send_data_to_hardware(const char *str)
+> +       {
+> +               KUNIT_STATIC_STUB_REDIRECT(send_data_to_hardware, str);
+> +               /* real implementation */
+> +       }
+> +
+> +       /* In test file */
+> +       int times_called = 0;
+> +       void fake_send_data_to_hardware(const char *str)
+> +       {
+> +               /* fake implementation */
+
+minor nit: in the original example, this body was basically a placeholder.
+Given we're starting this section with saying "here's how you can
+count the function calls", this is the only thing you'd ever put in
+the body.
+
+So I'd prefer we just drop the comment.
+
+> +               times_called++;
+> +       }
+> +       ...
+> +       /* In the test case, redirect calls for the duration of the test */
+> +       kunit_activate_static_stub(test, send_data_to_hardware, fake_send_data_to_hardware);
+> +
+> +       send_data_to_hardware("hello");
+> +       KUNIT_EXPECT_EQ(test, times_called, 1);
+> +
+> +       /* Can also deactivate the stub early, if wanted */
+> +       kunit_deactivate_static_stub(test, send_data_to_hardware);
+> +
+> +       send_data_to_hardware("hello again");
+> +       KUNIT_EXPECT_EQ(test, times_called, 1);
+> +
+> +
+> +
+> +API Reference
+> +=============
+> +
+> +.. kernel-doc:: include/kunit/static_stub.h
+> +   :internal:
+> diff --git a/Documentation/dev-tools/kunit/api/index.rst b/Documentation/dev-tools/kunit/api/index.rst
+> index 45ce04823f9f..2d8f756aab56 100644
+> --- a/Documentation/dev-tools/kunit/api/index.rst
+> +++ b/Documentation/dev-tools/kunit/api/index.rst
+> @@ -4,17 +4,24 @@
+>  API Reference
+>  =============
+>  .. toctree::
+> +       :hidden:
+>
+>         test
+>         resource
+> +       functionredirection
+>
+> -This section documents the KUnit kernel testing API. It is divided into the
+> +
+> +This page documents the KUnit kernel testing API. It is divided into the
+>  following sections:
+>
+>  Documentation/dev-tools/kunit/api/test.rst
+>
+> - - documents all of the standard testing API
+> + - Documents all of the standard testing API
+>
+>  Documentation/dev-tools/kunit/api/resource.rst
+>
+> - - documents the KUnit resource API
+> + - Documents the KUnit resource API
+> +
+> +Documentation/dev-tools/kunit/api/functionredirection.rst
+> +
+> + - Documents the KUnit Function Redirection API
+> --
+> 2.39.0.rc0.267.gcb52ba06e7-goog
