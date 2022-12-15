@@ -2,155 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD2E9C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 12:47:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE456C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 12:51:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229905AbiLOMr4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Dec 2022 07:47:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59142 "EHLO
+        id S229762AbiLOMvw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Dec 2022 07:51:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229913AbiLOMr3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 07:47:29 -0500
-Received: from smtp-bc0d.mail.infomaniak.ch (smtp-bc0d.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc0d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 774DB310
-        for <linux-doc@vger.kernel.org>; Thu, 15 Dec 2022 04:45:44 -0800 (PST)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4NXsQq496MzMqbQC;
-        Thu, 15 Dec 2022 13:45:39 +0100 (CET)
-Received: from unknown by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4NXsQp0ppyzMppKY;
-        Thu, 15 Dec 2022 13:45:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1671108339;
-        bh=J7bkpE8pII1jDRivbh/AaVOZodqPxGCv2q0TIcL31yI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=NEZbSUcLRln7wxppYbOEfx+XVBH1Ml/wFv9KSOFXvbhwbdLdoCEInOUzGp0QfLCN8
-         1l7qGYyLdaBfbYv43XxSUfecXXljiF5Iwp1qirLNIMhh7mtk0+AUDtAHravH3Szzlf
-         CYk12AVCJqUxPIaNkVfqa+cHf9es99VxOYrDfbN8=
-Message-ID: <c7da47ef-92de-1e3c-1f29-3e3fdecd2c25@digikod.net>
-Date:   Thu, 15 Dec 2022 13:45:13 +0100
+        with ESMTP id S229821AbiLOMvt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 07:51:49 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE1CB23E8C;
+        Thu, 15 Dec 2022 04:51:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=eVhFf5MIvGoSrecefTzQcMQnYbPEvxCOEUrQeN+dgu4=; b=chgIZqKedLA0pkL9yfaHto3jZ2
+        yVdZKJm1iO213hDaw2ZTSAVzZJww8Mlx6jxxyWfI9m32uQZ2/BNiGFpocGXzt4wjgp8t1NMkPlztz
+        ok0o2FVGB6BzAe4Y60hPtnUOuPYjV6mC1AGyDIT8eddyWdiv+o2211ZtdTL13la80kNrlHAq7e96Z
+        +I8gldGuh6oZcLU2ZMYzciA07PhpFAM073IfVmR6ZaoTbJ8SM2Oiso9QsJFgDOFSYb9aqnZEObr2s
+        PhhGHvalDZNkygrp4uVMSOEiW8UuWAAdrwphObYR4pzyVGWhEh3lXgInAuhl5lE0oHHJfU8uh2J14
+        pWmDXVUg==;
+Received: from [188.21.169.252] (helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1p5ni0-009SxX-QO; Thu, 15 Dec 2022 12:51:33 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Jonathan Corbet <corbet@lwn.net>, axboe@meta.com, sagi@grimberg.me,
+        kbusch@kernel.org
+Cc:     linux-nvme@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
+Subject: [PATCH] docs, nvme: add a feature and quirk policy document
+Date:   Thu, 15 Dec 2022 13:51:30 +0100
+Message-Id: <20221215125130.261098-1-hch@lst.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: 
-Subject: Re: [PATCH v2] landlock: Explain file descriptor access rights
-Content-Language: en-US
-To:     =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        James Morris <jmorris@namei.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
-        Paul Moore <paul@paul-moore.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-References: <20221209193813.972012-1-mic@digikod.net> <Y5bapU9dWu0sBed6@nuc>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-In-Reply-To: <Y5bapU9dWu0sBed6@nuc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This adds a document about what specification features are supported by
+the Linux NVMe driver, and what qualifies for a quirk if an implementation
+has problems following the specification.
 
-On 12/12/2022 08:39, Günther Noack wrote:
-> On Fri, Dec 09, 2022 at 08:38:13PM +0100, Mickaël Salaün wrote:
->> Starting with LANDLOCK_ACCESS_FS_TRUNCATE, it is worth explaining why we
->> choose to restrict access checks at open time.  This new "File
->> descriptor access rights" section is complementary to the existing
->> "Inode access rights" section.  Add a new guiding principle related to
->> this section.
->>
->> Cc: Günther Noack <gnoack3000@gmail.com>
->> Signed-off-by: Mickaël Salaün <mic@digikod.net>
->> Link: https://lore.kernel.org/r/20221209193813.972012-1-mic@digikod.net
->> ---
->>
->> Changes since v1:
->> https://lore.kernel.org/r/20221205112621.3530557-1-mic@digikod.net
->> * Reworded the new section based on Günther suggestions.
->> * Added a new guiding principle.
->> * Update date.
->> ---
->>   Documentation/security/landlock.rst | 33 ++++++++++++++++++++++++++---
->>   1 file changed, 30 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/security/landlock.rst b/Documentation/security/landlock.rst
->> index c0029d5d02eb..95a0e4726dc5 100644
->> --- a/Documentation/security/landlock.rst
->> +++ b/Documentation/security/landlock.rst
->> @@ -7,7 +7,7 @@ Landlock LSM: kernel documentation
->>   ==================================
->>   
->>   :Author: Mickaël Salaün
->> -:Date: September 2022
->> +:Date: December 2022
->>   
->>   Landlock's goal is to create scoped access-control (i.e. sandboxing).  To
->>   harden a whole system, this feature should be available to any process,
->> @@ -41,12 +41,15 @@ Guiding principles for safe access controls
->>     processes.
->>   * Computation related to Landlock operations (e.g. enforcing a ruleset) shall
->>     only impact the processes requesting them.
->> +* Resources (e.g. file descriptors) directly obtained from the kernel by a
->> +  sandboxed process shall retain their scoped accesses whatever process use
-> 
-> Optional nit: Maybe add "at the time of resource acquisition" to stress that part?
+Signed-off-by: Jens Axboe <axboe@kernel.dk>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ Documentation/process/index.rst               |  1 +
+ .../process/nvme-feature-and-quirk-policy.rst | 77 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ 3 files changed, 79 insertions(+)
+ create mode 100644 Documentation/process/nvme-feature-and-quirk-policy.rst
 
-I included this suggestion in -next: 
-https://git.kernel.org/mic/c/4dd6da345ac2
+diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
+index d4b6217472b0a0..0dc33994ddefc5 100644
+--- a/Documentation/process/index.rst
++++ b/Documentation/process/index.rst
+@@ -50,6 +50,7 @@ Other guides to the community that are of interest to most developers are:
+    embargoed-hardware-issues
+    maintainers
+    researcher-guidelines
++   nvme-feature-and-quirk-policy
+ 
+ These are some overall technical guides that have been put here for now for
+ lack of a better place.
+diff --git a/Documentation/process/nvme-feature-and-quirk-policy.rst b/Documentation/process/nvme-feature-and-quirk-policy.rst
+new file mode 100644
+index 00000000000000..eee19f3d9904bd
+--- /dev/null
++++ b/Documentation/process/nvme-feature-and-quirk-policy.rst
+@@ -0,0 +1,77 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=======================================
++Linux NVMe feature and and quirk policy
++=======================================
++
++This file explains the policy used to decide what is supported by the
++Linux NVMe driver and what is not.
++
++
++Introduction
++============
++
++NVM Express is an open collection of standards and information.
++
++The Linux NVMe host driver in drivers/nvme/host/ supports devices
++implementing the NVM Express (NVMe) family of specifications, which
++currently consists of a number of documents:
++
++ - the NVMe Base specification
++ - various Command Set specifications (e.g. NVM Command Set)
++ - various Transport specifications (e.g. PCIe, Fibre Channel, RDMA, TCP)
++ - the NVMe Management Interface specification
++
++See https://nvmexpress.org/developers/ for the NVMe specifications.
++
++
++Supported features
++==================
++
++NVMe is a large suite of specifications, and contains features that are only
++useful or suitable for specific use-cases. It is important to note that Linux
++does not aim to implement every feature in the specification.  Every additional
++feature implemented introduces more code, more maintenance and potentially more
++bugs.  Hence there is an inherent tradeoff between functionality and
++maintainability of the NVMe host driver.
++
++Any feature implemented in the Linux NVMe host driver must support the
++following requirements:
++
++  1. The feature is specified in a release version of an official NVMe
++     specification, or in a ratified Technical Proposal (TP) that is
++     available on NVMe website. Or if it is not directly related to the
++     on-wire protocol, does not contradict any of the NVMe specifications.
++  2. Does not conflict with the Linux architecture, nor the design of the
++     NVMe host driver.
++  3. Has a clear, indisputable value-proposition and a wide consensus across
++     the community.
++
++Vendor specific extensions are generally not supported in the NVMe host
++driver.
++
++It is strongly recommended to work with the Linux NVMe and block layer
++maintainers and get feedback on specification changes that are intended
++to be used by the Linux NVMe host driver in order to avoid conflict at a
++later stage.
++
++
++Quirks
++======
++
++Sometimes implementations of open standards fail to correctly implement parts
++of the standards.  Linux uses identifiers based quirks to work around such
++implementation bugs.  The intent of quirks is to deal with widely available
++hardware, usually consumer, which Linux users can't use without these quirks.
++Typically these implementations are not or only superficially tested with Linux
++by the hardware manufacturer.
++
++The Linux NVMe maintainers decide ad hoc whether to quirk implementations
++based on the impact of the problem to Linux users and how it impacts
++maintainability of the driver.  In general quirks are a last resort, if no
++firmware updates or other workarounds are available from the vendor.
++
++Quirks will not be added to the Linux kernel for hardware that isn't available
++on the mass market.  Hardware that fails qualification for enterprise Linux
++distributions, ChromeOS, Android or other consumers of the Linux kernel
++should be fixed before it is shipped instead of rely on Linux quirk.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index bb77a3ed9d5423..59e9f2dfa842ad 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14827,6 +14827,7 @@ L:	linux-nvme@lists.infradead.org
+ S:	Supported
+ W:	http://git.infradead.org/nvme.git
+ T:	git://git.infradead.org/nvme.git
++F:	Documentation/process/nvme-feature-and-quirk-policy.rst
+ F:	drivers/nvme/host/
+ F:	drivers/nvme/common/
+ F:	include/linux/nvme*
+-- 
+2.35.1
 
-Thanks!
-
-> 
->> +  them.  Cf. `File descriptor access rights`_.
->>   
->>   Design choices
->>   ==============
->>   
->> -Filesystem access rights
->> -------------------------
->> +Inode access rights
->> +-------------------
->>   
->>   All access rights are tied to an inode and what can be accessed through it.
->>   Reading the content of a directory does not imply to be allowed to read the
->> @@ -57,6 +60,30 @@ directory, not the unlinked inode.  This is the reason why
->>   ``LANDLOCK_ACCESS_FS_REMOVE_FILE`` or ``LANDLOCK_ACCESS_FS_REFER`` are not
->>   allowed to be tied to files but only to directories.
->>   
->> +File descriptor access rights
->> +-----------------------------
->> +
->> +Access rights are checked and tied to file descriptors at open time.  The
->> +underlying principle is that equivalent sequences of operations should lead to
->> +the same results, when they are executed under the same Landlock domain.
->> +
->> +Taking the ``LANDLOCK_ACCESS_FS_TRUNCATE`` right as an example, it may be
->> +allowed to open a file for writing without being allowed to
->> +:manpage:`ftruncate` the resulting file descriptor if the related file
->> +hierarchy doesn't grant such access right.  The following sequences of
->> +operations have the same semantic and should then have the same result:
->> +
->> +* ``truncate(path);``
->> +* ``int fd = open(path, O_WRONLY); ftruncate(fd); close(fd);``
->> +
->> +Similarly to file access modes (e.g. ``O_RDWR``), Landlock access rights
->> +attached to file descriptors are retained even if they are passed between
->> +processes (e.g. through a Unix domain socket).  Such access rights will then be
->> +enforced even if the receiving process is not sandboxed by Landlock.  Indeed,
->> +this is required to keep a consistent access control over the whole system, and
->> +avoid unattended bypasses through file descriptor passing (i.e. confused deputy
->> +attack).
->> +
->>   Tests
->>   =====
->>   
->>
->> base-commit: 0b4ab8cd635e8b21e42c14b9e4810ca701babd11
->> -- 
->> 2.38.1
->>
-> 
-> Reviewed-by: Günther Noack <gnoack3000@gmail.com>
-> 
-> Thank you!
-> 
