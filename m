@@ -2,203 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A591EC4167B
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 09:21:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 280AEC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 09:26:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229804AbiLOJVc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Dec 2022 04:21:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58904 "EHLO
+        id S229960AbiLOJ0m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Dec 2022 04:26:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229660AbiLOJV3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 04:21:29 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECD07D44;
-        Thu, 15 Dec 2022 01:21:27 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 7F0A0211BC;
-        Thu, 15 Dec 2022 09:21:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1671096086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZpJ8bIqa20K6AOQSS7MjDOb2ROLXcd/4UFBcK5ftzSw=;
-        b=eStTkJ4Uq2IaY7/wCaPTH9ZTh4+3JGTku6CGhbtuZLS958Geom0iaf7W2iiUzNK5LbTGcX
-        fisjHOWN54atCAiwvEUptpoTczjynBXeFvyAVHuvnoRkllvJpx8BOYRpODeZQCEreh1j0Y
-        sn1IlFHHWGpFQDwiUze/1vv1wT4xnM8=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5A9B413434;
-        Thu, 15 Dec 2022 09:21:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id FelCExbnmmNjLAAAMHmgww
-        (envelope-from <mhocko@suse.com>); Thu, 15 Dec 2022 09:21:26 +0000
-Date:   Thu, 15 Dec 2022 10:21:25 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     "Huang, Ying" <ying.huang@intel.com>
-Cc:     Mina Almasry <almasrymina@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
-        fvdl@google.com, bagasdotme@gmail.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v3] mm: Add nodes= arg to memory.reclaim
-Message-ID: <Y5rnFbOqHQUT5da7@dhcp22.suse.cz>
-References: <20221202223533.1785418-1-almasrymina@google.com>
- <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz>
- <CAHS8izM-XdLgFrQ1k13X-4YrK=JGayRXV_G3c3Qh4NLKP7cH_g@mail.gmail.com>
- <87k02volwe.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <Y5h+gHBneexFQcR3@cmpxchg.org>
- <Y5iGJ/9PMmSCwqLj@dhcp22.suse.cz>
- <CAHS8izOuT_-p-N1xPApi+BPJQ+P--2YVSUeiWBROGvGinN0vcg@mail.gmail.com>
- <Y5mkJL6I5Zlc1k97@dhcp22.suse.cz>
- <87mt7pdxm1.fsf@yhuang6-desk2.ccr.corp.intel.com>
+        with ESMTP id S229898AbiLOJ0j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 04:26:39 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15B9642C;
+        Thu, 15 Dec 2022 01:26:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=GlKnCyO4Mi0jZH6xjHBtY0wnuIzOta6O4BfJysiqLpw=; b=T+xm1z7f99NPj5wkzQHaX8wjGv
+        b7MbF1+63/hqaJOrU0PnWRrirKJogxwIekii7qXQKmUMd2LCknAzd1U7Aak6uM/B01CUtXWQpTX4K
+        Wgjou/c1zX0Ivih4VYIjmCiqALgTMoMiz+ubx7xb4ewoR+8EP9iKt87hHch8hIDGvWFHgga6dGoQV
+        JDB2wdO+J0l8UqR9CTYN2/PUtRFidgrwNq7fHOu1NE34ZrtO9VIF9sNWwvjY6/exJOnf80F/nkTnx
+        QIN1o3P2zeV++QUrtSSaFjZjn0c1OIis9jZ2Pl5CpAubI0MowdHip87IVdHkKqRZdIXQnC212h4aC
+        B/wuOW2w==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1p5kVb-008Evc-Vb; Thu, 15 Dec 2022 09:26:31 +0000
+Date:   Thu, 15 Dec 2022 01:26:31 -0800
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>
+Cc:     axboe@kernel.dk, corbet@lwn.net, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 02/21] block, blkfilter: Block Device Filtering
+ Mechanism
+Message-ID: <Y5roR3jjhQwgFWVM@infradead.org>
+References: <20221209142331.26395-1-sergei.shtepa@veeam.com>
+ <20221209142331.26395-3-sergei.shtepa@veeam.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87mt7pdxm1.fsf@yhuang6-desk2.ccr.corp.intel.com>
+In-Reply-To: <20221209142331.26395-3-sergei.shtepa@veeam.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 15-12-22 13:50:14, Huang, Ying wrote:
-> Michal Hocko <mhocko@suse.com> writes:
-> 
-> > On Tue 13-12-22 11:29:45, Mina Almasry wrote:
-> >> On Tue, Dec 13, 2022 at 6:03 AM Michal Hocko <mhocko@suse.com> wrote:
-> >> >
-> >> > On Tue 13-12-22 14:30:40, Johannes Weiner wrote:
-> >> > > On Tue, Dec 13, 2022 at 02:30:57PM +0800, Huang, Ying wrote:
-> >> > [...]
-> >> > > > After these discussion, I think the solution maybe use different
-> >> > > > interfaces for "proactive demote" and "proactive reclaim".  That is,
-> >> > > > reconsider "memory.demote".  In this way, we will always uncharge the
-> >> > > > cgroup for "memory.reclaim".  This avoid the possible confusion there.
-> >> > > > And, because demotion is considered aging, we don't need to disable
-> >> > > > demotion for "memory.reclaim", just don't count it.
-> >> > >
-> >> > > Hm, so in summary:
-> >> > >
-> >> > > 1) memory.reclaim would demote and reclaim like today, but it would
-> >> > >    change to only count reclaimed pages against the goal.
-> >> > >
-> >> > > 2) memory.demote would only demote.
-> >> > >
-> >> 
-> >> If the above 2 points are agreeable then yes, this sounds good to me
-> >> and does address our use case.
-> >> 
-> >> > >    a) What if the demotion targets are full? Would it reclaim or fail?
-> >> > >
-> >> 
-> >> Wei will chime in if he disagrees, but I think we _require_ that it
-> >> fails, not falls back to reclaim. The interface is asking for
-> >> demotion, and is called memory.demote. For such an interface to fall
-> >> back to reclaim would be very confusing to userspace and may trigger
-> >> reclaim on a high priority job that we want to shield from proactive
-> >> reclaim.
-> >
-> > But what should happen if the immediate demotion target is full but
-> > lower tiers are still usable. Should the first one demote before
-> > allowing to demote from the top tier?
-> >  
-> >> > > 3) Would memory.reclaim and memory.demote still need nodemasks?
-> >> 
-> >> memory.demote will need a nodemask, for sure. Today the nodemask would
-> >> be useful if there is a specific node in the top tier that is
-> >> overloaded and we want to reduce the pressure by demoting. In the
-> >> future there will be N tiers and the nodemask says which tier to
-> >> demote from.
-> >
-> > OK, so what is the exact semantic of the node mask. Does it control
-> > where to demote from or to or both?
-> >
-> >> I don't think memory.reclaim would need a nodemask anymore? At least I
-> >> no longer see the use for it for us.
-> >> 
-> >> > >    Would
-> >> > >    they return -EINVAL if a) memory.reclaim gets passed only toptier
-> >> > >    nodes or b) memory.demote gets passed any lasttier nodes?
-> >> >
-> >> 
-> >> Honestly it would be great if memory.reclaim can force reclaim from a
-> >> top tier nodes. It breaks the aginig pipeline, yes, but if the user is
-> >> specifically asking for that because they decided in their usecase
-> >> it's a good idea then the kernel should comply IMO. Not a strict
-> >> requirement for us. Wei will chime in if he disagrees.
-> >
-> > That would require a nodemask to say which nodes to reclaim, no? The
-> > default behavior should be in line with what standard memory reclaim
-> > does. If the demotion is a part of that process so should be
-> > memory.reclaim part of it. If we want to have a finer control then a
-> > nodemask is really a must and then the nodemaks should constrain both
-> > agining and reclaim.
-> >
-> >> memory.demote returning -EINVAL for lasttier nodes makes sense to me.
-> >> 
-> >> > I would also add
-> >> > 4) Do we want to allow to control the demotion path (e.g. which node to
-> >> >    demote from and to) and how to achieve that?
-> >> 
-> >> We care deeply about specifying which node to demote _from_. That
-> >> would be some node that is approaching pressure and we're looking for
-> >> proactive saving from. So far I haven't seen any reason to control
-> >> which nodes to demote _to_. The kernel deciding that based on the
-> >> aging pipeline and the node distances sounds good to me. Obviously
-> >> someone else may find that useful.
-> >
-> > Please keep in mind that the interface should be really prepared for
-> > future extensions so try to abstract from your immediate usecases.
-> 
-> I see two requirements here, one is to control the demotion source, that
-> is, which nodes to free memory.  The other is to control the demotion
-> path.  I think that we can use two different parameters for them, for
-> example, "from=<demotion source nodes>" and "to=<demotion target
-> nodes>".  In most cases we don't need to control the demotion path.
-> Because in current implementation, the nodes in the lower tiers in the
-> same socket (local nodes) will be preferred.  I think that this is
-> the desired behavior in most cases.
+On Fri, Dec 09, 2022 at 03:23:12PM +0100, Sergei Shtepa wrote:
+> +	blk_mq_freeze_queue(bdev->bd_queue);
+> +	blk_mq_quiesce_queue(bdev->bd_queue);
 
-Even if the demotion path is not really required at the moment we should
-keep in mind future potential extensions. E.g. when a userspace based
-balancing is to be implemented because the default behavior cannot
-capture userspace policies (one example would be enforcing a
-prioritization of containers when some container's demoted pages would
-need to be demoted further to free up a space for a different
-workload). 
- 
-> >> > 5) Is the demotion api restricted to multi-tier systems or any numa
-> >> >    configuration allowed as well?
-> >> >
-> >> 
-> >> demotion will of course not work on single tiered systems. The
-> >> interface may return some failure on such systems or not be available
-> >> at all.
-> >
-> > Is there any strong reason for that? We do not have any interface to
-> > control NUMA balancing from userspace. Why cannot we use the interface
-> > for that purpose? 
-> 
-> Do you mean to demote the cold pages from the specified source nodes to
-> the specified target nodes in different sockets?  We don't do that to
-> avoid loop in the demotion path.  If we prevent the target nodes from
-> demoting cold pages to the source nodes at the same time, it seems
-> doable.
+I don't think we need the quiesce here (or in the detach path).
+quiesce works as the low-level blk-mq dispatch level, and we
+sit way above that.
 
-Loops could be avoid by properly specifying from and to nodes if this is
-going to be a fine grained interface to control demotion.
--- 
-Michal Hocko
-SUSE Labs
+> +EXPORT_SYMBOL(bdev_filter_attach);
+
+Please use EXPORT_SYMBOL_GPL for new low-level block layer features.
+
+> +int bdev_filter_detach(struct block_device *bdev)
+> +{
+> +	int ret = 0;
+> +	struct bdev_filter *flt = NULL;
+> +
+> +	blk_mq_freeze_queue(bdev->bd_queue);
+> +	blk_mq_quiesce_queue(bdev->bd_queue);
+> +
+> +	flt = bdev->bd_filter;
+> +	if (flt)
+> +		bdev->bd_filter = NULL;
+> +	else
+> +		ret = -ENOENT;
+
+Not having a filter is a grave error that the caller can't do
+anything about.  So pleas just WARN_ON_ONCE for that case, and
+change the function to a void return.
+
+> +	if (bio->bi_bdev->bd_filter && !bio_flagged(bio, BIO_FILTERED)) {
+> +		bool pass;
+> +
+> +		pass = bio->bi_bdev->bd_filter->fops->submit_bio_cb(bio);
+> +		bio_set_flag(bio, BIO_FILTERED);
+> +		if (!pass) {
+> +			bio->bi_status = BLK_STS_OK;
+> +			bio_endio(bio);
+> +			return;
+> +		}
+
+Instead of ending the bio here for the !pass case it seems to me it
+would make more sense to just pass ownership to the filter driver and
+let the driver complete it.  That would allow error returns for that
+case, or handling it from a workqueue.  I'd also change the polarity
+so that true means "I've taken ownership".  I.e.:
+
+	if (bio->bi_bdev->bd_filter && !bio_flagged(bio, BIO_FILTERED)) {
+		bio_set_flag(bio, BIO_FILTERED);
+		if (bio->bi_bdev->bd_filter->fops->submit_bio_cb(bio))
+			return;
+	}
+
+> +struct bdev_filter_operations {
+> +	bool (*submit_bio_cb)(struct bio *bio);
+> +	void (*release_cb)(struct kref *kref);
+> +};
+
+Nit:  I don't think these _cb postfixes are very useful.  All methods
+in a method table are sort of callbacks.
+
+> +/**
+> + * bdev_filter_get - Increment reference counter.
+> + * @flt:
+> + *	Pointer to the &struct bdev_filter.
+> + *
+> + * Allows to ensure that the filter will not be released as long as there are
+> + * references to it.
+> + */
+> +static inline void bdev_filter_get(struct bdev_filter *flt)
+> +{
+> +	kref_get(&flt->kref);
+> +}
+
+Looking at the callers in blksnap I'm not sure this works.  The
+pattern seems to be the driver has a block device reference, and
+then uses bdev_filter_get to grab a filter reference.  But what
+prevents the filter from going away just bdev_filter_get is called?
+At a minimum we'd need a something:
+
+static inline struct bdev_filter *bdev_filter_get(struct block_device *bdev)
+{
+	struct bdev_filter *flt;
+
+	rcu_read_lock();
+	flt = rcu_dereference(bdev->bd_filter);
+	if (!refcount_inc_not_zero(&flt->refs))
+		flt = NULL;
+	rcu_read_unlock();
+
+	return flt;
+}
+
+
+with bd_filter switched to __rcu annotation, the kref replaced with
+a refcount_t, updates switched to cmpxchg and a rcu_synchronize()
+after clearing bd_filter.
