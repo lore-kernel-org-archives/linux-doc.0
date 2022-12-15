@@ -2,174 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B11DFC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 16:31:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77C0AC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 17:08:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229872AbiLOQbe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Dec 2022 11:31:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55014 "EHLO
+        id S230436AbiLORIC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Dec 2022 12:08:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230231AbiLOQbJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 11:31:09 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0E6E10061;
-        Thu, 15 Dec 2022 08:31:01 -0800 (PST)
+        with ESMTP id S230421AbiLORHj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 12:07:39 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64DF545ECA;
+        Thu, 15 Dec 2022 09:04:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=iusyxPYyLd64XV4Av5w1K79Hex9dGUV2ZXLPs+Qj0uM=; b=yBJ0luSsxN0X6uU8A/3vG74cum
-        EhMuEii6ewCM8214Xuhl8HUFGl52HOI06AVhYVaYvmfyj9q3Dpw0zrAOiEvSWyUAWW1EcMwwrAYqz
-        6h9w4JMCx4/6urSgdEjEpYRGz4ZEBZMOqzGMGhuk6JYH01aeERLbuyo1mMQmeVwcgpOydcpcm4N2H
-        BG8dRdsbwRWAZvxOCoG/+I/bo1ysMj7smzrUP/JgCSzHUi8ErnwX4lr3KYkZOIYLcZMpti6qU7i3L
-        REh/UVa0HAEO9iqvVc4Ag5oK1QButHYk6F3cI/vFUfFUjykhMorlENAaGuwqqTgwh4tXtseHscbMP
-        K8jvqlkA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35724)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1p5r8F-0003L7-58; Thu, 15 Dec 2022 16:30:51 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1p5r8D-0008UX-Dk; Thu, 15 Dec 2022 16:30:49 +0000
-Date:   Thu, 15 Dec 2022 16:30:49 +0000
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        Tim Harvey <tharvey@gateworks.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Subject: Re: [PATCH v7 02/11] leds: add function to configure hardware
- controlled LED
-Message-ID: <Y5tLuaqp9MHcW7rU@shell.armlinux.org.uk>
-References: <20221214235438.30271-1-ansuelsmth@gmail.com>
- <20221214235438.30271-3-ansuelsmth@gmail.com>
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=/AMHjS2IjbcijjovBD6i5h4XxYqdhXTlZ7Bp+d3CoLA=; b=vk7MPdI9ZX2ElAT8EyOYsnRHFe
+        XLZKIWyoyHMr+TcNwe15ERW60nb+8bE8FMVr8BCKk0fNLtS7zXn0LkgQZ6FbCkb0DnNXNPOPmw/Mm
+        S0yUIdcs6X55k1u44vqJxwfB3aW72Nll+6K8ZPsDfhYPfkv7EAon9Cq6WVvF3isjXR+rWrcF1rSqT
+        MF6m5u2S8D4OKabHOQOmJcVY1PwZHYeE7nFjTBFcBO+hQV/IJHh2Mma0cPLgTg0E4sTmNQ8qkpfVP
+        ySz6vySpbWPvywhLMlhzPt8+YtrWK4f5ZNMplFTu8cS0zcn5QCmZIvADNer+R8Ia+9Orv+7nEXzOB
+        fLCDiyWQ==;
+Received: from [2601:1c2:d80:3110::a2e7]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1p5rej-00ATDS-FC; Thu, 15 Dec 2022 17:04:25 +0000
+Message-ID: <fac7f8be-58da-f588-f6e4-4cf64529d55d@infradead.org>
+Date:   Thu, 15 Dec 2022 09:04:23 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221214235438.30271-3-ansuelsmth@gmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH] docs, nvme: add a feature and quirk policy document
+Content-Language: en-US
+To:     Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
+        axboe@meta.com, sagi@grimberg.me, kbusch@kernel.org
+Cc:     linux-nvme@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
+References: <20221215125130.261098-1-hch@lst.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20221215125130.261098-1-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Christian,
+Hi--
 
-On Thu, Dec 15, 2022 at 12:54:29AM +0100, Christian Marangi wrote:
-> +A trigger once he declared support for hardware controlled blinks, will use the function
-> +hw_control_configure() provided by the driver to check support for a particular blink mode.
+Just a couple of small nits below...
 
-Please improve the above. I think what is actually meant is "Where a
-trigger has support for hardware controlled blink modes,
-hw_control_configure() will be used to check whether a particular blink
-mode is supported and configure the blink mode."
-
-> +This function passes as the first argument (flag) a u32 flag.
-
-I don't think "(flag)" is necessary, as I think "a u32 flag"
-sufficiently suggests that it's called "flag". In any case, it doesn't
-appear to be a "u32" but an "unsigned long".
-
-> +The second argument (cmd) of hw_control_configure() method can be used to do various
-> +operations for the specific blink mode. We currently support ENABLE, DISABLE, READ, ZERO
-> +and SUPPORTED to enable, disable, read the state of the blink mode, ask the LED
-> +driver if it does supports the specific blink mode and to reset any blink mode active.
-> +
-> +In ENABLE/DISABLE hw_control_configure() should configure the LED to enable/disable the
-> +requested blink mode (flag).
-> +In READ hw_control_configure() should return 0 or 1 based on the status of the requested
-> +blink mode (flag).
-> +In SUPPORTED hw_control_configure() should return 0 or 1 if the LED driver supports the
-> +requested blink mode (flags) or not.
-> +In ZERO hw_control_configure() should return 0 with success operation or error.
-
-I think some kind of tabular description of this would be better.
-Something like this but on docbook format:
-
-hw_control_configure()'s second argument, cmd, is used to specify
-various operations for the LED blink mode, and will be one of:
-
-ENABLE - to enable the blink mode requested in flag. Returns ?
-DISABLE - to disable the blink mode requested in flag. Returbns ?
-READ - to indicate whether the blink mode requested in flag is enabled.
-       Returns 0 if disabled or 1 if enabled.
-SUPPORTED - to indicate whether the blink mode requested in flag is
-            supported. Returns 0 if unsupported or 1 if supported.
-ZERO - to disable all blink modes. Returns 0 or negative errno.
-
-The problem with the way you've listed it is you've listed the
-operations in a different order to the description in the same sentence,
-so effectiely ZERO means to report whether supported and SUPPORTED means
-to reset all blink modes!
-
-> +
-> +The unsigned long flag is specific to the trigger and change across them. It's in the LED
-> +driver interest know how to elaborate this flag and to declare support for a
-> +particular trigger.
-
-Hmm, as a casual observer, this doesn't really give much information.
-Does this mean that it's up to the hardware LED driver to decide what
-each bit in the "flag" argument means? If not, I think this needs to
-be worded better!
-
-> For this exact reason explicit support for the specific
-> +trigger is mandatory or the driver returns -EOPNOTSUPP if asked to enter offload mode
-> +with a not supported trigger.
-
-Seems to be a change in terminology - weren't we using "HARDWARE" and
-"SOFTWARE" to describe the mode, rather than "offload" ?
-
-> +If the driver returns -EOPNOTSUPP on hw_control_configure(), the trigger activation will
-> +fail as the driver doesn't support that specific offload trigger or doesn't know
-> +how to handle the provided flags.
-
-This gets rather ambiguous. When can -EOPNOTSUPP be returned - for which
-cmds? Surely, if we have already tested for support using the SUPPORTED
-cmd which returns a 0/1 value, we should not be going on to trigger a
-request to enable something that isn't supported?
-
-> +
->  Known Issues
->  ============
+On 12/15/22 04:51, Christoph Hellwig wrote:
+> This adds a document about what specification features are supported by
+> the Linux NVMe driver, and what qualifies for a quirk if an implementation
+> has problems following the specification.
+> 
+> Signed-off-by: Jens Axboe <axboe@kernel.dk>
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  Documentation/process/index.rst               |  1 +
+>  .../process/nvme-feature-and-quirk-policy.rst | 77 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  3 files changed, 79 insertions(+)
+>  create mode 100644 Documentation/process/nvme-feature-and-quirk-policy.rst
+> 
+> diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
+> index d4b6217472b0a0..0dc33994ddefc5 100644
+> --- a/Documentation/process/index.rst
+> +++ b/Documentation/process/index.rst
+> @@ -50,6 +50,7 @@ Other guides to the community that are of interest to most developers are:
+>     embargoed-hardware-issues
+>     maintainers
+>     researcher-guidelines
+> +   nvme-feature-and-quirk-policy
 >  
-> diff --git a/include/linux/leds.h b/include/linux/leds.h
-> index 09ff1dc6f48d..b5aad67fecfb 100644
-> --- a/include/linux/leds.h
-> +++ b/include/linux/leds.h
-> @@ -73,6 +73,16 @@ enum led_blink_modes {
->  	SOFTWARE_HARDWARE_CONTROLLED,
->  };
->  
-> +#ifdef CONFIG_LEDS_HARDWARE_CONTROL
-> +enum blink_mode_cmd {
-> +	BLINK_MODE_ENABLE, /* Enable the hardware blink mode */
-> +	BLINK_MODE_DISABLE, /* Disable the hardware blink mode */
-> +	BLINK_MODE_READ, /* Read the status of the hardware blink mode */
-> +	BLINK_MODE_SUPPORTED, /* Ask the driver if the hardware blink mode is supported */
-> +	BLINK_MODE_ZERO, /* Disable any hardware blink active */
-> +};
-> +#endif
+>  These are some overall technical guides that have been put here for now for
+>  lack of a better place.
+> diff --git a/Documentation/process/nvme-feature-and-quirk-policy.rst b/Documentation/process/nvme-feature-and-quirk-policy.rst
+> new file mode 100644
+> index 00000000000000..eee19f3d9904bd
+> --- /dev/null
+> +++ b/Documentation/process/nvme-feature-and-quirk-policy.rst
+> @@ -0,0 +1,77 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=======================================
+> +Linux NVMe feature and and quirk policy
+> +=======================================
+> +
+> +This file explains the policy used to decide what is supported by the
+> +Linux NVMe driver and what is not.
+> +
+> +
+> +Introduction
+> +============
+> +
+> +NVM Express is an open collection of standards and information.
+> +
+> +The Linux NVMe host driver in drivers/nvme/host/ supports devices
+> +implementing the NVM Express (NVMe) family of specifications, which
+> +currently consists of a number of documents:
+> +
+> + - the NVMe Base specification
+> + - various Command Set specifications (e.g. NVM Command Set)
+> + - various Transport specifications (e.g. PCIe, Fibre Channel, RDMA, TCP)
+> + - the NVMe Management Interface specification
+> +
+> +See https://nvmexpress.org/developers/ for the NVMe specifications.
+> +
+> +
+> +Supported features
+> +==================
+> +
+> +NVMe is a large suite of specifications, and contains features that are only
+> +useful or suitable for specific use-cases. It is important to note that Linux
+> +does not aim to implement every feature in the specification.  Every additional
+> +feature implemented introduces more code, more maintenance and potentially more
+> +bugs.  Hence there is an inherent tradeoff between functionality and
+> +maintainability of the NVMe host driver.
+> +
+> +Any feature implemented in the Linux NVMe host driver must support the
+> +following requirements:
+> +
+> +  1. The feature is specified in a release version of an official NVMe
+> +     specification, or in a ratified Technical Proposal (TP) that is
+> +     available on NVMe website. Or if it is not directly related to the
+> +     on-wire protocol, does not contradict any of the NVMe specifications.
+> +  2. Does not conflict with the Linux architecture, nor the design of the
+> +     NVMe host driver.
+> +  3. Has a clear, indisputable value-proposition and a wide consensus across
+> +     the community.
+> +
+> +Vendor specific extensions are generally not supported in the NVMe host
+> +driver.
+> +
+> +It is strongly recommended to work with the Linux NVMe and block layer
+> +maintainers and get feedback on specification changes that are intended
+> +to be used by the Linux NVMe host driver in order to avoid conflict at a
+> +later stage.
+> +
+> +
+> +Quirks
+> +======
+> +
+> +Sometimes implementations of open standards fail to correctly implement parts
+> +of the standards.  Linux uses identifiers based quirks to work around such
 
-Generally not a good idea to make definitions in header files
-conditional on configuration symbols - it makes build-testing more
-problematical.
+                      Linux uses identifier-based quirks
+
+> +implementation bugs.  The intent of quirks is to deal with widely available
+> +hardware, usually consumer, which Linux users can't use without these quirks.
+> +Typically these implementations are not or only superficially tested with Linux
+> +by the hardware manufacturer.
+> +
+> +The Linux NVMe maintainers decide ad hoc whether to quirk implementations
+> +based on the impact of the problem to Linux users and how it impacts
+> +maintainability of the driver.  In general quirks are a last resort, if no
+> +firmware updates or other workarounds are available from the vendor.
+> +
+> +Quirks will not be added to the Linux kernel for hardware that isn't available
+> +on the mass market.  Hardware that fails qualification for enterprise Linux
+> +distributions, ChromeOS, Android or other consumers of the Linux kernel
+> +should be fixed before it is shipped instead of rely on Linux quirk.
+
+I would s/rely/relying/, but either way:
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
 Thanks.
 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index bb77a3ed9d5423..59e9f2dfa842ad 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14827,6 +14827,7 @@ L:	linux-nvme@lists.infradead.org
+>  S:	Supported
+>  W:	http://git.infradead.org/nvme.git
+>  T:	git://git.infradead.org/nvme.git
+> +F:	Documentation/process/nvme-feature-and-quirk-policy.rst
+>  F:	drivers/nvme/host/
+>  F:	drivers/nvme/common/
+>  F:	include/linux/nvme*
+
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+~Randy
