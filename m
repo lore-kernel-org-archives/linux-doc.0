@@ -2,118 +2,283 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E7A4C25B04
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 19:01:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21F90C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 19:17:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230404AbiLOTBP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Dec 2022 14:01:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51668 "EHLO
+        id S230274AbiLOTRJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Dec 2022 14:17:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbiLOTBO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 14:01:14 -0500
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C8DE140C5
-        for <linux-doc@vger.kernel.org>; Thu, 15 Dec 2022 11:01:14 -0800 (PST)
-Received: by mail-pf1-x42c.google.com with SMTP id x66so244973pfx.3
-        for <linux-doc@vger.kernel.org>; Thu, 15 Dec 2022 11:01:14 -0800 (PST)
+        with ESMTP id S229988AbiLOTQj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 14:16:39 -0500
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1D8B396E2
+        for <linux-doc@vger.kernel.org>; Thu, 15 Dec 2022 11:16:38 -0800 (PST)
+Received: by mail-qv1-xf35.google.com with SMTP id o12so66489qvn.3
+        for <linux-doc@vger.kernel.org>; Thu, 15 Dec 2022 11:16:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+2yoWKUdi8Gixa0ECv6JehIbofin/LQeXYv9L9TZ4S8=;
-        b=PBbDJFPADcRfessRbJP5OnkMHouy75YkhMGgTLTXyDtiQ3uOWmZLQkU/n/EJgM630q
-         y8I/gzzgXwn/Qlxe4rFEiQpy21l9B69Ei0Cx3WoLYwNi8hQriXSHAcpW7fT++aeBl+rq
-         VIHf17QHGd4HPTbgFHQj4RZxcMDGr7UnRPXdruWwVxufbJHRyY43LDDRQ5fsxWgmgdUL
-         szyh+pT8uHeNkALMZET6VkZaYf5IQmMK+/KaBO/UyudEasUKm7RbAgL6u8eLUt4QyufQ
-         SZoC81/uXWDOiVFs80K8hgE7s+Pr1+xhxQDV4cziH9hhB/kFBNu0Xy6BJB7lhEBwiY8f
-         aP4A==
+        d=joelfernandes.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XE5AiYbjoXxjhp/dT4YTX1b07rKLInDn4mR5Q8j9/1E=;
+        b=AR0s6ZMZCeRr1r6ByqFjtlB79qWCgAeqP35BblLNndDOjmfYJgbTTWqaLYcnnD86dh
+         MqiTkP1LKCC62jCFlMorKlrr0nCmY1bb9K+wQi+a6QQS1GJZ6BiLMBMPZ2hv/GZV+13+
+         745jRcBD4I043jxlH6sG1zn6kKP/veSy6SETg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+2yoWKUdi8Gixa0ECv6JehIbofin/LQeXYv9L9TZ4S8=;
-        b=Bm/vhxLdBoEAAZEXr5cIJd0uRnNv69WI3CwaB4H8rep+YrxmeIIXkj6fRUXexIReZ1
-         aj3wSYyhYMi+JQ8BPUEbP0kKhExxjcShmT/0Uc7uMmNqSruyaMPLJxFiLrsjZUhyPvJB
-         CscDqgAq1UZEGRvUEaMXa+giL+IX5a3oC99euXD8EITNfOAcZdsQYRwtA2QcQnhgLrzj
-         zRgW2u2CKzRTMO+aaIuaG/Lbob1OEW7cBYIB0hs51tdITeV5e02alTjMTh7mLKqjNCzo
-         JxIP5iBNoiVMUl3G1MPKqDWIZtWDwyOi9Wve8Mh++wd7f9V51oWGLEqZXHQoN+5vchFf
-         auvA==
-X-Gm-Message-State: ANoB5pnikU/9FR9AKu6UuElT3R5di1OEZDRC2qP+bdOa9bhQvolEC4qA
-        G+rvDMD7mIuZKt7p0ELf/ZPsxPZ2ja5ODCqAQquD+w==
-X-Google-Smtp-Source: AA0mqf4H+Y1H3y34btVtzJqiGedZOLMvgXeRUAJ90TEidbL7bhLR7R1wUJr8x6ZPlXUZ2Lx6sRwZH23ZM2/uZoXvNW0=
-X-Received: by 2002:a63:592:0:b0:478:ab04:f293 with SMTP id
- 140-20020a630592000000b00478ab04f293mr20331351pgf.345.1671130873339; Thu, 15
- Dec 2022 11:01:13 -0800 (PST)
-MIME-Version: 1.0
-References: <20221208061841.2186447-1-davidgow@google.com> <20221208061841.2186447-3-davidgow@google.com>
- <Y5G3SVt+oQvLjW1e@debian.me>
-In-Reply-To: <Y5G3SVt+oQvLjW1e@debian.me>
-From:   Daniel Latypov <dlatypov@google.com>
-Date:   Thu, 15 Dec 2022 11:01:02 -0800
-Message-ID: <CAGS_qxry-php+k7QvgsBVxRna=896O8AdLph+Je5GjNXa2q9HA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Documentation: Add Function Redirection API docs
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     David Gow <davidgow@google.com>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Sadiya Kazi <sadiyakazi@google.com>,
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XE5AiYbjoXxjhp/dT4YTX1b07rKLInDn4mR5Q8j9/1E=;
+        b=DDH6Aja3jzjtYeU/NfPex45+FqH83QEqUE3rgA+Jh0JXOB9LG1gS7Q2sXCurb3CG1w
+         zMqrRCbzxsV1MoIHGiyr/evV0TGVP+CQfe7VTBDVLP1k5VLUfrEw7oUWz9PYODC//UB5
+         NWsPHaO4B1AYDitZegH3TDvBLqnPgj0gflknDPvsxqXMRbXDEHh92iGtIkc0QWVWmIDF
+         vR2pF2REjI9eIWFrJnoAJQ/2LPiQvd33DbKL8jk+Y/Z41y91xGEIe/0u/TS3yUo/1Cx8
+         fsJUC5uYNs4VGTMz4r9G6c11w1Z8oXmfPVdmvN/lbK/UdBpBdrpLMumTKfE0tI7Esd2s
+         pydw==
+X-Gm-Message-State: ANoB5pnu6oSRegb8KhDeo9j653lkyFfDlYNuFLJuDGzwZZWBfgcJmeKT
+        ukPyQaHwqbTUcLPePADxIVN00Q==
+X-Google-Smtp-Source: AA0mqf5HcSBSdogbFu720gosspg6P8uKchPqUxXt5Wa7rhZRk0WTOJY4gaQ40PiPwMq2wZRgtOv7FQ==
+X-Received: by 2002:a05:6214:5018:b0:4c7:595c:993b with SMTP id jo24-20020a056214501800b004c7595c993bmr57562445qvb.40.1671131797715;
+        Thu, 15 Dec 2022 11:16:37 -0800 (PST)
+Received: from localhost (228.221.150.34.bc.googleusercontent.com. [34.150.221.228])
+        by smtp.gmail.com with ESMTPSA id bp12-20020a05620a458c00b006fef61300fesm13055118qkb.16.2022.12.15.11.16.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Dec 2022 11:16:36 -0800 (PST)
+Date:   Thu, 15 Dec 2022 19:16:36 +0000
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Philipp Rudo <prudo@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         Steven Rostedt <rostedt@goodmis.org>,
-        Joe Fradley <joefradley@google.com>,
-        Steve Muckle <smuckle@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        kexec@lists.infradead.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ross Zwisler <zwisler@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] kexec: Introduce paramters load_limit_reboot and
+ load_limit_panic
+Message-ID: <Y5tylKOaIO8Df8pu@google.com>
+References: <20221114-disable-kexec-reset-v2-0-c498313c1bb5@chromium.org>
+ <20221114-disable-kexec-reset-v2-3-c498313c1bb5@chromium.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221114-disable-kexec-reset-v2-3-c498313c1bb5@chromium.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 8, 2022 at 2:07 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->
-> On Thu, Dec 08, 2022 at 02:18:41PM +0800, David Gow wrote:
-> > From: Sadiya Kazi <sadiyakazi@google.com>
-> >
-> > Added a new page (functionredirection.rst) that describes the Function
-> > Redirection (static stubbing) API. This page will be expanded if we add,
-> > for example, ftrace-based stubbing.
->
-> s/Added/Add
->
-> > diff --git a/Documentation/dev-tools/kunit/api/functionredirection.rst b/Documentation/dev-tools/kunit/api/functionredirection.rst
-> > new file mode 100644
-> > index 000000000000..fc7644dfea65
-> > --- /dev/null
-> > +++ b/Documentation/dev-tools/kunit/api/functionredirection.rst
-> > @@ -0,0 +1,162 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +========================
-> > +Function Redirection API
-> > +========================
-> > +
-> > +Overview
-> > +========
-> > +
-> > +When writing unit tests, it's important to be able to isolate the code being
-> > +tested from other parts of the kernel. This ensures the reliability of the test
-> > +(it won't be affected by external factors), reduces dependencies on specific
-> > +hardware or config options (making the test easier to run), and protects the
-> > +stability of the rest of the system (making it less likely for test-specific
-> > +state to interfere with the rest of the system).
->
-> Test reliability is test independence, right?
+Hi Ricardo,
 
-Just my 2c, but I'd disagree.
+On Thu, Dec 08, 2022 at 05:38:02PM +0100, Ricardo Ribalda wrote:
+> Add two parameter to specify how many times a kexec kernel can be loaded.
+> 
+> The sysadmin can set different limits for kexec panic and kexec reboot
+> kernels.
+> 
+> The value can be modified at runtime via sysfs, but only with a value
+> smaller than the current one (except -1).
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 14 ++++
+>  include/linux/kexec.h                           |  2 +-
+>  kernel/kexec.c                                  |  2 +-
+>  kernel/kexec_core.c                             | 91 ++++++++++++++++++++++++-
+>  kernel/kexec_file.c                             |  2 +-
+>  5 files changed, 106 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 42af9ca0127e..2b37d6a20747 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2374,6 +2374,20 @@
+>  			for Movable pages.  "nn[KMGTPE]", "nn%", and "mirror"
+>  			are exclusive, so you cannot specify multiple forms.
+>  
+> +	kexec_core.load_limit_reboot=
+> +	kexec_core.load_limit_panic=
+> +			[KNL]
+> +			This parameter specifies a limit to the number of times
+> +			a kexec kernel can be loaded.
+> +			Format: <int>
+> +			-1  = Unlimited.
+> +			int = Number of times kexec can be called.
+> +
+> +			During runtime, this parameter can be modified with a
+> +			value smaller than the current one (but not -1).
+> +
+> +			Default: -1
+> +
+>  	kgdbdbgp=	[KGDB,HW] kgdb over EHCI usb debug port.
+>  			Format: <Controller#>[,poll interval]
+>  			The controller # is the number of the ehci usb debug
+> diff --git a/include/linux/kexec.h b/include/linux/kexec.h
+> index e9e1ab5e8006..3d7d10f7187a 100644
+> --- a/include/linux/kexec.h
+> +++ b/include/linux/kexec.h
+> @@ -407,7 +407,7 @@ extern int kimage_crash_copy_vmcoreinfo(struct kimage *image);
+>  extern struct kimage *kexec_image;
+>  extern struct kimage *kexec_crash_image;
+>  
+> -bool kexec_load_permited(void);
+> +bool kexec_load_permited(bool crash_image);
+>  
+>  #ifndef kexec_flush_icache_page
+>  #define kexec_flush_icache_page(page)
+> diff --git a/kernel/kexec.c b/kernel/kexec.c
+> index d83fc9093aff..2b0856e83fe1 100644
+> --- a/kernel/kexec.c
+> +++ b/kernel/kexec.c
+> @@ -193,7 +193,7 @@ static inline int kexec_load_check(unsigned long nr_segments,
+>  	int result;
+>  
+>  	/* We only trust the superuser with rebooting the system. */
+> -	if (!kexec_load_permited())
+> +	if (!kexec_load_permited(flags & KEXEC_ON_CRASH))
 
-E.g. a test can depend on CONFIG_FOO being built-in, even though it
-doesn't really need it.
-Having an extra kconfig dependency doesn't necessarily make the test
-less reliable.
+nit: permitted.
 
-You could define "test independence" wrt shared runtime state (e.g.
-multiple tests touching the same global var), but this text
-specifically says "hardware or config options."
+>  		return -EPERM;
+>  
+>  	/* Permit LSMs and IMA to fail the kexec */
+> diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
+> index 18bd90ca9c99..7f9d5288b24b 100644
+> --- a/kernel/kexec_core.c
+> +++ b/kernel/kexec_core.c
+> @@ -952,13 +952,100 @@ static int __init kexec_core_sysctl_init(void)
+>  late_initcall(kexec_core_sysctl_init);
+>  #endif
+>  
+> -bool kexec_load_permited(void)
+> +struct kexec_load_limit {
+> +	/* Mutex protects the limit count. */
+> +	struct mutex mutex;
+> +	int limit;
 
-Daniel
+Can you not just use atomic ops for limit, and get rid of the mutex?
+
+That will simplify the code as well.
+
+> +};
+> +
+> +struct kexec_load_limit load_limit_reboot = {
+> +	.mutex = __MUTEX_INITIALIZER(load_limit_reboot.mutex),
+> +	.limit = -1,
+> +};
+> +
+> +struct kexec_load_limit load_limit_panic = {
+> +	.mutex = __MUTEX_INITIALIZER(load_limit_panic.mutex),
+> +	.limit = -1,
+> +};
+> +
+> +static int param_get_limit(char *buffer, const struct kernel_param *kp)
+>  {
+> +	int ret;
+> +	struct kexec_load_limit *limit = kp->arg;
+> +
+> +	mutex_lock(&limit->mutex);
+> +	ret = scnprintf(buffer, PAGE_SIZE, "%i\n", limit->limit);
+> +	mutex_unlock(&limit->mutex);
+> +
+> +	return ret;
+> +}
+> +
+> +static int param_set_limit(const char *buffer, const struct kernel_param *kp)
+> +{
+> +	int ret;
+> +	struct kexec_load_limit *limit = kp->arg;
+> +	int new_val;
+> +
+> +	ret = kstrtoint(buffer, 0, &new_val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	new_val = max(-1, new_val);
+> +
+> +	mutex_lock(&limit->mutex);
+> +
+> +	if (new_val == -1 && limit->limit != -1) {
+> +		ret = -EINVAL;
+> +		goto done;
+> +	}
+> +
+> +	if (limit->limit != -1 && new_val > limit->limit) {
+> +		ret = -EINVAL;
+> +		goto done;
+> +	}
+> +
+> +	limit->limit = new_val;
+> +
+> +done:
+> +	mutex_unlock(&limit->mutex);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct kernel_param_ops load_limit_ops = {
+> +	.get = param_get_limit,
+> +	.set = param_set_limit,
+> +};
+> +
+> +module_param_cb(load_limit_reboot, &load_limit_ops, &load_limit_reboot, 0644);
+> +MODULE_PARM_DESC(load_limit_reboot, "Maximum attempts to load a kexec reboot kernel");
+> +
+> +module_param_cb(load_limit_panic, &load_limit_ops, &load_limit_panic, 0644);
+> +MODULE_PARM_DESC(load_limit_reboot, "Maximum attempts to load a kexec panic kernel");
+> +
+> +bool kexec_load_permited(bool crash_image)
+
+nit: permitted.
+
+> +{
+> +	struct kexec_load_limit *limit;
+> +
+>  	/*
+>  	 * Only the superuser can use the kexec syscall and if it has not
+>  	 * been disabled.
+>  	 */
+> -	return capable(CAP_SYS_BOOT) && !kexec_load_disabled;
+> +	if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
+> +		return false;
+> +
+> +	/* Check limit counter and decrease it.*/
+> +	limit = crash_image ? &load_limit_panic : &load_limit_reboot;
+> +	mutex_lock(&limit->mutex);
+> +	if (!limit->limit) {
+> +		mutex_unlock(&limit->mutex);
+> +		return false;
+> +	}
+> +	if (limit->limit != -1)
+> +		limit->limit--;
+> +	mutex_unlock(&limit->mutex);
+> +
+> +	return true;
+
+IMO, patch 2/3 can be squashed with 3/3 but no strong preference.
+
+thanks,
+
+ - Joel
+
+
+
+>  }
+>  
+>  /*
+> diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
+> index 701147c118d4..61212a9252a6 100644
+> --- a/kernel/kexec_file.c
+> +++ b/kernel/kexec_file.c
+> @@ -330,7 +330,7 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
+>  	struct kimage **dest_image, *image;
+>  
+>  	/* We only trust the superuser with rebooting the system. */
+> -	if (!kexec_load_permited())
+> +	if (!kexec_load_permited(flags & KEXEC_FILE_FLAGS))
+>  		return -EPERM;
+>  
+>  	/* Make sure we have a legal set of flags */
+> 
+> -- 
+> 2.39.0.rc0.267.gcb52ba06e7-goog-b4-0.11.0-dev-696ae
