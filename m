@@ -2,106 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A460C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 09:55:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6233C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 10:01:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbiLOJzR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Dec 2022 04:55:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50520 "EHLO
+        id S229806AbiLOKB1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Dec 2022 05:01:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229820AbiLOJyw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 04:54:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0605420F5A
-        for <linux-doc@vger.kernel.org>; Thu, 15 Dec 2022 01:53:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1671098017;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=aOMQqG6gaAklmVX8rdcaPnfjUYMFfjD3RzHjqdabLXs=;
-        b=IUCDr2LXxEGvx291z10R+7lF1HXYpmjxBxq7DgKVGVmStdh6g09Xv7kSKLYYcHIXca/GP0
-        eIZzgOnFcOLv+Pj3IErb4/VARbUiCVe5GNjmswiZwdes3DcR9tcfBKWfzRQSKquK7dorQA
-        EQLabD+I6PD9yaM+y3gM3tJ2y54ddNQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-383-wcVsxnbLNsGKYJWRnvUohA-1; Thu, 15 Dec 2022 04:53:36 -0500
-X-MC-Unique: wcVsxnbLNsGKYJWRnvUohA-1
-Received: by mail-wm1-f69.google.com with SMTP id c1-20020a7bc001000000b003cfe40fca79so549551wmb.6
-        for <linux-doc@vger.kernel.org>; Thu, 15 Dec 2022 01:53:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aOMQqG6gaAklmVX8rdcaPnfjUYMFfjD3RzHjqdabLXs=;
-        b=RC4CyP/MBy3IlAR/hyTSmN3of2lRTjsfumt0DOffkVRakzvExSMkKT1mJECnB2zPrH
-         pLk+WvbeaGZ0faKGc+k2pJBV/k3TyUz3rMhLmEZ+kyTWF9TZhJ9JZ2em2LC7YFqCWTn9
-         TP1ilyJgHDusNxOr/M7Ev/5Qtmh/ZdPIpIr23twUgbLhGmxks8Gb7ii5jzxta1dWpiR8
-         VJTxnqCAdeplzT2D8WUAZeq+l00/qIIfcihuvFoYqUq7z/Oqa/dIh9Gf0VDKwJ11sf8q
-         5/oD6Pef+4kbre8NAcih8vqKmBE2jytpd4RCfHjWl7m5NGFap9N8tV+PNhFbMgTkKOQE
-         pxNg==
-X-Gm-Message-State: ANoB5pm7S00enMrTtQhzb7wCKkBz3KcExiohInHeKY3JwOkrny5TR8sS
-        KElQmLLI9756Pb7gIIN7naEkyVPmmKqbWAOrVmtBNhJa1ERYu8mFNhI+TG0nX2NARx7SyhusVd1
-        N1o52BkrZRuJQj/oQ3Ot/
-X-Received: by 2002:a05:600c:4d22:b0:3d1:cdf7:debf with SMTP id u34-20020a05600c4d2200b003d1cdf7debfmr21215675wmp.26.1671098014658;
-        Thu, 15 Dec 2022 01:53:34 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf54Sxu27PikKHEdua27EQ4ofg4L9z3dGIL8de1ZPdl2AXWxg8V8inj3M85jKYvT1vAiolXufA==
-X-Received: by 2002:a05:600c:4d22:b0:3d1:cdf7:debf with SMTP id u34-20020a05600c4d2200b003d1cdf7debfmr21215657wmp.26.1671098014349;
-        Thu, 15 Dec 2022 01:53:34 -0800 (PST)
-Received: from redhat.com ([2a02:14f:179:247f:e426:6c6e:c44d:93b])
-        by smtp.gmail.com with ESMTPSA id i12-20020a05600c354c00b003cfd64b6be1sm7609383wmq.27.2022.12.15.01.53.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Dec 2022 01:53:33 -0800 (PST)
-Date:   Thu, 15 Dec 2022 04:53:29 -0500
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Theodore Ts'o <tytso@mit.edu>
-Cc:     linux-doc@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>
-Subject: Re: [PATCH] Documentation/process: Add Linux Kernel Contribution
- Maturity Model
-Message-ID: <20221215044126-mutt-send-email-mst@kernel.org>
-References: <20221214185714.868374-1-tytso@mit.edu>
+        with ESMTP id S230013AbiLOKBY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 05:01:24 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCFEA2036F;
+        Thu, 15 Dec 2022 02:01:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=wkAghe3ZNHLtMkd0SpeOhPk85q8HVfUfHIWkbKQ6Tjs=; b=Hvp+NvWQs5Luk958wA57VbeRNK
+        OMTEG4yA7yQFAXaOHiEClUFOcpr8R2ndbIlSlETpKMTWVrJdB+1xovmDAeVAKvI48kpqhBwcWAJwj
+        JZANyR1PLRmtLYM3JiEZEQF/GtMXeeVt60oO59kNv6lGYmuqk41ljxzBRQJahnQX7Y4UDLbY3zF21
+        hBjLWXEkvipV1HSKqCK9pmkQ9XMOqIlHl/vP7cygXrhE7TQQzmNUKR+fxyCmzGoMvsmnJYtwSLsnH
+        zFnt1DnoBMJt6OGpXPXUrOr/icR8B/Jmviw8bwjL5QyermsF5Fx+f9C58xG7QmfTH2noGbyiU4XUh
+        rnyFmlLg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1p5l3D-008daE-QI; Thu, 15 Dec 2022 10:01:15 +0000
+Date:   Thu, 15 Dec 2022 02:01:15 -0800
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>
+Cc:     axboe@kernel.dk, corbet@lwn.net, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 09/21] block, blksnap: attaching and detaching the
+ filter and handling I/O units
+Message-ID: <Y5rwa6m3yqo40vz1@infradead.org>
+References: <20221209142331.26395-1-sergei.shtepa@veeam.com>
+ <20221209142331.26395-10-sergei.shtepa@veeam.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221214185714.868374-1-tytso@mit.edu>
+In-Reply-To: <20221209142331.26395-10-sergei.shtepa@veeam.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 14, 2022 at 01:57:14PM -0500, Theodore Ts'o wrote:
-> +  * The number of upstream kernel contributions by engineer, team, and
-> +    organization (e.g., all people reporting up to a manager, director,
-> +    or VP).
+> +static bool tracker_submit_bio_cb(struct bio *bio)
+> +{
+> +	struct bdev_filter *flt = bio->bi_bdev->bd_filter;
+> +	struct bio_list bio_list_on_stack[2] = { };
+> +	struct bio *new_bio;
+> +	bool ret = true;
+> +	struct tracker *tracker = container_of(flt, struct tracker, flt);
+> +	int err;
+> +	sector_t sector;
+> +	sector_t count;
+> +	unsigned int current_flag;
+> +
+> +	WARN_ON_ONCE(!flt);
+> +	if (unlikely(!flt))
+> +		return true;
 
-This is the only one that gave me pause. Seems eminently gameable by
-trash variable-name-tweaking patches, unnecessary commit splitting etc.
-I'm not going to name names but I'm seeing some of this as it is.
-And if people decide to count patches posted as opposed to commits, oh
-my ...  I don't think we should make people focus on the number of
-contributions as opposed to their quality, and incorrect incentives tend
-to promote incorrect behaviour.
+We're called through the filter, so checking this again here (twice)
+is a bit silly.
 
-Fundamentally I presume companies will evaluate contributions based on
-how important the given functionality is for the company, so
-I'm not sure we need to get involved here. Maybe just add this at the
-end:
+> +	if (bio->bi_opf & REQ_NOWAIT) {
+> +		if (!percpu_down_read_trylock(&tracker_submit_lock)) {
+> +			bio_wouldblock_error(bio);
+> +			return false;
+> +		}
+> +	} else
+> +		percpu_down_read(&tracker_submit_lock);
 
-+    The metrics can be measured by team or
-+    organization (e.g., all people reporting up to a manager, director,
-+    or VP).
+Does it make sense to make this a global lock vs per-struct tracker?
 
-Or simply drop this part.
-Besides this:
+> +	if (!op_is_write(bio_op(bio)))
+> +		goto out;
+> +
+> +	count = bio_sectors(bio);
+> +	if (!count)
+> +		goto out;
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Just nitpicking, but what about moving all the code below here
+into a separate helper that is only called for op_is_write &&
+bio_sectors?  It's not going to change anything functionally, but
+would make the code easier to follow.
+
+> +	current_flag = memalloc_noio_save();
+> +	bio_list_init(&bio_list_on_stack[0]);
+> +	current->bio_list = bio_list_on_stack;
+> +	barrier();
+
+barrier is just a compiler barrier, so it is unlikely to do what
+you want. But without a comment I can't even figure out what it is
+trying to do.
+
+> +static int tracker_filter_attach(struct block_device *bdev,
+> +				 struct tracker *tracker)
+> +{
+> +	int ret;
+> +	bool is_frozen = false;
+> +
+> +	pr_debug("Tracker attach filter\n");
+> +
+> +	if (freeze_bdev(bdev))
+> +		pr_err("Failed to freeze device [%u:%u]\n", MAJOR(bdev->bd_dev),
+> +		       MINOR(bdev->bd_dev));
+
+I think you need to fail the attachment if we can't freeze the device.
+
+> +static int tracker_filter_detach(struct block_device *bdev)
+> +{
+> +	int ret;
+> +	bool is_frozen = false;
+> +
+> +	pr_debug("Tracker delete filter\n");
+> +	if (freeze_bdev(bdev))
+> +		pr_err("Failed to freeze device [%u:%u]\n", MAJOR(bdev->bd_dev),
+> +		       MINOR(bdev->bd_dev));
+
+Same here.
+
+> +/**
+> + * tracker_wait_for_release - Waiting for all trackers are released.
+> + *
+> + * Trackers are released in the worker thread. So, this function allows to wait
+> + * for the end of the process of releasing trackers.
+> + */
+> +static void tracker_wait_for_release(void)
+
+This defeats the reason to move it to the workqueue first, as you
+can still deadlock on whatever problem that tried to solve, just
+out of reach of lockdep.
+
+> +struct tracker *tracker_create_or_get(dev_t dev_id)
+> +{
+> +	struct tracker *tracker;
+> +	struct block_device *bdev;
+> +	struct tracked_device *tr_dev;
+> +
+> +	bdev = blkdev_get_by_dev(dev_id, 0, NULL);
+
+These blkdev_get_by_dev calls are a little problematic, as they
+bypass any access restriction (LSMs, containers, etc).  That's
+why the kernel generally does a blkdev_get_by_name based on the
+actual file name, which does all the proper checks.  I think the
+tracker creation also needs to happen based on names to fit into this
+security model.  Passing in names should also be much easier for
+userspace to start with.
 
 
--- 
-MST
+Now for remove, and the other operations on the tracked device:
+Is there any reason to not simply add an ioctl method to
+bdev_filter_operations, so that you can issue these ioctls against the
+tracked device?  That removes the need to find the tracked device
+entirely and should simplify a lot of things.
+
+In fact thinking wonder if attachment of a filter driver should
+go through the block layer using an ioctl on the tracked device
+as well, i.e.
+
+ - add a name field to bdev_filter_operations
+ - keep a list of all bdev_filter_operations in the block core
+ - new core block layer ioctl to associate a block device with a
+   bdev_filter_operations
+ - everything after that is done through bdev_filter_operations->ioctl.
 
