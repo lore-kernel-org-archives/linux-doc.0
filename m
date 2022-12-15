@@ -2,81 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2109EC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 17:41:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3CB9C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Dec 2022 17:43:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229718AbiLORlS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Dec 2022 12:41:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54626 "EHLO
+        id S230013AbiLORny (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Dec 2022 12:43:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230444AbiLORlK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 12:41:10 -0500
+        with ESMTP id S229680AbiLORnx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Dec 2022 12:43:53 -0500
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E1C632B8D;
-        Thu, 15 Dec 2022 09:41:08 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A63E37204;
+        Thu, 15 Dec 2022 09:43:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671126068; x=1702662068;
+  t=1671126232; x=1702662232;
   h=message-id:date:subject:to:cc:references:from:
    in-reply-to:content-transfer-encoding:mime-version;
-  bh=yp2/SInLK3PH3Y/0H/Su0snROzoxWe13YxutKoQ+1a8=;
-  b=WsRaWOTPeIogdjINv5Tcu6R83kN6MJxTUfVEc2yuHu8xi5kGblSr+SgQ
-   zhaj+GjNlv4jAxjyvLWAbB4Ooco/LzUnIMycDWTYxk1k9SNjLhoOcmNxo
-   C4rMwfV9t2wCoNVre/ice/kNkFPu5yK7AK+tEG4BorX3OIGWsVTRmyhsn
-   0IWfhMO8uE9yCZ5tyVVpSvGpp4WEHghWjz0f71oEZoXTHL3dpTqlMiD8n
-   rOYstk1AVwsVO0RmwjLtBy9gtH466vhuwJCW7UPDlHdYylkVuTmGQoBdN
-   udp1coc6cBk7sZAhc9lUp5G6ZKfyirzbQC1gYEvYqnCfQqzYttytdtMhl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="380965171"
+  bh=z8+EsnJvAsM+KC2ZzglG00KO0NE6lqAHLeDpZlj+48I=;
+  b=Wz/Ag5HLT9wzmfIyd4ifVkBQZ4rGXTiGUBWKWd+TxlcNwW5aJYrNIM+D
+   N4JvwrtTdpIddx+P7kN395XoiXw9fkEqleM7UJd7JQ1gNNq+tf6OQ49pb
+   kX5DYW89wPBIOZ7869to/Tf3f95xI+elPeutbyXlqDW4XQVAH6Otu47YG
+   HbzPRZ7f3Du9ydT6h7UNbUVLYE5adzuuqjBR0PDJD1iNrINZdEJRw/ScS
+   FcyLuuliD0seKeayotSusZ8+QhA/+2J7BYRcAmOMxctKS+uhkXtrB9QUd
+   QT/do9reFyv7SHXZxlOrLtvJB5NpIrYC36iRudlgLizkFDdwfQKESQf7S
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="380965965"
 X-IronPort-AV: E=Sophos;i="5.96,248,1665471600"; 
-   d="scan'208";a="380965171"
+   d="scan'208";a="380965965"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2022 09:41:07 -0800
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2022 09:43:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="627280242"
+X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="627281188"
 X-IronPort-AV: E=Sophos;i="5.96,248,1665471600"; 
-   d="scan'208";a="627280242"
+   d="scan'208";a="627281188"
 Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga006.jf.intel.com with ESMTP; 15 Dec 2022 09:41:06 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+  by orsmga006.jf.intel.com with ESMTP; 15 Dec 2022 09:43:49 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
  fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 15 Dec 2022 09:41:06 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ 15.1.2507.16; Thu, 15 Dec 2022 09:43:49 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 15 Dec 2022 09:43:48 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
  fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 15 Dec 2022 09:41:06 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ 15.1.2507.16 via Frontend Transport; Thu, 15 Dec 2022 09:43:48 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.176)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 15 Dec 2022 09:41:05 -0800
+ 15.1.2507.16; Thu, 15 Dec 2022 09:43:48 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zh/WKHY0OdmIYF9adgDnCBMiMCXoAWuEa+dpSuBUI9mCSMAESssgpE7CcdoVDOp0MBSCa5OaPawj2hDWeWlthb+y/Oy966tCG9zEKXG4xpSPz3lYAF+nsnSfo3YPMfQX+Mt789Ru7P+OHJpX0309W6e1XTY4U4kdpwM+ZWbumNMlSAbVaPu3Xh/Ryp5lxYX9wAOFXhQV7RfiQ3ww17CH7Y3Kq+3GfDBQMEok6edP1UETrnAwMJRdGDJbqg/qOOUyIHANsJQp+W6rrnrGDNSL047W1aLy3kokXgkRupn5Kjsv4HzFhM/U+jfIY8BoQPsdJKfpBHEc/YNZRYK037Bg7g==
+ b=RfsVLAjlb8H0ZelUzII6Nu/24OXDckyD99j48ZKat+rRoWqv+a6TigDldTd6I9d3gSwcdyF2XnpkQkWUyi+/sDW0i40DUUCHUZGAlMB57a4L9H6EgRv24+3zGvQrIQBk/3V2PAEWgj1XNqFknFNyYu9u5iWFrPdtNlbpo0Taqj3alhQTOHW6J1e2YIAOwKRmM5b5UH7XKs4vRbbdvlFdEMTpN69kpx00FJpENuuDhgeDKJD1M/gWffdHRLGXPKKckRxJWqQJYrC2TdjwhxbO7vrqjle/On7wII+s8SorL5ZRAGbaKSa9vJevQw2kGm2gRCTqXwAJQrjKJhWmB/Wezg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+UwuyfVfkUS6RCn91HOuHFmrISSzJMbbjB2CBHU68Lg=;
- b=ab5+/686XhROWnsOVY9BRl53YiO2Vj9sg6YcMDkzp24KvXuNcQsDJ/gnTTghHivIg18OZiQ276JsFSmDOp3wckYDaP/58V6SEdz3UHbiJSbark9CB8T32NP8J33Qw4/oqMGk4Q7LHWRWEa57Rfqahh5PcQSNL+odlYl3LHrgwsxQoI2mgmEbCyZ8La98rnpTSmHT7zgcrbn6zoADghXztSGumV8jL3AuzoSaMXZRK7naIR4kWqcBJoW2+NkoKeAo+ksRQXAYs9RxXtDIHTEKI5g2BxU89fZWThhPuyUPOSO9e8OTF6Zez9LKEQ2INw+KdLUraAXp8DtD5wm9VptFhg==
+ bh=JioISJWE7JXt0rFquflgdIKqvgKt+cfFxSmQua4fdME=;
+ b=FluCC/eTHRoBFq7hikhkwFEZl82vjFkaEA5WHAzRaax8vgVhygFy/pjJnpfIqTKmo60ECQijb03m7h3Ob/5ujdZe72AnSDY7xNjA7aNKKVMBZCdYECXYc92WCHZR6d4wfSewuqvhUn14ZTQhmjZS64xjOaMa6ufZ6CE2GzfC6XzU3T+1d/npkXFFNOXQOQR0xBj+1Xi/WoYddKUA6eBGgPtlWG7K468esvT57UHH+ljx/3hQDcj9/aeZN68Pd/pkF6OejDy++QuuZKIWaVEpxgu6gEKK7Eqj3djP0KAqcjovV9lHP0uSz63Lhc9Y0XBMLdI/Im40XL6ytYOXFtS1YQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from CY4PR11MB1862.namprd11.prod.outlook.com (2603:10b6:903:124::18)
- by SJ1PR11MB6084.namprd11.prod.outlook.com (2603:10b6:a03:489::13) with
+ by CH0PR11MB5690.namprd11.prod.outlook.com (2603:10b6:610:ed::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.11; Thu, 15 Dec
- 2022 17:41:00 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.12; Thu, 15 Dec
+ 2022 17:43:39 +0000
 Received: from CY4PR11MB1862.namprd11.prod.outlook.com
  ([fe80::a1f7:e4c4:e60:c5b3]) by CY4PR11MB1862.namprd11.prod.outlook.com
  ([fe80::a1f7:e4c4:e60:c5b3%6]) with mapi id 15.20.5924.012; Thu, 15 Dec 2022
- 17:41:00 +0000
-Message-ID: <512cd6bc-d474-6362-974f-75a690d2fa97@intel.com>
-Date:   Thu, 15 Dec 2022 09:40:55 -0800
+ 17:43:39 +0000
+Message-ID: <57b5dd79-9498-b450-25df-b9496bd46ec5@intel.com>
+Date:   Thu, 15 Dec 2022 09:43:24 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Firefox/102.0 Thunderbird/102.6.0
-Subject: Re: [PATCH v9 08/13] x86/resctrl: Add sysfs interface to read
- mbm_total_bytes_config
+Subject: Re: [PATCH v9 09/13] x86/resctrl: Add sysfs interface to read
+ mbm_local_bytes_config
 Content-Language: en-US
 To:     Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>,
         <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
@@ -95,72 +99,72 @@ CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
         <jarkko@kernel.org>, <adrian.hunter@intel.com>,
         <quic_jiles@quicinc.com>, <peternewman@google.com>
 References: <166990882621.17806.16780480657453071426.stgit@bmoger-ubuntu>
- <166990901578.17806.14559688057407662110.stgit@bmoger-ubuntu>
+ <166990902305.17806.9650262646704189221.stgit@bmoger-ubuntu>
 From:   Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <166990901578.17806.14559688057407662110.stgit@bmoger-ubuntu>
+In-Reply-To: <166990902305.17806.9650262646704189221.stgit@bmoger-ubuntu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR07CA0093.namprd07.prod.outlook.com
- (2603:10b6:a03:12b::34) To CY4PR11MB1862.namprd11.prod.outlook.com
+X-ClientProxiedBy: BYAPR05CA0063.namprd05.prod.outlook.com
+ (2603:10b6:a03:74::40) To CY4PR11MB1862.namprd11.prod.outlook.com
  (2603:10b6:903:124::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PR11MB1862:EE_|SJ1PR11MB6084:EE_
-X-MS-Office365-Filtering-Correlation-Id: 36566ea1-0903-453a-b51f-08dadec38757
+X-MS-TrafficTypeDiagnostic: CY4PR11MB1862:EE_|CH0PR11MB5690:EE_
+X-MS-Office365-Filtering-Correlation-Id: d2a80448-e48b-4d6e-9595-08dadec3e66e
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oJnguUPFi+/RMn6hQb/7GmQO+yIsC/XVBpE233YMewQBEw2ztkutYlsmNNnTnn4HcBZHdakcmBIoBahnKu6WUk8bdQnA1+S1pfHyDKwRrVlxE8JfLqboPQtiTaKEJxCgeLjzGMuC3WgPTP46MCEzwV78TrOzqB6kHwcKYEfuQ0xT5z1oQJknDlmlQQDqI2B5TmkcUwiz+c3Cyw6utrCo+dCgmH3nCXZBYm8ikQcdP0I/XW55btGjG+GxGHVhFG8f3AVpajvSYYwzRw/KqEIZ3C+YdqLqHTHzPMPunKetuiDy1Cu8FpXd+1qd5HEECEFeanCo9uZNB6e4Xmp0LiaaklflquwGFsGeeB729uKlDhH4KjYaV9hHE6zr//PxmvCurvfLJJLyON4B4MJv4G9pbr381ez3+XmBY1Fva/PeW448ZHGpJuOxyOZzBCm4PbP54rsujdhcwyBpYOwebsR90yPCtQwRJUSMX1eYPCLbwGploCfJXDthxREw9cMq+tdrmcxxfrS3xIMR4ZinOedrGMyGjhTaf+z6C6fU7r/BgPOeqoLov7Myt/DEzGV5XtBFFU6o4GJbqwdECYdOvtwK7UHUvqotZagMR/8t4SfD5n22cjKNNaSy02VZehP2uf7dwGZZkVPBSbdR97ybxmjQvn0LPhK3WujeOgpsYBf4Kh3IdkPjW7hNliSfDIwtqN2wLIvju0Q6uGT5dmQeL4fa+h4DLMLZtUcOo/UGRx7sivE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(376002)(366004)(346002)(39860400002)(396003)(451199015)(66556008)(66946007)(41300700001)(7416002)(66476007)(8676002)(4326008)(5660300002)(7406005)(316002)(2906002)(8936002)(53546011)(26005)(6512007)(6506007)(186003)(6486002)(478600001)(6666004)(86362001)(83380400001)(2616005)(38100700002)(82960400001)(31686004)(31696002)(44832011)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: 7QFHVP3cJpqS9gIZTLRPpYl5wQMmN2ONFBkR6bbAYX5Xe+J6WiRzfaISCGejw5mDe45aweIc8rDUk8dKcmVubrOJPyou11/2xlWVvra4ZalpBpVSkcKOhCmEtoJCHg6WZIv5uQY0iEJWe4d+60d4EO1uWHgHDKU8zjlfRT8o+h22lD/ZRritUxfYY20H2PlIeQ5ONJa3aXg6vEt8dOPffGZBpaFrn4VSwmFnol4xoqj9frqJRIaOsYGMLgQ9qHejT7x7rJd8VceOMV70C4eK3VioWu5e64rIsjce0tmlkPBftOt/PvSUpZFEutGaQTCkw274pZReTPUkyo+P70qYzWHt2vRyIsS59hcqHOnUVp5PWSZy9wlCMH6x7KClqq6GvA3tLLIwwKSf5u/0035E00FL9/fD8Ou0yP2mC6ZOpywLNMx+nyWW0Wde0a1O2EgBNdnCBBIPQH38MeHUtsrAbZE0j8q+17PYOBmiQs+hQCe2ZY2lMvytpT3WplACbFMrcQHEGJE+twRar6fP+ffykdPS0eUdbTBvLllkgPkaAPD39/OpzLTLqxNrzo0SZlbOURYHuWvquWHhCMtYH4HQUtSccRqigoIlGI9eIs+L5QaMG1IMoGXso9DdAoLLEnR6GZoyfe/7Ack24TJ4KTy7NAmPu8rPqU2JxZUoVQ6Au29g5C5R1l9xuDOl47VxosEJtbrkkbQt/R6XubaGCXVoPUXZbhibaKEaC65fGDKnzm8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(366004)(136003)(396003)(346002)(39860400002)(376002)(451199015)(6666004)(478600001)(6486002)(26005)(6506007)(2906002)(53546011)(31696002)(6512007)(186003)(86362001)(38100700002)(83380400001)(31686004)(44832011)(316002)(7416002)(66556008)(66476007)(7406005)(66946007)(8676002)(82960400001)(2616005)(4326008)(8936002)(36756003)(41300700001)(5660300002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M3FWSUlUNDZqUGwzTzEwNjVWcFBGZDlTSjJzbUhpOWZJOFF5NjFJYy9kWllT?=
- =?utf-8?B?OGVrTHhQZ252YmxGbXlGTGN3SUpiVjRJaVQwWklxWitzNTZ2a0QxbHlWWXAw?=
- =?utf-8?B?Ui9KaVI0cEhwTFJqenJDTmZPQW5RcTFIUUVUNTJqLzZ1VFVJVU0xd2pZRmE5?=
- =?utf-8?B?eng3ckJlV3djWXFrNUNWVmVGOTY4OEV3SUZHeFRJaTYyUmhqQ1dxTVlLQ2Qy?=
- =?utf-8?B?ZDAzRXFUdGhleEhDSWszd2kzK1NWU1l3a3NwbW1JMHlJVERrbDh2Z3hLcU9T?=
- =?utf-8?B?MVEwV3BIQjQvclNFUGRqejh5S2ZFeWJqTG43dVpkVW4vK0VZdzZtWVEwSkM4?=
- =?utf-8?B?UHJWWXJ0MFpyYUZ0OEgzWm9keExFNDYrZG1EQmZ3ak9sazRkTmJEZTdUUUJV?=
- =?utf-8?B?dWVMQTNIL08vOXZjd0F6bjFlUDlrY2J5WVNPeVJYTXhRbWtQQXdqQk9xUzNn?=
- =?utf-8?B?STdQWWNncXhQTVQ5OXlKclV6SnNnclZtSllxNVRFMGFpM1V1OWRDd3RjQlFt?=
- =?utf-8?B?cmRZS2Y5aDZNQy9TTndDdmdCQmgrclFnM2FTRTlORkl5cnNGekR2UG8wQW51?=
- =?utf-8?B?bERYdlFCa0k1NmhISzFrRncwUXA5cnYyMGtUbWNacmxHOTNpbGV4VmZNaXdu?=
- =?utf-8?B?bUV4R0w4Mi9jdzhQQzZZRS9FQ1kwSGdyajdHZEhRQ0hBVUQxbEl0SytkUUZn?=
- =?utf-8?B?aGx1d2hoSXd3RHZ5cDhqWW1EaEVVQ0ZuU2tITWZGNUl4T0dzTE4xRndJd2ph?=
- =?utf-8?B?bWJkL2tyUmZOeDgvT2pIN0NSbW92cExQTkplSmNVSFYvSG1xQlViMHhSaFU3?=
- =?utf-8?B?MWRtTzh5b2tvb0V3dktjeEN3eWVlNFRwMzhVOFFiTDJoaE9pV08vVk1VUUxO?=
- =?utf-8?B?ditkamlyKzIxQjk5UmFtQUppME1FaVhIZzZUVGJRUjVrc3hJSUsrNW50YytD?=
- =?utf-8?B?Q0pEd1Z5Q2dlUHduNlhGRHlxN0VzdVVaV2ZHS0pIYUgzdjJjVjY1elR2WHJw?=
- =?utf-8?B?MmZNTmVYa1oyQ0tJMnNlU3F6MTUvS3pDTXZBTTJzUEQ0TnR5QUdwMjZVdnhL?=
- =?utf-8?B?bGVickdIcDNnUndxeXVQR1dseHNhTEhGa2JvN0hCZ2U2UGl2VDRWODhZalJO?=
- =?utf-8?B?MmZRRlVYN2FYNjhMYnlIYklWeWY1L1krV0ppNThtdFdoQVNOdzIzUWwvSmdX?=
- =?utf-8?B?a3BPZ2dwMTIzU1JEd3JoSERidzZsTmdPNHhsSVdGcVlJeWpyTnpKbTFvU3ox?=
- =?utf-8?B?b01rVDd4Nk1DaGdub0lCcm5wUWI5WFNLb0NjZ0tVMWMzaDFRVlBER29YSS9u?=
- =?utf-8?B?R3FKNXYyajBvZGNpU2FvWmNPWlEzTndMdVVBcU5ZK2l3T2lBdXdBRldzRDV6?=
- =?utf-8?B?Y29oeUhvOEJVWVMvMEV3WFRMVG9meDB3YitvbGY1dW9zMnhibndhd3Y5NHRs?=
- =?utf-8?B?OGVrazBRV1oyU1JsVGsxZklKNFBUaUo0WUdBOGlRcTNQTkNQa1Z2MWhUZy9Y?=
- =?utf-8?B?cENITXpDaDViN0ZQRS9ISWg0QmJuVHRCelR1UFhVMlIraG5mSzNoZktySHVw?=
- =?utf-8?B?elcrdUttY3lXQTRmaVpOQzJ1WTFaek8xUUhrb2NLTjNUVG0vekRKMytxSVMv?=
- =?utf-8?B?WDJucHl4RE1lNi9ROXNYN2VzalRqbDRCT2VQcEc3ZnFYaHI0TkdvZWRwOUJ5?=
- =?utf-8?B?YVV0NUdwUy9Yc3hXdVlDejBBTkZHWTlONjlQK05BOTBMSW5qV1VIY3ZTMXVF?=
- =?utf-8?B?VlMvR1JrbkVLT1U2TzNOcGtVa2RFWjlXa2tZeFRRaXBYcVZ4MUJhcWtyQWQz?=
- =?utf-8?B?ejQ2ZGdKVDIyWGE1QkQyeWd2ZTVWUDRPQ1A3MGt2dUFDVmtKQXNSQTZhd3FI?=
- =?utf-8?B?Wks3enpMTitwbzFkV1BIZS9ramFOTEk0dk51bGVqSlYxdjNzYnBpNmpyWGgr?=
- =?utf-8?B?Y3ZjK3pSYzRLSXNHUEFGRUZ2d3RTVTJuR2NWN2krWTBwWEY2amZ4NlppTG52?=
- =?utf-8?B?bFgyS1NqcWhuR1czUzBVUUM5UitZNFdtUzN3a25vcnR1R0c4cFZkWG5FbC9w?=
- =?utf-8?B?bWlNNjMramtiSEV1MnpjTC9wTzFUT2VCcm9TeS9kVWxJSWYvYWtCaVg2YklP?=
- =?utf-8?B?bnY4S0JJM0ZDY3hWZktQWjRJZDc4UzJISmxTeEt6RmhmRCsyNXVMd2hQaEVG?=
- =?utf-8?B?NWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36566ea1-0903-453a-b51f-08dadec38757
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZStEM2kvOFN0NnZNckwwTVJ2NFJSRUNzK2FESjUvMUcrWllKMm5qVC9lWmht?=
+ =?utf-8?B?OVZTM1BWUTRNVDgxYXE3c3VzVDdxVmRtZnhmOUJkbjZwR2NwdDhuR0F3RkFB?=
+ =?utf-8?B?T25IOWYyMmR1Slh1OGllK0htQUowV1VNY3EvTDhyM1pLajFhOS9McmdrY0Vp?=
+ =?utf-8?B?R3Z4aFpKTFVGV2dldEVuS2VWZ3ZkWkJyRHNlbEx1VlY2SnFOU1ltWVprYXky?=
+ =?utf-8?B?dG1zNDR1QUJtQ3VXU2xlYnd3NEFvSEhYWGUyQWh4QXY2T2M4Um9SeklJckJS?=
+ =?utf-8?B?WlJ0eG9IbjNPSXNTSFJrcVY5VW04bEN1STdiWlplUzJvSVYxN2g4RmJjK0k3?=
+ =?utf-8?B?eTRZYW9oMVBkbjhETnE0SXhSK2cyTVlyTC9JVkUrTUo4UVJuVDIrd2lsWDd4?=
+ =?utf-8?B?MlQ0MXpmUkgwOEkvYmZNWWhHSFBLQXdxUkNWN1NDanAyRWhiK2ZiN0YzZFg2?=
+ =?utf-8?B?eWtsQkRLMDExOUpoU3hCZ1Vrcyt5cDhLdkh6Y1ZHZjZ1aUc1ZW00Y2xUZXI2?=
+ =?utf-8?B?MGhpd3JrK09WNTZmSkFNTmRMREZ4UEtsRnl2ckUwYjF0ODZEdkwvb1kvdzRG?=
+ =?utf-8?B?R2JTYVlEUGN3eEIxaERRaWxRNms1emN1UTh1UVB2cElmTC9tMUpsd3JYUjBK?=
+ =?utf-8?B?Mkg0enhKZjZSZkV4MkZXd1JQMTRRbFlkekkyZy9uM2xPSDJFWHpmaWxUUzdw?=
+ =?utf-8?B?Si9MdUlTYXltNEVjVzgzUzVHSnpMWWhhTG1TL29XQmV3Q0JhdEg1T0RMcGxk?=
+ =?utf-8?B?YkpjeitPZDZUb3p1dlBlZUltSUZsblR4NXUrWU0vUjN1S1FrL1ZUdUdmUThG?=
+ =?utf-8?B?QXpOSzFmZmFvaENVZXFMQmloWkxhTGYvQkdWRThOL0pRdXljTStMbnZxU005?=
+ =?utf-8?B?eGJQQS85NkFwUUd2MEI1KzhqS1k2REdydFZZcmc3VFU1ajZHRlRzbGw3N25G?=
+ =?utf-8?B?QU1TbXJCYlZoeW45bXhJRVJHZ2VxUDJBT2crR08wRmd4V09pVWZ1ZUs5S2VO?=
+ =?utf-8?B?VWt3WTY4VWdNM2tEMWV3ZCtuVmY5U3ZYeHkyNDRnbHJmYkdpTHo3RmU1VU8r?=
+ =?utf-8?B?bFkyanNSZWJwQ1VON20yS0FQdkpvYTArT1lUSjFkSE5JVUNxalIrdjVaMFI3?=
+ =?utf-8?B?SmpUZjA3d3AvbU5UblYxNjRvQUJ1dFFUVG5pbWx2ZDRMWmtvbW1tSnAzVFZK?=
+ =?utf-8?B?Qm9nWnkrK2RCdndmU21Xd1ZaN21UUUpZUGdjNndoTkxRbEx4dXl3YjF2NkMv?=
+ =?utf-8?B?Tlk3NnovRm8vQkZzSS8zKzlHRDZKSC9RY0pCSXhyWFFUUFRJbWRUMzFUai9y?=
+ =?utf-8?B?MlhoNGVVaFlZbXBDRmRlMHB3dmxneU5PTHhhUDZEN0FmTC9PaEw5dU9DRHpW?=
+ =?utf-8?B?Mm9WU09rbXhsTEV6aWhZS0RHa1BKZDN5L2xQc3AzYkIxYURLYXBaZzBjUVNi?=
+ =?utf-8?B?aWR0NHRacEJPdEF6N1VOMU9UdTlhOHhueXBGMXJwTzJvVUYzalE4aW51VWxy?=
+ =?utf-8?B?NHFvZXNNMXMrK0dZZXYrU1JsR1ZveTdValpwMVRiM1NKQ1c2VkQ5cm9JejlC?=
+ =?utf-8?B?amRrNTdSaG1ObjdJcU1lZm1iV2sxL0tmcGE0MnlTZDRzMGFmb3Q5QnlTMVR1?=
+ =?utf-8?B?Z2FYSVFNTTVOd1d5QTJybzZLVW9aaDF6MVNwQTZRNGZ5b2dvQ1pEeld0THBZ?=
+ =?utf-8?B?ZHlhSHUyTk1WdDhNRnl5citqSEYzZ1dib01IREIrSTRGVTl6YTg5dHdCMU15?=
+ =?utf-8?B?UnRGOEUrWmEyQjFiU3hKVU92WHNTd0ZOYlNNMEppRWR1aXU4UlpjRWM4MVky?=
+ =?utf-8?B?aWFGSy9EVytRSzNJOUpZQWdTWGhqMVllR2JUdFlYcS9Ddm1WM1pYSjlJZ1ZO?=
+ =?utf-8?B?VThOOFRRQXdVbjd0Z1JWN3R0aEhqbmhxQTFweDFzRmkvMDlIdVFCcHgzbGtU?=
+ =?utf-8?B?OUgwWTBLeVNHWUhYU2JySmM1aVQzbWF0UkdGRURjNHVSQS8xTHd4aGdGa1Rj?=
+ =?utf-8?B?MnlheVhuMG8xVlVBUXdwMjgyVUQ5MHlUV3U2Tk1oUXMyZEo0ckhYTm9yUnZM?=
+ =?utf-8?B?ZHZQcjJQWTJpRWR0Q0VwRVl4NFNGMUMyUUZ3T3dkTmd5OFBZcUtZaXE1N2tU?=
+ =?utf-8?B?T0MzK3EwbnBrS3RRTGJPUk1PRlYvanVEUy9RQ2xqVmRmd2F1SUI2SjZUaHRQ?=
+ =?utf-8?B?c2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2a80448-e48b-4d6e-9595-08dadec3e66e
 X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1862.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2022 17:40:59.9351
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2022 17:43:39.5623
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lWPjPbWLzO21lnrOE0CDSEIZZ4JdS0sILXN6/4U3C+U4VWwwSQG1rjvo1ONmjfsO+Pmnq8EuDcU1X/SjlIdvaLy/lxSLYgO6xhKt2NHRFgQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6084
+X-MS-Exchange-CrossTenant-UserPrincipalName: PtE8Tr/xVBR8z5B+gRdHh4/n50aO5S6g+z1LSx29AJuj4nCuCnSJSX8eTS/eH9YsWW+QhSwFnKRM6ENDk80ZAkXl1ZZukAcySAoOyuVWB2A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5690
 X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -168,20 +172,14 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi Babu,
 
-I would like to second James's suggestion to replace sysfs with resctrl
-or just remove it. I am concerned that you mentioned in recent message
-that you only plan changes to patch 10 while James highlighted that this
-needs to be addressed in entire series. Could you please ensure that
-you check all the patches?
+Same as other commits the subject can be shortened:
+x86/resctrl: Add interface to read mbm_local_bytes_config
 
-On 12/1/2022 7:36 AM, Babu Moger wrote:
+On 12/1/2022 7:37 AM, Babu Moger wrote:
 > The current event configuration can be viewed by the user by reading
-
-What "current" means is not clear and the term could just be removed.
-
-> the configuration file /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config.
-> The event configuration settings are domain specific and will affect all
-> the CPUs in the domain.
+> the configuration file /sys/fs/resctrl/info/L3_MON/mbm_local_bytes_config.
+> The event configuration settings are domain specific and will affect
+> all the CPUs in the domain.
 > 
 > Following are the types of events supported:
 > ====  ===========================================================
@@ -196,134 +194,80 @@ What "current" means is not clear and the term could just be removed.
 > 0      Reads to memory in the local NUMA domain
 > ====  ===========================================================
 > 
-> By default, the mbm_total_bytes_config is set to 0x7f to count all the
-> event types.
+> By default, the mbm_local_bytes_config is set to 0x15 to count all the
+> local event types.
 > 
 > For example:
->     $cat /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
->     0=0x7f;1=0x7f;2=0x7f;3=0x7f
+>     $cat /sys/fs/resctrl/info/L3_MON/mbm_local_bytes_config
+>     0=0x15;1=0x15;2=0x15;3=0x15
 > 
->     In this case, the event mbm_total_bytes is currently configured
->     with 0x7f on domains 0 to 3.
+>     In this case, the event mbm_local_bytes is currently configured with
+>     0x15 on domains 0 to 3.
 
-"currently" can be removed since it already starts with "In this case".
+"currently" can be removed
 
-
+> 
 > Signed-off-by: Babu Moger <babu.moger@amd.com>
 > ---
->  arch/x86/include/asm/msr-index.h       |    1 
->  arch/x86/kernel/cpu/resctrl/internal.h |   24 ++++++++
->  arch/x86/kernel/cpu/resctrl/monitor.c  |    4 +
->  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   99 ++++++++++++++++++++++++++++++++
->  4 files changed, 127 insertions(+), 1 deletion(-)
+>  arch/x86/kernel/cpu/resctrl/monitor.c  |    4 +++-
+>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   16 ++++++++++++++++
+>  2 files changed, 19 insertions(+), 1 deletion(-)
 > 
-
-...
-
+> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+> index 2afddebc8636..7c8a3a745041 100644
+> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+> @@ -788,8 +788,10 @@ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
+>  			mbm_total_event.configurable = true;
+>  			mbm_config_rftype_init("mbm_total_bytes_config");
+>  		}
+> -		if (rdt_cpu_has(X86_FEATURE_CQM_MBM_LOCAL))
+> +		if (rdt_cpu_has(X86_FEATURE_CQM_MBM_LOCAL)) {
+>  			mbm_local_event.configurable = true;
+> +			mbm_config_rftype_init("mbm_local_bytes_config");
+> +		}
+>  	}
+>  
+>  	l3_mon_evt_init(r);
 > diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index 8342feb54a7f..e93b1c206116 100644
+> index e93b1c206116..580f3cce19e2 100644
 > --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
 > +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -1423,6 +1423,90 @@ static int rdtgroup_size_show(struct kernfs_open_file *of,
->  	return ret;
+> @@ -1507,6 +1507,16 @@ static int mbm_total_bytes_config_show(struct kernfs_open_file *of,
+>  	return 0;
 >  }
 >  
-> +struct mon_config_info {
-> +	u32 evtid;
-> +	u32 mon_config;
-> +};
-> +
-> +#define INVALID_CONFIG_INDEX   UINT_MAX
-> +
-> +/**
-> + * mon_event_config_index_get - get the index for the configurable event
-
-Could you say "get the hardware index" to help clarify what the index is
-for?
-
-> + * @evtid: event id.
-> + *
-> + * Return: 0 for evtid == QOS_L3_MBM_TOTAL_EVENT_ID
-> + *         1 for evtid == QOS_L3_MBM_LOCAL_EVENT_ID
-> + *         INVALID_CONFIG_INDEX for invalid evtid
-> + */
-> +static inline unsigned int mon_event_config_index_get(u32 evtid)
+> +static int mbm_local_bytes_config_show(struct kernfs_open_file *of,
+> +				       struct seq_file *seq, void *v)
 > +{
-> +	switch (evtid) {
-> +	case QOS_L3_MBM_TOTAL_EVENT_ID:
-> +		return 0;
-> +	case QOS_L3_MBM_LOCAL_EVENT_ID:
-> +		return 1;
-> +	default:
-> +		/* WARN */
-> +		return INVALID_CONFIG_INDEX;
-> +	}
-> +}
-
-I see that you copied my sample code here. My intention was that the
-/* WARN */ comment be replaced with an actual warning. As a comment
-it does not add value. Since the caller now prints a subtler warning it
-could just be:
-
-	/* Should never reach here */
-	return INVALID_CONFIG_INDEX;
-
+> +	struct rdt_resource *r = of->kn->parent->priv;
 > +
-> +static void mon_event_config_read(void *info)
-> +{
-> +	struct mon_config_info *mon_info = info;
-> +	u32 h, index;
-
-index can be "unsigned int" as returned by mon_event_config_index_get()
-
-> +
-> +	index = mon_event_config_index_get(mon_info->evtid);
-> +	if (index == INVALID_CONFIG_INDEX) {
-> +		pr_warn_once("Invalid event id %d\n", mon_info->evtid);
-> +		return;
-> +	}
-> +	rdmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, h);
-> +
-> +	/* Report only the valid event configuration bits */
-> +	mon_info->mon_config &= MAX_EVT_CONFIG_BITS;
-> +}
-> +
-> +static void mondata_config_read(struct rdt_domain *d, struct mon_config_info *mon_info)
-> +{
-> +	smp_call_function_any(&d->cpu_mask, mon_event_config_read, mon_info, 1);
-> +}
-> +
-> +static int mbm_config_show(struct seq_file *s, struct rdt_resource *r, u32 evtid)
-> +{
-> +	struct mon_config_info mon_info = {0};
-> +	struct rdt_domain *dom;
-> +	bool sep = false;
-> +
-> +	mutex_lock(&rdtgroup_mutex);
-> +
-> +	list_for_each_entry(dom, &r->domains, list) {
-> +		if (sep)
-> +			seq_puts(s, ";");
-> +
-> +		mon_info.evtid = evtid;
-> +		mondata_config_read(dom, &mon_info);
-> +
-
-For robustness, please reset mon_config before calling mondata_config_read(). Since
-mon_event_config_read() may (yes this is very unlikely) exit early then mon_config
-will contain the data from the previous domain.
-
-> +		seq_printf(s, "%d=0x%02x", dom->id, mon_info.mon_config);
-> +		sep = true;
-> +	}
-> +	seq_puts(s, "\n");
-> +
-> +	mutex_unlock(&rdtgroup_mutex);
+> +	mbm_config_show(seq, r, QOS_L3_MBM_LOCAL_EVENT_ID);
 > +
 > +	return 0;
 > +}
 > +
+>  /* rdtgroup information files for one cache resource. */
+>  static struct rftype res_common_files[] = {
+>  	{
+> @@ -1611,6 +1621,12 @@ static struct rftype res_common_files[] = {
+>  		.kf_ops		= &rdtgroup_kf_single_ops,
+>  		.seq_show	= mbm_total_bytes_config_show,
+>  	},
+> +	{
+> +		.name		= "mbm_local_bytes_config",
+> +		.mode		= 0444,
+> +		.kf_ops		= &rdtgroup_kf_single_ops,
+> +		.seq_show	= mbm_local_bytes_config_show,
+> +	},
+>  	{
+>  		.name		= "cpus",
+>  		.mode		= 0644,
+> 
+> 
 
-...
+With the subject and changelog changes addressed:
+
+Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
 
 Reinette
