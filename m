@@ -2,74 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F364EC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Dec 2022 14:53:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEE28C4167B
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Dec 2022 15:09:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230246AbiLPOxU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Dec 2022 09:53:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60148 "EHLO
+        id S231328AbiLPPJT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Dec 2022 10:09:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229825AbiLPOxU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Dec 2022 09:53:20 -0500
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E37C4A583;
-        Fri, 16 Dec 2022 06:53:19 -0800 (PST)
-Received: by mail-qt1-f173.google.com with SMTP id bw27so707981qtb.3;
-        Fri, 16 Dec 2022 06:53:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HOiPjXQIxXWdtEdaDgALBdOOZPdxqDznsMSDkV/eY3M=;
-        b=p8AJHZI7O0yJC/pcwxu6lmGZGEigs1ufm5Bs6ffdxu+VXBdtd7QKzROtdp0HbUs8w/
-         wZ83ljpYyducUzDPOS5azrgjzwyPIWxV38wZlwoy4COTCB1t7pIrSLJdRPgDlKCStBPx
-         MoklLhqx4FYt4AlRMd2cz1YVI7LW33M5svG4j0oIf/jqPHpWmV+R41Y4tZqcMtedTxNa
-         oaq50WJA/m9XAuhG28AUbYYV+xd2WNHvme1DXMX2/BEue3tGaNH76NvwZaWmofrgcKc1
-         dOn4UIY9uBxsAGU85QtNPRcIzQGloJpMl5qROVL149ucIm005mc03GkuphjHkbsrLK25
-         si8A==
-X-Gm-Message-State: ANoB5pn5iOpF/VPiq8pwIICnXUDUMZYvkL9qB/qkxTV1wgh+4MWbQU7C
-        XLG2n9bFTjwi1fDsUC1pe7w=
-X-Google-Smtp-Source: AA0mqf5pClytxKGos159wN8+5ZmeC5U9v2ZWL7oDM68ERmPlVd/e9CjTulfG6Vc74AGy4JlfuNEf5g==
-X-Received: by 2002:ac8:6607:0:b0:3a6:a43a:8ba9 with SMTP id c7-20020ac86607000000b003a6a43a8ba9mr41709083qtp.3.1671202398129;
-        Fri, 16 Dec 2022 06:53:18 -0800 (PST)
-Received: from maniforge.lan (c-24-15-214-156.hsd1.il.comcast.net. [24.15.214.156])
-        by smtp.gmail.com with ESMTPSA id bw20-20020a05622a099400b003a7f1e16649sm1438726qtb.42.2022.12.16.06.53.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Dec 2022 06:53:17 -0800 (PST)
-Date:   Fri, 16 Dec 2022 08:53:14 -0600
-From:   David Vernet <void@manifault.com>
-To:     mtahhan@redhat.com
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, jbrouer@redhat.com,
-        thoiland@redhat.com, donhunte@redhat.com, john.fastabend@gmail.com
-Subject: Re: [PATCH bpf-next v5 1/1] docs: BPF_MAP_TYPE_SOCK[MAP|HASH]
-Message-ID: <Y5yGWlrdyRm+Hx2V@maniforge.lan>
-References: <20221216100135.13125-1-mtahhan@redhat.com>
+        with ESMTP id S231324AbiLPPJS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Dec 2022 10:09:18 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BA9C26C1;
+        Fri, 16 Dec 2022 07:09:15 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2B7FE1EC0531;
+        Fri, 16 Dec 2022 16:09:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1671203353;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=UYUFaRAc3D5wjF6DgpP0Zv3fb8T3UMwaMYtFae36jGc=;
+        b=IVJeYsxJhJ+EljMkKQYYhHLmpc5TYxmee4QMzKYpJ87goENHZ6o/rEb7PJs7cY5ipeU8dK
+        v/Z239POYhUiSkqxCv0e27k5ZMdgC/ORng2oVzY7MT8hd12ggKG0P5nYl2qk23afy9Ga1D
+        aWIlv35enrQ3/XXQoTgx3VDLZaxpJ8A=
+Date:   Fri, 16 Dec 2022 16:09:06 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
+Message-ID: <Y5yKEpwCzZpNoBrp@zn.tnic>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221216100135.13125-1-mtahhan@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
+In-Reply-To: <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 16, 2022 at 10:01:35AM +0000, mtahhan@redhat.com wrote:
-> From: Maryam Tahhan <mtahhan@redhat.com>
-> 
-> Add documentation for BPF_MAP_TYPE_SOCK[MAP|HASH]
-> including kernel versions introduced, usage
-> and examples.
-> 
-> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+On Fri, Dec 02, 2022 at 02:13:40PM +0800, Chao Peng wrote:
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index 1782c4555d94..7f0f5e9f2406 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -1150,6 +1150,9 @@ static struct kvm *kvm_create_vm(unsigned long type, const char *fdname)
+>  	spin_lock_init(&kvm->mn_invalidate_lock);
+>  	rcuwait_init(&kvm->mn_memslots_update_rcuwait);
+>  	xa_init(&kvm->vcpu_array);
+> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
+> +	xa_init(&kvm->mem_attr_array);
+> +#endif
 
-Hi Maryam,
+	if (IS_ENABLED(CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES))
+		...
 
-FYI I think you're missing a few tags? You can add my Acked-by, and I
-believe that John and Bagas acked and reviewed it respectively in on the
-v3 [0] set as well.
+would at least remove the ugly ifdeffery.
 
-Thanks,
-David
+Or you could create wrapper functions for that xa_init() and
+xa_destroy() and put the ifdeffery in there.
 
-[0]: https://lore.kernel.org/bpf/Y5EOC7HjtaRFAVfq@maniforge.lan/T/#m247ac7e1673731a9cf8b06d5ce027a1acbcce953
+> @@ -2323,6 +2329,49 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
+>  }
+>  #endif /* CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT */
+>  
+> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
+> +static u64 kvm_supported_mem_attributes(struct kvm *kvm)
+
+I guess that function should have a verb in the name:
+
+kvm_get_supported_mem_attributes()
+
+> +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+> +					   struct kvm_memory_attributes *attrs)
+> +{
+> +	gfn_t start, end;
+> +	unsigned long i;
+> +	void *entry;
+> +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
+> +
+> +	/* flags is currently not used. */
+> +	if (attrs->flags)
+> +		return -EINVAL;
+> +	if (attrs->attributes & ~supported_attrs)
+> +		return -EINVAL;
+> +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
+> +		return -EINVAL;
+> +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
+> +		return -EINVAL;
+
+Dunno, shouldn't those issue some sort of an error message so that the
+caller knows where it failed? Or at least return different retvals which
+signal what the problem is?
+
+> +	start = attrs->address >> PAGE_SHIFT;
+> +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
+> +
+> +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
+> +
+> +	mutex_lock(&kvm->lock);
+> +	for (i = start; i < end; i++)
+> +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
+> +				    GFP_KERNEL_ACCOUNT)))
+> +			break;
+> +	mutex_unlock(&kvm->lock);
+> +
+> +	attrs->address = i << PAGE_SHIFT;
+> +	attrs->size = (end - i) << PAGE_SHIFT;
+> +
+> +	return 0;
+> +}
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
