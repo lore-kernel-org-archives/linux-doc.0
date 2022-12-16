@@ -2,144 +2,276 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2091C46467
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Dec 2022 08:40:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 220DFC4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Dec 2022 09:30:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229678AbiLPIki (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Dec 2022 03:40:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42166 "EHLO
+        id S229852AbiLPJaL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Dec 2022 04:30:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbiLPIkh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Dec 2022 03:40:37 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0184E36C50;
-        Fri, 16 Dec 2022 00:40:35 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id A2AD021064;
-        Fri, 16 Dec 2022 08:40:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1671180034; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3nvimj2ZFEx9YlSQKEbscjAQshU+naWh0RT6szJpxbY=;
-        b=Bw8en1xmr0xlc033t59Fmd9xvJ/ey7A/H7JtocX065COY8g9zeA9OnNx20n2Ecsfjj43n/
-        FWc+JP9gV724C3PypNeuOfBOmHNZKslYtZkGj1Kg9xqrZxwikmlBC/Kr73SRMVPlE6A53h
-        68JY5QsKr1zGoq1BIgq+jwbjwvzffq0=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8F403138FD;
-        Fri, 16 Dec 2022 08:40:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id IE7GIQIvnGM2NAAAMHmgww
-        (envelope-from <mhocko@suse.com>); Fri, 16 Dec 2022 08:40:34 +0000
-Date:   Fri, 16 Dec 2022 09:40:34 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Wei Xu <weixugc@google.com>
-Cc:     Mina Almasry <almasrymina@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        "Huang, Ying" <ying.huang@intel.com>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>, fvdl@google.com,
-        bagasdotme@gmail.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v3] mm: Add nodes= arg to memory.reclaim
-Message-ID: <Y5wvAnroJHaWQbCV@dhcp22.suse.cz>
-References: <20221202223533.1785418-1-almasrymina@google.com>
- <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz>
- <CAHS8izM-XdLgFrQ1k13X-4YrK=JGayRXV_G3c3Qh4NLKP7cH_g@mail.gmail.com>
- <87k02volwe.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <Y5h+gHBneexFQcR3@cmpxchg.org>
- <Y5iGJ/9PMmSCwqLj@dhcp22.suse.cz>
- <CAHS8izOuT_-p-N1xPApi+BPJQ+P--2YVSUeiWBROGvGinN0vcg@mail.gmail.com>
- <Y5mkJL6I5Zlc1k97@dhcp22.suse.cz>
- <CAAPL-u_KFTScyd1hxDGb-nHf6hW5_pCsh5a0NDZCr5v5AGq88A@mail.gmail.com>
+        with ESMTP id S229469AbiLPJaJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Dec 2022 04:30:09 -0500
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D0303F058;
+        Fri, 16 Dec 2022 01:30:07 -0800 (PST)
+Received: from dggpeml500002.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NYP1X1qKLzmWTX;
+        Fri, 16 Dec 2022 17:29:04 +0800 (CST)
+Received: from [10.67.103.44] (10.67.103.44) by dggpeml500002.china.huawei.com
+ (7.185.36.158) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 16 Dec
+ 2022 17:30:05 +0800
+Subject: Re: [PATCH v14 1/2] drivers/coresight: Add UltraSoc System Memory
+ Buffer driver
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        <mathieu.poirier@linaro.org>, <mike.leach@linaro.org>,
+        <leo.yan@linaro.org>, <jonathan.cameron@huawei.com>
+References: <20221123123823.27973-1-hejunhao3@huawei.com>
+ <20221123123823.27973-2-hejunhao3@huawei.com>
+ <9f5f66fa-0388-6a76-25c9-cacef0e7a4e2@arm.com>
+ <0eb32726-2054-ee00-4b7a-d7a2f0121efd@huawei.com>
+ <80cf9c73-4b9a-f2f7-f72d-de985c045f9c@arm.com>
+ <8e3b1957-33a7-83ed-6d62-1294cdb679e4@huawei.com>
+ <d275dde8-9cb3-bd70-eacc-7907e42c59dd@arm.com>
+CC:     <coresight@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <lpieralisi@kernel.org>,
+        <linuxarm@huawei.com>, <yangyicong@huawei.com>,
+        <liuqi6124@gmail.com>, <f.fangjian@huawei.com>,
+        <prime.zeng@hisilicon.com>
+From:   hejunhao <hejunhao3@huawei.com>
+Message-ID: <23b05db2-5126-52a5-b845-b031e0471305@huawei.com>
+Date:   Fri, 16 Dec 2022 17:30:05 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAPL-u_KFTScyd1hxDGb-nHf6hW5_pCsh5a0NDZCr5v5AGq88A@mail.gmail.com>
+In-Reply-To: <d275dde8-9cb3-bd70-eacc-7907e42c59dd@arm.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.103.44]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500002.china.huawei.com (7.185.36.158)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 15-12-22 09:58:12, Wei Xu wrote:
-> On Wed, Dec 14, 2022 at 2:23 AM Michal Hocko <mhocko@suse.com> wrote:
-> >
-> > On Tue 13-12-22 11:29:45, Mina Almasry wrote:
-> > > On Tue, Dec 13, 2022 at 6:03 AM Michal Hocko <mhocko@suse.com> wrote:
-> > > >
-> > > > On Tue 13-12-22 14:30:40, Johannes Weiner wrote:
-> > > > > On Tue, Dec 13, 2022 at 02:30:57PM +0800, Huang, Ying wrote:
-> > > > [...]
-> > > > > > After these discussion, I think the solution maybe use different
-> > > > > > interfaces for "proactive demote" and "proactive reclaim".  That is,
-> > > > > > reconsider "memory.demote".  In this way, we will always uncharge the
-> > > > > > cgroup for "memory.reclaim".  This avoid the possible confusion there.
-> > > > > > And, because demotion is considered aging, we don't need to disable
-> > > > > > demotion for "memory.reclaim", just don't count it.
-> > > > >
-> > > > > Hm, so in summary:
-> > > > >
-> > > > > 1) memory.reclaim would demote and reclaim like today, but it would
-> > > > >    change to only count reclaimed pages against the goal.
-> > > > >
-> > > > > 2) memory.demote would only demote.
-> > > > >
-> > >
-> > > If the above 2 points are agreeable then yes, this sounds good to me
-> > > and does address our use case.
-> > >
-> > > > >    a) What if the demotion targets are full? Would it reclaim or fail?
-> > > > >
-> > >
-> > > Wei will chime in if he disagrees, but I think we _require_ that it
-> > > fails, not falls back to reclaim. The interface is asking for
-> > > demotion, and is called memory.demote. For such an interface to fall
-> > > back to reclaim would be very confusing to userspace and may trigger
-> > > reclaim on a high priority job that we want to shield from proactive
-> > > reclaim.
-> >
-> > But what should happen if the immediate demotion target is full but
-> > lower tiers are still usable. Should the first one demote before
-> > allowing to demote from the top tier?
-> 
-> In that case, the demotion will fall back to the lower tiers.  See
-> node_get_allowed_targets() and establish_demotion_targets()..
 
-I am not talking about an implicit behavior that we do not want to cast
-into interface. If we want to allow a fine grained control over demotion
-then the implementation shouldn't rely on the current behavior.
+On 2022/11/28 19:06, Suzuki K Poulose wrote:
+> On 25/11/2022 14:26, hejunhao wrote:
+>>
+>> On 2022/11/24 21:45, Suzuki K Poulose wrote:
+>>> On 24/11/2022 13:33, hejunhao wrote:
+>>>>
+>>>> On 2022/11/23 22:03, Suzuki K Poulose wrote:
+>>>>> On 23/11/2022 12:38, Junhao He wrote:
+>>>>>> From: Qi Liu <liuqi115@huawei.com>
+>>>>>>
+>>>>>> Add driver for UltraSoc SMB(System Memory Buffer) device.
+>>>>>> SMB provides a way to buffer messages from ETM, and store
+>>>>>> these "CPU instructions trace" in system memory.
+>>>>>> The SMB device is identifier as ACPI HID "HISI03A1". Device
+>>>>>> system memory address resources are allocated using the _CRS
+>>>>>> method and buffer modes is the circular buffer mode.
+>>>>>>
+>>>>>> SMB is developed by UltraSoc technology, which is acquired by
+>>>>>> Siemens, and we still use "UltraSoc" to name driver.
+>>>>>>
+>>>>>> Signed-off-by: Qi Liu <liuqi115@huawei.com>
+>>>>>> Signed-off-by: Junhao He <hejunhao3@huawei.com>
+>>>>>> Tested-by: JunHao He <hejunhao3@huawei.com>
+>>>>>> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>>>>>> ---
+>>>>>>   drivers/hwtracing/coresight/Kconfig        |  12 +
+>>>>>>   drivers/hwtracing/coresight/Makefile       |   1 +
+>>>>>>   drivers/hwtracing/coresight/ultrasoc-smb.c | 658 
+>>>>>> +++++++++++++++++++++
+>>>>>>   drivers/hwtracing/coresight/ultrasoc-smb.h | 129 ++++
+>>>>>>   4 files changed, 800 insertions(+)
+>>>>>>   create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.c
+>>>>>>   create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.h
+>>>>>>
+>>>>>
+>>>>>> +static void smb_sync_perf_buffer(struct smb_drv_data *drvdata,
+>>>>>> +                 struct cs_buffers *buf,
+>>>>>> +                 unsigned long head,
+>>>>>> +                 unsigned long data_size)
+>>>>>> +{
+>>>>>> +    struct smb_data_buffer *sdb = &drvdata->sdb;
+>>>>>> +    char **dst_pages = (char **)buf->data_pages;
+>>>>>> +    unsigned long to_copy;
+>>>>>> +    long pg_idx, pg_offset;
+>>>>>> +
+>>>>>> +    pg_idx = head >> PAGE_SHIFT;
+>>>>>> +    pg_offset = head & (PAGE_SIZE - 1);
+>>>>>> +
+>>>>>> +    while (data_size) {
+>>>>>> +        unsigned long pg_space = PAGE_SIZE - pg_offset;
+>>>>>> +
+>>>>>> +        /* Copy parts of trace data when read pointer wrap 
+>>>>>> around */
+>>>>>> +        if (sdb->rd_offset + pg_space > sdb->buf_size)
+>>>>>> +            to_copy = sdb->buf_size - sdb->rd_offset;
+>>>>>> +        else
+>>>>>> +            to_copy = min(data_size, pg_space);
+>>>>>> +
+>>>>>> +        memcpy(dst_pages[pg_idx] + pg_offset,
+>>>>>> +                  sdb->buf_base + sdb->rd_offset, to_copy);
+>>>>>> +
+>>>>>> +        pg_offset += to_copy;
+>>>>>> +        if (pg_offset >= PAGE_SIZE) {
+>>>>>> +            pg_offset = 0;
+>>>>>> +            pg_idx++;
+>>>>>> +            pg_idx %= buf->nr_pages;
+>>>>>> +        }
+>>>>>> +        data_size -= to_copy;
+>>>>>> +        sdb->rd_offset += to_copy;
+>>>>>> +        sdb->rd_offset %= sdb->buf_size;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    sdb->data_size = 0;
+>>>>>
+>>>>>
+>>>>> --8>-- cut here --<8--
+>>>>>
+>>>>>> +    writel(sdb->start_addr + sdb->rd_offset,
+>>>>>> +        drvdata->base + SMB_LB_RD_ADDR_REG);
+>>>>>> +
+>>>>>> +    /*
+>>>>>> +     * Data remained in link cannot be purged when SMB is full, so
+>>>>>> +     * synchronize the read pointer to write pointer, to make sure
+>>>>>> +     * these remained data won't influence next trace.
+>>>>>> +     */
+>>>>>> +    if (sdb->full) {
+>>>>>> +        smb_purge_data(drvdata);
+>>>>>> +        writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
+>>>>>> +               drvdata->base + SMB_LB_RD_ADDR_REG);
+>>>>>> +    }
+>>>>>
+>>>>> --<8-- end here --8>--
+>>>>>
+>>>>> As pointed out in the last review, we must do this step
+>>>>> everytime for perf mode irrespective of whether the buffer
+>>>>> was "FULL" or not.
+>>>>>
+>>>>> i.e, the above block should simply be:
+>>>>>
+>>>>>     if (sdb->full)
+>>>>>         smb_purge_data(drvdata);
+>>>>>
+>>>>>     /*
+>>>>>      * The uncollected Data must be discarded for perf,
+>>>>>      * as it cannot be clubbed with next schedule. We
+>>>>>      * any way TRUNCATE the buffer in this case.
+>>>>>      */
+>>>>>     writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
+>>>>>         drvdata->base + SMB_LB_RD_ADDR_REG);
+>>>>>
+>>>>> Suzuki
+>>>>
+>>>> Hi Suzuki,
+>>>>
+>>>> We need to update SMB_LB_RD_ADDR_REG register first, then
+>>>> check the "full" flag, whether the register needs to be
+>>>> updated again.
+>>>
+>>> Why ? sdb->full is not updated after the write to RD_ADDR_REG.
+>>>
+>> Hi Suzuki,
+>>
+>> Maybe using the code below is more appropriate.
+>> i.e,
+>>
+>>      writel(sdb->start_addr + sdb->rd_offset,
+>>          drvdata->base + SMB_LB_RD_ADDR_REG);
+>>
+>>      /*
+>>       * The uncollected Data must be discarded for perf,
+>>       * as it cannot be clubbed with next schedule. We
+>>       * any way TRUNCATE the buffer in this case.
+>>       */
+>>      smb_update_data_size(drvdata);
+>>      if (sdb->data_size)
+>>          writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
+>>                  drvdata->base + SMB_LB_RD_ADDR_REG);
+>
+> That should work. However, my question is, we must set the
+> RD_ADDR_REG to the WR_ADDR_REG in all cases. So, why not :
+>
+>     /*
+>      * We must flush and discard any data left in the
+>      * buffer for a perf session, to avoid mixing
+>      * the data from sessions.
+>      * We TRUNCATE the buffer anyways to indicate
+>      * that the buffer was lost.
+>      */
+>     smb_purge_data();
+>     writel(readl(drvdata->base + SMB_LB_WR_ADDR_REG),
+>         drvdata->base + SMB_LB_RD_ADDR_REG);
+>
+> and avoid the extra write ?
+>
+Hi Suzuki,
 
-[...]
-> > Is there any strong reason for that? We do not have any interface to
-> > control NUMA balancing from userspace. Why cannot we use the interface
-> > for that purpose?
-> 
-> A demotion interface such as memory.demote will trigger the demotion
-> code path in the kernel, which depends on multiple memory tiers.
+In sysfs and perf mode, the code that handles buffer after dump
+was rewritten in the next version.
 
-Demotion is just a fancy name of a directed migration. There is no realy
-dependency on the HW nor the technology.
+Thanks,
+Junhao.
+>>>>
+>>>> If we don`t update the value of SMB_LB_RD_ADDR_REG register
+>>>> or reset buffer state, the buffer state will still be "full".
+>>>> The buffer has not free area,so the data will still remain
+>>>> in link.
+>>>
+>>> My issue here is with potentially "leaving the trace from a previous
+>>> session for the next session". i.e., at the end of a run, we must 
+>>> always
+>>> make sure that the buffer is left empty (unlike the sysfs mode).
+>>>
+>>> e.g.,
+>>>
+>>> perf_session_x: RUN0: RD=0x0, WR=0x5000, HANDLE_SIZE=0x3000, 
+>>> full=false.
+>>> At the end of the above routine we will have :
+>>>     RD=0x3000, WR=0x5000,
+>>>
+>>> and if a different perf session comes in, say perf_session_y, it 
+>>> will consume trace written by "x" at 0x3000-0x50000, right ?
+>>>
+>>> This is fine in the sysfs mode as we expect the entire sysfs mode
+>>> to be owned by a single session and is left to the user to split it.
+>>> But for perf mode we cannot do that and thus must make sure we don't
+>>> leak trace from one session to antoher.
+>>>
+>>> Suzuki
+>>>
+>>
+>> In this cace:  RUN0: RD=0x0, WR=0x5000, HANDLE_SIZE=0x3000, full=false.
+>> We will update the "rd_offset" in smb_update_buffer() function.
+>> like this:
+>>
+>>      ...
+>>      if (data_size > handle->size) {
+>>          sdb->rd_offset += data_size - handle->size;
+>>          sdb->rd_offset %= sdb->buf_size;
+>>          ...
+>>          }
+>>      ...
+>>
+>>
+>> So the rd_offset will advance to 0x2000 first,
+>> then we dump the latest trace data (0x2000 - 0x5000) from "buf_base + 
+>> rd_offset".
+>
+> Right, that makes sense.
+>
+>
+> Thanks
+> Suzuki
+>
+>
+>
+> .
+>
 
-> I think what you are getting is a more general page migration
-> interface for memcg, which will need both source and target nodes as
-> arguments. I think this can be a great idea.  It should be able to
-> support our demotion use cases as well.
-
-yes.
-
--- 
-Michal Hocko
-SUSE Labs
