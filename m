@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F18EBC4167B
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Dec 2022 17:10:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24D2EC001B2
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Dec 2022 17:17:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231658AbiLPRKB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Dec 2022 12:10:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33342 "EHLO
+        id S231641AbiLPRRT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Dec 2022 12:17:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231409AbiLPRKA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Dec 2022 12:10:00 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DBBFEBC;
-        Fri, 16 Dec 2022 09:09:59 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id c65-20020a1c3544000000b003cfffd00fc0so4588332wma.1;
-        Fri, 16 Dec 2022 09:09:59 -0800 (PST)
+        with ESMTP id S230490AbiLPRRS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Dec 2022 12:17:18 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B42CF2A275;
+        Fri, 16 Dec 2022 09:17:15 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id p13-20020a05600c468d00b003cf8859ed1bso2289305wmo.1;
+        Fri, 16 Dec 2022 09:17:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:subject:cc
          :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=OXy3ueBR6wVuG2/VKlVCadT8O9k0LlAEa6JC/bhnWWU=;
-        b=UPDazBaIu2fSoFAJTa3/jRCwU2RidcAsN2nptPwpQjmq1HgvuBR+9sAL67wxnBZF2Z
-         2VLSoZxJOU/XlBq/2NACYNyF4kelML7EjUv9Er7GCd6hpwEcoXp3yN02nNi4khP05aM8
-         47S8oyXBsbTGUJAzXFquufbya7hf5Z2S+8LH+j+H1CV4gMrYSwpI93OuqUWH0b+Ey16t
-         iS3yBgKgGlCQYK7c5pxqV18EfDaPolW/bG26z+cz1D2BtaAOsqtwaz/HHbNO7PkncUl1
-         OWKmk9++9V7JDWaru6WQZBnu0KB+pTtgCOaMPJt/sjtTLjQklpol+uQRNy8L2XKO06dD
-         WTfw==
+        bh=Grq/lCv6X9zvhjrxtn3hukSNIqujUj2abduruIelS+M=;
+        b=csfswnzvXRES6JVhxCweprsXbmn7xjoYqs+ltKvQBCzBf43+AVWxASz8MZ0TMedSNy
+         cmfryseQBvFRK6oLPazykJ1COPo+z5MfAXRlIeTX899arFClrQg/GICGhiJWFH7lOM2N
+         NBBZZJjGEorNNGtQ/mA1CXjz2ny/A8+YRYHUN51/0CsEOJQEgoXW+lV3ux8uOVlStkfn
+         1tT8Jxu/7BIy22iFF4rgpl8EnGqfCrzS8KE1vmzc3btZDx2ESqzMmHToc1y0bngCI/pZ
+         dXDLBTLsvBb4cO+MXd792JoTr5Oul1f4tSqixNXsfCtuwLsUMwIDKaKB4jEUTzo95OxA
+         HvhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:subject:cc
          :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OXy3ueBR6wVuG2/VKlVCadT8O9k0LlAEa6JC/bhnWWU=;
-        b=VhMzC15pDDU2ab5Mx+QIKGMCX5olJs5HFAb0268pSRqY4diUwtr+g6Kr6A3JmtzfWq
-         vvKwDOzzjtPLtxag00lrTFsK/q1GxmPtfrxswMlpGCboqXfYAHy6bxC4Kq+6c8MJaEe3
-         ezXw2Do+r/EHmG1Pi20ONtOaCbFgccU+oufMLvKj2uX99BSp1YDcZlK4Q0lterjLN3xX
-         0fBgRjfkl5xzBjF8IibQulGclwKTS+nlZTEUG7sMWe76UFnS3TocSxeoH9DA8NyYCAsg
-         F+jmqUPctMVZ1aUFTM+nijz/SD/pLlNprCd+uFojT/ERTLH+bl0RAlMH0ceCm/eNaBOW
-         ApOA==
-X-Gm-Message-State: ANoB5pn8XuosXMV2HuY0Wk652cKgwdXnq6CMrfndkmi4LewoaO/0IiOy
-        HdvUrEXpxbx98SaMJFoY6ZA=
-X-Google-Smtp-Source: AA0mqf7DL/q+ypNtUscw8zIxIxzhSoxHKhZA3dgZSCQ2F+VBE494romYvBslK3IuiLIjL7OBN2kcCA==
-X-Received: by 2002:a05:600c:4f05:b0:3cf:6f4d:c25d with SMTP id l5-20020a05600c4f0500b003cf6f4dc25dmr24674139wmq.21.1671210597519;
-        Fri, 16 Dec 2022 09:09:57 -0800 (PST)
+        bh=Grq/lCv6X9zvhjrxtn3hukSNIqujUj2abduruIelS+M=;
+        b=vHta+VEdefDtumz9rC6M8E5/2GfbmH9VTtY924hftWqr9vDLbKJLjGxT9zfgqb6jzc
+         JuHAWsHYpDLJkMHGC1AM6f7vuirwAlv/Ml3azKHWLCOupo/UH3J1WV39T6f9Rc5F47y6
+         9vzzhdtSYtUVdh/MVLx/FBKwND9a2/xWUBmMUAR2RB53HSI+gZjT97i9YYlFSjw5zWgj
+         IuK8aq5Q3NsPS+EGqCDA48sxIWMev1I0JQV5iKuqkLEzzHstLNbuVXxzh/pztEUtzVZk
+         nY8ylCuGqNlzEW+enWc6VJahvO4hoYcICwX3kaWHML1ux1gyH3TjETGTUzfBJH208qtM
+         LArg==
+X-Gm-Message-State: ANoB5plripN2b/REigdD4f2j6HVAZqBp7sVybhbrBlF8r3kHfOE2V87z
+        bO78HPMWSGT0EvL+3IwXdNA=
+X-Google-Smtp-Source: AA0mqf4bczFAXhp8frgYXfTWDcx+1h47VoETJuXmG2+FOJRxH34v0Qw+cRKpdK1xm80neDn3BvMY6Q==
+X-Received: by 2002:a05:600c:4fc8:b0:3cf:614e:b587 with SMTP id o8-20020a05600c4fc800b003cf614eb587mr26240906wmq.26.1671211034146;
+        Fri, 16 Dec 2022 09:17:14 -0800 (PST)
 Received: from Ansuel-xps. (93-42-71-18.ip85.fastwebnet.it. [93.42.71.18])
-        by smtp.gmail.com with ESMTPSA id f24-20020a1c6a18000000b003b95ed78275sm3061225wmc.20.2022.12.16.09.09.56
+        by smtp.gmail.com with ESMTPSA id q9-20020a7bce89000000b003d1e34bcbb2sm3083664wmj.13.2022.12.16.09.17.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Dec 2022 09:09:57 -0800 (PST)
-Message-ID: <639ca665.1c0a0220.ae24f.9d06@mx.google.com>
-X-Google-Original-Message-ID: <Y5ymZnJWpRMdigsd@Ansuel-xps.>
-Date:   Fri, 16 Dec 2022 18:09:58 +0100
+        Fri, 16 Dec 2022 09:17:13 -0800 (PST)
+Message-ID: <639ca819.7b0a0220.6b61a.9f2e@mx.google.com>
+X-Google-Original-Message-ID: <Y5yoGnwCHRK5qtJY@Ansuel-xps.>
+Date:   Fri, 16 Dec 2022 18:17:14 +0100
 From:   Christian Marangi <ansuelsmth@gmail.com>
 To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
 Cc:     Andrew Lunn <andrew@lunn.ch>,
@@ -69,254 +69,75 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         Tim Harvey <tharvey@gateworks.com>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
         Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Subject: Re: [PATCH v7 06/11] leds: trigger: netdev: add hardware control
- support
+Subject: Re: [PATCH v7 09/11] leds: trigger: netdev: add additional hardware
+ only triggers
 References: <20221214235438.30271-1-ansuelsmth@gmail.com>
- <20221214235438.30271-7-ansuelsmth@gmail.com>
- <Y5tUU5zA/lkYJza+@shell.armlinux.org.uk>
+ <20221214235438.30271-10-ansuelsmth@gmail.com>
+ <Y5ta87eCAQ8XsY8L@shell.armlinux.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y5tUU5zA/lkYJza+@shell.armlinux.org.uk>
+In-Reply-To: <Y5ta87eCAQ8XsY8L@shell.armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 15, 2022 at 05:07:31PM +0000, Russell King (Oracle) wrote:
-> On Thu, Dec 15, 2022 at 12:54:33AM +0100, Christian Marangi wrote:
-> > Add hardware control support for the Netdev trigger.
-> > The trigger on config change will check if the requested trigger can set
-> > to blink mode using LED hardware mode and if every blink mode is supported,
-> > the trigger will enable hardware mode with the requested configuration.
-> > If there is at least one trigger that is not supported and can't run in
-> > hardware mode, then software mode will be used instead.
-> > A validation is done on every value change and on fail the old value is
-> > restored and -EINVAL is returned.
+On Thu, Dec 15, 2022 at 05:35:47PM +0000, Russell King (Oracle) wrote:
+> On Thu, Dec 15, 2022 at 12:54:36AM +0100, Christian Marangi wrote:
+> > Add additional hardware only triggers commonly supported by switch LEDs.
 > > 
-> > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> > ---
-> >  drivers/leds/trigger/ledtrig-netdev.c | 155 +++++++++++++++++++++++++-
-> >  1 file changed, 149 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-> > index dd63cadb896e..ed019cb5867c 100644
-> > --- a/drivers/leds/trigger/ledtrig-netdev.c
-> > +++ b/drivers/leds/trigger/ledtrig-netdev.c
-> > @@ -37,6 +37,7 @@
-> >   */
-> >  
-> >  struct led_netdev_data {
-> > +	enum led_blink_modes blink_mode;
-> >  	spinlock_t lock;
-> >  
-> >  	struct delayed_work work;
-> > @@ -53,11 +54,105 @@ struct led_netdev_data {
-> >  	bool carrier_link_up;
-> >  };
-> >  
-> > +struct netdev_led_attr_detail {
-> > +	char *name;
-> > +	bool hardware_only;
-> > +	enum led_trigger_netdev_modes bit;
-> > +};
-> > +
-> > +static struct netdev_led_attr_detail attr_details[] = {
-> > +	{ .name = "link", .bit = TRIGGER_NETDEV_LINK},
-> > +	{ .name = "tx", .bit = TRIGGER_NETDEV_TX},
-> > +	{ .name = "rx", .bit = TRIGGER_NETDEV_RX},
-> > +};
-> > +
-> > +static bool validate_baseline_state(struct led_netdev_data *trigger_data)
-> > +{
-> > +	struct led_classdev *led_cdev = trigger_data->led_cdev;
-> > +	struct netdev_led_attr_detail *detail;
-> > +	u32 hw_blink_mode_supported = 0;
-> > +	bool force_sw = false;
-> > +	int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(attr_details); i++) {
-> > +		detail = &attr_details[i];
-> > +
-> > +		/* Mode not active, skip */
-> > +		if (!test_bit(detail->bit, &trigger_data->mode))
-> > +			continue;
-> > +
-> > +		/* Hardware only mode enabled on software controlled led */
-> > +		if (led_cdev->blink_mode == SOFTWARE_CONTROLLED &&
-> > +		    detail->hardware_only)
-> > +			return false;
-> > +
-> > +		/* Check if the mode supports hardware mode */
-> > +		if (led_cdev->blink_mode != SOFTWARE_CONTROLLED) {
-> > +			/* With a net dev set, force software mode.
-> > +			 * With modes are handled by hardware, led will blink
-> > +			 * based on his own events and will ignore any event
-> > +			 * from the provided dev.
-> > +			 */
-> > +			if (trigger_data->net_dev) {
-> > +				force_sw = true;
-> > +				continue;
-> > +			}
-> > +
-> > +			/* With empty dev, check if the mode is supported */
-> > +			if (led_trigger_blink_mode_is_supported(led_cdev, detail->bit))
-> > +				hw_blink_mode_supported |= BIT(detail->bit);
-> > +		}
-> > +	}
-> > +
-> > +	/* We can't run modes handled by both software and hardware.
-> > +	 * Check if we run hardware modes and check if all the modes
-> > +	 * can be handled by hardware.
-> > +	 */
-> > +	if (hw_blink_mode_supported && hw_blink_mode_supported != trigger_data->mode)
-> > +		return false;
-> > +
-> > +	/* Modes are valid. Decide now the running mode to later
-> > +	 * set the baseline.
-> > +	 * Software mode is enforced with net_dev set. With an empty
-> > +	 * one hardware mode is selected by default (if supported).
-> > +	 */
-> > +	if (force_sw || led_cdev->blink_mode == SOFTWARE_CONTROLLED)
-> > +		trigger_data->blink_mode = SOFTWARE_CONTROLLED;
-> > +	else
-> > +		trigger_data->blink_mode = HARDWARE_CONTROLLED;
-> > +
-> > +	return true;
-> > +}
-> > +
-> >  static void set_baseline_state(struct led_netdev_data *trigger_data)
-> >  {
-> > +	int i;
-> >  	int current_brightness;
-> > +	struct netdev_led_attr_detail *detail;
-> >  	struct led_classdev *led_cdev = trigger_data->led_cdev;
-> >  
-> > +	/* Modes already validated. Directly apply hw trigger modes */
-> > +	if (trigger_data->blink_mode == HARDWARE_CONTROLLED) {
-> > +		/* We are refreshing the blink modes. Reset them */
-> > +		led_cdev->hw_control_configure(led_cdev, BIT(TRIGGER_NETDEV_LINK),
-> > +					       BLINK_MODE_ZERO);
-> > +
-> > +		for (i = 0; i < ARRAY_SIZE(attr_details); i++) {
-> > +			detail = &attr_details[i];
-> > +
-> > +			if (!test_bit(detail->bit, &trigger_data->mode))
-> > +				continue;
-> > +
-> > +			led_cdev->hw_control_configure(led_cdev, BIT(detail->bit),
-> > +						       BLINK_MODE_ENABLE);
-> > +		}
-> > +
-> > +		led_cdev->hw_control_start(led_cdev);
-> > +
-> > +		return;
-> > +	}
-> > +
-> > +	/* Handle trigger modes by software */
-> >  	current_brightness = led_cdev->brightness;
-> >  	if (current_brightness)
-> >  		led_cdev->blink_brightness = current_brightness;
-> > @@ -100,10 +195,15 @@ static ssize_t device_name_store(struct device *dev,
-> >  				 size_t size)
-> >  {
-> >  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
-> > +	struct net_device *old_net = trigger_data->net_dev;
-> > +	char old_device_name[IFNAMSIZ];
-> >  
-> >  	if (size >= IFNAMSIZ)
-> >  		return -EINVAL;
-> >  
-> > +	/* Backup old device name */
-> > +	memcpy(old_device_name, trigger_data->device_name, IFNAMSIZ);
-> > +
-> >  	cancel_delayed_work_sync(&trigger_data->work);
-> >  
-> >  	spin_lock_bh(&trigger_data->lock);
-> > @@ -122,6 +222,19 @@ static ssize_t device_name_store(struct device *dev,
-> >  		trigger_data->net_dev =
-> >  		    dev_get_by_name(&init_net, trigger_data->device_name);
-> >  
-> > +	if (!validate_baseline_state(trigger_data)) {
-> > +		/* Restore old net_dev and device_name */
-> > +		if (trigger_data->net_dev)
-> > +			dev_put(trigger_data->net_dev);
-> > +
-> > +		dev_hold(old_net);
-> > +		trigger_data->net_dev = old_net;
-> > +		memcpy(trigger_data->device_name, old_device_name, IFNAMSIZ);
-> > +
-> > +		spin_unlock_bh(&trigger_data->lock);
-> > +		return -EINVAL;
+> > Additional modes:
+> > link_10: LED on with link up AND speed 10mbps
+> > link_100: LED on with link up AND speed 100mbps
+> > link_1000: LED on with link up AND speed 1000mbps
+> > half_duplex: LED on with link up AND half_duplex mode
+> > full_duplex: LED on with link up AND full duplex mode
 > 
-> I'm not sure this is the best way... putting the net_dev but holding a
-> reference, to leter regain the reference via dev_hold() just feels
-> wrong. Also, I wonder what happens if two threads try to change the
-> netdev together - will the read of the old device name be potentially
-> corrupted (since we're not holding the trigger's lock?)
-> 
-> Maybe instead:
-> 
-> +	struct net_device *old_net;
-> ...
-> -	if (trigger_data->net_dev) {
-> -		dev_put(trigger_data->net_dev);
-> -		trigger_data->net_dev = NULL;
-> -	}
-> +	old_net = trigger_data->net_dev;
-> +	trigger_data->net_dev = NULL;
-> +	memcpy(old_device_name, trigger_data->device_name, IFNAMSIZ);
-> ...
-> 	... extract out the setup of trigger_data->device_name
-> ...
-> +	if (!validate_baseline_state(trigger_data)) {
-> +		if (trigger_data->net_dev)
-> +			dev_put(trigger_data->net_dev);
-> +
-> +		/* Restore device settings */
-> +		trigger_data->net_dev = old_dev;
-> +		memcpy(trigger_data->device_name, old_device_name, IFNAMSIZ);
-> +		spin_unlock_bh(&trigger_data->lock);
-> +		return -EINVAL;
-> +	} else {
-> +		dev_put(old_net);
-> +	}
-> 
-> would be safer all round?
+> Looking at Marvell 88e151x, I don't think this is usable there.
+> We have the option of supporting link_1000 on one of the LEDs,
+> link_100 on another, and link_10 on the other. It's rather rare
+> for all three leds to be wired though.
 
-Need to check but if I'm not wrong all this thing was to handle the very
-corner case where net can be removed while we are changing trigger and
-something goes wrong down the line... Holding that means it won't get
-actually removed till everything is ok.
+On qca8k it's just anarchy. You can apply the same rule table to
+whatever led you want. They are all the same... OEM decide what to do
+(add white led, amber, green...)
+
+Most common configuration is 2 leds, one react with port 1000 and the
+other with port 100. But each led can be set to be powered on to any
+speed by enabling 10 100 and 1000 rule.
+
+Rejecting a configuration falls in the driver returning error on
+configure.
 
 > 
-> One thought on this approach though - if one has a PHY that supports
-> "activity" but not independent "rx" and "tx" activity indications
-> and it doesn't support software control, how would one enable activity
-> mode? There isn't a way to simultaneously enable both at the same
-> time... However, I need to check whether there are any PHYs that fall
-> into this category.
->
+> This is also a PHY where "activity" mode is supported (illuminated
+> or blinking if any traffic is transmitted or received) but may not
+> support individual directional traffic in hardware. However, it
+> does support forcing the LED on or off, so software mode can handle
+> those until the user selects a combination of modes that are
+> supported in the hardware.
+> 
+> > Additional blink interval modes:
+> > blink_2hz: LED blink on any even at 2Hz (250ms)
+> > blink_4hz: LED blink on any even at 4Hz (125ms)
+> > blink_8hz: LED blink on any even at 8Hz (62ms)
+> 
+> This seems too restrictive. For example, Marvell 88e151x supports
+> none of these, but does support 42, 84, 170, 340, 670ms.
+> 
 
-Problem is that for such feature and to have at least something working
-we need to face compromise. We really can't support each switch feature
-and have a generic API for everything. My original idea was to have
-something VERY dynamic with a totally dedicated and dumb trigger... But
-that was NACK as netdev was the correct way to handle these stuff...
+Eh this is really bad, it was an idea to support blink internal for each
+event but I expected other switch had something different... But the
+generic function is still there...
 
-But adapting everything to netdev trigger is hard since you have just
-another generic abstraction layer. My idea at times was that in such
-case the trigger rule will be rejected and only enabled if both tx and
-rx were enabled. An alternative is to add another flag for activity
-rule. (for switch supporting independent tx and rx with activity rule
-enable both tx and rx event are enabled. for switch not supporting
-independent tx and rx just fallback to sw and say that the mode is not
-suported.)
+Wonder if we should consider adding generic naming like SLOW, NORMAL(?),
+FAST. And just assign them from the driver side?
 
-I already had the idea of Documenting all this case but if we decide to
-follow this approach then creating a schema file is a must at this
-point. (but wanted to introduce that later if and ever this feature will
-be accepted to permit to set trigger rules directly in DT following
-something like linux,default-trigger.
+Permit to have some kind of configuration while also keeping it generic
+enough? 
+
+Just as reference... The blink mode already had a compromise since qca8k
+can support a way to blink differently based on the link speed.
 
 -- 
 	Ansuel
