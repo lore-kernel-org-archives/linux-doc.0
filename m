@@ -2,133 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FBACC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Dec 2022 12:28:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4182EC4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Dec 2022 14:05:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230191AbiLPM2c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Dec 2022 07:28:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33398 "EHLO
+        id S230199AbiLPOFx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Dec 2022 09:05:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbiLPM2c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Dec 2022 07:28:32 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0E2AE012;
-        Fri, 16 Dec 2022 04:28:30 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id 3-20020a17090a098300b00219041dcbe9so2207146pjo.3;
-        Fri, 16 Dec 2022 04:28:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XN2BUIyyxfcPTn0lH7csIpbvsG2W/DIuROkPMqaCcZA=;
-        b=gTmjQHIthgTaarmTiJIFcOmKO18lOJx70K41j/h8aKXjh6KsuWGEkZFj33q3evneNQ
-         Z2aOHDpL36LFgscqFBHNKzMVJ9mYIx0ZAod72hmvUaLZsAbM7hZrGu12f8gqDapCACMi
-         41FVVH0qwRa4z0G6jmKXty6+LfGNMpKKDSTCYx8cJ/m33BMfthqrsxXH+AzoxBx8M9Yn
-         C/3DIhGswmw+wRwrjR6uyzMYIeKhpQu3fKP+73cPXx9rO1TkIqOY+++ZfmE+EG9Mnlfb
-         Id6KF6Rn3DAwHZhYd2fmrXGE5W6ntZV+znP4hk8sgPNWBl6FZtqOqmGU/m0AG/lTtkaW
-         KYyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XN2BUIyyxfcPTn0lH7csIpbvsG2W/DIuROkPMqaCcZA=;
-        b=DVtf9Z2cDJFg1MTn+t/jDHGflkgVNdxRLnYreDEx+a5EzvdBsZy9pm/BfC2J19YVdt
-         BCwWCDXGBOqSqVt4QYdS/apmd++L4fE9woFzKOx2dAv7f5pvYVUA2t/GE8qE+sC7t14l
-         y3m3IAUylbQgGJ0OGiVPv9Q6YbvsWp5usB0Uzt1Lm2qEWvBp78UZCCqoUSWUgq+XC+Km
-         dukP4kmAw3JIRp+cvaqpNcp2Zml6FOCgYVBk7bFmd8Yfc7Kq2euljIHn/AXuvAAbwp4s
-         rE4ndqDqx0ch/WYSpU83Rpagce38xpPY/kTAZlUUSREbeQCSrp8hM5mWwrwLMs6VTz0D
-         /54w==
-X-Gm-Message-State: ANoB5pkDJNcUfTFmG09irURIPsR0qD3xiwIJs9A2e4veytzXhETOmZU2
-        OWJrh1c/8GxOotyVF22GxOc=
-X-Google-Smtp-Source: AA0mqf6d7oqZU2G/xjT5P7wiQ6Ao9vsN4Z35ejH9yc72sa2sgRGO8RLbwwQKenbvXgNM8+nnx4ulRg==
-X-Received: by 2002:a17:902:e285:b0:189:fd83:eb80 with SMTP id o5-20020a170902e28500b00189fd83eb80mr30939639plc.62.1671193710453;
-        Fri, 16 Dec 2022 04:28:30 -0800 (PST)
-Received: from [192.168.43.80] (subs32-116-206-28-27.three.co.id. [116.206.28.27])
-        by smtp.gmail.com with ESMTPSA id i6-20020a170902c94600b00189847cd4acsm1474100pla.237.2022.12.16.04.28.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Dec 2022 04:28:30 -0800 (PST)
-Message-ID: <85f627d5-7572-1fc7-db1f-bc1337767a68@gmail.com>
-Date:   Fri, 16 Dec 2022 19:28:13 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH] Revert "mm: add nodes= arg to memory.reclaim"
-Content-Language: en-US
-To:     Michal Hocko <mhocko@suse.com>,
-        Mina Almasry <almasrymina@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        with ESMTP id S229453AbiLPOFw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Dec 2022 09:05:52 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 282A128E10;
+        Fri, 16 Dec 2022 06:05:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=1GFjpQ7kUqBpcsYqnNwkgNJfjVlRXjx2+yVp8vKZtKI=; b=Fe0FYw4U4c3kW0Zci6+CADjzz3
+        va1rfx7hiXgVMTUEtidbcRCuQSyUruUQVyVtkHIEH8bDzJESRCK0UPHkUPNgxy0+z1mhn8W5U8Ua6
+        lmDrTc8YhGj48EBs1vRjKAUtNiB5IBVD6ABEcsCf0hnXzEdEjfCNfz/U8LPiQ/5nBr+NEutz1R0v+
+        z3hqXnUrerECq5lzL1PSa/fPophynKrG9korPQJOswrmkr85RiYtcK3yr6nL/Bia3Ay2tRnMdLoqd
+        Hikm52CTDsfHnKqckNN5wzhvb+6SvvNcZUkeKHsZOwzZRvmmpdk4dzc8CeIhbGsfQlMAFusJRrAy2
+        6y9VGGwQ==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1p6BL3-00FWKQ-ID; Fri, 16 Dec 2022 14:05:25 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id EE0033001E7;
+        Fri, 16 Dec 2022 15:05:13 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 88051201D8171; Fri, 16 Dec 2022 15:05:13 +0100 (CET)
+Date:   Fri, 16 Dec 2022 15:05:13 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Jann Horn <jannh@google.com>,
+        Seth Jenkins <sethjenkins@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <songmuchun@bytedance.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Eric Biggers <ebiggers@google.com>,
         Huang Ying <ying.huang@intel.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
-        fvdl@google.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20221202223533.1785418-1-almasrymina@google.com>
- <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz> <Y5xASNe1x8cusiTx@dhcp22.suse.cz>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <Y5xASNe1x8cusiTx@dhcp22.suse.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        Joel Savitz <jsavitz@redhat.com>,
+        Laurent Dufour <ldufour@linux.ibm.com>,
+        Rob Herring <robh@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] exit: Allow oops_limit to be disabled
+Message-ID: <Y5x7GXeluFmZ8E0E@hirez.programming.kicks-ass.net>
+References: <20221202210617.never.105-kees@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221202210617.never.105-kees@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/16/22 16:54, Michal Hocko wrote:
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index c8ae7c897f14..74cec76be9f2 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1245,13 +1245,17 @@ PAGE_SIZE multiple when read back.
->  	This is a simple interface to trigger memory reclaim in the
->  	target cgroup.
->  
-> -	This file accepts a string which contains the number of bytes to
-> -	reclaim.
-> +	This file accepts a single key, the number of bytes to reclaim.
-> +	No nested keys are currently supported.
->  
->  	Example::
->  
->  	  echo "1G" > memory.reclaim
->  
-> +	The interface can be later extended with nested keys to
-> +	configure the reclaim behavior. For example, specify the
-> +	type of memory to reclaim from (anon, file, ..).
-> +
->  	Please note that the kernel can over or under reclaim from
->  	the target cgroup. If less bytes are reclaimed than the
->  	specified amount, -EAGAIN is returned.
-> @@ -1263,13 +1267,6 @@ PAGE_SIZE multiple when read back.
->  	This means that the networking layer will not adapt based on
->  	reclaim induced by memory.reclaim.
->  
-> -	This file also allows the user to specify the nodes to reclaim from,
-> -	via the 'nodes=' key, for example::
-> -
-> -	  echo "1G nodes=0,1" > memory.reclaim
-> -
-> -	The above instructs the kernel to reclaim memory from nodes 0,1.
-> -
->    memory.peak
->  	A read-only single value file which exists on non-root
->  	cgroups.
+On Fri, Dec 02, 2022 at 01:06:21PM -0800, Kees Cook wrote:
 
-Ah! I forgot to add my Reviewed-by: tag when the original patch was
-submitted. However, I was Cc'ed the revert presumably due to Cc: tag in the
-original.
+> --- a/kernel/exit.c
+> +++ b/kernel/exit.c
+> @@ -954,7 +954,7 @@ void __noreturn make_task_dead(int signr)
+>  	 * To make sure this can't happen, place an upper bound on how often the
+>  	 * kernel may oops without panic().
+>  	 */
+> -	if (atomic_inc_return(&oops_count) >= READ_ONCE(oops_limit))
+> +	if (atomic_inc_return(&oops_count) >= READ_ONCE(oops_limit) && oops_limit)
+>  		panic("Oopsed too often (kernel.oops_limit is %d)", oops_limit);
+>  
 
-In any case, for the documentation part:
+That's dodgy, please write as:
 
-Acked-by: Bagas Sanjaya <bagasdotme@gmail.com>
+	limit = READ_ONCE(oops_limit);
+	if (atomic_inc_return(&oops_count) >= limit && limit)
 
--- 
-An old man doll... just what I always wanted! - Clara
-
+So we don't explicitly add a reload that negates the whole READ_ONCE().
