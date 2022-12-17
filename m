@@ -2,165 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF31AC4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Dec 2022 09:53:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3ED9C4332F
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Dec 2022 09:57:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229453AbiLQJxV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 17 Dec 2022 04:53:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53886 "EHLO
+        id S229562AbiLQJ5L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Dec 2022 04:57:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbiLQJxU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Dec 2022 04:53:20 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C1281402B;
-        Sat, 17 Dec 2022 01:53:20 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id gt4so4730745pjb.1;
-        Sat, 17 Dec 2022 01:53:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZO9al7YrSck89G9oQI8cP/XGUvm/YU35VYbyVunm5c4=;
-        b=Cd7UX6Z/M+SikLmiL7gQJHEJFfgXYJIPl5HY8eeTO00yFJSrLozFQPFBNTiVkcfBAX
-         PHiqGCUh6T1xWTZGZ2FiOak8jRk2NGqA0Ji2thJz+8uf2tIrxtIngWlT25mKseO+Xr/K
-         FErOm9OdrcoCUUnp/tKBhB8rc+KEbIO3CY2hMevUfKwsTkeV3ADz1bDXumAH3HZdcsCT
-         1sfVSkCW7Nfg4z9xDzop705rza+WHYyuZvHsloPhQTp+oJpSmBl+91YV2Tpeu4STnfKC
-         d9qCQg3qChK4EyVmqSs1GuVMIdZTxn4s5n8JJi4zp3jnH75Nd25Y1BPMu27coCa90vDs
-         q2nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZO9al7YrSck89G9oQI8cP/XGUvm/YU35VYbyVunm5c4=;
-        b=XWQl+nh4mX3PYceMTiIoXgEXQuEszIeuO/Dva5DMCr0zXrR4xExuV4SlFQDAX6uB0A
-         DbEEPVrXUUwDh5ACFVZYcDLvxumpU70rbeDQHO4Q758sVkTVMOlHCBGhQZWEGq3JxbbP
-         Dj8eyPHpx6dZPjCPS87nWcvOZGwaoHWdIDB2oX5CHuNGWyMNCpqDOG4PJvRP7Pk5tFj4
-         FL30ABWaEluvrMXLWWY1aSnaGSrndJ5fLDQty39l6mxJHn/nWvAXYmwNGapZLbykYAzQ
-         p1WUs/D7MtGGr+9+80Mgg7hwaBKx5QO9/gZVZOoQmiUJl0w6NUu19TpHaXctCalSgYm+
-         tm5g==
-X-Gm-Message-State: AFqh2kpdQxBc9vrCKjqfoCzpMyb/4tLWIpdmYtq/qO9SUSlrQmDLqNym
-        CPbRRIZI/gXY630Uks4Zm50=
-X-Google-Smtp-Source: AMrXdXv7wgU+sjohjYoEMqYiZO2kSArsMi2NJZs01NPzBy6lDcZzmTFQTIwbzvKAqHerIXXc+TGdUg==
-X-Received: by 2002:a17:902:8c90:b0:189:9fb2:255a with SMTP id t16-20020a1709028c9000b001899fb2255amr1568235plo.19.1671270799496;
-        Sat, 17 Dec 2022 01:53:19 -0800 (PST)
-Received: from debian.me (subs03-180-214-233-79.three.co.id. [180.214.233.79])
-        by smtp.gmail.com with ESMTPSA id v1-20020a1709029a0100b001897e2fd65dsm3119669plp.9.2022.12.17.01.53.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Dec 2022 01:53:18 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 53765100B3E; Sat, 17 Dec 2022 16:53:15 +0700 (WIB)
-Date:   Sat, 17 Dec 2022 16:53:15 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Qais Yousef <qyousef@layalina.io>, Ingo Molnar <mingo@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Xuewen Yan <xuewen.yan94@gmail.com>, Wei Wang <wvw@google.com>,
-        Jonathan JMChen <Jonathan.JMChen@mediatek.com>,
-        Hank <han.lin@mediatek.com>, Paul Bone <pbone@mozilla.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH v3] Documentation: sched: Document util clamp feature
-Message-ID: <Y52Ri28ThsM4iU8X@debian.me>
-References: <20221216235716.201923-1-qyousef@layalina.io>
+        with ESMTP id S229496AbiLQJ5K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Dec 2022 04:57:10 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DBB21D6;
+        Sat, 17 Dec 2022 01:57:09 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id CEDBC608B2;
+        Sat, 17 Dec 2022 09:57:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1671271027; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=SoLRNQRrRqUNC0cGrLyDcGJ7nXiwl9BQ5rqnla0AEQg=;
+        b=LzEcwgGhGGz8nj03JB5W4TiSbEKztKdG7hrQa5MIO0bwc5t2NC30MAA0U3vd2UhSj4T2Pz
+        Tx7x3OMd+ZGReDRDIwwbXqxis7W8upuGmgfxuw87vV+OuG3oq1SRHDCSet4bS0DJKP0ag6
+        XpG0vDOWegM0J6b+oztGV495X5UdU2I=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A96941326D;
+        Sat, 17 Dec 2022 09:57:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id St90JnOSnWOFNQAAMHmgww
+        (envelope-from <mhocko@suse.com>); Sat, 17 Dec 2022 09:57:07 +0000
+Date:   Sat, 17 Dec 2022 10:57:06 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Mina Almasry <almasrymina@google.com>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
+        fvdl@google.com, bagasdotme@gmail.com, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH] Revert "mm: add nodes= arg to memory.reclaim"
+Message-ID: <Y52Scge3ynvn/mB4@dhcp22.suse.cz>
+References: <20221202223533.1785418-1-almasrymina@google.com>
+ <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz>
+ <Y5xASNe1x8cusiTx@dhcp22.suse.cz>
+ <20221216101820.3f4a370af2c93d3c2e78ed8a@linux-foundation.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="IAbXMJJDJGhLPlUP"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221216235716.201923-1-qyousef@layalina.io>
+In-Reply-To: <20221216101820.3f4a370af2c93d3c2e78ed8a@linux-foundation.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri 16-12-22 10:18:20, Andrew Morton wrote:
+> On Fri, 16 Dec 2022 10:54:16 +0100 Michal Hocko <mhocko@suse.com> wrote:
+> 
+> > I have noticed that the patch made it into Linus tree already. Can we
+> > please revert it because the semantic is not really clear and we should
+> > really not create yet another user API maintenance problem.
+> 
+> Well dang.  I was waiting for the discussion to converge, blissfully
+> unaware that the thing was sitting in mm-stable :(  I guess the
+> 
+> 	Acked-by: Michal Hocko <mhocko@suse.com>
+> 	Acked-by: Shakeel Butt <shakeelb@google.com>
+> 	Acked-by: Muchun Song <songmuchun@bytedance.com>
+> 
+> fooled me.
 
---IAbXMJJDJGhLPlUP
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hmm, as pointed out in http://lkml.kernel.org/r/Y5bsmpCyeryu3Zz1@dhcp22.suse.cz
+I've failed to see through all the consequences of the implementation.
+SO my bad here to add my ack before fully understanding all the
+implications.
 
-On Fri, Dec 16, 2022 at 11:57:16PM +0000, Qais Yousef wrote:
-> +Another example is in Android where tasks are classified as background,
-> +foreground, top-app, etc. Util clamp can be used to constrain how much
-> +resources background tasks are consuming by capping the performance poin=
-t they
-> +can run at. This constraint helps reserve resources for important tasks,=
- like
-> +the ones belonging to the currently active app (top-app group). Beside t=
-his
-> +helps in limiting how much power they consume. This can be more obvious =
-in
-> +heterogeneous systems (e.g. Arm big.LITTLE); the constraint will help bi=
-as the
-> +background tasks to stay on the little cores which will ensure that:
-> +
-> +        1. The big cores are free to run top-app tasks immediately. top-=
-app
-> +           tasks are the tasks the user is currently interacting with, h=
-ence
-> +           the most important tasks in the system.
-> +        2. They don't run on a power hungry core and drain battery even =
-if they
-> +           are CPU intensive tasks.
-> +
-> +.. note::
-> +  **little cores**:
-> +    CPUs with capacity < 1024
-> +
-> +  **big cores**:
-> +    CPUs with capacity =3D 1024
+> I think it's a bit premature to revert at this stage.  Possibly we can
+> get to the desired end state by modifying the existing code.  Possibly
+> we can get to the desired end state by reverting this and by adding
+> something new.
 
-Processing capacity (CPU frequency) in MHz? This is the first time I
-hear Arm big.LITTLE architecture. CC'ing several Arm folks and
-linux-arm-kernel list for I'm unsure on this.
+Sure if we can converge to a proper implementation during the rc phase
+then it would be ok. I cannot speak for others but at least for me
+upcoming 2 weeks would be mostly offline so I cannot really contribute
+much. A revert would be much more easier from the coordination POV IMHO.
 
-> +
-> +By making these uclamp performance requests, or rather hints, user space=
- can
-> +ensure system resources are used optimally to deliver the best possible =
-user
-> +experience.
-> +
-> +Another use case is to help with **overcoming the ramp up latency inheri=
-t in
-> +how scheduler utilization signal is calculated**.
+Also I do not think there is any strong reason to rush this in. I do not
+really see any major problems to have this extension in 6.2
 
-IMO the bold text isn't needed (why did you highlight the phrase above)?
-
-> +When task @p is running, **the scheduler should try its best to ensure it
-> +starts at 40% performance level**. If the task runs for a long enough ti=
-me so
-> +that its actual utilization goes above 80%, the utilization, or performa=
-nce
-> +level, will be capped.
-
-Same here.
-
-> +**Generally it is advised to perceive the input as performance level or =
-point
-> +which will imply both task placement and frequency selection**.
-
-Same here too.
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---IAbXMJJDJGhLPlUP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY52ReQAKCRD2uYlJVVFO
-o4HkAP4rc8AULhBHVO7Y9cRRRNKL0KVpwku8TWCuK0K3HNSBjgEAmNGvg6da34fs
-mfQfANrw8H/CE0iusS8NXjKKCrYFugk=
-=tqHd
------END PGP SIGNATURE-----
-
---IAbXMJJDJGhLPlUP--
+-- 
+Michal Hocko
+SUSE Labs
