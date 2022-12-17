@@ -2,67 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D2D5C3DA6E
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Dec 2022 05:09:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D11CC4167B
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Dec 2022 05:15:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230213AbiLQFJy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 17 Dec 2022 00:09:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33006 "EHLO
+        id S229590AbiLQFPQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Dec 2022 00:15:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229674AbiLQFJv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Dec 2022 00:09:51 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B49AC6C70B
-        for <linux-doc@vger.kernel.org>; Fri, 16 Dec 2022 21:09:50 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id co23so4319013wrb.4
-        for <linux-doc@vger.kernel.org>; Fri, 16 Dec 2022 21:09:50 -0800 (PST)
+        with ESMTP id S229453AbiLQFPP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Dec 2022 00:15:15 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F8F66E9E0
+        for <linux-doc@vger.kernel.org>; Fri, 16 Dec 2022 21:15:00 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id v124-20020a1cac82000000b003cf7a4ea2caso5369138wme.5
+        for <linux-doc@vger.kernel.org>; Fri, 16 Dec 2022 21:15:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RDYnJGBhM5VrUDJCjc6PATa5BNNW24FWGhwz7O2VUXc=;
-        b=k3R+xAcKLpJlOELwxDJJbBbzR0MuxQ1X5Xc/SJxPXsoS4wAMR2Rg1a59EmfGU8B4tk
-         TgJzngqoPPD+tz2iW5BRaZbyH4TC8dN3pUFv91gD9Q805DjrWDnTbjYz+iYfS9EJR1L9
-         VIQFyJ7aL59UTPBt+26qayATDT/Z/yJ23Gm4WCeuJL7QQGD2sYPW6lwNK8ZUSG5kXDtt
-         OWbi9GiwrVD3Ed9ovAgueirkub0f01NkqdT4yDTfnzDgabYcwI5w4oRkw8MxU6HzLbeK
-         X3qIJYc1WjT1ZGEDqCZaHKTdq13vnMIBfAFyNXDvWKQpYr0Rn1zKBFXHYa6JGaOJMEfe
-         w/5g==
+        bh=LG/OBjlQoR5hXNhPlSspTsGRVUXAxaICxjQTgjnwTCE=;
+        b=ZOgSGSbnbCCmH+dhULrSoz6lDA5Nuf4ClRGWoR2ZhtZtnQreXd9UiP4HuBSHG2YExF
+         gfrQ8rYD2GIcdS2ikly5DJA05Ic10lgzOAWMwwDx5a4KICFTQ93BZEeizol0SCXPaTcv
+         yfo9ERgf/Nk+O2ytzHXbWMtcempjiUXNHeSwQ2PEhjN5nBuCnaPpciDQ/O4fSvkaXAEl
+         C5mzMcF1SQuN/ZeO3bSETxH9py5oaCjSPweGC7BKWMaGFW/nObkK4XX2XluNpOmr1J70
+         Bhc6YzE8zDv8Y6jT0CUUlnWidpK3Oi7aCuv+ixIbdvTtUh6qhqKpQ+xXKXV9QJs3YJmg
+         6mzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RDYnJGBhM5VrUDJCjc6PATa5BNNW24FWGhwz7O2VUXc=;
-        b=0IzhIAipNa3gHrqIhYH7Vh65ic20CuFRts5y3KlHyfhCF58BLuinjtKu3RS4B+msmf
-         wmgzKvv9W5OEDFxzUPJX1zUav7/9YeJCRfbIGeG2TIeyPC49Kd9R/JFesiSZOMQ/EwTA
-         L+Haej/lUSrQk45528zksgxVx9Tq9xJv/VjgWbTr8vaGzgCLgmIz/P5pyxgnNEz35fF5
-         msRgLpA8PqkdwRr9Y3Ai6uHWxSOv00r7PbaiiCxQyK6Xb7sk7vwaRofmtyljl8cz32tm
-         4HAdneCdP4ou1fb55qLXwzbIcYEZD1cggwTaTdXdEKW2ansMDhEqsxGbsbva2KNldKRz
-         jrYA==
-X-Gm-Message-State: ANoB5pnomoy090MI5E4AYzEnfgAqvjstsqqX1+IwqR2JjrztJEb0IPFD
-        4BoxK3Pu894IYv4Uhnv6XOZxnSqd2ew5p0ZMNrpC6g==
-X-Google-Smtp-Source: AA0mqf5pqh5WuMfQCOhgpK+CTTnF4ScfK4B4yK6Gj1sFkaZBwIxKBkrQ/MF+wBpxykKgGc5cNpQs0AZh3Yc3HpsU3KM=
-X-Received: by 2002:a05:6000:16ca:b0:242:8bf7:27fe with SMTP id
- h10-20020a05600016ca00b002428bf727femr2134626wrf.278.1671253789220; Fri, 16
- Dec 2022 21:09:49 -0800 (PST)
+        bh=LG/OBjlQoR5hXNhPlSspTsGRVUXAxaICxjQTgjnwTCE=;
+        b=Qofd7UBhrLxMK+3DckDXJPv3/nTqk7IWZiFMN/opq9DEC2wr5JKPZTPfF0BKKun4t7
+         fVzT7QTREaAhxo5bcfGu9Ddy+29j2bmHv5524L7vrDcUPCqDLTD9tG/t6c89rFHAlExl
+         xQ1Osb3elxXJrYWSJNucpJqzECbWMWkDh5tuSJ1JuYMCxj/6XuIJ9jdvOyW7lI0Zskl5
+         R1+ff/ydUPr58wCZHcuBaHvD9ikWgvfEc+jd5+CgJStWzCpJDumHh4D/otLeQ3pl1R7b
+         5EF8a8jsMDtKe42rfPkKd1Pyj825MdYCQZ01J7IVvLwQGOfA/Bsc3Mn/kM4OqttN+zWy
+         woOg==
+X-Gm-Message-State: AFqh2kpeZixrI0YcGfdJmvXRGg1SjwesYhiswWyIZwJq6oVhIIgKkcnz
+        7vkgWJhiNcEqMijfIj5A1q7MagKKL2q+NlLHe/3dJQ==
+X-Google-Smtp-Source: AMrXdXuERKqHdWiURqQGzD7/QlAGP7/gOUi+J/zxdBXaAinHz+JCo70giVGEQQ+CgLhETQ80zddp9F7swSbLmgOfzTg=
+X-Received: by 2002:a05:600c:1819:b0:3d3:4be7:fba4 with SMTP id
+ n25-20020a05600c181900b003d34be7fba4mr35885wmp.58.1671254098992; Fri, 16 Dec
+ 2022 21:14:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20221208061841.2186447-1-davidgow@google.com> <20221208061841.2186447-2-davidgow@google.com>
-In-Reply-To: <20221208061841.2186447-2-davidgow@google.com>
+References: <20221208061841.2186447-1-davidgow@google.com> <20221208061841.2186447-3-davidgow@google.com>
+In-Reply-To: <20221208061841.2186447-3-davidgow@google.com>
 From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Sat, 17 Dec 2022 00:09:38 -0500
-Message-ID: <CAFd5g46pmRtVo4Uga3wx4i9C11YRdyTVVdb-A9asrGngd5LRLw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kunit: Expose 'static stub' API to redirect functions
+Date:   Sat, 17 Dec 2022 00:14:47 -0500
+Message-ID: <CAFd5g47EMW0B6_0mjk_UVZ7oeMJes-c8aoQxpz0o4jO_WB+8Zw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Documentation: Add Function Redirection API docs
 To:     David Gow <davidgow@google.com>
 Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
         Shuah Khan <skhan@linuxfoundation.org>,
         Daniel Latypov <dlatypov@google.com>,
         Kees Cook <keescook@chromium.org>,
+        Sadiya Kazi <sadiyakazi@google.com>,
         Steven Rostedt <rostedt@goodmis.org>,
         Joe Fradley <joefradley@google.com>,
         Steve Muckle <smuckle@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
         linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bagas Sanjaya <bagasdotme@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -71,33 +73,23 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On Thu, Dec 8, 2022 at 1:18 AM 'David Gow' via KUnit Development
 <kunit-dev@googlegroups.com> wrote:
 >
-> Add a simple way of redirecting calls to functions by including a
-> special prologue in the "real" function which checks to see if the
-> replacement function should be called (and, if so, calls it).
+> From: Sadiya Kazi <sadiyakazi@google.com>
 >
-> To redirect calls to a function, make the first (non-declaration) line
-> of the function:
+> Added a new page (functionredirection.rst) that describes the Function
+> Redirection (static stubbing) API. This page will be expanded if we add,
+> for example, ftrace-based stubbing.
 >
->         KUNIT_STATIC_STUB_REDIRECT(function_name, [function arguments]);
+> In addition,
+> 1. Updated the api/index.rst page to create an entry for function
+>    redirection api
+> 2. Updated the toctree to be hidden, reducing redundancy on the
+>    generated page.
 >
-> (This will compile away to nothing if KUnit is not enabled, otherwise it
-> will check if a redirection is active, call the replacement function,
-> and return. This check is protected by a static branch, so has very
-> little overhead when there are no KUnit tests running.)
->
-> Calls to the real function can be redirected to a replacement using:
->
->         kunit_activate_static_stub(test, real_fn, replacement_fn);
->
-> The redirection will only affect calls made from within the kthread of
-> the current test, and will be automatically disabled when the test
-> completes. It can also be manually disabled with
-> kunit_deactivate_static_stub().
->
-> The 'example' KUnit test suite has a more complete example.
->
-> Co-developed-by: Daniel Latypov <dlatypov@google.com>
-> Signed-off-by: Daniel Latypov <dlatypov@google.com>
+> Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
+> Co-developed-by: David Gow <davidgow@google.com>
 > Signed-off-by: David Gow <davidgow@google.com>
+
+Aside from the comments that have already been made, everything looks
+good to me.
 
 Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
