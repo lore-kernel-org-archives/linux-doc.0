@@ -2,76 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 655A4C4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Dec 2022 16:18:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A27BFC4167B
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Dec 2022 18:09:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229659AbiLQQSI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 17 Dec 2022 11:18:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41826 "EHLO
+        id S230001AbiLQSJV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Dec 2022 13:09:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229480AbiLQQSG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Dec 2022 11:18:06 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A48DFAF6
-        for <linux-doc@vger.kernel.org>; Sat, 17 Dec 2022 08:18:03 -0800 (PST)
+        with ESMTP id S229932AbiLQSJO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Dec 2022 13:09:14 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BE3D13F51;
+        Sat, 17 Dec 2022 10:09:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671293883; x=1702829883;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BD3mvbPZp9ritDC/Ls86ZZW4WxmUf3WOy18JtLXw5vg=;
-  b=PQnf26OIMOEJ8Dm41PGYx3iFaSDfFDWZnCMGf3JrZjpDlCBwaskjKdOH
-   5WTofraQCANUmb4svYqZdC5Rz9NCk7lW34REikXLYtX/tsICAOyWnJxRg
-   35GyXtRl++Dcu5U6Aqem1+slFFhnGdqfXfockL6orqzW+rk+7GYKtZCIY
-   A7T2f0cMth4yutriTBwgsDf8KsBmrLm4hRp3gPRLtG1p3skPyqdMpHj7u
-   yEA/5mvBe+hkI6g9HP2laR6aybhjguBhE23takziWnYkVIK7+EXcGW6Nj
-   HqwF2S04holikuVUtXeCvX5QdnzSMDbvXuhfGvGClwPYM/pMjZ0qZpvQf
+  t=1671300551; x=1702836551;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LVJ51EyFbMDhtwLaYazPN6+ZIbyZNvDRt4WsyV6KODA=;
+  b=R/g0fZWY0Kv/MiGmPJJoCKLcxH5uAahteIdH6e/LcAdkCyjyc52FXn6E
+   2o1kIx7/CHAGkeD00HITFDmY90v0kMQiSncqFSURKCgV/SBIA4F35+LEB
+   YLF1s5KpogYf6ZQtnFyKYp+DPy0YfH+trxSnqT7oWWD9SxlEqKEcOrQGs
+   B0qZr80fGtCcwTHXY93wFxpqeva3JK2J8seG9/d0c6uM1edTnl2iIprmo
+   KE/Hh9FQ8tFi4+s8Tt43FCMyRwVmxFKQNzec+KsAITGmaxsUz56jM3H0T
+   3XOtJ35kWyx6TC5qbVb3VPI1cLCilL7bUySUUiAe5IBsxvUVhws0gj0gn
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10564"; a="306814970"
+X-IronPort-AV: E=McAfee;i="6500,9779,10564"; a="316785471"
 X-IronPort-AV: E=Sophos;i="5.96,253,1665471600"; 
-   d="scan'208";a="306814970"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2022 08:18:02 -0800
+   d="scan'208";a="316785471"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2022 10:09:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10564"; a="792418009"
+X-IronPort-AV: E=McAfee;i="6500,9779,10564"; a="774475521"
 X-IronPort-AV: E=Sophos;i="5.96,253,1665471600"; 
-   d="scan'208";a="792418009"
+   d="scan'208";a="774475521"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 17 Dec 2022 08:18:00 -0800
+  by orsmga004.jf.intel.com with ESMTP; 17 Dec 2022 10:09:03 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1p6Zst-0007pI-1s;
-        Sat, 17 Dec 2022 16:17:59 +0000
-Date:   Sun, 18 Dec 2022 00:17:05 +0800
+        id 1p6bcM-0007t4-1k;
+        Sat, 17 Dec 2022 18:09:02 +0000
+Date:   Sun, 18 Dec 2022 02:08:05 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org
-Subject: [akpm-mm:mm-unstable 57/72] htmldocs:
- Documentation/admin-guide/cgroup-v1/memory.rst:723: WARNING: Title underline
- too short.
-Message-ID: <202212180030.OzPG7QHL-lkp@intel.com>
+To:     Daniel Xu <dxu@dxuuu.xyz>, Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     oe-kbuild-all@lists.linux.dev, ppenkov@aviatrix.com,
+        dbird@aviatrix.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next 2/6] bpf: verifier: Support KF_CHANGES_PKT flag
+Message-ID: <202212180155.yCbbtJN1-lkp@intel.com>
+References: <fc37530d6cf954c3ebd1173d2bdc6b731c733134.1671049840.git.dxu@dxuuu.xyz>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="cuCNXJ78e7Sc5ZAl"
+Content-Type: multipart/mixed; boundary="7xeUiF5ulSo/E+yC"
 Content-Disposition: inline
+In-Reply-To: <fc37530d6cf954c3ebd1173d2bdc6b731c733134.1671049840.git.dxu@dxuuu.xyz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---cuCNXJ78e7Sc5ZAl
+--7xeUiF5ulSo/E+yC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   fb94e0734a2aaf6fc11c92959efc640370df8d42
-commit: f8bc956f6ea69564abee1b1407df5582b9ba6296 [57/72] mm: memcontrol: deprecate charge moving
+Hi Daniel,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Xu/Support-defragmenting-IPv4-packets-in-BPF/20221215-072858
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/fc37530d6cf954c3ebd1173d2bdc6b731c733134.1671049840.git.dxu%40dxuuu.xyz
+patch subject: [PATCH bpf-next 2/6] bpf: verifier: Support KF_CHANGES_PKT flag
 reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?id=f8bc956f6ea69564abee1b1407df5582b9ba6296
-        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
-        git fetch --no-tags akpm-mm mm-unstable
-        git checkout f8bc956f6ea69564abee1b1407df5582b9ba6296
+        # https://github.com/intel-lab-lkp/linux/commit/ca42b5d5e5d93debd023634aca7e206550fee180
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Daniel-Xu/Support-defragmenting-IPv4-packets-in-BPF/20221215-072858
+        git checkout ca42b5d5e5d93debd023634aca7e206550fee180
         make menuconfig
         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
         make htmldocs
@@ -81,35 +97,20 @@ If you fix the issue, kindly add following tag where applicable
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/admin-guide/cgroup-v1/memory.rst:723: WARNING: Title underline too short.
+>> Documentation/bpf/kfuncs.rst:204: WARNING: Title underline too short.
 
-vim +723 Documentation/admin-guide/cgroup-v1/memory.rst
+vim +204 Documentation/bpf/kfuncs.rst
 
-a6df63615b943d Documentation/cgroups/memory.txt               Balbir Singh          2009-09-23  712  
-a6df63615b943d Documentation/cgroups/memory.txt               Balbir Singh          2009-09-23  713  	# echo 1G > memory.soft_limit_in_bytes
-a6df63615b943d Documentation/cgroups/memory.txt               Balbir Singh          2009-09-23  714  
-99c8b231ae6c6c Documentation/cgroup-v1/memory.rst             Mauro Carvalho Chehab 2019-06-12  715  NOTE1:
-99c8b231ae6c6c Documentation/cgroup-v1/memory.rst             Mauro Carvalho Chehab 2019-06-12  716         Soft limits take effect over a long period of time, since they involve
-a6df63615b943d Documentation/cgroups/memory.txt               Balbir Singh          2009-09-23  717         reclaiming memory for balancing between memory cgroups
-99c8b231ae6c6c Documentation/cgroup-v1/memory.rst             Mauro Carvalho Chehab 2019-06-12  718  NOTE2:
-99c8b231ae6c6c Documentation/cgroup-v1/memory.rst             Mauro Carvalho Chehab 2019-06-12  719         It is recommended to set the soft limit always below the hard limit,
-a6df63615b943d Documentation/cgroups/memory.txt               Balbir Singh          2009-09-23  720         otherwise the hard limit will take precedence.
-a6df63615b943d Documentation/cgroups/memory.txt               Balbir Singh          2009-09-23  721  
-f8bc956f6ea695 Documentation/admin-guide/cgroup-v1/memory.rst Johannes Weiner       2022-12-07  722  8. Move charges at task migration (DEPRECATED!)
-99c8b231ae6c6c Documentation/cgroup-v1/memory.rst             Mauro Carvalho Chehab 2019-06-12 @723  =================================
-7dc74be032bfca Documentation/cgroups/memory.txt               Daisuke Nishimura     2010-03-10  724  
-
-:::::: The code at line 723 was first introduced by commit
-:::::: 99c8b231ae6c6ca4ca2fd1c0b3701071f589661f docs: cgroup-v1: convert docs to ReST and rename to *.rst
-
-:::::: TO: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-:::::: CC: Tejun Heo <tj@kernel.org>
+   202	
+   203	2.4.9 KF_CHANGES_PKT flag
+ > 204	-----------------
+   205	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---cuCNXJ78e7Sc5ZAl
+--7xeUiF5ulSo/E+yC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -272,7 +273,6 @@ CONFIG_NAMESPACES=y
 CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE=y
 # CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
 CONFIG_LD_ORPHAN_WARN=y
-CONFIG_LD_ORPHAN_WARN_LEVEL="warn"
 CONFIG_SYSCTL=y
 CONFIG_SYSCTL_EXCEPTION_TRACE=y
 CONFIG_HAVE_PCSPKR_PLATFORM=y
@@ -334,6 +334,7 @@ CONFIG_ARCH_MAY_HAVE_PC_FDC=y
 CONFIG_GENERIC_CALIBRATE_DELAY=y
 CONFIG_ARCH_HAS_CPU_RELAX=y
 CONFIG_ARCH_HIBERNATION_POSSIBLE=y
+CONFIG_ARCH_NR_GPIO=1024
 CONFIG_ARCH_SUSPEND_POSSIBLE=y
 CONFIG_AUDIT_ARCH=y
 CONFIG_ARCH_SUPPORTS_UPROBES=y
@@ -436,9 +437,6 @@ CONFIG_HAVE_LIVEPATCH=y
 
 CONFIG_CC_HAS_SLS=y
 CONFIG_CC_HAS_RETURN_THUNK=y
-CONFIG_CC_HAS_ENTRY_PADDING=y
-CONFIG_FUNCTION_PADDING_CFI=11
-CONFIG_FUNCTION_PADDING_BYTES=16
 # CONFIG_SPECULATION_MITIGATIONS is not set
 CONFIG_ARCH_HAS_ADD_PAGES=y
 CONFIG_ARCH_MHP_MEMMAP_ON_MEMORY_ENABLE=y
@@ -603,9 +601,6 @@ CONFIG_ARCH_HAS_GCOV_PROFILE_ALL=y
 
 CONFIG_HAVE_GCC_PLUGINS=y
 # CONFIG_GCC_PLUGINS is not set
-CONFIG_FUNCTION_ALIGNMENT_4B=y
-CONFIG_FUNCTION_ALIGNMENT_16B=y
-CONFIG_FUNCTION_ALIGNMENT=16
 # end of General architecture-dependent options
 
 CONFIG_RT_MUTEXES=y
@@ -816,8 +811,6 @@ CONFIG_ARCH_MIGHT_HAVE_PC_PARPORT=y
 # CONFIG_DUMMY_IRQ is not set
 # CONFIG_ATMEL_SSC is not set
 # CONFIG_ENCLOSURE_SERVICES is not set
-# CONFIG_SMPRO_ERRMON is not set
-# CONFIG_SMPRO_MISC is not set
 # CONFIG_QCOM_COINCELL is not set
 # CONFIG_SRAM is not set
 # CONFIG_XILINX_SDFEC is not set
@@ -908,7 +901,6 @@ CONFIG_HW_CONSOLE=y
 # CONFIG_VT_HW_CONSOLE_BINDING is not set
 CONFIG_UNIX98_PTYS=y
 # CONFIG_LEGACY_PTYS is not set
-# CONFIG_LEGACY_TIOCSTI is not set
 # CONFIG_LDISC_AUTOLOAD is not set
 
 #
@@ -1754,4 +1746,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---cuCNXJ78e7Sc5ZAl--
+--7xeUiF5ulSo/E+yC--
