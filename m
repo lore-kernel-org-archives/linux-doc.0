@@ -2,151 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDA37C4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Dec 2022 22:01:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3770C4167B
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Dec 2022 11:32:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230153AbiLQWBu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 17 Dec 2022 17:01:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53056 "EHLO
+        id S230201AbiLRLcF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Dec 2022 06:32:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230135AbiLQWBo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Dec 2022 17:01:44 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5FA512778
-        for <linux-doc@vger.kernel.org>; Sat, 17 Dec 2022 14:01:36 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id ay2-20020a05600c1e0200b003d22e3e796dso4071449wmb.0
-        for <linux-doc@vger.kernel.org>; Sat, 17 Dec 2022 14:01:36 -0800 (PST)
+        with ESMTP id S230191AbiLRLcE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Dec 2022 06:32:04 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50B435FCD;
+        Sun, 18 Dec 2022 03:32:02 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id i187-20020a1c3bc4000000b003d1e906ca23so4085375wma.3;
+        Sun, 18 Dec 2022 03:32:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=layalina-io.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hOSkvzS5rw9RqReI9DDRUaJAR+FURiQ8Kin2htoeGpw=;
-        b=NNR2VsX7aR4bcPxEa4k1u9Clg3hy+/LnwwxOFJ2Z4F6ZO9LNftOkW9gHnWEfHhVilB
-         NIng3eJ5DCU7l9c5VkOdEguqWz60y2g6S2kEqLTVje4M2uTR6aDaepL973vTvpsMPEsQ
-         7TpRM9T2HD71mIqkruO1vmfE2JMAJ1fNve6nJ8kYZuxhlWexEuuxRksJquPNLn2e2SrW
-         VGaquzXROZiNfKnBn9qnwR9tPIe7BPkuq4/mFgw9GBICO1PznyVrJPUG0swlGfhODZUD
-         zp8iB41Nvv8LMLJtbLJj3iHNupJD+MlgWKObZQjGf8a054QB5EZrP6Y8Sk2BPM6C3NO6
-         5iPw==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pB3pR0xSFkHS5ng5jDm59LQOgE/5iH7o38sPru0IP/w=;
+        b=RRIWX3L1au1PZjBj+aHAbqCx1VgQZnU0VQa4OvI0mR0VtbOH+MBKMCHguIvuhuBzHc
+         btF9GHl9MT7GxSOLL62PomsMMIFMtUA3EjGWLCuZOkVSLl+N0dNUFAuwOht4CHMad+vh
+         dxdE1f5InzN9Nfv1qj5BnWlmfE88NVZukYxcMTzBkcNKvQKG573fFcv9EgcOttKsVMjX
+         pMo0Jp8N72mEQl0pO6j9/TVpb/ORECKsF67JcCasGDqUIw5UaGJFkp5GeRP3Jl5eDrmo
+         bZ1eWaAKd/O4nhABWv3XvKaFUe9X8sTJH+DYQXJsb5V4wTsgBJl7dBINdtrj7yVZLYNX
+         4FRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hOSkvzS5rw9RqReI9DDRUaJAR+FURiQ8Kin2htoeGpw=;
-        b=NqixeaWWDem4Us1kb3r+hs+rcYgpDxmVR3kNgYWNwWbT2e463a2xcum9YLODBcSxzO
-         AIzQaeVj5JiS0oy3elPj9m/BM4Ir0HHHDzvcSENok/FEy/CEQ2FUwfCv3I1Jc/wLPJO+
-         3VF3AdXfPXaRmlGzIo6Jaiq4xAs00ux0oXptpE4cD8vBDoBAHd9K2nJ1rI/9UMEogBWG
-         /LnaBgvPSrQv10EWkGcig4eeHcVv474eTsqUdruDKkft8kDoxMhD4flysHapveMDNS7V
-         URoTkJ4v1BwqkGgJWWgXcE49BMKMJwitRsaR2c0R+dPEqn6pyBBioXVuwa6RwW1kQPEm
-         VLtw==
-X-Gm-Message-State: ANoB5pnfm8QbAf2M0sQywSOOPHRuRqVQNHL4Z1dCE4SE4xshdQdlx9L5
-        MYkczA7h/KI2IV9xRTmxjRc9Wg==
-X-Google-Smtp-Source: AA0mqf5A3p2VTGjx8f3Y09Xd8A9AhGsa3AUBDhVMfoM707A+zXdIeQZ+CFn9Unh7HzIGid2zUwW8Ew==
-X-Received: by 2002:a05:600c:a0f:b0:3d0:8a0e:3910 with SMTP id z15-20020a05600c0a0f00b003d08a0e3910mr28797701wmp.34.1671314495353;
-        Sat, 17 Dec 2022 14:01:35 -0800 (PST)
-Received: from airbuntu (host86-130-134-87.range86-130.btcentralplus.com. [86.130.134.87])
-        by smtp.gmail.com with ESMTPSA id q9-20020a7bce89000000b003d1e34bcbb2sm6826036wmj.13.2022.12.17.14.01.34
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pB3pR0xSFkHS5ng5jDm59LQOgE/5iH7o38sPru0IP/w=;
+        b=40jTvaMKXgG93TbJNt6YrBJOIsT3XwLkJDnFTm6Nf/7oGT9fUKvM6HEBaQYXgZwESi
+         FMx+KT5NulsXfNXhGNMMKWo1zDCT3OkvFm3lEXtLwWvQAWPEHAJBrn5II9asX4I2T0sV
+         hCb/xEsLs7/rlwGSbn+j9qRkIWQkDOdOEoFJjZoJpwcGMc9VQ1V2JQS0GTC5mSqbnUWF
+         sKoGN8UyI+vcw1W29IJCgvqiugixMC5ToBJSX2R2PscCVeEYkZufYXJZzgpLVz0BujNO
+         WJxyYZOlUPfQcFLZSYfAtnSqw3tdWIr1HDb+XfR/3nKt7S7yFJs6Z4c0LamKsoHZVhQ2
+         fB5g==
+X-Gm-Message-State: ANoB5pkJ5nH30epsnIKUEJ/R/o63+IC513pskG0hjrtVBMVuf5zWrL9V
+        vrYvDtgyX6FaHa9QG9mQagB46tkZ0SQaSg==
+X-Google-Smtp-Source: AA0mqf6ZNz/555rRqS/lBkaB3r3XYKInXHbcS5TuYdkVbk8o1QsCwIcYzQbpQ+/TzSOv8A4ut2IsUQ==
+X-Received: by 2002:a05:600c:5546:b0:3d1:f6b3:2ce3 with SMTP id iz6-20020a05600c554600b003d1f6b32ce3mr40164490wmb.35.1671363120747;
+        Sun, 18 Dec 2022 03:32:00 -0800 (PST)
+Received: from localhost.localdomain ([2001:9e8:20fa:a700:21e9:9128:9ea2:3911])
+        by smtp.gmail.com with ESMTPSA id l41-20020a05600c1d2900b003d069fc7372sm9440751wms.1.2022.12.18.03.31.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Dec 2022 14:01:34 -0800 (PST)
-Date:   Sat, 17 Dec 2022 22:01:33 +0000
-From:   Qais Yousef <qyousef@layalina.io>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Ingo Molnar <mingo@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Sun, 18 Dec 2022 03:32:00 -0800 (PST)
+From:   Leonard Anderweit <leonard.anderweit@gmail.com>
+To:     linux-hwmon@vger.kernel.org
+Cc:     Aleksa Savic <savicaleksa83@gmail.com>,
+        Jack Doan <me@jackdoan.com>, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Xuewen Yan <xuewen.yan94@gmail.com>, Wei Wang <wvw@google.com>,
-        Jonathan JMChen <Jonathan.JMChen@mediatek.com>,
-        Hank <han.lin@mediatek.com>, Paul Bone <pbone@mozilla.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH v3] Documentation: sched: Document util clamp feature
-Message-ID: <20221217220133.p5wh7drpvkmkups2@airbuntu>
-References: <20221216235716.201923-1-qyousef@layalina.io>
- <Y52Ri28ThsM4iU8X@debian.me>
+        Leonard Anderweit <leonard.anderweit@gmail.com>
+Subject: [PATCH 0/6] hwmon: (aquacomputer_d5next) Add Aquacomputer Aquaero sensors
+Date:   Sun, 18 Dec 2022 12:31:25 +0100
+Message-Id: <20221218113131.3752-1-leonard.anderweit@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y52Ri28ThsM4iU8X@debian.me>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/17/22 16:53, Bagas Sanjaya wrote:
-> On Fri, Dec 16, 2022 at 11:57:16PM +0000, Qais Yousef wrote:
-> > +Another example is in Android where tasks are classified as background,
-> > +foreground, top-app, etc. Util clamp can be used to constrain how much
-> > +resources background tasks are consuming by capping the performance point they
-> > +can run at. This constraint helps reserve resources for important tasks, like
-> > +the ones belonging to the currently active app (top-app group). Beside this
-> > +helps in limiting how much power they consume. This can be more obvious in
-> > +heterogeneous systems (e.g. Arm big.LITTLE); the constraint will help bias the
-> > +background tasks to stay on the little cores which will ensure that:
-> > +
-> > +        1. The big cores are free to run top-app tasks immediately. top-app
-> > +           tasks are the tasks the user is currently interacting with, hence
-> > +           the most important tasks in the system.
-> > +        2. They don't run on a power hungry core and drain battery even if they
-> > +           are CPU intensive tasks.
-> > +
-> > +.. note::
-> > +  **little cores**:
-> > +    CPUs with capacity < 1024
-> > +
-> > +  **big cores**:
-> > +    CPUs with capacity = 1024
-> 
-> Processing capacity (CPU frequency) in MHz? This is the first time I
+Add support for the Aquacomputer Aquaero 5/6 fan controllers. These fan
+controllers support 4 fans, 8 physical temperature sensors, 8 virtual
+temperature sensors and 2 flow sensors.
 
-This is a scheduler abstraction value from 0-1024. Biggest CPU always has
-a capacity of 1024. On SMP all cpus appear as 1024 CPUs.
+The first 5 patches prepare support for Aquacomputer Aquaero without
+changing the functionality. Patch 6 adds support for Aquaero sensors.
+Fan control is planned for a future patch.
 
-> hear Arm big.LITTLE architecture. CC'ing several Arm folks and
-> linux-arm-kernel list for I'm unsure on this.
+Leonard Anderweit (6):
+  hwmon: (aquacomputer_d5next) Rename AQC_TEMP_SENSOR_SIZE to
+    AQC_SENSOR_SIZE
+  hwmon: (aquacomputer_d5next) Restructure flow sensor reading
+  hwmon: (aquacomputer_d5next) Add structure for fan layout
+  hwmon: (aquacomputer_d5next) Device dependent serial number and
+    firmware offsets
+  hwmon: (aquacomputer_d5next) Make fan sensor offsets u16
+  hwmon: (aquacomputer_d5next) Support sensors for Aquacomputer Aquaero
 
-This has my Arm SoB :-)
+ Documentation/hwmon/aquacomputer_d5next.rst |   5 +
+ drivers/hwmon/aquacomputer_d5next.c         | 193 ++++++++++++++++----
+ 2 files changed, 165 insertions(+), 33 deletions(-)
 
-This was added based on Lukasz comments. Both Lukasz and Dietmar were my
-colleagues at Arm and are on CC.
+-- 
+2.38.1
 
-I don't think it was necessary to expand the recipients list. But probably more
-is better though all the scheduler people are covered. This has nothing to do
-with Arm but it's the prime example of heterogeneous systems.
-
-> 
-> > +
-> > +By making these uclamp performance requests, or rather hints, user space can
-> > +ensure system resources are used optimally to deliver the best possible user
-> > +experience.
-> > +
-> > +Another use case is to help with **overcoming the ramp up latency inherit in
-> > +how scheduler utilization signal is calculated**.
-> 
-> IMO the bold text isn't needed (why did you highlight the phrase above)?
-> 
-> > +When task @p is running, **the scheduler should try its best to ensure it
-> > +starts at 40% performance level**. If the task runs for a long enough time so
-> > +that its actual utilization goes above 80%, the utilization, or performance
-> > +level, will be capped.
-> 
-> Same here.
-> 
-> > +**Generally it is advised to perceive the input as performance level or point
-> > +which will imply both task placement and frequency selection**.
-> 
-> Same here too.
-
-All of these were added based on Lukasz review comments. He thought they're
-important pieces and should be highlighted, I opted to do that by making them
-bold text.
-
-
-Thanks!
-
---
-Qais Yousef
