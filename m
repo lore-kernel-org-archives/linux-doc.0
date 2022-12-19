@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A067C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Dec 2022 19:50:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0603AC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Dec 2022 19:51:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbiLSTur (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Dec 2022 14:50:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34530 "EHLO
+        id S231447AbiLSTvd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Dec 2022 14:51:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231447AbiLSTuo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Dec 2022 14:50:44 -0500
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2077.outbound.protection.outlook.com [40.107.220.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB8672B7;
-        Mon, 19 Dec 2022 11:50:40 -0800 (PST)
+        with ESMTP id S232408AbiLSTv1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Dec 2022 14:51:27 -0500
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2065.outbound.protection.outlook.com [40.107.220.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E1382BE5;
+        Mon, 19 Dec 2022 11:51:26 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HSou38S/QGB/5aN++f8tYB38lK0YcxoeGviUs8w3aGSnPV5oQuKWlabGvfeQrAqqtLpvbCkjRTEZEQB6lCDRmOPufbHcgtWqMsYWROnTgxIvZQTXucI0p80A//ubuO423TfE+SXUzZLvEwb+8o5HLGXDIGQB+jnWLa14wz5kNXdPDqzyXSNrdp+jtg/t25DJvUlNxWUyUNJYIHP+KBw0AWmGRTvVDbOBrzYOlxEvVjMKlkaQuW8IPU4TWl47pUvXKkYrpnzJ5tEAsq1kmVNKWgVcUFNQoi74dxPk+5g/xI/5/o2OBJY/+vt4ksk9WNbDGjbhcRJOGsyGPBK7asiS3Q==
+ b=EOpZgEz0tJc7djG/b8MCr0y63clfq2qFzzFeMUe/LTw2Gr8Dgu8nztt2Lpvopu/VW4gdJNR3FBOFhPEry5/CONkTtMTFs/O52fn8/+nVwaEn032l9Iss3gRHVIivxNvQIbwS4h7qH2e7GaGEmQP01HGqapsciF4Y+YSOg0vtvdZ6x9lTj6WqT7x2/CjIT1Av6Nu4eLG0sVq1JkO2zHYC5/YK90T0fzKyPuiwOpPEB2i6LEunF8UDBdRK0XN0xBcub+o15YJwvcr2YztZ6ZLlg2EexmRoDVI9w1YQ86u6gYjOYYrh7bTqIaKIEM5D1j/T6Pe7gw0ba0/InluxMdJSOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yJoexmoNmjT4rjkNCxI53+yjD58DwdZUTEI2JuMpqVg=;
- b=QUjepEkMYhIm38wVctfz6UOkdbpJRKhf2cHgC0sO6Uly8I5W7ID+ZJzu7qz0PO1XxrTflKBKOuZ+1AXMmVNSD3/GP2d+nJKyp6nfGhpZrOz8UW7Ha/pD1nWGz/HQF1nwATNpLfL3TPGOsh/vQ/dVWqEB0U7i5e5Kr5rqF6w1iikQU8Jv7kTluf5s7JyQCSUWb3tC/Scj+z3ZnbIiBsbEqnYlBHBHR5AGPRIXDbs6zMl+HG+cw/zheVYQmEGBmDxLyTtwlznUrARMlHP43CcutVlZkA5qoB7WWCgB3sUB6S1pone/tmkbRyrYrLUg0me8qJoqOFsApnGCt1DfvqtF7A==
+ bh=dkop/abPRNTjxGTjHz/FqYNkpDj18WDwwM9Pv1ADPGw=;
+ b=B8JTPN7ozoxNyEQj67bJDsSE1u4QvR2Nl315mTzFczs/9YDyV5Uax9Bp7MlVPyAbEbYwCz0Stb1FBVZXUoSFMoynjiR7mCqWHn3j6pMPXOmmeB5qMNymI7FZWSaUqs7a5wmHl/p3zjXXn67Alqq53XMADVfNJzPIPByHgxOLaCaMVsVxP3buZSybTCZ5qLDS5H5+nvlpMVRw46xdgVOaQsyR44cUZCO1JkGYWSGUs1So7QQ2v4wLpKhwbNOBnqi7SNhHONzG4Q3mxmpq1aiOpnzjt/f0HlNx6Cfee3A99CDL/frNFBGEuVZTIg8jBx4SPvJNAnW2udTx+IMuG4QfHA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yJoexmoNmjT4rjkNCxI53+yjD58DwdZUTEI2JuMpqVg=;
- b=DdDg0NDxbgJuhYjDCKwz3D+6Z+PV4k4IAeyDWo9JpsIGeObFlbiEWeLSfaQ8/uHbXbbZLO5GWZPZK/CDLh22go7cZwc9MVZRmirf4SqGWljMWyXqzyn9lqtN9EAVDws2E4aE5kUs5S8ThL7Eqpd3aktHmZNgDONBJ8zfeeA7w0Y=
+ bh=dkop/abPRNTjxGTjHz/FqYNkpDj18WDwwM9Pv1ADPGw=;
+ b=oIjlNK/FUauhnYDLdXL+2RhBwSSa9jEly6iL8af1stX1MGpi0b80IraZVnykfJBZl6u+Md91DceOS9VdHq74pOzki8XjvHupuaOY8OrOyRXI3YKysvqy0haIX9qlEnTm4cUX1PoL4onyrQrwDEPVtks3nJnIQlKfsXMMe3YBgrM=
 Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
  by LV2PR12MB5752.namprd12.prod.outlook.com (2603:10b6:408:14d::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Mon, 19 Dec
- 2022 19:50:35 +0000
+ 2022 19:51:23 +0000
 Received: from MW3PR12MB4553.namprd12.prod.outlook.com
  ([fe80::790c:da77:2d05:6098]) by MW3PR12MB4553.namprd12.prod.outlook.com
  ([fe80::790c:da77:2d05:6098%5]) with mapi id 15.20.5924.016; Mon, 19 Dec 2022
- 19:50:35 +0000
+ 19:51:23 +0000
 From:   "Moger, Babu" <Babu.Moger@amd.com>
 To:     Reinette Chatre <reinette.chatre@intel.com>,
         "corbet@lwn.net" <corbet@lwn.net>,
@@ -72,474 +72,181 @@ CC:     "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
         "adrian.hunter@intel.com" <adrian.hunter@intel.com>,
         "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
         "peternewman@google.com" <peternewman@google.com>
-Subject: RE: [PATCH v9 10/13] x86/resctrl: Add sysfs interface to write
- mbm_total_bytes_config
-Thread-Topic: [PATCH v9 10/13] x86/resctrl: Add sysfs interface to write
- mbm_total_bytes_config
-Thread-Index: AQHZBZrSquDNk6pznU61qmw2jh4ld65vWcwAgAZf0WA=
-Date:   Mon, 19 Dec 2022 19:50:35 +0000
-Message-ID: <MW3PR12MB455337B3EFAE3A0E37D042AF95E59@MW3PR12MB4553.namprd12.prod.outlook.com>
+Subject: RE: [PATCH v9 11/13] x86/resctrl: Add sysfs interface to write
+ mbm_local_bytes_config
+Thread-Topic: [PATCH v9 11/13] x86/resctrl: Add sysfs interface to write
+ mbm_local_bytes_config
+Thread-Index: AQHZBZrU3dsS5MqoSkKA4lGKGJAHea5vWguAgAZhJGA=
+Date:   Mon, 19 Dec 2022 19:51:23 +0000
+Message-ID: <MW3PR12MB455360DC63B348EBEDDC9A7B95E59@MW3PR12MB4553.namprd12.prod.outlook.com>
 References: <166990882621.17806.16780480657453071426.stgit@bmoger-ubuntu>
- <166990903030.17806.5106229901730558377.stgit@bmoger-ubuntu>
- <084224cb-271f-a1c8-6665-1953b2574495@intel.com>
-In-Reply-To: <084224cb-271f-a1c8-6665-1953b2574495@intel.com>
+ <166990904243.17806.8875872967137007418.stgit@bmoger-ubuntu>
+ <819f31d8-5fe0-908e-9861-f4ec36105cd6@intel.com>
+In-Reply-To: <819f31d8-5fe0-908e-9861-f4ec36105cd6@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2022-12-19T19:45:14Z;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2022-12-19T19:50:51Z;
  MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
  MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
  MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=76a27686-da22-4bd9-8762-f76d6d0045ae;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=91b86c81-8ec0-4db0-8fbd-ed387e22832e;
  MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=1
 msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_enabled: true
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_setdate: 2022-12-19T19:50:34Z
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_setdate: 2022-12-19T19:51:22Z
 msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_method: Standard
 msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_name: General
 msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_actionid: 273ae31d-fca3-40f0-9dcb-26755c21a7f8
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_actionid: 3db9e1cf-7aea-4c87-9d24-1df65d0a708d
 msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_contentbits: 0
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: MW3PR12MB4553:EE_|LV2PR12MB5752:EE_
-x-ms-office365-filtering-correlation-id: 7a5c355b-558f-4dbc-eb5d-08dae1fa4bc2
+x-ms-office365-filtering-correlation-id: afac4797-b415-4d8c-e184-08dae1fa6878
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hCA5BFyGr7tAoIHHBWvH2g0OdFGc80N7ZIPdHzqsr7LfPoEtb/zW/IR4brIqCarWGWMv694LaNeJzaOmlbUPr4vKmpryCwXjUUvQ6eYkfWnPPysGu9mr1EY8VVoggdaRJ2zOK7j06RdQ07aDFJ/26Barsagk7OioWpgOmT3h0NNKOL4wp9QwfSTuiaIKUkU+vMelZSXBAiplix4SP9c3/FQ3vkv2G94s8Dt+N8Ka81Bk9/A8pAy3vSS63UD92RaEqLCDNnxiMUkjn2N6d8XUeBOQOHDmNFHr31Swsoglw7xerjPFqkp4NkCaNIGHnS1jEmdnvLZGOL9Je+zF5d7MzAJcqDCfeAM9xMoImsR0hvVIDjPM9QnuvCpYq5t5PECJ16d33YFuNLUCctAvz06pixE6WZZ+le9LM5NGUfnV1K0aQQb/O4JBLZ1aZzTOf+AV2jn2yDsw4qxl8pcTs6TExQAE8ljPvqoiZEJoPi/XWDB9bHaSINQ+7QrgUElIZgQdLCkk3FRBgpIdtEwJQLqf+HY5f20G49xvad4XpxX1e/EZY/0lpEQFduc3CrED4BcgNykF3HynADdNWKJ7kYq+z7zD3J4FK4yKYqtpOP9UDNOdhvSIQr9gtUWdo+/OEuDAEU5LnIfhTG01kWE+6HVpZiD1aSsynvSGGq0GhTc3t7weMImxpdH2JZpR9rM56rXEax0XfCWz1DGqU2Gx1HVnCVZTswYi58N8p+6Z5YvN7TY=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(136003)(366004)(396003)(39860400002)(376002)(451199015)(478600001)(71200400001)(110136005)(54906003)(76116006)(966005)(7696005)(316002)(53546011)(6506007)(8676002)(66476007)(66556008)(64756008)(66946007)(66446008)(186003)(26005)(9686003)(45080400002)(4326008)(8936002)(52536014)(7416002)(41300700001)(5660300002)(7406005)(83380400001)(30864003)(2906002)(38100700002)(38070700005)(122000001)(33656002)(55016003)(86362001);DIR:OUT;SFP:1101;
+x-microsoft-antispam-message-info: 623h33IhlXMiOhDrB0HQ1u0Daz8Q7RggtW2g0Hr4Vv0dosVP9owbhWdf/s046aOl7tZnrcCp1MC33oXkfgxZEOjn+uv+KB2oBzRC5koyGADjAwN9XM0PxXAuwj9VGuqkvWWbSJ5/kP9SLS4mubnfvuP2i5fRwLtp5G+Q2qcFNV4s4hl0Hxvxgi98eFmupwEpB8mw4sk4HMorCBLtXOSGxz5ReAnR/SGwE6Ep2eShzk+itmIITOelXp7FnsczmL6FYEy5NkaBlKYhUkDC/l596xRhPB3O2Qp7G4g98tNRfJg/MkCxhnmkPVQfcIKzPQogDsGsYmtA/Oh4Y2spIpi+bnOuK0e37OandYrTIa7/hVEkzVx2IJlxImDSAD+Hpzvb0ZfeTCopSbxKDtj6L9khy0yHpRBSY5bA62n8c3D3a3rzbvuTpMhLSMG3WhYQ51SmSc7mP2uSDN3dkarCPLFfZdw5MrsWIm1e7BFneSOnjbDZ6fUL8lKUqPhCR5EzO3lweOBTmT6ii5DJzpMdsJstVu3Kg+cbuBvXToJTvCetEelkczrdMVG1gyL14ybvP010cwDJ5jpixYczOnn4REMGAnTnw/TQZhhutCG6v7iYhmJnRSFKo/xx6280DlLT/xUiRftaDVahfSqmMxYTWbVVpoQCDYixO/T0IVssx5rX6buPZN7x4dRF5pPpuT5jvvFPS8RGEEiEL602QlwKDLIT1Q==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(136003)(366004)(396003)(39860400002)(376002)(451199015)(478600001)(71200400001)(110136005)(54906003)(76116006)(7696005)(316002)(53546011)(6506007)(8676002)(66476007)(66556008)(64756008)(66946007)(66446008)(186003)(26005)(9686003)(4326008)(8936002)(52536014)(7416002)(41300700001)(5660300002)(7406005)(83380400001)(2906002)(38100700002)(38070700005)(122000001)(33656002)(55016003)(86362001);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?DRB2/Ib6Zkb+CG+gNvmP0NcFCj7Vcgbxfah1KlOKA+qnR3mN0YAbCPGVgApV?=
- =?us-ascii?Q?r36YmIrYHAX1/eATmctBfY9DxHZw5D2gyy/QAPr8BnoghoS8kXn6iDiWbpjd?=
- =?us-ascii?Q?bRSAwBP+WFHnANVOPePSS3wwCAsa07tGgFJz7DL9+XuHbrE6hP4j722Z8BHk?=
- =?us-ascii?Q?L+kGelh40DTXvrVpg9uBJuR2XX6pfVZUg6YTzy3fPkJBWfv8toNXuCVZ0/OV?=
- =?us-ascii?Q?bwFDU9t3ndJILSDg0MyNMgDHjG5ASAmHBerwq8fKRz02aTdilTJw2MjqyfuM?=
- =?us-ascii?Q?cuGhdJ99OEw8swnA6Burc0z/CUsRk9Vf0F4RAzikXDGuirV74iB4HBJKAo0G?=
- =?us-ascii?Q?m5FtqTrczJIrf6uL1I0Ogy6nSBMLl+yNcJCIOfeYmrE5mS6j6syomdfxiySz?=
- =?us-ascii?Q?yHw3fBeT0EbsMTyKlSkPp0kLTEXGPMDMCOIJ+HgOqeufcWmqXtFDYuw6S2R1?=
- =?us-ascii?Q?iJ5x5ebflGpP4LWChdG/AL8V4txNGXJBJRavB4SJDSwEHApXq78xhLsZh+n5?=
- =?us-ascii?Q?kiL2gH0ZaYj1m9jHpPpZHVSNe6rURktZsyhRejLL18YrenbQScJHHv1PFrEt?=
- =?us-ascii?Q?UPT79Bw0iYLljFc4/3jVqTlB1HpMCn0iU2UlsmBN2K0cmNXI9qyh9oJPHk4m?=
- =?us-ascii?Q?bleZF9uhJRtGv79fhYa5C3v2WrNvREZG5x/J71+tZtsViG3MqWXzQgStexEM?=
- =?us-ascii?Q?QFKCLTF6T4CrAyfsZkgtX3Lm6osyPA7cEspgFjPscGnSPaJcq6AdWCeObLiO?=
- =?us-ascii?Q?lUfoQDQYltC+sU9yQl+uAtPFnnYrBK2fMq/sn7ZZibs3SW7rnofV8BQ3dPlv?=
- =?us-ascii?Q?ahSbHpF3lugQuwNSlmwgTQ8A/xWwK8riaFu+UHrVokppcF3cnAN+KZqqBt8E?=
- =?us-ascii?Q?6oLK32FG9n+W6a0Lw/r1cktKBO4qw27NyPGANWLHU40sENfLCGVXTs+LWKS5?=
- =?us-ascii?Q?9Eo97PuwOM5LEsAodcSo3koismaJkO3JKtEvYtHnCJhqCnlnpqGyINP7XE5s?=
- =?us-ascii?Q?1RxydXCiuJ7yz2vZBgarPhN8jcSpXjO8bHLzyptT1susCshnvdDrppYrn+dt?=
- =?us-ascii?Q?sh4DkcCaKOoRuq48KbHTO0Hb/60gZecmAHs63BCwWEEL78qlxgBQzx+v9OCw?=
- =?us-ascii?Q?8WYzrlaZ/pyp4In4CXQ2Wu4NQiLR7tuPHcvMWgo7KXwD166S90VvchYs3Gkg?=
- =?us-ascii?Q?Xo2r0e0PsaNRpVISaLIqUfpkuKaOu7Cm2VAI8l5NqsjKfEX5JfJplhaO4yTS?=
- =?us-ascii?Q?SmtN8RCJOzQpY47NWgtLCpPNXG+sSdQf1JleDBsiAUKT3hfGnB1bqAoWyh6a?=
- =?us-ascii?Q?n6bSqrUUm/MfHfXiwlv9GGlzQ4VrBO4G4FqXnT29aMsIDM/SdDTwAQCJfGOg?=
- =?us-ascii?Q?/1dacdLamV+z/MFHtGZi9xOQZ/uwo0kXao39mWHTUkkd3ahv3UKAXI8FP481?=
- =?us-ascii?Q?nKfBfXTquiHZlR1yrjEBW0hWb5jscPpfSLLCq9YK3mkYnVMGo0T6ZXL8tYDt?=
- =?us-ascii?Q?Tkm/3BCzHVZwY/Tkgp5I/W4sWbu/3k7bZSs45HzdOC/F/d8pHbvHtPcX9TKI?=
- =?us-ascii?Q?DORc/JlianczsvzNV5Y=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TjZ0OGtWQ0lwZll3a05ZSGlqR0V2Zkx0MndBUytXazVhNXdpdUwvUlA1U29p?=
+ =?utf-8?B?RUx4VCtxb1NjQXVFQmc0RkhSeFNIRWZpMFpxZzlUdWgyemxDMVFzSDU3S255?=
+ =?utf-8?B?eWpyKzljRFpEN0RzS1hCVUF6bzhyZWMwUEdsYnZlemdlWWZ4UCt1dXFKMlkw?=
+ =?utf-8?B?OFF6Nm5aRVE4SEhTaTBCVnlTcnNOVkF5b2lacm9jMnBHQU9XOTYzWUZxdGcr?=
+ =?utf-8?B?VlVINHFxSXdTZkkrTFhkcm1XR1dNTng1YXE5QUFZVHZabmUxSHpqSkg4SWJk?=
+ =?utf-8?B?WkJtaEUyQ0JjNjd0ZjBqZEtCdXlUQlhvSDJqanZzb0U0M0ZOeXlUcTB6a3Rr?=
+ =?utf-8?B?bFJpQTFIa3R1djdKMmNBZW1sU1M5RXp2MXgxNXJjL0E4RWJ2T0wzREw4azNl?=
+ =?utf-8?B?RjlsM0lXUCtIRmlBeG1mUjZiSUFURGhqQS9LVkJyS2xiOXdMRVdLTmRDcmRT?=
+ =?utf-8?B?MTdoM0g2UHN0RXM3NnMwbG5JeWE5N2JvMUF2N2tGNWdYY2x6QlRTS0JqTjB3?=
+ =?utf-8?B?ZkU1aFVRM25STGNUak92UzNuTmtGbDhLb3dSV2JuSDBlVXVqRHRtM1FsQVJj?=
+ =?utf-8?B?MFNtVldVNE5UVmVZS0RtbHJkZ1NZV0NXcVlEUFdDLzUxRHVFeERjM1o3eTFi?=
+ =?utf-8?B?dU5iLyszemJPR2tOYkNUYXFNVzhIb05KbzdPbjZrdVplT2dJdzE3akVvbVRR?=
+ =?utf-8?B?NVpMYWdIeENjVTVXT1JvZWU4VTBnVzZYb2xGN1RNQWJhQmY4ai9SdFBpNkRI?=
+ =?utf-8?B?UFdaQVVLOUsyRlNKR1V4UVlYTVJFQ0Z6WVBsdjBaOUd3NVp1QzVmaUVDZEVD?=
+ =?utf-8?B?ODZTekI5RHUreU85QWg2OWdlbUR5dUNzaElFZ2xWNHJkNW53aFYyTTJGYjJE?=
+ =?utf-8?B?TndvbVBNMXFlZ3N4WU1wVTJueXFVYTdKaTdaT25aOGkrRk1lVWdBdEc5MnIz?=
+ =?utf-8?B?b1ArSFQ2VktIMW1kSHZDWW5DRjRYYlNiVklXa3RNSGtneTBLZytrRXQyakpQ?=
+ =?utf-8?B?dU1VRkNiS0xYM0l0eUU5Sy9Vdm16QkF1RUowYkNWNzczc1plKy9VL2l0UGpo?=
+ =?utf-8?B?cGlnOCtyY2JpeExiQ3hvYjdRQ3pMMEM1S2t1b3pLeCtCeDBRWXh4OUc0NEEv?=
+ =?utf-8?B?Qk5uTDdnRlM0bnNVMEE1VTVXYlZWNEh4ZGl4bFFRa25UQkdmSi9DcjQwUWlL?=
+ =?utf-8?B?SDVOenVLM214dVVoS1QvalNsc1VQSitteTkwc1FwclBHTDhHaGhxamRBTlk2?=
+ =?utf-8?B?azV5alN3citBdlo0TkZtR0dsbFNOT3VrZDU3VnN0NGdkYURVdE1DQXY4eGZ0?=
+ =?utf-8?B?TDBlNDhJdXMrMS9VRGJXclFSb1FwUVZIUHBRMTJaQ2xjNmhkbkVzcjFJT3Zp?=
+ =?utf-8?B?NzBwbHJZTEpLYThEV01oMjVTYXZ2OFN1emFuVmdlanVDdDJMNzI1dGZORlZw?=
+ =?utf-8?B?VVdTWFJwTEg2RnBJUytZcklTWFJMSEo3TU1vSWlYNi8rMHFrRWdIQmtaWVVT?=
+ =?utf-8?B?ZFlTYWNwTFAzVldmOXl2aDA1SHU4REJIK2RhSXozMFhsUHVNRE82MG9OeG9h?=
+ =?utf-8?B?bXpnWStyV0hWWk9BcnVhNDJKZitCM0tVeEVkbVhZelB6MkJUemNxVGVlL2d3?=
+ =?utf-8?B?Y2JOUTc3aGdBdW9GOW5NZXNHUHRPRkM5R1hKL2M1ck43TGdJTGorSTJqZEtJ?=
+ =?utf-8?B?bzJ0WmRVc2ZnbHhHZVZCY3V0YkNKSmp6cGFwUk1jOHpNaWRLRGt3V2p2ajl5?=
+ =?utf-8?B?RUR3bjVNZ05tODkyc2RSSWlKRU9lL2hwYUZzaHFoS3FLUXQ1MUhLSU5GbWhj?=
+ =?utf-8?B?cWZLVWR0WnQxYU94cGlUVGhZNkdGbWVZaXNCYmMwTFlXZGh5STdUSlRpZk5q?=
+ =?utf-8?B?SlRpVWlhNHo4Y3dCWXFGamgvZGtLZnNlQ0U2WUpjUGNnR003K3UybkFDNk9u?=
+ =?utf-8?B?NHFiZ244MU9sVHgrNHdEMy9SbHNSTmppU2NQMHYyVmxKdEMzMERtR1JvcmVp?=
+ =?utf-8?B?SXhwczA5alZNdm54QURUWTVtRHNzc3VNZjk4a2lVSU5ySGRVTEd4R2dsRG42?=
+ =?utf-8?B?aXpVS2w1NzdURWRoSXQ5ZE1lUGpXczAreDJjYWlQNjQ5ekxYVktIWDBQeWMv?=
+ =?utf-8?Q?nnmI=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a5c355b-558f-4dbc-eb5d-08dae1fa4bc2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Dec 2022 19:50:35.4860
+X-MS-Exchange-CrossTenant-Network-Message-Id: afac4797-b415-4d8c-e184-08dae1fa6878
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Dec 2022 19:51:23.6860
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RIgHR+ACzHneaeHJesRIe3uwNos0qOJcc7G22+OLY7ZkRDoTw07UMDo6oLEm5OuI
+X-MS-Exchange-CrossTenant-userprincipalname: tw407/T2Cy0OFrInl1XKMJd8kKH+veXdMN/fL/lTAHE7KNH7FMwpDgj0ZWrbg6xm
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5752
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[AMD Official Use Only - General]
-
-Hi Reinette,
-
-> -----Original Message-----
-> From: Reinette Chatre <reinette.chatre@intel.com>
-> Sent: Thursday, December 15, 2022 12:25 PM
-> To: Moger, Babu <Babu.Moger@amd.com>; corbet@lwn.net;
-> tglx@linutronix.de; mingo@redhat.com; bp@alien8.de
-> Cc: fenghua.yu@intel.com; dave.hansen@linux.intel.com; x86@kernel.org;
-> hpa@zytor.com; paulmck@kernel.org; akpm@linux-foundation.org;
-> quic_neeraju@quicinc.com; rdunlap@infradead.org;
-> damien.lemoal@opensource.wdc.com; songmuchun@bytedance.com;
-> peterz@infradead.org; jpoimboe@kernel.org; pbonzini@redhat.com;
-> chang.seok.bae@intel.com; pawan.kumar.gupta@linux.intel.com;
-> jmattson@google.com; daniel.sneddon@linux.intel.com; Das1, Sandipan
-> <Sandipan.Das@amd.com>; tony.luck@intel.com; james.morse@arm.com;
-> linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
-> bagasdotme@gmail.com; eranian@google.com; christophe.leroy@csgroup.eu;
-> jarkko@kernel.org; adrian.hunter@intel.com; quic_jiles@quicinc.com;
-> peternewman@google.com
-> Subject: Re: [PATCH v9 10/13] x86/resctrl: Add sysfs interface to write
-> mbm_total_bytes_config
->=20
-> Hi Babu,
->=20
-> On 12/1/2022 7:37 AM, Babu Moger wrote:
-> > The current event configuration for mbm_total_bytes can be changed by
-> > the user by writing to the file
-> > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config.
->=20
-> Please drop "current" from above
->=20
-> >
-> > The event configuration settings are domain specific and will affect
-> > all the CPUs in the domain.
->=20
-> please drop "will"
->=20
-> >
-> > Following are the types of events supported:
-> >
-> > =3D=3D=3D=3D
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > Bits   Description
-> > =3D=3D=3D=3D
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > 6      Dirty Victims from the QOS domain to all types of memory
-> > 5      Reads to slow memory in the non-local NUMA domain
-> > 4      Reads to slow memory in the local NUMA domain
-> > 3      Non-temporal writes to non-local NUMA domain
-> > 2      Non-temporal writes to local NUMA domain
-> > 1      Reads to memory in the non-local NUMA domain
-> > 0      Reads to memory in the local NUMA domain
-> > =3D=3D=3D=3D
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > For example:
-> > To change the mbm_total_bytes to count only reads on domain 0, the
-> > bits 0, 1, 4 and 5 needs to be set, which is 110011b (in hex 0x33).
-> > Run the command.
-> > 	$echo  0=3D0x33 > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
-> >
-> > To change the mbm_total_bytes to count all the slow memory reads on
-> > domain 1, the bits 4 and 5 needs to be set which is 110000b (in hex 0x3=
-0).
-> > Run the command.
-> > 	$echo  1=3D0x30 > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
-> >
-> > Signed-off-by: Babu Moger <babu.moger@amd.com>
-> > ---
-> >  arch/x86/kernel/cpu/resctrl/monitor.c  |   13 +++
-> >  arch/x86/kernel/cpu/resctrl/rdtgroup.c |  127
-> ++++++++++++++++++++++++++++++++
-> >  include/linux/resctrl.h                |   10 +++
-> >  3 files changed, 149 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c
-> > b/arch/x86/kernel/cpu/resctrl/monitor.c
-> > index 7c8a3a745041..b265856835de 100644
-> > --- a/arch/x86/kernel/cpu/resctrl/monitor.c
-> > +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-> > @@ -176,6 +176,19 @@ void resctrl_arch_reset_rmid(struct rdt_resource *=
-r,
-> struct rdt_domain *d,
-> >  		memset(am, 0, sizeof(*am));
-> >  }
-> >
-> > +void resctrl_arch_reset_rmid_all(struct rdt_resource *r, struct
-> > +rdt_domain *d) {
-> > +	struct rdt_hw_domain *hw_dom =3D resctrl_to_arch_dom(d);
-> > +
-> > +	if (is_mbm_total_enabled())
-> > +		memset(hw_dom->arch_mbm_total, 0,
-> > +		       sizeof(*hw_dom->arch_mbm_total) * r->num_rmid);
-> > +
-> > +	if (is_mbm_local_enabled())
-> > +		memset(hw_dom->arch_mbm_local, 0,
-> > +		       sizeof(*hw_dom->arch_mbm_local) * r->num_rmid); }
-> > +
->=20
-> We learned a lot more about this area after Peter's discovery:
-> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flore.=
-kern
-> el.org%2Flkml%2F20221207112924.3602960-1-
-> peternewman%40google.com%2F&amp;data=3D05%7C01%7Cbabu.moger%40am
-> d.com%7Cc9ca23a7b3c643d2385508dadec9f83d%7C3dd8961fe4884e608e11a8
-> 2d994e183d%7C0%7C0%7C638067256273943013%7CUnknown%7CTWFpbGZsb
-> 3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%
-> 3D%7C3000%7C%7C%7C&amp;sdata=3DPmvi2L4L727GqALGaeEO0MbpcnuRcqKc
-> opNNXuu%2BbFM%3D&amp;reserved=3D0
->=20
-> Since this is a new generic function it should be clear in which scenario=
-s it is
-> valid.
-> Could you please add a function comment that warns future developers abou=
-t
-> consequences if a new usage is considered? Something like:
->=20
-> /*
->  * Assumes that hardware counters are also reset and thus that there is n=
-o
-> need
->  * to record initial non-zero counts.
->  */
->=20
-> >  static u64 mbm_overflow_count(u64 prev_msr, u64 cur_msr, unsigned int
-> > width)  {
-> >  	u64 shift =3D 64 - width, chunks;
-> > diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > index 580f3cce19e2..8a22a652a6e8 100644
-> > --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > @@ -1517,6 +1517,130 @@ static int mbm_local_bytes_config_show(struct
-> kernfs_open_file *of,
-> >  	return 0;
-> >  }
-> >
-> > +static void mon_event_config_write(void *info) {
-> > +	struct mon_config_info *mon_info =3D info;
-> > +	u32 index;
-> > +
->=20
-> index does not need to be u32 ... mon_event_config_index_get() returns
-> "unsigned int"
-> and wrmsr expects "unsigned int", it can also just be "unsigned int".
->=20
->=20
-> > +	index =3D mon_event_config_index_get(mon_info->evtid);
-> > +	if (index =3D=3D INVALID_CONFIG_INDEX) {
-> > +		pr_warn_once("Invalid event id %d\n", mon_info->evtid);
-> > +		return;
-> > +	}
-> > +	wrmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, 0);
-> }
-> > +
-> > +static int mbm_config_write_domain(struct rdt_resource *r,
-> > +				   struct rdt_domain *d, u32 evtid, u32 val) {
-> > +	struct mon_config_info mon_info =3D {0};
-> > +	int ret =3D 0;
-> > +
-> > +	/* mon_config cannot be more than the supported set of events */
-> > +	if (val > MAX_EVT_CONFIG_BITS) {
-> > +		rdt_last_cmd_puts("Invalid event configuration\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	/*
-> > +	 * Read the current config value first. If both are the same then
-> > +	 * no need to write it again.
-> > +	 */
-> > +	mon_info.evtid =3D evtid;
-> > +	mondata_config_read(d, &mon_info);
-> > +	if (mon_info.mon_config =3D=3D val)
-> > +		goto out;
-> > +
-> > +	mon_info.mon_config =3D val;
-> > +
-> > +	/*
-> > +	 * Update MSR_IA32_EVT_CFG_BASE MSRs on all the CPUs in the
-> > +	 * domain. The MSRs offset from MSR MSR_IA32_EVT_CFG_BASE
-> > +	 * are scoped at the domain level. Writing any of these MSRs
-> > +	 * on one CPU is supposed to be observed by all CPUs in the
-> > +	 * domain. However, the hardware team recommends to update
-> > +	 * these MSRs on all the CPUs in the domain.
-> > +	 */
-> > +	on_each_cpu_mask(&d->cpu_mask, mon_event_config_write,
-> &mon_info,
-> > +1);
-
-Forgot about this.  This snippet is going to change. I have tested and work=
-s fine.
-How about this?
-
-        /*
-         * Update MSR_IA32_EVT_CFG_BASE MSR on one of the CPUs in the
-         * domain. The MSRs offset from MSR MSR_IA32_EVT_CFG_BASE
-         * are scoped at the domain level. Writing any of these MSRs
-         * on one CPU is supposed to be observed by all CPUs in the domain.
-         */
-        smp_call_function_any(&d->cpu_mask, mon_event_config_write, &mon_in=
-fo, 1);
-
-
-/*
-> +	 * Update MSR_IA32_EVT_CFG_BASE MSRs on all the CPUs in the
-> +	 * domain. The MSRs offset from MSR MSR_IA32_EVT_CFG_BASE
-> +	 * are scoped at the domain level. Writing any of these MSRs
-> +	 * on one CPU is supposed to be observed by all CPUs in the
-> +	 * domain. However, the hardware team recommends to update
-> +	 * these MSRs on all the CPUs in the domain.
-> +	 */
-> +	on_each_cpu_mask(&d->cpu_mask, mon_event_config_write, &mon_info, 1);
-
-
-> > +
-> > +	/*
-> > +	 * When an Event Configuration is changed, the bandwidth counters
-> > +	 * for all RMIDs and Events will be cleared by the hardware. The
-> > +	 * hardware also sets MSR_IA32_QM_CTR.Unavailable (bit 62) for
-> > +	 * every RMID on the next read to any event for every RMID.
-> > +	 * Subsequent reads will have MSR_IA32_QM_CTR.Unavailable (bit 62)
-> > +	 * cleared while it is tracked by the hardware. Clear the
-> > +	 * mbm_local and mbm_total counts for all the RMIDs.
-> > +	 */
-> > +	resctrl_arch_reset_rmid_all(r, d);
->=20
-> If I understand correctly the expectation is that when user space read co=
-unters
-> (via mon_data files) right after the configuration was changed then this =
-read
-> will return "Unavailable" and then the next read will return data.
->=20
-> If this is the case then I think a snippet about this user experience wou=
-ld be
-> helpful to add to the documentation.
->=20
-> Have you considered doing a preemptive read on the RMIDs that are in use =
-to
-> avoid users encountering "Unavailable"? I assume doing so on a busy syste=
-m
-> could potentially involve hundreds of register reads/writes.
->=20
-> > +
-> > +out:
-> > +	return ret;
-> > +}
-> > +
-> > +static int mon_config_write(struct rdt_resource *r, char *tok, u32
-> > +evtid) {
-> > +	char *dom_str =3D NULL, *id_str;
-> > +	unsigned long dom_id, val;
-> > +	struct rdt_domain *d;
-> > +	int ret =3D 0;
-> > +
-> > +next:
-> > +	if (!tok || tok[0] =3D=3D '\0')
-> > +		return 0;
-> > +
-> > +	/* Start processing the strings for each domain */
-> > +	dom_str =3D strim(strsep(&tok, ";"));
-> > +	id_str =3D strsep(&dom_str, "=3D");
-> > +
-> > +	if (!id_str || kstrtoul(id_str, 10, &dom_id)) {
-> > +		rdt_last_cmd_puts("Missing '=3D' or non-numeric domain id\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (!dom_str || kstrtoul(dom_str, 16, &val)) {
-> > +		rdt_last_cmd_puts("Non-numeric event configuration
-> value\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	list_for_each_entry(d, &r->domains, list) {
-> > +		if (d->id =3D=3D dom_id) {
-> > +			ret =3D mbm_config_write_domain(r, d, evtid, val);
-> > +			if (ret)
-> > +				return -EINVAL;
-> > +			goto next;
-> > +		}
-> > +	}
-> > +
-> > +	return -EINVAL;
-> > +}
-> > +
-> > +static ssize_t mbm_total_bytes_config_write(struct kernfs_open_file *o=
-f,
-> > +					    char *buf, size_t nbytes,
-> > +					    loff_t off)
-> > +{
-> > +	struct rdt_resource *r =3D of->kn->parent->priv;
-> > +	int ret;
-> > +
-> > +	/* Valid input requires a trailing newline */
-> > +	if (nbytes =3D=3D 0 || buf[nbytes - 1] !=3D '\n')
-> > +		return -EINVAL;
-> > +
-> > +	cpus_read_lock();
-> > +	mutex_lock(&rdtgroup_mutex);
-> > +
-> > +	rdt_last_cmd_clear();
-> > +
-> > +	buf[nbytes - 1] =3D '\0';
-> > +
-> > +	ret =3D mon_config_write(r, buf, QOS_L3_MBM_TOTAL_EVENT_ID);
-> > +
-> > +	mutex_unlock(&rdtgroup_mutex);
-> > +	cpus_read_unlock();
-> > +
-> > +	return ret ?: nbytes;
-> > +}
-> > +
-> >  /* rdtgroup information files for one cache resource. */  static
-> > struct rftype res_common_files[] =3D {
-> >  	{
-> > @@ -1617,9 +1741,10 @@ static struct rftype res_common_files[] =3D {
-> >  	},
-> >  	{
-> >  		.name		=3D "mbm_total_bytes_config",
-> > -		.mode		=3D 0444,
-> > +		.mode		=3D 0644,
-> >  		.kf_ops		=3D &rdtgroup_kf_single_ops,
-> >  		.seq_show	=3D mbm_total_bytes_config_show,
-> > +		.write		=3D mbm_total_bytes_config_write,
-> >  	},
-> >  	{
-> >  		.name		=3D "mbm_local_bytes_config",
-> > diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h index
-> > 0cee154abc9f..e4dc65892446 100644
-> > --- a/include/linux/resctrl.h
-> > +++ b/include/linux/resctrl.h
-> > @@ -250,6 +250,16 @@ int resctrl_arch_rmid_read(struct rdt_resource
-> > *r, struct rdt_domain *d,  void resctrl_arch_reset_rmid(struct rdt_reso=
-urce
-> *r, struct rdt_domain *d,
-> >  			     u32 rmid, enum resctrl_event_id eventid);
-> >
-> > +/**
-> > + * resctrl_arch_reset_rmid_all() - Reset any private state associated =
-with
-> > + * 				   all the rmids.
->=20
-> It could be more explicit:
-> "Reset all private state associated with all rmids and eventids."
->=20
-> > + * @r:		The domain's resource.
-> > + * @d:		The rmid's domain.
->=20
-> This copy&paste needs some changes to match this new utility.
-> How about:
-> @r: The resctrl resource.
-> @d: The domain for which all architectural counter state will be cleared.
->=20
-> I think it can be improved more but the above could be a start (please do=
- not
-> copy verbatim but ensure style is correct.)
->=20
-> Keep in mind that this utility does not clear the non-architectural count=
-er state.
-> This does not apply to AMD since that state is used by the software contr=
-oller,
-> but it needs to be kept in mind if another usage for this utility arises.
->=20
-> > + *
-> > + * This can be called from any CPU.
-> > + */
-> > +void resctrl_arch_reset_rmid_all(struct rdt_resource *r, struct
-> > +rdt_domain *d);
-> > +
-> >  extern unsigned int resctrl_rmid_realloc_threshold;  extern unsigned
-> > int resctrl_rmid_realloc_limit;
-> >
-> >
-> >
->=20
-> The above hunk fails the "no spaces before tabs" checkpatch check.
->=20
-> Reinette
+W0FNRCBPZmZpY2lhbCBVc2UgT25seSAtIEdlbmVyYWxdDQoNCkhpIFJlaW5ldHRlLA0KDQo+IC0t
+LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFJlaW5ldHRlIENoYXRyZSA8cmVpbmV0
+dGUuY2hhdHJlQGludGVsLmNvbT4NCj4gU2VudDogVGh1cnNkYXksIERlY2VtYmVyIDE1LCAyMDIy
+IDEyOjI2IFBNDQo+IFRvOiBNb2dlciwgQmFidSA8QmFidS5Nb2dlckBhbWQuY29tPjsgY29yYmV0
+QGx3bi5uZXQ7DQo+IHRnbHhAbGludXRyb25peC5kZTsgbWluZ29AcmVkaGF0LmNvbTsgYnBAYWxp
+ZW44LmRlDQo+IENjOiBmZW5naHVhLnl1QGludGVsLmNvbTsgZGF2ZS5oYW5zZW5AbGludXguaW50
+ZWwuY29tOyB4ODZAa2VybmVsLm9yZzsNCj4gaHBhQHp5dG9yLmNvbTsgcGF1bG1ja0BrZXJuZWwu
+b3JnOyBha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnOw0KPiBxdWljX25lZXJhanVAcXVpY2luYy5j
+b207IHJkdW5sYXBAaW5mcmFkZWFkLm9yZzsNCj4gZGFtaWVuLmxlbW9hbEBvcGVuc291cmNlLndk
+Yy5jb207IHNvbmdtdWNodW5AYnl0ZWRhbmNlLmNvbTsNCj4gcGV0ZXJ6QGluZnJhZGVhZC5vcmc7
+IGpwb2ltYm9lQGtlcm5lbC5vcmc7IHBib256aW5pQHJlZGhhdC5jb207DQo+IGNoYW5nLnNlb2su
+YmFlQGludGVsLmNvbTsgcGF3YW4ua3VtYXIuZ3VwdGFAbGludXguaW50ZWwuY29tOw0KPiBqbWF0
+dHNvbkBnb29nbGUuY29tOyBkYW5pZWwuc25lZGRvbkBsaW51eC5pbnRlbC5jb207IERhczEsIFNh
+bmRpcGFuDQo+IDxTYW5kaXBhbi5EYXNAYW1kLmNvbT47IHRvbnkubHVja0BpbnRlbC5jb207IGph
+bWVzLm1vcnNlQGFybS5jb207DQo+IGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtl
+cm5lbEB2Z2VyLmtlcm5lbC5vcmc7DQo+IGJhZ2FzZG90bWVAZ21haWwuY29tOyBlcmFuaWFuQGdv
+b2dsZS5jb207IGNocmlzdG9waGUubGVyb3lAY3Nncm91cC5ldTsNCj4gamFya2tvQGtlcm5lbC5v
+cmc7IGFkcmlhbi5odW50ZXJAaW50ZWwuY29tOyBxdWljX2ppbGVzQHF1aWNpbmMuY29tOw0KPiBw
+ZXRlcm5ld21hbkBnb29nbGUuY29tDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjkgMTEvMTNdIHg4
+Ni9yZXNjdHJsOiBBZGQgc3lzZnMgaW50ZXJmYWNlIHRvIHdyaXRlDQo+IG1ibV9sb2NhbF9ieXRl
+c19jb25maWcNCj4gDQo+IEhpIEJhYnUsDQo+IA0KPiBPbiAxMi8xLzIwMjIgNzozNyBBTSwgQmFi
+dSBNb2dlciB3cm90ZToNCj4gPiBUaGUgY3VycmVudCBldmVudCBjb25maWd1cmF0aW9uIGZvciBt
+Ym1fbG9jYWxfYnl0ZXMgY2FuIGJlIGNoYW5nZWQgYnkNCj4gPiB0aGUgdXNlciBieSB3cml0aW5n
+IHRvIHRoZSBjb25maWd1cmF0aW9uIGZpbGUNCj4gPiAvc3lzL2ZzL3Jlc2N0cmwvaW5mby9MM19N
+T04vbWJtX2xvY2FsX2J5dGVzX2NvbmZpZy4NCj4gPg0KPiANCj4gU2FtZSBjb21tZW50cyBhYm91
+dCBzdWJqZWN0IGxpbmUgYW5kIHVzYWdlIG9mICJjdXJyZW50Ii4NCg0KU3VyZSwNCj4gDQo+ID4g
+VGhlIGV2ZW50IGNvbmZpZ3VyYXRpb24gc2V0dGluZ3MgYXJlIGRvbWFpbiBzcGVjaWZpYyBhbmQg
+d2lsbCBhZmZlY3QNCj4gPiBhbGwgdGhlIENQVXMgaW4gdGhlIGRvbWFpbi4NCj4gPg0KPiA+IEZv
+bGxvd2luZyBhcmUgdGhlIHR5cGVzIG9mIGV2ZW50cyBzdXBwb3J0ZWQ6DQo+ID4gPT09PQ0KPiA9
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PQ0KPiA+IEJpdHMgICBEZXNjcmlwdGlvbg0KPiA+ID09PT0NCj4gPT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPiA2ICAgICAgRGly
+dHkgVmljdGltcyBmcm9tIHRoZSBRT1MgZG9tYWluIHRvIGFsbCB0eXBlcyBvZiBtZW1vcnkNCj4g
+PiA1ICAgICAgUmVhZHMgdG8gc2xvdyBtZW1vcnkgaW4gdGhlIG5vbi1sb2NhbCBOVU1BIGRvbWFp
+bg0KPiA+IDQgICAgICBSZWFkcyB0byBzbG93IG1lbW9yeSBpbiB0aGUgbG9jYWwgTlVNQSBkb21h
+aW4NCj4gPiAzICAgICAgTm9uLXRlbXBvcmFsIHdyaXRlcyB0byBub24tbG9jYWwgTlVNQSBkb21h
+aW4NCj4gPiAyICAgICAgTm9uLXRlbXBvcmFsIHdyaXRlcyB0byBsb2NhbCBOVU1BIGRvbWFpbg0K
+PiA+IDEgICAgICBSZWFkcyB0byBtZW1vcnkgaW4gdGhlIG5vbi1sb2NhbCBOVU1BIGRvbWFpbg0K
+PiA+IDAgICAgICBSZWFkcyB0byBtZW1vcnkgaW4gdGhlIGxvY2FsIE5VTUEgZG9tYWluDQo+ID4g
+PT09PQ0KPiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PQ0KPiA+DQo+ID4gRm9yIGV4YW1wbGU6DQo+ID4gVG8gY2hhbmdlIHRoZSBtYm1f
+bG9jYWxfYnl0ZXNfY29uZmlnIHRvIGNvdW50IGFsbCB0aGUgbm9uLXRlbXBvcmFsDQo+ID4gd3Jp
+dGVzIG9uIGRvbWFpbiAwLCB0aGUgYml0cyAyIGFuZCAzIG5lZWRzIHRvIGJlIHNldCB3aGljaCBp
+cyAxMTAwYiAoaW4gaGV4DQo+IDB4YykuDQo+ID4gUnVuIHRoZSBjb21tYW5kLg0KPiA+ICAgICAk
+ZWNobyAgMD0weGMgPiAvc3lzL2ZzL3Jlc2N0cmwvaW5mby9MM19NT04vbWJtX2xvY2FsX2J5dGVz
+X2NvbmZpZw0KPiA+DQo+ID4gVG8gY2hhbmdlIHRoZSBtYm1fbG9jYWxfYnl0ZXMgdG8gY291bnQg
+b25seSByZWFkcyB0byBsb2NhbCBOVU1BIGRvbWFpbg0KPiA+IDEsIHRoZSBiaXQgMCBuZWVkcyB0
+byBiZSBzZXQgd2hpY2ggMWIgKGluIGhleCAweDEpLiBSdW4gdGhlIGNvbW1hbmQuDQo+ID4gICAg
+ICRlY2hvICAxPTB4MSA+IC9zeXMvZnMvcmVzY3RybC9pbmZvL0wzX01PTi9tYm1fbG9jYWxfYnl0
+ZXNfY29uZmlnDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBCYWJ1IE1vZ2VyIDxiYWJ1Lm1vZ2Vy
+QGFtZC5jb20+DQo+ID4gLS0tDQo+ID4gIGFyY2gveDg2L2tlcm5lbC9jcHUvcmVzY3RybC9yZHRn
+cm91cC5jIHwgICAyOQ0KPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrLQ0KPiA+ICAxIGZp
+bGUgY2hhbmdlZCwgMjggaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiA+DQo+ID4gZGlm
+ZiAtLWdpdCBhL2FyY2gveDg2L2tlcm5lbC9jcHUvcmVzY3RybC9yZHRncm91cC5jDQo+ID4gYi9h
+cmNoL3g4Ni9rZXJuZWwvY3B1L3Jlc2N0cmwvcmR0Z3JvdXAuYw0KPiA+IGluZGV4IDhhMjJhNjUy
+YTZlOC4uNjg5N2M0ODBhZTU1IDEwMDY0NA0KPiA+IC0tLSBhL2FyY2gveDg2L2tlcm5lbC9jcHUv
+cmVzY3RybC9yZHRncm91cC5jDQo+ID4gKysrIGIvYXJjaC94ODYva2VybmVsL2NwdS9yZXNjdHJs
+L3JkdGdyb3VwLmMNCj4gPiBAQCAtMTY0MSw2ICsxNjQxLDMyIEBAIHN0YXRpYyBzc2l6ZV90DQo+
+IG1ibV90b3RhbF9ieXRlc19jb25maWdfd3JpdGUoc3RydWN0IGtlcm5mc19vcGVuX2ZpbGUgKm9m
+LA0KPiA+ICAJcmV0dXJuIHJldCA/OiBuYnl0ZXM7DQo+ID4gIH0NCj4gPg0KPiA+ICtzdGF0aWMg
+c3NpemVfdCBtYm1fbG9jYWxfYnl0ZXNfY29uZmlnX3dyaXRlKHN0cnVjdCBrZXJuZnNfb3Blbl9m
+aWxlICpvZiwNCj4gPiArCQkJCQkgICAgY2hhciAqYnVmLCBzaXplX3QgbmJ5dGVzLA0KPiA+ICsJ
+CQkJCSAgICBsb2ZmX3Qgb2ZmKQ0KPiA+ICt7DQo+ID4gKwlzdHJ1Y3QgcmR0X3Jlc291cmNlICpy
+ID0gb2YtPmtuLT5wYXJlbnQtPnByaXY7DQo+ID4gKwlpbnQgcmV0Ow0KPiA+ICsNCj4gPiArCS8q
+IFZhbGlkIGlucHV0IHJlcXVpcmVzIGEgdHJhaWxpbmcgbmV3bGluZSAqLw0KPiA+ICsJaWYgKG5i
+eXRlcyA9PSAwIHx8IGJ1ZltuYnl0ZXMgLSAxXSAhPSAnXG4nKQ0KPiA+ICsJCXJldHVybiAtRUlO
+VkFMOw0KPiA+ICsNCj4gPiArCWNwdXNfcmVhZF9sb2NrKCk7DQo+ID4gKwltdXRleF9sb2NrKCZy
+ZHRncm91cF9tdXRleCk7DQo+ID4gKw0KPiA+ICsJcmR0X2xhc3RfY21kX2NsZWFyKCk7DQo+ID4g
+Kw0KPiA+ICsJYnVmW25ieXRlcyAtIDFdID0gJ1wwJzsNCj4gPiArDQo+ID4gKwlyZXQgPSBtb25f
+Y29uZmlnX3dyaXRlKHIsIGJ1ZiwgUU9TX0wzX01CTV9MT0NBTF9FVkVOVF9JRCk7DQo+ID4gKw0K
+PiA+ICsJbXV0ZXhfdW5sb2NrKCZyZHRncm91cF9tdXRleCk7DQo+ID4gKwljcHVzX3JlYWRfdW5s
+b2NrKCk7DQo+ID4gKw0KPiA+ICsJcmV0dXJuIHJldCA/OiBuYnl0ZXM7DQo+ID4gK30NCj4gPiAr
+DQo+ID4gIC8qIHJkdGdyb3VwIGluZm9ybWF0aW9uIGZpbGVzIGZvciBvbmUgY2FjaGUgcmVzb3Vy
+Y2UuICovICBzdGF0aWMNCj4gPiBzdHJ1Y3QgcmZ0eXBlIHJlc19jb21tb25fZmlsZXNbXSA9IHsN
+Cj4gPiAgCXsNCj4gPiBAQCAtMTc0OCw5ICsxNzc0LDEwIEBAIHN0YXRpYyBzdHJ1Y3QgcmZ0eXBl
+IHJlc19jb21tb25fZmlsZXNbXSA9IHsNCj4gPiAgCX0sDQo+ID4gIAl7DQo+ID4gIAkJLm5hbWUJ
+CT0gIm1ibV9sb2NhbF9ieXRlc19jb25maWciLA0KPiA+IC0JCS5tb2RlCQk9IDA0NDQsDQo+ID4g
+KwkJLm1vZGUJCT0gMDY0NCwNCj4gPiAgCQkua2Zfb3BzCQk9ICZyZHRncm91cF9rZl9zaW5nbGVf
+b3BzLA0KPiA+ICAJCS5zZXFfc2hvdwk9IG1ibV9sb2NhbF9ieXRlc19jb25maWdfc2hvdywNCj4g
+PiArCQkud3JpdGUJCT0gbWJtX2xvY2FsX2J5dGVzX2NvbmZpZ193cml0ZSwNCj4gPiAgCX0sDQo+
+ID4gIAl7DQo+ID4gIAkJLm5hbWUJCT0gImNwdXMiLA0KPiA+DQo+ID4NCj4gDQo+IFdpdGggdGhl
+IHN1YmplY3QgYW5kIGNoYW5nZWxvZyBjb21tZW50cyBhZGRyZXNzZWQ6DQo+IA0KPiBSZXZpZXdl
+ZC1ieTogUmVpbmV0dGUgQ2hhdHJlIDxyZWluZXR0ZS5jaGF0cmVAaW50ZWwuY29tPg0KDQpUaGFu
+a3MNCkJhYnUNCj4gDQo+IFJlaW5ldHRlDQo=
