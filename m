@@ -2,186 +2,346 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C16DBC10F1D
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Dec 2022 20:58:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FD39C46467
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Dec 2022 21:25:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232693AbiLSU6G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Dec 2022 15:58:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38342 "EHLO
+        id S232795AbiLSVZI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Dec 2022 16:25:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232645AbiLSU6C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Dec 2022 15:58:02 -0500
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2044.outbound.protection.outlook.com [40.107.96.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1980C6B;
-        Mon, 19 Dec 2022 12:58:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=euR392kyQHdapDjEXGH0L/Pav8I2pDN4Whb1sQa/fsB6WtlSjQW4IGULqKhcEtNf7U9v12OhF76d/UKfe5V5ncU1ubtNGTAmoPfH0sNW4trqudltEF4hkVdoQlhkbYhfjJyaJvwh/MbTFwezYK56IFzgGBFsQ9R/u9YATOTVsXDz/HlORSzCAmYRm152KCzqg3iJbd6aRYoKIYBbus3RXAw3BtHtbWxJ000OwAVo3NBKiJOFhCwmOhWc4ZcyHvc4GKdGJs2YYUNQ4a36NeLxWkFLfiVtq9KhnRMkO5QdA80akqIZ6GpwQSeomYdjTI9t7/3tPLZaB7V1PiEw4Fkc7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=unIPnTtJzP1UBHNLKTjxOSSFMWsFzr/Vs27RQG3Izs8=;
- b=hzCSpHiEOulJXYaZzncNOVPAgCAshuO9bFgXTiUUA4ElL4hHqIKMr0on7aBQ+bix61okEwoZook8X5DbSZZ/PT0wIZWIjK7M42Kv+wtY8uL5oFz8bcqk8Q2R1brSw2FwVkIFF9VrlUcRHx+/oaQhZNArt74EKgYndnt+aBICaxS40qAGfeG15ZQbzpwry/JJuvQ77iZzs+cG9JkkoGydcY8BV9r2PyswkefIIp7fEMC5DPQwl9EmjEo4dk3IrIlZ3x3I3NmpLwdNvuMUoitlpD4cieOyoQaMYLOjkyTQ9BzXUSmagpP7bC5aRIy4QNBQJUI3itAz68y0Y8rJtkWw0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=unIPnTtJzP1UBHNLKTjxOSSFMWsFzr/Vs27RQG3Izs8=;
- b=Tjzvg5TS9BkKeAWR0zFmMAqvpbkOqzgn9mfFTe6IVAyckhOpicHg1skf7gsAKzN67sr2/mf0OWUGk5jAbzCdJhi6f/CK+NmG+YthhLOxDWruoSUSk/RhpuRu/YLLLE12R03n56bB9K+nMxvhqmFoE2KXFwwAWlOus3QmmfBtfLY=
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by CH2PR12MB4117.namprd12.prod.outlook.com (2603:10b6:610:ae::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Mon, 19 Dec
- 2022 20:57:58 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::790c:da77:2d05:6098]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::790c:da77:2d05:6098%5]) with mapi id 15.20.5924.016; Mon, 19 Dec 2022
- 20:57:58 +0000
-From:   "Moger, Babu" <Babu.Moger@amd.com>
-To:     Reinette Chatre <reinette.chatre@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>
-CC:     "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "paulmck@kernel.org" <paulmck@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
-        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "jmattson@google.com" <jmattson@google.com>,
-        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
-        "Das1, Sandipan" <Sandipan.Das@amd.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "james.morse@arm.com" <james.morse@arm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
-        "eranian@google.com" <eranian@google.com>,
-        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
-        "jarkko@kernel.org" <jarkko@kernel.org>,
-        "adrian.hunter@intel.com" <adrian.hunter@intel.com>,
-        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
-        "peternewman@google.com" <peternewman@google.com>
-Subject: RE: [PATCH v9 00/13] Support for AMD QoS new features
-Thread-Topic: [PATCH v9 00/13] Support for AMD QoS new features
-Thread-Index: AQHZBZqdPWUZgGQn2kuXVfR31D91jq5vXbKAgAZwKYA=
-Date:   Mon, 19 Dec 2022 20:57:58 +0000
-Message-ID: <MW3PR12MB4553148FD006F51BC54B732E95E59@MW3PR12MB4553.namprd12.prod.outlook.com>
-References: <166990882621.17806.16780480657453071426.stgit@bmoger-ubuntu>
- <2174535b-1f95-d286-2884-cfa7d0a8491f@intel.com>
-In-Reply-To: <2174535b-1f95-d286-2884-cfa7d0a8491f@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2022-12-19T20:57:40Z;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=8f712ad2-1023-4c8e-bae1-3899da1cfcf7;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=1
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_enabled: true
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_setdate: 2022-12-19T20:57:57Z
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_method: Standard
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_name: General
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_actionid: 0898cc7c-84a4-4ae4-b509-eb5213727d40
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_contentbits: 0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW3PR12MB4553:EE_|CH2PR12MB4117:EE_
-x-ms-office365-filtering-correlation-id: 4293df69-4ee6-4d66-33b1-08dae203b58d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: jkjg6ZTVKPMcM4IySJ2+eK+b4NOsqN0AmoTN/wc9ozH6bkQJ1/d8F1jo8olcTmnW69DCvfAzSPz9sn/QgkKTPPkm3GEWqLx7Mdjd21boo+frn5selRD68AlC6CPPpL+i7uUJLmaABmUYTnAzcSJ9z+VC7OGmpj/oRlCiHhKiwlZNwLz6Y/BGdflGFG/rH3wLSDD0vVDYkiwtxielPFX5pNqdwDXyGBaMbLpqTbjOE9wGhbwi6idcVkd+meRGA1+fCuEe4wT8eB5fhiSfQ5wL6vtlPjFuzG7gF9U5yd56wSwnzPhu28ssr9dpyMs8ChuqPzE7Slb3hqUPLeezFvj/yOqWTdXefdbVTQFt0zzwXk96tJ7YtiTxtalwC3ZqbMSAXqO933+M+u0JoFf34e5UolBYUPDzk8pF+fzBorqIHfoWwFzvcrK+KgBA5RWnQ/lVSYAE7ONOgke+R6l9HL5u8hpzT92HVZ2Kzxix0v0CwIChBILb+0VPkdxR+UtfAt8oTLeMRdjt7/zWwCv6E1ZiJoX45YOhKTo8WFt+PgIdXdgYktXSgi0iSnIL5uCI5pyN7S0q/gXaw7uM/yCL+ZHe5pLZ0df8F2WaiwnFcgtqbWhxquTCDbFiD4RCHfPScxMh/R9PWBm53khQKbMlP5/8lVRpOyKHGVZbtDjDXYyYBnRulQb4n60FVh7lZdvSXGJNGoH/3DBaHqGKcNLrRi631A==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(136003)(396003)(376002)(39860400002)(366004)(451199015)(41300700001)(8676002)(4326008)(38100700002)(122000001)(38070700005)(5660300002)(8936002)(7406005)(7416002)(52536014)(2906002)(83380400001)(53546011)(7696005)(71200400001)(6506007)(478600001)(33656002)(316002)(26005)(66556008)(55016003)(54906003)(110136005)(76116006)(66946007)(66476007)(64756008)(66446008)(86362001)(186003)(9686003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?djU0dU1XVVRRK215eGNVa0s3OHRBWlRtWkwyWjNrZE9xVFVnaTVJWDhDb1V1?=
- =?utf-8?B?SHJ0d21tN3dyMzhJM2grTnlRUkJrRTJxMmV6M2ovVHlMYk9zMUJzUXBuOTVp?=
- =?utf-8?B?UkNoaVlFSXQ5M1p6WG5HbjdTT0hDNUpDNUdQT3ZXVnFRWmF2eXREa2k0NTYv?=
- =?utf-8?B?Vi9tbkd5cTBJd2JxNXNOMmJhaW94S0xXVWZpTVFJZXlacUh0TFhmUVAxQVBk?=
- =?utf-8?B?ZkJSSlRRRC9hVm1BV0l4NDIvZHBWOUtzcmhwcnRMMDFyYmxzOW4yQktmYW1O?=
- =?utf-8?B?dnN4R2ZuRUZ2K2R0am9iR2JkUlgrYWQ5VVllYnQ5U1JzQmZUOWZEd3hvSWt5?=
- =?utf-8?B?dFZZOHpYUS9XK254THlITCtBUDB4THEvcmtGc2pEaU5iVnB5ekpBRDRIbk04?=
- =?utf-8?B?VnY3U0lhcndzWGtVaGRtVSt3aEdlZ0FKcGpzbEZ6UkVSeHl6ZEpGb2xYTHVj?=
- =?utf-8?B?QkJVTFZFVitnWFFFKzVPa2hZV1ArQlRnYXNReUxkK0lHLzN5OUh4RHV5YjNn?=
- =?utf-8?B?K1hKUFpOODVrU0ZwVGZMbXprYVp2aWdGL3VzVXFCeHdXdkF4aWpHZzNZUlJw?=
- =?utf-8?B?TnJMNXNNZDY4MUhyREd1cVFBRm5lVG9JZ0xkTjVtajB4L3k2SXVoVW9IUy9B?=
- =?utf-8?B?TmRySS9hTkZZVUEyeTY1RHNlYWVBZk9RbHMrM2IwSHMrWDNJT3pNaHFncTd2?=
- =?utf-8?B?U0ZVSWIzVExVU2hxYlQvdHF0RlIydkRZd1FYQ2lDNklLRzF3cTJBNUd5ZjRF?=
- =?utf-8?B?cHBxZ2lHMEtiVmk0cXlHK29jWGZMOVU1NTMxaDlnaTFPNmt1MWNVS0tWR25C?=
- =?utf-8?B?bFoyVkNXdldORU5taUhuSDZNK2V1REJWalUvL0Y4WEhUb1FHbTVib3pDZllG?=
- =?utf-8?B?bElYUlBJbk9GTjRGWldxaWZwZTcvMkFjUEFydlVjM1VMV0hQdkpLMkptY2N0?=
- =?utf-8?B?RDF1M2hSbVFrbFltTGczSXkxZTcyOEIyRjdBWkdKQTVGUlljZEZoY0VKUC82?=
- =?utf-8?B?dEFDS3Z5eUQ0QVNGTVNJR1k3VU1aMFBBeE9GcXJMLzB2ZzVoV21meWh6ZFAz?=
- =?utf-8?B?VkEySFU0MVdTRENpaVpYMStIRE9YSUpBMzUrbkNldHBFSTJNQzdiRldXbXpJ?=
- =?utf-8?B?Y0JhbVVjMW45SEY1bjVlL2hhM0UrSlFmNmRaYWlmSWh0d1YvdE52U2NzdEpv?=
- =?utf-8?B?RTBtQkFyNElkeDZzSG9PQmhFcDJnVE1LQ0h6ZnVQQTZVVXpvQnZaMVVMc3lZ?=
- =?utf-8?B?TEZmS0ZGUVozdGQwRVVIbzNFN2sxYmF2S2ZTOWNTMElzVHVNTS90TkZFQjJN?=
- =?utf-8?B?RHdNNTd3R2dwRWZyRG0zRDVkWVlnaVdmdU9QRUpXRFduKyszK2ZwaURCRnA0?=
- =?utf-8?B?d3hHcnpxQVNRbkdiWm5ldWRPc3JjR0tTeWc4cnlCL2k5ZlJoL2FwejBUanpQ?=
- =?utf-8?B?dENSOGR3R0RSK1dWN2tvMW5UMFU2SU5MOUJ1T2dFZEgxYnNyWGtZOENQVnFU?=
- =?utf-8?B?QkNDbytIZmxtSWRIWVl1ekdndUZKeS9WcUFwSWR1cWRvT1cyQmJ5RnFQSStF?=
- =?utf-8?B?ckgzQ3BBVnpHNmhZT0dMc05yeFpYcTNyeUR5aFJiUGJzMDBaZDErOHYxeWpQ?=
- =?utf-8?B?RjZlbUpUZHE2YmNCeGlxdEtkdXFsZ2dZMml4c3dwNGFEc3ZVMDZFalJjMytl?=
- =?utf-8?B?U1hxbDVNRTZyd241R1NHSFFRZElWZW9scnh2ZlBLczBnMnFoQllGSUJSTzRP?=
- =?utf-8?B?T2hBV2txSkYzWldDdWZBbElzdmtHUEt2TVVKekJnZ1NJcGwzdFR1dERwREZE?=
- =?utf-8?B?YXNBalVpU2pYR3VxNmJnWFlqOE94TkRSL1hvZER1YUErdjlIWTRsMFlmMVZa?=
- =?utf-8?B?R2ZCNjRDcDJRZXJXZ3JkNk9RU3lVTUJWTmx4TW1TM3JhTDBKZTdDN0d6Y3JL?=
- =?utf-8?B?QjNRTy9KZGVGa1U2STE3ZUlqZ29WUzhxbUVLWjdXWWMzY2pzMnpobU1LY1Jy?=
- =?utf-8?B?Z3dkQTUvR2w2a256dlFmclMyNnJOVURmQ29TUTV2SWEvL3lsK3l6Z2diTVFF?=
- =?utf-8?B?Qk9UeEUzbTdTSlgwNnp2ZHN1TlZKZ1JzWVpObFA4WTRRekFMaElDNlFQQXhB?=
- =?utf-8?Q?EfJU=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S232776AbiLSVZA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Dec 2022 16:25:00 -0500
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 589EB13F09;
+        Mon, 19 Dec 2022 13:24:56 -0800 (PST)
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BJLE3Tg031484;
+        Mon, 19 Dec 2022 21:24:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=QP9Uka1TmzuRxHJX00LBjpwrqeQxRd737K2aT1PXO1g=;
+ b=SnhjLYwJsaGt26EPpcfMeIIUGfJU+pmCWsax5JZgG0yLR8boAcFeZdUzPw/WXUUP7KLO
+ H5C52t13e+XsEytxjQiUxvZr37q0517Xm01RvOX2gc3gODbJGKAPkK44Zl1U/h84xj99
+ T8fJ4G0UvqW9bXQ75fXK0Lu6Si1P1vyvjoP8NcGV+lw2dw72eB9B6frpSUx6zk88MJYF
+ jUE9O0YRpiYbGVQYRaNlsmuWzc08KcWfwsTJ6AKkTxIJRzZfYlUjkxpy6GBGylkHTWou
+ jN8MLRVljGjxU6Nbbjkc2Pn6q846wPNPHuzyvWhCq97geO46ABfFbu8LxjCn+6RZR9TS Cw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mjypk89dc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 19 Dec 2022 21:24:42 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BJLE8ui032046;
+        Mon, 19 Dec 2022 21:24:42 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mjypk89cu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 19 Dec 2022 21:24:42 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+        by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BJB9X9G026099;
+        Mon, 19 Dec 2022 21:24:40 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+        by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3mh6yxj8na-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 19 Dec 2022 21:24:40 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+        by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2BJLOYWZ47579526
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 19 Dec 2022 21:24:34 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8553C20043;
+        Mon, 19 Dec 2022 21:24:34 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1091420040;
+        Mon, 19 Dec 2022 21:24:34 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown [9.171.132.54])
+        by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Mon, 19 Dec 2022 21:24:33 +0000 (GMT)
+Message-ID: <4b96b112d5415d08a81d30657feec2c8c3000f7c.camel@linux.ibm.com>
+Subject: Re: [PATCH v4 1/9] KVM: s390: Extend MEM_OP ioctl by storage key
+ checked cmpxchg
+From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To:     kernel test robot <lkp@intel.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Sven Schnelle <svens@linux.ibm.com>
+Date:   Mon, 19 Dec 2022 22:24:33 +0100
+In-Reply-To: <202212141025.6iR1ex8g-lkp@intel.com>
+References: <20221213165405.2953539-2-scgl@linux.ibm.com>
+         <202212141025.6iR1ex8g-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: r-29NuhBeO7LkKh-TX35kle0CICPUgiy
+X-Proofpoint-ORIG-GUID: eXjQ--XeMjxovhxa2oYPtE_r9i17ZbA8
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4293df69-4ee6-4d66-33b1-08dae203b58d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Dec 2022 20:57:58.4587
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0IAMcQbXfSQThGFH0AVai3LZJonzTkwApeYMRYzkg1s2l5iD7yM7tFhD2UGFlwzA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4117
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-19_01,2022-12-15_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 mlxscore=0
+ malwarescore=0 phishscore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ adultscore=0 mlxlogscore=999 lowpriorityscore=0 suspectscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2212190186
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-W0FNRCBPZmZpY2lhbCBVc2UgT25seSAtIEdlbmVyYWxdDQoNCg0KDQo+IC0tLS0tT3JpZ2luYWwg
-TWVzc2FnZS0tLS0tDQo+IEZyb206IFJlaW5ldHRlIENoYXRyZSA8cmVpbmV0dGUuY2hhdHJlQGlu
-dGVsLmNvbT4NCj4gU2VudDogVGh1cnNkYXksIERlY2VtYmVyIDE1LCAyMDIyIDEyOjM5IFBNDQo+
-IFRvOiBNb2dlciwgQmFidSA8QmFidS5Nb2dlckBhbWQuY29tPjsgY29yYmV0QGx3bi5uZXQ7DQo+
-IHRnbHhAbGludXRyb25peC5kZTsgbWluZ29AcmVkaGF0LmNvbTsgYnBAYWxpZW44LmRlDQo+IENj
-OiBmZW5naHVhLnl1QGludGVsLmNvbTsgZGF2ZS5oYW5zZW5AbGludXguaW50ZWwuY29tOyB4ODZA
-a2VybmVsLm9yZzsNCj4gaHBhQHp5dG9yLmNvbTsgcGF1bG1ja0BrZXJuZWwub3JnOyBha3BtQGxp
-bnV4LWZvdW5kYXRpb24ub3JnOw0KPiBxdWljX25lZXJhanVAcXVpY2luYy5jb207IHJkdW5sYXBA
-aW5mcmFkZWFkLm9yZzsNCj4gZGFtaWVuLmxlbW9hbEBvcGVuc291cmNlLndkYy5jb207IHNvbmdt
-dWNodW5AYnl0ZWRhbmNlLmNvbTsNCj4gcGV0ZXJ6QGluZnJhZGVhZC5vcmc7IGpwb2ltYm9lQGtl
-cm5lbC5vcmc7IHBib256aW5pQHJlZGhhdC5jb207DQo+IGNoYW5nLnNlb2suYmFlQGludGVsLmNv
-bTsgcGF3YW4ua3VtYXIuZ3VwdGFAbGludXguaW50ZWwuY29tOw0KPiBqbWF0dHNvbkBnb29nbGUu
-Y29tOyBkYW5pZWwuc25lZGRvbkBsaW51eC5pbnRlbC5jb207IERhczEsIFNhbmRpcGFuDQo+IDxT
-YW5kaXBhbi5EYXNAYW1kLmNvbT47IHRvbnkubHVja0BpbnRlbC5jb207IGphbWVzLm1vcnNlQGFy
-bS5jb207DQo+IGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtl
-cm5lbC5vcmc7DQo+IGJhZ2FzZG90bWVAZ21haWwuY29tOyBlcmFuaWFuQGdvb2dsZS5jb207IGNo
-cmlzdG9waGUubGVyb3lAY3Nncm91cC5ldTsNCj4gamFya2tvQGtlcm5lbC5vcmc7IGFkcmlhbi5o
-dW50ZXJAaW50ZWwuY29tOyBxdWljX2ppbGVzQHF1aWNpbmMuY29tOw0KPiBwZXRlcm5ld21hbkBn
-b29nbGUuY29tDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjkgMDAvMTNdIFN1cHBvcnQgZm9yIEFN
-RCBRb1MgbmV3IGZlYXR1cmVzDQo+IA0KPiBIaSBCYWJ1LA0KPiANCj4gUGxlYXNlIGFsc28gdXNl
-IHRoZSB4ODYvcmVzY3RybCBwcmVmaXggaW4gdGhlIGNvdmVyIGxldHRlcidzIHN1YmplY3QuDQoN
-ClN1cmUuDQpUaGFua3MNCkJhYnUNCj4gDQo+IFJlaW5ldHRlDQo=
+On Wed, 2022-12-14 at 10:23 +0800, kernel test robot wrote:
+> Hi Janis,
+>=20
+> Thank you for the patch! Yet something to improve:
+>=20
+> [auto build test ERROR on 739ad2e4e15b585a0eaf98b7bdee62b2dd9588c9]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Janis-Schoetterl-G=
+lausch/KVM-s390-Extend-MEM_OP-ioctl-by-storage-key-checked-cmpxchg/20221214=
+-005540
+> base:   739ad2e4e15b585a0eaf98b7bdee62b2dd9588c9
+> patch link:    https://lore.kernel.org/r/20221213165405.2953539-2-scgl%40=
+linux.ibm.com
+> patch subject: [PATCH v4 1/9] KVM: s390: Extend MEM_OP ioctl by storage k=
+ey checked cmpxchg
+> config: s390-randconfig-r004-20221213
+> compiler: s390-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=3D1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/4e0991bd47ba30c75=
+88e042da7a84d84b9f84056
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Janis-Schoetterl-Glausch/KVM-s39=
+0-Extend-MEM_OP-ioctl-by-storage-key-checked-cmpxchg/20221214-005540
+>         git checkout 4e0991bd47ba30c7588e042da7a84d84b9f84056
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
+ss W=3D1 O=3Dbuild_dir ARCH=3Ds390 SHELL=3D/bin/bash
+>=20
+> If you fix the issue, kindly add following tag where applicable
+> > Reported-by: kernel test robot <lkp@intel.com>
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    s390-linux-ld: arch/s390/kvm/gaccess.o: in function `__cmpxchg_user_ke=
+y':
+> > > arch/s390/include/asm/uaccess.h:410: undefined reference to `__ashlti=
+3'
+> > > s390-linux-ld: arch/s390/include/asm/uaccess.h:411: undefined referen=
+ce to `__ashlti3'
+>    s390-linux-ld: arch/s390/include/asm/uaccess.h:458: undefined referenc=
+e to `__ashlti3'
+>    s390-linux-ld: arch/s390/include/asm/uaccess.h:459: undefined referenc=
+e to `__ashlti3'
+>=20
+>=20
+> vim +410 arch/s390/include/asm/uaccess.h
+>=20
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  396=20=20
+> 4148575abe1e14 Heiko Carstens           2022-11-02  397  static __always_=
+inline int __cmpxchg_user_key(unsigned long address, void *uval,
+> 4148575abe1e14 Heiko Carstens           2022-11-02  398  					      __uin=
+t128_t old, __uint128_t new,
+> 4148575abe1e14 Heiko Carstens           2022-11-02  399  					      unsig=
+ned long key, int size)
+> 4148575abe1e14 Heiko Carstens           2022-11-02  400  {
+> 4148575abe1e14 Heiko Carstens           2022-11-02  401  	int rc =3D 0;
+> 4148575abe1e14 Heiko Carstens           2022-11-02  402=20=20
+> 4148575abe1e14 Heiko Carstens           2022-11-02  403  	switch (size) {
+> 4148575abe1e14 Heiko Carstens           2022-11-02  404  	case 1: {
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  405  		unsigned int p=
+rev, shift, mask, _old, _new;
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  406  		unsigned long =
+count;
+> 4148575abe1e14 Heiko Carstens           2022-11-02  407=20=20
+> 4148575abe1e14 Heiko Carstens           2022-11-02  408  		shift =3D (3 ^=
+ (address & 3)) << 3;
+> 4148575abe1e14 Heiko Carstens           2022-11-02  409  		address ^=3D a=
+ddress & 3;
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16 @410  		_old =3D (old =
+& 0xff) << shift;
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16 @411  		_new =3D (new =
+& 0xff) << shift;
+
+Not sure what it is in this config that causes gcc to emit this symbol inst=
+ead of a shift instruction, but casting old/new to 32 bit fixes
+the error.
+
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  412  		mask =3D ~(0xf=
+f << shift);
+> 4148575abe1e14 Heiko Carstens           2022-11-02  413  		asm volatile(
+> 4148575abe1e14 Heiko Carstens           2022-11-02  414  			"	spka	0(%[ke=
+y])\n"
+> 4148575abe1e14 Heiko Carstens           2022-11-02  415  			"	sacf	256\n"
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  416  			"	llill	%[cou=
+nt],%[max_loops]\n"
+> 4148575abe1e14 Heiko Carstens           2022-11-02  417  			"0:	l	%[prev]=
+,%[address]\n"
+> 4148575abe1e14 Heiko Carstens           2022-11-02  418  			"1:	nr	%[prev=
+],%[mask]\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  419  			"	xilf	%[mask=
+],0xffffffff\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  420  			"	or	%[new],%=
+[prev]\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  421  			"	or	%[prev],=
+%[tmp]\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  422  			"2:	lr	%[tmp]=
+,%[prev]\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  423  			"3:	cs	%[prev=
+],%[new],%[address]\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  424  			"4:	jnl	5f\n"
+> 4148575abe1e14 Heiko Carstens           2022-11-02  425  			"	xr	%[tmp],%=
+[prev]\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  426  			"	xr	%[new],%=
+[tmp]\n"
+> 4148575abe1e14 Heiko Carstens           2022-11-02  427  			"	nr	%[tmp],%=
+[mask]\n"
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  428  			"	jnz	5f\n"
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  429  			"	brct	%[coun=
+t],2b\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  430  			"5:	sacf	768\=
+n"
+> 4148575abe1e14 Heiko Carstens           2022-11-02  431  			"	spka	%[defa=
+ult_key]\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  432  			EX_TABLE_UA_L=
+OAD_REG(0b, 5b, %[rc], %[prev])
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  433  			EX_TABLE_UA_L=
+OAD_REG(1b, 5b, %[rc], %[prev])
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  434  			EX_TABLE_UA_L=
+OAD_REG(3b, 5b, %[rc], %[prev])
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  435  			EX_TABLE_UA_L=
+OAD_REG(4b, 5b, %[rc], %[prev])
+> 4148575abe1e14 Heiko Carstens           2022-11-02  436  			: [rc] "+&d" =
+(rc),
+> 4148575abe1e14 Heiko Carstens           2022-11-02  437  			  [prev] "=3D=
+&d" (prev),
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  438  			  [address] "=
++Q" (*(int *)address),
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  439  			  [tmp] "+&d"=
+ (_old),
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  440  			  [new] "+&d"=
+ (_new),
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  441  			  [mask] "+&d=
+" (mask),
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  442  			  [count] "=
+=3Da" (count)
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  443  			: [key] "%[co=
+unt]" (key << 4),
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  444  			  [default_ke=
+y] "J" (PAGE_DEFAULT_KEY),
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  445  			  [max_loops]=
+ "J" (CMPXCHG_USER_KEY_MAX_LOOPS)
+> 4148575abe1e14 Heiko Carstens           2022-11-02  446  			: "memory", "=
+cc");
+> 4148575abe1e14 Heiko Carstens           2022-11-02  447  		*(unsigned cha=
+r *)uval =3D prev >> shift;
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  448  		if (!count)
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  449  			rc =3D -EAGAI=
+N;
+> 4148575abe1e14 Heiko Carstens           2022-11-02  450  		return rc;
+> 4148575abe1e14 Heiko Carstens           2022-11-02  451  	}
+> 4148575abe1e14 Heiko Carstens           2022-11-02  452  	case 2: {
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  453  		unsigned int p=
+rev, shift, mask, _old, _new;
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  454  		unsigned long =
+count;
+> 4148575abe1e14 Heiko Carstens           2022-11-02  455=20=20
+> 4148575abe1e14 Heiko Carstens           2022-11-02  456  		shift =3D (2 ^=
+ (address & 2)) << 3;
+> 4148575abe1e14 Heiko Carstens           2022-11-02  457  		address ^=3D a=
+ddress & 2;
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  458  		_old =3D (old =
+& 0xffff) << shift;
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  459  		_new =3D (new =
+& 0xffff) << shift;
+
+Same here.
+
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  460  		mask =3D ~(0xf=
+fff << shift);
+> 4148575abe1e14 Heiko Carstens           2022-11-02  461  		asm volatile(
+> 4148575abe1e14 Heiko Carstens           2022-11-02  462  			"	spka	0(%[ke=
+y])\n"
+> 4148575abe1e14 Heiko Carstens           2022-11-02  463  			"	sacf	256\n"
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  464  			"	llill	%[cou=
+nt],%[max_loops]\n"
+> 4148575abe1e14 Heiko Carstens           2022-11-02  465  			"0:	l	%[prev]=
+,%[address]\n"
+> 4148575abe1e14 Heiko Carstens           2022-11-02  466  			"1:	nr	%[prev=
+],%[mask]\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  467  			"	xilf	%[mask=
+],0xffffffff\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  468  			"	or	%[new],%=
+[prev]\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  469  			"	or	%[prev],=
+%[tmp]\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  470  			"2:	lr	%[tmp]=
+,%[prev]\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  471  			"3:	cs	%[prev=
+],%[new],%[address]\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  472  			"4:	jnl	5f\n"
+> 4148575abe1e14 Heiko Carstens           2022-11-02  473  			"	xr	%[tmp],%=
+[prev]\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  474  			"	xr	%[new],%=
+[tmp]\n"
+> 4148575abe1e14 Heiko Carstens           2022-11-02  475  			"	nr	%[tmp],%=
+[mask]\n"
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  476  			"	jnz	5f\n"
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  477  			"	brct	%[coun=
+t],2b\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  478  			"5:	sacf	768\=
+n"
+> 4148575abe1e14 Heiko Carstens           2022-11-02  479  			"	spka	%[defa=
+ult_key]\n"
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  480  			EX_TABLE_UA_L=
+OAD_REG(0b, 5b, %[rc], %[prev])
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  481  			EX_TABLE_UA_L=
+OAD_REG(1b, 5b, %[rc], %[prev])
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  482  			EX_TABLE_UA_L=
+OAD_REG(3b, 5b, %[rc], %[prev])
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  483  			EX_TABLE_UA_L=
+OAD_REG(4b, 5b, %[rc], %[prev])
+> 4148575abe1e14 Heiko Carstens           2022-11-02  484  			: [rc] "+&d" =
+(rc),
+> 4148575abe1e14 Heiko Carstens           2022-11-02  485  			  [prev] "=3D=
+&d" (prev),
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  486  			  [address] "=
++Q" (*(int *)address),
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  487  			  [tmp] "+&d"=
+ (_old),
+> 51098f0eb22e2f Janis Schoetterl-Glausch 2022-11-16  488  			  [new] "+&d"=
+ (_new),
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  489  			  [mask] "+&d=
+" (mask),
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  490  			  [count] "=
+=3Da" (count)
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  491  			: [key] "%[co=
+unt]" (key << 4),
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  492  			  [default_ke=
+y] "J" (PAGE_DEFAULT_KEY),
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  493  			  [max_loops]=
+ "J" (CMPXCHG_USER_KEY_MAX_LOOPS)
+> 4148575abe1e14 Heiko Carstens           2022-11-02  494  			: "memory", "=
+cc");
+> 4148575abe1e14 Heiko Carstens           2022-11-02  495  		*(unsigned sho=
+rt *)uval =3D prev >> shift;
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  496  		if (!count)
+> 739ad2e4e15b58 Janis Schoetterl-Glausch 2022-11-17  497  			rc =3D -EAGAI=
+N;
+> 4148575abe1e14 Heiko Carstens           2022-11-02  498  		return rc;
+
+[...]
