@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48563C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Dec 2022 04:22:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 658A1C4167B
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Dec 2022 04:22:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231431AbiLSEWo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Dec 2022 23:22:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48382 "EHLO
+        id S231438AbiLSEWq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Dec 2022 23:22:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231343AbiLSEW0 (ORCPT
+        with ESMTP id S231344AbiLSEW0 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Dec 2022 23:22:26 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAB5265B4;
-        Sun, 18 Dec 2022 20:22:24 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id a9so7846723pld.7;
-        Sun, 18 Dec 2022 20:22:24 -0800 (PST)
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2024965BA;
+        Sun, 18 Dec 2022 20:22:25 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id d15so7857630pls.6;
+        Sun, 18 Dec 2022 20:22:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/nm7j4zp8S75Gf6ZgO/l+49FQ5Ia2zwvn+/ND79+AHM=;
-        b=RehRdEZifLMG395ppV/7LVvRdnCDdwl9Hfk5Mmn0sswBZr2pNnW1dWd6YtLlfrIL0K
-         oqFZJeTpgIBe4v9P3jAHQ9dobxEbwfP4nRMw0pL4/19ifX9Wwh5VebaXq3G0TckKJT5Q
-         3kqZoZbODRk6hDbPJJd4GFJwl9htH2bxOx75GIbhK2rZIKB2c/2H7a6LVwPUGFKq6dG/
-         voKaNBAD4+uMB8PRT0gAzEa0OtrUnuL4iaXuxFPQ2hzvgPrPfj6mx/ywyY5yaaXZ/NLt
-         mBvHQKq1T/lpaZO+0hDhimJVesG6NF/drKn9yloFBkV8jzeDVvtTEOdeCDnZ9BCUi30G
-         zz1A==
+        bh=agWt8CECL43NEhVRFwvhtAXySMNGigcHHGw9DmNksyg=;
+        b=Rw+DM6QWhhdQXktWp+em/fBiFTj3BUilx3MP8RgeQvvsMgLuECpixEMst4FxDtn7zH
+         rAtjr2VM4z0g7bvXq3KMTUQq427rHE6DpnzawpIYLHC4ZJe5B2U5vgtq/CW3nPXjtUXL
+         EOTbYjZFPwUdqOlRePgXbAKfKz3l/dBEmZ/BsZAW7kFA+JnMNfrmriDf/smpetfVAs8V
+         zlEYA+1aASqKs5fLj9Ca+PsuWMPAqfGTOCRjtX4FPTomYaN9JIrxcQ83tuhIlGF3dTo6
+         tPX6UhACp5qTOwk+LxN3dvDkAeg+v22HECunwHxAfPX9gvjE+loAvHbiB0LNKPyfzp2b
+         PG0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/nm7j4zp8S75Gf6ZgO/l+49FQ5Ia2zwvn+/ND79+AHM=;
-        b=4ZIhAokgVmUqh4GPgTW/jSQXMRYb6A6w68QJiK5eCX4uOiyV56Rw1P15UCC4eoyRD6
-         gwdvzBTVJmb/uiFFwx/aYlvtBWARO829Mxlqvrk79Oo/chsTGrZbzEMujZ2R8v+Imp4f
-         X9E0gYK3wqpY4pprPZ4VRy6QTPPQTA7exUviqVgEWF+IWzkc8i0POZc67CwnV58YFZ11
-         BNUwrHxlfCnDL2EHoR0d2ZV95K/nBqg+ifH8PtELoHCD8hbdNQrsh6KJ1L86regRJhwL
-         1niSXc2aFXSkCb+CB5HtiW4OiZ4muR/ana9WKmGvewgaw4CMPDTqqcjEu3csk9O9B3zX
-         QhSg==
-X-Gm-Message-State: ANoB5pkmiVM4+zDhofz5sPA7Pt+WC7ncOB3KgSR4Phh1lVkFG97DRMNl
-        o1SXEmVK7sTz+IKXtoLVY6s=
-X-Google-Smtp-Source: AA0mqf5qxCuExoyYlyieMwjF0eKAXLuFPRct34IG3Wobwg2OKrtfxxsUeZlvXStIvh1gBbS1/p2qiQ==
-X-Received: by 2002:a17:90b:2685:b0:21b:c5d9:3478 with SMTP id pl5-20020a17090b268500b0021bc5d93478mr41654253pjb.0.1671423744293;
+        bh=agWt8CECL43NEhVRFwvhtAXySMNGigcHHGw9DmNksyg=;
+        b=ZUsoY/D51Yvu1FG8IcBtlP6jdRo3nfPdVvyKxNqe6bTOxBX8/0G6ITdRp7s1BxUXQQ
+         aMiXK1L7SBj4+wiB+2jbx6bfTD6P6jByji7BIBc2R/AKFmXcTiuKioCnxXIqL7r+MB9f
+         U7yVYySA1bdU4uHoOKIUHnYIX030MKqj9nhMo+Uj91LJKUSy+CddzucSWhu2/8yXk1dY
+         FjUKfnXFN6P+l7QMGLSSmUi0tMGZ0z7jQAnUqL2w5zPCrv9L2Udoj5CAPrHBXdwH/c4u
+         hUe/YTMorZc3dQiFEVoUPtZM7q+Hea/OIMjwLO4JOkOzLnto1PQjcJzV4m/T30ZDSEma
+         Up8A==
+X-Gm-Message-State: ANoB5pmqaZFzUvqeYZkDhNLGhYFyJEYhCIGPL2HEMw4NIXGldDQS9sEc
+        5oAy0NDNmFytk3NRY1K0HPU=
+X-Google-Smtp-Source: AA0mqf6BCBYy+YpcHUop3GwiAxAif950akyz01hjK7kttTKC1Ch/bGKyJy+8RAzPOIHGCelhPQJrwQ==
+X-Received: by 2002:a17:902:c183:b0:189:854e:93a3 with SMTP id d3-20020a170902c18300b00189854e93a3mr40668144pld.69.1671423744594;
         Sun, 18 Dec 2022 20:22:24 -0800 (PST)
 Received: from debian.me (subs32-116-206-28-20.three.co.id. [116.206.28.20])
-        by smtp.gmail.com with ESMTPSA id u31-20020a63235f000000b00488b8ad57bfsm2735607pgm.54.2022.12.18.20.22.22
+        by smtp.gmail.com with ESMTPSA id z14-20020a170903018e00b00174c0dd29f0sm5897250plg.144.2022.12.18.20.22.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 18 Dec 2022 20:22:23 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-        id 3A60E104053; Mon, 19 Dec 2022 11:22:13 +0700 (WIB)
+        id 669B810405A; Mon, 19 Dec 2022 11:22:14 +0700 (WIB)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
@@ -63,42 +63,52 @@ Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
         Hugh Dickins <hughd@google.com>,
         Shakeel Butt <shakeelb@google.com>,
         Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 04/10] docs: cgroup-v1: use code block for locking order schema
-Date:   Mon, 19 Dec 2022 11:22:03 +0700
-Message-Id: <20221219042209.22898-5-bagasdotme@gmail.com>
+Subject: [PATCH 08/10] docs: cgroup-v1: use make swap extension subsections subsections
+Date:   Mon, 19 Dec 2022 11:22:07 +0700
+Message-Id: <20221219042209.22898-9-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221219042209.22898-1-bagasdotme@gmail.com>
 References: <20221219042209.22898-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=903; i=bagasdotme@gmail.com; h=from:subject; bh=myLqQWWL5ny5cfaM/c1+RVILw8UoUUmH9P1+d/iRWF8=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMnzn70zn9QX8TP45KkeoY/d0cnefcv2Fi8TMpOtTxa/U5hk vTWwo5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABOZvInhn/En+655Kw+EtDmba0gcLq 3akbQju8Am0mHuv99/CyRu6DIyTCuP1Cr+cCL9uti17M/FphdjK1O0XvOHHklgXN1wLpWNAwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1657; i=bagasdotme@gmail.com; h=from:subject; bh=YB2axwGgINIOaNnBOhZC/NJ3W2+BU7qyWgI/kX2Gj+s=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMnzn33I21Y795n3xfn/orzeP5p9r4RP8LZ3u0nrvSUhWSsM Gs4s7ihlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBEHv5jZNj57tBtd/9bL4qZdyzn+b l3XeqJ8pQY9pMtkqu/q8zcUvyfkeF0rtX/9u2rLSbq3bjgea+r+adr3/YLwY3svLk39z+RXsQNAA==
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The locking order schema is a figure (like diagram), which should have
-been formatted with literal code block for consistency with other
-figures.
+Subsections text of swap extension section is marked up as bold text,
+whereas making them proper subsection is more appropriate.
 
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/admin-guide/cgroup-v1/memory.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/admin-guide/cgroup-v1/memory.rst | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/admin-guide/cgroup-v1/memory.rst b/Documentation/admin-guide/cgroup-v1/memory.rst
-index f828db2a671be4..c21ce0b906059f 100644
+index 01104b459b4cbd..863e0f17ca0067 100644
 --- a/Documentation/admin-guide/cgroup-v1/memory.rst
 +++ b/Documentation/admin-guide/cgroup-v1/memory.rst
-@@ -289,7 +289,7 @@ When oom event notifier is registered, event will be delivered.
- 2.6 Locking
- -----------
+@@ -246,7 +246,8 @@ In this case, setting memsw.limit_in_bytes=3G will prevent bad use of swap.
+ By using the memsw limit, you can avoid system OOM which can be caused by swap
+ shortage.
  
--Lock order is as follows:
-+Lock order is as follows::
+-**why 'memory+swap' rather than swap**
++2.4.1 why 'memory+swap' rather than swap
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
-   Page lock (PG_locked bit of page->flags)
-     mm->page_table_lock or split pte_lock
+ The global LRU(kswapd) can swap out arbitrary pages. Swap-out means
+ to move account from memory to swap...there is no change in usage of
+@@ -254,7 +255,8 @@ memory+swap. In other words, when we want to limit the usage of swap without
+ affecting global LRU, memory+swap limit is better than just limiting swap from
+ an OS point of view.
+ 
+-**What happens when a cgroup hits memory.memsw.limit_in_bytes**
++2.4.2. What happens when a cgroup hits memory.memsw.limit_in_bytes
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ When a cgroup hits memory.memsw.limit_in_bytes, it's useless to do swap-out
+ in this cgroup. Then, swap-out will not be done by cgroup routine and file
 -- 
 An old man doll... just what I always wanted! - Clara
 
