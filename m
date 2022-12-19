@@ -2,214 +2,313 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 418EBC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Dec 2022 18:56:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D23A0C3DA71
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Dec 2022 18:56:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232469AbiLSS4N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Dec 2022 13:56:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58270 "EHLO
+        id S232505AbiLSS4O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Dec 2022 13:56:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232167AbiLSS4L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Dec 2022 13:56:11 -0500
+        with ESMTP id S232447AbiLSS4M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Dec 2022 13:56:12 -0500
 Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24D06D4E;
-        Mon, 19 Dec 2022 10:56:09 -0800 (PST)
-Received: from pps.filterd (m0148663.ppops.net [127.0.0.1])
-        by mx0a-002e3701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BJIY19n001408;
-        Mon, 19 Dec 2022 18:56:05 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7C6A114B;
+        Mon, 19 Dec 2022 10:56:10 -0800 (PST)
+Received: from pps.filterd (m0134421.ppops.net [127.0.0.1])
+        by mx0b-002e3701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BJHbI69022120;
+        Mon, 19 Dec 2022 18:56:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pps0720;
- bh=vsT7kHBGwvs+cUbSIkFNRN5ZmmtCB1/tneyLNXa0Lwc=;
- b=bgc377eDDZ520Nr1VmvKZHLd1nI3tUtb7yI1zRNYid43euBzK0RObw85djKDOJvbQ5Or
- EDqlTkZ8vVc0cRnXeH/xExGr62Z1enB13RTAbaY1LjTuKkJFjsRpeOpV9W702xBTPf6Q
- l9ABXFQHveAWTC9b26GzBN5P5sEIWqRziQlOAN0xvs1j0stfowqbG0ZO1NnskpIfy8KU
- 6lZwyBCpMFVeBKSyQtn2L7y018XLK10UYJZG7GQIkYR0r2zh/eeUMP30OMU1yMhl9VLa
- au7Jt8hNljnCrIIlIbpBNb/w5bfmg5Bu3AY5f4ocAixmSmLkQsLE8HOiT1whtpxyku9b og== 
-Received: from p1lg14881.it.hpe.com (p1lg14881.it.hpe.com [16.230.97.202])
-        by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 3mjwbdr4v6-1
+ content-transfer-encoding; s=pps0720;
+ bh=kNwhuOv5xqm06IPEk0EirISeM1eh7xYBLYNZRgGWWOk=;
+ b=k8SMoSDjACYB2jHNqgqGqEsNiErirYdY/pzqwFsAopbcS1sfB65YzMzlgXMQz3pepw7G
+ mRh9sEU98vefEtP4bQggi5iBbbnHab/ZQhtuHzlhrpRayX7dkKwfLY4zzZ/qCYnIHlBR
+ sDhNnoTcPC7ODKaFY2rVb/qZwWzDUJYjnXRTzaKrt1r8CfhnTYXWCsr/idnrU+WLVIri
+ 7nWqto+dO0YvwSkBJwOkDy2KL+N1LF/WXxwYN/5DHiYUJxgK0s1hquo10rxrHRO7ORTz
+ XMoqvjNIGlRHzmGvLvnZa0gpOwsQ86Gfy3ONbZ1Pnd65guh6MQr2sVCzggFFnoxqpsVG yw== 
+Received: from p1lg14880.it.hpe.com (p1lg14880.it.hpe.com [16.230.97.201])
+        by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 3mjv420q8n-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 19 Dec 2022 18:56:05 +0000
+        Mon, 19 Dec 2022 18:56:07 +0000
 Received: from p1lg14885.dc01.its.hpecorp.net (unknown [10.119.18.236])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by p1lg14881.it.hpe.com (Postfix) with ESMTPS id D2A7B801722;
-        Mon, 19 Dec 2022 18:56:04 +0000 (UTC)
+        by p1lg14880.it.hpe.com (Postfix) with ESMTPS id 637F1807116;
+        Mon, 19 Dec 2022 18:56:07 +0000 (UTC)
 Received: from adevxp033-sys.us.rdlabs.hpecorp.net (unknown [16.231.227.36])
-        by p1lg14885.dc01.its.hpecorp.net (Postfix) with ESMTP id 4072280648D;
-        Mon, 19 Dec 2022 18:56:03 +0000 (UTC)
+        by p1lg14885.dc01.its.hpecorp.net (Postfix) with ESMTP id 1056680648D;
+        Mon, 19 Dec 2022 18:56:07 +0000 (UTC)
 From:   Robert Elliott <elliott@hpe.com>
 To:     herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net,
         linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Robert Elliott <elliott@hpe.com>
-Subject: [PATCH v2 0/8] crypto: kernel-doc for assembly language
-Date:   Mon, 19 Dec 2022 12:55:47 -0600
-Message-Id: <20221219185555.433233-1-elliott@hpe.com>
+Subject: [PATCH v2 2/8] doc: support kernel-doc for asm functions
+Date:   Mon, 19 Dec 2022 12:55:49 -0600
+Message-Id: <20221219185555.433233-3-elliott@hpe.com>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221215063857.161665-1-elliott@hpe.com>
+In-Reply-To: <20221219185555.433233-1-elliott@hpe.com>
 References: <20221215063857.161665-1-elliott@hpe.com>
+ <20221219185555.433233-1-elliott@hpe.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: bwiRFIdEkXbU--DgNCIjALmZUQrVCz73
-X-Proofpoint-ORIG-GUID: bwiRFIdEkXbU--DgNCIjALmZUQrVCz73
+X-Proofpoint-ORIG-GUID: fS0K2iE--npsmOJ5-rNg8QJfLLZWaTtT
+X-Proofpoint-GUID: fS0K2iE--npsmOJ5-rNg8QJfLLZWaTtT
 X-HPE-SCL: -1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-19_01,2022-12-15_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- priorityscore=1501 impostorscore=0 clxscore=1011 lowpriorityscore=0
- phishscore=0 malwarescore=0 suspectscore=0 bulkscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
+ phishscore=0 impostorscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
+ bulkscore=0 mlxscore=0 lowpriorityscore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2212190168
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Clean up the existing kernel-doc headers in the crypto subsystem,
-then add support for kernel-doc headers in assembly language files
-for functions called from C code.
+Support kernel-doc comments in assembly language files for functions
+called by C functions.
 
-This provides a place to document the assumptions made by the
-assembly language functions about their arguments (e.g., how
-they handle length values of 0, less than some value, not
-multiples of some value, etc.).
+The comment must include a line containing:
+    * Prototype: asmlinkage ... rest of C prototype...
 
-Not all the assembly language files are tackled yet - just some
-of the x86 files pending changes related to kernel_fpu_begin/end.
+and that function name must match the name used in line like:
+    SYM_FUNC_START(name)
 
-Changes in patch series v2:
-* rebased to upstream after Herbert's v6.2-p1 tag was merged
-* made not dependent on any of the proposed FPU patches
-  (instead, those will assume this is in place)
-* adds Documentation for the new kernel-doc Prototype line
+or
+    SOMETHING name
 
-Example man page formatted output for one of them:
+which is used in a few places in which SYM_FUNC_START is nested.
 
-$ nroff -man /tmp/man/sha1_transform_avx2.9
-sha1_transform_avx2(9)      Kernel Hacker's Manual      sha1_transform_avx2(9)
+Signed-off-by: Robert Elliott <elliott@hpe.com>
 
-NAME
-       sha1_transform_avx2  -  Calculate  SHA1 hash using the x86 AVX2 feature
-       set
+---
+v2 Add documentation for the new kernel-doc Prototype line.
+   Rebased onto 6.1.0.
+   Support new SYM_TYPED_FUNC_START macro.
+---
+ Documentation/doc-guide/kernel-doc.rst | 79 ++++++++++++++++++++++++++
+ scripts/kernel-doc                     | 49 +++++++++++++++-
+ 2 files changed, 126 insertions(+), 2 deletions(-)
 
-SYNOPSIS
-       void sha1_transform_avx2 (u32 *digest , const u8 *data , int blocks );
-
-ARGUMENTS
-       digest      address of current 20-byte hash value (rdi, CTX macro)
-
-       data        address of data (rsi, BUF macro); data size must be a mul‐
-		   tiple of 64 bytes
-
-       blocks      number of 64-byte blocks (rdx, CNT macro)
-
-DESCRIPTION
-       This function supports 64-bit CPUs.
-
-RETURN
-       none
-
-PROTOTYPE
-       asmlinkage  void  sha1_transform_avx2(u32  *digest, const u8 *data, int
-       blocks)
-
-December 2022                 sha1_transform_avx2 sha1_transform_avx2(9)
-
-
-Robert Elliott (8):
-  crypto: clean up kernel-doc headers
-  doc: support kernel-doc for asm functions
-  crypto: x86/sha - add kernel-doc comments to assembly
-  crypto: x86/crc - add kernel-doc comments to assembly
-  crypto: x86/sm3 - add kernel-doc comments to assembly
-  crypto: x86/ghash - add kernel-doc comments to assembly
-  crypto: x86/blake2s - add kernel-doc comments to assembly
-  crypto: x86/chacha - add kernel-doc comments to assembly
-
- .../mips/cavium-octeon/crypto/octeon-crypto.c | 19 ++--
- arch/x86/crypto/blake2s-core.S                | 26 +++++
- arch/x86/crypto/chacha-avx2-x86_64.S          | 90 ++++++++++++------
- arch/x86/crypto/chacha-avx512vl-x86_64.S      | 94 ++++++++++++-------
- arch/x86/crypto/chacha-ssse3-x86_64.S         | 75 ++++++++++-----
- arch/x86/crypto/crc32-pclmul_asm.S            | 24 ++---
- arch/x86/crypto/crc32c-pcl-intel-asm_64.S     | 29 +++---
- arch/x86/crypto/crct10dif-pcl-asm_64.S        | 24 +++--
- arch/x86/crypto/ghash-clmulni-intel_asm.S     | 27 +++++-
- arch/x86/crypto/sha1_avx2_x86_64_asm.S        | 32 +++----
- arch/x86/crypto/sha1_ni_asm.S                 | 22 +++--
- arch/x86/crypto/sha1_ssse3_asm.S              | 33 ++++---
- arch/x86/crypto/sha256-avx-asm.S              | 24 +++--
- arch/x86/crypto/sha256-avx2-asm.S             | 25 +++--
- arch/x86/crypto/sha256-ssse3-asm.S            | 26 ++---
- arch/x86/crypto/sha256_ni_asm.S               | 25 ++---
- arch/x86/crypto/sha512-avx-asm.S              | 33 +++----
- arch/x86/crypto/sha512-avx2-asm.S             | 34 +++----
- arch/x86/crypto/sha512-ssse3-asm.S            | 36 ++++---
- arch/x86/crypto/sm3-avx-asm_64.S              | 18 ++--
- crypto/asymmetric_keys/verify_pefile.c        |  2 +-
- crypto/async_tx/async_pq.c                    | 11 +--
- crypto/async_tx/async_tx.c                    |  4 +-
- crypto/crypto_engine.c                        |  2 +-
- include/crypto/acompress.h                    |  2 +-
- include/crypto/des.h                          |  4 +-
- include/crypto/if_alg.h                       | 26 ++---
- include/crypto/internal/ecc.h                 |  8 +-
- include/crypto/internal/rsa.h                 |  2 +-
- include/crypto/kdf_sp800108.h                 | 39 ++++----
- scripts/kernel-doc                            | 48 +++++++++-
- 31 files changed, 545 insertions(+), 319 deletions(-)
-
--- 
-2.38.1
-
-
-Robert Elliott (8):
-  crypto: clean up kernel-doc headers
-  doc: support kernel-doc for asm functions
-  crypto: x86/sha - add kernel-doc comments to assembly
-  crypto: x86/crc - add kernel-doc comments to assembly
-  crypto: x86/sm3 - add kernel-doc comments to assembly
-  crypto: x86/ghash - add kernel-doc comments to assembly
-  crypto: x86/blake2s - add kernel-doc comments to assembly
-  crypto: x86/chacha - add kernel-doc comments to assembly
-
- Documentation/doc-guide/kernel-doc.rst        | 79 ++++++++++++++++
- .../mips/cavium-octeon/crypto/octeon-crypto.c | 19 ++--
- arch/x86/crypto/blake2s-core.S                | 26 +++++
- arch/x86/crypto/chacha-avx2-x86_64.S          | 90 ++++++++++++------
- arch/x86/crypto/chacha-avx512vl-x86_64.S      | 94 ++++++++++++-------
- arch/x86/crypto/chacha-ssse3-x86_64.S         | 75 ++++++++++-----
- arch/x86/crypto/crc32-pclmul_asm.S            | 24 ++---
- arch/x86/crypto/crc32c-pcl-intel-asm_64.S     | 29 +++---
- arch/x86/crypto/crct10dif-pcl-asm_64.S        | 24 +++--
- arch/x86/crypto/ghash-clmulni-intel_asm.S     | 27 +++++-
- arch/x86/crypto/sha1_avx2_x86_64_asm.S        | 32 +++----
- arch/x86/crypto/sha1_ni_asm.S                 | 19 ++--
- arch/x86/crypto/sha1_ssse3_asm.S              | 33 ++++---
- arch/x86/crypto/sha256-avx-asm.S              | 23 +++--
- arch/x86/crypto/sha256-avx2-asm.S             | 24 +++--
- arch/x86/crypto/sha256-ssse3-asm.S            | 25 +++--
- arch/x86/crypto/sha256_ni_asm.S               | 22 +++--
- arch/x86/crypto/sha512-avx-asm.S              | 33 +++----
- arch/x86/crypto/sha512-avx2-asm.S             | 34 +++----
- arch/x86/crypto/sha512-ssse3-asm.S            | 36 ++++---
- arch/x86/crypto/sm3-avx-asm_64.S              | 18 ++--
- crypto/asymmetric_keys/verify_pefile.c        |  2 +-
- crypto/async_tx/async_pq.c                    | 11 +--
- crypto/async_tx/async_tx.c                    |  4 +-
- crypto/crypto_engine.c                        |  2 +-
- include/crypto/acompress.h                    |  2 +-
- include/crypto/des.h                          |  4 +-
- include/crypto/if_alg.h                       | 26 ++---
- include/crypto/internal/ecc.h                 |  8 +-
- include/crypto/internal/rsa.h                 |  2 +-
- include/crypto/kdf_sp800108.h                 | 39 ++++----
- scripts/kernel-doc                            | 49 +++++++++-
- 32 files changed, 623 insertions(+), 312 deletions(-)
-
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+index 1dcbd7332476..554694a15586 100644
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -93,6 +93,9 @@ The brief description following the function name may span multiple lines, and
+ ends with an argument description, a blank comment line, or the end of the
+ comment block.
+ 
++This may also be used to describe a functions in an assembly language file,
++provided that a Prototype line is also present (see below).
++
+ Function parameters
+ ~~~~~~~~~~~~~~~~~~~
+ 
+@@ -171,6 +174,82 @@ named ``Return``.
+      as a new section heading, which probably won't produce the desired
+      effect.
+ 
++Prototypes
++~~~~~~~~~~
++
++In assembly language files (.S files), functions callable by
++C code are defined with::
++
++   SYM_FUNCTION_START(function_name)
++   assembly language code ...
++
++This does not list the arguments like a C function definition; that
++information is implicit in the assembly language instructions that follow.
++
++To document that usage and how the function should be referenced by
++C code, include the recommended Prototype like this::
++
++   /**
++    * crc_pcl - Calculate CRC32C using x86 CRC32 and PCLMULQDQ instructions
++    * @buffer:     address of data (%rdi, bufp macro)
++    * @len:        data size (%rsi, len macro)
++    * @crc_init:   initial CRC32C value (%rdx, crc_init_arg macro);
++    *              only using lower 32 bits
++    *
++    * This function supports 64-bit CPUs.
++    * It loops on 8-byte aligned QWORDs, but also supports unaligned
++    * addresses and all length values.
++    *
++    * Return:      CRC32C value (upper 32 bits zero)(%rax)
++    * Prototype:   asmlinkage unsigned int crc_pcl(const u8 *buffer,
++    *                                              unsigned int len,
++    *                                              unsigned int crc_init);
++    */
++   SYM_FUNC_START(crc_pcl)
++   assembly language code ...
++
++scripts/kernel-doc ensures that the arguments match those in the
++prototype and that the function name matches everywhere.
++
++Variants of SYM_FUNC_START like SYM_TYPED_FUNC_START and
++SYM_FUNC_START_WEAK are also supprted.
++
++In a few cases, a macro is defined that contains the SYM_FUNC_START()
++macro and code. scripts/kernel-doc recognizes that format as well::
++
++   .macro SHA1_VECTOR_ASM  name
++           SYM_FUNC_START(\name)
++           assembly language code ...
++
++   /**
++    * sha1_transform_ssse3 - Calculate SHA1 hash using the x86 SSSE3 feature set
++    * @digest:     address of current 20-byte hash value (%rdi, CTX macro)
++    * @data:       address of data (%rsi, BUF macro);
++    *              data size must be a multiple of 64 bytes
++    * @blocks:     number of 64-byte blocks (%rdx, CNT macro)
++    *
++    * This function supports 64-bit CPUs.
++    *
++    * Return:      none
++    * Prototype:   asmlinkage void sha1_transform_ssse3(u32 *digest, const u8 *data, int blocks)
++    */
++   SHA1_VECTOR_ASM     sha1_transform_ssse3
++
++   /**
++    * sha1_transform_avx - Calculate SHA1 hash using the x86 AVX feature set
++    * @digest:     address of current 20-byte hash value (%rdi, CTX macro)
++    * @data:       address of data (%rsi, BUF macro);
++    *              data size must be a multiple of 64 bytes
++    * @blocks:     number of 64-byte blocks (%rdx, CNT macro)
++    *
++    * This function supports 64-bit CPUs.
++    *
++    * Return:      none
++    * Prototype:   asmlinkage void sha1_transform_avx(u32 *digest, const u8 *data, int blocks)
++    */
++   SHA1_VECTOR_ASM     sha1_transform_avx
++
++
+ Structure, union, and enumeration documentation
+ -----------------------------------------------
+ 
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 54b0893cae66..e23591d3c78c 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -174,6 +174,7 @@ my %nosymbol_table = ();
+ my $declaration_start_line;
+ my ($type, $declaration_name, $return_type);
+ my ($newsection, $newcontents, $prototype, $brcount, %source_map);
++my %asmprototypes;
+ 
+ if (defined($ENV{'KBUILD_VERBOSE'})) {
+ 	$verbose = "$ENV{'KBUILD_VERBOSE'}";
+@@ -248,7 +249,7 @@ my $doc_decl = $doc_com . '(\w+)';
+ # while trying to not match literal block starts like "example::"
+ #
+ my $doc_sect = $doc_com .
+-    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:([^:].*)?$';
++    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|prototype|notes?|examples?)\s*:([^:].*)?$';
+ my $doc_content = $doc_com_body . '(.*)';
+ my $doc_block = $doc_com . 'DOC:\s*(.*)?';
+ my $doc_inline_start = '^\s*/\*\*\s*$';
+@@ -278,6 +279,7 @@ my $section_intro = "Introduction";
+ my $section = $section_default;
+ my $section_context = "Context";
+ my $section_return = "Return";
++my $section_asmprototype = "Prototype";
+ 
+ my $undescribed = "-- undescribed --";
+ 
+@@ -469,6 +471,13 @@ sub dump_section {
+             $new_start_line = 0;
+ 	}
+     }
++
++    if ($name eq $section_asmprototype) {
++        # extract the function name for future matching to SYM.*FUNC_START.*(name)
++        # since that doesn't include arguments like a C function call
++        my ($func) = ($contents =~ /^.*\s+(\S+)\(/);
++	$asmprototypes{$func} = $contents;
++    }
+ }
+ 
+ ##
+@@ -1865,9 +1874,32 @@ sub syscall_munge() {
+ sub process_proto_function($$) {
+     my $x = shift;
+     my $file = shift;
++    my $funcname;
+ 
+     $x =~ s@\/\/.*$@@gos; # strip C99-style comments to end of line
+ 
++    # support asm functions declared with one of these starting in
++    # the first column:
++    #     SYM_FUNC_START(name)
++    #     SYM_FUNC_START_LOCAL(name)
++    #     SYM_FUNC_START_WEAK(name)
++    #     SYM_TYPED_FUNC_START(name)
++    # or for nested macros:
++    #     SOMESTRING<whitespace>name
++    if ($file =~ /\.S$/) {
++        if ($x =~ /^SYM.*FUNC_START/) {
++	    ($funcname) = ($x =~ /^SYM.*FUNC_START.*\((.*)\)/);
++        } elsif ($x =~ /^[A-Za-z0-9_]+\s+[A-Za-z0-9_]+/) {
++	    ($funcname) = ($x =~ /^[A-Za-z0-9_]+\s+([A-Za-z0-9_]+)/);
++        }
++    }
++    if (defined $funcname) {
++	$prototype = $asmprototypes{$funcname};
++	dump_function($asmprototypes{$funcname}, $file);
++	reset_state();
++	return;
++    }
++
+     if ($x =~ m#\s*/\*\s+MACDOC\s*#io || ($x =~ /^#/ && $x !~ /^#\s*define/)) {
+ 	# do nothing
+     }
+@@ -2106,6 +2138,8 @@ sub process_body($$) {
+ 	    $newsection = $section_default;
+ 	} elsif ($newsection =~ m/^context$/i) {
+ 	    $newsection = $section_context;
++	} elsif ($newsection =~ m/^prototype$/i) {
++	    $newsection = $section_asmprototype;
+ 	} elsif ($newsection =~ m/^returns?$/i) {
+ 	    $newsection = $section_return;
+ 	} elsif ($newsection =~ m/^\@return$/) {
+@@ -2156,6 +2190,16 @@ sub process_body($$) {
+ 		$contents = "";
+ 		$new_start_line = $.;
+ 		$state = STATE_BODY;
++	    } elsif ($section eq $section_asmprototype) {
++		my ($protoline) = /Prototype:\s+(.+)$/;
++		my ($funcname) = $protoline =~ /Prototype\.*\s+(\S+)\(/;
++
++		$asmprototypes{$funcname} = $protoline;
++		dump_section($file, $section, $contents);
++		$section = $section_default;
++		$contents = "";
++		$new_start_line = $.;
++		$state = STATE_BODY;
+ 	    } else {
+ 		if ($section ne $section_default) {
+ 		    $state = STATE_BODY_WITH_BLANK_LINE;
+@@ -2171,7 +2215,7 @@ sub process_body($$) {
+ 	    $declaration_purpose =~ s/\s+/ /g;
+ 	} else {
+ 	    my $cont = $1;
+-	    if ($section =~ m/^@/ || $section eq $section_context) {
++	    if ($section =~ m/^@/ || $section eq $section_context || $section eq $section_asmprototype) {
+ 		if (!defined $leading_space) {
+ 		    if ($cont =~ m/^(\s+)/) {
+ 			$leading_space = $1;
+@@ -2307,6 +2351,7 @@ sub process_file($) {
+ 	}
+ 	# Replace tabs by spaces
+         while ($_ =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {};
++
+ 	# Hand this line to the appropriate state handler
+ 	if ($state == STATE_NORMAL) {
+ 	    process_normal();
 -- 
 2.38.1
 
