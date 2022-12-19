@@ -2,222 +2,307 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF788C10F1D
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Dec 2022 23:07:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9956FC001B2
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Dec 2022 23:47:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233278AbiLSXHI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Dec 2022 18:07:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55412 "EHLO
+        id S232570AbiLSXq7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Dec 2022 18:46:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232959AbiLSXDF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Dec 2022 18:03:05 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 227CB1580F;
-        Mon, 19 Dec 2022 15:01:07 -0800 (PST)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BJMlBrb021788;
-        Mon, 19 Dec 2022 23:00:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=xxb40SBhINMA+hmRpsx/CP63bdIdqGIdwKa3KzTzd2Q=;
- b=MFjJBomY/JgQu46hgZ7FcZntWCGdVry1ZFDVMNDxKD3nBjdZKd8TAWrjfU6fHIsBR88h
- 7fSY/vnQIClBN7dONfPQuE+r5wh/u9Eimd+kC/bB9UvoBn5pj69rqDyHegN+Q3PQQmGK
- 7WogD5HY3ykcRJuvjnjzOBYs4N+Eyx4XIDwkCr9d5jzinr6T0KnlS49gmPuZgaZkiwrM
- BLNmR8UhsYZzIjAaapGbJOo4c3YrNlWF/3NTngDtfwEGHRX0l6slZBmG0k5mbyhAO1zO
- X+gPIJD4sIpqgQIMQIiM0TetBiUPJf/HYq7CwHP6y/0Hlf89aYTaPbqqlLOPdqwSXWgh hA== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mh72gd4dm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 19 Dec 2022 23:00:45 +0000
-Received: from nasanex01b.na.qualcomm.com (corens_vlan604_snip.qualcomm.com [10.53.140.1])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BJN0jr1007358
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 19 Dec 2022 23:00:45 GMT
-Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Mon, 19 Dec 2022 15:00:44 -0800
-From:   Elliot Berman <quic_eberman@quicinc.com>
-To:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>
-CC:     Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-acpi@vger.kernel.org>
-Subject: [PATCH v8 20/28] docs: gunyah: Document Gunyah VM Manager
-Date:   Mon, 19 Dec 2022 14:58:41 -0800
-Message-ID: <20221219225850.2397345-21-quic_eberman@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221219225850.2397345-1-quic_eberman@quicinc.com>
-References: <20221219225850.2397345-1-quic_eberman@quicinc.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: EZZ-VF57SvRhg0-nYdnWAYMpgUnGlh52
-X-Proofpoint-ORIG-GUID: EZZ-VF57SvRhg0-nYdnWAYMpgUnGlh52
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-19_01,2022-12-15_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1015
- suspectscore=0 impostorscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
- spamscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2212190202
+        with ESMTP id S232686AbiLSXqy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Dec 2022 18:46:54 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB7036411
+        for <linux-doc@vger.kernel.org>; Mon, 19 Dec 2022 15:46:50 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id w15so10209878wrl.9
+        for <linux-doc@vger.kernel.org>; Mon, 19 Dec 2022 15:46:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=20URghUEhnd48vVWNIo4NcdPqwWP3OApoVFQSqBizbk=;
+        b=XrGsIL3zLIGiSSn6zRwToocscYx+EVhRGz0v2L1n/IAjuMcU6xq8ZxA2Wus2Ht6e9N
+         S6C2+S60mmYaom7yAsckD8S25Ejvvcqe3F3SJmBbvSPaiKxrPfxWn9DTSgnKDa/+OqNl
+         mc9TLU7w9ovr7ziKMBo0UqNMEtE4C3eOa0PQJvlkSW0u6trdiuySdE8p/gNE/utvkkou
+         YxAZ+G9dzZdfS0bdLiNYmdOvHB6TpFNjqgitjPcyn3NwIEffSny6Tyt0mxRN66OpK4TU
+         YOkTfkTzLeC0IdVDj8ppUq80K+kQFcI4raWg7306COdxXtCPeDg+HudpqicpXG2aegSM
+         bZDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=20URghUEhnd48vVWNIo4NcdPqwWP3OApoVFQSqBizbk=;
+        b=Nv1ibokDstilRgV+Gdw49p0UCDn12WylMz1xzotXY7mTAKIgaxM4RHqRe24bIqQht2
+         m1D/x0VF8MZRhLe0fz/OCtyEHtiqBSBWoafj7BNIpI8gijQiv1VZJg+seLgdGSfakgly
+         8HqqqQkId795A0nphaVKQR3shfpVzvD0G0nu25N5uOZ540ADAzaIwKEXacz7e382FzKY
+         xZvYpxD7S+ZYynTKP6eZYOXB4lFPd9SVUtbiInXm/tOmSAeNQypuxhT8vdN+7Qu1qWOp
+         cgidnk7G3xtrR6LTWYjW9jfA7Dj11eKm7J9LSqMdshqPO1cWJ26pgzfk5X87GljPr6d0
+         ujww==
+X-Gm-Message-State: AFqh2kpcVhECGdBlg2P7Wt+PVywN54q8NbqeDquHTwIwt7w3YTnQOCpA
+        Ls8RpfDKJnhZ14SzvhCTIbAXAg==
+X-Google-Smtp-Source: AMrXdXt6JZzeWZ/AtX+SAqVE7wKHSrEQFyPWiwpw8cD02387TMiFxduKOJlehH3NW+aKz7L7W5wBsQ==
+X-Received: by 2002:adf:dbc7:0:b0:25d:d243:4f3c with SMTP id e7-20020adfdbc7000000b0025dd2434f3cmr6508350wrj.69.1671493609382;
+        Mon, 19 Dec 2022 15:46:49 -0800 (PST)
+Received: from linaro.org ([2a00:23c5:6809:2201:bce1:4a06:7ceb:6940])
+        by smtp.gmail.com with ESMTPSA id n2-20020a5d4c42000000b002383fc96509sm11165148wrt.47.2022.12.19.15.46.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Dec 2022 15:46:48 -0800 (PST)
+From:   Mike Leach <mike.leach@linaro.org>
+To:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+        linux-kernel@vger.kernel.org
+Cc:     mathieu.poirier@linaro.org, suzuki.poulose@arm.com,
+        acme@kernel.org, james.clark@arm.com,
+        Mike Leach <mike.leach@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v5 6/6] Documentation: coresight: docs for config load via configfs
+Date:   Mon, 19 Dec 2022 23:46:38 +0000
+Message-Id: <20221219234638.3661-7-mike.leach@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20221219234638.3661-1-mike.leach@linaro.org>
+References: <20221219234638.3661-1-mike.leach@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document the ioctls and usage of Gunyah VM Manager driver.
+Add documentation covering the configfs updates that allow
+binary configuration files to be loaded and unloaded via configfs,
+along with the demonstration programs in samples.
 
-Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Mike Leach <mike.leach@linaro.org>
 ---
- Documentation/virt/gunyah/index.rst      |   1 +
- Documentation/virt/gunyah/vm-manager.rst | 100 +++++++++++++++++++++++
- 2 files changed, 101 insertions(+)
- create mode 100644 Documentation/virt/gunyah/vm-manager.rst
+ .../trace/coresight/coresight-config.rst      | 202 +++++++++++++++++-
+ 1 file changed, 195 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/virt/gunyah/index.rst b/Documentation/virt/gunyah/index.rst
-index fbadbdd24da7..9019a03b6f3e 100644
---- a/Documentation/virt/gunyah/index.rst
-+++ b/Documentation/virt/gunyah/index.rst
-@@ -7,6 +7,7 @@ Gunyah Hypervisor
- .. toctree::
-    :maxdepth: 1
+diff --git a/Documentation/trace/coresight/coresight-config.rst b/Documentation/trace/coresight/coresight-config.rst
+index 6d5ffa6f7347..109053eb1b93 100644
+--- a/Documentation/trace/coresight/coresight-config.rst
++++ b/Documentation/trace/coresight/coresight-config.rst
+@@ -141,11 +141,11 @@ Mount configfs as normal and the 'cs-syscfg' subsystem will appear::
+     $ ls /config
+     cs-syscfg  stp-policy
  
-+   vm-manager
-    message-queue
+-This has two sub-directories::
++This has two sub-directories, with the load and unload attribute files::
  
- Gunyah is a Type-1 hypervisor which is independent of any OS kernel, and runs in
-diff --git a/Documentation/virt/gunyah/vm-manager.rst b/Documentation/virt/gunyah/vm-manager.rst
-new file mode 100644
-index 000000000000..62513af09cbf
---- /dev/null
-+++ b/Documentation/virt/gunyah/vm-manager.rst
-@@ -0,0 +1,100 @@
-+.. SPDX-License-Identifier: GPL-2.0
+     $ cd cs-syscfg/
+     $ ls
+-    configurations  features
++    configurations features load  unload
+ 
+ The system has the configuration 'autofdo' built in. It may be examined as
+ follows::
+@@ -278,9 +278,16 @@ Creating and Loading Custom Configurations
+ ==========================================
+ 
+ Custom configurations and / or features can be dynamically loaded into the
+-system by using a loadable module.
++system by using a loadable module, or by loading a binary configuration
++file in configfs.
+ 
+-An example of a custom configuration is found in ./samples/coresight.
++Loaded configurations can use previously loaded features. The system will
++ensure that it is not possible to unload a feature that is currently in
++use, by enforcing the unload order as the strict reverse of the load order.
 +
-+=======================
-+Virtual Machine Manager
-+=======================
 +
-+The Gunyah Virtual Machine Manager is a Linux driver to support launching
-+virtual machines using Gunyah. It presently supports launching non-proxy
-+scheduled Linux-like virtual machines.
++Using a Loadable Module
++-----------------------
+ 
+ This creates a new configuration that uses the existing built in
+ strobing feature, but provides a different set of presets.
+@@ -289,6 +296,187 @@ When the module is loaded, then the configuration appears in the configfs
+ file system and is selectable in the same way as the built in configuration
+ described above.
+ 
+-Configurations can use previously loaded features. The system will ensure
+-that it is not possible to unload a feature that is currently in use, by
+-enforcing the unload order as the strict reverse of the load order.
++The file 'coresight-cfg-sample.c' contains the configuration and module
++initialisation code needed to create the loadable module.
 +
-+Except for some basic information about the location of initial binaries,
-+most of the configuration about a Gunyah virtual machine is described in the
-+VM's devicetree. The devicetree is generated by userspace. Interacting with the
-+virtual machine is still done via the kernel and VM configuration requires some
-+of the corresponding functionality to be set up in the kernel. For instance,
-+sharing userspace memory with a VM is done via the GH_VM_SET_USER_MEM_REGION
-+ioctl. The VM itself is configured to use the memory region via the
-+devicetree.
++This will be built alongside the kernel modules if select in KConfig.
 +
-+Sample Userspace VMM
-+====================
++An example of a custom configuration module is found in './samples/coresight'.
 +
-+A sample userspace VMM is included in samples/gunyah/ along with a minimal
-+devicetree that can be used to launch a VM. To build this sample, enable
-+CONFIG_SAMPLE_GUNYAH.
++Using a Binary Configuration File
++---------------------------------
 +
-+IOCTLs and userspace VMM flows
-+==============================
++The './tools/coresight' directory contains example programs to generate and
++read and print binary configuration files.
 +
-+The kernel exposes a char device interface at /dev/gunyah.
++Building the tools creates the 'coresight-cfg-file-gen' program that will
++generate a configuration binary 'example1.cscfg' that can be loaded into the
++system using configfs. The configuration declared in the source file
++'coresight-cfg-example1.c' is named 'autofdo3' - the name that will be used
++once loaded.
 +
-+To create a VM, use the GH_CREATE_VM ioctl. A successful call will return a
-+"Gunyah VM" file descriptor.
++The source files 'coresight-cfg-bufw.h' and 'coresight-cfg-bufw.c' provide a
++standard function to convert a configuration declared in 'C' into the correct
++binary buffer format. These files can be re-used to create new custom
++configurations. Alternatively, addition examples can be added to the
++'coresight-cfg-file-gen' program::
 +
-+/dev/gunyah API Descriptions
-+----------------------------
++    $ ./coresight-cfg-file-gen
++    Coresight Configuration file Generator
 +
-+GH_CREATE_VM
-+~~~~~~~~~~~~
++    Generating example1 example
++    Generating example2 example
 +
-+Creates a Gunyah VM. The argument is reserved for future use and must be 0.
++The program 'coresight-cfg-file-read' can read back and print a configuration
++binary. This is built using the file reader from the driver code
++(coresight-config-file.c), which is copied over into './tools/coresight' at
++build time.::
 +
-+Gunyah VM API Descriptions
-+--------------------------
++    ./coresight-cfg-file-read example1.cscfg
++    CoreSight Configuration file reader
++    ============================================
 +
-+GH_VM_SET_USER_MEM_REGION
-+~~~~~~~~~~~~~~~~~~~~~~~~~
++    Configuration 1
++    Name:- autofdo3
++    Description:-
++    Setup ETMs with strobing for autofdo
++    Supplied presets allow experimentation with mark-space ratio for various loads
++
++    Uses 1 features:-
++    Feature-1: strobing
++
++    Provides 4 sets of preset values, 2 presets per set
++    set[0]: 0x7d0, 0x64,
++    set[1]: 0x7d0, 0x3e8,
++    set[2]: 0x7d0, 0x1388,
++    set[3]: 0x7d0, 0x2710,
++
++    ============================================
++    File contains no features
++
++There are additional attributes in the cs-syscfg directory - load and
++unload that can be used to load and unload configuration binary files. To
++load, 'cat' the binary config into the load attribute::
++
++    $ ls /config/cs-syscfg
++    configurations features  load  unload
++    $ cat example1.cscfg > /config/cs-syscfg/load
++    $ ls /config/cs-syscfg/configurations/
++    autofdo  autofdo3
++
++To unload, use the same file in the unload attribute::
++
++    $ cat example1.cscfg > /config/cs-syscfg/unload
++    ls /config/cs-syscfg/configurations/
++    autofdo
++
++
++
++Binary Configuration File Format
++--------------------------------
++
++The file format is defined in the source file **coresight-config-file.h**
++
++The source reader and generator examples produce a binary of this format.
++
++This arrangement is reproduced below:-
++
++Overall File structure
++~~~~~~~~~~~~~~~~~~~~~~
 +
 +::
 +
-+  struct gh_userspace_memory_region {
-+	__u32 label;
-+	__u32 flags;
-+	__u64 guest_phys_addr;
-+	__u64 memory_size;
-+	__u64 userspace_addr;
-+  };
++   [cscfg_file_header]   // Mandatory
++   [CONFIG_ELEM]*        // Optional - multiple, defined by cscfg_file_header.nr_configs
++   [FEATURE_ELEM]*       // Optional - multiple, defined by cscfg_file_header.nr_features
 +
-+This ioctl allows the user to create or delete a memory parcel for a guest
-+virtual machine. Each memory region is uniquely identified by a label;
-+attempting to create two regions with the same label is not allowed.
++File is invalid if both [CONFIG_ELEM] and [FEATURE_ELEM] are omitted.
 +
-+While VMM is guest-agnostic and allows runtime addition of memory regions,
-+Linux guest virtual machines do not support accepting memory regions at runtime.
-+Thus, memory regions should be provided before starting the VM and the VM must
-+be configured to accept these at boot-up.
++A file that contains only [FEATURE_ELEM] may be loaded, and the features used
++by subsequently loaded files with [CONFIG_ELEM] elements.
 +
-+The guest physical address is used by Linux kernel to check that the requested
-+user regions do not overlap and to help find the corresponding memory region
-+for calls like GH_VM_SET_DTB_CONFIG.
++Element Name Strings
++~~~~~~~~~~~~~~~~~~~~
 +
-+To delete a memory region, call GH_VM_SET_USER_MEM_REGION with label set to the
-+desired region and memory_size set to 0.
++Configuration name strings are required to consist of alphanumeric characters and '_' only. Other special characters are not permitted.
 +
-+The flags field of gh_userspace_memory_region accepts the following bits. All
-+other bits must be 0 and are reserved for future use. The ioctl will return
-+-EINVAL if an unsupported bit is detected.
++::
++   my_config_2          // is a valid name.
++   this-bad-config#5    // this will not work
 +
-+  - GH_MEM_ALLOW_READ/GH_MEM_ALLOW_WRITE/GH_MEM_ALLOW_EXEC sets read/write/exec
-+    permissions for the guest, respectively.
-+  - GH_MEM_LENT means that the memory will be unmapped from the host and be
-+    unaccessible by the host while the guest has the region.
++This is in order to comply with the requirements of the perf command line.
 +
-+GH_VM_SET_DTB_CONFIG
++It is recommended that Feature and Parameter names use the same convention to allow for future enhancements to the command line syntax.
++
++CONFIG_ELEM element
++~~~~~~~~~~~~~~~~~~~
++
++::
++
++   [cscfg_file_elem_header]                // header length value to end of feature strings.
++   [cscfg_file_elem_str]                   // name of the configuration.
++                                           // (see element string name requirements)
++   [cscfg_file_elem_str]                   // description of configuration.
++   [u16 value](nr_presets)                 // number of defined sets presets values.
++   [u32 value](nr_total_params)            // total parameters defined by all used features.
++   [u16 value](nr_feat_refs)               // number of features referenced by the configuration
++   [u64 values] * (nr_presets * nr_total_params)     // the preset values.
++   [cscfg_file_elem_str] * (nr_feat_refs)  // names of features used in the configurations.
++
++FEATURE_ELEM element
 +~~~~~~~~~~~~~~~~~~~~
 +
 +::
 +
-+  struct gh_vm_dtb_config {
-+	__u64 gpa;
-+	__u64 size;
-+  };
++   [cscfg_file_elem_header]                // header length is total bytes to end of param structures.
++   [cscfg_file_elem_str]                   // feature name.
++   [cscfg_file_elem_str]                   // feature description.
++   [u32 value](match_flags)                // flags to associate the feature with a device.
++   [u16 value](nr_regs)                    // number of registers.
++   [u16 value](nr_params)                  // number of parameters.
++   [cscfg_regval_desc struct] * (nr_regs)  // register definitions
++   [PARAM_ELEM] * (nr_params)              // parameters definitions
 +
-+This ioctl sets the location of the VM's devicetree blob and is used by Gunyah
-+Resource Manager to allocate resources.
++PARAM_ELEM element
++~~~~~~~~~~~~~~~~~~
 +
-+GH_VM_START
-+~~~~~~~~~~~
++::
 +
-+This ioctl starts the VM.
++   [cscfg_file_elem_str]         // parameter name.
++   [u64 value](param_value)      // initial value.
++
++Additional definitions.
++~~~~~~~~~~~~~~~~~~~~~~~
++
++The following structures are defined in **coresight-config-file.h**
++
++ * **struct cscfg_file_header** : This structure contains an initial magic number, the total
++   length of the file, and the number of configurations and features in the file.
++ * **struct cscfg_file_elem_header**: This defines the total length and type of a CONFIG_ELEM
++   or a FEATURE_ELEM.
++ * **struct cscfg_file_elem_str**: This defines a string and its length.
++
++The magic number in cscfg_file_header is defined as two bitfields::
++
++   [31:8] Fixed magic number to identify file type.
++   [7:0]  Current file format version.
++
++The following defines determine the maximum overall file size and maximum individual
++string size::
++
++   CSCFG_FILE_MAXSIZE       // maximum overall file size.
++   CSCFG_FILE_STR_MAXSIZE   // maximum individual string size.
++
++Load Dependencies.
++~~~~~~~~~~~~~~~~~~
++
++Files may be unloaded only in the strict reverse order of loading. This is enforced by the
++configuration system.
++
++This is to ensure that any load dependencies are maintained.
++
++A configuration file that contains a CONFIG_ELEM that references named features "feat_A" and "feat_B" will load only if either:-
++a) "feat_A" and/or "feat_B" has been loaded previously, or are present as built-in / module loaded features.
++b) "feat_A" and/or "feat_B" are declared as FEAT_ELEM in the same file as the CONFIG_ELEM.
++
++Files that contain features or configurations with the same names as those already loaded will fail to load.
 -- 
-2.25.1
+2.17.1
 
