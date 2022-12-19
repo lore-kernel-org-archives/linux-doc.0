@@ -2,321 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA6A2C4332F
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Dec 2022 11:32:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE717C10F1E
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Dec 2022 03:16:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230503AbiLRLcQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Dec 2022 06:32:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50434 "EHLO
+        id S230203AbiLSDQl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Dec 2022 22:16:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230469AbiLRLcI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Dec 2022 06:32:08 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 615026422;
-        Sun, 18 Dec 2022 03:32:07 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id k22-20020a05600c1c9600b003d1ee3a6289so4629538wms.2;
-        Sun, 18 Dec 2022 03:32:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NGUMh8qUOo0nRY5Ge+o8HiihlH9WbEdrIODpngTYT8o=;
-        b=bTZm+6W7pLy9IxX3hontjakYQQNYFg2pZ7HjDXZW+2obJb/tD/ltKYh/EsXA21ztBY
-         io59ywVfMTDeW0ML4oyoYqnEOGPNlfyg4PtJHot/wzAMcHG21w/P4bUHPPNVeDyGhj1h
-         AsuDij7BQv173ReC4Hd1u+eo+y4WCxn6xdfyOoeb3A3phbuK2tBChyDgorjflFHOa/Me
-         L5ZjPm2KDT8Ngk0T5IEetsUBPPmKS3nFbukt645wDMEGrJMNwZDAygi6FyEGX/c4FyOy
-         sl5sjy7OLrbVP52y6kMKTIGt/wIkdbtv+rs5qZdnKJzvkJY0P86AhYLRLM29gArLHLKn
-         wb3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NGUMh8qUOo0nRY5Ge+o8HiihlH9WbEdrIODpngTYT8o=;
-        b=g94iODeKhyOdLn8Dbvu0Hcn2yUlBp+Qa5cKyUEG3hgyD0b5f8rvOvyEz4HXPyNGKF0
-         1mu64S8ZMehmc06M3+5h+SXdSs/1aq1Vjc8g/suWSsuTbhrR0hIILwJoU6rZ7HJkA1SQ
-         l2C7xRpsT9EkyDmehPXOby4G5uJUvGexXqdnkP4pWzX1yiOBa4eUT35mEArge4yLCN5T
-         etVYEL9D2Zyg8ee09HOds2VtwDaCcLGe9qE3In8o0JyCG1iQZnKDe6YAnRAkg2MWYqOz
-         E0oGc8/VxBA123pTkxR9zxJEs2VhiuDiqfrrwhrZ5aPqU27ZlGa7fJCBj0iW7v534qvv
-         V6rQ==
-X-Gm-Message-State: ANoB5pnfR3yvRAWC0myULveb3NGtwEgywHYRCemvKI3vERZe3Jk9N6P/
-        dLIOyHDJHqydXK525Pc5uAKJt7/EAJMdvwXS
-X-Google-Smtp-Source: AA0mqf5zQncc9fQm9tNY5rxyqdfw64V7uzyXXXw2q5JHkTwdcb1gJOSSezGuHyGTWNUUf109HkzOkw==
-X-Received: by 2002:a05:600c:3b23:b0:3d1:ebdf:d586 with SMTP id m35-20020a05600c3b2300b003d1ebdfd586mr29959461wms.29.1671363125886;
-        Sun, 18 Dec 2022 03:32:05 -0800 (PST)
-Received: from localhost.localdomain ([2001:9e8:20fa:a700:21e9:9128:9ea2:3911])
-        by smtp.gmail.com with ESMTPSA id l41-20020a05600c1d2900b003d069fc7372sm9440751wms.1.2022.12.18.03.32.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Dec 2022 03:32:05 -0800 (PST)
-From:   Leonard Anderweit <leonard.anderweit@gmail.com>
-To:     linux-hwmon@vger.kernel.org
-Cc:     Aleksa Savic <savicaleksa83@gmail.com>,
-        Jack Doan <me@jackdoan.com>, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Leonard Anderweit <leonard.anderweit@gmail.com>
-Subject: [PATCH 6/6] hwmon: (aquacomputer_d5next) Support sensors for Aquacomputer Aquaero
-Date:   Sun, 18 Dec 2022 12:31:31 +0100
-Message-Id: <20221218113131.3752-7-leonard.anderweit@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221218113131.3752-1-leonard.anderweit@gmail.com>
-References: <20221218113131.3752-1-leonard.anderweit@gmail.com>
+        with ESMTP id S229507AbiLSDQj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Dec 2022 22:16:39 -0500
+Received: from mx5.didiglobal.com (mx5.didiglobal.com [111.202.70.122])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 414E15FDF;
+        Sun, 18 Dec 2022 19:16:36 -0800 (PST)
+Received: from mail.didiglobal.com (unknown [10.79.71.35])
+        by mx5.didiglobal.com (Maildata Gateway V2.8) with ESMTPS id 2247AB0128817;
+        Mon, 19 Dec 2022 11:16:34 +0800 (CST)
+Received: from ZJY03-ACTMBX-05.didichuxing.com (10.79.71.35) by
+ ZJY03-ACTMBX-05.didichuxing.com (10.79.71.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.17; Mon, 19 Dec 2022 11:16:33 +0800
+Received: from ZJY03-ACTMBX-05.didichuxing.com ([fe80::1dcd:f7bf:746e:c769])
+ by ZJY03-ACTMBX-05.didichuxing.com ([fe80::1dcd:f7bf:746e:c769%8]) with mapi
+ id 15.01.2375.017; Mon, 19 Dec 2022 11:16:33 +0800
+X-MD-Sfrom: chengkaitao@didiglobal.com
+X-MD-SrcIP: 10.79.71.35
+From:   =?utf-8?B?56iL5Z6y5rabIENoZW5na2FpdGFvIENoZW5n?= 
+        <chengkaitao@didiglobal.com>
+To:     Michal Hocko <mhocko@suse.com>
+CC:     chengkaitao <pilgrimtao@gmail.com>,
+        "tj@kernel.org" <tj@kernel.org>,
+        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+        "shakeelb@google.com" <shakeelb@google.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
+        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
+        "yuzhao@google.com" <yuzhao@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "surenb@google.com" <surenb@google.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "mcgrof@kernel.org" <mcgrof@kernel.org>,
+        "sujiaxun@uniontech.com" <sujiaxun@uniontech.com>,
+        "feng.tang@intel.com" <feng.tang@intel.com>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+Subject: Re: [PATCH v2] mm: memcontrol: protect the memory in cgroup from
+ being oom killed
+Thread-Topic: [PATCH v2] mm: memcontrol: protect the memory in cgroup from
+ being oom killed
+Thread-Index: AQHZCrfAdhr5zYTMtke9YS08C4BFfq5jExWAgACNdAD//34EAIAA6LeA//9+mQCAAXznAP//sVGAAEToU4ABt/oBgA==
+Date:   Mon, 19 Dec 2022 03:16:33 +0000
+Message-ID: <BE56B09A-7C70-4152-B4D4-B8433A37465D@didiglobal.com>
+In-Reply-To: <395B1998-38A9-4A68-96F8-6EDF44686231@didiglobal.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.79.71.101]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A5521E1617DBDF49ADF15A25DA43BFDA@didichuxing.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for reading sensors of the Aquacomputer Aquaero 5/6 fan
-controllers. These fan controllers supports 4 fans, 8 physical
-temperature sensors, 8 virtual temperature sensors and 2 flow sensors.
-Temperature and flow sensor reading implemented by Aleksa Savic [1] [2]
-[3].
-
-[1] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/pull/31
-[2] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/pull/51
-[3] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/pull/55
-
-Originally-from: Aleksa Savic <savicaleksa83@gmail.com>
-Signed-off-by: Leonard Anderweit <leonard.anderweit@gmail.com>
----
- Documentation/hwmon/aquacomputer_d5next.rst |   5 +
- drivers/hwmon/aquacomputer_d5next.c         | 108 ++++++++++++++++++--
- 2 files changed, 104 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/hwmon/aquacomputer_d5next.rst b/Documentation/hwmon/aquacomputer_d5next.rst
-index 637bdbc8fcad..b94ff08080bf 100644
---- a/Documentation/hwmon/aquacomputer_d5next.rst
-+++ b/Documentation/hwmon/aquacomputer_d5next.rst
-@@ -5,6 +5,7 @@ Kernel driver aquacomputer-d5next
- 
- Supported devices:
- 
-+* Aquacomputer Aquaero 5/6 fan controllers
- * Aquacomputer D5 Next watercooling pump
- * Aquacomputer Farbwerk RGB controller
- * Aquacomputer Farbwerk 360 RGB controller
-@@ -20,6 +21,10 @@ Description
- This driver exposes hardware sensors of listed Aquacomputer devices, which
- communicate through proprietary USB HID protocols.
- 
-+The Aquaero devices expose eight temperature sensors, eight virtual temperature
-+sensors and two flow senors. The fans expose their speed (in RPM), power,
-+voltage and current.
-+
- For the D5 Next pump, available sensors are pump and fan speed, power, voltage
- and current, as well as coolant temperature and eight virtual temp sensors. Also
- available through debugfs are the serial number, firmware version and power-on
-diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
-index d28d7079917a..0fd00cfb86c8 100644
---- a/drivers/hwmon/aquacomputer_d5next.c
-+++ b/drivers/hwmon/aquacomputer_d5next.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-  * hwmon driver for Aquacomputer devices (D5 Next, Farbwerk, Farbwerk 360, Octo,
-- * Quadro, High Flow Next)
-+ * Quadro, High Flow Next, Aquaero)
-  *
-  * Aquacomputer devices send HID reports (with ID 0x01) every second to report
-  * sensor values.
-@@ -21,6 +21,7 @@
- #include <asm/unaligned.h>
- 
- #define USB_VENDOR_ID_AQUACOMPUTER	0x0c70
-+#define USB_PRODUCT_ID_AQUAERO		0xf001
- #define USB_PRODUCT_ID_FARBWERK		0xf00a
- #define USB_PRODUCT_ID_QUADRO		0xf00d
- #define USB_PRODUCT_ID_D5NEXT		0xf00e
-@@ -28,7 +29,7 @@
- #define USB_PRODUCT_ID_OCTO		0xf011
- #define USB_PRODUCT_ID_HIGHFLOWNEXT	0xf012
- 
--enum kinds { d5next, farbwerk, farbwerk360, octo, quadro, highflownext };
-+enum kinds { d5next, farbwerk, farbwerk360, octo, quadro, highflownext, aquaero };
- 
- static const char *const aqc_device_names[] = {
- 	[d5next] = "d5next",
-@@ -36,7 +37,8 @@ static const char *const aqc_device_names[] = {
- 	[farbwerk360] = "farbwerk360",
- 	[octo] = "octo",
- 	[quadro] = "quadro",
--	[highflownext] = "highflownext"
-+	[highflownext] = "highflownext",
-+	[aquaero] = "aquaero"
- };
- 
- #define DRIVER_NAME			"aquacomputer_d5next"
-@@ -57,7 +59,7 @@ static u8 secondary_ctrl_report[] = {
- 	0x02, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x34, 0xC6
- };
- 
--/* Info, sensor sizes and offsets for all Aquacomputer devices */
-+/* Info, sensor sizes and offsets for most Aquacomputer devices */
- #define AQC_SERIAL_START		0x3
- #define AQC_FIRMWARE_VERSION		0xD
- 
-@@ -69,6 +71,24 @@ static u8 secondary_ctrl_report[] = {
- #define AQC_FAN_POWER_OFFSET		0x06
- #define AQC_FAN_SPEED_OFFSET		0x08
- 
-+/* Specs of the Aquaero fan controllers */
-+#define AQUAERO_SERIAL_START			0x07
-+#define AQUAERO_FIRMWARE_VERSION		0x0B
-+#define AQUAERO_NUM_FANS			4
-+#define AQUAERO_NUM_SENSORS			8
-+#define AQUAERO_NUM_VIRTUAL_SENSORS		8
-+#define AQUAERO_NUM_FLOW_SENSORS		2
-+
-+/* Sensor report offsets for Aquaero fan controllers */
-+#define AQUAERO_SENSOR_START			0x65
-+#define AQUAERO_VIRTUAL_SENSOR_START		0x85
-+#define AQUAERO_FLOW_SENSORS_START		0xF9
-+#define AQUAERO_FAN_VOLTAGE_OFFSET		0x04
-+#define AQUAERO_FAN_CURRENT_OFFSET		0x06
-+#define AQUAERO_FAN_POWER_OFFSET		0x08
-+#define AQUAERO_FAN_SPEED_OFFSET		0x00
-+static u16 aquaero_sensor_fan_offsets[] = { 0x167, 0x173, 0x17f, 0x18B };
-+
- /* Specs of the D5 Next pump */
- #define D5NEXT_NUM_FANS			2
- #define D5NEXT_NUM_SENSORS		1
-@@ -181,12 +201,16 @@ static const char *const label_d5next_current[] = {
- 	"Fan current"
- };
- 
--/* Labels for Farbwerk, Farbwerk 360 and Octo and Quadro temperature sensors */
-+/* Labels for Aquaero, Farbwerk, Farbwerk 360 and Octo and Quadro temperature sensors */
- static const char *const label_temp_sensors[] = {
- 	"Sensor 1",
- 	"Sensor 2",
- 	"Sensor 3",
--	"Sensor 4"
-+	"Sensor 4",
-+	"Sensor 5",
-+	"Sensor 6",
-+	"Sensor 7",
-+	"Sensor 8"
- };
- 
- static const char *const label_virtual_temp_sensors[] = {
-@@ -262,6 +286,16 @@ static const char *const label_quadro_speeds[] = {
- 	"Flow speed [dL/h]"
- };
- 
-+/* Labels for Aquaero fan speeds */
-+static const char *const label_aquaero_speeds[] = {
-+	"Fan 1 speed",
-+	"Fan 2 speed",
-+	"Fan 3 speed",
-+	"Fan 4 speed",
-+	"Flow sensor 1 [dL/h]",
-+	"Flow sensor 2 [dL/h]"
-+};
-+
- /* Labels for High Flow Next */
- static const char *const label_highflownext_temp_sensors[] = {
- 	"Coolant temp",
-@@ -290,6 +324,14 @@ struct aqc_fan_structure_offsets {
- 	u8 speed;
- };
- 
-+/* Fan structure offsets for Aquaero */
-+static struct aqc_fan_structure_offsets aqc_aquaero_fan_structure = {
-+	.voltage = AQUAERO_FAN_VOLTAGE_OFFSET,
-+	.curr = AQUAERO_FAN_CURRENT_OFFSET,
-+	.power = AQUAERO_FAN_POWER_OFFSET,
-+	.speed = AQUAERO_FAN_SPEED_OFFSET
-+};
-+
- /* Fan structure offsets for all devices except Aquaero */
- static struct aqc_fan_structure_offsets aqc_general_fan_structure = {
- 	.voltage = AQC_FAN_VOLTAGE_OFFSET,
-@@ -496,6 +538,7 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
- 				if (channel < 3)
- 					return 0444;
- 				break;
-+			case aquaero:
- 			case quadro:
- 				/* Special case to support flow sensors */
- 				if (channel < priv->num_fans + priv->num_flow_sensors)
-@@ -977,6 +1020,42 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		goto fail_and_stop;
- 
- 	switch (hdev->product) {
-+	case USB_PRODUCT_ID_AQUAERO:
-+		/*
-+		 * Aquaero presents itself as three HID devices under the same product ID:
-+		 * "aquaero keyboard/mouse", "aquaero System Control" and "aquaero Device",
-+		 * which is the one we want to communicate with. Unlike most other Aquacomputer
-+		 * devices, Aquaero does not return meaningful data when explicitly requested
-+		 * using GET_FEATURE_REPORT.
-+		 *
-+		 * The difference between "aquaero Device" and the other two is in the collections
-+		 * they present. The two other devices have the type of the second element in
-+		 * their respective collections set to 1, while the real device has it set to 0.
-+		 */
-+		if (hdev->collection[1].type != 0) {
-+			ret = -ENODEV;
-+			goto fail_and_close;
-+		}
-+
-+		priv->kind = aquaero;
-+
-+		priv->num_fans = AQUAERO_NUM_FANS;
-+		priv->fan_sensor_offsets = aquaero_sensor_fan_offsets;
-+
-+		priv->num_temp_sensors = AQUAERO_NUM_SENSORS;
-+		priv->temp_sensor_start_offset = AQUAERO_SENSOR_START;
-+		priv->num_virtual_temp_sensors = AQUAERO_NUM_VIRTUAL_SENSORS;
-+		priv->virtual_temp_sensor_start_offset = AQUAERO_VIRTUAL_SENSOR_START;
-+		priv->num_flow_sensors = AQUAERO_NUM_FLOW_SENSORS;
-+		priv->flow_sensors_start_offset = AQUAERO_FLOW_SENSORS_START;
-+
-+		priv->temp_label = label_temp_sensors;
-+		priv->virtual_temp_label = label_virtual_temp_sensors;
-+		priv->speed_label = label_aquaero_speeds;
-+		priv->power_label = label_fan_power;
-+		priv->voltage_label = label_fan_voltage;
-+		priv->current_label = label_fan_current;
-+		break;
- 	case USB_PRODUCT_ID_D5NEXT:
- 		priv->kind = d5next;
- 
-@@ -1100,10 +1179,20 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		break;
- 	}
- 
--	priv->serial_number_start_offset = AQC_SERIAL_START;
--	priv->firmware_version_offset = AQC_FIRMWARE_VERSION;
-+	switch (priv->kind) {
-+	case aquaero:
-+		priv->serial_number_start_offset = AQUAERO_SERIAL_START;
-+		priv->firmware_version_offset = AQUAERO_FIRMWARE_VERSION;
-+
-+		priv->fan_structure = &aqc_aquaero_fan_structure;
-+		break;
-+	default:
-+		priv->serial_number_start_offset = AQC_SERIAL_START;
-+		priv->firmware_version_offset = AQC_FIRMWARE_VERSION;
- 
--	priv->fan_structure = &aqc_general_fan_structure;
-+		priv->fan_structure = &aqc_general_fan_structure;
-+		break;
-+	}
- 
- 	if (priv->buffer_size != 0) {
- 		priv->checksum_start = 0x01;
-@@ -1152,6 +1241,7 @@ static void aqc_remove(struct hid_device *hdev)
- }
- 
- static const struct hid_device_id aqc_table[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_AQUAERO) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_D5NEXT) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_FARBWERK) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_FARBWERK360) },
--- 
-2.38.1
-
+SGkgTWljaGFsIEhvY2tvLA0KTG9va2luZyBmb3J3YXJkIHRvIHlvdXIgcmVwbHkuDQoNCu+7v09u
+IDIwMjIvMTIvMTAgMTc6MTjvvIzigJznqIvlnrLmtpsgQ2hlbmdrYWl0YW8gQ2hlbmfigJ08Y2hl
+bmdrYWl0YW9AZGlkaWdsb2JhbC5jb20gPG1haWx0bzpjaGVuZ2thaXRhb0BkaWRpZ2xvYmFsLmNv
+bT4+IHdyb3RlOg0KQXQgMjAyMi0xMi0wOSAxNjoyNTozNywgIk1pY2hhbCBIb2NrbyIgPG1ob2Nr
+b0BzdXNlLmNvbSA8bWFpbHRvOm1ob2Nrb0BzdXNlLmNvbT4+IHdyb3RlOg0KPk9uIEZyaSAwOS0x
+Mi0yMiAwNTowNzoxNSwg56iL5Z6y5rabIENoZW5na2FpdGFvIENoZW5nIHdyb3RlOg0KPj4gQXQg
+MjAyMi0xMi0wOCAyMjoyMzo1NiwgIk1pY2hhbCBIb2NrbyIgPG1ob2Nrb0BzdXNlLmNvbSA8bWFp
+bHRvOm1ob2Nrb0BzdXNlLmNvbT4+IHdyb3RlOg0KPlsuLi5dDQo+PiA+b29tIGtpbGxlciBpcyBh
+IG1lbW9yeSByZWNsYWltIG9mIHRoZSBsYXN0IHJlc29ydC4gU28geWVzLCB0aGVyZSBpcyBzb21l
+DQo+PiA+ZGlmZmVyZW5jZSBidXQgZnVuZGFtZW50YWxseSBpdCBpcyBhYm91dCByZWxlYXNpbmcg
+c29tZSBtZW1vcnkuIEFuZCBsb25nDQo+PiA+dGVybSB3ZSBoYXZlIGxlYXJuZWQgdGhhdCB0aGUg
+bW9yZSBjbGV2ZXIgaXQgdHJpZXMgdG8gYmUgdGhlIG1vcmUgbGlrZWx5DQo+PiA+Y29ybmVyIGNh
+c2VzIGNhbiBoYXBwZW4uIEl0IGlzIHNpbXBseSBpbXBvc3NpYmxlIHRvIGtub3cgdGhlIGJlc3QN
+Cj4+ID5jYW5kaWRhdGUgc28gdGhpcyBpcyBhIGp1c3QgYSBiZXN0IGVmZm9ydC4gV2UgdHJ5IHRv
+IGFpbSBmb3INCj4+ID5wcmVkaWN0YWJpbGl0eSBhdCBsZWFzdC4NCj4+IA0KPj4gSXMgdGhlIGN1
+cnJlbnQgb29tX3Njb3JlIHN0cmF0ZWd5IHByZWRpY3RhYmxlPyBJIGRvbid0IHRoaW5rIHNvLiBU
+aGUgc2NvcmVfYWRqIA0KPj4gaGFzIGJyb2tlbiB0aGUgcHJlZGljdGFiaWxpdHkgb2Ygb29tX3Nj
+b3JlIChpdCBpcyBubyBsb25nZXIgc2ltcGx5IGtpbGxpbmcgdGhlIA0KPj4gcHJvY2VzcyB0aGF0
+IHVzZXMgdGhlIG1vc3QgbWVtcykuDQo+DQo+b29tX3Njb3JlIGFzIHJlcG9ydGVkIHRvIHRoZSB1
+c2Vyc3BhY2UgYWxyZWFkeSBjb25zaWRlcnMgb29tX3Njb3JlX2Fkag0KPndoaWNoIG1lYW5zIHRo
+YXQgeW91IGNhbiBjb21wYXJlIHByb2Nlc3NlcyBhbmQgZ2V0IGEgcmVhc29uYWJsZSBndWVzcw0K
+PndoYXQgd291bGQgYmUgdGhlIGN1cnJlbnQgb29tX3ZpY3RpbS4gVGhlcmUgaXMgYSBjZXJ0YWlu
+IGZ1enogbGV2ZWwNCj5iZWNhdXNlIHRoaXMgaXMgbm90IGF0b21pYyBhbmQgYWxzbyB0aGVyZSBp
+cyBubyBjbGVhciBjYW5kaWRhdGUgd2hlbg0KPm11bHRpcGxlIHByb2Nlc3NlcyBoYXZlIGVxdWFs
+IHNjb3JlLiANCg0KTXVsdGlwbGUgcHJvY2Vzc2VzIGhhdmUgdGhlIHNhbWUgc2NvcmUsIHdoaWNo
+IG1lYW5zIGl0IGlzIHJlYXNvbmFibGUgdG8ga2lsbCANCmFueSBvbmUuIFdoeSBtdXN0IHdlIGRl
+dGVybWluZSB3aGljaCBvbmUgaXM/DQoNCj4gU28geWVzLCBpdCBpcyBub3QgMTAwJSBwcmVkaWN0
+YWJsZS4NCj5tZW1vcnkucmVjbGFpbSBhcyB5b3UgcHJvcG9zZSBkb2Vzbid0IGNoYW5nZSB0aGF0
+IHRob3VnaC4NCj4NClRoaXMgc2NoZW1lIGlzIHRvIGdpdmUgdGhlIGRlY2lzaW9uIHBvd2VyIG9m
+IHRoZSBjYW5kaWRhdGUgdG8gdGhlIHVzZXIuIA0KVGhlIHVzZXIncyBiZWhhdmlvciBpcyByYW5k
+b20uIEkgdGhpbmsgaXQgaXMgaW1wb3NzaWJsZSB0byAxMDAlIHByZWRpY3QgDQphIHJhbmRvbSBl
+dmVudC4NCg0KSXMgaXQgcmVhbGx5IG5lY2Vzc2FyeSB0byBtYWtlIGV2ZXJ5dGhpbmcgMTAwJSBw
+cmVkaWN0YWJsZT8gSnVzdCBhcyB3ZSBjYW4ndCANCmFjY3VyYXRlbHkgcHJlZGljdCB3aGljaCBj
+Z3JvdXAgd2lsbCBhY2Nlc3MgdGhlIHBhZ2UgY2FjaGUgZnJlcXVlbnRseSwgDQp3ZSBjYW4ndCBh
+Y2N1cmF0ZWx5IHByZWRpY3Qgd2hldGhlciB0aGUgbWVtb3J5IGlzIGhvdCBvciBjb2xkLiBUaGVz
+ZSANCnN0cmF0ZWdpZXMgYXJlIGZ1enp5LCBidXQgd2UgY2FuJ3QgZGVueSB0aGVpciByYXRpb25h
+bGl0eS4NCg0KPklzIG9vbV9zY29yZV9hZGogYSBnb29kIGludGVyZmFjZT8gTm8sIG5vdCByZWFs
+bHkuIElmIEkgY291bGQgZ28gYmFjayBpbg0KPnRpbWUgSSB3b3VsZCBuYWNrIGl0IGJ1dCBoZXJl
+IHdlIGFyZS4gV2UgaGF2ZSBhbiBpbnRlcmZhY2UgdGhhdA0KPnByb21pc2VzIHF1aXRlIG11Y2gg
+YnV0IGVzc2VudGlhbGx5IGl0IG9ubHkgYWxsb3dzIHR3byB1c2VjYXNlcw0KPihPT01fU0NPUkVf
+QURKX01JTiwgT09NX1NDT1JFX0FESl9NQVgpIHJlbGlhYmx5LiBFdmVyeXRoaW5nIGluIGJldHdl
+ZW4NCj5pcyBjbHVtc3kgYXQgYmVzdCBiZWNhdXNlIGEgcmVhbCB1c2VyIHNwYWNlIG9vbSBwb2xp
+Y3kgd291bGQgcmVxdWlyZSB0bw0KPnJlLWV2YWx1YXRlIHRoZSB3aG9sZSBvb20gZG9tYWluIChi
+ZSBpdCBnbG9iYWwgb3IgbWVtY2cgb29tKSBhcyB0aGUNCj5tZW1vcnkgY29uc3VtcHRpb24gZXZv
+bHZlcyBvdmVyIHRpbWUuIEkgYW0gcmVhbGx5IHdvcnJpZWQgdGhhdCB5b3VyDQo+bWVtb3J5Lm9v
+bS5wcm90ZWN0aW9uIGRpcmVjdHMgYSB2ZXJ5IHNpbWlsYXIgdHJhamVjdG9yeSBiZWNhdXNlDQo+
+cHJvdGVjdGlvbiByZWFsbHkgbmVlZHMgdG8gY29uc2lkZXIgb3RoZXIgbWVtY2dzIHRvIGJhbGFu
+Y2UgcHJvcGVybHkuDQo+DQpUaGUgc2NvcmVfYWRqIGlzIGFuIGludGVyZmFjZSB0aGF0IHByb21p
+c2VzIHF1aXRlIG11Y2guIEkgdGhpbmsgdGhlIHJlYXNvbiANCndoeSBvbmx5IHR3byB1c2VjYXNl
+cyAoT09NX1NDT1JFX0FESl9NSU4sIE9PTV9TQ09SRV9BREpfTUFYKSANCmFyZSByZWxpYWJsZSBp
+cyB0aGF0IHVzZXIgY2Fubm90IGV2YWx1YXRlIHRoZSBwcmlvcml0eSBsZXZlbCBvZiBhbGwgcHJv
+Y2Vzc2VzIGluIA0KdGhlIHBoeXNpY2FsIG1hY2hpbmUuIElmIHRoZXJlIGlzIGEgYWdlbnQgcHJv
+Y2VzcyBpbiB0aGUgcGh5c2ljYWwgbWFjaGluZSwgDQp3aGljaCBjYW4gYWNjdXJhdGVseSBkaXZp
+ZGUgYWxsIHRoZSB1c2VyIHByb2Nlc3NlcyBvZiB0aGUgcGh5c2ljYWwgbWFjaGluZSANCmludG8g
+ZGlmZmVyZW50IGxldmVscywgb3RoZXIgdXNlY2FzZXMgb2YgdGhlIHNjb3JlX2FkaiB3aWxsIGJl
+IHdlbGwgYXBwbGllZCwgDQpidXQgaXQgaXMgYWxtb3N0IGltcG9zc2libGUgdG8gYWNoaWV2ZSBp
+biByZWFsIGxpZmUuDQoNClRoZXJlIGlzIGFuIGV4YW1wbGUgb2YgdGhlIHByYWN0aWNhbCBhcHBs
+aWNhdGlvbg0KS3ViZWxldCB3aWxsIHNldCB0aGUgc2NvcmVfYWRqIG9mIGRvY2tlcmluaXQgcHJv
+Y2VzcyBvZiBhbGwgYnVyc3RhYmxlciBjb250YWluZXJzLCANCnRoZSBzZXR0aW5nIHNwZWNpZmlj
+YXRpb24gZm9sbG93cyB0aGUgZm9sbG93aW5nIGZvcm11bGEsDQoNCnNjb3JlX2FkaiA9IDEwMDAg
+LSByZXF1ZXN0ICogMTAwMCAvIHRvdGFscGFnZXMNCihyZXF1ZXN0ID0gIkZpeGVkIGNvZWZmaWNp
+ZW50IiAqICJtZW1vcnkubWF4IikNCg0KQmVjYXVzZSBrdWJlbGV0IGhhcyBhIGNsZWFyIHVuZGVy
+c3RhbmRpbmcgb2YgYWxsIHRoZSBjb250YWluZXIgbWVtb3J5IGJlaGF2aW9yIA0KYXR0cmlidXRl
+cyBpbiB0aGUgcGh5c2ljYWwgbWFjaGluZSwgaXQgY2FuIHVzZSBtb3JlIHNjb3JlX2FkaiB1c2Vj
+YXNlcy4gVGhlIA0KYWR2YW50YWdlIG9mIHRoZSBvb20ucHJvdHJjdCBpcyB0aGF0IHVzZXJzIGRv
+IG5vdCBuZWVkIHRvIGhhdmUgYSBjbGVhciB1bmRlcnN0YW5kaW5nIA0Kb2YgYWxsIHRoZSBwcm9j
+ZXNzZXMgaW4gdGhlIHBoeXNpY2FsIG1hY2hpbmUsIHRoZXkgb25seSBuZWVkIHRvIGhhdmUgYSBj
+bGVhciANCnVuZGVyc3RhbmRpbmcgb2YgYWxsIHRoZSBwcm9jZXNzZXMgaW50IGxvY2FsIGNncm91
+cC4gSSB0aGluayB0aGUgcmVxdWlyZW1lbnQgaXMgdmVyeSANCmVhc3kgdG8gYWNoaWV2ZS4NCg0K
+PlsuLi5dDQo+DQo+PiA+IEJ1dCBJIGFtIHJlYWxseSBvcGVuDQo+PiA+dG8gYmUgY29udmluY2Vk
+IG90aGVyd2lzZSBhbmQgdGhpcyBpcyBpbiBmYWN0IHdoYXQgSSBoYXZlIGJlZW4gYXNraW5nDQo+
+PiA+Zm9yIHNpbmNlIHRoZSBiZWdpbm5pbmcuIEkgd291bGQgbG92ZSB0byBzZWUgc29tZSBleGFt
+cGxlcyBvbiB0aGUNCj4+ID5yZWFzb25hYmxlIGNvbmZpZ3VyYXRpb24gZm9yIGEgcHJhY3RpY2Fs
+IHVzZWNhc2UuDQo+PiANCj4+IEhlcmUgaXMgYSBzaW1wbGUgZXhhbXBsZS4gSW4gYSBkb2NrZXIg
+Y29udGFpbmVyLCB1c2VycyBjYW4gZGl2aWRlIGFsbCBwcm9jZXNzZXMgDQo+PiBpbnRvIHR3byBj
+YXRlZ29yaWVzIChpbXBvcnRhbnQgYW5kIG5vcm1hbCksIGFuZCBwdXQgdGhlbSBpbiBkaWZmZXJl
+bnQgY2dyb3Vwcy4gDQo+PiBPbmUgY2dyb3VwJ3Mgb29tLnByb3RlY3QgaXMgc2V0IHRvICJtYXgi
+LCB0aGUgb3RoZXIgaXMgc2V0IHRvICIwIi4gSW4gdGhpcyB3YXksIA0KPj4gaW1wb3J0YW50IHBy
+b2Nlc3NlcyBpbiB0aGUgY29udGFpbmVyIGNhbiBiZSBwcm90ZWN0ZWQuDQo+DQo+VGhhdCBpcyBl
+ZmZlY3RpdmVsbHkgb29tX3Njb3JlX2FkaiA9IE9PTV9TQ09SRV9BREpfTUlOIC0gMSB0byBhbGwN
+Cj5wcm9jZXNzZXMgaW4gdGhlIGltcG9ydGFudCBncm91cC4gSSB3b3VsZCBhcmd1ZSB5b3UgY2Fu
+IGFjaGlldmUgYSB2ZXJ5DQo+c2ltaWxhciByZXN1bHQgYnkgdGhlIHByb2Nlc3MgbGF1bmNoZXIg
+dG8gc2V0IHRoZSBvb21fc2NvcmVfYWRqIGFuZA0KPmluaGVyaXQgaXQgdG8gYWxsIHByb2Nlc3Nl
+cyBpbiB0aGF0IGltcG9ydGFudCBjb250YWluZXIuIFlvdSBkbyBub3QgbmVlZA0KPmFueSBtZW1j
+ZyB0dW5hYmxlIGZvciB0aGF0LiANCg0KWW91ciBtZXRob2QgaXMgbm90IGZlYXNpYmxlLiBQbGVh
+c2UgcmVmZXIgdG8gdGhlIHByZXZpb3VzIGVtYWlsDQpodHRwczovL2xvcmUua2VybmVsLm9yZy9s
+aW51eC1tbS9FNUE1QkNDMy00NjBFLTRFODEtOEREMy04OEI0QTI4NjgyODVAZGlkaWdsb2JhbC5j
+b20gPG1haWx0bzpFNUE1QkNDMy00NjBFLTRFODEtOEREMy04OEI0QTI4NjgyODVAZGlkaWdsb2Jh
+bC5jb20+Lw0KKiB1c2VjYXNlcyAxOiB1c2VycyBzYXkgdGhhdCB0aGV5IHdhbnQgdG8gcHJvdGVj
+dCBhbiBpbXBvcnRhbnQgcHJvY2VzcyANCiogd2l0aCBoaWdoIG1lbW9yeSBjb25zdW1wdGlvbiBm
+cm9tIGJlaW5nIGtpbGxlZCBieSB0aGUgb29tIGluIGNhc2UgDQoqIG9mIGRvY2tlciBjb250YWlu
+ZXIgZmFpbHVyZSwgc28gYXMgdG8gcmV0YWluIG1vcmUgY3JpdGljYWwgb24tc2l0ZSANCiogaW5m
+b3JtYXRpb24gb3IgYSBzZWxmIHJlY292ZXJ5IG1lY2hhbmlzbS4gQXQgdGhpcyB0aW1lLCB0aGV5
+IHN1Z2dlc3QgDQoqIHNldHRpbmcgdGhlIHNjb3JlX2FkaiBvZiB0aGlzIHByb2Nlc3MgdG8gLTEw
+MDAsIGJ1dCBJIGRvbid0IGFncmVlIHdpdGggDQoqIGl0LCBiZWNhdXNlIHRoZSBkb2NrZXIgY29u
+dGFpbmVyIGlzIG5vdCBpbXBvcnRhbnQgdG8gb3RoZXIgZG9ja2VyIA0KKiBjb250YWluZXJzIG9m
+IHRoZSBzYW1lIHBoeXNpY2FsIG1hY2hpbmUuIElmIHNjb3JlX2FkaiBvZiB0aGUgcHJvY2VzcyAN
+CiogaXMgc2V0IHRvIC0xMDAwLCB0aGUgcHJvYmFiaWxpdHkgb2Ygb29tIGluIG90aGVyIGNvbnRh
+aW5lciBwcm9jZXNzZXMgd2lsbCANCiogaW5jcmVhc2UuDQoNCj5JIGFtIHJlYWxseSBtdWNoIG1v
+cmUgaW50ZXJlc3RlZCBpbiBleGFtcGxlcw0KPndoZW4gdGhlIHByb3RlY3Rpb24gaXMgdG8gYmUg
+ZmluZSB0dW5lZC4NCi0tIA0KVGhhbmtzIGZvciB5b3VyIGNvbW1lbnQhDQpjaGVuZ2thaXRhbw0K
+DQoNCg0KDQoNCg0KDQo=
