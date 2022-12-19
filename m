@@ -2,109 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ECB4C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Dec 2022 06:21:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF7D8C46467
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Dec 2022 07:57:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231256AbiLSGVR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Dec 2022 01:21:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41944 "EHLO
+        id S231167AbiLSH5p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Dec 2022 02:57:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231237AbiLSGVQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Dec 2022 01:21:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75BBB24D
-        for <linux-doc@vger.kernel.org>; Sun, 18 Dec 2022 22:20:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1671430830;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=nmHgH44YO+1fWxNrpKpYFMutQaCxauHria2kl24sBVY=;
-        b=LM/BfjYhlqZ9WN0WJgoF3UTUik7rA85amM1kUUdSnl6EOjmWYzTuOxsoPdaEf93qxg+3DV
-        237saVlmvocGKgmmbrXMEKwzu+4eBfoOF+dGJtEKUXyr8Tzt3qTmV/tRmiV8EDS/UO+Kxr
-        rmfbGk2Jkm75CJXyjuikrLo0KQB7o/c=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-182-eX0eSwwLOjqBpXo8gF4MLQ-1; Mon, 19 Dec 2022 01:20:21 -0500
-X-MC-Unique: eX0eSwwLOjqBpXo8gF4MLQ-1
-Received: by mail-qv1-f69.google.com with SMTP id u15-20020a0cec8f000000b004c704e015f7so5158699qvo.1
-        for <linux-doc@vger.kernel.org>; Sun, 18 Dec 2022 22:20:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nmHgH44YO+1fWxNrpKpYFMutQaCxauHria2kl24sBVY=;
-        b=nPn4a9ki1tvzSdPU5Ay8fWloVKbN2vGrnKRZno3uJXkyeMxusBjLOYpud/By8HvJzX
-         U8ky9T3jB//POzJikWF9RSO8+drbVMu00LwKdbrP8IG7EWLoS6cYn9vlwNPo5G/XDFPk
-         au3Vv+39PG6Hw8TFn/+npmF6qttpjpsNmHzRMO7n+NzXB/LgUKmTgup2i/+nDniGQUnq
-         AXUm+katms6KUDsgwIBJRbGhVhRjGUfJGbQT+9OXsx6/fI+EjRgBDNhL+1q38kHgkI5Y
-         5KfhITPxTM/+xj3cnLnlbqqPDzMVeGqK4kAKMzxPloxfE1XxguaK9xsn7f813TSc5Pv5
-         F4ow==
-X-Gm-Message-State: ANoB5pncIIeABWGTJqxz/9tFn+CnScOX8mNpUfd7TLRwN433F7innPAH
-        jvbAvjAqwG/mIKi40p+fiIBHUMPFm8HHJVPzE0pVS3VMEPg+HdW2pBqhBm4RI7+sIjYAooN6DJx
-        h04IkHqMBpGg78b0Wl6/6
-X-Received: by 2002:a0c:f892:0:b0:4c7:6c12:5db with SMTP id u18-20020a0cf892000000b004c76c1205dbmr55819859qvn.40.1671430821201;
-        Sun, 18 Dec 2022 22:20:21 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4o5ruKrZQ3mkYIZlLSnXry7UvegxwMnK9f4SJe6lKY1RpuFh1tICbIL0ZeD2iaMWLDvlXWSA==
-X-Received: by 2002:a0c:f892:0:b0:4c7:6c12:5db with SMTP id u18-20020a0cf892000000b004c76c1205dbmr55819846qvn.40.1671430820950;
-        Sun, 18 Dec 2022 22:20:20 -0800 (PST)
-Received: from redhat.com ([45.144.113.29])
-        by smtp.gmail.com with ESMTPSA id f1-20020a05620a280100b006ee949b8051sm6470263qkp.51.2022.12.18.22.20.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Dec 2022 22:20:20 -0800 (PST)
-Date:   Mon, 19 Dec 2022 01:20:14 -0500
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org,
-        corbet@lwn.net, cohuck@redhat.com,
-        virtualization@lists.linux-foundation.org, jasowang@redhat.com,
-        kernel@collabora.com
-Subject: Re: [RESEND PATCH v5 1/1] docs: driver-api: virtio: virtio on Linux
-Message-ID: <20221219011647-mutt-send-email-mst@kernel.org>
-References: <20221010064359.1324353-1-ricardo.canuelo@collabora.com>
- <20221010064359.1324353-2-ricardo.canuelo@collabora.com>
- <Y0QYTq7KW9C731s0@debian.me>
- <87v8oqsq6k.fsf@rcn-XPS-13-9305.i-did-not-set--mail-host-address--so-tickle-me>
+        with ESMTP id S229473AbiLSH5o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Dec 2022 02:57:44 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0305EBC2E;
+        Sun, 18 Dec 2022 23:57:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1671436663; x=1702972663;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=1plgwk37hmjdXcKtmCG/KoF8dtK3gUMs5OEN6hcYczw=;
+  b=Ff8kmsBK0HUhY0iDM6CyHCXVu9qex1TMwhdgBKgW4vjc1pWJrzRpZs0z
+   9kq1aqZ0M1GW1TIgFDSnHIaQwfqDftDSZyscSggouKnYlrujxpXNWJHeT
+   SZaOJBDslixe4HDIJ5m27JQOUq57X1sOX+7cgQASpOumlMLm39V8eru0g
+   0g53UoH5sYgbdpVYOwHKDFbH9yafFoK9NpyNam95NKm4oePjsjpWQse6C
+   wSVuzKdN2t/4bIhNQfOskJzEGA2lT0EXDgeqAss40Pyx4VE+kRQVOi9HX
+   h2L+c++Xu5cvbKDF3G0kEiimAdY1DAnFcYmGvpZnc9csCz0EFizA7pf5L
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="381520271"
+X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; 
+   d="scan'208";a="381520271"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2022 23:57:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="650470073"
+X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; 
+   d="scan'208";a="650470073"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga002.jf.intel.com with ESMTP; 18 Dec 2022 23:57:29 -0800
+Date:   Mon, 19 Dec 2022 15:53:13 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     "Huang, Kai" <kai.huang@intel.com>
+Cc:     "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "ak@linux.intel.com" <ak@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "tabba@google.com" <tabba@google.com>,
+        "Hocko, Michal" <mhocko@suse.com>,
+        "michael.roth@amd.com" <michael.roth@amd.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "bfields@fieldses.org" <bfields@fieldses.org>,
+        "dhildenb@redhat.com" <dhildenb@redhat.com>,
+        "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+        "vannapurve@google.com" <vannapurve@google.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "vbabka@suse.cz" <vbabka@suse.cz>, "arnd@arndb.de" <arnd@arndb.de>,
+        "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
+        "qperret@google.com" <qperret@google.com>,
+        "Christopherson,, Sean" <seanjc@google.com>,
+        "ddutile@redhat.com" <ddutile@redhat.com>,
+        "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
+        "aarcange@redhat.com" <aarcange@redhat.com>,
+        "wanpengli@tencent.com" <wanpengli@tencent.com>,
+        "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
+        "hughd@google.com" <hughd@google.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        "jlayton@kernel.org" <jlayton@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "steven.price@arm.com" <steven.price@arm.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linmiaohe@huawei.com" <linmiaohe@huawei.com>,
+        "Wang, Wei W" <wei.w.wang@intel.com>
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20221219075313.GB1691829@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
+ <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87v8oqsq6k.fsf@rcn-XPS-13-9305.i-did-not-set--mail-host-address--so-tickle-me>
+In-Reply-To: <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 11, 2022 at 10:46:43AM +0200, Ricardo Cañuelo wrote:
-> >> +It's at this stage that the virtqueues will be allocated and configured
-> >> +by calling the appropriate ``virtio_find`` helper function, such as
-> >> +virtio_find_single_vq() or virtio_find_vqs(), which will end up
-> >> +calling a transport-specific ``find_vqs`` method.
-> >> +
-> >
-> > Looks like the wording at the beginning confuses me, so better say:
-> >
-> > ---- >8 ----
-> > diff --git a/Documentation/driver-api/virtio/virtio.rst b/Documentation/driver-api/virtio/virtio.rst
-> > index 07fd2d7c51e689..7947b4ca690efd 100644
-> > --- a/Documentation/driver-api/virtio/virtio.rst
-> > +++ b/Documentation/driver-api/virtio/virtio.rst
-> > @@ -123,10 +123,10 @@ When the device is registered to the virtio bus the kernel will look
-> >  for a driver in the bus that can handle the device and call that
-> >  driver's ``probe`` method.
+On Tue, Dec 13, 2022 at 11:49:13PM +0000, Huang, Kai wrote:
+> > 
+> > memfd_restricted() itself is implemented as a shim layer on top of real
+> > memory file systems (currently tmpfs). Pages in restrictedmem are marked
+> > as unmovable and unevictable, this is required for current confidential
+> > usage. But in future this might be changed.
+> > 
+> > 
+> I didn't dig full histroy, but I interpret this as we don't support page
+> migration and swapping for restricted memfd for now.  IMHO "page marked as
+> unmovable" can be confused with PageMovable(), which is a different thing from
+> this series.  It's better to just say something like "those pages cannot be
+> migrated and swapped".
+
+Yes, if that helps some clarification.
+
 > 
-> I think this is a matter of style as well, maybe a native speaker can
-> pitch in about the correctness of it.
+> [...]
 > 
-> Cheers,
-> Ricardo
+> > +
+> > +	/*
+> > +	 * These pages are currently unmovable so don't place them into movable
+> > +	 * pageblocks (e.g. CMA and ZONE_MOVABLE).
+> > +	 */
+> > +	mapping = memfd->f_mapping;
+> > +	mapping_set_unevictable(mapping);
+> > +	mapping_set_gfp_mask(mapping,
+> > +			     mapping_gfp_mask(mapping) & ~__GFP_MOVABLE);
+> 
+> But, IIUC removing __GFP_MOVABLE flag here only makes page allocation from non-
+> movable zones, but doesn't necessarily prevent page from being migrated.  My
+> first glance is you need to implement either a_ops->migrate_folio() or just
+> get_page() after faulting in the page to prevent.
 
-I think I agree with this comment.  This seems minor enough so I applied
-the patch for now. Bagas would you like to post your suggestion as a patch on
-top? Would be appreciated. Thanks!
+The current api restrictedmem_get_page() already does this, after the
+caller calling it, it holds a reference to the page. The caller then
+decides when to call put_page() appropriately.
 
--- 
-MST
+> 
+> So I think the comment also needs improvement -- IMHO we can just call out
+> currently those pages cannot be migrated and swapped, which is clearer (and the
+> latter justifies mapping_set_unevictable() clearly).
 
+Good to me.
+
+Thanks,
+Chao
+> 
+> 
