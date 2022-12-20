@@ -2,608 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 050D9C4167B
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Dec 2022 17:56:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B53EC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Dec 2022 18:01:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233716AbiLTR4e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Dec 2022 12:56:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45568 "EHLO
+        id S229514AbiLTSBK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Dec 2022 13:01:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233117AbiLTR4c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 12:56:32 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5870D113E;
-        Tue, 20 Dec 2022 09:56:30 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id m5-20020a7bca45000000b003d2fbab35c6so9435155wml.4;
-        Tue, 20 Dec 2022 09:56:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5kJi60gyNl4vOWh2qkNjesWcj3F4raPrJ4zGZO5DkXA=;
-        b=e8iBypxUZgZtcbEL8EpvF8Ss/jFWdwfW1yDuM/JzslzL4vf+RQqb6QfNaD57Aa1E1L
-         0NsLJCrdUj948YpvKboR/gTf/apbQAWMJz8zRdfE2X2yWa6p8yWmgJlaQEfBWtd5tL5o
-         KksM3nsHyY6Vif2vibFKVzwoX4A5G3jYiJky7Hq1d9YQLk9WUQ8HOZFJjUY3350dJbap
-         4B5/uz8q/KCYCnjF1p0zHj2HJirQv3oVtuL4hH+YyPkMkui41k3VM6D2vJPR6H4fNDvO
-         vwBfCu4BFUCuK2/wzjPUXrJsiMMBXXwr9uIL7Soho7n+fX1r9E5GsQVkUV/JFvHRtzfd
-         Xkyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5kJi60gyNl4vOWh2qkNjesWcj3F4raPrJ4zGZO5DkXA=;
-        b=kF8CSArNXY8Kc2geXelJ4OAxaHvWEJ0zEoakIeeYgdQhWEWhaKQ4OmHVFKIku4cBDs
-         LgGUR45NNwfWUqXI08w7JUckwNoROwuIlivAWd4MH98PseEkT3vvlYkSHqi9PmXsSn07
-         dLFRUcDn8QK65dMZQqK8p+vieNziomypTZjDMP55pBpNy/vpgdiQN9QZ+i6Py4yqTzud
-         7Ly/cNBI2cqDDSBw4zPWl0CGKJQVl0c9pXxUelCN7QFNini9JLhH47e8kQb3lq2WQ8cW
-         iJGq+VuJlb1UmcH0CRUWHlKk0vbYVtf6ebZTf8sAe4qcjvinOaML03QpIjjumOvf7nIO
-         e/xA==
-X-Gm-Message-State: AFqh2kqMSflEcwNOZhIDmHSoO8ECNcyVsgOGGyM5nqNopc3b4Gooau52
-        3Ibe8f4GuQCrRdRt2/pASDY=
-X-Google-Smtp-Source: AMrXdXtYNrBycZR5dzrP5kix0ruh3Jny5N0M7sDeXlBMe1/AgKxrnzoUskBtKGE2J4+sL3biV6XhHQ==
-X-Received: by 2002:a05:600c:3ba5:b0:3d5:3ab1:d630 with SMTP id n37-20020a05600c3ba500b003d53ab1d630mr2391276wms.8.1671558988473;
-        Tue, 20 Dec 2022 09:56:28 -0800 (PST)
-Received: from xws.localdomain ([194.126.177.41])
-        by smtp.gmail.com with ESMTPSA id u18-20020adfeb52000000b002423dc3b1a9sm13206300wrn.52.2022.12.20.09.56.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Dec 2022 09:56:27 -0800 (PST)
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] platform/surface: aggregator: Rename top-level request functions to avoid ambiguities
-Date:   Tue, 20 Dec 2022 18:56:08 +0100
-Message-Id: <20221220175608.1436273-2-luzmaximilian@gmail.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221220175608.1436273-1-luzmaximilian@gmail.com>
-References: <20221220175608.1436273-1-luzmaximilian@gmail.com>
+        with ESMTP id S230506AbiLTSBH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 13:01:07 -0500
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2053.outbound.protection.outlook.com [40.107.95.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8919CDEE4;
+        Tue, 20 Dec 2022 10:01:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EKm738BRn9Vs6YKaOIrU72S1q/ee8pItnGDnlmy1uFL4p475nck3s1jyZPDbg9yubbhzR4XGVgnfk2fmh+NqI3410PfagtzhI5enZVG7u78NDXflBWPUM7n4+lXa2h5dRKwMmJ2TuPdIHp0eX6di7/lFHmQ+ePKck0PgLUvhoZ90FnQWzK4uyEYCvkXa0JwtAhBkUt+FIhPYsieP0w2zqEC1vEDXWCa9ZG6VvKa5kbAbCHPF41n9pTn12p7rFCw9mOEavzmU42k0vYD9J0SjWap11lg7OITviFAStmESm0ZqD4ZhBye3wq75sHGtu+l3lhGXtR2Rr/YRryFvfIOjwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uy0v/DLH9LWmdojn1YzXwdQpEh9BrHoJypQe/wAA0q8=;
+ b=Um6mFUvLO5aAisSr8Oy0uFSMCcrUtVTnTtn0BHG3zzF6HfkOjpWZfemlbwFx/qSZiedGtIfq1ku3snCyfHlVGslp0USazluBbMrHYsYaOwTE6CFR3AqJkc8/evxvzihTGO0QMZEX9XVX0OINjN2dbwZhj9ls5NIgXKGd04OwRDg7uhqQ/PdzwpCh7rsDrxaOXsbStry3RNWJttFCZ03xsxHUNvt23z/QCSV/46bx8YCYMkzN+wNGLQjPw1c6y1FBW1QW+iU6MNcwvsWn+Kx9FmzVZj+7v+i9t34huoVsOavoOVCuCzxd8B5Ci1T3ZYIP+AOeJwoc0qLmvRo91qhB/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uy0v/DLH9LWmdojn1YzXwdQpEh9BrHoJypQe/wAA0q8=;
+ b=Qy84rGAW7v2WRIyGmjJwkrZ5xGbRAkrqGCUuC/XgVps7tXYiYaYZpQ5bzM26Cb/ALMXdo2zI5bgSdD8u90RagC3CgzdDMrE13Ag6OLmTMuTn9R8dYS6XXI1eT1ZpimAGt0J97CuDgqqInNG6foVs5VEjcL6ug6C6c3Njs1ysGyY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by IA0PR12MB8376.namprd12.prod.outlook.com (2603:10b6:208:40b::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Tue, 20 Dec
+ 2022 18:01:04 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::790c:da77:2d05:6098]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::790c:da77:2d05:6098%5]) with mapi id 15.20.5924.016; Tue, 20 Dec 2022
+ 18:01:04 +0000
+Message-ID: <e9964a9e-92df-e8a3-427d-18f713ae8637@amd.com>
+Date:   Tue, 20 Dec 2022 12:00:59 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v9 10/13] x86/resctrl: Add sysfs interface to write
+ mbm_total_bytes_config
+To:     Reinette Chatre <reinette.chatre@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>
+Cc:     "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+        "Das1, Sandipan" <Sandipan.Das@amd.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+        "eranian@google.com" <eranian@google.com>,
+        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
+        "jarkko@kernel.org" <jarkko@kernel.org>,
+        "adrian.hunter@intel.com" <adrian.hunter@intel.com>,
+        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
+        "peternewman@google.com" <peternewman@google.com>
+References: <166990882621.17806.16780480657453071426.stgit@bmoger-ubuntu>
+ <166990903030.17806.5106229901730558377.stgit@bmoger-ubuntu>
+ <084224cb-271f-a1c8-6665-1953b2574495@intel.com>
+ <MW3PR12MB455337B3EFAE3A0E37D042AF95E59@MW3PR12MB4553.namprd12.prod.outlook.com>
+ <e7452b29-8e9e-a3e2-a870-2c251e48507d@intel.com>
+Content-Language: en-US
+From:   "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <e7452b29-8e9e-a3e2-a870-2c251e48507d@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH0PR04CA0048.namprd04.prod.outlook.com
+ (2603:10b6:610:77::23) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|IA0PR12MB8376:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6ff544bf-f904-4446-e4a6-08dae2b42928
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hu9X8qeZco797ZbE2+r6A3PwIJnf4xqw+jYSp9s62YuwfS+K6m/Ldi4maQrJ9KctFKyZlvvF3wR+bQBLoFoGLP5DXiQ5ge3IdB2wpP7iCGO0ddRa1DQKIXqqZ901WxvGa2j2ScAONr4hgvvKlcpire8sArV+pCUHBCnWY1Emx5TwowCl33ULmT8c0Uf7WTJSluLbk0c46aClAQAJMHMGJ2kbeoMb+XN18UOTIkJV9fu4QAHyn3VloBds+p75o3qgnaLqyT/N0oL8cm/ulRv5m2xshwUfkz60XULGgjys1lcJ59oBBfyOms1AQsf9qdtVmVY+xu8oAS1ad6w8sDnS/CVcHOjzDVJvR1N6ucxomxK8/Peewd4pQCyWROQcQf011yPed6X0iBrAbdfiIeG3FMAOyCRn8M2acqKAyOtouC8zCblc8BuaX49oM5eczSwCOVeNwYtdhVu/J1xdWJxhX451rkiFvXh86aeitq88EpxYhs9aDdkFzPPlPVTr0RqzcB8SSZ/m18gdBLQV10VA8LVIWce6lhSdECH7Hhefguq5kAz6r59+cmbDwU0HKU9ihBcTGA57qsM0Lrj41vlCrDFN8JE+cicywyQVqynER0NtKhQ+uRA5JS8FDI3XDP0JbIUiCCZlcgqIJaFVFmYdTrgW8sTVieXJkiJxS4kaSCFf2pyAr2RLNFoh7xpcI0Vfgn6vvnWuwhJFnSUxhTcmRyjbct7rtNeXn+s7aWiN7zQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(136003)(39860400002)(346002)(376002)(366004)(451199015)(2616005)(31686004)(86362001)(38100700002)(6666004)(26005)(6512007)(2906002)(3450700001)(186003)(110136005)(478600001)(6486002)(36756003)(6506007)(54906003)(316002)(8936002)(53546011)(66946007)(4326008)(31696002)(66556008)(41300700001)(4744005)(66476007)(83380400001)(7406005)(5660300002)(8676002)(7416002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZEY2WDR3NHIvT3dhVXpmNk4vaHEyVjFUY1R3c2hkUzJkSFlYSXhiMVRiQ0tI?=
+ =?utf-8?B?SmhnSFdlWCtuUHFlbFRGTTB5aCthZW5uZ0Y1cEFTdzhxTGZnbE5DYnFrSmVW?=
+ =?utf-8?B?VmJoMXJwUjNhL05qL0tmQ0ZuOXhFZWMvL3ZOODRmbHNaSmZGeHd3SWo1dWFy?=
+ =?utf-8?B?SCtoK1pjbFZkNzdrN1p0bHFpWGo1QnkzbFlrZ2FMZ1pvekFBaXc1U2s0dVVz?=
+ =?utf-8?B?aEFBSGhhSHZzZm1GTzdQelFMVE1kbTVZNjZOckVWVHU1aUpIb0RVUXRPQWF1?=
+ =?utf-8?B?OXZRNHlzc0IwZmFtaGFLUHc1NnFYaml6a09Kc1c1dElLMU5ZdTlkcGpQbVdU?=
+ =?utf-8?B?R0kzaHNkelZaTWxIdVU4eHVoVm00d0g0OU1XZDU0OHZNS2FMUU44alRPdmtv?=
+ =?utf-8?B?OFdCalBGNVNmTXVRVlNOV2ZHVjFlVE5yWld3M2QreStpWThwZk4rQXJtY0xL?=
+ =?utf-8?B?aGE1bUEybGtxREtjanVTU2NreUd1WmZKeDhvbWZFeHByWlJVV01HZDhVY1h2?=
+ =?utf-8?B?NlVScys4Q0FrUzQyRUp1aExvZDdKR284aVV3bzFCQVBHY081Q0w1eHV2ZGUz?=
+ =?utf-8?B?VWh5aDdtN2pNbHlvN1Q0dUJOaVFMZTdaVGtQN1V0Y1FST1VXSEJWN2w5UkVE?=
+ =?utf-8?B?bnI3QnAxL0Z4THlyNkpzNHBKVlhkOG5kYzMrWnJKTnQyRlU0WTFVNjRMeTBE?=
+ =?utf-8?B?M1hxUTE1b2tlV3BCaHVPR3ZyK1JYSFI5elBLMTJ1VW1iR3ZCNnZvRzBIamx1?=
+ =?utf-8?B?RGxEdDZJb3RROXo1ZkdkZ1RDWVllNFV1dHppckFUSjZ2ckJZekpWOE92bm1w?=
+ =?utf-8?B?NzF0cmlSNWtVQVUya25uSXJCb2hZL1l6amVnSmhKQmFwdTd1N0F5Nk9ZQlZ4?=
+ =?utf-8?B?UlkrNW5MdWUxWUpKdCtwOC90dTVrTXpEdWRRMkVNK0wvTFZtWmJlajNEalA2?=
+ =?utf-8?B?L2NINzNnSlk3VmltU0ZuVGVXbGluaFNkckRzdGpJU2x0UkVraUs4RFVTUWJJ?=
+ =?utf-8?B?Y1RBdi9pa0FISEIyL3pWZ1RIcFg5bkVIV0RYaG91VEVDZ3Z5ZlQrTTlPWmtp?=
+ =?utf-8?B?Z3B2dm1DdlVQVkxiQk5ZOXFnNExvREFBN2g5ZUhOSWJXaUJjN2NSM1YrUjdv?=
+ =?utf-8?B?aml0ZHV0N3Q4K1ovWWg1OG1HYytnb3dNMlM1YVFyT3FqTWhJYXFNeklQNmpV?=
+ =?utf-8?B?MC8wSjN3Wk9JQUlVTlEzU2tqYjhCOVNLYkJoOG9aSEZhYTlJa1J5Mzk4Tyth?=
+ =?utf-8?B?SVBHZWtUUHRjNUpRMjNqT2FaR1BGc3BZS1pRWE45QVhmVWZic0VJWmpENGpy?=
+ =?utf-8?B?Z1B0WHh5SXE4NmlMckprN3Y4WmJQV2hISWtWZjBVMHphYi9ZdUdlOEtweDZF?=
+ =?utf-8?B?dmlvNmN1WXlNSmZ3ZW45eitFRkZIdVpPMzFZd3EweVdqZ1RUUnpIN28vY3dL?=
+ =?utf-8?B?ZmhpUncwb0RZU2pyNGZ1WkFaS2ZWbVJub2xtaDA3U2lXMTV0Ukt2dnpzNDlX?=
+ =?utf-8?B?d3VDZDhIcG5tZmpnK0RZbTNITjVzY3BONE1sSDZoQnZ5T1pRVmNnc1hVczFE?=
+ =?utf-8?B?S2Y0dGpiZVQxdVZXdVBHelR6aUY4SURuRGd2RVk4N3ZuY1U3ZWVzdTVEcGdF?=
+ =?utf-8?B?Ly9INk11aVdBb29QTXBJWmFFbk1zY0xUUktaK0ZWaGRGSlZwZ3NOSk9EeG5m?=
+ =?utf-8?B?YkQzRjNKODlKYytYRnhHOEZrOHN3Mm5UVEpZbG1SN08wN1lxc2FqTkw0T0g2?=
+ =?utf-8?B?cVFFMVg0UjdaL2ZFNUlQNE1RN3loSWNCM3FrNUFtaHhvdlNEcTVXUGQzQ2Nz?=
+ =?utf-8?B?NnZWOTRQSXcxdXIwLzk0b3h3SXNKWlZpR0J5T3BBRXlLQWRFZEFhbFMzcnJi?=
+ =?utf-8?B?THExaStVTnJVaXk1anYvZGZRV3djdm9HeSt5RFFQZFB2eWRxc0FyeXpWR3lo?=
+ =?utf-8?B?bFlRUWNDc28yTXpUcmx2YXBNVzFINFFqN1lWRzExdWFzUkVVNjFoVnlGc3Qz?=
+ =?utf-8?B?SFlxRjFQZE1xV3RwQXZiWkdnck01Um04bmRpaHFGcXAzbTJ5QkR0cDdqY2hx?=
+ =?utf-8?B?ZFlZU3JvY3p0ZmxEa1ZCSld6bVNvYVo0REltVnU3cjk1ZnZjVnpSektaSU45?=
+ =?utf-8?Q?cgY6XFBydztNZDNBMXmxQFbDo?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ff544bf-f904-4446-e4a6-08dae2b42928
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2022 18:01:04.1722
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ECQebwTwem8yi8zEb78tS/qFjngx1odL27cQShWRiEvkWaC83TtW+oBxTFoH0PtY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8376
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We currently have a struct ssam_request_sync and a function
-ssam_request_sync(). While this is valid C, there are some downsides to
-it.
+Hi Reinette,
 
-One of these is that current Sphinx versions (>= 3.0) cannot
-disambiguate between the two (see disucssion and pull request linked
-below). It instead emits a "WARNING: Duplicate C declaration" and links
-for the struct and function in the resulting documentation link to the
-same entry (i.e. both to either function or struct documentation)
-instead of their respective own entries.
+On 12/20/22 11:32, Reinette Chatre wrote:
+> Hi Babu,
+>
+> On 12/19/2022 11:50 AM, Moger, Babu wrote:
+>> Forgot about this.  This snippet is going to change. I have tested and works fine.
+>> How about this?
+>>
+>>         /*
+>>          * Update MSR_IA32_EVT_CFG_BASE MSR on one of the CPUs in the
+>>          * domain. The MSRs offset from MSR MSR_IA32_EVT_CFG_BASE
+>>          * are scoped at the domain level. Writing any of these MSRs
+>>          * on one CPU is supposed to be observed by all CPUs in the domain.
+>>          */
+>>         smp_call_function_any(&d->cpu_mask, mon_event_config_write, &mon_info, 1);
+>>
+>>
+> It looks good but please drop the "supposed to be". If there is any uncertainty
+> then the data should be written to all CPUs, if not then that uncertain text should
+> be dropped.
 
-While we could just ignore that and wait for a fix, there's also a point
-to be made that the current naming can be somewhat confusing when
-searching (e.g. via grep) or trying to understand the levels of
-abstraction at play:
+There is no uncertainty. I will drop "supposed to be".
 
-We currently have struct ssam_request_sync and associated functions
-ssam_request_sync_[alloc|free|init|wait|...]() operating on this struct.
-However, function ssam_request_sync() is one abstraction level above
-this. Similarly, ssam_request_sync_with_buffer() is not a function
-operating on struct ssam_request_sync, but rather a sibling to
-ssam_request_sync(), both using the struct under the hood.
+Thanks
 
-Therefore, rename the top level request functions:
-
-  ssam_request_sync() -> ssam_request_do_sync()
-  ssam_request_sync_with_buffer() -> ssam_request_do_sync_with_buffer()
-  ssam_request_sync_onstack() -> ssam_request_do_sync_onstack()
-
-Link: https://lore.kernel.org/all/085e0ada65c11da9303d07e70c510dc45f21315b.1656756450.git.mchehab@kernel.org/
-Link: https://github.com/sphinx-doc/sphinx/pull/8313
-Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
----
- .../driver-api/surface_aggregator/client.rst  |  8 +--
- drivers/hid/surface-hid/surface_hid.c         |  6 +-
- drivers/hid/surface-hid/surface_kbd.c         |  6 +-
- drivers/platform/surface/aggregator/bus.c     |  6 +-
- .../platform/surface/aggregator/controller.c  | 32 +++++------
- .../platform/surface/surface_acpi_notify.c    |  2 +-
- .../surface/surface_aggregator_cdev.c         |  6 +-
- .../surface/surface_aggregator_tabletsw.c     |  2 +-
- include/linux/surface_aggregator/controller.h | 56 +++++++++----------
- include/linux/surface_aggregator/device.h     |  8 +--
- 10 files changed, 66 insertions(+), 66 deletions(-)
-
-diff --git a/Documentation/driver-api/surface_aggregator/client.rst b/Documentation/driver-api/surface_aggregator/client.rst
-index 27f95abdbe99..dd96f8eb6578 100644
---- a/Documentation/driver-api/surface_aggregator/client.rst
-+++ b/Documentation/driver-api/surface_aggregator/client.rst
-@@ -19,7 +19,7 @@
- .. |ssam_notifier_unregister| replace:: :c:func:`ssam_notifier_unregister`
- .. |ssam_device_notifier_register| replace:: :c:func:`ssam_device_notifier_register`
- .. |ssam_device_notifier_unregister| replace:: :c:func:`ssam_device_notifier_unregister`
--.. |ssam_request_sync| replace:: :c:func:`ssam_request_sync`
-+.. |ssam_request_do_sync| replace:: :c:func:`ssam_request_do_sync`
- .. |ssam_event_mask| replace:: :c:type:`enum ssam_event_mask <ssam_event_mask>`
- 
- 
-@@ -209,12 +209,12 @@ data received from it is converted from little-endian to host endianness.
-             * with the SSAM_REQUEST_HAS_RESPONSE flag set in the specification
-             * above.
-             */
--           status = ssam_request_sync(ctrl, &rqst, &resp);
-+           status = ssam_request_do_sync(ctrl, &rqst, &resp);
- 
-            /*
-             * Alternatively use
-             *
--            *   ssam_request_sync_onstack(ctrl, &rqst, &resp, sizeof(arg_le));
-+            *   ssam_request_do_sync_onstack(ctrl, &rqst, &resp, sizeof(arg_le));
-             *
-             * to perform the request, allocating the message buffer directly
-             * on the stack as opposed to allocation via kzalloc().
-@@ -230,7 +230,7 @@ data received from it is converted from little-endian to host endianness.
-            return status;
-    }
- 
--Note that |ssam_request_sync| in its essence is a wrapper over lower-level
-+Note that |ssam_request_do_sync| in its essence is a wrapper over lower-level
- request primitives, which may also be used to perform requests. Refer to its
- implementation and documentation for more details.
- 
-diff --git a/drivers/hid/surface-hid/surface_hid.c b/drivers/hid/surface-hid/surface_hid.c
-index d4aa8c81903a..bcb6ffd0e6ff 100644
---- a/drivers/hid/surface-hid/surface_hid.c
-+++ b/drivers/hid/surface-hid/surface_hid.c
-@@ -80,7 +80,7 @@ static int ssam_hid_get_descriptor(struct surface_hid_device *shid, u8 entry, u8
- 
- 		rsp.length = 0;
- 
--		status = ssam_retry(ssam_request_sync_onstack, shid->ctrl, &rqst, &rsp,
-+		status = ssam_retry(ssam_request_do_sync_onstack, shid->ctrl, &rqst, &rsp,
- 				    sizeof(*slice));
- 		if (status)
- 			return status;
-@@ -131,7 +131,7 @@ static int ssam_hid_set_raw_report(struct surface_hid_device *shid, u8 rprt_id,
- 
- 	buf[0] = rprt_id;
- 
--	return ssam_retry(ssam_request_sync, shid->ctrl, &rqst, NULL);
-+	return ssam_retry(ssam_request_do_sync, shid->ctrl, &rqst, NULL);
- }
- 
- static int ssam_hid_get_raw_report(struct surface_hid_device *shid, u8 rprt_id, u8 *buf, size_t len)
-@@ -151,7 +151,7 @@ static int ssam_hid_get_raw_report(struct surface_hid_device *shid, u8 rprt_id,
- 	rsp.length = 0;
- 	rsp.pointer = buf;
- 
--	return ssam_retry(ssam_request_sync_onstack, shid->ctrl, &rqst, &rsp, sizeof(rprt_id));
-+	return ssam_retry(ssam_request_do_sync_onstack, shid->ctrl, &rqst, &rsp, sizeof(rprt_id));
- }
- 
- static u32 ssam_hid_event_fn(struct ssam_event_notifier *nf, const struct ssam_event *event)
-diff --git a/drivers/hid/surface-hid/surface_kbd.c b/drivers/hid/surface-hid/surface_kbd.c
-index 0635341bc517..7ca8038026ce 100644
---- a/drivers/hid/surface-hid/surface_kbd.c
-+++ b/drivers/hid/surface-hid/surface_kbd.c
-@@ -49,7 +49,7 @@ static int ssam_kbd_get_descriptor(struct surface_hid_device *shid, u8 entry, u8
- 	rsp.length = 0;
- 	rsp.pointer = buf;
- 
--	status = ssam_retry(ssam_request_sync_onstack, shid->ctrl, &rqst, &rsp, sizeof(entry));
-+	status = ssam_retry(ssam_request_do_sync_onstack, shid->ctrl, &rqst, &rsp, sizeof(entry));
- 	if (status)
- 		return status;
- 
-@@ -75,7 +75,7 @@ static int ssam_kbd_set_caps_led(struct surface_hid_device *shid, bool value)
- 	rqst.length = sizeof(value_u8);
- 	rqst.payload = &value_u8;
- 
--	return ssam_retry(ssam_request_sync_onstack, shid->ctrl, &rqst, NULL, sizeof(value_u8));
-+	return ssam_retry(ssam_request_do_sync_onstack, shid->ctrl, &rqst, NULL, sizeof(value_u8));
- }
- 
- static int ssam_kbd_get_feature_report(struct surface_hid_device *shid, u8 *buf, size_t len)
-@@ -97,7 +97,7 @@ static int ssam_kbd_get_feature_report(struct surface_hid_device *shid, u8 *buf,
- 	rsp.length = 0;
- 	rsp.pointer = buf;
- 
--	status = ssam_retry(ssam_request_sync_onstack, shid->ctrl, &rqst, &rsp, sizeof(payload));
-+	status = ssam_retry(ssam_request_do_sync_onstack, shid->ctrl, &rqst, &rsp, sizeof(payload));
- 	if (status)
- 		return status;
- 
-diff --git a/drivers/platform/surface/aggregator/bus.c b/drivers/platform/surface/aggregator/bus.c
-index de539938896e..7004eb4a63a2 100644
---- a/drivers/platform/surface/aggregator/bus.c
-+++ b/drivers/platform/surface/aggregator/bus.c
-@@ -136,9 +136,9 @@ int ssam_device_add(struct ssam_device *sdev)
- 	 * is always valid and can be used for requests as long as the client
- 	 * device we add here is registered as child under it. This essentially
- 	 * guarantees that the client driver can always expect the preconditions
--	 * for functions like ssam_request_sync (controller has to be started
--	 * and is not suspended) to hold and thus does not have to check for
--	 * them.
-+	 * for functions like ssam_request_do_sync() (controller has to be
-+	 * started and is not suspended) to hold and thus does not have to check
-+	 * for them.
- 	 *
- 	 * Note that for this to work, the controller has to be a parent device.
- 	 * If it is not a direct parent, care has to be taken that the device is
-diff --git a/drivers/platform/surface/aggregator/controller.c b/drivers/platform/surface/aggregator/controller.c
-index c6537a1b3a2e..9c43b9665a2c 100644
---- a/drivers/platform/surface/aggregator/controller.c
-+++ b/drivers/platform/surface/aggregator/controller.c
-@@ -1674,7 +1674,7 @@ int ssam_request_sync_submit(struct ssam_controller *ctrl,
- EXPORT_SYMBOL_GPL(ssam_request_sync_submit);
- 
- /**
-- * ssam_request_sync() - Execute a synchronous request.
-+ * ssam_request_do_sync() - Execute a synchronous request.
-  * @ctrl: The controller via which the request will be submitted.
-  * @spec: The request specification and payload.
-  * @rsp:  The response buffer.
-@@ -1686,9 +1686,9 @@ EXPORT_SYMBOL_GPL(ssam_request_sync_submit);
-  *
-  * Return: Returns the status of the request or any failure during setup.
-  */
--int ssam_request_sync(struct ssam_controller *ctrl,
--		      const struct ssam_request *spec,
--		      struct ssam_response *rsp)
-+int ssam_request_do_sync(struct ssam_controller *ctrl,
-+			 const struct ssam_request *spec,
-+			 struct ssam_response *rsp)
- {
- 	struct ssam_request_sync *rqst;
- 	struct ssam_span buf;
-@@ -1722,10 +1722,10 @@ int ssam_request_sync(struct ssam_controller *ctrl,
- 	ssam_request_sync_free(rqst);
- 	return status;
- }
--EXPORT_SYMBOL_GPL(ssam_request_sync);
-+EXPORT_SYMBOL_GPL(ssam_request_do_sync);
- 
- /**
-- * ssam_request_sync_with_buffer() - Execute a synchronous request with the
-+ * ssam_request_do_sync_with_buffer() - Execute a synchronous request with the
-  * provided buffer as back-end for the message buffer.
-  * @ctrl: The controller via which the request will be submitted.
-  * @spec: The request specification and payload.
-@@ -1738,17 +1738,17 @@ EXPORT_SYMBOL_GPL(ssam_request_sync);
-  * SSH_COMMAND_MESSAGE_LENGTH() macro can be used to compute the required
-  * message buffer size.
-  *
-- * This function does essentially the same as ssam_request_sync(), but instead
-- * of dynamically allocating the request and message data buffer, it uses the
-- * provided message data buffer and stores the (small) request struct on the
-- * heap.
-+ * This function does essentially the same as ssam_request_do_sync(), but
-+ * instead of dynamically allocating the request and message data buffer, it
-+ * uses the provided message data buffer and stores the (small) request struct
-+ * on the heap.
-  *
-  * Return: Returns the status of the request or any failure during setup.
-  */
--int ssam_request_sync_with_buffer(struct ssam_controller *ctrl,
--				  const struct ssam_request *spec,
--				  struct ssam_response *rsp,
--				  struct ssam_span *buf)
-+int ssam_request_do_sync_with_buffer(struct ssam_controller *ctrl,
-+				     const struct ssam_request *spec,
-+				     struct ssam_response *rsp,
-+				     struct ssam_span *buf)
- {
- 	struct ssam_request_sync rqst;
- 	ssize_t len;
-@@ -1772,7 +1772,7 @@ int ssam_request_sync_with_buffer(struct ssam_controller *ctrl,
- 
- 	return status;
- }
--EXPORT_SYMBOL_GPL(ssam_request_sync_with_buffer);
-+EXPORT_SYMBOL_GPL(ssam_request_do_sync_with_buffer);
- 
- 
- /* -- Internal SAM requests. ------------------------------------------------ */
-@@ -1864,7 +1864,7 @@ static int __ssam_ssh_event_request(struct ssam_controller *ctrl,
- 	result.length = 0;
- 	result.pointer = &buf;
- 
--	status = ssam_retry(ssam_request_sync_onstack, ctrl, &rqst, &result,
-+	status = ssam_retry(ssam_request_do_sync_onstack, ctrl, &rqst, &result,
- 			    sizeof(params));
- 
- 	return status < 0 ? status : buf;
-diff --git a/drivers/platform/surface/surface_acpi_notify.c b/drivers/platform/surface/surface_acpi_notify.c
-index 50500e562963..897cdd9c3aae 100644
---- a/drivers/platform/surface/surface_acpi_notify.c
-+++ b/drivers/platform/surface/surface_acpi_notify.c
-@@ -590,7 +590,7 @@ static acpi_status san_rqst(struct san_data *d, struct gsb_buffer *buffer)
- 		return san_rqst_fixup_suspended(d, &rqst, buffer);
- 	}
- 
--	status = __ssam_retry(ssam_request_sync_onstack, SAN_REQUEST_NUM_TRIES,
-+	status = __ssam_retry(ssam_request_do_sync_onstack, SAN_REQUEST_NUM_TRIES,
- 			      d->ctrl, &rqst, &rsp, SAN_GSB_MAX_RQSX_PAYLOAD);
- 
- 	if (!status) {
-diff --git a/drivers/platform/surface/surface_aggregator_cdev.c b/drivers/platform/surface/surface_aggregator_cdev.c
-index 492c82e69182..07f0ed658369 100644
---- a/drivers/platform/surface/surface_aggregator_cdev.c
-+++ b/drivers/platform/surface/surface_aggregator_cdev.c
-@@ -302,8 +302,8 @@ static long ssam_cdev_request(struct ssam_cdev_client *client, struct ssam_cdev_
- 		 * theoretical maximum (SSH_COMMAND_MAX_PAYLOAD_SIZE) of the
- 		 * underlying protocol (note that nothing remotely this size
- 		 * should ever be allocated in any normal case). This size is
--		 * validated later in ssam_request_sync(), for allocation the
--		 * bound imposed by u16 should be enough.
-+		 * validated later in ssam_request_do_sync(), for allocation
-+		 * the bound imposed by u16 should be enough.
- 		 */
- 		spec.payload = kzalloc(spec.length, GFP_KERNEL);
- 		if (!spec.payload) {
-@@ -342,7 +342,7 @@ static long ssam_cdev_request(struct ssam_cdev_client *client, struct ssam_cdev_
- 	}
- 
- 	/* Perform request. */
--	status = ssam_request_sync(client->cdev->ctrl, &spec, &rsp);
-+	status = ssam_request_do_sync(client->cdev->ctrl, &spec, &rsp);
- 	if (status)
- 		goto out;
- 
-diff --git a/drivers/platform/surface/surface_aggregator_tabletsw.c b/drivers/platform/surface/surface_aggregator_tabletsw.c
-index 27d95a6a7851..c3a5b7f56c8f 100644
---- a/drivers/platform/surface/surface_aggregator_tabletsw.c
-+++ b/drivers/platform/surface/surface_aggregator_tabletsw.c
-@@ -382,7 +382,7 @@ static int ssam_pos_get_sources_list(struct ssam_tablet_sw *sw, struct ssam_sour
- 	rsp.length = 0;
- 	rsp.pointer = (u8 *)sources;
- 
--	status = ssam_retry(ssam_request_sync_onstack, sw->sdev->ctrl, &rqst, &rsp, 0);
-+	status = ssam_retry(ssam_request_do_sync_onstack, sw->sdev->ctrl, &rqst, &rsp, 0);
- 	if (status)
- 		return status;
- 
-diff --git a/include/linux/surface_aggregator/controller.h b/include/linux/surface_aggregator/controller.h
-index d11a1c6e3186..350d6c6c0a1d 100644
---- a/include/linux/surface_aggregator/controller.h
-+++ b/include/linux/surface_aggregator/controller.h
-@@ -207,17 +207,17 @@ static inline int ssam_request_sync_wait(struct ssam_request_sync *rqst)
- 	return rqst->status;
- }
- 
--int ssam_request_sync(struct ssam_controller *ctrl,
--		      const struct ssam_request *spec,
--		      struct ssam_response *rsp);
-+int ssam_request_do_sync(struct ssam_controller *ctrl,
-+			 const struct ssam_request *spec,
-+			 struct ssam_response *rsp);
- 
--int ssam_request_sync_with_buffer(struct ssam_controller *ctrl,
--				  const struct ssam_request *spec,
--				  struct ssam_response *rsp,
--				  struct ssam_span *buf);
-+int ssam_request_do_sync_with_buffer(struct ssam_controller *ctrl,
-+				     const struct ssam_request *spec,
-+				     struct ssam_response *rsp,
-+				     struct ssam_span *buf);
- 
- /**
-- * ssam_request_sync_onstack - Execute a synchronous request on the stack.
-+ * ssam_request_do_sync_onstack - Execute a synchronous request on the stack.
-  * @ctrl: The controller via which the request is submitted.
-  * @rqst: The request specification.
-  * @rsp:  The response buffer.
-@@ -227,7 +227,7 @@ int ssam_request_sync_with_buffer(struct ssam_controller *ctrl,
-  * fully initializes it via the provided request specification, submits it,
-  * and finally waits for its completion before returning its status. This
-  * helper macro essentially allocates the request message buffer on the stack
-- * and then calls ssam_request_sync_with_buffer().
-+ * and then calls ssam_request_do_sync_with_buffer().
-  *
-  * Note: The @payload_len parameter specifies the maximum payload length, used
-  * for buffer allocation. The actual payload length may be smaller.
-@@ -235,12 +235,12 @@ int ssam_request_sync_with_buffer(struct ssam_controller *ctrl,
-  * Return: Returns the status of the request or any failure during setup, i.e.
-  * zero on success and a negative value on failure.
-  */
--#define ssam_request_sync_onstack(ctrl, rqst, rsp, payload_len)			\
-+#define ssam_request_do_sync_onstack(ctrl, rqst, rsp, payload_len)		\
- 	({									\
- 		u8 __data[SSH_COMMAND_MESSAGE_LENGTH(payload_len)];		\
- 		struct ssam_span __buf = { &__data[0], ARRAY_SIZE(__data) };	\
- 										\
--		ssam_request_sync_with_buffer(ctrl, rqst, rsp, &__buf);		\
-+		ssam_request_do_sync_with_buffer(ctrl, rqst, rsp, &__buf);	\
- 	})
- 
- /**
-@@ -349,7 +349,7 @@ struct ssam_request_spec_md {
-  * zero on success and negative on failure. The ``ctrl`` parameter is the
-  * controller via which the request is being sent.
-  *
-- * Refer to ssam_request_sync_onstack() for more details on the behavior of
-+ * Refer to ssam_request_do_sync_onstack() for more details on the behavior of
-  * the generated function.
-  */
- #define SSAM_DEFINE_SYNC_REQUEST_N(name, spec...)				\
-@@ -366,7 +366,7 @@ struct ssam_request_spec_md {
- 		rqst.length = 0;						\
- 		rqst.payload = NULL;						\
- 										\
--		return ssam_request_sync_onstack(ctrl, &rqst, NULL, 0);		\
-+		return ssam_request_do_sync_onstack(ctrl, &rqst, NULL, 0);	\
- 	}
- 
- /**
-@@ -389,7 +389,7 @@ struct ssam_request_spec_md {
-  * parameter is the controller via which the request is sent. The request
-  * argument is specified via the ``arg`` pointer.
-  *
-- * Refer to ssam_request_sync_onstack() for more details on the behavior of
-+ * Refer to ssam_request_do_sync_onstack() for more details on the behavior of
-  * the generated function.
-  */
- #define SSAM_DEFINE_SYNC_REQUEST_W(name, atype, spec...)			\
-@@ -406,8 +406,8 @@ struct ssam_request_spec_md {
- 		rqst.length = sizeof(atype);					\
- 		rqst.payload = (u8 *)arg;					\
- 										\
--		return ssam_request_sync_onstack(ctrl, &rqst, NULL,		\
--						 sizeof(atype));		\
-+		return ssam_request_do_sync_onstack(ctrl, &rqst, NULL,		\
-+						    sizeof(atype));		\
- 	}
- 
- /**
-@@ -430,7 +430,7 @@ struct ssam_request_spec_md {
-  * the controller via which the request is sent. The request's return value is
-  * written to the memory pointed to by the ``ret`` parameter.
-  *
-- * Refer to ssam_request_sync_onstack() for more details on the behavior of
-+ * Refer to ssam_request_do_sync_onstack() for more details on the behavior of
-  * the generated function.
-  */
- #define SSAM_DEFINE_SYNC_REQUEST_R(name, rtype, spec...)			\
-@@ -453,7 +453,7 @@ struct ssam_request_spec_md {
- 		rsp.length = 0;							\
- 		rsp.pointer = (u8 *)ret;					\
- 										\
--		status = ssam_request_sync_onstack(ctrl, &rqst, &rsp, 0);	\
-+		status = ssam_request_do_sync_onstack(ctrl, &rqst, &rsp, 0);	\
- 		if (status)							\
- 			return status;						\
- 										\
-@@ -491,7 +491,7 @@ struct ssam_request_spec_md {
-  * request argument is specified via the ``arg`` pointer. The request's return
-  * value is written to the memory pointed to by the ``ret`` parameter.
-  *
-- * Refer to ssam_request_sync_onstack() for more details on the behavior of
-+ * Refer to ssam_request_do_sync_onstack() for more details on the behavior of
-  * the generated function.
-  */
- #define SSAM_DEFINE_SYNC_REQUEST_WR(name, atype, rtype, spec...)		\
-@@ -514,7 +514,7 @@ struct ssam_request_spec_md {
- 		rsp.length = 0;							\
- 		rsp.pointer = (u8 *)ret;					\
- 										\
--		status = ssam_request_sync_onstack(ctrl, &rqst, &rsp, sizeof(atype)); \
-+		status = ssam_request_do_sync_onstack(ctrl, &rqst, &rsp, sizeof(atype)); \
- 		if (status)							\
- 			return status;						\
- 										\
-@@ -550,7 +550,7 @@ struct ssam_request_spec_md {
-  * parameter is the controller via which the request is sent, ``tid`` the
-  * target ID for the request, and ``iid`` the instance ID.
-  *
-- * Refer to ssam_request_sync_onstack() for more details on the behavior of
-+ * Refer to ssam_request_do_sync_onstack() for more details on the behavior of
-  * the generated function.
-  */
- #define SSAM_DEFINE_SYNC_REQUEST_MD_N(name, spec...)				\
-@@ -567,7 +567,7 @@ struct ssam_request_spec_md {
- 		rqst.length = 0;						\
- 		rqst.payload = NULL;						\
- 										\
--		return ssam_request_sync_onstack(ctrl, &rqst, NULL, 0);		\
-+		return ssam_request_do_sync_onstack(ctrl, &rqst, NULL, 0);	\
- 	}
- 
- /**
-@@ -592,7 +592,7 @@ struct ssam_request_spec_md {
-  * ``tid`` the target ID for the request, and ``iid`` the instance ID. The
-  * request argument is specified via the ``arg`` pointer.
-  *
-- * Refer to ssam_request_sync_onstack() for more details on the behavior of
-+ * Refer to ssam_request_do_sync_onstack() for more details on the behavior of
-  * the generated function.
-  */
- #define SSAM_DEFINE_SYNC_REQUEST_MD_W(name, atype, spec...)			\
-@@ -609,7 +609,7 @@ struct ssam_request_spec_md {
- 		rqst.length = sizeof(atype);					\
- 		rqst.payload = (u8 *)arg;					\
- 										\
--		return ssam_request_sync_onstack(ctrl, &rqst, NULL,		\
-+		return ssam_request_do_sync_onstack(ctrl, &rqst, NULL,		\
- 						 sizeof(atype));		\
- 	}
- 
-@@ -635,7 +635,7 @@ struct ssam_request_spec_md {
-  * the target ID for the request, and ``iid`` the instance ID. The request's
-  * return value is written to the memory pointed to by the ``ret`` parameter.
-  *
-- * Refer to ssam_request_sync_onstack() for more details on the behavior of
-+ * Refer to ssam_request_do_sync_onstack() for more details on the behavior of
-  * the generated function.
-  */
- #define SSAM_DEFINE_SYNC_REQUEST_MD_R(name, rtype, spec...)			\
-@@ -658,7 +658,7 @@ struct ssam_request_spec_md {
- 		rsp.length = 0;							\
- 		rsp.pointer = (u8 *)ret;					\
- 										\
--		status = ssam_request_sync_onstack(ctrl, &rqst, &rsp, 0);	\
-+		status = ssam_request_do_sync_onstack(ctrl, &rqst, &rsp, 0);	\
- 		if (status)							\
- 			return status;						\
- 										\
-@@ -698,7 +698,7 @@ struct ssam_request_spec_md {
-  * The request argument is specified via the ``arg`` pointer. The request's
-  * return value is written to the memory pointed to by the ``ret`` parameter.
-  *
-- * Refer to ssam_request_sync_onstack() for more details on the behavior of
-+ * Refer to ssam_request_do_sync_onstack() for more details on the behavior of
-  * the generated function.
-  */
- #define SSAM_DEFINE_SYNC_REQUEST_MD_WR(name, atype, rtype, spec...)		\
-@@ -722,7 +722,7 @@ struct ssam_request_spec_md {
- 		rsp.length = 0;							\
- 		rsp.pointer = (u8 *)ret;					\
- 										\
--		status = ssam_request_sync_onstack(ctrl, &rqst, &rsp, sizeof(atype)); \
-+		status = ssam_request_do_sync_onstack(ctrl, &rqst, &rsp, sizeof(atype)); \
- 		if (status)							\
- 			return status;						\
- 										\
-diff --git a/include/linux/surface_aggregator/device.h b/include/linux/surface_aggregator/device.h
-index 46c45d1b6368..0e353f5cc2e6 100644
---- a/include/linux/surface_aggregator/device.h
-+++ b/include/linux/surface_aggregator/device.h
-@@ -456,7 +456,7 @@ static inline int ssam_device_register_clients(struct ssam_device *sdev)
-  * device of the request and by association the controller via which the
-  * request is sent.
-  *
-- * Refer to ssam_request_sync_onstack() for more details on the behavior of
-+ * Refer to ssam_request_do_sync_onstack() for more details on the behavior of
-  * the generated function.
-  */
- #define SSAM_DEFINE_SYNC_REQUEST_CL_N(name, spec...)			\
-@@ -490,7 +490,7 @@ static inline int ssam_device_register_clients(struct ssam_device *sdev)
-  * which the request is sent. The request's argument is specified via the
-  * ``arg`` pointer.
-  *
-- * Refer to ssam_request_sync_onstack() for more details on the behavior of
-+ * Refer to ssam_request_do_sync_onstack() for more details on the behavior of
-  * the generated function.
-  */
- #define SSAM_DEFINE_SYNC_REQUEST_CL_W(name, atype, spec...)		\
-@@ -524,7 +524,7 @@ static inline int ssam_device_register_clients(struct ssam_device *sdev)
-  * the request is sent. The request's return value is written to the memory
-  * pointed to by the ``ret`` parameter.
-  *
-- * Refer to ssam_request_sync_onstack() for more details on the behavior of
-+ * Refer to ssam_request_do_sync_onstack() for more details on the behavior of
-  * the generated function.
-  */
- #define SSAM_DEFINE_SYNC_REQUEST_CL_R(name, rtype, spec...)		\
-@@ -560,7 +560,7 @@ static inline int ssam_device_register_clients(struct ssam_device *sdev)
-  * specified via the ``arg`` pointer. The request's return value is written to
-  * the memory pointed to by the ``ret`` parameter.
-  *
-- * Refer to ssam_request_sync_onstack() for more details on the behavior of
-+ * Refer to ssam_request_do_sync_onstack() for more details on the behavior of
-  * the generated function.
-  */
- #define SSAM_DEFINE_SYNC_REQUEST_CL_WR(name, atype, rtype, spec...)		\
--- 
-2.39.0
+Babu
 
