@@ -2,127 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E215C10F1E
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Dec 2022 11:09:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71364C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Dec 2022 11:12:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233340AbiLTLJW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Dec 2022 06:09:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37466 "EHLO
+        id S233571AbiLTLMx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Dec 2022 06:12:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229812AbiLTLJV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 06:09:21 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 425AB12766;
-        Tue, 20 Dec 2022 03:09:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=WnDr2T6Lz6o8EGXfFOLVGTm1EwVLYgoHb8GLpQHXt1M=; b=IagLEV2UTnOH/1oiatZU2t3fd9
-        wIPIif+7ieQr0xntpK0GaWRRyiwDimnm1M6YG2G9sgsXB6FHTn576bYXZ2XsZQu0X8SVskwk0RdED
-        sUugD1rIZDNEonT+Wrqt9z6gKuYGTXksjAvjtBZde5JzbCpvKPzWPD1B3Cr1mg/gBpkJd++WwKlHn
-        CyrczxUMFGQp9teEMndrfFHW1fsEnOaw7HKW7iIuwSjcBQVnSoFpre5ReinrnsDbQ5HAqkui68Umh
-        mhCAarnFYTE260WL9Igxo03K9hMfZoyNoHum8h5NGIXp5g8yzrlrLDnscp3XKQ468GvNz5tPnXOvK
-        5BahRGCw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1p7aTs-00Cy6n-0d;
-        Tue, 20 Dec 2022 11:08:20 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E507F300023;
-        Tue, 20 Dec 2022 12:08:16 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 767AE201D1375; Tue, 20 Dec 2022 12:08:16 +0100 (CET)
-Date:   Tue, 20 Dec 2022 12:08:16 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     torvalds@linux-foundation.org, corbet@lwn.net, will@kernel.org,
-        mark.rutland@arm.com, catalin.marinas@arm.com, dennis@kernel.org,
-        tj@kernel.org, cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
-        svens@linux.ibm.com, Herbert Xu <herbert@gondor.apana.org.au>,
-        davem@davemloft.net, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
-        robin.murphy@arm.com, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
-        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        with ESMTP id S233392AbiLTLMw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 06:12:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3060719018
+        for <linux-doc@vger.kernel.org>; Tue, 20 Dec 2022 03:12:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1671534721;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=AcFvnlNioLP/KkH6qBwLrs8kaBJYehGt9ukR9bUDWnM=;
+        b=JigKzRgJhAKdXkIrSOtUDMr6cV828G7GsPkCdcVPclwC2Yzhc5L8skdzei8/kBIYK2vhxQ
+        vfG2bc5uv7kWN4P6EcKTlB6mbaNAd3bO0dwxCstcT8fNdAnvw+319S1ks4jz1opamLbnKf
+        nlWy/1CVO6JoPrmdjPv7FNdYkGm+ZVA=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-398-1VTkZ1mUMCG_wOBksbQDOA-1; Tue, 20 Dec 2022 06:11:59 -0500
+X-MC-Unique: 1VTkZ1mUMCG_wOBksbQDOA-1
+Received: by mail-qt1-f198.google.com with SMTP id n26-20020ac8675a000000b003a97d74d134so3128696qtp.3
+        for <linux-doc@vger.kernel.org>; Tue, 20 Dec 2022 03:11:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AcFvnlNioLP/KkH6qBwLrs8kaBJYehGt9ukR9bUDWnM=;
+        b=2JZJ5sZgtJV2Mq1YhaSW3XttOkCYNvg4a8HLJXynGNhWCqtP7Pyvb0iNfhFVXEUC8M
+         cRhhwIBMqTDTv3v+T31eRufT2iko4UV+5nCxu8ca3GgGrxMko9gn1j1z9PY7YFacDsJT
+         qHgxYm+ZEw4AGpQX6+3+epcDGE9PzrIICbnIyIJktNFwhzH+x+TOtdAPdyUNloDDi8GA
+         ujcJzR8zGdEP82sobY4D3vIcaMjkjuCTyAudE2370glGhteUqpj3zyg6t8PSa8QVdXdH
+         Tsg3M5iH2nxU585rsGdDs8fNYxzY60OjTHQCm1a5q/Yd9fSNrOBGqksxVBXmNDIp1gvk
+         OlWg==
+X-Gm-Message-State: ANoB5plf2woZs75LXaQ8JG6lgkfl3xsGK6n//rIESBUw1GIG7seQPUBE
+        PNccBBCR00i9z3OqVhveR0frOphNC8zFrSImjF4OmuWYUw3osuQ/n+LCbIh+beDh29habVFj2z+
+        OJpprbxK5MhFQUlvobB/y
+X-Received: by 2002:a05:6214:3990:b0:4ee:b86a:2b5a with SMTP id ny16-20020a056214399000b004eeb86a2b5amr31435790qvb.20.1671534719554;
+        Tue, 20 Dec 2022 03:11:59 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuHlBJYZ26nly3d5ku6D7a6qEuXtdjCI1SVoOw5osIdwx03DPqQ1Xewxdch2fG+GWJlkP5OCQ==
+X-Received: by 2002:a05:6214:3990:b0:4ee:b86a:2b5a with SMTP id ny16-20020a056214399000b004eeb86a2b5amr31435770qvb.20.1671534719340;
+        Tue, 20 Dec 2022 03:11:59 -0800 (PST)
+Received: from redhat.com ([37.19.199.118])
+        by smtp.gmail.com with ESMTPSA id bl13-20020a05620a1a8d00b006fa22f0494bsm8662747qkb.117.2022.12.20.03.11.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Dec 2022 03:11:58 -0800 (PST)
+Date:   Tue, 20 Dec 2022 06:11:53 -0500
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     virtualization@lists.linux-foundation.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-s390@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org
-Subject: Re: [RFC][PATCH 05/12] arch: Introduce
- arch_{,try_}_cmpxchg128{,_local}()
-Message-ID: <Y6GXoO4qmH9OIZ5Q@hirez.programming.kicks-ass.net>
-References: <20221219153525.632521981@infradead.org>
- <20221219154119.154045458@infradead.org>
- <Y6DEfQXymYVgL3oJ@boqun-archlinux>
+        Jason Wang <jasowang@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ricardo =?iso-8859-1?Q?Ca=F1uelo?= 
+        <ricardo.canuelo@collabora.com>, Cornelia Huck <cohuck@redhat.com>,
+        kernel@collabora.com
+Subject: Re: [PATCH 0/3] docs: driver-api: virtio: documentation improv
+ suggestion
+Message-ID: <20221220061138-mutt-send-email-mst@kernel.org>
+References: <20221220095828.27588-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y6DEfQXymYVgL3oJ@boqun-archlinux>
+In-Reply-To: <20221220095828.27588-1-bagasdotme@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 19, 2022 at 12:07:25PM -0800, Boqun Feng wrote:
-> On Mon, Dec 19, 2022 at 04:35:30PM +0100, Peter Zijlstra wrote:
-> > For all architectures that currently support cmpxchg_double()
-> > implement the cmpxchg128() family of functions that is basically the
-> > same but with a saner interface.
-> > 
-> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> > ---
-> >  arch/arm64/include/asm/atomic_ll_sc.h |   38 +++++++++++++++++++++++
-> >  arch/arm64/include/asm/atomic_lse.h   |   33 +++++++++++++++++++-
-> >  arch/arm64/include/asm/cmpxchg.h      |   26 ++++++++++++++++
-> >  arch/s390/include/asm/cmpxchg.h       |   33 ++++++++++++++++++++
-> >  arch/x86/include/asm/cmpxchg_32.h     |    3 +
-> >  arch/x86/include/asm/cmpxchg_64.h     |   55 +++++++++++++++++++++++++++++++++-
-> >  6 files changed, 185 insertions(+), 3 deletions(-)
-> > 
-> > --- a/arch/arm64/include/asm/atomic_ll_sc.h
-> > +++ b/arch/arm64/include/asm/atomic_ll_sc.h
-> > @@ -326,6 +326,44 @@ __CMPXCHG_DBL(   ,        ,  ,         )
-> >  __CMPXCHG_DBL(_mb, dmb ish, l, "memory")
-> >  
-> >  #undef __CMPXCHG_DBL
-> > +
-> > +union __u128_halves {
-> > +	u128 full;
-> > +	struct {
-> > +		u64 low, high;
-> > +	};
-> > +};
-> > +
-> > +#define __CMPXCHG128(name, mb, rel, cl)					\
-> > +static __always_inline u128						\
-> > +__ll_sc__cmpxchg128##name(volatile u128 *ptr, u128 old, u128 new)	\
-> > +{									\
-> > +	union __u128_halves r, o = { .full = (old) },			\
-> > +			       n = { .full = (new) };			\
-> > +									\
-> > +	asm volatile("// __cmpxchg128" #name "\n"			\
-> > +	"	prfm	pstl1strm, %2\n"				\
-> > +	"1:	ldxp	%0, %1, %2\n"					\
-> > +	"	eor	%3, %0, %3\n"					\
-> > +	"	eor	%4, %1, %4\n"					\
-> > +	"	orr	%3, %4, %3\n"					\
-> > +	"	cbnz	%3, 2f\n"					\
-> > +	"	st" #rel "xp	%w3, %5, %6, %2\n"			\
-> > +	"	cbnz	%w3, 1b\n"					\
-> > +	"	" #mb "\n"						\
-> > +	"2:"								\
-> > +	: "=&r" (r.low), "=&r" (r.high), "+Q" (*(unsigned long *)ptr)	\
+On Tue, Dec 20, 2022 at 04:58:26PM +0700, Bagas Sanjaya wrote:
+> Michael S. Tsirkin has asked me [1] to post my improv suggestions for
+> now-applied virtio documentation [2], so here is the suggestion patch series.
+> The original suggestion must be splitted since it contains three distinct
+> changes.
 > 
-> I wonder whether we should use "(*(u128 *)ptr)" instead of "(*(unsigned
-> long *) ptr)"? Because compilers may think only 64bit value pointed by
-> "ptr" gets modified, and they are allowed to do "useful" optimization.
+> This series is based on kernel-doc fixup posted to fix recent linux-next
+> warnings [3].
+> 
+> [1]: https://lore.kernel.org/linux-doc/20221219011647-mutt-send-email-mst@kernel.org/
+> [2]: https://lore.kernel.org/linux-doc/Y0QYTq7KW9C731s0@debian.me/
+> [3]: https://lore.kernel.org/lkml/20221220073709.2687151-1-ricardo.canuelo@collabora.com/
 
-In this I've copied the existing cmpxchg_double() code; I'll have to let
-the arch folks speak here, I've no clue.
+Thanks, will queue for rc2.
+
+> Bagas Sanjaya (3):
+>   docs: driver-api: virtio: parenthesize external reference targets
+>   docs: driver-api: virtio: slightly reword virtqueues allocation
+>     paragraph
+>   docs: driver-api: virtio: commentize spec version checking
+> 
+>  Documentation/driver-api/virtio/virtio.rst | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
+> 
+> -- 
+> An old man doll... just what I always wanted! - Clara
+
