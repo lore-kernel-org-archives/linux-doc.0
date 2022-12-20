@@ -2,213 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5A7EC4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Dec 2022 16:19:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0493DC4167B
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Dec 2022 16:36:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230189AbiLTQTo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Dec 2022 11:19:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60432 "EHLO
+        id S233916AbiLTQgd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Dec 2022 11:36:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230149AbiLTQTm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 11:19:42 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE765B64;
-        Tue, 20 Dec 2022 08:19:40 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 75E321EC0529;
-        Tue, 20 Dec 2022 17:19:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1671553178;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=+VYkEsGbPer0Bj0EJK+U0s1hj+W19pg2cIhh+c92hxo=;
-        b=Z+AMWLFjrXMCFqZqAZLklJL+QZbXdYnOba8zcsxcCf56dnbY0+Ti5dMWHLhy4BO0x4ooFU
-        MNTthb5m2GcBbLG4RIv0Sek45g9ffbVSH5B3iuWQcoMT51PzTcOCVE/gGfEsPbltAkqTzW
-        pD/5rWjPw4uIQKMM0WL6uBUE8HkE2zQ=
-Date:   Tue, 20 Dec 2022 17:19:32 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: [PATCH v4 07/39] x86: Add user control-protection fault handler
-Message-ID: <Y6HglBhrccduDTQA@zn.tnic>
-References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
- <20221203003606.6838-8-rick.p.edgecombe@intel.com>
+        with ESMTP id S229638AbiLTQgc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 11:36:32 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A20F0CE2;
+        Tue, 20 Dec 2022 08:36:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1671554191; x=1703090191;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=J2wuNdHeSU45EPYUtuNimi/LpgqhKlKjF+VILVCm8dQ=;
+  b=aWPHyiPVCx+MYK6QEtqDh5rmhTn9S/hmd1bJpPlAMhllxfn6OQIBzSph
+   yMiT5e7HnF3cXp3JM1SoSJKrv+OwlFyBPwJDt5SPyAcDGKeAT/WAQlDNe
+   o++2z4kLA2XCVa3azjWjzYoDJKNlJTIKj9zGU7SXR8qz1SbKUxJaM5AXE
+   zMyGjoO6P5XJC+T8DPFCuh8A3r3G9pfT+CZ7Ok35mE7Muby1VvvCStF79
+   NDdQ/6Vk8yrixvLA+NXPsytyYXnMe0pIS2vfwdp7IMvpQCdLAn1L86wZK
+   mvj8fGhy4akn7L6IIqB+OCaBOTd0+CZVDJsVu2jERa6xTg5doiSv5MHC6
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="317292812"
+X-IronPort-AV: E=Sophos;i="5.96,259,1665471600"; 
+   d="scan'208";a="317292812"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2022 08:36:30 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="896528200"
+X-IronPort-AV: E=Sophos;i="5.96,259,1665471600"; 
+   d="scan'208";a="896528200"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2022 08:36:29 -0800
+From:   matthew.gerlach@linux.intel.com
+To:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com, bagasdotme@gmail.com
+Cc:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Subject: [PATCH v7 0/4] Enhance definition of DFH and use enhancements for UART driver
+Date:   Tue, 20 Dec 2022 08:36:48 -0800
+Message-Id: <20221220163652.499831-1-matthew.gerlach@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221203003606.6838-8-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 04:35:34PM -0800, Rick Edgecombe wrote:
-> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> 
-> A control-protection fault is triggered when a control-flow transfer
-> attempt violates Shadow Stack or Indirect Branch Tracking constraints.
-> For example, the return address for a RET instruction differs from the copy
-> on the shadow stack.
-> 
-> There already exists a control-protection fault handler for handling kernel
-> IBT. Refactor this fault handler into sparate user and kernel handlers,
+From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 
-Unknown word [sparate] in commit message.
-Suggestions: ['separate', 
+This patchset enhances the definition of the Device Feature Header (DFH) used by
+the Device Feature List (DFL) bus and then uses the new enhancements in a UART
+driver.
 
-You could use a spellchecker with your commit messages so that it
-catches all those typos.
+The enhancements to the DFH includes the introduction of parameter blocks.
+Like PCI capabilities, the DFH parameter blocks further describe
+the hardware to software. In the case of the UART, the parameter blocks
+provide information for the interrupt, clock frequency, and register layout.
 
-...
+Duplication of code parsing of the parameter blocks in multiple DFL drivers
+is a concern. Using swnodes was considered to help minimize parsing code 
+duplication, but their use did not help the problem. Furthermore the highly
+changeable nature of FPGAs employing the DFL bus makes the use of swnodes
+inappropriate. 
 
-> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-> index 8b83d8fbce71..e35c70dc1afb 100644
-> --- a/arch/x86/kernel/traps.c
-> +++ b/arch/x86/kernel/traps.c
-> @@ -213,12 +213,7 @@ DEFINE_IDTENTRY(exc_overflow)
->  	do_error_trap(regs, 0, "overflow", X86_TRAP_OF, SIGSEGV, 0, NULL);
->  }
->  
-> -#ifdef CONFIG_X86_KERNEL_IBT
-> -
-> -static __ro_after_init bool ibt_fatal = true;
-> -
-> -extern void ibt_selftest_ip(void); /* code label defined in asm below */
-> -
-> +#ifdef CONFIG_X86_CET
->  enum cp_error_code {
->  	CP_EC        = (1 << 15) - 1,
->  
-> @@ -231,15 +226,87 @@ enum cp_error_code {
->  	CP_ENCL	     = 1 << 15,
->  };
->  
-> -DEFINE_IDTENTRY_ERRORCODE(exc_control_protection)
-> +static const char control_protection_err[][10] = {
+Patch 1 updates the DFL documentation to describe the added functionality to DFH.
 
-You already use the "cp_" prefix for the other things, might as well use
-it here too.
+Patch 2 adds the definitions for DFHv1.
 
-> +	[0] = "unknown",
-> +	[1] = "near ret",
-> +	[2] = "far/iret",
-> +	[3] = "endbranch",
-> +	[4] = "rstorssp",
-> +	[5] = "setssbsy",
-> +};
-> +
-> +static const char *cp_err_string(unsigned long error_code)
-> +{
-> +	unsigned int cpec = error_code & CP_EC;
-> +
-> +	if (cpec >= ARRAY_SIZE(control_protection_err))
-> +		cpec = 0;
-> +	return control_protection_err[cpec];
-> +}
-> +
-> +static void do_unexpected_cp(struct pt_regs *regs, unsigned long error_code)
-> +{
-> +	WARN_ONCE(1, "Unexpected %s #CP, error_code: %s\n",
-> +		     user_mode(regs) ? "user mode" : "kernel mode",
-> +		     cp_err_string(error_code));
-> +}
-> +#endif /* CONFIG_X86_CET */
-> +
-> +void do_user_cp_fault(struct pt_regs *regs, unsigned long error_code);
+Patch 3 adds basic support for DFHv1. It adds functionality to parse parameter blocks
+and adds the functionality to parse the explicit location of a feature's register set.
 
-What's that forward declaration for?
+Patch 4 adds a DFL UART driver that makes use of the new features of DFHv1.
 
-In any case, push it into traps.h pls.
+Basheer Ahmed Muddebihal (1):
+  fpga: dfl: Add DFHv1 Register Definitions
 
-I gotta say, I'm not a big fan of that ifdeffery here. Do we really
-really need it?
+Matthew Gerlach (3):
+  Documentation: fpga: dfl: Add documentation for DFHv1
+  fpga: dfl: add basic support for DFHv1
+  tty: serial: 8250: add DFL bus driver for Altera 16550.
 
-> +#ifdef CONFIG_X86_USER_SHADOW_STACK
-> +static DEFINE_RATELIMIT_STATE(cpf_rate, DEFAULT_RATELIMIT_INTERVAL,
-> +			      DEFAULT_RATELIMIT_BURST);
-> +
-> +void do_user_cp_fault(struct pt_regs *regs, unsigned long error_code)
->  {
-> -	if (!cpu_feature_enabled(X86_FEATURE_IBT)) {
-> -		pr_err("Unexpected #CP\n");
-> -		BUG();
-> +	struct task_struct *tsk;
-> +	unsigned long ssp;
-> +
-> +	/*
-> +	 * An exception was just taken from userspace. Since interrupts are disabled
-> +	 * here, no scheduling should have messed with the registers yet and they
-> +	 * will be whatever is live in userspace. So read the SSP before enabling
-> +	 * interrupts so locking the fpregs to do it later is not required.
-> +	 */
-> +	rdmsrl(MSR_IA32_PL3_SSP, ssp);
-> +
-> +	cond_local_irq_enable(regs);
-> +
-> +	tsk = current;
-> +	tsk->thread.error_code = error_code;
-> +	tsk->thread.trap_nr = X86_TRAP_CP;
-> +
-> +	/* Ratelimit to prevent log spamming. */
-> +	if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
-> +	    __ratelimit(&cpf_rate)) {
-> +		pr_emerg("%s[%d] control protection ip:%lx sp:%lx ssp:%lx error:%lx(%s)%s",
-> +			 tsk->comm, task_pid_nr(tsk),
-> +			 regs->ip, regs->sp, ssp, error_code,
-> +			 cp_err_string(error_code),
-> +			 error_code & CP_ENCL ? " in enclave" : "");
-> +		print_vma_addr(KERN_CONT " in ", regs->ip);
-> +		pr_cont("\n");
->  	}
->  
-> -	if (WARN_ON_ONCE(user_mode(regs) || (error_code & CP_EC) != CP_ENDBR))
-> +	force_sig_fault(SIGSEGV, SEGV_CPERR, (void __user *)0);
-> +	cond_local_irq_disable(regs);
-> +}
-> +#endif
-> +
-> +void do_kernel_cp_fault(struct pt_regs *regs, unsigned long error_code);
-> +
-> +#ifdef CONFIG_X86_KERNEL_IBT
-> +static __ro_after_init bool ibt_fatal = true;
-> +
-> +extern void ibt_selftest_ip(void); /* code label defined in asm below */
-
-Yeah, pls put that comment above the function. Side comments are nasty.
-
-Thx.
+ Documentation/fpga/dfl.rst         | 112 ++++++++++++++
+ drivers/fpga/dfl.c                 | 234 ++++++++++++++++++++++-------
+ drivers/fpga/dfl.h                 |  41 +++++
+ drivers/tty/serial/8250/8250_dfl.c | 154 +++++++++++++++++++
+ drivers/tty/serial/8250/Kconfig    |  12 ++
+ drivers/tty/serial/8250/Makefile   |   1 +
+ include/linux/dfl.h                |   4 +
+ 7 files changed, 507 insertions(+), 51 deletions(-)
+ create mode 100644 drivers/tty/serial/8250/8250_dfl.c
 
 -- 
-Regards/Gruss,
-    Boris.
+2.25.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
