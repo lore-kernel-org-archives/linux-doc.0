@@ -2,307 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9956FC001B2
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Dec 2022 23:47:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 457FCC10F1E
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Dec 2022 03:52:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232570AbiLSXq7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Dec 2022 18:46:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45212 "EHLO
+        id S229540AbiLTDwL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Dec 2022 22:52:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232686AbiLSXqy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Dec 2022 18:46:54 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB7036411
-        for <linux-doc@vger.kernel.org>; Mon, 19 Dec 2022 15:46:50 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id w15so10209878wrl.9
-        for <linux-doc@vger.kernel.org>; Mon, 19 Dec 2022 15:46:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=20URghUEhnd48vVWNIo4NcdPqwWP3OApoVFQSqBizbk=;
-        b=XrGsIL3zLIGiSSn6zRwToocscYx+EVhRGz0v2L1n/IAjuMcU6xq8ZxA2Wus2Ht6e9N
-         S6C2+S60mmYaom7yAsckD8S25Ejvvcqe3F3SJmBbvSPaiKxrPfxWn9DTSgnKDa/+OqNl
-         mc9TLU7w9ovr7ziKMBo0UqNMEtE4C3eOa0PQJvlkSW0u6trdiuySdE8p/gNE/utvkkou
-         YxAZ+G9dzZdfS0bdLiNYmdOvHB6TpFNjqgitjPcyn3NwIEffSny6Tyt0mxRN66OpK4TU
-         YOkTfkTzLeC0IdVDj8ppUq80K+kQFcI4raWg7306COdxXtCPeDg+HudpqicpXG2aegSM
-         bZDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=20URghUEhnd48vVWNIo4NcdPqwWP3OApoVFQSqBizbk=;
-        b=Nv1ibokDstilRgV+Gdw49p0UCDn12WylMz1xzotXY7mTAKIgaxM4RHqRe24bIqQht2
-         m1D/x0VF8MZRhLe0fz/OCtyEHtiqBSBWoafj7BNIpI8gijQiv1VZJg+seLgdGSfakgly
-         8HqqqQkId795A0nphaVKQR3shfpVzvD0G0nu25N5uOZ540ADAzaIwKEXacz7e382FzKY
-         xZvYpxD7S+ZYynTKP6eZYOXB4lFPd9SVUtbiInXm/tOmSAeNQypuxhT8vdN+7Qu1qWOp
-         cgidnk7G3xtrR6LTWYjW9jfA7Dj11eKm7J9LSqMdshqPO1cWJ26pgzfk5X87GljPr6d0
-         ujww==
-X-Gm-Message-State: AFqh2kpcVhECGdBlg2P7Wt+PVywN54q8NbqeDquHTwIwt7w3YTnQOCpA
-        Ls8RpfDKJnhZ14SzvhCTIbAXAg==
-X-Google-Smtp-Source: AMrXdXt6JZzeWZ/AtX+SAqVE7wKHSrEQFyPWiwpw8cD02387TMiFxduKOJlehH3NW+aKz7L7W5wBsQ==
-X-Received: by 2002:adf:dbc7:0:b0:25d:d243:4f3c with SMTP id e7-20020adfdbc7000000b0025dd2434f3cmr6508350wrj.69.1671493609382;
-        Mon, 19 Dec 2022 15:46:49 -0800 (PST)
-Received: from linaro.org ([2a00:23c5:6809:2201:bce1:4a06:7ceb:6940])
-        by smtp.gmail.com with ESMTPSA id n2-20020a5d4c42000000b002383fc96509sm11165148wrt.47.2022.12.19.15.46.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Dec 2022 15:46:48 -0800 (PST)
-From:   Mike Leach <mike.leach@linaro.org>
-To:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-Cc:     mathieu.poirier@linaro.org, suzuki.poulose@arm.com,
-        acme@kernel.org, james.clark@arm.com,
-        Mike Leach <mike.leach@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH v5 6/6] Documentation: coresight: docs for config load via configfs
-Date:   Mon, 19 Dec 2022 23:46:38 +0000
-Message-Id: <20221219234638.3661-7-mike.leach@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20221219234638.3661-1-mike.leach@linaro.org>
-References: <20221219234638.3661-1-mike.leach@linaro.org>
+        with ESMTP id S229500AbiLTDwK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Dec 2022 22:52:10 -0500
+Received: from formenos.hmeau.com (helcar.hmeau.com [216.24.177.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 543B312D1C;
+        Mon, 19 Dec 2022 19:52:08 -0800 (PST)
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+        by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+        id 1p7TeR-008kBl-SS; Tue, 20 Dec 2022 11:50:48 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Tue, 20 Dec 2022 11:50:47 +0800
+Date:   Tue, 20 Dec 2022 11:50:47 +0800
+From:   Herbert Xu <herbert@gondor.apana.org.au>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        torvalds@linux-foundation.org, corbet@lwn.net, will@kernel.org,
+        boqun.feng@gmail.com, mark.rutland@arm.com,
+        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
+        cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, davem@davemloft.net, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, joro@8bytes.org,
+        suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
+        dwmw2@infradead.org, baolu.lu@linux.intel.com,
+        Arnd Bergmann <arnd@arndb.de>, penberg@kernel.org,
+        rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-s390@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org
+Subject: Re: [RFC][PATCH 01/12] crypto: Remove u128 usage
+Message-ID: <Y6ExF8mchgYiiRB0@gondor.apana.org.au>
+References: <20221219153525.632521981@infradead.org>
+ <20221219154118.889543494@infradead.org>
+ <Y6CJsWBhcbKatZNg@zx2c4.com>
+ <Y6CYu4skFFMopU+g@hirez.programming.kicks-ass.net>
+ <CAHmME9oCBgNCfYFxirA-fdarGip5MvOG-iUxT=2HC=iSXRMH-Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHmME9oCBgNCfYFxirA-fdarGip5MvOG-iUxT=2HC=iSXRMH-Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation covering the configfs updates that allow
-binary configuration files to be loaded and unloaded via configfs,
-along with the demonstration programs in samples.
+On Mon, Dec 19, 2022 at 06:03:04PM +0100, Jason A. Donenfeld wrote:
+>
+> Is there a patch at the end of the series that adds it back in to use u128?
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Mike Leach <mike.leach@linaro.org>
----
- .../trace/coresight/coresight-config.rst      | 202 +++++++++++++++++-
- 1 file changed, 195 insertions(+), 7 deletions(-)
+Could we do some ifdef trickery to reduce the amount of code churn
+please? Changing everything away from u128 and then back to it seems
+silly.
 
-diff --git a/Documentation/trace/coresight/coresight-config.rst b/Documentation/trace/coresight/coresight-config.rst
-index 6d5ffa6f7347..109053eb1b93 100644
---- a/Documentation/trace/coresight/coresight-config.rst
-+++ b/Documentation/trace/coresight/coresight-config.rst
-@@ -141,11 +141,11 @@ Mount configfs as normal and the 'cs-syscfg' subsystem will appear::
-     $ ls /config
-     cs-syscfg  stp-policy
- 
--This has two sub-directories::
-+This has two sub-directories, with the load and unload attribute files::
- 
-     $ cd cs-syscfg/
-     $ ls
--    configurations  features
-+    configurations features load  unload
- 
- The system has the configuration 'autofdo' built in. It may be examined as
- follows::
-@@ -278,9 +278,16 @@ Creating and Loading Custom Configurations
- ==========================================
- 
- Custom configurations and / or features can be dynamically loaded into the
--system by using a loadable module.
-+system by using a loadable module, or by loading a binary configuration
-+file in configfs.
- 
--An example of a custom configuration is found in ./samples/coresight.
-+Loaded configurations can use previously loaded features. The system will
-+ensure that it is not possible to unload a feature that is currently in
-+use, by enforcing the unload order as the strict reverse of the load order.
-+
-+
-+Using a Loadable Module
-+-----------------------
- 
- This creates a new configuration that uses the existing built in
- strobing feature, but provides a different set of presets.
-@@ -289,6 +296,187 @@ When the module is loaded, then the configuration appears in the configfs
- file system and is selectable in the same way as the built in configuration
- described above.
- 
--Configurations can use previously loaded features. The system will ensure
--that it is not possible to unload a feature that is currently in use, by
--enforcing the unload order as the strict reverse of the load order.
-+The file 'coresight-cfg-sample.c' contains the configuration and module
-+initialisation code needed to create the loadable module.
-+
-+This will be built alongside the kernel modules if select in KConfig.
-+
-+An example of a custom configuration module is found in './samples/coresight'.
-+
-+Using a Binary Configuration File
-+---------------------------------
-+
-+The './tools/coresight' directory contains example programs to generate and
-+read and print binary configuration files.
-+
-+Building the tools creates the 'coresight-cfg-file-gen' program that will
-+generate a configuration binary 'example1.cscfg' that can be loaded into the
-+system using configfs. The configuration declared in the source file
-+'coresight-cfg-example1.c' is named 'autofdo3' - the name that will be used
-+once loaded.
-+
-+The source files 'coresight-cfg-bufw.h' and 'coresight-cfg-bufw.c' provide a
-+standard function to convert a configuration declared in 'C' into the correct
-+binary buffer format. These files can be re-used to create new custom
-+configurations. Alternatively, addition examples can be added to the
-+'coresight-cfg-file-gen' program::
-+
-+    $ ./coresight-cfg-file-gen
-+    Coresight Configuration file Generator
-+
-+    Generating example1 example
-+    Generating example2 example
-+
-+The program 'coresight-cfg-file-read' can read back and print a configuration
-+binary. This is built using the file reader from the driver code
-+(coresight-config-file.c), which is copied over into './tools/coresight' at
-+build time.::
-+
-+    ./coresight-cfg-file-read example1.cscfg
-+    CoreSight Configuration file reader
-+    ============================================
-+
-+    Configuration 1
-+    Name:- autofdo3
-+    Description:-
-+    Setup ETMs with strobing for autofdo
-+    Supplied presets allow experimentation with mark-space ratio for various loads
-+
-+    Uses 1 features:-
-+    Feature-1: strobing
-+
-+    Provides 4 sets of preset values, 2 presets per set
-+    set[0]: 0x7d0, 0x64,
-+    set[1]: 0x7d0, 0x3e8,
-+    set[2]: 0x7d0, 0x1388,
-+    set[3]: 0x7d0, 0x2710,
-+
-+    ============================================
-+    File contains no features
-+
-+There are additional attributes in the cs-syscfg directory - load and
-+unload that can be used to load and unload configuration binary files. To
-+load, 'cat' the binary config into the load attribute::
-+
-+    $ ls /config/cs-syscfg
-+    configurations features  load  unload
-+    $ cat example1.cscfg > /config/cs-syscfg/load
-+    $ ls /config/cs-syscfg/configurations/
-+    autofdo  autofdo3
-+
-+To unload, use the same file in the unload attribute::
-+
-+    $ cat example1.cscfg > /config/cs-syscfg/unload
-+    ls /config/cs-syscfg/configurations/
-+    autofdo
-+
-+
-+
-+Binary Configuration File Format
-+--------------------------------
-+
-+The file format is defined in the source file **coresight-config-file.h**
-+
-+The source reader and generator examples produce a binary of this format.
-+
-+This arrangement is reproduced below:-
-+
-+Overall File structure
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+::
-+
-+   [cscfg_file_header]   // Mandatory
-+   [CONFIG_ELEM]*        // Optional - multiple, defined by cscfg_file_header.nr_configs
-+   [FEATURE_ELEM]*       // Optional - multiple, defined by cscfg_file_header.nr_features
-+
-+File is invalid if both [CONFIG_ELEM] and [FEATURE_ELEM] are omitted.
-+
-+A file that contains only [FEATURE_ELEM] may be loaded, and the features used
-+by subsequently loaded files with [CONFIG_ELEM] elements.
-+
-+Element Name Strings
-+~~~~~~~~~~~~~~~~~~~~
-+
-+Configuration name strings are required to consist of alphanumeric characters and '_' only. Other special characters are not permitted.
-+
-+::
-+   my_config_2          // is a valid name.
-+   this-bad-config#5    // this will not work
-+
-+This is in order to comply with the requirements of the perf command line.
-+
-+It is recommended that Feature and Parameter names use the same convention to allow for future enhancements to the command line syntax.
-+
-+CONFIG_ELEM element
-+~~~~~~~~~~~~~~~~~~~
-+
-+::
-+
-+   [cscfg_file_elem_header]                // header length value to end of feature strings.
-+   [cscfg_file_elem_str]                   // name of the configuration.
-+                                           // (see element string name requirements)
-+   [cscfg_file_elem_str]                   // description of configuration.
-+   [u16 value](nr_presets)                 // number of defined sets presets values.
-+   [u32 value](nr_total_params)            // total parameters defined by all used features.
-+   [u16 value](nr_feat_refs)               // number of features referenced by the configuration
-+   [u64 values] * (nr_presets * nr_total_params)     // the preset values.
-+   [cscfg_file_elem_str] * (nr_feat_refs)  // names of features used in the configurations.
-+
-+FEATURE_ELEM element
-+~~~~~~~~~~~~~~~~~~~~
-+
-+::
-+
-+   [cscfg_file_elem_header]                // header length is total bytes to end of param structures.
-+   [cscfg_file_elem_str]                   // feature name.
-+   [cscfg_file_elem_str]                   // feature description.
-+   [u32 value](match_flags)                // flags to associate the feature with a device.
-+   [u16 value](nr_regs)                    // number of registers.
-+   [u16 value](nr_params)                  // number of parameters.
-+   [cscfg_regval_desc struct] * (nr_regs)  // register definitions
-+   [PARAM_ELEM] * (nr_params)              // parameters definitions
-+
-+PARAM_ELEM element
-+~~~~~~~~~~~~~~~~~~
-+
-+::
-+
-+   [cscfg_file_elem_str]         // parameter name.
-+   [u64 value](param_value)      // initial value.
-+
-+Additional definitions.
-+~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The following structures are defined in **coresight-config-file.h**
-+
-+ * **struct cscfg_file_header** : This structure contains an initial magic number, the total
-+   length of the file, and the number of configurations and features in the file.
-+ * **struct cscfg_file_elem_header**: This defines the total length and type of a CONFIG_ELEM
-+   or a FEATURE_ELEM.
-+ * **struct cscfg_file_elem_str**: This defines a string and its length.
-+
-+The magic number in cscfg_file_header is defined as two bitfields::
-+
-+   [31:8] Fixed magic number to identify file type.
-+   [7:0]  Current file format version.
-+
-+The following defines determine the maximum overall file size and maximum individual
-+string size::
-+
-+   CSCFG_FILE_MAXSIZE       // maximum overall file size.
-+   CSCFG_FILE_STR_MAXSIZE   // maximum individual string size.
-+
-+Load Dependencies.
-+~~~~~~~~~~~~~~~~~~
-+
-+Files may be unloaded only in the strict reverse order of loading. This is enforced by the
-+configuration system.
-+
-+This is to ensure that any load dependencies are maintained.
-+
-+A configuration file that contains a CONFIG_ELEM that references named features "feat_A" and "feat_B" will load only if either:-
-+a) "feat_A" and/or "feat_B" has been loaded previously, or are present as built-in / module loaded features.
-+b) "feat_A" and/or "feat_B" are declared as FEAT_ELEM in the same file as the CONFIG_ELEM.
-+
-+Files that contain features or configurations with the same names as those already loaded will fail to load.
+Thanks,
 -- 
-2.17.1
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
