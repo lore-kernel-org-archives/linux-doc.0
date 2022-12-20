@@ -2,100 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2EBAC46467
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Dec 2022 09:58:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74B31C4167B
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Dec 2022 10:01:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233722AbiLTJ6G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Dec 2022 04:58:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57464 "EHLO
+        id S233028AbiLTKB3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Dec 2022 05:01:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233805AbiLTJ5I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 04:57:08 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2072DF5;
-        Tue, 20 Dec 2022 01:55:50 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4C3521EC06A7;
-        Tue, 20 Dec 2022 10:55:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1671530149;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=GlbtlLRfbRpUo17huCK7BBuSn1JaYHKV7r2vn6Tyrlw=;
-        b=q9NSG3Tp/WSoDFfu6VqAVoqwQ3WM7QrkQkuw3zdapcNCFobFsjAHWi7Hf/4MDpXud2d6w/
-        wJ6R7wageTjS5m94cCgwsLGyRNNE5/dHyxdIZ3QrdxneT4/sYRH2195SB2d9tGgUClZEkE
-        E0r+LwWLZO+LRbnES0wpGBaG6DdeBMI=
-Date:   Tue, 20 Dec 2022 10:55:44 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S233135AbiLTKAY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 05:00:24 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9757D193F1;
+        Tue, 20 Dec 2022 01:58:57 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id n65-20020a17090a2cc700b0021bc5ef7a14so11651002pjd.0;
+        Tue, 20 Dec 2022 01:58:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7vem8Jsd1m3XoRwlR2Dh3rl9t2L0u4OTmfLYFZ+cgOk=;
+        b=bBmsWw9d2KWdrS1o/4gOt9QagJxA6nM2Yci5vs+R1NPvyCLpMrfFbRXwyx+8qwIg5w
+         hKRrDnTZMece6VuC/C1cb9MdsuPnh825qzfTIK1vI32ZOoTChHC07jsnvMA0mZf/NOsm
+         E5nfhm6BRr9BzLgMI7p3Rm4BhEbZRhMwQ1UNtjoSnX8LazefLarHdvnNqBCaR/MdKT4v
+         kwSUHrAsYb2NFJvSjChmrVenm6+64tSo1LgM8KUfcfnJPLGI/ju0L25Afs/Y5HIFlojK
+         FLF9h0nhTgg0raFXmfRlavC793I7JWrKha1Uc4yxJZVpPNUVS7v+5G1JL9f89A/hGhqr
+         h42Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7vem8Jsd1m3XoRwlR2Dh3rl9t2L0u4OTmfLYFZ+cgOk=;
+        b=uRctw8+kskBbJvc4ICY+uZiF74d4IdRLkGVVY3tDGIr4iGPKmqX5YMefehWvtvanWV
+         Z2IJZ9lD2+LdZdwFkk7ArI9yk0LsmFWYqvqacsP1w/hjUdgnogCICFruPGGO1kyGkFaR
+         lBi0pXvQ/39Pwj17JwXzEIbhmMp290IrkhL63TAtkpPNOIs5rccm0jqVM5Lc2CfOSjnY
+         pmK/dWNnuTTlF90gas34KeKFwUtCwi5Yhgx0H9oGNmywRWRSvO2b1oZ6HuhlmJ9ijooB
+         9fdXLF2ATi9ezYS1MDmC9bvi0MzdTGaP6QLoOR5cdKirZ+8D1Cl5GMrWnYp9h+DgQVNX
+         OUWg==
+X-Gm-Message-State: ANoB5pktNpm7QDv3C7zBy/scpVcU41WGp1DYZibGemhz7XONAhIp8Z8D
+        px2XSH9owk2jNwkPrmpGh4o=
+X-Google-Smtp-Source: AA0mqf4hA27ExixBB4w9eaoE5WnWfsunugUo40uVoSJXl/UwM6YaB0dQqxCP1ieAwUO+4Iqc+nkzkw==
+X-Received: by 2002:a17:90b:3591:b0:219:bf1a:7cbe with SMTP id mm17-20020a17090b359100b00219bf1a7cbemr47651789pjb.27.1671530336870;
+        Tue, 20 Dec 2022 01:58:56 -0800 (PST)
+Received: from debian.me (subs09a-223-255-225-69.three.co.id. [223.255.225.69])
+        by smtp.gmail.com with ESMTPSA id ml19-20020a17090b361300b00219f8eb271fsm601247pjb.5.2022.12.20.01.58.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Dec 2022 01:58:56 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 8FC1B103E99; Tue, 20 Dec 2022 16:58:53 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     virtualization@lists.linux-foundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <Y6GGoAVQGPyCaDnS@zn.tnic>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
- <Y6B27MpZO8o1Asfe@zn.tnic>
- <20221220074318.GC1724933@chaop.bj.intel.com>
+        =?UTF-8?q?Ricardo=20Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
+        Cornelia Huck <cohuck@redhat.com>, kernel@collabora.com,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH 0/3] docs: driver-api: virtio: documentation improv suggestion
+Date:   Tue, 20 Dec 2022 16:58:26 +0700
+Message-Id: <20221220095828.27588-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221220074318.GC1724933@chaop.bj.intel.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=994; i=bagasdotme@gmail.com; h=from:subject; bh=O5UrpaltPN9XdwGBv1ZKKRngtRO9auBkxrm/W23BACY=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMkL2+2v27CultDSl7FbdnIJn9v6rNbnwXskUkKvvvNiSTnF HZ3YUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgImoLmBkWOgRa7Gbf671idnJz8zefj rfx1D3tT6zbmb+j2uh874lnWb4H1u1puzBX13NTyfuT5CXcVjsLBqlpnKnOkntcCDfOr4sbgA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 20, 2022 at 03:43:18PM +0800, Chao Peng wrote:
-> RESTRICTEDMEM is needed by TDX_HOST, not TDX_GUEST.
+Michael S. Tsirkin has asked me [1] to post my improv suggestions for
+now-applied virtio documentation [2], so here is the suggestion patch series.
+The original suggestion must be splitted since it contains three distinct
+changes.
 
-Which basically means that RESTRICTEDMEM should simply depend on KVM.
-Because you can't know upfront whether KVM will run a TDX guest or a SNP
-guest and so on.
+This series is based on kernel-doc fixup posted to fix recent linux-next
+warnings [3].
 
-Which then means that RESTRICTEDMEM will practically end up always
-enabled in KVM HV configs.
+[1]: https://lore.kernel.org/linux-doc/20221219011647-mutt-send-email-mst@kernel.org/
+[2]: https://lore.kernel.org/linux-doc/Y0QYTq7KW9C731s0@debian.me/
+[3]: https://lore.kernel.org/lkml/20221220073709.2687151-1-ricardo.canuelo@collabora.com/
 
-> The only reason to add another HAVE_KVM_RESTRICTED_MEM is some code only
-> works for 64bit[*] and CONFIG_RESTRICTEDMEM is not sufficient to enforce
-> that.
+Bagas Sanjaya (3):
+  docs: driver-api: virtio: parenthesize external reference targets
+  docs: driver-api: virtio: slightly reword virtqueues allocation
+    paragraph
+  docs: driver-api: virtio: commentize spec version checking
 
-This is what I mean with "we have too many Kconfig items". :-\
+ Documentation/driver-api/virtio/virtio.rst | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
 -- 
-Regards/Gruss,
-    Boris.
+An old man doll... just what I always wanted! - Clara
 
-https://people.kernel.org/tglx/notes-about-netiquette
