@@ -2,123 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ED88C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 13:47:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 873B9C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 14:14:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232819AbiLUNrQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Dec 2022 08:47:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45592 "EHLO
+        id S229676AbiLUOOo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Dec 2022 09:14:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230072AbiLUNrP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Dec 2022 08:47:15 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0BE36475;
-        Wed, 21 Dec 2022 05:47:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671630434; x=1703166434;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=Ey/uI44qPCpd4ueyxtxDLkQhSghq6Fbj8dB2OhBP0No=;
-  b=Hta25vIZugyt08XE12XPlw8wi4ujV3wir82IZS9dfVva9Cgnwz9KC31f
-   ei5ocTRN2lF9EQU/d8dqZW4jc7lrGKFNdwTw3RUQh+zuWkI/m63+AFwRW
-   4I+TY2JNyVNzQB67IxQBnS8Kgl3CosleTrM4pUovIMXLKNxSCoP+3xrCA
-   ERQBCx8OG6yd8z+WCpRRmVQJUi+hDzEzKQJqYUQsgvpWL8he8TtaAVtdj
-   dfBM3PWzqKV6YbegjQ+TAdtKUZh3x4aO2yR0AQ9E6Qs9WGUh1PPnzdn1u
-   fn9up1uI31MzP3z7GTFB/13ku2WvXwL/4NptD6RS4YYVXbkur1vUb7L4J
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="318568460"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; 
-   d="scan'208";a="318568460"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2022 05:47:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="651402272"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; 
-   d="scan'208";a="651402272"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga002.jf.intel.com with ESMTP; 21 Dec 2022 05:47:03 -0800
-Date:   Wed, 21 Dec 2022 21:42:46 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <20221221134246.GB1766136@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
- <Y6B27MpZO8o1Asfe@zn.tnic>
- <20221220074318.GC1724933@chaop.bj.intel.com>
- <Y6GGoAVQGPyCaDnS@zn.tnic>
+        with ESMTP id S229472AbiLUOOn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Dec 2022 09:14:43 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F06FE16;
+        Wed, 21 Dec 2022 06:14:42 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DF938B81B5D;
+        Wed, 21 Dec 2022 14:14:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 588F6C433F0;
+        Wed, 21 Dec 2022 14:14:38 +0000 (UTC)
+Date:   Wed, 21 Dec 2022 09:14:35 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Philipp Rudo <prudo@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        kexec@lists.infradead.org, Ross Zwisler <zwisler@kernel.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 3/3] kexec: Introduce sysctl parameters
+ kexec_load_limit_*
+Message-ID: <20221221091435.5ed368cb@gandalf.local.home>
+In-Reply-To: <20221114-disable-kexec-reset-v4-3-ab809c8d988c@chromium.org>
+References: <20221114-disable-kexec-reset-v4-0-ab809c8d988c@chromium.org>
+        <20221114-disable-kexec-reset-v4-3-ab809c8d988c@chromium.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y6GGoAVQGPyCaDnS@zn.tnic>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 20, 2022 at 10:55:44AM +0100, Borislav Petkov wrote:
-> On Tue, Dec 20, 2022 at 03:43:18PM +0800, Chao Peng wrote:
-> > RESTRICTEDMEM is needed by TDX_HOST, not TDX_GUEST.
-> 
-> Which basically means that RESTRICTEDMEM should simply depend on KVM.
-> Because you can't know upfront whether KVM will run a TDX guest or a SNP
-> guest and so on.
-> 
-> Which then means that RESTRICTEDMEM will practically end up always
-> enabled in KVM HV configs.
+On Wed, 21 Dec 2022 13:50:03 +0100
+Ricardo Ribalda <ribalda@chromium.org> wrote:
 
-That's right, CONFIG_RESTRICTEDMEM is always selected for supported KVM
-architectures (currently x86_64).
+> @@ -941,6 +995,20 @@ static struct ctl_table kexec_core_sysctls[] = {
+>  		.extra1		= SYSCTL_ONE,
+>  		.extra2		= SYSCTL_ONE,
+>  	},
+> +	{
+> +		.procname	= "kexec_load_limit_panic",
+> +		.data		= &load_limit_panic,
+> +		.maxlen		= sizeof(load_limit_panic),
 
-> 
-> > The only reason to add another HAVE_KVM_RESTRICTED_MEM is some code only
-> > works for 64bit[*] and CONFIG_RESTRICTEDMEM is not sufficient to enforce
-> > that.
-> 
-> This is what I mean with "we have too many Kconfig items". :-\
+If I understand the sysctl logic correctly, the .maxlen is the maxlen of
+the input to the sysctl, and not the data. Usually set to sizeof(data)
+because most proc_handlers write to data directly.
 
-Yes I agree. One way to remove this is probably additionally checking
-CONFIG_64BIT instead.
+In this case, I believe it's not even used (you override it with the
+struct ctl_table tmp). I guess it doesn't really matter what it's set to.
+Perhaps just set it to zero and leave it out?
 
-Thanks,
-Chao
-> 
-> -- 
-> Regards/Gruss,
->     Boris.
-> 
-> https://people.kernel.org/tglx/notes-about-netiquette
+> +		.mode		= 0644,
+> +		.proc_handler	= kexec_limit_handler,
+> +	},
+> +	{
+> +		.procname	= "kexec_load_limit_reboot",
+> +		.data		= &load_limit_reboot,
+> +		.maxlen		= sizeof(load_limit_reboot),
+
+Same here.
+
+-- Steve
+
+> +		.mode		= 0644,
+> +		.proc_handler	= kexec_limit_handler,
+> +	},
+>  	{ }
+>  };
+>  
