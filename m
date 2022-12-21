@@ -2,80 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 394E6C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 10:23:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87146C41535
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 10:32:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234579AbiLUKXt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Dec 2022 05:23:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45056 "EHLO
+        id S234618AbiLUKcm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Dec 2022 05:32:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234657AbiLUKWZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Dec 2022 05:22:25 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 96B4F10B73;
-        Wed, 21 Dec 2022 02:21:37 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 264F42F4;
-        Wed, 21 Dec 2022 02:22:18 -0800 (PST)
-Received: from [10.57.44.124] (unknown [10.57.44.124])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B4F5A3F71E;
-        Wed, 21 Dec 2022 02:21:34 -0800 (PST)
-Message-ID: <a44a57c7-0ac9-bd5d-4c92-225ff9a6c361@arm.com>
-Date:   Wed, 21 Dec 2022 10:21:30 +0000
+        with ESMTP id S232082AbiLUKbX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Dec 2022 05:31:23 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4F72B84E;
+        Wed, 21 Dec 2022 02:31:21 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id ADDC91EC0138;
+        Wed, 21 Dec 2022 11:31:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1671618678;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=0vyAl/OQNsmvYQ1ViGqGwGbOz44puDCSVKs7c/3SWxc=;
+        b=QIo/rrF3Ka6GKTShQGfQKUvHgifveAu92v6IJDHp7kcB+NontSnz7wDG9zFSWWBZvzwp00
+        x0yntA5waUK4ttybjtzJLtajp22Ca28lx1D6ydp/OwRIf87/FdyBu1/c6gp0LwmGnE1BuM
+        VhjJBZyviH8kSLLtz1BGKlgnG7WHQoY=
+Date:   Wed, 21 Dec 2022 11:31:14 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "x86@kernel.org" <x86@kernel.org>, "pavel@ucw.cz" <pavel@ucw.cz>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>
+Subject: Re: [PATCH v4 06/39] x86/fpu: Add helper for modifying xstate
+Message-ID: <Y6Lgcs4PaKLB7eT7@zn.tnic>
+References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
+ <20221203003606.6838-7-rick.p.edgecombe@intel.com>
+ <Y6Gk1CcK/dHWqaVA@zn.tnic>
+ <25b0158a998a280b508200fa50995aad657ef520.camel@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [PATCH v15 2/2] Documentation: Add document for UltraSoc SMB
- driver
-To:     Junhao He <hejunhao3@huawei.com>, mathieu.poirier@linaro.org,
-        mike.leach@linaro.org, leo.yan@linaro.org,
-        jonathan.cameron@huawei.com
-Cc:     coresight@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        lpieralisi@kernel.org, linuxarm@huawei.com, yangyicong@huawei.com,
-        liuqi6124@gmail.com, f.fangjian@huawei.com, shenyang39@huawei.com,
-        prime.zeng@hisilicon.com
-References: <20221220092945.30722-1-hejunhao3@huawei.com>
- <20221220092945.30722-3-hejunhao3@huawei.com>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20221220092945.30722-3-hejunhao3@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <25b0158a998a280b508200fa50995aad657ef520.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 20/12/2022 09:29, Junhao He wrote:
-> From: Qi Liu <liuqi115@huawei.com>
-> 
-> Bring in documentation for UltraSoc SMB driver.
-> It simply describes the device, sysfs interface and the
-> firmware bindings.
-> 
-> Signed-off-by: Qi Liu <liuqi115@huawei.com>
-> Signed-off-by: Junhao He <hejunhao3@huawei.com>
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->   .../sysfs-bus-coresight-devices-ultra_smb     | 31 +++++++
->   .../trace/coresight/ultrasoc-smb.rst          | 83 +++++++++++++++++++
->   2 files changed, 114 insertions(+)
->   create mode 100644 Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
->   create mode 100644 Documentation/trace/coresight/ultrasoc-smb.rst
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb b/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
-> new file mode 100644
-> index 000000000000..f6526882c627
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
-> @@ -0,0 +1,31 @@
-> +What:		/sys/bus/coresight/devices/ultra_smb<N>/enable_sink
-> +Date:		December 2022
-> +KernelVersion:	6.2
+On Wed, Dec 21, 2022 at 12:03:39AM +0000, Edgecombe, Rick P wrote:
+> Sorry about this and the others. I get spelling errors in checkpatch,
+> so I must have dictionary issues or something.
 
-This is not going in for 6.2. This must be 6.3 now and everywhere
-below.
+No worries, happens to everyone.
 
-Thanks
-Suzuki
+> Yes, the KVM series needed it. Part of the reasoning here was to
+> provide some helpers to avoid mistakes in modifying xstate, so the
+> general idea was that it should be available. I suppose that series
+> could add the export though?
 
+Yeah, you do have a point. Preemptive exposure of functionality is not
+really needed, so yeah, let's add it when actually really needed.
 
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
