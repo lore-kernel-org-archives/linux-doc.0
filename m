@@ -2,105 +2,302 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C2CBC3DA6E
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 00:12:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3719C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 00:22:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229750AbiLUAMa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Dec 2022 19:12:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50344 "EHLO
+        id S234268AbiLUAWP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Dec 2022 19:22:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbiLUAM3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 19:12:29 -0500
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5E031EAFB;
-        Tue, 20 Dec 2022 16:12:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=GH9M5bV1VooJkjUWIga/hv2jQxEHFDZMjQbWm1O6tc8=; b=YulGIBLlt+uAz1B3XpSn3PEV2l
-        JlPFmq6JYNmPnNsrPUTUWCQv1rTeNKwyMxxG8RqU1knVI4VYHeVZ0IboHTv33PVi7B2CsmxPiyH00
-        t5APlVAPVzm1NTlEkuCzGpEYQKYCtPDAOUKwwtDLsojqRWFXbCL3dSTlJHcPhzRisrzI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1p7miW-0008LK-86; Wed, 21 Dec 2022 01:12:16 +0100
-Date:   Wed, 21 Dec 2022 01:12:16 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc:     Christian Marangi <ansuelsmth@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        Tim Harvey <tharvey@gateworks.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Subject: Re: [PATCH v7 09/11] leds: trigger: netdev: add additional hardware
- only triggers
-Message-ID: <Y6JPYBQhtpZLadry@lunn.ch>
-References: <20221214235438.30271-1-ansuelsmth@gmail.com>
- <20221214235438.30271-10-ansuelsmth@gmail.com>
- <Y5ta87eCAQ8XsY8L@shell.armlinux.org.uk>
+        with ESMTP id S233263AbiLUAWO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 19:22:14 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10677F583;
+        Tue, 20 Dec 2022 16:22:12 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 972AF61629;
+        Wed, 21 Dec 2022 00:22:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA947C433EF;
+        Wed, 21 Dec 2022 00:22:09 +0000 (UTC)
+Date:   Tue, 20 Dec 2022 19:22:08 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Philipp Rudo <prudo@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        linux-doc@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-kernel@vger.kernel.org,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Ross Zwisler <zwisler@kernel.org>, kexec@lists.infradead.org
+Subject: Re: [PATCH v3 3/3] kexec: Introduce parameters load_limit_reboot
+ and load_limit_panic
+Message-ID: <20221220192208.4d0c934f@gandalf.local.home>
+In-Reply-To: <20221114-disable-kexec-reset-v3-3-4ef4e929adf6@chromium.org>
+References: <20221114-disable-kexec-reset-v3-0-4ef4e929adf6@chromium.org>
+        <20221114-disable-kexec-reset-v3-3-4ef4e929adf6@chromium.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y5ta87eCAQ8XsY8L@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 15, 2022 at 05:35:47PM +0000, Russell King (Oracle) wrote:
-> On Thu, Dec 15, 2022 at 12:54:36AM +0100, Christian Marangi wrote:
-> > Add additional hardware only triggers commonly supported by switch LEDs.
-> > 
-> > Additional modes:
-> > link_10: LED on with link up AND speed 10mbps
-> > link_100: LED on with link up AND speed 100mbps
-> > link_1000: LED on with link up AND speed 1000mbps
-> > half_duplex: LED on with link up AND half_duplex mode
-> > full_duplex: LED on with link up AND full duplex mode
+On Tue, 20 Dec 2022 23:05:45 +0100
+Ricardo Ribalda <ribalda@chromium.org> wrote:
+
+I hate to be the grammar police, but..
+
+> Add two parameter to specify how many times a kexec kernel can be loaded.
+
+   "parameters"
+
 > 
-> Looking at Marvell 88e151x, I don't think this is usable there.
-> We have the option of supporting link_1000 on one of the LEDs,
-> link_100 on another, and link_10 on the other. It's rather rare
-> for all three leds to be wired though.
-
-The 88e151x will need to enumerate what it actually supports from the
-above list, per LED. I also think we can carefully expand the list
-above, adding a few more modes. We just need to ensure what is added
-is reasonably generic, modes we expect multiple PHY to support. What
-we need to avoid is adding every single mode a PHY supports, but no
-other PHY has.
-
-> This is also a PHY where "activity" mode is supported (illuminated
-> or blinking if any traffic is transmitted or received) but may not
-> support individual directional traffic in hardware. However, it
-> does support forcing the LED on or off, so software mode can handle
-> those until the user selects a combination of modes that are
-> supported in the hardware.
+> The sysadmin can set different limits for kexec panic and kexec reboot
+> kernels.
 > 
-> > Additional blink interval modes:
-> > blink_2hz: LED blink on any even at 2Hz (250ms)
-> > blink_4hz: LED blink on any even at 4Hz (125ms)
-> > blink_8hz: LED blink on any even at 8Hz (62ms)
+> The value can be modified at runtime via sysfs, but only with a value
+> smaller than the current one (except -1).
 > 
-> This seems too restrictive. For example, Marvell 88e151x supports
-> none of these, but does support 42, 84, 170, 340, 670ms.
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 14 ++++
+>  include/linux/kexec.h                           |  2 +-
+>  kernel/kexec.c                                  |  2 +-
+>  kernel/kexec_core.c                             | 91 ++++++++++++++++++++++++-
+>  kernel/kexec_file.c                             |  2 +-
+>  5 files changed, 106 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 42af9ca0127e..2b37d6a20747 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2374,6 +2374,20 @@
+>  			for Movable pages.  "nn[KMGTPE]", "nn%", and "mirror"
+>  			are exclusive, so you cannot specify multiple forms.
+>  
+> +	kexec_core.load_limit_reboot=
+> +	kexec_core.load_limit_panic=
+> +			[KNL]
+> +			This parameter specifies a limit to the number of times
+> +			a kexec kernel can be loaded.
+> +			Format: <int>
+> +			-1  = Unlimited.
+> +			int = Number of times kexec can be called.
+> +
+> +			During runtime, this parameter can be modified with a
 
-I would actually drop this whole idea of being able to configure the
-blink period. It seems like it is going to cause problems. I expect
-most PHYs actual share the period across multiple LEDs, which you
-cannot easily model here.
+> +			value smaller than the current one (but not -1).
 
-So i would have the driver hard coded to pick a frequency at thats' it.
+Perhaps state:
+			smaller positive value than the current one or if
+			current is currently -1.
 
-   Andrew
+> +
+> +			Default: -1
+> +
+>  	kgdbdbgp=	[KGDB,HW] kgdb over EHCI usb debug port.
+>  			Format: <Controller#>[,poll interval]
+>  			The controller # is the number of the ehci usb debug
+> diff --git a/include/linux/kexec.h b/include/linux/kexec.h
+> index 182e0c11b87b..5daf9990d5b8 100644
+> --- a/include/linux/kexec.h
+> +++ b/include/linux/kexec.h
+> @@ -407,7 +407,7 @@ extern int kimage_crash_copy_vmcoreinfo(struct kimage *image);
+>  extern struct kimage *kexec_image;
+>  extern struct kimage *kexec_crash_image;
+>  
+> -bool kexec_load_permitted(void);
+> +bool kexec_load_permitted(bool crash_image);
+>  
+>  #ifndef kexec_flush_icache_page
+>  #define kexec_flush_icache_page(page)
+> diff --git a/kernel/kexec.c b/kernel/kexec.c
+> index ce1bca874a8d..7aefd134e319 100644
+> --- a/kernel/kexec.c
+> +++ b/kernel/kexec.c
+> @@ -193,7 +193,7 @@ static inline int kexec_load_check(unsigned long nr_segments,
+>  	int result;
+>  
+>  	/* We only trust the superuser with rebooting the system. */
+> -	if (!kexec_load_permitted())
+> +	if (!kexec_load_permitted(flags & KEXEC_ON_CRASH))
+
+Note, here we have KEXEC_ON_CRASH (see bottom).
+
+>  		return -EPERM;
+>  
+>  	/* Permit LSMs and IMA to fail the kexec */
+> diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
+> index a1efc70f4158..adf71f2be3ff 100644
+> --- a/kernel/kexec_core.c
+> +++ b/kernel/kexec_core.c
+> @@ -952,13 +952,100 @@ static int __init kexec_core_sysctl_init(void)
+>  late_initcall(kexec_core_sysctl_init);
+>  #endif
+>  
+> -bool kexec_load_permitted(void)
+> +struct kexec_load_limit {
+> +	/* Mutex protects the limit count. */
+> +	struct mutex mutex;
+> +	int limit;
+> +};
+> +
+> +struct kexec_load_limit load_limit_reboot = {
+
+Perhaps make the above static?
+
+> +	.mutex = __MUTEX_INITIALIZER(load_limit_reboot.mutex),
+> +	.limit = -1,
+> +};
+> +
+> +struct kexec_load_limit load_limit_panic = {
+
+static?
+
+> +	.mutex = __MUTEX_INITIALIZER(load_limit_panic.mutex),
+> +	.limit = -1,
+> +};
+> +
+> +static int param_get_limit(char *buffer, const struct kernel_param *kp)
+>  {
+> +	int ret;
+> +	struct kexec_load_limit *limit = kp->arg;
+
+Looks better if "int ret;" is after the "limit".
+
+> +
+> +	mutex_lock(&limit->mutex);
+> +	ret = scnprintf(buffer, PAGE_SIZE, "%i\n", limit->limit);
+
+The above string can be at most "-2147483648\n\0"
+
+Which is 13 characters. Why use PAGE_SIZE. Or scnprintf(), and not just
+state:
+
+	/* buffer is PAGE_SIZE, much larger than what %i can be */
+	ret = sprintf(buffer, "%i\n", limit->limit);
+
+> +	mutex_unlock(&limit->mutex);
+> +
+> +	return ret;
+> +}
+> +
+> +static int param_set_limit(const char *buffer, const struct kernel_param *kp)
+> +{
+> +	int ret;
+> +	struct kexec_load_limit *limit = kp->arg;
+> +	int new_val;
+> +
+> +	ret = kstrtoint(buffer, 0, &new_val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	new_val = max(-1, new_val);
+
+I wonder if anything less than -1 should be invalid.
+
+> +
+> +	mutex_lock(&limit->mutex);
+> +
+> +	if (new_val == -1 && limit->limit != -1) {
+
+If -1 can't change the value, why allow it to be passed in to begin with.
+
+Perhaps we should only allow sysctl to set positive values? Would make the
+code simpler.
+
+> +		ret = -EINVAL;
+> +		goto done;
+> +	}
+> +
+> +	if (limit->limit != -1 && new_val > limit->limit) {
+
+Since the above documentation said "small than" perhaps ">="?
+
+> +		ret = -EINVAL;
+> +		goto done;
+> +	}
+> +
+> +	limit->limit = new_val;
+> +
+> +done:
+> +	mutex_unlock(&limit->mutex);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct kernel_param_ops load_limit_ops = {
+> +	.get = param_get_limit,
+> +	.set = param_set_limit,
+> +};
+> +
+> +module_param_cb(load_limit_reboot, &load_limit_ops, &load_limit_reboot, 0644);
+> +MODULE_PARM_DESC(load_limit_reboot, "Maximum attempts to load a kexec reboot kernel");
+> +
+> +module_param_cb(load_limit_panic, &load_limit_ops, &load_limit_panic, 0644);
+> +MODULE_PARM_DESC(load_limit_reboot, "Maximum attempts to load a kexec panic kernel");
+
+Wait, why the module params if this can not be a module?
+
+The kernel/kexec.c is decided via CONFIG_KEXEC_CORE which is bool. Either
+builtin or not at all. No module selection possible.
+
+For kernel parameters, we should just use __setup(), right?
+
+> +
+> +bool kexec_load_permitted(bool crash_image)
+> +{
+> +	struct kexec_load_limit *limit;
+> +
+>  	/*
+>  	 * Only the superuser can use the kexec syscall and if it has not
+>  	 * been disabled.
+>  	 */
+> -	return capable(CAP_SYS_BOOT) && !kexec_load_disabled;
+> +	if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
+> +		return false;
+> +
+> +	/* Check limit counter and decrease it.*/
+> +	limit = crash_image ? &load_limit_panic : &load_limit_reboot;
+> +	mutex_lock(&limit->mutex);
+> +	if (!limit->limit) {
+> +		mutex_unlock(&limit->mutex);
+> +		return false;
+> +	}
+> +	if (limit->limit != -1)
+> +		limit->limit--;
+> +	mutex_unlock(&limit->mutex);
+> +
+> +	return true;
+>  }
+>  
+>  /*
+> diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
+> index 29efa43ea951..6a1d4b07635e 100644
+> --- a/kernel/kexec_file.c
+> +++ b/kernel/kexec_file.c
+> @@ -330,7 +330,7 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
+>  	struct kimage **dest_image, *image;
+>  
+>  	/* We only trust the superuser with rebooting the system. */
+> -	if (!kexec_load_permitted())
+> +	if (!kexec_load_permitted(flags & KEXEC_FILE_FLAGS))
+
+Here we have KEXEC_FILE_FLAGS, where above it was KEXCE_FILE_CRASH.
+
+This is confusing to what denotes the "crash_image" boolean. Can we just
+pass in flags and figure it out in the kexec_load_permitted() function?
+
+-- Steve
+
+
+>  		return -EPERM;
+>  
+>  	/* Make sure we have a legal set of flags */
+> 
+
