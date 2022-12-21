@@ -2,208 +2,374 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2195BC4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 00:46:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34281C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 01:23:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229750AbiLUAqA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Dec 2022 19:46:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34728 "EHLO
+        id S234292AbiLUBXO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Dec 2022 20:23:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234385AbiLUAp5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 19:45:57 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B72FF1ADBB;
-        Tue, 20 Dec 2022 16:45:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671583556; x=1703119556;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=2R3uJ5cQoXJczSFTBvuZ+myvP6cYSHwe+vlN8X3Sjnc=;
-  b=VsokIdc+EZGrB+z4EaTk4HgA+5EVKZ3LUt2sF5XvTtt9ZqkK1YdwCQzj
-   VWstlkTBxlJQ5PLTITdBxlndaNfewyTuDUgsppbdFMhxJ8AdJ5KW04hPp
-   weAehDP0T+2HXR5O+2Pkfjw7wNT6muR85iRZcW2wn4vLEHoOwWNJh9B/8
-   kEY5z7qoxu5UPW83YaGlA+NUGsEDvgP9eMbFP3JbZ+nBt3rFKdU5UYPbj
-   Yl4N4tYQCc7PgjDgb+LMf6vfJtP+og6PvWDzSS1Z484bY5043mIgfHll8
-   efuvoJ7BWAFP1pNfpsMPAAGmx6eMCCzXfL76aP2gWvZR6aS+WpjYPRD1/
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="307435205"
-X-IronPort-AV: E=Sophos;i="5.96,261,1665471600"; 
-   d="scan'208";a="307435205"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2022 16:45:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="896679890"
-X-IronPort-AV: E=Sophos;i="5.96,261,1665471600"; 
-   d="scan'208";a="896679890"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga006.fm.intel.com with ESMTP; 20 Dec 2022 16:45:46 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 20 Dec 2022 16:45:46 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Tue, 20 Dec 2022 16:45:46 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.109)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Tue, 20 Dec 2022 16:45:45 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lxpy5mH8WFkDAIDT9BXZFavtIb0cNN6C9q+8W3C+cuQD3fNARAl5F9QtE6X9JofWOGkbyuOCfRudk/lYg82s+wQUXdBj6QH9BDXQbnYOR5VziJakg3AkhasSNP5EaFkS2L5BbOcaMCv2TYXa1MvoTlcErOPwLPp8JVxZ62h0HCP3u4Th47BV7d4w7GJRXTUy4VwdON6fgC3W62j/0vvu+QqdAggqu91sTTaLDzfDpzFAkZqAJZ531FGyU5ojz0uPlq9PtLkfwxvlJTZR5aUdenTemmfojjchR5vjklcTdANW2YMJI+ziFNTvYoVcAxWcLCB+mc8f5lXE4eWNqG9ScA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2R3uJ5cQoXJczSFTBvuZ+myvP6cYSHwe+vlN8X3Sjnc=;
- b=M7eW4bg4NmSR+PHteUOVDAGfb+RctE7C4K0VSEiTPfAituRE/gIXvem08iPOKpUmvi88oPdwXlek97pGT82/uvnXmsZiyZQvyIZyCoyDq8TJlC6nZ7MLZ7zGRuvy4uWcUPOhwOodZobB4bCbUmdvAc2JALMEIdtaGZyIaoCEsCfuEDES5Rv6Or7HZTGJbW3+7MFYwps/e93ZmJ1PE0xKSTk+0E7aNZrcLXrRFL/h6xvk7G44NbHHABt4/qdBur8DnF8VqpAaVA35SlBTwGEpj5APd5vcK6lUC1SJ/DURDzc7oFcmy/BCZ+9Cll9chSYU41NmeaEqpGAIa8uC9Kanug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR11MB1392.namprd11.prod.outlook.com (2603:10b6:300:24::14)
- by MW4PR11MB6691.namprd11.prod.outlook.com (2603:10b6:303:20f::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Wed, 21 Dec
- 2022 00:45:43 +0000
-Received: from MWHPR11MB1392.namprd11.prod.outlook.com
- ([fe80::7ed5:a749:7b4f:ceff]) by MWHPR11MB1392.namprd11.prod.outlook.com
- ([fe80::7ed5:a749:7b4f:ceff%5]) with mapi id 15.20.5924.016; Wed, 21 Dec 2022
- 00:45:43 +0000
-From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To:     "bp@alien8.de" <bp@alien8.de>
-CC:     "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "x86@kernel.org" <x86@kernel.org>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>
-Subject: Re: [PATCH v4 05/39] x86/fpu/xstate: Introduce CET MSR and XSAVES
- supervisor states
-Thread-Topic: [PATCH v4 05/39] x86/fpu/xstate: Introduce CET MSR and XSAVES
- supervisor states
-Thread-Index: AQHZBq9RBkStIhaYNEWfAEq3cagmvK52wDEAgADdiwA=
-Date:   Wed, 21 Dec 2022 00:45:43 +0000
-Message-ID: <69ff1d29f7018f91a29b3b8d5e41e2940505c02a.camel@intel.com>
-References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
-         <20221203003606.6838-6-rick.p.edgecombe@intel.com>
-         <Y6GdXvj2woHqG4qa@zn.tnic>
-In-Reply-To: <Y6GdXvj2woHqG4qa@zn.tnic>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.38.4 (3.38.4-1.fc33) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MWHPR11MB1392:EE_|MW4PR11MB6691:EE_
-x-ms-office365-filtering-correlation-id: e23d5a3c-c140-4687-94f5-08dae2ecb0ea
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 1GSCRL5jpyVdewyacGhAtb9rmajHDlKEkSDk/RunGFFpZgU3bbBq100vVcJdu04Z9ws30UhuuWqCxqpR0vv0ghrPeHM30DVLoX3XrHpIEtA9qtUR9xfW2YE+CvB2rZw7pNOe+rm3NJwGdl6O3Sp8CWqBnayUY0K01e21XHGVM+7opOHhFpwPi2X+Q4DrhN2N0Xg1T/PqsK/3RsR8jko9bGB1PDjoL4kqyZSmCGXjm103GlOBHdVrRvkRCn0u2JWiqw/gCuSmKrcGmB8rhom+f4kkm306poJN/PdqYMvEXUFo2vu/1BglTvLydCFdLNSHzd3sWnyHDJy/aOcOrWvQDD0rCAaR7qSoAUufIok7/GSvamPStYyEHPA8AjFFSoIU4Q70MDYh9SFC1qQxO9EX1N6kgArURgNdID9zEn53/IY2jq3ZhUlW8ePL7cFfRGHOVigZBUVDydfMxIhay/LSqNAIU3vrVoeGcMlqeO0zn60i9qiZyg4lxLdpXxVxZ+kHUwwiGNeZlBrYHk+uoq0SzpR4l5Ys3akoshx/FPdIdsHYMASEydvAl1G1LnQRXe7RM6uwh6tX9xVq+wE7PeWEsXYHjve+8BKDsNBZtVctrV7VHe0Age7RsrStsFaPcuk9C8CD9pwCHv9FqXEiaA66t8fw5d/2zYKH8ea++p2OeqOJCikycTlAD2yk6gmDjwHIoCm1z91Mlpr5QAxktexLmQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB1392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(136003)(366004)(39860400002)(346002)(396003)(451199015)(8936002)(38100700002)(6486002)(71200400001)(36756003)(6506007)(4001150100001)(41300700001)(54906003)(2906002)(478600001)(4744005)(26005)(186003)(122000001)(5660300002)(6916009)(6512007)(316002)(7406005)(8676002)(7416002)(4326008)(2616005)(66446008)(91956017)(64756008)(86362001)(66946007)(76116006)(82960400001)(66556008)(66476007)(38070700005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OVVuSlVkZ3JhOFVXTWs4TTZXUklpRWZxc1NlYUs3ZzdzVnFrNzVoQllHaGRl?=
- =?utf-8?B?N3NQTzBib1BSbnJCRHFUMytLb1o1SGhWTHZBdUZTWkFvL2Njd2sxelpaUFd1?=
- =?utf-8?B?aStiZ2xqdzkxaFFjQVoyK29IZzhYNDRBT2lNdDVnRFlvR2laZ0l0blBXMXNZ?=
- =?utf-8?B?YkZ1ckZlVXgvajJOYUtRYUk4YmFoTFJzcEdyZzlNNkJ3dDRoTGJibEhMdnEw?=
- =?utf-8?B?cnJBMEJJQVgyUGRKWlZ0YkRrSXAvbVBzTzJJNkRoQWFiTlB1VDNZVlBkM1BE?=
- =?utf-8?B?bDhXSkpUWW1nZFJSeUEzeEwvQkNzTHJ2VG1UVW1LUnl4VXg0blUxaEJEZVoy?=
- =?utf-8?B?SE5Hd3NSTDJ3TWtWdE55dFNIdDRWWTdnNlE5SmRDei9rTldiS0ZiYURIdDli?=
- =?utf-8?B?ZlhXeURMTjJGNHZ1eCtKNW43eHBjcVpYVG82OHJNRlNvdS93cGN5Wk9ISGZX?=
- =?utf-8?B?bUR2ZHJpWEpiM2hsWGNaSkNIdHFKM1UzWkZqdHEvSWx4ZHFVR01BRGt5MG00?=
- =?utf-8?B?OUZHam5ld3UzV2RHeGE1WlBrbWVLa1NpaFFzbml5czdHTVJvUWtQeWx4bkNh?=
- =?utf-8?B?elV0L1NKRkRlUzlmK3VrRnR4Y0pFNlhjekcxSm9ydExIQkt5ZW81bGRZcWZw?=
- =?utf-8?B?a1BJMFFPd1dxbWszYmhUTEpSc0swN3ZvYzA2cWE4SEJBK3ZxeDVsT29KOG9K?=
- =?utf-8?B?Tzl2TVcrTnU1YTVSQ0R4Y1J6aFVoNEpTNEdwV0ZJZEQyUVpmZzJ2RXVvNElm?=
- =?utf-8?B?MldXWW8wK1pjcWptN1BKYWEybk5BM3hVTGtMQ0JVOENaam1rTDlvOTFBR2RR?=
- =?utf-8?B?QVpyQS8zaFpYT2ZlaXU0di9IWHlUdDJoUjl1OERIaWsrMUJ3T2FVZjZUdHRZ?=
- =?utf-8?B?NnlLSXdySDRoTlFkeFlHK2E3d2hlMzl5ZnhDS1IwWVRDdmJHbS8ybDZPKzQz?=
- =?utf-8?B?T0laMGJHTk5xVHJ3MWtpQmhIbDVtdmlIcWlUQktBRzVFZzNtL1pjQTFLdVJE?=
- =?utf-8?B?eUdLUERDRGNQSUpFUmlHaGpNZFVIKzczb1ZPYU5pWDE5SU8zR0o4ZVhMc1N5?=
- =?utf-8?B?czh5dFBHQXBLV3lOQmtoVWs5LzZ6VXdrUVB3U2xzTnMvS3AxRGljWXhkWUlk?=
- =?utf-8?B?cUFyQXdWYk8yMUpNR041UUZybU5BVUNxVnlrdHJqRWdmZFp2WXd5Z0VLRHg2?=
- =?utf-8?B?N1hodXhDVThpcmFqcm95aTZZVyszMDAxQnpGVVl3cmJRZFk0SDlXM0RmVmJh?=
- =?utf-8?B?K3dJNUdheWxlcml0bnczYWRISlNFd3hpQTJaY05nMmx3bzEyakVxQnV3TDlU?=
- =?utf-8?B?eXpCQzBISmRkMGpDMW5Rd0YwNDRwQ3RZZjkydEVMb1pIOUZ2YW5MS1BkSW1Y?=
- =?utf-8?B?UytPZUhNa3JyUlJ4eG9GWHkyMTVkRGdDOU5TdGlmcWhtOUlPZVdWbVdtSXMx?=
- =?utf-8?B?cnc2NGVhKzFud0RwbERIbWVKVHdFQ0V4WmdYYkFqekE4VkdERHEraEV6c1JU?=
- =?utf-8?B?a3ltMGFmT3JYdDlkTG01QTdWQTJRQVdYR1JrYll6cjZrSlY0SDEvSkE4WWNX?=
- =?utf-8?B?b1hpNDFjNHRFQzVxRWJJcXNzTEVzVVdJREw1eDlsRDA5elFaTVhMbkRWTzNm?=
- =?utf-8?B?N1d6UkpZRzJoRTFDNlV1cU9ueGFqcTZIM0Z3dkxZUWE2UnBOQkhmTklOUE5Y?=
- =?utf-8?B?QzJROHJ1TXVmQjZMcllUYmxDRkx5aDZUUzZZMGtXOTY5c2JPeWVpQkxpejQw?=
- =?utf-8?B?YVduZkhieDN3dUNCc2c1N2hhdnBuS0MzUkVPS3JneXQxWDNTeVBaaWdlTHdy?=
- =?utf-8?B?T0N4cmUwNXdJdkxoQU9WWUJGbnZLWEI2cXdaZEtTcGJVaTBTcCtYOG0vcFlQ?=
- =?utf-8?B?T0lRMzZCNlhFYkZ1a2ZOR1pzTmREWGltZHVCclhEY1QvOENxZXJlQUV0TTdi?=
- =?utf-8?B?aTYzTlh5NWE5ZDl3Nm1vY0xuTHlHQnRYT0tYcGFVZGcyWFBtTzY5N1pzS2pU?=
- =?utf-8?B?ajU4ZHM4dXJHbjl5ZHpta09MM2owSTUydmpIeWtWd2hOTGU0UkdaUlFGK0N5?=
- =?utf-8?B?L01EeG5DUVkySjN1NTh5aFFTaCtnUHNxZUc5RTQ5V3lFanFaT010T0MxaGlm?=
- =?utf-8?B?ZkU5MFRoMXVWTnZKWHlsckYwZTQvLzY2aWpoTC9qdlc5dzNCSjZKMDhjZDh3?=
- =?utf-8?Q?uJKo8rO4sc78paFF10G4H20=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <66F499DE2C19254382BB70377156CA88@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        with ESMTP id S234171AbiLUBXN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 20:23:13 -0500
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69B5E1D0D5
+        for <linux-doc@vger.kernel.org>; Tue, 20 Dec 2022 17:23:12 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id 79so9451960pgf.11
+        for <linux-doc@vger.kernel.org>; Tue, 20 Dec 2022 17:23:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sufVhttXMxBigkR5SmMIzr4R7xZEh5qc5bQeiL07mLM=;
+        b=IrHjUKs67YaXq/G+77+CyMTmtu4Of2nMr1UIx6YWQtCYpuBOm8xAMmr+1ZyOIwMZI1
+         zGsTnFUWnQANuORwvYrHOU0PCvbfV0rDPH7/giqnHHecgYXt2UDENxyxb2KjalAkZnxP
+         fe8eJsxtTD+6zWGTXA8Opn5jPr5wC1FJDclGQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sufVhttXMxBigkR5SmMIzr4R7xZEh5qc5bQeiL07mLM=;
+        b=taiUo5V58xzW9Q2PkTqqLA0ClaaZDQ8Ea0elzpsvf0OhbMAl2GaFgMmjuRV5fJOoJx
+         lHUru3rEIGV2SkEA65gytox6wOcPt3j8v23rofk/CRQabDv9j3Bf6dDP5QYvdhv37SYW
+         Yz1/EidUI/X8Onw0c84IWViEpw4GcQuSIT5xDWkFzHOoCy1ebGbR62qg0wMwUOt3fUOg
+         gQyUIrrELtAtrIGbPFa7S22sX05fLUWSzZHkea7FIQWx4MEZabSOjbx5yo4PyAhWjRgx
+         6fPF7gwW+k4HKhskzsG4a1S3n72UFAAVlOV9m1s/GPpIVIU4Q6urbjFH4uS6Ze3Ms/Bg
+         mbnQ==
+X-Gm-Message-State: AFqh2kpzATKTpa6YvT8xj1cYpJ889+wIV16XE40lRafdG5K7mP3vFA5f
+        l/8R9k4E08Mh9DJRsiUB4f1pBmIKndGfRM1fwIs=
+X-Google-Smtp-Source: AMrXdXvju6ZMmN3Zrawf6EGiK2OYXiTsWa7qnRVM5AoUK5UUcWC9xPWRNiY4a8BxCYDKcd49lEzZKA==
+X-Received: by 2002:a62:ab19:0:b0:578:144f:ad59 with SMTP id p25-20020a62ab19000000b00578144fad59mr502731pff.9.1671585791562;
+        Tue, 20 Dec 2022 17:23:11 -0800 (PST)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com. [209.85.215.169])
+        by smtp.gmail.com with ESMTPSA id v10-20020a62c30a000000b0057ef1262347sm9501470pfg.19.2022.12.20.17.23.09
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Dec 2022 17:23:09 -0800 (PST)
+Received: by mail-pg1-f169.google.com with SMTP id f9so9466673pgf.7
+        for <linux-doc@vger.kernel.org>; Tue, 20 Dec 2022 17:23:09 -0800 (PST)
+X-Received: by 2002:a65:628a:0:b0:479:3263:aa35 with SMTP id
+ f10-20020a65628a000000b004793263aa35mr1869472pgv.63.1671585788863; Tue, 20
+ Dec 2022 17:23:08 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e23d5a3c-c140-4687-94f5-08dae2ecb0ea
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Dec 2022 00:45:43.4200
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nhyio5+AkW6lJHiIlVkCM/pQ5ovaGoLkvVHs5HqmSl4WFbfMuxy706Wksp/VynuP0ife6Y1vmB3U1VBttA5uK0GVWbUEQXIN+SHZPXMTDjQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6691
-X-OriginatorOrg: intel.com
+References: <20221114-disable-kexec-reset-v3-0-4ef4e929adf6@chromium.org>
+ <20221114-disable-kexec-reset-v3-3-4ef4e929adf6@chromium.org> <20221220192208.4d0c934f@gandalf.local.home>
+In-Reply-To: <20221220192208.4d0c934f@gandalf.local.home>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 21 Dec 2022 02:22:57 +0100
+X-Gmail-Original-Message-ID: <CANiDSCtgkQKUN6BtCsYc1Yn5UxwsFsCnMrraxpjjpXEErhUyhA@mail.gmail.com>
+Message-ID: <CANiDSCtgkQKUN6BtCsYc1Yn5UxwsFsCnMrraxpjjpXEErhUyhA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] kexec: Introduce parameters load_limit_reboot and load_limit_panic
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Philipp Rudo <prudo@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        linux-doc@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-kernel@vger.kernel.org,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Ross Zwisler <zwisler@kernel.org>, kexec@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gVHVlLCAyMDIyLTEyLTIwIGF0IDEyOjMyICswMTAwLCBCb3Jpc2xhdiBQZXRrb3Ygd3JvdGU6
-DQo+IE9uIEZyaSwgRGVjIDAyLCAyMDIyIGF0IDA0OjM1OjMyUE0gLTA4MDAsIFJpY2sgRWRnZWNv
-bWJlIHdyb3RlOg0KPiA+IEBAIC0yNTIsNiArMjU0LDE0IEBAIHN0cnVjdCBwa3J1X3N0YXRlIHsN
-Cj4gPiDCoMKgwqDCoMKgwqDCoMKgdTMywqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHBhZDsNCj4gPiDCoCB9IF9fcGFja2VkOw0KPiA+IMKg
-IA0KPiA+ICsvKg0KPiA+ICsgKiBTdGF0ZSBjb21wb25lbnQgMTEgaXMgQ29udHJvbC1mbG93IEVu
-Zm9yY2VtZW50IHVzZXIgc3RhdGVzDQo+ID4gKyAqLw0KPiA+ICtzdHJ1Y3QgY2V0X3VzZXJfc3Rh
-dGUgew0KPiA+ICvCoMKgwqDCoMKgwqDCoHU2NCB1c2VyX2NldDvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoC8qIHVzZXIgY29udHJvbC1mbG93DQo+ID4gc2V0dGluZ3MgKi8N
-Cj4gPiArwqDCoMKgwqDCoMKgwqB1NjQgdXNlcl9zc3A7wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAvKiB1c2VyIHNoYWRvdyBzdGFjaw0KPiA+IHBvaW50ZXIgKi8NCj4gDQo+
-IFBsZWFzZSBwdXQgdGhvc2Ugc2lkZSBjb21tZW50cyBvdmVyIHRoZSBtZW1iZXJzLCBsaWtlIHN0
-cnVjdCBmcHN0YXRlDQo+IGRvZXMgaXQgaW4gdGhhdCBzYW1lIGZpbGUuDQoNClN1cmUsIHRoYW5r
-cy4NCg==
+ Hi Steven
+
+Thanks for your review!!! Will send a new version.
+After giving it a thought... you are right :). setting the current
+value should return -EINVAL. We should only return OK if we actually
+do something.
+
+On Wed, 21 Dec 2022 at 01:22, Steven Rostedt <rostedt@goodmis.org> wrote:
+>
+> On Tue, 20 Dec 2022 23:05:45 +0100
+> Ricardo Ribalda <ribalda@chromium.org> wrote:
+>
+> I hate to be the grammar police, but..
+>
+> > Add two parameter to specify how many times a kexec kernel can be loaded.
+>
+>    "parameters"
+>
+> >
+> > The sysadmin can set different limits for kexec panic and kexec reboot
+> > kernels.
+> >
+> > The value can be modified at runtime via sysfs, but only with a value
+> > smaller than the current one (except -1).
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  Documentation/admin-guide/kernel-parameters.txt | 14 ++++
+> >  include/linux/kexec.h                           |  2 +-
+> >  kernel/kexec.c                                  |  2 +-
+> >  kernel/kexec_core.c                             | 91 ++++++++++++++++++++++++-
+> >  kernel/kexec_file.c                             |  2 +-
+> >  5 files changed, 106 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > index 42af9ca0127e..2b37d6a20747 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -2374,6 +2374,20 @@
+> >                       for Movable pages.  "nn[KMGTPE]", "nn%", and "mirror"
+> >                       are exclusive, so you cannot specify multiple forms.
+> >
+> > +     kexec_core.load_limit_reboot=
+> > +     kexec_core.load_limit_panic=
+> > +                     [KNL]
+> > +                     This parameter specifies a limit to the number of times
+> > +                     a kexec kernel can be loaded.
+> > +                     Format: <int>
+> > +                     -1  = Unlimited.
+> > +                     int = Number of times kexec can be called.
+> > +
+> > +                     During runtime, this parameter can be modified with a
+>
+> > +                     value smaller than the current one (but not -1).
+>
+> Perhaps state:
+>                         smaller positive value than the current one or if
+>                         current is currently -1.
+
+I find it a bit complicated..
+What about:
+
+ During runtime this parameter can be modified with a more restrictive value
+
+
+
+
+>
+> > +
+> > +                     Default: -1
+> > +
+> >       kgdbdbgp=       [KGDB,HW] kgdb over EHCI usb debug port.
+> >                       Format: <Controller#>[,poll interval]
+> >                       The controller # is the number of the ehci usb debug
+> > diff --git a/include/linux/kexec.h b/include/linux/kexec.h
+> > index 182e0c11b87b..5daf9990d5b8 100644
+> > --- a/include/linux/kexec.h
+> > +++ b/include/linux/kexec.h
+> > @@ -407,7 +407,7 @@ extern int kimage_crash_copy_vmcoreinfo(struct kimage *image);
+> >  extern struct kimage *kexec_image;
+> >  extern struct kimage *kexec_crash_image;
+> >
+> > -bool kexec_load_permitted(void);
+> > +bool kexec_load_permitted(bool crash_image);
+> >
+> >  #ifndef kexec_flush_icache_page
+> >  #define kexec_flush_icache_page(page)
+> > diff --git a/kernel/kexec.c b/kernel/kexec.c
+> > index ce1bca874a8d..7aefd134e319 100644
+> > --- a/kernel/kexec.c
+> > +++ b/kernel/kexec.c
+> > @@ -193,7 +193,7 @@ static inline int kexec_load_check(unsigned long nr_segments,
+> >       int result;
+> >
+> >       /* We only trust the superuser with rebooting the system. */
+> > -     if (!kexec_load_permitted())
+> > +     if (!kexec_load_permitted(flags & KEXEC_ON_CRASH))
+>
+> Note, here we have KEXEC_ON_CRASH (see bottom).
+>
+> >               return -EPERM;
+> >
+> >       /* Permit LSMs and IMA to fail the kexec */
+> > diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
+> > index a1efc70f4158..adf71f2be3ff 100644
+> > --- a/kernel/kexec_core.c
+> > +++ b/kernel/kexec_core.c
+> > @@ -952,13 +952,100 @@ static int __init kexec_core_sysctl_init(void)
+> >  late_initcall(kexec_core_sysctl_init);
+> >  #endif
+> >
+> > -bool kexec_load_permitted(void)
+> > +struct kexec_load_limit {
+> > +     /* Mutex protects the limit count. */
+> > +     struct mutex mutex;
+> > +     int limit;
+> > +};
+> > +
+> > +struct kexec_load_limit load_limit_reboot = {
+>
+> Perhaps make the above static?
+>
+> > +     .mutex = __MUTEX_INITIALIZER(load_limit_reboot.mutex),
+> > +     .limit = -1,
+> > +};
+> > +
+> > +struct kexec_load_limit load_limit_panic = {
+>
+> static?
+>
+> > +     .mutex = __MUTEX_INITIALIZER(load_limit_panic.mutex),
+> > +     .limit = -1,
+> > +};
+> > +
+> > +static int param_get_limit(char *buffer, const struct kernel_param *kp)
+> >  {
+> > +     int ret;
+> > +     struct kexec_load_limit *limit = kp->arg;
+>
+> Looks better if "int ret;" is after the "limit".
+>
+> > +
+> > +     mutex_lock(&limit->mutex);
+> > +     ret = scnprintf(buffer, PAGE_SIZE, "%i\n", limit->limit);
+>
+> The above string can be at most "-2147483648\n\0"
+>
+> Which is 13 characters. Why use PAGE_SIZE. Or scnprintf(), and not just
+> state:
+>
+like it!
+>         /* buffer is PAGE_SIZE, much larger than what %i can be */
+>         ret = sprintf(buffer, "%i\n", limit->limit);
+>
+> > +     mutex_unlock(&limit->mutex);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int param_set_limit(const char *buffer, const struct kernel_param *kp)
+> > +{
+> > +     int ret;
+> > +     struct kexec_load_limit *limit = kp->arg;
+> > +     int new_val;
+> > +
+> > +     ret = kstrtoint(buffer, 0, &new_val);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     new_val = max(-1, new_val);
+>
+> I wonder if anything less than -1 should be invalid.
+>
+> > +
+> > +     mutex_lock(&limit->mutex);
+> > +
+> > +     if (new_val == -1 && limit->limit != -1) {
+>
+> If -1 can't change the value, why allow it to be passed in to begin with.
+>
+> Perhaps we should only allow sysctl to set positive values? Would make the
+> code simpler.
+>
+> > +             ret = -EINVAL;
+> > +             goto done;
+> > +     }
+> > +
+> > +     if (limit->limit != -1 && new_val > limit->limit) {
+>
+> Since the above documentation said "small than" perhaps ">="?
+>
+> > +             ret = -EINVAL;
+> > +             goto done;
+> > +     }
+> > +
+> > +     limit->limit = new_val;
+> > +
+> > +done:
+> > +     mutex_unlock(&limit->mutex);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static const struct kernel_param_ops load_limit_ops = {
+> > +     .get = param_get_limit,
+> > +     .set = param_set_limit,
+> > +};
+> > +
+> > +module_param_cb(load_limit_reboot, &load_limit_ops, &load_limit_reboot, 0644);
+> > +MODULE_PARM_DESC(load_limit_reboot, "Maximum attempts to load a kexec reboot kernel");
+> > +
+> > +module_param_cb(load_limit_panic, &load_limit_ops, &load_limit_panic, 0644);
+> > +MODULE_PARM_DESC(load_limit_reboot, "Maximum attempts to load a kexec panic kernel");
+>
+> Wait, why the module params if this can not be a module?
+>
+> The kernel/kexec.c is decided via CONFIG_KEXEC_CORE which is bool. Either
+> builtin or not at all. No module selection possible.
+>
+> For kernel parameters, we should just use __setup(), right?
+
+Isn't __setup() only kernel parameter and then it cannot be updated on runtime?
+
+What about using late_param_cb? and remove MODULE_PARAM_DESC ?
+
+I think this is how these parameters work
+
+$ ls /sys/module/kernel/parameters/
+consoleblank  crash_kexec_post_notifiers  ignore_rlimit_data
+initcall_debug  module_blacklist  panic  panic_on_warn  panic_print
+pause_on_oops
+
+
+>
+> > +
+> > +bool kexec_load_permitted(bool crash_image)
+> > +{
+> > +     struct kexec_load_limit *limit;
+> > +
+> >       /*
+> >        * Only the superuser can use the kexec syscall and if it has not
+> >        * been disabled.
+> >        */
+> > -     return capable(CAP_SYS_BOOT) && !kexec_load_disabled;
+> > +     if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
+> > +             return false;
+> > +
+> > +     /* Check limit counter and decrease it.*/
+> > +     limit = crash_image ? &load_limit_panic : &load_limit_reboot;
+> > +     mutex_lock(&limit->mutex);
+> > +     if (!limit->limit) {
+> > +             mutex_unlock(&limit->mutex);
+> > +             return false;
+> > +     }
+> > +     if (limit->limit != -1)
+> > +             limit->limit--;
+> > +     mutex_unlock(&limit->mutex);
+> > +
+> > +     return true;
+> >  }
+> >
+> >  /*
+> > diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
+> > index 29efa43ea951..6a1d4b07635e 100644
+> > --- a/kernel/kexec_file.c
+> > +++ b/kernel/kexec_file.c
+> > @@ -330,7 +330,7 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
+> >       struct kimage **dest_image, *image;
+> >
+> >       /* We only trust the superuser with rebooting the system. */
+> > -     if (!kexec_load_permitted())
+> > +     if (!kexec_load_permitted(flags & KEXEC_FILE_FLAGS))
+>
+> Here we have KEXEC_FILE_FLAGS, where above it was KEXCE_FILE_CRASH.
+>
+> This is confusing to what denotes the "crash_image" boolean. Can we just
+> pass in flags and figure it out in the kexec_load_permitted() function?
+
+This is a typo and a bad one!, thanks for catching up!.
+
+It should be KEXEC_ON_CRASH and KEXEC_FILE_ON_CRASH, Of course both
+have different values
+
+I could pass the flags and then check for flags & (KEXEC_ON_CRASH |
+KEXEC_FILE_ON_CRASH)... but not sure if it is better
+>
+> -- Steve
+>
+>
+> >               return -EPERM;
+> >
+> >       /* Make sure we have a legal set of flags */
+> >
+>
+
+
+-- 
+Ricardo Ribalda
