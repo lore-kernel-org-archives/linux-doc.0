@@ -2,394 +2,245 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 659B7C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 03:55:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1D8BC4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 04:02:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234005AbiLUDz2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Dec 2022 22:55:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54052 "EHLO
+        id S234143AbiLUECO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Dec 2022 23:02:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229652AbiLUDz1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 22:55:27 -0500
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9B521CFDE;
-        Tue, 20 Dec 2022 19:55:25 -0800 (PST)
-Received: by mail-pl1-x62d.google.com with SMTP id u7so6125490plq.11;
-        Tue, 20 Dec 2022 19:55:25 -0800 (PST)
+        with ESMTP id S229727AbiLUECN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 23:02:13 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B30B13DD4;
+        Tue, 20 Dec 2022 20:02:12 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id o8-20020a17090a9f8800b00223de0364beso879103pjp.4;
+        Tue, 20 Dec 2022 20:02:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LFqFGsRyelRV58UNu8fUWuvZM10Zq7Vola1fXyGhQeA=;
-        b=ng9yWkuwPkAWeYcD7l17MrG6JNu9W5xx/JGKHtPkAJyzqq1co30tVJKZkT8lAH45tY
-         m01UEwA5lqWiInZXhdLPLvtTgoLQbWl52XaBfAowc+hA5ayYhSK3/xYU0mAb+MfImjvH
-         bo2o45D0KG4I9HGzXWGBySJRgcyKZQeZ5ac8GHiu0bzN+Y8gmfWciM7TPv7EYrKiPpih
-         ibVex1jyCcFTUGUYlmlqJYoxA3mwyPXtsQy5Jk7eeE5aCawPY/oU3f07tpRQDu8nRYga
-         hLdqwXyH7elNntjIZXaYo1Pethgg2R0AFI1wpsFPzf2A5Utv2ZZABqUfGVnOXkdmB8h+
-         UM5A==
+        bh=d9skzcMqbtck7zeDrhArO3NT59qMeIn4qeXyo+A2838=;
+        b=GoNWVSAhRUDsH6UFui56Vg0q0rYDE4FSKMAT0U5dPjQrIQzNdTwwvGj4yg9hwTO0CT
+         5rE7dZ/SBgAmATDfmvaxU9Zt9exkpK3fcCA2YcrIlvkwd7mYbEToZP4z8iZuzA7iRHDS
+         NgNe5cMcKYJIu3oEvV1WhYbFg/b6wMGJnN9NnS2xDRBGDA24LQzLO1QFMQj7R2vonKEg
+         ciyMgA4Z8VUGRIYj1Z5sU2OOpK3jFOKCM6YRrZkt+jno6WuMTbdDCd0JZJEv/lJP2Rel
+         NMCdqmYeoS/4CPtnMp1aIwnfJ4ZtGku/JKBs/o/IdxWpwdPYZGLetI+csXq0uTEIPmEy
+         4sUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LFqFGsRyelRV58UNu8fUWuvZM10Zq7Vola1fXyGhQeA=;
-        b=EV2WneSnW1WghkuD4WOWgPcWbYCUF3+zQAQN9/qbKOlcT686HJR7RVnmqlwFjK0Pl0
-         aARjzYQdSpHTYTaka/PXpawqfCf26mi4GO/PQGY9GGo2fIpZwodPzcEh/faYbyFBjkzV
-         fDliAnuwQViLkF802EyGLcdqNBOAukb2DzSZb1uLu4kIkgDxzFbF7NsgSJkjuBaAfO33
-         DuXq1Lyq7lxmKel6JE1elL7q2dKMKZf4y+X0f+UYJoVsQv276fXzQquNvUv/4VGAGF4d
-         n+wgOMEzu6lD5unzzEJQp5UFogGwCugT6yMWX6cYYkeT3D0iLifMLIIfUv2TMSG1HobD
-         9jWQ==
-X-Gm-Message-State: AFqh2koi8ugy+0Y3E26+UicBwmsYF2374sQoZVpy6N/VuvuamjQZ0Qc2
-        XRxGZO8vVhZTJ+0ezgaepOc=
-X-Google-Smtp-Source: AMrXdXsckNMQT46A9gL453O+zngVYfXJ8GE6Bd1rKGuXjY4mvzMGDVaBvkEY70f8eu0vM9V4teYhsA==
-X-Received: by 2002:a17:902:f14b:b0:189:b203:9e2f with SMTP id d11-20020a170902f14b00b00189b2039e2fmr359148plb.56.1671594925268;
-        Tue, 20 Dec 2022 19:55:25 -0800 (PST)
+        bh=d9skzcMqbtck7zeDrhArO3NT59qMeIn4qeXyo+A2838=;
+        b=HLIPdOgoblwTkXylz5ME45bnpW0gRKthGejJYfWGCs+Qou9fTx4uYplg4HtcU878JG
+         s8ea3VVZEney/VZRKKAU6xVP+FbiSV3GxuJsIHq/zLM62WZPb8XOr22mshBjnfdYVbQD
+         xgZxF6TBzU0Dybi1AnYaycmXE+NbtV1JAT4hTMU4iOAAjc5oHRhYjo5cVlw+E4YeZsom
+         iSideR8CcfQTroUcStPvlLLLSQXJZT8sGj9bU8TsPKaItSj3zQo0cZ1h5GvrS2lP/Jfx
+         sGi5Iu1FyXgFrEUocZz8UYTrWthrAVzfSNN1V5ealXJ6iYMcpCEkJj0rY09UlI/ZDke3
+         FLyQ==
+X-Gm-Message-State: AFqh2kr8/hXs8u+d9O5y9q7VdlIV6w0o9wC5r0GJYBfXZ8nVtYpXmiCp
+        p5u6ohCcG7omKYRpuu7OuBY=
+X-Google-Smtp-Source: AMrXdXvveVZhAyS8I/wF4nTGzldy02cLhtXAryRTJ56zc5etopPXtDjxy+8P/cQcIF+g+X4VUYGc6A==
+X-Received: by 2002:a05:6a20:6699:b0:af:b771:1d01 with SMTP id o25-20020a056a20669900b000afb7711d01mr761379pzh.49.1671595331815;
+        Tue, 20 Dec 2022 20:02:11 -0800 (PST)
 Received: from debian.me (subs28-116-206-12-57.three.co.id. [116.206.12.57])
-        by smtp.gmail.com with ESMTPSA id u18-20020a170903125200b00189651e5c26sm4383363plh.236.2022.12.20.19.55.24
+        by smtp.gmail.com with ESMTPSA id a5-20020a170902710500b0017f7628cbddsm2123862pll.30.2022.12.20.20.02.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Dec 2022 19:55:24 -0800 (PST)
+        Tue, 20 Dec 2022 20:02:11 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-        id 8EC76100183; Wed, 21 Dec 2022 10:55:21 +0700 (WIB)
-Date:   Wed, 21 Dec 2022 10:55:21 +0700
+        id 97DCA100064; Wed, 21 Dec 2022 11:02:08 +0700 (WIB)
+Date:   Wed, 21 Dec 2022 11:02:08 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Mike Leach <mike.leach@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-        linux-kernel@vger.kernel.org
+To:     Junhao He <hejunhao3@huawei.com>
 Cc:     mathieu.poirier@linaro.org, suzuki.poulose@arm.com,
-        acme@kernel.org, james.clark@arm.com,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 6/6] Documentation: coresight: docs for config load
- via configfs
-Message-ID: <Y6KDqe26J8RyoJIV@debian.me>
-References: <20221219234638.3661-1-mike.leach@linaro.org>
- <20221219234638.3661-7-mike.leach@linaro.org>
+        mike.leach@linaro.org, leo.yan@linaro.org,
+        jonathan.cameron@huawei.com, coresight@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, lpieralisi@kernel.org,
+        linuxarm@huawei.com, yangyicong@huawei.com, liuqi6124@gmail.com,
+        f.fangjian@huawei.com, shenyang39@huawei.com,
+        prime.zeng@hisilicon.com
+Subject: Re: [PATCH v15 2/2] Documentation: Add document for UltraSoc SMB
+ driver
+Message-ID: <Y6KFQIk8rbMIglBO@debian.me>
+References: <20221220092945.30722-1-hejunhao3@huawei.com>
+ <20221220092945.30722-3-hejunhao3@huawei.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="FyZ000GxMOwUmINe"
+        protocol="application/pgp-signature"; boundary="gWpaJsbJoxLyMRhG"
 Content-Disposition: inline
-In-Reply-To: <20221219234638.3661-7-mike.leach@linaro.org>
+In-Reply-To: <20221220092945.30722-3-hejunhao3@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---FyZ000GxMOwUmINe
+--gWpaJsbJoxLyMRhG
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 19, 2022 at 11:46:38PM +0000, Mike Leach wrote:
-> diff --git a/Documentation/trace/coresight/coresight-config.rst b/Documen=
-tation/trace/coresight/coresight-config.rst
-> index 6d5ffa6f7347..109053eb1b93 100644
-> --- a/Documentation/trace/coresight/coresight-config.rst
-> +++ b/Documentation/trace/coresight/coresight-config.rst
-> @@ -141,11 +141,11 @@ Mount configfs as normal and the 'cs-syscfg' subsys=
-tem will appear::
->      $ ls /config
->      cs-syscfg  stp-policy
-> =20
-> -This has two sub-directories::
-> +This has two sub-directories, with the load and unload attribute files::
-> =20
->      $ cd cs-syscfg/
->      $ ls
-> -    configurations  features
-> +    configurations features load  unload
-> =20
->  The system has the configuration 'autofdo' built in. It may be examined =
-as
->  follows::
-> @@ -278,9 +278,16 @@ Creating and Loading Custom Configurations
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
->  Custom configurations and / or features can be dynamically loaded into t=
-he
-> -system by using a loadable module.
-> +system by using a loadable module, or by loading a binary configuration
-> +file in configfs.
-> =20
-> -An example of a custom configuration is found in ./samples/coresight.
-> +Loaded configurations can use previously loaded features. The system will
-> +ensure that it is not possible to unload a feature that is currently in
-> +use, by enforcing the unload order as the strict reverse of the load ord=
-er.
+On Tue, Dec 20, 2022 at 05:29:45PM +0800, Junhao He wrote:
+> diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_=
+smb b/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
+> new file mode 100644
+> index 000000000000..f6526882c627
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
+> @@ -0,0 +1,31 @@
+> +What:		/sys/bus/coresight/devices/ultra_smb<N>/enable_sink
+> +Date:		December 2022
+> +KernelVersion:	6.2
+> +Contact:	Junhao He <hejunhao3@huawei.com>
+> +Description:	(RW) Add/remove a SMB device from a trace path. There can be
+> +		multiple sources for a single SMB device.
 > +
+> +What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/buf_size
+> +Date:		December 2022
+> +KernelVersion:	6.2
+> +Contact:	Junhao He <hejunhao3@huawei.com>
+> +Description:	(Read) Shows the buffer size of each UltraSoc SMB device.
 > +
-> +Using a Loadable Module
-> +-----------------------
-> =20
->  This creates a new configuration that uses the existing built in
->  strobing feature, but provides a different set of presets.
-> @@ -289,6 +296,187 @@ When the module is loaded, then the configuration a=
-ppears in the configfs
->  file system and is selectable in the same way as the built in configurat=
-ion
->  described above.
-> =20
-> -Configurations can use previously loaded features. The system will ensure
-> -that it is not possible to unload a feature that is currently in use, by
-> -enforcing the unload order as the strict reverse of the load order.
-> +The file 'coresight-cfg-sample.c' contains the configuration and module
-> +initialisation code needed to create the loadable module.
+> +What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/buf_status
+> +Date:		December 2022
+> +KernelVersion:	6.2
+> +Contact:	Junhao He <hejunhao3@huawei.com>
+> +Description:	(Read) Shows the value held by UltraSoc SMB status register.
+> +		BIT(0) is zero means buffer is empty.
 > +
-> +This will be built alongside the kernel modules if select in KConfig.
+> +What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/read_pos
+> +Date:		December 2022
+> +KernelVersion:	6.2
+> +Contact:	Junhao He <hejunhao3@huawei.com>
+> +Description:	(Read) Shows the value held by UltraSoc SMB Read Pointer re=
+gister.
+> +
+> +What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/write_pos
+> +Date:		December 2022
+> +KernelVersion:	6.2
+> +Contact:	Junhao He <hejunhao3@huawei.com>
+> +Description:	(Read) Shows the value held by UltraSoc SMB Write Pointer r=
+egister.
 
-What config options (CONFIG_) are required for above to work?
+s/Read/RO/ and s/value held by/value of/
 
+> diff --git a/Documentation/trace/coresight/ultrasoc-smb.rst b/Documentati=
+on/trace/coresight/ultrasoc-smb.rst
+> new file mode 100644
+> index 000000000000..056dd120e14c
+> --- /dev/null
+> +++ b/Documentation/trace/coresight/ultrasoc-smb.rst
+> @@ -0,0 +1,83 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +An example of a custom configuration module is found in './samples/cores=
-ight'.
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +UltraSoc - HW Assisted Tracing on SoC
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +   :Author:   Qi Liu <liuqi115@huawei.com>
+> +   :Date:     December 2022
 > +
-> +Using a Binary Configuration File
-> +---------------------------------
+> +Introduction
+> +------------
 > +
-> +The './tools/coresight' directory contains example programs to generate =
-and
-> +read and print binary configuration files.
+> +UltraSoc SMB is a per SCCL (Super CPU Cluster) hardware. It provides a
+> +way to buffer and store CPU trace messages in a region of shared system
+> +memory. The device acts as a coresight sink device and the
+> +corresponding trace generators (ETM) are attached as source devices.
 > +
-> +Building the tools creates the 'coresight-cfg-file-gen' program that will
-> +generate a configuration binary 'example1.cscfg' that can be loaded into=
- the
-> +system using configfs. The configuration declared in the source file
-> +'coresight-cfg-example1.c' is named 'autofdo3' - the name that will be u=
-sed
-> +once loaded.
+> +Sysfs files and directories
+> +---------------------------
 > +
-> +The source files 'coresight-cfg-bufw.h' and 'coresight-cfg-bufw.c' provi=
-de a
-> +standard function to convert a configuration declared in 'C' into the co=
-rrect
-> +binary buffer format. These files can be re-used to create new custom
-> +configurations. Alternatively, addition examples can be added to the
+> +The SMB devices appear on the existing coresight bus alongside other
+> +devices::
+> +
+> +	$# ls /sys/bus/coresight/devices/
+> +	ultra_smb0   ultra_smb1   ultra_smb2   ultra_smb3
+> +
+> +The ``ultra_smb<N>`` names SMB device associated with SCCL.::
+> +
+> +	$# ls /sys/bus/coresight/devices/ultra_smb0
+> +	enable_sink   mgmt
+> +	$# ls /sys/bus/coresight/devices/ultra_smb0/mgmt
+> +	buf_size  buf_status  read_pos  write_pos
+> +
+> +Key file items are:
+> +
+> +   * ``read_pos``: Shows the value on the read pointer register.
+> +   * ``write_pos``: Shows the value on the write pointer register.
+> +   * ``buf_status``: Shows the value on the status register.
+> +     BIT(0) is zero value which means the buffer is empty.
+> +   * ``buf_size``: Shows the buffer size of each device.
+> +
+> +Firmware Bindings
+> +-----------------
+> +
+> +The device is only supported with ACPI. Its binding describes device
+> +identifier, resource information and graph structure.
+> +
+> +The device is identified as ACPI HID "HISI03A1". Device resources are al=
+located
+> +using the _CRS method. Each device must present two base address; the fi=
+rst one
+> +is the configuration base address of the device, the second one is the 3=
+2-bit
+> +base address of shared system memory.
+> +
+> +Example::
+> +
+> +    Device(USMB) {                                               \
+> +      Name(_HID, "HISI03A1")                                     \
+> +      Name(_CRS, ResourceTemplate() {                            \
+> +          QWordMemory (ResourceConsumer, , MinFixed, MaxFixed, NonCachea=
+ble, \
+> +		       ReadWrite, 0x0, 0x95100000, 0x951FFFFF, 0x0, 0x100000) \
+> +          QWordMemory (ResourceConsumer, , MinFixed, MaxFixed, Cacheable=
+, \
+> +		       ReadWrite, 0x0, 0x50000000, 0x53FFFFFF, 0x0, 0x4000000) \
+> +      })                                                         \
+> +      Name(_DSD, Package() {                                     \
+> +        ToUUID("ab02a46b-74c7-45a2-bd68-f7d344ef2153"),          \
+> +	/* Use CoreSight Graph ACPI bindings to describe connections topology */
+> +        Package() {                                              \
+> +          0,                                                     \
+> +          1,                                                     \
+> +          Package() {                                            \
+> +            1,                                                   \
+> +            ToUUID("3ecbc8b6-1d0e-4fb3-8107-e627f805c6cd"),      \
+> +            8,                                                   \
+> +            Package() {0x8, 0, \_SB.S00.SL11.CL28.F008, 0},       \
+> +            Package() {0x9, 0, \_SB.S00.SL11.CL29.F009, 0},       \
+> +            Package() {0xa, 0, \_SB.S00.SL11.CL2A.F010, 0},       \
+> +            Package() {0xb, 0, \_SB.S00.SL11.CL2B.F011, 0},       \
+> +            Package() {0xc, 0, \_SB.S00.SL11.CL2C.F012, 0},       \
+> +            Package() {0xd, 0, \_SB.S00.SL11.CL2D.F013, 0},       \
+> +            Package() {0xe, 0, \_SB.S00.SL11.CL2E.F014, 0},       \
+> +            Package() {0xf, 0, \_SB.S00.SL11.CL2F.F015, 0},       \
+> +          }                                                      \
+> +        }                                                        \
+> +      })                                                         \
+> +    }
 
-s/addition/additional/
+This doc LGTM, thanks.
 
-> +'coresight-cfg-file-gen' program::
-> +
-> +    $ ./coresight-cfg-file-gen
-> +    Coresight Configuration file Generator
-> +
-> +    Generating example1 example
-> +    Generating example2 example
-> +
-> +The program 'coresight-cfg-file-read' can read back and print a configur=
-ation
-> +binary. This is built using the file reader from the driver code
-> +(coresight-config-file.c), which is copied over into './tools/coresight'=
- at
-> +build time.::
-> +
-> +    ./coresight-cfg-file-read example1.cscfg
-> +    CoreSight Configuration file reader
-> +    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +    Configuration 1
-> +    Name:- autofdo3
-> +    Description:-
-> +    Setup ETMs with strobing for autofdo
-> +    Supplied presets allow experimentation with mark-space ratio for var=
-ious loads
-> +
-> +    Uses 1 features:-
-> +    Feature-1: strobing
-> +
-> +    Provides 4 sets of preset values, 2 presets per set
-> +    set[0]: 0x7d0, 0x64,
-> +    set[1]: 0x7d0, 0x3e8,
-> +    set[2]: 0x7d0, 0x1388,
-> +    set[3]: 0x7d0, 0x2710,
-> +
-> +    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +    File contains no features
-> +
-> +There are additional attributes in the cs-syscfg directory - load and
-> +unload that can be used to load and unload configuration binary files. To
-> +load, 'cat' the binary config into the load attribute::
-> +
-> +    $ ls /config/cs-syscfg
-> +    configurations features  load  unload
-> +    $ cat example1.cscfg > /config/cs-syscfg/load
-> +    $ ls /config/cs-syscfg/configurations/
-> +    autofdo  autofdo3
-> +
-> +To unload, use the same file in the unload attribute::
-> +
-> +    $ cat example1.cscfg > /config/cs-syscfg/unload
-> +    ls /config/cs-syscfg/configurations/
-> +    autofdo
-> +
-> +
-> +
-> +Binary Configuration File Format
-> +--------------------------------
-> +
-> +The file format is defined in the source file **coresight-config-file.h**
+For this doc,
 
-Use single-quote for identifier names for consistency here.
-
-> +
-> +The source reader and generator examples produce a binary of this format.
-> +
-> +This arrangement is reproduced below:-
-> +
-> +Overall File structure
-> +~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +::
-> +
-> +   [cscfg_file_header]   // Mandatory
-> +   [CONFIG_ELEM]*        // Optional - multiple, defined by cscfg_file_h=
-eader.nr_configs
-> +   [FEATURE_ELEM]*       // Optional - multiple, defined by cscfg_file_h=
-eader.nr_features
-> +
-> +File is invalid if both [CONFIG_ELEM] and [FEATURE_ELEM] are omitted.
-> +
-> +A file that contains only [FEATURE_ELEM] may be loaded, and the features=
- used
-> +by subsequently loaded files with [CONFIG_ELEM] elements.
-> +
-> +Element Name Strings
-> +~~~~~~~~~~~~~~~~~~~~
-> +
-> +Configuration name strings are required to consist of alphanumeric chara=
-cters and '_' only. Other special characters are not permitted.
-> +
-> +::
-> +   my_config_2          // is a valid name.
-> +   this-bad-config#5    // this will not work
-
-Instead of using code-block for name examples, what about "... For
-example, foo_bar is a valid name where as foo-bar# is not."?
-
-> +
-> +This is in order to comply with the requirements of the perf command lin=
-e.
-> +
-> +It is recommended that Feature and Parameter names use the same conventi=
-on to allow for future enhancements to the command line syntax.
-> +
-> +CONFIG_ELEM element
-> +~~~~~~~~~~~~~~~~~~~
-> +
-> +::
-> +
-> +   [cscfg_file_elem_header]                // header length value to end=
- of feature strings.
-> +   [cscfg_file_elem_str]                   // name of the configuration.
-> +                                           // (see element string name r=
-equirements)
-> +   [cscfg_file_elem_str]                   // description of configurati=
-on.
-> +   [u16 value](nr_presets)                 // number of defined sets pre=
-sets values.
-> +   [u32 value](nr_total_params)            // total parameters defined b=
-y all used features.
-> +   [u16 value](nr_feat_refs)               // number of features referen=
-ced by the configuration
-> +   [u64 values] * (nr_presets * nr_total_params)     // the preset value=
-s.
-> +   [cscfg_file_elem_str] * (nr_feat_refs)  // names of features used in =
-the configurations.
-> +
-> +FEATURE_ELEM element
-> +~~~~~~~~~~~~~~~~~~~~
-> +
-> +::
-> +
-> +   [cscfg_file_elem_header]                // header length is total byt=
-es to end of param structures.
-> +   [cscfg_file_elem_str]                   // feature name.
-> +   [cscfg_file_elem_str]                   // feature description.
-> +   [u32 value](match_flags)                // flags to associate the fea=
-ture with a device.
-> +   [u16 value](nr_regs)                    // number of registers.
-> +   [u16 value](nr_params)                  // number of parameters.
-> +   [cscfg_regval_desc struct] * (nr_regs)  // register definitions
-> +   [PARAM_ELEM] * (nr_params)              // parameters definitions
-> +
-> +PARAM_ELEM element
-> +~~~~~~~~~~~~~~~~~~
-> +
-> +::
-> +
-> +   [cscfg_file_elem_str]         // parameter name.
-> +   [u64 value](param_value)      // initial value.
-> +
-> +Additional definitions.
-> +~~~~~~~~~~~~~~~~~~~~~~~
-
-Trim trailing period for section names
-
-> +
-> +The following structures are defined in **coresight-config-file.h**
-> +
-> + * **struct cscfg_file_header** : This structure contains an initial mag=
-ic number, the total
-> +   length of the file, and the number of configurations and features in =
-the file.
-> + * **struct cscfg_file_elem_header**: This defines the total length and =
-type of a CONFIG_ELEM
-> +   or a FEATURE_ELEM.
-> + * **struct cscfg_file_elem_str**: This defines a string and its length.
-
-Again, for consistency, wrap identifier names in single-quotes.
-
-> +
-> +The magic number in cscfg_file_header is defined as two bitfields::
-> +
-> +   [31:8] Fixed magic number to identify file type.
-> +   [7:0]  Current file format version.
-> +
-> +The following defines determine the maximum overall file size and maximu=
-m individual
-> +string size::
-> +
-> +   CSCFG_FILE_MAXSIZE       // maximum overall file size.
-> +   CSCFG_FILE_STR_MAXSIZE   // maximum individual string size.
-
-For parameter lists in elements, use bullet lists instead.
-
-> +
-> +Load Dependencies.
-> +~~~~~~~~~~~~~~~~~~
-
-Trim trailing period for section names.
-> +
-> +Files may be unloaded only in the strict reverse order of loading. This =
-is enforced by the
-> +configuration system.
-> +
-> +This is to ensure that any load dependencies are maintained.
-> +
-> +A configuration file that contains a CONFIG_ELEM that references named f=
-eatures "feat_A" and "feat_B" will load only if either:-
-> +a) "feat_A" and/or "feat_B" has been loaded previously, or are present a=
-s built-in / module loaded features.
-> +b) "feat_A" and/or "feat_B" are declared as FEAT_ELEM in the same file a=
-s the CONFIG_ELEM.
-
-Separate the preceding paragraph and the list with a blank line in order
-for the list to be rendered as list.
-
-Thanks.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---FyZ000GxMOwUmINe
+--gWpaJsbJoxLyMRhG
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY6KDowAKCRD2uYlJVVFO
-o9PrAQCKIWF+ulp0vCakhJ7l3aHILy4sSDT4w5GSUA89FFmwfwD+Kwj4HqGhZJ1j
-gB1KE9nt45jeT6c85kqXXyjifLzfMww=
-=8h8k
+iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY6KFQAAKCRD2uYlJVVFO
+ow1wAQDFWt3fu2nr0v0ewY7DfkD7+xZqVxk2CBKg2MiWMDayZQEArvFvJIzaSQ2v
+fO5NYQKcDOA6BN5dF0qXxSLoEUDzaQ8=
+=azdo
 -----END PGP SIGNATURE-----
 
---FyZ000GxMOwUmINe--
+--gWpaJsbJoxLyMRhG--
