@@ -2,162 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89B11C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 11:58:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7B2DC4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 12:50:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229713AbiLUL6w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Dec 2022 06:58:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52126 "EHLO
+        id S231617AbiLUMuT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Dec 2022 07:50:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231481AbiLUL6t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Dec 2022 06:58:49 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 867C41DDD4;
-        Wed, 21 Dec 2022 03:58:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671623927; x=1703159927;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=vuvqp9h4DCIvi1CInAtWcyWKHnHzHhWwtOqIGpdnhoY=;
-  b=E75RYedKqDRRieJhvQIPOr5pnAbugiaMkYgT7bmsXj1HbSMO0iWKeI0Q
-   o2jN/RtusKuuNrhSGdAn2vgW0Ey4lobgpjfuH5ccaN0GdOA80rqBt+//9
-   IQApCXnCn+6vS5OJitZImVfMxheSZftfAiE8/BdC/FnDb1yTN+iBRY7fY
-   0Vz2FTjXz233D0x1a6wY8S3Huj5mEZVs42N0INWvdaqpDlqYs3nA8vUlC
-   K0rYmC+SHnrMM+shKu34FKnmIeaxP/vnXW81+tl6tez4/J2IEPBaJeF5A
-   6gCEFxkS5ioOxSyQQUgIZNXyl1pyPq5p6+wydcKgm0A+ys5/zWfcuI2Lq
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="384201859"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; 
-   d="scan'208";a="384201859"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2022 03:58:46 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="644815655"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; 
-   d="scan'208";a="644815655"
-Received: from bpopa-mobl.ger.corp.intel.com ([10.249.40.226])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2022 03:58:40 -0800
-Date:   Wed, 21 Dec 2022 13:58:37 +0200 (EET)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
-cc:     hao.wu@intel.com, yilun.xu@intel.com,
-        Russ Weight <russell.h.weight@intel.com>,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, Lukas Wunner <lukas@wunner.de>,
-        marpagan@redhat.com, bagasdotme@gmail.com
-Subject: Re: [PATCH v7 3/4] fpga: dfl: add basic support for DFHv1
-In-Reply-To: <20221220163652.499831-4-matthew.gerlach@linux.intel.com>
-Message-ID: <c041442c-fb78-e1a0-c67-a5c2ee947@linux.intel.com>
-References: <20221220163652.499831-1-matthew.gerlach@linux.intel.com> <20221220163652.499831-4-matthew.gerlach@linux.intel.com>
+        with ESMTP id S229601AbiLUMuR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Dec 2022 07:50:17 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EAF222BF5
+        for <linux-doc@vger.kernel.org>; Wed, 21 Dec 2022 04:50:16 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id bj12so36459209ejb.13
+        for <linux-doc@vger.kernel.org>; Wed, 21 Dec 2022 04:50:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=WMiE0vd/yYBaXGsz07hU3FBQiAft2wmjzq4IoD9fajA=;
+        b=FsDwchrubRoccRz16UU3/VfvJCLPLXjk9mbF3gAuquaoYgXTYXOxrdFCpS6vCpy75E
+         98jX7Jg91/wbuAw2LVOYnSMwt9XdTJpru7YFRAagTsctrMCnq4nkKHOoviboa8xmKyYy
+         qXFv71vL8uYh9dE5jZxt6PCYEu4NaMd2SXkmQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WMiE0vd/yYBaXGsz07hU3FBQiAft2wmjzq4IoD9fajA=;
+        b=4I+HBiePGcFkFeL/AHtYFHnoLVT72NiTyUirhtqeVEyPeU3i8AwaDf37c6tFt+sZr+
+         xc/V5aiO6BfAyOISAdI7aBAmzcFngECk7cdqC3l8LeP+eylivN2YZFMN0eSO1Kre3v6Q
+         jT9xs0wWYjsiPkHnyQx8kv9IxbphF7kN7GN88lNdwlk4HLkEyToyJdnTqZhblji2gspX
+         moik/zeDVsOU3QJ3GDj+86M7NjqDCkEoksg1WG4pnEhOwhAoCIkf3gxfWfPJNF06cGAo
+         aTKnu+hU8jMhIOWwaURu9Sh7XL8GYn/JlHKeid1CD73Dw/grGhTYlkLKXGhNf4WukjS3
+         qPeQ==
+X-Gm-Message-State: AFqh2krcgKh62Z1uJya2ip3GyI6/9rLR39safyQM5svgOytJJjqwmeyr
+        LRF12YdxnytPSBIphTlmbXnxeA==
+X-Google-Smtp-Source: AMrXdXuil/5SfXayT9oVY55/8d68hsnH602ZQHAwgj636BYZ+mDSkdlwA3kBxhfcmcYQOjM14us5Lg==
+X-Received: by 2002:a17:906:6543:b0:81a:bebd:d4b0 with SMTP id u3-20020a170906654300b0081abebdd4b0mr1316054ejn.44.1671627015175;
+        Wed, 21 Dec 2022 04:50:15 -0800 (PST)
+Received: from alco.roam.corp.google.com ([2620:0:1059:10:4b82:b1f8:cb4f:fbbd])
+        by smtp.gmail.com with ESMTPSA id w7-20020a170906b18700b007c0b28b85c5sm7039250ejy.138.2022.12.21.04.50.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Dec 2022 04:50:14 -0800 (PST)
+Subject: [PATCH v4 0/3] kexec: Add new parameter to limit the access to kexec
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1507487464-1671623926=:2459"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPgAo2MC/43NTQrCMBAF4KtI1kY6SWobV95DXCTppAn2B5K2KK
+ V3d3ApIl0N78H7ZmUZU8TMLoeVJVxijuNAQR0PzAUztMhjQ5mJQggAULyJ2dgO+QOf6HjCjBMHbS
+ sEqKSsPaOlNRm5TWZwgbbD3HVUhpinMb0+nxagc/uPLsAL7m0JjSicryu4upDGPs79aUwtuxO5iB
+ 2MIMYpXUuQDqwtfzByByOJUegVaqFN489fzLZtb9GhTkdMAQAA
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 21 Dec 2022 13:50:00 +0100
+Message-Id: <20221114-disable-kexec-reset-v4-0-ab809c8d988c@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>, Philipp Rudo <prudo@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     kexec@lists.infradead.org, Ricardo Ribalda <ribalda@chromium.org>,
+        Ross Zwisler <zwisler@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+X-Mailer: b4 0.11.0-dev-696ae
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2161; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=VBCVJ+aD/h3GyICYpp+9hUZz7wDvOWS2v3+hHEeVJG0=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjowD7/oKW4m0F/oh1hjb/+F27kY8sEEjovm4nldnc
+ ++mdDAKJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY6MA+wAKCRDRN9E+zzrEiCRiD/
+ 4v6YHmqUA36mCtnhhZgNBiEwdUEvmgxZ0WLQ4heB78T72NPYXMF09anLaJ0p7l9FdGBGNT8FA6eQX6
+ GQ15UnOLfNCaGiI/XMktb6T29UUA0gIGq7ohW6vzrUJnHk90jo8cCv5cQGQFZFyHPQGZWE9CYBzkgB
+ WsJEXQnvLfqGLfXW8XiBP2eWlUINVEyMsD60u/ZejcyICdnllmnY3gjCCg5wIRQQXDh4H1dT6MSMev
+ 4XFxYK25FDX3N5xFTmdynwhI2rhSfxrZuzUjOQg9g4sL6Bhi4jsZOwOLJKADo/maI/Fk7cjfbyKCOu
+ r7ZsRslYNoVOvTkdqlaXW+OPbGDHWwboSFtoY2B0yKURuz1q476QsDy+2oqi4dwhlJLkKjNpjCK9Ur
+ oRmVio+DnU1g5F3x8dcOMO4ig6LNM+i39llbr82wzYrmpbyH/8o84fmXXWVdcxTGSI3g3muSijaL5X
+ 3I1Gr7LRTn8ed42PY5sJy3FQp5EO0BpB7+zB3trHkYwieE3tgLvXEWR1oSl6NDVycl9AabG3Hdm1+I
+ cYBCqGkabyDdzpOMzrARBMdldMekG2cOzqeznE1ru8e+Rz4N6VADI1cVvzpZ5Ku490beZmS64FgK+g
+ wrPGrb0s45Ggx/t6+rvZdjIBLsohAJeqd4XK4fJdOXy/EUvBtgRxRf1V12Gw==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Add two parameter to specify how many times a kexec kernel can be loaded.
 
---8323329-1507487464-1671623926=:2459
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+These parameter allow hardening the system.
 
-On Tue, 20 Dec 2022, matthew.gerlach@linux.intel.com wrote:
+While we are at it, fix a documentation issue and refactor some code.
 
-> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> 
-> Version 1 of the Device Feature Header (DFH) definition adds
-> functionality to the DFL bus.
-> 
-> A DFHv1 header may have one or more parameter blocks that
-> further describes the HW to SW.  Add support to the DFL bus
-> to parse the MSI-X parameter.
-> 
-> The location of a feature's register set is explicitly
-> described in DFHv1 and can be relative to the base of the DFHv1
-> or an absolute address.  Parse the location and pass the information
-> to DFL driver.
-> 
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-> ---
-> v7: no change
-> 
-> v6: move MSI_X parameter definitions to drivers/fpga/dfl.h
-> 
-> v5: update field names
->     fix find_param/dfh_get_psize
->     clean up mmio_res assignments
->     use u64* instead of void*
->     use FIELD_GET instead of masking
-> 
-> v4: s/MSIX/MSI_X
->     move kernel doc to implementation
->     use structure assignment
->     fix decode of absolute address
->     clean up comment in parse_feature_irqs
->     remove use of csr_res
-> 
-> v3: remove unneeded blank line
->     use clearer variable name
->     pass finfo into parse_feature_irqs()
->     refactor code for better indentation
->     use switch statement for irq parsing
->     squash in code parsing register location
-> 
-> v2: fix kernel doc
->     clarify use of DFH_VERSION field
-> ---
+To: Jonathan Corbet <corbet@lwn.net>
+To: Eric Biederman <ebiederm@xmission.com>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: kexec@lists.infradead.org
+Cc: Joel Fernandes (Google) <joel@joelfernandes.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Ross Zwisler <zwisler@kernel.org>
+To: Philipp Rudo <prudo@redhat.com>
+To: Guilherme G. Piccoli <gpiccoli@igalia.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-> +static u64 *find_param(u64 *params, resource_size_t max, int param_id)
-> +{
-> +	u64 *end = params + max / sizeof(u64);
-> +	u64 v, next;
-> +
-> +	while (params < end) {
-> +		v = *params;
-> +		if (param_id == FIELD_GET(DFHv1_PARAM_HDR_ID, v))
-> +			return params;
-> +
-> +		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
-> +		params += next;
-> +		if (FIELD_GET(DFHv1_PARAM_HDR_NEXT_EOP, v))
-> +			break;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +/**
-> + * dfh_find_param() - find data for the given parameter id
-> + * @dfl_dev: dfl device
-> + * @param: id of dfl parameter
-> + *
-> + * Return: pointer to parameter header on success, NULL otherwise.
-> + */
-> +u64 *dfh_find_param(struct dfl_device *dfl_dev, int param_id)
-> +{
-> +	return find_param(dfl_dev->params, dfl_dev->param_size, param_id);
-> +}
-> +EXPORT_SYMBOL_GPL(dfh_find_param);
+---
+Changes in v4 (Thanks Steven!):
+- Uses sysctl instead or module_parameters
+- Pass image type instead of boolean to permitted
+- Fix typo on flag handling
+- Return -EINVAL for values that does not change the current value.
+- Link to v3: https://lore.kernel.org/r/20221114-disable-kexec-reset-v3-0-4ef4e929adf6@chromium.org
 
-BTW, should there be a way for the caller to ensure the parameter is long 
-enough?
+Changes in v3:
+- s/paramter/parameter/ Thanks Ghilherme!
+- s/permited/permitted/ Thanks Joel!
+- Link to v2: https://lore.kernel.org/r/20221114-disable-kexec-reset-v2-0-c498313c1bb5@chromium.org
 
-All callers probably want to ensure the length of the parameter is valid 
-so it would perhaps make sense to add a parameter for the required 
-(minimum) length?
+Changes in v2:
+- Instead of kexec_reboot_disabled, add two new counters (Thanks Philipp!)
+- Link to v1: https://lore.kernel.org/r/20221114-disable-kexec-reset-v1-0-fb51d20cf871@chromium.org
 
+---
+Ricardo Ribalda (3):
+      Documentation: sysctl: Correct kexec_load_disabled
+      kexec: Factor out kexec_load_permitted
+      kexec: Introduce sysctl parameters kexec_load_limit_*
 
+ Documentation/admin-guide/sysctl/kernel.rst | 25 +++++++-
+ include/linux/kexec.h                       |  3 +-
+ kernel/kexec.c                              |  4 +-
+ kernel/kexec_core.c                         | 96 ++++++++++++++++++++++++++++-
+ kernel/kexec_file.c                         | 11 ++--
+ 5 files changed, 129 insertions(+), 10 deletions(-)
+---
+base-commit: 479174d402bcf60789106eedc4def3957c060bad
+change-id: 20221114-disable-kexec-reset-19b7e117338f
+
+Best regards,
 -- 
- i.
-
---8323329-1507487464-1671623926=:2459--
+Ricardo Ribalda <ribalda@chromium.org>
