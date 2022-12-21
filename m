@@ -2,323 +2,217 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 551D5C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 12:50:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4508C10F1B
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 12:55:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232059AbiLUMuY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Dec 2022 07:50:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45948 "EHLO
+        id S232415AbiLUMzF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Dec 2022 07:55:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbiLUMuX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Dec 2022 07:50:23 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB43E23175
-        for <linux-doc@vger.kernel.org>; Wed, 21 Dec 2022 04:50:21 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id qk9so36572394ejc.3
-        for <linux-doc@vger.kernel.org>; Wed, 21 Dec 2022 04:50:21 -0800 (PST)
+        with ESMTP id S229601AbiLUMzB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Dec 2022 07:55:01 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C79AE2317F;
+        Wed, 21 Dec 2022 04:54:59 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id p1-20020a05600c1d8100b003d8c9b191e0so397353wms.4;
+        Wed, 21 Dec 2022 04:54:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1DriUQWaxtAZKeveQD8Usa3n+i7++5rOgNlUWHQfXOs=;
-        b=nkjhzaUfRMEi9ghebnUaQwIQlmqGl4xjc8nwG5r1nFx7RVq/OgGkh0jCBKHKK2qs+k
-         14xwWg5dnU4CT86bwEQDn1LG9qERLW8ndAKUMqCy2i5xS8+uVD4T2/6gXNWJOZvu26XX
-         5dGp5u+NNcjcjTS0B8/VOTKEmJclpQ9akydhs=
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=dRK8jAShw4FKHMFTqOEZH8n9jGsLhbWM5T+ViFrWZBg=;
+        b=DA/xPznmaeVcfMgPhSYETFahuh+6m6bx4PqwjjS3ya7Z9cNxQxuJDQ+8eRMylBRlLD
+         wBD9T4/o4FuOu0rF62/OBwbm5QjXw2ARMiWmwjAI5kiVQGxjGrNVe7q5+7rEfshhGYjX
+         fn4kMnqgmN8zGD3B3DieUgyC53GjduWUUfyGLUaKoP26L+qj8sj1ZbEzJ3ILbJhnfi8u
+         7Ir72KoeeAcBre+acZlpfd3eI5K8VYHF6kPtcCVws3wWGc+aqClcBqhYFImpFPQgOzEG
+         Jufw3hKzIpRp3HORukhmMsvZPpFhlGAnn11Qg39wLgBmz6aq/2mhjeVsyjcKPNSpNDZo
+         fx6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1DriUQWaxtAZKeveQD8Usa3n+i7++5rOgNlUWHQfXOs=;
-        b=f5o8icbt3lMYQpvqK6b+azLXCfQzdvX/PjQpsDOpKgkBssyh7VKdr0m1LPc/J2i5q4
-         PFBwHraTexlwsapHyuOTdV9Vy9ZnW2YhiMuDLAsV1zznOeIhV/LpebbATPrA98sI1Lem
-         yDo952JW+HbxAOh+ZJp7FqoyZEMzTIxnzHRKnC/IWT2in438/yGCWzmj5p2P6eDKylaK
-         X/PiG9CkJgZNZEr0EnJ0XGpXU4HNdg1VS/acuXq8bJ5MNpQeZXXgDA2fDRQfgkmxLl4s
-         ZJXvuXt9yy5wWC8uSv7fbcspNwoUrgfy3JA67QnxAu0ZtGtSr3aqREBSomodOiLm2YJZ
-         OJ7g==
-X-Gm-Message-State: AFqh2kq5olZSeJN/8e6EidBBNdbiS8lzZQFRVEMOxIC4L5l45BqajbkN
-        SzOrK3soTFc69BhrJxgP8OQ/og==
-X-Google-Smtp-Source: AMrXdXubmpaQkXCY/pcjrP0p4VqTboCxMP7OcqXLR+YKSG+gRNL96ggpzzXCNhVKoUUnxbzB0dhXdw==
-X-Received: by 2002:a17:906:c34d:b0:78d:f455:b5de with SMTP id ci13-20020a170906c34d00b0078df455b5demr1170774ejb.30.1671627020458;
-        Wed, 21 Dec 2022 04:50:20 -0800 (PST)
-Received: from alco.roam.corp.google.com ([2620:0:1059:10:4b82:b1f8:cb4f:fbbd])
-        by smtp.gmail.com with ESMTPSA id w7-20020a170906b18700b007c0b28b85c5sm7039250ejy.138.2022.12.21.04.50.18
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dRK8jAShw4FKHMFTqOEZH8n9jGsLhbWM5T+ViFrWZBg=;
+        b=haXUEy3Bo7/1RATrP/ktm+y8G/ZNz65sUsKqq0+JYF5i/YhJbYv2Fg6OhJ+lESf0gu
+         OHrFOIMKN2f1X45XB0n8nWZjfDhNYqRtYuKdLUPhp1KlbZihr9BbRT/Y6AsqI5kbcPoF
+         M4OvMcAuwyZ95Zc+/swNZ+TWH8Z704yE2hmbm3K1ZtDG9iz/Upa/oD7GZrRfi1SBx/g4
+         rDkfEFAhR/gjEMr334Xt4F5DcywWI+ZlhBcAKkQruxlXUGZtJZynNJYbBLxs1jdeyre8
+         KXpCecMeU2G1kNincxZjxRHQvdMoznnBnRWHwZjfc6GlmEHXLSgfMwUDf1t//bA4RGnd
+         K1Vw==
+X-Gm-Message-State: AFqh2kq7uUXjnNvPYCPq/h+v30yAVrh+958LK3xbzumdo1+j1RxtWmgO
+        7cvCKTfqdogRyGHXqZyM9RPS3mmXlGw=
+X-Google-Smtp-Source: AMrXdXsBytjhLZWs4x8v2DyBBkxP6etAA7zXggbAgPbplpRiy/tGRvWhF4zzKk2yBTSh1IGrY/vZeg==
+X-Received: by 2002:a05:600c:500e:b0:3cf:88c3:d008 with SMTP id n14-20020a05600c500e00b003cf88c3d008mr4419819wmr.28.1671627298046;
+        Wed, 21 Dec 2022 04:54:58 -0800 (PST)
+Received: from Ansuel-xps. (host-82-55-238-56.retail.telecomitalia.it. [82.55.238.56])
+        by smtp.gmail.com with ESMTPSA id 21-20020a05600c021500b003cf37c5ddc0sm2111276wmi.22.2022.12.21.04.54.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Dec 2022 04:50:19 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 21 Dec 2022 13:50:03 +0100
-Subject: [PATCH v4 3/3] kexec: Introduce sysctl parameters kexec_load_limit_*
+        Wed, 21 Dec 2022 04:54:57 -0800 (PST)
+Message-ID: <63a30221.050a0220.16e5f.653a@mx.google.com>
+X-Google-Original-Message-ID: <Y6MCHwWMABd0yUyG@Ansuel-xps.>
+Date:   Wed, 21 Dec 2022 13:54:55 +0100
+From:   Christian Marangi <ansuelsmth@gmail.com>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Rob Herring <robh@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Subject: Re: [PATCH v7 11/11] dt-bindings: net: dsa: qca8k: add LEDs
+ definition example
+References: <20221214235438.30271-1-ansuelsmth@gmail.com>
+ <20221214235438.30271-12-ansuelsmth@gmail.com>
+ <20221220173958.GA784285-robh@kernel.org>
+ <Y6JDOFmcEQ3FjFKq@lunn.ch>
+ <Y6JkXnp0/lF4p0N1@lunn.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20221114-disable-kexec-reset-v4-3-ab809c8d988c@chromium.org>
-References: <20221114-disable-kexec-reset-v4-0-ab809c8d988c@chromium.org>
-In-Reply-To: <20221114-disable-kexec-reset-v4-0-ab809c8d988c@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>, Philipp Rudo <prudo@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc:     kexec@lists.infradead.org, Ricardo Ribalda <ribalda@chromium.org>,
-        Ross Zwisler <zwisler@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7163; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=HKgbfk2XXsC7dJWJ3vDw8GvYO5iTUMrHx/g5v9F5/qk=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjowEEp60hS8E28LMGFXbn1WFwG5VJGxaNqKNdEtHF
- /FGZVS2JAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY6MBBAAKCRDRN9E+zzrEiBgvD/
- 4lyll/4tYvAwnei65g8L6jBQb8tXxk3e6u/bUNXDOj7Haf8vDdahHU+mlGE+PpOyPBNd0fGuGj95NO
- d6sAqgfWFINsn+VaqcKkVxjaxauoTEOBmijP2gLSXw9c8582/1W3GGNj35Al0Iuodxz2j3iGyWKjyT
- Z+EOPPHWLTRl7cZ2BZ3jk+3MXFX56jB1CUYfdZsv9VO0P/TZcTDcMYqj9qgNpW6Vwfh/4DFKy/9fvl
- K+k95b02TFli3A21fC1naUP4qd422sPux5aeyvnOgWFOU6+NThTvkwTOZbHGMP57H/NAYIaiGnGt01
- wzkOebsrXbxtVrQKAsfXDlCcVmPb4Xd/0ekTfYvbgpRZLwUUNiqqywGi1JCLGtwcy2Id+Oqdj33WZc
- 5dpCialG9rhSxDWOD+MmQfII/oHsQOVFn5RqM9KBQqzpBTCMnNnaXNdQ+786Ru/V1Su+nILm2hnewD
- /R+SRr5FRBfuQFXeRvR+8gXM5U8vS5zywPMFsKfPfG+8Sif+E+e7FjsMEFmjAqYINso2TW/gzus2b8
- loLzadi08rgs5Jz+F2GnykptWff4/WkgWDtXa1B3HfpyVzrpZaDWpTX7lr+J1E3ZqgufLxZxRd3r4e
- JhsrlXmriA5H/FysOlTnhQtCD5ibQAakqRd7IOwlCyYiMGLdzyHYogkucGKw==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y6JkXnp0/lF4p0N1@lunn.ch>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add two parameters to specify how many times a kexec kernel can be loaded.
+On Wed, Dec 21, 2022 at 02:41:50AM +0100, Andrew Lunn wrote:
+> > > > +                        };
+> > > > +
+> > > > +                        led@1 {
+> > > > +                            reg = <1>;
+> > > > +                            color = <LED_COLOR_ID_AMBER>;
+> > > > +                            function = LED_FUNCTION_LAN;
+> > > > +                            function-enumerator = <1>;
+> > > 
+> > > Typo? These are supposed to be unique. Can't you use 'reg' in your case?
+> > 
+> > reg in this context is the address of the PHY on the MDIO bus. This is
+> > an Ethernet switch, so has many PHYs, each with its own address.
+> 
+> Actually, i'm wrong about that. reg in this context is the LED number
+> of the PHY. Typically there are 2 or 3 LEDs per PHY.
+> 
+> There is no reason the properties need to be unique. Often the LEDs
+> have 8 or 16 functions, identical for each LED, but with different
+> reset defaults so they show different things.
+> 
 
-The sysadmin can set different limits for kexec panic and kexec reboot
-kernels.
+Are we taking about reg or function-enumerator?
 
-The value can be modified at runtime via sysctl, but only with a value
-smaller than the current one (except -1).
+For reg it's really specific to the driver... My idea was that since a
+single phy can have multiple leds attached, reg will represent the led
+number.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- Documentation/admin-guide/sysctl/kernel.rst | 18 ++++++
- include/linux/kexec.h                       |  2 +-
- kernel/kexec.c                              |  4 +-
- kernel/kexec_core.c                         | 89 ++++++++++++++++++++++++++++-
- kernel/kexec_file.c                         | 11 ++--
- 5 files changed, 116 insertions(+), 8 deletions(-)
+This is an example of the dt implemented on a real device.
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 97394bd9d065..a3922dffbd47 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -461,6 +461,24 @@ allowing a system to set up (and later use) an image without it being
- altered.
- Generally used together with the `modules_disabled`_ sysctl.
- 
-+kexec_load_limit_panic
-+======================
-+
-+This parameter specifies a limit to the number of times the syscalls
-+``kexec_load`` and ``kexec_file_load`` can be called with a crash
-+image. It can only be set with a more restrictive value than the
-+current one.
-+
-+=  =============================================================
-+-1 Unlimited calls to kexec. This is the default setting.
-+N  Number of calls left.
-+=  =============================================================
-+
-+kexec_load_limit_reboot
-+======================
-+
-+Similar functionality as ``kexec_load_limit_panic``, but for a crash
-+image.
- 
- kptr_restrict
- =============
-diff --git a/include/linux/kexec.h b/include/linux/kexec.h
-index 182e0c11b87b..791e65829f86 100644
---- a/include/linux/kexec.h
-+++ b/include/linux/kexec.h
-@@ -407,7 +407,7 @@ extern int kimage_crash_copy_vmcoreinfo(struct kimage *image);
- extern struct kimage *kexec_image;
- extern struct kimage *kexec_crash_image;
- 
--bool kexec_load_permitted(void);
-+bool kexec_load_permitted(int kexec_image_type);
- 
- #ifndef kexec_flush_icache_page
- #define kexec_flush_icache_page(page)
-diff --git a/kernel/kexec.c b/kernel/kexec.c
-index ce1bca874a8d..92d301f98776 100644
---- a/kernel/kexec.c
-+++ b/kernel/kexec.c
-@@ -190,10 +190,12 @@ static int do_kexec_load(unsigned long entry, unsigned long nr_segments,
- static inline int kexec_load_check(unsigned long nr_segments,
- 				   unsigned long flags)
- {
-+	int image_type = (flags & KEXEC_ON_CRASH) ?
-+			 KEXEC_TYPE_CRASH : KEXEC_TYPE_DEFAULT;
- 	int result;
- 
- 	/* We only trust the superuser with rebooting the system. */
--	if (!kexec_load_permitted())
-+	if (!kexec_load_permitted(image_type))
- 		return -EPERM;
- 
- 	/* Permit LSMs and IMA to fail the kexec */
-diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
-index a1efc70f4158..6131b1aee165 100644
---- a/kernel/kexec_core.c
-+++ b/kernel/kexec_core.c
-@@ -926,10 +926,64 @@ int kimage_load_segment(struct kimage *image,
- 	return result;
- }
- 
-+struct kexec_load_limit {
-+	/* Mutex protects the limit count. */
-+	struct mutex mutex;
-+	int limit;
-+};
-+
-+static struct kexec_load_limit load_limit_reboot = {
-+	.mutex = __MUTEX_INITIALIZER(load_limit_reboot.mutex),
-+	.limit = -1,
-+};
-+
-+static struct kexec_load_limit load_limit_panic = {
-+	.mutex = __MUTEX_INITIALIZER(load_limit_panic.mutex),
-+	.limit = -1,
-+};
-+
- struct kimage *kexec_image;
- struct kimage *kexec_crash_image;
- static int kexec_load_disabled;
-+
- #ifdef CONFIG_SYSCTL
-+static int kexec_limit_handler(struct ctl_table *table, int write,
-+			       void *buffer, size_t *lenp, loff_t *ppos)
-+{
-+	struct kexec_load_limit *limit = table->data;
-+	int val;
-+	struct ctl_table tmp = {
-+		.data = &val,
-+		.maxlen = sizeof(val),
-+		.mode = table->mode,
-+	};
-+	int ret;
-+
-+	if (write) {
-+		ret = proc_dointvec(&tmp, write, buffer, lenp, ppos);
-+		if (ret)
-+			return ret;
-+
-+		if (val < 0)
-+			return -EINVAL;
-+
-+		mutex_lock(&limit->mutex);
-+		if (limit->limit != -1 && val >= limit->limit)
-+			ret = -EINVAL;
-+		else
-+			limit->limit = val;
-+		mutex_unlock(&limit->mutex);
-+
-+		return ret;
-+	}
-+
-+	mutex_lock(&limit->mutex);
-+	val = limit->limit;
-+	mutex_unlock(&limit->mutex);
-+
-+	return proc_dointvec(&tmp, write, buffer, lenp, ppos);
-+}
-+
- static struct ctl_table kexec_core_sysctls[] = {
- 	{
- 		.procname	= "kexec_load_disabled",
-@@ -941,6 +995,20 @@ static struct ctl_table kexec_core_sysctls[] = {
- 		.extra1		= SYSCTL_ONE,
- 		.extra2		= SYSCTL_ONE,
- 	},
-+	{
-+		.procname	= "kexec_load_limit_panic",
-+		.data		= &load_limit_panic,
-+		.maxlen		= sizeof(load_limit_panic),
-+		.mode		= 0644,
-+		.proc_handler	= kexec_limit_handler,
-+	},
-+	{
-+		.procname	= "kexec_load_limit_reboot",
-+		.data		= &load_limit_reboot,
-+		.maxlen		= sizeof(load_limit_reboot),
-+		.mode		= 0644,
-+		.proc_handler	= kexec_limit_handler,
-+	},
- 	{ }
- };
- 
-@@ -952,13 +1020,30 @@ static int __init kexec_core_sysctl_init(void)
- late_initcall(kexec_core_sysctl_init);
- #endif
- 
--bool kexec_load_permitted(void)
-+bool kexec_load_permitted(int kexec_image_type)
- {
-+	struct kexec_load_limit *limit;
-+
- 	/*
- 	 * Only the superuser can use the kexec syscall and if it has not
- 	 * been disabled.
- 	 */
--	return capable(CAP_SYS_BOOT) && !kexec_load_disabled;
-+	if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
-+		return false;
-+
-+	/* Check limit counter and decrease it.*/
-+	limit = (kexec_image_type == KEXEC_TYPE_CRASH) ?
-+		&load_limit_panic : &load_limit_reboot;
-+	mutex_lock(&limit->mutex);
-+	if (!limit->limit) {
-+		mutex_unlock(&limit->mutex);
-+		return false;
-+	}
-+	if (limit->limit != -1)
-+		limit->limit--;
-+	mutex_unlock(&limit->mutex);
-+
-+	return true;
- }
- 
- /*
-diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
-index 29efa43ea951..da9cfbbb0cbd 100644
---- a/kernel/kexec_file.c
-+++ b/kernel/kexec_file.c
-@@ -326,11 +326,13 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
- 		unsigned long, cmdline_len, const char __user *, cmdline_ptr,
- 		unsigned long, flags)
- {
--	int ret = 0, i;
-+	int image_type = (flags & KEXEC_FILE_ON_CRASH) ?
-+			 KEXEC_TYPE_CRASH : KEXEC_TYPE_DEFAULT;
- 	struct kimage **dest_image, *image;
-+	int ret = 0, i;
- 
- 	/* We only trust the superuser with rebooting the system. */
--	if (!kexec_load_permitted())
-+	if (!kexec_load_permitted(flags & KEXEC_FILE_ON_CRASH))
- 		return -EPERM;
- 
- 	/* Make sure we have a legal set of flags */
-@@ -342,11 +344,12 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
- 	if (!kexec_trylock())
- 		return -EBUSY;
- 
--	dest_image = &kexec_image;
--	if (flags & KEXEC_FILE_ON_CRASH) {
-+	if (image_type == KEXEC_TYPE_CRASH) {
- 		dest_image = &kexec_crash_image;
- 		if (kexec_crash_image)
- 			arch_kexec_unprotect_crashkres();
-+	} else {
-+		dest_image = &kexec_image;
- 	}
- 
- 	if (flags & KEXEC_FILE_UNLOAD)
+		mdio {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			phy_port1: phy@0 {
+				reg = <0>;
+
+				leds {
+					#address-cells = <1>;
+					#size-cells = <0>;
+
+					lan1_led@0 {
+						reg = <0>;
+						color = <LED_COLOR_ID_WHITE>;
+						function = LED_FUNCTION_LAN;
+						function-enumerator = <1>;
+						linux,default-trigger = "netdev";
+					};
+
+					lan1_led@1 {
+						reg = <1>;
+						color = <LED_COLOR_ID_AMBER>;
+						function = LED_FUNCTION_LAN;
+						function-enumerator = <1>;
+						linux,default-trigger = "netdev";
+					};
+				};
+			};
+
+			phy_port2: phy@1 {
+				reg = <1>;
+
+				leds {
+					#address-cells = <1>;
+					#size-cells = <0>;
+
+
+					lan2_led@0 {
+						reg = <0>;
+						color = <LED_COLOR_ID_WHITE>;
+						function = LED_FUNCTION_LAN;
+						function-enumerator = <2>;
+						linux,default-trigger = "netdev";
+					};
+
+					lan2_led@1 {
+						reg = <1>;
+						color = <LED_COLOR_ID_AMBER>;
+						function = LED_FUNCTION_LAN;
+						function-enumerator = <2>;
+						linux,default-trigger = "netdev";
+					};
+				};
+			};
+
+			phy_port3: phy@2 {
+				reg = <2>;
+
+				leds {
+					#address-cells = <1>;
+					#size-cells = <0>;
+
+					lan3_led@0 {
+						reg = <0>;
+						color = <LED_COLOR_ID_WHITE>;
+						function = LED_FUNCTION_LAN;
+						function-enumerator = <3>;
+						linux,default-trigger = "netdev";
+					};
+
+					lan3_led@1 {
+						reg = <1>;
+						color = <LED_COLOR_ID_AMBER>;
+						function = LED_FUNCTION_LAN;
+						function-enumerator = <3>;
+						linux,default-trigger = "netdev";
+					};
+				};
+			};
+
+In the following implementation. Each port have 2 leds attached (out of
+3) one white and one amber. The driver parse the reg and calculate the
+offset to set the correct option with the regs by also checking the phy
+number.
+
+An alternative way would be set the reg to be the global led number in
+the switch and deatch the phy from the calculation.
+
+Something like
+port 0 led 0 = reg 0
+port 0 led 1 = reg 1
+port 1 led 0 = reg 2
+port 1 led 1 = reg 3
+...
+
+Using the function-enumerator can be problematic since ideally someone
+would declare a dedicated function for wan led.
+
+I'm very open to discuss and improve/fix this!
 
 -- 
-2.39.0.314.g84b9a713c41-goog-b4-0.11.0-dev-696ae
+	Ansuel
