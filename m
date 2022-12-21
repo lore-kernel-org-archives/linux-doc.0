@@ -2,213 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D065AC4167B
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 15:34:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23F4FC10F1B
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 16:52:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234869AbiLUPeh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Dec 2022 10:34:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37184 "EHLO
+        id S234636AbiLUQwJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Dec 2022 11:52:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234663AbiLUPeF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Dec 2022 10:34:05 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD5482611D;
-        Wed, 21 Dec 2022 07:29:51 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F0EEA61808;
-        Wed, 21 Dec 2022 15:29:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55D87C43392;
-        Wed, 21 Dec 2022 15:29:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671636568;
-        bh=wFkYUylJbr4FMDZjTmOjoxFQ4meaXsYE5Tb4CvtoGe0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=n3aeSl2BOQoCA/GBy2uTAGGbrl9Bk8vlvuVScyTqZUlx14P6/0HSb4EY0mBQlE/Di
-         BLxtw3Z9plP2YWp5QKfeQK0GcsI58at8PmzuGBj2h0OpkXvxhC+EwVT1KFHF6HT6qU
-         bCeR0NHzUkqzxt+TFa1qelipWE9Atn5+U5ZpZQ7lgQFvthXE8gAP6SXQWoY8EOGSHc
-         LtqIEgwBnoktw27gv8UC8h2YwSc9/blZaTdhvCYsD6X9OTyqIaQZm6/mhDpI/UORG2
-         dK2EagVkwiYPc1BYYpjJPaSLFN/MAS+9gm9DdDvmMASvTn21CoogI5gTjWkJczAnUu
-         O6YfCic3mCQvw==
-Received: by mail-vs1-f52.google.com with SMTP id i2so15075337vsc.1;
-        Wed, 21 Dec 2022 07:29:28 -0800 (PST)
-X-Gm-Message-State: AFqh2kr6afNiCzSYqG7iIAaNZc6bagek6Tf+ufrt7d/Hp+Pv4828ZV1D
-        /QYmHwS9xB+f8GahgK39EHfuOn2hcZzBbfUpDA==
-X-Google-Smtp-Source: AMrXdXsmJHoE603TUd9P+L+qPTU5ouQ1XqdRnUXlItEa+ZM/qHoda888Y6IWITfLU8au2mnVNozJJOSADJ4wqm2QVVk=
-X-Received: by 2002:a67:edd4:0:b0:3b5:1fe4:f1c2 with SMTP id
- e20-20020a67edd4000000b003b51fe4f1c2mr260718vsp.0.1671636567233; Wed, 21 Dec
- 2022 07:29:27 -0800 (PST)
+        with ESMTP id S234626AbiLUQwI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Dec 2022 11:52:08 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9716014022;
+        Wed, 21 Dec 2022 08:52:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1671641523; x=1703177523;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=S9pWCvR46VodArTH+e1JhaYdw/4YCeVczrVbUr7Q8rs=;
+  b=nLA688zAOwGnHTnllXDpUtqM3VkoQBBdYECIRuYv5XYW3MEkzVSZgRqQ
+   PUIO/eafuWiMsT7PNvH1YWQaJzqLKN4vlK/L2WmEpBiy02Gh5YzJ6r18O
+   Yzorpr+T8kIUpI9C0rbQwkqY+HdePhsH7T8NTcYiRUwIsMy05Xl3llfl/
+   e2QUoiMwL4LVuyxRQDA1gBEdrcl6VCePJYc2yhMnZmqKuoTJ7j9H1w4EE
+   m1elLgyNbrT6AAEFUBGaHnr4RQWrHOPH/0QRjpeQUOZ3pYLgg57ytJfwx
+   MjNPcf+ZA0cipJ6XXAkjIFp+sS3UijYi0drxajj16hbWtQw9se+ahJYVl
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="319970492"
+X-IronPort-AV: E=Sophos;i="5.96,263,1665471600"; 
+   d="scan'208";a="319970492"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2022 08:52:03 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="683860005"
+X-IronPort-AV: E=Sophos;i="5.96,263,1665471600"; 
+   d="scan'208";a="683860005"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2022 08:52:02 -0800
+Date:   Wed, 21 Dec 2022 08:52:22 -0800 (PST)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com, bagasdotme@gmail.com
+Subject: Re: [PATCH v7 1/4] Documentation: fpga: dfl: Add documentation for
+ DFHv1
+In-Reply-To: <Y6Hop0WhtOWRWg3t@smile.fi.intel.com>
+Message-ID: <alpine.DEB.2.22.394.2212210850250.570436@rhweight-WRK1>
+References: <20221220163652.499831-1-matthew.gerlach@linux.intel.com> <20221220163652.499831-2-matthew.gerlach@linux.intel.com> <Y6Hop0WhtOWRWg3t@smile.fi.intel.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-References: <20221214235438.30271-1-ansuelsmth@gmail.com> <20221214235438.30271-12-ansuelsmth@gmail.com>
- <20221220173958.GA784285-robh@kernel.org> <Y6JDOFmcEQ3FjFKq@lunn.ch>
- <Y6JkXnp0/lF4p0N1@lunn.ch> <63a30221.050a0220.16e5f.653a@mx.google.com>
-In-Reply-To: <63a30221.050a0220.16e5f.653a@mx.google.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 21 Dec 2022 09:29:15 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLOvCJ_aHk4jSp64u1LbGyoeTjY_vRgVkvvVNCOp=3NmA@mail.gmail.com>
-Message-ID: <CAL_JsqLOvCJ_aHk4jSp64u1LbGyoeTjY_vRgVkvvVNCOp=3NmA@mail.gmail.com>
-Subject: Re: [PATCH v7 11/11] dt-bindings: net: dsa: qca8k: add LEDs
- definition example
-To:     Christian Marangi <ansuelsmth@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        Tim Harvey <tharvey@gateworks.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 21, 2022 at 6:55 AM Christian Marangi <ansuelsmth@gmail.com> wrote:
->
-> On Wed, Dec 21, 2022 at 02:41:50AM +0100, Andrew Lunn wrote:
-> > > > > +                        };
-> > > > > +
-> > > > > +                        led@1 {
-> > > > > +                            reg = <1>;
-> > > > > +                            color = <LED_COLOR_ID_AMBER>;
-> > > > > +                            function = LED_FUNCTION_LAN;
-> > > > > +                            function-enumerator = <1>;
-> > > >
-> > > > Typo? These are supposed to be unique. Can't you use 'reg' in your case?
-> > >
-> > > reg in this context is the address of the PHY on the MDIO bus. This is
-> > > an Ethernet switch, so has many PHYs, each with its own address.
-> >
-> > Actually, i'm wrong about that. reg in this context is the LED number
-> > of the PHY. Typically there are 2 or 3 LEDs per PHY.
-> >
-> > There is no reason the properties need to be unique. Often the LEDs
-> > have 8 or 16 functions, identical for each LED, but with different
-> > reset defaults so they show different things.
-> >
->
-> Are we taking about reg or function-enumerator?
->
-> For reg it's really specific to the driver... My idea was that since a
-> single phy can have multiple leds attached, reg will represent the led
-> number.
->
-> This is an example of the dt implemented on a real device.
->
->                 mdio {
->                         #address-cells = <1>;
->                         #size-cells = <0>;
->
->                         phy_port1: phy@0 {
->                                 reg = <0>;
->
->                                 leds {
->                                         #address-cells = <1>;
->                                         #size-cells = <0>;
->
->                                         lan1_led@0 {
->                                                 reg = <0>;
->                                                 color = <LED_COLOR_ID_WHITE>;
->                                                 function = LED_FUNCTION_LAN;
->                                                 function-enumerator = <1>;
->                                                 linux,default-trigger = "netdev";
->                                         };
->
->                                         lan1_led@1 {
->                                                 reg = <1>;
->                                                 color = <LED_COLOR_ID_AMBER>;
->                                                 function = LED_FUNCTION_LAN;
->                                                 function-enumerator = <1>;
->                                                 linux,default-trigger = "netdev";
->                                         };
->                                 };
->                         };
->
->                         phy_port2: phy@1 {
->                                 reg = <1>;
->
->                                 leds {
->                                         #address-cells = <1>;
->                                         #size-cells = <0>;
->
->
->                                         lan2_led@0 {
->                                                 reg = <0>;
->                                                 color = <LED_COLOR_ID_WHITE>;
->                                                 function = LED_FUNCTION_LAN;
->                                                 function-enumerator = <2>;
->                                                 linux,default-trigger = "netdev";
->                                         };
->
->                                         lan2_led@1 {
->                                                 reg = <1>;
->                                                 color = <LED_COLOR_ID_AMBER>;
->                                                 function = LED_FUNCTION_LAN;
->                                                 function-enumerator = <2>;
->                                                 linux,default-trigger = "netdev";
->                                         };
->                                 };
->                         };
->
->                         phy_port3: phy@2 {
->                                 reg = <2>;
->
->                                 leds {
->                                         #address-cells = <1>;
->                                         #size-cells = <0>;
->
->                                         lan3_led@0 {
->                                                 reg = <0>;
->                                                 color = <LED_COLOR_ID_WHITE>;
->                                                 function = LED_FUNCTION_LAN;
->                                                 function-enumerator = <3>;
->                                                 linux,default-trigger = "netdev";
->                                         };
->
->                                         lan3_led@1 {
->                                                 reg = <1>;
->                                                 color = <LED_COLOR_ID_AMBER>;
->                                                 function = LED_FUNCTION_LAN;
->                                                 function-enumerator = <3>;
->                                                 linux,default-trigger = "netdev";
->                                         };
->                                 };
->                         };
->
-> In the following implementation. Each port have 2 leds attached (out of
-> 3) one white and one amber. The driver parse the reg and calculate the
-> offset to set the correct option with the regs by also checking the phy
-> number.
 
-Okay, the full example makes more sense. But I still thought
-'function-enumerator' values should be globally unique within a value
-of 'function'. Maybe Jacek has an opinion on this?
 
-You are using it to distinguish phys/ports, but there's already enough
-information in the DT to do that. You have the parent nodes and I
-assume you have port numbers under 'ethernet-ports'. For each port,
-get the phy node and then get the LEDs.
+On Tue, 20 Dec 2022, Andy Shevchenko wrote:
 
-> An alternative way would be set the reg to be the global led number in
-> the switch and deatch the phy from the calculation.
+> On Tue, Dec 20, 2022 at 08:36:49AM -0800, matthew.gerlach@linux.intel.com wrote:
+>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>
+>> Add documentation describing the extensions provided by Version
+>> 1 of the Device Feature Header (DFHv1).
 >
-> Something like
-> port 0 led 0 = reg 0
-> port 0 led 1 = reg 1
-> port 1 led 0 = reg 2
-> port 1 led 1 = reg 3
 > ...
+>
+>> +Device Feature Header - Version 0
+>> +===========================================
+>
+> Shouldn't this be the same length as the title itself?
+> Have you run make htmldocs and kernel doc validator on
+> this file after your change? Also you can use rst2pdf
+> to see PDF rendering.
 
-No.
+Yes, it should be the same as the title itself.  I will change it 
+accordingly.  I ran "make htmldocs" and rst2pdf, and resulting html and 
+pdf looked fine.
 
-Rob
+Thanks for the review,
+Matthew Gerlach
+
+>
+> Same to the other title.
+>
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+>
+>
+>
