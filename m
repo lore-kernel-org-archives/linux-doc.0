@@ -2,79 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C554C3DA79
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 00:00:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEB6CC4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Dec 2022 00:00:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234180AbiLUAAM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Dec 2022 19:00:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43854 "EHLO
+        id S234309AbiLUAAY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Dec 2022 19:00:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230164AbiLUAAL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 19:00:11 -0500
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E1871EAE9;
-        Tue, 20 Dec 2022 16:00:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=ZWey8MiaU6pEkm7hu7YYoSQxra2dhDL6Zkj1bzILagQ=; b=O0UxIqJ60w5HMEjz8xkTqvGuen
-        ZgvW+OioAEwwWSbYrTEfGTQRzaFDdeO0WbMpEEPoPuD2Y5FBrYlc21IhfXUQ4dBrNC8nYfyHPiJua
-        xdY0TG+CO5BLg1g89/zHyL4npN7OEFeEVujsCK6lHvtFUPQTJ6xU/FZa8xz30QOX1Y8w=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1p7mWZ-0008IM-MY; Wed, 21 Dec 2022 00:59:55 +0100
-Date:   Wed, 21 Dec 2022 00:59:55 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        Tim Harvey <tharvey@gateworks.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Subject: Re: [PATCH v7 06/11] leds: trigger: netdev: add hardware control
- support
-Message-ID: <Y6JMe9oJDCyLkq7P@lunn.ch>
-References: <20221214235438.30271-1-ansuelsmth@gmail.com>
- <20221214235438.30271-7-ansuelsmth@gmail.com>
- <Y5tUU5zA/lkYJza+@shell.armlinux.org.uk>
- <639ca665.1c0a0220.ae24f.9d06@mx.google.com>
+        with ESMTP id S234274AbiLUAAT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Dec 2022 19:00:19 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5F06201AA;
+        Tue, 20 Dec 2022 16:00:17 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 60C356162C;
+        Wed, 21 Dec 2022 00:00:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C262CC433F1;
+        Wed, 21 Dec 2022 00:00:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1671580816;
+        bh=qQ4IcbVLw5s4Oqm5OaatPo8clNjq2F9Y1dV/ChuZegk=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=eU8aUDPmBCeo/OkQG9Rl9bCuZSmUGCjSfh5G9ZQ/5x0HA3tHLr85ssbw8ffXiQAEs
+         H5rjCroebOsQK1LeCRVgs6BL4vIL71h+4aZ6z90iktQU+fCnhr9jLPwY03gtrmnQqM
+         iubWMGGPxKlID3IJIYUIdHLz/mffNQN72dEga/n41HM1VFvWR/+8iAryDKApkQYlCD
+         rlRrOmFcUnnLHy7bN8zpSWBgkSzRaUHgtletI/7DDuiwXYzqpPMXwfySoDFLv3RfIL
+         jT1z2tE4mnFEqFY6V+ZmtBgWaYXuQpjevRGHhvjqqc7rBxYb3JT0rc/89JSGY5+uEk
+         pxDrJvVq9U0lw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A4365C43159;
+        Wed, 21 Dec 2022 00:00:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <639ca665.1c0a0220.ae24f.9d06@mx.google.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH bpf-next v6 1/1] docs: BPF_MAP_TYPE_SOCK[MAP|HASH]
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <167158081666.32440.14232598328127480222.git-patchwork-notify@kernel.org>
+Date:   Wed, 21 Dec 2022 00:00:16 +0000
+References: <20221219095512.26534-1-mtahhan@redhat.com>
+In-Reply-To: <20221219095512.26534-1-mtahhan@redhat.com>
+To:     Maryam Tahhan <mtahhan@redhat.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, jbrouer@redhat.com,
+        thoiland@redhat.com, donhunte@redhat.com, dthaler@microsoft.com,
+        bagasdotme@gmail.com, john.fastabend@gmail.com, void@manifault.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > One thought on this approach though - if one has a PHY that supports
-> > "activity" but not independent "rx" and "tx" activity indications
-> > and it doesn't support software control, how would one enable activity
-> > mode? There isn't a way to simultaneously enable both at the same
-> > time... However, I need to check whether there are any PHYs that fall
-> > into this category.
-> >
+Hello:
+
+This patch was applied to bpf/bpf-next.git (master)
+by Andrii Nakryiko <andrii@kernel.org>:
+
+On Mon, 19 Dec 2022 09:55:12 +0000 you wrote:
+> From: Maryam Tahhan <mtahhan@redhat.com>
 > 
-> Problem is that for such feature and to have at least something working
-> we need to face compromise. We really can't support each switch feature
-> and have a generic API for everything.
+> Add documentation for BPF_MAP_TYPE_SOCK[MAP|HASH]
+> including kernel versions introduced, usage
+> and examples.
+> 
+> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Acked-by: John Fastabend <john.fastabend@gmail.com>
+> Acked-by: David Vernet <void@manifault.com>
+> 
+> [...]
 
-I agree we need to make compromises. We cannot support every LED
-feature of every PHY, they are simply too diverse. Hopefully we can
-support some features of every PHY. In the worst case, a PHY simply
-cannot be controlled via this method, which is the current state
-today. So it is not worse off.
+Here is the summary with links:
+  - [bpf-next,v6,1/1] docs: BPF_MAP_TYPE_SOCK[MAP|HASH]
+    https://git.kernel.org/bpf/bpf-next/c/cafb92d719e8
 
-       Andrew
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
