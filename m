@@ -2,103 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F799C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 08:46:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F181C001B2
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 09:17:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235086AbiLVIqb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Dec 2022 03:46:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60916 "EHLO
+        id S229608AbiLVJRJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Dec 2022 04:17:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235056AbiLVIqa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 03:46:30 -0500
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9262B656B;
-        Thu, 22 Dec 2022 00:46:29 -0800 (PST)
-Received: from dggpeml500002.china.huawei.com (unknown [172.30.72.54])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Nd3mH1yKpz16Llj;
-        Thu, 22 Dec 2022 16:45:19 +0800 (CST)
-Received: from [10.67.103.44] (10.67.103.44) by dggpeml500002.china.huawei.com
- (7.185.36.158) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 22 Dec
- 2022 16:46:27 +0800
-Subject: Re: [PATCH v15 2/2] Documentation: Add document for UltraSoc SMB
- driver
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        <mathieu.poirier@linaro.org>, <mike.leach@linaro.org>,
-        <leo.yan@linaro.org>, <jonathan.cameron@huawei.com>
-References: <20221220092945.30722-1-hejunhao3@huawei.com>
- <20221220092945.30722-3-hejunhao3@huawei.com>
- <a44a57c7-0ac9-bd5d-4c92-225ff9a6c361@arm.com>
-CC:     <coresight@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <lpieralisi@kernel.org>,
-        <linuxarm@huawei.com>, <yangyicong@huawei.com>,
-        <liuqi6124@gmail.com>, <f.fangjian@huawei.com>,
-        <shenyang39@huawei.com>, <prime.zeng@hisilicon.com>
-From:   hejunhao <hejunhao3@huawei.com>
-Message-ID: <73126d18-b66f-2894-0b95-02626a368969@huawei.com>
-Date:   Thu, 22 Dec 2022 16:46:27 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        with ESMTP id S235003AbiLVJRG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 04:17:06 -0500
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23F5C20F45
+        for <linux-doc@vger.kernel.org>; Thu, 22 Dec 2022 01:17:05 -0800 (PST)
+Received: by mail-ej1-x62b.google.com with SMTP id u19so3434120ejm.8
+        for <linux-doc@vger.kernel.org>; Thu, 22 Dec 2022 01:17:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PWgdTaVoa5qu+SyKBPOqpyG8l+WOI84pd0n3Dy38GcU=;
+        b=U0oIHqjyc/QAR8FDSw9DidXPhhKEKPzFBYt9+d2EmqwGfptBLDtVhcIOndYbHCbvJ8
+         2t5WJcvI4GzXA0qeCRSAj7FGJM7+iLIQ6YsL1Xmbw2tnWTd9xRenq33ync9u+OWSGLum
+         /nHT+Dwx4i3YIz3FRW87xA79vqXhvpxGeDklfoFhbMnbkmZ8XwpKTZcMhPbNNC4a0hnq
+         QPOucczRbQSBKzg2Znj/63d2CKwaFjI7d9hw31bTonYWWV6VDHVU/X8lhgD+aJAjHkFe
+         1WMYQd08j3QEkVta80CONk+JpqomQ5pLfqytUlQzrNtZDgG5xJjp1+cRFVXlUkolBkPC
+         VktQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PWgdTaVoa5qu+SyKBPOqpyG8l+WOI84pd0n3Dy38GcU=;
+        b=NU+mrEI7wZUpqzYeWZgXrgnoJEfTJHncP2BHWQgEniwMA5Licf4PYwvNqwKtH39V80
+         hyyWojyARI8GKhWAyJlPrpWwKmDKreE0l8bTnr55EdxTaKjL0CU0AFhEmsB/nX+/Qzis
+         KkgyCzUQ1B9qWvAoUyrtZ7eZRGM7GJSjqaf/wRMb7iJjfyiZ1Bh4LYAuzcuuOAZEw+3t
+         O01F9Yf+F7sZo6vpluizEXvIL62LjotzxgkdgAhjxxXyrdTAdAVWd7CvHxDYHB5uluyJ
+         DlCQfz8yaeWqOvwZv6WrWN8MVb3kF+18tyfDF4mPi/KuGm7Xsk4+agZChTdmqn+n4ro9
+         USiw==
+X-Gm-Message-State: AFqh2ko2e7plZwagbTGuIqIdAqy45vAjpFqvgWGKw6ZzkrBm20kGlhv0
+        4Yxk7AV0pypZDreaLFr3fUxpVQ==
+X-Google-Smtp-Source: AMrXdXuAhZXJjeqFNgfF9FOIJBrdld+yAZuaSog/qvpLdb2c0jE829UuVB5H8G9GoA2gjp4kzvfJhQ==
+X-Received: by 2002:a17:907:6e16:b0:7c0:9f6f:6d8 with SMTP id sd22-20020a1709076e1600b007c09f6f06d8mr5040158ejc.2.1671700623648;
+        Thu, 22 Dec 2022 01:17:03 -0800 (PST)
+Received: from alba.. ([82.77.81.131])
+        by smtp.gmail.com with ESMTPSA id a12-20020a17090682cc00b007c6be268252sm29072ejy.77.2022.12.22.01.17.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Dec 2022 01:17:03 -0800 (PST)
+From:   Tudor Ambarus <tudor.ambarus@linaro.org>
+To:     gregkh@linuxfoundation.org, sashal@kernel.org, corbet@lwn.net
+Cc:     stable@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, joneslee@google.com,
+        Tudor Ambarus <tudor.ambarus@linaro.org>
+Subject: [PATCH] Documentation: stable: Add rule on what kind of patches are accepted
+Date:   Thu, 22 Dec 2022 11:16:58 +0200
+Message-Id: <20221222091658.1975240-1-tudor.ambarus@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <a44a57c7-0ac9-bd5d-4c92-225ff9a6c361@arm.com>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.103.44]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpeml500002.china.huawei.com (7.185.36.158)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The list of rules on what kind of patches are accepted, and which ones
+are not into the “-stable” tree, did not mention anything about new
+features and let the reader use its own judgement. One may be under the
+impression that new features are not accepted at all, but that's not true:
+new features are not accepted unless they fix a reported problem.
+Update documentation with missing rule.
 
-On 2022/12/21 18:21, Suzuki K Poulose wrote:
-> On 20/12/2022 09:29, Junhao He wrote:
->> From: Qi Liu <liuqi115@huawei.com>
->>
->> Bring in documentation for UltraSoc SMB driver.
->> It simply describes the device, sysfs interface and the
->> firmware bindings.
->>
->> Signed-off-by: Qi Liu <liuqi115@huawei.com>
->> Signed-off-by: Junhao He <hejunhao3@huawei.com>
->> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->> ---
->>   .../sysfs-bus-coresight-devices-ultra_smb     | 31 +++++++
->>   .../trace/coresight/ultrasoc-smb.rst          | 83 +++++++++++++++++++
->>   2 files changed, 114 insertions(+)
->>   create mode 100644 
->> Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
->>   create mode 100644 Documentation/trace/coresight/ultrasoc-smb.rst
->>
->> diff --git 
->> a/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb 
->> b/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
->> new file mode 100644
->> index 000000000000..f6526882c627
->> --- /dev/null
->> +++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
->> @@ -0,0 +1,31 @@
->> +What: /sys/bus/coresight/devices/ultra_smb<N>/enable_sink
->> +Date:        December 2022
->> +KernelVersion:    6.2
->
-> This is not going in for 6.2. This must be 6.3 now and everywhere
-> below.
->
-> Thanks
-> Suzuki
->
-OK, Will fix in next version.
+Link: https://lore.kernel.org/lkml/fc60e8da-1187-ca2b-1aa8-28e01ea2769a@linaro.org/T/#mff820d23793baf637a1b39f5dfbcd9d4d0f0c3a6
+Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+---
+ Documentation/process/stable-kernel-rules.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks
-Junhao.
->
-> _______________________________________________
-> CoreSight mailing list -- coresight@lists.linaro.org
-> To unsubscribe send an email to coresight-leave@lists.linaro.org
->
-> .
->
+diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+index 2fd8aa593a28..266290fab1d9 100644
+--- a/Documentation/process/stable-kernel-rules.rst
++++ b/Documentation/process/stable-kernel-rules.rst
+@@ -22,6 +22,7 @@ Rules on what kind of patches are accepted, and which ones are not, into the
+    maintainer and include an addendum linking to a bugzilla entry if it
+    exists and additional information on the user-visible impact.
+  - New device IDs and quirks are also accepted.
++ - New features are not accepted unless they fix a reported problem.
+  - No "theoretical race condition" issues, unless an explanation of how the
+    race can be exploited is also provided.
+  - It cannot contain any "trivial" fixes in it (spelling changes,
+-- 
+2.34.1
 
