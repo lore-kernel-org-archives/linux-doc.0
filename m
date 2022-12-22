@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15EF4C4167B
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 23:31:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2AC2C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 23:31:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235227AbiLVXbl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Dec 2022 18:31:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58806 "EHLO
+        id S230063AbiLVXbz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Dec 2022 18:31:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231233AbiLVXbl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 18:31:41 -0500
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2076.outbound.protection.outlook.com [40.107.212.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D35573AD;
-        Thu, 22 Dec 2022 15:31:39 -0800 (PST)
+        with ESMTP id S235442AbiLVXbp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 18:31:45 -0500
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2067.outbound.protection.outlook.com [40.107.93.67])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 057AAF598;
+        Thu, 22 Dec 2022 15:31:45 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FSuMxC2RL5NL77uvsoNl0rQNxQSx+6fOrNA3J4ofvRrxaHZzT0JeTf9mh7KEnGWEOoNqC4hl+JeMkrShx3glQqZYl4mlytny0Xh3eLZxH+bTt5TO54RKOjBjkYdYWs9oyYZEWX4wslbo14vtcGtrIJlUMW3lH61u2XMBW4Fqre6Dto5sjfO9Jqcy3Z/CfOM/X4KhQNLapeo+pBiqxgQ6cW7U9fP2YS5hNHGrROvteVHxStv8uxPLOtXuztuSJ4v6uhCBYUS6fIOpGE/N1K2yldrb6dS9K2zsAyP5aMqqJWOcinMNGMh6smGJnIywHteRlmBwrSj26iv8irmOEb1vEg==
+ b=R53UAYdeH3h+J5oUkYGhfb3U2xbCnUmZnlo4nLelLhQuIkQ8WjbrGLcbSOLSXJDibv45PPLFDLEE7dWxrqHPmK3T58v2l3C0RuK0Ek7sC9PdQEeR04BqSDXRsMbsry2hHXifzJcnnaAgkQpCfz+Ch9MB+u+6aFekc5EtE4DPefAcwtNqiwR7b6jPqFgZa8G8bBKP775oC91M2yvxTMkGHC37C77psJuOn9VBm7fzIgiADC9+ysPfjo9Z3kZzQPc5q814oZ3Ve3WCEnidfsuBB7xVC0vUYnfi9UnUs1/F+tAoIB839NGtsiiHM8iHB+Ev59Ijhzoes4SfCkivkUTitA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BndlPIIiJPlr/hda6D6rK6HZPNq2hN+cAU2cFMRHg0g=;
- b=P199zWRcFM1/pw4lBtDVJ7mHzRAB4wxd2o7PfHg064TcXfhLcaovim6xBfciRhqjQ5DSZzF2MYV/7BPpN1GPUH9t4pRQaFXdFDNHv9YIbSia0Jsvi5Qxio1s4RlUEfBiZMTN7A7sUQ+kQ93NLd8MRxiOqfLms3pooSnAoSzv1nX2YcO1tfV3nRTt/2hnkhE2QwABMnLPnsSmIA6SITUWkp2Az3juD/X3StxFD7pU2zu3xwSWCzTK3+47qiV0hybjb7CF5hABzFhr1zDI+vhSe1Mo9a8XCdH/gGoo4GWrsogb0se8VDUn9eV1By8P7dyglfdngVoRT8n7j714LRraIA==
+ bh=1F1GLlMLfSr5l7CElB+d0nCVkbg0nKh2QbK6amZ2zIc=;
+ b=ggxRoCxbZhR63FoLUt7LcM+LIxTFSEuCkB0XLzxFtSg0IAD5Bnp8TFwnvFo8W50OUZP1BmO7hqlXShXznC5XkTnD7ynyvuZ7LK0s0rGQZ0mleubA3wDOTgtf7YWv7N7BtA0RE6LzljJMX6kHC5DfxgqRmtRY1ms0o2wBNjm4N1MNWhdNAdCJpQhYT4YNju93D9fOYXgsVHnkcDlVMVZaSBgnWr0rUyaAe4lrljM5haE2rgF4lafgRFQzazpXg1Goog6zTwUkUpoBommdVgBzSXW1JIjZNbNEUNZhAPUCjl/L7bf48Ctl/MqhTUEqD0rI8KEZGuhKtJtzoT9XmvOoNA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BndlPIIiJPlr/hda6D6rK6HZPNq2hN+cAU2cFMRHg0g=;
- b=JVMcuurHoKn5CmX92kC+QhGaFy13cbeu8nF58iFCMwBwtGHoaDxZIAuQe6aco8Pb8HpKltQZ2ucziKTjc3gKYxgn4DyKc/PYxQvofPT5IZR8AsN7YQmUE2ml7qg7wJHZtDJtvQD9Lfx5Mt5K9KGtl0nXnjuicfZVUJvZgae+Lq4=
-Received: from CY5PR19CA0118.namprd19.prod.outlook.com (2603:10b6:930:64::22)
- by BN9PR12MB5163.namprd12.prod.outlook.com (2603:10b6:408:11c::7) with
+ bh=1F1GLlMLfSr5l7CElB+d0nCVkbg0nKh2QbK6amZ2zIc=;
+ b=MsddbRbOjSyW80XoM1JxGwyR6PbnPeeW2wbEYAGGHwI3uQoENBIDLMChPsApcsVGxpXRJjHVabKQAVOWQufLUkCpVV/CbQa37EYPbKjwbA8IsgG46kySGBB9E+4JF7DsRQpOB2+XaoSVVtxmyGSYUbzlKxOwOmz33I4laM0Id44=
+Received: from CY5PR22CA0060.namprd22.prod.outlook.com (2603:10b6:930:1d::23)
+ by SN7PR12MB7130.namprd12.prod.outlook.com (2603:10b6:806:2a2::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.15; Thu, 22 Dec
- 2022 23:31:37 +0000
-Received: from CY4PEPF0000C977.namprd02.prod.outlook.com
- (2603:10b6:930:64:cafe::ea) by CY5PR19CA0118.outlook.office365.com
- (2603:10b6:930:64::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.21 via Frontend
- Transport; Thu, 22 Dec 2022 23:31:37 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Thu, 22 Dec
+ 2022 23:31:42 +0000
+Received: from CY4PEPF0000C97C.namprd02.prod.outlook.com
+ (2603:10b6:930:1d:cafe::ad) by CY5PR22CA0060.outlook.office365.com
+ (2603:10b6:930:1d::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.13 via Frontend
+ Transport; Thu, 22 Dec 2022 23:31:42 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -46,13 +46,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000C977.mail.protection.outlook.com (10.167.241.133) with Microsoft
+ CY4PEPF0000C97C.mail.protection.outlook.com (10.167.241.135) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5944.8 via Frontend Transport; Thu, 22 Dec 2022 23:31:37 +0000
+ 15.20.5944.8 via Frontend Transport; Thu, 22 Dec 2022 23:31:42 +0000
 Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 22 Dec
- 2022 17:31:35 -0600
+ 2022 17:31:38 -0600
 From:   Babu Moger <babu.moger@amd.com>
 To:     <corbet@lwn.net>, <reinette.chatre@intel.com>,
         <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
@@ -70,9 +70,9 @@ CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
         <eranian@google.com>, <christophe.leroy@csgroup.eu>,
         <jarkko@kernel.org>, <adrian.hunter@intel.com>,
         <quic_jiles@quicinc.com>, <peternewman@google.com>
-Subject: [PATCH v10 01/13] x86/resctrl: Replace smp_call_function_many() with on_each_cpu_mask()
-Date:   Thu, 22 Dec 2022 17:31:15 -0600
-Message-ID: <20221222233127.910538-2-babu.moger@amd.com>
+Subject: [PATCH v10 03/13] x86/resctrl: Add a new resource type RDT_RESOURCE_SMBA
+Date:   Thu, 22 Dec 2022 17:31:17 -0600
+Message-ID: <20221222233127.910538-4-babu.moger@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221222233127.910538-1-babu.moger@amd.com>
 References: <20221222233127.910538-1-babu.moger@amd.com>
@@ -84,129 +84,78 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000C977:EE_|BN9PR12MB5163:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2dd387b1-5f80-4476-7634-08dae474abb9
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000C97C:EE_|SN7PR12MB7130:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6a9d0f3a-9727-4a3c-1f72-08dae474aed1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nJsTki0WADw85wBQmFeGJ4CRWS5l169OSAialcA1FfQebjDw9U66jYmQ2FnYJEA9ZWiq0a4q8pVhKWyJ5D6ZgK1hp2t9MCE337unBH8lRddVFCftfYOSj5feChUTK9UFjZT4w+pDDy+IUjVonSv7Dj36gLPWw4mBE1Y3/JykZWhU+85IH0n8Y6DkIon3FPem+jPmF/xoPcRo916t1jz7qt1EllAj/ogHk+THgx0w5jiUlLJHUWMEacDE+h8PWqOq3xrXGa2EgGjsc6bQDj6+ZeWngI7mEarEIsqUuoEkKoU9iLHT27p6VE5p8DKkCwYAAMoh9Dk8WTA8v3+H3BsYn/gq223sCrKPJFoiUvCRzebMK+fQ0fk4CQzllNp3mPVgigkSLbRLfZtu+iOktkqjvftJOg78vCRiBUxNRKYKh/bonOSiayey3T0w13fBU/ntYutl/VXFpyh5+5opZMCxHpfOZHNsXpNfmufP5niDL/p38OASencZVBIWS4LW8lqs8Ig5I/H1m6AOkGHJ+mOTm/ZPSG8XW+mFIRBDfpGKj5vm4nD28aAGoU3zrQxVz+0P3n8rDWxkit2CxY4IrgJEhAzN2cbDo8/cZXvCHeVSkFmlMCQqWNimVy0Sta1ykNNM1O7/fbn3tR8SsEdbRV0f68KXU3kpNxNdBuu3PBaV7qx9tOGl7DoSWuxa2lHv0Dk3xbhLZc3uT1fHaBPbr35cWQfDsWtFQfCwFxFFSVpG2LU=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(396003)(136003)(376002)(451199015)(40470700004)(36840700001)(46966006)(2906002)(44832011)(7406005)(7416002)(5660300002)(110136005)(36860700001)(8676002)(8936002)(70206006)(70586007)(6666004)(4326008)(316002)(41300700001)(1076003)(36756003)(47076005)(40460700003)(26005)(16526019)(54906003)(82310400005)(7696005)(186003)(2616005)(86362001)(356005)(336012)(83380400001)(40480700001)(478600001)(426003)(81166007)(82740400003)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: ngIBcTJdrl2ZRV6KdixoSZD2klkqQ6qIcNd7nPKpaXYtJrOaJAvdEe61yBs2onMJxSphUVFbpJLhOYzCKkN8inOzvbJFxA6mttgW0ZEaNHEGzM1jDZ4rU/lJMZVpakzi7km/WVp0GmsKzDa5UhEdbiIV7UfDJjIDuUaCTdF6UhFnJLiCbeCh91vBKVreP5gTbBG8evUwVHzv9DmLcTwNYtCHO6dtVxsvJKAVyj39muwgMg4MWQN0vFQaPyyb9Sen1TexebEMszXHJ/SHCcsCdu1zULy6wfcENsBgT/fRQ/QWEwMTyZSfE8Cfd91PjMyJPnpEuC/ISf7pG9UxJ9hdQPqbG7d6fFxW6y/YnOJk7KGkgU0zxKLp8uW3K/ztKPVeU/Hgp3fdTn/C77PAhsplGjnsXsZDXbbYQ09pGe+CpjvYyQEXLZCmD0Z6+WYIvYTIgCNe8bB3b1RlvSVnDaIk3Aa1Hz0PXUHJ5RGp7CmmwIj6fc1t2PF17SsF6M3WAxmP4PAMN+2LQ7R1IjxJus18vrWirWq4GHooMk5/O/a/utC9p3voMsaUcHgYbcMWbOwh0lE13aH7AWlTFrQr60aSp3lRZA+Kf174TuSdxYuAR1fILnMOCByT157Zuy9ww/W56uUATrjXBqgFM7Su+R/FhcvVrktWG2WIaux14vK004QUTbu4uF5lBKJxrgr9YB4pPkdY2cSnUa4UWMBHMnCZA18M9TrtSeU08DY4sXtI1Uk=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(376002)(136003)(396003)(451199015)(40470700004)(36840700001)(46966006)(8676002)(426003)(41300700001)(7696005)(82740400003)(1076003)(82310400005)(81166007)(5660300002)(36860700001)(40460700003)(7416002)(7406005)(47076005)(8936002)(2906002)(4326008)(44832011)(36756003)(336012)(356005)(478600001)(6666004)(86362001)(54906003)(110136005)(316002)(186003)(70206006)(70586007)(16526019)(26005)(40480700001)(2616005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2022 23:31:37.3181
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2022 23:31:42.4907
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2dd387b1-5f80-4476-7634-08dae474abb9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a9d0f3a-9727-4a3c-1f72-08dae474aed1
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000C977.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000C97C.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5163
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7130
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-on_each_cpu_mask() runs the function on each CPU specified by cpumask,
-which may include the local processor.
+Add a new resource type RDT_RESOURCE_SMBA to handle the QoS enforcement
+policies on the external slow memory.
 
-Replace smp_call_function_many() with on_each_cpu_mask() to simplify
-the code.
+Mostly initialization of the essentials. Setting fflags to RFTYPE_RES_MB
+configures the SMBA resource to have the same resctrl files as the
+existing MBA resource. The SMBA resource has identical properties to
+the existing MBA resource. These properties will be enumerated in an
+upcoming change and exposed via resctrl because of this flag.
 
+Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 ---
- arch/x86/kernel/cpu/resctrl/ctrlmondata.c | 11 +++------
- arch/x86/kernel/cpu/resctrl/rdtgroup.c    | 29 +++++++----------------
- 2 files changed, 11 insertions(+), 29 deletions(-)
+ arch/x86/kernel/cpu/resctrl/core.c     | 12 ++++++++++++
+ arch/x86/kernel/cpu/resctrl/internal.h |  1 +
+ 2 files changed, 13 insertions(+)
 
-diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-index 1df0e3262bca..7eece3d2d0c3 100644
---- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-+++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-@@ -310,7 +310,6 @@ int resctrl_arch_update_domains(struct rdt_resource *r, u32 closid)
- 	enum resctrl_conf_type t;
- 	cpumask_var_t cpu_mask;
- 	struct rdt_domain *d;
--	int cpu;
- 	u32 idx;
+diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+index c98e52ff5f20..f6af3ac1ef20 100644
+--- a/arch/x86/kernel/cpu/resctrl/core.c
++++ b/arch/x86/kernel/cpu/resctrl/core.c
+@@ -100,6 +100,18 @@ struct rdt_hw_resource rdt_resources_all[] = {
+ 			.fflags			= RFTYPE_RES_MB,
+ 		},
+ 	},
++	[RDT_RESOURCE_SMBA] =
++	{
++		.r_resctrl = {
++			.rid			= RDT_RESOURCE_SMBA,
++			.name			= "SMBA",
++			.cache_level		= 3,
++			.domains		= domain_init(RDT_RESOURCE_SMBA),
++			.parse_ctrlval		= parse_bw,
++			.format_str		= "%d=%*u",
++			.fflags			= RFTYPE_RES_MB,
++		},
++	},
+ };
  
- 	if (!zalloc_cpumask_var(&cpu_mask, GFP_KERNEL))
-@@ -341,13 +340,9 @@ int resctrl_arch_update_domains(struct rdt_resource *r, u32 closid)
+ /*
+diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+index 5ebd28e6aa0c..fdbbf66312ec 100644
+--- a/arch/x86/kernel/cpu/resctrl/internal.h
++++ b/arch/x86/kernel/cpu/resctrl/internal.h
+@@ -409,6 +409,7 @@ enum resctrl_res_level {
+ 	RDT_RESOURCE_L3,
+ 	RDT_RESOURCE_L2,
+ 	RDT_RESOURCE_MBA,
++	RDT_RESOURCE_SMBA,
  
- 	if (cpumask_empty(cpu_mask))
- 		goto done;
--	cpu = get_cpu();
--	/* Update resource control msr on this CPU if it's in cpu_mask. */
--	if (cpumask_test_cpu(cpu, cpu_mask))
--		rdt_ctrl_update(&msr_param);
--	/* Update resource control msr on other CPUs. */
--	smp_call_function_many(cpu_mask, rdt_ctrl_update, &msr_param, 1);
--	put_cpu();
-+
-+	/* Update resource control msr on all the CPUs. */
-+	on_each_cpu_mask(cpu_mask, rdt_ctrl_update, &msr_param, 1);
- 
- done:
- 	free_cpumask_var(cpu_mask);
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index e5a48f05e787..e4e6cdc1ee62 100644
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -325,12 +325,7 @@ static void update_cpu_closid_rmid(void *info)
- static void
- update_closid_rmid(const struct cpumask *cpu_mask, struct rdtgroup *r)
- {
--	int cpu = get_cpu();
--
--	if (cpumask_test_cpu(cpu, cpu_mask))
--		update_cpu_closid_rmid(r);
--	smp_call_function_many(cpu_mask, update_cpu_closid_rmid, r, 1);
--	put_cpu();
-+	on_each_cpu_mask(cpu_mask, update_cpu_closid_rmid, r, 1);
- }
- 
- static int cpus_mon_write(struct rdtgroup *rdtgrp, cpumask_var_t newmask,
-@@ -1864,13 +1859,9 @@ static int set_cache_qos_cfg(int level, bool enable)
- 			/* Pick one CPU from each domain instance to update MSR */
- 			cpumask_set_cpu(cpumask_any(&d->cpu_mask), cpu_mask);
- 	}
--	cpu = get_cpu();
--	/* Update QOS_CFG MSR on this cpu if it's in cpu_mask. */
--	if (cpumask_test_cpu(cpu, cpu_mask))
--		update(&enable);
--	/* Update QOS_CFG MSR on all other cpus in cpu_mask. */
--	smp_call_function_many(cpu_mask, update, &enable, 1);
--	put_cpu();
-+
-+	/* Update QOS_CFG MSR on all the CPUs in cpu_mask */
-+	on_each_cpu_mask(cpu_mask, update, &enable, 1);
- 
- 	free_cpumask_var(cpu_mask);
- 
-@@ -2347,7 +2338,7 @@ static int reset_all_ctrls(struct rdt_resource *r)
- 	struct msr_param msr_param;
- 	cpumask_var_t cpu_mask;
- 	struct rdt_domain *d;
--	int i, cpu;
-+	int i;
- 
- 	if (!zalloc_cpumask_var(&cpu_mask, GFP_KERNEL))
- 		return -ENOMEM;
-@@ -2368,13 +2359,9 @@ static int reset_all_ctrls(struct rdt_resource *r)
- 		for (i = 0; i < hw_res->num_closid; i++)
- 			hw_dom->ctrl_val[i] = r->default_ctrl;
- 	}
--	cpu = get_cpu();
--	/* Update CBM on this cpu if it's in cpu_mask. */
--	if (cpumask_test_cpu(cpu, cpu_mask))
--		rdt_ctrl_update(&msr_param);
--	/* Update CBM on all other cpus in cpu_mask. */
--	smp_call_function_many(cpu_mask, rdt_ctrl_update, &msr_param, 1);
--	put_cpu();
-+
-+	/* Update CBM on all the CPUs in cpu_mask */
-+	on_each_cpu_mask(cpu_mask, rdt_ctrl_update, &msr_param, 1);
- 
- 	free_cpumask_var(cpu_mask);
- 
+ 	/* Must be the last */
+ 	RDT_NUM_RESOURCES,
 -- 
 2.34.1
 
