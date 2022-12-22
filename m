@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA173C3DA7A
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 23:31:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 202E6C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 23:32:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235746AbiLVXb4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Dec 2022 18:31:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58848 "EHLO
+        id S235697AbiLVXcH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Dec 2022 18:32:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235392AbiLVXbp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 18:31:45 -0500
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2040.outbound.protection.outlook.com [40.107.93.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F2FDED8;
-        Thu, 22 Dec 2022 15:31:44 -0800 (PST)
+        with ESMTP id S235759AbiLVXb6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 18:31:58 -0500
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2044.outbound.protection.outlook.com [40.107.220.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A73962CC83;
+        Thu, 22 Dec 2022 15:31:50 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WvBYlRicDN0JMV22Ulk7p7tmehYMJlxv/k/IBUMth89Hy0/LM9FXhr5N3NCGInrvnfxfJG/rQHonLnRC6m/9NaB6B907mI3iKL8Y1xE9W6RSwS7ZQx4EyTXRu0hcVSqcqxnapThrCwJoxhXRPIEBSSBqVXIH2PV2jKo3GkyfgGZsH4YQBjjRvlvHD1uaIUNsGbmLCL5Zv3kxLieOqbAwbQ3P7jDNBgf/Owb8PpLQ7uiNBaCY5MnS6GRclNGnj0SP80jLm4i+1eY6hI+lc38u/7UfwafKti/jopd7VDQk3rjv/DAYnjOVg/QXazVIFuTHXB4W4SOQLRYzwH3V6yqJWQ==
+ b=fK+uAVGbPbR69hkY2otEdcD72A5+qqRqaIiVFrCHkassVe9/REXULHyFGaHxhzMQHU1tIzk5h6YpYvjhXoZAb/NQmNlkKOwZrsLCZlRWa+aoCSjQDGbvwgKFjnwI5prkoTzK1esLFk9NCqa++KjBbFr664i4DmSaxr1kBZMNmsqbsjVSYZ8y5wJwdQVmKBvHoCiV0B6YLEiPuyWBAa8uNzBJTLM8Y8gAFR+QqOCPMfsIl0uaOBddsuoTQYrPDYl2pbfDW+rs/SCZ8XKeY8ezvjkdcXAlwCouZOYj0IrVRHCOkuNweC5jjqkyC6UhISsdRk83LdnxpdiJDfNTwG+EnQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6Bfz7NaQgOToWbH9FokuddOZoIT4xJvg949sQG3VCK0=;
- b=H7Erqs1jpYGFnT6RKrbfXcbVn7ey5fWoKd4/FEwSQsp56ggH4cq5Mh9iA1IbvcBj/9b8C0/gbPRni2ykaHHduG5kqlv9AFAXC93eRgZ9wrZzysNzQK67op1Br90vNTme+hXguNWegU2wy5JdeFouXWjvskT1tE5uoSYeLIVI68UPpBV4FMemyiCXH/sSKxmm8zElgPCzkFmOVWEfBbB+Tgn0bw9k8mR+NKkoflxBpk5rcMbfgzxhF2eCFivgTpMwsmL+vjPFLwK/nrGrDy0zsj+bh5x+Rn490DL97zp2ZKErWr1xMi/QcykaCh0m40H47Ostsz4Iog35+Uv41rgAJA==
+ bh=9Twd7ddBJxwhZGfyhY4WBCZBaAd4nlAK3kbxKuE11Hk=;
+ b=TG9q8+CMd3DCh0ttwYwSRsZYMMpTlX3RjjusAfACx+4of3WJWZTSD8u7EuiX+7yGIihB0MJrpinlQ6dTb3hlFGBn3QRjsny35oHbdAET7tuBXkoZr/9Qy5z+vcyE5yoY8DCg2YvPjP4yfeURSF3BSweyDV9rChWTyQKWqjKui/ec/7JgbvqxyoOH6B3eUMGfUzJeLP4njTSRlKa5uIlKVxNd4G8o9nST6radDCmk8SQNM2V6Kc1mpkes298/nhYI6IKOemcsT3eWX4CNnr+Nw9OGw/ONmzzSqMLOz3SwDDf4A08hjCxIUK0Sp0x9wmT+oqMEk1+mQ/QiQjc52386Sg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6Bfz7NaQgOToWbH9FokuddOZoIT4xJvg949sQG3VCK0=;
- b=zoGI14VXFTQTU5DXVS7xddHEE1ijn7sLxR9ye16IulE4UmL6k2tW4ScOhzyB9PC64clq8tGKF3BaaauT00b3WsvgCwBRG8MgPWNg6R1jFAxCTJCr5f5CwMTp+oQiLWNC9OURIDX2nG7AIzTrVSAv9rj1iFQD2Gic8mWoN0LAdMc=
-Received: from CY5PR22CA0056.namprd22.prod.outlook.com (2603:10b6:930:1d::19)
- by BN9PR12MB5242.namprd12.prod.outlook.com (2603:10b6:408:11f::15) with
+ bh=9Twd7ddBJxwhZGfyhY4WBCZBaAd4nlAK3kbxKuE11Hk=;
+ b=UMucEiSnl4gyeDc8fWbKYriL+KPmb7c9nCGl9UTxj1YTQqf9riAT58wzAMZmfjavuQmOHnXsYSmrpjilWssk4O8wpb/NpSi8Sxi7fvZY9/HqO2uFIQOXX3YnxO8pexc23of5V1mtOC8zu8WEGG+EY9NhCcdd1Bqe1KBGbvsNDPk=
+Received: from CY5PR22CA0053.namprd22.prod.outlook.com (2603:10b6:930:1d::21)
+ by DM4PR12MB6591.namprd12.prod.outlook.com (2603:10b6:8:8e::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Thu, 22 Dec
- 2022 23:31:42 +0000
+ 2022 23:31:48 +0000
 Received: from CY4PEPF0000C97C.namprd02.prod.outlook.com
- (2603:10b6:930:1d:cafe::c4) by CY5PR22CA0056.outlook.office365.com
- (2603:10b6:930:1d::19) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:930:1d:cafe::21) by CY5PR22CA0053.outlook.office365.com
+ (2603:10b6:930:1d::21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.12 via Frontend
- Transport; Thu, 22 Dec 2022 23:31:41 +0000
+ Transport; Thu, 22 Dec 2022 23:31:43 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,11 +48,11 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  CY4PEPF0000C97C.mail.protection.outlook.com (10.167.241.135) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5944.8 via Frontend Transport; Thu, 22 Dec 2022 23:31:41 +0000
+ 15.20.5944.8 via Frontend Transport; Thu, 22 Dec 2022 23:31:43 +0000
 Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 22 Dec
- 2022 17:31:36 -0600
+ 2022 17:31:40 -0600
 From:   Babu Moger <babu.moger@amd.com>
 To:     <corbet@lwn.net>, <reinette.chatre@intel.com>,
         <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
@@ -70,9 +70,9 @@ CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
         <eranian@google.com>, <christophe.leroy@csgroup.eu>,
         <jarkko@kernel.org>, <adrian.hunter@intel.com>,
         <quic_jiles@quicinc.com>, <peternewman@google.com>
-Subject: [PATCH v10 02/13] x86/cpufeatures: Add Slow Memory Bandwidth Allocation feature flag
-Date:   Thu, 22 Dec 2022 17:31:16 -0600
-Message-ID: <20221222233127.910538-3-babu.moger@amd.com>
+Subject: [PATCH v10 04/13] x86/cpufeatures: Add Bandwidth Monitoring Event Configuration feature flag
+Date:   Thu, 22 Dec 2022 17:31:18 -0600
+Message-ID: <20221222233127.910538-5-babu.moger@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221222233127.910538-1-babu.moger@amd.com>
 References: <20221222233127.910538-1-babu.moger@amd.com>
@@ -84,74 +84,68 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000C97C:EE_|BN9PR12MB5242:EE_
-X-MS-Office365-Filtering-Correlation-Id: accd1366-1f84-4c45-eab5-08dae474ae3a
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000C97C:EE_|DM4PR12MB6591:EE_
+X-MS-Office365-Filtering-Correlation-Id: f8d00981-559e-43e9-044f-08dae474af3a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: t6Bdqo/Yg3E1XwTr7KS7hkjXYCfSOlkDhzmcsDucwCiFBnaI0nFrIzykMO6slhvhE9CZQ/tfo7Ju38TdsJN+viNbeK2rTV91eBdWqUaoFyqtuKUGOcg5RTlPWKqiXcpeq5m18iEc5gA6b+lLHFMnD0G54/GRgDOJW3T8CSUXsBNSB19+iyMSSt32vRG0ospM/02OmQplY8HldLiKHegptS6cYkf0xDdER0AD70txZAZYR/L9UvM6yjlE3p/UuWXnken5gxTO2hm7gKj2S9J4Ghy9hr1q0swCV2uwF1/BNPW9lsY3GSwNzb1jbHUZJyfotuMus+EZUfSqETbZJ1ea5XytY7V9mN1B3lc3vPOmp3WwECX+8sgSkc01VG+UjcdE0yDwNistGOIfRxoAxkqqAhVqp6gwoXrUwBUmLHNYnTEibkPAD/6PsJGDumVbF441rjdXZu2buegRCcOEl0G1sB4aqdBsV2h9tGaSAbumT8xQZ69rwB3jQva34U7SbuY23oL3Vrs+Vve+kxiKNmMjvMtAcCPyCGG6HqsxYj5uGjQByxo2I9HbPbSSgUUSTpSmBL/YUNyEipbxM/TCHndsNcK2RVpXxrphFJAKlbFv8XE7Z2/wqE/IGVqyfnMFZ5I5BhPBo+Gn8ww4d3B2a5Cjo5ybjgW2Njer0DcH8TuZguDQnfPzk3k4Ny5yWIjBinXDxz+Obxgmi08Iec6WzHxkkg39yXcKPXTJaAp3vv3r6h8ql5NKyf3q1ruVy6bIlNPhN8jJReLFTG1+4sL+fMl3IB8L698Fq6++RjP70thlJn4UibjIIG0blcYMUV3YIsT/
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(346002)(39860400002)(396003)(451199015)(40470700004)(46966006)(36840700001)(36756003)(356005)(82740400003)(2906002)(81166007)(5660300002)(8936002)(7406005)(41300700001)(7416002)(44832011)(47076005)(426003)(1076003)(36860700001)(336012)(83380400001)(86362001)(40460700003)(110136005)(4326008)(8676002)(316002)(54906003)(82310400005)(6666004)(478600001)(40480700001)(966005)(7696005)(70586007)(16526019)(70206006)(186003)(26005)(2616005)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: RPafVrSZg9ZaZi3EugXwRiP0hJbtPbUZK2DK9DBiUhFo2Ugx3fX4UdRw6mxFN9sORmHe5a8JcO60/N7m2KZQjd7IJYi3rZbSmoGMi3bw46KMM0XL/YW/+5IT4IWztXTbGG36CE9/OLQYADmWQj8GXhWPsbLNSHN1CAix3qmMwdTkieCowrqB3BBrJYEOjZO/y6UTfHaZCi+DE7rmuJw+Ru0hUYCH2uctdeFv1cJ71h9F1olJlNJ2o51UmdBrAplAUB7gnTan4VL0UcV/BzKHs9sL2OSDhwvAk6jEbDkBFFeLoc/2opdPA7RS0FASBAYlcui/iX3eCTi4f941yPiMNWF7S1+6jUhNbrlJp5fl/LlWppZKylc86gZx8dklDOaG1PdpS4Y8V/yCNnic2+1OT/YuVEAU47EExujIS9KE4lU5c4OIrfGQAKtiOzZ7j8/P8jDLSNvQV/i7PUu5vUh+TWkDyGaUMXrzXiASREUspJ2nghO6xCz9KF+6Uip7Fmex5pbfv2UDYUsX5oUcAT+1U8VvSISCl43J+B+LxsFSwSLklDj/79sF2Ucjf9pXBThjevte/tjwD7S0uh8LwVe7I6/ESgjhJZ7FJUNPrUYJmRl289HB5QlbOXS9UWjdppOHdjHNUH+43g+SekXsqj0E30le6H2LEEya40z7HVR7HZZQ6PxP7rMQAO59TJVVoU4WaZ92+ZwomqCKOgJtAabdTBcaNkXQ5t3h68baJoGLEmVT4k/jLftqP+CkyfIBrD7oSJWk/9i/JxuEEAuOdFMMpcXK20lnjUVcfmhpfOhrkHVmXIQ3xIXIzG3EALa+LOcj
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(376002)(396003)(346002)(136003)(451199015)(40470700004)(36840700001)(46966006)(70206006)(2906002)(40480700001)(8676002)(86362001)(2616005)(336012)(4326008)(41300700001)(478600001)(83380400001)(1076003)(186003)(16526019)(6666004)(316002)(36860700001)(54906003)(110136005)(7696005)(356005)(81166007)(7416002)(82740400003)(40460700003)(7406005)(44832011)(426003)(8936002)(5660300002)(966005)(47076005)(26005)(82310400005)(36756003)(70586007)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2022 23:31:41.5532
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2022 23:31:43.1782
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: accd1366-1f84-4c45-eab5-08dae474ae3a
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8d00981-559e-43e9-044f-08dae474af3a
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000C97C.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5242
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6591
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the new AMD feature X86_FEATURE_SMBA. With this feature, the QOS
-enforcement policies can be applied to external slow memory connected
-to the host. QOS enforcement is accomplished by assigning a Class Of
-Service (COS) to a processor and specifying allocations or limits for
-that COS for each resource to be allocated.
+Newer AMD processors support the new feature Bandwidth Monitoring Event
+Configuration (BMEC).
 
-This feature is identified by the CPUID Function 8000_0020_EBX_x0.
+The feature support is identified via CPUID Fn8000_0020_EBX_x0 (ECX=0).
+Bits    Field Name    Description
+3       EVT_CFG       Bandwidth Monitoring Event Configuration (BMEC)
 
-CPUID Fn8000_0020_EBX_x0 AMD Bandwidth Enforcement Feature Identifiers
-(ECX=0)
+The bandwidth monitoring events mbm_total_bytes and mbm_local_bytes are
+set to count all the total and local reads/writes respectively. With the
+introduction of slow memory, the two counters are not enough to count
+all the different types of memory events. With the feature BMEC, the
+users have the option to configure mbm_total_bytes and mbm_local_bytes
+to count the specific type of events.
 
-Bits    Field Name      Description
-2       L3SBE           L3 external slow memory bandwidth enforcement
+Each BMEC event has a configuration MSR, which contains one field for
+each bandwidth type that can be used to configure the bandwidth event
+to track any combination of supported bandwidth types. The event will
+count requests from every bandwidth type bit that is set in the
+corresponding configuration register.
 
-CXL.memory is the only supported "slow" memory device. With the support
-of SMBA feature, the hardware enables bandwidth allocation on the slow
-memory devices. If there are multiple slow memory devices in the system,
-then the throttling logic groups all the slow sources together and
-applies the limit on them as a whole.
+Following are the types of events supported:
 
-The presence of the SMBA feature(with CXL.memory) is independent of
-whether slow memory device is actually present in the system. If there
-is no slow memory in the system, then setting a SMBA limit will have no
-impact on the performance of the system.
+====    ========================================================
+Bits    Description
+====    ========================================================
+6       Dirty Victims from the QOS domain to all types of memory
+5       Reads to slow memory in the non-local NUMA domain
+4       Reads to slow memory in the local NUMA domain
+3       Non-temporal writes to non-local NUMA domain
+2       Non-temporal writes to local NUMA domain
+1       Reads to memory in the non-local NUMA domain
+0       Reads to memory in the local NUMA domain
+====    ========================================================
 
-Presence of CXL memory can be identified by numactl command.
-
-$numactl -H
-available: 2 nodes (0-1)
-node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
-node 0 size: 63678 MB node 0 free: 59542 MB
-node 1 cpus:
-node 1 size: 16122 MB
-node 1 free: 15627 MB
-node distances:
-node   0   1
-   0:  10  50
-   1:  50  10
-
-CPU list for CXL memory will be empty. The cpu-cxl node distance is
-greater than cpu-to-cpu distances. Node 1 has the CXL memory in this
-case. CXL memory can also be identified using ACPI SRAT table and
-memory maps.
+By default, the mbm_total_bytes configuration is set to 0x7F to count
+all the event types and the mbm_local_bytes configuration is set to
+0x15 to count all the local memory events.
 
 Feature description is available in the specification, "AMD64
 Technology Platform Quality of Service Extensions, Revision: 1.03
-Publication # 56375 Revision: 1.03 Issue Date: February 2022".
+Publication".
 
 Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
 Signed-off-by: Babu Moger <babu.moger@amd.com>
@@ -159,30 +153,44 @@ Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
 Link: https://www.amd.com/en/support/tech-docs/amd64-technology-platform-quality-service-extensions
 ---
  arch/x86/include/asm/cpufeatures.h | 1 +
+ arch/x86/kernel/cpu/cpuid-deps.c   | 2 ++
  arch/x86/kernel/cpu/scattered.c    | 1 +
- 2 files changed, 2 insertions(+)
+ 3 files changed, 4 insertions(+)
 
 diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index 61012476d66e..00045123f418 100644
+index 00045123f418..db5287c06b65 100644
 --- a/arch/x86/include/asm/cpufeatures.h
 +++ b/arch/x86/include/asm/cpufeatures.h
-@@ -307,6 +307,7 @@
- #define X86_FEATURE_SGX_EDECCSSA	(11*32+18) /* "" SGX EDECCSSA user leaf function */
+@@ -308,6 +308,7 @@
  #define X86_FEATURE_CALL_DEPTH		(11*32+19) /* "" Call depth tracking for RSB stuffing */
  #define X86_FEATURE_MSR_TSX_CTRL	(11*32+20) /* "" MSR IA32_TSX_CTRL (Intel) implemented */
-+#define X86_FEATURE_SMBA		(11*32+21) /* Slow Memory Bandwidth Allocation */
+ #define X86_FEATURE_SMBA		(11*32+21) /* Slow Memory Bandwidth Allocation */
++#define X86_FEATURE_BMEC		(11*32+22) /* Bandwidth Monitoring Event Configuration */
  
  /* Intel-defined CPU features, CPUID level 0x00000007:1 (EAX), word 12 */
  #define X86_FEATURE_AVX_VNNI		(12*32+ 4) /* AVX VNNI instructions */
+diff --git a/arch/x86/kernel/cpu/cpuid-deps.c b/arch/x86/kernel/cpu/cpuid-deps.c
+index d95221117129..f6748c8bd647 100644
+--- a/arch/x86/kernel/cpu/cpuid-deps.c
++++ b/arch/x86/kernel/cpu/cpuid-deps.c
+@@ -68,6 +68,8 @@ static const struct cpuid_dep cpuid_deps[] = {
+ 	{ X86_FEATURE_CQM_OCCUP_LLC,		X86_FEATURE_CQM_LLC   },
+ 	{ X86_FEATURE_CQM_MBM_TOTAL,		X86_FEATURE_CQM_LLC   },
+ 	{ X86_FEATURE_CQM_MBM_LOCAL,		X86_FEATURE_CQM_LLC   },
++	{ X86_FEATURE_BMEC,			X86_FEATURE_CQM_MBM_TOTAL   },
++	{ X86_FEATURE_BMEC,			X86_FEATURE_CQM_MBM_LOCAL   },
+ 	{ X86_FEATURE_AVX512_BF16,		X86_FEATURE_AVX512VL  },
+ 	{ X86_FEATURE_AVX512_FP16,		X86_FEATURE_AVX512BW  },
+ 	{ X86_FEATURE_ENQCMD,			X86_FEATURE_XSAVES    },
 diff --git a/arch/x86/kernel/cpu/scattered.c b/arch/x86/kernel/cpu/scattered.c
-index f53944fb8f7f..d925753084fb 100644
+index d925753084fb..0dad49a09b7a 100644
 --- a/arch/x86/kernel/cpu/scattered.c
 +++ b/arch/x86/kernel/cpu/scattered.c
-@@ -45,6 +45,7 @@ static const struct cpuid_bit cpuid_bits[] = {
- 	{ X86_FEATURE_CPB,		CPUID_EDX,  9, 0x80000007, 0 },
+@@ -46,6 +46,7 @@ static const struct cpuid_bit cpuid_bits[] = {
  	{ X86_FEATURE_PROC_FEEDBACK,    CPUID_EDX, 11, 0x80000007, 0 },
  	{ X86_FEATURE_MBA,		CPUID_EBX,  6, 0x80000008, 0 },
-+	{ X86_FEATURE_SMBA,		CPUID_EBX,  2, 0x80000020, 0 },
+ 	{ X86_FEATURE_SMBA,		CPUID_EBX,  2, 0x80000020, 0 },
++	{ X86_FEATURE_BMEC,		CPUID_EBX,  3, 0x80000020, 0 },
  	{ X86_FEATURE_PERFMON_V2,	CPUID_EAX,  0, 0x80000022, 0 },
  	{ X86_FEATURE_AMD_LBR_V2,	CPUID_EAX,  1, 0x80000022, 0 },
  	{ 0, 0, 0, 0, 0 }
