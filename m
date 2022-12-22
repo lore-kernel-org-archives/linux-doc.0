@@ -2,51 +2,46 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38DC1C10F1D
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 16:25:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80BD2C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 16:26:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235371AbiLVQZw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Dec 2022 11:25:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45166 "EHLO
+        id S230422AbiLVQ0G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Dec 2022 11:26:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235285AbiLVQZt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 11:25:49 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC0F3BE2A;
-        Thu, 22 Dec 2022 08:25:47 -0800 (PST)
+        with ESMTP id S235285AbiLVQZ4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 11:25:56 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A5A26483;
+        Thu, 22 Dec 2022 08:25:52 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 96262B803F2;
-        Thu, 22 Dec 2022 16:25:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61422C433EF;
-        Thu, 22 Dec 2022 16:25:42 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E461961C77;
+        Thu, 22 Dec 2022 16:25:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 713BEC433D2;
+        Thu, 22 Dec 2022 16:25:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671726345;
-        bh=I1QQ3wj0EZ2LVmZ8RlrxP6BvTX3HOQCzJhPb1JK3S5Y=;
+        s=k20201202; t=1671726351;
+        bh=zg5ZJ/EbLX+RoxMOBFp+SM0c2VmypEvqfO24sgs0ND8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aBvV5hjgmYtdnsRh/a6xDn8u4JdX5WJaAgikE/hwoGibLaiBICdjG89ctJI1/f8bi
-         ep42tSDdAVcnj6ahLM8Kpf9reEuhobVNB2PxBNIqGbrVZRa+GSAKcZOU4jygQL9m4x
-         XKaFPvG/r7anSl75C0i8wWTg6CvZSJyFfdK5AoTKDh70xsZjc2wh/ZvY30x2QxklEI
-         8bbmSrhXUa2KMOUDOdIKHPjxk4byrn1GiOx22dhx6kDKOxEl8q2jbpJHppy5VDYF4j
-         lCD/S2QHGr9+Ih7rzONuTUaGO7KYxYCWsd3TeJgcFaV2yJTK6wT62N8lpgH4JR5r/o
-         YclT7GIzx1o0g==
+        b=VJ2BDphH6cGrLtbzGnYPbm37UBM2wisB026VX3/LtrACdusis4wlETid6Fo7voOdL
+         07zm0jgqVVWrukJSZdcqihQavTUKhquqq3nVy1XzWqkto+hg0XcFhLT9XbqVLj/tcI
+         7mE0CBasXzONnoAtWdBnWPMXh3+zHB4Qpz1dfKPTcEvSvmsWpNBXDG1jOgt1Avf+qd
+         AVNxi2/quR3aqMQNPJjp6em4uC4BWpNRVGccmYlLZHLrYmUqCH1076l3AgS+BfHZmy
+         Kj3nZHmaMy7C3vzz3NFk7prIzH2mON28giy3yOFb/42pvYKXi8QjVQNQOx8ro77ux/
+         S/u4ZSlTwv5ww==
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Liam Howlett <liam.howlett@oracle.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Zeng Heng <zengheng4@huawei.com>, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH 3/5] kbuild: do not print extra logs for V=2
-Date:   Fri, 23 Dec 2022 01:25:33 +0900
-Message-Id: <20221222162535.1578462-3-masahiroy@kernel.org>
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org
+Subject: [PATCH 5/5] kbuild: drop V=0 support
+Date:   Fri, 23 Dec 2022 01:25:35 +0900
+Message-Id: <20221222162535.1578462-5-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221222162535.1578462-1-masahiroy@kernel.org>
 References: <20221222162535.1578462-1-masahiroy@kernel.org>
@@ -56,123 +51,71 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some scripts increase the verbose level when V=1, but others when
-not V=0.
-
-I think the former is correct because V=2 is not a log level but
-a switch to print the reason for rebuilding.
+The top Makefile sets KBUILD_VERBOSE to 0 by default, it looks weird
+now because V=1 and V=2 can be OR'ed as V=12. The default should be
+empty.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- Documentation/Makefile                 | 2 +-
- arch/powerpc/kernel/prom_init_check.sh | 9 ++++-----
- certs/extract-cert.c                   | 9 ++++++---
- scripts/asn1_compiler.c                | 4 ++--
- scripts/kernel-doc                     | 4 ++--
- 5 files changed, 15 insertions(+), 13 deletions(-)
+ Documentation/kbuild/makefiles.rst | 4 ++--
+ Makefile                           | 7 ++-----
+ 2 files changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index bb73dcb5ed05..023fa658a0a8 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -28,7 +28,7 @@ BUILDDIR      = $(obj)/output
- PDFLATEX      = xelatex
- LATEXOPTS     = -interaction=batchmode -no-shell-escape
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 6b7368d1f516..59085ffbe99a 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -523,7 +523,7 @@ more details, with real examples.
+ 			$(Q)$(MAKE) $(build)=$(boot) MACHINE=$(MACHINE) $(boot)/$@
+ 			@$(kecho) '  Kernel: $(boot)/$@ is ready'
  
--ifeq ($(KBUILD_VERBOSE),0)
-+ifeq ($(findstring 1, $(KBUILD_VERBOSE)),)
- SPHINXOPTS    += "-q"
+-	When kbuild is executing with KBUILD_VERBOSE=0, then only a shorthand
++	When kbuild is executing with KBUILD_VERBOSE unset, then only a shorthand
+ 	of a command is normally displayed.
+ 	To enable this behaviour for custom commands kbuild requires
+ 	two variables to be set::
+@@ -544,7 +544,7 @@ more details, with real examples.
+ 
+ 		  GEN     lib/crc32table.h
+ 
+-	will be displayed with "make KBUILD_VERBOSE=0".
++	will be displayed with "make KBUILD_VERBOSE=".
+ 
+ 3.12 Command change detection
+ -----------------------------
+diff --git a/Makefile b/Makefile
+index bd69bf73a256..99cb8c9de53a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -78,9 +78,6 @@ unexport GREP_OPTIONS
+ ifeq ("$(origin V)", "command line")
+   KBUILD_VERBOSE = $(V)
+ endif
+-ifndef KBUILD_VERBOSE
+-  KBUILD_VERBOSE = 0
+-endif
+ 
+ quiet = quiet_
+ Q = @
+@@ -102,7 +99,7 @@ endif
+ 
+ ifneq ($(findstring s,$(short-opts)),)
+ quiet=silent_
+-KBUILD_VERBOSE = 0
++override KBUILD_VERBOSE :=
  endif
  
-diff --git a/arch/powerpc/kernel/prom_init_check.sh b/arch/powerpc/kernel/prom_init_check.sh
-index 311890d71c4c..5a319863f289 100644
---- a/arch/powerpc/kernel/prom_init_check.sh
-+++ b/arch/powerpc/kernel/prom_init_check.sh
-@@ -51,11 +51,10 @@ do
- 	# a leading . on the name, so strip it off here.
- 	UNDEF="${UNDEF#.}"
+ export quiet Q KBUILD_VERBOSE
+@@ -1761,7 +1758,7 @@ help:
+ 		printf "  %-16s - Show all of the above\\n" help-boards; \
+ 		echo '')
  
--	if [ $KBUILD_VERBOSE ]; then
--		if [ $KBUILD_VERBOSE -ne 0 ]; then
--			echo "Checking prom_init.o symbol '$UNDEF'"
--		fi
--	fi
-+	case "$KBUILD_VERBOSE" in
-+	*1*)
-+		echo "Checking prom_init.o symbol '$UNDEF'" ;;
-+	esac
- 
- 	OK=0
- 	for WHITE in $WHITELIST
-diff --git a/certs/extract-cert.c b/certs/extract-cert.c
-index 8c1fb9a70d66..d3a0ff2867c0 100644
---- a/certs/extract-cert.c
-+++ b/certs/extract-cert.c
-@@ -78,7 +78,7 @@ static void drain_openssl_errors(void)
- static const char *key_pass;
- static BIO *wb;
- static char *cert_dst;
--static int kbuild_verbose;
-+static bool verbose;
- 
- static void write_cert(X509 *x509)
- {
-@@ -90,19 +90,22 @@ static void write_cert(X509 *x509)
- 	}
- 	X509_NAME_oneline(X509_get_subject_name(x509), buf, sizeof(buf));
- 	ERR(!i2d_X509_bio(wb, x509), "%s", cert_dst);
--	if (kbuild_verbose)
-+	if (verbose)
- 		fprintf(stderr, "Extracted cert: %s\n", buf);
- }
- 
- int main(int argc, char **argv)
- {
- 	char *cert_src;
-+	char *kbuild_verbose;
- 
- 	OpenSSL_add_all_algorithms();
- 	ERR_load_crypto_strings();
- 	ERR_clear_error();
- 
--	kbuild_verbose = atoi(getenv("KBUILD_VERBOSE")?:"0");
-+	kbuild_verbose = getenv("KBUILD_VERBOSE");
-+	if (kbuild_verbose && strchr(kbuild_verbose, '1'))
-+		verbose = true;
- 
-         key_pass = getenv("KBUILD_SIGN_PIN");
- 
-diff --git a/scripts/asn1_compiler.c b/scripts/asn1_compiler.c
-index 71d4a7c87900..7b6756a8c15d 100644
---- a/scripts/asn1_compiler.c
-+++ b/scripts/asn1_compiler.c
-@@ -567,8 +567,8 @@ int main(int argc, char **argv)
- 	int fd;
- 
- 	kbuild_verbose = getenv("KBUILD_VERBOSE");
--	if (kbuild_verbose)
--		verbose_opt = atoi(kbuild_verbose);
-+	if (kbuild_verbose && strchr(kbuild_verbose, '1'))
-+		verbose_opt = true;
- 
- 	while (argc > 4) {
- 		if (strcmp(argv[1], "-v") == 0)
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 54b0893cae66..8ad0a7d68d9a 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -175,8 +175,8 @@ my $declaration_start_line;
- my ($type, $declaration_name, $return_type);
- my ($newsection, $newcontents, $prototype, $brcount, %source_map);
- 
--if (defined($ENV{'KBUILD_VERBOSE'})) {
--	$verbose = "$ENV{'KBUILD_VERBOSE'}";
-+if (defined($ENV{'KBUILD_VERBOSE'}) && $ENV{'KBUILD_VERBOSE'} =~ '1') {
-+	$verbose = 1;
- }
- 
- if (defined($ENV{'KCFLAGS'})) {
+-	@echo  '  make V=n   [targets] 0: quiet build (default), 1: verbose build'
++	@echo  '  make V=n   [targets] 1: verbose build'
+ 	@echo  '                       2: give reason for rebuild of target'
+ 	@echo  '                       V=1 and V=2 can be combined with V=12'
+ 	@echo  '  make O=dir [targets] Locate all output files in "dir", including .config'
 -- 
 2.34.1
 
