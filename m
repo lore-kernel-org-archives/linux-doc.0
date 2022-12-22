@@ -2,180 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99AB3C001B2
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 16:10:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91CB4C001B2
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 16:24:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231278AbiLVQK2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Dec 2022 11:10:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36208 "EHLO
+        id S230071AbiLVQYd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Dec 2022 11:24:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235442AbiLVQKH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 11:10:07 -0500
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F62A60DC;
-        Thu, 22 Dec 2022 08:09:29 -0800 (PST)
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 6CD8668CFE; Thu, 22 Dec 2022 17:09:22 +0100 (CET)
-Date:   Thu, 22 Dec 2022 17:09:20 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Christoph Hellwig <hch@lst.de>, axboe@meta.com, sagi@grimberg.me,
-        kbusch@kernel.org, linux-nvme@lists.infradead.org,
+        with ESMTP id S229545AbiLVQYc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 11:24:32 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 346232497F;
+        Thu, 22 Dec 2022 08:24:29 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9479861C43;
+        Thu, 22 Dec 2022 16:24:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FF62C433EF;
+        Thu, 22 Dec 2022 16:24:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1671726269;
+        bh=m/JZ2MlUNjzmWc4uVPQGsugJ7FAGwWNl1f1pGALXa0U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mWWTm1aIXB9Cfm+ZRFrZkYsyC0A2TvsTQHAoR5O78dMvRN5yg91mIViPY3MzmNDKM
+         D0HxihuOAnC7sIKtYOnfzthi4dNa/zg8Iql/mT5sRRDP2T42oJddrRGDw5Y2iQxjbC
+         S7dK50jygWA4M6yvbvQflfyhmFE3hlKkI8Jum8Tk=
+Date:   Thu, 22 Dec 2022 17:24:25 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc:     sashal@kernel.org, corbet@lwn.net, stable@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH] docs, nvme: add a feature and quirk policy document
-Message-ID: <20221222160920.GA10193@lst.de>
-References: <20221215125130.261098-1-hch@lst.de> <87zgboddb7.fsf@meer.lwn.net> <20221215132622.GA21083@lst.de> <20221221083450.GA23903@lst.de> <87mt7g27lv.fsf@meer.lwn.net>
+        joneslee@google.com
+Subject: Re: [PATCH] Documentation: stable: Add rule on what kind of patches
+ are accepted
+Message-ID: <Y6SEuYEK/90dJjMe@kroah.com>
+References: <20221222091658.1975240-1-tudor.ambarus@linaro.org>
+ <Y6RchEaXUvg+9nKv@kroah.com>
+ <86b513b7-b65f-4948-7c09-789844f0d90d@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87mt7g27lv.fsf@meer.lwn.net>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <86b513b7-b65f-4948-7c09-789844f0d90d@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 21, 2022 at 06:45:32AM -0700, Jonathan Corbet wrote:
-> Sorry, the argument is that the subsystem profiles there were created
-> for the very purpose of documenting subsystem-specific patch policies
-> like those found in your document.  The hope is that, someday, people
-> will be able to go to one place to learn what special hoops any given
-> subsystem will make them jump through.
+On Thu, Dec 22, 2022 at 04:20:42PM +0200, Tudor Ambarus wrote:
 > 
-> This isn't something I'm going to dig in my heels on, though.  But at a
-> minimum, could you add an entry to
-> Documentation/maintainer/maintainer-entry-profile.rst ?
+> 
+> On 22.12.2022 15:32, Greg KH wrote:
+> > On Thu, Dec 22, 2022 at 11:16:58AM +0200, Tudor Ambarus wrote:
+> > > The list of rules on what kind of patches are accepted, and which ones
+> > > are not into the “-stable” tree, did not mention anything about new
+> > > features and let the reader use its own judgement. One may be under the
+> > > impression that new features are not accepted at all, but that's not true:
+> > > new features are not accepted unless they fix a reported problem.
+> > > Update documentation with missing rule.
+> > > 
+> > > Link: https://lore.kernel.org/lkml/fc60e8da-1187-ca2b-1aa8-28e01ea2769a@linaro.org/T/#mff820d23793baf637a1b39f5dfbcd9d4d0f0c3a6
+> > > Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+> > > ---
+> > >   Documentation/process/stable-kernel-rules.rst | 1 +
+> > >   1 file changed, 1 insertion(+)
+> > > 
+> > > diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+> > > index 2fd8aa593a28..266290fab1d9 100644
+> > > --- a/Documentation/process/stable-kernel-rules.rst
+> > > +++ b/Documentation/process/stable-kernel-rules.rst
+> > > @@ -22,6 +22,7 @@ Rules on what kind of patches are accepted, and which ones are not, into the
+> > >      maintainer and include an addendum linking to a bugzilla entry if it
+> > >      exists and additional information on the user-visible impact.
+> > >    - New device IDs and quirks are also accepted.
+> > > + - New features are not accepted unless they fix a reported problem.
+> > 
+> > No need to call this out, it falls under the "fixes a problem" option,
+> > right?
+> > 
+> > The goal is not to iterate every single option here, that would be
+> > crazy.  Let's keep it short and simple, our biggest problem is that
+> > people do NOT read this document, not that it does not list these types
+> > of corner cases.
+> > 
+> 
+> When I read the document I thought that new features are not accepted
+> at all, so I took into consideration making a custom fix for stable.
+> But that would have been worse, as it implied forking the stable and
+> would have made backporting additional fixes harder. An explicit rule
+> like this would have saved me few emails changed and few hours spent on
+> looking for an alternative fix. But maybe others find this a
+> common sense implied rule and you won't have to be summoned for it
+> anymore.
 
-What about the following?  This moves the file to a new
-Documentation/nvme/ directory and then links it form
-Documentation/maintainer/maintainer-entry-profile.rst:
+Let's just say that this is the first time in the 18+ years of stable
+kernel development that it has come up as a question like this :)
 
----
-From 3471fc6f0b584c4372d7c4c2b2b8e1b5aed970f0 Mon Sep 17 00:00:00 2001
-From: Christoph Hellwig <hch@lst.de>
-Date: Mon, 12 Dec 2022 11:09:55 +0100
-Subject: docs, nvme: add a feature and quirk policy document
+thanks,
 
-This adds a document about what specification features are supported by
-the Linux NVMe driver, and what qualifies for a quirk if an implementation
-has problems following the specification.
-
-Signed-off-by: Jens Axboe <axboe@kernel.dk>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
----
- .../maintainer/maintainer-entry-profile.rst   |  1 +
- .../nvme/feature-and-quirk-policy.rst         | 77 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 3 files changed, 79 insertions(+)
- create mode 100644 Documentation/nvme/feature-and-quirk-policy.rst
-
-diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
-index 93b2ae6c34a99b..cfd37f31077f6c 100644
---- a/Documentation/maintainer/maintainer-entry-profile.rst
-+++ b/Documentation/maintainer/maintainer-entry-profile.rst
-@@ -104,3 +104,4 @@ to do something different in the near future.
-    ../riscv/patch-acceptance
-    ../driver-api/media/maintainer-entry-profile
-    ../driver-api/vfio-pci-device-specific-driver-acceptance
-+   ../nvme/feature-and-quirk-policy
-diff --git a/Documentation/nvme/feature-and-quirk-policy.rst b/Documentation/nvme/feature-and-quirk-policy.rst
-new file mode 100644
-index 00000000000000..c01d836d8e4151
---- /dev/null
-+++ b/Documentation/nvme/feature-and-quirk-policy.rst
-@@ -0,0 +1,77 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======================================
-+Linux NVMe feature and and quirk policy
-+=======================================
-+
-+This file explains the policy used to decide what is supported by the
-+Linux NVMe driver and what is not.
-+
-+
-+Introduction
-+============
-+
-+NVM Express is an open collection of standards and information.
-+
-+The Linux NVMe host driver in drivers/nvme/host/ supports devices
-+implementing the NVM Express (NVMe) family of specifications, which
-+currently consists of a number of documents:
-+
-+ - the NVMe Base specification
-+ - various Command Set specifications (e.g. NVM Command Set)
-+ - various Transport specifications (e.g. PCIe, Fibre Channel, RDMA, TCP)
-+ - the NVMe Management Interface specification
-+
-+See https://nvmexpress.org/developers/ for the NVMe specifications.
-+
-+
-+Supported features
-+==================
-+
-+NVMe is a large suite of specifications, and contains features that are only
-+useful or suitable for specific use-cases. It is important to note that Linux
-+does not aim to implement every feature in the specification.  Every additional
-+feature implemented introduces more code, more maintenance and potentially more
-+bugs.  Hence there is an inherent tradeoff between functionality and
-+maintainability of the NVMe host driver.
-+
-+Any feature implemented in the Linux NVMe host driver must support the
-+following requirements:
-+
-+  1. The feature is specified in a release version of an official NVMe
-+     specification, or in a ratified Technical Proposal (TP) that is
-+     available on NVMe website. Or if it is not directly related to the
-+     on-wire protocol, does not contradict any of the NVMe specifications.
-+  2. Does not conflict with the Linux architecture, nor the design of the
-+     NVMe host driver.
-+  3. Has a clear, indisputable value-proposition and a wide consensus across
-+     the community.
-+
-+Vendor specific extensions are generally not supported in the NVMe host
-+driver.
-+
-+It is strongly recommended to work with the Linux NVMe and block layer
-+maintainers and get feedback on specification changes that are intended
-+to be used by the Linux NVMe host driver in order to avoid conflict at a
-+later stage.
-+
-+
-+Quirks
-+======
-+
-+Sometimes implementations of open standards fail to correctly implement parts
-+of the standards.  Linux uses identifier-based quirks to work around such
-+implementation bugs.  The intent of quirks is to deal with widely available
-+hardware, usually consumer, which Linux users can't use without these quirks.
-+Typically these implementations are not or only superficially tested with Linux
-+by the hardware manufacturer.
-+
-+The Linux NVMe maintainers decide ad hoc whether to quirk implementations
-+based on the impact of the problem to Linux users and how it impacts
-+maintainability of the driver.  In general quirks are a last resort, if no
-+firmware updates or other workarounds are available from the vendor.
-+
-+Quirks will not be added to the Linux kernel for hardware that isn't available
-+on the mass market.  Hardware that fails qualification for enterprise Linux
-+distributions, ChromeOS, Android or other consumers of the Linux kernel
-+should be fixed before it is shipped instead of relying on Linux quirks.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index bb77a3ed9d5423..d53b3a6cdc67d2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14827,6 +14827,7 @@ L:	linux-nvme@lists.infradead.org
- S:	Supported
- W:	http://git.infradead.org/nvme.git
- T:	git://git.infradead.org/nvme.git
-+F:	Documentation/nvme/
- F:	drivers/nvme/host/
- F:	drivers/nvme/common/
- F:	include/linux/nvme*
--- 
-2.35.1
-
+greg k-h
