@@ -2,397 +2,338 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DED2C10F1B
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 01:25:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60BB6C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 02:50:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234834AbiLVBZs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Dec 2022 20:25:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58818 "EHLO
+        id S234980AbiLVCuY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Dec 2022 21:50:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234811AbiLVBZr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Dec 2022 20:25:47 -0500
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6B601022;
-        Wed, 21 Dec 2022 17:25:45 -0800 (PST)
-Received: by mail-qv1-xf36.google.com with SMTP id a17so345362qvt.9;
-        Wed, 21 Dec 2022 17:25:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5SjxE/kmdtcXqhgloBP4CmAlPwzNLVF1sSk4Q1Ar3K0=;
-        b=paWiXvp0dQsJsqWrO4Gy0X1iAanI6fktRVeGa7V7CZt9vRMzDRH8/gxua/f90yB8y6
-         unLhrb+lg5Hd6uDFRyMBnrkCaKezH/bBAACpDD1IYyUkPzKW26e7CAVKuBaItLErkSX/
-         dyxXvsYw6c+aCHh3eOuBNk3IrYRw0NCC063nPGNYeX8aknUvVRF4P9f5hRCDffGWpDKf
-         wVAzaIsNrXyQovjYH6VD7Fj662ByrlFjBzmQrl/MsNGwvm5LVIWIwsvGvmI+c8puxJcI
-         gPiaK4hfti2cZFVyNnCskkuGXdYnm8yKdSnPnlS6rIcQYK8cBBnhFgH1ryk8MGUUDQtd
-         +ICw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5SjxE/kmdtcXqhgloBP4CmAlPwzNLVF1sSk4Q1Ar3K0=;
-        b=xxvJnkb2S7oJEES5aGXvTjn6ahr6LU9NHKk/SZEvvqAfYYSHoc3rN1ZgRhzqQzb6yP
-         S+EXs6oaz+y/88zGCQ1mTlo3p1YFMNXHmfUE2f8fgxlQqEqucYXJIrgLjC/FkYnkzEFo
-         PCEz3fCp3+0j4zw35tJGhe8nKzk4tGv05nQgLKnXkM+hx25/tH64a63BG+Mt1EnLBqQa
-         Mlbblz8HJr0+5jC2nCnRFN59rbZbDImGHATNEofjCIpq5gybuQayZlSba3TgCp9FsMVX
-         kWe91vrRIb0dDrguU7/sZgurRL/ABEituxiZwFYZnweM7dnipY/qMbVSpb5PJ8AuOlwm
-         iaKA==
-X-Gm-Message-State: AFqh2kpp+wW+MyKEcgztPk2Ii9wjzry/N0Bs9gUNI8HxZFtf5Ldvj/44
-        tQf5EQC+krMmvpzjF1sW/Mo=
-X-Google-Smtp-Source: AMrXdXvMtuRFFkZgbjz5/EL3muFQk2UMmzjVgG8U2gJR+0GYGfSP/lIPrJ8tSNM9q+2+piTMAYuW0g==
-X-Received: by 2002:a05:6214:3507:b0:4c7:7370:3c07 with SMTP id nk7-20020a056214350700b004c773703c07mr25344451qvb.13.1671672344864;
-        Wed, 21 Dec 2022 17:25:44 -0800 (PST)
-Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id n17-20020a05620a223100b006fc40dafaa2sm11255394qkh.8.2022.12.21.17.25.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Dec 2022 17:25:44 -0800 (PST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 6558C27C0054;
-        Wed, 21 Dec 2022 20:25:43 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 21 Dec 2022 20:25:43 -0500
-X-ME-Sender: <xms:FrKjY7ybWlKcpq44pOkbAwaH4Cqfv2iW2HoWaPUHjVVmFLTk1ztyVw>
-    <xme:FrKjYzRTxVlPMN2sDmpzSwuNXvK6k_KuAIZZmGlrAHq9Kz8chIwLTJCVL9SVzptbx
-    IYc-_MYWd9YjiOH-g>
-X-ME-Received: <xmr:FrKjY1V9FUXq8MaFkbXJRNye_y8BAcJU4d7A_yY1Bc2VhyyXTsmWVgWBKK4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeelgdefiecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhquhhn
-    ucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrth
-    htvghrnhephedugfduffffteeutddvheeuveelvdfhleelieevtdeguefhgeeuveeiudff
-    iedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
-    hoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedtieeg
-    qddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfhhigi
-    hmvgdrnhgrmhgv
-X-ME-Proxy: <xmx:FrKjY1gnAD621Usc2FOoJR6PUWSCEidlappQmTUWR-OVmUscPmKXRQ>
-    <xmx:FrKjY9CUzVqX9GTuJs5q2bsA-XiEU7qMUz5KQi8chq3E6W20y4XgfA>
-    <xmx:FrKjY-LY4W06F5Ptm5bBI1gQVEXvV2ZdF2ffcU1D2ui_Hh6OwJjslw>
-    <xmx:F7KjY7hkS6nQ7kWeHID3WVuJSiM7SEq8DM7L8NGDOUy-_f5jxtz1UJkjP-M>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 21 Dec 2022 20:25:42 -0500 (EST)
-Date:   Wed, 21 Dec 2022 17:25:20 -0800
-From:   Boqun Feng <boqun.feng@gmail.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     torvalds@linux-foundation.org, corbet@lwn.net, will@kernel.org,
-        mark.rutland@arm.com, catalin.marinas@arm.com, dennis@kernel.org,
-        tj@kernel.org, cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
-        svens@linux.ibm.com, Herbert Xu <herbert@gondor.apana.org.au>,
-        davem@davemloft.net, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
-        robin.murphy@arm.com, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
-        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-s390@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org
-Subject: Re: [RFC][PATCH 05/12] arch: Introduce
- arch_{,try_}_cmpxchg128{,_local}()
-Message-ID: <Y6OyAL2epKPHj+tr@boqun-archlinux>
-References: <20221219153525.632521981@infradead.org>
- <20221219154119.154045458@infradead.org>
+        with ESMTP id S234961AbiLVCuX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Dec 2022 21:50:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 912E21B1F1
+        for <linux-doc@vger.kernel.org>; Wed, 21 Dec 2022 18:49:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1671677377;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=kThFGykb7MnuCuNb2lJR0gBltHWCcpSBG2QAsyZbZJs=;
+        b=D+PBuPyqudXZFObWLGWBUer08zYfYIst64xetPNIGKjqSFldgEALQIwncSK5rTDrQMpKEo
+        zbv4mm3/JwtnsNTVw3lzGGiTu0or3atqvnQg3Ynpd5p6YFvDFb2cdKqiRILIwXBZKrUIQW
+        CoR0bKK92nbdwI/rHwpxPXF32D5iDhA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-263-kB93dcHHPIaFnaKmHsVXKg-1; Wed, 21 Dec 2022 21:49:36 -0500
+X-MC-Unique: kB93dcHHPIaFnaKmHsVXKg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B98729A9D42;
+        Thu, 22 Dec 2022 02:49:35 +0000 (UTC)
+Received: from localhost (ovpn-12-50.pek2.redhat.com [10.72.12.50])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 20E1F492C14;
+        Thu, 22 Dec 2022 02:49:33 +0000 (UTC)
+Date:   Thu, 22 Dec 2022 10:49:30 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Philipp Rudo <prudo@redhat.com>,
+        Ross Zwisler <zwisler@kernel.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        kexec@lists.infradead.org,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 3/3] kexec: Introduce sysctl parameters
+ kexec_load_limit_*
+Message-ID: <Y6PFugKAUckXXpvi@MiWiFi-R3L-srv>
+References: <20221114-disable-kexec-reset-v5-0-1bd37caf3c75@chromium.org>
+ <20221114-disable-kexec-reset-v5-3-1bd37caf3c75@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221219154119.154045458@infradead.org>
+In-Reply-To: <20221114-disable-kexec-reset-v5-3-1bd37caf3c75@chromium.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 19, 2022 at 04:35:30PM +0100, Peter Zijlstra wrote:
-> For all architectures that currently support cmpxchg_double()
-> implement the cmpxchg128() family of functions that is basically the
-> same but with a saner interface.
+Hi,
+
+On 12/21/22 at 08:45pm, Ricardo Ribalda wrote:
+> Add two parameters to specify how many times a kexec kernel can be loaded.
 > 
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> The sysadmin can set different limits for kexec panic and kexec reboot
+> kernels.
+> 
+> The value can be modified at runtime via sysctl, but only with a value
+> smaller than the current one (except -1).
+
+This patch is not complex, and doens't add code complexity. And from
+code comment and document, we can easily know how the new toggles can be
+used. BUT I am wondering if everybody have got why they are needed, and
+where or when they are needed and will be used, except of stupid me. 
+
+We have had a toggle kexec_load_disabled which can be used to close the
+door before alread loading image. Now we want another two toggles to
+guard how many times we can flip the door. I am not familiar with
+kernel security policy, is it not safe to provide details in log? If so,
+please ignore this mail.
+
+In fact, my concern is that in the future, if a new user of kexec/kdump
+want to know why these two knobs are added, while can't get any helpful
+information from commit message. If she/he asks me, I can only shrug. Up
+to now, I don't know what real use case these two toggles are used for,
+why they have to be added. And the default value of them are '-1', how
+will we make use of them in distros? What's the suggested value? Or '-1'
+is the suggested value, you just use them in some cornor case on some
+mysterious system?
+
+Just saying we want to add some new useful stuffs, that's it. Frankly
+speaking, w/o special reason, this is not the way we are supposed to add
+new stuffs into kernel. 
+
+Thanks
+Baoquan
+
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  arch/arm64/include/asm/atomic_ll_sc.h |   38 +++++++++++++++++++++++
->  arch/arm64/include/asm/atomic_lse.h   |   33 +++++++++++++++++++-
->  arch/arm64/include/asm/cmpxchg.h      |   26 ++++++++++++++++
->  arch/s390/include/asm/cmpxchg.h       |   33 ++++++++++++++++++++
->  arch/x86/include/asm/cmpxchg_32.h     |    3 +
->  arch/x86/include/asm/cmpxchg_64.h     |   55 +++++++++++++++++++++++++++++++++-
->  6 files changed, 185 insertions(+), 3 deletions(-)
+>  Documentation/admin-guide/sysctl/kernel.rst | 18 ++++++
+>  include/linux/kexec.h                       |  2 +-
+>  kernel/kexec.c                              |  4 +-
+>  kernel/kexec_core.c                         | 87 ++++++++++++++++++++++++++++-
+>  kernel/kexec_file.c                         | 11 ++--
+>  5 files changed, 114 insertions(+), 8 deletions(-)
 > 
-> --- a/arch/arm64/include/asm/atomic_ll_sc.h
-> +++ b/arch/arm64/include/asm/atomic_ll_sc.h
-> @@ -326,6 +326,44 @@ __CMPXCHG_DBL(   ,        ,  ,         )
->  __CMPXCHG_DBL(_mb, dmb ish, l, "memory")
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index 97394bd9d065..a3922dffbd47 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -461,6 +461,24 @@ allowing a system to set up (and later use) an image without it being
+>  altered.
+>  Generally used together with the `modules_disabled`_ sysctl.
 >  
->  #undef __CMPXCHG_DBL
+> +kexec_load_limit_panic
+> +======================
 > +
-> +union __u128_halves {
-> +	u128 full;
-> +	struct {
-> +		u64 low, high;
-> +	};
+> +This parameter specifies a limit to the number of times the syscalls
+> +``kexec_load`` and ``kexec_file_load`` can be called with a crash
+> +image. It can only be set with a more restrictive value than the
+> +current one.
+> +
+> +=  =============================================================
+> +-1 Unlimited calls to kexec. This is the default setting.
+> +N  Number of calls left.
+> +=  =============================================================
+> +
+> +kexec_load_limit_reboot
+> +======================
+> +
+> +Similar functionality as ``kexec_load_limit_panic``, but for a crash
+> +image.
+>  
+>  kptr_restrict
+>  =============
+> diff --git a/include/linux/kexec.h b/include/linux/kexec.h
+> index 182e0c11b87b..791e65829f86 100644
+> --- a/include/linux/kexec.h
+> +++ b/include/linux/kexec.h
+> @@ -407,7 +407,7 @@ extern int kimage_crash_copy_vmcoreinfo(struct kimage *image);
+>  extern struct kimage *kexec_image;
+>  extern struct kimage *kexec_crash_image;
+>  
+> -bool kexec_load_permitted(void);
+> +bool kexec_load_permitted(int kexec_image_type);
+>  
+>  #ifndef kexec_flush_icache_page
+>  #define kexec_flush_icache_page(page)
+> diff --git a/kernel/kexec.c b/kernel/kexec.c
+> index ce1bca874a8d..92d301f98776 100644
+> --- a/kernel/kexec.c
+> +++ b/kernel/kexec.c
+> @@ -190,10 +190,12 @@ static int do_kexec_load(unsigned long entry, unsigned long nr_segments,
+>  static inline int kexec_load_check(unsigned long nr_segments,
+>  				   unsigned long flags)
+>  {
+> +	int image_type = (flags & KEXEC_ON_CRASH) ?
+> +			 KEXEC_TYPE_CRASH : KEXEC_TYPE_DEFAULT;
+>  	int result;
+>  
+>  	/* We only trust the superuser with rebooting the system. */
+> -	if (!kexec_load_permitted())
+> +	if (!kexec_load_permitted(image_type))
+>  		return -EPERM;
+>  
+>  	/* Permit LSMs and IMA to fail the kexec */
+> diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
+> index a1efc70f4158..951541d78ca8 100644
+> --- a/kernel/kexec_core.c
+> +++ b/kernel/kexec_core.c
+> @@ -926,10 +926,64 @@ int kimage_load_segment(struct kimage *image,
+>  	return result;
+>  }
+>  
+> +struct kexec_load_limit {
+> +	/* Mutex protects the limit count. */
+> +	struct mutex mutex;
+> +	int limit;
 > +};
 > +
-> +#define __CMPXCHG128(name, mb, rel, cl)					\
-> +static __always_inline u128						\
-> +__ll_sc__cmpxchg128##name(volatile u128 *ptr, u128 old, u128 new)	\
-> +{									\
-> +	union __u128_halves r, o = { .full = (old) },			\
-> +			       n = { .full = (new) };			\
-> +									\
-> +	asm volatile("// __cmpxchg128" #name "\n"			\
-> +	"	prfm	pstl1strm, %2\n"				\
-> +	"1:	ldxp	%0, %1, %2\n"					\
-> +	"	eor	%3, %0, %3\n"					\
-> +	"	eor	%4, %1, %4\n"					\
-> +	"	orr	%3, %4, %3\n"					\
-> +	"	cbnz	%3, 2f\n"					\
-> +	"	st" #rel "xp	%w3, %5, %6, %2\n"			\
-> +	"	cbnz	%w3, 1b\n"					\
-> +	"	" #mb "\n"						\
-> +	"2:"								\
-> +	: "=&r" (r.low), "=&r" (r.high), "+Q" (*(unsigned long *)ptr)	\
-> +	: "r" (o.low), "r" (o.high), "r" (n.low), "r" (n.high)		\
-> +	: cl);								\
-> +									\
-> +	return r.full;							\
-> +}
+> +static struct kexec_load_limit load_limit_reboot = {
+> +	.mutex = __MUTEX_INITIALIZER(load_limit_reboot.mutex),
+> +	.limit = -1,
+> +};
 > +
-> +__CMPXCHG128(   ,        ,  ,         )
-> +__CMPXCHG128(_mb, dmb ish, l, "memory")
+> +static struct kexec_load_limit load_limit_panic = {
+> +	.mutex = __MUTEX_INITIALIZER(load_limit_panic.mutex),
+> +	.limit = -1,
+> +};
 > +
-> +#undef __CMPXCHG128
+>  struct kimage *kexec_image;
+>  struct kimage *kexec_crash_image;
+>  static int kexec_load_disabled;
 > +
->  #undef K
->  
->  #endif	/* __ASM_ATOMIC_LL_SC_H */
-> --- a/arch/arm64/include/asm/atomic_lse.h
-> +++ b/arch/arm64/include/asm/atomic_lse.h
-> @@ -151,7 +151,7 @@ __lse_atomic64_fetch_##op##name(s64 i, a
->  	"	" #asm_op #mb "	%[i], %[old], %[v]"			\
->  	: [v] "+Q" (v->counter),					\
->  	  [old] "=r" (old)						\
-> -	: [i] "r" (i) 							\
-> +	: [i] "r" (i)							\
->  	: cl);								\
->  									\
->  	return old;							\
-> @@ -324,4 +324,35 @@ __CMPXCHG_DBL(_mb, al, "memory")
->  
->  #undef __CMPXCHG_DBL
->  
-> +#define __CMPXCHG128(name, mb, cl...)					\
-> +static __always_inline u128						\
-> +__lse__cmpxchg128##name(volatile u128 *ptr, u128 old, u128 new)		\
-> +{									\
-> +	union __u128_halves r, o = { .full = (old) },			\
-> +			       n = { .full = (new) };			\
-> +	register unsigned long x0 asm ("x0") = o.low;			\
-> +	register unsigned long x1 asm ("x1") = o.high;			\
-> +	register unsigned long x2 asm ("x2") = n.low;			\
-> +	register unsigned long x3 asm ("x3") = n.high;			\
-> +	register unsigned long x4 asm ("x4") = (unsigned long)ptr;	\
-> +									\
-> +	asm volatile(							\
-> +	__LSE_PREAMBLE							\
-> +	"	casp" #mb "\t%[old1], %[old2], %[new1], %[new2], %[v]\n"\
-> +	: [old1] "+&r" (x0), [old2] "+&r" (x1),				\
-> +	  [v] "+Q" (*(unsigned long *)ptr)				\
-> +	: [new1] "r" (x2), [new2] "r" (x3), [ptr] "r" (x4),		\
-
-Issue #1: the line below can be removed, otherwise..
-
-> +	  [oldval1] "r" (r.low), [oldval2] "r" (r.high)			\
-
-warning:
-
-	./arch/arm64/include/asm/atomic_lse.h: In function '__lse__cmpxchg128_mb':
-	./arch/arm64/include/asm/atomic_lse.h:309:27: warning: 'r.<U97b8>.low' is used uninitialized [-Wuninitialized]
-	  309 |           [oldval1] "r" (r.low), [oldval2] "r" (r.high)
-
-
-> +	: cl);								\
-> +									\
-> +	r.low = x0; r.high = x1;					\
-> +									\
-> +	return r.full;							\
-> +}
-> +
-> +__CMPXCHG128(   ,   )
-> +__CMPXCHG128(_mb, al, "memory")
-> +
-> +#undef __CMPXCHG128
-> +
->  #endif	/* __ASM_ATOMIC_LSE_H */
-> --- a/arch/arm64/include/asm/cmpxchg.h
-> +++ b/arch/arm64/include/asm/cmpxchg.h
-> @@ -147,6 +147,19 @@ __CMPXCHG_DBL(_mb)
->  
->  #undef __CMPXCHG_DBL
->  
-> +#define __CMPXCHG128(name)						\
-> +static inline long __cmpxchg128##name(volatile u128 *ptr,		\
-
-Issue #2: this should be
-
-static inline u128 __cmpxchg128##name(..)
-
-because cmpxchg* needs to return the old value.
-
-Regards,
-Boqun
-
-> +				      u128 old, u128 new)		\
-> +{									\
-> +	return __lse_ll_sc_body(_cmpxchg128##name,			\
-> +				ptr, old, new);				\
-> +}
-> +
-> +__CMPXCHG128(   )
-> +__CMPXCHG128(_mb)
-> +
-> +#undef __CMPXCHG128
-> +
->  #define __CMPXCHG_GEN(sfx)						\
->  static __always_inline unsigned long __cmpxchg##sfx(volatile void *ptr,	\
->  					   unsigned long old,		\
-> @@ -229,6 +242,19 @@ __CMPXCHG_GEN(_mb)
->  	__ret;									\
->  })
->  
-> +/* cmpxchg128 */
-> +#define system_has_cmpxchg128()		1
-> +
-> +#define arch_cmpxchg128(ptr, o, n)						\
-> +({										\
-> +	__cmpxchg128_mb((ptr), (o), (n));					\
-> +})
-> +
-> +#define arch_cmpxchg128_local(ptr, o, n)					\
-> +({										\
-> +	__cmpxchg128((ptr), (o), (n));						\
-> +})
-> +
->  #define __CMPWAIT_CASE(w, sfx, sz)					\
->  static inline void __cmpwait_case_##sz(volatile void *ptr,		\
->  				       unsigned long val)		\
-> --- a/arch/s390/include/asm/cmpxchg.h
-> +++ b/arch/s390/include/asm/cmpxchg.h
-> @@ -201,4 +201,37 @@ static __always_inline int __cmpxchg_dou
->  			 (unsigned long)(n1), (unsigned long)(n2));	\
->  })
->  
-> +#define system_has_cmpxchg128()		1
-> +
-> +static __always_inline u128 arch_cmpxchg128(volatile u128 *ptr, u128 old, u128 new)
+>  #ifdef CONFIG_SYSCTL
+> +static int kexec_limit_handler(struct ctl_table *table, int write,
+> +			       void *buffer, size_t *lenp, loff_t *ppos)
 > +{
-> +	asm volatile(
-> +		"	cdsg	%[old],%[new],%[ptr]\n"
-> +		: [old] "+&d" (old)
-> +		: [new] "d" (new),
-> +		  [ptr] "QS" (*(unsigned long *)ptr)
-> +		: "memory", "cc");
-> +	return old;
+> +	struct kexec_load_limit *limit = table->data;
+> +	int val;
+> +	struct ctl_table tmp = {
+> +		.data = &val,
+> +		.maxlen = sizeof(val),
+> +		.mode = table->mode,
+> +	};
+> +	int ret;
+> +
+> +	if (write) {
+> +		ret = proc_dointvec(&tmp, write, buffer, lenp, ppos);
+> +		if (ret)
+> +			return ret;
+> +
+> +		if (val < 0)
+> +			return -EINVAL;
+> +
+> +		mutex_lock(&limit->mutex);
+> +		if (limit->limit != -1 && val >= limit->limit)
+> +			ret = -EINVAL;
+> +		else
+> +			limit->limit = val;
+> +		mutex_unlock(&limit->mutex);
+> +
+> +		return ret;
+> +	}
+> +
+> +	mutex_lock(&limit->mutex);
+> +	val = limit->limit;
+> +	mutex_unlock(&limit->mutex);
+> +
+> +	return proc_dointvec(&tmp, write, buffer, lenp, ppos);
 > +}
 > +
-> +static __always_inline bool arch_try_cmpxchg128(volatile u128 *ptr, u128 *oldp, u128 new)
-> +{
-> +	u128 old = *oldp;
-> +	int cc;
-> +
-> +	asm volatile(
-> +		"	cdsg	%[old],%[new],%[ptr]\n"
-> +		"	ipm	%[cc]\n"
-> +		"	srl	%[cc],28\n"
-> +		: [cc] "=&d" (cc), [old] "+&d" (old)
-> +		: [new] "d" (new),
-> +		  [ptr] "QS" (*(unsigned long *)ptr)
-> +		: "memory", "cc");
-> +
-> +	if (unlikely(!cc))
-> +		*oldp = old;
-> +
-> +	return likely(cc);
-> +}
-> +
->  #endif /* __ASM_CMPXCHG_H */
-> --- a/arch/x86/include/asm/cmpxchg_32.h
-> +++ b/arch/x86/include/asm/cmpxchg_32.h
-> @@ -103,6 +103,7 @@ static inline bool __try_cmpxchg64(volat
+>  static struct ctl_table kexec_core_sysctls[] = {
+>  	{
+>  		.procname	= "kexec_load_disabled",
+> @@ -941,6 +995,18 @@ static struct ctl_table kexec_core_sysctls[] = {
+>  		.extra1		= SYSCTL_ONE,
+>  		.extra2		= SYSCTL_ONE,
+>  	},
+> +	{
+> +		.procname	= "kexec_load_limit_panic",
+> +		.data		= &load_limit_panic,
+> +		.mode		= 0644,
+> +		.proc_handler	= kexec_limit_handler,
+> +	},
+> +	{
+> +		.procname	= "kexec_load_limit_reboot",
+> +		.data		= &load_limit_reboot,
+> +		.mode		= 0644,
+> +		.proc_handler	= kexec_limit_handler,
+> +	},
+>  	{ }
+>  };
 >  
+> @@ -952,13 +1018,30 @@ static int __init kexec_core_sysctl_init(void)
+>  late_initcall(kexec_core_sysctl_init);
 >  #endif
 >  
-> -#define system_has_cmpxchg_double() boot_cpu_has(X86_FEATURE_CX8)
-> +#define system_has_cmpxchg_double()	boot_cpu_has(X86_FEATURE_CX8)
-> +#define system_has_cmpxchg64()		boot_cpu_has(X86_FEATURE_CX8)
+> -bool kexec_load_permitted(void)
+> +bool kexec_load_permitted(int kexec_image_type)
+>  {
+> +	struct kexec_load_limit *limit;
+> +
+>  	/*
+>  	 * Only the superuser can use the kexec syscall and if it has not
+>  	 * been disabled.
+>  	 */
+> -	return capable(CAP_SYS_BOOT) && !kexec_load_disabled;
+> +	if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
+> +		return false;
+> +
+> +	/* Check limit counter and decrease it.*/
+> +	limit = (kexec_image_type == KEXEC_TYPE_CRASH) ?
+> +		&load_limit_panic : &load_limit_reboot;
+> +	mutex_lock(&limit->mutex);
+> +	if (!limit->limit) {
+> +		mutex_unlock(&limit->mutex);
+> +		return false;
+> +	}
+> +	if (limit->limit != -1)
+> +		limit->limit--;
+> +	mutex_unlock(&limit->mutex);
+> +
+> +	return true;
+>  }
 >  
->  #endif /* _ASM_X86_CMPXCHG_32_H */
-> --- a/arch/x86/include/asm/cmpxchg_64.h
-> +++ b/arch/x86/include/asm/cmpxchg_64.h
-> @@ -20,6 +20,59 @@
->  	arch_try_cmpxchg((ptr), (po), (n));				\
->  })
+>  /*
+> diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
+> index 29efa43ea951..da9cfbbb0cbd 100644
+> --- a/kernel/kexec_file.c
+> +++ b/kernel/kexec_file.c
+> @@ -326,11 +326,13 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
+>  		unsigned long, cmdline_len, const char __user *, cmdline_ptr,
+>  		unsigned long, flags)
+>  {
+> -	int ret = 0, i;
+> +	int image_type = (flags & KEXEC_FILE_ON_CRASH) ?
+> +			 KEXEC_TYPE_CRASH : KEXEC_TYPE_DEFAULT;
+>  	struct kimage **dest_image, *image;
+> +	int ret = 0, i;
 >  
-> -#define system_has_cmpxchg_double() boot_cpu_has(X86_FEATURE_CX16)
-> +union __u128_halves {
-> +	u128 full;
-> +	struct {
-> +		u64 low, high;
-> +	};
-> +};
-> +
-> +static __always_inline u128 arch_cmpxchg128(volatile u128 *ptr, u128 old, u128 new)
-> +{
-> +	union __u128_halves o = { .full = old, }, n = { .full = new, };
-> +
-> +	asm volatile(LOCK_PREFIX "cmpxchg16b %[ptr]"
-> +		     : [ptr] "+m" (*ptr),
-> +		       "+a" (o.low), "+d" (o.high)
-> +		     : "b" (n.low), "c" (n.high)
-> +		     : "memory");
-> +
-> +	return o.full;
-> +}
-> +
-> +static __always_inline u128 arch_cmpxchg128_local(volatile u128 *ptr, u128 old, u128 new)
-> +{
-> +	union __u128_halves o = { .full = old, }, n = { .full = new, };
-> +
-> +	asm volatile("cmpxchg16b %[ptr]"
-> +		     : [ptr] "+m" (*ptr),
-> +		       "+a" (o.low), "+d" (o.high)
-> +		     : "b" (n.low), "c" (n.high)
-> +		     : "memory");
-> +
-> +	return o.full;
-> +}
-> +
-> +static __always_inline bool arch_try_cmpxchg128(volatile u128 *ptr, u128 *old, u128 new)
-> +{
-> +	union __u128_halves o = { .full = *old, }, n = { .full = new, };
-> +	bool ret;
-> +
-> +	asm volatile(LOCK_PREFIX "cmpxchg16b %[ptr]"
-> +		     CC_SET(e)
-> +		     : CC_OUT(e) (ret),
-> +		       [ptr] "+m" (*ptr),
-> +		       "+a" (o.low), "+d" (o.high)
-> +		     : "b" (n.low), "c" (n.high)
-> +		     : "memory");
-> +
-> +	if (unlikely(!ret))
-> +		*old = o.full;
-> +
-> +	return likely(ret);
-> +}
-> +
-> +#define system_has_cmpxchg_double()	boot_cpu_has(X86_FEATURE_CX16)
-> +#define system_has_cmpxchg128()		boot_cpu_has(X86_FEATURE_CX16)
+>  	/* We only trust the superuser with rebooting the system. */
+> -	if (!kexec_load_permitted())
+> +	if (!kexec_load_permitted(flags & KEXEC_FILE_ON_CRASH))
+>  		return -EPERM;
 >  
->  #endif /* _ASM_X86_CMPXCHG_64_H */
+>  	/* Make sure we have a legal set of flags */
+> @@ -342,11 +344,12 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
+>  	if (!kexec_trylock())
+>  		return -EBUSY;
+>  
+> -	dest_image = &kexec_image;
+> -	if (flags & KEXEC_FILE_ON_CRASH) {
+> +	if (image_type == KEXEC_TYPE_CRASH) {
+>  		dest_image = &kexec_crash_image;
+>  		if (kexec_crash_image)
+>  			arch_kexec_unprotect_crashkres();
+> +	} else {
+> +		dest_image = &kexec_image;
+>  	}
+>  
+>  	if (flags & KEXEC_FILE_UNLOAD)
 > 
+> -- 
+> 2.39.0.314.g84b9a713c41-goog-b4-0.11.0-dev-696ae
 > 
+> _______________________________________________
+> kexec mailing list
+> kexec@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/kexec
+> 
+
