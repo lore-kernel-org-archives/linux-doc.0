@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 683EFC3DA7A
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 23:32:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD01EC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 23:33:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235898AbiLVXco (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Dec 2022 18:32:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59200 "EHLO
+        id S235910AbiLVXdI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Dec 2022 18:33:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230034AbiLVXcO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 18:32:14 -0500
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2053.outbound.protection.outlook.com [40.107.243.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 298DAF598;
-        Thu, 22 Dec 2022 15:31:58 -0800 (PST)
+        with ESMTP id S235355AbiLVXcX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 18:32:23 -0500
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2043.outbound.protection.outlook.com [40.107.94.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42F5826134;
+        Thu, 22 Dec 2022 15:31:59 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lBJ0VnHpEnyOyCtbfCE1F/MS99PBYGhpMwibCLynWKlCpO8FvxFGe0jHSMzq4wn2A8gx0mJh9wtIojfP5KTX5KxAbKLi2Me5yS6qJb7bbYJU4ngWD6vkPoM0jD3rMXBynGEHx0TFNgZ6OVjj0Pp0MTVX8RAyw5P24upy2CwLy/nJXbDpH0/sY7AZmgKbX3nXr3VUZFQnreX6++yVFK3tO+mxzryHMT4P8JcmYuyiXqBU9Uw3oBLfG4Xd5UGLG/yZdOq05O7zTH1aQKVFpcdYUuu9VJ0V8+67q5HDSNVospwAjGjFdMxHi/qypCp0lYIfxhLkxlk1LrPoCV2bZirbeQ==
+ b=LDfsSj0K/bkp0UF9pnLt/oxlhXazpHA1iupxAFuvL2mM0QaRW0pBV7hz5sIbjcxenWhQySWTEonVsPNoRyUpp3dwNzhgMDspltWEygdxUhB8JYgJBk/27eX9h2xz0h8yCEZaCQZWSzFeQEuhdErER0CguBMe8CpjTk/qTcR1MYbgKiB8sjAlcdcBDUKlDdQkYOOgdpSKQrrjeNxMnBNRi6r7mmHjcP8S6mdSHe01GdtEdbIuet1Z0On8LXYuGGNnIlPN1eHfni+vyvh/PQmFIdTBiD0H01TjHLES9SJPrUdFKXgw6onUX32mLVWOrA5WrOOejzZmh0eO5wjS7glvVQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sC6sD1fOiCpAa9nlTbL134B2teg2PGji/kCRbEoEM6E=;
- b=gkNjE7vZUQBfZuWerJYBvVR99dbUKWWKFquzHsVEVhFUiO9k/a4dfXuVRbxPvfQtnO9zM08QfOD3vZgXC0maCR3EtPbSIONPON2JN+HNXgHG/aW0rphdaPPk9uNw6LhHXGCVisozl2jGspQ2yZkbA7uBL3rPvt0ex09vXGCZEw2lfuoWLPTdSwCljnx0Dj1Qw/0ZCrLriP+V0xTGmUm6pu/Z+Ta+6uLPHkGAYbNs7WIu2XfdcN1M4kOPdszTwrxcI306RVvFk4NsbykL3OWhKBscqfSerBJ4rXdQ++XfqdqabvV0CX4Zc3IzwXHYf8+wWa4D+h8zCKEjBRI336ljVA==
+ bh=WsCivQcGv4JLPLz7jgxt10bk+C/gCXTn2LGSP1mxvEQ=;
+ b=I4E7+Nos4xVdB284i1u5/+XAn52pQkFZEjl5fjib0h1DwZnj/oScs3Uef/xsN2nFr0VIydRylUnBslZlFd7OHDY0yUlmrLY3Kmv5i1L5rLb81MgZCg4me9hpCo8D/5Xh7qAtbE8VmbJ9ecjbBLmJgokEBRhtyRklFPchv49MCSzartBdOAMTedgpFRnfDxtghNxr9qY/y3h7PFJiCIrbVz0HSWwQwvYpJdARsIQHBIEX+gv6XwEBjx0YZZctD8RJ4T1/yWSsHQgO1xdn0DhSLY0RqmN4Tdy92Jab/fT3JlBQ+00GrB9cpUp+J7+/m2kOJKl7FmM/OfE5wWulBMxkrg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sC6sD1fOiCpAa9nlTbL134B2teg2PGji/kCRbEoEM6E=;
- b=5WPsFI+PIre7kZ2gpzWW8PAorlGVU4N+0h49D0FbmC8gXCUixToi4mIMsWfXvfwa/M8nAgr8Ye6Iz9Vmae113gNvRii2XRXGK8TM1VkZgxuRlb1xNhrBtqZTtKyDjMz67h/zHmuXVMp6ud+x7w30jOf2JYKlF6qUm7+GWmGa2f0=
-Received: from CY5PR22CA0047.namprd22.prod.outlook.com (2603:10b6:930:1d::34)
- by CH2PR12MB4200.namprd12.prod.outlook.com (2603:10b6:610:ac::16) with
+ bh=WsCivQcGv4JLPLz7jgxt10bk+C/gCXTn2LGSP1mxvEQ=;
+ b=UDOIPtn6inXjHeVDTaEPzGU2bDf83WL22PW33HuEvu9+fuK8jy0sBw0HPmNvmimccdYWtqkjx+agJnf9x+N06iOCLXwxULs60Y5l9PlK+Q315wdQ5KB+/2T+KBnuw25nZFGIgYXaQskxL5a1HNTH26W4cbePAnmN4Fa7IEoD8+k=
+Received: from CY5PR22CA0058.namprd22.prod.outlook.com (2603:10b6:930:1d::9)
+ by SJ0PR12MB5673.namprd12.prod.outlook.com (2603:10b6:a03:42b::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Thu, 22 Dec
- 2022 23:31:55 +0000
+ 2022 23:31:53 +0000
 Received: from CY4PEPF0000C97C.namprd02.prod.outlook.com
- (2603:10b6:930:1d:cafe::82) by CY5PR22CA0047.outlook.office365.com
- (2603:10b6:930:1d::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.13 via Frontend
- Transport; Thu, 22 Dec 2022 23:31:55 +0000
+ (2603:10b6:930:1d:cafe::84) by CY5PR22CA0058.outlook.office365.com
+ (2603:10b6:930:1d::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.12 via Frontend
+ Transport; Thu, 22 Dec 2022 23:31:53 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,11 +48,11 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  CY4PEPF0000C97C.mail.protection.outlook.com (10.167.241.135) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5944.8 via Frontend Transport; Thu, 22 Dec 2022 23:31:55 +0000
+ 15.20.5944.8 via Frontend Transport; Thu, 22 Dec 2022 23:31:52 +0000
 Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 22 Dec
- 2022 17:31:52 -0600
+ 2022 17:31:49 -0600
 From:   Babu Moger <babu.moger@amd.com>
 To:     <corbet@lwn.net>, <reinette.chatre@intel.com>,
         <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
@@ -70,9 +70,9 @@ CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
         <eranian@google.com>, <christophe.leroy@csgroup.eu>,
         <jarkko@kernel.org>, <adrian.hunter@intel.com>,
         <quic_jiles@quicinc.com>, <peternewman@google.com>
-Subject: [PATCH v10 11/13] x86/resctrl: Add interface to write mbm_total_bytes_config
-Date:   Thu, 22 Dec 2022 17:31:25 -0600
-Message-ID: <20221222233127.910538-12-babu.moger@amd.com>
+Subject: [PATCH v10 09/13] x86/resctrl: Add interface to read mbm_total_bytes_config
+Date:   Thu, 22 Dec 2022 17:31:23 -0600
+Message-ID: <20221222233127.910538-10-babu.moger@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221222233127.910538-1-babu.moger@amd.com>
 References: <20221222233127.910538-1-babu.moger@amd.com>
@@ -84,35 +84,33 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000C97C:EE_|CH2PR12MB4200:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0c003c72-3896-4b17-c003-08dae474b671
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000C97C:EE_|SJ0PR12MB5673:EE_
+X-MS-Office365-Filtering-Correlation-Id: deb7707c-4d3a-40b6-5cc4-08dae474b507
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SYX3ZshIZbCi3zZyx+5DZGWGqio8HYNnIr3ZfgeNXXpul7WO/zGAVeyBTcinuY0fLc7lvkNFLvcCKlahzZnufgmnMtRIaxwJ91PT6TsTX8CG08k/uqE+k/ZmmdHj4QBV3bo885M7YA/jag2pHZdZrJyk5UkHEfxor64N+lGhLVbUoV80LdJkxK0khkm/q7wOdHJSola1nHeeDFD+n1UgkaWBfgaph7FTBfQXK/Dev+sKFwVbMQOtsd1JZ0eMAeKL4Gfo8g0AvNGFs4KQ46MdAD7vAVZExM/CMTcSgyHNW7aFd+Arwaw6GI4CGcEOF52GyusI9pzgtdx0MnBDE6Vmbm3PJc/dJYQmTYuJdapopbRBPidhjIz4MX4nO0M/7tMnkv3EMc+WrkjpOFuw7LgEHa17LqX69tdvAF57W+9YNM7oDj9yll78ukNUAq+nvBf5ki8LoVCt64VglxU3c9H4lOgGsDg/9c/LGc5v+LuRn+FhWWYcfcvzMrpCcZq8/wM9mN+jZ7wop2YTJo7yT79hvyDEbdnUA+9piK0KLERPOSwz4cV5qe3kBiVA3XTb8VR9vJ8387NMAZaR74WGiACCIWRz8iynofk3YJfW+DEt+3ONLXDK8qiyYb8SlMh7I4RWkbiauyUjsSZaNWlUrIW2Pho4f1AoFQfkzj8GxFc7zfvTWw6C4UxClLin+tEa8LUXxlOErpCisN8gD5OXp8DTq1hA8HBvFd1rsZZ9XEgCaxg=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(376002)(136003)(396003)(451199015)(46966006)(36840700001)(40470700004)(2906002)(81166007)(356005)(36860700001)(336012)(47076005)(426003)(40480700001)(36756003)(16526019)(41300700001)(82740400003)(186003)(40460700003)(82310400005)(26005)(70206006)(7406005)(86362001)(5660300002)(110136005)(83380400001)(4326008)(44832011)(8676002)(316002)(7416002)(70586007)(2616005)(1076003)(8936002)(54906003)(478600001)(6666004)(7696005)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: JqggHbmcVzM0F8BdzgWo26na5NyDVVsEyF/+V7hYhrwuXOoZLKN8FO5bkvXdNo4qPB1Z0xoMuyAGDVtkxzWgo/eKEx95CK1SAwes/hFhLa60fFBIFUzh6qlaRNvLres8cXC7ANcR0m4qsWIIDzpJ1md9kRl+BaYjkqs5/e+l+hfbxmQTdv+B27cMvFWacN6SO59/QyG9LQJzv21lSxeYC1hGx+fkLGwcUPmVy7FGTZNL2mZzhAInM4NHstXZRmPq0ZucwRl+L8l3GGQ3+N6xCJNwibyPTQSNqFXCGhqJi0EmdBjiXPpdj9xmU5+buX7WG/fQF40tf5Kps34Rj3YXgQCZujSSybqdBwpILNQL/cpkr4+xLKEzT6laCEvBuBsM7c4MsKilB6PE7mcau/ccqmA0qz/9A9zv7upy+IYjJ/nDc0r1ltrcOVj8RP9ipeph2kIR1euKBkOxj5eAnKMQhpenTsJ+6sfMeiqGErCqfTCHI5mD3FtzS6j27jAkArLRo/zfmq6XXsROrFn5XpCOFO0FFSXVzoJ801N4Q60RgSysz9SRF00NfVgKrMujLo7am4eWnZ2AqrsUjKgSE6yTH9Chma6EHOekk9p3pqnKh+5z0qHQ8jS3M4CD83FQtPr/YtZ1kxo0xcLNEsl42v+ZlTFQMEqsL4D6AlhUXhAbk2n7bJo+QToHGrtY7rBZdxU2ULfWnWh68/IPDR/Gjetnb9DItHNwwSeM/Att3T3Kcsg=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(396003)(136003)(346002)(376002)(39860400002)(451199015)(40470700004)(36840700001)(46966006)(478600001)(36860700001)(41300700001)(70586007)(8676002)(4326008)(82310400005)(336012)(54906003)(70206006)(40480700001)(6666004)(83380400001)(356005)(7696005)(81166007)(82740400003)(26005)(186003)(426003)(36756003)(40460700003)(86362001)(110136005)(16526019)(316002)(1076003)(2616005)(47076005)(44832011)(7406005)(5660300002)(7416002)(2906002)(8936002)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2022 23:31:55.3031
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2022 23:31:52.9281
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c003c72-3896-4b17-c003-08dae474b671
+X-MS-Exchange-CrossTenant-Network-Message-Id: deb7707c-4d3a-40b6-5cc4-08dae474b507
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000C97C.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4200
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5673
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The event configuration for mbm_total_bytes can be changed by the user by
-writing to the file /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config.
-
-The event configuration settings are domain specific and affect all the
-CPUs in the domain.
+The event configuration can be viewed by the user by reading the
+configuration file /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config.
+The event configuration settings are domain specific and will affect all
+the CPUs in the domain.
 
 Following are the types of events supported:
-
 ====  ===========================================================
 Bits   Description
 ====  ===========================================================
@@ -125,220 +123,220 @@ Bits   Description
 0      Reads to memory in the local NUMA domain
 ====  ===========================================================
 
-For example:
-To change the mbm_total_bytes to count only reads on domain 0, the bits
-0, 1, 4 and 5 needs to be set, which is 110011b (in hex 0x33). Run the
-command.
-        $echo  0=0x33 > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
+By default, the mbm_total_bytes_config is set to 0x7f to count all the
+event types.
 
-To change the mbm_total_bytes to count all the slow memory reads on
-domain 1, the bits 4 and 5 needs to be set which is 110000b (in hex 0x30).
-Run the command.
-        $echo  1=0x30 > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
+For example:
+    $cat /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
+    0=0x7f;1=0x7f;2=0x7f;3=0x7f
+
+    In this case, the event mbm_total_bytes is configured with 0x7f on
+    domains 0 to 3.
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 ---
- arch/x86/kernel/cpu/resctrl/monitor.c  |  17 ++++
- arch/x86/kernel/cpu/resctrl/rdtgroup.c | 126 ++++++++++++++++++++++++-
- include/linux/resctrl.h                |  11 +++
- 3 files changed, 153 insertions(+), 1 deletion(-)
+ arch/x86/include/asm/msr-index.h       |   1 +
+ arch/x86/kernel/cpu/resctrl/internal.h |  24 ++++++
+ arch/x86/kernel/cpu/resctrl/monitor.c  |   4 +-
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c | 102 +++++++++++++++++++++++++
+ 4 files changed, 130 insertions(+), 1 deletion(-)
 
+diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+index e0a40027aa62..2e5f57c93605 100644
+--- a/arch/x86/include/asm/msr-index.h
++++ b/arch/x86/include/asm/msr-index.h
+@@ -1062,6 +1062,7 @@
+ /* - AMD: */
+ #define MSR_IA32_MBA_BW_BASE		0xc0000200
+ #define MSR_IA32_SMBA_BW_BASE		0xc0000280
++#define MSR_IA32_EVT_CFG_BASE		0xc0000400
+ 
+ /* MSR_IA32_VMX_MISC bits */
+ #define MSR_IA32_VMX_MISC_INTEL_PT                 (1ULL << 14)
+diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+index 0605b04f1b7a..b2fb09d54f16 100644
+--- a/arch/x86/kernel/cpu/resctrl/internal.h
++++ b/arch/x86/kernel/cpu/resctrl/internal.h
+@@ -30,6 +30,29 @@
+  */
+ #define MBM_CNTR_WIDTH_OFFSET_MAX (62 - MBM_CNTR_WIDTH_BASE)
+ 
++/* Reads to Local DRAM Memory */
++#define READS_TO_LOCAL_MEM		BIT(0)
++
++/* Reads to Remote DRAM Memory */
++#define READS_TO_REMOTE_MEM		BIT(1)
++
++/* Non-Temporal Writes to Local Memory */
++#define NON_TEMP_WRITE_TO_LOCAL_MEM	BIT(2)
++
++/* Non-Temporal Writes to Remote Memory */
++#define NON_TEMP_WRITE_TO_REMOTE_MEM	BIT(3)
++
++/* Reads to Local Memory the system identifies as "Slow Memory" */
++#define READS_TO_LOCAL_S_MEM		BIT(4)
++
++/* Reads to Remote Memory the system identifies as "Slow Memory" */
++#define READS_TO_REMOTE_S_MEM		BIT(5)
++
++/* Dirty Victims to All Types of Memory */
++#define  DIRTY_VICTIMS_TO_ALL_MEM	BIT(6)
++
++/* Max event bits supported */
++#define MAX_EVT_CONFIG_BITS		GENMASK(6, 0)
+ 
+ struct rdt_fs_context {
+ 	struct kernfs_fs_context	kfc;
+@@ -531,5 +554,6 @@ bool has_busy_rmid(struct rdt_resource *r, struct rdt_domain *d);
+ void __check_limbo(struct rdt_domain *d, bool force_free);
+ void rdt_domain_reconfigure_cdp(struct rdt_resource *r);
+ void __init thread_throttle_mode_init(void);
++void __init mbm_config_rftype_init(const char *config);
+ 
+ #endif /* _ASM_X86_RESCTRL_INTERNAL_H */
 diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
-index 7c8a3a745041..c50c43656bdb 100644
+index b39e0eca1879..2afddebc8636 100644
 --- a/arch/x86/kernel/cpu/resctrl/monitor.c
 +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-@@ -176,6 +176,23 @@ void resctrl_arch_reset_rmid(struct rdt_resource *r, struct rdt_domain *d,
- 		memset(am, 0, sizeof(*am));
- }
+@@ -784,8 +784,10 @@ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
+ 		return ret;
  
-+/*
-+ * Assumes that hardware counters are also reset and thus that there is
-+ * no need to record initial non-zero counts.
-+ */
-+void resctrl_arch_reset_rmid_all(struct rdt_resource *r, struct rdt_domain *d)
-+{
-+	struct rdt_hw_domain *hw_dom = resctrl_to_arch_dom(d);
-+
-+	if (is_mbm_total_enabled())
-+		memset(hw_dom->arch_mbm_total, 0,
-+		       sizeof(*hw_dom->arch_mbm_total) * r->num_rmid);
-+
-+	if (is_mbm_local_enabled())
-+		memset(hw_dom->arch_mbm_local, 0,
-+		       sizeof(*hw_dom->arch_mbm_local) * r->num_rmid);
-+}
-+
- static u64 mbm_overflow_count(u64 prev_msr, u64 cur_msr, unsigned int width)
- {
- 	u64 shift = 64 - width, chunks;
+ 	if (rdt_cpu_has(X86_FEATURE_BMEC)) {
+-		if (rdt_cpu_has(X86_FEATURE_CQM_MBM_TOTAL))
++		if (rdt_cpu_has(X86_FEATURE_CQM_MBM_TOTAL)) {
+ 			mbm_total_event.configurable = true;
++			mbm_config_rftype_init("mbm_total_bytes_config");
++		}
+ 		if (rdt_cpu_has(X86_FEATURE_CQM_MBM_LOCAL))
+ 			mbm_local_event.configurable = true;
+ 	}
 diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index 43e2a866e8e0..acaf19f5d65b 100644
+index f34c70c7a791..d47c675a856f 100644
 --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
 +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -1515,6 +1515,129 @@ static int mbm_local_bytes_config_show(struct kernfs_open_file *of,
- 	return 0;
+@@ -1418,6 +1418,93 @@ static int rdtgroup_size_show(struct kernfs_open_file *of,
+ 	return ret;
  }
  
-+static void mon_event_config_write(void *info)
++struct mon_config_info {
++	u32 evtid;
++	u32 mon_config;
++};
++
++#define INVALID_CONFIG_INDEX   UINT_MAX
++
++/**
++ * mon_event_config_index_get - get the hardware index for the
++ *                              configurable event
++ * @evtid: event id.
++ *
++ * Return: 0 for evtid == QOS_L3_MBM_TOTAL_EVENT_ID
++ *         1 for evtid == QOS_L3_MBM_LOCAL_EVENT_ID
++ *         INVALID_CONFIG_INDEX for invalid evtid
++ */
++static inline unsigned int mon_event_config_index_get(u32 evtid)
++{
++	switch (evtid) {
++	case QOS_L3_MBM_TOTAL_EVENT_ID:
++		return 0;
++	case QOS_L3_MBM_LOCAL_EVENT_ID:
++		return 1;
++	default:
++		/* Should never reach here */
++		return INVALID_CONFIG_INDEX;
++	}
++}
++
++static void mon_event_config_read(void *info)
 +{
 +	struct mon_config_info *mon_info = info;
 +	unsigned int index;
++	u32 h;
 +
 +	index = mon_event_config_index_get(mon_info->evtid);
 +	if (index == INVALID_CONFIG_INDEX) {
 +		pr_warn_once("Invalid event id %d\n", mon_info->evtid);
 +		return;
 +	}
-+	wrmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, 0);
++	rdmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, h);
++
++	/* Report only the valid event configuration bits */
++	mon_info->mon_config &= MAX_EVT_CONFIG_BITS;
 +}
 +
-+static int mbm_config_write_domain(struct rdt_resource *r,
-+				   struct rdt_domain *d, u32 evtid, u32 val)
++static void mondata_config_read(struct rdt_domain *d, struct mon_config_info *mon_info)
++{
++	smp_call_function_any(&d->cpu_mask, mon_event_config_read, mon_info, 1);
++}
++
++static int mbm_config_show(struct seq_file *s, struct rdt_resource *r, u32 evtid)
 +{
 +	struct mon_config_info mon_info = {0};
-+	int ret = 0;
++	struct rdt_domain *dom;
++	bool sep = false;
 +
-+	/* mon_config cannot be more than the supported set of events */
-+	if (val > MAX_EVT_CONFIG_BITS) {
-+		rdt_last_cmd_puts("Invalid event configuration\n");
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * Read the current config value first. If both are the same then
-+	 * no need to write it again.
-+	 */
-+	mon_info.evtid = evtid;
-+	mondata_config_read(d, &mon_info);
-+	if (mon_info.mon_config == val)
-+		goto out;
-+
-+	mon_info.mon_config = val;
-+
-+	/*
-+	 * Update MSR_IA32_EVT_CFG_BASE MSR on one of the CPUs in the
-+	 * domain. The MSRs offset from MSR MSR_IA32_EVT_CFG_BASE
-+	 * are scoped at the domain level. Writing any of these MSRs
-+	 * on one CPU is observed by all the CPUs in the domain.
-+	 */
-+	smp_call_function_any(&d->cpu_mask, mon_event_config_write,
-+			      &mon_info, 1);
-+
-+	/*
-+	 * When an Event Configuration is changed, the bandwidth counters
-+	 * for all RMIDs and Events will be cleared by the hardware. The
-+	 * hardware also sets MSR_IA32_QM_CTR.Unavailable (bit 62) for
-+	 * every RMID on the next read to any event for every RMID.
-+	 * Subsequent reads will have MSR_IA32_QM_CTR.Unavailable (bit 62)
-+	 * cleared while it is tracked by the hardware. Clear the
-+	 * mbm_local and mbm_total counts for all the RMIDs.
-+	 */
-+	resctrl_arch_reset_rmid_all(r, d);
-+
-+out:
-+	return ret;
-+}
-+
-+static int mon_config_write(struct rdt_resource *r, char *tok, u32 evtid)
-+{
-+	char *dom_str = NULL, *id_str;
-+	unsigned long dom_id, val;
-+	struct rdt_domain *d;
-+	int ret = 0;
-+
-+next:
-+	if (!tok || tok[0] == '\0')
-+		return 0;
-+
-+	/* Start processing the strings for each domain */
-+	dom_str = strim(strsep(&tok, ";"));
-+	id_str = strsep(&dom_str, "=");
-+
-+	if (!id_str || kstrtoul(id_str, 10, &dom_id)) {
-+		rdt_last_cmd_puts("Missing '=' or non-numeric domain id\n");
-+		return -EINVAL;
-+	}
-+
-+	if (!dom_str || kstrtoul(dom_str, 16, &val)) {
-+		rdt_last_cmd_puts("Non-numeric event configuration value\n");
-+		return -EINVAL;
-+	}
-+
-+	list_for_each_entry(d, &r->domains, list) {
-+		if (d->id == dom_id) {
-+			ret = mbm_config_write_domain(r, d, evtid, val);
-+			if (ret)
-+				return -EINVAL;
-+			goto next;
-+		}
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static ssize_t mbm_total_bytes_config_write(struct kernfs_open_file *of,
-+					    char *buf, size_t nbytes,
-+					    loff_t off)
-+{
-+	struct rdt_resource *r = of->kn->parent->priv;
-+	int ret;
-+
-+	/* Valid input requires a trailing newline */
-+	if (nbytes == 0 || buf[nbytes - 1] != '\n')
-+		return -EINVAL;
-+
-+	cpus_read_lock();
 +	mutex_lock(&rdtgroup_mutex);
 +
-+	rdt_last_cmd_clear();
++	list_for_each_entry(dom, &r->domains, list) {
++		if (sep)
++			seq_puts(s, ";");
 +
-+	buf[nbytes - 1] = '\0';
++		memset(&mon_info, 0, sizeof(struct mon_config_info));
++		mon_info.evtid = evtid;
++		mondata_config_read(dom, &mon_info);
 +
-+	ret = mon_config_write(r, buf, QOS_L3_MBM_TOTAL_EVENT_ID);
++		seq_printf(s, "%d=0x%02x", dom->id, mon_info.mon_config);
++		sep = true;
++	}
++	seq_puts(s, "\n");
 +
 +	mutex_unlock(&rdtgroup_mutex);
-+	cpus_read_unlock();
 +
-+	return ret ?: nbytes;
++	return 0;
++}
++
++static int mbm_total_bytes_config_show(struct kernfs_open_file *of,
++				       struct seq_file *seq, void *v)
++{
++	struct rdt_resource *r = of->kn->parent->priv;
++
++	mbm_config_show(seq, r, QOS_L3_MBM_TOTAL_EVENT_ID);
++
++	return 0;
 +}
 +
  /* rdtgroup information files for one cache resource. */
  static struct rftype res_common_files[] = {
  	{
-@@ -1615,9 +1738,10 @@ static struct rftype res_common_files[] = {
+@@ -1516,6 +1603,12 @@ static struct rftype res_common_files[] = {
+ 		.seq_show	= max_threshold_occ_show,
+ 		.fflags		= RF_MON_INFO | RFTYPE_RES_CACHE,
  	},
++	{
++		.name		= "mbm_total_bytes_config",
++		.mode		= 0444,
++		.kf_ops		= &rdtgroup_kf_single_ops,
++		.seq_show	= mbm_total_bytes_config_show,
++	},
  	{
- 		.name		= "mbm_total_bytes_config",
--		.mode		= 0444,
-+		.mode		= 0644,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= mbm_total_bytes_config_show,
-+		.write		= mbm_total_bytes_config_write,
- 	},
- 	{
- 		.name		= "mbm_local_bytes_config",
-diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
-index 0cee154abc9f..8334eeacfec5 100644
---- a/include/linux/resctrl.h
-+++ b/include/linux/resctrl.h
-@@ -250,6 +250,17 @@ int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_domain *d,
- void resctrl_arch_reset_rmid(struct rdt_resource *r, struct rdt_domain *d,
- 			     u32 rmid, enum resctrl_event_id eventid);
+ 		.name		= "cpus",
+ 		.mode		= 0644,
+@@ -1622,6 +1715,15 @@ void __init thread_throttle_mode_init(void)
+ 	rft->fflags = RF_CTRL_INFO | RFTYPE_RES_MB;
+ }
  
-+/**
-+ * resctrl_arch_reset_rmid_all() - Reset all private state associated with
-+ *				   all rmids and eventids.
-+ * @r:		The resctrl resource.
-+ * @d:		The domain for which all architectural counter state will
-+ *		be cleared.
-+ *
-+ * This can be called from any CPU.
-+ */
-+void resctrl_arch_reset_rmid_all(struct rdt_resource *r, struct rdt_domain *d);
++void __init mbm_config_rftype_init(const char *config)
++{
++	struct rftype *rft;
 +
- extern unsigned int resctrl_rmid_realloc_threshold;
- extern unsigned int resctrl_rmid_realloc_limit;
- 
++	rft = rdtgroup_get_rftype_by_name(config);
++	if (rft)
++		rft->fflags = RF_MON_INFO | RFTYPE_RES_CACHE;
++}
++
+ /**
+  * rdtgroup_kn_mode_restrict - Restrict user access to named resctrl file
+  * @r: The resource group with which the file is associated.
 -- 
 2.34.1
 
