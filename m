@@ -2,345 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B1D3C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 13:02:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 845A7C4167B
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 13:17:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235419AbiLVNCV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Dec 2022 08:02:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42588 "EHLO
+        id S235361AbiLVNR2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Dec 2022 08:17:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235247AbiLVNCR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 08:02:17 -0500
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D50CC15F07;
-        Thu, 22 Dec 2022 05:02:15 -0800 (PST)
-Received: by mail-pl1-x62f.google.com with SMTP id d7so1937129pll.9;
-        Thu, 22 Dec 2022 05:02:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=auxgNS73v4EHqFSgSnnjf0lDLMSqK0khCzQowlCeFIk=;
-        b=BMdzmQBOpe7KmciPm+2KUuwQgtEVV1dpMXanzO7UUOc2Gsng7oqIrc0Li84X6s8tep
-         t5NkSSe2ygl6n+WiHYVBCZL8SuV6T1o03KDSzA3IP78C1QpX7y3USEoBwb7BJTkOu9Ik
-         /e4hfNKOGbMmDr8BFa2lHfNavnfd8v45EIka9pDd+BntriwuXAk2EBqcmDdDlD7F3SlT
-         /vGEHPfN4sjc+RkLe33QW8a45sbEBtGsY9qdYJOz2XXgw288em/efq/aIyeH9U/n9iYk
-         uHzmzv6QW196LzQDOlIcV6VRN8br1Yq9CzSFUZFxAqBxtBkOLnh1fn9YETBbGSAsKjbz
-         83pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=auxgNS73v4EHqFSgSnnjf0lDLMSqK0khCzQowlCeFIk=;
-        b=ob907MFj7jhJv1t7zvxDCOI27WvV1kCMD5L+7NHYz242DCij4++0hq0TuVy4DnOj23
-         iMumYN6w9bgP7toH24qbzIqL19UfyRVkwJx5/tMrsMCgGW9gIlRjJUcDfkSlPrk8kNyP
-         qh8ffbgYHHHjNk3jVeDkP+FjxEPs16ZyZJkQKdnEPJ0SllBZjEPARsIyQIs2P0Tqc5sE
-         ISDIsMMx0irMcOy3yN+LrBO5kfMxZ3oQkiTCV4C4S2KYLUJZQTcYjC6mqT2Yd8Bwib6n
-         26+QMv7nshNDTCp8k/tBsWymeOSatH/P/VVstaHxMSRfEIN+/J254UvdPy/2mpsu/4pA
-         LPgQ==
-X-Gm-Message-State: AFqh2kpdKjrTvbkMGg6d3XCmzysn4woD7sHheJW9qneLgYEIOpX1yE1h
-        pGzTyHgirjVLoPZgbFK4wcartsngK6U=
-X-Google-Smtp-Source: AMrXdXu1RovjbcnuVE1uB57rd8TVUhZ5TL0fh17WdyTJCIb45Cc9FkqebWZvneeedVEEJsAdSbzoGw==
-X-Received: by 2002:a17:902:7042:b0:189:6a5a:7289 with SMTP id h2-20020a170902704200b001896a5a7289mr6625556plt.52.1671714135195;
-        Thu, 22 Dec 2022 05:02:15 -0800 (PST)
-Received: from debian.me (subs03-180-214-233-71.three.co.id. [180.214.233.71])
-        by smtp.gmail.com with ESMTPSA id b13-20020a170902650d00b00189667acf15sm473229plk.162.2022.12.22.05.02.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Dec 2022 05:02:13 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 8B7CC10160E; Thu, 22 Dec 2022 20:02:05 +0700 (WIB)
-Date:   Thu, 22 Dec 2022 20:02:05 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: maintainer-pgp-guide: update for latest gnupg
- defaults
-Message-ID: <Y6RVTQxhcxDDrvO3@debian.me>
-References: <20221220-docs-pgp-guide-v1-1-9b0c0bf974fb@linuxfoundation.org>
+        with ESMTP id S235372AbiLVNR1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 08:17:27 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5CA72B247;
+        Thu, 22 Dec 2022 05:17:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=2XcHZF1PZLR2wIWpbwHYxjPC+APViKRD8vA3VUxcIvg=; b=KCXj9vIla9OYqKdFn9cR8kvNM7
+        aFCQeC8riSg8V400TR89vezYQDYLiis4eNRLNs8TpTaXaw65hlSoAk1r6vPtZd+exgqLf0ix1mWk/
+        7mD3VAmxpBkRslmasRJRs+fKtYpKnU1ADefum9T6WSCkywkO5VAsLjiapOTmMfHm3hWA+ZnPwbN/x
+        w/QRGrx3Tff9U3N5qrWzRNVImBPIIWUH62fHNh4gOn/lh1uA85Bq4VekD+WTPjngLVS9jAhxdeZUl
+        IsMAPZLgwBX86nVypWOAboNnZASXp2L/Ju1gXccS53q3KAKJFdUiOmNk/uvedjpjQbE+kHWV+JJwu
+        O+7WKnuA==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1p8LR1-00Dq0t-2q;
+        Thu, 22 Dec 2022 13:16:32 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D4E3C30006D;
+        Thu, 22 Dec 2022 14:16:28 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 5D8FC2CEAF0FB; Thu, 22 Dec 2022 14:16:28 +0100 (CET)
+Date:   Thu, 22 Dec 2022 14:16:28 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     torvalds@linux-foundation.org, corbet@lwn.net, will@kernel.org,
+        mark.rutland@arm.com, catalin.marinas@arm.com, dennis@kernel.org,
+        tj@kernel.org, cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, Herbert Xu <herbert@gondor.apana.org.au>,
+        davem@davemloft.net, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-s390@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org
+Subject: Re: [RFC][PATCH 05/12] arch: Introduce
+ arch_{,try_}_cmpxchg128{,_local}()
+Message-ID: <Y6RYrHV3PK+FwW2p@hirez.programming.kicks-ass.net>
+References: <20221219153525.632521981@infradead.org>
+ <20221219154119.154045458@infradead.org>
+ <Y6OyAL2epKPHj+tr@boqun-archlinux>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="E8QBJcnwTpIG3sVd"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221220-docs-pgp-guide-v1-1-9b0c0bf974fb@linuxfoundation.org>
+In-Reply-To: <Y6OyAL2epKPHj+tr@boqun-archlinux>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Dec 21, 2022 at 05:25:20PM -0800, Boqun Feng wrote:
 
---E8QBJcnwTpIG3sVd
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > +#define __CMPXCHG128(name, mb, cl...)					\
+> > +static __always_inline u128						\
+> > +__lse__cmpxchg128##name(volatile u128 *ptr, u128 old, u128 new)		\
+> > +{									\
+> > +	union __u128_halves r, o = { .full = (old) },			\
+> > +			       n = { .full = (new) };			\
+> > +	register unsigned long x0 asm ("x0") = o.low;			\
+> > +	register unsigned long x1 asm ("x1") = o.high;			\
+> > +	register unsigned long x2 asm ("x2") = n.low;			\
+> > +	register unsigned long x3 asm ("x3") = n.high;			\
+> > +	register unsigned long x4 asm ("x4") = (unsigned long)ptr;	\
+> > +									\
+> > +	asm volatile(							\
+> > +	__LSE_PREAMBLE							\
+> > +	"	casp" #mb "\t%[old1], %[old2], %[new1], %[new2], %[v]\n"\
+> > +	: [old1] "+&r" (x0), [old2] "+&r" (x1),				\
+> > +	  [v] "+Q" (*(unsigned long *)ptr)				\
+> > +	: [new1] "r" (x2), [new2] "r" (x3), [ptr] "r" (x4),		\
+> 
+> Issue #1: the line below can be removed, otherwise..
+> 
+> > +	  [oldval1] "r" (r.low), [oldval2] "r" (r.high)			\
+> 
+> warning:
+> 
+> 	./arch/arm64/include/asm/atomic_lse.h: In function '__lse__cmpxchg128_mb':
+> 	./arch/arm64/include/asm/atomic_lse.h:309:27: warning: 'r.<U97b8>.low' is used uninitialized [-Wuninitialized]
+> 	  309 |           [oldval1] "r" (r.low), [oldval2] "r" (r.high)
+> 
+> 
+> > +	: cl);								\
+> > +									\
+> > +	r.low = x0; r.high = x1;					\
+> > +									\
+> > +	return r.full;							\
+> > +}
+> > +
+> > +__CMPXCHG128(   ,   )
+> > +__CMPXCHG128(_mb, al, "memory")
+> > +
+> > +#undef __CMPXCHG128
+> > +
+> >  #endif	/* __ASM_ATOMIC_LSE_H */
+> > --- a/arch/arm64/include/asm/cmpxchg.h
+> > +++ b/arch/arm64/include/asm/cmpxchg.h
+> > @@ -147,6 +147,19 @@ __CMPXCHG_DBL(_mb)
+> >  
+> >  #undef __CMPXCHG_DBL
+> >  
+> > +#define __CMPXCHG128(name)						\
+> > +static inline long __cmpxchg128##name(volatile u128 *ptr,		\
+> 
+> Issue #2: this should be
+> 
+> static inline u128 __cmpxchg128##name(..)
+> 
+> because cmpxchg* needs to return the old value.
 
-On Tue, Dec 20, 2022 at 02:44:17PM -0500, Konstantin Ryabitsev wrote:
-> It is finally becoming increasingly rare to find a distribution that
-> still ships with gnupg-1.x, so remove the last vestiges of "gpg" vs
-> "gpg2" from documentation.
->=20
-> Similarly, starting with GnuPG 2.2 and above, the default --gen-key
-> operation creates ed25519/cv25519 keypairs, so update all example
-> command outputs to use that combination instead of rsa2048.
->=20
-> Lastly, add a few wording tweaks and remove links that lead to stale
-> information (e.g. hardware tokens overview from 2017).
->=20
-
-Shouldn't "Protecting Code Integrity" doc also be updated with recent
-situation?
-
-> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-> ---
->  Documentation/process/maintainer-pgp-guide.rst | 102 ++++++++-----------=
-------
->  1 file changed, 30 insertions(+), 72 deletions(-)
->=20
-> diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentati=
-on/process/maintainer-pgp-guide.rst
-> index 40bfbd3b7648..f5277993b195 100644
-> --- a/Documentation/process/maintainer-pgp-guide.rst
-> +++ b/Documentation/process/maintainer-pgp-guide.rst
-> @@ -60,36 +60,18 @@ establish the integrity of the Linux kernel itself.
->  PGP tools
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> -Use GnuPG v2
-> -------------
-> +Use GnuPG 2.2 or later
-> +----------------------
-> =20
->  Your distro should already have GnuPG installed by default, you just
-> -need to verify that you are using version 2.x and not the legacy 1.4
-> -release -- many distributions still package both, with the default
-> -``gpg`` command invoking GnuPG v.1. To check, run::
-> +need to verify that you are using a reasonably recent version of it.
-> +To check, run::
-> =20
->      $ gpg --version | head -n1
-> =20
-> -If you see ``gpg (GnuPG) 1.4.x``, then you are using GnuPG v.1. Try the
-> -``gpg2`` command (if you don't have it, you may need to install the
-> -gnupg2 package)::
-> -
-> -    $ gpg2 --version | head -n1
-> -
-> -If you see ``gpg (GnuPG) 2.x.x``, then you are good to go. This guide
-> -will assume you have the version 2.2 of GnuPG (or later). If you are
-> -using version 2.0 of GnuPG, then some of the commands in this guide will
-> -not work, and you should consider installing the latest 2.2 version of
-> -GnuPG. Versions of gnupg-2.1.11 and later should be compatible for the
-> -purposes of this guide as well.
-> -
-> -If you have both ``gpg`` and ``gpg2`` commands, you should make sure you
-> -are always using GnuPG v2, not the legacy version. You can enforce this
-> -by setting the appropriate alias::
-> -
-> -    $ alias gpg=3Dgpg2
-> -
-> -You can put that in your ``.bashrc`` to make sure it's always the case.
-> +If you have version 2.2 or above, then you are good to go. If you have a
-> +version that is prior than 2.2, then some commands from this guide may
-> +not work.
-> =20
->  Configure gpg-agent options
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> @@ -150,9 +132,9 @@ PGP defines four capabilities that a key can have:
->  The key with the **[C]** capability is often called the "master" key,
->  but this terminology is misleading because it implies that the Certify
->  key can be used in place of any of other subkey on the same chain (like
-> -a physical "master key" can be used to open the locks made for other
-> -keys). Since this is not the case, this guide will refer to it as "the
-> -Certify key" to avoid any ambiguity.
-> +a physical "master key" can be used to open locks made for other keys).
-> +Since this is not the case, this guide will refer to it as "the Certify
-> +key" to avoid any ambiguity.
-> =20
->  It is critical to fully understand the following:
-> =20
-> @@ -186,10 +168,10 @@ If you used the default parameters when generating =
-your key, then that
->  is what you will have. You can verify by running ``gpg --list-secret-key=
-s``,
->  for example::
-> =20
-> -    sec   rsa2048 2018-01-23 [SC] [expires: 2020-01-23]
-> +    sec   ed25519 2022-12-20 [SC] [expires: 2024-12-19]
->            000000000000000000000000AAAABBBBCCCCDDDD
->      uid           [ultimate] Alice Dev <adev@kernel.org>
-> -    ssb   rsa2048 2018-01-23 [E] [expires: 2020-01-23]
-> +    ssb   cv25519 2022-12-20 [E] [expires: 2024-12-19]
-> =20
->  The long line under the ``sec`` entry is your key fingerprint --
->  whenever you see ``[fpr]`` in the examples below, that 40-character
-> @@ -219,18 +201,9 @@ separate signing subkey::
-> =20
->  .. note:: ECC support in GnuPG
-> =20
-> -    GnuPG 2.1 and later has full support for Elliptic Curve
-> -    Cryptography, with ability to combine ECC subkeys with traditional
-> -    RSA keys. The main upside of ECC cryptography is that it is much
-> -    faster computationally and creates much smaller signatures when
-> -    compared byte for byte with 2048+ bit RSA keys. Unless you plan on
-> -    using a smartcard device that does not support ECC operations, we
-> -    recommend that you create an ECC signing subkey for your kernel
-> -    work.
-> -
-> -    Note, that if you plan to use a hardware device that does not
-> +    Note, that if you intend to use a hardware token that does not
->      support ED25519 ECC keys, you should choose "nistp256" instead or
-> -    "ed25519."
-> +    "ed25519." See the section below on recommended hardware devices.
-> =20
-> =20
->  Back up your Certify key for disaster recovery
-> @@ -336,13 +309,13 @@ First, identify the keygrip of your Certify key::
-> =20
->  The output will be something like this::
-> =20
-> -    pub   rsa2048 2018-01-24 [SC] [expires: 2020-01-24]
-> +    pub   ed25519 2022-12-20 [SC] [expires: 2022-12-19]
->            000000000000000000000000AAAABBBBCCCCDDDD
->            Keygrip =3D 1111000000000000000000000000000000000000
->      uid           [ultimate] Alice Dev <adev@kernel.org>
-> -    sub   rsa2048 2018-01-24 [E] [expires: 2020-01-24]
-> +    sub   cv25519 2022-12-20 [E] [expires: 2022-12-19]
->            Keygrip =3D 2222000000000000000000000000000000000000
-> -    sub   ed25519 2018-01-24 [S]
-> +    sub   ed25519 2022-12-20 [S]
->            Keygrip =3D 3333000000000000000000000000000000000000
-> =20
->  Find the keygrip entry that is beneath the ``pub`` line (right under the
-> @@ -365,14 +338,14 @@ Now, if you issue the ``--list-secret-keys`` comman=
-d, it will show that
->  the Certify key is missing (the ``#`` indicates it is not available)::
-> =20
->      $ gpg --list-secret-keys
-> -    sec#  rsa2048 2018-01-24 [SC] [expires: 2020-01-24]
-> +    sec#  ed25519 2022-12-20 [SC] [expires: 2024-12-19]
->            000000000000000000000000AAAABBBBCCCCDDDD
->      uid           [ultimate] Alice Dev <adev@kernel.org>
-> -    ssb   rsa2048 2018-01-24 [E] [expires: 2020-01-24]
-> -    ssb   ed25519 2018-01-24 [S]
-> +    ssb   cv25519 2022-12-20 [E] [expires: 2024-12-19]
-> +    ssb   ed25519 2022-12-20 [S]
-> =20
->  You should also remove any ``secring.gpg`` files in the ``~/.gnupg``
-> -directory, which are left over from earlier versions of GnuPG.
-> +directory, which may be left over from previous versions of GnuPG.
-> =20
->  If you don't have the "private-keys-v1.d" directory
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> @@ -437,8 +410,7 @@ functionality. There are several options available:
->    U2F, among others, and now finally supports NISTP and ED25519 ECC
->    keys.
-> =20
-> -`LWN has a good review`_ of some of the above models, as well as several
-> -others. Your choice will depend on cost, shipping availability in your
-> +Your choice will depend on cost, shipping availability in your
->  geographical region, and open/proprietary hardware considerations.
-> =20
->  .. note::
-> @@ -451,7 +423,6 @@ geographical region, and open/proprietary hardware co=
-nsiderations.
->  .. _`Nitrokey Pro 2`: https://shop.nitrokey.com/shop/product/nkpr2-nitro=
-key-pro-2-3
->  .. _`Yubikey 5`: https://www.yubico.com/products/yubikey-5-overview/
->  .. _Gnuk: https://www.fsij.org/doc-gnuk/
-> -.. _`LWN has a good review`: https://lwn.net/Articles/736231/
->  .. _`qualify for a free Nitrokey Start`: https://www.kernel.org/nitrokey=
--digital-tokens-for-kernel-developers.html
-> =20
->  Configure your smartcard device
-> @@ -509,11 +480,11 @@ passphrase and the admin PIN of the card for most o=
-perations::
-> =20
->      Secret subkeys are available.
-> =20
-> -    pub  rsa2048/AAAABBBBCCCCDDDD
-> -         created: 2018-01-23  expires: 2020-01-23  usage: SC
-> +    pub  ed25519/AAAABBBBCCCCDDDD
-> +         created: 2022-12-20  expires: 2024-12-19  usage: SC
->           trust: ultimate      validity: ultimate
-> -    ssb  rsa2048/1111222233334444
-> -         created: 2018-01-23  expires: never       usage: E
-> +    ssb  cv25519/1111222233334444
-> +         created: 2022-12-20  expires: never       usage: E
->      ssb  ed25519/5555666677778888
->           created: 2017-12-07  expires: never       usage: S
->      [ultimate] (1). Alice Dev <adev@kernel.org>
-> @@ -577,11 +548,11 @@ If you perform ``--list-secret-keys`` now, you will=
- see a subtle
->  difference in the output::
-> =20
->      $ gpg --list-secret-keys
-> -    sec#  rsa2048 2018-01-24 [SC] [expires: 2020-01-24]
-> +    sec#  ed25519 2022-12-20 [SC] [expires: 2024-12-19]
->            000000000000000000000000AAAABBBBCCCCDDDD
->      uid           [ultimate] Alice Dev <adev@kernel.org>
-> -    ssb>  rsa2048 2018-01-24 [E] [expires: 2020-01-24]
-> -    ssb>  ed25519 2018-01-24 [S]
-> +    ssb>  cv25519 2022-12-20 [E] [expires: 2024-12-19]
-> +    ssb>  ed25519 2022-12-20 [S]
-> =20
->  The ``>`` in the ``ssb>`` output indicates that the subkey is only
->  available on the smartcard. If you go back into your secret keys
-> @@ -644,7 +615,7 @@ run::
->  You can also use a specific date if that is easier to remember (e.g.
->  your birthday, January 1st, or Canada Day)::
-> =20
-> -    $ gpg --quick-set-expire [fpr] 2020-07-01
-> +    $ gpg --quick-set-expire [fpr] 2025-07-01
-> =20
->  Remember to send the updated key back to keyservers::
-> =20
-> @@ -707,12 +678,6 @@ should be used (``[fpr]`` is the fingerprint of your=
- key)::
-> =20
->      $ git config --global user.signingKey [fpr]
-> =20
-> -**IMPORTANT**: If you have a distinct ``gpg2`` command, then you should
-> -tell git to always use it instead of the legacy ``gpg`` from version 1::
-> -
-> -    $ git config --global gpg.program gpg2
-> -    $ git config --global gpgv.program gpgv2
-> -
->  How to work with signed tags
->  ----------------------------
-> =20
-> @@ -751,13 +716,6 @@ If you are verifying someone else's git tag, then yo=
-u will need to
->  import their PGP key. Please refer to the
->  ":ref:`verify_identities`" section below.
-> =20
-> -.. note::
-> -
-> -    If you get "``gpg: Can't check signature: unknown pubkey
-> -    algorithm``" error, you need to tell git to use gpgv2 for
-> -    verification, so it properly processes signatures made by ECC keys.
-> -    See instructions at the start of this section.
-> -
->  Configure git to always sign annotated tags
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> =20
->=20
-
-LGTM, thanks.
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---E8QBJcnwTpIG3sVd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY6RVSAAKCRD2uYlJVVFO
-o9A2AP9C2bHfZvPdCD/VFq9mgWI7PHOEcqPuR6GuZcRGMI962QEAjioFDtVI+29M
-Ce6wKu2iiDfTd9QjCJifQfIzlaDeEgI=
-=VBzV
------END PGP SIGNATURE-----
-
---E8QBJcnwTpIG3sVd--
+Duh.. fixed both. Pushed out to queue/core/wip-u128. I'll probably
+continue all this in two weeks (yay xmas break!).
