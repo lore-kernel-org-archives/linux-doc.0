@@ -2,338 +2,196 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60BB6C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 02:50:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14C74C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 08:43:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234980AbiLVCuY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Dec 2022 21:50:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55208 "EHLO
+        id S232013AbiLVInk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Dec 2022 03:43:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234961AbiLVCuX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Dec 2022 21:50:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 912E21B1F1
-        for <linux-doc@vger.kernel.org>; Wed, 21 Dec 2022 18:49:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1671677377;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=kThFGykb7MnuCuNb2lJR0gBltHWCcpSBG2QAsyZbZJs=;
-        b=D+PBuPyqudXZFObWLGWBUer08zYfYIst64xetPNIGKjqSFldgEALQIwncSK5rTDrQMpKEo
-        zbv4mm3/JwtnsNTVw3lzGGiTu0or3atqvnQg3Ynpd5p6YFvDFb2cdKqiRILIwXBZKrUIQW
-        CoR0bKK92nbdwI/rHwpxPXF32D5iDhA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-263-kB93dcHHPIaFnaKmHsVXKg-1; Wed, 21 Dec 2022 21:49:36 -0500
-X-MC-Unique: kB93dcHHPIaFnaKmHsVXKg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B98729A9D42;
-        Thu, 22 Dec 2022 02:49:35 +0000 (UTC)
-Received: from localhost (ovpn-12-50.pek2.redhat.com [10.72.12.50])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 20E1F492C14;
-        Thu, 22 Dec 2022 02:49:33 +0000 (UTC)
-Date:   Thu, 22 Dec 2022 10:49:30 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Philipp Rudo <prudo@redhat.com>,
-        Ross Zwisler <zwisler@kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        kexec@lists.infradead.org,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] kexec: Introduce sysctl parameters
- kexec_load_limit_*
-Message-ID: <Y6PFugKAUckXXpvi@MiWiFi-R3L-srv>
-References: <20221114-disable-kexec-reset-v5-0-1bd37caf3c75@chromium.org>
- <20221114-disable-kexec-reset-v5-3-1bd37caf3c75@chromium.org>
+        with ESMTP id S231221AbiLVInj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 03:43:39 -0500
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3429823BD2;
+        Thu, 22 Dec 2022 00:43:37 -0800 (PST)
+Received: from dggpeml500002.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Nd3hx5JffzmWnD;
+        Thu, 22 Dec 2022 16:42:25 +0800 (CST)
+Received: from [10.67.103.44] (10.67.103.44) by dggpeml500002.china.huawei.com
+ (7.185.36.158) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 22 Dec
+ 2022 16:43:34 +0800
+Subject: Re: [PATCH v15 2/2] Documentation: Add document for UltraSoc SMB
+ driver
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+References: <20221220092945.30722-1-hejunhao3@huawei.com>
+ <20221220092945.30722-3-hejunhao3@huawei.com> <Y6KFQIk8rbMIglBO@debian.me>
+CC:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
+        <mike.leach@linaro.org>, <leo.yan@linaro.org>,
+        <jonathan.cameron@huawei.com>, <coresight@lists.linaro.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <lpieralisi@kernel.org>,
+        <linuxarm@huawei.com>, <yangyicong@huawei.com>,
+        <liuqi6124@gmail.com>, <f.fangjian@huawei.com>,
+        <shenyang39@huawei.com>, <prime.zeng@hisilicon.com>
+From:   hejunhao <hejunhao3@huawei.com>
+Message-ID: <d8810003-7bac-da2e-23ec-f130cc9f104e@huawei.com>
+Date:   Thu, 22 Dec 2022 16:43:34 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221114-disable-kexec-reset-v5-3-1bd37caf3c75@chromium.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+In-Reply-To: <Y6KFQIk8rbMIglBO@debian.me>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.103.44]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpeml500002.china.huawei.com (7.185.36.158)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
 
-On 12/21/22 at 08:45pm, Ricardo Ribalda wrote:
-> Add two parameters to specify how many times a kexec kernel can be loaded.
-> 
-> The sysadmin can set different limits for kexec panic and kexec reboot
-> kernels.
-> 
-> The value can be modified at runtime via sysctl, but only with a value
-> smaller than the current one (except -1).
+On 2022/12/21 12:02, Bagas Sanjaya wrote:
+> On Tue, Dec 20, 2022 at 05:29:45PM +0800, Junhao He wrote:
+>> diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb b/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
+>> new file mode 100644
+>> index 000000000000..f6526882c627
+>> --- /dev/null
+>> +++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
+>> @@ -0,0 +1,31 @@
+>> +What:		/sys/bus/coresight/devices/ultra_smb<N>/enable_sink
+>> +Date:		December 2022
+>> +KernelVersion:	6.2
+>> +Contact:	Junhao He <hejunhao3@huawei.com>
+>> +Description:	(RW) Add/remove a SMB device from a trace path. There can be
+>> +		multiple sources for a single SMB device.
+>> +
+>> +What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/buf_size
+>> +Date:		December 2022
+>> +KernelVersion:	6.2
+>> +Contact:	Junhao He <hejunhao3@huawei.com>
+>> +Description:	(Read) Shows the buffer size of each UltraSoc SMB device.
+>> +
+>> +What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/buf_status
+>> +Date:		December 2022
+>> +KernelVersion:	6.2
+>> +Contact:	Junhao He <hejunhao3@huawei.com>
+>> +Description:	(Read) Shows the value held by UltraSoc SMB status register.
+>> +		BIT(0) is zero means buffer is empty.
+>> +
+>> +What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/read_pos
+>> +Date:		December 2022
+>> +KernelVersion:	6.2
+>> +Contact:	Junhao He <hejunhao3@huawei.com>
+>> +Description:	(Read) Shows the value held by UltraSoc SMB Read Pointer register.
+>> +
+>> +What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/write_pos
+>> +Date:		December 2022
+>> +KernelVersion:	6.2
+>> +Contact:	Junhao He <hejunhao3@huawei.com>
+>> +Description:	(Read) Shows the value held by UltraSoc SMB Write Pointer register.
+> s/Read/RO/ and s/value held by/value of/
+Ok, will fix it.
 
-This patch is not complex, and doens't add code complexity. And from
-code comment and document, we can easily know how the new toggles can be
-used. BUT I am wondering if everybody have got why they are needed, and
-where or when they are needed and will be used, except of stupid me. 
+Thanks.
+>> diff --git a/Documentation/trace/coresight/ultrasoc-smb.rst b/Documentation/trace/coresight/ultrasoc-smb.rst
+>> new file mode 100644
+>> index 000000000000..056dd120e14c
+>> --- /dev/null
+>> +++ b/Documentation/trace/coresight/ultrasoc-smb.rst
+>> @@ -0,0 +1,83 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +======================================
+>> +UltraSoc - HW Assisted Tracing on SoC
+>> +======================================
+>> +   :Author:   Qi Liu <liuqi115@huawei.com>
+>> +   :Date:     December 2022
+>> +
+>> +Introduction
+>> +------------
+>> +
+>> +UltraSoc SMB is a per SCCL (Super CPU Cluster) hardware. It provides a
+>> +way to buffer and store CPU trace messages in a region of shared system
+>> +memory. The device acts as a coresight sink device and the
+>> +corresponding trace generators (ETM) are attached as source devices.
+>> +
+>> +Sysfs files and directories
+>> +---------------------------
+>> +
+>> +The SMB devices appear on the existing coresight bus alongside other
+>> +devices::
+>> +
+>> +	$# ls /sys/bus/coresight/devices/
+>> +	ultra_smb0   ultra_smb1   ultra_smb2   ultra_smb3
+>> +
+>> +The ``ultra_smb<N>`` names SMB device associated with SCCL.::
+>> +
+>> +	$# ls /sys/bus/coresight/devices/ultra_smb0
+>> +	enable_sink   mgmt
+>> +	$# ls /sys/bus/coresight/devices/ultra_smb0/mgmt
+>> +	buf_size  buf_status  read_pos  write_pos
+>> +
+>> +Key file items are:
+>> +
+>> +   * ``read_pos``: Shows the value on the read pointer register.
+>> +   * ``write_pos``: Shows the value on the write pointer register.
+>> +   * ``buf_status``: Shows the value on the status register.
+>> +     BIT(0) is zero value which means the buffer is empty.
+>> +   * ``buf_size``: Shows the buffer size of each device.
+>> +
+>> +Firmware Bindings
+>> +-----------------
+>> +
+>> +The device is only supported with ACPI. Its binding describes device
+>> +identifier, resource information and graph structure.
+>> +
+>> +The device is identified as ACPI HID "HISI03A1". Device resources are allocated
+>> +using the _CRS method. Each device must present two base address; the first one
+>> +is the configuration base address of the device, the second one is the 32-bit
+>> +base address of shared system memory.
+>> +
+>> +Example::
+>> +
+>> +    Device(USMB) {                                               \
+>> +      Name(_HID, "HISI03A1")                                     \
+>> +      Name(_CRS, ResourceTemplate() {                            \
+>> +          QWordMemory (ResourceConsumer, , MinFixed, MaxFixed, NonCacheable, \
+>> +		       ReadWrite, 0x0, 0x95100000, 0x951FFFFF, 0x0, 0x100000) \
+>> +          QWordMemory (ResourceConsumer, , MinFixed, MaxFixed, Cacheable, \
+>> +		       ReadWrite, 0x0, 0x50000000, 0x53FFFFFF, 0x0, 0x4000000) \
+>> +      })                                                         \
+>> +      Name(_DSD, Package() {                                     \
+>> +        ToUUID("ab02a46b-74c7-45a2-bd68-f7d344ef2153"),          \
+>> +	/* Use CoreSight Graph ACPI bindings to describe connections topology */
+>> +        Package() {                                              \
+>> +          0,                                                     \
+>> +          1,                                                     \
+>> +          Package() {                                            \
+>> +            1,                                                   \
+>> +            ToUUID("3ecbc8b6-1d0e-4fb3-8107-e627f805c6cd"),      \
+>> +            8,                                                   \
+>> +            Package() {0x8, 0, \_SB.S00.SL11.CL28.F008, 0},       \
+>> +            Package() {0x9, 0, \_SB.S00.SL11.CL29.F009, 0},       \
+>> +            Package() {0xa, 0, \_SB.S00.SL11.CL2A.F010, 0},       \
+>> +            Package() {0xb, 0, \_SB.S00.SL11.CL2B.F011, 0},       \
+>> +            Package() {0xc, 0, \_SB.S00.SL11.CL2C.F012, 0},       \
+>> +            Package() {0xd, 0, \_SB.S00.SL11.CL2D.F013, 0},       \
+>> +            Package() {0xe, 0, \_SB.S00.SL11.CL2E.F014, 0},       \
+>> +            Package() {0xf, 0, \_SB.S00.SL11.CL2F.F015, 0},       \
+>> +          }                                                      \
+>> +        }                                                        \
+>> +      })                                                         \
+>> +    }
+> This doc LGTM, thanks.
+>
+> For this doc,
+>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Thanks for your comments.
 
-We have had a toggle kexec_load_disabled which can be used to close the
-door before alread loading image. Now we want another two toggles to
-guard how many times we can flip the door. I am not familiar with
-kernel security policy, is it not safe to provide details in log? If so,
-please ignore this mail.
-
-In fact, my concern is that in the future, if a new user of kexec/kdump
-want to know why these two knobs are added, while can't get any helpful
-information from commit message. If she/he asks me, I can only shrug. Up
-to now, I don't know what real use case these two toggles are used for,
-why they have to be added. And the default value of them are '-1', how
-will we make use of them in distros? What's the suggested value? Or '-1'
-is the suggested value, you just use them in some cornor case on some
-mysterious system?
-
-Just saying we want to add some new useful stuffs, that's it. Frankly
-speaking, w/o special reason, this is not the way we are supposed to add
-new stuffs into kernel. 
-
-Thanks
-Baoquan
-
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  Documentation/admin-guide/sysctl/kernel.rst | 18 ++++++
->  include/linux/kexec.h                       |  2 +-
->  kernel/kexec.c                              |  4 +-
->  kernel/kexec_core.c                         | 87 ++++++++++++++++++++++++++++-
->  kernel/kexec_file.c                         | 11 ++--
->  5 files changed, 114 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 97394bd9d065..a3922dffbd47 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -461,6 +461,24 @@ allowing a system to set up (and later use) an image without it being
->  altered.
->  Generally used together with the `modules_disabled`_ sysctl.
->  
-> +kexec_load_limit_panic
-> +======================
-> +
-> +This parameter specifies a limit to the number of times the syscalls
-> +``kexec_load`` and ``kexec_file_load`` can be called with a crash
-> +image. It can only be set with a more restrictive value than the
-> +current one.
-> +
-> +=  =============================================================
-> +-1 Unlimited calls to kexec. This is the default setting.
-> +N  Number of calls left.
-> +=  =============================================================
-> +
-> +kexec_load_limit_reboot
-> +======================
-> +
-> +Similar functionality as ``kexec_load_limit_panic``, but for a crash
-> +image.
->  
->  kptr_restrict
->  =============
-> diff --git a/include/linux/kexec.h b/include/linux/kexec.h
-> index 182e0c11b87b..791e65829f86 100644
-> --- a/include/linux/kexec.h
-> +++ b/include/linux/kexec.h
-> @@ -407,7 +407,7 @@ extern int kimage_crash_copy_vmcoreinfo(struct kimage *image);
->  extern struct kimage *kexec_image;
->  extern struct kimage *kexec_crash_image;
->  
-> -bool kexec_load_permitted(void);
-> +bool kexec_load_permitted(int kexec_image_type);
->  
->  #ifndef kexec_flush_icache_page
->  #define kexec_flush_icache_page(page)
-> diff --git a/kernel/kexec.c b/kernel/kexec.c
-> index ce1bca874a8d..92d301f98776 100644
-> --- a/kernel/kexec.c
-> +++ b/kernel/kexec.c
-> @@ -190,10 +190,12 @@ static int do_kexec_load(unsigned long entry, unsigned long nr_segments,
->  static inline int kexec_load_check(unsigned long nr_segments,
->  				   unsigned long flags)
->  {
-> +	int image_type = (flags & KEXEC_ON_CRASH) ?
-> +			 KEXEC_TYPE_CRASH : KEXEC_TYPE_DEFAULT;
->  	int result;
->  
->  	/* We only trust the superuser with rebooting the system. */
-> -	if (!kexec_load_permitted())
-> +	if (!kexec_load_permitted(image_type))
->  		return -EPERM;
->  
->  	/* Permit LSMs and IMA to fail the kexec */
-> diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
-> index a1efc70f4158..951541d78ca8 100644
-> --- a/kernel/kexec_core.c
-> +++ b/kernel/kexec_core.c
-> @@ -926,10 +926,64 @@ int kimage_load_segment(struct kimage *image,
->  	return result;
->  }
->  
-> +struct kexec_load_limit {
-> +	/* Mutex protects the limit count. */
-> +	struct mutex mutex;
-> +	int limit;
-> +};
-> +
-> +static struct kexec_load_limit load_limit_reboot = {
-> +	.mutex = __MUTEX_INITIALIZER(load_limit_reboot.mutex),
-> +	.limit = -1,
-> +};
-> +
-> +static struct kexec_load_limit load_limit_panic = {
-> +	.mutex = __MUTEX_INITIALIZER(load_limit_panic.mutex),
-> +	.limit = -1,
-> +};
-> +
->  struct kimage *kexec_image;
->  struct kimage *kexec_crash_image;
->  static int kexec_load_disabled;
-> +
->  #ifdef CONFIG_SYSCTL
-> +static int kexec_limit_handler(struct ctl_table *table, int write,
-> +			       void *buffer, size_t *lenp, loff_t *ppos)
-> +{
-> +	struct kexec_load_limit *limit = table->data;
-> +	int val;
-> +	struct ctl_table tmp = {
-> +		.data = &val,
-> +		.maxlen = sizeof(val),
-> +		.mode = table->mode,
-> +	};
-> +	int ret;
-> +
-> +	if (write) {
-> +		ret = proc_dointvec(&tmp, write, buffer, lenp, ppos);
-> +		if (ret)
-> +			return ret;
-> +
-> +		if (val < 0)
-> +			return -EINVAL;
-> +
-> +		mutex_lock(&limit->mutex);
-> +		if (limit->limit != -1 && val >= limit->limit)
-> +			ret = -EINVAL;
-> +		else
-> +			limit->limit = val;
-> +		mutex_unlock(&limit->mutex);
-> +
-> +		return ret;
-> +	}
-> +
-> +	mutex_lock(&limit->mutex);
-> +	val = limit->limit;
-> +	mutex_unlock(&limit->mutex);
-> +
-> +	return proc_dointvec(&tmp, write, buffer, lenp, ppos);
-> +}
-> +
->  static struct ctl_table kexec_core_sysctls[] = {
->  	{
->  		.procname	= "kexec_load_disabled",
-> @@ -941,6 +995,18 @@ static struct ctl_table kexec_core_sysctls[] = {
->  		.extra1		= SYSCTL_ONE,
->  		.extra2		= SYSCTL_ONE,
->  	},
-> +	{
-> +		.procname	= "kexec_load_limit_panic",
-> +		.data		= &load_limit_panic,
-> +		.mode		= 0644,
-> +		.proc_handler	= kexec_limit_handler,
-> +	},
-> +	{
-> +		.procname	= "kexec_load_limit_reboot",
-> +		.data		= &load_limit_reboot,
-> +		.mode		= 0644,
-> +		.proc_handler	= kexec_limit_handler,
-> +	},
->  	{ }
->  };
->  
-> @@ -952,13 +1018,30 @@ static int __init kexec_core_sysctl_init(void)
->  late_initcall(kexec_core_sysctl_init);
->  #endif
->  
-> -bool kexec_load_permitted(void)
-> +bool kexec_load_permitted(int kexec_image_type)
->  {
-> +	struct kexec_load_limit *limit;
-> +
->  	/*
->  	 * Only the superuser can use the kexec syscall and if it has not
->  	 * been disabled.
->  	 */
-> -	return capable(CAP_SYS_BOOT) && !kexec_load_disabled;
-> +	if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
-> +		return false;
-> +
-> +	/* Check limit counter and decrease it.*/
-> +	limit = (kexec_image_type == KEXEC_TYPE_CRASH) ?
-> +		&load_limit_panic : &load_limit_reboot;
-> +	mutex_lock(&limit->mutex);
-> +	if (!limit->limit) {
-> +		mutex_unlock(&limit->mutex);
-> +		return false;
-> +	}
-> +	if (limit->limit != -1)
-> +		limit->limit--;
-> +	mutex_unlock(&limit->mutex);
-> +
-> +	return true;
->  }
->  
->  /*
-> diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
-> index 29efa43ea951..da9cfbbb0cbd 100644
-> --- a/kernel/kexec_file.c
-> +++ b/kernel/kexec_file.c
-> @@ -326,11 +326,13 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
->  		unsigned long, cmdline_len, const char __user *, cmdline_ptr,
->  		unsigned long, flags)
->  {
-> -	int ret = 0, i;
-> +	int image_type = (flags & KEXEC_FILE_ON_CRASH) ?
-> +			 KEXEC_TYPE_CRASH : KEXEC_TYPE_DEFAULT;
->  	struct kimage **dest_image, *image;
-> +	int ret = 0, i;
->  
->  	/* We only trust the superuser with rebooting the system. */
-> -	if (!kexec_load_permitted())
-> +	if (!kexec_load_permitted(flags & KEXEC_FILE_ON_CRASH))
->  		return -EPERM;
->  
->  	/* Make sure we have a legal set of flags */
-> @@ -342,11 +344,12 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
->  	if (!kexec_trylock())
->  		return -EBUSY;
->  
-> -	dest_image = &kexec_image;
-> -	if (flags & KEXEC_FILE_ON_CRASH) {
-> +	if (image_type == KEXEC_TYPE_CRASH) {
->  		dest_image = &kexec_crash_image;
->  		if (kexec_crash_image)
->  			arch_kexec_unprotect_crashkres();
-> +	} else {
-> +		dest_image = &kexec_image;
->  	}
->  
->  	if (flags & KEXEC_FILE_UNLOAD)
-> 
-> -- 
-> 2.39.0.314.g84b9a713c41-goog-b4-0.11.0-dev-696ae
-> 
-> _______________________________________________
-> kexec mailing list
-> kexec@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/kexec
-> 
+Best regards,
+Junhao.
 
