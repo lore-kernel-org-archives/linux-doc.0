@@ -2,311 +2,242 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99906C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Dec 2022 23:33:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E008C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Dec 2022 00:50:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235730AbiLVXd3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Dec 2022 18:33:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59256 "EHLO
+        id S229754AbiLWAuj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Dec 2022 19:50:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235713AbiLVXcc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 18:32:32 -0500
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2065.outbound.protection.outlook.com [40.107.94.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D40830549;
-        Thu, 22 Dec 2022 15:32:05 -0800 (PST)
+        with ESMTP id S229613AbiLWAui (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Dec 2022 19:50:38 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A32D1DDDB;
+        Thu, 22 Dec 2022 16:50:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1671756636; x=1703292636;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=dfpQa3xVfepFtVnUq/Bu8sMVfEBaI5Gc4e0dq+/i174=;
+  b=NU8/ADlpFiEmAkmNwiV6HMtoFDbpcq4W71cFf/ctVpn1uhqVarAtpQUJ
+   0p3g6IPsPVNpswOak1iF9GHkE3OM0SCfrY22QqvFg+SgHvdfeMZlGGAqu
+   ApxqWcJ0Sy+hJACufsDcKfUI0e8JVpGvP1ijMOvn+bWi8s8xwakCHRZ2C
+   DRNB6hxwnIRNICZhsHwb+xcq8ik8BcbscprJ0hgx+iZJ3vKyGMI5m1hTE
+   INNwAGukOuyvWbgxNpa0+DrDCg2MOiKCkVKzGtI8zWCM8yRhn53/ZpNp2
+   zcjXdUBHtaJUCA34cOKiJnVYJi1DbY90tFyy4kUx7j9sVz4pkFhAsCcnM
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="322185774"
+X-IronPort-AV: E=Sophos;i="5.96,267,1665471600"; 
+   d="scan'208";a="322185774"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 16:50:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="826148960"
+X-IronPort-AV: E=Sophos;i="5.96,267,1665471600"; 
+   d="scan'208";a="826148960"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga005.jf.intel.com with ESMTP; 22 Dec 2022 16:50:34 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 22 Dec 2022 16:50:34 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 22 Dec 2022 16:50:33 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Thu, 22 Dec 2022 16:50:33 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.104)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Thu, 22 Dec 2022 16:50:33 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BHQUxiw9hWP9KIAxfGUywpqfgrgXDLylvYhSNaLsk1Vk9d1QUFpkmBcR+LnsIJCRZFgewZYa2gR/sCVxzx1VfZf4OwrAv4N3kjpD9g2R4S4wqAwewhU6UP0yfXkDMqOlZojjui/WeKX4TGeveeE5UWe5Xyj5BOSMD3iYBxbNAEqlZU0YJlLkRxtuVl2mVFRy2S3Xra8BJjLh1gDMyVivAnUtcKX1pGn/uGyz1KeP3EXCVx088yA19sePn6JVyMPfaAthDzaYiuCLg6kqoKuVZJ7DmCCAZjZ/f+FTF5e+RZ6khgj5ykc1gNElL/nJb8MkGiMl3zrrIB8FRMj0eRVAKg==
+ b=BhVQY/GT998B4gPnfjKa509FhJiZnUIIZihtKyJJdZ55gUEZwxBN1iqQmzZWPtHIRisnXaRrVLF5qnDF80M51Ms/CUV51sEBN7xcxK0SoUYnya/lA5ePIh03eSbeAuwyEM/8dYILY22G575bXSiFhTny9GPsULSe/O+A6cbPdmSs2ZMpkWxI53h4yTqnSdjMNsLdJZ/k329aBOsgwTgfpoB0URAolKpXimdf7Ba36/i8fSZEUbadlPIBiDqO0N6m1WMmVLHeaANDp9pG/zmaqjSZize50zRCyJkVBOxCIUGwv9LKZS5YHFqS0Gy9CZW9tzsSyIgILDD+GC0+oRbzuA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6hWTtXXSNLFNh8UrNSm0cr6JJMABy78HvmXcQT4GQDU=;
- b=TqDHBxUWv/jS+Mx9cSi/MeXKoBNcxLOam8sJ7lJ+7SPLwwJEmINaxhf0akJWbbgVf0bg7mf0aeA1coEikT7UYJzXzY94yiBW2tcDZNXTvuQFppDu0DJkcWSU0ZoYOb3/BwjjESSK+S5crLM9JEs0h0o2RirREjUVEEl9O4tjM6Y7wCVMUm2/bP7b+Ywh0MjML2lx+U/ewBtxDm+TSQePQIIFd+9lKU0j8qJWvBRAwCYrigkzQ+YMrAYQOMYO0kjE0Ies0/JP6ymC07FXl/6RTBDqiNBuHVwVmR2NcSQxs9Cc7ncz0KfLJJdhKPDaVUb6CAdJvhuhj4yUpgO0Xlqg7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6hWTtXXSNLFNh8UrNSm0cr6JJMABy78HvmXcQT4GQDU=;
- b=qKcksv9/gdj8wKs1uhICCL+JFSzvy8A2fpxHD7mn8fA4gU32W4xvSKoRVmoxJMKfrSuOdGrJ4D2UJBYarLqGtaRaqP27EsZ6W6pq6DlAGFJFm9Ek7vN1ruJbDmtWhHetrZ0zexB5yyABwL2Yo9IcSYh3nolUe5cUV2aFYYWZ3tc=
-Received: from CY5PR19CA0098.namprd19.prod.outlook.com (2603:10b6:930:83::15)
- by MN6PR12MB8513.namprd12.prod.outlook.com (2603:10b6:208:472::13) with
+ bh=dfpQa3xVfepFtVnUq/Bu8sMVfEBaI5Gc4e0dq+/i174=;
+ b=iVizRZUQZFQgszQtSEQI6dx3MK+Nd4K3OyKj0QBuRaig+LvhFR4f/JUozOt1JhthrHA4JyRPkAUg3yQVAxNSS921Bzctur7eZWReFNLwxqMODvrldutHhhb/X0Jup68jfScn5LzL4QoA3uZ/bKRRloUv7kDlFGGqScxRQsXevfv32Ez4CpNNzLYlWb2Nj+HUi7UYhA5/55C6vhyhHJ3QZSivmeIGer1z/qxOFzacdQRpM7Cnqk2oFmBQf8VzKZ6EFdzHbamvd9IlN7ER/evoY6sePYqOm+q8FQZd3rJxxUh5i4oWpdkk36owVmkzF3Ts+3YxzOSmjWkVBapYJ0tN0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BL1PR11MB5978.namprd11.prod.outlook.com (2603:10b6:208:385::18)
+ by DS0PR11MB7443.namprd11.prod.outlook.com (2603:10b6:8:148::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Thu, 22 Dec
- 2022 23:31:59 +0000
-Received: from CY4PEPF0000C976.namprd02.prod.outlook.com
- (2603:10b6:930:83:cafe::7f) by CY5PR19CA0098.outlook.office365.com
- (2603:10b6:930:83::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.12 via Frontend
- Transport; Thu, 22 Dec 2022 23:31:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000C976.mail.protection.outlook.com (10.167.241.132) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5944.10 via Frontend Transport; Thu, 22 Dec 2022 23:31:58 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 22 Dec
- 2022 17:31:56 -0600
-From:   Babu Moger <babu.moger@amd.com>
-To:     <corbet@lwn.net>, <reinette.chatre@intel.com>,
-        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
-CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
-        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
-        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
-        <songmuchun@bytedance.com>, <peterz@infradead.org>,
-        <jpoimboe@kernel.org>, <pbonzini@redhat.com>, <babu.moger@amd.com>,
-        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
-        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
-        <sandipan.das@amd.com>, <tony.luck@intel.com>,
-        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
-        <eranian@google.com>, <christophe.leroy@csgroup.eu>,
-        <jarkko@kernel.org>, <adrian.hunter@intel.com>,
-        <quic_jiles@quicinc.com>, <peternewman@google.com>
-Subject: [PATCH v10 13/13] Documentation/x86: Update resctrl.rst for new features
-Date:   Thu, 22 Dec 2022 17:31:27 -0600
-Message-ID: <20221222233127.910538-14-babu.moger@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221222233127.910538-1-babu.moger@amd.com>
-References: <20221222233127.910538-1-babu.moger@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Fri, 23 Dec
+ 2022 00:50:23 +0000
+Received: from BL1PR11MB5978.namprd11.prod.outlook.com
+ ([fe80::2fb7:be18:a20d:9b6e]) by BL1PR11MB5978.namprd11.prod.outlook.com
+ ([fe80::2fb7:be18:a20d:9b6e%8]) with mapi id 15.20.5924.016; Fri, 23 Dec 2022
+ 00:50:22 +0000
+From:   "Huang, Kai" <kai.huang@intel.com>
+To:     "Christopherson,, Sean" <seanjc@google.com>,
+        "chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>
+CC:     "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "Hocko, Michal" <mhocko@suse.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "ak@linux.intel.com" <ak@linux.intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "tabba@google.com" <tabba@google.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "michael.roth@amd.com" <michael.roth@amd.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        "dhildenb@redhat.com" <dhildenb@redhat.com>,
+        "bfields@fieldses.org" <bfields@fieldses.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+        "ddutile@redhat.com" <ddutile@redhat.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
+        "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
+        "qperret@google.com" <qperret@google.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
+        "aarcange@redhat.com" <aarcange@redhat.com>,
+        "wanpengli@tencent.com" <wanpengli@tencent.com>,
+        "vannapurve@google.com" <vannapurve@google.com>,
+        "hughd@google.com" <hughd@google.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        "jlayton@kernel.org" <jlayton@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Wang, Wei W" <wei.w.wang@intel.com>,
+        "steven.price@arm.com" <steven.price@arm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linmiaohe@huawei.com" <linmiaohe@huawei.com>
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Thread-Topic: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Thread-Index: AQHZBhXuq53UEB1w4kqtU0OzCkPOIq5sjtQAgAhi5ICAAA9XAIABemYAgAATugCAAefUgIAB34kAgABuWYA=
+Date:   Fri, 23 Dec 2022 00:50:22 +0000
+Message-ID: <05a5ec889f3e04d71c0ed067bedea2e3b0eacd00.camel@intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+         <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
+         <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
+         <20221219075313.GB1691829@chaop.bj.intel.com>
+         <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
+         <20221220072228.GA1724933@chaop.bj.intel.com>
+         <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
+         <20221221133905.GA1766136@chaop.bj.intel.com> <Y6SevJt6XXOsmIBD@google.com>
+In-Reply-To: <Y6SevJt6XXOsmIBD@google.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BL1PR11MB5978:EE_|DS0PR11MB7443:EE_
+x-ms-office365-filtering-correlation-id: 2db37618-6181-42ed-7f91-08dae47fac21
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8wAd6aHoobwGwgyseaaDoAdnDWM7AMIbQ7YjcZjYPz2GOBOMLCxrih1pxZNeqYoLcHNQh42TYJjt7D+AyMqR7o+UW4khho3aezkUAmdSGkz9B1HQghQw81zobAdQ35UD0aoh6TkZBp6KcRgITmEp2aZ5nDq+3TUdheA13987+uerCbanksyOAa2UuAO99jz9tbw1aeAytf3t2By6TnPlG5tewa9S1l95kISzeG7Pxl6Adr0i+w0uwFR4Z1ZnRG7edmM2CddL6vYjJ9ziY/bEDLzOYoB5mHoyBsGdUNY/aL1scF99RuM9rW44VoDsQnxnajd49b4j1IhS9O9N1qdUvOiY7nfdU8QGTGNvr4z9bh1XK/BYpb1Mkon0w8YZS0Bc9mU8MWg+l8jsUxZB9+1DifjfzkKbylNsz/RMewosO1O8n0UghrWH8QxaKKUS4blYjhVr46zNiy9dywWQG4CXa9tqR3YdZ2l2oDdJ8Ot/IWU89TShKIP14eKfCzAIL/9dcah5QrLeGKjwOcXdC1edERQ1/fPnCDfcppPi5NMlbn3829+mYtc0Pox7N4QpBe/igZ6gX+RfG5wCFwShkVhSrynvUqv8Xdn2UFZxZReC+A/rLvUeTkwO/tKFveKzcC1rWlUTNYs8gJ4lYtDKs8M903jVH5Y/CEcPbg2hoWsVJn8K4QCxwnS+bwQQ9yIwV8i5dEk3I3wZe3C/xzuctvEPcQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR11MB5978.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(346002)(366004)(396003)(376002)(39860400002)(451199015)(8936002)(83380400001)(41300700001)(186003)(4001150100001)(2906002)(26005)(5660300002)(6512007)(36756003)(110136005)(6486002)(66946007)(71200400001)(76116006)(478600001)(7416002)(91956017)(7406005)(82960400001)(54906003)(38070700005)(66476007)(4326008)(86362001)(8676002)(6506007)(316002)(66446008)(38100700002)(64756008)(66556008)(2616005)(122000001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VUlNanBjZ1lQdk40Z0YzckFXNHRDb1VVZkNTTU1DblFPNTVrUXVQUmtxdjUr?=
+ =?utf-8?B?SXlQUWdsYXpENXRoU1FWczRqb1JBUDN6bUNaSkx3LzFFRXpBUDdWYWRSenZM?=
+ =?utf-8?B?UWJMdDd3OU1hQlNzaFNPRDk5MzZBbDFhZHVIRHJMWWxibjcybG9TY01xdmlw?=
+ =?utf-8?B?K3FHUDB4QUlZL3g4Ukl2QU1xM0h2ODdRclNIdElnVThPWDI2L2lOOXBST2o1?=
+ =?utf-8?B?aDd1aVhISnZmbm1Wbm1FK2Y3WTZleGYrMTcxczB6K1JLNkZlMFlvTFZKcTB3?=
+ =?utf-8?B?cHJuRU9CQ1ZVWml6THBUVmlLMURyb3JlNm9DREJEY3lUd3Z4OWh2UWJNTU9P?=
+ =?utf-8?B?RDZLY0JuR0UvVURnTE84ZHhPaGxCQU5PSnRnU0I3V2lJVU1yM2lEL3F0Mlpa?=
+ =?utf-8?B?bTRWT0p2SGxXRTJQbVRzMEJTTHpibWVrZVA4dXVJK3VhZEZteWUvams5VUEv?=
+ =?utf-8?B?RUNkaDBIK0YwMWs2NW1Hc0lScXpSNjNkNUYyQTdwNXhNSVV2VFVHQ3RORFhM?=
+ =?utf-8?B?STgvWUlDVlNsT2hNMG1TVkYyNi9tbnpCZ3pRWTZDSFpRUDFHd3VXdGJBREJv?=
+ =?utf-8?B?VWpqY2RseGVNVDFzWURTRXpyZVdJZXM3UW1Hc0owNnh3WGJRZFVaaG9HYXNS?=
+ =?utf-8?B?MzVlS3prV0lNZXRHdFBwcGYvVlBUcFBZdkxDY0dZV3c1bVduaFZWN3VSa0tz?=
+ =?utf-8?B?YmVtOG1lUzVIWVZzTERUb21pd1ljN3htTExYanQwem56Ym9weTNhcVhmYXZz?=
+ =?utf-8?B?Ykt3TUlLc2FsdTFFaDdhWXcyZDVacTc5T2tKU2tyS2RMWnJzNURkaloxVStL?=
+ =?utf-8?B?cHNDNEVHaXpBSDJFRzFPektkeEJzUEhhYTRPdmZSd1huSUNrNmdXeld6LzZR?=
+ =?utf-8?B?NVFzUGZnR2RWajg3bTU5ZVliNUM1MThJSlVqamdhQ1VVbjVJZlFEODVOYnFG?=
+ =?utf-8?B?ajE3eUpuMEQ4ZjBXblNWNWVTZ1dzRzNObjd3empIWnRCRmpTMnZCamN3TzFL?=
+ =?utf-8?B?Sy9jRmJYT0VuOWRRcStEaXdTNVhPcVQ1Nk91Q2hFSEdjdEpQQVhReXdqRlUw?=
+ =?utf-8?B?RUo0V09zcE9JakRiS2s5MW9ZRkZ6eFJuVWE2SWVueEEvUTBYQ0pLMzdHcE1i?=
+ =?utf-8?B?dk5qdFlsUTQwRUN6TEppcjF0eUJiL0J5NjMvUHN3RGJ4b1A1QlJMb2xZZFpi?=
+ =?utf-8?B?RGYwaXM1ZGFwTmZONHZVYjg4WHRsNE80M0szSlozZzlVWnJpRldHbDF0RkJ1?=
+ =?utf-8?B?cEdDcDJvOENUcEx4aHNUZm0vOTYzQ1U4YjNLRW4xRkJIUG4zSngxN0RSZDFC?=
+ =?utf-8?B?NDlneEw2ZzNGbC9YMnlmY0VhK3pma3lBWWVsR1RjaVVqS3NHL3BhWXVOY1NQ?=
+ =?utf-8?B?Y3R1TjdDNFNWSmRxTUdnZVdrd0NJWXRMaU14RTR5U0w1VjkzTVAzTktrYXdw?=
+ =?utf-8?B?NUUwWG1LQnZaOWwvUU1ndkhoN0Jkdk8xNjlzMUxXei9ncUlWbzE4VXZCZm5Y?=
+ =?utf-8?B?TW5RUHhDZjkreHhBTERjcHJLcmh6VW1CQ2lES2N3TTJXT0tHTTRpN2ZLUVkv?=
+ =?utf-8?B?NVZiTll1SU9iUkxxN0xxdXI0M0hjNmdoTGJPbnozVElwdkZ0aFMyazRlK3l1?=
+ =?utf-8?B?R0swSGxVVG5kYjU1ckNNeDJUMGs0NDV0OHJGbEtjTDAvbm1HMGFPblg0SmhL?=
+ =?utf-8?B?dE9pTUVFR3NBZW1nL1BHRmJvNk11ZWhKL09IZENEcmJGR1VHRDNaY0EyNEFm?=
+ =?utf-8?B?dE1sT093eUpXNHhPL1hQNTE4dGI2SElCWGhIejByNUgwSHNQSHVjV3p3UzhP?=
+ =?utf-8?B?NHRxRXE2TWV6blZCR3NyN2RBbnJLL0czTi9KTFF5NEQrQ2M2VVp2N1IwK2NW?=
+ =?utf-8?B?TFVIYklKcnJBcXoyTW1wM0FDbU83bWZRdlY0cFFjTFhpWStxZ0c0WkN6VDNW?=
+ =?utf-8?B?Q2NUVHhjVzlkUExsV0hrQzBPdWV4Z1FEcTVUY244MFB6VUhiLzVIN0lRcGRD?=
+ =?utf-8?B?Mm1JcVpCY0lKVE42RzJIOEo2SllCVVFWREZIakRuR3pBNXB5dFF6QlVaNjdR?=
+ =?utf-8?B?NXljaW1EVXB4SXJQZ2RPMVJnOFd0dlg0RXE2ZEJQVjNSc29tL0NYTXUrWnBn?=
+ =?utf-8?B?QThaa2NyeXVGcUUycldvR1k4MUxoek9xRVdTeTJ4TDRUSnpsU3laOCtMNThj?=
+ =?utf-8?B?bmc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B51BC747AEDC5A43A0AFCE589E590201@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000C976:EE_|MN6PR12MB8513:EE_
-X-MS-Office365-Filtering-Correlation-Id: b9c1bacb-713e-473f-56f6-08dae474b853
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wcW0P7QLApzOb7VX5m9ffGW/2c5fAjjSKXSnKBL1WhvAQilER+dXsfRn3/tlCP5qvOLG+wPanl9J8sq8mMRl76ngsPxGyR/Mgz0B0hZPlCJp49pRkydgkKMUC2lmwIvL1agc+ryvjGEFGubFw/cjzBJ06vZwtLRDvSXHpSzy7mJFR6GL5BxudgMrBAzgNF9n7xmE+QPDQR5xVtrk8ufytFAcm8VYWsrRt+THKte4ZRPdKhUbQKRZZI5z6QfjCetxK3egTmSr/dX7HlDzC703zks9dGuSAadTyh0pfllGzvM0KciF24e586xYauazChQt0gcBFYTC6eTcybDBQleRAU8aqSNe8i/XNBFOiY8sqCgVVaI1kBY3jxlVMAg8e3UcLjFQlBTAWt6IC4wcqtPJ6Ea34LvUhOGJZgz1YU7gyby7ujyjNZHXR2o0AzpYqOzoHHJJhhCN8n4vvwFdApXpGW5mLhGIw5qMGmyYfvQLGrBywDus7ObHbcSpdzTo/Ek08Dg3ToaNmmNFloxCT/fOkEHvzP06+gyQqwYPqI+jIZkDcLovuU+zpCriGp+g+xroGPuYVr5cFT3+G9i9rUBtFu5YU5av/ozWms2N/bk/RW1a6h6rZRa0B2USOtRgByC+v7Mu3uW/7/RR4pvsbKIKdBzY6daURQBmIimiU7Zw42ihatYid4y/OrBcvn4XYNgUnh3EdzLdJfjf/5VgSgq6+FMfcVdzhTI+k0CVhvxQMMQ=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(346002)(136003)(376002)(39860400002)(396003)(451199015)(40470700004)(36840700001)(46966006)(110136005)(336012)(86362001)(316002)(83380400001)(40460700003)(478600001)(54906003)(356005)(36756003)(40480700001)(47076005)(426003)(2616005)(16526019)(1076003)(7696005)(186003)(82740400003)(81166007)(26005)(82310400005)(2906002)(15650500001)(7406005)(6666004)(41300700001)(70586007)(8936002)(44832011)(70206006)(4326008)(5660300002)(36860700001)(8676002)(7416002)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2022 23:31:58.5061
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5978.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2db37618-6181-42ed-7f91-08dae47fac21
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Dec 2022 00:50:22.5890
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9c1bacb-713e-473f-56f6-08dae474b853
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000C976.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8513
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yO+CaEoYaMfyD8spdTYkW5perQeCA79t2IUPDest/joyAaAoYPsQ7A671HEaB/pFgqCZl1oV9TfSpi/wbyZ2zQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7443
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update the documentation for the new features:
-1. Slow Memory Bandwidth allocation (SMBA).
-   With this feature, the QOS  enforcement policies can be applied
-   to the external slow memory connected to the host. QOS enforcement
-   is accomplished by assigning a Class Of Service (COS) to a processor
-   and specifying allocations or limits for that COS for each resource
-   to be allocated.
-
-2. Bandwidth Monitoring Event Configuration (BMEC).
-   The bandwidth monitoring events mbm_total_bytes and mbm_local_bytes
-   are set to count all the total and local reads/writes respectively.
-   With the introduction of slow memory, the two counters are not
-   enough to count all the different types of memory events. With the
-   feature BMEC, the users have the option to configure mbm_total_bytes
-   and mbm_local_bytes to count the specific type of events.
-
-Also add configuration instructions with examples.
-
-Signed-off-by: Babu Moger <babu.moger@amd.com>
----
- Documentation/x86/resctrl.rst | 141 +++++++++++++++++++++++++++++++++-
- 1 file changed, 139 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
-index 71a531061e4e..bea6cab06873 100644
---- a/Documentation/x86/resctrl.rst
-+++ b/Documentation/x86/resctrl.rst
-@@ -17,14 +17,16 @@ AMD refers to this feature as AMD Platform Quality of Service(AMD QoS).
- This feature is enabled by the CONFIG_X86_CPU_RESCTRL and the x86 /proc/cpuinfo
- flag bits:
- 
--=============================================	================================
-+===============================================	================================
- RDT (Resource Director Technology) Allocation	"rdt_a"
- CAT (Cache Allocation Technology)		"cat_l3", "cat_l2"
- CDP (Code and Data Prioritization)		"cdp_l3", "cdp_l2"
- CQM (Cache QoS Monitoring)			"cqm_llc", "cqm_occup_llc"
- MBM (Memory Bandwidth Monitoring)		"cqm_mbm_total", "cqm_mbm_local"
- MBA (Memory Bandwidth Allocation)		"mba"
--=============================================	================================
-+SMBA (Slow Memory Bandwidth Allocation)         "smba"
-+BMEC (Bandwidth Monitoring Event Configuration) "bmec"
-+===============================================	================================
- 
- To use the feature mount the file system::
- 
-@@ -161,6 +163,82 @@ with the following files:
- "mon_features":
- 		Lists the monitoring events if
- 		monitoring is enabled for the resource.
-+		Example::
-+
-+			# cat /sys/fs/resctrl/info/L3_MON/mon_features
-+			llc_occupancy
-+			mbm_total_bytes
-+			mbm_local_bytes
-+
-+		If the system supports Bandwidth Monitoring Event
-+		Configuration (BMEC), then the bandwidth events will
-+		be configurable. The output will be::
-+
-+			# cat /sys/fs/resctrl/info/L3_MON/mon_features
-+			llc_occupancy
-+			mbm_total_bytes
-+			mbm_total_bytes_config
-+			mbm_local_bytes
-+			mbm_local_bytes_config
-+
-+"mbm_total_bytes_config", "mbm_local_bytes_config":
-+	Read/write files containing the configuration for the mbm_total_bytes
-+	and mbm_local_bytes events, respectively, when the Bandwidth
-+	Monitoring Event Configuration (BMEC) feature is supported.
-+	The event configuration settings are domain specific and affect
-+	all the CPUs in the domain. When an event configuration is changed,
-+	the bandwidth counters for all the RMIDs and the events will be
-+	cleared for that domain. The next read for every RMID will report
-+	"Unavailable" and subsequent reads will report the valid value.
-+
-+	Following are the types of events supported:
-+
-+	====    ========================================================
-+	Bits    Description
-+	====    ========================================================
-+	6       Dirty Victims from the QOS domain to all types of memory
-+	5       Reads to slow memory in the non-local NUMA domain
-+	4       Reads to slow memory in the local NUMA domain
-+	3       Non-temporal writes to non-local NUMA domain
-+	2       Non-temporal writes to local NUMA domain
-+	1       Reads to memory in the non-local NUMA domain
-+	0       Reads to memory in the local NUMA domain
-+	====    ========================================================
-+
-+	By default, the mbm_total_bytes configuration is set to 0x7f to count
-+	all the event types and the mbm_local_bytes configuration is set to
-+	0x15 to count all the local memory events.
-+
-+	Examples:
-+
-+	* To view the current configuration::
-+	  ::
-+
-+	    # cat /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
-+	    0=0x7f;1=0x7f;2=0x7f;3=0x7f
-+
-+	    # cat /sys/fs/resctrl/info/L3_MON/mbm_local_bytes_config
-+	    0=0x15;1=0x15;3=0x15;4=0x15
-+
-+	* To change the mbm_total_bytes to count only reads on domain 0,
-+	  the bits 0, 1, 4 and 5 needs to be set, which is 110011b in binary
-+	  (in hexadecimal 0x33):
-+	  ::
-+
-+	    # echo  "0=0x33" > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
-+
-+	    # cat /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config
-+	    0=0x33;1=0x7f;2=0x7f;3=0x7f
-+
-+	* To change the mbm_local_bytes to count all the slow memory reads on
-+	  domain 0 and 1, the bits 4 and 5 needs to be set, which is 110000b
-+	  in binary (in hexadecimal 0x30):
-+	  ::
-+
-+	    # echo  "0=0x30;1=0x30" > /sys/fs/resctrl/info/L3_MON/mbm_local_bytes_config
-+
-+	    # cat /sys/fs/resctrl/info/L3_MON/mbm_local_bytes_config
-+	    0=0x30;1=0x30;3=0x15;4=0x15
- 
- "max_threshold_occupancy":
- 		Read/write file provides the largest value (in
-@@ -464,6 +542,25 @@ Memory bandwidth domain is L3 cache.
- 
- 	MB:<cache_id0>=bw_MBps0;<cache_id1>=bw_MBps1;...
- 
-+Slow Memory Bandwidth Allocation (SMBA)
-+---------------------------------------
-+AMD hardware supports Slow Memory Bandwidth Allocation (SMBA).
-+CXL.memory is the only supported "slow" memory device. With the
-+support of SMBA, the hardware enables bandwidth allocation on
-+the slow memory devices. If there are multiple such devices in
-+the system, the throttling logic groups all the slow sources
-+together and applies the limit on them as a whole.
-+
-+The presence of SMBA (with CXL.memory) is independent of slow memory
-+devices presence. If there are no such devices on the system, then
-+configuring SMBA will have no impact on the performance of the system.
-+
-+The bandwidth domain for slow memory is L3 cache. Its schemata file
-+is formatted as:
-+::
-+
-+	SMBA:<cache_id0>=bandwidth0;<cache_id1>=bandwidth1;...
-+
- Reading/writing the schemata file
- ---------------------------------
- Reading the schemata file will show the state of all resources
-@@ -479,6 +576,46 @@ which you wish to change.  E.g.
-   L3DATA:0=fffff;1=fffff;2=3c0;3=fffff
-   L3CODE:0=fffff;1=fffff;2=fffff;3=fffff
- 
-+Reading/writing the schemata file (on AMD systems)
-+--------------------------------------------------
-+Reading the schemata file will show the current bandwidth limit on all
-+domains. The allocated resources are in multiples of one eighth GB/s.
-+When writing to the file, you need to specify what cache id you wish to
-+configure the bandwidth limit.
-+
-+For example, to allocate 2GB/s limit on the first cache id:
-+
-+::
-+
-+  # cat schemata
-+    MB:0=2048;1=2048;2=2048;3=2048
-+    L3:0=ffff;1=ffff;2=ffff;3=ffff
-+
-+  # echo "MB:1=16" > schemata
-+  # cat schemata
-+    MB:0=2048;1=  16;2=2048;3=2048
-+    L3:0=ffff;1=ffff;2=ffff;3=ffff
-+
-+Reading/writing the schemata file (on AMD systems) with SMBA feature
-+--------------------------------------------------------------------
-+Reading and writing the schemata file is the same as without SMBA in
-+above section.
-+
-+For example, to allocate 8GB/s limit on the first cache id:
-+
-+::
-+
-+  # cat schemata
-+    SMBA:0=2048;1=2048;2=2048;3=2048
-+      MB:0=2048;1=2048;2=2048;3=2048
-+      L3:0=ffff;1=ffff;2=ffff;3=ffff
-+
-+  # echo "SMBA:1=64" > schemata
-+  # cat schemata
-+    SMBA:0=2048;1=  64;2=2048;3=2048
-+      MB:0=2048;1=2048;2=2048;3=2048
-+      L3:0=ffff;1=ffff;2=ffff;3=ffff
-+
- Cache Pseudo-Locking
- ====================
- CAT enables a user to specify the amount of cache space that an
--- 
-2.34.1
-
+T24gVGh1LCAyMDIyLTEyLTIyIGF0IDE4OjE1ICswMDAwLCBTZWFuIENocmlzdG9waGVyc29uIHdy
+b3RlOg0KPiBPbiBXZWQsIERlYyAyMSwgMjAyMiwgQ2hhbyBQZW5nIHdyb3RlOg0KPiA+IE9uIFR1
+ZSwgRGVjIDIwLCAyMDIyIGF0IDA4OjMzOjA1QU0gKzAwMDAsIEh1YW5nLCBLYWkgd3JvdGU6DQo+
+ID4gPiBPbiBUdWUsIDIwMjItMTItMjAgYXQgMTU6MjIgKzA4MDAsIENoYW8gUGVuZyB3cm90ZToN
+Cj4gPiA+ID4gT24gTW9uLCBEZWMgMTksIDIwMjIgYXQgMDg6NDg6MTBBTSArMDAwMCwgSHVhbmcs
+IEthaSB3cm90ZToNCj4gPiA+ID4gPiBPbiBNb24sIDIwMjItMTItMTkgYXQgMTU6NTMgKzA4MDAs
+IENoYW8gUGVuZyB3cm90ZToNCj4gPiA+IEJ1dCBmb3Igbm9uLXJlc3RyaWN0ZWQtbWVtIGNhc2Us
+IGl0IGlzIGNvcnJlY3QgZm9yIEtWTSB0byBkZWNyZWFzZSBwYWdlJ3MNCj4gPiA+IHJlZmNvdW50
+IGFmdGVyIHNldHRpbmcgdXAgbWFwcGluZyBpbiB0aGUgc2Vjb25kYXJ5IG1tdSwgb3RoZXJ3aXNl
+IHRoZSBwYWdlIHdpbGwNCj4gPiA+IGJlIHBpbm5lZCBieSBLVk0gZm9yIG5vcm1hbCBWTSAoc2lu
+Y2UgS1ZNIHVzZXMgR1VQIHRvIGdldCB0aGUgcGFnZSkuDQo+ID4gDQo+ID4gVGhhdCdzIHRydWUu
+IEFjdHVhbGx5IGV2ZW4gdHJ1ZSBmb3IgcmVzdHJpY3RlZG1lbSBjYXNlLCBtb3N0IGxpa2VseSB3
+ZQ0KPiA+IHdpbGwgc3RpbGwgbmVlZCB0aGUga3ZtX3JlbGVhc2VfcGZuX2NsZWFuKCkgZm9yIEtW
+TSBnZW5lcmljIGNvZGUuIE9uIG9uZQ0KPiA+IHNpZGUsIG90aGVyIHJlc3RyaWN0ZWRtZW0gdXNl
+cnMgbGlrZSBwS1ZNIG1heSBub3QgcmVxdWlyZSBwYWdlIHBpbm5pbmcNCj4gPiBhdCBhbGwuIE9u
+IHRoZSBvdGhlciBzaWRlLCBzZWUgYmVsb3cuDQo+ID4gDQo+ID4gPiANCj4gPiA+IFNvIHdoYXQg
+d2UgYXJlIGV4cGVjdGluZyBpczogZm9yIEtWTSBpZiB0aGUgcGFnZSBjb21lcyBmcm9tIHJlc3Ry
+aWN0ZWQgbWVtLCB0aGVuDQo+ID4gPiBLVk0gY2Fubm90IGRlY3JlYXNlIHRoZSByZWZjb3VudCwg
+b3RoZXJ3aXNlIGZvciBub3JtYWwgcGFnZSB2aWEgR1VQIEtWTSBzaG91bGQuDQo+IA0KPiBObywg
+cmVxdWlyaW5nIHRoZSB1c2VyIChLVk0pIHRvIGd1YXJkIGFnYWluc3QgbGFjayBvZiBzdXBwb3J0
+IGZvciBwYWdlIG1pZ3JhdGlvbg0KPiBpbiByZXN0cmljdGVkIG1lbSBpcyBhIHRlcnJpYmxlIEFQ
+SS4gIEl0J3MgdG90YWxseSBmaW5lIGZvciByZXN0cmljdGVkIG1lbSB0byBub3QNCj4gc3VwcG9y
+dCBwYWdlIG1pZ3JhdGlvbiB1bnRpbCB0aGVyZSdzIGEgdXNlIGNhc2UsIGJ1dCBwdW50aW5nIHRo
+ZSBwcm9ibGVtIHRvIEtWTQ0KPiBpcyBub3QgYWNjZXB0YWJsZS4gIFJlc3RyaWN0ZWQgbWVtIGl0
+c2VsZiBkb2Vzbid0IHlldCBzdXBwb3J0IHBhZ2UgbWlncmF0aW9uLA0KPiBlLmcuIGV4cGxvc2lv
+bnMgd291bGQgb2NjdXIgZXZlbiBpZiBLVk0gd2FudGVkIHRvIGFsbG93IG1pZ3JhdGlvbiBzaW5j
+ZSB0aGVyZSBpcw0KPiBubyBub3RpZmljYXRpb24gdG8gaW52YWxpZGF0ZSBleGlzdGluZyBtYXBw
+aW5ncy4NCj4gDQo+IA0KDQpZZXMgdG90YWxseSBhZ3JlZSAoSSBhbHNvIHJlcGxpZWQgc2VwYXJh
+dGVseSkuDQo=
