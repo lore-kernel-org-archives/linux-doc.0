@@ -2,105 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5BC6C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Dec 2022 10:52:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86D71C10F1B
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Dec 2022 11:42:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229488AbiL0KwJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Dec 2022 05:52:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51548 "EHLO
+        id S229488AbiL0LmU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Dec 2022 06:42:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230026AbiL0KwF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Dec 2022 05:52:05 -0500
+        with ESMTP id S229593AbiL0LmT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Dec 2022 06:42:19 -0500
 Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E548AA479;
-        Tue, 27 Dec 2022 02:52:02 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F96064DE;
+        Tue, 27 Dec 2022 03:42:18 -0800 (PST)
 Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 262641EC02FE;
-        Tue, 27 Dec 2022 11:52:01 +0100 (CET)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1109D1EC0662;
+        Tue, 27 Dec 2022 12:42:17 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1672138321;
+        t=1672141337;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=7wsM9e/T5jFmAKOSFCalMkh4dI5J+2K4eCkXRgsYmo8=;
-        b=C+4r1rC5FKIlTfYqTx3bdvejoL3qLxrMNBIyYEuO3uBoFG22UeJfL25ny1lFyFMDG0mxaH
-        bkFGlloegp21piRKOmH03lLE4GVVoJ3BYxx5+qlBbzJDYRmfjLfw6eGHU/eGsExFzPeklb
-        9vImevDL8aT0AYPt2Zse5Kk+mj3ko7s=
-Date:   Tue, 27 Dec 2022 11:51:56 +0100
+        bh=IObKGFkbThA5XjeCQxbGLlGThS93RX3ZjzOBl+thopA=;
+        b=GvDHNzZI/cN/OBt2Mat7mWXyEqSSLZlu0VOcMIikO73MgHSCvKJo7kuh67djuy0k5dpaZ1
+        fKiNN4Rukvk/O9+WwDucMJDP1Z9eavRa4fdkUqt8toBKBqDx8YrN6x6ju6JNhIaOHVl1yH
+        yhYbyiessZSJOZ6FFfM+euljP04sMIk=
+Date:   Tue, 27 Dec 2022 12:42:12 +0100
 From:   Borislav Petkov <bp@alien8.de>
-To:     Kim Phillips <kim.phillips@amd.com>
-Cc:     x86@kernel.org, Babu Moger <Babu.Moger@amd.com>,
-        Borislav Petkov <bp@amd.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/7] x86/cpu: Make X86_FEATURE_LFENCE_RDTSC a
- scattered feature bit
-Message-ID: <Y6rOTM6Q7AZekpoc@zn.tnic>
-References: <20221205233235.622491-1-kim.phillips@amd.com>
- <20221205233235.622491-4-kim.phillips@amd.com>
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v4 11/39] x86/mm: Update pte_modify for _PAGE_COW
+Message-ID: <Y6raFBB+oVx+2WXl@zn.tnic>
+References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
+ <20221203003606.6838-12-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221205233235.622491-4-kim.phillips@amd.com>
+In-Reply-To: <20221203003606.6838-12-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 05, 2022 at 05:32:31PM -0600, Kim Phillips wrote:
-> It's a part of the CPUID 0x80000021 leaf, and will be grouped
-> with other feature bits to being propagated via kvm_set_cpu_caps()
-> instead of open-coding them in __do_cpuid_func().
-> 
-> Unlike the other CPUID 0x80000021 EAX feature bits,
-> X86_FEATURE_LFENCE_RDTSC already had an entry in cpufeatures.h.
-> 
-> Signed-off-by: Kim Phillips <kim.phillips@amd.com>
-> ---
->  arch/x86/kernel/cpu/scattered.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/x86/kernel/cpu/scattered.c b/arch/x86/kernel/cpu/scattered.c
-> index d0734cc19d37..caa03466cd9e 100644
-> --- a/arch/x86/kernel/cpu/scattered.c
-> +++ b/arch/x86/kernel/cpu/scattered.c
-> @@ -46,6 +46,7 @@ static const struct cpuid_bit cpuid_bits[] = {
->  	{ X86_FEATURE_PROC_FEEDBACK,    CPUID_EDX, 11, 0x80000007, 0 },
->  	{ X86_FEATURE_MBA,		CPUID_EBX,  6, 0x80000008, 0 },
->  	{ X86_FEATURE_NO_NESTED_DATA_BP,CPUID_EAX,  0, 0x80000021, 0 },
-> +	{ X86_FEATURE_LFENCE_RDTSC,	CPUID_EAX,  2, 0x80000021, 0 },
+On Fri, Dec 02, 2022 at 04:35:38PM -0800, Rick Edgecombe wrote:
+>  static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
+>  {
+> +	pteval_t _page_chg_mask_no_dirty = _PAGE_CHG_MASK & ~_PAGE_DIRTY;
+>  	pteval_t val = pte_val(pte), oldval = val;
+> +	pte_t pte_result;
+>  
+>  	/*
+>  	 * Chop off the NX bit (if present), and add the NX portion of
+>  	 * the newprot (if present):
+>  	 */
+> -	val &= _PAGE_CHG_MASK;
+> -	val |= check_pgprot(newprot) & ~_PAGE_CHG_MASK;
+> +	val &= _page_chg_mask_no_dirty;
+> +	val |= check_pgprot(newprot) & ~_page_chg_mask_no_dirty;
+>  	val = flip_protnone_guard(oldval, val, PTE_PFN_MASK);
+> -	return __pte(val);
+> +
+> +	pte_result = __pte(val);
+> +
+> +	/*
+> +	 * Dirty bit is not preserved above so it can be done
 
-Hmm, so this patchset keeps growing and growing with new bits.
+Just for my own understanding: are you saying here that
+flip_protnone_guard() might end up setting _PAGE_DIRTY in val...
 
-Perhaps my initial suggestion to make it a scattered one doesn't make
-a whole lot of sense anymore.
+> +	 * in a special way for the shadow stack case, where it
+> +	 * needs to set _PAGE_COW. pte_mkcow() will do this in
+> +	 * the case of shadow stack.
+> +	 */
+> +	if (pte_dirty(pte_result))
+> +		pte_result = pte_mkcow(pte_result);
 
-/me goes and looks at CPUID_Fn80000021_EAX [Extended Feature 2 EAX] (Core::X86::Cpuid::FeatureExt2Eax)
-
-Yah, judging by what's there in that leaf, we are likely to use a lot
-more bits in the future I think you should go back to
-
-https://lore.kernel.org/lkml/20221104213651.141057-2-kim.phillips@amd.com/
-
-But please state in that commit message that the majority of the feature
-bits in CPUID_Fn80000021_EAX will be used in the kernel and thus a
-separate leaf makes sense.
+... and in that case we need to turn it into a _PAGE_COW setting?
 
 Thx.
 
