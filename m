@@ -2,49 +2,49 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3E8CC10F1B
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Dec 2022 20:34:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA932C46467
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Dec 2022 20:39:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231918AbiL0UeE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Dec 2022 15:34:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37984 "EHLO
+        id S231991AbiL0UjH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Dec 2022 15:39:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230114AbiL0Udq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Dec 2022 15:33:46 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3E74DEC6;
-        Tue, 27 Dec 2022 12:33:34 -0800 (PST)
+        with ESMTP id S232266AbiL0UiY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Dec 2022 15:38:24 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E120E099;
+        Tue, 27 Dec 2022 12:34:35 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D8A86B811F8;
-        Tue, 27 Dec 2022 20:33:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E1ADC433A0;
-        Tue, 27 Dec 2022 20:33:30 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CB8E06123B;
+        Tue, 27 Dec 2022 20:34:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAF69C433F2;
+        Tue, 27 Dec 2022 20:34:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672173211;
-        bh=h8V0wNLRTzMR6CwLsnCeF+if27/1odhhAs39sK6Of6M=;
+        s=k20201202; t=1672173262;
+        bh=Wm82mcz0e6ebaGdyvWMP+jh49P0bE1bsWiNWLYfcrF8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=joqHUzPvR7+YfhqP3i0nPuEWfJ9bh9vnsITrwXXpl+lcxpBizo3hhtltxOE/jtt9c
-         vk0h8BzhKKPLhAZL0J8HOUJ4T01kSKO4EuGg3Ap/zQba7tSntZbmVOCXE2AMRpZfvQ
-         DhVlEG20dyO3ganCZN/gqZjvkJfxCCWMFTXCkama0drOQGqrws6hKORZ4PoVYL0q78
-         S+V0XcsTICpr4qvJFrjIBtEJcbDt6/0JmWZWza4P4QqKaaKKTcBh1arwLWuB184AKS
-         R/PYxTC3RtMhWjoeqwFW8geGkAoRc2qYtTCOwQqTxtk9Z+nTbPRK452A27RpPaz2Mh
-         hQZUe/1eBuZfA==
+        b=banj49NilK1A3SL6Wo+jZbhAOTzOpRepYeJaO2aOofQipnGJ5tEQgoWrEB6HouCjK
+         0JHXucWk1mZQDvhx+GP3jyvdcBUW5HNKKR/9UXS50Fbek4eRdbJ7Cy4wUfoG3xVosj
+         PBW3RIb1WX2AIauIh2o1MvtE4qD9Z/QgjdNSi9/OYQgQXdwKB4hwoSbMWEGGK5wJuD
+         qYZWMkk7u2rUSFRvmP1gzM5qr8XSLu3q1fc0HAGf5xpTfyQNeYC+/1KKjd7HJ1ewpg
+         moTTSr9fkHoUQ+oCTn1v5NvmbhYl3lC6S/7zsq/+uQCTD6YIobqYzS/5PvTB7tVBpR
+         Y59YXL201+flw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     wuqiang <wuqiang.matt@bytedance.com>,
         Solar Designer <solar@openwall.com>,
         Masami Hiramatsu <mhiramat@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, naveen.n.rao@linux.ibm.com,
-        anil.s.keshavamurthy@intel.com, davem@davemloft.net,
-        rostedt@goodmis.org, corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 25/28] kprobes: kretprobe events missing on 2-core KVM guest
-Date:   Tue, 27 Dec 2022 15:32:46 -0500
-Message-Id: <20221227203249.1213526-25-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, rostedt@goodmis.org,
+        naveen.n.rao@linux.ibm.com, anil.s.keshavamurthy@intel.com,
+        davem@davemloft.net, corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.0 24/27] kprobes: kretprobe events missing on 2-core KVM guest
+Date:   Tue, 27 Dec 2022 15:33:39 -0500
+Message-Id: <20221227203342.1213918-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221227203249.1213526-1-sashal@kernel.org>
-References: <20221227203249.1213526-1-sashal@kernel.org>
+In-Reply-To: <20221227203342.1213918-1-sashal@kernel.org>
+References: <20221227203342.1213918-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -92,7 +92,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 3 insertions(+), 8 deletions(-)
 
 diff --git a/Documentation/trace/kprobes.rst b/Documentation/trace/kprobes.rst
-index 48cf778a2468..fc7ce76eab65 100644
+index f318bceda1e6..97d086b23ce8 100644
 --- a/Documentation/trace/kprobes.rst
 +++ b/Documentation/trace/kprobes.rst
 @@ -131,8 +131,7 @@ For example, if the function is non-recursive and is called with a
@@ -106,10 +106,10 @@ index 48cf778a2468..fc7ce76eab65 100644
  It's not a disaster if you set maxactive too low; you'll just miss
  some probes.  In the kretprobe struct, the nmissed field is set to
 diff --git a/kernel/kprobes.c b/kernel/kprobes.c
-index 3050631e528d..95a456d3149e 100644
+index 6d2a8623ec7b..f2413aae1aba 100644
 --- a/kernel/kprobes.c
 +++ b/kernel/kprobes.c
-@@ -2213,13 +2213,9 @@ int register_kretprobe(struct kretprobe *rp)
+@@ -2209,13 +2209,9 @@ int register_kretprobe(struct kretprobe *rp)
  	rp->kp.post_handler = NULL;
  
  	/* Pre-allocate memory for max kretprobe instances */
