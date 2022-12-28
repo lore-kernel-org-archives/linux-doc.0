@@ -2,262 +2,436 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EED91C3DA7A
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Dec 2022 15:55:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54FD7C4167B
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Dec 2022 17:12:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234168AbiL1Pzt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Dec 2022 10:55:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43682 "EHLO
+        id S232809AbiL1RMS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Dec 2022 12:12:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234165AbiL1Pzq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Dec 2022 10:55:46 -0500
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EA84215;
-        Wed, 28 Dec 2022 07:55:45 -0800 (PST)
-Received: by mail-oi1-x230.google.com with SMTP id o66so15108012oia.6;
-        Wed, 28 Dec 2022 07:55:45 -0800 (PST)
+        with ESMTP id S233281AbiL1RMQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Dec 2022 12:12:16 -0500
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 559B26168;
+        Wed, 28 Dec 2022 09:12:15 -0800 (PST)
+Received: by mail-oi1-x229.google.com with SMTP id r130so15309141oih.2;
+        Wed, 28 Dec 2022 09:12:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9ex5tYf31Xk1rGmhkgq6xlaI9dUZ6fIGKRroYpBkzes=;
-        b=WZscb7bbkrY3PpCoMWczd1BUUGFAmT+esA+YU64tjqqa+2B6Jh8V8MIl2rknxglPh2
-         eCMNY3d0ZrN5Bvx3/+IfFVa+8jpvUGlJ93gqOwR1hevIeu9R/Z1Xuk/CNhYnVtNz5tEB
-         pHRGvGEiQ790Fw2IWtAu0oJdlouTOlirDIxIRvjoF45l/C0J+/VSDBHkGzQqmFKJkL1q
-         iCXCZvT+Naw88awM4EnQ2dYp3xTHhBqg30974ITOHoZEh2ncJXMLyZ6zo2qMgJyb1s84
-         770A6ipccgMg10dcPOkOj06x78GM1KPAtrTQw8hwYlsQbEDkt40qwQMcMuZNm9ULVh6D
-         Ke3A==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S/+Nth0Nu8gmjfacEJmdzYlP/TTCuiYpUSrTOOkqTNM=;
+        b=QB3Kamik55n+qNzvp0RqlGrP8edwJ2oTipYAV0uLjJO1LAxvyikfePe2Km2CgJldgG
+         iiWu5RYzHMdHe4ZNNJBEluDQ5TIoYLJlPe1BuHuiUHckGhaHf6xYYLclmBhlEMX8Mj++
+         WhY+4Xqb+4ip4BVUwOuPSXYdq7ejR/Nh1QOsDzjYaWHgOpLyMxquVGnAHi0teSIRbAk6
+         Na3CZwWJQzAZpQNJybBXOQl1Cy2CjOE/zgWtvtaQDx8lapXIS+/ApmwETSMx0xqGhLqv
+         f0C364Ve7uR+pTEOzIzf7PFj0LIkYnUXZ/wFKOn1/vN+/4VTeFw2z5cxx2/Fr7/WcN8s
+         ecXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9ex5tYf31Xk1rGmhkgq6xlaI9dUZ6fIGKRroYpBkzes=;
-        b=Uh/7QpILhLvlJ7rvucxkUZPu5D+TftxUVuq4nJv5BRJIXhlkZAAOz6VFtz+KGal99X
-         qB2we5TDY/dpV0zybk5FA3+IsOjIYqsQn7aotZjVfxqg6SLmHTvOC038Hz0hLX64MtAW
-         xJrG+VQptbPHxBoDRKSYDAOw2GmajSb6bxsAKda4VgaaVYQ2NLSOLb7ArUTk52Nb7DTC
-         PZwIHefGjcWD4M2vX9LQcc8cIAlIKQAQYBHPw0glBE8JHWZe6MkYqzy4iaTTDDbHLPGU
-         WhCllit3jLL3n3y+2wZRS+fJUNKzSsV+vEajCIwULm3Jh9suJvq1bwv8mbBrg8JzLtEX
-         N/2w==
-X-Gm-Message-State: AFqh2kpG+SLxYCR7dabKaOAAQ8E1/WPqdeBRUCzZIFDzr88u/fbs0b/R
-        oSIxlAz4EkQ+ytzbnIq7eaA=
-X-Google-Smtp-Source: AMrXdXvCAxyGTX+8OVSsvkqt786/qg50LyT6VKIYUj2GoADWKMvCDA2X9NBTn+bCRX/1oQDYnpISHg==
-X-Received: by 2002:aca:44c2:0:b0:360:c338:b94a with SMTP id r185-20020aca44c2000000b00360c338b94amr10901525oia.20.1672242944424;
-        Wed, 28 Dec 2022 07:55:44 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=S/+Nth0Nu8gmjfacEJmdzYlP/TTCuiYpUSrTOOkqTNM=;
+        b=xd0v0/BzLEY5UOIwGgq58OobfFyJlqpRz8X6SUGkMiMFdcH6lf/T+8f8fmG9RN/FTp
+         jAr2YKKjykdhXxCdwBnd2CIkPkdyFCCmVcdJTq27lKh3wjs2rwSMZDdWvP6NAYg4GXIZ
+         8QyfQDTN3Vn1JurLse1vPHKg0QkterSEEZ29St6S5bxyNs6Vy9rZhG5xh15V3CGj2XRL
+         Qi5GuD57c6Ri4J6rUGzRaM94DwYyet3SPRRX8HzkuZIrwLHTHGKgVCpf9M+H1gGvDJYM
+         wA7BYIo87v9Slum+ZBKeRFKlU0ytTFDDR9iHq0IOgZwSDFn8JXRI5aEvKZUpcdqZtjX3
+         m4/A==
+X-Gm-Message-State: AFqh2kpqcKV4+RK9oeLGnJY+CVqMoLD8pseklav6o17aQAbslHxtVqzB
+        sHGMpxS6ojN6fiMq1x0NFH4cCTWF1J0=
+X-Google-Smtp-Source: AMrXdXu4HuqbLIfl49jbFyVzumy46KXlwHsTII0C1oiJm3o50ISJD54AfMx0kuQbxDDMxKO8g0I2gg==
+X-Received: by 2002:aca:1b0d:0:b0:35e:1e0d:8432 with SMTP id b13-20020aca1b0d000000b0035e1e0d8432mr11300428oib.27.1672247534261;
+        Wed, 28 Dec 2022 09:12:14 -0800 (PST)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id r26-20020a05683001da00b006706247fdbfsm8020280ota.23.2022.12.28.07.55.43
+        by smtp.gmail.com with ESMTPSA id w7-20020a9d5387000000b00666a5b5d20fsm7946890otg.32.2022.12.28.09.12.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Dec 2022 07:55:43 -0800 (PST)
+        Wed, 28 Dec 2022 09:12:13 -0800 (PST)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Wed, 28 Dec 2022 07:55:42 -0800
+Date:   Wed, 28 Dec 2022 09:12:12 -0800
 From:   Guenter Roeck <linux@roeck-us.net>
-To:     "Derek J. Clark" <derekjohn.clark@gmail.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?Q?Joaqu=EDn_Ignacio_Aramend=EDa?= <samsagax@gmail.com>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] hwmon: (oxp-sensors) Add AYANEO AIR and AIR Pro
-Message-ID: <20221228155542.GA3964987@roeck-us.net>
-References: <Y5lBue87IXkhNs42@debian.me>
- <20221214154713.100648-1-derekjohn.clark@gmail.com>
+To:     nick.hawkins@hpe.com
+Cc:     jdelvare@suse.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, verdun@hpe.com, corbet@lwn.net,
+        linux@armlinux.org.uk, linux-hwmon@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 1/6] hwmon: (gxp-fan-ctrl) Add GXP fan controller
+Message-ID: <20221228171212.GA2575313@roeck-us.net>
+References: <20221130200846.4226-1-nick.hawkins@hpe.com>
+ <20221130200846.4226-2-nick.hawkins@hpe.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221214154713.100648-1-derekjohn.clark@gmail.com>
+In-Reply-To: <20221130200846.4226-2-nick.hawkins@hpe.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 14, 2022 at 07:47:13AM -0800, Derek J. Clark wrote:
-> Add support for the AYANEO AIR and AYANEO AIR Pro models of handheld
-> devices. These devices use the same EC registers and logic as the One X
-> Player mini AMD. Previous AYANEO models are not supported as they use a
-> different EC and do not have the necessary fan speed write enable and
-> setting registers. Tihe driver is tested on Aya Neo AIR while AIR Pro
-> model EC functionality and DMI data were verified using command line
-> tools by another user.
+On Wed, Nov 30, 2022 at 02:08:41PM -0600, nick.hawkins@hpe.com wrote:
+> From: Nick Hawkins <nick.hawkins@hpe.com>
 > 
-> The added devices are:
-> - AYANEO AIR (AMD 5560U)
-> - AYANEO AIR Pro (AMD 5560U)
-> - AYANEO AIR Pro (AMD 5825U)
+> The GXP SoC can support up to 16 fans through the interface provided by
+> the CPLD. The current support is limited to 8 fans. The fans speeds are
+> controlled via 8 different PWMs which can vary in value from  0-255. The
+> fans are also capable of reporting if they have failed to the CPLD which
+> in turn reports the status to the GXP SoC.
 > 
-> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
-
-Missed v2, sorry. Comments below.
-
+> Signed-off-by: Nick Hawkins <nick.hawkins@hpe.com>
 > ---
->  Documentation/hwmon/oxp-sensors.rst | 19 ++++++----
->  MAINTAINERS                         |  1 +
->  drivers/hwmon/oxp-sensors.c         | 54 ++++++++++++++++++++++++-----
->  3 files changed, 59 insertions(+), 15 deletions(-)
+>  Documentation/hwmon/gxp-fan-ctrl.rst |  28 +++
+>  Documentation/hwmon/index.rst        |   1 +
+>  drivers/hwmon/Kconfig                |   9 +
+>  drivers/hwmon/Makefile               |   1 +
+>  drivers/hwmon/gxp-fan-ctrl.c         | 254 +++++++++++++++++++++++++++
+>  5 files changed, 293 insertions(+)
+>  create mode 100644 Documentation/hwmon/gxp-fan-ctrl.rst
+>  create mode 100644 drivers/hwmon/gxp-fan-ctrl.c
 > 
-> diff --git a/Documentation/hwmon/oxp-sensors.rst b/Documentation/hwmon/oxp-sensors.rst
-> index 39c588ec5c50..a53c961065b2 100644
-> --- a/Documentation/hwmon/oxp-sensors.rst
-> +++ b/Documentation/hwmon/oxp-sensors.rst
-> @@ -3,18 +3,21 @@
->  Kernel driver oxp-sensors
->  =========================
->  
-> -Author:
-> +Authors:
-> +    - Derek John Clark <derekjohn.clark@gmail.com>
->      - Joaquín Ignacio Aramendía <samsagax@gmail.com>
->  
-> -Description:
+> diff --git a/Documentation/hwmon/gxp-fan-ctrl.rst b/Documentation/hwmon/gxp-fan-ctrl.rst
+> new file mode 100644
+> index 000000000000..ae3397e81c04
+> --- /dev/null
+> +++ b/Documentation/hwmon/gxp-fan-ctrl.rst
+> @@ -0,0 +1,28 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +Kernel driver gxp-fan-ctrl
+> +==========================
+> +
+> +Supported chips:
+> +
+> +  * HPE GXP SOC
+> +
+> +Author: Nick Hawkins <nick.hawkins@hpe.com>
+> +
+> +
 > +Description
->  ------------
-
-Why drop ":" here ?
-
+> +-----------
+> +
+> +gxp-fan-ctrl is a driver which provides fan control for the hpe gxp soc.
+> +The driver allows the gathering of fan status and the use of fan
+> +PWM control.
+> +
+> +
+> +Sysfs attributes
+> +----------------
+> +
+> +======================= ===========================================================
+> +pwm[0-7]		Fan 0 to 7 respective PWM value (0-255)
+> +fan[0-7]_fault		Fan 0 to 7 respective fault status: 1 fail, 0 ok
+> +fan[0-7]_enable         Fan 0 to 7 respective enabled status: 1 enabled, 0 disabled
+> +======================= ===========================================================
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index c1d11cf13eef..97819cf5c97f 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -73,6 +73,7 @@ Hardware Monitoring Kernel Drivers
+>     g762
+>     gsc-hwmon
+>     gl518sm
+> +   gxp-fan-ctrl
+>     hih6130
+>     ibmaem
+>     ibm-cffps
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 7ac3daaf59ce..45febd5d5cf7 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -706,6 +706,15 @@ config SENSORS_GPIO_FAN
+>  	  This driver can also be built as a module. If so, the module
+>  	  will be called gpio-fan.
 >  
-> -One X Player devices from One Netbook provide fan readings and fan control
-> -through its Embedded Controller.
-> +Handheld devices from One Netbook and Aya Neo provide fan readings and fan
-> +control through their embedded controllers.
->  
-> -Currently only supports AMD boards from the One X Player and AOK ZOE lineup.
-> -Intel boards could be supported if we could figure out the EC registers and
-> -values to write to since the EC layout and model is different.
-> +Currently only supports AMD boards from One X Player, AOK ZOE, and some Aya
-> +Neo devices. One X PLayer Intel boards could be supported if we could figure
-> +out the EC registers and values to write to since the EC layout and model is
-> +different. Aya Neo devices preceding the AIR may not be usable as the EC model
+> +config SENSORS_GXP_FAN_CTRL
+> +	tristate "HPE GXP fan controller"
+> +	depends on ARCH_HPE_GXP || COMPILE_TEST
+> +	help
+> +	  If you say yes here you get support for GXP fan control functionality.
+> +
+> +	  The GXP controls fan function via the CPLD through the use of PWM
+> +	  registers. This driver reports status and pwm setting of the fans.
+> +
+>  config SENSORS_HIH6130
+>  	tristate "Honeywell Humidicon HIH-6130 humidity/temperature sensor"
+>  	depends on I2C
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index 11d076cad8a2..b5782dc4dc6e 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -83,6 +83,7 @@ obj-$(CONFIG_SENSORS_GL518SM)	+= gl518sm.o
+>  obj-$(CONFIG_SENSORS_GL520SM)	+= gl520sm.o
+>  obj-$(CONFIG_SENSORS_GSC)	+= gsc-hwmon.o
+>  obj-$(CONFIG_SENSORS_GPIO_FAN)	+= gpio-fan.o
+> +obj-$(CONFIG_SENSORS_GXP_FAN_CTRL) += gxp-fan-ctrl.o
+>  obj-$(CONFIG_SENSORS_HIH6130)	+= hih6130.o
+>  obj-$(CONFIG_SENSORS_ULTRA45)	+= ultra45_env.o
+>  obj-$(CONFIG_SENSORS_I5500)	+= i5500_temp.o
+> diff --git a/drivers/hwmon/gxp-fan-ctrl.c b/drivers/hwmon/gxp-fan-ctrl.c
+> new file mode 100644
+> index 000000000000..5d137ee3de9a
+> --- /dev/null
+> +++ b/drivers/hwmon/gxp-fan-ctrl.c
+> @@ -0,0 +1,254 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* Copyright (C) 2022 Hewlett-Packard Enterprise Development Company, L.P. */
+> +
+> +#include <linux/err.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +
+> +#define OFS_FAN_INST 0 /* Is 0 because plreg base will be set at INST */
+> +#define OFS_FAN_FAIL 2 /* Is 2 bytes after base */
+> +#define OFS_SEVSTAT 0 /* Is 0 because fn2 base will be set at SEVSTAT */
+> +#define POWER_BIT 24
+> +
+> +struct gxp_fan_ctrl_drvdata {
+> +	void __iomem	*base;
+> +	void __iomem	*plreg;
+> +	void __iomem	*fn2;
+> +};
+> +
+> +static bool fan_installed(struct device *dev, int fan)
+> +{
+> +	struct gxp_fan_ctrl_drvdata *drvdata = dev_get_drvdata(dev);
+> +	u8 val;
+> +
+> +	val = readb(drvdata->plreg + OFS_FAN_INST);
+> +
+> +	return !!(val & BIT(fan));
+> +}
+> +
+> +static long fan_failed(struct device *dev, int fan)
+> +{
+> +	struct gxp_fan_ctrl_drvdata *drvdata = dev_get_drvdata(dev);
+> +	u8 val;
+> +
+> +	val = readb(drvdata->plreg + OFS_FAN_FAIL);
+> +
+> +	return !!(val & BIT(fan));
+> +}
+> +
+> +static long fan_enabled(struct device *dev, int fan)
+> +{
+> +	struct gxp_fan_ctrl_drvdata *drvdata = dev_get_drvdata(dev);
+> +	u32 val;
+> +
+> +	/*
+> +	 * Check the power status as if the platform is off the value
+> +	 * reported for the PWM will be incorrect. Report fan as
+> +	 * disabled.
+> +	 */
+> +	val = readl(drvdata->fn2 + OFS_SEVSTAT);
+> +
+> +	return !!((val & BIT(POWER_BIT)) && fan_installed(dev, fan));
+> +}
+> +
+> +static int gxp_pwm_write(struct device *dev, u32 attr, int channel, long val)
+> +{
+> +	struct gxp_fan_ctrl_drvdata *drvdata = dev_get_drvdata(dev);
+> +
+> +	switch (attr) {
+> +	case hwmon_pwm_input:
+> +		if (val > 255 || val < 0)
+> +			return -EINVAL;
+> +		writeb(val, drvdata->base + channel);
+> +		return 0;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +}
+> +
+> +static int gxp_fan_ctrl_write(struct device *dev, enum hwmon_sensor_types type,
+> +			      u32 attr, int channel, long val)
+> +{
+> +	switch (type) {
+> +	case hwmon_pwm:
+> +		return gxp_pwm_write(dev, attr, channel, val);
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +}
+> +
+> +static int gxp_fan_read(struct device *dev, u32 attr, int channel, long *val)
+> +{
+> +	switch (attr) {
+> +	case hwmon_fan_enable:
+> +		*val = fan_enabled(dev, channel);
+> +		return 0;
+> +	case hwmon_fan_fault:
+> +		*val = fan_failed(dev, channel);
+> +		return 0;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +}
+> +
+> +static int gxp_pwm_read(struct device *dev, u32 attr, int channel, long *val)
+> +{
+> +	struct gxp_fan_ctrl_drvdata *drvdata = dev_get_drvdata(dev);
+> +	u32 reg;
+> +
+> +	/*
+> +	 * Check the power status of the platform. If the platform is off
+> +	 * the value reported for the PWM will be incorrect. In this case
+> +	 * report a PWM of zero.
+> +	 */
+> +
+> +	reg = readl(drvdata->fn2 + OFS_SEVSTAT);
+> +
+> +	if (reg & BIT(POWER_BIT))
+> +		*val = fan_installed(dev, channel) ? readb(drvdata->base + channel) : 0;
+> +	else
+> +		*val = 0;
+> +
+> +	return 0;
+> +}
+> +
+> +static int gxp_fan_ctrl_read(struct device *dev, enum hwmon_sensor_types type,
+> +			     u32 attr, int channel, long *val)
+> +{
+> +	switch (type) {
+> +	case hwmon_fan:
+> +		return gxp_fan_read(dev, attr, channel, val);
+> +	case hwmon_pwm:
+> +		return gxp_pwm_read(dev, attr, channel, val);
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +}
+> +
+> +static umode_t gxp_fan_ctrl_is_visible(const void *_data,
+> +				       enum hwmon_sensor_types type,
+> +				       u32 attr, int channel)
+> +{
+> +	umode_t mode = 0;
+> +
+> +	switch (type) {
+> +	case hwmon_fan:
+> +		switch (attr) {
+> +		case hwmon_fan_enable:
+> +		case hwmon_fan_fault:
+> +			mode = 0444;
+> +			break;
+> +		default:
+> +			break;
+> +		}
+> +		break;
+> +	case hwmon_pwm:
+> +		switch (attr) {
+> +		case hwmon_pwm_input:
+> +			mode = 0644;
+> +			break;
+> +		default:
+> +			break;
+> +		}
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	return mode;
+> +}
+> +
+> +static const struct hwmon_ops gxp_fan_ctrl_ops = {
+> +	.is_visible = gxp_fan_ctrl_is_visible,
+> +	.read = gxp_fan_ctrl_read,
+> +	.write = gxp_fan_ctrl_write,
+> +};
+> +
+> +static const struct hwmon_channel_info *gxp_fan_ctrl_info[] = {
+> +	HWMON_CHANNEL_INFO(fan,
+> +			   HWMON_F_FAULT | HWMON_F_ENABLE,
+> +			   HWMON_F_FAULT | HWMON_F_ENABLE,
+> +			   HWMON_F_FAULT | HWMON_F_ENABLE,
+> +			   HWMON_F_FAULT | HWMON_F_ENABLE,
+> +			   HWMON_F_FAULT | HWMON_F_ENABLE,
+> +			   HWMON_F_FAULT | HWMON_F_ENABLE,
+> +			   HWMON_F_FAULT | HWMON_F_ENABLE,
+> +			   HWMON_F_FAULT | HWMON_F_ENABLE),
+> +	HWMON_CHANNEL_INFO(pwm,
+> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
 
-s/usable/supportable/ ?
+Why HWMON_PWM_ENABLE ? It is not actually supported, or am I missing
+something ? If it is supposed to be aligned with hwmon_fan_enable,
+the necessary code is missing.
 
-> +is different and do not appear to have manual control capabiltities.
->  
->  Supported devices
->  -----------------
-> @@ -22,6 +25,8 @@ Supported devices
->  Currently the driver supports the following handhelds:
->  
->   - AOK ZOE A1
-> + - Aya Neo AIR
-> + - Aya Neo AIR Pro
->   - OneXPlayer AMD
->   - OneXPlayer mini AMD
->   - OneXPlayer mini AMD PRO
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 90220659206c..8bce95170f12 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15346,6 +15346,7 @@ F:	drivers/mtd/nand/onenand/
->  F:	include/linux/mtd/onenand*.h
->  
->  ONEXPLAYER FAN DRIVER
-> +M:	Derek John Clark <derekjohn.clark@gmail.com>
->  M:	Joaquín Ignacio Aramendía <samsagax@gmail.com>
->  L:	linux-hwmon@vger.kernel.org
->  S:	Maintained
-> diff --git a/drivers/hwmon/oxp-sensors.c b/drivers/hwmon/oxp-sensors.c
-> index f84ec8f8eda9..7adc0199ea66 100644
-> --- a/drivers/hwmon/oxp-sensors.c
-> +++ b/drivers/hwmon/oxp-sensors.c
-> @@ -1,12 +1,12 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  /*
-> - * Platform driver for OXP Handhelds that expose fan reading and control
-> - * via hwmon sysfs.
-> + * Platform driver for Handhelds that expose fan reading and control via
-> + * hwmon sysfs.
+Guenter
 
-Still too generic. Refer to "One Netbook and Aya Neo" as above. 
-
->   *
-> - * Old boards have the same DMI strings and they are told appart by the
-> - * boot cpu vendor (Intel/AMD). Currently only AMD boards are supported
-> - * but the code is made to be simple to add other handheld boards in the
-> - * future.
-> + * Old OXP boards have the same DMI strings and they are told appart by
-
-Old problem, but s/appart/apart/
-
-> + * the boot cpu vendor (Intel/AMD). Currently only AMD boards are
-> + * supported but the code is made to be simple to add other handheld
-> + * boards in the future.
->   * Fan control is provided via pwm interface in the range [0-255].
->   * Old AMD boards use [0-100] as range in the EC, the written value is
->   * scaled to accommodate for that. Newer boards like the mini PRO and
-> @@ -42,6 +42,8 @@ static bool unlock_global_acpi_lock(void)
->  
->  enum oxp_board {
->  	aok_zoe_a1 = 1,
-> +	aya_neo_air,
-> +	aya_neo_air_pro,
->  	oxp_mini_amd,
->  	oxp_mini_amd_pro,
->  };
-> @@ -60,6 +62,20 @@ static const struct dmi_system_id dmi_table[] = {
->  		},
->  		.driver_data = (void *) &(enum oxp_board) {aok_zoe_a1},
->  	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-> +			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AIR"),
-> +		},
-> +		.driver_data = (void *) &(enum oxp_board) {aya_neo_air},
+> +	NULL
+> +};
+> +
+> +static const struct hwmon_chip_info gxp_fan_ctrl_chip_info = {
+> +	.ops = &gxp_fan_ctrl_ops,
+> +	.info = gxp_fan_ctrl_info,
+> +
+> +};
+> +
+> +static int gxp_fan_ctrl_probe(struct platform_device *pdev)
+> +{
+> +	struct gxp_fan_ctrl_drvdata *drvdata;
+> +	struct resource *res;
+> +	struct device *dev = &pdev->dev;
+> +	struct device *hwmon_dev;
+> +
+> +	drvdata = devm_kzalloc(dev, sizeof(struct gxp_fan_ctrl_drvdata),
+> +			       GFP_KERNEL);
+> +	if (!drvdata)
+> +		return -ENOMEM;
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	drvdata->base = devm_ioremap_resource(&pdev->dev, res);
+> +	if (IS_ERR(drvdata->base))
+> +		return dev_err_probe(dev, PTR_ERR(drvdata->base),
+> +				     "failed to map base\n");
+> +
+> +	drvdata->plreg = devm_platform_ioremap_resource_byname(pdev,
+> +							       "pl");
+> +	if (IS_ERR(drvdata->plreg))
+> +		return dev_err_probe(dev, PTR_ERR(drvdata->plreg),
+> +				     "failed to map plreg\n");
+> +
+> +	drvdata->fn2 = devm_platform_ioremap_resource_byname(pdev,
+> +							     "fn2");
+> +	if (IS_ERR(drvdata->fn2))
+> +		return dev_err_probe(dev, PTR_ERR(drvdata->fn2),
+> +				     "failed to map fn2\n");
+> +
+> +	hwmon_dev = devm_hwmon_device_register_with_info(&pdev->dev,
+> +							 "hpe_gxp_fan_ctrl",
+> +							 drvdata,
+> +							 &gxp_fan_ctrl_chip_info,
+> +							 NULL);
+> +
+> +	return PTR_ERR_OR_ZERO(hwmon_dev);
+> +}
+> +
+> +static const struct of_device_id gxp_fan_ctrl_of_match[] = {
+> +	{ .compatible = "hpe,gxp-fan-ctrl", },
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, gxp_fan_ctrl_of_match);
+> +
+> +static struct platform_driver gxp_fan_ctrl_driver = {
+> +	.probe		= gxp_fan_ctrl_probe,
+> +	.driver = {
+> +		.name	= "gxp-fan-ctrl",
+> +		.of_match_table = gxp_fan_ctrl_of_match,
 > +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
-> +			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AIR Pro"),
-> +		},
-> +		.driver_data = (void *) &(enum oxp_board) {aya_neo_air_pro},
-> +	},
->  	{
->  		.matches = {
->  			DMI_MATCH(DMI_BOARD_VENDOR, "ONE-NETBOOK"),
-> @@ -161,8 +177,19 @@ static int oxp_platform_read(struct device *dev, enum hwmon_sensor_types type,
->  			ret = read_from_ec(OXP_SENSOR_PWM_REG, 1, val);
->  			if (ret)
->  				return ret;
-> -			if (board == oxp_mini_amd)
-> +			switch (board) {
-> +			case aok_zoe_a1:
-> +				break;
-> +			case aya_neo_air:
-> +			case aya_neo_air_pro:
-> +			case oxp_mini_amd:
->  				*val = (*val * 255) / 100;
-> +				break;
-> +			case oxp_mini_amd_pro:
-> +				break;
-> +			default:
-> +				break;
-
-bundle case statements
-
-> +			}
->  			return 0;
->  		case hwmon_pwm_enable:
->  			return read_from_ec(OXP_SENSOR_PWM_ENABLE_REG, 1, val);
-> @@ -191,8 +218,19 @@ static int oxp_platform_write(struct device *dev, enum hwmon_sensor_types type,
->  		case hwmon_pwm_input:
->  			if (val < 0 || val > 255)
->  				return -EINVAL;
-> -			if (board == oxp_mini_amd)
-> +			switch (board) {
-> +			case aok_zoe_a1:
-> +				break;
-> +			case aya_neo_air:
-> +			case aya_neo_air_pro:
-> +			case oxp_mini_amd:
->  				val = (val * 100) / 255;
-> +				break;
-> +			case oxp_mini_amd_pro:
-> +				break;
-> +			default:
-> +				break;
-> +			}
-
-Same as above.
-
->  			return write_to_ec(dev, OXP_SENSOR_PWM_REG, val);
->  		default:
->  			break;
+> +};
+> +module_platform_driver(gxp_fan_ctrl_driver);
+> +
+> +MODULE_AUTHOR("Nick Hawkins <nick.hawkins@hpe.com>");
+> +MODULE_DESCRIPTION("HPE GXP fan controller");
+> +MODULE_LICENSE("GPL");
