@@ -2,118 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65914C46467
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Dec 2022 13:06:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27314C46467
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Dec 2022 14:04:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229864AbiL1NG2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Dec 2022 08:06:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34472 "EHLO
+        id S229835AbiL1OEM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Dec 2022 09:04:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232182AbiL1NGT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Dec 2022 08:06:19 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CE3D10E5;
-        Wed, 28 Dec 2022 05:06:17 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2A01F614C0;
-        Wed, 28 Dec 2022 13:06:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6A6CC433D2;
-        Wed, 28 Dec 2022 13:06:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672232776;
-        bh=01uoNOtec1mB0nll3ZSfW5VB6a4HmUqgCU6w+M9oF0s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pZYz6NXpLP5uesNlABqkVGtxGvKYTV+RIciAnR1Qc107KaunN1eeXWfYEn0ZQpx1Y
-         O9ZGXAOHKaNFVdlsEusiCM5+P/T9zk0mh5NV5sNH7X94KXlWNtdBUtCWeiNUTQYgQy
-         8S9CjYIz3z+1vPoMTg1fI9Qk/oGBIHfMOG0AFr+Yj+yfsG4d7LXMbonbepVMkKWujV
-         bWi08kWCju3IvP+TkPSTyMvChDdMtzqKBgXYQ4Gp2YdmXxZPNblJrgrodxoTxhZtlO
-         nRvPx1f/fM1f2RPklu0YLBNjkQA8vYFukFRPSnZG4+hSAPrZpPYiCqLzyFEYTP8KjX
-         XdP6Yf+F+R5RA==
-Date:   Wed, 28 Dec 2022 13:06:12 +0000
-From:   Conor Dooley <conor@kernel.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     corbet@lwn.net, Conor Dooley <conor.dooley@microchip.com>,
-        broonie@kernel.org, konstantin@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jstrauss@mailbox.org, alobakin@mailbox.org
-Subject: Re: [PATCH v1] Documentation: process: Document suitability of
- Proton Mail for kernel development
-Message-ID: <Y6w/RL2yq16ijWQC@spud>
-References: <20221228000330.3971104-1-conor@kernel.org>
- <32a201f7-fb1a-0651-6b82-b2593e56e759@gmail.com>
+        with ESMTP id S229630AbiL1OEL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Dec 2022 09:04:11 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC2E11099;
+        Wed, 28 Dec 2022 06:04:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672236249; x=1703772249;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Lg126dF0ZRB51ZzT/H9t/6uTcxQgkla19QDrEd0Bge0=;
+  b=c2iP/ZA0uWkDdxNpHAOp0YCPyjxlv8h7aQGjKTZMRR6SF9YaM3bfiYBo
+   znnuls8vYhO1gaLI8oWuZ0LS1uu7CDIFWchzA0Bm52jf8k1gXX5ukVRGS
+   yQjFCK/Uyg1WSsPnfwkU1I6ZkA2N0fP+v7wT7LJci5FMbxPvNgbNBQ3Sb
+   trJLLyHX6b08mMxFr3/IEyVreRUFb8JhUOZscI71WMkXsnHO3DCKYLE6h
+   MhiDvWFxat86ZuPres05zdP8WimKmqBfpkojgFFT29JBeuJ4L8HEUyf0f
+   RzMhpsKGuVkrBKvQjXmNvZlxeTh770iy7IgB4+Iowwg9wednRPRO6uk59
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10574"; a="308631762"
+X-IronPort-AV: E=Sophos;i="5.96,280,1665471600"; 
+   d="scan'208";a="308631762"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2022 06:03:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10574"; a="655320885"
+X-IronPort-AV: E=Sophos;i="5.96,280,1665471600"; 
+   d="scan'208";a="655320885"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga007.fm.intel.com with ESMTP; 28 Dec 2022 06:03:13 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pAX1S-000cPm-1R;
+        Wed, 28 Dec 2022 16:03:10 +0200
+Date:   Wed, 28 Dec 2022 16:03:10 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Ard Biesheuvel <ardb@kernel.org>
+Cc:     Markuss Broks <markuss.broks@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Jami Kettunen <jami.kettunen@protonmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Helge Deller <deller@gmx.de>, Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Will Deacon <will@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Muchun Song <muchun.song@linux.dev>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 0/3] Add generic framebuffer support to EFI earlycon
+ driver
+Message-ID: <Y6xMnuMqpThmFn1q@smile.fi.intel.com>
+References: <20221221105402.6598-1-markuss.broks@gmail.com>
+ <CAMj1kXGUC7dsSwVEUsAMeAoqDYtbqrM7SDOJTXbPfi-LrcSk9g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="QaPrpyhDxWcBKQR+"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <32a201f7-fb1a-0651-6b82-b2593e56e759@gmail.com>
+In-Reply-To: <CAMj1kXGUC7dsSwVEUsAMeAoqDYtbqrM7SDOJTXbPfi-LrcSk9g@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Dec 23, 2022 at 03:42:33PM +0100, Ard Biesheuvel wrote:
+> (cc Andy)
 
---QaPrpyhDxWcBKQR+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I believe there are two reasons I'm Cc'ed now:
+- the Cc was forgotten. because I remember reviewing some parts
+  of this contribution
+- this conflicts (to some extent) with my patch that speeds up
+  the scrolling
 
-+CC Joe & Alexander, who were the ones that had the problem.
+For the first it's obvious what to do, I think Markuss can include me
+in his v4.
 
-On Wed, Dec 28, 2022 at 07:33:53PM +0700, Bagas Sanjaya wrote:
-> On 12/28/22 07:03, Conor Dooley wrote:
-> > +
-> > +Proton Mail
-> > +***********
-> > +
-> > +Proton Mail has a "feature" where it looks up keys using Web Key Direc=
-tory
-> > +(WKD) and encrypts mail to any email recipients for which it finds a k=
-ey.
-> > +Kernel.org publishes the WKD for all developers who have kernel.org ac=
-counts.
-> > +As a result, emails sent using Proton Mail to kernel.org addresses wil=
-l be
-> > +encrypted.
-> > +Unfortunately, Proton Mail does not provide a mechanism to disable the
-> > +automatic encryption, viewing it as a privacy feature.
-> > +This affects mail sent from their web GUI, from other mail clients usi=
-ng their
-> > +mail "bridge", as well as patches sent using ``git send-email``.
-> > +Unless a way to disable this "feature" is introduced, Proton Mail is u=
-nsuited
-> > +to kernel development.
->=20
-> All mails sent via Proton Mail SMTP relay?
+For the second I don't see the functional clash. The scrolling in this
+series is not anyhow optimized. I think my patch should go first as
+- it is less intrusive
+- it has been tested, or can be tested easily
 
-I'm not quite sure what the purpose of your question is, sorry.
-When I say "bridge", I mean their program by the same name:
-https://proton.me/mail/bridge
-When I was using proton, I do not recall being able to send mail using
-proton without the bridge, their web GUI or their app.
-Perhaps Joe or Alexander are aware of anything that's changed in the
-last year.
+Tell me if I'm missing something here.
 
-> Also, why is sending encrypted emails
-> to public mailing lists (like LKML) not a good idea?
+> On Wed, 21 Dec 2022 at 11:54, Markuss Broks <markuss.broks@gmail.com> wrote:
+> >
+> > Make the EFI earlycon driver be suitable for any linear framebuffers.
+> > This should be helpful for early porting of boards with no other means of
+> > output, like smartphones/tablets. There seems to be an issue with early_ioremap
+> > function on ARM32, but I am unable to find the exact cause. It appears the mappings
+> > returned by it are somehow incorrect, thus the driver is disabled on ARM.
+> 
+> The reason that this driver is disabled on ARM is because the struct
+> screen_info is not populated early enough, as it is retrieved from a
+> UEFI configuration table.
+> 
+> early_ioremap() works fine on ARM as long as they mapping is torn down
+> before paging_init()
+> 
+> > EFI early
+> > console was disabled on IA64 previously because of missing early_memremap_prot,
+> > and this is inherited to this driver.
+> >
+> > This patch also changes
+> 
+> "This patch also changes ..." is usually a strong hint to self that
+> the patches need to be split up.
+> 
+> > behavior on EFI systems, by selecting the mapping type
+> > based on if the framebuffer region intersects with system RAM. If it does, it's
+> > common sense that it should be in RAM as a whole, and so the system RAM mapping is
+> > used. It was tested to be working on my PC (Intel Z490 platform), as well as several
+> > ARM64 boards (Samsung Galaxy S9 (Exynos), iPad Air 2, Xiaomi Mi Pad 4, ...).
 
-Is that a real or rhetorical question?
-Note that the public mailing list *does not* receive the encrypted
-copies of the emails.
-
-Thanks,
-Conor.
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
---QaPrpyhDxWcBKQR+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY6w/PQAKCRB4tDGHoIJi
-0hGXAP9SHbuSxpwVSssuzTI6/j+xd7eQUFcwzftscSBAKhv1QwEAicMrLGUjllo6
-cZIXwfGOsOlW6tcUu5dEOtvCGMdyBwY=
-=W9wN
------END PGP SIGNATURE-----
-
---QaPrpyhDxWcBKQR+--
