@@ -2,130 +2,259 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27314C46467
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Dec 2022 14:04:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D732BC4167B
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Dec 2022 15:46:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229835AbiL1OEM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Dec 2022 09:04:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51464 "EHLO
+        id S234041AbiL1Pqb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Dec 2022 10:46:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229630AbiL1OEL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Dec 2022 09:04:11 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC2E11099;
-        Wed, 28 Dec 2022 06:04:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672236249; x=1703772249;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Lg126dF0ZRB51ZzT/H9t/6uTcxQgkla19QDrEd0Bge0=;
-  b=c2iP/ZA0uWkDdxNpHAOp0YCPyjxlv8h7aQGjKTZMRR6SF9YaM3bfiYBo
-   znnuls8vYhO1gaLI8oWuZ0LS1uu7CDIFWchzA0Bm52jf8k1gXX5ukVRGS
-   yQjFCK/Uyg1WSsPnfwkU1I6ZkA2N0fP+v7wT7LJci5FMbxPvNgbNBQ3Sb
-   trJLLyHX6b08mMxFr3/IEyVreRUFb8JhUOZscI71WMkXsnHO3DCKYLE6h
-   MhiDvWFxat86ZuPres05zdP8WimKmqBfpkojgFFT29JBeuJ4L8HEUyf0f
-   RzMhpsKGuVkrBKvQjXmNvZlxeTh770iy7IgB4+Iowwg9wednRPRO6uk59
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10574"; a="308631762"
-X-IronPort-AV: E=Sophos;i="5.96,280,1665471600"; 
-   d="scan'208";a="308631762"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2022 06:03:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10574"; a="655320885"
-X-IronPort-AV: E=Sophos;i="5.96,280,1665471600"; 
-   d="scan'208";a="655320885"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga007.fm.intel.com with ESMTP; 28 Dec 2022 06:03:13 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pAX1S-000cPm-1R;
-        Wed, 28 Dec 2022 16:03:10 +0200
-Date:   Wed, 28 Dec 2022 16:03:10 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Markuss Broks <markuss.broks@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        Jami Kettunen <jami.kettunen@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Helge Deller <deller@gmx.de>, Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Will Deacon <will@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Kim Phillips <kim.phillips@amd.com>, linux-doc@vger.kernel.org,
-        linux-efi@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 0/3] Add generic framebuffer support to EFI earlycon
- driver
-Message-ID: <Y6xMnuMqpThmFn1q@smile.fi.intel.com>
-References: <20221221105402.6598-1-markuss.broks@gmail.com>
- <CAMj1kXGUC7dsSwVEUsAMeAoqDYtbqrM7SDOJTXbPfi-LrcSk9g@mail.gmail.com>
+        with ESMTP id S234039AbiL1Pq2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Dec 2022 10:46:28 -0500
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 929A814080;
+        Wed, 28 Dec 2022 07:46:23 -0800 (PST)
+Received: by mail-ot1-x330.google.com with SMTP id r2-20020a9d7cc2000000b006718a7f7fbaso10041499otn.2;
+        Wed, 28 Dec 2022 07:46:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QOHEPs2ASaFaM4UuELaDCcG6NnUi5FD8VN5Ownoh3RY=;
+        b=mJJfvF//ABlfwtF4GSM3KaxeMZHS/IKVutZepN8JVJCyp4yyKSgby6na59W4dJKF7c
+         94cVVr84R5LftybAlum+/UuAlSk5big7dr8uIpqEW3UvedaL+6EyVeYcPx+mx4baT4Yy
+         O2OwumS+zAbkDHf5WiyWTTKzy5RVluhowb0OJbl3vYCMBm8qVFmwfv7Hlc+7QJGnbNl7
+         KFUM5/U+jPZDExUa4RLZz9csRtVuCfryNTbnYCg/B6pqDRFo/6yBT46psH8q7Mu+qs1F
+         lwZz3eMQVLfPLk4SakyvxZh1yi5a3mhaW39pFq0KoDRemVSvQ/ejAVrYId2HPoisyudM
+         ITAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QOHEPs2ASaFaM4UuELaDCcG6NnUi5FD8VN5Ownoh3RY=;
+        b=6yqjDIIQLBwLe88ssePIHK4YAWES3VoNgH5VdK1S5eUoaQqZ/G9D2y/gDGzEKALCXQ
+         dmSYXVqMnD+WTlecrDUkCT1q19LLFhN5o7wl/3pvsBnnfUdf7IE8qXvcPTpX2yFowBq6
+         Bv8c8T5K2IxnCXndVI/czGPGVoYowhKXk86ZsTh71Fb1wFshxGmhY9z8wwHQTrthq7GF
+         DI1gUcUNdbZW6Y64nnwq+gFu33bo2E7zf0Qhi8Vkw5tehlRG37iWfh9hfBDeVDSxcBrp
+         IN7LbbSi5qLXlk7Hsr3UgGvBRZFSS+UjfrY4QSDDaeYFz2Qg0w30wbFCM77wS2FuisZ5
+         TmNg==
+X-Gm-Message-State: AFqh2kpgYRCq3DcSbP2LPGLWNEw9/F7FK2n+gcMmXZ16J7zlRP22oTVE
+        Tu8FzhaSrTuDf21ZKtQoab7wj8V7fig=
+X-Google-Smtp-Source: AMrXdXuBnNYdEGvaSar8SjL6Z4+WIhij+cstkVYKv3lyO7fyLTALuftpLz9LXLg5hUVk0UkCL9OHhQ==
+X-Received: by 2002:a9d:538c:0:b0:670:6cfe:385 with SMTP id w12-20020a9d538c000000b006706cfe0385mr11861071otg.23.1672242382801;
+        Wed, 28 Dec 2022 07:46:22 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id m12-20020a9d400c000000b0066e80774203sm8037876ote.43.2022.12.28.07.46.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Dec 2022 07:46:22 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Wed, 28 Dec 2022 07:46:20 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     "Derek J. Clark" <derekjohn.clark@gmail.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?Q?Joaqu=EDn_Ignacio_Aramend=EDa?= <samsagax@gmail.com>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (oxp-sensors) Add AYANEO AIR and AIR Pro
+Message-ID: <20221228154620.GA3600958@roeck-us.net>
+References: <20221213225511.77442-1-derekjohn.clark@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAMj1kXGUC7dsSwVEUsAMeAoqDYtbqrM7SDOJTXbPfi-LrcSk9g@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221213225511.77442-1-derekjohn.clark@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 23, 2022 at 03:42:33PM +0100, Ard Biesheuvel wrote:
-> (cc Andy)
+On Tue, Dec 13, 2022 at 02:55:11PM -0800, Derek J. Clark wrote:
+> Adds support for the AYANEO AIR and AYANEO AIR Pro models of handheld
 
-I believe there are two reasons I'm Cc'ed now:
-- the Cc was forgotten. because I remember reviewing some parts
-  of this contribution
-- this conflicts (to some extent) with my patch that speeds up
-  the scrolling
+s/Adds/Add/
 
-For the first it's obvious what to do, I think Markuss can include me
-in his v4.
-
-For the second I don't see the functional clash. The scrolling in this
-series is not anyhow optimized. I think my patch should go first as
-- it is less intrusive
-- it has been tested, or can be tested easily
-
-Tell me if I'm missing something here.
-
-> On Wed, 21 Dec 2022 at 11:54, Markuss Broks <markuss.broks@gmail.com> wrote:
-> >
-> > Make the EFI earlycon driver be suitable for any linear framebuffers.
-> > This should be helpful for early porting of boards with no other means of
-> > output, like smartphones/tablets. There seems to be an issue with early_ioremap
-> > function on ARM32, but I am unable to find the exact cause. It appears the mappings
-> > returned by it are somehow incorrect, thus the driver is disabled on ARM.
+> devices. These devices use the same EC registers and logic as the One X
+> Player mini AMD. Previous AYANEO models are not supported as they use a
+> different EC and do not have the necessary fan speed write enable and
+> setting registers. Tested on Aya Neo AIR. AIR Pro model EC functionality
+> and DMI data were verified using command line tools by another user.
 > 
-> The reason that this driver is disabled on ARM is because the struct
-> screen_info is not populated early enough, as it is retrieved from a
-> UEFI configuration table.
+> The added devices are:
+> - AYANEO AIR (AMD 5560U)
+> - AYANEO AIR Pro (AMD 5560U)
+> - AYANEO AIR Pro (AMD 5825U)
 > 
-> early_ioremap() works fine on ARM as long as they mapping is torn down
-> before paging_init()
+> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> ---
+>  Documentation/hwmon/oxp-sensors.rst | 17 +++++----
+>  MAINTAINERS                         |  6 ++++
+>  drivers/hwmon/oxp-sensors.c         | 54 ++++++++++++++++++++++++-----
+>  3 files changed, 63 insertions(+), 14 deletions(-)
 > 
-> > EFI early
-> > console was disabled on IA64 previously because of missing early_memremap_prot,
-> > and this is inherited to this driver.
-> >
-> > This patch also changes
-> 
-> "This patch also changes ..." is usually a strong hint to self that
-> the patches need to be split up.
-> 
-> > behavior on EFI systems, by selecting the mapping type
-> > based on if the framebuffer region intersects with system RAM. If it does, it's
-> > common sense that it should be in RAM as a whole, and so the system RAM mapping is
-> > used. It was tested to be working on my PC (Intel Z490 platform), as well as several
-> > ARM64 boards (Samsung Galaxy S9 (Exynos), iPad Air 2, Xiaomi Mi Pad 4, ...).
+> diff --git a/Documentation/hwmon/oxp-sensors.rst b/Documentation/hwmon/oxp-sensors.rst
+> index 39c588ec5c50..b93892c892c5 100644
+> --- a/Documentation/hwmon/oxp-sensors.rst
+> +++ b/Documentation/hwmon/oxp-sensors.rst
+> @@ -3,18 +3,21 @@
+>  Kernel driver oxp-sensors
+>  =========================
+>  
+> -Author:
+> +Authors:
+> +    - Derek John Clark <derekjohn.clark@gmail.com>
+>      - Joaquín Ignacio Aramendía <samsagax@gmail.com>
+>  
+>  Description:
+>  ------------
+>  
+> -One X Player devices from One Netbook provide fan readings and fan control
+> -through its Embedded Controller.
+> +Handheld devices from One Netbook and Aya Neo provide fan readings and fan
+> +control through their Embedded Controllers.
+>  
+> -Currently only supports AMD boards from the One X Player and AOK ZOE lineup.
+> -Intel boards could be supported if we could figure out the EC registers and
+> -values to write to since the EC layout and model is different.
+> +Currently only supports AMD boards from One X Player, AOK ZOE, and some Aya
+> +Neo devices. One X PLayer Intel boards could be supported if we could figure
+> +out the EC registers and values to write to since the EC layout and model is
+> +different. Aya Neo devices preceding the AIR may not be usable as the EC model
+> +is different and do not appear to have manual control capabiltities.
+>  
+>  Supported devices
+>  -----------------
+> @@ -22,6 +25,8 @@ Supported devices
+>  Currently the driver supports the following handhelds:
+>  
+>   - AOK ZOE A1
+> + - Aya Neo AIR
+> + - Aya Neo AIR Pro
+>   - OneXPlayer AMD
+>   - OneXPlayer mini AMD
+>   - OneXPlayer mini AMD PRO
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 90220659206c..ba03a2983045 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15345,6 +15345,12 @@ S:	Maintained
+>  F:	drivers/mtd/nand/onenand/
+>  F:	include/linux/mtd/onenand*.h
+>  
+> +ONEXPLAYER FAN DRIVER
+> +M:	Derek John Clark <derekjohn.clark@gmail.com>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	drivers/hwmon/oxp-sensors.c
+> +
+This doesn't make sense. Why add another entry for the same driver ?
+Add yourself as second maintianer, no problem with that, but don't
+add a second entry for the same driver.
 
--- 
-With Best Regards,
-Andy Shevchenko
+>  ONEXPLAYER FAN DRIVER
+>  M:	Joaquín Ignacio Aramendía <samsagax@gmail.com>
+>  L:	linux-hwmon@vger.kernel.org
+> diff --git a/drivers/hwmon/oxp-sensors.c b/drivers/hwmon/oxp-sensors.c
+> index f84ec8f8eda9..7adc0199ea66 100644
+> --- a/drivers/hwmon/oxp-sensors.c
+> +++ b/drivers/hwmon/oxp-sensors.c
+> @@ -1,12 +1,12 @@
+>  // SPDX-License-Identifier: GPL-2.0+
+>  /*
+> - * Platform driver for OXP Handhelds that expose fan reading and control
+> - * via hwmon sysfs.
+> + * Platform driver for Handhelds that expose fan reading and control via
 
+That is too generic. It is not a driver which supports _all_ handhelds.
 
+> + * hwmon sysfs.
+>   *
+> - * Old boards have the same DMI strings and they are told appart by the
+> - * boot cpu vendor (Intel/AMD). Currently only AMD boards are supported
+> - * but the code is made to be simple to add other handheld boards in the
+> - * future.
+> + * Old OXP boards have the same DMI strings and they are told appart by
+> + * the boot cpu vendor (Intel/AMD). Currently only AMD boards are
+> + * supported but the code is made to be simple to add other handheld
+> + * boards in the future.
+>   * Fan control is provided via pwm interface in the range [0-255].
+>   * Old AMD boards use [0-100] as range in the EC, the written value is
+>   * scaled to accommodate for that. Newer boards like the mini PRO and
+> @@ -42,6 +42,8 @@ static bool unlock_global_acpi_lock(void)
+>  
+>  enum oxp_board {
+>  	aok_zoe_a1 = 1,
+> +	aya_neo_air,
+> +	aya_neo_air_pro,
+>  	oxp_mini_amd,
+>  	oxp_mini_amd_pro,
+>  };
+> @@ -60,6 +62,20 @@ static const struct dmi_system_id dmi_table[] = {
+>  		},
+>  		.driver_data = (void *) &(enum oxp_board) {aok_zoe_a1},
+>  	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
+> +			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AIR"),
+> +		},
+> +		.driver_data = (void *) &(enum oxp_board) {aya_neo_air},
+> +	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
+> +			DMI_EXACT_MATCH(DMI_BOARD_NAME, "AIR Pro"),
+> +		},
+> +		.driver_data = (void *) &(enum oxp_board) {aya_neo_air_pro},
+> +	},
+>  	{
+>  		.matches = {
+>  			DMI_MATCH(DMI_BOARD_VENDOR, "ONE-NETBOOK"),
+> @@ -161,8 +177,19 @@ static int oxp_platform_read(struct device *dev, enum hwmon_sensor_types type,
+>  			ret = read_from_ec(OXP_SENSOR_PWM_REG, 1, val);
+>  			if (ret)
+>  				return ret;
+> -			if (board == oxp_mini_amd)
+> +			switch (board) {
+> +			case aok_zoe_a1:
+> +				break;
+> +			case aya_neo_air:
+> +			case aya_neo_air_pro:
+> +			case oxp_mini_amd:
+>  				*val = (*val * 255) / 100;
+> +				break;
+> +			case oxp_mini_amd_pro:
+> +				break;
+> +			default:
+> +				break;
+
+case statements doing nothing can be bundled.
+
+> +			}
+>  			return 0;
+>  		case hwmon_pwm_enable:
+>  			return read_from_ec(OXP_SENSOR_PWM_ENABLE_REG, 1, val);
+> @@ -191,8 +218,19 @@ static int oxp_platform_write(struct device *dev, enum hwmon_sensor_types type,
+>  		case hwmon_pwm_input:
+>  			if (val < 0 || val > 255)
+>  				return -EINVAL;
+> -			if (board == oxp_mini_amd)
+> +			switch (board) {
+> +			case aok_zoe_a1:
+> +				break;
+> +			case aya_neo_air:
+> +			case aya_neo_air_pro:
+> +			case oxp_mini_amd:
+>  				val = (val * 100) / 255;
+> +				break;
+> +			case oxp_mini_amd_pro:
+> +				break;
+> +			default:
+> +				break;
+
+Same as above.
+
+> +			}
+>  			return write_to_ec(dev, OXP_SENSOR_PWM_REG, val);
+>  		default:
+>  			break;
