@@ -2,93 +2,135 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5AD3C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Dec 2022 13:12:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97295C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Dec 2022 13:40:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229721AbiL2NMb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Dec 2022 08:12:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47080 "EHLO
+        id S233576AbiL2Nkf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Dec 2022 08:40:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbiL2NMa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Dec 2022 08:12:30 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A211B1C9;
-        Thu, 29 Dec 2022 05:12:29 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C33FC6173E;
-        Thu, 29 Dec 2022 13:12:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B072AC433EF;
-        Thu, 29 Dec 2022 13:12:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672319548;
-        bh=SOp23ONE2ZS2Rwu9m1lYp6HK4zU0C88MNMwFM+Hhi14=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=O4Y/ldkVSy4v8cK97cQWNnrWFPne4n6oRjzjryZAR1e07QBAbtgW/bc1tDIwBwCyj
-         bYKa9urmBNddHNzuXcL5jIkqsLKvtU8Tgl2KFM5hT0nbPtnT5vtgwId/1jjlbYxV37
-         nhHtMdU7uw9k7ud+xoeGgmZJWLak2rQRlR1spA5UOjucjtRnLQNvW2Bi/m29A2Cve2
-         pKpxUBL5itg0jPn0LW/4INV3ViQfEiAJU6bsp5hbJ6ar3HySbEduxyuthrQZyf9JCR
-         UiJHN5F3MQ0vtQEwUSrbvB+p9hu9XWQWt3K0Yk3NnPISy0jLc3oryZK2YfmXl9xdkH
-         i0cOzkaQ9fDBQ==
-Date:   Thu, 29 Dec 2022 13:13:04 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     corbet@lwn.net, Conor Dooley <conor.dooley@microchip.com>,
-        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] Documentation: process: Document suitability of
- Proton Mail for kernel development
-Message-ID: <Y62SYKyhE+hPX5b9@sirena.org.uk>
-References: <20221228000330.3971104-1-conor@kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="mVQiF8DEATNhfjPe"
-Content-Disposition: inline
-In-Reply-To: <20221228000330.3971104-1-conor@kernel.org>
-X-Cookie: Ego sum ens omnipotens.
+        with ESMTP id S233578AbiL2NkI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Dec 2022 08:40:08 -0500
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B73517073;
+        Thu, 29 Dec 2022 05:37:37 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailnew.nyi.internal (Postfix) with ESMTP id D47B95818EC;
+        Thu, 29 Dec 2022 08:36:54 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Thu, 29 Dec 2022 08:36:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm1; t=1672321014; x=1672328214; bh=lvF0202SLO
+        TzT8hbWZsF0xJL4uK7PlwT0Y7oJgXZa8M=; b=nLBnuo5MB8ib40z9s0xLWilN6X
+        /WXV1Zqm3SxWb/ruB/kuFnhd7wdVmFZDNY+gYekuqiDs/3zSKTYpDCWeSGomp00d
+        RPXAAm15lH7k/HckP7H41S1nTIssGFqnGEUCiAueXZhfqHbgvsgt2V/PjS5+24eK
+        AZrmaFdvUCvnyYqeGiXNjFNJi0Nt+kY19b5QAViPegESXxc5lkw5/x38rzXBkE3E
+        iMI/LuxJaJhu/PzxHG/w2bIL1OevR4DRQqXzZhgnnNrL6JlGZ2hfawrGtcjmfT5j
+        4NFrf2y4B2F4odzFC/4UEfyR9o8m6Tb2OX8h3xaP+cQbWCLPHyzz+PMCgWqQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; t=1672321014; x=1672328214; bh=lvF0202SLOTzT8hbWZsF0xJL4uK7
+        PlwT0Y7oJgXZa8M=; b=Jr7RZJ443Rh8Qo+omI31KtzhJxzRr/gmnxzyHbaByHQ4
+        STqt+Vc4cv+k0j8Dn73jUOrcx91eQtuXMzjq9aHKcghW7M7CCsGYLd01CHiSCaAJ
+        imgUtF7DvNdZzdYbFAKU118qzhWZ45FFNkuq01JO3G44O8dNsNM026hoPloISUUK
+        uLAuPol2cYeE+H6rlz4SUHqOMhoDdaT6jlH1aTcg49YvTbDlhhD5kYpLI5s8bJxE
+        VEdpvdUeBr2HOtE5jiNe1JbI9qe+BqGW8ENvyet3ESOPsDs6y7wveuue+TeGQ6OF
+        63+RmCQO5AYjeEdbwbZySMWQsDDFqh1CfW/rw6fbgQ==
+X-ME-Sender: <xms:9JetY317jGDP8GU6R9s5P3feYX4b7JYnXuYW9oxrPtX4neZSlQhn_g>
+    <xme:9JetY2H-9Ndmta7egwtoh9Qd7iKWQAb1a1Gysv2bD9db8yknC1mA_eZz9GoINFs1O
+    mxmkGXxxIrZhDgI32M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieeggdehgecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:9JetY37Np6b49AaL3STy0ZgjFyhCS7H5vsUZxB6VrMJPnKFk2gWG_Q>
+    <xmx:9JetY80eHbEBLheoSTsnWIIch3xp-KorU8P9-48XP3Ihye8VysyR4g>
+    <xmx:9JetY6EPUvpUXO4ud7kX_WBGQ-K_e16zVv9iLREEkWdF5C8vmD3ZiA>
+    <xmx:9petY6ndaNDL17h1d1VwhHZdsw1NSQgvJDADFPi05YBImlRtM5t8dA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 640B9B60086; Thu, 29 Dec 2022 08:36:52 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
+Mime-Version: 1.0
+Message-Id: <1d88ba9f-5541-4b67-9cc8-a361eef36547@app.fastmail.com>
+In-Reply-To: <20221219154119.286760562@infradead.org>
+References: <20221219153525.632521981@infradead.org>
+ <20221219154119.286760562@infradead.org>
+Date:   Thu, 29 Dec 2022 14:36:32 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Peter Zijlstra" <peterz@infradead.org>,
+        "Linus Torvalds" <torvalds@linux-foundation.org>
+Cc:     "Jonathan Corbet" <corbet@lwn.net>,
+        "Will Deacon" <will@kernel.org>,
+        "Boqun Feng" <boqun.feng@gmail.com>,
+        "Mark Rutland" <mark.rutland@arm.com>,
+        "Catalin Marinas" <catalin.marinas@arm.com>, dennis@kernel.org,
+        "Tejun Heo" <tj@kernel.org>, "Christoph Lameter" <cl@linux.com>,
+        hca@linux.ibm.com, gor@linux.ibm.com,
+        "Alexander Gordeev" <agordeev@linux.ibm.com>,
+        borntraeger@linux.ibm.com, svens@linux.ibm.com,
+        "Herbert Xu" <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, joro@8bytes.org,
+        suravee.suthikulpanit@amd.com,
+        "Robin Murphy" <robin.murphy@arm.com>, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, "Pekka Enberg" <penberg@kernel.org>,
+        "David Rientjes" <rientjes@google.com>,
+        "Joonsoo Kim" <iamjoonsoo.kim@lge.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "Vlastimil Babka" <vbabka@suse.cz>,
+        "Roman Gushchin" <roman.gushchin@linux.dev>,
+        "Hyeonggon Yoo" <42.hyeyoo@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-s390@vger.kernel.org, linux-crypto@vger.kernel.org,
+        iommu@lists.linux.dev, Linux-Arch <linux-arch@vger.kernel.org>
+Subject: Re: [RFC][PATCH 07/12] percpu: Wire up cmpxchg128
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Dec 19, 2022, at 16:35, Peter Zijlstra wrote:
+> In order to replace cmpxchg_double() with the newly minted
+> cmpxchg128() family of functions, wire it up in this_cpu_cmpxchg().
+>
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
---mVQiF8DEATNhfjPe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Does this work on x86 chips without X86_FEATURE_CX16?
 
-On Wed, Dec 28, 2022 at 12:03:31AM +0000, Conor Dooley wrote:
+As far as I can tell, the new percpu_cmpxchg128_op uses
+the cmpxchg16b instruction unconditionally without checking
+for the feature bit first, and is now used by this_cpu_cmpxchg()
+unconditionally as well.
 
-> +Proton Mail has a "feature" where it looks up keys using Web Key Directory
-> +(WKD) and encrypts mail to any email recipients for which it finds a key.
-> +Kernel.org publishes the WKD for all developers who have kernel.org accounts.
-> +As a result, emails sent using Proton Mail to kernel.org addresses will be
-> +encrypted.
-> +Unfortunately, Proton Mail does not provide a mechanism to disable the
-> +automatic encryption, viewing it as a privacy feature.
+This is fine for the moment if the only user is mm/slub.c
+and that retains the system_has_cmpxchg128() runtime check,
+but I think a better interface would be to guarantee that
+this_cpu_cmpxchg() always ends up either in a working
+inline asm or the generic fallback but not an invalid
+opcode.
 
-I'd perhaps add a note here that the reason the encryption is a
-problem is that developers may not have their mail client set up
-for easy and fluid operation with encrypted mail, making the
-process of reading the mail needlessly difficult, or it may cause
-some mail clients to encrypt replies to everyone including the
-list which obviously won't work well.  But that's not essential,
-either way
+For consistency, I would also suggest this_cpu_cmpxchg() to
+take the same argument types as cmpxchg(): at most 'unsigned
+long' sized, with additional this_cpu_cmpxchg64() and
+this_cpu_cmpxchg128() macros that take fixed-size arguments.
+I have an older patch set that additionally converts all
+8-bit and 16-bit cmpxchg()/xchg() calls to cmpxchg_8()/
+xchg_8()/cmpxchg_16()/xchg_16() and and leaves only the
+fixed-32bit and variable typed 'unsigned long' sized
+callers for the weakly typed variant.
 
-Reviewed-by: Mark Brown <broonie@kernel.org>
-
---mVQiF8DEATNhfjPe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmOtkl0ACgkQJNaLcl1U
-h9C/Mgf9HWBv9oSmF0btC9VmOlYBKv0fDFxP2g1iH1GI0AK0Is7zsACbQM79cDzM
-FwqELSmo76/2LmKILPKEQ9YDNZk3ooacH5Lrt8aVyv1SbNc/2q0QK+MZl19+onLq
-YX265KhTyDRh2bkJrsETubT2OKWqCUI3AlDn4QzL/raerOVvY1QXCabeVL3TyhaL
-HRP4I01mp3fG+kj5NzA2CUuP424wBENdvvtYmJaDK8s5CwQXfXQZA8aNKB8lVq3q
-3vQWWKbh/7Yg1RRVibcAjVGFERaHU1AaUUYjHq+083I6qn8Xkc2lWr3LZE5QOpgg
-SbU2VCzdWuAgoARcVIAIGTtM5cY4zA==
-=/UTQ
------END PGP SIGNATURE-----
-
---mVQiF8DEATNhfjPe--
+       Arnd
