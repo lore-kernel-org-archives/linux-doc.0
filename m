@@ -2,82 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0242C4167B
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Dec 2022 19:43:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D12C2C10F1B
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Dec 2022 20:23:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230179AbiL3Tn1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Dec 2022 14:43:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40408 "EHLO
+        id S235546AbiL3UXD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Dec 2022 15:23:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbiL3Tn0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Dec 2022 14:43:26 -0500
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B0D914024
-        for <linux-doc@vger.kernel.org>; Fri, 30 Dec 2022 11:43:25 -0800 (PST)
-Received: by mail-qt1-x82b.google.com with SMTP id h21so17801771qta.12
-        for <linux-doc@vger.kernel.org>; Fri, 30 Dec 2022 11:43:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tQ56hL2pZJLjzLwQ/3T/CpWJ1q/WCG6zfqoO1PWUhok=;
-        b=HXW5xZVrFNQn6IFmuRqi6c/kp3HPyFLuASeWLDiU8QYfKNe0PB/mjBPGkAHL/te/tV
-         bBWgSkWD9gmsNaa+zkwE/9QtOh+a5Adpf/6Luy0rf53L4bYU/Rmc1pL8SmutXRZ00uKV
-         Tzvsny/YYQUQxCkUPSmamin7F9umRRs1DgMCU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tQ56hL2pZJLjzLwQ/3T/CpWJ1q/WCG6zfqoO1PWUhok=;
-        b=fF7Wj3Fdp7VsaB9pFFati0BFLYtoCCK9ZKVoUTaO/OWiK/GepYq5d5VjcZcfStzWHv
-         9YkcE8e25XD95x1SieQ5XeAwuxbb+TQnCQ1y46pCfdyCdzK8t2dwb0gYVuFauD0Rhm9B
-         0xbA5p+d86dw/KW+ue/zYDvwjd3YTixbabNmOnlJgrvcMbzpokHn7Rxc8D025DI6TuHC
-         llofpcePX7zBRhzVTyxATS+8Q2fOXLHCHh/LmmFyhuFJABNTBvLk3WgEqvdFjpBk4eNa
-         Ezk3N0UrhlraPQo+vttdii1KeN9ZTs7CBLk24Awpz9xxl63yHhz2tRL2ufPMIZv1KEl7
-         ZG8A==
-X-Gm-Message-State: AFqh2koFWqQO6Sr3eEkrpvvj334SvW3q9AQg/fUsxm19LSlb4knaIpTj
-        lMVvamr5qpuCvs61Sh3H1F1xiw==
-X-Google-Smtp-Source: AMrXdXsTGc0WfJQMaRCIykxiekLmWiY+P1A+X9GhjScPIhmDzH8z/Ze9m4Y3IaGbaR/M2jnTnXMS4w==
-X-Received: by 2002:ac8:4f17:0:b0:3a6:95ff:ffd4 with SMTP id b23-20020ac84f17000000b003a695ffffd4mr44080186qte.52.1672429404740;
-        Fri, 30 Dec 2022 11:43:24 -0800 (PST)
-Received: from nitro.local (bras-base-mtrlpq5031w-grc-30-209-226-106-7.dsl.bell.ca. [209.226.106.7])
-        by smtp.gmail.com with ESMTPSA id bl41-20020a05620a1aa900b00702d1c6e7bbsm15500477qkb.130.2022.12.30.11.43.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Dec 2022 11:43:24 -0800 (PST)
-Date:   Fri, 30 Dec 2022 14:43:22 -0500
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     corbet@lwn.net, Conor Dooley <conor.dooley@microchip.com>,
-        broonie@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] Documentation: process: Document suitability of
- Proton Mail for kernel development
-Message-ID: <20221230194322.gonid4ld27jwjfw4@nitro.local>
-References: <20221228000330.3971104-1-conor@kernel.org>
+        with ESMTP id S235484AbiL3UWz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Dec 2022 15:22:55 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56AD91B9C6;
+        Fri, 30 Dec 2022 12:22:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=VNS6f3OvTSGCAOQIBsZyhnlAHMi3sUvuzkVH6AUStJw=; b=m7NlslhTSfDZ4ZmUtfxp/Xnu39
+        wcMW9Fs6D61tkVOkb9aNJzUeDxCMFpfhokxj4Iw7og/X9ymIO6TuAPxilfBxTro6vt5RwDuOQ06Nx
+        cTa2IDxucTDOSrb+D2KAysnWe4vtMRZLRo6gt4jaePiEqE0AB1wKXuKcjAJLcXNjPAy7GoWLUJaqa
+        F0r5pTDYKbUyvnHoBH6rutQ+T1fLyCK+3HoWkT1ZXczYLvKri+ToDnSC/pBUiSuQ2JeCRURvOoWQj
+        VtyOJlOHwCn8iJV5S7avqZR8wVgsOBaoTwrFSSfs8tjHpUS0NGxrX3LuodOWmnERikKe7sCEbh9L8
+        v1hkV1Mg==;
+Received: from [2601:1c2:d80:3110::a2e7]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pBLty-00DF6m-Ka; Fri, 30 Dec 2022 20:22:50 +0000
+Message-ID: <855df2ca-0760-2106-4e3b-2af7ce15b9eb@infradead.org>
+Date:   Fri, 30 Dec 2022 12:22:50 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221228000330.3971104-1-conor@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH V2] doc: fix typo in botching up ioctls
+To:     Federico Vaga <federico.vaga@vaga.pv.it>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221230172328.58612-1-federico.vaga@vaga.pv.it>
+Content-Language: en-US
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20221230172328.58612-1-federico.vaga@vaga.pv.it>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 28, 2022 at 12:03:31AM +0000, Conor Dooley wrote:
-> +This affects mail sent from their web GUI, from other mail clients using their
-> +mail "bridge", as well as patches sent using ``git send-email``.
 
-I suggest a minor tweak to wording here:
 
-    The automatic encryption feature is also enabled for mail sent via the
-    Proton Mail Bridge, so this affects all outgoing messages, including
-    patches sent with ``git send-email``.
+On 12/30/22 09:23, Federico Vaga wrote:
+> The type contained a typo `uintprt` -> `uintptr`
+> 
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
-> +Unless a way to disable this "feature" is introduced, Proton Mail is unsuited
-> +to kernel development.
 
-Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Thanks!
+Thanks.
 
--K
+> ---
+>  Documentation/process/botching-up-ioctls.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> v1 -> v2 fix the typo in the commit message
+> 
+> diff --git a/Documentation/process/botching-up-ioctls.rst b/Documentation/process/botching-up-ioctls.rst
+> index ba4667ab396b..9739b88463a5 100644
+> --- a/Documentation/process/botching-up-ioctls.rst
+> +++ b/Documentation/process/botching-up-ioctls.rst
+> @@ -41,7 +41,7 @@ will need to add a 32-bit compat layer:
+>     structures to the kernel, or if the kernel checks the structure size, which
+>     e.g. the drm core does.
+>  
+> - * Pointers are __u64, cast from/to a uintprt_t on the userspace side and
+> + * Pointers are __u64, cast from/to a uintptr_t on the userspace side and
+>     from/to a void __user * in the kernel. Try really hard not to delay this
+>     conversion or worse, fiddle the raw __u64 through your code since that
+>     diminishes the checking tools like sparse can provide. The macro
+
+-- 
+~Randy
