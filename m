@@ -2,171 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 392F2C10F1B
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Dec 2022 09:34:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50032C10F1B
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Dec 2022 13:51:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234814AbiL3Jdk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Dec 2022 04:33:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35476 "EHLO
+        id S235166AbiL3NvS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Dec 2022 08:51:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234875AbiL3Jdf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Dec 2022 04:33:35 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF1B71A805;
-        Fri, 30 Dec 2022 01:33:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672392813; x=1703928813;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=XdS5Dd/0uhgJq64+Z+wNIhmKRBaUrp9HvGQaq5MZXWU=;
-  b=Q5INskIHEIFJbY3g0wqNExb7FG6pdNd7Gec56E9jvPUkQxTKrhdLpmXp
-   LhvJrqLvfZx+uWak/JSjtMdCsyJGzeQWogqfPEAdOkzSho14GBBLaP3iv
-   eaJJueDu8kG3qCBPkmDeCxeW7O6jjLmA8HRVPOC10D6/YP4BloBEJdO4D
-   0Hau+1ChyhuWUGueUqtWWJV/wNvY87QV1qY9s6UoyfzZs9RKP1tg+0r7R
-   Bd4+o0TqtjFPw8/CRW2F1j21eVS1X+Gg9V+qfML72xEnXXrOLwO2nshev
-   jKgJmdVGl3xs/GSwKqkZjefr6sZFlg5S03vh0NbBKdHbbSzIqJlgYmhM3
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10575"; a="385612361"
-X-IronPort-AV: E=Sophos;i="5.96,287,1665471600"; 
-   d="scan'208";a="385612361"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2022 01:33:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10575"; a="647262116"
-X-IronPort-AV: E=Sophos;i="5.96,287,1665471600"; 
-   d="scan'208";a="647262116"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by orsmga007.jf.intel.com with ESMTP; 30 Dec 2022 01:33:27 -0800
-Date:   Fri, 30 Dec 2022 17:23:19 +0800
-From:   Xu Yilun <yilun.xu@intel.com>
-To:     matthew.gerlach@linux.intel.com
-Cc:     hao.wu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        andriy.shevchenko@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
-        marpagan@redhat.com, bagasdotme@gmail.com
-Subject: Re: [PATCH v8 3/4] fpga: dfl: add basic support for DFHv1
-Message-ID: <Y66uB8/xj+YF4oEr@yilunxu-OptiPlex-7050>
-References: <20221228181624.1793433-1-matthew.gerlach@linux.intel.com>
- <20221228181624.1793433-4-matthew.gerlach@linux.intel.com>
+        with ESMTP id S235122AbiL3Nu6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Dec 2022 08:50:58 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DC6BDE81;
+        Fri, 30 Dec 2022 05:50:55 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id h7-20020a17090aa88700b00225f3e4c992so13230206pjq.1;
+        Fri, 30 Dec 2022 05:50:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IrwYfLgEMI68mkR+EGYtHrh6WCeTp4YOiBrMtjhhtP0=;
+        b=Zk2SqgBV19FJGG3f11GWtHe+DfolQ/8cRCfRNugbnaedxxK53zpb32XcNPCTojVG/w
+         Nz1joRbzb1Z6Ew2/eMDdgEM992/V+l9Tc50QFytHOzA7B+1O5yF72voqOPsccmyYnLOo
+         NMLvovQJn/+UBZq5SqDngiizbiRouee81MNx57Kn+6pQrhf8FYEtpa3lGYTwXsrFO/Lh
+         kDFGxEOTLr9+NeeARXBdMu4OQ8RTYI/GsAbOhX8YyEnLEDEKCP6ZT18npf8SFwiIcq8Y
+         xXPCKT7PbseWoUlKtmvGOp7VpGLZEWmTbk1ciCAWO5/EIsTEBA9m33m5p0azC2xsnQAq
+         wY0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IrwYfLgEMI68mkR+EGYtHrh6WCeTp4YOiBrMtjhhtP0=;
+        b=eci+GZysoG4syJCeXApprSAp17hC3FAPXu83xBgCQlWmJ4IDYkrhQKHKA/sv7iBmIe
+         UkyRdWTdImPCHW1rsEanTp3vOSAHjVCIrQNYbYI+8+dIPiExLZrMCJeEHVdP0zcLEfz2
+         yc+G2WaqaUx6RwmTtHigaCKLUgR9WqkLNCf0hZlhlH3+TYIMW8DWikTLuAeebI5nBhz/
+         ikIKCFKlsvs4hTeXbw9VERdHGqLldqA/mjK4ZlNnbhTytHEeZSFsTtk6DBoXCKgRtOg8
+         QjGGilGERxyfY4HVgCCbV57znQXrVQjXGoHfxS25VbxpUNhqGtBICfvdlZnRc69scv9U
+         a/EA==
+X-Gm-Message-State: AFqh2kpuUoo2uxKYueDVp/3xuwjLyapu8KaYyz9ObZtwRJWxCnqW++7P
+        dxJCi6ANokEOM93QDlw8M0c=
+X-Google-Smtp-Source: AMrXdXuYfz5XJQWmhZRJ7u/MxCk6ngMB2Wxh1Ee4wAzgvELx0RR7DHVB4QvBvcc8TZ/6DWfjw+Xlzg==
+X-Received: by 2002:a17:90b:2643:b0:223:2865:73aa with SMTP id pa3-20020a17090b264300b00223286573aamr38713800pjb.2.1672408255200;
+        Fri, 30 Dec 2022 05:50:55 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-7.three.co.id. [180.214.232.7])
+        by smtp.gmail.com with ESMTPSA id ge10-20020a17090b0e0a00b00213202d77d9sm12842363pjb.43.2022.12.30.05.50.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Dec 2022 05:50:54 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id DD91D10417F; Fri, 30 Dec 2022 20:50:50 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Devicetree <devicetree@vger.kernel.org>
+Cc:     Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
+        Sibi Sankar <quic_sibis@quicinc.com>,
+        Rajendra Nayak <quic_rjendra@quicinc.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH 0/2] soc: qcom: dcc: Documentation improv
+Date:   Fri, 30 Dec 2022 20:50:29 +0700
+Message-Id: <20221230135030.17002-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-Developer-Signature: v=1; a=openpgp-sha256; l=939; i=bagasdotme@gmail.com; h=from:subject; bh=GLRC9QwsPxf3VynR+LqmR9KGtjvhslrF16b9h+ROkOg=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMnr3ix4G8x/PUn9Wu7ku/+uGXZ2eU5v2VR1wkdeaoOIvCRD qqBqRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACYS1MDwv9zjqeSxerepTM6pUdP9nu fZ2b+Y+3DXxuR4VZbAog3KBxgZVn/Jaso+OnH7FQ+Pt/aHvffHZn/IWfL1/hqXe2WNQnsdmQE=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221228181624.1793433-4-matthew.gerlach@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-12-28 at 10:16:23 -0800, matthew.gerlach@linux.intel.com wrote:
-> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> 
-> Version 1 of the Device Feature Header (DFH) definition adds
-> functionality to the DFL bus.
-> 
-> A DFHv1 header may have one or more parameter blocks that
-> further describes the HW to SW.  Add support to the DFL bus
-> to parse the MSI-X parameter.
-> 
-> The location of a feature's register set is explicitly
-> described in DFHv1 and can be relative to the base of the DFHv1
-> or an absolute address.  Parse the location and pass the information
-> to DFL driver.
-> 
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-> ---
-> v8: use struct_size() from overflow.h
->     add dfh_get_u64_param_vals()
+The DCC (Data Capture and Compare) patchset was sent and partially
+merged [1] without Cc'ing linux-doc list for documentation review.
+kernel test robot [2] noted htmldocs warnings as a result, which is fixed
+in [1/2]. Later, when inspecting the sysfs description, the wording
+could have been improved ([2/2]). So here is the improv series.
 
-Could you help check my comments?
-https://lore.kernel.org/linux-fpga/alpine.DEB.2.22.394.2212211421210.570436@rhweight-WRK1/T/#md86e3836130ebacd3c088f5c512ba741aac8a4d1
+[1]: https://lore.kernel.org/lkml/cover.1672148732.git.quic_schowdhu@quicinc.com/
+[2]: https://lore.kernel.org/linux-doc/202212300426.eMLsZsvA-lkp@intel.com/
 
-[...]
+Bagas Sanjaya (2):
+  soc: qcom: dcc: Fix examples list on
+    /sys/kernel/debug/dcc/.../[list-number]/config documentation
+  soc: qcom: dcc: rewrite description of dcc sysfs files
 
-> 
-> +static u64 *find_param(u64 *params, resource_size_t max, int param_id)
-> +{
-> +	u64 *end = params + max / sizeof(u64);
-> +	u64 v, next;
-> +
-> +	while (params < end) {
-> +		v = *params;
-> +		if (param_id == FIELD_GET(DFHv1_PARAM_HDR_ID, v))
-> +			return params;
-> +
-> +		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
-> +		params += next;
-> +		if (FIELD_GET(DFHv1_PARAM_HDR_NEXT_EOP, v))
-> +			break;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +/**
-> + * dfh_find_param() - find parameter block for the given parameter id
-> + * @dfl_dev: dfl device
-> + * @param: id of dfl parameter
-> + *
-> + * Return: pointer to start of parameter block, NULL otherwise.
-> + */
-> +u64 *dfh_find_param(struct dfl_device *dfl_dev, int param_id)
-> +{
-> +	return find_param(dfl_dev->params, dfl_dev->param_size, param_id);
-> +}
-> +EXPORT_SYMBOL_GPL(dfh_find_param);
+ Documentation/ABI/testing/debugfs-driver-dcc | 163 +++++++++++--------
+ 1 file changed, 96 insertions(+), 67 deletions(-)
 
-Didn't find where to use it?
 
-> +
-> +/**
-> + * dfh_get_u64_param_vals() - get array of u64 param values for given parameter id
+base-commit: f02a537357a61e7892587c0f3455f8295cc9075c
+-- 
+An old man doll... just what I always wanted! - Clara
 
-There is no rule to say one u64 for each property in the parameter block.
-So I don't see the reason for DFL core to provide u64 array for the API,
-And the size of the parameter block is decided by HW, why make the user
-input the value?
-
-As we discussed before, dfl core doesn't try to look into the parameter
-block. So please just provide the const void *data & data_size for drivers.
-This is the most common way to represent a data block.
-
-Thanks,
-Yilun
-
-> + * @dfl_dev: dfl device
-> + * @param: id of dfl parameter
-> + * @pval: location of parameter data destination
-> + * @nvals: number of u64 elements of parameter data
-> + *
-> + * Return: pointer to start of parameter block, PTR_ERR otherwise
-> + */
-> +u64 *dfh_get_u64_param_vals(struct dfl_device *dfl_dev, int param_id, u64 *pval, int nvals)
-> +{
-> +	u64 *param = find_param(dfl_dev->params, dfl_dev->param_size, param_id);
-> +	u64 next;
-> +	int i;
-> +
-> +	if (!param)
-> +		return ERR_PTR(-ENOENT);
-> +
-> +	next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, *param);
-> +
-> +	if (nvals >= next)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	for (i = 0; i < nvals; i++)
-> +		*pval++ = param[i + 1];
-> +
-> +	return param;
-> +}
-> +EXPORT_SYMBOL_GPL(dfh_get_u64_param_vals);
-> +
