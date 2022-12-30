@@ -2,75 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B14BC46467
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Dec 2022 15:16:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66003C4167B
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Dec 2022 15:36:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235018AbiL3PQX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Dec 2022 10:16:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41936 "EHLO
+        id S235145AbiL3Pf7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Dec 2022 10:35:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235079AbiL3PQW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Dec 2022 10:16:22 -0500
-Received: from formenos.hmeau.com (helcar.hmeau.com [216.24.177.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A16D6140A8;
-        Fri, 30 Dec 2022 07:16:21 -0800 (PST)
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-        by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-        id 1pBH64-00COvu-T1; Fri, 30 Dec 2022 23:15:02 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 30 Dec 2022 23:15:00 +0800
-Date:   Fri, 30 Dec 2022 23:15:00 +0800
-From:   Herbert Xu <herbert@gondor.apana.org.au>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-crypto@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
-        will@kernel.org, boqun.feng@gmail.com, mark.rutland@arm.com,
-        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
-        cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
-        svens@linux.ibm.com, davem@davemloft.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, joro@8bytes.org,
-        suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
-        dwmw2@infradead.org, baolu.lu@linux.intel.com,
-        Arnd Bergmann <arnd@arndb.de>, penberg@kernel.org,
-        rientjes@google.com, iamjoonsoo.kim@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
-        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-s390@vger.kernel.org,
-        iommu@lists.linux.dev, linux-arch@vger.kernel.org
-Subject: Re: [PATCH 0/3] crypto: x86/ghash cleanups
-Message-ID: <Y68AdDRMGRZ27WcD@gondor.apana.org.au>
-References: <20221220054042.188537-1-ebiggers@kernel.org>
+        with ESMTP id S229812AbiL3Pf5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Dec 2022 10:35:57 -0500
+Received: from smtp.tiscali.it (santino-notr.mail.tiscali.it [213.205.33.215])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 22E44DB9
+        for <linux-doc@vger.kernel.org>; Fri, 30 Dec 2022 07:35:55 -0800 (PST)
+Received: from [192.168.178.50] ([87.2.89.108])
+        by santino.mail.tiscali.it with 
+        id 2fbs2900G2LFcqX01fbs16; Fri, 30 Dec 2022 15:35:53 +0000
+x-auth-user: fantonifabio@tiscali.it
+Message-ID: <19375d92-e9a0-ae11-4e3c-f24f032922b4@tiscali.it>
+Date:   Fri, 30 Dec 2022 16:35:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221220054042.188537-1-ebiggers@kernel.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Reply-To: fantonifabio@tiscali.it
+Subject: Re: [PATCH v2 03/21] documentation, capability: fix Generic Block
+ Device Capability
+From:   Fabio Fantoni <fantonifabio@tiscali.it>
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
+        corbet@lwn.net, hch@lst.de
+Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20221209142331.26395-1-sergei.shtepa@veeam.com>
+ <20221209142331.26395-4-sergei.shtepa@veeam.com>
+ <e42dd6c7-6365-75be-0fcd-3329b8f8ba35@tiscali.it>
+In-Reply-To: <e42dd6c7-6365-75be-0fcd-3329b8f8ba35@tiscali.it>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Avast (VPS 221230-0, 30/12/2022), Outbound message
+X-Antivirus-Status: Clean
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tiscali.it; s=smtp;
+        t=1672414553; bh=UFIXQlWkz3kvqXadUrHh4OwE5XvC6aIIfAyzCHk6uMk=;
+        h=Date:Reply-To:Subject:From:To:Cc:References:In-Reply-To;
+        b=sJSyXdfb7WjQ4Nhf2fTM9cZJ+goFvLhyia36jbt6x5XM1jP9/LUQ9sFWT051qFotu
+         MrzJvlcuZ/RM1mQwjTXJ0Mh2TcZ+pQJObUNXkFgpm5aW8DHNw/MQj2Og2w/v0yYV5r
+         qoYAyHlHAU+8B7F8unHRXzuMwAdmyg5Tkeb8OsXc=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 19, 2022 at 09:40:39PM -0800, Eric Biggers wrote:
-> These patches are a replacement for Peter Zijlstra's patch
-> "[RFC][PATCH 02/12] crypto/ghash-clmulni: Use (struct) be128"
-> (https://lore.kernel.org/r/20221219154118.955831880@infradead.org).
-> 
-> Eric Biggers (3):
->   crypto: x86/ghash - fix unaligned access in ghash_setkey()
->   crypto: x86/ghash - use le128 instead of u128
->   crypto: x86/ghash - add comment and fix broken link
-> 
->  arch/x86/crypto/ghash-clmulni-intel_asm.S  |  6 +--
->  arch/x86/crypto/ghash-clmulni-intel_glue.c | 45 +++++++++++++++-------
->  2 files changed, 35 insertions(+), 16 deletions(-)
-> 
-> 
-> base-commit: 6feb57c2fd7c787aecf2846a535248899e7b70fa
-> -- 
-> 2.39.0
+Il 13/12/2022 13:13, Fabio Fantoni ha scritto:
+> Il 09/12/2022 15:23, Sergei Shtepa ha scritto:
+>> When adding documentation for blkfilter, new lines of documentation
+>> appeared in the file include/linux/blkdev.h. To preserve the appearance
+>> of this document, the required sections and function descriptions were
+>> explicitly specified.
+>>
+>> Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
+>> ---
+>>   Documentation/block/capability.rst | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/Documentation/block/capability.rst 
+>> b/Documentation/block/capability.rst
+>> index 2ae7f064736a..8fad791980bb 100644
+>> --- a/Documentation/block/capability.rst
+>> +++ b/Documentation/block/capability.rst
+>> @@ -8,3 +8,6 @@ This file documents the sysfs file 
+>> ``block/<disk>/capability``.
+>>   capabilities a specific block device supports:
+>>     .. kernel-doc:: include/linux/blkdev.h
+>> +    :DOC: genhd capability flags
+>> +.. kernel-doc:: include/linux/blkdev.h
+>> +    :functions: disk_openers blk_alloc_disk bio_end_io_acct
+> Thanks for spotting this, I think this is not related to blkfilter 
+> patch but was already wrong/broken before and should be posted in a 
+> single patch out of the blksnap serie (also fixing title, as reported 
+> by Bagas Sanjaya, like "documentation: fix Generic Block Device 
+> Capability")
+>
+> from a fast look seems to me should have only:
+>
+> +    :DOC: genhd capability flags
+>
+> and out of that looking older version of doc 
+> (https://www.kernel.org/doc/html/v5.10/block/capability.html) seems to 
+> me that this DOC in blkdev.h need improvement as it seems to me it was 
+> better in the past, for example also reporting the corresponding 
+> hexadecimal value in parentheses
 
-All applied.  Thanks.
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Hi, after a fast look to the git history the "genhd capability flags" 
+DOC was changed in commit 430cc5d3ab4d0ba0bd011cfbb0035e46ba92920c 
+(block: cleanup the GENHD_FL_* definitions) as part of 
+https://lore.kernel.org/all/20211122130625.1136848-1-hch@lst.de/ and 
+after that in Documentation/block/capability.rst is not possible 
+"decode" /sys/block/<disk>/capability reading it 
+(https://www.kernel.org/doc/html/v6.1/block/capability.html) without 
+having to read also include/linux/blkdev.h code, or I'm wrong?
+
+is correct readd the hexadecimal value from bitfield?
+
+GENHD_FL_REMOVABLE (0x01): ...
+
+GENHD_FL_HIDDEN (0x02): ...
+
+GENHD_FL_NO_PART (0x04): ...
+
+Thanks for any reply and sorry for my bad english
+
