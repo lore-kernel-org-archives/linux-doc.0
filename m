@@ -2,109 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66003C4167B
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Dec 2022 15:36:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC408C4167B
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Dec 2022 17:23:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235145AbiL3Pf7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Dec 2022 10:35:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48706 "EHLO
+        id S229681AbiL3RXw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Dec 2022 12:23:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229812AbiL3Pf5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Dec 2022 10:35:57 -0500
-Received: from smtp.tiscali.it (santino-notr.mail.tiscali.it [213.205.33.215])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 22E44DB9
-        for <linux-doc@vger.kernel.org>; Fri, 30 Dec 2022 07:35:55 -0800 (PST)
-Received: from [192.168.178.50] ([87.2.89.108])
-        by santino.mail.tiscali.it with 
-        id 2fbs2900G2LFcqX01fbs16; Fri, 30 Dec 2022 15:35:53 +0000
-x-auth-user: fantonifabio@tiscali.it
-Message-ID: <19375d92-e9a0-ae11-4e3c-f24f032922b4@tiscali.it>
-Date:   Fri, 30 Dec 2022 16:35:49 +0100
+        with ESMTP id S229464AbiL3RXv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Dec 2022 12:23:51 -0500
+X-Greylist: delayed 170 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 30 Dec 2022 09:23:48 PST
+Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.154])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 473E6FD19;
+        Fri, 30 Dec 2022 09:23:48 -0800 (PST)
+Received: from localhost (unknown [127.0.0.1])
+        by mx.kolabnow.com (Postfix) with ESMTP id BF6D81468;
+        Fri, 30 Dec 2022 18:23:46 +0100 (CET)
+Authentication-Results: ext-mx-out002.mykolab.com (amavisd-new);
+        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
+        header.d=kolabnow.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:mime-version:message-id:date:date
+        :subject:subject:from:from:received:received:received; s=
+        dkim20160331; t=1672421024; x=1674235425; bh=fO2Ta8gQoZusE1bBuaw
+        217knTKoCUDuwlkal8bO/pZc=; b=stoRQRgUZaZP+9RRiZOa0fBrItmxqx9CpFD
+        I6GcCG1eS1EPz+dDlPs3I2IhV5jlOTR6hMT+Hphmotjah2jp6FGFIpNs5NJlilrI
+        fnKR71YKO+Wm2yQyzZraxsLQ2BBWGbHn4VrPefba196HmlFydB7dVIWW160bUc0z
+        Ssm/WZKA9etZMRwucEIZSMouYcAEvMrJXo7gVx+26ZqqM0X/c/dKwKrJOFBLmWwF
+        3GD13UMg5Ltm0JboZ3sP3kYAa0QCTwq9E7hOibOEYFBwn3dCyhz8NDtcMmUWaPFN
+        lCYXK1GS24ONpSNntsI7xKVnzd8FDbdKq4qJZ+KUSja2TIji9IX40zD98Z7vQALW
+        U7j0s5A8vgMWfV5Iq0CbC8Cyi4rfaIi/a2RSvNPutQJnmPmQ6PZf7/wXWwI99s+T
+        jpTVJs2v1YlYfCEGrZ7xSr6kugecEF9usD75FvOgha0ow+R2s9NE6PaG7LBGtWe4
+        KXrmX6tO3vFK72RBHViM/kHQmYZ6azUJSEJhYpMrvoAxRSbVFdYRCqE5l70bHGZQ
+        o9whxJ87hTD6KR7WTyViax/+GvJx/0n3NTA6MKGKUzaMMP7hQE4XKIy9pXGVgyH2
+        GewHDKBzWv3CjEDm6efgXrXySM0qPtpx4yin5Ic+9gNjjOEjMEwRXCWw10UJQ3zY
+        LGE759MY=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Q2XVluE6iL6v; Fri, 30 Dec 2022 18:23:44 +0100 (CET)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by mx.kolabnow.com (Postfix) with ESMTPS id DBE1A1467;
+        Fri, 30 Dec 2022 18:23:42 +0100 (CET)
+Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id 922E1254E;
+        Fri, 30 Dec 2022 18:23:42 +0100 (CET)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH V2] doc: fix typo in botching up ioctls
+Date:   Fri, 30 Dec 2022 18:23:28 +0100
+Message-Id: <20221230172328.58612-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Reply-To: fantonifabio@tiscali.it
-Subject: Re: [PATCH v2 03/21] documentation, capability: fix Generic Block
- Device Capability
-From:   Fabio Fantoni <fantonifabio@tiscali.it>
-To:     Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
-        corbet@lwn.net, hch@lst.de
-Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20221209142331.26395-1-sergei.shtepa@veeam.com>
- <20221209142331.26395-4-sergei.shtepa@veeam.com>
- <e42dd6c7-6365-75be-0fcd-3329b8f8ba35@tiscali.it>
-In-Reply-To: <e42dd6c7-6365-75be-0fcd-3329b8f8ba35@tiscali.it>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Antivirus: Avast (VPS 221230-0, 30/12/2022), Outbound message
-X-Antivirus-Status: Clean
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tiscali.it; s=smtp;
-        t=1672414553; bh=UFIXQlWkz3kvqXadUrHh4OwE5XvC6aIIfAyzCHk6uMk=;
-        h=Date:Reply-To:Subject:From:To:Cc:References:In-Reply-To;
-        b=sJSyXdfb7WjQ4Nhf2fTM9cZJ+goFvLhyia36jbt6x5XM1jP9/LUQ9sFWT051qFotu
-         MrzJvlcuZ/RM1mQwjTXJ0Mh2TcZ+pQJObUNXkFgpm5aW8DHNw/MQj2Og2w/v0yYV5r
-         qoYAyHlHAU+8B7F8unHRXzuMwAdmyg5Tkeb8OsXc=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Il 13/12/2022 13:13, Fabio Fantoni ha scritto:
-> Il 09/12/2022 15:23, Sergei Shtepa ha scritto:
->> When adding documentation for blkfilter, new lines of documentation
->> appeared in the file include/linux/blkdev.h. To preserve the appearance
->> of this document, the required sections and function descriptions were
->> explicitly specified.
->>
->> Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
->> ---
->>   Documentation/block/capability.rst | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/Documentation/block/capability.rst 
->> b/Documentation/block/capability.rst
->> index 2ae7f064736a..8fad791980bb 100644
->> --- a/Documentation/block/capability.rst
->> +++ b/Documentation/block/capability.rst
->> @@ -8,3 +8,6 @@ This file documents the sysfs file 
->> ``block/<disk>/capability``.
->>   capabilities a specific block device supports:
->>     .. kernel-doc:: include/linux/blkdev.h
->> +    :DOC: genhd capability flags
->> +.. kernel-doc:: include/linux/blkdev.h
->> +    :functions: disk_openers blk_alloc_disk bio_end_io_acct
-> Thanks for spotting this, I think this is not related to blkfilter 
-> patch but was already wrong/broken before and should be posted in a 
-> single patch out of the blksnap serie (also fixing title, as reported 
-> by Bagas Sanjaya, like "documentation: fix Generic Block Device 
-> Capability")
->
-> from a fast look seems to me should have only:
->
-> +    :DOC: genhd capability flags
->
-> and out of that looking older version of doc 
-> (https://www.kernel.org/doc/html/v5.10/block/capability.html) seems to 
-> me that this DOC in blkdev.h need improvement as it seems to me it was 
-> better in the past, for example also reporting the corresponding 
-> hexadecimal value in parentheses
+The type contained a typo `uintprt` -> `uintptr`
 
-Hi, after a fast look to the git history the "genhd capability flags" 
-DOC was changed in commit 430cc5d3ab4d0ba0bd011cfbb0035e46ba92920c 
-(block: cleanup the GENHD_FL_* definitions) as part of 
-https://lore.kernel.org/all/20211122130625.1136848-1-hch@lst.de/ and 
-after that in Documentation/block/capability.rst is not possible 
-"decode" /sys/block/<disk>/capability reading it 
-(https://www.kernel.org/doc/html/v6.1/block/capability.html) without 
-having to read also include/linux/blkdev.h code, or I'm wrong?
+Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+---
+ Documentation/process/botching-up-ioctls.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-is correct readd the hexadecimal value from bitfield?
+v1 -> v2 fix the typo in the commit message
 
-GENHD_FL_REMOVABLE (0x01): ...
-
-GENHD_FL_HIDDEN (0x02): ...
-
-GENHD_FL_NO_PART (0x04): ...
-
-Thanks for any reply and sorry for my bad english
+diff --git a/Documentation/process/botching-up-ioctls.rst b/Documentation/process/botching-up-ioctls.rst
+index ba4667ab396b..9739b88463a5 100644
+--- a/Documentation/process/botching-up-ioctls.rst
++++ b/Documentation/process/botching-up-ioctls.rst
+@@ -41,7 +41,7 @@ will need to add a 32-bit compat layer:
+    structures to the kernel, or if the kernel checks the structure size, which
+    e.g. the drm core does.
+ 
+- * Pointers are __u64, cast from/to a uintprt_t on the userspace side and
++ * Pointers are __u64, cast from/to a uintptr_t on the userspace side and
+    from/to a void __user * in the kernel. Try really hard not to delay this
+    conversion or worse, fiddle the raw __u64 through your code since that
+    diminishes the checking tools like sparse can provide. The macro
+-- 
+2.30.2
 
