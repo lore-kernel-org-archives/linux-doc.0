@@ -2,57 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 369ADC3DA7D
-	for <linux-doc@archiver.kernel.org>; Sat, 31 Dec 2022 13:04:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 500F4C3DA7A
+	for <linux-doc@archiver.kernel.org>; Sat, 31 Dec 2022 13:09:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235849AbiLaNES (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 31 Dec 2022 08:04:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38246 "EHLO
+        id S232052AbiLaNJN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 31 Dec 2022 08:09:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235852AbiLaNEE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 31 Dec 2022 08:04:04 -0500
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.154])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24A5E13FBE;
-        Sat, 31 Dec 2022 05:02:30 -0800 (PST)
+        with ESMTP id S231970AbiLaNJN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 31 Dec 2022 08:09:13 -0500
+Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 915A8625C;
+        Sat, 31 Dec 2022 05:09:09 -0800 (PST)
 Received: from localhost (unknown [127.0.0.1])
-        by mx.kolabnow.com (Postfix) with ESMTP id 896BC14F3;
-        Sat, 31 Dec 2022 14:02:11 +0100 (CET)
-Authentication-Results: ext-mx-out002.mykolab.com (amavisd-new);
+        by mx.kolabnow.com (Postfix) with ESMTP id 306C514E8;
+        Sat, 31 Dec 2022 14:09:08 +0100 (CET)
+Authentication-Results: ext-mx-out001.mykolab.com (amavisd-new);
         dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
         header.d=kolabnow.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
         content-transfer-encoding:content-type:content-type:mime-version
         :message-id:date:date:subject:subject:from:from:received
-        :received:received; s=dkim20160331; t=1672491727; x=1674306128;
-         bh=ZEAoF02XsN6AY9EmvBheHpwhBaPkCGq6X2gleTDw4cc=; b=5bJzPBaTnPnK
-        8C4aRxMZI7hFiXEe1CS4qs1jfW8ECstX2UwzTAiqjJiOn+PCnKIGovttyQwsT2Dl
-        KOpQB9/t7hDJhAWu9He2gJ9d6ontpnoytRf8GJLsGvK0VRD5iwp7aSYxiw1pBoof
-        CpUCwNTPaZBip1c0JF/LmT643V8i39QI2DrzKF7ZF5xZHXDjHzK63uJppxJaUFcW
-        /GIo5iAQiGf4f6/oFJTIKgXSRgAKr0dlC7eYir9cqZhzlkrByZXRiIITWEvoBP3M
-        Tl8oNLdMhl10Sh+uqhUiLiIa1SFxXVGm5lVl5Ywvu/9xFRVLTc2Cp/8qFg2kWNdp
-        HC1k8jc/Z2fewBJ+XpfuXQuF2Y9JVtEIhf3LsHq0gTUvXw3d9FUTq1NeFu12ctHV
-        YmW04nXYJtj2EUlIhpih9dd4XLiKDAHYv6Adias4s3krKMmMeY8d52qYGVZda63o
-        uAVM5Q+xx2Z+gwoLFkEhaD1A9vaKxSyg+7HAafgv8zTXXH13Q7a1DWWED57RXvmP
-        3ErlRHbwreqYLe6xOypmIMhj3Wp3teinpWnb1yTpIkzxfYRrJrd+GikznRoOkkvP
-        xgY6KyQul1MPgdpZiMzAfm6K5/wgLAKJZ3EgGisaZGw+ADITV/ZxkcBjxST6H8Lv
-        3MwKWsBtCFr3ufSA8Zi0JBr2x+0bpzM=
+        :received:received; s=dkim20160331; t=1672492144; x=1674306545;
+         bh=YOOiMVI+YJfPJn05MLBgtE14A8ubRE6O7hwdrnaWcYE=; b=Xm/yHTeuwG70
+        3sW+I6TRSXb3Zkbesc60iDiLD1RiCLXKooLpbmKQc+GKxuDbL/m9iDZGkdEgcceM
+        ylIC8A2NO+TaygMMM0odsALYYFtDTKUYUoSN0Fi7jzPZr44M4gRbjeFTYNU8tve/
+        j+Wm3Yt2JU22fQ9i+QMgzg8bOkZqHYBujF61MiaRuwxf7EV+vBju49xRmwdTVPkb
+        8e/rHCpPmmb1ZoT6zwflNDkUQ44ezV04xh6cL10p8QpDii/lFA5kUrrH4XnspMUS
+        Z5TJN8chpA0KSxnpxmbN+Bro1+4rCYC9/Q/KRXbELzf9YL2sMxmuFAlnKCbBLBc2
+        LOJE33ovwDK4h5yXlmUasO0cpjSfgiJBlTR2BbXOXtjhP8KhPBR6mOTTIfxCumIQ
+        HM6xO+OTLEz0cpKe5tecpBzFzRq1F75F+CKM7lBIm3tWqF3nBHtVzsJ57sq1wkgC
+        Yyvq+hf6XFv8/sbpMzhJ+Tl+iWYBAlPJxPKwAdJwYQWS3UXbu1hi2u593lH3YrVF
+        RaAMMek2ZLSyEm8V5bckFBSmgwcF/XkCB13o5F89sQMQsc/GYu4MJSPU9sC3ZTq5
+        VOh1Dw0OTpVoBoYVjgouZ3aID2iBXtlBkMCILGtqU9uf0PCEzuLWHaDPZloIe9/h
+        3nJuOEwAEyEbjBL+dizM2C9glAUSiWc=
 X-Virus-Scanned: amavisd-new at mykolab.com
 Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id LSicD94b9p7b; Sat, 31 Dec 2022 14:02:07 +0100 (CET)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by mx.kolabnow.com (Postfix) with ESMTPS id B7491BB0;
-        Sat, 31 Dec 2022 14:02:06 +0100 (CET)
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id l7I7eI3ZZRmn; Sat, 31 Dec 2022 14:09:04 +0100 (CET)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by mx.kolabnow.com (Postfix) with ESMTPS id 4DF8814D3;
+        Sat, 31 Dec 2022 14:09:04 +0100 (CET)
 Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 63771261F;
-        Sat, 31 Dec 2022 14:02:06 +0100 (CET)
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id CCC0B5E6;
+        Sat, 31 Dec 2022 14:09:03 +0100 (CET)
 From:   Federico Vaga <federico.vaga@vaga.pv.it>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH V3] doc:it_IT: align Italian documentation
-Date:   Sat, 31 Dec 2022 14:01:35 +0100
-Message-Id: <20221231130135.3358-1-federico.vaga@vaga.pv.it>
+Subject: [PATCH V4] doc:it_IT: align Italian documentation
+Date:   Sat, 31 Dec 2022 14:08:49 +0100
+Message-Id: <20221231130849.4675-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -81,19 +81,20 @@ Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
 V1 -> V2 fix typo in footnote link
 V2 -> V3 restore latex directive to disable CJK
+V3 -> V4 really restore latex directive with its original indentation
 
  .../translations/it_IT/admin-guide/README.rst |  2 +-
  .../it_IT/doc-guide/kernel-doc.rst            |  2 +
  .../translations/it_IT/doc-guide/sphinx.rst   | 14 ++-
- Documentation/translations/it_IT/index.rst    | 91 +++++++++----------
+ Documentation/translations/it_IT/index.rst    | 89 +++++++++----------
  .../it_IT/kernel-hacking/hacking.rst          |  2 +-
- .../translations/it_IT/process/2.Process.rst  | 15 +--
+ .../translations/it_IT/process/2.Process.rst  | 15 +---
  .../it_IT/process/7.AdvancedTopics.rst        |  8 +-
  .../translations/it_IT/process/changes.rst    | 11 +++
  .../it_IT/process/email-clients.rst           | 67 +++++++++-----
  .../it_IT/process/kernel-docs.rst             |  4 +-
  .../it_IT/process/maintainer-pgp-guide.rst    |  4 +-
- 11 files changed, 128 insertions(+), 92 deletions(-)
+ 11 files changed, 127 insertions(+), 91 deletions(-)
 
 diff --git a/Documentation/translations/it_IT/admin-guide/README.rst b/Documentation/translations/it_IT/admin-guide/README.rst
 index b37166817842..c874586a9af9 100644
@@ -157,7 +158,7 @@ index 64528790dc34..1f513bc33618 100644
  ==========================
  
 diff --git a/Documentation/translations/it_IT/index.rst b/Documentation/translations/it_IT/index.rst
-index e80a3097aa57..56c9f63b1042 100644
+index e80a3097aa57..fc5f39814e83 100644
 --- a/Documentation/translations/it_IT/index.rst
 +++ b/Documentation/translations/it_IT/index.rst
 @@ -1,3 +1,5 @@
@@ -166,15 +167,6 @@ index e80a3097aa57..56c9f63b1042 100644
  .. _it_linux_doc:
  
  ===================
-@@ -6,7 +8,7 @@ Traduzione italiana
- 
- .. raw:: latex
- 
--	\kerneldocCJKoff
-+     \kerneldocCJKoff
- 
- :manutentore: Federico Vaga <federico.vaga@vaga.pv.it>
- 
 @@ -67,75 +69,68 @@ I miglioramenti alla documentazione sono sempre i benvenuti; per cui,
  se vuoi aiutare, iscriviti alla lista di discussione linux-doc presso
  vger.kernel.org.
