@@ -2,111 +2,226 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC98EC3DA7D
-	for <linux-doc@archiver.kernel.org>; Sun,  1 Jan 2023 16:32:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D5A6C4167B
+	for <linux-doc@archiver.kernel.org>; Sun,  1 Jan 2023 19:02:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230492AbjAAQcF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 1 Jan 2023 11:32:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45322 "EHLO
+        id S229550AbjAATCQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 1 Jan 2023 14:02:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231132AbjAAQcC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Jan 2023 11:32:02 -0500
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA4D210F1;
-        Sun,  1 Jan 2023 08:31:53 -0800 (PST)
-Received: from localhost (unknown [127.0.0.1])
-        by mx.kolabnow.com (Postfix) with ESMTP id 530A1205F;
-        Sun,  1 Jan 2023 17:31:52 +0100 (CET)
-Authentication-Results: ext-mx-out001.mykolab.com (amavisd-new);
-        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
-        header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        in-reply-to:content-transfer-encoding:content-disposition
-        :content-type:content-type:mime-version:references:message-id
-        :subject:subject:from:from:date:date:received:received:received;
-         s=dkim20160331; t=1672590709; x=1674405110; bh=Nz3RSw9KzQ8ZPUCr
-        19SSKcnuLUMLZ+33WX+06j/aqpY=; b=Ijt6ezLMqyHIpVuQCXSUTFLm+blNW4Z8
-        pCpi9K8FQWy67rc/rbKXsQYH1b1BWGa8iAPCno+nsOqrqoUc0nCmRLNhAZWI3VUq
-        obO8jslJeWEcI+bptW1wk/Pz64Kl5Xh1C4wooqbC3SotAJeqLxQ9rGbdW3ujELak
-        78Lg5VRcSlHgC1JoKZvawCXHRd//KBTL5SA4+gPTzm7hizPWJ3hX47ACDt/9QOen
-        VyLssRdcJf4rteUSuQExBUv1MOJRhJSG/QYYMMDbvxEsUzf/of+XF50g+M3iq+OO
-        fgsVA6uSFfd3PL4QhI+wPQrVjYsxnBU99ZLz5P54IVW9kEY2TQNHWX/aHYMVWin/
-        crV/wnwdNS6Au0Hk5X92lj2Elyurnf6FDWGRLDO5tRkQphaMaKdKaEDLGaNg4ySs
-        PCtNZDUFsUEkWEggtJUIsAfg2yi7Ny5wpBMoH9E4fEVlERr7B8TbNuQNA3xqGyCa
-        nJ9xWrRq2LAXbpJ6uLWNJ3UCuJd7XAOLabuAmP/lFbjAQgm6P0A5FnixH6FZZC2M
-        Mystn+exEW4jtDqAIahVozhruvEersDVz3iBdFsry929oqBa1pmPB4CGt07KZbWD
-        BgN3TIn3XITIjns3XwDIxTZOoeiY0ejfJ7pCvlBIy4iRR2apK2JrBUswh8Y85LwF
-        ZnK8Et6ZBsg=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id WMNRh7r77fTi; Sun,  1 Jan 2023 17:31:49 +0100 (CET)
-Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by mx.kolabnow.com (Postfix) with ESMTPS id 4DEB4205C;
-        Sun,  1 Jan 2023 17:31:48 +0100 (CET)
-Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id 0A9DF2FC1;
-        Sun,  1 Jan 2023 17:31:47 +0100 (CET)
-Date:   Sun, 1 Jan 2023 17:31:45 +0100
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Fabio Fantoni <fantonifabio@tiscali.it>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        with ESMTP id S229542AbjAATCP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Jan 2023 14:02:15 -0500
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D56F21AB;
+        Sun,  1 Jan 2023 11:02:13 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id kw15so62343535ejc.10;
+        Sun, 01 Jan 2023 11:02:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HCtn7UDCmjdEkLn74uIR0ZYG/vD589RMJSIj4ufxEqw=;
+        b=B7QxH0ud+BvXR4QhLh5BpuyDxIkin5cki1GpRDd6Bk6P1VzGcP7zbrQzt5onhO6OCV
+         QJR451XZKiv7jePsL+P1uX55lmDjrAeZn4VASjcsDFSXUjUCBVksLCIkDtfTNBr3SedJ
+         C0MPwUHsKkBfWQolFo3sMYIUcigEGZqFqFVPf3dP8verkFbh8yCvi2+1o7XzjygXkJx8
+         0BDrn3QOUfQvpJHA8WNhcqu6QH/UnIRW/vtB85ul1t6pmdYHGW6JK0csvgBg2cdIY0cH
+         sEr9oMRPb+Z5QipP86RUSZGCpSUAD6keNXIVUchIRIpFqNo1tqfFMYIbRoxh+GyYh3lc
+         Su7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HCtn7UDCmjdEkLn74uIR0ZYG/vD589RMJSIj4ufxEqw=;
+        b=5TQmHaMkhBmo8hqFMBkr748zTw8MVYdnWgcnyC4h0n5XI0An+QpND+odAaDzcTcIxa
+         eTVreZOe0UTjEyzdAUqqd8yKpI8KXdzgMl/dNiJAEUq8d1z0yczEMLXeVKOO8nlk/0h6
+         +tUFfZRQHE8niy+i8oM7dVY759PBKTIR4um2vVKwnfXu5tmh9pKgFa1HcRdvUJ2LL3GN
+         HavVgeKV4ys/bNQG/yxGYVRXUJW71ddiFgjB9YN2FHlcetQYUij0YQOJcC9OZ9WjagQn
+         AogCvx55Ja64ZxlffKsZNCX/cwe2o6MhBi2blRAe/n8ED4O59xDamBYbnR/jLtC8MuKv
+         Vllg==
+X-Gm-Message-State: AFqh2kqMI/fqqXGPYCwAB3eEjhPWUDcKZnlbp6l7+urRYG6gjF8TWxcP
+        0cZ8OA47H2gzMApyr9lxEGSt+j2dwp4=
+X-Google-Smtp-Source: AMrXdXtV5KNnaav/0r1iJ31riO9o6eu3XEtltPLpUQ0LJ1BPNiEKlrznhVlUSy6pUzjcRGkXMCvYdw==
+X-Received: by 2002:a17:906:958:b0:7c0:be4d:46d6 with SMTP id j24-20020a170906095800b007c0be4d46d6mr30002669ejd.59.1672599731033;
+        Sun, 01 Jan 2023 11:02:11 -0800 (PST)
+Received: from fedora.. ([87.116.164.178])
+        by smtp.gmail.com with ESMTPSA id hk25-20020a170906c9d900b007c094d31f35sm12050578ejb.76.2023.01.01.11.02.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Jan 2023 11:02:10 -0800 (PST)
+From:   Aleksa Savic <savicaleksa83@gmail.com>
+To:     linux-hwmon@vger.kernel.org
+Cc:     Aleksa Savic <savicaleksa83@gmail.com>,
+        Jack Doan <me@jackdoan.com>, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc:it_IT: fix of 2 typos
-Message-ID: <20230101163145.nliposfmaf2it3mc@numero-86.vaga.pv.it>
-References: <20230101155548.12350-1-fantonifabio@tiscali.it>
+Subject: [PATCH] hwmon: (aquacomputer_d5next) Add support for reading calculated Aquaero sensors
+Date:   Sun,  1 Jan 2023 20:00:56 +0100
+Message-Id: <20230101190056.1357124-1-savicaleksa83@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230101155548.12350-1-fantonifabio@tiscali.it>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 01, 2023 at 04:55:48PM +0100, Fabio Fantoni wrote:
->Fix of 2 typos spotted reading documentation in italian
->
->Signed-off-by: Fabio Fantoni <fantonifabio@tiscali.it>
+Add support for reading four calculated virtual temp sensors on the
+Aquacomputer Aquaero. Values of these sensors are calculated on the
+device itself based on what the user configured in the official software.
+Configuring these sensors is not currently reverse engineered.
 
-Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
+Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
+---
+ Documentation/hwmon/aquacomputer_d5next.rst |  6 +--
+ drivers/hwmon/aquacomputer_d5next.c         | 49 ++++++++++++++++++---
+ 2 files changed, 47 insertions(+), 8 deletions(-)
 
-Thanks
-
->---
-> .../translations/it_IT/process/maintainer-pgp-guide.rst         | 2 +-
-> Documentation/translations/it_IT/process/submitting-patches.rst | 2 +-
-> 2 files changed, 2 insertions(+), 2 deletions(-)
->
->diff --git a/Documentation/translations/it_IT/process/maintainer-pgp-guide.rst b/Documentation/translations/it_IT/process/maintainer-pgp-guide.rst
->index a1e98ec9532e..37a8ecb00af2 100644
->--- a/Documentation/translations/it_IT/process/maintainer-pgp-guide.rst
->+++ b/Documentation/translations/it_IT/process/maintainer-pgp-guide.rst
->@@ -163,7 +163,7 @@ chiave principale attraverso firme certificate. È quindi importante
-> comprendere i seguenti punti:
->
-> 1. Non ci sono differenze tecniche tra la chiave principale e la sottochiave.
->-2. In fesa di creazione, assegniamo limitazioni funzionali ad ogni chiave
->+2. In fase di creazione, assegniamo limitazioni funzionali ad ogni chiave
->    assegnando capacità specifiche.
-> 3. Una chiave PGP può avere 4 capacità:
->
->diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
->index a3bb0008837a..c2cfa0948b2b 100644
->--- a/Documentation/translations/it_IT/process/submitting-patches.rst
->+++ b/Documentation/translations/it_IT/process/submitting-patches.rst
->@@ -340,7 +340,7 @@ Assicuratevi di dire ai revisori quali cambiamenti state facendo e di
-> ringraziarli per il loro tempo.  Revisionare codice è un lavoro faticoso e che
-> richiede molto tempo, e a volte i revisori diventano burberi. Tuttavia, anche in
-> questo caso, rispondete con educazione e concentratevi sul problema che hanno
->-evidenziato. Quando inviate una version successiva ricordatevi di aggiungere un
->+evidenziato. Quando inviate una versione successiva ricordatevi di aggiungere un
-> ``patch changelog`` alla email di intestazione o ad ogni singola patch spiegando
-> le differenze rispetto a sottomissioni precedenti (vedere
-> :ref:`it_the_canonical_patch_format`).
->-- 
->2.25.1
->
-
+diff --git a/Documentation/hwmon/aquacomputer_d5next.rst b/Documentation/hwmon/aquacomputer_d5next.rst
+index b94ff08080bf..3f7880fb8116 100644
+--- a/Documentation/hwmon/aquacomputer_d5next.rst
++++ b/Documentation/hwmon/aquacomputer_d5next.rst
+@@ -21,9 +21,9 @@ Description
+ This driver exposes hardware sensors of listed Aquacomputer devices, which
+ communicate through proprietary USB HID protocols.
+ 
+-The Aquaero devices expose eight temperature sensors, eight virtual temperature
+-sensors and two flow senors. The fans expose their speed (in RPM), power,
+-voltage and current.
++The Aquaero devices expose eight physical, eight virtual and four calculated
++virtual temperature sensors, as well as two flow sensors. The fans expose their
++speed (in RPM), power, voltage and current.
+ 
+ For the D5 Next pump, available sensors are pump and fan speed, power, voltage
+ and current, as well as coolant temperature and eight virtual temp sensors. Also
+diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
+index 0fd00cfb86c8..c1b885240ddf 100644
+--- a/drivers/hwmon/aquacomputer_d5next.c
++++ b/drivers/hwmon/aquacomputer_d5next.c
+@@ -77,11 +77,13 @@ static u8 secondary_ctrl_report[] = {
+ #define AQUAERO_NUM_FANS			4
+ #define AQUAERO_NUM_SENSORS			8
+ #define AQUAERO_NUM_VIRTUAL_SENSORS		8
++#define AQUAERO_NUM_CALC_VIRTUAL_SENSORS	4
+ #define AQUAERO_NUM_FLOW_SENSORS		2
+ 
+ /* Sensor report offsets for Aquaero fan controllers */
+ #define AQUAERO_SENSOR_START			0x65
+ #define AQUAERO_VIRTUAL_SENSOR_START		0x85
++#define AQUAERO_CALC_VIRTUAL_SENSOR_START	0x95
+ #define AQUAERO_FLOW_SENSORS_START		0xF9
+ #define AQUAERO_FAN_VOLTAGE_OFFSET		0x04
+ #define AQUAERO_FAN_CURRENT_OFFSET		0x06
+@@ -232,6 +234,13 @@ static const char *const label_virtual_temp_sensors[] = {
+ 	"Virtual sensor 16",
+ };
+ 
++static const char *const label_aquaero_calc_temp_sensors[] = {
++	"Calc. virtual sensor 1",
++	"Calc. virtual sensor 2",
++	"Calc. virtual sensor 3",
++	"Calc. virtual sensor 4"
++};
++
+ /* Labels for Octo and Quadro (except speed) */
+ static const char *const label_fan_speed[] = {
+ 	"Fan 1 speed",
+@@ -361,6 +370,8 @@ struct aqc_data {
+ 	int temp_sensor_start_offset;
+ 	int num_virtual_temp_sensors;
+ 	int virtual_temp_sensor_start_offset;
++	int num_calc_virt_temp_sensors;
++	int calc_virt_temp_sensor_start_offset;
+ 	u16 temp_ctrl_offset;
+ 	u16 power_cycle_count_offset;
+ 	int num_flow_sensors;
+@@ -378,7 +389,7 @@ struct aqc_data {
+ 	u32 power_cycles;
+ 
+ 	/* Sensor values */
+-	s32 temp_input[20];	/* Max 4 physical and 16 virtual */
++	s32 temp_input[20];	/* Max 4 physical and 16 virtual or 8 physical and 12 virtual */
+ 	u16 speed_input[8];
+ 	u32 power_input[8];
+ 	u16 voltage_input[8];
+@@ -387,6 +398,7 @@ struct aqc_data {
+ 	/* Label values */
+ 	const char *const *temp_label;
+ 	const char *const *virtual_temp_label;
++	const char *const *calc_virt_temp_label;	/* For Aquaero */
+ 	const char *const *speed_label;
+ 	const char *const *power_label;
+ 	const char *const *voltage_label;
+@@ -507,7 +519,9 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
+ 			}
+ 		}
+ 
+-		if (channel < priv->num_temp_sensors + priv->num_virtual_temp_sensors)
++		if (channel <
++		    priv->num_temp_sensors + priv->num_virtual_temp_sensors +
++		    priv->num_calc_virt_temp_sensors)
+ 			switch (attr) {
+ 			case hwmon_temp_label:
+ 			case hwmon_temp_input:
+@@ -676,12 +690,20 @@ static int aqc_read_string(struct device *dev, enum hwmon_sensor_types type, u32
+ {
+ 	struct aqc_data *priv = dev_get_drvdata(dev);
+ 
++	/* Number of sensors that are not calculated */
++	int num_non_calc_sensors = priv->num_temp_sensors + priv->num_virtual_temp_sensors;
++
+ 	switch (type) {
+ 	case hwmon_temp:
+-		if (channel < priv->num_temp_sensors)
++		if (channel < priv->num_temp_sensors) {
+ 			*str = priv->temp_label[channel];
+-		else
+-			*str = priv->virtual_temp_label[channel - priv->num_temp_sensors];
++		} else {
++			if (priv->kind == aquaero && channel >= num_non_calc_sensors)
++				*str =
++				    priv->calc_virt_temp_label[channel - num_non_calc_sensors];
++			else
++				*str = priv->virtual_temp_label[channel - priv->num_temp_sensors];
++		}
+ 		break;
+ 	case hwmon_fan:
+ 		*str = priv->speed_label[channel];
+@@ -910,6 +932,20 @@ static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8
+ 
+ 	/* Special-case sensor readings */
+ 	switch (priv->kind) {
++	case aquaero:
++		/* Read calculated virtual temp sensors */
++		i = priv->num_temp_sensors + priv->num_virtual_temp_sensors;
++		for (j = 0; j < priv->num_calc_virt_temp_sensors; j++) {
++			sensor_value = get_unaligned_be16(data +
++					priv->calc_virt_temp_sensor_start_offset +
++					j * AQC_SENSOR_SIZE);
++			if (sensor_value == AQC_TEMP_SENSOR_DISCONNECTED)
++				priv->temp_input[i] = -ENODATA;
++			else
++				priv->temp_input[i] = sensor_value * 10;
++			i++;
++		}
++		break;
+ 	case d5next:
+ 		priv->voltage_input[2] = get_unaligned_be16(data + D5NEXT_5V_VOLTAGE) * 10;
+ 		priv->voltage_input[3] = get_unaligned_be16(data + D5NEXT_12V_VOLTAGE) * 10;
+@@ -1046,11 +1082,14 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 		priv->temp_sensor_start_offset = AQUAERO_SENSOR_START;
+ 		priv->num_virtual_temp_sensors = AQUAERO_NUM_VIRTUAL_SENSORS;
+ 		priv->virtual_temp_sensor_start_offset = AQUAERO_VIRTUAL_SENSOR_START;
++		priv->num_calc_virt_temp_sensors = AQUAERO_NUM_CALC_VIRTUAL_SENSORS;
++		priv->calc_virt_temp_sensor_start_offset = AQUAERO_CALC_VIRTUAL_SENSOR_START;
+ 		priv->num_flow_sensors = AQUAERO_NUM_FLOW_SENSORS;
+ 		priv->flow_sensors_start_offset = AQUAERO_FLOW_SENSORS_START;
+ 
+ 		priv->temp_label = label_temp_sensors;
+ 		priv->virtual_temp_label = label_virtual_temp_sensors;
++		priv->calc_virt_temp_label = label_aquaero_calc_temp_sensors;
+ 		priv->speed_label = label_aquaero_speeds;
+ 		priv->power_label = label_fan_power;
+ 		priv->voltage_label = label_fan_voltage;
 -- 
-Federico Vaga
+2.38.1
+
