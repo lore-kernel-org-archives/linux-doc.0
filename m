@@ -2,190 +2,95 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 389EFC3DA7A
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Jan 2023 21:08:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 170DAC46467
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Jan 2023 23:17:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230080AbjABVIb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Jan 2023 16:08:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58324 "EHLO
+        id S229668AbjABXRY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Jan 2023 18:17:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbjABVIa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 16:08:30 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B179584;
-        Mon,  2 Jan 2023 13:08:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672693708; x=1704229708;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Cwb3rk76mKcuAAIqaIEWVNSPLpikCEBD6s7ETGbC0Go=;
-  b=F1IE/Pa+bCTfl3aHEez/arlyxZJjqYwTmxDYDB5NVs3JgjDZ8xqUAswd
-   zOXXu3RlENMn8TIS311SuVw6lXj589HzuxuPAvja3++yq9h9IDYVLlTZw
-   k+aRgZdEX7i2q76o0eBphTxy6pYzRjG+4KlcGhQG2nVbP+5dJ3OBwxoHK
-   oM07eqt/+iA+mIouyFs5o1l10tBmNNG+V7U6Dsc5VjMy8+cfrWOUanr+B
-   O+eKMpaqi+sVpQvIq3viwW7Gx9ZHcB1z+WdrfivpAMqWtxKvfbDIb9NtK
-   IFjaWWLulsk+JEbki/h8n53OxNLR8tHPG5guHwmSaBc9fF0CTAPAQTilB
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="322774726"
-X-IronPort-AV: E=Sophos;i="5.96,295,1665471600"; 
-   d="scan'208";a="322774726"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 13:08:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="604617569"
-X-IronPort-AV: E=Sophos;i="5.96,295,1665471600"; 
-   d="scan'208";a="604617569"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga003.jf.intel.com with ESMTP; 02 Jan 2023 13:08:23 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 176B4F4; Mon,  2 Jan 2023 23:08:55 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-arch@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>, Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH v1 1/1] gpio: Remove unused and obsoleted gpio_export_link()
-Date:   Mon,  2 Jan 2023 23:08:50 +0200
-Message-Id: <20230102210850.25320-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S230012AbjABXRW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 18:17:22 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E5D463EA
+        for <linux-doc@vger.kernel.org>; Mon,  2 Jan 2023 15:17:20 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 706A92E0;
+        Mon,  2 Jan 2023 23:17:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 706A92E0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1672701440; bh=uKPf6FBnqdmdaUqyMdkOPjo4/Zi6ih7wuw8Kwajy44o=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=GyxlIjopaNMdA3mxD+U27DGsXfoyTBOoIBQ1Gtei1yClxNvhs8a8Zocg6iRf9iOeR
+         1ZmPGW+sViRPISivbzxtbGZGQKzII8boRBKlmWVxObLmjQFId/0ys8SvfVDAdHqNMo
+         2CXSnqGqNUTmFVDnOiBjgNL30fgTPAe91bQ+uPESJlzWPMVN0lQDHYlL5xD0eN+C27
+         SuTQu6gAZ4sza40R9ytAdvPH5p2fDfu0FGzv+DU0uIFNDPNGPHNaft0qMwkJMp1QC4
+         cXDMh3CFDbRBNRu06kVwSUElEl5dM+p07uyVTZMMt+iu7sq/HRgBpa3441CwTYGYaE
+         ZjzEEzQH/YWqg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, bobwxc@email.cn,
+        chenhuacai@kernel.org, linux-doc@vger.kernel.org,
+        siyanteng01@gmail.com
+Subject: Re: [PATCH v2 00/13] docs/zh_CN: Update the translation to 6.1-rc8
+In-Reply-To: <cover.1670642548.git.siyanteng@loongson.cn>
+References: <cover.1670642548.git.siyanteng@loongson.cn>
+Date:   Mon, 02 Jan 2023 16:17:19 -0700
+Message-ID: <874jt8il1c.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-gpio_export_link() is legacy and unused API, remove it for good.
+Yanteng Si <siyanteng@loongson.cn> writes:
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- Documentation/driver-api/gpio/legacy.rst                 | 9 ---------
- .../translations/zh_CN/driver-api/gpio/legacy.rst        | 8 --------
- Documentation/translations/zh_TW/gpio.txt                | 9 ---------
- include/asm-generic/gpio.h                               | 6 ------
- include/linux/gpio.h                                     | 8 --------
- 5 files changed, 40 deletions(-)
+> v2:
+> Modify some words under Xiangcheng's advice.
+>
+> v1:
+> The following files were updated to 6.1-rc8:
+> accounting
+> admin-guide/mm
+> core-api
+> dev-tools
+> mm
+> PCI
+> power
+>
+> Yanteng Si (13):
+>   docs/zh_CN: Update the translation of delay-accounting to 6.1-rc8
+>   docs/zh_CN: Update the translation of kernel-api to 6.1-rc8
+>   docs/zh_CN: Update the translation of mm-api to 6.1-rc8
+>   docs/zh_CN: Update the translation of highmem to 6.1-rc8
+>   docs/zh_CN: Update the translation of page_owner to 6.1-rc8
+>   docs/zh_CN: Update the translation of kasan to 6.1-rc8
+>   docs/zh_CN: Update the translation of testing-overview to 6.1-rc8
+>   docs/zh_CN: Update the translation of reclaim to 6.1-rc8
+>   docs/zh_CN: Update the translation of start to 6.1-rc8
+>   docs/zh_CN: Update the translation of usage to 6.1-rc8
+>   docs/zh_CN: Update the translation of ksm to 6.1-rc8
+>   docs/zh_CN: Update the translation of msi-howto to 6.1-rc8
+>   docs/zh_CN: Update the translation of energy-model to 6.1-rc8
+>
+>  .../translations/zh_CN/PCI/msi-howto.rst      | 11 +++
+>  .../zh_CN/accounting/delay-accounting.rst     |  7 +-
+>  .../zh_CN/admin-guide/mm/damon/reclaim.rst    |  4 -
+>  .../zh_CN/admin-guide/mm/damon/start.rst      | 12 +--
+>  .../zh_CN/admin-guide/mm/damon/usage.rst      | 68 ++++++++++++-----
+>  .../translations/zh_CN/admin-guide/mm/ksm.rst | 50 +++++++++++++
+>  .../zh_CN/core-api/kernel-api.rst             | 10 ++-
+>  .../translations/zh_CN/core-api/mm-api.rst    |  2 +-
+>  .../translations/zh_CN/dev-tools/kasan.rst    | 74 ++++++++++---------
+>  .../zh_CN/dev-tools/testing-overview.rst      | 27 +++++++
+>  .../translations/zh_CN/mm/highmem.rst         | 20 ++++-
+>  .../translations/zh_CN/mm/page_owner.rst      | 17 +----
+>  .../translations/zh_CN/power/energy-model.rst | 36 +++++++--
+>  13 files changed, 243 insertions(+), 95 deletions(-)
 
-diff --git a/Documentation/driver-api/gpio/legacy.rst b/Documentation/driver-api/gpio/legacy.rst
-index e17910cc3271..e3e9d26a60ce 100644
---- a/Documentation/driver-api/gpio/legacy.rst
-+++ b/Documentation/driver-api/gpio/legacy.rst
-@@ -735,10 +735,6 @@ requested using gpio_request()::
- 	/* reverse gpio_export() */
- 	void gpio_unexport();
- 
--	/* create a sysfs link to an exported GPIO node */
--	int gpio_export_link(struct device *dev, const char *name,
--		unsigned gpio)
--
- After a kernel driver requests a GPIO, it may only be made available in
- the sysfs interface by gpio_export().  The driver can control whether the
- signal direction may change.  This helps drivers prevent userspace code
-@@ -748,11 +744,6 @@ This explicit exporting can help with debugging (by making some kinds
- of experiments easier), or can provide an always-there interface that's
- suitable for documenting as part of a board support package.
- 
--After the GPIO has been exported, gpio_export_link() allows creating
--symlinks from elsewhere in sysfs to the GPIO sysfs node.  Drivers can
--use this to provide the interface under their own device in sysfs with
--a descriptive name.
--
- 
- API Reference
- =============
-diff --git a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-index 6399521d0548..8599e253fcc5 100644
---- a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-+++ b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-@@ -672,10 +672,6 @@ GPIO 控制器的路径类似 /sys/class/gpio/gpiochip42/ (对于从#42 GPIO
- 	/* gpio_export()的逆操作 */
- 	void gpio_unexport();
- 
--	/* 创建一个 sysfs 连接到已导出的 GPIO 节点 */
--	int gpio_export_link(struct device *dev, const char *name,
--		unsigned gpio)
--
- 在一个内核驱动申请一个 GPIO 之后，它可以通过 gpio_export()使其在 sysfs
- 接口中可见。该驱动可以控制信号方向是否可修改。这有助于防止用户空间代码无意间
- 破坏重要的系统状态。
-@@ -683,10 +679,6 @@ GPIO 控制器的路径类似 /sys/class/gpio/gpiochip42/ (对于从#42 GPIO
- 这个明确的导出有助于(通过使某些实验更容易来)调试，也可以提供一个始终存在的接口，
- 与文档配合作为板级支持包的一部分。
- 
--在 GPIO 被导出之后，gpio_export_link()允许在 sysfs 文件系统的任何地方
--创建一个到这个 GPIO sysfs 节点的符号链接。这样驱动就可以通过一个描述性的
--名字，在 sysfs 中他们所拥有的设备下提供一个(到这个 GPIO sysfs 节点的)接口。
--
- 
- API参考
- =======
-diff --git a/Documentation/translations/zh_TW/gpio.txt b/Documentation/translations/zh_TW/gpio.txt
-index e3c076dd75a5..abd8e4c0973e 100644
---- a/Documentation/translations/zh_TW/gpio.txt
-+++ b/Documentation/translations/zh_TW/gpio.txt
-@@ -634,18 +634,9 @@ GPIO 控制器的路徑類似 /sys/class/gpio/gpiochip42/ (對於從#42 GPIO
- 	/* gpio_export()的逆操作 */
- 	void gpio_unexport();
- 
--	/* 創建一個 sysfs 連接到已導出的 GPIO 節點 */
--	int gpio_export_link(struct device *dev, const char *name,
--		unsigned gpio)
--
- 在一個內核驅動申請一個 GPIO 之後，它可以通過 gpio_export()使其在 sysfs
- 接口中可見。該驅動可以控制信號方向是否可修改。這有助於防止用戶空間代碼無意間
- 破壞重要的系統狀態。
- 
- 這個明確的導出有助於(通過使某些實驗更容易來)調試，也可以提供一個始終存在的接口，
- 與文檔配合作爲板級支持包的一部分。
--
--在 GPIO 被導出之後，gpio_export_link()允許在 sysfs 文件系統的任何地方
--創建一個到這個 GPIO sysfs 節點的符號連結。這樣驅動就可以通過一個描述性的
--名字，在 sysfs 中他們所擁有的設備下提供一個(到這個 GPIO sysfs 節點的)接口。
--
-diff --git a/include/asm-generic/gpio.h b/include/asm-generic/gpio.h
-index a7752cf152ce..f79220f614aa 100644
---- a/include/asm-generic/gpio.h
-+++ b/include/asm-generic/gpio.h
-@@ -103,12 +103,6 @@ static inline int gpio_export(unsigned gpio, bool direction_may_change)
- 	return gpiod_export(gpio_to_desc(gpio), direction_may_change);
- }
- 
--static inline int gpio_export_link(struct device *dev, const char *name,
--				   unsigned gpio)
--{
--	return gpiod_export_link(dev, name, gpio_to_desc(gpio));
--}
--
- static inline void gpio_unexport(unsigned gpio)
- {
- 	gpiod_unexport(gpio_to_desc(gpio));
-diff --git a/include/linux/gpio.h b/include/linux/gpio.h
-index 346f60bbab30..e94815b3ce1d 100644
---- a/include/linux/gpio.h
-+++ b/include/linux/gpio.h
-@@ -197,14 +197,6 @@ static inline int gpio_export(unsigned gpio, bool direction_may_change)
- 	return -EINVAL;
- }
- 
--static inline int gpio_export_link(struct device *dev, const char *name,
--				unsigned gpio)
--{
--	/* GPIO can never have been exported */
--	WARN_ON(1);
--	return -EINVAL;
--}
--
- static inline void gpio_unexport(unsigned gpio)
- {
- 	/* GPIO can never have been exported */
--- 
-2.35.1
+Series applied, thanks.
 
+jon
