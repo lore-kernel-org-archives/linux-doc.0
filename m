@@ -2,197 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93D6FC4708E
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Jan 2023 18:24:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09F13C3DA7A
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Jan 2023 18:37:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232419AbjABSYi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Jan 2023 13:24:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54212 "EHLO
+        id S231361AbjABShO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Jan 2023 13:37:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjABSYh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 13:24:37 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD3FAE61;
-        Mon,  2 Jan 2023 10:24:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672683876; x=1704219876;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=FYxGH9Ph+n77uzV1dLGl69MdPA8nU2VvfHoq8OrT4zU=;
-  b=NEnzzPPeBeFDHVp4mhDJ21tdaasbz5M+pSBNBOkaD8uLYVhyarN+iC5Y
-   GHNnmcAQr83thw7LyJQbmmOhqGgN3D/5jyaSx5BhBxoNhPWu/aBm2jXUc
-   2ZZjxZl2qtYslZoXEAvZDqAu/PyxQS1h5Y8v42GGztJXDk11maZuci8b+
-   DpN50FGbzhOZXI+wCd3FnHgV0LkIGT7bslIt11OjCdn1pnZORNu7LVZLc
-   b0YHzerMqw6H52oE2sqv56M8wcObDGJxoyk2A5HeD6s5eCDbKCRkX1q9c
-   aKkoZAS2gy2w6BHJBrH2Qa/VZdzkUSrRaUniGD49j+pPCwlLan+HnvQfy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="301898999"
-X-IronPort-AV: E=Sophos;i="5.96,294,1665471600"; 
-   d="scan'208";a="301898999"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 10:24:36 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="723029911"
-X-IronPort-AV: E=Sophos;i="5.96,294,1665471600"; 
-   d="scan'208";a="723029911"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 10:24:35 -0800
-Date:   Mon, 2 Jan 2023 10:25:00 -0800 (PST)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Xu Yilun <yilun.xu@intel.com>
-cc:     hao.wu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        andriy.shevchenko@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
-        marpagan@redhat.com, bagasdotme@gmail.com
-Subject: Re: [PATCH v8 3/4] fpga: dfl: add basic support for DFHv1
-In-Reply-To: <Y66uB8/xj+YF4oEr@yilunxu-OptiPlex-7050>
-Message-ID: <alpine.DEB.2.22.394.2301021021350.2536944@rhweight-WRK1>
-References: <20221228181624.1793433-1-matthew.gerlach@linux.intel.com> <20221228181624.1793433-4-matthew.gerlach@linux.intel.com> <Y66uB8/xj+YF4oEr@yilunxu-OptiPlex-7050>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S230127AbjABShN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 13:37:13 -0500
+Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEF942ED;
+        Mon,  2 Jan 2023 10:37:08 -0800 (PST)
+Received: from localhost (unknown [127.0.0.1])
+        by mx.kolabnow.com (Postfix) with ESMTP id 3EC124193A;
+        Mon,  2 Jan 2023 19:37:07 +0100 (CET)
+Authentication-Results: ext-mx-out003.mykolab.com (amavisd-new);
+        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
+        header.d=kolabnow.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:mime-version:message-id:date:date
+        :subject:subject:from:from:received:received:received; s=
+        dkim20160331; t=1672684624; x=1674499025; bh=BSfz+XNA3oYeLRZIFz2
+        hXFGbvI1zFTdIifZMGr+t8+w=; b=qwxaL3r5an62S3tAUz7TItmvIisLPzhAg/W
+        uj7OGiXkzS/coXAytK5ELv4+2VcND4T6VklXNlNjhcBv52NJtHOWHtBOTRc2SN36
+        I8TlB7pPZMjNai4yoDjzTvB8knoXMxAmwldL+Tn/6JX6U+UFfChuX+tr7tH05NY7
+        KwnzbRv5T3SEx6KI0bGLSUpFK8rXk6axJlOyl2hfiDlLLmk4EzPuy7UehPcAJ/Eu
+        JUeznimiSJ1xUz4y5JP1UWN3FgV/lwz8F34Jqg7OfBC3M/k1XMrd0+Kkn4GItK6g
+        w/dsth6NHiE4yqBm86GmbZ5k4Gw4Lbt6yx8r4PAHqjTRw2WhdvEStULKs41PvmjG
+        WhxyvnGLGrjd0bJ/OodLsvibsOhvOihaqwA4/5OcnZGtucfdVdJCsNd2xMBXA493
+        SFKktQQHw94kcQa3JsodG7FZHvZodHDrezPpRY4DerOUjT5FgDIqvqU6kzVX4GxD
+        hjRJ2KgYfc2aILe94OfI2nCC0nMtKXw9lDvFYrm6zRAm1OtPPH+7peoMEDFnh0D9
+        negn8NnX89t8hTu7j0gOjz1nJEDLpFQKpjyfTH4an486RT526Wu7H9QiHhzCK6sv
+        bnaFthhHun0Xlugo7Gz58n7M1BFdKAFpJhOCYulSkNo+pG43dQNiioFn5K9yuuHj
+        7xypDWiM=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 1U7p7B3JoEV0; Mon,  2 Jan 2023 19:37:04 +0100 (CET)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by mx.kolabnow.com (Postfix) with ESMTPS id 4BD0C41935;
+        Mon,  2 Jan 2023 19:37:03 +0100 (CET)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id E81EE3340;
+        Mon,  2 Jan 2023 19:37:02 +0100 (CET)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH V2] doc: monospace style for inline code in botching ioctl
+Date:   Mon,  2 Jan 2023 19:36:49 +0100
+Message-Id: <20230102183649.9626-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-860723572-1672683901=:2536944"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Highlighting inline code improves text readability.
 
---8323328-860723572-1672683901=:2536944
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: 8BIT
+Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+---
 
+V1 -> V2 use the kernel-doc mecanism to link functions in documents
 
+ Documentation/process/botching-up-ioctls.rst | 24 ++++++++++----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-On Fri, 30 Dec 2022, Xu Yilun wrote:
+diff --git a/Documentation/process/botching-up-ioctls.rst b/Documentation/process/botching-up-ioctls.rst
+index 9739b88463a5..088d372ecc3c 100644
+--- a/Documentation/process/botching-up-ioctls.rst
++++ b/Documentation/process/botching-up-ioctls.rst
+@@ -28,7 +28,7 @@ First the prerequisites. Without these you have already failed, because you
+ will need to add a 32-bit compat layer:
+ 
+  * Only use fixed sized integers. To avoid conflicts with typedefs in userspace
+-   the kernel has special types like __u32, __s64. Use them.
++   the kernel has special types like ``__u32``, ``__s64``. Use them.
+ 
+  * Align everything to the natural size and use explicit padding. 32-bit
+    platforms don't necessarily align 64-bit values to 64-bit boundaries, but
+@@ -41,12 +41,12 @@ will need to add a 32-bit compat layer:
+    structures to the kernel, or if the kernel checks the structure size, which
+    e.g. the drm core does.
+ 
+- * Pointers are __u64, cast from/to a uintptr_t on the userspace side and
+-   from/to a void __user * in the kernel. Try really hard not to delay this
+-   conversion or worse, fiddle the raw __u64 through your code since that
+-   diminishes the checking tools like sparse can provide. The macro
+-   u64_to_user_ptr can be used in the kernel to avoid warnings about integers
+-   and pointers of different sizes.
++ * Pointers are ``__u64``, cast from/to a ``uintptr_t`` on the userspace side
++   and from/to a ``void __user *`` in the kernel. Try really hard not to delay
++   this conversion or worse, fiddle the raw ``__u64`` through your code since
++   that diminishes the checking tools like sparse can provide. The macro
++   u64_to_user_ptr() can be used in the kernel to avoid warnings about
++   integers and pointers of different sizes.
+ 
+ 
+ Basics
+@@ -132,8 +132,8 @@ wait for outstanding ones. This is really tricky business; at the moment none of
+ the ioctls supported by the drm/i915 get this fully right, which means there's
+ still tons more lessons to learn here.
+ 
+- * Use CLOCK_MONOTONIC as your reference time, always. It's what alsa, drm and
+-   v4l use by default nowadays. But let userspace know which timestamps are
++ * Use ``CLOCK_MONOTONIC`` as your reference time, always. It's what alsa, drm
++   and v4l use by default nowadays. But let userspace know which timestamps are
+    derived from different clock domains like your main system clock (provided
+    by the kernel) or some independent hardware counter somewhere else. Clocks
+    will mismatch if you look close enough, but if performance measuring tools
+@@ -141,8 +141,8 @@ still tons more lessons to learn here.
+    get at the raw values of some clocks (e.g. through in-command-stream
+    performance counter sampling instructions) consider exposing those also.
+ 
+- * Use __s64 seconds plus __u64 nanoseconds to specify time. It's not the most
+-   convenient time specification, but it's mostly the standard.
++ * Use ``__s64`` seconds plus ``__u64`` nanoseconds to specify time. It's not
++   the most convenient time specification, but it's mostly the standard.
+ 
+  * Check that input time values are normalized and reject them if not. Note
+    that the kernel native struct ktime has a signed integer for both seconds
+@@ -178,7 +178,7 @@ entails its own little set of pitfalls:
+    needs to be shared across processes -  fd-passing over unix domain sockets
+    also simplifies lifetime management for userspace.
+ 
+- * Always have O_CLOEXEC support.
++ * Always have ``O_CLOEXEC`` support.
+ 
+  * Ensure that you have sufficient insulation between different clients. By
+    default pick a private per-fd namespace which forces any sharing to be done
+-- 
+2.30.2
 
-> On 2022-12-28 at 10:16:23 -0800, matthew.gerlach@linux.intel.com wrote:
->> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>
->> Version 1 of the Device Feature Header (DFH) definition adds
->> functionality to the DFL bus.
->>
->> A DFHv1 header may have one or more parameter blocks that
->> further describes the HW to SW.  Add support to the DFL bus
->> to parse the MSI-X parameter.
->>
->> The location of a feature's register set is explicitly
->> described in DFHv1 and can be relative to the base of the DFHv1
->> or an absolute address.  Parse the location and pass the information
->> to DFL driver.
->>
->> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
->> ---
->> v8: use struct_size() from overflow.h
->>     add dfh_get_u64_param_vals()
->
-> Could you help check my comments?
-> https://lore.kernel.org/linux-fpga/alpine.DEB.2.22.394.2212211421210.570436@rhweight-WRK1/T/#md86e3836130ebacd3c088f5c512ba741aac8a4d1
-
-
-Sorry I missed your earlier comments. I have since responded to them 
-specificially.
-
-
->
-> [...]
->
->>
->> +static u64 *find_param(u64 *params, resource_size_t max, int param_id)
->> +{
->> +	u64 *end = params + max / sizeof(u64);
->> +	u64 v, next;
->> +
->> +	while (params < end) {
->> +		v = *params;
->> +		if (param_id == FIELD_GET(DFHv1_PARAM_HDR_ID, v))
->> +			return params;
->> +
->> +		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
->> +		params += next;
->> +		if (FIELD_GET(DFHv1_PARAM_HDR_NEXT_EOP, v))
->> +			break;
->> +	}
->> +
->> +	return NULL;
->> +}
->> +
->> +/**
->> + * dfh_find_param() - find parameter block for the given parameter id
->> + * @dfl_dev: dfl device
->> + * @param: id of dfl parameter
->> + *
->> + * Return: pointer to start of parameter block, NULL otherwise.
->> + */
->> +u64 *dfh_find_param(struct dfl_device *dfl_dev, int param_id)
->> +{
->> +	return find_param(dfl_dev->params, dfl_dev->param_size, param_id);
->> +}
->> +EXPORT_SYMBOL_GPL(dfh_find_param);
->
-> Didn't find where to use it?
-
-I understand. Don't export a function unless there is a comsumer for it.
-
->
->> +
->> +/**
->> + * dfh_get_u64_param_vals() - get array of u64 param values for given parameter id
->
-> There is no rule to say one u64 for each property in the parameter block.
-> So I don't see the reason for DFL core to provide u64 array for the API,
-> And the size of the parameter block is decided by HW, why make the user
-> input the value?
->
-> As we discussed before, dfl core doesn't try to look into the parameter
-> block. So please just provide the const void *data & data_size for drivers.
-> This is the most common way to represent a data block.
-
-I will move the parameter parsing helper function to the driver itself.
-
-Thanks for the feedback,
-Matthew Gerlach
-
->
-> Thanks,
-> Yilun
->
->> + * @dfl_dev: dfl device
->> + * @param: id of dfl parameter
->> + * @pval: location of parameter data destination
->> + * @nvals: number of u64 elements of parameter data
->> + *
->> + * Return: pointer to start of parameter block, PTR_ERR otherwise
->> + */
->> +u64 *dfh_get_u64_param_vals(struct dfl_device *dfl_dev, int param_id, u64 *pval, int nvals)
->> +{
->> +	u64 *param = find_param(dfl_dev->params, dfl_dev->param_size, param_id);
->> +	u64 next;
->> +	int i;
->> +
->> +	if (!param)
->> +		return ERR_PTR(-ENOENT);
->> +
->> +	next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, *param);
->> +
->> +	if (nvals >= next)
->> +		return ERR_PTR(-ENOMEM);
->> +
->> +	for (i = 0; i < nvals; i++)
->> +		*pval++ = param[i + 1];
->> +
->> +	return param;
->> +}
->> +EXPORT_SYMBOL_GPL(dfh_get_u64_param_vals);
->> +
->
---8323328-860723572-1672683901=:2536944--
