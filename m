@@ -2,260 +2,491 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4282C4167B
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Jan 2023 06:17:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B13BC5479D
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Jan 2023 12:44:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229744AbjABGRm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Jan 2023 01:17:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53962 "EHLO
+        id S232468AbjABMo1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Jan 2023 07:44:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjABGRm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 01:17:42 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7BD4B10CB;
-        Sun,  1 Jan 2023 22:17:40 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8CFC32F4;
-        Sun,  1 Jan 2023 22:18:21 -0800 (PST)
-Received: from a077893.blr.arm.com (unknown [10.162.40.15])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 706013F587;
-        Sun,  1 Jan 2023 22:17:36 -0800 (PST)
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-To:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        catalin.marinas@arm.com, will@kernel.org
-Cc:     lukas.bulwahn@gmail.com, james.morse@arm.com,
-        suzuki.poulose@arm.com,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>, linux-doc@vger.kernel.org
-Subject: [PATCH V4] arm64: errata: Workaround possible Cortex-A715 [ESR|FAR]_ELx corruption
-Date:   Mon,  2 Jan 2023 11:46:51 +0530
-Message-Id: <20230102061651.34745-1-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S229494AbjABMo0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 07:44:26 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4AA05FE0;
+        Mon,  2 Jan 2023 04:44:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1672663464; x=1704199464;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ioVYIpFG8DC6v6ZQ/LA0HIv3ZhntmZW8xS8Dwp6vcB4=;
+  b=jR+wKcWlWSjlbQJYqLgQYrEQVS/zhH5PaH6Vp9i67lsocR8zpej2v11i
+   DP7B9hSg5sjA+iSdcVezEU6U4hp6HSF5a/6LdMPYrnBWJVnFZ0+F7X7Xp
+   YF4MbOBTJ3h+EvZdYKtiX/mya7sQE361c+GXLof1qsn2vaxG9Ii8Tax6I
+   YYlgj/FzUaE0GaXLnKZ7g4b6Yi0ZTu7qC6SJ2D5tNx448mYRbz5ReAqKC
+   2iVn/wL+hBBLkiUoPhPgI1VYH0P98FUQKogmsxq43rz93H6F/+QARgWOS
+   YzkGWYPRIJ6vAyeuMA+HntabzysMAxemwOmNDKgWZ1Y9pSBuN54iFpfrV
+   A==;
+X-IronPort-AV: E=Sophos;i="5.96,294,1665439200"; 
+   d="scan'208";a="28204263"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 02 Jan 2023 13:44:21 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 02 Jan 2023 13:44:21 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Mon, 02 Jan 2023 13:44:21 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1672663461; x=1704199461;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ioVYIpFG8DC6v6ZQ/LA0HIv3ZhntmZW8xS8Dwp6vcB4=;
+  b=R2nkheNI3fJ58pMHLE41u24BQONdzetUJ29PCXdIwLv0mzar1jCWEosY
+   m2BserLigf+MQx7FAPWMFj3ivGGgq/C7cv+PZ7rnOe8H6J0rrsX0TSPw+
+   7lCTkcMG8yLdT64gHJQ7PzPMT1EwOXF/6qCwq+AB7t3Hwm+NLywxEoBfR
+   mYQzBSnxcSMffBgs56AodHh1RhKeuX+O8/+yoHfwkIAvp/e0vUETDz4aw
+   95hY4o4dy2ylT+iWPj825Z+Xd6a5pgYWssWAe5kut1yD5SBscGQ/Ai5nr
+   PzLrM30/Meyu1HVJ+QtA1v/suX6jTGmtzFFDgASJSJoT7kAoNLZfzj98Y
+   g==;
+X-IronPort-AV: E=Sophos;i="5.96,294,1665439200"; 
+   d="scan'208";a="28204262"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 02 Jan 2023 13:44:21 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 2E201280056;
+        Mon,  2 Jan 2023 13:44:21 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Subject: Re: [PATCH v7 06/11] leds: trigger: netdev: add hardware control support
+Date:   Mon, 02 Jan 2023 13:44:20 +0100
+Message-ID: <13186102.dW097sEU6C@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <639ca43c.050a0220.e6d91.9fe8@mx.google.com>
+References: <20221214235438.30271-1-ansuelsmth@gmail.com> <3770526.R56niFO833@steina-w> <639ca43c.050a0220.e6d91.9fe8@mx.google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If a Cortex-A715 cpu sees a page mapping permissions change from executable
-to non-executable, it may corrupt the ESR_ELx and FAR_ELx registers, on the
-next instruction abort caused by permission fault.
+Am Freitag, 16. Dezember 2022, 18:00:45 CET schrieb Christian Marangi:
+> On Thu, Dec 15, 2022 at 04:27:17PM +0100, Alexander Stein wrote:
+> > Hi,
+> > 
+> > thanks for the v7 series.
+> > 
+> > Am Donnerstag, 15. Dezember 2022, 00:54:33 CET schrieb Christian Marangi:
+> > > Add hardware control support for the Netdev trigger.
+> > > The trigger on config change will check if the requested trigger can set
+> > > to blink mode using LED hardware mode and if every blink mode is
+> > > supported,
+> > > the trigger will enable hardware mode with the requested configuration.
+> > > If there is at least one trigger that is not supported and can't run in
+> > > hardware mode, then software mode will be used instead.
+> > > A validation is done on every value change and on fail the old value is
+> > > restored and -EINVAL is returned.
+> > > 
+> > > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> > > ---
+> > > 
+> > >  drivers/leds/trigger/ledtrig-netdev.c | 155 +++++++++++++++++++++++++-
+> > >  1 file changed, 149 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/drivers/leds/trigger/ledtrig-netdev.c
+> > > b/drivers/leds/trigger/ledtrig-netdev.c index dd63cadb896e..ed019cb5867c
+> > > 100644
+> > > --- a/drivers/leds/trigger/ledtrig-netdev.c
+> > > +++ b/drivers/leds/trigger/ledtrig-netdev.c
+> > > @@ -37,6 +37,7 @@
+> > > 
+> > >   */
+> > >  
+> > >  struct led_netdev_data {
+> > > 
+> > > +	enum led_blink_modes blink_mode;
+> > > 
+> > >  	spinlock_t lock;
+> > >  	
+> > >  	struct delayed_work work;
+> > > 
+> > > @@ -53,11 +54,105 @@ struct led_netdev_data {
+> > > 
+> > >  	bool carrier_link_up;
+> > >  
+> > >  };
+> > > 
+> > > +struct netdev_led_attr_detail {
+> > > +	char *name;
+> > > +	bool hardware_only;
+> > > +	enum led_trigger_netdev_modes bit;
+> > > +};
+> > > +
+> > > +static struct netdev_led_attr_detail attr_details[] = {
+> > > +	{ .name = "link", .bit = TRIGGER_NETDEV_LINK},
+> > > +	{ .name = "tx", .bit = TRIGGER_NETDEV_TX},
+> > > +	{ .name = "rx", .bit = TRIGGER_NETDEV_RX},
+> > > +};
+> > > +
+> > > +static bool validate_baseline_state(struct led_netdev_data
+> > > *trigger_data)
+> > > +{
+> > > +	struct led_classdev *led_cdev = trigger_data->led_cdev;
+> > > +	struct netdev_led_attr_detail *detail;
+> > > +	u32 hw_blink_mode_supported = 0;
+> > > +	bool force_sw = false;
+> > > +	int i;
+> > > +
+> > > +	for (i = 0; i < ARRAY_SIZE(attr_details); i++) {
+> > > +		detail = &attr_details[i];
+> > > +
+> > > +		/* Mode not active, skip */
+> > > +		if (!test_bit(detail->bit, &trigger_data->mode))
+> > > +			continue;
+> > > +
+> > > +		/* Hardware only mode enabled on software controlled led
+> > 
+> > */
+> > 
+> > > +		if (led_cdev->blink_mode == SOFTWARE_CONTROLLED &&
+> > > +		    detail->hardware_only)
+> > > +			return false;
+> > > +
+> > > +		/* Check if the mode supports hardware mode */
+> > > +		if (led_cdev->blink_mode != SOFTWARE_CONTROLLED) {
+> > > +			/* With a net dev set, force software mode.
+> > > +			 * With modes are handled by hardware, led will
+> > 
+> > blink
+> > 
+> > > +			 * based on his own events and will ignore any
+> > 
+> > event
+> > 
+> > > +			 * from the provided dev.
+> > > +			 */
+> > > +			if (trigger_data->net_dev) {
+> > > +				force_sw = true;
+> > > +				continue;
+> > > +			}
+> > > +
+> > > +			/* With empty dev, check if the mode is
+> > 
+> > supported */
+> > 
+> > > +			if
+> > 
+> > (led_trigger_blink_mode_is_supported(led_cdev, detail->bit))
+> > 
+> > > +				hw_blink_mode_supported |= BIT(detail-
+> > >
+> > >bit);
+> > 
+> > Shouldn't this be BIT(detail->bit)?
+> 
+> I think I didn't understand?
 
-Only user-space does executable to non-executable permission transition via
-mprotect() system call which calls ptep_modify_prot_start() and ptep_modify
-_prot_commit() helpers, while changing the page mapping. The platform code
-can override these helpers via __HAVE_ARCH_PTEP_MODIFY_PROT_TRANSACTION.
+The name 'bit' indicates this is a single bit number rather than a bitmask. 
+AFAICS the value (detail->bit) passed to led_trigger_blink_mode_is_supported 
+is eventually used within test_bit inside dp83867_parse_netdev. I assume you 
+have to actually pass the bitmask with this single bit set, not the bit number 
+itself.
 
-Work around the problem via doing a break-before-make TLB invalidation, for
-all executable user space mappings, that go through mprotect() system call.
-This overrides ptep_modify_prot_start() and ptep_modify_prot_commit(), via
-defining HAVE_ARCH_PTEP_MODIFY_PROT_TRANSACTION on the platform thus giving
-an opportunity to intercept user space exec mappings, and do the necessary
-TLB invalidation. Similar interceptions are also implemented for HugeTLB.
+Best regards,
+Alexander
 
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
----
-This applies on v6.2-rc2. This has been tested on the model with 0x411FD4D1
-as the MIDR_EL1 value for Cortex-A715, along with a non Cortex-A715 CPU as
-well, triggering both paths.
+> > > +		}
+> > > +	}
+> > > +
+> > > +	/* We can't run modes handled by both software and hardware.
+> > > +	 * Check if we run hardware modes and check if all the modes
+> > > +	 * can be handled by hardware.
+> > > +	 */
+> > > +	if (hw_blink_mode_supported && hw_blink_mode_supported !=
+> > > trigger_data->mode) +		return false;
+> > > +
+> > > +	/* Modes are valid. Decide now the running mode to later
+> > > +	 * set the baseline.
+> > > +	 * Software mode is enforced with net_dev set. With an empty
+> > > +	 * one hardware mode is selected by default (if supported).
+> > > +	 */
+> > > +	if (force_sw || led_cdev->blink_mode == SOFTWARE_CONTROLLED)
+> > 
+> > IMHO '|| !hw_blink_mode_supported' should be added here for blink_modes.
+> > This might happen if a PHY LED is SOFTWARE_HARDWARE_CONTROLLED, but some
+> > blink mode is not supported by hardware, thus hw_blink_mode_supported=0.
+> 
+> Will check this and report back.
+> 
+> > Best regards,
+> > Alexander
+> > 
+> > > +		trigger_data->blink_mode = SOFTWARE_CONTROLLED;
+> > > +	else
+> > > +		trigger_data->blink_mode = HARDWARE_CONTROLLED;
+> > > +
+> > > +	return true;
+> > > +}
+> > > +
+> > > 
+> > >  static void set_baseline_state(struct led_netdev_data *trigger_data)
+> > >  {
+> > > 
+> > > +	int i;
+> > > 
+> > >  	int current_brightness;
+> > > 
+> > > +	struct netdev_led_attr_detail *detail;
+> > > 
+> > >  	struct led_classdev *led_cdev = trigger_data->led_cdev;
+> > > 
+> > > +	/* Modes already validated. Directly apply hw trigger modes */
+> > > +	if (trigger_data->blink_mode == HARDWARE_CONTROLLED) {
+> > > +		/* We are refreshing the blink modes. Reset them */
+> > > +		led_cdev->hw_control_configure(led_cdev,
+> > 
+> > BIT(TRIGGER_NETDEV_LINK),
+> > 
+> > > +					       BLINK_MODE_ZERO);
+> > > +
+> > > +		for (i = 0; i < ARRAY_SIZE(attr_details); i++) {
+> > > +			detail = &attr_details[i];
+> > > +
+> > > +			if (!test_bit(detail->bit, &trigger_data->mode))
+> > > +				continue;
+> > > +
+> > > +			led_cdev->hw_control_configure(led_cdev,
+> > 
+> > BIT(detail->bit),
+> > 
+> > > +
+> > 
+> > BLINK_MODE_ENABLE);
+> > 
+> > Shouldn't this be BIT(detail->bit)?
+> > 
+> > > +		}
+> > > +
+> > > +		led_cdev->hw_control_start(led_cdev);
+> > > +
+> > > +		return;
+> > > +	}
+> > > +
+> > > +	/* Handle trigger modes by software */
+> > > 
+> > >  	current_brightness = led_cdev->brightness;
+> > >  	if (current_brightness)
+> > >  	
+> > >  		led_cdev->blink_brightness = current_brightness;
+> > > 
+> > > @@ -100,10 +195,15 @@ static ssize_t device_name_store(struct device
+> > > *dev,
+> > > 
+> > >  				 size_t size)
+> > >  
+> > >  {
+> > >  
+> > >  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
+> > > 
+> > > +	struct net_device *old_net = trigger_data->net_dev;
+> > > +	char old_device_name[IFNAMSIZ];
+> > > 
+> > >  	if (size >= IFNAMSIZ)
+> > >  	
+> > >  		return -EINVAL;
+> > > 
+> > > +	/* Backup old device name */
+> > > +	memcpy(old_device_name, trigger_data->device_name, IFNAMSIZ);
+> > > +
+> > > 
+> > >  	cancel_delayed_work_sync(&trigger_data->work);
+> > >  	
+> > >  	spin_lock_bh(&trigger_data->lock);
+> > > 
+> > > @@ -122,6 +222,19 @@ static ssize_t device_name_store(struct device
+> > > *dev,
+> > > 
+> > >  		trigger_data->net_dev =
+> > >  		
+> > >  		    dev_get_by_name(&init_net, trigger_data->device_name);
+> > > 
+> > > +	if (!validate_baseline_state(trigger_data)) {
+> > > +		/* Restore old net_dev and device_name */
+> > > +		if (trigger_data->net_dev)
+> > > +			dev_put(trigger_data->net_dev);
+> > > +
+> > > +		dev_hold(old_net);
+> > > +		trigger_data->net_dev = old_net;
+> > > +		memcpy(trigger_data->device_name, old_device_name,
+> > 
+> > IFNAMSIZ);
+> > 
+> > > +
+> > > +		spin_unlock_bh(&trigger_data->lock);
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > 
+> > >  	trigger_data->carrier_link_up = false;
+> > >  	if (trigger_data->net_dev != NULL)
+> > >  	
+> > >  		trigger_data->carrier_link_up =
+> > 
+> > netif_carrier_ok(trigger_data->net_dev);
+> > 
+> > > @@ -159,7 +272,7 @@ static ssize_t netdev_led_attr_store(struct device
+> > > *dev, const char *buf, size_t size, enum led_trigger_netdev_modes attr)
+> > > 
+> > >  {
+> > >  
+> > >  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
+> > > 
+> > > -	unsigned long state;
+> > > +	unsigned long state, old_mode = trigger_data->mode;
+> > > 
+> > >  	int ret;
+> > >  	int bit;
+> > > 
+> > > @@ -184,6 +297,12 @@ static ssize_t netdev_led_attr_store(struct device
+> > > *dev, const char *buf, else
+> > > 
+> > >  		clear_bit(bit, &trigger_data->mode);
+> > > 
+> > > +	if (!validate_baseline_state(trigger_data)) {
+> > > +		/* Restore old mode on validation fail */
+> > > +		trigger_data->mode = old_mode;
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > 
+> > >  	set_baseline_state(trigger_data);
+> > >  	
+> > >  	return size;
+> > > 
+> > > @@ -220,6 +339,8 @@ static ssize_t interval_store(struct device *dev,
+> > > 
+> > >  			      size_t size)
+> > >  
+> > >  {
+> > >  
+> > >  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
+> > > 
+> > > +	int old_interval = atomic_read(&trigger_data->interval);
+> > > +	u32 old_mode = trigger_data->mode;
+> > > 
+> > >  	unsigned long value;
+> > >  	int ret;
+> > > 
+> > > @@ -228,13 +349,22 @@ static ssize_t interval_store(struct device *dev,
+> > > 
+> > >  		return ret;
+> > >  	
+> > >  	/* impose some basic bounds on the timer interval */
+> > > 
+> > > -	if (value >= 5 && value <= 10000) {
+> > > -		cancel_delayed_work_sync(&trigger_data->work);
+> > > +	if (value < 5 || value > 10000)
+> > > +		return -EINVAL;
+> > > +
+> > > +	cancel_delayed_work_sync(&trigger_data->work);
+> > > +
+> > > +	atomic_set(&trigger_data->interval, msecs_to_jiffies(value));
+> > > 
+> > > -		atomic_set(&trigger_data->interval,
+> > 
+> > msecs_to_jiffies(value));
+> > 
+> > > -		set_baseline_state(trigger_data);	/* resets timer
+> > 
+> > */
+> > 
+> > > +	if (!validate_baseline_state(trigger_data)) {
+> > > +		/* Restore old interval on validation error */
+> > > +		atomic_set(&trigger_data->interval, old_interval);
+> > > +		trigger_data->mode = old_mode;
+> > > +		return -EINVAL;
+> > > 
+> > >  	}
+> > > 
+> > > +	set_baseline_state(trigger_data);	/* resets timer */
+> > > +
+> > > 
+> > >  	return size;
+> > >  
+> > >  }
+> > > 
+> > > @@ -368,13 +498,25 @@ static int netdev_trig_activate(struct
+> > > led_classdev
+> > > *led_cdev) trigger_data->mode = 0;
+> > > 
+> > >  	atomic_set(&trigger_data->interval, msecs_to_jiffies(50));
+> > >  	trigger_data->last_activity = 0;
+> > > 
+> > > +	if (led_cdev->blink_mode != SOFTWARE_CONTROLLED) {
+> > > +		/* With hw mode enabled reset any rule set by default */
+> > > +		if (led_cdev->hw_control_status(led_cdev)) {
+> > > +			rc = led_cdev->hw_control_configure(led_cdev,
+> > 
+> > BIT(TRIGGER_NETDEV_LINK),
+> > 
+> > > +
+> > 
+> > BLINK_MODE_ZERO);
+> > 
+> > > +			if (rc)
+> > > +				goto err;
+> > > +		}
+> > > +	}
+> > > 
+> > >  	led_set_trigger_data(led_cdev, trigger_data);
+> > >  	
+> > >  	rc = register_netdevice_notifier(&trigger_data->notifier);
+> > >  	if (rc)
+> > > 
+> > > -		kfree(trigger_data);
+> > > +		goto err;
+> > > 
+> > > +	return 0;
+> > > +err:
+> > > +	kfree(trigger_data);
+> > > 
+> > >  	return rc;
+> > >  
+> > >  }
+> > > 
+> > > @@ -394,6 +536,7 @@ static void netdev_trig_deactivate(struct
+> > > led_classdev
+> > > *led_cdev)
+> > > 
+> > >  static struct led_trigger netdev_led_trigger = {
+> > >  
+> > >  	.name = "netdev",
+> > > 
+> > > +	.supported_blink_modes = SOFTWARE_HARDWARE,
+> > > 
+> > >  	.activate = netdev_trig_activate,
+> > >  	.deactivate = netdev_trig_deactivate,
+> > >  	.groups = netdev_trig_groups,
 
-Changes in V4:
 
-- Folded in CONFIG_ARM64_ERRATUM_2645198 related changes from Lukas Bulwahn
 
-https://lore.kernel.org/all/20221215094811.23188-1-lukas.bulwahn@gmail.com/
-
-Changes in V3:
-
-https://lore.kernel.org/all/20221116140915.356601-3-anshuman.khandual@arm.com/
-
- Documentation/arm64/silicon-errata.rst |  2 ++
- arch/arm64/Kconfig                     | 16 ++++++++++++++++
- arch/arm64/include/asm/hugetlb.h       |  9 +++++++++
- arch/arm64/include/asm/pgtable.h       |  9 +++++++++
- arch/arm64/kernel/cpu_errata.c         |  7 +++++++
- arch/arm64/mm/hugetlbpage.c            | 21 +++++++++++++++++++++
- arch/arm64/mm/mmu.c                    | 21 +++++++++++++++++++++
- arch/arm64/tools/cpucaps               |  1 +
- 8 files changed, 86 insertions(+)
-
-diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-index 808ade4cc008..ec5f889d7681 100644
---- a/Documentation/arm64/silicon-errata.rst
-+++ b/Documentation/arm64/silicon-errata.rst
-@@ -120,6 +120,8 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | ARM            | Cortex-A710     | #2224489        | ARM64_ERRATUM_2224489       |
- +----------------+-----------------+-----------------+-----------------------------+
-+| ARM            | Cortex-A715     | #2645198        | ARM64_ERRATUM_2645198       |
-++----------------+-----------------+-----------------+-----------------------------+
- | ARM            | Cortex-X2       | #2119858        | ARM64_ERRATUM_2119858       |
- +----------------+-----------------+-----------------+-----------------------------+
- | ARM            | Cortex-X2       | #2224489        | ARM64_ERRATUM_2224489       |
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 03934808b2ed..cf6d1cd8b6dc 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -972,6 +972,22 @@ config ARM64_ERRATUM_2457168
- 
- 	  If unsure, say Y.
- 
-+config ARM64_ERRATUM_2645198
-+	bool "Cortex-A715: 2645198: Workaround possible [ESR|FAR]_ELx corruption"
-+	default y
-+	help
-+	  This option adds the workaround for ARM Cortex-A715 erratum 2645198.
-+
-+	  If a Cortex-A715 cpu sees a page mapping permissions change from executable
-+	  to non-executable, it may corrupt the ESR_ELx and FAR_ELx registers on the
-+	  next instruction abort caused by permission fault.
-+
-+	  Only user-space does executable to non-executable permission transition via
-+	  mprotect() system call. Workaround the problem by doing a break-before-make
-+	  TLB invalidation, for all changes to executable user space mappings.
-+
-+	  If unsure, say Y.
-+
- config CAVIUM_ERRATUM_22375
- 	bool "Cavium erratum 22375, 24313"
- 	default y
-diff --git a/arch/arm64/include/asm/hugetlb.h b/arch/arm64/include/asm/hugetlb.h
-index d20f5da2d76f..6a4a1ab8eb23 100644
---- a/arch/arm64/include/asm/hugetlb.h
-+++ b/arch/arm64/include/asm/hugetlb.h
-@@ -49,6 +49,15 @@ extern pte_t huge_ptep_get(pte_t *ptep);
- 
- void __init arm64_hugetlb_cma_reserve(void);
- 
-+#define huge_ptep_modify_prot_start huge_ptep_modify_prot_start
-+extern pte_t huge_ptep_modify_prot_start(struct vm_area_struct *vma,
-+					 unsigned long addr, pte_t *ptep);
-+
-+#define huge_ptep_modify_prot_commit huge_ptep_modify_prot_commit
-+extern void huge_ptep_modify_prot_commit(struct vm_area_struct *vma,
-+					 unsigned long addr, pte_t *ptep,
-+					 pte_t old_pte, pte_t new_pte);
-+
- #include <asm-generic/hugetlb.h>
- 
- #endif /* __ASM_HUGETLB_H */
-diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-index b4bbeed80fb6..6914add66bcf 100644
---- a/arch/arm64/include/asm/pgtable.h
-+++ b/arch/arm64/include/asm/pgtable.h
-@@ -1093,6 +1093,15 @@ static inline bool pud_sect_supported(void)
- }
- 
- 
-+#define __HAVE_ARCH_PTEP_MODIFY_PROT_TRANSACTION
-+#define ptep_modify_prot_start ptep_modify_prot_start
-+extern pte_t ptep_modify_prot_start(struct vm_area_struct *vma,
-+				    unsigned long addr, pte_t *ptep);
-+
-+#define ptep_modify_prot_commit ptep_modify_prot_commit
-+extern void ptep_modify_prot_commit(struct vm_area_struct *vma,
-+				    unsigned long addr, pte_t *ptep,
-+				    pte_t old_pte, pte_t new_pte);
- #endif /* !__ASSEMBLY__ */
- 
- #endif /* __ASM_PGTABLE_H */
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index 89ac00084f38..307faa2b4395 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -661,6 +661,13 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
- 		CAP_MIDR_RANGE_LIST(trbe_write_out_of_range_cpus),
- 	},
- #endif
-+#ifdef CONFIG_ARM64_ERRATUM_2645198
-+	{
-+		.desc = "ARM erratum 2645198",
-+		.capability = ARM64_WORKAROUND_2645198,
-+		ERRATA_MIDR_ALL_VERSIONS(MIDR_CORTEX_A715)
-+	},
-+#endif
- #ifdef CONFIG_ARM64_ERRATUM_2077057
- 	{
- 		.desc = "ARM erratum 2077057",
-diff --git a/arch/arm64/mm/hugetlbpage.c b/arch/arm64/mm/hugetlbpage.c
-index 35e9a468d13e..95364e8bdc19 100644
---- a/arch/arm64/mm/hugetlbpage.c
-+++ b/arch/arm64/mm/hugetlbpage.c
-@@ -559,3 +559,24 @@ bool __init arch_hugetlb_valid_size(unsigned long size)
- {
- 	return __hugetlb_valid_size(size);
- }
-+
-+pte_t huge_ptep_modify_prot_start(struct vm_area_struct *vma, unsigned long addr, pte_t *ptep)
-+{
-+	if (IS_ENABLED(CONFIG_ARM64_ERRATUM_2645198) &&
-+	    cpus_have_const_cap(ARM64_WORKAROUND_2645198)) {
-+		/*
-+		 * Break-before-make (BBM) is required for all user space mappings
-+		 * when the permission changes from executable to non-executable
-+		 * in cases where cpu is affected with errata #2645198.
-+		 */
-+		if (pte_user_exec(READ_ONCE(*ptep)))
-+			return huge_ptep_clear_flush(vma, addr, ptep);
-+	}
-+	return huge_ptep_get_and_clear(vma->vm_mm, addr, ptep);
-+}
-+
-+void huge_ptep_modify_prot_commit(struct vm_area_struct *vma, unsigned long addr, pte_t *ptep,
-+				  pte_t old_pte, pte_t pte)
-+{
-+	set_huge_pte_at(vma->vm_mm, addr, ptep, pte);
-+}
-diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-index 14c87e8d69d8..d77c9f56b7b4 100644
---- a/arch/arm64/mm/mmu.c
-+++ b/arch/arm64/mm/mmu.c
-@@ -1630,3 +1630,24 @@ static int __init prevent_bootmem_remove_init(void)
- }
- early_initcall(prevent_bootmem_remove_init);
- #endif
-+
-+pte_t ptep_modify_prot_start(struct vm_area_struct *vma, unsigned long addr, pte_t *ptep)
-+{
-+	if (IS_ENABLED(CONFIG_ARM64_ERRATUM_2645198) &&
-+	    cpus_have_const_cap(ARM64_WORKAROUND_2645198)) {
-+		/*
-+		 * Break-before-make (BBM) is required for all user space mappings
-+		 * when the permission changes from executable to non-executable
-+		 * in cases where cpu is affected with errata #2645198.
-+		 */
-+		if (pte_user_exec(READ_ONCE(*ptep)))
-+			return ptep_clear_flush(vma, addr, ptep);
-+	}
-+	return ptep_get_and_clear(vma->vm_mm, addr, ptep);
-+}
-+
-+void ptep_modify_prot_commit(struct vm_area_struct *vma, unsigned long addr, pte_t *ptep,
-+			     pte_t old_pte, pte_t pte)
-+{
-+	set_pte_at(vma->vm_mm, addr, ptep, pte);
-+}
-diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
-index a86ee376920a..dfeb2c51e257 100644
---- a/arch/arm64/tools/cpucaps
-+++ b/arch/arm64/tools/cpucaps
-@@ -71,6 +71,7 @@ WORKAROUND_2038923
- WORKAROUND_2064142
- WORKAROUND_2077057
- WORKAROUND_2457168
-+WORKAROUND_2645198
- WORKAROUND_2658417
- WORKAROUND_TRBE_OVERWRITE_FILL_MODE
- WORKAROUND_TSB_FLUSH_FAILURE
--- 
-2.25.1
 
