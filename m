@@ -2,113 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D185C4167B
-	for <linux-doc@archiver.kernel.org>; Sun,  1 Jan 2023 20:18:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB8F6C46467
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Jan 2023 06:14:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229612AbjAAUSd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 1 Jan 2023 15:18:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48552 "EHLO
+        id S230072AbjABGOI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Jan 2023 01:14:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229561AbjAAUSc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Jan 2023 15:18:32 -0500
-X-Greylist: delayed 591 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 01 Jan 2023 12:18:29 PST
-Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA1462610;
-        Sun,  1 Jan 2023 12:18:29 -0800 (PST)
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by bee.tesarici.cz (Postfix) with ESMTPSA id 8CC8012AAA3;
-        Sun,  1 Jan 2023 21:08:35 +0100 (CET)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
-        t=1672603715; bh=ksrrnhlf2F6/nQN1F2t1aD2efNdtMH5VDXg092+/TCc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=lWWKEpvE1IQz3M64Y3wHssh+1OdQ5limQrpmCVteqTfDqdDITMriuzbgWVp3jkE9F
-         NvYcCTPq4ENCixrxWwz3WDajJlIt0xiJ8FJbN45V0BvFT1VFVcy1qKybJ0YQGiHK13
-         +sndgdSQOYKPQ/Qf76gM3I/IxxJX6w6hOswvOv7Xvjyfz+acWnfwlPB/TA8o+Kb78a
-         1wTnWX1VNAioPK6ij1/p6fE2vUWKulo2cjsIsICOp1PoQ6Cev/mFZQOPO5/HzoYoQg
-         mC6WOw1BZPk0if3z6EvaL/JO7FwywxO79gb+vDIQyDez/ysaL2mv2BA4iHaLQ0cEsk
-         xBxxOfo54lF9w==
-Date:   Sun, 1 Jan 2023 21:08:33 +0100
-From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Eric Biederman <ebiederm@xmission.com>,
+        with ESMTP id S229447AbjABGOH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 01:14:07 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69D4A2198;
+        Sun,  1 Jan 2023 22:14:06 -0800 (PST)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 302595qY023075;
+        Mon, 2 Jan 2023 06:13:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : reply-to : references : mime-version :
+ content-type : in-reply-to; s=qcppdkim1;
+ bh=SDQzgjhc5R340O/XO+258MgMeSVddmGE3eBiECfk4kM=;
+ b=ecrdtb67HOk/sLW7Yq8aY271LQYMtFSe1EVee42srh/Jcz3W4PyMjsl+VPoJ1fEwAVyk
+ w6xyCVt1jR+hsczd6fnE/ijjngIeCoHWTgwQgxsa5CBh+z7u7nohnSN8sy2ZB0XGXIFv
+ n6SkSVT6wO+CRhazAeWHn9hn1iZCvV101FyT+dpJxCVNilbvub0pDx0GfBkgDoY6dNYo
+ QAsvXcqBn6mvrdRUZpwJ4d9ir6Yq3siqsID01pyDYmZ6/i4GSlw7f+9g/VFiRwZM2M6Q
+ /1CewnrKf3Rwd4w9ardLT5K9qBi4ApZyt5pWeoCYKupmT1qyImxTzFJXhswoLzwt3TWD XQ== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mtecg28vd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 02 Jan 2023 06:13:42 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3026DgEW012011
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 2 Jan 2023 06:13:42 GMT
+Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Sun, 1 Jan 2023
+ 22:13:34 -0800
+Date:   Mon, 2 Jan 2023 11:43:30 +0530
+From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Philipp Rudo <prudo@redhat.com>,
-        Ross Zwisler <zwisler@kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        kexec@lists.infradead.org,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] kexec: Introduce sysctl parameters
- kexec_load_limit_*
-Message-ID: <20230101210833.6878b6a4@meshulam.tesarici.cz>
-In-Reply-To: <20221114-disable-kexec-reset-v5-3-1bd37caf3c75@chromium.org>
-References: <20221114-disable-kexec-reset-v5-0-1bd37caf3c75@chromium.org>
-        <20221114-disable-kexec-reset-v5-3-1bd37caf3c75@chromium.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-suse-linux-gnu)
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        "Carl van Schaik" <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Will Deacon" <will@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-acpi@vger.kernel.org>
+Subject: Re: [PATCH v8 09/28] mailbox: Add Gunyah message queue mailbox
+Message-ID: <20230102061330.GA1836549@quicinc.com>
+Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+References: <20221219225850.2397345-1-quic_eberman@quicinc.com>
+ <20221219225850.2397345-10-quic_eberman@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+In-Reply-To: <20221219225850.2397345-10-quic_eberman@quicinc.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: zV24wA6ROSMieOl4ZzN1EyLV9jfPRiey
+X-Proofpoint-GUID: zV24wA6ROSMieOl4ZzN1EyLV9jfPRiey
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-02_03,2022-12-30_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
+ malwarescore=0 adultscore=0 mlxlogscore=264 lowpriorityscore=0
+ impostorscore=0 clxscore=1011 phishscore=0 bulkscore=0 priorityscore=1501
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301020055
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ricardo,
+* Elliot Berman <quic_eberman@quicinc.com> [2022-12-19 14:58:30]:
 
-On Wed, 21 Dec 2022 20:45:59 +0100
-Ricardo Ribalda <ribalda@chromium.org> wrote:
+> +static inline bool gh_msgq_has_tx(struct gh_msgq *msgq)
+> +{
 
-> Add two parameters to specify how many times a kexec kernel can be loaded.
-> 
-> The sysadmin can set different limits for kexec panic and kexec reboot
-> kernels.
-> 
-> The value can be modified at runtime via sysctl, but only with a value
-> smaller than the current one (except -1).
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  Documentation/admin-guide/sysctl/kernel.rst | 18 ++++++
->  include/linux/kexec.h                       |  2 +-
->  kernel/kexec.c                              |  4 +-
->  kernel/kexec_core.c                         | 87 ++++++++++++++++++++++++++++-
->  kernel/kexec_file.c                         | 11 ++--
->  5 files changed, 114 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 97394bd9d065..a3922dffbd47 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -461,6 +461,24 @@ allowing a system to set up (and later use) an image without it being
->  altered.
->  Generally used together with the `modules_disabled`_ sysctl.
->  
-> +kexec_load_limit_panic
-> +======================
-> +
-> +This parameter specifies a limit to the number of times the syscalls
-> +``kexec_load`` and ``kexec_file_load`` can be called with a crash
-> +image. It can only be set with a more restrictive value than the
-> +current one.
-> +
-> +=  =============================================================
-> +-1 Unlimited calls to kexec. This is the default setting.
-> +N  Number of calls left.
-> +=  =============================================================
-> +
-> +kexec_load_limit_reboot
-> +======================
-> +
-> +Similar functionality as ``kexec_load_limit_panic``, but for a crash
-> +image.
+Consider possibility that msgq->tx_ghrc can be NULL?
 
-Is this description correct? IIUC the ``kexec_load_limit_panic`` is for
-the crash image, and ``kexec_load_limit_reboot`` is for the normal
-image, but the sentence above says again: "for a crash image."
+> +	return msgq->tx_ghrsc->type == GUNYAH_RESOURCE_TYPE_MSGQ_TX;
+> +}
+> +
+> +static inline bool gh_msgq_has_rx(struct gh_msgq *msgq)
+> +{
 
-Petr T
+Consider possibility that msgq->rx_ghrc can be NULL?
+
+> +	return msgq->rx_ghrsc->type == GUNYAH_RESOURCE_TYPE_MSGQ_RX;
+> +}
+> +
+> +static irqreturn_t gh_msgq_rx_irq_handler(int irq, void *data)
+> +{
+> +	struct gh_msgq *msgq = data;
+> +	struct gh_msgq_rx_data rx_data;
+> +	unsigned long gh_err;
+> +	ssize_t ret;
+> +	bool ready = false;
+> +
+> +	do {
+> +		gh_err = gh_hypercall_msgq_recv(msgq->rx_ghrsc->capid,
+> +				(uintptr_t)&rx_data.data, sizeof(rx_data.data),
+> +				&rx_data.length, &ready);
+> +		if (gh_err == GH_ERROR_OK) {
+> +			mbox_chan_received_data(gh_msgq_chan(msgq), &rx_data);
+> +		} else if (GH_ERROR_MSGQUEUE_EMPTY) {
+
+gh_err == GH_ERROR_MSGQUEUE_EMPTY 
+
+> +			break;
+> +		} else {
+> +			pr_warn("Failed to receive data from msgq for %s: %ld\n",
+> +				msgq->mbox.dev ? dev_name(msgq->mbox.dev) : "", ret);
+> +			break;
+> +		}
+> +	} while (ready);
+> +
+> +	return IRQ_HANDLED;
+> +}
