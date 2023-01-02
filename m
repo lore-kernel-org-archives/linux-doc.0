@@ -2,491 +2,153 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B13BC5479D
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Jan 2023 12:44:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19E33C3DA7A
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Jan 2023 13:21:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232468AbjABMo1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Jan 2023 07:44:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50904 "EHLO
+        id S229583AbjABNVS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Jan 2023 08:21:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbjABMo0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 07:44:26 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4AA05FE0;
-        Mon,  2 Jan 2023 04:44:23 -0800 (PST)
+        with ESMTP id S229447AbjABNVR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 08:21:17 -0500
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9212362DB;
+        Mon,  2 Jan 2023 05:21:16 -0800 (PST)
+Received: by mail-pg1-x52d.google.com with SMTP id f3so18334110pgc.2;
+        Mon, 02 Jan 2023 05:21:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1672663464; x=1704199464;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ioVYIpFG8DC6v6ZQ/LA0HIv3ZhntmZW8xS8Dwp6vcB4=;
-  b=jR+wKcWlWSjlbQJYqLgQYrEQVS/zhH5PaH6Vp9i67lsocR8zpej2v11i
-   DP7B9hSg5sjA+iSdcVezEU6U4hp6HSF5a/6LdMPYrnBWJVnFZ0+F7X7Xp
-   YF4MbOBTJ3h+EvZdYKtiX/mya7sQE361c+GXLof1qsn2vaxG9Ii8Tax6I
-   YYlgj/FzUaE0GaXLnKZ7g4b6Yi0ZTu7qC6SJ2D5tNx448mYRbz5ReAqKC
-   2iVn/wL+hBBLkiUoPhPgI1VYH0P98FUQKogmsxq43rz93H6F/+QARgWOS
-   YzkGWYPRIJ6vAyeuMA+HntabzysMAxemwOmNDKgWZ1Y9pSBuN54iFpfrV
-   A==;
-X-IronPort-AV: E=Sophos;i="5.96,294,1665439200"; 
-   d="scan'208";a="28204263"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 02 Jan 2023 13:44:21 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 02 Jan 2023 13:44:21 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 02 Jan 2023 13:44:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1672663461; x=1704199461;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ioVYIpFG8DC6v6ZQ/LA0HIv3ZhntmZW8xS8Dwp6vcB4=;
-  b=R2nkheNI3fJ58pMHLE41u24BQONdzetUJ29PCXdIwLv0mzar1jCWEosY
-   m2BserLigf+MQx7FAPWMFj3ivGGgq/C7cv+PZ7rnOe8H6J0rrsX0TSPw+
-   7lCTkcMG8yLdT64gHJQ7PzPMT1EwOXF/6qCwq+AB7t3Hwm+NLywxEoBfR
-   mYQzBSnxcSMffBgs56AodHh1RhKeuX+O8/+yoHfwkIAvp/e0vUETDz4aw
-   95hY4o4dy2ylT+iWPj825Z+Xd6a5pgYWssWAe5kut1yD5SBscGQ/Ai5nr
-   PzLrM30/Meyu1HVJ+QtA1v/suX6jTGmtzFFDgASJSJoT7kAoNLZfzj98Y
-   g==;
-X-IronPort-AV: E=Sophos;i="5.96,294,1665439200"; 
-   d="scan'208";a="28204262"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 02 Jan 2023 13:44:21 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 2E201280056;
-        Mon,  2 Jan 2023 13:44:21 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        Tim Harvey <tharvey@gateworks.com>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Subject: Re: [PATCH v7 06/11] leds: trigger: netdev: add hardware control support
-Date:   Mon, 02 Jan 2023 13:44:20 +0100
-Message-ID: <13186102.dW097sEU6C@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <639ca43c.050a0220.e6d91.9fe8@mx.google.com>
-References: <20221214235438.30271-1-ansuelsmth@gmail.com> <3770526.R56niFO833@steina-w> <639ca43c.050a0220.e6d91.9fe8@mx.google.com>
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aSkWLDZTpnagtlRlVfYNfgcz9t18lpyMm2kr1NP8PFs=;
+        b=QZ/xZHVbUbW+EUjQjZSe1C/+Aif6Wa/hyyCwiIGIiJ0IT2DSPokiKWNFFY5Vr0qoUi
+         l9TS2twjCl6FsSoLe8W0BsZ+naFrE2g4rget/c+2z+CSuN9OnNUxwP5cp4O95rtenx8j
+         nEPfv2k+nqKVlY/JHM9ELKcHGqCNlIute5Y4MPhZUamn2Wd4OQCx6bQi9q4mFoq+wliK
+         em4m8WYX6qMs1BG5KlogmCjg+cSFr5JVZ3oRucX++XRU3EWdFs7wGQ1TXo8eMyk2fr4Q
+         pFhmwZ0P5QZ6Y+eEmdt9ylXU3jJ8Ozprt5HmVm2RKbn64glFSRXsbQPx1dCCGb7fNKoU
+         aoNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aSkWLDZTpnagtlRlVfYNfgcz9t18lpyMm2kr1NP8PFs=;
+        b=XaPiWsGIj73Qcgw8UXXy+trGg/lM/HL8JUlLkV63iM6/6p7GCAm1jqt1gf0DrnH9hK
+         F6zcow8Ss4P/xx9nUk6Wyf+gqK7QibVjhpsgs8JScHyg6oAlNB9RgRPFvS+l79lFk1qg
+         T/Q+q7Dko3o3rqo8FxI+4Sb3TsRzk3Uf/hUBR89+KVXbwY7/A+NX7vcqB4LoMalZDnU/
+         M4svCfiXIcQcppYsnCznMda8uDAIqjSuXzibtLEE+2NFbBBDO/GZPuJIogL7GqSgla9I
+         f6O0rmrPUOie/YuRc/KCOW+YJ5C6LTIxbd56TO4ez5DESRlX142NDM5ZCboTNkBWuUhL
+         eNLw==
+X-Gm-Message-State: AFqh2kpeS5XtgriCrqRilCiFCF491zo4xHB3cFYS/VBtqdLC/yBT06pQ
+        d8GzFZZmX/Lxf4mvkyma4YM=
+X-Google-Smtp-Source: AMrXdXu7X4w4321RqAMqeENd1IZfT405t/lzS0zBr2+2eQ+BtgL8g0kQ4sN33qtvjKFSHRe7xqbNYw==
+X-Received: by 2002:a62:65c3:0:b0:566:900d:6073 with SMTP id z186-20020a6265c3000000b00566900d6073mr38705046pfb.24.1672665675995;
+        Mon, 02 Jan 2023 05:21:15 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-84.three.co.id. [180.214.232.84])
+        by smtp.gmail.com with ESMTPSA id g25-20020aa796b9000000b0057627521e82sm6248544pfk.195.2023.01.02.05.21.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Jan 2023 05:21:15 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id C61C51017FB; Mon,  2 Jan 2023 20:21:11 +0700 (WIB)
+Date:   Mon, 2 Jan 2023 20:21:11 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Philipp Rudo <prudo@redhat.com>
+Cc:     Ross Zwisler <zwisler@kernel.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        kexec@lists.infradead.org,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 3/3] kexec: Introduce sysctl parameters
+ kexec_load_limit_*
+Message-ID: <Y7LaR1GcoQ8uVsGh@debian.me>
+References: <20221114-disable-kexec-reset-v5-0-1bd37caf3c75@chromium.org>
+ <20221114-disable-kexec-reset-v5-3-1bd37caf3c75@chromium.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Je/2KglVQyb0wHc8"
+Content-Disposition: inline
+In-Reply-To: <20221114-disable-kexec-reset-v5-3-1bd37caf3c75@chromium.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am Freitag, 16. Dezember 2022, 18:00:45 CET schrieb Christian Marangi:
-> On Thu, Dec 15, 2022 at 04:27:17PM +0100, Alexander Stein wrote:
-> > Hi,
-> > 
-> > thanks for the v7 series.
-> > 
-> > Am Donnerstag, 15. Dezember 2022, 00:54:33 CET schrieb Christian Marangi:
-> > > Add hardware control support for the Netdev trigger.
-> > > The trigger on config change will check if the requested trigger can set
-> > > to blink mode using LED hardware mode and if every blink mode is
-> > > supported,
-> > > the trigger will enable hardware mode with the requested configuration.
-> > > If there is at least one trigger that is not supported and can't run in
-> > > hardware mode, then software mode will be used instead.
-> > > A validation is done on every value change and on fail the old value is
-> > > restored and -EINVAL is returned.
-> > > 
-> > > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> > > ---
-> > > 
-> > >  drivers/leds/trigger/ledtrig-netdev.c | 155 +++++++++++++++++++++++++-
-> > >  1 file changed, 149 insertions(+), 6 deletions(-)
-> > > 
-> > > diff --git a/drivers/leds/trigger/ledtrig-netdev.c
-> > > b/drivers/leds/trigger/ledtrig-netdev.c index dd63cadb896e..ed019cb5867c
-> > > 100644
-> > > --- a/drivers/leds/trigger/ledtrig-netdev.c
-> > > +++ b/drivers/leds/trigger/ledtrig-netdev.c
-> > > @@ -37,6 +37,7 @@
-> > > 
-> > >   */
-> > >  
-> > >  struct led_netdev_data {
-> > > 
-> > > +	enum led_blink_modes blink_mode;
-> > > 
-> > >  	spinlock_t lock;
-> > >  	
-> > >  	struct delayed_work work;
-> > > 
-> > > @@ -53,11 +54,105 @@ struct led_netdev_data {
-> > > 
-> > >  	bool carrier_link_up;
-> > >  
-> > >  };
-> > > 
-> > > +struct netdev_led_attr_detail {
-> > > +	char *name;
-> > > +	bool hardware_only;
-> > > +	enum led_trigger_netdev_modes bit;
-> > > +};
-> > > +
-> > > +static struct netdev_led_attr_detail attr_details[] = {
-> > > +	{ .name = "link", .bit = TRIGGER_NETDEV_LINK},
-> > > +	{ .name = "tx", .bit = TRIGGER_NETDEV_TX},
-> > > +	{ .name = "rx", .bit = TRIGGER_NETDEV_RX},
-> > > +};
-> > > +
-> > > +static bool validate_baseline_state(struct led_netdev_data
-> > > *trigger_data)
-> > > +{
-> > > +	struct led_classdev *led_cdev = trigger_data->led_cdev;
-> > > +	struct netdev_led_attr_detail *detail;
-> > > +	u32 hw_blink_mode_supported = 0;
-> > > +	bool force_sw = false;
-> > > +	int i;
-> > > +
-> > > +	for (i = 0; i < ARRAY_SIZE(attr_details); i++) {
-> > > +		detail = &attr_details[i];
-> > > +
-> > > +		/* Mode not active, skip */
-> > > +		if (!test_bit(detail->bit, &trigger_data->mode))
-> > > +			continue;
-> > > +
-> > > +		/* Hardware only mode enabled on software controlled led
-> > 
-> > */
-> > 
-> > > +		if (led_cdev->blink_mode == SOFTWARE_CONTROLLED &&
-> > > +		    detail->hardware_only)
-> > > +			return false;
-> > > +
-> > > +		/* Check if the mode supports hardware mode */
-> > > +		if (led_cdev->blink_mode != SOFTWARE_CONTROLLED) {
-> > > +			/* With a net dev set, force software mode.
-> > > +			 * With modes are handled by hardware, led will
-> > 
-> > blink
-> > 
-> > > +			 * based on his own events and will ignore any
-> > 
-> > event
-> > 
-> > > +			 * from the provided dev.
-> > > +			 */
-> > > +			if (trigger_data->net_dev) {
-> > > +				force_sw = true;
-> > > +				continue;
-> > > +			}
-> > > +
-> > > +			/* With empty dev, check if the mode is
-> > 
-> > supported */
-> > 
-> > > +			if
-> > 
-> > (led_trigger_blink_mode_is_supported(led_cdev, detail->bit))
-> > 
-> > > +				hw_blink_mode_supported |= BIT(detail-
-> > >
-> > >bit);
-> > 
-> > Shouldn't this be BIT(detail->bit)?
-> 
-> I think I didn't understand?
 
-The name 'bit' indicates this is a single bit number rather than a bitmask. 
-AFAICS the value (detail->bit) passed to led_trigger_blink_mode_is_supported 
-is eventually used within test_bit inside dp83867_parse_netdev. I assume you 
-have to actually pass the bitmask with this single bit set, not the bit number 
-itself.
+--Je/2KglVQyb0wHc8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Alexander
+On Wed, Dec 21, 2022 at 08:45:59PM +0100, Ricardo Ribalda wrote:
 
-> > > +		}
-> > > +	}
-> > > +
-> > > +	/* We can't run modes handled by both software and hardware.
-> > > +	 * Check if we run hardware modes and check if all the modes
-> > > +	 * can be handled by hardware.
-> > > +	 */
-> > > +	if (hw_blink_mode_supported && hw_blink_mode_supported !=
-> > > trigger_data->mode) +		return false;
-> > > +
-> > > +	/* Modes are valid. Decide now the running mode to later
-> > > +	 * set the baseline.
-> > > +	 * Software mode is enforced with net_dev set. With an empty
-> > > +	 * one hardware mode is selected by default (if supported).
-> > > +	 */
-> > > +	if (force_sw || led_cdev->blink_mode == SOFTWARE_CONTROLLED)
-> > 
-> > IMHO '|| !hw_blink_mode_supported' should be added here for blink_modes.
-> > This might happen if a PHY LED is SOFTWARE_HARDWARE_CONTROLLED, but some
-> > blink mode is not supported by hardware, thus hw_blink_mode_supported=0.
-> 
-> Will check this and report back.
-> 
-> > Best regards,
-> > Alexander
-> > 
-> > > +		trigger_data->blink_mode = SOFTWARE_CONTROLLED;
-> > > +	else
-> > > +		trigger_data->blink_mode = HARDWARE_CONTROLLED;
-> > > +
-> > > +	return true;
-> > > +}
-> > > +
-> > > 
-> > >  static void set_baseline_state(struct led_netdev_data *trigger_data)
-> > >  {
-> > > 
-> > > +	int i;
-> > > 
-> > >  	int current_brightness;
-> > > 
-> > > +	struct netdev_led_attr_detail *detail;
-> > > 
-> > >  	struct led_classdev *led_cdev = trigger_data->led_cdev;
-> > > 
-> > > +	/* Modes already validated. Directly apply hw trigger modes */
-> > > +	if (trigger_data->blink_mode == HARDWARE_CONTROLLED) {
-> > > +		/* We are refreshing the blink modes. Reset them */
-> > > +		led_cdev->hw_control_configure(led_cdev,
-> > 
-> > BIT(TRIGGER_NETDEV_LINK),
-> > 
-> > > +					       BLINK_MODE_ZERO);
-> > > +
-> > > +		for (i = 0; i < ARRAY_SIZE(attr_details); i++) {
-> > > +			detail = &attr_details[i];
-> > > +
-> > > +			if (!test_bit(detail->bit, &trigger_data->mode))
-> > > +				continue;
-> > > +
-> > > +			led_cdev->hw_control_configure(led_cdev,
-> > 
-> > BIT(detail->bit),
-> > 
-> > > +
-> > 
-> > BLINK_MODE_ENABLE);
-> > 
-> > Shouldn't this be BIT(detail->bit)?
-> > 
-> > > +		}
-> > > +
-> > > +		led_cdev->hw_control_start(led_cdev);
-> > > +
-> > > +		return;
-> > > +	}
-> > > +
-> > > +	/* Handle trigger modes by software */
-> > > 
-> > >  	current_brightness = led_cdev->brightness;
-> > >  	if (current_brightness)
-> > >  	
-> > >  		led_cdev->blink_brightness = current_brightness;
-> > > 
-> > > @@ -100,10 +195,15 @@ static ssize_t device_name_store(struct device
-> > > *dev,
-> > > 
-> > >  				 size_t size)
-> > >  
-> > >  {
-> > >  
-> > >  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
-> > > 
-> > > +	struct net_device *old_net = trigger_data->net_dev;
-> > > +	char old_device_name[IFNAMSIZ];
-> > > 
-> > >  	if (size >= IFNAMSIZ)
-> > >  	
-> > >  		return -EINVAL;
-> > > 
-> > > +	/* Backup old device name */
-> > > +	memcpy(old_device_name, trigger_data->device_name, IFNAMSIZ);
-> > > +
-> > > 
-> > >  	cancel_delayed_work_sync(&trigger_data->work);
-> > >  	
-> > >  	spin_lock_bh(&trigger_data->lock);
-> > > 
-> > > @@ -122,6 +222,19 @@ static ssize_t device_name_store(struct device
-> > > *dev,
-> > > 
-> > >  		trigger_data->net_dev =
-> > >  		
-> > >  		    dev_get_by_name(&init_net, trigger_data->device_name);
-> > > 
-> > > +	if (!validate_baseline_state(trigger_data)) {
-> > > +		/* Restore old net_dev and device_name */
-> > > +		if (trigger_data->net_dev)
-> > > +			dev_put(trigger_data->net_dev);
-> > > +
-> > > +		dev_hold(old_net);
-> > > +		trigger_data->net_dev = old_net;
-> > > +		memcpy(trigger_data->device_name, old_device_name,
-> > 
-> > IFNAMSIZ);
-> > 
-> > > +
-> > > +		spin_unlock_bh(&trigger_data->lock);
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > 
-> > >  	trigger_data->carrier_link_up = false;
-> > >  	if (trigger_data->net_dev != NULL)
-> > >  	
-> > >  		trigger_data->carrier_link_up =
-> > 
-> > netif_carrier_ok(trigger_data->net_dev);
-> > 
-> > > @@ -159,7 +272,7 @@ static ssize_t netdev_led_attr_store(struct device
-> > > *dev, const char *buf, size_t size, enum led_trigger_netdev_modes attr)
-> > > 
-> > >  {
-> > >  
-> > >  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
-> > > 
-> > > -	unsigned long state;
-> > > +	unsigned long state, old_mode = trigger_data->mode;
-> > > 
-> > >  	int ret;
-> > >  	int bit;
-> > > 
-> > > @@ -184,6 +297,12 @@ static ssize_t netdev_led_attr_store(struct device
-> > > *dev, const char *buf, else
-> > > 
-> > >  		clear_bit(bit, &trigger_data->mode);
-> > > 
-> > > +	if (!validate_baseline_state(trigger_data)) {
-> > > +		/* Restore old mode on validation fail */
-> > > +		trigger_data->mode = old_mode;
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > 
-> > >  	set_baseline_state(trigger_data);
-> > >  	
-> > >  	return size;
-> > > 
-> > > @@ -220,6 +339,8 @@ static ssize_t interval_store(struct device *dev,
-> > > 
-> > >  			      size_t size)
-> > >  
-> > >  {
-> > >  
-> > >  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
-> > > 
-> > > +	int old_interval = atomic_read(&trigger_data->interval);
-> > > +	u32 old_mode = trigger_data->mode;
-> > > 
-> > >  	unsigned long value;
-> > >  	int ret;
-> > > 
-> > > @@ -228,13 +349,22 @@ static ssize_t interval_store(struct device *dev,
-> > > 
-> > >  		return ret;
-> > >  	
-> > >  	/* impose some basic bounds on the timer interval */
-> > > 
-> > > -	if (value >= 5 && value <= 10000) {
-> > > -		cancel_delayed_work_sync(&trigger_data->work);
-> > > +	if (value < 5 || value > 10000)
-> > > +		return -EINVAL;
-> > > +
-> > > +	cancel_delayed_work_sync(&trigger_data->work);
-> > > +
-> > > +	atomic_set(&trigger_data->interval, msecs_to_jiffies(value));
-> > > 
-> > > -		atomic_set(&trigger_data->interval,
-> > 
-> > msecs_to_jiffies(value));
-> > 
-> > > -		set_baseline_state(trigger_data);	/* resets timer
-> > 
-> > */
-> > 
-> > > +	if (!validate_baseline_state(trigger_data)) {
-> > > +		/* Restore old interval on validation error */
-> > > +		atomic_set(&trigger_data->interval, old_interval);
-> > > +		trigger_data->mode = old_mode;
-> > > +		return -EINVAL;
-> > > 
-> > >  	}
-> > > 
-> > > +	set_baseline_state(trigger_data);	/* resets timer */
-> > > +
-> > > 
-> > >  	return size;
-> > >  
-> > >  }
-> > > 
-> > > @@ -368,13 +498,25 @@ static int netdev_trig_activate(struct
-> > > led_classdev
-> > > *led_cdev) trigger_data->mode = 0;
-> > > 
-> > >  	atomic_set(&trigger_data->interval, msecs_to_jiffies(50));
-> > >  	trigger_data->last_activity = 0;
-> > > 
-> > > +	if (led_cdev->blink_mode != SOFTWARE_CONTROLLED) {
-> > > +		/* With hw mode enabled reset any rule set by default */
-> > > +		if (led_cdev->hw_control_status(led_cdev)) {
-> > > +			rc = led_cdev->hw_control_configure(led_cdev,
-> > 
-> > BIT(TRIGGER_NETDEV_LINK),
-> > 
-> > > +
-> > 
-> > BLINK_MODE_ZERO);
-> > 
-> > > +			if (rc)
-> > > +				goto err;
-> > > +		}
-> > > +	}
-> > > 
-> > >  	led_set_trigger_data(led_cdev, trigger_data);
-> > >  	
-> > >  	rc = register_netdevice_notifier(&trigger_data->notifier);
-> > >  	if (rc)
-> > > 
-> > > -		kfree(trigger_data);
-> > > +		goto err;
-> > > 
-> > > +	return 0;
-> > > +err:
-> > > +	kfree(trigger_data);
-> > > 
-> > >  	return rc;
-> > >  
-> > >  }
-> > > 
-> > > @@ -394,6 +536,7 @@ static void netdev_trig_deactivate(struct
-> > > led_classdev
-> > > *led_cdev)
-> > > 
-> > >  static struct led_trigger netdev_led_trigger = {
-> > >  
-> > >  	.name = "netdev",
-> > > 
-> > > +	.supported_blink_modes = SOFTWARE_HARDWARE,
-> > > 
-> > >  	.activate = netdev_trig_activate,
-> > >  	.deactivate = netdev_trig_deactivate,
-> > >  	.groups = netdev_trig_groups,
+> +=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +-1 Unlimited calls to kexec. This is the default setting.
+> +N  Number of calls left.
+> +=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +kexec_load_limit_reboot
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
 
+You need to match the length of table borders and section underline:
 
+---- >8 ----
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/ad=
+min-guide/sysctl/kernel.rst
+index a3922dffbd474b..a64b340c3ae509 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -469,13 +469,13 @@ This parameter specifies a limit to the number of tim=
+es the syscalls
+ image. It can only be set with a more restrictive value than the
+ current one.
+=20
+-=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+--1 Unlimited calls to kexec. This is the default setting.
+-N  Number of calls left.
+-=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++-1  Unlimited calls to kexec. This is the default setting.
++N   Number of calls left.
++=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+ kexec_load_limit_reboot
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+ Similar functionality as ``kexec_load_limit_panic``, but for a crash
+ image.
 
+Thanks.
 
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--Je/2KglVQyb0wHc8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY7LaQwAKCRD2uYlJVVFO
+ox6mAPwJd+dr2pYcjPBSrmh2DO+4fkJEDz4cr9YmilzKXxOD9AEAvEwnvgKAVF+2
+eX+sEuilG5QdLjp0nsxuui3Xf/UYkwM=
+=LOUf
+-----END PGP SIGNATURE-----
+
+--Je/2KglVQyb0wHc8--
