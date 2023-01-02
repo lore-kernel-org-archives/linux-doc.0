@@ -2,76 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A302C3DA7A
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Jan 2023 16:48:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CD84C4708D
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Jan 2023 16:54:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232103AbjABQse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Jan 2023 11:48:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45940 "EHLO
+        id S236395AbjABQy3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Jan 2023 11:54:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230127AbjABQsb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 11:48:31 -0500
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48A60243;
-        Mon,  2 Jan 2023 08:48:29 -0800 (PST)
-Received: from localhost (unknown [127.0.0.1])
-        by mx.kolabnow.com (Postfix) with ESMTP id 98F68419AE;
-        Mon,  2 Jan 2023 17:48:27 +0100 (CET)
-Authentication-Results: ext-mx-out003.mykolab.com (amavisd-new);
-        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
-        header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        in-reply-to:content-disposition:content-type:content-type
-        :mime-version:references:message-id:subject:subject:from:from
-        :date:date:received:received:received; s=dkim20160331; t=
-        1672678107; x=1674492508; bh=hztdjnmy+E8oSCGGaVOT/eEUJOCE8+rS8Pj
-        T7AjbB3s=; b=qeJ7lVNIWbA/hNfwnbnPs7wWOIGIS0nXvuNLzDoROT8OoEBxhVf
-        wUqDUxOSnHa0AXEM1BrvuBaGsvRBUitYf36UoUJq0CmCPTvollLpnWIzBBsZhlvV
-        AErugJsW3FpnfiFzdI5RQ9PxcWc8AV8SOg0NoWvDVwxDBhj144p45iVyyyfQGt0W
-        JLMnoBBRb6oTwADvKE7bYbj5KX6/EUtGcnhz/2votIPBwzgfZaXfkYFD8UKOveUV
-        yT7+Noz5LsJe5PbhvwxaoYPXwGgvqIsdKwwT23kq+LG34RwQMCbSlCG3wvE/NZG+
-        qpoWpFsENIy8q9oLqVaSwApuSQeAG52mFYuxNUSeRkHidSrYhp+XrrcQBspqgU3O
-        ehJzrAa/IJmVJlTgLg1jncuV8Va82XbbG5Z75wVkq5eLDgCq9ZWGxXuSgrePmX63
-        Y/oZFJKeRm4Kp3Zt3HUaYAFNaJcDcE9/Md3PR4tZBNF9gFUOq5BlA66A926eTZsc
-        gk+jWmkWPyo/h4GX4bYLCoZwi+VdK84MR2XpIrWWvt4hep2ot3qrQpiXzGTiEQav
-        ZYEbYjuG5aJjcrWHDyFM/ZI9T8fWoqyjLJ+phYAkR/Nozt3bDrXRRGhnJP0FMGbK
-        bnsO+mFdRLu16pOkhQt5EZqJLz05v33EWqiYYr2/cXyn+DR1zZzasgDQ=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id RQxyvTnCS89F; Mon,  2 Jan 2023 17:48:27 +0100 (CET)
-Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by mx.kolabnow.com (Postfix) with ESMTPS id 5CD8E4194F;
-        Mon,  2 Jan 2023 17:48:26 +0100 (CET)
-Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id E7DC21B67;
-        Mon,  2 Jan 2023 17:48:25 +0100 (CET)
-Date:   Mon, 2 Jan 2023 17:48:23 +0100
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc: monospace style for inline code in botching ioctl
-Message-ID: <20230102164823.fr5rw6idkjkxa74d@numero-86.vaga.pv.it>
-References: <20230101132758.12560-1-federico.vaga@vaga.pv.it>
- <Y7LtxnBKkpCmx83I@casper.infradead.org>
+        with ESMTP id S232542AbjABQy2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 11:54:28 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE14B306;
+        Mon,  2 Jan 2023 08:54:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672678467; x=1704214467;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=ppGkbVIp7/QGeKi51q+/ugNHd4lE+7jSrx7vbLG6VvQ=;
+  b=afRWpXUyrLxg3VHYr6pHCHSHAiS6Xn1sYSJ/4Pi08ItZTi2eucF5Kstx
+   CHR5qL3zvSfZkb67RsnkCGfxDdhv+YrdODiFZiufmmXqrG+i7bgySLZPy
+   BCLjAHt0HBobfTrJAsZarJMrrkeCmT+IU1+1Pq1KaEuPSEfKsPN0MfpsT
+   PvpdwEfilIm+gH8outCs2OxH6bnJT2RLJX7yIkmSGJQUHK+PTqN97n3BJ
+   JMV7X78yzfjuYJTlm995enH/i91B6fB0EgW8TiNLO1f7rI4w1BkKvwegT
+   CSXPDx2HJ392Zi8qNMK5AUL1FSY4oInOffCFp3+kc+a7pw6PSsBnCsEm0
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="407771523"
+X-IronPort-AV: E=Sophos;i="5.96,294,1665471600"; 
+   d="scan'208";a="407771523"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 08:54:27 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="604571189"
+X-IronPort-AV: E=Sophos;i="5.96,294,1665471600"; 
+   d="scan'208";a="604571189"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 08:54:27 -0800
+Date:   Mon, 2 Jan 2023 08:54:48 -0800 (PST)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+cc:     Tom Rix <trix@redhat.com>, hao.wu@intel.com, yilun.xu@intel.com,
+        russell.h.weight@intel.com, basheer.ahmed.muddebihal@intel.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com, bagasdotme@gmail.com
+Subject: Re: [PATCH v8 3/4] fpga: dfl: add basic support for DFHv1
+In-Reply-To: <Y637aBTrbRloUtvD@smile.fi.intel.com>
+Message-ID: <alpine.DEB.2.22.394.2301020852500.2516029@rhweight-WRK1>
+References: <20221228181624.1793433-1-matthew.gerlach@linux.intel.com> <20221228181624.1793433-4-matthew.gerlach@linux.intel.com> <628c125a-5a84-e1bd-7724-2637315cc35e@redhat.com> <Y637aBTrbRloUtvD@smile.fi.intel.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <Y7LtxnBKkpCmx83I@casper.infradead.org>
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 02, 2023 at 02:44:22PM +0000, Matthew Wilcox wrote:
->On Sun, Jan 01, 2023 at 02:27:58PM +0100, Federico Vaga wrote:
->> +   that diminishes the checking tools like sparse can provide. The macro
->> +   ``u64_to_user_ptr`` can be used in the kernel to avoid warnings about
+
+
+On Thu, 29 Dec 2022, Andy Shevchenko wrote:
+
+> On Thu, Dec 29, 2022 at 08:18:03AM -0800, Tom Rix wrote:
+>> On 12/28/22 10:16 AM, matthew.gerlach@linux.intel.com wrote:
 >
->Should probably be u64_to_user_ptr() instead to get both the monospace &
->the hyperlink.
+> ...
+>
+>>>   struct dfl_feature_info {
+>>>   	u16 fid;
+>>>   	u8 revision;
+>>> +	u8 dfh_version;
+>>>   	struct resource mmio_res;
+>>>   	void __iomem *ioaddr;
+>>>   	struct list_head node;
+>>>   	unsigned int irq_base;
+>>>   	unsigned int nr_irqs;
+>>> +	unsigned int param_size;
+>>> +	u64 params[];
+>> u64 *params
+>
+> This will break the overflow.h macros, no?
+> Besides that it will break the code for sure as it's not an equivalent.
+>
+>>>   };
 
-Indeed, good point. A V2 will come
+I don't understand how this will break the overflow.h macros. The 
+definition of struct dfl_feature_info and all of its uses are in a single 
+file, dfl.c.
 
--- 
-Federico Vaga
+Matthew Gerlach
+
+
+>
+>
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+>
+>
+>
