@@ -2,50 +2,76 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C440CC3DA7A
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Jan 2023 14:44:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A302C3DA7A
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Jan 2023 16:48:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232775AbjABOoU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Jan 2023 09:44:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36378 "EHLO
+        id S232103AbjABQse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Jan 2023 11:48:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230420AbjABOoS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 09:44:18 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CF0D30F;
-        Mon,  2 Jan 2023 06:44:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=3abYtQz00Ho8MUIaQc419FUMQv0zxwLp5CSF4d93iUc=; b=RWoVjNzAZNyvEK852wGAuBmmNW
-        do7M/6J9XtkeN7Rk6Y+2KwnWqFt7TO66SBRzT5yFZCgLgw8sZl5mEynW8uTo9zYmdCt4lq1NL5Yh7
-        PuzIBu8jP8z6vjWekwuTWvIqjmB3QTnidUG2n8cy8VGH08x+F6dGiPeLEMhQNJxy+vL7i5VONQ6vU
-        2FK2/8GtIb6/WV0dnU2vk5pFmO7PicNTmGhcyud+HZYB2edvOnd3mpAch+R3bitlRh65i/LZe9zSW
-        lKcAFGRijVgWDJ+P7yQdhHaXsoWnuqrDYc1WnRrvYyBwbhxFmtpjaWaUPx0BWp8r4ySOaz1Awducy
-        bvZyuE2w==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pCM34-00DEQk-1y; Mon, 02 Jan 2023 14:44:22 +0000
-Date:   Mon, 2 Jan 2023 14:44:22 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
+        with ESMTP id S230127AbjABQsb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 11:48:31 -0500
+Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48A60243;
+        Mon,  2 Jan 2023 08:48:29 -0800 (PST)
+Received: from localhost (unknown [127.0.0.1])
+        by mx.kolabnow.com (Postfix) with ESMTP id 98F68419AE;
+        Mon,  2 Jan 2023 17:48:27 +0100 (CET)
+Authentication-Results: ext-mx-out003.mykolab.com (amavisd-new);
+        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
+        header.d=kolabnow.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        in-reply-to:content-disposition:content-type:content-type
+        :mime-version:references:message-id:subject:subject:from:from
+        :date:date:received:received:received; s=dkim20160331; t=
+        1672678107; x=1674492508; bh=hztdjnmy+E8oSCGGaVOT/eEUJOCE8+rS8Pj
+        T7AjbB3s=; b=qeJ7lVNIWbA/hNfwnbnPs7wWOIGIS0nXvuNLzDoROT8OoEBxhVf
+        wUqDUxOSnHa0AXEM1BrvuBaGsvRBUitYf36UoUJq0CmCPTvollLpnWIzBBsZhlvV
+        AErugJsW3FpnfiFzdI5RQ9PxcWc8AV8SOg0NoWvDVwxDBhj144p45iVyyyfQGt0W
+        JLMnoBBRb6oTwADvKE7bYbj5KX6/EUtGcnhz/2votIPBwzgfZaXfkYFD8UKOveUV
+        yT7+Noz5LsJe5PbhvwxaoYPXwGgvqIsdKwwT23kq+LG34RwQMCbSlCG3wvE/NZG+
+        qpoWpFsENIy8q9oLqVaSwApuSQeAG52mFYuxNUSeRkHidSrYhp+XrrcQBspqgU3O
+        ehJzrAa/IJmVJlTgLg1jncuV8Va82XbbG5Z75wVkq5eLDgCq9ZWGxXuSgrePmX63
+        Y/oZFJKeRm4Kp3Zt3HUaYAFNaJcDcE9/Md3PR4tZBNF9gFUOq5BlA66A926eTZsc
+        gk+jWmkWPyo/h4GX4bYLCoZwi+VdK84MR2XpIrWWvt4hep2ot3qrQpiXzGTiEQav
+        ZYEbYjuG5aJjcrWHDyFM/ZI9T8fWoqyjLJ+phYAkR/Nozt3bDrXRRGhnJP0FMGbK
+        bnsO+mFdRLu16pOkhQt5EZqJLz05v33EWqiYYr2/cXyn+DR1zZzasgDQ=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id RQxyvTnCS89F; Mon,  2 Jan 2023 17:48:27 +0100 (CET)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by mx.kolabnow.com (Postfix) with ESMTPS id 5CD8E4194F;
+        Mon,  2 Jan 2023 17:48:26 +0100 (CET)
+Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id E7DC21B67;
+        Mon,  2 Jan 2023 17:48:25 +0100 (CET)
+Date:   Mon, 2 Jan 2023 17:48:23 +0100
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Matthew Wilcox <willy@infradead.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] doc: monospace style for inline code in botching ioctl
-Message-ID: <Y7LtxnBKkpCmx83I@casper.infradead.org>
+Message-ID: <20230102164823.fr5rw6idkjkxa74d@numero-86.vaga.pv.it>
 References: <20230101132758.12560-1-federico.vaga@vaga.pv.it>
+ <Y7LtxnBKkpCmx83I@casper.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20230101132758.12560-1-federico.vaga@vaga.pv.it>
+In-Reply-To: <Y7LtxnBKkpCmx83I@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 01, 2023 at 02:27:58PM +0100, Federico Vaga wrote:
-> +   that diminishes the checking tools like sparse can provide. The macro
-> +   ``u64_to_user_ptr`` can be used in the kernel to avoid warnings about
+On Mon, Jan 02, 2023 at 02:44:22PM +0000, Matthew Wilcox wrote:
+>On Sun, Jan 01, 2023 at 02:27:58PM +0100, Federico Vaga wrote:
+>> +   that diminishes the checking tools like sparse can provide. The macro
+>> +   ``u64_to_user_ptr`` can be used in the kernel to avoid warnings about
+>
+>Should probably be u64_to_user_ptr() instead to get both the monospace &
+>the hyperlink.
 
-Should probably be u64_to_user_ptr() instead to get both the monospace &
-the hyperlink.
+Indeed, good point. A V2 will come
 
+-- 
+Federico Vaga
