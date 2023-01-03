@@ -2,70 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 435AFC46467
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 09:48:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23F0EC3DA7D
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 13:25:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231432AbjACJsA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Jan 2023 04:48:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33264 "EHLO
+        id S237324AbjACNZu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Jan 2023 08:25:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237269AbjACJrg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 04:47:36 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD9D9E0DE;
-        Tue,  3 Jan 2023 01:47:34 -0800 (PST)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 8CE4B60FD9;
-        Tue,  3 Jan 2023 09:47:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1672739253; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=BIjLUFfj0kB7Uqvi4/DO1Qulkdn4TEAXOU07en8R1ls=;
-        b=nfuiFEuCP+s1hNMRLkKfGesRW61uLaudomobb0gnncuknFrCJ/hSrY7Sqm9iRWABGRNGE+
-        OpQ0BYe8Ie3LnCThnK1bM5eatlH5KjKN50gkxGjcmudmvxajarKkqrqwuGYeIgOZeeNz4i
-        2LmN6ZDSmgD2k8p+09JXzhlh4uI99To=
-Received: from suse.cz (unknown [10.100.201.202])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 709872C141;
-        Tue,  3 Jan 2023 09:47:33 +0000 (UTC)
-Date:   Tue, 3 Jan 2023 10:47:31 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     John Ogness <john.ogness@linutronix.de>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-kernel@vger.kernel.org, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Dave Young <dyoung@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kexec@lists.infradead.org,
-        linux-doc@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] docs: gdbmacros: print newest record
-Message-ID: <Y7P5s+Zm+3s6g65A@alley>
-References: <20221229134339.197627-1-john.ogness@linutronix.de>
+        with ESMTP id S237372AbjACNZt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 08:25:49 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 047D6CD;
+        Tue,  3 Jan 2023 05:25:47 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4809B2F4;
+        Tue,  3 Jan 2023 05:26:28 -0800 (PST)
+Received: from FVFF77S0Q05N (unknown [10.57.37.13])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CA5683F587;
+        Tue,  3 Jan 2023 05:25:40 -0800 (PST)
+Date:   Tue, 3 Jan 2023 13:25:35 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Boqun Feng <boqun.feng@gmail.com>, torvalds@linux-foundation.org,
+        corbet@lwn.net, will@kernel.org, catalin.marinas@arm.com,
+        dennis@kernel.org, tj@kernel.org, cl@linux.com, hca@linux.ibm.com,
+        gor@linux.ibm.com, agordeev@linux.ibm.com,
+        borntraeger@linux.ibm.com, svens@linux.ibm.com,
+        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-s390@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org
+Subject: Re: [RFC][PATCH 05/12] arch: Introduce
+ arch_{,try_}_cmpxchg128{,_local}()
+Message-ID: <Y7QszyTEG2+WiI/C@FVFF77S0Q05N>
+References: <20221219153525.632521981@infradead.org>
+ <20221219154119.154045458@infradead.org>
+ <Y6DEfQXymYVgL3oJ@boqun-archlinux>
+ <Y6GXoO4qmH9OIZ5Q@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221229134339.197627-1-john.ogness@linutronix.de>
+In-Reply-To: <Y6GXoO4qmH9OIZ5Q@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 2022-12-29 14:49:39, John Ogness wrote:
-> @head_id points to the newest record, but the printing loop
-> exits when it increments to this value (before printing).
+On Tue, Dec 20, 2022 at 12:08:16PM +0100, Peter Zijlstra wrote:
+> On Mon, Dec 19, 2022 at 12:07:25PM -0800, Boqun Feng wrote:
+> > On Mon, Dec 19, 2022 at 04:35:30PM +0100, Peter Zijlstra wrote:
+> > > For all architectures that currently support cmpxchg_double()
+> > > implement the cmpxchg128() family of functions that is basically the
+> > > same but with a saner interface.
+> > > 
+> > > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> > > ---
+> > >  arch/arm64/include/asm/atomic_ll_sc.h |   38 +++++++++++++++++++++++
+> > >  arch/arm64/include/asm/atomic_lse.h   |   33 +++++++++++++++++++-
+> > >  arch/arm64/include/asm/cmpxchg.h      |   26 ++++++++++++++++
+> > >  arch/s390/include/asm/cmpxchg.h       |   33 ++++++++++++++++++++
+> > >  arch/x86/include/asm/cmpxchg_32.h     |    3 +
+> > >  arch/x86/include/asm/cmpxchg_64.h     |   55 +++++++++++++++++++++++++++++++++-
+> > >  6 files changed, 185 insertions(+), 3 deletions(-)
+> > > 
+> > > --- a/arch/arm64/include/asm/atomic_ll_sc.h
+> > > +++ b/arch/arm64/include/asm/atomic_ll_sc.h
+> > > @@ -326,6 +326,44 @@ __CMPXCHG_DBL(   ,        ,  ,         )
+> > >  __CMPXCHG_DBL(_mb, dmb ish, l, "memory")
+> > >  
+> > >  #undef __CMPXCHG_DBL
+> > > +
+> > > +union __u128_halves {
+> > > +	u128 full;
+> > > +	struct {
+> > > +		u64 low, high;
+> > > +	};
+> > > +};
+> > > +
+> > > +#define __CMPXCHG128(name, mb, rel, cl)					\
+> > > +static __always_inline u128						\
+> > > +__ll_sc__cmpxchg128##name(volatile u128 *ptr, u128 old, u128 new)	\
+> > > +{									\
+> > > +	union __u128_halves r, o = { .full = (old) },			\
+> > > +			       n = { .full = (new) };			\
+> > > +									\
+> > > +	asm volatile("// __cmpxchg128" #name "\n"			\
+> > > +	"	prfm	pstl1strm, %2\n"				\
+> > > +	"1:	ldxp	%0, %1, %2\n"					\
+> > > +	"	eor	%3, %0, %3\n"					\
+> > > +	"	eor	%4, %1, %4\n"					\
+> > > +	"	orr	%3, %4, %3\n"					\
+> > > +	"	cbnz	%3, 2f\n"					\
+> > > +	"	st" #rel "xp	%w3, %5, %6, %2\n"			\
+> > > +	"	cbnz	%w3, 1b\n"					\
+> > > +	"	" #mb "\n"						\
+> > > +	"2:"								\
+> > > +	: "=&r" (r.low), "=&r" (r.high), "+Q" (*(unsigned long *)ptr)	\
+> > 
+> > I wonder whether we should use "(*(u128 *)ptr)" instead of "(*(unsigned
+> > long *) ptr)"? Because compilers may think only 64bit value pointed by
+> > "ptr" gets modified, and they are allowed to do "useful" optimization.
 > 
-> Exit the printing loop after the newest record has been printed.
-> 
-> The python-based function in scripts/gdb/linux/dmesg.py already
-> does this correctly.
-> 
-> Fixes: e60768311af8 ("scripts/gdb: update for lockless printk ringbuffer")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: John Ogness <john.ogness@linutronix.de>
+> In this I've copied the existing cmpxchg_double() code; I'll have to let
+> the arch folks speak here, I've no clue.
 
-JFYI, the patch has been committed into printk/linux.git,
-branch for-6.3.
+We definitely need to ensure the compiler sees we poke the whole thing, or it
+can get this horribly wrong, so that is a latent bug.
 
-Best Regards,
-Petr
+See commit:
+
+  fee960bed5e857eb ("arm64: xchg: hazard against entire exchange variable")
+
+... for examples of GCC being clever, where I overlooked the *_double() cases.
+
+I'll go spin a quick fix for that so that we can have something go to stable
+before we rejig the API.
+
+Mark.
