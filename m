@@ -2,120 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AEE7C46467
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 14:40:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CD13C3DA7D
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 15:34:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230166AbjACOkR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Jan 2023 09:40:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49896 "EHLO
+        id S237944AbjACPeS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Jan 2023 10:34:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237804AbjACOkG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 09:40:06 -0500
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2063.outbound.protection.outlook.com [40.107.237.63])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B629F12094;
-        Tue,  3 Jan 2023 06:40:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dQYY1OmubI9D+fMh02O1LMruTU1hVE6g8ogYOjaac2qNP8o0R7d1KTWQFPLaxzsIFQWOMexWG6QyHpudFDjUkROSXxbd8RUhjNCDQm3A3EY9GgXaKjBHXllGkFPFdFmvgmKewU+f/EWlr+7t2exHe+jwDrJtAyVX2/dsl1MSw/OgFpifvYY6Q8BThp37PcsRCy6MZjZuwO3y9Pk8lduPF/AG8/b1Xmro9i+cqeXJ1xTc8dr2wValXuQjO1B1/LQT5cT7Vc7Y7GzBREX14t/ovRtABKW7d1usHH3dQc56uRWP/6Jw27yUGJPXVPh3wstyBSs1TPRyvJXr+jUhIQLETw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u/XhCnrerFhVuNV/urO1JtZtpre0YTanYRVZg/FOr/0=;
- b=Z65mx2AhgV1ReaVk+llwL1TuL2sO5LfO6cZQMAkd2WUmJzG4MQsQ+/kJeDa92vrN8xtaT+WQZP3ixIuTFTeE0ZKAHzbvrMD0cYR85g4gwX/2JVzLqk/w1P3DkBvATBjeDCONHI2YuvySRY1iMy/QbSa8XlUwmIF8VwE+4WJM0cHrEKu20Jh/Y/eXRFrHsXZdNvDwke7qRYVOpCaxx2+Kc2ZyrGurDt5hHPkSx45b9tJLmW/ry0UmLHVBLOkv5sm0DUWErKGKZwMC61syuqN140O3j1yjaejrWPzEyUD34n+t7sHOBtoKh2DiXBLMbcHO4xKvKdB2EVKYyVBbSJts4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u/XhCnrerFhVuNV/urO1JtZtpre0YTanYRVZg/FOr/0=;
- b=WzGwLdBed/S2hMigG/b9Vgp/OqVkiV8G2OKjpvQ0k0hppprzVL1CI435weooPRh/C+qGdS2vKOXnLzXell9jw9hCARPZsylTDx5R9/4ZqDIvDSJNl98eAyJaL0EPmpmwg2SI7zfTDmsw346GOvv9m2gYFVnB4E4/x1AXhi877iA=
-Received: from DM5PR07CA0119.namprd07.prod.outlook.com (2603:10b6:4:ae::48) by
- SJ0PR12MB6688.namprd12.prod.outlook.com (2603:10b6:a03:47d::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Tue, 3 Jan
- 2023 14:40:03 +0000
-Received: from DM6NAM11FT078.eop-nam11.prod.protection.outlook.com
- (2603:10b6:4:ae:cafe::3e) by DM5PR07CA0119.outlook.office365.com
- (2603:10b6:4:ae::48) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5966.19 via Frontend
- Transport; Tue, 3 Jan 2023 14:40:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT078.mail.protection.outlook.com (10.13.173.183) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5966.17 via Frontend Transport; Tue, 3 Jan 2023 14:40:02 +0000
-Received: from beas.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 3 Jan
- 2023 08:39:59 -0600
-From:   Wyes Karny <wyes.karny@amd.com>
-To:     <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Tom Lendacky" <thomas.lendacky@amd.com>,
-        Wyes Karny <wyes.karny@amd.com>,
-        "Carlos Bilbao" <carlos.bilbao@amd.com>
-Subject: [PATCH] Documentation: KVM: Update AMD memory encryption link
-Date:   Tue, 3 Jan 2023 14:39:31 +0000
-Message-ID: <20230103143931.120939-1-wyes.karny@amd.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S237947AbjACPeN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 10:34:13 -0500
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17CDA11C2B
+        for <linux-doc@vger.kernel.org>; Tue,  3 Jan 2023 07:34:09 -0800 (PST)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20230103153406euoutp01f612c4c92b077d02f39c57a97c0e510d~21mZKj8et2004420044euoutp01C
+        for <linux-doc@vger.kernel.org>; Tue,  3 Jan 2023 15:34:06 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20230103153406euoutp01f612c4c92b077d02f39c57a97c0e510d~21mZKj8et2004420044euoutp01C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1672760046;
+        bh=zrHnU49ZAL0MAHExvQ0jVVopZ6heoz/8cg5Bx6ptfh0=;
+        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+        b=ki8xaC725EwaDuQuqmzWmShxuS8F1kXlDOpjrwX/SLVyOwnpAU2hR+yITsoC2GWHV
+         mr64RzfQoYbbESePRSlJFaOSFY7k2IM9LEYg1P064zOuEom4yirEVLszoYBZ4PD6iq
+         //PPXNBmZrersor6GcxAm9W/fWxpEGsjTcReKcnI=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20230103153406eucas1p1b74002209651a842f96c1a852d9fbcbb~21mY-0unS0967609676eucas1p1H;
+        Tue,  3 Jan 2023 15:34:06 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges2new.samsung.com (EUCPMTA) with SMTP id 45.DD.61936.EEA44B36; Tue,  3
+        Jan 2023 15:34:06 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20230103153406eucas1p205c48bd767e6a86f6f1121db7eb5fc19~21mYyC9Ol3217932179eucas1p2C;
+        Tue,  3 Jan 2023 15:34:06 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20230103153406eusmtrp2031c67d3338df4947b11bf6ec35f1cba~21mYxYxtN2142621426eusmtrp2X;
+        Tue,  3 Jan 2023 15:34:06 +0000 (GMT)
+X-AuditID: cbfec7f4-a43ff7000002f1f0-58-63b44aee703c
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 4F.D2.52424.DEA44B36; Tue,  3
+        Jan 2023 15:34:05 +0000 (GMT)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20230103153405eusmtip2ec3b5cfc53d28068124dcb087b2d0fb9~21mYjr02s3187831878eusmtip2F;
+        Tue,  3 Jan 2023 15:34:05 +0000 (GMT)
+Received: from localhost (106.110.32.140) by CAMSVWEXC01.scsc.local
+        (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+        Tue, 3 Jan 2023 15:34:04 +0000
+Date:   Tue, 3 Jan 2023 16:26:40 +0100
+From:   Pankaj Raghav <p.raghav@samsung.com>
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>
+CC:     <axboe@kernel.dk>, <corbet@lwn.net>, <linux-block@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <p.raghav@samsung.com>
+Subject: Re: [PATCH v2 06/21] block, blksnap: module management interface
+ functions
+Message-ID: <20230103152558.wtpgxdbsc6tql3gx@blixen>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT078:EE_|SJ0PR12MB6688:EE_
-X-MS-Office365-Filtering-Correlation-Id: fdcf3e1f-b959-409c-8196-08daed986615
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2E0hz2/QC+ZZpq3SEbPK+OlliBBH/vO7nPBWTTd1hN5Eim3GukOJuAtXKiZB7f4+6/oky/dKSKI029b6Cl1ylSkhjgJW4yC1UiCnJWyug1tMeGWc2hbJuprOHF8Ba13MUk1/iQPbLABfpRoTEjsOGETk265la8Ht2OOd6WTUgMtZrEW+X1pmENo5niA/SVMtZMtZD5Ubl0ntfOvE3mVdRdt6NQckD+gyHhj9HNIqOgmwnTyEItsBmPzgHz37CJoqQ8WPOcwteXV7yRFg5+KhraftT5mFMVaWXWMAhcVXmjbRJajF5cffbp9IKlbIrYbhtIe7tMxyR8n/RR5ROsPaZq2DAJy8qCqdYBtgDn+t/1qULr2A0sRY0Wt4CJMOcZLjHfbbsgsL4nySRp+efG4eLHb/VLnbLhJqLmpmcwxP2QDZulRLrd279URcZLEkn/VI74MWYXUowxqCFbMO7u1ivc4uxkDcvgw7ykXkArj3YQNNKbtXLKLE9hFrnf/dmxdTZnGyiLLPgq9JQCSSYDHYdU77cJPBjyYh0mlzKtYAF/QpntG1z5bUbWiT5926uo/MhLgVvLDtL5nQCKEd0ZEsLRTMbzOmWYjuXJwTd3edQB4c3tC5GMsyOYWBNQ9DfjAoRWs8OqmOxlqXh/GYFq6ccqnbrUGbc2kb23v7TThZNu/9cHnDr0GzzLerj5lQQk4qMUkF7r/lBcyk1wlwKtTXCX/einZLK5LF0VjQh4B3icMSOSOqet3xwNttJ8RNavTiLXFZmPiaHmvkRyd31A1sgSDbFumc1F9H0D8XJIMld50lNYQAJAz1xoCOcC8IplTWFOjPW2vwiN+kdP0rtJErAQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(136003)(396003)(39860400002)(451199015)(40470700004)(46966006)(36840700001)(81166007)(70206006)(8676002)(40460700003)(336012)(4326008)(1076003)(36756003)(41300700001)(47076005)(70586007)(426003)(2616005)(54906003)(316002)(2906002)(356005)(110136005)(86362001)(15650500001)(36860700001)(5660300002)(82310400005)(82740400003)(6666004)(44832011)(8936002)(40480700001)(966005)(83380400001)(7696005)(478600001)(16526019)(26005)(186003)(22166006)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2023 14:40:02.9218
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fdcf3e1f-b959-409c-8196-08daed986615
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT078.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6688
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20221209142331.26395-7-sergei.shtepa@veeam.com>
+X-Originating-IP: [106.110.32.140]
+X-ClientProxiedBy: CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) To
+        CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfSzUcRzH+/r97vzucvwcq8/0fFkrSmXabj2gsMw/UWqlzF3nhyuH3c/1
+        ZJrykKc6Oz0cwykWjmrzcHFUOtNNZF0qavRIiTS6WlMh58f03+vz/r4/D+/tS2D8VJYTIY2J
+        p+Qx4mgBm4vrHo13bvgWUCvZpB+xEVb2KdnC/uYLSHjvtavwelopLuzSF7CFhZmNmDfbv+uJ
+        wr/kUi7LfzylheVvrl4eiIdwt4dT0dITlHyjp4gbZW4dto4btz31sG0QS0IXbDIRhwDSA9Q5
+        2daZiEvwyXIEL4xvcKb4gWC4qxQxhRlBkemK1VyLMks76ypD0NxbMO8aVVdhTFGDIPlnErK0
+        4KQz3P7ze3oLQbBJFziXYW2RHUlXGOvWsy1+jNQgyOvLnfE7kPvh4t2rMybe9LqJciPGsD20
+        5fXjFsbI9VDc+J1tmYmRS6BskrDIHHIHNHb/mr1UAEk1HTjDifDuazbG8HMCRnt2MuwLWepX
+        iGEHGDLWWjO8FKYaNLNzEmCg589MLiBTECgb7szsBXIbXOqIZjw74fKoEjGyLfSM2DNX2oJK
+        dw1jZB6kp/EZ9xqoP1+HctDq/P9y5f+XK38+VzHCtGgxpaBlkRTtHkOddKPFMloRE+kmiZVV
+        o+mf0j5p/FGPyobG3AzIikAGBAQmcOSpBqslfF64+PQZSh4bJldEU7QBLSFwwWKeuk4j4ZOR
+        4njqOEXFUfK5VyuC45RkJWg/9ErUXMXymlJ6fcnXY51Ne0ZauFs/Bfr5yc/2s1Vj2k2JQaI0
+        daMvf+9TQ9AGXRt9v9Au1L2oSurk1HBrdB/rxJtd7+wUdQW/D7jtfis7NhmwlgrwCD5K6NQm
+        2cIpZ+VbrU+IJn2cs94c0lIrbzEWh52SPlzg/ddHdXXZUOiAT+UiQhtsCtGnaujKLBFham3P
+        +gQ3jHEfL4caOIkRoihaW5bcVJ5yULngZ6jq8Wcsw9Oc2LfO90Fsx5Ez/BLVzWHXiqcfpZpi
+        zGEFmLYNxrN6eysqvO4f7nlWSTevjKhP0Nl7vKxflYYPVExkSPipujajo+n9lmRN7IcEgQCn
+        o8SbXTA5Lf4H2Wr8xZgDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEIsWRmVeSWpSXmKPExsVy+t/xe7pvvbYkG1zdYW6x+m4/m8WTA+2M
+        FntvaVssbFvCYnF51xw2i7ldu5kd2Dwuny31WNw3mdXjZ8thVo/Pm+QCWKL0bIryS0tSFTLy
+        i0tslaINLYz0DC0t9IxMLPUMjc1jrYxMlfTtbFJSczLLUov07RL0Mj4ffc1e8JOv4uDJF8wN
+        jO08XYycHBICJhL93atYQGwhgaWMEssmqUHEZSQ+XfnIDmELS/y51sXWxcgFVPORUeJmVycz
+        hLOZUaLhbTsbSBWLgIrEut+/gDo4ONgEtCQaO8GaRQS0JT5e3wXWzCwwn1Fi5t3JjCAJYYFQ
+        id7t08CKeIGu+LviODPEFfkSbbvuskDEBSVOznwCZjML6Egs2P2JDWQ+s4C0xPJ/HCBhTgFb
+        id3XvzNBHKok0bD5DAuEXSux6fV6pgmMwrOQTJqFZNIshEkLGJlXMYqklhbnpucWG+kVJ+YW
+        l+al6yXn525iBEbWtmM/t+xgXPnqo94hRiYOxkOMEhzMSiK8k15sShbiTUmsrEotyo8vKs1J
+        LT7EaAoMiYnMUqLJ+cDYziuJNzQzMDU0MbM0MLU0M1YS5/Us6EgUEkhPLEnNTk0tSC2C6WPi
+        4JRqYKpJ+FkRNU+SR/zoocm3+ORjvq3QzdJW/zzhqqCQ8Nf33ryz735/1SQwc90E12TG0uyc
+        gKN/2LTC310M99Fp+/p7+731f049NmnLLj0aJSr0RH9GhcVjn2UPFl+4Kqe78GZUs+Idlb6z
+        Nu8SXF7Ix2q8ezpr7d20xjN/uOZ8mBfv1CyqsnxDxfT7t7KLOdytVnO453FI9jzMyOP4otqc
+        1tZ/4om27E2J4LkXL8a3vI3bsS+eN5l9i5vEnzNifT+CS1gYi5cusbRslDlz8ePC4wYlNvom
+        MvPaNzSITp5enX6Xx0UzmYd7pqHC2W1BtioP7cW3zP/Ycl9q6wbjSYLbfm89fOdmy+I4/rMm
+        X/X3iyuxFGckGmoxFxUnAgDYfrm3NQMAAA==
+X-CMS-MailID: 20230103153406eucas1p205c48bd767e6a86f6f1121db7eb5fc19
+X-Msg-Generator: CA
+X-RootMTR: 20230103153406eucas1p205c48bd767e6a86f6f1121db7eb5fc19
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20230103153406eucas1p205c48bd767e6a86f6f1121db7eb5fc19
+References: <20221209142331.26395-1-sergei.shtepa@veeam.com>
+        <20221209142331.26395-7-sergei.shtepa@veeam.com>
+        <CGME20230103153406eucas1p205c48bd767e6a86f6f1121db7eb5fc19@eucas1p2.samsung.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update AMD memory encryption white-paper document link.
-Previous link is not available. Update new available link.
+On Fri, Dec 09, 2022 at 03:23:16PM +0100, Sergei Shtepa wrote:
+> +static int ioctl_tracker_mark_dirty_blocks(unsigned long arg)
+> +{
+> +	int ret = 0;
+> +	struct blk_snap_tracker_mark_dirty_blocks karg;
+> +	struct blk_snap_block_range *dirty_blocks_array;
+> +
+> +	if (copy_from_user(&karg, (void *)arg, sizeof(karg))) {
+> +		pr_err("Unable to mark dirty blocks: invalid user buffer\n");
+> +		return -ENODATA;
+> +	}
+> +
+> +	dirty_blocks_array = kcalloc(
+> +		karg.count, sizeof(struct blk_snap_block_range), GFP_KERNEL);
+> +	if (!dirty_blocks_array)
+> +		return -ENOMEM;
+> +
+> +	if (copy_from_user(dirty_blocks_array, (void *)karg.dirty_blocks_array,
+> +			   karg.count * sizeof(struct blk_snap_block_range))) {
+> +		pr_err("Unable to mark dirty blocks: invalid user buffer\n");
+> +		ret = -ENODATA;
 
-Signed-off-by: Wyes Karny <wyes.karny@amd.com>
-Reviewed-by: Carlos Bilbao <carlos.bilbao@amd.com>
----
- Documentation/virt/kvm/x86/amd-memory-encryption.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Minor nit:
+The following could be done to keep it consistent with other functions:
 
-diff --git a/Documentation/virt/kvm/x86/amd-memory-encryption.rst b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
-index 935aaeb97fe6..487b6328b3e7 100644
---- a/Documentation/virt/kvm/x86/amd-memory-encryption.rst
-+++ b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
-@@ -440,7 +440,7 @@ References
- 
- See [white-paper]_, [api-spec]_, [amd-apm]_ and [kvm-forum]_ for more info.
- 
--.. [white-paper] http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
-+.. [white-paper] https://developer.amd.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
- .. [api-spec] https://support.amd.com/TechDocs/55766_SEV-KM_API_Specification.pdf
- .. [amd-apm] https://support.amd.com/TechDocs/24593.pdf (section 15.34)
- .. [kvm-forum]  https://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
+	if (copy_from_user(dirty_blocks_array, (void *)karg.dirty_blocks_array,
+			   karg.count * sizeof(struct blk_snap_block_range))) {
+		pr_err("Unable to mark dirty blocks: invalid user buffer\n");
+		ret = -ENODATA;
+		goto out;
+	}
+
+	if (karg.dev_id.mj == snapimage_major())
+		ret = snapshot_mark_dirty_blocks(
+			MKDEV(karg.dev_id.mj, karg.dev_id.mn),
+			dirty_blocks_array, karg.count);
+	else
+		ret = tracker_mark_dirty_blocks(
+			MKDEV(karg.dev_id.mj, karg.dev_id.mn),
+			dirty_blocks_array, karg.count);
+out:
+	kfree(dirty_blocks_array);
+
+	return ret;
+}
+
+
+> +	} else {
+> +		if (karg.dev_id.mj == snapimage_major())
+> +			ret = snapshot_mark_dirty_blocks(
+> +				MKDEV(karg.dev_id.mj, karg.dev_id.mn),
+> +				dirty_blocks_array, karg.count);
+> +		else
+> +			ret = tracker_mark_dirty_blocks(
+> +				MKDEV(karg.dev_id.mj, karg.dev_id.mn),
+> +				dirty_blocks_array, karg.count);
+> +	}
+> +
+> +	kfree(dirty_blocks_array);
+> +
+> +	return ret;
+> +}
+> +
 -- 
-2.34.1
-
+Pankaj Raghav
