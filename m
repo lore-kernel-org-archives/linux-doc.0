@@ -2,249 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECAACC3DA7D
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 19:49:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54FF8C4708E
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 20:03:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233317AbjACTtg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Jan 2023 14:49:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41406 "EHLO
+        id S232686AbjACUDa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Jan 2023 15:03:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233130AbjACTte (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 14:49:34 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4544EDEF9;
-        Tue,  3 Jan 2023 11:49:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672775373; x=1704311373;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=bIDOws5tUz92tzu0nSJr/AIN8r/xnDLdvwP+8eGsVh8=;
-  b=INudEYLMYdw7PLUunJ3fMahdmgDPuocWixrOxlEF7F+PBulf89XPn37K
-   +U/2XBkAUCJmOdJXskVknvIS5i594cSUIIFWsI1sHCTzCfvFMJbwKQaE6
-   7Iq0I1ZTQQtvWqjxO1/kYnYwDkH7bZfLZJ2n6ydyLsECBNlWeEJKuvBWa
-   dgO6JIaCTdSHVgBEH1klE6KYObUGrZLL81XcQOfWQJxuZYmuMH572xvCV
-   bAkyWsU7T3kknVgHsM8Ym7kLNLfuNjMGVVWD0Tsvk2kxKVfdW4gTNlNkG
-   54ieXZ/8Ov57OStNj5tyw3p2DbUtCDiii3ggbQmJpDL6xJEOZZTSOq2Vh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="348963674"
-X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; 
-   d="scan'208";a="348963674"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2023 11:49:32 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="654908255"
-X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; 
-   d="scan'208";a="654908255"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2023 11:49:32 -0800
-Date:   Tue, 3 Jan 2023 11:50:04 -0800 (PST)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Xu Yilun <yilun.xu@intel.com>
-cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        hao.wu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
-        marpagan@redhat.com, bagasdotme@gmail.com
-Subject: Re: [PATCH v7 3/4] fpga: dfl: add basic support for DFHv1
-In-Reply-To: <Y7OteZ2FuLtHfg5D@yilunxu-OptiPlex-7050>
-Message-ID: <alpine.DEB.2.22.394.2301031143420.4963@rhweight-WRK1>
-References: <20221220163652.499831-1-matthew.gerlach@linux.intel.com> <20221220163652.499831-4-matthew.gerlach@linux.intel.com> <Y6HqyjFkiUDeNmH1@smile.fi.intel.com> <alpine.DEB.2.22.394.2212211105490.570436@rhweight-WRK1> <Y6kR632DYwilj505@yilunxu-OptiPlex-7050>
- <alpine.DEB.2.22.394.2212311237320.2138420@rhweight-WRK1> <Y7OteZ2FuLtHfg5D@yilunxu-OptiPlex-7050>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S230488AbjACUD2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 15:03:28 -0500
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0957C140A7;
+        Tue,  3 Jan 2023 12:03:26 -0800 (PST)
+Received: by mail-pl1-x631.google.com with SMTP id jn22so33743665plb.13;
+        Tue, 03 Jan 2023 12:03:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=v8pcmuonN+UPPt9cmF4NX78AveTfQL9Fb1MLveIduoE=;
+        b=jkLGFFO8+Ncdr+JTqPLzpv/WoBKqm9vRdqXUnfflH2/zvCrF/p3nMdYk9jdVSe+B7g
+         XtpT42DUgZB2Sn+1rLdiPYbHliJPuzHK1jZcLXP9Dw0YOmDEJPjbgdp4w8Z/OsIzS+h2
+         KtyEkBf99fdCIJWl7M2PAAJ8L7kvBQeCqeJkelVD1ASmMNslVe8lr33wAqw0luP0qQtj
+         OedssMr9oa6iUY35WUgIkVIFcEjDvEqjK3WNKZKm3Ct5pvO8AHWczw5+mxOrwi8gUaAr
+         nXZ+eZ5e2+8zrRqcScLfoqp1Dz20lbOvGCxnCpub3GR5JVH1WNvZPEphAF/Vz5w0MJ6K
+         TIYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v8pcmuonN+UPPt9cmF4NX78AveTfQL9Fb1MLveIduoE=;
+        b=QPrZ4544xs+tBiJxqy1Ktb6SmhKhAXX9qDgY3KiohZLlGubb7liaFMdChRN8WjKAgf
+         Z2G63PHUfSjWlE1hILigW/iJRFLhAAEm/FCgEQnodWSaVz31Znh9H/DaPPTrStYciOzv
+         7vcBUlcau3aK9J29KJ+PfjnVLqbBI+t8X6NxBHxoAtwk88VORzcXkII/UnS1fHuhp9Yj
+         dHifrCUesBvFt3iaUGMkOjgp2HTeCQtz6peo5ujXnex3I8Y18hLgQl8fMH5x/Qlzdiuq
+         krMX9fkLAspCoLgcdLv1VDDkfJcKm9yjq+VLvPreRWmG6WUoQtffRNqi4Kej7SliSicj
+         bqPw==
+X-Gm-Message-State: AFqh2kp/3SZYItWdWgpts05Yje9kn5vvyfonJHlE1PBpjxVzs+3vEai1
+        MbiBWH3Aog/j1GcrZIkn17k=
+X-Google-Smtp-Source: AMrXdXuCthXxzHEN+zTEW6sH37VtiYU63bNpVQuA7kInozlY5IXAd6NkqnJRjVZtzA5aT6IesVUjGw==
+X-Received: by 2002:a17:902:6acb:b0:191:40a9:60f6 with SMTP id i11-20020a1709026acb00b0019140a960f6mr10836769plt.0.1672776206043;
+        Tue, 03 Jan 2023 12:03:26 -0800 (PST)
+Received: from mail.google.com (125-237-37-88-fibre.sparkbb.co.nz. [125.237.37.88])
+        by smtp.gmail.com with ESMTPSA id jg21-20020a17090326d500b001929827731esm12894682plb.201.2023.01.03.12.03.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jan 2023 12:03:25 -0800 (PST)
+Date:   Wed, 4 Jan 2023 09:03:18 +1300
+From:   Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To:     masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
+        nicolas@fjasle.eu, corbet@lwn.net,
+        cristian.ciocaltea@collabora.com, gregkh@linuxfoundation.org,
+        vipinsh@google.com, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     paulo.miguel.almeida.rodenas@gmail.com
+Subject: [PATCH v3 RESEND] scripts/tags.sh: choose which directories to
+ exclude from being indexed
+Message-ID: <Y7SKBqxULPofEry7@mail.google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+It's common for drivers that share same physical components to also
+duplicate source code (or at least portions of it). A good example is
+both drivers/gpu/drm/amdgpu/* and drivers/gpu/drm/radeon/* have a header
+file called atombios.h.
 
+While their contents aren't the same, a lot of their structs have
+the exact same names which makes navigating through the code base a bit
+messy as cscope will show up 'references' across drivers which aren't
+exactly correct.
 
-On Tue, 3 Jan 2023, Xu Yilun wrote:
+Add IGNORE_DIRS variable, which specifies which directories
+to be ignored from indexing.
 
-> On 2022-12-31 at 12:46:28 -0800, matthew.gerlach@linux.intel.com wrote:
->>
->>
->> On Mon, 26 Dec 2022, Xu Yilun wrote:
->>
->>> On 2022-12-21 at 11:14:59 -0800, matthew.gerlach@linux.intel.com wrote:
->>>>
->>>>
->>>> On Tue, 20 Dec 2022, Andy Shevchenko wrote:
->>>>
->>>>> On Tue, Dec 20, 2022 at 08:36:51AM -0800, matthew.gerlach@linux.intel.com wrote:
->>>>>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>>>>>
->>>>>> Version 1 of the Device Feature Header (DFH) definition adds
->>>>>> functionality to the DFL bus.
->>>>>>
->>>>>> A DFHv1 header may have one or more parameter blocks that
->>>>>> further describes the HW to SW.  Add support to the DFL bus
->>>>>> to parse the MSI-X parameter.
->>>>>>
->>>>>> The location of a feature's register set is explicitly
->>>>>> described in DFHv1 and can be relative to the base of the DFHv1
->>>>>> or an absolute address.  Parse the location and pass the information
->>>>>> to DFL driver.
->>>>>
->>>>> ...
->>>>>
->>>>>> +/**
->>>>>> + * dfh_find_param() - find data for the given parameter id
->>>>>> + * @dfl_dev: dfl device
->>>>>> + * @param: id of dfl parameter
->>>>>> + *
->>>>>> + * Return: pointer to parameter header on success, NULL otherwise.
->>>>>
->>>>> header is a bit confusing here, does it mean we give and ID and we got
->>>>> something more than just a data as summary above suggests?
->>>>
->>>> Yes, the summary is not correct.  It should say "find the parameter block
->>>> for the given parameter id".
->>>>
->>>>>
->>>>> In such case summary and this text should clarify what exactly we get
->>>>> and layout of the data. Since this is a pointer, who is responsible of
->>>>> checking out-of-boundary accesses? For instance, if the parameters are
->>>>> variadic by length the length should be returned as well. Otherwise it
->>>>> should be specified as a constant somewhere, right?
->>>>
->>>> The parameter header has the next/size field; so the caller of
->>>> dfh_find_param should perform boundary checking as part of interpreting the
->>>> parameter data.  I think a function to perform this checking and data
->>>> interpretation would help here.
->>>
->>> It is better the DFL core provides the size of the parameter block, just
->>> in this API. It provides the pointer and should be ensured the memory
->>> for the pointer be correctly understood.
->>
->> Ok, how about the following API for dfh_find_param?
->>
->> /**
->>  * dfh_find_param() - find parameter block for the given parameter id
->>  * @dfl_dev: dfl device
->>  * @param_id: id of dfl parameter
->>  * @pver: destination to store parameter version
->>  * @pcount: destination to store size of parameter data in u64 bit words
->
-> The size of the parameter data could just be number of bytes (size_t is
-> ok?), this is the most common way for a data block.
->
->>  *
->>  * Return: pointer to start of parameter data, PTR_ERR otherwise.
->>  */
->> void *dfh_find_param(struct dfl_device *dfl_dev, int param_id, unsigned
->> *pver, unsigned *pcount)
->
-> For now no driver is caring about parameter version, so we could just have
-> a simplified API without version, like:
->
->  void *dfh_find_param(struct dfl_device *dfl_dev, int param_id, size_t *psize)
+Example:
+        make ARCH=x86 IGNORE_DIRS="drivers/gpu/drm/radeon tools" cscope
 
-Using size_t and the simplified API you suggest is fine with me.
+Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+---
+Changelog:
 
->
-> I assume this simplified API should be most commonly used by drivers,
-> changing the layout of the parameter block is not such a good idea to
-> me, try best not to do so.
->
-> If more property is to be added without changing the existing fields,
-> drivers could be aware of this just by the parameter size?
->
->
-> Anyway, if version is really needed in future, create another API like:
->
->  void *dfh_find_param_version(struct dfl_device *dfl_dev, int param_id,
->  			       size_t *psize, unsigned int *pver)
+- v3: change commit message wording and rst syntax (Req Bagas Sanjaya)
+      change makefile variable scope to global, use blank space
+      separator and change variable name to IGNORE_DIRS.
+      (Req: Vipin Sharma)
+- v2: change approach to include everything unless specified by the 
+  IGNOREDIRS variable: (Req: Vipin Sharma)
+- v1: https://lore.kernel.org/lkml/Y5OKDvbGk4Kro6MK@mail.google.com/
 
-Sure, we can add API when it is actually used, as you point out, the 
-structure of a particular paramater should not change very often.
+Additional notes (if relevant):
+- Patch v3 was reviewed-by Vipin Sharma here:
+  https://lore.kernel.org/lkml/CAHVum0eNp5Dup_KyrS2N0zu5TfrtcCxphRnLuBFZa5PxahVg7A@mail.gmail.com/
+---
+ Documentation/kbuild/kbuild.rst | 7 +++++++
+ scripts/tags.sh                 | 7 +++++++
+ 2 files changed, 14 insertions(+)
 
->
-> Thanks,
-> Yilun
->
->>
->>
->>>
->>>>
->>>>>
->>>>>> + */
->>>>>> +u64 *dfh_find_param(struct dfl_device *dfl_dev, int param_id)
->>>>>> +{
->>>>>> +	return find_param(dfl_dev->params, dfl_dev->param_size, param_id);
->>>>>> +}
->>>>>> +EXPORT_SYMBOL_GPL(dfh_find_param);
->>>>>
->>>>> ...
->>>>>
->>>>>> +	finfo = kzalloc(sizeof(*finfo) + dfh_psize, GFP_KERNEL);
->>>>>
->>>>> It sounds like a candidate for struct_size() from overflow.h.
->>>>> I.o.w. check that header and come up with the best what can
->>>>> suit your case.
->>>>
->>>> 	finfo = kzalloc(struct_size(finfo, params, dfh_psize/sizeof(u64)),
->>>> GFP_KERNEL);
->>>>
->>>> Does seem better.
->>>
->>> How about we change the dfh_get_psize() to like dfh_get_pcount(), so we
->>> don't have to multiply & divide back and forth.
->>
->> We need the size in bytes for calls to kmemdup, devm_kmemdup, and
->
-> When the count of u64 is caculated, you could still convert it to size of
-> bytes when needed.
+diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+index 08f575e6236c..5202186728b4 100644
+--- a/Documentation/kbuild/kbuild.rst
++++ b/Documentation/kbuild/kbuild.rst
+@@ -278,6 +278,13 @@ To get all available archs you can also specify all. E.g.::
+ 
+     $ make ALLSOURCE_ARCHS=all tags
+ 
++IGNORE_DIRS
++-----------
++For tags/TAGS/cscope targets, you can choose which directories won't
++be included in the databases, separated by blank space. E.g.::
++
++    $ make IGNORE_DIRS="drivers/gpu/drm/radeon tools" cscope
++
+ KBUILD_BUILD_TIMESTAMP
+ ----------------------
+ Setting this to a date string overrides the timestamp used in the
+diff --git a/scripts/tags.sh b/scripts/tags.sh
+index e137cf15aae9..1ad45f17179a 100755
+--- a/scripts/tags.sh
++++ b/scripts/tags.sh
+@@ -17,6 +17,13 @@ ignore="$(echo "$RCS_FIND_IGNORE" | sed 's|\\||g' )"
+ # tags and cscope files should also ignore MODVERSION *.mod.c files
+ ignore="$ignore ( -name *.mod.c ) -prune -o"
+ 
++# ignore arbitrary directories
++if [ -n "${IGNORE_DIRS}" ]; then
++	for i in ${IGNORE_DIRS}; do
++		ignore="${ignore} ( -path $i ) -prune -o"
++	done
++fi
++
+ # Use make KBUILD_ABS_SRCTREE=1 {tags|cscope}
+ # to force full paths for a non-O= build
+ if [ "${srctree}" = "." -o -z "${srctree}" ]; then
+-- 
+2.38.1
 
-We need to use number of bytes more often than than count of u64.  How 
-would calculating bytes from counts of u64 three times be better than 
-calculating counts of u64 once, like it is now?
-
-Thanks,
-Matthew Gerlach
-
->
->> memcpy_fromio, but we only need to divide once here.
->>
->>
->>>
->>> Or we just use size_add()?
->>
->> I think using struct_size is better because the params member of struct
->> dfl_feature_info is a trailing flexible array.
->
-> That's OK.
->
->>
->> Thanks for the feedback,
->> Matthew
->>
->>
->>>
->>> Thanks,
->>> Yilun
->>>
->>>>
->>>> Thanks for the suggestion,
->>>> Matthew Gerlach
->>>>
->>>>
->>>>>
->>>>>>  	if (!finfo)
->>>>>>  		return -ENOMEM;
->>>>>
->>>>> --
->>>>> With Best Regards,
->>>>> Andy Shevchenko
->>>>>
->>>>>
->>>>>
->>>
->
