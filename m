@@ -2,86 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08E61C3DA7D
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 23:07:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CAB1C3DA7D
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 23:39:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234209AbjACXHI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Jan 2023 18:07:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37674 "EHLO
+        id S234240AbjACXjp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Jan 2023 18:39:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233598AbjACXG4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 18:06:56 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBB29BF76;
-        Tue,  3 Jan 2023 15:06:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672787215; x=1704323215;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=k0FW4EkggWQRCfPtZeaDhmMpy1hVsTfGGXcTPn3H24A=;
-  b=a2aC8IGAPc4wkYn8ZPB7rpG7Gl4MeSTbvD8wJvX916lNKwlgYvrnAczB
-   v4XvUaNs0Gh7BMxzaweGx967+dlSMbM//mhhFwsc22K2bn5C7FZ821rKn
-   lkNpAuxxNCR6KFmJ4zj2juWHSUvq4MWSQnkzbrml49PjwPy8i9+6eNilJ
-   H2lbcsI1J3M1oNkqyfbZ2UdsBH1dAMEtrw9h4nKHV+lIKy4E6rhw75Znb
-   NI45GKhBS48qfa/yZjZQ/i5eWoeJyqWZ/ZPc2pwkpyIUf80sGj7RbuuA2
-   2/1sVmnrcNe0GXEAF5d6j5T4Gqb1BWri9voTyXr023LaMgnS6z+Z94dfd
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="319487148"
-X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; 
-   d="scan'208";a="319487148"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2023 15:06:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="828982745"
-X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; 
-   d="scan'208";a="828982745"
-Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
-  by orsmga005.jf.intel.com with ESMTP; 03 Jan 2023 15:06:52 -0800
-From:   Tony Nguyen <anthony.l.nguyen@intel.com>
-To:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com
-Cc:     Michal Wilczynski <michal.wilczynski@intel.com>,
-        netdev@vger.kernel.org, anthony.l.nguyen@intel.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>
-Subject: [PATCH net v2 3/3] ice: Fix broken link in ice NAPI doc
-Date:   Tue,  3 Jan 2023 15:07:38 -0800
-Message-Id: <20230103230738.1102585-4-anthony.l.nguyen@intel.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230103230738.1102585-1-anthony.l.nguyen@intel.com>
-References: <20230103230738.1102585-1-anthony.l.nguyen@intel.com>
+        with ESMTP id S234324AbjACXjm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 18:39:42 -0500
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48B14167C0
+        for <linux-doc@vger.kernel.org>; Tue,  3 Jan 2023 15:39:34 -0800 (PST)
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-4a263c4ddbaso119532647b3.0
+        for <linux-doc@vger.kernel.org>; Tue, 03 Jan 2023 15:39:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KJI36WUyX3/lg5q+41u1VLOHfo9VaH4c9Ww4np9pMVE=;
+        b=C0Mv/9IL2kuCPPdWA8msop6QpZ3EpuOLH1kfR1zVpw/f4AUbyJBD+6G/iANVtk22ds
+         hu5duuhrQjxm+1Kp4nKH6+kqp9XMhdkuQv3ErYIW7UH7XgBdnhBAn/M9ORQcscUmKxsQ
+         YKQl+Y2WcFCcO/NKx0eYOqQf3MKFdo1QloKx5psY6iMcrO+/NTuvhAHB2hpKlW55yHXD
+         ABIkQWJYkDINemtlyOBeLXVmwbXTOByw6YXnv1VfjGrBnOKwaFyEDMunh+tiQj/hgoat
+         k9t1e0q1Cg4EIWuUG6Vuqs9jd9SCiXm/BoDYSI12xTkYfSTIxWWueNsZ1JVWJX5WEnWJ
+         p9JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KJI36WUyX3/lg5q+41u1VLOHfo9VaH4c9Ww4np9pMVE=;
+        b=zLN4SVDmR2di7hqHZV1cgCv1b6CfjfLWjKtuT/QCfu5LzM7gvTM1ia3qORiRVzNP65
+         BuGMZyoFcDRb0tNLGVl8T2cMJSBoYh3CkiGIEiEcczAfMRBDW5lyLzb7tUA5527OAWqO
+         3XTT2/859IphgQ3zjYd+SplRZDoLYORVyvMQp0qmTTN8docwGhN+CZ8zJQP1kYfAj3Lh
+         iwSRAU9D4sHrFeNHxyK73d6GSUK3caX/AoLuvcPz9yi2INGSO3kGHjEHmV9ffkZRT9XG
+         9bi/vhaTU3dgKNVoudXFbOulIIU0fcq8pNEegltWJQ+wDHISKlsVkksD8WuXQTFJbqPr
+         Fb+g==
+X-Gm-Message-State: AFqh2kq6p9txFTuWpnZ58KdBh31wrbsaT4pVrJXYESJFch3cgd+4um8U
+        P2pEwCu063k9sG9qrUlKfJVWFgver3Cw49vXEtP6Dg==
+X-Google-Smtp-Source: AMrXdXvx+mmANx48xLrOqbQThKhH6zIY5rRl2OxAt8bBN55Sv7hiEKHnG69rb1VP2Uv9FiN2mXvWkniEDvOJav50QZw=
+X-Received: by 2002:a81:5c85:0:b0:461:49a3:db6a with SMTP id
+ q127-20020a815c85000000b0046149a3db6amr3875030ywb.185.1672789174162; Tue, 03
+ Jan 2023 15:39:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230102210850.25320-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20230102210850.25320-1-andriy.shevchenko@linux.intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 4 Jan 2023 00:39:22 +0100
+Message-ID: <CACRpkdYw+J2cPfMrRtUC1KNLyWn__8Q3uk5j=WP_JN-Hm2AALg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] gpio: Remove unused and obsoleted gpio_export_link()
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-arch@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>, Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Michal Wilczynski <michal.wilczynski@intel.com>
+On Mon, Jan 2, 2023 at 10:08 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 
-Current link for NAPI documentation in ice driver doesn't work - it
-returns 404. Update the link to the working one.
+> gpio_export_link() is legacy and unused API, remove it for good.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Signed-off-by: Michal Wilczynski <michal.wilczynski@intel.com>
-Acked-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
-Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
----
- Documentation/networking/device_drivers/ethernet/intel/ice.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Good riddance.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-index dc2e60ced927..b481b81f3be5 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-@@ -819,7 +819,7 @@ NAPI
- ----
- This driver supports NAPI (Rx polling mode).
- For more information on NAPI, see
--https://www.linuxfoundation.org/collaborate/workgroups/networking/napi
-+https://wiki.linuxfoundation.org/networking/napi
- 
- 
- MACVLAN
--- 
-2.38.1
-
+Yours,
+Linus Walleij
