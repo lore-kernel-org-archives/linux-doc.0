@@ -2,194 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FF27C54EBD
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 18:08:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A25EDC54EBD
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 19:09:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238611AbjACSIE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Jan 2023 13:08:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59806 "EHLO
+        id S233734AbjACTJG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Jan 2023 14:09:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238605AbjACSID (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 13:08:03 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C10A51144C;
-        Tue,  3 Jan 2023 10:08:01 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 36184614B8;
-        Tue,  3 Jan 2023 18:08:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F41AEC433D2;
-        Tue,  3 Jan 2023 18:07:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672769280;
-        bh=9suXfmiqocIsILLpWpch1Pzb2obTsSehLWnKP4pUSq8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Iagw3/KdJOIwv3Gew//1r1gitcYAupBDObUgG+hOHeJHHafhJeJufqMC9xIxGj0H9
-         IJy15l9i6ZGcgpvWANvuLTNbSkSYQbYPJGolAn2Xpl+Arm2YH6uqrLJ715g9O9K3PV
-         2TVYay9k0M3tTXndu7NB2GbQd7VYMOE3+EoBy/G9RSYOYMouXY72QRnkAAE31hLi+l
-         lewvMhqHP+GuUxrUqu6Ac8esHXsG/A/C8L5nZAr3k0jevBBfDbZWkRHjYn7B1acq+s
-         LpHgXH3DGz2w/BcHQPJ2m7Emt4I4j/9U2zM6kz4CgyNF7CqZe9Fce/We7q3MY012+L
-         F3OpnSB/7Wfmg==
-From:   SeongJae Park <sj@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: 
-Date:   Tue,  3 Jan 2023 18:07:49 +0000
-Message-Id: <20230103180754.129637-1-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S237959AbjACTI6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 14:08:58 -0500
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A32C6E0DF
+        for <linux-doc@vger.kernel.org>; Tue,  3 Jan 2023 11:08:57 -0800 (PST)
+Received: by mail-qt1-x834.google.com with SMTP id j16so25309790qtv.4
+        for <linux-doc@vger.kernel.org>; Tue, 03 Jan 2023 11:08:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dfSqSd0mxRLyCP4JPwoGgPSv4V5DgFE+NWQibLY7nHY=;
+        b=LQt5OMztUt6H+6pe/VIHwx3Jz4d08J1ZZ7gv40yLS2RfQ9FYAN2BdqaHFaDSeqruh5
+         UdriUa0s5l2hHmuDgCVQyqdP1mZma/3SqbLGsgMr+3W5DNoGaGK3GwMdoJI3ZUgmswPc
+         hfRjTsp+o7b/O9CFRqovudaZXidsusavosKQY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dfSqSd0mxRLyCP4JPwoGgPSv4V5DgFE+NWQibLY7nHY=;
+        b=h5KWaDK0Ce4oIzlSPmDo18JtnpJT+H1OoIu9TP1HHMOb9iTcdLdYbFeg0OczANeg7K
+         XDYoBnngbbNCjWUUIsh9T6eHOPYPTfw/oSm/xcgJofVIMbOXnoMi8iJV4hPq6YAGFuxJ
+         V6a52c/rTzvgvtRYk8vc0jQ+pDPJ+4cGuwDERUQwqg6aIkDmNl9DfwaJHGH0d2l3c42V
+         SY0jZNotKPrb89GgvnaPxUAXwHqtv6tW7v2Mzc+He+l/z3EsLPFpipfx67BJaT8/FP4F
+         JRoUyExiokiG8ynYl+qrUlWMqM1AarF5WqYsfIN/kUgdJ5OWol6Rd/vPqTjWU1t3BZ+6
+         Cdzg==
+X-Gm-Message-State: AFqh2kqX5UQa5AMFnjxti8qanl0fP5bheQwNvoMlCf4S6vHB/iOKMqqC
+        0T0zVuTd754z6Gqkqkf/7TuHsxjrspVHzsnr
+X-Google-Smtp-Source: AMrXdXtBXwFgd7puGYtvGDp7Wp1q3LUQ4rPAKp2DKkv5YRLWJdLeWuOqxV4KjPgoUo05eV83D1k9gw==
+X-Received: by 2002:ac8:65da:0:b0:3a8:84f:1d59 with SMTP id t26-20020ac865da000000b003a8084f1d59mr59582068qto.19.1672772936452;
+        Tue, 03 Jan 2023 11:08:56 -0800 (PST)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com. [209.85.160.182])
+        by smtp.gmail.com with ESMTPSA id 6-20020ac85646000000b003a6947863e1sm18873398qtt.11.2023.01.03.11.08.55
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Jan 2023 11:08:56 -0800 (PST)
+Received: by mail-qt1-f182.google.com with SMTP id c7so25286391qtw.8
+        for <linux-doc@vger.kernel.org>; Tue, 03 Jan 2023 11:08:55 -0800 (PST)
+X-Received: by 2002:a05:620a:1379:b0:6fc:c48b:8eab with SMTP id
+ d25-20020a05620a137900b006fcc48b8eabmr1650146qkl.216.1672772925520; Tue, 03
+ Jan 2023 11:08:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221219153525.632521981@infradead.org> <20221219154119.550996611@infradead.org>
+ <Y7Ri+Uij1GFkI/LB@osiris>
+In-Reply-To: <Y7Ri+Uij1GFkI/LB@osiris>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Tue, 3 Jan 2023 11:08:29 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wj9nK825MyHXu7zkegc7Va+ZxcperdOtRMZBCLHqGrr=g@mail.gmail.com>
+Message-ID: <CAHk-=wj9nK825MyHXu7zkegc7Va+ZxcperdOtRMZBCLHqGrr=g@mail.gmail.com>
+Subject: Re: [RFC][PATCH 11/12] slub: Replace cmpxchg_double()
+To:     Heiko Carstens <hca@linux.ibm.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
+        will@kernel.org, boqun.feng@gmail.com, mark.rutland@arm.com,
+        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
+        cl@linux.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
+        borntraeger@linux.ibm.com, svens@linux.ibm.com,
+        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-s390@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Date: Tue, 3 Jan 2023 18:00:52 +0000
-Subject: [PATCH 0/5] mm: trivial fixups
+On Tue, Jan 3, 2023 at 9:17 AM Heiko Carstens <hca@linux.ibm.com> wrote:
+>
+> On Mon, Dec 19, 2022 at 04:35:36PM +0100, Peter Zijlstra wrote:
+> >
+> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> > ---
+> >  include/linux/slub_def.h |   12 ++-
+> >  mm/slab.h                |   41 +++++++++++--
+> >  mm/slub.c                |  146 ++++++++++++++++++++++++++++-------------------
+> >  3 files changed, 135 insertions(+), 64 deletions(-)
+>
+> Does this actually work? Just wondering since I end up with an instant
+> list corruption on s390. Might be endianness related, but I can't see
+> anything obvious at a first glance.
 
-This patchset is for trivial fixups of mm stuff on MAINTAINERS, tools/
-selftests, and docs.
+I don't see anything that looks related to endianness, because while
+there is that 128-bit union member, it's always either used in full,
+or it's accessed as other union members.
 
-SeongJae Park (5):
-  MAINTAINERS: add types to akpm/mm git trees entries
-  MAINTAINERS/MEMORY MANAGEMENT: Add tools/vm/ as managed files
-  tools/vm: rename tools/vm to tools/mm
-  selftests/vm: rename selftets/vm to selftests/mm
-  Docs/admin-guide/mm/numaperf: increase depth of subsections
+But I *do* note that this patch seems to be the only one that depends
+on the new this_cpu_cmpxchg() updates to make it just automatically do
+the right thing for a 128-bit value. And I have to admit that all
+those games with __pcpu_cast_128() make no sense to me. Why isn't it
+just using "u128" everywhere without any odd _Generic() games?
 
- Documentation/admin-guide/mm/hugetlbpage.rst             | 6 +++---
- Documentation/admin-guide/mm/idle_page_tracking.rst      | 2 +-
- Documentation/admin-guide/mm/numaperf.rst                | 8 ++++----
- Documentation/admin-guide/mm/pagemap.rst                 | 4 ++--
- Documentation/core-api/pin_user_pages.rst                | 2 +-
- Documentation/mm/page_owner.rst                          | 2 +-
- Documentation/mm/slub.rst                                | 2 +-
- Documentation/translations/zh_CN/mm/page_owner.rst       | 2 +-
- MAINTAINERS                                              | 9 +++++----
- mm/Kconfig                                               | 2 +-
- mm/Kconfig.debug                                         | 2 +-
- mm/memory-failure.c                                      | 2 +-
- tools/{vm => mm}/.gitignore                              | 0
- tools/{vm => mm}/Makefile                                | 0
- tools/{vm => mm}/page-types.c                            | 0
- tools/{vm => mm}/page_owner_sort.c                       | 0
- tools/{vm => mm}/slabinfo-gnuplot.sh                     | 0
- tools/{vm => mm}/slabinfo.c                              | 0
- tools/testing/selftests/{vm => mm}/.gitignore            | 0
- tools/testing/selftests/{vm => mm}/Makefile              | 0
- .../selftests/{vm => mm}/charge_reserved_hugetlb.sh      | 0
- tools/testing/selftests/{vm => mm}/check_config.sh       | 0
- tools/testing/selftests/{vm => mm}/compaction_test.c     | 0
- tools/testing/selftests/{vm => mm}/config                | 0
- tools/testing/selftests/{vm => mm}/cow.c                 | 0
- tools/testing/selftests/{vm => mm}/gup_test.c            | 0
- tools/testing/selftests/{vm => mm}/hmm-tests.c           | 0
- tools/testing/selftests/{vm => mm}/hugepage-mmap.c       | 0
- tools/testing/selftests/{vm => mm}/hugepage-mremap.c     | 0
- tools/testing/selftests/{vm => mm}/hugepage-shm.c        | 0
- tools/testing/selftests/{vm => mm}/hugepage-vmemmap.c    | 0
- tools/testing/selftests/{vm => mm}/hugetlb-madvise.c     | 0
- .../selftests/{vm => mm}/hugetlb_reparenting_test.sh     | 0
- tools/testing/selftests/{vm => mm}/khugepaged.c          | 0
- .../testing/selftests/{vm => mm}/ksm_functional_tests.c  | 0
- tools/testing/selftests/{vm => mm}/ksm_tests.c           | 0
- tools/testing/selftests/{vm => mm}/madv_populate.c       | 0
- tools/testing/selftests/{vm => mm}/map_fixed_noreplace.c | 0
- tools/testing/selftests/{vm => mm}/map_hugetlb.c         | 0
- tools/testing/selftests/{vm => mm}/map_populate.c        | 0
- tools/testing/selftests/{vm => mm}/memfd_secret.c        | 0
- tools/testing/selftests/{vm => mm}/migration.c           | 0
- tools/testing/selftests/{vm => mm}/mlock-random-test.c   | 0
- tools/testing/selftests/{vm => mm}/mlock2-tests.c        | 0
- tools/testing/selftests/{vm => mm}/mlock2.h              | 0
- tools/testing/selftests/{vm => mm}/mrelease_test.c       | 0
- tools/testing/selftests/{vm => mm}/mremap_dontunmap.c    | 0
- tools/testing/selftests/{vm => mm}/mremap_test.c         | 0
- tools/testing/selftests/{vm => mm}/on-fault-limit.c      | 0
- tools/testing/selftests/{vm => mm}/pkey-helpers.h        | 0
- tools/testing/selftests/{vm => mm}/pkey-powerpc.h        | 0
- tools/testing/selftests/{vm => mm}/pkey-x86.h            | 0
- tools/testing/selftests/{vm => mm}/protection_keys.c     | 0
- tools/testing/selftests/{vm => mm}/run_vmtests.sh        | 0
- tools/testing/selftests/{vm => mm}/settings              | 0
- tools/testing/selftests/{vm => mm}/soft-dirty.c          | 0
- .../testing/selftests/{vm => mm}/split_huge_page_test.c  | 0
- tools/testing/selftests/{vm => mm}/test_hmm.sh           | 0
- tools/testing/selftests/{vm => mm}/test_vmalloc.sh       | 0
- tools/testing/selftests/{vm => mm}/thuge-gen.c           | 0
- tools/testing/selftests/{vm => mm}/transhuge-stress.c    | 0
- tools/testing/selftests/{vm => mm}/userfaultfd.c         | 0
- tools/testing/selftests/{vm => mm}/util.h                | 0
- tools/testing/selftests/{vm => mm}/va_128TBswitch.c      | 0
- tools/testing/selftests/{vm => mm}/va_128TBswitch.sh     | 0
- .../testing/selftests/{vm => mm}/virtual_address_range.c | 0
- tools/testing/selftests/{vm => mm}/vm_util.c             | 0
- tools/testing/selftests/{vm => mm}/vm_util.h             | 0
- .../testing/selftests/{vm => mm}/write_hugetlb_memory.sh | 0
- tools/testing/selftests/{vm => mm}/write_to_hugetlbfs.c  | 0
- 70 files changed, 22 insertions(+), 21 deletions(-)
- rename tools/{vm => mm}/.gitignore (100%)
- rename tools/{vm => mm}/Makefile (100%)
- rename tools/{vm => mm}/page-types.c (100%)
- rename tools/{vm => mm}/page_owner_sort.c (100%)
- rename tools/{vm => mm}/slabinfo-gnuplot.sh (100%)
- rename tools/{vm => mm}/slabinfo.c (100%)
- rename tools/testing/selftests/{vm => mm}/.gitignore (100%)
- rename tools/testing/selftests/{vm => mm}/Makefile (100%)
- rename tools/testing/selftests/{vm => mm}/charge_reserved_hugetlb.sh (100%)
- rename tools/testing/selftests/{vm => mm}/check_config.sh (100%)
- rename tools/testing/selftests/{vm => mm}/compaction_test.c (100%)
- rename tools/testing/selftests/{vm => mm}/config (100%)
- rename tools/testing/selftests/{vm => mm}/cow.c (100%)
- rename tools/testing/selftests/{vm => mm}/gup_test.c (100%)
- rename tools/testing/selftests/{vm => mm}/hmm-tests.c (100%)
- rename tools/testing/selftests/{vm => mm}/hugepage-mmap.c (100%)
- rename tools/testing/selftests/{vm => mm}/hugepage-mremap.c (100%)
- rename tools/testing/selftests/{vm => mm}/hugepage-shm.c (100%)
- rename tools/testing/selftests/{vm => mm}/hugepage-vmemmap.c (100%)
- rename tools/testing/selftests/{vm => mm}/hugetlb-madvise.c (100%)
- rename tools/testing/selftests/{vm => mm}/hugetlb_reparenting_test.sh (100%)
- rename tools/testing/selftests/{vm => mm}/khugepaged.c (100%)
- rename tools/testing/selftests/{vm => mm}/ksm_functional_tests.c (100%)
- rename tools/testing/selftests/{vm => mm}/ksm_tests.c (100%)
- rename tools/testing/selftests/{vm => mm}/madv_populate.c (100%)
- rename tools/testing/selftests/{vm => mm}/map_fixed_noreplace.c (100%)
- rename tools/testing/selftests/{vm => mm}/map_hugetlb.c (100%)
- rename tools/testing/selftests/{vm => mm}/map_populate.c (100%)
- rename tools/testing/selftests/{vm => mm}/memfd_secret.c (100%)
- rename tools/testing/selftests/{vm => mm}/migration.c (100%)
- rename tools/testing/selftests/{vm => mm}/mlock-random-test.c (100%)
- rename tools/testing/selftests/{vm => mm}/mlock2-tests.c (100%)
- rename tools/testing/selftests/{vm => mm}/mlock2.h (100%)
- rename tools/testing/selftests/{vm => mm}/mrelease_test.c (100%)
- rename tools/testing/selftests/{vm => mm}/mremap_dontunmap.c (100%)
- rename tools/testing/selftests/{vm => mm}/mremap_test.c (100%)
- rename tools/testing/selftests/{vm => mm}/on-fault-limit.c (100%)
- rename tools/testing/selftests/{vm => mm}/pkey-helpers.h (100%)
- rename tools/testing/selftests/{vm => mm}/pkey-powerpc.h (100%)
- rename tools/testing/selftests/{vm => mm}/pkey-x86.h (100%)
- rename tools/testing/selftests/{vm => mm}/protection_keys.c (100%)
- rename tools/testing/selftests/{vm => mm}/run_vmtests.sh (100%)
- rename tools/testing/selftests/{vm => mm}/settings (100%)
- rename tools/testing/selftests/{vm => mm}/soft-dirty.c (100%)
- rename tools/testing/selftests/{vm => mm}/split_huge_page_test.c (100%)
- rename tools/testing/selftests/{vm => mm}/test_hmm.sh (100%)
- rename tools/testing/selftests/{vm => mm}/test_vmalloc.sh (100%)
- rename tools/testing/selftests/{vm => mm}/thuge-gen.c (100%)
- rename tools/testing/selftests/{vm => mm}/transhuge-stress.c (100%)
- rename tools/testing/selftests/{vm => mm}/userfaultfd.c (100%)
- rename tools/testing/selftests/{vm => mm}/util.h (100%)
- rename tools/testing/selftests/{vm => mm}/va_128TBswitch.c (100%)
- rename tools/testing/selftests/{vm => mm}/va_128TBswitch.sh (100%)
- rename tools/testing/selftests/{vm => mm}/virtual_address_range.c (100%)
- rename tools/testing/selftests/{vm => mm}/vm_util.c (100%)
- rename tools/testing/selftests/{vm => mm}/vm_util.h (100%)
- rename tools/testing/selftests/{vm => mm}/write_hugetlb_memory.sh (100%)
- rename tools/testing/selftests/{vm => mm}/write_to_hugetlbfs.c (100%)
+I could also easily see that if the asm constraints are wrong (like
+the "cast pointer to (unsigned long *) instead of keeping it pointing
+to a 128-bit type" thing discussed earlier), then code like this:
 
--- 
-2.25.1
++       freelist_aba_t old = { .freelist = freelist_old, .counter = tid };
++       freelist_aba_t new = { .freelist = freelist_new, .counter =
+next_tid(tid) };
++
++       return this_cpu_cmpxchg(s->cpu_slab->freelist_tid.full,
++                               old.full, new.full) == old.full;
 
+would easily make the compiler go "the second word of 'old' is never
+used by the asm, so I won't initialize it".
+
+But yeah, that patch is hard to read, so hard to say. Does everything
+leading up to it work fine?
+
+                 Linus
