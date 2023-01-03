@@ -2,129 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32754C46467
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 14:19:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AEE7C46467
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 14:40:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231283AbjACOT6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Jan 2023 09:19:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37348 "EHLO
+        id S230166AbjACOkR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Jan 2023 09:40:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230131AbjACOT4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 09:19:56 -0500
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8392259;
-        Tue,  3 Jan 2023 06:19:55 -0800 (PST)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-476e643d1d5so321631187b3.1;
-        Tue, 03 Jan 2023 06:19:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=j8rtKZ+QTL7/5Qarqo9MftuoiK8ia4Q77nefU4MQ9Yc=;
-        b=hL9WauySBN/sRqfbNsfyrbzhd90BB6grt3xtnVeuw9DJ/r70Gme9mRyLvv5T2RmAFk
-         PZwIafpHFUf4cs6672O3Gj0q1zHDbiAE5ESGSfX/mZbIYuX5U2LywtIWBCdjIoDgA3QX
-         DxCj6Z4POfGVN4Tgghz6N1RwPzO/aoXKBOUU2e2s08CF72tzJ1iFv2+NoQUqIVtn1y/y
-         SR6CHMDBSlzGDUzCrVm3zhstnxYs8+A344wE4//bvCSQm7TOoM5YVO6nwiGWQWfZkqYi
-         x6JgRoX+Ri7pmiUvLhV4lqSfUJqePmelttnRIU26nrgxZazBsJFMXUYbRnV6dGSooZ58
-         jDag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j8rtKZ+QTL7/5Qarqo9MftuoiK8ia4Q77nefU4MQ9Yc=;
-        b=7ICm3eweH9HtIzVtK6UQuNi0RsE5kzmIGjbEEL6A6V7whS0evDi4g+FH5XLkX9VriT
-         MAK2Zzqxu3vWeFp17iR2NX+SxeFI9/FkbjYJmYtSjqzexf8qcoEOiCmVXIJTC1NINWNP
-         HCqZ8swxDzGpGFcvK83nVKVeed4ErOwlmg3Nuqbj0/Bpd3obtPVg0z1BI/Wqx4Ll0OIK
-         ImUMlqZp/RhHjRWgF54bFDQli4gd4auEdpo4vqWtglMnSFpdqsNEgIPbOlS64QGshIT+
-         Q5Wl3EeORvoxc3R7tnNf4wW2FlRf+MkydlBteiIsUKXSc9XGGEkiWT8Zq12SYcWE4sru
-         p/MQ==
-X-Gm-Message-State: AFqh2krhDh+AaW50bX5D7Ko7HsTwXiWEkC2kzRWfKZMv6qKtOi8gQU19
-        oW8cOZZAlCTl9nH9YZJv5SDmXQhLm2WffJlb05Q=
-X-Google-Smtp-Source: AMrXdXsB/B7CRNRIAy1wo10Zbloi+XkYaCnF9Tc4hrhG4A3JJ+5E6EVThxaM6wenO0q2R6hu65m3APjLlB/q9UH2RL8=
-X-Received: by 2002:a81:7343:0:b0:484:a94f:210 with SMTP id
- o64-20020a817343000000b00484a94f0210mr3055550ywc.129.1672755595132; Tue, 03
- Jan 2023 06:19:55 -0800 (PST)
+        with ESMTP id S237804AbjACOkG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 09:40:06 -0500
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2063.outbound.protection.outlook.com [40.107.237.63])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B629F12094;
+        Tue,  3 Jan 2023 06:40:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dQYY1OmubI9D+fMh02O1LMruTU1hVE6g8ogYOjaac2qNP8o0R7d1KTWQFPLaxzsIFQWOMexWG6QyHpudFDjUkROSXxbd8RUhjNCDQm3A3EY9GgXaKjBHXllGkFPFdFmvgmKewU+f/EWlr+7t2exHe+jwDrJtAyVX2/dsl1MSw/OgFpifvYY6Q8BThp37PcsRCy6MZjZuwO3y9Pk8lduPF/AG8/b1Xmro9i+cqeXJ1xTc8dr2wValXuQjO1B1/LQT5cT7Vc7Y7GzBREX14t/ovRtABKW7d1usHH3dQc56uRWP/6Jw27yUGJPXVPh3wstyBSs1TPRyvJXr+jUhIQLETw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=u/XhCnrerFhVuNV/urO1JtZtpre0YTanYRVZg/FOr/0=;
+ b=Z65mx2AhgV1ReaVk+llwL1TuL2sO5LfO6cZQMAkd2WUmJzG4MQsQ+/kJeDa92vrN8xtaT+WQZP3ixIuTFTeE0ZKAHzbvrMD0cYR85g4gwX/2JVzLqk/w1P3DkBvATBjeDCONHI2YuvySRY1iMy/QbSa8XlUwmIF8VwE+4WJM0cHrEKu20Jh/Y/eXRFrHsXZdNvDwke7qRYVOpCaxx2+Kc2ZyrGurDt5hHPkSx45b9tJLmW/ry0UmLHVBLOkv5sm0DUWErKGKZwMC61syuqN140O3j1yjaejrWPzEyUD34n+t7sHOBtoKh2DiXBLMbcHO4xKvKdB2EVKYyVBbSJts4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u/XhCnrerFhVuNV/urO1JtZtpre0YTanYRVZg/FOr/0=;
+ b=WzGwLdBed/S2hMigG/b9Vgp/OqVkiV8G2OKjpvQ0k0hppprzVL1CI435weooPRh/C+qGdS2vKOXnLzXell9jw9hCARPZsylTDx5R9/4ZqDIvDSJNl98eAyJaL0EPmpmwg2SI7zfTDmsw346GOvv9m2gYFVnB4E4/x1AXhi877iA=
+Received: from DM5PR07CA0119.namprd07.prod.outlook.com (2603:10b6:4:ae::48) by
+ SJ0PR12MB6688.namprd12.prod.outlook.com (2603:10b6:a03:47d::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Tue, 3 Jan
+ 2023 14:40:03 +0000
+Received: from DM6NAM11FT078.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:ae:cafe::3e) by DM5PR07CA0119.outlook.office365.com
+ (2603:10b6:4:ae::48) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5966.19 via Frontend
+ Transport; Tue, 3 Jan 2023 14:40:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT078.mail.protection.outlook.com (10.13.173.183) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5966.17 via Frontend Transport; Tue, 3 Jan 2023 14:40:02 +0000
+Received: from beas.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 3 Jan
+ 2023 08:39:59 -0600
+From:   Wyes Karny <wyes.karny@amd.com>
+To:     <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Tom Lendacky" <thomas.lendacky@amd.com>,
+        Wyes Karny <wyes.karny@amd.com>,
+        "Carlos Bilbao" <carlos.bilbao@amd.com>
+Subject: [PATCH] Documentation: KVM: Update AMD memory encryption link
+Date:   Tue, 3 Jan 2023 14:39:31 +0000
+Message-ID: <20230103143931.120939-1-wyes.karny@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221207173053.1463800-1-carlos.bilbao@amd.com>
- <20221228174623.144199-1-carlos.bilbao@amd.com> <87wn64fq7d.fsf@meer.lwn.net>
-In-Reply-To: <87wn64fq7d.fsf@meer.lwn.net>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 3 Jan 2023 15:19:44 +0100
-Message-ID: <CANiq72mC+WzOxhZVtEvnsFYzuBPkd51=TYXK01ztcTZ-CAcUiw@mail.gmail.com>
-Subject: Re: [PATCH v5 0/2] docs: Integrate rustdoc into Rust documentation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Carlos Bilbao <carlos.bilbao@amd.com>, ojeda@kernel.org,
-        akiyks@gmail.com, jani.nikula@linux.intel.com,
-        rdunlap@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, konstantin@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT078:EE_|SJ0PR12MB6688:EE_
+X-MS-Office365-Filtering-Correlation-Id: fdcf3e1f-b959-409c-8196-08daed986615
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2E0hz2/QC+ZZpq3SEbPK+OlliBBH/vO7nPBWTTd1hN5Eim3GukOJuAtXKiZB7f4+6/oky/dKSKI029b6Cl1ylSkhjgJW4yC1UiCnJWyug1tMeGWc2hbJuprOHF8Ba13MUk1/iQPbLABfpRoTEjsOGETk265la8Ht2OOd6WTUgMtZrEW+X1pmENo5niA/SVMtZMtZD5Ubl0ntfOvE3mVdRdt6NQckD+gyHhj9HNIqOgmwnTyEItsBmPzgHz37CJoqQ8WPOcwteXV7yRFg5+KhraftT5mFMVaWXWMAhcVXmjbRJajF5cffbp9IKlbIrYbhtIe7tMxyR8n/RR5ROsPaZq2DAJy8qCqdYBtgDn+t/1qULr2A0sRY0Wt4CJMOcZLjHfbbsgsL4nySRp+efG4eLHb/VLnbLhJqLmpmcwxP2QDZulRLrd279URcZLEkn/VI74MWYXUowxqCFbMO7u1ivc4uxkDcvgw7ykXkArj3YQNNKbtXLKLE9hFrnf/dmxdTZnGyiLLPgq9JQCSSYDHYdU77cJPBjyYh0mlzKtYAF/QpntG1z5bUbWiT5926uo/MhLgVvLDtL5nQCKEd0ZEsLRTMbzOmWYjuXJwTd3edQB4c3tC5GMsyOYWBNQ9DfjAoRWs8OqmOxlqXh/GYFq6ccqnbrUGbc2kb23v7TThZNu/9cHnDr0GzzLerj5lQQk4qMUkF7r/lBcyk1wlwKtTXCX/einZLK5LF0VjQh4B3icMSOSOqet3xwNttJ8RNavTiLXFZmPiaHmvkRyd31A1sgSDbFumc1F9H0D8XJIMld50lNYQAJAz1xoCOcC8IplTWFOjPW2vwiN+kdP0rtJErAQ==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(136003)(396003)(39860400002)(451199015)(40470700004)(46966006)(36840700001)(81166007)(70206006)(8676002)(40460700003)(336012)(4326008)(1076003)(36756003)(41300700001)(47076005)(70586007)(426003)(2616005)(54906003)(316002)(2906002)(356005)(110136005)(86362001)(15650500001)(36860700001)(5660300002)(82310400005)(82740400003)(6666004)(44832011)(8936002)(40480700001)(966005)(83380400001)(7696005)(478600001)(16526019)(26005)(186003)(22166006)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2023 14:40:02.9218
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fdcf3e1f-b959-409c-8196-08daed986615
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT078.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6688
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 3, 2023 at 12:54 AM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> - It forces the generation of a kernel configuration, something that the
->   docs build has never done until now.  What are our changes of
->   eliminating that?
+Update AMD memory encryption white-paper document link.
+Previous link is not available. Update new available link.
 
-We could workaround it by providing a fixed, preset config that does
-not interfere with the usual `.config`.
+Signed-off-by: Wyes Karny <wyes.karny@amd.com>
+Reviewed-by: Carlos Bilbao <carlos.bilbao@amd.com>
+---
+ Documentation/virt/kvm/x86/amd-memory-encryption.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-We would still need to compile some things like we normally would do,
-though (see next point).
+diff --git a/Documentation/virt/kvm/x86/amd-memory-encryption.rst b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
+index 935aaeb97fe6..487b6328b3e7 100644
+--- a/Documentation/virt/kvm/x86/amd-memory-encryption.rst
++++ b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
+@@ -440,7 +440,7 @@ References
+ 
+ See [white-paper]_, [api-spec]_, [amd-apm]_ and [kvm-forum]_ for more info.
+ 
+-.. [white-paper] http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
++.. [white-paper] https://developer.amd.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
+ .. [api-spec] https://support.amd.com/TechDocs/55766_SEV-KM_API_Specification.pdf
+ .. [amd-apm] https://support.amd.com/TechDocs/24593.pdf (section 15.34)
+ .. [kvm-forum]  https://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
+-- 
+2.34.1
 
-> - It did a bunch of other building, starting with objtool - again, never
->   needed for the docs build before.
-
-Yeah, rustdoc, like the compiler, requires dependencies to be
-available to understand the code. Thus some things need to be
-compiled, like for the normal build.
-
-This is definitely different than the current docs, of course, which
-is why I raised these questions back then.
-
-> In the end, it died with:
->
-> > BINDGEN rust/bindings/bindings_generated.rs
-> > Failed to run rustfmt: No such file or directory (os error 2) (non-fatal, continuing)
-
-This one is unrelated -- it happens when rustfmt is not installed, so
-that those interested in only building (but not developing) the kernel
-can avoid it. We could hide the message, though for developers it is
-useful to know.
-
-This is one instance where knowing in the build system whether the
-user intends to developer the kernel or not could be useful (e.g. we
-could hide it for some of the distribution/packaging targets); but I
-would prefer to simply make rustfmt mandatory, since in principle
-there could be a rustfmt bug that makes a behavioral change, and it
-would simplify things (it comes with the compiler anyway).
-
-> >   BINDGEN rust/bindings/bindings_helpers_generated.rs
-> > error: Found argument '--blacklist-type' which wasn't expected, or isn't valid in this context
-> >
-> >       Did you mean '--blocklist-type'?
->
-> Perhaps this is because I ignored the warnings about my Rust toolchain
-> being too new? (Rust 1.65.0, bindgen 0.63.0).  I get that only one
-
-Yeah, that is due to bindgen 0.63.0 removing [1] some flags deprecated
-[2] in 0.58.0.
-
-[1] https://github.com/rust-lang/rust-bindgen/blob/v0.63.0/CHANGELOG.md#removed-1
-[2] https://github.com/rust-lang/rust-bindgen/blob/v0.58.0/CHANGELOG.md#deprecated-1
-
-> version is really supported, but it would be nice to fail a bit more
-> gracefully if at all possible.
-
-Do you mean failing in the `scripts/rust_is_available.sh` step instead
-of warning? We could also add versioning information to that script,
-so that it knows more about which versions work etc., but I guess at
-that point it would be best to simply start supporting several
-versions, which may be a bit too early to split CI runs on that since
-it would require some degree of testing.
-
-Cheers,
-Miguel
