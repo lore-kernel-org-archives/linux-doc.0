@@ -2,86 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3672C3DA7A
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Jan 2023 23:54:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3E9CC54EBD
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 01:31:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229835AbjABXyC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Jan 2023 18:54:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57428 "EHLO
+        id S231483AbjACBb5 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Jan 2023 20:31:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbjABXyB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 18:54:01 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4133060DE;
-        Mon,  2 Jan 2023 15:54:00 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C62372C8;
-        Mon,  2 Jan 2023 23:53:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C62372C8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1672703639; bh=avP7SOJdHkgVb2BCcWl6rx6zsHzyw9Bd6lyElnyQWOM=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=gz3B5hm3TeOraHRKWG6FsC7XiGNBc4bA09r1Gj8iDH5nt19gd+TlPX//MhQTbNERV
-         tYtFEJCk+kXdFmCx3qcnFn9eN2gVvyRcT3bpLResS87vWLl0X4H3rnYc9GIBJrArH3
-         3hRqIGkyuqMaPD19JUa/G/RjQjQr4S3Y3ffOSlq9qbCxogtmg4kKQC4XEyrHKOGulJ
-         e4qZLd/Puo/5LEuSSLWQgvZeEcfiIvmeKPuLL18fJpbz7ISXi8HV6rOZ3I2JmIygdw
-         6GvXns3XolOJ8/5dxjCoWzJAHWn3YPf47lob/9g5JtZilw4Q8nnQ+VotyZHbGwItlV
-         +Oo63s6zO86yw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>, ojeda@kernel.org,
-        akiyks@gmail.com, jani.nikula@linux.intel.com,
-        rdunlap@infradead.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        konstantin@linuxfoundation.org,
-        Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: Re: [PATCH v5 0/2] docs: Integrate rustdoc into Rust documentation
-In-Reply-To: <20221228174623.144199-1-carlos.bilbao@amd.com>
-References: <20221207173053.1463800-1-carlos.bilbao@amd.com>
- <20221228174623.144199-1-carlos.bilbao@amd.com>
-Date:   Mon, 02 Jan 2023 16:53:58 -0700
-Message-ID: <87wn64fq7d.fsf@meer.lwn.net>
+        with ESMTP id S232646AbjACBbz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 20:31:55 -0500
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F406199;
+        Mon,  2 Jan 2023 17:31:51 -0800 (PST)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 3B73924DF03;
+        Tue,  3 Jan 2023 09:31:49 +0800 (CST)
+Received: from EXMBX172.cuchost.com (172.16.6.92) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 3 Jan
+ 2023 09:31:49 +0800
+Received: from ubuntu.localdomain (113.72.146.202) by EXMBX172.cuchost.com
+ (172.16.6.92) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 3 Jan
+ 2023 09:31:48 +0800
+From:   Hal Feng <hal.feng@starfivetech.com>
+To:     <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>
+CC:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Conor Dooley <conor@kernel.org>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+        Hal Feng <hal.feng@starfivetech.com>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v1 0/4] Temperature sensor support for StarFive JH7110 RISC-V SoC
+Date:   Tue, 3 Jan 2023 09:31:41 +0800
+Message-ID: <20230103013145.9570-1-hal.feng@starfivetech.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Type: text/plain
+X-Originating-IP: [113.72.146.202]
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX172.cuchost.com
+ (172.16.6.92)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Carlos Bilbao <carlos.bilbao@amd.com> writes:
+This patch series adds temperature sensor support for StarFive JH7110 SoC.
+The last two patches depend on series [1].
 
-> Include HTML output generated with rustdoc into the Linux kernel
-> documentation on Rust.
->
-> Carlos Bilbao:
->  docs: Move rustdoc output, cross-reference it
->  docs: Integrate rustdoc generation into htmldocs
+[1]: https://lore.kernel.org/all/20221220011247.35560-1-hal.feng@starfivetech.com/
 
-OK, so I just gave this a try...
+Emil Renner Berthing (4):
+  dt-bindings: hwmon: Add starfive,jh71x0-temp
+  hwmon: (sfctemp) Add StarFive JH71x0 temperature sensor
+  riscv: dts: starfive: jh7110: Add temperature sensor node
+  riscv: dts: starfive: visionfive-2: Add thermal-zones
 
-- It forces the generation of a kernel configuration, something that the
-  docs build has never done until now.  What are our changes of
-  eliminating that?
+ .../bindings/hwmon/starfive,jh71x0-temp.yaml  |  75 ++++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/sfctemp.rst               |  33 ++
+ MAINTAINERS                                   |   8 +
+ .../jh7110-starfive-visionfive-2.dtsi         |  28 ++
+ arch/riscv/boot/dts/starfive/jh7110.dtsi      |  13 +
+ drivers/hwmon/Kconfig                         |  10 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/sfctemp.c                       | 350 ++++++++++++++++++
+ 9 files changed, 519 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/starfive,jh71x0-temp.yaml
+ create mode 100644 Documentation/hwmon/sfctemp.rst
+ create mode 100644 drivers/hwmon/sfctemp.c
 
-- It did a bunch of other building, starting with objtool - again, never
-  needed for the docs build before.
 
-In the end, it died with:
+base-commit: 830b3c68c1fb1e9176028d02ef86f3cf76aa2476
+prerequisite-patch-id: 4dc515731ce237184553c1606ffb3afaeb51c3d8
+prerequisite-patch-id: 09c98554df52d17ba5fd604125f8cdd62cbe80d1
+prerequisite-patch-id: a798370d170dc2bcc79ed86f741c21c1e6d87c78
+prerequisite-patch-id: bd9fd8b5cb2376dc7a5e08e1a1fbb969cf475926
+prerequisite-patch-id: c57ebb83bc43ccd2a8366ff166eb499da1e1d2cf
+prerequisite-patch-id: a1673a9e9f19d6fab5a51abb721e54e36636f067
+prerequisite-patch-id: 94860423c7acc9025249d4bb36652a585bd0a797
+prerequisite-patch-id: b5084253283929d9a6d0e66c350400c7c85d034d
+prerequisite-patch-id: 6e369dbe9dca2785e4ea7d0b80e525e227a90a6e
+prerequisite-patch-id: e08806183c152714c563f3a21c6d7b2f539c4d6e
+prerequisite-patch-id: 79db8036abdc48fd36da227652ec62627a6b548b
+prerequisite-patch-id: 06971b8e6bddc0e87e63bfdb0ce8bfb653bd73aa
+prerequisite-patch-id: 16309a0e23811a2c55d2e56886de3e8eccc51554
+prerequisite-patch-id: bf4f7ab0b6cfa90b6e49e66c7d75ed2eaaebbe78
+prerequisite-patch-id: 38468d532e87867990055d3320679f18c5f52278
+prerequisite-patch-id: 4710f2ac22dca0bdd9ff5d744d2c37cab3c74515
+prerequisite-patch-id: 6bb9a780c62af3bcc2368dfd20303c7b1bc91e23
+prerequisite-patch-id: 258ea5f9b8bf41b6981345dcc81795f25865d38f
+prerequisite-patch-id: 8b6f2c9660c0ac0ee4e73e4c21aca8e6b75e81b9
+prerequisite-patch-id: e3b986b9c60b2b93b7812ec174c9e1b4cfb14c97
+prerequisite-patch-id: a2b3a9cff8a683422eb0ccf3a0850091401812d4
+prerequisite-patch-id: e0ba7af0f8d3d41844da9fbcba14b548cbc18f55
+prerequisite-patch-id: bc0176325c11a632c6abaa83e54e891cc92d1c74
+-- 
+2.38.1
 
-> BINDGEN rust/bindings/bindings_generated.rs
-> Failed to run rustfmt: No such file or directory (os error 2) (non-fatal, continuing)
->   BINDGEN rust/bindings/bindings_helpers_generated.rs
-> error: Found argument '--blacklist-type' which wasn't expected, or isn't valid in this context
-> 
-> 	Did you mean '--blocklist-type'?
-
-Perhaps this is because I ignored the warnings about my Rust toolchain
-being too new? (Rust 1.65.0, bindgen 0.63.0).  I get that only one
-version is really supported, but it would be nice to fail a bit more
-gracefully if at all possible.
-
-Anyway, I've unapplied these for now; thoughts on all this?
-
-Thanks,
-
-jon
