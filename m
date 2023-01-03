@@ -2,135 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11D95C3DA7D
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 15:51:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3FB8C46467
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 15:59:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238049AbjACPvq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Jan 2023 10:51:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60002 "EHLO
+        id S238076AbjACP6w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Jan 2023 10:58:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238051AbjACPvn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 10:51:43 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8CDD120B7
-        for <linux-doc@vger.kernel.org>; Tue,  3 Jan 2023 07:51:35 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id gh17so74821312ejb.6
-        for <linux-doc@vger.kernel.org>; Tue, 03 Jan 2023 07:51:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=taOMH3TFvYbtpRD0i3FdC+J1eAZMym1mmkB6tNExdDo=;
-        b=y3D0xl6E94OyBJK6MXqzVOiVd651iCiYmyUsGpN5EdFHa2gjM9CkO5Bhy0VW8zDTq3
-         389xpL0IgOvqC2T6LKVIrZM0xObZnEs9o2ksmqJ+1QyjgjvHrstWySTQcoEVYw2bFRX2
-         wDn17oz4JWMmhqSonFcJX3a2wB5TDi/YAJUD+4q6h2oRLNJlSqh0xc+Gh7rA3xQRt3oB
-         vWbyKAbtvrh/m/LUqfAileFF+3K7W9cjuIpQJdhG1sHW3jQRpoEsrwZn45GHlLDK555U
-         k1IxsclvndKby6kXn4POiFMyReo1KzZmP3DNiJHHMftvo6rF1+5LdQMSDMSjowF0DGt5
-         6CcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=taOMH3TFvYbtpRD0i3FdC+J1eAZMym1mmkB6tNExdDo=;
-        b=cxcBxep5N4xg0U4yiE/wsmGSjivGjwqbYsBLe/60T5SYJXWszZou9VlZAevVAmsfJL
-         cVuHBnFYcP4X1mJgE793tD2TpfIASrB7hHSlK5oXWWoT/v1Fm6e30aEZmKBlGu+er0Y4
-         +j95Ah7Yl/0AVZ7XWxYP1riYPZf4XhDqJK8Ip2lFcRdS0VAZ/KopX74HwMohZwSoHlDd
-         1qwpyIea+Uax/sW0L0lkUysF3VTg3wobvlhkApIx/+8Ssap96rtl1eWmFQaCG+jCFAxh
-         MTP9VwzBS3Ftbw/yERzLkt5A1FNJAln5HQY9bRSYc+ADTrOw04JRHxur0kv9/tySplAp
-         QzlA==
-X-Gm-Message-State: AFqh2kr2qR52FFcpVDDQ2TwQIvGQ1ZzZusk7dNZjrHrsZhwHkrXFKX/1
-        2TB4kmD0eRHw5TvT/trB+7geFg==
-X-Google-Smtp-Source: AMrXdXvSh+smSCJ42CzF9CfpTvWzpF8F03yhi6vtuR/jj6aHCAABZEojnPbol2OjVyIPRT66fpxx3w==
-X-Received: by 2002:a17:907:d410:b0:7a7:9a38:d284 with SMTP id vi16-20020a170907d41000b007a79a38d284mr31250540ejc.19.1672761094018;
-        Tue, 03 Jan 2023 07:51:34 -0800 (PST)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id m9-20020a1709062ac900b007c0d41736c0sm14158313eje.39.2023.01.03.07.51.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Jan 2023 07:51:33 -0800 (PST)
-Message-ID: <cf00e248-1f2c-d4ce-868d-9f77b2c9b76f@linaro.org>
-Date:   Tue, 3 Jan 2023 15:51:31 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v5 00/21] nvmem: core: introduce NVMEM layouts
-Content-Language: en-US
-To:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Michael Walle <michael@walle.cc>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+        with ESMTP id S238087AbjACP6u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 10:58:50 -0500
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 266B012080;
+        Tue,  3 Jan 2023 07:58:48 -0800 (PST)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7BBE6E0004;
+        Tue,  3 Jan 2023 15:58:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1672761527;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=1PDiBU/GoIjoQMxtR9ofH4gDtLhcbGK+av0qJpmmRtU=;
+        b=gTYXjbLwQaFvz/pw/mVQUDUO3klTeU+FeYUnQeYPhNQuIZPFJoI6HJoWWmt6+U469Af/pF
+        37qKV++t0/4lnz6RieVmejbkBg4EZ+n/TP69VIUGFFvaktT91ueSF8QQEbo2u02Sb3Udhx
+        0AO9e6KUlzXudWYK9yjKSp7vWzzVN+O0R/eJAygzrwVt0V/yWWAt+vJwBAzMv0tQpxypNh
+        o3sbTwHcQUh5nfdRPpSE0csEjIlj+6xQkVmItq+GLf1DO8knrTJaY/Y+/axoaOhciZutaJ
+        nrk5LvLK3fWgKiIuWQR/zqORiwqwedREHoRhjFCix5R036aGBEkuns1egglDqg==
+Date:   Tue, 3 Jan 2023 16:58:42 +0100
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc:     Michael Walle <michael@walle.cc>, Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>,
         Sascha Hauer <s.hauer@pengutronix.de>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v5 00/21] nvmem: core: introduce NVMEM layouts
+Message-ID: <20230103165842.2f693bfa@xps-13>
+In-Reply-To: <cf00e248-1f2c-d4ce-868d-9f77b2c9b76f@linaro.org>
 References: <20221206200740.3567551-1-michael@walle.cc>
- <20230103163902.218cb5c7@xps-13>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20230103163902.218cb5c7@xps-13>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        <20230103163902.218cb5c7@xps-13>
+        <cf00e248-1f2c-d4ce-868d-9f77b2c9b76f@linaro.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Miquel,
+Hi Srinivas,
 
-On 03/01/2023 15:39, Miquel Raynal wrote:
-> Hi Srinivas,
-> 
-> michael@walle.cc wrote on Tue,  6 Dec 2022 21:07:19 +0100:
-> 
->> This is now the third attempt to fetch the MAC addresses from the VPD
->> for the Kontron sl28 boards. Previous discussions can be found here:
->> https://lore.kernel.org/lkml/20211228142549.1275412-1-michael@walle.cc/
->>
->>
->> NVMEM cells are typically added by board code or by the devicetree. But
->> as the cells get more complex, there is (valid) push back from the
->> devicetree maintainers to not put that handling in the devicetree.
->>
->> Therefore, introduce NVMEM layouts. They operate on the NVMEM device and
->> can add cells during runtime. That way it is possible to add more complex
->> cells than it is possible right now with the offset/length/bits
->> description in the device tree. For example, you can have post processing
->> for individual cells (think of endian swapping, or ethernet offset
->> handling).
->>
->> The imx-ocotp driver is the only user of the global post processing hook,
->> convert it to nvmem layouts and drop the global post pocessing hook.
->>
->> For now, the layouts are selected by the device tree. But the idea is
->> that also board files or other drivers could set a layout. Although no
->> code for that exists yet.
->>
->> Thanks to Miquel, the device tree bindings are already approved and merged.
->>
->> NVMEM layouts as modules?
->> While possible in principle, it doesn't make any sense because the NVMEM
->> core can't be compiled as a module. The layouts needs to be available at
->> probe time. (That is also the reason why they get registered with
->> subsys_initcall().) So if the NVMEM core would be a module, the layouts
->> could be modules, too.
-> 
-> I believe this series still applies even though -rc1 (and -rc2) are out
-> now, may we know if you consider merging it anytime soon or if there
-> are still discrepancies in the implementation you would like to
-> discuss? Otherwise I would really like to see this laying in -next a
-> few weeks before being sent out to Linus, just in case.
+srinivas.kandagatla@linaro.org wrote on Tue, 3 Jan 2023 15:51:31 +0000:
 
-Thanks for the work!
+> Hi Miquel,
+>=20
+> On 03/01/2023 15:39, Miquel Raynal wrote:
+> > Hi Srinivas,
+> >=20
+> > michael@walle.cc wrote on Tue,  6 Dec 2022 21:07:19 +0100:
+> >  =20
+> >> This is now the third attempt to fetch the MAC addresses from the VPD
+> >> for the Kontron sl28 boards. Previous discussions can be found here:
+> >> https://lore.kernel.org/lkml/20211228142549.1275412-1-michael@walle.cc/
+> >>
+> >>
+> >> NVMEM cells are typically added by board code or by the devicetree. But
+> >> as the cells get more complex, there is (valid) push back from the
+> >> devicetree maintainers to not put that handling in the devicetree.
+> >>
+> >> Therefore, introduce NVMEM layouts. They operate on the NVMEM device a=
+nd
+> >> can add cells during runtime. That way it is possible to add more comp=
+lex
+> >> cells than it is possible right now with the offset/length/bits
+> >> description in the device tree. For example, you can have post process=
+ing
+> >> for individual cells (think of endian swapping, or ethernet offset
+> >> handling).
+> >>
+> >> The imx-ocotp driver is the only user of the global post processing ho=
+ok,
+> >> convert it to nvmem layouts and drop the global post pocessing hook.
+> >>
+> >> For now, the layouts are selected by the device tree. But the idea is
+> >> that also board files or other drivers could set a layout. Although no
+> >> code for that exists yet.
+> >>
+> >> Thanks to Miquel, the device tree bindings are already approved and me=
+rged.
+> >>
+> >> NVMEM layouts as modules?
+> >> While possible in principle, it doesn't make any sense because the NVM=
+EM
+> >> core can't be compiled as a module. The layouts needs to be available =
+at
+> >> probe time. (That is also the reason why they get registered with
+> >> subsys_initcall().) So if the NVMEM core would be a module, the layouts
+> >> could be modules, too. =20
+> >=20
+> > I believe this series still applies even though -rc1 (and -rc2) are out
+> > now, may we know if you consider merging it anytime soon or if there
+> > are still discrepancies in the implementation you would like to
+> > discuss? Otherwise I would really like to see this laying in -next a
+> > few weeks before being sent out to Linus, just in case. =20
+>=20
+> Thanks for the work!
+>=20
+> Lets get some testing in -next.
+>=20
+>=20
+> Applied now,
 
-Lets get some testing in -next.
+Excellent! Thanks a lot for the quick answer and thanks for applying,
+let's see how it behaves.
 
-
-Applied now,
-
-
-
-
-
---srini
-> 
-> Thanks,
-> Miquèl
+Thanks,
+Miqu=C3=A8l
