@@ -2,149 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3913C53210
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 01:44:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D3EAC3DA7A
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 01:56:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231816AbjACBoR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Jan 2023 20:44:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50742 "EHLO
+        id S236719AbjACB4p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Jan 2023 20:56:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230486AbjACBoQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 20:44:16 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B489C627F;
-        Mon,  2 Jan 2023 17:44:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672710255; x=1704246255;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=kIuNdU/0BTpRBUyYlNa5j3GUvL63FAbv1n39zRBT40o=;
-  b=bQJP3fqSOKbx7aiPvOdVujVKhkkpfgO0rX6OMY/pB+Rg8+oOSoc+zoE3
-   3UW1DCJMBdFxQ0XPfZXhdpna+YPpDN8uylotIK5eIZ4oTOidOFpGvE9Uc
-   NlzaKSWt1/HxzRCxgaRaLIa5IyuGckiJHbJPsV/BInoGW+IT29cA6xcWr
-   /YvnY14++Qh/vir1z6JwzBj72yvlcLcwvHwmEOYx0Ub2L4hGzJbL/D5CA
-   KkQDAr5ulmG87HqiuxCRPNIwFFCPoWBeYJXI/+LOD6IxMIIM1WIif4tw6
-   yPFl/iTC+td9ChegbGzp65eYOttN+O9imJzkjryRxM1TT6CzKOPGlNdh0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="407822398"
-X-IronPort-AV: E=Sophos;i="5.96,295,1665471600"; 
-   d="scan'208";a="407822398"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 17:44:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="828701041"
-X-IronPort-AV: E=Sophos;i="5.96,295,1665471600"; 
-   d="scan'208";a="828701041"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga005.jf.intel.com with ESMTP; 02 Jan 2023 17:44:01 -0800
-Date:   Tue, 3 Jan 2023 09:39:48 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Chenyi Qiang <chenyi.qiang@intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S236766AbjACB4Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jan 2023 20:56:25 -0500
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BD5BCE3E;
+        Mon,  2 Jan 2023 17:56:07 -0800 (PST)
+Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-14455716674so35360381fac.7;
+        Mon, 02 Jan 2023 17:56:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=96ZA3U+4lODUN3hIoOOVli3grSMHv8whVkE4ZtfzuJM=;
+        b=KvXgqBoo9WmoGuCe5vzbMWxElgDcbFiloThShHoBMxljzX+4aV4siZiqAROHBM4128
+         2DHl0I4Fz/mmYz49C47k8fQJN3TgddLm5A83pEAOElNOxm72x4v7Ag7vZruc8/h7ODLl
+         +gAhtSug9qHjhpoRju+X/hrAAK88RT95HwR3rk97Ut92tAJff9VUb1iQ6Lkz/3RsHX99
+         Ri0t1eb/0d6/RV1UnBZqTrfZaglg9kHfOqOAM1of7MO4Ght4sRqKfOJwH6Y5I/MgBczG
+         Is1ggOpBcSHlFkKudF5qHDf6ap86WuZOe5JIAVe7f9iMrgmz0WKu8lsU5f5e32NkH/cw
+         SF3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=96ZA3U+4lODUN3hIoOOVli3grSMHv8whVkE4ZtfzuJM=;
+        b=PrWFSX6slnDndpoA4viQbpb5E28xMDVw7X1rynn7lXlMtt6o8S+XJSYzrbMS4Jq0/y
+         mQs94YZWGQlGGwe2lmEfPlqVic3pA20YTlYbU8jnmw9fV88sb0okeBwmjc1wvRQimujS
+         9v7RhV4B+0/zQZnPpdk3V+qOMgidFwMsT/bXZ1k1dsiXDnxtPmgCyNjNv6sh9ScsGhib
+         rXGAR7zGHl0vQAInIO0+8aCWwxIm33mGQvREqyIkE2DJycXJEzGmpoy2PHaDUIuY/x03
+         FREmge8/4poXgvOFrVqHf/Hp+xDRhKRKp9mKqh4+JcE2NEub912JlsfWDc1CEw7fv/xW
+         lTBg==
+X-Gm-Message-State: AFqh2kq8rf+Smct3AfngkOVAnlF+6Dh2Tx47fPYqLieYi/W7ewQ3x8lM
+        k7X08QSP0fmxxTcgY7G5Ng0=
+X-Google-Smtp-Source: AMrXdXtb4bHZ9umAo6HHJUafiGC78lfkM4bBWYxkhrmL8rbnxkgsx2BdYpvMkIIJoXpc34YlsCkINA==
+X-Received: by 2002:a05:6870:d8aa:b0:144:7eb3:c9b0 with SMTP id dv42-20020a056870d8aa00b001447eb3c9b0mr20918406oab.42.1672710962830;
+        Mon, 02 Jan 2023 17:56:02 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id c9-20020a056870b28900b0014474019e50sm13663486oao.24.2023.01.02.17.56.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Jan 2023 17:56:02 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Mon, 2 Jan 2023 17:56:01 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Hal Feng <hal.feng@starfivetech.com>
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+        Jean Delvare <jdelvare@suse.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-Message-ID: <20230103013948.GA2178318@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
- <1c9bbaa5-eea3-351e-d6a0-cfbc32115c82@intel.com>
+        Conor Dooley <conor@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 0/4] Temperature sensor support for StarFive JH7110
+ RISC-V SoC
+Message-ID: <20230103015601.GB313835@roeck-us.net>
+References: <20230103013145.9570-1-hal.feng@starfivetech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1c9bbaa5-eea3-351e-d6a0-cfbc32115c82@intel.com>
+In-Reply-To: <20230103013145.9570-1-hal.feng@starfivetech.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 28, 2022 at 04:28:01PM +0800, Chenyi Qiang wrote:
-...
-> > +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
-> > +					   struct kvm_memory_attributes *attrs)
-> > +{
-> > +	gfn_t start, end;
-> > +	unsigned long i;
-> > +	void *entry;
-> > +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
-> > +
-> > +	/* flags is currently not used. */
-> > +	if (attrs->flags)
-> > +		return -EINVAL;
-> > +	if (attrs->attributes & ~supported_attrs)
-> > +		return -EINVAL;
-> > +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
-> > +		return -EINVAL;
-> > +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
-> > +		return -EINVAL;
-> > +
-> > +	start = attrs->address >> PAGE_SHIFT;
-> > +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
-> > +
-> > +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
-> > +
+On Tue, Jan 03, 2023 at 09:31:41AM +0800, Hal Feng wrote:
+> This patch series adds temperature sensor support for StarFive JH7110 SoC.
+> The last two patches depend on series [1].
 > 
-> Because guest memory defaults to private, and now this patch stores the
-> attributes with KVM_MEMORY_ATTRIBUTE_PRIVATE instead of _SHARED, it
-> would bring more KVM_EXIT_MEMORY_FAULT exits at the beginning of boot
-> time. Maybe it can be optimized somehow in other places? e.g. set mem
-> attr in advance.
-
-KVM defaults to 'shared' because this ioctl can also be potentially used
-by normal VMs and 'shared' sounds a value meaningful for both normal VMs
-and confidential VMs. As for more KVM_EXIT_MEMORY_FAULT exits during the
-booting time, yes, setting all memory to 'private' for confidential VMs
-through this ioctl in userspace before guest launch is an approach for
-KVM userspace to 'override' the KVM default and reduce the number of
-implicit conversions.
-
-Thanks,
-Chao
+> [1]: https://lore.kernel.org/all/20221220011247.35560-1-hal.feng@starfivetech.com/
 > 
-> > +	mutex_lock(&kvm->lock);
-> > +	for (i = start; i < end; i++)
-> > +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
-> > +				    GFP_KERNEL_ACCOUNT)))
-> > +			break;
-> > +	mutex_unlock(&kvm->lock);
-> > +
-> > +	attrs->address = i << PAGE_SHIFT;
-> > +	attrs->size = (end - i) << PAGE_SHIFT;
-> > +
-> > +	return 0;
-> > +}
-> > +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
-> > +
-> >  struct kvm_memory_slot *gfn_to_memslot(struct kvm *kvm, gfn_t gfn)
-> >  {
-> >  	return __gfn_to_memslot(kvm_memslots(kvm), gfn);
+> Emil Renner Berthing (4):
+>   dt-bindings: hwmon: Add starfive,jh71x0-temp
+>   hwmon: (sfctemp) Add StarFive JH71x0 temperature sensor
+>   riscv: dts: starfive: jh7110: Add temperature sensor node
+>   riscv: dts: starfive: visionfive-2: Add thermal-zones
+> 
+
+The hardware monitoring driver is obviously either the same
+or derived from the previous series at
+https://patchwork.kernel.org/project/linux-hwmon/list/?series=&submitter=&state=*&q=starfive
+
+Why is this not submitted as v4 of the original series ?
+What has changed, and what is the rationale for (re-)submitting
+it as v1 ?
+
+Guenter
+
+>  .../bindings/hwmon/starfive,jh71x0-temp.yaml  |  75 ++++
+>  Documentation/hwmon/index.rst                 |   1 +
+>  Documentation/hwmon/sfctemp.rst               |  33 ++
+>  MAINTAINERS                                   |   8 +
+>  .../jh7110-starfive-visionfive-2.dtsi         |  28 ++
+>  arch/riscv/boot/dts/starfive/jh7110.dtsi      |  13 +
+>  drivers/hwmon/Kconfig                         |  10 +
+>  drivers/hwmon/Makefile                        |   1 +
+>  drivers/hwmon/sfctemp.c                       | 350 ++++++++++++++++++
+>  9 files changed, 519 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/starfive,jh71x0-temp.yaml
+>  create mode 100644 Documentation/hwmon/sfctemp.rst
+>  create mode 100644 drivers/hwmon/sfctemp.c
+> 
+> 
+> base-commit: 830b3c68c1fb1e9176028d02ef86f3cf76aa2476
+> prerequisite-patch-id: 4dc515731ce237184553c1606ffb3afaeb51c3d8
+> prerequisite-patch-id: 09c98554df52d17ba5fd604125f8cdd62cbe80d1
+> prerequisite-patch-id: a798370d170dc2bcc79ed86f741c21c1e6d87c78
+> prerequisite-patch-id: bd9fd8b5cb2376dc7a5e08e1a1fbb969cf475926
+> prerequisite-patch-id: c57ebb83bc43ccd2a8366ff166eb499da1e1d2cf
+> prerequisite-patch-id: a1673a9e9f19d6fab5a51abb721e54e36636f067
+> prerequisite-patch-id: 94860423c7acc9025249d4bb36652a585bd0a797
+> prerequisite-patch-id: b5084253283929d9a6d0e66c350400c7c85d034d
+> prerequisite-patch-id: 6e369dbe9dca2785e4ea7d0b80e525e227a90a6e
+> prerequisite-patch-id: e08806183c152714c563f3a21c6d7b2f539c4d6e
+> prerequisite-patch-id: 79db8036abdc48fd36da227652ec62627a6b548b
+> prerequisite-patch-id: 06971b8e6bddc0e87e63bfdb0ce8bfb653bd73aa
+> prerequisite-patch-id: 16309a0e23811a2c55d2e56886de3e8eccc51554
+> prerequisite-patch-id: bf4f7ab0b6cfa90b6e49e66c7d75ed2eaaebbe78
+> prerequisite-patch-id: 38468d532e87867990055d3320679f18c5f52278
+> prerequisite-patch-id: 4710f2ac22dca0bdd9ff5d744d2c37cab3c74515
+> prerequisite-patch-id: 6bb9a780c62af3bcc2368dfd20303c7b1bc91e23
+> prerequisite-patch-id: 258ea5f9b8bf41b6981345dcc81795f25865d38f
+> prerequisite-patch-id: 8b6f2c9660c0ac0ee4e73e4c21aca8e6b75e81b9
+> prerequisite-patch-id: e3b986b9c60b2b93b7812ec174c9e1b4cfb14c97
+> prerequisite-patch-id: a2b3a9cff8a683422eb0ccf3a0850091401812d4
+> prerequisite-patch-id: e0ba7af0f8d3d41844da9fbcba14b548cbc18f55
+> prerequisite-patch-id: bc0176325c11a632c6abaa83e54e891cc92d1c74
+> -- 
+> 2.38.1
+> 
