@@ -2,123 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3FB8C46467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F329EC54EBE
 	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 15:59:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238076AbjACP6w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Jan 2023 10:58:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35164 "EHLO
+        id S230166AbjACP6v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Jan 2023 10:58:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238087AbjACP6u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 10:58:50 -0500
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 266B012080;
-        Tue,  3 Jan 2023 07:58:48 -0800 (PST)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7BBE6E0004;
-        Tue,  3 Jan 2023 15:58:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1672761527;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+        with ESMTP id S238170AbjACP6H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 10:58:07 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A602F120AB;
+        Tue,  3 Jan 2023 07:58:04 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 5E59A33C4F;
+        Tue,  3 Jan 2023 15:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1672761483; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=1PDiBU/GoIjoQMxtR9ofH4gDtLhcbGK+av0qJpmmRtU=;
-        b=gTYXjbLwQaFvz/pw/mVQUDUO3klTeU+FeYUnQeYPhNQuIZPFJoI6HJoWWmt6+U469Af/pF
-        37qKV++t0/4lnz6RieVmejbkBg4EZ+n/TP69VIUGFFvaktT91ueSF8QQEbo2u02Sb3Udhx
-        0AO9e6KUlzXudWYK9yjKSp7vWzzVN+O0R/eJAygzrwVt0V/yWWAt+vJwBAzMv0tQpxypNh
-        o3sbTwHcQUh5nfdRPpSE0csEjIlj+6xQkVmItq+GLf1DO8knrTJaY/Y+/axoaOhciZutaJ
-        nrk5LvLK3fWgKiIuWQR/zqORiwqwedREHoRhjFCix5R036aGBEkuns1egglDqg==
-Date:   Tue, 3 Jan 2023 16:58:42 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc:     Michael Walle <michael@walle.cc>, Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v5 00/21] nvmem: core: introduce NVMEM layouts
-Message-ID: <20230103165842.2f693bfa@xps-13>
-In-Reply-To: <cf00e248-1f2c-d4ce-868d-9f77b2c9b76f@linaro.org>
-References: <20221206200740.3567551-1-michael@walle.cc>
-        <20230103163902.218cb5c7@xps-13>
-        <cf00e248-1f2c-d4ce-868d-9f77b2c9b76f@linaro.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        bh=iKjXx1KQnhPN9lTr8RU8Xqe+LxJa17eHOfCSVLRXD9c=;
+        b=WVXcnxfRyHZkZEsVmyqUpxtXbFt+jn7r0soG5uGsqmrRSaOg/GjB6H+cX51UZ47JrjAugT
+        mwe18L5CKdpct68OwLW6SFc6HmJPmDL1Dm0NL7Qc6Befrf9wO3OdM+8M9VCvLQISRwoKfm
+        65ZBmOt+PfTDNXBFvtzR6gr0IyZe5dA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1672761483;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=iKjXx1KQnhPN9lTr8RU8Xqe+LxJa17eHOfCSVLRXD9c=;
+        b=iis4EZW6ycpQM8jAC2gWaAOHDKzO1kQ1CbCohE/B+45VUVNJsMCpipceiYjcgfPOsUNqVT
+        yrffPkRlnVkrg0AA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E01641390C;
+        Tue,  3 Jan 2023 15:58:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id TKIKNopQtGPgewAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Tue, 03 Jan 2023 15:58:02 +0000
+Message-ID: <c4020377-ad8b-2677-7159-e796d4fef138@suse.cz>
+Date:   Tue, 3 Jan 2023 16:58:02 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [RFC][PATCH 11/12] slub: Replace cmpxchg_double()
+Content-Language: en-US
+To:     Peter Zijlstra <peterz@infradead.org>,
+        torvalds@linux-foundation.org
+Cc:     corbet@lwn.net, will@kernel.org, boqun.feng@gmail.com,
+        mark.rutland@arm.com, catalin.marinas@arm.com, dennis@kernel.org,
+        tj@kernel.org, cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, Herbert Xu <herbert@gondor.apana.org.au>,
+        davem@davemloft.net, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-s390@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org
+References: <20221219153525.632521981@infradead.org>
+ <20221219154119.550996611@infradead.org>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20221219154119.550996611@infradead.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Srinivas,
+On 12/19/22 16:35, Peter Zijlstra wrote:
+> 
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
-srinivas.kandagatla@linaro.org wrote on Tue, 3 Jan 2023 15:51:31 +0000:
+LGTM and a nice cleanup also, thanks!
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
 
-> Hi Miquel,
->=20
-> On 03/01/2023 15:39, Miquel Raynal wrote:
-> > Hi Srinivas,
-> >=20
-> > michael@walle.cc wrote on Tue,  6 Dec 2022 21:07:19 +0100:
-> >  =20
-> >> This is now the third attempt to fetch the MAC addresses from the VPD
-> >> for the Kontron sl28 boards. Previous discussions can be found here:
-> >> https://lore.kernel.org/lkml/20211228142549.1275412-1-michael@walle.cc/
-> >>
-> >>
-> >> NVMEM cells are typically added by board code or by the devicetree. But
-> >> as the cells get more complex, there is (valid) push back from the
-> >> devicetree maintainers to not put that handling in the devicetree.
-> >>
-> >> Therefore, introduce NVMEM layouts. They operate on the NVMEM device a=
-nd
-> >> can add cells during runtime. That way it is possible to add more comp=
-lex
-> >> cells than it is possible right now with the offset/length/bits
-> >> description in the device tree. For example, you can have post process=
-ing
-> >> for individual cells (think of endian swapping, or ethernet offset
-> >> handling).
-> >>
-> >> The imx-ocotp driver is the only user of the global post processing ho=
-ok,
-> >> convert it to nvmem layouts and drop the global post pocessing hook.
-> >>
-> >> For now, the layouts are selected by the device tree. But the idea is
-> >> that also board files or other drivers could set a layout. Although no
-> >> code for that exists yet.
-> >>
-> >> Thanks to Miquel, the device tree bindings are already approved and me=
-rged.
-> >>
-> >> NVMEM layouts as modules?
-> >> While possible in principle, it doesn't make any sense because the NVM=
-EM
-> >> core can't be compiled as a module. The layouts needs to be available =
-at
-> >> probe time. (That is also the reason why they get registered with
-> >> subsys_initcall().) So if the NVMEM core would be a module, the layouts
-> >> could be modules, too. =20
-> >=20
-> > I believe this series still applies even though -rc1 (and -rc2) are out
-> > now, may we know if you consider merging it anytime soon or if there
-> > are still discrepancies in the implementation you would like to
-> > discuss? Otherwise I would really like to see this laying in -next a
-> > few weeks before being sent out to Linus, just in case. =20
->=20
-> Thanks for the work!
->=20
-> Lets get some testing in -next.
->=20
->=20
-> Applied now,
 
-Excellent! Thanks a lot for the quick answer and thanks for applying,
-let's see how it behaves.
-
-Thanks,
-Miqu=C3=A8l
