@@ -2,141 +2,144 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54FF8C4708E
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 20:03:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CE00C4708E
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 20:39:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232686AbjACUDa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Jan 2023 15:03:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45314 "EHLO
+        id S238067AbjACUj3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Jan 2023 15:39:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230488AbjACUD2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 15:03:28 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0957C140A7;
-        Tue,  3 Jan 2023 12:03:26 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id jn22so33743665plb.13;
-        Tue, 03 Jan 2023 12:03:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=v8pcmuonN+UPPt9cmF4NX78AveTfQL9Fb1MLveIduoE=;
-        b=jkLGFFO8+Ncdr+JTqPLzpv/WoBKqm9vRdqXUnfflH2/zvCrF/p3nMdYk9jdVSe+B7g
-         XtpT42DUgZB2Sn+1rLdiPYbHliJPuzHK1jZcLXP9Dw0YOmDEJPjbgdp4w8Z/OsIzS+h2
-         KtyEkBf99fdCIJWl7M2PAAJ8L7kvBQeCqeJkelVD1ASmMNslVe8lr33wAqw0luP0qQtj
-         OedssMr9oa6iUY35WUgIkVIFcEjDvEqjK3WNKZKm3Ct5pvO8AHWczw5+mxOrwi8gUaAr
-         nXZ+eZ5e2+8zrRqcScLfoqp1Dz20lbOvGCxnCpub3GR5JVH1WNvZPEphAF/Vz5w0MJ6K
-         TIYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v8pcmuonN+UPPt9cmF4NX78AveTfQL9Fb1MLveIduoE=;
-        b=QPrZ4544xs+tBiJxqy1Ktb6SmhKhAXX9qDgY3KiohZLlGubb7liaFMdChRN8WjKAgf
-         Z2G63PHUfSjWlE1hILigW/iJRFLhAAEm/FCgEQnodWSaVz31Znh9H/DaPPTrStYciOzv
-         7vcBUlcau3aK9J29KJ+PfjnVLqbBI+t8X6NxBHxoAtwk88VORzcXkII/UnS1fHuhp9Yj
-         dHifrCUesBvFt3iaUGMkOjgp2HTeCQtz6peo5ujXnex3I8Y18hLgQl8fMH5x/Qlzdiuq
-         krMX9fkLAspCoLgcdLv1VDDkfJcKm9yjq+VLvPreRWmG6WUoQtffRNqi4Kej7SliSicj
-         bqPw==
-X-Gm-Message-State: AFqh2kp/3SZYItWdWgpts05Yje9kn5vvyfonJHlE1PBpjxVzs+3vEai1
-        MbiBWH3Aog/j1GcrZIkn17k=
-X-Google-Smtp-Source: AMrXdXuCthXxzHEN+zTEW6sH37VtiYU63bNpVQuA7kInozlY5IXAd6NkqnJRjVZtzA5aT6IesVUjGw==
-X-Received: by 2002:a17:902:6acb:b0:191:40a9:60f6 with SMTP id i11-20020a1709026acb00b0019140a960f6mr10836769plt.0.1672776206043;
-        Tue, 03 Jan 2023 12:03:26 -0800 (PST)
-Received: from mail.google.com (125-237-37-88-fibre.sparkbb.co.nz. [125.237.37.88])
-        by smtp.gmail.com with ESMTPSA id jg21-20020a17090326d500b001929827731esm12894682plb.201.2023.01.03.12.03.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jan 2023 12:03:25 -0800 (PST)
-Date:   Wed, 4 Jan 2023 09:03:18 +1300
-From:   Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To:     masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
-        nicolas@fjasle.eu, corbet@lwn.net,
-        cristian.ciocaltea@collabora.com, gregkh@linuxfoundation.org,
-        vipinsh@google.com, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     paulo.miguel.almeida.rodenas@gmail.com
-Subject: [PATCH v3 RESEND] scripts/tags.sh: choose which directories to
- exclude from being indexed
-Message-ID: <Y7SKBqxULPofEry7@mail.google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+        with ESMTP id S230388AbjACUj2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 15:39:28 -0500
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FD3F13D61;
+        Tue,  3 Jan 2023 12:39:26 -0800 (PST)
+Received: from pps.filterd (m0134422.ppops.net [127.0.0.1])
+        by mx0b-002e3701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 303GJmxU025311;
+        Tue, 3 Jan 2023 20:38:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : subject :
+ date : message-id; s=pps0720;
+ bh=Ex5PEvXIB00plOjxJ83CsVaJEiZJSp/AaY1qjeMp9E8=;
+ b=LX/G9chXOM/fS/PRoNUYV0jChUSzJEBZ3cldtRdSMDXi1RxFenpbzqkyMTv1+S6R31UN
+ kszD7zIwJDvr5N8jcw/rdrv3vApEhweaqv4V+F9niz8SnqyrsMMZpt1vAqhUeJOq7L1d
+ 4uS+lGwo8CNxypE18st33l/3D0BvPD5eu3CYSmzQUaFQ1jjDexX8YLe6/1Ua2BGPm1AE
+ D5FaKSXFNbrY/4rnqNpP5Kwiv7sghhaw1XZglEon+i9vduYT9tJzIc9yfkGTC+NMPK4Y
+ RZAUbI0pmqdZk7lqCgpZkJnNcnf0rFSYJO7Z+XV1xGGw1hlmNNNXHK+dmksZibSNkhQn gw== 
+Received: from p1lg14880.it.hpe.com (p1lg14880.it.hpe.com [16.230.97.201])
+        by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 3mvqsm1c55-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 03 Jan 2023 20:38:50 +0000
+Received: from p1lg14886.dc01.its.hpecorp.net (unknown [10.119.18.237])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by p1lg14880.it.hpe.com (Postfix) with ESMTPS id A6997807EFF;
+        Tue,  3 Jan 2023 20:38:49 +0000 (UTC)
+Received: from hpe.com (unknown [16.231.227.36])
+        by p1lg14886.dc01.its.hpecorp.net (Postfix) with ESMTP id 326B2809052;
+        Tue,  3 Jan 2023 20:38:47 +0000 (UTC)
+From:   nick.hawkins@hpe.com
+To:     verdun@hpe.com, nick.hawkins@hpe.com, jdelvare@suse.com,
+        linux@roeck-us.net, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net,
+        linux@armlinux.org.uk, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v4 0/5] ARM: Add GXP Fan and SPI controllers
+Date:   Tue,  3 Jan 2023 14:36:49 -0600
+Message-Id: <20230103203654.59322-1-nick.hawkins@hpe.com>
+X-Mailer: git-send-email 2.17.1
+X-Proofpoint-ORIG-GUID: -G41T4cBI76UbO2X7MfG2eD6rPhamt64
+X-Proofpoint-GUID: -G41T4cBI76UbO2X7MfG2eD6rPhamt64
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-03_07,2023-01-03_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ clxscore=1011 malwarescore=0 mlxlogscore=999 bulkscore=0 spamscore=0
+ priorityscore=1501 adultscore=0 impostorscore=0 lowpriorityscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301030174
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It's common for drivers that share same physical components to also
-duplicate source code (or at least portions of it). A good example is
-both drivers/gpu/drm/amdgpu/* and drivers/gpu/drm/radeon/* have a header
-file called atombios.h.
+From: Nick Hawkins <nick.hawkins@hpe.com>
 
-While their contents aren't the same, a lot of their structs have
-the exact same names which makes navigating through the code base a bit
-messy as cscope will show up 'references' across drivers which aren't
-exactly correct.
+The GXP SoC can support up to 16 fans through the interface provided by
+the CPLD. The fans speeds are controlled via a pwm value 0-255. The fans
+are also capable of reporting if they have failed to the CPLD which in
+turn reports the status to the GXP SoC. Based on previous feedback the
+registers required for fan control have been regmaped individualy to fan
+driver. Specifically these registers are the function 2 registers and the
+programmable logic registers from the CPLD. Additionally in this patchset
+there is support for the SPI driver which already exists as spi-gxp.c in
+the SPI driver.
 
-Add IGNORE_DIRS variable, which specifies which directories
-to be ignored from indexing.
-
-Example:
-        make ARCH=x86 IGNORE_DIRS="drivers/gpu/drm/radeon tools" cscope
-
-Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 ---
-Changelog:
 
-- v3: change commit message wording and rst syntax (Req Bagas Sanjaya)
-      change makefile variable scope to global, use blank space
-      separator and change variable name to IGNORE_DIRS.
-      (Req: Vipin Sharma)
-- v2: change approach to include everything unless specified by the 
-  IGNOREDIRS variable: (Req: Vipin Sharma)
-- v1: https://lore.kernel.org/lkml/Y5OKDvbGk4Kro6MK@mail.google.com/
+Changes since v3:
+ *Removed patch for ABI documentation of sysfs-class-hwmon as it
+  was applied
+ *Removed unecessary HWMON_PWM_ENABLE usage
 
-Additional notes (if relevant):
-- Patch v3 was reviewed-by Vipin Sharma here:
-  https://lore.kernel.org/lkml/CAHVum0eNp5Dup_KyrS2N0zu5TfrtcCxphRnLuBFZa5PxahVg7A@mail.gmail.com/
----
- Documentation/kbuild/kbuild.rst | 7 +++++++
- scripts/tags.sh                 | 7 +++++++
- 2 files changed, 14 insertions(+)
+Changes since v2:
+ *Removed use of regmap in favor of __iomem
+ *Updated description on yaml documentation
+ *Simplified commit description on sysfs-class-hwmon
+ *Removed use of dev and hwmon_dev from drvdata structure
+ *Fixed missing breaks in switch statements
+ *Added check for pwm values less than 0
+ *Removed regmap and slab header file includes
 
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 08f575e6236c..5202186728b4 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -278,6 +278,13 @@ To get all available archs you can also specify all. E.g.::
- 
-     $ make ALLSOURCE_ARCHS=all tags
- 
-+IGNORE_DIRS
-+-----------
-+For tags/TAGS/cscope targets, you can choose which directories won't
-+be included in the databases, separated by blank space. E.g.::
-+
-+    $ make IGNORE_DIRS="drivers/gpu/drm/radeon tools" cscope
-+
- KBUILD_BUILD_TIMESTAMP
- ----------------------
- Setting this to a date string overrides the timestamp used in the
-diff --git a/scripts/tags.sh b/scripts/tags.sh
-index e137cf15aae9..1ad45f17179a 100755
---- a/scripts/tags.sh
-+++ b/scripts/tags.sh
-@@ -17,6 +17,13 @@ ignore="$(echo "$RCS_FIND_IGNORE" | sed 's|\\||g' )"
- # tags and cscope files should also ignore MODVERSION *.mod.c files
- ignore="$ignore ( -name *.mod.c ) -prune -o"
- 
-+# ignore arbitrary directories
-+if [ -n "${IGNORE_DIRS}" ]; then
-+	for i in ${IGNORE_DIRS}; do
-+		ignore="${ignore} ( -path $i ) -prune -o"
-+	done
-+fi
-+
- # Use make KBUILD_ABS_SRCTREE=1 {tags|cscope}
- # to force full paths for a non-O= build
- if [ "${srctree}" = "." -o -z "${srctree}" ]; then
+Changes since v1:
+
+*Renamed fn2reg to fn2 in dtsi file and documentation
+*Renamed plreg to pl in dtsi file and documentation
+*Renamed fanctrl to fan-controller in dtsi file and documentation
+*Adjusted base register range for fan ctrl in dtsi
+*Changed commit description on fan-ctrl device-tree binding
+*Changed register description on fan-ctrl device-tree binding
+*Changed number of supported fans from 16 to 8 in driver code and
+ documentation
+*Modified commit description of fan code
+*Removed support for fan[0-15]_input
+*Removed PWM defines in driver code
+*Added gxp-fan-ctrl to hwmon's index.rst
+*Removed mutex in driver code
+*Added fan_enable support in fan code and documentation
+*Fixed comment in driver code presents -> present
+*Removed unecessary include files in fan code
+*Added comments to describe what power state is and
+ calculations for accessing plreg in fan code
+*Removed use of variable offsets in fan code
+*Fixed GPL header in fan code
+*Changed module description for fan controller
+*Added kfree in case of failure to initialize driver
+*Added missing yaml file to MAINTAINERS*** SUBJECT HERE ***
+
+Nick Hawkins (5):
+  hwmon: (gxp-fan-ctrl) Add GXP fan controller
+  dt-bindings: hwmon: Add hpe,gxp-fan-ctrl
+  ARM: dts: add GXP Support for fans and SPI
+  ARM: multi_v7_defconfig: Add GXP Fan and SPI support
+  MAINTAINERS: add gxp fan controller and documents
+
+ .../bindings/hwmon/hpe,gxp-fan-ctrl.yaml      |  45 ++++
+ Documentation/hwmon/gxp-fan-ctrl.rst          |  28 ++
+ Documentation/hwmon/index.rst                 |   1 +
+ MAINTAINERS                                   |   3 +
+ arch/arm/boot/dts/hpe-bmc-dl360gen10.dts      |  58 ++++
+ arch/arm/boot/dts/hpe-gxp.dtsi                |  64 +++--
+ arch/arm/configs/multi_v7_defconfig           |   2 +
+ drivers/hwmon/Kconfig                         |   9 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/gxp-fan-ctrl.c                  | 254 ++++++++++++++++++
+ 10 files changed, 446 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/hpe,gxp-fan-ctrl.yaml
+ create mode 100644 Documentation/hwmon/gxp-fan-ctrl.rst
+ create mode 100644 drivers/hwmon/gxp-fan-ctrl.c
+
 -- 
-2.38.1
+2.17.1
 
