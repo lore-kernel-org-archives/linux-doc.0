@@ -2,220 +2,583 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 301A5C3DA7D
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 22:07:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3A7CC3DA7D
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 22:10:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234121AbjACWHf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Jan 2023 17:07:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37208 "EHLO
+        id S233500AbjACWKW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Jan 2023 17:10:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238527AbjACWHK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 17:07:10 -0500
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2052.outbound.protection.outlook.com [40.107.92.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A487D15FED;
-        Tue,  3 Jan 2023 14:07:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nPzJYiRuuHQpXNxujpGY89+LiQRfLvnczRqPxhKOPIka3zEku98MatPU/ampy9wOw8rVjTfGf5jHO2WTfZXS7ARM+qOrJGut7OC7BbTYkfDkF8KOxFxZ6QhSrPHCOfuKQkQyFlFKlxJGU9jExkGuToCqvYu99e2IRh5kc/iqSFP/7BcIkb/ttPPJT7FG8GaY5RexjOv+auQ6BO/FveAx5ojhsSIvvfIvNEzqFf1NUflixtqXDdFJMq1t229KKMo0MM0aHgtRT5JxIs3/6cVO14Qmwevvy+JQMzMzk6Vjl1TlSMma276GE0QFfCuqaqrBKiXn7EI9t5u3A0Vrq4ymXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/7qtJrEoGp8AP6Vo7LCbs2EEQvG7I8yvIULPC360r3w=;
- b=XcXYR1JXQ+QGrMFpgJ0gvTNKAg0h4EkNV3hECDxk7KHIvLZDe2xQrJUVUSfxJ3h8YfIEAKX7axOGQbS33mOUgtlVQZdWf/JSyxvAN+0CRFCBh9AoPpfmZvTebN5xVbmv0kIJaKBaC4FhcX9xaneP9ut6w9Ha12wCCplp+LrKRjCEvoZe2N80kbZ/RgqQJ5OHcC/mg6g0UXw2bWpw2/ySuOgQUtjrbLgkzAx3O9ex/0pwFTdFSaPGSYBjiVRcxBB9Pu//g0bzy3EaHlNIGivba397o8YqILK2e8AwtMRBW8xDXanQVpFztAJR5xK8DNxRKJw/tSyBaz11ckq+WwvreA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linutronix.de smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/7qtJrEoGp8AP6Vo7LCbs2EEQvG7I8yvIULPC360r3w=;
- b=hHASKWSDMiEvCkRCDj3wLHEdXJ6km+uY7a+PsiEWpKa3MMm8uOrWqDWVphpdMotmEoL5dgebo1ek6+FddhGgS4LyTRU03wymAtXKm2YBIoP/l+qY3KxG1lA9uSvA3DftYIBDRk3Tb1w0CN4ih9vMiQQq0dhhYsIt2Yx//2nS3D4=
-Received: from DM5PR07CA0106.namprd07.prod.outlook.com (2603:10b6:4:ae::35) by
- CH3PR12MB7523.namprd12.prod.outlook.com (2603:10b6:610:148::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Tue, 3 Jan
- 2023 22:07:00 +0000
-Received: from DS1PEPF0000E645.namprd02.prod.outlook.com
- (2603:10b6:4:ae:cafe::d3) by DM5PR07CA0106.outlook.office365.com
- (2603:10b6:4:ae::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5966.19 via Frontend
- Transport; Tue, 3 Jan 2023 22:06:55 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS1PEPF0000E645.mail.protection.outlook.com (10.167.17.203) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5944.8 via Frontend Transport; Tue, 3 Jan 2023 22:06:55 +0000
-Received: from [127.0.1.1] (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 3 Jan
- 2023 16:06:53 -0600
-Subject: [RFC PATCH 3/3] x86/resctrl: Display the RMID and COSID for resctrl
- groups
-From:   Babu Moger <babu.moger@amd.com>
-To:     <fenghua.yu@intel.com>, <reinette.chatre@intel.com>
-CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-        <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-        <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <eranian@google.com>,
-        <peternewman@google.com>
-Date:   Tue, 3 Jan 2023 16:06:53 -0600
-Message-ID: <167278361325.34228.16916982678071203069.stgit@bmoger-ubuntu>
-In-Reply-To: <167278351577.34228.12803395505584557101.stgit@bmoger-ubuntu>
-References: <167278351577.34228.12803395505584557101.stgit@bmoger-ubuntu>
-User-Agent: StGit/1.1.dev103+g5369f4c
+        with ESMTP id S231149AbjACWKW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 17:10:22 -0500
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4844AA9;
+        Tue,  3 Jan 2023 14:10:20 -0800 (PST)
+Received: by mail-oi1-x22b.google.com with SMTP id e205so28199196oif.11;
+        Tue, 03 Jan 2023 14:10:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cgm6PevOu4SaEp689m62kLO8X6SAzD/KfVsAqPH4asY=;
+        b=Ny8KE8QA6XEcEI5DmfDoiEfJextN+n4yfBW+MKWfvRcoO2//PqH4cvLutY9hr6aqGg
+         oz9LJc7+iLd/rNdpUYf9O2R3aO3ZC9tzMyLvpNhi3UWYeba9HrNoVEZW+FE1np8Qi2Si
+         Zej0xHlb5SUXZlwvXP8th0Buzai9RO3Bl3XmX4B840SED5oxNyNtyne99aojLh5bXmEd
+         y50n/9Z107BrhBnF/r/z7VekPKPXYCvEJ/WBp9Ync2OFe+OQmGaeADpT2iicz1qVrgiP
+         OLWsi0ejJrNCxXaWto2DfHtqrIAxjtMGitdexP8VmouT1HNgj3RH53b+u/bnA7MkBboq
+         Vbcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cgm6PevOu4SaEp689m62kLO8X6SAzD/KfVsAqPH4asY=;
+        b=oig7JCU1rDoQ1ZCWWwZgGIROYa4SGfRu73icAyHSwtCG1GBKeThx+JS5LU1jqMqduU
+         fVBFQ6hlyuLNkzBhLMWp41sx6atUkNxi91FI7IxvC3LX2pmuAVjBKr9o+T7+XkZwqxnB
+         mPiGB3hjB+AAc6aqidfRtcm3DEQfDaSj3SjXxfUkVDQL/ok6GaeLUs4yl/qdrTDEfFYg
+         liMtp+/2x38aQU9ShgvPpirmc+/suxQGFmdUtAkcmZOorByEol8VVms0Du7px0GrMqlj
+         qQzBpYw04JsN60BHcZpTX2JB/sRAJGFpGsz2IrrWc+J8VgbICBCZcIIufvHM8fq+gihU
+         kqIQ==
+X-Gm-Message-State: AFqh2koQ0B3WNbzb3+gr04qf95Jx3IZ/DcqfwamjM1pWNkv16IE6yhRg
+        rVkSlOVrqg1fYEUV+pft59U=
+X-Google-Smtp-Source: AMrXdXutk4Rft4cMNtxqoyFbps7PK3GMeY6ng1G1lzDbXARFKd6vTNyF/1dmlX4+dfz7l/qjmgRQ+w==
+X-Received: by 2002:aca:db42:0:b0:360:f4ef:f3fe with SMTP id s63-20020acadb42000000b00360f4eff3femr17642722oig.58.1672783819410;
+        Tue, 03 Jan 2023 14:10:19 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id q12-20020a9d630c000000b006718a823321sm15745070otk.41.2023.01.03.14.10.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jan 2023 14:10:18 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Tue, 3 Jan 2023 14:10:17 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Hal Feng <hal.feng@starfivetech.com>
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Conor Dooley <conor@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/4] hwmon: (sfctemp) Add StarFive JH71x0 temperature
+ sensor
+Message-ID: <20230103221017.GA217155@roeck-us.net>
+References: <20230103013145.9570-1-hal.feng@starfivetech.com>
+ <20230103013145.9570-3-hal.feng@starfivetech.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0000E645:EE_|CH3PR12MB7523:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0311d435-4be1-497f-e124-08daedd6d35a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7qkIw5T0LQwSF8QI9+Qw4aDPkRsFHAEauFugseDkLZNvVc/tR/xBQ8ov6Jk1puzGkWiOD5/ZvGJzQAznsLPgwrHdRQsZ70ikPnSvwUFqRQBeZI+nyWA9v7D7rX0wra5bkOrwSulDq1rGN6w36mF/aQDK2TwU7KkBy6ATLoaJPbZwZzzt68Kp2JePQ9vdioPlfacH1CnCkX4b04tHzFNuhYsqZJqGTguM5Us071qT8vskkZaPKANZShDx//eVxLTfr4nqV7faHmRPmOjclavUnPU0sNOosEi4+tPadX7pVQWYbfdOI/Mk9HKQOEOawyzR3M2bEIqxS/Md7qVE4URaIbPQskZ+LuZT1AUa2zr8uRgyyRTzPU//S+C+vKwhkTWjgmF4j+T9mZuGM9w6KoWl0tTeCL7J1jbd5uuRdiwuTzgiua1GHno02JNlkRkZu94Rrgkg3XUntyc62SvxUf5DA+3bHYfrHorr94MFEbcYm1Q7y84GvTZJVQtCbsbt8h6cUmIxTswojLLms3h7F379w6UPEj8Dklg5Mv4ZA8pcbegQLr6CO26yyDZekjmb9aVOG+0ZOZUrSa9uXxvKz0wFWSBUiIE1l1R8wUIc1gAE4hBEF7iEwBElkRZOJK2RjhPuYfZgheuQh5tiR3qFlNhK8dkSR0Qkt3vpkkFD04yFbvmyhjfGzesELRVUpkDeMu5lDL6Wlzu4pC2n8QfoemsZNOCzMBAiy/ng8UpKk/E2FSlm6G4QE8r6dElRkYGC3RVeK8VUgjJ7ECZ9mHm93S0u03TGpVuYD8C29Fhy63SiHgU=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(7916004)(376002)(346002)(136003)(39860400002)(396003)(451199015)(36840700001)(46966006)(40470700004)(83380400001)(47076005)(426003)(16526019)(336012)(26005)(9686003)(82310400005)(33716001)(103116003)(40480700001)(40460700003)(86362001)(36860700001)(81166007)(82740400003)(356005)(186003)(478600001)(41300700001)(8676002)(4326008)(2906002)(7416002)(5660300002)(8936002)(44832011)(16576012)(316002)(70586007)(70206006)(54906003)(110136005)(22166009)(71626007)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2023 22:06:55.0297
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0311d435-4be1-497f-e124-08daedd6d35a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E645.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7523
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230103013145.9570-3-hal.feng@starfivetech.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When a user creates a control or monitor group, the CLOSID or RMID=0A=
-are not visible to the user. These are architecturally defined entities.=0A=
-There is no harm in displaying these in resctrl groups. Sometimes it=0A=
-can help to debug the issues.=0A=
-=0A=
-Add CLOSID and RMID to the control/monitor groups display in resctrl=0A=
-interface.=0A=
-=0A=
-  $cat /sys/fs/resctrl/clos1/closid=0A=
-  1=0A=
-  $cat /sys/fs/resctrl/mon_groups/mon1/rmid=0A=
-  3=0A=
-=0A=
-Signed-off-by: Babu Moger <babu.moger@amd.com>=0A=
----=0A=
- Documentation/x86/resctrl.rst          |   15 ++++++++++=0A=
- arch/x86/kernel/cpu/resctrl/rdtgroup.c |   46 ++++++++++++++++++++++++++++=
-++++=0A=
- 2 files changed, 61 insertions(+)=0A=
-=0A=
-diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst=
-=0A=
-index f26e16412bcb..8520514bc8b5 100644=0A=
---- a/Documentation/x86/resctrl.rst=0A=
-+++ b/Documentation/x86/resctrl.rst=0A=
-@@ -231,6 +231,14 @@ All groups contain the following files:=0A=
- 	Just like "cpus", only using ranges of CPUs instead of bitmasks.=0A=
- =0A=
- =0A=
-+"rmid":=0A=
-+	Reading this file shows the resource monitoring id (RMID) for=0A=
-+	monitoring the resource utilization. Monitoring is performed by=0A=
-+	tagging each core(or thread) or process via a Resource Monitoring=0A=
-+	ID (RMID). Kernel assigns a new RMID when a group is created=0A=
-+	depending on the available RMIDs. Multiple cores(or threads) or=0A=
-+	processes can share a same RMID in a resctrl domain.=0A=
-+=0A=
- When control is enabled all CTRL_MON groups will also contain:=0A=
- =0A=
- "schemata":=0A=
-@@ -252,6 +260,13 @@ When control is enabled all CTRL_MON groups will also =
-contain:=0A=
- 	file. On successful pseudo-locked region creation the mode will=0A=
- 	automatically change to "pseudo-locked".=0A=
- =0A=
-+"closid":=0A=
-+	Reading this file shows the Class of Service (CLOS) id which acts=0A=
-+	as a resource control tag on which the resources can be throttled.=0A=
-+	Kernel assigns a new CLOSID a control group is created depending=0A=
-+	on the available CLOSIDs. Multiple cores(or threads) or processes=0A=
-+	can share a same CLOSID in a resctrl domain.=0A=
-+=0A=
- When monitoring is enabled all MON groups will also contain:=0A=
- =0A=
- "mon_data":=0A=
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/r=
-esctrl/rdtgroup.c=0A=
-index 0d71ed22cfa9..98b4798e5cae 100644=0A=
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c=0A=
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c=0A=
-@@ -769,6 +769,38 @@ static int rdtgroup_tasks_show(struct kernfs_open_file=
- *of,=0A=
- 	return ret;=0A=
- }=0A=
- =0A=
-+static int rdtgroup_closid_show(struct kernfs_open_file *of,=0A=
-+				struct seq_file *s, void *v)=0A=
-+{=0A=
-+	struct rdtgroup *rdtgrp;=0A=
-+	int ret =3D 0;=0A=
-+=0A=
-+	rdtgrp =3D rdtgroup_kn_lock_live(of->kn);=0A=
-+	if (rdtgrp)=0A=
-+		seq_printf(s, "%u\n", rdtgrp->closid);=0A=
-+	else=0A=
-+		ret =3D -ENOENT;=0A=
-+	rdtgroup_kn_unlock(of->kn);=0A=
-+=0A=
-+	return ret;=0A=
-+}=0A=
-+=0A=
-+static int rdtgroup_rmid_show(struct kernfs_open_file *of,=0A=
-+			      struct seq_file *s, void *v)=0A=
-+{=0A=
-+	struct rdtgroup *rdtgrp;=0A=
-+	int ret =3D 0;=0A=
-+=0A=
-+	rdtgrp =3D rdtgroup_kn_lock_live(of->kn);=0A=
-+	if (rdtgrp)=0A=
-+		seq_printf(s, "%u\n", rdtgrp->mon.rmid);=0A=
-+	else=0A=
-+		ret =3D -ENOENT;=0A=
-+	rdtgroup_kn_unlock(of->kn);=0A=
-+=0A=
-+	return ret;=0A=
-+}=0A=
-+=0A=
- #ifdef CONFIG_PROC_CPU_RESCTRL=0A=
- =0A=
- /*=0A=
-@@ -1593,6 +1625,20 @@ static struct rftype res_common_files[] =3D {=0A=
- 		.seq_show	=3D rdtgroup_size_show,=0A=
- 		.fflags		=3D RF_CTRL_BASE,=0A=
- 	},=0A=
-+	{=0A=
-+		.name		=3D "closid",=0A=
-+		.mode		=3D 0444,=0A=
-+		.kf_ops		=3D &rdtgroup_kf_single_ops,=0A=
-+		.seq_show	=3D rdtgroup_closid_show,=0A=
-+		.fflags		=3D RF_CTRL_BASE,=0A=
-+	},=0A=
-+	{=0A=
-+		.name		=3D "rmid",=0A=
-+		.mode		=3D 0444,=0A=
-+		.kf_ops		=3D &rdtgroup_kf_single_ops,=0A=
-+		.seq_show	=3D rdtgroup_rmid_show,=0A=
-+		.fflags		=3D RFTYPE_BASE,=0A=
-+	},=0A=
- =0A=
- };=0A=
- =0A=
-=0A=
+On Tue, Jan 03, 2023 at 09:31:43AM +0800, Hal Feng wrote:
+> From: Emil Renner Berthing <kernel@esmil.dk>
+> 
+> Register definitions and conversion constants based on sfctemp driver by
+> Samin in the StarFive 5.10 kernel.
+> 
+> Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
+> Co-developed-by: Samin Guo <samin.guo@starfivetech.com>
+> Signed-off-by: Samin Guo <samin.guo@starfivetech.com>
+> Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
 
+This is obviously version 4 of the previous patch series,
+with various enhancements. Please do not "sell" that as
+v1 of a new patch series. Submit it as next version,
+and provide a change log.
+
+> ---
+>  Documentation/hwmon/index.rst   |   1 +
+>  Documentation/hwmon/sfctemp.rst |  33 +++
+>  MAINTAINERS                     |   8 +
+>  drivers/hwmon/Kconfig           |  10 +
+>  drivers/hwmon/Makefile          |   1 +
+>  drivers/hwmon/sfctemp.c         | 350 ++++++++++++++++++++++++++++++++
+>  6 files changed, 403 insertions(+)
+>  create mode 100644 Documentation/hwmon/sfctemp.rst
+>  create mode 100644 drivers/hwmon/sfctemp.c
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index c1d11cf13eef..f7ede608b6e3 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -179,6 +179,7 @@ Hardware Monitoring Kernel Drivers
+>     sch5627
+>     sch5636
+>     scpi-hwmon
+> +   sfctemp
+>     sht15
+>     sht21
+>     sht3x
+> diff --git a/Documentation/hwmon/sfctemp.rst b/Documentation/hwmon/sfctemp.rst
+> new file mode 100644
+> index 000000000000..9fbd5bb1f356
+> --- /dev/null
+> +++ b/Documentation/hwmon/sfctemp.rst
+> @@ -0,0 +1,33 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Kernel driver sfctemp
+> +=====================
+> +
+> +Supported chips:
+> + - StarFive JH7100
+> + - StarFive JH7110
+> +
+> +Authors:
+> + - Emil Renner Berthing <kernel@esmil.dk>
+> +
+> +Description
+> +-----------
+> +
+> +This driver adds support for reading the built-in temperature sensor on the
+> +JH7100 and JH7110 RISC-V SoCs by StarFive Technology Co. Ltd.
+> +
+> +``sysfs`` interface
+> +-------------------
+> +
+> +The temperature sensor can be enabled, disabled and queried via the standard
+> +hwmon interface in sysfs under ``/sys/class/hwmon/hwmonX`` for some value of
+> +``X``:
+> +
+> +================ ==== =============================================
+> +Name             Perm Description
+> +================ ==== =============================================
+> +temp1_enable     RW   Enable or disable temperature sensor.
+> +                      Automatically enabled by the driver,
+> +                      but may be disabled to save power.
+> +temp1_input      RO   Temperature reading in milli-degrees Celsius.
+> +================ ==== =============================================
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 85e8f83161d7..ab3cd5827b26 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -18661,6 +18661,14 @@ L:	netdev@vger.kernel.org
+>  S:	Supported
+>  F:	drivers/net/ethernet/sfc/
+>  
+> +SFCTEMP HWMON DRIVER
+> +M:	Emil Renner Berthing <kernel@esmil.dk>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/hwmon/starfive,jh71x0-temp.yaml
+> +F:	Documentation/hwmon/sfctemp.rst
+> +F:	drivers/hwmon/sfctemp.c
+> +
+>  SFF/SFP/SFP+ MODULE SUPPORT
+>  M:	Russell King <linux@armlinux.org.uk>
+>  L:	netdev@vger.kernel.org
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 7ac3daaf59ce..c6bbfcca3a14 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -1910,6 +1910,16 @@ config SENSORS_STTS751
+>  	  This driver can also be built as a module. If so, the module
+>  	  will be called stts751.
+>  
+> +config SENSORS_SFCTEMP
+> +	tristate "Starfive JH71x0 temperature sensor"
+> +	depends on SOC_STARFIVE || COMPILE_TEST
+> +	help
+> +	  If you say yes here you get support for temperature sensor
+> +	  on the Starfive JH71x0 SoCs.
+> +
+> +	  This driver can also be built as a module.  If so, the module
+> +	  will be called sfctemp.
+> +
+>  config SENSORS_SMM665
+>  	tristate "Summit Microelectronics SMM665"
+>  	depends on I2C
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index 11d076cad8a2..5a4a02c5535c 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -179,6 +179,7 @@ obj-$(CONFIG_SENSORS_SBRMI)	+= sbrmi.o
+>  obj-$(CONFIG_SENSORS_SCH56XX_COMMON)+= sch56xx-common.o
+>  obj-$(CONFIG_SENSORS_SCH5627)	+= sch5627.o
+>  obj-$(CONFIG_SENSORS_SCH5636)	+= sch5636.o
+> +obj-$(CONFIG_SENSORS_SFCTEMP)	+= sfctemp.o
+>  obj-$(CONFIG_SENSORS_SL28CPLD)	+= sl28cpld-hwmon.o
+>  obj-$(CONFIG_SENSORS_SHT15)	+= sht15.o
+>  obj-$(CONFIG_SENSORS_SHT21)	+= sht21.o
+> diff --git a/drivers/hwmon/sfctemp.c b/drivers/hwmon/sfctemp.c
+> new file mode 100644
+> index 000000000000..e56716ad9587
+> --- /dev/null
+> +++ b/drivers/hwmon/sfctemp.c
+> @@ -0,0 +1,350 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2021 Emil Renner Berthing <kernel@esmil.dk>
+> + * Copyright (C) 2021 Samin Guo <samin.guo@starfivetech.com>
+> + */
+> +#include <linux/clk.h>
+> +#include <linux/completion.h>
+> +#include <linux/delay.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/reset.h>
+> +
+> +/*
+> + * TempSensor reset. The RSTN can be de-asserted once the analog core has
+> + * powered up. Trst(min 100ns)
+> + * 0:reset  1:de-assert
+> + */
+> +#define SFCTEMP_RSTN	BIT(0)
+
+Missing include of linux/bits.h
+
+> +
+> +/*
+> + * TempSensor analog core power down. The analog core will be powered up
+> + * Tpu(min 50us) after PD is de-asserted. RSTN should be held low until the
+> + * analog core is powered up.
+> + * 0:power up  1:power down
+> + */
+> +#define SFCTEMP_PD	BIT(1)
+> +
+> +/*
+> + * TempSensor start conversion enable.
+> + * 0:disable  1:enable
+> + */
+> +#define SFCTEMP_RUN	BIT(2)
+> +
+> +/*
+> + * TempSensor conversion value output.
+> + * Temp(C)=DOUT*Y/4094 - K
+> + */
+> +#define SFCTEMP_DOUT_POS	16
+> +#define SFCTEMP_DOUT_MSK	GENMASK(27, 16)
+> +
+> +/* DOUT to Celcius conversion constants */
+> +#define SFCTEMP_Y1000	237500L
+> +#define SFCTEMP_Z	4094L
+> +#define SFCTEMP_K1000	81100L
+> +
+> +struct sfctemp {
+> +	/* serialize access to hardware register and enabled below */
+> +	struct mutex lock;
+> +	struct completion conversion_done;
+> +	void __iomem *regs;
+> +	struct clk *clk_sense;
+> +	struct clk *clk_bus;
+> +	struct reset_control *rst_sense;
+> +	struct reset_control *rst_bus;
+> +	bool enabled;
+> +};
+> +
+> +static irqreturn_t sfctemp_isr(int irq, void *data)
+> +{
+> +	struct sfctemp *sfctemp = data;
+> +
+> +	complete(&sfctemp->conversion_done);
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static void sfctemp_power_up(struct sfctemp *sfctemp)
+> +{
+> +	/* make sure we're powered down first */
+> +	writel(SFCTEMP_PD, sfctemp->regs);
+> +	udelay(1);
+> +
+> +	writel(0, sfctemp->regs);
+> +	/* wait t_pu(50us) + t_rst(100ns) */
+> +	usleep_range(60, 200);
+> +
+> +	/* de-assert reset */
+> +	writel(SFCTEMP_RSTN, sfctemp->regs);
+> +	udelay(1); /* wait t_su(500ps) */
+> +}
+> +
+> +static void sfctemp_power_down(struct sfctemp *sfctemp)
+> +{
+> +	writel(SFCTEMP_PD, sfctemp->regs);
+> +}
+> +
+> +static void sfctemp_run_single(struct sfctemp *sfctemp)
+> +{
+> +	writel(SFCTEMP_RSTN | SFCTEMP_RUN, sfctemp->regs);
+> +	udelay(1);
+> +	writel(SFCTEMP_RSTN, sfctemp->regs);
+
+The datasheet (or, rather, programming manual) does not appear
+to be public, so I have to guess here.
+
+The code suggests that running a single conversion may be a choice,
+not a requirement. If it is indeed a choice, the reasoning needs to be
+explained since it adds a lot of complexity and dependencies to the
+driver (for example, interrupt support is only mandatory or even needed
+due to this choice). It also adds a significant delay to temperature
+read operations, which may have practical impact on thermal control
+software.
+
+If the chip only supports single temperature readings, that needs to be
+explained as well (and why SFCTEMP_RUN has to be reset in that case).
+
+> +}
+> +
+> +static int sfctemp_enable(struct sfctemp *sfctemp)
+> +{
+> +	int ret = 0;
+> +
+> +	mutex_lock(&sfctemp->lock);
+> +	if (sfctemp->enabled)
+> +		goto done;
+> +
+> +	ret = clk_prepare_enable(sfctemp->clk_bus);
+> +	if (ret)
+> +		goto err;
+> +	ret = reset_control_deassert(sfctemp->rst_bus);
+> +	if (ret)
+> +		goto err_disable_bus;
+> +
+> +	ret = clk_prepare_enable(sfctemp->clk_sense);
+> +	if (ret)
+> +		goto err_assert_bus;
+> +	ret = reset_control_deassert(sfctemp->rst_sense);
+> +	if (ret)
+> +		goto err_disable_sense;
+> +
+> +	sfctemp_power_up(sfctemp);
+> +	sfctemp->enabled = true;
+> +done:
+> +	mutex_unlock(&sfctemp->lock);
+> +	return ret;
+> +
+> +err_disable_sense:
+> +	clk_disable_unprepare(sfctemp->clk_sense);
+> +err_assert_bus:
+> +	reset_control_assert(sfctemp->rst_bus);
+> +err_disable_bus:
+> +	clk_disable_unprepare(sfctemp->clk_bus);
+> +err:
+> +	mutex_unlock(&sfctemp->lock);
+> +	return ret;
+> +}
+> +
+> +static int sfctemp_disable(struct sfctemp *sfctemp)
+> +{
+> +	mutex_lock(&sfctemp->lock);
+> +	if (!sfctemp->enabled)
+> +		goto done;
+> +
+> +	sfctemp_power_down(sfctemp);
+> +	reset_control_assert(sfctemp->rst_sense);
+> +	clk_disable_unprepare(sfctemp->clk_sense);
+> +	reset_control_assert(sfctemp->rst_bus);
+> +	clk_disable_unprepare(sfctemp->clk_bus);
+> +	sfctemp->enabled = false;
+> +done:
+> +	mutex_unlock(&sfctemp->lock);
+> +	return 0;
+> +}
+> +
+> +static void sfctemp_disable_action(void *data)
+> +{
+> +	sfctemp_disable(data);
+> +}
+> +
+> +static int sfctemp_convert(struct sfctemp *sfctemp, long *val)
+> +{
+> +	int ret;
+> +
+> +	mutex_lock(&sfctemp->lock);
+> +	if (!sfctemp->enabled) {
+> +		ret = -ENODATA;
+> +		goto out;
+> +	}
+> +
+> +	sfctemp_run_single(sfctemp);
+> +
+> +	ret = wait_for_completion_interruptible_timeout(&sfctemp->conversion_done,
+> +							msecs_to_jiffies(10));
+> +	if (ret <= 0) {
+> +		if (ret == 0)
+> +			ret = -ETIMEDOUT;
+> +		goto out;
+> +	}
+> +
+> +	/* calculate temperature in milli Celcius */
+> +	*val = (long)((readl(sfctemp->regs) & SFCTEMP_DOUT_MSK) >> SFCTEMP_DOUT_POS)
+> +		* SFCTEMP_Y1000 / SFCTEMP_Z - SFCTEMP_K1000;
+> +
+> +	ret = 0;
+> +out:
+> +	mutex_unlock(&sfctemp->lock);
+> +	return ret;
+> +}
+> +
+> +static umode_t sfctemp_is_visible(const void *data, enum hwmon_sensor_types type,
+> +				  u32 attr, int channel)
+> +{
+> +	switch (type) {
+> +	case hwmon_temp:
+> +		switch (attr) {
+> +		case hwmon_temp_enable:
+> +			return 0644;
+> +		case hwmon_temp_input:
+> +			return 0444;
+> +		}
+> +		return 0;
+> +	default:
+> +		return 0;
+> +	}
+> +}
+> +
+> +static int sfctemp_read(struct device *dev, enum hwmon_sensor_types type,
+> +			u32 attr, int channel, long *val)
+> +{
+> +	struct sfctemp *sfctemp = dev_get_drvdata(dev);
+> +
+> +	switch (type) {
+> +	case hwmon_temp:
+> +		switch (attr) {
+> +		case hwmon_temp_enable:
+> +			*val = sfctemp->enabled;
+> +			return 0;
+> +		case hwmon_temp_input:
+> +			return sfctemp_convert(sfctemp, val);
+> +		}
+> +		return -EINVAL;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static int sfctemp_write(struct device *dev, enum hwmon_sensor_types type,
+> +			 u32 attr, int channel, long val)
+> +{
+> +	struct sfctemp *sfctemp = dev_get_drvdata(dev);
+> +
+> +	switch (type) {
+> +	case hwmon_temp:
+> +		switch (attr) {
+> +		case hwmon_temp_enable:
+> +			if (val == 0)
+> +				return sfctemp_disable(sfctemp);
+> +			if (val == 1)
+> +				return sfctemp_enable(sfctemp);
+> +			break;
+> +		}
+> +		return -EINVAL;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static const struct hwmon_channel_info *sfctemp_info[] = {
+> +	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
+> +	HWMON_CHANNEL_INFO(temp, HWMON_T_ENABLE | HWMON_T_INPUT),
+> +	NULL
+> +};
+> +
+> +static const struct hwmon_ops sfctemp_hwmon_ops = {
+> +	.is_visible = sfctemp_is_visible,
+> +	.read = sfctemp_read,
+> +	.write = sfctemp_write,
+> +};
+> +
+> +static const struct hwmon_chip_info sfctemp_chip_info = {
+> +	.ops = &sfctemp_hwmon_ops,
+> +	.info = sfctemp_info,
+> +};
+> +
+> +static int sfctemp_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct device *hwmon_dev;
+> +	struct sfctemp *sfctemp;
+> +	int ret;
+> +
+> +	sfctemp = devm_kzalloc(dev, sizeof(*sfctemp), GFP_KERNEL);
+> +	if (!sfctemp)
+> +		return -ENOMEM;
+> +
+> +	dev_set_drvdata(dev, sfctemp);
+> +	mutex_init(&sfctemp->lock);
+> +	init_completion(&sfctemp->conversion_done);
+> +
+> +	sfctemp->regs = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(sfctemp->regs))
+> +		return PTR_ERR(sfctemp->regs);
+> +
+> +	sfctemp->clk_sense = devm_clk_get(dev, "sense");
+> +	if (IS_ERR(sfctemp->clk_sense))
+> +		return dev_err_probe(dev, PTR_ERR(sfctemp->clk_sense),
+> +				     "error getting sense clock\n");
+> +
+> +	sfctemp->clk_bus = devm_clk_get(dev, "bus");
+> +	if (IS_ERR(sfctemp->clk_bus))
+> +		return dev_err_probe(dev, PTR_ERR(sfctemp->clk_bus),
+> +				     "error getting bus clock\n");
+> +
+> +	sfctemp->rst_sense = devm_reset_control_get_exclusive(dev, "sense");
+> +	if (IS_ERR(sfctemp->rst_sense))
+> +		return dev_err_probe(dev, PTR_ERR(sfctemp->rst_sense),
+> +				     "error getting sense reset\n");
+> +
+> +	sfctemp->rst_bus = devm_reset_control_get_exclusive(dev, "bus");
+> +	if (IS_ERR(sfctemp->rst_bus))
+> +		return dev_err_probe(dev, PTR_ERR(sfctemp->rst_bus),
+> +				     "error getting busreset\n");
+> +
+> +	ret = reset_control_assert(sfctemp->rst_sense);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "error asserting sense reset\n");
+> +
+> +	ret = reset_control_assert(sfctemp->rst_bus);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "error asserting bus reset\n");
+> +
+> +	ret = platform_get_irq(pdev, 0);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = devm_request_irq(dev, ret, sfctemp_isr, 0, pdev->name, sfctemp);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "error requesting irq\n");
+> +
+> +	ret = devm_add_action(dev, sfctemp_disable_action, sfctemp);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = sfctemp_enable(sfctemp);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "error enabling temperature sensor: %d\n", ret);
+> +
+> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, pdev->name, sfctemp,
+> +							 &sfctemp_chip_info, NULL);
+> +	return PTR_ERR_OR_ZERO(hwmon_dev);
+> +}
+> +
+> +static const struct of_device_id sfctemp_of_match[] = {
+> +	{ .compatible = "starfive,jh7100-temp" },
+> +	{ .compatible = "starfive,jh7110-temp" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, sfctemp_of_match);
+> +
+> +static struct platform_driver sfctemp_driver = {
+> +	.probe  = sfctemp_probe,
+> +	.driver = {
+> +		.name = "sfctemp",
+> +		.of_match_table = sfctemp_of_match,
+> +	},
+> +};
+> +module_platform_driver(sfctemp_driver);
+> +
+> +MODULE_AUTHOR("Emil Renner Berthing");
+> +MODULE_DESCRIPTION("StarFive JH71x0 temperature sensor driver");
+> +MODULE_LICENSE("GPL");
