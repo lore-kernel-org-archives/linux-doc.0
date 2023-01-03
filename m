@@ -2,113 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA37C3DA7D
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 17:17:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72202C46467
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 17:51:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238241AbjACRR4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Jan 2023 12:17:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59244 "EHLO
+        id S237887AbjACRuv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Jan 2023 12:50:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238165AbjACRRy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 12:17:54 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A9EDD8;
-        Tue,  3 Jan 2023 09:17:53 -0800 (PST)
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 303FBZbW024241;
-        Tue, 3 Jan 2023 17:16:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=vYy7M1t90PXp8Ww5l79hBYIeVV3imFzvlAp6ShHvT+A=;
- b=Kuc1aXe4Le2pJh78LzwravdcrsyCccOE2BEmjTicEZwqlCSjHjZ3nDDLwXlcjLpPFDS/
- TKMgGhc7mSifKtxMTqVtl+pLRYNfbrS4pCYmS+QWJOp/cTXCN0qPCOqs+VMLSKQEC8+Z
- frju4tXZGjGrOMq/LYw6nHmELHDEPekPOdaoz62nvCJAJc//CbjTXKTEU5LLbGG2N6p8
- GT0DsUdazyvytqOzMe9gpytlJWXmFJSuSX2Hg5Qf2oqxhjY/QfmqeVy88GpkIl9mupM1
- 6M+rFKMvK9Ls2i6k3OSTw8GoN35oaa3dewxD9CNtc94omRrKe4Y9dmIfY2I00JqcmAhK iw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mvhh4jhv2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 03 Jan 2023 17:16:53 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 303HF0cs024698;
-        Tue, 3 Jan 2023 17:16:52 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mvhh4jhu1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 03 Jan 2023 17:16:52 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
-        by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 303FN4hK005328;
-        Tue, 3 Jan 2023 17:16:49 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-        by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3mtcq6k0pq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 03 Jan 2023 17:16:49 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-        by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 303HGjnh20644460
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 3 Jan 2023 17:16:45 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 75F8F2004B;
-        Tue,  3 Jan 2023 17:16:45 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3E35F20040;
-        Tue,  3 Jan 2023 17:16:43 +0000 (GMT)
-Received: from osiris (unknown [9.171.65.115])
-        by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-        Tue,  3 Jan 2023 17:16:43 +0000 (GMT)
-Date:   Tue, 3 Jan 2023 18:16:41 +0100
-From:   Heiko Carstens <hca@linux.ibm.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     torvalds@linux-foundation.org, corbet@lwn.net, will@kernel.org,
-        boqun.feng@gmail.com, mark.rutland@arm.com,
-        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
-        cl@linux.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
-        borntraeger@linux.ibm.com, svens@linux.ibm.com,
-        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        joro@8bytes.org, suravee.suthikulpanit@amd.com,
-        robin.murphy@arm.com, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
-        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-s390@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org
-Subject: Re: [RFC][PATCH 11/12] slub: Replace cmpxchg_double()
-Message-ID: <Y7Ri+Uij1GFkI/LB@osiris>
-References: <20221219153525.632521981@infradead.org>
- <20221219154119.550996611@infradead.org>
+        with ESMTP id S237990AbjACRu0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 12:50:26 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F0597649;
+        Tue,  3 Jan 2023 09:50:23 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 89FFB4BF;
+        Tue,  3 Jan 2023 17:50:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 89FFB4BF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1672768223; bh=URxRshRfHe6UeljKti7S8tG81fA6qAziJX9+1HOSEh4=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=PKZ8ujpWdpMxDExLtS1F5t7lRM9YppasEXvUYrkY7NIPcWARL+tLInukgfxhccB4b
+         mnTiTkEEnz4I9rHSyxbYCvNPUtze7aAEWKvPm+dhn38nYOZnBBPwZakHyMQK0qhIYe
+         IuAHdGugjAidjN1GpH70kkdtyuLOO307j9cZDzUYxQjWl67iD494o1dUjknENaWVfx
+         za2SCHjl4tN2iJSKTQp9gaY/gLn+Ge14UpcmIAdX2PN8z5sYHUxMpWZRafA8Mw28q0
+         eQr3OEo/C8cxWwwt9t6/Q7BrVFjNtDN4Pu8GFFSVuSjn4+vDmw8Q7spEdaBNknUQ5V
+         4up0/bXQK+swA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Yann Sionneau <ysionneau@kalray.eu>
+Cc:     Yann Sionneau <ysionneau@kalray.eu>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Clement Leger <clement.leger@bootlin.com>,
+        Guillaume Thouvenin <gthouvenin@kalray.eu>
+Subject: Re: [RFC PATCH 01/25] Documentation: kvx: Add basic documentation
+In-Reply-To: <20230103164359.24347-2-ysionneau@kalray.eu>
+References: <20230103164359.24347-1-ysionneau@kalray.eu>
+ <20230103164359.24347-2-ysionneau@kalray.eu>
+Date:   Tue, 03 Jan 2023 10:50:22 -0700
+Message-ID: <874jt7fqxt.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221219154119.550996611@infradead.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: aYt5JesJFhS0mKJx405t1-xW5NqppuLb
-X-Proofpoint-GUID: Z03ZnZI1MCXR4CrburtVGAvLqmHB93ng
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-03_05,2023-01-03_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
- adultscore=0 mlxscore=0 phishscore=0 spamscore=0 bulkscore=0
- impostorscore=0 lowpriorityscore=0 priorityscore=1501 malwarescore=0
- mlxlogscore=618 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301030145
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 19, 2022 at 04:35:36PM +0100, Peter Zijlstra wrote:
-> 
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  include/linux/slub_def.h |   12 ++-
->  mm/slab.h                |   41 +++++++++++--
->  mm/slub.c                |  146 ++++++++++++++++++++++++++++-------------------
->  3 files changed, 135 insertions(+), 64 deletions(-)
+Yann Sionneau <ysionneau@kalray.eu> writes:
 
-Does this actually work? Just wondering since I end up with an instant
-list corruption on s390. Might be endianness related, but I can't see
-anything obvious at a first glance.
+> Add some documentation for kvx arch and its Linux port.
+>
+> CC: Jonathan Corbet <corbet@lwn.net>
+> CC: linux-doc@vger.kernel.org
+> CC: linux-kernel@vger.kernel.org
+> Co-developed-by: Clement Leger <clement.leger@bootlin.com>
+> Signed-off-by: Clement Leger <clement.leger@bootlin.com>
+> Co-developed-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
+> Signed-off-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
+> Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
+> ---
+>  Documentation/kvx/kvx-exceptions.txt | 246 ++++++++++++++++++++++++
+>  Documentation/kvx/kvx-iommu.txt      | 183 ++++++++++++++++++
+>  Documentation/kvx/kvx-mmu.txt        | 272 +++++++++++++++++++++++++++
+>  Documentation/kvx/kvx-smp.txt        |  36 ++++
+>  Documentation/kvx/kvx.txt            | 268 ++++++++++++++++++++++++++
+>  5 files changed, 1005 insertions(+)
+>  create mode 100644 Documentation/kvx/kvx-exceptions.txt
+>  create mode 100644 Documentation/kvx/kvx-iommu.txt
+>  create mode 100644 Documentation/kvx/kvx-mmu.txt
+>  create mode 100644 Documentation/kvx/kvx-smp.txt
+>  create mode 100644 Documentation/kvx/kvx.txt
+
+Please write this documentation in the RST format (you're 95% of the way
+there now) and incorporate into the kernel docs build.
+
+Thanks,
+
+jon
