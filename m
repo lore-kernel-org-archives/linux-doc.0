@@ -2,128 +2,249 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A25EDC54EBD
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 19:09:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECAACC3DA7D
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 19:49:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233734AbjACTJG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Jan 2023 14:09:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43720 "EHLO
+        id S233317AbjACTtg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Jan 2023 14:49:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237959AbjACTI6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 14:08:58 -0500
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A32C6E0DF
-        for <linux-doc@vger.kernel.org>; Tue,  3 Jan 2023 11:08:57 -0800 (PST)
-Received: by mail-qt1-x834.google.com with SMTP id j16so25309790qtv.4
-        for <linux-doc@vger.kernel.org>; Tue, 03 Jan 2023 11:08:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dfSqSd0mxRLyCP4JPwoGgPSv4V5DgFE+NWQibLY7nHY=;
-        b=LQt5OMztUt6H+6pe/VIHwx3Jz4d08J1ZZ7gv40yLS2RfQ9FYAN2BdqaHFaDSeqruh5
-         UdriUa0s5l2hHmuDgCVQyqdP1mZma/3SqbLGsgMr+3W5DNoGaGK3GwMdoJI3ZUgmswPc
-         hfRjTsp+o7b/O9CFRqovudaZXidsusavosKQY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dfSqSd0mxRLyCP4JPwoGgPSv4V5DgFE+NWQibLY7nHY=;
-        b=h5KWaDK0Ce4oIzlSPmDo18JtnpJT+H1OoIu9TP1HHMOb9iTcdLdYbFeg0OczANeg7K
-         XDYoBnngbbNCjWUUIsh9T6eHOPYPTfw/oSm/xcgJofVIMbOXnoMi8iJV4hPq6YAGFuxJ
-         V6a52c/rTzvgvtRYk8vc0jQ+pDPJ+4cGuwDERUQwqg6aIkDmNl9DfwaJHGH0d2l3c42V
-         SY0jZNotKPrb89GgvnaPxUAXwHqtv6tW7v2Mzc+He+l/z3EsLPFpipfx67BJaT8/FP4F
-         JRoUyExiokiG8ynYl+qrUlWMqM1AarF5WqYsfIN/kUgdJ5OWol6Rd/vPqTjWU1t3BZ+6
-         Cdzg==
-X-Gm-Message-State: AFqh2kqX5UQa5AMFnjxti8qanl0fP5bheQwNvoMlCf4S6vHB/iOKMqqC
-        0T0zVuTd754z6Gqkqkf/7TuHsxjrspVHzsnr
-X-Google-Smtp-Source: AMrXdXtBXwFgd7puGYtvGDp7Wp1q3LUQ4rPAKp2DKkv5YRLWJdLeWuOqxV4KjPgoUo05eV83D1k9gw==
-X-Received: by 2002:ac8:65da:0:b0:3a8:84f:1d59 with SMTP id t26-20020ac865da000000b003a8084f1d59mr59582068qto.19.1672772936452;
-        Tue, 03 Jan 2023 11:08:56 -0800 (PST)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com. [209.85.160.182])
-        by smtp.gmail.com with ESMTPSA id 6-20020ac85646000000b003a6947863e1sm18873398qtt.11.2023.01.03.11.08.55
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Jan 2023 11:08:56 -0800 (PST)
-Received: by mail-qt1-f182.google.com with SMTP id c7so25286391qtw.8
-        for <linux-doc@vger.kernel.org>; Tue, 03 Jan 2023 11:08:55 -0800 (PST)
-X-Received: by 2002:a05:620a:1379:b0:6fc:c48b:8eab with SMTP id
- d25-20020a05620a137900b006fcc48b8eabmr1650146qkl.216.1672772925520; Tue, 03
- Jan 2023 11:08:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20221219153525.632521981@infradead.org> <20221219154119.550996611@infradead.org>
- <Y7Ri+Uij1GFkI/LB@osiris>
-In-Reply-To: <Y7Ri+Uij1GFkI/LB@osiris>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 3 Jan 2023 11:08:29 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wj9nK825MyHXu7zkegc7Va+ZxcperdOtRMZBCLHqGrr=g@mail.gmail.com>
-Message-ID: <CAHk-=wj9nK825MyHXu7zkegc7Va+ZxcperdOtRMZBCLHqGrr=g@mail.gmail.com>
-Subject: Re: [RFC][PATCH 11/12] slub: Replace cmpxchg_double()
-To:     Heiko Carstens <hca@linux.ibm.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
-        will@kernel.org, boqun.feng@gmail.com, mark.rutland@arm.com,
-        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
-        cl@linux.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
-        borntraeger@linux.ibm.com, svens@linux.ibm.com,
-        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        joro@8bytes.org, suravee.suthikulpanit@amd.com,
-        robin.murphy@arm.com, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
-        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        with ESMTP id S233130AbjACTte (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 14:49:34 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4544EDEF9;
+        Tue,  3 Jan 2023 11:49:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672775373; x=1704311373;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=bIDOws5tUz92tzu0nSJr/AIN8r/xnDLdvwP+8eGsVh8=;
+  b=INudEYLMYdw7PLUunJ3fMahdmgDPuocWixrOxlEF7F+PBulf89XPn37K
+   +U/2XBkAUCJmOdJXskVknvIS5i594cSUIIFWsI1sHCTzCfvFMJbwKQaE6
+   7Iq0I1ZTQQtvWqjxO1/kYnYwDkH7bZfLZJ2n6ydyLsECBNlWeEJKuvBWa
+   dgO6JIaCTdSHVgBEH1klE6KYObUGrZLL81XcQOfWQJxuZYmuMH572xvCV
+   bAkyWsU7T3kknVgHsM8Ym7kLNLfuNjMGVVWD0Tsvk2kxKVfdW4gTNlNkG
+   54ieXZ/8Ov57OStNj5tyw3p2DbUtCDiii3ggbQmJpDL6xJEOZZTSOq2Vh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="348963674"
+X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; 
+   d="scan'208";a="348963674"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2023 11:49:32 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="654908255"
+X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; 
+   d="scan'208";a="654908255"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2023 11:49:32 -0800
+Date:   Tue, 3 Jan 2023 11:50:04 -0800 (PST)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Xu Yilun <yilun.xu@intel.com>
+cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        hao.wu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-s390@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com, bagasdotme@gmail.com
+Subject: Re: [PATCH v7 3/4] fpga: dfl: add basic support for DFHv1
+In-Reply-To: <Y7OteZ2FuLtHfg5D@yilunxu-OptiPlex-7050>
+Message-ID: <alpine.DEB.2.22.394.2301031143420.4963@rhweight-WRK1>
+References: <20221220163652.499831-1-matthew.gerlach@linux.intel.com> <20221220163652.499831-4-matthew.gerlach@linux.intel.com> <Y6HqyjFkiUDeNmH1@smile.fi.intel.com> <alpine.DEB.2.22.394.2212211105490.570436@rhweight-WRK1> <Y6kR632DYwilj505@yilunxu-OptiPlex-7050>
+ <alpine.DEB.2.22.394.2212311237320.2138420@rhweight-WRK1> <Y7OteZ2FuLtHfg5D@yilunxu-OptiPlex-7050>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 3, 2023 at 9:17 AM Heiko Carstens <hca@linux.ibm.com> wrote:
+
+
+On Tue, 3 Jan 2023, Xu Yilun wrote:
+
+> On 2022-12-31 at 12:46:28 -0800, matthew.gerlach@linux.intel.com wrote:
+>>
+>>
+>> On Mon, 26 Dec 2022, Xu Yilun wrote:
+>>
+>>> On 2022-12-21 at 11:14:59 -0800, matthew.gerlach@linux.intel.com wrote:
+>>>>
+>>>>
+>>>> On Tue, 20 Dec 2022, Andy Shevchenko wrote:
+>>>>
+>>>>> On Tue, Dec 20, 2022 at 08:36:51AM -0800, matthew.gerlach@linux.intel.com wrote:
+>>>>>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>>>>>
+>>>>>> Version 1 of the Device Feature Header (DFH) definition adds
+>>>>>> functionality to the DFL bus.
+>>>>>>
+>>>>>> A DFHv1 header may have one or more parameter blocks that
+>>>>>> further describes the HW to SW.  Add support to the DFL bus
+>>>>>> to parse the MSI-X parameter.
+>>>>>>
+>>>>>> The location of a feature's register set is explicitly
+>>>>>> described in DFHv1 and can be relative to the base of the DFHv1
+>>>>>> or an absolute address.  Parse the location and pass the information
+>>>>>> to DFL driver.
+>>>>>
+>>>>> ...
+>>>>>
+>>>>>> +/**
+>>>>>> + * dfh_find_param() - find data for the given parameter id
+>>>>>> + * @dfl_dev: dfl device
+>>>>>> + * @param: id of dfl parameter
+>>>>>> + *
+>>>>>> + * Return: pointer to parameter header on success, NULL otherwise.
+>>>>>
+>>>>> header is a bit confusing here, does it mean we give and ID and we got
+>>>>> something more than just a data as summary above suggests?
+>>>>
+>>>> Yes, the summary is not correct.  It should say "find the parameter block
+>>>> for the given parameter id".
+>>>>
+>>>>>
+>>>>> In such case summary and this text should clarify what exactly we get
+>>>>> and layout of the data. Since this is a pointer, who is responsible of
+>>>>> checking out-of-boundary accesses? For instance, if the parameters are
+>>>>> variadic by length the length should be returned as well. Otherwise it
+>>>>> should be specified as a constant somewhere, right?
+>>>>
+>>>> The parameter header has the next/size field; so the caller of
+>>>> dfh_find_param should perform boundary checking as part of interpreting the
+>>>> parameter data.  I think a function to perform this checking and data
+>>>> interpretation would help here.
+>>>
+>>> It is better the DFL core provides the size of the parameter block, just
+>>> in this API. It provides the pointer and should be ensured the memory
+>>> for the pointer be correctly understood.
+>>
+>> Ok, how about the following API for dfh_find_param?
+>>
+>> /**
+>>  * dfh_find_param() - find parameter block for the given parameter id
+>>  * @dfl_dev: dfl device
+>>  * @param_id: id of dfl parameter
+>>  * @pver: destination to store parameter version
+>>  * @pcount: destination to store size of parameter data in u64 bit words
 >
-> On Mon, Dec 19, 2022 at 04:35:36PM +0100, Peter Zijlstra wrote:
-> >
-> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> > ---
-> >  include/linux/slub_def.h |   12 ++-
-> >  mm/slab.h                |   41 +++++++++++--
-> >  mm/slub.c                |  146 ++++++++++++++++++++++++++++-------------------
-> >  3 files changed, 135 insertions(+), 64 deletions(-)
+> The size of the parameter data could just be number of bytes (size_t is
+> ok?), this is the most common way for a data block.
 >
-> Does this actually work? Just wondering since I end up with an instant
-> list corruption on s390. Might be endianness related, but I can't see
-> anything obvious at a first glance.
+>>  *
+>>  * Return: pointer to start of parameter data, PTR_ERR otherwise.
+>>  */
+>> void *dfh_find_param(struct dfl_device *dfl_dev, int param_id, unsigned
+>> *pver, unsigned *pcount)
+>
+> For now no driver is caring about parameter version, so we could just have
+> a simplified API without version, like:
+>
+>  void *dfh_find_param(struct dfl_device *dfl_dev, int param_id, size_t *psize)
 
-I don't see anything that looks related to endianness, because while
-there is that 128-bit union member, it's always either used in full,
-or it's accessed as other union members.
+Using size_t and the simplified API you suggest is fine with me.
 
-But I *do* note that this patch seems to be the only one that depends
-on the new this_cpu_cmpxchg() updates to make it just automatically do
-the right thing for a 128-bit value. And I have to admit that all
-those games with __pcpu_cast_128() make no sense to me. Why isn't it
-just using "u128" everywhere without any odd _Generic() games?
+>
+> I assume this simplified API should be most commonly used by drivers,
+> changing the layout of the parameter block is not such a good idea to
+> me, try best not to do so.
+>
+> If more property is to be added without changing the existing fields,
+> drivers could be aware of this just by the parameter size?
+>
+>
+> Anyway, if version is really needed in future, create another API like:
+>
+>  void *dfh_find_param_version(struct dfl_device *dfl_dev, int param_id,
+>  			       size_t *psize, unsigned int *pver)
 
-I could also easily see that if the asm constraints are wrong (like
-the "cast pointer to (unsigned long *) instead of keeping it pointing
-to a 128-bit type" thing discussed earlier), then code like this:
+Sure, we can add API when it is actually used, as you point out, the 
+structure of a particular paramater should not change very often.
 
-+       freelist_aba_t old = { .freelist = freelist_old, .counter = tid };
-+       freelist_aba_t new = { .freelist = freelist_new, .counter =
-next_tid(tid) };
-+
-+       return this_cpu_cmpxchg(s->cpu_slab->freelist_tid.full,
-+                               old.full, new.full) == old.full;
+>
+> Thanks,
+> Yilun
+>
+>>
+>>
+>>>
+>>>>
+>>>>>
+>>>>>> + */
+>>>>>> +u64 *dfh_find_param(struct dfl_device *dfl_dev, int param_id)
+>>>>>> +{
+>>>>>> +	return find_param(dfl_dev->params, dfl_dev->param_size, param_id);
+>>>>>> +}
+>>>>>> +EXPORT_SYMBOL_GPL(dfh_find_param);
+>>>>>
+>>>>> ...
+>>>>>
+>>>>>> +	finfo = kzalloc(sizeof(*finfo) + dfh_psize, GFP_KERNEL);
+>>>>>
+>>>>> It sounds like a candidate for struct_size() from overflow.h.
+>>>>> I.o.w. check that header and come up with the best what can
+>>>>> suit your case.
+>>>>
+>>>> 	finfo = kzalloc(struct_size(finfo, params, dfh_psize/sizeof(u64)),
+>>>> GFP_KERNEL);
+>>>>
+>>>> Does seem better.
+>>>
+>>> How about we change the dfh_get_psize() to like dfh_get_pcount(), so we
+>>> don't have to multiply & divide back and forth.
+>>
+>> We need the size in bytes for calls to kmemdup, devm_kmemdup, and
+>
+> When the count of u64 is caculated, you could still convert it to size of
+> bytes when needed.
 
-would easily make the compiler go "the second word of 'old' is never
-used by the asm, so I won't initialize it".
+We need to use number of bytes more often than than count of u64.  How 
+would calculating bytes from counts of u64 three times be better than 
+calculating counts of u64 once, like it is now?
 
-But yeah, that patch is hard to read, so hard to say. Does everything
-leading up to it work fine?
+Thanks,
+Matthew Gerlach
 
-                 Linus
+>
+>> memcpy_fromio, but we only need to divide once here.
+>>
+>>
+>>>
+>>> Or we just use size_add()?
+>>
+>> I think using struct_size is better because the params member of struct
+>> dfl_feature_info is a trailing flexible array.
+>
+> That's OK.
+>
+>>
+>> Thanks for the feedback,
+>> Matthew
+>>
+>>
+>>>
+>>> Thanks,
+>>> Yilun
+>>>
+>>>>
+>>>> Thanks for the suggestion,
+>>>> Matthew Gerlach
+>>>>
+>>>>
+>>>>>
+>>>>>>  	if (!finfo)
+>>>>>>  		return -ENOMEM;
+>>>>>
+>>>>> --
+>>>>> With Best Regards,
+>>>>> Andy Shevchenko
+>>>>>
+>>>>>
+>>>>>
+>>>
+>
