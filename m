@@ -2,258 +2,200 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 875AFC46467
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 14:04:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 280F8C46467
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Jan 2023 14:07:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237767AbjACOEJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Jan 2023 09:04:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53460 "EHLO
+        id S230397AbjACOGz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Jan 2023 09:06:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236918AbjACOEF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 09:04:05 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D3B3510B6C;
-        Tue,  3 Jan 2023 06:03:57 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1B1831595;
-        Tue,  3 Jan 2023 06:04:39 -0800 (PST)
-Received: from FVFF77S0Q05N (unknown [10.57.37.13])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9306B3F587;
-        Tue,  3 Jan 2023 06:03:51 -0800 (PST)
-Date:   Tue, 3 Jan 2023 14:03:37 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Boqun Feng <boqun.feng@gmail.com>, torvalds@linux-foundation.org,
-        corbet@lwn.net, will@kernel.org, catalin.marinas@arm.com,
-        dennis@kernel.org, tj@kernel.org, cl@linux.com, hca@linux.ibm.com,
-        gor@linux.ibm.com, agordeev@linux.ibm.com,
-        borntraeger@linux.ibm.com, svens@linux.ibm.com,
-        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        joro@8bytes.org, suravee.suthikulpanit@amd.com,
-        robin.murphy@arm.com, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
-        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-s390@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org
-Subject: Re: [RFC][PATCH 05/12] arch: Introduce
- arch_{,try_}_cmpxchg128{,_local}()
-Message-ID: <Y7Q1uexv6DrxCASB@FVFF77S0Q05N>
-References: <20221219153525.632521981@infradead.org>
- <20221219154119.154045458@infradead.org>
- <Y6DEfQXymYVgL3oJ@boqun-archlinux>
- <Y6GXoO4qmH9OIZ5Q@hirez.programming.kicks-ass.net>
- <Y7QszyTEG2+WiI/C@FVFF77S0Q05N>
+        with ESMTP id S237677AbjACOGw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 09:06:52 -0500
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2054.outbound.protection.outlook.com [40.107.237.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A41010578;
+        Tue,  3 Jan 2023 06:06:51 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=abmgR5FYTyiGOV5efpED9ivvnMHETqLe8u+4I0vscTFfPLs4/nkfYkaRAwIhJBwSL2fBy/tuGSErSOI9zJ9tyRLLApnv/3GVvVq3BDwCrgrguy0wvsv/2NVID+ZBgPiTxG1p+IqiSv7HTXAvOUR9p64WnVUpPxMyfov371TvEMiVSUl5xZ8tatt8+FfOVW2FmsLsiJkmUnvMs3Zqx3GUZ6soS4zQC7qb0PI1HmQ2dDNbe38CAeNAFSNR4dUXcSJkRRNEnT0iE/g03xQr9NHcylW9pIYH+tGuvJf/ViLK4EvQ9ZvtbpRbCyYM/TsnjKtVne4PJkMZMD/1OKGflf9owg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7owfVqobvi70YeDEc2zFjaddbzdgqID3RqyniBTwu0E=;
+ b=mmwc1PI95T21L0eAeSxzYN4s6d/4Fg5qLJiZnnZf4dMsqUXvbnc2xuLkfbzi+vOnflXgN1CEvRzT03D52DdMh/A+2cd9ozY0KCxj0BNO2k6JHsHFvWFwWuv5BnQn6OKIslQ9ketN6lnEOE81RECQCTxYCAEK6xKC1SR+9k6P2zwxDIX9nW8kJWywX+03JaVbJilIfiYzvs2AFxxpvZeg/PhX31MRxnKv1N347hPuL9uFqmlkig/r4VsVylChW/YrwHDJL1F9so/RTc9k1q/Y2A55fG4+7bdqi1l+SI/nIUXTxMkmZQbYRqV1wPLPV0PyuTurY187MX8cqEazuhsH3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7owfVqobvi70YeDEc2zFjaddbzdgqID3RqyniBTwu0E=;
+ b=ksRDusVSSPJUq7THypSyfaczRn61Xzcqz9MNyQWk7jgMJZ522D9t0WcqjQaOI4XkGA95UaSeAS0m92g3Oty9WLHUviT8xZgw4JsBkoi49Xi6sGtlDEa1D7Rbtp+w0sKkX/vfkJhSi5OEdIsO+GFLj5x5CC7VSRp5TfT/39cEF7M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
+ by MN0PR12MB6344.namprd12.prod.outlook.com (2603:10b6:208:3d3::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Tue, 3 Jan
+ 2023 14:06:49 +0000
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::45b1:34fb:e14d:96e4]) by BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::45b1:34fb:e14d:96e4%5]) with mapi id 15.20.5944.019; Tue, 3 Jan 2023
+ 14:06:49 +0000
+Message-ID: <d37334f8-4c4c-467f-9ab0-a79914cbae3a@amd.com>
+Date:   Tue, 3 Jan 2023 08:06:47 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v5 0/2] docs: Integrate rustdoc into Rust documentation
+To:     Jonathan Corbet <corbet@lwn.net>, ojeda@kernel.org,
+        akiyks@gmail.com, jani.nikula@linux.intel.com,
+        rdunlap@infradead.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        konstantin@linuxfoundation.org
+References: <20221207173053.1463800-1-carlos.bilbao@amd.com>
+ <20221228174623.144199-1-carlos.bilbao@amd.com> <87wn64fq7d.fsf@meer.lwn.net>
+Content-Language: en-US
+From:   Carlos Bilbao <carlos.bilbao@amd.com>
+In-Reply-To: <87wn64fq7d.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL1PR13CA0326.namprd13.prod.outlook.com
+ (2603:10b6:208:2c1::31) To BL1PR12MB5874.namprd12.prod.outlook.com
+ (2603:10b6:208:396::17)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7QszyTEG2+WiI/C@FVFF77S0Q05N>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|MN0PR12MB6344:EE_
+X-MS-Office365-Filtering-Correlation-Id: addd4550-d38e-42f6-e9d2-08daed93c1ce
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: X1qOvCih2nqk3YjGLh3I4DBu/r+Z47mf2gMJKv/PHysdgzlqPlL1Ca15Q5B520nMHWEiP1syADO4Fjstb5OaiA0SkmZcORmFX37dcnq3BkK2ESz5gGR/sFBaF8udA1VFF7h+/SoWwAD+zujrGWlL96IlkCvSY+tNshfen7ymt+QJB9q5ti8D8UYDuXoZMpxu89Egjq2zHt4Abv49w+QXce2JG+ycO+RUIvOhPL9KXg/92tKHpH7ScGLh59fO161HdQIFFpiME/Pd1ETFexsh9Q0Co4zysyfXHFpCFW+8PU8YrEwdNHWqnuRajm2O5YQp3IYXyImD/SmIN8RRSfqcHeTbnOFVW8njfYtcV9HhkRAuHPo4vCEsWkjPSFv//UvjFv4JknShrpP8JeP7FSYvpfVSZTKc4ETtWVumI/mM24ptq7man0Aw4MMU6Rb4waBZ72j7Od6KIa0k3tMcXwofpL+u9WdLWe+ev0rNPlwWQSvFkeM4+4F66YDfFUGMJESQyRNcIFzaKNvnkz06zRTp6TLfU5GFfPkWBhmufW4pzH6ToX9RCMBeWTeWf35s+CxvJt2olO3t7Nmeca0MNIIpEcZKpN14b8m1kDqN/kMqH3WaSDegzI+TX6nFBqX2EZsRSvdd0Evl1v5K4uA1Mr/OZ8JylVo+AqRBRngSwnpZ455L13TFHTc9x2VOJSzHQutYNiAq0gbhfa93x3m3JjFEWK6QpLu3LADYCvGde2+wIFZh5HbjG3IlwIso4UCPlSokGamhDoGSWckCDZ/lCDg1rOtWCZhTIcZGgQbbzO7SkXo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(136003)(366004)(39860400002)(396003)(376002)(451199015)(8676002)(4326008)(66556008)(66476007)(66946007)(41300700001)(966005)(478600001)(8936002)(6486002)(316002)(31686004)(5660300002)(6512007)(186003)(26005)(6506007)(2906002)(53546011)(2616005)(36756003)(44832011)(83380400001)(31696002)(86362001)(38100700002)(22166006)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K3VkaVE0ZThuTmZjbDFtWUQ0T1RON2ZuUDY1Yi9rbEpBZnNiRGljRitjMjRy?=
+ =?utf-8?B?UURRWkVZVTUyZjZiSXJjbHZIODBoNWllZEZ3TXVCRHBranVJa2FjV1pLUXpl?=
+ =?utf-8?B?SlF0ZzQzSG5rNmpSSmlyVDZhSXBCa0wrbHF1SUFQbTErT0JmeksvaWZPNkxT?=
+ =?utf-8?B?dXBrbGhybS95OHUwb0YrR0dBcFZPMVlJb2R5MUE4cWcwU0xZM1RiWm9pWm9X?=
+ =?utf-8?B?VmpZci94T1dES2RMRDFNVWNuTjFrRFMrcW5RVVFKVGF3MzhXRnNMRUdaWTd6?=
+ =?utf-8?B?V2ZMbjQ1RWRtL3luL3o3NHJKNFFxSENTRnM1VXpTNmpYczBmTkJ1cXdWN3dZ?=
+ =?utf-8?B?T2NHSXlWYUZFanhzM2dyRUI4b2RTbkwxMUNDM0IyK1ZERFZYQTZLQS9FSU82?=
+ =?utf-8?B?ZHZMaVlqWmlibERYMUtCYTNsT1pNRU90Q1d4ZmlpWlArT3czNEhlWFBJMEhS?=
+ =?utf-8?B?c1FNNUhrcGhBMGEwRDh6VEVReVpqNE13RzRlZFIxM1BxV1V2b2NjMktlRXBn?=
+ =?utf-8?B?aFVNdEhNUEs2aHhubDB6OVdPdWluMnlVVm1DdkVENjZwQi9sOVpyY0NlMGF1?=
+ =?utf-8?B?eEhsTU12bmp0QWRWM3RMQkd3cy9iQ0VmS1NPYmFzL0NPNTdGRGp6NG9PVlhG?=
+ =?utf-8?B?OEV0MDBCOElhR1RzU0Y3MmpOY2lDODBBWUR5SlJvakp1WXBMU2IwelYxdUZW?=
+ =?utf-8?B?Rjk3WDBicHJGYWtUcXBwTG9lVlZ2KzhreHYvaCtHenpyYWlyNEJEM2cvdS9W?=
+ =?utf-8?B?cVhvRTkzWnhBV0J6Sm9iWHNkUGo3bk1YNDZYQmVCaXlHaDRrcW8wcjRtaUJz?=
+ =?utf-8?B?V1c4L1NVYVNRSnpJQTQzZEZOTVZyZVZ0MjR4TmswNTJKV1FVRE9odXVlR0Vq?=
+ =?utf-8?B?MWlkYVBVWkdSRm12ZkZTOW5ONUQ0NklDaXduVGkyRHFuVCtrWEppYytUbWRI?=
+ =?utf-8?B?ZGo4S2NzQlhBZVRQeWpSdDRzVkRiekJzTDBmQmw0bmIxRDVYU08vS2xmS3V5?=
+ =?utf-8?B?b0x4Z255Q3NOTGhOQVFCdWJJdUdqSll3UDJDZjg1SHNudlBLWkYxTHZtc1Ba?=
+ =?utf-8?B?YXBzaVlkYXN6d0JPcjBHNVo5N3c0QzAydDgycHFaZWhEWG0rVHd3LzR3Nk5B?=
+ =?utf-8?B?cXlZbUk5eDFtUTZZWFhuUjdmMHZ4NTRGZ2FqMDdOYlVkRHJ6bGtTa3ArUVRj?=
+ =?utf-8?B?NDhWYjJBa0J5ZzU1bkZ4cHJORzlHWEYzRjlrbnArZFY0MktaQzI1czY3QVo0?=
+ =?utf-8?B?enkvdWlpOWNzYW9MVFZDY2ZMcEUrT1I0YTFJZUp1a0p6R0l0dldRRm9laDFG?=
+ =?utf-8?B?cTZ6UHJza21sOHIrdmdQN1JtcTJ1STVPTzJibWFsRURjTmNuL0g1eHA0NzNH?=
+ =?utf-8?B?bzZORCs1WWJoSEhuOEN5bjM0bVVaRGtyNEtYUW1iOHgzam45bXpLMnN0YWpl?=
+ =?utf-8?B?ME9qbElRVzNudXVrNTFmWDZ3Q2dEVFc5RkZWUVl5aU8yK1VTVTJoMy9mTENV?=
+ =?utf-8?B?Q3orZDRxeGdwZXBUcmdkU2g5aE9mMi9tNWNKRFJmclZLM05FaFQ2a0w0enhG?=
+ =?utf-8?B?QWF6YXNtS1pKaFExa3FKK1R4Q1dZN1l2Y1R6cDQ2Wm0zZmFzR1dIN05JbnZN?=
+ =?utf-8?B?TVpKYWFTQWtQTGlFWmNhM1VFK25Hek41b2tlUTNjYjBkTzlOb0JkeVArWTBO?=
+ =?utf-8?B?Qzgwb29zVjVTWXZDbzhaSVBndFZVbVpOdXlYMjNiTzJRZ3BxMmg5UTFseUhR?=
+ =?utf-8?B?Z05lc2lrY2hYdC84c25YUmluR1c4TlIxalVBUzgyZnJLK1N2SkZrMFcwbUtI?=
+ =?utf-8?B?bjFnWlQ3RjBBQmM3S01kR2JDdWlNdnhpQXpCV2NCTXV0VzBOM3R3ci80T3Q3?=
+ =?utf-8?B?bllzeExyeXJmbTVOMGg0QlZiT2Y0VC9zMDM4dklTeVRNRlM4dnQrb1I4VTZi?=
+ =?utf-8?B?Mi9RWVVJSFlyWS83OG16TEdjWUJHaklFTEtZZk1FN1h2cGc3S3JXdjgxM0J2?=
+ =?utf-8?B?bnp4MEJ5WFdrTlhYRHJPRy83YmNSUURieXNyNlVTb3ZhTHNWN21ua1ZWY1hl?=
+ =?utf-8?B?Y2p6RjlSWk4vakhlMlpnSmFydkRrK0paTlBvbzQrRnBxVUFjelF0QkNFd3FL?=
+ =?utf-8?Q?CuNjuuP0ZXocx40lBSYbcQliz?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: addd4550-d38e-42f6-e9d2-08daed93c1ce
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2023 14:06:49.5447
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bejYSoAbvxARZ/YVFcMyXaMolwLiDiiZodI0l3jUsb92PmtJI6BsKSakcbGv86mFUyOTYKisspTIfre5BTjzSg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6344
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 03, 2023 at 01:25:35PM +0000, Mark Rutland wrote:
-> On Tue, Dec 20, 2022 at 12:08:16PM +0100, Peter Zijlstra wrote:
-> > On Mon, Dec 19, 2022 at 12:07:25PM -0800, Boqun Feng wrote:
-> > > On Mon, Dec 19, 2022 at 04:35:30PM +0100, Peter Zijlstra wrote:
-> > > > For all architectures that currently support cmpxchg_double()
-> > > > implement the cmpxchg128() family of functions that is basically the
-> > > > same but with a saner interface.
-> > > > 
-> > > > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> > > > ---
-> > > >  arch/arm64/include/asm/atomic_ll_sc.h |   38 +++++++++++++++++++++++
-> > > >  arch/arm64/include/asm/atomic_lse.h   |   33 +++++++++++++++++++-
-> > > >  arch/arm64/include/asm/cmpxchg.h      |   26 ++++++++++++++++
-> > > >  arch/s390/include/asm/cmpxchg.h       |   33 ++++++++++++++++++++
-> > > >  arch/x86/include/asm/cmpxchg_32.h     |    3 +
-> > > >  arch/x86/include/asm/cmpxchg_64.h     |   55 +++++++++++++++++++++++++++++++++-
-> > > >  6 files changed, 185 insertions(+), 3 deletions(-)
-> > > > 
-> > > > --- a/arch/arm64/include/asm/atomic_ll_sc.h
-> > > > +++ b/arch/arm64/include/asm/atomic_ll_sc.h
-> > > > @@ -326,6 +326,44 @@ __CMPXCHG_DBL(   ,        ,  ,         )
-> > > >  __CMPXCHG_DBL(_mb, dmb ish, l, "memory")
-> > > >  
-> > > >  #undef __CMPXCHG_DBL
-> > > > +
-> > > > +union __u128_halves {
-> > > > +	u128 full;
-> > > > +	struct {
-> > > > +		u64 low, high;
-> > > > +	};
-> > > > +};
-> > > > +
-> > > > +#define __CMPXCHG128(name, mb, rel, cl)					\
-> > > > +static __always_inline u128						\
-> > > > +__ll_sc__cmpxchg128##name(volatile u128 *ptr, u128 old, u128 new)	\
-> > > > +{									\
-> > > > +	union __u128_halves r, o = { .full = (old) },			\
-> > > > +			       n = { .full = (new) };			\
-> > > > +									\
-> > > > +	asm volatile("// __cmpxchg128" #name "\n"			\
-> > > > +	"	prfm	pstl1strm, %2\n"				\
-> > > > +	"1:	ldxp	%0, %1, %2\n"					\
-> > > > +	"	eor	%3, %0, %3\n"					\
-> > > > +	"	eor	%4, %1, %4\n"					\
-> > > > +	"	orr	%3, %4, %3\n"					\
-> > > > +	"	cbnz	%3, 2f\n"					\
-> > > > +	"	st" #rel "xp	%w3, %5, %6, %2\n"			\
-> > > > +	"	cbnz	%w3, 1b\n"					\
-> > > > +	"	" #mb "\n"						\
-> > > > +	"2:"								\
-> > > > +	: "=&r" (r.low), "=&r" (r.high), "+Q" (*(unsigned long *)ptr)	\
-> > > 
-> > > I wonder whether we should use "(*(u128 *)ptr)" instead of "(*(unsigned
-> > > long *) ptr)"? Because compilers may think only 64bit value pointed by
-> > > "ptr" gets modified, and they are allowed to do "useful" optimization.
-> > 
-> > In this I've copied the existing cmpxchg_double() code; I'll have to let
-> > the arch folks speak here, I've no clue.
-> 
-> We definitely need to ensure the compiler sees we poke the whole thing, or it
-> can get this horribly wrong, so that is a latent bug.
-> 
-> See commit:
-> 
->   fee960bed5e857eb ("arm64: xchg: hazard against entire exchange variable")
-> 
-> ... for examples of GCC being clever, where I overlooked the *_double() cases.
+On 1/2/23 17:53, Jonathan Corbet wrote:
 
-Ugh; with GCC 12.1.0, arm64 defconfig, and the following:
+> Carlos Bilbao <carlos.bilbao@amd.com> writes:
+>
+>> Include HTML output generated with rustdoc into the Linux kernel
+>> documentation on Rust.
+>>
+>> Carlos Bilbao:
+>>   docs: Move rustdoc output, cross-reference it
+>>   docs: Integrate rustdoc generation into htmldocs
+> OK, so I just gave this a try...
+>
+> - It forces the generation of a kernel configuration, something that the
+>    docs build has never done until now.  What are our changes of
+>    eliminating that?
 
-| struct big {
-|         u64 lo, hi;
-| } __aligned(128);
-| 
-| unsigned long foo(struct big *b)
-| {
-|         u64 hi_old, hi_new;
-| 
-|         hi_old = b->hi;
-| 
-|         cmpxchg_double_local(&b->lo, &b->hi, 0x12, 0x34, 0x56, 0x78);
-| 
-|         hi_new = b->hi;
-| 
-|         return hi_old ^ hi_new;
-| }
 
-GCC clearly figures out the high half isn't modified, and constant folds hi_old
-^ hi_new down to zero, regardless of whether we use LL/SC or LSE:
+Yes, this means "make htmldocs" will require kernel .config, but only if we
+want CONFIG_RUST=y. AFAIK this is a limitation of Rust in the kernel at the
+moment, not something particular to this patch.
 
-<foo>:
-   0:   d503233f        paciasp
-   4:   aa0003e4        mov     x4, x0
-   8:   1400000e        b       40 <foo+0x40>
-   c:   d2800240        mov     x0, #0x12                       // #18
-  10:   d2800681        mov     x1, #0x34                       // #52
-  14:   aa0003e5        mov     x5, x0
-  18:   aa0103e6        mov     x6, x1
-  1c:   d2800ac2        mov     x2, #0x56                       // #86
-  20:   d2800f03        mov     x3, #0x78                       // #120
-  24:   48207c82        casp    x0, x1, x2, x3, [x4]
-  28:   ca050000        eor     x0, x0, x5
-  2c:   ca060021        eor     x1, x1, x6
-  30:   aa010000        orr     x0, x0, x1
-  34:   d2800000        mov     x0, #0x0                        // #0    <--- BANG
-  38:   d50323bf        autiasp
-  3c:   d65f03c0        ret
-  40:   d2800240        mov     x0, #0x12                       // #18
-  44:   d2800681        mov     x1, #0x34                       // #52
-  48:   d2800ac2        mov     x2, #0x56                       // #86
-  4c:   d2800f03        mov     x3, #0x78                       // #120
-  50:   f9800091        prfm    pstl1strm, [x4]
-  54:   c87f1885        ldxp    x5, x6, [x4]
-  58:   ca0000a5        eor     x5, x5, x0
-  5c:   ca0100c6        eor     x6, x6, x1
-  60:   aa0600a6        orr     x6, x5, x6
-  64:   b5000066        cbnz    x6, 70 <foo+0x70>
-  68:   c8250c82        stxp    w5, x2, x3, [x4]
-  6c:   35ffff45        cbnz    w5, 54 <foo+0x54>
-  70:   d2800000        mov     x0, #0x0                        // #0     <--- BANG
-  74:   d50323bf        autiasp
-  78:   d65f03c0        ret
-  7c:   d503201f        nop
 
-... so we *definitely* need to fix that.
+>
+> - It did a bunch of other building, starting with objtool - again, never
+>    needed for the docs build before.
 
-Using __uint128_t instead, e.g.
 
-diff --git a/arch/arm64/include/asm/atomic_ll_sc.h b/arch/arm64/include/asm/atomic_ll_sc.h
-index 0890e4f568fb7..cbb3d961123b1 100644
---- a/arch/arm64/include/asm/atomic_ll_sc.h
-+++ b/arch/arm64/include/asm/atomic_ll_sc.h
-@@ -315,7 +315,7 @@ __ll_sc__cmpxchg_double##name(unsigned long old1,                   \
-        "       cbnz    %w0, 1b\n"                                      \
-        "       " #mb "\n"                                              \
-        "2:"                                                            \
--       : "=&r" (tmp), "=&r" (ret), "+Q" (*(unsigned long *)ptr)        \
-+       : "=&r" (tmp), "=&r" (ret), "+Q" (*(__uint128_t *)ptr)          \
-        : "r" (old1), "r" (old2), "r" (new1), "r" (new2)                \
-        : cl);                                                          \
-                                                                        \
-diff --git a/arch/arm64/include/asm/atomic_lse.h b/arch/arm64/include/asm/atomic_lse.h
-index 52075e93de6c0..a94d6dacc0292 100644
---- a/arch/arm64/include/asm/atomic_lse.h
-+++ b/arch/arm64/include/asm/atomic_lse.h
-@@ -311,7 +311,7 @@ __lse__cmpxchg_double##name(unsigned long old1,                             \
-        "       eor     %[old2], %[old2], %[oldval2]\n"                 \
-        "       orr     %[old1], %[old1], %[old2]"                      \
-        : [old1] "+&r" (x0), [old2] "+&r" (x1),                         \
--         [v] "+Q" (*(unsigned long *)ptr)                              \
-+         [v] "+Q" (*(__uint128_t *)ptr)                                \
-        : [new1] "r" (x2), [new2] "r" (x3), [ptr] "r" (x4),             \
-          [oldval1] "r" (oldval1), [oldval2] "r" (oldval2)              \
-        : cl);                                                          \
+Yes, building rustdoc requires building new things, no way around that
+either, IMHO.
 
-... makes GCC much happier:
 
-<foo>:
-   0:   f9400407        ldr     x7, [x0, #8]
-   4:   d503233f        paciasp
-   8:   aa0003e4        mov     x4, x0
-   c:   1400000f        b       48 <foo+0x48>
-  10:   d2800240        mov     x0, #0x12                       // #18
-  14:   d2800681        mov     x1, #0x34                       // #52
-  18:   aa0003e5        mov     x5, x0
-  1c:   aa0103e6        mov     x6, x1
-  20:   d2800ac2        mov     x2, #0x56                       // #86
-  24:   d2800f03        mov     x3, #0x78                       // #120
-  28:   48207c82        casp    x0, x1, x2, x3, [x4]
-  2c:   ca050000        eor     x0, x0, x5
-  30:   ca060021        eor     x1, x1, x6
-  34:   aa010000        orr     x0, x0, x1
-  38:   f9400480        ldr     x0, [x4, #8]
-  3c:   d50323bf        autiasp
-  40:   ca0000e0        eor     x0, x7, x0
-  44:   d65f03c0        ret
-  48:   d2800240        mov     x0, #0x12                       // #18
-  4c:   d2800681        mov     x1, #0x34                       // #52
-  50:   d2800ac2        mov     x2, #0x56                       // #86
-  54:   d2800f03        mov     x3, #0x78                       // #120
-  58:   f9800091        prfm    pstl1strm, [x4]
-  5c:   c87f1885        ldxp    x5, x6, [x4]
-  60:   ca0000a5        eor     x5, x5, x0
-  64:   ca0100c6        eor     x6, x6, x1
-  68:   aa0600a6        orr     x6, x5, x6
-  6c:   b5000066        cbnz    x6, 78 <foo+0x78>
-  70:   c8250c82        stxp    w5, x2, x3, [x4]
-  74:   35ffff45        cbnz    w5, 5c <foo+0x5c>
-  78:   f9400480        ldr     x0, [x4, #8]
-  7c:   d50323bf        autiasp
-  80:   ca0000e0        eor     x0, x7, x0
-  84:   d65f03c0        ret
-  88:   d503201f        nop
-  8c:   d503201f        nop
+>
+> In the end, it died with:
+>
+>> BINDGEN rust/bindings/bindings_generated.rs
+>> Failed to run rustfmt: No such file or directory (os error 2) (non-fatal, continuing)
+>>    BINDGEN rust/bindings/bindings_helpers_generated.rs
+>> error: Found argument '--blacklist-type' which wasn't expected, or isn't valid in this context
+>>
+>> 	Did you mean '--blocklist-type'?
+> Perhaps this is because I ignored the warnings about my Rust toolchain
+> being too new? (Rust 1.65.0, bindgen 0.63.0).  I get that only one
 
-... I'll go check whether clang is happy with that, and how far back that can
-go, otherwise we'll need to blat the high half with a separate constaint that
-(ideally) doesn't end up allocating a pointless address register.
 
-Mark.
+Yes, it is important to have the expected Rust toolchain. You can try
+running:
+
+rustup override set $(scripts/min-tool-version.sh rustc)
+
+there's more information about this on the Rust Quick Start [1]. It may be
+annoying but you will need this for any future Rust-kernel work too.
+
+
+> version is really supported, but it would be nice to fail a bit more
+> gracefully if at all possible.
+>
+> Anyway, I've unapplied these for now; thoughts on all this?
+
+
+My two cents is that these are limitations of Rust in the kernel, at least
+on its current state, and so adding rustdoc to the Documentation was
+going to come with them. But if someone has any ideas to make it less
+painful, I'm all ears too :)
+
+
+>
+> Thanks,
+>
+> jon
+
+
+Thanks,
+
+Carlos
+
+
+[1] 
+https://github.com/Rust-for-Linux/linux/blob/rust/Documentation/rust/quick-start.rst
+
