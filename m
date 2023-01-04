@@ -2,108 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 816ABC46467
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 21:29:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C475DC53210
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 23:22:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239911AbjADV3q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Jan 2023 16:29:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42218 "EHLO
+        id S231224AbjADXWZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Jan 2023 18:22:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240557AbjADV30 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jan 2023 16:29:26 -0500
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06C68DC0;
-        Wed,  4 Jan 2023 13:27:41 -0800 (PST)
-Received: by mail-pf1-x429.google.com with SMTP id k137so19045499pfd.8;
-        Wed, 04 Jan 2023 13:27:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xdMyQrIHWeXBS5vaDhN2cRckBSGcEP38oOfunYml57w=;
-        b=iX1y43d8OBGxLwGmJscAlBFVnoWSPofv9iXyHsuaXj45BXH9vjeirS5X7+rIV9ZZhI
-         kgmsMBU1MysDrFbe5rtEWFt3D2dmZmvt2X51oLkbTZJaWB5ewxlLnwJhiMW7BreTmtfW
-         gUO9PK9xlkX5hzeZQafxvgzJNW1B/yl2HD4O0wLbybwd/pYpO6kvt2y4c332bDDpWc17
-         buMOo5EORzykQc5P1bAlU++s1JKjLPniSHO9H1zEkv4emgaz3yQe4kJPFanSwrCTgIK3
-         /Q+NYDb2RAQraD1dbEv0ycfBtTFyFeBCuk0miK7rATtvKPXxIMcj5DbUXdFZIDn6+JSO
-         5q5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xdMyQrIHWeXBS5vaDhN2cRckBSGcEP38oOfunYml57w=;
-        b=6NSBQ9KIrx47UwI7BTO3Qw3sOYBIqpDi31eiIWxDY+tufgVlbeHBCg5ZsHOSydFJOE
-         IkXQtUDresDR+EoXgNRW6h8VnW87alQcLrrdo4agD691EK91T6ChT7ferX5Gk48EiK0g
-         lJE6ya/kyq8NqCDSXEYWKXN7y7nFrUFYaFN3qh7yVv+sK9Fx6XiS7n18cn9WgEst4xtX
-         y9vxLXvmZuOqOlrGMfoAoqPvlddLJKYH015e3zM2jz29LyCXB9bXoS+fk40igs5tDjbR
-         EtkIN6aAwctS5osBJjnq6UDjblYLv/I/8CPJMM/t41ZCVsjhj0hDimMJ5afhZMK7uruH
-         ShAQ==
-X-Gm-Message-State: AFqh2koLIQ5VklFdXsBpUycJ7rOmfyaCasK/IYnZPO/BwLsFRgIAk2OP
-        RP2s+020kGZTDTaeDWatxKGroHmv0i8=
-X-Google-Smtp-Source: AMrXdXvhpuwOOVfrKEsoZWgSrWme3m5gOzE/qQ8ObvZGAs31erUxihR0pPQenvtgB+5fhqu4d5DaQg==
-X-Received: by 2002:aa7:8594:0:b0:581:f301:23fc with SMTP id w20-20020aa78594000000b00581f30123fcmr21332893pfn.12.1672867661193;
-        Wed, 04 Jan 2023 13:27:41 -0800 (PST)
-Received: from localhost (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com. [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
-        by smtp.gmail.com with ESMTPSA id a184-20020a624dc1000000b00576cc60e5c9sm22939324pfb.87.2023.01.04.13.27.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 13:27:40 -0800 (PST)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Wed, 4 Jan 2023 11:27:39 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@suse.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        Shakeel Butt <shakeelb@google.com>
-Subject: Re: [PATCH 00/10] docs: cgroup-v1: formatting improv for "Memory
- Resource Controller" doc
-Message-ID: <Y7XvS5LJK01lWq48@slm.duckdns.org>
-References: <20221219042209.22898-1-bagasdotme@gmail.com>
+        with ESMTP id S240549AbjADXWX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jan 2023 18:22:23 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 338213B901;
+        Wed,  4 Jan 2023 15:22:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672874543; x=1704410543;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WkdfgZxzNh8MTB9VLy6eNylsSALpzw0WgKG1HPdLwjk=;
+  b=O2T2qj7I5qDPup5snatMxT+EvfeBiRriiVTBcnezzxWng7gBftljvfqe
+   1mPh4mzn+6B2CUYR9MD6fBDsCWOSELtsdEj+OOmmq1Dlnsrsjf05O7oFV
+   JrUjLpT834gAptGGi4uYmvFlETJCtkKHpns0Yg0Ct+KcmgUZVOJLerOm2
+   5fdJZXAP61r5fmoEFYRnqArekUs1lTrHGSWxz9G19CoRqb/iaPAlq7Tmx
+   9MesyLAFein3xB+ird+9xJP4jGZi1q4cMbdRg9dD0DIRD4FvgKKr69V8f
+   zLB/QoTGb/bZi6jVwtveSBdc8UsLe6w2BgP9XinmqUJGFsyl/cTQ5uDKK
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="301762105"
+X-IronPort-AV: E=Sophos;i="5.96,301,1665471600"; 
+   d="scan'208";a="301762105"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2023 15:22:20 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="900739350"
+X-IronPort-AV: E=Sophos;i="5.96,301,1665471600"; 
+   d="scan'208";a="900739350"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2023 15:22:19 -0800
+From:   matthew.gerlach@linux.intel.com
+To:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com, bagasdotme@gmail.com
+Cc:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Subject: [PATCH v9 0/4] Enhance definition of DFH and use enhancements for UART driver
+Date:   Wed,  4 Jan 2023 15:22:49 -0800
+Message-Id: <20230104232253.24743-1-matthew.gerlach@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221219042209.22898-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 19, 2022 at 11:21:59AM +0700, Bagas Sanjaya wrote:
-> "Memory Resource Controller" CGroup v1 documentation has been in reST
-> since 99c8b231ae6c6c ("docs: cgroup-v1: convert docs to ReST and rename to *.rst"). The current doc look is kinda ugly, so improve the formatting (only
-> htmldocs is tested).
-> 
-> The first patch is a fix for recently reported htmldocs warning, which can
-> be pickup separately from rest of the series.
-> 
-> Bagas Sanjaya (10):
->   docs: cgroup-v1: extend underline of section 8
->   docs: cgroup-v1: replace custom note constructs with appropriate
->     admonition blocks
->   docs: cgroup-v1: wrap remaining admonitions in admonition blocks
->   docs: cgroup-v1: use code block for locking order schema
->   docs: cgroup-v1: fix footnotes
->   docs: cgroup-v1: move hierarchy of accounting caption
->   docs: cgroup-v1: use bullet lists for list of stat file tables
->   docs: cgroup-v1: use make swap extension subsections subsections
->   docs: cgroup-v1: add internal cross-references
->   docs: cgroup-v1: use numbered lists for user interface setup
-> 
->  .../admin-guide/cgroup-v1/cgroups.rst         |   2 +
->  .../admin-guide/cgroup-v1/memory.rst          | 290 ++++++++++--------
->  2 files changed, 158 insertions(+), 134 deletions(-)
+From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 
-Patchset doesn't apply. Can you please rebase on top of linus#master and
-drop reference to the commit in -next?
+This patchset enhances the definition of the Device Feature Header (DFH) used by
+the Device Feature List (DFL) bus and then uses the new enhancements in a UART
+driver.
 
-Thanks.
+The enhancements to the DFH includes the introduction of parameter blocks.
+Like PCI capabilities, the DFH parameter blocks further describe
+the hardware to software. In the case of the UART, the parameter blocks
+provide information for the interrupt, clock frequency, and register layout.
+
+Duplication of code parsing of the parameter blocks in multiple DFL drivers
+is a concern. Using swnodes was considered to help minimize parsing code 
+duplication, but their use did not help the problem. Furthermore the highly
+changeable nature of FPGAs employing the DFL bus makes the use of swnodes
+inappropriate. 
+
+Patch 1 updates the DFL documentation to describe the added functionality to DFH.
+
+Patch 2 adds the definitions for DFHv1.
+
+Patch 3 adds basic support for DFHv1. It adds functionality to parse parameter blocks
+and adds the functionality to parse the explicit location of a feature's register set.
+
+Patch 4 adds a DFL UART driver that makes use of the new features of DFHv1.
+
+Basheer Ahmed Muddebihal (1):
+  fpga: dfl: Add DFHv1 Register Definitions
+
+Matthew Gerlach (3):
+  Documentation: fpga: dfl: Add documentation for DFHv1
+  fpga: dfl: add basic support for DFHv1
+  tty: serial: 8250: add DFL bus driver for Altera 16550.
+
+ Documentation/fpga/dfl.rst         | 117 ++++++++++++++
+ drivers/fpga/dfl.c                 | 245 +++++++++++++++++++++++------
+ drivers/fpga/dfl.h                 |  43 +++++
+ drivers/tty/serial/8250/8250_dfl.c | 167 ++++++++++++++++++++
+ drivers/tty/serial/8250/Kconfig    |  12 ++
+ drivers/tty/serial/8250/Makefile   |   1 +
+ include/linux/dfl.h                |   8 +
+ 7 files changed, 542 insertions(+), 51 deletions(-)
+ create mode 100644 drivers/tty/serial/8250/8250_dfl.c
 
 -- 
-tejun
+2.25.1
+
