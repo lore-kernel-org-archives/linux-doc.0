@@ -2,338 +2,65 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FB5CC4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 14:39:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02DC0C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 14:53:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239580AbjADOjZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Jan 2023 09:39:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58728 "EHLO
+        id S239277AbjADOxj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Jan 2023 09:53:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234523AbjADOjP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jan 2023 09:39:15 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A4E3AE4C
-        for <linux-doc@vger.kernel.org>; Wed,  4 Jan 2023 06:39:13 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id u19so83029739ejm.8
-        for <linux-doc@vger.kernel.org>; Wed, 04 Jan 2023 06:39:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7ktTgqCg5vZndbEsq2NE84RTVG7aeSaApbDApUiy3yI=;
-        b=bAo5rEoMeLXb+zWJpWccSUbC/52Xl5JUcRb7B7ldPjmJu8yrGJebcgfu2mvn6DoQOH
-         DJpreAUPSRM8Os5s1oTyh3CCfi6WZSJnNqxdwx043PELATrAMnUMkGjBMipqFxsD6I2u
-         shiCmP+MHLcOSwobb1InBZKdfL043vctCbYng=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7ktTgqCg5vZndbEsq2NE84RTVG7aeSaApbDApUiy3yI=;
-        b=joBmyh9nwUX4pNPwpjmaxegqcdVOAL6easr5h36UK1IJnxnVM8r5ndzKTHwtk6USiA
-         my4PXYCdMoYjezZcVFeVAM+zADTq0EkttRz83GTH4bKHp+2iPHwdIMJHAmU5hkEfOzRP
-         P904r+Yli/sYX9Ll10t13PbU7GhqAv2MLZ26RlxyDAx7pgAuQcSeVTrnlQzpQk8YTUmk
-         XIgoQUwKJCe4i6cwGIKjhSaPKQjq6FRUXY2cbNAQQIWmejQ/X3CZK8rh/tXQ2zbhbZWR
-         U/9JWYopc2KVdTbK9aDxiPbmgliCumc5jNzczvQA53vhthWkdMxBJ5zO6fjQrLca9wQF
-         K+1g==
-X-Gm-Message-State: AFqh2kpBhTp5q1GIv9iXotqSP8FIz+vc9uPjVRYKdF/kdAVVdwXGvUiQ
-        IUSIih2pb6Ni5l/Z4/AU2evXpeveMnx8DApj3ec=
-X-Google-Smtp-Source: AMrXdXuNx+d3v0Nfvuk68oEYdAFWRimFrEchPyE6TlxN7ROhq+mc7cuwNsyL8lc4Y9VgL1LLJfST/g==
-X-Received: by 2002:a17:906:b150:b0:7c1:2931:2263 with SMTP id bt16-20020a170906b15000b007c129312263mr43585109ejb.71.1672843151848;
-        Wed, 04 Jan 2023 06:39:11 -0800 (PST)
-Received: from alco.roam.corp.google.com ([2620:0:1059:10:a438:c7da:62e0:36f4])
-        by smtp.gmail.com with ESMTPSA id c8-20020a170906924800b0078de26f66b9sm15386659ejx.114.2023.01.04.06.39.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 06:39:11 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 04 Jan 2023 15:38:48 +0100
-Subject: [PATCH v6 3/3] kexec: Introduce sysctl parameters kexec_load_limit_*
+        with ESMTP id S239014AbjADOxi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jan 2023 09:53:38 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D42AAC7E;
+        Wed,  4 Jan 2023 06:53:36 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 2B873784;
+        Wed,  4 Jan 2023 14:53:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2B873784
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1672844016; bh=LBViN6C2IxVDdMCa0dttz1clC/S4Z1tQCswt2WcU1BY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=X53x2rU3rdcW42+JCBcQLLipYTujPo3ZGt8l/3jnHBGGEDj3tGdRu9gj+zw6JA3Iw
+         6H1QbcoYKA8gHpizTpD4NHWDj6lQBATm+WkSGdTA3ZBvedzVlN7/Fm2bgILR31JbzW
+         zLocnmeDYlZfgRDuJyfjEc4m3vx0piWdC3eIKOzn1u1aZHx5DQFsAYXlhwPIw5sEXp
+         h5n2UTaA1A1kRJW5MHsdqR8fJb496lZUOb63NU9kVCt8/TPUi4Pi8XmAeqK5DC5YIv
+         b078oNu9M4I8RSL5+ZWfDTaKnXjhWQvWp9J+v0ZUYbW6I7ijJTqo93gb1WGOQcI5h2
+         mqOICGuKMqczA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Carlos Bilbao <carlos.bilbao@amd.com>, ojeda@kernel.org,
+        akiyks@gmail.com, jani.nikula@linux.intel.com,
+        rdunlap@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, konstantin@linuxfoundation.org
+Subject: Re: [PATCH v5 0/2] docs: Integrate rustdoc into Rust documentation
+In-Reply-To: <CANiq72n3qnWwDjp0E1xY1m15qhMHz8_AXcL9hstVM8Xwfi=pbw@mail.gmail.com>
+References: <20221207173053.1463800-1-carlos.bilbao@amd.com>
+ <20221228174623.144199-1-carlos.bilbao@amd.com>
+ <87wn64fq7d.fsf@meer.lwn.net>
+ <CANiq72mC+WzOxhZVtEvnsFYzuBPkd51=TYXK01ztcTZ-CAcUiw@mail.gmail.com>
+ <87h6x7cfiy.fsf@meer.lwn.net>
+ <CANiq72n3qnWwDjp0E1xY1m15qhMHz8_AXcL9hstVM8Xwfi=pbw@mail.gmail.com>
+Date:   Wed, 04 Jan 2023 07:53:35 -0700
+Message-ID: <874jt6cpw0.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20221114-disable-kexec-reset-v6-3-6a8531a09b9a@chromium.org>
-References: <20221114-disable-kexec-reset-v6-0-6a8531a09b9a@chromium.org>
-In-Reply-To: <20221114-disable-kexec-reset-v6-0-6a8531a09b9a@chromium.org>
-To:     Philipp Rudo <prudo@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>, linux-doc@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Baoquan He <bhe@redhat.com>, Petr Tesarik <petr@tesarici.cz>,
-        kexec@lists.infradead.org, Bagas Sanjaya <bagasdotme@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-kernel@vger.kernel.org, Ross Zwisler <zwisler@kernel.org>
-X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7913; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=pwr4lQSQU6e2iagP33ihhaoD9RG5CubbrBaEaThEAKM=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjtY+HjBoWaxGoO7sxgdVTlJcthgWB365UeesT8qSd
- hvqseBiJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY7WPhwAKCRDRN9E+zzrEiAunD/
- 91AfbnoUWa9e8aD0UKHg+GAqqRrXozPx01fMTG3wC2iUZxj/n2uMz/Y8QbTHYctYbTfVMTpx/jHg2K
- cbSS6gGr5ybyMAggEcwWMSPfYWS/rVzPFf6T8G0NpDwWEnbQ4QjHDaULMlPg5AXL5uReOCp0qh/CjQ
- k2MK/1noz9a6dzcMqHd25iw6UGm2HWY4VXSD7on2U1hzxCAixuddN5gPd8lwBxwpueWdRaq3EIX+BI
- 0ECi9pmjTjN7BwiLeVDOPm8xI9hmn3SKhv/onx0MyBdYds4qYDZOgCxUWI/2/d+qa2V14UkKigfeQR
- g3c3YrWsOeWJTcCKad5PaGmNHk110c3wU8EZ5hCWcUXAMWyJbWXDh7GAOF6m8AVPtSsT2b++X9JQJw
- UUCys+nCBZmTEDOHNkS7ghuK3Q3YsjemCdfKa1LjHE1YSC18fK737LAKLRi3qv+vfFAQUX9HWBxWy7
- u2hkB6tkUVgrTIwmEC9BzneUHH6HUJIffKaBjcCpSklvHyU0VFnXEkMbJFIy8JkDT31zzdfVe0jilF
- yyWg2218E4cEthc8vrS0HQuGe/Rl5rCO/l2Z7k4ZB//JKMuQX9c7W4RoBIMSEp0xHdOJwxtHOSflS/
- xpS7m2cyXFO00X1x4m7hB6Mqmfn60Bhin0EGNy91xeKIdJLNMd5B15HPhzpA==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kexec allows replacing the current kernel with a different one. This is
-usually a source of concerns for sysadmins that want to harden a system.
+Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> writes:
 
-Linux already provides a way to disable loading new kexec kernel via
-kexec_load_disabled, but that control is very coard, it is all or
-nothing and does not make distinction between a panic kexec and a
-normal kexec.
+> I think I understand now what you meant by "fail more gracefully". I
+> thought you meant fail with a better/proper message given versioning
+> information or similar, but you primarily meant avoid breaking the
+> entire docs build if the Rust part fails, right?
 
-This patch introduces new sysctl parameters, with finner tunning to
-specify how many times a kexec kernel can be loaded. The sysadmin can
-set different limits for kexec panic and kexec reboot kernels. The
-value can be modified at runtime via sysctl, but only with a stricter
-value.
+Both would be nice, but not breaking the docs build would be at the top
+of my list.
 
-With these new parameters on place, a system with loadpin and verity
-enabled, using the following kernel parameters:
-sysctl.kexec_load_limit_reboot=0 sysct.kexec_load_limit_panic=1
-can have a good warranty that if initrd tries to load a panic kernel,
-a malitious user will have small chances to replace that kernel with a
-different one, even if they can trigger timeouts on the disk where the
-panic kernel lives.
+Thanks,
 
-Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- Documentation/admin-guide/sysctl/kernel.rst | 18 ++++++
- include/linux/kexec.h                       |  2 +-
- kernel/kexec.c                              |  4 +-
- kernel/kexec_core.c                         | 87 ++++++++++++++++++++++++++++-
- kernel/kexec_file.c                         | 11 ++--
- 5 files changed, 114 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 97394bd9d065..d5fb4b6ef405 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -461,6 +461,24 @@ allowing a system to set up (and later use) an image without it being
- altered.
- Generally used together with the `modules_disabled`_ sysctl.
- 
-+kexec_load_limit_panic
-+======================
-+
-+This parameter specifies a limit to the number of times the syscalls
-+``kexec_load`` and ``kexec_file_load`` can be called with a crash
-+image. It can only be set with a more restrictive value than the
-+current one.
-+
-+== ======================================================
-+-1 Unlimited calls to kexec. This is the default setting.
-+N  Number of calls left.
-+== ======================================================
-+
-+kexec_load_limit_reboot
-+=======================
-+
-+Similar functionality as ``kexec_load_limit_panic``, but for a normal
-+image.
- 
- kptr_restrict
- =============
-diff --git a/include/linux/kexec.h b/include/linux/kexec.h
-index 182e0c11b87b..791e65829f86 100644
---- a/include/linux/kexec.h
-+++ b/include/linux/kexec.h
-@@ -407,7 +407,7 @@ extern int kimage_crash_copy_vmcoreinfo(struct kimage *image);
- extern struct kimage *kexec_image;
- extern struct kimage *kexec_crash_image;
- 
--bool kexec_load_permitted(void);
-+bool kexec_load_permitted(int kexec_image_type);
- 
- #ifndef kexec_flush_icache_page
- #define kexec_flush_icache_page(page)
-diff --git a/kernel/kexec.c b/kernel/kexec.c
-index ce1bca874a8d..92d301f98776 100644
---- a/kernel/kexec.c
-+++ b/kernel/kexec.c
-@@ -190,10 +190,12 @@ static int do_kexec_load(unsigned long entry, unsigned long nr_segments,
- static inline int kexec_load_check(unsigned long nr_segments,
- 				   unsigned long flags)
- {
-+	int image_type = (flags & KEXEC_ON_CRASH) ?
-+			 KEXEC_TYPE_CRASH : KEXEC_TYPE_DEFAULT;
- 	int result;
- 
- 	/* We only trust the superuser with rebooting the system. */
--	if (!kexec_load_permitted())
-+	if (!kexec_load_permitted(image_type))
- 		return -EPERM;
- 
- 	/* Permit LSMs and IMA to fail the kexec */
-diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
-index a1efc70f4158..951541d78ca8 100644
---- a/kernel/kexec_core.c
-+++ b/kernel/kexec_core.c
-@@ -926,10 +926,64 @@ int kimage_load_segment(struct kimage *image,
- 	return result;
- }
- 
-+struct kexec_load_limit {
-+	/* Mutex protects the limit count. */
-+	struct mutex mutex;
-+	int limit;
-+};
-+
-+static struct kexec_load_limit load_limit_reboot = {
-+	.mutex = __MUTEX_INITIALIZER(load_limit_reboot.mutex),
-+	.limit = -1,
-+};
-+
-+static struct kexec_load_limit load_limit_panic = {
-+	.mutex = __MUTEX_INITIALIZER(load_limit_panic.mutex),
-+	.limit = -1,
-+};
-+
- struct kimage *kexec_image;
- struct kimage *kexec_crash_image;
- static int kexec_load_disabled;
-+
- #ifdef CONFIG_SYSCTL
-+static int kexec_limit_handler(struct ctl_table *table, int write,
-+			       void *buffer, size_t *lenp, loff_t *ppos)
-+{
-+	struct kexec_load_limit *limit = table->data;
-+	int val;
-+	struct ctl_table tmp = {
-+		.data = &val,
-+		.maxlen = sizeof(val),
-+		.mode = table->mode,
-+	};
-+	int ret;
-+
-+	if (write) {
-+		ret = proc_dointvec(&tmp, write, buffer, lenp, ppos);
-+		if (ret)
-+			return ret;
-+
-+		if (val < 0)
-+			return -EINVAL;
-+
-+		mutex_lock(&limit->mutex);
-+		if (limit->limit != -1 && val >= limit->limit)
-+			ret = -EINVAL;
-+		else
-+			limit->limit = val;
-+		mutex_unlock(&limit->mutex);
-+
-+		return ret;
-+	}
-+
-+	mutex_lock(&limit->mutex);
-+	val = limit->limit;
-+	mutex_unlock(&limit->mutex);
-+
-+	return proc_dointvec(&tmp, write, buffer, lenp, ppos);
-+}
-+
- static struct ctl_table kexec_core_sysctls[] = {
- 	{
- 		.procname	= "kexec_load_disabled",
-@@ -941,6 +995,18 @@ static struct ctl_table kexec_core_sysctls[] = {
- 		.extra1		= SYSCTL_ONE,
- 		.extra2		= SYSCTL_ONE,
- 	},
-+	{
-+		.procname	= "kexec_load_limit_panic",
-+		.data		= &load_limit_panic,
-+		.mode		= 0644,
-+		.proc_handler	= kexec_limit_handler,
-+	},
-+	{
-+		.procname	= "kexec_load_limit_reboot",
-+		.data		= &load_limit_reboot,
-+		.mode		= 0644,
-+		.proc_handler	= kexec_limit_handler,
-+	},
- 	{ }
- };
- 
-@@ -952,13 +1018,30 @@ static int __init kexec_core_sysctl_init(void)
- late_initcall(kexec_core_sysctl_init);
- #endif
- 
--bool kexec_load_permitted(void)
-+bool kexec_load_permitted(int kexec_image_type)
- {
-+	struct kexec_load_limit *limit;
-+
- 	/*
- 	 * Only the superuser can use the kexec syscall and if it has not
- 	 * been disabled.
- 	 */
--	return capable(CAP_SYS_BOOT) && !kexec_load_disabled;
-+	if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
-+		return false;
-+
-+	/* Check limit counter and decrease it.*/
-+	limit = (kexec_image_type == KEXEC_TYPE_CRASH) ?
-+		&load_limit_panic : &load_limit_reboot;
-+	mutex_lock(&limit->mutex);
-+	if (!limit->limit) {
-+		mutex_unlock(&limit->mutex);
-+		return false;
-+	}
-+	if (limit->limit != -1)
-+		limit->limit--;
-+	mutex_unlock(&limit->mutex);
-+
-+	return true;
- }
- 
- /*
-diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
-index 29efa43ea951..70e1e99038ee 100644
---- a/kernel/kexec_file.c
-+++ b/kernel/kexec_file.c
-@@ -326,11 +326,13 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
- 		unsigned long, cmdline_len, const char __user *, cmdline_ptr,
- 		unsigned long, flags)
- {
--	int ret = 0, i;
-+	int image_type = (flags & KEXEC_FILE_ON_CRASH) ?
-+			 KEXEC_TYPE_CRASH : KEXEC_TYPE_DEFAULT;
- 	struct kimage **dest_image, *image;
-+	int ret = 0, i;
- 
- 	/* We only trust the superuser with rebooting the system. */
--	if (!kexec_load_permitted())
-+	if (!kexec_load_permitted(image_type))
- 		return -EPERM;
- 
- 	/* Make sure we have a legal set of flags */
-@@ -342,11 +344,12 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
- 	if (!kexec_trylock())
- 		return -EBUSY;
- 
--	dest_image = &kexec_image;
--	if (flags & KEXEC_FILE_ON_CRASH) {
-+	if (image_type == KEXEC_TYPE_CRASH) {
- 		dest_image = &kexec_crash_image;
- 		if (kexec_crash_image)
- 			arch_kexec_unprotect_crashkres();
-+	} else {
-+		dest_image = &kexec_image;
- 	}
- 
- 	if (flags & KEXEC_FILE_UNLOAD)
-
--- 
-2.39.0.314.g84b9a713c41-goog-b4-0.11.0-dev-696ae
+jon
