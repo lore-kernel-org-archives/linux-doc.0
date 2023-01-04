@@ -2,103 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F894C3DA7D
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 01:56:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B40FBC3DA7D
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 02:02:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237952AbjADB4M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Jan 2023 20:56:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44698 "EHLO
+        id S238736AbjADCC6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Jan 2023 21:02:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230247AbjADB4L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 20:56:11 -0500
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9D0F178A2;
-        Tue,  3 Jan 2023 17:56:10 -0800 (PST)
-Received: by mail-yb1-xb2c.google.com with SMTP id t15so35080496ybq.4;
-        Tue, 03 Jan 2023 17:56:10 -0800 (PST)
+        with ESMTP id S233382AbjADCC6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 21:02:58 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5D4C167EF;
+        Tue,  3 Jan 2023 18:02:56 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id n12so21861521pjp.1;
+        Tue, 03 Jan 2023 18:02:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=K4wOmTH7AdBL4iuOzbwjUMBRytNfhWEyWPFeK4sWBy4=;
-        b=cKbWf6w24QFBgI1EnWW1sqJLqUmNNKOe5fdQS52IiG+HlxVu21dtgYAQz25SYKQt67
-         5y7xctc3LUwSQWoWvO4NTRT1p1yH2pJyQTNZugd6YPnFfN89F+FKAJrV52qhoEsGLSbc
-         9avlrOQgjWz3tI8Vxr9Xk4V1QbyHIHr5SC8KiEU0Sp0lJ3co64y/eTcrKICX+nNh3AHD
-         NtY5HWdQeF/R+fbOtEBRt+7SbdCiSg0oXEKdqHQA7GY5LCS5Or8dRu1ZlU1obZsoHRBi
-         AhcesjMJLsprvMduauH4uMAW3jjLeVdcd507heZFLGDlbbE/zNV7GyVVoL8NV7KzBMe7
-         x9nQ==
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aC/AUAth48mE3OKJG55/t5FnZKeFtEhx3MwYShiuXCI=;
+        b=bKyYh1Lphjs7ORYkU3LsBV6Shg8reZzoDLfIwM1Afwk3WFKsknNXwPk7n/4x9ocJ+m
+         ecAnXZCmxQj4GHZeqb8SdXzGEb4w3Xl65nQ4BjOu+nBgMp2bRsVBkGVp+aJoWh53Wruq
+         sshycjrgQBSv0jA9BsSE83h9NMViM454Pn8LxfAQVLtk43MQJzqULEg1FB78HDsq2Ap0
+         0nXV2a2JQh1TvVn3Dp2/ExHB1kscC/W3woyaEtqWr8m9FDyHFd1BKxH3aZw7GPkvCLlq
+         HYaGTGb8x0wa96fUsG0Yya6Imj5tDbxgEwDBg8G8AerJBDc9UPn/F93bwY9bAdKd5OYH
+         TlXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K4wOmTH7AdBL4iuOzbwjUMBRytNfhWEyWPFeK4sWBy4=;
-        b=wHui8zbYgxJBWUHTcnQ/FBlBCIKTbOK2B28c+7egwqERTOrxezYOwNuF2aL3jLEcfV
-         zLmIz1mhQQq/koo2Q1Ph2my4+PwkNE9P0tPrf6hb4kmgATBsI+k3XAKGfDE9KVRlXLmy
-         OG27hOA20Wj37vL59TNEbusUuy1zdMixR6tzZuKskUsHHhNvGcRPLp4AMNZg771KHlVd
-         YYQt5msm935yyVqD9tR7HTD2QbLkmTa6BxUa4h5FpniNH2HPYHLcP7Zk++oEzAPlBIjl
-         e3Y7KLo7zlmr9OL2SLkXgOonRSwya9hAnn9pIpHXCBdUDrJVNptKBKX8SEKAR66+nxuj
-         WOGA==
-X-Gm-Message-State: AFqh2kpLUe1yn3OYkJnP7JubmKjDiJrZAfCGO8lH8VsnKcB8QyscrYWs
-        ruajVn3kPXLh6b2V7FMUO013DCbn5L/2Zyn52Ew=
-X-Google-Smtp-Source: AMrXdXt4GnqdkyJnjP8zMXH7iI+c+15e0+LPvhTq1mbGSgQzKC0W+H2/9Zu8ROxMsaOHO++Oeb/fRvRxQc9KuE8d6O8=
-X-Received: by 2002:a25:e6c1:0:b0:761:d9ec:328f with SMTP id
- d184-20020a25e6c1000000b00761d9ec328fmr4371243ybh.507.1672797370167; Tue, 03
- Jan 2023 17:56:10 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aC/AUAth48mE3OKJG55/t5FnZKeFtEhx3MwYShiuXCI=;
+        b=XIf6j4SinMsh/BArh950+dt1GnNbRBheMjduooaNY+HfPXC8ke3xHUZLNh7+aDZUDH
+         VZyzgj7IdDySNe/fTc/T9UN3NcewGUtp02utpxyHMe0cUb1OKcv2Uo+8mHuqOHUisFmV
+         pFDqdeOe+6sivb/EH6AUZAyd9KEZ5lgACL+Fxrw6vOgsHXZBypxiCCEUUNwazK7sF69F
+         Yma9p0IGS23EBd2X+4h9QVe5UsPL3V9uiG6j+dGmPcGHq1R+05H2Pxqq29vsnBRyBzuh
+         5z88z/n93XjVvNLDZtiuQ7K0EGAkFAd7ur5zn8Ptp32jzAb9Rk1WRuTnP6G08q316/OE
+         MxXw==
+X-Gm-Message-State: AFqh2kolp7XnVUIFiK3Y4Aui/TfWMd//cKCf1yocXFQAq5kbdMnOGXKx
+        tCU467xN/ilhKOs6E2Kceg4=
+X-Google-Smtp-Source: AMrXdXuTp3fXV4/sainOxD5f2m5eRzscL+YVDoxJjlTWSE1Mo8CPc1l9X5yXnhZel55+5sRAp7PMsg==
+X-Received: by 2002:a17:90a:4401:b0:21d:6327:ab6 with SMTP id s1-20020a17090a440100b0021d63270ab6mr48000089pjg.1.1672797776257;
+        Tue, 03 Jan 2023 18:02:56 -0800 (PST)
+Received: from [192.168.43.80] (subs03-180-214-233-71.three.co.id. [180.214.233.71])
+        by smtp.gmail.com with ESMTPSA id x13-20020a17090ab00d00b00219220edf0dsm19244944pjq.48.2023.01.03.18.02.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Jan 2023 18:02:55 -0800 (PST)
+Message-ID: <c94fd896-75f5-6a7b-1253-b1377405fef6@gmail.com>
+Date:   Wed, 4 Jan 2023 09:02:50 +0700
 MIME-Version: 1.0
-References: <20221207173053.1463800-1-carlos.bilbao@amd.com>
- <20221228174623.144199-1-carlos.bilbao@amd.com> <87wn64fq7d.fsf@meer.lwn.net>
- <CANiq72mC+WzOxhZVtEvnsFYzuBPkd51=TYXK01ztcTZ-CAcUiw@mail.gmail.com> <87h6x7cfiy.fsf@meer.lwn.net>
-In-Reply-To: <87h6x7cfiy.fsf@meer.lwn.net>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Wed, 4 Jan 2023 02:55:59 +0100
-Message-ID: <CANiq72n3qnWwDjp0E1xY1m15qhMHz8_AXcL9hstVM8Xwfi=pbw@mail.gmail.com>
-Subject: Re: [PATCH v5 0/2] docs: Integrate rustdoc into Rust documentation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Carlos Bilbao <carlos.bilbao@amd.com>, ojeda@kernel.org,
-        akiyks@gmail.com, jani.nikula@linux.intel.com,
-        rdunlap@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, konstantin@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH net v2 3/3] ice: Fix broken link in ice NAPI doc
+To:     Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net,
+        kuba@kernel.org, pabeni@redhat.com, edumazet@google.com
+Cc:     Michal Wilczynski <michal.wilczynski@intel.com>,
+        netdev@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>
+References: <20230103230738.1102585-1-anthony.l.nguyen@intel.com>
+ <20230103230738.1102585-4-anthony.l.nguyen@intel.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230103230738.1102585-4-anthony.l.nguyen@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 4, 2023 at 1:25 AM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Does it really need objtool?
+On 1/4/23 06:07, Tony Nguyen wrote:
+>  This driver supports NAPI (Rx polling mode).
+>  For more information on NAPI, see
+> -https://www.linuxfoundation.org/collaborate/workgroups/networking/napi
+> +https://wiki.linuxfoundation.org/networking/napi
+>  
 
-No, it does not. That is a byproduct of using the `prepare` target to
-setup Rust for the descend, but we could rearrange some things for
-`rustdoc`.
+Replace with LF wiki?
 
-> A certain amount of extra building is OK as long as it doesn't radically
-> slow down the (already glacial) docs build.  I'd like it to not *break*
-> the docs build if the right dependencies aren't there, though.
+-- 
+An old man doll... just what I always wanted! - Clara
 
-I agree if we go with a fixed/preset/configless approach, because in
-that case we will always have `CONFIG_RUST=y` and therefore the
-generation of Rust docs is really just an attempt that may or may not
-fail (or we could only attempt to do so if the dependencies are met
-exactly as expected).
-
-On the other hand, if we went with the current setup, where a config
-is used, then if the user has specified `CONFIG_RUST=y`, I think it is
-fair to fail, since the operation cannot be completed, just like the
-normal build. Of course, we could also do the "just attempt it"
-approach and print a loud message if it failed, but I think, as a
-user, would still prefer as a user if it just failed.
-
-> It seems like that step should fail regardless, not just for the docs
-> build, no?
-
-The bindgen step should fail the same way for both normal builds and
-docs, indeed.
-
-I think I understand now what you meant by "fail more gracefully". I
-thought you meant fail with a better/proper message given versioning
-information or similar, but you primarily meant avoid breaking the
-entire docs build if the Rust part fails, right?
-
-Cheers,
-Miguel
