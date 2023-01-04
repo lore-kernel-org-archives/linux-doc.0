@@ -2,88 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0483EC46467
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 20:45:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06DFDC46467
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 21:06:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235397AbjADUpi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Jan 2023 15:45:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46636 "EHLO
+        id S240006AbjADVF7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Jan 2023 16:05:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbjADUph (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jan 2023 15:45:37 -0500
+        with ESMTP id S240002AbjADVF7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jan 2023 16:05:59 -0500
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A426B1BE81;
-        Wed,  4 Jan 2023 12:45:36 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39FAB1CB13;
+        Wed,  4 Jan 2023 13:05:58 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3E2C82C5;
-        Wed,  4 Jan 2023 20:45:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3E2C82C5
+        by ms.lwn.net (Postfix) with ESMTPSA id C8E10221;
+        Wed,  4 Jan 2023 21:05:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C8E10221
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1672865136; bh=GnZ2wQ3AWKZiOEmZO0krSMoKPBrB3gSfeQb7VWBa5ZU=;
+        t=1672866358; bh=/I5jMGvJI4yDPfyzKH+NYcFJAt8liqbzAxDN2FpN6jM=;
         h=From:To:Cc:Subject:Date:From;
-        b=tizL1noI+FnnMMXP47i1nQCqajPBMirQO0ouQzHWipL1z4pq8O7zueWaJkysqan1a
-         DPrtQwwiLuhsJAmIW+Nf+jt4mqXugNAQ9PZKw+p4VnsrBHvnjR0I6EKNH6sKyXCFez
-         Idp4CfVEMJqbBIJYxcic3WAs/ophDiJNEGzhqe0rj0SQzI9gUXDuy24EVnUwXly6FC
-         HQ39CsgnXbTlgdRcYzf3NKNN3f7JETGZn+pl+mlddkWJ47q9uyHazg1aHgTFjzpEBz
-         AcqOb5ypSozCXe4lTf8w3HFE/w4ucz43DhIJdTcuVTOyPl0rwmyAiEXeLI8qd4W1yc
-         6LCkD2hMp1iUg==
+        b=jLcGO8MF9b/Ygv163ibwGYWRpan+j7m6K7c1f0O352sh2jK4HXT6ESowCHPFWa4UE
+         asO3bh93g9LQiC8mvdE1falMTaj5tl33JvC7N/+rLFnDENPLU56y6+F1YpvVBRF06K
+         3uHNyj1d15QCZgirkM2hIsehZD1IuMqmEdwBtHdGg8KmSlABfoxQVGI3zqVGtn4Trd
+         679wDPG07KjKeGf+qKXfc8/GAdFiFBO1fDNir1g3035zjLJx1LnvEw2Hpgl775J/R1
+         TwgG1Pi6yjNINoPSbYQLL5GXIGHVu7jKS1PtjJaiLLc8kf6h7SZExHrj2EHTa0uWos
+         STfiuLvwirOkQ==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
-        Martin =?utf-8?Q?Li=C5=A1ka?= <mliska@suse.cz>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH] docs: Fix the docs build with Sphinx 6.0
-Date:   Wed, 04 Jan 2023 13:45:35 -0700
-Message-ID: <87wn629ggg.fsf@meer.lwn.net>
+Subject: [PATCH RFC] docs: Deprecate use of Sphinx < 2.4.x
+Date:   Wed, 04 Jan 2023 14:05:57 -0700
+Message-ID: <87sfgq9fii.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx 6.0 removed the execfile_() function, which we use as part of the
-configuration process.  They *did* warn us...  Just open-code the
-functionality as is done in Sphinx itself.
+[PATCH] docs: Deprecate use of Sphinx < 2.4.x
 
-Tested (using SPHINX_CONF, since this code is only executed with an
-alternative config file) on various Sphinx versions from 2.5 through 6.0.
+The Sphinx 2.4 release is three years old, and it is becoming increasingly
+difficult to even find a system with an sufficiently archaic Python
+installation that can run versions older than that.  I can no longer test
+changes against anything prior to 2.4.x.
 
-Reported-by: Martin Li=C5=A1ka <mliska@suse.cz>
+Move toward raising our minimum Sphinx requirement to 2.4.x so we can
+delete some older support code and claim to support a range of versions
+that we can actually test.
+
+In the absence of screams, the actual removal of support can happen later
+in 2023.
+
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/sphinx/load_config.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ Documentation/conf.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/loa=
-d_config.py
-index eeb394b39e2c..8b416bfd75ac 100644
---- a/Documentation/sphinx/load_config.py
-+++ b/Documentation/sphinx/load_config.py
-@@ -3,7 +3,7 @@
-=20
- import os
- import sys
--from sphinx.util.pycompat import execfile_
-+from sphinx.util.osutil import fs_encoding
-=20
- # ------------------------------------------------------------------------=
-------
- def loadConfig(namespace):
-@@ -48,7 +48,9 @@ def loadConfig(namespace):
-             sys.stdout.write("load additional sphinx-config: %s\n" % confi=
-g_file)
-             config =3D namespace.copy()
-             config['__file__'] =3D config_file
--            execfile_(config_file, config)
-+            with open(config_file, 'rb') as f:
-+                code =3D compile(f.read(), fs_encoding, 'exec')
-+                exec(code, config)
-             del config['__file__']
-             namespace.update(config)
-         else:
---=20
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index a5c45df0bd83..44899be7b2cc 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -31,6 +31,12 @@ def have_command(cmd):
+ # Get Sphinx version
+ major, minor, patch = sphinx.version_info[:3]
+ 
++#
++# Warn about older versions that we don't want to support for much
++# longer.
++#
++if (major < 2) or (major == 2 and minor < 4):
++    print('WARNING: support for Sphinx < 2.4 will be removed soon.')
+ 
+ # If extensions (or modules to document with autodoc) are in another directory,
+ # add these directories to sys.path here. If the directory is relative to the
+-- 
 2.38.1
 
