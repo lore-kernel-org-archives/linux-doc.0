@@ -2,151 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 161D7C46467
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 14:32:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A951CC4708E
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 14:39:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239281AbjADOc1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Jan 2023 09:32:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54368 "EHLO
+        id S239184AbjADOjL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Jan 2023 09:39:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239561AbjADOcT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jan 2023 09:32:19 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EA4E373B3;
-        Wed,  4 Jan 2023 06:32:12 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 978331EC02FE;
-        Wed,  4 Jan 2023 15:32:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1672842730;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=mGAc1hvVkdgwx67qTNes4TeLVQF5ZYZruSeDLPAGn0s=;
-        b=Xqn4rhA3RQh8ReQBXtLkJ3CyiJPGmS7JH7ngZ6z4RhyyGaedtIU5vIfqqUqEt+qN4f+VeA
-        twAtwhN7jpXEV0mQK0MXBLdAmOgBzoF1mCclxLj1W1dKo++TdeWBftWfJvVf3quvS4uX0e
-        +c2sc3vVioheJW4dMkIh2G6zpdom/tE=
-Date:   Wed, 4 Jan 2023 15:32:05 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v4 16/39] x86/mm: Check Shadow Stack page fault errors
-Message-ID: <Y7WN5WxENBrhkJXU@zn.tnic>
-References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
- <20221203003606.6838-17-rick.p.edgecombe@intel.com>
+        with ESMTP id S234826AbjADOjK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jan 2023 09:39:10 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F85E26E1
+        for <linux-doc@vger.kernel.org>; Wed,  4 Jan 2023 06:39:09 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id tz12so83091193ejc.9
+        for <linux-doc@vger.kernel.org>; Wed, 04 Jan 2023 06:39:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=r18xklAWjx+TF7cp4UJMeABFqPp5Oxq9PAiHHqbB0/I=;
+        b=PtY+76iieGZzTCVc1gjR6aZ+8MvRz9PqsQ0ayTQxgKbt8QP7cSj/FZbnfstwRXPrMI
+         73s3I45OrA0oT2wKijU9NsqK7vtDWmHe3gBEfBLL23YK4TapuYRy+z8JV7JBDFlIfxk1
+         LbwDPzTXFQQv21t1CW87DQCQA/KsosQnCRulQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r18xklAWjx+TF7cp4UJMeABFqPp5Oxq9PAiHHqbB0/I=;
+        b=RXdcaZTaxhoDqx9ppGhgaFUsriLmUtZFg80DbULJc2qxj1iQCFKdMOSQgI7LZPUkJh
+         iqvFK85sH7EjU+DZgl4QOMGFIqJxT7fcx2WL3nRFx+zqcn57ZO/+mTNn/7S/Cn2bpWPn
+         ay43atXRuuarz4pXsXjkbRnoGNclOr59FbM75fimL0Qx4IDTWOvksak/Ao2qZJ7F7taw
+         3PYT1jX59DCc1T/ChiXs5xVdx0K7TwNEUHpcMpQRtL5fqtStnlyddlrw+MzKgJH/hB1r
+         8e3MEjW8qQmfSL+d8w/tiSbBoye2Zz6XrvFUXp0TBN0QRJNaEIt8WlcjikJZUhtUv97U
+         4D7A==
+X-Gm-Message-State: AFqh2kpyj4JmiFBgFaqHfD8RqJ43iay9hmKxWSgPPZ/V3YD8Y6mfU07w
+        /4tGAs8UsnJ4UmD+agFVITSPqcs0u1VgAQHhs20=
+X-Google-Smtp-Source: AMrXdXtRrxJEj9EhqTE6p1tDDzc93nU9PeSS+3TXfb8wSuNaG9ZU0KGU7Y84GuMj88gdoR3bMuV19Q==
+X-Received: by 2002:a17:907:7d8f:b0:7b5:911c:9b12 with SMTP id oz15-20020a1709077d8f00b007b5911c9b12mr51581842ejc.1.1672843147655;
+        Wed, 04 Jan 2023 06:39:07 -0800 (PST)
+Received: from alco.roam.corp.google.com ([2620:0:1059:10:a438:c7da:62e0:36f4])
+        by smtp.gmail.com with ESMTPSA id c8-20020a170906924800b0078de26f66b9sm15386659ejx.114.2023.01.04.06.39.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Jan 2023 06:39:07 -0800 (PST)
+Subject: [PATCH v6 0/3] kexec: Add new parameter to limit the access to kexec
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221203003606.6838-17-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHWPtWMC/43PwWrDMAwG4FcpPs8lsp3a7mnvMXawZbkxSxOw27
+ BR8u4TPZZQchK/4P+EHqJRLdTE+fAQlZbSyjxxOH0cBA5hupAsibNQnVIAYGQqLcSR5A/9EspKjW
+ 4SfLQEYLV2WXAzhkYy1jDhwN3pPo68HEq7zfXveWkBHl/v0QVkJ3PsIakOs7PwiUOdr+V+Pc71Ir
+ 6ZXNQORjGDxjsNGiHGfoPROxjNjKFsyCsfUj5tMGYHY5gJ0XUeXfLO4QbT72B6ZiAmbTFkjfb1qX
+ Vd/wFLtDDu2gEAAA==
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 04 Jan 2023 15:38:45 +0100
+Message-Id: <20221114-disable-kexec-reset-v6-0-6a8531a09b9a@chromium.org>
+To:     Philipp Rudo <prudo@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>, linux-doc@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Baoquan He <bhe@redhat.com>, Petr Tesarik <petr@tesarici.cz>,
+        kexec@lists.infradead.org, Bagas Sanjaya <bagasdotme@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-kernel@vger.kernel.org, Ross Zwisler <zwisler@kernel.org>
+X-Mailer: b4 0.11.0-dev-696ae
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2772; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=OajjYlRvNHsgrXyvUbmCD5R6Ksvr+o7Qr/VxU7sn1d0=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjtY970v3EmwV32lI5jOI4b9gfVlAvFBW6wkzR0+PI
+ jpl8aYOJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY7WPewAKCRDRN9E+zzrEiHrJD/
+ 9fEKDNuonXKXxBHNhx0IxcHbN/OOBcBuWjqTI4prRhjr/F/h2r6uFgSrokHEbNdjPBJhCLSFw5qmqP
+ 5duMbJPDtzDnLBpZz7oWggPB0qGuGbdE0dJK+/6CeXDIWQaeLztkqPrP47gPG6o4XRia7wChR91J6V
+ Of7wnXxZsxpfaKxNQOsLrCXPvIaplJZgH43vq6g9Got8Di372Ks2FcenODuE71OrmXf0N230vXajSC
+ SHBKQalEt+J+c/bp+UFr3jAmessUxYoWC39B/F+apr/zq3YuebgeEbrmVV7XuHAuHozA5zsarWHfw8
+ meopL40YT/+AtimjB0bSIAd+Pd6pLDL4QY8NASwiYpAzX4X+8YV4qsKadvC1LUcQegcvUcwr2+g1c0
+ J1RpnKvE1t/ow4X1K+adRNCuaW2J0M06e2vNQnw+UhAVP+FsSoT+4TN8lgQt+A0JqqDBxAmwZA2VCN
+ wLVNLFaRGPmK8aOx/5T3IdHg+HmcoMINhKOVNTh2Ruz9V0+jS69vJkOSocMZh61ljBJ2i82LcGIy4w
+ 48f4f4p18CEzOjcdT6VPgOiSea4fRLfFcT5UOznlJtl9lk/W3AHPJe3PdVloA0hT57DPAJardujq4D
+ xSpdxH9QMBvGdsR0eeh3eLVxiVXnXFufRy3WjyvpHLyzeVbC7H2Ao3dGDMPA==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 04:35:43PM -0800, Rick Edgecombe wrote:
-> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> 
-> The CPU performs "shadow stack accesses" when it expects to encounter
-> shadow stack mappings. These accesses can be implicit (via CALL/RET
-> instructions) or explicit (instructions like WRSS).
-> 
-> Shadow stacks accesses to shadow-stack mappings can see faults in normal,
-> valid operation just like regular accesses to regular mappings. Shadow
-> stacks need some of the same features like delayed allocation, swap and
-> copy-on-write. The kernel needs to use faults to implement those features.
-> 
-> The architecture has concepts of both shadow stack reads and shadow stack
-> writes. Any shadow stack access to non-shadow stack memory will generate
-> a fault with the shadow stack error code bit set.
+Add two parameter to specify how many times a kexec kernel can be loaded.
 
-You lost me here: by "shadow stack access to non-shadow stack memory" you mean
-the explicit one using WRU*SS?
+These parameter allow hardening the system.
 
-> This means that, unlike normal write protection, the fault handler needs
-> to create a type of memory that can be written to (with instructions that
-> generate shadow stack writes), even to fulfill a read access. So in the
-> case of COW memory, the COW needs to take place even with a shadow stack
-> read.
+While we are at it, fix a documentation issue and refactor some code.
 
-I guess I'm missing an example here: are we talking here about a user process
-getting its shadow stack pages allocated and them being COW first and on the
-first shstk operation, it would generate that fault?
+To: Jonathan Corbet <corbet@lwn.net>
+To: Eric Biederman <ebiederm@xmission.com>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: kexec@lists.infradead.org
+Cc: Joel Fernandes (Google) <joel@joelfernandes.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Ross Zwisler <zwisler@kernel.org>
+To: Philipp Rudo <prudo@redhat.com>
+To: Guilherme G. Piccoli <gpiccoli@igalia.com>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Petr Tesarik <petr@tesarici.cz>
+Cc: Baoquan He <bhe@redhat.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-> @@ -1331,6 +1345,30 @@ void do_user_addr_fault(struct pt_regs *regs,
->  
->  	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
->  
-> +	/*
-> +	 * When a page becomes COW it changes from a shadow stack permissioned
+---
+Changes in v6:
+- Fix kexec type on kexec_file
+- Match the length of the table borders to the sections underline (Thanks Bagas!)
+- Fix typo on kexec_load_limit_reboot (Thanks Petr!)
+- Improve commit message (Thanks Baoquan!)
+- Link to v5: https://lore.kernel.org/r/20221114-disable-kexec-reset-v5-0-1bd37caf3c75@chromium.org
 
-Unknown word [permissioned] in comment.
+Changes in v5:
+- Remove maxlen from ctl_table. Thanks Steven!
+- Link to v4: https://lore.kernel.org/r/20221114-disable-kexec-reset-v4-0-ab809c8d988c@chromium.org
 
-> +	 * page (Write=0,Dirty=1) to (Write=0,Dirty=0,CoW=1), which is simply
-> +	 * read-only to the CPU. When shadow stack is enabled, a RET would
-> +	 * normally pop the shadow stack by reading it with a "shadow stack
-> +	 * read" access. However, in the COW case the shadow stack memory does
-> +	 * not have shadow stack permissions, it is read-only. So it will
-> +	 * generate a fault.
-> +	 *
-> +	 * For conventionally writable pages, a read can be serviced with a
-> +	 * read only PTE, and COW would not have to happen. But for shadow
-> +	 * stack, there isn't the concept of read-only shadow stack memory.
-> +	 * If it is shadow stack permissioned, it can be modified via CALL and
+Changes in v4 (Thanks Steven!):
+- Uses sysctl instead or module_parameters
+- Pass image type instead of boolean to permitted
+- Fix typo on flag handling
+- Return -EINVAL for values that does not change the current value.
+- Link to v3: https://lore.kernel.org/r/20221114-disable-kexec-reset-v3-0-4ef4e929adf6@chromium.org
 
-Ditto.
+Changes in v3:
+- s/paramter/parameter/ Thanks Ghilherme!
+- s/permited/permitted/ Thanks Joel!
+- Link to v2: https://lore.kernel.org/r/20221114-disable-kexec-reset-v2-0-c498313c1bb5@chromium.org
 
-> +	 * RET instructions. So COW needs to happen before any memory can be
-> +	 * mapped with shadow stack permissions.
-> +	 *
-> +	 * Shadow stack accesses (read or write) need to be serviced with
-> +	 * shadow stack permissioned memory, so in the case of a shadow stack
+Changes in v2:
+- Instead of kexec_reboot_disabled, add two new counters (Thanks Philipp!)
+- Link to v1: https://lore.kernel.org/r/20221114-disable-kexec-reset-v1-0-fb51d20cf871@chromium.org
 
-Is this some new formulation I haven't heard about yet?
+---
+Ricardo Ribalda (3):
+      Documentation: sysctl: Correct kexec_load_disabled
+      kexec: Factor out kexec_load_permitted
+      kexec: Introduce sysctl parameters kexec_load_limit_*
 
-"Permissioned <something>"?
+ Documentation/admin-guide/sysctl/kernel.rst | 25 +++++++-
+ include/linux/kexec.h                       |  3 +-
+ kernel/kexec.c                              |  4 +-
+ kernel/kexec_core.c                         | 94 ++++++++++++++++++++++++++++-
+ kernel/kexec_file.c                         | 11 ++--
+ 5 files changed, 127 insertions(+), 10 deletions(-)
+---
+base-commit: 479174d402bcf60789106eedc4def3957c060bad
+change-id: 20221114-disable-kexec-reset-19b7e117338f
 
-> +	 * read access, treat it as a WRITE fault so both COW will happen and
-> +	 * the write fault path will tickle maybe_mkwrite() and map the memory
-> +	 * shadow stack.
-> +	 */
-> +	if (error_code & X86_PF_SHSTK)
-> +		flags |= FAULT_FLAG_WRITE;
->  	if (error_code & X86_PF_WRITE)
->  		flags |= FAULT_FLAG_WRITE;
->  	if (error_code & X86_PF_INSTR)
-> -- 
-> 2.17.1
-> 
-
+Best regards,
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Ricardo Ribalda <ribalda@chromium.org>
