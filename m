@@ -2,94 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AA59C3DA7D
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 00:20:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50372C3DA7D
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 00:25:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234322AbjADAUf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Jan 2023 19:20:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33880 "EHLO
+        id S238221AbjADAZY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Jan 2023 19:25:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229957AbjADAUe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 19:20:34 -0500
+        with ESMTP id S238538AbjADAZN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jan 2023 19:25:13 -0500
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F238AFD30;
-        Tue,  3 Jan 2023 16:20:33 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A50E17072;
+        Tue,  3 Jan 2023 16:25:10 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 63D9B2C5;
-        Wed,  4 Jan 2023 00:20:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 63D9B2C5
+        by ms.lwn.net (Postfix) with ESMTPSA id E0BF94BF;
+        Wed,  4 Jan 2023 00:25:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E0BF94BF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1672791633; bh=wkOUc+2g++Pq+InPdi6KFqlpBz+gBBIcqPDP6UnnbNc=;
+        t=1672791910; bh=S3spks9Z3wmS5gxYl1y0L64CJtVZjwQ9VVkqSNfKJcY=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=oNgMlbTx3jU6ObQAJqhJP5W5fRdEKOX/HdImwzQjJyTARgt9IEz5HyQ7UEw2XAl4P
-         PUsjFBpH/FXKyvoPcShmAQ44iPVsatFGreHzrbsHXYgQ4v8mFlM2TpPZHjWu2geIR/
-         mMiKJz2VgE1koNrd1wMQoLrai+jG3A0yuGSrzm9Evibcd55HhZ+xd/EGCuPrUi5C8v
-         MrgrOmaF5QxDZ6WA+k0GKnbDwbPOLPrjF/SktzSasRhtf45Kes+Nmc4kBnwr3F86Ai
-         dIEY+wx13tZOPQe+00yymf/qKDY+QFqjZxtCdcBoyvlagtuTBafi/7ESal5D67AcVe
-         hV/8iSvWnX+og==
+        b=rMJ28Ezh6hVPz4pqbvWt/cRGjev4V/e1ApD+kqTclK6+wfPPXmeI79ArQTtFY/zUD
+         tY9T5ICDW57fs9/ERtWFvTMcgcY0EW3jJ1U8EMI7In7uQzzg+rI/9qUe2eSFeo7R0H
+         mSiZrffgtILUlLR4rRLQfKaUDV7zBbreSbwzauUK2DmlSiyT61+iAiVG8Covd6YEjm
+         kGV+5z7UjSOOJrCpZf7NvxzMXoHd4ILJ6Zv+ceFd2ciaLsckWbhRoTXj3UBASivXfn
+         Fetk6h9QLaikn8xLRFqd31dfyWnpAtXSE3ndWHVa5R6+6lfWJv/73Fao5YyNLLiQRK
+         t4CCvJjB7r7zg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>, ojeda@kernel.org,
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Carlos Bilbao <carlos.bilbao@amd.com>, ojeda@kernel.org,
         akiyks@gmail.com, jani.nikula@linux.intel.com,
-        rdunlap@infradead.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        konstantin@linuxfoundation.org
+        rdunlap@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, konstantin@linuxfoundation.org
 Subject: Re: [PATCH v5 0/2] docs: Integrate rustdoc into Rust documentation
-In-Reply-To: <d37334f8-4c4c-467f-9ab0-a79914cbae3a@amd.com>
+In-Reply-To: <CANiq72mC+WzOxhZVtEvnsFYzuBPkd51=TYXK01ztcTZ-CAcUiw@mail.gmail.com>
 References: <20221207173053.1463800-1-carlos.bilbao@amd.com>
  <20221228174623.144199-1-carlos.bilbao@amd.com>
  <87wn64fq7d.fsf@meer.lwn.net>
- <d37334f8-4c4c-467f-9ab0-a79914cbae3a@amd.com>
-Date:   Tue, 03 Jan 2023 17:20:32 -0700
-Message-ID: <87lemjcfqn.fsf@meer.lwn.net>
+ <CANiq72mC+WzOxhZVtEvnsFYzuBPkd51=TYXK01ztcTZ-CAcUiw@mail.gmail.com>
+Date:   Tue, 03 Jan 2023 17:25:09 -0700
+Message-ID: <87h6x7cfiy.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Carlos Bilbao <carlos.bilbao@amd.com> writes:
+Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> writes:
 
-> On 1/2/23 17:53, Jonathan Corbet wrote:
->> Perhaps this is because I ignored the warnings about my Rust toolchain
->> being too new? (Rust 1.65.0, bindgen 0.63.0).  I get that only one
+>> - It did a bunch of other building, starting with objtool - again, never
+>>   needed for the docs build before.
 >
-> Yes, it is important to have the expected Rust toolchain. You can try
-> running:
->
-> rustup override set $(scripts/min-tool-version.sh rustc)
->
-> there's more information about this on the Rust Quick Start [1]. It may be
-> annoying but you will need this for any future Rust-kernel work too.
+> Yeah, rustdoc, like the compiler, requires dependencies to be
+> available to understand the code. Thus some things need to be
+> compiled, like for the normal build.
 
-I get this part.  I do wish it would fail a bit more gracefully, but I
-*was* warned.
+Does it really need objtool?
 
-(I got away with building the 6.1 stuff with my out-of-spec toolchain,
-but luck always runs out at some point :)
+A certain amount of extra building is OK as long as it doesn't radically
+slow down the (already glacial) docs build.  I'd like it to not *break*
+the docs build if the right dependencies aren't there, though.
 
 >> version is really supported, but it would be nice to fail a bit more
 >> gracefully if at all possible.
->>
->> Anyway, I've unapplied these for now; thoughts on all this?
 >
-> My two cents is that these are limitations of Rust in the kernel, at least
-> on its current state, and so adding rustdoc to the Documentation was
-> going to come with them. But if someone has any ideas to make it less
-> painful, I'm all ears too :)
+> Do you mean failing in the `scripts/rust_is_available.sh` step instead
+> of warning? We could also add versioning information to that script,
+> so that it knows more about which versions work etc., but I guess at
+> that point it would be best to simply start supporting several
+> versions, which may be a bit too early to split CI runs on that since
+> it would require some degree of testing.
 
-I'm worrying now that I asked you to do the wrong thing, sorry.  If
-building the Rust docs by default is going to make building the docs in
-general harder (and break it for some people), then we need to not do
-that.  Unless this can be made to work without forcing users to create a
-kernel configuration or breaking the build if the right toolchain isn't
-present, then we need to go back to having a separate make subcommand to
-build the Rust docs.
+It seems like that step should fail regardless, not just for the docs
+build, no?
 
-My apologies, it wasn't my purpose to make extra useless work for you,
-honest...
+Otherwise, though, it would suffice to turn a failure to build the Rust
+docs into a warning-level event for the docs build; I'm mostly concerned
+about it breaking the build as a whole.  Supporting multiple Rust
+versions would be nice, but it's up to you to decide when you think you
+can do that; I don't think the docs build should drive it.
 
-Thanks again for working on this,
+Thanks,
 
 jon
