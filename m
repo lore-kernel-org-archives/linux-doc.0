@@ -2,82 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06DFDC46467
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 21:06:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 816ABC46467
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 21:29:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240006AbjADVF7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Jan 2023 16:05:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52496 "EHLO
+        id S239911AbjADV3q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Jan 2023 16:29:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240002AbjADVF7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jan 2023 16:05:59 -0500
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39FAB1CB13;
-        Wed,  4 Jan 2023 13:05:58 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C8E10221;
-        Wed,  4 Jan 2023 21:05:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C8E10221
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1672866358; bh=/I5jMGvJI4yDPfyzKH+NYcFJAt8liqbzAxDN2FpN6jM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=jLcGO8MF9b/Ygv163ibwGYWRpan+j7m6K7c1f0O352sh2jK4HXT6ESowCHPFWa4UE
-         asO3bh93g9LQiC8mvdE1falMTaj5tl33JvC7N/+rLFnDENPLU56y6+F1YpvVBRF06K
-         3uHNyj1d15QCZgirkM2hIsehZD1IuMqmEdwBtHdGg8KmSlABfoxQVGI3zqVGtn4Trd
-         679wDPG07KjKeGf+qKXfc8/GAdFiFBO1fDNir1g3035zjLJx1LnvEw2Hpgl775J/R1
-         TwgG1Pi6yjNINoPSbYQLL5GXIGHVu7jKS1PtjJaiLLc8kf6h7SZExHrj2EHTa0uWos
-         STfiuLvwirOkQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH RFC] docs: Deprecate use of Sphinx < 2.4.x
-Date:   Wed, 04 Jan 2023 14:05:57 -0700
-Message-ID: <87sfgq9fii.fsf@meer.lwn.net>
+        with ESMTP id S240557AbjADV30 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jan 2023 16:29:26 -0500
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06C68DC0;
+        Wed,  4 Jan 2023 13:27:41 -0800 (PST)
+Received: by mail-pf1-x429.google.com with SMTP id k137so19045499pfd.8;
+        Wed, 04 Jan 2023 13:27:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xdMyQrIHWeXBS5vaDhN2cRckBSGcEP38oOfunYml57w=;
+        b=iX1y43d8OBGxLwGmJscAlBFVnoWSPofv9iXyHsuaXj45BXH9vjeirS5X7+rIV9ZZhI
+         kgmsMBU1MysDrFbe5rtEWFt3D2dmZmvt2X51oLkbTZJaWB5ewxlLnwJhiMW7BreTmtfW
+         gUO9PK9xlkX5hzeZQafxvgzJNW1B/yl2HD4O0wLbybwd/pYpO6kvt2y4c332bDDpWc17
+         buMOo5EORzykQc5P1bAlU++s1JKjLPniSHO9H1zEkv4emgaz3yQe4kJPFanSwrCTgIK3
+         /Q+NYDb2RAQraD1dbEv0ycfBtTFyFeBCuk0miK7rATtvKPXxIMcj5DbUXdFZIDn6+JSO
+         5q5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xdMyQrIHWeXBS5vaDhN2cRckBSGcEP38oOfunYml57w=;
+        b=6NSBQ9KIrx47UwI7BTO3Qw3sOYBIqpDi31eiIWxDY+tufgVlbeHBCg5ZsHOSydFJOE
+         IkXQtUDresDR+EoXgNRW6h8VnW87alQcLrrdo4agD691EK91T6ChT7ferX5Gk48EiK0g
+         lJE6ya/kyq8NqCDSXEYWKXN7y7nFrUFYaFN3qh7yVv+sK9Fx6XiS7n18cn9WgEst4xtX
+         y9vxLXvmZuOqOlrGMfoAoqPvlddLJKYH015e3zM2jz29LyCXB9bXoS+fk40igs5tDjbR
+         EtkIN6aAwctS5osBJjnq6UDjblYLv/I/8CPJMM/t41ZCVsjhj0hDimMJ5afhZMK7uruH
+         ShAQ==
+X-Gm-Message-State: AFqh2koLIQ5VklFdXsBpUycJ7rOmfyaCasK/IYnZPO/BwLsFRgIAk2OP
+        RP2s+020kGZTDTaeDWatxKGroHmv0i8=
+X-Google-Smtp-Source: AMrXdXvhpuwOOVfrKEsoZWgSrWme3m5gOzE/qQ8ObvZGAs31erUxihR0pPQenvtgB+5fhqu4d5DaQg==
+X-Received: by 2002:aa7:8594:0:b0:581:f301:23fc with SMTP id w20-20020aa78594000000b00581f30123fcmr21332893pfn.12.1672867661193;
+        Wed, 04 Jan 2023 13:27:41 -0800 (PST)
+Received: from localhost (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com. [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
+        by smtp.gmail.com with ESMTPSA id a184-20020a624dc1000000b00576cc60e5c9sm22939324pfb.87.2023.01.04.13.27.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Jan 2023 13:27:40 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Wed, 4 Jan 2023 11:27:39 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Hocko <mhocko@suse.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        Shakeel Butt <shakeelb@google.com>
+Subject: Re: [PATCH 00/10] docs: cgroup-v1: formatting improv for "Memory
+ Resource Controller" doc
+Message-ID: <Y7XvS5LJK01lWq48@slm.duckdns.org>
+References: <20221219042209.22898-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221219042209.22898-1-bagasdotme@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[PATCH] docs: Deprecate use of Sphinx < 2.4.x
+On Mon, Dec 19, 2022 at 11:21:59AM +0700, Bagas Sanjaya wrote:
+> "Memory Resource Controller" CGroup v1 documentation has been in reST
+> since 99c8b231ae6c6c ("docs: cgroup-v1: convert docs to ReST and rename to *.rst"). The current doc look is kinda ugly, so improve the formatting (only
+> htmldocs is tested).
+> 
+> The first patch is a fix for recently reported htmldocs warning, which can
+> be pickup separately from rest of the series.
+> 
+> Bagas Sanjaya (10):
+>   docs: cgroup-v1: extend underline of section 8
+>   docs: cgroup-v1: replace custom note constructs with appropriate
+>     admonition blocks
+>   docs: cgroup-v1: wrap remaining admonitions in admonition blocks
+>   docs: cgroup-v1: use code block for locking order schema
+>   docs: cgroup-v1: fix footnotes
+>   docs: cgroup-v1: move hierarchy of accounting caption
+>   docs: cgroup-v1: use bullet lists for list of stat file tables
+>   docs: cgroup-v1: use make swap extension subsections subsections
+>   docs: cgroup-v1: add internal cross-references
+>   docs: cgroup-v1: use numbered lists for user interface setup
+> 
+>  .../admin-guide/cgroup-v1/cgroups.rst         |   2 +
+>  .../admin-guide/cgroup-v1/memory.rst          | 290 ++++++++++--------
+>  2 files changed, 158 insertions(+), 134 deletions(-)
 
-The Sphinx 2.4 release is three years old, and it is becoming increasingly
-difficult to even find a system with an sufficiently archaic Python
-installation that can run versions older than that.  I can no longer test
-changes against anything prior to 2.4.x.
+Patchset doesn't apply. Can you please rebase on top of linus#master and
+drop reference to the commit in -next?
 
-Move toward raising our minimum Sphinx requirement to 2.4.x so we can
-delete some older support code and claim to support a range of versions
-that we can actually test.
+Thanks.
 
-In the absence of screams, the actual removal of support can happen later
-in 2023.
-
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/conf.py | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index a5c45df0bd83..44899be7b2cc 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -31,6 +31,12 @@ def have_command(cmd):
- # Get Sphinx version
- major, minor, patch = sphinx.version_info[:3]
- 
-+#
-+# Warn about older versions that we don't want to support for much
-+# longer.
-+#
-+if (major < 2) or (major == 2 and minor < 4):
-+    print('WARNING: support for Sphinx < 2.4 will be removed soon.')
- 
- # If extensions (or modules to document with autodoc) are in another directory,
- # add these directories to sys.path here. If the directory is relative to the
 -- 
-2.38.1
-
+tejun
