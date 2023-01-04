@@ -2,129 +2,165 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC1E6C4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 19:10:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71F1EC54EBE
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Jan 2023 19:55:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbjADTKx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Jan 2023 14:10:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58090 "EHLO
+        id S235227AbjADTzF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Jan 2023 14:55:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235053AbjADTKv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jan 2023 14:10:51 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CFBF13C;
-        Wed,  4 Jan 2023 11:10:50 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id j8-20020a17090a3e0800b00225fdd5007fso25739336pjc.2;
-        Wed, 04 Jan 2023 11:10:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fK8KprBXQxaibjIGJr7A7kVu56FVzHtKix4kUO8kSAs=;
-        b=NJlG8WGdeC7Q4YXo/59RTfEw9yVhXncrLSX75zw4rBkNI14uRcJcgrRGP69SX1tJPp
-         noyrbP84oVZiCaL5fwq1Bmlp2nFfEGzhyN5xDhVbsZO4+zH1GxCy8Lx8irYzxVH7iFYS
-         uSLe/kn1o3XeoCFWMbxLqLyN8Ed4VJW2c+ibmwaOOPAJTrrKbCw/yFUL0ZEm1oX/VpGg
-         JpPYVwGLSFzHCTYQfxzAeud2oZC3nQSGjMzH9pnigXIIGbmiOLFuCDlMTBbsXJoRqDm0
-         nDZQ+LVEFMt+Ewp+H+vc/jAUltzflu/BuWCgWhUMEcpNHg67IelgV8Wiq21RCSzV7S+V
-         ttEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fK8KprBXQxaibjIGJr7A7kVu56FVzHtKix4kUO8kSAs=;
-        b=MvNWC8O0GlYHT+YYsgxiAA1304Xx78QqC1f+QF5GvExhYHv7ttqNUjX9cFFy4I3BBb
-         1DzWQ9colUNGq3G4bs+A1rVjW6XGhKRjVeBYg1uT8vRoT8kvo4uKNzSvjPjgaan5vTSF
-         qKqv3HT2L0mvtqWvnkjE8TXHfojwULVND1Z4iu2KdUFOAQBf/tAipgdX2fm8LGvWYijz
-         vT19Snw0AoCYjpOz65DYc7StDiC2YY9DKXESfzmpyPezovPcDAYAtwycSqkAlHkf+vjm
-         JqSBp5QbD8L8tB4Pc7l5Ep+lKuGzFxwxKTEWlB49pXRb0vAQkWtrg9zatjjkbeOnU3kk
-         8K4w==
-X-Gm-Message-State: AFqh2koNNWu1Z9fJARa8PQCQQ9p65ExYzzeAfmCiMWKb+8dwYFk7oxGb
-        aEUeWXKMybfBTuLJwWmuGu8=
-X-Google-Smtp-Source: AMrXdXsdeR81ha05P/j2pjNtG0ccgLhYd+OEXu4rQp1T43/ufgQ7aGw0qvKNo/bGZegGyE1DPnNzzg==
-X-Received: by 2002:a05:6a21:3993:b0:b0:2b9c:c11a with SMTP id ad19-20020a056a21399300b000b02b9cc11amr61903988pzc.9.1672859449883;
-        Wed, 04 Jan 2023 11:10:49 -0800 (PST)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id b66-20020a636745000000b0047702d44861sm20353041pgc.18.2023.01.04.11.10.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Jan 2023 11:10:47 -0800 (PST)
-Message-ID: <e62b0abb-d728-cd22-f58f-a1bd415289c7@gmail.com>
-Date:   Wed, 4 Jan 2023 11:10:42 -0800
-MIME-Version: 1.0
+        with ESMTP id S240275AbjADTzD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jan 2023 14:55:03 -0500
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2080.outbound.protection.outlook.com [40.107.94.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D455817881;
+        Wed,  4 Jan 2023 11:55:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IglDCBu6jMGPJQBdU8DTnJmKG3LaIFmsW7QPoQmQ+C9+2Co1AlDo3lhbmOOb/mgsd8Pc/BK3n4of1fYSAxWFWQ258swmApsIFDJbY/zKrmwcuZmbMIl9lO0g+92E8BMEIG2xYexoFJ7ygnY72/TILiToJMcX7zS8qvmbG8bBHRZu7wBfy//oPEnUL6m+dgDSnrvgIdCt2eddnFBVP/r0FJyfIoniQoyK/qi66AwpGmBNAfN5UzbIGBD6711iXC5hc2KgidbD/AgOosEftXQqfDq0vkRujevU/lxSLpbSWsQquV4pS4aUtgMGsvfpVaeLSmIXAv0ZoYpQ+N6lUBCHAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Sdd6sX4YmhrKe+4gBAZ19/+3dqYlV28Sx2Llv5nzplA=;
+ b=RcD4aJ+Df912LOoymUctIGHxQhYbyOkmD8o6onanNKUTJvPw6BxWJjNp0l6EgE1gPJFc7QWKeeplOe9y1X6ZSrGVQXMXe2l+jmHmOofuGnCQmrkpGK6hvD2+bx4hJQ/oUpi5wSXlhdSIKi6M93fKiY+GB3LmftjcWdib4ihUqlBK0DXf/nkvcaTanYVSGb4kRql3okTdzzDprGET8W/CPEGx7+1C0Sih8Ht1a8HyzCG/HvfF/Xeefw/+5Xiymdxpdti/xZpXmCCFSSpL9MrDqGSzXhb7RpnwnZVfQHTbK+TRG4A2zTD5HRgYXY1pxQdNjGpjiMCenywnAvvG79youw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Sdd6sX4YmhrKe+4gBAZ19/+3dqYlV28Sx2Llv5nzplA=;
+ b=dqBVMzCuTrOCw4qO2d/k1fKqxia/aEA21JT3NU1cODvG2vY0vvv+BHBhxj4A+0fRFwd4ZQ/EmkYj6f2c16tFGKtVTyD/bLrbXUxWblDYA0h+1y/w0E7obnd628X87reW3NjaqvwY+08LQ+XWq3kuFhrrocE5MRLn1Ubb43NV9xs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
+ by BL1PR12MB5778.namprd12.prod.outlook.com (2603:10b6:208:391::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Wed, 4 Jan
+ 2023 19:55:00 +0000
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::45b1:34fb:e14d:96e4]) by BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::45b1:34fb:e14d:96e4%5]) with mapi id 15.20.5944.019; Wed, 4 Jan 2023
+ 19:55:00 +0000
+Message-ID: <f94a3126-41ba-2263-eac3-ac877042c9ea@amd.com>
+Date:   Wed, 4 Jan 2023 13:54:58 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v3 0/9] mm: introduce Designated Movable Blocks
+Subject: Re: [PATCH v5 0/2] docs: Integrate rustdoc into Rust documentation
 Content-Language: en-US
-To:     Mel Gorman <mgorman@suse.de>, Doug Berger <opendmb@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Rapoport <rppt@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@suse.com>,
-        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        David Hildenbrand <david@redhat.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20221020215318.4193269-1-opendmb@gmail.com>
- <20221026105500.n6ddzqqf5ozjswsp@suse.de>
- <9842ee9c-5fcc-5458-2779-ad9b88468b48@gmail.com>
- <20221118170510.kexdiqsfaqwledpm@suse.de>
- <342da4ea-d04a-996c-85c4-3065dd4dc01f@gmail.com>
- <20230104153724.mormtuefwaiojvqt@suse.de>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20230104153724.mormtuefwaiojvqt@suse.de>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     ojeda@kernel.org, akiyks@gmail.com, jani.nikula@linux.intel.com,
+        rdunlap@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, konstantin@linuxfoundation.org
+References: <20221207173053.1463800-1-carlos.bilbao@amd.com>
+ <20221228174623.144199-1-carlos.bilbao@amd.com> <87wn64fq7d.fsf@meer.lwn.net>
+ <CANiq72mC+WzOxhZVtEvnsFYzuBPkd51=TYXK01ztcTZ-CAcUiw@mail.gmail.com>
+ <87h6x7cfiy.fsf@meer.lwn.net>
+ <CANiq72n3qnWwDjp0E1xY1m15qhMHz8_AXcL9hstVM8Xwfi=pbw@mail.gmail.com>
+ <874jt6cpw0.fsf@meer.lwn.net>
+From:   Carlos Bilbao <carlos.bilbao@amd.com>
+In-Reply-To: <874jt6cpw0.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MN2PR05CA0058.namprd05.prod.outlook.com
+ (2603:10b6:208:236::27) To BL1PR12MB5874.namprd12.prod.outlook.com
+ (2603:10b6:208:396::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|BL1PR12MB5778:EE_
+X-MS-Office365-Filtering-Correlation-Id: fcea56b4-f59b-4d7c-711a-08daee8d903b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: P3vg3TabNOUvzfIIvziu/jKQBYYIog1VLVv3NHWm8BnOn4Mn7++SNMYMLYUgTOjytCsKDMHSQKxBne/b/W3QUfIIaB3MVuDZldLWRkZHIQMvLhI1aiGN/0YhSg2Np3Jsa3UVCoQOIosgtrlTNrTqhTJRwEO2HucDAda+uh52lTwPkaSZ2niCmT6JBxLtm4FQCtJPR/oJLSzMKIMTqm1IVz5yQJtuCFwfZS9isVZM/2/TZsC15X6defuuwSN9V/RPBCLXs/H1efJsZxzYV8FWKGk2NtVDFvO3SWSOAzA6gYnRKP5qNCwQ0zvcIlIII/wBI2reeaYdw15MZC7MS8rBoa6zOKx3D05UWHnwKxh3w3rZGTygEZ5fudfrUYbKsplgmcTBds5ylmfupioDH1/vWiHF7BKge0co99nrLl4C8PbE9D9ivFN2iL/eMiPCoQno78hjEwt9OrzPPA4Prrm8mAZOYZV11VlaAyI4kUQwbDp/Pupe/ArCPLoeW62Ah7Il0EdQvxvsXh+q8nhBT2XERNSYmKH01LVeX6RHx/46LGP5Fvu/vZPsuVHo7QWFORpWcZXscBy5hygY9lLktvpNVox1tJOEWNTzqR9XIHlo+dlPzFoKLDWy+PiNutZ4+Iu9sh5Gdddjb9yGKk6JE6j5wzuDBeMD/PrOp9R+0+pD4fayJZTfr0WCOEyGLebm/kHJVozRYB9M5ZGbNhq3du45Gan9XKaF11ll6xvLbedFEzA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(136003)(376002)(396003)(366004)(346002)(451199015)(31686004)(36756003)(31696002)(4326008)(66946007)(41300700001)(66556008)(66476007)(110136005)(8676002)(38100700002)(6486002)(186003)(53546011)(6512007)(478600001)(86362001)(26005)(2906002)(8936002)(2616005)(316002)(6506007)(5660300002)(83380400001)(4744005)(44832011)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b1BtcUZJRUcvNGdIQjdjV3ZvTDVSUUozVlpOaUJvb3lncjBOc3lRbjRMaFQ3?=
+ =?utf-8?B?UjBYMG1pMmxabTVuZ1pUVnNWRUNGSXNYUktvMDZ0R2dheWpVRm03Vk5MOWpK?=
+ =?utf-8?B?VTJxb0ZpVHVTcllZMHRYYk81a3U3cGN4anltSGpKeWFLWVlhR3BpL0tyQWp3?=
+ =?utf-8?B?OGVmWHEzdnlaeldGQVpnaVBkSXc5eENjeWxkVW05MndHNThiYVBRbEp2d0hO?=
+ =?utf-8?B?ckoyUElQdmlDT3JsbHl2TDNPMHNlNHNyaTBIc0F2V21QUTFXQmRyYWdMYlk1?=
+ =?utf-8?B?TEJMTGRDVndoV2p5bHViSGgrdE9FSnA1V2RMcGU5c2dwcU5CaFZqSHhqTVQy?=
+ =?utf-8?B?bWs0TXFKdU4xcmYyb3NYNmc0cExaQTE1dGV5UFk1Q2tyUGMrc0t0eHd6TWhI?=
+ =?utf-8?B?V1R3dEUrUFRTSE1EaFFBVkRGUnJIMldKZ0FBUnR2WjNvUlpER0VRN0paUVVB?=
+ =?utf-8?B?Ui9kaUxNRk82eHpJQlpUc3B4YWdCcDhyQjFVeTB0QjlSVE90S05kZHVwY3dq?=
+ =?utf-8?B?MzJyL3Z6U0tOYkg0dklYejRVNkV5N2JNQmc5RjMrRmpPbFA1NUM5YjlJNmVo?=
+ =?utf-8?B?VXFVQmJjNmkxemIrcjhlRWdjaFZIWnJiQ0d6MUx5b0YvZ3pkM0F0NGt3Q3Jl?=
+ =?utf-8?B?OGc4UlFCNVl3S0k0M3JZUm1OeXlwbENBY3RGN0o3VjltZFBDNndRckJJQ0lR?=
+ =?utf-8?B?YnB4ZTlDaUhUaG5KWXlpN2tRTTBQRklPMnppemE4KzF1Qy91OW5pYkp0WjZE?=
+ =?utf-8?B?MUswa3VjbmFPMVVoY1VEajB1c0Y3TTJuU0ZlUG1GV1lvRDF1QWw5SkRWZWZT?=
+ =?utf-8?B?U2JMUEIrVlZzdFUyN283T3B4N0VjWWs5VzNrenVPelVnOFlXTXNWQjFrcmd5?=
+ =?utf-8?B?ZG90NDJTRHNwMWdkQ0EwUHF2YTNMZWpjNHVOK2oyd3o1dGFmNmwwMS9nK2VI?=
+ =?utf-8?B?ZUVvd3VaenRNNCsvR2VUeTZta1IwWUcyTXFmcDUxeGtCUlVYZStoQ1N6bXlj?=
+ =?utf-8?B?cHpUWm92eVNxc0pYMDJsZE42QlVmeDRSWE9QMThFUjlxSWtaSUZ5ZHBvd2RR?=
+ =?utf-8?B?eDY2cFo5REQvb1RMM2pzU1daUm9WRWlnN210bzBLRmczbDlsSUh5cEtmWFNL?=
+ =?utf-8?B?NnFJb0dPTDd2ZjNRTzJ6VzFra0hZZER0OE1XenZEaHdoU00zZHZBNmxiY0RW?=
+ =?utf-8?B?Y1VBeDlFN0lKYzd1UndsRGNqV1lmdllsL3laNDZwT052enJEU1RLVjRUNElq?=
+ =?utf-8?B?bEwxbjdLemFZYWc4SDdXZWx6U0xjdmdZMVBrbGMydGFHKzlLcEJYbjJGUFM4?=
+ =?utf-8?B?MHpIbm85Zmp6RE1VaTVubE4yalJVVG1tQ0JESWM4SE1KYU1taDNKb3NCalZi?=
+ =?utf-8?B?YlJ2TUVkQmNxUmZBTGJjTFVicmpoWk1hTDJDK1hXTXRTdzRnZ0pqV2F3R2xh?=
+ =?utf-8?B?aXMxaHloakxMbzFqVXRJczM0WmdFRHYrUkZsMnBYa29SWmhEWGhvS0FGcjc1?=
+ =?utf-8?B?RmR1NWhLWG41RmZIdE9iT1BMM1F2bFVVc0c1N096WUpFWlIyYnJlQkpjYjhr?=
+ =?utf-8?B?RHFvVUoySzdmRGxYV2ZHc2x0V3RZTjF6R2dWS0I2cnlzNHRiUktXMEZ0S0J5?=
+ =?utf-8?B?NGNpVjlVc05rVy95WDE4cGNnYjkvRXpZdndzdjROUWdwSkNYQkQ5ZWJBN1B4?=
+ =?utf-8?B?UEVka1lFa2Z1N2Q0bXo1SllncUptYzBRZG1YMjQ1RGhZNWd1TW42TU9zT2V0?=
+ =?utf-8?B?QUx4eC93enhvYjZxTVd2ZGFpcXUvbXBDanZzMVI1NTVsdmZXdWM1eEJZUzEy?=
+ =?utf-8?B?SjFvOUNzT0EyMTAzS2JzdGZRMStQVll0UHhYT3ZoT1p4QjZOVkVCeUF6Z1BQ?=
+ =?utf-8?B?OW9rT2VickMzR0R3a0FPY2luZFpnYzBjeDdscXZpYnl0Nk03WGhIZGpjODBh?=
+ =?utf-8?B?b0ZaVldDVUs1T09SMTE0ejdDdHVzbEc1aDBkOWNiVHhGR1NObmd0U2lZN25j?=
+ =?utf-8?B?L2ZaWXRNR1JYRGJhRmRyelp1MnlnWlRHQ3MrdmFJYmdzS0VFandmQjJsRUY1?=
+ =?utf-8?B?WnZzYTF4Z0dPTm4yQUpVWk51TkFjYWo2cGp0U1A4SDhsTTNRb1dXb3Z6dDBN?=
+ =?utf-8?Q?kG4y6dLiTcgE8G7bsKtnIVVUF?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcea56b4-f59b-4d7c-711a-08daee8d903b
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2023 19:55:00.5679
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZZVsQFAe6pjuxfVkLFS2exwfBqDD0HwuIqU1mH59ZLrxdrflpcnv0SJCiGIn32SYkGU2HdCH5DML4f6p3fzaBg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5778
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/4/23 07:43, Mel Gorman wrote:
+On 1/4/23 08:53, Jonathan Corbet wrote:
 
-[snip]
+> Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> writes:
+>
+>> I think I understand now what you meant by "fail more gracefully". I
+>> thought you meant fail with a better/proper message given versioning
+>> information or similar, but you primarily meant avoid breaking the
+>> entire docs build if the Rust part fails, right?
+> Both would be nice, but not breaking the docs build would be at the top
+> of my list.
 
->> What is of interest to Broadcom customers is to better distribute user space
->> accesses across each memory controller to improve the bandwidth available to
->> user space dominated work flows. With no ZONE_MOVABLE, the BCM7278 SoC with
->> 1GB of memory on each memory controller will place the 1GB on the low
->> address memory controller in ZONE_DMA and the 1GB on the high address memory
->> controller in ZONE_NORMAL. With this layout movable allocation requests will
->> only fallback to the ZONE_DMA (low memory controller) once the ZONE_NORMAL
->> (high memory controller) is sufficiently depleted of free memory.
->>
->> Adding ZONE_MOVABLE memory above ZONE_NORMAL with the current movablecore
->> behavior does not improve this situation other than forcing more kernel
->> allocations off of the high memory controller. User space allocations are
->> even more likely to be on the high memory controller.
->>
-> 
-> But it's a weak promise that interleaving will happen. If only a portion
-> of ZONE_MOVABLE is used, it might still be all on the same channel. This
-> might improve over time if enough memory was used and the system was up
-> for long enough.
-It is indeed a weak promise for user-space allocations out of 
-ZONE_MOVABLE, however the other consumer of the DMB region is a kernel 
-driver (typically a video decoder engine) which is directly tied to a 
-specific memory controller/DMB region. For the kernel driver using the 
-DMB region there is a hard guarantee from the kernel that it gets memory 
-from a specific PFN range mapping directly to the desired memory 
-controller and thus it is meeting the desired bandwidth 
-allocation/deadlines/bursts etc.
 
-We care about both sides of the coin, though we acknowledge that 
-"controlling" where user-space allocations are coming from such that 
-they be steered towards a specific memory controller is a much harder 
-task and so having some amount of non-determinism is acceptable here.
--- 
-Florian
+There's a bunch of simple workarounds we can use to keep going even if
+rustdoc fails, if that is agreeable. I'd test but maybe something like:
+
+ifeq ($(CONFIG_RUST),y)
+     $(Q)$(MAKE) rustdoc || true
+endif
+
+or:
+
+ifeq ($(CONFIG_RUST),y)
+     $(Q)$(MAKE) -k rustdoc
+endif
+
+or:
+
+ifeq ($(CONFIG_RUST),y)
+     -$(Q)$(MAKE) -k rustdoc
+endif
+
+> Thanks,
+>
+> jon
+
+
+Thanks,
+
+Carlos
 
