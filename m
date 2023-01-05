@@ -2,153 +2,193 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6A29C54E76
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Jan 2023 11:35:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2E97C53210
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Jan 2023 12:05:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232148AbjAELfq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Jan 2023 06:35:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35448 "EHLO
+        id S232701AbjAEMF4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Jan 2023 07:05:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232667AbjAELfn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 06:35:43 -0500
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78B304C713;
-        Thu,  5 Jan 2023 03:35:40 -0800 (PST)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id D884FE0002;
-        Thu,  5 Jan 2023 11:35:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1672918539;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=P3hfoi/7J5CIyjBCsT+TUV6DEwamqcoR9VCTKwBJrmg=;
-        b=hsppRdJjuG5g9j+sYuy6WsOGIwlIs+4HO4DWCdjJXncW83/1btIOw+qUW73uWhLgjAOPGW
-        eb3q/nFosbt3NHTYnkXaup63uNmMPycnb/UaDgkvte60YOgpaYwfp2dARiTniY28MUG5Ba
-        rxAMj8jKtnG4PQz+z5T4bk2myQWwJ4/OJQcK9PW+XLtr25QmYKyQBLhQ2TlbnUCewG1tau
-        4ADrH4lvlATEjRdPDqRRjN/vamUugdk3UxOzp6wAIMpR/P02DCnUwA8l6rSq4/X3krSCxg
-        xStHQmidHMlF6PyorE+5NziSlASS6eC927LDkSJoUf+cHwZxuKUC6RydjbRoxQ==
-Date:   Thu, 5 Jan 2023 12:35:34 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Michael Walle <michael@walle.cc>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
+        with ESMTP id S232700AbjAEMFz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 07:05:55 -0500
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 570B95471F;
+        Thu,  5 Jan 2023 04:05:53 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id BB1615C0153;
+        Thu,  5 Jan 2023 07:05:52 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Thu, 05 Jan 2023 07:05:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1672920352; x=1673006752; bh=UhZB23ikgg
+        upzfYjMRU5YJTnDOqqv+WR2zf5S9u612M=; b=RS4DcE88H2bSZhCoHSBnFauHLI
+        iBC3nX2sj/ud09rEeqkh7ALUK2+vJlNREh/g8XdJcaG+kAhrVR6CKwuzuB1MCx2E
+        Fd64uqrJ/zNqGXSf/cffjs61K1WY5KqXxX3tJP0Ky+bvozO/KNcSf/waz4N6ollD
+        G/5Q5PKyhM686OqNqyPvpMU6a5D+1TDYtqua1dvkfUaVXRg5/SPfLEqQSlRKhJP8
+        3QjrIr2FCb6ie9mz4X7dvpzhtQiMlFhm2IhyzSVlBOjygSOCeocgaGES8JPsAf22
+        KW4ZMmq6cWH7gGqpOpkPQDzzRpwe+HlgYEAxcdKKq5OFQXwSp7+V/UXO7/EQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; t=1672920352; x=1673006752; bh=UhZB23ikggupzfYjMRU5YJTnDOqq
+        v+WR2zf5S9u612M=; b=Sr04uMptHAnE4rxGGbbE3gGANmQXNawSH5VJVMuhRPJo
+        7sOz5iB7b8B3KY1JcnwE1J7eHomLLVlkcQC3m/NIDkr6OhW77G2TR4hnm/dclZwN
+        m/8Sat0FZVDEM2ggTTy8qPGr8hx9Odws7QLwpt90XoUyFqpSm7bQ8L30EJ2MNlWL
+        184gGj+kN9mBMn3xBMdccDAos+EcZpKJdohCICDIjfZd/kk5rc7Sm461pIEH3Pe1
+        pHhmXZ0oLWoMQbXd239AJTqhGTOGyUctE/Lq6/s/ON4qu24ox5vSrqErYNXvPZK7
+        Oq/3hpF9V8NglYnLd+ZiWWByYq8By36AlzxbrVESTw==
+X-ME-Sender: <xms:H722Y-iPa3z3j_Obn9xJ3y4iLVHhLZYRWE53ebwI868UqtTNDK5plw>
+    <xme:H722Y_DR7L7Ik-e0GNVxK4qRWiDzyZlVGLcd9_UeECqwuSW1v_o48jnzUAXib3fI1
+    l2hOQJUDcEf27Bnh80>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeekgdefjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeufeeh
+    udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:IL22Y2FbE7Dg5EIyTdQbXO2BylVr2xsUQ8dgioEgrBp0aBvl5yIzAw>
+    <xmx:IL22Y3R6pvyQ83oUVYNDJvXQYrV_MCh96rREY2TwUokJi-LRFkGQew>
+    <xmx:IL22Y7wfGtxDIPBbXqwUsBIkc8fSVT82W3nBfU_1b_qETo-u8EOO8g>
+    <xmx:IL22YzhCDyHE_6V7W5RQnzsUyD5S1ryM9MpvwA09NHFl1ioeyc63Vg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id E6BA2B60086; Thu,  5 Jan 2023 07:05:51 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
+Mime-Version: 1.0
+Message-Id: <5b69db0b-9eed-42ce-8e93-4b656022433f@app.fastmail.com>
+In-Reply-To: <20230105104019.GA7446@tellis.lin.mbt.kalray.eu>
+References: <20230103164359.24347-1-ysionneau@kalray.eu>
+ <7c531595-e987-422b-bcf7-48ad0ba49ce6@app.fastmail.com>
+ <20230105104019.GA7446@tellis.lin.mbt.kalray.eu>
+Date:   Thu, 05 Jan 2023 13:05:32 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Jules Maselbas" <jmaselbas@kalray.eu>
+Cc:     "Yann Sionneau" <ysionneau@kalray.eu>,
+        "Albert Ou" <aou@eecs.berkeley.edu>,
+        "Alexander Shishkin" <alexander.shishkin@linux.intel.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "Aneesh Kumar" <aneesh.kumar@linux.ibm.com>,
+        "Ard Biesheuvel" <ardb@kernel.org>,
+        "Arnaldo Carvalho de Melo" <acme@kernel.org>,
+        "Boqun Feng" <boqun.feng@gmail.com>, bpf@vger.kernel.org,
+        "Christian Brauner" <brauner@kernel.org>,
+        devicetree@vger.kernel.org,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Eric Paris" <eparis@redhat.com>, "Ingo Molnar" <mingo@redhat.com>,
+        "Jan Kiszka" <jan.kiszka@siemens.com>,
+        "Jason Baron" <jbaron@akamai.com>, "Jiri Olsa" <jolsa@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Josh Poimboeuf" <jpoimboe@kernel.org>,
+        "Kees Cook" <keescook@chromium.org>,
+        "Kieran Bingham" <kbingham@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-audit@redhat.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v5 00/21] nvmem: core: introduce NVMEM layouts
-Message-ID: <20230105123534.38a70640@xps-13>
-In-Reply-To: <2143916.GUh0CODmnK@steina-w>
-References: <20221206200740.3567551-1-michael@walle.cc>
-        <20230103163902.218cb5c7@xps-13>
-        <cf00e248-1f2c-d4ce-868d-9f77b2c9b76f@linaro.org>
-        <2143916.GUh0CODmnK@steina-w>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+        linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-riscv@lists.infradead.org,
+        "Marc Zyngier" <maz@kernel.org>,
+        "Mark Rutland" <mark.rutland@arm.com>,
+        "Masami Hiramatsu" <mhiramat@kernel.org>,
+        "Namhyung Kim" <namhyung@kernel.org>,
+        "Nicholas Piggin" <npiggin@gmail.com>,
+        "Oleg Nesterov" <oleg@redhat.com>,
+        "Palmer Dabbelt" <palmer@dabbelt.com>,
+        "Paul Moore" <paul@paul-moore.com>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "Sebastian Reichel" <sre@kernel.org>,
+        "Steven Rostedt" <rostedt@goodmis.org>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Waiman Long" <longman@redhat.com>,
+        "Will Deacon" <will@kernel.org>, "Alex Michon" <amichon@kalray.eu>,
+        "Ashley Lesdalons" <alesdalons@kalray.eu>,
+        "Benjamin Mugnier" <mugnier.benjamin@gmail.com>,
+        "Clement Leger" <clement.leger@bootlin.com>,
+        "Guillaume Missonnier" <gmissonnier@kalray.eu>,
+        "Guillaume Thouvenin" <gthouvenin@kalray.eu>,
+        "Jean-Christophe Pince" <jcpince@gmail.com>,
+        "Jonathan Borne" <jborne@kalray.eu>,
+        "Julian Vetter" <jvetter@kalray.eu>,
+        "Julien Hascoet" <jhascoet@kalray.eu>,
+        "Julien Villette" <jvillette@kalray.eu>,
+        "Louis Morhet" <lmorhet@kalray.eu>,
+        "Luc Michel" <lmichel@kalray.eu>,
+        =?UTF-8?Q?Marc_Poulhi=C3=A8s?= <dkm@kataplop.net>,
+        "Marius Gligor" <mgligor@kalray.eu>,
+        "Samuel Jones" <sjones@kalray.eu>,
+        "Thomas Costis" <tcostis@kalray.eu>,
+        "Vincent Chardon" <vincent.chardon@elsys-design.com>
+Subject: Re: [RFC PATCH 00/25] Upstream kvx Linux port
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+On Thu, Jan 5, 2023, at 11:40, Jules Maselbas wrote:
+> On Wed, Jan 04, 2023 at 04:58:25PM +0100, Arnd Bergmann wrote:
+>> On Tue, Jan 3, 2023, at 17:43, Yann Sionneau wrote:
 
-alexander.stein@ew.tq-group.com wrote on Thu, 05 Jan 2023 12:04:52
-+0100:
+>> I commented on the syscall patch directly, I think it's
+>> important to stop using the deprecated syscalls as soon
+>> as possible to avoid having dependencies in too many
+>> libc binaries. Almost everything else can be changed
+>> easily as you get closer to upstream inclusion.
+>> 
+>> I did not receive most of the other patches as I'm
+>> not subscribed to all the mainline lists. For future 
+>> submissions, can you add the linux-arch list to Cc for
+>> all patches?
+>
+> We misused get_maintainers.pl, running it on each patch instead
+> of using it on the whole series. next time every one will be in
+> copy of every patch in the series and including linux-arch.
 
-> Am Dienstag, 3. Januar 2023, 16:51:31 CET schrieb Srinivas Kandagatla:
-> > Hi Miquel,
-> >=20
-> > On 03/01/2023 15:39, Miquel Raynal wrote: =20
-> > > Hi Srinivas,
-> > >=20
-> > > michael@walle.cc wrote on Tue,  6 Dec 2022 21:07:19 +0100: =20
-> > >> This is now the third attempt to fetch the MAC addresses from the VPD
-> > >> for the Kontron sl28 boards. Previous discussions can be found here:
-> > >> https://lore.kernel.org/lkml/20211228142549.1275412-1-michael@walle.=
-cc/
-> > >>=20
-> > >>=20
-> > >> NVMEM cells are typically added by board code or by the devicetree. =
-But
-> > >> as the cells get more complex, there is (valid) push back from the
-> > >> devicetree maintainers to not put that handling in the devicetree.
-> > >>=20
-> > >> Therefore, introduce NVMEM layouts. They operate on the NVMEM device=
- and
-> > >> can add cells during runtime. That way it is possible to add more co=
-mplex
-> > >> cells than it is possible right now with the offset/length/bits
-> > >> description in the device tree. For example, you can have post proce=
-ssing
-> > >> for individual cells (think of endian swapping, or ethernet offset
-> > >> handling).
-> > >>=20
-> > >> The imx-ocotp driver is the only user of the global post processing =
-hook,
-> > >> convert it to nvmem layouts and drop the global post pocessing hook.
-> > >>=20
-> > >> For now, the layouts are selected by the device tree. But the idea is
-> > >> that also board files or other drivers could set a layout. Although =
-no
-> > >> code for that exists yet.
-> > >>=20
-> > >> Thanks to Miquel, the device tree bindings are already approved and
-> > >> merged.
-> > >>=20
-> > >> NVMEM layouts as modules?
-> > >> While possible in principle, it doesn't make any sense because the N=
-VMEM
-> > >> core can't be compiled as a module. The layouts needs to be availabl=
-e at
-> > >> probe time. (That is also the reason why they get registered with
-> > >> subsys_initcall().) So if the NVMEM core would be a module, the layo=
-uts
-> > >> could be modules, too. =20
-> > >=20
-> > > I believe this series still applies even though -rc1 (and -rc2) are o=
-ut
-> > > now, may we know if you consider merging it anytime soon or if there
-> > > are still discrepancies in the implementation you would like to
-> > > discuss? Otherwise I would really like to see this laying in -next a
-> > > few weeks before being sent out to Linus, just in case. =20
-> >=20
-> > Thanks for the work!
-> >=20
-> > Lets get some testing in -next. =20
->=20
-> This causes the following errors on existing boards (imx8mq-tqma8mq-
-> mba8mx.dtb):
-> root@tqma8-common:~# uname -r
-> 6.2.0-rc2-next-20230105
->=20
-> > OF: /soc@0: could not get #nvmem-cell-cells for /soc@0/bus@30000000/ =20
-> efuse@30350000/soc-uid@4
-> > OF: /soc@0/bus@30800000/ethernet@30be0000: could not get #nvmem-cell-ce=
-lls  =20
-> for /soc@0/bus@30000000/efuse@30350000/mac-address@90
->=20
-> These are caused because '#nvmem-cell-cells =3D <0>;' is not explicitly s=
-et in=20
-> DT.
->=20
-> > TI DP83867 30be0000.ethernet-1:0e: error -EINVAL: failed to get nvmem c=
-ell  =20
-> io_impedance_ctrl
-> > TI DP83867: probe of 30be0000.ethernet-1:0e failed with error -22 =20
->=20
-> These are caused because of_nvmem_cell_get() now returns -EINVAL instead =
-of -
-> ENODEV if the requested nvmem cell is not available.
+Be careful not to make the list too long though, there is
+usually a limit of 1024 characters for the entire Cc list,
+above this your mails may get dropped by the mailing lists.
 
-Should we just assume #nvmem-cell-cells =3D <0> by default? I guess it's
-a safe assumption.
+>> Reading the rest of the series through lore.kernel.org,
+>> most of the comments I have are for improvements that
+>> you may find valuable rather than serious mistakes:
+>> 
+>> - the {copy_to,copy_from,clear}_user functions are
+>>   well worth optimizing better than the byte-at-a-time
+>>   version you have, even just a C version built around
+>>   your __get_user/__put_user inline asm should help, and
+>>   could be added to lib/usercopy.c.
+>
+> right, we are using memcpy for {copy_to,copy_from}_user_page
+> which has a simple optimized version introduced in
+> (kvx: Add some library functions).
+> I wonder if it is possible to do the same for copy_*_user functions.
 
-Thanks,
-Miqu=C3=A8l
+copy_from_user_page() is only about managing cache aliases,
+not user access, and it's not used anywhere in the fast
+path, so it's a bit different.
+
+arch/arm/lib/copy_template.S has an example for how
+you can share the same assembler implementation between
+memcpy() and copy_from_user(), but it's not very
+intuitive.
+
+The tricky bit with copy_from_user() is the partial copy
+that relies on copying the exact amount of data that can
+be accessed including the last byte before the end of
+the mapping, and returning the correct count of non-copied
+bytes.
+
+If you want a C version, you can probably use the
+copy_from_kernel_nofault implementation mm/maccess.c
+as a template, but have to add code for the correct
+return value.
+
+    Arnd
