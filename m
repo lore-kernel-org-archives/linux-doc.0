@@ -2,185 +2,191 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C89D7C54EBC
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Jan 2023 04:43:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A806C3DA7A
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Jan 2023 05:36:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230044AbjAEEnw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Jan 2023 23:43:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49038 "EHLO
+        id S230343AbjAEFgO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Jan 2023 00:36:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229816AbjAEEnv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jan 2023 23:43:51 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 467E2203B;
-        Wed,  4 Jan 2023 20:43:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672893830; x=1704429830;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=M2HzjY4mMzV2AyGn4ieao8qywB/GzVzqvY8BmkeNGAs=;
-  b=aaTwBrl+UagqUDhK8DOZenV2UW6rNb4bXw6yrioMermuNtlVnDztKop0
-   BaKuOmuqnqStJSXIdHAP95ur8Yvv1AADHQF4Te7SPTW0SzwOXMNa5fgEA
-   1MTxShykT801PMXNP7bXILH7biVOnHNDgegKPwsPNfoKNh9RTva+9wo93
-   JFqnXr53SCk3xIMMvIr+Xbgb+3JxYstciSD6jt81iUq/DpAU2q3v8LMoH
-   wh6SbJqW+w0U+J5O5n5C5wdpXYyTeix4f+hnhim1Vum16eRQHUtY42/iF
-   0MSx9f9zcKqOYIwSHdI6V2SWQlZyUBcINs849Lo78cjaFasbHOpCSSxRs
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="319820021"
-X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
-   d="scan'208";a="319820021"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2023 20:43:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="687765563"
-X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
-   d="scan'208";a="687765563"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga001.jf.intel.com with ESMTP; 04 Jan 2023 20:43:36 -0800
-Date:   Thu, 5 Jan 2023 12:39:23 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     "Wang, Wei W" <wei.w.wang@intel.com>,
-        "Qiang, Chenyi" <chenyi.qiang@intel.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "Nakajima, Jun" <jun.nakajima@intel.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "ak@linux.intel.com" <ak@linux.intel.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "aarcange@redhat.com" <aarcange@redhat.com>,
-        "ddutile@redhat.com" <ddutile@redhat.com>,
-        "dhildenb@redhat.com" <dhildenb@redhat.com>,
-        Quentin Perret <qperret@google.com>,
-        "tabba@google.com" <tabba@google.com>,
-        Michael Roth <michael.roth@amd.com>,
-        "Hocko, Michal" <mhocko@suse.com>
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-Message-ID: <20230105043923.GC2251521@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
- <1c9bbaa5-eea3-351e-d6a0-cfbc32115c82@intel.com>
- <20230103013948.GA2178318@chaop.bj.intel.com>
- <DS0PR11MB63738AE206ADE5EB00D8838BDCF49@DS0PR11MB6373.namprd11.prod.outlook.com>
- <Y7S0/VYsy4aWjfQ+@google.com>
+        with ESMTP id S230261AbjAEFf4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 00:35:56 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EB6B5131A;
+        Wed,  4 Jan 2023 21:35:50 -0800 (PST)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3054sjnr013420;
+        Thu, 5 Jan 2023 05:06:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=gWnhZ1G48hLuLE7lUYmRytEXz6CP0hOeaqLWQIgEeIQ=;
+ b=fG1Kv3Vz7YjeR2E2ZHeHBMGciC7xKDb1PIwgAzu/x+8msBDeGmCBiarNAzcHHKPjgto/
+ It2zLhCovo/TRoY3sl17lpRCtnFXKu/DWienszyUzXG06wJx4XmbJy9ACLertuS3BaTd
+ 0zzXqmXH/n/PC+i4ZmBJv1us51JxQlUD3AL+WQv/efbUcXgHgjBVhTAJMgGuf26ejKXH
+ kQuOoHWyHZjStnJaovpuTMArXfn03bTFNDAU4jI3Ul69YEKyqlc5W+Da21RJxzvSgCjr
+ WGEvQMG9WPTykVmmkQiDcbcSUc5iWi6BZpBHYbSqRGCZCSt4pxkaFuw7GshFt1B1MeoB wQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mwj1rrmh3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 05 Jan 2023 05:06:02 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 305561Bo027164
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 5 Jan 2023 05:06:01 GMT
+Received: from [10.50.40.159] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 4 Jan 2023
+ 21:05:55 -0800
+Message-ID: <311fe310-d43c-cf5f-623d-6f747bc2f2a5@quicinc.com>
+Date:   Thu, 5 Jan 2023 10:34:57 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7S0/VYsy4aWjfQ+@google.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 1/2] soc: qcom: dcc: Fix examples list on
+ /sys/kernel/debug/dcc/.../[list-number]/config documentation
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Devicetree <devicetree@vger.kernel.org>
+CC:     Alex Elder <elder@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
+        "Sibi Sankar" <quic_sibis@quicinc.com>,
+        Rajendra Nayak <quic_rjendra@quicinc.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        kernel test robot <lkp@intel.com>
+References: <20221230135030.17002-1-bagasdotme@gmail.com>
+ <20221230135030.17002-2-bagasdotme@gmail.com>
+From:   Souradeep Chowdhury <quic_schowdhu@quicinc.com>
+In-Reply-To: <20221230135030.17002-2-bagasdotme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 6Hq9MFPcxPOu8LHBchXP5ZxzE4UT20xQ
+X-Proofpoint-GUID: 6Hq9MFPcxPOu8LHBchXP5ZxzE4UT20xQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-05_01,2023-01-04_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ lowpriorityscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
+ suspectscore=0 mlxscore=0 priorityscore=1501 clxscore=1011 adultscore=0
+ bulkscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2301050041
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 03, 2023 at 11:06:37PM +0000, Sean Christopherson wrote:
-> On Tue, Jan 03, 2023, Wang, Wei W wrote:
-> > On Tuesday, January 3, 2023 9:40 AM, Chao Peng wrote:
-> > > > Because guest memory defaults to private, and now this patch stores
-> > > > the attributes with KVM_MEMORY_ATTRIBUTE_PRIVATE instead of
-> > > _SHARED,
-> > > > it would bring more KVM_EXIT_MEMORY_FAULT exits at the beginning of
-> > > > boot time. Maybe it can be optimized somehow in other places? e.g. set
-> > > > mem attr in advance.
-> > > 
-> > > KVM defaults to 'shared' because this ioctl can also be potentially used by
-> > > normal VMs and 'shared' sounds a value meaningful for both normal VMs and
-> > > confidential VMs. 
-> > 
-> > Do you mean a normal VM could have pages marked private? What's the usage?
-> > (If all the pages are just marked shared for normal VMs, then why do we need it)
+
+
+On 12/30/2022 7:20 PM, Bagas Sanjaya wrote:
+> kernel test robot reported htmldocs warnings:
 > 
-> No, there are potential use cases for per-page attribute/permissions, e.g. to
-> make select pages read-only, exec-only, no-exec, etc...
-
-Right, normal VMs are not likely use private/shared bit. Not sure pKVM,
-but perhaps not call it 'normal' VMs in this context. But since the
-ioctl can be used by normal VMs for other bits (read-only, exec-only,
-no-exec, etc), a default 'private' looks strange for them. That's why I
-default it to 'shared' and for confidential guest, we can issue another
-call to this ioctl to set all the memory to 'private' before guest
-booting, if default 'private' is needed for guest.
-
-Like Wei mentioned, it's also possible to make the default dependents on
-vm_type, but that looks awkward to me from the API definition as well as
-the implementation, also the vm_type has not been introduced at this time.
-
+> Documentation/ABI/testing/debugfs-driver-dcc:34: WARNING: Unexpected indentation.
+> Documentation/ABI/testing/debugfs-driver-dcc:34: WARNING: Block quote ends without a blank line; unexpected unindent.
 > 
-> > > As for more KVM_EXIT_MEMORY_FAULT exits during the
-> > > booting time, yes, setting all memory to 'private' for confidential VMs through
-> > > this ioctl in userspace before guest launch is an approach for KVM userspace to
-> > > 'override' the KVM default and reduce the number of implicit conversions.
-> > 
-> > Most pages of a confidential VM are likely to be private pages. It seems more efficient
-> > (and not difficult to check vm_type) to have KVM defaults to "private" for confidential VMs
-> > and defaults to "shared" for normal VMs.
+> Fix these by fixing numbered list syntax on description of
+> /sys/kernel/debug/dcc/.../[list-number]/config, including adding blank line
+> separators as appropriate.
 > 
-> If done right, the default shouldn't matter all that much for efficiency.  KVM
-> needs to be able to effeciently track large ranges regardless of the default,
-> otherwise the memory overhead and the presumably cost of lookups will be painful.
-> E.g. converting a 1GiB chunk to shared should ideally require one entry, not 256k
-> entries.
-
-I agree, KVM should have the ability to track large ranges efficiently.
-
+> Link: https://lore.kernel.org/linux-doc/202212300426.eMLsZsvA-lkp@intel.com/
+> Fixes: 4cbe60cf5ad622 ("soc: qcom: dcc: Add driver support for Data Capture and Compare unit(DCC)")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>   Documentation/ABI/testing/debugfs-driver-dcc | 63 +++++++++++++-------
+>   1 file changed, 41 insertions(+), 22 deletions(-)
 > 
-> Looks like that behavior was changed in v8 in response to feedback[*] that doing
-> xa_store_range() on a subset of an existing range (entry) would overwrite the
-> entire existing range (entry), not just the smaller subset.  xa_store_range() does
-> appear to be too simplistic for this use case, but looking at __filemap_add_folio(),
-> splitting an existing entry isn't super complex.
+> diff --git a/Documentation/ABI/testing/debugfs-driver-dcc b/Documentation/ABI/testing/debugfs-driver-dcc
+> index a4680950205931..a00f4502885b58 100644
+> --- a/Documentation/ABI/testing/debugfs-driver-dcc
+> +++ b/Documentation/ABI/testing/debugfs-driver-dcc
+> @@ -44,35 +44,54 @@ Description:
+>   		example user can jump to list x only after list y is
+>   		configured and enabled. The format for entering all
+>   		types of instructions are explained in examples as
+> -		follows.
+> -		Example:
+> -	         i)Read Type Instruction
+> +		follows:
+> +
+> +	        i) Read Type Instruction
+> +
+>   		   echo R <1> <2> <3> >/sys/kernel/debug/dcc/../[list-number]/config
+> +
+>   		   1->Address to be considered for reading the value.
+> +
+>   		   2->The word count of the addresses, read n words
+>   		      starting from address <1>. Each word is of 32 bits.
+>   		      If not entered 1 is considered.
+> +
+>   		   3->Can be 'apb' or 'ahb' which indicates if it is apb or ahb
+>   		      bus respectively. If not entered ahb is considered.
+> -		ii)Write Type Instruction
+> -		   echo W <1> <2> <3> > /sys/kernel/debug/dcc/../[list-number]/config
+> -		   1->Address to be considered for writing the value.
+> -		   2->The value that needs to be written at the location.
+> -		   3->Can be a 'apb' or 'ahb' which indicates if it is apb or ahb
+> -		      but respectively.
+> -	       iii)Read Modify Write type instruction
+> -		   echo RW <1> <2> <3> > /sys/kernel/debug/dcc/../[list-number]/config
+> -		   1->The address which needs to be considered for read then write.
+> -		   2->The value that needs to be written on the address.
+> -		   3->The mask of the value to be written.
+> -		iv)Loop Type Instruction
+> -		   echo L <1> <2> <3> > /sys/kernel/debug/dcc/../[list-number]/config
+> -		   1->The loop count, the number of times the value of the addresses will be
+> -		      captured.
+> -		   2->The address count, total number of addresses to be entered in this
+> -		      instruction.
+> -		   3->The series of addresses to be entered separated by a space like <addr1>
+> -		      <addr2>... and so on.
+> +
+> +		ii) Write Type Instruction
+> +
+> +		    echo W <1> <2> <3> > /sys/kernel/debug/dcc/../[list-number]/config
+> +
+> +		    1->Address to be considered for writing the value.
+> +
+> +		    2->The value that needs to be written at the location.
+> +
+> +		    3->Can be a 'apb' or 'ahb' which indicates if it is apb or ahb
+> +		       but respectively.
+> +
+> +	        iii) Read Modify Write type instruction
+> +
+> +		     echo RW <1> <2> <3> > /sys/kernel/debug/dcc/../[list-number]/config
+> +
+> +		     1->The address which needs to be considered for read then write.
+> +
+> +		     2->The value that needs to be written on the address.
+> +
+> +		     3->The mask of the value to be written.
+> +
+> +		iv) Loop Type Instruction
+> +
+> +		    echo L <1> <2> <3> > /sys/kernel/debug/dcc/../[list-number]/config
+> +
+> +		    1->The loop count, the number of times the value of the addresses will be
+> +		       captured.
+> +
+> +		    2->The address count, total number of addresses to be entered in this
+> +		       instruction.
+> +
+> +		    3->The series of addresses to be entered separated by a space like <addr1>
+> +		       <addr2>... and so on.
+>   
+>   What:           /sys/kernel/debug/dcc/.../[list-number]/enable
+>   Date:           December 2022
 
-Yes, xa_store_range() looks a perfect match for us initially but the
-'overwriting the entire entry' behavior makes it incorrect for us when
-storing a subset on an existing large entry. xarray lib has utilities
-for splitting, the hard part is merging existing entries, as you also
-said below. Thanks for pointing out the __filemap_add_folio() example,
-it does look not too complex for splitting.
-
-> 
-> Using xa_store() for the very initial implementation is ok, and probably a good
-> idea since it's more obviously correct and will give us a bisection point.  But
-> we definitely want a more performant implementation sooner than later.  The hardest
-> part will likely be merging existing entries, but that can be done separately too,
-> and is probably lower priority.
-> 
-> E.g. (1) use xa_store() and always track at 4KiB granularity, (2) support storing
-> metadata in multi-index entries, and finally (3) support merging adjacent entries
-> with identical values.
-
-This path looks good to me.
-
-Thanks,
-Chao
-> 
-> [*] https://lore.kernel.org/all/CAGtprH9xyw6bt4=RBWF6-v2CSpabOCpKq5rPz+e-9co7EisoVQ@mail.gmail.com
+Acked-by:Souradeep Chowdhury <quic_schowdhu@quicinc.com>
