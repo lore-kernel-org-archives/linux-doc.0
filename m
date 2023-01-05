@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93387C3DA7D
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Jan 2023 13:17:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B72FC53210
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Jan 2023 13:17:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232584AbjAENRq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Jan 2023 08:17:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36978 "EHLO
+        id S232772AbjAENRr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Jan 2023 08:17:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234263AbjAENRW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 08:17:22 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE3C45C1E1;
-        Thu,  5 Jan 2023 05:17:05 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id c6so6090671pls.4;
-        Thu, 05 Jan 2023 05:17:05 -0800 (PST)
+        with ESMTP id S234282AbjAENRY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 08:17:24 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CA5A5DE54;
+        Thu,  5 Jan 2023 05:17:08 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id z4-20020a17090a170400b00226d331390cso880502pjd.5;
+        Thu, 05 Jan 2023 05:17:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XHKqH/mTeMAtJX+k1fwhOFwTW56tZzYBJVqR/bzkhlc=;
-        b=XkW/T1soWfm4Rl1XX1uhjbNQfx1mx3n00vAID2EM9vtxWbYXinFO4hH0F/Sh76u8Nt
-         T+gnK2msfrDFO1KmUccj24rF4UB8vifHeM6vVJGG4BqzWmkF5LR+KlioizvkKNFhtzGI
-         DqZ08ByEgPPDNotBdzpS9VmCEyShtWZsvx3n8EAJPOHu1HX5kpNBORHmuWbj2c2tqTYV
-         kKkA+xB6Fxx4Jc5iZgdCkvewR5ElvC1Q8mCbRjR5m0aVPDHOhmprl5Z6bpMJhV7aZOd2
-         jqwuT8bQYA/2qPzKPL/nYTtz+E24L3VfdAWrshv08AHCMMHGZLUBryatFJX7kP89y92r
-         Wa8g==
+        bh=xwHqK93GBSz13u5EOGerS6VNG9qcHKdmktoqbjmWNKQ=;
+        b=I+haejsbxcT8QansUCm5NiZgqf2JOyk2XoX+L9ANWJ+oZ3TVmy88uTaaDIAnH60Se4
+         QC+8pZ1DVABAn9fbxX+01giMJL8QxVbK5JPMK71xZAR5l7hIoZ2HXOLK7XsTFATW8Ixz
+         q5RKiApAiRwuaEXAif1bny8NJyICU1d5b6cBVkt8ozpHIt9kHXCkiP5RwaeGheITxLGD
+         pv66I/8vKCfVNCU4pCKkHXOn0aYd0sZ7fEE9fRKjDaTaPdM6tDTlOWpzJaqe86/t7zq+
+         J5IuSSFoT4VVRLtFO79+qqLr4ipbuvJqdL0XtgxljHoOaC9wrD8egICm691ltJy92+D9
+         o4lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XHKqH/mTeMAtJX+k1fwhOFwTW56tZzYBJVqR/bzkhlc=;
-        b=OTnm15MrmWvEsb1fHRhF7/EhgHWSnSUPd3G5hi+g8G02IKZK2NB9F+jVNMki++uv3l
-         hJBPp7rkIE15AE4m2XnyN3WN/omFDH74iCZsYhGG9QtTgFjY4YdvHQNLjVpI7XCnq/Bv
-         gslPwL7Upzm3X9QhR4E9A8oD1va6p31RCt7ji9kFc+sKfMBGz2I8hWeMhZxJgQRs2bf2
-         C+Lo1o1Q66iiB6XJyFGBmAKFMgQp053z9PT/VyYoLf+sW8kteOuTa6IyqNgym5chiAoa
-         ic9Y9m0mIQAgrDma9EffSidmUB2fqSgwQMEbEaFxsg+2BJzy6N+SJhYJcyhgt0uJau3y
-         V5BA==
-X-Gm-Message-State: AFqh2kqA52J4xnV0TNSqPeQalVBUQx3NSw0xYBvgriIl/PNssCvitAcB
-        TBdJwvuAmPfWPe3vYUCCvdI=
-X-Google-Smtp-Source: AMrXdXuI/wFI9NZprHDOZ4C4Pqbm5J8rbYDJ/NE13dBSqovxsPA/Y3l0huJb190MwMO5oSrbIdxjoA==
-X-Received: by 2002:a17:902:d491:b0:192:ad82:dc98 with SMTP id c17-20020a170902d49100b00192ad82dc98mr31433592plg.34.1672924625229;
-        Thu, 05 Jan 2023 05:17:05 -0800 (PST)
+        bh=xwHqK93GBSz13u5EOGerS6VNG9qcHKdmktoqbjmWNKQ=;
+        b=SZRBhVmMiC4AjJNitA9UaZdgmV30LZMKQezwkz5tDXHWz/udwr3M8Aa8QpvL2x3GDB
+         OKjfOBJHDi/8cycQzScM7NZqHn09tg1F5iz66FS5eO49DC+vVZUuO5EsP8ub3rNBiW6j
+         fmlfUGc5UmbiuN2bB+KlJ/odLi3f8xD4PaUS28ODP7bIj7wzYG5yFcJveL6W8XTPLpQt
+         jRC0mRMNpmmPj9iIe5VnlrElJyQBqol+OmjNw5TIx8S8cS5fb+Cx8MBqL4DgFM6fRgiu
+         MOWXnYaFP/DhHhfoczflMfQ63cCS1kzPtGFXOM8ViPRWJxrI+TgMPMJ2OdkTukwLKZef
+         FU9Q==
+X-Gm-Message-State: AFqh2kqHDB8d86kMEpNJ957J0joXeNftD/JhnaWuNnOMVaWCn0Dnrs0P
+        THHqOh0b6NLtZlcG6C13ulc=
+X-Google-Smtp-Source: AMrXdXvVQHFIAhZFjXWcvmWsd4zYjHp8TCtZNuDhrgXiXGz/KDF8sgcU0cuj/xK31xQp+cbn98HKDw==
+X-Received: by 2002:a17:90b:4a8c:b0:225:a8f2:fa38 with SMTP id lp12-20020a17090b4a8c00b00225a8f2fa38mr51004080pjb.21.1672924627951;
+        Thu, 05 Jan 2023 05:17:07 -0800 (PST)
 Received: from debian.me (subs02-180-214-232-68.three.co.id. [180.214.232.68])
-        by smtp.gmail.com with ESMTPSA id i2-20020a170902c94200b00189618fc2d8sm26053948pla.242.2023.01.05.05.17.04
+        by smtp.gmail.com with ESMTPSA id h6-20020a63c006000000b00478b930f970sm21709710pgg.66.2023.01.05.05.17.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 05:17:04 -0800 (PST)
+        Thu, 05 Jan 2023 05:17:07 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-        id 9720A1043E8; Thu,  5 Jan 2023 20:16:59 +0700 (WIB)
+        id 2BC92104C58; Thu,  5 Jan 2023 20:17:00 +0700 (WIB)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     Linux CGroups <cgroups@vger.kernel.org>,
         Linux Documentation <linux-doc@vger.kernel.org>,
@@ -64,42 +64,140 @@ Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
         Hugh Dickins <hughd@google.com>,
         Shakeel Butt <shakeelb@google.com>,
         Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v2 3/9] docs: cgroup-v1: use code block for locking order schema
-Date:   Thu,  5 Jan 2023 20:16:28 +0700
-Message-Id: <20230105131633.553574-4-bagasdotme@gmail.com>
+Subject: [PATCH v2 6/9] docs: cgroup-v1: use bullet lists for list of stat file tables
+Date:   Thu,  5 Jan 2023 20:16:31 +0700
+Message-Id: <20230105131633.553574-7-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230105131633.553574-1-bagasdotme@gmail.com>
 References: <20230105131633.553574-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=903; i=bagasdotme@gmail.com; h=from:subject; bh=IgqigKn9DkjPklU4lRTNbnqTt63GfYY/akiSBYrKIlo=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMnbzq4XDnK5Z2Dspp/XK6O/hDH/vy9jfrHcT7XO5Wcey2i5 SQp3lLIwiHExyIopskxK5Gs6vctI5EL7WkeYOaxMIEMYuDgFYCICVQz/a/lu5hjddea89ev3r8tRkp XRb02+MnYu/XFlWaNkJntyKyPDAc1vbdt6LNecrSx/q+j+h/XJHfs98c6Fk0yPFO7av6OBHQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6795; i=bagasdotme@gmail.com; h=from:subject; bh=SoIEcDdcT5n5ldqzkBmfedkjJd/EdMw6QuqYA3S+KDs=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMnbzm6ofK+yRrC/JWDHq/r1ulxRxxxnKLB3/v5w8IjPvxk1 Z7pEOkpZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjAR325GhpZFRVP+NhbwxQf07X/ULH dQqH2NpZHRx3nVQsUaj+IvuTD8z7n7YJ5tTpdh076r6d6G/05xbVAXtfb+sau3RtPG+o4bBwA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The locking order schema is a figure (like diagram), which should have
-been formatted with literal code block for consistency with other
-figures.
+The stat file section contains three tables, where the leading texts for
+them are subsection heading. Organize them in the bullet list, while
+demoting headings into normal text.
 
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/admin-guide/cgroup-v1/memory.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../admin-guide/cgroup-v1/memory.rst          | 93 +++++++++----------
+ 1 file changed, 46 insertions(+), 47 deletions(-)
 
 diff --git a/Documentation/admin-guide/cgroup-v1/memory.rst b/Documentation/admin-guide/cgroup-v1/memory.rst
-index b0353c40639b7e..2b807fc128c662 100644
+index 4d96a5bbbfcfdc..162cc26dcddb25 100644
 --- a/Documentation/admin-guide/cgroup-v1/memory.rst
 +++ b/Documentation/admin-guide/cgroup-v1/memory.rst
-@@ -287,7 +287,7 @@ When oom event notifier is registered, event will be delivered.
- 2.6 Locking
- -----------
+@@ -519,60 +519,59 @@ will be charged as a new owner of it.
+ 5.2 stat file
+ -------------
  
--Lock order is as follows:
-+Lock order is as follows::
+-memory.stat file includes following statistics
++memory.stat file includes following statistics:
  
-   Page lock (PG_locked bit of page->flags)
-     mm->page_table_lock or split pte_lock
+-per-memory cgroup local status
+-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++  * per-memory cgroup local status
+ 
+-=============== ===============================================================
+-cache		# of bytes of page cache memory.
+-rss		# of bytes of anonymous and swap cache memory (includes
+-		transparent hugepages).
+-rss_huge	# of bytes of anonymous transparent hugepages.
+-mapped_file	# of bytes of mapped file (includes tmpfs/shmem)
+-pgpgin		# of charging events to the memory cgroup. The charging
+-		event happens each time a page is accounted as either mapped
+-		anon page(RSS) or cache page(Page Cache) to the cgroup.
+-pgpgout		# of uncharging events to the memory cgroup. The uncharging
+-		event happens each time a page is unaccounted from the cgroup.
+-swap		# of bytes of swap usage
+-dirty		# of bytes that are waiting to get written back to the disk.
+-writeback	# of bytes of file/anon cache that are queued for syncing to
+-		disk.
+-inactive_anon	# of bytes of anonymous and swap cache memory on inactive
+-		LRU list.
+-active_anon	# of bytes of anonymous and swap cache memory on active
+-		LRU list.
+-inactive_file	# of bytes of file-backed memory and MADV_FREE anonymous memory(
+-                LazyFree pages) on inactive LRU list.
+-active_file	# of bytes of file-backed memory on active LRU list.
+-unevictable	# of bytes of memory that cannot be reclaimed (mlocked etc).
+-=============== ===============================================================
++    =============== ===============================================================
++    cache           # of bytes of page cache memory.
++    rss             # of bytes of anonymous and swap cache memory (includes
++                    transparent hugepages).
++    rss_huge        # of bytes of anonymous transparent hugepages.
++    mapped_file     # of bytes of mapped file (includes tmpfs/shmem)
++    pgpgin          # of charging events to the memory cgroup. The charging
++                    event happens each time a page is accounted as either mapped
++                    anon page(RSS) or cache page(Page Cache) to the cgroup.
++    pgpgout         # of uncharging events to the memory cgroup. The uncharging
++                    event happens each time a page is unaccounted from the
++                    cgroup.
++    swap            # of bytes of swap usage
++    dirty           # of bytes that are waiting to get written back to the disk.
++    writeback       # of bytes of file/anon cache that are queued for syncing to
++                    disk.
++    inactive_anon   # of bytes of anonymous and swap cache memory on inactive
++                    LRU list.
++    active_anon     # of bytes of anonymous and swap cache memory on active
++                    LRU list.
++    inactive_file   # of bytes of file-backed memory and MADV_FREE anonymous
++                    memory (LazyFree pages) on inactive LRU list.
++    active_file     # of bytes of file-backed memory on active LRU list.
++    unevictable     # of bytes of memory that cannot be reclaimed (mlocked etc).
++    =============== ===============================================================
+ 
+-status considering hierarchy (see memory.use_hierarchy settings)
+-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++  * status considering hierarchy (see memory.use_hierarchy settings):
+ 
+-========================= ===================================================
+-hierarchical_memory_limit # of bytes of memory limit with regard to hierarchy
+-			  under which the memory cgroup is
+-hierarchical_memsw_limit  # of bytes of memory+swap limit with regard to
+-			  hierarchy under which memory cgroup is.
++    ========================= ===================================================
++    hierarchical_memory_limit # of bytes of memory limit with regard to
++                              hierarchy
++                              under which the memory cgroup is
++    hierarchical_memsw_limit  # of bytes of memory+swap limit with regard to
++                              hierarchy under which memory cgroup is.
+ 
+-total_<counter>		  # hierarchical version of <counter>, which in
+-			  addition to the cgroup's own value includes the
+-			  sum of all hierarchical children's values of
+-			  <counter>, i.e. total_cache
+-========================= ===================================================
++    total_<counter>           # hierarchical version of <counter>, which in
++                              addition to the cgroup's own value includes the
++                              sum of all hierarchical children's values of
++                              <counter>, i.e. total_cache
++    ========================= ===================================================
+ 
+-The following additional stats are dependent on CONFIG_DEBUG_VM
+-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++  * additional vm parameters (depends on CONFIG_DEBUG_VM):
+ 
+-========================= ========================================
+-recent_rotated_anon	  VM internal parameter. (see mm/vmscan.c)
+-recent_rotated_file	  VM internal parameter. (see mm/vmscan.c)
+-recent_scanned_anon	  VM internal parameter. (see mm/vmscan.c)
+-recent_scanned_file	  VM internal parameter. (see mm/vmscan.c)
+-========================= ========================================
++    ========================= ========================================
++    recent_rotated_anon       VM internal parameter. (see mm/vmscan.c)
++    recent_rotated_file       VM internal parameter. (see mm/vmscan.c)
++    recent_scanned_anon       VM internal parameter. (see mm/vmscan.c)
++    recent_scanned_file       VM internal parameter. (see mm/vmscan.c)
++    ========================= ========================================
+ 
+ .. hint::
+ 	recent_rotated means recent frequency of LRU rotation.
 -- 
 An old man doll... just what I always wanted! - Clara
 
