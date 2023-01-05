@@ -2,222 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D113C54E76
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Jan 2023 10:55:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2698AC3DA7A
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Jan 2023 11:05:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232589AbjAEKzO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Jan 2023 05:55:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42810 "EHLO
+        id S232041AbjAELFI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Jan 2023 06:05:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232798AbjAEKzF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 05:55:05 -0500
-X-Greylist: delayed 881 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 05 Jan 2023 02:55:04 PST
-Received: from fx308.security-mail.net (smtpout30.security-mail.net [85.31.212.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE1C50E76
-        for <linux-doc@vger.kernel.org>; Thu,  5 Jan 2023 02:55:04 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by fx308.security-mail.net (Postfix) with ESMTP id 8ACDC75AF9D
-        for <linux-doc@vger.kernel.org>; Thu,  5 Jan 2023 11:40:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
-        s=sec-sig-email; t=1672915221;
-        bh=HozEVKpsnPTz1W+OmWAJHb2nflwGQpHJX/pPziyjbkU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=z8nnqsOPLAZ31pVTrEaSU8Vi1jwkux3kRJ9jir01BPlgH3Vm0rvu0GKLTqA8QcOvp
-         kLczG4JPQ06aIFlsEnPWzgHdo4KICmI9A0K7HrUsCBAfrXYX+XrUXZNvGHj/AcXF+p
-         bTvO3vB+RrFhkrZgRrmVTSG9wbJg55lN4Wsmg9nc=
-Received: from fx308 (localhost [127.0.0.1]) by fx308.security-mail.net
- (Postfix) with ESMTP id 6DB4A75AF9C; Thu,  5 Jan 2023 11:40:21 +0100 (CET)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx308.security-mail.net (Postfix) with ESMTPS id 0F44375AB2B; Thu,  5 Jan
- 2023 11:40:21 +0100 (CET)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id D52FF27E0373; Thu,  5 Jan 2023
- 11:40:20 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id B47A227E02E4; Thu,  5 Jan 2023 11:40:20 +0100 (CET)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- h9vZft-QceM0; Thu,  5 Jan 2023 11:40:20 +0100 (CET)
-Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id 5854D27E02AC; Thu,  5 Jan 2023
- 11:40:20 +0100 (CET)
-X-Virus-Scanned: E-securemail
-Secumail-id: <141b8.63b6a915.e31d.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu B47A227E02E4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1672915220;
- bh=rBdSTEj4sEHV5aOdgiMVbZa0c1+4vHmKGKt/utxqTFU=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=pKs+CePZ3R3W41fZHlmw/owOk940TBb9jGKa8X1N/B6at/r5t/99lcM7BYNSm1sbm
- GgU4FIb/vUiDD0dGYY0QwPK6QJVEAcqdlcP4MzXTRQlqlJaTfeeQw469yNJ0IyFuvr
- H4nRIuARzCz4d0RA5Dr/HYW0RULCkMt83j3YDunc=
-Date:   Thu, 5 Jan 2023 11:40:19 +0100
-From:   Jules Maselbas <jmaselbas@kalray.eu>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Yann Sionneau <ysionneau@kalray.eu>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>, bpf@vger.kernel.org,
-        Christian Brauner <brauner@kernel.org>,
-        devicetree@vger.kernel.org,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Eric Paris <eparis@redhat.com>, Ingo Molnar <mingo@redhat.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Jason Baron <jbaron@akamai.com>, Jiri Olsa <jolsa@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Kieran Bingham <kbingham@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-audit@redhat.com,
+        with ESMTP id S231477AbjAELFG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 06:05:06 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ACAC50E7E;
+        Thu,  5 Jan 2023 03:05:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1672916704; x=1704452704;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ed+5TF4v3rGppdgT7usbWpyQEGylXfunnAdot9pn3no=;
+  b=nu+KZR00/nhn9BKBEe6f70UPCaCIcj+X6JEarY6LFrmQVTDDYikvmUVq
+   TekLuLVof+SXONc+rky2KDPF/JSpZeRhaHO2wjaXidmd7MHggu0pbRkon
+   djA+kkH49CM0wGhS9j9sSpC+nrqgKCbmkdHJr+iKvp3nGsAxa31ai4vR5
+   cjL0HMRN3gO3XWsFE9RRokXeQTjRLajEHm4JR1gYyPDxZBmt/k33wKK1n
+   ofF3JMeMv1nNkLhyZaGs9I+CE7XgOOuY4ZGSdAvRU2PQLBjza6RW8m9VT
+   u/tFer7HkjfQj6/RQMfZuHQ9Xu8RaI4LbjfHGSyEBieAMXW24emYsW3cM
+   A==;
+X-IronPort-AV: E=Sophos;i="5.96,302,1665439200"; 
+   d="scan'208";a="28258308"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 05 Jan 2023 12:04:59 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Thu, 05 Jan 2023 12:05:02 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Thu, 05 Jan 2023 12:05:02 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1672916702; x=1704452702;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ed+5TF4v3rGppdgT7usbWpyQEGylXfunnAdot9pn3no=;
+  b=i6Ib2erDmJ5SXk0os67kYkyiUB2PkgoIxuOHSLWzFHcIM2P2MBQa4ceK
+   VgCxI6qRBiQmp+4nvE9i1hNhU2wnZexQymsrf1iipKV3HPWiJjfMd4Ds1
+   5+tNt/VXyqxHIj/ljlcBrAkK14JCxWc/1PaYuf4g2bTipVRINsM/CN6lu
+   n1Hl29iPexdkLjjchFdOOUOZRIe8gx8D35SNI3L+FuCSESoFCWlCu8ge4
+   SYgbpw4KEyCQQ4Et3IZKrnACOkQx9AUyPXPGtF0I/4shh/kX7DLg4jN4o
+   m+2tgXFovNv7MUj9XRKin8ujii2f+0zDtCagsZJJa61SSMy72m8O1aiz8
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.96,302,1665439200"; 
+   d="scan'208";a="28258288"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 05 Jan 2023 12:04:55 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 353E5280056;
+        Thu,  5 Jan 2023 12:04:55 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Michael Walle <michael@walle.cc>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-riscv@lists.infradead.org,
-        Marc Zyngier <maz@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Waiman Long <longman@redhat.com>,
-        Will Deacon <will@kernel.org>, Alex Michon <amichon@kalray.eu>,
-        Ashley Lesdalons <alesdalons@kalray.eu>,
-        Benjamin Mugnier <mugnier.benjamin@gmail.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Guillaume Missonnier <gmissonnier@kalray.eu>,
-        Guillaume Thouvenin <gthouvenin@kalray.eu>,
-        Jean-Christophe Pince <jcpince@gmail.com>,
-        Jonathan Borne <jborne@kalray.eu>,
-        Julian Vetter <jvetter@kalray.eu>,
-        Julien Hascoet <jhascoet@kalray.eu>,
-        Julien Villette <jvillette@kalray.eu>,
-        Louis Morhet <lmorhet@kalray.eu>,
-        Luc Michel <lmichel@kalray.eu>,
-        Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>,
-        Marius Gligor <mgligor@kalray.eu>,
-        Samuel Jones <sjones@kalray.eu>,
-        Thomas Costis <tcostis@kalray.eu>,
-        Vincent Chardon <vincent.chardon@elsys-design.com>
-Subject: Re: [RFC PATCH 00/25] Upstream kvx Linux port
-Message-ID: <20230105104019.GA7446@tellis.lin.mbt.kalray.eu>
-References: <20230103164359.24347-1-ysionneau@kalray.eu>
- <7c531595-e987-422b-bcf7-48ad0ba49ce6@app.fastmail.com>
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v5 00/21] nvmem: core: introduce NVMEM layouts
+Date:   Thu, 05 Jan 2023 12:04:52 +0100
+Message-ID: <2143916.GUh0CODmnK@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <cf00e248-1f2c-d4ce-868d-9f77b2c9b76f@linaro.org>
+References: <20221206200740.3567551-1-michael@walle.cc> <20230103163902.218cb5c7@xps-13> <cf00e248-1f2c-d4ce-868d-9f77b2c9b76f@linaro.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <7c531595-e987-422b-bcf7-48ad0ba49ce6@app.fastmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On Wed, Jan 04, 2023 at 04:58:25PM +0100, Arnd Bergmann wrote:
-> On Tue, Jan 3, 2023, at 17:43, Yann Sionneau wrote:
-> > This patch series adds support for the kv3-1 CPU architecture of the kvx family
-> > found in the Coolidge (aka MPPA3-80) SoC of Kalray.
-> >
-> > This is an RFC, since kvx support is not yet upstreamed into gcc/binutils,
-> > therefore this patch series cannot be merged into Linux for now.
-> >
-> > The goal is to have preliminary reviews and to fix problems early.
-> >
-> > The Kalray VLIW processor family (kvx) has the following features:
-> > * 32/64 bits execution mode
-> > * 6-issue VLIW architecture
-> > * 64 x 64bits general purpose registers
-> > * SIMD instructions
-> > * little-endian
-> > * deep learning co-processor
+Am Dienstag, 3. Januar 2023, 16:51:31 CET schrieb Srinivas Kandagatla:
+> Hi Miquel,
 > 
-> Thanks for posting these, I had been wondering about the
-> state of the port. Overall this looks really nice, I can
-> see that you and the team have looked at other ports
-> and generally made the right decisions.
-
-Thank you and all for the reviews. We are currently going
-through every remarks and we are trying to do our best to
-send a new patch series with everything addressed.
-
-> I commented on the syscall patch directly, I think it's
-> important to stop using the deprecated syscalls as soon
-> as possible to avoid having dependencies in too many
-> libc binaries. Almost everything else can be changed
-> easily as you get closer to upstream inclusion.
+> On 03/01/2023 15:39, Miquel Raynal wrote:
+> > Hi Srinivas,
+> > 
+> > michael@walle.cc wrote on Tue,  6 Dec 2022 21:07:19 +0100:
+> >> This is now the third attempt to fetch the MAC addresses from the VPD
+> >> for the Kontron sl28 boards. Previous discussions can be found here:
+> >> https://lore.kernel.org/lkml/20211228142549.1275412-1-michael@walle.cc/
+> >> 
+> >> 
+> >> NVMEM cells are typically added by board code or by the devicetree. But
+> >> as the cells get more complex, there is (valid) push back from the
+> >> devicetree maintainers to not put that handling in the devicetree.
+> >> 
+> >> Therefore, introduce NVMEM layouts. They operate on the NVMEM device and
+> >> can add cells during runtime. That way it is possible to add more complex
+> >> cells than it is possible right now with the offset/length/bits
+> >> description in the device tree. For example, you can have post processing
+> >> for individual cells (think of endian swapping, or ethernet offset
+> >> handling).
+> >> 
+> >> The imx-ocotp driver is the only user of the global post processing hook,
+> >> convert it to nvmem layouts and drop the global post pocessing hook.
+> >> 
+> >> For now, the layouts are selected by the device tree. But the idea is
+> >> that also board files or other drivers could set a layout. Although no
+> >> code for that exists yet.
+> >> 
+> >> Thanks to Miquel, the device tree bindings are already approved and
+> >> merged.
+> >> 
+> >> NVMEM layouts as modules?
+> >> While possible in principle, it doesn't make any sense because the NVMEM
+> >> core can't be compiled as a module. The layouts needs to be available at
+> >> probe time. (That is also the reason why they get registered with
+> >> subsys_initcall().) So if the NVMEM core would be a module, the layouts
+> >> could be modules, too.
+> > 
+> > I believe this series still applies even though -rc1 (and -rc2) are out
+> > now, may we know if you consider merging it anytime soon or if there
+> > are still discrepancies in the implementation you would like to
+> > discuss? Otherwise I would really like to see this laying in -next a
+> > few weeks before being sent out to Linus, just in case.
 > 
-> I did not receive most of the other patches as I'm
-> not subscribed to all the mainline lists. For future 
-> submissions, can you add the linux-arch list to Cc for
-> all patches?
-
-We misused get_maintainers.pl, running it on each patch instead
-of using it on the whole series. next time every one will be in
-copy of every patch in the series and including linux-arch.
-
-> Reading the rest of the series through lore.kernel.org,
-> most of the comments I have are for improvements that
-> you may find valuable rather than serious mistakes:
+> Thanks for the work!
 > 
-> - the {copy_to,copy_from,clear}_user functions are
->   well worth optimizing better than the byte-at-a-time
->   version you have, even just a C version built around
->   your __get_user/__put_user inline asm should help, and
->   could be added to lib/usercopy.c.
+> Lets get some testing in -next.
 
-right, we are using memcpy for {copy_to,copy_from}_user_page
-which has a simple optimized version introduced in
-(kvx: Add some library functions).
-I wonder if it is possible to do the same for copy_*_user functions.
+This causes the following errors on existing boards (imx8mq-tqma8mq-
+mba8mx.dtb):
+root@tqma8-common:~# uname -r
+6.2.0-rc2-next-20230105
 
-> - The __raw_{read,write}{b,w,l,q} helpers should
->   normally be defined as inline asm instead of
->   volatile pointer dereferences, I've seen cases where
->   the compiler ends up splitting the access or does
->   other things you may not want on MMIO areas.
->
-> - I would recomment implementing HAVE_ARCH_VMAP_STACK
->   as well as IRQ stacks, both of these help to
->   avoid data corruption from stack overflow that you
->   will eventually run into.
-> 
-> - You use qspinlock as the only available spinlock
->   implementation, but only support running on a
->   single cluster of 16 cores. It may help to use
->   the generic ticket spinlock instead, or leave it
->   as a Kconfig option, in particular since you only
->   have the emulated xchg16() atomic for qspinlock.
-> 
-> - Your defconfig file enables CONFIG_EMBEDDED, which
->   in turn enables CONFIG_EXPERT. This is probably
->   not what you want, so better turn off both of these.
-> 
-> - The GENERIC_CALIBRATE_DELAY should not be necessary
->   since you have a get_cycles() based delay loop.
->   Just set loops_per_jiffy to the correct value based
->   on the frequency of the cycle counter, to save
->   a little time during boot and get a more accurate
->   delay loop.
->
-Ack !
+> OF: /soc@0: could not get #nvmem-cell-cells for /soc@0/bus@30000000/
+efuse@30350000/soc-uid@4
+> OF: /soc@0/bus@30800000/ethernet@30be0000: could not get #nvmem-cell-cells 
+for /soc@0/bus@30000000/efuse@30350000/mac-address@90
 
-   Jules
+These are caused because '#nvmem-cell-cells = <0>;' is not explicitly set in 
+DT.
 
+> TI DP83867 30be0000.ethernet-1:0e: error -EINVAL: failed to get nvmem cell 
+io_impedance_ctrl
+> TI DP83867: probe of 30be0000.ethernet-1:0e failed with error -22
+
+These are caused because of_nvmem_cell_get() now returns -EINVAL instead of -
+ENODEV if the requested nvmem cell is not available.
+
+Best regards,
+Alexander
 
 
 
