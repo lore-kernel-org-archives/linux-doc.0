@@ -2,192 +2,162 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AD7EC3DA7A
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Jan 2023 15:48:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 236FDC3DA7A
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Jan 2023 15:49:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233378AbjAEPse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Jan 2023 10:48:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37904 "EHLO
+        id S233386AbjAEPtG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Jan 2023 10:49:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234565AbjAEPsL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 10:48:11 -0500
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2054.outbound.protection.outlook.com [40.107.212.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7243D4BD53;
-        Thu,  5 Jan 2023 07:48:10 -0800 (PST)
+        with ESMTP id S232169AbjAEPsl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 10:48:41 -0500
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2048.outbound.protection.outlook.com [40.107.102.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E59B5AC5D;
+        Thu,  5 Jan 2023 07:48:40 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tz3IirHmOtNDI0NhiuZPWFR7DaX96NBIgdNXVpzvsbYUwcOYTncirO5u+mu/dhXgx7xztkjbTecwMDjNOVunSO/k1knf+RK1Mnu3iL8g2S1FMXDFm+Fj38ATUDISNFz8d3l0VhcB9g012mu+G2HF+gL8bDol/uKpRHFcbWl7ysXb27L7JiqO3Jyu3E0oyND3egN/lCp9RIr7QbRRqi118c1YK4n2oXVheunCvLeXXYifrH+G9eCr4djnwhLnQnaC6kXlVaUZMX9U3O1g+SDitUwI/hYz1lg/UAIlVPui2Tkawx73uIW1WkSy0VfMusBeRTpFSp/hCrFuSaDKsKCIqA==
+ b=WPB0STTp83iTIxXdPvGLJQmfB2nvj2TZqal1YTRAMa8MU+bb3OD5n6t9LMedX1c/7rjYP+srI35x+aDLAnxkLri9AYoDsXVDw/MSXeZBDIv7w/IjFTA43heORBSMpHqX1REVsbKsU8i+dyCTGMx8z1J5etuO1VPUsGSwmPNpsyLLmSDCl2bRS1Du6gc9df0WriLW6SKMu3ScWxrVn+8gi08wRBvz8ognlM1BR9SydJTaDj7wL5eV7wAduMN5Q2XLtBSRJ1OrAO+ufR5asIAlFAh3uCbXKXYoZvimp7uWDQsIKbXfwPHLwxUU+QVQFPbA2yR7CRFovdjRUK+QMMCwAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X5r9lGxXP6BQrqXdxcrDMl5DpyF6cQ2TheS0mJeP5KE=;
- b=BVykO5ir6kECG+pNh6UmGvC+nNgu9y4hOcgc4tEOmT1zhpRxQlzMdsmJ6CK7+DE7F6YC/Pwh6UfJTKEnwIavQWDxGStJZrJ0VYWHDzWWERlK6LoRBkzvUI6OGAHTd4FRk4S/M6Ni0JNeFs+Sf0xA78fV6PqDGcEbJzXegtj5+zy3ylmpsOaSzZyTR+9FTZWkV8N5W5vMd8U+1SJl46vtVTWyK9WJeToLzFt4AaGLOykEtULvP8g2z+SsHTl2aQTKn07vf7MLgnzMZzDF0/gtmcNqy9WfGRZ0s8m0Dx1XFiBoJis9sgAcwZuNeYiMDXVXmvLYoPKo1+P/kSMGSwj7TA==
+ bh=XCB/euLjibZNg6Z/6SrPLV4XZhJqh+94jzKrbPspfvI=;
+ b=AwXzw+tGwhUa2myKV19lBfizJdLxNNCj0lJPUSSkKJv0SXj1s7z9EmEpVQ1Cs7hguux7QMxFcMmsVvS9Xe2rpOYsQ4ysb+XuoFzDtHzbeOnyvHfhqAgeRFtUf0Ne+3SF0faY6axGZBdIBI4oTCuDdy2AZYJh7f5thBOA/Nz+iU+i+e7iyelRaOWSqkHH3g62powQGye9viYXLmU05v1G2kYxeKpen/Z97+HpYWFBR/uEcmT17GKn4DtaBkQZadNjkcd3pwVRJbN0L3UARybbtUFRzXru7hhgb1qug7Rqz/DhOSYUfW1SX5aEBKd0jmiqRfnDwOTOpiI2nMNc/l0nrg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X5r9lGxXP6BQrqXdxcrDMl5DpyF6cQ2TheS0mJeP5KE=;
- b=5R+ArscMiwMHSX7/XwQvx+FZWcUwtaubqCjWa9WNRiY8iHk67vX7/Hjaw0vMTJB1LduRa2i03Iu5lg9Qp1xVvndYHcvyqefyBf6NecPI55HO2OvNryepoa0oCiZVu3xPI2UzywEz05AKR9Q/dJ8hKjBQwmyD4A2Zycg4l7qz1DI=
+ bh=XCB/euLjibZNg6Z/6SrPLV4XZhJqh+94jzKrbPspfvI=;
+ b=sHSd5Dd4COw9UYy8cVGixXD+/Oye0WhQiAtKxpA2I4bENqIcL3oHD/SLnmzKmSUl1EkxHNI/pQ35+faEnanGaxVopYp5KbzvedxaUyLP/wUMR+u/veTBhaH+Db4v9namIvTL5fn0X7ADW9rbIbruWIB3cP1SbWoyDJk/75BbgY0=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by MW4PR12MB5601.namprd12.prod.outlook.com (2603:10b6:303:168::13) with
+ by SA1PR12MB6775.namprd12.prod.outlook.com (2603:10b6:806:25a::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Thu, 5 Jan
- 2023 15:48:07 +0000
+ 2023 15:48:38 +0000
 Received: from MW3PR12MB4553.namprd12.prod.outlook.com
  ([fe80::790c:da77:2d05:6098]) by MW3PR12MB4553.namprd12.prod.outlook.com
  ([fe80::790c:da77:2d05:6098%3]) with mapi id 15.20.5944.019; Thu, 5 Jan 2023
- 15:48:07 +0000
-Message-ID: <d6bab266-c87a-0fec-443a-f608714d7e0b@amd.com>
-Date:   Thu, 5 Jan 2023 09:48:03 -0600
+ 15:48:37 +0000
+Message-ID: <41a2523a-6592-0884-4e62-7c8cf598733c@amd.com>
+Date:   Thu, 5 Jan 2023 09:48:31 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
 Reply-To: babu.moger@amd.com
-Subject: Re: [RFC PATCH 3/3] x86/resctrl: Display the RMID and COSID for
- resctrl groups
-To:     "Yu, Fenghua" <fenghua.yu@intel.com>,
-        "Chatre, Reinette" <reinette.chatre@intel.com>
-Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "peternewman@google.com" <peternewman@google.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-References: <167278351577.34228.12803395505584557101.stgit@bmoger-ubuntu>
- <167278361325.34228.16916982678071203069.stgit@bmoger-ubuntu>
- <IA1PR11MB609764AC3E09E0A1F8A8FF7E9BF59@IA1PR11MB6097.namprd11.prod.outlook.com>
- <58d53ab6-df0c-9e8c-052a-a8b60c9a8258@amd.com>
- <IA1PR11MB6097E141C8C207EA527B992D9BF59@IA1PR11MB6097.namprd11.prod.outlook.com>
+Subject: Re: [PATCH v10 01/13] x86/resctrl: Replace smp_call_function_many()
+ with on_each_cpu_mask()
 Content-Language: en-US
+To:     Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
+Cc:     fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bagasdotme@gmail.com, eranian@google.com,
+        christophe.leroy@csgroup.eu, jarkko@kernel.org,
+        adrian.hunter@intel.com, quic_jiles@quicinc.com,
+        peternewman@google.com
+References: <20221222233127.910538-1-babu.moger@amd.com>
+ <20221222233127.910538-2-babu.moger@amd.com>
+ <a67ac446-807a-d240-254e-fe8d5596dac1@intel.com>
 From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <IA1PR11MB6097E141C8C207EA527B992D9BF59@IA1PR11MB6097.namprd11.prod.outlook.com>
+In-Reply-To: <a67ac446-807a-d240-254e-fe8d5596dac1@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR06CA0009.namprd06.prod.outlook.com
- (2603:10b6:208:23d::14) To MW3PR12MB4553.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN2PR06CA0001.namprd06.prod.outlook.com
+ (2603:10b6:208:23d::6) To MW3PR12MB4553.namprd12.prod.outlook.com
  (2603:10b6:303:2c::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|MW4PR12MB5601:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2649f40a-f802-4fbc-726b-08daef343d53
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SA1PR12MB6775:EE_
+X-MS-Office365-Filtering-Correlation-Id: 96bc8ace-6e9e-4f5a-0870-08daef344f4e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qiV1lYhyJ+PqDlasaR1mhgQHEGTr26cGXE9WB0ZU60IAkqLJyJgehkAv0SmW454uuYeNywsE5vUB+1giW1eQSmR82UKfzxaQSLf1RsLCef7O+5aX+LtNLLTLld4kwipM1lchGK6VLUQx7bdgmii9Bj8KRfpf+k6dtcmPUlkKbdUFoAzdZJ8vqbbqcIrTePGRWIsuobGSvIOC5btqja5Kd5zzjq3Hph6BHesE8NHvwDpVukFsYXQwQ/RkJUz/hOwMbdRsMKGtpRwvFgTDeZWeCY64cjM38ah6FVawl3MkdGhATz6rADEdRlsaKQ/TPsnPQLJtcNGTwhAHg0Y/x7ZJzYfkVgH2renf2B6Jwh3fw0BoDGCcxc/3uf478Gu40HYpkok8JJUBt7jKdUb/9o5nVd3N3rt+ZYJ6yle963od+U7aVHdPS9fOKGSViJrcQL550lfk038k30CUzHfSGFKW/twAuoj/CWZydtzC1XIx09yWA3LozEhbDO2zHcPoNMv1U3WcycB6Ysa0IzbJBgpRlcKPaL+QEdVwQBF4FytMkvG0IgueXUHOpiRF2mEYLudYxx4Cnz+G9eiH0usJVOW5TJEGkfUnpgB7+65liuALpAE7ZoH8Wb+pcruJSxs2YW7B8Swod/ZZWiezu509OnGHtXE01aaMZp4LtxCId3VujPj1h5sdhsUFZnOWaFuC910mnbkZ9ub/43Lt7SARRWs33NnPwYxsb0Noc/HIS7Y8ckw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(136003)(366004)(376002)(39860400002)(346002)(451199015)(36756003)(86362001)(31696002)(6506007)(38100700002)(53546011)(66946007)(66556008)(66476007)(6486002)(2616005)(6512007)(478600001)(186003)(110136005)(26005)(31686004)(54906003)(6666004)(316002)(4326008)(2906002)(3450700001)(8676002)(8936002)(83380400001)(41300700001)(7416002)(5660300002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: pXHUcFXD3uHVt6DBBqwhGJlXpl5IDYz7TlaqiXdRKEbsUpwlTDWxbgfJ4MtqEbKUqAdqjmRBLATDFNPsAqatXBR62Zm4oQWeuWVbmkV4xFREQSLgrbUcCpx3sd+fy0WjDx6JhE6xile8uCPE9Qzk0jAr5gvqCjIYwX4NS8ub5cRb655Iu6EckhXq9jYUW+T969MI8ux0Zm7AxeAF6IhCUsGtD1vMxqW1zEzS3XlNY9HBhLvKZlPmgRIJgPymdeT9bvASrJT980tlJgFA/eYLHVDatst9S2oVaKAdmbUHDCt005+XN0y00pNcgMmX+BlxMmZfMNMynXlLSeuj6Mfv3KU5/I5Jwsytb1KCDloQwjyHfPEUunWD2BiaWMQcEwYTnT0TVqZZvOo64O7ygD+lYa4JpOVwjnaFxrhJJVuRAlcyuM0XuqR7n/FTBOiZWZHaP9c2/jfYSxj69k96r346WecY133SmUUDsuqeQMaoKum15b5DV15nWjGS644UQCU0gbAE4UR/0ZD4W+R1/Thgq+oLbMQcNiIMDyXwvplQrOMLL7nJe8yVnl8sLYm2a8ChNtWlMWG83xp8UhVRMDvkprPT0r18+TAaTksiia1lbChNLzVtaDQP+/fNlQtOLMUXmlvovR3NSYIr3jEOEY60X+HPlDXnzET9DMkgIGUvpk5BCPYOtSPD6o2R4WV3o29RsdSe3e64oAYm297wMZVvvTfqQNhclEyOQBghL9DOeNo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(366004)(136003)(39860400002)(396003)(451199015)(2906002)(4744005)(41300700001)(3450700001)(6666004)(8936002)(7416002)(38100700002)(8676002)(66946007)(66476007)(66556008)(5660300002)(7406005)(31686004)(4326008)(6512007)(478600001)(6486002)(26005)(2616005)(316002)(53546011)(36756003)(186003)(31696002)(86362001)(6506007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UWoxenFVM1dHdS9aUG1ITS9sQ3pDSHdmWm9DcSt6Ylhsd2FCbmVWcHd0Rjd1?=
- =?utf-8?B?M2lpc0ZtenpHbTJRVEJzOW16eDMwbEQvYlA2bmFtNFF3ZHN0WXArL1FqMGhG?=
- =?utf-8?B?UlQ1bksxazFSYjQ5cDZVZGVRamJaSWtuaEpBZnQyYUFKRGNuR3ZYWXZXTVg4?=
- =?utf-8?B?ZjJ4WSszcW5XSFozMCtiajhjcXdnbmt2SVNPVVVlMnNKRG0wWjNLT3l2MVJs?=
- =?utf-8?B?MnBJZVIyY3NqcTlHcUxheEo1NzVhQkVJOUE3KzZNTi82cEoxMFp1cG9ITVF1?=
- =?utf-8?B?cVI2U3Zzd3cyMlpJb2VkUVFDek5QclpvYm9WekxTQTM1SzM4YTRJNnVHYzJR?=
- =?utf-8?B?RFFYaHRxUjVXdWo3QkQ5K2h1THovUy9HeHArVDZLOG9UNUczNHllcHNncW40?=
- =?utf-8?B?QWF3SER3V0pqQ2M4T3ZISmpmbDI2QUZjS0swRmN6MkM0aDU4eCtqaXVFaloy?=
- =?utf-8?B?L1phbnlqbVY3RDg4ZEhjMlFBK294anRiMDhBd0N2YXpBOEZ6MVNDZ3NDV3Vt?=
- =?utf-8?B?Y0pDZ0RQWWp3OUVvTVhsb3R6ekdoc0tkYmh6ekd5bytVdjh0SHZjTHBKSjBY?=
- =?utf-8?B?UXpJcG1tU0hrUmxMQTNrNFR0ekg3cDNXS1lpeG9SdE12cGttVTQ3YjhiQXBW?=
- =?utf-8?B?S3Y3TFkwamoxUmJWdlkzT29KbmhIaXR1VGlzWUF1cFd6TlJpYmVNaE04eDhl?=
- =?utf-8?B?b08vWFc3S1ZuaGw0Ui9hRjR2elVsZHhIUWZzcGxWWE5qR1NvdTRaT2t0Wkxa?=
- =?utf-8?B?VkExRUJQNjhSTVVleHE0UmdrOTlUb20yc0N3L1RUeUZJeGZHai83bkR1U21K?=
- =?utf-8?B?NHRKNjh5R1N4UHk0NDN4aHFzRjZBN2E5WVRNQmNISjBUZm9Qc29mbEdYTHgv?=
- =?utf-8?B?b1JXbkRsQjlBVS9hR2Y3M3RsZ3VHOHlVSnFIbEFVVVhWY3BXSkJPOGxvMHFv?=
- =?utf-8?B?cGQzbE1qd29xNkoyY3VoQXh5cWd5aEpzQ1VabWNoQzNSc0hLVVFMK0ZUZkdj?=
- =?utf-8?B?UW1XcWVHK2JyVlI2Q3dyRVh0MVV3ZkdhM1J1L2ZSMEJLOWpsWWd2ZFV0Vkxy?=
- =?utf-8?B?L0p2S3BabUM3VDNzVzRUUTZaYnN5Tk0zYjRZaGUrVFVGZlJQTUVlbDhsU3Qv?=
- =?utf-8?B?TUhTc3cvQnZoRjhiYjVIVVFIdGlXbmVhOEhqM01tUzhxTzJ0d2gva3VQVTVx?=
- =?utf-8?B?ZzVBUnVPaGhqcGdjbjdaRkV6dnNYTGMvdEhZakx0bGxhTTZJKytwa0I1d1Zv?=
- =?utf-8?B?cnpTaXVFT2JTQlVkS3A0OWp2eWszSWFpTFJxQTJxd29UZ0ExWlIxcmpFdEpm?=
- =?utf-8?B?ZUxnajFlYmtpR3hFczc3eHQ4K2VER2Uzc2x6K3QxUSttdlEwYXJ1dUdSckF2?=
- =?utf-8?B?aDdXTXFGS0hUamxXQVg0cGwyUk5zWmFZSHNUNkRMVnhtdnNIRWkydWFUamIr?=
- =?utf-8?B?RzdacndiRTZJemdYUzBlYUNwK1QyczF4OUVaZkdaeGxKdkRtd0g2aG9UMFMv?=
- =?utf-8?B?SllPWlFSeDA1c1F2VFVUOCtXTnIzMmVwcXQ3SG96NEVYMUc1eDZ4M0M0c2x1?=
- =?utf-8?B?RG5MWFlYKzhjTHJmZFRibzZtUHZQcTBzTjc4UkZQMnk5SHFhbnZXbEgvT1p1?=
- =?utf-8?B?d1RndjhQd1ltcmgxSDAzVm1vMDNaejAwUWdHbmI4OXI3TktENGZkdmhzcllM?=
- =?utf-8?B?anZLQTdwTFg5T0Y1c3JRaUVtMXFXZ0lBcUx5blZxY00zZHRNNkpoZ0NOMmJR?=
- =?utf-8?B?UkZySngvZFlqaGFWM2lLbEUwWDhoUDlvOWlJZ241ejUzL3dDeWIrQ2sxZVhP?=
- =?utf-8?B?Nkt3ZHJlNGVoZGg4UkdVTVdBRzBGTGY2K1I3RWRXSkt0NUdnT3IvOVQySWMz?=
- =?utf-8?B?ckNPZ1kzMVZwVzdZME9nUTM1RFlpUEtCZlhjajlJeFVFQ2hKQnNCZVB4dDdS?=
- =?utf-8?B?UVh3UWJjTjRGV3A5cmVJMFh2aXJmTjhJMTJJeVZ1WTBHTzByTHhFM3ZoZXlN?=
- =?utf-8?B?QzVjTk1XZmVJWVMvc2VIaldCQVBvTzVWZko5THdoczVwMkRqSXNycnluUUpO?=
- =?utf-8?B?Q21GaWFwc0s4MHFKZGZrbWhvVk9aU1kwbnVZanlyd0ViUTVCWTU2MnFrOEQ1?=
- =?utf-8?Q?uji4=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N2dmQzhDbFA4WTNNczRMY2lzcTEwUXpUSVowL1JLSE1uckVPdFYwZ3haM29k?=
+ =?utf-8?B?bTVjQ2Z6YU9jeHR3ejhqOUVKNmR2TmIwOTU0ZlF2czNnSVEyK2xLZVNoTWhJ?=
+ =?utf-8?B?SEM4MkUwRVcxRHVDclk4MHM2bzFLMWxvaEMwSERieElzbHN5MExWc3RGUUVR?=
+ =?utf-8?B?THR2WGJLUVdpbE1PcDBBZ0JVRGxDS24yRE5vb2lHMldIZHZCUllya2lLZ1dC?=
+ =?utf-8?B?dTJYa3ZrTXJaektZWmRMdU4vMXg2MWlNcE5LVkpyZHlyZ2NIdlFSeHJFSFQr?=
+ =?utf-8?B?VzJOOXp6SklSZnorVmk3M0hmNThNTXZadUxIeUpudUNNY3MxbCt0UENUcm91?=
+ =?utf-8?B?a1B2UFI1S2dkRUxTV2NQMTE0NW1rRmVCWmEyaVdVaC9iMFRjeThCTzIrdFZ4?=
+ =?utf-8?B?UkgyQ1l1TjByMEx2YTUwVHU3V2VINk1mSlpEcmZkRjE4RUtiTGQ3OEhKd1lV?=
+ =?utf-8?B?ekRLd2dRbWV1MmtoODNaOXk0WkZCV2QyLzFTVThZNUZTRnlpWHo3M0lTNHp0?=
+ =?utf-8?B?SHlpa1dFQ1B1SmhMNFdLQU5ybTB0V08vOHpqb1grcFgxbEFtSmQ3cU5YZ1RK?=
+ =?utf-8?B?eU53QTVETFZtWE9vTVNQckhMT0trcWxCcGZIejhMYm13UTh0cjl3dmlyZTBE?=
+ =?utf-8?B?QUoxODc4cnV5VGc0bkpuMUQyY3FCQkZkYnFQQy95T3VxdEk3cHZYVVc3QjRY?=
+ =?utf-8?B?bktFWFNIaWxubGF1MFh4TWJ3dkNKSGFIaDBnam4wREJSWmIyd1ptWnBZVUxF?=
+ =?utf-8?B?TDZqSFRBZ1JGUzF1MCtGMW1iRmhvRVIweDVCQ0NIdHlKdkxlYnp2QnI4Rmtm?=
+ =?utf-8?B?TDY1S3ZtMTI4anhzUytBNFoyeTdBZ0YraFcxWnhOMHFJUWZNSVNIajd6Znpa?=
+ =?utf-8?B?TmpnVkFyYUpxbFg5RkdTUWoxTWZiTmtDS2IrRmpMRUpFSlhlaXRpSmpkOXNC?=
+ =?utf-8?B?VG1vWDdYVC9LVmIzMUtTVWs1WmtXRUdYbFBDZU5CbHNtQXVVOWx3eS9wa0hE?=
+ =?utf-8?B?c0hLZ1RsVm95ZDVqR0tlaWVqYmVLMVVQUjVkcnMwVkNDaU56eFpIeFlnNFlt?=
+ =?utf-8?B?cVJ4SzcrenFhcnBFNU42Q0gvdHh4eEhSN2VMNTUrNllkQ3JCVW91eGQzdGpR?=
+ =?utf-8?B?OHVyME5CclNIaDBLSU95RFVJR3hxMXdKRmZjSDVYcDBsRWoxcnA1RENYUzdZ?=
+ =?utf-8?B?TGJOaVFYc1BZWEtNT1BwSS9oQzJxU1VIMEFTK29BeVhoR3BKamJiQ3JwOXJM?=
+ =?utf-8?B?N3J3Q294RVpMZmRoQm5RTVh3bzQvcmNjRzdvRFRtZFpqMlV6UzVoZWI1UVBu?=
+ =?utf-8?B?OW9kVEZqZXFRQ0ZldmNGUWpCMWs0RjVQTnRwRnJBQ1UwZFoweitsd2RvVWVC?=
+ =?utf-8?B?Zm1mODRPQlllK2pzZnNycVcyNVpqWFY1Z080a3VwWThDNzVZL2hiRVpoSmNz?=
+ =?utf-8?B?YlVtQ0dTMUtjZUF6Z05hSk9kOHNETkVyWHlLYU5pZXdiR3dUUmNWcXAzNDYv?=
+ =?utf-8?B?WC9HM3ptTXRWcTMzc0RzK2cvQ0NOTzFlejZtNXdYVkd3N21GdG5aOGNjVmZ3?=
+ =?utf-8?B?RWRsbnNrcU9iUTBFWDV4RnhiTE1rbG50R3hPWlVuTlY4UzFVaHJXdzd5U0tv?=
+ =?utf-8?B?REQ1aUZndndBMzJ3WTUyK1FDM1JQMDVLdzh1NzVmejJXdE1RZ20yOFNFdlA3?=
+ =?utf-8?B?TnVML01LcEs4YUlRTVB6SWh0ZTc2dDd6cEZkZUNCRGlWYncxV0hVT2UzUmRy?=
+ =?utf-8?B?cHJzOFJic2Q5YjZ2WVE2ZWMyWnBQN2EzVSt4T0ticnpFTjdiaHkyMHZUVE9T?=
+ =?utf-8?B?N25iMEtlQU5CMVVRN1grb1F3TVU0eWNxYnNYK1lVejM5SjlnL3Fhd2hrdHdr?=
+ =?utf-8?B?NHROb09ZbVVqcVNpSWQ4Qkk5WEJsTzZiU3JReG9rME8wK2NWRFVDc3NXOHBr?=
+ =?utf-8?B?Skd4ZmlaTzBhdjljd1YyeWtQdDFLUVlWajBreFkrNlo4RUlGbUcvVHM4YVVN?=
+ =?utf-8?B?R0d1OU4ra0JVVFRkUk9vc1dYdmhBcFRSYWpqUklaSXRvSE5ueUpwdS8zZVR5?=
+ =?utf-8?B?Z2UzdmdpWE1QYnM1YVpLV3ZWNEFmSkc2Si93NlpLdFZYNnJFMXh1WUFCUmxl?=
+ =?utf-8?Q?C7WxRw7QLTZj9rGC/31Gk8uUX?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2649f40a-f802-4fbc-726b-08daef343d53
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96bc8ace-6e9e-4f5a-0870-08daef344f4e
 X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2023 15:48:07.5062
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2023 15:48:37.6884
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vwsx6HT+OipLWXaL8xJf+reFOE3mKZLSW3175HTA2yIF2MzPwDlhGtc4jo1cLVvd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5601
+X-MS-Exchange-CrossTenant-UserPrincipalName: H5vpXiRL4SNTMFzrzPK3dx5uwKjKlmvXbn6hhKT/Dyjcym/AmFydKrrmePP3ayZx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6775
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Fenghua,
 
-On 1/4/23 17:54, Yu, Fenghua wrote:
-> Hi, Babu,
+On 1/4/23 18:28, Reinette Chatre wrote:
+> Hi Babu,
 >
->>>> When a user creates a control or monitor group, the CLOSID or RMID
->>>> are not visible to the user. These are architecturally defined entities.
->>>> There is no harm in displaying these in resctrl groups. Sometimes it
->>>> can help to debug the issues.
->>> Although "no harm" to show them, it's not useful for generic user
->>> either and may cause confusion sometimes. CLOSID and RMID are supposed
->>> to be invisible to generic users.
->>>
->>> Maybe introduce a new resctrl mount option called "debug" and show the
->>> files and maybe other future debug info only in debug mode?
->> Actually, test team feels very strongly about this. Whenever there is some issue,
->> first question is what is the rmid or closid are you running on? We normally don't
->> have an answer for that.
+> On 12/22/2022 3:31 PM, Babu Moger wrote:
+>> on_each_cpu_mask() runs the function on each CPU specified by cpumask,
+>> which may include the local processor.
 >>
->> In my opinion, adding debug mode just for these two fields seems way overkill.
-> Yes, they are useful for "test team" (quoted from your statement) and developers.
-> Not for end users.
+>> Replace smp_call_function_many() with on_each_cpu_mask() to simplify
+>> the code.
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> Thank you very much.
 >
-> A debug mode is useful not just for these two files. I'm working on another resctrl
-> project where much more complex hardware info needs to be dumped for debug purpose
-> only. It's obvious not to show it in generic use. It's more obvious to just show the info file in
-> debug mode in my case.
->
-> I think these CLOSID and RMID files and future debug files belong to a new debug mode.
-> It would be better to introduce the debug mode now rather than later so that it can be extended
-> easily in the future.
->
-> Maybe we can enable debug mode in a separate debug mode patch:
-> 1. Add RFTYPE_DEBUG as a new file type. Files with this flag are for debug purpose and only be visible in\
->     debug mode.
-> 2. Add RFTYPE_INVISIBLE as a new file type. Files with this flag will be invisible/not be added in resctrl fs.
-> 3. Add mount parameter "debug" so that ctx->debug=true if mount -o debug is given.
-> 4. If ctx->debug is true, in rdt_enable_ctx(), go through RFTYPE_DEBUG files in res_common_files[] and mark
->     fflags with RFTYPE_INVISIBLE.
-> 5. In rdtgroup_add_file(), if (rft->fflags & RFTYPE_INVISIBLE) return. So the debug files will be visible only
->     in debug mode.
->
-> With the debug mode patch in place, it's simple to extend to any debug files:
-> In your case, update this patch by just adding RFTYPE_DEBUG in fflags. Then the debug mode will work
-> for this patch automatically.
-> In my case or any future debug files, we just simply add RFTYPE_DEBUG in fflags and the debug mode will
-> work automatically.
->
-> Does it make sense?
-
-Yes. Sure. The debug mode needs to be resctrl mount option. I will take a
-look at this further to see what can be done.
+> Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
 
 Thanks
 
 Babu
 
+>
+> Reinette
+
+-- 
+Thanks
+Babu Moger
 
