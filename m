@@ -2,186 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADB8FC3DA7A
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Jan 2023 12:52:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93387C3DA7D
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Jan 2023 13:17:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233528AbjAEMwz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Jan 2023 07:52:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41830 "EHLO
+        id S232584AbjAENRq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Jan 2023 08:17:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232952AbjAEMwe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 07:52:34 -0500
-Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D22895BA3C;
-        Thu,  5 Jan 2023 04:51:55 -0800 (PST)
-Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 8395C61;
-        Thu,  5 Jan 2023 13:51:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1672923113;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5ox2AHpCozB9D2AA+DmLS+FQ8YK9yjntjf01mZPEqQQ=;
-        b=CbTHCYy/PpHg9tnJL40N0QyKfSBPMEuWodnDHIS2Q7bnFFNSiBHUO8kGYkCu4CqzxlvpMN
-        OD4EUMcJSjPq9EfPoSPo9i5yFs8YqU91BDNZV584H0em1c0Pwhx2G9e3YjETGgGeCtJ+xM
-        QQraL2B4cfCIigOQJMsKIgFWxhDzsvI9TrBAxlPDonU1Z2fHXehQ1J1ze2mHfg8DyYowJp
-        N/dYi3TdxeyV2uoBowyNYdNWPNJ7fOTD4IO8b1IjyE/H0GhaWegBc+q969OAQ5Nd9GBtdZ
-        L35+YPXFm/qu7vt8J20PtJANmzQOKqvDnkBeuQ/mIP96ETVkIs5j8n6m52NgsA==
-MIME-Version: 1.0
-Date:   Thu, 05 Jan 2023 13:51:53 +0100
-From:   Michael Walle <michael@walle.cc>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        with ESMTP id S234263AbjAENRW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 08:17:22 -0500
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE3C45C1E1;
+        Thu,  5 Jan 2023 05:17:05 -0800 (PST)
+Received: by mail-pl1-x629.google.com with SMTP id c6so6090671pls.4;
+        Thu, 05 Jan 2023 05:17:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XHKqH/mTeMAtJX+k1fwhOFwTW56tZzYBJVqR/bzkhlc=;
+        b=XkW/T1soWfm4Rl1XX1uhjbNQfx1mx3n00vAID2EM9vtxWbYXinFO4hH0F/Sh76u8Nt
+         T+gnK2msfrDFO1KmUccj24rF4UB8vifHeM6vVJGG4BqzWmkF5LR+KlioizvkKNFhtzGI
+         DqZ08ByEgPPDNotBdzpS9VmCEyShtWZsvx3n8EAJPOHu1HX5kpNBORHmuWbj2c2tqTYV
+         kKkA+xB6Fxx4Jc5iZgdCkvewR5ElvC1Q8mCbRjR5m0aVPDHOhmprl5Z6bpMJhV7aZOd2
+         jqwuT8bQYA/2qPzKPL/nYTtz+E24L3VfdAWrshv08AHCMMHGZLUBryatFJX7kP89y92r
+         Wa8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XHKqH/mTeMAtJX+k1fwhOFwTW56tZzYBJVqR/bzkhlc=;
+        b=OTnm15MrmWvEsb1fHRhF7/EhgHWSnSUPd3G5hi+g8G02IKZK2NB9F+jVNMki++uv3l
+         hJBPp7rkIE15AE4m2XnyN3WN/omFDH74iCZsYhGG9QtTgFjY4YdvHQNLjVpI7XCnq/Bv
+         gslPwL7Upzm3X9QhR4E9A8oD1va6p31RCt7ji9kFc+sKfMBGz2I8hWeMhZxJgQRs2bf2
+         C+Lo1o1Q66iiB6XJyFGBmAKFMgQp053z9PT/VyYoLf+sW8kteOuTa6IyqNgym5chiAoa
+         ic9Y9m0mIQAgrDma9EffSidmUB2fqSgwQMEbEaFxsg+2BJzy6N+SJhYJcyhgt0uJau3y
+         V5BA==
+X-Gm-Message-State: AFqh2kqA52J4xnV0TNSqPeQalVBUQx3NSw0xYBvgriIl/PNssCvitAcB
+        TBdJwvuAmPfWPe3vYUCCvdI=
+X-Google-Smtp-Source: AMrXdXuI/wFI9NZprHDOZ4C4Pqbm5J8rbYDJ/NE13dBSqovxsPA/Y3l0huJb190MwMO5oSrbIdxjoA==
+X-Received: by 2002:a17:902:d491:b0:192:ad82:dc98 with SMTP id c17-20020a170902d49100b00192ad82dc98mr31433592plg.34.1672924625229;
+        Thu, 05 Jan 2023 05:17:05 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-68.three.co.id. [180.214.232.68])
+        by smtp.gmail.com with ESMTPSA id i2-20020a170902c94200b00189618fc2d8sm26053948pla.242.2023.01.05.05.17.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Jan 2023 05:17:04 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 9720A1043E8; Thu,  5 Jan 2023 20:16:59 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Linux CGroups <cgroups@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v5 00/21] nvmem: core: introduce NVMEM layouts
-In-Reply-To: <5906091.UjTJXf6HLC@steina-w>
-References: <20221206200740.3567551-1-michael@walle.cc>
- <20230105123534.38a70640@xps-13> <34cddc1aa4f8a55c752a9565d1726127@walle.cc>
- <5906091.UjTJXf6HLC@steina-w>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <13fca55324d55f9d4e30ca7fcc930e15@walle.cc>
-X-Sender: michael@walle.cc
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+        Michal Hocko <mhocko@suse.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH v2 3/9] docs: cgroup-v1: use code block for locking order schema
+Date:   Thu,  5 Jan 2023 20:16:28 +0700
+Message-Id: <20230105131633.553574-4-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230105131633.553574-1-bagasdotme@gmail.com>
+References: <20230105131633.553574-1-bagasdotme@gmail.com>
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=903; i=bagasdotme@gmail.com; h=from:subject; bh=IgqigKn9DkjPklU4lRTNbnqTt63GfYY/akiSBYrKIlo=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMnbzq4XDnK5Z2Dspp/XK6O/hDH/vy9jfrHcT7XO5Wcey2i5 SQp3lLIwiHExyIopskxK5Gs6vctI5EL7WkeYOaxMIEMYuDgFYCICVQz/a/lu5hjddea89ev3r8tRkp XRb02+MnYu/XFlWaNkJntyKyPDAc1vbdt6LNecrSx/q+j+h/XJHfs98c6Fk0yPFO7av6OBHQA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+The locking order schema is a figure (like diagram), which should have
+been formatted with literal code block for consistency with other
+figures.
 
-Am 2023-01-05 13:21, schrieb Alexander Stein:
-> Am Donnerstag, 5. Januar 2023, 13:11:37 CET schrieb Michael Walle:
->> thanks for debugging. I'm not yet sure what is going wrong, so
->> I have some more questions below.
->> 
->> >> This causes the following errors on existing boards (imx8mq-tqma8mq-
->> >> mba8mx.dtb):
->> >> root@tqma8-common:~# uname -r
->> >> 6.2.0-rc2-next-20230105
->> >>
->> >> > OF: /soc@0: could not get #nvmem-cell-cells for /soc@0/bus@30000000/
->> >>
->> >> efuse@30350000/soc-uid@4
->> >>
->> >> > OF: /soc@0/bus@30800000/ethernet@30be0000: could not get
->> >> > #nvmem-cell-cells
->> >>
->> >> for /soc@0/bus@30000000/efuse@30350000/mac-address@90
->> >>
->> >> These are caused because '#nvmem-cell-cells = <0>;' is not explicitly
->> >> set in
->> >> DT.
->> >>
->> >> > TI DP83867 30be0000.ethernet-1:0e: error -EINVAL: failed to get nvmem
->> >> > cell
->> >>
->> >> io_impedance_ctrl
->> >>
->> >> > TI DP83867: probe of 30be0000.ethernet-1:0e failed with error -22
->> >>
->> >> These are caused because of_nvmem_cell_get() now returns -EINVAL
->> >> instead of -
->> >> ENODEV if the requested nvmem cell is not available.
->> 
->> What do you mean with not available? Not yet available because of 
->> probe
->> order?
-> 
-> Ah, I was talking about there is no nvmem cell being used in my PHY 
-> node, e.g.
-> no 'nvmem-cells' nor 'nvmem-cell-names' (set to 'io_impedance_ctrl'). 
-> That's
-> why of_property_match_string returns -EINVAL.
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/admin-guide/cgroup-v1/memory.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ahh I see. You mean ENOENT instead of ENODEV, right?
+diff --git a/Documentation/admin-guide/cgroup-v1/memory.rst b/Documentation/admin-guide/cgroup-v1/memory.rst
+index b0353c40639b7e..2b807fc128c662 100644
+--- a/Documentation/admin-guide/cgroup-v1/memory.rst
++++ b/Documentation/admin-guide/cgroup-v1/memory.rst
+@@ -287,7 +287,7 @@ When oom event notifier is registered, event will be delivered.
+ 2.6 Locking
+ -----------
+ 
+-Lock order is as follows:
++Lock order is as follows::
+ 
+   Page lock (PG_locked bit of page->flags)
+     mm->page_table_lock or split pte_lock
+-- 
+An old man doll... just what I always wanted! - Clara
 
->> > Should we just assume #nvmem-cell-cells = <0> by default? I guess it's
->> > a safe assumption.
->> 
->> Actually, that's what patch 2/21 is for.
->> 
->> Alexander, did you verify that the EINVAL is returned by
->> of_parse_phandle_with_optional_args()?
-> 
-> Yep.
-> 
-> --8<--
-> diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-> index 1b61c8bf0de4..f2a85a31d039 100644
-> --- a/drivers/nvmem/core.c
-> +++ b/drivers/nvmem/core.c
-> @@ -1339,9 +1339,11 @@ struct nvmem_cell *of_nvmem_cell_get(struct 
-> device_node
-> *np, const char *id)
->         if (id)
->                 index = of_property_match_string(np, 
-> "nvmem-cell-names", id);
-> 
-> +       pr_info("%s: index: %d\n", __func__, index);
->         ret = of_parse_phandle_with_optional_args(np, "nvmem-cells",
->                                                   "#nvmem-cell-cells",
->                                                   index, &cell_spec);
-> +       pr_info("%s: of_parse_phandle_with_optional_args: %d\n", 
-> __func__,
-> ret);
->         if (ret)
->                 return ERR_PTR(ret);
-> --8<--
-> 
-> Results in:
->> [    1.861896] of_nvmem_cell_get: index: -22
->> [    1.865934] of_nvmem_cell_get: of_parse_phandle_with_optional_args: 
->> -22
->> [    1.872595] TI DP83867 30be0000.ethernet-1:0e: error -EINVAL: 
->> failed to
-> get nvmem cell io_impedance_ctrl
->> [    2.402575] TI DP83867: probe of 30be0000.ethernet-1:0e failed with 
->> error
-> -22
-> 
-> So, the index is wrong in the first place, but this was no problem 
-> until now.
-
-Thanks, could you try the following patch:
-
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 1b61c8bf0de4..1085abfcd9b1 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -1336,8 +1336,11 @@ struct nvmem_cell *of_nvmem_cell_get(struct 
-device_node *np, const char *id)
-         int ret;
-
-         /* if cell name exists, find index to the name */
--       if (id)
-+       if (id) {
-                 index = of_property_match_string(np, "nvmem-cell-names", 
-id);
-+               if (index < 0)
-+                       return ERR_PTR(-ENOENT);
-+       }
-
-         ret = of_parse_phandle_with_optional_args(np, "nvmem-cells",
-                                                   "#nvmem-cell-cells",
-
-Before patch 6/21, the -EINVAL was passed as index to of_parse_phandle()
-which then returned NULL, which caused the nvmem core to return ENOENT.
-I have a vague memory, that I made sure, that
-of_parse_phandle_with_optional_args() will also propagate the
-wrong index to its return code. But now, it won't be converted
-to ENOENT.
-
--michael
