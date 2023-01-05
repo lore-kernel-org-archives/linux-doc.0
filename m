@@ -2,157 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2698AC3DA7A
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Jan 2023 11:05:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCA5EC54E76
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Jan 2023 11:23:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232041AbjAELFI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Jan 2023 06:05:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48406 "EHLO
+        id S232345AbjAELXI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Jan 2023 06:23:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231477AbjAELFG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 06:05:06 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ACAC50E7E;
-        Thu,  5 Jan 2023 03:05:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1672916704; x=1704452704;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ed+5TF4v3rGppdgT7usbWpyQEGylXfunnAdot9pn3no=;
-  b=nu+KZR00/nhn9BKBEe6f70UPCaCIcj+X6JEarY6LFrmQVTDDYikvmUVq
-   TekLuLVof+SXONc+rky2KDPF/JSpZeRhaHO2wjaXidmd7MHggu0pbRkon
-   djA+kkH49CM0wGhS9j9sSpC+nrqgKCbmkdHJr+iKvp3nGsAxa31ai4vR5
-   cjL0HMRN3gO3XWsFE9RRokXeQTjRLajEHm4JR1gYyPDxZBmt/k33wKK1n
-   ofF3JMeMv1nNkLhyZaGs9I+CE7XgOOuY4ZGSdAvRU2PQLBjza6RW8m9VT
-   u/tFer7HkjfQj6/RQMfZuHQ9Xu8RaI4LbjfHGSyEBieAMXW24emYsW3cM
-   A==;
-X-IronPort-AV: E=Sophos;i="5.96,302,1665439200"; 
-   d="scan'208";a="28258308"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 05 Jan 2023 12:04:59 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Thu, 05 Jan 2023 12:05:02 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Thu, 05 Jan 2023 12:05:02 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1672916702; x=1704452702;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ed+5TF4v3rGppdgT7usbWpyQEGylXfunnAdot9pn3no=;
-  b=i6Ib2erDmJ5SXk0os67kYkyiUB2PkgoIxuOHSLWzFHcIM2P2MBQa4ceK
-   VgCxI6qRBiQmp+4nvE9i1hNhU2wnZexQymsrf1iipKV3HPWiJjfMd4Ds1
-   5+tNt/VXyqxHIj/ljlcBrAkK14JCxWc/1PaYuf4g2bTipVRINsM/CN6lu
-   n1Hl29iPexdkLjjchFdOOUOZRIe8gx8D35SNI3L+FuCSESoFCWlCu8ge4
-   SYgbpw4KEyCQQ4Et3IZKrnACOkQx9AUyPXPGtF0I/4shh/kX7DLg4jN4o
-   m+2tgXFovNv7MUj9XRKin8ujii2f+0zDtCagsZJJa61SSMy72m8O1aiz8
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.96,302,1665439200"; 
-   d="scan'208";a="28258288"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 05 Jan 2023 12:04:55 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        with ESMTP id S231725AbjAELXH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 06:23:07 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AB0F4E424;
+        Thu,  5 Jan 2023 03:23:06 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 353E5280056;
-        Thu,  5 Jan 2023 12:04:55 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Michael Walle <michael@walle.cc>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v5 00/21] nvmem: core: introduce NVMEM layouts
-Date:   Thu, 05 Jan 2023 12:04:52 +0100
-Message-ID: <2143916.GUh0CODmnK@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <cf00e248-1f2c-d4ce-868d-9f77b2c9b76f@linaro.org>
-References: <20221206200740.3567551-1-michael@walle.cc> <20230103163902.218cb5c7@xps-13> <cf00e248-1f2c-d4ce-868d-9f77b2c9b76f@linaro.org>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EEDC761997;
+        Thu,  5 Jan 2023 11:23:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCFDCC433F0;
+        Thu,  5 Jan 2023 11:23:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1672917785;
+        bh=MBba54j0/BydJyfXJmD3sqygtai2bpp7J4HBZnAheDI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=f/NyAx/uidnIXzxaIjlXTomDF3irlmzZ+PCY7P4/TbnJUSJRD8UQ7c36MWpV71/Tn
+         SYhuTjsjWfdmPqSLK8QE0FamFzSLRaWdbDObhW80t4Yhafl1J5jJ3bezM77sFrqnWb
+         7d/hzJOkyMc1nznD1fbjGD1fMn5JHCEwQ/N74LIUmis17aSfr3aoYAViHr5UwZIwBZ
+         vMhpJpECkrYJfV357eN/7+fWF/0BXMk6663rsy2BQ1Hqv+wpHrlCHOkVeWNUyq7jDe
+         MlCQt3z62ym96XHYhLSz9H4UynTy+xVr4M24uMVE/AY6qAUqNbC4TlEczADxwM5pwj
+         vjHmuNVYuOTeg==
+Date:   Thu, 5 Jan 2023 11:23:01 +0000
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Y7azFdnnGAdGPqmv@kernel.org>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am Dienstag, 3. Januar 2023, 16:51:31 CET schrieb Srinivas Kandagatla:
-> Hi Miquel,
+On Fri, Dec 02, 2022 at 02:13:41PM +0800, Chao Peng wrote:
+> In memory encryption usage, guest memory may be encrypted with special
+> key and can be accessed only by the guest itself. We call such memory
+> private memory. It's valueless and sometimes can cause problem to allow
+> userspace to access guest private memory. This new KVM memslot extension
+> allows guest private memory being provided through a restrictedmem
+> backed file descriptor(fd) and userspace is restricted to access the
+> bookmarked memory in the fd.
 > 
-> On 03/01/2023 15:39, Miquel Raynal wrote:
-> > Hi Srinivas,
-> > 
-> > michael@walle.cc wrote on Tue,  6 Dec 2022 21:07:19 +0100:
-> >> This is now the third attempt to fetch the MAC addresses from the VPD
-> >> for the Kontron sl28 boards. Previous discussions can be found here:
-> >> https://lore.kernel.org/lkml/20211228142549.1275412-1-michael@walle.cc/
-> >> 
-> >> 
-> >> NVMEM cells are typically added by board code or by the devicetree. But
-> >> as the cells get more complex, there is (valid) push back from the
-> >> devicetree maintainers to not put that handling in the devicetree.
-> >> 
-> >> Therefore, introduce NVMEM layouts. They operate on the NVMEM device and
-> >> can add cells during runtime. That way it is possible to add more complex
-> >> cells than it is possible right now with the offset/length/bits
-> >> description in the device tree. For example, you can have post processing
-> >> for individual cells (think of endian swapping, or ethernet offset
-> >> handling).
-> >> 
-> >> The imx-ocotp driver is the only user of the global post processing hook,
-> >> convert it to nvmem layouts and drop the global post pocessing hook.
-> >> 
-> >> For now, the layouts are selected by the device tree. But the idea is
-> >> that also board files or other drivers could set a layout. Although no
-> >> code for that exists yet.
-> >> 
-> >> Thanks to Miquel, the device tree bindings are already approved and
-> >> merged.
-> >> 
-> >> NVMEM layouts as modules?
-> >> While possible in principle, it doesn't make any sense because the NVMEM
-> >> core can't be compiled as a module. The layouts needs to be available at
-> >> probe time. (That is also the reason why they get registered with
-> >> subsys_initcall().) So if the NVMEM core would be a module, the layouts
-> >> could be modules, too.
-> > 
-> > I believe this series still applies even though -rc1 (and -rc2) are out
-> > now, may we know if you consider merging it anytime soon or if there
-> > are still discrepancies in the implementation you would like to
-> > discuss? Otherwise I would really like to see this laying in -next a
-> > few weeks before being sent out to Linus, just in case.
+> This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> additional KVM memslot fields restricted_fd/restricted_offset to allow
+> userspace to instruct KVM to provide guest memory through restricted_fd.
+> 'guest_phys_addr' is mapped at the restricted_offset of restricted_fd
+> and the size is 'memory_size'.
 > 
-> Thanks for the work!
+> The extended memslot can still have the userspace_addr(hva). When use, a
+> single memslot can maintain both private memory through restricted_fd
+> and shared memory through userspace_addr. Whether the private or shared
+> part is visible to guest is maintained by other KVM code.
 > 
-> Lets get some testing in -next.
+> A restrictedmem_notifier field is also added to the memslot structure to
+> allow the restricted_fd's backing store to notify KVM the memory change,
+> KVM then can invalidate its page table entries or handle memory errors.
+> 
+> Together with the change, a new config HAVE_KVM_RESTRICTED_MEM is added
+> and right now it is selected on X86_64 only.
+> 
+> To make future maintenance easy, internally use a binary compatible
+> alias struct kvm_user_mem_region to handle both the normal and the
+> '_ext' variants.
 
-This causes the following errors on existing boards (imx8mq-tqma8mq-
-mba8mx.dtb):
-root@tqma8-common:~# uname -r
-6.2.0-rc2-next-20230105
+Feels bit hacky IMHO, and more like a completely new feature than
+an extension.
 
-> OF: /soc@0: could not get #nvmem-cell-cells for /soc@0/bus@30000000/
-efuse@30350000/soc-uid@4
-> OF: /soc@0/bus@30800000/ethernet@30be0000: could not get #nvmem-cell-cells 
-for /soc@0/bus@30000000/efuse@30350000/mac-address@90
+Why not just add a new ioctl? The commit message does not address
+the most essential design here.
 
-These are caused because '#nvmem-cell-cells = <0>;' is not explicitly set in 
-DT.
-
-> TI DP83867 30be0000.ethernet-1:0e: error -EINVAL: failed to get nvmem cell 
-io_impedance_ctrl
-> TI DP83867: probe of 30be0000.ethernet-1:0e failed with error -22
-
-These are caused because of_nvmem_cell_get() now returns -EINVAL instead of -
-ENODEV if the requested nvmem cell is not available.
-
-Best regards,
-Alexander
-
-
-
+BR, Jarkko
