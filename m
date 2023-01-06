@@ -2,120 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E017C3DA7A
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Jan 2023 03:49:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C6AC4708D
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Jan 2023 04:18:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbjAFDtT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Jan 2023 22:49:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48030 "EHLO
+        id S231344AbjAFESP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Jan 2023 23:18:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbjAFDtS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 22:49:18 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A979B4A8;
-        Thu,  5 Jan 2023 19:49:17 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id d15so470043pls.6;
-        Thu, 05 Jan 2023 19:49:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fekH72sui9GdebDgVNk2XaNYCf3hMj26CpPd65HWWNo=;
-        b=UiHZc4xPgz9riLMU7jZRFdpYBA/tSzUNwC2BWiIfW76JQV7qvDnZ5YFgaBwl9muFhb
-         nAkOig3bzP5SUcRFGALvqIyPdhKwyNXxWrdL9D84b0uOtZaZPFbVrf5kQzVd/o7OBkXu
-         z6f2FNtKYhJqWr/Xndmg2e/SuFt9Fy/yogCm8unBMDoDabAFe+n8z4lp47ALzRkkQCSZ
-         oxmtpgTEH7TmsJjYV1pYx4dJ90trVyNrmkZGKcXoBVSNzk42OHhEXYxdFGiQEkojlIfy
-         SzRBhKd/owMzJFmNo5AZZdxNmsCZtH2WIhpIGtVELwEteObfco0sQVwvAoyw3CcOcJba
-         2t0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fekH72sui9GdebDgVNk2XaNYCf3hMj26CpPd65HWWNo=;
-        b=NMLSNz75dYFn0jr6RFwnhrRRGoKyxbcQAKJhHaP1Au3F6FcxqaH8huM9JIu8mepkku
-         ZgKBs/VEPxCDsBN/6PocjLv/9EEqHyOOQ2xO5ryvPmc30fXrJOZ3uZlRK/fEpcEzXq7D
-         oR49+XxCIiquQchygm6wawuVzSyreyvcZOaYTzdEeX1muLcA4OgigAC3PMS056ruuYec
-         pirMV1nBgsVNHxiqnhr/wMKLil511p65Y625f4y1ax7Su3MyLivYVik1ZbDj8Ll4aL5O
-         0mpwuZKw1zIhAno5Pu64FVKtnzgGRCbTnDSMBct/LYaG0Ee7IiRmvOz4eF5AiREzh37Q
-         x1Ag==
-X-Gm-Message-State: AFqh2kpbtCt7QCi3H20JhbFq7SXtLsCyNF7YlGY9FGHMUwnumx3IBz8L
-        A/3Tf/yaq6xwOxj3+Kt0pBo=
-X-Google-Smtp-Source: AMrXdXvyVCK1lhieVWDdWnx9fCexwUkj+hwmFDv22Gy18g2mIEKegCTvNB6j6O9x6ZyNW6FTQLfyhg==
-X-Received: by 2002:a17:902:edc3:b0:189:5ef4:6ae9 with SMTP id q3-20020a170902edc300b001895ef46ae9mr52366814plk.45.1672976955660;
-        Thu, 05 Jan 2023 19:49:15 -0800 (PST)
-Received: from debian.me (subs32-116-206-28-2.three.co.id. [116.206.28.2])
-        by smtp.gmail.com with ESMTPSA id d22-20020a170902aa9600b00189c93ce5easm26648752plr.166.2023.01.05.19.49.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 19:49:15 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 5D52F104FE7; Fri,  6 Jan 2023 10:49:11 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Linux CGroups <cgroups@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        with ESMTP id S229881AbjAFESN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 23:18:13 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15D38192A3;
+        Thu,  5 Jan 2023 20:18:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672978690; x=1704514690;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=EJ99zGke5SZh6gZ65kHYJO251QjbQMEaDGPaMs8wAzE=;
+  b=CbyG3GC4YLer1neUAZaMNGD4HLhevcUQpVGMfx/4qZ+7m0Ss4TPfVan4
+   8CdnjIgoeUDebp9BWWG9PZ50eFi4rS/DFKffhsF846AMO1XalTrKQqfjl
+   XYEGTef7mSY8R1vWKvKrlWILixPI2U7Z6+BRfLTleJM7bMDGpZ3fKz8TY
+   XypYjTs2zuL3CLCX2h+bG3lIoF7G5dOPYyWfCXht/+0grr0l5y9b0YlVG
+   G+ZtnkKvHOu3OjvlR7Bo/Yv0ruUWPiJYjaiWg04f2FSlMEEDL7ZyGXjkt
+   HDHTbD28MsdolLD1f7hoGMfgDNY6TeyisTmCC8iIN9VDKasBQM6JIjTp1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="323651270"
+X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; 
+   d="scan'208";a="323651270"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 20:18:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="744504828"
+X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; 
+   d="scan'208";a="744504828"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Jan 2023 20:17:58 -0800
+Date:   Fri, 6 Jan 2023 12:13:46 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Vishal Annapurve <vannapurve@google.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@suse.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH] docs: cgroup-v1: wrap charge moving deprecation in warning block
-Date:   Fri,  6 Jan 2023 10:48:37 +0700
-Message-Id: <20230106034836.23708-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.39.0
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
+Message-ID: <20230106041346.GA2288017@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
+ <CAGtprH_pbSo1HeEFUEB6ZZxm-=NEw+nLZ6ZVvr76=9BeX=AHPA@mail.gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1985; i=bagasdotme@gmail.com; h=from:subject; bh=KgCM3g5FsiytA4vmbQIOX+Rd86PUGBjozHPoOarnvsU=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMnbZwnsfhJW03XnxmSRtsDcZWFZB88eW7hWrdvL9bXnM5+Z d5av7ShlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBENJ4y/He4lXBqP09p/boMlhvr/y 585c/It8Tzxvk+4yxNVfa3K8MZGb5oOmfr2SyO3zdhwoR9+hn7BQ8yvnZceueQmbWi7I2NxXwA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGtprH_pbSo1HeEFUEB6ZZxm-=NEw+nLZ6ZVvr76=9BeX=AHPA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 4ddb1a2aa1a3c4 ("docs: cgroup-v1: wrap remaining admonitions in
-admonition blocks") in cgroups tree states that it also wraps charge
-moving deprecation notice in admonition block (specifically warning).
-However, the notice isn't in cgroups tree when the v2 of formatting
-improv series [1] is submitted (and then applied), but rather in mm tree
-instead.
+On Thu, Jan 05, 2023 at 12:38:30PM -0800, Vishal Annapurve wrote:
+> On Thu, Dec 1, 2022 at 10:20 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> >
+> > +#ifdef CONFIG_HAVE_KVM_RESTRICTED_MEM
+> > +static bool restrictedmem_range_is_valid(struct kvm_memory_slot *slot,
+> > +                                        pgoff_t start, pgoff_t end,
+> > +                                        gfn_t *gfn_start, gfn_t *gfn_end)
+> > +{
+> > +       unsigned long base_pgoff = slot->restricted_offset >> PAGE_SHIFT;
+> > +
+> > +       if (start > base_pgoff)
+> > +               *gfn_start = slot->base_gfn + start - base_pgoff;
+> 
+> There should be a check for overflow here in case start is a very big
+> value. Additional check can look like:
+> if (start >= base_pgoff + slot->npages)
+>        return false;
+> 
+> > +       else
+> > +               *gfn_start = slot->base_gfn;
+> > +
+> > +       if (end < base_pgoff + slot->npages)
+> > +               *gfn_end = slot->base_gfn + end - base_pgoff;
+> 
+> If "end" is smaller than base_pgoff, this can cause overflow and
+> return the range as valid. There should be additional check:
+> if (end < base_pgoff)
+>          return false;
 
-Wrap the notice to fulfill the intention of referred commit.
+Thanks! Both are good catches. The improved code:
 
-Link: https://lore.kernel.org/linux-doc/20230105131633.553574-1-bagasdotme@gmail.com/ # [1]
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/admin-guide/cgroup-v1/memory.rst | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+static bool restrictedmem_range_is_valid(struct kvm_memory_slot *slot,
+					 pgoff_t start, pgoff_t end,
+					 gfn_t *gfn_start, gfn_t *gfn_end)
+{
+	unsigned long base_pgoff = slot->restricted_offset >> PAGE_SHIFT;
 
-diff --git a/Documentation/admin-guide/cgroup-v1/memory.rst b/Documentation/admin-guide/cgroup-v1/memory.rst
-index 258e45cc3b2db1..b73eb174735556 100644
---- a/Documentation/admin-guide/cgroup-v1/memory.rst
-+++ b/Documentation/admin-guide/cgroup-v1/memory.rst
-@@ -722,12 +722,14 @@ NOTE2:
- 8. Move charges at task migration (DEPRECATED!)
- ===============================================
- 
--THIS IS DEPRECATED!
-+.. warning::
- 
--It's expensive and unreliable! It's better practice to launch workload
--tasks directly from inside their target cgroup. Use dedicated workload
--cgroups to allow fine-grained policy adjustments without having to
--move physical pages between control domains.
-+   THIS IS DEPRECATED!
-+
-+   It's expensive and unreliable! It's better practice to launch workload
-+   tasks directly from inside their target cgroup. Use dedicated workload
-+   cgroups to allow fine-grained policy adjustments without having to
-+   move physical pages between control domains.
- 
- Users can move charges associated with a task along with task migration, that
- is, uncharge task's pages from the old cgroup and charge them to the new cgroup.
+	if (start >= base_pgoff + slot->npages)
+		return false;
+	else if (start <= base_pgoff)
+		*gfn_start = slot->base_gfn;
+	else
+		*gfn_start = start - base_pgoff + slot->base_gfn;
 
-base-commit: dd5c3ba990ae67409bc058051efcd40c3689d01d
--- 
-An old man doll... just what I always wanted! - Clara
+	if (end <= base_pgoff)
+		return false;
+	else if (end >= base_pgoff + slot->npages)
+		*gfn_end = slot->base_gfn + slot->npages;
+	else
+		*gfn_end = end - base_pgoff + slot->base_gfn;
 
+	if (*gfn_start >= *gfn_end)
+		return false;
+
+	return true;
+}
+
+Thanks,
+Chao
+> 
+> 
+> > +       else
+> > +               *gfn_end = slot->base_gfn + slot->npages;
+> > +
+> > +       if (*gfn_start >= *gfn_end)
+> > +               return false;
+> > +
+> > +       return true;
+> > +}
+> > +
