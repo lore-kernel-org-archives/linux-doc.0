@@ -2,92 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C914C3DA7A
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Jan 2023 19:53:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0449C61DB3
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Jan 2023 20:06:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235887AbjAFTxE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Jan 2023 14:53:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40698 "EHLO
+        id S236078AbjAFUGK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Jan 2023 15:06:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236019AbjAFTwk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jan 2023 14:52:40 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64AE380631
-        for <linux-doc@vger.kernel.org>; Fri,  6 Jan 2023 11:52:39 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0E7B2B81E5C
-        for <linux-doc@vger.kernel.org>; Fri,  6 Jan 2023 19:52:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B3B8C433EF;
-        Fri,  6 Jan 2023 19:52:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673034756;
-        bh=XT2SsianN+UwNw7fibj3lVfKiMxN2Psx8DYS/e1AzL0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=R+3EwM3jfD0hZPHhdsNPK+qZy9CRryZka2+F0i7eSt6dbx/XU4rHrphZ/MX2PtPRo
-         yBWLdboauqHNpQhBnY2XebDXbsBybBb2lN4swWzm2Qdy+oKbOxmYPUXK/dcnnj1Vhh
-         K1SV986DpdzEO2A+Y7tfgqenwcqS2vLhhzcuZXlXHZZwfyxzFHAeqsnzPS2OWOcWpm
-         7879NnqfVBDtFZgYpcOFmRjZop2xiXf4vWGK52qgbUrf9zidtxqZjgLoJX0huGTokD
-         mwDiKqyBcxJbmZM8e3h5sPp9T2GG18vuThF1P02Rz7zddw6zXTKgafqsDDX25oneNx
-         GyKrXN0UDxVHw==
-From:   SeongJae Park <sj@kernel.org>
-To:     kernel test robot <lkp@intel.com>
-Cc:     SeongJae Park <sj@kernel.org>, oe-kbuild-all@lists.linux.dev,
-        Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [ammarfaizi2-block:akpm/mm/mm-unstable 215/223] htmldocs: Documentation/admin-guide/mm/numaperf.rst:68: WARNING: duplicate label admin-guide/mm/numaperf:numa performance, other instance in Documentation/admin-guide/mm/numaperf.rst
-Date:   Fri,  6 Jan 2023 19:52:34 +0000
-Message-Id: <20230106195234.152725-1-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <202301070349.zrrzmYKM-lkp@intel.com>
-References: 
+        with ESMTP id S236050AbjAFUGI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jan 2023 15:06:08 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D925D41670
+        for <linux-doc@vger.kernel.org>; Fri,  6 Jan 2023 12:06:07 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id jl4so2762051plb.8
+        for <linux-doc@vger.kernel.org>; Fri, 06 Jan 2023 12:06:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tRynXyqPSXTn4rCoxoHLyvDBt750D/GgS94gTx+vdEA=;
+        b=cLduJRhC6MWyAlSPlrHt/96BIN6acHNahHOAfVFD/3gWpZGuHPRievwrVmS/p8g+7t
+         aVYrwNV3lYRBghHO5MmNDkouFdQhAqSkzXUy0Hz7Dijs+yqmSfbET21PQgNMUY6kQS39
+         Znkc6oXs+18uWOSthQsqyU5KHw7GX61bAzNtA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tRynXyqPSXTn4rCoxoHLyvDBt750D/GgS94gTx+vdEA=;
+        b=bVQUGcOEvZtZbc1uto9Qudey10pY3twcZMHqD3ilGxLGfFhFCnqbt5K++ktCBbzcsX
+         Lfrk4YVi1qnZLe0Q9GIYRtdNhxkhHMHDTPaKbYD8aT4KXuqfcVCAQfoJN58I3heNrS6b
+         lOw/NFFaZOHPOlAQmIiuBVn9qSQw7CrePmpyI72JUwt6fzliEE3VvPjYuwld6UVoXnoz
+         CHvXX9r9f4uOiO52b6OHde2TJYsOC+b5dHBc5Zqwv/iA1UGFjs2I4QEvPYw/658pQTfl
+         ooccU6n/Y4thHQgJZDXpBlvuwvLhoYqHu2QIMrL6G+IpV1lqEgeaYVkQqkx8zwLkl0W5
+         3jdw==
+X-Gm-Message-State: AFqh2kqjQhNUHfQ8hJynRPcBsARMsFNXVaE5wWlDqU33fMHfZhegesL9
+        6BSFiCD/QltEQypxVGnwszBpiA==
+X-Google-Smtp-Source: AMrXdXvG96Irf8pAn872krsUZ3eJehgkT0Bu9WsLRxGE92OxjgK3MlzCl0E7H4TVgFBUfEC4pHi9XQ==
+X-Received: by 2002:a05:6a21:1518:b0:ac:f68:33c9 with SMTP id nq24-20020a056a21151800b000ac0f6833c9mr68838378pzb.33.1673035567367;
+        Fri, 06 Jan 2023 12:06:07 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id y7-20020a17090a474700b00219463262desm1260669pjg.39.2023.01.06.12.06.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Jan 2023 12:06:06 -0800 (PST)
+From:   Kees Cook <keescook@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: [PATCH] docs: deprecated.rst: Add note about DECLARE_FLEX_ARRAY() usage
+Date:   Fri,  6 Jan 2023 12:06:04 -0800
+Message-Id: <20230106200600.never.735-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1698; h=from:subject:message-id; bh=W2pNqJKTD43JaSpEWHJSnavL8GLLOvSWonV1g4X9lIc=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjuH8srP2S6yInxOMPLcWkTR0LZU9mSxxMjjQUblOq ktFNXW6JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCY7h/LAAKCRCJcvTf3G3AJj4YD/ 9sUyfRQkLEqbQ9W3a9TRqEZpxbRuFpmJ/sUtAqaWxuUfiE9Et2MFXoOUvuly1JvN10Pt8eMO0Vj0LX RWriz62or9mGNZlpABetKNJRy21+GxioJ6xbY4T1yxoCJ5Yx2iwSCfINzYIqTRrqQWjgl36L8onyRi NLOokGHLnSe+IZE44utQZaEIIdXSpyt7NkOj357oXJzGtCDp9BQ8PcR6cU7wQxpPY4FDNkvCanVgc+ n50lU4TF30meeXv7VqbNctWXr4Aw90Vptd+e86Yy7tZNi1/m/2Iohe56S0cCeom+5u0KDkGhGRoDxb y2CsAJM3Odff6dd8d6+HvFGaOIwH9txtBRzaIzRAbz+N39AMvwnTI7R4inKEOdXKMK8LgCbx72uY4z mDgu0qK53IRZw/krLy0WOiE3nyub/mXyx4Rm0sjjq5CxV2+BQgeEjPNAXF9kMA1G48ORd8mo+bJdKE w06pTRg1MOnmifwPdx3jnMfENgzR6lYMrXfPK7ZoMDkasBNl/dJICc5ha2nDWbctsf7qKMR9LSuxA8 o2dOf97FvLReAhyuY2XymowXJ0xumC9//y8EpsfYEuAhKBEf2CMP8j8MZPPY+9CUVvZ0vZkt9ATcQ7 f4q7iDXw3xB8M4c52tWcOIlp5nB9nbVEz4kPhTwWDmIkk5U6oM4oo951CpzA==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi kernel test robot,
+There wasn't any mention of when/where DECLARE_FLEX_ARRAY() should be
+used, so add the rationale and an example to the deprecation docs.
 
-On Sat, 7 Jan 2023 03:06:10 +0800 kernel test robot <lkp@intel.com> wrote:
+Suggested-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ Documentation/process/deprecated.rst | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-> [-- Attachment #1: Type: text/plain, Size: 1645 bytes --]
-> 
-> tree:   https://github.com/ammarfaizi2/linux-block akpm/mm/mm-unstable
-> head:   a2765ca8c916591ebc9af48b4e545922c0bd3c3b
-> commit: 4fbeee6b758e6cb96047d94a514e082eafdb0ebb [215/223] Docs/admin-guide/mm/numaperf: increase depth of subsections
-> reproduce:
->         # https://github.com/ammarfaizi2/linux-block/commit/4fbeee6b758e6cb96047d94a514e082eafdb0ebb
->         git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
->         git fetch --no-tags ammarfaizi2-block akpm/mm/mm-unstable
->         git checkout 4fbeee6b758e6cb96047d94a514e082eafdb0ebb
->         make menuconfig
->         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
->         make htmldocs
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> Documentation/admin-guide/mm/numaperf.rst:68: WARNING: duplicate label admin-guide/mm/numaperf:numa performance, other instance in Documentation/admin-guide/mm/numaperf.rst
-> 
-> vim +68 Documentation/admin-guide/mm/numaperf.rst
-> 
-> dc9e7860df9162 Jonathan Cameron 2020-09-30  66  
-> 13bac55ef7aef8 Keith Busch      2019-03-11  67  NUMA Performance
-> 13bac55ef7aef8 Keith Busch      2019-03-11 @68  ================
-> 13bac55ef7aef8 Keith Busch      2019-03-11  69  
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index c8fd53a11a20..fcac0a929efa 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -346,3 +346,29 @@ struct_size() and flex_array_size() helpers::
+         instance->count = count;
+ 
+         memcpy(instance->items, source, flex_array_size(instance, items, instance->count));
++
++There are two special cases of replacement where the DECLARE_FLEX_ARRAY()
++helper needs to be used. (Note that it is named __DECLARE_FLEX_ARRAY() for
++use in UAPI headers.) When the flexible array is either alone in a struct,
++or is part of a union. These are disallowed by the C99 specification,
++but for no technical reason (as can be seen by both the existing use of
++such arrays in those places and the work-around that DECLARE_FLEX_ARRAY()
++uses). For example, to convert this::
++
++	struct something {
++		...
++		union {
++			struct type1 one[0];
++			struct type2 two[0];
++		};
++	};
++
++The helper must be used::
++
++	struct something {
++		...
++		union {
++			DECLARE_FLEX_ARRAY(struct type1, one);
++			DECLARE_FLEX_ARRAY(struct type2, two);
++		};
++	};
+-- 
+2.34.1
 
-Thank you for the report.  Just sent a fix:
-https://lore.kernel.org/linux-mm/20230106194927.152663-1-sj@kernel.org/
-
-
-Thanks,
-SJ
-
-[...]
