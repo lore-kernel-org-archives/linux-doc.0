@@ -2,166 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 344C1C4708E
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Jan 2023 03:32:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E017C3DA7A
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Jan 2023 03:49:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231724AbjAFDbl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Jan 2023 22:31:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42152 "EHLO
+        id S229592AbjAFDtT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Jan 2023 22:49:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231788AbjAFDbY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 22:31:24 -0500
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2113.outbound.protection.outlook.com [40.107.117.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA9C5625DE;
-        Thu,  5 Jan 2023 19:31:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZmqzLN2Q9eF8CfenVVpq+w2lNrc649JyrLd8Wvtk5tnugAJS9wkCnxUx9wJmDLA5AIRzyJQOcFX+euK4j+2I5Q+mKKAnv4qJnuUErz+zpYfsHrSBJ7VfiLeANLWWQrGzzrgZyek8tFqgYugh+5i/UuoKRQFsI2uccIulZJkPGOoIB3Ii+U6I9Fp4NqE2IuBTBMjoBG1/Ij0hk5+6RmEdjUC0vln2syYoZ9l8SDNnx0X7egX1q7JVIheoITUzpo7QxYzXLRblxwmGn6s6p99rMnFaz+bpG3xgD4NtK7tlDIxbqNMZ0Tmompoi5HL4BsanvqFASo741TWo2D+qs6MDlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qAX1f9RG4AZz+iEPdDBzk9gxTzqDnKePLSjHabjfMK0=;
- b=fxW5T7AWK7MM1q9sBNIIx9KR86tUBcAWSedlwS8jq0rZBJpcD/WR5yKu/aMO/esPSwGctL5ORW6OQbHWaRhlPAhnQ/IANMpwCR8XJhd9eGb2zl4u+56FniHKGfAJQEC8m90Db4adhp9V3vXkMvar9v6mrHxafBpK9WrP7r0nATF/zoC7GvjcVJUPVaWDfAz33KpJlwFeWJEa3XsQ5Zjr1QUxSM2L7v+XWGJGOMgZ6YR0V196zBTSb0LM9JuNBavYNJKb2QrZkrd3/LSFUZPEYxuPGZ+clrIgx32BXXGtBv58Etsds9qL1I9HLfseU/4gtnQU5Q5yO4nCvhx4NO88mw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qAX1f9RG4AZz+iEPdDBzk9gxTzqDnKePLSjHabjfMK0=;
- b=dZPpKN96J+Kyg4vL5mM/9IIuE7JK/7yMHrIUzeZWObCZu5PT2U2FjxLfzUAB8cjWAeksgbcUMMCks4HjF8EWoyPnBn2exKDGkOyyz7+32zmgH+wa4I0DT86BVga+TfcY6WzKn7sXM/ebpeidPv2bOn26iticTZlEKQ2YCk0Dr95AREypFV3R7WCTshnTqtCAA0mOpQYwpSFpP3VAsdp/74O41XdG1gkZsJEvGFvDeurudTLJg95LzbolKu7kBdDP7+a9KKEWbbKSv2msys+LwZrRh5DxgW9tMdVFwrGtB55FW/0mUMTPBvGfyipsTmMFTnOrFQAUCxQvlGKgruXDKA==
-Received: from SG2PR06MB3365.apcprd06.prod.outlook.com (2603:1096:4:69::12) by
- KL1PR0601MB4340.apcprd06.prod.outlook.com (2603:1096:820:65::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Fri, 6 Jan
- 2023 03:31:16 +0000
-Received: from SG2PR06MB3365.apcprd06.prod.outlook.com
- ([fe80::b56:707c:e7a1:2e90]) by SG2PR06MB3365.apcprd06.prod.outlook.com
- ([fe80::b56:707c:e7a1:2e90%3]) with mapi id 15.20.5944.019; Fri, 6 Jan 2023
- 03:31:15 +0000
-From:   Billy Tsai <billy_tsai@aspeedtech.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        "jdelvare@suse.com" <jdelvare@suse.com>,
-        "linux@roeck-us.net" <linux@roeck-us.net>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "lee@kernel.org" <lee@kernel.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [v4 1/5] dt-bindings: mfd: Add aspeed pwm-tach binding
-Thread-Topic: [v4 1/5] dt-bindings: mfd: Add aspeed pwm-tach binding
-Thread-Index: AQHY/wMOXeMHCeVuUE6+Ya/NPsQ1eK5MLAIAgAAAwoCAGSzTAP//7ZCAgCw/loA=
-Date:   Fri, 6 Jan 2023 03:31:15 +0000
-Message-ID: <24DD1FEB-95F3-47BE-BE61-8B0E6FBDE20F@aspeedtech.com>
-References: <20221123061635.32025-1-billy_tsai@aspeedtech.com>
- <20221123061635.32025-2-billy_tsai@aspeedtech.com>
- <c4b188b1-06a4-3cb0-a758-e12942e1f67b@linaro.org>
- <27055c13-11ab-cc73-f2ba-c269785b0e28@linaro.org>
- <A5EA19E5-21D8-4954-9636-9B28AC8D946A@aspeedtech.com>
- <41500a04-b004-0e2c-20a1-3a3092b90e6d@linaro.org>
-In-Reply-To: <41500a04-b004-0e2c-20a1-3a3092b90e6d@linaro.org>
-Accept-Language: zh-TW, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/16.68.22121100
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SG2PR06MB3365:EE_|KL1PR0601MB4340:EE_
-x-ms-office365-filtering-correlation-id: 005076d3-fe05-4f53-c420-08daef9677b0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: GQIfF7Rcnf8yM6S/+LKdSkzsBNJXwURIoKLlGuZXGhyzdmBthvtQdX1TGuTm9TXlvg1n2Xet+IdRhKnDsvtBUqUDUeDOwHbkD2lM4w7AMPxClckbKaaldbfvaq8pqHimkxtNTdk1rT3MeTrtg/9Ver2xsRPRW4iJlt/9Ope8bAmBO3VYee6skv2mmBaSQ3UyLWVILwiyzawbvuqYHht5VSONuo+0VEe1j4b+ouPc1PW5cgTmC6LyTL/gHOlZzPAwHWUHbO0qlTDN1z/l8HCT7v0AxqXbLnJCeVOQprl+gT3HuzFqBWQ3rjP3/IP/TuAMljyNeizOY0zT7NDGyfdArGchklPqwCZbkRt8i19JgAjpzmKIRLE3ByMzD7TG+vq8WwjVXxEU4wKiS/t+UcV/qeADfQ1wRPC2Iv8x1oeIb4c+mqhevDWEuxgah/zVlIIzYbCJSzbSreJcpM7G2p+n3sQZdZjru2ytD8FuziubCwCAfDXqMixTAl5VpXEVCIBEBzQIAZ6B3GfKKD1NcU0MFRObtKYBnutHS51XVBE8q7sgWRwP99JcX2a9aDA/ld7d5t8DLQ3gYoeNdsvESUZmgVD08HJ+kG6LtY2Vv2eSKjTdW2gDwljf9cMGy+xqUDKZbxrRIqxLnH14nyPslW0vMjqSHJzzRknt54/mdkX2MxCeOgYvBDlCNk6B/etan4F7fjTIeqGbm0is6+GQeRNYJy4xlYNQ0KZQDx1/RUUWcuk8oLPQ4QdkpIZKzRgIb/wH
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3365.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(366004)(136003)(346002)(39850400004)(396003)(451199015)(186003)(6506007)(6512007)(33656002)(36756003)(38070700005)(86362001)(921005)(122000001)(53546011)(2616005)(38100700002)(26005)(8676002)(8936002)(7416002)(41300700001)(5660300002)(2906002)(76116006)(6486002)(71200400001)(478600001)(316002)(66446008)(66476007)(110136005)(91956017)(66556008)(64756008)(66946007)(45980500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Sm9PdW5EMDlUNDlsNVNuc1BaZjZWM0JFWFRPcFpFK2NQNG9LSFVaR21Pc1My?=
- =?utf-8?B?TzRQUFgyUHhRQkVEMm1GQUhodzlWRWxJZzhPMmpuVUhtY3lCOFNMSHpsRnJP?=
- =?utf-8?B?QVBCTkdjTWx6WkRyTG5FNzJlQ0VhZTZ5VGplZnp0K1c0Q1VPd1lYU3d5UkZw?=
- =?utf-8?B?anUvNUZJZ1pBakU4cWM1R0VHaVBwWUIvU3hKdTZlMWtDTkFpL1hjUUdFTDA2?=
- =?utf-8?B?TW5BTXdiK1NJbVczZ3F4THFwZUVHa2ljcEJBYm5KOEphbHpUZVR0enlPb1Rq?=
- =?utf-8?B?aG1Xd3h3a1dRK0RlclNLMGNhYkh0dUpKazZlRmVaQzdOZStWR3RaR3BhdXN4?=
- =?utf-8?B?QzV0TkdvbjRIcGU0cVJxNXk5V1o4Qis3NWNVeGJSNGpjVEhlSWkyRFI5WFJU?=
- =?utf-8?B?ZVJ2THgwQ2hRVndMRzJjTExFdVY2VkF5bnkvN25aVWpWeFdVTWp5akxKYlpl?=
- =?utf-8?B?YjlpbFFLaVdqZ2JRNm0yOVlra1AzTm9WSzRzaEM4ajQ1ZGZJeUVBb3AvbGRv?=
- =?utf-8?B?MzQrbGRNUjNycGVjRmNvZmJmZHlrUldtWXRqdHVCK0hnNys3TGNJSUxkdHgy?=
- =?utf-8?B?dEtRYlNRWWdacDlCRzFRcXhRdjNyUGNRYWRiQmk3N21jNTNKRjVDbjFuYWdW?=
- =?utf-8?B?UTFTZmlGNU12RzlYdzhhSFFCeUtVWmdaZkFwRHR1YXJjamRLdS9rdWoxTnUz?=
- =?utf-8?B?OUdiRi9wa3M1bFpPUTFwZUZGZXRZQlFBVjEyYWpZdTd4K0JpWjd0bWZUVHF5?=
- =?utf-8?B?dGZaeHp3WVRuQlFKeVY3RFF6Qk93T2dtQjZBaW53NU94WmFwb250bkNuNUNT?=
- =?utf-8?B?ZzA0SmhmREhCWWNueHdqUDhVYmpKdmtvc2p2UTZDTXlTcFlLU2N0WlIvNXdt?=
- =?utf-8?B?WkNLUVZQN2NpMmViaXNwY1B5MmsyREQrbEZ4Rjc4ellWbDFWRlR6enE4R1VJ?=
- =?utf-8?B?bWtsRFZ1MFdjKzNETHZMSXYxZzFITUx0bllGd3lBVWw3Qmtsdmh6MmdyQzR0?=
- =?utf-8?B?Z3RvazBrN1UrOHpEbmE4Qkw0VDhkZkhrcTU2eXI3Q1o2TE5JM3NFbzI4a1R6?=
- =?utf-8?B?Mm5BSndUVDhZclo0MWRIRm9Xd3RiTi9YNGpWRmRDL0J0M3ZjNU1BUkJEWk44?=
- =?utf-8?B?UmVOVzUwU2ZGT0NFcFVrMHRUdm55Tzl2alFQc0paYnl1QUlpQXFUNU9jY3My?=
- =?utf-8?B?V1plMUpWSUZ2eTRQdFUrYTJWUVRMRVUzaWlaeXRFaE9TMkJtRndmMUlhdzlD?=
- =?utf-8?B?VllmRTBNSDdETzMrNzR3TjNuMnlXU0hna2ttQUpZcER1ckZmMFV0aVZzYkxZ?=
- =?utf-8?B?bnRTbDZWZnV2cjZyQmFBcFlXQlI5RUZzdVI5cVdNSzA5MkRqWFVDaGFJb2tq?=
- =?utf-8?B?WkRGSW9JQTNNMFFHQlJRelhXbUlvMDdmNGNjMU9MQ2doRkJmRHMwc3NySnRo?=
- =?utf-8?B?OTcxa01HOW1BcFhEaDBja2JUVzljN3pwajhaajh2VW9zK2x2d1JaUHdjMlhE?=
- =?utf-8?B?TEkrT0drYnhsOXNBSlh6TFVzTjlqT2pUN2hqbDRGYTJTQ0IvaVZ2NTJHb1hk?=
- =?utf-8?B?dGtZTEs3SWNNM0VUZ01laStYalVkYnNJd2hxeWgyc0ptZnI2akJHYS8yRFRY?=
- =?utf-8?B?VGJVRytFcUgxaFY4VGtuaTM1OGhIOXJsUXlXYk1sdVJNNS9scmpFbDMyL0pN?=
- =?utf-8?B?c0czUUVlVGZUck9NMXhOVXNrR0NBWkUvM0lLM0NHSlRlZHRHZ2lyQ0l5NzJC?=
- =?utf-8?B?QjZqMnFkcmFFZzYrcCtJV0FOWThKaFhlQjQyT3ErRlJHWm5pR3ZENzYwQ3dB?=
- =?utf-8?B?bGFySkZzYjRiL0ZYenZFTXYrU0lQSlh3N1ZOSXdlYk1WQUc3eDNSTGdaMTRr?=
- =?utf-8?B?d2gvcFFKODRlZWk0NTJoZTJPQU5EL3lCckMwdFNVT3NXOHA0VzRpQ3dmcnJ1?=
- =?utf-8?B?ZTFUWmMzaUxiSHRXR29xMnp5N3BRRUpleGE1T3RnNVBwWVdpcmNRb2h0a3NW?=
- =?utf-8?B?bk1nSGpaY0p5SEtwZXpkWmF3c2x3SCs0dWQ2UXhMRkV0RjN1S21NVU9hL2Nl?=
- =?utf-8?B?STkraEJIV3dTbnZHT0I2YjdlYTY2YnJRTks2M3I0Q1lXNUdIbm5UTU9rRTJz?=
- =?utf-8?B?SDlBSEJFL0ZsN1RpRC9uSWxGcUtRMG5SaEQxb2REVDRCQVBxSVdlVUxGaTZL?=
- =?utf-8?B?RFE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <058BFD069D058044B6E58AD33D7DF67B@apcprd06.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        with ESMTP id S229509AbjAFDtS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 22:49:18 -0500
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A979B4A8;
+        Thu,  5 Jan 2023 19:49:17 -0800 (PST)
+Received: by mail-pl1-x62e.google.com with SMTP id d15so470043pls.6;
+        Thu, 05 Jan 2023 19:49:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fekH72sui9GdebDgVNk2XaNYCf3hMj26CpPd65HWWNo=;
+        b=UiHZc4xPgz9riLMU7jZRFdpYBA/tSzUNwC2BWiIfW76JQV7qvDnZ5YFgaBwl9muFhb
+         nAkOig3bzP5SUcRFGALvqIyPdhKwyNXxWrdL9D84b0uOtZaZPFbVrf5kQzVd/o7OBkXu
+         z6f2FNtKYhJqWr/Xndmg2e/SuFt9Fy/yogCm8unBMDoDabAFe+n8z4lp47ALzRkkQCSZ
+         oxmtpgTEH7TmsJjYV1pYx4dJ90trVyNrmkZGKcXoBVSNzk42OHhEXYxdFGiQEkojlIfy
+         SzRBhKd/owMzJFmNo5AZZdxNmsCZtH2WIhpIGtVELwEteObfco0sQVwvAoyw3CcOcJba
+         2t0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fekH72sui9GdebDgVNk2XaNYCf3hMj26CpPd65HWWNo=;
+        b=NMLSNz75dYFn0jr6RFwnhrRRGoKyxbcQAKJhHaP1Au3F6FcxqaH8huM9JIu8mepkku
+         ZgKBs/VEPxCDsBN/6PocjLv/9EEqHyOOQ2xO5ryvPmc30fXrJOZ3uZlRK/fEpcEzXq7D
+         oR49+XxCIiquQchygm6wawuVzSyreyvcZOaYTzdEeX1muLcA4OgigAC3PMS056ruuYec
+         pirMV1nBgsVNHxiqnhr/wMKLil511p65Y625f4y1ax7Su3MyLivYVik1ZbDj8Ll4aL5O
+         0mpwuZKw1zIhAno5Pu64FVKtnzgGRCbTnDSMBct/LYaG0Ee7IiRmvOz4eF5AiREzh37Q
+         x1Ag==
+X-Gm-Message-State: AFqh2kpbtCt7QCi3H20JhbFq7SXtLsCyNF7YlGY9FGHMUwnumx3IBz8L
+        A/3Tf/yaq6xwOxj3+Kt0pBo=
+X-Google-Smtp-Source: AMrXdXvyVCK1lhieVWDdWnx9fCexwUkj+hwmFDv22Gy18g2mIEKegCTvNB6j6O9x6ZyNW6FTQLfyhg==
+X-Received: by 2002:a17:902:edc3:b0:189:5ef4:6ae9 with SMTP id q3-20020a170902edc300b001895ef46ae9mr52366814plk.45.1672976955660;
+        Thu, 05 Jan 2023 19:49:15 -0800 (PST)
+Received: from debian.me (subs32-116-206-28-2.three.co.id. [116.206.28.2])
+        by smtp.gmail.com with ESMTPSA id d22-20020a170902aa9600b00189c93ce5easm26648752plr.166.2023.01.05.19.49.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Jan 2023 19:49:15 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 5D52F104FE7; Fri,  6 Jan 2023 10:49:11 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Linux CGroups <cgroups@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Hocko <mhocko@suse.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH] docs: cgroup-v1: wrap charge moving deprecation in warning block
+Date:   Fri,  6 Jan 2023 10:48:37 +0700
+Message-Id: <20230106034836.23708-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3365.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 005076d3-fe05-4f53-c420-08daef9677b0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2023 03:31:15.8396
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: C0DeTS61od8zMYYLlUePMDO0JeKCVvKQiiwTBigwbJ/0+heJLZqsuSQ5sfXMS/rZv3Ntkqo95DZAGCdcFtUeIQ6CauTb4OByWdLVYMHhGHI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB4340
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1985; i=bagasdotme@gmail.com; h=from:subject; bh=KgCM3g5FsiytA4vmbQIOX+Rd86PUGBjozHPoOarnvsU=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMnbZwnsfhJW03XnxmSRtsDcZWFZB88eW7hWrdvL9bXnM5+Z d5av7ShlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBENJ4y/He4lXBqP09p/boMlhvr/y 585c/It8Tzxvk+4yxNVfa3K8MZGb5oOmfr2SyO3zdhwoR9+hn7BQ8yvnZceueQmbWi7I2NxXwA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gMjAyMi8xMi85LCAzOjQ4IFBNLCAiS3J6eXN6dG9mIEtvemxvd3NraSIgPGtyenlzenRvZi5r
-b3psb3dza2lAbGluYXJvLm9yZyA8bWFpbHRvOmtyenlzenRvZi5rb3psb3dza2lAbGluYXJvLm9y
-Zz4+IHdyb3RlOg0KDQoNCiAgT24gMDkvMTIvMjAyMiAwMTo1NCwgQmlsbHkgVHNhaSB3cm90ZToN
-CiAgPiA+ID4gPiBIb3dldmVyIEkgYW0gc3VycHJpc2VkIHRvIHNlZSBzdWNoIGNoYW5nZSwgc28g
-SSBoYXZlIG5vIGNsdWUgd2h5IHRoaXMNCiAgPiA+ID4gPiB3YXMgZG9uZS4NCiAgPiA+IA0KICA+
-ID4gPiBBY3R1YWxseSBub3cgSSBzZWUgaXQgd2FzIGxpa2UgdGhhdCBpbiBwcmV2aW91cyBwYXRj
-aCwgSSBqdXN0IG1pc3NlZCBpdA0KICA+ID4gPiBkdXJpbmcgcHJldmlvdXMgcmV2aWV3LiBBbnl3
-YXkgdGhpcyBtdXN0IGJlIGZpeGVkLg0KICA+ID4gDQogID4gPiBJIGhhdmUgdHdvIG1vZHVsZSAo
-UFdNIGFuZCBUQUNIKSBidXQgc2hhcmUgd2l0aCB0aGUgc2FtZSBiYXNlIGFkZHJlc3MsDQogID4g
-PiBUaGUgUFdNIHdpbGwgdXNlIHRoZSBvZmZzZXQgKE4qMHgxMCkgKyAweDAgYW5kIDB4MDQuDQog
-ID4gPiBUaGUgVEFDSCB3aWxsIHVzZSB0aGUgb2Zmc2V0IChOKjB4MTApICsgMHg4IGFuZCAweDBj
-Lg0KICA+ID4gVGhlIHJhbmdlIG9mIHRoZSBOIGlzIDB+MTUuDQogID4gPiBDYW4geW91IGdpdmUg
-bWUgc29tZSBhZHZpY2UgdG8gZml4IHRoaXMgcHJvYmxlbSB3aXRob3V0IHVzaW5nIHNpbXBsZS1t
-ZmQ/DQoNCg0KICA+IFVzZSByZWd1bGFyIGRyaXZlciB3aGljaCBwb3B1bGF0ZXMgY2hpbGRyZW4u
-DQoNCkkgdGhpbmsgdGhhdCBteSBzY2VuYXJpbyBtZWV0cyB0aGUgZGVmaW5pdGlvbiBpbiBtZmQu
-dHh0OiANCi0gQSByYW5nZSBvZiBtZW1vcnkgcmVnaXN0ZXJzIGNvbnRhaW5pbmcgIm1pc2NlbGxh
-bmVvdXMgc3lzdGVtIHJlZ2lzdGVycyIgYWxzbw0KICBrbm93biBhcyBhIHN5c3RlbSBjb250cm9s
-bGVyICJzeXNjb24iIG9yIGFueSBvdGhlciBtZW1vcnkgcmFuZ2UgY29udGFpbmluZyBhDQogIG1p
-eCBvZiB1bnJlbGF0ZWQgaGFyZHdhcmUgZGV2aWNlcy4NCkNhbiB5b3UgdGVsbCBtZSB0aGUgY29u
-c2lkZXJhdGlvbnMgZm9yIG5vdCB1c2luZyBzaW1wbGUtbWZkPw0KDQpUaGFua3MNCg0KQmVzdCBS
-ZWdhcmRzLCANCkJpbGx5IFRzYWkNCg0KDQoNCg==
+Commit 4ddb1a2aa1a3c4 ("docs: cgroup-v1: wrap remaining admonitions in
+admonition blocks") in cgroups tree states that it also wraps charge
+moving deprecation notice in admonition block (specifically warning).
+However, the notice isn't in cgroups tree when the v2 of formatting
+improv series [1] is submitted (and then applied), but rather in mm tree
+instead.
+
+Wrap the notice to fulfill the intention of referred commit.
+
+Link: https://lore.kernel.org/linux-doc/20230105131633.553574-1-bagasdotme@gmail.com/ # [1]
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/admin-guide/cgroup-v1/memory.rst | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v1/memory.rst b/Documentation/admin-guide/cgroup-v1/memory.rst
+index 258e45cc3b2db1..b73eb174735556 100644
+--- a/Documentation/admin-guide/cgroup-v1/memory.rst
++++ b/Documentation/admin-guide/cgroup-v1/memory.rst
+@@ -722,12 +722,14 @@ NOTE2:
+ 8. Move charges at task migration (DEPRECATED!)
+ ===============================================
+ 
+-THIS IS DEPRECATED!
++.. warning::
+ 
+-It's expensive and unreliable! It's better practice to launch workload
+-tasks directly from inside their target cgroup. Use dedicated workload
+-cgroups to allow fine-grained policy adjustments without having to
+-move physical pages between control domains.
++   THIS IS DEPRECATED!
++
++   It's expensive and unreliable! It's better practice to launch workload
++   tasks directly from inside their target cgroup. Use dedicated workload
++   cgroups to allow fine-grained policy adjustments without having to
++   move physical pages between control domains.
+ 
+ Users can move charges associated with a task along with task migration, that
+ is, uncharge task's pages from the old cgroup and charge them to the new cgroup.
+
+base-commit: dd5c3ba990ae67409bc058051efcd40c3689d01d
+-- 
+An old man doll... just what I always wanted! - Clara
+
