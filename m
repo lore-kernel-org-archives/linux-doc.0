@@ -2,139 +2,263 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6786C3DA7A
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Jan 2023 09:46:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81B43C3DA7A
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Jan 2023 16:28:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232251AbjAFJqd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Jan 2023 04:46:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39614 "EHLO
+        id S230244AbjAFQ2d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Jan 2023 11:28:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232986AbjAFJqO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jan 2023 04:46:14 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6C3A625DC;
-        Fri,  6 Jan 2023 01:44:25 -0800 (PST)
+        with ESMTP id S235516AbjAFQ2T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jan 2023 11:28:19 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D8FA76EC8;
+        Fri,  6 Jan 2023 08:28:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672998265; x=1704534265;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=fhXY6C/6U5im9JnhiBqmPE5GvqslI6HKlZc88plC8HU=;
-  b=LCw2qM+/WlOf86kBXpCK6162AEhGv7KRqM1qPg0uofFdNn20fjPQJwKO
-   V6aYMzKzdtlnEh1Z5C7X54efd3WfmAW37qDCUDsspLCXBGZoloyjJU2U4
-   9bgMJjXrdcNUx9ilcP9N7LnBZ20ANVWcuwB/Kl9uqJYF7TjF9XkoPsJRU
-   UyqlpEaJ03UIT2QJ0sBOxSljSyyZpNnzkoxZ0cH7KfjzdXvdk/0/32H39
-   vY7hM2ZeyHuwy3FNmJxfjbQL6ssl62qAnLO8bLgZKGA6I7iKkP8VWdqpk
-   YnM5LjRrXip4R0EhqPG+fBxHenJu/jdm3l/O7q6RMr2D3o7yWqefhmMw0
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="320148916"
-X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; 
-   d="scan'208";a="320148916"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2023 01:44:25 -0800
+  t=1673022498; x=1704558498;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=KPM4CYTOH2kJiIRbFngO28NyOGabwRen0ySdT9mHomU=;
+  b=UMrnQAg/8Sb7rwoxghnkPvXgbIEFm8u5HvsJ+pl2ItU74+VYSgoy7kcB
+   X563EZoVbhQd/TIN8N5PGdsQOlgbNLKicA3UoePeAbIo45SIjEOKIGL9f
+   WPZShWU9XGe5SalB2EJhFlWt/XXu9pIuK4COFHE7DaleJ4NHdgA+ptIkT
+   9TdSBMUWem2JD6NfHNq7wSDWRZIBNJ5NEad9b2iRv9aSodom35ChQlE5O
+   w2a+b2zzvbX3kdUA9xyg2QbUC/5zN/d8LPL8YjzdUr86Z1PytQ5vPP+Kk
+   hPbtolzODFPJTE6XR/bPVBKWE3afXUnLpQ/wQL9Up/FS2SO0PtXWR04Mx
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10582"; a="384808567"
+X-IronPort-AV: E=Sophos;i="5.96,305,1665471600"; 
+   d="scan'208";a="384808567"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2023 08:28:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="901237278"
-X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; 
-   d="scan'208";a="901237278"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by fmsmga006.fm.intel.com with ESMTP; 06 Jan 2023 01:44:12 -0800
-Date:   Fri, 6 Jan 2023 17:40:00 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <20230106094000.GA2297836@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
- <Y7azFdnnGAdGPqmv@kernel.org>
+X-IronPort-AV: E=McAfee;i="6500,9779,10582"; a="655987093"
+X-IronPort-AV: E=Sophos;i="5.96,305,1665471600"; 
+   d="scan'208";a="655987093"
+Received: from bswcg005.iind.intel.com ([10.224.174.136])
+  by orsmga002.jf.intel.com with ESMTP; 06 Jan 2023 08:28:11 -0800
+From:   m.chetan.kumar@linux.intel.com
+To:     netdev@vger.kernel.org
+Cc:     kuba@kernel.org, davem@davemloft.net, johannes@sipsolutions.net,
+        ryazanov.s.a@gmail.com, loic.poulain@linaro.org,
+        ilpo.jarvinen@linux.intel.com, ricardo.martinez@linux.intel.com,
+        chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
+        edumazet@google.com, pabeni@redhat.com, linuxwwan@intel.com,
+        linuxwwan_5g@intel.com, chandrashekar.devegowda@intel.com,
+        m.chetan.kumar@linux.intel.com, matthias.bgg@gmail.com,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-doc@vger.kernel.org,
+        jiri@nvidia.com, corbet@lwn.net
+Subject: [PATCH v3 net-next 5/5] net: wwan: t7xx: Devlink documentation
+Date:   Fri,  6 Jan 2023 21:58:06 +0530
+Message-Id: <500a41cb400b4cdedd6df414b40200a5211965f5.1673016069.git.m.chetan.kumar@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1673016069.git.m.chetan.kumar@linux.intel.com>
+References: <cover.1673016069.git.m.chetan.kumar@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7azFdnnGAdGPqmv@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 05, 2023 at 11:23:01AM +0000, Jarkko Sakkinen wrote:
-> On Fri, Dec 02, 2022 at 02:13:41PM +0800, Chao Peng wrote:
-> > In memory encryption usage, guest memory may be encrypted with special
-> > key and can be accessed only by the guest itself. We call such memory
-> > private memory. It's valueless and sometimes can cause problem to allow
-> > userspace to access guest private memory. This new KVM memslot extension
-> > allows guest private memory being provided through a restrictedmem
-> > backed file descriptor(fd) and userspace is restricted to access the
-> > bookmarked memory in the fd.
-> > 
-> > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
-> > additional KVM memslot fields restricted_fd/restricted_offset to allow
-> > userspace to instruct KVM to provide guest memory through restricted_fd.
-> > 'guest_phys_addr' is mapped at the restricted_offset of restricted_fd
-> > and the size is 'memory_size'.
-> > 
-> > The extended memslot can still have the userspace_addr(hva). When use, a
-> > single memslot can maintain both private memory through restricted_fd
-> > and shared memory through userspace_addr. Whether the private or shared
-> > part is visible to guest is maintained by other KVM code.
-> > 
-> > A restrictedmem_notifier field is also added to the memslot structure to
-> > allow the restricted_fd's backing store to notify KVM the memory change,
-> > KVM then can invalidate its page table entries or handle memory errors.
-> > 
-> > Together with the change, a new config HAVE_KVM_RESTRICTED_MEM is added
-> > and right now it is selected on X86_64 only.
-> > 
-> > To make future maintenance easy, internally use a binary compatible
-> > alias struct kvm_user_mem_region to handle both the normal and the
-> > '_ext' variants.
-> 
-> Feels bit hacky IMHO, and more like a completely new feature than
-> an extension.
-> 
-> Why not just add a new ioctl? The commit message does not address
-> the most essential design here.
+From: M Chetan Kumar <m.chetan.kumar@linux.intel.com>
 
-Yes, people can always choose to add a new ioctl for this kind of change
-and the balance point here is we want to also avoid 'too many ioctls' if
-the functionalities are similar.  The '_ext' variant reuses all the
-existing fields in the 'normal' variant and most importantly KVM
-internally can reuse most of the code. I certainly can add some words in
-the commit message to explain this design choice.
+Document the t7xx devlink commands usage for fw flashing &
+coredump collection.
 
-Thanks,
-Chao
-> 
-> BR, Jarkko
+Refer to t7xx.rst file for details.
+
+Signed-off-by: M Chetan Kumar <m.chetan.kumar@linux.intel.com>
+Signed-off-by: Devegowda Chandrashekar <chandrashekar.devegowda@intel.com>
+--
+v3:
+ * No Change.
+v2:
+ * Documentation correction.
+ * Add param details.
+---
+ Documentation/networking/devlink/index.rst |   1 +
+ Documentation/networking/devlink/t7xx.rst  | 161 +++++++++++++++++++++
+ 2 files changed, 162 insertions(+)
+ create mode 100644 Documentation/networking/devlink/t7xx.rst
+
+diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
+index fee4d3968309..0c4f5961e78f 100644
+--- a/Documentation/networking/devlink/index.rst
++++ b/Documentation/networking/devlink/index.rst
+@@ -66,3 +66,4 @@ parameters, info versions, and other features it supports.
+    prestera
+    iosm
+    octeontx2
++   t7xx
+diff --git a/Documentation/networking/devlink/t7xx.rst b/Documentation/networking/devlink/t7xx.rst
+new file mode 100644
+index 000000000000..de220878ad76
+--- /dev/null
++++ b/Documentation/networking/devlink/t7xx.rst
+@@ -0,0 +1,161 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++====================
++t7xx devlink support
++====================
++
++This document describes the devlink features implemented by the ``t7xx``
++device driver.
++
++Parameters
++==========
++The ``t7xx_driver`` driver implements the following driver-specific parameters.
++
++.. list-table:: Driver-specific parameters implemented
++   :widths: 5 5 5 85
++
++   * - Name
++     - Type
++     - Mode
++     - Description
++   * - ``fastboot``
++     - boolean
++     - driverinit
++     - Set this param to enter fastboot mode.
++
++Flash Update
++============
++
++The ``t7xx`` driver implements the flash update using the ``devlink-flash``
++interface.
++
++The driver uses DEVLINK_SUPPORT_FLASH_UPDATE_COMPONENT to identify the type of
++firmware image that need to be programmed upon the request by user space application.
++
++The supported list of firmware image types is described below.
++
++.. list-table:: Firmware Image types
++    :widths: 15 85
++
++    * - Name
++      - Description
++    * - ``preloader``
++      - The first-stage bootloader image
++    * - ``loader_ext1``
++      - Preloader extension image
++    * - ``tee1``
++      - ARM trusted firmware and TEE (Trusted Execution Environment) image
++    * - ``lk``
++      - The second-stage bootloader image
++    * - ``spmfw``
++      - MediaTek in-house ASIC for power management image
++    * - ``sspm_1``
++      - MediaTek in-house ASIC for power management under secure world image
++    * - ``mcupm_1``
++      - MediaTek in-house ASIC for cpu power management image
++    * - ``dpm_1``
++      - MediaTek in-house ASIC for dram power management image
++    * - ``boot``
++      - The kernel and dtb image
++    * - ``rootfs``
++      - Root filesystem image
++    * - ``md1img``
++      - Modem image
++    * - ``md1dsp``
++      - Modem DSP image
++    * - ``mcf1``
++      - Modem OTA image (Modem Configuration Framework) for operators
++    * - ``mcf2``
++      - Modem OTA image (Modem Configuration Framework) for OEM vendors
++    * - ``mcf3``
++      - Modem OTA image (other usage) for OEM configurations
++
++``t7xx`` driver uses fastboot protocol for fw flashing. In the fw flashing
++procedure, fastboot command & response are exchanged between driver and wwan
++device.
++
++The wwan device is put into fastboot mode via devlink reload command, by
++passing "driver_reinit" action.
++
++$ devlink dev reload pci/0000:$bdf action driver_reinit
++
++Upon completion of fw flashing or coredump collection the wwan device is
++reset to normal mode using devlink reload command, by passing "fw_activate"
++action.
++
++$ devlink dev reload pci/0000:$bdf action fw_activate
++
++Flash Commands:
++===============
++
++$ devlink dev flash pci/0000:$bdf file preloader_k6880v1_mdot2_datacard.bin component "preloader"
++
++$ devlink dev flash pci/0000:$bdf file loader_ext-verified.img component "loader_ext1"
++
++$ devlink dev flash pci/0000:$bdf file tee-verified.img component "tee1"
++
++$ devlink dev flash pci/0000:$bdf file lk-verified.img component "lk"
++
++$ devlink dev flash pci/0000:$bdf file spmfw-verified.img component "spmfw"
++
++$ devlink dev flash pci/0000:$bdf file sspm-verified.img component "sspm_1"
++
++$ devlink dev flash pci/0000:$bdf file mcupm-verified.img component "mcupm_1"
++
++$ devlink dev flash pci/0000:$bdf file dpm-verified.img component "dpm_1"
++
++$ devlink dev flash pci/0000:$bdf file boot-verified.img component "boot"
++
++$ devlink dev flash pci/0000:$bdf file root.squashfs component "rootfs"
++
++$ devlink dev flash pci/0000:$bdf file modem-verified.img component "md1img"
++
++$ devlink dev flash pci/0000:$bdf file dsp-verified.bin component "md1dsp"
++
++$ devlink dev flash pci/0000:$bdf file OP_OTA.img component "mcf1"
++
++$ devlink dev flash pci/0000:$bdf file OEM_OTA.img component "mcf2"
++
++$ devlink dev flash pci/0000:$bdf file DEV_OTA.img component "mcf3"
++
++Note: Component selects the partition type to be programmed.
++
++Regions
++=======
++
++The ``t7xx`` driver supports core dump collection when device encounters
++an exception. When wwan device encounters an exception, a snapshot of device
++internal data will be taken by the driver using fastboot commands.
++
++Following regions are accessed for device internal data.
++
++.. list-table:: Regions implemented
++    :widths: 15 85
++
++    * - Name
++      - Description
++    * - ``mr_dump``
++      - The detailed modem component logs are captured in this region
++    * - ``lk_dump``
++      - This region dumps the current snapshot of lk
++
++
++Region commands
++===============
++
++$ devlink region show
++
++
++$ devlink region new mr_dump
++
++$ devlink region read mr_dump snapshot 0 address 0 length $len
++
++$ devlink region del mr_dump snapshot 0
++
++$ devlink region new lk_dump
++
++$ devlink region read lk_dump snapshot 0 address 0 length $len
++
++$ devlink region del lk_dump snapshot 0
++
++Note: $len is actual len to be dumped.
+-- 
+2.34.1
+
