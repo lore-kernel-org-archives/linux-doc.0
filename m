@@ -2,84 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B87CC61DB3
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Jan 2023 19:49:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C914C3DA7A
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Jan 2023 19:53:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235887AbjAFTte (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Jan 2023 14:49:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39048 "EHLO
+        id S235887AbjAFTxE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Jan 2023 14:53:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235878AbjAFTtc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jan 2023 14:49:32 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D014881116;
-        Fri,  6 Jan 2023 11:49:31 -0800 (PST)
+        with ESMTP id S236019AbjAFTwk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jan 2023 14:52:40 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64AE380631
+        for <linux-doc@vger.kernel.org>; Fri,  6 Jan 2023 11:52:39 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 662D261F2D;
-        Fri,  6 Jan 2023 19:49:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A620C433F2;
-        Fri,  6 Jan 2023 19:49:30 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0E7B2B81E5C
+        for <linux-doc@vger.kernel.org>; Fri,  6 Jan 2023 19:52:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B3B8C433EF;
+        Fri,  6 Jan 2023 19:52:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673034570;
-        bh=K/wLkHbQjSCT1yr750bpVu5Mfi9cVWkMgqb8RP5+nFY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=pBmJ9KRx45/X3R2NHpTGdQa6jk95HrhXCB5wNZOPl+nUHagaLqDqOJTytFTew2kWc
-         zNE+oar4nSO0uimygF+nYQdcK84mKugjH+2jG0kBOrCK2asd4fyM9mDHHPvVKf10sh
-         EZyvStO0WOeBuMdaAeVGosqnipMYxAEsvt6gN7L0SxGsbrDwdYd5CqbifO44uG0YhS
-         iJW3hVj2zcR20wu9Cm9zCJTANa3wcj9fWyA1gSKZwKtlusZJQwQwkLvJkQFK1qH6r6
-         Ej8+OT/U92FqLBTuBc85xkaVvp3bpdGjjeaoALDgC7ufoKA260XZ8ENBGFhdaqtivh
-         9BBB+boNQoXhw==
+        s=k20201202; t=1673034756;
+        bh=XT2SsianN+UwNw7fibj3lVfKiMxN2Psx8DYS/e1AzL0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=R+3EwM3jfD0hZPHhdsNPK+qZy9CRryZka2+F0i7eSt6dbx/XU4rHrphZ/MX2PtPRo
+         yBWLdboauqHNpQhBnY2XebDXbsBybBb2lN4swWzm2Qdy+oKbOxmYPUXK/dcnnj1Vhh
+         K1SV986DpdzEO2A+Y7tfgqenwcqS2vLhhzcuZXlXHZZwfyxzFHAeqsnzPS2OWOcWpm
+         7879NnqfVBDtFZgYpcOFmRjZop2xiXf4vWGK52qgbUrf9zidtxqZjgLoJX0huGTokD
+         mwDiKqyBcxJbmZM8e3h5sPp9T2GG18vuThF1P02Rz7zddw6zXTKgafqsDDX25oneNx
+         GyKrXN0UDxVHw==
 From:   SeongJae Park <sj@kernel.org>
-To:     akpm@linux-foundation.org
-Cc:     corbet@lwn.net, linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, SeongJae Park <sj@kernel.org>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH mm-unstable] Docs/admin-guide/mm/numaperf: change title to fix duplicate label warning
-Date:   Fri,  6 Jan 2023 19:49:27 +0000
-Message-Id: <20230106194927.152663-1-sj@kernel.org>
+To:     kernel test robot <lkp@intel.com>
+Cc:     SeongJae Park <sj@kernel.org>, oe-kbuild-all@lists.linux.dev,
+        Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [ammarfaizi2-block:akpm/mm/mm-unstable 215/223] htmldocs: Documentation/admin-guide/mm/numaperf.rst:68: WARNING: duplicate label admin-guide/mm/numaperf:numa performance, other instance in Documentation/admin-guide/mm/numaperf.rst
+Date:   Fri,  6 Jan 2023 19:52:34 +0000
+Message-Id: <20230106195234.152725-1-sj@kernel.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <202301070349.zrrzmYKM-lkp@intel.com>
+References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 1564fac284b1 ("Docs/admin-guide/mm/numaperf: increase depth of
-subsections") in mm-unstable titled numaperf.rst as 'NUMA Performance'.
-The name overlaps with an existing subsection title of the document, so
-sphinx makes below warning.
+Hi kernel test robot,
 
-    linux/Documentation/admin-guide/mm/numaperf.rst:68: WARNING: duplicate label admin-guide/mm/numaperf:numa performance, other instance in linux/Documentation/admin-guide/mm/numaperf.rst
+On Sat, 7 Jan 2023 03:06:10 +0800 kernel test robot <lkp@intel.com> wrote:
 
-Fix the warning by changing the title of the document to 'NUMA Memory
-Performance'.  It may look more consistent with its sibling document,
-'NUMA Memory Policy'.
+> [-- Attachment #1: Type: text/plain, Size: 1645 bytes --]
+> 
+> tree:   https://github.com/ammarfaizi2/linux-block akpm/mm/mm-unstable
+> head:   a2765ca8c916591ebc9af48b4e545922c0bd3c3b
+> commit: 4fbeee6b758e6cb96047d94a514e082eafdb0ebb [215/223] Docs/admin-guide/mm/numaperf: increase depth of subsections
+> reproduce:
+>         # https://github.com/ammarfaizi2/linux-block/commit/4fbeee6b758e6cb96047d94a514e082eafdb0ebb
+>         git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+>         git fetch --no-tags ammarfaizi2-block akpm/mm/mm-unstable
+>         git checkout 4fbeee6b758e6cb96047d94a514e082eafdb0ebb
+>         make menuconfig
+>         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+>         make htmldocs
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> Documentation/admin-guide/mm/numaperf.rst:68: WARNING: duplicate label admin-guide/mm/numaperf:numa performance, other instance in Documentation/admin-guide/mm/numaperf.rst
+> 
+> vim +68 Documentation/admin-guide/mm/numaperf.rst
+> 
+> dc9e7860df9162 Jonathan Cameron 2020-09-30  66  
+> 13bac55ef7aef8 Keith Busch      2019-03-11  67  NUMA Performance
+> 13bac55ef7aef8 Keith Busch      2019-03-11 @68  ================
+> 13bac55ef7aef8 Keith Busch      2019-03-11  69  
 
-Reported-by: kernel test robot <lkp@intel.com>
-Fixes: 1564fac284b1 ("Docs/admin-guide/mm/numaperf: increase depth of subsections") in mm-unstable
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/numaperf.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Thank you for the report.  Just sent a fix:
+https://lore.kernel.org/linux-mm/20230106194927.152663-1-sj@kernel.org/
 
-diff --git a/Documentation/admin-guide/mm/numaperf.rst b/Documentation/admin-guide/mm/numaperf.rst
-index 27868797621c..544a6d16c801 100644
---- a/Documentation/admin-guide/mm/numaperf.rst
-+++ b/Documentation/admin-guide/mm/numaperf.rst
-@@ -1,8 +1,8 @@
- .. _numaperf:
- 
--================
--NUMA Performance
--================
-+=======================
-+NUMA Memory Performance
-+=======================
- 
- NUMA Locality
- =============
--- 
-2.25.1
 
+Thanks,
+SJ
+
+[...]
