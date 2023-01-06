@@ -2,152 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4FA6C54EBD
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Jan 2023 21:17:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF293C63797
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Jan 2023 22:01:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229726AbjAFVQg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Jan 2023 16:16:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53944 "EHLO
+        id S236603AbjAFWBV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Jan 2023 17:01:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234327AbjAFVQJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jan 2023 16:16:09 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3920926D;
-        Fri,  6 Jan 2023 13:16:07 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id d17so2455219wrs.2;
-        Fri, 06 Jan 2023 13:16:07 -0800 (PST)
+        with ESMTP id S236760AbjAFWAz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jan 2023 17:00:55 -0500
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48939872B7;
+        Fri,  6 Jan 2023 14:00:19 -0800 (PST)
+Received: by mail-qv1-xf35.google.com with SMTP id h10so1886395qvq.7;
+        Fri, 06 Jan 2023 14:00:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OP+YfN5L/CAL5jnc65vOTHTY7IY6KT8aEtFoTjI7ujo=;
-        b=gnUAtsSOMFLBBLUcvV5Q0U3dKVfxAtie0fDP4YcsrbWSqEphdsCYQc0QrAwUZqBZJG
-         ru9lMiR5yYJlxaIHYNCRq5Wojzd/cy+mkt4Jq4PMjmgFDNEjV9OE8I37N0fbdS0ltg/c
-         qxVrUPCrHUeXbcDhUu97Q4XOJIa1Lt/6UvaTYjepQK5HWurzgRyUq9XZTUsaYoNkAQmF
-         zw6CZ3movbDjwJ6o0XWo6rqb+DMnJq/waVH30xyzg4VhWd9iJzKFByUKBuIOSZtL+EYu
-         k0oBYR93eAarjOop6AQgiTs8R0IrGsXUc6rXfoq3mQy5UTYHXIw9Ssw8VOnf+oVyW75f
-         Z/jA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=g6DgrH0Sk4KsUxnwXEKBG8ESnSK8kFufSNig1ESrwiI=;
+        b=UrM6ujdkaWodaW0zftdlr+Sk8JdskA/LGrsqC+Ci4a2cmyshvXB0PLKPP31DLrNOCK
+         RPu4QQC1GxPFOrn05qkxzEoOmRXK8TXobDT29PGtUOvf6Rpn9V8IMODIeA+YN39JxS1c
+         7rfwhWP5boSSNl7OKw26l4TPMB4WgQ+nTS/kOV3w2GpeqH9BAdktkap26TQcOaLvQTbl
+         GnMIQ45eSQD1/VWmW/3aPkvSvXn/o6rsVIDCl8L1ClPOV91T9+WelSiweMpnGO6rotgh
+         xHlj+qQDpUi9FXldYbPezRUcShQGesD/glEneRWxaaied7h7K2CJVaDdR1nPuPCutvmH
+         seRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OP+YfN5L/CAL5jnc65vOTHTY7IY6KT8aEtFoTjI7ujo=;
-        b=xB2zhQf71vc87vipwwZOHCGYPqvWyng8qUoQ1attTH1NOx+7Ead7IApasM/LqBYk4K
-         DkKnsp25cqGMVBM2lXW8FABIw2eJ0BVd0YJNgl1XsAjScWSEW2Qzv53/RpwD1nDSfSvw
-         BGfv3g7Cou6HLvVnxMyFXRRniBdxgk38wBCzQ5lbM3+eqMdlIS6Er1I7YlnLW4+tkfh1
-         j4ZuenZ/Mwt6Ya2U3Ym55CjvqLNz4zB7nnjt9oD/KGogqS1gUhX2FrFmIwMhUKebCEWJ
-         Bel1wU6dyXZrcQoDvtp+a9ggLrKv8zjoleue33zFMREqu1vLd1QDBWZmYANC+swL/rkh
-         gyeQ==
-X-Gm-Message-State: AFqh2kpPgtU67yOj0iO1G7QqPVfc1yVbT+F3GCwHX+sCkhxfyqFM3SoI
-        40eXCxDKIFjI5lXy7CYKvIc=
-X-Google-Smtp-Source: AMrXdXsZBmrazdAEnZS+ZMUuv0w9wkfwZTql33wtBDXFGDKMyjaLGHHnKMojyGeEMPgu6WzXPwzwpg==
-X-Received: by 2002:a05:6000:70a:b0:263:542c:5918 with SMTP id bs10-20020a056000070a00b00263542c5918mr39982464wrb.38.1673039765448;
-        Fri, 06 Jan 2023 13:16:05 -0800 (PST)
-Received: from localhost (host81-157-153-247.range81-157.btcentralplus.com. [81.157.153.247])
-        by smtp.gmail.com with ESMTPSA id t17-20020a05600001d100b00241d21d4652sm2206491wrx.21.2023.01.06.13.16.04
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g6DgrH0Sk4KsUxnwXEKBG8ESnSK8kFufSNig1ESrwiI=;
+        b=WfJSHMlJ6KGAC1s7nnz4yIeyyOe69l7BHmQqXt1EPYvAU7NsxBU/KI/S64tr7zY88a
+         aesOhTPVSZSI+/QvpNZAW3hz0O8GS7JhZirhGB1fF5t375ZFdm02oS4kzNv/QAjWsFJZ
+         z7t+c9pDiYb5nFcip0SMQ0FJVoMShQG72skK7ILq9OQZjSHRMpgBu/DimW/1MrRuEoVF
+         uNCuV/c9p9IF9kVjmM+UFWICJz08LjXogv3LMR9FVc2GhTF1dTkMaBBcrTTY/fcqLBg3
+         BGn0L/bkDbFWIHKvj9CugwefhLIuemeS3KiUBGyJiaTMEaOCbqn6IwJYB4f/bmpiIVn1
+         rByA==
+X-Gm-Message-State: AFqh2kpxNAoDDoA+IGh/E+YFXIp6leI1Yfo0MaKDRJ7jIPS2i8EKjzp6
+        hw4zqOOa9mgDYLxbNKMASCHY+kQO3VvQ1w==
+X-Google-Smtp-Source: AMrXdXtxtyTe7T1goD59WwRliwzvvtUp/pYQxl+gVZnkdrZ3UrwWOeczyYQJ6N68vi/MpSKeNy3U7w==
+X-Received: by 2002:a05:6214:b32:b0:531:b260:dc62 with SMTP id w18-20020a0562140b3200b00531b260dc62mr39043722qvj.13.1673042418031;
+        Fri, 06 Jan 2023 14:00:18 -0800 (PST)
+Received: from localhost (fwdproxy-nao-007.fbsv.net. [2a03:2880:23ff:7::face:b00c])
+        by smtp.gmail.com with ESMTPSA id h10-20020a05620a284a00b006feea093006sm1172952qkp.124.2023.01.06.14.00.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jan 2023 13:16:04 -0800 (PST)
-Date:   Fri, 6 Jan 2023 21:16:03 +0000
-From:   Lorenzo Stoakes <lstoakes@gmail.com>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 0/2] docs/mm: start filling out new structure
-Message-ID: <Y7iPk+bBNX435TqV@lucifer>
-References: <20230101094523.1522109-1-rppt@kernel.org>
+        Fri, 06 Jan 2023 14:00:17 -0800 (PST)
+From:   Nhat Pham <nphamcs@gmail.com>
+To:     corbet@lwn.net
+Cc:     hannes@cmpxchg.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@meta.com, akpm@linux-foundation.org
+Subject: [PATCH] Docs/admin-guide/mm/zswap: remove zsmalloc's lack of writeback warning
+Date:   Fri,  6 Jan 2023 14:00:16 -0800
+Message-Id: <20230106220016.172303-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230101094523.1522109-1-rppt@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 01, 2023 at 11:45:21AM +0200, Mike Rapoport wrote:
-> From: "Mike Rapoport (IBM)" <rppt@kernel.org>
->
-> Hi,
->
-> Last year at LSF/MM Matthew promptly created the new structure for MM
-> documentation, but there still was no patches with content.
->
-> I've started to work on it a while ago and I wanted to send it out in a
-> more complete form, but I've got distracted and didn't have time to work
-> on this.
->
-> With fast changes around struct page and the threat of Lorenzo's book,
-> I've decided to send out what I have till now with a hope that we can
-> really make this a collaborative effort with people filling paragraph
-> here and there.
+Writeback has been implemented for zsmalloc, so this warning no longer
+holds.
 
-:))
+Suggested-by: Thomas Weißschuh <linux@weissschuh.net>
+Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+---
+ Documentation/admin-guide/mm/zswap.rst | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Don't worry, I feel as if this documentation and my book only overlap partially,
-so there is no reason to consider it a threat!
+diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
+index f67de481c7f6..6dd74a18268b 100644
+--- a/Documentation/admin-guide/mm/zswap.rst
++++ b/Documentation/admin-guide/mm/zswap.rst
+@@ -70,9 +70,7 @@ e.g. ``zswap.zpool=zbud``. It can also be changed at runtime using the sysfs
+ The zbud type zpool allocates exactly 1 page to store 2 compressed pages, which
+ means the compression ratio will always be 2:1 or worse (because of half-full
+ zbud pages).  The zsmalloc type zpool has a more complex compressed page
+-storage method, and it can achieve greater storage densities.  However,
+-zsmalloc does not implement compressed page eviction, so once zswap fills it
+-cannot evict the oldest page, it can only reject new pages.
++storage method, and it can achieve greater storage densities.
+ 
+ When a swap page is passed from frontswap to zswap, zswap maintains a mapping
+ of the swap entry, a combination of the swap type and swap offset, to the zpool
+-- 
+2.30.2
 
-Being a developer I love bullet points. So I will sum up my thoughts on this
-that way:-
-
-- I have to, practically, target a single kernel version (v6.0) if I am to stand
-  any chance of getting this done. By the time the book is released (mid 2024
-  maybe even later?) it will have slid further from tip kernel so the aims of
-  the documentation and the book naturally diverge on this basis alone.
-
-- I have to, again for entirely pragmatic reasons, target a specific
-  architecture (x86-64) where architecture-specific discussions are to be had,
-  another luxury the core documents cannot afford, so in this respect they must
-  go further and be broader than my own.
-
-- The aims of the mm documentation here are, as I gather, to provide a broad
-  overview, API guide, and general explainer. Of course the book will somewhat
-  overlap with each of these, but I am also taking a deeply self-indulgent (and
-  perhaps unwise) approach of going quite a bit deeper and diving into code and
-  visualisations and providing something of a 'guided tour' of the kernel in a
-  way that just wouldn't make sense or be probably particularly helpful in the
-  context of mm docs.
-
-- I feel as if the two are actually symbiotic rather than in competition and I
-  really want both to happen and be helpful to people, coming from different
-  angles and with different aims as they do. Given your and other maintainers's
-  competence and experience both of which dramatically eclipse mine many, many
-  times over I am certain these documents will be excellent and will be
-  extremely useful, I only hope that the book can at least somewhat compare!
-
-I'd like to contribute too but my time is so limited with the day job and book
-that I'd rather keep what time I have for kernel contributions to code/reviews
-in order to keep myself 'in the game' so to speak, however I am happy to review
-when I have a moment to!
-
-Proximally speaking, I will take a look at the actual patches here and try
-(humbly!) to review as best I can!
-
-I should add that I feel quite honoured to be referenced at all here! :)
-
-Cheers, Lorenzo
-
->
-> If somebody does not feel like sending formal patches, just send me the
-> "raw" text my way and I'll deal with the rest.
->
-> The text is relatively heavily formatted because I believe the target
-> audience will prefer html version.
->
-> Mike Rapoport (IBM) (2):
->   docs/mm: Page Reclaim: add page label to allow external references
->   docs/mm: Physical Memory: add structure, introduction and nodes
->     description
->
->  Documentation/mm/page_reclaim.rst    |   2 +
->  Documentation/mm/physical_memory.rst | 322 +++++++++++++++++++++++++++
->  2 files changed, 324 insertions(+)
->
-> --
-> 2.35.1
->
