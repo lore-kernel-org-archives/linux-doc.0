@@ -2,129 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6D9BC5479D
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Jan 2023 20:38:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DBD6C4708E
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Jan 2023 01:12:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235600AbjAEUis (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Jan 2023 15:38:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34706 "EHLO
+        id S232947AbjAFBMD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Jan 2023 20:12:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235545AbjAEUio (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 15:38:44 -0500
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1B8E63D22
-        for <linux-doc@vger.kernel.org>; Thu,  5 Jan 2023 12:38:42 -0800 (PST)
-Received: by mail-qt1-x829.google.com with SMTP id a16so30950248qtw.10
-        for <linux-doc@vger.kernel.org>; Thu, 05 Jan 2023 12:38:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5R84gnDXIcZCl3q1uuKNVrzE7JF/GewA0GD7Joj4Tac=;
-        b=JTqD02qzpNL7au3Z3GUF4Xu2ARxubYVglZyPFMGjd5IBB76X21fyAUfGvELrmmzFik
-         QzBJjZBaZ6aZe7oTAlxNCti0+kLpAukE+qZM7LrpHVjgAMiyLgJZ2+98YW1K5vKsRoVw
-         2umAOw9diVB8LQA7BnZCONR8pssadQA3XE8f0al71RlaiMm7wUNlcWpSs5hmEzVyjqeM
-         eYv5U34leRc2bqLAihlC18sqPCveW9G6816ZQccg0Z2ovOthL6yQhQkI0guVnNH8iTu7
-         dG6eqdfXW1bD1DNzwo+oob/r+0lWSVvlcjXTltffxVApLthVRgT5BHTNgmHgdLEzU0KX
-         YdYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5R84gnDXIcZCl3q1uuKNVrzE7JF/GewA0GD7Joj4Tac=;
-        b=rPCi00DRCAcLMymA/gD0SAF+s6X/g8o5KyNaj7GZWRlYbi1tEyPSm+6Ac5I93Z9+Ek
-         /13x9IDeuQJcABxaRluWH3BlN49RsHJYnFo0O04gc3XmPwr+3ZLpnSW/W3qD1pWBuKsY
-         P+2GHCmT7C8m6vnEAxmpEpKVx6kTvDUMEm75HJOqak/lkWObwC/VXtTzcr8OWpnKA5Vd
-         TM3qMDgvKyA11zua9AEYGPrppuUnsgIzivh+2vPI2dnCwaWQbpDzgB47ZUgN3R98SWgm
-         RCeJBpNSprtNJCWy3wvpGBahuWtDAc3w+wPpKhGab1bDC9ftSCNNMTcaCWLGjUk5ZTON
-         z0pA==
-X-Gm-Message-State: AFqh2kqNZRAwLvMuIbQ/78xsR/DzJ3K3syrW/3ICNL/11HxitCD0nAnc
-        9ZqMjYkVI2IBOpd4ob+8+4x+cOzvUz88qUfhjGjOYw==
-X-Google-Smtp-Source: AMrXdXsO9CWfLwOzPVqYnAJucA/qVRf1ChKGrluQUWC1ROk0zrv6560/2Dre8nwP8Lxgkk7sOMhP2BMCSX8GFdVvZpI=
-X-Received: by 2002:ac8:5e0c:0:b0:3ab:754e:f0b3 with SMTP id
- h12-20020ac85e0c000000b003ab754ef0b3mr2062105qtx.583.1672951121587; Thu, 05
- Jan 2023 12:38:41 -0800 (PST)
+        with ESMTP id S232331AbjAFBMB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Jan 2023 20:12:01 -0500
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D57ED71FC2;
+        Thu,  5 Jan 2023 17:11:59 -0800 (PST)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+        by ex01.ufhost.com (Postfix) with ESMTP id 4B76424DBC0;
+        Fri,  6 Jan 2023 09:11:57 +0800 (CST)
+Received: from EXMBX172.cuchost.com (172.16.6.92) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 6 Jan
+ 2023 09:11:57 +0800
+Received: from [192.168.2.237] (183.27.98.121) by EXMBX172.cuchost.com
+ (172.16.6.92) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 6 Jan
+ 2023 09:11:55 +0800
+Message-ID: <2286c916-c54c-bdda-b1d9-b704813b6fec@starfivetech.com>
+Date:   Fri, 6 Jan 2023 09:11:53 +0800
 MIME-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com> <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
-In-Reply-To: <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
-From:   Vishal Annapurve <vannapurve@google.com>
-Date:   Thu, 5 Jan 2023 12:38:30 -0800
-Message-ID: <CAGtprH_pbSo1HeEFUEB6ZZxm-=NEw+nLZ6ZVvr76=9BeX=AHPA@mail.gmail.com>
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH v1 0/4] Temperature sensor support for StarFive JH7110
+ RISC-V SoC
+To:     Guenter Roeck <linux@roeck-us.net>
+CC:     <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
+        Conor Dooley <conor@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+        <linux-kernel@vger.kernel.org>
+References: <20230103013145.9570-1-hal.feng@starfivetech.com>
+ <20230103015601.GB313835@roeck-us.net>
+Content-Language: en-US
+From:   Hal Feng <hal.feng@starfivetech.com>
+In-Reply-To: <20230103015601.GB313835@roeck-us.net>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [183.27.98.121]
+X-ClientProxiedBy: EXCAS061.cuchost.com (172.16.6.21) To EXMBX172.cuchost.com
+ (172.16.6.92)
+X-YovoleRuleAgent: yovoleflag
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 1, 2022 at 10:20 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> +#ifdef CONFIG_HAVE_KVM_RESTRICTED_MEM
-> +static bool restrictedmem_range_is_valid(struct kvm_memory_slot *slot,
-> +                                        pgoff_t start, pgoff_t end,
-> +                                        gfn_t *gfn_start, gfn_t *gfn_end)
-> +{
-> +       unsigned long base_pgoff = slot->restricted_offset >> PAGE_SHIFT;
-> +
-> +       if (start > base_pgoff)
-> +               *gfn_start = slot->base_gfn + start - base_pgoff;
+On Mon, 2 Jan 2023 17:56:01 -0800, Guenter Roeck wrote:
+> On Tue, Jan 03, 2023 at 09:31:41AM +0800, Hal Feng wrote:
+> > This patch series adds temperature sensor support for StarFive JH7110 SoC.
+> > The last two patches depend on series [1].
+> > 
+> > [1]: https://lore.kernel.org/all/20221220011247.35560-1-hal.feng@starfivetech.com/
+> > 
+> > Emil Renner Berthing (4):
+> >   dt-bindings: hwmon: Add starfive,jh71x0-temp
+> >   hwmon: (sfctemp) Add StarFive JH71x0 temperature sensor
+> >   riscv: dts: starfive: jh7110: Add temperature sensor node
+> >   riscv: dts: starfive: visionfive-2: Add thermal-zones
+> > 
+> 
+> The hardware monitoring driver is obviously either the same
+> or derived from the previous series at
+> https://patchwork.kernel.org/project/linux-hwmon/list/?series=&submitter=&state=*&q=starfive
+> 
+> Why is this not submitted as v4 of the original series ?
+> What has changed, and what is the rationale for (re-)submitting
+> it as v1 ?
 
-There should be a check for overflow here in case start is a very big
-value. Additional check can look like:
-if (start >= base_pgoff + slot->npages)
-       return false;
+Sorry for the late reply. I feel sorry to say that I didn't know
+the submitting history of this patch series and Emil forgot to
+tell me maybe. After comparing with the previous series, I find
+the changes between this one and the previous one can be concluded
+as below.
 
-> +       else
-> +               *gfn_start = slot->base_gfn;
-> +
-> +       if (end < base_pgoff + slot->npages)
-> +               *gfn_end = slot->base_gfn + end - base_pgoff;
+Change log:
+- Added support for StarFive JH7110 SoC besides JH7100.
+- Added clock and reset support in dt-bindings and driver.
+- Added two patches for adding nodes in JH7110 and VisionFive 2 dts
+  which were being reviewed.
 
-If "end" is smaller than base_pgoff, this can cause overflow and
-return the range as valid. There should be additional check:
-if (end < base_pgoff)
-         return false;
+Thank you for your kindly reminding. I will resend this patch
+series as version 4 and add the change log.
 
-
-> +       else
-> +               *gfn_end = slot->base_gfn + slot->npages;
-> +
-> +       if (*gfn_start >= *gfn_end)
-> +               return false;
-> +
-> +       return true;
-> +}
-> +
+Best regards,
+Hal
