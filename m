@@ -2,97 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4B62C54EBC
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Jan 2023 10:40:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF821C46467
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Jan 2023 14:38:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231770AbjAGKkv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 Jan 2023 05:40:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44044 "EHLO
+        id S229488AbjAGOiL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 Jan 2023 09:38:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231728AbjAGKkt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Jan 2023 05:40:49 -0500
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E784435939;
-        Sat,  7 Jan 2023 02:40:47 -0800 (PST)
-Received: by mail-wm1-x32b.google.com with SMTP id g10so2677891wmo.1;
-        Sat, 07 Jan 2023 02:40:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Q7wsnRffu5O2RWgyv3GZ3K8cLeYYuVq6dZD0H2Sa32E=;
-        b=ZLxygyA9kLt9+RMfDbWEaTfO6aYKJ113bhDgVMRWwq+CqNgPufmOTCjuVZ+r9LkSQF
-         TlFH4dlUugnM3xwRicIx+ni1A6QtYpvbkcGMzIkOEFa5tyZhwsrdc2Gk7wULwUa1T/TD
-         k3mW7KKISxXn1Z3ujcubF278OW8DVEveZuiowjPSwzAR5ePpY6gj9GBpPMbv5w0wPNFe
-         pMCi+EH+X2fGAuR4dMac2XNWHrOC/ZOmtfZvqMDPP91zVNtn/0GxU5Cnk/AMgT+uc8yX
-         pF8IEuW6wBJOVfwmp9zFTtNzdk5LmSQRHTsmJKj1R/Vr1dQQicljNxp3p9qsPwGgIuWa
-         CevA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q7wsnRffu5O2RWgyv3GZ3K8cLeYYuVq6dZD0H2Sa32E=;
-        b=qyp6pnPTwm5VAR3P6v3vW2w+Q2IStFV7AiFhUyYM4OKzDmrBU+5rn3zHO7hxSCOEWC
-         h+FNEO3/G+EG2DPh+LDHknJX0izsoCZmSU1mJoNW33SfYrlo3JVTGa6ac3sCBFjmTSG2
-         1c1rumLJOKy21t/bGdO9gA3940OVUf35axuicI6USLzqkLuSu5QlIq834hqTF8TPfUeM
-         UicyaI66JRRhNVOXaX0Eq3eAx5QssV9FAzdrAuCIhGRXaXhtEYlY0HG2PShF6msH2QMs
-         7VHpnwPlxGFzh/k29gEpqhjmv7XhJnxWzFzR78UikMAdL0/j3LAxwNxVpxSQU8QMIwuW
-         ZHiQ==
-X-Gm-Message-State: AFqh2kpFoZwrUyMIeEiRg0hj4vsbbDj0ikAc2YZsy40Tne6F8jDlmIuM
-        oovAcftJJFoPN22BmQH8Lvs=
-X-Google-Smtp-Source: AMrXdXuq+EWlBkcohRlbrPONGYn5FEPQFIlh1f/oLALicT3AP+m1ni8UQ+QudfRzNpxDC72kSlEnnw==
-X-Received: by 2002:a05:600c:2d07:b0:3d3:5841:e8b4 with SMTP id x7-20020a05600c2d0700b003d35841e8b4mr40607615wmf.35.1673088046544;
-        Sat, 07 Jan 2023 02:40:46 -0800 (PST)
-Received: from gmail.com (1F2EF507.nat.pool.telekom.hu. [31.46.245.7])
-        by smtp.gmail.com with ESMTPSA id l11-20020a05600c1d0b00b003d01b84e9b2sm5377974wms.27.2023.01.07.02.40.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Jan 2023 02:40:43 -0800 (PST)
-Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
-Date:   Sat, 7 Jan 2023 11:40:42 +0100
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Liam Ni <zhiguangni01@gmail.com>
-Cc:     x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org, kvm@vger.kernel.org,
-        kasan-dev@googlegroups.com
-Subject: Re: [PATCH] x86/boot: Check if the input parameter (buffer) of the
- function is a null pointer
-Message-ID: <Y7lMKhXSQvwvLq7L@gmail.com>
-References: <20221206125929.12237-1-zhiguangni01@gmail.com>
+        with ESMTP id S229475AbjAGOiK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Jan 2023 09:38:10 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A41D52766;
+        Sat,  7 Jan 2023 06:38:09 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D7B0360010;
+        Sat,  7 Jan 2023 14:38:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10682C433EF;
+        Sat,  7 Jan 2023 14:38:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673102288;
+        bh=+AcQ9WJVPan1G0rYOTucA63bgMfL6ndtCecaiiPwGU8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=WnUbZ1JQ+9BIe/fAr06jMYtSbfOig2tcyMdMKe4zZ0R27tWtJUUWP/tQfwOe7bOGm
+         QVVGSdrvLKwX0SfMz44PycAY1bwwM/ggYSCbqV73oG4ipDOuX+JHoXdHKpv8Bns9Z2
+         0mHaM3GhllUdFwdGU2fwElTLLX6nVZc6jG2/5hcKKE6gzqi/CE0GKaVZO9jPbMNe1c
+         1w2hUw4rXJx55itSrDyTHLvdXYqAaPD0vv6aK5RYD4anubeZtlPnS9N73ffbYJ6OYA
+         XQv9iNvE6YXOmxCB86HqdscMt9AHKF9cVCa9PtpxO8GPdeNc4BA+7ZTUstluvWPWEO
+         XawH9Xlz44jlA==
+From:   ojeda@kernel.org
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH] docs: kbuild: remove mention to dropped $(objtree) feature
+Date:   Sat,  7 Jan 2023 15:37:47 +0100
+Message-Id: <20230107143747.64802-1-ojeda@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221206125929.12237-1-zhiguangni01@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Miguel Ojeda <ojeda@kernel.org>
 
-* Liam Ni <zhiguangni01@gmail.com> wrote:
+Commit 8d613a1d048c ("kbuild: drop $(objtree)/ prefix support
+for clean-files") dropped support for prefixing with $(objtree).
 
-> If the variable buffer is a null pointer, it may cause the kernel to crash.
-> 
-> Signed-off-by: Liam Ni <zhiguangni01@gmail.com>
-> ---
->  arch/x86/boot/cmdline.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/boot/cmdline.c b/arch/x86/boot/cmdline.c
-> index 21d56ae83cdf..d0809f66054c 100644
-> --- a/arch/x86/boot/cmdline.c
-> +++ b/arch/x86/boot/cmdline.c
-> @@ -39,7 +39,7 @@ int __cmdline_find_option(unsigned long cmdline_ptr, const char *option, char *b
->  		st_bufcpy	/* Copying this to buffer */
->  	} state = st_wordstart;
->  
-> -	if (!cmdline_ptr)
-> +	if (!cmdline_ptr || buffer == NULL)
->  		return -1;      /* No command line */
+Thus update the documentation to match that change.
 
-Can this ever happen?
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+---
+ Documentation/kbuild/makefiles.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 6b7368d1f516..38bc74eaa547 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -1042,7 +1042,7 @@ $(clean-files).
+ 
+ When executing "make clean", the file "crc32table.h" will be deleted.
+ Kbuild will assume files to be in the same relative directory as the
+-Makefile, except if prefixed with $(objtree).
++Makefile.
+ 
+ To exclude certain files or directories from make clean, use the
+ $(no-clean-files) variable.
 
-	Ingo
+base-commit: 88603b6dc419445847923fcb7fe5080067a30f98
+-- 
+2.39.0
+
