@@ -2,133 +2,64 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8152CC54EBC
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Jan 2023 16:22:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ABF8C54EBC
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Jan 2023 17:29:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230298AbjAGQWF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 Jan 2023 11:22:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52086 "EHLO
+        id S232521AbjAGR3j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 Jan 2023 12:29:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229695AbjAGQWE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Jan 2023 11:22:04 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C44895F918;
-        Sat,  7 Jan 2023 08:22:03 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 358F160AFF;
-        Sat,  7 Jan 2023 16:22:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DBFEC433D2;
-        Sat,  7 Jan 2023 16:22:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673108522;
-        bh=Sc5iPDa0U8NcuBkO0eUQDplNpDRaMMwiLbcndIZn8sE=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=E9As+DcVM3BDmBJYyMGTdxjwBVCmO9vnwAJgVf/SiyMIoNmN8tIMu+ZS9ceujIdYn
-         QdPrCsmat1F13jcUDeyZ3/AJUeB+X6Yr9vypO8npFMmQRmfsy0SaX1U4QAMKA8jKQi
-         xPAVg0UzK62DcN5Yiib2I5umPOizEQ0FUMJWsHLi1b/Zaou7Xe8b7eXgpJmqU1wns9
-         7MQhRSI+O0zEROC8GP5D8UqcJxijkSYyer/SDtW50VCsyS3qhU9KQupfFKhzsUoGKk
-         93wHm9zZ9Oyw7W8VWildrb8jE69UJhdNscXmRkRRml0LnYUhiuq/Ia79PgWYDYvF0P
-         OySqe2MJ6spWA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 3989C5C09F1; Sat,  7 Jan 2023 08:22:02 -0800 (PST)
-Date:   Sat, 7 Jan 2023 08:22:02 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, akpm@linux-foundation.org, ndesaulniers@google.com,
-        vbabka@suse.cz, hannes@cmpxchg.org, joel@joelfernandes.org,
-        quic_neeraju@quicinc.com, urezki@gmail.com
-Subject: Re: [PATCH RFC bootconfig] Allow forcing unconditional bootconfig
- processing
-Message-ID: <20230107162202.GA4028633@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20230105005838.GA1772817@paulmck-ThinkPad-P17-Gen-1>
- <20230108002215.c18df95b19acdd3207b379fa@kernel.org>
+        with ESMTP id S230311AbjAGR3i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Jan 2023 12:29:38 -0500
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64162197;
+        Sat,  7 Jan 2023 09:29:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=OT78mzjiB2RDha/JbxUmO7OAn1GHdz9814ToiDBQSlQ=; b=kk5PCSE7IQgsrU/eowHn+J6YhV
+        oNmk+OHrgGvNzy3QvwcliVsQlky1m+Zlm8qmDJ0RIbh0fvN2h3O3qQcTMk8NIQ4dV76EyfBrRl3pk
+        Mjj+K/4fVWTFi1u+s2OyhpI7ZZ5IK7NR1Z6kodBUV+p2g/sIAPYGSPoDXoPwOC6zGjhU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1pED0U-001R4r-8v; Sat, 07 Jan 2023 18:29:22 +0100
+Date:   Sat, 7 Jan 2023 18:29:22 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
+Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, Oleksij Rempel <o.rempel@pengutronix.de>,
+        mailhol.vincent@wanadoo.fr, sudheer.mogilappagari@intel.com,
+        sbhatta@marvell.com, linux-doc@vger.kernel.org,
+        wangjie125@huawei.com, corbet@lwn.net, lkp@intel.com,
+        gal@nvidia.com, gustavoars@kernel.org
+Subject: Re: [PATCH v2 net-next 1/5] net/ethtool: add netlink interface for
+ the PLCA RS
+Message-ID: <Y7mr8kp1sgXembUr@lunn.ch>
+References: <cover.1673030528.git.piergiorgio.beruto@gmail.com>
+ <7d75e759e1073aad0fcc4571b6bc93a6667d104d.1673030528.git.piergiorgio.beruto@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230108002215.c18df95b19acdd3207b379fa@kernel.org>
+In-Reply-To: <7d75e759e1073aad0fcc4571b6bc93a6667d104d.1673030528.git.piergiorgio.beruto@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 08, 2023 at 12:22:15AM +0900, Masami Hiramatsu wrote:
-> On Wed, 4 Jan 2023 16:58:38 -0800
-> "Paul E. McKenney" <paulmck@kernel.org> wrote:
+On Fri, Jan 06, 2023 at 07:44:23PM +0100, Piergiorgio Beruto wrote:
+> Add support for configuring the PLCA Reconciliation Sublayer on
+> multi-drop PHYs that support IEEE802.3cg-2019 Clause 148 (e.g.,
+> 10BASE-T1S). This patch adds the appropriate netlink interface
+> to ethtool.
 > 
-> > The BOOT_CONFIG family of Kconfig options allows a bootconfig file
-> > containing kernel boot parameters to be embedded into an initrd or into
-> > the kernel itself.  This can be extremely useful when deploying kernels
-> > in cases where some of the boot parameters depend on the kernel version
-> > rather than on the server hardware, firmware, or workload.
-> > 
-> > Unfortunately, the "bootconfig" kernel parameter must be specified in
-> > order to cause the kernel to look for the embedded bootconfig file,
-> > and it clearly does not help to embed this "bootconfig" kernel parameter
-> > into that file.
-> > 
-> > Therefore, provide a new BOOT_CONFIG_FORCE Kconfig option that causes the
-> > kernel to act as if the "bootconfig" kernel parameter had been specified.
-> > In other words, kernels built with CONFIG_BOOT_CONFIG_FORCE=y will look
-> > for the embedded bootconfig file even when the "bootconfig" kernel
-> > parameter is omitted.  This permits kernel-version-dependent kernel
-> > boot parameters to be embedded into the kernel image without the need to
-> > (for example) update large numbers of boot loaders.
-> 
-> I like this because this is a simple solution. We have another option
-> to specify "bootconfig" in CONFIG_CMDLINE, but it can be overwritten by
-> bootloader. Thus, it is better to have this option so that user can
-> always enable bootconfig.
+> Signed-off-by: Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
 
-Glad you like it!
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-In addition, if the help text is accurate, another shortcoming of
-CONFIG_CMDLINE is that its semantics vary from one architecture to
-another.  Some have CONFIG_CMDLINE override the boot-loader supplied
-parameters, and others differ in the order in which the parameters
-are processed.
-
-> Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-
-Thank you!
-
-> BTW, maybe CONFIG_BOOT_CONFIG_EMBED is better to select this.
-> (or at least recommend to enable this)
-
-Like this?
-
-							Thanx, Paul
-
-------------------------------------------------------------------------
-
-commit d09a1505c51a70da38b34ac38062977299aef742
-Author: Paul E. McKenney <paulmck@kernel.org>
-Date:   Sat Jan 7 08:09:22 2023 -0800
-
-    bootconfig: Default BOOT_CONFIG_FORCE to y if BOOT_CONFIG_EMBED
-    
-    When a kernel is built with CONFIG_BOOT_CONFIG_EMBED=y, the intention
-    will normally be to unconditionally provide the specified kernel-boot
-    arguments to the kernel, as opposed to requiring a separately provided
-    bootconfig parameter.  Therefore, make the BOOT_CONFIG_FORCE Kconfig
-    option default to y in kernels built with CONFIG_BOOT_CONFIG_EMBED=y.
-    
-    The old semantics may be obtained by manually overriding this default.
-    
-    Suggested-by: Masami Hiramatsu <mhiramat@kernel.org>
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-
-diff --git a/init/Kconfig b/init/Kconfig
-index 0fb19fa0edba9..97a0f14d9020d 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1379,6 +1379,7 @@ config BOOT_CONFIG
- config BOOT_CONFIG_FORCE
- 	bool "Force unconditional bootconfig processing"
- 	depends on BOOT_CONFIG
-+	default y if BOOT_CONFIG_EMBED
- 	help
- 	  With this Kconfig option set, BOOT_CONFIG processing is carried
- 	  out even when the "bootconfig" kernel-boot parameter is omitted.
+    Andrew
