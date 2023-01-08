@@ -2,150 +2,304 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEFE4C53210
-	for <linux-doc@archiver.kernel.org>; Sun,  8 Jan 2023 14:03:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 958F7C53210
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Jan 2023 14:20:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230363AbjAHODq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 8 Jan 2023 09:03:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54870 "EHLO
+        id S230400AbjAHOUY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 8 Jan 2023 09:20:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbjAHODp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Jan 2023 09:03:45 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 967ECCEE;
-        Sun,  8 Jan 2023 06:03:43 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1E9A860C81;
-        Sun,  8 Jan 2023 14:03:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3546DC433D2;
-        Sun,  8 Jan 2023 14:03:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673186622;
-        bh=Yj97AqZZxBvGpmEY52L5FJf1TsB1g8VxchoVSk64F3I=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=T+t79dS/MHd5l8YxsEceVethO3ZdEQoNIuMOjm67aWQzigid0kwKENoE9JwT8AnNr
-         E0lmknQmfEizax9uP5yQ/M39xhFz6j1iqGCtStGc+vO+EYzV27X6cvjxGTQfHO5VSw
-         ImNskWkzbl2H5hiMPQ/kNQxQciV1O3mvyVa+R4hAn1YS+XrekFlHVglrJuVU7VuQ5v
-         Ee6oUdAgSf5zvZR+fS03l+U4jU3qPEh6x2oIy+1dDCmPkk8hPekwX8IeYrzvwCH8iy
-         1guOGPRCJgMHk6x++5RR1c4z3Knm0de75qElVjerZp8JsP/T2h+yHVfsV/Hj5zxFTH
-         OUWERJMjdE25w==
-Date:   Sun, 8 Jan 2023 15:01:35 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mliska@suse.cz
-Subject: Re: [PATCH] docs: Fix the docs build with Sphinx 6.0
-Message-ID: <20230108150135.060b0c7a@coco.lan>
-In-Reply-To: <cb916eae-fdf6-504f-8f38-7928e0fa8344@gmail.com>
-References: <87wn629ggg.fsf@meer.lwn.net>
-        <cb916eae-fdf6-504f-8f38-7928e0fa8344@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+        with ESMTP id S229627AbjAHOUX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Jan 2023 09:20:23 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CBA0E028;
+        Sun,  8 Jan 2023 06:20:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673187622; x=1704723622;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=uhwP33k79WfVOAOHMUzfxXOTAP/es5YajUb9QxIA5qs=;
+  b=KS2oLp5ftY/JURezUYvUV7pEdXv6PsrsZOYHt7LuWawhSbXeqk9fmtF0
+   z9FxZa9eSLFJSvxN+FZPSZUR3Xg87aTKLohMh4SVRCjwXm84P2ehRrjdw
+   TosL/Ufuhe7rcikHCrPgSIOEP7zCulFXE/vuVKDtKLafR8dXipnfu86/l
+   2PPKxMzHRBdrsbpo/0TNLTLPuKOAYslpLPmb49SnMcaCJfspqRsfdfyfD
+   DdJsGg0yhVTS589nrz2BkgVx3Cv4J+bxkZirWUYF3dpOrvgfcstBVhJ/O
+   4Mg3VsqRQPwrEaWp1m5bdBNh1NWn1kxcE8XUa49hIUTBPB5oRJm5GDHHl
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="303082433"
+X-IronPort-AV: E=Sophos;i="5.96,310,1665471600"; 
+   d="scan'208";a="303082433"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2023 06:20:21 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="606354019"
+X-IronPort-AV: E=Sophos;i="5.96,310,1665471600"; 
+   d="scan'208";a="606354019"
+Received: from mckumar-mobl2.gar.corp.intel.com (HELO [10.213.110.20]) ([10.213.110.20])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2023 06:20:14 -0800
+Message-ID: <38d010a2-17db-f752-6027-20520ade11bb@linux.intel.com>
+Date:   Sun, 8 Jan 2023 19:50:11 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v3 net-next 5/5] net: wwan: t7xx: Devlink documentation
+Content-Language: en-US
+To:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        netdev@vger.kernel.org
+Cc:     kuba@kernel.org, davem@davemloft.net, johannes@sipsolutions.net,
+        ryazanov.s.a@gmail.com, loic.poulain@linaro.org,
+        ilpo.jarvinen@linux.intel.com, ricardo.martinez@linux.intel.com,
+        chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
+        edumazet@google.com, pabeni@redhat.com, linuxwwan@intel.com,
+        linuxwwan_5g@intel.com, chandrashekar.devegowda@intel.com,
+        matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-doc@vger.kernel.org,
+        jiri@nvidia.com, corbet@lwn.net
+References: <cover.1673016069.git.m.chetan.kumar@linux.intel.com>
+ <500a41cb400b4cdedd6df414b40200a5211965f5.1673016069.git.m.chetan.kumar@linux.intel.com>
+ <270ae807-6842-b5c9-0b14-fbc1b768fa79@intel.com>
+From:   "Kumar, M Chetan" <m.chetan.kumar@linux.intel.com>
+In-Reply-To: <270ae807-6842-b5c9-0b14-fbc1b768fa79@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sat, 7 Jan 2023 14:17:24 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+On 1/7/2023 12:07 AM, Jesse Brandeburg wrote:
+> On 1/6/2023 8:28 AM, m.chetan.kumar@linux.intel.com wrote:
+>> From: M Chetan Kumar <m.chetan.kumar@linux.intel.com>
+>>
+>> Document the t7xx devlink commands usage for fw flashing &
+> 
+> it would make the documentation easier and faster to read if you just 
+> spelled out fw as firmware.
 
-> On Wed, 04 Jan 2023 13:45:35 -0700, Jonathan Corbet wrote:
-> > Sphinx 6.0 removed the execfile_() function, which we use as part of the
-> > configuration process.  They *did* warn us...  Just open-code the
-> > functionality as is done in Sphinx itself.
-> >=20
-> > Tested (using SPHINX_CONF, since this code is only executed with an
-> > alternative config file) on various Sphinx versions from 2.5 through 6.=
-0.
-> >=20
-> > Reported-by: Martin Li=C5=A1ka <mliska@suse.cz>
-> > Signed-off-by: Jonathan Corbet <corbet@lwn.net> =20
->=20
-> I have tested full builds of documentation with this change
-> with Sphinx versions 1.7.9, 2.4.5, 3.4.3, 4.5.0, 5.3.0, and 6.0.0.
->=20
-> Tested-by: Akira Yokosawa <akiyks@gmail.com>
->=20
-> That said, Sphinx 6.0.0 needs much more time and memory than earlier
-> versions.
->=20
-> FYI, I needed to limit parallel slot to 2 (make -j2) on a 16GB machine.
-> If you are lucky, -j3 and -j4 might succeed. -j5 or more ended up in
-> OOM situations for me:
->=20
-> Comparison of elapsed time and maxresident with -j2:
->=20
->   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->   Sphinx version elapsed time maxresident
->   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->   5.3.0          10:16.81      937660
->   6.0.0          17:29.07     5292392
->   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Sure. Will correct all such instances.
 
-=46rom the changelogs:
-	https://www.sphinx-doc.org/en/master/changes.html
+> 
+>> coredump collection.
+>>
+>> Refer to t7xx.rst file for details.
+>>
+>> Signed-off-by: M Chetan Kumar <m.chetan.kumar@linux.intel.com>
+>> Signed-off-by: Devegowda Chandrashekar 
+>> <chandrashekar.devegowda@intel.com>
+>> -- 
+>> v3:
+>>   * No Change.
+>> v2:
+>>   * Documentation correction.
+>>   * Add param details.
+>> ---
+>>   Documentation/networking/devlink/index.rst |   1 +
+>>   Documentation/networking/devlink/t7xx.rst  | 161 +++++++++++++++++++++
+>>   2 files changed, 162 insertions(+)
+>>   create mode 100644 Documentation/networking/devlink/t7xx.rst
+>>
+>> diff --git a/Documentation/networking/devlink/index.rst 
+>> b/Documentation/networking/devlink/index.rst
+>> index fee4d3968309..0c4f5961e78f 100644
+>> --- a/Documentation/networking/devlink/index.rst
+>> +++ b/Documentation/networking/devlink/index.rst
+>> @@ -66,3 +66,4 @@ parameters, info versions, and other features it 
+>> supports.
+>>      prestera
+>>      iosm
+>>      octeontx2
+>> +   t7xx
+>> diff --git a/Documentation/networking/devlink/t7xx.rst 
+>> b/Documentation/networking/devlink/t7xx.rst
+>> new file mode 100644
+>> index 000000000000..de220878ad76
+>> --- /dev/null
+>> +++ b/Documentation/networking/devlink/t7xx.rst
+>> @@ -0,0 +1,161 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +====================
+>> +t7xx devlink support
+>> +====================
+>> +
+>> +This document describes the devlink features implemented by the ``t7xx``
+>> +device driver.
+>> +
+>> +Parameters
+>> +==========
+>> +The ``t7xx_driver`` driver implements the following driver-specific 
+>> parameters.
+>> +
+>> +.. list-table:: Driver-specific parameters implemented
+>> +   :widths: 5 5 5 85
+>> +
+>> +   * - Name
+>> +     - Type
+>> +     - Mode
+>> +     - Description
+>> +   * - ``fastboot``
+>> +     - boolean
+>> +     - driverinit
+>> +     - Set this param to enter fastboot mode.
+>> +
+>> +Flash Update
+>> +============
+>> +
+>> +The ``t7xx`` driver implements the flash update using the 
+>> ``devlink-flash``
+>> +interface.
+>> +
+>> +The driver uses DEVLINK_SUPPORT_FLASH_UPDATE_COMPONENT to identify 
+>> the type of
+>> +firmware image that need to be programmed upon the request by user 
+>> space application.
+>> +
+>> +The supported list of firmware image types is described below.
+>> +
+>> +.. list-table:: Firmware Image types
+>> +    :widths: 15 85
+>> +
+>> +    * - Name
+>> +      - Description
+>> +    * - ``preloader``
+>> +      - The first-stage bootloader image
+>> +    * - ``loader_ext1``
+>> +      - Preloader extension image
+>> +    * - ``tee1``
+>> +      - ARM trusted firmware and TEE (Trusted Execution Environment) 
+>> image
+>> +    * - ``lk``
+>> +      - The second-stage bootloader image
+>> +    * - ``spmfw``
+>> +      - MediaTek in-house ASIC for power management image
+>> +    * - ``sspm_1``
+>> +      - MediaTek in-house ASIC for power management under secure 
+>> world image
+>> +    * - ``mcupm_1``
+>> +      - MediaTek in-house ASIC for cpu power management image
+>> +    * - ``dpm_1``
+>> +      - MediaTek in-house ASIC for dram power management image
+>> +    * - ``boot``
+>> +      - The kernel and dtb image
+>> +    * - ``rootfs``
+>> +      - Root filesystem image
+>> +    * - ``md1img``
+>> +      - Modem image
+>> +    * - ``md1dsp``
+>> +      - Modem DSP image
+>> +    * - ``mcf1``
+>> +      - Modem OTA image (Modem Configuration Framework) for operators
+>> +    * - ``mcf2``
+>> +      - Modem OTA image (Modem Configuration Framework) for OEM vendors
+>> +    * - ``mcf3``
+>> +      - Modem OTA image (other usage) for OEM configurations
+>> +
+>> +``t7xx`` driver uses fastboot protocol for fw flashing. In the fw 
+>> flashing
+> 
+> it would make the documentation easier and faster to read if you just 
+> spelled out fw as firmware.
+> 
+>> +procedure, fastboot command & response are exchanged between driver 
+>> and wwan
+>> +device.
+>> +
+>> +The wwan device is put into fastboot mode via devlink reload command, by
+>> +passing "driver_reinit" action.
+>> +
+>> +$ devlink dev reload pci/0000:$bdf action driver_reinit
+>> +
+>> +Upon completion of fw flashing or coredump collection the wwan device is
+>> +reset to normal mode using devlink reload command, by passing 
+>> "fw_activate"
+>> +action.
+>> +
+>> +$ devlink dev reload pci/0000:$bdf action fw_activate
+>> +
+>> +Flash Commands:
+>> +===============
+>> +
+>> +$ devlink dev flash pci/0000:$bdf file 
+>> preloader_k6880v1_mdot2_datacard.bin component "preloader"
+>> +
+>> +$ devlink dev flash pci/0000:$bdf file loader_ext-verified.img 
+>> component "loader_ext1"
+>> +
+>> +$ devlink dev flash pci/0000:$bdf file tee-verified.img component "tee1"
+>> +
+>> +$ devlink dev flash pci/0000:$bdf file lk-verified.img component "lk"
+>> +
+>> +$ devlink dev flash pci/0000:$bdf file spmfw-verified.img component 
+>> "spmfw"
+>> +
+>> +$ devlink dev flash pci/0000:$bdf file sspm-verified.img component 
+>> "sspm_1"
+>> +
+>> +$ devlink dev flash pci/0000:$bdf file mcupm-verified.img component 
+>> "mcupm_1"
+>> +
+>> +$ devlink dev flash pci/0000:$bdf file dpm-verified.img component 
+>> "dpm_1"
+>> +
+>> +$ devlink dev flash pci/0000:$bdf file boot-verified.img component 
+>> "boot"
+>> +
+>> +$ devlink dev flash pci/0000:$bdf file root.squashfs component "rootfs"
+>> +
+>> +$ devlink dev flash pci/0000:$bdf file modem-verified.img component 
+>> "md1img"
+>> +
+>> +$ devlink dev flash pci/0000:$bdf file dsp-verified.bin component 
+>> "md1dsp"
+>> +
+>> +$ devlink dev flash pci/0000:$bdf file OP_OTA.img component "mcf1"
+>> +
+>> +$ devlink dev flash pci/0000:$bdf file OEM_OTA.img component "mcf2"
+>> +
+>> +$ devlink dev flash pci/0000:$bdf file DEV_OTA.img component "mcf3"
+>> +
+>> +Note: Component selects the partition type to be programmed.
+>> +
+>> +Regions
+>> +=======
+>> +
+>> +The ``t7xx`` driver supports core dump collection when device encounters
+>> +an exception. When wwan device encounters an exception, a snapshot of 
+>> device
+>> +internal data will be taken by the driver using fastboot commands.
+>> +
+>> +Following regions are accessed for device internal data.
+>> +
+>> +.. list-table:: Regions implemented
+>> +    :widths: 15 85
+>> +
+>> +    * - Name
+>> +      - Description
+>> +    * - ``mr_dump``
+>> +      - The detailed modem component logs are captured in this region
+>> +    * - ``lk_dump``
+>> +      - This region dumps the current snapshot of lk
+>> +
+>> +
+>> +Region commands
+>> +===============
+>> +
+>> +$ devlink region show
+>> +
+>> +
+>> +$ devlink region new mr_dump
+>> +
+>> +$ devlink region read mr_dump snapshot 0 address 0 length $len
+>> +
+>> +$ devlink region del mr_dump snapshot 0
+>> +
+>> +$ devlink region new lk_dump
+>> +
+>> +$ devlink region read lk_dump snapshot 0 address 0 length $len
+>> +
+>> +$ devlink region del lk_dump snapshot 0
+>> +
+>> +Note: $len is actual len to be dumped.
+> 
 
-It seems that 6.1 came with some performance optimizations, in particular:
-
-    Cache doctrees in the build environment during the writing phase.
-
-    Make all writing phase tasks support parallel execution.
-
-    Cache doctrees between the reading and writing phases.
-
-It would be nice if you could also test and check elapsed time
-there too, as I suspect that 6.0 will have a very short usage, as
-6.1 was released just a few days after it.
-
-Regards,
-Mauro.
-
-
-
->=20
->         Thanks, Akira
->=20
-> > ---
-> >  Documentation/sphinx/load_config.py | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx=
-/load_config.py
-> > index eeb394b39e2c..8b416bfd75ac 100644
-> > --- a/Documentation/sphinx/load_config.py
-> > +++ b/Documentation/sphinx/load_config.py
-> > @@ -3,7 +3,7 @@
-> > =20
-> >  import os
-> >  import sys
-> > -from sphinx.util.pycompat import execfile_
-> > +from sphinx.util.osutil import fs_encoding
-> > =20
-> >  # --------------------------------------------------------------------=
-----------
-> >  def loadConfig(namespace):
-> > @@ -48,7 +48,9 @@ def loadConfig(namespace):
-> >              sys.stdout.write("load additional sphinx-config: %s\n" % c=
-onfig_file)
-> >              config =3D namespace.copy()
-> >              config['__file__'] =3D config_file
-> > -            execfile_(config_file, config)
-> > +            with open(config_file, 'rb') as f:
-> > +                code =3D compile(f.read(), fs_encoding, 'exec')
-> > +                exec(code, config)
-> >              del config['__file__']
-> >              namespace.update(config)
-> >          else:
-> > --=20
-> > 2.38.1 =20
-
-
-
-Thanks,
-Mauro
+-- 
+Chetan
