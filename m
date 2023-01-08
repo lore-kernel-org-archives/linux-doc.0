@@ -2,150 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BCF1C53210
-	for <linux-doc@archiver.kernel.org>; Sun,  8 Jan 2023 06:04:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 616F0C54EBC
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Jan 2023 10:48:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229482AbjAHGEe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 8 Jan 2023 01:04:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55804 "EHLO
+        id S231454AbjAHKs4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 8 Jan 2023 05:48:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230205AbjAHGEd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Jan 2023 01:04:33 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C77018E1A;
-        Sat,  7 Jan 2023 22:04:31 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 058E760BEA;
-        Sun,  8 Jan 2023 06:04:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE5B3C433EF;
-        Sun,  8 Jan 2023 06:04:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673157870;
-        bh=sxLgw656KnRhuwO4+fEm20uaNlzK9/wJ1eViWMHL/MA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=VG2FzlZrQ0OylbElYkju0RS8ASh09uSSC7uLeSmk8vsATiLviUHQENieO5eibnks9
-         71YMNRswTO9P6iXKurRoDf2dE+3s7sJh+JbOpup3uzN0g88ZUoqUKJbuzBjPyRta/6
-         n1yRH8f6ZkASgF9E3AjVita7rB/ODS+OPzpZ/47ER9sMuRZxyYPGilbVOkBizpWddz
-         V7DjefuZA0JgdRhx8HB8tqnPK68XGcC6m25vSoQI6ttF1YxzmS0zJa8sXQ4qVrRH92
-         s13D5of+gnIgK11XvGluW1lKfENXinkdwzm+0AhDRRy9CNxOxP4349nNmd13QCBs8Q
-         DTyEnwImx0PIA==
-Date:   Sun, 8 Jan 2023 15:04:25 +0900
-From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To:     paulmck@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, akpm@linux-foundation.org, ndesaulniers@google.com,
-        vbabka@suse.cz, hannes@cmpxchg.org, joel@joelfernandes.org,
-        quic_neeraju@quicinc.com, urezki@gmail.com
-Subject: Re: [PATCH RFC bootconfig] Allow forcing unconditional bootconfig
- processing
-Message-Id: <20230108150425.426f2861e9db1152fa84508f@kernel.org>
-In-Reply-To: <20230107162202.GA4028633@paulmck-ThinkPad-P17-Gen-1>
-References: <20230105005838.GA1772817@paulmck-ThinkPad-P17-Gen-1>
-        <20230108002215.c18df95b19acdd3207b379fa@kernel.org>
-        <20230107162202.GA4028633@paulmck-ThinkPad-P17-Gen-1>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229822AbjAHKsz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Jan 2023 05:48:55 -0500
+Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com [IPv6:2607:f8b0:4864:20::a2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D2DC10B78;
+        Sun,  8 Jan 2023 02:48:54 -0800 (PST)
+Received: by mail-vk1-xa2f.google.com with SMTP id z190so2650323vka.4;
+        Sun, 08 Jan 2023 02:48:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=o+ulyHY5t1vIQHRPkJRkZkMsVhYDzl0Wi1NRRdUXX9E=;
+        b=khZsRl3/h6xFPtV+trGF8SoZlhUH7CXOkbNSVy0ph0vcxdY2POtEBg03zxNX8NOjKd
+         tk0nBaNgQ7Qkcbndq/9sUu9/ASJ7jbK4uYDbK/bTz5OlmFXDU8glJgzuEEv6Z/s6NMfA
+         mp4rpznbR52Td9JIJd+jemR2waWnWqaR5O+5xO3DbdqK/ncWuaOvXDjz4YwzrATW6+AT
+         M8+n4X/t1ZgquFU/5c+wBFLYST09b1qKcf+ZPYUk9m3W2UOYcUJY3wtRak73CebxOF2s
+         Srav0OegoVZNvk1eaPYqXHoJyRanQU2FIyrTJWyfZ4nP8ieu3yAmmAtAsqqtCCVbv2RA
+         wVmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=o+ulyHY5t1vIQHRPkJRkZkMsVhYDzl0Wi1NRRdUXX9E=;
+        b=VJ+P9EjuVG/nOslkNTEPSl+LMHTxyVm/iF6uLpmHYxFbGuJKTjwC7TBLzBFYjBEQ6h
+         7ZtEfKTKrVMm4YNm8RJAURgXRoWW4rTpb8z9f/eIt92bBxeFdm5Tbtk2NOYP0gKLrpRD
+         7e53frsKVfzQxkgxbVhY0VTWWCwdAsT113nAsx1GmKt7CUXtJUxkW60GnD8JDKKGdVxj
+         t+cel5EjhrNgJlfNk3lQVtAknhismRosmGMEeS1fxAU0j2BJwhyHq1HFLtRlANS8lagv
+         14KaKAKdPndeR7q66UpPzXatELMAb+W1FWKJw4vz67tc5ofNHB3Nt814fQ8qm3REXm7U
+         pIcg==
+X-Gm-Message-State: AFqh2kqBqIKO8O9EWqR27mP2nS3s62cxaKToJdmqjcRmwN87yxl5HUnP
+        e4qoUgxexJOraT4VZFRLpsY2c1+JQrGDKvf9SH0=
+X-Google-Smtp-Source: AMrXdXsC9zjoSX3JUJXUNKpbqfCGbJ5sLgu3n0p9Rc2JNm9GFnGoyDe1ACeN5YOtUEET51RrQuI/o6A4avtvFhehWBM=
+X-Received: by 2002:a1f:2e4e:0:b0:3d5:5ea6:ccb9 with SMTP id
+ u75-20020a1f2e4e000000b003d55ea6ccb9mr6218898vku.7.1673174933379; Sun, 08 Jan
+ 2023 02:48:53 -0800 (PST)
+MIME-Version: 1.0
+References: <20221117082648.47526-1-yangyicong@huawei.com> <20221117082648.47526-3-yangyicong@huawei.com>
+ <Y7cToj5mWd1ZbMyQ@arm.com>
+In-Reply-To: <Y7cToj5mWd1ZbMyQ@arm.com>
+From:   Barry Song <21cnbao@gmail.com>
+Date:   Sun, 8 Jan 2023 18:48:41 +0800
+Message-ID: <CAGsJ_4yC0i6MYwvosRSrdQ1iT7n88ypmK3aOQJkuusqNKtddtg@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] arm64: support batched/deferred tlb shootdown
+ during page reclamation
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Yicong Yang <yangyicong@huawei.com>, akpm@linux-foundation.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        x86@kernel.org, will@kernel.org, anshuman.khandual@arm.com,
+        linux-doc@vger.kernel.org, corbet@lwn.net, peterz@infradead.org,
+        arnd@arndb.de, punit.agrawal@bytedance.com,
+        linux-kernel@vger.kernel.org, darren@os.amperecomputing.com,
+        yangyicong@hisilicon.com, huzhanyuan@oppo.com, lipeifeng@oppo.com,
+        zhangshiming@oppo.com, guojian@oppo.com, realmz6@gmail.com,
+        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, wangkefeng.wang@huawei.com,
+        xhao@linux.alibaba.com, prime.zeng@hisilicon.com,
+        Barry Song <v-songbaohua@oppo.com>,
+        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 7 Jan 2023 08:22:02 -0800
-"Paul E. McKenney" <paulmck@kernel.org> wrote:
+On Fri, Jan 6, 2023 at 2:15 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
+>
+> On Thu, Nov 17, 2022 at 04:26:48PM +0800, Yicong Yang wrote:
+> > It is tested on 4,8,128 CPU platforms and shows to be beneficial on
+> > large systems but may not have improvement on small systems like on
+> > a 4 CPU platform. So make ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH depends
+> > on CONFIG_EXPERT for this stage and make this disabled on systems
+> > with less than 8 CPUs. User can modify this threshold according to
+> > their own platforms by CONFIG_NR_CPUS_FOR_BATCHED_TLB.
+>
+> What's the overhead of such batching on systems with 4 or fewer CPUs? If
+> it isn't noticeable, I'd rather have it always on than some number
+> chosen on whichever SoC you tested.
 
-> On Sun, Jan 08, 2023 at 12:22:15AM +0900, Masami Hiramatsu wrote:
-> > On Wed, 4 Jan 2023 16:58:38 -0800
-> > "Paul E. McKenney" <paulmck@kernel.org> wrote:
-> > 
-> > > The BOOT_CONFIG family of Kconfig options allows a bootconfig file
-> > > containing kernel boot parameters to be embedded into an initrd or into
-> > > the kernel itself.  This can be extremely useful when deploying kernels
-> > > in cases where some of the boot parameters depend on the kernel version
-> > > rather than on the server hardware, firmware, or workload.
-> > > 
-> > > Unfortunately, the "bootconfig" kernel parameter must be specified in
-> > > order to cause the kernel to look for the embedded bootconfig file,
-> > > and it clearly does not help to embed this "bootconfig" kernel parameter
-> > > into that file.
-> > > 
-> > > Therefore, provide a new BOOT_CONFIG_FORCE Kconfig option that causes the
-> > > kernel to act as if the "bootconfig" kernel parameter had been specified.
-> > > In other words, kernels built with CONFIG_BOOT_CONFIG_FORCE=y will look
-> > > for the embedded bootconfig file even when the "bootconfig" kernel
-> > > parameter is omitted.  This permits kernel-version-dependent kernel
-> > > boot parameters to be embedded into the kernel image without the need to
-> > > (for example) update large numbers of boot loaders.
-> > 
-> > I like this because this is a simple solution. We have another option
-> > to specify "bootconfig" in CONFIG_CMDLINE, but it can be overwritten by
-> > bootloader. Thus, it is better to have this option so that user can
-> > always enable bootconfig.
-> 
-> Glad you like it!
-> 
-> In addition, if the help text is accurate, another shortcoming of
-> CONFIG_CMDLINE is that its semantics vary from one architecture to
-> another.  Some have CONFIG_CMDLINE override the boot-loader supplied
-> parameters, and others differ in the order in which the parameters
-> are processed.
+On the one hand, tlb flush is cheap on a small system. so batching tlb flush
+helps very minorly.
 
-Yes, that differences confuse us...
+On the other hand, since we have batched the tlb flush, new PTEs might be
+invisible to others before the final broadcast is done and Ack-ed. thus, there
+is a risk someone else might do mprotect or similar things  on those deferred
+pages which will ask for read-modify-write on those deferred PTEs. in this
+case, mm will do an explicit flush by flush_tlb_batched_pending which is
+not required if tlb flush is not deferred. the code is in:
 
-> 
-> > Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> 
-> Thank you!
-> 
-> > BTW, maybe CONFIG_BOOT_CONFIG_EMBED is better to select this.
-> > (or at least recommend to enable this)
-> 
-> Like this?
+static unsigned long change_pte_range(struct mmu_gather *tlb,
+struct vm_area_struct *vma, pmd_t *pmd, unsigned long addr,
+unsigned long end, pgprot_t newprot, unsigned long cp_flags)
+{
+        ...
 
-Yes! Thanks.
+      pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
 
-> 
-> 							Thanx, Paul
-> 
-> ------------------------------------------------------------------------
-> 
-> commit d09a1505c51a70da38b34ac38062977299aef742
-> Author: Paul E. McKenney <paulmck@kernel.org>
-> Date:   Sat Jan 7 08:09:22 2023 -0800
-> 
->     bootconfig: Default BOOT_CONFIG_FORCE to y if BOOT_CONFIG_EMBED
->     
->     When a kernel is built with CONFIG_BOOT_CONFIG_EMBED=y, the intention
->     will normally be to unconditionally provide the specified kernel-boot
->     arguments to the kernel, as opposed to requiring a separately provided
->     bootconfig parameter.  Therefore, make the BOOT_CONFIG_FORCE Kconfig
->     option default to y in kernels built with CONFIG_BOOT_CONFIG_EMBED=y.
->     
->     The old semantics may be obtained by manually overriding this default.
->     
->     Suggested-by: Masami Hiramatsu <mhiramat@kernel.org>
->     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+      flush_tlb_batched_pending(vma->vm_mm);
+      arch_enter_lazy_mmu_mode();
+      do {
+                oldpte = *pte;
+                if (pte_present(oldpte)) {
+                           pte_t ptent;
+                ...
+}
 
-Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+since we don't have the mechanism to record which pages should be
+flushed in flush_tlb_batched_pending(), flush_tlb_batched_pending()
+is flushing the whole process,
 
-Thank you!
+void flush_tlb_batched_pending(struct mm_struct *mm)
+{
+       int batch = atomic_read(&mm->tlb_flush_batched);
+       int pending = batch & TLB_FLUSH_BATCH_PENDING_MASK;
+       int flushed = batch >> TLB_FLUSH_BATCH_FLUSHED_SHIFT;
 
-> 
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 0fb19fa0edba9..97a0f14d9020d 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -1379,6 +1379,7 @@ config BOOT_CONFIG
->  config BOOT_CONFIG_FORCE
->  	bool "Force unconditional bootconfig processing"
->  	depends on BOOT_CONFIG
-> +	default y if BOOT_CONFIG_EMBED
->  	help
->  	  With this Kconfig option set, BOOT_CONFIG processing is carried
->  	  out even when the "bootconfig" kernel-boot parameter is omitted.
+       if (pending != flushed) {
+               flush_tlb_mm(mm);
+        /*
+         * If the new TLB flushing is pending during flushing, leave
+         * mm->tlb_flush_batched as is, to avoid losing flushing.
+        */
+      atomic_cmpxchg(&mm->tlb_flush_batched, batch,
+           pending | (pending << TLB_FLUSH_BATCH_FLUSHED_SHIFT));
+     }
+}
 
+I guess mprotect things won't be that often for a running process especially
+when the system has begun to reclaim its memory. it might be more often
+only during the initialization of a process. And x86 has enabled this feature
+for a long time, probably this concurrency doesn't matter too much.
 
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+but it is still case by case. That is why we have decided to be more
+conservative
+on globally enabling this feature and why it also depends on CONFIG_EXPERT.
+
+I believe Anshuman has contributed many points on this in those previous
+discussions.
+
+Thanks
+Barry
