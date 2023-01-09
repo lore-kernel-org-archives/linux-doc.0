@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7693EC54EBD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28995C5479D
 	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 09:53:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236626AbjAIJw4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 04:52:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43886 "EHLO
+        id S236586AbjAIJwy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 04:52:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236533AbjAIJv4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 04:51:56 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FF8D13CD4;
-        Mon,  9 Jan 2023 01:51:20 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id h7-20020a17090aa88700b00225f3e4c992so12235355pjq.1;
-        Mon, 09 Jan 2023 01:51:20 -0800 (PST)
+        with ESMTP id S234428AbjAIJvz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 04:51:55 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC85A12AB8;
+        Mon,  9 Jan 2023 01:51:17 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id q64so8177087pjq.4;
+        Mon, 09 Jan 2023 01:51:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=y2CjRZgj5w+03CooppV2h5YZRADlzHN7ByIiZ7SsR6s=;
-        b=MG55Mifdwpxh8MVPJdLjs2cTl9ualnfbSIBDen/T3cWwkgvZSgZ7pgVg9Jm4QgDyxT
-         oqikm+3W+0EfEJoZKu4GVgLDFiBaDB1E5pF1xhuL7w8b2uLz+VAeOzDHyg9/Ya3mEMcV
-         gXfDsiX5JY2VyjEUlu0+h1rowuBQOyqAHKYJ834/s+x4oX/+42PndXvYlQUtHnGzAIPP
-         BDCdlCPPrbvQ1cfx7tDUZbRGZqgL0QycBRbAl9FR/t1By4ofs95RhZ7w9Sz0YobX+fwF
-         SRGWlwkXe9JuAfyAQ4Cgpy9Of4CTz+1TVj8u+sNNMok8UHz3gHuFSv5Ja4TRKrIGxwFx
-         7Z2g==
+        bh=/pY4ZKXVLOrE6gD68z6GRMauw7Dx/dgMLhheE8eJci0=;
+        b=BDPwNvqefBDNX9Ref2snXWVTU0ETDThH4C4K8JZ55jYDlgRZuRMhIcPIqY/ZQRun44
+         y1NID1LZ+gMjRrM36zVNlGQlEdZ/+o8pk2fgk0vjwgYDr5VaeNKj4FVSAIdUwIA6kcTC
+         kO31rUMHso2pgbbBjurwJikiX3Aljipw0P79uFfMKLsH1LetkW4iHifhQVaXWRpFlaTw
+         DDfjhCh9hKiPVrQBMoed11CJ0CcqFEgCyJ75p1/PGJBQB8DFp6q165kT+T4tcQpYpNp1
+         gc21q0Ur4V6d5P7OPvgldAXEWDVtEkNKGJg35TRk+2568qO8kSg0mz4iUb+dn1KVczR2
+         FNpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=y2CjRZgj5w+03CooppV2h5YZRADlzHN7ByIiZ7SsR6s=;
-        b=iyQUhOF16dcuFMHw5UOpjlRD+YS4QSGD7ULWBi3uWdAFE+jF+RwLAqyb2ISlMKzSGy
-         W3gOqt51pnz5f5Zw4uSbnujcraqGq2E+DBd2UCdIta/jT9XIzB0GJJWbd4Az33I0+KGr
-         Txj0ryV+/5IccOPcsoWwbFoAF2AM9Oq48wafGWmQY6GA+T+7HvKma5SHTdL2ElTPXu0t
-         dopmn0P6eOnnYh+uo8f42Ai1vi8y4cWeKMRy3KlVG8fvEIBe4+bsls22e4xa3aYJv3vU
-         ARMWiGPsS1mjQ1F8AtfixRLsEuHfvVK9TC+M8C2N2Hlorz75CeEZOVX3iCzXK0/wAqxW
-         1WdA==
-X-Gm-Message-State: AFqh2kq+4Cb7+uo30KpNU71UmMFRz+f+E9i0bzzNWN+Gzl5Axr8Ln7FE
-        66oGI2VLGBisYfTfDJOkRfA=
-X-Google-Smtp-Source: AMrXdXt95xNzXFrT8/Ac8yI6E7YW5RTTJCc0zk7UJy5Exzl8ssTKQEib+yA/ks97qFSEN/iWIiJheA==
-X-Received: by 2002:a17:90b:35c7:b0:226:17f9:8025 with SMTP id nb7-20020a17090b35c700b0022617f98025mr43532509pjb.40.1673257879452;
-        Mon, 09 Jan 2023 01:51:19 -0800 (PST)
+        bh=/pY4ZKXVLOrE6gD68z6GRMauw7Dx/dgMLhheE8eJci0=;
+        b=jfbnbf9dNn7+eqDH32t6iiFqDl67OLT+r/3VzFWYpXU7XsRx0q8n5aCqs6h/SsjS6g
+         6Wyh9NlJLWROStFL3VHBZrBouQ8qtF0hiaCxlMKA9JoJw0w8lXtZX6q2e2Q5y86FJGLp
+         99fZfvGvm6362QIH/KXtzXPz94rFSlDXGxhRrHwL87wpVcbItHoCcIVDzPWvfV1qnQjl
+         roQead5UfPg6fyZcwXyKl6DIJfWzxUdKk/37VzWTBMXdwpD4gsVqQZbXS1s94H6jMiJU
+         8fG05zglDgc0xRWmWiDl/jv+lvIQhcpPbTOr9JoaeDB6LGqSvpXg2JYSD/FVmxZSa9Cx
+         DiYQ==
+X-Gm-Message-State: AFqh2kqiMFnT2vQk0S2PwWJ9CVjsldud6fGEVB3qYamaR2WWwFs0Dt+m
+        NUMvvux8cgc1Csnw3TkMPWw=
+X-Google-Smtp-Source: AMrXdXtgweC1kVhPoQNQh3kHXUCXyIpa6J9Yux3VpMe0mfYIEnspuyIr3MNUNrJaLyJ4KFQFE1Ttpg==
+X-Received: by 2002:a17:90b:70e:b0:227:1f03:f22d with SMTP id s14-20020a17090b070e00b002271f03f22dmr1483298pjz.15.1673257877212;
+        Mon, 09 Jan 2023 01:51:17 -0800 (PST)
 Received: from debian.me (subs03-180-214-233-26.three.co.id. [180.214.233.26])
-        by smtp.gmail.com with ESMTPSA id lj12-20020a17090b344c00b002190eabb890sm7047881pjb.25.2023.01.09.01.51.18
+        by smtp.gmail.com with ESMTPSA id ha18-20020a17090af3d200b00219eefe47c7sm4975315pjb.47.2023.01.09.01.51.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 01:51:18 -0800 (PST)
+        Mon, 09 Jan 2023 01:51:15 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-        id B8817104BBE; Mon,  9 Jan 2023 16:51:10 +0700 (WIB)
+        id 97994105014; Mon,  9 Jan 2023 16:51:10 +0700 (WIB)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Yann Sionneau <ysionneau@kalray.eu>
@@ -58,98 +58,315 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Clement Leger <clement.leger@bootlin.com>,
         Guillaume Thouvenin <gthouvenin@kalray.eu>,
         Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 6/8] Documentation: kvx: Promote title headings
-Date:   Mon,  9 Jan 2023 16:51:06 +0700
-Message-Id: <20230109095108.21229-7-bagasdotme@gmail.com>
+Subject: [PATCH 3/8] Documentation: kvx: Fix lists
+Date:   Mon,  9 Jan 2023 16:51:03 +0700
+Message-Id: <20230109095108.21229-4-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230109095108.21229-1-bagasdotme@gmail.com>
 References: <874jt7fqxt.fsf@meer.lwn.net>
  <20230109095108.21229-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2735; i=bagasdotme@gmail.com; h=from:subject; bh=yMsDrHoSWinbqsJdqdRDs7EJeO2eIKc6AFgy0XYKjUY=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMm7H3dP3SI8c+YZdvfiSxa7zEQEZKYVN/+1iKsSuaqTFN8t /cK3o5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABN5JsrIMEvOOVDmz/Kn1SLiFv91V0 jqi/tX82Rse+XwlP1+ZeKcOkaGe4VW/qVBOg9mtF4xFT3wodZ7w8rQgB+/NiiVSv0tiFfhAgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13049; i=bagasdotme@gmail.com; h=from:subject; bh=yapx+R4CPIYDKlrP7H+zacYOrKBXnpEEf/JMW3WEweI=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMm7H3exN9+sLdqsvP7nn8kpLPH9htbHzFSKLwZ+TzUoXckk JZTXUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgIlkXWb4p7Oh9ENytHB3/fqczbqs1x k70pJvX/q879ASRWkHu6UanYwM1x82VX1wUS62mCm9J7vDRV7zC+vy/lq1nMh/Kov8O0q4AQ==
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The documentation contains headings which all marked up using the same
-heading level, which cause doc sections to also appear in index TOC
-alongside doc titles.
+Many "unexpected indentation" and block quote warnings are generated due
+to errors in lists. Fix them up by:
 
-Promote title headings while expanding their title text to be more
-descriptive.
+  * Align lists texts just after the lists marker
+  * Add required blank line between nested lists and between paragraphs
+    and the lists
+  * Use appropriate syntax for numbered lists
+
+While at it, also lightly reword.
 
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/kvx/kvx-exceptions.rst | 6 ++++--
- Documentation/kvx/kvx-iommu.rst      | 4 ++--
- Documentation/kvx/kvx-mmu.rst        | 5 +++--
- Documentation/kvx/kvx-smp.rst        | 5 +++--
- Documentation/kvx/kvx.rst            | 1 +
- 5 files changed, 13 insertions(+), 8 deletions(-)
+ Documentation/kvx/kvx-exceptions.rst | 53 ++++++++++++++-----------
+ Documentation/kvx/kvx-iommu.rst      |  3 +-
+ Documentation/kvx/kvx-mmu.rst        | 37 +++++++++--------
+ Documentation/kvx/kvx.rst            | 59 +++++++++++++++-------------
+ 4 files changed, 85 insertions(+), 67 deletions(-)
 
 diff --git a/Documentation/kvx/kvx-exceptions.rst b/Documentation/kvx/kvx-exceptions.rst
-index bd485efd2362c1..15692f14b9219d 100644
+index bb9010efb14196..bd485efd2362c1 100644
 --- a/Documentation/kvx/kvx-exceptions.rst
 +++ b/Documentation/kvx/kvx-exceptions.rst
-@@ -1,5 +1,7 @@
--Exceptions
--==========
-+=========================
-+Exception handling in kvx
-+=========================
-+
- On kvx, handlers are set using $ev (exception vector) register which
- specifies a base address.
+@@ -5,6 +5,7 @@ specifies a base address.
  An offset is added to $ev upon exception and the result is used as
+ "Next $pc".
+ The offset depends on which exception vector the cpu wants to jump to:
++
+ * $ev + 0x00 for debug
+ * $ev + 0x40 for trap
+ * $ev + 0x80 for interrupt
+@@ -28,6 +29,7 @@ Then, handlers are laid in the following order::
+ 
+ 
+ Interrupts, and traps are serviced similarly, ie:
++
+ - Jump to handler
+ - Save all registers
+ - Prepare the call (do_IRQ or trap_handler)
+@@ -58,12 +60,15 @@ The following steps are then taken:
+ 
+ - Switch to kernel stack
+ - Extract syscall number
+-- Check that the syscall number is not bogus
+- - If so, set syscall func to a not implemented one
+-- Check if tracing is enabled
+- - If so, jump to trace_syscall_enter
++- Check that the syscall number is not bogus.
++  If so, set syscall func to a not implemented one
++
++- Check if tracing is enabled.
++  If so, jump to trace_syscall_enter, then:
++
+  - Save syscall arguments (r0 -> r7) on stack in pt_regs
+  - Call do_trace_syscall_enter function
++
+ - Restore syscall arguments since they have been modified by C call
+ - Call the syscall function
+ - Save $r0 in pt_regs since it can be cloberred afterward
+@@ -80,24 +85,28 @@ Signals
+ Signals are handled when exiting kernel before returning to user.
+ When handling a signal, the path is the following:
+ 
+-1 - User application is executing normally
+-    Then any exception happens (syscall, interrupt, trap)
+-2 - The exception handling path is taken
+-    and before returning to user, pending signals are checked
+-3 - Signal are handled by do_signal
+-    Registers are saved and a special part of the stack is modified
+-    to create a trampoline to call rt_sigreturn
+-    $spc is modified to jump to user signal handler
+-    $ra is modified to jump to sigreturn trampoline directly after
+-    returning from user signal handler.
+-4 - User signal handler is called after rfe from exception
+-    when returning, $ra is retored to $pc, resulting in a call
+-    to the syscall trampoline.
+-5 - syscall trampoline is executed, leading to rt_sigreturn syscall
+-6 - rt_sigreturn syscall is executed
+-    Previous registers are restored to allow returning to user correctly
+-7 - User application is restored at the exact point it was interrupted
+-    before.
++1. User application is executing normally, then exception occurs (syscall,
++   interrupt, trap)
++2. The exception handling path is taken
++   and before returning to user, pending signals are checked.
++
++3. The signal handling path is as follows:
++
++   * Signals are handled by do_signal.
++   * Registers are saved and a special part of the stack is modified
++     to create a trampoline to call rt_sigreturn.
++   * $spc is modified to jump to user signal handler.
++   * $ra is modified to jump to sigreturn trampoline directly after
++     returning from user signal handler.
++
++4. User signal handler is called after rfe from exception.
++   When returning, $ra is retored to $pc, resulting in a call
++   to the syscall trampoline.
++5. syscall trampoline is executed, leading to rt_sigreturn syscall
++6. rt_sigreturn syscall is executed.
++   Previous registers are restored to allow returning to user correctly
++7. User application is restored at the exact point it was interrupted
++   before.
+ 
+     ::
+ 
 diff --git a/Documentation/kvx/kvx-iommu.rst b/Documentation/kvx/kvx-iommu.rst
-index c97035ba624c22..5e84dc12adb437 100644
+index 69eca8d1bc37a1..f7f61777eee21e 100644
 --- a/Documentation/kvx/kvx-iommu.rst
 +++ b/Documentation/kvx/kvx-iommu.rst
-@@ -1,5 +1,5 @@
--IOMMU
--=====
-+IOMMU in kvx
-+============
+@@ -32,7 +32,8 @@ Cluster IOMMUs
+ --------------
  
- General Overview
- ----------------
+ IOMMUs on cluster are used for DMA and cryptographic accelerators.
+-There are six IOMMUs connected to the:
++There are six IOMMUs connected:
++
+ 	- cluster DMA tx
+ 	- cluster DMA rx
+ 	- first non secure cryptographic accelerator
 diff --git a/Documentation/kvx/kvx-mmu.rst b/Documentation/kvx/kvx-mmu.rst
-index faa6bda2c39959..05b9bc111e02db 100644
+index 832fb7c41a49d8..faa6bda2c39959 100644
 --- a/Documentation/kvx/kvx-mmu.rst
 +++ b/Documentation/kvx/kvx-mmu.rst
-@@ -1,5 +1,6 @@
--MMU
--===
-+==========================
-+kvx Memory Management Unit
-+==========================
+@@ -77,6 +77,7 @@ routine which would (obviously) not work... Once this is done, we can flush the
+ entries and that new entries inserted in JTLB will apply.
  
- Virtual addresses are on 41 bits for kvx when using 64-bit mode.
- To differentiate kernel from user space, we use the high order bit
-diff --git a/Documentation/kvx/kvx-smp.rst b/Documentation/kvx/kvx-smp.rst
-index 1b69d77db8cdaf..f170bc48ea5f7f 100644
---- a/Documentation/kvx/kvx-smp.rst
-+++ b/Documentation/kvx/kvx-smp.rst
-@@ -1,5 +1,6 @@
--SMP
--===
-+===============================================
-+Symmetric Multiprocessing Implementation in kvx
-+===============================================
+ By default, the following policy is applied on vmlinux sections:
++
+ - init_data: RW
+ - init_text: RX (or RWX if parameter rodata=off)
+ - text: RX (or RWX if parameter rodata=off)
+@@ -92,8 +93,9 @@ spaces to be in the same space as the user. The kernel will have the
+ $ps.mmup set in kernel (PL1) and unset for user (PL2).
+ As said in kvx documentation, we have two cases when the kernel is
+ booted:
+-- Either we have been booted by someone (bootloader, hypervisor, etc)
+-- Or we are alone (boot from flash)
++
++- Boot via intermediaries (bootloader, hypervisor, etc)
++- Direct boot from flash
  
- On kvx, 5 clusters are organized as groups of 16 processors + 1
- secure core (RM) for each cluster. These 17 processors are L1$ coherent
+ In both cases, we will use the virtual space 0. Indeed, if we are alone
+ on the core, then it means nobody is using the MMU and we can take the
+@@ -115,6 +117,7 @@ setup_bootmem: Memory  : 0x100000000 - 0x120000000
+ setup_bootmem: Reserved: 0x10001f000 - 0x1002d1bc0
+ 
+ During the paging init we need to set:
++
+   - min_low_pfn that is the lowest PFN available in the system
+   - max_low_pfn that indicates the end if NORMAL zone
+   - max_pfn that is the number of pages in the system
+@@ -213,16 +216,16 @@ kvx core does not feature a hardware page walker. This work must be done
+ by the core in software. In order to optimize TLB refill, a special fast
+ path is taken when entering in kernel space.
+ In order to speed up the process, the following actions are taken:
+-# Save some registers in a per process scratchpad
+-# If the trap is a nomapping then try the fastpath
+-# Save some more registers for this fastpath
+-# Check if faulting address is a memory direct mapping one.
+- # If entry is a direct mapping one and RWX is not enabled, add an entry into LTLB
+- # If not, continue
+-# Try to walk the page table
+- # If entry is not present, take the slowpath (do_page_fault)
+-# Refill the tlb properly
+-# Exit by restoring only a few registers
++
++1. Save some registers in a per process scratchpad
++2. If the trap is a nomapping then try the fastpath
++3. Save some more registers for this fastpath
++4. Check if faulting address is a memory direct mapping one. If entry is a
++   direct mapping one and RWX is not enabled, add an entry into LTLB.
++   Otherwise, continue
++5. Try to walk the page table. If entry is not present, take the slowpath (do_page_fault)
++6. Refill the tlb properly
++7. Exit by restoring only a few registers
+ 
+ ASN Handling
+ ============
+@@ -273,13 +276,15 @@ Debug
+ 
+ In order to debug the page table and tlb entries, gdb scripts contains commands
+ which allows to dump the page table:
++
+ - lx-kvx-page-table-walk
+- - Display the current process page table by default
++    Display the current process page table by default
+ - lx-kvx-tlb-decode
+- - Display the content of $tel and $teh into something readable
++    Display the content of $tel and $teh into something readable
+ 
+ Other commands available in kvx-gdb are the following:
++
+ - mppa-dump-tlb
+- - Display the content of TLBs (JTLB and LTLB)
++    Display the content of TLBs (JTLB and LTLB)
+ - mppa-lookup-addr
+- - Find physical address matching a virtual one
++    Find physical address matching a virtual one
 diff --git a/Documentation/kvx/kvx.rst b/Documentation/kvx/kvx.rst
-index 8982d10f2678df..4aac7fce4e3d01 100644
+index 20c3666f445e26..8982d10f2678df 100644
 --- a/Documentation/kvx/kvx.rst
 +++ b/Documentation/kvx/kvx.rst
-@@ -1,3 +1,4 @@
-+=======================
- kvx Core Implementation
- =======================
+@@ -74,6 +74,7 @@ When entering the C (kvx_lowlevel_start) the kernel will look for a special
+ magic in $r0 (0x494C314B). This magic tells the kernel if there is arguments
+ passed by a bootloader.
+ Currently, the following values are passed through registers:
++
+  - r1: pointer to command line setup by bootloader
+  - r2: device tree
  
+@@ -105,11 +106,13 @@ of the LTLB.
+ 
+ The first entry will map the first 1G of virtual address space to the first
+ 1G of DDR:
++
+   - TLB[0]: 0xffffff0000000000 -> 0x100000000 (size 512Mo)
+ 
+ The second entry will be a flat mapping of the first 512 Ko of the SMEM. It
+ is required to have this flat mapping because there is still code located at
+ this address that needs to be executed:
++
+   - TLB[1]: 0x0 -> 0x0 (size 512Ko)
+ 
+ Once virtual space reached the second entry is removed.
+@@ -151,19 +154,19 @@ r20 and r21 to special values containing the function to call.
+ 
+ The normal path for a kernel thread will be the following:
+ 
+- 1 - Enter copy_thread_tls and setup callee saved registers which will
+-     be restored in __switch_to.
+- 2 - set r20 and r21 (in thread_struct) to function and argument and
+-     ra to ret_from_kernel_thread.
+-     These callee saved will be restored in switch_to.
+- 3 - Call _switch_to at some point.
+- 4 - Save all callee saved register since switch_to is seen as a
+-     standard function call by the caller.
+- 5 - Change stack pointer to the new stack
+- 6 - At the end of switch to, set sr0 to the new task and use ret to
+-     jump to ret_from_kernel_thread (address restored from ra).
+- 7 - In ret_from_kernel_thread, execute the function with arguments by
+-     using r20, r21 and we are done
++ 1. Enter copy_thread_tls and setup callee saved registers which will
++    be restored in __switch_to.
++ 2. set r20 and r21 (in thread_struct) to function and argument and
++    ra to ret_from_kernel_thread.
++    These callee saved will be restored in switch_to.
++ 3. Call _switch_to at some point.
++ 4. Save all callee saved register since switch_to is seen as a
++    standard function call by the caller.
++ 5. Change stack pointer to the new stack
++ 6. At the end of switch to, set sr0 to the new task and use ret to
++    jump to ret_from_kernel_thread (address restored from ra).
++ 7. In ret_from_kernel_thread, execute the function with arguments by
++    using r20, r21 and we are done
+ 
+ For more explanation, you can refer to https://lwn.net/Articles/520227/
+ 
+@@ -173,21 +176,21 @@ User thread creation
+ We are using almost the same path as copy_thread to create it.
+ The detailed path is the following:
+ 
+- 1 - Call start_thread which will setup user pc and stack pointer in
+-     task regs. We also set sps and clear privilege mode bit.
+-     When returning from exception, it will "flip" to user mode.
+- 2 - Enter copy_thread_tls and setup callee saved registers which will
+-     be restored in __switch_to. Also, set the "return" function to be
+-     ret_from_fork which will be called at end of switch_to
+- 3 - set r20 (in thread_struct) with tracing information.
+-     (simply by lazyness to avoid computing it in assembly...)
+- 4 - Call _switch_to at some point.
+- 5 - The current pc will then be restored to be ret_from fork.
+- 6 - Ret from fork calls schedule_tail and then check if tracing is
+-     enabled. If so call syscall_trace_exit
+- 7 - finally, instead of returning to kernel, we restore all registers
+-     that have been setup by start_thread by restoring regs stored on
+-     stack
++ 1. Call start_thread which will setup user pc and stack pointer in
++    task regs. We also set sps and clear privilege mode bit.
++    When returning from exception, it will "flip" to user mode.
++ 2. Enter copy_thread_tls and setup callee saved registers which will
++    be restored in __switch_to. Also, set the "return" function to be
++    ret_from_fork which will be called at end of switch_to
++ 3. set r20 (in thread_struct) with tracing information.
++    (simply by lazyness to avoid computing it in assembly...)
++ 4. Call _switch_to at some point.
++ 5. The current pc will then be restored to be ret_from fork.
++ 6. Ret from fork calls schedule_tail and then check if tracing is
++    enabled. If so call syscall_trace_exit
++ 7. Finally, instead of returning to kernel, we restore all registers
++    that have been setup by start_thread by restoring regs stored on
++    stack
+ 
+ L2$ handling
+ ============
 -- 
 An old man doll... just what I always wanted! - Clara
 
