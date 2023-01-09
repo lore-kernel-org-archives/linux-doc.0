@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92E98C63797
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 09:52:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BB25C67871
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 09:52:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234756AbjAIJwd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 04:52:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44308 "EHLO
+        id S236442AbjAIJwe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 04:52:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234302AbjAIJvv (ORCPT
+        with ESMTP id S234316AbjAIJvv (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 04:51:51 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B0DE120BB;
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABD6512A9F;
         Mon,  9 Jan 2023 01:51:16 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id o13so4678597pjg.2;
+Received: by mail-pl1-x62a.google.com with SMTP id v23so4014684plo.1;
         Mon, 09 Jan 2023 01:51:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ddVtdw8jXVuxIM0SuKPvP0VJu/NC/e0O6HjAii0zrz0=;
-        b=YrCwP8zMH9Dd/hw10RPKEdIJW0IEHD8y3+BB9wn0N2uJzz+fITcbuaedimkTM5gt/e
-         L1w+KPw/wezCP4l/upVTvA4yHfsl6ImwIazp3Icaim/rOWouyP2LaWxIqjGqtv5fTWdg
-         jraGHeAAYyCc0su7F/jjY3dp/9WnZgkKhNkGCjBR5sc6T2Kr5HclbaOpVXgsBzUpA3f6
-         xhokPmDAQAfJ0vq5hgrkjrqv1JnOmZhE1rGIxfMNubEul7NN9APYaOItPgkqUeSnQdYm
-         42o7TwHyNUO8ZS3JpLO22fg1Nc80L2nWzdj6JI4/rmhrRRvnDiJ7LXrg6Tfhfl/x01De
-         ILig==
+        bh=qzAkXDnr+TdemKBTBoMvg+ajy3gTNmDpDPz0yRbk3cE=;
+        b=YvvsnJv5X4MUa+p4z03Whw3JreTN28OlOQDeRk00dRsPzl2hjoiwhHe8MmilQjHg1R
+         mTZnctOdGE58MmP9jlWlrcyPgDM6vYriXgTNgksaXWM9bFyu+FB3URLwp1OdJQsms+YB
+         qoTb9Bxh5fJR0n09ABaLMyo8QdpPViaymXfyH4C6o/dBndgHcOIPBnfsop8LCZ2kmjqb
+         eXSfm/gcTve4Ho2IvPfp2FgIBadrWQMZBFkfAcUWZVgGX1kT6nke6c9yZH07jcHkI711
+         dJJmnSRAi5RhwalRTat/fHJsLOtJAjOBt1jstkFa/yxiZNnrzZEmfGjG+TpsYiJ9t++1
+         z7jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ddVtdw8jXVuxIM0SuKPvP0VJu/NC/e0O6HjAii0zrz0=;
-        b=euC6utha1sczcEHHUY5V5LisNyu8Rgd1ABv95Ex1diyALknlwMLc+hRUY/wnUDaBnp
-         2NBBExgeHkd5y7igd5U8TDXxGMQMcZDEM6AHikX4r7qfUjKW4PnsqZhMfUtNCrUCTgs1
-         IVI7Ci7/HtJoYGtljSV9HyF3yTkMTY3r3slaP936CBpazKuYWS6NiiduIbpTFIwK8o22
-         zIm0eo82Q4RG51CF2fubMR6+sdof9w3Zyd82XPfiER/Kk3biPk5ycGABZ/uCVIbGiuPq
-         xkynyLIVkH8YkmjlRn9zeLEaxULVAA00uec52DkHxllmt07yEfpL/1aUQ+lcsZYkb12C
-         8lpQ==
-X-Gm-Message-State: AFqh2krPXuWbNHuiM+tw9nBoeZFWE3Sy3HHRvG2O/t605fh6pO9ozPUd
-        lGF6rpCvXAMJLuHV+rzj5nk=
-X-Google-Smtp-Source: AMrXdXvcBC942ucNE/7ppG+sYx4Em9Ddf9nXge/qaI2yHRpihEyxGIxXs8xpBhSHZzi1aHPOBq/Byw==
-X-Received: by 2002:a17:902:b60d:b0:188:8745:35af with SMTP id b13-20020a170902b60d00b00188874535afmr77276434pls.63.1673257875797;
-        Mon, 09 Jan 2023 01:51:15 -0800 (PST)
+        bh=qzAkXDnr+TdemKBTBoMvg+ajy3gTNmDpDPz0yRbk3cE=;
+        b=wSSWlLfr19BlN3azQwfoq3njBlalOB/V8BYDO4qIiR96L88AZbcYCRH8uGI3GPZ1RR
+         8X15YnbXjhWEmZdweJ5S7uteIXZMppYPbOZdPxtxZxrNE831Z2syfirvswwarmO7lcPZ
+         DPrpGW/txHzyEArgGqYReGaWVAZZjIMEspbXT2Fdwemw4S//+JB0C8CzUq62gXgX663d
+         tiGE7LhgXtNfJI+/oh5cVxWZHlLoQk9JhNUMyy8Wf1MLuqIK5xiUcjYqfvBGT7+N5MeU
+         qVu9HV3IgM92DL2CW8F30CBhErSvWRtrO1JQP7dEOelJflycqwyYysijyuT6BgCjs0Sj
+         Xcfw==
+X-Gm-Message-State: AFqh2kpWY+q6R/w27oEAXxcwahD/WJA57iEODPHHxm1WY8U5CV9e9fmf
+        YcaINUrBOg6QwmLiBQmD6J4EtUIGX3s=
+X-Google-Smtp-Source: AMrXdXsRVOml529LPLQlVFkBn0nmrdj7dfS8KuXQ8GTtvZEnNn01ICbGEiyj+JlcieFnWtB9IfmxJg==
+X-Received: by 2002:a05:6a20:3953:b0:ab:fb31:a000 with SMTP id r19-20020a056a20395300b000abfb31a000mr96323913pzg.51.1673257876104;
+        Mon, 09 Jan 2023 01:51:16 -0800 (PST)
 Received: from debian.me (subs03-180-214-233-26.three.co.id. [180.214.233.26])
-        by smtp.gmail.com with ESMTPSA id x3-20020a170902a38300b001896522a23bsm5708062pla.39.2023.01.09.01.51.14
+        by smtp.gmail.com with ESMTPSA id c15-20020aa7952f000000b005747b59fc54sm4333309pfp.172.2023.01.09.01.51.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 09 Jan 2023 01:51:15 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-        id B5E3F105012; Mon,  9 Jan 2023 16:51:10 +0700 (WIB)
+        id 3FBD9103E6A; Mon,  9 Jan 2023 16:51:10 +0700 (WIB)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Yann Sionneau <ysionneau@kalray.eu>
@@ -58,85 +58,43 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Clement Leger <clement.leger@bootlin.com>,
         Guillaume Thouvenin <gthouvenin@kalray.eu>,
         Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 0/8] kvx documentation improv (was: Re: [RFC PATCH 01/25] Documentation: kvx: Add basic documentation)
-Date:   Mon,  9 Jan 2023 16:51:00 +0700
-Message-Id: <20230109095108.21229-1-bagasdotme@gmail.com>
+Subject: [PATCH 5/8] Documentation: kvx: kvx-iommu: monospacize kvx iommu device tree path
+Date:   Mon,  9 Jan 2023 16:51:05 +0700
+Message-Id: <20230109095108.21229-6-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <874jt7fqxt.fsf@meer.lwn.net>
+In-Reply-To: <20230109095108.21229-1-bagasdotme@gmail.com>
 References: <874jt7fqxt.fsf@meer.lwn.net>
+ <20230109095108.21229-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3323; i=bagasdotme@gmail.com; h=from:subject; bh=rXyfPkWPotWjasnOdg5FQjgn15EEeIyMsS1vn7pUs+k=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMm7H3dOXsR47++lRZdqH/269szJV+kkU4TTpiCxqfKrFkqI Oc7+3VHKwiDGxSArpsgyKZGv6fQuI5EL7WsdYeawMoEMYeDiFICJ2GxhZNjwTkLLb3rPJtOEvPy1Cy NP77brKFvanLP3gwbzlIK4fntGhhcTutUklnjyhb4z2P7u8IETWxMsP96c894v0TfR67imBjcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=931; i=bagasdotme@gmail.com; h=from:subject; bh=iPlc/Kn3v/D/f2FzuuvXP8mVDXIepRcvmfLOHBwcrPw=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMm7H3cXtN8SPWfRHq81STPLaI2mc+yj9nndTnkCDZ477sbM cl3cUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgIkkHWNkWOKiK7M15vLTuw+NIqs+Md 1KPK/OfsZ9zzvpnQHCFzk31DH8U9P8kjHl7DbX1+9zDh04q7Hqm5ZlyIn9U56cXlYas3SBDyMA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> writes:
->> Add some documentation for kvx arch and its Linux port.
->>
->> CC: Jonathan Corbet <corbet@lwn.net>
->> CC: linux-doc@vger.kernel.org
->> CC: linux-kernel@vger.kernel.org
->> Co-developed-by: Clement Leger <clement.leger@bootlin.com>
->> Signed-off-by: Clement Leger <clement.leger@bootlin.com>
->> Co-developed-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
->> Signed-off-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
->> Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
->> ---
->>  Documentation/kvx/kvx-exceptions.txt | 246 ++++++++++++++++++++++++
->>  Documentation/kvx/kvx-iommu.txt      | 183 ++++++++++++++++++
->>  Documentation/kvx/kvx-mmu.txt        | 272 +++++++++++++++++++++++++++
->>  Documentation/kvx/kvx-smp.txt        |  36 ++++
->>  Documentation/kvx/kvx.txt            | 268 ++++++++++++++++++++++++++
->>  5 files changed, 1005 insertions(+)
->>  create mode 100644 Documentation/kvx/kvx-exceptions.txt
->>  create mode 100644 Documentation/kvx/kvx-iommu.txt
->>  create mode 100644 Documentation/kvx/kvx-mmu.txt
->>  create mode 100644 Documentation/kvx/kvx-smp.txt
->>  create mode 100644 Documentation/kvx/kvx.txt
->
->Please write this documentation in the RST format (you're 95% of the way
->there now) and incorporate into the kernel docs build.
+The device tree path shares the same "kvm-iommu" as the actual
+documentation path (kvm-iommu.rst), which make it links to the doc
+instead. Monospacize the path by enclosing it in inline code.
 
-Here is the polished documentation in reST format. Yann, can you please
-squash this series into your documentation patch?
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/kvx/kvx-iommu.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Bagas Sanjaya (8):
-  Documentation: kvx: Convert to reST
-  Documentation: kvx: Wrap diagrams in literal code block
-  Documentation: kvx: Fix lists
-  Documentation: kvx: kvx-iommu: Use reST syntax for subsections
-  Documentation: kvx: kvx-iommu: monospacize kvx iommu device tree path
-  Documentation: kvx: Promote title headings
-  Documentation: kvx: Use literal code block for command-line inputs
-  Documentation: kvx: reword
-
- Documentation/arch.rst               |   1 +
- Documentation/kvx/index.rst          |  12 ++
- Documentation/kvx/kvx-exceptions.rst | 258 +++++++++++++++++++++++
- Documentation/kvx/kvx-exceptions.txt | 246 ----------------------
- Documentation/kvx/kvx-iommu.rst      | 188 +++++++++++++++++
- Documentation/kvx/kvx-iommu.txt      | 183 -----------------
- Documentation/kvx/kvx-mmu.rst        | 294 +++++++++++++++++++++++++++
- Documentation/kvx/kvx-mmu.txt        | 272 -------------------------
- Documentation/kvx/kvx-smp.rst        |  36 ++++
- Documentation/kvx/kvx-smp.txt        |  36 ----
- Documentation/kvx/kvx.rst            | 269 ++++++++++++++++++++++++
- Documentation/kvx/kvx.txt            | 268 ------------------------
- 12 files changed, 1058 insertions(+), 1005 deletions(-)
- create mode 100644 Documentation/kvx/index.rst
- create mode 100644 Documentation/kvx/kvx-exceptions.rst
- delete mode 100644 Documentation/kvx/kvx-exceptions.txt
- create mode 100644 Documentation/kvx/kvx-iommu.rst
- delete mode 100644 Documentation/kvx/kvx-iommu.txt
- create mode 100644 Documentation/kvx/kvx-mmu.rst
- delete mode 100644 Documentation/kvx/kvx-mmu.txt
- create mode 100644 Documentation/kvx/kvx-smp.rst
- delete mode 100644 Documentation/kvx/kvx-smp.txt
- create mode 100644 Documentation/kvx/kvx.rst
- delete mode 100644 Documentation/kvx/kvx.txt
-
+diff --git a/Documentation/kvx/kvx-iommu.rst b/Documentation/kvx/kvx-iommu.rst
+index 5ed34463b8bb1f..c97035ba624c22 100644
+--- a/Documentation/kvx/kvx-iommu.rst
++++ b/Documentation/kvx/kvx-iommu.rst
+@@ -178,7 +178,7 @@ Device tree
+ -----------
+ 
+ Relationships between devices, DMAs and IOMMUs are described in the
+-device tree (see Documentation/devicetree/bindings/iommu/kalray,kvx-iommu.txt
++device tree (see ``Documentation/devicetree/bindings/iommu/kalray,kvx-iommu.txt``
+ for more details).
+ 
+ Limitations
 -- 
 An old man doll... just what I always wanted! - Clara
 
