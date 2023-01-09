@@ -2,108 +2,129 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 399AEC677F1
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 17:16:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23AC9C677F1
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 17:19:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230192AbjAIRQa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 12:16:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39194 "EHLO
+        id S229527AbjAIRTP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 12:19:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237280AbjAIRNW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 12:13:22 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4517B3593F;
-        Mon,  9 Jan 2023 09:12:59 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id ud5so21855669ejc.4;
-        Mon, 09 Jan 2023 09:12:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WVk2tvkPkHZ5g5LNY7Urh46Jb7AWYeyBlt2KxlDaies=;
-        b=duKNLUsYGhXRTrE9ZiLvdX3iSKSJh+lfgoJMb4IH0MnDqXFO8mY3w3PeEg12au6y+8
-         GkgZ14QeHbAlheEmWhwQJengL9nuI/IcG9XpuqqVpwcR9WPzgcoL6VMq5V4rEb2VO938
-         9/DjmIwO6obyUwEVqFVvLmsCi6lZmzXolAxPL+WMKUPO8ezPIljsbrTsBweOvGugwK9J
-         vblsWktOBq7dCPqxDzmDkEs27ElrGWQPNlDRuzvL+LbI6IRQmdQjoFDMln8SRm6YM0V1
-         VMeCJMkNjdVjFda361lCSRpwHk7Z7UmlCPIblhHLLGrbIn2E0lmgKcbGN6LGOFXFpvl6
-         eN4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WVk2tvkPkHZ5g5LNY7Urh46Jb7AWYeyBlt2KxlDaies=;
-        b=PKlN1UkG602MrBcDxnJuFWFmlNUgHbaSfrRdQUcV6gaUtfhJUg8ZH/pP9pJSqPm0pN
-         LCNEiArlbpoLG6k+UbLh9us4NDcL0bM2SK4YzM2ORQdZrM8xmafRj8noJZOhXMJ5135N
-         ALrWhS3H8VxyN2VzZKrllRCYTxi+WeZHAHTTniuyMZt4xemlbgvtFpsPH36SkkgxmfWh
-         sxuVzzNn9woOrp40alOUoqFqOFi1E6eC6R7Bs4vT03xWXj7gKvpNPEGkedX9ZxXvJ7BS
-         7IONN0PFtXEtDtGf0XWAHu0vUeR92YqpePlozuRn8QMPrtONCH64P/XkUL6xxx1EgLoi
-         QbWA==
-X-Gm-Message-State: AFqh2kqfTE16nN0u2mgBoWgzeZe3srH+7Ztfxpl1YfK1VklTzVbKEME/
-        FKVuSySyI42EloQUoUYGH2k=
-X-Google-Smtp-Source: AMrXdXv6LkBRqT1IjUHh5J3DACwxjZUP9+aHvFVN9x7nofrt1xe9gNF2AaBJRLTktMkKxjmm9FAMsA==
-X-Received: by 2002:a17:907:8dcc:b0:84d:21b2:735a with SMTP id tg12-20020a1709078dcc00b0084d21b2735amr10793393ejc.54.1673284377776;
-        Mon, 09 Jan 2023 09:12:57 -0800 (PST)
-Received: from gvm01 ([91.199.164.40])
-        by smtp.gmail.com with ESMTPSA id y9-20020a1709064b0900b0084d34979423sm3044981eju.127.2023.01.09.09.12.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 09:12:57 -0800 (PST)
-Date:   Mon, 9 Jan 2023 18:12:54 +0100
-From:   Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, Oleksij Rempel <o.rempel@pengutronix.de>,
-        mailhol.vincent@wanadoo.fr, sudheer.mogilappagari@intel.com,
-        sbhatta@marvell.com, linux-doc@vger.kernel.org,
-        wangjie125@huawei.com, corbet@lwn.net, lkp@intel.com,
-        gal@nvidia.com, gustavoars@kernel.org
-Subject: Re: [PATCH v2 net-next 5/5] drivers/net/phy: add driver for the
- onsemi NCN26000 10BASE-T1S PHY
-Message-ID: <Y7xLFruSoyrWye3X@gvm01>
-References: <cover.1673030528.git.piergiorgio.beruto@gmail.com>
- <b15b3867233c7adf33870460ea442ff9a4f6ad41.1673030528.git.piergiorgio.beruto@gmail.com>
- <Y7m4v8nLEc4bVBDf@lunn.ch>
- <Y7tYT8lkgCugZ7kP@gvm01>
- <Y7wXO7x7Wh7+Hw/Z@lunn.ch>
- <Y7wi3qwG3b6i0x7T@gvm01>
- <Y7wjmu9P2TXuNMeE@lunn.ch>
+        with ESMTP id S232226AbjAIRTN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 12:19:13 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D492C26D3;
+        Mon,  9 Jan 2023 09:19:10 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8F2E2B80E77;
+        Mon,  9 Jan 2023 17:19:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 167BBC433F0;
+        Mon,  9 Jan 2023 17:19:02 +0000 (UTC)
+Date:   Mon, 9 Jan 2023 17:19:00 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Barry Song <21cnbao@gmail.com>
+Cc:     Yicong Yang <yangyicong@huawei.com>, akpm@linux-foundation.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        x86@kernel.org, will@kernel.org, anshuman.khandual@arm.com,
+        linux-doc@vger.kernel.org, corbet@lwn.net, peterz@infradead.org,
+        arnd@arndb.de, punit.agrawal@bytedance.com,
+        linux-kernel@vger.kernel.org, darren@os.amperecomputing.com,
+        yangyicong@hisilicon.com, huzhanyuan@oppo.com, lipeifeng@oppo.com,
+        zhangshiming@oppo.com, guojian@oppo.com, realmz6@gmail.com,
+        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, wangkefeng.wang@huawei.com,
+        xhao@linux.alibaba.com, prime.zeng@hisilicon.com,
+        Barry Song <v-songbaohua@oppo.com>,
+        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
+Subject: Re: [PATCH v7 2/2] arm64: support batched/deferred tlb shootdown
+ during page reclamation
+Message-ID: <Y7xMhPTAwcUT4O6b@arm.com>
+References: <20221117082648.47526-1-yangyicong@huawei.com>
+ <20221117082648.47526-3-yangyicong@huawei.com>
+ <Y7cToj5mWd1ZbMyQ@arm.com>
+ <CAGsJ_4yC0i6MYwvosRSrdQ1iT7n88ypmK3aOQJkuusqNKtddtg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y7wjmu9P2TXuNMeE@lunn.ch>
+In-Reply-To: <CAGsJ_4yC0i6MYwvosRSrdQ1iT7n88ypmK3aOQJkuusqNKtddtg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 09, 2023 at 03:24:26PM +0100, Andrew Lunn wrote:
-> On Mon, Jan 09, 2023 at 03:21:18PM +0100, Piergiorgio Beruto wrote:
-> > On Mon, Jan 09, 2023 at 02:31:39PM +0100, Andrew Lunn wrote:
-> > > Linux tends to ignore Marketing, because Marketing tends to change its
-> > > mind every 6 months. Also, Linux ignores companies being bought and
-> > > sold, changing their name. So this PHY will forever be called whatever
-> > > name you give it here. The vitesse PHY driver is an example of
-> > > this. They got bought by Microsemi, and then Microchip bought
-> > > Microsemi. The PHY driver is still called vitesse.c.
-> > > 
-> > > How about using the legal name, 'ON Semiconductor
-> > > Corporation'
-> > That's perfectly clear Andrew, I can certainly see why Linux should
-> > ignore marketing.
-> > 
-> > Sill, 'ON Semiconductor' is the old company name, the product datasheet can be
-> > found at www.onsemi.com. I would honestly feel more comfortable using
-> > the current company name. If you really want the first 'o' to be
-> > capitalized, then so be it. Hopefully people will not notice :-)
+On Sun, Jan 08, 2023 at 06:48:41PM +0800, Barry Song wrote:
+> On Fri, Jan 6, 2023 at 2:15 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
+> > On Thu, Nov 17, 2022 at 04:26:48PM +0800, Yicong Yang wrote:
+> > > It is tested on 4,8,128 CPU platforms and shows to be beneficial on
+> > > large systems but may not have improvement on small systems like on
+> > > a 4 CPU platform. So make ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH depends
+> > > on CONFIG_EXPERT for this stage and make this disabled on systems
+> > > with less than 8 CPUs. User can modify this threshold according to
+> > > their own platforms by CONFIG_NR_CPUS_FOR_BATCHED_TLB.
+> >
+> > What's the overhead of such batching on systems with 4 or fewer CPUs? If
+> > it isn't noticeable, I'd rather have it always on than some number
+> > chosen on whichever SoC you tested.
 > 
-> I would prefer it was capitalised, to make it uniform with all the
-> other entries.
-I've just re-submitted the patches, fixing also a warning on a
-multi-line comment w/o newline.
+> On the one hand, tlb flush is cheap on a small system. so batching tlb flush
+> helps very minorly.
 
-Thanks!
-Piergiorgio
+Yes, it probably won't help on small systems but I don't like config
+options choosing the threshold, which may be different from system to
+system even if they have the same number of CPUs. A run-time tunable
+would be a better option.
+
+> On the other hand, since we have batched the tlb flush, new PTEs might be
+> invisible to others before the final broadcast is done and Ack-ed.
+
+The new PTEs could indeed be invisible at the TLB level but not at the
+memory (page table) level since this is done under the PTL IIUC.
+
+> thus, there
+> is a risk someone else might do mprotect or similar things  on those deferred
+> pages which will ask for read-modify-write on those deferred PTEs.
+
+And this should be fine, we have things like the PTL in place for the
+actual memory access to the page table.
+
+> in this
+> case, mm will do an explicit flush by flush_tlb_batched_pending which is
+> not required if tlb flush is not deferred.
+
+I don't fully understand why it's needed, or at least why it would be
+needed on arm64. At the end of an mprotect(), we have the final PTEs in
+place and we just need to issue a TLBI for that range.
+change_pte_range() for example has a tlb_flush_pte_range() if the PTE
+was present and that won't be done lazily. If there are other TLBIs
+pending for the same range, they'll be done later though likely
+unnecessarily but still cheaper than issuing a flush_tlb_mm().
+
+> void flush_tlb_batched_pending(struct mm_struct *mm)
+> {
+>        int batch = atomic_read(&mm->tlb_flush_batched);
+>        int pending = batch & TLB_FLUSH_BATCH_PENDING_MASK;
+>        int flushed = batch >> TLB_FLUSH_BATCH_FLUSHED_SHIFT;
+> 
+>        if (pending != flushed) {
+>                flush_tlb_mm(mm);
+>         /*
+>          * If the new TLB flushing is pending during flushing, leave
+>          * mm->tlb_flush_batched as is, to avoid losing flushing.
+>         */
+>       atomic_cmpxchg(&mm->tlb_flush_batched, batch,
+>            pending | (pending << TLB_FLUSH_BATCH_FLUSHED_SHIFT));
+>      }
+> }
+
+I guess this works on x86 better as it avoids the IPIs if this flush
+already happened. But on arm64 we already issued the TLBI, we just
+didn't wait for it to complete via a DSB.
+
+> I believe Anshuman has contributed many points on this in those previous
+> discussions.
+
+Yeah, I should re-read the old threads.
+
+-- 
+Catalin
