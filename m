@@ -2,184 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A75CC5479D
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 13:25:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3485CC54EBD
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 13:32:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233264AbjAINZG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 08:25:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41180 "EHLO
+        id S236470AbjAINcb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 08:32:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230411AbjAINZF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 08:25:05 -0500
-X-Greylist: delayed 223 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 09 Jan 2023 05:25:03 PST
-Received: from fx405.security-mail.net (smtpout140.security-mail.net [85.31.212.145])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EFB5A1AA
-        for <linux-doc@vger.kernel.org>; Mon,  9 Jan 2023 05:25:03 -0800 (PST)
-Received: from localhost (fx405.security-mail.net [127.0.0.1])
-        by fx405.security-mail.net (Postfix) with ESMTP id BF4CC335EF6
-        for <linux-doc@vger.kernel.org>; Mon,  9 Jan 2023 14:21:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
-        s=sec-sig-email; t=1673270478;
-        bh=VTyAgBvawac4uHB7eMyMDicCX2xLvVfQ11WRs4OqUgg=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=YZ+jS6/1Ma7JCmcJ3+OEDQF6/jdcWUhHaMCMCUIMiS/QRA3hvieFeCchl43TWG6g4
-         8uzP1OQwFTqJST5NGfflnAynHPXH43mmkQhylk6XZiFnOpe64YOUPMjH/EHaBa+r6X
-         XNQwFD9kMcy8gj0OVjfaZ+Y+swU0mq962ckt9ZPA=
-Received: from fx405 (fx405.security-mail.net [127.0.0.1]) by
- fx405.security-mail.net (Postfix) with ESMTP id 382DC335EA5; Mon,  9 Jan
- 2023 14:21:18 +0100 (CET)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx405.security-mail.net (Postfix) with ESMTPS id 1E46D335E6D; Mon,  9 Jan
- 2023 14:21:17 +0100 (CET)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id D765927E03FF; Mon,  9 Jan 2023
- 14:21:16 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id B3B4327E03FA; Mon,  9 Jan 2023 14:21:16 +0100 (CET)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- RFDkxXP_U9mz; Mon,  9 Jan 2023 14:21:16 +0100 (CET)
-Received: from [192.168.37.161] (unknown [192.168.37.161]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id 46FC927E03F5; Mon,  9 Jan 2023
- 14:21:16 +0100 (CET)
-X-Virus-Scanned: E-securemail
-Secumail-id: <18db.63bc14cd.171d3.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu B3B4327E03FA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1673270476;
- bh=pFwL+Y0S0qo0MF7wO/awAfpxvBk+/1wXJh5pVmIIW2g=;
- h=Message-ID:Date:MIME-Version:To:From;
- b=XjT0yLLBY18QxivMgV9uczq9z+HpKf5TnyecD/FGL3y5WOfaxlypJyAxpZ8saNN2c
- xkoB4C8EPYxurJyqIoGRHgJxE+LjZeyAAIvw8YYk1DjcyoP679xtmnwZh9BbBCh3Ku
- YVP4+a/ZNoUFvoUsbRjrSO4n7fz2l6dahOcJsTh0=
-Message-ID: <6570d22d-ee19-f8b1-6fb4-bf8865ec4142@kalray.eu>
-Date:   Mon, 9 Jan 2023 14:21:15 +0100
+        with ESMTP id S236892AbjAINcK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 08:32:10 -0500
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF0D71EC67;
+        Mon,  9 Jan 2023 05:31:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=vePePHbs+qQUDjlfX65V+DdCZ2Hrj2lqp1xp3j40q2c=; b=p/J6DgzeDlZ+UvxoBM+Xyje0QR
+        ruNd2wDzrr6wjnKI7PzOFyeOc/gUyXVrZkKI6zz9/Gd44skS13s3+CGGBqejKSAz7nMEyU4mD64ER
+        cB2TewXF+H9Y89e+XqLFwWq1vHbbeDBqKg4zquGuwd2UEEbx6wu1wc5QQM+dJ9yhmBAQ=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1pEsFX-001ZK6-JZ; Mon, 09 Jan 2023 14:31:39 +0100
+Date:   Mon, 9 Jan 2023 14:31:39 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
+Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, Oleksij Rempel <o.rempel@pengutronix.de>,
+        mailhol.vincent@wanadoo.fr, sudheer.mogilappagari@intel.com,
+        sbhatta@marvell.com, linux-doc@vger.kernel.org,
+        wangjie125@huawei.com, corbet@lwn.net, lkp@intel.com,
+        gal@nvidia.com, gustavoars@kernel.org
+Subject: Re: [PATCH v2 net-next 5/5] drivers/net/phy: add driver for the
+ onsemi NCN26000 10BASE-T1S PHY
+Message-ID: <Y7wXO7x7Wh7+Hw/Z@lunn.ch>
+References: <cover.1673030528.git.piergiorgio.beruto@gmail.com>
+ <b15b3867233c7adf33870460ea442ff9a4f6ad41.1673030528.git.piergiorgio.beruto@gmail.com>
+ <Y7m4v8nLEc4bVBDf@lunn.ch>
+ <Y7tYT8lkgCugZ7kP@gvm01>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 00/25] Upstream kvx Linux port
-Content-Language: en-us
-To:     Jeff Xie <xiehuan09@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Albert Ou <aou@eecs.berkeley.edu>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>, bpf@vger.kernel.org,
-        Christian Brauner <brauner@kernel.org>,
-        devicetree@vger.kernel.org, Eric Biederman <ebiederm@xmission.com>,
-        Eric Paris <eparis@redhat.com>, Ingo Molnar <mingo@redhat.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Jason Baron <jbaron@akamai.com>, Jiri Olsa <jolsa@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Kieran Bingham <kbingham@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-audit@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-perf-users@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-riscv@lists.infradead.org, Marc Zyngier <maz@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Nick Piggin <npiggin@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Waiman Long <longman@redhat.com>,
-        Will Deacon <will@kernel.org>, Alex Michon <amichon@kalray.eu>,
-        Ashley Lesdalons <alesdalons@kalray.eu>,
-        Benjamin Mugnier <mugnier.benjamin@gmail.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Guillaume Missonnier <gmissonnier@kalray.eu>,
-        Guillaume Thouvenin <gthouvenin@kalray.eu>,
-        Jean-Christophe Pince <jcpince@gmail.com>,
-        Jonathan Borne <jborne@kalray.eu>,
-        Jules Maselbas <jmaselbas@kalray.eu>,
-        Julian Vetter <jvetter@kalray.eu>,
-        Julien Hascoet <jhascoet@kalray.eu>,
-        Julien Villette <jvillette@kalray.eu>,
-        Louis Morhet <lmorhet@kalray.eu>,
-        Luc Michel <lmichel@kalray.eu>,
-        Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>,
-        Marius Gligor <mgligor@kalray.eu>,
-        Samuel Jones <sjones@kalray.eu>,
-        Thomas Costis <tcostis@kalray.eu>,
-        Vincent Chardon <vincent.chardon@elsys-design.com>
-References: <20230103164359.24347-1-ysionneau@kalray.eu>
- <CAEr6+ECRh_9App18zmcS6FUR81YYhR=n4kGdeZAtQBsdMB55_A@mail.gmail.com>
-From:   Yann Sionneau <ysionneau@kalray.eu>
-In-Reply-To: <CAEr6+ECRh_9App18zmcS6FUR81YYhR=n4kGdeZAtQBsdMB55_A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y7tYT8lkgCugZ7kP@gvm01>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jeff,
+On Mon, Jan 09, 2023 at 12:57:03AM +0100, Piergiorgio Beruto wrote:
+> On Sat, Jan 07, 2023 at 07:23:59PM +0100, Andrew Lunn wrote:
+> > > +++ b/drivers/net/phy/Kconfig
+> > > @@ -264,6 +264,13 @@ config NATIONAL_PHY
+> > >  	help
+> > >  	  Currently supports the DP83865 PHY.
+> > >  
+> > > +config NCN26000_PHY
+> > > +	tristate "onsemi 10BASE-T1S Ethernet PHY"
+> > > +	help
+> > > +	  Adds support for the onsemi 10BASE-T1S Ethernet PHY.
+> > > +	  Currently supports the NCN26000 10BASE-T1S Industrial PHY
+> > > +	  with MII interface.
+> > > +
+> > >  config NXP_C45_TJA11XX_PHY
+> > >  	tristate "NXP C45 TJA11XX PHYs"
+> > 
+> > These are actually sorted by the tristate string, which is what you
+> > see when you use
+> > 
+> > make menuconfig
+> > 
+> > So 'onsemi' should be after 'NXP TJA11xx PHYs support'. Also, all the
+> > other entries capitalise the first word.
+> As for the order I fixed it. Thanks for noticing.
+> 
+> Regarding the capitalization, I have a little problem here. 'onsemi' is a
+> brand and according to company rules it MUST be written all in
+> lowercase. I know we're not obliged to follow any company directive here, but 
+> as wierd as it might sound, I'd rather keep it lowercase just not to get 
+> comments later on trying to fix this, if you agree...
 
-On 1/7/23 07:25, Jeff Xie wrote:
-> Hi,
->
-> On Wed, Jan 4, 2023 at 1:01 AM Yann Sionneau <ysionneau@kalray.eu> wrote:
->> [snip]
->>
->> A kvx toolchain can be built using:
->> # install dependencies: texinfo bison flex libgmp-dev libmpc-dev libmpfr-dev
->> $ git clone https://github.com/kalray/build-scripts
->> $ cd build-scripts
->> $ source last.refs
->> $ ./build-kvx-xgcc.sh output
-> I would like to build the kvx-xgcc to compile and test the linux
-> kernel, but it reported a compile error.
-> I wonder what version of gcc you are using.
->
-> My build environment:
-> VERSION="20.04.2 LTS (Focal Fossa)"
-> gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04)
->
->
-> Compile error:
-> $ ./build-kvx-xgcc.sh output
->
-> ../../binutils/libiberty/fibheap.c: In function ‘fibheap_replace_key_data’:
-> ../../binutils/libiberty/fibheap.c:38:24: error: ‘LONG_MIN’ undeclared
-> (first use in this function)
->     38 | #define FIBHEAPKEY_MIN LONG_MIN
->        |                        ^~~~~~~~
-> [snip]
+Linux tends to ignore Marketing, because Marketing tends to change its
+mind every 6 months. Also, Linux ignores companies being bought and
+sold, changing their name. So this PHY will forever be called whatever
+name you give it here. The vitesse PHY driver is an example of
+this. They got bought by Microsemi, and then Microchip bought
+Microsemi. The PHY driver is still called vitesse.c.
 
-What SHA1 of https://github.com/kalray/build-scripts are you using?
+How about using the legal name, 'ON Semiconductor
+Corporation'
 
-We are building our toolchain on Ubuntu 18.04 / 20.04 and 22.04 without 
-issues, I don't understand why it does not work for you, although indeed 
-the error log you are having pops out on my search engine and seems to 
-be some well known issue.
-
-If the build-script does not work for you, you can still use the 
-pre-built toolchains generated by the GitHub automated actions: 
-https://github.com/kalray/build-scripts/releases/tag/v4.11.1 ("latest" 
-means 22.04)
-
-I hope it will work for you.
-
-Regards,
-
--- 
-
-Yann
-
-
-
-
-
+	Andrew
