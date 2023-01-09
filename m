@@ -2,150 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2138FC54EBD
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 19:32:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39C88C67871
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 19:38:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237561AbjAITcP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 14:32:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37274 "EHLO
+        id S237558AbjAITiO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 14:38:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237417AbjAITcN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 14:32:13 -0500
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1870214D23
-        for <linux-doc@vger.kernel.org>; Mon,  9 Jan 2023 11:32:10 -0800 (PST)
-Received: by mail-pf1-x430.google.com with SMTP id 20so1557766pfu.13
-        for <linux-doc@vger.kernel.org>; Mon, 09 Jan 2023 11:32:10 -0800 (PST)
+        with ESMTP id S237526AbjAITiN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 14:38:13 -0500
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F14996171;
+        Mon,  9 Jan 2023 11:38:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MS9c8pSDmVucTZdPdHhH3mdXKbPND6bL5OXnhsaz428=;
-        b=sOIFmmww5t87chNqg4RrjKvRSK55mbJUfkLlDwVdXFzdUVNQpuL8j+67d+DkgdzGV/
-         cY+1zKjyGAv7inACtQNgX5uUKu4ApW+iH+DVN7GkXfrRLLF2Mvo9WifnFmurzCTgdAvo
-         yO0VsoKDonS/b5FpljJp4kIUzSG1uLseP8M04BYadiPR3LnDKhEB8JDIFZ6XY2cYQ9Ip
-         q/lAxkFfWGCi4n140C5isaU+LhXs1upwAI92uUGwcJ28pRBl0VFZtoKmw+InBC55cTsl
-         h4qHQp+F6duxw8RJ/SXhE+ei/WHcJpuK0DK+gQrpAmJlxVZpoBxyR4o9mafVKF6RyDWB
-         AG3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MS9c8pSDmVucTZdPdHhH3mdXKbPND6bL5OXnhsaz428=;
-        b=fLrbph+aLbvVEhgKIAj8TCC7SJ7UeCG8Pk3d6lVssa7U3dOWTZDZkVUMU5JJXcJ5e9
-         7ZnYTlrqkhx60dkrWDLERr49Eas8hZe+kF9BJ2IZJP8NjclKy9P+g10C757K9wQHb+9J
-         xMFstRujbQQ3DpPvJJVwyc/99XTbzUICxeadh4Z/FKFXnI6+lnQwnOY+tUbfGPSr6dp9
-         j0xs7QEmYdt/d3kH1ds4mqN2Vw40pZi5fnEoze+8USM7GGoRPSXrt9CVFpKjH3dQI/2k
-         o7AxSE4hisvNYgZujqdhXFdF4K7Q1I/1AREK4blk7gIDuQ481TqRXWWWwPsfSGkuKYC1
-         gPiw==
-X-Gm-Message-State: AFqh2koqhurK0QfJrzsQtZ4N3IBkUIVDOErOsfRw7poo8Pn0CCHiez/g
-        ZUabaT5IeQPqoKLF0dE2vY2EMA==
-X-Google-Smtp-Source: AMrXdXsOvwNIYYmxRZ1A4P2qL2M11DO9ETy3xVnstT6ROBE9IIpgFgsb6iMlmsjwANei+MKsQQb7Fw==
-X-Received: by 2002:aa7:973c:0:b0:574:8995:c0d0 with SMTP id k28-20020aa7973c000000b005748995c0d0mr742042pfg.1.1673292729425;
-        Mon, 09 Jan 2023 11:32:09 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id 194-20020a6214cb000000b005809d382016sm6429041pfu.74.2023.01.09.11.32.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 11:32:09 -0800 (PST)
-Date:   Mon, 9 Jan 2023 19:32:05 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Jarkko Sakkinen <jarkko@kernel.org>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <Y7xrtf9FCuYRYm1q@google.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
- <Y7azFdnnGAdGPqmv@kernel.org>
- <20230106094000.GA2297836@chaop.bj.intel.com>
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1673293092; x=1704829092;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=+nSkl3nf47aICAlHJic69nCJD7igzHmBHn2JiTZ1cJs=;
+  b=ZONG6QbuYRlWq29Ea9xnRprFFGp0CK8qBeEOdiS7FdMT+Dh7L7Evbime
+   ZyAIhTG7HupvXuWPl0YNRyRWVPkEBZlU3cigj4Y+ZlZeJ5Xlen+8lxpKl
+   azEGr7vl6uNG6VrHXaXrRgkO0zxcMRwd8k3OPNnY/3h6N4gfLYiqv3xgU
+   g=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 09 Jan 2023 11:38:11 -0800
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2023 11:38:11 -0800
+Received: from [10.134.67.48] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 9 Jan 2023
+ 11:38:10 -0800
+Message-ID: <bea00abc-b137-945e-e0ad-67ba41e4d691@quicinc.com>
+Date:   Mon, 9 Jan 2023 11:38:10 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230106094000.GA2297836@chaop.bj.intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v8 12/28] gunyah: vm_mgr: Introduce basic VM Manager
+Content-Language: en-US
+To:     Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-acpi@vger.kernel.org>
+References: <20221219225850.2397345-1-quic_eberman@quicinc.com>
+ <20221219225850.2397345-13-quic_eberman@quicinc.com>
+ <20230109090553.GA1737564@quicinc.com>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <20230109090553.GA1737564@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 06, 2023, Chao Peng wrote:
-> On Thu, Jan 05, 2023 at 11:23:01AM +0000, Jarkko Sakkinen wrote:
-> > On Fri, Dec 02, 2022 at 02:13:41PM +0800, Chao Peng wrote:
-> > > To make future maintenance easy, internally use a binary compatible
-> > > alias struct kvm_user_mem_region to handle both the normal and the
-> > > '_ext' variants.
-> > 
-> > Feels bit hacky IMHO, and more like a completely new feature than
-> > an extension.
-> > 
-> > Why not just add a new ioctl? The commit message does not address
-> > the most essential design here.
+
+
+On 1/9/2023 1:05 AM, Srivatsa Vaddagiri wrote:
+> * Elliot Berman <quic_eberman@quicinc.com> [2022-12-19 14:58:33]:
 > 
-> Yes, people can always choose to add a new ioctl for this kind of change
-> and the balance point here is we want to also avoid 'too many ioctls' if
-> the functionalities are similar.  The '_ext' variant reuses all the
-> existing fields in the 'normal' variant and most importantly KVM
-> internally can reuse most of the code. I certainly can add some words in
-> the commit message to explain this design choice.
+>> +config GUNYAH_VM_MANAGER
+> 
+> Any reason why this needs to be a separate config? IOW CONFIG_GUNYAH should
+> enable VM management functionality also.
+> 
+>> @@ -550,14 +580,29 @@ static int gh_rm_drv_probe(struct platform_device *pdev)
+>>   	rsc_mgr->msgq_client.rx_callback = gh_rm_msgq_rx_data;
+>>   	rsc_mgr->msgq_client.tx_done = gh_rm_msgq_tx_done;
+>>   
+>> -	return gh_msgq_init(&pdev->dev, &rsc_mgr->msgq, &rsc_mgr->msgq_client,
+>> +	ret = gh_msgq_init(&pdev->dev, &rsc_mgr->msgq, &rsc_mgr->msgq_client,
+>>   				&rsc_mgr->tx_ghrsc, &rsc_mgr->rx_ghrsc);
+> 
+> Bail on error here.
+> 
+> [snip]
+> 
+>> +static __must_check struct gunyah_vm *gunyah_vm_alloc(struct gh_rm_rpc *rm)
+>> +{
+>> +	struct gunyah_vm *ghvm;
+>> +	int vmid;
+>> +
+>> +	vmid = gh_rm_alloc_vmid(rm, 0);
+>> +	if (vmid < 0)
+>> +		return ERR_PTR(vmid);
+>> +
+>> +	ghvm = kzalloc(sizeof(*ghvm), GFP_KERNEL);
+>> +	if (!ghvm)
+> 
+> dealloc_vmid here (as well as few other error paths)?
+> 
+>> +		return ghvm;
+>> +
+>> +	get_gh_rm(rm);
 
-After seeing the userspace side of this, I agree with Jarkko; overloading
-KVM_SET_USER_MEMORY_REGION is a hack.  E.g. the size validation ends up being
-bogus, and userspace ends up abusing unions or implementing kvm_user_mem_region
-itself.
+Applied all of these.
 
-It feels absolutely ridiculous, but I think the best option is to do:
-
-#define KVM_SET_USER_MEMORY_REGION2 _IOW(KVMIO, 0x49, \
-					 struct kvm_userspace_memory_region2)
-
-/* for KVM_SET_USER_MEMORY_REGION2 */
-struct kvm_user_mem_region2 {
-	__u32 slot;
-	__u32 flags;
-	__u64 guest_phys_addr;
-	__u64 memory_size;
-	__u64 userspace_addr;
-	__u64 restricted_offset;
-	__u32 restricted_fd;
-	__u32 pad1;
-	__u64 pad2[14];
-}
-
-And it's consistent with other KVM ioctls(), e.g. KVM_SET_CPUID2.
-
-Regarding the userspace side of things, please include Vishal's selftests in v11,
-it's impossible to properly review the uAPI changes without seeing the userspace
-side of things.  I'm in the process of reviewing Vishal's v2[*], I'll try to
-massage it into a set of patches that you can incorporate into your series.
-
-[*] https://lore.kernel.org/all/20221205232341.4131240-1-vannapurve@google.com
+Thanks,
+Elliot
