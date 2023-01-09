@@ -2,81 +2,74 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02BAAC54EBE
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 21:12:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83C34C54EBD
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 21:12:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237219AbjAIVMK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 16:12:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51380 "EHLO
+        id S237839AbjAIVMN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 16:12:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237855AbjAIVLl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 16:11:41 -0500
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CC4212099;
-        Mon,  9 Jan 2023 13:06:17 -0800 (PST)
-Received: by mail-yb1-xb35.google.com with SMTP id c124so9773132ybb.13;
-        Mon, 09 Jan 2023 13:06:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ruqurkiOPq/60Ofar99Z98QHHgy9IA7M4V3XUwPdHC8=;
-        b=LxtJ+X5iYJcNmJcWpm8rjH0waBDqiQdG88taP2+j4q047HhQOLkKQ8jx0LC/bkrgRI
-         kseC7SSxeKQzZ8aUlq45UXd9n6m/9OcB0UsICzX25e59lc7kS7NgzzfgPjM8Ouk973jT
-         VBWfXgQ792/ytHcAoc1v2U9mvvmYKV64/XGlBY429/siIJfamy0eVNHCEduLusREe5KI
-         Eo83FW6MBM/4Lhx0e3fQqnG3LljPWHuE6468vOsHUEbk9bNwWvVTlQl6zHMonFlu9Jks
-         zmDi2+hDjohK5zWF8gGiP5tZZdhqe7ByGL955eFJBeRIXXo7wrOn8MBD/I4SkcS4NrHs
-         xqyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ruqurkiOPq/60Ofar99Z98QHHgy9IA7M4V3XUwPdHC8=;
-        b=hAV6w3a0J0ikByWDDCOEXZP1lX6wHXw17lPYN+5yqBSrWOu0yM04SoynbVU6s0X0+b
-         Iu1/HKRYvHLEROV9tEk98RRvRjP/DRlxZSLfrFABs77afVB2sGo63ovKwlge4Q3iS7ny
-         2eTWL4IRjG6GIdlmqSZzJQWYvJbDXvoAIbRcjVgoB9lnLlgvMtdL1WNIOA574j7t5Kqe
-         AyW9OqMUOzWVIj22JotGRPzSFdDnpXv9ovOwYwjweXcyN2XmjjkGSK141lGKC2qK5Qo1
-         rHk7fA30uvWYUZYpjxizB0U0swQADphH5v+OcMaBxqpI6bdbqzFFdhGXhDIiYD9Z5POn
-         vyXA==
-X-Gm-Message-State: AFqh2kpAnGXYuWasNGnz+935XNQO1Snq/IG4Ma1yB5il8BJpitqI8Nkq
-        raD0zFTtwhaijrwT4RC9RdmJtqyGLLPVM7wLO90=
-X-Google-Smtp-Source: AMrXdXtV6jEFbH9LeE1FPymK59PmRaEJbE++VCpZc1kGfJiDhWH47gzHv0RWTADEClSW7TO4g6lpJWsTcg61ZqgjnAQ=
-X-Received: by 2002:a25:ac08:0:b0:73b:23cf:ad63 with SMTP id
- w8-20020a25ac08000000b0073b23cfad63mr8094083ybi.323.1673298376640; Mon, 09
- Jan 2023 13:06:16 -0800 (PST)
+        with ESMTP id S238027AbjAIVL4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 16:11:56 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B676A496C5;
+        Mon,  9 Jan 2023 13:07:27 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0FA0C1EC03B3;
+        Mon,  9 Jan 2023 22:07:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1673298446;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=gySK7Y4MkaBtcEVthJKsByGaRZlyKueoBfLBNDapHgY=;
+        b=GvrYVgkZdF++oHivFFGPvDjDBuXMbxO1Y9imd7K0YuYv7FqEjckX3vyvO0VpYggdcFIOrP
+        IqVS3L9e8D7qNC95pHO8b/RreYk0KJpK02Zz0cp4JY4Va8s2ZOrtg6gvgn3taPGGHUraK1
+        LpOaRUq9JHPu77gvWCzVMEd0J+/OCH0=
+Date:   Mon, 9 Jan 2023 22:07:20 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Moger, Babu" <babu.moger@amd.com>
+Cc:     corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
+        mingo@redhat.com, fenghua.yu@intel.com,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bagasdotme@gmail.com, eranian@google.com,
+        christophe.leroy@csgroup.eu, jarkko@kernel.org,
+        adrian.hunter@intel.com, quic_jiles@quicinc.com,
+        peternewman@google.com
+Subject: Re: [PATCH v11 04/13] x86/cpufeatures: Add Bandwidth Monitoring
+ Event Configuration feature flag
+Message-ID: <Y7yCCNANVBnOOmxM@zn.tnic>
+References: <20230109164405.569714-1-babu.moger@amd.com>
+ <20230109164405.569714-5-babu.moger@amd.com>
+ <Y7xjxUj+KnOEJssZ@zn.tnic>
+ <5afd0a7c-3fbe-dfea-f1b4-2fc35fbb4f13@amd.com>
 MIME-Version: 1.0
-References: <20230109204520.539080-1-ojeda@kernel.org>
-In-Reply-To: <20230109204520.539080-1-ojeda@kernel.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 9 Jan 2023 22:06:05 +0100
-Message-ID: <CANiq72m_+xJYUxrwFc7vNLkuOb6zC-W-wDzXjbPb8Ursqzwiaw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] docs: rust: add paragraph about finding a suitable `libclang`
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <5afd0a7c-3fbe-dfea-f1b4-2fc35fbb4f13@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 9, 2023 at 9:45 PM Miguel Ojeda <ojeda@kernel.org> wrote:
->
-> +* Or ``LIBCLANG_PATH`` can be pointed to a ``libclang`` shared library
-> +  or to the directoy containing it.
+On Mon, Jan 09, 2023 at 01:49:09PM -0600, Moger, Babu wrote:
+> All the QoS(or RDT) features are visible so far. If we make them visible,
+> users can easily figure out if this specific feature is supported or not.
 
-I just noticed the typo here, sorry: directoy -> directory
+What would be the actual, real-life use case where the presence of those flags
+in /proc/cpuinfo is really needed?
 
-Masahiro: if you take them, please feel free to correct it.
+-- 
+Regards/Gruss,
+    Boris.
 
-Cheers,
-Miguel
+https://people.kernel.org/tglx/notes-about-netiquette
