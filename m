@@ -2,83 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C927AC5479D
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 16:08:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AADAC6379F
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 16:29:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230192AbjAIQIV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 11:08:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45088 "EHLO
+        id S231126AbjAIQ34 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 11:29:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237074AbjAIQIP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 11:08:15 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 353983B90C;
-        Mon,  9 Jan 2023 08:08:12 -0800 (PST)
+        with ESMTP id S234894AbjAIQ3b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 11:29:31 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6784213F6B;
+        Mon,  9 Jan 2023 08:29:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=IWQp+dbz3tPD0BbW9vxQ/2vTC08Sy+DyjJEG4zi6onc=; b=bWZV7XQCDnsvNcJYDEt+yN0Gpr
-        qAsThBNTT2qcDVAocJUuYke/IzZp9PsXtxRfNEO5cYm3ViZ3wfbe4Kjo0pXcWoeVCtjpd0r4RR3G5
-        7iMANrOV6Ah2wfvpD88fvkwv9mgkguihyWZW/MkY37P1N1rbm2kcBLhz2cUZTPqOuB/CKN9DFsWHj
-        zSCok+TUcDATD4ITzDShlsIju/ouElkn8HRhzdJaOH27OGtHC6KxPxEJ8SwnKye/zT+04L3o89tpB
-        HUL529/FVigqt+4e6L7FjA9Jx0ZkrUnLxQ2owRWz6h9E3ghQnACcw5xKvraP3Y2YlUUs6WUIYBFjU
-        /an4UiYg==;
-Received: from [2601:1c2:d80:3110::a2e7] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pEuh0-002UBK-NY; Mon, 09 Jan 2023 16:08:10 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Ingo Molnar <mingo@kernel.org>
-Subject: [PATCH v2] x86/retbleed: add "stuff" mode admin documentation
-Date:   Mon,  9 Jan 2023 08:08:08 -0800
-Message-Id: <20230109160808.30740-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.39.0
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=K4iLiuKEPTIMOSfy85ssWj3jx3GEEqdcGwlKwLODXMM=; b=JAy3f3pJzS7zKtbCVYppxBykTw
+        GRrOsT8QXwJeRAVJnKjXkPNTTrYhLcKd6x7KX7Er5l5FnRJxlkrKavnOuiiKBcLrxI98sFeLSzlTi
+        X/RCB/4g03Emt/oA33OuwJ7Lw67aPct5WDU5KbEI7+Ne1z3NJAUQI20zlsNXrvVUojTYfNprA1iXA
+        qsasYrCJDKcBRXJrcZy+4PPXepvCbRYEFhzkYd8UwLYw3lJtlTLXRLSP1xUFW+luM9Gy2E3q3nme1
+        1wLhOXUv6PRulcIOv6OJIpLIL5TyVk1QvInXtFnA+/iKh9bXbBkNptb3lVtD9eTuWxYl63jk0dz8i
+        fH0nr+GQ==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1pEv0g-002mMs-0C;
+        Mon, 09 Jan 2023 16:28:30 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id DEE513001E5;
+        Mon,  9 Jan 2023 17:28:32 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 8A07E20086EAB; Mon,  9 Jan 2023 17:28:32 +0100 (CET)
+Date:   Mon, 9 Jan 2023 17:28:32 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Heiko Carstens <hca@linux.ibm.com>, corbet@lwn.net,
+        will@kernel.org, boqun.feng@gmail.com, mark.rutland@arm.com,
+        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
+        cl@linux.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
+        borntraeger@linux.ibm.com, svens@linux.ibm.com,
+        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-s390@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org
+Subject: Re: [RFC][PATCH 11/12] slub: Replace cmpxchg_double()
+Message-ID: <Y7xAsELYo4srs/z/@hirez.programming.kicks-ass.net>
+References: <20221219153525.632521981@infradead.org>
+ <20221219154119.550996611@infradead.org>
+ <Y7Ri+Uij1GFkI/LB@osiris>
+ <CAHk-=wj9nK825MyHXu7zkegc7Va+ZxcperdOtRMZBCLHqGrr=g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wj9nK825MyHXu7zkegc7Va+ZxcperdOtRMZBCLHqGrr=g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add admin documentation for "retbleed=stuff", based on commit
-description and source code.
+On Tue, Jan 03, 2023 at 11:08:29AM -0800, Linus Torvalds wrote:
 
-Fixes: d82a0345cf21 ("x86/retbleed: Add call depth tracking mitigation")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: x86@kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Acked-by: Ingo Molnar <mingo@kernel.org>
----
-v2: fix typo "if effect" -> "in effect" (thanks Ingo)
+> But I *do* note that this patch seems to be the only one that depends
+> on the new this_cpu_cmpxchg() updates to make it just automatically do
+> the right thing for a 128-bit value. And I have to admit that all
+> those games with __pcpu_cast_128() make no sense to me. Why isn't it
+> just using "u128" everywhere without any odd _Generic() games?
 
- Documentation/admin-guide/kernel-parameters.txt |    8 ++++++++
- 1 file changed, 8 insertions(+)
+I ran into a ton of casting trouble when compiling kernel/fork.c which
+uses this_cpu_cmpxchg() on a pointer type and the compiler hates casting
+pointers to an integer that is not the exact same size.
 
-diff -- a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5364,6 +5364,14 @@
- 				       when STIBP is not available. This is
- 				       the alternative for systems which do not
- 				       have STIBP.
-+			stuff        - Enables "stuffing" mode mitigation,
-+				       which uses return thunking and call depth
-+				       tracking.  Only in effect if
-+				       CONFIG_CALL_DEPTH_TRACKING is set and
-+				       Spectre V2 mitigation mode is
-+				       "retpoline".
-+				       IBRS is fully secure mitigation but is
-+				       more costly (slower) than stuffing.
- 			unret        - Force enable untrained return thunks,
- 				       only effective on AMD f15h-f17h based
- 				       systems.
