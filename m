@@ -2,230 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41E4EC5479D
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 07:13:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20E32C61DB3
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 08:14:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233513AbjAIHNu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 02:13:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33790 "EHLO
+        id S233239AbjAIIOs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 03:14:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233652AbjAIHNi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 02:13:38 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2606C655A;
-        Sun,  8 Jan 2023 23:13:37 -0800 (PST)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30952lm0009418;
-        Mon, 9 Jan 2023 07:13:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
- cc : subject : message-id : reply-to : references : mime-version :
- content-type : in-reply-to; s=qcppdkim1;
- bh=+T3VIEWVegWplUGukrhykwFnwriNfkJ62nVMapRgGrM=;
- b=jXrP28WMz4c3qndcA3P40qMMezIc41FWg6h6xqFLqCWV0gmNiDnnJPSsygm5xGQUeCuh
- g3HN4+EdBR0YF80wvBghWtE4vbAll3XQ3Uwl/Bcl9kmyP1GJlXGON2MlkQDJ2HDQJJXh
- gIxUbE4sUlBUNnPxRvcle+Kbkknfh3TFXF3qtVS7VSm+xitmxf4VCJyh6K0wxNvJTjUa
- 2pDyAAV3Y4MVBVt4zWC6nrNoD+Oh1WCTb76x0QGoC87NbRoB2kYEiyBLzGiUezn8UJ8A
- gJ3Cr0ZxJIZ240O8FOQi32kIqBoXiH/dkUJseHxbJc+enveQaczSyDwzxi0EBDy/p6aJ Vg== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3my21ftf7x-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 09 Jan 2023 07:13:21 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3097DK0e011786
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 9 Jan 2023 07:13:20 GMT
-Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Sun, 8 Jan 2023
- 23:13:13 -0800
-Date:   Mon, 9 Jan 2023 12:43:09 +0530
-From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Carl van Schaik" <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        with ESMTP id S233106AbjAIIOl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 03:14:41 -0500
+Received: from a3.inai.de (a3.inai.de [IPv6:2a01:4f8:10b:45d8::f5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FB676457;
+        Mon,  9 Jan 2023 00:14:37 -0800 (PST)
+Received: by a3.inai.de (Postfix, from userid 25121)
+        id 1BED758957AAE; Mon,  9 Jan 2023 09:14:34 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+        by a3.inai.de (Postfix) with ESMTP id 5306160BC6B00;
+        Mon,  9 Jan 2023 09:14:34 +0100 (CET)
+Date:   Mon, 9 Jan 2023 09:14:34 +0100 (CET)
+From:   Jan Engelhardt <jengelh@inai.de>
+To:     Jiri Slaby <jirislaby@kernel.org>
+cc:     Stephen Hemminger <stephen@networkplumber.org>,
+        netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-acpi@vger.kernel.org>
-Subject: Re: [PATCH v8 11/28] gunyah: rsc_mgr: Add VM lifecycle RPC
-Message-ID: <20230109071309.GA3480070@quicinc.com>
-Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-References: <20221219225850.2397345-1-quic_eberman@quicinc.com>
- <20221219225850.2397345-12-quic_eberman@quicinc.com>
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Florian Westphal <fw@strlen.de>, Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Akhmat Karakotov <hmukos@yandex-team.ru>,
+        Antoine Tenart <atenart@kernel.org>,
+        Xin Long <lucien.xin@gmail.com>,
+        Juergen Gross <jgross@suse.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Nathan Fontenot <nathan.fontenot@amd.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Suma Hegde <suma.hegde@amd.com>, Chen Yu <yu.c.chen@intel.com>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Xie Yongji <xieyongji@bytedance.com>,
+        =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Alexandre Ghiti <alexandre.ghiti@canonical.com>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Menglong Dong <imagedong@tencent.com>,
+        Petr Machata <petrm@nvidia.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Yuwei Wang <wangyuweihx@gmail.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Kuniyuki Iwashima <kuniyu@amazon.com>,
+        Kees Cook <keescook@chromium.org>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Wang Qing <wangqing@vivo.com>, Yu Zhe <yuzhe@nfschina.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:MIPS" <linux-mips@vger.kernel.org>,
+        "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)" 
+        <linuxppc-dev@lists.ozlabs.org>,
+        "open list:NETFILTER" <netfilter-devel@vger.kernel.org>,
+        "open list:NETFILTER" <coreteam@netfilter.org>
+Subject: Re: [PATCH net-next] Remove DECnet support from kernel
+In-Reply-To: <07786498-2209-3af0-8d68-c34427049947@kernel.org>
+Message-ID: <po9s7-9snp-9so3-n6r5-qs217ss1633o@vanv.qr>
+References: <20220818004357.375695-1-stephen@networkplumber.org> <07786498-2209-3af0-8d68-c34427049947@kernel.org>
+User-Agent: Alpine 2.25 (LSU 592 2021-09-18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-In-Reply-To: <20221219225850.2397345-12-quic_eberman@quicinc.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: KmxXwIzcVN610P58UOSed39adOioGZLg
-X-Proofpoint-GUID: KmxXwIzcVN610P58UOSed39adOioGZLg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-09_02,2023-01-06_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 suspectscore=0
- impostorscore=0 bulkscore=0 malwarescore=0 mlxscore=0 lowpriorityscore=0
- clxscore=1015 adultscore=0 priorityscore=1501 mlxlogscore=676 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301090051
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Elliot Berman <quic_eberman@quicinc.com> [2022-12-19 14:58:32]:
 
-> +/* Call: CONSOLE_OPEN, CONSOLE_CLOSE, CONSOLE_FLUSH */
+On Monday 2023-01-09 08:04, Jiri Slaby wrote:
+> On 18. 08. 22, 2:43, Stephen Hemminger wrote:
+>> DECnet is an obsolete network protocol
+>
+> this breaks userspace. Some projects include linux/dn.h:
+>
+>  https://codesearch.debian.net/search?q=include.*linux%2Fdn.h&literal=0
+>
+> I found Trinity fails to build:
+> net/proto-decnet.c:5:10: fatal error: linux/dn.h: No such file or directory
+>     5 | #include <linux/dn.h>
+>
+> Should we provide the above as empty files?
 
-I think this struct is used by other calls as well?
-Also CONSOLE_** functions are not yet introduced in this patch
+Not a good idea. There may be configure tests / code that merely checks for
+dn.h existence without checking for specific contents/defines. If you provide
+empty files, this would fail to build:
 
-> +struct gh_vm_common_vmid_req {
-> +	__le16 vmid;
-> +	__le16 reserved0;
-> +} __packed;
+#include "config.h"
+#ifdef HAVE_LINUX_DN_H
+#	include <linux/dn.h>
+#endif
+int main() {
+#ifdef HAVE_LINUX_DN_H
+	socket(AF_DECNET, 0, DNPROTO_NSP); // or whatever
+#else
+	...
+#endif
+}
 
-[snip]
-
-> +int gh_rm_alloc_vmid(struct gh_rm_rpc *rm, u16 vmid)
-> +{
-> +	void *resp;
-> +	struct gh_vm_common_vmid_req req_payload = {
-> +		.vmid = cpu_to_le16(vmid),
-> +	};
-> +	struct gh_vm_common_vmid_req *resp_payload;
-> +	size_t resp_size;
-> +	int ret;
-> +
-> +	if (vmid == GH_VMID_INVAL)
-> +		vmid = 0;
-> +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_VM_ALLOC_VMID, &req_payload, sizeof(req_payload), &resp,
-> +			&resp_size);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!vmid) {
-> +		if (resp_size != sizeof(*resp_payload)) {
-> +			ret = -EINVAL;
-> +		} else {
-> +			resp_payload = resp;
-> +			ret = resp_payload->vmid;
-
-Do we need a le_to_cpu() wrapper on the response here?
-
-> +int gh_rm_vm_stop(struct gh_rm_rpc *rm, u16 vmid)
-> +{
-> +	struct gh_vm_stop_req req_payload = {
-> +		.vmid = cpu_to_le16(vmid),
-> +	};
-> +	void *resp;
-> +	size_t resp_size;
-> +	int ret;
-> +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_VM_STOP, &req_payload, sizeof(req_payload),
-> +			&resp, &resp_size);
-> +	if (ret)
-> +		return ret;
-> +	kfree(resp);
-
-Why not use gh_rm_common_vmid_call() here as well?
-
-	return gh_rm_common_vmid_call(rm, GH_RM_RPC_VM_STOP, vmid);
-
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(gh_rm_vm_stop);
-> +
-
-[snip]
-
-> +ssize_t gh_rm_get_hyp_resources(struct gh_rm_rpc *rm, u16 vmid,
-> +				struct gh_rm_hyp_resource **resources)
-> +{
-> +	struct gh_vm_get_hyp_resources_resp *resp;
-> +	size_t resp_size;
-> +	int ret;
-> +	struct gh_vm_common_vmid_req req_payload = {
-> +		.vmid = cpu_to_le16(vmid),
-> +	};
-> +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_VM_GET_HYP_RESOURCES,
-> +			 &req_payload, sizeof(req_payload),
-> +			 (void **)&resp, &resp_size);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (resp_size < sizeof(*resp) ||
-> +		(sizeof(*resp->entries) && (resp->n_entries > U32_MAX / sizeof(*resp->entries))) ||
-> +		(resp_size != sizeof(*resp) + (resp->n_entries * sizeof(*resp->entries)))) {
-> +		ret = -EIO;
-> +		goto out;
-> +	}
-> +
-> +	*resources = kmemdup(resp->entries, (resp->n_entries * sizeof(*resp->entries)), GFP_KERNEL);
-
-Consider NULL return value from kmemdup
-
-> +	ret = resp->n_entries;
-> +
-> +out:
-> +	kfree(resp);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(gh_rm_get_hyp_resources);
-> +
-> +/**
-> + * gh_rm_get_vmid() - Retrieve VMID of this virtual machine
-> + * @vmid: Filled with the VMID of this VM
-> + */
-> +int gh_rm_get_vmid(struct gh_rm_rpc *rm, u16 *vmid)
-> +{
-> +	static u16 cached_vmid = GH_VMID_INVAL;
-> +	void *resp;
-> +	size_t resp_size;
-> +	int ret;
-> +	int payload = 0;
-> +
-> +	if (cached_vmid != GH_VMID_INVAL) {
-> +		*vmid = cached_vmid;
-> +		return 0;
-> +	}
-> +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_VM_GET_VMID, &payload, sizeof(payload), &resp, &resp_size);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (resp_size != sizeof(*vmid))
-
-kfree(resp) in this case?
-
-> +		return -EIO;
-> +	*vmid = *(u16 *)resp;
-
-Do we need a le_to_cpu() wrapper on the response?
-Also update cached_vmid in success case.
-
-> +	kfree(resp);
-> +
-> +	return ret;
-> +}
+So, with my distro hat on, outright removing header files feels like the
+slightly lesser of two evils. Given the task to port $arbitrary software
+between operating systems, absent header files is something more or less
+"regularly" encountered, so one could argue we are "trained" to deal with it.
+But missing individual defines is a much deeper dive into the APIs and
+software to patch it out.
