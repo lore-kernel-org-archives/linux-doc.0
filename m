@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67683C678D8
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 09:53:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE5E6C54EBD
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 09:53:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233085AbjAIJxS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 04:53:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43890 "EHLO
+        id S233614AbjAIJxT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 04:53:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236703AbjAIJv5 (ORCPT
+        with ESMTP id S236536AbjAIJv5 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 04:51:57 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A300F13CC6;
-        Mon,  9 Jan 2023 01:51:19 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id z4-20020a17090a170400b00226d331390cso8818623pjd.5;
-        Mon, 09 Jan 2023 01:51:19 -0800 (PST)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF22413D2A;
+        Mon,  9 Jan 2023 01:51:20 -0800 (PST)
+Received: by mail-pl1-x634.google.com with SMTP id b17so1423081pld.7;
+        Mon, 09 Jan 2023 01:51:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mqJCH7hX4dILUHJmf3hsUMhsDu5qPCEp+u1n+kr7rxg=;
-        b=iMD9gaWVVnDR5njGukGNImhoF87Ln9pekRZVKBgCi5H+o9ebrLASJQ9Pb2xx540g1b
-         siUcwH+wbT4a+l1Cue1bsgU7jsA5qiKM3BbgRhL5ZfTLVAK41WaTCzcm4nHFh8+9ID1M
-         q5N6wFjtyeQGX9HwBqsaLerLhmCLyNbyaevr5R3zYeI4RXH2SCbwekTA/tVPQh6oqR8C
-         1SfKizOBJpvEPl8mcABpM3INLBv+CZNm2tbav7SVt4UHgaxDfIzzi0dFpHolD2Iw2h/S
-         C68rkN+4SmXk1aDJz4WKFWrUuqkCMRK5AXGAXJ5GsukhBGcDJ30tdagtyaYAsPqsT4Xq
-         CDfA==
+        bh=Rxew3ajMkQ4bWs7+VLjcEpNUZ+iv1uP6LViYhl+6XNo=;
+        b=ch9O8aLAyIywf0SGwOnngbKDBlFDadiZ826y64a3tRfyZGtRT3tTaW9bXsSE6hyKL6
+         Hohrec581Dgv4feylcCX20L3Ra2vJ+SjtuOIJmfXGRzwNxQ6kOe4I8ll6Uq3GzlqVlMd
+         ZpedJQdyM19MFLpuxG4lrJU4KKX5Izm+ygZ3iaYxiY3OeDjiHWouY5oTobnLtzAMZ5+C
+         YlH7LNO25vDHwKty94vWy2r8XOmq8p7vPd7Sr78r8CaN+QJqqmhx9cXMSM+s6yCv+4lO
+         C2EV2HMKcilV6mNkrcVByZenJ/pcn6yHv3gAnUvdwV64kXxRwYF2xHyhjBj4eWgLTSnC
+         eN6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mqJCH7hX4dILUHJmf3hsUMhsDu5qPCEp+u1n+kr7rxg=;
-        b=Ww4AMHz0TNsRfApXpVgo9PVkpO7Ed2xqBs/BL2lgMXqFjPU4UMD5LN+TJo3b72sUmp
-         WNRkI71NAbDYv7SuTlp6Q2B0G54dypJ7/Jv6CBsOsHbZW27Ee+fjB0sJn4yLMIkUT0Yq
-         73ogXPNs3OvxdClGlBMXWy1Zv6+6M/60spc1KUqFP9KTRNtUC+adVFdDq1ME+cTSNe+f
-         yAnPeeTEv3lNhnEgWcWe62zv0rVOfflzEz8wSZrtczgZBrt5gZ1bGUfMYYaRJUpuOBrU
-         ygSoG6oE1zMeLuZDoi5OVZgPRP0oFvJWBRwlPgrGUffWPOp0F3HwM3EOOvq0dCnyh/4s
-         LsQA==
-X-Gm-Message-State: AFqh2kp+SrZExvseUC5PjxRtv858PRskyl530aPukN/K6pGgII5GZUwv
-        EJ1/CltIv8pAMdctnfN1BoY=
-X-Google-Smtp-Source: AMrXdXvxLMwwO7210xShAwXu60VO5zSYBPq3TMErKmIAVFxoEaev7iZZcvNbLW0WxAqP8M+IDQWZew==
-X-Received: by 2002:a17:90b:485:b0:223:ffd0:b2a1 with SMTP id bh5-20020a17090b048500b00223ffd0b2a1mr68601087pjb.48.1673257879189;
-        Mon, 09 Jan 2023 01:51:19 -0800 (PST)
+        bh=Rxew3ajMkQ4bWs7+VLjcEpNUZ+iv1uP6LViYhl+6XNo=;
+        b=pZ/aYmqhhg7jPCrVc02gPZhRrAFbN5NTquLb9ff7JFNKv1+EcqYkwpuXlEHtxOY2BW
+         JZPVKBKHwGQTcmoMzjUEKQkyXTr7uZawOCqxB5qZUkqxmn1UJix2OTpxgb031M/Srr9/
+         CC3r9tm9du6xns62TVXJXbBDH6XecW743We+wUfzALF3da2D2iw81PfAsStzG7/aVQMi
+         WMz5c28oT0My5tDNKL9yWwX1Ic/0uK9c6zZzsJvg1Fsoi+cwRpH3Mxy4OE3bQCSngwlC
+         vJ7zVYRUfbeJ98qN8lgFZoQlnN4P7NMhBAz0ZxQuqxHOkOPf8iFPKoeI+d+QFLNbRbEs
+         /OKA==
+X-Gm-Message-State: AFqh2kqLb6YWaBlExGFNsP9me84jv8csIsvxCB8wJxTOVW63x/qltaZC
+        tVHlO0jsNiQb0F9mYtLUdV0=
+X-Google-Smtp-Source: AMrXdXuCovS+m6D/GwjSQ52aBkZhAvLOHDVXNu0oWROEUDgQeInMFn0/M8eThf5UqGc53oYSD6zgjQ==
+X-Received: by 2002:a17:90a:fcf:b0:226:ed62:576e with SMTP id 73-20020a17090a0fcf00b00226ed62576emr9082736pjz.34.1673257880448;
+        Mon, 09 Jan 2023 01:51:20 -0800 (PST)
 Received: from debian.me (subs03-180-214-233-26.three.co.id. [180.214.233.26])
-        by smtp.gmail.com with ESMTPSA id s88-20020a17090a69e100b002262ab43327sm3762001pjj.26.2023.01.09.01.51.18
+        by smtp.gmail.com with ESMTPSA id s6-20020a17090a2f0600b00226156cf039sm6827424pjd.44.2023.01.09.01.51.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 09 Jan 2023 01:51:18 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-        id E2698105011; Mon,  9 Jan 2023 16:51:10 +0700 (WIB)
+        id 2843F105013; Mon,  9 Jan 2023 16:51:10 +0700 (WIB)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Yann Sionneau <ysionneau@kalray.eu>
@@ -58,81 +58,568 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Clement Leger <clement.leger@bootlin.com>,
         Guillaume Thouvenin <gthouvenin@kalray.eu>,
         Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 7/8] Documentation: kvx: Use literal code block for command-line inputs
-Date:   Mon,  9 Jan 2023 16:51:07 +0700
-Message-Id: <20230109095108.21229-8-bagasdotme@gmail.com>
+Subject: [PATCH 2/8] Documentation: kvx: Wrap diagrams in literal code block
+Date:   Mon,  9 Jan 2023 16:51:02 +0700
+Message-Id: <20230109095108.21229-3-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230109095108.21229-1-bagasdotme@gmail.com>
 References: <874jt7fqxt.fsf@meer.lwn.net>
  <20230109095108.21229-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2492; i=bagasdotme@gmail.com; h=from:subject; bh=bMSMm0rWOWzEGbRrqmQsw/YZ3fZ91pfy18WO8XnzGNg=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMm7H3dnLJ1tKiSrLXZpuXq/3KPEJ6803loUWJ8qfWBnOMlo Bc+yjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAExEfRYjw92Vex8wV3+XeqDu88xx6v 6dpV8rZAraTbIupz8VCpPdq8HwP0pphXxbdPhRxVXZjWs/1eirsU3+1XxYJa667qng7ad/2QA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=24167; i=bagasdotme@gmail.com; h=from:subject; bh=RmQw3dvwG456+kl9oktVQc8IZ2fTICciIBt3vtjbgfU=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMm7H3e9PHFBYE6QQ9zdtybHipI07m3sN5W8tdfu/eWaHl2d C6caO0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCRMBeG/0WajB7LXu7uutDIVPyxdO 1L/jVnH04+GvbMaemJhf8z13Aw/M/ZpJ1T4adk4pop5Pn1jOr1rA8irfO+K4h6V3plOdrLMwIA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Command-line, like codes, looks ugly when default paragraph block is
-used (since proportional font is used), where literal code blocks (which
-render as monospace) do the job better.
+Wrap code path diagrams in literal code block, just like other diagrams
+in the kernel documentation. This avoids confusion with other constructs
+(tables, block quotes, and inline substitutions).
 
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/kvx/kvx-iommu.rst |  2 +-
- Documentation/kvx/kvx.rst       | 10 +++++-----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ Documentation/kvx/kvx-exceptions.rst | 241 ++++++++++++++-------------
+ Documentation/kvx/kvx-iommu.rst      |  64 +++----
+ Documentation/kvx/kvx-mmu.rst        |  41 +++--
+ Documentation/kvx/kvx.rst            |  96 +++++------
+ 4 files changed, 225 insertions(+), 217 deletions(-)
 
+diff --git a/Documentation/kvx/kvx-exceptions.rst b/Documentation/kvx/kvx-exceptions.rst
+index d3e52f30285223..bb9010efb14196 100644
+--- a/Documentation/kvx/kvx-exceptions.rst
++++ b/Documentation/kvx/kvx-exceptions.rst
+@@ -10,21 +10,21 @@ The offset depends on which exception vector the cpu wants to jump to:
+ * $ev + 0x80 for interrupt
+ * $ev + 0xc0 for syscall
+ 
+-Then, handlers are laid in the following order:
++Then, handlers are laid in the following order::
+ 
+-        +-------------+
+-        |             |
+-        |   Syscall   |
+-        +-------------+
+-        |             |
+-        |  Interrupts |
+-        +-------------+
+-        |             |
+-        |    Traps    |
+-        +-------------+
+-        |             | ^
+-        |    Debug    | | Stride
+-BASE -> +-------------+ v
++          +-------------+
++          |             |
++          |   Syscall   |
++          +-------------+
++          |             |
++          |  Interrupts |
++          +-------------+
++          |             |
++          |    Traps    |
++          +-------------+
++          |             | ^
++          |    Debug    | | Stride
++  BASE -> +-------------+ v
+ 
+ 
+ Interrupts, and traps are serviced similarly, ie:
+@@ -99,65 +99,66 @@ When handling a signal, the path is the following:
+ 7 - User application is restored at the exact point it was interrupted
+     before.
+ 
++    ::
+ 
+-        +----------+
+-        |    1     |
+-        | User app | @func
+-        |  (user)  |
+-        +---+------+
+-            |
+-            | it/trap/scall
+-            |
+-        +---v-------+
+-        |    2      |
+-        | exception |
+-        | handling  |
+-        | (kernel)  |
+-        +---+-------+
+-            |
+-            | Check if signal are pending, if so, handle signals
+-            |
+-        +---v--------+
+-        |    3       |
+-        | do_signal  |
+-        |  handling  |
+-        |  (kernel)  |
+-        +----+-------+
+-             |
+-             | Return to user signal handler
+-             |
+-        +----v------+
+-        |    4      |
+-        |  signal   |
+-        |  handler  |
+-        |  (user)   |
+-        +----+------+
+-             |
+-             | Return to sigreturn trampoline
+-             |
+-        +----v-------+
+-        |    5       |
+-        |  syscall   |
+-        |rt_sigreturn|
+-        |  (user)    |
+-        +----+-------+
+-             |
+-             | Syscall to rt_sigreturn
+-             |
+-        +----v-------+
+-        |    6       |
+-        |  sigreturn |
+-        |  handler   |
+-        |  (kernel)  |
+-        +----+-------+
+-             |
+-             | Modify context to return to original func
+-             |
+-        +----v-----+
+-        |    7     |
+-        | User app | @func
+-        |  (user)  |
+-        +----------+
++            +----------+
++            |    1     |
++            | User app | @func
++            |  (user)  |
++            +---+------+
++                |
++                | it/trap/scall
++                |
++            +---v-------+
++            |    2      |
++            | exception |
++            | handling  |
++            | (kernel)  |
++            +---+-------+
++                |
++                | Check if signal are pending, if so, handle signals
++                |
++            +---v--------+
++            |    3       |
++            | do_signal  |
++            |  handling  |
++            |  (kernel)  |
++            +----+-------+
++                 |
++                 | Return to user signal handler
++                 |
++            +----v------+
++            |    4      |
++            |  signal   |
++            |  handler  |
++            |  (user)   |
++            +----+------+
++                 |
++                 | Return to sigreturn trampoline
++                 |
++            +----v-------+
++            |    5       |
++            |  syscall   |
++            |rt_sigreturn|
++            |  (user)    |
++            +----+-------+
++                 |
++                 | Syscall to rt_sigreturn
++                 |
++            +----v-------+
++            |    6       |
++            |  sigreturn |
++            |  handler   |
++            |  (kernel)  |
++            +----+-------+
++                 |
++                 | Modify context to return to original func
++                 |
++            +----v-----+
++            |    7     |
++            | User app | @func
++            |  (user)  |
++            +----------+
+ 
+ Registers handling
+ ==================
+@@ -174,62 +175,62 @@ Interrupts and traps
+ 
+ When interrupt and traps are triggered, we only save the caller-saved registers.
+ Indeed, we rely on the fact that C code will save and restore callee-saved and
+-hence, there is no need to save them. This path is the following:
++hence, there is no need to save them. This path is the following::
+ 
+-     +------------+          +-----------+        +---------------+
+-IT   | Save caller| C Call   | Execute C |  Ret   | Restore caller| Ret from IT
+-+--->+   saved    +--------->+  handler  +------->+     saved     +----->
+-     | registers  |          +-----------+        |   registers   |
+-     +------------+                               +---------------+
++       +------------+          +-----------+        +---------------+
++  IT   | Save caller| C Call   | Execute C |  Ret   | Restore caller| Ret from IT
++  +--->+   saved    +--------->+  handler  +------->+     saved     +----->
++       | registers  |          +-----------+        |   registers   |
++       +------------+                               +---------------+
+ 
+ However, when returning to user, we check if there is work_pending. If a signal
+ is pending and there is a signal handler to be called, then we need all
+ registers to be saved on the stack in the pt_regs before executing the signal
+ handler and restored after that. Since we only saved caller-saved registers, we
+ need to also save callee-saved registers to restore them correctly when
+-returning to user. This path is the following (a bit more complicated !):
++returning to user. This path is the following (a bit more complicated !)::
+ 
+-      +------------+
+-      | Save caller|          +-----------+  Ret   +------------+
+- IT   |   saved    | C Call   | Execute C | to asm | Check work |
+- +--->+ registers  +--------->+  handler  +------->+   pending  |
+-      | to pt_regs |          +-----------+        +--+---+-----+
+-      +------------+                                  |   |
+-                        Work pending                  |   | No work pending
+-         +--------------------------------------------+   |
+-         |                                                |
+-         |                                   +------------+
+-         v                                   |
+-  +------+------+                            v
+-  | Save callee |                    +-------+-------+
+-  |   saved     |                    | Restore caller|  RFE from IT
+-  | registers   |                    |     saved     +------->
+-  | to pt_regs  |                    |   registers   |
+-  +--+-------+--+                    | from pt_regs  |
+-     |       |                       +-------+-------+
+-     |       |         +---------+           ^
+-     |       |         | Execute |           |
+-     |       +-------->+ needed  +-----------+
+-     |                 |  work   |
+-     |                 +---------+
+-     |Signal handler ?
+-     v
+-+----+----------+ RFE to user +-------------+       +--------------+
+-|   Copy all    | handler     |  Execute    |  ret  | rt_sigreturn |
+-|   registers   +------------>+ user signal +------>+ trampoline   |
+-| from pt_regs  |             |  handler    |       |  to kernel   |
+-| to user stack |             +-------------+       +------+-------+
+-+---------------+                                          |
+-                         syscall rt_sigreturn              |
+-         +-------------------------------------------------+
+-         |
+-         v
+-+--------+-------+                      +-------------+
+-|   Recopy all   |                      | Restore all |  RFE
+-| registers from +--------------------->+    saved    +------->
+-|   user stack   |       Return         |  registers  |
+-|   to pt_regs   |    from sigreturn    |from pt_regs |
+-+----------------+  (via ret_from_fork) +-------------+
++        +------------+
++        | Save caller|          +-----------+  Ret   +------------+
++   IT   |   saved    | C Call   | Execute C | to asm | Check work |
++   +--->+ registers  +--------->+  handler  +------->+   pending  |
++        | to pt_regs |          +-----------+        +--+---+-----+
++        +------------+                                  |   |
++                          Work pending                  |   | No work pending
++           +--------------------------------------------+   |
++           |                                                |
++           |                                   +------------+
++           v                                   |
++    +------+------+                            v
++    | Save callee |                    +-------+-------+
++    |   saved     |                    | Restore caller|  RFE from IT
++    | registers   |                    |     saved     +------->
++    | to pt_regs  |                    |   registers   |
++    +--+-------+--+                    | from pt_regs  |
++       |       |                       +-------+-------+
++       |       |         +---------+           ^
++       |       |         | Execute |           |
++       |       +-------->+ needed  +-----------+
++       |                 |  work   |
++       |                 +---------+
++       |Signal handler ?
++       v
++  +----+----------+ RFE to user +-------------+       +--------------+
++  |   Copy all    | handler     |  Execute    |  ret  | rt_sigreturn |
++  |   registers   +------------>+ user signal +------>+ trampoline   |
++  | from pt_regs  |             |  handler    |       |  to kernel   |
++  | to user stack |             +-------------+       +------+-------+
++  +---------------+                                          |
++                           syscall rt_sigreturn              |
++           +-------------------------------------------------+
++           |
++           v
++  +--------+-------+                      +-------------+
++  |   Recopy all   |                      | Restore all |  RFE
++  | registers from +--------------------->+    saved    +------->
++  |   user stack   |       Return         |  registers  |
++  |   to pt_regs   |    from sigreturn    |from pt_regs |
++  +----------------+  (via ret_from_fork) +-------------+
+ 
+ 
+ Syscalls
 diff --git a/Documentation/kvx/kvx-iommu.rst b/Documentation/kvx/kvx-iommu.rst
-index 5e84dc12adb437..c95d9231d5b665 100644
+index 96b74ce71acb3e..69eca8d1bc37a1 100644
 --- a/Documentation/kvx/kvx-iommu.rst
 +++ b/Documentation/kvx/kvx-iommu.rst
-@@ -144,7 +144,7 @@ Maintenance interface
- It is possible to have several "maintainers" for the same IOMMU. The driver is
- using two of them. One that writes the TLB and another interface reads TLB. For
- debug purpose it is possible to display the content of the tlb by using the
--following command in gdb:
-+following command in gdb::
+@@ -63,39 +63,39 @@ IOMMU implementation
+ --------------------
  
-     gdb> p kvx_iommu_dump_tlb( <iommu addr>, 0)
+ The kvx is providing several IOMMUs. Here is a simplified view of all IOMMUs
+-and translations that occurs between memory and devices:
++and translations that occurs between memory and devices::
  
+- +---------------------------------------------------------------------+
+- | +------------+     +---------+                          | CLUSTER X |
+- | | Cores 0-15 +---->+ Crypto  |                          +-----------|
+- | +-----+------+     +----+----+                                      |
+- |       |                 |                                           |
+- |       v                 v                                           |
+- |   +-------+        +------------------------------+                 |
+- |   |  MMU  |   +----+ IOMMU x4 (secure + insecure) |                 |
+- |   +---+---+   |    +------------------------------+                 |
+- |       |       |                                                     |
+- +--------------------+                                                |
+-        |        |    |                                                |
+-        v        v    |                                                |
+-    +---+--------+-+  |                                                |
+-    |    MEMORY    |  |     +----------+     +--------+     +-------+  |
+-    |              +<-|-----+ IOMMU Rx |<----+ DMA Rx |<----+       |  |
+-    |              |  |     +----------+     +--------+     |       |  |
+-    |              |  |                                     |  NoC  |  |
+-    |              |  |     +----------+     +--------+     |       |  |
+-    |              +--|---->| IOMMU Tx +---->| DMA Tx +---->+       |  |
+-    |              |  |     +----------+     +--------+     +-------+  |
+-    |              |  +------------------------------------------------+
+-    |              |
+-    |              |     +--------------+     +------+
+-    |              |<--->+ IOMMU Rx/Tx  +<--->+ PCIe +
+-    |              |     +--------------+     +------+
+-    |              |
+-    |              |     +--------------+     +------------------------+
+-    |              |<--->+ IOMMU Rx/Tx  +<--->+ master Soc Peripherals |
+-    |              |     +--------------+     +------------------------+
+-    +--------------+
++  +---------------------------------------------------------------------+
++  | +------------+     +---------+                          | CLUSTER X |
++  | | Cores 0-15 +---->+ Crypto  |                          +-----------|
++  | +-----+------+     +----+----+                                      |
++  |       |                 |                                           |
++  |       v                 v                                           |
++  |   +-------+        +------------------------------+                 |
++  |   |  MMU  |   +----+ IOMMU x4 (secure + insecure) |                 |
++  |   +---+---+   |    +------------------------------+                 |
++  |       |       |                                                     |
++  +--------------------+                                                |
++         |        |    |                                                |
++         v        v    |                                                |
++     +---+--------+-+  |                                                |
++     |    MEMORY    |  |     +----------+     +--------+     +-------+  |
++     |              +<-|-----+ IOMMU Rx |<----+ DMA Rx |<----+       |  |
++     |              |  |     +----------+     +--------+     |       |  |
++     |              |  |                                     |  NoC  |  |
++     |              |  |     +----------+     +--------+     |       |  |
++     |              +--|---->| IOMMU Tx +---->| DMA Tx +---->+       |  |
++     |              |  |     +----------+     +--------+     +-------+  |
++     |              |  +------------------------------------------------+
++     |              |
++     |              |     +--------------+     +------+
++     |              |<--->+ IOMMU Rx/Tx  +<--->+ PCIe +
++     |              |     +--------------+     +------+
++     |              |
++     |              |     +--------------+     +------------------------+
++     |              |<--->+ IOMMU Rx/Tx  +<--->+ master Soc Peripherals |
++     |              |     +--------------+     +------------------------+
++     +--------------+
+ 
+ 
+ There is also an IOMMU dedicated to the crypto module but this module will not
+diff --git a/Documentation/kvx/kvx-mmu.rst b/Documentation/kvx/kvx-mmu.rst
+index 59bda2afc9abde..832fb7c41a49d8 100644
+--- a/Documentation/kvx/kvx-mmu.rst
++++ b/Documentation/kvx/kvx-mmu.rst
+@@ -157,14 +157,17 @@ We only support three levels for the page table and 4KB for page size.
+ 3 levels page table
+ -------------------
+ 
+-...-----+--------+--------+--------+--------+--------+
+-      40|39    32|31    24|23    16|15     8|7      0|
+-...-----++-------+--+-----+---+----+----+---+--------+
+-         |          |         |         |
+-         |          |         |         +--->  [11:0] Offset (12 bits)
+-         |          |         +------------->  [20:12] PTE offset (9 bits)
+-         |          +----------------------->  [29:21] PMD offset (9 bits)
+-         +---------------------------------->  [39:30] PGD offset (10 bits)
++::
++
++  ...-----+--------+--------+--------+--------+--------+
++        40|39    32|31    24|23    16|15     8|7      0|
++  ...-----++-------+--+-----+---+----+----+---+--------+
++           |          |         |         |
++           |          |         |         +--->  [11:0] Offset (12 bits)
++           |          |         +------------->  [20:12] PTE offset (9 bits)
++           |          +----------------------->  [29:21] PMD offset (9 bits)
++           +---------------------------------->  [39:30] PGD offset (10 bits)
++
+ Bits 40 to 64 are signed extended according to bit 39. If bit 39 is equal to 1
+ we are in kernel space.
+ 
+@@ -175,12 +178,14 @@ PTE format
+ 
+ About the format of the PTE entry, as we are not forced by hardware for choices,
+ we choose to follow the format described in the RiscV implementation as a
+-starting point.
++starting point::
++
++  +---------+--------+----+--------+---+---+---+---+---+---+------+---+---+
++  | 63..23  | 22..13 | 12 | 11..10 | 9 | 8 | 7 | 6 | 5 | 4 | 3..2 | 1 | 0 |
++  +---------+--------+----+--------+---+---+---+---+---+---+------+---+---+
++      PFN     Unused   S    PageSZ   H   G   X   W   R   D    CP    A   P
++
+ 
+- +---------+--------+----+--------+---+---+---+---+---+---+------+---+---+
+- | 63..23  | 22..13 | 12 | 11..10 | 9 | 8 | 7 | 6 | 5 | 4 | 3..2 | 1 | 0 |
+- +---------+--------+----+--------+---+---+---+---+---+---+------+---+---+
+-     PFN     Unused   S    PageSZ   H   G   X   W   R   D    CP    A   P
+        where:
+         P: Present
+         A: Accessed
+@@ -231,10 +236,12 @@ kvx implementation to use them is based on other architectures (such as arc
+ or xtensa) and uses a wrapping ASN counter containing both cycle/generation and
+ asn.
+ 
+-+---------+--------+
+-|63     10|9      0|
+-+---------+--------+
+-  Cycle      ASN
++::
++
++  +---------+--------+
++  |63     10|9      0|
++  +---------+--------+
++    Cycle      ASN
+ 
+ This ASN counter is incremented monotonously to allocate new ASNs. When the
+ counter reaches 511 (9 bit), TLB is completely flushed and a new cycle is
 diff --git a/Documentation/kvx/kvx.rst b/Documentation/kvx/kvx.rst
-index 4aac7fce4e3d01..5385e1e3d30187 100644
+index 8ce0703de6813b..20c3666f445e26 100644
 --- a/Documentation/kvx/kvx.rst
 +++ b/Documentation/kvx/kvx.rst
-@@ -122,7 +122,7 @@ To be able to set breakpoints when MMU is enabled we added a label called
- gdb_mmu_enabled. If you try to set a breakpoint on a function that is in
- virtual memory before the activation of the MMU this address as no signification
- for GDB. So, for example, if you want to break on the function start_kernel()
--you will need to run:
-+you will need to run::
+@@ -15,17 +15,17 @@ On kvx, we have 4 levels of privilege level starting from 0 (most
+ privileged one) to 3 (less privilege one). A system of owners allows
+ to delegate ownership of resources by using specials system registers.
  
- 	kvx-gdb -silent path_to/vmlinux \
- 		-ex 'tbreak gdb_mmu_enabled' -ex 'run' \
-@@ -253,19 +253,19 @@ Building
- ========
+-The 2 main software stacks for Linux Kernel are the following:
++The 2 main software stacks for Linux Kernel are the following::
  
- In order to build the kernel, you will need a complete kvx toolchain.
--First, setup the config using the following command line
-+First, setup the config using the following command line::
+-+-------------+       +-------------+
+-| PL0: Debug  |       | PL0: Debug  |
+-+-------------+       +-------------+
+-| PL1: Linux  |       | PL1: HyperV |
+-+-------------+       +-------------+
+-| PL2: User   |       | PL2: Linux  |
+-+-------------+       +-------------+
+-|             |       | PL3: User   |
+-+-------------+       +-------------+
++  +-------------+       +-------------+
++  | PL0: Debug  |       | PL0: Debug  |
++  +-------------+       +-------------+
++  | PL1: Linux  |       | PL1: HyperV |
++  +-------------+       +-------------+
++  | PL2: User   |       | PL2: Linux  |
++  +-------------+       +-------------+
++  |             |       | PL3: User   |
++  +-------------+       +-------------+
  
- $ make ARCH=kvx O=your_directory default_defconfig
+ In both cases, the kvx support for privileges has been designed using
+ only relative PL and thus should work on both configurations without
+@@ -201,45 +201,45 @@ to it, the kernel sends an interrupt using a mailbox.
+ If the L2$ node is not present in the device tree, then, the RM will directly go
+ into sleeping.
  
--Adjust any configuration option you may need and then, build the kernel:
-+Adjust any configuration option you may need and then, build the kernel::
+-Boot diagram:
++Boot diagram::
  
- $ make ARCH=kvx O=your_directory -j12
+-           RM                       PE 0
+-                          +
+-       +---------+        |
+-       |  Boot   |        |
+-       +----+----+        |
+-            |             |
+-            v             |
+-      +-----+-----+       |
+-      |  Prepare  |       |
+-      | L2 shared |       |
+-      |  memory   |       |
+-      |(registers)|       |
+-      +-----+-----+       |
+-            |             |      +-----------+
+-            +------------------->+   Boot    |
+-            |             |      +-----+-----+
+-            v             |            |
+-   +--------+---------+   |            |
+-   | L2 firmware      |   |            |
+-   | parameters:      |   |            |
+-   | r0 = registers   |   |            |
+-   | r1 = DTB         |   |            |
+-   +--------+---------+   |            |
+-            |             |            |
+-            v             |            |
+-    +-------+--------+    |     +------+------+
+-    |  L2 firmware   |    |     | Wait for L2 |
+-    |   execution    |    |     | to be ready |
+-    +-------+--------+    |     +------+------+
+-            |             |            |
+-     +------v-------+     |            v
+-     | L2 requests  |     |     +------+------+
+-+--->+   handling   |     |     |   Enable    |
+-|    +-------+------+     |     | L2 caching  |
+-|            |            |     +------+------+
+-|            |            |            |
+-+------------+            +            v
++             RM                       PE 0
++                            +
++         +---------+        |
++         |  Boot   |        |
++         +----+----+        |
++              |             |
++              v             |
++        +-----+-----+       |
++        |  Prepare  |       |
++        | L2 shared |       |
++        |  memory   |       |
++        |(registers)|       |
++        +-----+-----+       |
++              |             |      +-----------+
++              +------------------->+   Boot    |
++              |             |      +-----+-----+
++              v             |            |
++     +--------+---------+   |            |
++     | L2 firmware      |   |            |
++     | parameters:      |   |            |
++     | r0 = registers   |   |            |
++     | r1 = DTB         |   |            |
++     +--------+---------+   |            |
++              |             |            |
++              v             |            |
++      +-------+--------+    |     +------+------+
++      |  L2 firmware   |    |     | Wait for L2 |
++      |   execution    |    |     | to be ready |
++      +-------+--------+    |     +------+------+
++              |             |            |
++       +------v-------+     |            v
++       | L2 requests  |     |     +------+------+
++  +--->+   handling   |     |     |   Enable    |
++  |    +-------+------+     |     | L2 caching  |
++  |            |            |     +------+------+
++  |            |            |            |
++  +------------+            +            v
  
--You will finally have a vmlinux image ready to be run.
-+You will finally have a vmlinux image ready to be run::
  
- $ kvx-mppa -- vmlinux
- 
--Additionally, you may want to debug it. To do so, use kvx-gdb:
-+Additionally, you may want to debug it. To do so, use kvx-gdb::
- 
- $ kvx-gdb vmlinux
- 
+ Since this driver is started early (before SMP boot), A lot of drivers are not
 -- 
 An old man doll... just what I always wanted! - Clara
 
