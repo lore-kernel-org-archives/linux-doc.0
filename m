@@ -2,153 +2,248 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AC4FC54EBD
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 18:05:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B22A8C6379F
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 18:50:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237600AbjAISFb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 13:05:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51250 "EHLO
+        id S234827AbjAISuj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 13:50:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237650AbjAISEu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 13:04:50 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BF4A43E64;
-        Mon,  9 Jan 2023 10:04:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673287451; x=1704823451;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=yGPCCnwR0gm5/eGURTOcLZCYZz5bk0RgAbSzmUX9Ns8=;
-  b=cVwpJ8mBtyoLk82bjToU/p5W0H5TUBnQzneQkb9mxWFZS37FBr5FKn7m
-   47Vav6FbUO0DfaxyGO04Cpv6lyElEOgMHui1f0wn4AiOj7Szoh3QBoPQc
-   3YZwUismwjXtBooTpiBKKTgrp5nvt45w1QdZXsd4ax1bGEmXQWAbavcMA
-   AEAUsXRIO8AEbfRU+jpjXzqIweWfBJmvX/JecRG+nMkLit07wld3N5zU8
-   AqlBIkDBJ6Co1pilbS6V2qn4dBDquUwedzOETPsg2tgXnoXvzx18EXIXS
-   EOrQjwUXCz6IRPhVnKnPghIknXGWFPRk/4E98AjgRjWhW8shg7Le5w9j5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="323016827"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; 
-   d="scan'208";a="323016827"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2023 10:04:10 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="745452384"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; 
-   d="scan'208";a="745452384"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2023 10:04:09 -0800
-Date:   Mon, 9 Jan 2023 10:04:32 -0800 (PST)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Xu Yilun <yilun.xu@intel.com>
-cc:     hao.wu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        with ESMTP id S233106AbjAISui (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 13:50:38 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 385AE1AD8C;
+        Mon,  9 Jan 2023 10:50:36 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A63032F4;
+        Mon,  9 Jan 2023 10:51:17 -0800 (PST)
+Received: from FVFF77S0Q05N (unknown [10.57.37.246])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD6333F67D;
+        Mon,  9 Jan 2023 10:50:29 -0800 (PST)
+Date:   Mon, 9 Jan 2023 18:50:24 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     torvalds@linux-foundation.org, corbet@lwn.net, will@kernel.org,
+        boqun.feng@gmail.com, catalin.marinas@arm.com, dennis@kernel.org,
+        tj@kernel.org, cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, Herbert Xu <herbert@gondor.apana.org.au>,
+        davem@davemloft.net, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        andriy.shevchenko@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
-        marpagan@redhat.com, bagasdotme@gmail.com
-Subject: Re: [PATCH v9 3/4] fpga: dfl: add basic support for DFHv1
-In-Reply-To: <Y7u31S8aba1L+VeA@yilunxu-OptiPlex-7050>
-Message-ID: <alpine.DEB.2.22.394.2301091003330.801533@rhweight-WRK1>
-References: <20230104232253.24743-1-matthew.gerlach@linux.intel.com> <20230104232253.24743-4-matthew.gerlach@linux.intel.com> <Y7u31S8aba1L+VeA@yilunxu-OptiPlex-7050>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        linux-mm@kvack.org, linux-s390@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org
+Subject: Re: [RFC][PATCH 05/12] arch: Introduce
+ arch_{,try_}_cmpxchg128{,_local}()
+Message-ID: <Y7xh8Orb2/E2sM7J@FVFF77S0Q05N>
+References: <20221219153525.632521981@infradead.org>
+ <20221219154119.154045458@infradead.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1694820295-1673287487=:801533"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221219154119.154045458@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi Peter,
 
---8323328-1694820295-1673287487=:801533
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: 8BIT
+On Mon, Dec 19, 2022 at 04:35:30PM +0100, Peter Zijlstra wrote:
+> For all architectures that currently support cmpxchg_double()
+> implement the cmpxchg128() family of functions that is basically the
+> same but with a saner interface.
+> 
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
+I tried giving this a go, specifically your queue core/wip-u128 branch with
+HEAD commit c05419246aa69cd3, but it locked up at boot.
 
+I spotted a couple of problems there which also apply here, noted below with
+suggested fixes.
 
-On Mon, 9 Jan 2023, Xu Yilun wrote:
+> ---
+>  arch/arm64/include/asm/atomic_ll_sc.h |   38 +++++++++++++++++++++++
+>  arch/arm64/include/asm/atomic_lse.h   |   33 +++++++++++++++++++-
+>  arch/arm64/include/asm/cmpxchg.h      |   26 ++++++++++++++++
+>  arch/s390/include/asm/cmpxchg.h       |   33 ++++++++++++++++++++
+>  arch/x86/include/asm/cmpxchg_32.h     |    3 +
+>  arch/x86/include/asm/cmpxchg_64.h     |   55 +++++++++++++++++++++++++++++++++-
+>  6 files changed, 185 insertions(+), 3 deletions(-)
+> 
+> --- a/arch/arm64/include/asm/atomic_ll_sc.h
+> +++ b/arch/arm64/include/asm/atomic_ll_sc.h
+> @@ -326,6 +326,44 @@ __CMPXCHG_DBL(   ,        ,  ,         )
+>  __CMPXCHG_DBL(_mb, dmb ish, l, "memory")
+>  
+>  #undef __CMPXCHG_DBL
+> +
+> +union __u128_halves {
+> +	u128 full;
+> +	struct {
+> +		u64 low, high;
+> +	};
+> +};
+> +
+> +#define __CMPXCHG128(name, mb, rel, cl)					\
+> +static __always_inline u128						\
+> +__ll_sc__cmpxchg128##name(volatile u128 *ptr, u128 old, u128 new)	\
+> +{									\
+> +	union __u128_halves r, o = { .full = (old) },			\
+> +			       n = { .full = (new) };			\
+> +									\
+> +	asm volatile("// __cmpxchg128" #name "\n"			\
+> +	"	prfm	pstl1strm, %2\n"				\
+> +	"1:	ldxp	%0, %1, %2\n"					\
+> +	"	eor	%3, %0, %3\n"					\
+> +	"	eor	%4, %1, %4\n"					\
+> +	"	orr	%3, %4, %3\n"					\
+> +	"	cbnz	%3, 2f\n"					\
 
-> On 2023-01-04 at 15:22:52 -0800, matthew.gerlach@linux.intel.com wrote:
->> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>
->> Version 1 of the Device Feature Header (DFH) definition adds
->> functionality to the Device Feature List (DFL) bus.
->>
->> A DFHv1 header may have one or more parameter blocks that
->> further describes the HW to SW. Add support to the DFL bus
->> to parse the MSI-X parameter.
->>
->> The location of a feature's register set is explicitly
->> described in DFHv1 and can be relative to the base of the DFHv1
->> or an absolute address. Parse the location and pass the information
->> to DFL driver.
->>
->> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
->>
->
-> [...]
->
->> +static u64 *find_param(u64 *params, resource_size_t max, int param_id)
->> +{
->> +	u64 *end = params + max / sizeof(u64);
->> +	u64 v, next;
->> +
->> +	while (params < end) {
->> +		v = *params;
->> +		if (param_id == FIELD_GET(DFHv1_PARAM_HDR_ID, v))
->> +			return params;
->> +
->> +		if (FIELD_GET(DFHv1_PARAM_HDR_NEXT_EOP, v))
->> +			break;
->> +
->> +		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
->> +		params += next;
->> +	}
->> +
->> +	return NULL;
->> +}
->> +
->> +/**
->> + * dfh_find_param() - find parameter block for the given parameter id
->> + * @dfl_dev: dfl device
->> + * @param_id: id of dfl parameter
->> + * @pcount: destination to store size of parameter data in u64 bit words
->
-> As I mentioned before, could the size of the parameter data just be number
-> of bytes? This is the most common way for a data block.
+These lines clobber %3 and %4, but per below, those are input operands, and so this blows up.
 
-returning a void* and a size_t in bytes would be more consistent.  I will 
-make your suggested change.
+> +	"	st" #rel "xp	%w3, %5, %6, %2\n"			\
+> +	"	cbnz	%w3, 1b\n"					\
+> +	"	" #mb "\n"						\
+> +	"2:"								\
+> +	: "=&r" (r.low), "=&r" (r.high), "+Q" (*(unsigned long *)ptr)	\
+> +	: "r" (o.low), "r" (o.high), "r" (n.low), "r" (n.high)		\
+> +	: cl);								\
+> +									\
+> +	return r.full;							\
+> +}
+> +
+> +__CMPXCHG128(   ,        ,  ,         )
+> +__CMPXCHG128(_mb, dmb ish, l, "memory")
+> +
+> +#undef __CMPXCHG128
+
+I think we can do this simpler and more clearly if we use the u128 operand
+directly, with the 'H' modifier to get at the high register of the pair:
+
+| #define __CMPXCHG128(name, mb, rel, cl...)                              \
+| static __always_inline u128                                             \
+| __ll_sc__cmpxchg128##name(volatile u128 *ptr, u128 old, u128 new)       \
+| {                                                                       \
+|         u128 ret;                                                       \
+|         unsigned int tmp;                                               \
+|                                                                         \
+|         asm volatile("// __cmpxchg128" #name "\n"                       \
+|         "       prfm    pstl1strm, %[v]\n"                              \
+|         "1:     ldxp    %[ret], %H[ret], %[v]\n"                        \
+|         "       cmp     %[ret], %[old]\n"                               \
+|         "       ccmp    %H[ret], %H[old], #4, ne\n"                     \
+|         "       b.ne    2f\n"                                           \
+|         "       st" #rel "xp %w[tmp], %[new], %H[new], %[v]\n"          \
+|         "       cbnz    %w[tmp], 1b\n"                                  \
+|         "       " #mb "\n"                                              \
+|         "2:"                                                            \
+|         : [ret] "=&r" (ret),                                            \
+|           [tmp] "=&r" (tmp),                                            \
+|           [v] "+Q" (*ptr)                                               \
+|         : [old] "r" (old),                                              \
+|           [new] "r" (new)                                               \
+|         : "cc" , ##cl);                                                 \
+|                                                                         \
+|         return ret;                                                     \
+| }
+| 
+| __CMPXCHG128(   ,        ,  )
+| __CMPXCHG128(_mb, dmb ish, l, "memory")
+| 
+| #undef __CMPXCHG128
+
+Note: I've used CMP and CCMP to simplify the equality check, which clobbers the
+flags/condition-codes ("cc"), but requires two fewer GPRs. I'm assuming that's
+the better tradeoff here.
+
+The existing cmpxchg_double() code clobbers the loaded value as part of
+checking whether it was equal, but to be able to preserve the value and be able
+to replay the loop (which for hilarious LL/SC reasons *must* be in asm), we
+can't do the same here.
+
+I've boot-tested the suggestion with GCC 12.1.0.
+
+> +
+>  #undef K
+>  
+>  #endif	/* __ASM_ATOMIC_LL_SC_H */
+> --- a/arch/arm64/include/asm/atomic_lse.h
+> +++ b/arch/arm64/include/asm/atomic_lse.h
+> @@ -151,7 +151,7 @@ __lse_atomic64_fetch_##op##name(s64 i, a
+>  	"	" #asm_op #mb "	%[i], %[old], %[v]"			\
+>  	: [v] "+Q" (v->counter),					\
+>  	  [old] "=r" (old)						\
+> -	: [i] "r" (i) 							\
+> +	: [i] "r" (i)							\
+>  	: cl);								\
+>  									\
+>  	return old;							\
+
+Spurious whitespace change?
+
+> @@ -324,4 +324,35 @@ __CMPXCHG_DBL(_mb, al, "memory")
+>  
+>  #undef __CMPXCHG_DBL
+>  
+> +#define __CMPXCHG128(name, mb, cl...)					\
+> +static __always_inline u128						\
+> +__lse__cmpxchg128##name(volatile u128 *ptr, u128 old, u128 new)		\
+> +{									\
+> +	union __u128_halves r, o = { .full = (old) },			\
+> +			       n = { .full = (new) };			\
+> +	register unsigned long x0 asm ("x0") = o.low;			\
+> +	register unsigned long x1 asm ("x1") = o.high;			\
+> +	register unsigned long x2 asm ("x2") = n.low;			\
+> +	register unsigned long x3 asm ("x3") = n.high;			\
+> +	register unsigned long x4 asm ("x4") = (unsigned long)ptr;	\
+> +									\
+> +	asm volatile(							\
+> +	__LSE_PREAMBLE							\
+> +	"	casp" #mb "\t%[old1], %[old2], %[new1], %[new2], %[v]\n"\
+> +	: [old1] "+&r" (x0), [old2] "+&r" (x1),				\
+> +	  [v] "+Q" (*(unsigned long *)ptr)				\
+> +	: [new1] "r" (x2), [new2] "r" (x3), [ptr] "r" (x4),		\
+> +	  [oldval1] "r" (r.low), [oldval2] "r" (r.high)			\
+> +	: cl);								\
+> +									\
+> +	r.low = x0; r.high = x1;					\
+> +									\
+> +	return r.full;							\
+> +}
+> +
+> +__CMPXCHG128(   ,   )
+> +__CMPXCHG128(_mb, al, "memory")
+> +
+> +#undef __CMPXCHG128
+
+Similarly, I'd suggest:
+
+| #define __CMPXCHG128(name, mb, cl...)                                   \
+| static __always_inline u128                                             \
+| __lse__cmpxchg128##name(volatile u128 *ptr, u128 old, u128 new)         \
+| {                                                                       \
+|         asm volatile(                                                   \
+|         __LSE_PREAMBLE                                                  \
+|         "       casp" #mb "\t%[old], %H[old], %[new], %H[new], %[v]\n"  \
+|         : [old] "+&r" (old),                                            \
+|           [v] "+Q" (*(u128 *)ptr)                                       \
+|         : [new] "r" (new)                                               \
+|         : cl);                                                          \
+|                                                                         \
+|         return old;                                                     \
+| }
+| 
+| __CMPXCHG128(   ,   )   
+| __CMPXCHG128(_mb, al, "memory")
+| 
+| #undef __CMPXCHG128
 
 Thanks,
-Matthew Gerlach
-
->
-> Thanks,
-> Yilun
->
->> + *
->> + * Return: pointer to start of parameter data, PTR_ERR otherwise.
->> + */
->> +void *dfh_find_param(struct dfl_device *dfl_dev, int param_id, size_t *pcount)
->> +{
->> +	u64 *phdr = find_param(dfl_dev->params, dfl_dev->param_size, param_id);
->> +
->> +	if (!phdr)
->> +		return ERR_PTR(-ENOENT);
->> +
->> +	if (pcount)
->> +		*pcount = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, *phdr) - 1;
->> +
->> +	return phdr + 1;
->> +}
->> +EXPORT_SYMBOL_GPL(dfh_find_param);
->
---8323328-1694820295-1673287487=:801533--
+Mark.
