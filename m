@@ -2,118 +2,198 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E98EFC5479D
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 22:24:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5667C54EBD
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 23:10:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235560AbjAIWYJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 17:24:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48356 "EHLO
+        id S235313AbjAIXKq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 18:10:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235306AbjAIWYI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 17:24:08 -0500
-Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23DF4D2D9;
-        Mon,  9 Jan 2023 14:24:07 -0800 (PST)
-Received: from [127.0.0.1] ([73.223.250.219])
-        (authenticated bits=0)
-        by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 309MMgc91098500
-        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-        Mon, 9 Jan 2023 14:22:42 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 309MMgc91098500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-        s=2023010601; t=1673302968;
-        bh=fnGYAzEZ9G8dLu8p7poBHQBQEB9rPQ3/UMIcvkLwwzM=;
-        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-        b=WejDa96NbA9JLXU2m0szWHfgneU/slCZk5DjNVsOfl5UknDPxUHbTkZ6sEdxf59yK
-         9U7HagGGXs01t5o3C3FlSBzlH9R65yjEnQPiI7DSfoLPQ7oJL3l8ONaBv4XrhO1aJL
-         evjamXSvHozlp6HrXLBdZOlgNXZ8Xw68aTY+YTfrGv01tZtVjdmkWPlqx2GNapF+OU
-         1XDruEvD71KM60s3EzeSPt+avCMdL8wF1t5q1SPoEzxWVG5X4JOfYhfXslqozmahes
-         Kt/+GCZIfIH/ei228BT79xoMyGyyseHDKAM3bk1zKMPGAbFM3epvVbrFUoK2p6U4pt
-         R82wWXoLceQRA==
-Date:   Mon, 09 Jan 2023 14:22:39 -0800
-From:   "H. Peter Anvin" <hpa@zytor.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>
-CC:     Heiko Carstens <hca@linux.ibm.com>, corbet@lwn.net,
-        will@kernel.org, boqun.feng@gmail.com, mark.rutland@arm.com,
-        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
-        cl@linux.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
-        borntraeger@linux.ibm.com, svens@linux.ibm.com,
-        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, joro@8bytes.org,
-        suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
-        dwmw2@infradead.org, baolu.lu@linux.intel.com,
-        Arnd Bergmann <arnd@arndb.de>, penberg@kernel.org,
-        rientjes@google.com, iamjoonsoo.kim@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
-        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-s390@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org
-Subject: Re: [RFC][PATCH 11/12] slub: Replace cmpxchg_double()
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CAHk-=whm+u8YoUaE9PKugYBxujhDL5twz6HqzqLP8OTXjKuT4g@mail.gmail.com>
-References: <20221219153525.632521981@infradead.org> <20221219154119.550996611@infradead.org> <Y7Ri+Uij1GFkI/LB@osiris> <CAHk-=wj9nK825MyHXu7zkegc7Va+ZxcperdOtRMZBCLHqGrr=g@mail.gmail.com> <Y7xAsELYo4srs/z/@hirez.programming.kicks-ass.net> <CAHk-=whm+u8YoUaE9PKugYBxujhDL5twz6HqzqLP8OTXjKuT4g@mail.gmail.com>
-Message-ID: <3C179EF2-0B8A-47F0-8FE6-3BF97A4442BA@zytor.com>
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+        with ESMTP id S237536AbjAIXKp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 18:10:45 -0500
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2083.outbound.protection.outlook.com [40.107.223.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 231833BE80;
+        Mon,  9 Jan 2023 15:10:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KidjC1BP2w/9BucawsVofB36TVWpziklgznuUVeQ1rQuTQSfyUYZlKMzsIn8y9LBGWPztvwuiKHaQs3rExKHsSIgZ092ctp1s3zOICW3u0B8oE2v0giEdDfYrfv5M1LxecHycfGUrFl1Zd++hl+iau2QapD9vZdEkB2BmcXzcQ3UraNZKQIpfMhV1Y9hj20NRe7oJA/QlJ9UlrhFZkDz9G0RKRzlgMIkqOcudTEjB2mzrPXBhadrpAiBW53+dFTA/d9oKhZ+CzOu2t9FKOrJtl9L68NHrBzxWA1SzQadyTBqhQOjYSKI+X5IiAduP/hORxHOg6uhSRmJylqF4ZdoQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q4Qx6JEA9D52jk/yCp4ftOjVDzmJMLFupbI5xjm0zps=;
+ b=nygnYxvblypkXCODiKSw7sGGSXoklzayG/XY2xXMrDV/6GOQJq3RTXf4yBudeer+43JuHI6dqPa3Ah9EiHrFOdkZtfRv8CnlNQ4tZuKA3J4n8gBq/zzr+SYugAq62RF1RKp+yppBr/9S5BjbNaWMgzFa/w0W7JLVLlYYsJaV+A1r90DG9xGGLLdqS4qIs73lkxlNgPSZvsBjMn6A3kRmQbYChFxjB4Av3Tbk327E0YBqcijXaVU+UrRNEKrCv+KI4Emaft2/NCsKmmAz00cMMeoMJeZEH8pWCAqqIrJkDthLPYf69TbDXwhBkD8Rz6iQHIrAyKj9IMBmYgoByUNwZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q4Qx6JEA9D52jk/yCp4ftOjVDzmJMLFupbI5xjm0zps=;
+ b=YhySCTAimrMFEEP1zxbfFkEJ8WYuISBVjs2ntHvmig935O+hruzbzEuIaSRrcw2O4bq3omNVsw+mFcLn3WcGyRvy/SxYiMvar6uQ5zFCwSBX4OGo82cpZ2EZlLICpphFiMJP48GdHh9hfGcrkSP2Wn6g3Cpg4poAJnTcZegfNWs=
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by CY8PR12MB8215.namprd12.prod.outlook.com (2603:10b6:930:77::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Mon, 9 Jan
+ 2023 23:10:40 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::790c:da77:2d05:6098]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::790c:da77:2d05:6098%7]) with mapi id 15.20.5986.018; Mon, 9 Jan 2023
+ 23:10:40 +0000
+From:   "Moger, Babu" <Babu.Moger@amd.com>
+To:     Borislav Petkov <bp@alien8.de>
+CC:     "Luck, Tony" <tony.luck@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+        "Das1, Sandipan" <Sandipan.Das@amd.com>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
+        "jarkko@kernel.org" <jarkko@kernel.org>,
+        "Hunter, Adrian" <adrian.hunter@intel.com>,
+        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
+        "peternewman@google.com" <peternewman@google.com>
+Subject: RE: [PATCH v11 04/13] x86/cpufeatures: Add Bandwidth Monitoring Event
+ Configuration feature flag
+Thread-Topic: [PATCH v11 04/13] x86/cpufeatures: Add Bandwidth Monitoring
+ Event Configuration feature flag
+Thread-Index: AQHZJEmjhfzr9QeU50WxzksWMekCmK6WcBKAgAAOO4CAABXYAIAABRYA//+gtwCAAGaXgIAAEhqg
+Date:   Mon, 9 Jan 2023 23:10:40 +0000
+Message-ID: <MW3PR12MB455384130AF0BDE3AF88BCF095FE9@MW3PR12MB4553.namprd12.prod.outlook.com>
+References: <20230109164405.569714-1-babu.moger@amd.com>
+ <20230109164405.569714-5-babu.moger@amd.com> <Y7xjxUj+KnOEJssZ@zn.tnic>
+ <5afd0a7c-3fbe-dfea-f1b4-2fc35fbb4f13@amd.com> <Y7yCCNANVBnOOmxM@zn.tnic>
+ <SJ1PR11MB608321F26D729A082BFC6FAEFCFE9@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <ecf0abf0-59fe-3898-762c-d9d883925550@amd.com> <Y7yMbQ8hI9MGl1w3@zn.tnic>
+In-Reply-To: <Y7yMbQ8hI9MGl1w3@zn.tnic>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2023-01-09T22:56:28Z;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=8a4692b2-8c32-427e-8dc6-8d017cae3c90;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=1
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_enabled: true
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_setdate: 2023-01-09T23:10:39Z
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_method: Standard
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_name: General
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_actionid: be66147f-91dc-4244-9887-6d107ad8d6a3
+msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_contentbits: 0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW3PR12MB4553:EE_|CY8PR12MB8215:EE_
+x-ms-office365-filtering-correlation-id: 3049368b-0c27-4dbf-0829-08daf296ba1d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VmFYuwrHum0sEsAwSZZjOBLmyktOp7qMRzk0lE03lpaKssfEhRzlz+pFDndNSFp//GwkbW5IRDdez1iU9OkAHp3aq4JAjQO3VMG1xCw2M7YMPwPOlTXgIaE6pegxnYNqw6jhzv1Tn6dMobte8G6tWDp3O1nuz5gy16ygpF0kAe3N7mXrTBUg1UOB+flM5NPkCWSLTa8zeJmNzGdXSljfvZxToGvhZv/iKU8EICS8XEh5efxlvpG5CILT3EK9vBP7pT0/XCZF4EIo8v19Jw6vlJNEkdAP/CehoVOBMHMXEzrM6NZTebNtzqORkaACZY8sgzCHxKBhGUNyS8BNnMB9/0gA5SNfV7W0A51xE5NZ8Oms2J7DFADZVdPIa0BBL38Zyg/eNOvddA/K3UNnRa6pcy8oomz9lC/SF0Q3gnkhnNze8nmwbrlQ0PQPN/8XuRFo7DAtiDmn++1CSn/vKAYj8beJ+UvPwKok7t+s6TewsIfb2jjf0mWuM3VVI0gxEUHNpqgMvjmQ8emNGFbkV8zJO0NcX116rop6XROQdu1F6piT5EWbjzanZSlZ9CB9zPsTrBUcXvJ78D0imU1Jb9Efn1FQNNmi5mURGUTW91QsGnHzqSMeD8hQO6K1TF3GhMREt06Bwuu207ujs9H9X50d9RrfRgBWi72F5o2JO/OlGzGlCscnuX9TmlfTN5Ze0pu8
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(366004)(39860400002)(396003)(376002)(136003)(451199015)(8936002)(2906002)(7406005)(5660300002)(52536014)(41300700001)(7416002)(71200400001)(38070700005)(66446008)(4326008)(7696005)(76116006)(6916009)(8676002)(64756008)(66476007)(66556008)(316002)(66946007)(54906003)(26005)(9686003)(122000001)(38100700002)(55016003)(86362001)(186003)(83380400001)(33656002)(478600001)(6506007)(53546011);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?9wI0L6eMziL+ND3H4uJOEwrS+nyqQyhgzWctAHqk+t3uccPsDEDVLSwaDCVb?=
+ =?us-ascii?Q?CrAL1waZanqeuwf4kHOzw6VkdKTYCCQ+iPVqct2QQplnXgASbGv0BK/aYvC1?=
+ =?us-ascii?Q?1W/CdCaf91ALQFsXLDqm9Ve4WZrLHm6hZKFEoMJdWYVz2x/vHVEx3Nnx+LA1?=
+ =?us-ascii?Q?zAmorkQJEP+tE4A6PcafFIXKGChj97lzaMjf6HGwmXVlLtI7Jod0d+q2cQyv?=
+ =?us-ascii?Q?Vr3m4ge3XQc5Nm0oMt3iDz8O54foHODQfuLMg6OPqp/R/2AL2ZcfSy1lltsB?=
+ =?us-ascii?Q?qXzQ5kMT0Lni+MxYFlERxMlrJ+70VLqDiQ5DQg6VVSUredh6wNnyl6yKgjA7?=
+ =?us-ascii?Q?yN0f+sP4p6vJoVwEgN9xiJy5vhX1MK842JGxHOMnZTiXDoBKqqTT60QJH2zQ?=
+ =?us-ascii?Q?+kl65JWdVL8wNIhmEO3CmWk5lUhOJmchJx4S8HxW4qPeGRRmLlO353v+vZnv?=
+ =?us-ascii?Q?oLuuCvafpSuJEJs5cmevkwKXvrDvfJ5jSZw9QXySRl5QVrkBkBSVsSt9Tl5j?=
+ =?us-ascii?Q?dBFDF+FxASxoQS0yGa58eK5MRzVH2//j2URVdP92jVmJgE3wxNN0mWAq24kP?=
+ =?us-ascii?Q?lS/5a/AMP+93Vabm4Pv7jxLjcNwC4Bv1CoUy/1BdpA58QeFsibsVuqcr/XSp?=
+ =?us-ascii?Q?nBRHFTxPLC/VzCCmjn9lmmwSeZb1hy5q7q3sjauIj9IWQPk6k1iCSzT66MPb?=
+ =?us-ascii?Q?XKyLJVozZZ0mjmzKL8DxqONlF7ThGmOLRB1HxQye/VHwq1FXzAsOKz+JACNR?=
+ =?us-ascii?Q?kronw3APy36WtmbUROmEs7fkwhhxt/JL0miU9oS1AMH+6/Qis6ZJDxCf4Ze8?=
+ =?us-ascii?Q?Rcs65SN9r9VJVCy0guZ8SMqO96/vibvFTUCSJtLuruP3dtrHy3b+uiksBel7?=
+ =?us-ascii?Q?UjStM5Su03L+HU4ajfypxE9hOEgHabRqSa1IkZs94B5F4v/EiayS6kDHRtaZ?=
+ =?us-ascii?Q?qcmYR5yAk+SUn4mpIZaC5HbPxk01e3TpDijfwbw/2p++AuSEvwglkUWfnzYd?=
+ =?us-ascii?Q?c/zzKqiqyEIzKe4sqLo/zYR7JS42MYNAGQtA8c7PZX0Edcoto+ii3o/HU5Bu?=
+ =?us-ascii?Q?EZQGMQb/ygnz7EW1QfTHI/ODy+bJwWRZWhJl+yJ42MxsjR57sfHXqnwSwHKO?=
+ =?us-ascii?Q?7pt8eTqNxjRvZqZKQVKL14tdeRXlWBbKG0hRMMc8hddsmIp5Sth+eEojBKVz?=
+ =?us-ascii?Q?a8yr05JuhQmnf57J2mWtYgAZo2+u2It2vYUum6dPT9p80BU4UpYOKjCvGs/a?=
+ =?us-ascii?Q?o2H13jKj1GCgSN3S41aHkOU8VhNHn6RAKldca+t5tgjksTQYs/FN9tTvjpZB?=
+ =?us-ascii?Q?oCXUTaM0gtMzjhqakp5pQ8rNmrDqccvFM/M/dG58P4uX42tIcxauv6ZmXgNE?=
+ =?us-ascii?Q?po9wjvG6O6qvr6lWOXPIzlaBzwsiVKDnrZ5dd9J2+37eQVdep6k51J4aHESr?=
+ =?us-ascii?Q?Wp/j8vajzPo0j+4KSh++oQURTj4Mr5TVl7Ne4Rt//HKMkqWcRhFnAGRPzcyI?=
+ =?us-ascii?Q?Ied+kszy5JZeo9jX0UE/rEUnSf7KmOWrv5VZ/PymPR9jDvunWCPAr+cniiHF?=
+ =?us-ascii?Q?Ulc9r09RebP15bxWync=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3049368b-0c27-4dbf-0829-08daf296ba1d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jan 2023 23:10:40.7671
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bw0ElntDwGgr4zzQspwuZxD669XyVDC0JWFUW4NtpaSPXJMolPZtMWMkm9Z57sZf
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8215
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On January 9, 2023 2:02:33 PM PST, Linus Torvalds <torvalds@linux-foundatio=
-n=2Eorg> wrote:
->On Mon, Jan 9, 2023 at 10:29 AM Peter Zijlstra <peterz@infradead=2Eorg> w=
-rote:
->>
->> I ran into a ton of casting trouble when compiling kernel/fork=2Ec whic=
-h
->> uses this_cpu_cmpxchg() on a pointer type and the compiler hates castin=
-g
->> pointers to an integer that is not the exact same size=2E
->
->Ahh=2E Yeah - not because that code needs or wants the 128-bit case, but
->because the macro expands to all sizes in a switch statement, so the
->compiler sees all the cases even if only one is then statically
->picked=2E
->
->So the silly casts are for all the cases that never matter=2E
->
->Annoying=2E
->
->I wonder if the "this_cpu_cmpxchg()" macro could be made to use
->_Generic() to pick out the pointer case first, and then only use
->'sizeof()' for the integer types, so that we don't have this kind of
->"every architecture needs to deal with the nasty situation" code=2E
->
->Ok, it's not actually the this_cpu_cmpxchg() macro, it's
->__pcpu_size_call_return() and friends, but whatever=2E
->
->Another alternative is to try to avoid casting to "u64" as long as
->humanly possible, and use only "typeof((*ptr))" everywhere=2E Then when
->the type actually *is* 128-bit, it all works out fine, because it
->won't be a pointer=2E That's the approach the uaccess macros tend to
->take, and then they hit the reverse issue on clang, where using the
->"byte register" constraints would cause warnings for non-byte
->accesses, and we had to do
->
->                unsigned char x_u8__;
->                __get_user_asm(x_u8__, ptr, "b", "=3Dq", label);
->                (x) =3D x_u8__;
->
->because using '(x)' directly would then warn when 'x' wasn't a
->char-sized thing - even if that asm case never actually was _used_ for
->that case, since it was all inside a "switch (sizeof) case 1:"
->statement=2E
->
->            Linus
+[AMD Official Use Only - General]
 
-I wrote a crazy macro for dealing with exactly this at one point, basicall=
-y producing the "right type" to cast to=2E It would need to have 128-bit su=
-pport added to it, but that should be trivial=2E It is called something lik=
-e int_type() =2E=2E=2E not in front of a computer right now so can't double=
- check=2E
+
+
+> -----Original Message-----
+> From: Borislav Petkov <bp@alien8.de>
+> Sent: Monday, January 9, 2023 3:52 PM
+> To: Moger, Babu <Babu.Moger@amd.com>
+> Cc: Luck, Tony <tony.luck@intel.com>; corbet@lwn.net; Chatre, Reinette
+> <reinette.chatre@intel.com>; tglx@linutronix.de; mingo@redhat.com; Yu,
+> Fenghua <fenghua.yu@intel.com>; dave.hansen@linux.intel.com;
+> x86@kernel.org; hpa@zytor.com; paulmck@kernel.org; akpm@linux-
+> foundation.org; quic_neeraju@quicinc.com; rdunlap@infradead.org;
+> damien.lemoal@opensource.wdc.com; songmuchun@bytedance.com;
+> peterz@infradead.org; jpoimboe@kernel.org; pbonzini@redhat.com; Bae,
+> Chang Seok <chang.seok.bae@intel.com>;
+> pawan.kumar.gupta@linux.intel.com; jmattson@google.com;
+> daniel.sneddon@linux.intel.com; Das1, Sandipan <Sandipan.Das@amd.com>;
+> james.morse@arm.com; linux-doc@vger.kernel.org; linux-
+> kernel@vger.kernel.org; bagasdotme@gmail.com; Eranian, Stephane
+> <eranian@google.com>; christophe.leroy@csgroup.eu; jarkko@kernel.org;
+> Hunter, Adrian <adrian.hunter@intel.com>; quic_jiles@quicinc.com;
+> peternewman@google.com
+> Subject: Re: [PATCH v11 04/13] x86/cpufeatures: Add Bandwidth Monitoring
+> Event Configuration feature flag
+>=20
+> On Mon, Jan 09, 2023 at 03:44:30PM -0600, Moger, Babu wrote:
+> > So, if we remove them, we need to update here also.
+>=20
+> We can "reroute" that documentation to /sys/fs/resctrl's info...
+
+Yes. We could. But at this point we don't have all the features listed in /=
+sys/fs/resctrl/info directory. We need to add all the resctrl feature bits =
+in info directory.
+How about we take this as separate task and I can send separate series to a=
+ddress it?
+Thanks
+Babu
