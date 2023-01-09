@@ -2,319 +2,409 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA3A8C54EBD
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 00:11:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20AE4C54EBD
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 03:48:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229693AbjAIALb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 8 Jan 2023 19:11:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54188 "EHLO
+        id S230175AbjAIDsI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 8 Jan 2023 22:48:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234181AbjAIALQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Jan 2023 19:11:16 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7261210B7A;
-        Sun,  8 Jan 2023 16:11:14 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id h16so6610389wrz.12;
-        Sun, 08 Jan 2023 16:11:14 -0800 (PST)
+        with ESMTP id S231225AbjAIDsG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Jan 2023 22:48:06 -0500
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 849D2D128;
+        Sun,  8 Jan 2023 19:48:05 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id x4so1065040pfj.1;
+        Sun, 08 Jan 2023 19:48:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hMUGyFQoTr7dtUhf+JsgZCYMuleueVcI0KxfuREld58=;
-        b=jMSTvhBGVnuNRaEwu/OvNbOHmIB21pMDgGT7a1lGjRXpTJLV2qWwM6enmnq1LfG6Hl
-         g1d2jo4Q+nxzKI01UI+anv7caSJNVSaQv65027sVOJpDxQECy7QOeBk7D2P5zyNXp57v
-         cTwRjdZ+SIxUeK16U1lHMpQw2sXo9CoXIUVOKN7747JeQx8cJ2DEbIzLLrCCL0HVk1yf
-         ZCVnwKXGxzzmp+rpAVB3x/21am/6Tv4oGzts9Ytjoa6zihm8F35CwWklx+FehtQ7Xuzn
-         J9ST06L8d5FMe0R09SQavrZuMPrOIyVVMH0cie6mPnu+vS5pxi8LyVxgEeeNlkuvV6Ls
-         gtPA==
+        bh=sihnne3RQDI8AsdrTTmVwvZYK1ek1HQcaOW0HCkOxEk=;
+        b=hNItLYuuLWjoX0cymxAC15T9INjLF2mV5p3Qzx/Q73maJ98TH+Oho4K4F3C78Lvsst
+         oIEGZdyvI84JLRAnXj99u2EeDJ8N6Vn1uy2gyBn938q0VTFLcZ5RDd5KrPsErPCyd631
+         S5LUgG+lwzXzI/Co+eg6Kr2R/cV3srgaS+BhdiJJNkDBFimfD9mqJ5qzAGFXfXdRPpvy
+         sB1vq8ytKGm7VJcTaX/FOeRl63DcR6TLuGfizJnGQTiNosmydWpNJs3XEjBXd8uKvvCM
+         GNbfGSe8QdcED3pFQw3nOmelqL7dM1t1QGNfOurN1XWNBxdMNDUX36pw17u4/94+VhXN
+         Zgvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hMUGyFQoTr7dtUhf+JsgZCYMuleueVcI0KxfuREld58=;
-        b=RWdcIq4NEJYjNPB5dZA2mOFjtTI3CFeHrOFGBgSYvyfzkFl8Nzrj5ukMY5vqvoCeVI
-         yIErrEKDsKnwMZJ1Lm0BJA5MjX/DGAEfZBt7mCjkDIPISh3phNj6FBVZnvijFZFWso0J
-         WOoQhXIV53BjgSQd322Zb9pt0moMC+QKREF+1iPSKRaUw+es1iKid9z4IomlVa6OOAb4
-         7u0O0DqDq89VIAoStw4EGke2n4vyce0Vs3EFsRoghmlsoeftj4cPHZ3+N4T1AGX6RIj3
-         hijmi0f7zo5+3mgsLWGbPGi5O1h8PQ7rHuhQeHap60ocQSZI2r0ZiVXuAOvostMvmO8R
-         GQUg==
-X-Gm-Message-State: AFqh2kqZGS3dtX3TNXHGCg9MpAg/HSrzO1yGkYJZOlFrQrTN8YKYAQs4
-        Tmfy6PiDqF+l3PlNXlt39Jg=
-X-Google-Smtp-Source: AMrXdXt+12wKZxIKYqgLQaTBixESwklm8ujS4SqnIOncqSMmc4ufyjA2P4XXxtM04zaNnjLmjOJrEg==
-X-Received: by 2002:a05:6000:90a:b0:2a2:e87a:b4e1 with SMTP id bz10-20020a056000090a00b002a2e87ab4e1mr11770111wrb.36.1673223072871;
-        Sun, 08 Jan 2023 16:11:12 -0800 (PST)
-Received: from gvm01 (net-5-89-66-224.cust.vodafonedsl.it. [5.89.66.224])
-        by smtp.gmail.com with ESMTPSA id w10-20020a5d608a000000b0027cfd9463d7sm7077244wrt.110.2023.01.08.16.11.11
+        bh=sihnne3RQDI8AsdrTTmVwvZYK1ek1HQcaOW0HCkOxEk=;
+        b=FhgXd+qJ9D1N/MSOgsRPC3UhLfg0pHdj90jExpq0vXGMeYlmWi15hurjX52a5NSYEH
+         C+2uL5rdWMiS7zVoTr2bbdjdx+U1kScY28RYUzdJ72Au7zfAkFSXre8pFEyf082qGpk9
+         zdLoAzSHZV9FqMHC+qKyWAttha4zyGGnbgHqhn5YftDTwJi5r9F+QsM7gFwlE6QPv54C
+         odilatfRZY3hi7y5Yoo7NseuRHYS+KECIz/Eq6b0Q6kfujFUE1SoiBg2XMjO95Dn/r38
+         qoZxyOWALZewktyzbL/Bux4rMAx/DFw4bB/wXdmBLRm1BHekcSA6JOVLpd0pt48y6ptT
+         wr2g==
+X-Gm-Message-State: AFqh2krQIUyDtrYZAEEaKNtqEe/V+SH0rFIfTKjLtiB/nlZN7Nc/dyBZ
+        vlt5adPs9YSDAzm0PZW+yuE=
+X-Google-Smtp-Source: AMrXdXvsrsFv9SyBFedTssm19CKLisNlVQAY89mLir9qOPrri2um2bVlWhINufu0cbp/NAbyG/cvyQ==
+X-Received: by 2002:a05:6a00:158e:b0:581:5be0:4e2a with SMTP id u14-20020a056a00158e00b005815be04e2amr61249952pfk.31.1673236084803;
+        Sun, 08 Jan 2023 19:48:04 -0800 (PST)
+Received: from debian.me (subs03-180-214-233-24.three.co.id. [180.214.233.24])
+        by smtp.gmail.com with ESMTPSA id p128-20020a625b86000000b00580d25a2bb2sm357565pfb.108.2023.01.08.19.48.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Jan 2023 16:11:12 -0800 (PST)
-Date:   Mon, 9 Jan 2023 01:11:11 +0100
-From:   Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        Oleksij Rempel <o.rempel@pengutronix.de>,
-        mailhol.vincent@wanadoo.fr, sudheer.mogilappagari@intel.com,
-        sbhatta@marvell.com, linux-doc@vger.kernel.org,
-        wangjie125@huawei.com, corbet@lwn.net, lkp@intel.com,
-        gal@nvidia.com, gustavoars@kernel.org, bagasdotme@gmail.com
-Subject: [PATCH v3 net-next 5/5] drivers/net/phy: add driver for the onsemi
- NCN26000 10BASE-T1S PHY
-Message-ID: <d726fc691ede5c4b62a71093d4496a467ccc9a01.1673222807.git.piergiorgio.beruto@gmail.com>
-References: <cover.1673222807.git.piergiorgio.beruto@gmail.com>
+        Sun, 08 Jan 2023 19:48:04 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id D6FC0100C90; Mon,  9 Jan 2023 10:48:00 +0700 (WIB)
+Date:   Mon, 9 Jan 2023 10:48:00 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     m.chetan.kumar@linux.intel.com, netdev@vger.kernel.org
+Cc:     kuba@kernel.org, davem@davemloft.net, johannes@sipsolutions.net,
+        ryazanov.s.a@gmail.com, loic.poulain@linaro.org,
+        ilpo.jarvinen@linux.intel.com, ricardo.martinez@linux.intel.com,
+        chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
+        edumazet@google.com, pabeni@redhat.com, linuxwwan@intel.com,
+        linuxwwan_5g@intel.com, chandrashekar.devegowda@intel.com,
+        matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-doc@vger.kernel.org,
+        jiri@nvidia.com, corbet@lwn.net
+Subject: Re: [PATCH v3 net-next 5/5] net: wwan: t7xx: Devlink documentation
+Message-ID: <Y7uOcBRN0Awn5xAb@debian.me>
+References: <cover.1673016069.git.m.chetan.kumar@linux.intel.com>
+ <500a41cb400b4cdedd6df414b40200a5211965f5.1673016069.git.m.chetan.kumar@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="irWeDYniLkJASH6A"
 Content-Disposition: inline
-In-Reply-To: <cover.1673222807.git.piergiorgio.beruto@gmail.com>
+In-Reply-To: <500a41cb400b4cdedd6df414b40200a5211965f5.1673016069.git.m.chetan.kumar@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds support for the onsemi NCN26000 10BASE-T1S industrial
-Ethernet PHY. The driver supports Point-to-Multipoint operation without
-auto-negotiation and with link control handling. The PHY also features
-PLCA for improving performance in P2MP mode.
 
-Signed-off-by: Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
----
- MAINTAINERS                |   7 ++
- drivers/net/phy/Kconfig    |   7 ++
- drivers/net/phy/Makefile   |   1 +
- drivers/net/phy/ncn26000.c | 171 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 186 insertions(+)
- create mode 100644 drivers/net/phy/ncn26000.c
+--irWeDYniLkJASH6A
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4356382ad57c..c1dadb34009d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15581,6 +15581,13 @@ L:	linux-mips@vger.kernel.org
- S:	Maintained
- F:	arch/mips/boot/dts/ralink/omega2p.dts
- 
-+ONSEMI ETHERNET PHY DRIVERS
-+M:	Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
-+L:	netdev@vger.kernel.org
-+S:	Supported
-+W:	http://www.onsemi.com
-+F:	drivers/net/phy/ncn*
-+
- OP-TEE DRIVER
- M:	Jens Wiklander <jens.wiklander@linaro.org>
- L:	op-tee@lists.trustedfirmware.org
-diff --git a/drivers/net/phy/Kconfig b/drivers/net/phy/Kconfig
-index 1327290decab..7eee2beb3475 100644
---- a/drivers/net/phy/Kconfig
-+++ b/drivers/net/phy/Kconfig
-@@ -277,6 +277,13 @@ config NXP_TJA11XX_PHY
- 	help
- 	  Currently supports the NXP TJA1100 and TJA1101 PHY.
- 
-+config NCN26000_PHY
-+	tristate "onsemi 10BASE-T1S Ethernet PHY"
-+	help
-+	  Adds support for the onsemi 10BASE-T1S Ethernet PHY.
-+	  Currently supports the NCN26000 10BASE-T1S Industrial PHY
-+	  with MII interface.
-+
- config AT803X_PHY
- 	tristate "Qualcomm Atheros AR803X PHYs and QCA833x PHYs"
- 	depends on REGULATOR
-diff --git a/drivers/net/phy/Makefile b/drivers/net/phy/Makefile
-index f7138d3c896b..b5138066ba04 100644
---- a/drivers/net/phy/Makefile
-+++ b/drivers/net/phy/Makefile
-@@ -77,6 +77,7 @@ obj-$(CONFIG_MICROCHIP_T1_PHY)	+= microchip_t1.o
- obj-$(CONFIG_MICROSEMI_PHY)	+= mscc/
- obj-$(CONFIG_MOTORCOMM_PHY)	+= motorcomm.o
- obj-$(CONFIG_NATIONAL_PHY)	+= national.o
-+obj-$(CONFIG_NCN26000_PHY)	+= ncn26000.o
- obj-$(CONFIG_NXP_C45_TJA11XX_PHY)	+= nxp-c45-tja11xx.o
- obj-$(CONFIG_NXP_TJA11XX_PHY)	+= nxp-tja11xx.o
- obj-$(CONFIG_QSEMI_PHY)		+= qsemi.o
-diff --git a/drivers/net/phy/ncn26000.c b/drivers/net/phy/ncn26000.c
-new file mode 100644
-index 000000000000..5680584f659e
---- /dev/null
-+++ b/drivers/net/phy/ncn26000.c
-@@ -0,0 +1,171 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause)
-+/*
-+ *  Driver for the onsemi 10BASE-T1S NCN26000 PHYs family.
-+ *
-+ * Copyright 2022 onsemi
-+ */
-+#include <linux/kernel.h>
-+#include <linux/bitfield.h>
-+#include <linux/errno.h>
-+#include <linux/init.h>
-+#include <linux/module.h>
-+#include <linux/mii.h>
-+#include <linux/phy.h>
-+
-+#include "mdio-open-alliance.h"
-+
-+#define PHY_ID_NCN26000			0x180FF5A1
-+
-+#define NCN26000_REG_IRQ_CTL            16
-+#define NCN26000_REG_IRQ_STATUS         17
-+
-+// the NCN26000 maps link_ctrl to BMCR_ANENABLE
-+#define NCN26000_BCMR_LINK_CTRL_BIT	BMCR_ANENABLE
-+
-+// the NCN26000 maps link_status to BMSR_ANEGCOMPLETE
-+#define NCN26000_BMSR_LINK_STATUS_BIT	BMSR_ANEGCOMPLETE
-+
-+#define NCN26000_IRQ_LINKST_BIT		BIT(0)
-+#define NCN26000_IRQ_PLCAST_BIT		BIT(1)
-+#define NCN26000_IRQ_LJABBER_BIT	BIT(2)
-+#define NCN26000_IRQ_RJABBER_BIT	BIT(3)
-+#define NCN26000_IRQ_PLCAREC_BIT	BIT(4)
-+#define NCN26000_IRQ_PHYSCOL_BIT	BIT(5)
-+#define NCN26000_IRQ_RESET_BIT		BIT(15)
-+
-+#define TO_TMR_DEFAULT			32
-+
-+static int ncn26000_config_init(struct phy_device *phydev)
-+{
-+	/* HW bug workaround: the default value of the PLCA TO_TIMER should be
-+	 * 32, where the current version of NCN26000 reports 24. This will be
-+	 * fixed in future PHY versions. For the time being, we force the
-+	 * correct default here.
-+	 */
-+	return phy_write_mmd(phydev, MDIO_MMD_VEND2, MDIO_OATC14_PLCA_TOTMR,
-+			     TO_TMR_DEFAULT);
-+}
-+
-+static int ncn26000_config_aneg(struct phy_device *phydev)
-+{
-+	/* Note: the NCN26000 supports only P2MP link mode. Therefore, AN is not
-+	 * supported. However, this function is invoked by phylib to enable the
-+	 * PHY, regardless of the AN support.
-+	 */
-+	phydev->mdix_ctrl = ETH_TP_MDI_AUTO;
-+	phydev->mdix = ETH_TP_MDI;
-+
-+	// bring up the link
-+	return phy_write(phydev, MII_BMCR, NCN26000_BCMR_LINK_CTRL_BIT);
-+}
-+
-+static int ncn26000_read_status(struct phy_device *phydev)
-+{
-+	/* The NCN26000 reports NCN26000_LINK_STATUS_BIT if the link status of
-+	 * the PHY is up. It further reports the logical AND of the link status
-+	 * and the PLCA status in the BMSR_LSTATUS bit.
-+	 */
-+	int ret;
-+
-+	/* The link state is latched low so that momentary link
-+	 * drops can be detected. Do not double-read the status
-+	 * in polling mode to detect such short link drops except
-+	 * the link was already down.
-+	 */
-+	if (!phy_polling_mode(phydev) || !phydev->link) {
-+		ret = phy_read(phydev, MII_BMSR);
-+		if (ret < 0)
-+			return ret;
-+		else if (ret & NCN26000_BMSR_LINK_STATUS_BIT)
-+			goto upd_link;
-+	}
-+
-+	ret = phy_read(phydev, MII_BMSR);
-+	if (ret < 0)
-+		return ret;
-+
-+upd_link:
-+	// update link status
-+	if (ret & NCN26000_BMSR_LINK_STATUS_BIT) {
-+		phydev->link = 1;
-+		phydev->pause = 0;
-+		phydev->duplex = DUPLEX_HALF;
-+		phydev->speed = SPEED_10;
-+	} else {
-+		phydev->link = 0;
-+		phydev->duplex = DUPLEX_UNKNOWN;
-+		phydev->speed = SPEED_UNKNOWN;
-+	}
-+
-+	return 0;
-+}
-+
-+static irqreturn_t ncn26000_handle_interrupt(struct phy_device *phydev)
-+{
-+	int ret;
-+
-+	// read and aknowledge the IRQ status register
-+	ret = phy_read(phydev, NCN26000_REG_IRQ_STATUS);
-+
-+	// check only link status changes
-+	if (ret < 0 || (ret & NCN26000_REG_IRQ_STATUS) == 0)
-+		return IRQ_NONE;
-+
-+	phy_trigger_machine(phydev);
-+	return IRQ_HANDLED;
-+}
-+
-+static int ncn26000_config_intr(struct phy_device *phydev)
-+{
-+	int ret;
-+	u16 irqe;
-+
-+	if (phydev->interrupts == PHY_INTERRUPT_ENABLED) {
-+		// acknowledge IRQs
-+		ret = phy_read(phydev, NCN26000_REG_IRQ_STATUS);
-+		if (ret < 0)
-+			return ret;
-+
-+		// get link status notifications
-+		irqe = NCN26000_IRQ_LINKST_BIT;
-+	} else {
-+		// disable all IRQs
-+		irqe = 0;
-+	}
-+
-+	ret = phy_write(phydev, NCN26000_REG_IRQ_CTL, irqe);
-+	if (ret != 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static struct phy_driver ncn26000_driver[] = {
-+	{
-+		PHY_ID_MATCH_MODEL(PHY_ID_NCN26000),
-+		.name			= "NCN26000",
-+		.features		= PHY_BASIC_T1S_P2MP_FEATURES,
-+		.config_init            = ncn26000_config_init,
-+		.config_intr            = ncn26000_config_intr,
-+		.config_aneg		= ncn26000_config_aneg,
-+		.read_status		= ncn26000_read_status,
-+		.handle_interrupt       = ncn26000_handle_interrupt,
-+		.get_plca_cfg		= genphy_c45_plca_get_cfg,
-+		.set_plca_cfg		= genphy_c45_plca_set_cfg,
-+		.get_plca_status	= genphy_c45_plca_get_status,
-+		.soft_reset             = genphy_soft_reset,
-+	},
-+};
-+
-+module_phy_driver(ncn26000_driver);
-+
-+static struct mdio_device_id __maybe_unused ncn26000_tbl[] = {
-+	{ PHY_ID_MATCH_MODEL(PHY_ID_NCN26000) },
-+	{ }
-+};
-+
-+MODULE_DEVICE_TABLE(mdio, ncn26000_tbl);
-+
-+MODULE_AUTHOR("Piergiorgio Beruto");
-+MODULE_DESCRIPTION("onsemi 10BASE-T1S PHY driver");
-+MODULE_LICENSE("Dual BSD/GPL");
--- 
-2.37.4
+On Fri, Jan 06, 2023 at 09:58:06PM +0530, m.chetan.kumar@linux.intel.com wr=
+ote:
+> Refer to t7xx.rst file for details.
 
+Above line is unnecessary.
+
+> +The wwan device is put into fastboot mode via devlink reload command, by
+> +passing "driver_reinit" action.
+> +
+> +$ devlink dev reload pci/0000:$bdf action driver_reinit
+> +
+> +Upon completion of fw flashing or coredump collection the wwan device is
+> +reset to normal mode using devlink reload command, by passing "fw_activa=
+te"
+> +action.
+> +
+> +$ devlink dev reload pci/0000:$bdf action fw_activate
+
+Personally I prefer to put command-line explanations below the actual
+command:
+
+---- >8 ----
+
+diff --git a/Documentation/networking/devlink/t7xx.rst b/Documentation/netw=
+orking/devlink/t7xx.rst
+index de220878ad7649..24f9e0ee69bffb 100644
+--- a/Documentation/networking/devlink/t7xx.rst
++++ b/Documentation/networking/devlink/t7xx.rst
+@@ -74,17 +74,21 @@ The supported list of firmware image types is described=
+ below.
+ procedure, fastboot command & response are exchanged between driver and ww=
+an
+ device.
+=20
++::
++
++  $ devlink dev reload pci/0000:$bdf action driver_reinit
++
+ The wwan device is put into fastboot mode via devlink reload command, by
+ passing "driver_reinit" action.
+=20
+-$ devlink dev reload pci/0000:$bdf action driver_reinit
++::
++
++  $ devlink dev reload pci/0000:$bdf action fw_activate
+=20
+ Upon completion of fw flashing or coredump collection the wwan device is
+ reset to normal mode using devlink reload command, by passing "fw_activate"
+ action.
+=20
+-$ devlink dev reload pci/0000:$bdf action fw_activate
+-
+ Flash Commands:
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+
+However, I find it's odd to jump from firmware image type list directly to
+devlink usage. Perhaps the latter should be put into the following section
+below?
+
+I also find that there is minor inconsistency of keyword formatting, so I
+have to inline-code the uninlined remainings:
+
+---- >8 ----
+
+diff --git a/Documentation/networking/devlink/t7xx.rst b/Documentation/netw=
+orking/devlink/t7xx.rst
+index 24f9e0ee69bffb..d8feefe116c978 100644
+--- a/Documentation/networking/devlink/t7xx.rst
++++ b/Documentation/networking/devlink/t7xx.rst
+@@ -29,7 +29,7 @@ Flash Update
+ The ``t7xx`` driver implements the flash update using the ``devlink-flash``
+ interface.
+=20
+-The driver uses DEVLINK_SUPPORT_FLASH_UPDATE_COMPONENT to identify the typ=
+e of
++The driver uses ``DEVLINK_SUPPORT_FLASH_UPDATE_COMPONENT`` to identify the=
+ type of
+ firmware image that need to be programmed upon the request by user space a=
+pplication.
+=20
+ The supported list of firmware image types is described below.
+@@ -79,14 +79,14 @@ device.
+   $ devlink dev reload pci/0000:$bdf action driver_reinit
+=20
+ The wwan device is put into fastboot mode via devlink reload command, by
+-passing "driver_reinit" action.
++passing ``driver_reinit`` action.
+=20
+ ::
+=20
+   $ devlink dev reload pci/0000:$bdf action fw_activate
+=20
+ Upon completion of fw flashing or coredump collection the wwan device is
+-reset to normal mode using devlink reload command, by passing "fw_activate"
++reset to normal mode using devlink reload command, by passing ``fw_activat=
+e``
+ action.
+=20
+ Flash Commands:
+=20
+> +
+> +Flash Commands:
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+Trim the unneeded trailing colon on the section title.
+
+> +
+> +$ devlink dev flash pci/0000:$bdf file preloader_k6880v1_mdot2_datacard.=
+bin component "preloader"
+> +
+> +$ devlink dev flash pci/0000:$bdf file loader_ext-verified.img component=
+ "loader_ext1"
+> +
+> +$ devlink dev flash pci/0000:$bdf file tee-verified.img component "tee1"
+> +
+> +$ devlink dev flash pci/0000:$bdf file lk-verified.img component "lk"
+> +
+> +$ devlink dev flash pci/0000:$bdf file spmfw-verified.img component "spm=
+fw"
+> +
+> +$ devlink dev flash pci/0000:$bdf file sspm-verified.img component "sspm=
+_1"
+> +
+> +$ devlink dev flash pci/0000:$bdf file mcupm-verified.img component "mcu=
+pm_1"
+> +
+> +$ devlink dev flash pci/0000:$bdf file dpm-verified.img component "dpm_1"
+> +
+> +$ devlink dev flash pci/0000:$bdf file boot-verified.img component "boot"
+> +
+> +$ devlink dev flash pci/0000:$bdf file root.squashfs component "rootfs"
+> +
+> +$ devlink dev flash pci/0000:$bdf file modem-verified.img component "md1=
+img"
+> +
+> +$ devlink dev flash pci/0000:$bdf file dsp-verified.bin component "md1ds=
+p"
+> +
+> +$ devlink dev flash pci/0000:$bdf file OP_OTA.img component "mcf1"
+> +
+> +$ devlink dev flash pci/0000:$bdf file OEM_OTA.img component "mcf2"
+> +
+> +$ devlink dev flash pci/0000:$bdf file DEV_OTA.img component "mcf3"
+> +
+> <snipped>...
+> +Region commands
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +$ devlink region show
+> +
+> +
+> +$ devlink region new mr_dump
+> +
+> +$ devlink region read mr_dump snapshot 0 address 0 length $len
+> +
+> +$ devlink region del mr_dump snapshot 0
+> +
+> +$ devlink region new lk_dump
+> +
+> +$ devlink region read lk_dump snapshot 0 address 0 length $len
+> +
+> +$ devlink region del lk_dump snapshot 0
+> +
+> +Note: $len is actual len to be dumped.
+
+Please briefly describe these devlink commands.
+
+Also, wrap them in literal code blocks:
+
+---- >8 ----
+
+diff --git a/Documentation/networking/devlink/t7xx.rst b/Documentation/netw=
+orking/devlink/t7xx.rst
+index d8feefe116c978..1ba3ba4680e721 100644
+--- a/Documentation/networking/devlink/t7xx.rst
++++ b/Documentation/networking/devlink/t7xx.rst
+@@ -92,35 +92,65 @@ action.
+ Flash Commands:
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-$ devlink dev flash pci/0000:$bdf file preloader_k6880v1_mdot2_datacard.bi=
+n component "preloader"
++::
+=20
+-$ devlink dev flash pci/0000:$bdf file loader_ext-verified.img component "=
+loader_ext1"
++  $ devlink dev flash pci/0000:$bdf file preloader_k6880v1_mdot2_datacard.=
+bin component "preloader"
+=20
+-$ devlink dev flash pci/0000:$bdf file tee-verified.img component "tee1"
++::
+=20
+-$ devlink dev flash pci/0000:$bdf file lk-verified.img component "lk"
++  $ devlink dev flash pci/0000:$bdf file loader_ext-verified.img component=
+ "loader_ext1"
+=20
+-$ devlink dev flash pci/0000:$bdf file spmfw-verified.img component "spmfw"
++::
+=20
+-$ devlink dev flash pci/0000:$bdf file sspm-verified.img component "sspm_1"
++  $ devlink dev flash pci/0000:$bdf file tee-verified.img component "tee1"
+=20
+-$ devlink dev flash pci/0000:$bdf file mcupm-verified.img component "mcupm=
+_1"
++::
+=20
+-$ devlink dev flash pci/0000:$bdf file dpm-verified.img component "dpm_1"
++  $ devlink dev flash pci/0000:$bdf file lk-verified.img component "lk"
+=20
+-$ devlink dev flash pci/0000:$bdf file boot-verified.img component "boot"
++::
+=20
+-$ devlink dev flash pci/0000:$bdf file root.squashfs component "rootfs"
++  $ devlink dev flash pci/0000:$bdf file spmfw-verified.img component "spm=
+fw"
+=20
+-$ devlink dev flash pci/0000:$bdf file modem-verified.img component "md1im=
+g"
++::
+=20
+-$ devlink dev flash pci/0000:$bdf file dsp-verified.bin component "md1dsp"
++  $ devlink dev flash pci/0000:$bdf file sspm-verified.img component "sspm=
+_1"
+=20
+-$ devlink dev flash pci/0000:$bdf file OP_OTA.img component "mcf1"
++::
+=20
+-$ devlink dev flash pci/0000:$bdf file OEM_OTA.img component "mcf2"
++  $ devlink dev flash pci/0000:$bdf file mcupm-verified.img component "mcu=
+pm_1"
+=20
+-$ devlink dev flash pci/0000:$bdf file DEV_OTA.img component "mcf3"
++::
++
++  $ devlink dev flash pci/0000:$bdf file dpm-verified.img component "dpm_1"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file boot-verified.img component "boot"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file root.squashfs component "rootfs"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file modem-verified.img component "md1=
+img"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file dsp-verified.bin component "md1ds=
+p"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file OP_OTA.img component "mcf1"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file OEM_OTA.img component "mcf2"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file DEV_OTA.img component "mcf3"
+=20
+ Note: Component selects the partition type to be programmed.
+=20
+@@ -147,19 +177,31 @@ Following regions are accessed for device internal da=
+ta.
+ Region commands
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-$ devlink region show
++::
++  $ devlink region show
+=20
++::
+=20
+-$ devlink region new mr_dump
++  $ devlink region new mr_dump
+=20
+-$ devlink region read mr_dump snapshot 0 address 0 length $len
++::
+=20
+-$ devlink region del mr_dump snapshot 0
++  $ devlink region read mr_dump snapshot 0 address 0 length $len
+=20
+-$ devlink region new lk_dump
++::
+=20
+-$ devlink region read lk_dump snapshot 0 address 0 length $len
++  $ devlink region del mr_dump snapshot 0
+=20
+-$ devlink region del lk_dump snapshot 0
++::
++
++  $ devlink region new lk_dump
++
++::
++
++  $ devlink region read lk_dump snapshot 0 address 0 length $len
++
++::
++
++  $ devlink region del lk_dump snapshot 0
+=20
+ Note: $len is actual len to be dumped.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--irWeDYniLkJASH6A
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY7uOagAKCRD2uYlJVVFO
+o5A/AP9NvGek0JW4Qi2C310VlJ6mWaEt905jsN7pUeU2ePzEsQD/cg7dAHSb2ecn
+DLfa0bVhusQk9kl6SrOwZdSyr0x6YAM=
+=Ppu6
+-----END PGP SIGNATURE-----
+
+--irWeDYniLkJASH6A--
