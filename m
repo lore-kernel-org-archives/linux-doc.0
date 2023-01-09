@@ -2,203 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84ACBC67871
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 21:54:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F806C5479D
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 22:03:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237634AbjAIVy0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 16:54:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45092 "EHLO
+        id S237040AbjAIWDE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 17:03:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237877AbjAIVf3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 16:35:29 -0500
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A6C3BEBF
-        for <linux-doc@vger.kernel.org>; Mon,  9 Jan 2023 13:34:31 -0800 (PST)
-Received: by mail-il1-x133.google.com with SMTP id bp26so5550825ilb.3
-        for <linux-doc@vger.kernel.org>; Mon, 09 Jan 2023 13:34:31 -0800 (PST)
+        with ESMTP id S237060AbjAIWDD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 17:03:03 -0500
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 753B5192A5
+        for <linux-doc@vger.kernel.org>; Mon,  9 Jan 2023 14:03:02 -0800 (PST)
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-4d0f843c417so17868527b3.7
+        for <linux-doc@vger.kernel.org>; Mon, 09 Jan 2023 14:03:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=a1R5NegFtyt7BiRu9LrE11oUbwJtWrpgEmQDhJTqcL4=;
-        b=W30pWR/fDeuMc28cxqwAUyEcl3lwthxgiPcl3H6DaYFbuTqJVZl5jLLYYAz8lZmuld
-         sCnbwdkYPJMOEhGp+rsdulWydIKyA/xaGXCyjYzcn1GQL8CQzyaVkcGsj+oAmxAHSEtJ
-         AfB59rSSE1mnCMvY0/GrnbnUPlQmishbl6NQ1qT0k4LhZ2q1R3+OFemkP/ezOKV4cgl4
-         Bp/AYQzxKfyot3TqxP4Qv8VOO98I4i5v83bgL3gSLh059MXIxE4xl6IilhoXw11JXlr0
-         W55pypnZXNMzyWsDgd5Wz3n8M/QZtuZyVaBcZAu97mcHu3syzQhRgYqFcCSw8r4KmBZL
-         Orjg==
+        d=linux-foundation.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=k0nIhdmoq2YN+8CYmcGGz5g09uBL17k5HRqIgJjfUJU=;
+        b=F4QSW1fmPta1SdZoMgqppkBUl/S595vxphelnA2n0Z8L7+V9JICv9+FhFq2SezihUL
+         AZzzhDrgCA39Hc/bNA+TttzJcb5t9eNeDk24AJ2XPx+BNVsLNoozshq0sopE0CVIK+mb
+         mldZC1Aw99FFSuOlyX98h9PUcGiDBvSvEDfSQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=a1R5NegFtyt7BiRu9LrE11oUbwJtWrpgEmQDhJTqcL4=;
-        b=FwFPuJ8QzKbo9eViwwbC3s8pRsv9x5fkPSoUWOmNakTAQXYbPZ6YoRRguFMdhFdZvQ
-         qG0eAZdFNQ6nWjwTUfYa8mfFQ88fa1yu+IVjc8GTATUIqla/pzvhHFRPo/uJwQVyZ1uf
-         JynS0j/F9TR6iGr6uOaICMqV7qlrg5hr/veO0ZYdt7y1t2RWv898jnoD8BpdcZuQBxc+
-         1jXfYeLV0vjMoDSgTnEo19kPOOEUoZBT0dTULrpQ+0W3/oFO89SXnc9mviziTu2tptat
-         fDNEI84vmPEb62l8DKqAh/tykc07QjjLdw3BhUdbqN3M+ItLLllO6W8ydfKdKJ7j8FIu
-         0tFQ==
-X-Gm-Message-State: AFqh2kr5N/tJEICJ/ZShGL6WQWj0J6RzuYWAOxAmZxoWlv1G089KSQmz
-        mBE1kn/jt5s75M3ZcqQUPJYruQ==
-X-Google-Smtp-Source: AMrXdXtzovTRG3btR0PcWwnt8UL6HPzM2bYHasqyZn2liQXDKC/kYwVv2NGPwn6JY7awoOUG2fRz0Q==
-X-Received: by 2002:a05:6e02:c2e:b0:302:9921:2ee2 with SMTP id q14-20020a056e020c2e00b0030299212ee2mr55448641ilg.25.1673300071328;
-        Mon, 09 Jan 2023 13:34:31 -0800 (PST)
-Received: from [172.22.22.4] ([98.61.227.136])
-        by smtp.googlemail.com with ESMTPSA id f15-20020a056638118f00b0038a183cb719sm3129187jas.141.2023.01.09.13.34.29
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=k0nIhdmoq2YN+8CYmcGGz5g09uBL17k5HRqIgJjfUJU=;
+        b=gnYrsqLo+ksu8v896HdQLs1BhZVU4zFY99ewpai2EXTqRuIvH5tfXIpzTv1cbwCxbP
+         lyEnX36yESmx9hF0YnjY84vEzc0ElFxY01XU9Xen+KcilIhTN6Cv/q6rPtEQpIOT9xkD
+         zpGtubfCOGrEs8UbiArDdrN+ItoBZfI381f7s0cNTtAOPNfFdqOVQ/+Ltbj7OnxStaPm
+         QazLoD0pDuiDLV8B8IM0QS3+0uckVhquC4+rQ+Rui0jjTa8FEMIj+b0UCm+ri4zrVFKe
+         ipl7gDlRuUgtHQhcdnUZsIhoKjPN9F1eYbsyyCNkdFfUc7vhVX7o9GGZ7TCQs1qctdop
+         pGMw==
+X-Gm-Message-State: AFqh2koP0E1tJp7xHYyXZ6QHQkGNnH77N6xWgvZYGbChBo8mg6zzr34S
+        FxatII4CQ8KlHQret7yQnO7+lCneEuGEsGl3WUI=
+X-Google-Smtp-Source: AMrXdXvaSgHlRPupbUdGDG+GvpkzJw3whDCcwUTfH10ZacWA6lgplF5L2a34VBJBLxBIHm9CPDHWjA==
+X-Received: by 2002:a05:7508:314b:b0:49:c156:1be9 with SMTP id f11-20020a057508314b00b00049c1561be9mr407822gbf.8.1673301781082;
+        Mon, 09 Jan 2023 14:03:01 -0800 (PST)
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
+        by smtp.gmail.com with ESMTPSA id f45-20020ab049f0000000b0040923fbb16esm1251078uad.26.2023.01.09.14.03.00
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Jan 2023 13:34:30 -0800 (PST)
-Message-ID: <51c36831-19c1-dd67-9e31-87733c190a9c@linaro.org>
-Date:   Mon, 9 Jan 2023 15:34:29 -0600
+        Mon, 09 Jan 2023 14:03:00 -0800 (PST)
+Received: by mail-vs1-f43.google.com with SMTP id i185so10320576vsc.6
+        for <linux-doc@vger.kernel.org>; Mon, 09 Jan 2023 14:03:00 -0800 (PST)
+X-Received: by 2002:ad4:4150:0:b0:531:7593:f551 with SMTP id
+ z16-20020ad44150000000b005317593f551mr1338900qvp.89.1673301769392; Mon, 09
+ Jan 2023 14:02:49 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-From:   Alex Elder <elder@linaro.org>
-Subject: Re: [PATCH v8 06/28] virt: gunyah: Identify hypervisor version
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>
-Cc:     Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-acpi@vger.kernel.org
-References: <20221219225850.2397345-1-quic_eberman@quicinc.com>
- <20221219225850.2397345-7-quic_eberman@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <20221219225850.2397345-7-quic_eberman@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20221219153525.632521981@infradead.org> <20221219154119.550996611@infradead.org>
+ <Y7Ri+Uij1GFkI/LB@osiris> <CAHk-=wj9nK825MyHXu7zkegc7Va+ZxcperdOtRMZBCLHqGrr=g@mail.gmail.com>
+ <Y7xAsELYo4srs/z/@hirez.programming.kicks-ass.net>
+In-Reply-To: <Y7xAsELYo4srs/z/@hirez.programming.kicks-ass.net>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 9 Jan 2023 16:02:33 -0600
+X-Gmail-Original-Message-ID: <CAHk-=whm+u8YoUaE9PKugYBxujhDL5twz6HqzqLP8OTXjKuT4g@mail.gmail.com>
+Message-ID: <CAHk-=whm+u8YoUaE9PKugYBxujhDL5twz6HqzqLP8OTXjKuT4g@mail.gmail.com>
+Subject: Re: [RFC][PATCH 11/12] slub: Replace cmpxchg_double()
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Heiko Carstens <hca@linux.ibm.com>, corbet@lwn.net,
+        will@kernel.org, boqun.feng@gmail.com, mark.rutland@arm.com,
+        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
+        cl@linux.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
+        borntraeger@linux.ibm.com, svens@linux.ibm.com,
+        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-s390@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/19/22 4:58 PM, Elliot Berman wrote:
-> Export the version of Gunyah which is reported via the hyp_identify
-> hypercall. Increments of the major API version indicate possibly
-> backwards incompatible changes.
-> 
-> Export the hypervisor identity so that Gunyah drivers can act according
-> to the major API version.
-> 
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> ---
->   drivers/virt/Makefile        |  1 +
->   drivers/virt/gunyah/Makefile |  1 +
->   drivers/virt/gunyah/gunyah.c | 46 ++++++++++++++++++++++++++++++++++++
->   include/linux/gunyah.h       |  6 +++++
->   4 files changed, 54 insertions(+)
->   create mode 100644 drivers/virt/gunyah/Makefile
->   create mode 100644 drivers/virt/gunyah/gunyah.c
-> 
-> diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
-> index 093674e05c40..92b7e5311548 100644
-> --- a/drivers/virt/Makefile
-> +++ b/drivers/virt/Makefile
-> @@ -11,3 +11,4 @@ obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
->   obj-$(CONFIG_ACRN_HSM)		+= acrn/
->   obj-$(CONFIG_EFI_SECRET)	+= coco/efi_secret/
->   obj-$(CONFIG_SEV_GUEST)		+= coco/sev-guest/
-> +obj-y				+= gunyah/
-> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-> new file mode 100644
-> index 000000000000..2ac4ee64b89d
-> --- /dev/null
-> +++ b/drivers/virt/gunyah/Makefile
-> @@ -0,0 +1 @@
-> +obj-$(CONFIG_GUNYAH) += gunyah.o
-> diff --git a/drivers/virt/gunyah/gunyah.c b/drivers/virt/gunyah/gunyah.c
-> new file mode 100644
-> index 000000000000..c34c9046fc08
-> --- /dev/null
-> +++ b/drivers/virt/gunyah/gunyah.c
-> @@ -0,0 +1,46 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#define pr_fmt(fmt) "gunyah: " fmt
-> +
-> +#include <linux/gunyah.h>
-> +#include <linux/init.h>
-> +#include <linux/module.h>
-> +#include <linux/printk.h>
-> +
-> +struct gh_hypercall_hyp_identify_resp gunyah_api;
-> +EXPORT_SYMBOL_GPL(gunyah_api);
-> +
-> +static const uint32_t gunyah_known_uuids[][4] = {
-> +	{0x19bd54bd, 0x0b37571b, 0x946f609b, 0x54539de6}, /* QC_HYP (Qualcomm's build) */
-> +	{0x673d5f14, 0x9265ce36, 0xa4535fdb, 0xc1d58fcd}, /* GUNYAH (open source build) */
-> +};
-> +
-> +static int __init gunyah_init(void)
-> +{
-> +	u32 uid[4];
-> +	int i;
-> +
-> +	gh_hypercall_get_uid(uid);
-> +
-> +	for (i = 0; i < ARRAY_SIZE(gunyah_known_uuids); i++)
-> +		if (!memcmp(uid, gunyah_known_uuids[i], sizeof(uid)))
-> +			break;
-> +
-> +	if (i == ARRAY_SIZE(gunyah_known_uuids))
-> +		return -ENODEV;
-> +
-> +	gh_hypercall_hyp_identify(&gunyah_api);
-> +
-> +	pr_info("Running under Gunyah hypervisor %llx/v%u\n",
-> +		FIELD_GET(GH_API_INFO_VARIANT_MASK, gunyah_api.api_info),
-> +		gh_api_version());
-> +
-> +	return 0;
-> +}
-> +arch_initcall(gunyah_init);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("Gunyah Hypervisor Driver");
-> diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
-> index 2765d2b40198..166156f69df9 100644
-> --- a/include/linux/gunyah.h
-> +++ b/include/linux/gunyah.h
-> @@ -92,6 +92,12 @@ struct gh_hypercall_hyp_identify_resp {
->   	u64 api_info;
->   	u64 flags[3];
->   };
-> +extern struct gh_hypercall_hyp_identify_resp gunyah_api;
+On Mon, Jan 9, 2023 at 10:29 AM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> I ran into a ton of casting trouble when compiling kernel/fork.c which
+> uses this_cpu_cmpxchg() on a pointer type and the compiler hates casting
+> pointers to an integer that is not the exact same size.
 
-Must this global variable be exposed?  Can't you hide it--as
-well as its interpretation--inside "gunyah.c"?
+Ahh. Yeah - not because that code needs or wants the 128-bit case, but
+because the macro expands to all sizes in a switch statement, so the
+compiler sees all the cases even if only one is then statically
+picked.
 
-> +
-> +static inline u16 gh_api_version(void)
-> +{
-> +	return FIELD_GET(GH_API_INFO_API_VERSION_MASK, gunyah_api.api_info);
-> +}
+So the silly casts are for all the cases that never matter.
 
-If you don't make the above function inline, can you hide the
-definition of gunyah_api?
+Annoying.
 
-					-Alex
+I wonder if the "this_cpu_cmpxchg()" macro could be made to use
+_Generic() to pick out the pointer case first, and then only use
+'sizeof()' for the integer types, so that we don't have this kind of
+"every architecture needs to deal with the nasty situation" code.
 
->   void gh_hypercall_get_uid(u32 uid[4]);
->   void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp *hyp_identity);
+Ok, it's not actually the this_cpu_cmpxchg() macro, it's
+__pcpu_size_call_return() and friends, but whatever.
 
+Another alternative is to try to avoid casting to "u64" as long as
+humanly possible, and use only "typeof((*ptr))" everywhere. Then when
+the type actually *is* 128-bit, it all works out fine, because it
+won't be a pointer. That's the approach the uaccess macros tend to
+take, and then they hit the reverse issue on clang, where using the
+"byte register" constraints would cause warnings for non-byte
+accesses, and we had to do
+
+                unsigned char x_u8__;
+                __get_user_asm(x_u8__, ptr, "b", "=q", label);
+                (x) = x_u8__;
+
+because using '(x)' directly would then warn when 'x' wasn't a
+char-sized thing - even if that asm case never actually was _used_ for
+that case, since it was all inside a "switch (sizeof) case 1:"
+statement.
+
+            Linus
