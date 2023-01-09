@@ -2,155 +2,183 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55BFAC5479D
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 10:59:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A75CC5479D
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 13:25:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233702AbjAIK7t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 05:59:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33182 "EHLO
+        id S233264AbjAINZG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 08:25:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233309AbjAIK7q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 05:59:46 -0500
-Received: from fx302.security-mail.net (mxout.security-mail.net [85.31.212.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71A3511A31
-        for <linux-doc@vger.kernel.org>; Mon,  9 Jan 2023 02:59:45 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by fx302.security-mail.net (Postfix) with ESMTP id CC9B61C3E749
-        for <linux-doc@vger.kernel.org>; Mon,  9 Jan 2023 11:59:43 +0100 (CET)
+        with ESMTP id S230411AbjAINZF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 08:25:05 -0500
+X-Greylist: delayed 223 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 09 Jan 2023 05:25:03 PST
+Received: from fx405.security-mail.net (smtpout140.security-mail.net [85.31.212.145])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EFB5A1AA
+        for <linux-doc@vger.kernel.org>; Mon,  9 Jan 2023 05:25:03 -0800 (PST)
+Received: from localhost (fx405.security-mail.net [127.0.0.1])
+        by fx405.security-mail.net (Postfix) with ESMTP id BF4CC335EF6
+        for <linux-doc@vger.kernel.org>; Mon,  9 Jan 2023 14:21:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
-        s=sec-sig-email; t=1673261983;
-        bh=lZNxzYbAnagx6z12Q0AJlRyEnCWYJIFN1CJf3QiJ9cw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=KN+m9mG2IN1tfOCcjhQygAKqIp8wrOXKTVntJupgLIrBwXwv+SVq/Jp7haWMK5AYs
-         4F5IFehbC3pV8vC05z+xuudMPWM0itYe1WGQP3sXUBTzw0fTqNzdCkPrbO+1eME8Ox
-         QRpyOKjuYwXRBN9w3Z++ibwvSIZjg004Pb7TxL0c=
-Received: from fx302 (localhost [127.0.0.1]) by fx302.security-mail.net
- (Postfix) with ESMTP id B375C1C3E72D; Mon,  9 Jan 2023 11:59:43 +0100 (CET)
+        s=sec-sig-email; t=1673270478;
+        bh=VTyAgBvawac4uHB7eMyMDicCX2xLvVfQ11WRs4OqUgg=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=YZ+jS6/1Ma7JCmcJ3+OEDQF6/jdcWUhHaMCMCUIMiS/QRA3hvieFeCchl43TWG6g4
+         8uzP1OQwFTqJST5NGfflnAynHPXH43mmkQhylk6XZiFnOpe64YOUPMjH/EHaBa+r6X
+         XNQwFD9kMcy8gj0OVjfaZ+Y+swU0mq962ckt9ZPA=
+Received: from fx405 (fx405.security-mail.net [127.0.0.1]) by
+ fx405.security-mail.net (Postfix) with ESMTP id 382DC335EA5; Mon,  9 Jan
+ 2023 14:21:18 +0100 (CET)
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx302.security-mail.net (Postfix) with ESMTPS id 31A381C3E714; Mon,  9 Jan
- 2023 11:59:43 +0100 (CET)
+ fx405.security-mail.net (Postfix) with ESMTPS id 1E46D335E6D; Mon,  9 Jan
+ 2023 14:21:17 +0100 (CET)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 0BAF527E03B7; Mon,  9 Jan 2023
- 11:59:43 +0100 (CET)
+ zimbra2.kalray.eu (Postfix) with ESMTPS id D765927E03FF; Mon,  9 Jan 2023
+ 14:21:16 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id E5B9327E03F5; Mon,  9 Jan 2023 11:59:42 +0100 (CET)
+ (Postfix) with ESMTP id B3B4327E03FA; Mon,  9 Jan 2023 14:21:16 +0100 (CET)
 Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
  (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- 79E2VWtOVg-y; Mon,  9 Jan 2023 11:59:42 +0100 (CET)
-Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id CC76727E03B7; Mon,  9 Jan 2023
- 11:59:42 +0100 (CET)
+ RFDkxXP_U9mz; Mon,  9 Jan 2023 14:21:16 +0100 (CET)
+Received: from [192.168.37.161] (unknown [192.168.37.161]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id 46FC927E03F5; Mon,  9 Jan 2023
+ 14:21:16 +0100 (CET)
 X-Virus-Scanned: E-securemail
-Secumail-id: <618a.63bbf39f.30b29.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu E5B9327E03F5
+Secumail-id: <18db.63bc14cd.171d3.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu B3B4327E03FA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1673261982;
- bh=uuDY2mbHYs3yu9OaIiIFtuSPVXRl0RipgPQRVotTh0o=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=KUyvzl67xsozDcs6ytpSgQ+CiFCu/FWgl9sSdIxk8c2D93xVUCz9ZEgMsoGXz8ic2
- yU92waLFBunuD57yvLzbWoiSImtrEHmf+E5TcWt23d8uLAltc65MSO4QR3MXql6Sm0
- s08ioAlp5ggMoaf4AoNGellDykO7lo8qFd63UTjI=
-Date:   Mon, 9 Jan 2023 11:59:41 +0100
-From:   Jules Maselbas <jmaselbas@kalray.eu>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Yann Sionneau <ysionneau@kalray.eu>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Clement Leger <clement.leger@bootlin.com>,
-        Guillaume Thouvenin <gthouvenin@kalray.eu>
-Subject: Re: [PATCH 0/8] kvx documentation improv (was: Re: [RFC PATCH
- 01/25] Documentation: kvx: Add basic documentation)
-Message-ID: <20230109105941.GA29108@tellis.lin.mbt.kalray.eu>
-References: <874jt7fqxt.fsf@meer.lwn.net>
- <20230109095108.21229-1-bagasdotme@gmail.com>
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1673270476;
+ bh=pFwL+Y0S0qo0MF7wO/awAfpxvBk+/1wXJh5pVmIIW2g=;
+ h=Message-ID:Date:MIME-Version:To:From;
+ b=XjT0yLLBY18QxivMgV9uczq9z+HpKf5TnyecD/FGL3y5WOfaxlypJyAxpZ8saNN2c
+ xkoB4C8EPYxurJyqIoGRHgJxE+LjZeyAAIvw8YYk1DjcyoP679xtmnwZh9BbBCh3Ku
+ YVP4+a/ZNoUFvoUsbRjrSO4n7fz2l6dahOcJsTh0=
+Message-ID: <6570d22d-ee19-f8b1-6fb4-bf8865ec4142@kalray.eu>
+Date:   Mon, 9 Jan 2023 14:21:15 +0100
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20230109095108.21229-1-bagasdotme@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC PATCH 00/25] Upstream kvx Linux port
+Content-Language: en-us
+To:     Jeff Xie <xiehuan09@gmail.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Albert Ou <aou@eecs.berkeley.edu>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>, bpf@vger.kernel.org,
+        Christian Brauner <brauner@kernel.org>,
+        devicetree@vger.kernel.org, Eric Biederman <ebiederm@xmission.com>,
+        Eric Paris <eparis@redhat.com>, Ingo Molnar <mingo@redhat.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Jason Baron <jbaron@akamai.com>, Jiri Olsa <jolsa@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Kieran Bingham <kbingham@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-audit@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-perf-users@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-riscv@lists.infradead.org, Marc Zyngier <maz@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Nick Piggin <npiggin@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Waiman Long <longman@redhat.com>,
+        Will Deacon <will@kernel.org>, Alex Michon <amichon@kalray.eu>,
+        Ashley Lesdalons <alesdalons@kalray.eu>,
+        Benjamin Mugnier <mugnier.benjamin@gmail.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Guillaume Missonnier <gmissonnier@kalray.eu>,
+        Guillaume Thouvenin <gthouvenin@kalray.eu>,
+        Jean-Christophe Pince <jcpince@gmail.com>,
+        Jonathan Borne <jborne@kalray.eu>,
+        Jules Maselbas <jmaselbas@kalray.eu>,
+        Julian Vetter <jvetter@kalray.eu>,
+        Julien Hascoet <jhascoet@kalray.eu>,
+        Julien Villette <jvillette@kalray.eu>,
+        Louis Morhet <lmorhet@kalray.eu>,
+        Luc Michel <lmichel@kalray.eu>,
+        Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>,
+        Marius Gligor <mgligor@kalray.eu>,
+        Samuel Jones <sjones@kalray.eu>,
+        Thomas Costis <tcostis@kalray.eu>,
+        Vincent Chardon <vincent.chardon@elsys-design.com>
+References: <20230103164359.24347-1-ysionneau@kalray.eu>
+ <CAEr6+ECRh_9App18zmcS6FUR81YYhR=n4kGdeZAtQBsdMB55_A@mail.gmail.com>
+From:   Yann Sionneau <ysionneau@kalray.eu>
+In-Reply-To: <CAEr6+ECRh_9App18zmcS6FUR81YYhR=n4kGdeZAtQBsdMB55_A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-ALTERMIMEV2_out: done
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bagas,
+Hi Jeff,
 
-On Mon, Jan 09, 2023 at 04:51:00PM +0700, Bagas Sanjaya wrote:
-> Jonathan Corbet <corbet@lwn.net> writes:
-> >> Add some documentation for kvx arch and its Linux port.
-> >>
-> >> CC: Jonathan Corbet <corbet@lwn.net>
-> >> CC: linux-doc@vger.kernel.org
-> >> CC: linux-kernel@vger.kernel.org
-> >> Co-developed-by: Clement Leger <clement.leger@bootlin.com>
-> >> Signed-off-by: Clement Leger <clement.leger@bootlin.com>
-> >> Co-developed-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
-> >> Signed-off-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
-> >> Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
-> >> ---
-> >>  Documentation/kvx/kvx-exceptions.txt | 246 ++++++++++++++++++++++++
-> >>  Documentation/kvx/kvx-iommu.txt      | 183 ++++++++++++++++++
-> >>  Documentation/kvx/kvx-mmu.txt        | 272 +++++++++++++++++++++++++++
-> >>  Documentation/kvx/kvx-smp.txt        |  36 ++++
-> >>  Documentation/kvx/kvx.txt            | 268 ++++++++++++++++++++++++++
-> >>  5 files changed, 1005 insertions(+)
-> >>  create mode 100644 Documentation/kvx/kvx-exceptions.txt
-> >>  create mode 100644 Documentation/kvx/kvx-iommu.txt
-> >>  create mode 100644 Documentation/kvx/kvx-mmu.txt
-> >>  create mode 100644 Documentation/kvx/kvx-smp.txt
-> >>  create mode 100644 Documentation/kvx/kvx.txt
-> >
-> >Please write this documentation in the RST format (you're 95% of the way
-> >there now) and incorporate into the kernel docs build.
-> 
-> Here is the polished documentation in reST format. Yann, can you please
-> squash this series into your documentation patch?
-Thanks a lot, I've already converted the documentation to reST, but I will
-take a look at this series and see what I can apply.
+On 1/7/23 07:25, Jeff Xie wrote:
+> Hi,
+>
+> On Wed, Jan 4, 2023 at 1:01 AM Yann Sionneau <ysionneau@kalray.eu> wrote:
+>> [snip]
+>>
+>> A kvx toolchain can be built using:
+>> # install dependencies: texinfo bison flex libgmp-dev libmpc-dev libmpfr-dev
+>> $ git clone https://github.com/kalray/build-scripts
+>> $ cd build-scripts
+>> $ source last.refs
+>> $ ./build-kvx-xgcc.sh output
+> I would like to build the kvx-xgcc to compile and test the linux
+> kernel, but it reported a compile error.
+> I wonder what version of gcc you are using.
+>
+> My build environment:
+> VERSION="20.04.2 LTS (Focal Fossa)"
+> gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04)
+>
+>
+> Compile error:
+> $ ./build-kvx-xgcc.sh output
+>
+> ../../binutils/libiberty/fibheap.c: In function ‘fibheap_replace_key_data’:
+> ../../binutils/libiberty/fibheap.c:38:24: error: ‘LONG_MIN’ undeclared
+> (first use in this function)
+>     38 | #define FIBHEAPKEY_MIN LONG_MIN
+>        |                        ^~~~~~~~
+> [snip]
 
-> Bagas Sanjaya (8):
->   Documentation: kvx: Convert to reST
->   Documentation: kvx: Wrap diagrams in literal code block
->   Documentation: kvx: Fix lists
->   Documentation: kvx: kvx-iommu: Use reST syntax for subsections
->   Documentation: kvx: kvx-iommu: monospacize kvx iommu device tree path
->   Documentation: kvx: Promote title headings
->   Documentation: kvx: Use literal code block for command-line inputs
->   Documentation: kvx: reword
-> 
->  Documentation/arch.rst               |   1 +
->  Documentation/kvx/index.rst          |  12 ++
->  Documentation/kvx/kvx-exceptions.rst | 258 +++++++++++++++++++++++
->  Documentation/kvx/kvx-exceptions.txt | 246 ----------------------
->  Documentation/kvx/kvx-iommu.rst      | 188 +++++++++++++++++
->  Documentation/kvx/kvx-iommu.txt      | 183 -----------------
->  Documentation/kvx/kvx-mmu.rst        | 294 +++++++++++++++++++++++++++
->  Documentation/kvx/kvx-mmu.txt        | 272 -------------------------
->  Documentation/kvx/kvx-smp.rst        |  36 ++++
->  Documentation/kvx/kvx-smp.txt        |  36 ----
->  Documentation/kvx/kvx.rst            | 269 ++++++++++++++++++++++++
->  Documentation/kvx/kvx.txt            | 268 ------------------------
->  12 files changed, 1058 insertions(+), 1005 deletions(-)
->  create mode 100644 Documentation/kvx/index.rst
->  create mode 100644 Documentation/kvx/kvx-exceptions.rst
->  delete mode 100644 Documentation/kvx/kvx-exceptions.txt
->  create mode 100644 Documentation/kvx/kvx-iommu.rst
->  delete mode 100644 Documentation/kvx/kvx-iommu.txt
->  create mode 100644 Documentation/kvx/kvx-mmu.rst
->  delete mode 100644 Documentation/kvx/kvx-mmu.txt
->  create mode 100644 Documentation/kvx/kvx-smp.rst
->  delete mode 100644 Documentation/kvx/kvx-smp.txt
->  create mode 100644 Documentation/kvx/kvx.rst
->  delete mode 100644 Documentation/kvx/kvx.txt
-> 
-> -- 
-> An old man doll... just what I always wanted! - Clara
-> 
-> 
-> 
-> 
-> 
+What SHA1 of https://github.com/kalray/build-scripts are you using?
+
+We are building our toolchain on Ubuntu 18.04 / 20.04 and 22.04 without 
+issues, I don't understand why it does not work for you, although indeed 
+the error log you are having pops out on my search engine and seems to 
+be some well known issue.
+
+If the build-script does not work for you, you can still use the 
+pre-built toolchains generated by the GitHub automated actions: 
+https://github.com/kalray/build-scripts/releases/tag/v4.11.1 ("latest" 
+means 22.04)
+
+I hope it will work for you.
+
+Regards,
+
+-- 
+
+Yann
+
 
 
 
