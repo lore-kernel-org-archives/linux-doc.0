@@ -2,161 +2,135 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A28C4C54EBD
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 04:34:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD942C54EBD
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 06:55:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236460AbjAIEeh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 8 Jan 2023 23:34:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41818 "EHLO
+        id S234253AbjAIGzF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 01:55:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236953AbjAIEeF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Jan 2023 23:34:05 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECCF712AD9;
-        Sun,  8 Jan 2023 20:25:04 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AC8D7B80C7B;
-        Mon,  9 Jan 2023 04:25:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2276CC433EF;
-        Mon,  9 Jan 2023 04:25:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673238302;
-        bh=/rHfHB7YL1elxIvXiI4wWi2tkWA1InJY7Cv3aYxLJPQ=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=apih20MSOVCkXJ6f3ZDEZ3vHFBlcPZYgTvmal2re3X7CIWnSaRGtLYos+ATskjIkI
-         STEe1+5yRGPPvTp90JmpIAxsWY1ePbyiLmmVWkr+Z4lkMAQCw1RdPmTxW28JpkHKkh
-         IYBUzY3DoSXl0f3cNsF0ovRCVne13VDtmAUWf4gTPnd2C8TP5xiTf6YfhgJKWzdxGE
-         MoLN4C9UHaUaVbOsSKoUKSA1vXmGGBCq8+wvMMfXUjYkbqfc/AhugSS+MJSPPbXdvE
-         AxsWJr1J+dPcjiZ1bHCH+X5V1/cqYoeEI+i8fjw+Ykq5DgX5vJJU00DGLtv4cCqfIV
-         Yhr8GXSF7nprA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id B346F5C03F3; Sun,  8 Jan 2023 20:25:01 -0800 (PST)
-Date:   Sun, 8 Jan 2023 20:25:01 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, akpm@linux-foundation.org, ndesaulniers@google.com,
-        vbabka@suse.cz, hannes@cmpxchg.org, joel@joelfernandes.org,
-        quic_neeraju@quicinc.com, urezki@gmail.com
-Subject: Re: [PATCH RFC bootconfig] Allow forcing unconditional bootconfig
- processing
-Message-ID: <20230109042501.GF4028633@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20230105005838.GA1772817@paulmck-ThinkPad-P17-Gen-1>
- <20230108002215.c18df95b19acdd3207b379fa@kernel.org>
- <20230107162202.GA4028633@paulmck-ThinkPad-P17-Gen-1>
- <20230108150425.426f2861e9db1152fa84508f@kernel.org>
+        with ESMTP id S233865AbjAIGzB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 01:55:01 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8969E1275B;
+        Sun,  8 Jan 2023 22:54:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673247299; x=1704783299;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=h14Ky+gxZkW2WnGWN9E+VGFINdCzmMuf5XUAHnYvEro=;
+  b=GnU4WhmCVCAIUKxylujt/9qepmSppyZX756eF7tK+zg2kVo784y9E2YT
+   nUSgyMnUll1FW/4MsKJs7rliOI0ys9U1Gh33dTTG+t5nWVomKF/QweWOY
+   cgGMqTFGubnZDd3/l0bVirAKi6aMFBNrS+gws8CKMTc1jqkYR+WZBiu3P
+   g9a1xoEJqy2JiR4MtZU1zBq1oWTW5OlElvTRUUeYadLYWWyYCNs25U6se
+   XEpzi/1WxjNt0YzoBrtMXTj4u3zFglKnacF9kYZTGdGkChEJZQWBOFLsc
+   7LNX7ipBMhBzAO3nLo+7F/JywQmCR2/I2nYoIpbDg9SsdiTPlyUav2jht
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="321509833"
+X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; 
+   d="scan'208";a="321509833"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2023 22:54:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="798914008"
+X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; 
+   d="scan'208";a="798914008"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by fmsmga001.fm.intel.com with ESMTP; 08 Jan 2023 22:54:53 -0800
+Date:   Mon, 9 Jan 2023 14:44:37 +0800
+From:   Xu Yilun <yilun.xu@intel.com>
+To:     matthew.gerlach@linux.intel.com
+Cc:     hao.wu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com, bagasdotme@gmail.com
+Subject: Re: [PATCH v9 3/4] fpga: dfl: add basic support for DFHv1
+Message-ID: <Y7u31S8aba1L+VeA@yilunxu-OptiPlex-7050>
+References: <20230104232253.24743-1-matthew.gerlach@linux.intel.com>
+ <20230104232253.24743-4-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230108150425.426f2861e9db1152fa84508f@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230104232253.24743-4-matthew.gerlach@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 08, 2023 at 03:04:25PM +0900, Masami Hiramatsu wrote:
-> On Sat, 7 Jan 2023 08:22:02 -0800
-> "Paul E. McKenney" <paulmck@kernel.org> wrote:
+On 2023-01-04 at 15:22:52 -0800, matthew.gerlach@linux.intel.com wrote:
+> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 > 
-> > On Sun, Jan 08, 2023 at 12:22:15AM +0900, Masami Hiramatsu wrote:
-> > > On Wed, 4 Jan 2023 16:58:38 -0800
-> > > "Paul E. McKenney" <paulmck@kernel.org> wrote:
-> > > 
-> > > > The BOOT_CONFIG family of Kconfig options allows a bootconfig file
-> > > > containing kernel boot parameters to be embedded into an initrd or into
-> > > > the kernel itself.  This can be extremely useful when deploying kernels
-> > > > in cases where some of the boot parameters depend on the kernel version
-> > > > rather than on the server hardware, firmware, or workload.
-> > > > 
-> > > > Unfortunately, the "bootconfig" kernel parameter must be specified in
-> > > > order to cause the kernel to look for the embedded bootconfig file,
-> > > > and it clearly does not help to embed this "bootconfig" kernel parameter
-> > > > into that file.
-> > > > 
-> > > > Therefore, provide a new BOOT_CONFIG_FORCE Kconfig option that causes the
-> > > > kernel to act as if the "bootconfig" kernel parameter had been specified.
-> > > > In other words, kernels built with CONFIG_BOOT_CONFIG_FORCE=y will look
-> > > > for the embedded bootconfig file even when the "bootconfig" kernel
-> > > > parameter is omitted.  This permits kernel-version-dependent kernel
-> > > > boot parameters to be embedded into the kernel image without the need to
-> > > > (for example) update large numbers of boot loaders.
-> > > 
-> > > I like this because this is a simple solution. We have another option
-> > > to specify "bootconfig" in CONFIG_CMDLINE, but it can be overwritten by
-> > > bootloader. Thus, it is better to have this option so that user can
-> > > always enable bootconfig.
-> > 
-> > Glad you like it!
-> > 
-> > In addition, if the help text is accurate, another shortcoming of
-> > CONFIG_CMDLINE is that its semantics vary from one architecture to
-> > another.  Some have CONFIG_CMDLINE override the boot-loader supplied
-> > parameters, and others differ in the order in which the parameters
-> > are processed.
+> Version 1 of the Device Feature Header (DFH) definition adds
+> functionality to the Device Feature List (DFL) bus.
 > 
-> Yes, that differences confuse us...
+> A DFHv1 header may have one or more parameter blocks that
+> further describes the HW to SW. Add support to the DFL bus
+> to parse the MSI-X parameter.
+> 
+> The location of a feature's register set is explicitly
+> described in DFHv1 and can be relative to the base of the DFHv1
+> or an absolute address. Parse the location and pass the information
+> to DFL driver.
+> 
+> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+>
 
-I am glad that it is not just me.  ;-)
+[...]
+  
+> +static u64 *find_param(u64 *params, resource_size_t max, int param_id)
+> +{
+> +	u64 *end = params + max / sizeof(u64);
+> +	u64 v, next;
+> +
+> +	while (params < end) {
+> +		v = *params;
+> +		if (param_id == FIELD_GET(DFHv1_PARAM_HDR_ID, v))
+> +			return params;
+> +
+> +		if (FIELD_GET(DFHv1_PARAM_HDR_NEXT_EOP, v))
+> +			break;
+> +
+> +		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
+> +		params += next;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +/**
+> + * dfh_find_param() - find parameter block for the given parameter id
+> + * @dfl_dev: dfl device
+> + * @param_id: id of dfl parameter
+> + * @pcount: destination to store size of parameter data in u64 bit words
 
-I will add words to that effect to the commit log.
+As I mentioned before, could the size of the parameter data just be number
+of bytes? This is the most common way for a data block.
 
-> > > Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> > 
-> > Thank you!
-> > 
-> > > BTW, maybe CONFIG_BOOT_CONFIG_EMBED is better to select this.
-> > > (or at least recommend to enable this)
-> > 
-> > Like this?
-> 
-> Yes! Thanks.
-> 
-> > 
-> > 							Thanx, Paul
-> > 
-> > ------------------------------------------------------------------------
-> > 
-> > commit d09a1505c51a70da38b34ac38062977299aef742
-> > Author: Paul E. McKenney <paulmck@kernel.org>
-> > Date:   Sat Jan 7 08:09:22 2023 -0800
-> > 
-> >     bootconfig: Default BOOT_CONFIG_FORCE to y if BOOT_CONFIG_EMBED
-> >     
-> >     When a kernel is built with CONFIG_BOOT_CONFIG_EMBED=y, the intention
-> >     will normally be to unconditionally provide the specified kernel-boot
-> >     arguments to the kernel, as opposed to requiring a separately provided
-> >     bootconfig parameter.  Therefore, make the BOOT_CONFIG_FORCE Kconfig
-> >     option default to y in kernels built with CONFIG_BOOT_CONFIG_EMBED=y.
-> >     
-> >     The old semantics may be obtained by manually overriding this default.
-> >     
-> >     Suggested-by: Masami Hiramatsu <mhiramat@kernel.org>
-> >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> 
-> Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Thanks,
+Yilun
 
-Applied, thank you!
-
-							Thanx, Paul
-
-> Thank you!
-> 
-> > 
-> > diff --git a/init/Kconfig b/init/Kconfig
-> > index 0fb19fa0edba9..97a0f14d9020d 100644
-> > --- a/init/Kconfig
-> > +++ b/init/Kconfig
-> > @@ -1379,6 +1379,7 @@ config BOOT_CONFIG
-> >  config BOOT_CONFIG_FORCE
-> >  	bool "Force unconditional bootconfig processing"
-> >  	depends on BOOT_CONFIG
-> > +	default y if BOOT_CONFIG_EMBED
-> >  	help
-> >  	  With this Kconfig option set, BOOT_CONFIG processing is carried
-> >  	  out even when the "bootconfig" kernel-boot parameter is omitted.
-> 
-> 
-> -- 
-> Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> + *
+> + * Return: pointer to start of parameter data, PTR_ERR otherwise.
+> + */
+> +void *dfh_find_param(struct dfl_device *dfl_dev, int param_id, size_t *pcount)
+> +{
+> +	u64 *phdr = find_param(dfl_dev->params, dfl_dev->param_size, param_id);
+> +
+> +	if (!phdr)
+> +		return ERR_PTR(-ENOENT);
+> +
+> +	if (pcount)
+> +		*pcount = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, *phdr) - 1;
+> +
+> +	return phdr + 1;
+> +}
+> +EXPORT_SYMBOL_GPL(dfh_find_param);
