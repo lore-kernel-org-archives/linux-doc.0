@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C899AC5479D
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 09:52:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7693EC54EBD
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 09:53:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236934AbjAIJwy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 04:52:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44352 "EHLO
+        id S236626AbjAIJw4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 04:52:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233106AbjAIJvy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 04:51:54 -0500
+        with ESMTP id S236533AbjAIJv4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 04:51:56 -0500
 Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9733512AB1;
-        Mon,  9 Jan 2023 01:51:17 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id n12so8188503pjp.1;
-        Mon, 09 Jan 2023 01:51:17 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FF8D13CD4;
+        Mon,  9 Jan 2023 01:51:20 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id h7-20020a17090aa88700b00225f3e4c992so12235355pjq.1;
+        Mon, 09 Jan 2023 01:51:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QUG0nLtQB6P5zProz1JDKrAjCmBPnDpqf8FSn3aupzA=;
-        b=BZo+1+WiGZ7t0/rm/CrPMlGsu1LFG+WfohRTzQsQ9C3d7xAVU6Yz3uhSx8Zpops8f9
-         F+Ls+b2DIfbT9jKyyX7f3g6fSA5LXxok0mmqpN2Xld293zdSkq5KBcZFEImwSFnwK5u4
-         +j/HpAiNUJIFGc4NvA81bXTWXWFV129HUkkDIQpQ4rv7or0Hxr9OmGf0eLO1pNhBINo9
-         7Y9mvl5iWwapYHQl8tZb+x8C44stNANqRwOWd3gFzR1Z9R6UJoM8GSl+9+x1B/1aRJVi
-         yuLKeTN26xTXQCChqFym/opF1Q17zJI/FfMDQmAO2gRVDplNqczIpo+Syr7u6ONn47zX
-         7SNA==
+        bh=y2CjRZgj5w+03CooppV2h5YZRADlzHN7ByIiZ7SsR6s=;
+        b=MG55Mifdwpxh8MVPJdLjs2cTl9ualnfbSIBDen/T3cWwkgvZSgZ7pgVg9Jm4QgDyxT
+         oqikm+3W+0EfEJoZKu4GVgLDFiBaDB1E5pF1xhuL7w8b2uLz+VAeOzDHyg9/Ya3mEMcV
+         gXfDsiX5JY2VyjEUlu0+h1rowuBQOyqAHKYJ834/s+x4oX/+42PndXvYlQUtHnGzAIPP
+         BDCdlCPPrbvQ1cfx7tDUZbRGZqgL0QycBRbAl9FR/t1By4ofs95RhZ7w9Sz0YobX+fwF
+         SRGWlwkXe9JuAfyAQ4Cgpy9Of4CTz+1TVj8u+sNNMok8UHz3gHuFSv5Ja4TRKrIGxwFx
+         7Z2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QUG0nLtQB6P5zProz1JDKrAjCmBPnDpqf8FSn3aupzA=;
-        b=0W737gaZARmCyoX+aJ30tgNpjSC8CywsZ+HN7Xs/E2yZhM+FMy8MrBmH6X55Pglglv
-         wkY1l+q8KkU9l/apOk2rdUqPXluwiky53yy1nN1easb/wH9IhnZaTdprVXnE7djB8f0Z
-         R5Zi7OAQk/tu8EXxoXdWPRMBzxUJvih84v6aNIdBO5GGJrQMfJEml11a7cW+5+48z1kk
-         g0KIv6+n4AH9ti/IBknSTyjNp1ofuLAT+SlE3j27sQVAUjlciw6kJ2YUiPM1DWt4qpeU
-         ntD0e6HW0rOyUEs7+I1Hw1bsZqalDVaHqR18yvUZKfUzh7lEBIhjcvkUft7L1e+7tnC6
-         Pasw==
-X-Gm-Message-State: AFqh2koCOW5AaBdAbI9GLmh7efiAkCoWkBoL0LQKrVZr3Vu4xAlSwWRd
-        MlGAdra/IxgpAlDoiDprzxA=
-X-Google-Smtp-Source: AMrXdXv2dX/tQ4prvd6UKKeV1RbXcBEIjVDw3k01xjt9cQU4bwyNwOIPcnJaS1FU4KLUMCZPHZ7JWQ==
-X-Received: by 2002:a17:90a:6a4f:b0:226:ed1b:c7b7 with SMTP id d15-20020a17090a6a4f00b00226ed1bc7b7mr8011521pjm.13.1673257876902;
-        Mon, 09 Jan 2023 01:51:16 -0800 (PST)
+        bh=y2CjRZgj5w+03CooppV2h5YZRADlzHN7ByIiZ7SsR6s=;
+        b=iyQUhOF16dcuFMHw5UOpjlRD+YS4QSGD7ULWBi3uWdAFE+jF+RwLAqyb2ISlMKzSGy
+         W3gOqt51pnz5f5Zw4uSbnujcraqGq2E+DBd2UCdIta/jT9XIzB0GJJWbd4Az33I0+KGr
+         Txj0ryV+/5IccOPcsoWwbFoAF2AM9Oq48wafGWmQY6GA+T+7HvKma5SHTdL2ElTPXu0t
+         dopmn0P6eOnnYh+uo8f42Ai1vi8y4cWeKMRy3KlVG8fvEIBe4+bsls22e4xa3aYJv3vU
+         ARMWiGPsS1mjQ1F8AtfixRLsEuHfvVK9TC+M8C2N2Hlorz75CeEZOVX3iCzXK0/wAqxW
+         1WdA==
+X-Gm-Message-State: AFqh2kq+4Cb7+uo30KpNU71UmMFRz+f+E9i0bzzNWN+Gzl5Axr8Ln7FE
+        66oGI2VLGBisYfTfDJOkRfA=
+X-Google-Smtp-Source: AMrXdXt95xNzXFrT8/Ac8yI6E7YW5RTTJCc0zk7UJy5Exzl8ssTKQEib+yA/ks97qFSEN/iWIiJheA==
+X-Received: by 2002:a17:90b:35c7:b0:226:17f9:8025 with SMTP id nb7-20020a17090b35c700b0022617f98025mr43532509pjb.40.1673257879452;
+        Mon, 09 Jan 2023 01:51:19 -0800 (PST)
 Received: from debian.me (subs03-180-214-233-26.three.co.id. [180.214.233.26])
-        by smtp.gmail.com with ESMTPSA id js8-20020a17090b148800b002191e769546sm5080794pjb.4.2023.01.09.01.51.15
+        by smtp.gmail.com with ESMTPSA id lj12-20020a17090b344c00b002190eabb890sm7047881pjb.25.2023.01.09.01.51.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 01:51:15 -0800 (PST)
+        Mon, 09 Jan 2023 01:51:18 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-        id 534AE105010; Mon,  9 Jan 2023 16:51:10 +0700 (WIB)
+        id B8817104BBE; Mon,  9 Jan 2023 16:51:10 +0700 (WIB)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Yann Sionneau <ysionneau@kalray.eu>
@@ -58,160 +58,98 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Clement Leger <clement.leger@bootlin.com>,
         Guillaume Thouvenin <gthouvenin@kalray.eu>,
         Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 1/8] Documentation: kvx: Convert to reST
-Date:   Mon,  9 Jan 2023 16:51:01 +0700
-Message-Id: <20230109095108.21229-2-bagasdotme@gmail.com>
+Subject: [PATCH 6/8] Documentation: kvx: Promote title headings
+Date:   Mon,  9 Jan 2023 16:51:06 +0700
+Message-Id: <20230109095108.21229-7-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230109095108.21229-1-bagasdotme@gmail.com>
 References: <874jt7fqxt.fsf@meer.lwn.net>
  <20230109095108.21229-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6354; i=bagasdotme@gmail.com; h=from:subject; bh=Rgiw2ouxNaRHWfF14VFJtoFdUTFNcf56RZ4yVFbA528=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMm7H3cVnV4yyXu/9rfFBunxd9cH1ycbmOQ9K9OKbrw46abu Go6UjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEyEczfD/1S7c8sc79kvauvUva9549 bvpSedvyQaNPbLTtu2+PfCOCdGhmdm78q+Mhhs3rXI4oKBe/DHP8+Yft2QUt6rvH/7fUeVl/wA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2735; i=bagasdotme@gmail.com; h=from:subject; bh=yMsDrHoSWinbqsJdqdRDs7EJeO2eIKc6AFgy0XYKjUY=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMm7H3dP3SI8c+YZdvfiSxa7zEQEZKYVN/+1iKsSuaqTFN8t /cK3o5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABN5JsrIMEvOOVDmz/Kn1SLiFv91V0 jqi/tX82Rse+XwlP1+ZeKcOkaGe4VW/qVBOg9mtF4xFT3wodZ7w8rQgB+/NiiVSv0tiFfhAgA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert kvx documentation to reST format. While at it, fix constructs
-that cause Sphinx to confuse with section markup.
+The documentation contains headings which all marked up using the same
+heading level, which cause doc sections to also appear in index TOC
+alongside doc titles.
 
-Note that 101 warnings are generated due to markup syntax issues. These
-will be addressed in subsequent patches.
+Promote title headings while expanding their title text to be more
+descriptive.
 
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/arch.rst                        |  1 +
- Documentation/kvx/index.rst                   | 12 ++++++++
- ...{kvx-exceptions.txt => kvx-exceptions.rst} | 10 +++----
- .../kvx/{kvx-iommu.txt => kvx-iommu.rst}      |  0
- .../kvx/{kvx-mmu.txt => kvx-mmu.rst}          | 28 +++++++++++--------
- .../kvx/{kvx-smp.txt => kvx-smp.rst}          |  0
- Documentation/kvx/{kvx.txt => kvx.rst}        |  0
- 7 files changed, 35 insertions(+), 16 deletions(-)
- create mode 100644 Documentation/kvx/index.rst
- rename Documentation/kvx/{kvx-exceptions.txt => kvx-exceptions.rst} (98%)
- rename Documentation/kvx/{kvx-iommu.txt => kvx-iommu.rst} (100%)
- rename Documentation/kvx/{kvx-mmu.txt => kvx-mmu.rst} (88%)
- rename Documentation/kvx/{kvx-smp.txt => kvx-smp.rst} (100%)
- rename Documentation/kvx/{kvx.txt => kvx.rst} (100%)
+ Documentation/kvx/kvx-exceptions.rst | 6 ++++--
+ Documentation/kvx/kvx-iommu.rst      | 4 ++--
+ Documentation/kvx/kvx-mmu.rst        | 5 +++--
+ Documentation/kvx/kvx-smp.rst        | 5 +++--
+ Documentation/kvx/kvx.rst            | 1 +
+ 5 files changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/arch.rst b/Documentation/arch.rst
-index 41a66a8b38e424..1ccda8ef6eefb3 100644
---- a/Documentation/arch.rst
-+++ b/Documentation/arch.rst
-@@ -13,6 +13,7 @@ implementation.
-    arm/index
-    arm64/index
-    ia64/index
-+   kvx/index
-    loongarch/index
-    m68k/index
-    mips/index
-diff --git a/Documentation/kvx/index.rst b/Documentation/kvx/index.rst
-new file mode 100644
-index 00000000000000..19a8e0865c82f3
---- /dev/null
-+++ b/Documentation/kvx/index.rst
-@@ -0,0 +1,12 @@
-+================
-+KVX Architecture
-+================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   kvx-exceptions
-+   kvx-iommu
-+   kvx-mmu
-+   kvx-smp
-+   kvx
-diff --git a/Documentation/kvx/kvx-exceptions.txt b/Documentation/kvx/kvx-exceptions.rst
-similarity index 98%
-rename from Documentation/kvx/kvx-exceptions.txt
-rename to Documentation/kvx/kvx-exceptions.rst
-index 11368287bd4895..d3e52f30285223 100644
---- a/Documentation/kvx/kvx-exceptions.txt
+diff --git a/Documentation/kvx/kvx-exceptions.rst b/Documentation/kvx/kvx-exceptions.rst
+index bd485efd2362c1..15692f14b9219d 100644
+--- a/Documentation/kvx/kvx-exceptions.rst
 +++ b/Documentation/kvx/kvx-exceptions.rst
-@@ -12,19 +12,19 @@ The offset depends on which exception vector the cpu wants to jump to:
+@@ -1,5 +1,7 @@
+-Exceptions
+-==========
++=========================
++Exception handling in kvx
++=========================
++
+ On kvx, handlers are set using $ev (exception vector) register which
+ specifies a base address.
+ An offset is added to $ev upon exception and the result is used as
+diff --git a/Documentation/kvx/kvx-iommu.rst b/Documentation/kvx/kvx-iommu.rst
+index c97035ba624c22..5e84dc12adb437 100644
+--- a/Documentation/kvx/kvx-iommu.rst
++++ b/Documentation/kvx/kvx-iommu.rst
+@@ -1,5 +1,5 @@
+-IOMMU
+-=====
++IOMMU in kvx
++============
  
- Then, handlers are laid in the following order:
- 
--         _____________
-+        +-------------+
-         |             |
-         |   Syscall   |
--        |_____________|
-+        +-------------+
-         |             |
-         |  Interrupts |
--        |_____________|
-+        +-------------+
-         |             |
-         |    Traps    |
--        |_____________|
-+        +-------------+
-         |             | ^
-         |    Debug    | | Stride
--BASE -> |_____________| v
-+BASE -> +-------------+ v
- 
- 
- Interrupts, and traps are serviced similarly, ie:
-diff --git a/Documentation/kvx/kvx-iommu.txt b/Documentation/kvx/kvx-iommu.rst
-similarity index 100%
-rename from Documentation/kvx/kvx-iommu.txt
-rename to Documentation/kvx/kvx-iommu.rst
-diff --git a/Documentation/kvx/kvx-mmu.txt b/Documentation/kvx/kvx-mmu.rst
-similarity index 88%
-rename from Documentation/kvx/kvx-mmu.txt
-rename to Documentation/kvx/kvx-mmu.rst
-index a3ebbef3698129..59bda2afc9abde 100644
---- a/Documentation/kvx/kvx-mmu.txt
+ General Overview
+ ----------------
+diff --git a/Documentation/kvx/kvx-mmu.rst b/Documentation/kvx/kvx-mmu.rst
+index faa6bda2c39959..05b9bc111e02db 100644
+--- a/Documentation/kvx/kvx-mmu.rst
 +++ b/Documentation/kvx/kvx-mmu.rst
-@@ -24,17 +24,23 @@ only one ZONE_NORMAL. This will be updated if DMA cannot access all memory.
+@@ -1,5 +1,6 @@
+-MMU
+-===
++==========================
++kvx Memory Management Unit
++==========================
  
- Currently, the memory mapping is the following for 4KB page:
+ Virtual addresses are on 41 bits for kvx when using 64-bit mode.
+ To differentiate kernel from user space, we use the high order bit
+diff --git a/Documentation/kvx/kvx-smp.rst b/Documentation/kvx/kvx-smp.rst
+index 1b69d77db8cdaf..f170bc48ea5f7f 100644
+--- a/Documentation/kvx/kvx-smp.rst
++++ b/Documentation/kvx/kvx-smp.rst
+@@ -1,5 +1,6 @@
+-SMP
+-===
++===============================================
++Symmetric Multiprocessing Implementation in kvx
++===============================================
  
--+-----------------------+-----------------------+------+-------+--------------+
--| Start                 | End                   | Attr | Size  | Name         |
--+-----------------------+-----------------------+------+-------+--------------+
--| 0000 0000 0000 0000   | 0000 003F FFFF FFFF   | ---  | 256GB | User         |
--| 0000 0040 0000 0000   | 0000 007F FFFF FFFF   | ---  | 256GB |   MMAP       |
--| 0000 0080 0000 0000   | FFFF FF7F FFFF FFFF   | ---  | ---   | Gap          |
--| FFFF FF80 0000 0000   | FFFF FFFF FFFF FFFF   | ---  | 512GB | Kernel       |
--|   FFFF FF80 0000 0000 |   FFFF FF8F FFFF FFFF | RWX  | 64GB  |   Direct Map |
--|   FFFF FF90 0000 0000 |   FFFF FF90 3FFF FFFF | RWX  | 1GB   |   Vmalloc    |
--|   FFFF FF90 4000 0000 |   FFFF FFFF FFFF FFFF | RW   | 447GB |   Free area  |
--+-----------------------+-----------------------+------+-------+--------------+
-++-----------------------+-----------------------+---------+----------+--------------+
-+| Start                 | End                   | Attr    | Size     | Name         |
-++=======================+=======================+=========+==========+==============+
-+| 0000 0000 0000 0000   | 0000 003F FFFF FFFF   | \-\-\-  | 256GB    | User         |
-++-----------------------+-----------------------+---------+----------+--------------+
-+| 0000 0040 0000 0000   | 0000 007F FFFF FFFF   | \-\-\-  | 256GB    |   MMAP       |
-++-----------------------+-----------------------+---------+----------+--------------+
-+| 0000 0080 0000 0000   | FFFF FF7F FFFF FFFF   | \-\-\-  | \-\-\-   | Gap          |
-++-----------------------+-----------------------+---------+----------+--------------+
-+| FFFF FF80 0000 0000   | FFFF FFFF FFFF FFFF   | \-\-\-  | 512GB    | Kernel       |
-++-----------------------+-----------------------+---------+----------+--------------+
-+|   FFFF FF80 0000 0000 |   FFFF FF8F FFFF FFFF | RWX     | 64GB     |   Direct Map |
-++-----------------------+-----------------------+---------+----------+--------------+
-+|   FFFF FF90 0000 0000 |   FFFF FF90 3FFF FFFF | RWX     | 1GB      |   Vmalloc    |
-++-----------------------+-----------------------+---------+----------+--------------+
-+|   FFFF FF90 4000 0000 |   FFFF FFFF FFFF FFFF | RW      | 447GB    |   Free area  |
-++-----------------------+-----------------------+---------+----------+--------------+
+ On kvx, 5 clusters are organized as groups of 16 processors + 1
+ secure core (RM) for each cluster. These 17 processors are L1$ coherent
+diff --git a/Documentation/kvx/kvx.rst b/Documentation/kvx/kvx.rst
+index 8982d10f2678df..4aac7fce4e3d01 100644
+--- a/Documentation/kvx/kvx.rst
++++ b/Documentation/kvx/kvx.rst
+@@ -1,3 +1,4 @@
++=======================
+ kvx Core Implementation
+ =======================
  
- Enable the MMU
- ==============
-diff --git a/Documentation/kvx/kvx-smp.txt b/Documentation/kvx/kvx-smp.rst
-similarity index 100%
-rename from Documentation/kvx/kvx-smp.txt
-rename to Documentation/kvx/kvx-smp.rst
-diff --git a/Documentation/kvx/kvx.txt b/Documentation/kvx/kvx.rst
-similarity index 100%
-rename from Documentation/kvx/kvx.txt
-rename to Documentation/kvx/kvx.rst
 -- 
 An old man doll... just what I always wanted! - Clara
 
