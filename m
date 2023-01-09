@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B100AC67871
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 17:01:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 376ACC61DB3
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 17:01:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237348AbjAIRAg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 12:00:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53956 "EHLO
+        id S234723AbjAIRBG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 12:01:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237443AbjAIRAH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 12:00:07 -0500
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11C08614F;
-        Mon,  9 Jan 2023 09:00:02 -0800 (PST)
-Received: by mail-ej1-x636.google.com with SMTP id u9so21810305ejo.0;
-        Mon, 09 Jan 2023 09:00:02 -0800 (PST)
+        with ESMTP id S237449AbjAIRAs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 12:00:48 -0500
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3717D120BB;
+        Mon,  9 Jan 2023 09:00:43 -0800 (PST)
+Received: by mail-ej1-x62b.google.com with SMTP id fc4so21687215ejc.12;
+        Mon, 09 Jan 2023 09:00:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zMrIM6YssKaEPoFZ9LOt30nqF6xMSq6D33IegihphN4=;
-        b=humh7DuqeGkG1pV+rgdlq+tVOy72kppX3Zied3H3g6yyQcl9KIYxFQZHMGfLK3kKgM
-         g5E6S1btNYzDUua7pQV+5uOEkYJXGDLnmZigGP9r0igg4zWH2U4Mi6qpPu/OMHj9xHyr
-         hzRIuLukQIGIGlmX2fNsAGncmIig9OzpoWQDUHUPBkYfbRfcxTSr4k9Njd7e38PQVHuT
-         B8CX4l6waL5KGKmwRk9qhwvUQ/UQR5nNVHbygzTNU9tyOHtjWuIfpM9V5vTpv3EM+Doh
-         I0OkZuZietMH+gD4lMm+S5gZN3/TaBkQp55pqBqO/ldCNyRVcI6JrDbFh9cxLjujj55j
-         qWPw==
+        bh=HR26W88exKhx8bFSGC/ZPulsbrTm+6JRW0kWpWFduEw=;
+        b=WseLWr8OvbFhJJv9Gdd1ezUp9QyMnXk2IYYS5+S0fiv72EouLxLHxRSn1cHAukmUeH
+         mnAm1eW/xmEWMZs3Tw5m3s60msrugm/tk4X7UKD99lJVBkstL/dOg5QRzut1d21CRQsQ
+         z7k3LhwpMU9qybds+preYiFSl1GOki09uZVgbEvhgYJJXn0HZBGQxROxJ7M4DiqApsJQ
+         hE0A2v0OJmFOrYTityY7SA7uzAi9jjM+U9xnJinRK1528gdeyXAIeUwYlTaEJ6u9MoQG
+         oNSwHZUSYJsH2QO930GzTSN/Di3zmz0FjD98en/W6QZ0RsrFi/3TQy+Z5d44AJzdZi4n
+         M4eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zMrIM6YssKaEPoFZ9LOt30nqF6xMSq6D33IegihphN4=;
-        b=vTegS4qk1OVdiRvZ4THwtkAFTVWPfTsl9pUaen7vGFD9TSoYQmBJ9zCc0CC3NYHI36
-         qV3biIcyl1M2ALcpOnMAY9UmbnOieBGzHf+oVw/ifMzrVvNOY1V+Cr/MO+XK74lwa7xl
-         hOhZu29hIOHFNTqcddOMxWaADD7qGA4yr/XGnmxoSC40o/aobqQahy3vc1AMh1BYND87
-         /OJ+4OeAnaPE8Fg5lcOCgqBBOQTl9QhbcGCNE7uxxuyqsn1oToOX0B3vYzfLlfIooI3j
-         oxMgx0w9DXELUa8r+e2Yux7MlvLlKpjOpKfmxWRIoBRvY+hw/HIY2FE9+p3fH31DonzE
-         G4gQ==
-X-Gm-Message-State: AFqh2krGz9ugukokd/8X36SdJJ4B3lx/k1iM6YdDtwXpDYW9lL2OGg4w
-        T5LFGsYX+Nk4+8UQWoqb7Sk=
-X-Google-Smtp-Source: AMrXdXuq/k2ykV8A+BXEQzvd6ELBCaWm0mbLJe/6i9DT3kSy11BszAwu9t2O8AlBZTiTrka486jBgg==
-X-Received: by 2002:a17:907:d50f:b0:7c0:cf7e:b515 with SMTP id wb15-20020a170907d50f00b007c0cf7eb515mr59018281ejc.6.1673283601485;
-        Mon, 09 Jan 2023 09:00:01 -0800 (PST)
+        bh=HR26W88exKhx8bFSGC/ZPulsbrTm+6JRW0kWpWFduEw=;
+        b=zdrkMMxk8aRkO06i7y8lfgIL6P183rBYo+RFGF4svKyiqts8xaQERkUv8vjcy/v0h+
+         n/cQtc56MMZeHEywI3xK+7WDDNqxHDIicTaa5CuxgnnZ4xyYIzqp0+Tx2tEsrfVHRtd7
+         glZ/i/r4hIRvpvt57d7K0VHdpLj/lV/89zxN9pgLalaeYeELGgp2YG4NER0Itoafe1Sb
+         Z8Hwa/3xi8pgRUfGlB3Qa5IVkAj44HtylHpmAQqL+/YI5I80jw6TEvH93IxciSgS7JPU
+         eCRG913gqqGi+dvnXnT+ltGpxQ3Nwfpmha8z639Ogk47pESycLCxdhFPoMTDpXfz8EEX
+         y5HQ==
+X-Gm-Message-State: AFqh2krmXEtwv8SDvMIoE7jYKyyt8lZWFmzTIsWCvCfJ8CVYU5XW1+7y
+        x/guidquVKUwWkD/AWPJ61s=
+X-Google-Smtp-Source: AMrXdXthRv06UM2emB6vRAG+gngtmX7Qbg2sza5v4lJJGBmSRkLcccFjLj+JnPmWz8xA22GK9LQw+A==
+X-Received: by 2002:a17:907:6f18:b0:837:3ed3:9c2b with SMTP id sy24-20020a1709076f1800b008373ed39c2bmr62403014ejc.5.1673283641695;
+        Mon, 09 Jan 2023 09:00:41 -0800 (PST)
 Received: from gvm01 ([91.199.164.40])
-        by smtp.gmail.com with ESMTPSA id gc20-20020a1709072b1400b007c09da0d773sm3978213ejc.100.2023.01.09.08.59.59
+        by smtp.gmail.com with ESMTPSA id w22-20020a1709061f1600b0081bfc79beaesm3942380ejj.75.2023.01.09.09.00.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 09:00:01 -0800 (PST)
-Date:   Mon, 9 Jan 2023 17:59:58 +0100
+        Mon, 09 Jan 2023 09:00:41 -0800 (PST)
+Date:   Mon, 9 Jan 2023 18:00:38 +0100
 From:   Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
 To:     Andrew Lunn <andrew@lunn.ch>,
         Heiner Kallweit <hkallweit1@gmail.com>,
@@ -63,9 +63,9 @@ Cc:     linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
         sbhatta@marvell.com, linux-doc@vger.kernel.org,
         wangjie125@huawei.com, corbet@lwn.net, lkp@intel.com,
         gal@nvidia.com, gustavoars@kernel.org, bagasdotme@gmail.com
-Subject: [PATCH v4 net-next 2/5] drivers/net/phy: add the link modes for the
- 10BASE-T1S Ethernet PHY
-Message-ID: <5fb6ea1640198db2490b430f2fd297d9fb8aff7f.1673282912.git.piergiorgio.beruto@gmail.com>
+Subject: [PATCH v4 net-next 5/5] drivers/net/phy: add driver for the onsemi
+ NCN26000 10BASE-T1S PHY
+Message-ID: <d653c0d92675aba91e840ae339e674887e0aca41.1673282912.git.piergiorgio.beruto@gmail.com>
 References: <cover.1673282912.git.piergiorgio.beruto@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -75,199 +75,246 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds the link modes for the IEEE 802.3cg Clause 147 10BASE-T1S
-Ethernet PHY. According to the specifications, the 10BASE-T1S supports
-Point-To-Point Full-Duplex, Point-To-Point Half-Duplex and/or
-Point-To-Multipoint (AKA Multi-Drop) Half-Duplex operations.
+This patch adds support for the onsemi NCN26000 10BASE-T1S industrial
+Ethernet PHY. The driver supports Point-to-Multipoint operation without
+auto-negotiation and with link control handling. The PHY also features
+PLCA for improving performance in P2MP mode.
 
 Signed-off-by: Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
 Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 ---
- drivers/net/phy/phy-core.c   |  5 ++++-
- drivers/net/phy/phy_device.c | 14 ++++++++++++++
- drivers/net/phy/phylink.c    |  6 +++++-
- include/linux/phy.h          | 14 ++++++++++++++
- include/uapi/linux/ethtool.h |  3 +++
- net/ethtool/common.c         |  8 ++++++++
- 6 files changed, 48 insertions(+), 2 deletions(-)
+ MAINTAINERS                |   7 ++
+ drivers/net/phy/Kconfig    |   7 ++
+ drivers/net/phy/Makefile   |   1 +
+ drivers/net/phy/ncn26000.c | 171 +++++++++++++++++++++++++++++++++++++
+ 4 files changed, 186 insertions(+)
+ create mode 100644 drivers/net/phy/ncn26000.c
 
-diff --git a/drivers/net/phy/phy-core.c b/drivers/net/phy/phy-core.c
-index 5d08c627a516..a64186dc53f8 100644
---- a/drivers/net/phy/phy-core.c
-+++ b/drivers/net/phy/phy-core.c
-@@ -13,7 +13,7 @@
-  */
- const char *phy_speed_to_str(int speed)
- {
--	BUILD_BUG_ON_MSG(__ETHTOOL_LINK_MODE_MASK_NBITS != 99,
-+	BUILD_BUG_ON_MSG(__ETHTOOL_LINK_MODE_MASK_NBITS != 102,
- 		"Enum ethtool_link_mode_bit_indices and phylib are out of sync. "
- 		"If a speed or mode has been added please update phy_speed_to_str "
- 		"and the PHY settings array.\n");
-@@ -260,6 +260,9 @@ static const struct phy_setting settings[] = {
- 	PHY_SETTING(     10, FULL,     10baseT_Full		),
- 	PHY_SETTING(     10, HALF,     10baseT_Half		),
- 	PHY_SETTING(     10, FULL,     10baseT1L_Full		),
-+	PHY_SETTING(     10, FULL,     10baseT1S_Full		),
-+	PHY_SETTING(     10, HALF,     10baseT1S_Half		),
-+	PHY_SETTING(     10, HALF,     10baseT1S_P2MP_Half	),
- };
- #undef PHY_SETTING
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4356382ad57c..c1dadb34009d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -15581,6 +15581,13 @@ L:	linux-mips@vger.kernel.org
+ S:	Maintained
+ F:	arch/mips/boot/dts/ralink/omega2p.dts
  
-diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-index 716870a4499c..8e48b3cec5e7 100644
---- a/drivers/net/phy/phy_device.c
-+++ b/drivers/net/phy/phy_device.c
-@@ -45,6 +45,9 @@ EXPORT_SYMBOL_GPL(phy_basic_features);
- __ETHTOOL_DECLARE_LINK_MODE_MASK(phy_basic_t1_features) __ro_after_init;
- EXPORT_SYMBOL_GPL(phy_basic_t1_features);
- 
-+__ETHTOOL_DECLARE_LINK_MODE_MASK(phy_basic_t1s_p2mp_features) __ro_after_init;
-+EXPORT_SYMBOL_GPL(phy_basic_t1s_p2mp_features);
++ONSEMI ETHERNET PHY DRIVERS
++M:	Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
++L:	netdev@vger.kernel.org
++S:	Supported
++W:	http://www.onsemi.com
++F:	drivers/net/phy/ncn*
 +
- __ETHTOOL_DECLARE_LINK_MODE_MASK(phy_gbit_features) __ro_after_init;
- EXPORT_SYMBOL_GPL(phy_gbit_features);
+ OP-TEE DRIVER
+ M:	Jens Wiklander <jens.wiklander@linaro.org>
+ L:	op-tee@lists.trustedfirmware.org
+diff --git a/drivers/net/phy/Kconfig b/drivers/net/phy/Kconfig
+index 1327290decab..f5df2edc94a5 100644
+--- a/drivers/net/phy/Kconfig
++++ b/drivers/net/phy/Kconfig
+@@ -277,6 +277,13 @@ config NXP_TJA11XX_PHY
+ 	help
+ 	  Currently supports the NXP TJA1100 and TJA1101 PHY.
  
-@@ -98,6 +101,12 @@ const int phy_basic_t1_features_array[3] = {
- };
- EXPORT_SYMBOL_GPL(phy_basic_t1_features_array);
- 
-+const int phy_basic_t1s_p2mp_features_array[2] = {
-+	ETHTOOL_LINK_MODE_TP_BIT,
-+	ETHTOOL_LINK_MODE_10baseT1S_P2MP_Half_BIT,
-+};
-+EXPORT_SYMBOL_GPL(phy_basic_t1s_p2mp_features_array);
++config NCN26000_PHY
++	tristate "Onsemi 10BASE-T1S Ethernet PHY"
++	help
++	  Adds support for the onsemi 10BASE-T1S Ethernet PHY.
++	  Currently supports the NCN26000 10BASE-T1S Industrial PHY
++	  with MII interface.
 +
- const int phy_gbit_features_array[2] = {
- 	ETHTOOL_LINK_MODE_1000baseT_Half_BIT,
- 	ETHTOOL_LINK_MODE_1000baseT_Full_BIT,
-@@ -138,6 +147,11 @@ static void features_init(void)
- 			       ARRAY_SIZE(phy_basic_t1_features_array),
- 			       phy_basic_t1_features);
- 
-+	/* 10 half, P2MP, TP */
-+	linkmode_set_bit_array(phy_basic_t1s_p2mp_features_array,
-+			       ARRAY_SIZE(phy_basic_t1s_p2mp_features_array),
-+			       phy_basic_t1s_p2mp_features);
+ config AT803X_PHY
+ 	tristate "Qualcomm Atheros AR803X PHYs and QCA833x PHYs"
+ 	depends on REGULATOR
+diff --git a/drivers/net/phy/Makefile b/drivers/net/phy/Makefile
+index f7138d3c896b..b5138066ba04 100644
+--- a/drivers/net/phy/Makefile
++++ b/drivers/net/phy/Makefile
+@@ -77,6 +77,7 @@ obj-$(CONFIG_MICROCHIP_T1_PHY)	+= microchip_t1.o
+ obj-$(CONFIG_MICROSEMI_PHY)	+= mscc/
+ obj-$(CONFIG_MOTORCOMM_PHY)	+= motorcomm.o
+ obj-$(CONFIG_NATIONAL_PHY)	+= national.o
++obj-$(CONFIG_NCN26000_PHY)	+= ncn26000.o
+ obj-$(CONFIG_NXP_C45_TJA11XX_PHY)	+= nxp-c45-tja11xx.o
+ obj-$(CONFIG_NXP_TJA11XX_PHY)	+= nxp-tja11xx.o
+ obj-$(CONFIG_QSEMI_PHY)		+= qsemi.o
+diff --git a/drivers/net/phy/ncn26000.c b/drivers/net/phy/ncn26000.c
+new file mode 100644
+index 000000000000..5680584f659e
+--- /dev/null
++++ b/drivers/net/phy/ncn26000.c
+@@ -0,0 +1,171 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause)
++/*
++ *  Driver for the onsemi 10BASE-T1S NCN26000 PHYs family.
++ *
++ * Copyright 2022 onsemi
++ */
++#include <linux/kernel.h>
++#include <linux/bitfield.h>
++#include <linux/errno.h>
++#include <linux/init.h>
++#include <linux/module.h>
++#include <linux/mii.h>
++#include <linux/phy.h>
 +
- 	/* 10/100 half/full + 1000 half/full */
- 	linkmode_set_bit_array(phy_basic_ports_array,
- 			       ARRAY_SIZE(phy_basic_ports_array),
-diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
-index 09cc65c0da93..319790221d7f 100644
---- a/drivers/net/phy/phylink.c
-+++ b/drivers/net/phy/phylink.c
-@@ -241,12 +241,16 @@ void phylink_caps_to_linkmodes(unsigned long *linkmodes, unsigned long caps)
- 	if (caps & MAC_ASYM_PAUSE)
- 		__set_bit(ETHTOOL_LINK_MODE_Asym_Pause_BIT, linkmodes);
- 
--	if (caps & MAC_10HD)
-+	if (caps & MAC_10HD) {
- 		__set_bit(ETHTOOL_LINK_MODE_10baseT_Half_BIT, linkmodes);
-+		__set_bit(ETHTOOL_LINK_MODE_10baseT1S_Half_BIT, linkmodes);
-+		__set_bit(ETHTOOL_LINK_MODE_10baseT1S_P2MP_Half_BIT, linkmodes);
++#include "mdio-open-alliance.h"
++
++#define PHY_ID_NCN26000			0x180FF5A1
++
++#define NCN26000_REG_IRQ_CTL            16
++#define NCN26000_REG_IRQ_STATUS         17
++
++// the NCN26000 maps link_ctrl to BMCR_ANENABLE
++#define NCN26000_BCMR_LINK_CTRL_BIT	BMCR_ANENABLE
++
++// the NCN26000 maps link_status to BMSR_ANEGCOMPLETE
++#define NCN26000_BMSR_LINK_STATUS_BIT	BMSR_ANEGCOMPLETE
++
++#define NCN26000_IRQ_LINKST_BIT		BIT(0)
++#define NCN26000_IRQ_PLCAST_BIT		BIT(1)
++#define NCN26000_IRQ_LJABBER_BIT	BIT(2)
++#define NCN26000_IRQ_RJABBER_BIT	BIT(3)
++#define NCN26000_IRQ_PLCAREC_BIT	BIT(4)
++#define NCN26000_IRQ_PHYSCOL_BIT	BIT(5)
++#define NCN26000_IRQ_RESET_BIT		BIT(15)
++
++#define TO_TMR_DEFAULT			32
++
++static int ncn26000_config_init(struct phy_device *phydev)
++{
++	/* HW bug workaround: the default value of the PLCA TO_TIMER should be
++	 * 32, where the current version of NCN26000 reports 24. This will be
++	 * fixed in future PHY versions. For the time being, we force the
++	 * correct default here.
++	 */
++	return phy_write_mmd(phydev, MDIO_MMD_VEND2, MDIO_OATC14_PLCA_TOTMR,
++			     TO_TMR_DEFAULT);
++}
++
++static int ncn26000_config_aneg(struct phy_device *phydev)
++{
++	/* Note: the NCN26000 supports only P2MP link mode. Therefore, AN is not
++	 * supported. However, this function is invoked by phylib to enable the
++	 * PHY, regardless of the AN support.
++	 */
++	phydev->mdix_ctrl = ETH_TP_MDI_AUTO;
++	phydev->mdix = ETH_TP_MDI;
++
++	// bring up the link
++	return phy_write(phydev, MII_BMCR, NCN26000_BCMR_LINK_CTRL_BIT);
++}
++
++static int ncn26000_read_status(struct phy_device *phydev)
++{
++	/* The NCN26000 reports NCN26000_LINK_STATUS_BIT if the link status of
++	 * the PHY is up. It further reports the logical AND of the link status
++	 * and the PLCA status in the BMSR_LSTATUS bit.
++	 */
++	int ret;
++
++	/* The link state is latched low so that momentary link
++	 * drops can be detected. Do not double-read the status
++	 * in polling mode to detect such short link drops except
++	 * the link was already down.
++	 */
++	if (!phy_polling_mode(phydev) || !phydev->link) {
++		ret = phy_read(phydev, MII_BMSR);
++		if (ret < 0)
++			return ret;
++		else if (ret & NCN26000_BMSR_LINK_STATUS_BIT)
++			goto upd_link;
 +	}
- 
- 	if (caps & MAC_10FD) {
- 		__set_bit(ETHTOOL_LINK_MODE_10baseT_Full_BIT, linkmodes);
- 		__set_bit(ETHTOOL_LINK_MODE_10baseT1L_Full_BIT, linkmodes);
-+		__set_bit(ETHTOOL_LINK_MODE_10baseT1S_Full_BIT, linkmodes);
- 	}
- 
- 	if (caps & MAC_100HD) {
-diff --git a/include/linux/phy.h b/include/linux/phy.h
-index c2c04b989cc2..1e87d3f05209 100644
---- a/include/linux/phy.h
-+++ b/include/linux/phy.h
-@@ -45,6 +45,7 @@
- 
- extern __ETHTOOL_DECLARE_LINK_MODE_MASK(phy_basic_features) __ro_after_init;
- extern __ETHTOOL_DECLARE_LINK_MODE_MASK(phy_basic_t1_features) __ro_after_init;
-+extern __ETHTOOL_DECLARE_LINK_MODE_MASK(phy_basic_t1s_p2mp_features) __ro_after_init;
- extern __ETHTOOL_DECLARE_LINK_MODE_MASK(phy_gbit_features) __ro_after_init;
- extern __ETHTOOL_DECLARE_LINK_MODE_MASK(phy_gbit_fibre_features) __ro_after_init;
- extern __ETHTOOL_DECLARE_LINK_MODE_MASK(phy_gbit_all_ports_features) __ro_after_init;
-@@ -54,6 +55,7 @@ extern __ETHTOOL_DECLARE_LINK_MODE_MASK(phy_10gbit_full_features) __ro_after_ini
- 
- #define PHY_BASIC_FEATURES ((unsigned long *)&phy_basic_features)
- #define PHY_BASIC_T1_FEATURES ((unsigned long *)&phy_basic_t1_features)
-+#define PHY_BASIC_T1S_P2MP_FEATURES ((unsigned long *)&phy_basic_t1s_p2mp_features)
- #define PHY_GBIT_FEATURES ((unsigned long *)&phy_gbit_features)
- #define PHY_GBIT_FIBRE_FEATURES ((unsigned long *)&phy_gbit_fibre_features)
- #define PHY_GBIT_ALL_PORTS_FEATURES ((unsigned long *)&phy_gbit_all_ports_features)
-@@ -66,6 +68,7 @@ extern const int phy_fibre_port_array[1];
- extern const int phy_all_ports_features_array[7];
- extern const int phy_10_100_features_array[4];
- extern const int phy_basic_t1_features_array[3];
-+extern const int phy_basic_t1s_p2mp_features_array[2];
- extern const int phy_gbit_features_array[2];
- extern const int phy_10gbit_features_array[1];
- 
-@@ -1036,6 +1039,17 @@ struct phy_driver {
- 	int (*get_sqi)(struct phy_device *dev);
- 	/** @get_sqi_max: Get the maximum signal quality indication */
- 	int (*get_sqi_max)(struct phy_device *dev);
 +
-+	/* PLCA RS interface */
-+	/** @get_plca_cfg: Return the current PLCA configuration */
-+	int (*get_plca_cfg)(struct phy_device *dev,
-+			    struct phy_plca_cfg *plca_cfg);
-+	/** @set_plca_cfg: Set the PLCA configuration */
-+	int (*set_plca_cfg)(struct phy_device *dev,
-+			    const struct phy_plca_cfg *plca_cfg);
-+	/** @get_plca_status: Return the current PLCA status info */
-+	int (*get_plca_status)(struct phy_device *dev,
-+			       struct phy_plca_status *plca_st);
- };
- #define to_phy_driver(d) container_of(to_mdio_common_driver(d),		\
- 				      struct phy_driver, mdiodrv)
-diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
-index 58e587ba0450..5f414deacf23 100644
---- a/include/uapi/linux/ethtool.h
-+++ b/include/uapi/linux/ethtool.h
-@@ -1741,6 +1741,9 @@ enum ethtool_link_mode_bit_indices {
- 	ETHTOOL_LINK_MODE_800000baseDR8_2_Full_BIT	 = 96,
- 	ETHTOOL_LINK_MODE_800000baseSR8_Full_BIT	 = 97,
- 	ETHTOOL_LINK_MODE_800000baseVR8_Full_BIT	 = 98,
-+	ETHTOOL_LINK_MODE_10baseT1S_Full_BIT		 = 99,
-+	ETHTOOL_LINK_MODE_10baseT1S_Half_BIT		 = 100,
-+	ETHTOOL_LINK_MODE_10baseT1S_P2MP_Half_BIT	 = 101,
- 
- 	/* must be last entry */
- 	__ETHTOOL_LINK_MODE_MASK_NBITS
-diff --git a/net/ethtool/common.c b/net/ethtool/common.c
-index 6f399afc2ff2..5fb19050991e 100644
---- a/net/ethtool/common.c
-+++ b/net/ethtool/common.c
-@@ -208,6 +208,9 @@ const char link_mode_names[][ETH_GSTRING_LEN] = {
- 	__DEFINE_LINK_MODE_NAME(800000, DR8_2, Full),
- 	__DEFINE_LINK_MODE_NAME(800000, SR8, Full),
- 	__DEFINE_LINK_MODE_NAME(800000, VR8, Full),
-+	__DEFINE_LINK_MODE_NAME(10, T1S, Full),
-+	__DEFINE_LINK_MODE_NAME(10, T1S, Half),
-+	__DEFINE_LINK_MODE_NAME(10, T1S_P2MP, Half),
- };
- static_assert(ARRAY_SIZE(link_mode_names) == __ETHTOOL_LINK_MODE_MASK_NBITS);
- 
-@@ -244,6 +247,8 @@ static_assert(ARRAY_SIZE(link_mode_names) == __ETHTOOL_LINK_MODE_MASK_NBITS);
- #define __LINK_MODE_LANES_X		1
- #define __LINK_MODE_LANES_FX		1
- #define __LINK_MODE_LANES_T1L		1
-+#define __LINK_MODE_LANES_T1S		1
-+#define __LINK_MODE_LANES_T1S_P2MP	1
- #define __LINK_MODE_LANES_VR8		8
- #define __LINK_MODE_LANES_DR8_2		8
- 
-@@ -366,6 +371,9 @@ const struct link_mode_info link_mode_params[] = {
- 	__DEFINE_LINK_MODE_PARAMS(800000, DR8_2, Full),
- 	__DEFINE_LINK_MODE_PARAMS(800000, SR8, Full),
- 	__DEFINE_LINK_MODE_PARAMS(800000, VR8, Full),
-+	__DEFINE_LINK_MODE_PARAMS(10, T1S, Full),
-+	__DEFINE_LINK_MODE_PARAMS(10, T1S, Half),
-+	__DEFINE_LINK_MODE_PARAMS(10, T1S_P2MP, Half),
- };
- static_assert(ARRAY_SIZE(link_mode_params) == __ETHTOOL_LINK_MODE_MASK_NBITS);
- 
++	ret = phy_read(phydev, MII_BMSR);
++	if (ret < 0)
++		return ret;
++
++upd_link:
++	// update link status
++	if (ret & NCN26000_BMSR_LINK_STATUS_BIT) {
++		phydev->link = 1;
++		phydev->pause = 0;
++		phydev->duplex = DUPLEX_HALF;
++		phydev->speed = SPEED_10;
++	} else {
++		phydev->link = 0;
++		phydev->duplex = DUPLEX_UNKNOWN;
++		phydev->speed = SPEED_UNKNOWN;
++	}
++
++	return 0;
++}
++
++static irqreturn_t ncn26000_handle_interrupt(struct phy_device *phydev)
++{
++	int ret;
++
++	// read and aknowledge the IRQ status register
++	ret = phy_read(phydev, NCN26000_REG_IRQ_STATUS);
++
++	// check only link status changes
++	if (ret < 0 || (ret & NCN26000_REG_IRQ_STATUS) == 0)
++		return IRQ_NONE;
++
++	phy_trigger_machine(phydev);
++	return IRQ_HANDLED;
++}
++
++static int ncn26000_config_intr(struct phy_device *phydev)
++{
++	int ret;
++	u16 irqe;
++
++	if (phydev->interrupts == PHY_INTERRUPT_ENABLED) {
++		// acknowledge IRQs
++		ret = phy_read(phydev, NCN26000_REG_IRQ_STATUS);
++		if (ret < 0)
++			return ret;
++
++		// get link status notifications
++		irqe = NCN26000_IRQ_LINKST_BIT;
++	} else {
++		// disable all IRQs
++		irqe = 0;
++	}
++
++	ret = phy_write(phydev, NCN26000_REG_IRQ_CTL, irqe);
++	if (ret != 0)
++		return ret;
++
++	return 0;
++}
++
++static struct phy_driver ncn26000_driver[] = {
++	{
++		PHY_ID_MATCH_MODEL(PHY_ID_NCN26000),
++		.name			= "NCN26000",
++		.features		= PHY_BASIC_T1S_P2MP_FEATURES,
++		.config_init            = ncn26000_config_init,
++		.config_intr            = ncn26000_config_intr,
++		.config_aneg		= ncn26000_config_aneg,
++		.read_status		= ncn26000_read_status,
++		.handle_interrupt       = ncn26000_handle_interrupt,
++		.get_plca_cfg		= genphy_c45_plca_get_cfg,
++		.set_plca_cfg		= genphy_c45_plca_set_cfg,
++		.get_plca_status	= genphy_c45_plca_get_status,
++		.soft_reset             = genphy_soft_reset,
++	},
++};
++
++module_phy_driver(ncn26000_driver);
++
++static struct mdio_device_id __maybe_unused ncn26000_tbl[] = {
++	{ PHY_ID_MATCH_MODEL(PHY_ID_NCN26000) },
++	{ }
++};
++
++MODULE_DEVICE_TABLE(mdio, ncn26000_tbl);
++
++MODULE_AUTHOR("Piergiorgio Beruto");
++MODULE_DESCRIPTION("onsemi 10BASE-T1S PHY driver");
++MODULE_LICENSE("Dual BSD/GPL");
 -- 
 2.37.4
 
