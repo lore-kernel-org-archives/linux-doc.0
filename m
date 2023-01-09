@@ -2,135 +2,154 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD942C54EBD
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 06:55:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C6C8C5479D
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 07:04:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234253AbjAIGzF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 01:55:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54254 "EHLO
+        id S233080AbjAIHEu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 02:04:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233865AbjAIGzB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 01:55:01 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8969E1275B;
-        Sun,  8 Jan 2023 22:54:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673247299; x=1704783299;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=h14Ky+gxZkW2WnGWN9E+VGFINdCzmMuf5XUAHnYvEro=;
-  b=GnU4WhmCVCAIUKxylujt/9qepmSppyZX756eF7tK+zg2kVo784y9E2YT
-   nUSgyMnUll1FW/4MsKJs7rliOI0ys9U1Gh33dTTG+t5nWVomKF/QweWOY
-   cgGMqTFGubnZDd3/l0bVirAKi6aMFBNrS+gws8CKMTc1jqkYR+WZBiu3P
-   g9a1xoEJqy2JiR4MtZU1zBq1oWTW5OlElvTRUUeYadLYWWyYCNs25U6se
-   XEpzi/1WxjNt0YzoBrtMXTj4u3zFglKnacF9kYZTGdGkChEJZQWBOFLsc
-   7LNX7ipBMhBzAO3nLo+7F/JywQmCR2/I2nYoIpbDg9SsdiTPlyUav2jht
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="321509833"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; 
-   d="scan'208";a="321509833"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2023 22:54:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10584"; a="798914008"
-X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; 
-   d="scan'208";a="798914008"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by fmsmga001.fm.intel.com with ESMTP; 08 Jan 2023 22:54:53 -0800
-Date:   Mon, 9 Jan 2023 14:44:37 +0800
-From:   Xu Yilun <yilun.xu@intel.com>
-To:     matthew.gerlach@linux.intel.com
-Cc:     hao.wu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        andriy.shevchenko@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
-        marpagan@redhat.com, bagasdotme@gmail.com
-Subject: Re: [PATCH v9 3/4] fpga: dfl: add basic support for DFHv1
-Message-ID: <Y7u31S8aba1L+VeA@yilunxu-OptiPlex-7050>
-References: <20230104232253.24743-1-matthew.gerlach@linux.intel.com>
- <20230104232253.24743-4-matthew.gerlach@linux.intel.com>
+        with ESMTP id S233735AbjAIHE3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 02:04:29 -0500
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AD881209F;
+        Sun,  8 Jan 2023 23:04:28 -0800 (PST)
+Received: by mail-wr1-f42.google.com with SMTP id d17so7172691wrs.2;
+        Sun, 08 Jan 2023 23:04:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wYsLuw/5810Zy5eTIZ7iJqDyeo47uMIQ6w06dFLUs+Q=;
+        b=sAewqlyPfF/tYbLsIM2FVlgzIG7BjDCLgtQ9ugaEgH8k8gwvTWBRfaj201PWt7yPVN
+         hwuwAtdkTF7yzoPn2QJKGw145ncqj3htgtDy8NZ9GKoknprlncA+wgLbqJP0uJ2OA0TM
+         AWudzCprDqvdOPjR+fMsAXZgF1Oii4RlHuayRmXlsvtFs1JFjBPRTKP+xZppdNOuEjdV
+         QNX4wlOn7L71+9maTMik1nvGyYi5IoUs1yyMn2yiiwOvMUuCBFRkHoPiQUs+QMUIS5rU
+         ZreC0PyS8TKWfb5UqSXGWTX1DRv8aG1m7/aQbTVRoUWFzc0WZ3m8f2GwVK/VmpGt2Wet
+         MJiA==
+X-Gm-Message-State: AFqh2kpj5Noxj8G4JUyVZHARTpp/jngq9tZ/h5M8X4j33DQOCNRUmqls
+        53uuDuWFJVC9PXMBOmOszmw=
+X-Google-Smtp-Source: AMrXdXsEyHJGnZLB96JH3rcVegZBjOFlVPnyGgXG2g9g13hBlhCt3SpTnjtaAmK/XwGxmzdpSoCmAQ==
+X-Received: by 2002:a05:6000:38d:b0:2b5:90e:cfa5 with SMTP id u13-20020a056000038d00b002b5090ecfa5mr10255103wrf.29.1673247866783;
+        Sun, 08 Jan 2023 23:04:26 -0800 (PST)
+Received: from [192.168.1.49] (185-219-167-24-static.vivo.cz. [185.219.167.24])
+        by smtp.gmail.com with ESMTPSA id f3-20020adfdb43000000b00236883f2f5csm7846356wrj.94.2023.01.08.23.04.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Jan 2023 23:04:26 -0800 (PST)
+Message-ID: <07786498-2209-3af0-8d68-c34427049947@kernel.org>
+Date:   Mon, 9 Jan 2023 08:04:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230104232253.24743-4-matthew.gerlach@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH net-next] Remove DECnet support from kernel
+Content-Language: en-US
+To:     Stephen Hemminger <stephen@networkplumber.org>,
+        netdev@vger.kernel.org
+Cc:     David Ahern <dsahern@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Florian Westphal <fw@strlen.de>, Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Akhmat Karakotov <hmukos@yandex-team.ru>,
+        Antoine Tenart <atenart@kernel.org>,
+        Xin Long <lucien.xin@gmail.com>,
+        Juergen Gross <jgross@suse.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Nathan Fontenot <nathan.fontenot@amd.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Suma Hegde <suma.hegde@amd.com>, Chen Yu <yu.c.chen@intel.com>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Xie Yongji <xieyongji@bytedance.com>,
+        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Alexandre Ghiti <alexandre.ghiti@canonical.com>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Menglong Dong <imagedong@tencent.com>,
+        Petr Machata <petrm@nvidia.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Yuwei Wang <wangyuweihx@gmail.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Kuniyuki Iwashima <kuniyu@amazon.com>,
+        Kees Cook <keescook@chromium.org>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Wang Qing <wangqing@vivo.com>, Yu Zhe <yuzhe@nfschina.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:MIPS" <linux-mips@vger.kernel.org>,
+        "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)" 
+        <linuxppc-dev@lists.ozlabs.org>,
+        "open list:NETFILTER" <netfilter-devel@vger.kernel.org>,
+        "open list:NETFILTER" <coreteam@netfilter.org>
+References: <20220818004357.375695-1-stephen@networkplumber.org>
+From:   Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <20220818004357.375695-1-stephen@networkplumber.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023-01-04 at 15:22:52 -0800, matthew.gerlach@linux.intel.com wrote:
-> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+On 18. 08. 22, 2:43, Stephen Hemminger wrote:
+> DECnet is an obsolete network protocol that receives more attention
+> from kernel janitors than users. It belongs in computer protocol
+> history museum not in Linux kernel.
 > 
-> Version 1 of the Device Feature Header (DFH) definition adds
-> functionality to the Device Feature List (DFL) bus.
+> It has been "Orphaned" in kernel since 2010. The iproute2 support
+> for DECnet was dropped in 5.0 release. The documentation link on
+> Sourceforge says it is abandoned there as well.
 > 
-> A DFHv1 header may have one or more parameter blocks that
-> further describes the HW to SW. Add support to the DFL bus
-> to parse the MSI-X parameter.
+> Leave the UAPI alone to keep userspace programs compiling.
+> This means that there is still an empty neighbour table
+> for AF_DECNET.
 > 
-> The location of a feature's register set is explicitly
-> described in DFHv1 and can be relative to the base of the DFHv1
-> or an absolute address. Parse the location and pass the information
-> to DFL driver.
+> The table of /proc/sys/net entries was updated to match
+> current directories and reformatted to be alphabetical.
 > 
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
->
+> Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
+> Acked-by: David Ahern <dsahern@kernel.org>
 
-[...]
-  
-> +static u64 *find_param(u64 *params, resource_size_t max, int param_id)
-> +{
-> +	u64 *end = params + max / sizeof(u64);
-> +	u64 v, next;
-> +
-> +	while (params < end) {
-> +		v = *params;
-> +		if (param_id == FIELD_GET(DFHv1_PARAM_HDR_ID, v))
-> +			return params;
-> +
-> +		if (FIELD_GET(DFHv1_PARAM_HDR_NEXT_EOP, v))
-> +			break;
-> +
-> +		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
-> +		params += next;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +/**
-> + * dfh_find_param() - find parameter block for the given parameter id
-> + * @dfl_dev: dfl device
-> + * @param_id: id of dfl parameter
-> + * @pcount: destination to store size of parameter data in u64 bit words
+...
+>   include/uapi/linux/dn.h                       |  149 -
+>   include/uapi/linux/netfilter_decnet.h         |   72 -
 
-As I mentioned before, could the size of the parameter data just be number
-of bytes? This is the most common way for a data block.
+Hi,
 
-Thanks,
-Yilun
+this breaks userspace. Some projects include linux/dn.h:
 
-> + *
-> + * Return: pointer to start of parameter data, PTR_ERR otherwise.
-> + */
-> +void *dfh_find_param(struct dfl_device *dfl_dev, int param_id, size_t *pcount)
-> +{
-> +	u64 *phdr = find_param(dfl_dev->params, dfl_dev->param_size, param_id);
-> +
-> +	if (!phdr)
-> +		return ERR_PTR(-ENOENT);
-> +
-> +	if (pcount)
-> +		*pcount = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, *phdr) - 1;
-> +
-> +	return phdr + 1;
-> +}
-> +EXPORT_SYMBOL_GPL(dfh_find_param);
+   https://codesearch.debian.net/search?q=include.*linux%2Fdn.h&literal=0
+
+
+I found Trinity fails to build:
+  net/proto-decnet.c:5:10: fatal error: linux/dn.h: No such file or 
+directory
+      5 | #include <linux/dn.h>
+
+
+
+Should we provide the above as empty files?
+
+thanks,
+-- 
+js
+suse labs
+
