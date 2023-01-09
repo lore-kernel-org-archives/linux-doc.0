@@ -2,254 +2,228 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59D65C678D6
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 13:50:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FF31C63797
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 14:02:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236382AbjAINuC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 08:50:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60490 "EHLO
+        id S234085AbjAIOCT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 09:02:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237265AbjAINto (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 08:49:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73C80271BC
-        for <linux-doc@vger.kernel.org>; Mon,  9 Jan 2023 05:48:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1673272137;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=NqUCAZbaNLI+BrA/h8UtdwPusw7D5gv6g1VhKXRC0SU=;
-        b=T465wyB0a/P9xapr7+xqfRrWYJoTlVpP8iE8XNgzXmx/O4Y/u7tI0CAWiQVLy1FwbrQmXQ
-        dw4aojFF7MFRrQUtfLOCYVJ6p+UFWRiREt47JBQgG6BfayOnF8jJAPIrFPXXt+d2P8X/C+
-        +OFS+8pcjrggp3o79PNr/Pq+JI/JyGk=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-206-MnkurT9wMoeZNl-Uq-X64g-1; Mon, 09 Jan 2023 08:48:56 -0500
-X-MC-Unique: MnkurT9wMoeZNl-Uq-X64g-1
-Received: by mail-pl1-f198.google.com with SMTP id n1-20020a170902e54100b00192cc6850ffso6313740plf.18
-        for <linux-doc@vger.kernel.org>; Mon, 09 Jan 2023 05:48:56 -0800 (PST)
+        with ESMTP id S234274AbjAIOBz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 09:01:55 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 370D437266;
+        Mon,  9 Jan 2023 06:00:43 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id bk16so8233718wrb.11;
+        Mon, 09 Jan 2023 06:00:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6spJSBkMNBIx4KLHawdyLw2aO1QaVfFr4NtHTqtzCbE=;
+        b=nkbYfZjyGvvRuFvxDCyjPlGYpkB6tABKLC5RkpfMPARFPnxqaKS1Eut4diploFKW0H
+         4/0NMSkAWlKiyYRO7IJm2irGCh6pk+rZRDzwr6sRII7mO/TFDeOmLVzrwvAqdgFWct/u
+         bBq9vKpFDVZSWI5HyMoPJQldKMMX21zJp44Oz1dyQE5zqaUVoZIIqrqBMBKrHwGFKYqA
+         /KtCGJEvUSxhbqT9jXgwqegtYf28MX6zvdA5pAbKfs4PP8keCdiVSUepCnaSPtnxx2o3
+         oceDw9YdMxOn0ytwGHLFIRgetKeoAT3oi/ouQ0Hf5D5DPUAG1t2JayHQe/+Lj0626zLe
+         ru3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-language:content-transfer-encoding:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NqUCAZbaNLI+BrA/h8UtdwPusw7D5gv6g1VhKXRC0SU=;
-        b=pPQOCMs+dbkWCgxmP3qZg7CbVWe9jLqPVfLC7eNY6w4JaoAvC4X3fBGHK/yJ2RwUtP
-         +dv5FLVnWW9mqnaqV1QTE33emg3J1GASmZE+ZLU0yYrSctQVfPHYHdGesra7yK8/vOb+
-         kJNJH+WLvCSh/9/D7+RwCv975zwc8D09DCdjM3lrDu8dZ6hwNU0MOT8KAtaZW8i5PmOy
-         4DwXTDplQLpxqCwAWIi/Vl0lwKPa7qLCTTmTbHyZhl3Jk4yQen/n6gN3TKcpZPFRFUE0
-         eLi2pSUh4JxCVyI7V6wT2U9mPnavLuyvwplUAsXUvy7J7vp/Xs7NXa9k430bj3aA5lv6
-         4Ayg==
-X-Gm-Message-State: AFqh2kpdCLYtc1/v/EM6623kKnE7qp/aAeyz89M6m3AUSl4x7HiPiDfP
-        y1w2fxiqN3MXUhsGXn3wxvgF3eY6HN+gw5C+lfhdck5TYCPCEKe7javURwBH44Ru8EOJJ5pH5l6
-        T9xx2GmIrL29Q2T6BrssW
-X-Received: by 2002:a17:902:7288:b0:193:24bf:344d with SMTP id d8-20020a170902728800b0019324bf344dmr6294935pll.57.1673272134524;
-        Mon, 09 Jan 2023 05:48:54 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvgQ1KW/WDU2jxQ3Px8VVv1KWvd4mBA2JdiH9huI3h8STXP3IpST+se5m3+Pp8YlNIr0RJVnw==
-X-Received: by 2002:a17:902:7288:b0:193:24bf:344d with SMTP id d8-20020a170902728800b0019324bf344dmr6294909pll.57.1673272134200;
-        Mon, 09 Jan 2023 05:48:54 -0800 (PST)
-Received: from localhost.localdomain (024-205-208-113.res.spectrum.com. [24.205.208.113])
-        by smtp.gmail.com with ESMTPSA id k7-20020a170902ce0700b001885d15e3c1sm6183354plg.26.2023.01.09.05.48.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Jan 2023 05:48:53 -0800 (PST)
-Subject: Re: [PATCH v9 1/4] Documentation: fpga: dfl: Add documentation for
- DFHv1
-To:     matthew.gerlach@linux.intel.com, hao.wu@intel.com,
-        yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, mdf@kernel.org,
-        linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tianfei.zhang@intel.com,
-        corbet@lwn.net, gregkh@linuxfoundation.org,
-        linux-serial@vger.kernel.org, jirislaby@kernel.org,
-        geert+renesas@glider.be, andriy.shevchenko@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
-        marpagan@redhat.com, bagasdotme@gmail.com
-References: <20230104232253.24743-1-matthew.gerlach@linux.intel.com>
- <20230104232253.24743-2-matthew.gerlach@linux.intel.com>
-From:   Tom Rix <trix@redhat.com>
-Message-ID: <4e7f84ff-8bab-019d-3858-4c545834a354@redhat.com>
-Date:   Mon, 9 Jan 2023 05:48:50 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6spJSBkMNBIx4KLHawdyLw2aO1QaVfFr4NtHTqtzCbE=;
+        b=0xVWP+rD1YVdp5c5nQHsHCT5MMaaF9T9KJg8zAfZrqm8B0hEkZ7rFGorTjvl1iYI2L
+         HeZunvK91JQFHg0Sb3AehIKR0gT2hws4Mhqx8o5x5BzujGK5NMkwqaUa9Clw+ygv5PvJ
+         Ux53raMlJJn1dSPjqP6f6Qst0TtNj1oRk928CBjncxvLMIrNx8M5Jh9g7pzdxPm8+sL6
+         ZCtSvbSN1iKZf0qUqg+3jfJULO0EVfxYuFTJsmEXXYHeCG5LZ7vfDj9chuG1rmsrhKt6
+         ofVdZMcrf5gVz0ZCS+C5DVexb+wGJXMy5yMoJiVwqSfmd++Z4VDsfw2c3Z2inpiezsa2
+         v1Zg==
+X-Gm-Message-State: AFqh2kpn+0LeYP4gisTJ6mqtYwJo/wrEqQL+ioNpKiy61qrAxXESPGxe
+        2B2ROfLsZktHP8+u+14HN4Y=
+X-Google-Smtp-Source: AMrXdXvGu2ASXCfdXWvXzwAEeGjzYTgMzEXlB4bWjfNqar20I5zAnR0hWG1MoWde0sg/fCYFFzh19w==
+X-Received: by 2002:adf:fd0b:0:b0:29b:2ce6:9f2e with SMTP id e11-20020adffd0b000000b0029b2ce69f2emr16530171wrr.27.1673272841486;
+        Mon, 09 Jan 2023 06:00:41 -0800 (PST)
+Received: from localhost (host81-157-153-247.range81-157.btcentralplus.com. [81.157.153.247])
+        by smtp.gmail.com with ESMTPSA id y7-20020a5d4707000000b00291f1a5ced6sm8526567wrq.53.2023.01.09.06.00.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jan 2023 06:00:40 -0800 (PST)
+Date:   Mon, 9 Jan 2023 14:00:39 +0000
+From:   Lorenzo Stoakes <lstoakes@gmail.com>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Hildenbrand <david@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 2/2] docs/mm: Physical Memory: add structure,
+ introduction and nodes description
+Message-ID: <Y7weBwWoz9VBNj73@lucifer>
+References: <20230101094523.1522109-1-rppt@kernel.org>
+ <20230101094523.1522109-3-rppt@kernel.org>
+ <Y7ihjpFaYy2QuORd@lucifer>
+ <Y7wXm/3POivfwSHE@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20230104232253.24743-2-matthew.gerlach@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y7wXm/3POivfwSHE@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Jan 09, 2023 at 03:33:15PM +0200, Mike Rapoport wrote:
+> > Absolutely wonderfully written.
+>
+> Thanks to Mel :)
+>
 
-On 1/4/23 3:22 PM, matthew.gerlach@linux.intel.com wrote:
-> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->
-> Add documentation describing the extensions provided by Version
-> 1 of the Device Feature Header (DFHv1).
->
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+I should have known :)
 
-Thanks for the changes.
+> > > +Each node may be divided up into a number of blocks called zones which
+> > > +represent ranges within memory. These ranges are usually determined by
+> > > +architectural constraints for accessing the physical memory. A zone is
+> > > +described by a ``struct zone_struct``, typedeffed to ``zone_t`` and each zone
+> > > +has one of the types described below.
+> >
+> > I don't think it's quite right to say 'may' be divided up into zones, as they
+> > absolutely will be so (and the entire phsyical memory allocator hinges on being
+> > zoned, even if trivially in UMA/single zone cases).
+>
+> Not necessarily. ZONE_DMA or ZONE_NORMAL may span the entire memory.
 
-Reviewed-by: Tom Rix <trix@redhat.com>
+I see what you mean, here again we get the confusion around zones as a term (And
+Willy has yet to propose a 'zolio' :), what I meant to say is that every byte of
+memory is in a zone, though a zone may span a node, multiple nodes or all nodes.
 
-> ---
-> v9: move DFH definitions to after the Overview
->      fix name of feature revision field
->      clarify next field in DFH
+> > > +
+> > > +`ZONE_DMA` and `ZONE_DMA32`
+> > > +  represent memory suitable for DMA by peripheral devices that cannot
+> > > +  access all of the addressable memory. Depending on the architecture,
+> > > +  either of these zone types or even they both can be disabled at build
+> > > +  time using ``CONFIG_ZONE_DMA`` and ``CONFIG_ZONE_DMA32`` configuration
+> > > +  options. Some 64-bit platforms may need both zones as they support
+> > > +  peripherals with different DMA addressing limitations.
+> >
+> > It might be worth pointing out ZONE_DMA spans an incredibly little range that
+> > probably won't matter for any peripherals this side of the cretaceous period,
 >
-> v8: fix section titles
+> On RPi4 ZONE_DMA spans 1G, which is quite some part of the memory ;-)
 >
-> v7: shorten long lines and wording suggestions by bagasdotme@gmail.com
->
-> v6: no change
->
-> v5: use nested list for field descriptions
->      clean up prose
->      add reviewed-by and comments from Ilpo Järvinen
->
-> v4: Remove marketing speak and separate v0 and v1 descriptions.
->      Fix errors reported by "make htmldocs".
->
-> v3: no change
->
-> v2: s/GUILD/GUID/
->      add picture
-> ---
->   Documentation/fpga/dfl.rst | 117 +++++++++++++++++++++++++++++++++++++
->   1 file changed, 117 insertions(+)
->
-> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-> index 15b670926084..7e015249785b 100644
-> --- a/Documentation/fpga/dfl.rst
-> +++ b/Documentation/fpga/dfl.rst
-> @@ -75,6 +75,123 @@ convenient for software to locate each feature by walking through this list,
->   and can be implemented in register regions of any FPGA device.
->   
->   
-> +Device Feature Header - Version 0
-> +=================================
-> +Version 0 (DFHv0) is the original version of the Device Feature Header.
-> +The format of DFHv0 is shown below::
-> +
-> +    +-----------------------------------------------------------------------+
-> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 REV 12|11 ID 0| 0x00
-> +    +-----------------------------------------------------------------------+
-> +    |63                                 GUID_L                             0| 0x08
-> +    +-----------------------------------------------------------------------+
-> +    |63                                 GUID_H                             0| 0x10
-> +    +-----------------------------------------------------------------------+
-> +
-> +- Offset 0x00
-> +
-> +  * Type - The type of DFH (e.g. FME, AFU, or private feature).
-> +  * DFH VER - The version of the DFH.
-> +  * Rsvd - Currently unused.
-> +  * EOL - Set if the DFH is the end of the Device Feature List (DFL).
-> +  * Next - The offset in bytes of the next DFH in the DFL from the DFH start,
-> +    and the start of a DFH must be aligned to an 8 byte boundary.
-> +    If EOL is set, Next is the size of MMIO of the last feature in the list.
-> +  * REV - The revision of the feature associated with this header.
-> +  * ID - The feature ID if Type is private feature.
-> +
-> +- Offset 0x08
-> +
-> +  * GUID_L - Least significant 64 bits of a 128-bit Globally Unique Identifier
-> +    (present only if Type is FME or AFU).
-> +
-> +- Offset 0x10
-> +
-> +  * GUID_H - Most significant 64 bits of a 128-bit Globally Unique Identifier
-> +    (present only if Type is FME or AFU).
-> +
-> +
-> +Device Feature Header - Version 1
-> +=================================
-> +Version 1 (DFHv1) of the Device Feature Header adds the following functionality:
-> +
-> +* Provides a standardized mechanism for features to describe
-> +  parameters/capabilities to software.
-> +* Standardize the use of a GUID for all DFHv1 types.
-> +* Decouples the DFH location from the register space of the feature itself.
-> +
-> +The format of Version 1 of the Device Feature Header (DFH) is shown below::
-> +
-> +    +-----------------------------------------------------------------------+
-> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 REV 12|11 ID 0| 0x00
-> +    +-----------------------------------------------------------------------+
-> +    |63                                 GUID_L                             0| 0x08
-> +    +-----------------------------------------------------------------------+
-> +    |63                                 GUID_H                             0| 0x10
-> +    +-----------------------------------------------------------------------+
-> +    |63                   Reg Address/Offset                      1|  Rel  0| 0x18
-> +    +-----------------------------------------------------------------------+
-> +    |63        Reg Size       32|Params 31|30 Group    16|15 Instance      0| 0x20
-> +    +-----------------------------------------------------------------------+
-> +    |63 Next    35|34RSV33|EOP32|31 Param Version 16|15 Param ID           0| 0x28
-> +    +-----------------------------------------------------------------------+
-> +    |63                 Parameter Data                                     0| 0x30
-> +    +-----------------------------------------------------------------------+
-> +
-> +                                  ...
-> +
-> +    +-----------------------------------------------------------------------+
-> +    |63 Next    35|34RSV33|EOP32|31 Param Version 16|15 Param ID           0|
-> +    +-----------------------------------------------------------------------+
-> +    |63                 Parameter Data                                     0|
-> +    +-----------------------------------------------------------------------+
-> +
-> +- Offset 0x00
-> +
-> +  * Type - The type of DFH (e.g. FME, AFU, or private feature).
-> +  * DFH VER - The version of the DFH.
-> +  * Rsvd - Currently unused.
-> +  * EOL - Set if the DFH is the end of the Device Feature List (DFL).
-> +  * Next - The offset in bytes of the next DFH in the DFL from the DFH start,
-> +    and the start of a DFH must be aligned to an 8 byte boundary.
-> +    If EOL is set, Next is the size of MMIO of the last feature in the list.
-> +  * REV - The revision of the feature associated with this header.
-> +  * ID - The feature ID if Type is private feature.
-> +
-> +- Offset 0x08
-> +
-> +  * GUID_L - Least significant 64 bits of a 128-bit Globally Unique Identifier.
-> +
-> +- Offset 0x10
-> +
-> +  * GUID_H - Most significant 64 bits of a 128-bit Globally Unique Identifier.
-> +
-> +- Offset 0x18
-> +
-> +  * Reg Address/Offset - If Rel bit is set, then the value is the high 63 bits
-> +    of a 16-bit aligned absolute address of the feature's registers. Otherwise
-> +    the value is the offset from the start of the DFH of the feature's registers.
-> +
-> +- Offset 0x20
-> +
-> +  * Reg Size - Size of feature's register set in bytes.
-> +  * Params - Set if DFH has a list of parameter blocks.
-> +  * Group - Id of group if feature is part of a group.
-> +  * Instance - Id of feature instance within a group.
-> +
-> +- Offset 0x28 if feature has parameters
-> +
-> +  * Next - Offset to the next parameter block in 8 byte words. If EOP set,
-> +    size in 8 byte words of last parameter.
-> +  * Param Version - Version of Param ID.
-> +  * Param ID - ID of parameter.
-> +
-> +- Offset 0x30
-> +
-> +  * Parameter Data - Parameter data whose size and format is defined by
-> +    version and ID of the parameter.
-> +
-> +
->   FIU - FME (FPGA Management Engine)
->   ==================================
->   The FPGA Management Engine performs reconfiguration and other infrastructure
 
+Ah yeah that's another weirdness, my asahi laptop actually puts everything into
+ZONE_DMA so fair point. Arches do complicate things... (hence why I limit my
+scope to only one)
+
+> > > +
+> > > +`ZONE_NORMAL`
+> > > +  is for normal memory that can be accessed by the kernel all the time. DMA
+> > > +  operations can be performed on pages in this zone if the DMA devices support
+> > > +  transfers to all addressable memory. ZONE_NORMAL is always enabled.
+> > > +
+> >
+> > Might be worth saying 'this is where memory ends up if not otherwise in another
+> > zone'.
+>
+> This may not be the case on !x86.
+
+Yeah again, I am being a fool because I keep burying in my mind the fact that my
+Asahi laptop literally doesn't do this... :) I think in 'principle' though it
+still is where things should go unless you just decide to have the first zone
+only? But in any case, I think then the original explanation is better.
+
+>
+> > > +`ZONE_HIGHMEM`
+> > > +  is the part of the physical memory that is not covered by a permanent mapping
+> > > +  in the kernel page tables. The memory in this zone is only accessible to the
+> > > +  kernel using temporary mappings. This zone is available only some 32-bit
+> > > +  architectures and is enabled with ``CONFIG_HIGHMEM``.
+> > > +
+> >
+> > I comment here only to say 'wow I am so glad I chose to only focus on 64-bit so
+> > I could side-step all the awkward discussion of high pages' :)
+> >
+> > > +The relation between node and zone extents is determined by the physical memory
+> > > +map reported by the firmware, architectural constraints for memory addressing
+> > > +and certain parameters in the kernel command line.
+> >
+> > Perhaps worth mentioning device tree here? Though perhaps encapsulated in the
+> > 'firmware' reference.
+>
+> It is :)
+
+Ack, and that makes sense
+
+>
+> > > +Node structure
+> > > +--------------
+> > > +
+> > > +The struct pglist_data is declared in `include/linux/mmzone.h
+> > > +<https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/linux/mmzone.h>`_.
+> > > +Here we briefly describe fields of this structure:
+> >
+> > Perhaps worth saying 'The node structure' just to reiterate.
+>
+> Not sure I follow, can you phrase the entire sentence?
+>
+
+Sorry I wasn't clear here, I meant to say simply reiterate that the pglist_data
+struct is the one describing a node.
+
+> > > +
+> > > +General
+> > > +~~~~~~~
+> > > +
+> > > +`node_zones`
+> > > +  The zones for this node.  Not all of the zones may be populated, but it is
+> > > +  the full list. It is referenced by this node's node_zonelists as well as
+> > > +  other node's node_zonelists.
+> >
+> > Perhaps worth describing what zonelists (and equally zonerefs) are here or
+> > above, and that this is the canonical place where zones reside. Maybe reference
+> > populated_zone() and for_each_populated_zone() in reference to the fact that not
+> > all here may be populated?
+>
+> I'd prefer to start simple and than add more content on top.
+>
+
+Absolutely, makes sense!
+
+> > > +
+> > > +`node_zonelists` The list of all zones in all nodes. This list defines the
+> > > +  order of zones that allocations are preferred from. The `node_zonelists` is
+> > > +  set up by build_zonelists() in mm/page_alloc.c during the initialization of
+> > > +  core memory management structures.
+> > > +
+> > > +`nr_zones`
+> > > +  Number of populated zones in this node.
+> > > +
+> > > +`node_mem_map`
+> > > +  For UMA systems that use FLATMEM memory model the 0's node (and the only)
+> > > +  `node_mem_map` is array of struct pages representing each physical frame.
+> > > +
+> > > +`node_page_ext`
+> > > +  For UMA systems that use FLATMEM memory model the 0's (and the only) node
+> > > +  `node_mem_map` is array of extensions of struct pages. Available only in the
+> > > +  kernels built with ``CONFIG_PAGE_EXTENTION`` enabled.
+> > > +
+> > > +`node_start_pfn`
+> > > +  The page frame number of the starting page frame in this node.
+> > > +
+> > > +`node_present_pages`
+> > > +  Total number of physical pages present in this node.
+> > > +
+> > > +`node_spanned_pages`
+> > > +  Total size of physical page range, including holes.
+> > > +
+> >
+> > I think it'd be useful to discuss briefly the meaning of managed, spanned and
+> > present pages in the context of zones.
+>
+> This will be a part of the Zones section.
+
+Makes sense again!
+
+Overall it's very good. Nitpicking here really!
