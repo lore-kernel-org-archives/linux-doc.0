@@ -2,128 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5D95C678D8
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 09:11:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92E98C63797
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 09:52:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233686AbjAIJLJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 04:11:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44016 "EHLO
+        id S234756AbjAIJwd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 04:52:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236907AbjAIJKP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 04:10:15 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9624516495;
-        Mon,  9 Jan 2023 01:06:24 -0800 (PST)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3097r7Cv001816;
-        Mon, 9 Jan 2023 09:06:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
- cc : subject : message-id : reply-to : references : mime-version :
- content-type : in-reply-to; s=qcppdkim1;
- bh=XxHuIQPh1jtnEpxWMwNDr1Y0CAe06b1+6mK5HGVQu5w=;
- b=EVgqWEiYLZ3+ztYFCe27IWCHuT6TjM9JoUdIhwAU1VzVPhez43C14F9ngot+0olMkFlp
- 11/AomqEJjq7b5aD5hOrz0cFkggHfD8AszKSDeitiFf/WjIRK31xKtXVzxInYAly8R12
- xXYNx9XuAXRGc+Y/AwcwW5rqDaIfVB9AMLi9AVzWOJpEHX0RHxzJ4ynfh5eiX3u/96l6
- 7TuWrwY0eh3NsUMWQGSJ1pe/D4zjJE9n8oubKB5Wt/aR8G9lYTiQlKVAIG9VdT8ELW8j
- vV/pktMaZjxTzEg3qZoRzedPpqrX3o5gzNGHA1GSQN8nT2/ba+ouPnrzZrYxKMadFYEP fg== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3my02t2q55-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 09 Jan 2023 09:06:06 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 309965Gk021644
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 9 Jan 2023 09:06:05 GMT
-Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 9 Jan 2023
- 01:05:57 -0800
-Date:   Mon, 9 Jan 2023 14:35:53 +0530
-From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-acpi@vger.kernel.org>
-Subject: Re: [PATCH v8 12/28] gunyah: vm_mgr: Introduce basic VM Manager
-Message-ID: <20230109090553.GA1737564@quicinc.com>
-Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-References: <20221219225850.2397345-1-quic_eberman@quicinc.com>
- <20221219225850.2397345-13-quic_eberman@quicinc.com>
+        with ESMTP id S234302AbjAIJvv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 04:51:51 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B0DE120BB;
+        Mon,  9 Jan 2023 01:51:16 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id o13so4678597pjg.2;
+        Mon, 09 Jan 2023 01:51:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ddVtdw8jXVuxIM0SuKPvP0VJu/NC/e0O6HjAii0zrz0=;
+        b=YrCwP8zMH9Dd/hw10RPKEdIJW0IEHD8y3+BB9wn0N2uJzz+fITcbuaedimkTM5gt/e
+         L1w+KPw/wezCP4l/upVTvA4yHfsl6ImwIazp3Icaim/rOWouyP2LaWxIqjGqtv5fTWdg
+         jraGHeAAYyCc0su7F/jjY3dp/9WnZgkKhNkGCjBR5sc6T2Kr5HclbaOpVXgsBzUpA3f6
+         xhokPmDAQAfJ0vq5hgrkjrqv1JnOmZhE1rGIxfMNubEul7NN9APYaOItPgkqUeSnQdYm
+         42o7TwHyNUO8ZS3JpLO22fg1Nc80L2nWzdj6JI4/rmhrRRvnDiJ7LXrg6Tfhfl/x01De
+         ILig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ddVtdw8jXVuxIM0SuKPvP0VJu/NC/e0O6HjAii0zrz0=;
+        b=euC6utha1sczcEHHUY5V5LisNyu8Rgd1ABv95Ex1diyALknlwMLc+hRUY/wnUDaBnp
+         2NBBExgeHkd5y7igd5U8TDXxGMQMcZDEM6AHikX4r7qfUjKW4PnsqZhMfUtNCrUCTgs1
+         IVI7Ci7/HtJoYGtljSV9HyF3yTkMTY3r3slaP936CBpazKuYWS6NiiduIbpTFIwK8o22
+         zIm0eo82Q4RG51CF2fubMR6+sdof9w3Zyd82XPfiER/Kk3biPk5ycGABZ/uCVIbGiuPq
+         xkynyLIVkH8YkmjlRn9zeLEaxULVAA00uec52DkHxllmt07yEfpL/1aUQ+lcsZYkb12C
+         8lpQ==
+X-Gm-Message-State: AFqh2krPXuWbNHuiM+tw9nBoeZFWE3Sy3HHRvG2O/t605fh6pO9ozPUd
+        lGF6rpCvXAMJLuHV+rzj5nk=
+X-Google-Smtp-Source: AMrXdXvcBC942ucNE/7ppG+sYx4Em9Ddf9nXge/qaI2yHRpihEyxGIxXs8xpBhSHZzi1aHPOBq/Byw==
+X-Received: by 2002:a17:902:b60d:b0:188:8745:35af with SMTP id b13-20020a170902b60d00b00188874535afmr77276434pls.63.1673257875797;
+        Mon, 09 Jan 2023 01:51:15 -0800 (PST)
+Received: from debian.me (subs03-180-214-233-26.three.co.id. [180.214.233.26])
+        by smtp.gmail.com with ESMTPSA id x3-20020a170902a38300b001896522a23bsm5708062pla.39.2023.01.09.01.51.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jan 2023 01:51:15 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id B5E3F105012; Mon,  9 Jan 2023 16:51:10 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Yann Sionneau <ysionneau@kalray.eu>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Clement Leger <clement.leger@bootlin.com>,
+        Guillaume Thouvenin <gthouvenin@kalray.eu>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH 0/8] kvx documentation improv (was: Re: [RFC PATCH 01/25] Documentation: kvx: Add basic documentation)
+Date:   Mon,  9 Jan 2023 16:51:00 +0700
+Message-Id: <20230109095108.21229-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <874jt7fqxt.fsf@meer.lwn.net>
+References: <874jt7fqxt.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-In-Reply-To: <20221219225850.2397345-13-quic_eberman@quicinc.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: AykUCM4ocXnB41CGW_xT6GSACgEI0PMz
-X-Proofpoint-ORIG-GUID: AykUCM4ocXnB41CGW_xT6GSACgEI0PMz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-09_03,2023-01-06_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
- bulkscore=0 impostorscore=0 suspectscore=0 lowpriorityscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 mlxlogscore=794 phishscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301090064
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3323; i=bagasdotme@gmail.com; h=from:subject; bh=rXyfPkWPotWjasnOdg5FQjgn15EEeIyMsS1vn7pUs+k=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMm7H3dOXsR47++lRZdqH/269szJV+kkU4TTpiCxqfKrFkqI Oc7+3VHKwiDGxSArpsgyKZGv6fQuI5EL7WsdYeawMoEMYeDiFICJ2GxhZNjwTkLLb3rPJtOEvPy1Cy NP77brKFvanLP3gwbzlIK4fntGhhcTutUklnjyhb4z2P7u8IETWxMsP96c894v0TfR67imBjcA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Elliot Berman <quic_eberman@quicinc.com> [2022-12-19 14:58:33]:
+Jonathan Corbet <corbet@lwn.net> writes:
+>> Add some documentation for kvx arch and its Linux port.
+>>
+>> CC: Jonathan Corbet <corbet@lwn.net>
+>> CC: linux-doc@vger.kernel.org
+>> CC: linux-kernel@vger.kernel.org
+>> Co-developed-by: Clement Leger <clement.leger@bootlin.com>
+>> Signed-off-by: Clement Leger <clement.leger@bootlin.com>
+>> Co-developed-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
+>> Signed-off-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
+>> Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
+>> ---
+>>  Documentation/kvx/kvx-exceptions.txt | 246 ++++++++++++++++++++++++
+>>  Documentation/kvx/kvx-iommu.txt      | 183 ++++++++++++++++++
+>>  Documentation/kvx/kvx-mmu.txt        | 272 +++++++++++++++++++++++++++
+>>  Documentation/kvx/kvx-smp.txt        |  36 ++++
+>>  Documentation/kvx/kvx.txt            | 268 ++++++++++++++++++++++++++
+>>  5 files changed, 1005 insertions(+)
+>>  create mode 100644 Documentation/kvx/kvx-exceptions.txt
+>>  create mode 100644 Documentation/kvx/kvx-iommu.txt
+>>  create mode 100644 Documentation/kvx/kvx-mmu.txt
+>>  create mode 100644 Documentation/kvx/kvx-smp.txt
+>>  create mode 100644 Documentation/kvx/kvx.txt
+>
+>Please write this documentation in the RST format (you're 95% of the way
+>there now) and incorporate into the kernel docs build.
 
-> +config GUNYAH_VM_MANAGER
+Here is the polished documentation in reST format. Yann, can you please
+squash this series into your documentation patch?
 
-Any reason why this needs to be a separate config? IOW CONFIG_GUNYAH should
-enable VM management functionality also.
+Bagas Sanjaya (8):
+  Documentation: kvx: Convert to reST
+  Documentation: kvx: Wrap diagrams in literal code block
+  Documentation: kvx: Fix lists
+  Documentation: kvx: kvx-iommu: Use reST syntax for subsections
+  Documentation: kvx: kvx-iommu: monospacize kvx iommu device tree path
+  Documentation: kvx: Promote title headings
+  Documentation: kvx: Use literal code block for command-line inputs
+  Documentation: kvx: reword
 
-> @@ -550,14 +580,29 @@ static int gh_rm_drv_probe(struct platform_device *pdev)
->  	rsc_mgr->msgq_client.rx_callback = gh_rm_msgq_rx_data;
->  	rsc_mgr->msgq_client.tx_done = gh_rm_msgq_tx_done;
->  
-> -	return gh_msgq_init(&pdev->dev, &rsc_mgr->msgq, &rsc_mgr->msgq_client,
-> +	ret = gh_msgq_init(&pdev->dev, &rsc_mgr->msgq, &rsc_mgr->msgq_client,
->  				&rsc_mgr->tx_ghrsc, &rsc_mgr->rx_ghrsc);
+ Documentation/arch.rst               |   1 +
+ Documentation/kvx/index.rst          |  12 ++
+ Documentation/kvx/kvx-exceptions.rst | 258 +++++++++++++++++++++++
+ Documentation/kvx/kvx-exceptions.txt | 246 ----------------------
+ Documentation/kvx/kvx-iommu.rst      | 188 +++++++++++++++++
+ Documentation/kvx/kvx-iommu.txt      | 183 -----------------
+ Documentation/kvx/kvx-mmu.rst        | 294 +++++++++++++++++++++++++++
+ Documentation/kvx/kvx-mmu.txt        | 272 -------------------------
+ Documentation/kvx/kvx-smp.rst        |  36 ++++
+ Documentation/kvx/kvx-smp.txt        |  36 ----
+ Documentation/kvx/kvx.rst            | 269 ++++++++++++++++++++++++
+ Documentation/kvx/kvx.txt            | 268 ------------------------
+ 12 files changed, 1058 insertions(+), 1005 deletions(-)
+ create mode 100644 Documentation/kvx/index.rst
+ create mode 100644 Documentation/kvx/kvx-exceptions.rst
+ delete mode 100644 Documentation/kvx/kvx-exceptions.txt
+ create mode 100644 Documentation/kvx/kvx-iommu.rst
+ delete mode 100644 Documentation/kvx/kvx-iommu.txt
+ create mode 100644 Documentation/kvx/kvx-mmu.rst
+ delete mode 100644 Documentation/kvx/kvx-mmu.txt
+ create mode 100644 Documentation/kvx/kvx-smp.rst
+ delete mode 100644 Documentation/kvx/kvx-smp.txt
+ create mode 100644 Documentation/kvx/kvx.rst
+ delete mode 100644 Documentation/kvx/kvx.txt
 
-Bail on error here.
+-- 
+An old man doll... just what I always wanted! - Clara
 
-[snip]
-
-> +static __must_check struct gunyah_vm *gunyah_vm_alloc(struct gh_rm_rpc *rm)
-> +{
-> +	struct gunyah_vm *ghvm;
-> +	int vmid;
-> +
-> +	vmid = gh_rm_alloc_vmid(rm, 0);
-> +	if (vmid < 0)
-> +		return ERR_PTR(vmid);
-> +
-> +	ghvm = kzalloc(sizeof(*ghvm), GFP_KERNEL);
-> +	if (!ghvm)
-
-dealloc_vmid here (as well as few other error paths)?
-
-> +		return ghvm;
-> +
-> +	get_gh_rm(rm);
