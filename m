@@ -2,198 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5459AC54EBD
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 15:32:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD433C5479D
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 15:37:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237298AbjAIPb7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 10:31:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44806 "EHLO
+        id S234883AbjAIPhp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 10:37:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233189AbjAIPbh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 10:31:37 -0500
-Received: from fx304.security-mail.net (smtpout30.security-mail.net [85.31.212.34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BEB764F4
-        for <linux-doc@vger.kernel.org>; Mon,  9 Jan 2023 07:30:54 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by fx304.security-mail.net (Postfix) with ESMTP id 807C49D0B1
-        for <linux-doc@vger.kernel.org>; Mon,  9 Jan 2023 16:30:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
-        s=sec-sig-email; t=1673278252;
-        bh=2Ol4WvfIDv/pCXWodkK/JAf2l0CqXaG0EOhqPlCz5xY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=kz8ddZYg0nJtow93ucAH7WnT8Vqwhr3lvi4IHN8OoSZGNmOScb2xcOeU4ahhPcX9+
-         p9CNBdA/jH2f4K049TrCPM610wwO1NQ4J9xx87Kmzbu7GXz0K8YSAee6gE4pfS7J3i
-         nAosaoMAGS6mHOvc8xjvjf4lK/Nd1xrz4y1l10bc=
-Received: from fx304 (localhost [127.0.0.1]) by fx304.security-mail.net
- (Postfix) with ESMTP id 520CF9D07F; Mon,  9 Jan 2023 16:30:52 +0100 (CET)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx304.security-mail.net (Postfix) with ESMTPS id 9D11C9D072; Mon,  9 Jan
- 2023 16:30:51 +0100 (CET)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 68AED27E0402; Mon,  9 Jan 2023
- 16:30:51 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 38EF527E03FF; Mon,  9 Jan 2023 16:30:51 +0100 (CET)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- Ax--sd_V2azt; Mon,  9 Jan 2023 16:30:51 +0100 (CET)
-Received: from [192.168.37.161] (unknown [192.168.37.161]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id 8E4D827E03FE; Mon,  9 Jan 2023
- 16:30:50 +0100 (CET)
-X-Virus-Scanned: E-securemail
-Secumail-id: <b2fe.63bc332b.9bc13.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 38EF527E03FF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1673278251;
- bh=AQRkX8OfPpkm9ao22SwrZcjsHp5YTFXu85Lp04m+1A0=;
- h=Message-ID:Date:MIME-Version:To:From;
- b=Nw9h4dkzOwPn5vuhGKIyNNJs3P3x4pfdYEE7ckz9lL13tSkmK4nwamwpUjampl3D6
- LDhJg2t6qBuoBWDfEIexbrFwLh9D9VyJiOWUlwmQC+1j7iIHZ+vEfgfvPWRc9vt9zD
- PN1+BJeuI0U91Om91ZCvoSBebX3S3D5TsBEjM/tE=
-Message-ID: <bccad498-3af2-08f1-8264-cf7b438732d3@kalray.eu>
-Date:   Mon, 9 Jan 2023 16:30:50 +0100
+        with ESMTP id S234538AbjAIPh3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 10:37:29 -0500
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B6765A89F;
+        Mon,  9 Jan 2023 07:34:09 -0800 (PST)
+Received: by mail-qt1-x841.google.com with SMTP id jr10so834838qtb.7;
+        Mon, 09 Jan 2023 07:34:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DTNeUY66tN+zyofN7fRlx1+ck2Dw3R2YOLRb1Ot7opA=;
+        b=J0ETlLTMA8IqRMNOesdrhvGZG4m13eB7ad1UWiNXTYnIqtC8U67j+aSIMJ7nSHyEus
+         U3H6phAaxiJbPRhWFLi1pAqXwQ5RQ1Ob7GZXj/valtT3WlrgUHlno/9zPS8x+AnhpVRO
+         kftOQ0zqBmQLZQop3lTM4QUrFPTbqgzfi1rOSWj7wVZR8V7e7GJyifFkMMSyG0oS6mBt
+         yZxEVq69I47ZDnSLr5LFS3p2l2mUR/gIGiZWzqDoZ6MRB1w//7Hgl0n5ZJMDGEWHFbnt
+         qzcRIcFn7sLdr81HTzIcALoPYjj+aOSFEuN24zI2aBeIHunFkwvNkKdhesJOfsxVM3nJ
+         70aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DTNeUY66tN+zyofN7fRlx1+ck2Dw3R2YOLRb1Ot7opA=;
+        b=LtbI60WxLVI8RcxZryziK9r+FEVyzZ58RBlsuysQwAJRQu8BVqpAAkUV4NHJEQvsQs
+         /F7sSEoK20oA+4jCrqtTIbYWS5FcpBPh1cAmMJKbEptLyrufydsiGho8fiG+8iZwKU9l
+         WEJpP5IrqQ1y2BZSo4WkBPT9V5PaqkMYhPfeSogUvkWEWC1KANEsHwlIHAKos2kuWm9Y
+         J6CZyLhZWt1/V83YkHe4Y4uybkmHsmn0Z4aIQXWG5tRyZFWXQttZ7b1GtqXEHWUdqfDm
+         TH6aq19ubOEs+9mY1wLhIRLj8JvJ7VvwgoDHVG7eu24rrifosFLWZ6QRU38QihFo8d3u
+         2CIA==
+X-Gm-Message-State: AFqh2koT5Ns+3Fkw73BQZXUmyZvNHf/ZTgKxVeAqSXV0dBwinf8wVtfJ
+        P4R/ttVU4EObzCO87ykVUnpqUe+hQQ==
+X-Google-Smtp-Source: AMrXdXtW46Cl4kgoaQXCPzWzmVXplEzb9LQPfR84ldIiX25KrAXI5QqGUghpW1JY3OSnjyWSbwBEjQ==
+X-Received: by 2002:a05:622a:1f13:b0:3a5:3234:cc7b with SMTP id ca19-20020a05622a1f1300b003a53234cc7bmr93726426qtb.65.1673278441996;
+        Mon, 09 Jan 2023 07:34:01 -0800 (PST)
+Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
+        by smtp.gmail.com with ESMTPSA id f1-20020ac81341000000b003a6a19ee4f0sm4687236qtj.33.2023.01.09.07.33.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jan 2023 07:34:00 -0800 (PST)
+From:   Gregory Price <gourry.memverge@gmail.com>
+X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, krisman@collabora.com,
+        tglx@linutronix.de, luto@kernel.org, oleg@redhat.com,
+        peterz@infradead.org, ebiederm@xmission.com,
+        akpm@linux-foundation.org, adobriyan@gmail.com, corbet@lwn.net,
+        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
+Subject: [RFC PATCH 0/3] Checkpoint Support for Syscall User Dispatch
+Date:   Mon,  9 Jan 2023 10:33:45 -0500
+Message-Id: <20230109153348.5625-1-gregory.price@memverge.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 00/25] Upstream kvx Linux port
-Content-Language: en-us
-To:     Jeff Xie <xiehuan09@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Albert Ou <aou@eecs.berkeley.edu>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>, bpf@vger.kernel.org,
-        Christian Brauner <brauner@kernel.org>,
-        devicetree@vger.kernel.org, Eric Biederman <ebiederm@xmission.com>,
-        Eric Paris <eparis@redhat.com>, Ingo Molnar <mingo@redhat.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Jason Baron <jbaron@akamai.com>, Jiri Olsa <jolsa@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Kieran Bingham <kbingham@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-audit@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-perf-users@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-riscv@lists.infradead.org, Marc Zyngier <maz@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Nick Piggin <npiggin@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Waiman Long <longman@redhat.com>,
-        Will Deacon <will@kernel.org>, Alex Michon <amichon@kalray.eu>,
-        Ashley Lesdalons <alesdalons@kalray.eu>,
-        Benjamin Mugnier <mugnier.benjamin@gmail.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Guillaume Missonnier <gmissonnier@kalray.eu>,
-        Guillaume Thouvenin <gthouvenin@kalray.eu>,
-        Jean-Christophe Pince <jcpince@gmail.com>,
-        Jonathan Borne <jborne@kalray.eu>,
-        Jules Maselbas <jmaselbas@kalray.eu>,
-        Julian Vetter <jvetter@kalray.eu>,
-        Julien Hascoet <jhascoet@kalray.eu>,
-        Julien Villette <jvillette@kalray.eu>,
-        Louis Morhet <lmorhet@kalray.eu>,
-        Luc Michel <lmichel@kalray.eu>,
-        Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>,
-        Marius Gligor <mgligor@kalray.eu>,
-        Samuel Jones <sjones@kalray.eu>,
-        Thomas Costis <tcostis@kalray.eu>,
-        Vincent Chardon <vincent.chardon@elsys-design.com>
-References: <20230103164359.24347-1-ysionneau@kalray.eu>
- <CAEr6+ECRh_9App18zmcS6FUR81YYhR=n4kGdeZAtQBsdMB55_A@mail.gmail.com>
- <6570d22d-ee19-f8b1-6fb4-bf8865ec4142@kalray.eu>
- <CAEr6+ECPFeokSULpWzYEYLROYHXNA0PtvdUchT37d4_qVA-PKQ@mail.gmail.com>
-From:   Yann Sionneau <ysionneau@kalray.eu>
-In-Reply-To: <CAEr6+ECPFeokSULpWzYEYLROYHXNA0PtvdUchT37d4_qVA-PKQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jeff,
+Syscall user dispatch makes it possible to cleanly intercept system
+calls from user-land.  However, most transparent checkpoint software
+presently leverages some combination of ptrace and system call
+injection to place software in a ready-to-checkpoint state.
 
-On 1/9/23 16:11, Jeff Xie wrote:
-> On Mon, Jan 9, 2023 at 9:21 PM Yann Sionneau <ysionneau@kalray.eu> wrote:
->> Hi Jeff,
->>
->> On 1/7/23 07:25, Jeff Xie wrote:
->>> Hi,
->>>
->>> On Wed, Jan 4, 2023 at 1:01 AM Yann Sionneau <ysionneau@kalray.eu> wrote:
->>>> [snip]
->>>>
->>>> A kvx toolchain can be built using:
->>>> # install dependencies: texinfo bison flex libgmp-dev libmpc-dev libmpfr-dev
->>>> $ git clone https://github.com/kalray/build-scripts
->>>> $ cd build-scripts
->>>> $ source last.refs
->>>> $ ./build-kvx-xgcc.sh output
->>> I would like to build the kvx-xgcc to compile and test the linux
->>> kernel, but it reported a compile error.
->>> I wonder what version of gcc you are using.
->>>
->>> My build environment:
->>> VERSION="20.04.2 LTS (Focal Fossa)"
->>> gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04)
->>>
->>>
->>> Compile error:
->>> $ ./build-kvx-xgcc.sh output
->>>
->>> ../../binutils/libiberty/fibheap.c: In function ‘fibheap_replace_key_data’:
->>> ../../binutils/libiberty/fibheap.c:38:24: error: ‘LONG_MIN’ undeclared
->>> (first use in this function)
->>>      38 | #define FIBHEAPKEY_MIN LONG_MIN
->>>         |                        ^~~~~~~~
->>> [snip]
->> What SHA1 of https://github.com/kalray/build-scripts are you using?
-> I have executed the "source last.refs"
+If Syscall User Dispatch is enabled at the time of being quiesced,
+injected system calls will subsequently be interposed upon and
+dispatched to the task's signal handler.
 
-I was referring to the SHA1 of the repo itself (build-scripts).
+This patch set implements 3 features to enable software such as CRIU
+to cleanly interpose upon software leveraging syscall user dispatch.
 
-`last.refs` is a symbolic link which can point to several releases, 
-depending on "when" you did the clone.
+- Implement PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH, akin to a similar
+  feature for SECCOMP.  This allows a ptracer to temporarily disable
+  syscall user dispatch, making syscall injection possible.
 
-I am asking this because we recently published new toolchains.
+- Implement an fs/proc extension that reports whether Syscall User
+  Dispatch is being used in proc/status.  A similar value is present
+  for SECCOMP, and is used to determine whether special logic is
+  needed during checkpoint/resume.
 
-I want to make sure which one you are trying to build.
+- Implement a getter interface for Syscall User Dispatch config info.
+  To resume successfully, the checkpoint/resume software has to
+  save and restore this information.  Presently this configuration
+  is write-only, with no way for C/R software to save it.
 
->> We are building our toolchain on Ubuntu 18.04 / 20.04 and 22.04 without
->> issues, I don't understand why it does not work for you, although indeed
->> the error log you are having pops out on my search engine and seems to
->> be some well known issue.
-> Yes, there are many answers on the web, but none of them solve this problem.
->
->> If the build-script does not work for you, you can still use the
->> pre-built toolchains generated by the GitHub automated actions:
->> https://github.com/kalray/build-scripts/releases/tag/v4.11.1 ("latest"
->> means 22.04)
-> Thanks, this is the final solution ;-)
-Good to see it helped :)
 
-Regards,
+Signed-off-by: Gregory Price <gregory.price@memverge.com>  
+
+
+Gregory Price (3):
+  ptrace,syscall_user_dispatch: Implement Syscall User Dispatch
+    Suspension
+  fs/proc/array: Add Syscall User Dispatch to proc status
+  prctl,syscall_user_dispatch: add a getter for configuration info
+
+ .../admin-guide/syscall-user-dispatch.rst     | 18 +++++++
+ fs/proc/array.c                               |  8 +++
+ include/linux/ptrace.h                        |  2 +
+ include/linux/syscall_user_dispatch.h         |  7 +++
+ include/uapi/linux/prctl.h                    |  3 ++
+ include/uapi/linux/ptrace.h                   |  6 ++-
+ kernel/entry/syscall_user_dispatch.c          | 19 +++++++
+ kernel/ptrace.c                               |  5 ++
+ kernel/sys.c                                  |  4 ++
+ .../syscall_user_dispatch/sud_test.c          | 54 +++++++++++++++++++
+ 10 files changed, 125 insertions(+), 1 deletion(-)
+
 
 -- 
-
-Yann
-
-
-
-
+2.37.3
 
