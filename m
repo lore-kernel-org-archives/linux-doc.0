@@ -2,116 +2,156 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4903C54EBD
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 10:28:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55BFAC5479D
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 10:59:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229890AbjAIK2o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 05:28:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48538 "EHLO
+        id S233702AbjAIK7t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 05:59:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235213AbjAIK21 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 05:28:27 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 853381A0;
-        Mon,  9 Jan 2023 02:28:26 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id ja17so5899632wmb.3;
-        Mon, 09 Jan 2023 02:28:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BEhA0ngAfEFL1HJCgzpGpDyeaM2Lphh/z9kK4dnHP7E=;
-        b=PC77vZC8SH1jVuTyvKejeVCBeYiSmIaSBH+od2qXT+oTfp7mJ8T4esklJl+LO4UOq9
-         FqrV/NmbT7m/mD8sQHPG3xuRdxwxsW6++tTsyLiXC+ZN3Emk+eWZDjyBaXk6xEWltO7M
-         5PUTUQq5xj/NK6djO+vCJo8YdIY+/UutNostML71eye4hFygNBvX5q5iUfWNtb3PaiyG
-         siPkvpT5n2nlNWYJInsqBW2mYIHmUl46ZUjeZBFRX8oA9qnw32qQh6RLSQlI6Sr7kc4s
-         rNh0Gmpxl396kTo3K25+Ft1sU5OQNz5aVuLjaW2AoKhW2RwbmRwlcuwzCPHsCtO5IiAU
-         Nq5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BEhA0ngAfEFL1HJCgzpGpDyeaM2Lphh/z9kK4dnHP7E=;
-        b=wVAGQoIW/h71hnz/u7v14EOOh8EUdEkJ6V7w72OUB3xSRWZ8lIfvpvHIsDbeX/Rfsy
-         Y7r8SkpyrAW9BekPKErLQebvNcdBDWvy/z1heGaL5awtXfsWmC5IeCO3bhqGUv6nwdks
-         byb3XdknTEhdRDYrJmDevA7/OpY5qRpixGrK5a3TV71WJ0uoypBd+Ecg8bjI7H3D2mpw
-         8KaDDr9LCcseeTJEng1iXa3516TF6KKVYVU1H72o/mAdtlHyf+MNyqWkE9R9K0JIowRB
-         8lFFHx/QMEzrTvjs+BGH58uPitiwuBkfpOdjsLSmqqcBJUtViORayNw9p27srajMf2OU
-         XRUA==
-X-Gm-Message-State: AFqh2kr5Tq40vDj5MdZ6t3gw2HZaTgYt5uF2froBDtbztn5hrm/RU1gD
-        O8RSNTnl//CkkiEfPvPgrMc=
-X-Google-Smtp-Source: AMrXdXtqX16sE+ajBjQhiLCE6WXu/5ampSI6HvxUNMjvp9KQRjeS9q9bqKmDIDhXPy7JHiM9pQ1hrw==
-X-Received: by 2002:a05:600c:4f11:b0:3d9:ee01:ae5b with SMTP id l17-20020a05600c4f1100b003d9ee01ae5bmr2798840wmq.12.1673260105081;
-        Mon, 09 Jan 2023 02:28:25 -0800 (PST)
-Received: from gmail.com (1F2EF719.nat.pool.telekom.hu. [31.46.247.25])
-        by smtp.gmail.com with ESMTPSA id n14-20020a05600c3b8e00b003b49bd61b19sm17237133wms.15.2023.01.09.02.28.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 02:28:24 -0800 (PST)
-Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
-Date:   Mon, 9 Jan 2023 11:28:19 +0100
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] x86/retbleed: add "stuff" mode admin documentation
-Message-ID: <Y7vsQz8qompLCk3h@gmail.com>
-References: <20230108213700.5703-1-rdunlap@infradead.org>
+        with ESMTP id S233309AbjAIK7q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 05:59:46 -0500
+Received: from fx302.security-mail.net (mxout.security-mail.net [85.31.212.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71A3511A31
+        for <linux-doc@vger.kernel.org>; Mon,  9 Jan 2023 02:59:45 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+        by fx302.security-mail.net (Postfix) with ESMTP id CC9B61C3E749
+        for <linux-doc@vger.kernel.org>; Mon,  9 Jan 2023 11:59:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+        s=sec-sig-email; t=1673261983;
+        bh=lZNxzYbAnagx6z12Q0AJlRyEnCWYJIFN1CJf3QiJ9cw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=KN+m9mG2IN1tfOCcjhQygAKqIp8wrOXKTVntJupgLIrBwXwv+SVq/Jp7haWMK5AYs
+         4F5IFehbC3pV8vC05z+xuudMPWM0itYe1WGQP3sXUBTzw0fTqNzdCkPrbO+1eME8Ox
+         QRpyOKjuYwXRBN9w3Z++ibwvSIZjg004Pb7TxL0c=
+Received: from fx302 (localhost [127.0.0.1]) by fx302.security-mail.net
+ (Postfix) with ESMTP id B375C1C3E72D; Mon,  9 Jan 2023 11:59:43 +0100 (CET)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx302.security-mail.net (Postfix) with ESMTPS id 31A381C3E714; Mon,  9 Jan
+ 2023 11:59:43 +0100 (CET)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 0BAF527E03B7; Mon,  9 Jan 2023
+ 11:59:43 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id E5B9327E03F5; Mon,  9 Jan 2023 11:59:42 +0100 (CET)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ 79E2VWtOVg-y; Mon,  9 Jan 2023 11:59:42 +0100 (CET)
+Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id CC76727E03B7; Mon,  9 Jan 2023
+ 11:59:42 +0100 (CET)
+X-Virus-Scanned: E-securemail
+Secumail-id: <618a.63bbf39f.30b29.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu E5B9327E03F5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1673261982;
+ bh=uuDY2mbHYs3yu9OaIiIFtuSPVXRl0RipgPQRVotTh0o=;
+ h=Date:From:To:Message-ID:MIME-Version;
+ b=KUyvzl67xsozDcs6ytpSgQ+CiFCu/FWgl9sSdIxk8c2D93xVUCz9ZEgMsoGXz8ic2
+ yU92waLFBunuD57yvLzbWoiSImtrEHmf+E5TcWt23d8uLAltc65MSO4QR3MXql6Sm0
+ s08ioAlp5ggMoaf4AoNGellDykO7lo8qFd63UTjI=
+Date:   Mon, 9 Jan 2023 11:59:41 +0100
+From:   Jules Maselbas <jmaselbas@kalray.eu>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Yann Sionneau <ysionneau@kalray.eu>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Clement Leger <clement.leger@bootlin.com>,
+        Guillaume Thouvenin <gthouvenin@kalray.eu>
+Subject: Re: [PATCH 0/8] kvx documentation improv (was: Re: [RFC PATCH
+ 01/25] Documentation: kvx: Add basic documentation)
+Message-ID: <20230109105941.GA29108@tellis.lin.mbt.kalray.eu>
+References: <874jt7fqxt.fsf@meer.lwn.net>
+ <20230109095108.21229-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230108213700.5703-1-rdunlap@infradead.org>
+In-Reply-To: <20230109095108.21229-1-bagasdotme@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+X-ALTERMIMEV2_out: done
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Bagas,
 
-* Randy Dunlap <rdunlap@infradead.org> wrote:
-
-> Add admin documentation for "retbleed=stuff", based on commit
-> description and source code.
+On Mon, Jan 09, 2023 at 04:51:00PM +0700, Bagas Sanjaya wrote:
+> Jonathan Corbet <corbet@lwn.net> writes:
+> >> Add some documentation for kvx arch and its Linux port.
+> >>
+> >> CC: Jonathan Corbet <corbet@lwn.net>
+> >> CC: linux-doc@vger.kernel.org
+> >> CC: linux-kernel@vger.kernel.org
+> >> Co-developed-by: Clement Leger <clement.leger@bootlin.com>
+> >> Signed-off-by: Clement Leger <clement.leger@bootlin.com>
+> >> Co-developed-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
+> >> Signed-off-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
+> >> Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
+> >> ---
+> >>  Documentation/kvx/kvx-exceptions.txt | 246 ++++++++++++++++++++++++
+> >>  Documentation/kvx/kvx-iommu.txt      | 183 ++++++++++++++++++
+> >>  Documentation/kvx/kvx-mmu.txt        | 272 +++++++++++++++++++++++++++
+> >>  Documentation/kvx/kvx-smp.txt        |  36 ++++
+> >>  Documentation/kvx/kvx.txt            | 268 ++++++++++++++++++++++++++
+> >>  5 files changed, 1005 insertions(+)
+> >>  create mode 100644 Documentation/kvx/kvx-exceptions.txt
+> >>  create mode 100644 Documentation/kvx/kvx-iommu.txt
+> >>  create mode 100644 Documentation/kvx/kvx-mmu.txt
+> >>  create mode 100644 Documentation/kvx/kvx-smp.txt
+> >>  create mode 100644 Documentation/kvx/kvx.txt
+> >
+> >Please write this documentation in the RST format (you're 95% of the way
+> >there now) and incorporate into the kernel docs build.
 > 
-> Fixes: d82a0345cf21 ("x86/retbleed: Add call depth tracking mitigation")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: x86@kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |    8 ++++++++
->  1 file changed, 8 insertions(+)
+> Here is the polished documentation in reST format. Yann, can you please
+> squash this series into your documentation patch?
+Thanks a lot, I've already converted the documentation to reST, but I will
+take a look at this series and see what I can apply.
+
+> Bagas Sanjaya (8):
+>   Documentation: kvx: Convert to reST
+>   Documentation: kvx: Wrap diagrams in literal code block
+>   Documentation: kvx: Fix lists
+>   Documentation: kvx: kvx-iommu: Use reST syntax for subsections
+>   Documentation: kvx: kvx-iommu: monospacize kvx iommu device tree path
+>   Documentation: kvx: Promote title headings
+>   Documentation: kvx: Use literal code block for command-line inputs
+>   Documentation: kvx: reword
 > 
-> diff -- a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5364,6 +5364,14 @@
->  				       when STIBP is not available. This is
->  				       the alternative for systems which do not
->  				       have STIBP.
-> +			stuff        - Enables "stuffing" mode mitigation,
-> +				       which uses return thunking and call depth
-> +				       tracking.  Only if effect if
-> +				       CONFIG_CALL_DEPTH_TRACKING is set and
-> +				       Spectre V2 mitigation mode is
-> +				       "retpoline".
-> +				       IBRS is fully secure mitigation but is
-> +				       more costly (slower) than stuffing.
+>  Documentation/arch.rst               |   1 +
+>  Documentation/kvx/index.rst          |  12 ++
+>  Documentation/kvx/kvx-exceptions.rst | 258 +++++++++++++++++++++++
+>  Documentation/kvx/kvx-exceptions.txt | 246 ----------------------
+>  Documentation/kvx/kvx-iommu.rst      | 188 +++++++++++++++++
+>  Documentation/kvx/kvx-iommu.txt      | 183 -----------------
+>  Documentation/kvx/kvx-mmu.rst        | 294 +++++++++++++++++++++++++++
+>  Documentation/kvx/kvx-mmu.txt        | 272 -------------------------
+>  Documentation/kvx/kvx-smp.rst        |  36 ++++
+>  Documentation/kvx/kvx-smp.txt        |  36 ----
+>  Documentation/kvx/kvx.rst            | 269 ++++++++++++++++++++++++
+>  Documentation/kvx/kvx.txt            | 268 ------------------------
+>  12 files changed, 1058 insertions(+), 1005 deletions(-)
+>  create mode 100644 Documentation/kvx/index.rst
+>  create mode 100644 Documentation/kvx/kvx-exceptions.rst
+>  delete mode 100644 Documentation/kvx/kvx-exceptions.txt
+>  create mode 100644 Documentation/kvx/kvx-iommu.rst
+>  delete mode 100644 Documentation/kvx/kvx-iommu.txt
+>  create mode 100644 Documentation/kvx/kvx-mmu.rst
+>  delete mode 100644 Documentation/kvx/kvx-mmu.txt
+>  create mode 100644 Documentation/kvx/kvx-smp.rst
+>  delete mode 100644 Documentation/kvx/kvx-smp.txt
+>  create mode 100644 Documentation/kvx/kvx.rst
+>  delete mode 100644 Documentation/kvx/kvx.txt
+> 
+> -- 
+> An old man doll... just what I always wanted! - Clara
+> 
+> 
+> 
+> 
+> 
 
-Typo:
 
-  s/only if effect if
-   /only in effect if
 
-Other than that:
 
-  Acked-by: Ingo Molnar <mingo@kernel.org>
-
-Thanks,
-
-	Ingo
