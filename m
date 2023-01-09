@@ -2,185 +2,176 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57734C5479D
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 14:04:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08126C54EBE
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Jan 2023 14:14:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233609AbjAIOEY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Jan 2023 09:04:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40268 "EHLO
+        id S229684AbjAIOOv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Jan 2023 09:14:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235002AbjAIOD7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 09:03:59 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0954EB0E;
-        Mon,  9 Jan 2023 06:03:59 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229821AbjAIOOu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jan 2023 09:14:50 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A02E513D32;
+        Mon,  9 Jan 2023 06:14:48 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9BEE860F9A;
-        Mon,  9 Jan 2023 14:03:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8581C433EF;
-        Mon,  9 Jan 2023 14:03:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673273038;
-        bh=XDPThGpaR2A08Y5i5XDOoJYueRBv/oUcKLeKgGTtfng=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uPFE8jpoWjguzwsWpnR+NPXoZ8b51wBtY/XhNgkEI8KWdo63mdqVBK4l1+brr9CLk
-         8v6FqHQIFDrG345qKqDWG0iaDz88bD52HeFnAUO5zzD6H2sON4IJo/yrmWR79Qgxr2
-         /PP8Z3tZT6E2wez5MhjDUSamEoohDqK2CEseSW4ON2WKgLRRI0mXZDQmuU6NyM68/x
-         mRc/mpICsfRNEqAfc7rp1OakuNMsv8GsI+AyFURQFlXOd75aThAEY4PcDU5Brw6CZo
-         q3GXDSvpf+QfP++Rbl9iaNfLHzbaPjC1c0zXFDLl79efiKEiT7+lV8wajy24gI87l9
-         4hwjAA8mGKh6Q==
-Date:   Mon, 9 Jan 2023 16:03:43 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 2/2] docs/mm: Physical Memory: add structure,
- introduction and nodes description
-Message-ID: <Y7wev+uJTAeWj4j4@kernel.org>
-References: <20230101094523.1522109-1-rppt@kernel.org>
- <20230101094523.1522109-3-rppt@kernel.org>
- <Y7jtLoPrj71tOWwY@debian.me>
+        by smtp-out1.suse.de (Postfix) with ESMTPS id F10453ED59;
+        Mon,  9 Jan 2023 14:14:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1673273686; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9S9Hp7M6l4jEHkugrulqVkvSK/6qpyC9jzrf+F4o2AA=;
+        b=bjOTbDDPTc6RKKH8PgbHeazQVkyID7wRFs/fD33NPgUJ+YKxdAgJgltCjpzO6wXa0qZn8Q
+        Iycle1MOic4+MupitdTTYXDzu8AOEgnnSI1G5hzjpRSaY+T8D46x3Bhz+Xgq/OIvqu8AkU
+        yY4Q9z7YqTNBbL7hjWLbXwalfq4VF4o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1673273686;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9S9Hp7M6l4jEHkugrulqVkvSK/6qpyC9jzrf+F4o2AA=;
+        b=7tK+kmR7F6GyUiFWfzO9O8zODHiZAjh360hh0nMRVEMYSMtGHAJKefaDHdOXVJBUzVENZL
+        V0j+Y1P+ppWBVZBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C25E813583;
+        Mon,  9 Jan 2023 14:14:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id JorTLVYhvGMPJgAAMHmgww
+        (envelope-from <mliska@suse.cz>); Mon, 09 Jan 2023 14:14:46 +0000
+Message-ID: <6e81b372-d010-fb75-cdfe-b76c6b197f07@suse.cz>
+Date:   Mon, 9 Jan 2023 15:14:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7jtLoPrj71tOWwY@debian.me>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] docs: Fix the docs build with Sphinx 6.0
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <87wn629ggg.fsf@meer.lwn.net>
+ <cb916eae-fdf6-504f-8f38-7928e0fa8344@gmail.com>
+ <20230108150135.060b0c7a@coco.lan>
+From:   =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>
+In-Reply-To: <20230108150135.060b0c7a@coco.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jan 07, 2023 at 10:55:26AM +0700, Bagas Sanjaya wrote:
-> On Sun, Jan 01, 2023 at 11:45:23AM +0200, Mike Rapoport wrote:
-> > From: "Mike Rapoport (IBM)" <rppt@kernel.org>
-> > 
+On 1/8/23 15:01, Mauro Carvalho Chehab wrote:
+> Em Sat, 7 Jan 2023 14:17:24 +0900
+> Akira Yokosawa <akiyks@gmail.com> escreveu:
 > 
-> No patch description really?
+>> On Wed, 04 Jan 2023 13:45:35 -0700, Jonathan Corbet wrote:
+>>> Sphinx 6.0 removed the execfile_() function, which we use as part of the
+>>> configuration process.  They *did* warn us...  Just open-code the
+>>> functionality as is done in Sphinx itself.
+>>>
+>>> Tested (using SPHINX_CONF, since this code is only executed with an
+>>> alternative config file) on various Sphinx versions from 2.5 through 6.0.
+>>>
+>>> Reported-by: Martin Liška <mliska@suse.cz>
+>>> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+>>
+>> I have tested full builds of documentation with this change
+>> with Sphinx versions 1.7.9, 2.4.5, 3.4.3, 4.5.0, 5.3.0, and 6.0.0.
+>>
+>> Tested-by: Akira Yokosawa <akiyks@gmail.com>
+>>
+>> That said, Sphinx 6.0.0 needs much more time and memory than earlier
+>> versions.
+>>
+>> FYI, I needed to limit parallel slot to 2 (make -j2) on a 16GB machine.
+>> If you are lucky, -j3 and -j4 might succeed. -j5 or more ended up in
+>> OOM situations for me:
+>>
+>> Comparison of elapsed time and maxresident with -j2:
+>>
+>>    ============== ============ ===========
+>>    Sphinx version elapsed time maxresident
+>>    ============== ============ ===========
+>>    5.3.0          10:16.81      937660
+>>    6.0.0          17:29.07     5292392
+>>    ============== ============ ===========
 
-The subject says it all, but I can copy it to the description as well.
- 
-> > +Each node may be divided up into a number of blocks called zones which
-> > +represent ranges within memory. These ranges are usually determined by
-> > +architectural constraints for accessing the physical memory. A zone is
-> > +described by a ``struct zone_struct``, typedeffed to ``zone_t`` and each zone
-> > +has one of the types described below.
-> > +
-> > +`ZONE_DMA` and `ZONE_DMA32`
-> > +  represent memory suitable for DMA by peripheral devices that cannot
-> > +  access all of the addressable memory. Depending on the architecture,
-> > +  either of these zone types or even they both can be disabled at build
-> > +  time using ``CONFIG_ZONE_DMA`` and ``CONFIG_ZONE_DMA32`` configuration
-> > +  options. Some 64-bit platforms may need both zones as they support
-> > +  peripherals with different DMA addressing limitations.
-> > +
-> > +`ZONE_NORMAL`
-> > +  is for normal memory that can be accessed by the kernel all the time. DMA
-> > +  operations can be performed on pages in this zone if the DMA devices support
-> > +  transfers to all addressable memory. ZONE_NORMAL is always enabled.
-> > +
-> > +`ZONE_HIGHMEM`
-> > +  is the part of the physical memory that is not covered by a permanent mapping
-> > +  in the kernel page tables. The memory in this zone is only accessible to the
-> > +  kernel using temporary mappings. This zone is available only some 32-bit
-> > +  architectures and is enabled with ``CONFIG_HIGHMEM``.
-> > +
-> > +`ZONE_MOVABLE`
-> > +  is for normal accessible memory, just like ZONE_NORMAL. The difference is
-> > +  that most pages in ZONE_MOVABLE are movable. That means that while virtual
-> > +  addresses of these pages do not change, their content may move between
-> > +  different physical pages. ZONE_MOVABLE is only enabled when one of
-> > +  `kernelcore`, `movablecore` and `movable_node` parameters is present in the
-> > +  kernel command line. See :ref:`Page migration <page_migration>` for
-> > +  additional details.
-> > +
-> > +`ZONE_DEVICE`
-> > +  represents memory residing on devices such as PMEM and GPU. It has different
-> > +  characteristics than RAM zone types and it exists to provide :ref:`struct
-> > +  page <Pages>` and memory map services for device driver identified physical
-> > +  address ranges. ZONE_DEVICE is enabled with configuration option
-> > +  ``CONFIG_ZONE_DEVICE``.
+Hi.
+
+I can confirm the regression, I bisected Sphinx revision that caused that
+and filled an upstream issues:
+https://github.com/sphinx-doc/sphinx/issues/11116
+
+Cheers,
+Martin
+
 > 
-> I think bullet lists should do the job better, since the zone names are
-> connected directly to their representations:
-
-Agree.
- 
-> > +For example, with 32-bit kernel on an x86 UMA machine with 2 Gbytes of RAM the
-> > +entire memory will be on node 0 and there will be three zones: ZONE_DMA,
-> > +ZONE_NORMAL and ZONE_HIGHMEM::
-> > +
-> > +  0                                                            2G
-> > +  +-------------------------------------------------------------+
-> > +  |                            node 0                           |
-> > +  +-------------------------------------------------------------+
-> > +
-> > +  0         16M                    896M                        2G
-> > +  +----------+-----------------------+--------------------------+
-> > +  | ZONE_DMA |      ZONE_NORMAL      |       ZONE_HIGHMEM       |
-> > +  +----------+-----------------------+--------------------------+
-> > +
-> > +
-> > +With a kernel built with ZONE_DMA disabled and ZONE_DMA32 enabled and booted
-> > +with `movablecore=80%` parameter on an arm64 machine with 16 Gbytes of RAM
-> > +equally split between two nodes, there will be ZONE_DMA32, ZONE_NORMAL and
-> > +ZONE_MOVABLE on node 0, and ZONE_NORMAL and ZONE_MOVABLE on node 1::
-> > +
-> > +
-> > +  1G                                9G                         17G
-> > +  +--------------------------------+ +--------------------------+
-> > +  |              node 0            | |          node 1          |
-> > +  +--------------------------------+ +--------------------------+
-> > +
-> > +  1G       4G        4200M          9G          9320M          17G
-> > +  +---------+----------+-----------+ +------------+-------------+
-> > +  |  DMA32  |  NORMAL  |  MOVABLE  | |   NORMAL   |   MOVABLE   |
-> > +  +---------+----------+-----------+ +------------+-------------+
+>  From the changelogs:
+> 	https://www.sphinx-doc.org/en/master/changes.html
 > 
-> I see inconsistency of formatting keywords: some are in inline code and some
-> are not. I'm leaning towards inlining them all:
-
-Sure, thanks for the patch :)
- 
-> > +For various operations possible with nodemasks please refer to
-> > +`include/linux/nodemask.h
-> > +<https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/linux/nodemask.h>`_.
+> It seems that 6.1 came with some performance optimizations, in particular:
 > 
-> Instead of linking to Linus's tree, just inline the source path:
-
-Ok.
- 
-> > +.. _zones:
-> > +
-> > +Zones
-> > +=====
-> > +
-> > +.. _pages:
-> > +
-> > +Pages
-> > +=====
-> > +
-> > +.. _folios:
-> > +
-> > +Folios
-> > +======
-> > +
-> > +.. _initialization:
-> > +
-> > +Initialization
-> > +==============
+>      Cache doctrees in the build environment during the writing phase.
 > 
-> Are these sections stubs (no fields list for each types)? If so, add
-> admonitions to inform readers:
+>      Make all writing phase tasks support parallel execution.
+> 
+>      Cache doctrees between the reading and writing phases.
+> 
+> It would be nice if you could also test and check elapsed time
+> there too, as I suspect that 6.0 will have a very short usage, as
+> 6.1 was released just a few days after it.
+> 
+> Regards,
+> Mauro.
+> 
+> 
+> 
+>>
+>>          Thanks, Akira
+>>
+>>> ---
+>>>   Documentation/sphinx/load_config.py | 6 ++++--
+>>>   1 file changed, 4 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/load_config.py
+>>> index eeb394b39e2c..8b416bfd75ac 100644
+>>> --- a/Documentation/sphinx/load_config.py
+>>> +++ b/Documentation/sphinx/load_config.py
+>>> @@ -3,7 +3,7 @@
+>>>   
+>>>   import os
+>>>   import sys
+>>> -from sphinx.util.pycompat import execfile_
+>>> +from sphinx.util.osutil import fs_encoding
+>>>   
+>>>   # ------------------------------------------------------------------------------
+>>>   def loadConfig(namespace):
+>>> @@ -48,7 +48,9 @@ def loadConfig(namespace):
+>>>               sys.stdout.write("load additional sphinx-config: %s\n" % config_file)
+>>>               config = namespace.copy()
+>>>               config['__file__'] = config_file
+>>> -            execfile_(config_file, config)
+>>> +            with open(config_file, 'rb') as f:
+>>> +                code = compile(f.read(), fs_encoding, 'exec')
+>>> +                exec(code, config)
+>>>               del config['__file__']
+>>>               namespace.update(config)
+>>>           else:
+>>> -- 
+>>> 2.38.1
+> 
+> 
+> 
+> Thanks,
+> Mauro
 
-Ok.
- 
--- 
-Sincerely yours,
-Mike.
