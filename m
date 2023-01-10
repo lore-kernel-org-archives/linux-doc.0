@@ -2,57 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DB05C46467
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 22:47:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 795EDC54EBC
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 22:48:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234473AbjAJWro (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Jan 2023 17:47:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52282 "EHLO
+        id S234011AbjAJWsR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Jan 2023 17:48:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235025AbjAJWrf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 17:47:35 -0500
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2066.outbound.protection.outlook.com [40.107.220.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A7A133D58;
-        Tue, 10 Jan 2023 14:47:20 -0800 (PST)
+        with ESMTP id S234960AbjAJWrt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 17:47:49 -0500
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2078.outbound.protection.outlook.com [40.107.223.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 033064E419;
+        Tue, 10 Jan 2023 14:47:46 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mblqt9xSDTx2T6/PK6x79eaOqV4NMxgl5A0d895p4bi6AnbnXXcpFBRPxPlehxoUi3FELZlDxBAp6VDQxS8yVQAhpOsrd/klSWOYjJt7VAsfnKVb/pDHsZqX2KRwDPitP9CfhCxyVsIfPycGj/gf58MyWsxv9k07ua+KKJ1vuN+AgZbTWPHqXK7t43/gQfFv082EecufQJnsjbGhDqnF916LxJK5vDd9PwoLKK6RD15lPQtskXZcda6fkAfS+gQ5U+B+buoLICPuX9G9iy+R4Zuh3e7bVvMu1aZ/BuY0Epmc6BxNYv/D68NvDL4/MeAp6Nm+yNayuEUMIHlxKtFkCw==
+ b=czGCbn5na3czFgQhslyC1cq7GaPCf3lAdN/LV3Ydj2yZHco6/SlfyC8vDSlrrgHVeu8jLrqh3nXxkwCi7PJ/vfKcdMR8VtOxqY1lgDDbLUPmjkDZSAYf0UMoy5ra3Qa+ubo+A/Iv7zajPu4kPTtElRkfBKoK5Cq0+dFld1QsFOcvhO1lKuyUAhv3Uzkt0JyPbSUm0aLnXEYgvlFWb45MIdPDUCbMRUHqxEmT9Bf5nc06AghlnWODftgtTsQhUPgTj60Q8qT6WhbE+q2YBmDK+bvR8yuaLxHGmpMnVkgwQVi5ljIHUhgAy9QM+vYUpg7Fm8h0Dah6DQ1ZsIauWncCoQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IRHtynNGbwYyZbx6wfEhzaG5TNzdrGsgcF/ZyG15fdQ=;
- b=Xvp29qMosuHsE7X3lCR2tg89oDnoi5o9bA2fmHCyZ4DzdvcDdqbXefhN/kBySSOGt+TTM9gNNz1GuYn14zQg1i3u7gxrFmaoM9WYE3nvyy/w2SynpgTCrd2OmvRO0HUEqWgBqKvFSQGctkwUml55owO/ka1C+VCygfbix3CQSKuU93saXnR2Johjewt44LqR81lbYswnc2Hq0GVWAHrX9zb9U5cX0V6uRgQArfxb2Re+1MTaTkCmWLn68FMvEYMN44ZYHWp/3DFpKA8YAxZupOD8QPYSNPvjmUhi+Sw4f/Pq8bQ58ySqJEmXnZEF4vW6kuB64zMLLzl2bsgEGuzOtQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
+ bh=wAy/sduVFGYDYjjKrS2T0+igS+FuKW8eQPTNyS0EHzQ=;
+ b=oFaic80YBmLW65JZxKk/1c1FjD2vQneoYTeF3AQPL9Rt1Py7qqOvcEXeb7ekATyc5dB19qA1WvSDuHGncexo41AE5A6Cm1xp5NUhmeXJwyMKKF5GOiKTXs9Z7NsyMor5+kqzOP8fovht896I4iY8qDybdYOoMdj47x1B0rBhRbl8XbvfAmIH1rKiMvCHDsj9FNJRfHuRAYE7Zg/ts7jpcpI21Fr6DsmpD0ZQ3SgKTHDEvEHaoN5Q5OIJDP+HA+jiy3yivmD3LN4byO75nQVYwJ4ZDIv7YC0JXO+zgaOkbhVakUCgpF+9Pu6WM2JOCGOWN39K0xA6qEdKi0UMMnLULQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
+ is 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com;
+ dmarc=temperror action=none header.from=amd.com; dkim=none (message not
+ signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IRHtynNGbwYyZbx6wfEhzaG5TNzdrGsgcF/ZyG15fdQ=;
- b=4V5KKEeFZTOpKvusBq19ZbVx/M5ecytsasg9oKrUYduG505Mug2o0EYgqtM2D5U1hlx1Bd60wMZXKVOA85AZBY4kZqASt1Z0+uS8VY2b4qj02d4Dak8oELdmuRBT/2eIazRD/Ea5dPNZPUqQTFGT03eXEATKv48UZs007/2r46U=
-Received: from MW4PR03CA0140.namprd03.prod.outlook.com (2603:10b6:303:8c::25)
- by BN9PR12MB5164.namprd12.prod.outlook.com (2603:10b6:408:11d::8) with
+ bh=wAy/sduVFGYDYjjKrS2T0+igS+FuKW8eQPTNyS0EHzQ=;
+ b=0FOsulJ40cQWvIP7V+GO1+GWHgSTsjR4fsTzbhCldKJMsUfHS+TfiDsDhm9I+LLcZcVl00/040O09Ux5zTpSoR3msbU73p9TJ5ZJIlhmp85M/o6r4L26QABQYQq5w+ENVBLMmEvC8rQeqKQ0xtrWeX9wPnSIvFBLm4Jhbs3p/Ho=
+Received: from MW4PR03CA0103.namprd03.prod.outlook.com (2603:10b6:303:b7::18)
+ by MN0PR12MB6056.namprd12.prod.outlook.com (2603:10b6:208:3cc::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Tue, 10 Jan
- 2023 22:47:18 +0000
-Received: from CO1PEPF00001A5D.namprd05.prod.outlook.com
- (2603:10b6:303:8c:cafe::5c) by MW4PR03CA0140.outlook.office365.com
- (2603:10b6:303:8c::25) with Microsoft SMTP Server (version=TLS1_2,
+ 2023 22:47:43 +0000
+Received: from CO1PEPF00001A61.namprd05.prod.outlook.com
+ (2603:10b6:303:b7:cafe::b8) by MW4PR03CA0103.outlook.office365.com
+ (2603:10b6:303:b7::18) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18 via Frontend
- Transport; Tue, 10 Jan 2023 22:47:17 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+ Transport; Tue, 10 Jan 2023 22:47:43 +0000
+X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is
+ 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=temperror action=none header.from=amd.com;
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of amd.com: DNS Timeout)
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF00001A5D.mail.protection.outlook.com (10.167.241.4) with Microsoft
+ CO1PEPF00001A61.mail.protection.outlook.com (10.167.241.8) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6002.11 via Frontend Transport; Tue, 10 Jan 2023 22:47:17 +0000
+ 15.20.6002.11 via Frontend Transport; Tue, 10 Jan 2023 22:47:41 +0000
 Received: from fritz.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 10 Jan
- 2023 16:47:15 -0600
+ 2023 16:47:39 -0600
 From:   Kim Phillips <kim.phillips@amd.com>
 To:     <x86@kernel.org>
 CC:     Kim Phillips <kim.phillips@amd.com>,
@@ -75,9 +74,9 @@ CC:     Kim Phillips <kim.phillips@amd.com>,
         Tom Lendacky <thomas.lendacky@amd.com>,
         Alexey Kardashevskiy <aik@amd.com>, <kvm@vger.kernel.org>,
         <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 1/7] x86/cpu, kvm: Add support for cpuid leaf 80000021/EAX (FeatureExt2Eax)
-Date:   Tue, 10 Jan 2023 16:46:37 -0600
-Message-ID: <20230110224643.452273-3-kim.phillips@amd.com>
+Subject: [PATCH v6 3/7] x86/cpu, kvm: Move the LFENCE_RDTSC / LFENCE always serializing feature
+Date:   Tue, 10 Jan 2023 16:46:39 -0600
+Message-ID: <20230110224643.452273-5-kim.phillips@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230110224643.452273-1-kim.phillips@amd.com>
 References: <20230110224643.452273-1-kim.phillips@amd.com>
@@ -89,143 +88,100 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF00001A5D:EE_|BN9PR12MB5164:EE_
-X-MS-Office365-Filtering-Correlation-Id: b80da600-25c3-49ee-11d9-08daf35ca039
+X-MS-TrafficTypeDiagnostic: CO1PEPF00001A61:EE_|MN0PR12MB6056:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4d344ebc-8874-40a8-a839-08daf35cae60
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BTHQSvcdVk9xEgvomoJENSHWE8RL9+upgpToFomfpUWt8GgDFeI6+91ygR2MkGlqoWCAY7T8qTFcaobnfJI9qM6SFWxmxBA7ZscCvO8Yw604MpmAFkVhsyRoXXHUfRKJNYpzVrL9xeElucrvzzDN5PVLPg8/YlfR//ovPLzzCoN08QDF2tigmub4OjtidlZelPzijln4jQcgjkk46FYgmgENB+R1pZTZosPAbnPJUDArKzM2mRHWifAUImetFdexyafm11xVTebmaPJWxnPfmYNr6ywJgDFj6ehIUECnBGWlbV1MC7F6Qn6h9KZT9/3AFDTlj2qKTCCdQg3VQ9VBt6Woj/EhFC4Y2MD6idq4Bs96IcS47S28YpqVjtcVudT9w43iysN7pV7RmX5W2sxf6cDNinzMCFWP+TKkP89o5m2JB1BQ9NV40XYKxf0qJ/EkUtUBMZ8k+88JBW2qWo53lAtg2+ScE7HF28SKwdZrn7ROOesVrlfy6GCJZSgNHK1wAY1CjR2fYF+UREXjeBq9I//McscZOjvaWqgrbQUDvy2cviX45UJyMs7l5GINfP3zI6RrtDvLX1G0V1hOC3TkmAYpXZeoIb0326DboC412AL+snnXFyRjzs07no7lkAAV0+0suRzk3sWmkNRi8jOC/gcH9I/5hy4apJLhTrBaJCpnX6rRXlskqwrdeo/3zsAPwZn598C6bGFdQWn70KGabJMol6+ED47m73GpZqAnN/c=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(376002)(136003)(396003)(451199015)(46966006)(36840700001)(40470700004)(82310400005)(40460700003)(47076005)(8936002)(2906002)(5660300002)(426003)(41300700001)(7416002)(81166007)(7696005)(70206006)(4326008)(316002)(6916009)(70586007)(8676002)(356005)(44832011)(54906003)(26005)(82740400003)(16526019)(2616005)(1076003)(40480700001)(336012)(86362001)(186003)(36860700001)(83380400001)(36756003)(478600001)(6666004)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: eIdNa3GBBN0sWmBeW1jmq+XRL2n4jVJWNl0ufBYFdaW/LiwSaZIsrWn6bycXoGFXelmTbvNiq/UVLvdLiSadLtTQJy+0+v28sv89Dxa8hfTVTGmTVF4sIXyVGOssH9Fhyzhgvdigtsg98PTHzqmrkdpLSTmexDvsLFImTm/xWwOIIc+F2ZYhxE15ZsueS1dkVIuzDyU5rbqfiWjWZNiIoVYXXVvHQQsn7qfJfJLqHWBgtSA5RYhdcagCs1QSb/+s2NYW3s+MfYyrqiVogfdzGCkeaa1GTlXHSIBeJHXIJ7iSnYtOO0sYKehkRnvujMZP+g1216ktdoG2gxVFgYBwuLzw1jJsFND50hxf8n/Q5Cx8dj0HuI1pAeWm+QXLk9l1qv/MDN3V07Q4wYbcoNLnYjp8tpG60YnzpNMumVSgbQu/Dzn54akJNe0bjGfBP9jcmAtKRjY8K1HvOvXNlwC0GZOLrZELRxwu0rkscS69s0GE3DjTmLnyOyMuLjweiRYsd/EZ+Jc87y5lm1+pEFZo8hE0YUZb1zdjiTomFHPlkcHHcbkomBlaACzVJNmkgsiiH1tTC1ZVMKChJE0EiPJxzgryUIUX7XuWi0RgWpByMnz37TuwmH2JC0wLs1YcbgvpTRGtlLNDCnTaF50zilYmfl8QYmC1zMXCqnGfXnItqOlz3Ymvmq6IDTC84S/j5inKuTtcyiNjQrYj9r5kST/TFGspSZDmST3tmdhzMfSiiNs=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(346002)(39860400002)(376002)(396003)(136003)(451199015)(40470700004)(46966006)(36840700001)(7416002)(44832011)(2906002)(36860700001)(426003)(41300700001)(5660300002)(7696005)(356005)(36756003)(8936002)(8676002)(70586007)(70206006)(4326008)(63370400001)(83380400001)(63350400001)(40460700003)(6916009)(86362001)(54906003)(47076005)(336012)(82310400005)(1076003)(2616005)(26005)(478600001)(81166007)(186003)(16526019)(316002)(40480700001)(82740400003)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2023 22:47:17.5419
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2023 22:47:41.2894
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b80da600-25c3-49ee-11d9-08daf35ca039
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d344ebc-8874-40a8-a839-08daf35cae60
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF00001A5D.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF00001A61.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5164
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6056
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the 80000021/EAX leaf that advertises features in later Zen
-processors.  The majority of the features will be used in the kernel
-and thus a separate leaf is appropriate.
+The LFENCE_RDTSC / LFENCE always serializing feature was a scattered bit
+and open-coded for KVM in __do_cpuid_func().  Add it to its newly added
+CPUID leaf 0x80000021 EAX proper, and propagate it in kvm_set_cpu_caps()
+instead.
 
-Include KVM's reverse_cpuid entry because features are used by VM
-guests, too.
+Also drop the bit description comments now it's more self-describing.
+
+Whilst there, switch to using the more efficient cpu_feature_enabled()
+instead of static_cpu_has().
 
 Signed-off-by: Kim Phillips <kim.phillips@amd.com>
 ---
- arch/x86/include/asm/cpufeature.h        | 7 +++++--
- arch/x86/include/asm/cpufeatures.h       | 2 +-
- arch/x86/include/asm/disabled-features.h | 3 ++-
- arch/x86/include/asm/required-features.h | 3 ++-
- arch/x86/kernel/cpu/common.c             | 3 +++
- arch/x86/kvm/reverse_cpuid.h             | 1 +
- 6 files changed, 14 insertions(+), 5 deletions(-)
+ arch/x86/include/asm/cpufeatures.h | 3 ++-
+ arch/x86/kvm/cpuid.c               | 9 ++++-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/arch/x86/include/asm/cpufeature.h b/arch/x86/include/asm/cpufeature.h
-index 1a85e1fb0922..ce0c8f7d3218 100644
---- a/arch/x86/include/asm/cpufeature.h
-+++ b/arch/x86/include/asm/cpufeature.h
-@@ -32,6 +32,7 @@ enum cpuid_leafs
- 	CPUID_8000_0007_EBX,
- 	CPUID_7_EDX,
- 	CPUID_8000_001F_EAX,
-+	CPUID_8000_0021_EAX,
- };
- 
- #define X86_CAP_FMT_NUM "%d:%d"
-@@ -94,8 +95,9 @@ extern const char * const x86_bug_flags[NBUGINTS*32];
- 	   CHECK_BIT_IN_MASK_WORD(REQUIRED_MASK, 17, feature_bit) ||	\
- 	   CHECK_BIT_IN_MASK_WORD(REQUIRED_MASK, 18, feature_bit) ||	\
- 	   CHECK_BIT_IN_MASK_WORD(REQUIRED_MASK, 19, feature_bit) ||	\
-+	   CHECK_BIT_IN_MASK_WORD(REQUIRED_MASK, 20, feature_bit) ||	\
- 	   REQUIRED_MASK_CHECK					  ||	\
--	   BUILD_BUG_ON_ZERO(NCAPINTS != 20))
-+	   BUILD_BUG_ON_ZERO(NCAPINTS != 21))
- 
- #define DISABLED_MASK_BIT_SET(feature_bit)				\
- 	 ( CHECK_BIT_IN_MASK_WORD(DISABLED_MASK,  0, feature_bit) ||	\
-@@ -118,8 +120,9 @@ extern const char * const x86_bug_flags[NBUGINTS*32];
- 	   CHECK_BIT_IN_MASK_WORD(DISABLED_MASK, 17, feature_bit) ||	\
- 	   CHECK_BIT_IN_MASK_WORD(DISABLED_MASK, 18, feature_bit) ||	\
- 	   CHECK_BIT_IN_MASK_WORD(DISABLED_MASK, 19, feature_bit) ||	\
-+	   CHECK_BIT_IN_MASK_WORD(DISABLED_MASK, 20, feature_bit) ||	\
- 	   DISABLED_MASK_CHECK					  ||	\
--	   BUILD_BUG_ON_ZERO(NCAPINTS != 20))
-+	   BUILD_BUG_ON_ZERO(NCAPINTS != 21))
- 
- #define cpu_has(c, bit)							\
- 	(__builtin_constant_p(bit) && REQUIRED_MASK_BIT_SET(bit) ? 1 :	\
 diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index 61012476d66e..d53e13048d2e 100644
+index 0cd7b4afd528..79da8e492c0f 100644
 --- a/arch/x86/include/asm/cpufeatures.h
 +++ b/arch/x86/include/asm/cpufeatures.h
-@@ -13,7 +13,7 @@
- /*
-  * Defines x86 CPU feature bits
-  */
--#define NCAPINTS			20	   /* N 32-bit words worth of info */
-+#define NCAPINTS			21	   /* N 32-bit words worth of info */
- #define NBUGINTS			1	   /* N 32-bit bug flags */
+@@ -97,7 +97,7 @@
+ #define X86_FEATURE_SYSENTER32		( 3*32+15) /* "" sysenter in IA32 userspace */
+ #define X86_FEATURE_REP_GOOD		( 3*32+16) /* REP microcode works well */
+ #define X86_FEATURE_AMD_LBR_V2		( 3*32+17) /* AMD Last Branch Record Extension Version 2 */
+-#define X86_FEATURE_LFENCE_RDTSC	( 3*32+18) /* "" LFENCE synchronizes RDTSC */
++/* FREE, was #define X86_FEATURE_LFENCE_RDTSC		( 3*32+18) "" LFENCE synchronizes RDTSC */
+ #define X86_FEATURE_ACC_POWER		( 3*32+19) /* AMD Accumulated Power Mechanism */
+ #define X86_FEATURE_NOPL		( 3*32+20) /* The NOPL (0F 1F) instructions */
+ #define X86_FEATURE_ALWAYS		( 3*32+21) /* "" Always-present feature */
+@@ -428,6 +428,7 @@
+ 
+ /* AMD-defined Extended Feature 2 EAX, CPUID level 0x80000021 (EAX), word 20 */
+ #define X86_FEATURE_NO_NESTED_DATA_BP	(20*32+ 0) /* "" AMD No Nested Data Breakpoints */
++#define X86_FEATURE_LFENCE_RDTSC	(20*32+ 2) /* "" LFENCE always serializing / synchronizes RDTSC */
  
  /*
-diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
-index c44b56f7ffba..5dfa4fb76f4b 100644
---- a/arch/x86/include/asm/disabled-features.h
-+++ b/arch/x86/include/asm/disabled-features.h
-@@ -124,6 +124,7 @@
- #define DISABLED_MASK17	0
- #define DISABLED_MASK18	0
- #define DISABLED_MASK19	0
--#define DISABLED_MASK_CHECK BUILD_BUG_ON_ZERO(NCAPINTS != 20)
-+#define DISABLED_MASK20	0
-+#define DISABLED_MASK_CHECK BUILD_BUG_ON_ZERO(NCAPINTS != 21)
+  * BUG word(s)
+diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+index 69e433e4e9ff..88c970046c10 100644
+--- a/arch/x86/kvm/cpuid.c
++++ b/arch/x86/kvm/cpuid.c
+@@ -742,8 +742,10 @@ void kvm_set_cpu_caps(void)
+ 		F(SME_COHERENT));
  
- #endif /* _ASM_X86_DISABLED_FEATURES_H */
-diff --git a/arch/x86/include/asm/required-features.h b/arch/x86/include/asm/required-features.h
-index aff774775c67..7ba1726b71c7 100644
---- a/arch/x86/include/asm/required-features.h
-+++ b/arch/x86/include/asm/required-features.h
-@@ -98,6 +98,7 @@
- #define REQUIRED_MASK17	0
- #define REQUIRED_MASK18	0
- #define REQUIRED_MASK19	0
--#define REQUIRED_MASK_CHECK BUILD_BUG_ON_ZERO(NCAPINTS != 20)
-+#define REQUIRED_MASK20	0
-+#define REQUIRED_MASK_CHECK BUILD_BUG_ON_ZERO(NCAPINTS != 21)
+ 	kvm_cpu_cap_mask(CPUID_8000_0021_EAX,
+-		F(NO_NESTED_DATA_BP)
++		F(NO_NESTED_DATA_BP) | F(LFENCE_RDTSC)
+ 	);
++	if (cpu_feature_enabled(X86_FEATURE_LFENCE_RDTSC))
++		kvm_cpu_cap_set(X86_FEATURE_LFENCE_RDTSC);
  
- #endif /* _ASM_X86_REQUIRED_FEATURES_H */
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 9cfca3d7d0e2..09e068b24313 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -1093,6 +1093,9 @@ void get_cpu_cap(struct cpuinfo_x86 *c)
- 	if (c->extended_cpuid_level >= 0x8000001f)
- 		c->x86_capability[CPUID_8000_001F_EAX] = cpuid_eax(0x8000001f);
- 
-+	if (c->extended_cpuid_level >= 0x80000021)
-+		c->x86_capability[CPUID_8000_0021_EAX] = cpuid_eax(0x80000021);
-+
- 	init_scattered_cpuid_features(c);
- 	init_speculation_control(c);
- 
-diff --git a/arch/x86/kvm/reverse_cpuid.h b/arch/x86/kvm/reverse_cpuid.h
-index 042d0aca3c92..81f4e9ce0c77 100644
---- a/arch/x86/kvm/reverse_cpuid.h
-+++ b/arch/x86/kvm/reverse_cpuid.h
-@@ -68,6 +68,7 @@ static const struct cpuid_reg reverse_cpuid[] = {
- 	[CPUID_12_EAX]        = {0x00000012, 0, CPUID_EAX},
- 	[CPUID_8000_001F_EAX] = {0x8000001f, 0, CPUID_EAX},
- 	[CPUID_7_1_EDX]       = {         7, 1, CPUID_EDX},
-+	[CPUID_8000_0021_EAX] = {0x80000021, 0, CPUID_EAX},
- };
- 
- /*
+ 	kvm_cpu_cap_mask(CPUID_C000_0001_EDX,
+ 		F(XSTORE) | F(XSTORE_EN) | F(XCRYPT) | F(XCRYPT_EN) |
+@@ -1229,7 +1231,6 @@ static inline int __do_cpuid_func(struct kvm_cpuid_array *array, u32 function)
+ 		cpuid_entry_override(entry, CPUID_8000_0021_EAX);
+ 		/*
+ 		 * Pass down these bits:
+-		 *    EAX      2      LAS, LFENCE always serializing
+ 		 *    EAX      6      NSCB, Null selector clear base
+ 		 *
+ 		 * Other defined bits are for MSRs that KVM does not expose:
+@@ -1239,10 +1240,8 @@ static inline int __do_cpuid_func(struct kvm_cpuid_array *array, u32 function)
+ 		 * KVM doesn't support SMM_CTL.
+ 		 *   EAX       9     SMM_CTL MSR is not supported
+ 		 */
+-		entry->eax &= BIT(2) | BIT(6);
++		entry->eax &= BIT(6);
+ 		entry->eax |= BIT(9);
+-		if (static_cpu_has(X86_FEATURE_LFENCE_RDTSC))
+-			entry->eax |= BIT(2);
+ 		if (!static_cpu_has_bug(X86_BUG_NULL_SEG))
+ 			entry->eax |= BIT(6);
+ 		break;
 -- 
 2.34.1
 
