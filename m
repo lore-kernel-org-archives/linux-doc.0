@@ -2,115 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E07B9C67871
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 22:54:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E4DBC67871
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 22:57:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235712AbjAJWx7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Jan 2023 17:53:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53588 "EHLO
+        id S232195AbjAJW46 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Jan 2023 17:56:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235933AbjAJWxe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 17:53:34 -0500
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C279463395
-        for <linux-doc@vger.kernel.org>; Tue, 10 Jan 2023 14:51:47 -0800 (PST)
-Received: by mail-qt1-x82e.google.com with SMTP id x7so2258631qtv.13
-        for <linux-doc@vger.kernel.org>; Tue, 10 Jan 2023 14:51:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Nj+/7ufbi+mzc9WLMV9MhKIZ+vKN2tVNdm/p4PveWiw=;
-        b=Z+LHP8EFN813rSHrstCkLabK4IngHI+cKeRWcxWaVpq6IuYGolxjNslezLPrqVjGqV
-         q49LhzsEKIYTJGC5ECSyLgvYu9H6+d3+MoSEXFRuBNZkhp/bFYsGHLQVlAUclwstgUl/
-         HA4F75LkF1TDyFZhI9t2f3OaD8uDIFSGgQkDwmVvJv1HJfjnrob4MIuu2lTVJTGD2K5s
-         FR5lWKSZN3r86ua09Ari4/MY00ieOSSs2Nxy9skABpdMmfZbUcY4CQ2ZJ0yT0Fd/fH8u
-         ay9FGbUCFo1jWFIKVNRkSTNDVKrkth2p5YEk7hVBNMXL4/rfsK5UKUx7+zHk/wkSssr/
-         8Vfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Nj+/7ufbi+mzc9WLMV9MhKIZ+vKN2tVNdm/p4PveWiw=;
-        b=BptGA8mneLISiT0b3wZu5vteTysI3fKYokw8c5yhNJrvG+f95efir9ghKaKBwB0vL9
-         nVGoNPFIauNV2ZpYuVpHaCbzGL/Kcaz42bOMsr/csa76s9xMH7fF6Mqbv9cvSGkVqWUB
-         MODxj+4omNqORXcWIQPeTVeyjjpTjV4ilQdzrrmNuNdlXCBWeCXPY0iX/LCjrp3Iwbg2
-         ltRcqnML4dZiaboRO7MREmh87AAKvaR7pdnyfDf+w4FBW0cUs5V4A2xmGCPQu3VKop0k
-         ZNHQW1iXAAV5BtY3/FS4T3zuXTeUedlmqWKp9X32HjeRFcL0xO7aTxpKLq07OejPGIG9
-         xhXQ==
-X-Gm-Message-State: AFqh2kpwm112PLyP8tLgVKopZuAE5XgDdrUk7LStTTglfxolJlNTLU5S
-        qN/o2DqGf/Q2KhGx0UUq4hcQd6dcPwhiTwje51MJ3Q==
-X-Google-Smtp-Source: AMrXdXtCmgtL7XJA1AjxTGWmxlUVgcif515aqBGzxNtC4EL5mTP/V3O8hTigwzRJaQTQTj8cDIyP79kG4mIF4ZDOg8Y=
-X-Received: by 2002:a05:622a:5c1a:b0:3a6:ee88:63dd with SMTP id
- gd26-20020a05622a5c1a00b003a6ee8863ddmr3310643qtb.446.1673391106667; Tue, 10
- Jan 2023 14:51:46 -0800 (PST)
+        with ESMTP id S235250AbjAJW4c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 17:56:32 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C72E6338D;
+        Tue, 10 Jan 2023 14:55:26 -0800 (PST)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30AMqhbI021237;
+        Tue, 10 Jan 2023 22:55:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=FnslzAltcK2Vf4x7yLy3vGWrYsR9oG+TmGbt1RNiTbA=;
+ b=dDvCjD/0jz4NdH1/+fs0mlqd1EWGJtv9dGoEMl4Mv/kQqLFVX8h7WfNEDghYudNNDmD8
+ gQpeVHO8jkIwE0NugYZwLGnIgT04I9Jb2XF+AKUZBML5K2IZmULc/o8pjAc3GrP+c9lF
+ fiLEGUJMs81yS7PsfkgH7ekKHI+jhF/bbWfQlvh+8L69JxXunV8flEpLWh1eHwsaz8ry
+ nnZ1R38n1uA55JE41oF4pmJCSSWy9h/E+cYfdbFVtpaSwKxMDUb5pO/3ScyIuLUhIX2N
+ bUTPugpT0EFXJumEMdBEsd9axhvYdfg7gqv3pV6qtEH5+EVcGjPdjCi40GF0/78gJu+6 fA== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n1dbg8gt2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 10 Jan 2023 22:55:10 +0000
+Received: from nasanex01b.na.qualcomm.com (corens_vlan604_snip.qualcomm.com [10.53.140.1])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30AMt9bK020238
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 10 Jan 2023 22:55:09 GMT
+Received: from [10.134.67.48] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 10 Jan
+ 2023 14:55:09 -0800
+Message-ID: <560526fe-cd7b-575a-96c9-fe4f8d349e89@quicinc.com>
+Date:   Tue, 10 Jan 2023 14:55:08 -0800
 MIME-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com> <Y7azFdnnGAdGPqmv@kernel.org>
- <20230106094000.GA2297836@chaop.bj.intel.com> <Y7xrtf9FCuYRYm1q@google.com> <20230110091432.GA2441264@chaop.bj.intel.com>
-In-Reply-To: <20230110091432.GA2441264@chaop.bj.intel.com>
-From:   Vishal Annapurve <vannapurve@google.com>
-Date:   Tue, 10 Jan 2023 14:51:35 -0800
-Message-ID: <CAGtprH_V84eSDE1ohRBd24k=MuL+Y0zF1YVbKBjK4ROEHPJEpA@mail.gmail.com>
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v8 04/28] arm64: smccc: Include alternative-macros.h
+Content-Language: en-US
+To:     Alex Elder <elder@linaro.org>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "Lorenzo Pieralisi" <lpieralisi@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-acpi@vger.kernel.org>
+References: <20221219225850.2397345-1-quic_eberman@quicinc.com>
+ <20221219225850.2397345-5-quic_eberman@quicinc.com>
+ <f6bf5577-9a3a-e949-62b8-53f5fcdd3fa4@linaro.org>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <f6bf5577-9a3a-e949-62b8-53f5fcdd3fa4@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: qyhHMAiFyocYQdMtuahXfi9enDBktio1
+X-Proofpoint-ORIG-GUID: qyhHMAiFyocYQdMtuahXfi9enDBktio1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-10_09,2023-01-10_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
+ spamscore=0 mlxscore=0 priorityscore=1501 impostorscore=0 clxscore=1015
+ lowpriorityscore=0 mlxlogscore=843 suspectscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301100152
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 10, 2023 at 1:19 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> >
-> > Regarding the userspace side of things, please include Vishal's selftests in v11,
-> > it's impossible to properly review the uAPI changes without seeing the userspace
-> > side of things.  I'm in the process of reviewing Vishal's v2[*], I'll try to
-> > massage it into a set of patches that you can incorporate into your series.
->
-> Previously I included Vishal's selftests in the github repo, but not
-> include them in this patch series. It's OK for me to incorporate them
-> directly into this series and review together if Vishal is fine.
->
 
-Yeah, I am ok with incorporating selftest patches into this series and
-reviewing them together.
 
-Regards,
-Vishal
+On 1/9/2023 1:34 PM, Alex Elder wrote:
+> On 12/19/22 4:58 PM, Elliot Berman wrote:
+>> Fix build error when CONFIG_ARM64_SVE is selected and
+>> asm/alternative-macros.h wasn't implicitly included by another header.
+>>
+>> In file included from arch/arm64/gunyah/gunyah_hypercall.c:6:
+>> arch/arm64/gunyah/gunyah_hypercall.c: In function 
+>> `gh_hypercall_msgq_send':
+>> ./include/linux/arm-smccc.h:387:25: error: expected string literal 
+>> before `ALTERNATIVE'
+>>    387 | #define SMCCC_SVE_CHECK ALTERNATIVE("nop \n",  "bl 
+>> __arm_smccc_sve_check \n", \
+>>
+>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> 
+> If this is correct (and I presume it is), I think this patch should
+> be posted separate from (and before) the rest of the series.
+> 
 
-> Chao
-> >
-> > [*] https://lore.kernel.org/all/20221205232341.4131240-1-vannapurve@google.com
+Ack, will send this separately.
+
+>                      -Alex
+> 
+>> ---
+>>   include/linux/arm-smccc.h | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/include/linux/arm-smccc.h b/include/linux/arm-smccc.h
+>> index 220c8c60e021..6a627cdbbdec 100644
+>> --- a/include/linux/arm-smccc.h
+>> +++ b/include/linux/arm-smccc.h
+>> @@ -383,6 +383,7 @@ asmlinkage void __arm_smccc_hvc(unsigned long a0, 
+>> unsigned long a1,
+>>   /* nVHE hypervisor doesn't have a current thread so needs separate 
+>> checks */
+>>   #if defined(CONFIG_ARM64_SVE) && !defined(__KVM_NVHE_HYPERVISOR__)
+>> +#include <asm/alternative-macros.h>
+>>   #define SMCCC_SVE_CHECK ALTERNATIVE("nop \n",  "bl 
+>> __arm_smccc_sve_check \n", \
+>>                       ARM64_SVE)
+> 
