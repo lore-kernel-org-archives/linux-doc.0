@@ -2,254 +2,204 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9B02C678DC
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 20:27:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A9D3C54EBC
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 20:59:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234273AbjAJU1N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Jan 2023 15:27:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38892 "EHLO
+        id S231645AbjAJU7B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Jan 2023 15:59:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233426AbjAJU0v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 15:26:51 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEB4C5D40A;
-        Tue, 10 Jan 2023 12:26:48 -0800 (PST)
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30AJg630018333;
-        Tue, 10 Jan 2023 20:26:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=6uvng8xL5Bn+rEjeHfV5ejsTfeOIVOj1jBKo1ovV3lI=;
- b=fLSA/ojPACJHDXBEpCC/6aj4zBLyOeSy0gLXeIATnm4STm5cjNo/KZX+s6JXyPBO3aoW
- PFumPlsaAHzKndCLv59u4XjoZYLGkNTm9iI0+lJ4sKtlleU1sPmp5JfUswH3rHw8Pp6y
- nfkEIhZn7KjcwsOQ3fDjT7wxrbL1rJ8IY41ItMb2yvw0SlIeJm78604hzAi4hQo+ohJb
- oaavP90/Bf6CspJzvOsaZmPw6D1m1OMIDBqh3HYAtg3zTQqRokzqr0XPfgnncR1aJr6S
- p6UNW7OqNET0Ib2WkkRv/I5vSEMsrp068PS0kdiUNaKWvnFdDfeVx+2bWcz5sItxcFw0 ZQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n1edd8yh9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 10 Jan 2023 20:26:46 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30AKHklC002068;
-        Tue, 10 Jan 2023 20:26:45 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n1edd8yg7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 10 Jan 2023 20:26:43 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30AICHUG000580;
-        Tue, 10 Jan 2023 20:26:41 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-        by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3my0c6ndgq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 10 Jan 2023 20:26:41 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-        by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 30AKQcIM24380000
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 10 Jan 2023 20:26:38 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E175120040;
-        Tue, 10 Jan 2023 20:26:37 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5EF8820043;
-        Tue, 10 Jan 2023 20:26:37 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Tue, 10 Jan 2023 20:26:37 +0000 (GMT)
-From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>
-Cc:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v5 04/10] KVM: s390: selftest: memop: Replace macros by functions
-Date:   Tue, 10 Jan 2023 21:26:26 +0100
-Message-Id: <20230110202632.2533978-5-scgl@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230110202632.2533978-1-scgl@linux.ibm.com>
-References: <20230110202632.2533978-1-scgl@linux.ibm.com>
+        with ESMTP id S232281AbjAJU67 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 15:58:59 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 655F212A94;
+        Tue, 10 Jan 2023 12:58:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673384338; x=1704920338;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=DUOoMT/KoCA0/04PsCdLFNoA07rLwCOAgfXc68bNVwg=;
+  b=Zbyp6mAfFEEyQ4mGzbUQfDtWakOlXBNv6i+Gn9RxjHz0D+kotgVkYNI+
+   iUSSZnDjn0sLjyMrxg2jaB+vXK3NfVEj5mOYX7Oqi/ZBVatYu+Cd3gKq8
+   +D0gn8BSTUihYDB8QaMdxnaaxHsJiBL27nM5A7NeFLTCcyevkt1nLi0i+
+   Wy0SjyaayIrgls8lE/bSIW/mxYMt1VJ2itDrqgXDqGr9mlm30CE7n85UC
+   DVkZ4WyWIl7tOk4weczPNDe+seod2fVBbUpCfbm1Ed/cy656rDfHA8wMK
+   eDCyyjdIboHUawX3tlk0tfZftDAn9bU2JZrTwaSrYkZ5sLp0ubkKB5XN2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="385564551"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; 
+   d="scan'208";a="385564551"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2023 12:58:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="659113188"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; 
+   d="scan'208";a="659113188"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmsmga007.fm.intel.com with ESMTP; 10 Jan 2023 12:58:56 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Tue, 10 Jan 2023 12:58:55 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Tue, 10 Jan 2023 12:58:55 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.173)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Tue, 10 Jan 2023 12:58:54 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PdwVnscR6JuyIiS+XGAi/WqysVLkmxYLqU+Y2ttLWm2NHKZWpis62YO9ejYT4YSwSIL3UAti53sDAkSlzc0HTOwTXLjmaalIFjO75BgfXbfcA+4qo6Y90YAiL5gSaFKoRPyS/OnTMppnwQ/+A6T5b8xlg0EunfT95YgjyuMJrvPv2ghNEqrn07aaecm1IFtXXwXyrOoVslW19dKTRoEMC0G+PNbir0KT8to92g2V5SNY6R85ouASWvaDkkiErAOxltKli8Sdz/Fbs01YExAn4k1YMJXs3tCGjxkyTkFF41F5FLd4Br8R3P5tV9ybks6+wwN94UU5Do3FeGi2g9XVqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FxW2UAUG3Gvef3gJm0FG2jg3QAEIQ0RIjBXHmSBgLHA=;
+ b=VyQ6gRJk7BpqrA61fMtQ0tas7nGalIEKUm6fUDFJimifCGPR+u9HYXX6PmuXusHWNjkE0Pb2wx4BeDbx2aehyS4WYS32GrOfmMzvsXGxrAGoroogA3zb+lpUlCZmuctjZDNAbDkFjc5joiULM6Y5cgdRgZxBtJbZJhDkdWWeunSpq5CFLoQv3PUf3ykOCOXPFNPaGAbNduUvjb/acG84NtNI4KxppD7hFP9nztESFjsJJ30Kmf67m7FEyicYOjGOTUheGPDN4edP+4LGBtWtu8eLK4AgZ4zXJkbKQ331dqYfI4nsz4DbOexePbb4bKL8Qj1xzgioFKQN3Ezn+UaHEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DS7PR11MB6077.namprd11.prod.outlook.com (2603:10b6:8:87::16) by
+ PH7PR11MB8059.namprd11.prod.outlook.com (2603:10b6:510:24e::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Tue, 10 Jan
+ 2023 20:58:47 +0000
+Received: from DS7PR11MB6077.namprd11.prod.outlook.com
+ ([fe80::bf13:dd27:972e:decb]) by DS7PR11MB6077.namprd11.prod.outlook.com
+ ([fe80::bf13:dd27:972e:decb%4]) with mapi id 15.20.5986.018; Tue, 10 Jan 2023
+ 20:58:47 +0000
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     "Moger, Babu" <Babu.Moger@amd.com>,
+        Ashok Raj <ashok_raj@linux.intel.com>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+        "Das1, Sandipan" <Sandipan.Das@amd.com>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
+        "jarkko@kernel.org" <jarkko@kernel.org>,
+        "Hunter, Adrian" <adrian.hunter@intel.com>,
+        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
+        "peternewman@google.com" <peternewman@google.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>
+Subject: RE: [PATCH v11 01/13] x86/resctrl: Replace smp_call_function_many()
+ with on_each_cpu_mask()
+Thread-Topic: [PATCH v11 01/13] x86/resctrl: Replace smp_call_function_many()
+ with on_each_cpu_mask()
+Thread-Index: AQHZJEmwi0Q/9mo+9USczeuBgpw/V66WuyYAgAAxMQCAATbhoA==
+Date:   Tue, 10 Jan 2023 20:58:47 +0000
+Message-ID: <DS7PR11MB60772F09B9749307CFA0ED0DFCFF9@DS7PR11MB6077.namprd11.prod.outlook.com>
+References: <20230109164405.569714-1-babu.moger@amd.com>
+ <20230109164405.569714-2-babu.moger@amd.com> <Y7yiwOerGiEKAF9i@araj-dh-work>
+ <MW3PR12MB4553FFAA412FB741A73009A195FF9@MW3PR12MB4553.namprd12.prod.outlook.com>
+In-Reply-To: <MW3PR12MB4553FFAA412FB741A73009A195FF9@MW3PR12MB4553.namprd12.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2023-01-10T02:09:19Z;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=6f41249f-7e8c-4665-a2bd-54b4700bb467;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=1
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS7PR11MB6077:EE_|PH7PR11MB8059:EE_
+x-ms-office365-filtering-correlation-id: 629a65a3-bac1-4351-f0bb-08daf34d77a8
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: vCEejtl6KNFt0G8P3g8/7WhFbgLQP+dNVWwnjWx+WZ8WNBuxnjiLYVUsI3c1wwOZfBU6vZ+LSTH76Ay/eJPzQeC9hKAnIwCKEO6FMZWYJXRLBEhGjrC+G56xK/Du1lzEy9QcXQfK/elbWXbhp3Aa9Y9dQWxWO+bgOw67tG0a6j9b3KAJEClIX6I4sEoHj3V0GZUhbeleXujTSDIDGOdKdS622cW5MKsRDGI9hCRiQsICEonrVyIEZKGn2OxXpi1lQXOLhYfAAfcjU9N3q+xzDpRmBDlneCDBsg1XmxONV8uni2J374UvdhOBMF5TlwOudGl64Fx0tQT2fXO1h1ZRQ5AnIUD3EPkjP02v17C4yka2cdhS21PLMoCs+/t7FY1ANENfmuOd8Z9g/cZGKoNq6nGteqWPDkPsrwKogr6Zg9E21Y2J2ZRyV7+IP191MyIpC5Jbbs+ktNaz9eNfQBmY2QnsJ6/fuWu8G1jfGZh2ziWz3WfhpCOtJabkI/PKpuv0Yy/85uQo1vO2Ypt0uDvsxQHnbAh73AKKlICrolM5XgMhSzsgDtQEkyqUzC5G1u8j2iW9ygJKrHetQ/lpmKuOA9oaEl0SsX/IWuSvgaVvvD7WnSNa6VnbADws7C5HuxHqAQLNZNncUGDMtpYGvfVksSi+Jy/ip0KDMrrWwqRPzj40A3jNlKpCFXK3aUFaqddXFcqKY4WHu96JjttaAc8nDA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR11MB6077.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(39860400002)(346002)(376002)(366004)(396003)(451199015)(52536014)(66946007)(41300700001)(2906002)(8936002)(7406005)(5660300002)(7416002)(4744005)(8676002)(66476007)(66446008)(76116006)(64756008)(316002)(66556008)(7696005)(71200400001)(54906003)(110136005)(478600001)(6506007)(33656002)(186003)(4326008)(55016003)(26005)(9686003)(83380400001)(86362001)(38100700002)(82960400001)(122000001)(38070700005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?haZGgkyEkaKI+npfRQ6PqU1CL1b8t5+Y4BwB3jnXOzMtPODt5Xfs8zsT7ebt?=
+ =?us-ascii?Q?6zzGNUe+x5wqnWFTQuQZhlL5MtoWcgJeqUjnQa2GjY1ZzbYCfzXB2vpPxbY8?=
+ =?us-ascii?Q?7CtzPtFhZMdiWASLXvfWTeOfNsZhb0Lmaxj4qbv0M/duh2UTQGBU3ZbZMUCr?=
+ =?us-ascii?Q?QCGZtQfzjZ8otR5svmDaB6Q8rFN5UjGEwleTRO7Y100K0Y6RkrQk7/eD1JHz?=
+ =?us-ascii?Q?OhPi3SY1ytfFw5TWWNRmUeDXIbsp/7yie7x48DOf/KSXyMqxTYamwBrExqlN?=
+ =?us-ascii?Q?HnVv07QqoBeRhZF8Z5+v9Z4KzIFR8OtyUpQrJJTu69Kl2XSwIcrD3B9uXNvc?=
+ =?us-ascii?Q?rSNwtuOOTfrs/GIF0mReHewI30eYovjQ10jp/G2dBJsARNx73E+CU0eVMxWm?=
+ =?us-ascii?Q?sUspQBKaD+rItOlC/mib463gw+bCwcU0FnC4koCZVzkLZjmsw0WrT0uGvaJt?=
+ =?us-ascii?Q?gKKQAiYUPIT2w1HFTU/lASLMMp2rHn6YYppFOTq+WWzava65mX2tVQ1RUGpu?=
+ =?us-ascii?Q?2swY8Snj2jvc3dRbrTQ4gX+Ji5VlxACnM9vLiTv+8hBax0CGsI8L9VI11G2Z?=
+ =?us-ascii?Q?ADuSr8yTFw+WZG5waCDf0VI+k1FxNQgNMT19GixiauN3DB3LMQJHKE9R0QKn?=
+ =?us-ascii?Q?IE11q6XKAARgeKlEFdmOFfNZY4teQbmQ3Q3ZmbXoN8Vf2ZX/uu4fOB3zk14p?=
+ =?us-ascii?Q?RqMxmPb9sfi03iPgSklS6nFCxR7IyDdQyQpxfXiPkNximPdBDkTTLOJJC0NM?=
+ =?us-ascii?Q?tENYsZzXxvhhwJtnLoifLpZQumMGZzC1st1gtS7oVR85emKwtL00qpVuot8p?=
+ =?us-ascii?Q?glQf/HykARG23O9FpUzEzey9j5sf1uG691cbRA0c1MedPy0jg2RSka/jUUuO?=
+ =?us-ascii?Q?8gjzSn3wq5IzuYyH6FjxiVoSXy/iBXo5O58ASatCAkuraYcHfet+L31aIi+t?=
+ =?us-ascii?Q?YSBi88bvkwiQluqIdcs5hY+UgohokhRpxQIq2+W+38Bh+Pppg8U73RO1/zmo?=
+ =?us-ascii?Q?xQ5z29km6ZhqOBwvk4Z1cHTgkzB5mGFh/zb1Fr6qtrgcnWHu7i8sFENaunoq?=
+ =?us-ascii?Q?RshIcyD4DbjMmTHFvn5PcaJ7N1ggvbj20PgFRbB0BdZxL3XWJ0WfMqsNWuuM?=
+ =?us-ascii?Q?RyworeE7mycg0hFrgFiR6jIiux42su+jsTPVJvMcGYaswe1xuSAM3HusFzjD?=
+ =?us-ascii?Q?3G/c65RI2sMD7WKrBznxSAjvxz8rSxCMEIc4poaF6SzniNaJR40R8XSLiZ5I?=
+ =?us-ascii?Q?CgvLL0OUBeLEoGpjaRhxictjnjH651IktEbYglNKCABEoz+dJZ8BHcbEpaTh?=
+ =?us-ascii?Q?WMT+7RLdnS2jY9SUuP9Sq6HNDcqGQ8D+P9Lsk/7+616Gqr3YvkpgHE7M1IF3?=
+ =?us-ascii?Q?jCOUqb+4beWfwU49oq1hCik4Pd/kJbQqOFVesqEWgQhUEMVCKc8jjqEAo0Lv?=
+ =?us-ascii?Q?ATa56ug6+yCg2zBqIKzOo/fDUtwW3RMQLk0opcaRzL6SSCjw0Ovwe7NcL4+J?=
+ =?us-ascii?Q?+PX1gD+iL9GZMVwmuca2WAKu7pX8DqG8UQjg+qBvnCJE8WuuBeSdq0k8+OKQ?=
+ =?us-ascii?Q?6nUj5Gsz6aaMZzXPxylksYsNZRioVc96KQ50DCUg?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: UeXZcr_zYf4T1kaLXjre6NeSw_Uhk7ZI
-X-Proofpoint-GUID: vI5E8h5jRyAgMT4sOpALuPVxxYc78lDE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-10_09,2023-01-10_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 impostorscore=0 bulkscore=0 adultscore=0 phishscore=0
- mlxlogscore=999 malwarescore=0 spamscore=0 lowpriorityscore=0 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301100133
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB6077.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 629a65a3-bac1-4351-f0bb-08daf34d77a8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jan 2023 20:58:47.1469
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: b5BAFiw9bVVpZ8DNyShI4ghM9v0B7ehOxvbp5cdsk6DM2qKuCG6B+yhGiOnUH7IC0VhU9YAHYlpX3GNyO5Pzng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8059
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Replace the DEFAULT_* test helpers by functions, as they don't
-need the exta flexibility.
+> > > + /* Update resource control msr on all the CPUs. */
+> > > + on_each_cpu_mask(cpu_mask, rdt_ctrl_update, &msr_param, 1);
+> >
+> > Do you require these updates to done immediately via an IPI? or can the=
+y be
+> > done bit lazy via schedule_on_each_cpu()?
+>
+> I have not experimented with lazy schedule.  At least I know the call
+> update_cpu_closid_rmid should be completed immediately. Otherwise, the
+> result might be inconsistent as the tasks(or CPUs)  could be running on
+> two different closed/rmids before it is updated on all CPUs in the domain=
+.
 
-Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
----
- tools/testing/selftests/kvm/s390x/memop.c | 82 +++++++++++------------
- 1 file changed, 39 insertions(+), 43 deletions(-)
+I think this does need to happen somewhat urgently. Imagine trying to give
+some extra resources to a CPU bound real-time process. That process will
+keep running with the old resource allocation.
 
-diff --git a/tools/testing/selftests/kvm/s390x/memop.c b/tools/testing/selftests/kvm/s390x/memop.c
-index 9c05d1205114..df1c726294b2 100644
---- a/tools/testing/selftests/kvm/s390x/memop.c
-+++ b/tools/testing/selftests/kvm/s390x/memop.c
-@@ -48,6 +48,8 @@ struct mop_desc {
- 	uint8_t key;
- };
- 
-+const uint8_t NO_KEY = 0xff;
-+
- static struct kvm_s390_mem_op ksmo_from_desc(const struct mop_desc *desc)
- {
- 	struct kvm_s390_mem_op ksmo = {
-@@ -85,7 +87,7 @@ static struct kvm_s390_mem_op ksmo_from_desc(const struct mop_desc *desc)
- 		ksmo.flags |= KVM_S390_MEMOP_F_INJECT_EXCEPTION;
- 	if (desc->_set_flags)
- 		ksmo.flags = desc->set_flags;
--	if (desc->f_key) {
-+	if (desc->f_key && desc->key != NO_KEY) {
- 		ksmo.flags |= KVM_S390_MEMOP_F_SKEY_PROTECTION;
- 		ksmo.key = desc->key;
- 	}
-@@ -268,34 +270,28 @@ static void prepare_mem12(void)
- #define ASSERT_MEM_EQ(p1, p2, size) \
- 	TEST_ASSERT(!memcmp(p1, p2, size), "Memory contents do not match!")
- 
--#define DEFAULT_WRITE_READ(copy_cpu, mop_cpu, mop_target_p, size, ...)		\
--({										\
--	struct test_info __copy_cpu = (copy_cpu), __mop_cpu = (mop_cpu);	\
--	enum mop_target __target = (mop_target_p);				\
--	uint32_t __size = (size);						\
--										\
--	prepare_mem12();							\
--	CHECK_N_DO(MOP, __mop_cpu, __target, WRITE, mem1, __size,		\
--			GADDR_V(mem1), ##__VA_ARGS__);				\
--	HOST_SYNC(__copy_cpu, STAGE_COPIED);					\
--	CHECK_N_DO(MOP, __mop_cpu, __target, READ, mem2, __size,		\
--			GADDR_V(mem2), ##__VA_ARGS__);				\
--	ASSERT_MEM_EQ(mem1, mem2, __size);					\
--})
-+static void default_write_read(struct test_info copy_cpu, struct test_info mop_cpu,
-+			       enum mop_target mop_target, uint32_t size, uint8_t key)
-+{
-+	prepare_mem12();
-+	CHECK_N_DO(MOP, mop_cpu, mop_target, WRITE, mem1, size,
-+		   GADDR_V(mem1), KEY(key));
-+	HOST_SYNC(copy_cpu, STAGE_COPIED);
-+	CHECK_N_DO(MOP, mop_cpu, mop_target, READ, mem2, size,
-+		   GADDR_V(mem2), KEY(key));
-+	ASSERT_MEM_EQ(mem1, mem2, size);
-+}
- 
--#define DEFAULT_READ(copy_cpu, mop_cpu, mop_target_p, size, ...)		\
--({										\
--	struct test_info __copy_cpu = (copy_cpu), __mop_cpu = (mop_cpu);	\
--	enum mop_target __target = (mop_target_p);				\
--	uint32_t __size = (size);						\
--										\
--	prepare_mem12();							\
--	CHECK_N_DO(MOP, __mop_cpu, __target, WRITE, mem1, __size,		\
--			GADDR_V(mem1));						\
--	HOST_SYNC(__copy_cpu, STAGE_COPIED);					\
--	CHECK_N_DO(MOP, __mop_cpu, __target, READ, mem2, __size, ##__VA_ARGS__);\
--	ASSERT_MEM_EQ(mem1, mem2, __size);					\
--})
-+static void default_read(struct test_info copy_cpu, struct test_info mop_cpu,
-+			 enum mop_target mop_target, uint32_t size, uint8_t key)
-+{
-+	prepare_mem12();
-+	CHECK_N_DO(MOP, mop_cpu, mop_target, WRITE, mem1, size, GADDR_V(mem1));
-+	HOST_SYNC(copy_cpu, STAGE_COPIED);
-+	CHECK_N_DO(MOP, mop_cpu, mop_target, READ, mem2, size,
-+		   GADDR_V(mem2), KEY(key));
-+	ASSERT_MEM_EQ(mem1, mem2, size);
-+}
- 
- static void guest_copy(void)
- {
-@@ -310,7 +306,7 @@ static void test_copy(void)
- 
- 	HOST_SYNC(t.vcpu, STAGE_INITED);
- 
--	DEFAULT_WRITE_READ(t.vcpu, t.vcpu, LOGICAL, t.size);
-+	default_write_read(t.vcpu, t.vcpu, LOGICAL, t.size, NO_KEY);
- 
- 	kvm_vm_free(t.kvm_vm);
- }
-@@ -357,26 +353,26 @@ static void test_copy_key(void)
- 	HOST_SYNC(t.vcpu, STAGE_SKEYS_SET);
- 
- 	/* vm, no key */
--	DEFAULT_WRITE_READ(t.vcpu, t.vm, ABSOLUTE, t.size);
-+	default_write_read(t.vcpu, t.vm, ABSOLUTE, t.size, NO_KEY);
- 
- 	/* vm/vcpu, machting key or key 0 */
--	DEFAULT_WRITE_READ(t.vcpu, t.vcpu, LOGICAL, t.size, KEY(0));
--	DEFAULT_WRITE_READ(t.vcpu, t.vcpu, LOGICAL, t.size, KEY(9));
--	DEFAULT_WRITE_READ(t.vcpu, t.vm, ABSOLUTE, t.size, KEY(0));
--	DEFAULT_WRITE_READ(t.vcpu, t.vm, ABSOLUTE, t.size, KEY(9));
-+	default_write_read(t.vcpu, t.vcpu, LOGICAL, t.size, 0);
-+	default_write_read(t.vcpu, t.vcpu, LOGICAL, t.size, 9);
-+	default_write_read(t.vcpu, t.vm, ABSOLUTE, t.size, 0);
-+	default_write_read(t.vcpu, t.vm, ABSOLUTE, t.size, 9);
- 	/*
- 	 * There used to be different code paths for key handling depending on
- 	 * if the region crossed a page boundary.
- 	 * There currently are not, but the more tests the merrier.
- 	 */
--	DEFAULT_WRITE_READ(t.vcpu, t.vcpu, LOGICAL, 1, KEY(0));
--	DEFAULT_WRITE_READ(t.vcpu, t.vcpu, LOGICAL, 1, KEY(9));
--	DEFAULT_WRITE_READ(t.vcpu, t.vm, ABSOLUTE, 1, KEY(0));
--	DEFAULT_WRITE_READ(t.vcpu, t.vm, ABSOLUTE, 1, KEY(9));
-+	default_write_read(t.vcpu, t.vcpu, LOGICAL, 1, 0);
-+	default_write_read(t.vcpu, t.vcpu, LOGICAL, 1, 9);
-+	default_write_read(t.vcpu, t.vm, ABSOLUTE, 1, 0);
-+	default_write_read(t.vcpu, t.vm, ABSOLUTE, 1, 9);
- 
- 	/* vm/vcpu, mismatching keys on read, but no fetch protection */
--	DEFAULT_READ(t.vcpu, t.vcpu, LOGICAL, t.size, GADDR_V(mem2), KEY(2));
--	DEFAULT_READ(t.vcpu, t.vm, ABSOLUTE, t.size, GADDR_V(mem1), KEY(2));
-+	default_read(t.vcpu, t.vcpu, LOGICAL, t.size, 2);
-+	default_read(t.vcpu, t.vm, ABSOLUTE, t.size, 2);
- 
- 	kvm_vm_free(t.kvm_vm);
- }
-@@ -409,7 +405,7 @@ static void test_copy_key_storage_prot_override(void)
- 	HOST_SYNC(t.vcpu, STAGE_SKEYS_SET);
- 
- 	/* vcpu, mismatching keys, storage protection override in effect */
--	DEFAULT_WRITE_READ(t.vcpu, t.vcpu, LOGICAL, t.size, KEY(2));
-+	default_write_read(t.vcpu, t.vcpu, LOGICAL, t.size, 2);
- 
- 	kvm_vm_free(t.kvm_vm);
- }
-@@ -422,8 +418,8 @@ static void test_copy_key_fetch_prot(void)
- 	HOST_SYNC(t.vcpu, STAGE_SKEYS_SET);
- 
- 	/* vm/vcpu, matching key, fetch protection in effect */
--	DEFAULT_READ(t.vcpu, t.vcpu, LOGICAL, t.size, GADDR_V(mem2), KEY(9));
--	DEFAULT_READ(t.vcpu, t.vm, ABSOLUTE, t.size, GADDR_V(mem2), KEY(9));
-+	default_read(t.vcpu, t.vcpu, LOGICAL, t.size, 9);
-+	default_read(t.vcpu, t.vm, ABSOLUTE, t.size, 9);
- 
- 	kvm_vm_free(t.kvm_vm);
- }
--- 
-2.34.1
-
+-Tony
