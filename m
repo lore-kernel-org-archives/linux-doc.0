@@ -2,143 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B814C67871
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 14:48:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05159C46467
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 15:03:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234127AbjAJOse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Jan 2023 09:48:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58434 "EHLO
+        id S234067AbjAJPDI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Jan 2023 10:03:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238702AbjAJOsZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 09:48:25 -0500
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0A724FCF2;
-        Tue, 10 Jan 2023 06:48:24 -0800 (PST)
-Received: by mail-lj1-x22f.google.com with SMTP id p25so6524944ljn.12;
-        Tue, 10 Jan 2023 06:48:24 -0800 (PST)
+        with ESMTP id S233300AbjAJPDE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 10:03:04 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C1155AC70;
+        Tue, 10 Jan 2023 07:02:38 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id n12so12666627pjp.1;
+        Tue, 10 Jan 2023 07:02:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v5WsDUKqWc4u2jJZSjpZXWIATqF3Ue62OEMi4UxyJJ0=;
-        b=oc2q/yf7Mk3QIlXAJYeunlc0xCzF2jvNa+OlXsTXr8lFDtVjeEoCiol1ouFQbJZ1B/
-         DVduttuoKizppvkqtLxYQMTN1QKiOES3NgF5UoqkbILX/9nFbBsNVPPoS/kJBTtUDqQc
-         Ik8CVMr+t/u/sRvPOc1FGAoLlVDF5BbKylVDYae3TcaZwzoGO9F8VhJUtQ5Y6X0Z36Ta
-         36QV6jghOZeBndrBoq15x2Sjvk+jMdZovO0HHTsV281PKgjZOJwrbIwxn5ocyhEI5FLU
-         8ax3oiWPUPJ9jSZ1wFRrDypucm2G1ZtJvrPVSdzNQ6o7UPBE6qtodw3i1TYsypPXfi6a
-         aqAg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hnA+uHCy6P7PsRxtJOnvckRetO3eFNxuDZZIKa1zGWA=;
+        b=dhgyhtsB5aZlrR6UFvRwSLqV6ez6fA1AQxxivKlkF5lUcN1PMBqReoL8t5AZTpqGvi
+         UCBKIzURulQig3MfXAyebDMzTRJqgUduJGsszrybT8zYH+WY0avP8ch2bufY+DmIaAaD
+         5/XO0WULz3Xlf4Cei6Eh7uviB6LxrdSI/roctxmwXUhHRPP/sKpYwDeWpY1ITsAVHCfz
+         IW5uPiM2kLC7x4c0ZlhZEAGgM9KHi3UawsugGer8SPXd796TUjOedpxdxSf6MKUgzoAz
+         ecyP2q8F5mxr3ZTq7ECE8hpY0DUbFRn0dOBkK9yCo8C95HVCoIh1MoZTWYKgZvECqc03
+         pDJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v5WsDUKqWc4u2jJZSjpZXWIATqF3Ue62OEMi4UxyJJ0=;
-        b=0JVdiHa+KxICLADOT3e2rcItXgVvuVGZhxd9stmLuk2GkMTHVq+WDlsm4JO/2Lc5aA
-         nc6AVzpLKEJjOSIf+IVYL3/skTExZF0+0M7QVlbVCR92mVUo1UCg5un7+VOtD6sTP5+h
-         JegD69BaSNH6nMTywo0zBdgaTpgWXpwj9Gi1iPmkByuACzJvY83v9J5D5+WBKgpZjyep
-         qIvBo0ma77YY39VG0TG7xUbmnlWHGBmekB9TqhQW0IoKIXXya+7UotGzchO7H/78Me68
-         /+7jJhnk1+7BK8JA8E73oCsz4+RJjMwuv4U/TaMXpQjh6MnssY2ltgcwknToxz6JRBoP
-         6KWQ==
-X-Gm-Message-State: AFqh2kpO0qJNKImfr4vBONVdM8EioK5MSl8V1vZxqw2UkVBl0JVY5Rvx
-        9qIItHe2wcAxNtq3w5wT5nU=
-X-Google-Smtp-Source: AMrXdXsgTVvxwQgYkltkVwEjosBkKDYfG19UHkSooATESFBmQ4jCcULgczuaRd9ZB3b5tLhmA/IqUQ==
-X-Received: by 2002:a2e:95c6:0:b0:285:74d8:fd15 with SMTP id y6-20020a2e95c6000000b0028574d8fd15mr1698704ljh.9.1673362102984;
-        Tue, 10 Jan 2023 06:48:22 -0800 (PST)
-Received: from gmail.com (82-209-154-112.cust.bredband2.com. [82.209.154.112])
-        by smtp.gmail.com with ESMTPSA id t21-20020a2e8e75000000b0027b54ff90c0sm1323531ljk.139.2023.01.10.06.48.21
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hnA+uHCy6P7PsRxtJOnvckRetO3eFNxuDZZIKa1zGWA=;
+        b=gP0x8kxkgpwZ7NN/OpDkQcsBW9e2fSsqVuTim36zMK666c59cOaciToWOOZKbB3qKx
+         p4UZD2KXH2Ep6+kzdRS3x+MRdzhM4KGT6lO8dlbvD7DmjHacXUTqohq5w3fnsUQfw08T
+         yRCVM/9yV7Duucqz6rHsCGiMPxajNxy2UiXeB0K2yDB7MCJrT0ed7Uas2O7A0Z814Gwo
+         fFm3uhy+kC4nogKV7vrhrTAcdJGDXB3xOnITVno9x60wuoS+nfeDBVJbwqcdDzvISlq0
+         PC3xSnTdJ8GKkZEYa/MnV54FaujwlpXvJXJwCfxWpBuU7E2CQNxvm/ads9PY2Rrh9soZ
+         sHMQ==
+X-Gm-Message-State: AFqh2krFAy7LzHoZu/5oldyWFfGSzzZgsT64GiUoND5I54co+KCZ8+4F
+        z99CeKcfjwWMVTTyFYZPov17lkCsbnxIFA==
+X-Google-Smtp-Source: AMrXdXt5tCuAAgKwaXBm87V1iTA5iPygkUHNDS3T7BPy7wXrUHqdHL9awf4YImc6EgBEH8F54ej01g==
+X-Received: by 2002:a17:90b:3758:b0:225:d698:69b9 with SMTP id ne24-20020a17090b375800b00225d69869b9mr61179882pjb.17.1673362958320;
+        Tue, 10 Jan 2023 07:02:38 -0800 (PST)
+Received: from localhost.localdomain ([185.216.119.110])
+        by smtp.googlemail.com with ESMTPSA id qe9-20020a17090b4f8900b001df264610c4sm2534681pjb.0.2023.01.10.07.02.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jan 2023 06:48:21 -0800 (PST)
-Date:   Tue, 10 Jan 2023 15:48:33 +0100
-From:   Marcus Folkesson <marcus.folkesson@gmail.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Subject: Re: [RESEND PATCH 1/2] HID: Add driver for RC Simulator Controllers
-Message-ID: <Y716wUFVm+PvkMqv@gmail.com>
-References: <20220822060936.769855-1-marcus.folkesson@gmail.com>
- <CAO-hwJ+3Yrr--cr=r5+jvs4A=A-cmDtrKQETo=YOYDC3nXTMBg@mail.gmail.com>
- <YwTvrNuulKx0SB6H@gmail.com>
- <CAO-hwJKiq50fWwXNUGcXeWtWcUXb65ZmJMsADfrsUTac_Xj2dw@mail.gmail.com>
- <YwcbVJswrL1Doi4s@gmail.com>
- <CAO-hwJJ86oAuaFD+uX7Rwv7cASO=4mchRJ1UBTxz9gYs6M1rUg@mail.gmail.com>
- <YyLVblZkIPCvNd/2@gmail.com>
- <CAO-hwJJ5dRrgxrae-RasYXuu7C9xjw6RmPaPfmO=YU3StMaQ3A@mail.gmail.com>
- <d4b420a0-23da-6ab6-886a-7342f7e63651@redhat.com>
+        Tue, 10 Jan 2023 07:02:38 -0800 (PST)
+From:   Wang Yong <yongw.kernel@gmail.com>
+To:     corbet@lwn.net, pbonzini@redhat.com, kchamart@redhat.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, Wang Yong <yongw.kernel@gmail.com>
+Subject: [PATCH] Documentation: KVM: fix typos in running-nested-guests.rst
+Date:   Tue, 10 Jan 2023 15:00:46 +0000
+Message-Id: <20230110150046.549755-1-yongw.kernel@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="CYuxnQgK2200QJ9N"
-Content-Disposition: inline
-In-Reply-To: <d4b420a0-23da-6ab6-886a-7342f7e63651@redhat.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+change "gues" to "guest" and remove redundant ")".
 
---CYuxnQgK2200QJ9N
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Wang Yong <yongw.kernel@gmail.com>
+---
+ Documentation/virt/kvm/x86/running-nested-guests.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi Benjamin,
+diff --git a/Documentation/virt/kvm/x86/running-nested-guests.rst b/Documentation/virt/kvm/x86/running-nested-guests.rst
+index a27e6768d900..71136fe1723b 100644
+--- a/Documentation/virt/kvm/x86/running-nested-guests.rst
++++ b/Documentation/virt/kvm/x86/running-nested-guests.rst
+@@ -150,7 +150,7 @@ able to start an L1 guest with::
+     $ qemu-kvm -cpu host [...]
+ 
+ The above will pass through the host CPU's capabilities as-is to the
+-gues); or for better live migration compatibility, use a named CPU
++guest, or for better live migration compatibility, use a named CPU
+ model supported by QEMU. e.g.::
+ 
+     $ qemu-kvm -cpu Haswell-noTSX-IBRS,vmx=on
+-- 
+2.25.1
 
-On Mon, Sep 19, 2022 at 03:32:37PM +0200, Benjamin Tissoires wrote:
->=20
->=20
-
-[...]
-
->=20
-> I am back home, and I just tested that. I had a doubt, and it is indeed
-> failing. You need the following change for this to be working (I need to
-> send it as a proper patch after assessing it hasn't side effects)
-
-Did it come up with any side effects? :-)
-
->=20
-> ---
->=20
-> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-> index 13cce286247e..f37ffe2bd488 100644
-> --- a/drivers/hid/usbhid/hid-core.c
-> +++ b/drivers/hid/usbhid/hid-core.c
-> @@ -275,6 +275,7 @@ static void hid_irq_in(struct urb *urb)
->         int                     status;
->         switch (urb->status) {
-> +       case -EOVERFLOW:        /* happens with modified report descripto=
-rs */
->         case 0:                 /* success */
->                 usbhid->retry_delay =3D 0;
->                 if (!test_bit(HID_OPENED, &usbhid->iofl))
-> ---
->=20
-> Cheers,
-> Benjamin
->=20
-
-Best regards,
-Marcus Folkesson
-
-
---CYuxnQgK2200QJ9N
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmO9erwACgkQiIBOb1ld
-UjIKFA//chEo/4qumcU+/1AFw44iiyHLU7hw3sANpAQkevMeFkzQUrE25/7/Oul9
-PRzga+rowCyIFQMWqlj5qrr3ns5tOXUFZaCZmcK0az0sKIFhPnSgR8fBHEAmgUiK
-mPyMuOQ6DMTkO6wvv4tstNw2SzA4xjaxRsVKsb/B4NFjJOefLTxWKQPWcPMkJNtn
-+GOsdDBwj+r1pd9xse0d6VHpZklV5tGw0nONclTisQ8WvtQS+PQVWkAFoJoj0kF6
-wLu2059i2T4sxZr8vpJiqZzM4DVAG2z3lvdp5j5SxoUDxp+TA+m8J/xMRMElhIpK
-iO8QWlvOWS9q1PKzN6rJHqffhGPeoHt11zoKeHD67mYE/s+C0SX3tiXefobRjkFf
-/bl+kve2AgJBAMBbQdUEHt1v4uoczj2oqljKQxkOwY1Uu7a1QxuWUfaVWHuklVsq
-tUffwME//mjn/liJsALqJA7k75ZmlApHJiCv0+LOq4LWdC0LIHWN5Z4/oRmClLpp
-o/mpTlUA3G+pEw0Gkv4ypMmDLoj5S7ljIdH08wmB4lhe2l38Fq5m6Y7Q/iXm1TXX
-XkTOo6a2185ExqVk+MPAkRhr/v95ZFHLnYM56oyERMW2zEgBvWSnQrL49xcOVzDb
-mE4ubjD7WygIVPc558GpEiwAGiPk1sMH+k4Exuj5fptk9kHviAU=
-=JxWA
------END PGP SIGNATURE-----
-
---CYuxnQgK2200QJ9N--
