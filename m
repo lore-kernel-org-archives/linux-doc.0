@@ -2,143 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4BD6C46467
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 08:34:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 778B3C54EBE
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 09:01:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232048AbjAJIeF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Jan 2023 03:34:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56240 "EHLO
+        id S230202AbjAJJBC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Jan 2023 04:01:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229702AbjAJIeE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 03:34:04 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A0B49151;
-        Tue, 10 Jan 2023 00:34:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=t0g8sAMw0YuigClEe8J6Of8uYBawzqc1qw15eQtTooo=; b=KEFepgJrWEeL9uBmLyGXAalt+U
-        Jm4LcNJKx5mAdHe57CNNrg4oj1j9hd1AqdvItVQRtm35W5v6TQ/B49MYBUcKX83cd2sxykixLdens
-        8jhJ8pzVNn91Rh2XPC1hSMP2uABFLZcrCe9GEh3q+8P0+2R2OqKSgyLcJbPq5hPwGINuqzl71a4mI
-        X49DYcRt1ylSGtFdZpTLwoGxLb+KGoauNXiPa7vOZzBtgrkEDDjGRG1Vi2GA2BML1dLqBevRADk+9
-        MlCuhRDzSLaHRh2zyvNm/Ijuu/qQxDjQLZ7ToLhyEqv2J3dVAwzQy5ULTGGQgSERvvbnfS0KVpfj9
-        a0WPVTmA==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pFA3w-0033Qg-1y;
-        Tue, 10 Jan 2023 08:32:53 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        with ESMTP id S238498AbjAJI7w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 03:59:52 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563AF4D71E;
+        Tue, 10 Jan 2023 00:58:25 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 4BE59300033;
-        Tue, 10 Jan 2023 09:32:55 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id BF2782C4AA552; Tue, 10 Jan 2023 09:32:55 +0100 (CET)
-Date:   Tue, 10 Jan 2023 09:32:55 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Heiko Carstens <hca@linux.ibm.com>
-Cc:     Thomas Richter <tmricht@linux.ibm.com>,
-        torvalds@linux-foundation.org, corbet@lwn.net, will@kernel.org,
-        boqun.feng@gmail.com, mark.rutland@arm.com,
-        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
-        cl@linux.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
-        borntraeger@linux.ibm.com, svens@linux.ibm.com,
-        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        joro@8bytes.org, suravee.suthikulpanit@amd.com,
-        robin.murphy@arm.com, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
-        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-s390@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org
-Subject: Re: [RFC][PATCH 08/12] s390: Replace cmpxchg_double() with
- cmpxchg128()
-Message-ID: <Y70it59wuvsnKJK1@hirez.programming.kicks-ass.net>
-References: <20221219153525.632521981@infradead.org>
- <20221219154119.352918965@infradead.org>
- <Y70SWXHDmOc3RhMd@osiris>
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 4930267AEB;
+        Tue, 10 Jan 2023 08:58:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1673341100; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=MQLMOsWeyfQ9OMwOEPpBfSY/zX1K5gLRGoJXs0PRFhQ=;
+        b=d0/gJhZr3338arujv292RDCpaFVCNpNRhfmbIWIBvXye7cZy8BnXDKXCy9uBlP+DXmqzhv
+        vH5AzxAF9dGjzxCxyUj1ty+EwLrjZ3mqqo1g8JsfnV+KA79R00NSzTgm9DNtTFXOX4Gf8S
+        h+jlN7NEV2XA5L/y7LnIoWd7unR8GQs=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 28CB313338;
+        Tue, 10 Jan 2023 08:58:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 36wFB6wovWP/IgAAMHmgww
+        (envelope-from <mhocko@suse.com>); Tue, 10 Jan 2023 08:58:20 +0000
+Date:   Tue, 10 Jan 2023 09:58:19 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <muchun.song@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        daniel.vetter@ffwll.ch, android-mm@google.com, jstultz@google.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH 1/4] memcg: Track exported dma-buffers
+Message-ID: <Y70oqxejnUqkJVPx@dhcp22.suse.cz>
+References: <20230109213809.418135-1-tjmercier@google.com>
+ <20230109213809.418135-2-tjmercier@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y70SWXHDmOc3RhMd@osiris>
+In-Reply-To: <20230109213809.418135-2-tjmercier@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 10, 2023 at 08:23:05AM +0100, Heiko Carstens wrote:
+On Mon 09-01-23 21:38:04, T.J. Mercier wrote:
+> When a buffer is exported to userspace, use memcg to attribute the
+> buffer to the allocating cgroup until all buffer references are
+> released.
+> 
+> Unlike the dmabuf sysfs stats implementation, this memcg accounting
+> avoids contention over the kernfs_rwsem incurred when creating or
+> removing nodes.
 
-> So, Alexander Gordeev reported that this code was already prior to your
-> changes potentially broken with respect to missing READ_ONCE() within the
-> cmpxchg_double() loops.
+I am not familiar with dmabuf infrastructure so please bear with me.
+AFAIU this patch adds a dmabuf specific counter to find out the amount
+of dmabuf memory used. But I do not see any actual charging implemented
+for that memory.
 
-Unless there's an early exit, that shouldn't matter. If you managed to
-read garbage the cmpxchg itself will simply fail and the loop retries.
+I have looked at two random users of dma_buf_export cma_heap_allocate
+and it allocates pages to back the dmabuf (AFAIU) by cma_alloc
+which doesn't account to memcg, system_heap_allocate uses
+alloc_largest_available which relies on order_flags which doesn't seem
+to ever use __GFP_ACCOUNT.
 
-> @@ -1294,12 +1306,16 @@ static void hw_perf_event_update(struct perf_event *event, int flush_all)
->  		num_sdb++;
->  
->  		/* Reset trailer (using compare-double-and-swap) */
-> +		/* READ_ONCE() 16 byte header */
-> +		prev.val = __cdsg(&te->header.val, 0, 0);
->  		do {
-> +			old.val = prev.val;
-> +			new.val = prev.val;
-> +			new.f = 0;
-> +			new.a = 1;
-> +			new.overflow = 0;
-> +			prev.val = __cdsg(&te->header.val, old.val, new.val);
-> +		} while (prev.val != old.val);
+This would mean that the counter doesn't represent any actual memory
+reflected in the overall memory consumption of a memcg. I believe this
+is rather unexpected and confusing behavior. While some counters
+overlap and their sum would exceed the charged memory we do not have any
+that doesn't correspond to any memory (at least not for non-root memcgs).
 
-So this, and
-
-> +		/* READ_ONCE() 16 byte header */
-> +		prev.val = __cdsg(&te->header.val, 0, 0);
->  		do {
-> +			old.val = prev.val;
-> +			new.val = prev.val;
-> +			orig_overflow = old.overflow;
-> +			new.f = 0;
-> +			new.overflow = 0;
->  			if (idx == aux->alert_mark)
-> +				new.a = 1;
->  			else
-> +				new.a = 0;
-> +			prev.val = __cdsg(&te->header.val, old.val, new.val);
-> +		} while (prev.val != old.val);
-
-this case are just silly and expensive. If that initial read is split
-and manages to read gibberish the cmpxchg will fail and we retry anyway.
-
-> +	/* READ_ONCE() 16 byte header */
-> +	prev.val = __cdsg(&te->header.val, 0, 0);
->  	do {
-> +		old.val = prev.val;
-> +		new.val = prev.val;
-> +		*overflow = old.overflow;
-> +		if (old.f) {
->  			/*
->  			 * SDB is already set by hardware.
->  			 * Abort and try to set somewhere
-> @@ -1490,10 +1509,10 @@ static bool aux_set_alert(struct aux_buffer *aux, unsigned long alert_index,
->  			 */
->  			return false;
->  		}
-> +		new.a = 1;
-> +		new.overflow = 0;
-> +		prev.val = __cdsg(&te->header.val, old.val, new.val);
-> +	} while (prev.val != old.val);
-
-
-And while this case has an early exit, it only cares about a single bit
-(although you made it a full word) and so also shouldn't care. If
-aux_reset_buffer() returns false, @overflow isn't consumed.
-
-
-So I really don't see the point of this patch.
+-- 
+Michal Hocko
+SUSE Labs
