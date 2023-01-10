@@ -2,86 +2,182 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05159C46467
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 15:03:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB021C63797
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 15:03:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234067AbjAJPDI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Jan 2023 10:03:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41928 "EHLO
+        id S232431AbjAJPDt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Jan 2023 10:03:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233300AbjAJPDE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 10:03:04 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C1155AC70;
-        Tue, 10 Jan 2023 07:02:38 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id n12so12666627pjp.1;
-        Tue, 10 Jan 2023 07:02:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hnA+uHCy6P7PsRxtJOnvckRetO3eFNxuDZZIKa1zGWA=;
-        b=dhgyhtsB5aZlrR6UFvRwSLqV6ez6fA1AQxxivKlkF5lUcN1PMBqReoL8t5AZTpqGvi
-         UCBKIzURulQig3MfXAyebDMzTRJqgUduJGsszrybT8zYH+WY0avP8ch2bufY+DmIaAaD
-         5/XO0WULz3Xlf4Cei6Eh7uviB6LxrdSI/roctxmwXUhHRPP/sKpYwDeWpY1ITsAVHCfz
-         IW5uPiM2kLC7x4c0ZlhZEAGgM9KHi3UawsugGer8SPXd796TUjOedpxdxSf6MKUgzoAz
-         ecyP2q8F5mxr3ZTq7ECE8hpY0DUbFRn0dOBkK9yCo8C95HVCoIh1MoZTWYKgZvECqc03
-         pDJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hnA+uHCy6P7PsRxtJOnvckRetO3eFNxuDZZIKa1zGWA=;
-        b=gP0x8kxkgpwZ7NN/OpDkQcsBW9e2fSsqVuTim36zMK666c59cOaciToWOOZKbB3qKx
-         p4UZD2KXH2Ep6+kzdRS3x+MRdzhM4KGT6lO8dlbvD7DmjHacXUTqohq5w3fnsUQfw08T
-         yRCVM/9yV7Duucqz6rHsCGiMPxajNxy2UiXeB0K2yDB7MCJrT0ed7Uas2O7A0Z814Gwo
-         fFm3uhy+kC4nogKV7vrhrTAcdJGDXB3xOnITVno9x60wuoS+nfeDBVJbwqcdDzvISlq0
-         PC3xSnTdJ8GKkZEYa/MnV54FaujwlpXvJXJwCfxWpBuU7E2CQNxvm/ads9PY2Rrh9soZ
-         sHMQ==
-X-Gm-Message-State: AFqh2krFAy7LzHoZu/5oldyWFfGSzzZgsT64GiUoND5I54co+KCZ8+4F
-        z99CeKcfjwWMVTTyFYZPov17lkCsbnxIFA==
-X-Google-Smtp-Source: AMrXdXt5tCuAAgKwaXBm87V1iTA5iPygkUHNDS3T7BPy7wXrUHqdHL9awf4YImc6EgBEH8F54ej01g==
-X-Received: by 2002:a17:90b:3758:b0:225:d698:69b9 with SMTP id ne24-20020a17090b375800b00225d69869b9mr61179882pjb.17.1673362958320;
-        Tue, 10 Jan 2023 07:02:38 -0800 (PST)
-Received: from localhost.localdomain ([185.216.119.110])
-        by smtp.googlemail.com with ESMTPSA id qe9-20020a17090b4f8900b001df264610c4sm2534681pjb.0.2023.01.10.07.02.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jan 2023 07:02:38 -0800 (PST)
-From:   Wang Yong <yongw.kernel@gmail.com>
-To:     corbet@lwn.net, pbonzini@redhat.com, kchamart@redhat.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, Wang Yong <yongw.kernel@gmail.com>
-Subject: [PATCH] Documentation: KVM: fix typos in running-nested-guests.rst
-Date:   Tue, 10 Jan 2023 15:00:46 +0000
-Message-Id: <20230110150046.549755-1-yongw.kernel@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S238404AbjAJPDY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 10:03:24 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC726574DC;
+        Tue, 10 Jan 2023 07:03:04 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DAF29B81675;
+        Tue, 10 Jan 2023 15:03:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27A69C433F0;
+        Tue, 10 Jan 2023 15:03:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673362980;
+        bh=2v5AtRV5XEMvmEq3YHxp4jTzU85Lqg0ekdpLJ4Xx7p4=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=ZH327w3LnhyYOfj8Ba79Bk+6fujcJHxiF+LPcjbYBy0zCNmFZIfzBaNUyV3K63XYg
+         YxXuIPBD4wz5BXxi/DBScXLUSEcvaf4p4QQvnqREFxW06h+YB+u/pVNP8csOdFTFah
+         YIfhl0leqGTs358F1d/V5XrqneLYnoppKX2f+Lf7Cp/V/LkOE0YWVaOfm0JPwB8Rkl
+         6vvyqM/UR1qA9uXzZB3SpV+cfKrU+BCP7bmHhGbvTVNk16ybsbHNbQhJWulmnvBmHU
+         b39YRToO8DKEHMBfYIWieVIOQg3cw5gCufV2LzOzMwFI7Kcnk9PcgL7l2W5qxipki3
+         yKkBLrPkrtR3g==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id BEECB5C0687; Tue, 10 Jan 2023 07:02:59 -0800 (PST)
+Date:   Tue, 10 Jan 2023 07:02:59 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net, akpm@linux-foundation.org, ndesaulniers@google.com,
+        vbabka@suse.cz, hannes@cmpxchg.org, joel@joelfernandes.org,
+        quic_neeraju@quicinc.com, urezki@gmail.com
+Subject: Re: [PATCH RFC bootconfig] Allow forcing unconditional bootconfig
+ processing
+Message-ID: <20230110150259.GO4028633@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20230105005838.GA1772817@paulmck-ThinkPad-P17-Gen-1>
+ <20230108002215.c18df95b19acdd3207b379fa@kernel.org>
+ <20230107162202.GA4028633@paulmck-ThinkPad-P17-Gen-1>
+ <20230108150425.426f2861e9db1152fa84508f@kernel.org>
+ <20230109042501.GF4028633@paulmck-ThinkPad-P17-Gen-1>
+ <20230110085636.5d679f98c5b6914ecf19e724@kernel.org>
+ <20230110000732.GD4028633@paulmck-ThinkPad-P17-Gen-1>
+ <20230110095450.2cb4c875f95459e3a4e7dcf1@kernel.org>
+ <20230110010953.GF4028633@paulmck-ThinkPad-P17-Gen-1>
+ <20230110231721.ed737bcc46ee6b8572d7cdff@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230110231721.ed737bcc46ee6b8572d7cdff@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-change "gues" to "guest" and remove redundant ")".
+On Tue, Jan 10, 2023 at 11:17:21PM +0900, Masami Hiramatsu wrote:
+> On Mon, 9 Jan 2023 17:09:53 -0800
+> "Paul E. McKenney" <paulmck@kernel.org> wrote:
+> 
+> > On Tue, Jan 10, 2023 at 09:54:50AM +0900, Masami Hiramatsu wrote:
+> > > On Mon, 9 Jan 2023 16:07:32 -0800
+> > > "Paul E. McKenney" <paulmck@kernel.org> wrote:
+> > > 
+> > > > On Tue, Jan 10, 2023 at 08:56:36AM +0900, Masami Hiramatsu wrote:
+> > > > > On Sun, 8 Jan 2023 20:25:01 -0800
+> > > > > "Paul E. McKenney" <paulmck@kernel.org> wrote:
+> > > > > 
+> > > > > > On Sun, Jan 08, 2023 at 03:04:25PM +0900, Masami Hiramatsu wrote:
+> > > > > > > On Sat, 7 Jan 2023 08:22:02 -0800
+> > > > > > > "Paul E. McKenney" <paulmck@kernel.org> wrote:
+> > > > > > > 
+> > > > > > > > On Sun, Jan 08, 2023 at 12:22:15AM +0900, Masami Hiramatsu wrote:
+> > > > > > > > > On Wed, 4 Jan 2023 16:58:38 -0800
+> > > > > > > > > "Paul E. McKenney" <paulmck@kernel.org> wrote:
+> > > > > > > > > 
+> > > > > > > > > > The BOOT_CONFIG family of Kconfig options allows a bootconfig file
+> > > > > > > > > > containing kernel boot parameters to be embedded into an initrd or into
+> > > > > > > > > > the kernel itself.  This can be extremely useful when deploying kernels
+> > > > > > > > > > in cases where some of the boot parameters depend on the kernel version
+> > > > > > > > > > rather than on the server hardware, firmware, or workload.
+> > > > > > > > > > 
+> > > > > > > > > > Unfortunately, the "bootconfig" kernel parameter must be specified in
+> > > > > > > > > > order to cause the kernel to look for the embedded bootconfig file,
+> > > > > > > > > > and it clearly does not help to embed this "bootconfig" kernel parameter
+> > > > > > > > > > into that file.
+> > > > > > > > > > 
+> > > > > > > > > > Therefore, provide a new BOOT_CONFIG_FORCE Kconfig option that causes the
+> > > > > > > > > > kernel to act as if the "bootconfig" kernel parameter had been specified.
+> > > > > > > > > > In other words, kernels built with CONFIG_BOOT_CONFIG_FORCE=y will look
+> > > > > > > > > > for the embedded bootconfig file even when the "bootconfig" kernel
+> > > > > > > > > > parameter is omitted.  This permits kernel-version-dependent kernel
+> > > > > > > > > > boot parameters to be embedded into the kernel image without the need to
+> > > > > > > > > > (for example) update large numbers of boot loaders.
+> > > > > > > > > 
+> > > > > > > > > I like this because this is a simple solution. We have another option
+> > > > > > > > > to specify "bootconfig" in CONFIG_CMDLINE, but it can be overwritten by
+> > > > > > > > > bootloader. Thus, it is better to have this option so that user can
+> > > > > > > > > always enable bootconfig.
+> > > > > > > > 
+> > > > > > > > Glad you like it!
+> > > > > > > > 
+> > > > > > > > In addition, if the help text is accurate, another shortcoming of
+> > > > > > > > CONFIG_CMDLINE is that its semantics vary from one architecture to
+> > > > > > > > another.  Some have CONFIG_CMDLINE override the boot-loader supplied
+> > > > > > > > parameters, and others differ in the order in which the parameters
+> > > > > > > > are processed.
+> > > > > > > 
+> > > > > > > Yes, that differences confuse us...
+> > > > > > 
+> > > > > > I am glad that it is not just me.  ;-)
+> > > > > > 
+> > > > > > I will add words to that effect to the commit log.
+> > > > > > 
+> > > > > > > > > Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> > > > > > > > 
+> > > > > > > > Thank you!
+> > > > > > > > 
+> > > > > > > > > BTW, maybe CONFIG_BOOT_CONFIG_EMBED is better to select this.
+> > > > > > > > > (or at least recommend to enable this)
+> > > > > > > > 
+> > > > > > > > Like this?
+> > > > > > > 
+> > > > > > > Yes! Thanks.
+> > > > > > > 
+> > > > > > > > 
+> > > > > > > > 							Thanx, Paul
+> > > > > > > > 
+> > > > > > > > ------------------------------------------------------------------------
+> > > > > > > > 
+> > > > > > > > commit d09a1505c51a70da38b34ac38062977299aef742
+> > > > > > > > Author: Paul E. McKenney <paulmck@kernel.org>
+> > > > > > > > Date:   Sat Jan 7 08:09:22 2023 -0800
+> > > > > > > > 
+> > > > > > > >     bootconfig: Default BOOT_CONFIG_FORCE to y if BOOT_CONFIG_EMBED
+> > > > > > > >     
+> > > > > > > >     When a kernel is built with CONFIG_BOOT_CONFIG_EMBED=y, the intention
+> > > > > > > >     will normally be to unconditionally provide the specified kernel-boot
+> > > > > > > >     arguments to the kernel, as opposed to requiring a separately provided
+> > > > > > > >     bootconfig parameter.  Therefore, make the BOOT_CONFIG_FORCE Kconfig
+> > > > > > > >     option default to y in kernels built with CONFIG_BOOT_CONFIG_EMBED=y.
+> > > > > > > >     
+> > > > > > > >     The old semantics may be obtained by manually overriding this default.
+> > > > > > > >     
+> > > > > > > >     Suggested-by: Masami Hiramatsu <mhiramat@kernel.org>
+> > > > > > > >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> > > > > > > 
+> > > > > > > Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> > > > > > 
+> > > > > > Applied, thank you!
+> > > > > 
+> > > > > Paul, just for confirmation, have you picked these patches on your tree?
+> > > > 
+> > > > I have, but if you would prefer to take them, just let me know when you
+> > > > have pulled them in.  It is easy for me to drop them.
+> > > > 
+> > > > Here they are in the -rcu tree:
+> > > > 
+> > > > 3d9ccc4a8b56e bootconfig: Allow forcing unconditional bootconfig processing
+> > > > 68b920592ff67 bootconfig: Default BOOT_CONFIG_FORCE to y if BOOT_CONFIG_EMBED
+> > > > 
+> > > > git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
+> > > 
+> > > Yeah, if it's not hurry, let me pick those to linux-trace tree
+> > > (bootconfig/for-next). I would like to consolidate the bootconfig
+> > > updates on my tree.
+> > 
+> > Please go ahead and grab them.  Just out of curiosity, are they in time
+> > for the upcoming v6.3 merge window?
+> 
+> Yes, I will do.
 
-Signed-off-by: Wang Yong <yongw.kernel@gmail.com>
----
- Documentation/virt/kvm/x86/running-nested-guests.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Very good, I will drop them from my tree on my next rebase.
 
-diff --git a/Documentation/virt/kvm/x86/running-nested-guests.rst b/Documentation/virt/kvm/x86/running-nested-guests.rst
-index a27e6768d900..71136fe1723b 100644
---- a/Documentation/virt/kvm/x86/running-nested-guests.rst
-+++ b/Documentation/virt/kvm/x86/running-nested-guests.rst
-@@ -150,7 +150,7 @@ able to start an L1 guest with::
-     $ qemu-kvm -cpu host [...]
- 
- The above will pass through the host CPU's capabilities as-is to the
--gues); or for better live migration compatibility, use a named CPU
-+guest, or for better live migration compatibility, use a named CPU
- model supported by QEMU. e.g.::
- 
-     $ qemu-kvm -cpu Haswell-noTSX-IBRS,vmx=on
--- 
-2.25.1
-
+							Thanx, Paul
