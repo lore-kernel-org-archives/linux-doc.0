@@ -2,138 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 690BFC678D8
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 19:04:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30AEAC61DB3
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 19:09:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235090AbjAJTEm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Jan 2023 14:04:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47126 "EHLO
+        id S239743AbjAJTJX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Jan 2023 14:09:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239663AbjAJTEL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 14:04:11 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EDCD48CF3;
-        Tue, 10 Jan 2023 11:04:10 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 44716B81978;
-        Tue, 10 Jan 2023 19:04:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65048C433EF;
-        Tue, 10 Jan 2023 19:04:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673377447;
-        bh=/ftDYRYihjGl5PEz5Dv1FCnL2ESZwAkvBGHkxClfATA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dWdbcT4V6ti0Ll/sRjROvWkvtNQCTLv7+0IA+XG0QqOdhMMLgUnm9HgZ6MnDDqEOl
-         dngadbkAJrq2Vcj6erIyqDlcg0E31UlwF/+Id7rxgO3NvcGdeYMCONmYVP+oAiH7x4
-         TO1md/05eBEiK10d48YhUKg5Gx6E2K0Y9B6FaQ2yhy4EBLYZVq1+ecmxQqpzpN3X/B
-         AH9Ox0o/TVtIAvmzC8VLqBZ6zpmGCH3dWfk+S1l4i//UegMvXlBHbyTu5F5LbItnIS
-         XrTV3fqkCIvSfQUTlspFp8isWnSa3kugYmoPy5NFx4NNsWlxZaI+EA28ngOGYVYwZ/
-         v7ZC9g9RiHveA==
-From:   SeongJae Park <sj@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        damon@lists.linux.dev, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/8] Docs/mm/damon: add a maintainer-profile for DAMON
-Date:   Tue, 10 Jan 2023 19:03:57 +0000
-Message-Id: <20230110190400.119388-6-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230110190400.119388-1-sj@kernel.org>
-References: <20230110190400.119388-1-sj@kernel.org>
+        with ESMTP id S239877AbjAJTId (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 14:08:33 -0500
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FA19202E
+        for <linux-doc@vger.kernel.org>; Tue, 10 Jan 2023 11:08:16 -0800 (PST)
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-4bf16baa865so165989407b3.13
+        for <linux-doc@vger.kernel.org>; Tue, 10 Jan 2023 11:08:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eB6zDLr3jptFznjCY+cJ6LV+lGxSv6mlgWXUb4GRVLE=;
+        b=kNneCXnUbGtaezFZly8EELiFvrMI8uCxra4hUNp5F8h55KzRcraX6HTcL/eoX2slxU
+         5eIut2BW8V2KxE4ECFGrtM+afRxG/KTeduZVHs5S8WSaTnrTAKUpQ9LGjuGWxJrrW+Rb
+         HL3W/mk5/ZWXlu153IFY6bWd5ku/c5DQ1P/WEPBZYa8NWqLe/FC6eZ+nVcj+NfNmapAJ
+         hhVfZ0STKoz+rrAswTAQZmVDSFu+39MDK4KoXl6hbj290qVSa10/hwUiXT3+ysS6+4M+
+         Fn8gtLHQRlRNe7nlS5w5XbzHPW/6rq2M3KUaxPGuT+9WamrHs6La624Sedcyvl8v1GSa
+         pxXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eB6zDLr3jptFznjCY+cJ6LV+lGxSv6mlgWXUb4GRVLE=;
+        b=Co7or2aaAWf3MmbeiuMDRcTAdxkwAkTFMNfkEFlmFSF7QYYcSA7PTeVjZ5s7mKjMdJ
+         9COlgcu0TtAlFD/IW0ahwr0BeKAUlC+to9WgcFmxkHy7nHRocWAa/W9yOnjsqa/5SgWV
+         hFf82Z3ijaL4WS7wtBYsq1/NP5FAKFEil+UbYp5or7tiK9eM0NJ5T1xzt8JXlKNAUbG5
+         wZx+2zQSP8mom7f/Qng0JW8NLV4hwD9zrtCiTnVa1eSMc/ryYtYPrly+JcgVELTJBHh3
+         OnEZIOW39nH+sPKhZJgvX5e8nUYpqJLCQzsL5s/dorNsm2oso8DuBdsa019mZuPNN6pG
+         TMdA==
+X-Gm-Message-State: AFqh2krd6E993X86MBmPzCvTRPnEhx77g7p04878SElQ1cvAQdbxVA5/
+        LmHmzsx+cDxGf4hTqVdrH/sl3qPEwDAl+zzjK3GbGg==
+X-Google-Smtp-Source: AMrXdXuWt8GL2cvwM/11siCYrRBKZLbeyNUoNJAwEvUjJQicN0t0jFrxPGHJ56q+FKvR1iOeW+XS0IBv7xTbyCMXxzs=
+X-Received: by 2002:a05:690c:b88:b0:3e3:866c:a51b with SMTP id
+ ck8-20020a05690c0b8800b003e3866ca51bmr218703ywb.439.1673377695560; Tue, 10
+ Jan 2023 11:08:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230109213809.418135-1-tjmercier@google.com> <20230109213809.418135-2-tjmercier@google.com>
+ <Y70oqxejnUqkJVPx@dhcp22.suse.cz>
+In-Reply-To: <Y70oqxejnUqkJVPx@dhcp22.suse.cz>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Tue, 10 Jan 2023 11:08:04 -0800
+Message-ID: <CABdmKX3hBX1O8fJ2Zz0ajL=f+tROqWe-Kzr7oPjs46qBYBXV1g@mail.gmail.com>
+Subject: Re: [PATCH 1/4] memcg: Track exported dma-buffers
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <muchun.song@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        daniel.vetter@ffwll.ch, android-mm@google.com, jstultz@google.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document the basic policies and expectations for DAMON development.
+On Tue, Jan 10, 2023 at 12:58 AM Michal Hocko <mhocko@suse.com> wrote:
+>
+> On Mon 09-01-23 21:38:04, T.J. Mercier wrote:
+> > When a buffer is exported to userspace, use memcg to attribute the
+> > buffer to the allocating cgroup until all buffer references are
+> > released.
+> >
+> > Unlike the dmabuf sysfs stats implementation, this memcg accounting
+> > avoids contention over the kernfs_rwsem incurred when creating or
+> > removing nodes.
+>
+> I am not familiar with dmabuf infrastructure so please bear with me.
+> AFAIU this patch adds a dmabuf specific counter to find out the amount
+> of dmabuf memory used. But I do not see any actual charging implemented
+> for that memory.
+>
+> I have looked at two random users of dma_buf_export cma_heap_allocate
+> and it allocates pages to back the dmabuf (AFAIU) by cma_alloc
+> which doesn't account to memcg, system_heap_allocate uses
+> alloc_largest_available which relies on order_flags which doesn't seem
+> to ever use __GFP_ACCOUNT.
+>
+> This would mean that the counter doesn't represent any actual memory
+> reflected in the overall memory consumption of a memcg. I believe this
+> is rather unexpected and confusing behavior. While some counters
+> overlap and their sum would exceed the charged memory we do not have any
+> that doesn't correspond to any memory (at least not for non-root memcgs).
+>
+> --
+> Michal Hocko
+> SUSE Labs
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/mm/damon/index.rst              |  1 +
- Documentation/mm/damon/maintainer-profile.rst | 62 +++++++++++++++++++
- 2 files changed, 63 insertions(+)
- create mode 100644 Documentation/mm/damon/maintainer-profile.rst
-
-diff --git a/Documentation/mm/damon/index.rst b/Documentation/mm/damon/index.rst
-index 2983699c12ea..5e0a50583500 100644
---- a/Documentation/mm/damon/index.rst
-+++ b/Documentation/mm/damon/index.rst
-@@ -32,3 +32,4 @@ operations with no code but simple configurations.
-    faq
-    design
-    api
-+   maintainer-profile
-diff --git a/Documentation/mm/damon/maintainer-profile.rst b/Documentation/mm/damon/maintainer-profile.rst
-new file mode 100644
-index 000000000000..24a202f03de8
---- /dev/null
-+++ b/Documentation/mm/damon/maintainer-profile.rst
-@@ -0,0 +1,62 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+DAMON Maintainer Entry Profile
-+==============================
-+
-+The DAMON subsystem covers the files that listed in 'DATA ACCESS MONITOR'
-+section of 'MAINTAINERS' file.
-+
-+The mailing lists for the subsystem are damon@lists.linux.dev and
-+linux-mm@kvack.org.  Patches should be made against the mm-unstable tree [1]_
-+whenever possible and posted to the mailing lists.
-+
-+SCM Trees
-+---------
-+
-+There are multiple Linux trees for DAMON development.  Patches under
-+development or testing are queued in damon/next [2]_ by the DAMON maintainer.
-+Suffieicntly reviewed patches will be queued in mm-unstable [1]_ by the memory
-+management subsystem maintainer.  After more sufficient tests, the patches will
-+be queued in mm-stable [3]_ , and finally pull-requested to the mainline by the
-+memory management subsystem maintainer.
-+
-+Note again the patches for review should be made against the mm-unstable
-+tree[1] whenever possible.  damon/next is only for preview of others' works in
-+progress.
-+
-+Submit checklist addendum
-+-------------------------
-+
-+When making DAMON changes, you should do below.
-+
-+- Build changes related outputs including kernel and documents.
-+- Ensure the builds introduce no new errors or warnings.
-+- Run and ensure no new failures for DAMON selftests [4]_ and kunittests [5]_ .
-+
-+Further doing below and putting the results will be helpful.
-+
-+- Run damon-tests/corr [6]_ for normal changes.
-+- Run damon-tests/perf [7]_ for performance changes.
-+
-+Key cycle dates
-+---------------
-+
-+Patches can be sent anytime.  Key cycle dates of the mm-unstable[1] and
-+mm-stable[3] trees depend on the memory management subsystem maintainer.
-+
-+Review cadence
-+--------------
-+
-+The DAMON maintainer does the work on the usual work hour (09:00 to 17:00,
-+Mon-Fri) in PST.  The response to patches will occasionally be slow.  Do not
-+hesitate to send a ping if you have not heard back within a week of sending a
-+patch.
-+
-+
-+.. [1] https://git.kernel.org/akpm/mm/h/mm-unstable
-+.. [2] https://git.kernel.org/sj/h/damon/next
-+.. [3] https://git.kernel.org/akpm/mm/h/mm-stable
-+.. [4] https://github.com/awslabs/damon-tests/blob/master/corr/run.sh#L49
-+.. [5] https://github.com/awslabs/damon-tests/blob/master/corr/tests/kunit.sh
-+.. [6] https://github.com/awslabs/damon-tests/tree/master/corr
-+.. [7] https://github.com/awslabs/damon-tests/tree/master/perf
--- 
-2.25.1
-
+Thank you, that behavior is not intentional. I'm not looking at the
+overall memcg charge yet otherwise I would have noticed this. I think
+I understand what's needed for the charging part, but Shakeel
+mentioned some additional work for "reclaim, OOM and charge context
+and failure cases" on the cover letter which I need to look into.
