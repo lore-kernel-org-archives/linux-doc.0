@@ -2,165 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62EF3C6379F
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 09:19:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0E74C46467
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Jan 2023 09:47:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238046AbjAJJTv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Jan 2023 04:19:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35152 "EHLO
+        id S230479AbjAJJri (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Jan 2023 04:47:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238114AbjAJJTJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 04:19:09 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB1395688B;
-        Tue, 10 Jan 2023 01:18:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673342339; x=1704878339;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=2L0+jVEogDEzAgz7y5b+vzXDvmX8Ax8MX0YUEFpP2YQ=;
-  b=i1iV5CDg83LjF3oXOFgMu7MxouDaTknFlDZcsvhoOcexgH6rqKUC8e+a
-   pn0d0RvhB0etjXsBtzZySCdLwMi4FBvNHQLpDdBYB4FXaCvZrZLFFFTas
-   rAYr2cpa5vZNfVvDTpOMaMNbhyKv5m6fBes/LFzge51E8m03Zve9zkP4h
-   RkH01JsKpRuIEjbowIvj4/sFvMyDcnivNbaVGscf5bp+TyI04P+HLCkCV
-   Wj4AhMV/jxVrrrzYYn8Dql9XOepHY7FILLGX9Cb4IaTJpuKn9qQ6d0+xq
-   MDvd0crNvm3gV3Qdknc6/T7pITnpTg1v9ybr2twTzYaJ1TrbIZ7LzAYRe
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="324343028"
-X-IronPort-AV: E=Sophos;i="5.96,314,1665471600"; 
-   d="scan'208";a="324343028"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2023 01:18:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="689352645"
-X-IronPort-AV: E=Sophos;i="5.96,314,1665471600"; 
-   d="scan'208";a="689352645"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga001.jf.intel.com with ESMTP; 10 Jan 2023 01:18:43 -0800
-Date:   Tue, 10 Jan 2023 17:14:32 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Jarkko Sakkinen <jarkko@kernel.org>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <20230110091432.GA2441264@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
- <Y7azFdnnGAdGPqmv@kernel.org>
- <20230106094000.GA2297836@chaop.bj.intel.com>
- <Y7xrtf9FCuYRYm1q@google.com>
+        with ESMTP id S231565AbjAJJrb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jan 2023 04:47:31 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16C266416;
+        Tue, 10 Jan 2023 01:47:30 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id bj3so8547836pjb.0;
+        Tue, 10 Jan 2023 01:47:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R6sUd/uHtqMfedDkpegs2nXLaTKbhfyEkpAVIcIIPDE=;
+        b=DhBv0nkcpoIvEpbwmONFue0ovB8/R0gHS5r9BW8vt1F3c4/FQr23xr0kNEkYkCNbe1
+         TW0t6ScZkoES95Xln5B+DHOwiAMkfgYB/WCVJpYPrNb7+uDdcJn4wui8o3C6DokhOHXh
+         bmCwIsUY/giPsC35c9axlq1iKQC04TDazZ8c9Tt/u2t+eCZEgY0bfBsmxzBLR8oLZ3VH
+         Wc0cQZDjeNp04rhfpNsBQ5R9h+8dJ0qv07HyjWaeu2icNU8se5bmWFRSNEafYFK1O7v6
+         Tf0eCqe0mztyjGElfxab+YbourMu9PnKb+3AAFaY7A6goBgHzQQDzlNYTBw7zT5gmzXQ
+         sj+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=R6sUd/uHtqMfedDkpegs2nXLaTKbhfyEkpAVIcIIPDE=;
+        b=6DAJ7u5KZ8EgjjxtzA1wAggLBSP3FcHQYE5YfJDE8ShQOzM5CZe1x3mcp6JZaSUdhW
+         X1UJaqMZ79J+ZBqpDf+9P19VHqYJ49i4ME8WUvV1PN32DSFQqgrcwT6RCExpuvvggire
+         JnrMxoiPR9YTb6GvUjXH7PgyG0ZBjN152WHM0RlHI/LrlTuHHBwJ2OUI1xkXY63gfFWN
+         dAziJMeRGWeLSOKVoIG1FEZJgVwX2+hcM4X/G6l9yNnhDcy6YFxl3Y1ctkMxD10swEfi
+         uo2C3LcBKtrWFfjuXVWjbm6t326kbx4e1dxfkXdjOXPSvRnoqvjmxkp9t/P0RZ53Ad0d
+         JQWg==
+X-Gm-Message-State: AFqh2kpfR7PnyyEc063Z/UjzLIGbsO4m43awd2269TB1woqwaYnrWgt4
+        ctBFIn74teZFOk41HZG+EUc=
+X-Google-Smtp-Source: AMrXdXskoMEs+JnwgcmWTaVfS+LyzHBnEmRrj/3hKZtrhQEpG05UWEdBeqODJmLRC7wJJMowsBK4QA==
+X-Received: by 2002:a17:903:32c2:b0:192:b0cb:2e23 with SMTP id i2-20020a17090332c200b00192b0cb2e23mr49724214plr.46.1673344049569;
+        Tue, 10 Jan 2023 01:47:29 -0800 (PST)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id x11-20020a170902a38b00b00192fb119eb2sm7662295pla.54.2023.01.10.01.47.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Jan 2023 01:47:29 -0800 (PST)
+Message-ID: <4b162dbe-2a7f-1710-93e0-754cf8680aae@gmail.com>
+Date:   Tue, 10 Jan 2023 18:47:25 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7xrtf9FCuYRYm1q@google.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] docs/conf.py: Use about.html only in sidebar of alabaster
+ theme
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 09, 2023 at 07:32:05PM +0000, Sean Christopherson wrote:
-> On Fri, Jan 06, 2023, Chao Peng wrote:
-> > On Thu, Jan 05, 2023 at 11:23:01AM +0000, Jarkko Sakkinen wrote:
-> > > On Fri, Dec 02, 2022 at 02:13:41PM +0800, Chao Peng wrote:
-> > > > To make future maintenance easy, internally use a binary compatible
-> > > > alias struct kvm_user_mem_region to handle both the normal and the
-> > > > '_ext' variants.
-> > > 
-> > > Feels bit hacky IMHO, and more like a completely new feature than
-> > > an extension.
-> > > 
-> > > Why not just add a new ioctl? The commit message does not address
-> > > the most essential design here.
-> > 
-> > Yes, people can always choose to add a new ioctl for this kind of change
-> > and the balance point here is we want to also avoid 'too many ioctls' if
-> > the functionalities are similar.  The '_ext' variant reuses all the
-> > existing fields in the 'normal' variant and most importantly KVM
-> > internally can reuse most of the code. I certainly can add some words in
-> > the commit message to explain this design choice.
-> 
-> After seeing the userspace side of this, I agree with Jarkko; overloading
-> KVM_SET_USER_MEMORY_REGION is a hack.  E.g. the size validation ends up being
-> bogus, and userspace ends up abusing unions or implementing kvm_user_mem_region
-> itself.
+"about.html" is available only for the alabaster theme [1].
+Unconditionally putting it to html_sidebars prevents us from
+using other themes which respect html_sidebars.
 
-How is the size validation being bogus? I don't quite follow. Then we
-will use kvm_userspace_memory_region2 as the KVM internal alias, right?
-I see similar examples use different functions to handle different
-versions but it does look easier if we use alias for this function.
+Remove about.html from the initialization and insert it at the
+front for the alabaster theme.
 
-> 
-> It feels absolutely ridiculous, but I think the best option is to do:
-> 
-> #define KVM_SET_USER_MEMORY_REGION2 _IOW(KVMIO, 0x49, \
-> 					 struct kvm_userspace_memory_region2)
+Link: [1] https://alabaster.readthedocs.io/en/latest/installation.html#sidebars
+Fixes: d5389d3145ef ("docs: Switch the default HTML theme to alabaster")
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
+Hi Jon,
 
-Just interesting, is 0x49 a safe number we can use? 
+I noticed this (kind of) build regression while trying to compare
+the alabaster theme with the other themes.
 
-> 
-> /* for KVM_SET_USER_MEMORY_REGION2 */
-> struct kvm_user_mem_region2 {
-> 	__u32 slot;
-> 	__u32 flags;
-> 	__u64 guest_phys_addr;
-> 	__u64 memory_size;
-> 	__u64 userspace_addr;
-> 	__u64 restricted_offset;
-> 	__u32 restricted_fd;
-> 	__u32 pad1;
-> 	__u64 pad2[14];
-> }
-> 
-> And it's consistent with other KVM ioctls(), e.g. KVM_SET_CPUID2.
+I must say that the current html documentation at
 
-Okay, agree from KVM userspace API perspective this is more consistent
-with similar existing examples. I see several of them.
+    https://www.kernel.org/doc/html/latest/
 
-I think we will also need a CAP_KVM_SET_USER_MEMORY_REGION2 for this new
-ioctl.
+is almost unusable in site navigation. Once I jump from the top page
+to somewhere, I'm at a loss. I can only go back to the top page,
+or go back to the previous page with the help of the browser. 
+(Of course, as I know the directory structure under Documentation/,
+I can navigate manually, but that's not nice!)
+I think it should at least have the same set of links as those
+the classic theme provides.
 
-> 
-> Regarding the userspace side of things, please include Vishal's selftests in v11,
-> it's impossible to properly review the uAPI changes without seeing the userspace
-> side of things.  I'm in the process of reviewing Vishal's v2[*], I'll try to
-> massage it into a set of patches that you can incorporate into your series.
+Having read [1] and its surrounding documentation (for the first time,
+I must confess), the alabaster theme sounds (somewhat) unique in
+customizing sidebar and related links.
 
-Previously I included Vishal's selftests in the github repo, but not
-include them in this patch series. It's OK for me to incorporate them
-directly into this series and review together if Vishal is fine.
+But before looking further into alabaster, I'd like to know why
+you picked alabaster among those themes which come with Sphinx.
+Could you elaborate?
 
-Chao
-> 
-> [*] https://lore.kernel.org/all/20221205232341.4131240-1-vannapurve@google.com
+        Thanks, Akira
+
+--
+ Documentation/conf.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 44899be7b2cc..d927737e3c10 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -345,7 +345,11 @@ html_use_smartypants = False
+ 
+ # Custom sidebar templates, maps document names to template names.
+ # Note that the RTD theme ignores this
+-html_sidebars = { '**': ["about.html", 'searchbox.html', 'localtoc.html', 'sourcelink.html']}
++html_sidebars = { '**': ['searchbox.html', 'localtoc.html', 'sourcelink.html']}
++
++# about.html is available for alabaster theme. Add it at the front.
++if html_theme == 'alabaster':
++    html_sidebars['**'].insert(0, 'about.html')
+ 
+ # Output file base name for HTML help builder.
+ htmlhelp_basename = 'TheLinuxKerneldoc'
+
+base-commit: 7021e29503a30f323d74e91b57f06227337ecc95
+-- 
+2.25.1
+
