@@ -2,79 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19E3DC46467
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Jan 2023 23:03:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACCF4C5479D
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Jan 2023 23:11:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233540AbjAKXDk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Jan 2023 18:03:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54882 "EHLO
+        id S235844AbjAKXLr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Jan 2023 18:11:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233101AbjAKXDj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jan 2023 18:03:39 -0500
+        with ESMTP id S235735AbjAKXLn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jan 2023 18:11:43 -0500
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C15C53B3;
-        Wed, 11 Jan 2023 15:03:38 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F9BC38AF0;
+        Wed, 11 Jan 2023 15:11:42 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2E78C5BF;
-        Wed, 11 Jan 2023 23:03:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2E78C5BF
+        by ms.lwn.net (Postfix) with ESMTPSA id 2BCA85BF;
+        Wed, 11 Jan 2023 23:11:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2BCA85BF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1673478218; bh=3wvR3ghwG9vXgGDkNCHmXYTndStJtbNs9Aa2tpCjsxA=;
+        t=1673478702; bh=KK+xKV+L16O4zoDSNuftyg22iC+T8sFrp4ormOlTw0U=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=UGTfZt68oRaqfDd/C6//1P+MdxaUTJ+XIfmZ63BoqVs6HaiEwAN9PhoJYHrtCtnu5
-         fTcEB317gcRSB484hGzO+ukRVm8cLYlTPu2+qGiw7j5L5B9C+MdRDbRFCRhgoqyrhx
-         ZYd86tq3c+1Itp/le5FDx/Nj5WgVgn3qlwkdvwnD4Z5HSPoPAOVWfOQZltZ6cAgEZc
-         zUpMSdw9/wuOCzO8U5eLgQpbbrGz/beUE5uciDtqIHziRNw2SMyW5Dd1ZmVEJv6JPw
-         9P1d8ddaxup5p2XtFMs9uCIM8nVcaI4q+uKZqI3Zz0MiwMz9mpmd7s42Da6347QoZD
-         cf8ZZhFIkYjiw==
+        b=PvOigv8yMZhjIP/TJkL8hHCbJzToi0M9lp9xYKYcxa6VHURaM9spk9b+Ak70t6uxU
+         7UuvuhgGB/STqn3rXjNgaOFfbWtX+rJUnImPjPTofD4H4tlg3SdesHFzPVnt6CzO1Z
+         7SfaJnrGGZMCj0rSgDgcU6io5Lk/PN08t7QWhs/TEwLSTf4n76zEuuqP9+ki6DaP+7
+         mVyfR1uDMpPETQCa8xSTXI0qFJ/VCSi8MeZygQ2dm3LLDlxySm1xwJiV0QQVmszNOI
+         nltqMlm74SxgVZGTGC6jaeD9uJPYJlF6Ln63PqVdCvYPxGs3/K1Y2cs2wtO6zeGBLF
+         mTaFY/Cteqwbg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] doc:it_IT: add translation for botching-up-ioctl.rst
-In-Reply-To: <20230102183716.9698-1-federico.vaga@vaga.pv.it>
-References: <20230102183716.9698-1-federico.vaga@vaga.pv.it>
-Date:   Wed, 11 Jan 2023 16:03:37 -0700
-Message-ID: <87zgaovfli.fsf@meer.lwn.net>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] docs: deprecated.rst: Add note about
+ DECLARE_FLEX_ARRAY() usage
+In-Reply-To: <20230106200600.never.735-kees@kernel.org>
+References: <20230106200600.never.735-kees@kernel.org>
+Date:   Wed, 11 Jan 2023 16:11:41 -0700
+Message-ID: <87r0w0vf82.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Federico Vaga <federico.vaga@vaga.pv.it> writes:
+Kees Cook <keescook@chromium.org> writes:
 
-> This patch adds the translation for the botching up ioctl document.
+> There wasn't any mention of when/where DECLARE_FLEX_ARRAY() should be
+> used, so add the rationale and an example to the deprecation docs.
 >
-> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+> Suggested-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
-> V1 -> V2 use the kernel-doc mecanism to link functions in documents
->
->  .../it_IT/process/botching-up-ioctls.rst      | 249 ++++++++++++++++++
->  .../translations/it_IT/process/index.rst      |   1 +
->  2 files changed, 250 insertions(+)
->  create mode 100644 Documentation/translations/it_IT/process/botching-up-ioctls.rst
+>  Documentation/process/deprecated.rst | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
 
-I've applied this, but I have to ask:
+I've applied this, but couldn't resist making one tweak...
 
-> diff --git a/Documentation/translations/it_IT/process/botching-up-ioctls.rst b/Documentation/translations/it_IT/process/botching-up-ioctls.rst
-> new file mode 100644
-> index 000000000000..91732cdf808a
-> --- /dev/null
-> +++ b/Documentation/translations/it_IT/process/botching-up-ioctls.rst
-> @@ -0,0 +1,249 @@
-> +.. include:: ../disclaimer-ita.rst
+> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> index c8fd53a11a20..fcac0a929efa 100644
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -346,3 +346,29 @@ struct_size() and flex_array_size() helpers::
+>          instance->count = count;
+>  
+>          memcpy(instance->items, source, flex_array_size(instance, items, instance->count));
 > +
-> +:Original: Documentation/process/botching-up-ioctls.rst
-> +
-> +==========================================
-> +(Come evitare di) Raffazzonare delle ioctl
-> +==========================================
+> +There are two special cases of replacement where the DECLARE_FLEX_ARRAY()
+> +helper needs to be used. (Note that it is named __DECLARE_FLEX_ARRAY() for
+> +use in UAPI headers.) When the flexible array is either alone in a struct,
+> +or is part of a union. 
 
-Is "raffazzonare" the right verb here?  Something like "pasticciare"
-seems closer to me, but I'm not the expert here.
+The pedant in me couldn't stand leaving that sentence fragment, so I
+made a complete sentence out of it.
 
 Thanks,
 
