@@ -2,117 +2,204 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1875C46467
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Jan 2023 11:33:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 224DCC5479D
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Jan 2023 12:25:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234269AbjAKLdU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Jan 2023 06:33:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60504 "EHLO
+        id S238430AbjAKMZf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Jan 2023 07:25:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233266AbjAKLcp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jan 2023 06:32:45 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67180E0DA;
-        Wed, 11 Jan 2023 03:31:46 -0800 (PST)
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30B97N0s017622;
-        Wed, 11 Jan 2023 11:31:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : to : cc : references : from : subject : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=qAedOzZChfNMu/jpYPPvtQZDjmJrtSh186pQLPTdjlA=;
- b=gNSqL3DLH6sGRA42T3PRrCtIwMN4ac9VJcuTAj2EcY9bR9GV1GzKRuecRJ1i5wICJ0vV
- GlRwY+qXNzmeG5finw8WChlRHkR+VATdSHvuhoDA6hl5SwjeqRp2Z22g4V94fIoQTdUp
- 2Ocxq7DmiZmgwZ3JC6P1cl31bt67Uw95WsN4+kjGBnOM/RDlRmMKprDG2khRPFpwB6oa
- VOKNpVtJSlLqc8eov0Z3R6ulR2m9fCGK+RtKdAZ2r8MPCBbZUv6G+2ZCpqY8dcuPuayO
- dohp+Kq/FnktapXQtR5l8FaoaVJMJNOiJSainVTQIX4uOFL1KKQm1G/UmgjucEfLHufx wg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n1qnmehnf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 11 Jan 2023 11:31:42 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30BB8voI003117;
-        Wed, 11 Jan 2023 11:31:42 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n1qnmehn0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 11 Jan 2023 11:31:42 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30B1siVp025740;
-        Wed, 11 Jan 2023 11:31:39 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-        by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3n1kv7rqf4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 11 Jan 2023 11:31:39 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-        by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 30BBVaNH37945794
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 11 Jan 2023 11:31:36 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E02E320043;
-        Wed, 11 Jan 2023 11:31:35 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 38C0420040;
-        Wed, 11 Jan 2023 11:31:35 +0000 (GMT)
-Received: from [9.171.7.243] (unknown [9.171.7.243])
-        by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Wed, 11 Jan 2023 11:31:35 +0000 (GMT)
-Message-ID: <dfa59e13-bfd2-a7d9-bde4-13b1d836afe2@linux.ibm.com>
-Date:   Wed, 11 Jan 2023 12:31:34 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: en-US
-To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        with ESMTP id S238726AbjAKMZL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jan 2023 07:25:11 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60FE610FC1;
+        Wed, 11 Jan 2023 04:25:02 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id C51C2CE1B16;
+        Wed, 11 Jan 2023 12:25:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0B80C433EF;
+        Wed, 11 Jan 2023 12:24:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673439898;
+        bh=bVAjXqboLDicl+ZTd7HBoOMhof0CuCWy3ut4Gr+zlkA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=N2QpjVxB+4TgL5NZ334u9FSlDMkWEMlOybl75y/9KVv/WZILycdN3ztnzLoGRlgO3
+         UfZBqM1OYh5kGREnx1DdbaYWZprGmaleY7HQcPlteEgJH3j4Z5obD/yg+QbEc1d6Fn
+         SMlYSBeWVjqZ7g+pxya/gllHcjPGg+tfNn9zMKIAVkbEQ/aRLmEi+UUkE1PkWzNZrW
+         9x+lTKT96QsxORXX551trD77gXFZ3GOrMk2aT4i5ZOANpUPr1RmWVoejkKh0vRgc5N
+         xvn1F07M99RurtIUh3qPQoiXdBJqcDH3/3sfGXQenHZMvIGYyZBMBtJ/KwLodfARDH
+         Gb926IGNsRHCg==
+Date:   Wed, 11 Jan 2023 14:24:43 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>, Vlastimil Babka <vbabka@suse.cz>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>
-References: <20230110202632.2533978-1-scgl@linux.ibm.com>
-From:   Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v5 00/10] KVM: s390: Extend MEM_OP ioctl by storage key
- checked cmpxchg
-In-Reply-To: <20230110202632.2533978-1-scgl@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ypfVd2NAgtEURYaKEC0IR_YsK4GRXHgd
-X-Proofpoint-ORIG-GUID: 68dbTUox9QrPiD-uLrEyaJZHI025pOZF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-11_05,2023-01-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
- priorityscore=1501 mlxlogscore=871 suspectscore=0 malwarescore=0
- adultscore=0 lowpriorityscore=0 impostorscore=0 clxscore=1015 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301110085
+        linux-mm@kvack.org
+Subject: Re: [PATCH v2 2/2] docs/mm: Physical Memory: add structure,
+ introduction and nodes description
+Message-ID: <Y76qi7OB0gcigqZA@kernel.org>
+References: <20230110152358.2641910-1-rppt@kernel.org>
+ <20230110152358.2641910-3-rppt@kernel.org>
+ <Y72YMk21sSJLfUiz@dhcp22.suse.cz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y72YMk21sSJLfUiz@dhcp22.suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/10/23 21:26, Janis Schoetterl-Glausch wrote:
-> User space can use the MEM_OP ioctl to make storage key checked reads
-> and writes to the guest, however, it has no way of performing atomic,
-> key checked, accesses to the guest.
-> Extend the MEM_OP ioctl in order to allow for this, by adding a cmpxchg
-> mode. For now, support this mode for absolute accesses only.
+On Tue, Jan 10, 2023 at 05:54:10PM +0100, Michal Hocko wrote:
+> On Tue 10-01-23 17:23:58, Mike Rapoport wrote:
+> [...]
+> > +* ``ZONE_DMA`` and ``ZONE_DMA32`` represent memory suitable for DMA by
+> > +  peripheral devices that cannot access all of the addressable memory.
 > 
-> This mode can be use, for example, to set the device-state-change
-> indicator and the adapter-local-summary indicator atomically.
+> I think it would be better to not keep the historical DMA based menaning
+> and teach that future developers. You can say something like
 > 
-> Also contains some fixes/changes for the memop selftest independent of
-> the cmpxchg changes.
+> ZONE_DMA and ZONE_DMA32 have historically been used for memory suitable
+> for DMA. For many years there are better more robust interfaces to
+> get memory with DMA specific requirements (Documentation/core-api/dma-api.rst).
 
-Since the selftest fixes seem to apply and run without the new code I'm 
-considering splitting them off entirely.
+But even today ZONE_DMA(32) means that the memory is suitable for DMA. This
+is nicely encapsulated with dma APIs and there should be no new GFP_DMA
+users, but still memory outside ZONE_DMA is not suitable for DMA.
+ 
+> > +  Depending on the architecture, either of these zone types or even they both
+> > +  can be disabled at build time using ``CONFIG_ZONE_DMA`` and
+> > +  ``CONFIG_ZONE_DMA32`` configuration options. Some 64-bit platforms may need
+> > +  both zones as they support peripherals with different DMA addressing
+> > +  limitations.
+> > +
+> > +* ``ZONE_NORMAL`` is for normal memory that can be accessed by the kernel all
+> > +  the time. DMA operations can be performed on pages in this zone if the DMA
+> > +  devices support transfers to all addressable memory. ``ZONE_NORMAL`` is
+> > +  always enabled.
+> > +
+> > +* ``ZONE_HIGHMEM`` is the part of the physical memory that is not covered by a
+> > +  permanent mapping in the kernel page tables. The memory in this zone is only
+> > +  accessible to the kernel using temporary mappings. This zone is available
+> > +  only on some 32-bit architectures and is enabled with ``CONFIG_HIGHMEM``.
+> > +
+> > +* ``ZONE_MOVABLE`` is for normal accessible memory, just like ``ZONE_NORMAL``.
+> > +  The difference is that most pages in ``ZONE_MOVABLE`` are movable.
+> 
+> This is really confusing because those pages are not really movable. You
+> cannot move a page itself. I guess you meant to say something like
+> 
+> The difference is that there are means to migrate memory via
+> migrate_pages interface. A typical example would be a memory mapped to
+> userspace which can be rellocate the underlying memory content and
+> update page tables so that userspace doesn't notice the physical data
+> placement has changed.
+ 
+I agree that this sentence is a bit confusing, but there's a clarification
+below. Also, I'd like to keep this at high level without going to the
+details about how exactly the pages can be migrated.
 
-Most of them have reviews already and they are lower risk anyway so we 
-could add them to devel rather soonish.
+> > That means
+> > +  that while virtual addresses of these pages do not change, their content may
+> > +  move between different physical pages. ``ZONE_MOVABLE`` is only enabled when
+> > +  one of ``kernelcore``, ``movablecore`` and ``movable_node`` parameters is
+> > +  present in the kernel command line. See :ref:`Page migration
+> > +  <page_migration>` for additional details.
+> 
+> This is not really true. The movable zone can be also enabled by memory
+> hotplug. In fact it is one of the more common usecases for the zone
+> because memory hot remove largerly depends on memory to be migrated for
+> offlining to succeed in most cases.
+
+Right. How about this version of ZONE_MOVABLE description:
+
+* ``ZONE_MOVABLE`` is for normal accessible memory, just like ``ZONE_NORMAL``.
+  The difference is that the contents of most pages in ``ZONE_MOVABLE`` is
+  movable. That means that while virtual addresses of these pages do not
+  change, their content may move between different physical pages. Often
+  ``ZONE_MOVABLE`` is populated during memory hotplug, but it may be
+  also populated on boot using one of ``kernelcore``, ``movablecore`` and
+  ``movable_node`` kernel command line parameters. See :ref:`Page migration
+  <page_migration>` and :ref:`Memory Hot(Un)Plug <_admin_guide_memory_hotplug>`
+  for additional details.
+ 
+> > +* ``ZONE_DEVICE`` represents memory residing on devices such as PMEM and GPU.
+> > +  It has different characteristics than RAM zone types and it exists to provide
+> > +  :ref:`struct page <Pages>` and memory map services for device driver
+> > +  identified physical address ranges. ``ZONE_DEVICE`` is enabled with
+> > +  configuration option ``CONFIG_ZONE_DEVICE``.
+> > +
+> > +It is important to note that many kernel operations can only take place using
+> > +``ZONE_NORMAL`` so it is the most performance critical zone. Zones are
+> > +discussed further in Section :ref:`Zones <zones>`.
+> > +
+> > +The relation between node and zone extents is determined by the physical memory
+> > +map reported by the firmware, architectural constraints for memory addressing
+> > +and certain parameters in the kernel command line.
+> > +
+> > +For example, with 32-bit kernel on an x86 UMA machine with 2 Gbytes of RAM the
+> > +entire memory will be on node 0 and there will be three zones: ``ZONE_DMA``,
+> > +``ZONE_NORMAL`` and ``ZONE_HIGHMEM``::
+> > +
+> > +  0                                                            2G
+> > +  +-------------------------------------------------------------+
+> > +  |                            node 0                           |
+> > +  +-------------------------------------------------------------+
+> > +
+> > +  0         16M                    896M                        2G
+> > +  +----------+-----------------------+--------------------------+
+> > +  | ZONE_DMA |      ZONE_NORMAL      |       ZONE_HIGHMEM       |
+> > +  +----------+-----------------------+--------------------------+
+> > +
+> > +
+> > +With a kernel built with ``ZONE_DMA`` disabled and ``ZONE_DMA32`` enabled and
+> > +booted with ``movablecore=80%`` parameter on an arm64 machine with 16 Gbytes of
+> > +RAM equally split between two nodes, there will be ``ZONE_DMA32``,
+> > +``ZONE_NORMAL`` and ``ZONE_MOVABLE`` on node 0, and ``ZONE_NORMAL`` and
+> > +``ZONE_MOVABLE`` on node 1::
+> > +
+> > +
+> > +  1G                                9G                         17G
+> > +  +--------------------------------+ +--------------------------+
+> > +  |              node 0            | |          node 1          |
+> > +  +--------------------------------+ +--------------------------+
+> > +
+> > +  1G       4G        4200M          9G          9320M          17G
+> > +  +---------+----------+-----------+ +------------+-------------+
+> > +  |  DMA32  |  NORMAL  |  MOVABLE  | |   NORMAL   |   MOVABLE   |
+> > +  +---------+----------+-----------+ +------------+-------------+
+> 
+> I think it is useful to note that nodes and zones can overlap in the
+> physical address range. It is not uncommong to interleave two nodes and
+> it is also possible that memory holes are memory hotplugged into MOVABLE
+> zone arbitrarily in the physical address range.
+
+Hmm, not sure I understand what you mean by "overlap".
+For interleaved nodes you mean that node 0 may span, say [0x0, 0x2000) and
+[0x4000, 06000) and node 1 spans [0x2000, 0x4000) and [0x6000, 0x8000)?
+
+And as for MOVABLE zone, you mean that it can appear between ranges of
+NORMAL zone?
+ 
+> Other than that looks good to me and thanks for taking care of filling
+> up these gaps! This is highly appreciated.
+
+Thanks!
+
+I'd appreciate more inputs ;-)
+
+> -- 
+> Michal Hocko
+> SUSE Labs
+
+-- 
+Sincerely yours,
+Mike.
