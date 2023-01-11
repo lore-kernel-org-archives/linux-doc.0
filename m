@@ -2,601 +2,196 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFD88C46467
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Jan 2023 17:42:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59D31C46467
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Jan 2023 19:06:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234786AbjAKRmd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Jan 2023 12:42:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36868 "EHLO
+        id S235721AbjAKTGw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Jan 2023 14:06:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239450AbjAKRiZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jan 2023 12:38:25 -0500
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B227E51;
-        Wed, 11 Jan 2023 09:38:13 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id t5so11416124wrq.1;
-        Wed, 11 Jan 2023 09:38:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CHuLbb2nk+AR8Wo/o7lkiRgeXR0SqWT4OsF/gfeSRTU=;
-        b=RiljZjoNVPfMKgIliF+3HJwGwy1dQd021tszUF9eOXFGgWOAHsF5Kl5fbBbu/qF0iE
-         zfR4JGJ5syL64/nwjKE8bt/lUvmgxhOh80C8LNbiT28SSJ1moIySHThwwsdccWcgV2Lk
-         Lgwfa8tHkCREa5HG9WP6o/0QGeGaJIPGI8Vw4uzzx1a967ZomU8ee2TvEhAn+O4c9sHs
-         DKoA0g3K1XBrbuMCxxfRj9ROgV3SbtJiIbGFfgJemhfxcSRrZnSo5E9Jb1SJQJ6EAurR
-         IAgmKo4xBjr7fo6jPqKB1Q8ozL0H+nY/AejF8Qz2A8tp+740lAuIqDkrVrxYfEACHZhp
-         mHbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CHuLbb2nk+AR8Wo/o7lkiRgeXR0SqWT4OsF/gfeSRTU=;
-        b=6dXsHJm3kt6H0wnJ2Fdu/j6WJJcNgiI05NlcNjrMW6IUZBMdy9TfA0wcx1iclxBHH8
-         Flq05CVjjv/t/R/2uI8LEk+ED5TtrW3q1Mmd1mf5h7iveMJUOqwLAKXbKciPJoRO1ThC
-         P0c8zwYqW5tsXX0uB51o75a9/q+vfTyDR/VI9avPEQ5arWkO1O9OuxvCv1f7QNytg372
-         BmXMHbwVEyjzc09EaF1UVayq8Ca8FRHH4FDCf1sYlkuaXzSfvFbPFlWHxXKleyu/WRvN
-         GRMRLhrfz4PaJnSF5I7/3eX5tbMS/mMOcLaV2FXs27wZ4qoKzVB3RKseVMNa+Z623Utt
-         trmQ==
-X-Gm-Message-State: AFqh2kpfo6lsEWsB1XDjj2/B/pF/PsqmTyFhLjY0icqaKt/26uE8UQ/V
-        Q3estNFdnYbnbDU1TnCVG/k=
-X-Google-Smtp-Source: AMrXdXsd1vPwJyFgm1qKFMWe08P1boqzAeK1uCrM9VBLg2JklhrUcMBP2DJNVnpnEJ3jf0HESpnJfg==
-X-Received: by 2002:a05:6000:1d1:b0:2bb:ea45:d0e9 with SMTP id t17-20020a05600001d100b002bbea45d0e9mr8928330wrx.20.1673458692012;
-        Wed, 11 Jan 2023 09:38:12 -0800 (PST)
-Received: from gvm01 (net-5-89-66-224.cust.vodafonedsl.it. [5.89.66.224])
-        by smtp.gmail.com with ESMTPSA id z2-20020a5d6402000000b00297dcfdc90fsm14231771wru.24.2023.01.11.09.38.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jan 2023 09:38:11 -0800 (PST)
-Date:   Wed, 11 Jan 2023 18:38:11 +0100
-From:   Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        Oleksij Rempel <o.rempel@pengutronix.de>,
-        mailhol.vincent@wanadoo.fr, sudheer.mogilappagari@intel.com,
-        sbhatta@marvell.com, linux-doc@vger.kernel.org,
-        wangjie125@huawei.com, corbet@lwn.net, lkp@intel.com,
-        gal@nvidia.com, gustavoars@kernel.org, bagasdotme@gmail.com
-Subject: [PATCH v2 ethtool-next 2/2] add support for IEEE 802.3cg-2019 Clause
- 148
-Message-ID: <0ea62897a020dde7b474f8320fcce5096f52ea09.1673458497.git.piergiorgio.beruto@gmail.com>
-References: <cover.1673458497.git.piergiorgio.beruto@gmail.com>
+        with ESMTP id S236154AbjAKTGs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jan 2023 14:06:48 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2085EBE3C;
+        Wed, 11 Jan 2023 11:06:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673464008; x=1705000008;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=zmPDC7F2DS3GqW2R9P/jC+TZyc4I8Qf8xAFKBIkwQlA=;
+  b=R3CDQYGHqBESUXtYXiFISxRz5hhxfbrqYSPKOyukQjDDt0g/C5o5CbTG
+   vvG7kli4fdicNrptiFbnXTrZE5MT8b5oh3/IzG5AS6QvRGpQYCXTYvvdT
+   i24XTDhyVOh2pKLInGwLhmQs+mrO/D223lY70d91tYGBWOIjg0yZG0uXA
+   9uTOC1eDGBY4/NhvQj/7fdkR7cacCOysM1U61hv8Ue1fg2o4EEHinFzF6
+   2/bNpNFuK11CL3zRqq7uY8G40QQJor5FmeOus0JE/S0WKBraQvjkPc1pB
+   ErHzAdDRQ+AHP1R1Qt23LlKhvD4mA2h5HI5cv65/WBxaVxt37radZMOSL
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="307032209"
+X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; 
+   d="scan'208";a="307032209"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2023 11:06:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="746279155"
+X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; 
+   d="scan'208";a="746279155"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Jan 2023 11:06:32 -0800
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 11 Jan 2023 11:06:32 -0800
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 11 Jan 2023 11:06:31 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Wed, 11 Jan 2023 11:06:31 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Wed, 11 Jan 2023 11:06:21 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=A7ecr8x0lbeMxut94WwT5E6NHJANRaCN8PEIQTn21s+pwJAVsBc0u70izzwSodov63xnASEn8OpLu9chL2IetJO+l8PIKrlObE/g1h7rHbiiD4RGAasYKMwSMd7S5/J3OavhkYaf/xenAz59fgiNRFSCPhIfmE7dAB5dnuaJ/Yjksn43srYYVdS27W0kQdCBDOnT+68fy8nf0jnma2GdFGv2mdBfEnaXD3CUfqPU/0OpCSGZVS57OqMv+UoQyb4T4K+SaqONAe1Yyab8J4SfeH/Xme9RtVNHGyL0ool+iX8S1R2pNz6fOxE6Idch5DgFmeLRJG4eqV7xcRNRpHkOYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gY34tMrcPOY3Kn96OxrEpoRJuChIdptSfg2pT5YDNlc=;
+ b=GfsA6wUwmHS0M20Wg3ADv5H4KH7EAlamWrwwfmIDvT1uSinskfJml79miq/sekNG1++e19y8M+rPHK6ygMlC2C1ezw8/WXSugZfqMZSR2mnGTJ24vCIEjrRGSYBm5pnOzeaky5JuVDUoqm6b0qYg3bm4e0dyYpI/KZzb9NDV8NCAleafA/VnqSizWI5SiqSvUE/5W28wj+TBfur/PJP1BSqvJ0VvPeZIoSWSoW2WuXWWAQjmxtZziDazxSmYZIHHSANVys0z/e2g3pNj4DD8uaHue6b2ZO8q//NYa2ou5JmJS/y/NlcVheJ5w2NkwNkAzpiYnh5EsIILCzgJRVVp2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by SA2PR11MB4971.namprd11.prod.outlook.com (2603:10b6:806:118::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Wed, 11 Jan
+ 2023 19:05:48 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3c14:aeca:37e2:c679]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3c14:aeca:37e2:c679%6]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
+ 19:05:48 +0000
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     "Raj, Ashok" <ashok.raj@intel.com>
+CC:     "Moger, Babu" <Babu.Moger@amd.com>,
+        Ashok Raj <ashok_raj@linux.intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+        "Das1, Sandipan" <Sandipan.Das@amd.com>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
+        "jarkko@kernel.org" <jarkko@kernel.org>,
+        "Hunter, Adrian" <adrian.hunter@intel.com>,
+        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
+        "peternewman@google.com" <peternewman@google.com>
+Subject: RE: [PATCH v11 01/13] x86/resctrl: Replace smp_call_function_many()
+ with on_each_cpu_mask()
+Thread-Topic: [PATCH v11 01/13] x86/resctrl: Replace smp_call_function_many()
+ with on_each_cpu_mask()
+Thread-Index: AQHZJEmwi0Q/9mo+9USczeuBgpw/V66WuyYAgAAxMQCAATbhoIABOvWAgAA4AmA=
+Date:   Wed, 11 Jan 2023 19:05:48 +0000
+Message-ID: <SJ1PR11MB6083AA5292C11145BEEBAF6FFCFC9@SJ1PR11MB6083.namprd11.prod.outlook.com>
+References: <20230109164405.569714-1-babu.moger@amd.com>
+ <20230109164405.569714-2-babu.moger@amd.com> <Y7yiwOerGiEKAF9i@araj-dh-work>
+ <MW3PR12MB4553FFAA412FB741A73009A195FF9@MW3PR12MB4553.namprd12.prod.outlook.com>
+ <DS7PR11MB60772F09B9749307CFA0ED0DFCFF9@DS7PR11MB6077.namprd11.prod.outlook.com>
+ <Y77ZAfhc48W41FGp@a4bf019067fa.jf.intel.com>
+In-Reply-To: <Y77ZAfhc48W41FGp@a4bf019067fa.jf.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|SA2PR11MB4971:EE_
+x-ms-office365-filtering-correlation-id: a036aa6a-955b-4d87-aad4-08daf406d9b7
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 5liJz6aDKmpmreA99DFg3z2Zx8SDEzPHfwyK7HxgCgw/QpxPXtR1b8zTENP6ayyAU9QK7UZuW+lUVC8heoTmEXE6jYyDo9p+bQault3rauizybjcJ5WA4Z/s0p1AXTl5f+NhQtlhNxpr1d9P2T6Wp5j9PQtA9xCOnGhnuCzxxaGEU5of8RZa8PqqC0Exa0LvESEI1glQ8HaJStWzE2Bw5GtQB+/GmIp01Jyglwvs12Es0AdywAt6ruAtseIwlB252MTZXT452XpVcEa0jasR94uCs1H+zZhRH4IJ5J00uhXiG6IjHb4e3BFO87UZh1FAqWEPkX0CKA+7zDVP5lEuHnt4axyxBw36Z7Hsg7Ap8OUlSRQLSgTjir612vMYq722l6lVRQfR5lqGr4C0VnyBUwaswDj/v2KwA9piN0HtoKhEynNstvktPs7sCK0KTjzMEwYzvgLeASL6evAex1US7u7RgOJvExUi1CUwOJz/X3A8o7XF6KUwxYyiIDo4U79eqYeaNhP6GW8lNl8wJCmqN3Md4w+8KeSRc37k6/s4CHeUcxjwf9LZZ4btwIbVq2Be+5csBAlLP0Ab8XigiAn93IXDrADPcVqrnYKMXtHjstCXINN0t7UpLollOzv+PWOu9OWTEnWuvU/GcEBs2jk1wDJEdubbZy7G41vUgy6p7TDcQ65WodeYhdrYIwp7CabnuzRaXFIOF0Rud+qquUj0PQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(136003)(346002)(366004)(376002)(39860400002)(451199015)(6506007)(7406005)(7416002)(2906002)(8676002)(4326008)(66446008)(64756008)(5660300002)(83380400001)(52536014)(8936002)(122000001)(4744005)(6862004)(9686003)(38100700002)(82960400001)(33656002)(41300700001)(478600001)(38070700005)(66946007)(26005)(66556008)(186003)(76116006)(7696005)(66476007)(55016003)(86362001)(71200400001)(6636002)(316002)(54906003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?N4Y4C/bzLihobgouejdEwMvN4snk99L0UzFvwNQbwQ3zZUxXXxxKjottUdYn?=
+ =?us-ascii?Q?TTEKxLfGJ70BOYy37zZNcgnkDgyKr8F3z43TzX+qXafAkphZqj1NYX6BYHbn?=
+ =?us-ascii?Q?qq6nzMfSkeXDuMtjPfo8PV1okBFoG3xYsMIjDPZsn+gyAxpwflETgBkY1pMM?=
+ =?us-ascii?Q?mjySvjDYrTbbp5mSHfS2Y6EgUWphhdOoMaz4B0wUBlRmxzTpBOvvN0QQ9YAw?=
+ =?us-ascii?Q?sVI4Wqbq8KxI8TVSHBoIlUZvJvi9fIZvWKuqGXR7ZQWUVpHXbS7LHDSTaq7P?=
+ =?us-ascii?Q?vwY85ls3otdXKZYsttmx66mRZixLm2/YhBn782fYHdvXZx8vjZV0oGNdJU2/?=
+ =?us-ascii?Q?Qxx80Y+TAsm72CUenrGefU6j1kPrC7+ICwUa1BsDLE+pWqtGkdwBNU9JdvIG?=
+ =?us-ascii?Q?iV8J/CLdviy5fidkxUootGgQZjbXsvWiBFVJeDBPGhJ3h9sFZipkvYNARKce?=
+ =?us-ascii?Q?gF78Ex+QwMozKhYMhHPUZyudY7e3QRm25Sky6zhVYVG7d2GjbeFs5+0zbWcK?=
+ =?us-ascii?Q?bG4DOCIN5tOd4+7TUzZjWkBIny3kIXqWiX0V/PywC72j14HiFZ1pg3APLAGY?=
+ =?us-ascii?Q?O4bp/rs8Tcr8pSH1Xw75nRce08Zz9sxgSr3EIku4ZCB2BFjSmu3CdEWebxuE?=
+ =?us-ascii?Q?eno+p2pZ3j58qRCjjhbeAF8q3z61aLI5ryVzCgy0MOjxqxWyaBEUXm7QzMxY?=
+ =?us-ascii?Q?3ohUCxtzBoDrDQZOC1HKLxGUovBNoB8lhzKIjtDrgmJPN+ghmxIK6+0DOPSe?=
+ =?us-ascii?Q?uTBENyTWwNnFx2r1PE++ItcrH5HJnLPs5GibrQ7OrCJFQCSTbYpXgD3mfru8?=
+ =?us-ascii?Q?WAqL/a27abtDnxyObdLAYeaozLnDjYj7LdWlCdb0H5lDY9fh0mMazOszJrvd?=
+ =?us-ascii?Q?hK5TMRLSLp+p9MuVdO9ZcF3iJjIK/m1OhTn6803Nlda/0xCxS0kV6810CY3A?=
+ =?us-ascii?Q?tWkwqiFu8x3eaE91QirYWfoJUPqaPawG0dYqqLU9B8UrZowtIqzUkJCyT3U4?=
+ =?us-ascii?Q?kPVlx6OpRdRx/E9pR9F1kHxmclx5yUbbhLUM3rreZ8mYTb8k/MAfYjGhppab?=
+ =?us-ascii?Q?plyGr1Xg9/QvyBhki92nf39CD39XCaWVmDmzrT/KFmVpNZlXUMwZ3V/NmWjv?=
+ =?us-ascii?Q?eX5ZZS8IGuUCm32Tew4QrnRWT70O7GgsGyXk2stX5Jb/PrO0VSjnxBnDjTpg?=
+ =?us-ascii?Q?9A7Qqqc1zJvfwJTXbIBAknkgNUakShAwfrfEVoqUZebWebp7jTd8w4bn/4EZ?=
+ =?us-ascii?Q?Zaj3UNiGZdJxTnUnBArdlUwnPvkS9RZBKrVli6YgBsQcAfHKGRxbgHhbxUeW?=
+ =?us-ascii?Q?eHZUZgCgbmHxdLbRZ7K5vf8mvEkgFXndiqdeQ/DKY+AiNQSV8RGSncDtXBWD?=
+ =?us-ascii?Q?K0x0ftLEgKKuLfrRvnecfpwwADm9EzbDSyjtdG18li+myssb2th4nG8TfiMT?=
+ =?us-ascii?Q?QJi1SHfNJGAks1XYClgildDTgoQScEyVloWX1RfEaP+FUR4gifUS9OTrNTlq?=
+ =?us-ascii?Q?p6lroKgRZCHNZGP9b3XjacD7KStTrFWvY8eealrphtqZALoqnVtFknkozTe1?=
+ =?us-ascii?Q?queuPG2A4kehpxb1gIIBnN550O/BM0ms9+Z0O+jg?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1673458497.git.piergiorgio.beruto@gmail.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a036aa6a-955b-4d87-aad4-08daf406d9b7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jan 2023 19:05:48.5864
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6pu/XtGpJhFYa+vvMn0kORnQixyuiusu5WQRdPGSXIKPg9G5BILZbKV4Dsh6K/NdMOOY5jnphh0faOKjfQFlug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4971
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds support for the Physical Layer Collision Avoidance
-Reconciliation Sublayer which was introduced in the IEEE 802.3
-standard by the 802.3cg working group in 2019.
+> I wasn't sure if the few ms difference is going to make much material
+> difference for that process. IPI's does shake things up and introduces
+> other overheads not related to this process.
 
-The ethtool interface has been extended as follows:
-- show if the device supports PLCA when ethtool is invoked without FLAGS
-   - additionally show what PLCA version is supported
-   - show the current PLCA status
-- add FLAGS for getting and setting the PLCA configuration
+Is it just a few milli-seconds? What is the scheduler priority of the kerne=
+l
+thread you wake to perform this action? How does that compare to the
+priority of a RT thread?  I may be wrong here, but I think an RT thread can
+block a kernel thread from running indefinitely.
 
-Signed-off-by: Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
----
- Makefile.am        |   1 +
- ethtool.c          |  21 ++++
- netlink/extapi.h   |   6 +
- netlink/plca.c     | 296 +++++++++++++++++++++++++++++++++++++++++++++
- netlink/settings.c |  86 ++++++++++++-
- 5 files changed, 408 insertions(+), 2 deletions(-)
- create mode 100644 netlink/plca.c
-
-diff --git a/Makefile.am b/Makefile.am
-index 663f40a07b7d..4d3442441265 100644
---- a/Makefile.am
-+++ b/Makefile.am
-@@ -41,6 +41,7 @@ ethtool_SOURCES += \
- 		  netlink/desc-ethtool.c netlink/desc-genlctrl.c \
- 		  netlink/module-eeprom.c netlink/module.c \
- 		  netlink/desc-rtnl.c netlink/cable_test.c netlink/tunnels.c \
-+		  netlink/plca.c \
- 		  uapi/linux/ethtool_netlink.h \
- 		  uapi/linux/netlink.h uapi/linux/genetlink.h \
- 		  uapi/linux/rtnetlink.h uapi/linux/if_link.h
-diff --git a/ethtool.c b/ethtool.c
-index 60da8aff407d..76a81cf55c3c 100644
---- a/ethtool.c
-+++ b/ethtool.c
-@@ -6096,6 +6096,27 @@ static const struct option args[] = {
- 		.help	= "Set transceiver module settings",
- 		.xhelp	= "		[ power-mode-policy high|auto ]\n"
- 	},
-+	{
-+		.opts	= "--get-plca-cfg",
-+		.nlfunc	= nl_plca_get_cfg,
-+		.help	= "Get PLCA configuration",
-+	},
-+	{
-+		.opts	= "--set-plca-cfg",
-+		.nlfunc	= nl_plca_set_cfg,
-+		.help	= "Set PLCA configuration",
-+		.xhelp  = "             [ enable on|off ]\n"
-+			  "             [ node-id N ]\n"
-+			  "             [ node-cnt N ]\n"
-+			  "             [ to-tmr N ]\n"
-+			  "             [ burst-cnt N ]\n"
-+			  "             [ burst-tmr N ]\n"
-+	},
-+	{
-+		.opts	= "--get-plca-status",
-+		.nlfunc	= nl_plca_get_status,
-+		.help	= "Get PLCA status information",
-+	},
- 	{
- 		.opts	= "-h|--help",
- 		.no_dev	= true,
-diff --git a/netlink/extapi.h b/netlink/extapi.h
-index 1bb580a889a8..0add156e644a 100644
---- a/netlink/extapi.h
-+++ b/netlink/extapi.h
-@@ -47,6 +47,9 @@ int nl_gmodule(struct cmd_context *ctx);
- int nl_smodule(struct cmd_context *ctx);
- int nl_monitor(struct cmd_context *ctx);
- int nl_getmodule(struct cmd_context *ctx);
-+int nl_plca_get_cfg(struct cmd_context *ctx);
-+int nl_plca_set_cfg(struct cmd_context *ctx);
-+int nl_plca_get_status(struct cmd_context *ctx);
- 
- void nl_monitor_usage(void);
- 
-@@ -114,6 +117,9 @@ nl_get_eeprom_page(struct cmd_context *ctx __maybe_unused,
- #define nl_getmodule		NULL
- #define nl_gmodule		NULL
- #define nl_smodule		NULL
-+#define nl_get_plca_cfg		NULL
-+#define nl_set_plca_cfg		NULL
-+#define nl_get_plca_status	NULL
- 
- #endif /* ETHTOOL_ENABLE_NETLINK */
- 
-diff --git a/netlink/plca.c b/netlink/plca.c
-new file mode 100644
-index 000000000000..7d61e3b9d5d9
---- /dev/null
-+++ b/netlink/plca.c
-@@ -0,0 +1,296 @@
-+/*
-+ * plca.c - netlink implementation of plca command
-+ *
-+ * Implementation of "ethtool --show-plca <dev>" and
-+ * "ethtool --set-plca <dev> ..."
-+ */
-+
-+#include <errno.h>
-+#include <string.h>
-+#include <stdio.h>
-+
-+#include "../internal.h"
-+#include "../common.h"
-+#include "netlink.h"
-+#include "bitset.h"
-+#include "parser.h"
-+
-+/* PLCA_GET_CFG */
-+
-+int plca_get_cfg_reply_cb(const struct nlmsghdr *nlhdr, void *data)
-+{
-+	const struct nlattr *tb[ETHTOOL_A_PLCA_MAX + 1] = {};
-+	DECLARE_ATTR_TB_INFO(tb);
-+	struct nl_context *nlctx = data;
-+	bool silent;
-+	int idv = 255;
-+	int err_ret;
-+	int val;
-+	int ret;
-+
-+	silent = nlctx->is_dump || nlctx->is_monitor;
-+	err_ret = silent ? MNL_CB_OK : MNL_CB_ERROR;
-+	ret = mnl_attr_parse(nlhdr, GENL_HDRLEN, attr_cb, &tb_info);
-+	if (ret < 0)
-+		return err_ret;
-+
-+	nlctx->devname = get_dev_name(tb[ETHTOOL_A_PLCA_HEADER]);
-+	if (!dev_ok(nlctx))
-+		return err_ret;
-+
-+	if (silent)
-+		putchar('\n');
-+
-+	printf("PLCA settings for %s:\n", nlctx->devname);
-+
-+	// check if PLCA is enabled
-+	printf("\tEnabled: ");
-+
-+	if (!tb[ETHTOOL_A_PLCA_ENABLED]) {
-+		printf("not supported");
-+	} else {
-+		val = mnl_attr_get_u8(tb[ETHTOOL_A_PLCA_ENABLED]);
-+		printf(val ? "Yes" : "No");
-+	}
-+	putchar('\n');
-+
-+	// get node ID
-+	printf("\tlocal node ID: ");
-+
-+	if (!tb[ETHTOOL_A_PLCA_NODE_ID]) {
-+		printf("not supported");
-+	} else {
-+		idv = mnl_attr_get_u32(tb[ETHTOOL_A_PLCA_NODE_ID]);
-+		printf("%u (%s)", idv,
-+		       idv == 0 ? "coordinator" :
-+		       idv == 255 ? "unconfigured" : "follower");
-+	}
-+	putchar('\n');
-+
-+	// get node count
-+	printf("\tNode count: ");
-+	if (!tb[ETHTOOL_A_PLCA_NODE_CNT]) {
-+		printf("not supported");
-+	} else {
-+		val = mnl_attr_get_u32(tb[ETHTOOL_A_PLCA_NODE_CNT]);
-+		printf("%u", val);
-+
-+		// The node count is ignored by follower nodes. However, it can
-+		// be pre-set to enable fast coordinator role switchover.
-+		// Therefore, on a follower node we still wanto to show it,
-+		// indicating it is not currently used.
-+		if (tb[ETHTOOL_A_PLCA_NODE_ID] && idv != 0)
-+			printf(" (ignored)");
-+	}
-+	putchar('\n');
-+
-+	// get TO timer (transmit opportunity timer)
-+	printf("\tTO timer: ");
-+	if (!tb[ETHTOOL_A_PLCA_TO_TMR]) {
-+		printf("not supported");
-+	} else {
-+		val = mnl_attr_get_u32(tb[ETHTOOL_A_PLCA_TO_TMR]);
-+		printf("%u BT", val);
-+	}
-+	putchar('\n');
-+
-+	// get burst count
-+	printf("\tBurst count: ");
-+	if (!tb[ETHTOOL_A_PLCA_BURST_CNT]) {
-+		printf("not supported");
-+	} else {
-+		val = mnl_attr_get_u32(tb[ETHTOOL_A_PLCA_BURST_CNT]);
-+		printf("%u (%s)", val,
-+		       val > 0 ? "enabled" : "disabled");
-+	}
-+	putchar('\n');
-+
-+	// get burst timer
-+	printf("\tBurst timer: ");
-+	if (!tb[ETHTOOL_A_PLCA_BURST_TMR]) {
-+		printf("not supported");
-+	} else {
-+		val = mnl_attr_get_u32(tb[ETHTOOL_A_PLCA_BURST_TMR]);
-+		printf("%u BT", val);
-+	}
-+	putchar('\n');
-+
-+	return MNL_CB_OK;
-+}
-+
-+
-+int nl_plca_get_cfg(struct cmd_context *ctx)
-+{
-+	struct nl_context *nlctx = ctx->nlctx;
-+	struct nl_socket *nlsk = nlctx->ethnl_socket;
-+	int ret;
-+
-+	if (netlink_cmd_check(ctx, ETHTOOL_MSG_PLCA_GET_CFG, true))
-+		return -EOPNOTSUPP;
-+
-+	if (ctx->argc > 0) {
-+		fprintf(stderr, "ethtool: unexpected parameter '%s'\n",
-+			*ctx->argp);
-+		return 1;
-+	}
-+
-+	ret = nlsock_prep_get_request(nlsk, ETHTOOL_MSG_PLCA_GET_CFG,
-+				      ETHTOOL_A_PLCA_HEADER, 0);
-+
-+	if (ret < 0)
-+		return ret;
-+
-+	return nlsock_send_get_request(nlsk, plca_get_cfg_reply_cb);
-+}
-+
-+/* PLCA_SET_CFG */
-+
-+static const struct param_parser set_plca_params[] = {
-+	{
-+		.arg		= "enable",
-+		.type		= ETHTOOL_A_PLCA_ENABLED,
-+		.handler	= nl_parse_u8bool,
-+		.min_argc	= 1,
-+	},
-+	{
-+		.arg		= "node-id",
-+		.type		= ETHTOOL_A_PLCA_NODE_ID,
-+		.handler	= nl_parse_direct_u32,
-+		.min_argc	= 1,
-+	},
-+	{
-+		.arg		= "node-cnt",
-+		.type		= ETHTOOL_A_PLCA_NODE_CNT,
-+		.handler	= nl_parse_direct_u32,
-+		.min_argc	= 1,
-+	},
-+	{
-+		.arg		= "to-tmr",
-+		.type		= ETHTOOL_A_PLCA_TO_TMR,
-+		.handler	= nl_parse_direct_u32,
-+		.min_argc	= 1,
-+	},
-+	{
-+		.arg		= "burst-cnt",
-+		.type		= ETHTOOL_A_PLCA_BURST_CNT,
-+		.handler	= nl_parse_direct_u32,
-+		.min_argc	= 1,
-+	},
-+	{
-+		.arg		= "burst-tmr",
-+		.type		= ETHTOOL_A_PLCA_BURST_TMR,
-+		.handler	= nl_parse_direct_u32,
-+		.min_argc	= 1,
-+	},
-+	{}
-+};
-+
-+int nl_plca_set_cfg(struct cmd_context *ctx)
-+{
-+	struct nl_context *nlctx = ctx->nlctx;
-+	struct nl_msg_buff *msgbuff;
-+	struct nl_socket *nlsk;
-+	int ret;
-+
-+	if (netlink_cmd_check(ctx, ETHTOOL_MSG_PLCA_SET_CFG, false))
-+		return -EOPNOTSUPP;
-+	if (!ctx->argc) {
-+		fprintf(stderr,
-+			"ethtool (--set-plca-cfg): parameters missing\n");
-+		return 1;
-+	}
-+
-+	nlctx->cmd = "--set-plca-cfg";
-+	nlctx->argp = ctx->argp;
-+	nlctx->argc = ctx->argc;
-+	nlctx->devname = ctx->devname;
-+	nlsk = nlctx->ethnl_socket;
-+	msgbuff = &nlsk->msgbuff;
-+
-+	ret = msg_init(nlctx, msgbuff, ETHTOOL_MSG_PLCA_SET_CFG,
-+		       NLM_F_REQUEST | NLM_F_ACK);
-+	if (ret < 0)
-+		return 2;
-+	if (ethnla_fill_header(msgbuff, ETHTOOL_A_PLCA_HEADER,
-+			       ctx->devname, 0))
-+		return -EMSGSIZE;
-+
-+	ret = nl_parser(nlctx, set_plca_params, NULL, PARSER_GROUP_NONE, NULL);
-+	if (ret < 0)
-+		return 1;
-+
-+	ret = nlsock_sendmsg(nlsk, NULL);
-+	if (ret < 0)
-+		return 76;
-+	ret = nlsock_process_reply(nlsk, nomsg_reply_cb, nlctx);
-+	if (ret == 0)
-+		return 0;
-+	else
-+		return nlctx->exit_code ?: 76;
-+}
-+
-+/* PLCA_GET_STATUS */
-+
-+int plca_get_status_reply_cb(const struct nlmsghdr *nlhdr, void *data)
-+{
-+	const struct nlattr *tb[ETHTOOL_A_PLCA_MAX + 1] = {};
-+	DECLARE_ATTR_TB_INFO(tb);
-+	struct nl_context *nlctx = data;
-+	bool silent;
-+	int err_ret;
-+	int ret;
-+	u8 val;
-+
-+	silent = nlctx->is_dump || nlctx->is_monitor;
-+	err_ret = silent ? MNL_CB_OK : MNL_CB_ERROR;
-+	ret = mnl_attr_parse(nlhdr, GENL_HDRLEN, attr_cb, &tb_info);
-+	if (ret < 0)
-+		return err_ret;
-+
-+	nlctx->devname = get_dev_name(tb[ETHTOOL_A_PLCA_HEADER]);
-+	if (!dev_ok(nlctx))
-+		return err_ret;
-+
-+	if (silent)
-+		putchar('\n');
-+
-+	printf("PLCA status of %s:\n", nlctx->devname);
-+
-+	// check whether the Open Alliance TC14 standard memory map is supported
-+	printf("\tStatus: ");
-+
-+	if (!tb[ETHTOOL_A_PLCA_STATUS]) {
-+		printf("not supported");
-+	} else {
-+		val = mnl_attr_get_u8(tb[ETHTOOL_A_PLCA_STATUS]);
-+		printf(val ? "on" : "off");
-+	}
-+	putchar('\n');
-+
-+	return MNL_CB_OK;
-+}
-+
-+
-+int nl_plca_get_status(struct cmd_context *ctx)
-+{
-+	struct nl_context *nlctx = ctx->nlctx;
-+	struct nl_socket *nlsk = nlctx->ethnl_socket;
-+	int ret;
-+
-+	if (netlink_cmd_check(ctx, ETHTOOL_MSG_PLCA_GET_STATUS, true))
-+		return -EOPNOTSUPP;
-+
-+	if (ctx->argc > 0) {
-+		fprintf(stderr, "ethtool: unexpected parameter '%s'\n",
-+			*ctx->argp);
-+		return 1;
-+	}
-+
-+	ret = nlsock_prep_get_request(nlsk, ETHTOOL_MSG_PLCA_GET_STATUS,
-+				      ETHTOOL_A_PLCA_HEADER, 0);
-+
-+	if (ret < 0)
-+		return ret;
-+
-+	return nlsock_send_get_request(nlsk, plca_get_status_reply_cb);
-+}
-diff --git a/netlink/settings.c b/netlink/settings.c
-index f96f324de9f5..2e72784ad17f 100644
---- a/netlink/settings.c
-+++ b/netlink/settings.c
-@@ -166,6 +166,9 @@ static const struct link_mode_info link_modes[] = {
- 	[ETHTOOL_LINK_MODE_100baseFX_Half_BIT]		= __HALF_DUPLEX(100),
- 	[ETHTOOL_LINK_MODE_100baseFX_Full_BIT]		= __REAL(100),
- 	[ETHTOOL_LINK_MODE_10baseT1L_Full_BIT]		= __REAL(10),
-+	[ETHTOOL_LINK_MODE_10baseT1S_Full_BIT]		= __REAL(10),
-+	[ETHTOOL_LINK_MODE_10baseT1S_Half_BIT]		= __REAL(10),
-+	[ETHTOOL_LINK_MODE_10baseT1S_P2MP_Half_BIT]     = __REAL(10),
- 	[ETHTOOL_LINK_MODE_800000baseCR8_Full_BIT]	= __REAL(800000),
- 	[ETHTOOL_LINK_MODE_800000baseKR8_Full_BIT]	= __REAL(800000),
- 	[ETHTOOL_LINK_MODE_800000baseDR8_Full_BIT]	= __REAL(800000),
-@@ -896,6 +899,70 @@ int debug_reply_cb(const struct nlmsghdr *nlhdr, void *data)
- 	return MNL_CB_OK;
- }
- 
-+int plca_cfg_reply_cb(const struct nlmsghdr *nlhdr, void *data)
-+{
-+	const struct nlattr *tb[ETHTOOL_A_PLCA_MAX + 1] = {};
-+	DECLARE_ATTR_TB_INFO(tb);
-+	struct nl_context *nlctx = data;
-+	int ret;
-+
-+	if (nlctx->is_dump || nlctx->is_monitor)
-+		nlctx->no_banner = false;
-+	ret = mnl_attr_parse(nlhdr, GENL_HDRLEN, attr_cb, &tb_info);
-+	if (ret < 0)
-+		return ret;
-+	nlctx->devname = get_dev_name(tb[ETHTOOL_A_PLCA_HEADER]);
-+	if (!dev_ok(nlctx))
-+		return MNL_CB_OK;
-+
-+	print_banner(nlctx);
-+	printf("\tPLCA support: ");
-+
-+	if (tb[ETHTOOL_A_PLCA_VERSION]) {
-+		uint16_t val = mnl_attr_get_u16(tb[ETHTOOL_A_PLCA_VERSION]);
-+
-+		printf("OPEN Alliance v%u.%u",
-+		       (unsigned int)((val >> 4) & 0xF),
-+		       (unsigned int)(val & 0xF));
-+	} else
-+		printf("non-standard");
-+
-+	printf("\n");
-+
-+	return MNL_CB_OK;
-+}
-+
-+int plca_status_reply_cb(const struct nlmsghdr *nlhdr, void *data)
-+{
-+	const struct nlattr *tb[ETHTOOL_A_PLCA_MAX + 1] = {};
-+	DECLARE_ATTR_TB_INFO(tb);
-+	struct nl_context *nlctx = data;
-+	int ret;
-+
-+	if (nlctx->is_dump || nlctx->is_monitor)
-+		nlctx->no_banner = false;
-+	ret = mnl_attr_parse(nlhdr, GENL_HDRLEN, attr_cb, &tb_info);
-+	if (ret < 0)
-+		return ret;
-+	nlctx->devname = get_dev_name(tb[ETHTOOL_A_PLCA_HEADER]);
-+	if (!dev_ok(nlctx))
-+		return MNL_CB_OK;
-+
-+	print_banner(nlctx);
-+	printf("\tPLCA status: ");
-+
-+	if (tb[ETHTOOL_A_PLCA_STATUS]) {
-+		uint8_t val = mnl_attr_get_u8(tb[ETHTOOL_A_PLCA_STATUS]);
-+
-+		printf(val ? "up" : "down");
-+	} else
-+		printf("unknown");
-+
-+	printf("\n");
-+
-+	return MNL_CB_OK;
-+}
-+
- static int gset_request(struct nl_context *nlctx, uint8_t msg_type,
- 			uint16_t hdr_attr, mnl_cb_t cb)
- {
-@@ -920,7 +987,10 @@ int nl_gset(struct cmd_context *ctx)
- 	    netlink_cmd_check(ctx, ETHTOOL_MSG_LINKINFO_GET, true) ||
- 	    netlink_cmd_check(ctx, ETHTOOL_MSG_WOL_GET, true) ||
- 	    netlink_cmd_check(ctx, ETHTOOL_MSG_DEBUG_GET, true) ||
--	    netlink_cmd_check(ctx, ETHTOOL_MSG_LINKSTATE_GET, true))
-+	    netlink_cmd_check(ctx, ETHTOOL_MSG_LINKSTATE_GET, true) ||
-+	    netlink_cmd_check(ctx, ETHTOOL_MSG_LINKSTATE_GET, true) ||
-+	    netlink_cmd_check(ctx, ETHTOOL_MSG_PLCA_GET_CFG, true) ||
-+	    netlink_cmd_check(ctx, ETHTOOL_MSG_PLCA_GET_STATUS, true))
- 		return -EOPNOTSUPP;
- 
- 	nlctx->suppress_nlerr = 1;
-@@ -940,6 +1010,12 @@ int nl_gset(struct cmd_context *ctx)
- 	if (ret == -ENODEV)
- 		return ret;
- 
-+	ret = gset_request(nlctx, ETHTOOL_MSG_PLCA_GET_CFG,
-+			   ETHTOOL_A_PLCA_HEADER, plca_cfg_reply_cb);
-+
-+	if (ret == -ENODEV)
-+		return ret;
-+
- 	ret = gset_request(nlctx, ETHTOOL_MSG_DEBUG_GET, ETHTOOL_A_DEBUG_HEADER,
- 			   debug_reply_cb);
- 	if (ret == -ENODEV)
-@@ -947,6 +1023,13 @@ int nl_gset(struct cmd_context *ctx)
- 
- 	ret = gset_request(nlctx, ETHTOOL_MSG_LINKSTATE_GET,
- 			   ETHTOOL_A_LINKSTATE_HEADER, linkstate_reply_cb);
-+
-+	if (ret == -ENODEV)
-+		return ret;
-+
-+
-+	ret = gset_request(nlctx, ETHTOOL_MSG_PLCA_GET_STATUS,
-+			   ETHTOOL_A_PLCA_HEADER, plca_status_reply_cb);
- 	if (ret == -ENODEV)
- 		return ret;
- 
-@@ -955,7 +1038,6 @@ int nl_gset(struct cmd_context *ctx)
- 		return 75;
- 	}
- 
--
- 	return 0;
- }
- 
--- 
-2.37.4
-
+-Tony
