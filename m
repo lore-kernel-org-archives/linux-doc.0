@@ -2,52 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65698C46467
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Jan 2023 17:33:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD35AC677F1
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Jan 2023 17:39:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229934AbjAKRdl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Jan 2023 12:33:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60034 "EHLO
+        id S230169AbjAKRjG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Jan 2023 12:39:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234534AbjAKRdH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jan 2023 12:33:07 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E0383BEAF;
-        Wed, 11 Jan 2023 09:30:50 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id bk16so15780604wrb.11;
-        Wed, 11 Jan 2023 09:30:50 -0800 (PST)
+        with ESMTP id S239278AbjAKRiW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jan 2023 12:38:22 -0500
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 571A42C7;
+        Wed, 11 Jan 2023 09:37:56 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id l26so11625583wme.5;
+        Wed, 11 Jan 2023 09:37:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5lCIjpl82CzyQ9DLJqGOFekdFTPfE3rqk93pI2+6RCg=;
-        b=JFyHpTmjV2ktsBTtUkSir6897ZzIzbH3VAXvtwP9WqkZnYp5yoTNK1yBLuGnLEBJRA
-         2APxeY+bhqa1LA4OTc16nCD6094SFKlQrHIbFK1gG02xlpsb0dmu71qzCzVwd7FPz2rV
-         DSlslvordNvtjdnq3PvQ8GX/sMy1kAKig8NA/PnubDWOMoq6Eo/TJq0Vq6X2kqiB5kS0
-         8xgHhzp37TA0aPyYLJkpzaunmvi6HdWz8FUuKMQstKi4VDtMS3aufC10rhuqDKFn7FNF
-         h3+K5gBtpyAcTfNiVv9LGll6I8uaOFBwvfXBNpJY++G8Ir9i6DtJrbfU3yd09JbMCLtO
-         /8aw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ba5exfVk9OKxNnucEpm74nRdFtyLMKwxjalzW0GdQAA=;
+        b=GtgaQBd4qJsUzXGgYnOjLi6sOvf4wklf72uBJp4y9pX9RxHcT4R71N7z0Hucir+Sgz
+         OTyeoboJxLRycUOJPaX6Ve/wwuqn66auV0nNUhFmAyM+JRq0VloWbjisOKLS+/9+ql7i
+         /LQCKH153QYSTHpHzXhgVQyhnOKBeNmGVgGfTQR1rCBzQAG/LO5Dw8s/T8id9dClP4oJ
+         otBAubp3UzahLexdO5r3PpwGG8iYDfP0CGIfZxstnVKIjXP88Z9S1NJiu73rwh6SzVfG
+         qL+vQ1d4Goax5DXV/4kczP2mx8VXn6AO9wFhG5tZTh+BjDz/RcnKTIGywfjwv59wkqdH
+         NPtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5lCIjpl82CzyQ9DLJqGOFekdFTPfE3rqk93pI2+6RCg=;
-        b=JoO0HtagURHOI69VSO4D6x8DK2cGARwW/8VFzEGXMmEndGNaIDF2AVMLstRhbs5L8o
-         KLecKhm7sQf/VdQ4rBxAhqrEwRBYZ7Kj/C2YeJuDPiSMCKOXRqSBSI8swUh5XG4r9xKp
-         56UOlWLaPndlAa+n2y9TC4mbG1Cyp9r9oLNzGFQdDuNMiOOc6iQ+LGP/xK8YxQg05jI1
-         RA+zm198X6dbLwBzoo47ayOMf5hnkZkdGGbMzzXiH9A1sBcKyTP0qR9VG4jRPERJrI2+
-         zC/nx24HargI4tHSDAIp+QfLsnrEbJiWKsqaOGLfaIlLr1m+XzMTL0JLGUmdtHVVk1CH
-         ksHg==
-X-Gm-Message-State: AFqh2kqQUcv6tlxMlyS1shS03ai98YWPgT2iamV8us8T+JZdxTZQBjDB
-        on2cDBcGu2NwsM9cCdmSr/4=
-X-Google-Smtp-Source: AMrXdXun2J/AW4CSFGRbivSq0G71AzxC/TGQBBB4ZiIgIXV4l5eloWq19fsRpdy0fB7z6keUnKb91g==
-X-Received: by 2002:a05:6000:501:b0:26b:8177:a5e6 with SMTP id a1-20020a056000050100b0026b8177a5e6mr43766013wrf.51.1673458249265;
-        Wed, 11 Jan 2023 09:30:49 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ba5exfVk9OKxNnucEpm74nRdFtyLMKwxjalzW0GdQAA=;
+        b=0IvACVA7BfVzxQt8sWm9XfLyCDLtdt61t73xAxFxVrMqD/JtlBu17ZKAofPDf/OxKo
+         OiTdirXRUNN31xD4ryVLKuWqAb/9A5jp3O4WSdRgGsiyeJe8Ptpj/IOwjkOHX0P45HUP
+         LUoI783Pdzx/NZ5wT1sF8/TKlVJfyzCVZLZ7Algk3rkn5PqI5pIrwTRk3lP5VRk2by4+
+         fVbIc/HJ1BizFNS2w+Jg6Eh87f8rrFgopwHU28+RC/bbbyAnwHH8poAIaIWNRhOtznYS
+         NY/8Ji0zI1vblvUKBENBVMcs9GzpO4xAm3oUAP+mSYKdO3L04IGrjWAdo1pV/NW81gKk
+         fKfw==
+X-Gm-Message-State: AFqh2ko8JfEqSzkp1sC++7VeyG96ENeU4vU8e6WGK5OsTlNFQ4ZL2D6y
+        T3PPMaq8lWseEEMGjqOMJ9E=
+X-Google-Smtp-Source: AMrXdXsblMYERj3AOjfGMZ4MXHchIfzQd0z3xev79x7GkO6GET2+EB4YituzpNQqv4G2797Mv7Hszg==
+X-Received: by 2002:a05:600c:4e51:b0:3cf:7b8b:6521 with SMTP id e17-20020a05600c4e5100b003cf7b8b6521mr52452017wmq.32.1673458674805;
+        Wed, 11 Jan 2023 09:37:54 -0800 (PST)
 Received: from gvm01 (net-5-89-66-224.cust.vodafonedsl.it. [5.89.66.224])
-        by smtp.gmail.com with ESMTPSA id u5-20020adfdb85000000b002ba2646fd30sm16850827wri.36.2023.01.11.09.30.48
+        by smtp.gmail.com with ESMTPSA id o19-20020a05600c511300b003d9862ec435sm7862972wms.20.2023.01.11.09.37.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jan 2023 09:30:48 -0800 (PST)
-Date:   Wed, 11 Jan 2023 18:30:48 +0100
+        Wed, 11 Jan 2023 09:37:54 -0800 (PST)
+Date:   Wed, 11 Jan 2023 18:37:54 +0100
 From:   Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
 To:     Andrew Lunn <andrew@lunn.ch>,
         Heiner Kallweit <hkallweit1@gmail.com>,
@@ -62,74 +63,98 @@ Cc:     linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
         sbhatta@marvell.com, linux-doc@vger.kernel.org,
         wangjie125@huawei.com, corbet@lwn.net, lkp@intel.com,
         gal@nvidia.com, gustavoars@kernel.org, bagasdotme@gmail.com
-Subject: [PATCH net-next 1/1] plca.c: fix obvious mistake in checking retval
-Message-ID: <f6b7050dcfb07714fb3abdb89829a3820e6a555c.1673458121.git.piergiorgio.beruto@gmail.com>
+Subject: [PATCH v2 ethtool-next 1/2] update UAPI header copies
+Message-ID: <f3aab04b22bd38cced713bb9afb34443220bd786.1673458497.git.piergiorgio.beruto@gmail.com>
+References: <cover.1673458497.git.piergiorgio.beruto@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1673458497.git.piergiorgio.beruto@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch addresses a wrong fix that was done during the review
-process. The intention was to substitute "if(ret < 0)" with
-"if(ret)". Unfortunately, in this specific file the intended fix did not
-meet the code.
+Update to kernel commit 60d86034b14e.
 
 Signed-off-by: Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
 ---
- net/ethtool/plca.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ uapi/linux/ethtool.h         |  5 ++++-
+ uapi/linux/ethtool_netlink.h | 25 +++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+), 1 deletion(-)
 
-diff --git a/net/ethtool/plca.c b/net/ethtool/plca.c
-index d9bb13ffc654..9c7d29186b4e 100644
---- a/net/ethtool/plca.c
-+++ b/net/ethtool/plca.c
-@@ -61,7 +61,7 @@ static int plca_get_cfg_prepare_data(const struct ethnl_req_info *req_base,
- 	}
+diff --git a/uapi/linux/ethtool.h b/uapi/linux/ethtool.h
+index d1748702bddc..eb20bf873109 100644
+--- a/uapi/linux/ethtool.h
++++ b/uapi/linux/ethtool.h
+@@ -1181,7 +1181,7 @@ struct ethtool_rxnfc {
+ 		__u32			rule_cnt;
+ 		__u32			rss_context;
+ 	};
+-	__u32				rule_locs[0];
++	__u32				rule_locs[];
+ };
  
- 	ret = ethnl_ops_begin(dev);
--	if (!ret)
-+	if (ret)
- 		goto out;
  
- 	memset(&data->plca_cfg, 0xff,
-@@ -151,7 +151,7 @@ int ethnl_set_plca_cfg(struct sk_buff *skb, struct genl_info *info)
- 					 tb[ETHTOOL_A_PLCA_HEADER],
- 					 genl_info_net(info), info->extack,
- 					 true);
--	if (!ret)
-+	if (ret)
- 		return ret;
+@@ -1739,6 +1739,9 @@ enum ethtool_link_mode_bit_indices {
+ 	ETHTOOL_LINK_MODE_800000baseDR8_2_Full_BIT	 = 96,
+ 	ETHTOOL_LINK_MODE_800000baseSR8_Full_BIT	 = 97,
+ 	ETHTOOL_LINK_MODE_800000baseVR8_Full_BIT	 = 98,
++	ETHTOOL_LINK_MODE_10baseT1S_Full_BIT		 = 99,
++	ETHTOOL_LINK_MODE_10baseT1S_Half_BIT		 = 100,
++	ETHTOOL_LINK_MODE_10baseT1S_P2MP_Half_BIT	 = 101,
  
- 	dev = req_info.dev;
-@@ -171,7 +171,7 @@ int ethnl_set_plca_cfg(struct sk_buff *skb, struct genl_info *info)
- 	}
+ 	/* must be last entry */
+ 	__ETHTOOL_LINK_MODE_MASK_NBITS
+diff --git a/uapi/linux/ethtool_netlink.h b/uapi/linux/ethtool_netlink.h
+index 0d553eccea81..a6d899cd7f3a 100644
+--- a/uapi/linux/ethtool_netlink.h
++++ b/uapi/linux/ethtool_netlink.h
+@@ -52,6 +52,9 @@ enum {
+ 	ETHTOOL_MSG_PSE_GET,
+ 	ETHTOOL_MSG_PSE_SET,
+ 	ETHTOOL_MSG_RSS_GET,
++	ETHTOOL_MSG_PLCA_GET_CFG,
++	ETHTOOL_MSG_PLCA_SET_CFG,
++	ETHTOOL_MSG_PLCA_GET_STATUS,
  
- 	ret = ethnl_ops_begin(dev);
--	if (!ret)
-+	if (ret)
- 		goto out_rtnl;
+ 	/* add new constants above here */
+ 	__ETHTOOL_MSG_USER_CNT,
+@@ -99,6 +102,9 @@ enum {
+ 	ETHTOOL_MSG_MODULE_NTF,
+ 	ETHTOOL_MSG_PSE_GET_REPLY,
+ 	ETHTOOL_MSG_RSS_GET_REPLY,
++	ETHTOOL_MSG_PLCA_GET_CFG_REPLY,
++	ETHTOOL_MSG_PLCA_GET_STATUS_REPLY,
++	ETHTOOL_MSG_PLCA_NTF,
  
- 	memset(&plca_cfg, 0xff, sizeof(plca_cfg));
-@@ -189,7 +189,7 @@ int ethnl_set_plca_cfg(struct sk_buff *skb, struct genl_info *info)
- 		goto out_ops;
+ 	/* add new constants above here */
+ 	__ETHTOOL_MSG_KERNEL_CNT,
+@@ -894,6 +900,25 @@ enum {
+ 	ETHTOOL_A_RSS_MAX = (__ETHTOOL_A_RSS_CNT - 1),
+ };
  
- 	ret = ops->set_plca_cfg(dev->phydev, &plca_cfg, info->extack);
--	if (!ret)
-+	if (ret)
- 		goto out_ops;
- 
- 	ethtool_notify(dev, ETHTOOL_MSG_PLCA_NTF, NULL);
-@@ -233,7 +233,7 @@ static int plca_get_status_prepare_data(const struct ethnl_req_info *req_base,
- 	}
- 
- 	ret = ethnl_ops_begin(dev);
--	if (!ret)
-+	if (ret)
- 		goto out;
- 
- 	memset(&data->plca_st, 0xff,
++/* PLCA */
++
++enum {
++	ETHTOOL_A_PLCA_UNSPEC,
++	ETHTOOL_A_PLCA_HEADER,			/* nest - _A_HEADER_* */
++	ETHTOOL_A_PLCA_VERSION,			/* u16 */
++	ETHTOOL_A_PLCA_ENABLED,			/* u8  */
++	ETHTOOL_A_PLCA_STATUS,			/* u8  */
++	ETHTOOL_A_PLCA_NODE_CNT,		/* u32 */
++	ETHTOOL_A_PLCA_NODE_ID,			/* u32 */
++	ETHTOOL_A_PLCA_TO_TMR,			/* u32 */
++	ETHTOOL_A_PLCA_BURST_CNT,		/* u32 */
++	ETHTOOL_A_PLCA_BURST_TMR,		/* u32 */
++
++	/* add new constants above here */
++	__ETHTOOL_A_PLCA_CNT,
++	ETHTOOL_A_PLCA_MAX = (__ETHTOOL_A_PLCA_CNT - 1)
++};
++
+ /* generic netlink info */
+ #define ETHTOOL_GENL_NAME "ethtool"
+ #define ETHTOOL_GENL_VERSION 1
 -- 
 2.37.4
 
