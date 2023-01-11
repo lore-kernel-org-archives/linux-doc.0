@@ -2,75 +2,70 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A063C5479D
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Jan 2023 22:46:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74619C5479D
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Jan 2023 22:47:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230429AbjAKWqV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Jan 2023 17:46:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45204 "EHLO
+        id S232509AbjAKWrX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Jan 2023 17:47:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232477AbjAKWqU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jan 2023 17:46:20 -0500
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30EA31A3AE;
-        Wed, 11 Jan 2023 14:46:20 -0800 (PST)
+        with ESMTP id S232768AbjAKWrU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jan 2023 17:47:20 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F310F1EED7;
+        Wed, 11 Jan 2023 14:47:19 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8508C6E3;
-        Wed, 11 Jan 2023 22:46:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8508C6E3
+        by ms.lwn.net (Postfix) with ESMTPSA id 89AE26E3;
+        Wed, 11 Jan 2023 22:47:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 89AE26E3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1673477179; bh=chnumXMjRPxHc3+TqNhtG9dgkl5xb90Nb7uzfVeZNvY=;
+        t=1673477239; bh=EhyTd+ajFt5Q+9nlnNhcC9cvFVR0B1AWqmysbOTk7ZM=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=ddRh0FhMtKZdGtV5hhz8TZ5xilzh1rQI98qIW5WNRSdWjYfmOt3nSXT47+jvumyBt
-         eLjXdnkQdqgn7vFjKV9kKt76JtL88gUHsZXVvzWDUCh1DDGNC+1LjytS9ItSmPQ2vl
-         Q63hfoG/x6Ovmf/4sfp0HJW4psBsfRBIsYI53ajxDYn/hnSpwP682erSvG1V1YVHXH
-         K92JrbA1S9MkvbK6dE/SNBqkh7Ch7oSAryZZGV3vX/wltMMd2ioiJv4Wt2frzhpnHP
-         ffQhYMlRZGOLzPlKoKUIeb0e7k2m3dvsTzQwIbM+5N06E8Zw38lcr/Bobh2YgDCTSE
-         jPTli73JOUVbA==
+        b=NN/2Wt4YsxtmjdKckd4wAP+z9SKXrBYB81UXTMeNToDJMfPDaq7ABytYeiWqI91DS
+         SaHZ0ShnZanKHPbx5AXhorYMSYQB639xItW6YWAPkuVIPbOjm2lFPBfE6xR2VDU/E3
+         u99RRCkKKTN/wcXRolNkCzLFAqtXVdVd0ZyrtnC5LeMDPUy9Jb+FTAEk2z9rbgCw9p
+         Kxatk5AGwWd87622B246HMovpNF/ssMf5d/+Uhgwn2/g6Vzb6O7bM7HFhoz3/hEpLU
+         hu6iKPqAFJBi7ebCJ/6O3zXZLhzhex2KMzAW/NkCKZbcRuZP8dq+V9sem75etgcGt8
+         2GfngjEULrBxw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     "A. Sverdlin" <alexander.sverdlin@siemens.com>,
-        linux-doc@vger.kernel.org
-Cc:     Alexander Sverdlin <alexander.sverdlin@siemens.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Manfred Spraul <manfred@colorfullife.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: kernel-hacking: discourage from calling
- disable_irq() in atomic
-In-Reply-To: <20221223112859.937196-1-alexander.sverdlin@siemens.com>
-References: <20221223112859.937196-1-alexander.sverdlin@siemens.com>
-Date:   Wed, 11 Jan 2023 15:46:18 -0700
-Message-ID: <87y1q8wuyt.fsf@meer.lwn.net>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
+Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2] doc: fix typo in botching up ioctls
+In-Reply-To: <20221230172328.58612-1-federico.vaga@vaga.pv.it>
+References: <20221230172328.58612-1-federico.vaga@vaga.pv.it>
+Date:   Wed, 11 Jan 2023 15:47:18 -0700
+Message-ID: <87tu0wwux5.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"A. Sverdlin" <alexander.sverdlin@siemens.com> writes:
+Federico Vaga <federico.vaga@vaga.pv.it> writes:
 
-> From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> The type contained a typo `uintprt` -> `uintptr`
 >
-> Correct the example in documentation so that disable_irq() is not being
-> called in atomic context.
->
-> disable_irq() calls sleeping synchronize_irq(), it's not allowed to call
-> them in atomic context.
->
-> Link: https://lore.kernel.org/lkml/87k02wbs2n.ffs@tglx/
-> Reviewed-by: Manfred Spraul <manfred@colorfullife.com>
-> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 > ---
-> Changelog:
-> v2: Dropped changes to manage.c because of already applied
-> https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/patches/kernel-irq-managec-disable_irq-might-sleep.patch
+>  Documentation/process/botching-up-ioctls.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->  Documentation/kernel-hacking/locking.rst                    | 4 ++--
->  Documentation/translations/it_IT/kernel-hacking/locking.rst | 4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
+> v1 -> v2 fix the typo in the commit message
+>
+> diff --git a/Documentation/process/botching-up-ioctls.rst b/Documentation/process/botching-up-ioctls.rst
+> index ba4667ab396b..9739b88463a5 100644
+> --- a/Documentation/process/botching-up-ioctls.rst
+> +++ b/Documentation/process/botching-up-ioctls.rst
+> @@ -41,7 +41,7 @@ will need to add a 32-bit compat layer:
+>     structures to the kernel, or if the kernel checks the structure size, which
+>     e.g. the drm core does.
+>  
+> - * Pointers are __u64, cast from/to a uintprt_t on the userspace side and
+> + * Pointers are __u64, cast from/to a uintptr_t on the userspace side and
+>     from/to a void __user * in the kernel. Try really hard not to delay this
 
 Applied, thanks.
 
