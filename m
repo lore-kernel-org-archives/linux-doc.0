@@ -2,95 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1A79C5479D
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Jan 2023 19:33:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4A0DC5479D
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Jan 2023 21:17:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232291AbjAKTdJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Jan 2023 14:33:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42494 "EHLO
+        id S235273AbjAKVRw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Jan 2023 16:17:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229701AbjAKTdH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jan 2023 14:33:07 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA23216498;
-        Wed, 11 Jan 2023 11:33:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673465585; x=1705001585;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=0cOJw84V6/UKZ6A9b4jwVD33YpuY7WN9o7pXNfDH4kA=;
-  b=g4jrhCCrTFyqHGZ1lB6RWLacwiOMPgxrBM9E82FXFf0cFB77dHq/x7zW
-   CNlTw/vi7LCz422hii6IGu5QW6JVgtzwiIWnzqYinthi6rm500ZMo8cIu
-   MvtCTqmle1apV8AbRCm/gWuZXaCpLDSqq7MsShfYFtdIS9b6MppR0x1Op
-   Qgezj6dMi+0hffhnFhw2cHKX9FQZd+PWqwpS/oh9fWp6ZnxZG0/CwIGW1
-   BxXg3EIjfkTVBv/vVRtCaK6NMnyJTGE3nHrMz2Iy5ofhiM8b9et8dxWlB
-   UWRWUrBJptKHvDtx4i9qPnzi50NgSOgYO/TSHQmj0uoX++h6wtthrzuGu
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="385828038"
-X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; 
-   d="scan'208";a="385828038"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2023 11:33:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="746281835"
-X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; 
-   d="scan'208";a="746281835"
-Received: from sohilmeh.sc.intel.com ([172.25.103.65])
-  by FMSMGA003.fm.intel.com with ESMTP; 11 Jan 2023 11:33:04 -0800
-From:   Sohil Mehta <sohil.mehta@intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Sohil Mehta <sohil.mehta@intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
+        with ESMTP id S234200AbjAKVRl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jan 2023 16:17:41 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBB951929B;
+        Wed, 11 Jan 2023 13:17:39 -0800 (PST)
+Date:   Wed, 11 Jan 2023 21:17:37 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1673471857;
+        h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=KJcFPsuRnlT69IfwpVb+Lnza97LPnA6DR8gMevnpBGw=;
+        b=YuyZtPHT9VUWbAqE6ZkkWB2ToPyyYRnxiUGvqCKAYevTyyEMhJEVbToy4s1tlJgR2So1uH
+        zy25ZeLgrrQIQoss19ezxr2HPpowEMCva0W1IslLi6ihTywEqWW5Rddiak8QtlPXVPP67T
+        e7+TyOh5FTOIq8/yYEumvTZj+MX8BPaOGqxEzzA+0z/EiNX7zO0G6zkfQGFxZJmCWUhljE
+        FVrshCa8ynFSjcVicR5gIt3q0fCIAIaQf05WMscmVJ2a1fp6ZbgDwjRVAdSxI91wl3VDww
+        TNDSkjdBEuKRk41LjUbA7Eh3qUsYBc+Mwu5pE01vgMcMcAwRd8NXXX+5h1fdWg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1673471857;
+        h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=KJcFPsuRnlT69IfwpVb+Lnza97LPnA6DR8gMevnpBGw=;
+        b=DTVafsYt6XoZL5MU5+n/ygFwWjVq1xj5baaC2FsrXbyxXwpbmy0BzkyBBa9dOJ1ZlCynzV
+        OE5TUkCOu/7TYLBg==
+From:   "tip-bot2 for Alexander Sverdlin" <tip-bot2@linutronix.de>
+Sender: tip-bot2@linutronix.de
+Reply-to: linux-kernel@vger.kernel.org
+To:     linux-tip-commits@vger.kernel.org
+Subject: [tip: irq/core] docs: locking: Discourage from calling disable_irq()
+ in atomic
+Cc:     Alexander Sverdlin <alexander.sverdlin@siemens.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Kees Cook <keescook@chromium.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Ravi V Shankar <ravi.v.shankar@intel.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org
-Subject: [PATCH] x86/vsyscall: Fix documentation to reflect the default mode
-Date:   Wed, 11 Jan 2023 19:32:11 +0000
-Message-Id: <20230111193211.1987047-1-sohil.mehta@intel.com>
-X-Mailer: git-send-email 2.34.1
+        Manfred Spraul <manfred@colorfullife.com>,
+        linux-doc@vger.kernel.org, x86@kernel.org,
+        linux-kernel@vger.kernel.org, maz@kernel.org
+In-Reply-To: <20221212163715.830315-1-alexander.sverdlin@siemens.com>
+References: <20221212163715.830315-1-alexander.sverdlin@siemens.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <167347185712.4906.2425854562140867761.tip-bot2@tip-bot2>
+Robot-ID: <tip-bot2@linutronix.de>
+Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The default vsyscall mode has been updated from emulate to xonly for a
-while. Update the kernel-parameters doc to reflect that.
+The following commit has been merged into the irq/core branch of tip:
 
-Fixes: 625b7b7f79c6 ("x86/vsyscall: Change the default vsyscall mode to xonly")
-Cc: Andy Lutomirski <luto@kernel.org>
-Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
-Reviewed-by: Tony Luck <tony.luck@intel.com>
+Commit-ID:     379af13b31fa8a36ad4abd59a5c511f25c5d4d42
+Gitweb:        https://git.kernel.org/tip/379af13b31fa8a36ad4abd59a5c511f25c5=
+d4d42
+Author:        Alexander Sverdlin <alexander.sverdlin@siemens.com>
+AuthorDate:    Mon, 12 Dec 2022 17:37:15 +01:00
+Committer:     Thomas Gleixner <tglx@linutronix.de>
+CommitterDate: Wed, 11 Jan 2023 19:45:26 +01:00
+
+docs: locking: Discourage from calling disable_irq() in atomic
+
+Correct the example in the documentation so that disable_irq() is not being
+called in atomic context.
+
+disable_irq() calls sleeping synchronize_irq(), it's not allowed to call
+them in atomic context.
+
+Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Manfred Spraul <manfred@colorfullife.com>
+Cc: linux-doc@vger.kernel.org
+Link: https://lore.kernel.org/lkml/87k02wbs2n.ffs@tglx/
+Link: https://lore.kernel.org/r/20221212163715.830315-1-alexander.sverdlin@si=
+emens.com
+
 ---
-Do documentation fixes typically get backported to stable? I haven't included
-a stable cc assuming they do not.
+ Documentation/kernel-hacking/locking.rst                    | 4 ++--
+ Documentation/translations/it_IT/kernel-hacking/locking.rst | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
- Documentation/admin-guide/kernel-parameters.txt | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6cfa6e3996cf..87f0b645922c 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6756,11 +6756,11 @@
- 			functions are at fixed addresses, they make nice
- 			targets for exploits that can control RIP.
- 
--			emulate     [default] Vsyscalls turn into traps and are
--			            emulated reasonably safely.  The vsyscall
--				    page is readable.
-+			emulate     Vsyscalls turn into traps and are emulated
-+			            reasonably safely.  The vsyscall page is
-+				    readable.
- 
--			xonly       Vsyscalls turn into traps and are
-+			xonly       [default] Vsyscalls turn into traps and are
- 			            emulated reasonably safely.  The vsyscall
- 				    page is not readable.
- 
--- 
-2.34.1
-
+diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-=
+hacking/locking.rst
+index c756786..dff0646 100644
+--- a/Documentation/kernel-hacking/locking.rst
++++ b/Documentation/kernel-hacking/locking.rst
+@@ -1277,11 +1277,11 @@ Manfred Spraul points out that you can still do this,=
+ even if the data
+ is very occasionally accessed in user context or softirqs/tasklets. The
+ irq handler doesn't use a lock, and all other accesses are done as so::
+=20
+-        spin_lock(&lock);
++        mutex_lock(&lock);
+         disable_irq(irq);
+         ...
+         enable_irq(irq);
+-        spin_unlock(&lock);
++        mutex_unlock(&lock);
+=20
+ The disable_irq() prevents the irq handler from running
+ (and waits for it to finish if it's currently running on other CPUs).
+diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Do=
+cumentation/translations/it_IT/kernel-hacking/locking.rst
+index b8ecf41..05d362b 100644
+--- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
++++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
+@@ -1307,11 +1307,11 @@ se i dati vengono occasionalmente utilizzati da un co=
+ntesto utente o
+ da un'interruzione software. Il gestore d'interruzione non utilizza alcun
+ *lock*, e tutti gli altri accessi verranno fatti cos=C3=AC::
+=20
+-        spin_lock(&lock);
++        mutex_lock(&lock);
+         disable_irq(irq);
+         ...
+         enable_irq(irq);
+-        spin_unlock(&lock);
++        mutex_unlock(&lock);
+=20
+ La funzione disable_irq() impedisce al gestore d'interruzioni
+ d'essere eseguito (e aspetta che finisca nel caso fosse in esecuzione su
