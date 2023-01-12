@@ -2,166 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AA53C54EBD
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 16:11:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B61F4C54EBD
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 16:14:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236701AbjALQLS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Jan 2023 11:11:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50132 "EHLO
+        id S232010AbjALQOR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Jan 2023 11:14:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232241AbjALQKg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 11:10:36 -0500
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E24C4FD7F;
-        Thu, 12 Jan 2023 08:02:05 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 47D9932005C1;
-        Thu, 12 Jan 2023 11:02:04 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Thu, 12 Jan 2023 11:02:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1673539323; x=1673625723; bh=pEfXWj7Hu9
-        k28i5iZXZlWlRGQSSC88B7IqFY+vWRaj4=; b=a7U9YhqWwE+6Qdb0hFY5GwRwlY
-        VDsudE3O3WkylT+2O87N0XbgdHchHtOMk62lC+TB1Nm9Zp3C+1mbJ1vauIZH1/J2
-        mx2oNGb/+0rTIDENI9e/SbOaS6FqyTKQXCRtCfIX71w7O6DLjgPTfpSsOGrQm0eL
-        RI33cPw3cWaTfmEgg9mZU7C1RVfXfSelyT/1/V7cDr2IOEEZwfzCscKEtnet+P/t
-        UHsUDM8EwaibW4+33ZDzGxNkHtK/sOYVWrYQWO8htC8ZjfSjnUXmAO1cNklasx/0
-        NmTCtckV5bGaKvUxBXLEpxe5rHz74fmzo2mSDqOarNwg1C1K8R4aAHbIRphg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1673539323; x=1673625723; bh=pEfXWj7Hu9k28i5iZXZlWlRGQSSC
-        88B7IqFY+vWRaj4=; b=RiNhHbz3B5Z+87FR6SiDXQ0VQF+omSLU2y0oui814ZRQ
-        1MOW6Ryj4EZXXseMjLwEEIvRRzlXZuj4VnMe822LxVODTBU2yUr8JUpDUtFDZEAF
-        +PxtDxgCEfKtWKpuVmeADW6LmWP3VOrzdcA6p8B/aUoNWwXv995yjWr9MotrNmvC
-        tNKOYnE9MpqJqJVBOZ9u+NYTT+icUH2Mc5Jbgssx6VvtkpJmbS0p0+Mi0d4a7HdN
-        3ziekxEuPMtJiNbm6tPNfRpZFgmCSV+rz0I7Z2AcTezMJjTdi4eU1gxWcG049nBj
-        cawUgFc1VWUlT0zO9h3CeKoE5cE+ozce8yR0MoHOHA==
-X-ME-Sender: <xms:-i7AYwjcH0b8JgIuQkkla8dOAS_ZXu3VtOZ8T3JEh4rTDcRxB61nFQ>
-    <xme:-i7AY5D7lYoQhhRJSA2FbZIhtNDjYmkois15jfO4y4L4priJfqPaZPacPPobpAnRi
-    B1Tacb5G-Xk4dXrSAc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleeigdekfecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:-y7AY4HU_4EGMtzvXZArVkKSku1EJ2_ZHcend_YSubnmrs1J_5_21w>
-    <xmx:-y7AYxTNqDzg7AI6GkN0vKDCiBkGNGmLZCYbjz6KG2MIaeY4pRH58w>
-    <xmx:-y7AY9wN0x54F61K--9UBOWVixlkIduCt5vO7Y19Jj2YOnSrStEJRw>
-    <xmx:-y7AYyrPyNGbG3GqJDvGMk4QXJsPCExmfFhVQLKfdpfpdBgdf5yzpg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id EC407B60086; Thu, 12 Jan 2023 11:02:02 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
-Mime-Version: 1.0
-Message-Id: <6bae68eb-866f-4b78-b4db-e3154feec28e@app.fastmail.com>
-In-Reply-To: <E2B35D8A-B8A6-40C1-8AC9-46E6C2CAE656@hpe.com>
-References: <20230103203654.59322-1-nick.hawkins@hpe.com>
- <20230103203654.59322-4-nick.hawkins@hpe.com>
- <5ad677f3-2cbc-4ba0-bd48-2f832a72fb28@app.fastmail.com>
- <E2B35D8A-B8A6-40C1-8AC9-46E6C2CAE656@hpe.com>
-Date:   Thu, 12 Jan 2023 17:00:52 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Hawkins, Nick" <nick.hawkins@hpe.com>
-Cc:     "Verdun, Jean-Marie" <verdun@hpe.com>,
-        "Jean Delvare" <jdelvare@suse.com>,
-        "Guenter Roeck" <linux@roeck-us.net>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Russell King" <linux@armlinux.org.uk>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v4 3/5] ARM: dts: add GXP Support for fans and SPI
-Content-Type: text/plain
+        with ESMTP id S234036AbjALQNV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 11:13:21 -0500
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C04B122;
+        Thu, 12 Jan 2023 08:09:46 -0800 (PST)
+Received: by mail-ed1-x542.google.com with SMTP id x10so24579162edd.10;
+        Thu, 12 Jan 2023 08:09:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=to1q6LVKIIJBWMmNguEM+gyWRlt0shFQMt1YdsJOc78=;
+        b=OzgqrOGt8YvqTfJupHrGyc6eXiRC8/u/Q8geWR2WhSQNaEP2aBTpBp0jNtmZwV2u91
+         /jz3SatKImZa4WB+4BlS9HtPFMsxscxsBqr3R4Lqb9p96oKA1UgREfvPFm8XdX670BgS
+         G1GjeuwuaKmZT25rW5NwZhh24pMufEMG/Mg2JxPEdmky3SjR+241RK+3GloPMdF+ZAjK
+         7bMJJcDhuh/yYLlsb3Y6wf68Bi5TLYJH8YlIZlATgyhTzo24of6RD2cT1HaZu6iOtHj3
+         7yBZxgFhXc9oRh0RMg/CX3fgiZBODqOJy8O8w51HsDGGcbxPJ8eCwiW7d1ajJuvtMsRy
+         xEEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=to1q6LVKIIJBWMmNguEM+gyWRlt0shFQMt1YdsJOc78=;
+        b=7Jhb4KIz+vZkAqQhG1po2tag2vjhBItDQWqzX8Owd0AC/cHjc58WMJmv7lxNshUegk
+         GwqBdcIVQPMlkAz42z6HtZdnvrdjU/aI0Q0xiFfmWQ0q6Hfok90qUhz4An26HTqDVl/f
+         VxueoRZZx2hzQ/JBPuyaDQAK6/0o0mCM7MayUszjbB8k3L7QRnMiKKWCZvNTLv1Xjk8g
+         m5MoyUoV3Un8cQcRHIB0GcXs2QIXdk6+0209cYq8+VnXo1+SblTpencOo7Mg2pewBE+Z
+         rnntKxTrDjC1DjVI+DdKlKjmGfMet6Yb+52DjwxMHTYzKy3oknFr9GjlK2uYJlmcm9pR
+         F8rA==
+X-Gm-Message-State: AFqh2koPPda6J1e3YXog7e8Ql3IvPB0E7YutspCFRhsb96Y8zI1Qw0UP
+        sKy+GWeoJ4sGZYp7ItyA56/axakKqlU=
+X-Google-Smtp-Source: AMrXdXtSUAts7/BcVVwS7YRYnT4Tid5jYPTpnLefyXCec6gLHy8guSA5IFvsx8w2hcRK55ObZhu/yA==
+X-Received: by 2002:a05:6402:2949:b0:497:d4ca:457d with SMTP id ed9-20020a056402294900b00497d4ca457dmr21186610edb.34.1673539785211;
+        Thu, 12 Jan 2023 08:09:45 -0800 (PST)
+Received: from [127.0.1.1] (i130160.upc-i.chello.nl. [62.195.130.160])
+        by smtp.googlemail.com with ESMTPSA id b15-20020aa7c90f000000b004615f7495e0sm7333606edt.8.2023.01.12.08.09.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Jan 2023 08:09:44 -0800 (PST)
+From:   Jakob Koschel <jkl820.git@gmail.com>
+Date:   Thu, 12 Jan 2023 17:09:25 +0100
+Subject: [PATCH] docs/scripts/gdb: add necessary make scripts_gdb step
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230112-documentation-gdb-v1-1-09ab556e9124@gmail.com>
+X-B4-Tracking: v=1; b=H4sIALUwwGMC/x2NQQrDMAwEvxJ0rkB2oId+pfQg2UqiQ5wiu6UQ8
+ vc4PQ6zw+5Q1U0rPIYdXL9WbSsdwm2AtHCZFS13hkhxpBAi5i19Vi2NW1/inAV5IspxlCh3gt4J
+ V0VxLmm5ypVrU7/E23Wy3//s+TqOExCcYVl8AAAA
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jakob Koschel <jkl820.git@gmail.com>
+X-Mailer: b4 0.11.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1673539784; l=1319;
+ i=jkl820.git@gmail.com; s=20230112; h=from:subject:message-id;
+ bh=ed62LhKrG0qQfPSeu1MSavpReKFjoB5TxmkWq3Z8AcM=;
+ b=q+6yF/vN6kdY5wa7H0T/eK4dQ3lsCu7USLMhRzt5CWmoYDkynToiS452xHDFJ5u/ecBOB3fXFVLS
+ D+LVQtsKDttNxeEhjjVCkoENPpPbPybhndPq4ivULPVHCJHfse9S
+X-Developer-Key: i=jkl820.git@gmail.com; a=ed25519;
+ pk=rcRpP90oZXet9udPj+2yOibfz31aYv8tpf0+ZYOQhyA=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 12, 2023, at 16:40, Hawkins, Nick wrote:
->> > - ahb@c0000000 {
->> > + ahb@80000000 {
->> > compatible = "simple-bus";
->> > #address-cells = <1>;
->> > #size-cells = <1>;
->> > - ranges = <0x0 0xc0000000 0x30000000>;
->> > + ranges = <0x0 0x80000000 0xf000000>, /* 0x80000000 - 0x8f000000 */
->> > + <0x40000000 0xc0000000 0x7fffffff>; /* 0xc0000000 - 0xffffffff */
->
->
->> I'm a bit confused by the change in the mappings: are you
->> sure this all the same ahb bus and not two separate buses?
->
-> Yes this is the same bus, however we are not including all of
-> it as it maps some host registers that we do not want to access
-> at this time. 
+In order to debug the kernel successfully with gdb you need to run
+'make scripts_gdb' nowadays.
 
-If the two ranges are actually translated separately on the
-bus, you could also decide to enumerate the translations with
-a 64-bit local address and make the upper word an enumeration,
-such as
+This was changed with the following commit:
 
-ranges = <0x1 0x0 0x80000000 0xf000000>,
-         <0x2 0x0 0xc0000000 0x30000000>;
+Commit 67274c083438340ad16c ("scripts/gdb: delay generation of gdb
+constants.py")
 
-then you get small numbers again in the 'reg' properties
-that are easier to read and ideally match the bus-local
-numbers from the hardware manual.
+In order to have a complete guide for beginners this remark
+should be added to the offial documentation.
 
->> The comment for the second range looks wrong to me, as
->> you define a 2GB (minus one byte) sized mapping but the
->> comment only lists a 1GB (including the last byte) mapping.
->
->
->> I would expect that the original 0x30000000 (including the
->> last byte) was correct here.
->
-> Yes this was incorrect, I believe it should be:
->
-> ranges = <0x0 0x80000000 0xf000000>, /* 0x80000000 - 0x8f000000 */
->                 <0x40000000 0xc0000000 0x3fffffff>; /* 0xc0000000 - 
-> 0xffffffff */
->
-> I will create a v5 version of this patchset with just this and the
-> defconfig for your review.
+---
 
-Now it almost matches, except for the final byte, as the
-range actually ends at 0xfffffffe not 0xffffffff if you make
-the size one byte less than 1GB.
 
-Is there a special register in the last byte?
+Signed-off-by: Jakob Koschel <jkl820.git@gmail.com>
+---
+ Documentation/dev-tools/gdb-kernel-debugging.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
->> > - vic1: interrupt-controller@80f00000 {
->> > + vic1: interrupt-controller@f00000 { /* 0x80f00000 */
->
->
->> This is not the same address as before. I'm also not sure the
->> comment is helpful here.
->
-> My understanding was that the physical address would be the
-> 0x80000000 from the first range plus the 0xf00000 to be
-> 0x80f00000?
+diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/dev-tools/gdb-kernel-debugging.rst
+index 8e0f1fe8d17a..895285c037c7 100644
+--- a/Documentation/dev-tools/gdb-kernel-debugging.rst
++++ b/Documentation/dev-tools/gdb-kernel-debugging.rst
+@@ -39,6 +39,10 @@ Setup
+   this mode. In this case, you should build the kernel with
+   CONFIG_RANDOMIZE_BASE disabled if the architecture supports KASLR.
+ 
++- Build the gdb scripts (required on kernels v5.1 and above)::
++
++    make scripts_gdb
++
+ - Enable the gdb stub of QEMU/KVM, either
+ 
+     - at VM startup time by appending "-s" to the QEMU command line
 
-I suppose the physical address in the old mapping was actually
-outside of the 0xc0000000-0xefffffff range, so it wasn't
-even accessible. If the addresses are interpreted to wrap around
-at the end of the mapping, that would have made the CPU visible
-address 0xe0f00000 (0xc0000000 + (0x80f00000 % 0x30000000)).
-If it just wrapped around as a 32-bit number, it would be
-0x40f00000 ((0xc0000000 + 0x80f00000)% 0x100000000), but I
-don't see you you'd get to 80f00000.
+---
+base-commit: c757fc92a3f73734872c7793b97f06434773d65d
+change-id: 20230112-documentation-gdb-af00d23b2b60
 
-      Arnd
+Best regards,
+-- 
+Jakob Koschel <jkl820.git@gmail.com>
