@@ -2,79 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C888C61DB3
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 21:41:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 940F2C63797
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 22:08:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240314AbjALVlI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Jan 2023 16:41:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35722 "EHLO
+        id S232571AbjALWIa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Jan 2023 17:08:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240399AbjALVkj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 16:40:39 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EE9F60876
-        for <linux-doc@vger.kernel.org>; Thu, 12 Jan 2023 13:32:14 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id gz9-20020a17090b0ec900b002290bda1b07so98788pjb.1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Jan 2023 13:32:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oYWg76MlT465qYm5zxxJzeCoJpElzxW7j04ayS6Gkfo=;
-        b=IxiMGx32/xjZAc1vwPbmnRqZseYpKs2kN4m4itm5HGK3gKjlx8IhN5F2dfpUDi3iV7
-         iSx3o+T6ODNt+TyxQ0rvSPsx3EzwOynXeDSBh3AphQQKVyyo6PMuFaGmE2jXLEODpxG8
-         B2NzXkP7cHc5a2GZHWMAemd7B0Ne7wvlMFizo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oYWg76MlT465qYm5zxxJzeCoJpElzxW7j04ayS6Gkfo=;
-        b=QX8zub5x8t6s1NjIqQKW2g8PQz3Pt7K5dWFdj1Cwk4gKM+z1u1J4LSmez7OZ6bmPB2
-         RDcr5GRNnhgKQqtFP9SJJmcqDTCxrxC7Rsd3QSEkV/I9wC1T4LQKOWxDzAt33nfm8rxK
-         5LnNUDbsp+VRIEgW3q0sYS4CLcM7xzgob3uyyN1qwPkT8kDpWIKRK2eEi6JZfG69gOlp
-         xdvOFvMagHdtxwKZa5DIj9JhDBaegd70lpioM2Xuv7e8I28ZQHm69+uwe5+1xNOEhNGS
-         3VvfqoZtRIyALk5fM2p+P04QcGgIOM9NX+ID8XrCd43EZy/xS0k+N+OEf6+QoxvBLeV3
-         mJZA==
-X-Gm-Message-State: AFqh2kplJRFKgbDarHNcbpWhIAhsMD5Uqm77zElc3m2vkqreYgVR3ACO
-        rQGH4R5y5ZbHtI5aIRfB0ejkOQ==
-X-Google-Smtp-Source: AMrXdXtjOihZr3A+kApmyR1KJIPIcvqN7dphaaqD7LoNbiTIX8M4rVl8rzsIWN1VGtw5eAq6PNm0Og==
-X-Received: by 2002:a17:90a:65c5:b0:226:5900:f2f4 with SMTP id i5-20020a17090a65c500b002265900f2f4mr9009536pjs.4.1673559133836;
-        Thu, 12 Jan 2023 13:32:13 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l15-20020a17090a72cf00b002192529a692sm13272431pjk.9.2023.01.12.13.32.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jan 2023 13:32:13 -0800 (PST)
-Date:   Thu, 12 Jan 2023 13:32:12 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Sohil Mehta <sohil.mehta@intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Luck <tony.luck@intel.com>,
-        Ravi V Shankar <ravi.v.shankar@intel.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH] x86/vsyscall: Fix documentation to reflect the default
- mode
-Message-ID: <202301121332.1305BA2A@keescook>
-References: <20230111193211.1987047-1-sohil.mehta@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230111193211.1987047-1-sohil.mehta@intel.com>
+        with ESMTP id S232816AbjALWH0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 17:07:26 -0500
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E37A167F6;
+        Thu, 12 Jan 2023 13:57:40 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.west.internal (Postfix) with ESMTP id 9D9BC320046F;
+        Thu, 12 Jan 2023 16:57:35 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Thu, 12 Jan 2023 16:57:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1673560655; x=1673647055; bh=s7tq5Dt4vQ
+        7KWmnlphnVVetcWhkbTgMUgBJi8a3V96c=; b=FH6VjcMHfmIaUgUjinAiyozgq8
+        CuO4EN2FoQdMnf0Q5EWOYzUaiyrRSEYyG7eW/dY4OfmjlsNMfIlDJ///YxWBVAt8
+        4lvsHRxNWPTvvcnFtw86rsh78eLG5wwreZzZUOrtxqKUnP6+JLHGhHHC+J41/GpY
+        +pI7OKaf2wODzjjvvwBl3mqXq5JVtQFPLJuLHjJJNtd2ND9u/J6E2ThNKYRnnh0G
+        sdIh5VxpF0MKNlBp+WvKpq9waN1HAZGrCYSeq/2CDgzziGkFo0pF075JN0H/0fMI
+        Z7weZIAWaWdhVyr3ZYHSdpMUVpgoS40kkW+GnBSK3ucJyUj7cfoiOfizWr0g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1673560655; x=1673647055; bh=s7tq5Dt4vQ7KWmnlphnVVetcWhkb
+        TgMUgBJi8a3V96c=; b=pgK/1suD/fOcIK9hUgjbK/lN103NpjOTTIAlUO7mr97V
+        W7cdmlDu3tBreLzMVCuY2UnlnmpRw1qdawNFdwtK1IhYD3l2e8q85DwZaS6wNHBU
+        VRZHXixN2lyT09ohcuECYWZpgF7Sb7TQNbMTs7STcKrS/KWOAxY+jG9sqWiktHwb
+        BjuxPy9pwLTHFujXcO62FyFi/+t+gk1B1W0SYpQtke+194l/PjgkzxCfScl4yFkl
+        84c5WVD0p9YA7bjZ9tifo0drq8RFyxGn00QTmegdKoEUJ/64bGJlWM7GKMttASNo
+        wDFESfuC1d34YAi+69p6duDAZQdx1A08Nq3KTKsbnQ==
+X-ME-Sender: <xms:ToLAYxtx37Ut_RzsJ0g9MwqnR0nad8zwCw8Q5RpVqVOjqkgqJeSUzg>
+    <xme:ToLAY6eGmyYyM96mn7oYYGEB37mbzTDwdydauWs39Aj_NgYp3w1RYHQDBuHGIaxx1
+    8v-8DUDie0AEDBBbAY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleeigdduheejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:ToLAY0y3hhaW1ftV0i3rRGGYWWAbLAPeLqPHnQFzpHMf3Gdn_QmazA>
+    <xmx:ToLAY4O__cbsHDj-StOiBvhgX6i8Hd_QAjnlhcf9EmDKPIWkgvNx0g>
+    <xmx:ToLAYx8BIhfcW-8c1FHPoxWnfgH6UXYBGdjnPo_vMibcwkcKPDnMxg>
+    <xmx:T4LAYy0ZF9YYoaIct6NKe7XqSlK7_fR-wYyCGzAiSuZIdpiwGj8lVQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 8C0F7B60086; Thu, 12 Jan 2023 16:57:34 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
+Mime-Version: 1.0
+Message-Id: <83f5fc9f-4b46-4ac4-ba65-455d0aaaed88@app.fastmail.com>
+In-Reply-To: <1E4BFECB-D29A-43CE-A521-F2A81939202F@hpe.com>
+References: <20230103203654.59322-1-nick.hawkins@hpe.com>
+ <20230103203654.59322-4-nick.hawkins@hpe.com>
+ <5ad677f3-2cbc-4ba0-bd48-2f832a72fb28@app.fastmail.com>
+ <E2B35D8A-B8A6-40C1-8AC9-46E6C2CAE656@hpe.com>
+ <6bae68eb-866f-4b78-b4db-e3154feec28e@app.fastmail.com>
+ <1E4BFECB-D29A-43CE-A521-F2A81939202F@hpe.com>
+Date:   Thu, 12 Jan 2023 22:57:13 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Hawkins, Nick" <nick.hawkins@hpe.com>
+Cc:     "Verdun, Jean-Marie" <verdun@hpe.com>,
+        "Jean Delvare" <jdelvare@suse.com>,
+        "Guenter Roeck" <linux@roeck-us.net>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Russell King" <linux@armlinux.org.uk>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v4 3/5] ARM: dts: add GXP Support for fans and SPI
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 11, 2023 at 07:32:11PM +0000, Sohil Mehta wrote:
-> The default vsyscall mode has been updated from emulate to xonly for a
-> while. Update the kernel-parameters doc to reflect that.
-> 
-> Fixes: 625b7b7f79c6 ("x86/vsyscall: Change the default vsyscall mode to xonly")
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
+On Thu, Jan 12, 2023, at 20:58, Hawkins, Nick wrote:
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+> The updated section of the device tree will be:
+>
+> ahb@80000000 {
+>                         compatible = "simple-bus";
+>                         #address-cells = <1>;
+>                         #size-cells = <1>;
+>                         ranges = <0x0 0x80000000 0xf000000>, /* 
+> 0x80000000 - 0x8f000000 */
+>                                  <0x40000000 0xc0000000 0x40000000>; /* 
+> 0xc0000000 - 0xffffffff */
+>                         dma-ranges;
 
--- 
-Kees Cook
+Ok
+
+>
+>                       ...
+>
+>                        vic0: interrupt-controller@4eff0000 { /* 0xceff0000 */
+>                                 compatible = "arm,pl192-vic";
+>                                 reg = <0x4eff0000 0x1000>;
+>                                 interrupt-controller;
+>                                 #interrupt-cells = <1>;
+>                         };
+>
+>                         vic1: interrupt-controller@f00000 { /* 0x80f00000 */
+>                                 compatible = "arm,pl192-vic";
+>                                 reg = <0xf00000 0x1000>;
+>                                 interrupt-controller;
+>                                 #interrupt-cells = <1>;
+>                         };
+
+I still don't see the value of the /* 0x80f00000 */ comments,
+you should define the ranges to the most sensible mapping
+based on the datasheet so you don't need the comments.
+
+If the datasheet uses a bus-local address (0xf00000), then
+just get rid of the comment, since that only adds confusion.
+OTOH if the 0x80f00000 number is what is in the datasheet,
+then adjust the ranges to do a 1:1 mapping of the registers
+on the bus and use that address directly.
+
+      Arnd
