@@ -2,131 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E43C3C54EBD
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 04:15:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F8DC54EBD
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 06:05:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236619AbjALEPc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Jan 2023 23:15:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49066 "EHLO
+        id S236387AbjALGFa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Jan 2023 01:05:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236635AbjALEOl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jan 2023 23:14:41 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84B964ECA9;
-        Wed, 11 Jan 2023 20:12:49 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id cp9-20020a17090afb8900b00226a934e0e5so5068721pjb.1;
-        Wed, 11 Jan 2023 20:12:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5liSXAAvdHHV1P0kLG2IlIkwUvuCtmHlTMmTb/hX368=;
-        b=gbgJJqRiV8CXMlc0ASfHJqoUv6qARhDeO4zHpr3WH1XgpkG8EHgCUnXAxVjN0urE18
-         DNcTfvGBL2qzXii9haGzPKEjfu/e3lTl0Hl0mpLONCznY+lNWo/0EUhvvrSWCib689M0
-         S/5F2YATZxI9nava+jDiSCfKA3U3ayzsJdPJdexdDKaOUIFiJCMvmO7pczFDkCkPEtWK
-         Om5KZmCCIHsvz7lGnYprXBoTVb5/OWJ8SXOphOaAOyTm75f8jZeL9OyVonErXTncURLq
-         sYmv02no6/fvi1ncFp/7Jtz6Od+SFkaFk3mQlyHe/Yd0nZozCM+dkKnKNkVhFqMI9ah8
-         XS2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5liSXAAvdHHV1P0kLG2IlIkwUvuCtmHlTMmTb/hX368=;
-        b=mMp8mx8EYXP5s7Q1QzMNXJ/eMoRskm/imzmgLm7ZcNRwhdTWCt8EG+iR+HWSeLWRye
-         VOyDAUuhEHU3oP1I8HCQd/tne89pYW05FlVTVXz0N30sTTGDwezPeq+XRgk1a3zxm8vi
-         +Uk9RdNFYEoHlUhJHLLT38ZhPAYK5AvsZzXc85+LwhkE9ngCy+SUBrTJEIotM2Mu2hsS
-         PvvgAk5tfIUWeazfpMg/a1Hdr+JFqFWS9WOw59bw0lu6uF6YF2IqQBXixftFc/Zf/rZ2
-         5aOdpe8nckVID9PdmjJIDjeIs0Ngiq/uk47LUOM6SkJrCVZNd6IgSxZD7jdOgvBE2lGL
-         3eIw==
-X-Gm-Message-State: AFqh2kob+4Uksd6mqUF6w5ZnAUmmau39pEGR8M5HHtnRbNddXRKQBdae
-        7eEpbjGRR7bWRAcNelRWDxk=
-X-Google-Smtp-Source: AMrXdXucOeq1G/f8unCyLciMiF99dSM4XixdnMT2o9Hq/jyhzlkevaKoZ1LMUdnLxaBb9ZbMLJ9zGQ==
-X-Received: by 2002:a17:902:8d94:b0:194:4337:d9df with SMTP id v20-20020a1709028d9400b001944337d9dfmr7089886plo.43.1673496768764;
-        Wed, 11 Jan 2023 20:12:48 -0800 (PST)
-Received: from debian.me (subs03-180-214-233-68.three.co.id. [180.214.233.68])
-        by smtp.gmail.com with ESMTPSA id e6-20020a17090301c600b00192dda430ddsm10941005plh.123.2023.01.11.20.12.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jan 2023 20:12:47 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 2DCA9104889; Thu, 12 Jan 2023 11:12:44 +0700 (WIB)
-Date:   Thu, 12 Jan 2023 11:12:43 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        linux-trace-devel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/6] Documentation/rtla: Add hwnoise man page
-Message-ID: <Y7+IuzrCrhH+aTa/@debian.me>
-References: <cover.1673380089.git.bristot@kernel.org>
- <d4bdb3920693381794511068f04bf56cf221fb1f.1673380089.git.bristot@kernel.org>
+        with ESMTP id S236295AbjALGF3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 01:05:29 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A760432192;
+        Wed, 11 Jan 2023 22:05:28 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 34DC461F6E;
+        Thu, 12 Jan 2023 06:05:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C505C43398;
+        Thu, 12 Jan 2023 06:05:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673503527;
+        bh=fLOxnvGzIYVtypNTSZJWVFXieiaShiwicfrgtP+APLw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=DxGESJnt1vELtHFm0oai8xXC8+5GbAPNLfHOpcENPziNKxlK90W2cbOPhbr84Aev0
+         qTfu7HNpN16FV0L4ylKrB83qXSiiOryscfQ9Y5rOihmrxDYzrO5tJq80p63L4z7XBp
+         VbBJEzQ1EWIv1HLqqThEqqq0crwwK1P5ZwhcVCbYAmetfANd+Bli5W2ImvqhXBqIJd
+         loh2Mom0NtPjZJhPVNKTkGHG4a7su/GBzIB9pmX0tCL4hfpriS4cVshRCRGSRCTTXi
+         E/NhJeJRik6T7semqkkT3drliY/pvmzpJxsJ6vXhB/X0wwp9uTZ2DIPGQeWY8mMdMr
+         rAuXGnW41lA0g==
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-14455716674so17914987fac.7;
+        Wed, 11 Jan 2023 22:05:27 -0800 (PST)
+X-Gm-Message-State: AFqh2kqHN3rNtTHEMZdlCGzqgpcfmR/tGniyxMQ6gAwuWm28ChJhoMQN
+        /JNenwjhjzoifpPFKWw1aaQuoE6hAt5UG/Hrwmc=
+X-Google-Smtp-Source: AMrXdXsbKuYyiriVmNmlUn+MZXGsK911wAs1ywABFmVdFJDs0JNt8l3m/yUNdw835VfD238fQTzOyibjPL5yrT+RkDE=
+X-Received: by 2002:a05:6870:514c:b0:150:7e4a:2f00 with SMTP id
+ z12-20020a056870514c00b001507e4a2f00mr2619143oak.194.1673503526768; Wed, 11
+ Jan 2023 22:05:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="tNjOEzZVys9xKjiN"
-Content-Disposition: inline
-In-Reply-To: <d4bdb3920693381794511068f04bf56cf221fb1f.1673380089.git.bristot@kernel.org>
+References: <20230109204520.539080-1-ojeda@kernel.org> <CANiq72m_+xJYUxrwFc7vNLkuOb6zC-W-wDzXjbPb8Ursqzwiaw@mail.gmail.com>
+In-Reply-To: <CANiq72m_+xJYUxrwFc7vNLkuOb6zC-W-wDzXjbPb8Ursqzwiaw@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 12 Jan 2023 15:04:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATmRkSU2n6AaeJenE-18gbUd4ZShFNfKysEjyCo4Q-eAA@mail.gmail.com>
+Message-ID: <CAK7LNATmRkSU2n6AaeJenE-18gbUd4ZShFNfKysEjyCo4Q-eAA@mail.gmail.com>
+Subject: Re: [PATCH 1/6] docs: rust: add paragraph about finding a suitable `libclang`
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@lists.linux.dev, Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jan 10, 2023 at 6:06 AM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> On Mon, Jan 9, 2023 at 9:45 PM Miguel Ojeda <ojeda@kernel.org> wrote:
+> >
+> > +* Or ``LIBCLANG_PATH`` can be pointed to a ``libclang`` shared library
+> > +  or to the directoy containing it.
+>
+> I just noticed the typo here, sorry: directoy -> directory
+>
+> Masahiro: if you take them, please feel free to correct it.
 
---tNjOEzZVys9xKjiN
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 10, 2023 at 09:08:07PM +0100, Daniel Bristot de Oliveira wrote:
-> Add a man page for the new rtla hwnoise tool, mostly based in the
-> rtla osnoise top.
->=20
-> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
-> Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> ---
->  Documentation/tools/rtla/rtla-hwnoise.rst | 107 ++++++++++++++++++++++
->  1 file changed, 107 insertions(+)
->  create mode 100644 Documentation/tools/rtla/rtla-hwnoise.rst
->=20
+Yes, I can take this, but the doc change
+is independent of the rest, and will not conflict with
+any Kbuild changes.
 
-As kernel test robot has reported [1], you seems like forgetting to add the=
- new
-doc to the parent doc's index:
+So, you can apply this one to your tree.
 
----- >8 ----
-diff --git a/Documentation/tools/rtla/index.rst b/Documentation/tools/rtla/=
-index.rst
-index 840f0bf3e8036f..19bda03c68f45f 100644
---- a/Documentation/tools/rtla/index.rst
-+++ b/Documentation/tools/rtla/index.rst
-@@ -11,6 +11,7 @@ behavior on specific hardware.
-    :maxdepth: 1
-=20
-    rtla
-+   rtla-hwnoise
-    rtla-osnoise
-    rtla-osnoise-hist
-    rtla-osnoise-top
 
-Thanks.
 
-[1]: https://lore.kernel.org/linux-doc/202301111416.SZPJ8cq5-lkp@intel.com/
 
---=20
-An old man doll... just what I always wanted! - Clara
 
---tNjOEzZVys9xKjiN
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> Cheers,
+> Miguel
 
------BEGIN PGP SIGNATURE-----
 
-iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY7+ItwAKCRD2uYlJVVFO
-oxRyAQCW9G3kBTAnlfkNHWYKj5eGXIX6C+Lh1vLU1K6NF1tbEQEA93SVcO6D/2ws
-rUqbp6andD8pM2Jl4TbPjoHMS1F6xQY=
-=52K4
------END PGP SIGNATURE-----
 
---tNjOEzZVys9xKjiN--
+--
+Best Regards
+Masahiro Yamada
