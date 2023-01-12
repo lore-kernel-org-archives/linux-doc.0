@@ -2,162 +2,163 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 186BDC54EBC
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 15:37:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4ED1C54EBC
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 15:40:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240483AbjALPho (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Jan 2023 10:37:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52044 "EHLO
+        id S240588AbjALPkX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Jan 2023 10:40:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240480AbjALPg5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 10:36:57 -0500
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CE213E0D0;
-        Thu, 12 Jan 2023 07:27:37 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id v6so2622439ejg.6;
-        Thu, 12 Jan 2023 07:27:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CrbASCzARhVLuaSBXApRdzfPL5S8978znYbA4CmgqDs=;
-        b=SwwDNfbgtHXKLyI4R2Efj2SeDZlyvIhbvVT0EQPnlEtQNm/73tCz2acCDRM8C6hGkj
-         Wx+WPbNvl2f6CrCSLji1Xivoma14wmMQdgGQlt+uRY/iq68FmsajSKN3qVCS+ZLlqXvQ
-         31M2BnksUUZinJ+JMW931PCfOfdLKRfuBnwyc5nkIQecl2zO393xJCAg+xv2VFtUz5k7
-         llrVH6Vd5DgfMgOgrcHX/LsPoZTL+Wxe/2/PlATTrpYDXM5EGrnCMXzoO8UGPTD6h9gi
-         7NDDmRQikmNpbEaRsRqZRfXF6AnIvG3Dfbo9paMunOCetTHExyxW9suJerCQrG6m0QHM
-         Oydw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CrbASCzARhVLuaSBXApRdzfPL5S8978znYbA4CmgqDs=;
-        b=nV92YZvoSBXpmzGgRSYEB2wQNjeQeYwlNybX5tK1GFiyYIYnU+O1k9WqIQjhyiNtIl
-         qK06QZ0KDnZb+XwPdEJu3Q68tOjXur/pPOB38KRh8A6JP2MmopNkuiDnUXM/2QVJNCbN
-         VfozrgoiODSf6tUT13gsJLKtsPCxpWxhhBfOVCxC289kMM9nDmY3Yjv4DtDBE28nKhZq
-         KvTcNAE0QnRqmZY+gLPwTsMDSRGTCDeHVmc8uET1FXu3uO2Cyhm9om9TlC6WDLUveO65
-         /8Brh16PugnU5Cd2waylYiZ5dv8075ceO6hTHRyv253QjfY3C3VvCvTD8Kklosj2S9GQ
-         q9Mw==
-X-Gm-Message-State: AFqh2kqvfynYN/BipPcU5mGCp4m46m+oLwrQqIWSDyvtMT0UeUS/EdCy
-        4kjbKLIi8/Hf1LtspXR/3ug=
-X-Google-Smtp-Source: AMrXdXtiw3aoWtSXJ9xoLcmv+rCXEEgL046vLRJKWB8A9VVqoTKgbwxA2TlBIxvThwtDU7f7qWXpfA==
-X-Received: by 2002:a17:907:7da4:b0:78d:f455:b5dc with SMTP id oz36-20020a1709077da400b0078df455b5dcmr81517523ejc.28.1673537255980;
-        Thu, 12 Jan 2023 07:27:35 -0800 (PST)
-Received: from gvm01 (net-5-89-66-224.cust.vodafonedsl.it. [5.89.66.224])
-        by smtp.gmail.com with ESMTPSA id 17-20020a170906201100b007bff9fb211fsm7445714ejo.57.2023.01.12.07.27.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jan 2023 07:27:35 -0800 (PST)
-Date:   Thu, 12 Jan 2023 16:27:37 +0100
-From:   Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
-To:     Eric Dumazet <edumazet@google.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, Oleksij Rempel <o.rempel@pengutronix.de>,
-        mailhol.vincent@wanadoo.fr, sudheer.mogilappagari@intel.com,
-        sbhatta@marvell.com, linux-doc@vger.kernel.org,
-        wangjie125@huawei.com, corbet@lwn.net, lkp@intel.com,
-        gal@nvidia.com, gustavoars@kernel.org, bagasdotme@gmail.com
-Subject: Re: [PATCH net-next 1/1] plca.c: fix obvious mistake in checking
- retval
-Message-ID: <Y8Am6VGQRRgPCuBk@gvm01>
-References: <f6b7050dcfb07714fb3abdb89829a3820e6a555c.1673458121.git.piergiorgio.beruto@gmail.com>
- <CANn89i+Y-j4RSX7UQO+P6sB9WGsA8ZDb+ruqEv-iJKtzEvGstQ@mail.gmail.com>
+        with ESMTP id S240554AbjALPjo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 10:39:44 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E62A48CD4;
+        Thu, 12 Jan 2023 07:30:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673537432; x=1705073432;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=0ritdKUn0cRU7l3A1Ps2Js7vFq3raQ8V5MfOb3WntQg=;
+  b=k3iy8YuMV4//PXat6nX0NbgVotHUkqsi97AFxsXfINhXIN7GcrK7iFvl
+   rzl7N2yyN0aQdpPEswhFSVoVb2TUg5oZkCxBvQ1MY83p44LLeeWa64Otc
+   AxYI+Xp4eFT3hIO4I9JdCjysmLzOfgLb3non8tn7czMDEYx7qGuAKX3w1
+   9wDe1RJaPB7OnK109XyMIUm/NR1LJsNoTTbP53mqxYZZikLG9ykE5Ok+y
+   RUviUtOIb+yki9n/X97yldU1Z80JLz+f3D70QNHpWRaMd8J8w0yMg8140
+   tlHV9DCNli5GD/6pVJSOmdcf5QfvyQKQHtltdFXOr79/Lm+wsVl93S5Xh
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="350958895"
+X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; 
+   d="scan'208";a="350958895"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2023 07:30:24 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="659820546"
+X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; 
+   d="scan'208";a="659820546"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2023 07:30:23 -0800
+Date:   Thu, 12 Jan 2023 07:30:54 -0800 (PST)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Xu Yilun <yilun.xu@intel.com>
+cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        hao.wu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com, bagasdotme@gmail.com
+Subject: Re: [PATCH v10 3/4] fpga: dfl: add basic support for DFHv1
+In-Reply-To: <Y74bSzUBLYH4cLDh@yilunxu-OptiPlex-7050>
+Message-ID: <alpine.DEB.2.22.394.2301120728210.845139@rhweight-WRK1>
+References: <20230110003029.806022-1-matthew.gerlach@linux.intel.com> <20230110003029.806022-4-matthew.gerlach@linux.intel.com> <Y708L2rRc1RDVkui@smile.fi.intel.com> <alpine.DEB.2.22.394.2301101310150.815911@rhweight-WRK1>
+ <Y74bSzUBLYH4cLDh@yilunxu-OptiPlex-7050>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANn89i+Y-j4RSX7UQO+P6sB9WGsA8ZDb+ruqEv-iJKtzEvGstQ@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 12, 2023 at 03:45:03PM +0100, Eric Dumazet wrote:
-> On Wed, Jan 11, 2023 at 6:30 PM Piergiorgio Beruto
-> <piergiorgio.beruto@gmail.com> wrote:
-> >
-> > This patch addresses a wrong fix that was done during the review
-> > process. The intention was to substitute "if(ret < 0)" with
-> > "if(ret)". Unfortunately, in this specific file the intended fix did not
-> > meet the code.
-> >
-> 
-> Please add a Fixes: tag, even for a patch in net-next
-Ok, will do, thanks!
-> 
-> Fixes: 8580e16c28f3 ("net/ethtool: add netlink interface for the PLCA RS")
-> 
-> > Signed-off-by: Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
-> > ---
-> >  net/ethtool/plca.c | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/net/ethtool/plca.c b/net/ethtool/plca.c
-> > index d9bb13ffc654..9c7d29186b4e 100644
-> > --- a/net/ethtool/plca.c
-> > +++ b/net/ethtool/plca.c
-> > @@ -61,7 +61,7 @@ static int plca_get_cfg_prepare_data(const struct ethnl_req_info *req_base,
-> >         }
-> >
-> >         ret = ethnl_ops_begin(dev);
-> > -       if (!ret)
-> > +       if (ret)
-> >                 goto out;
-> >
-> >         memset(&data->plca_cfg, 0xff,
-> > @@ -151,7 +151,7 @@ int ethnl_set_plca_cfg(struct sk_buff *skb, struct genl_info *info)
-> >                                          tb[ETHTOOL_A_PLCA_HEADER],
-> >                                          genl_info_net(info), info->extack,
-> >                                          true);
-> > -       if (!ret)
-> 
-> Canonical way of testing an error from ethnl_parse_header_dev_get() is:
-> 
-> if (ret < 0)
->     return ret;
-> 
-> 
-> Please double check for the rest of the patch (ethnl_ops_begin() ... )
-Ok, this is what I had originally. I changed that due to another review
-comment. I'll revert this change.
-> 
-> 
-> > +       if (ret)
-> >                 return ret;
-> >
-> >         dev = req_info.dev;
-> > @@ -171,7 +171,7 @@ int ethnl_set_plca_cfg(struct sk_buff *skb, struct genl_info *info)
-> >         }
-> >
-> >         ret = ethnl_ops_begin(dev);
-> > -       if (!ret)
-> > +       if (ret)
-> >                 goto out_rtnl;
-> >
-> >         memset(&plca_cfg, 0xff, sizeof(plca_cfg));
-> > @@ -189,7 +189,7 @@ int ethnl_set_plca_cfg(struct sk_buff *skb, struct genl_info *info)
-> >                 goto out_ops;
-> >
-> >         ret = ops->set_plca_cfg(dev->phydev, &plca_cfg, info->extack);
-> > -       if (!ret)
-> > +       if (ret)
-> >                 goto out_ops;
-> >
-> >         ethtool_notify(dev, ETHTOOL_MSG_PLCA_NTF, NULL);
-> > @@ -233,7 +233,7 @@ static int plca_get_status_prepare_data(const struct ethnl_req_info *req_base,
-> >         }
-> >
-> >         ret = ethnl_ops_begin(dev);
-> > -       if (!ret)
-> > +       if (ret)
-> >                 goto out;
-> >
-> >         memset(&data->plca_st, 0xff,
-> > --
-> > 2.37.4
-> >
-Thanks!
-Piergiorgio
+
+
+On Wed, 11 Jan 2023, Xu Yilun wrote:
+
+> On 2023-01-10 at 14:07:16 -0800, matthew.gerlach@linux.intel.com wrote:
+>>
+>>
+>> On Tue, 10 Jan 2023, Andy Shevchenko wrote:
+>>
+>>> On Mon, Jan 09, 2023 at 04:30:28PM -0800, matthew.gerlach@linux.intel.com wrote:
+>>>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>>>
+>>>> Version 1 of the Device Feature Header (DFH) definition adds
+>>>> functionality to the Device Feature List (DFL) bus.
+>>>>
+>>>> A DFHv1 header may have one or more parameter blocks that
+>>>> further describes the HW to SW. Add support to the DFL bus
+>>>> to parse the MSI-X parameter.
+>>>>
+>>>> The location of a feature's register set is explicitly
+>>>> described in DFHv1 and can be relative to the base of the DFHv1
+>>>> or an absolute address. Parse the location and pass the information
+>>>> to DFL driver.
+>>>
+>>> ...
+>>>
+>>>> v10: change dfh_find_param to return size of parameter data in bytes
+>>>
+>>> The problem that might occur with this approach is byte ordering.
+>>> When we have u64 items, we know that they all are placed in CPU
+>>> ordering by the bottom layer. What's the contract now? Can it be
+>>> a problematic? Please double check this (always keep in mind BE32
+>>> as most interesting case for u64/unsigned long representation and
+>>> other possible byte ordering outcomes).
+>>
+>> A number of u64 items certainly states explicit alignment of the memory, but
+>> I think byte ordering is a different issue.
+>>
+>> The bottom layer, by design, is still enforcing a number u64 items under the
+>> hood. So the contract has not changed. Changing units of size from u64s to
+>> bytes was suggested to match the general practice of size of memory being in
+>> bytes. I think the suggestion was made because the return type for
+>> dfh_find_param() changed from u64* to void* in version 9, when indirectly
+>> returning the size of the parameter data was introduced.  So a void * with a
+>> size in bytes makes sense. On the other hand, returning a u64 * is a more
+>> precise reflection of the data alignment. I think the API should be as
+>
+> I prefer (void *) + bytes. The properties in the parameter block are not
+> guarateed to be u64 for each, e.g. the REG_LAYOUT, so (void *) could better
+> indicate it is not. It is just a block of data unknown to DFL core and to
+> be parsed by drivers.
+
+OK, (void *) + size in bytes is fine.
+
+>
+> And why users/drivers need to care about the alignment of the parameter
+> block?
+
+Consumers of the parameter block data might try access data that is 
+unaligned for a particular CPU.  The good news is that the definition of 
+the parameter blocks ensures the data is u64 aligned.
+
+Thanks,
+Matthew Gerlach
+>
+> Thanks,
+> Yilun
+>
+>
+>> follows:
+>>
+>> /**
+>>  * dfh_find_param() - find parameter block for the given parameter id
+>>  * @dfl_dev: dfl device
+>>  * @param_id: id of dfl parameter
+>>  * @pcount: destination to store size of parameter data in u64 bit words
+>>  *
+>>  * Return: pointer to start of parameter data, PTR_ERR otherwise.
+>>  */
+>> u64 *dfh_find_param(struct dfl_device *dfl_dev, int param_id, size_t
+>> *pcount)
+>>
+>> Regarding byte ordering, Documentation/fpga/dfl.rst does not currently
+>> mention endianness. All current HW implementations of DFL are little-endian.
+>> I should add a statement in Documentation/fpga/dfl.rst that fields in the
+>> Device Feature Header are little-endian.
+>>
+>> Thanks for the feedback,
+>> Matthew Gerlach
+>>
+>>>
+>>> --
+>>> With Best Regards,
+>>> Andy Shevchenko
+>>>
+>>>
+>>>
+>
