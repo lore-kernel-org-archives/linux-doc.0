@@ -2,96 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F8DC54EBD
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 06:05:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 504CEC54EBC
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 06:56:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236387AbjALGFa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Jan 2023 01:05:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33086 "EHLO
+        id S229863AbjALG4P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Jan 2023 01:56:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236295AbjALGF3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 01:05:29 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A760432192;
-        Wed, 11 Jan 2023 22:05:28 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 34DC461F6E;
-        Thu, 12 Jan 2023 06:05:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C505C43398;
-        Thu, 12 Jan 2023 06:05:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673503527;
-        bh=fLOxnvGzIYVtypNTSZJWVFXieiaShiwicfrgtP+APLw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=DxGESJnt1vELtHFm0oai8xXC8+5GbAPNLfHOpcENPziNKxlK90W2cbOPhbr84Aev0
-         qTfu7HNpN16FV0L4ylKrB83qXSiiOryscfQ9Y5rOihmrxDYzrO5tJq80p63L4z7XBp
-         VbBJEzQ1EWIv1HLqqThEqqq0crwwK1P5ZwhcVCbYAmetfANd+Bli5W2ImvqhXBqIJd
-         loh2Mom0NtPjZJhPVNKTkGHG4a7su/GBzIB9pmX0tCL4hfpriS4cVshRCRGSRCTTXi
-         E/NhJeJRik6T7semqkkT3drliY/pvmzpJxsJ6vXhB/X0wwp9uTZ2DIPGQeWY8mMdMr
-         rAuXGnW41lA0g==
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-14455716674so17914987fac.7;
-        Wed, 11 Jan 2023 22:05:27 -0800 (PST)
-X-Gm-Message-State: AFqh2kqHN3rNtTHEMZdlCGzqgpcfmR/tGniyxMQ6gAwuWm28ChJhoMQN
-        /JNenwjhjzoifpPFKWw1aaQuoE6hAt5UG/Hrwmc=
-X-Google-Smtp-Source: AMrXdXsbKuYyiriVmNmlUn+MZXGsK911wAs1ywABFmVdFJDs0JNt8l3m/yUNdw835VfD238fQTzOyibjPL5yrT+RkDE=
-X-Received: by 2002:a05:6870:514c:b0:150:7e4a:2f00 with SMTP id
- z12-20020a056870514c00b001507e4a2f00mr2619143oak.194.1673503526768; Wed, 11
- Jan 2023 22:05:26 -0800 (PST)
+        with ESMTP id S229973AbjALG4O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 01:56:14 -0500
+Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EEDFA440
+        for <linux-doc@vger.kernel.org>; Wed, 11 Jan 2023 22:56:11 -0800 (PST)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R701e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=jefflexu@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0VZQ6pQ5_1673506559;
+Received: from 30.221.131.229(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0VZQ6pQ5_1673506559)
+          by smtp.aliyun-inc.com;
+          Thu, 12 Jan 2023 14:56:08 +0800
+Message-ID: <d2c6aca7-b2ed-1df6-c97a-246256fd0e18@linux.alibaba.com>
+Date:   Thu, 12 Jan 2023 14:55:59 +0800
 MIME-Version: 1.0
-References: <20230109204520.539080-1-ojeda@kernel.org> <CANiq72m_+xJYUxrwFc7vNLkuOb6zC-W-wDzXjbPb8Ursqzwiaw@mail.gmail.com>
-In-Reply-To: <CANiq72m_+xJYUxrwFc7vNLkuOb6zC-W-wDzXjbPb8Ursqzwiaw@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 12 Jan 2023 15:04:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATmRkSU2n6AaeJenE-18gbUd4ZShFNfKysEjyCo4Q-eAA@mail.gmail.com>
-Message-ID: <CAK7LNATmRkSU2n6AaeJenE-18gbUd4ZShFNfKysEjyCo4Q-eAA@mail.gmail.com>
-Subject: Re: [PATCH 1/6] docs: rust: add paragraph about finding a suitable `libclang`
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+Subject: Re: [PATCH v2 1/2] erofs: add documentation for 'domain_id' mount
+ option
+From:   Jingbo Xu <jefflexu@linux.alibaba.com>
+To:     xiang@kernel.org, chao@kernel.org, linux-erofs@lists.ozlabs.org
+Cc:     huyue2@coolpad.com, linux-doc@vger.kernel.org
+References: <20230112065431.124926-1-jefflexu@linux.alibaba.com>
+ <20230112065431.124926-2-jefflexu@linux.alibaba.com>
+Content-Language: en-US
+In-Reply-To: <20230112065431.124926-2-jefflexu@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 10, 2023 at 6:06 AM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Mon, Jan 9, 2023 at 9:45 PM Miguel Ojeda <ojeda@kernel.org> wrote:
-> >
-> > +* Or ``LIBCLANG_PATH`` can be pointed to a ``libclang`` shared library
-> > +  or to the directoy containing it.
->
-> I just noticed the typo here, sorry: directoy -> directory
->
-> Masahiro: if you take them, please feel free to correct it.
+cc: linux-doc@vger.kernel.org
 
+On 1/12/23 2:54 PM, Jingbo Xu wrote:
+> Since the EROFS share domain feature for fscache mode has been available
+> since Linux v6.1, let's add documentation for 'domain_id' mount option.
+> 
+> Cc: linux-doc@vger.kernel.org
+> Reviewed-by: Jia Zhu <zhujia.zj@bytedance.com>
+> Signed-off-by: Jingbo Xu <jefflexu@linux.alibaba.com>
+> ---
+>  Documentation/filesystems/erofs.rst | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
+> index 067fd1670b1f..a43aacf1494e 100644
+> --- a/Documentation/filesystems/erofs.rst
+> +++ b/Documentation/filesystems/erofs.rst
+> @@ -120,6 +120,8 @@ dax={always,never}     Use direct access (no page cache).  See
+>  dax                    A legacy option which is an alias for ``dax=always``.
+>  device=%s              Specify a path to an extra device to be used together.
+>  fsid=%s                Specify a filesystem image ID for Fscache back-end.
+> +domain_id=%s           Specify a domain ID in fscache mode so that different images
+> +                       with the same blobs under a given domain ID can share storage.
+>  ===================    =========================================================
+>  
+>  Sysfs Entries
 
-Yes, I can take this, but the doc change
-is independent of the rest, and will not conflict with
-any Kbuild changes.
-
-So, you can apply this one to your tree.
-
-
-
-
-
->
-> Cheers,
-> Miguel
-
-
-
---
-Best Regards
-Masahiro Yamada
+-- 
+Thanks,
+Jingbo
