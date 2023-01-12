@@ -2,137 +2,225 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83C18C54EBD
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 13:04:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9271BC61DB3
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 13:41:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229748AbjALNEJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Jan 2023 08:04:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48936 "EHLO
+        id S234300AbjALNly (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Jan 2023 08:41:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232964AbjALNDo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 08:03:44 -0500
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2FC672669
-        for <linux-doc@vger.kernel.org>; Thu, 12 Jan 2023 05:03:41 -0800 (PST)
-Received: from loongson.cn (unknown [112.20.112.33])
-        by gateway (Coremail) with SMTP id _____8Dxi+orBcBjODwBAA--.3887S3;
-        Thu, 12 Jan 2023 21:03:39 +0800 (CST)
-Received: from localhost.localdomain (unknown [112.20.112.33])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8Cxg+UqBcBjo20YAA--.10283S2;
-        Thu, 12 Jan 2023 21:03:38 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     alexs@kernel.org, seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
-        bobwxc@email.cn, chenhuacai@kernel.org, linux-doc@vger.kernel.org,
-        tangyeechou@gmail.com, me@lirui.org, siyanteng01@gmail.com
-Subject: [PATCH v2] docs/zh_CN: Add a glossary of Chinese translation terms
-Date:   Thu, 12 Jan 2023 21:03:55 +0800
-Message-Id: <20230112130355.696111-1-siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S234088AbjALNl3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 08:41:29 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F06850F7F;
+        Thu, 12 Jan 2023 05:39:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673530768; x=1705066768;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Fiq7O/W4y1Cb9Aw+M/Hi2kk/28EdDxDe2am7SsMM7o4=;
+  b=dwGGnMD+oNLutEXuNzDl/G1bzhFj9WVxUIgQhkR5ybwLRfe6LYp3V2mT
+   4Pxrmxn1twvKc1VJsgVr8qbRFh392X3niXALY+oqsbLHiSQAR4u7SH3Xu
+   n0lUqKRStz6wc34UQ1SNYLWmpR/9fVFfWMFShqek5kPGFyhnbb5JinNci
+   Z0+I9ta8qbRdTFB1q1lMPNDyYbV/L8PicsW3qPMPL51WVM6RIl+F5561V
+   lbjf1wZCME09sbJt7dbOGwp+3mrXaq5/xWvcg6IdiUycd7pm+S3w7ILOo
+   MxGX5iSXYfu5V7Col+BjFpvT8hbO0BZwStONlTdepz/l/yOSSzOAiNCFB
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10587"; a="307227124"
+X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; 
+   d="scan'208";a="307227124"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2023 05:39:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10587"; a="831695528"
+X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; 
+   d="scan'208";a="831695528"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga005.jf.intel.com with ESMTP; 12 Jan 2023 05:39:24 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id D190EE1; Thu, 12 Jan 2023 15:39:57 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-m68k@lists.linux-m68k.org, linux-sh@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>
+Subject: [PATCH v1 1/1] gpio: Remove unused and obsoleted irq_to_gpio()
+Date:   Thu, 12 Jan 2023 15:39:42 +0200
+Message-Id: <20230112133942.58471-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cxg+UqBcBjo20YAA--.10283S2
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxZF1rCw18Kw4UCrWUKr1UAwb_yoW5Cw4kpr
-        yUGFyxKa1xAF12kryfur1UWr1fK3WxG3y5Kry7Kwnaqr4DAFs5tF98KryUta97Jry8Cayj
-        vF4F9FW8uw4jy37anT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        b3kYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
-        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAa
-        w2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
-        I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2
-        jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20x
-        vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s02
-        6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw
-        0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
-        c7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
-        v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x
-        07jFa0PUUUUU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As more and more documents are translated and some English
-words are translated into different Chinese, it seems that
-we need a glossary of Chinese translation terms.
+irq_to_gpio() is legacy and unused API, remove it for good.
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+This leaves gpio_to_irq() as it's used yet in many places.
+Nevertheless, removal of its counterpart is a good signal
+to whoever even trying to consider using them that do not.
+
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
-v2:
+ Documentation/driver-api/gpio/legacy.rst             |  8 --------
+ .../translations/zh_CN/driver-api/gpio/legacy.rst    |  7 -------
+ Documentation/translations/zh_TW/gpio.txt            |  7 -------
+ arch/m68k/include/asm/gpio.h                         |  7 -------
+ arch/sh/include/asm/gpio.h                           |  5 -----
+ include/linux/gpio.h                                 | 12 ------------
+ 6 files changed, 46 deletions(-)
 
-* Add more word entries under Yizhou's advice.
-* 实体负载跟踪机制 -> 实体负载跟踪.
-
- Documentation/translations/zh_CN/glossary.rst | 36 +++++++++++++++++++
- Documentation/translations/zh_CN/index.rst    |  9 +++++
- 2 files changed, 45 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/glossary.rst
-
-diff --git a/Documentation/translations/zh_CN/glossary.rst b/Documentation/translations/zh_CN/glossary.rst
-new file mode 100644
-index 000000000000..b6d6676a1f83
---- /dev/null
-+++ b/Documentation/translations/zh_CN/glossary.rst
-@@ -0,0 +1,36 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+术语表
-+======
-+
-+这不是一个完善的术语表，我们只是将有争议的和陌生的翻译词汇记录于此，
-+它的篇幅应该根据内核文档翻译的需求而增加。新词条最好随翻译补丁一起
-+提交，且仅在以下情况下收录新词条：
-+
-+        - 在翻译过程中遇到陌生词汇，且尚无翻译先例的；
-+        - 在审阅过程中，针对某词条出现了不同的翻译意见；
-+        - 使用频率不高的词条和首字母缩写类型的词条；
-+        - 已经存在且有歧义的词条翻译。
-+
-+
-+* atomic: 原子的，一般指不可中断的极小的临界区操作。
-+* DVFS: 动态电压频率升降。（Dynamic Voltage and Frequency Scaling）
-+* EAS: 能耗感知调度。（Energy Aware Scheduling）
-+* flush: 刷新，一般指对cache的冲洗操作。
-+* fork: 创建。
-+* futex: 快速用户互斥锁。（fast user mutex）
-+* guest halt polling: 客户机停机轮询机制。
-+* HugePage: 巨页。
-+* hypervisor: 虚拟机超级管理器。
-+* memory barriers: 内存屏障。
-+* MIPS: 每秒百万指令。（Millions of Instructions Per Second）,注意与mips指令集区分开。
-+* mutex: 互斥锁。
-+* NUMA: 非统一内存访问。
-+* OpenCAPI: 开放相干加速器处理器接口。（Open Coherent Accelerator Processor Interface）
-+* OPP: 操作性能值。
-+* overhead: 开销，一般指需要消耗的计算机资源。
-+* PELT: 实体负载跟踪。（Per-Entity Load Tracking）
-+* sched domain: 调度域。
-+* semaphores: 信号量。
-+* spinlock: 自旋锁。
-+* watermark: 水位，一般指页表的消耗水平。
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index 3660a3451c86..7c3216845b71 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -133,6 +133,15 @@ TODOList:
+diff --git a/Documentation/driver-api/gpio/legacy.rst b/Documentation/driver-api/gpio/legacy.rst
+index e3e9d26a60ce..a0559d93efd1 100644
+--- a/Documentation/driver-api/gpio/legacy.rst
++++ b/Documentation/driver-api/gpio/legacy.rst
+@@ -387,9 +387,6 @@ map between them using calls like::
+ 	/* map GPIO numbers to IRQ numbers */
+ 	int gpio_to_irq(unsigned gpio);
  
-    staging/index
+-	/* map IRQ numbers to GPIO numbers (avoid using this) */
+-	int irq_to_gpio(unsigned irq);
+-
+ Those return either the corresponding number in the other namespace, or
+ else a negative errno code if the mapping can't be done.  (For example,
+ some GPIOs can't be used as IRQs.)  It is an unchecked error to use a GPIO
+@@ -405,11 +402,6 @@ devices, by the board-specific initialization code.  Note that IRQ trigger
+ options are part of the IRQ interface, e.g. IRQF_TRIGGER_FALLING, as are
+ system wakeup capabilities.
  
-+术语表
-+------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   glossary
-+
-+
- 索引和表格
- ----------
+-Non-error values returned from irq_to_gpio() would most commonly be used
+-with gpio_get_value(), for example to initialize or update driver state
+-when the IRQ is edge-triggered.  Note that some platforms don't support
+-this reverse mapping, so you should avoid using it.
+-
  
+ Emulating Open Drain Signals
+ ----------------------------
+diff --git a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
+index 8599e253fcc5..74fa473bb504 100644
+--- a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
++++ b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
+@@ -358,9 +358,6 @@ GPIO 编号是无符号整数;IRQ 编号也是。这些构成了两个逻辑上
+ 	/* 映射 GPIO 编号到 IRQ 编号 */
+ 	int gpio_to_irq(unsigned gpio);
+ 
+-	/* 映射 IRQ 编号到 GPIO 编号 (尽量避免使用) */
+-	int irq_to_gpio(unsigned irq);
+-
+ 它们的返回值为对应命名空间的相关编号，或是负的错误代码(如果无法映射)。
+ (例如,某些 GPIO 无法做为 IRQ 使用。)以下的编号错误是未经检测的:使用一个
+ 未通过 gpio_direction_input()配置为输入的 GPIO 编号，或者使用一个
+@@ -373,10 +370,6 @@ gpio_to_irq()返回的非错误值可以传递给 request_irq()或者 free_irq()
+ 触发选项是 IRQ 接口的一部分，如 IRQF_TRIGGER_FALLING，系统唤醒能力
+ 也是如此。
+ 
+-irq_to_gpio()返回的非错误值大多数通常可以被 gpio_get_value()所使用，
+-比如在 IRQ 是沿触发时初始化或更新驱动状态。注意某些平台不支持反映射,所以
+-你应该尽量避免使用它。
+-
+ 
+ 模拟开漏信号
+ ------------
+diff --git a/Documentation/translations/zh_TW/gpio.txt b/Documentation/translations/zh_TW/gpio.txt
+index abd8e4c0973e..1b986bbb0909 100644
+--- a/Documentation/translations/zh_TW/gpio.txt
++++ b/Documentation/translations/zh_TW/gpio.txt
+@@ -363,9 +363,6 @@ GPIO 編號是無符號整數;IRQ 編號也是。這些構成了兩個邏輯上
+ 	/* 映射 GPIO 編號到 IRQ 編號 */
+ 	int gpio_to_irq(unsigned gpio);
+ 
+-	/* 映射 IRQ 編號到 GPIO 編號 (儘量避免使用) */
+-	int irq_to_gpio(unsigned irq);
+-
+ 它們的返回值爲對應命名空間的相關編號，或是負的錯誤代碼(如果無法映射)。
+ (例如,某些 GPIO 無法做爲 IRQ 使用。)以下的編號錯誤是未經檢測的:使用一個
+ 未通過 gpio_direction_input()配置爲輸入的 GPIO 編號，或者使用一個
+@@ -378,10 +375,6 @@ gpio_to_irq()返回的非錯誤值可以傳遞給 request_irq()或者 free_irq()
+ 觸發選項是 IRQ 接口的一部分，如 IRQF_TRIGGER_FALLING，系統喚醒能力
+ 也是如此。
+ 
+-irq_to_gpio()返回的非錯誤值大多數通常可以被 gpio_get_value()所使用，
+-比如在 IRQ 是沿觸發時初始化或更新驅動狀態。注意某些平台不支持反映射,所以
+-你應該儘量避免使用它。
+-
+ 
+ 模擬開漏信號
+ ----------------------------
+diff --git a/arch/m68k/include/asm/gpio.h b/arch/m68k/include/asm/gpio.h
+index a50b27719a58..5cfc0996ba94 100644
+--- a/arch/m68k/include/asm/gpio.h
++++ b/arch/m68k/include/asm/gpio.h
+@@ -66,13 +66,6 @@ static inline int gpio_to_irq(unsigned gpio)
+ 		return __gpio_to_irq(gpio);
+ }
+ 
+-static inline int irq_to_gpio(unsigned irq)
+-{
+-	return (irq >= MCFGPIO_IRQ_VECBASE &&
+-		irq < (MCFGPIO_IRQ_VECBASE + MCFGPIO_IRQ_MAX)) ?
+-		irq - MCFGPIO_IRQ_VECBASE : -ENXIO;
+-}
+-
+ static inline int gpio_cansleep(unsigned gpio)
+ {
+ 	return gpio < MCFGPIO_PIN_MAX ? 0 : __gpio_cansleep(gpio);
+diff --git a/arch/sh/include/asm/gpio.h b/arch/sh/include/asm/gpio.h
+index d643250f0a0f..588c1380e4cb 100644
+--- a/arch/sh/include/asm/gpio.h
++++ b/arch/sh/include/asm/gpio.h
+@@ -40,11 +40,6 @@ static inline int gpio_to_irq(unsigned gpio)
+ 	return __gpio_to_irq(gpio);
+ }
+ 
+-static inline int irq_to_gpio(unsigned int irq)
+-{
+-	return -ENOSYS;
+-}
+-
+ #endif /* CONFIG_GPIOLIB */
+ 
+ #endif /* __ASM_SH_GPIO_H */
+diff --git a/include/linux/gpio.h b/include/linux/gpio.h
+index e94815b3ce1d..85beb236c925 100644
+--- a/include/linux/gpio.h
++++ b/include/linux/gpio.h
+@@ -81,11 +81,6 @@ static inline int gpio_to_irq(unsigned int gpio)
+ 	return __gpio_to_irq(gpio);
+ }
+ 
+-static inline int irq_to_gpio(unsigned int irq)
+-{
+-	return -EINVAL;
+-}
+-
+ #endif /* ! CONFIG_ARCH_HAVE_CUSTOM_GPIO_H */
+ 
+ /* CONFIG_GPIOLIB: bindings for managed devices that want to request gpios */
+@@ -210,13 +205,6 @@ static inline int gpio_to_irq(unsigned gpio)
+ 	return -EINVAL;
+ }
+ 
+-static inline int irq_to_gpio(unsigned irq)
+-{
+-	/* irq can never have been returned from gpio_to_irq() */
+-	WARN_ON(1);
+-	return -EINVAL;
+-}
+-
+ static inline int devm_gpio_request(struct device *dev, unsigned gpio,
+ 				    const char *label)
+ {
 -- 
-2.31.1
+2.39.0
 
