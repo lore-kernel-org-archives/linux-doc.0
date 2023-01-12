@@ -2,92 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFDF0C54EBC
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 11:56:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 314E9C54EBD
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 12:37:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235687AbjALLz6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Jan 2023 06:55:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35432 "EHLO
+        id S229521AbjALMhd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Jan 2023 07:37:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231660AbjALLzc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 06:55:32 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CF24DEB8;
-        Thu, 12 Jan 2023 03:46:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673523984; x=1705059984;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=48b18wuQk9eJKcK1WEXv3Eqzs0Sp3dxKG6GZMS1JotA=;
-  b=P+xRYvzy6sOxaOkY8C75BOE8koH14VYdlJpt2lJIBZ2d2/MerEv8QQwL
-   CzJG2Es/GNTokwWDoMOw14AgDfqfyfz9k//wqYLgj4wvk9zbnYs11718B
-   pRnDesDkUMd6/snGVjRbvT7tI4FT/QZ/0X+OgOTWJfaUQU6HCR91WXJLw
-   0KTp9aSofh3SRmWmhABRlFDUpJGhU3cxiUvGroXZPP2ZzweTompgG962f
-   Oon/cJg7zbcog6r0z5TjvoV0zbR7H82H40U4D5qwr/NA7i55w/1uHpBVu
-   nFheVonp8/gGFt5aWa+WkujqyS+HQSonhHhGhj3U/tNDAevoUXdxexeEV
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="323744642"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="323744642"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2023 03:46:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="765584704"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="765584704"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP; 12 Jan 2023 03:46:22 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pFw2G-0081iU-2J;
-        Thu, 12 Jan 2023 13:46:20 +0200
-Date:   Thu, 12 Jan 2023 13:46:20 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Niyas Sait <niyas.sait@linaro.org>
-Subject: Re: [PATCH v1 1/1] pinctrl: Proofreading and updating the
- documentation accordingly
-Message-ID: <Y7/zDAhyuoJrMfiU@smile.fi.intel.com>
-References: <20230109205456.30618-1-andriy.shevchenko@linux.intel.com>
- <Y70sHNqLVvx6UF41@debian.me>
+        with ESMTP id S229730AbjALMhc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 07:37:32 -0500
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 621326444
+        for <linux-doc@vger.kernel.org>; Thu, 12 Jan 2023 04:37:30 -0800 (PST)
+Received: from loongson.cn (unknown [112.20.112.33])
+        by gateway (Coremail) with SMTP id _____8AxX+sI_79jGTsBAA--.3727S3;
+        Thu, 12 Jan 2023 20:37:28 +0800 (CST)
+Received: from [192.168.100.127] (unknown [112.20.112.33])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxTuQG_79j_moYAA--.9197S3;
+        Thu, 12 Jan 2023 20:37:27 +0800 (CST)
+Message-ID: <9326f1c8-a334-ed4a-0d06-846b75dc1f5c@loongson.cn>
+Date:   Thu, 12 Jan 2023 20:37:26 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y70sHNqLVvx6UF41@debian.me>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] docs/zh_CN: Add a glossary of Chinese translation terms
+To:     Yizhou Tang <tangyeechou@gmail.com>
+Cc:     alexs@kernel.org, seakeel@gmail.com, corbet@lwn.net,
+        bobwxc@email.cn, chenhuacai@kernel.org, linux-doc@vger.kernel.org,
+        me@lirui.org, siyanteng01@gmail.com
+References: <20230111083423.513461-1-siyanteng@loongson.cn>
+ <CAOB9oOY=_1X6ztx+TALbqUZvsHqujiK7QCpq9hTQSNXnWY2tRw@mail.gmail.com>
+Content-Language: en-US
+From:   Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <CAOB9oOY=_1X6ztx+TALbqUZvsHqujiK7QCpq9hTQSNXnWY2tRw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxTuQG_79j_moYAA--.9197S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+        ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
+        BjDU0xBIdaVrnRJUUUBqb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
+        xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
+        j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxV
+        AFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
+        67AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
+        I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2
+        jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62
+        AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxAqzxv262kKe7AKxVWUXVWUAwCFx2IqxVCF
+        s4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI
+        8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41l
+        IxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
+        AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
+        jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8zwZ7UUUUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 10, 2023 at 04:13:00PM +0700, Bagas Sanjaya wrote:
-> On Mon, Jan 09, 2023 at 10:54:56PM +0200, Andy Shevchenko wrote:
-> > diff --git a/Documentation/driver-api/pin-control.rst b/Documentation/driver-api/pin-control.rst
-> > index 0022e930e93e..0274313e9997 100644
-> > --- a/Documentation/driver-api/pin-control.rst
-> > +++ b/Documentation/driver-api/pin-control.rst
-> > @@ -11,7 +11,7 @@ This subsystem deals with:
-> >  - Multiplexing of pins, pads, fingers (etc) see below for details
-> >  
-> >  - Configuration of pins, pads, fingers (etc), such as software-controlled
-> > -  biasing and driving mode specific pins, such as pull-up/down, open drain,
-> > +  biasing and driving mode specific pins, such as pull-up, pull-down, open drain,
-> >    load capacitance etc.
-> >  
-> >  Top-level interface
 
-Thank you for your input, can I add it as a separate change on top of mine? I would like to keep
-my stuff separate from the more intrusive changes (scope is mostly on the examples and function
-references). If yes, can you provide your SoB tag?
+在 1/11/23 16:58, Yizhou Tang 写道:
+> Yanteng Si <siyanteng@loongson.cn> 于2023年1月11日周三 16:34写道：
+>
+>> +* PELT: 实体负载跟踪机制（Per-Entity Load Tracking）
+> 实体负载跟踪
+Ok!
+>
+> IMHO, how about the following:
+> fork - 创建?
+> sched domain - 调度域
+> NUMA - 非统一内存访问
+> HugePage - 巨页  (however, Alibaba Cloud Linux translate this word into ‘大页’)
+> OPP - 操作性能值
 
-Btw, the pad table is not align on purpose AFAIU how BGA looks from the bottom.
+Great!  I will add them to v2.
 
--- 
-With Best Regards,
-Andy Shevchenko
 
+Thanks,
+
+Yanteng
+
+>
+> Tang
 
