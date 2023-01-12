@@ -2,94 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEF24C54EBC
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 09:42:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91DF4C54EBD
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 10:29:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239757AbjALJm2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Jan 2023 04:42:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52532 "EHLO
+        id S229639AbjALK3L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Jan 2023 05:29:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233353AbjALJlT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 04:41:19 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 516ADB4AE;
-        Thu, 12 Jan 2023 01:40:07 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id o1-20020a17090a678100b00219cf69e5f0so23003292pjj.2;
-        Thu, 12 Jan 2023 01:40:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JD7aXx20yuFVaEChzftMgofT1e2ISE8hi8OTWnX7hro=;
-        b=HwG6Lief2y8VhqgDJJJQNZrLABvHpikdScCDW5g29qBPNEWo5JskRQ206Z+f7b5ppV
-         spqiXP5/yYbc/RTuW/XBwEH/KwQlh1yUgZ7VkL16Qr11WJLRmsLx7NAmTvxL2O8ahqWo
-         N9nNypasHrKg8xJ/OMJCG0UEQZqgnNNrxLums961FmhmjIYw/wuapnFlo4pTzSS0dTmg
-         ilvWVsfNIB/cN7pNvBQIoGL04zO1GE+kUlEcqLoHEepxVwOj4WeyQAB6POI4MKoBcqgl
-         Jnjo13XWeNK8iAi04ArEc0A48wHg+yUfLDxStnR7QMCdlXhCxkdOOcpdM3CeFNFSrVjc
-         tt5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JD7aXx20yuFVaEChzftMgofT1e2ISE8hi8OTWnX7hro=;
-        b=MyZOeUdGQUi0/jPSbmcvEVuAyM1F6UK8mwrzihAYxj8buBxGeivjf3iIqu2VcYt5xe
-         tPsDDEIK/jxFdXKemc7F6u6IwD9szqJ8oWEzLXTuYlcMbnDRM9pNqpy0YVtJNuMNDKkP
-         UHHWzlWayS6vFhHXiodu6naV4JwiAuDe4gPtQuRkPDh8/rxZYnTqvxoRU+k/n1dHj/0T
-         lCUputS7v2jhSDwYX9xB9syUQew99vyjpdJ/O7tFADttTzVfqCQ1Dcil+C/gShl0r0qj
-         Qefi7sIiFroYxgpF8DbnCV+BRAfR19bzEq9CnAhtg/gBHRiQEJSbTDqnHK1DOjNxfCit
-         EhAA==
-X-Gm-Message-State: AFqh2kqJOaXHwT79Xd+qR671bZtOy4p4rgLEdpFFzw6+bYeAY5L400Ih
-        w4sB4LzzBBFn6oe/r3SNvCE=
-X-Google-Smtp-Source: AMrXdXtcqIYIwbdVRX2LJWEytEwLxe60pNNxk70wlfbDpdSKAPA9SeBeqwRec31VKD5afvyOSm1sDg==
-X-Received: by 2002:a05:6a21:9985:b0:ab:fb31:be13 with SMTP id ve5-20020a056a21998500b000abfb31be13mr8365079pzb.37.1673516406851;
-        Thu, 12 Jan 2023 01:40:06 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-80.three.co.id. [180.214.232.80])
-        by smtp.gmail.com with ESMTPSA id l7-20020a655607000000b00477bdc1d5d5sm9814139pgs.6.2023.01.12.01.40.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jan 2023 01:40:06 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 1B3B7105173; Thu, 12 Jan 2023 16:40:03 +0700 (WIB)
-Date:   Thu, 12 Jan 2023 16:40:03 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Mike Rapoport <rppt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
+        with ESMTP id S237417AbjALK2B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 05:28:01 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F9DF2019;
+        Thu, 12 Jan 2023 02:25:42 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 900FC3FB4E;
+        Thu, 12 Jan 2023 10:25:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1673519138; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=RFRkZ+Fj3t8T5BZaiHz5NCYqROwzY9AM/nVOyatEKtk=;
+        b=kXlRU9udXbFgZotDjntGowEBuvchX+T2tPOQt4l2B/QItP41pyuGf09UekzD58fu0LIxRc
+        w76yu+pkH0Ua7YBS6uJ2rwWDxCoFeyaVSAeCGGeNdqLbR3tAQh+xq9uDiO7GTSj2Wj7bNn
+        HineNr8vyQXh2nAR99gNAKtfqxMYBuI=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6650E13585;
+        Thu, 12 Jan 2023 10:25:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 9ozhGCLgv2PZJgAAMHmgww
+        (envelope-from <mhocko@suse.com>); Thu, 12 Jan 2023 10:25:38 +0000
+Date:   Thu, 12 Jan 2023 11:25:37 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Shakeel Butt <shakeelb@google.com>
+Cc:     "T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v2 1/2] docs/mm: Page Reclaim: add page label to allow
- external references
-Message-ID: <Y7/Vc12vnJ1EqEpF@debian.me>
-References: <20230110152358.2641910-1-rppt@kernel.org>
- <20230110152358.2641910-2-rppt@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Carlos Llamas <cmllamas@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Muchun Song <muchun.song@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Paul Moore <paul@paul-moore.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Eric Paris <eparis@parisplace.org>, android-mm@google.com,
+        jstultz@google.com, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH 0/4] Track exported dma-buffers with memcg
+Message-ID: <Y7/gIRv9aJfPK7/f@dhcp22.suse.cz>
+References: <20230109213809.418135-1-tjmercier@google.com>
+ <CALvZod4ru7F38tAO-gM9ZFKaEhS0w3KqFbPwhwcTvgJs4xMUow@mail.gmail.com>
+ <Y78+rfzXPq5XGs9O@phenom.ffwll.local>
+ <20230112075631.wc6fd54ci55drhkp@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230110152358.2641910-2-rppt@kernel.org>
+In-Reply-To: <20230112075631.wc6fd54ci55drhkp@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 10, 2023 at 05:23:57PM +0200, Mike Rapoport wrote:
-> diff --git a/Documentation/mm/page_reclaim.rst b/Documentation/mm/page_reclaim.rst
-> index 50a30b7f8ac3..3fccde066436 100644
-> --- a/Documentation/mm/page_reclaim.rst
-> +++ b/Documentation/mm/page_reclaim.rst
-> @@ -1,5 +1,7 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
-> +.. _page_reclaim:
-> +
->  ============
->  Page Reclaim
->  ============
+On Thu 12-01-23 07:56:31, Shakeel Butt wrote:
+> On Wed, Jan 11, 2023 at 11:56:45PM +0100, Daniel Vetter wrote:
+> > 
+> [...]
+> > I think eventually, at least for other "account gpu stuff in cgroups" use
+> > case we do want to actually charge the memory.
+> > 
+> > The problem is a bit that with gpu allocations reclaim is essentially "we
+> > pass the error to userspace and they get to sort the mess out". There are
+> > some exceptions (some gpu drivers to have shrinkers) would we need to make
+> > sure these shrinkers are tied into the cgroup stuff before we could enable
+> > charging for them?
+> > 
+> 
+> No, there is no requirement to have shrinkers or making such memory
+> reclaimable before charging it. Though existing shrinkers and the
+> possible future shrinkers would need to be converted into memcg aware
+> shrinkers.
+> 
+> Though there will be a need to update user expectations that if they 
+> use memcgs with hard limits, they may start seeing memcg OOMs after the
+> charging of dmabuf.
 
-Shouldn't this be better squashed to [2/2] as the latter have the
-cross-reference?
+Agreed. This wouldn't be the first in kernel memory charged memory that
+is not directly reclaimable. With a dedicated counter an excessive
+dmabuf usage would be visible in the oom report because we do print
+memcg stats.
 
+It is definitely preferable to have a shrinker mechanism but if that is
+to be done in a follow up step then this is acceptable. But leaving out
+charging from early on sounds like a bad choice to me.
 -- 
-An old man doll... just what I always wanted! - Clara
+Michal Hocko
+SUSE Labs
