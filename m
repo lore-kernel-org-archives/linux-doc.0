@@ -2,113 +2,77 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FA08C61DB3
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 20:46:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C84CC54EBE
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Jan 2023 20:55:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240117AbjALUqI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Jan 2023 15:46:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50472 "EHLO
+        id S240032AbjALUz1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Jan 2023 15:55:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232583AbjALUpe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 15:45:34 -0500
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86EC57A907;
-        Thu, 12 Jan 2023 12:14:08 -0800 (PST)
-Received: from localhost (unknown [127.0.0.1])
-        by mx.kolabnow.com (Postfix) with ESMTP id 458EB46DF4;
-        Thu, 12 Jan 2023 21:06:08 +0100 (CET)
-Authentication-Results: ext-mx-out003.mykolab.com (amavisd-new);
-        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
-        header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        in-reply-to:content-disposition:content-type:content-type
-        :mime-version:references:message-id:subject:subject:from:from
-        :date:date:received:received:received; s=dkim20160331; t=
-        1673553965; x=1675368366; bh=6zcjIRJx465Q6OpjvfkHXvmQdiMUyLWxSUQ
-        tX/wjdiA=; b=bjC6xd7HKbR/WIR48R3+qallwJZy7fUJOkn0qMUZcEfVMxco3DM
-        92CABtNWZFu0veoOYkvbrjJ+ubpL2yr/dEmn5MB3tR66hbDhUGWR90lM+ROJqBUR
-        iC3ORIn11ZA9747/l9vXHp7nFFqPmNz96vBTSYv54Y2jjUFnP2BCot5SAuovGYC5
-        aTy+lj2G06SfKOE6N1uIu2HPLWyPlDi6bg9MZeD0SOBzZqriZjB7vQZuAn93khCm
-        DoPnQrqwju9JeEcr/BDYIJ0MfmG4DpVA0piNDjTFxkLl6iOxFNwfElDOb7wlL1q4
-        XgOwaDcLDcEetqVi588lkKPgKC6iZV4ofGRAzDAqz+gPeLei4DwKaDYA6bR8TzZS
-        pxwapt8U1O5pBhH9ZyCtFZ4uXVsYvl46r3pdqEcHDcaZa8J4Q+efQLbxk/7xlQPl
-        2f0elg5eewo4NGZzjQVdqqBnyk9MHY3r6TDNQyOo7D981WWcnB0NBObGnyf8913T
-        BgPB9ObcOBHU8qZcHHbgd7omXTW4zdxYekBl/eLka1XOhTFXDBrZim6XcU+iPcQP
-        7tT2SeJZITdk65piYpgXAJRekTsB9AMudW0mfiUX1UTn6C+/2i811h5YfGT4Fosq
-        SrimOBLAM4BUcQVYK8S/3UtaLsn5l3CTvV16VtbsLfquhlwtdyVLWL0k=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id TzkxRMVme_s2; Thu, 12 Jan 2023 21:06:05 +0100 (CET)
-Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by mx.kolabnow.com (Postfix) with ESMTPS id CBA9E464FF;
-        Thu, 12 Jan 2023 21:06:04 +0100 (CET)
-Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id 79A164E24;
-        Thu, 12 Jan 2023 21:06:04 +0100 (CET)
-Date:   Thu, 12 Jan 2023 21:06:01 +0100
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
+        with ESMTP id S240505AbjALUxa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Jan 2023 15:53:30 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2266062C3;
+        Thu, 12 Jan 2023 12:33:31 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5E26B6E3;
+        Thu, 12 Jan 2023 20:33:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5E26B6E3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1673555611; bh=isSAsl/11UcncYQsH4oIAI2PgAG9STANENU4NGco10g=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=K3qkWwyUjUdoxU5PYH96xIH81+5GQFA8ZkR80BWFS+qmvdPPptnDhnw+QclImpZl9
+         oLfarofcCbA4tgytHYDN6vAAxJsJoVgzzZi9gUvfcbGmskU0MzicARPUqXwTjOutQM
+         c2fBnW40YQAg0jcYP7ElpI2ea60/c/jlWU1bmoeM0+xnjWSOcZNHSC4NRiRMLSHmTN
+         eIAg4L+50h2Jw15XzmcCkTbJ+vUk2AjaoeDYTNgWuPZODVmL8SsHBsRZIgc63ruwyM
+         dKsb05SvCGXaGhHEIjcAo+YMASWKPDrYmhQWTKbKzOIfq4c7D1taI90DLYjj8Ym9+p
+         HcS57nGDRGn4w==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] doc:it_IT: add translation for botching-up-ioctl.rst
-Message-ID: <20230112200601.lnbutkmjy6rm5nnw@numero-86.vaga.pv.it>
-References: <20230102183716.9698-1-federico.vaga@vaga.pv.it>
- <87zgaovfli.fsf@meer.lwn.net>
+Subject: Re: [PATCH V2] doc: monospace style for inline code in botching ioctl
+In-Reply-To: <20230112195552.qapndatj66nqmu4n@numero-86.vaga.pv.it>
+References: <20230102183649.9626-1-federico.vaga@vaga.pv.it>
+ <874jswwuc2.fsf@meer.lwn.net>
+ <20230112195552.qapndatj66nqmu4n@numero-86.vaga.pv.it>
+Date:   Thu, 12 Jan 2023 13:33:30 -0700
+Message-ID: <87cz7jtrvp.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <87zgaovfli.fsf@meer.lwn.net>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 11, 2023 at 04:03:37PM -0700, Jonathan Corbet wrote:
->Federico Vaga <federico.vaga@vaga.pv.it> writes:
->
->> This patch adds the translation for the botching up ioctl document.
+Federico Vaga <federico.vaga@vaga.pv.it> writes:
+
+> On Wed, Jan 11, 2023 at 03:59:57PM -0700, Jonathan Corbet wrote:
+>>Federico Vaga <federico.vaga@vaga.pv.it> writes:
 >>
->> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
->> ---
->> V1 -> V2 use the kernel-doc mecanism to link functions in documents
+>>> Highlighting inline code improves text readability.
+>>>
+>>> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 >>
->>  .../it_IT/process/botching-up-ioctls.rst      | 249 ++++++++++++++++++
->>  .../translations/it_IT/process/index.rst      |   1 +
->>  2 files changed, 250 insertions(+)
->>  create mode 100644 Documentation/translations/it_IT/process/botching-up-ioctls.rst
+>>It improves *HTML* text readability; the results for plain text are
+>>... less clear.  I think it's better to avoid this kind of extra markup
+>>when we can.
 >
->I've applied this, but I have to ask:
->
->> diff --git a/Documentation/translations/it_IT/process/botching-up-ioctls.rst b/Documentation/translations/it_IT/process/botching-up-ioctls.rst
->> new file mode 100644
->> index 000000000000..91732cdf808a
->> --- /dev/null
->> +++ b/Documentation/translations/it_IT/process/botching-up-ioctls.rst
->> @@ -0,0 +1,249 @@
->> +.. include:: ../disclaimer-ita.rst
->> +
->> +:Original: Documentation/process/botching-up-ioctls.rst
->> +
->> +==========================================
->> +(Come evitare di) Raffazzonare delle ioctl
->> +==========================================
->
->Is "raffazzonare" the right verb here?  Something like "pasticciare"
->seems closer to me, but I'm not the expert here.
+> Shouldn't we consider higher priority the HTML text? Perhaps I've a biased
+> opinion. Do you think that plain-text is the favorite way of reading the kernel
+> documentation?
 
+The policy all along has been that we need to prioritize the plain-text
+docs.  A lot of people do use them, and it is easy to wreck their
+readability with markup if sufficient attention isn't paid.  HTML output
+is great, and we want it to be as good as it can be, but it can't be at
+the cost of plain-text readability.
 
-Raffazzonare: there is the intention to do it right, but the result perhaps is
-not the best
+> Let me profit from this point and ask. Are there statistics about the usage of
+> https://www.kernel.org/doc/html/latest/?
 
-Pasticciare: the result is not the best, and perhaps there was not even the
-intention to do it right
+None that I know of.
 
-In a way they are synonymous: there is no guarantee that the result is the best :)
+Thanks,
 
-
->
->Thanks,
->
->jon
-
--- 
-Federico Vaga
+jon
