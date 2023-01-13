@@ -2,109 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44D63C54EBE
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 08:38:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45245C54EBD
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 09:58:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234479AbjAMIix (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Jan 2023 03:38:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47774 "EHLO
+        id S232678AbjAMJ6E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Jan 2023 04:58:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233650AbjAMIiw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 03:38:52 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B55167BDE;
-        Fri, 13 Jan 2023 00:38:51 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id z1-20020a17090a66c100b00226f05b9595so8609474pjl.0;
-        Fri, 13 Jan 2023 00:38:51 -0800 (PST)
+        with ESMTP id S234010AbjAMJ5o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 04:57:44 -0500
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85B29B856;
+        Fri, 13 Jan 2023 01:55:40 -0800 (PST)
+Received: by mail-ed1-x541.google.com with SMTP id z11so30495535ede.1;
+        Fri, 13 Jan 2023 01:55:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Le4OzCrJTjcWREAX5GsqhzvNgu01khW2mMnBXb1Hb8=;
-        b=BGsVagyg+1VaNpAurpS8aw6MalGOG6+qGrL6hldi9mTH+WBlfFynTj1pRysBhUjt0U
-         Vll7kmicQH4+6vFvFd5Fq50j2ckxDPG9PuoVvC0T72aNTMWvhRyXuhMwMltXWuIw7cvg
-         CB5vnRxIfc3WBTZz4BU9U2/IP1F6KE5DRTIjb99b26ykf36UQoDbeV8eGI2TGmidVfJ7
-         Fr8nfJYTothCtmGV7nGbeevLQLu+Ii3ycMUmVelUJ1HQObU8wfWrOyHdDhT4KoiTYDc+
-         xzWi41/qJThN2Tu5RlfSnCm+Xqrm4VvjC+6GfC5rBRQjFKr6XAdtVHmrDVCIvADOn//f
-         8cgA==
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FL1qa9NWBiFahqVS7uPrQLa9p2D4H1P5I2LTXryXQM8=;
+        b=ARafNnBkvUpZuUgUhwTMtWmlUTxe8k9Awg7mDkBW4XE7fV4hgc+MMv3psybNjMwnOu
+         2byufc4c6+I/xmjLTFvrk7Vhbc+Svp1cc/Kljo69cNNmoGJB14lKON0HMXp2M17E2WzB
+         ZqH4GiltM5Oo1pIMjOe2+lTvBa0KCzEtZ/wSEcad/Zdocxxz2N+FrFGKwjfBQZwuiGiY
+         WFmequgXUyblfncvW+B5XTOjJPGM1eFw1nfTvHKIQRaMiuPqfNmkKNL3wOwOM7smxPa1
+         C+AJiE9feki1tk4Szl5ChqzYiJjg6gPShOzmv0xY8CLkIALli1cG/F+bHYdhmtNrUPR6
+         IXAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9Le4OzCrJTjcWREAX5GsqhzvNgu01khW2mMnBXb1Hb8=;
-        b=zBesyJ9and78PE5ATqWqgbfGiM9mwEIM62YTr16mGFbVJzlmW6CVnZXQGiyDt7PcAP
-         6/LiHUTWq/0KWVEKLyBZ+odUZsY2W0RE/bUQ7MF/rvEvjtiToA8a7k8SK81whZ7QlJ0o
-         ngbThQYJlvik+L4XtP+UyGbSeL3wbXprXW1si/B7bb4mhfhD88TUHMliKbhUr/PE1/VF
-         zPRmOXgB1Cy8GU5P9VkedihKTqwzp+Qsf4KSGqWqPuuDe/fvZfWVjpPpwgL6aPglk53E
-         SRZ8hk3C97BGiVkuSpns0MYKy2+cbCdAQRHJYkmqW05jMCFQvhZ0ba5svfrKGHUjkFfM
-         roOQ==
-X-Gm-Message-State: AFqh2kqXV36lsLhtEIMVLkx1kjSY488IdIHOo158AChUQcZ+65FlFJFa
-        9FMmGUzTjKNRy1cC6ZAJhA8=
-X-Google-Smtp-Source: AMrXdXvenwjrK+ak/wohZ81pSnWcLGL06/TCgz77wVYs6WI7BWUUzgbVaWjB09tEmSjm4nuTvRzagw==
-X-Received: by 2002:a17:902:ecce:b0:192:b16b:8e49 with SMTP id a14-20020a170902ecce00b00192b16b8e49mr66904544plh.43.1673599130970;
-        Fri, 13 Jan 2023 00:38:50 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-12.three.co.id. [180.214.232.12])
-        by smtp.gmail.com with ESMTPSA id u7-20020a17090341c700b00186e34524e3sm13519501ple.136.2023.01.13.00.38.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jan 2023 00:38:49 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 527EB104D31; Fri, 13 Jan 2023 15:38:47 +0700 (WIB)
-Date:   Fri, 13 Jan 2023 15:38:47 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Mike Rapoport <rppt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v3 0/3] docs/mm: start filling out new structure
-Message-ID: <Y8EYl5FNaA3Wa3So@debian.me>
-References: <20230112091616.824565-1-rppt@kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="/adNa2uzkgbbK4dL"
-Content-Disposition: inline
-In-Reply-To: <20230112091616.824565-1-rppt@kernel.org>
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FL1qa9NWBiFahqVS7uPrQLa9p2D4H1P5I2LTXryXQM8=;
+        b=VXLGY/puv1aYRfFcURn4haqJZE24de5/K3Hlrz4KMrLkXr89OwG2MLEIy8qWRXEzTM
+         SfpzMkQ9LCDu6vK1if15SNoF7fRaJyGJYhOxnxnTQfq32Y6ABX4xBrCWdaxCrabUpNKN
+         5BnWTHInhVo5g8BtqYLw/79OWQe5twpd4MxdwXEY/HTB+A1mV3+pzUzgd1wcoWfJUERS
+         4J1mpNFGsCF0tjRRcQwglajGk0ql8HuUULSX5n7ytutuZdP/GDQ9dRdQ9aZNOa1ynvu8
+         ozidYxFXNUDUov85DdSYIjI/kuX+0yYkHCRpPaw1DL5BIXuaf7n8rp4UcRPyj8tP70o9
+         iMUA==
+X-Gm-Message-State: AFqh2kq7EF9TeTC35s7I1c9JEYc3oU9qcFXlrdP8Iz3qpHvqlal1DRMU
+        tZgu0nd6GBmKi6RPCzV1ko0=
+X-Google-Smtp-Source: AMrXdXvS+jngj72AsU1IPkwGiu+Kshv5B4H/Occn2QentEnULt1SpjMjzOl/s4hGDlAIxUOuIbsLXw==
+X-Received: by 2002:a05:6402:3894:b0:48f:68b1:db4e with SMTP id fd20-20020a056402389400b0048f68b1db4emr30375839edb.27.1673603739011;
+        Fri, 13 Jan 2023 01:55:39 -0800 (PST)
+Received: from smtpclient.apple (i130160.upc-i.chello.nl. [62.195.130.160])
+        by smtp.gmail.com with ESMTPSA id v15-20020a056402184f00b0046c5baa1f58sm7949072edy.97.2023.01.13.01.55.38
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 13 Jan 2023 01:55:38 -0800 (PST)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
+Subject: Re: [PATCH] docs/scripts/gdb: add necessary make scripts_gdb step
+From:   Jakob Koschel <jkl820.git@gmail.com>
+In-Reply-To: <Y8EUeB8tbpNVcn71@debian.me>
+Date:   Fri, 13 Jan 2023 10:55:27 +0100
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Message-Id: <1D726098-4129-4E9E-ABA7-53B72389C70E@gmail.com>
+References: <20230112-documentation-gdb-v1-1-09ab556e9124@gmail.com>
+ <Y8EUeB8tbpNVcn71@debian.me>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+X-Mailer: Apple Mail (2.3731.300.101.1.3)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---/adNa2uzkgbbK4dL
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 12, 2023 at 11:16:13AM +0200, Mike Rapoport wrote:
-> Mike Rapoport (IBM) (3):
->   docs/core-api: DMA API: add page label to allow external references
->   docs/mm: Page Reclaim: add page label to allow external references
->   docs/mm: Physical Memory: add structure, introduction and nodes
->     description
+> On 13. Jan 2023, at 09:21, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> 
+> On Thu, Jan 12, 2023 at 05:09:25PM +0100, Jakob Koschel wrote:
+>> In order to debug the kernel successfully with gdb you need to run
+>> 'make scripts_gdb' nowadays.
+>> 
+>> This was changed with the following commit:
+>> 
+>> Commit 67274c083438340ad16c ("scripts/gdb: delay generation of gdb
+>> constants.py")
+>> 
+>> In order to have a complete guide for beginners this remark
+>> should be added to the offial documentation.
+>> 
+> 
+> What about below?
+> 
+> ```
+> Since commit <commit>, debugging kernel requires gdb scripts to be built
+> with "make scripts_gdb" first. Reflect this requirement in the
+> "Debugging kernel and modules via gdb" documentation.
+> ```
 
-I'd like to squash [1/3] and [2/3] to actual doc [3/3], for which the
-latter contains cross-references to labels defined in the former.
-Indeed, IMO, adding required reference labels in some other place when
-writing the doc can be constituted as part of writing the doc itself.
+I guess you are suggesting this as an alternative commit message?
 
-Thanks.
+I'm happy to change this in v2.
 
---=20
-An old man doll... just what I always wanted! - Clara
+> 
+> Thanks.
+> 
+> -- 
+> An old man doll... just what I always wanted! - Clara
 
---/adNa2uzkgbbK4dL
-Content-Type: application/pgp-signature; name="signature.asc"
+- jakob
 
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY8EYlgAKCRD2uYlJVVFO
-ozOAAQCOO9PyOCL+/45iOOmafkfZN+/uO1FQJyep8cMrFPyJwwEAzJ++sxk0fUs0
-/NJfqeX+lqpu8FQN8RPh78IUHxmmUwQ=
-=Xlo5
------END PGP SIGNATURE-----
-
---/adNa2uzkgbbK4dL--
