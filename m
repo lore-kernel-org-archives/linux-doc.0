@@ -2,112 +2,125 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C17DC54EBD
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 08:24:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72B04C54EBE
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 08:30:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229458AbjAMIYa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Jan 2023 03:24:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34656 "EHLO
+        id S235477AbjAMI35 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Jan 2023 03:29:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240957AbjAMIWk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 03:22:40 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69F1D36318;
-        Fri, 13 Jan 2023 00:21:18 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id w4-20020a17090ac98400b002186f5d7a4cso26330092pjt.0;
-        Fri, 13 Jan 2023 00:21:18 -0800 (PST)
+        with ESMTP id S240140AbjAMI2n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 03:28:43 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 153E741A44;
+        Fri, 13 Jan 2023 00:28:37 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id k12so668475plk.0;
+        Fri, 13 Jan 2023 00:28:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=S8uxZaw+263Bn0UMT6QDLzZFaa+PGnK5wQK0PuqYfRc=;
-        b=oEav7ZlFN4KG9ykOjglGPhsoNmPA/Ric1ZR8uGiUtyoVjimuPO4SQhbclRX8W1Yuzy
-         NUF2/5CmnOEsm7W5sXtlxKZfdie51kwmxPPu277L+MHLAzRyua/k7I7syffi4JxkMvEw
-         98KLvT80GS/39ozAog1tCaos875S5wStgpyWgLoXnKErfm+vxLFq2N2Rd/ley0GBl4ve
-         eKIKOusRegIbiev7P9YMeDJj3NryM1mZww1nYbHe2IRPFaE/NTmTUxbngw/8Lj/7RnE6
-         PQEAOcR40rSeO9ZSVMKd8jIPpBy1VwPvmH/bcqTLSqrd94DlxiyrrYNKSjGbbT5Z12pP
-         li/g==
+        bh=VLC7TZZXnaqDaWj2wbfmnziBNdGj5R8BVjWt4nNr0yE=;
+        b=VwoqfjOKNifd4Gdbr9it6nl5Lb4cMyi5QFoXlfatgHE5tJqxsc4wHtFl/YzUU7NNGx
+         crk9JiDHFSqFcJ5JDmpLoA5o93MsvAX6f78xwTVpzRqbDcDvmzMBmJk2Xe0HQ6vw20nX
+         TRfIC64FRjyXG6A1uatBm0/bBIFwq+sG3E3ejBWOW2SVmZI9WwlM1d3WHsqkkH2vIDdo
+         aQsZuiTFkgNof3KQjVPNUdE4NO8vicZ4KvimljusJqrkdyeFHJrD6CDcoUa8gx5jdYq4
+         Iq8HclmpZ5IYGGICCzTGh1wcvIOBSn899tCF+ailuvgimKTA+8JEPX/C4aW26iINkNB0
+         FFdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=S8uxZaw+263Bn0UMT6QDLzZFaa+PGnK5wQK0PuqYfRc=;
-        b=G/v38VsbnvpRzPwy5dYfMJiQkFnaD8A9Y3dogzYzYT7k/THaihk83Hrcmd8s7XCeD6
-         0b4JkS/cEBbO1jUEHVDQD5cOduphvE18aoEJRwxgpe6IOxrbAm5v+oZC0A5i4Q1w3i/K
-         fiugL/dvjjtuqvHrAs2Ny2pnXcT8hOrTbwLYwemecenru6Q0RU4ntA5Eh2qvZ55NQ7d5
-         T9hGWBxF70qsnMBrpYHa4SSP3V71wd1iEoYDiZuaCB0NE2rww+3T9e85umiuPjDc5xiO
-         ZHlUE8uWH5kxmjPGNnsXFUkSN0WgIvh1rrTVq51M11rKEfb3CO4lwpN/n3PewbQ2PTIe
-         tIjg==
-X-Gm-Message-State: AFqh2kqtEEXjSPocjAyxzkWF9pOguJFAKaaM/laj9hcpeiR+JN2znTeD
-        pelfumrcxGbiJ+GDvVcyxBs=
-X-Google-Smtp-Source: AMrXdXsSKNVjJ8TOCltmeO24kHeUvxjMy0Eg2UYACQOEKR6GEKueqMPlYZKuaKS8Hzu4V062/Iz7zA==
-X-Received: by 2002:a05:6a20:4287:b0:b6:4270:6dfc with SMTP id o7-20020a056a20428700b000b642706dfcmr14315065pzj.6.1673598077894;
-        Fri, 13 Jan 2023 00:21:17 -0800 (PST)
+        bh=VLC7TZZXnaqDaWj2wbfmnziBNdGj5R8BVjWt4nNr0yE=;
+        b=QBMuuMupPElRAU7IhuRYRCnUD5c6/p+uHsVVedyINxXbPLF5ICizGh4gPFaQwXwc4g
+         fTsN9aawdaS8CDjDDK+N/3PS6ucJh95zrCmjjux61fAQVZ94iIC4hEBhV0CkdCYNe/py
+         mudEl2qJQoYQpsK4m2ngjuLKj5BhJAhBU6GTBf68I7boMs/yj1PfcSEyI0WwVypzX4lK
+         7NsFeAC2SDBgcx6lidnatDUtlOQ6ON8g9LwYY7YZrEEn4h+WQKb4XzyWvrlKdWkYNfrK
+         muOEvpS5T0cW0USDeS3lOO5XvaE/4BPuCVmvWP4IIaFB4iRtB+7EDYz1v+OcBTCZi211
+         4dSA==
+X-Gm-Message-State: AFqh2kqeygScxVQG+9AfzKcyPP5TiA7V0jd4k/lQYmQGN1IClXkHy/no
+        Fdg9Yx6owR6nD/GJhyycPg8=
+X-Google-Smtp-Source: AMrXdXtpbBHEu+sRHK+9sENr7APamiKs+e1RqZk8NOg21UfvDV/t7UgFQd4c/rJCC0/2emd5IbaJbg==
+X-Received: by 2002:a05:6a20:3d18:b0:aa:5fed:8d6 with SMTP id y24-20020a056a203d1800b000aa5fed08d6mr116861886pzi.15.1673598516624;
+        Fri, 13 Jan 2023 00:28:36 -0800 (PST)
 Received: from debian.me (subs02-180-214-232-12.three.co.id. [180.214.232.12])
-        by smtp.gmail.com with ESMTPSA id t2-20020aa79462000000b00582a224e738sm13129188pfq.63.2023.01.13.00.21.16
+        by smtp.gmail.com with ESMTPSA id d2-20020aa797a2000000b005895f9657ebsm8452638pfq.70.2023.01.13.00.28.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jan 2023 00:21:16 -0800 (PST)
+        Fri, 13 Jan 2023 00:28:35 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-        id 50C74104A90; Fri, 13 Jan 2023 15:21:13 +0700 (WIB)
-Date:   Fri, 13 Jan 2023 15:21:12 +0700
+        id 858FD103F81; Fri, 13 Jan 2023 15:28:32 +0700 (WIB)
+Date:   Fri, 13 Jan 2023 15:28:32 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Jakob Koschel <jkl820.git@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/scripts/gdb: add necessary make scripts_gdb step
-Message-ID: <Y8EUeB8tbpNVcn71@debian.me>
-References: <20230112-documentation-gdb-v1-1-09ab556e9124@gmail.com>
+To:     Gregory Price <gourry.memverge@gmail.com>,
+        linux-kernel@vger.kernel.org
+Cc:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, krisman@collabora.com,
+        tglx@linutronix.de, luto@kernel.org, oleg@redhat.com,
+        peterz@infradead.org, ebiederm@xmission.com,
+        akpm@linux-foundation.org, adobriyan@gmail.com, corbet@lwn.net,
+        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH 3/3] prctl,syscall_user_dispatch: add a getter for
+ configuration info
+Message-ID: <Y8EWMIwSh+C9vI9H@debian.me>
+References: <20230109153348.5625-1-gregory.price@memverge.com>
+ <20230109153348.5625-4-gregory.price@memverge.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="hwejcGOrhPQxbZsw"
+        protocol="application/pgp-signature"; boundary="yA8dJtpF3fHzClWq"
 Content-Disposition: inline
-In-Reply-To: <20230112-documentation-gdb-v1-1-09ab556e9124@gmail.com>
+In-Reply-To: <20230109153348.5625-4-gregory.price@memverge.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---hwejcGOrhPQxbZsw
+--yA8dJtpF3fHzClWq
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 12, 2023 at 05:09:25PM +0100, Jakob Koschel wrote:
-> In order to debug the kernel successfully with gdb you need to run
-> 'make scripts_gdb' nowadays.
->=20
-> This was changed with the following commit:
->=20
-> Commit 67274c083438340ad16c ("scripts/gdb: delay generation of gdb
-> constants.py")
->=20
-> In order to have a complete guide for beginners this remark
-> should be added to the offial documentation.
->=20
+On Mon, Jan 09, 2023 at 10:33:48AM -0500, Gregory Price wrote:
+> This patch implements simple getter interface for syscall user dispatch
+> configuration info.
 
-What about below?
+s/This patch implements/Implement/
 
-```
-Since commit <commit>, debugging kernel requires gdb scripts to be built
-with "make scripts_gdb" first. Reflect this requirement in the
-"Debugging kernel and modules via gdb" documentation.
-```
+> +
+> +A thread can fetch the current Syscall User Dispatch configuration with =
+the following prctl:
+
+This should have been ended with double colon (::) to make below code code
+block, to be consistent with syscall_user_dispatch definition below.
+
+> +
+> +  prctl(PR_GET_SYSCALL_USER_DISPATCH, <dispatch_config>))
+> +
+> +<dispatch_config> is a pointer to a ``struct syscall_user_dispatch`` as =
+defined in ``linux/include/linux/syscall_user_dispatch.h``::
+> +
+> +  struct syscall_user_dispatch {
+> +        char __user *selector;
+> +        unsigned long offset;
+> +        unsigned long len;
+> +        bool    on_dispatch;
+> +  };
+> +
 
 Thanks.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---hwejcGOrhPQxbZsw
+--yA8dJtpF3fHzClWq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY8EUcwAKCRD2uYlJVVFO
-o8KOAQDFahicLgQeG6tN4jL//Zy8aMjTQhlQg8Jr6mD5huP8cwEAqJR8hUNA4AXb
-VCclsTttygURIsWd9m/7S2O10ALhUQ8=
-=KOrE
+iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY8EWMAAKCRD2uYlJVVFO
+o5QKAQDwk44puo8nMY7eLSJ3hT/GfAVGstunBN+zZ7mX3dq2ygD/cYErO9aAo5O0
+OHm/XR0ibobn02a7AgPe/exot2A2Pwo=
+=Rh/d
 -----END PGP SIGNATURE-----
 
---hwejcGOrhPQxbZsw--
+--yA8dJtpF3fHzClWq--
