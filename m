@@ -2,103 +2,72 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39263C61DB3
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 16:28:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7C55C54EBD
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 16:31:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230219AbjAMQ2u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Jan 2023 11:28:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44112 "EHLO
+        id S229932AbjAMQb3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Jan 2023 11:31:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbjAMQ2Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 11:28:16 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E91897ECA5;
-        Fri, 13 Jan 2023 08:22:44 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        with ESMTP id S229842AbjAMQa7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 11:30:59 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF3138CBFA;
+        Fri, 13 Jan 2023 08:25:03 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 823AB6BBA9;
-        Fri, 13 Jan 2023 16:22:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1673626963; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=zFYXeQHB5mBEYDHWaUYTs7tQmOKRVt8dzinfneBzAwA=;
-        b=aFZyL6L/H2u/JrlrEmotKR4SoE/eWsdutW6toqBDqmxlhbK/ZONAYVU75Hapted0dAHIjZ
-        nC3D92R6XNevYUZ0CCPedkqLxpwyZUGsLE+8F+RSFgxhbb1mJMr7jqssSK33WljMceFiJs
-        1H+u3To0piVwyxUxd4Yn14wXQyBejX4=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 64D2A1358A;
-        Fri, 13 Jan 2023 16:22:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id UAAyFlOFwWOkUwAAMHmgww
-        (envelope-from <mhocko@suse.com>); Fri, 13 Jan 2023 16:22:43 +0000
-Date:   Fri, 13 Jan 2023 17:22:42 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Zhongkun He <hezhongkun.hzk@bytedance.com>
-Cc:     akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        wuyun.abel@bytedance.com
-Subject: Re: [PATCH 0/3] mm: replace atomic_t with percpu_ref in mempolicy.
-Message-ID: <Y8GFUiSih8f0mUoU@dhcp22.suse.cz>
-References: <20221204161432.2149375-1-hezhongkun.hzk@bytedance.com>
- <Y8GE1r9/c1DHsHj0@dhcp22.suse.cz>
+        by ms.lwn.net (Postfix) with ESMTPSA id 32561733;
+        Fri, 13 Jan 2023 16:25:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 32561733
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1673627103; bh=Z48ylUZQFZkafGo/+DHs66tWwdi6CGogaUiWFURqDlI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=g23PxuEekEno7RcFANneDf6TenhIIcnipCWnInNOd2swjkZOH5wtbGH3vNGVOq9Wj
+         /pt63pXUWnJURSnFr2OSz+hkUHnGdHx3DTMVpOfK+S0/p9VlfZ14xphlDR85f4/yIE
+         6+veoRemaN9AnImXfe9x9CJzLQvEgvTUs6lbhZohPkR9Bkf+TSeQwLhy5cg/dq6d88
+         EUyHxfXT1Z7TOCGYa2PjB1Y6poBNehZM/m3ADTwi5JD7wQkjrmtwX4W9E6kDQ4WSzD
+         0eRDqIQEaMvJs07ymAI5h76AeL4CU1cDf0ULz+zwBsvUZvslqaCwDlaziq5qR0hG8R
+         70c0MpzHtx0PQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linuxfoundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] Documentation fixes for 6.2
+Date:   Fri, 13 Jan 2023 09:25:02 -0700
+Message-ID: <877cxqs8pt.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8GE1r9/c1DHsHj0@dhcp22.suse.cz>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 13-01-23 17:20:39, Michal Hocko wrote:
-> On Mon 05-12-22 00:14:29, Zhongkun He wrote:
-> > All vma manipulation is somewhat protected by a down_read on
-> > mmap_lock, so vma mempolicy is clear to obtain a reference.
-> > But there is no locking in process context and have a mix
-> > of reference counting and per-task requirements which is rather
-> > subtle and easy to get wrong.
-> > 
-> > we would have get_vma_policy() always returning a reference
-> > counted policy, except for static policy. For better performance,
-> > we replace atomic_t ref with percpu_ref in mempolicy, which is
-> > usually the performance bottleneck in hot path.
-> > 
-> > This series adjust the reference of mempolicy in process context,
-> > which will be protected by RCU in read hot path. Besides,
-> > task->mempolicy is also protected by task_lock(). Percpu_ref
-> > is a good way to reduce cache line bouncing.
-> > 
-> > The mpol_get/put() can just increment or decrement the local
-> > counter. Mpol_kill() must be called to initiate the destruction
-> > of mempolicy. A mempolicy will be freed when the mpol_kill()
-> > is called and the reference count decrese to zero.
-> 
-> This is really hard to follow. Without having the context from previous
-> discussions I would be completely lost. Please structure your cover
-> letter but also other patch in general in the form:
-> - what is the problem you would like to deal with
-> 	- want to introduce pidfd_set_mempolicy because XYZ
-> - what stands in the way
-> 	- mempolicy objects access constrains (reliance on operating in
-> 	  the current context)
-> 	- reference counting needs to be unconditional
-> 	- why regular reference counting is not sufficient (performance)
-> - what is this patchset proposing
-> 	- per cpu reference counting
-> 	- how is it implemented
-> - how is the patch series structured
-> 	- make the reference counting unconditional
-> 	- special case static (never released) policies
-> 	- replace standard ref counting by per-cpu reference counting
+The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
 
-	- introduce pidfd_set_mempolicy
-> - how has this been tested?
--- 
-Michal Hocko
-SUSE Labs
+  Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
+
+are available in the Git repository at:
+
+  git://git.lwn.net/linux.git tags/docs-6.2-fixes
+
+for you to fetch changes up to a33ae832bf3f2ac33e2e44b99f76130d3be848c5:
+
+  docs/conf.py: Use about.html only in sidebar of alabaster theme (2023-01-11 15:06:50 -0700)
+
+----------------------------------------------------------------
+Three documentation fixes (or rather two and one warning):
+
+ - Sphinx 6.0 broke our configuration mechanism, so fix it.
+ - I broke our configuration for non-Alabaster themes; Akira fixed it.
+ - Deprecate Sphinx < 2.4 with an eye toward future removal
+
+----------------------------------------------------------------
+Akira Yokosawa (1):
+      docs/conf.py: Use about.html only in sidebar of alabaster theme
+
+Jonathan Corbet (2):
+      docs: Fix the docs build with Sphinx 6.0
+      docs: Deprecate use of Sphinx < 2.4.x
+
+ Documentation/conf.py               | 12 +++++++++++-
+ Documentation/sphinx/load_config.py |  6 ++++--
+ 2 files changed, 15 insertions(+), 3 deletions(-)
