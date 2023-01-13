@@ -2,106 +2,272 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2636BC678D7
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 15:33:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4838DC54EBE
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 15:46:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229846AbjAMPdo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Jan 2023 10:33:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53570 "EHLO
+        id S230097AbjAMPqj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Jan 2023 10:46:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230261AbjAMPdX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 10:33:23 -0500
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79E9497489;
-        Fri, 13 Jan 2023 07:26:56 -0800 (PST)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-15eeec85280so1491745fac.11;
-        Fri, 13 Jan 2023 07:26:56 -0800 (PST)
+        with ESMTP id S229878AbjAMPph (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 10:45:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B6BC820D0
+        for <linux-doc@vger.kernel.org>; Fri, 13 Jan 2023 07:35:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1673624121;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HvJzqEosng1OpNEPlrOtQogHviQchssO2KpZoQllqEw=;
+        b=OSBhNhu0WVkLxefEefjdB2d2ZjYaK7WsNVY78Vuru3zYD1RuQ5R2M0VH0kHjssIiI92AXp
+        OMV1xdlv7ci7MIlLVja+WEj4Dv402V1fk8Ybego65qL1q83GLvpgfjKpqKwVLTOPwcGeuq
+        OFGhC9JC3Mnw821ticuNOA6kSCO1uGI=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-90-UCThEJZ0MiChvXTQAkUjHw-1; Fri, 13 Jan 2023 10:35:19 -0500
+X-MC-Unique: UCThEJZ0MiChvXTQAkUjHw-1
+Received: by mail-lj1-f199.google.com with SMTP id e28-20020a05651c039c00b0028112f8e550so5750634ljp.23
+        for <linux-doc@vger.kernel.org>; Fri, 13 Jan 2023 07:35:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZFl6Q4g7MPhzi7rFCI7S01WgROoiezHHCsRIPY7pB5A=;
-        b=Q/Yr6YH2j93UtzVPoPDrDOxAChPbfy1UxyFD0pCaMv9ngmyGCx7aKzLT/gFcy4ibbV
-         oe807k1/uAapqiDZbQ3AMVS/c4B617dRgOUTTJ2DkxwGH2sCKxkBKCmD4ixpGmGldToU
-         p7KmgvNPWJNplgVb0imIqcbFftKUMkbEXp4UskefH7xrU/nvkgUDKOaO8X5TgIqEmtY6
-         JVQ0/OmpFjMM1uPREx6HUZtcB4YYzSj4LoiWZjydEYkF/F5CfohRaoaLcveXw84WKwre
-         dauThI73HZnab4Vd/8dggNRuMgZ9ufG5XBjTHhgKvg4CDxs9KD5b7NSmcw/I1izJtqVN
-         eAug==
-X-Gm-Message-State: AFqh2krla9WUNe5NXsGn5J28fojOjkpX61AWi1AGbUEjr4cN7NsY/3cf
-        ZV3cNK5gQ1NvI08C3rJ+pg==
-X-Google-Smtp-Source: AMrXdXsc7sXL7Xdv5OthXOxFzCDt9YII/qfK8/O80QELAk4AfPL2W9gjEcHvGmx6lBBCzHkKPSZ4Pw==
-X-Received: by 2002:a05:6870:a1a8:b0:143:89ce:80ee with SMTP id a40-20020a056870a1a800b0014389ce80eemr40993345oaf.20.1673623615723;
-        Fri, 13 Jan 2023 07:26:55 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id em33-20020a0568705ba100b0014fd7e7c3fesm10583610oab.27.2023.01.13.07.26.54
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HvJzqEosng1OpNEPlrOtQogHviQchssO2KpZoQllqEw=;
+        b=V3bC7l3vb5Bv4akM4QQFlTPVGPno5SBxYtfpftUfRkauqK6b738xkc9fg1qTds8WdW
+         F0422uUxl1sKZ9e8Yx2BhRMYFo06ShD8SqiReqyGPBEYt8i3Tji6UxirHTuAfbp3ClpF
+         b5T2cCXxToZkq6eJRRAmTKzJFOTpsRqcLFXTckd/g5KhaWrmEUmE0P2CE3YQmTqD4mwf
+         yZVg7zPeExqnNYhIG+2mOYZQhv/Kathm+kYPE8Z4DiTKsbTj6NIzAyuw6Erggm744EiN
+         xx8kW9Ay5LrDFGfg2tJkyM/jchA+P+fBI0oZj2zIsT+cObC6TBVKJdO0GbUcQylSAX5u
+         0Cjg==
+X-Gm-Message-State: AFqh2kq0YCIU4XaKjOBpmEqDT1xlfOrbOGxiRh+rEVZKXrqCEaUZRtvP
+        8PoMlrnrWtlg599tiJhl+gkySpDzpQ8/hJlpQC4l7DsQ8J2T2V4yYDUXRRDYjiUuX65h6YjZA3R
+        CK2xCBegUFxq8wlRUJk5e
+X-Received: by 2002:a2e:9b08:0:b0:287:625a:4d4f with SMTP id u8-20020a2e9b08000000b00287625a4d4fmr3770285lji.1.1673624117357;
+        Fri, 13 Jan 2023 07:35:17 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXv+ze9h67KJIs16Cr55BBtE2xAUuhHj16YyQ+bpHXDt6402ykHQKaDiw0TwcySUBJFWTi6GZg==
+X-Received: by 2002:a2e:9b08:0:b0:287:625a:4d4f with SMTP id u8-20020a2e9b08000000b00287625a4d4fmr3770281lji.1.1673624117126;
+        Fri, 13 Jan 2023 07:35:17 -0800 (PST)
+Received: from localhost.localdomain (c-e6a5e255.022-110-73746f36.bbcust.telenor.se. [85.226.165.230])
+        by smtp.googlemail.com with ESMTPSA id p20-20020a2e9a94000000b00289bb528b8dsm725473lji.49.2023.01.13.07.35.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jan 2023 07:26:55 -0800 (PST)
-Received: (nullmailer pid 2224503 invoked by uid 1000);
-        Fri, 13 Jan 2023 15:26:52 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+        Fri, 13 Jan 2023 07:35:16 -0800 (PST)
+From:   Alexander Larsson <alexl@redhat.com>
+To:     linux-fsdevel@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, gscrivan@redhat.com,
+        Alexander Larsson <alexl@redhat.com>, linux-doc@vger.kernel.org
+Subject: [PATCH v2 5/6] composefs: Add documentation
+Date:   Fri, 13 Jan 2023 16:33:58 +0100
+Message-Id: <a9616059dd7d094c2756cb426e29ce2ac7d8e998.1673623253.git.alexl@redhat.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <cover.1673623253.git.alexl@redhat.com>
+References: <cover.1673623253.git.alexl@redhat.com>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Mukesh Ojha <quic_mojha@quicinc.com>
-Cc:     tony.luck@intel.com, keescook@chromium.org,
-        linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, krzysztof.kozlowski+dt@linaro.org,
-        devicetree@vger.kernel.org, gpiccoli@igalia.com,
-        robh+dt@kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <1673611126-13803-1-git-send-email-quic_mojha@quicinc.com>
-References: <1673611126-13803-1-git-send-email-quic_mojha@quicinc.com>
-Message-Id: <167362342171.2212232.12797856408416030039.robh@kernel.org>
-Subject: Re: [PATCH v2 1/3] dt-bindings: reserved-memory: ramoops: Update the binding
-Date:   Fri, 13 Jan 2023 09:26:52 -0600
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Adds documentation about the composefs filesystem and
+how to use it.
 
-On Fri, 13 Jan 2023 17:28:44 +0530, Mukesh Ojha wrote:
-> Update the ramoops region binding document with details
-> like region can also be reserved dynamically apart from
-> reserving it statically.
-> 
-> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
-> ---
-> Change in v2:
->   - Added this patch as per changes going to be done in patch 3/3
-> 
->  .../bindings/reserved-memory/ramoops.yaml          | 34 ++++++++++++++++++++--
->  1 file changed, 32 insertions(+), 2 deletions(-)
-> 
+Signed-off-by: Alexander Larsson <alexl@redhat.com>
+---
+ Documentation/filesystems/composefs.rst | 169 ++++++++++++++++++++++++
+ Documentation/filesystems/index.rst     |   1 +
+ 2 files changed, 170 insertions(+)
+ create mode 100644 Documentation/filesystems/composefs.rst
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/reserved-memory/ramoops.example.dts:17.13-40: Warning (reg_format): /reserved-memory/ramoops@bfdf0000:reg: property has invalid length (8 bytes) (#address-cells == 2, #size-cells == 2)
-Documentation/devicetree/bindings/reserved-memory/ramoops.example.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/reserved-memory/ramoops.example.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/reserved-memory/ramoops.example.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/reserved-memory/ramoops.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/reserved-memory/ramoops.example.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/reserved-memory/ramoops.example.dtb: reserved-memory: ramoops@bfdf0000:reg:0: [3219062784, 65536] is too short
-	From schema: /usr/local/lib/python3.10/dist-packages/dtschema/schemas/reg.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/1673611126-13803-1-git-send-email-quic_mojha@quicinc.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/Documentation/filesystems/composefs.rst b/Documentation/filesystems/composefs.rst
+new file mode 100644
+index 000000000000..306f0e2e22ba
+--- /dev/null
++++ b/Documentation/filesystems/composefs.rst
+@@ -0,0 +1,169 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++====================
++Composefs Filesystem
++====================
++
++Introduction
++============
++
++Composefs is a read-only file system that is backed by regular files
++(rather than a block device). It is designed to help easily share
++content between different directory trees, such as container images in
++a local store or ostree checkouts. In addition it also has support for
++integrity validation of file content and directory metadata, in an
++efficient way (using fs-verity).
++
++The filesystem mount source is a binary blob called the descriptor. It
++contains all the inode and directory entry data for the entire
++filesystem. However, instead of storing the file content each regular
++file inode stores a relative path name, and the filesystem gets the
++file content from the filesystem by looking up that filename in a set
++of base directories.
++
++Given such a descriptor called "image.cfs" and a directory with files
++called "/dir" you can mount it like::
++
++  mount -t composefs image.cfs -o basedir=/dir /mnt
++
++Content sharing
++===============
++
++Suppose you have a single basedir where the files are content
++addressed (i.e. named by content digest), and a set of composefs
++descriptors using this basedir. Any file that happen to be shared
++between two images (same content, so same digest) will now only be
++stored once on the disk.
++
++Such sharing is possible even if the metadata for the file in the
++image differs (common reasons for metadata difference are mtime,
++permissions, xattrs, etc). The sharing is also anonymous in the sense
++that you can't tell the difference on the mounted files from a
++non-shared file (for example by looking at the link count for a
++hardlinked file).
++
++In addition, any shared files that are actively in use will share
++page-cache, because the page cache for the file contents will be
++addressed by the backing file in the basedir, This means (for example)
++that shared libraries between images will only be mmap:ed once across
++all mounts.
++
++Integrity validation
++====================
++
++Composefs uses :doc:`fs-verity <fsverity>` for integrity validation,
++and extends it by making the validation also apply to the directory
++metadata.  This happens on two levels, validation of the descriptor
++and validation of the backing files.
++
++For descriptor validation, the idea is that you enable fs-verity on
++the descriptor file which seals it from changes that would affect the
++directory metadata. Additionally you can pass a `digest` mount option,
++which composefs verifies against the descriptor fs-verity
++measure. Such a mount option could be encoded in a trusted source
++(like a signed kernel command line) and be used as a root of trust if
++using composefs for the root filesystem.
++
++For file validation, the descriptor can contain digest for each
++backing file, and you can enable fs-verity on the backing
++files. Composefs will validate the digest before using the backing
++files. This means any (accidental or malicious) modification of the
++basedir will be detected at the time the file is used.
++
++Expected use-cases
++==================
++
++Container Image Storage
++```````````````````````
++
++Typically a container image is stored as a set of "layer"
++directories. merged into one mount by using overlayfs.  The lower
++layers are read-only image content and the upper layer is the
++writable state of a running container. Multiple uses of the same
++layer can be shared this way, but it is hard to share individual
++files between unrelated layers.
++
++Using composefs, we can instead use a shared, content-addressed
++store for all the images in the system, and use a composefs image
++for the read-only image content of each image, pointing into the
++shared store. Then for a running container we use an overlayfs
++with the lower dir being the composefs and the upper dir being
++the writable state.
++
++
++Ostree root filesystem validation
++`````````````````````````````````
++
++Ostree uses a content-addressed on-disk store for file content,
++allowing efficient updates and sharing of content. However to actually
++use these as a root filesystem it needs to create a real
++"chroot-style" directory, containing hard links into the store. The
++store itself is validated when created, but once the hard-link
++directory is created, nothing validates the directory structure of
++that.
++
++Instead of a chroot we can we can use composefs. We create a composefs
++image pointing into the object store, enable fs-verity for everything
++and encode the fs-verity digest of the descriptor in the
++kernel-command line. This will allow booting a trusted system where
++all directory metadata and file content is validated lazily at use.
++
++
++Mount options
++=============
++
++basedir
++    A colon separated list of directories to use as a base when resolving
++    relative content paths.
++
++verity_check=[0,1,2]
++    When to verify backing file fs-verity: 0 == never, 1 == if specified in
++    image, 2 == always and require it in image.
++
++digest
++    A fs-verity sha256 digest that the descriptor file must match. If set,
++    `verity_check` defaults to 2.
++
++
++Filesystem format
++=================
++
++The format of the descriptor is contains three sections: header,
++inodes and variable data. All data in the file is stored in
++little-endian form.
++
++The header starts at the beginning of the file and contains version,
++magic value, offsets to the variable data and the root inode nr.
++
++The inode section starts at a fixed location right after the
++header. It is a array of inode data, where for each inode there is
++first a variable length chunk and then a fixed size chunk. An inode nr
++is the offset in the inode data to the start of the fixed chunk.
++
++The fixed inode chunk starts with a flag that tells what parts of the
++inode are stored in the file (meaning it is only the maximal size that
++is fixed). After that the various inode attributes are serialized in
++order, such as mode, ownership, xattrs, and payload length. The
++payload length attribute gives the size of the variable chunk.
++
++The inode variable chunk contains different things depending on the
++file type.  For regular files it is the backing filename. For symlinks
++it is the symlink target. For directories it is a list of references to
++dentries, stored in chunks of maximum 4k. The dentry chunks themselves
++are stored in the variable data section.
++
++The variable data section is stored after the inode section, and you
++can find it from the offset in the header. It contains dentries and
++Xattrs data. The xattrs are referred to by offset and size in the
++xattr attribute in the inode data. Each xattr data can be used by many
++inodes in the filesystem. The variable data chunks are all smaller than
++a page (4K) and are padded to not span pages.
++
++Tools
++=====
++
++Tools for composefs can be found at https://github.com/containers/composefs
++
++There is a mkcomposefs tool which can be used to create images on the
++CLI, and a library that applications can use to create composefs
++images.
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index bee63d42e5ec..9b7cf136755d 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -75,6 +75,7 @@ Documentation for filesystem implementations.
+    cifs/index
+    ceph
+    coda
++   composefs
+    configfs
+    cramfs
+    dax
+-- 
+2.39.0
 
