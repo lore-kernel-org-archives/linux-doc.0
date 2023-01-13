@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 195E1C54EBE
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 08:35:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44D63C54EBE
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 08:38:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240780AbjAMIfD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Jan 2023 03:35:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43808 "EHLO
+        id S234479AbjAMIix (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Jan 2023 03:38:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240768AbjAMIel (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 03:34:41 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C792C47324;
-        Fri, 13 Jan 2023 00:34:40 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id m7-20020a17090a730700b00225ebb9cd01so26286927pjk.3;
-        Fri, 13 Jan 2023 00:34:40 -0800 (PST)
+        with ESMTP id S233650AbjAMIiw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 03:38:52 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B55167BDE;
+        Fri, 13 Jan 2023 00:38:51 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id z1-20020a17090a66c100b00226f05b9595so8609474pjl.0;
+        Fri, 13 Jan 2023 00:38:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=j77PGYqYJn6fj2VF6XY1qynbAo3cIFZ7iaf0qNN3ZTU=;
-        b=adhX4rmmJBkXWjL/a4iswXOC9rzFBPTwR8XZNp1cZQZbnp6IRjpIMxWsf/BXEqOSei
-         Di4zAyZ3D/GUeHc+0XsyBsnzC4ZgoIUlGS5ZAHAOytsG9VI4/67yer7DnI/nY1rFOBVh
-         GC/q8x6zS1Qj49e4iWciE4uC4JgFe7jSucS/yRuKEmkNjmTdtD3v2DF4hSGiVPWu6LBH
-         lHzXZX6hWjZO5ZRQuiY5EZpGfPdhBGy45N8crsjoviFCXcnbABRElwK2xf0lMlzYxXH1
-         aBgvsczAT/N8NLdD3hatzCdhmua0BxqVTW6mhjxRreq+dObyFRQSwAIDVOvY3yUA2Uq+
-         DoGg==
+        bh=9Le4OzCrJTjcWREAX5GsqhzvNgu01khW2mMnBXb1Hb8=;
+        b=BGsVagyg+1VaNpAurpS8aw6MalGOG6+qGrL6hldi9mTH+WBlfFynTj1pRysBhUjt0U
+         Vll7kmicQH4+6vFvFd5Fq50j2ckxDPG9PuoVvC0T72aNTMWvhRyXuhMwMltXWuIw7cvg
+         CB5vnRxIfc3WBTZz4BU9U2/IP1F6KE5DRTIjb99b26ykf36UQoDbeV8eGI2TGmidVfJ7
+         Fr8nfJYTothCtmGV7nGbeevLQLu+Ii3ycMUmVelUJ1HQObU8wfWrOyHdDhT4KoiTYDc+
+         xzWi41/qJThN2Tu5RlfSnCm+Xqrm4VvjC+6GfC5rBRQjFKr6XAdtVHmrDVCIvADOn//f
+         8cgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=j77PGYqYJn6fj2VF6XY1qynbAo3cIFZ7iaf0qNN3ZTU=;
-        b=kPdI1yfXXXWEugq8YdefVZRVy34XlZsptsD+b9eEm4NnPHcitKxnrjPvV9qyIxJFii
-         PuhRu01GaijK+4mr4TrTMG9jjis+yTqFTZR3Ylh1TvZmIFHE0e+9fCwslAChUCf3VQFN
-         h9j6nvti6Q1eQRoD5NWRSZr3m5PPEDcP3g/FE9DRv3TIBFczg6C8pd4aeS1UbzYRT6rT
-         +nnd7iwUEPzhUHhBk+rmDsj001QCbwpwmY5QfHXb9/F/6tV3uJBYTRChQRb8qe3jGoId
-         EkFhiJf+9BFp1fduCuM/hzOVL8Ap2ZkaPrtMmWC7yIH52DYIZ/Gy2PdIPSgMXMc61ZIa
-         xIRg==
-X-Gm-Message-State: AFqh2koGQV1euIuZJlAZU/tvQ5EaOJO/rnUsJeZl/w9atJe6rbxV1whn
-        4vCrsHNIl2rAQO4uPXDR62c=
-X-Google-Smtp-Source: AMrXdXt3JUopvLVybbNRplMD4EQ8RxFZx+6SOs27uJf6lqYqBckodqAApAF0Sn1Ufdq2XYTVzg1g0g==
-X-Received: by 2002:a17:902:f78d:b0:192:ae36:f760 with SMTP id q13-20020a170902f78d00b00192ae36f760mr56126788pln.47.1673598880311;
-        Fri, 13 Jan 2023 00:34:40 -0800 (PST)
+        bh=9Le4OzCrJTjcWREAX5GsqhzvNgu01khW2mMnBXb1Hb8=;
+        b=zBesyJ9and78PE5ATqWqgbfGiM9mwEIM62YTr16mGFbVJzlmW6CVnZXQGiyDt7PcAP
+         6/LiHUTWq/0KWVEKLyBZ+odUZsY2W0RE/bUQ7MF/rvEvjtiToA8a7k8SK81whZ7QlJ0o
+         ngbThQYJlvik+L4XtP+UyGbSeL3wbXprXW1si/B7bb4mhfhD88TUHMliKbhUr/PE1/VF
+         zPRmOXgB1Cy8GU5P9VkedihKTqwzp+Qsf4KSGqWqPuuDe/fvZfWVjpPpwgL6aPglk53E
+         SRZ8hk3C97BGiVkuSpns0MYKy2+cbCdAQRHJYkmqW05jMCFQvhZ0ba5svfrKGHUjkFfM
+         roOQ==
+X-Gm-Message-State: AFqh2kqXV36lsLhtEIMVLkx1kjSY488IdIHOo158AChUQcZ+65FlFJFa
+        9FMmGUzTjKNRy1cC6ZAJhA8=
+X-Google-Smtp-Source: AMrXdXvenwjrK+ak/wohZ81pSnWcLGL06/TCgz77wVYs6WI7BWUUzgbVaWjB09tEmSjm4nuTvRzagw==
+X-Received: by 2002:a17:902:ecce:b0:192:b16b:8e49 with SMTP id a14-20020a170902ecce00b00192b16b8e49mr66904544plh.43.1673599130970;
+        Fri, 13 Jan 2023 00:38:50 -0800 (PST)
 Received: from debian.me (subs02-180-214-232-12.three.co.id. [180.214.232.12])
-        by smtp.gmail.com with ESMTPSA id y10-20020a17090322ca00b0017f73dc1549sm2762362plg.263.2023.01.13.00.34.38
+        by smtp.gmail.com with ESMTPSA id u7-20020a17090341c700b00186e34524e3sm13519501ple.136.2023.01.13.00.38.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jan 2023 00:34:38 -0800 (PST)
+        Fri, 13 Jan 2023 00:38:49 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-        id 80776103F81; Fri, 13 Jan 2023 15:34:36 +0700 (WIB)
-Date:   Fri, 13 Jan 2023 15:34:36 +0700
+        id 527EB104D31; Fri, 13 Jan 2023 15:38:47 +0700 (WIB)
+Date:   Fri, 13 Jan 2023 15:38:47 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     Mike Rapoport <rppt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -61,55 +61,50 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
         Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v3 3/3] docs/mm: Physical Memory: add structure,
- introduction and nodes description
-Message-ID: <Y8EXnMFoYLscVxru@debian.me>
+Subject: Re: [PATCH v3 0/3] docs/mm: start filling out new structure
+Message-ID: <Y8EYl5FNaA3Wa3So@debian.me>
 References: <20230112091616.824565-1-rppt@kernel.org>
- <20230112091616.824565-4-rppt@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="C2A7EoUsUIXm2M4R"
+        protocol="application/pgp-signature"; boundary="/adNa2uzkgbbK4dL"
 Content-Disposition: inline
-In-Reply-To: <20230112091616.824565-4-rppt@kernel.org>
+In-Reply-To: <20230112091616.824565-1-rppt@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---C2A7EoUsUIXm2M4R
+--/adNa2uzkgbbK4dL
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 12, 2023 at 11:16:16AM +0200, Mike Rapoport wrote:
-> From: "Mike Rapoport (IBM)" <rppt@kernel.org>
->=20
-> Add structure, introduction and Nodes section to Physical Memory
-> chapter.
->=20
-> Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
+On Thu, Jan 12, 2023 at 11:16:13AM +0200, Mike Rapoport wrote:
+> Mike Rapoport (IBM) (3):
+>   docs/core-api: DMA API: add page label to allow external references
+>   docs/mm: Page Reclaim: add page label to allow external references
+>   docs/mm: Physical Memory: add structure, introduction and nodes
+>     description
 
-Seems like you forgot to add my Reviewed-by from v2 [1], so here it is agai=
-n:
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+I'd like to squash [1/3] and [2/3] to actual doc [3/3], for which the
+latter contains cross-references to labels defined in the former.
+Indeed, IMO, adding required reference labels in some other place when
+writing the doc can be constituted as part of writing the doc itself.
 
 Thanks.
-
-[1]: https://lore.kernel.org/linux-doc/Y7%2FVLTiPSkSulj5D@debian.me/
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---C2A7EoUsUIXm2M4R
+--/adNa2uzkgbbK4dL
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY8EXnAAKCRD2uYlJVVFO
-o7MzAP9dXjNOuSJXgDjXB+/myd6Ze93HXrJp35WFHBU3fNriYgEA0t2unLG0WOxV
-fVBWEnkNh+N1ijls34FHZlpyOVNtfgQ=
-=1gD5
+iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY8EYlgAKCRD2uYlJVVFO
+ozOAAQCOO9PyOCL+/45iOOmafkfZN+/uO1FQJyep8cMrFPyJwwEAzJ++sxk0fUs0
+/NJfqeX+lqpu8FQN8RPh78IUHxmmUwQ=
+=Xlo5
 -----END PGP SIGNATURE-----
 
---C2A7EoUsUIXm2M4R--
+--/adNa2uzkgbbK4dL--
