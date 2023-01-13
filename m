@@ -2,164 +2,443 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE45EC678D4
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 12:12:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B39CC54EBD
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 13:20:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241202AbjAMMMR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Jan 2023 07:12:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50052 "EHLO
+        id S241748AbjAMNUG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Jan 2023 08:20:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241181AbjAMMLc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 07:11:32 -0500
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CD0E7A929
-        for <linux-doc@vger.kernel.org>; Fri, 13 Jan 2023 04:05:03 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id fy8so51708132ejc.13
-        for <linux-doc@vger.kernel.org>; Fri, 13 Jan 2023 04:05:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vXHybJ2mJD6aa8TvSwEacdirC05VvD7/mmGN0WSC+vw=;
-        b=QvjvtNTf6/c/WYoFYhk46x+H2YhZBKQBg620l4RhwiX74ErRSQSNzqunYHdo4GaKj7
-         W18ixbG6yEniU4KsVAiBHHWba/xKipCDS2GL/0FEB7BLhPHMD0FgirXaNwkkkiRwoJ3t
-         kpi+qkgjwZ6o7WcgMdN9fHoLspRM0kaL9VbY5aiTAIOnFNAw+A8R3lXW70zejxUNCFZR
-         L6icKZ2GdzNdmwI9Y2mP9R5sAuD5xw0ZdAnmxJlkH480HWdLCxrkz7lZtdnCEYx14qbe
-         f/6IwD25mR6BcVWDnvXjB49k//bl/vS1wc/qQ6Hwy6xPrVPDbL9fX4WiySKva6mERgf0
-         16cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vXHybJ2mJD6aa8TvSwEacdirC05VvD7/mmGN0WSC+vw=;
-        b=zHbcaGKwagJSX8O/1uYnvFX/piqFUe43GXjsMma7QVVrHmfaQRpaNNRgPp0ShcxCnR
-         vbmjW2EG6FlJYtTFS7oVeD+McSyZ32n16zuJmOIpzE/5GZD4kveU3H4O0lpqbUumdNwJ
-         3Z75BWVtC9V5Rflf62v6F/9noYqNvgpt2/Dw4bCu1ZDnaSvIpWzIv71v9qC625xe7QsF
-         uDEFONa7Mjoe51D4KJR+NCa6YOha+BIDvo9TnsXJuLdH/H6aV2Q+tENmf6fXdkS5LoJ3
-         AAynONAoYO1Avwr69exJ+/nBMKcj5CJUU6dOP6vkhqhq/+qChb2fP5q0ggn1K87Mf5yO
-         Z7Wg==
-X-Gm-Message-State: AFqh2kqFLSFCqRNqyy97/qaQRCzyY2jCUAgKT+jWyPTyWdHQs41hNy0o
-        7DBAvfavweJNKkZkk0c4YJcoAw==
-X-Google-Smtp-Source: AMrXdXt/AzW14h8l94Wqnw6m53vrD1GcILvRAidaUWScS+ZS45P5oisNr9+yWakUYg6jOlAzSZU3OA==
-X-Received: by 2002:a17:906:abc6:b0:7ad:d835:e822 with SMTP id kq6-20020a170906abc600b007add835e822mr71763506ejb.42.1673611501624;
-        Fri, 13 Jan 2023 04:05:01 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id og5-20020a1709071dc500b0084d420503a3sm6715352ejc.178.2023.01.13.04.05.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jan 2023 04:05:01 -0800 (PST)
-Message-ID: <7cb96551-094c-1a68-cc3f-31e4e2e94518@linaro.org>
-Date:   Fri, 13 Jan 2023 13:04:59 +0100
+        with ESMTP id S241856AbjAMNTg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 08:19:36 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C6B313DEA;
+        Fri, 13 Jan 2023 05:09:23 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 9CDB56B225;
+        Fri, 13 Jan 2023 13:09:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1673615361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=msOp/fFPiN2uLlXnS1D4M+jC63n15kRiUPwXRUpg5TY=;
+        b=YyF61vqJ43eNcVv4U3d/09rOGN/eOmlVsA3lySDGoM80pGWIyh4zqIOg/98wqASp5W8bZb
+        QPNKaH6sJDygcx4DuwRccnulTwCOYRIAeDStQNr2o4VljHDqPpvIfWRUNwKzHN4qr1LgPq
+        uh2F0quyE9H6WYuNfTVrRNHV01DUeeU=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 786C313913;
+        Fri, 13 Jan 2023 13:09:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id wv9fGgFYwWNlbAAAMHmgww
+        (envelope-from <mhocko@suse.com>); Fri, 13 Jan 2023 13:09:21 +0000
+Date:   Fri, 13 Jan 2023 14:09:19 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>, Vlastimil Babka <vbabka@suse.cz>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v3 3/3] docs/mm: Physical Memory: add structure,
+ introduction and nodes description
+Message-ID: <Y8FX/1upgFQtp67x@dhcp22.suse.cz>
+References: <20230112091616.824565-1-rppt@kernel.org>
+ <20230112091616.824565-4-rppt@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 1/3] dt-bindings: reserved-memory: ramoops: Update the
- binding
-Content-Language: en-US
-To:     Mukesh Ojha <quic_mojha@quicinc.com>, keescook@chromium.org,
-        gpiccoli@igalia.com, corbet@lwn.net, tony.luck@intel.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
-Cc:     linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <1673611126-13803-1-git-send-email-quic_mojha@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <1673611126-13803-1-git-send-email-quic_mojha@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230112091616.824565-4-rppt@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Subject: drop second/last, redundant "binding". The "dt-bindings" prefix
-is already stating that these are bindings.
-
-Your subject says nothing. Everything is "update".
-
-On 13/01/2023 12:58, Mukesh Ojha wrote:
-> Update the ramoops region binding document with details
-> like region can also be reserved dynamically apart from
-> reserving it statically.
-
-So what exactly can be here reserved dynamically? And what does it mean
-'dynamically'? By whom? How is this property of hardware (not OS)?
-
+On Thu 12-01-23 11:16:16, Mike Rapoport wrote:
+> From: "Mike Rapoport (IBM)" <rppt@kernel.org>
 > 
-> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+> Add structure, introduction and Nodes section to Physical Memory
+> chapter.
+> 
+> Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
+
+Acked-by: Michal Hocko <mhocko@suse.com>
+
+Thanks!
+
 > ---
-> Change in v2:
->   - Added this patch as per changes going to be done in patch 3/3
+>  Documentation/mm/physical_memory.rst | 346 +++++++++++++++++++++++++++
+>  1 file changed, 346 insertions(+)
 > 
->  .../bindings/reserved-memory/ramoops.yaml          | 34 ++++++++++++++++++++--
->  1 file changed, 32 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml b/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
-> index 0391871..54e46e8 100644
-> --- a/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
-> +++ b/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
-> @@ -10,7 +10,8 @@ description: |
->    ramoops provides persistent RAM storage for oops and panics, so they can be
->    recovered after a reboot. This is a child-node of "/reserved-memory", and
->    is named "ramoops" after the backend, rather than "pstore" which is the
-> -  subsystem.
-> +  subsystem. This region can be reserved both statically or dynamically by
-> +  using appropriate property in device tree.
->  
->    Parts of this storage may be set aside for other persistent log buffers, such
->    as kernel log messages, or for optional ECC error-correction data.  The total
-> @@ -112,7 +113,13 @@ unevaluatedProperties: false
->  
->  required:
->    - compatible
-> -  - reg
+> diff --git a/Documentation/mm/physical_memory.rst b/Documentation/mm/physical_memory.rst
+> index 2ab7b8c1c863..eed583af6985 100644
+> --- a/Documentation/mm/physical_memory.rst
+> +++ b/Documentation/mm/physical_memory.rst
+> @@ -3,3 +3,349 @@
+>  ===============
+>  Physical Memory
+>  ===============
 > +
-> +oneOf:
-> +  - required:
-> +      - reg
+> +Linux is available for a wide range of architectures so there is a need for an
+> +architecture-independent abstraction to represent the physical memory. This
+> +chapter describes the structures used to manage physical memory in a running
+> +system.
 > +
-> +  - required:
-> +      - size
-
-There is no such property. You cannot require it.
-
->  
->  anyOf:
->    - required: [record-size]
-> @@ -142,3 +149,26 @@ examples:
->              };
->          };
->      };
+> +The first principal concept prevalent in the memory management is
+> +`Non-Uniform Memory Access (NUMA)
+> +<https://en.wikipedia.org/wiki/Non-uniform_memory_access>`_.
+> +With multi-core and multi-socket machines, memory may be arranged into banks
+> +that incur a different cost to access depending on the “distance” from the
+> +processor. For example, there might be a bank of memory assigned to each CPU or
+> +a bank of memory very suitable for DMA near peripheral devices.
 > +
-> +  - |
-> +    / {
-> +        compatible = "foo";
-> +        model = "foo";
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
+> +Each bank is called a node and the concept is represented under Linux by a
+> +``struct pglist_data`` even if the architecture is UMA. This structure is
+> +always referenced to by it's typedef ``pg_data_t``. ``A pg_data_t`` structure
+> +for a particular node can be referenced by ``NODE_DATA(nid)`` macro where
+> +``nid`` is the ID of that node.
 > +
-> +        reserved-memory {
-> +            #address-cells = <2>;
-> +            #size-cells = <2>;
-> +            ranges;
+> +For NUMA architectures, the node structures are allocated by the architecture
+> +specific code early during boot. Usually, these structures are allocated
+> +locally on the memory bank they represent. For UMA architectures, only one
+> +static ``pg_data_t`` structure called ``contig_page_data`` is used. Nodes will
+> +be discussed further in Section :ref:`Nodes <nodes>`
 > +
-> +            ramoops: ramoops_region {
+> +The entire physical address space is partitioned into one or more blocks
+> +called zones which represent ranges within memory. These ranges are usually
+> +determined by architectural constraints for accessing the physical memory.
+> +The memory range within a node that corresponds to a particular zone is
+> +described by a ``struct zone``, typedeffed to ``zone_t``. Each zone has
+> +one of the types described below.
+> +
+> +* ``ZONE_DMA`` and ``ZONE_DMA32`` historically represented memory suitable for
+> +  DMA by peripheral devices that cannot access all of the addressable
+> +  memory. For many years there are better more and robust interfaces to get
+> +  memory with DMA specific requirements (:ref:`DMA API <_dma_api>`), but
+> +  ``ZONE_DMA`` and ``ZONE_DMA32`` still represent memory ranges that have
+> +  restrictions on how they can be accessed.
+> +  Depending on the architecture, either of these zone types or even they both
+> +  can be disabled at build time using ``CONFIG_ZONE_DMA`` and
+> +  ``CONFIG_ZONE_DMA32`` configuration options. Some 64-bit platforms may need
+> +  both zones as they support peripherals with different DMA addressing
+> +  limitations.
+> +
+> +* ``ZONE_NORMAL`` is for normal memory that can be accessed by the kernel all
+> +  the time. DMA operations can be performed on pages in this zone if the DMA
+> +  devices support transfers to all addressable memory. ``ZONE_NORMAL`` is
+> +  always enabled.
+> +
+> +* ``ZONE_HIGHMEM`` is the part of the physical memory that is not covered by a
+> +  permanent mapping in the kernel page tables. The memory in this zone is only
+> +  accessible to the kernel using temporary mappings. This zone is available
+> +  only on some 32-bit architectures and is enabled with ``CONFIG_HIGHMEM``.
+> +
+> +* ``ZONE_MOVABLE`` is for normal accessible memory, just like ``ZONE_NORMAL``.
+> +  The difference is that the contents of most pages in ``ZONE_MOVABLE`` is
+> +  movable. That means that while virtual addresses of these pages do not
+> +  change, their content may move between different physical pages. Often
+> +  ``ZONE_MOVABLE`` is populated during memory hotplug, but it may be
+> +  also populated on boot using one of ``kernelcore``, ``movablecore`` and
+> +  ``movable_node`` kernel command line parameters. See :ref:`Page migration
+> +  <page_migration>` and :ref:`Memory Hot(Un)Plug <_admin_guide_memory_hotplug>`
+> +  for additional details.
+> +
+> +* ``ZONE_DEVICE`` represents memory residing on devices such as PMEM and GPU.
+> +  It has different characteristics than RAM zone types and it exists to provide
+> +  :ref:`struct page <Pages>` and memory map services for device driver
+> +  identified physical address ranges. ``ZONE_DEVICE`` is enabled with
+> +  configuration option ``CONFIG_ZONE_DEVICE``.
+> +
+> +It is important to note that many kernel operations can only take place using
+> +``ZONE_NORMAL`` so it is the most performance critical zone. Zones are
+> +discussed further in Section :ref:`Zones <zones>`.
+> +
+> +The relation between node and zone extents is determined by the physical memory
+> +map reported by the firmware, architectural constraints for memory addressing
+> +and certain parameters in the kernel command line.
+> +
+> +For example, with 32-bit kernel on an x86 UMA machine with 2 Gbytes of RAM the
+> +entire memory will be on node 0 and there will be three zones: ``ZONE_DMA``,
+> +``ZONE_NORMAL`` and ``ZONE_HIGHMEM``::
+> +
+> +  0                                                            2G
+> +  +-------------------------------------------------------------+
+> +  |                            node 0                           |
+> +  +-------------------------------------------------------------+
+> +
+> +  0         16M                    896M                        2G
+> +  +----------+-----------------------+--------------------------+
+> +  | ZONE_DMA |      ZONE_NORMAL      |       ZONE_HIGHMEM       |
+> +  +----------+-----------------------+--------------------------+
+> +
+> +
+> +With a kernel built with ``ZONE_DMA`` disabled and ``ZONE_DMA32`` enabled and
+> +booted with ``movablecore=80%`` parameter on an arm64 machine with 16 Gbytes of
+> +RAM equally split between two nodes, there will be ``ZONE_DMA32``,
+> +``ZONE_NORMAL`` and ``ZONE_MOVABLE`` on node 0, and ``ZONE_NORMAL`` and
+> +``ZONE_MOVABLE`` on node 1::
+> +
+> +
+> +  1G                                9G                         17G
+> +  +--------------------------------+ +--------------------------+
+> +  |              node 0            | |          node 1          |
+> +  +--------------------------------+ +--------------------------+
+> +
+> +  1G       4G        4200M          9G          9320M          17G
+> +  +---------+----------+-----------+ +------------+-------------+
+> +  |  DMA32  |  NORMAL  |  MOVABLE  | |   NORMAL   |   MOVABLE   |
+> +  +---------+----------+-----------+ +------------+-------------+
+> +
+> +.. _nodes:
+> +
+> +Nodes
+> +=====
+> +
+> +As we have mentioned, each node in memory is described by a ``pg_data_t`` which
+> +is a typedef for a ``struct pglist_data``. When allocating a page, by default
+> +Linux uses a node-local allocation policy to allocate memory from the node
+> +closest to the running CPU. As processes tend to run on the same CPU, it is
+> +likely the memory from the current node will be used. The allocation policy can
+> +be controlled by users as described in
+> +Documentation/admin-guide/mm/numa_memory_policy.rst.
+> +
+> +Most NUMA architectures maintain an array of pointers to the node
+> +structures. The actual structures are allocated early during boot when
+> +architecture specific code parses the physical memory map reported by the
+> +firmware. The bulk of the node initialization happens slightly later in the
+> +boot process by free_area_init() function, described later in Section
+> +:ref:`Initialization <initialization>`.
+> +
+> +
+> +Along with the node structures, kernel maintains an array of ``nodemask_t``
+> +bitmasks called ``node_states``. Each bitmask in this array represents a set of
+> +nodes with particular properties as defined by ``enum node_states``:
+> +
+> +``N_POSSIBLE``
+> +  The node could become online at some point.
+> +``N_ONLINE``
+> +  The node is online.
+> +``N_NORMAL_MEMORY``
+> +  The node has regular memory.
+> +``N_HIGH_MEMORY``
+> +  The node has regular or high memory. When ``CONFIG_HIGHMEM`` is disabled
+> +  aliased to ``N_NORMAL_MEMORY``.
+> +``N_MEMORY``
+> +  The node has memory(regular, high, movable)
+> +``N_CPU``
+> +  The node has one or more CPUs
+> +
+> +For each node that has a property described above, the bit corresponding to the
+> +node ID in the ``node_states[<property>]`` bitmask is set.
+> +
+> +For example, for node 2 with normal memory and CPUs, bit 2 will be set in ::
+> +
+> +  node_states[N_POSSIBLE]
+> +  node_states[N_ONLINE]
+> +  node_states[N_NORMAL_MEMORY]
+> +  node_states[N_MEMORY]
+> +  node_states[N_CPU]
+> +
+> +For various operations possible with nodemasks please refer to
+> +``include/linux/nodemask.h``.
+> +
+> +Among other things, nodemasks are used to provide macros for node traversal,
+> +namely ``for_each_node()`` and ``for_each_online_node()``.
+> +
+> +For instance, to call a function foo() for each online node::
+> +
+> +	for_each_online_node(nid) {
+> +		pg_data_t *pgdat = NODE_DATA(nid);
+> +
+> +		foo(pgdat);
+> +	}
+> +
+> +Node structure
+> +--------------
+> +
+> +The nodes structure ``struct pglist_data`` is declared in
+> +``include/linux/mmzone.h``. Here we briefly describe fields of this
+> +structure:
+> +
+> +General
+> +~~~~~~~
+> +
+> +``node_zones``
+> +  The zones for this node.  Not all of the zones may be populated, but it is
+> +  the full list. It is referenced by this node's node_zonelists as well as
+> +  other node's node_zonelists.
+> +
+> +``node_zonelists``
+> +  The list of all zones in all nodes. This list defines the order of zones
+> +  that allocations are preferred from. The ``node_zonelists`` is set up by
+> +  ``build_zonelists()`` in ``mm/page_alloc.c`` during the initialization of
+> +  core memory management structures.
+> +
+> +``nr_zones``
+> +  Number of populated zones in this node.
+> +
+> +``node_mem_map``
+> +  For UMA systems that use FLATMEM memory model the 0's node
+> +  ``node_mem_map`` is array of struct pages representing each physical frame.
+> +
+> +``node_page_ext``
+> +  For UMA systems that use FLATMEM memory model the 0's node
+> +  ``node_page_ext`` is array of extensions of struct pages. Available only
+> +  in the kernels built with ``CONFIG_PAGE_EXTENTION`` enabled.
+> +
+> +``node_start_pfn``
+> +  The page frame number of the starting page frame in this node.
+> +
+> +``node_present_pages``
+> +  Total number of physical pages present in this node.
+> +
+> +``node_spanned_pages``
+> +  Total size of physical page range, including holes.
+> +
+> +``node_size_lock``
+> +  A lock that protects the fields defining the node extents. Only defined when
+> +  at least one of ``CONFIG_MEMORY_HOTPLUG`` or
+> +  ``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` configuration options are enabled.
+> +  ``pgdat_resize_lock()`` and ``pgdat_resize_unlock()`` are provided to
+> +  manipulate ``node_size_lock`` without checking for ``CONFIG_MEMORY_HOTPLUG``
+> +  or ``CONFIG_DEFERRED_STRUCT_PAGE_INIT``.
+> +
+> +``node_id``
+> +  The Node ID (NID) of the node, starts at 0.
+> +
+> +``totalreserve_pages``
+> +  This is a per-node reserve of pages that are not available to userspace
+> +  allocations.
+> +
+> +``first_deferred_pfn``
+> +  If memory initialization on large machines is deferred then this is the first
+> +  PFN that needs to be initialized. Defined only when
+> +  ``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` is enabled
+> +
+> +``deferred_split_queue``
+> +  Per-node queue of huge pages that their split was deferred. Defined only when ``CONFIG_TRANSPARENT_HUGEPAGE`` is enabled.
+> +
+> +``__lruvec``
+> +  Per-node lruvec holding LRU lists and related parameters. Used only when
+> +  memory cgroups are disabled. It should not be accessed directly, use
+> +  ``mem_cgroup_lruvec()`` to look up lruvecs instead.
+> +
+> +Reclaim control
+> +~~~~~~~~~~~~~~~
+> +
+> +See also :ref:`Page Reclaim <page_reclaim>`.
+> +
+> +``kswapd``
+> +  Per-node instance of kswapd kernel thread.
+> +
+> +``kswapd_wait``, ``pfmemalloc_wait``, ``reclaim_wait``
+> +  Workqueues used to synchronize memory reclaim tasks
+> +
+> +``nr_writeback_throttled``
+> +  Number of tasks that are throttled waiting on dirty pages to clean.
+> +
+> +``nr_reclaim_start``
+> +  Number of pages written while reclaim is throttled waiting for writeback.
+> +
+> +``kswapd_order``
+> +  Controls the order kswapd tries to reclaim
+> +
+> +``kswapd_highest_zoneidx``
+> +  The highest zone index to be reclaimed by kswapd
+> +
+> +``kswapd_failures``
+> +  Number of runs kswapd was unable to reclaim any pages
+> +
+> +``min_unmapped_pages``
+> +  Minimal number of unmapped file backed pages that cannot be reclaimed.
+> +  Determined by ``vm.min_unmapped_ratio`` sysctl. Only defined when
+> +  ``CONFIG_NUMA`` is enabled.
+> +
+> +``min_slab_pages``
+> +  Minimal number of SLAB pages that cannot be reclaimed. Determined by
+> +  ``vm.min_slab_ratio sysctl``. Only defined when ``CONFIG_NUMA`` is enabled
+> +
+> +``flags``
+> +  Flags controlling reclaim behavior.
+> +
+> +Compaction control
+> +~~~~~~~~~~~~~~~~~~
+> +
+> +``kcompactd_max_order``
+> +  Page order that kcompactd should try to achieve.
+> +
+> +``kcompactd_highest_zoneidx``
+> +  The highest zone index to be compacted by kcompactd.
+> +
+> +``kcompactd_wait``
+> +  Workqueue used to synchronize memory compaction tasks.
+> +
+> +``kcompactd``
+> +  Per-node instance of kcompactd kernel thread.
+> +
+> +``proactive_compact_trigger``
+> +  Determines if proactive compaction is enabled. Controlled by
+> +  ``vm.compaction_proactiveness`` sysctl.
+> +
+> +Statistics
+> +~~~~~~~~~~
+> +
+> +``per_cpu_nodestats``
+> +  Per-CPU VM statistics for the node
+> +
+> +``vm_stat``
+> +  VM statistics for the node.
+> +
+> +.. _zones:
+> +
+> +Zones
+> +=====
+> +
+> +.. admonition:: Stub
+> +
+> +   This section is incomplete. Please list and describe the appropriate fields.
+> +
+> +.. _pages:
+> +
+> +Pages
+> +=====
+> +
+> +.. admonition:: Stub
+> +
+> +   This section is incomplete. Please list and describe the appropriate fields.
+> +
+> +.. _folios:
+> +
+> +Folios
+> +======
+> +
+> +.. admonition:: Stub
+> +
+> +   This section is incomplete. Please list and describe the appropriate fields.
+> +
+> +.. _initialization:
+> +
+> +Initialization
+> +==============
+> +
+> +.. admonition:: Stub
+> +
+> +   This section is incomplete. Please list and describe the appropriate fields.
+> -- 
+> 2.35.1
 
-Node names should be generic, no underscores in node names.
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-Any reason in naming it differently then existing one? You have there
-example.
-
-> +                compatible = "ramoops";
-> +                alloc-ranges = <0x0 0x00000000 0xffffffff 0xffffffff>;
-> +                size = <0x0 0x10000>;       /* 64kB */
-> +                console-size = <0x8000>;    /* 32kB */
-> +                record-size = <0x400>;      /*  1kB */
-> +                ecc-size = <16>;
-> +            };
-> +        };
-> +    };
-
-Best regards,
-Krzysztof
-
+-- 
+Michal Hocko
+SUSE Labs
