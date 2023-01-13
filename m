@@ -2,149 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B74BFC67871
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 13:33:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31120C54EBD
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 13:34:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234084AbjAMNdm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Jan 2023 08:33:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60474 "EHLO
+        id S241695AbjAMNe1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Jan 2023 08:34:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241648AbjAMNco (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 08:32:44 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0999C6252;
-        Fri, 13 Jan 2023 05:24:43 -0800 (PST)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30DBVFf5019311;
-        Fri, 13 Jan 2023 13:24:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=s3lPgerO6Zm01G+91xyFLAHC60wLD4aqEIvBZkGUB6c=;
- b=QxZzU5zovo5MzXmync7d90efp1g+jFA7zJkwPsL7QIkwssDgzEJAQpd91Gj8MDU17niQ
- w2WdTX+EWxa+kLtqxvzRs2Pk9PKWlvj1H9GGtET9SQ3igPn/1sRzhkLE49/QXnKYWFWb
- g04+vpJStPQ3mCrNeAQ176Gk35Vjz5Q5XrFw2xzlTxvsJyUzOCuzGuvI60aKweY63hem
- CV+s7c0eidi+Lm8tG29II9f/xCD4Ow9uGSrPr6SvAV4fYT1J010O8sS6az7+iVrE4MIq
- ETS1syPe/bK56pszj3oQSAG+n/hLEc+8CYQch4rKEPP1VCqc4gJb5utLHKy46i+fqc5a 4Q== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n351f8r3c-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 13 Jan 2023 13:24:31 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30DDOQTT021079
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 13 Jan 2023 13:24:26 GMT
-Received: from [10.216.54.29] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 13 Jan
- 2023 05:24:22 -0800
-Message-ID: <6b016170-0d01-ebb3-a47e-4107cabc4403@quicinc.com>
-Date:   Fri, 13 Jan 2023 18:54:19 +0530
+        with ESMTP id S241855AbjAMNdf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 08:33:35 -0500
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFE585D6B9;
+        Fri, 13 Jan 2023 05:26:40 -0800 (PST)
+Received: by mail-ej1-x630.google.com with SMTP id ss4so45052440ejb.11;
+        Fri, 13 Jan 2023 05:26:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yp6uv5Fh7h8BQa8qt2GS5w6smCQU5e2VSr/x8Q9YfvE=;
+        b=ii596FfO+j0K+Dy6HVm/KD7JigQ7QzO5khKfNwp8UydDZX5et7C5USxvSlSbBde6Sv
+         WzZUqGFE2ZbPVLRVDYBBxAzv8948v2v6/84yIdvVXPR77QlXUR0zZV7w2dDXA2IaczSe
+         fYbauv9aJJjrjWuR5fgW15eXdam/U0z1oAP8fwuU08+dm73f7NoeuByn8X4HRqac4L08
+         wNWlloInPUnWnpdtBgEsJEM6ACKwC82oTs6z9bOOrTTWT6MS444YgOFJ+4wNXoDOxHj/
+         QyvYA1UIYEUGyIuY89mP61ieyMHjs9VVqSoeByaUWMRC+9K7+iLcgtdkAKSdmG5AoIAj
+         uQ5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yp6uv5Fh7h8BQa8qt2GS5w6smCQU5e2VSr/x8Q9YfvE=;
+        b=ZMk6wgEF1qEpZCHtb72Vh/JMvXSjlGo5DNCxqppQ76hnkNTpWx7URgATN/702bjLVM
+         vIueUJnrF9joy25OmBshZ/0eiqkIgAta0strAz6+es4M/PvWHsYds+2BGJdUENbr0xg5
+         nUBtyH4OYdfSsq7dzU43h11AoRWXDCgwXgLJAD0jC+RxuKURhPSxRMmMdOJ23aBGb5J/
+         jxoIXFbbj7p2q5jwWqB5Kv7gX1NBobooKKTH3Gw00eYZG3KezyMJ0yUqDfnry/hnLQe2
+         IUgVAqxywKqAyLBa4PJFzpxKBesbFzcWZqdaEXYP+M0zW6G9M1/A+1AR8X/9tHOAP3s8
+         gSCA==
+X-Gm-Message-State: AFqh2krkvAqzOPe7e6bHSQNDo9yJyS4tpP/T2f6wWVhmH05Xy3j8t/08
+        rsHkW08mTP1AuT9g9ay4mJk=
+X-Google-Smtp-Source: AMrXdXt2pmH2TiFRrfTNJAGFePZqFtv88U1sNedtV8TqhHuAZJ5v5JpqI9eONCj0x1NXAqQdjcLRew==
+X-Received: by 2002:a17:907:cbc8:b0:84d:428f:be90 with SMTP id vk8-20020a170907cbc800b0084d428fbe90mr3487954ejc.42.1673616399398;
+        Fri, 13 Jan 2023 05:26:39 -0800 (PST)
+Received: from gvm01 (net-5-89-66-224.cust.vodafonedsl.it. [5.89.66.224])
+        by smtp.gmail.com with ESMTPSA id c23-20020a170906155700b007a9c3831409sm8510938ejd.137.2023.01.13.05.26.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Jan 2023 05:26:38 -0800 (PST)
+Date:   Fri, 13 Jan 2023 14:26:35 +0100
+From:   Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        Oleksij Rempel <o.rempel@pengutronix.de>,
+        mailhol.vincent@wanadoo.fr, sudheer.mogilappagari@intel.com,
+        sbhatta@marvell.com, linux-doc@vger.kernel.org,
+        wangjie125@huawei.com, corbet@lwn.net, lkp@intel.com,
+        gal@nvidia.com, gustavoars@kernel.org, bagasdotme@gmail.com
+Subject: [PATCH v3 net-next 1/1] plca.c: fix obvious mistake in checking
+ retval
+Message-ID: <f2277af8951a51cfee2fb905af8d7a812b7beaf4.1673616357.git.piergiorgio.beruto@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v2 2/3] Documentation: admin-guide: ramoops.rst: Update
- the ramoops document
-Content-Language: en-US
-To:     <keescook@chromium.org>, <gpiccoli@igalia.com>, <corbet@lwn.net>,
-        <tony.luck@intel.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>
-CC:     <linux-hardening@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <1673611126-13803-1-git-send-email-quic_mojha@quicinc.com>
- <1673611126-13803-2-git-send-email-quic_mojha@quicinc.com>
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-In-Reply-To: <1673611126-13803-2-git-send-email-quic_mojha@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: je4DLjiZ5rsvOfLf7ljzJh2YyOFGFa7Q
-X-Proofpoint-ORIG-GUID: je4DLjiZ5rsvOfLf7ljzJh2YyOFGFa7Q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-13_06,2023-01-13_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
- clxscore=1015 impostorscore=0 mlxlogscore=999 spamscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
- mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301130089
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Revert a wrong fix that was done during the review process. The
+intention was to substitute "if(ret < 0)" with "if(ret)".
+Unfortunately, the intended fix did not meet the code.
+Besides, after additional review, it was decided that "if(ret < 0)"
+was actually the right thing to do.
 
-On 1/13/2023 5:28 PM, Mukesh Ojha wrote:
-> The reserved memory region for ramoops is assumed to be at a fixed
-> and known location when read from the devicetree. This is not desirable
-> in environments where it is preferred the region to be dynamically
-> allocated at runtime. So, update the document while adding the
-> support in the driver.
-> 
-> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
-> ---
-> Change in v2:
->    - Added this patch as per changes going to be done in patch 3/3
-> 
->   Documentation/admin-guide/ramoops.rst | 25 ++++++++++++++++++++++---
->   1 file changed, 22 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/ramoops.rst b/Documentation/admin-guide/ramoops.rst
-> index e9f8514..88884b2 100644
-> --- a/Documentation/admin-guide/ramoops.rst
-> +++ b/Documentation/admin-guide/ramoops.rst
-> @@ -16,8 +16,9 @@ survive after a restart.
->   Ramoops concepts
->   ----------------
->   
-> -Ramoops uses a predefined memory area to store the dump. The start and size
-> -and type of the memory area are set using three variables:
-> +Ramoops uses both predefined and dynamically memory area to store the dump.
-> +The start and size and type of the memory area are set using three
-> +variables:
->   
->     * ``mem_address`` for the start
->     * ``mem_size`` for the size. The memory size will be rounded down to a
-> @@ -70,7 +71,8 @@ Setting the ramoops parameters can be done in several different manners:
->   
->    B. Use Device Tree bindings, as described in
->    ``Documentation/devicetree/bindings/reserved-memory/ramoops.yaml``.
-> - For example::
-> +
-> + Example of statically reserved ramoops region::
->   
->   	reserved-memory {
->   		#address-cells = <2>;
-> @@ -85,6 +87,23 @@ Setting the ramoops parameters can be done in several different manners:
->   		};
->   	};
->   
-> + Example of dynamically reserved ramoops region::
-> +
-> +	reserved-memory {
-> +		#address-cells = <2>;
-> +		#size-cells = <2>;
-> +		ranges;
-> +
-> +		ramoops@8f000000 {
+Fixes: 8580e16c28f3 ("net/ethtool: add netlink interface for the PLCA RS")
+Signed-off-by: Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+---
+ net/ethtool/plca.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Will fix it as ramoops_region : ramoops ?
+diff --git a/net/ethtool/plca.c b/net/ethtool/plca.c
+index d9bb13ffc654..be7404dc9ef2 100644
+--- a/net/ethtool/plca.c
++++ b/net/ethtool/plca.c
+@@ -61,7 +61,7 @@ static int plca_get_cfg_prepare_data(const struct ethnl_req_info *req_base,
+ 	}
+ 
+ 	ret = ethnl_ops_begin(dev);
+-	if (!ret)
++	if (ret < 0)
+ 		goto out;
+ 
+ 	memset(&data->plca_cfg, 0xff,
+@@ -151,7 +151,7 @@ int ethnl_set_plca_cfg(struct sk_buff *skb, struct genl_info *info)
+ 					 tb[ETHTOOL_A_PLCA_HEADER],
+ 					 genl_info_net(info), info->extack,
+ 					 true);
+-	if (!ret)
++	if (ret < 0)
+ 		return ret;
+ 
+ 	dev = req_info.dev;
+@@ -171,7 +171,7 @@ int ethnl_set_plca_cfg(struct sk_buff *skb, struct genl_info *info)
+ 	}
+ 
+ 	ret = ethnl_ops_begin(dev);
+-	if (!ret)
++	if (ret < 0)
+ 		goto out_rtnl;
+ 
+ 	memset(&plca_cfg, 0xff, sizeof(plca_cfg));
+@@ -189,7 +189,7 @@ int ethnl_set_plca_cfg(struct sk_buff *skb, struct genl_info *info)
+ 		goto out_ops;
+ 
+ 	ret = ops->set_plca_cfg(dev->phydev, &plca_cfg, info->extack);
+-	if (!ret)
++	if (ret < 0)
+ 		goto out_ops;
+ 
+ 	ethtool_notify(dev, ETHTOOL_MSG_PLCA_NTF, NULL);
+@@ -233,7 +233,7 @@ static int plca_get_status_prepare_data(const struct ethnl_req_info *req_base,
+ 	}
+ 
+ 	ret = ethnl_ops_begin(dev);
+-	if (!ret)
++	if (ret < 0)
+ 		goto out;
+ 
+ 	memset(&data->plca_st, 0xff,
+-- 
+2.37.4
 
-> +			compatible = "ramoops";
-> +			alloc-ranges = <0x0 0x00000000 0xffffffff 0xffffffff>;
-> +			size = <0 0x100000>;
-> +			record-size = <0x4000>;
-> +			console-size = <0x4000>;
-> +		};
-> +	};
-> +
-> +
->    C. Use a platform device and set the platform data. The parameters can then
->    be set through that platform data. An example of doing that is:
->   
-
--Mukesh
