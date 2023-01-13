@@ -2,50 +2,51 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3EB6C54EBE
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 06:03:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B4BAC54EBE
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 06:48:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240314AbjAMGDP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Jan 2023 01:03:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52958 "EHLO
+        id S239354AbjAMGsB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Jan 2023 01:48:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238124AbjAMGCq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 01:02:46 -0500
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2047.outbound.protection.outlook.com [40.107.220.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30C256B5BB;
-        Thu, 12 Jan 2023 21:58:42 -0800 (PST)
+        with ESMTP id S238365AbjAMGrd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 01:47:33 -0500
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2049.outbound.protection.outlook.com [40.107.212.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 966F978E8B;
+        Thu, 12 Jan 2023 22:32:28 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MbUp+GcGdaK0pyAvJSU23eRAzLNZy3467/+gYvG5xGCCeh5UlZlOYDsiFndMjoUBYKsUbIZ0FVEuy79Sd5nwQOR5t1GA0DrnXUt/QFgUqzak8BuLUMMWL1iiz4870A/R8XusFTrBzDy+ETponHbXwjVAN6ykiNHjIwXXxc9vlN1eZYl5RZcTY/a3E3Ko4D+g7ITrzg05VDwSMnvtgVwXGMOG4qP9f3qjtdXjoeLJ9nXMgUDeLCYzjkx5Gz7f6itdk120dWQcnaDmRpKn9M45TvyDVn3RoQNPED7v59+xTDG1ERoa8i19a+mp1NQffdaEnhmm2Rb7jSGYDSwLo09yBQ==
+ b=GJkaEcU3UCaWhQ903cn9sqv7mnBKuPymduUJ2YSQ1VOpJ79/5vdA/5Nm3e3Yr9X/Gc0mO4RkfaCwB6+ypNKaslr0+bXJmX9MoRYRVqdlZ94dXY8oBiaHR8LqDHTiS/dprA3D2WJUfdKMu+t0mrBlHPOLFhXgWpCSd6/zoEp+ik1Q5HVPoLErH+SPriTnoIIcnglsLL1cz1bfPYBHlifozk9PoyCNxqbPfvzlnSMa9/NOg4Eq1gi7DavfLpBQbt94FOsVq1bpOJP96wrTetGic+pd3bZa6CriOI6vfZOZvi2/FGfa7eS2YQVmbqZPlWjzzrLsoThAdVvvQyCN6N7n5A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uHVHRUCeRiR3IVaH6oRtyO0GDzuY+efyWn9KiLWjQng=;
- b=RZcTiibElV0jIvKo3uEPlIGX9i2oaDKtonKb0OX8Gd8Qx2YwTrWAah9lzQSSJN2Y/utxrtrHgsOI42k+0GlNHvUqYGMaStMNCMPLgTSAFgh1CLEmo4fKQ4fgK2w/NOe17CLsQv14HbOsQ+ksWdvQZIEJzVQ/R34ljZKH0YFNycbRRsCF9lAYQiR3lQgZsKRXLLXSz1w3WaB9ka4vrlbgbWjnVG6qmAyCDsXRwFKww9qVxF5AVm3y2R+vdcp1kCWOPL1XH5jxFrMdnx0dGIi6c3OfubKA/CxNZkrr6pCILpRs7TF5gFG7SqqKtQ2A6zAyWrdJgIeQkxPDfYcnPewr4w==
+ bh=CIAF/nN4oCRDMOIGnLqoJX4y0sF0HUQRT1syZO2fLFk=;
+ b=amhhV5yn8cBV3IsY5m5g6nwfxg9CqPqFUIUogTJ9rUY4SQ0WOqDLCKmHgUX9e9jNyo+Xs6a/BdGTyQJEI1H5ZyNf5RgcFFgCbAWklotN/F0vLsoBnbuij6IIl80oJ/+R79BPllcxkVZQ7rPrc9ubj3JvlczTcjbuCLwqMn7ivrbGa4kJeS8Ati1COWyLOmLZi+HJYYuMHO+5gCOCjQ+Z6vQ+pS8VSi7Z48UEEtZJYUga+f8F0a/xsVEKgZ8EPeKEHhAdR9vRUvDPojN7iE4Gex4J/Ls0HE6wCpCTdTm313V8e7hl7jCDlL76TX2xJlQ+h7Ru7qTEF8g1wUwA06HGzw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uHVHRUCeRiR3IVaH6oRtyO0GDzuY+efyWn9KiLWjQng=;
- b=QOIHDD2tAvmJ6tH+6B3KOPmO7rdvdvSRCOCtNpV67HnRBDy9Np+ebPB/stVOwcxerU1kaifVkjBqR19Gjzk4Da2CTjJQWtoo3f6g8myZzBSljBYwqHoVNpHMkCCY6E+RU61CZqfVhPiafQb70URue4TyRoTJUJk/PGC/B6ZPgDU=
+ bh=CIAF/nN4oCRDMOIGnLqoJX4y0sF0HUQRT1syZO2fLFk=;
+ b=YmIEmnuq4S6xW+6+vTcmYxs8RYjwyW6MLTrzx/CEOjjwhZ/hwUx03p5azHzeK5q4gpXGBPMUQez6fpQmjJEOhOk09Cyq6ZfHgzD/p5fhk3Oa3aIfg/1rCWASFKakTCkQm7sgTtr4BcaZtKOKAzR4QsSaAMrFCgAAZhidG8tH1MQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by PH8PR12MB6818.namprd12.prod.outlook.com (2603:10b6:510:1c9::11) with
+Received: from BY5PR12MB3876.namprd12.prod.outlook.com (2603:10b6:a03:1a7::26)
+ by BY5PR12MB4871.namprd12.prod.outlook.com (2603:10b6:a03:1d1::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Fri, 13 Jan
- 2023 05:58:39 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::ff3c:2d37:75f3:442a]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::ff3c:2d37:75f3:442a%7]) with mapi id 15.20.5986.018; Fri, 13 Jan 2023
- 05:58:39 +0000
-Message-ID: <c21e3837-aaf3-d198-392e-d48b5d82cda4@amd.com>
-Date:   Thu, 12 Jan 2023 23:58:37 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v2 3/6] cpufreq: amd_pstate: Add guided autonomous mode
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.19; Fri, 13 Jan
+ 2023 06:31:14 +0000
+Received: from BY5PR12MB3876.namprd12.prod.outlook.com
+ ([fe80::4ac9:c4f8:b0f:a863]) by BY5PR12MB3876.namprd12.prod.outlook.com
+ ([fe80::4ac9:c4f8:b0f:a863%7]) with mapi id 15.20.5986.018; Fri, 13 Jan 2023
+ 06:31:14 +0000
+Message-ID: <7785f9c3-93f2-7e7b-9c8d-8f86a0c9a76c@amd.com>
+Date:   Fri, 13 Jan 2023 12:01:01 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/6] acpi: cppc: Add min and max perf reg writing
+ support
 Content-Language: en-US
-To:     Wyes Karny <wyes.karny@amd.com>,
+To:     Mario Limonciello <mario.limonciello@amd.com>,
         Rafael J Wysocki <rafael@kernel.org>,
         Huang Rui <ray.huang@amd.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -55,243 +56,158 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-pm@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>,
         santosh.shukla@amd.com
 References: <20230113052141.2874296-1-wyes.karny@amd.com>
- <20230113052141.2874296-4-wyes.karny@amd.com>
-From:   Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20230113052141.2874296-4-wyes.karny@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN7PR04CA0039.namprd04.prod.outlook.com
- (2603:10b6:806:120::14) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+ <20230113052141.2874296-2-wyes.karny@amd.com>
+ <85925bce-f30a-b2df-309f-bd4b510a117c@amd.com>
+From:   Wyes Karny <wyes.karny@amd.com>
+In-Reply-To: <85925bce-f30a-b2df-309f-bd4b510a117c@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN3PR01CA0080.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:9a::22) To BY5PR12MB3876.namprd12.prod.outlook.com
+ (2603:10b6:a03:1a7::26)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|PH8PR12MB6818:EE_
-X-MS-Office365-Filtering-Correlation-Id: eb4a58d8-43ef-42cf-e08b-08daf52b37c6
+X-MS-TrafficTypeDiagnostic: BY5PR12MB3876:EE_|BY5PR12MB4871:EE_
+X-MS-Office365-Filtering-Correlation-Id: 03b66664-542f-425f-65d1-08daf52fc4cd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qNDck5c1I06PNQOeYQBy8qPtzCZTiN99IHWExNmiK2m66gtEbhSgcFuA5g8GYjbaeY+tHtNFHYpJCUQ6KVd1eTv/K2IHYb40AcnoDWCau/DG4SvuX62QqBzT8n2N201FIvgkea4Yc3CWdGrParwjx3+/p2NAWuCui6rQh90qosKP1SwAQugjHYR+558IJGrooobUA9gLsAfJaA4c0cXje/kK7iJhE9C3WCMy57HGiPtWz3lhQZdMl/IFKd6caHHTC8882XOXOplG2Uz0Q92xsWcW41gjWsqeAyt9TDv8SNLfmGyK5sq5JeLfCOSoGC3WXMwc2ssEi9yFbcW6n/sKvsHx589zqXm4Szm4qKvNsyBjdQjKgtA0P625jK0NyzNcdyNTL0wvxgWnt5QWODc6jvSCO+vP5zvOckQR+emn37dkzXuSiQh+TrpPQHBpBrSPzolqOrMMgc2v97Ca/QKTtuGkvF2nUzx2lkZQ0bYoyYKo/+yeWanreWjLoSM/SHg5710PgejAAnvktOcY6OJ9S7gjXKO9RPORud3bFfVFbl0WpMRDIgEk0qUYj6EbR/QV2Mbn7ovr+EetaXPqNoq+u9khwyV6aogBRFI7ikGFSFJvZxv0ti/rLgAhKYnHenopywdEbDECpgJZ73t3p0M7EbOW7kD6hS8iNI0n50Cl3uy7xgkQHnjCtr2b5ls5zydWYMu34HBL5NGYTaSYn4Shi+fvnAcS3b/aWjkoAs7Pyxc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(396003)(39860400002)(366004)(136003)(376002)(451199015)(41300700001)(6636002)(4326008)(110136005)(2616005)(66946007)(83380400001)(8676002)(36756003)(316002)(66476007)(66556008)(86362001)(31696002)(5660300002)(8936002)(38100700002)(44832011)(2906002)(31686004)(6506007)(53546011)(6486002)(6512007)(186003)(478600001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: ViWO3jygjFJRtBeu/sYFAMPq1jjvXqb03Oav5AoYvGuMt5FMDJR0oftzcksEhmvoOxQjqaqG/pvtRuG8UNlfynGr8FxYHE6NoPkhjhLqecI4C7vhW0R9K3CnAUTA8rtt/YE7KekiVDG/TlNT914Qdwio7fCnTD6V1M0ozbSjJGMUSBA4tCWnNQc+HCcDOFv6HeRi8Z/jNsBjv8MC06yRMhTytqKnG5AAtIBxOFRqcOavO4VsDg46iMhUdEx77bmYsF9USUuWCKpJibTX5/gbpDtOlFCGVDoHArOpfB9GipezDcNA3x+jL0FrWbs3WdFybaGS0X7O3AqA10AULbxJta8XzMLQ/oOClqhV6WKsiNmeo3W6YqU/vH/yIOJDQ2cQE7r5mxipC7eNZdITORximy0caaLqnqsEeS0USbv+4PK/SEw4mEUH3ahuUzA6GDVZTJfOx0IEI8lSnbpqB/vmKgrSfgGkunLPEG8bJG84oncXrwUqnAP4ccYY2+USiXEwLt/7R5RH/+jrArRQgCTbjrSLFNZi6i40Aza1OgEYXBg+JbgaVJsMf1yVbv3htmCEpjOIu15Rpcg/rvrHrbQPayCjcGXdNce4SbOvTzyTyOiVxNxWD6gPsu3i7HLM7xHD2ICSOr4843BaCK5ojOQdTqqlPeA7Z5vKvBWiV/99WEvL6Qoi/GtyEbQTOK4Z9idqlgNWZ5kR1ffP6aeay+v5vxtgfw2sYRejVqM7YbvjvKc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB3876.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(346002)(376002)(39860400002)(396003)(136003)(451199015)(2906002)(110136005)(5660300002)(316002)(6636002)(44832011)(36756003)(2616005)(38100700002)(83380400001)(31696002)(6486002)(86362001)(26005)(53546011)(6506007)(186003)(6512007)(478600001)(6666004)(31686004)(8936002)(66476007)(66556008)(4326008)(66946007)(8676002)(41300700001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VytkbXpkNFYzKzdNQVRoU2R6cHpKb0tFVVFCM05MZW1YcmRBOEc5OVZkNkNs?=
- =?utf-8?B?L2pNN3FXeG9HMXlUYk5DNHJBdFFXTlBkUmU2anlkNHdKdFhSbmhWdkhKRWpk?=
- =?utf-8?B?aWZFMjVIYnBqVjBMOWQ3OUZLSm9ZVlVZRkJuMVBFWU5xWTREalhmNUx5OFEy?=
- =?utf-8?B?dHNCSGxwS2NORFRBWk8zeW1wdklZVEVMRkMvTGRaaE5RbXdybXlWdjhzc3pr?=
- =?utf-8?B?TU9ySHN6ZDBaTG4wS3BpQ3JqNnh4VUNEUGVPVzNSMlVxYkk5MVN2WnhNYWxw?=
- =?utf-8?B?eFVONXlWTTFlelVNSjU1bDNDYWJHYUQ5cDFySjNHVlRHRnJOZVdPYXJmTGRP?=
- =?utf-8?B?RXlPRTVvNmJTc1pDYkU5eEw2d2oyRjh5MWQ0SHcvNjN5bFRGV3lSYmhoT2RS?=
- =?utf-8?B?OS9QV1RqeGhpRlhBaDk4bGl4alNYTE1YOVlVUTNXWHhYTTFqcURyOVpGT0Nj?=
- =?utf-8?B?TVoyVEEraEVIeGQwOVgwUkt6b3ZTWlBDeUNpdUx5UVN0TUlOVnRZNVdBUVlj?=
- =?utf-8?B?WHRlMzBpMjU4SklEcy9Hb1pzbHVKMHBhdzVENE16NGlLN2lkcVFjdG1rK1Vs?=
- =?utf-8?B?a04xaGtLSHJsQ2FxMUhkaWZpZnNTYXhVWUV3TWQvRG8wRG45cDdRUzFaS28x?=
- =?utf-8?B?MEU4d3RkMDRvSHlrVkFqWWhiSEVrY3JaWUV6NERCWGJ6YUp3NS8weElzVk5I?=
- =?utf-8?B?TTZ5b0pkRkwxNjFEd1NxSHAzb2NPelpUM1FEV0V0VEtpWGdTdVA4bS9EdWtY?=
- =?utf-8?B?Y0RBMkZncFhqYWFDL2VaS2pSZFVWTjhOOXluQlgvbWFMMDJueHRxUndnNmow?=
- =?utf-8?B?NXB1ZS9admMxbU5kUE1ld0thYzhaWnRBR0FsMER6b1RqbXNjZkJuNG12Sm42?=
- =?utf-8?B?aDdkQStNWmtGWVNIUjJoSHR3RDdDQ3BnTkU3akVUci94SXVUb3JDY1pDWU5m?=
- =?utf-8?B?QkRjUmNScjF3bHg4VUUvSm1jSk0yMmRSYis1N2pGWG5PRXd4TXdDdzZiTHRG?=
- =?utf-8?B?dG1WeWFBY29MOU0rUytSeWhRdU9jWFNBNGxUOVBsUGY2V2tBWVo1RzZSMnVP?=
- =?utf-8?B?OU5yY0c3QVNYZzM4QXlzbmI0Qi9obmZlZ25ndjhBaUl0SWRIK3prUUpBc2J6?=
- =?utf-8?B?UjFrMjE5MWVmZmtmR21OR0JOTFRyTytmWVdZWkJXdXE2anJkSVFFdUo0RnNi?=
- =?utf-8?B?c2VWOEJYRFlSNHlqYm44bldMdklLdDhqYWpnb2hJNUF0ck1QZ0tvSjZneVhC?=
- =?utf-8?B?WUN6TS9YSUZZUlpDbDlSeDRpNmdwMC9rM0hYVlUxQ3Z6MjZOWlg0S2lPUkJT?=
- =?utf-8?B?Z0dCYTFGVVN5WXppbGY4SUo5bjJIbjBMRmtXcm5mS3J3eGl1RkJvL1R5N1FK?=
- =?utf-8?B?SFZXdE93Ny91SXFqWjEveUtYQ1lLbHFkckZ4WnI3S29VMFlQVCt0Ui9hMVZX?=
- =?utf-8?B?ZDdCTVY2eXBZWDE4bU9HZDlEQ3JHZmdoZkE0K3ZjVndEZnBjWE0xYlMxSVRm?=
- =?utf-8?B?Q2RGNUs5RDRqdGsyai95d0JMMWhERkUyRGJzY0lXS0FKVWVRMFZtQWszRU05?=
- =?utf-8?B?UEd5djROZnNxSThtSy90eFVMYWszK0tUdTlmcTA2VVFEdk9Na1VlZ0FVL2lC?=
- =?utf-8?B?alp6eEFPTkcrbmdwVE1yUUJocEdPTDJuaEYvNVg2UnlKOGRCR1Bra0pFMDBS?=
- =?utf-8?B?aGl4U3RML0RKZ1dKV002U0V1SmtWY2NnMS9pWTh1N0VuTmh6Q01GYW01U0c1?=
- =?utf-8?B?bDhqallxRlN1c0FEQVZJTkhjVTNFbkduVzlmcTB5alA4KytMaVpNakQ5c0dv?=
- =?utf-8?B?WGZpNDBnU2hRZHNVeWJWTWJBNU5JNDQyT3B1T01hSkg3QkRGcDhVODNjZ1hI?=
- =?utf-8?B?L1FGczd0K1hnK2lJOWlQS3lNODVPb3hST3lnRkdoTFlONUJhOUlMcDZxVEZK?=
- =?utf-8?B?Q3V4YUNaNzMrSkdKVmU5bzJycEZqak96SnMwYkkvYjM2RDF6c0E3RExDQVVD?=
- =?utf-8?B?SlJsNnpkSllMTjJWWDJ6Q2J1VTEwQUtEblhNZEtQWk8wRlZUT0dJWDVkSkVG?=
- =?utf-8?B?OS9qR1dLWU9PWUIyT0F4eE1Xa2lqTklhZEI3a2JZZHVBZTJ0VWhwOXlGMDBm?=
- =?utf-8?B?RWoza21HYktVR3hjZnNzT1YzSUVNbTRhQ0ZXeFdHOXlURFNkdzZOQ3RGVkRT?=
- =?utf-8?Q?RNDUJKkG3fgbAsjx9kLBgBRX+kUQlJV6R7z2cfKwjpxj?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YUJLYUZJQmtVRjE5eTJ1WGpFVithS21YRFdPbHBPT0NDazU3L1Z4cmZDQU1R?=
+ =?utf-8?B?S2luV3F3Z0NXaGkrM1REMGc2MWREWFJ0RkpDRmwvaGIzc2ZhNExYWkhkVTVU?=
+ =?utf-8?B?VExMa0FtUVJ1UVBSQk11UkFWRjh5L3MxVjJiL3ROaEdLSS8yRXdFUVpXaTQ2?=
+ =?utf-8?B?U2FJOU5wR0dXakVmUHlsZzdjQXpSNXZpaVNZQ0VrMTY3RUdXSldIS0ErQzk3?=
+ =?utf-8?B?Ym1oWmIvdzdZWnpWem9jWk92ZEorUngrWWlGYmhIMm9zb3BFMlRJazFmTGx0?=
+ =?utf-8?B?em9zR3FyRFVlb3hGT2d3UGd1SnRVc2lTN1NxUHpWWDQ0ZjdobHU2QlR2bWFS?=
+ =?utf-8?B?Y0pTcjRKbVJFdUJwV0RqNCtEaCttcEhnelloT3E2NmZtZFc2TTk2RW5UNDRs?=
+ =?utf-8?B?Z2NjVGhvaHNGUlRHZVNyc0dDOERuMlE3RHM4bnFIcmV2Z2oxcThVVXJXUk1U?=
+ =?utf-8?B?QWkzcEVvVVNPdDRZcjRyUWo5OUdwN1JnQmxVWUc1eGZoNjNMOW8weitrQlJj?=
+ =?utf-8?B?RjY5ZjJnVTVvcVI5K09zMDZpd0o4VkQ4TGw3ajRJK3BMS3lBRFp0dWkzbGNF?=
+ =?utf-8?B?OFNBcjk5VXgxcW5yMkJnU2tNcjZOL1g4b1MyWTZFQkprcjVNTXVKaWlpTGxY?=
+ =?utf-8?B?blVBTGpUWVhRaFpDRHZOVXFnTnYzUlhTaFRjRTBjdUJMVDJreTVLK0Q1VDNo?=
+ =?utf-8?B?OFp3NmdlVmhUbU9DVnYvdUVXNkNlcDZBc0YvREZMWEVJQjNPRE5aQWh2NFor?=
+ =?utf-8?B?MTJqaVZsQ1ZuRkpHdDVIK3MzbTZub3Q2bmdGZWNSYlk2YmNEUGI3c1RjOTBW?=
+ =?utf-8?B?MjcvMUplYXZCa2NzOG1CY3ppRExWK0RMaGpPRS9vY1YrUTNIZW9uWFE4eklY?=
+ =?utf-8?B?SnZBS1owNFdBK1pvbE43cGxaaFlGanlYRHl4RTRDWHhmajc4VUxRUTBZWm01?=
+ =?utf-8?B?WTdWVytad0RYU3JNVStGUkV0dmQ5TFlIOHRlV1hPakJQUUtkcVkrd0M3aFlV?=
+ =?utf-8?B?VjVxbEE2Wm8wKy9VUnZsbldoYjNJN1NKUUt3NDQ5N0ZGRzg1bGdBS1VEOU1G?=
+ =?utf-8?B?YTNXVWpMM1VwVHpDRHdWejMxbWU5L1VVUThPbmxCNHp2aGxiNzJwbWxrVkR4?=
+ =?utf-8?B?SWRwUDlxY0R4OFh2U3I1S2J6cldaaytGMWtCSTJzSjJFTS9ybzNKb3dOSm00?=
+ =?utf-8?B?U3hITVdiMTdJSDRGeEY4NW5ubVBzZHRudkUzdWJnQjRjTWIvNklFUFQrc0tC?=
+ =?utf-8?B?TWx1TXErRzhHVmJNeWc1ekRKaG80Tk9wTUZuSkdBNDVKVkt5VFNJckxER1pE?=
+ =?utf-8?B?UDMvRkwvbEdRYlhKVG5Qc0xrUzFYUS9XS1FkK1Vmczh6REJLSUNVbC9ZNUtt?=
+ =?utf-8?B?QmYxNDVhTE0vV1lkUllYRlpZbWlGM3lGRWZVY2NCcUl3K0o5MGsrc2paTkVy?=
+ =?utf-8?B?c1NlcGhDTkpiTTRsc1JsRXlSUVV2QXJhUGMwSkgyZEpqZ3huRklYL0NEZHVD?=
+ =?utf-8?B?T3JjYUMxTGl3N3VyaGxnTG9wZmtQNnVJYzVUOTN2aU5KTGxsTFJ0K3lENEJY?=
+ =?utf-8?B?ME1NZ0FVUllsMDl6eERhSXlWVHlUWkJ2MGhpRzJzV1ROU2JadHdUaWU4Q29R?=
+ =?utf-8?B?aitVUVRoRVNJMlJtRS94UHBqaDI3WTE4K1VDakJEZkZaelN6Nk5WVGZhTDJo?=
+ =?utf-8?B?NGpVT1B2VXYzYkpIVVJYdzA0dlUvSFFqVUlrWDdjWSt6SHJqNEVFNWtMOFhz?=
+ =?utf-8?B?NmJpbmlWRHJmS040dVhKR01rMlJzUk1yQ1RRbzYzRjZJak5TRjRoMFhIa0lO?=
+ =?utf-8?B?L3dtZjVtQUdqQVB6TGJmblhxMkk5QmxNTGpOak9ybWJuR0RxVDBWVkFoQ1l6?=
+ =?utf-8?B?VzlyTUp0MnRqUnQ4K2g5QXNFUUdVL2xGVEVtSmJKZ1RpaG9KdE02Mlc0dEpB?=
+ =?utf-8?B?MjhTRmg4aGxvUjlSM3l0NHNzYkhoTUF1L05DRDJBWjY3V1I4RUQvUlVwSEYw?=
+ =?utf-8?B?dTVoc0lzNVRJMTVqbVpPaVJwdzQzcXVlSGMyUWpKY0kzVXF4TXVmWlVMU3pm?=
+ =?utf-8?B?U0h2RituditnSThoOXpvMGdYVndKU3p3NnJBbmc4emY1YzlucmtUNmg3WFhm?=
+ =?utf-8?Q?uITtKdz7hb147GBp/4ghaIPSa?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb4a58d8-43ef-42cf-e08b-08daf52b37c6
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03b66664-542f-425f-65d1-08daf52fc4cd
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB3876.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2023 05:58:39.6414
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2023 06:31:14.5721
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ymbHjzxEgxdFxTK7ybh4fY6PjcDmpGuMhH66ZLFEM7SDp9Fy7wZ95/e4VlQ04mE6yKIjgMchVNxxBaNOFFezfw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6818
+X-MS-Exchange-CrossTenant-UserPrincipalName: eWVEWP7Et8AUemeW2jZYgoKYd7C25K1D+q7Rlui8DZK1nk5fMFuNQpDSDcvJp23vCnkURhoPV/H/+paZbvKsNw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4871
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/12/23 23:21, Wyes Karny wrote:
->  From ACPI spec below 3 modes for CPPC can be defined:
-> 1. Non autonomous: OS scaling governor specifies operating frequency/
->     performance level through `Desired Performance` register and platform
-> follows that.
-> 2. Guided autonomous: OS scaling governor specifies min and max
->     frequencies/ performance levels through `Minimum Performance` and
-> `Maximum Performance` register, and platform can autonomously select an
-> operating frequency in this range.
-> 3. Fully autonomous: OS only hints (via EPP) to platform for the required
->     energy performance preference for the workload and platform autonomously
-> scales the frequency.
+Hi Mario,
+
+On 1/13/2023 11:07 AM, Mario Limonciello wrote:
+> On 1/12/23 23:21, Wyes Karny wrote:
+>> Currently writing of min and max perf register is deferred in
+>> cppc_set_perf function. In CPPC guided mode, these registers needed to
+>> be written to guide PMFW about min and max perf levels. Add this support
 > 
-> Currently (1) is supported by amd_pstate as passive mode, and (3) is
-> implemented by EPP support. This change is to support (2).
+> This is generic code, so  I think rather than PMFW you should just say "the platform".
 > 
-> In guided autonomous mode the min_perf is based on the input from the
-> scaling governor. For example, in case of schedutil this value depends
-> on the current utilization. And max_perf is set to max capacity.
+>> to make guided mode work properly on shared memory systems.
 > 
-> To activate guided auto mode ``amd_pstate=guided`` command line
-> parameter has to be passed in the kernel.
+> on AMD shared memory systems.
 > 
-> Signed-off-by: Wyes Karny <wyes.karny@amd.com>
-> ---
->   .../admin-guide/kernel-parameters.txt         | 15 ++++++----
->   drivers/cpufreq/amd-pstate.c                  | 29 ++++++++++++++++---
->   include/linux/amd-pstate.h                    |  2 ++
->   3 files changed, 37 insertions(+), 9 deletions(-)
+>>
+>> Signed-off-by: Wyes Karny <wyes.karny@amd.com>
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index e3618dfdb36a..0d8486325c9a 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -7015,11 +7015,11 @@
->   			  Do not enable amd_pstate as the default
->   			  scaling driver for the supported processors
->   			passive
-> -			  Use amd_pstate as a scaling driver, driver requests a
-> -			  desired performance on this abstract scale and the power
-> -			  management firmware translates the requests into actual
-> -			  hardware states (core frequency, data fabric and memory
-> -			  clocks etc.)
-> +			  Use amd_pstate with passive mode as a scaling driver.
-> +			  In this mode autonomous selection is disabled.
-> +			  Driver requests a desired performance level and platform
-> +			  tires to match the same performance level (if it is
-> +			  satisfied by guaranteed performance level).
->   			active
->   			  Use amd_pstate_epp driver instance as the scaling driver,
->   			  driver provides a hint to the hardware if software wants
-> @@ -7027,3 +7027,8 @@
->   			  to the CPPC firmware. then CPPC power algorithm will
->   			  calculate the runtime workload and adjust the realtime cores
->   			  frequency.
-> +			guided
-> +			  Activate guided autonomous mode. Driver requests minimum and
-> +			  maximum performance level and the platform autonomously
-> +			  selects a performance level in this range and appropriate
-> +			  to the current workload.
-> diff --git a/drivers/cpufreq/amd-pstate.c b/drivers/cpufreq/amd-pstate.c
-> index 87450413cf45..20d78dad712d 100644
-> --- a/drivers/cpufreq/amd-pstate.c
-> +++ b/drivers/cpufreq/amd-pstate.c
-> @@ -267,6 +267,20 @@ static int cppc_init_perf(struct amd_cpudata *cpudata)
->   		   cppc_perf.lowest_nonlinear_perf);
->   	WRITE_ONCE(cpudata->lowest_perf, cppc_perf.lowest_perf);
->   
-> +	ret = cppc_get_auto_sel_caps(cpudata->cpu, &cppc_perf);
-> +	if (ret) {
-> +		pr_warn("failed to get auto_sel\n");
+> With the commit message cleaned up:
+> 
+> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 
-To make debugging easier in the future perhaps:
+Will do the cleanup part. Thanks for reviewing!
 
-pr_warn("failed to get auto sel: %d\n", ret);
+>> ---
+>>   drivers/acpi/cppc_acpi.c | 16 ++++++++--------
+>>   1 file changed, 8 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
+>> index 02d83c807271..c936ff503965 100644
+>> --- a/drivers/acpi/cppc_acpi.c
+>> +++ b/drivers/acpi/cppc_acpi.c
+>> @@ -1487,7 +1487,7 @@ EXPORT_SYMBOL_GPL(cppc_set_enable);
+>>   int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
+>>   {
+>>       struct cpc_desc *cpc_desc = per_cpu(cpc_desc_ptr, cpu);
+>> -    struct cpc_register_resource *desired_reg;
+>> +    struct cpc_register_resource *desired_reg, *min_perf_reg, *max_perf_reg;
+>>       int pcc_ss_id = per_cpu(cpu_pcc_subspace_idx, cpu);
+>>       struct cppc_pcc_data *pcc_ss_data = NULL;
+>>       int ret = 0;
+>> @@ -1498,6 +1498,8 @@ int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
+>>       }
+>>         desired_reg = &cpc_desc->cpc_regs[DESIRED_PERF];
+>> +    min_perf_reg = &cpc_desc->cpc_regs[MIN_PERF];
+>> +    max_perf_reg = &cpc_desc->cpc_regs[MAX_PERF];
+>>         /*
+>>        * This is Phase-I where we want to write to CPC registers
+>> @@ -1506,7 +1508,7 @@ int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
+>>        * Since read_lock can be acquired by multiple CPUs simultaneously we
+>>        * achieve that goal here
+>>        */
+>> -    if (CPC_IN_PCC(desired_reg)) {
+>> +    if (CPC_IN_PCC(desired_reg) || CPC_IN_PCC(min_perf_reg) || CPC_IN_PCC(max_perf_reg)) {
+>>           if (pcc_ss_id < 0) {
+>>               pr_debug("Invalid pcc_ss_id\n");
+>>               return -ENODEV;
+>> @@ -1529,13 +1531,11 @@ int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
+>>           cpc_desc->write_cmd_status = 0;
+>>       }
+>>   -    /*
+>> -     * Skip writing MIN/MAX until Linux knows how to come up with
+>> -     * useful values.
+>> -     */
+>>       cpc_write(cpu, desired_reg, perf_ctrls->desired_perf);
+>> +    cpc_write(cpu, min_perf_reg, perf_ctrls->min_perf);
+>> +    cpc_write(cpu, max_perf_reg, perf_ctrls->max_perf);
+>>   -    if (CPC_IN_PCC(desired_reg))
+>> +    if (CPC_IN_PCC(desired_reg) || CPC_IN_PCC(min_perf_reg) || CPC_IN_PCC(max_perf_reg))
+>>           up_read(&pcc_ss_data->pcc_lock);    /* END Phase-I */
+>>       /*
+>>        * This is Phase-II where we transfer the ownership of PCC to Platform
+>> @@ -1583,7 +1583,7 @@ int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
+>>        * case during a CMD_READ and if there are pending writes it delivers
+>>        * the write command before servicing the read command
+>>        */
+>> -    if (CPC_IN_PCC(desired_reg)) {
+>> +    if (CPC_IN_PCC(desired_reg) || CPC_IN_PCC(min_perf_reg) || CPC_IN_PCC(max_perf_reg)) {
+>>           if (down_write_trylock(&pcc_ss_data->pcc_lock)) {/* BEGIN Phase-II */
+>>               /* Update only if there are pending write commands */
+>>               if (pcc_ss_data->pending_pcc_write_cmd)
+> 
 
-> +		return 0;
-> +	}
-> +
-> +	if (cppc_state == AMD_PSTATE_PASSIVE)
-> +		ret = cppc_set_auto_sel(cpudata->cpu, 0);
-> +	else if (cppc_state == AMD_PSTATE_GUIDED)
-> +		ret = cppc_set_auto_sel(cpudata->cpu, 1);
-> +
-
-as a simplification maybe:
-
-ret = cppc_set_auto_sel(cpudata->cpu, cppc_state == AMD_PSTATE_PASSIVE ? 
-0 : 1);
-
-> +	if (ret)
-> +		pr_warn("failed to set auto_sel\n");
-
-Again, probably good to emit the error code in this message;
-> +
->   	return 0;
-
-As this could fail now shouldn't you be returning ret?
-
->   }
->   
-> @@ -344,12 +358,18 @@ static inline bool amd_pstate_sample(struct amd_cpudata *cpudata)
->   }
->   
->   static void amd_pstate_update(struct amd_cpudata *cpudata, u32 min_perf,
-> -			      u32 des_perf, u32 max_perf, bool fast_switch)
-> +			      u32 des_perf, u32 max_perf, bool fast_switch, int guv_flags)
->   {
->   	u64 prev = READ_ONCE(cpudata->cppc_req_cached);
->   	u64 value = prev;
->   
->   	des_perf = clamp_t(unsigned long, des_perf, min_perf, max_perf);
-> +
-> +	if ((cppc_state == AMD_PSTATE_GUIDED) && (guv_flags & CPUFREQ_GOV_DYNAMIC_SWITCHING)) {
-> +		min_perf = des_perf;
-> +		des_perf = 0;
-> +	}
-> +
->   	value &= ~AMD_CPPC_MIN_PERF(~0L);
->   	value |= AMD_CPPC_MIN_PERF(min_perf);
->   
-> @@ -404,7 +424,7 @@ static int amd_pstate_target(struct cpufreq_policy *policy,
->   
->   	cpufreq_freq_transition_begin(policy, &freqs);
->   	amd_pstate_update(cpudata, min_perf, des_perf,
-> -			  max_perf, false);
-> +			  max_perf, false, policy->governor->flags);
->   	cpufreq_freq_transition_end(policy, &freqs, false);
->   
->   	return 0;
-> @@ -438,7 +458,8 @@ static void amd_pstate_adjust_perf(unsigned int cpu,
->   	if (max_perf < min_perf)
->   		max_perf = min_perf;
->   
-> -	amd_pstate_update(cpudata, min_perf, des_perf, max_perf, true);
-> +	amd_pstate_update(cpudata, min_perf, des_perf, max_perf, true,
-> +			policy->governor->flags);
->   	cpufreq_cpu_put(policy);
->   }
->   
-> @@ -1233,7 +1254,7 @@ static int __init amd_pstate_init(void)
->   	/* capability check */
->   	if (boot_cpu_has(X86_FEATURE_CPPC)) {
->   		pr_debug("AMD CPPC MSR based functionality is supported\n");
-> -		if (cppc_state == AMD_PSTATE_PASSIVE)
-> +		if (cppc_state != AMD_PSTATE_ACTIVE)
->   			default_pstate_driver->adjust_perf = amd_pstate_adjust_perf;
->   	} else {
->   		pr_debug("AMD CPPC shared memory based functionality is supported\n");
-> diff --git a/include/linux/amd-pstate.h b/include/linux/amd-pstate.h
-> index 15761a581e82..e07cfbd63560 100644
-> --- a/include/linux/amd-pstate.h
-> +++ b/include/linux/amd-pstate.h
-> @@ -92,6 +92,7 @@ enum amd_pstate_mode {
->   	AMD_PSTATE_DISABLE = 0,
->   	AMD_PSTATE_PASSIVE,
->   	AMD_PSTATE_ACTIVE,
-> +	AMD_PSTATE_GUIDED,
->   	AMD_PSTATE_MAX,
->   };
->   
-> @@ -99,6 +100,7 @@ static const char * const amd_pstate_mode_string[] = {
->   	[AMD_PSTATE_DISABLE]     = "disable",
->   	[AMD_PSTATE_PASSIVE]     = "passive",
->   	[AMD_PSTATE_ACTIVE]      = "active",
-> +	[AMD_PSTATE_GUIDED]      = "guided",
->   	NULL,
->   };
->   
-
+-- 
+Thanks & Regards,
+Wyes
