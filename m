@@ -2,272 +2,256 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4838DC54EBE
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 15:46:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB6BDC54EBD
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 15:50:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbjAMPqj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Jan 2023 10:46:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34774 "EHLO
+        id S229746AbjAMPuX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Jan 2023 10:50:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229878AbjAMPph (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 10:45:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B6BC820D0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Jan 2023 07:35:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1673624121;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HvJzqEosng1OpNEPlrOtQogHviQchssO2KpZoQllqEw=;
-        b=OSBhNhu0WVkLxefEefjdB2d2ZjYaK7WsNVY78Vuru3zYD1RuQ5R2M0VH0kHjssIiI92AXp
-        OMV1xdlv7ci7MIlLVja+WEj4Dv402V1fk8Ybego65qL1q83GLvpgfjKpqKwVLTOPwcGeuq
-        OFGhC9JC3Mnw821ticuNOA6kSCO1uGI=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-90-UCThEJZ0MiChvXTQAkUjHw-1; Fri, 13 Jan 2023 10:35:19 -0500
-X-MC-Unique: UCThEJZ0MiChvXTQAkUjHw-1
-Received: by mail-lj1-f199.google.com with SMTP id e28-20020a05651c039c00b0028112f8e550so5750634ljp.23
-        for <linux-doc@vger.kernel.org>; Fri, 13 Jan 2023 07:35:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HvJzqEosng1OpNEPlrOtQogHviQchssO2KpZoQllqEw=;
-        b=V3bC7l3vb5Bv4akM4QQFlTPVGPno5SBxYtfpftUfRkauqK6b738xkc9fg1qTds8WdW
-         F0422uUxl1sKZ9e8Yx2BhRMYFo06ShD8SqiReqyGPBEYt8i3Tji6UxirHTuAfbp3ClpF
-         b5T2cCXxToZkq6eJRRAmTKzJFOTpsRqcLFXTckd/g5KhaWrmEUmE0P2CE3YQmTqD4mwf
-         yZVg7zPeExqnNYhIG+2mOYZQhv/Kathm+kYPE8Z4DiTKsbTj6NIzAyuw6Erggm744EiN
-         xx8kW9Ay5LrDFGfg2tJkyM/jchA+P+fBI0oZj2zIsT+cObC6TBVKJdO0GbUcQylSAX5u
-         0Cjg==
-X-Gm-Message-State: AFqh2kq0YCIU4XaKjOBpmEqDT1xlfOrbOGxiRh+rEVZKXrqCEaUZRtvP
-        8PoMlrnrWtlg599tiJhl+gkySpDzpQ8/hJlpQC4l7DsQ8J2T2V4yYDUXRRDYjiUuX65h6YjZA3R
-        CK2xCBegUFxq8wlRUJk5e
-X-Received: by 2002:a2e:9b08:0:b0:287:625a:4d4f with SMTP id u8-20020a2e9b08000000b00287625a4d4fmr3770285lji.1.1673624117357;
-        Fri, 13 Jan 2023 07:35:17 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXv+ze9h67KJIs16Cr55BBtE2xAUuhHj16YyQ+bpHXDt6402ykHQKaDiw0TwcySUBJFWTi6GZg==
-X-Received: by 2002:a2e:9b08:0:b0:287:625a:4d4f with SMTP id u8-20020a2e9b08000000b00287625a4d4fmr3770281lji.1.1673624117126;
-        Fri, 13 Jan 2023 07:35:17 -0800 (PST)
-Received: from localhost.localdomain (c-e6a5e255.022-110-73746f36.bbcust.telenor.se. [85.226.165.230])
-        by smtp.googlemail.com with ESMTPSA id p20-20020a2e9a94000000b00289bb528b8dsm725473lji.49.2023.01.13.07.35.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jan 2023 07:35:16 -0800 (PST)
-From:   Alexander Larsson <alexl@redhat.com>
-To:     linux-fsdevel@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, gscrivan@redhat.com,
-        Alexander Larsson <alexl@redhat.com>, linux-doc@vger.kernel.org
-Subject: [PATCH v2 5/6] composefs: Add documentation
-Date:   Fri, 13 Jan 2023 16:33:58 +0100
-Message-Id: <a9616059dd7d094c2756cb426e29ce2ac7d8e998.1673623253.git.alexl@redhat.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <cover.1673623253.git.alexl@redhat.com>
-References: <cover.1673623253.git.alexl@redhat.com>
+        with ESMTP id S229869AbjAMPt4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 10:49:56 -0500
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A03337278B;
+        Fri, 13 Jan 2023 07:42:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X4io6oLqCKDkFizzRcSOOEPCkxDBc6NjONj+dGzu3sCex6jiig6ywTH58Obp3n8UWyvFzAnZkrEO8bQhKj3MijvkbGsQi7fV1FlWKAzvPQzD1ZQKHC3ZrtVyRAL0zsifDULgtsmeAf5P7MYy/F+LEr6S5/6zfsknCjxzJ3qBKhUYhx+cl8DrjjxXmHS9D3aui2hpgdE7bleQj61+jLRDCvVhNKQkYaHf63W3KZxDj4q1JdkHzE1xI3UAQjEmJ5F7mCwaoqo89dRxnsapVatwxlI7SBqnpgKouwhS9+thW7QhuEOPY89OXK+WcVpIFYtZmI9NEfIe57JtIgvHdruGtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tgINMMaGyjGOt8j7LBPnaxnyoo4i4t2gT3dnWVHgbzM=;
+ b=PEXnp83nxl76/eVg9j0+4RtsAaNqH14KF8qZuKkFVtB4dNl23Rdw9+ZM57nINm6/jVvmj2Fbx6ZbzG6tVQHTtBaIHe98Zh3nW1TJ2PoAXD4K6jhJebwYsL+fY739nSuNRkSBmZftOwOmRuIzq5uDc5RnF7Ul7jjeRJNrb5YVAgBMGGQv50ZLF4iXFSfVMDnLJMpzWczPUp0O9aZbkggi5d8qI/1dc1cS8sNFZS5wNYViqDWGBY/vziM2lLCzzZoMq84rqULZ53zOhnHe0oSl8dCHGODRUjdek7JIfg28Qlh/GL8q1tAATjQbqUN1N91D9CNdkKCEfTrm/9z7gVwu4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tgINMMaGyjGOt8j7LBPnaxnyoo4i4t2gT3dnWVHgbzM=;
+ b=FcBCpK0d84HEHTUHD2YlGunb9iH8axmM1Ka0Na7Ms8QCSuxZwU4386sN8O/ofLTNwKnHUEJF1eVsJFrdJRCu4ekTSNimPDTJWzAItCO280THwAVURwxBBX/6lMJ2V1CNdA5rMfZwSTQiPlfQ65suhYay49CA2Wl0iM3w/sl6ygo=
+Received: from BN0PR04CA0179.namprd04.prod.outlook.com (2603:10b6:408:eb::34)
+ by IA1PR12MB6412.namprd12.prod.outlook.com (2603:10b6:208:3af::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Fri, 13 Jan
+ 2023 15:42:46 +0000
+Received: from BN8NAM11FT024.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:eb:cafe::ac) by BN0PR04CA0179.outlook.office365.com
+ (2603:10b6:408:eb::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.14 via Frontend
+ Transport; Fri, 13 Jan 2023 15:42:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT024.mail.protection.outlook.com (10.13.177.38) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6002.13 via Frontend Transport; Fri, 13 Jan 2023 15:42:46 +0000
+Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 13 Jan
+ 2023 09:21:05 -0600
+From:   Babu Moger <babu.moger@amd.com>
+To:     <corbet@lwn.net>, <reinette.chatre@intel.com>,
+        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
+CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
+        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
+        <songmuchun@bytedance.com>, <peterz@infradead.org>,
+        <jpoimboe@kernel.org>, <pbonzini@redhat.com>, <babu.moger@amd.com>,
+        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
+        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
+        <sandipan.das@amd.com>, <tony.luck@intel.com>,
+        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
+        <eranian@google.com>, <christophe.leroy@csgroup.eu>,
+        <jarkko@kernel.org>, <adrian.hunter@intel.com>,
+        <quic_jiles@quicinc.com>, <peternewman@google.com>
+Subject: [PATCH v12 06/13] x86/resctrl: Detect and configure Slow Memory Bandwidth Allocation
+Date:   Fri, 13 Jan 2023 09:20:32 -0600
+Message-ID: <20230113152039.770054-7-babu.moger@amd.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230113152039.770054-1-babu.moger@amd.com>
+References: <20230113152039.770054-1-babu.moger@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT024:EE_|IA1PR12MB6412:EE_
+X-MS-Office365-Filtering-Correlation-Id: d776be53-89b3-49d5-c3e5-08daf57cd15c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: O0wXpAkcMBjeInTLGvoMq//jtdEwLspcSYVEkse2YEOZyrlV0+yCGC4nBPdh0Qr6RcxY2vkPm6DmFI1GUKUPP5DjtJNJgwoU3ylA9pbUaqEMtzBmHOM95ot3wjnjJybxqtEEzGc6QhCmtSyJKD5q0hPOfbM5CATxHU/nkH+FcEBqli335y+qDjCVjEOWrxxPwfb1v8pkWGXnsjoxh/4+bPCjN7bUY/15WnRsvZJeuExYx9uzcm2WkPgE8+J7PXj7SuPDApz2WjWTSzLoATilrMsTBluNnbqGH4vxxgh2NcPgiR9YthpC48opk3GxA2IkoX88ialNuM3gkGPXg2YF5ReNoLYJOKgtBQcaxqWcimLjIaBmFT+Htb6pp2UjewWsz+qya8b66TIXGO/ZPNqw912CdZjP8UaGZo8eCQx+A2K7JSqFHVDkcFG+UsTD9DbaAUZYKYHkFZOBZnzs1nHC9SBthX81cziTqRw3jaD3bXBgW0n0Vu3Wf7f1RkR6EQ5PCD0SQ6kR2mVSaH2JZh6cOTUH8P/epxYEbd1BIy14Iny8wVr18niEd+wjHEmpqSVcADneQU3LC4C/M44n6m8qjdWIeqCtADmdXLHLjqH1SOhZLL6VZCwejRwgoBdJfe9pG8Bh0Kj59pFbfBEA9kfW1yaNhxaKRmyJlg38Se88v8L+B33eVgbZRdINUGv3Ef2lejqFgCIz/cJjJ10wDAOcWYI3T2liVUV/JUIyOWXq0TU=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(136003)(396003)(376002)(346002)(451199015)(46966006)(36840700001)(40470700004)(70206006)(82310400005)(2906002)(7416002)(7406005)(5660300002)(44832011)(36756003)(6666004)(7696005)(70586007)(2616005)(8676002)(316002)(4326008)(54906003)(41300700001)(110136005)(478600001)(40480700001)(8936002)(26005)(186003)(336012)(1076003)(16526019)(426003)(86362001)(83380400001)(36860700001)(81166007)(47076005)(356005)(82740400003)(40460700003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2023 15:42:46.3145
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d776be53-89b3-49d5-c3e5-08daf57cd15c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT024.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6412
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds documentation about the composefs filesystem and
-how to use it.
+The QoS slow memory configuration details are available via
+CPUID_Fn80000020_EDX_x02. Detect the available details and
+initialize the rest to defaults.
 
-Signed-off-by: Alexander Larsson <alexl@redhat.com>
+Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+Signed-off-by: Babu Moger <babu.moger@amd.com>
 ---
- Documentation/filesystems/composefs.rst | 169 ++++++++++++++++++++++++
- Documentation/filesystems/index.rst     |   1 +
- 2 files changed, 170 insertions(+)
- create mode 100644 Documentation/filesystems/composefs.rst
+ arch/x86/include/asm/msr-index.h          |  1 +
+ arch/x86/kernel/cpu/resctrl/core.c        | 36 +++++++++++++++++++++--
+ arch/x86/kernel/cpu/resctrl/ctrlmondata.c |  2 +-
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c    |  8 +++--
+ 4 files changed, 41 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/filesystems/composefs.rst b/Documentation/filesystems/composefs.rst
-new file mode 100644
-index 000000000000..306f0e2e22ba
---- /dev/null
-+++ b/Documentation/filesystems/composefs.rst
-@@ -0,0 +1,169 @@
-+.. SPDX-License-Identifier: GPL-2.0
+diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+index a85019756003..eaeeb7b415d6 100644
+--- a/arch/x86/include/asm/msr-index.h
++++ b/arch/x86/include/asm/msr-index.h
+@@ -1068,6 +1068,7 @@
+ 
+ /* - AMD: */
+ #define MSR_IA32_MBA_BW_BASE		0xc0000200
++#define MSR_IA32_SMBA_BW_BASE		0xc0000280
+ 
+ /* MSR_IA32_VMX_MISC bits */
+ #define MSR_IA32_VMX_MISC_INTEL_PT                 (1ULL << 14)
+diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+index 10a8c9d96f32..b4fc851f6489 100644
+--- a/arch/x86/kernel/cpu/resctrl/core.c
++++ b/arch/x86/kernel/cpu/resctrl/core.c
+@@ -162,6 +162,13 @@ bool is_mba_sc(struct rdt_resource *r)
+ 	if (!r)
+ 		return rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl.membw.mba_sc;
+ 
++	/*
++	 * The software controller support is only applicable to MBA resource.
++	 * Make sure to check for resource type.
++	 */
++	if (r->rid != RDT_RESOURCE_MBA)
++		return false;
 +
-+====================
-+Composefs Filesystem
-+====================
+ 	return r->membw.mba_sc;
+ }
+ 
+@@ -225,9 +232,15 @@ static bool __rdt_get_mem_config_amd(struct rdt_resource *r)
+ 	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
+ 	union cpuid_0x10_3_eax eax;
+ 	union cpuid_0x10_x_edx edx;
+-	u32 ebx, ecx;
++	u32 ebx, ecx, subleaf;
+ 
+-	cpuid_count(0x80000020, 1, &eax.full, &ebx, &ecx, &edx.full);
++	/*
++	 * Query CPUID_Fn80000020_EDX_x01 for MBA and
++	 * CPUID_Fn80000020_EDX_x02 for SMBA
++	 */
++	subleaf = (r->rid == RDT_RESOURCE_SMBA) ? 2 :  1;
 +
-+Introduction
-+============
++	cpuid_count(0x80000020, subleaf, &eax.full, &ebx, &ecx, &edx.full);
+ 	hw_res->num_closid = edx.split.cos_max + 1;
+ 	r->default_ctrl = MAX_MBA_BW_AMD;
+ 
+@@ -750,6 +763,19 @@ static __init bool get_mem_config(void)
+ 	return false;
+ }
+ 
++static __init bool get_slow_mem_config(void)
++{
++	struct rdt_hw_resource *hw_res = &rdt_resources_all[RDT_RESOURCE_SMBA];
 +
-+Composefs is a read-only file system that is backed by regular files
-+(rather than a block device). It is designed to help easily share
-+content between different directory trees, such as container images in
-+a local store or ostree checkouts. In addition it also has support for
-+integrity validation of file content and directory metadata, in an
-+efficient way (using fs-verity).
++	if (!rdt_cpu_has(X86_FEATURE_SMBA))
++		return false;
 +
-+The filesystem mount source is a binary blob called the descriptor. It
-+contains all the inode and directory entry data for the entire
-+filesystem. However, instead of storing the file content each regular
-+file inode stores a relative path name, and the filesystem gets the
-+file content from the filesystem by looking up that filename in a set
-+of base directories.
++	if (boot_cpu_data.x86_vendor == X86_VENDOR_AMD)
++		return __rdt_get_mem_config_amd(&hw_res->r_resctrl);
 +
-+Given such a descriptor called "image.cfs" and a directory with files
-+called "/dir" you can mount it like::
++	return false;
++}
 +
-+  mount -t composefs image.cfs -o basedir=/dir /mnt
+ static __init bool get_rdt_alloc_resources(void)
+ {
+ 	struct rdt_resource *r;
+@@ -780,6 +806,9 @@ static __init bool get_rdt_alloc_resources(void)
+ 	if (get_mem_config())
+ 		ret = true;
+ 
++	if (get_slow_mem_config())
++		ret = true;
 +
-+Content sharing
-+===============
-+
-+Suppose you have a single basedir where the files are content
-+addressed (i.e. named by content digest), and a set of composefs
-+descriptors using this basedir. Any file that happen to be shared
-+between two images (same content, so same digest) will now only be
-+stored once on the disk.
-+
-+Such sharing is possible even if the metadata for the file in the
-+image differs (common reasons for metadata difference are mtime,
-+permissions, xattrs, etc). The sharing is also anonymous in the sense
-+that you can't tell the difference on the mounted files from a
-+non-shared file (for example by looking at the link count for a
-+hardlinked file).
-+
-+In addition, any shared files that are actively in use will share
-+page-cache, because the page cache for the file contents will be
-+addressed by the backing file in the basedir, This means (for example)
-+that shared libraries between images will only be mmap:ed once across
-+all mounts.
-+
-+Integrity validation
-+====================
-+
-+Composefs uses :doc:`fs-verity <fsverity>` for integrity validation,
-+and extends it by making the validation also apply to the directory
-+metadata.  This happens on two levels, validation of the descriptor
-+and validation of the backing files.
-+
-+For descriptor validation, the idea is that you enable fs-verity on
-+the descriptor file which seals it from changes that would affect the
-+directory metadata. Additionally you can pass a `digest` mount option,
-+which composefs verifies against the descriptor fs-verity
-+measure. Such a mount option could be encoded in a trusted source
-+(like a signed kernel command line) and be used as a root of trust if
-+using composefs for the root filesystem.
-+
-+For file validation, the descriptor can contain digest for each
-+backing file, and you can enable fs-verity on the backing
-+files. Composefs will validate the digest before using the backing
-+files. This means any (accidental or malicious) modification of the
-+basedir will be detected at the time the file is used.
-+
-+Expected use-cases
-+==================
-+
-+Container Image Storage
-+```````````````````````
-+
-+Typically a container image is stored as a set of "layer"
-+directories. merged into one mount by using overlayfs.  The lower
-+layers are read-only image content and the upper layer is the
-+writable state of a running container. Multiple uses of the same
-+layer can be shared this way, but it is hard to share individual
-+files between unrelated layers.
-+
-+Using composefs, we can instead use a shared, content-addressed
-+store for all the images in the system, and use a composefs image
-+for the read-only image content of each image, pointing into the
-+shared store. Then for a running container we use an overlayfs
-+with the lower dir being the composefs and the upper dir being
-+the writable state.
-+
-+
-+Ostree root filesystem validation
-+`````````````````````````````````
-+
-+Ostree uses a content-addressed on-disk store for file content,
-+allowing efficient updates and sharing of content. However to actually
-+use these as a root filesystem it needs to create a real
-+"chroot-style" directory, containing hard links into the store. The
-+store itself is validated when created, but once the hard-link
-+directory is created, nothing validates the directory structure of
-+that.
-+
-+Instead of a chroot we can we can use composefs. We create a composefs
-+image pointing into the object store, enable fs-verity for everything
-+and encode the fs-verity digest of the descriptor in the
-+kernel-command line. This will allow booting a trusted system where
-+all directory metadata and file content is validated lazily at use.
-+
-+
-+Mount options
-+=============
-+
-+basedir
-+    A colon separated list of directories to use as a base when resolving
-+    relative content paths.
-+
-+verity_check=[0,1,2]
-+    When to verify backing file fs-verity: 0 == never, 1 == if specified in
-+    image, 2 == always and require it in image.
-+
-+digest
-+    A fs-verity sha256 digest that the descriptor file must match. If set,
-+    `verity_check` defaults to 2.
-+
-+
-+Filesystem format
-+=================
-+
-+The format of the descriptor is contains three sections: header,
-+inodes and variable data. All data in the file is stored in
-+little-endian form.
-+
-+The header starts at the beginning of the file and contains version,
-+magic value, offsets to the variable data and the root inode nr.
-+
-+The inode section starts at a fixed location right after the
-+header. It is a array of inode data, where for each inode there is
-+first a variable length chunk and then a fixed size chunk. An inode nr
-+is the offset in the inode data to the start of the fixed chunk.
-+
-+The fixed inode chunk starts with a flag that tells what parts of the
-+inode are stored in the file (meaning it is only the maximal size that
-+is fixed). After that the various inode attributes are serialized in
-+order, such as mode, ownership, xattrs, and payload length. The
-+payload length attribute gives the size of the variable chunk.
-+
-+The inode variable chunk contains different things depending on the
-+file type.  For regular files it is the backing filename. For symlinks
-+it is the symlink target. For directories it is a list of references to
-+dentries, stored in chunks of maximum 4k. The dentry chunks themselves
-+are stored in the variable data section.
-+
-+The variable data section is stored after the inode section, and you
-+can find it from the offset in the header. It contains dentries and
-+Xattrs data. The xattrs are referred to by offset and size in the
-+xattr attribute in the inode data. Each xattr data can be used by many
-+inodes in the filesystem. The variable data chunks are all smaller than
-+a page (4K) and are padded to not span pages.
-+
-+Tools
-+=====
-+
-+Tools for composefs can be found at https://github.com/containers/composefs
-+
-+There is a mkcomposefs tool which can be used to create images on the
-+CLI, and a library that applications can use to create composefs
-+images.
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index bee63d42e5ec..9b7cf136755d 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -75,6 +75,7 @@ Documentation for filesystem implementations.
-    cifs/index
-    ceph
-    coda
-+   composefs
-    configfs
-    cramfs
-    dax
+ 	return ret;
+ }
+ 
+@@ -869,6 +898,9 @@ static __init void rdt_init_res_defs_amd(void)
+ 		} else if (r->rid == RDT_RESOURCE_MBA) {
+ 			hw_res->msr_base = MSR_IA32_MBA_BW_BASE;
+ 			hw_res->msr_update = mba_wrmsr_amd;
++		} else if (r->rid == RDT_RESOURCE_SMBA) {
++			hw_res->msr_base = MSR_IA32_SMBA_BW_BASE;
++			hw_res->msr_update = mba_wrmsr_amd;
+ 		}
+ 	}
+ }
+diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+index 7eece3d2d0c3..eb07d4435391 100644
+--- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
++++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+@@ -209,7 +209,7 @@ static int parse_line(char *line, struct resctrl_schema *s,
+ 	unsigned long dom_id;
+ 
+ 	if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP &&
+-	    r->rid == RDT_RESOURCE_MBA) {
++	    (r->rid == RDT_RESOURCE_MBA || r->rid == RDT_RESOURCE_SMBA)) {
+ 		rdt_last_cmd_puts("Cannot pseudo-lock MBA resource\n");
+ 		return -EINVAL;
+ 	}
+diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+index d23fbc45ecd1..75169680516b 100644
+--- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
++++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+@@ -1210,7 +1210,7 @@ static bool rdtgroup_mode_test_exclusive(struct rdtgroup *rdtgrp)
+ 
+ 	list_for_each_entry(s, &resctrl_schema_all, list) {
+ 		r = s->res;
+-		if (r->rid == RDT_RESOURCE_MBA)
++		if (r->rid == RDT_RESOURCE_MBA || r->rid == RDT_RESOURCE_SMBA)
+ 			continue;
+ 		has_cache = true;
+ 		list_for_each_entry(d, &r->domains, list) {
+@@ -1399,7 +1399,8 @@ static int rdtgroup_size_show(struct kernfs_open_file *of,
+ 					ctrl = resctrl_arch_get_config(r, d,
+ 								       closid,
+ 								       type);
+-				if (r->rid == RDT_RESOURCE_MBA)
++				if (r->rid == RDT_RESOURCE_MBA ||
++				    r->rid == RDT_RESOURCE_SMBA)
+ 					size = ctrl;
+ 				else
+ 					size = rdtgroup_cbm_to_size(r, d, ctrl);
+@@ -2842,7 +2843,8 @@ static int rdtgroup_init_alloc(struct rdtgroup *rdtgrp)
+ 
+ 	list_for_each_entry(s, &resctrl_schema_all, list) {
+ 		r = s->res;
+-		if (r->rid == RDT_RESOURCE_MBA) {
++		if (r->rid == RDT_RESOURCE_MBA ||
++		    r->rid == RDT_RESOURCE_SMBA) {
+ 			rdtgroup_init_mba(r, rdtgrp->closid);
+ 			if (is_mba_sc(r))
+ 				continue;
 -- 
-2.39.0
+2.34.1
 
