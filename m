@@ -2,62 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67629C61DB3
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 16:47:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7037AC54EBE
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 17:04:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230181AbjAMQrd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Jan 2023 11:47:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34062 "EHLO
+        id S229553AbjAMREQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Jan 2023 12:04:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229723AbjAMQrJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 11:47:09 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20A7F7814C;
-        Fri, 13 Jan 2023 08:44:58 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229537AbjAMREN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 12:04:13 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB0F75FF6;
+        Fri, 13 Jan 2023 09:04:11 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C8E5D733;
-        Fri, 13 Jan 2023 16:44:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C8E5D733
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1673628297; bh=I6rm7KzONNVJMxFe3CSWGLez9rLB0K0wtheNbQk0RTg=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Px3iMEjwOXNwv9qHZSYHlwRKgWqhzDzT5j2jDTpRSLSBMfqK4zyBckYDO096GZi+r
-         c/n3HW579SEbB3r0lSH/Rb9To2supz/hrcIQyuamkZW0/s4oYKgDtk9Na7nShk14Gc
-         7pe5fbuPPIp+r1fNymFziv16celjWc3bfFmIybD9cvj5ctadLNBmReAofhitcmRCSl
-         rJ2iIJNdfYkZ/PYXXizk5tKnjuBlvl/FwYUSHl8BJl4zxxSmbuuCqaFkEiV91ISqfs
-         TbLf5pHzu84K149myIQ6z9H4AzmenGo4Q+Ch7RgVLXf/8ce/ELw/NcbcX2fqJfIkjO
-         yEXJc792fdgpw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     bilbao@vt.edu, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: Re: [PATCH] docs/sp_SP: Add process
- kernel-enforcement-statement.rst translation
-In-Reply-To: <20230103165608.134190-1-carlos.bilbao@amd.com>
-References: <20230103165608.134190-1-carlos.bilbao@amd.com>
-Date:   Fri, 13 Jan 2023 09:44:57 -0700
-Message-ID: <87tu0uqt86.fsf@meer.lwn.net>
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 5843020036;
+        Fri, 13 Jan 2023 17:04:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1673629450; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZrIktPWt6uDyBFSnP2WU+2Nh/aWfw7kkDySc2ve2K0M=;
+        b=FRpCw8xxBRP2i2AbveMiI9ohchbggYYiIX2zvghZQKS2RVujRdZMtv0nMEyqJT2ACsvomf
+        yrJUepySV7UBaa/TxMa9plHdgHzpAjUeIegkpWWud2xe7cw9XwTtZGPoiCPYX03dW+pULi
+        WF81SfDhkJDJ43+llmF6gZJU8BOwav0=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 38D4A13913;
+        Fri, 13 Jan 2023 17:04:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id CjXKCwqPwWPpZwAAMHmgww
+        (envelope-from <mhocko@suse.com>); Fri, 13 Jan 2023 17:04:10 +0000
+Date:   Fri, 13 Jan 2023 18:04:09 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Zhongkun He <hezhongkun.hzk@bytedance.com>
+Cc:     akpm@linux-foundation.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        wuyun.abel@bytedance.com
+Subject: Re: [PATCH 0/3] mm: replace atomic_t with percpu_ref in mempolicy.
+Message-ID: <Y8GPCT2w0WKARLVF@dhcp22.suse.cz>
+References: <20221204161432.2149375-1-hezhongkun.hzk@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221204161432.2149375-1-hezhongkun.hzk@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Carlos Bilbao <carlos.bilbao@amd.com> writes:
+On Mon 05-12-22 00:14:29, Zhongkun He wrote:
+[...]
+> +/* Obtain a reference on the specified mpol */
+>  static inline void mpol_get(struct mempolicy *pol)
+>  {
+>  	if (pol)
 
-> Translate the following document into Spanish:
->
-> - process/kernel-enforcement-statement.rst
->
-> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
-> ---
->  .../translations/sp_SP/process/index.rst      |   1 +
->  .../process/kernel-enforcement-statement.rst  | 174 ++++++++++++++++++
->  2 files changed, 175 insertions(+)
->  create mode 100644 Documentation/translations/sp_SP/process/kernel-enforcement-statement.rst
+Shouldn't this be mpol_needs_cond_ref?
 
-Applied, thanks.
+> -		atomic_inc(&pol->refcnt);
+> +		percpu_ref_get(&pol->refcnt);
+> +}
+> +
+> +static inline bool mpol_tryget(struct mempolicy *pol)
+> +{
+> +	return pol && percpu_ref_tryget(&pol->refcnt);
+>  }
+>  
+> +/*
+> + * This function initiates destruction of mempolicy.
 
-jon
+This is not a useful comment. It would be much more helpful to say when
+this should be called.
+
+> + */
+> +static inline void mpol_kill(struct mempolicy *pol)
+> +{
+> +        if (pol)
+> +                percpu_ref_kill(&pol->refcnt);
+> +}
+> +
+> +
+>  extern bool __mpol_equal(struct mempolicy *a, struct mempolicy *b);
+>  static inline bool mpol_equal(struct mempolicy *a, struct mempolicy *b)
+>  {
+> @@ -197,11 +210,15 @@ static inline void mpol_put(struct mempolicy *p)
+>  {
+>  }
+>  
+> -static inline void mpol_cond_put(struct mempolicy *pol)
+> +static inline void mpol_get(struct mempolicy *pol)
+>  {
+>  }
+>  
+> -static inline void mpol_get(struct mempolicy *pol)
+> +static inline bool mpol_tryget(struct mempolicy *pol)
+> +{
+> +}
+
+This should return false, right?
+
+[...]
+> +/* Obtain a reference on the specified task mempolicy */
+
+Again, this is pretty much clear from the name. It would be more useful
+to explain how the pointer can be used - e.g. needs to call mpol_put
+or mpol_kill depending on the calling context.
+
+> +static mempolicy *get_task_mpol(struct task_struct *p)
+> +{
+> +	struct mempolicy *pol;
+> +
+> +	rcu_read_lock();
+> +	pol = rcu_dereference(p->mempolicy);
+> +
+> +	if (!pol || mpol_tryget(pol))
+
+Shouldn't be !mpol_tryget?
+
+> +		pol = NULL;
+> +	rcu_read_unlock();
+> +
+> +	return pol;
+> +}
+> +
+
+I do not see any rcu_assign_pointer for the newly created policy so this
+seems incomplete. Ditto no mpol_kill calls. I am unlikely to get into
+follow up patches now. Please split up the work so that it is reviewable
+more easily and then I can have a further look.
+
+Thanks!
+-- 
+Michal Hocko
+SUSE Labs
