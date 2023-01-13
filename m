@@ -2,67 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88BB1C61DB3
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 16:43:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67629C61DB3
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Jan 2023 16:47:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229560AbjAMQnC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Jan 2023 11:43:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56606 "EHLO
+        id S230181AbjAMQrd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Jan 2023 11:47:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230074AbjAMQm1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 11:42:27 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78656C2A;
-        Fri, 13 Jan 2023 08:41:08 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229723AbjAMQrJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 11:47:09 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20A7F7814C;
+        Fri, 13 Jan 2023 08:44:58 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 11E51622A1;
-        Fri, 13 Jan 2023 16:41:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 73003C433EF;
-        Fri, 13 Jan 2023 16:41:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673628067;
-        bh=8Jw6Zv7U7Hupx+S3ky3vCOoTqNVlIE3ZV7MNpwQC72Y=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=t2fnuGskN5JweDBEfFO50xxUCO2F2hLRS+kcHpj/eU5isFbtnGFIVwcaPFLZtq3qr
-         hLGignOxf4pQVmkYBvmjI1Rwt2MofOdVeJMCBzg4Rim1xZIWN8wbag6vPW/wVBKEND
-         DjJVP40u7EHDwCAicgT/suGJIsBCOkh/y11PaYyVl3KYAH5Y+heNu+GLpMJ1Cm88l+
-         51FUTAiel0ZxacYFkT8B8qlNvGQVNf8mrN7fErg4il8xsfVBmGhLXa6eIDBrYXvqOT
-         3bVSGXfpwwtQH1y8vrw/C4a+sRhuI1mJm3Y5ARnXPdmP0m7uRfLpFbQLRDui8e00cw
-         Tp03XCLcFX8qg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 610FDC395C7;
-        Fri, 13 Jan 2023 16:41:07 +0000 (UTC)
-Subject: Re: [GIT PULL] Documentation fixes for 6.2
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <877cxqs8pt.fsf@meer.lwn.net>
-References: <877cxqs8pt.fsf@meer.lwn.net>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <877cxqs8pt.fsf@meer.lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-6.2-fixes
-X-PR-Tracked-Commit-Id: a33ae832bf3f2ac33e2e44b99f76130d3be848c5
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 40d92fc4fa81a93b4659b98512dcb9d0ccd94cfd
-Message-Id: <167362806738.11257.4202660184587676173.pr-tracker-bot@kernel.org>
-Date:   Fri, 13 Jan 2023 16:41:07 +0000
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        by ms.lwn.net (Postfix) with ESMTPSA id C8E5D733;
+        Fri, 13 Jan 2023 16:44:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C8E5D733
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1673628297; bh=I6rm7KzONNVJMxFe3CSWGLez9rLB0K0wtheNbQk0RTg=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Px3iMEjwOXNwv9qHZSYHlwRKgWqhzDzT5j2jDTpRSLSBMfqK4zyBckYDO096GZi+r
+         c/n3HW579SEbB3r0lSH/Rb9To2supz/hrcIQyuamkZW0/s4oYKgDtk9Na7nShk14Gc
+         7pe5fbuPPIp+r1fNymFziv16celjWc3bfFmIybD9cvj5ctadLNBmReAofhitcmRCSl
+         rJ2iIJNdfYkZ/PYXXizk5tKnjuBlvl/FwYUSHl8BJl4zxxSmbuuCqaFkEiV91ISqfs
+         TbLf5pHzu84K149myIQ6z9H4AzmenGo4Q+Ch7RgVLXf/8ce/ELw/NcbcX2fqJfIkjO
+         yEXJc792fdgpw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     bilbao@vt.edu, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH] docs/sp_SP: Add process
+ kernel-enforcement-statement.rst translation
+In-Reply-To: <20230103165608.134190-1-carlos.bilbao@amd.com>
+References: <20230103165608.134190-1-carlos.bilbao@amd.com>
+Date:   Fri, 13 Jan 2023 09:44:57 -0700
+Message-ID: <87tu0uqt86.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Fri, 13 Jan 2023 09:25:02 -0700:
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-> git://git.lwn.net/linux.git tags/docs-6.2-fixes
+> Translate the following document into Spanish:
+>
+> - process/kernel-enforcement-statement.rst
+>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+> ---
+>  .../translations/sp_SP/process/index.rst      |   1 +
+>  .../process/kernel-enforcement-statement.rst  | 174 ++++++++++++++++++
+>  2 files changed, 175 insertions(+)
+>  create mode 100644 Documentation/translations/sp_SP/process/kernel-enforcement-statement.rst
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/40d92fc4fa81a93b4659b98512dcb9d0ccd94cfd
+Applied, thanks.
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+jon
