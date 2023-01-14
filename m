@@ -2,21 +2,21 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EB5EC3DA78
-	for <linux-doc@archiver.kernel.org>; Sat, 14 Jan 2023 10:13:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27DB1C46467
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Jan 2023 10:13:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229852AbjANKNZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S229918AbjANKNZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sat, 14 Jan 2023 05:13:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44556 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229845AbjANKNY (ORCPT
+        with ESMTP id S229843AbjANKNY (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Jan 2023 05:13:24 -0500
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B337C76B4;
-        Sat, 14 Jan 2023 02:13:21 -0800 (PST)
-Received: from dggpeml500002.china.huawei.com (unknown [172.30.72.54])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4NvDXN6jkWzJqKS;
-        Sat, 14 Jan 2023 18:09:08 +0800 (CST)
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FCC176BD;
+        Sat, 14 Jan 2023 02:13:22 -0800 (PST)
+Received: from dggpeml500002.china.huawei.com (unknown [172.30.72.57])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NvDbg2z36zJrVW;
+        Sat, 14 Jan 2023 18:11:59 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
  dggpeml500002.china.huawei.com (7.185.36.158) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -32,10 +32,12 @@ CC:     <coresight@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
         <liuqi6124@gmail.com>, <f.fangjian@huawei.com>,
         <shenyang39@huawei.com>, <prime.zeng@hisilicon.com>,
         <hejunhao3@huawei.com>
-Subject: [PATCH v16 0/2] Add support for UltraSoc System Memory Buffer
-Date:   Sat, 14 Jan 2023 18:13:00 +0800
-Message-ID: <20230114101302.62320-1-hejunhao3@huawei.com>
+Subject: [PATCH v16 2/2] Documentation: Add document for UltraSoc SMB driver
+Date:   Sat, 14 Jan 2023 18:13:02 +0800
+Message-ID: <20230114101302.62320-3-hejunhao3@huawei.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20230114101302.62320-1-hejunhao3@huawei.com>
+References: <20230114101302.62320-1-hejunhao3@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -47,110 +49,149 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for UltraSoc System Memory Buffer.
+From: Qi Liu <liuqi115@huawei.com>
 
-Change since v15:
-- Modify document based on Bagas and Suzuki's comments.
-- Link: https://lore.kernel.org/lkml/20221220092945.30722-1-hejunhao3@huawei.com/
+Bring in documentation for UltraSoc SMB driver.
+It simply describes the device, sysfs interface and the
+firmware bindings.
 
-Change since v14:
-- Add some helpers to the buffer and simplify dumping data according to Jonathan's comment.
-- Link: https://lore.kernel.org/lkml/20221123123823.27973-1-hejunhao3@huawei.com/
-
-Change since v13:
-- Modify document and the patches description according to Bagas's comment.
-- Add dependency on config ACPI, drop redundant enable hw in smb_update_buffer(),
-  Modify smb_purge_data() description according to Suzuki's comment.
-- Link: https://lore.kernel.org/lkml/20221114090316.63157-1-hejunhao3@huawei.com/
-
-Change since v12:
-- Modify the code style and add "#ifdef CONFIG_ACPI" according to Jonathan's comment.
-- Address the comments from Yicong, included drop "buf_base"__iomem attribute,
-  modify the "reading" type to bool and fix FIELD_PREP.
-- Link: https://lore.kernel.org/lkml/20221109135008.9485-1-hejunhao3@huawei.com/
-
-Change since v11:
-- Modify the code style and rename the macro according to Jonathan's comment.
-- Link: https://lore.kernel.org/lkml/20221107130624.59886-1-hejunhao3@huawei.com/
-
-Change since v10:
-- Rebase onto v6.1-rc4, included similar sysfs register accessors (as same as James's patch)
-- Link: https://lore.kernel.org/lkml/20221022115929.7503-1-hejunhao3@huawei.com/
-
-Change since v9:
-- Update the Contact tag in SMB document. 
-- Replace the spinlock with mutex.
-- Do some clean-ups in "smb_enable()" and "smb_release()".
-- Use classic memory mapped interface.
-- Link: https://lore.kernel.org/linux-arm-kernel/20220818132231.28240-1-hejunhao3@huawei.com/
-
-Change since v8:
-- Insert a blank line at the end of the config tag in Kconfig according to Randy's comment.
-- Link: https://lore.kernel.org/linux-arm-kernel/20220816131634.38195-1-hejunhao3@huawei.com/
-
-Change since v7:
-- Use the macros for register bit flags and numbers of resource.
-- Cleanup punctuation.
-- Update the Date tag and the KernelVersion tag in the document.
-- Link: https://lore.kernel.org/lkml/20220712091353.34540-1-hejunhao3@huawei.com/
-
-Change since v6:
-- Modify the code style and driver description according to Suzuki's comment.
-- Modify configuration of "drvdata->reading", to void problems in open/read
-  concurrency scenario.
-- Rename the macro of "SMB_FLOW_MASK".
-- Use the "handle->head" to determine the page number and offset.
-- Link: https://lore.kernel.org/linux-arm-kernel/20220606130223.57354-1-liuqi115@huawei.com/
-
-  Change since v5:
-- Address the comments from Suzuki, add some comments in SMB document, and modify
-  configuration of "drvdata->reading", to void problems in multi-core concurrency scenario
-- Link: https://lore.kernel.org/linux-arm-kernel/20220416083953.52610-1-liuqi115@huawei.com/
-
-Change since v4:
-- Add a simple document of SMB driver according to Suzuki's comment.
-- Address the comments from Suzuki.
-- Link: https://lore.kernel.org/linux-arm-kernel/20220128061755.31909-1-liuqi115@huawei.com/
-
-Change since v3:
-- Modify the file header according to community specifications.
-- Address the comments from Mathieu.
-- Link: https://lore.kernel.org/linux-arm-kernel/20211118110016.40398-1-liuqi115@huawei.com/
-
-Change since v2:
-- Move ultrasoc driver to drivers/hwtracing/coresight by Mathieu's comment.
-- Link: https://lists.linaro.org/pipermail/coresight/2021-November/007310.html
-
-Change since v1:
-- Drop the document of UltraSoc according to Mathieu's comment.
-- Add comments to explain some private hardware settings.
-- Address the comments from Mathieu.
-- Link: https://lists.linaro.org/pipermail/coresight/2021-August/006842.html
-
-Change since RFC:
-- Move driver to drivers/hwtracing/coresight/ultrasoc.
-- Remove ultrasoc-axi-com.c, as AXI-COM doesn't need to be configured in
-  basic tracing function.
-- Remove ultrasoc.c as SMB does not need to register with the ultrasoc core.
-- Address the comments from Mathieu and Suzuki.
-- Link: https://lists.linaro.org/pipermail/coresight/2021-June/006535.html
-
-Qi Liu (2):
-  drivers/coresight: Add UltraSoc System Memory Buffer driver
-  Documentation: Add document for UltraSoc SMB driver
-
- .../sysfs-bus-coresight-devices-ultra_smb     |  31 +
- .../trace/coresight/ultrasoc-smb.rst          |  83 +++
- drivers/hwtracing/coresight/Kconfig           |  12 +
- drivers/hwtracing/coresight/Makefile          |   1 +
- drivers/hwtracing/coresight/ultrasoc-smb.c    | 648 ++++++++++++++++++
- drivers/hwtracing/coresight/ultrasoc-smb.h    | 125 ++++
- 6 files changed, 900 insertions(+)
+Signed-off-by: Qi Liu <liuqi115@huawei.com>
+Signed-off-by: Junhao He <hejunhao3@huawei.com>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ .../sysfs-bus-coresight-devices-ultra_smb     | 31 +++++++
+ .../trace/coresight/ultrasoc-smb.rst          | 83 +++++++++++++++++++
+ 2 files changed, 114 insertions(+)
  create mode 100644 Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
  create mode 100644 Documentation/trace/coresight/ultrasoc-smb.rst
- create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.c
- create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.h
 
+diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb b/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
+new file mode 100644
+index 000000000000..f560918ae738
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
+@@ -0,0 +1,31 @@
++What:		/sys/bus/coresight/devices/ultra_smb<N>/enable_sink
++Date:		January 2023
++KernelVersion:	6.3
++Contact:	Junhao He <hejunhao3@huawei.com>
++Description:	(RW) Add/remove a SMB device from a trace path. There can be
++		multiple sources for a single SMB device.
++
++What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/buf_size
++Date:		January 2023
++KernelVersion:	6.3
++Contact:	Junhao He <hejunhao3@huawei.com>
++Description:	(RO) Shows the buffer size of each UltraSoc SMB device.
++
++What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/buf_status
++Date:		January 2023
++KernelVersion:	6.3
++Contact:	Junhao He <hejunhao3@huawei.com>
++Description:	(RO) Shows the value of UltraSoc SMB status register.
++		BIT(0) is zero means buffer is empty.
++
++What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/read_pos
++Date:		January 2023
++KernelVersion:	6.3
++Contact:	Junhao He <hejunhao3@huawei.com>
++Description:	(RO) Shows the value of UltraSoc SMB Read Pointer register.
++
++What:		/sys/bus/coresight/devices/ultra_smb<N>/mgmt/write_pos
++Date:		January 2023
++KernelVersion:	6.3
++Contact:	Junhao He <hejunhao3@huawei.com>
++Description:	(RO) Shows the value of UltraSoc SMB Write Pointer register.
+diff --git a/Documentation/trace/coresight/ultrasoc-smb.rst b/Documentation/trace/coresight/ultrasoc-smb.rst
+new file mode 100644
+index 000000000000..a05488a75ff0
+--- /dev/null
++++ b/Documentation/trace/coresight/ultrasoc-smb.rst
+@@ -0,0 +1,83 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++======================================
++UltraSoc - HW Assisted Tracing on SoC
++======================================
++   :Author:   Qi Liu <liuqi115@huawei.com>
++   :Date:     January 2023
++
++Introduction
++------------
++
++UltraSoc SMB is a per SCCL (Super CPU Cluster) hardware. It provides a
++way to buffer and store CPU trace messages in a region of shared system
++memory. The device acts as a coresight sink device and the
++corresponding trace generators (ETM) are attached as source devices.
++
++Sysfs files and directories
++---------------------------
++
++The SMB devices appear on the existing coresight bus alongside other
++devices::
++
++	$# ls /sys/bus/coresight/devices/
++	ultra_smb0   ultra_smb1   ultra_smb2   ultra_smb3
++
++The ``ultra_smb<N>`` names SMB device associated with SCCL.::
++
++	$# ls /sys/bus/coresight/devices/ultra_smb0
++	enable_sink   mgmt
++	$# ls /sys/bus/coresight/devices/ultra_smb0/mgmt
++	buf_size  buf_status  read_pos  write_pos
++
++Key file items are:
++
++   * ``read_pos``: Shows the value on the read pointer register.
++   * ``write_pos``: Shows the value on the write pointer register.
++   * ``buf_status``: Shows the value on the status register.
++     BIT(0) is zero value which means the buffer is empty.
++   * ``buf_size``: Shows the buffer size of each device.
++
++Firmware Bindings
++-----------------
++
++The device is only supported with ACPI. Its binding describes device
++identifier, resource information and graph structure.
++
++The device is identified as ACPI HID "HISI03A1". Device resources are allocated
++using the _CRS method. Each device must present two base address; the first one
++is the configuration base address of the device, the second one is the 32-bit
++base address of shared system memory.
++
++Example::
++
++    Device(USMB) {                                               \
++      Name(_HID, "HISI03A1")                                     \
++      Name(_CRS, ResourceTemplate() {                            \
++          QWordMemory (ResourceConsumer, , MinFixed, MaxFixed, NonCacheable, \
++		       ReadWrite, 0x0, 0x95100000, 0x951FFFFF, 0x0, 0x100000) \
++          QWordMemory (ResourceConsumer, , MinFixed, MaxFixed, Cacheable, \
++		       ReadWrite, 0x0, 0x50000000, 0x53FFFFFF, 0x0, 0x4000000) \
++      })                                                         \
++      Name(_DSD, Package() {                                     \
++        ToUUID("ab02a46b-74c7-45a2-bd68-f7d344ef2153"),          \
++	/* Use CoreSight Graph ACPI bindings to describe connections topology */
++        Package() {                                              \
++          0,                                                     \
++          1,                                                     \
++          Package() {                                            \
++            1,                                                   \
++            ToUUID("3ecbc8b6-1d0e-4fb3-8107-e627f805c6cd"),      \
++            8,                                                   \
++            Package() {0x8, 0, \_SB.S00.SL11.CL28.F008, 0},       \
++            Package() {0x9, 0, \_SB.S00.SL11.CL29.F009, 0},       \
++            Package() {0xa, 0, \_SB.S00.SL11.CL2A.F010, 0},       \
++            Package() {0xb, 0, \_SB.S00.SL11.CL2B.F011, 0},       \
++            Package() {0xc, 0, \_SB.S00.SL11.CL2C.F012, 0},       \
++            Package() {0xd, 0, \_SB.S00.SL11.CL2D.F013, 0},       \
++            Package() {0xe, 0, \_SB.S00.SL11.CL2E.F014, 0},       \
++            Package() {0xf, 0, \_SB.S00.SL11.CL2F.F015, 0},       \
++          }                                                      \
++        }                                                        \
++      })                                                         \
++    }
 -- 
 2.33.0
 
