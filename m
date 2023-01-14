@@ -2,98 +2,155 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCF6AC46467
-	for <linux-doc@archiver.kernel.org>; Sat, 14 Jan 2023 06:08:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EB5EC3DA78
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Jan 2023 10:13:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229468AbjANGIz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 14 Jan 2023 01:08:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37074 "EHLO
+        id S229852AbjANKNZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 14 Jan 2023 05:13:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbjANGIy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Jan 2023 01:08:54 -0500
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9100B30DB
-        for <linux-doc@vger.kernel.org>; Fri, 13 Jan 2023 22:08:53 -0800 (PST)
-Received: by mail-qt1-x832.google.com with SMTP id j15so15349330qtv.4
-        for <linux-doc@vger.kernel.org>; Fri, 13 Jan 2023 22:08:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pefoley.com; s=google;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3+2LAaOxNQuhC+S8GRJpCwLfoqVevt1c8Xbyr6vRhjU=;
-        b=gFnpBpSkC70sxHenDkPzNMijYG/24BmL8bGnUIuoE13k3qT7qn/PAOuHK/80vnAL2H
-         E5If086c3G8wGYctQ921urUJs0LqxYH76Kbq//y2cnKhZJUniTly09Sq4POIuq/sKqW2
-         DEfU+MChdgcpc3ZKTsl4gbejqfhI1wK1xQrrs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3+2LAaOxNQuhC+S8GRJpCwLfoqVevt1c8Xbyr6vRhjU=;
-        b=lZavPjQvvHhf5NvdsH+XhQtPsAjyRj0U3r6h9lo9EBdZLPVFYbeWLCxuomekmywt2v
-         rNnir8DWFri8QvDEQedXFapTxmi7V6W9ALrQ2sKEP+UDGhmuNBF1RZgrQSHbU9CKLPYf
-         n3XUdBm1tKCtaioHsmYz2n1e6fCHB6fO75QvzwPj4FHlnhNQyTKDk8iZOiaYkgNRRxMK
-         jYuDQ7IULTaPUDfRVIzoRdpxgIw4sqdNMThluwzSlWTZzLr1f34L3aZBGAB447UcH94y
-         Yt1nmthC55lXn0U3ejwyeHyqIvx7OHMMy/xpLSDCUdnQ5EwDss4Xv/tR/VpSvxItKrfm
-         rMaw==
-X-Gm-Message-State: AFqh2ko5H3xivsm5yaV0WZyudZwzc8yaAvqlPus4URUacZfLpNRrVaTb
-        EGe6Qzs51M8kOmVXPYAi2pFb6W6MF6QZJlDP+oyPYQ==
-X-Google-Smtp-Source: AMrXdXtmFUppigjwv0C/k5mQlzbCkvyuCL8GIlLqzgqKplS56HkGm+iznQF/skNIo+h34mxAUORiTQ==
-X-Received: by 2002:a05:622a:1aa1:b0:3b5:77ff:fbff with SMTP id s33-20020a05622a1aa100b003b577fffbffmr89441qtc.37.1673676532448;
-        Fri, 13 Jan 2023 22:08:52 -0800 (PST)
-Received: from [192.168.1.3] ([2600:4040:29fb:d300:887b:7eff:fe74:68b2])
-        by smtp.gmail.com with ESMTPSA id z26-20020ac8101a000000b003a70a675066sm11553086qti.79.2023.01.13.22.08.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jan 2023 22:08:52 -0800 (PST)
-From:   Peter Foley <pefoley2@pefoley.com>
-Date:   Sat, 14 Jan 2023 01:08:41 -0500
-Subject: [PATCH] Documentation: Avoid duplicate Kconfig inclusion
+        with ESMTP id S229845AbjANKNY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Jan 2023 05:13:24 -0500
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B337C76B4;
+        Sat, 14 Jan 2023 02:13:21 -0800 (PST)
+Received: from dggpeml500002.china.huawei.com (unknown [172.30.72.54])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4NvDXN6jkWzJqKS;
+        Sat, 14 Jan 2023 18:09:08 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ dggpeml500002.china.huawei.com (7.185.36.158) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Sat, 14 Jan 2023 18:13:19 +0800
+From:   Junhao He <hejunhao3@huawei.com>
+To:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
+        <mike.leach@linaro.org>, <leo.yan@linaro.org>,
+        <jonathan.cameron@huawei.com>
+CC:     <coresight@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <lpieralisi@kernel.org>,
+        <linuxarm@huawei.com>, <yangyicong@huawei.com>,
+        <liuqi6124@gmail.com>, <f.fangjian@huawei.com>,
+        <shenyang39@huawei.com>, <prime.zeng@hisilicon.com>,
+        <hejunhao3@huawei.com>
+Subject: [PATCH v16 0/2] Add support for UltraSoc System Memory Buffer
+Date:   Sat, 14 Jan 2023 18:13:00 +0800
+Message-ID: <20230114101302.62320-1-hejunhao3@huawei.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230114-doc-v1-1-efec2689e423@pefoley.com>
-X-B4-Tracking: v=1; b=H4sIAOlGwmMC/x2MSQqAMAwAvyI5W2hdQP2KeIht1ByskogI4t+tH
- ocZ5gYlYVLoshuETlbeYgKXZ+AXjDMZDomhsEVpnatM2Lyxtg5Thb5xbQmpHFHJjILRL1+7oh4k
- n9iFJr7+fT88zwsoAllAbgAAAA==
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Peter Foley <pefoley2@pefoley.com>
-X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1673676531; l=634;
- i=pefoley2@pefoley.com; s=20230111; h=from:subject:message-id;
- bh=cT2yd4HoZ95mdHyqj3Z2j/xAavuANzfRGr7ZZ7U0xB0=;
- b=tS0PDOXdiSBNHvVvN1q7KitOv6SCfxJJupFDvSaky/lTE5HpdWF4YoDDoA3u5+DHRwXHMJrOc+7Z
- KSUI3/QbBGZ3KG4NFu2ONZHhUEPUaah8qJ5F1YF884p1y0aMeghR
-X-Developer-Key: i=pefoley2@pefoley.com; a=ed25519;
- pk=DCQqIdN6rHnvfQH58WQiQzJFfGUo1HyWSvdYG8vnO5o=
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.69.192.56]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpeml500002.china.huawei.com (7.185.36.158)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Documentation/Kconfig is already included from lib/Kconfig.debug, avoid
-including it again and polluting the top-level menu.
+Add support for UltraSoc System Memory Buffer.
 
-Signed-off-by: Peter Foley <pefoley2@pefoley.com>
----
- Kconfig | 2 --
- 1 file changed, 2 deletions(-)
+Change since v15:
+- Modify document based on Bagas and Suzuki's comments.
+- Link: https://lore.kernel.org/lkml/20221220092945.30722-1-hejunhao3@huawei.com/
 
-diff --git a/Kconfig b/Kconfig
-index 745bc773f5670..97ed6389c9211 100644
---- a/Kconfig
-+++ b/Kconfig
-@@ -28,5 +28,3 @@ source "crypto/Kconfig"
- source "lib/Kconfig"
- 
- source "lib/Kconfig.debug"
--
--source "Documentation/Kconfig"
+Change since v14:
+- Add some helpers to the buffer and simplify dumping data according to Jonathan's comment.
+- Link: https://lore.kernel.org/lkml/20221123123823.27973-1-hejunhao3@huawei.com/
 
----
-base-commit: 97ec4d559d939743e8af83628be5af8da610d9dc
-change-id: 20230114-doc-005df4ac8193
+Change since v13:
+- Modify document and the patches description according to Bagas's comment.
+- Add dependency on config ACPI, drop redundant enable hw in smb_update_buffer(),
+  Modify smb_purge_data() description according to Suzuki's comment.
+- Link: https://lore.kernel.org/lkml/20221114090316.63157-1-hejunhao3@huawei.com/
 
-Best regards,
+Change since v12:
+- Modify the code style and add "#ifdef CONFIG_ACPI" according to Jonathan's comment.
+- Address the comments from Yicong, included drop "buf_base"__iomem attribute,
+  modify the "reading" type to bool and fix FIELD_PREP.
+- Link: https://lore.kernel.org/lkml/20221109135008.9485-1-hejunhao3@huawei.com/
+
+Change since v11:
+- Modify the code style and rename the macro according to Jonathan's comment.
+- Link: https://lore.kernel.org/lkml/20221107130624.59886-1-hejunhao3@huawei.com/
+
+Change since v10:
+- Rebase onto v6.1-rc4, included similar sysfs register accessors (as same as James's patch)
+- Link: https://lore.kernel.org/lkml/20221022115929.7503-1-hejunhao3@huawei.com/
+
+Change since v9:
+- Update the Contact tag in SMB document. 
+- Replace the spinlock with mutex.
+- Do some clean-ups in "smb_enable()" and "smb_release()".
+- Use classic memory mapped interface.
+- Link: https://lore.kernel.org/linux-arm-kernel/20220818132231.28240-1-hejunhao3@huawei.com/
+
+Change since v8:
+- Insert a blank line at the end of the config tag in Kconfig according to Randy's comment.
+- Link: https://lore.kernel.org/linux-arm-kernel/20220816131634.38195-1-hejunhao3@huawei.com/
+
+Change since v7:
+- Use the macros for register bit flags and numbers of resource.
+- Cleanup punctuation.
+- Update the Date tag and the KernelVersion tag in the document.
+- Link: https://lore.kernel.org/lkml/20220712091353.34540-1-hejunhao3@huawei.com/
+
+Change since v6:
+- Modify the code style and driver description according to Suzuki's comment.
+- Modify configuration of "drvdata->reading", to void problems in open/read
+  concurrency scenario.
+- Rename the macro of "SMB_FLOW_MASK".
+- Use the "handle->head" to determine the page number and offset.
+- Link: https://lore.kernel.org/linux-arm-kernel/20220606130223.57354-1-liuqi115@huawei.com/
+
+  Change since v5:
+- Address the comments from Suzuki, add some comments in SMB document, and modify
+  configuration of "drvdata->reading", to void problems in multi-core concurrency scenario
+- Link: https://lore.kernel.org/linux-arm-kernel/20220416083953.52610-1-liuqi115@huawei.com/
+
+Change since v4:
+- Add a simple document of SMB driver according to Suzuki's comment.
+- Address the comments from Suzuki.
+- Link: https://lore.kernel.org/linux-arm-kernel/20220128061755.31909-1-liuqi115@huawei.com/
+
+Change since v3:
+- Modify the file header according to community specifications.
+- Address the comments from Mathieu.
+- Link: https://lore.kernel.org/linux-arm-kernel/20211118110016.40398-1-liuqi115@huawei.com/
+
+Change since v2:
+- Move ultrasoc driver to drivers/hwtracing/coresight by Mathieu's comment.
+- Link: https://lists.linaro.org/pipermail/coresight/2021-November/007310.html
+
+Change since v1:
+- Drop the document of UltraSoc according to Mathieu's comment.
+- Add comments to explain some private hardware settings.
+- Address the comments from Mathieu.
+- Link: https://lists.linaro.org/pipermail/coresight/2021-August/006842.html
+
+Change since RFC:
+- Move driver to drivers/hwtracing/coresight/ultrasoc.
+- Remove ultrasoc-axi-com.c, as AXI-COM doesn't need to be configured in
+  basic tracing function.
+- Remove ultrasoc.c as SMB does not need to register with the ultrasoc core.
+- Address the comments from Mathieu and Suzuki.
+- Link: https://lists.linaro.org/pipermail/coresight/2021-June/006535.html
+
+Qi Liu (2):
+  drivers/coresight: Add UltraSoc System Memory Buffer driver
+  Documentation: Add document for UltraSoc SMB driver
+
+ .../sysfs-bus-coresight-devices-ultra_smb     |  31 +
+ .../trace/coresight/ultrasoc-smb.rst          |  83 +++
+ drivers/hwtracing/coresight/Kconfig           |  12 +
+ drivers/hwtracing/coresight/Makefile          |   1 +
+ drivers/hwtracing/coresight/ultrasoc-smb.c    | 648 ++++++++++++++++++
+ drivers/hwtracing/coresight/ultrasoc-smb.h    | 125 ++++
+ 6 files changed, 900 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-coresight-devices-ultra_smb
+ create mode 100644 Documentation/trace/coresight/ultrasoc-smb.rst
+ create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.c
+ create mode 100644 drivers/hwtracing/coresight/ultrasoc-smb.h
+
 -- 
-Peter Foley <pefoley2@pefoley.com>
+2.33.0
+
