@@ -2,160 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB658C3DA78
-	for <linux-doc@archiver.kernel.org>; Sat, 14 Jan 2023 19:47:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA86C3DA78
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Jan 2023 21:01:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230224AbjANTr5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 14 Jan 2023 14:47:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34016 "EHLO
+        id S230385AbjANVB2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 14 Jan 2023 16:01:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230345AbjANTry (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Jan 2023 14:47:54 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D64DA5C9;
-        Sat, 14 Jan 2023 11:47:53 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 08284B80A36;
-        Sat, 14 Jan 2023 19:47:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1236C433D2;
-        Sat, 14 Jan 2023 19:47:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673725670;
-        bh=h5oj8uz2mcobJK2H+Hm87QzyJogghFxebdxYASXr6cM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KiDrcBr9xYYjYZegA2r59TFavCdH1lJzSKxoSZ6AnPCL95MfbvVcN/2vpGfdMQsPS
-         cEQ2xGXQikIXt/oa7BuEOV6UUTZwitOmkFZ/IQb+AHojukxeVTNXd7gT4AN+4AE5TF
-         xNB1KvHvAWsJJQiJjtrAHEfQ7gL3a2YeYtcoQ+/mKfhDWWwOGZOAOFuWdRRkKcBSR0
-         1oLifEXl8Pf53b4bHvQbdXl5r9PY9o9nUOziEzSMP57fwtK63MPFONd5i1qND5Tz2V
-         HfKNpJPuqhUU/n0FFCruuQnRLZajl/DjGHd0wL593NZ07RyNMpUnjrPASGFfUoszoq
-         wt6ROkuSivsgA==
-From:   SeongJae Park <sj@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     SeongJae Park <sj@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-crypto@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-        linux-input@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: [PATCH 2/2] Docs: Add some missing SPDX license identifiers of subsystem docs
-Date:   Sat, 14 Jan 2023 19:47:41 +0000
-Message-Id: <20230114194741.115855-2-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230114194741.115855-1-sj@kernel.org>
-References: <20230114194741.115855-1-sj@kernel.org>
+        with ESMTP id S230407AbjANVB1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Jan 2023 16:01:27 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02FEC83CE
+        for <linux-doc@vger.kernel.org>; Sat, 14 Jan 2023 13:01:26 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id ay40so17428497wmb.2
+        for <linux-doc@vger.kernel.org>; Sat, 14 Jan 2023 13:01:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=cmx+GOrtGHSSNT8+mZXXNfQG96xDWqpvLPXvzcMm9QU=;
+        b=LMOTEDXhe+m5MI40I9KVZlHCiA0QHsVbGujXfWLC3DaQaXp6JhUmayhgb/w1oXGP2y
+         euuBvqR8o6nUcAzGaAtPfLl59oOuTYA7ReID9Ex3nBajiOTBD0WB5IALnXP2TKBIUo7d
+         4vFLpFndu43EjldWhCHOAIORJ7tjPZ3dBrXGPELbisTouy78U2DNDeFZCKlLELM1m1yX
+         Bu70IsA4z6DUEtMpX4mZUngtQz4kmlR62mp8tolWEB349A1RICNjdF202CZMJQQud9wr
+         kGKFagzO9I2QA0lAOHR0dsT4mErcg42pYyCPPrpvpzmRGwwmg6YDHKwN29o8R4y4sZz+
+         oxHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cmx+GOrtGHSSNT8+mZXXNfQG96xDWqpvLPXvzcMm9QU=;
+        b=Jdt9eBLXsxIIa+ItTGskdfXye2vZ0U8ROsNV3lUKCaACkfJhkCkSXrJlIaCOUodhGS
+         OpUb2d7gXgsEKVkcU8AsnAWietrAjsieLlgbtU4zNh0MtRV+veXJJkdsYTBdoVsi86gA
+         cmCBKqYhjeusFZ9/zDmhvRr7tj10OrwMxBeH9MeuxLktVHQNY1xiKH5HTnT6qHKYMaeB
+         ULoZX6VkP1zoz8BnunxbNqvMgUZqPvPogubNvt5lRMXz6btmVwRrhlCZz93Xi1UuHubH
+         YABsdiHAOQrJtusUue4NxhgoVaTpTzyXBukeTfSS/lFGnlms0pjfbZZYAFXE5dbfEPYJ
+         O7KQ==
+X-Gm-Message-State: AFqh2kqZvRnxhPf9HqB+ajtS23PwqryfM/xmgtlcXBJUFe+UhkUnl7Ed
+        +su4BILm66vvPwohmEbzyANXKw94BKP7n2H8hm/eWA==
+X-Google-Smtp-Source: AMrXdXtCoVOrSXgZMmmcxRX6s0tHseqpCGpAjTXOLHSb36K8efoazLaGMBK5ZRWeZGJeR0xcXFN4QLhod/EALcgTqbg=
+X-Received: by 2002:a05:600c:16d6:b0:3d9:ed46:7e26 with SMTP id
+ l22-20020a05600c16d600b003d9ed467e26mr1436787wmn.184.1673730084439; Sat, 14
+ Jan 2023 13:01:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230113210703.62107-1-nhuck@google.com> <Y8HI+42TxxlJxT6D@slm.duckdns.org>
+In-Reply-To: <Y8HI+42TxxlJxT6D@slm.duckdns.org>
+From:   Nathan Huckleberry <nhuck@google.com>
+Date:   Sat, 14 Jan 2023 13:00:00 -0800
+Message-ID: <CAJkfWY7vmvrU8sW3OWpSa9zygY=6e8BTTkktPe-VScdOcLL-sw@mail.gmail.com>
+Subject: Re: [PATCH] workqueue: Add WQ_SCHED_FIFO
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Sandeep Dhavale <dhavale@google.com>,
+        Daeho Jeong <daehojeong@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some subsystem documents are missing SPDX license identifiers.  Add
-those.
+On Fri, Jan 13, 2023 at 1:11 PM Tejun Heo <tj@kernel.org> wrote:
+>
+> On Fri, Jan 13, 2023 at 01:07:02PM -0800, Nathan Huckleberry wrote:
+> > Add a WQ flag that allows workqueues to use SCHED_FIFO with the least
+> > imporant RT priority.  This can reduce scheduler latency for IO
+> > post-processing when the CPU is under load without impacting other RT
+> > workloads.  This has been shown to improve app startup time on Android
+> > [1].
+> >
+> > Scheduler latency affects several drivers as evidenced by [1], [2], [3],
+> > [4].  Some of these drivers have moved post-processing into IRQ context.
+> > However, this can cause latency spikes for real-time threads and jitter
+> > related jank on Android.  Using a workqueue with SCHED_FIFO improves
+> > scheduler latency without causing latency problems for RT threads.
+> >
+> > [1]:
+> > https://lore.kernel.org/linux-erofs/20230106073502.4017276-1-dhavale@google.com/
+> > [2]:
+> > https://lore.kernel.org/linux-f2fs-devel/20220802192437.1895492-1-daeho43@gmail.com/
+> > [3]:
+> > https://lore.kernel.org/dm-devel/20220722093823.4158756-4-nhuck@google.com/
+> > [4]:
+> > https://lore.kernel.org/dm-crypt/20200706173731.3734-1-ignat@cloudflare.com/
+> >
+> > This change has been tested on dm-verity with the following fio config:
+> >
+> > [global]
+> > time_based
+> > runtime=120
+> >
+> > [do-verify]
+> > ioengine=sync
+> > filename=/dev/testing
+> > rw=randread
+> > direct=1
+> >
+> > [burn_8x90%_qsort]
+> > ioengine=cpuio
+> > cpuload=90
+> > numjobs=8
+> > cpumode=qsort
+> >
+> > Before:
+> > clat (usec): min=13, max=23882, avg=29.56, stdev=113.29 READ:
+> > bw=122MiB/s (128MB/s), 122MiB/s-122MiB/s (128MB/s-128MB/s), io=14.3GiB
+> > (15.3GB), run=120001-120001msec
+> >
+> > After:
+> > clat (usec): min=13, max=23137, avg=19.96, stdev=105.71 READ:
+> > bw=180MiB/s (189MB/s), 180MiB/s-180MiB/s (189MB/s-189MB/s), io=21.1GiB
+> > (22.7GB), run=120012-120012msec
+>
+> Given that its use case mostly intersects with WQ_HIGHPRI, would it make
+> more sense to add a switch to alter its behavior instead? I don't really
+> like the idea of pushing the decision between WQ_HIGHPRI and WQ_SCHED_FIFO
+> to each user.
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/crypto/index.rst     | 2 ++
- Documentation/driver-api/index.rst | 2 ++
- Documentation/gpu/index.rst        | 2 ++
- Documentation/hwmon/index.rst      | 2 ++
- Documentation/input/index.rst      | 2 ++
- Documentation/mm/index.rst         | 2 ++
- Documentation/scheduler/index.rst  | 2 ++
- Documentation/sound/index.rst      | 2 ++
- 8 files changed, 16 insertions(+)
+This sounds fine to me. How do you feel about a config flag to change
+the default WQ_HIGHPRI scheduler policy and a sysfs node to update the
+policy per workqueue?
 
-diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
-index da5d5ad2bdf3..95b0870e09b8 100644
---- a/Documentation/crypto/index.rst
-+++ b/Documentation/crypto/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ==========
- Crypto API
- ==========
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index b208e0dac3a0..7a2584ab63c4 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ==============================
- Driver implementer's API guide
- ==============================
-diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
-index eee5996acf2c..ff06a6b12c5e 100644
---- a/Documentation/gpu/index.rst
-+++ b/Documentation/gpu/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ============================
- GPU Driver Developer's Guide
- ============================
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index c2b3c1a822dd..2186d732654f 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ===================
- Hardware Monitoring
- ===================
-diff --git a/Documentation/input/index.rst b/Documentation/input/index.rst
-index 35581cd18e91..d60bf9cfe005 100644
---- a/Documentation/input/index.rst
-+++ b/Documentation/input/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ===================
- Input Documentation
- ===================
-diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
-index 5a94a921ea40..c4e9fbacaf38 100644
---- a/Documentation/mm/index.rst
-+++ b/Documentation/mm/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ===============================
- Memory Management Documentation
- ===============================
-diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
-index 1aac972a652f..ae0229f5a9cf 100644
---- a/Documentation/scheduler/index.rst
-+++ b/Documentation/scheduler/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- =========
- Scheduler
- =========
-diff --git a/Documentation/sound/index.rst b/Documentation/sound/index.rst
-index 5abed5fc6485..7e67e12730d3 100644
---- a/Documentation/sound/index.rst
-+++ b/Documentation/sound/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- =============================
- Sound Subsystem Documentation
- =============================
--- 
-2.25.1
+Thanks,
+Huck
 
+>
+> Thanks.
+
+>
+> --
+> tejun
