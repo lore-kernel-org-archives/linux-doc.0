@@ -2,297 +2,435 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 426BDC54EBE
-	for <linux-doc@archiver.kernel.org>; Sat, 14 Jan 2023 02:20:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5090BC3DA78
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Jan 2023 03:20:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231463AbjANCUF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Jan 2023 21:20:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46292 "EHLO
+        id S230324AbjANDUk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Jan 2023 22:20:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231455AbjANCT7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 21:19:59 -0500
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63AAA8CBC8;
-        Fri, 13 Jan 2023 18:19:56 -0800 (PST)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0VZW9rHd_1673662790;
-Received: from 30.27.94.170(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0VZW9rHd_1673662790)
-          by smtp.aliyun-inc.com;
-          Sat, 14 Jan 2023 10:19:52 +0800
-Message-ID: <d6ec50c4-5fc3-eb17-e9e8-fce334038193@linux.alibaba.com>
-Date:   Sat, 14 Jan 2023 10:19:50 +0800
+        with ESMTP id S229379AbjANDUf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 22:20:35 -0500
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7150389BC1;
+        Fri, 13 Jan 2023 19:20:34 -0800 (PST)
+Received: by mail-pf1-x42a.google.com with SMTP id i65so14012366pfc.0;
+        Fri, 13 Jan 2023 19:20:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fCzL8v3ly3g0ylHbK5wRwT9XHRJBFF6QOfk8IB/d0Vw=;
+        b=ZcItH0qs0MzglNbnC6OE+dJpknidaPXJeCgShs2GJFhT4VZOWa7eC2/U5GglcZkZiN
+         x8vGjZ4hD5ITUdkzeDj5st73i0mLk7NWYSXCGU4Lu/SK5l1zrC+GqpQBlYJpFEQJDGlb
+         S8S7ev5Sje0kX+zgFKmluxCmZdNDREMtY2nmeXEd4jW7Uw6SFAIeB5TUeq5w2k77qXcJ
+         D0NT/zUEzt7NZwGD3uGZ2A8d9DlLxhv9p1Xn3CGxc6GbT4IahRaMgEOIGts2+VHno6n7
+         dIjhQPNuSUCM44wKfy9YSEjVeAAgVK7g5cdGNUNkM4K5hC+79ycpdtOrhB0nE8Sxur1D
+         h2AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fCzL8v3ly3g0ylHbK5wRwT9XHRJBFF6QOfk8IB/d0Vw=;
+        b=yf16sbT4KEPB4MmLqr5Qxyk8/X7CRyyr7OGuYtJZdkOgnmj1wdnt0ZezR0x1IOkYHT
+         2aZsNU3ZR9t3gjycjH1HRNsNkaKImqpaEi6PeHYsN0d+dBGynzh5t7UI6WIUxh0zdKPM
+         +0tK9IjZ3ohRKYaPkLfGWXyBUjA6glgiA8kGWkQBdZJPhxmAHHtGB+bALEXbhPh8rvh8
+         ONsykEr8oYhPQGWDfNgL1K5OdAbRS2rQtCJBZ1hR7hVbcoug6D7USoReleXm7eTW1D6x
+         D2a/oUFfsLby6U/JztaDIpOo2D02IaZj3Zi4PqcDn2N+PBa9qP/+hV5mlck9/OiKirp2
+         fqUw==
+X-Gm-Message-State: AFqh2krMOvzO/3BcEsg+31oxOjzqvrsFQfnaAsNwODCIuwoJnSGiWfIU
+        rJv5mTU4UZs1SjQKeyIQfBc=
+X-Google-Smtp-Source: AMrXdXsxTIJyux/zsw+qWZlHLc7KwjNMruKvKnTEUumjp9cBXf17Q56UZFDHvotpqTKiBMqBA4bzdg==
+X-Received: by 2002:a62:a510:0:b0:58b:9473:7ae0 with SMTP id v16-20020a62a510000000b0058b94737ae0mr11351716pfm.32.1673666433650;
+        Fri, 13 Jan 2023 19:20:33 -0800 (PST)
+Received: from debian.me (subs03-180-214-233-21.three.co.id. [180.214.233.21])
+        by smtp.gmail.com with ESMTPSA id z4-20020aa79f84000000b00573a9d13e9esm14447722pfr.36.2023.01.13.19.20.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Jan 2023 19:20:33 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 1115E104B0A; Sat, 14 Jan 2023 10:20:28 +0700 (WIB)
+Date:   Sat, 14 Jan 2023 10:20:28 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Alexander Larsson <alexl@redhat.com>, linux-fsdevel@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, gscrivan@redhat.com,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 5/6] composefs: Add documentation
+Message-ID: <Y8IffF7xjyX6BzUE@debian.me>
+References: <cover.1673623253.git.alexl@redhat.com>
+ <a9616059dd7d094c2756cb426e29ce2ac7d8e998.1673623253.git.alexl@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] workqueue: Add WQ_SCHED_FIFO
-To:     Nathan Huckleberry <nhuck@google.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Tejun Heo <tj@kernel.org>
-Cc:     Sandeep Dhavale <dhavale@google.com>,
-        Daeho Jeong <daehojeong@google.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-erofs@lists.ozlabs.org
-References: <20230113210703.62107-1-nhuck@google.com>
-From:   Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <20230113210703.62107-1-nhuck@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="3PByOgCSIFD9ivr4"
+Content-Disposition: inline
+In-Reply-To: <a9616059dd7d094c2756cb426e29ce2ac7d8e998.1673623253.git.alexl@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Nathan!
 
-On 2023/1/14 05:07, Nathan Huckleberry wrote:
-> Add a WQ flag that allows workqueues to use SCHED_FIFO with the least
-> imporant RT priority.  This can reduce scheduler latency for IO
-> post-processing when the CPU is under load without impacting other RT
-> workloads.  This has been shown to improve app startup time on Android
-> [1].
+--3PByOgCSIFD9ivr4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thank you all for your effort on this.  Unfortunately I have no time to
-setup the test [1] until now.  If it can be addressed as a new workqueue
-feature, that would be much helpful to me.  Otherwise, I still need to
-find a way to resolve the latest Android + EROFS latency problem.
+On Fri, Jan 13, 2023 at 04:33:58PM +0100, Alexander Larsson wrote:
+> Adds documentation about the composefs filesystem and
+> how to use it.
 
-> 
-> Scheduler latency affects several drivers as evidenced by [1], [2], [3],
-> [4].  Some of these drivers have moved post-processing into IRQ context.
-> However, this can cause latency spikes for real-time threads and jitter
-> related jank on Android.  Using a workqueue with SCHED_FIFO improves
-> scheduler latency without causing latency problems for RT threads.
+s/Adds documentation/Add documentation/
 
-softirq context is actually mainly for post-interrupt handling I think.
-but considering decompression/verification/decryption all workload are much
-complex than that and less important than real post-interrupt handling.
-I don't think softirq context is the best place to handle these
-CPU-intensive jobs.  Beside, it could cause some important work moving to
-softirqd unexpectedly in the extreme cases.  Also such many post-processing
-jobs are as complex as they could sleep so that softirq context is
-unsuitable as well.
-
-Anyway, I second this proposal if possible:
-
-Acked-by: Gao Xiang <hsiangkao@linux.alibaba.com>
-
-Thanks,
-Gao Xiang
-
-> 
-> [1]:
-> https://lore.kernel.org/linux-erofs/20230106073502.4017276-1-dhavale@google.com/
-> [2]:
-> https://lore.kernel.org/linux-f2fs-devel/20220802192437.1895492-1-daeho43@gmail.com/
-> [3]:
-> https://lore.kernel.org/dm-devel/20220722093823.4158756-4-nhuck@google.com/
-> [4]:
-> https://lore.kernel.org/dm-crypt/20200706173731.3734-1-ignat@cloudflare.com/
-> 
-> This change has been tested on dm-verity with the following fio config:
-> 
-> [global]
-> time_based
-> runtime=120
-> 
-> [do-verify]
-> ioengine=sync
-> filename=/dev/testing
-> rw=randread
-> direct=1
-> 
-> [burn_8x90%_qsort]
-> ioengine=cpuio
-> cpuload=90
-> numjobs=8
-> cpumode=qsort
-> 
-> Before:
-> clat (usec): min=13, max=23882, avg=29.56, stdev=113.29 READ:
-> bw=122MiB/s (128MB/s), 122MiB/s-122MiB/s (128MB/s-128MB/s), io=14.3GiB
-> (15.3GB), run=120001-120001msec
-> 
-> After:
-> clat (usec): min=13, max=23137, avg=19.96, stdev=105.71 READ:
-> bw=180MiB/s (189MB/s), 180MiB/s-180MiB/s (189MB/s-189MB/s), io=21.1GiB
-> (22.7GB), run=120012-120012msec
-> 
-> Cc: Sandeep Dhavale <dhavale@google.com>
-> Cc: Daeho Jeong <daehojeong@google.com>
-> Cc: Eric Biggers <ebiggers@kernel.org>
-> Cc: Sami Tolvanen <samitolvanen@google.com>
-> Signed-off-by: Nathan Huckleberry <nhuck@google.com>
-> ---
->   Documentation/core-api/workqueue.rst | 12 ++++++++++
->   include/linux/workqueue.h            |  9 +++++++
->   kernel/workqueue.c                   | 36 +++++++++++++++++++++-------
->   3 files changed, 48 insertions(+), 9 deletions(-)
-> 
-> diff --git a/Documentation/core-api/workqueue.rst b/Documentation/core-api/workqueue.rst
-> index 3b22ed137662..26faf2806c66 100644
-> --- a/Documentation/core-api/workqueue.rst
-> +++ b/Documentation/core-api/workqueue.rst
-> @@ -216,6 +216,18 @@ resources, scheduled and executed.
->   
->     This flag is meaningless for unbound wq.
->   
-> +``WQ_SCHED_FIFO``
-> +  Work items of a fifo wq are queued to the fifo
-> +  worker-pool of the target cpu.  Fifo worker-pools are
-> +  served by worker threads with scheduler policy SCHED_FIFO and
-> +  the least important real-time priority.  This can be useful
-> +  for workloads where low latency is imporant.
+> diff --git a/Documentation/filesystems/composefs.rst b/Documentation/file=
+systems/composefs.rst
+> new file mode 100644
+> index 000000000000..306f0e2e22ba
+> --- /dev/null
+> +++ b/Documentation/filesystems/composefs.rst
+> @@ -0,0 +1,169 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +  A workqueue cannot be both high-priority and fifo.
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Composefs Filesystem
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 > +
-> +  Note that normal and fifo worker-pools don't interact with
-> +  each other.  Each maintains its separate pool of workers and
-> +  implements concurrency management among its workers.
->   
->   ``max_active``
->   --------------
-> diff --git a/include/linux/workqueue.h b/include/linux/workqueue.h
-> index ac551b8ee7d9..43a4eeaf8ff4 100644
-> --- a/include/linux/workqueue.h
-> +++ b/include/linux/workqueue.h
-> @@ -134,6 +134,10 @@ struct workqueue_attrs {
->   	 * @nice: nice level
->   	 */
->   	int nice;
-> +	/**
-> +	 * @sched_fifo: is using SCHED_FIFO
-> +	 */
-> +	bool sched_fifo;
->   
->   	/**
->   	 * @cpumask: allowed CPUs
-> @@ -334,6 +338,11 @@ enum {
->   	 * http://thread.gmane.org/gmane.linux.kernel/1480396
->   	 */
->   	WQ_POWER_EFFICIENT	= 1 << 7,
-> +	/*
-> +	 * Low real-time priority workqueues can reduce scheduler latency
-> +	 * for latency sensitive workloads like IO post-processing.
-> +	 */
-> +	WQ_SCHED_FIFO		= 1 << 8,
->   
->   	__WQ_DESTROYING		= 1 << 15, /* internal: workqueue is destroying */
->   	__WQ_DRAINING		= 1 << 16, /* internal: workqueue is draining */
-> diff --git a/kernel/workqueue.c b/kernel/workqueue.c
-> index 5dc67aa9d696..99c5e0a3dc28 100644
-> --- a/kernel/workqueue.c
-> +++ b/kernel/workqueue.c
-> @@ -85,7 +85,7 @@ enum {
->   	WORKER_NOT_RUNNING	= WORKER_PREP | WORKER_CPU_INTENSIVE |
->   				  WORKER_UNBOUND | WORKER_REBOUND,
->   
-> -	NR_STD_WORKER_POOLS	= 2,		/* # standard pools per cpu */
-> +	NR_STD_WORKER_POOLS	= 3,		/* # standard pools per cpu */
->   
->   	UNBOUND_POOL_HASH_ORDER	= 6,		/* hashed by pool->attrs */
->   	BUSY_WORKER_HASH_ORDER	= 6,		/* 64 pointers */
-> @@ -1949,7 +1949,8 @@ static struct worker *create_worker(struct worker_pool *pool)
->   
->   	if (pool->cpu >= 0)
->   		snprintf(id_buf, sizeof(id_buf), "%d:%d%s", pool->cpu, id,
-> -			 pool->attrs->nice < 0  ? "H" : "");
-> +			 pool->attrs->sched_fifo ? "F" :
-> +			 (pool->attrs->nice < 0  ? "H" : ""));
->   	else
->   		snprintf(id_buf, sizeof(id_buf), "u%d:%d", pool->id, id);
->   
-> @@ -1958,7 +1959,11 @@ static struct worker *create_worker(struct worker_pool *pool)
->   	if (IS_ERR(worker->task))
->   		goto fail;
->   
-> -	set_user_nice(worker->task, pool->attrs->nice);
-> +	if (pool->attrs->sched_fifo)
-> +		sched_set_fifo_low(worker->task);
-> +	else
-> +		set_user_nice(worker->task, pool->attrs->nice);
+> +Introduction
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 > +
->   	kthread_bind_mask(worker->task, pool->attrs->cpumask);
->   
->   	/* successful, attach the worker to the pool */
-> @@ -4323,9 +4328,17 @@ static void wq_update_unbound_numa(struct workqueue_struct *wq, int cpu,
->   
->   static int alloc_and_link_pwqs(struct workqueue_struct *wq)
->   {
-> -	bool highpri = wq->flags & WQ_HIGHPRI;
-> +	int pool_index = 0;
->   	int cpu, ret;
->   
-> +	if (wq->flags & WQ_HIGHPRI && wq->flags & WQ_SCHED_FIFO)
-> +		return -EINVAL;
+> +Composefs is a read-only file system that is backed by regular files
+> +(rather than a block device). It is designed to help easily share
+> +content between different directory trees, such as container images in
+> +a local store or ostree checkouts. In addition it also has support for
+> +integrity validation of file content and directory metadata, in an
+> +efficient way (using fs-verity).
 > +
-> +	if (wq->flags & WQ_HIGHPRI)
-> +		pool_index = 1;
-> +	if (wq->flags & WQ_SCHED_FIFO)
-> +		pool_index = 2;
+> +The filesystem mount source is a binary blob called the descriptor. It
+> +contains all the inode and directory entry data for the entire
+> +filesystem. However, instead of storing the file content each regular
+> +file inode stores a relative path name, and the filesystem gets the
+> +file content from the filesystem by looking up that filename in a set
+> +of base directories.
 > +
->   	if (!(wq->flags & WQ_UNBOUND)) {
->   		wq->cpu_pwqs = alloc_percpu(struct pool_workqueue);
->   		if (!wq->cpu_pwqs)
-> @@ -4337,7 +4350,7 @@ static int alloc_and_link_pwqs(struct workqueue_struct *wq)
->   			struct worker_pool *cpu_pools =
->   				per_cpu(cpu_worker_pools, cpu);
->   
-> -			init_pwq(pwq, wq, &cpu_pools[highpri]);
-> +			init_pwq(pwq, wq, &cpu_pools[pool_index]);
->   
->   			mutex_lock(&wq->mutex);
->   			link_pwq(pwq);
-> @@ -4348,13 +4361,13 @@ static int alloc_and_link_pwqs(struct workqueue_struct *wq)
->   
->   	cpus_read_lock();
->   	if (wq->flags & __WQ_ORDERED) {
-> -		ret = apply_workqueue_attrs(wq, ordered_wq_attrs[highpri]);
-> +		ret = apply_workqueue_attrs(wq, ordered_wq_attrs[pool_index]);
->   		/* there should only be single pwq for ordering guarantee */
->   		WARN(!ret && (wq->pwqs.next != &wq->dfl_pwq->pwqs_node ||
->   			      wq->pwqs.prev != &wq->dfl_pwq->pwqs_node),
->   		     "ordering guarantee broken for workqueue %s\n", wq->name);
->   	} else {
-> -		ret = apply_workqueue_attrs(wq, unbound_std_wq_attrs[highpri]);
-> +		ret = apply_workqueue_attrs(wq, unbound_std_wq_attrs[pool_index]);
->   	}
->   	cpus_read_unlock();
->   
-> @@ -6138,7 +6151,8 @@ static void __init wq_numa_init(void)
->    */
->   void __init workqueue_init_early(void)
->   {
-> -	int std_nice[NR_STD_WORKER_POOLS] = { 0, HIGHPRI_NICE_LEVEL };
-> +	int std_nice[NR_STD_WORKER_POOLS] = { 0, HIGHPRI_NICE_LEVEL, 0 };
-> +	bool std_sched_fifo[NR_STD_WORKER_POOLS] = { false, false, true };
->   	int i, cpu;
->   
->   	BUILD_BUG_ON(__alignof__(struct pool_workqueue) < __alignof__(long long));
-> @@ -6158,8 +6172,10 @@ void __init workqueue_init_early(void)
->   			BUG_ON(init_worker_pool(pool));
->   			pool->cpu = cpu;
->   			cpumask_copy(pool->attrs->cpumask, cpumask_of(cpu));
-> -			pool->attrs->nice = std_nice[i++];
-> +			pool->attrs->nice = std_nice[i];
-> +			pool->attrs->sched_fifo = std_sched_fifo[i];
->   			pool->node = cpu_to_node(cpu);
-> +			i++;
->   
->   			/* alloc pool ID */
->   			mutex_lock(&wq_pool_mutex);
-> @@ -6174,6 +6190,7 @@ void __init workqueue_init_early(void)
->   
->   		BUG_ON(!(attrs = alloc_workqueue_attrs()));
->   		attrs->nice = std_nice[i];
-> +		attrs->sched_fifo = std_sched_fifo[i];
->   		unbound_std_wq_attrs[i] = attrs;
->   
->   		/*
-> @@ -6183,6 +6200,7 @@ void __init workqueue_init_early(void)
->   		 */
->   		BUG_ON(!(attrs = alloc_workqueue_attrs()));
->   		attrs->nice = std_nice[i];
-> +		attrs->sched_fifo = std_sched_fifo[i];
->   		attrs->no_numa = true;
->   		ordered_wq_attrs[i] = attrs;
->   	}
+> +Given such a descriptor called "image.cfs" and a directory with files
+> +called "/dir" you can mount it like::
+> +
+> +  mount -t composefs image.cfs -o basedir=3D/dir /mnt
+> +
+> +Content sharing
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Suppose you have a single basedir where the files are content
+> +addressed (i.e. named by content digest), and a set of composefs
+> +descriptors using this basedir. Any file that happen to be shared
+> +between two images (same content, so same digest) will now only be
+> +stored once on the disk.
+> +
+> +Such sharing is possible even if the metadata for the file in the
+> +image differs (common reasons for metadata difference are mtime,
+> +permissions, xattrs, etc). The sharing is also anonymous in the sense
+> +that you can't tell the difference on the mounted files from a
+> +non-shared file (for example by looking at the link count for a
+> +hardlinked file).
+> +
+> +In addition, any shared files that are actively in use will share
+> +page-cache, because the page cache for the file contents will be
+> +addressed by the backing file in the basedir, This means (for example)
+> +that shared libraries between images will only be mmap:ed once across
+> +all mounts.
+> +
+> +Integrity validation
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Composefs uses :doc:`fs-verity <fsverity>` for integrity validation,
+> +and extends it by making the validation also apply to the directory
+> +metadata.  This happens on two levels, validation of the descriptor
+> +and validation of the backing files.
+> +
+> +For descriptor validation, the idea is that you enable fs-verity on
+> +the descriptor file which seals it from changes that would affect the
+> +directory metadata. Additionally you can pass a `digest` mount option,
+> +which composefs verifies against the descriptor fs-verity
+> +measure. Such a mount option could be encoded in a trusted source
+> +(like a signed kernel command line) and be used as a root of trust if
+> +using composefs for the root filesystem.
+
+Quote mount option names (like other keywords for consistency):
+
+---- >8 ----
+diff --git a/Documentation/filesystems/composefs.rst b/Documentation/filesy=
+stems/composefs.rst
+index c96f9b99d72979..cc65945e3d5302 100644
+--- a/Documentation/filesystems/composefs.rst
++++ b/Documentation/filesystems/composefs.rst
+@@ -58,7 +58,7 @@ and validation of the backing files.
+=20
+ For descriptor validation, the idea is that you enable fs-verity on
+ the descriptor file which seals it from changes that would affect the
+-directory metadata. Additionally you can pass a `digest` mount option,
++directory metadata. Additionally you can pass a "digest" mount option,
+ which composefs verifies against the descriptor fs-verity
+ measure. Such a mount option could be encoded in a trusted source
+ (like a signed kernel command line) and be used as a root of trust if
+@@ -125,7 +125,7 @@ verity_check=3D[0,1,2]
+=20
+ digest
+     A fs-verity sha256 digest that the descriptor file must match. If set,
+-    `verity_check` defaults to 2.
++    "verity_check" defaults to 2.
+=20
+=20
+ Filesystem format
+
+> +
+> +For file validation, the descriptor can contain digest for each
+> +backing file, and you can enable fs-verity on the backing
+> +files. Composefs will validate the digest before using the backing
+> +files. This means any (accidental or malicious) modification of the
+> +basedir will be detected at the time the file is used.
+> +
+> +Expected use-cases
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Container Image Storage
+> +```````````````````````
+> +
+> +Typically a container image is stored as a set of "layer"
+> +directories. merged into one mount by using overlayfs.  The lower
+> +layers are read-only image content and the upper layer is the
+> +writable state of a running container. Multiple uses of the same
+> +layer can be shared this way, but it is hard to share individual
+> +files between unrelated layers.
+> +
+> +Using composefs, we can instead use a shared, content-addressed
+> +store for all the images in the system, and use a composefs image
+> +for the read-only image content of each image, pointing into the
+> +shared store. Then for a running container we use an overlayfs
+> +with the lower dir being the composefs and the upper dir being
+> +the writable state.
+> +
+> +
+> +Ostree root filesystem validation
+> +`````````````````````````````````
+> +
+> +Ostree uses a content-addressed on-disk store for file content,
+> +allowing efficient updates and sharing of content. However to actually
+> +use these as a root filesystem it needs to create a real
+> +"chroot-style" directory, containing hard links into the store. The
+> +store itself is validated when created, but once the hard-link
+> +directory is created, nothing validates the directory structure of
+> +that.
+> +
+> +Instead of a chroot we can we can use composefs. We create a composefs
+> +image pointing into the object store, enable fs-verity for everything
+> +and encode the fs-verity digest of the descriptor in the
+> +kernel-command line. This will allow booting a trusted system where
+> +all directory metadata and file content is validated lazily at use.
+> +
+> +
+> +Mount options
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +basedir
+> +    A colon separated list of directories to use as a base when resolving
+> +    relative content paths.
+> +
+> +verity_check=3D[0,1,2]
+> +    When to verify backing file fs-verity: 0 =3D=3D never, 1 =3D=3D if s=
+pecified in
+> +    image, 2 =3D=3D always and require it in image.
+
+I think bullet lists should do the job for verity_check values:
+
+---- >8 ----
+diff --git a/Documentation/filesystems/composefs.rst b/Documentation/filesy=
+stems/composefs.rst
+index 306f0e2e22baf5..c96f9b99d72979 100644
+--- a/Documentation/filesystems/composefs.rst
++++ b/Documentation/filesystems/composefs.rst
+@@ -117,8 +117,11 @@ basedir
+     relative content paths.
+=20
+ verity_check=3D[0,1,2]
+-    When to verify backing file fs-verity: 0 =3D=3D never, 1 =3D=3D if spe=
+cified in
+-    image, 2 =3D=3D always and require it in image.
++    When to verify backing file fs-verity:
++
++    * 0: never
++    * 1: if specified in image
++    * 2: always and require it in image.
+=20
+ digest
+     A fs-verity sha256 digest that the descriptor file must match. If set,
+
+> +
+> +digest
+> +    A fs-verity sha256 digest that the descriptor file must match. If se=
+t,
+> +    `verity_check` defaults to 2.
+> +
+> +
+> +Filesystem format
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The format of the descriptor is contains three sections: header,
+> +inodes and variable data. All data in the file is stored in
+> +little-endian form.
+> +
+> +The header starts at the beginning of the file and contains version,
+> +magic value, offsets to the variable data and the root inode nr.
+> +
+> +The inode section starts at a fixed location right after the
+> +header. It is a array of inode data, where for each inode there is
+> +first a variable length chunk and then a fixed size chunk. An inode nr
+> +is the offset in the inode data to the start of the fixed chunk.
+> +
+> +The fixed inode chunk starts with a flag that tells what parts of the
+> +inode are stored in the file (meaning it is only the maximal size that
+> +is fixed). After that the various inode attributes are serialized in
+> +order, such as mode, ownership, xattrs, and payload length. The
+> +payload length attribute gives the size of the variable chunk.
+> +
+> +The inode variable chunk contains different things depending on the
+> +file type.  For regular files it is the backing filename. For symlinks
+> +it is the symlink target. For directories it is a list of references to
+> +dentries, stored in chunks of maximum 4k. The dentry chunks themselves
+> +are stored in the variable data section.
+> +
+> +The variable data section is stored after the inode section, and you
+> +can find it from the offset in the header. It contains dentries and
+> +Xattrs data. The xattrs are referred to by offset and size in the
+> +xattr attribute in the inode data. Each xattr data can be used by many
+> +inodes in the filesystem. The variable data chunks are all smaller than
+> +a page (4K) and are padded to not span pages.
+> +
+> +Tools
+> +=3D=3D=3D=3D=3D
+> +
+> +Tools for composefs can be found at https://github.com/containers/compos=
+efs
+> +
+> +There is a mkcomposefs tool which can be used to create images on the
+> +CLI, and a library that applications can use to create composefs
+> +images.
+
+The rest can be slightly reworded:
+
+---- >8 ----
+diff --git a/Documentation/filesystems/composefs.rst b/Documentation/filesy=
+stems/composefs.rst
+index cc65945e3d5302..9bd5a6f4e5d676 100644
+--- a/Documentation/filesystems/composefs.rst
++++ b/Documentation/filesystems/composefs.rst
+@@ -59,16 +59,16 @@ and validation of the backing files.
+ For descriptor validation, the idea is that you enable fs-verity on
+ the descriptor file which seals it from changes that would affect the
+ directory metadata. Additionally you can pass a "digest" mount option,
+-which composefs verifies against the descriptor fs-verity
+-measure. Such a mount option could be encoded in a trusted source
+-(like a signed kernel command line) and be used as a root of trust if
+-using composefs for the root filesystem.
++which composefs verifies against the descriptor fs-verity measure. Such
++an option could be embedded in a trusted source (like a signed kernel
++command line) and be used as a root of trust if using composefs for the
++root filesystem.
+=20
+ For file validation, the descriptor can contain digest for each
+-backing file, and you can enable fs-verity on the backing
+-files. Composefs will validate the digest before using the backing
+-files. This means any (accidental or malicious) modification of the
+-basedir will be detected at the time the file is used.
++backing file, and you can enable fs-verity on them too. Composefs will
++validate the digest before using the backing files. This means any
++(accidental or malicious) modification of the basedir will be detected
++at the time the file is used.
+=20
+ Expected use-cases
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+@@ -76,19 +76,18 @@ Expected use-cases
+ Container Image Storage
+ ```````````````````````
+=20
+-Typically a container image is stored as a set of "layer"
+-directories. merged into one mount by using overlayfs.  The lower
+-layers are read-only image content and the upper layer is the
+-writable state of a running container. Multiple uses of the same
+-layer can be shared this way, but it is hard to share individual
+-files between unrelated layers.
++Typically a container image is stored as a set of "layer" directories,
++merged into one mount by using overlayfs.  The lower layers are
++read-only image and the upper layer is the writable directory of a
++running container. Multiple uses of the same layer can be shared this
++way, but it is hard to share individual files between unrelated layers.
+=20
+ Using composefs, we can instead use a shared, content-addressed
+-store for all the images in the system, and use a composefs image
+-for the read-only image content of each image, pointing into the
++store for all the images in the system, and use composefs
++for the read-only image of each container, pointing into the
+ shared store. Then for a running container we use an overlayfs
+ with the lower dir being the composefs and the upper dir being
+-the writable state.
++the writable directory.
+=20
+=20
+ Ostree root filesystem validation
+@@ -99,12 +98,12 @@ allowing efficient updates and sharing of content. Howe=
+ver to actually
+ use these as a root filesystem it needs to create a real
+ "chroot-style" directory, containing hard links into the store. The
+ store itself is validated when created, but once the hard-link
+-directory is created, nothing validates the directory structure of
+-that.
++directory is created, the directory structure is impossible to
++verify.
+=20
+-Instead of a chroot we can we can use composefs. We create a composefs
+-image pointing into the object store, enable fs-verity for everything
+-and encode the fs-verity digest of the descriptor in the
++Instead of a chroot we can use composefs. The composefs image pointing
++to the object store is created, then fs-verity is enabled for
++everything and the descriptor digest is encoded in the
+ kernel-command line. This will allow booting a trusted system where
+ all directory metadata and file content is validated lazily at use.
+=20
+@@ -119,9 +118,9 @@ basedir
+ verity_check=3D[0,1,2]
+     When to verify backing file fs-verity:
+=20
+-    * 0: never
+-    * 1: if specified in image
+-    * 2: always and require it in image.
++    * 0: never verify
++    * 1: if the digest is specified in the image
++    * 2: always verify the image (and requires verification).
+=20
+ digest
+     A fs-verity sha256 digest that the descriptor file must match. If set,
+@@ -147,7 +146,7 @@ The fixed inode chunk starts with a flag that tells wha=
+t parts of the
+ inode are stored in the file (meaning it is only the maximal size that
+ is fixed). After that the various inode attributes are serialized in
+ order, such as mode, ownership, xattrs, and payload length. The
+-payload length attribute gives the size of the variable chunk.
++latter attribute gives the size of the variable chunk.
+=20
+ The inode variable chunk contains different things depending on the
+ file type.  For regular files it is the backing filename. For symlinks
+=20
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--3PByOgCSIFD9ivr4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY8IfdAAKCRD2uYlJVVFO
+o51qAQCB0PgDA0cD3NdbS0zuFtqaUYl07Qxv6h728IvLIjHBqQD/b2mpVxEZKL3W
+lcruSRLGsQq80T9axetF4h9UCGklZws=
+=thWP
+-----END PGP SIGNATURE-----
+
+--3PByOgCSIFD9ivr4--
