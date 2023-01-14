@@ -2,145 +2,160 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0156C54EBE
-	for <linux-doc@archiver.kernel.org>; Sat, 14 Jan 2023 00:43:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23768C54EBE
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Jan 2023 01:06:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231361AbjANAnC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Jan 2023 19:43:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43408 "EHLO
+        id S229779AbjANBGw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Jan 2023 20:06:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230093AbjANAmk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 19:42:40 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4FF38F8C0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Jan 2023 16:38:21 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id q23-20020a17090a065700b002290913a521so6321522pje.5
-        for <linux-doc@vger.kernel.org>; Fri, 13 Jan 2023 16:38:21 -0800 (PST)
+        with ESMTP id S231352AbjANBGn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Jan 2023 20:06:43 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABAA34D4B3;
+        Fri, 13 Jan 2023 17:06:42 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id o13so20524174pjg.2;
+        Fri, 13 Jan 2023 17:06:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MgBnQ26ItOkyYKiu1oV6JX0ska5GpfEn/0b8SeFBGOs=;
-        b=fZz4bsSG6rplxu+/+bbAGu03TpfBRqzSERj11fI9gPC3YiJL/UeAPW98CKZYKTN7Ws
-         j53XSFyQZNUTcXaOijVfFvsqXEfJGx6cLcfKMLjiLO/bW7eqi7LulykqxZENOBL1WwJN
-         RayxBQjRABfgAcBUTV5MtEdBlwhGdejOfhp+6x1ylwnSaQw5/5CItg/TVLAvnSFoGFQD
-         lbGhWsb6A9IEcn0SbTi5gMac6RtBt94MErdTeqH8q/FrYZ43WZq9AALzNfaHFxf2mxJm
-         5DgARQXIRLPhEsnlbzOh8dlw4D9+iPLKzKCIvdG2Ml019sB1Ej5N2/v0hQswCEcOzBeL
-         65NA==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ov8wEfyGG2nWN7b01CPIh7BqEH1wqXhlK99+GfKu0bs=;
+        b=gvL6RDV4waR2wIkZlb3McCBihU706uvVwhgAqP12kPXGQ97PVCJMrSDk0vzUGUzVhM
+         h1Uh6Yb1Epg4qKWr7EEoAnwQjxP98tnJmWWyOadgmjggVE2aKKsb5Y0i9yUXTtvywC3u
+         oIQiZoCOfIq+/rLwyeLwTCK1fJbuRPW4MvCweDUOlDeNbT2YOrMcAsl4RrPUznvtQZCb
+         UKfxGU983P9fDww3PRge6+f8lczEjuAVRvnpt6oNqmmf7UGOxBkLekfo+XCinz1RgsDL
+         fHjL0pVV8d7rXgiJ/fDeuPkzf6ylMphFZ74IWQVuZsp/VXXrM4wDcG5a4ifiDqZl7QsX
+         Z/4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MgBnQ26ItOkyYKiu1oV6JX0ska5GpfEn/0b8SeFBGOs=;
-        b=VbKelAZE2xG3h8HMsnLdnA5YvX67/+GADKoZDmWJT8xowFKtRBSAW5c33BXL+zJxwY
-         /lf1KShDuKditjCeYCD99920io7nZIejHhZ+JNHDxSbd6LYgsi8n6amodWxLMib2HBnG
-         Y82ZoQIH+CTV7fPSa91yAfvwRxMX08mqkmSKrDHorQ4SVuLfn7OPN0eetGbpimzoML+2
-         xF0cxrOw5w0kY3evuFV8g4K/GTKh9Jva0Zk9dpj9aYAIE35RDCiIKm+RdTYDeVRH8SXD
-         mlspn84DQIm8W8avAizqmx6hBgNRtorbjVq9ddclS2PCbzVu0yjfe7NgcaMMJNSgztRy
-         EO5g==
-X-Gm-Message-State: AFqh2kra0zwEKrrket2wWbMYAWNwep8FEDzDZ24AhZGpvOrve1Rz2h2k
-        V0Y0WZ/USp7ipMM2xxG8JC51cg==
-X-Google-Smtp-Source: AMrXdXvO5lr0leGyzGM7js7Dp/RGVdcEkNK6lyE8EJsgzKqjTO8ro2/W2YgLE7h5m81d74tyNSIgGA==
-X-Received: by 2002:a05:6a20:1394:b0:b5:a970:8d5a with SMTP id w20-20020a056a20139400b000b5a9708d5amr2026776pzh.0.1673656683660;
-        Fri, 13 Jan 2023 16:38:03 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id d12-20020a634f0c000000b0047829d1b8eesm9871303pgb.31.2023.01.13.16.38.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jan 2023 16:38:03 -0800 (PST)
-Date:   Sat, 14 Jan 2023 00:37:59 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-Message-ID: <Y8H5Z3e4hZkFxAVS@google.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ov8wEfyGG2nWN7b01CPIh7BqEH1wqXhlK99+GfKu0bs=;
+        b=L2kt9DHNrgYnqo73R36y7zDcNE3IX5rcbKfWPRPitws9EJvd4/axFkNsWQmznxma69
+         6fQsiepc3cZZIAZzRTOl2/nPTdWAvnwIcqRz+ZKGrdpadWeNQXSj8evdVqxiktcWiOyq
+         1EU6KdR+T48DmG7GKLu6fi+nI92RJqWjxCieYkE18K6qNys87AaJy4zOynf87Q/LE5mi
+         VdLYJ6GRJbZB1kzYYZe8lppqtZhO2lHBOVqhKqKnFaFS6Uc8WZ3qn66QoyidcABwYWXE
+         yz3w2A4WDQ/Lvrbuc0NLWinCHYwhLzS1mbJHMUsANEozE1CUalLOrDScFdCnqOPege17
+         nZzg==
+X-Gm-Message-State: AFqh2krvXj89HqBkKjGoXhLU6qYkUnUJ9y1A+fOdErANlIkPVdUt9V2R
+        5i7nCEtnNeZ4wWQXpNmFeOs=
+X-Google-Smtp-Source: AMrXdXunnZ/fWN3btLzBC2yH9qJx5o9LMGcJx28haLciN1DDZWfF7cUcqpbKWNAIau6siawhAZmxWA==
+X-Received: by 2002:a05:6a20:bf23:b0:a5:798c:f929 with SMTP id gc35-20020a056a20bf2300b000a5798cf929mr90233225pzb.10.1673658402170;
+        Fri, 13 Jan 2023 17:06:42 -0800 (PST)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id b7-20020a63eb47000000b00460ea630c1bsm12174067pgk.46.2023.01.13.17.06.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Jan 2023 17:06:41 -0800 (PST)
+Message-ID: <530a54b6-25b2-4892-40bc-809371689aae@gmail.com>
+Date:   Sat, 14 Jan 2023 10:06:38 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] docs: Fix the docs build with Sphinx 6.0
+To:     =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <87wn629ggg.fsf@meer.lwn.net>
+ <cb916eae-fdf6-504f-8f38-7928e0fa8344@gmail.com>
+ <20230108150135.060b0c7a@coco.lan>
+ <6e81b372-d010-fb75-cdfe-b76c6b197f07@suse.cz>
+ <e2d98136-3c4c-8910-d116-93070c48474d@gmail.com>
+ <bdd04f2e-64a4-e3ef-eb4c-3681c6f52c2f@gmail.com>
+ <c84fe7eb-27b7-aca7-24a6-09ca67dca43f@suse.cz>
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <c84fe7eb-27b7-aca7-24a6-09ca67dca43f@suse.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 02, 2022, Chao Peng wrote:
-> This patch series implements KVM guest private memory for confidential
-> computing scenarios like Intel TDX[1]. If a TDX host accesses
-> TDX-protected guest memory, machine check can happen which can further
-> crash the running host system, this is terrible for multi-tenant
-> configurations. The host accesses include those from KVM userspace like
-> QEMU. This series addresses KVM userspace induced crash by introducing
-> new mm and KVM interfaces so KVM userspace can still manage guest memory
-> via a fd-based approach, but it can never access the guest memory
-> content.
-> 
-> The patch series touches both core mm and KVM code. I appreciate
-> Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
-> reviews are always welcome.
->   - 01: mm change, target for mm tree
->   - 02-09: KVM change, target for KVM tree
+On Thu, 12 Jan 2023 17:22:42 +0100, Martin Li=C5=A1ka wrote:
+> On 1/12/23 00:13, Akira Yokosawa wrote:
+>> On Tue, 10 Jan 2023 00:17:11 +0900, Akira Yokosawa wrote:
+>>> On Mon, 9 Jan 2023 15:14:46 +0100, Martin Li=C5=A1ka wrote:
+>>>> Hi.
+>>>>
+>>>> I can confirm the regression, I bisected Sphinx revision that caused=
+ that
+>>>> and filled an upstream issues:
+>>>> https://github.com/sphinx-doc/sphinx/issues/11116
+>>>
+>>> Thank you Martin for looking into this!
+>>
+>> Thanks to Martin's inputs on the github issue, Sphinx 6.1.3 has releas=
+ed
+>> and the issue is resolved for parallel builds.
+>=20
+> You're welcome.
+>=20
+>>
+>> However, for non-parallel builds, the memory hog still remains.
+>> Again, this is a table comparing 5.3.0, 6.1.2, and 6.1.3.
+>>
+>>  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 
-A version with all of my feedback, plus reworked versions of Vishal's selftest,
-is available here:
+>>                      elapsed time                       maxresident
+>>          -----------------------------------  ------------------------=
+-------
+>>  Sphinx     -j1     -j2      -j4      -j6       -j1     -j2     -j4   =
+  -j6
+>>  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
+ =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=
+ =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D
+>>   6.1.3  15:03.83 11:31.99  9:35.15  8:49.01  2949056 1059516  978232 =
+ 967400
+>>   6.1.2  15:11.74 18:06.89 16:39.93      OOM  2961524 5548344 5255372 =
+     --
+>>   5.3.0  14:13.04 10:16.81  8:22.37  8:09.74   711532  937660  846016 =
+ 800340
+>>  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 
-  git@github.com:sean-jc/linux.git x86/upm_base_support
+>=20
+> I thank you for the nice numbers you provided.
 
-It compiles and passes the selftest, but it's otherwise barely tested.  There are
-a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
-a WIP.
+You are welcome.
 
-As for next steps, can you (handwaving all of the TDX folks) take a look at what
-I pushed and see if there's anything horrifically broken, and that it still works
-for TDX?
-
-Fuad (and pKVM folks) same ask for you with respect to pKVM.  Absolutely no rush
-(and I mean that).
-
-On my side, the two things on my mind are (a) tests and (b) downstream dependencies
-(SEV and TDX).  For tests, I want to build a lists of tests that are required for
-merging so that the criteria for merging are clear, and so that if the list is large
-(haven't thought much yet), the work of writing and running tests can be distributed.
-
-Regarding downstream dependencies, before this lands, I want to pull in all the
-TDX and SNP series and see how everything fits together.  Specifically, I want to
-make sure that we don't end up with a uAPI that necessitates ugly code, and that we
-don't miss an opportunity to make things simpler.  The patches in the SNP series to
-add "legacy" SEV support for UPM in particular made me slightly rethink some minor
-details.  Nothing remotely major, but something that needs attention since it'll
-be uAPI.
-
-I'm off Monday, so it'll be at least Tuesday before I make any more progress on
-my side.
+>=20
+>>
+>>     Note:
+>>       - The -j1 run needs an explicit option given to sphinx-build:
+>>         make SPHINXOPTS=3D"-q -j1" htmldocs
+>>
+>> I naively assumed that the memory hog would be resolved all together,
+>> but that's not the case.
+>=20
+> Yep, I would expect that same.
+>=20
+>>
+>> Martin, could you report the remaining issue to upstream Sphinx?
+>=20
+> Sure: https://github.com/sphinx-doc/sphinx/issues/11124
 
 Thanks!
+
+>=20
+> Btw. do you have an Github account I can CC?
+
+I have reacted with an emoji and subscribed to the issue.
+
+        Thanks, Akira
+
+>=20
+> Cheers,
+> Martin
+>=20
+>>
+>>         Thanks, Akira
+>>
+>>
+>=20
