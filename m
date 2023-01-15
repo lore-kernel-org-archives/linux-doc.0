@@ -2,160 +2,181 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BF3FC3DA78
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Jan 2023 15:16:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1137C678D7
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Jan 2023 15:36:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231395AbjAOPOa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 15 Jan 2023 10:14:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50352 "EHLO
+        id S231320AbjAOPgT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 15 Jan 2023 10:36:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231365AbjAOPOU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Jan 2023 10:14:20 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09F531041F;
-        Sun, 15 Jan 2023 07:14:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673795655; x=1705331655;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=HmZa4F8jU9j9V5/huuc7C2mMCXmkS1T6Fab/EA8pYdk=;
-  b=SPsP/UM40bExi6+RQiryK2afIGrdVqcjC+mv2TlLKduXU5nuRv5U4ded
-   iUpK7ZTAvQ0q2WAALs7Yj7MysZaPiLRxs45lJGUTLbLxGLxxFvXUHMiP9
-   UkCfmIlnMbGuB2DNavh5SO3CO0QvPOpntwuZdwzM2SNF9u7gwD+R8lqOT
-   QALdyYBp97LsJ7QVjsDRsoEKIM4KBo6p+urLBB0Fvs7ta/khB34KZx+Qd
-   vSzf19GMv4/NoWsfAZJy0GPzFyg+MFX2BO657HfqsGIE9TgxDAVqatV9k
-   3zgs1oFen5A0EioUM5wVIgsakIcCpbqzA6qT0fnxWWjHxQqM3YvVh1J6F
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="386648451"
-X-IronPort-AV: E=Sophos;i="5.97,218,1669104000"; 
-   d="scan'208";a="386648451"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2023 07:14:14 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="722047874"
-X-IronPort-AV: E=Sophos;i="5.97,218,1669104000"; 
-   d="scan'208";a="722047874"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2023 07:14:13 -0800
-From:   matthew.gerlach@linux.intel.com
-To:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        andriy.shevchenko@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
-        marpagan@redhat.com, bagasdotme@gmail.com
-Cc:     Basheer Ahmed Muddebihal 
-        <basheer.ahmed.muddebihal@linux.intel.com>,
-        Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Subject: [PATCH v11 2/4] fpga: dfl: Add DFHv1 Register Definitions
-Date:   Sun, 15 Jan 2023 07:14:45 -0800
-Message-Id: <20230115151447.1353428-3-matthew.gerlach@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230115151447.1353428-1-matthew.gerlach@linux.intel.com>
-References: <20230115151447.1353428-1-matthew.gerlach@linux.intel.com>
+        with ESMTP id S231214AbjAOPgS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Jan 2023 10:36:18 -0500
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75CE05B83;
+        Sun, 15 Jan 2023 07:36:17 -0800 (PST)
+Received: by mail-ot1-x332.google.com with SMTP id j16-20020a056830271000b0067202045ee9so14887309otu.7;
+        Sun, 15 Jan 2023 07:36:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pRCLnfO5D50aLUIqRH3Be5ElBGG7mevjFvkDgjByEkg=;
+        b=ESYN/lgtsCJz1vk5hIWF8P0XT3zE4HOkfbCef61dEh9nfpUszGpqaILDdbRYwRpBaS
+         Gq0n3cdms6iw0aRSFDJpioaByPmQbKCQP0DMmTGvyCsapfKPYKjs4KTwwNR87Zitspdn
+         tniK5INo56zs/GSaaJc39/v4ceiIJC1pB59guwU6dk/ST7wHrW1GsjBxDt0fMLpUe9Og
+         1v9Whb4AApgIKVhjQbVH2MHL30mD29abfoMS+VPtLoheVkY7LhOupZe8UcHafZllZEmR
+         Q02XH5CuaiXHw9on84tyYVxbzt6ZWhdpxJ/RGI0Gk5dJ5RFTO2+nukuT+lKm/LaCi8GD
+         Tvcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pRCLnfO5D50aLUIqRH3Be5ElBGG7mevjFvkDgjByEkg=;
+        b=g9f7Piy/Nq3PFywGEVd18+BFVQ/jYGX1rjf15FY+4/ZsQXR3JUOzNER+Nr/dyI2qqK
+         t0dlW65vbjI0IDyRgVfUEtEyQM8AFmMLMjT9CbadShDF2l8c13GPt3ANBv6UkjGS5WHq
+         LtenkYbMBb4+ipZy0V6N6XbZjg6Ku1c1VaYVIJ4bXqp3T5WMHNwNq1BaATKDkVutPFq6
+         MNZAtO3KdB6uaeLXDfoksNRnarhsMv2vxefCJ61+ICYmJ/VTgoKb2oxcNcKK+kv/mDXD
+         A6u9O6fRVDwF/u8O22CGHXYS9FzjEqKrMn8icCiirhgA56zBwVYAXt+RHj/7cLmh8lVq
+         QaOw==
+X-Gm-Message-State: AFqh2kpqpxwuVaqZTqlWgYBWAlX9LSol4gywmZC0biwr0sjd5Pyyrc35
+        Tq09VdHwZIX0WGG1AX7ic8ms9/QsdsQQtwGhCv4=
+X-Google-Smtp-Source: AMrXdXu/zET195jKhsFTVp5xxmwIScKWmACgEKUi1QrBdrbk6v28T2qMy0jJBHOkkSBc+MnjFZnNZuARMBSt9P0VdRA=
+X-Received: by 2002:a9d:489:0:b0:684:bedc:4f54 with SMTP id
+ 9-20020a9d0489000000b00684bedc4f54mr837621otm.233.1673796976794; Sun, 15 Jan
+ 2023 07:36:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230114194741.115855-1-sj@kernel.org> <20230114194741.115855-2-sj@kernel.org>
+In-Reply-To: <20230114194741.115855-2-sj@kernel.org>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Sun, 15 Jan 2023 10:35:57 -0500
+Message-ID: <CADnq5_OUnkzoZcCdW0X-=gJsXSRgY=GLrbmfNj0geDCzL5a7eQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Docs: Add some missing SPDX license identifiers of
+ subsystem docs
+To:     SeongJae Park <sj@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        alsa-devel@alsa-project.org,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jean Delvare <jdelvare@suse.com>, linux-crypto@vger.kernel.org,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-input@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Basheer Ahmed Muddebihal <basheer.ahmed.muddebihal@linux.intel.com>
+On Sat, Jan 14, 2023 at 2:48 PM SeongJae Park <sj@kernel.org> wrote:
+>
+> Some subsystem documents are missing SPDX license identifiers.  Add
+> those.
 
-This patch adds the definitions for DFHv1 header and related register
-bitfields.
+It would be good to split this up per subsystem.
 
-Signed-off-by: Basheer Ahmed Muddebihal <basheer.ahmed.muddebihal@linux.intel.com>
-Co-developed-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-v11: no change
+>
+> Signed-off-by: SeongJae Park <sj@kernel.org>
+> ---
+>  Documentation/crypto/index.rst     | 2 ++
+>  Documentation/driver-api/index.rst | 2 ++
+>  Documentation/gpu/index.rst        | 2 ++
+>  Documentation/hwmon/index.rst      | 2 ++
+>  Documentation/input/index.rst      | 2 ++
+>  Documentation/mm/index.rst         | 2 ++
+>  Documentation/scheduler/index.rst  | 2 ++
+>  Documentation/sound/index.rst      | 2 ++
+>  8 files changed, 16 insertions(+)
+>
+> diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
+> index da5d5ad2bdf3..95b0870e09b8 100644
+> --- a/Documentation/crypto/index.rst
+> +++ b/Documentation/crypto/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ==========
+>  Crypto API
+>  ==========
+> diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+> index b208e0dac3a0..7a2584ab63c4 100644
+> --- a/Documentation/driver-api/index.rst
+> +++ b/Documentation/driver-api/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ==============================
+>  Driver implementer's API guide
+>  ==============================
+> diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
+> index eee5996acf2c..ff06a6b12c5e 100644
+> --- a/Documentation/gpu/index.rst
+> +++ b/Documentation/gpu/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 
-v10: no change
+Most of the DRM code is MIT.  I'd expect this would be MIT as well.
 
-v9: no change
+Alex
 
-v8: add Rb Andy Shevchenko
-
-v7: no change
-
-v6: remove parameter definitions from include/linux/dfl.h
-
-v5: consistently use fields for parameter data
-    s/EOL/EOP/ to match doc
-    remove unneeded mask
-    added Co-developed-by
-
-v4: s/MSIX/MSI_X/g
-    move kerneldoc to implementation
-    don't change copyright date
-
-v3:
-    keep DFHv1 definitions "hidden" in drivers/fpga/dfl.h
-
-v2: clean up white space and one line comments
-    remove extra space in commit
-    use uniform number of digits in constants
-    don't change copyright date because of removed content
----
- drivers/fpga/dfl.h | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
-
-diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
-index 06cfcd5e84bb..fc59f33367ee 100644
---- a/drivers/fpga/dfl.h
-+++ b/drivers/fpga/dfl.h
-@@ -74,11 +74,43 @@
- #define DFH_REVISION		GENMASK_ULL(15, 12)	/* Feature revision */
- #define DFH_NEXT_HDR_OFST	GENMASK_ULL(39, 16)	/* Offset to next DFH */
- #define DFH_EOL			BIT_ULL(40)		/* End of list */
-+#define DFH_VERSION		GENMASK_ULL(59, 52)	/* DFH version */
- #define DFH_TYPE		GENMASK_ULL(63, 60)	/* Feature type */
- #define DFH_TYPE_AFU		1
- #define DFH_TYPE_PRIVATE	3
- #define DFH_TYPE_FIU		4
- 
-+/*
-+ * DFHv1 Register Offset definitons
-+ * In DHFv1, DFH + GUID + CSR_START + CSR_SIZE_GROUP + PARAM_HDR + PARAM_DATA
-+ * as common header registers
-+ */
-+#define DFHv1_CSR_ADDR		0x18  /* CSR Register start address */
-+#define DFHv1_CSR_SIZE_GRP	0x20  /* Size of Reg Block and Group/tag */
-+#define DFHv1_PARAM_HDR		0x28  /* Optional First Param header */
-+
-+/*
-+ * CSR Rel Bit, 1'b0 = relative (offset from feature DFH start),
-+ * 1'b1 = absolute (ARM or other non-PCIe use)
-+ */
-+#define DFHv1_CSR_ADDR_REL	BIT_ULL(0)
-+
-+/* CSR Header Register Bit Definitions */
-+#define DFHv1_CSR_ADDR_MASK       GENMASK_ULL(63, 1)  /* 63:1 of CSR address */
-+
-+/* CSR SIZE Goup Register Bit Definitions */
-+#define DFHv1_CSR_SIZE_GRP_INSTANCE_ID	GENMASK_ULL(15, 0)	/* Enumeration instantiated IP */
-+#define DFHv1_CSR_SIZE_GRP_GROUPING_ID	GENMASK_ULL(30, 16)	/* Group Features/interfaces */
-+#define DFHv1_CSR_SIZE_GRP_HAS_PARAMS	BIT_ULL(31)		/* Presence of Parameters */
-+#define DFHv1_CSR_SIZE_GRP_SIZE		GENMASK_ULL(63, 32)	/* Size of CSR Block in bytes */
-+
-+/* PARAM Header Register Bit Definitions */
-+#define DFHv1_PARAM_HDR_ID		GENMASK_ULL(15, 0) /* Id of this Param  */
-+#define DFHv1_PARAM_HDR_VER		GENMASK_ULL(31, 16) /* Version Param */
-+#define DFHv1_PARAM_HDR_NEXT_OFFSET	GENMASK_ULL(63, 35) /* Offset of next Param */
-+#define DFHv1_PARAM_HDR_NEXT_EOP	BIT_ULL(32)
-+#define DFHv1_PARAM_DATA		0x08  /* Offset of Param data from Param header */
-+
- /* Next AFU Register Bitfield */
- #define NEXT_AFU_NEXT_DFH_OFST	GENMASK_ULL(23, 0)	/* Offset to next AFU */
- 
--- 
-2.25.1
-
+> +
+>  ============================
+>  GPU Driver Developer's Guide
+>  ============================
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index c2b3c1a822dd..2186d732654f 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ===================
+>  Hardware Monitoring
+>  ===================
+> diff --git a/Documentation/input/index.rst b/Documentation/input/index.rst
+> index 35581cd18e91..d60bf9cfe005 100644
+> --- a/Documentation/input/index.rst
+> +++ b/Documentation/input/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ===================
+>  Input Documentation
+>  ===================
+> diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
+> index 5a94a921ea40..c4e9fbacaf38 100644
+> --- a/Documentation/mm/index.rst
+> +++ b/Documentation/mm/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ===============================
+>  Memory Management Documentation
+>  ===============================
+> diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+> index 1aac972a652f..ae0229f5a9cf 100644
+> --- a/Documentation/scheduler/index.rst
+> +++ b/Documentation/scheduler/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  =========
+>  Scheduler
+>  =========
+> diff --git a/Documentation/sound/index.rst b/Documentation/sound/index.rst
+> index 5abed5fc6485..7e67e12730d3 100644
+> --- a/Documentation/sound/index.rst
+> +++ b/Documentation/sound/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  =============================
+>  Sound Subsystem Documentation
+>  =============================
+> --
+> 2.25.1
+>
