@@ -2,100 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11FAFC3DA78
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Jan 2023 11:56:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF250C63797
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Jan 2023 15:14:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231175AbjAOL4l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 15 Jan 2023 06:56:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42518 "EHLO
+        id S229895AbjAOPO2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 15 Jan 2023 10:14:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230215AbjAOL4l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Jan 2023 06:56:41 -0500
-Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BAB1EC57
-        for <linux-doc@vger.kernel.org>; Sun, 15 Jan 2023 03:56:39 -0800 (PST)
-Date:   Sun, 15 Jan 2023 19:56:17 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1673783797;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=IR/1jaqsPZqnCGMubVw+uvLLIDfYUZXfUD9LkTZHNP4=;
-        b=leABjeIH3bPkaU3Zw5FSdmJPd2nlEv5M1vSTmLZXN1BP9UB06qMAYoowEVTcuUOBFF+aD1
-        N+/8XpiNOb4EV0tMnH182HOqzzihT04heE+2L2BMhzseCdDLBOx/x/jrrcaHdHg4rOfTkM
-        BMQgv59bp4PBdhCuqMap5L/gLzZD3uI=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     alexs@kernel.org, seakeel@gmail.com, corbet@lwn.net,
-        bobwxc@email.cn, chenhuacai@kernel.org, linux-doc@vger.kernel.org,
-        tangyeechou@gmail.com, me@lirui.org, siyanteng01@gmail.com
-Subject: Re: [PATCH v2] docs/zh_CN: Add a glossary of Chinese translation
- terms
-Message-ID: <Y8Pp4TBTGJ5KpyxP@bobwxc.mipc>
-References: <20230112130355.696111-1-siyanteng@loongson.cn>
+        with ESMTP id S231420AbjAOPOU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Jan 2023 10:14:20 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF2011041E;
+        Sun, 15 Jan 2023 07:14:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673795653; x=1705331653;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+iOufPRgopYuYmLXRsJEiPulQI4xkelEme+NJan0C7s=;
+  b=g7Md2yfx8ltlvtAyJu5MsgZNB2nSp7x/khwi2OvQS1VVeQQvoXS4Z0Js
+   y2OrZGb+LANIhRliBYvrcj3GM4xU5GU4+xoXnMlYZZG9+i5lbhoG26Iat
+   6Noxx4eJ5n8Bm0sjlqRJLb52iz8Hqm/ShdSJC8YVe+d6L+XnsetArit2d
+   XW8Rpz6vDhzoc+TOdgPTm1L1K4QB236YjU9IJewDiw1eKqYKCZhpzMe9M
+   JjHwIouEub602iIhrTP/hBbyAuYP2MXNwAYusKJouJtME847CLJG8f9df
+   R8OEvTyylSr/LJn/3X3t33bWNdELmU9W1W2HaIIhZj6I4HDqqPaeN8+/u
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="386648428"
+X-IronPort-AV: E=Sophos;i="5.97,218,1669104000"; 
+   d="scan'208";a="386648428"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2023 07:14:13 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="722047868"
+X-IronPort-AV: E=Sophos;i="5.97,218,1669104000"; 
+   d="scan'208";a="722047868"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2023 07:14:12 -0800
+From:   matthew.gerlach@linux.intel.com
+To:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com, bagasdotme@gmail.com
+Cc:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Subject: [PATCH v11 0/4] Enhance definition of DFH and use enhancements for UART driver
+Date:   Sun, 15 Jan 2023 07:14:43 -0800
+Message-Id: <20230115151447.1353428-1-matthew.gerlach@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="fvT068tl+HuxFt/4"
-Content-Disposition: inline
-In-Reply-To: <20230112130355.696111-1-siyanteng@loongson.cn>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 
---fvT068tl+HuxFt/4
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patchset enhances the definition of the Device Feature Header (DFH) used by
+the Device Feature List (DFL) bus and then uses the new enhancements in a UART
+driver.
 
-2023-01-12 (=E5=9B=9B) 21:03:55 +0800 Yanteng Si =E6=9B=B0=EF=BC=9A
-> As more and more documents are translated and some English
-> words are translated into different Chinese, it seems that
-> we need a glossary of Chinese translation terms.
+The enhancements to the DFH includes the introduction of parameter blocks.
+Like PCI capabilities, the DFH parameter blocks further describe
+the hardware to software. In the case of the UART, the parameter blocks
+provide information for the interrupt, clock frequency, and register layout.
 
-Simply add it. If we meet other problems later, an out-tree glossary is
-also accepted.
+Duplication of code parsing of the parameter blocks in multiple DFL drivers
+is a concern. Using swnodes was considered to help minimize parsing code 
+duplication, but their use did not help the problem. Furthermore the highly
+changeable nature of FPGAs employing the DFL bus makes the use of swnodes
+inappropriate. 
 
->=20
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Patch 1 updates the DFL documentation to describe the added functionality to DFH.
 
-Acked-by: Wu XiangCheng <bobwxc@email.cn>
+Patch 2 adds the definitions for DFHv1.
 
-> ---
-> v2:
->=20
-> * Add more word entries under Yizhou's advice.
-> * =E5=AE=9E=E4=BD=93=E8=B4=9F=E8=BD=BD=E8=B7=9F=E8=B8=AA=E6=9C=BA=E5=88=
-=B6 -> =E5=AE=9E=E4=BD=93=E8=B4=9F=E8=BD=BD=E8=B7=9F=E8=B8=AA.
->=20
->  Documentation/translations/zh_CN/glossary.rst | 36 +++++++++++++++++++
->  Documentation/translations/zh_CN/index.rst    |  9 +++++
->  2 files changed, 45 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/glossary.rst
->=20
+Patch 3 adds basic support for DFHv1. It adds functionality to parse parameter blocks
+and adds the functionality to parse the explicit location of a feature's register set.
 
---=20
-Wu XiangCheng	0x32684A40BCA7AEA7
+Patch 4 adds a DFL UART driver that makes use of the new features of DFHv1.
 
+Basheer Ahmed Muddebihal (1):
+  fpga: dfl: Add DFHv1 Register Definitions
 
---fvT068tl+HuxFt/4
-Content-Type: application/pgp-signature; name="signature.asc"
+Matthew Gerlach (3):
+  Documentation: fpga: dfl: Add documentation for DFHv1
+  fpga: dfl: add basic support for DFHv1
+  tty: serial: 8250: add DFL bus driver for Altera 16550.
 
------BEGIN PGP SIGNATURE-----
+ Documentation/fpga/dfl.rst         | 119 ++++++++++++++
+ drivers/fpga/dfl.c                 | 245 +++++++++++++++++++++++------
+ drivers/fpga/dfl.h                 |  43 +++++
+ drivers/tty/serial/8250/8250_dfl.c | 167 ++++++++++++++++++++
+ drivers/tty/serial/8250/Kconfig    |  12 ++
+ drivers/tty/serial/8250/Makefile   |   1 +
+ include/linux/dfl.h                |   8 +
+ 7 files changed, 544 insertions(+), 51 deletions(-)
+ create mode 100644 drivers/tty/serial/8250/8250_dfl.c
 
-iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmPD6dcACgkQtlsoEiKC
-sIWH6Av9FF67CIOfYmom5JgEX1cYX1/zj61kXduInlHUWoL1e+p+OAGflwgLzEbl
-8fckdSoRMgUKNGM2obAObErcWPtS8OH9KpHB77cFO3XEJvuEEviCA+611gzAzEw2
-llHQrbFslHTSnYyq1szzdSsf7mCQNpjb2e3kPbgU9ZKqqTrDHjoYZ+zdjdQffvLe
-AhBWzKlexgMuegMHjgsxacKv1kMs74ciRiS67sOqqCPp7AcEFn4fmW7jm1BLawI1
-yoUT5oOLnPmAfsH7V+X/5LvniM72gT/eEROG/1SNL3WA0X4r8njl3D0equXR3QBa
-Si26gtBJB7oRq0EgyTyN/0n0xRUNheFZkqcsNzrN2RRND/znsC3gzAGNBEutbskW
-UXjJLTgVgGt7pKVgI19nANd0GqLZX5fKoT/4KH5nglujg9RwEP+Sq9M6mi+aTAww
-K4ZF5cN7ZVslGrNo5299dmvB4V4fRBV7hWx99zbsS9givVwIKargZDksjChD4Iyo
-G3Bb5ZEr
-=7cim
------END PGP SIGNATURE-----
+-- 
+2.25.1
 
---fvT068tl+HuxFt/4--
