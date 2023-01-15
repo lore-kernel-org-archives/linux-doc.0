@@ -2,181 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1137C678D7
-	for <linux-doc@archiver.kernel.org>; Sun, 15 Jan 2023 15:36:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9FE2C3DA78
+	for <linux-doc@archiver.kernel.org>; Sun, 15 Jan 2023 18:42:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231320AbjAOPgT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 15 Jan 2023 10:36:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55892 "EHLO
+        id S231271AbjAOSm3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 15 Jan 2023 13:42:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231214AbjAOPgS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Jan 2023 10:36:18 -0500
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75CE05B83;
-        Sun, 15 Jan 2023 07:36:17 -0800 (PST)
-Received: by mail-ot1-x332.google.com with SMTP id j16-20020a056830271000b0067202045ee9so14887309otu.7;
-        Sun, 15 Jan 2023 07:36:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pRCLnfO5D50aLUIqRH3Be5ElBGG7mevjFvkDgjByEkg=;
-        b=ESYN/lgtsCJz1vk5hIWF8P0XT3zE4HOkfbCef61dEh9nfpUszGpqaILDdbRYwRpBaS
-         Gq0n3cdms6iw0aRSFDJpioaByPmQbKCQP0DMmTGvyCsapfKPYKjs4KTwwNR87Zitspdn
-         tniK5INo56zs/GSaaJc39/v4ceiIJC1pB59guwU6dk/ST7wHrW1GsjBxDt0fMLpUe9Og
-         1v9Whb4AApgIKVhjQbVH2MHL30mD29abfoMS+VPtLoheVkY7LhOupZe8UcHafZllZEmR
-         Q02XH5CuaiXHw9on84tyYVxbzt6ZWhdpxJ/RGI0Gk5dJ5RFTO2+nukuT+lKm/LaCi8GD
-         Tvcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pRCLnfO5D50aLUIqRH3Be5ElBGG7mevjFvkDgjByEkg=;
-        b=g9f7Piy/Nq3PFywGEVd18+BFVQ/jYGX1rjf15FY+4/ZsQXR3JUOzNER+Nr/dyI2qqK
-         t0dlW65vbjI0IDyRgVfUEtEyQM8AFmMLMjT9CbadShDF2l8c13GPt3ANBv6UkjGS5WHq
-         LtenkYbMBb4+ipZy0V6N6XbZjg6Ku1c1VaYVIJ4bXqp3T5WMHNwNq1BaATKDkVutPFq6
-         MNZAtO3KdB6uaeLXDfoksNRnarhsMv2vxefCJ61+ICYmJ/VTgoKb2oxcNcKK+kv/mDXD
-         A6u9O6fRVDwF/u8O22CGHXYS9FzjEqKrMn8icCiirhgA56zBwVYAXt+RHj/7cLmh8lVq
-         QaOw==
-X-Gm-Message-State: AFqh2kpqpxwuVaqZTqlWgYBWAlX9LSol4gywmZC0biwr0sjd5Pyyrc35
-        Tq09VdHwZIX0WGG1AX7ic8ms9/QsdsQQtwGhCv4=
-X-Google-Smtp-Source: AMrXdXu/zET195jKhsFTVp5xxmwIScKWmACgEKUi1QrBdrbk6v28T2qMy0jJBHOkkSBc+MnjFZnNZuARMBSt9P0VdRA=
-X-Received: by 2002:a9d:489:0:b0:684:bedc:4f54 with SMTP id
- 9-20020a9d0489000000b00684bedc4f54mr837621otm.233.1673796976794; Sun, 15 Jan
- 2023 07:36:16 -0800 (PST)
+        with ESMTP id S231362AbjAOSm2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Jan 2023 13:42:28 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F068F744;
+        Sun, 15 Jan 2023 10:42:27 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C7FF360D2E;
+        Sun, 15 Jan 2023 18:42:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9587EC433EF;
+        Sun, 15 Jan 2023 18:42:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673808146;
+        bh=z11MFNtV3X3bexpW51OoHjzIJBfJWYhzONMb5AHF4Hs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=KgvxCLGviINKr8HSgryYWcHu97Z6S76usHSgEw43auqHfd/fmzAGQTha7oSFnwTUj
+         oiD69dL0laJ/5SCeZ0KjLARkAnCmZvA0503c3TRoTmhdlxQSJggGgvHYC61+vhZO9V
+         3KHImVs6lhJo2LlgsMvpU8acSTRhhCvgoX7pkJgjbl9FyQTbqoRM6VofW8MtamencW
+         uC3WY3RxSJBUj163OoMmZYeuHIWl7gJYS3ptzkARJi7xIW1HZY78h8fAvznV2W5LoD
+         dFp+QR5f7FTAAj9GaQqARJhDvTiQkxwsGmzyj/HWhyXJKdalODz3L1Job/wNSD4AXq
+         +oid1JlGlTrDQ==
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH v4 0/1] docs/mm: start filling out new structure
+Date:   Sun, 15 Jan 2023 20:42:11 +0200
+Message-Id: <20230115184212.996298-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20230114194741.115855-1-sj@kernel.org> <20230114194741.115855-2-sj@kernel.org>
-In-Reply-To: <20230114194741.115855-2-sj@kernel.org>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Sun, 15 Jan 2023 10:35:57 -0500
-Message-ID: <CADnq5_OUnkzoZcCdW0X-=gJsXSRgY=GLrbmfNj0geDCzL5a7eQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Docs: Add some missing SPDX license identifiers of
- subsystem docs
-To:     SeongJae Park <sj@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        alsa-devel@alsa-project.org,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Jean Delvare <jdelvare@suse.com>, linux-crypto@vger.kernel.org,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-input@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jan 14, 2023 at 2:48 PM SeongJae Park <sj@kernel.org> wrote:
->
-> Some subsystem documents are missing SPDX license identifiers.  Add
-> those.
+Hi,
 
-It would be good to split this up per subsystem.
+Last year at LSF/MM Matthew promptly created the new structure for MM
+documentation, but there still was no patches with content.
 
->
-> Signed-off-by: SeongJae Park <sj@kernel.org>
-> ---
->  Documentation/crypto/index.rst     | 2 ++
->  Documentation/driver-api/index.rst | 2 ++
->  Documentation/gpu/index.rst        | 2 ++
->  Documentation/hwmon/index.rst      | 2 ++
->  Documentation/input/index.rst      | 2 ++
->  Documentation/mm/index.rst         | 2 ++
->  Documentation/scheduler/index.rst  | 2 ++
->  Documentation/sound/index.rst      | 2 ++
->  8 files changed, 16 insertions(+)
->
-> diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
-> index da5d5ad2bdf3..95b0870e09b8 100644
-> --- a/Documentation/crypto/index.rst
-> +++ b/Documentation/crypto/index.rst
-> @@ -1,3 +1,5 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
->  ==========
->  Crypto API
->  ==========
-> diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-> index b208e0dac3a0..7a2584ab63c4 100644
-> --- a/Documentation/driver-api/index.rst
-> +++ b/Documentation/driver-api/index.rst
-> @@ -1,3 +1,5 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
->  ==============================
->  Driver implementer's API guide
->  ==============================
-> diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
-> index eee5996acf2c..ff06a6b12c5e 100644
-> --- a/Documentation/gpu/index.rst
-> +++ b/Documentation/gpu/index.rst
-> @@ -1,3 +1,5 @@
-> +.. SPDX-License-Identifier: GPL-2.0
+I've started to work on it a while ago and I wanted to send it out in a
+more complete form, but I've got distracted and didn't have time to work
+on this.
 
-Most of the DRM code is MIT.  I'd expect this would be MIT as well.
+With fast changes around struct page and the threat of Lorenzo's book,
+I've decided to send out what I have till now with a hope that we can
+really make this a collaborative effort with people filling paragraph
+here and there.
 
-Alex
+If somebody does not feel like sending formal patches, just send me the
+"raw" text my way and I'll deal with the rest.
 
-> +
->  ============================
->  GPU Driver Developer's Guide
->  ============================
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index c2b3c1a822dd..2186d732654f 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -1,3 +1,5 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
->  ===================
->  Hardware Monitoring
->  ===================
-> diff --git a/Documentation/input/index.rst b/Documentation/input/index.rst
-> index 35581cd18e91..d60bf9cfe005 100644
-> --- a/Documentation/input/index.rst
-> +++ b/Documentation/input/index.rst
-> @@ -1,3 +1,5 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
->  ===================
->  Input Documentation
->  ===================
-> diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
-> index 5a94a921ea40..c4e9fbacaf38 100644
-> --- a/Documentation/mm/index.rst
-> +++ b/Documentation/mm/index.rst
-> @@ -1,3 +1,5 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
->  ===============================
->  Memory Management Documentation
->  ===============================
-> diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
-> index 1aac972a652f..ae0229f5a9cf 100644
-> --- a/Documentation/scheduler/index.rst
-> +++ b/Documentation/scheduler/index.rst
-> @@ -1,3 +1,5 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
->  =========
->  Scheduler
->  =========
-> diff --git a/Documentation/sound/index.rst b/Documentation/sound/index.rst
-> index 5abed5fc6485..7e67e12730d3 100644
-> --- a/Documentation/sound/index.rst
-> +++ b/Documentation/sound/index.rst
-> @@ -1,3 +1,5 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
->  =============================
->  Sound Subsystem Documentation
->  =============================
-> --
-> 2.25.1
->
+The text is relatively heavily formatted because I believe the target
+audience will prefer html version.
+
+v4:
+* squash commits into one (Bagas)
+* fix references formatting (kbuild)
+* add Reviewed-by and Acked-by tags
+
+v3: https://lore.kernel.org/all/20230112091616.824565-1-rppt@kernel.org
+* rephrase ZONE_DMA(32) and ZONE_MOVABLE description (Michal)
+* add cross-reference to DMA API
+
+v2: https://lore.kernel.org/all/20230110152358.2641910-1-rppt@kernel.org
+* rephrase the paragraph inroducing zones (Lorenzo)
+* update formatting (Bagas)
+* add section stubs (Bagas)
+* small fixes here and there
+
+v1: https://lore.kernel.org/all/20230101094523.1522109-1-rppt@kernel.org
+
+Mike Rapoport (IBM) (1):
+  docs/mm: Physical Memory: add structure, introduction and nodes
+    description
+
+ Documentation/core-api/dma-api.rst   |   2 +
+ Documentation/mm/page_reclaim.rst    |   2 +
+ Documentation/mm/physical_memory.rst | 346 +++++++++++++++++++++++++++
+ 3 files changed, 350 insertions(+)
+
+-- 
+2.35.1
+
