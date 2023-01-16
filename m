@@ -2,80 +2,330 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F913C3DA78
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Jan 2023 00:56:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F82BC54EBE
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Jan 2023 06:07:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231523AbjAPA4G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 15 Jan 2023 19:56:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50584 "EHLO
+        id S231941AbjAPGHu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Jan 2023 01:07:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231496AbjAPA4F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Jan 2023 19:56:05 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 600F4B75A;
-        Sun, 15 Jan 2023 16:56:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=iggu42fpMPCC/JvbodIoxl6WKIv5OX3Xu3k05p/hDmk=; b=vvAIsznGgtklvdBSuFMOQnMfkt
-        21OXgPGr/WMilHQWc5kZrtyk7iW5sQ+uLGOPhfv0Zuyj+dIEPmN12Atoov4nOr+iMdTiUrbjvM8Zw
-        1Kt63fC/5CHrM5FwI+E/ZH5ZdzEWbBcy7vPp2XYr+4DDImMi+GTNmXn4oijtXCOOeIYGdsb+n2INT
-        QaM9fnx0+/PXGgeeZEb/SAUVqhYPGyJxWIy7lP4N31TivTu2dapbHCTBkvUeUasVSmmdypoZfZTnK
-        +KY1shhMDSIY4mWCt2hUkFEuaa2btC25SwOkFapdc+cf/ycboJKQhYAJNbD5u6Z3mPbRBw5rTYblE
-        uj+xk7Vg==;
-Received: from [2601:1c2:d80:3110::9307]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pHDn2-008G9G-0i; Mon, 16 Jan 2023 00:55:56 +0000
-Message-ID: <cb1333e8-0e0b-2e3a-f5e1-553d2722be82@infradead.org>
-Date:   Sun, 15 Jan 2023 16:55:55 -0800
+        with ESMTP id S231987AbjAPGHe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jan 2023 01:07:34 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 261BDCC3A;
+        Sun, 15 Jan 2023 22:06:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673849183; x=1705385183;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=JJVUIb/9cl1v7UihGcetThampyVlU8Y2wQOmvZ/oDtw=;
+  b=WsDPfWtrLBMX7AQdjO1MWGqcTmCK24wy9bs42eAVkwxELYwO1xbyC3Cx
+   O24ANrLJN6tLFKf7S7LLOjbdGRDHTydbN+PRx7BCHNCDmnHQgPS57+FF1
+   i8Y6cJdYdc+cNNj3SNKTf/qUhCKHrNgNDT0qdmFLok9JVX2FyumTnidos
+   lPlHkVcV6NojwTGSioSHhu7/yy4CwnAl7b3mu6XVNjcS0L58v96251yyG
+   bu9s8DoQ8XoXgcOK6usZD3VqQBM4NXDBtq0GjdXwMnQMElER5DwtKR8sy
+   JoFYIE6kAdTs8SvJFfy1MYNyAzzFrcgQTE3nTj9Rh6tix2xRBqyvtn6Tj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="388888642"
+X-IronPort-AV: E=Sophos;i="5.97,220,1669104000"; 
+   d="scan'208";a="388888642"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2023 22:06:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="801281772"
+X-IronPort-AV: E=Sophos;i="5.97,220,1669104000"; 
+   d="scan'208";a="801281772"
+Received: from bswcg005.iind.intel.com ([10.224.174.136])
+  by fmsmga001.fm.intel.com with ESMTP; 15 Jan 2023 22:06:17 -0800
+From:   m.chetan.kumar@linux.intel.com
+To:     netdev@vger.kernel.org
+Cc:     kuba@kernel.org, davem@davemloft.net, johannes@sipsolutions.net,
+        ryazanov.s.a@gmail.com, loic.poulain@linaro.org,
+        ilpo.jarvinen@linux.intel.com, ricardo.martinez@linux.intel.com,
+        chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
+        edumazet@google.com, pabeni@redhat.com,
+        chandrashekar.devegowda@intel.com, m.chetan.kumar@linux.intel.com,
+        linuxwwan@intel.com, linuxwwan_5g@intel.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, jiri@nvidia.com
+Subject: [PATCH v4 net-next 5/5] net: wwan: t7xx: Devlink documentation
+Date:   Mon, 16 Jan 2023 11:35:54 +0530
+Message-Id: <17d419b1b249ecc63258c3752d8ea2ba94b246ff.1673842618.git.m.chetan.kumar@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1673842618.git.m.chetan.kumar@linux.intel.com>
+References: <cover.1673842618.git.m.chetan.kumar@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] Documentation: Avoid duplicate Kconfig inclusion
-Content-Language: en-US
-To:     Peter Foley <pefoley2@pefoley.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20230114-doc-v1-1-efec2689e423@pefoley.com>
- <87edrxgk25.fsf@meer.lwn.net>
- <CAOFdcFNKJacBVtrV-hJyUu6hKBVFaKdpA84cZ6WGnZ=ZGnb4kQ@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAOFdcFNKJacBVtrV-hJyUu6hKBVFaKdpA84cZ6WGnZ=ZGnb4kQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: M Chetan Kumar <m.chetan.kumar@linux.intel.com>
 
+Document the t7xx devlink commands usage for firmware flashing &
+coredump collection.
 
-On 1/15/23 16:42, Peter Foley wrote:
-> On Sat, Jan 14, 2023 at 8:25 AM Jonathan Corbet <corbet@lwn.net> wrote:
->> The duplicate inclusion does seem worth fixing, but I wonder if you're
->> deleting the right one?  Having the documentation Kconfig under lib
->> seems a bit strange, somehow; Documentation/ is a top-level directory,
->> after all.
-> 
-> I thought about that.
-> Looking at the history, the toplevel inclusion was added in
-> b1663d7e3a7961 (2019-06-04), and the lib/Kconfig.debug inclusion was
-> added in 75442fb0ccaacd (2020-10-30).
-> Given the actual entries in Documentation/Kconfig
-> (WARN_MISSING_DOCUMENTS and WARN_ABI_ERRORS), putting them under the
-> "Kernel hacking" menu makes sense to me.
-> We *could* add a new top-level menu to Documentation/Kconfig, but it
-> doesn't really seem like an improvement over having them live in
-> Kernel hacking.
+Signed-off-by: M Chetan Kumar <m.chetan.kumar@linux.intel.com>
+Signed-off-by: Devegowda Chandrashekar <chandrashekar.devegowda@intel.com>
+--
+v4:
+ * Spell out fw as firmware.
+ * Drop "Refer to t7xx.rst file for details" in commit message.
+ * Move explanation below commands under flash update.
+ * Move firmware image type list under flash commands.
+ * Keyword formatting.
+ * Trim the unneeded trailing colon.
+ * Describe region commands.
+v3:
+ * No change.
+v2:
+ * Documentation correction.
+ * Add param details.
+---
+ Documentation/networking/devlink/index.rst |   1 +
+ Documentation/networking/devlink/t7xx.rst  | 224 +++++++++++++++++++++
+ 2 files changed, 225 insertions(+)
+ create mode 100644 Documentation/networking/devlink/t7xx.rst
 
-Since b1663d7e3a7961 puts the Documentation/Kconfig just after
-lib/Kconfig.debug, there's not much difference in its location in a
-*config menu, but I would rather see it separated (independent) from
-lib/Kconfig.debug because I think that it would make any future changes
-easier.
-
-Also, b1663d7e3a7961 came first. :)
-
+diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
+index fee4d3968309..0c4f5961e78f 100644
+--- a/Documentation/networking/devlink/index.rst
++++ b/Documentation/networking/devlink/index.rst
+@@ -66,3 +66,4 @@ parameters, info versions, and other features it supports.
+    prestera
+    iosm
+    octeontx2
++   t7xx
+diff --git a/Documentation/networking/devlink/t7xx.rst b/Documentation/networking/devlink/t7xx.rst
+new file mode 100644
+index 000000000000..dc795c8cc851
+--- /dev/null
++++ b/Documentation/networking/devlink/t7xx.rst
+@@ -0,0 +1,224 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++====================
++t7xx devlink support
++====================
++
++This document describes the devlink features implemented by the ``t7xx``
++device driver.
++
++Parameters
++==========
++The ``t7xx_driver`` driver implements the following driver-specific parameters.
++
++.. list-table:: Driver-specific parameters
++   :widths: 5 5 5 85
++
++   * - Name
++     - Type
++     - Mode
++     - Description
++   * - ``fastboot``
++     - boolean
++     - driverinit
++     - Set this param to enter fastboot mode.
++
++Flash Update
++============
++
++The ``t7xx`` driver implements the flash update using the ``devlink-flash``
++interface.
++
++The driver uses ``DEVLINK_SUPPORT_FLASH_UPDATE_COMPONENT`` to identify the type of
++firmware image that need to be programmed upon the request by user space application.
++
++``t7xx`` driver uses fastboot protocol for firmware flashing. In the firmware
++flashing procedure, fastboot command & response are exchanged between driver
++and wwan device.
++
++::
++
++  $ devlink dev reload pci/0000:$bdf action driver_reinit
++
++The wwan device is put into fastboot mode via devlink reload command, by
++passing ``driver_reinit`` action.
++
++::
++
++  $ devlink dev reload pci/0000:$bdf action fw_activate
++
++Upon completion of firmware flashing or coredump collection the wwan device is
++reset to normal mode using devlink reload command, by passing ``fw_activate``
++action.
++
++Flash Commands
++--------------
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file preloader_k6880v1_mdot2_datacard.bin component "preloader"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file loader_ext-verified.img component "loader_ext1"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file tee-verified.img component "tee1"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file lk-verified.img component "lk"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file spmfw-verified.img component "spmfw"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file sspm-verified.img component "sspm_1"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file mcupm-verified.img component "mcupm_1"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file dpm-verified.img component "dpm_1"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file boot-verified.img component "boot"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file root.squashfs component "rootfs"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file modem-verified.img component "md1img"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file dsp-verified.bin component "md1dsp"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file OP_OTA.img component "mcf1"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file OEM_OTA.img component "mcf2"
++
++::
++
++  $ devlink dev flash pci/0000:$bdf file DEV_OTA.img component "mcf3"
++
++Note: Component selects the partition type to be programmed.
++
++
++The supported list of firmware image types is described below.
++
++.. list-table:: Firmware Image types
++    :widths: 15 85
++
++    * - Name
++      - Description
++    * - ``preloader``
++      - The first-stage bootloader image
++    * - ``loader_ext1``
++      - Preloader extension image
++    * - ``tee1``
++      - ARM trusted firmware and TEE (Trusted Execution Environment) image
++    * - ``lk``
++      - The second-stage bootloader image
++    * - ``spmfw``
++      - MediaTek in-house ASIC for power management image
++    * - ``sspm_1``
++      - MediaTek in-house ASIC for power management under secure world image
++    * - ``mcupm_1``
++      - MediaTek in-house ASIC for cpu power management image
++    * - ``dpm_1``
++      - MediaTek in-house ASIC for dram power management image
++    * - ``boot``
++      - The kernel and dtb image
++    * - ``rootfs``
++      - Root filesystem image
++    * - ``md1img``
++      - Modem image
++    * - ``md1dsp``
++      - Modem DSP image
++    * - ``mcf1``
++      - Modem OTA image (Modem Configuration Framework) for operators
++    * - ``mcf2``
++      - Modem OTA image (Modem Configuration Framework) for OEM vendors
++    * - ``mcf3``
++      - Modem OTA image (other usage) for OEM configurations
++
++
++Regions
++=======
++
++The ``t7xx`` driver supports core dump collection in exception state and second
++stage bootloader log collection in fastboot mode. The log snapshot is taken by
++the driver using fastboot commands.
++
++Region commands
++---------------
++
++::
++
++  $ devlink region show
++
++This command list the regions implemented by driver. These regions are accessed
++for device internal data. Below table describes the regions.
++
++.. list-table:: Regions
++    :widths: 15 85
++
++    * - Name
++      - Description
++    * - ``mr_dump``
++      - The detailed modem component logs are captured in this region
++    * - ``lk_dump``
++      - This region dumps the current snapshot of lk
++
++Coredump Collection
++~~~~~~~~~~~~~~~~~~~
++
++::
++
++  $ devlink region new mr_dump
++
++::
++
++  $ devlink region read mr_dump snapshot 0 address 0 length $len
++
++::
++
++  $ devlink region del mr_dump snapshot 0
++
++Note: $len is actual len to be dumped.
++
++The userspace application uses these commands for obtaining the modem component
++logs when device encounters an exception.
++
++Second Stage Bootloader dump
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++::
++
++  $ devlink region new lk_dump
++
++::
++
++  $ devlink region read lk_dump snapshot 0 address 0 length $len
++
++::
++
++  $ devlink region del lk_dump snapshot 0
++
++Note: $len is actual len to be dumped.
++
++In fastboot mode the userspace application uses these commands for obtaining the
++current snapshot of second stage bootloader.
 -- 
-~Randy
+2.34.1
+
