@@ -2,354 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A1EDC46467
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Jan 2023 18:39:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47C65C54EBE
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Jan 2023 21:15:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234745AbjAPSjN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Jan 2023 13:39:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46628 "EHLO
+        id S234102AbjAPVPc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Jan 2023 16:15:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235061AbjAPSi2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jan 2023 13:38:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 933DF28846
-        for <linux-doc@vger.kernel.org>; Mon, 16 Jan 2023 10:29:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1673893740;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=DfE/0f7WicUarpkQ6xDKer55vlLFOFPNhSrmueY6UH0=;
-        b=PSa6Qi1I+dT3QDtxUv19baNGisNuE0rDese517ucgSsuqbpzl67YBrbDhlwy9pFAPdwXo0
-        hRtbysNDJAOECgL83+wFG2mmcaD5CXzCIlQm/F/WsC1T0UzAET0HKGIwwS6sfbdLrwZlCA
-        4B7xr57pYW/5P7xgR3rk4f94zMwXe1k=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-635-o55tx4mKPd-u2PFpKlC8tw-1; Mon, 16 Jan 2023 13:28:59 -0500
-X-MC-Unique: o55tx4mKPd-u2PFpKlC8tw-1
-Received: by mail-wr1-f72.google.com with SMTP id v20-20020adfc5d4000000b002bdfcdb4c51so898145wrg.9
-        for <linux-doc@vger.kernel.org>; Mon, 16 Jan 2023 10:28:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:cc:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DfE/0f7WicUarpkQ6xDKer55vlLFOFPNhSrmueY6UH0=;
-        b=5kan9glIf57IRuYwuFXFKiMJ4IryR4LsdKdse0jISsIhAeBqakPqVea/QeLwFR8uA9
-         Azrf4EBcJATNFYzYFmDTSHn/zqMAn+qWrBe10TDcwkc+dOJN3dRrIesZKf0EyNssKnfY
-         IBg3YROtl6HvY/R8+95o/jfMzTml4NgH430zHM+7Wr9Wmb0KPFtwGaGExItNn+QhQXAO
-         pb0vFma12MWc9AhNaANaiuKTIrrAPCjY5huwi+YlShlYWFDGCap7iCK8g+YGAmzz15CK
-         /SItpUR6CJKxpmdc/vISuNqFbUbmCefX5KB33ZMyElh6spyChSoC/m81r6B/I/M3wy/9
-         JZDw==
-X-Gm-Message-State: AFqh2kr94QK7/42Myltg6sPi0HSdYpinpTGUr1lA1OtHHe7srCwfTvLo
-        4Zb+UblPVxXrc6Eh6P4/+bXhyUhkcb3vVOSjulufi+Z96LxCMWA6et2ChdxikfEZM0JW0CWQ3ly
-        J9nafQrQFQvBG9LaGJsM=
-X-Received: by 2002:a1c:7415:0:b0:3da:fd07:1e3 with SMTP id p21-20020a1c7415000000b003dafd0701e3mr418548wmc.22.1673893736365;
-        Mon, 16 Jan 2023 10:28:56 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvV870LGFYDRPc4DzkE5HF0Vy/AvtCIRmRYLTNYiUIhmJUMPByHsR2pTQhgRTCP0dBKTbiKqg==
-X-Received: by 2002:a1c:7415:0:b0:3da:fd07:1e3 with SMTP id p21-20020a1c7415000000b003dafd0701e3mr418524wmc.22.1673893736156;
-        Mon, 16 Jan 2023 10:28:56 -0800 (PST)
-Received: from [192.168.9.16] (net-2-34-30-183.cust.vodafonedsl.it. [2.34.30.183])
-        by smtp.gmail.com with ESMTPSA id d8-20020a05600c34c800b003c5571c27a1sm41738207wmq.32.2023.01.16.10.28.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jan 2023 10:28:55 -0800 (PST)
-Message-ID: <28f1f1bf-d490-2630-d41f-1344baa0eea9@redhat.com>
-Date:   Mon, 16 Jan 2023 19:28:54 +0100
+        with ESMTP id S234057AbjAPVPa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jan 2023 16:15:30 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6FAD1207D;
+        Mon, 16 Jan 2023 13:15:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673903729; x=1705439729;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=BjXiOG/yTpsib22dvo4gTY26G0IKOftojtMmiRyxqfw=;
+  b=QzveZxbBRabohwotYfdVivEyuWz9+KAj/mVfLytIJIrm/Dwr5a/PkeQO
+   zkGmAy18G7qXReeN2BbOb6dBSALQKB9QjIcQS9NLLX7+MDuZpPTFWWxW3
+   6iGhMmEheFbw3f1kI30edqXCIuJfyZxiV9x7O68zWsJ705LMb5edVjvso
+   klRFBE6R0C4p7+I9sMQA5xHRxQemCG4jJgTCvFe2mzMW3U2de7DTggpFB
+   dWkWviMbA8rRFB+xSfgm05FkexPMDrS5x6aCDHWrgj47taoy/NAFmCnrj
+   HJjAaTyojyAYJFjJiMTwfx7ZDfXTtp4kPvkulAzpaIzy3S0DLyBaDFB+4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="325828854"
+X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
+   d="scan'208";a="325828854"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 13:15:29 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="727592088"
+X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
+   d="scan'208";a="727592088"
+Received: from paichuan-mobl1.amr.corp.intel.com (HELO [10.209.71.173]) ([10.209.71.173])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 13:15:28 -0800
+Message-ID: <cc344449-5f0b-51c7-bae8-6deb9be83702@intel.com>
+Date:   Mon, 16 Jan 2023 13:15:29 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v11 4/4] tty: serial: 8250: add DFL bus driver for Altera
- 16550.
-To:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
-References: <20230115151447.1353428-1-matthew.gerlach@linux.intel.com>
- <20230115151447.1353428-5-matthew.gerlach@linux.intel.com>
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v6 3/7] x86/cpu, kvm: Move the LFENCE_RDTSC / LFENCE
+ always serializing feature
 Content-Language: en-US
-Cc:     andriy.shevchenko@linux.intel.com, bagasdotme@gmail.com,
-        basheer.ahmed.muddebihal@intel.com, corbet@lwn.net,
-        geert+renesas@glider.be, gregkh@linuxfoundation.org,
-        hao.wu@intel.com, ilpo.jarvinen@linux.intel.com,
-        jirislaby@kernel.org, johan@kernel.org, linux-doc@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-serial@vger.kernel.org, lukas@wunner.de, macro@orcam.me.uk,
-        marpagan@redhat.com, mdf@kernel.org,
-        niklas.soderlund+renesas@ragnatech.se, russell.h.weight@intel.com,
-        tianfei.zhang@intel.com, trix@redhat.com, yilun.xu@intel.com
-From:   Marco Pagani <marpagan@redhat.com>
-In-Reply-To: <20230115151447.1353428-5-matthew.gerlach@linux.intel.com>
+To:     Borislav Petkov <bp@alien8.de>,
+        Kim Phillips <kim.phillips@amd.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     x86@kernel.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230110224643.452273-1-kim.phillips@amd.com>
+ <20230110224643.452273-5-kim.phillips@amd.com> <Y8WTnx/ukvdAEeoe@zn.tnic>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <Y8WTnx/ukvdAEeoe@zn.tnic>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 1/16/23 10:13, Borislav Petkov wrote:
+>>  /* AMD-defined Extended Feature 2 EAX, CPUID level 0x80000021 (EAX), word 20 */
+>>  #define X86_FEATURE_NO_NESTED_DATA_BP	(20*32+ 0) /* "" AMD No Nested Data Breakpoints */
+>> +#define X86_FEATURE_LFENCE_RDTSC	(20*32+ 2) /* "" LFENCE always serializing / synchronizes RDTSC */
+> Hmm, a synthetic bit which gets replaced with a vendor one and then the other
+> vendors set it too. I don't see why that cannot work but we probably should be
+> careful here.
+> 
+> dhansen, am I missing an angle?
 
-On 2023-01-15 16:14, matthew.gerlach@linux.intel.com wrote:
-> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> 
-> Add a Device Feature List (DFL) bus driver for the Altera
-> 16550 implementation of UART.
-> 
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+I don't think so.
 
-Reviewed-by: Marco Pagani <marpagan@redhat.com>
-
-> ---
-> v11: sizeof(u64) -> sizeof(*pval)
->      16650 -> 16550
-> 
-> v10: track change to dfh_find_param()
-> 
-> v9: add Rb Andy Shevchenko
->     move dfh_get_u64_param_vals to static version of dfh_get_u64_param_val
-> 
-> v8: use dfh_get_u64_param_vals()
-> 
-> v7: no change
-> 
-> v6: move driver specific parameter definitions to limit scope
-> 
-> v5: removed unneeded blank line
->     removed unneeded includes
->     included device.h and types.h
->     removed unneeded local variable
->     remove calls to dev_dbg
->     memset -> { }
->     remove space after period
->     explicitly include used headers
->     remove redundant Inc from Copyright
->     fix format specifier
-> 
-> v4: use dev_err_probe() everywhere that is appropriate
->     clean up noise
->     change error messages to use the word, unsupported
->     tried again to sort Makefile and KConfig better
->     reorder probe function for easier error handling
->     use new dfh_find_param API
-> 
-> v3: use passed in location of registers
->     use cleaned up functions for parsing parameters
-> 
-> v2: clean up error messages
->     alphabetize header files
->     fix 'missing prototype' error by making function static
->     tried to sort Makefile and Kconfig better
-> ---
->  drivers/tty/serial/8250/8250_dfl.c | 167 +++++++++++++++++++++++++++++
->  drivers/tty/serial/8250/Kconfig    |  12 +++
->  drivers/tty/serial/8250/Makefile   |   1 +
->  3 files changed, 180 insertions(+)
->  create mode 100644 drivers/tty/serial/8250/8250_dfl.c
-> 
-> diff --git a/drivers/tty/serial/8250/8250_dfl.c b/drivers/tty/serial/8250/8250_dfl.c
-> new file mode 100644
-> index 000000000000..6c5ff019df4b
-> --- /dev/null
-> +++ b/drivers/tty/serial/8250/8250_dfl.c
-> @@ -0,0 +1,167 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Driver for FPGA UART
-> + *
-> + * Copyright (C) 2022 Intel Corporation.
-> + *
-> + * Authors:
-> + *   Ananda Ravuri <ananda.ravuri@intel.com>
-> + *   Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> + */
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/device.h>
-> +#include <linux/dfl.h>
-> +#include <linux/errno.h>
-> +#include <linux/ioport.h>
-> +#include <linux/module.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/types.h>
-> +
-> +#include <linux/serial.h>
-> +#include <linux/serial_8250.h>
-> +
-> +#define DFHv1_PARAM_ID_CLK_FRQ    0x2
-> +#define DFHv1_PARAM_ID_FIFO_LEN   0x3
-> +
-> +#define DFHv1_PARAM_ID_REG_LAYOUT	0x4
-> +#define DFHv1_PARAM_REG_LAYOUT_WIDTH	GENMASK_ULL(63, 32)
-> +#define DFHv1_PARAM_REG_LAYOUT_SHIFT	GENMASK_ULL(31, 0)
-> +
-> +struct dfl_uart {
-> +	int line;
-> +};
-> +
-> +static int dfh_get_u64_param_val(struct dfl_device *dfl_dev, int param_id, u64 *pval)
-> +{
-> +	size_t psize;
-> +	u64 *p;
-> +
-> +	p = dfh_find_param(dfl_dev, param_id, &psize);
-> +	if (IS_ERR(p))
-> +		return PTR_ERR(p);
-> +
-> +	if (psize != sizeof(*pval))
-> +		return -EINVAL;
-> +
-> +	*pval = *p;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dfl_uart_get_params(struct dfl_device *dfl_dev, struct uart_8250_port *uart)
-> +{
-> +	struct device *dev = &dfl_dev->dev;
-> +	u64 fifo_len, clk_freq, reg_layout;
-> +	u32 reg_width;
-> +	int ret;
-> +
-> +	ret = dfh_get_u64_param_val(dfl_dev, DFHv1_PARAM_ID_CLK_FRQ, &clk_freq);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "missing CLK_FRQ param\n");
-> +
-> +	uart->port.uartclk = clk_freq;
-> +
-> +	ret = dfh_get_u64_param_val(dfl_dev, DFHv1_PARAM_ID_FIFO_LEN, &fifo_len);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "missing FIFO_LEN param\n");
-> +
-> +	switch (fifo_len) {
-> +	case 32:
-> +		uart->port.type = PORT_ALTR_16550_F32;
-> +		break;
-> +
-> +	case 64:
-> +		uart->port.type = PORT_ALTR_16550_F64;
-> +		break;
-> +
-> +	case 128:
-> +		uart->port.type = PORT_ALTR_16550_F128;
-> +		break;
-> +
-> +	default:
-> +		return dev_err_probe(dev, -EINVAL, "unsupported FIFO_LEN %llu\n", fifo_len);
-> +	}
-> +
-> +	ret = dfh_get_u64_param_val(dfl_dev, DFHv1_PARAM_ID_REG_LAYOUT, &reg_layout);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "missing REG_LAYOUT param\n");
-> +
-> +	uart->port.regshift = FIELD_GET(DFHv1_PARAM_REG_LAYOUT_SHIFT, reg_layout);
-> +	reg_width = FIELD_GET(DFHv1_PARAM_REG_LAYOUT_WIDTH, reg_layout);
-> +	switch (reg_width) {
-> +	case 4:
-> +		uart->port.iotype = UPIO_MEM32;
-> +		break;
-> +
-> +	case 2:
-> +		uart->port.iotype = UPIO_MEM16;
-> +		break;
-> +
-> +	default:
-> +		return dev_err_probe(dev, -EINVAL, "unsupported reg-width %u\n", reg_width);
-> +
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dfl_uart_probe(struct dfl_device *dfl_dev)
-> +{
-> +	struct device *dev = &dfl_dev->dev;
-> +	struct uart_8250_port uart = { };
-> +	struct dfl_uart *dfluart;
-> +	int ret;
-> +
-> +	uart.port.flags = UPF_IOREMAP;
-> +	uart.port.mapbase = dfl_dev->mmio_res.start;
-> +	uart.port.mapsize = resource_size(&dfl_dev->mmio_res);
-> +
-> +	ret = dfl_uart_get_params(dfl_dev, &uart);
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret, "failed uart feature walk\n");
-> +
-> +	if (dfl_dev->num_irqs == 1)
-> +		uart.port.irq = dfl_dev->irqs[0];
-> +
-> +	dfluart = devm_kzalloc(dev, sizeof(*dfluart), GFP_KERNEL);
-> +	if (!dfluart)
-> +		return -ENOMEM;
-> +
-> +	dfluart->line = serial8250_register_8250_port(&uart);
-> +	if (dfluart->line < 0)
-> +		return dev_err_probe(dev, dfluart->line, "unable to register 8250 port.\n");
-> +
-> +	dev_set_drvdata(dev, dfluart);
-> +
-> +	return 0;
-> +}
-> +
-> +static void dfl_uart_remove(struct dfl_device *dfl_dev)
-> +{
-> +	struct dfl_uart *dfluart = dev_get_drvdata(&dfl_dev->dev);
-> +
-> +	serial8250_unregister_port(dfluart->line);
-> +}
-> +
-> +#define FME_FEATURE_ID_UART 0x24
-> +
-> +static const struct dfl_device_id dfl_uart_ids[] = {
-> +	{ FME_ID, FME_FEATURE_ID_UART },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(dfl, dfl_uart_ids);
-> +
-> +static struct dfl_driver dfl_uart_driver = {
-> +	.drv = {
-> +		.name = "dfl-uart",
-> +	},
-> +	.id_table = dfl_uart_ids,
-> +	.probe = dfl_uart_probe,
-> +	.remove = dfl_uart_remove,
-> +};
-> +module_dfl_driver(dfl_uart_driver);
-> +
-> +MODULE_DESCRIPTION("DFL Intel UART driver");
-> +MODULE_AUTHOR("Intel Corporation");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/tty/serial/8250/Kconfig b/drivers/tty/serial/8250/Kconfig
-> index b0f62345bc84..020ef532940d 100644
-> --- a/drivers/tty/serial/8250/Kconfig
-> +++ b/drivers/tty/serial/8250/Kconfig
-> @@ -370,6 +370,18 @@ config SERIAL_8250_FSL
->  	  erratum for Freescale 16550 UARTs in the 8250 driver. It also
->  	  enables support for ACPI enumeration.
->  
-> +config SERIAL_8250_DFL
-> +	tristate "DFL bus driver for Altera 16550 UART"
-> +	depends on SERIAL_8250 && FPGA_DFL
-> +	help
-> +	  This option enables support for a Device Feature List (DFL) bus
-> +	  driver for the Altera 16550 UART. One or more Altera 16550 UARTs
-> +	  can be instantiated in a FPGA and then be discovered during
-> +	  enumeration of the DFL bus.
-> +
-> +	  To compile this driver as a module, chose M here: the
-> +	  module will be called 8250_dfl.
-> +
->  config SERIAL_8250_DW
->  	tristate "Support for Synopsys DesignWare 8250 quirks"
->  	depends on SERIAL_8250
-> diff --git a/drivers/tty/serial/8250/Makefile b/drivers/tty/serial/8250/Makefile
-> index 1615bfdde2a0..4e1a32812683 100644
-> --- a/drivers/tty/serial/8250/Makefile
-> +++ b/drivers/tty/serial/8250/Makefile
-> @@ -28,6 +28,7 @@ obj-$(CONFIG_SERIAL_8250_EXAR_ST16C554)	+= 8250_exar_st16c554.o
->  obj-$(CONFIG_SERIAL_8250_HUB6)		+= 8250_hub6.o
->  obj-$(CONFIG_SERIAL_8250_FSL)		+= 8250_fsl.o
->  obj-$(CONFIG_SERIAL_8250_MEN_MCB)	+= 8250_men_mcb.o
-> +obj-$(CONFIG_SERIAL_8250_DFL)		+= 8250_dfl.o
->  obj-$(CONFIG_SERIAL_8250_DW)		+= 8250_dw.o
->  obj-$(CONFIG_SERIAL_8250_EM)		+= 8250_em.o
->  obj-$(CONFIG_SERIAL_8250_IOC3)		+= 8250_ioc3.o
-
+I'd be surprised if we don't have a _few_ other cases like this around,
+but nothing is coming to mind.  Either way, it doesn't seem problematic.
