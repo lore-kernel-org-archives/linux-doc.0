@@ -2,118 +2,60 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 968F7C54EBE
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Jan 2023 18:27:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 573DFC54EBE
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Jan 2023 18:29:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233550AbjAPS1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Jan 2023 13:27:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39754 "EHLO
+        id S232346AbjAPS3P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Jan 2023 13:29:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233024AbjAPS0l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jan 2023 13:26:41 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 958EC3A58B;
-        Mon, 16 Jan 2023 10:13:21 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 177A81EC054E;
-        Mon, 16 Jan 2023 19:13:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1673892800;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=i/kh1ilFTWPtG8UywoZ6jYpIHXmqf2pU9jgg6W4/tcs=;
-        b=BRT1B4yyAW2z+g8WbQ/stM+fatfcjgjLyNkdp+OUWrixORtyBSH0Kh6dDVwJm6rM+DnuXk
-        mXc5FpQRMgx5fR09DlWEwDIqF6jYvwkasW8eQ0P0kvsYtUkOoGPp6YnAyL56laqkWWepY8
-        QrALCXN4/E/JMamNCWpaqbRcjCGGeoA=
-Date:   Mon, 16 Jan 2023 19:13:15 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Kim Phillips <kim.phillips@amd.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     x86@kernel.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 3/7] x86/cpu, kvm: Move the LFENCE_RDTSC / LFENCE
- always serializing feature
-Message-ID: <Y8WTnx/ukvdAEeoe@zn.tnic>
-References: <20230110224643.452273-1-kim.phillips@amd.com>
- <20230110224643.452273-5-kim.phillips@amd.com>
+        with ESMTP id S234913AbjAPS2e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jan 2023 13:28:34 -0500
+Received: from smtp.tiscali.it (michael-notr.mail.tiscali.it [213.205.33.216])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3D88141B62
+        for <linux-doc@vger.kernel.org>; Mon, 16 Jan 2023 10:14:46 -0800 (PST)
+Received: from [192.168.178.50] ([79.40.78.92])
+        by michael.mail.tiscali.it with 
+        id 9WEh2900t1zVZtK01WEhD8; Mon, 16 Jan 2023 18:14:44 +0000
+x-auth-user: fantonifabio@tiscali.it
+Message-ID: <62a18c7d-93d9-657e-48fd-1af06d6d1d9e@tiscali.it>
+Date:   Mon, 16 Jan 2023 19:14:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230110224643.452273-5-kim.phillips@amd.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Reply-To: fantonifabio@tiscali.it
+Subject: Re: [PATCH v2] documentation: fix Generic Block Device Capability
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     corbet@lwn.net, axboe@kernel.dk, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sergei Shtepa <sergei.shtepa@veeam.com>
+References: <20230110132104.12499-1-fantonifabio@tiscali.it>
+ <Y8WPFMFxpfdZKs5a@infradead.org>
+From:   Fabio Fantoni <fantonifabio@tiscali.it>
+In-Reply-To: <Y8WPFMFxpfdZKs5a@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Antivirus: Avast (VPS 230116-4, 16/1/2023), Outbound message
+X-Antivirus-Status: Clean
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tiscali.it; s=smtp;
+        t=1673892884; bh=3U/UMDrt1ERP+4W8WcGd8ghmP5Kf8zFnC0ua/Movv7Y=;
+        h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To;
+        b=GXjGttE24bptT6Mg2kDVcWMNAS76gup0cyC7Zno3Cvyvsqc9YjaPFpJnVt0NHaxCO
+         1SFRI/l3BW06lufYD9cNbvRrCflFMqvhAgrMtoewpkyL16okj5dOmRH8rHnMfm+pvF
+         8DALWSyCTRrlzIw1VrSuh0Yt9g7RyA/9N0ckuGS0=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 10, 2023 at 04:46:39PM -0600, Kim Phillips wrote:
-> The LFENCE_RDTSC / LFENCE always serializing feature was a scattered bit
-> and open-coded for KVM in __do_cpuid_func().  Add it to its newly added
-> CPUID leaf 0x80000021 EAX proper, and propagate it in kvm_set_cpu_caps()
-> instead.
-> 
-> Also drop the bit description comments now it's more self-describing.
-> 
-> Whilst there, switch to using the more efficient cpu_feature_enabled()
-> instead of static_cpu_has().
-> 
-> Signed-off-by: Kim Phillips <kim.phillips@amd.com>
-> ---
->  arch/x86/include/asm/cpufeatures.h | 3 ++-
->  arch/x86/kvm/cpuid.c               | 9 ++++-----
->  2 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-> index 0cd7b4afd528..79da8e492c0f 100644
-> --- a/arch/x86/include/asm/cpufeatures.h
-> +++ b/arch/x86/include/asm/cpufeatures.h
-> @@ -97,7 +97,7 @@
->  #define X86_FEATURE_SYSENTER32		( 3*32+15) /* "" sysenter in IA32 userspace */
->  #define X86_FEATURE_REP_GOOD		( 3*32+16) /* REP microcode works well */
->  #define X86_FEATURE_AMD_LBR_V2		( 3*32+17) /* AMD Last Branch Record Extension Version 2 */
-> -#define X86_FEATURE_LFENCE_RDTSC	( 3*32+18) /* "" LFENCE synchronizes RDTSC */
-> +/* FREE, was #define X86_FEATURE_LFENCE_RDTSC		( 3*32+18) "" LFENCE synchronizes RDTSC */
->  #define X86_FEATURE_ACC_POWER		( 3*32+19) /* AMD Accumulated Power Mechanism */
->  #define X86_FEATURE_NOPL		( 3*32+20) /* The NOPL (0F 1F) instructions */
->  #define X86_FEATURE_ALWAYS		( 3*32+21) /* "" Always-present feature */
-> @@ -428,6 +428,7 @@
->  
->  /* AMD-defined Extended Feature 2 EAX, CPUID level 0x80000021 (EAX), word 20 */
->  #define X86_FEATURE_NO_NESTED_DATA_BP	(20*32+ 0) /* "" AMD No Nested Data Breakpoints */
-> +#define X86_FEATURE_LFENCE_RDTSC	(20*32+ 2) /* "" LFENCE always serializing / synchronizes RDTSC */
+Il 16/01/2023 18:53, Christoph Hellwig ha scritto:
+> On Tue, Jan 10, 2023 at 02:21:04PM +0100, Fabio Fantoni wrote:
+>> - * ``GENHD_FL_REMOVABLE``: indicates that the block device gives access to
+>> + * ``GENHD_FL_REMOVABLE`` (0x01): indicates that the block device gives access to
+> The numberic values really do not belong into the documentation.  They
+> are just implementation details.
+>
+Thanks for reply, if values are not into the documentation see from 
+/sys/block/<disk>/capability output what flags are enabled will require 
+look to source code of include/linux/blkdev.h and 
+Documentation/block/capability.rst will be less useful, or I'm wrong?
 
-Hmm, a synthetic bit which gets replaced with a vendor one and then the other
-vendors set it too. I don't see why that cannot work but we probably should be
-careful here.
-
-dhansen, am I missing an angle?
-
-Also, X86_FEATURE_LFENCE_RDTSC gets set in init_amd() along with setting
-DE_CFG[1]. I think you should check the new flag here first and avoid the
-setting if that flag is set. Just for good measure - not that it changes
-anything but still, it is cheap to do.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
