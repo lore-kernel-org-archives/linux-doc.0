@@ -2,195 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA0BEC678D6
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Jan 2023 08:46:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C2DC63797
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Jan 2023 10:49:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231946AbjAPIqh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Jan 2023 03:46:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55578 "EHLO
+        id S230033AbjAPKtv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Jan 2023 05:49:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231969AbjAPIqd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jan 2023 03:46:33 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D721F1286C;
-        Mon, 16 Jan 2023 00:46:32 -0800 (PST)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30G6ukmT032407;
-        Mon, 16 Jan 2023 08:46:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
- cc : subject : message-id : reply-to : references : mime-version :
- content-type : in-reply-to; s=qcppdkim1;
- bh=9upRWgPsUI4MWJz8NNhINZoq9YCOZLLadpunlbq+F+I=;
- b=UnN5PMZIYloM18yNkt42oJvysp3WI+HRVAA+lSiq4mk+L8/tCBO6Ho8UMeCuIpiYUx8m
- iW/rmtED8PqAbB2/HLBCDpF3QBlCO9qzx0BlT581Hw+EB3RmFBaDok50qYP2uMSunDD8
- +I/sxax71S9iPJNvBJduo2SQfj1e/vQdwRxeBqx2C4UXmD02oiLPBIbwAv7fCdy2gsEY
- 0buEhutE2o5j3zNHww0xeeGSoyQLtdQLIffma6hPlyWMYpLJc3lyjX+RERKKIwJnQ9QJ
- 02+EFkpN2opWjW0Gpd7owyODK8gtGMmqf1a8UsvQ93TE36J//gcybSDoirbDSNlWTzY6 lw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n3mm9tx1w-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 16 Jan 2023 08:46:08 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30G8k74G028844
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 16 Jan 2023 08:46:07 GMT
-Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 16 Jan
- 2023 00:46:00 -0800
-Date:   Mon, 16 Jan 2023 14:15:57 +0530
-From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Carl van Schaik" <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-acpi@vger.kernel.org>
-Subject: Re: [PATCH v8 13/28] gunyah: rsc_mgr: Add RPC for sharing memory
-Message-ID: <20230116084557.GB1737564@quicinc.com>
-Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-References: <20221219225850.2397345-1-quic_eberman@quicinc.com>
- <20221219225850.2397345-14-quic_eberman@quicinc.com>
+        with ESMTP id S230094AbjAPKtt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jan 2023 05:49:49 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9A55419695;
+        Mon, 16 Jan 2023 02:49:47 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E8CFAD7;
+        Mon, 16 Jan 2023 02:50:29 -0800 (PST)
+Received: from [10.57.89.182] (unknown [10.57.89.182])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 124423F71A;
+        Mon, 16 Jan 2023 02:49:44 -0800 (PST)
+Message-ID: <98971687-90c4-85f3-da23-4286751c2c2a@arm.com>
+Date:   Mon, 16 Jan 2023 10:49:43 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-In-Reply-To: <20221219225850.2397345-14-quic_eberman@quicinc.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: _ofK556yL_a9qSF87Ooq6UE7hMu7sYIb
-X-Proofpoint-ORIG-GUID: _ofK556yL_a9qSF87Ooq6UE7hMu7sYIb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-16_06,2023-01-13_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- spamscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
- impostorscore=0 adultscore=0 bulkscore=0 lowpriorityscore=0 clxscore=1011
- mlxlogscore=839 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301160064
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v16 0/2] Add support for UltraSoc System Memory Buffer
+To:     Junhao He <hejunhao3@huawei.com>, mathieu.poirier@linaro.org,
+        mike.leach@linaro.org, leo.yan@linaro.org,
+        jonathan.cameron@huawei.com
+Cc:     coresight@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        lpieralisi@kernel.org, linuxarm@huawei.com, yangyicong@huawei.com,
+        liuqi6124@gmail.com, f.fangjian@huawei.com, shenyang39@huawei.com,
+        prime.zeng@hisilicon.com
+References: <20230114101302.62320-1-hejunhao3@huawei.com>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20230114101302.62320-1-hejunhao3@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Elliot Berman <quic_eberman@quicinc.com> [2022-12-19 14:58:34]:
+On 14/01/2023 10:13, Junhao He wrote:
+> Add support for UltraSoc System Memory Buffer.
+> 
+> Change since v15:
+> - Modify document based on Bagas and Suzuki's comments.
+> - Link: https://lore.kernel.org/lkml/20221220092945.30722-1-hejunhao3@huawei.com/
+> 
+> Change since v14:
+> - Add some helpers to the buffer and simplify dumping data according to Jonathan's comment.
+> - Link: https://lore.kernel.org/lkml/20221123123823.27973-1-hejunhao3@huawei.com/
+> 
+> Change since v13:
+> - Modify document and the patches description according to Bagas's comment.
+> - Add dependency on config ACPI, drop redundant enable hw in smb_update_buffer(),
+>    Modify smb_purge_data() description according to Suzuki's comment.
+> - Link: https://lore.kernel.org/lkml/20221114090316.63157-1-hejunhao3@huawei.com/
+> 
+> Change since v12:
+> - Modify the code style and add "#ifdef CONFIG_ACPI" according to Jonathan's comment.
+> - Address the comments from Yicong, included drop "buf_base"__iomem attribute,
+>    modify the "reading" type to bool and fix FIELD_PREP.
+> - Link: https://lore.kernel.org/lkml/20221109135008.9485-1-hejunhao3@huawei.com/
+> 
+> Change since v11:
+> - Modify the code style and rename the macro according to Jonathan's comment.
+> - Link: https://lore.kernel.org/lkml/20221107130624.59886-1-hejunhao3@huawei.com/
+> 
+> Change since v10:
+> - Rebase onto v6.1-rc4, included similar sysfs register accessors (as same as James's patch)
+> - Link: https://lore.kernel.org/lkml/20221022115929.7503-1-hejunhao3@huawei.com/
+> 
+> Change since v9:
+> - Update the Contact tag in SMB document.
+> - Replace the spinlock with mutex.
+> - Do some clean-ups in "smb_enable()" and "smb_release()".
+> - Use classic memory mapped interface.
+> - Link: https://lore.kernel.org/linux-arm-kernel/20220818132231.28240-1-hejunhao3@huawei.com/
+> 
+> Change since v8:
+> - Insert a blank line at the end of the config tag in Kconfig according to Randy's comment.
+> - Link: https://lore.kernel.org/linux-arm-kernel/20220816131634.38195-1-hejunhao3@huawei.com/
+> 
+> Change since v7:
+> - Use the macros for register bit flags and numbers of resource.
+> - Cleanup punctuation.
+> - Update the Date tag and the KernelVersion tag in the document.
+> - Link: https://lore.kernel.org/lkml/20220712091353.34540-1-hejunhao3@huawei.com/
+> 
+> Change since v6:
+> - Modify the code style and driver description according to Suzuki's comment.
+> - Modify configuration of "drvdata->reading", to void problems in open/read
+>    concurrency scenario.
+> - Rename the macro of "SMB_FLOW_MASK".
+> - Use the "handle->head" to determine the page number and offset.
+> - Link: https://lore.kernel.org/linux-arm-kernel/20220606130223.57354-1-liuqi115@huawei.com/
+> 
+>    Change since v5:
+> - Address the comments from Suzuki, add some comments in SMB document, and modify
+>    configuration of "drvdata->reading", to void problems in multi-core concurrency scenario
+> - Link: https://lore.kernel.org/linux-arm-kernel/20220416083953.52610-1-liuqi115@huawei.com/
+> 
+> Change since v4:
+> - Add a simple document of SMB driver according to Suzuki's comment.
+> - Address the comments from Suzuki.
+> - Link: https://lore.kernel.org/linux-arm-kernel/20220128061755.31909-1-liuqi115@huawei.com/
+> 
+> Change since v3:
+> - Modify the file header according to community specifications.
+> - Address the comments from Mathieu.
+> - Link: https://lore.kernel.org/linux-arm-kernel/20211118110016.40398-1-liuqi115@huawei.com/
+> 
+> Change since v2:
+> - Move ultrasoc driver to drivers/hwtracing/coresight by Mathieu's comment.
+> - Link: https://lists.linaro.org/pipermail/coresight/2021-November/007310.html
+> 
+> Change since v1:
+> - Drop the document of UltraSoc according to Mathieu's comment.
+> - Add comments to explain some private hardware settings.
+> - Address the comments from Mathieu.
+> - Link: https://lists.linaro.org/pipermail/coresight/2021-August/006842.html
+> 
+> Change since RFC:
+> - Move driver to drivers/hwtracing/coresight/ultrasoc.
+> - Remove ultrasoc-axi-com.c, as AXI-COM doesn't need to be configured in
+>    basic tracing function.
+> - Remove ultrasoc.c as SMB does not need to register with the ultrasoc core.
+> - Address the comments from Mathieu and Suzuki.
+> - Link: https://lists.linaro.org/pipermail/coresight/2021-June/006535.html
+> 
+> Qi Liu (2):
+>    drivers/coresight: Add UltraSoc System Memory Buffer driver
+>    Documentation: Add document for UltraSoc SMB driver
 
-> +static int _gh_rm_mem_append(struct gh_rm_rpc *rm, u32 mem_handle, bool end_append,
-> +			struct gh_rm_mem_entry *mem_entries, size_t n_mem_entries)
-> +{
-> +	size_t msg_size = 0;
-> +	void *msg;
-> +	struct gh_mem_append_req_header *req_header;
-> +	struct gh_mem_share_req_mem_section *mem_section;
-> +	void *resp;
-> +	size_t resp_size;
-> +	int ret;
-> +
-> +	msg_size += sizeof(struct gh_mem_append_req_header);
-> +	msg_size += offsetof(struct gh_mem_share_req_mem_section, entries[n_mem_entries]);
-> +
-> +	msg = kzalloc(msg_size, GFP_KERNEL);
-> +	if (!msg)
-> +		return -ENOMEM;
-> +
-> +	req_header = msg;
-> +	mem_section = (void *)req_header + sizeof(struct gh_mem_append_req_header);
-> +
-> +	req_header->mem_handle = mem_handle;
 
-cpu_to_le(mem_handle);
+Queued to coresight next tree
 
+https://git.kernel.org/coresight/c/06f5c2926aaa
+https://git.kernel.org/coresight/c/2d4103ae31aa
 
-> +	if (end_append)
-> +		req_header->flags |= GH_MEM_APPEND_REQ_FLAGS_END;
-> +
-> +	mem_section->n_entries = n_mem_entries;
-> +	memcpy(mem_section->entries, mem_entries, sizeof(*mem_entries) * n_mem_entries);
-> +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_MEM_APPEND, msg, msg_size, &resp, &resp_size);
-> +	if (ret)
+Thanks for the patches
 
-kfree(msg);
-
-> +		return ret;
-> +	kfree(resp);
-
-kfree(msg);
-
-> +
-> +	return ret;
-> +}
-> +
-> +static int gh_rm_mem_append(struct gh_rm_rpc *rm, u32 mem_handle, bool allow_append,
-
-Is there any scenario where allow_append will be 'true'? As of this patch
-atleast, its always 'false', so maybe just avoid this input argument?
-
-> +static int gh_rm_mem_lend_common(struct gh_rm_rpc *rm, u32 message_id, struct gh_rm_mem_parcel *p)
-> +{
-
-[snip]
-
-> +	acl_section->n_entries = p->n_acl_entries;
-
-cpu_to_le32(p->n_acl_entries);
-
-> +	memcpy(acl_section->entries, p->acl_entries, sizeof(*(p->acl_entries)) * p->n_acl_entries);
-> +
-> +	mem_section->n_entries = initial_n_mem_entries;
-
-cpu_to_le32(initial_n_mem_entries);
-
-> +	memcpy(mem_section->entries, p->mem_entries,
-> +		sizeof(*(p->mem_entries)) * initial_n_mem_entries);
-> +
-> +	/* Set n_entries for memory attribute section to 0 */
-> +	*mem_attr_section = 0;
-> +
-> +	ret = gh_rm_call(rm, message_id, msg, msg_size, &resp, &resp_size);
-> +	if (ret)
-
-kfree(msg)
-
-> +		return ret;
-> +
-> +	if (resp_size != sizeof(__le32)) {
-> +		ret = -EIO;
-> +		goto out;
-> +	}
-> +
-> +	p->mem_handle = le32_to_cpu(*(__le32 *)resp);
-> +
-> +	if (initial_n_mem_entries != p->n_mem_entries) {
-> +		ret = gh_rm_mem_append(rm, p->mem_handle, false,
-> +					&p->mem_entries[initial_n_mem_entries],
-> +					p->n_mem_entries - initial_n_mem_entries);
-> +		if (ret)
-> +			gh_rm_mem_reclaim(rm, p);
-
-			p->mem_handle = GH_MEM_HANDLE_INVAL in this case?
-
-> +	}
-> +
-> +out:
-
-kfree(msg) ?
-
+Suzuki
