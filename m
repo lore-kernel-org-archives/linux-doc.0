@@ -2,73 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2589C54EBE
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Jan 2023 23:25:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBF2AC46467
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Jan 2023 23:59:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235454AbjAPXZj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Jan 2023 18:25:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38152 "EHLO
+        id S235398AbjAPX7S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Jan 2023 18:59:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235515AbjAPXZH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jan 2023 18:25:07 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B74C422DF6;
-        Mon, 16 Jan 2023 15:14:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=Xr9BAdNTpgJq5wQzXIQaXKmEjS8lAiRm6EwMutgj0P8=; b=UJWyHOFdfC4ZKIJKCOa4p+a766
-        FvYRJm9WvP+X/xvEPN36y7nIDrfEMP37NcpYDTtm2dMkp5qDttiHl+R6n5gu2UgEg8eQpky6DMZhv
-        yd3t2Vvo0vuaI40JPphN1LczL4byWUbwG8A5JphTuFqjy3NjSVANGKcoVUL3e+/as9FQAsWFjqtZ3
-        /6FO1A+jbmoRyDD37oBkg5D0erDZZcorkG9Zc4kOK4SoEWeZwwO0m1hZP7HR5YMg84DYAJLXUclaw
-        C0x++g3q/4ONkIiq3rPWOM2O5Vgl2Vnq623f4V833/gNxGSaKAABg/sZZ+cqA0VNY6kF9ds0eOeI4
-        mcW1JkeQ==;
-Received: from [2601:1c2:d80:3110::9307]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pHYgO-00CF2M-8b; Mon, 16 Jan 2023 23:14:28 +0000
-Message-ID: <626d1d61-9f00-4b4e-631f-6652a4520393@infradead.org>
-Date:   Mon, 16 Jan 2023 15:14:26 -0800
+        with ESMTP id S235729AbjAPX65 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jan 2023 18:58:57 -0500
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C05732C671;
+        Mon, 16 Jan 2023 15:57:19 -0800 (PST)
+Received: by mail-ej1-x630.google.com with SMTP id az20so52440504ejc.1;
+        Mon, 16 Jan 2023 15:57:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mn+TZUXea4ISuZCwWMz5SSZVUJSxpv6JVqPqn/L6G5M=;
+        b=U97bLxJThXvIz9tGZ+qMWg8UXddRRY1eBK0/0IWmL0sXDyDEjS5p6dr0kCSg/gKySQ
+         x4JZnqgHpZStIp/H8TOg5Mae2JHIp5gCyTh0J0jIZOGcm2inJOL7Qc/+VH9WG95l5lGH
+         L0eKkporSCTYBabLopH2cgnG13pmjhCCOwerlF53q1FwrpDwrw63KWv3qi+6xZcLYSle
+         10COldlck6Kean6mHn6Nrxo2nsQ3o0aoqW+hzxUc+G91Jf+3aOG604ncC5OVA59glMhB
+         esx7b5WSymKRdgIzhqwbR+d9xf1up7kvIELcN0RKq+mPhAH8aVVkXkrhBnsMwZRJFbds
+         RqkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mn+TZUXea4ISuZCwWMz5SSZVUJSxpv6JVqPqn/L6G5M=;
+        b=pNLLai2ngzUOXPws/GzbdHWVWWcswhFtEDXs8MCtKGRRExzOpYaIEwcJwbEPQ95Lf+
+         gPpyUKpPujR4LmrWrLLFuImqDNB/yQ1OzWyzBgTzfaN5a7OGYL62Fhso9lERjZA8l2rS
+         4hIT2d6EgfDxeRsQMfJgPwxdvp1WdvRZeN8b7RTHwGkyYwisM/+pzEEUYLO+GfSwuEgV
+         /z5Tmofm+Jxe0tRHLJtTCPoaoPCUsypyqXdYdV5nI8ZLldq5DLh5KG+Y5uHJZzLRbafw
+         Risvk1f71KYSoCLiofHSzjUApL5p/ZVyTKeireN9hoD3EEW+uvTAj6nSbHcMKheWVqU4
+         aACQ==
+X-Gm-Message-State: AFqh2kpSbJSM5HFp5IaRKUI5J4kF2IHK5ZNVjdWzxsVfpcfhZTKcpETr
+        dUP/SVw5XE2EkPtxS0V2qoE=
+X-Google-Smtp-Source: AMrXdXtV6tBOAXyQOr2MEm/mdNgG5OctwB/I+nbsufizNM1KwTgiunat/WxOnNXiFt3Q0eNoulaalw==
+X-Received: by 2002:a17:906:2403:b0:84d:3e5b:7c02 with SMTP id z3-20020a170906240300b0084d3e5b7c02mr13239483eja.22.1673913438279;
+        Mon, 16 Jan 2023 15:57:18 -0800 (PST)
+Received: from gvm01 (net-5-89-66-224.cust.vodafonedsl.it. [5.89.66.224])
+        by smtp.gmail.com with ESMTPSA id lb21-20020a170907785500b0084c4657120fsm12455873ejc.55.2023.01.16.15.57.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jan 2023 15:57:17 -0800 (PST)
+Date:   Tue, 17 Jan 2023 00:57:19 +0100
+From:   Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        Oleksij Rempel <o.rempel@pengutronix.de>,
+        mailhol.vincent@wanadoo.fr, sudheer.mogilappagari@intel.com,
+        sbhatta@marvell.com, linux-doc@vger.kernel.org,
+        wangjie125@huawei.com, corbet@lwn.net, lkp@intel.com,
+        gal@nvidia.com, gustavoars@kernel.org, bagasdotme@gmail.com
+Subject: [PATCH net-next 1/1] ethtool/plca: fix potential NULL pointer access
+Message-ID: <6bb97c2304d9ab499c2831855f6bf3f6ee2b8676.1673913385.git.piergiorgio.beruto@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2] Documentation: Avoid duplicate Kconfig inclusion
-Content-Language: en-US
-To:     Peter Foley <pefoley2@pefoley.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20230114-doc-v2-1-853a8434ac95@pefoley.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230114-doc-v2-1-853a8434ac95@pefoley.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Fix problem found by syzbot dereferencing a device pointer.
 
+Signed-off-by: Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
+Reported-by: syzbot+8cf35743af243e5f417e@syzkaller.appspotmail.com
+Fixes: 8580e16c28f3 ("net/ethtool: add netlink interface for the PLCA RS")
+---
+ net/ethtool/plca.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On 1/16/23 14:58, Peter Foley wrote:
-> Documentation/Kconfig is already included from top-level, avoid
-> including it again from lib/Kconfig.debug.
-> 
-> Signed-off-by: Peter Foley <pefoley2@pefoley.com>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
-> Changes in v2:
-> - Add a top-level Documentation entry instead of nesting under Kernel hacking
-> - Link to v1: https://lore.kernel.org/r/20230114-doc-v1-1-efec2689e423@pefoley.com
-> ---
->  Documentation/Kconfig | 10 ++++++++--
->  lib/Kconfig.debug     |  2 --
->  2 files changed, 8 insertions(+), 4 deletions(-)
-
-
+diff --git a/net/ethtool/plca.c b/net/ethtool/plca.c
+index be7404dc9ef2..bc3d31f99998 100644
+--- a/net/ethtool/plca.c
++++ b/net/ethtool/plca.c
+@@ -155,6 +155,8 @@ int ethnl_set_plca_cfg(struct sk_buff *skb, struct genl_info *info)
+ 		return ret;
+ 
+ 	dev = req_info.dev;
++	if(!dev)
++		return -ENODEV;
+ 
+ 	rtnl_lock();
+ 
 -- 
-~Randy
+2.37.4
+
