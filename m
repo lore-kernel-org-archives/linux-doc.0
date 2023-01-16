@@ -2,52 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B76AC54EBE
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Jan 2023 18:08:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 968F7C54EBE
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Jan 2023 18:27:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233247AbjAPSIN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Jan 2023 13:08:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52704 "EHLO
+        id S233550AbjAPS1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Jan 2023 13:27:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232168AbjAPSHl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jan 2023 13:07:41 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 175F639CDF;
-        Mon, 16 Jan 2023 09:53:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=bv4/NfwG2bRyLUAe4HN91Bd9uW/2GM4dYG62/PHE/nI=; b=vVVry2SVrryRRTVlZ97g9++Tq9
-        TKWbQCQDeiohDK7VTXOjvm9g9WGQNfIdj98crojfWi+PCIRp2P0OpOeDMZA1P11cJix0bz69G7PLM
-        brFtMWw9EdCZoPbneh1Kt7emuO9TqmMZtEoqmacyBgSHGmhql5K06bxleuMRBbOnIoFJtolKXcHRa
-        noaZaN3dyr7FQRz1NOQmx+7hI1pIrgg+Wd6EEEA5txl1HFao7JTyDKaidOJNTokd79/K84vq02CXO
-        s1o8t3G7icLnhFyTXdD1H/JXd+6EUbKn0saibkMJr9VfcPJ8rgme5aAGOf8uFtJRTDa+yhm3ac/zP
-        Bgjoz/Hg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pHTfg-00Bavl-89; Mon, 16 Jan 2023 17:53:24 +0000
-Date:   Mon, 16 Jan 2023 09:53:24 -0800
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Fabio Fantoni <fantonifabio@tiscali.it>
-Cc:     corbet@lwn.net, axboe@kernel.dk, linux-block@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergei Shtepa <sergei.shtepa@veeam.com>
-Subject: Re: [PATCH v2] documentation: fix Generic Block Device Capability
-Message-ID: <Y8WPFMFxpfdZKs5a@infradead.org>
-References: <20230110132104.12499-1-fantonifabio@tiscali.it>
+        with ESMTP id S233024AbjAPS0l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Jan 2023 13:26:41 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 958EC3A58B;
+        Mon, 16 Jan 2023 10:13:21 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 177A81EC054E;
+        Mon, 16 Jan 2023 19:13:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1673892800;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=i/kh1ilFTWPtG8UywoZ6jYpIHXmqf2pU9jgg6W4/tcs=;
+        b=BRT1B4yyAW2z+g8WbQ/stM+fatfcjgjLyNkdp+OUWrixORtyBSH0Kh6dDVwJm6rM+DnuXk
+        mXc5FpQRMgx5fR09DlWEwDIqF6jYvwkasW8eQ0P0kvsYtUkOoGPp6YnAyL56laqkWWepY8
+        QrALCXN4/E/JMamNCWpaqbRcjCGGeoA=
+Date:   Mon, 16 Jan 2023 19:13:15 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Kim Phillips <kim.phillips@amd.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     x86@kernel.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 3/7] x86/cpu, kvm: Move the LFENCE_RDTSC / LFENCE
+ always serializing feature
+Message-ID: <Y8WTnx/ukvdAEeoe@zn.tnic>
+References: <20230110224643.452273-1-kim.phillips@amd.com>
+ <20230110224643.452273-5-kim.phillips@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230110132104.12499-1-fantonifabio@tiscali.it>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230110224643.452273-5-kim.phillips@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 10, 2023 at 02:21:04PM +0100, Fabio Fantoni wrote:
-> - * ``GENHD_FL_REMOVABLE``: indicates that the block device gives access to
-> + * ``GENHD_FL_REMOVABLE`` (0x01): indicates that the block device gives access to
+On Tue, Jan 10, 2023 at 04:46:39PM -0600, Kim Phillips wrote:
+> The LFENCE_RDTSC / LFENCE always serializing feature was a scattered bit
+> and open-coded for KVM in __do_cpuid_func().  Add it to its newly added
+> CPUID leaf 0x80000021 EAX proper, and propagate it in kvm_set_cpu_caps()
+> instead.
+> 
+> Also drop the bit description comments now it's more self-describing.
+> 
+> Whilst there, switch to using the more efficient cpu_feature_enabled()
+> instead of static_cpu_has().
+> 
+> Signed-off-by: Kim Phillips <kim.phillips@amd.com>
+> ---
+>  arch/x86/include/asm/cpufeatures.h | 3 ++-
+>  arch/x86/kvm/cpuid.c               | 9 ++++-----
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+> index 0cd7b4afd528..79da8e492c0f 100644
+> --- a/arch/x86/include/asm/cpufeatures.h
+> +++ b/arch/x86/include/asm/cpufeatures.h
+> @@ -97,7 +97,7 @@
+>  #define X86_FEATURE_SYSENTER32		( 3*32+15) /* "" sysenter in IA32 userspace */
+>  #define X86_FEATURE_REP_GOOD		( 3*32+16) /* REP microcode works well */
+>  #define X86_FEATURE_AMD_LBR_V2		( 3*32+17) /* AMD Last Branch Record Extension Version 2 */
+> -#define X86_FEATURE_LFENCE_RDTSC	( 3*32+18) /* "" LFENCE synchronizes RDTSC */
+> +/* FREE, was #define X86_FEATURE_LFENCE_RDTSC		( 3*32+18) "" LFENCE synchronizes RDTSC */
+>  #define X86_FEATURE_ACC_POWER		( 3*32+19) /* AMD Accumulated Power Mechanism */
+>  #define X86_FEATURE_NOPL		( 3*32+20) /* The NOPL (0F 1F) instructions */
+>  #define X86_FEATURE_ALWAYS		( 3*32+21) /* "" Always-present feature */
+> @@ -428,6 +428,7 @@
+>  
+>  /* AMD-defined Extended Feature 2 EAX, CPUID level 0x80000021 (EAX), word 20 */
+>  #define X86_FEATURE_NO_NESTED_DATA_BP	(20*32+ 0) /* "" AMD No Nested Data Breakpoints */
+> +#define X86_FEATURE_LFENCE_RDTSC	(20*32+ 2) /* "" LFENCE always serializing / synchronizes RDTSC */
 
-The numberic values really do not belong into the documentation.  They
-are just implementation details.
+Hmm, a synthetic bit which gets replaced with a vendor one and then the other
+vendors set it too. I don't see why that cannot work but we probably should be
+careful here.
 
+dhansen, am I missing an angle?
+
+Also, X86_FEATURE_LFENCE_RDTSC gets set in init_amd() along with setting
+DE_CFG[1]. I think you should check the new flag here first and avoid the
+setting if that flag is set. Just for good measure - not that it changes
+anything but still, it is cheap to do.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
