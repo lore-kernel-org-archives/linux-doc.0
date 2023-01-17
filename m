@@ -2,90 +2,75 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CAF3C3DA78
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 15:52:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C8FFC6379F
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 16:20:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232562AbjAQPwf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Jan 2023 10:52:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49040 "EHLO
+        id S231531AbjAQQUn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Jan 2023 11:20:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233653AbjAQPwM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 10:52:12 -0500
-Received: from smtp.tiscali.it (santino-notr.mail.tiscali.it [213.205.33.215])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 813AC41B60
-        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 07:51:35 -0800 (PST)
-Received: from [192.168.178.50] ([79.21.79.228])
-        by santino.mail.tiscali.it with 
-        id 9rrU2902i4vZGgn01rrVmv; Tue, 17 Jan 2023 15:51:32 +0000
-x-auth-user: fantonifabio@tiscali.it
-Message-ID: <521902b6-d40d-f445-dbee-0280e526cae0@tiscali.it>
-Date:   Tue, 17 Jan 2023 16:51:26 +0100
+        with ESMTP id S231294AbjAQQUk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 11:20:40 -0500
+X-Greylist: delayed 401 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 17 Jan 2023 08:20:37 PST
+Received: from mail.zeus06.de (www.zeus06.de [194.117.254.36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 361813EFEE
+        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 08:20:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=kicherer.org; h=from:to
+        :cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=zU7frCN0d9TT0Wwpkv8HanroHdF
+        Zsg/PjkU3mZsb9/o=; b=YFXkS0bovtsBpYso2ymRITkfLHgnzyZn8m4CnJM518m
+        rDon4Dof9HkvZAeINo4cwiudBmo5n0dSYS4AAsLSBrdACcsXu2xuhUzynPGTcEiz
+        +dK+j0W6A0E9Xo6sAsfkrvtuwYyClasHS7XcSmcX2gKu9jtnxYmXMVKtg8NwuTZI
+        =
+Received: (qmail 1170832 invoked from network); 17 Jan 2023 17:13:54 +0100
+Received: by mail.zeus06.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Jan 2023 17:13:54 +0100
+X-UD-Smtp-Session: l3s6476p2@Q+dR/Hfy1u7CtAHJ
+From:   Mario Kicherer <dev@kicherer.org>
+To:     linux-hwmon@vger.kernel.org
+Cc:     jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+        Mario Kicherer <dev@kicherer.org>
+Subject: [PATCH v3 0/3] add initial NXP MC34VR500 PMIC monitoring support
+Date:   Tue, 17 Jan 2023 17:13:37 +0100
+Message-Id: <20230117161340.1310936-1-dev@kicherer.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Reply-To: fantonifabio@tiscali.it
-Subject: Re: [PATCH v2] documentation: fix Generic Block Device Capability
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     corbet@lwn.net, axboe@kernel.dk, linux-block@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergei Shtepa <sergei.shtepa@veeam.com>
-References: <20230110132104.12499-1-fantonifabio@tiscali.it>
- <Y8WPFMFxpfdZKs5a@infradead.org>
- <62a18c7d-93d9-657e-48fd-1af06d6d1d9e@tiscali.it>
- <Y8Y6jLdXnnBTps7l@infradead.org>
-From:   Fabio Fantoni <fantonifabio@tiscali.it>
-In-Reply-To: <Y8Y6jLdXnnBTps7l@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Antivirus: Avast (VPS 230117-2, 17/1/2023), Outbound message
-X-Antivirus-Status: Clean
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tiscali.it; s=smtp;
-        t=1673970693; bh=htFWbz6gHdfiZHubJoYDHAUUk8NJyt1xhcczoshiPb8=;
-        h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To;
-        b=24SUTDbJqs2YXRS69GAiYaenfKYRr+NmRN1iTwQdOjaQ3cdoDronuyncqeisnUvJW
-         GS6Il7F0wRxXUfqKgTVkEUd3mAgpKZ2JCoG0462uwii3u91E7NJNv5KMu4y3qmzsNl
-         Ub9l+4bX3Ed6VBNlbGnbfpzAQN3xIwIQP+OHEdDs=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Il 17/01/2023 07:05, Christoph Hellwig ha scritto:
-> On Mon, Jan 16, 2023 at 07:14:41PM +0100, Fabio Fantoni wrote:
->> Il 16/01/2023 18:53, Christoph Hellwig ha scritto:
->>> On Tue, Jan 10, 2023 at 02:21:04PM +0100, Fabio Fantoni wrote:
->>>> - * ``GENHD_FL_REMOVABLE``: indicates that the block device gives access to
->>>> + * ``GENHD_FL_REMOVABLE`` (0x01): indicates that the block device gives access to
->>> The numberic values really do not belong into the documentation.  They
->>> are just implementation details.
->>>
->> Thanks for reply, if values are not into the documentation see from
->> /sys/block/<disk>/capability output what flags are enabled will require look
->> to source code of include/linux/blkdev.h and
->> Documentation/block/capability.rst will be less useful, or I'm wrong?
-> Urgg.  I think this file is generally just a bad idea.  The flags are
-> kernel internal and not isolated from userspace.  It seems nothing broke
-> with the various renumbering lately, but we need to isolate it from
-> the implementation details.  And if it really should be a user API
-> we need a text version of it.
+This patch adds initial monitoring support for the MC34VR500 PMIC. In its
+current form, input voltage and temperature alarms are reported to hwmon.
 
-Up to 5.13 the page was "ok" 
-(https://www.kernel.org/doc/html/v5.13/block/capability.html) from 5.14 
-doc comments of other functions was appaired, from 5.17 the flags had 
-"major" changes and values was removed from doc comment 
-(https://www.kernel.org/doc/html/v5.17/block/capability.html)
+Changes since v2:
+     - split documentation and dt-bindings patch
 
-With this patch return to have only block capability flags in this file 
-and including the values: https://snipboard.io/QrN6hg.jpg
+Changes since v1:
+     - included required #defines directly in the C file
+     - removed separate header file
+     - removed #defines for unimplemented sensors
+     - removed error log output
+     - use hwmon_device_register_with_info API
+     - cleaned probe function
+     - added documentation for chip and dt bindings
 
-But as you tell that this file is a bad idea, 
-Documentation/block/capability.rst should be removed?
+Mario Kicherer (3):
+  hwmon: add initial NXP MC34VR500 PMIC monitoring support
+  dt-bindings: hwmon: add nxp,mc34vr500
+  docs: hwmon: add docs for the NXP MC34VR500 PMIC
 
-About if should be a user API, I don't have enough experience to be able 
-to say if and in which cases it could be useful on the user side. From 
-what I could see with the documentation page correct is that you can at 
-least immediately see (after a very fast search) for example if the 
-block device is removable and if it is partitionable. And even if the 
-values was changed pointing to the doc page of the used kernel version 
-and having the values in doc is still possible see what flags are 
-enabled from doc page.
+ .../bindings/hwmon/nxp,mc34vr500.yaml         |  36 +++
+ Documentation/hwmon/mc34vr500.rst             |  32 +++
+ drivers/hwmon/Kconfig                         |   7 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/mc34vr500.c                     | 245 ++++++++++++++++++
+ 5 files changed, 321 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/nxp,mc34vr500.yaml
+ create mode 100644 Documentation/hwmon/mc34vr500.rst
+ create mode 100644 drivers/hwmon/mc34vr500.c
+
+-- 
+2.34.1
 
