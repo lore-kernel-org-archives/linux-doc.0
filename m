@@ -2,128 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 656B2C3DA78
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 18:36:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D1CBC3DA78
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 18:55:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232585AbjAQSfe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Jan 2023 13:35:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56122 "EHLO
+        id S230310AbjAQSy6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Jan 2023 13:54:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232607AbjAQSbz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 13:31:55 -0500
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FA995399F;
-        Tue, 17 Jan 2023 10:03:46 -0800 (PST)
-Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-15bb8ec196aso21054749fac.3;
-        Tue, 17 Jan 2023 10:03:46 -0800 (PST)
+        with ESMTP id S232300AbjAQSvw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 13:51:52 -0500
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5BB14E539
+        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 10:16:13 -0800 (PST)
+Received: by mail-yb1-xb35.google.com with SMTP id o75so35150234yba.2
+        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 10:16:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XsnU4SEnhYMX4K6JN06vg4T6uBL8G+Stssq81fySd1M=;
-        b=MNSI0nRjGgE6dC+a89cNENxUY0/vVd4JUd5AartSuHqzV5ypUrXyWoNO5nXE1xq0JK
-         6PbFmJ6sch3YXVDyjyxpjt9Vq7+oWZBkOk5ejMlO3LflLuVbF7y9Do9QA+YGEMFsNZUJ
-         FZCJywJihMTnaZb+Ezz9TVL50uH5dzFEPjiybwXoSlP/HDn/hpt2yqXiO2IL2SKqnRT+
-         P7muoVYPyzCaTRCodZFLpNwEybXm0xbNnKA1uQmj5sWveIosTE2Re40YM7wZ7S/WvDe7
-         AQH+h7yMmVvY4TiLEdFztBZdOUaYDqSjg9N3ZfTH0DoEbkRRu45HfQJ7P0smLd/3Os07
-         93xw==
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=K71xX/cWRCOszSsUEA3IJIhyWSHXMIZjKFhy6mle9xY=;
+        b=en3ViOZMbrP4Uikiu/2WpjFPDaZ2MZS9XnYFDx8yBKisaQvRWhuGkY3AQtNSZWJHp8
+         6EnxnmGlDMk/9pR/VaGa4iIQ9WFlTPAbfZ/4AKQlT/Xw65J7J1FzOXXk1nWpgnZVVcNp
+         x4X4thpG4Fbgxx4oEisVqBmtzK5ufcFlWQWLWjN5Vfv2vrOmhbyyYJF/5O/xhmtrgFWl
+         lsYuIOLzrkT5PVQsvvbAzBdSOQASKeD6FLA+DX0AxT+gqRNdl7iSwrTub/eEdRv3adX2
+         1bB2gCzIYjz8YogEyIjqgBcQoeGGygQrI5vqYVF6+yOzR227dycqOllDNroYlFWxP1LQ
+         oMdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XsnU4SEnhYMX4K6JN06vg4T6uBL8G+Stssq81fySd1M=;
-        b=Mb/hxlaWhDOYOZ1NXsS9BenZ+vjS17SVEEpuYFMkheLlwj1JzB5qsyu6v4C9m4dXyq
-         g478A629OEWeLTPc5GU2bUXZFAOdjNKh44ttQvfTUrx2F2KITXQT9dWiWYLpbPBemcZL
-         C93l+X0YJFsJr34QY/RkMfPF1x/S9Uxz1AJt/9mRzhVF6rVY7Yu+pvkZXlmIXGttose1
-         s+f4bBgcnWBzh/ia8vnogX2V2XIyek67MMMDHfiTfxYG1nJWU17lypiFYlcwfwRLxoCE
-         W1G6uJbx2uD/hy+y7k/Pt7hP4k2PxRka1zK4E9b9woTwZcEfzn3xcBNmh5qBS1VWdmZ1
-         u7Ng==
-X-Gm-Message-State: AFqh2krfJNi6Hb+K2VtlX70bKgEHfFCG20h1nS5e4TlklQ2U3+zZAi2V
-        OhPe90S/liWSV/u2sn3nrzo=
-X-Google-Smtp-Source: AMrXdXtV2I3oYBqihq1mYMRhNeJS77cAyaL3KZH5Wxo0rFba8xRBNJ4jqYpVvhKgTj6+dBkQbK1E1A==
-X-Received: by 2002:a05:6870:fd91:b0:15f:140a:6e72 with SMTP id ma17-20020a056870fd9100b0015f140a6e72mr2468270oab.1.1673978623953;
-        Tue, 17 Jan 2023 10:03:43 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id v12-20020a056870b50c00b0014fc049fc0asm17034675oap.57.2023.01.17.10.03.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jan 2023 10:03:43 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Tue, 17 Jan 2023 10:03:42 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Mario Kicherer <dev@kicherer.org>
-Cc:     linux-hwmon@vger.kernel.org, jdelvare@suse.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] dt-bindings: hwmon: add nxp,mc34vr500
-Message-ID: <20230117180342.GD2335664@roeck-us.net>
-References: <20230117161340.1310936-1-dev@kicherer.org>
- <20230117161340.1310936-3-dev@kicherer.org>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K71xX/cWRCOszSsUEA3IJIhyWSHXMIZjKFhy6mle9xY=;
+        b=5cNG7vag5/F3zRr9z6VMskm1kJF5XKILs9ZZ/4tSC+9onNKm1MVcBf6kRpY3nvEIpu
+         KmwzfTkZlaNQna/UqeDToMD5UcqrjraitzE6B2EoCZwBN01YG3zI/mzoEdP02whZzQRb
+         IlUseujU+k50XKJa2l8+fLVupgfaqvb0P478azQixafqyRhZHVBC65hwVMgKgxhML2xn
+         24V84ehF3uw/80J1AcJCfY9A4NphG00bAMoBXMbnTmVPt2OyYZ26L2EIdqUWzIw/FGCq
+         9OibVUvwSEJLlSl0syCP55Pm6DaXIR0QFAP8n+LVUPfxURtDr+wbmlJHnnQuf3G2QyRj
+         QTYA==
+X-Gm-Message-State: AFqh2kpCqlAAaS2TgiovuuZ9GMupnWBcHvw5KiWa8B3mySM5NvJYqFes
+        D/GSMIxjq6O1iej9ZekFK1d5s1OVJ5m46i3mVjAo8A==
+X-Google-Smtp-Source: AMrXdXvYCBByr7y1fdbMzgX8r0rcQIT1xBf6yzo2htNPvKO5M4emG6u4gj4DL+7oQzTyzr5I28cSrbvcw2ebDzkVUgk=
+X-Received: by 2002:a5b:9d2:0:b0:7d0:afc9:d194 with SMTP id
+ y18-20020a5b09d2000000b007d0afc9d194mr546110ybq.341.1673979372493; Tue, 17
+ Jan 2023 10:16:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230117161340.1310936-3-dev@kicherer.org>
+References: <20230116153347.15786-1-andriy.shevchenko@linux.intel.com>
+ <CACRpkdbVa3XEDzcuy7iCqx0cvj4trzPe7N0B5PswA1mQ7O+GtA@mail.gmail.com>
+ <Y8avtfifZpy89rS3@smile.fi.intel.com> <CACRpkdYTFDsU7xhu812Lh1mA1Hs9kGeid+akR84ervAsaxVYkg@mail.gmail.com>
+ <Y8a4BAotZAax9Zx4@smile.fi.intel.com> <Y8bCBMoeNHlBG97a@smile.fi.intel.com> <Y8bCQ9QlhMpFdTiC@smile.fi.intel.com>
+In-Reply-To: <Y8bCQ9QlhMpFdTiC@smile.fi.intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 17 Jan 2023 19:16:00 +0100
+Message-ID: <CACRpkdbn+UWU-dzp+MXSVB+JkpsFwENyi+5Eq+GV1zPaaaf3rA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] pinctrl: Proofreading and updating the
+ documentation accordingly
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 05:13:39PM +0100, Mario Kicherer wrote:
-> This patch adds dt-bindings for the NXP MC34VR500 PMIC.
+On Tue, Jan 17, 2023 at 4:44 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> On Tue, Jan 17, 2023 at 05:43:00PM +0200, Andy Shevchenko wrote:
+> > On Tue, Jan 17, 2023 at 05:00:20PM +0200, Andy Shevchenko wrote:
 
-As with the other patches, use imperative mood.
+> > > > > Actually I have missed the repetition of the comment I put in v1,
+> > > > > i.e.  that this would be good to be attached to my PR where the
+> > > > > struct pinfunction et al. have been introduced. Can I have your
+> > > > > Ack?
+> > > >
+> > > > Sure go ahead,
+> > >
+> > > So, which tag to use?
+> > >
+> > > "Acked-by: Linus Walleij <linus.walleij@linaro.org>" ?
 
-Guenter
+Yeah that's fine sorry for being unclear.
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-> 
-> Signed-off-by: Mario Kicherer <dev@kicherer.org>
-> ---
->  .../bindings/hwmon/nxp,mc34vr500.yaml         | 36 +++++++++++++++++++
->  1 file changed, 36 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/nxp,mc34vr500.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/hwmon/nxp,mc34vr500.yaml b/Documentation/devicetree/bindings/hwmon/nxp,mc34vr500.yaml
-> new file mode 100644
-> index 000000000000..dfbd6125e84a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/nxp,mc34vr500.yaml
-> @@ -0,0 +1,36 @@
-> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/hwmon/mc34vr500.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NXP MC34VR500 hwmon sensor
-> +
-> +maintainers:
-> +  - Mario Kicherer <dev@kicherer.org>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - nxp,mc34vr500
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      mc34vr500@8 {
-> +        compatible = "nxp,mc34vr500";
-> +        reg = <0x08>;
-> +      };
-> +    };
-> -- 
-> 2.34.1
-> 
+> > Added this tag and pushed to my tree, thanks!
+> >
+> > P.S. Tell me if I should do somehow else.
+>
+> Note, I have slightly amended couple of lines, and if you keep the patches
+> in your tree as well it may be a minor conflict.
+
+I pulled them out now!
+
+Yours,
+Linus Walleij
