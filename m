@@ -2,100 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85446C677F1
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 19:18:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AEE4C677F1
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 20:39:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230451AbjAQTR4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Jan 2023 14:17:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45590 "EHLO
+        id S229490AbjAQUiT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Jan 2023 15:38:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234024AbjAQTOL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 14:14:11 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A877442F2;
-        Tue, 17 Jan 2023 10:28:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673980101; x=1705516101;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+pAd4vbUUJugp6qXfBkXwcFSz+Fk8omLGMJqI616UCU=;
-  b=S4GX9rJSKokVPYzxQ7JL2ViCF82FkTTho4SvgEe9CmYXEmofaJzGpjnD
-   cLV/Irsip9vNT0wz5XuykgN+moKBmxwSUd4uKGzpHGyloqNw+BN4EuRlU
-   cLAKbOpNeQla2WRt0TDeXSbLuMaUetfXp7kbqNKFfgiUlx4Z1KY8AoUSp
-   ITUEB83H7V1cbWQb94zeMYOTUdcLQq6UlrkLyXkjbMgL3CZ27cASQU69+
-   C5ebmH6ylhPg7pFT5ygBp/OcSc7+z9oLUPY9joviqDbK1dG5/l2HwAGEG
-   GTnub3NRzmZHQxu1v9Bl+xh6G9+lW5Yny2DZXFgOUADO9CNEpCOSi6FYs
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="304460270"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="304460270"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2023 10:28:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="783341305"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="783341305"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga004.jf.intel.com with ESMTP; 17 Jan 2023 10:28:18 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pHqgy-00AiwK-2C;
-        Tue, 17 Jan 2023 20:28:16 +0200
-Date:   Tue, 17 Jan 2023 20:28:16 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v2 1/2] pinctrl: Proofreading and updating the
- documentation accordingly
-Message-ID: <Y8bowKRMI+ukC4Ah@smile.fi.intel.com>
-References: <20230116153347.15786-1-andriy.shevchenko@linux.intel.com>
- <CACRpkdbVa3XEDzcuy7iCqx0cvj4trzPe7N0B5PswA1mQ7O+GtA@mail.gmail.com>
- <Y8avtfifZpy89rS3@smile.fi.intel.com>
- <CACRpkdYTFDsU7xhu812Lh1mA1Hs9kGeid+akR84ervAsaxVYkg@mail.gmail.com>
- <Y8a4BAotZAax9Zx4@smile.fi.intel.com>
- <Y8bCBMoeNHlBG97a@smile.fi.intel.com>
- <Y8bCQ9QlhMpFdTiC@smile.fi.intel.com>
- <CACRpkdbn+UWU-dzp+MXSVB+JkpsFwENyi+5Eq+GV1zPaaaf3rA@mail.gmail.com>
+        with ESMTP id S235248AbjAQUfv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 15:35:51 -0500
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE28233451
+        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 11:21:00 -0800 (PST)
+Received: by mail-io1-xd2b.google.com with SMTP id q130so2397647iod.4
+        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 11:21:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fqyWeWuyc2jRA+5UQYAEtNEii+X4xnVBaHeZrCTvJ0E=;
+        b=WOZiCO0nwdx0/J8RBZ6fUPgASslwTEHjMpdR/SRXtTppO1orXLf+wGpPFAGLkaYr1x
+         OXLmo4L7yLAGA/t16oMCARlsfHU9udsdYYFEWSEPfBAu2jAAhX/3BmhFlbT03H3ElQ3f
+         z2YeV4v8PshtbvM8VhbsyOBdNp/0iFw2tBVfXD0fS955lXZ6AhUOb/t8S3KjJWmIcAyz
+         dWAdwJQro88EBSHB+tSQQqs6DWMWmYU7UFfyEC/EA4d7GdhjRYyjryeAfKTjoJZb+igk
+         JIvT4TOCREnVJp7LIXkVZP/mU8LOw0s/VbrPvNgHeayr12eYVspqEVx5/+zbgbNXXPhq
+         PVGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fqyWeWuyc2jRA+5UQYAEtNEii+X4xnVBaHeZrCTvJ0E=;
+        b=Fzcf3WQxQdRStDKa/WsHFUtnOPGcVLxj4jyNK4KaCjaWSHA7tvFBg617CRu6dh/7Is
+         mTeylglGOSLgNMVXqO0zjvdbxcOxI2/0tjeeWX6H5EoiotZaxaxi2WtIK2t7MwR7BQWN
+         9gLeGZ0Mltuf6jvjZyi0+yxQ2m0BVjcq5GAode2t9X6+nEKoGE8QwFj/hAJMaQEwuxBC
+         K5EF6yv2q0a7CBkV8CZFlAmQpHdk7PXrvHHzxgDf6+kqxB28cWa3g8V9pZZONUu6Jcc3
+         dKUYgH5g9W/l7BVnOH0aeOK1xCo9bLApmOXhX7vFwVJ/6cx5Dtc7gp1iqdliLHlVqGV3
+         z2OA==
+X-Gm-Message-State: AFqh2koboYuw4mpfuEXJZIgPRlSdNNWoVDBxb1untX+sBrnHFgEceunq
+        xoLRH5c9H7+ULea2UuyVhnM2CA==
+X-Google-Smtp-Source: AMrXdXuk5GmCedTTwYstxz043kwWiO1txPjdUTef03V7SzkRyplINEz+OO3rRduwblja8AQXWLIq1w==
+X-Received: by 2002:a6b:14c2:0:b0:6eb:68a1:78c with SMTP id 185-20020a6b14c2000000b006eb68a1078cmr3273688iou.10.1673983260051;
+        Tue, 17 Jan 2023 11:21:00 -0800 (PST)
+Received: from [172.22.22.4] ([98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id e10-20020a026d4a000000b0038ac4923addsm9518035jaf.53.2023.01.17.11.20.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Jan 2023 11:20:59 -0800 (PST)
+Message-ID: <b2819f68-8672-4909-c787-d1bdbd35da2e@linaro.org>
+Date:   Tue, 17 Jan 2023 13:20:58 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACRpkdbn+UWU-dzp+MXSVB+JkpsFwENyi+5Eq+GV1zPaaaf3rA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+From:   Alex Elder <elder@linaro.org>
+Subject: Re: [PATCH v8 05/28] virt: gunyah: Add hypercalls to identify Gunyah
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>
+Cc:     Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-acpi@vger.kernel.org
+References: <20221219225850.2397345-1-quic_eberman@quicinc.com>
+ <20221219225850.2397345-6-quic_eberman@quicinc.com>
+ <63bbc640-9b0c-95af-3d35-291da0323db3@linaro.org>
+ <4e8a7fdf-8c91-cf2f-d369-c67b7584f580@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <4e8a7fdf-8c91-cf2f-d369-c67b7584f580@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 07:16:00PM +0100, Linus Walleij wrote:
-> On Tue, Jan 17, 2023 at 4:44 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Tue, Jan 17, 2023 at 05:43:00PM +0200, Andy Shevchenko wrote:
-> > > On Tue, Jan 17, 2023 at 05:00:20PM +0200, Andy Shevchenko wrote:
-
-...
-
-> > > > So, which tag to use?
-> > > >
-> > > > "Acked-by: Linus Walleij <linus.walleij@linaro.org>" ?
+On 1/10/23 11:56 AM, Elliot Berman wrote:
+>>> There are two calls to help identify Gunyah:
+>>>
+>>> 1. gh_hypercall_get_uid() returns a UID when running under a Gunyah
+>>>     hypervisor.
+>>> 2. gh_hypercall_hyp_identify() returns build information and a set of
+>>>     feature flags that are supported by Gunyah.
+>>
+>> The first is a "service", while the second is a "hypercall".
+>> Can you explain the distinction?  The sentence at the top
+>> refers to both as "hypercalls".
+>>
 > 
-> Yeah that's fine sorry for being unclear.
-> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> I learned more details about this to answer your question. "get_uid()" 
+> is a standardized call that is ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID 
+> defined in include/arm-smccc.h. I'll use that.
 
-Thank you!
+You didn't really explain the distinction between hypercall
+and service in Gunyah.  Both are encoded as "vendor specific
+hypervisor service calls" according to the SVCCC specification.
+I haven't found where ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID
+gets handled, but I accept your answer that it's basically
+a standard call.  The "get UID" is the only one that's defined
+as a Gunyah "service"; the rest are hypercalls.
 
-> > > Added this tag and pushed to my tree, thanks!
-> > >
-> > > P.S. Tell me if I should do somehow else.
-> >
-> > Note, I have slightly amended couple of lines, and if you keep the patches
-> > in your tree as well it may be a minor conflict.
-> 
-> I pulled them out now!
+It's not a big deal, I just noticed the difference and was
+curious about it.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+					-Alex
