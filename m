@@ -2,120 +2,72 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CD21C63797
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 13:13:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 083E8C63797
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 13:16:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236221AbjAQNNV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Jan 2023 08:13:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51140 "EHLO
+        id S236837AbjAQNQX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Jan 2023 08:16:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236792AbjAQNNU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 08:13:20 -0500
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1DCB360B7;
-        Tue, 17 Jan 2023 05:13:17 -0800 (PST)
-Received: by mail-lj1-x233.google.com with SMTP id o7so32728363ljj.8;
-        Tue, 17 Jan 2023 05:13:17 -0800 (PST)
+        with ESMTP id S236775AbjAQNQL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 08:16:11 -0500
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF82B4C06
+        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 05:15:57 -0800 (PST)
+Received: by mail-yb1-xb31.google.com with SMTP id v19so28051477ybv.1
+        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 05:15:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TFP4zLTXX9LIBlf0bfwbfMp4tVuhd6yMJG3cjXrKiFc=;
-        b=ZCdN7I4n6+4vTAgM93Y2Yd3FaQgVriaZ4iz0DalmtQgt+eCTMtYtB2Qel9WWnTZACy
-         guSRCmeGR/9+F91C3KuIgMhLEjo+DUNELt9S/AFLwKP5M8KAuZW1DaP9nPjrNhbKDNxa
-         e8lO6djh+qP2vF/z0nKfkaSRLqtGSxCEe9bTayIwr04I00+iFO2mIk+LfYcgykhHVIw7
-         QM4oif8re69EfEikhJX9Ja7Rnlkoslcow99XOP54Pp4QnAKZUv9nnEpDf4frDxCPhpOh
-         DJ0VWe/9oRWEG4tz8HlQEle7BCH0WWDneD2BNOGbZ5NWL7h6Hx+eeXjpIKOl/bhFKwHy
-         S/yw==
+        bh=speSHNYY7UY/VdkKSKSzAPd+LB5tLtqCK38I+sQK0WE=;
+        b=iuY779kCZkgs1i3TJHyaoB2OYp2y4UXVeAhDi5HqtuGQfjKC4jG8HrnzdB6SN3EkR/
+         2nYFg5Zh5RbwdAQZGyYwV98xO4AgZMxYK3B1mx4o6KgC1XnnhnFP6AiB0VEVt/YxERde
+         flKtvACWDm+891ml32I3GsO2iYHLgotbUxkvM8kL3CQOZ0u2UkENSHolMuQMLhMKE/xe
+         LTQmekU+6z1QwVRup+9f7At80Pf/R1cuRMQW/4eoFu2M13dTL4WwmITVWqu5r14EUtAA
+         Yg75DI449A7EfVw1LH1SuSVZpyOLLnOtCnVf2xcq6lyTfjyN/95YcJ4kwMkwfwb7yYF/
+         YFmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TFP4zLTXX9LIBlf0bfwbfMp4tVuhd6yMJG3cjXrKiFc=;
-        b=QE3Qt9nmt44J1oz9vICS3H0uVzb8Kqme8XNANwCZtUS6Ee3blkBJOqv1t9NxK6cnFJ
-         dmt3qkoo6wAxZpod/aIt3OSfDpwjN8p0DAtu3zjBr3iavi1gmUi3naJ4nB8yqS1NzqbK
-         CvCOhWCVlF5p8PXxjTrT+85iyP0xlTxMu+BR1I/wXNkxhlWuGWmeA1opHkZp1dc/zVjD
-         b5jpkxaJgi6Imlp6sKZtp5UwmjXAfXBFAZxzH66VLzIHrask+xwuGH78fmkmMo/6ecI8
-         3QKeaxhjglMydLzX+ey8JxU8XW0gRLBd2oH/xsCVbq7Af5KbieNZKWsmIczRerFzevn5
-         Q/TQ==
-X-Gm-Message-State: AFqh2kqLoYB/3AyX5fBjFLM0gELI2rAu34Qm7GlpmV+tH0sOggwaS1fw
-        9Y/CP0Z9nbciuj954PhnbWZYZp8ZleqhLQb1mHQ=
-X-Google-Smtp-Source: AMrXdXtBvxpOBT9mZ7eaHXtsp88Ie06TmXl/HRJlTTTsAkv6/ysOFF96JHh5JjkIhsk0GEoNnVc0lMIj1D0KF5P3KR0=
-X-Received: by 2002:a2e:9255:0:b0:289:81a4:3a7b with SMTP id
- v21-20020a2e9255000000b0028981a43a7bmr219286ljg.487.1673961195900; Tue, 17
- Jan 2023 05:13:15 -0800 (PST)
+        bh=speSHNYY7UY/VdkKSKSzAPd+LB5tLtqCK38I+sQK0WE=;
+        b=aTcYrdfsmQ0mKyjDZa1jV1k38af0KbcCFbN1N45D3FPVa4foQlikioBnIE6MApt31G
+         hqlkykDsI9Z29JPx3Q3QCW8OAkMxQJ9BwEqlC1B1y3VINWZrS2hTlRlDlEFdQZGI8gkf
+         74LTBdAERGrAJJAHbwdxKX2grRZq7qmD91vRokuEkIjRixQ/S67Y4VychTxHIS0m1Ft+
+         iKwsPHC3kw00220eKQuDW2RkqnnnJeV7aNmC5yxpsIr8sNw1Bx7S725znbcvLDxu9zx5
+         xy95rclmycUDktDcNN/xheL7njo47P4JRGyJHhH6g/tQWbV/gzm+xpWJDLXrMR4nYuvM
+         Q0RA==
+X-Gm-Message-State: AFqh2krh4Qj3+JN9dxW/W3p5m4c5bUwNWh85cAs7bUAy1QfE/B0scelt
+        S2dDw0JlkurjNvj6dQdwbtn5obFdFwR8UkxOddZ/dA==
+X-Google-Smtp-Source: AMrXdXtQJRhkiJoJn3gtcZ2O1RYFepN01V3AepnypVv38ICpDuM0Nw4YvhauZDgojFLioy3ywrONiSypPavhEKGex/U=
+X-Received: by 2002:a25:9d88:0:b0:7c0:acd2:6300 with SMTP id
+ v8-20020a259d88000000b007c0acd26300mr320846ybp.520.1673961356936; Tue, 17 Jan
+ 2023 05:15:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20230117095946.2042832-1-jani.nikula@intel.com> <20230117095946.2042832-2-jani.nikula@intel.com>
-In-Reply-To: <20230117095946.2042832-2-jani.nikula@intel.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Tue, 17 Jan 2023 14:12:38 +0100
-Message-ID: <CA+icZUWgec3iwo2OXygo57w76AOJ+0+1VOYYKAcHTLebcDka+Q@mail.gmail.com>
-Subject: Re: [PATCH 1/6] MAINTAINERS: fix kbuild repo branch
-To:     Jani Nikula <jani.nikula@intel.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
+References: <20230116153347.15786-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20230116153347.15786-1-andriy.shevchenko@linux.intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 17 Jan 2023 14:15:45 +0100
+Message-ID: <CACRpkdbVa3XEDzcuy7iCqx0cvj4trzPe7N0B5PswA1mQ7O+GtA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] pinctrl: Proofreading and updating the
+ documentation accordingly
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 11:15 AM Jani Nikula <jani.nikula@intel.com> wrote:
->
-> The MAINTAINERS repository entry specifies "kconfig" as the branch, but
-> the repository itself has "kbuild".
->
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a36df9ed283d..98da2af0a653 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11171,7 +11171,7 @@ M:      Masahiro Yamada <masahiroy@kernel.org>
->  L:     linux-kbuild@vger.kernel.org
->  S:     Maintained
->  Q:     https://patchwork.kernel.org/project/linux-kbuild/list/
-> -T:     git git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kconfig
-> +T:     git git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
+On Mon, Jan 16, 2023 at 4:33 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 
-We have two entries - one for "KCONFIG" and the other "KERNEL BUILD +
-files below scripts/ (unless maintained elsewhere)".
+> Proofreading and updating the documentation accordingly, i.e. fixed:
 
-Cannot say if kbuild is the place where KCONFIG changes are done.
+Both patches applied! Thanks for your usual attention to details.
 
-But you are right there is no kconfig Git branch, anymore.
-
-Some maintainers switch over to use https over git URL these days.
-
-What do you prefer?
-
-$ grep 'git git' MAINTAINERS | grep 'T:' | wc -l
-668
-
-$ grep 'git https' MAINTAINERS | grep 'T:' | wc -l
-49
-
-In my ~/.gitconfig I have:
-...
-[url "https://git.kernel.org/"]
-       insteadOf = git://git.kernel.org/
-[url "https://github.com/"]
-       insteadOf = git://github.com/
-...
-
-BR,
--Sedat-
-
-
->  F:     Documentation/kbuild/kconfig*
->  F:     scripts/Kconfig.include
->  F:     scripts/kconfig/
-> --
-> 2.34.1
->
+Yours,
+Linus Walleij
