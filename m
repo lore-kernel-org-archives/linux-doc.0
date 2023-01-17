@@ -2,83 +2,77 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85A0CC677F1
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 14:26:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBD67C677F1
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 14:28:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229608AbjAQO04 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Jan 2023 09:26:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44432 "EHLO
+        id S232579AbjAQO2S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Jan 2023 09:28:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232269AbjAQO0U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 09:26:20 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D92F92A991;
-        Tue, 17 Jan 2023 06:24:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673965497; x=1705501497;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TtFt5vWHnXAw3Rqc9ppf+Ympu/5BdGeFC1aydX0aV3Y=;
-  b=UpktkCYbglo1+7vJk2cXDAMwyxPtiCcjw51su8PtqFt9bDL9AW8cYzz9
-   9W6D2ZjZ7GoZgFjgWZygzBtMZ2zDZUxoFn99hsMXshaEb/GsROi6RUbl6
-   bvZyeLT1Qb4KgBrV9KHlKiOOqpRb4LcZ0XGa+oB5WMnhH6RTjyOS1BDeJ
-   YwFTc8RJwwGaDuvNOIbhnQ//S5wSsRXODTAvoTN6P7zMuia3wXi3vnJAl
-   Wr67LNk2CF86yhIN4Tp4Ei+G+HNmrWUcNIQeiy8M7xAgbMMJ2QeQIVgRB
-   kXE5WDhforVXSBkOaR6RGJIr2fhHzhLNrfZFgzqovXnAK2nIrBCf+3EJa
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="324757962"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="324757962"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2023 06:24:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="748057075"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="748057075"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by FMSMGA003.fm.intel.com with ESMTP; 17 Jan 2023 06:24:55 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pHmtS-00Abzo-0p;
-        Tue, 17 Jan 2023 16:24:54 +0200
-Date:   Tue, 17 Jan 2023 16:24:53 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
+        with ESMTP id S231962AbjAQO15 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 09:27:57 -0500
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BDE7A5E7
+        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 06:26:43 -0800 (PST)
+Received: by mail-yb1-xb2f.google.com with SMTP id 123so1032138ybv.6
+        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 06:26:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=j6SAxozLv1BaiKA41UPeSRieBpaAk5WSqvAlUBxsAgk=;
+        b=j+EUd9Ba88tssQnyy1SfACH1y9O7e9AMTIGPLO75lSwgETMpxs0nwwbjQzVYOe4inZ
+         X4uqbwBSNkqcD+qBz2YkJlkt0SdwTmcmP3ttM8HLSxbq8uuEcVZxIm270IbRsDbg2C5P
+         QSkRYMMDeHx8xe6ynrQXPng76uqPz8afAsIYJXwPlnpITRReI4HJsCI874bu4ptewwbE
+         pjQevO6CkNFMo6Miewupuu3ncZ4rzRDYIL+1cweYz/XFn3uFr5G3qldFEfBmbBQOSyu5
+         oAU6q2ZSq0etst3DXluFPiDeoCuabeY/66+yeFQO209lz97EkSeTg5sc9PGrr0x2HWVW
+         e55w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j6SAxozLv1BaiKA41UPeSRieBpaAk5WSqvAlUBxsAgk=;
+        b=JxuqJQQF1P3RYv5+RwFYUhGRcV/tRz+oqUhi5KWboZ7kB03uSqjYX/QtKY6xg2+B0n
+         Nb6sPyFmelSOI7dOOcvHX+xkIM+bdZs9gs4QAT/5YikxRRscuwtAbuiqpTcWGHxDsOeM
+         fzHLyEO9Is9arY91yR3cVx+L/rO2ig7md3Xg/uXcegLTz6xe3Cq9Qvs9DsmXLzzFi4OA
+         thdUJRcsbBD2hd3OkKCU+fZ3IC6jBZ9zI7KqYN2ZuhdV6N6fpfI3I2Xf+w2btMMoyziv
+         oDd4g9/JokphzcxiR4Giez0qRAwqpiigkdvrNFQrryNmxFKJO2yjiUl0gWGbjUmw0sEJ
+         qrSA==
+X-Gm-Message-State: AFqh2kqJL/8oBPCjMkbWMdkEe4VX44unMau3BkX5R5WDDufy9KkBId9V
+        HyqvkW9l/HDqQBTLm+NIwg+qw4uv1XWetNqBtv268Da4H8nK8w==
+X-Google-Smtp-Source: AMrXdXvAhed3tfAIybpkj17yY1n9A8EyPgwlmUDjhWkluk7/N6DS2W31nR70QAL+sLUeM4X/0JoD7gUmvXTfz4mZUN0=
+X-Received: by 2002:a25:c092:0:b0:7d2:8687:aea5 with SMTP id
+ c140-20020a25c092000000b007d28687aea5mr504980ybf.210.1673965602704; Tue, 17
+ Jan 2023 06:26:42 -0800 (PST)
+MIME-Version: 1.0
+References: <20230116153347.15786-1-andriy.shevchenko@linux.intel.com>
+ <CACRpkdbVa3XEDzcuy7iCqx0cvj4trzPe7N0B5PswA1mQ7O+GtA@mail.gmail.com> <Y8avtfifZpy89rS3@smile.fi.intel.com>
+In-Reply-To: <Y8avtfifZpy89rS3@smile.fi.intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 17 Jan 2023 15:26:31 +0100
+Message-ID: <CACRpkdYTFDsU7xhu812Lh1mA1Hs9kGeid+akR84ervAsaxVYkg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] pinctrl: Proofreading and updating the
+ documentation accordingly
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v2 1/2] pinctrl: Proofreading and updating the
- documentation accordingly
-Message-ID: <Y8avtfifZpy89rS3@smile.fi.intel.com>
-References: <20230116153347.15786-1-andriy.shevchenko@linux.intel.com>
- <CACRpkdbVa3XEDzcuy7iCqx0cvj4trzPe7N0B5PswA1mQ7O+GtA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACRpkdbVa3XEDzcuy7iCqx0cvj4trzPe7N0B5PswA1mQ7O+GtA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 02:15:45PM +0100, Linus Walleij wrote:
-> On Mon, Jan 16, 2023 at 4:33 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> 
-> > Proofreading and updating the documentation accordingly, i.e. fixed:
-> 
-> Both patches applied! Thanks for your usual attention to details.
+On Tue, Jan 17, 2023 at 3:24 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 
-Hmm... okay.
+> Actually I have missed the repetition of the comment I put in v1,
+> i.e.  that this would be good to be attached to my PR where the
+> struct pinfunction et al. have been introduced. Can I have your
+> Ack?
 
-Actually I have missed the repetition of the comment I put in v1,
-i.e.  that this would be good to be attached to my PR where the
-struct pinfunction et al. have been introduced. Can I have your
-Ack?
+Sure go ahead, I can also take out the patches if you rather
+include them with a  pull request.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Yours,
+Linus Walleij
