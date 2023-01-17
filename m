@@ -2,124 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8D17C63797
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 13:38:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85A0CC677F1
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 14:26:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229629AbjAQNim (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Jan 2023 08:38:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37554 "EHLO
+        id S229608AbjAQO04 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Jan 2023 09:26:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229673AbjAQNie (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 08:38:34 -0500
+        with ESMTP id S232269AbjAQO0U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 09:26:20 -0500
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 477EB59C6;
-        Tue, 17 Jan 2023 05:38:33 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D92F92A991;
+        Tue, 17 Jan 2023 06:24:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673962713; x=1705498713;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
+  t=1673965497; x=1705501497;
+  h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1YxIhrDQKE2lDqlUyO/ARVgD5QjeSGAHzdlrkVl5mCo=;
-  b=FVs309qlXE78B/GssbtiD3lcrLHRsXs0LWTpSX3bPI1VX5MnhjUqEIyK
-   QJP44sF2pnZSLspTukaj9oFzkmWPYZs3egj9PjEHMp9FwXrtSlaw6bh0R
-   zuaJ0c0tz0Wpy8vbZwPYZi7J/IEz7OIRGv23X16xlv9gHmII35eDXs09H
-   AA6G/MZqhrLlu1MmC1ZWljcI0i6v3EuwGGflRY8N5YV8TjTfiXQxShVxj
-   VswTR/Vo1DTBFZubbZyH7zsITbqoxlUgBG8I2rgZ+/L6Y6YZtzz36AwK1
-   gyxy9TC4vkKGuug6kKK9iG3tV8jjTys5v09lApvjGZ24gjyZ//07LfFWg
+  bh=TtFt5vWHnXAw3Rqc9ppf+Ympu/5BdGeFC1aydX0aV3Y=;
+  b=UpktkCYbglo1+7vJk2cXDAMwyxPtiCcjw51su8PtqFt9bDL9AW8cYzz9
+   9W6D2ZjZ7GoZgFjgWZygzBtMZ2zDZUxoFn99hsMXshaEb/GsROi6RUbl6
+   bvZyeLT1Qb4KgBrV9KHlKiOOqpRb4LcZ0XGa+oB5WMnhH6RTjyOS1BDeJ
+   YwFTc8RJwwGaDuvNOIbhnQ//S5wSsRXODTAvoTN6P7zMuia3wXi3vnJAl
+   Wr67LNk2CF86yhIN4Tp4Ei+G+HNmrWUcNIQeiy8M7xAgbMMJ2QeQIVgRB
+   kXE5WDhforVXSBkOaR6RGJIr2fhHzhLNrfZFgzqovXnAK2nIrBCf+3EJa
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="324748849"
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="324757962"
 X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="324748849"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2023 05:38:15 -0800
+   d="scan'208";a="324757962"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2023 06:24:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="783240137"
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="748057075"
 X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="783240137"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
-  by orsmga004.jf.intel.com with ESMTP; 17 Jan 2023 05:38:03 -0800
-Date:   Tue, 17 Jan 2023 21:30:15 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Binbin Wu <binbin.wu@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-Message-ID: <20230117133015.GE273037@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
- <c25f1f8c-f7c0-6a96-cd67-260df47f79a9@linux.intel.com>
+   d="scan'208";a="748057075"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by FMSMGA003.fm.intel.com with ESMTP; 17 Jan 2023 06:24:55 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pHmtS-00Abzo-0p;
+        Tue, 17 Jan 2023 16:24:54 +0200
+Date:   Tue, 17 Jan 2023 16:24:53 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH v2 1/2] pinctrl: Proofreading and updating the
+ documentation accordingly
+Message-ID: <Y8avtfifZpy89rS3@smile.fi.intel.com>
+References: <20230116153347.15786-1-andriy.shevchenko@linux.intel.com>
+ <CACRpkdbVa3XEDzcuy7iCqx0cvj4trzPe7N0B5PswA1mQ7O+GtA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c25f1f8c-f7c0-6a96-cd67-260df47f79a9@linux.intel.com>
+In-Reply-To: <CACRpkdbVa3XEDzcuy7iCqx0cvj4trzPe7N0B5PswA1mQ7O+GtA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 11:21:10AM +0800, Binbin Wu wrote:
+On Tue, Jan 17, 2023 at 02:15:45PM +0100, Linus Walleij wrote:
+> On Mon, Jan 16, 2023 at 4:33 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
 > 
-> On 12/2/2022 2:13 PM, Chao Peng wrote:
-> > In confidential computing usages, whether a page is private or shared is
-> > necessary information for KVM to perform operations like page fault
-> > handling, page zapping etc. There are other potential use cases for
-> > per-page memory attributes, e.g. to make memory read-only (or no-exec,
-> > or exec-only, etc.) without having to modify memslots.
-> > 
-> > Introduce two ioctls (advertised by KVM_CAP_MEMORY_ATTRIBUTES) to allow
-> > userspace to operate on the per-page memory attributes.
-> >    - KVM_SET_MEMORY_ATTRIBUTES to set the per-page memory attributes to
-> >      a guest memory range.
-> >    - KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES to return the KVM supported
-> >      memory attributes.
-> > 
-> > KVM internally uses xarray to store the per-page memory attributes.
-> > 
-> > Suggested-by: Sean Christopherson <seanjc@google.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > Link: https://lore.kernel.org/all/Y2WB48kD0J4VGynX@google.com/
-> > ---
-> >   Documentation/virt/kvm/api.rst | 63 ++++++++++++++++++++++++++++
-> >   arch/x86/kvm/Kconfig           |  1 +
-> >   include/linux/kvm_host.h       |  3 ++
-> >   include/uapi/linux/kvm.h       | 17 ++++++++
+> > Proofreading and updating the documentation accordingly, i.e. fixed:
 > 
-> Should the changes introduced in this file also need to be added in
-> tools/include/uapi/linux/kvm.h ?
+> Both patches applied! Thanks for your usual attention to details.
 
-Yes I think. But I'm hesitate to include in this patch or not. I see
-many commits sync kernel kvm.h to tools's copy. Looks that is done
-periodically and with a 'pull' model.
+Hmm... okay.
 
-Chao
+Actually I have missed the repetition of the comment I put in v1,
+i.e.  that this would be good to be attached to my PR where the
+struct pinfunction et al. have been introduced. Can I have your
+Ack?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
