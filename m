@@ -2,72 +2,221 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 083E8C63797
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 13:16:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23623C678D8
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 13:20:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236837AbjAQNQX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Jan 2023 08:16:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53066 "EHLO
+        id S237049AbjAQNU4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Jan 2023 08:20:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236775AbjAQNQL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 08:16:11 -0500
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF82B4C06
-        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 05:15:57 -0800 (PST)
-Received: by mail-yb1-xb31.google.com with SMTP id v19so28051477ybv.1
-        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 05:15:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=speSHNYY7UY/VdkKSKSzAPd+LB5tLtqCK38I+sQK0WE=;
-        b=iuY779kCZkgs1i3TJHyaoB2OYp2y4UXVeAhDi5HqtuGQfjKC4jG8HrnzdB6SN3EkR/
-         2nYFg5Zh5RbwdAQZGyYwV98xO4AgZMxYK3B1mx4o6KgC1XnnhnFP6AiB0VEVt/YxERde
-         flKtvACWDm+891ml32I3GsO2iYHLgotbUxkvM8kL3CQOZ0u2UkENSHolMuQMLhMKE/xe
-         LTQmekU+6z1QwVRup+9f7At80Pf/R1cuRMQW/4eoFu2M13dTL4WwmITVWqu5r14EUtAA
-         Yg75DI449A7EfVw1LH1SuSVZpyOLLnOtCnVf2xcq6lyTfjyN/95YcJ4kwMkwfwb7yYF/
-         YFmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=speSHNYY7UY/VdkKSKSzAPd+LB5tLtqCK38I+sQK0WE=;
-        b=aTcYrdfsmQ0mKyjDZa1jV1k38af0KbcCFbN1N45D3FPVa4foQlikioBnIE6MApt31G
-         hqlkykDsI9Z29JPx3Q3QCW8OAkMxQJ9BwEqlC1B1y3VINWZrS2hTlRlDlEFdQZGI8gkf
-         74LTBdAERGrAJJAHbwdxKX2grRZq7qmD91vRokuEkIjRixQ/S67Y4VychTxHIS0m1Ft+
-         iKwsPHC3kw00220eKQuDW2RkqnnnJeV7aNmC5yxpsIr8sNw1Bx7S725znbcvLDxu9zx5
-         xy95rclmycUDktDcNN/xheL7njo47P4JRGyJHhH6g/tQWbV/gzm+xpWJDLXrMR4nYuvM
-         Q0RA==
-X-Gm-Message-State: AFqh2krh4Qj3+JN9dxW/W3p5m4c5bUwNWh85cAs7bUAy1QfE/B0scelt
-        S2dDw0JlkurjNvj6dQdwbtn5obFdFwR8UkxOddZ/dA==
-X-Google-Smtp-Source: AMrXdXtQJRhkiJoJn3gtcZ2O1RYFepN01V3AepnypVv38ICpDuM0Nw4YvhauZDgojFLioy3ywrONiSypPavhEKGex/U=
-X-Received: by 2002:a25:9d88:0:b0:7c0:acd2:6300 with SMTP id
- v8-20020a259d88000000b007c0acd26300mr320846ybp.520.1673961356936; Tue, 17 Jan
- 2023 05:15:56 -0800 (PST)
+        with ESMTP id S237012AbjAQNUx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 08:20:53 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEC3439BA0;
+        Tue, 17 Jan 2023 05:20:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673961653; x=1705497653;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=ydzl4pu/BnSzLPZ1RlJR0Y9KESs9mzMw8rQlYf4Kzvo=;
+  b=Wa1lDjtgpSU4uygKkHIz1Dsj/E2ZHLW/CrnpG91ieGgCT0zvuxJQAYrm
+   vp7y+IQ70RsSj6ArReb10U+53BXVsw95KCrBJ+YsOOC2mpHB0uQRXE57S
+   2zMR+fAhwQUWwOKViE41UUL4EeKgWn4ZB214VWlwiDajl0WibgXPzK00P
+   PCdx/qV8X7kAPsNxnxx98C8F/lrLeSIpHZgHMDHKgEZXe/ghiDSXDLjos
+   s9xQMBGwkomNSbhpjWGeguhCQCsLjT7cG1KK+B+ppPntvBmbp+iAGuyXV
+   GYO1uWKPbN6iHsjNy4fj9BUXIDp/MXS9HL70CkVpMPDmhCmcqKmHubRCk
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="305067244"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
+   d="scan'208";a="305067244"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2023 05:20:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="689797088"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
+   d="scan'208";a="689797088"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
+  by orsmga008.jf.intel.com with ESMTP; 17 Jan 2023 05:20:39 -0800
+Date:   Tue, 17 Jan 2023 21:12:51 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
+Message-ID: <20230117131251.GC273037@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
+ <Y8HwvTik/2avrCOU@google.com>
 MIME-Version: 1.0
-References: <20230116153347.15786-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20230116153347.15786-1-andriy.shevchenko@linux.intel.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 17 Jan 2023 14:15:45 +0100
-Message-ID: <CACRpkdbVa3XEDzcuy7iCqx0cvj4trzPe7N0B5PswA1mQ7O+GtA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] pinctrl: Proofreading and updating the
- documentation accordingly
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y8HwvTik/2avrCOU@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 16, 2023 at 4:33 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
+> On Fri, Dec 02, 2022, Chao Peng wrote:
+> > @@ -10357,6 +10364,12 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
+> >  
+> >  		if (kvm_check_request(KVM_REQ_UPDATE_CPU_DIRTY_LOGGING, vcpu))
+> >  			static_call(kvm_x86_update_cpu_dirty_logging)(vcpu);
+> > +
+> > +		if (kvm_check_request(KVM_REQ_MEMORY_MCE, vcpu)) {
+> > +			vcpu->run->exit_reason = KVM_EXIT_SHUTDOWN;
+> 
+> Synthesizing triple fault shutdown is not the right approach.  Even with TDX's
+> MCE "architecture" (heavy sarcasm), it's possible that host userspace and the
+> guest have a paravirt interface for handling memory errors without killing the
+> host.
 
-> Proofreading and updating the documentation accordingly, i.e. fixed:
+Agree shutdown is not the correct choice. I see you made below change:
 
-Both patches applied! Thanks for your usual attention to details.
+send_sig_mceerr(BUS_MCEERR_AR, (void __user *)hva, PAGE_SHIFT, current)
 
-Yours,
-Linus Walleij
+The MCE may happen in any thread than KVM thread, sending siginal to
+'current' thread may not be the expected behavior. Also how userspace
+can tell is the MCE on the shared page or private page? Do we care?
+
+> 
+> > +			r = 0;
+> > +			goto out;
+> > +		}
+> >  	}
+> 
+> 
+> > @@ -1982,6 +2112,10 @@ int __kvm_set_memory_region(struct kvm *kvm,
+> >  	     !access_ok((void __user *)(unsigned long)mem->userspace_addr,
+> >  			mem->memory_size))
+> >  		return -EINVAL;
+> > +	if (mem->flags & KVM_MEM_PRIVATE &&
+> > +		(mem->restricted_offset & (PAGE_SIZE - 1) ||
+> 
+> Align indentation.
+> 
+> > +		 mem->restricted_offset > U64_MAX - mem->memory_size))
+> 
+> Strongly prefer to use similar logic to existing code that detects wraps:
+> 
+> 		mem->restricted_offset + mem->memory_size < mem->restricted_offset
+> 
+> This is also where I'd like to add the "gfn is aligned to offset" check, though
+> my brain is too fried to figure that out right now.
+> 
+> > +		return -EINVAL;
+> >  	if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
+> >  		return -EINVAL;
+> >  	if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
+> > @@ -2020,6 +2154,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
+> >  		if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
+> >  			return -EINVAL;
+> >  	} else { /* Modify an existing slot. */
+> > +		/* Private memslots are immutable, they can only be deleted. */
+> 
+> I'm 99% certain I suggested this, but if we're going to make these memslots
+> immutable, then we should straight up disallow dirty logging, otherwise we'll
+> end up with a bizarre uAPI.
+
+But in my mind dirty logging will be needed in the very short time, when
+live migration gets supported?
+
+> 
+> > +		if (mem->flags & KVM_MEM_PRIVATE)
+> > +			return -EINVAL;
+> >  		if ((mem->userspace_addr != old->userspace_addr) ||
+> >  		    (npages != old->npages) ||
+> >  		    ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
+> > @@ -2048,10 +2185,28 @@ int __kvm_set_memory_region(struct kvm *kvm,
+> >  	new->npages = npages;
+> >  	new->flags = mem->flags;
+> >  	new->userspace_addr = mem->userspace_addr;
+> > +	if (mem->flags & KVM_MEM_PRIVATE) {
+> > +		new->restricted_file = fget(mem->restricted_fd);
+> > +		if (!new->restricted_file ||
+> > +		    !file_is_restrictedmem(new->restricted_file)) {
+> > +			r = -EINVAL;
+> > +			goto out;
+> > +		}
+> > +		new->restricted_offset = mem->restricted_offset;
+
+I see you changed slot->restricted_offset type from loff_t to gfn_t and
+used pgoff_t when doing the restrictedmem_bind/unbind(). Using page
+index is reasonable KVM internally and sounds simpler than loff_t. But
+we also need initialize it to page index here as well as changes in
+another two cases. This is needed when restricted_offset != 0.
+
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 547b92215002..49e375e78f30 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -2364,8 +2364,7 @@ static inline int kvm_restricted_mem_get_pfn(struct kvm_memory_slot *slot,
+                                             gfn_t gfn, kvm_pfn_t *pfn,
+                                             int *order)
+ {
+-       pgoff_t index = gfn - slot->base_gfn +
+-                       (slot->restricted_offset >> PAGE_SHIFT);
++       pgoff_t index = gfn - slot->base_gfn + slot->restricted_offset;
+        struct page *page;
+        int ret;
+ 
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 01db35ddd5b3..7439bdcb0d04 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -935,7 +935,7 @@ static bool restrictedmem_range_is_valid(struct kvm_memory_slot *slot,
+                                         pgoff_t start, pgoff_t end,
+                                         gfn_t *gfn_start, gfn_t *gfn_end)
+ {
+-       unsigned long base_pgoff = slot->restricted_offset >> PAGE_SHIFT;
++       unsigned long base_pgoff = slot->restricted_offset;
+ 
+        if (start > base_pgoff)
+                *gfn_start = slot->base_gfn + start - base_pgoff;
+@@ -2275,7 +2275,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
+                        r = -EINVAL;
+                        goto out;
+                }
+-               new->restricted_offset = mem->restricted_offset;
++               new->restricted_offset = mem->restricted_offset >> PAGE_SHIFT;
+        }
+ 
+        r = kvm_set_memslot(kvm, old, new, change);
+
+Chao
+> > +	}
+> > +
+> > +	new->kvm = kvm;
+> 
+> Set this above, just so that the code flows better.
