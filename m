@@ -2,99 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29190C677F1
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 14:47:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69E9EC3DA78
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 15:02:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231614AbjAQOr4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Jan 2023 09:47:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34706 "EHLO
+        id S230139AbjAQPCV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Jan 2023 10:02:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232814AbjAQOrt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 09:47:49 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2186A3E61F;
-        Tue, 17 Jan 2023 06:47:44 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B124261483;
-        Tue, 17 Jan 2023 14:47:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20F3CC433F0;
-        Tue, 17 Jan 2023 14:47:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673966863;
-        bh=++B34ZebYIFAG4ZStiMrpZS9DbXAx2zJs66DPcYJTB8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=qFtcteX0O7Ygxz9pEr96221Hon5IgtieOjqgyZMk/Lo/l61gHRVPVBmratR4uuXbQ
-         YO/QQW/3R6cxQKuRdlna5z8HxTbuGnl2XNAZBM6NqAjGPdmJ66/N6irTlyp5aOT4/6
-         X4eCc8ib3SlW9IT1pj4+xmHvlf6qagzpbZK7sTUTk3SOmxlYtoHeC0CIyRwQv4/uOJ
-         Dt5pQ+TR+doTdNtfBwT9XCUpbYy4djSMU+iAl7awn+Fl7aaiGtHff+G+LSNkX22jfp
-         fxqE5tu2vI0vyhsYNoiGJCB12UqhgVuFjoDOQLf61xhV8sruRmCfYogvs6xMo2cGdn
-         Z5YYZ8Ylf8UbQ==
-Received: by mail-lf1-f46.google.com with SMTP id o20so15466122lfk.5;
-        Tue, 17 Jan 2023 06:47:43 -0800 (PST)
-X-Gm-Message-State: AFqh2koORbdmCQejX+jKRd/8GBS2P6HQUVcFDWAXmjJOMB7Y4Z6B2Swx
-        0ySb4mMl+7gxh7UQkiBUJ4RgVCSWdKGAF3opqqs=
-X-Google-Smtp-Source: AMrXdXsMvXqNtX5CDIM1qOiDkgUMBCIa5lmJmPY6e44Otg87l6lsW+AXqzLCi0R5e3gtDSAx5rpXRfwRcN/R1rFVaxc=
-X-Received: by 2002:ac2:5931:0:b0:4b5:8ebf:3a1 with SMTP id
- v17-20020ac25931000000b004b58ebf03a1mr151912lfi.333.1673966861510; Tue, 17
- Jan 2023 06:47:41 -0800 (PST)
+        with ESMTP id S232877AbjAQPBe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 10:01:34 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E784340BE8;
+        Tue, 17 Jan 2023 07:00:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673967623; x=1705503623;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=q6LyA84WfayfkH44QikUzLCOFY2fAi8cD3SXnEWu+mo=;
+  b=leVvwvIoLfv5yyZvNNEdcA/vV1v0j8GhnqebBNcQ3NrXgfQ/pqMH7D9N
+   jku8ipOEI8tn1WCLXfz9LLLDy88hVc7+mk4G5rG7RZ86Ak8rFtPEGsERx
+   2Q1/mnMuLj4gzQLbz2fPIVmOSnYUZz/kHj1iQqLAsv/shsz3R6NuVagG3
+   IJhZUa93RepW12AxWWk++XL8DlmeKjrUgjUlyFL9nuKUnHYCPvFgzqag6
+   l7YN0akux1or9DDG/qCF21BvBIqXLIPddvTCr2uVoporXnrpAJL56utr6
+   wuJ173QEcU/JiJ+PPkewWL29rkOHTw3gAWuZs12fz92poUHq9YlFqcQDj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="305089292"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
+   d="scan'208";a="305089292"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2023 07:00:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="661319869"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
+   d="scan'208";a="661319869"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga007.fm.intel.com with ESMTP; 17 Jan 2023 07:00:21 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pHnRk-00Aclr-1O;
+        Tue, 17 Jan 2023 17:00:20 +0200
+Date:   Tue, 17 Jan 2023 17:00:20 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH v2 1/2] pinctrl: Proofreading and updating the
+ documentation accordingly
+Message-ID: <Y8a4BAotZAax9Zx4@smile.fi.intel.com>
+References: <20230116153347.15786-1-andriy.shevchenko@linux.intel.com>
+ <CACRpkdbVa3XEDzcuy7iCqx0cvj4trzPe7N0B5PswA1mQ7O+GtA@mail.gmail.com>
+ <Y8avtfifZpy89rS3@smile.fi.intel.com>
+ <CACRpkdYTFDsU7xhu812Lh1mA1Hs9kGeid+akR84ervAsaxVYkg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230117095946.2042832-1-jani.nikula@intel.com> <20230117095946.2042832-2-jani.nikula@intel.com>
-In-Reply-To: <20230117095946.2042832-2-jani.nikula@intel.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 17 Jan 2023 23:47:03 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATwevt2GmKVDK7uObHbnwO0g47=aU5rDx05kBQyvfqwUA@mail.gmail.com>
-Message-ID: <CAK7LNATwevt2GmKVDK7uObHbnwO0g47=aU5rDx05kBQyvfqwUA@mail.gmail.com>
-Subject: Re: [PATCH 1/6] MAINTAINERS: fix kbuild repo branch
-To:     Jani Nikula <jani.nikula@intel.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACRpkdYTFDsU7xhu812Lh1mA1Hs9kGeid+akR84ervAsaxVYkg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 7:00 PM Jani Nikula <jani.nikula@intel.com> wrote:
->
-> The MAINTAINERS repository entry specifies "kconfig" as the branch, but
-> the repository itself has "kbuild".
->
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a36df9ed283d..98da2af0a653 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11171,7 +11171,7 @@ M:      Masahiro Yamada <masahiroy@kernel.org>
->  L:     linux-kbuild@vger.kernel.org
->  S:     Maintained
->  Q:     https://patchwork.kernel.org/project/linux-kbuild/list/
-> -T:     git git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kconfig
-> +T:     git git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
->  F:     Documentation/kbuild/kconfig*
->  F:     scripts/Kconfig.include
->  F:     scripts/kconfig/
-> --
-> 2.34.1
->
+On Tue, Jan 17, 2023 at 03:26:31PM +0100, Linus Walleij wrote:
+> On Tue, Jan 17, 2023 at 3:24 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> 
+> > Actually I have missed the repetition of the comment I put in v1,
+> > i.e.  that this would be good to be attached to my PR where the
+> > struct pinfunction et al. have been introduced. Can I have your
+> > Ack?
+> 
+> Sure go ahead,
 
+So, which tag to use?
 
-I sometimes created the 'kconfig' branch when I had
-a large batch of kconfig changes, but
-8ca5297e7e38f2dc8c753d33a5092e7be181fff0 was
-the last time I did that.
+"Acked-by: Linus Walleij <linus.walleij@linaro.org>" ?
 
-Indeed 'kconfig' does not always exist, so I am fine
-with this (and rest of the patch set). Thanks.
+>	I can also take out the patches if you rather
+> include them with a  pull request.
 
-
-
+It would be the best, thanks!
 
 -- 
-Best Regards
-Masahiro Yamada
+With Best Regards,
+Andy Shevchenko
+
+
