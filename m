@@ -2,67 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 296FAC678D4
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 20:39:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A14E6C54E76
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Jan 2023 20:39:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235502AbjAQUic (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Jan 2023 15:38:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53690 "EHLO
+        id S229609AbjAQUjH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Jan 2023 15:39:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235564AbjAQUfx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 15:35:53 -0500
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 856332B28F
-        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 11:21:10 -0800 (PST)
-Received: by mail-il1-x12d.google.com with SMTP id g2so15892957ila.4
-        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 11:21:10 -0800 (PST)
+        with ESMTP id S235465AbjAQUfp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Jan 2023 15:35:45 -0500
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 180502887E
+        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 11:20:56 -0800 (PST)
+Received: by mail-il1-x131.google.com with SMTP id p12so2926444ilq.10
+        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 11:20:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=4Dudq/IZ3pMnxQipACHsMz8BxYg84kEbOIRkYl+isuw=;
-        b=vl8XuKsl9OlNroWuZnXukD8WH0O6Ff7x6kB4sDBWtSpcTbCTdLQJ/mWp6nGKUfUJ8P
-         H8fr0NczwkmFozXi6PhI91cqWp/yXcLqZj/PuyUW02RzUSylvGsd9Q1ukW0O42tp3DLt
-         /A6RhI1zKoXwTYFlCv0xDwqp6tNu3qTLMwO/dEZAQ9rGTNNFa/WnEGi/I4mf8K/kqI18
-         XAt/iBITnHvrI24105yj2W8WxpFFYQoSCTmhtzUS5f94BDfBsNcq7tAhYgzQYW+3Uxn9
-         rhUnek5HiHsnXfvLQ0T4VUiK4orV38prgV8Fz1hgcrR1HEHO3XJeEPE86p6+Kfv4OSF1
-         QSQg==
+        bh=Wp0QJQDzQBGT8hemYMe9M0vDzPuwdE2J+s/AVQDu9As=;
+        b=sUyWoMXQn68h3GcPqqKEKdyWztOCpbn2A8Wm9ggXrnLDCQEnLF6g7PhjjUpN5jgi5d
+         hrU5fvNfigr3LYsFGQWrCL+xVZEu1LIEPw14g41+GnfDCMXTZ4b5IQDxeiJWRWzxuhwN
+         oXpVoZWPONN+ZPlS+OY6Lz7gBFTFPwwASkjzq3fdQR5Qk6BHRUhxWptOhWtaAZij80sD
+         v7rggb0M86pSa+IdICOumogbXWQkjIGQ86NvRcgejWaIznE1BnRgGXBT0xLdHozYnweE
+         koQAW+M7hUYGl7HPMExjtwaIc0P53UmgNa/gF6cHn1VDQ03UrQt6S8+PxNC6dn1eAHAG
+         mjmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Dudq/IZ3pMnxQipACHsMz8BxYg84kEbOIRkYl+isuw=;
-        b=oHoi3a1Q31IaqKqT4tYxD440M37BnJ6xujr5ewTzhYfCEHlRrlVWNOB9kYKVsVEup2
-         wLQHfp8VIZ4xPVxacnqLylhDcpBfN6tU52wTrzWAUgs5m66bDi5KErYi8rVPpLL8pBcP
-         j4MZwqRdjYjbs8oKos+h1EUQj+tpGMVFiMQnbASWk7vGe9qj3dPca3gExP8ad3GjYgR4
-         ElnbY6kzKkvSNKEHyW/jp1k4HyhaD34aGEUvk70DW5FodZnCVeg7zaCwtTyMfCWWiyg+
-         c37+CiXwcKmkbx3pDgTnVAZEHTpLxkHMbFuGuMAyuoPJlDzrLzXquEME29uIHDnQAjbA
-         YWug==
-X-Gm-Message-State: AFqh2kpktsyUB3djOpfVF7CX/gFFLohwE/uAzWxfVc0IizAZrMa+/Tpp
-        4R4yXpIcAd800L7aiPZwj6ppbg==
-X-Google-Smtp-Source: AMrXdXvBiRQtBWfFScJjVhXsnpbIDzbalKWTgtRqn2SowznS9hWQKhuL9agF1vX0NSjbHznhYhRieQ==
-X-Received: by 2002:a92:dc0e:0:b0:302:e4c8:dace with SMTP id t14-20020a92dc0e000000b00302e4c8dacemr3385670iln.22.1673983270145;
-        Tue, 17 Jan 2023 11:21:10 -0800 (PST)
+        bh=Wp0QJQDzQBGT8hemYMe9M0vDzPuwdE2J+s/AVQDu9As=;
+        b=cn3V4rd5Hc1KIPqEt8QpwdLqY5kagkBjxsUu+odXBY8G0XYTbFqSGXhsC65At/VFB+
+         Do5OTD7wH5AW8cpar9yWzZ8Xj/tFYXgc4SsTN9+YUFz9wIPh3MO//3DZWfYNrJQ7AnT9
+         zp5nZ49nyrCQvsNp/gQecnLj2guSGCV8Bu1njN5oMJM8ZUpPB1iK+HSiOf3oMqn20jDr
+         WWijWfM4WV1x0sPgVilwo0jsCtLqdgplSa3saR/BUrzlN4QHaNBVsKOTwJijDFZQZLYX
+         zmnwNPdQ1g+ZRjEXAcVSt5cyZBIL6YXbQaWZXYDOtc3haZgtJor/2Xp2vAmxFvUE0mlK
+         EelA==
+X-Gm-Message-State: AFqh2kqCv7vWAP/YlUonlf5x9NSyWs6/f7gtv7noZAptakzfhuhsd6oX
+        Se3sgm3/7luIAQLuzJCgK9ugdw==
+X-Google-Smtp-Source: AMrXdXu/lORiZp2eZqiqVnnjOPOkjH43u2TAvXtFDta2UFu0/KcmiUvJ86/Pc943zYRpsqEbtmEFEQ==
+X-Received: by 2002:a92:a054:0:b0:30b:eb8a:79ba with SMTP id b20-20020a92a054000000b0030beb8a79bamr2844862ilm.27.1673983255338;
+        Tue, 17 Jan 2023 11:20:55 -0800 (PST)
 Received: from [172.22.22.4] ([98.61.227.136])
-        by smtp.googlemail.com with ESMTPSA id n5-20020a056638110500b00374fe4f0bc3sm9649869jal.158.2023.01.17.11.21.08
+        by smtp.googlemail.com with ESMTPSA id g20-20020a92c7d4000000b0030c661606eesm9702252ilk.63.2023.01.17.11.20.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jan 2023 11:21:09 -0800 (PST)
-Message-ID: <8c819213-b820-0ff3-b2c4-d9af1b6b3f83@linaro.org>
-Date:   Tue, 17 Jan 2023 13:21:08 -0600
+        Tue, 17 Jan 2023 11:20:54 -0800 (PST)
+Message-ID: <08964d93-8118-1176-c2f8-73e14e022a89@linaro.org>
+Date:   Tue, 17 Jan 2023 13:20:53 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
 From:   Alex Elder <elder@linaro.org>
-Subject: Re: [PATCH v8 07/28] mailbox: Allow direct registration to a channel
+Subject: Re: [PATCH v8 05/28] virt: gunyah: Add hypercalls to identify Gunyah
 To:     Elliot Berman <quic_eberman@quicinc.com>,
         Alex Elder <elder@linaro.org>,
         Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>
+Cc:     Trilok Soni <quic_tsoni@quicinc.com>,
         Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
         Carl van Schaik <quic_cvanscha@quicinc.com>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
@@ -72,8 +72,8 @@ Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
         Lorenzo Pieralisi <lpieralisi@kernel.org>,
         Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -81,103 +81,60 @@ Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-acpi@vger.kernel.org
 References: <20221219225850.2397345-1-quic_eberman@quicinc.com>
- <20221219225850.2397345-8-quic_eberman@quicinc.com>
- <942f20cc-87d3-d014-1527-8d3d3e1ae44b@linaro.org>
- <8f47229a-2785-5f54-f7d1-a42299de64fe@quicinc.com>
+ <20221219225850.2397345-6-quic_eberman@quicinc.com>
+ <63bbc640-9b0c-95af-3d35-291da0323db3@linaro.org>
+ <4e8a7fdf-8c91-cf2f-d369-c67b7584f580@quicinc.com>
 Content-Language: en-US
-In-Reply-To: <8f47229a-2785-5f54-f7d1-a42299de64fe@quicinc.com>
+In-Reply-To: <4e8a7fdf-8c91-cf2f-d369-c67b7584f580@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/10/23 11:57 AM, Elliot Berman wrote:
+On 1/10/23 11:56 AM, Elliot Berman wrote:
+>> Is there any need for the endianness of these values to be specified?
+>> Does Gunyah operate with a well-defined endianness?  Is there any
+>> chance a VM can run with an endianness different from Gunyah?  I
+>> see that the arm_smcc_* structures are defined without endianness.
+>> (Sorry if these are dumb questions.)
+>>
 > 
-> 
-> On 1/9/2023 1:34 PM, Alex Elder wrote:
->> On 12/19/22 4:58 PM, Elliot Berman wrote:
->>> Support virtual mailbox controllers and clients which are not platform
->>> devices or come from the devicetree by allowing them to match client to
->>> channel via some other mechanism.
->>
->> The new function behaves very much like mbox_request_channel()
->> did before.
->>
->> The new function differs from omap_mbox_request_channel() in that
->> it can change the if chan->txdone_method is TXDONE_BY_POLL, it
->> is changed to TXDONE_BY_ACK if the client's knows_txdone field is
->> set.  Is this OK?  Why?
+> All of the data transfers for hypercalls happen via registers, so 
+> endianness doesn't have impact here (there is no "low address" in a 
+> register).
 
-Sorry, reading that now, I see I placed an "if" in the wrong spot.
+I don't believe that is technically true.  Practically speaking,
+it's probably almost *always* little-endian.  But for example,
+here:
 
-> Both of the current drivers that use mbox_bind_client use TXDONE_BY_IRQ, 
-> so this doesn't cause issue for checking whether the client has 
-> txdone_method.
+https://developer.arm.com/documentation/102376/0100/Alignment-and-endianness
+it says:
 
-I'm not so sure, but it's on you to make sure you don't break
-anything...  I see only two spots where TXDONE_BY_IRQ is set,
-and TXDONE_BY_IRQ seems to be set when channels are freed.
+     Endianness
 
-I spent (too much) time trying to track this back but I'm
-giving up.  If you're sure it's correct, I accept that...
+     In Armv8-A, instruction fetches are always treated as
+     little-endian.
 
->>
->> It also assumes chan->mbox->ops->startup us non-null (though that
->> isn't really a problem).
->>
->>>
->>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
->>> ---
->>>   drivers/mailbox/mailbox.c      | 96 ++++++++++++++++++++++++----------
->>>   drivers/mailbox/omap-mailbox.c | 18 ++-----
->>>   drivers/mailbox/pcc.c          | 18 ++-----
->>>   include/linux/mailbox_client.h |  1 +
->>>   4 files changed, 76 insertions(+), 57 deletions(-)
->>>
->>> diff --git a/drivers/mailbox/mailbox.c b/drivers/mailbox/mailbox.c
->>> index 4229b9b5da98..adf36c05fa43 100644
->>> --- a/drivers/mailbox/mailbox.c
->>> +++ b/drivers/mailbox/mailbox.c
->>> @@ -317,6 +317,71 @@ int mbox_flush(struct mbox_chan *chan, unsigned 
->>> long timeout)
->>>   }
->>>   EXPORT_SYMBOL_GPL(mbox_flush);
->>> +static int __mbox_bind_client(struct mbox_chan *chan, struct 
->>> mbox_client *cl)
->>
->> There should be an unbind_client() call.  At a minimum, you are
->> calling try_module_get(), and the matching module_put() call
->> would belong there.  And even though one might just call
->> module_put() elsewhere for this, it would be cleaner to have
->> a function that similarly encapsulates the shutdown call
->> as well.
-> n
-> The function for this is "mbox_free_channel".
+     For data accesses, it is IMPLEMENTATION DEFINED whether
+     both little-endian and big-endian are supported. And if
+     only one is supported, it is IMPLEMENTATION DEFINED
+     which one is supported.
 
-My point is about the way you are abstracting the "bind" operation
-as a (now encapsulated) part of requesting the channel.  Yes, when
-mbox_free_channel() is called, it effectively "unbinds" the channel.
-But you're creating a "bind" abstraction, where it's not explicit
-that you're requesting the channel.  I'm suggesting you also create
-an "unbind" operation to reverse that.
+     For processors that support both big-endian and
+     little-endian, endianness is configured per Exception
+     level.
 
-This is more important for the mbox_bind_client() call than 
-mbox_request_channel().  (And by the way, it looks like
-pcc_mbox_free_channel() doesn't call pcc_mbox_free_channel()
-as it should, but this unfamiliar code...)
+Perhaps that last sentence doesn't apply to HVC exceptions
+but to me it *sounds* like it's at least possible for a VM
+to be running with an endianness that differs from the
+hypervisor (perhaps not other VMs though.)
 
-And... it's weird to me that gh_rm_drv_probe() calls gh_msgq_init()
-(to initialize the Gunhah message queue code), but then has to
-call mbox_free_channel() *separate* from gh_msgq_remove(); the
-free channel (or better, unbind client) should happen in the
-message queue code.
+This is not an area of expertise of mine, so I would love
+for someone who knows more to correct me if I'm wrong.
 
-It's not a critically important point, but now at least I hope
-you understand what I'm trying to say.
+It's likely to be fine as-is, but (other than the work to
+do it and get it right) it doesn't hurt to specify it and
+do the conversions as data is passes to/from the hypervisor.
 
 					-Alex
-> 
-> Thanks,
-> Elliot
-
