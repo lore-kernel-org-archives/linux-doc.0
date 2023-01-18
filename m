@@ -2,641 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32A83C32793
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Jan 2023 18:26:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A83A1C32793
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Jan 2023 19:02:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230273AbjARS0r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 13:26:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48558 "EHLO
+        id S229949AbjARTCV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 14:02:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230320AbjARS0p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 13:26:45 -0500
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FF115A83D
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jan 2023 10:26:42 -0800 (PST)
-Received: by mail-io1-xd34.google.com with SMTP id e204so603965iof.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jan 2023 10:26:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ps+eL1/c+O2UYvFHzy2kmIGhPZecVMtX+/NhgDsMYHU=;
-        b=k34v9jK9OiKIC4eI3u4Yqqyvko/PH8w6B1FTQEsMV+kzHMyRPsVjw1FnVStQTAifGw
-         bRHe1MDlj5/wFGCye+2Qv/YB2Fk+paPeu4keesxcCfr4PBzTGWJ98nPtK/zVTA1krHGP
-         ikjvX+2s+2dBLqgILQBjVKHR/JAUanGqKtEwSLqo5BXoWe/2Wk6XL2P53srKsdBKVC6c
-         NXlEp5ofhzJ15nmUGWnpg5GLu0pLselrZV1NWx8N3eY36qHUa+UIWvSMezBrskgEFC+t
-         kl5yKqgM461QRbRdK1u/xO1aKPuTBgN3MnlyVWeuOYq4ff/7izir5M08sjOBzjos2aG3
-         T6UQ==
+        with ESMTP id S229780AbjARTBV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 14:01:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22C7959B78
+        for <linux-doc@vger.kernel.org>; Wed, 18 Jan 2023 11:00:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674068407;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=6VHgRLoz21ZdB+avm4AD7iQRbs1S2YR2I/6RIM3KpT8=;
+        b=gChD95YacVi06h5XJVt7NIlIdu3Y8I1fbRBtB9okF+aThKY5IdFv0qEHZHSTAvJD6fIt2g
+        1WlJfT52SNgpOrQnInZZ5pRwKx1GOKjBhQO3XBhP9m0Sfk68zvRSfUkbiMbZIU83EB+AsX
+        CpkvkfgCaj+B9rkgWwrcI/Qd8IyPmIc=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-164-KnT496o9MAOoUOKMmRBW-Q-1; Wed, 18 Jan 2023 14:00:04 -0500
+X-MC-Unique: KnT496o9MAOoUOKMmRBW-Q-1
+Received: by mail-ej1-f72.google.com with SMTP id wz4-20020a170906fe4400b0084c7e7eb6d0so24577434ejb.19
+        for <linux-doc@vger.kernel.org>; Wed, 18 Jan 2023 11:00:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ps+eL1/c+O2UYvFHzy2kmIGhPZecVMtX+/NhgDsMYHU=;
-        b=0CKi/PxwEh8/7rvk5UnDb7jxGnUmD3vPNlHGZPKUd0Ww9gqaejWbWWpXUHhoeenOAm
-         SfzT0tSMXXdca+H4GxhYRF51J8oSWj1Q122vbuIoVt7TbSmUwOCREdtmj+UKHK02hTU0
-         82gTQv1MqVuVAKV+Iq75BgIT2/3BzP0frFkghaO0H6U5PoO5QHqIXUt15nNy3B9GMYZU
-         i3Ejn7asmQPUr21N2GPlu4MM2ESWBjB2cNHwsRpyzoTIldd2d1YrZIK4vvll8koH6gHN
-         3lWCGuoebiXWbSv3j9uBsa5icStSGR5X5RCcfrDRoGG605+zw2W0R1084lLORYe6e2X/
-         cQsg==
-X-Gm-Message-State: AFqh2kpjelFVyNHAvg+rmdHBdcuHm3Do7Hw5Tz7kcQtOBLOHmh98TNrN
-        6u11n5cZCzzxmEYXB2R9x+taBw==
-X-Google-Smtp-Source: AMrXdXtLotQj4AMTseDMGSZaQ5J7tjAXffstvezwoIFsVGSFIhS/qklNO7VR6umCg+kxsgU0wPM7RA==
-X-Received: by 2002:a6b:c8ca:0:b0:704:b0c0:d273 with SMTP id y193-20020a6bc8ca000000b00704b0c0d273mr5528394iof.20.1674066401456;
-        Wed, 18 Jan 2023 10:26:41 -0800 (PST)
-Received: from [172.22.22.4] ([98.61.227.136])
-        by smtp.googlemail.com with ESMTPSA id z13-20020a05660229cd00b006f6623df63asm11506513ioq.14.2023.01.18.10.26.39
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6VHgRLoz21ZdB+avm4AD7iQRbs1S2YR2I/6RIM3KpT8=;
+        b=e2N9tQycMgDnjcJTbpLQ+m5rFjIb7pNmcMSvfsVs4bEFnOh7nCTKF28CjrJJvCPYFT
+         6g5XTmap3sobM49rMmB5TNIJzdIhB1Ex5P7WAFV/x0YrfCMpKdp2ZwSiR6CAX08/RM+8
+         fHcvdxYxC0IP8p0R2UxpUqSfaZ0ZhdezQog+omfW6oIZkE9Fwgu8rGPgWsMeEY1yg1aK
+         yzyavjLRRSXE60herKqgZkz6IE3jakCgsWLUaF2YKet0C/KayinA110Y3+Z9YmTGxVzp
+         A3EPz1XyF5EQuAFaiBZpZ1jFHLw4X0G4U3ua9YFd84wUNIwSIWpaftuMNMkcIra+/EaL
+         hofQ==
+X-Gm-Message-State: AFqh2kqDQ4kd9dHvOj1kRQY0ChgAxuYTBO6uINPcGrjUtzw1h5bJU2sF
+        U+4mi3mjqxFPwXbqDD5cbUWvzP4eujDlEPx2x/RD9LQgSHIuP/qV/xCApJ75zCPRzzWK4j8YJ7u
+        cyw4Zm6nke4R3Y+xoQyaD
+X-Received: by 2002:a17:907:8dca:b0:85f:5d72:1841 with SMTP id tg10-20020a1709078dca00b0085f5d721841mr8927948ejc.39.1674068402880;
+        Wed, 18 Jan 2023 11:00:02 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtsdunAhuQoXTg/VSvgVA6q/ZXPxkW/qMVvnmose4gPIQY/RC2Jhhnm+VqSnkVslMwPuQBExQ==
+X-Received: by 2002:a17:907:8dca:b0:85f:5d72:1841 with SMTP id tg10-20020a1709078dca00b0085f5d721841mr8927939ejc.39.1674068402689;
+        Wed, 18 Jan 2023 11:00:02 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
+        by smtp.gmail.com with ESMTPSA id t1-20020a1709061be100b0086f40238403sm5244115ejg.223.2023.01.18.11.00.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jan 2023 10:26:40 -0800 (PST)
-Message-ID: <7a4fdcca-b72a-d155-854f-07ec1a4a9107@linaro.org>
-Date:   Wed, 18 Jan 2023 12:26:39 -0600
+        Wed, 18 Jan 2023 11:00:02 -0800 (PST)
+Message-ID: <9830b666-b78c-9794-0d4a-7de31b9fd9b5@redhat.com>
+Date:   Wed, 18 Jan 2023 20:00:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v8 11/28] gunyah: rsc_mgr: Add VM lifecycle RPC
+ Thunderbird/102.6.0
+Subject: Re: [PATCH drm-next 02/14] drm/exec: fix memory leak in
+ drm_exec_prepare_obj()
 Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>
-Cc:     Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-acpi@vger.kernel.org
-References: <20221219225850.2397345-1-quic_eberman@quicinc.com>
- <20221219225850.2397345-12-quic_eberman@quicinc.com>
-From:   Alex Elder <elder@linaro.org>
-In-Reply-To: <20221219225850.2397345-12-quic_eberman@quicinc.com>
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        daniel@ffwll.ch, airlied@redhat.com, bskeggs@redhat.com,
+        jason@jlekstrand.net, tzimmermann@suse.de, mripard@kernel.org,
+        corbet@lwn.net
+Cc:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230118061256.2689-1-dakr@redhat.com>
+ <20230118061256.2689-3-dakr@redhat.com>
+ <3c3bd64a-164b-7ff2-ebf0-c8f9c2f94b72@amd.com>
+From:   Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <3c3bd64a-164b-7ff2-ebf0-c8f9c2f94b72@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/19/22 4:58 PM, Elliot Berman wrote:
-> Add Gunyah Resource Manager RPC to launch an unauthenticated VM.
+On 1/18/23 09:51, Christian König wrote:
+> That one should probably be squashed into the original patch.
 
-I have a number of general comments on your patch, and there
-are a few bugs that you will need to address.
+Yes, just wanted to make it obvious for you to pick it up in case you 
+did not fix it already yourself.
 
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> ---
->   drivers/virt/gunyah/Makefile      |   2 +-
->   drivers/virt/gunyah/rsc_mgr.h     |  41 ++++++
->   drivers/virt/gunyah/rsc_mgr_rpc.c | 224 ++++++++++++++++++++++++++++++
->   include/linux/gunyah_rsc_mgr.h    |  50 +++++++
->   4 files changed, 316 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/virt/gunyah/rsc_mgr_rpc.c
 > 
-> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-> index e7cf59b9e64e..5caa05267a58 100644
-> --- a/drivers/virt/gunyah/Makefile
-> +++ b/drivers/virt/gunyah/Makefile
-> @@ -1,4 +1,4 @@
->   obj-$(CONFIG_GUNYAH) += gunyah.o
->   
-> -gunyah_rsc_mgr-y += rsc_mgr.o
-> +gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o
->   obj-$(CONFIG_GUNYAH_RESOURCE_MANAGER) += gunyah_rsc_mgr.o
-> diff --git a/drivers/virt/gunyah/rsc_mgr.h b/drivers/virt/gunyah/rsc_mgr.h
-> index b5bb36a7a4cc..1f9e3c38038e 100644
-> --- a/drivers/virt/gunyah/rsc_mgr.h
-> +++ b/drivers/virt/gunyah/rsc_mgr.h
-> @@ -33,4 +33,45 @@ struct gh_rm_rpc;
->   int gh_rm_call(struct gh_rm_rpc *rsc_mgr, u32 message_id, void *req_buff, size_t req_buff_size,
->   		void **resp_buf, size_t *resp_buff_size);
->   
-> +/* Message IDs: VM Management */
-> +#define GH_RM_RPC_VM_ALLOC_VMID			0x56000001
-
-These values very clearly appear to be encoded.  Like the top
-byte (0x56) might be defining the resource type and bytes below
-it are the request ID?  If that is truly the case I think it
-is useful to lay out that format, and perhaps define the values
-based on the components that they are comprised of.
-
-> +#define GH_RM_RPC_VM_DEALLOC_VMID		0x56000002
-> +#define GH_RM_RPC_VM_START			0x56000004
-> +#define GH_RM_RPC_VM_STOP			0x56000005
-> +#define GH_RM_RPC_VM_CONFIG_IMAGE		0x56000009
-> +#define GH_RM_RPC_VM_INIT			0x5600000B
-> +#define GH_RM_RPC_VM_GET_HYP_RESOURCES		0x56000020
-> +#define GH_RM_RPC_VM_GET_VMID			0x56000024
-> +
-> +/* Call: CONSOLE_OPEN, CONSOLE_CLOSE, CONSOLE_FLUSH */
-
-The above comment is nonsense.  None of these symbols (or
-similar) are defined, anywhere.  For the current patch, this
-structure is used for VM_ALLOC_VMID, VM_GET_HYP_RESOURCES,
-and via gh_rm_common_vmid_call(), VM_DEALLOC_VMID, VM_START,
-and VM_INIT.  It's possible you'll use it for other requests
-in subsequent patches.
-
-Here you are defining a single "common" structure that's
-used for several message types.  I think there are legitimate
-reasons for that.  However...
-
-In general, I think I'd rather see every message type laid
-out separately.  It becomes a little long, here, where you
-would define them, but in the code that uses them it allows
-some simple patterns to be used in message handler functions
-that I think improve understandability and perhaps correctness.
-I'll provide some examples below to try to make my case.
-
-> +struct gh_vm_common_vmid_req {
-> +	__le16 vmid;
-> +	__le16 reserved0;
-
-If the above is really reserved (and unused), its
-endianness doesn't matter.  (Not really a big deal.)
-
-> +} __packed;
-
-The above structure defines the format of a *request*
-message.  But it is *also* the format of a VM_ALLOC_VMID
-*response* message.  So the name of the type does not
-match the way it's used.  As a reviewer, this seems off.
-
-> +/* Call: VM_STOP */
-> +struct gh_vm_stop_req {
-> +	__le16 vmid;
-> +	u8 flags;
-
-I don't believe you specify what the valid values this
-"flags" field can hold.  If not, I think you should (and
-if it's currently not used/needed, say that).
-
-> +	u8 reserved;
-> +	__le32 stop_reason;
-
-Same thing here.  This field is defined but from what
-I can tell, it is not currently used.  What values
-*could* it take on?  Why is it currently ignored?
-
-> +} __packed;
-> +
-> +/* Call: VM_CONFIG_IMAGE */
-> +struct gh_vm_config_image_req {
-> +	__le16 vmid;
-> +	__le16 auth_mech;
-> +	__le32 mem_handle;
-> +	__le64 image_offset;
-> +	__le64 image_size;
-> +	__le64 dtb_offset;
-> +	__le64 dtb_size;
-> +} __packed;
-> +
-> +/* Call: GET_HYP_RESOURCES */
-> +struct gh_vm_get_hyp_resources_resp {
-> +	__le32 n_entries;
-> +	struct gh_rm_hyp_resource entries[];
-
-This header file should include <linux/gunyah_rsrc_mgr.h> to get
-the required definition of struct gh_rm_hyp_resource.
-
-> +} __packed;
-> +
->   #endif
-> diff --git a/drivers/virt/gunyah/rsc_mgr_rpc.c b/drivers/virt/gunyah/rsc_mgr_rpc.c
-> new file mode 100644
-> index 000000000000..8d9c1c635a27
-> --- /dev/null
-> +++ b/drivers/virt/gunyah/rsc_mgr_rpc.c
-> @@ -0,0 +1,224 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#include <linux/gunyah_rsc_mgr.h>
-> +
-> +#include "rsc_mgr.h"
-> +
-> +/*
-> + * Several RM calls take only a VMID as a parameter and give only standard
-> + * response back. Deduplicate boilerplate code by using this common call.
-
-In other words, the response message is empty for the requests that use
-this function.
-
-> + */
-> +static int gh_rm_common_vmid_call(struct gh_rm_rpc *rm, u32 message_id, u16 vmid)
-> +{
-> +	void *resp = NULL;
-
-No need to set this to NULL if you ignore its value
-when the gh_rm_call() is unsuccessful.
-
-> +	struct gh_vm_common_vmid_req req_payload = {
-> +		.vmid = cpu_to_le16(vmid),
-> +	};
-> +	size_t resp_size;
-> +	int ret;
-> +
-> +	ret = gh_rm_call(rm, message_id, &req_payload, sizeof(req_payload), &resp, &resp_size);
-
-Here and in all other calls to gh_rm_call() here (and added later),
-you need to handle the return value differently.  (THIS IS A BUG.)
-
-There are three classes of return value from gh_rm_call():
-- Zero (success)
-- Negative errno
-- Positive Gunyah resource manager error code
-
-In practice, it might be nice to distinguish Gunyah error codes from
-Linux errnos, but I think the easiest solution might be to have a
-function that maps Gunyah codes to comparable errno values, and have
-gh_rm_call() use it so its return value is always 0 or negative.
-
-> +	if (!ret)
-> +		kfree(resp);
-> +
-> +	WARN_ON(!ret && resp_size);
-
-You should have well-defined behavior when the response message
-is empty.  Will the response pointer be valid or not?  I suggest
-that a 0 length response message be guaranteed to return a null
-pointer if the return value indicates success.  And a non-zero
-length should be guaranteed to be valid.  There should be no
-need for callers to issue warnings like this.
-
-So the above would then just be (note this follows a pattern
-similar to used by handlers later in the file):
-
-	if (ret)
-		return ret;
-	
-	if (resp_size)		/* (this is optional) */
-		kfree(resp);
-
-	return 0;
-
-
-> +
-> +	return ret;
-> +}
-> +
-> +/**
-> + * gh_rm_alloc_vmid() - Allocate a new VM in Gunyah. Returns the VM identifier.
-> + * @vmid: Use GH_VMID_INVAL to dynamically allocate a VM. A reserved VMID can also be requested
-> + *        for a special-purpose platform-defined VM.
-> + *
-> + * Returns - the allocated VMID or negative value on error
-
-Currently (based on a comment I made above) this statement
-is not correct.  But I think what's described is the proper
-return convention.  It's probably worth mentioning that it
-will never return GH_VMID_SELF or GH_VMID_INVAL.
-
-> + */
-> +int gh_rm_alloc_vmid(struct gh_rm_rpc *rm, u16 vmid)
-> +{
-> +	void *resp;
-> +	struct gh_vm_common_vmid_req req_payload = {
-> +		.vmid = cpu_to_le16(vmid),
-> +	};
-> +	struct gh_vm_common_vmid_req *resp_payload;
-> +	size_t resp_size;
-> +	int ret;
-> +
-
-What is the meaning of this call if you pass GH_VMID_SELF?
-Is that defined to be valid?  The code allows it, and if
-so it treats it as equivalent to passing GH_VMID_INVAL.
-
-> +	if (vmid == GH_VMID_INVAL)
-> +		vmid = 0;
-> +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_VM_ALLOC_VMID, &req_payload, sizeof(req_payload), &resp,
-> +			&resp_size);
-
-This *can* return a positive Gunyah resource manager error ID.
-So in this case the caller would (erroneously) assume it was
-a valid VMID.
-
-You need to fix this.
-
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!vmid) {
-> +		if (resp_size != sizeof(*resp_payload)) {
-> +			ret = -EINVAL;
-
-EINVAL means "invalid argument".  I *think* the right thing
-to return would be -EBADMSG.  In any case I don't really
-think -EINVAL is appropriate.
-
-> +		} else {
-> +			resp_payload = resp;
-> +			ret = resp_payload->vmid;
-
-This is a bug.  The vmid is a little-endian value, so you need
-to use:
-
-	ret = le16_to_cpu(resp_payload->vmid);
-
-> +		}
-> +	}
-> +	kfree(resp);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(gh_rm_alloc_vmid);
-> +
-> +/**
-> + * gh_rm_dealloc_vmid() - Dispose the VMID
-> + * @vmid: VM identifier
-
-   * Returns: ...    (here and throughout)
-
-> + */
-> +int gh_rm_dealloc_vmid(struct gh_rm_rpc *rm, u16 vmid)
-> +{
-> +	return gh_rm_common_vmid_call(rm, GH_RM_RPC_VM_DEALLOC_VMID, vmid);
-> +}
-> +EXPORT_SYMBOL_GPL(gh_rm_dealloc_vmid);
-> +
-> +/**
-> + * gh_rm_vm_start() - Move the VM into "ready to run" state
-> + * @vmid: VM identifier
-> + *
-> + * On VMs which use proxy scheduling, vcpu_run is needed to actually run the VM.
-> + * On VMs which use Gunyah's scheduling, the vCPUs start executing in accordance with Gunyah
-> + * scheduling policies.
-> + */
-> +int gh_rm_vm_start(struct gh_rm_rpc *rm, u16 vmid)
-> +{
-> +	return gh_rm_common_vmid_call(rm, GH_RM_RPC_VM_START, vmid);
-> +}
-> +EXPORT_SYMBOL_GPL(gh_rm_vm_start);
-> +
-> +/**
-> + * gh_rm_vm_stop() - Send a request to Resource Manager VM to stop a VM.
-> + * @vmid: VM identifier
-> + */
-> +int gh_rm_vm_stop(struct gh_rm_rpc *rm, u16 vmid)
-> +{
-> +	struct gh_vm_stop_req req_payload = {
-> +		.vmid = cpu_to_le16(vmid),
-
-This structure has a flags and a stop_reason field.  As I mentioned
-earlier, I think you ought to explain what values this might have,
-or perhaps explain why they're not used.
-
-> +	};
-> +	void *resp;
-> +	size_t resp_size;
-> +	int ret;
-> +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_VM_STOP, &req_payload, sizeof(req_payload),
-> +			&resp, &resp_size);
-> +	if (ret)
-> +		return ret;
-
-Is the response in this case in fact empty?  You are discarding
-it, but because you don't specify how every request/response is
-structured, we can only guess what's contained in the response
-(if there is one).  This is a reason why I prefer having every
-message structure shown explicitly, even if some are identical.
-It makes it very clear to the reader what the protocol actually
-looks like.  And unlike what you do in gh_rm_common_vmid_call(),
-you ignore the resp_size, which could be checked if we knew its
-expected size.
-
-> +	kfree(resp);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(gh_rm_vm_stop);
-> +
-> +int gh_rm_vm_configure(struct gh_rm_rpc *rm, u16 vmid, enum gh_rm_vm_auth_mechanism auth_mechanism,
-> +		u32 mem_handle, u64 image_offset, u64 image_size, u64 dtb_offset, u64 dtb_size)
-> +{
-> +	struct gh_vm_config_image_req req_payload = { 0 };
-> +	void *resp;
-> +	size_t resp_size;
-> +	int ret;
-> +
-> +	req_payload.vmid = cpu_to_le16(vmid);
-> +	req_payload.auth_mech = cpu_to_le32(auth_mechanism);
-> +	req_payload.mem_handle = cpu_to_le32(mem_handle);
-> +	req_payload.image_offset = cpu_to_le64(image_offset);
-> +	req_payload.image_size = cpu_to_le64(image_size);
-> +	req_payload.dtb_offset = cpu_to_le64(dtb_offset);
-> +	req_payload.dtb_size = cpu_to_le64(dtb_size);
-> +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_VM_CONFIG_IMAGE, &req_payload, sizeof(req_payload),
-> +			&resp, &resp_size);
-> +	if (ret)
-> +		return ret;
-> +	kfree(resp);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(gh_rm_vm_configure);
-> +
-> +/**
-> + * gh_rm_vm_init() - Move the VM to initialized state.
-> + * @vmid: VM identifier
-> + *
-> + * RM will allocate needed resources for the VM. After gh_rm_vm_init, gh_rm_get_hyp_resources()
-> + * can be called to learn of the capabilities we can use with the new VM.
-> + */
-> +int gh_rm_vm_init(struct gh_rm_rpc *rm, u16 vmid)
-> +{
-> +	return gh_rm_common_vmid_call(rm, GH_RM_RPC_VM_INIT, vmid);
-> +}
-> +EXPORT_SYMBOL_GPL(gh_rm_vm_init);
-> +
-> +/**
-> + * gh_rm_get_hyp_resources() - Retrieve hypervisor resources (capabilities) associated with a VM
-> + * @vmid: VMID of the other VM to get the resources of
-> + * @resources: Set by gh_rm_get_hyp_resources and contains the returned hypervisor resources.
-> + *
-> + * Return: >=0 value indicates the number of gh_rm_hyp_resource entries filled into *resources
-> + */
-> +ssize_t gh_rm_get_hyp_resources(struct gh_rm_rpc *rm, u16 vmid,
-> +				struct gh_rm_hyp_resource **resources)
-
-First, this function can return a positive Gunyah resource manager
-error as well, which is a problem.
-
-But this function is also pretty different from the rest, returning
-the number of elements in the array whose address is returned.
-
-I don't know why you don't just return the actual response
-buffer (rather than duplicating most of it), and let the
-caller use its embedded n_entries field to determine its
-length.  Either way it's not beautiful I guess, but the
-kmemdup() call seems unneccesary and adds a possible
-additional error condition.
-
-> +{
-> +	struct gh_vm_get_hyp_resources_resp *resp;
-> +	size_t resp_size;
-> +	int ret;
-> +	struct gh_vm_common_vmid_req req_payload = {
-> +		.vmid = cpu_to_le16(vmid),
-> +	};
-> +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_VM_GET_HYP_RESOURCES,
-> +			 &req_payload, sizeof(req_payload),
-> +			 (void **)&resp, &resp_size);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (resp_size < sizeof(*resp) ||
-> +		(sizeof(*resp->entries) && (resp->n_entries > U32_MAX / sizeof(*resp->entries))) ||
-> +		(resp_size != sizeof(*resp) + (resp->n_entries * sizeof(*resp->entries)))) {
-> +		ret = -EIO;
-> +		goto out;
-> +	}
-> +
-> +	*resources = kmemdup(resp->entries, (resp->n_entries * sizeof(*resp->entries)), GFP_KERNEL);
-
-If *resources is NULL you should return -ENOMEM.
-
-> +	ret = resp->n_entries;
-> +
-> +out:
-> +	kfree(resp);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(gh_rm_get_hyp_resources);
-> +
-> +/**
-> + * gh_rm_get_vmid() - Retrieve VMID of this virtual machine
-> + * @vmid: Filled with the VMID of this VM
-> + */
-> +int gh_rm_get_vmid(struct gh_rm_rpc *rm, u16 *vmid)
-> +{
-> +	static u16 cached_vmid = GH_VMID_INVAL;
-
-This cached VMID seems like a good idea, but you don't actually use it.
-
-> +	void *resp;
-> +	size_t resp_size;
-> +	int ret;
-> +	int payload = 0;
-
-In fact the payload has type __le16 (or at least I assume so).
-I don't actually know what this payload represents.  Is it a
-VMID (which would I presume in this case be GH_VMID_SELF)?
-How big is it, actually?
-
-If you were to define each request and response, I would hope
-each would be a packed structure, so in this case:
-
-	struct gh_rm_get_vmid_request {
-		__le16 vmid;
-		u16 reserved;	/* ??? */
-	} __packed;
-
-> +
-> +	if (cached_vmid != GH_VMID_INVAL) {
-> +		*vmid = cached_vmid;
-> +		return 0;
-> +	}
-> +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_VM_GET_VMID, &payload, sizeof(payload), &resp, &resp_size);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (resp_size != sizeof(*vmid))
-> +		return -EIO;
-> +	*vmid = *(u16 *)resp;
-
-This is a bug.  The response is little endian, so you need to do:
-
-	*vmid = le16_to_32(resp);
-
-> +	kfree(resp);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(gh_rm_get_vmid);
-> diff --git a/include/linux/gunyah_rsc_mgr.h b/include/linux/gunyah_rsc_mgr.h
-> index b4f55c19954b..eb94b48c41de 100644
-> --- a/include/linux/gunyah_rsc_mgr.h
-> +++ b/include/linux/gunyah_rsc_mgr.h
-> @@ -15,4 +15,54 @@
->   /* Gunyah recognizes VMID0 as an alias to the current VM's ID */
->   #define GH_VMID_SELF			0
-
-Please be sure to use this symbol in place of 0 when that's
-what you mean.  In gh_rm_get_vmid() it looked like *maybe*
-that's what was being passed as an argument in the request
-payload--and if so, that's a case I'd like to see GH_VMID_SELF.
-
-					-Alex
-
->   
-> +struct gh_rm_rpc;
-> +
-> +enum gh_rm_vm_status {
-> +	GH_RM_VM_STATUS_NO_STATE	= 0,
-> +	GH_RM_VM_STATUS_INIT		= 1,
-> +	GH_RM_VM_STATUS_READY		= 2,
-> +	GH_RM_VM_STATUS_RUNNING		= 3,
-> +	GH_RM_VM_STATUS_PAUSED		= 4,
-> +	GH_RM_VM_STATUS_LOAD		= 5,
-> +	GH_RM_VM_STATUS_AUTH		= 6,
-> +	GH_RM_VM_STATUS_INIT_FAILED	= 8,
-> +	GH_RM_VM_STATUS_EXITED		= 9,
-> +	GH_RM_VM_STATUS_RESETTING	= 10,
-> +	GH_RM_VM_STATUS_RESET		= 11,
-> +};
-> +
-> +/* RPC Calls */
-> +int gh_rm_alloc_vmid(struct gh_rm_rpc *rm, u16 vmid);
-> +int gh_rm_dealloc_vmid(struct gh_rm_rpc *rm, u16 vmid);
-> +int gh_rm_vm_start(struct gh_rm_rpc *rm, u16 vmid);
-> +int gh_rm_vm_stop(struct gh_rm_rpc *rm, u16 vmid);
-> +
-> +enum gh_rm_vm_auth_mechanism {
-> +	GH_RM_VM_AUTH_NONE		= 0,
-> +	GH_RM_VM_AUTH_QCOM_PIL_ELF	= 1,
-> +	GH_RM_VM_AUTH_QCOM_ANDROID_PVM	= 2,
-> +};
-> +
-> +int gh_rm_vm_configure(struct gh_rm_rpc *rm, u16 vmid, enum gh_rm_vm_auth_mechanism auth_mechanism,
-> +			u32 mem_handle, u64 image_offset, u64 image_size,
-> +			u64 dtb_offset, u64 dtb_size);
-> +int gh_rm_vm_init(struct gh_rm_rpc *rm, u16 vmid);
-> +
-> +struct gh_rm_hyp_resource {
-> +	u8 type;
-> +	u8 reserved;
-> +	__le16 partner_vmid;
-> +	__le32 resource_handle;
-> +	__le32 resource_label;
-> +	__le64 cap_id;
-> +	__le32 virq_handle;
-> +	__le32 virq;
-> +	__le64 base;
-> +	__le64 size;
-> +} __packed;
-> +
-> +ssize_t gh_rm_get_hyp_resources(struct gh_rm_rpc *rm, u16 vmid,
-> +				struct gh_rm_hyp_resource **resources);
-> +int gh_rm_get_vmid(struct gh_rm_rpc *rm, u16 *vmid);
-> +
->   #endif
+> Christian.
+> 
+> Am 18.01.23 um 07:12 schrieb Danilo Krummrich:
+>> Don't call drm_gem_object_get() unconditionally.
+>>
+>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+>> ---
+>>   drivers/gpu/drm/drm_exec.c | 1 -
+>>   1 file changed, 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
+>> index ed2106c22786..5713a589a6a3 100644
+>> --- a/drivers/gpu/drm/drm_exec.c
+>> +++ b/drivers/gpu/drm/drm_exec.c
+>> @@ -282,7 +282,6 @@ int drm_exec_prepare_obj(struct drm_exec *exec, 
+>> struct drm_gem_object *obj,
+>>               goto error_unlock;
+>>       }
+>> -    drm_gem_object_get(obj);
+>>       return 0;
+>>   error_unlock:
+> 
 
