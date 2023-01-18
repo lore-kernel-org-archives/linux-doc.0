@@ -2,182 +2,172 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BECAC32793
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Jan 2023 17:21:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A82DAC32793
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Jan 2023 17:43:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229695AbjARRV1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 12:21:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51140 "EHLO
+        id S230002AbjARRnk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 12:43:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229663AbjARRV0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 12:21:26 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4638125AB;
-        Wed, 18 Jan 2023 09:21:24 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 917705BEE9;
-        Wed, 18 Jan 2023 17:21:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1674062483; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1SCxeVbTpnVsT03pooH2y84Lv1BB7k5KwUYDP0XFyWA=;
-        b=qEwVvVWxhxhY1cLo7t+SlFvjG6RhTz/cvVyqd8YUGGhSp6XL9LFdC+ZOgbWgyDTtmahcIT
-        PriICH13TJhLwOXC5lOpM2F2BnJ+ohb6blVOOdSIa6wmQbgw3j0OO9trtN7JH/cm3sZZ0d
-        zsQ3Pc5PBLVe9jF2xxuP8FlySmS00aQ=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 31513139D2;
-        Wed, 18 Jan 2023 17:21:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id MAcLCZMqyGPARQAAMHmgww
-        (envelope-from <mhocko@suse.com>); Wed, 18 Jan 2023 17:21:23 +0000
-Date:   Wed, 18 Jan 2023 18:21:22 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     "Huang, Ying" <ying.huang@intel.com>
-Cc:     Mina Almasry <almasrymina@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <songmuchun@bytedance.com>, fvdl@google.com,
-        bagasdotme@gmail.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: Proactive reclaim/demote discussion (was Re: [PATCH] Revert "mm:
- add nodes= arg to memory.reclaim")
-Message-ID: <Y8gqkub3AM6c+Z5y@dhcp22.suse.cz>
-References: <20221202223533.1785418-1-almasrymina@google.com>
- <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz>
- <Y5xASNe1x8cusiTx@dhcp22.suse.cz>
- <20221216101820.3f4a370af2c93d3c2e78ed8a@linux-foundation.org>
- <Y52Scge3ynvn/mB4@dhcp22.suse.cz>
- <20221219144252.f3da256e75e176905346b4d1@linux-foundation.org>
- <Y7PpYsbv1xC6m/Hu@dhcp22.suse.cz>
- <87lemiitdd.fsf_-_@yhuang6-desk2.ccr.corp.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+        with ESMTP id S231202AbjARRnC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 12:43:02 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2038A59B72;
+        Wed, 18 Jan 2023 09:42:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674063773; x=1705599773;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=eushi8nEahZY6K+1cuY2FhPeZCqDcoATkwjL42YQqnk=;
+  b=XVgTCi/TBPvjDlIcdxHIW7qpI3da2uijmsCfnlUNn0TF76Ld3pzBJOj7
+   Gk46srs8EIuvmvsrh1enYjsf2Ind0JfFyB2fm0gKZJEn3IHQwZkMorGyi
+   efjV/MfpxHkTlC3TT1UqxrQ+sH/7JLDiACQItdTSYRmS0C9bqL3n0a7hw
+   krGPZVhpaxL54sdl5KLGjrU0gR6pQj5vKC+rlHzqY+3x7Cj8kWJEuNXzj
+   qveM3NRrs0uGsObuI90yFydS3JXgOLC4PGr+64nuoO3mVYdar8gEWXbMd
+   jVNRdd0PVZloksLR32+Yhv8OGcg1lvV2ReM6PRcRnG/5dO2jnyKbujojd
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="308611006"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
+   d="scan'208";a="308611006"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 09:42:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="783757241"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
+   d="scan'208";a="783757241"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orsmga004.jf.intel.com with ESMTP; 18 Jan 2023 09:42:48 -0800
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 18 Jan 2023 09:42:48 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 18 Jan 2023 09:42:48 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Wed, 18 Jan 2023 09:42:48 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Wed, 18 Jan 2023 09:42:47 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cfaXB0A7B/bzyZGP4XZf6LygWIfdAR8PYMpSB/1oXhLmHmRI1gSBn3W8M7lQlQA+JwdeQ6HC51aKeHYs5bb3NaiDJMvuuC3w02nIE+11pjieE7ByoN9vv9H0897DqjCFzae5p8wc7LaPy7c0V3nylV3qBhpxEOKExwG5d5M8TIIdr2EfHtczH1B80ShlgRIhmq2KoLDPlzTTZVwINLxw6T9TwybB/oNMTu076T2pT4N/GVOQLD1WT+M/SBdZTEsSnJE2++AldLcQSq0R0UgpY1Z5mDEtYOUf9JI4moRVJ0B04bZRjRfKwIcTnk/OmF/IPlIziPIbDVwi7wK2AsGTqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OxrXJC1qFMu/3P/4tnZQuejMBtJ/MQl555E8KD6PXDA=;
+ b=mmy29ASuUuVpa9aWEgRdW7wkff0HsRUr92IST3gggiPDKVzYctItAXoCixN7uy8M8aWM5rKFw5FpGFBOqchJ4DcH0iZ4wv5zsP7Oa58voi+MY/EBSpl73QX7ZzKdjTe8HhRhCCuhpDbLAHLVxHmcGU/ui+utGTTfmPIvEqdtoMtjwlqylYouxjGVVaiUrOxekHUaxn0UGxpHHxROeyn1BCS/tINn3pwtpeQ8J7d4cZKmAKFjyq7qba1XJuadteld7Pe4iF7Qy0mDR3TYO0VERfL1kqAtGf0zEGFTwyEK26LZVCbRjA5ql+kLj0DgjXVDeKJzPWTg8X1XsYOTP2QbKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by PH0PR11MB5000.namprd11.prod.outlook.com (2603:10b6:510:41::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Wed, 18 Jan
+ 2023 17:42:41 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::288d:5cae:2f30:828b]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::288d:5cae:2f30:828b%8]) with mapi id 15.20.5986.023; Wed, 18 Jan 2023
+ 17:42:41 +0000
+Date:   Wed, 18 Jan 2023 09:42:37 -0800
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Deming Wang <wangdeming@inspur.com>, <corbet@lwn.net>,
+        <akpm@linux-foundation.org>, <fmdefrancesco@gmail.com>,
+        <bigeasy@linutronix.de>, <ira.weiny@intel.com>, <rppt@kernel.org>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Deming Wang <wangdeming@inspur.com>
+Subject: Re: [PATCH] Documentation: mm: use `s/higmem/highmem/` fix typo for
+ highmem
+Message-ID: <63c82f8d56933_985ab294e1@iweiny-mobl.notmuch>
+References: <20230118025403.1531-1-wangdeming@inspur.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <87lemiitdd.fsf_-_@yhuang6-desk2.ccr.corp.intel.com>
+In-Reply-To: <20230118025403.1531-1-wangdeming@inspur.com>
+X-ClientProxiedBy: BYAPR06CA0043.namprd06.prod.outlook.com
+ (2603:10b6:a03:14b::20) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|PH0PR11MB5000:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7d3fefb7-a13f-4077-d414-08daf97b65ec
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fF3T9n5eRXPQCq9/BufxJ4oJtRA5LDpgISWCW7evUt820H0SEX9tBpxgywdSEGhg7pmUo59PJPFU3bVwofvEdo2FhnLlE3V1wFkKvycEaWn8KYUfIOzHVB8XlKvkxrtvEMJdLMAOyaJkwskY2GbH3+rX/hUId5QY9+DycwdQUbOyTfQf/CRq6JEwDTSrgpIyFXKTzedKVDFzHj2eR7Ntq5zxBKM3BHhFoSJH0A4f35TmVSCm1TEGIEZoxTKWbPtUEVw6LOpN9yt5VC/Ek0VhoF1s8zvOKY7HdHNO5PLW7vBqUCJ0KdymG3xpEwtZfzzrl88cNdBOFAExvn3Ci/sWy68cVyn3u2sILrXwav7GzxlbTWkcA/glBuqEsQoz/YtOuGC/ThNGcfIPU4NLK4z1dSlp7vxsaC5MDEL1kTlvTZeZ17T0KxUdZI1KCnbwf+LZxWXX/Ic1yEk5SarsbnjuJ8K/Y/y+Lp+K3eFjos3g2WslW+ppIzNZaKbKGCJyjiRgY7QWj6oBYcymjKQYGnfwdE3S9g6AdMcq1frrGPS79Z+slZ8vVWzf5ivudsP7p5jES3ZFBBDUSe5WFlc3SzqDJRctt2UutE6JGTo6r3oQ4Hv1aUwyWI5AGJmo53nNDMlEA7XMWdR0jHoljamGhCiDOjYU5cC94npGJUO2ZS6zrsm+/n0c5GbZ8UQnS+z6+FC5
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(346002)(376002)(366004)(39860400002)(396003)(451199015)(316002)(41300700001)(4326008)(66556008)(86362001)(8676002)(66946007)(83380400001)(66476007)(478600001)(82960400001)(38100700002)(6666004)(186003)(6486002)(26005)(9686003)(6512007)(6506007)(44832011)(2906002)(5660300002)(8936002)(81973001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kH6L/AaxqSgTHbJADeYoUfrprg3o4J+P64ZsFkVvPt8abosF++BB13qDwfMA?=
+ =?us-ascii?Q?EiD8WI2nm+v9AEtO7sxzW9u1zfO/fBaz673dwG3DUdzZ/zdss3BTYKVuisgT?=
+ =?us-ascii?Q?taAEmSUGRrRDFTTz+j3ELPgDKeUuTDkqvSOU+Cg3Ot+sPv7gVaRT1d5yehgs?=
+ =?us-ascii?Q?AKnI6kkS2MZ0darNAw1zWUdianXP+wEjonMIPfcEVhiRixNa+jjhPTbpEfmO?=
+ =?us-ascii?Q?95lGShQNcgAh+Kw76AANNrMH75Zm21zBp74KQupI7kH5jfSi7+0ax+3i/FJk?=
+ =?us-ascii?Q?3fooL/JA5uQ4ysSkPbPHkwTI4NcQQPtlhU6sVS9A95tY80glUxFrzRSvY4+m?=
+ =?us-ascii?Q?kfb9LjEZQTsnH1wZQIy1qOwh1QAoUcN51sRS413q2Q7k4GzgzE1nlb7L9cei?=
+ =?us-ascii?Q?k7P7MBsN39ri/yLqZuABQ44zFIb6YscMenQiryjm7VVnhmb45MqnnDEtBPkn?=
+ =?us-ascii?Q?G0e3YFSUTDxtAXMIPzjQzUXxKGRMPh67OucyUSxHXNGbm5/zvb8wWumYGavz?=
+ =?us-ascii?Q?ryErY70i7SDSy0xffEieZuDmny+6LS1Z47cf/YR/jWzElDaSPedmsk+vVCjJ?=
+ =?us-ascii?Q?FmCFlW0xDYBJUkqb2qRZ/aG0a0pWkXDdaLnyvJ3ka0vPOAOijmFeuJ0m/VTb?=
+ =?us-ascii?Q?uLVwMQ9PSYTgfq+NsZg8CAI5GQLbsu0p9fC6ACJKcL5QOCGCDRjFvI/9VaXf?=
+ =?us-ascii?Q?BQZYMq8Qeenn0YlHVQN0n6DjVk1N8KvhyhNXF/5FKBhmINqLpXYMtqlWkT6v?=
+ =?us-ascii?Q?aYiYZDYSych2rLSMeUDKRPFHhPZHKxWnNFNA4b4Yc3aNK8OBfHHaK8XLr0gZ?=
+ =?us-ascii?Q?XdSlYMTf27mn99jEfdugOr4nzMXTl++agEdsJSo7uuCqe9xiL34I6K6UXOqb?=
+ =?us-ascii?Q?73plNqndsahnYRmZp4PWn8NWx0LvrpOlwAo+rKuDGiXAxb9t1Fsm8MwCUENE?=
+ =?us-ascii?Q?6ts4gMFLmNcweeQlI9gifg0h/hdQtn7li+GSfaTpJ9uxyGPkiDcr3qUg9h6i?=
+ =?us-ascii?Q?U+/6rEIsAVEb+TL+9hf//hv7YT34wBvWKvv9Xd04H5CNhGlFr9sn3t94kA6j?=
+ =?us-ascii?Q?A3iTpUPV0GDeHmZdWTUajqYGDpKNOcn4VeGtAbvRpmjx0n+qLcOno6XKiIYF?=
+ =?us-ascii?Q?D6UhamsDLZWGmBSM47s+/ZIlMqi5692+spGfX1WG2DHeurwMNKozrzsdU1TY?=
+ =?us-ascii?Q?W9yO7/zHBQgw7djkxwlYuyYcaaFXZH9ZuXbiVVZKq+yMv/aR2+K3K2n8lP5x?=
+ =?us-ascii?Q?0+bkTgjW462kgSGP+a9LH4ZW0lEHOUaBh07wvEW2rYm5DQDZq4LNtm5IjUBz?=
+ =?us-ascii?Q?HdAIORDqZdxWYE0YBn0JrtYrDQcHQrjIS1EVrihuTUEr1NNloIQMT8xs9JY4?=
+ =?us-ascii?Q?t3ipSPDDy8ntwsLUb5/Q/qTZV+Brn/B8MJ/OJE7d0zl+v7ue8UqADqnEO1ky?=
+ =?us-ascii?Q?HMxM1dGF/OonM+QgUHHLQyscb+Q4snShMs3jQDiimBWVMftP39lQLQ7LUeeo?=
+ =?us-ascii?Q?R6ex3JrtMnCqFyMUJt9h4VqhGFGX+f/NQsb804dF5MvcDZ2cJWsCiT2ErZNd?=
+ =?us-ascii?Q?DuV2PCA/V5WlAYQBFnf4hDHxlMJuHKeAhsa9t20z?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d3fefb7-a13f-4077-d414-08daf97b65ec
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2023 17:42:41.4690
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9EOKkU+9dLEPtqvgyKavddLAHRg0xKa1jSHAOTsA6OGWEPX8AF6H4m54JE+I93ms36VIAW+VRH4Av1KupC1IQw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5000
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 04-01-23 16:41:50, Huang, Ying wrote:
-> Michal Hocko <mhocko@suse.com> writes:
+Deming Wang wrote:
+> We should use highmem replace higmem.
 > 
-> [snip]
+> Signed-off-by: Deming Wang <wangdeming@inspur.com>
+
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+
+> ---
+>  Documentation/mm/highmem.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> > This really requires more discussion.
+> diff --git a/Documentation/mm/highmem.rst b/Documentation/mm/highmem.rst
+> index 59d1078f53df..7da4a0d175f0 100644
+> --- a/Documentation/mm/highmem.rst
+> +++ b/Documentation/mm/highmem.rst
+> @@ -83,7 +83,7 @@ list shows them in order of preference of use.
+>    for pages which are known to not come from ZONE_HIGHMEM. However, it is
+>    always safe to use kmap_local_page() / kunmap_local().
+>  
+> -  While it is significantly faster than kmap(), for the higmem case it
+> +  While it is significantly faster than kmap(), for the highmem case it
+>    comes with restrictions about the pointers validity. Contrary to kmap()
+>    mappings, the local mappings are only valid in the context of the caller
+>    and cannot be handed to other contexts. This implies that users must
+> -- 
+> 2.27.0
 > 
-> Let's start the discussion with some summary.
-> 
-> Requirements:
-> 
-> - Proactive reclaim.  The counting of current per-memcg proactive
->   reclaim (memory.reclaim) isn't correct.  The demoted, but not
->   reclaimed pages will be counted as reclaimed.  So "echo XXM >
->   memory.reclaim" may exit prematurely before the specified number of
->   memory is reclaimed.
-
-This is reportedly a problem because memory.reclaim interface cannot be
-used for proper memcg sizing IIRC.
-
-> - Proactive demote.  We need an interface to do per-memcg proactive
->   demote.
-
-For the further discussion it would be useful to reference the usecase
-that is requiring this functionality. I believe this has been mentioned
-somewhere but having it in this thread would help.
-
-> We may reuse memory.reclaim via extending the concept of
->   reclaiming to include demoting.  Or, we can add a new interface for
->   that (for example, memory.demote).  In addition to demote from fast
->   tier to slow tier, in theory, we may need to demote from a set of
->   nodes to another set of nodes for something like general node
->   balancing.
-> 
-> - Proactive promote.  In theory, this is possible, but there's no real
->   life requirements yet.  And it should use a separate interface, so I
->   don't think we need to discuss that here.
-
-Yes, proactive promotion is not backed by any real usecase at the
-moment. We do not really have to focus on it but we should be aware of
-the posibility and alow future extentions towards that functionality.
- 
-There is one requirement missing here.
- - Per NUMA node control - this is what makes the distinction between
-   demotion and charge reclaim really semantically challenging - e.g.
-   should demotions constrained by the provided nodemask or they should
-   be implicit?
-
-> Open questions:
-> 
-> - Use memory.reclaim or memory.demote for proactive demote.  In current
->   memcg context, reclaiming and demoting is quite different, because
->   reclaiming will uncharge, while demoting will not.  But if we will add
->   per-memory-tier charging finally, the difference disappears.  So the
->   question becomes whether will we add per-memory-tier charging.
-
-The question is not whether but when IMHO. We've had a similar situation
-with the swap accounting. Originally we have considered swap as a shared
-resource but cgroupv2 goes with per swap limits because contention for
-the swap space is really something people do care about.
-
-> - Whether should we demote from faster tier nodes to lower tier nodes
->   during the proactive reclaiming.
-
-I thought we are aligned on that. Demotion is a part of aging and that
-is an integral part of the reclaim.
-
->   Choice A is to keep as much fast
->   memory as possible.  That is, reclaim from the lowest tier nodes
->   firstly, then the secondary lowest tier nodes, and so on.  Choice B is
->   to demote at the same time of reclaiming.  In this way, if we
->   proactively reclaim XX MB memory, we may free XX MB memory on the
->   fastest memory nodes.
-> 
-> - When we proactively demote some memory from a fast memory tier, should
->   we trigger memory competition in the slower memory tiers?  That is,
->   whether to wake up kswapd of the slower memory tiers nodes?
-
-Johannes made some very strong arguments that there is no other choice
-than involve kswapd (https://lore.kernel.org/all/Y5nEQeXj6HQBEHEY@cmpxchg.org/).
-
->   If we
->   want to make per-memcg proactive demoting to be per-memcg strictly, we
->   should avoid to trigger the global behavior such as triggering memory
->   competition in the slower memory tiers.  Instead, we can add a global
->   proactive demote interface for that (such as per-memory-tier or
->   per-node).
-
-I suspect we are left with a real usecase and then follow the path we
-took for the swap accounting.
-
-Other open questions I do see are
-- what to do when the memory.reclaim is constrained by a nodemask as
-  mentioned above. Is the whole reclaim process (including aging) bound to
-  the given nodemask or does demotion escape from it.
-- should the demotion be specific to multi-tier systems or the interface
-  should be just NUMA based and users could use the scheme to shuffle
-  memory around and allow numa balancing from userspace that way. That
-  would imply that demotion is a dedicated interface of course.
-- there are other usecases that would like to trigger aging from
-  userspace (http://lkml.kernel.org/r/20221214225123.2770216-1-yuanchu@google.com).
-  Isn't demotion just a special case of aging in general or should we
-  end up with 3 different interfaces?
-
--- 
-Michal Hocko
-SUSE Labs
