@@ -2,94 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63613C004D4
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Jan 2023 08:48:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0BFCC004D4
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Jan 2023 09:06:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbjARIsL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 03:48:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53220 "EHLO
+        id S229939AbjARJGR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 04:06:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229877AbjARIri (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 03:47:38 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5326D93722;
-        Wed, 18 Jan 2023 00:01:17 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DF79EB81B89;
-        Wed, 18 Jan 2023 08:00:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92CACC433EF;
-        Wed, 18 Jan 2023 08:00:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674028831;
-        bh=ufQqDQretGXtNxqadTF2D5r1H7mo3exV2T85ESGLwEk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=J/uoNlyocuw/7Am960Rt18PsSiThqGyxsvpIw35gk/z3NjuVrmLokNkSKdDuJCv/+
-         K7JiVZx9lnMLLd3S8cr/d75brBMsA/qEPKZmoKfvOdo4+jozjocsF/U53YX/4XJ37h
-         M+hFR9vANvEf4DdAJrulSqtMu2YoIkpL+xr3JHYMTxL8JImGvuKOlqVssFp02qPLWS
-         RCc5NjZzYq69ebRA17mrmPZh65Ukc91A7Bqy8PM9zjnjEtxVNJym/s7lRjQU3ZAw8H
-         MII2dz6iNG5N9ssQBycTPccukTaAM/u8jtE94aiCaR3FS33U1tvZJ0EYntNd/FZSyk
-         7AZulhotmypNw==
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-15bb8ec196aso22900176fac.3;
-        Wed, 18 Jan 2023 00:00:31 -0800 (PST)
-X-Gm-Message-State: AFqh2krGZ8FNCPO7Jq8oOjH3mNenJcA7TsvM7SmPWB9hbGBC4unT4W2B
-        vAzXLToDkyeH5Ws09kxdP3nZg2WqRs5AzQsAEUU=
-X-Google-Smtp-Source: AMrXdXtkmLEk075uBgGVC5FyELhD/qqb9Tq9gvEiLrmKoUeE8PoVprvmqZ5vDQbvaxfSnr4AmOLKfoDjBvEBZGkDjo8=
-X-Received: by 2002:a05:6870:c20b:b0:15f:1e44:71fd with SMTP id
- z11-20020a056870c20b00b0015f1e4471fdmr401447oae.194.1674028830827; Wed, 18
- Jan 2023 00:00:30 -0800 (PST)
+        with ESMTP id S229838AbjARJEg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 04:04:36 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 755523E0AD;
+        Wed, 18 Jan 2023 00:24:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674030281; x=1705566281;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=mSO4PAMhEZisTll2SVfi2Yx3pBS6smLK7Q3mTuJU1oA=;
+  b=Xw5pozIH/dQFwvoJIvMdSKyZ69PKHC2soxXvHTqfxtxwVSDqkyWEtCfA
+   ipGSRm2hIIZxS3oQ0xiNx/l29EfDF1SJH2L97GChoGaKd4BctU+oeVRUY
+   mUCOuNP14slRIsR4Hj//w1ykPHkYYqcp/OSYQjkn88KBcUKnzF2WmwSg9
+   UvuvxkDlrQ3StY+f+L2CBO3aOOGhsSscfNh87yrxPEghYjw2hsYy0c8il
+   EVbziUgGqb67ahXJKBgpRh0kvRORM8lu95w5HrCHcjq78znw31sEQ/LbM
+   vNJTrUZ0qH8DrEEqOaAjHLKFW284bfJstu4HG1wGECFDEyjd43slXQpe5
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="323620012"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
+   d="scan'208";a="323620012"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 00:24:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="722997271"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
+   d="scan'208";a="722997271"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
+  by fmsmga008.fm.intel.com with ESMTP; 18 Jan 2023 00:24:28 -0800
+Date:   Wed, 18 Jan 2023 16:16:41 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20230118081641.GA303785@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
+ <Y8HTITl1+Oe0H7Gd@google.com>
+ <20230117124107.GA273037@chaop.bj.intel.com>
+ <Y8bOB7VuVIsxoMcn@google.com>
 MIME-Version: 1.0
-References: <20230117095946.2042832-1-jani.nikula@intel.com>
-In-Reply-To: <20230117095946.2042832-1-jani.nikula@intel.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 18 Jan 2023 16:59:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQoLuyO6GJBhSTQcLPRFFj4fdVmR8POqzi_cUXQkr3bzA@mail.gmail.com>
-Message-ID: <CAK7LNAQoLuyO6GJBhSTQcLPRFFj4fdVmR8POqzi_cUXQkr3bzA@mail.gmail.com>
-Subject: Re: [PATCH 0/6] docs: kbuild makefile documentation cleanups
-To:     Jani Nikula <jani.nikula@intel.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y8bOB7VuVIsxoMcn@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 7:00 PM Jani Nikula <jani.nikula@intel.com> wrote:
->
-> I usually shy away from making rst updates, but the makefiles.rst file
-> always bugs me when I look at it, so here goes. Even I usually look at
-> the rst file in the editor instead of html in the browser, but the
-> editor knows about rst...
->
-> This is based on the kbuild branch of linux-kbuild.git, and there's a
-> MAINTAINERS update too to fix the branch name. ;)
->
-> BR,
-> Jani.
+On Tue, Jan 17, 2023 at 04:34:15PM +0000, Sean Christopherson wrote:
+> On Tue, Jan 17, 2023, Chao Peng wrote:
+> > On Fri, Jan 13, 2023 at 09:54:41PM +0000, Sean Christopherson wrote:
+> > > > +	list_for_each_entry(notifier, &data->notifiers, list) {
+> > > > +		notifier->ops->invalidate_start(notifier, start, end);
+> > > 
+> > > Two major design issues that we overlooked long ago:
+> > > 
+> > >   1. Blindly invoking notifiers will not scale.  E.g. if userspace configures a
+> > >      VM with a large number of convertible memslots that are all backed by a
+> > >      single large restrictedmem instance, then converting a single page will
+> > >      result in a linear walk through all memslots.  I don't expect anyone to
+> > >      actually do something silly like that, but I also never expected there to be
+> > >      a legitimate usecase for thousands of memslots.
+> > > 
+> > >   2. This approach fails to provide the ability for KVM to ensure a guest has
+> > >      exclusive access to a page.  As discussed in the past, the kernel can rely
+> > >      on hardware (and maybe ARM's pKVM implementation?) for those guarantees, but
+> > >      only for SNP and TDX VMs.  For VMs where userspace is trusted to some extent,
+> > >      e.g. SEV, there is value in ensuring a 1:1 association.
+> > > 
+> > >      And probably more importantly, relying on hardware for SNP and TDX yields a
+> > >      poor ABI and complicates KVM's internals.  If the kernel doesn't guarantee a
+> > >      page is exclusive to a guest, i.e. if userspace can hand out the same page
+> > >      from a restrictedmem instance to multiple VMs, then failure will occur only
+> > >      when KVM tries to assign the page to the second VM.  That will happen deep
+> > >      in KVM, which means KVM needs to gracefully handle such errors, and it means
+> > >      that KVM's ABI effectively allows plumbing garbage into its memslots.
+> > 
+> > It may not be a valid usage, but in my TDX environment I do meet below
+> > issue.
+> > 
+> > kvm_set_user_memory AddrSpace#0 Slot#0 flags=0x4 gpa=0x0 size=0x80000000 ua=0x7fe1ebfff000 ret=0
+> > kvm_set_user_memory AddrSpace#0 Slot#1 flags=0x4 gpa=0xffc00000 size=0x400000 ua=0x7fe271579000 ret=0
+> > kvm_set_user_memory AddrSpace#0 Slot#2 flags=0x4 gpa=0xfeda0000 size=0x20000 ua=0x7fe1ec09f000 ret=-22
+> > 
+> > Slot#2('SMRAM') is actually an alias into system memory(Slot#0) in QEMU
+> > and slot#2 fails due to below exclusive check.
+> > 
+> > Currently I changed QEMU code to mark these alias slots as shared
+> > instead of private but I'm not 100% confident this is correct fix.
+> 
+> That's a QEMU bug of sorts.  SMM is mutually exclusive with TDX, QEMU shouldn't
+> be configuring SMRAM (or any SMM memslots for that matter) for TDX guests.
 
+Thanks for the confirmation. As long as we only bind one notifier for
+each address, using xarray does make things simple.
 
-All applied to linux-kbuild. Thanks.
-
-
->
-> Jani Nikula (6):
->   MAINTAINERS: fix kbuild repo branch
->   docs/kbuild/makefiles: fix header underline
->   docs/kbuild/makefiles: throw out the local table of contents
->   docs/kbuild/makefiles: drop section numbering, use references
->   docs/kbuild/makefiles: clean up indentation and whitespace
->   docs/kbuild/makefiles: unify quoting
->
->  Documentation/kbuild/makefiles.rst | 2148 ++++++++++++++--------------
->  MAINTAINERS                        |    2 +-
->  2 files changed, 1060 insertions(+), 1090 deletions(-)
->
-> --
-> 2.34.1
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+Chao
