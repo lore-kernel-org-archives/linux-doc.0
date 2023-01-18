@@ -2,113 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A83A1C32793
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Jan 2023 19:02:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB89CC32793
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Jan 2023 19:17:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229949AbjARTCV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 14:02:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40308 "EHLO
+        id S229946AbjARTRd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 14:17:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229780AbjARTBV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 14:01:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22C7959B78
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jan 2023 11:00:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674068407;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6VHgRLoz21ZdB+avm4AD7iQRbs1S2YR2I/6RIM3KpT8=;
-        b=gChD95YacVi06h5XJVt7NIlIdu3Y8I1fbRBtB9okF+aThKY5IdFv0qEHZHSTAvJD6fIt2g
-        1WlJfT52SNgpOrQnInZZ5pRwKx1GOKjBhQO3XBhP9m0Sfk68zvRSfUkbiMbZIU83EB+AsX
-        CpkvkfgCaj+B9rkgWwrcI/Qd8IyPmIc=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-164-KnT496o9MAOoUOKMmRBW-Q-1; Wed, 18 Jan 2023 14:00:04 -0500
-X-MC-Unique: KnT496o9MAOoUOKMmRBW-Q-1
-Received: by mail-ej1-f72.google.com with SMTP id wz4-20020a170906fe4400b0084c7e7eb6d0so24577434ejb.19
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jan 2023 11:00:03 -0800 (PST)
+        with ESMTP id S229939AbjARTRc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 14:17:32 -0500
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB5683CE26;
+        Wed, 18 Jan 2023 11:17:30 -0800 (PST)
+Received: by mail-ej1-x62d.google.com with SMTP id vm8so85633206ejc.2;
+        Wed, 18 Jan 2023 11:17:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IpoGDyyHiMyxVVqXlDO8VXUaDac4ka8Hm9JUqwyeyEs=;
+        b=atkQCQJMxd0XKviaE+UGS4QaMizaO5XFY9lGdr8QkLZNebZ3/1c4AJuHBGKorF+ald
+         ucp1wwZb9t9kt9ing+5GrUMjg/lBgAMx961qMXBf9skjzhdB0VCB8dai/YWVmixds1vu
+         FH+2JvlD3wmvzx/WbdAibxi10VD6q34Bb6dPf5RJT8PbGNpl6yoD7qzzZ8sq+BgmqLZQ
+         copT2IyjOrNnH/2HkjNQPgM7SpoNpwSRurrxiYf9bNXDHMIwKe5nNWL1dZL1HDpjoV+k
+         FZmZXFIfHnm9CLEACZmwH89MLsEcakoxgibu0h5YCciqGMLx87NDachpPAjcNvdJVYFw
+         Kutg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6VHgRLoz21ZdB+avm4AD7iQRbs1S2YR2I/6RIM3KpT8=;
-        b=e2N9tQycMgDnjcJTbpLQ+m5rFjIb7pNmcMSvfsVs4bEFnOh7nCTKF28CjrJJvCPYFT
-         6g5XTmap3sobM49rMmB5TNIJzdIhB1Ex5P7WAFV/x0YrfCMpKdp2ZwSiR6CAX08/RM+8
-         fHcvdxYxC0IP8p0R2UxpUqSfaZ0ZhdezQog+omfW6oIZkE9Fwgu8rGPgWsMeEY1yg1aK
-         yzyavjLRRSXE60herKqgZkz6IE3jakCgsWLUaF2YKet0C/KayinA110Y3+Z9YmTGxVzp
-         A3EPz1XyF5EQuAFaiBZpZ1jFHLw4X0G4U3ua9YFd84wUNIwSIWpaftuMNMkcIra+/EaL
-         hofQ==
-X-Gm-Message-State: AFqh2kqDQ4kd9dHvOj1kRQY0ChgAxuYTBO6uINPcGrjUtzw1h5bJU2sF
-        U+4mi3mjqxFPwXbqDD5cbUWvzP4eujDlEPx2x/RD9LQgSHIuP/qV/xCApJ75zCPRzzWK4j8YJ7u
-        cyw4Zm6nke4R3Y+xoQyaD
-X-Received: by 2002:a17:907:8dca:b0:85f:5d72:1841 with SMTP id tg10-20020a1709078dca00b0085f5d721841mr8927948ejc.39.1674068402880;
-        Wed, 18 Jan 2023 11:00:02 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtsdunAhuQoXTg/VSvgVA6q/ZXPxkW/qMVvnmose4gPIQY/RC2Jhhnm+VqSnkVslMwPuQBExQ==
-X-Received: by 2002:a17:907:8dca:b0:85f:5d72:1841 with SMTP id tg10-20020a1709078dca00b0085f5d721841mr8927939ejc.39.1674068402689;
-        Wed, 18 Jan 2023 11:00:02 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id t1-20020a1709061be100b0086f40238403sm5244115ejg.223.2023.01.18.11.00.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jan 2023 11:00:02 -0800 (PST)
-Message-ID: <9830b666-b78c-9794-0d4a-7de31b9fd9b5@redhat.com>
-Date:   Wed, 18 Jan 2023 20:00:00 +0100
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IpoGDyyHiMyxVVqXlDO8VXUaDac4ka8Hm9JUqwyeyEs=;
+        b=8NRXweSxUgK/2VUTQG/ETVu0qNGdfqdcQKHtfqFkavg0Cf33t1Bt5H5Vh1xE/K+TKn
+         OXiFw9iWtQ+WW2cAad5aNK+WzMVACacZdgyVBQrqjXqowDVw3nV89IUhxRc7704UZwxA
+         6/02JqCMZ1G+ysNr7YxpVeqG3QzhPvA2h+I6uAASKQ2Oyu9TGnHMsdkjZ/1YuB8a5ttV
+         Bn101rEildR5xnJlZc5iWjfTi2964Jom2VzaWFUg5RwzeR67sLg9Bnn5Vn7YYCWO5UAN
+         t80OHe6Cdl9faGFVUtZw+NRjrySznjmkSUNmMU7UEmbCxaqa7onszfCPJwJrtqQtgNNR
+         +TNg==
+X-Gm-Message-State: AFqh2krltE2snnhihOFUMYBEnnb0prGVoOmLEMCfACtA2QfURM4kveM/
+        pya4kfpHtUvvqYzB4Vn3k9AvPdsdWEcoyYRJd4Y=
+X-Google-Smtp-Source: AMrXdXvtXTlbwhBPmycKaEdv4lJMm5Eg+oxV9M8XAggIWPaTaOGLbfWlK5wovvMFonSRuGsooqZ5pDcDH1/PhUnQDes=
+X-Received: by 2002:a17:906:816:b0:86a:d572:93ae with SMTP id
+ e22-20020a170906081600b0086ad57293aemr741640ejd.273.1674069449336; Wed, 18
+ Jan 2023 11:17:29 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH drm-next 02/14] drm/exec: fix memory leak in
- drm_exec_prepare_obj()
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        daniel@ffwll.ch, airlied@redhat.com, bskeggs@redhat.com,
-        jason@jlekstrand.net, tzimmermann@suse.de, mripard@kernel.org,
-        corbet@lwn.net
-Cc:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230118061256.2689-1-dakr@redhat.com>
- <20230118061256.2689-3-dakr@redhat.com>
- <3c3bd64a-164b-7ff2-ebf0-c8f9c2f94b72@amd.com>
-From:   Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <3c3bd64a-164b-7ff2-ebf0-c8f9c2f94b72@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230118061256.2689-1-dakr@redhat.com> <db4fa0fc-c9a6-9a48-c45f-1d655b30aff9@amd.com>
+ <02b0bcb8-f69f-93cf-1f56-ec883cb33965@redhat.com> <3602500f-05f5-10b8-5ec6-0a6246e2bb6b@amd.com>
+ <bcbef353-f579-4e90-1c77-be36bbe61c0f@redhat.com> <CADnq5_PGaXFW-z3gt+R+W+vBVdeuL4wMuMOQh4muxU13Bemy3A@mail.gmail.com>
+ <0f2d6e1a-a3b5-f323-a29d-caade427292c@redhat.com> <CADnq5_Nh-1esiHzvTG+qFBCfMjy21efX-YN2jfGG=WC+-4LwLQ@mail.gmail.com>
+In-Reply-To: <CADnq5_Nh-1esiHzvTG+qFBCfMjy21efX-YN2jfGG=WC+-4LwLQ@mail.gmail.com>
+From:   Dave Airlie <airlied@gmail.com>
+Date:   Thu, 19 Jan 2023 05:17:16 +1000
+Message-ID: <CAPM=9txMZO1uYj+kVdTfmCwV2Fq8uu_b3i4eq4xhqPEPKBW8Eg@mail.gmail.com>
+Subject: Re: [PATCH drm-next 00/14] [RFC] DRM GPUVA Manager & Nouveau VM_BIND UAPI
+To:     Alex Deucher <alexdeucher@gmail.com>
+Cc:     Danilo Krummrich <dakr@redhat.com>, tzimmermann@suse.de,
+        corbet@lwn.net, nouveau@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, bskeggs@redhat.com,
+        jason@jlekstrand.net, airlied@redhat.com,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/18/23 09:51, Christian König wrote:
-> That one should probably be squashed into the original patch.
+On Thu, 19 Jan 2023 at 02:54, Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> On Wed, Jan 18, 2023 at 11:50 AM Danilo Krummrich <dakr@redhat.com> wrote=
+:
+> >
+> >
+> >
+> > On 1/18/23 17:30, Alex Deucher wrote:
+> > > On Wed, Jan 18, 2023 at 11:19 AM Danilo Krummrich <dakr@redhat.com> w=
+rote:
+> > >>
+> > >> On 1/18/23 16:37, Christian K=C3=B6nig wrote:
+> > >>> Am 18.01.23 um 16:34 schrieb Danilo Krummrich:
+> > >>>> Hi Christian,
+> > >>>>
+> > >>>> On 1/18/23 09:53, Christian K=C3=B6nig wrote:
+> > >>>>> Am 18.01.23 um 07:12 schrieb Danilo Krummrich:
+> > >>>>>> This patch series provides a new UAPI for the Nouveau driver in
+> > >>>>>> order to
+> > >>>>>> support Vulkan features, such as sparse bindings and sparse resi=
+dency.
+> > >>>>>>
+> > >>>>>> Furthermore, with the DRM GPUVA manager it provides a new DRM co=
+re
+> > >>>>>> feature to
+> > >>>>>> keep track of GPU virtual address (VA) mappings in a more generi=
+c way.
+> > >>>>>>
+> > >>>>>> The DRM GPUVA manager is indented to help drivers implement
+> > >>>>>> userspace-manageable
+> > >>>>>> GPU VA spaces in reference to the Vulkan API. In order to achiev=
+e
+> > >>>>>> this goal it
+> > >>>>>> serves the following purposes in this context.
+> > >>>>>>
+> > >>>>>>       1) Provide a dedicated range allocator to track GPU VA
+> > >>>>>> allocations and
+> > >>>>>>          mappings, making use of the drm_mm range allocator.
+> > >>>>>
+> > >>>>> This means that the ranges are allocated by the kernel? If yes th=
+at's
+> > >>>>> a really really bad idea.
+> > >>>>
+> > >>>> No, it's just for keeping track of the ranges userspace has alloca=
+ted.
+> > >>>
+> > >>> Ok, that makes more sense.
+> > >>>
+> > >>> So basically you have an IOCTL which asks kernel for a free range? =
+Or
+> > >>> what exactly is the drm_mm used for here?
+> > >>
+> > >> Not even that, userspace provides both the base address and the rang=
+e,
+> > >> the kernel really just keeps track of things. Though, writing a UAPI=
+ on
+> > >> top of the GPUVA manager asking for a free range instead would be
+> > >> possible by just adding the corresponding wrapper functions to get a
+> > >> free hole.
+> > >>
+> > >> Currently, and that's what I think I read out of your question, the =
+main
+> > >> benefit of using drm_mm over simply stuffing the entries into a list=
+ or
+> > >> something boils down to easier collision detection and iterating
+> > >> sub-ranges of the whole VA space.
+> > >
+> > > Why not just do this in userspace?  We have a range manager in
+> > > libdrm_amdgpu that you could lift out into libdrm or some other
+> > > helper.
+> >
+> > The kernel still needs to keep track of the mappings within the various
+> > VA spaces, e.g. it silently needs to unmap mappings that are backed by
+> > BOs that get evicted and remap them once they're validated (or swapped
+> > back in).
+>
+> Ok, you are just using this for maintaining the GPU VM space in the kerne=
+l.
+>
 
-Yes, just wanted to make it obvious for you to pick it up in case you 
-did not fix it already yourself.
+Yes the idea behind having common code wrapping drm_mm for this is to
+allow us to make the rules consistent across drivers.
 
-> 
-> Christian.
-> 
-> Am 18.01.23 um 07:12 schrieb Danilo Krummrich:
->> Don't call drm_gem_object_get() unconditionally.
->>
->> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
->> ---
->>   drivers/gpu/drm/drm_exec.c | 1 -
->>   1 file changed, 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
->> index ed2106c22786..5713a589a6a3 100644
->> --- a/drivers/gpu/drm/drm_exec.c
->> +++ b/drivers/gpu/drm/drm_exec.c
->> @@ -282,7 +282,6 @@ int drm_exec_prepare_obj(struct drm_exec *exec, 
->> struct drm_gem_object *obj,
->>               goto error_unlock;
->>       }
->> -    drm_gem_object_get(obj);
->>       return 0;
->>   error_unlock:
-> 
+Userspace (generally Vulkan, some compute) has interfaces that pretty
+much dictate a lot of how VMA tracking works, esp around lifetimes,
+sparse mappings and splitting/merging underlying page tables, I'd
+really like this to be more consistent across drivers, because already
+I think we've seen with freedreno some divergence from amdgpu and we
+also have i915/xe to deal with. I'd like to at least have one place
+that we can say this is how it should work, since this is something
+that *should* be consistent across drivers mostly, as it is more about
+how the uapi is exposed.
 
+Dave.
