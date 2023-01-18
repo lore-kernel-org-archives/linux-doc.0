@@ -2,161 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82FAFC38147
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Jan 2023 14:15:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C17C32793
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Jan 2023 15:10:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229748AbjAROPy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 09:15:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43692 "EHLO
+        id S230356AbjARPKO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 10:10:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231287AbjAROO5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 09:14:57 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92EE830B04;
-        Wed, 18 Jan 2023 05:55:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674050153; x=1705586153;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sCfZLcl+x3j/GrBFzuMLWae9nVeRi6rNSH79s5QCyuU=;
-  b=iR6PKHr4xmS0hTWBP4zPuZjkvEJcv0ZMMYqj1dC62LTimNFi2snMt1Da
-   DKK7scEuei+dFiTLlAwYLYyyDsby801Hz+jvITTjB2NgTpw4gKOjUSR9E
-   H7OvAmF9D1clWQime20rJ/6TrQOthSO20O8arZc8/bd5xR1DFm3iw3dyd
-   Nt8cf4DiGDx55zILaLnLYjCt9uviRmtDTjsmfeMReG09AcVcpm7pHwCCb
-   Ae9PdkqXwIfTcjv8Pw5MithCwSDagfDOTNs0tgPcQqUmYsPQ5BgdSc4ph
-   +Ku/ue26DajuKGc0aXOeZY+d1R/zpDPyegKCCUwMSXGPYPSyOUZpf0BnT
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="305358742"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="305358742"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 05:55:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="802202108"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="802202108"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 18 Jan 2023 05:55:49 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pI8uq-0000NG-2M;
-        Wed, 18 Jan 2023 13:55:48 +0000
-Date:   Wed, 18 Jan 2023 21:55:18 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Danilo Krummrich <dakr@redhat.com>, daniel@ffwll.ch,
-        airlied@redhat.com, christian.koenig@amd.com, bskeggs@redhat.com,
-        jason@jlekstrand.net, tzimmermann@suse.de, mripard@kernel.org,
-        corbet@lwn.net
-Cc:     oe-kbuild-all@lists.linux.dev, nouveau@lists.freedesktop.org,
-        Danilo Krummrich <dakr@redhat.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH drm-next 04/14] drm: debugfs: provide infrastructure to
- dump a DRM GPU VA space
-Message-ID: <202301182112.RFiF6tDh-lkp@intel.com>
-References: <20230118061256.2689-5-dakr@redhat.com>
+        with ESMTP id S231739AbjARPKB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 10:10:01 -0500
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58BC630B24;
+        Wed, 18 Jan 2023 07:09:57 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id i1so11361912pfk.3;
+        Wed, 18 Jan 2023 07:09:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZPAIFfeN/dKXaMxGL0E28WKC8ajWRLYrEZ3+YxPDbvE=;
+        b=dtCtxOH0Vyv35KHa3JOBZNfrWAavDhforlr/tlOUaJS4eNRkCkZ4b4fzUXmjbl3a3q
+         c7OjB0emO8l3WJx68m6vMx5IGJMfjIynFs/tJ7RpnZMYQx2QsGY7YdDWEklR9HsmZgfB
+         4UrZOkC62gFhU+HhqyvkQQdZmkNeg3l6MmZa98at2vBGNHkxAG1UzVCT+U3n7jJGy+Wp
+         P+q7mOQesr5JxW1aF5NWo9qmh3EfhhZEk0HKcdv5R1uapLuMj2pcIyrgnlcMTICGMUO/
+         nrlYwXcV050wJksXAFhQWL6Y2i5a+NiKJYgoUsl5Ruzgx2LEKNB8YHx6cZbBKM7ZDH2J
+         b5WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZPAIFfeN/dKXaMxGL0E28WKC8ajWRLYrEZ3+YxPDbvE=;
+        b=yW9lM3A+NhxKYlcbvnhrAG4MTBKq1zt6RG97IwnV93KdeUuoD3wLxP9jQ1jQGqOzEF
+         tCFCcLn/2rO8gwYlcZPDywBGNfHyBugwI6qnKe3kxg7/yXAZBcnVNUgHkKo8CjWrpk6J
+         qHAI8UpLkRhuIagOskR/ZNo0ZthiKdI+2xiziDw8u7TlB79dudABecU21K0SPSRaFX3H
+         2e1lpGVPgIczWx0HWm+XlgncpKYA/YsTaQJvl+Jjvm6T8EsjlkclJhj2o4qL5hO7hBYe
+         2VNKYAyLc4VGu/MNQfY99Z8YIxe/zCOrcUF19muZBGdMFfqNzjSGu2MlMKNV3kxQrfTi
+         Vr5Q==
+X-Gm-Message-State: AFqh2koHKmcm15zcJE3bJOBhWy3eVvXany4xLF8FIh4taFjKTbGC9V4J
+        pg6/5QnA1I8Qtexqi/2YuzSry8axSO6HZeEUT6HlMeiV
+X-Google-Smtp-Source: AMrXdXun4Pdis6+sGp4ICDMQtfjAyPYpySFKXIwljdbnvnRRRxaDAB485guRI6COAIMlNWNhzd2KiDI1RhevVGRu/fE=
+X-Received: by 2002:a63:6482:0:b0:4cf:73ab:c13b with SMTP id
+ y124-20020a636482000000b004cf73abc13bmr529068pgb.445.1674054596860; Wed, 18
+ Jan 2023 07:09:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230118061256.2689-5-dakr@redhat.com>
+References: <20230103164359.24347-1-ysionneau@kalray.eu> <20230103164359.24347-2-ysionneau@kalray.eu>
+In-Reply-To: <20230103164359.24347-2-ysionneau@kalray.eu>
+From:   Jeff Xie <xiehuan09@gmail.com>
+Date:   Wed, 18 Jan 2023 23:09:45 +0800
+Message-ID: <CAEr6+ED_QVYXeu4nMwtr84K_rueEiz_wEufWt3F=xPt7Q043wQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 01/25] Documentation: kvx: Add basic documentation
+To:     Yann Sionneau <ysionneau@kalray.eu>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Clement Leger <clement.leger@bootlin.com>,
+        Guillaume Thouvenin <gthouvenin@kalray.eu>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Danilo,
+On Wed, Jan 4, 2023 at 1:04 AM Yann Sionneau <ysionneau@kalray.eu> wrote:
+>
+> Add some documentation for kvx arch and its Linux port.
+>
+> CC: Jonathan Corbet <corbet@lwn.net>
+> CC: linux-doc@vger.kernel.org
+> CC: linux-kernel@vger.kernel.org
+> Co-developed-by: Clement Leger <clement.leger@bootlin.com>
+> Signed-off-by: Clement Leger <clement.leger@bootlin.com>
+> Co-developed-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
+> Signed-off-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
+> Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
+> ---
+>  Documentation/kvx/kvx-exceptions.txt | 246 ++++++++++++++++++++++++
+>  Documentation/kvx/kvx-iommu.txt      | 183 ++++++++++++++++++
+>  Documentation/kvx/kvx-mmu.txt        | 272 +++++++++++++++++++++++++++
+>  Documentation/kvx/kvx-smp.txt        |  36 ++++
+>  Documentation/kvx/kvx.txt            | 268 ++++++++++++++++++++++++++
+>  5 files changed, 1005 insertions(+)
+>  create mode 100644 Documentation/kvx/kvx-exceptions.txt
+>  create mode 100644 Documentation/kvx/kvx-iommu.txt
+>  create mode 100644 Documentation/kvx/kvx-mmu.txt
+>  create mode 100644 Documentation/kvx/kvx-smp.txt
+>  create mode 100644 Documentation/kvx/kvx.txt
 
-Thank you for the patch! Perhaps something to improve:
+[...]
 
-[auto build test WARNING on 0b45ac1170ea6416bc1d36798414c04870cd356d]
+> +Virtual and physical memory
+> +===========================
+> +
+> +The mapping used and the memory management is described in
+> +Documentation/kvx/kvx-mmu.txt.
+> +Our Kernel is compiled using virtual addresses that starts at
+> +0xffffff0000000000. But when it is started the kernel uses physical addresses.
+> +Before calling the first function arch_low_level_start() we configure 2 entries
+> +of the LTLB.
+> +
+> +The first entry will map the first 1G of virtual address space to the first
+> +1G of DDR:
+> +  - TLB[0]: 0xffffff0000000000 -> 0x100000000 (size 512Mo)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230118-141552
-base:   0b45ac1170ea6416bc1d36798414c04870cd356d
-patch link:    https://lore.kernel.org/r/20230118061256.2689-5-dakr%40redhat.com
-patch subject: [PATCH drm-next 04/14] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
-config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20230118/202301182112.RFiF6tDh-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/e00f79934034ce7eb4e7fc0d722a3d28d75d44bf
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230118-141552
-        git checkout e00f79934034ce7eb4e7fc0d722a3d28d75d44bf
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/
+Maybe should change it to:
+ - TLB[0]: 0xffffff8000000000 -> 0x100000000 (size 512Mo)
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+As the PAGE_OFFSET = 0xffffff8000000000
 
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/drm_debugfs.c: In function 'drm_debugfs_gpuva_info':
->> drivers/gpu/drm/drm_debugfs.c:228:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     228 |                            (u64)va->gem.obj, va->gem.offset);
-         |                            ^
+[...]
 
 
-vim +228 drivers/gpu/drm/drm_debugfs.c
-
-   178	
-   179	/**
-   180	 * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
-   181	 * @m: pointer to the &seq_file to write
-   182	 * @mgr: the &drm_gpuva_manager representing the GPU VA space
-   183	 *
-   184	 * Dumps the GPU VA regions and mappings of a given DRM GPU VA manager.
-   185	 *
-   186	 * For each DRM GPU VA space drivers should call this function from their
-   187	 * &drm_info_list's show callback.
-   188	 *
-   189	 * Returns: 0 on success, -ENODEV if the &mgr is not initialized
-   190	 */
-   191	int drm_debugfs_gpuva_info(struct seq_file *m,
-   192				   struct drm_gpuva_manager *mgr)
-   193	{
-   194		struct drm_gpuva_region *reg;
-   195		struct drm_gpuva *va;
-   196	
-   197		if (!mgr->name)
-   198			return -ENODEV;
-   199	
-   200		seq_printf(m, "DRM GPU VA space (%s)\n", mgr->name);
-   201		seq_puts  (m, "\n");
-   202		seq_puts  (m, " VA regions  | start              | range              | end                | sparse\n");
-   203		seq_puts  (m, "------------------------------------------------------------------------------------\n");
-   204		seq_printf(m, " VA space    | 0x%016llx | 0x%016llx | 0x%016llx |   -\n",
-   205			   mgr->mm_start, mgr->mm_range, mgr->mm_start + mgr->mm_range);
-   206		seq_puts  (m, "-----------------------------------------------------------------------------------\n");
-   207		drm_gpuva_for_each_region(reg, mgr) {
-   208			struct drm_mm_node *node = &reg->node;
-   209	
-   210			if (node == &mgr->kernel_alloc_node) {
-   211				seq_printf(m, " kernel node | 0x%016llx | 0x%016llx | 0x%016llx |   -\n",
-   212					   node->start, node->size, node->start + node->size);
-   213				continue;
-   214			}
-   215	
-   216			seq_printf(m, "             | 0x%016llx | 0x%016llx | 0x%016llx | %s\n",
-   217				   node->start, node->size, node->start + node->size,
-   218				   reg->sparse ? "true" : "false");
-   219		}
-   220		seq_puts(m, "\n");
-   221		seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
-   222		seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
-   223		drm_gpuva_for_each_va(va, mgr) {
-   224			struct drm_mm_node *node = &va->node;
-   225	
-   226			seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
-   227				   node->start, node->size, node->start + node->size,
- > 228				   (u64)va->gem.obj, va->gem.offset);
-   229		}
-   230	
-   231		return 0;
-   232	}
-   233	EXPORT_SYMBOL(drm_debugfs_gpuva_info);
-   234	
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks,
+JeffXie
