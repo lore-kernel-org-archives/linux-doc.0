@@ -2,111 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0EEDC38147
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Jan 2023 13:57:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82FAFC38147
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Jan 2023 14:15:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230366AbjARN5U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 08:57:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56054 "EHLO
+        id S229748AbjAROPy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 09:15:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229973AbjARN4r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 08:56:47 -0500
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD6545585;
-        Wed, 18 Jan 2023 05:29:36 -0800 (PST)
-Received: by mail-pg1-x534.google.com with SMTP id s67so24500374pgs.3;
-        Wed, 18 Jan 2023 05:29:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gTmYGFbnmeCPW2MRLupoC59xlxn4uUeHuUvCevs7WXQ=;
-        b=LoPo/7lV3PVsff57JQEJpECKO7OHtYeEpqPoSSe0eveZcG6SSHpoEXki47FiO72ODQ
-         9ZZt/5F6kQsCqLihVB+FdfLny6Vj5ptg3ZpxgUR8EwENrhiC1eTjcwBz8z5LTOcFp8kJ
-         9tAfNLTkYscnBat92aE52ShAuXt80UvvJl49DUIzSHqLlCooNR5qX4IJ7s+z7xeuXSlj
-         q7Y5aIPXx//xsMJYyxMxF7Rod6afbzuR/ZQm5Wz3L8KqKer1eSGs9QRIlwQ1CQu0+clH
-         KmpZqVFOAQLu0L7khPNpypmIf8IedrxMlY6ps66Mw/aoY2KMmslkXOAbkEgqbwQjIfdf
-         AAsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gTmYGFbnmeCPW2MRLupoC59xlxn4uUeHuUvCevs7WXQ=;
-        b=6zJIjqhpa200WqkfkzPMmkHx51QmTxetEidV/h80s7fkx/dlaxTT+V1g/FemWkcC3A
-         6LaVMj4bCcIa7qXITRgU4oiQG5VXROPLDVztfjo4eIujXoLBiaFn2NKv51GEUbzXJeDz
-         y/U8Ye8NaVyqNYxMTH0CJgeBFAnisDoEdh438LDqLVaYV6/nG+NyfwJGjluRbgN2h55Y
-         YlCObTML3I1eRYaWv/2CvEoLBVcgD0ZOZo08az9oYQ55fCP/b5cF1vRYxIK3C3jj+Spj
-         NKVIu5ZzB5yPv1kqfhLwEbBw3zMv4o7rCT2AadyaEDReYceSGhWmPZjXcgi5zphHKnUi
-         YE3g==
-X-Gm-Message-State: AFqh2kqg48YHPMJOqakLGZdwvEwBpJr5g33r7u50ZRw/Oewvr7cwi/QG
-        4RQnExdJtIc+3TBWcM0iQH4=
-X-Google-Smtp-Source: AMrXdXuJ4kYwmUS7FBqtPHfOWARPBImPQnR96jC4mCyWO6yH20jWVO7kWwYw8p3vX2v6A+wHIcqxFA==
-X-Received: by 2002:a62:52c5:0:b0:585:fc75:c544 with SMTP id g188-20020a6252c5000000b00585fc75c544mr7440591pfb.15.1674048576348;
-        Wed, 18 Jan 2023 05:29:36 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-73.three.co.id. [180.214.232.73])
-        by smtp.gmail.com with ESMTPSA id w125-20020a626283000000b005815a371177sm21362735pfb.52.2023.01.18.05.29.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jan 2023 05:29:35 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 3C538104E09; Wed, 18 Jan 2023 20:29:32 +0700 (WIB)
-Date:   Wed, 18 Jan 2023 20:29:31 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Usama Arif <usama.arif@bytedance.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, linux@armlinux.org.uk,
-        yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org,
-        maz@kernel.org, steven.price@arm.com, mark.rutland@arm.com,
-        pbonzini@redhat.com
-Cc:     fam.zheng@bytedance.com, liangma@liangbit.com,
-        punit.agrawal@bytedance.com
-Subject: Re: [v3 1/6] KVM: arm64: Document PV-lock interface
-Message-ID: <Y8f0Oz2W9QevuZJM@debian.me>
-References: <20230117102930.1053337-1-usama.arif@bytedance.com>
- <20230117102930.1053337-2-usama.arif@bytedance.com>
+        with ESMTP id S231287AbjAROO5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 09:14:57 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92EE830B04;
+        Wed, 18 Jan 2023 05:55:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674050153; x=1705586153;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sCfZLcl+x3j/GrBFzuMLWae9nVeRi6rNSH79s5QCyuU=;
+  b=iR6PKHr4xmS0hTWBP4zPuZjkvEJcv0ZMMYqj1dC62LTimNFi2snMt1Da
+   DKK7scEuei+dFiTLlAwYLYyyDsby801Hz+jvITTjB2NgTpw4gKOjUSR9E
+   H7OvAmF9D1clWQime20rJ/6TrQOthSO20O8arZc8/bd5xR1DFm3iw3dyd
+   Nt8cf4DiGDx55zILaLnLYjCt9uviRmtDTjsmfeMReG09AcVcpm7pHwCCb
+   Ae9PdkqXwIfTcjv8Pw5MithCwSDagfDOTNs0tgPcQqUmYsPQ5BgdSc4ph
+   +Ku/ue26DajuKGc0aXOeZY+d1R/zpDPyegKCCUwMSXGPYPSyOUZpf0BnT
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="305358742"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
+   d="scan'208";a="305358742"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 05:55:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="802202108"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
+   d="scan'208";a="802202108"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 18 Jan 2023 05:55:49 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pI8uq-0000NG-2M;
+        Wed, 18 Jan 2023 13:55:48 +0000
+Date:   Wed, 18 Jan 2023 21:55:18 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Danilo Krummrich <dakr@redhat.com>, daniel@ffwll.ch,
+        airlied@redhat.com, christian.koenig@amd.com, bskeggs@redhat.com,
+        jason@jlekstrand.net, tzimmermann@suse.de, mripard@kernel.org,
+        corbet@lwn.net
+Cc:     oe-kbuild-all@lists.linux.dev, nouveau@lists.freedesktop.org,
+        Danilo Krummrich <dakr@redhat.com>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH drm-next 04/14] drm: debugfs: provide infrastructure to
+ dump a DRM GPU VA space
+Message-ID: <202301182112.RFiF6tDh-lkp@intel.com>
+References: <20230118061256.2689-5-dakr@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="LKnbaJbZgtLjGMWc"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230117102930.1053337-2-usama.arif@bytedance.com>
+In-Reply-To: <20230118061256.2689-5-dakr@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Danilo,
 
---LKnbaJbZgtLjGMWc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch! Perhaps something to improve:
 
-On Tue, Jan 17, 2023 at 10:29:25AM +0000, Usama Arif wrote:
-> Introduce a paravirtualization interface for KVM/arm64 to obtain whether
-> the VCPU is currently running or not.
->=20
-> The PV lock structure of the guest is allocated by user space.
->=20
-> A hypercall interface is provided for the guest to interrogate the
-> location of the shared memory structures.
->=20
+[auto build test WARNING on 0b45ac1170ea6416bc1d36798414c04870cd356d]
 
-The doc LGTM, thanks.
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230118-141552
+base:   0b45ac1170ea6416bc1d36798414c04870cd356d
+patch link:    https://lore.kernel.org/r/20230118061256.2689-5-dakr%40redhat.com
+patch subject: [PATCH drm-next 04/14] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
+config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20230118/202301182112.RFiF6tDh-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/e00f79934034ce7eb4e7fc0d722a3d28d75d44bf
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230118-141552
+        git checkout e00f79934034ce7eb4e7fc0d722a3d28d75d44bf
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
---=20
-An old man doll... just what I always wanted! - Clara
+All warnings (new ones prefixed by >>):
 
---LKnbaJbZgtLjGMWc
-Content-Type: application/pgp-signature; name="signature.asc"
+   drivers/gpu/drm/drm_debugfs.c: In function 'drm_debugfs_gpuva_info':
+>> drivers/gpu/drm/drm_debugfs.c:228:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     228 |                            (u64)va->gem.obj, va->gem.offset);
+         |                            ^
 
------BEGIN PGP SIGNATURE-----
 
-iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY8f0NQAKCRD2uYlJVVFO
-o4qgAQDcP0rNaydRQo4231hMi0Vw3TckZruhUL6c4YQM/lptNAD/dTmwvHDvLrPL
-bQ8mmtSifTbeLABeqIK776M+1x9SLgo=
-=hq72
------END PGP SIGNATURE-----
+vim +228 drivers/gpu/drm/drm_debugfs.c
 
---LKnbaJbZgtLjGMWc--
+   178	
+   179	/**
+   180	 * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
+   181	 * @m: pointer to the &seq_file to write
+   182	 * @mgr: the &drm_gpuva_manager representing the GPU VA space
+   183	 *
+   184	 * Dumps the GPU VA regions and mappings of a given DRM GPU VA manager.
+   185	 *
+   186	 * For each DRM GPU VA space drivers should call this function from their
+   187	 * &drm_info_list's show callback.
+   188	 *
+   189	 * Returns: 0 on success, -ENODEV if the &mgr is not initialized
+   190	 */
+   191	int drm_debugfs_gpuva_info(struct seq_file *m,
+   192				   struct drm_gpuva_manager *mgr)
+   193	{
+   194		struct drm_gpuva_region *reg;
+   195		struct drm_gpuva *va;
+   196	
+   197		if (!mgr->name)
+   198			return -ENODEV;
+   199	
+   200		seq_printf(m, "DRM GPU VA space (%s)\n", mgr->name);
+   201		seq_puts  (m, "\n");
+   202		seq_puts  (m, " VA regions  | start              | range              | end                | sparse\n");
+   203		seq_puts  (m, "------------------------------------------------------------------------------------\n");
+   204		seq_printf(m, " VA space    | 0x%016llx | 0x%016llx | 0x%016llx |   -\n",
+   205			   mgr->mm_start, mgr->mm_range, mgr->mm_start + mgr->mm_range);
+   206		seq_puts  (m, "-----------------------------------------------------------------------------------\n");
+   207		drm_gpuva_for_each_region(reg, mgr) {
+   208			struct drm_mm_node *node = &reg->node;
+   209	
+   210			if (node == &mgr->kernel_alloc_node) {
+   211				seq_printf(m, " kernel node | 0x%016llx | 0x%016llx | 0x%016llx |   -\n",
+   212					   node->start, node->size, node->start + node->size);
+   213				continue;
+   214			}
+   215	
+   216			seq_printf(m, "             | 0x%016llx | 0x%016llx | 0x%016llx | %s\n",
+   217				   node->start, node->size, node->start + node->size,
+   218				   reg->sparse ? "true" : "false");
+   219		}
+   220		seq_puts(m, "\n");
+   221		seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
+   222		seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
+   223		drm_gpuva_for_each_va(va, mgr) {
+   224			struct drm_mm_node *node = &va->node;
+   225	
+   226			seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
+   227				   node->start, node->size, node->start + node->size,
+ > 228				   (u64)va->gem.obj, va->gem.offset);
+   229		}
+   230	
+   231		return 0;
+   232	}
+   233	EXPORT_SYMBOL(drm_debugfs_gpuva_info);
+   234	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
