@@ -2,97 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78C5AC004D4
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Jan 2023 06:34:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63613C004D4
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Jan 2023 08:48:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229690AbjARGen (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 01:34:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54740 "EHLO
+        id S229685AbjARIsL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 03:48:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229753AbjARGYP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 01:24:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C456354235
-        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 22:13:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674022414;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9bPNRTAzSirKPyPC/a7kemJ9gbWhkHOBWemjVPOdr94=;
-        b=Kbs/8mRqG6zZCS7a82RVg0LN3MlTxIyaRggF7O/D76V/1aQhUwhLcpLgiQPBTSHnXpSFos
-        8+4je7oN+9mUYAu5k8Q9rXhm/n9tTYHwo8wRXLGJ2OtUFbFNY5l2xwY2kFItkNN4X1qchn
-        dVI89HRop4dt2dHwl22Iuf50A2U32nM=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-393-9PUTHVyxPUC3ajdbKpg7og-1; Wed, 18 Jan 2023 01:13:32 -0500
-X-MC-Unique: 9PUTHVyxPUC3ajdbKpg7og-1
-Received: by mail-ed1-f69.google.com with SMTP id w3-20020a056402268300b00487e0d9b53fso22961039edd.10
-        for <linux-doc@vger.kernel.org>; Tue, 17 Jan 2023 22:13:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9bPNRTAzSirKPyPC/a7kemJ9gbWhkHOBWemjVPOdr94=;
-        b=xVjZYVYSdRHdkJTpXyFnxGdKIC4+2Oex+sas9gT6MDUplV4TQ3RJW0JOLC/QqHPmVH
-         DZooU4EXxP2ZnXAMJy2JDgqDBin0ItHkWRrgdUUk4JCEZp1OBmMsKZ8Qc8U5rClJ4OZl
-         2+YvPq+KIli4wgAutfe28Cp2wpPKes4fIPPugP7ihOu8/j98eHAlmRZWDseaMMJ2NT/x
-         JvwOm8PyzDl2RcvQBC2xPGoAAOQVDw1h9/j1WGWpHplUzaoJD8WGKfo78gPPkN6CaLEW
-         c8tc1m0PK2qzFjorWhPP2Ee8bK3ptAx1FgJzCR+NjUOyUJvvuoH4EUQB25zNmRB8YrCo
-         857w==
-X-Gm-Message-State: AFqh2krcHGMYVlF0BTG4F/0XC8oCVfMV+W465CxohKOhKzgCGegK7iE0
-        0gfS8NkGBmVvu/x1vJ6DqbKRccw/h4DXbz2jLq1yvHwXrC0xSP3zsMoKZIGg/a6XRDM7NpoU1h2
-        bPqpSdMp6sI9jiZtMdCox
-X-Received: by 2002:aa7:c0d4:0:b0:49d:9bd8:6253 with SMTP id j20-20020aa7c0d4000000b0049d9bd86253mr6311448edp.17.1674022411762;
-        Tue, 17 Jan 2023 22:13:31 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtjvWeO5BcMo55Z0OQiMRRnw0jtETl53EDUmTCOZ9HyMXZACKq57o1DdaU9DHq6GmVA9kdq0w==
-X-Received: by 2002:aa7:c0d4:0:b0:49d:9bd8:6253 with SMTP id j20-20020aa7c0d4000000b0049d9bd86253mr6311429edp.17.1674022411580;
-        Tue, 17 Jan 2023 22:13:31 -0800 (PST)
-Received: from cassiopeiae.. ([2a02:810d:4b3f:de78:642:1aff:fe31:a19f])
-        by smtp.gmail.com with ESMTPSA id y11-20020aa7c24b000000b004954c90c94bsm13745667edo.6.2023.01.17.22.13.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jan 2023 22:13:31 -0800 (PST)
-From:   Danilo Krummrich <dakr@redhat.com>
-To:     daniel@ffwll.ch, airlied@redhat.com, christian.koenig@amd.com,
-        bskeggs@redhat.com, jason@jlekstrand.net, tzimmermann@suse.de,
-        mripard@kernel.org, corbet@lwn.net
-Cc:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Danilo Krummrich <dakr@redhat.com>
-Subject: [PATCH drm-next 02/14] drm/exec: fix memory leak in drm_exec_prepare_obj()
-Date:   Wed, 18 Jan 2023 07:12:44 +0100
-Message-Id: <20230118061256.2689-3-dakr@redhat.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230118061256.2689-1-dakr@redhat.com>
-References: <20230118061256.2689-1-dakr@redhat.com>
+        with ESMTP id S229877AbjARIri (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 03:47:38 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5326D93722;
+        Wed, 18 Jan 2023 00:01:17 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DF79EB81B89;
+        Wed, 18 Jan 2023 08:00:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92CACC433EF;
+        Wed, 18 Jan 2023 08:00:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674028831;
+        bh=ufQqDQretGXtNxqadTF2D5r1H7mo3exV2T85ESGLwEk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=J/uoNlyocuw/7Am960Rt18PsSiThqGyxsvpIw35gk/z3NjuVrmLokNkSKdDuJCv/+
+         K7JiVZx9lnMLLd3S8cr/d75brBMsA/qEPKZmoKfvOdo4+jozjocsF/U53YX/4XJ37h
+         M+hFR9vANvEf4DdAJrulSqtMu2YoIkpL+xr3JHYMTxL8JImGvuKOlqVssFp02qPLWS
+         RCc5NjZzYq69ebRA17mrmPZh65Ukc91A7Bqy8PM9zjnjEtxVNJym/s7lRjQU3ZAw8H
+         MII2dz6iNG5N9ssQBycTPccukTaAM/u8jtE94aiCaR3FS33U1tvZJ0EYntNd/FZSyk
+         7AZulhotmypNw==
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-15bb8ec196aso22900176fac.3;
+        Wed, 18 Jan 2023 00:00:31 -0800 (PST)
+X-Gm-Message-State: AFqh2krGZ8FNCPO7Jq8oOjH3mNenJcA7TsvM7SmPWB9hbGBC4unT4W2B
+        vAzXLToDkyeH5Ws09kxdP3nZg2WqRs5AzQsAEUU=
+X-Google-Smtp-Source: AMrXdXtkmLEk075uBgGVC5FyELhD/qqb9Tq9gvEiLrmKoUeE8PoVprvmqZ5vDQbvaxfSnr4AmOLKfoDjBvEBZGkDjo8=
+X-Received: by 2002:a05:6870:c20b:b0:15f:1e44:71fd with SMTP id
+ z11-20020a056870c20b00b0015f1e4471fdmr401447oae.194.1674028830827; Wed, 18
+ Jan 2023 00:00:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230117095946.2042832-1-jani.nikula@intel.com>
+In-Reply-To: <20230117095946.2042832-1-jani.nikula@intel.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 18 Jan 2023 16:59:54 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQoLuyO6GJBhSTQcLPRFFj4fdVmR8POqzi_cUXQkr3bzA@mail.gmail.com>
+Message-ID: <CAK7LNAQoLuyO6GJBhSTQcLPRFFj4fdVmR8POqzi_cUXQkr3bzA@mail.gmail.com>
+Subject: Re: [PATCH 0/6] docs: kbuild makefile documentation cleanups
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Don't call drm_gem_object_get() unconditionally.
+On Tue, Jan 17, 2023 at 7:00 PM Jani Nikula <jani.nikula@intel.com> wrote:
+>
+> I usually shy away from making rst updates, but the makefiles.rst file
+> always bugs me when I look at it, so here goes. Even I usually look at
+> the rst file in the editor instead of html in the browser, but the
+> editor knows about rst...
+>
+> This is based on the kbuild branch of linux-kbuild.git, and there's a
+> MAINTAINERS update too to fix the branch name. ;)
+>
+> BR,
+> Jani.
 
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
----
- drivers/gpu/drm/drm_exec.c | 1 -
- 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
-index ed2106c22786..5713a589a6a3 100644
---- a/drivers/gpu/drm/drm_exec.c
-+++ b/drivers/gpu/drm/drm_exec.c
-@@ -282,7 +282,6 @@ int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
- 			goto error_unlock;
- 	}
- 
--	drm_gem_object_get(obj);
- 	return 0;
- 
- error_unlock:
+All applied to linux-kbuild. Thanks.
+
+
+>
+> Jani Nikula (6):
+>   MAINTAINERS: fix kbuild repo branch
+>   docs/kbuild/makefiles: fix header underline
+>   docs/kbuild/makefiles: throw out the local table of contents
+>   docs/kbuild/makefiles: drop section numbering, use references
+>   docs/kbuild/makefiles: clean up indentation and whitespace
+>   docs/kbuild/makefiles: unify quoting
+>
+>  Documentation/kbuild/makefiles.rst | 2148 ++++++++++++++--------------
+>  MAINTAINERS                        |    2 +-
+>  2 files changed, 1060 insertions(+), 1090 deletions(-)
+>
+> --
+> 2.34.1
+>
+
+
 -- 
-2.39.0
-
+Best Regards
+Masahiro Yamada
