@@ -2,65 +2,60 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB34C004D4
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 21:14:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DAD2C46467
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 21:21:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229788AbjASVOH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 16:14:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59386 "EHLO
+        id S230226AbjASVVK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 16:21:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230059AbjASVNY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 16:13:24 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B51DD2748C;
-        Thu, 19 Jan 2023 13:09:24 -0800 (PST)
+        with ESMTP id S230423AbjASVUR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 16:20:17 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74564265AE
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 13:14:08 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 59C8E359;
-        Thu, 19 Jan 2023 21:09:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 59C8E359
+        by ms.lwn.net (Postfix) with ESMTPSA id 8F8D82C0;
+        Thu, 19 Jan 2023 21:13:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8F8D82C0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1674162564; bh=A5Zz/yiuvjOWBmyGWIOHswcn5ewUhZYXAGNXTnyzqU0=;
+        t=1674162824; bh=wpNJa31GP/3CO69It2vDWiFDL6RmiEBoSTEIbaVubmI=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=heZwQbRvrCO3PIAZ/0BIse7NMy6liObuJf1f2xUfP/VDhIr6TM4lXo6q5F12BKuw8
-         4lWEFro2Kja1PpVFPi+XaJfETOX/893pTskvht27SuIEZ0C6JaxmrhQGGS4FpVkpdb
-         qbou1iIXkY+HIwcE1O4DkMiR5OG9FE04YMKSCL7GuWjn6qyuuEUdRTkl2ztAFegifb
-         CQ8GSpBn8VY8wtlGN2pmCSziop96t6UgLYY3sdoxTbePSulSlE+NatIosOZ769Ejrq
-         VFXWhjCoOkD/TiFqpTVgAStg4ED+5HD381MRrSv7z7E3nz2mBWOqy+rPVYDyvlBRZ0
-         dEJn7WyLoS5TQ==
+        b=QCs0mhroV3uh0yfvNgRGATiabXb4e0oPOkox2ocHQTZ+4UUcYL6DcR80uHL+9mcoF
+         f93thWyCFodffpdtSKS5OI7jjwODVrRDRmSTWj6ojixDFsDii0t0f2VFfNnCkvNCDh
+         D4ZaPUaW0tp1t4uwm8Y1HPyEnXypPORJC7ICdCygv3SrQoAfPzTqLR9fcR+Ura6iYy
+         YNz00bZx6BZ68FkP7+gsHlV4ENBDPQ43KpdoKwQE1LZEhClIs8Qlr0dkA0ImimvBkK
+         K1qmXqwKKdo5mVkIKKk4u2qIvvTA/kEyByTU25cPrMwn656BKuf5cHTUf0r9ux95xB
+         jkPzdZskEj9SA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jakob Koschel <jkl820.git@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jakob Koschel <jkl820.git@gmail.com>
-Subject: Re: [PATCH] docs/scripts/gdb: add necessary make scripts_gdb step
-In-Reply-To: <20230112-documentation-gdb-v1-1-09ab556e9124@gmail.com>
-References: <20230112-documentation-gdb-v1-1-09ab556e9124@gmail.com>
-Date:   Thu, 19 Jan 2023 14:09:23 -0700
-Message-ID: <878rhy8c58.fsf@meer.lwn.net>
+To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, bobwxc@email.cn,
+        tangyeechou@gmail.com, chenhuacai@kernel.org,
+        linux-doc@vger.kernel.org, me@lirui.org, siyanteng01@gmail.com
+Subject: Re: [PATCH v3] docs/zh_CN: Add a glossary of Chinese translation terms
+In-Reply-To: <20230117093416.2262787-1-siyanteng@loongson.cn>
+References: <20230117093416.2262787-1-siyanteng@loongson.cn>
+Date:   Thu, 19 Jan 2023 14:13:43 -0700
+Message-ID: <874jsm8by0.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jakob Koschel <jkl820.git@gmail.com> writes:
+Yanteng Si <siyanteng@loongson.cn> writes:
 
-> In order to debug the kernel successfully with gdb you need to run
-> 'make scripts_gdb' nowadays.
+> As more and more documents are translated and some English
+> words are translated into different Chinese, it seems that
+> we need a glossary of Chinese translation terms.
 >
-> This was changed with the following commit:
->
-> Commit 67274c083438340ad16c ("scripts/gdb: delay generation of gdb
-> constants.py")
->
-> In order to have a complete guide for beginners this remark
-> should be added to the offial documentation.
->
-> ---
->
->
-> Signed-off-by: Jakob Koschel <jkl820.git@gmail.com>
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> Reviewed-by: Alex Shi <alexs@kernel.org>
+> Reviewed-by: Tang Yizhou <tangyeechou@gmail.com>
+> Acked-by: Wu XiangCheng <bobwxc@email.cn>
 
 Applied, thanks.
 
