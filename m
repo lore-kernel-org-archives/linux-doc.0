@@ -2,104 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06A17C00A5A
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 12:11:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F6BC004D4
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 12:36:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229688AbjASML0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 07:11:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40886 "EHLO
+        id S230480AbjASMgS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 07:36:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbjASMLY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 07:11:24 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A69E8474E3;
-        Thu, 19 Jan 2023 04:11:23 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id c10-20020a05600c0a4a00b003db0636ff84so1128895wmq.0;
-        Thu, 19 Jan 2023 04:11:23 -0800 (PST)
+        with ESMTP id S229659AbjASMfg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 07:35:36 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C598882980;
+        Thu, 19 Jan 2023 04:32:23 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id a14-20020a17090a70ce00b00229a2f73c56so5680958pjm.3;
+        Thu, 19 Jan 2023 04:32:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KYDHXKfGKMOLeZXEVoSz6EIYCUqDCJgfKR9UAUj/K0U=;
-        b=aJGuvCA2vIjsi8uAH84tZm9aAezVq97s9WNCbsZDQmnOpzRW+1lMbXFfSU7HOGVzSW
-         wtC/T97Ki7P1ST29TBrs9sS3tCGfDqJ04TTHI3BTR3bzZw4FJhcTNoRt0Oc2xlRVKX2r
-         1peVBnvoG837z6+hrn0swqwm96Xlc0IyBn1Koqvx7CJeR6dPikU6hds4X5GZA6JtevmA
-         IZhp/S1ZQ9zRWCfC2pmHgnN/Y9ial4zbAfaNB/hCOgTmbdWftA7WYv62O3lSgtb6FKVs
-         5qZIHF2bHYzXpxOvcWQelRmJTdQaAlbANmO0o8if7ThepL9UCnX5PZuW9VQuhXd5pl5d
-         JoNw==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sac0uH94+eobhDT6asHKNrz1H50xBId/HUVcG82XASU=;
+        b=d4Pkg8YtiFu9qkBkslpyzTX4ODlCF9cPEMdGnccfXp9pVlB7Vag6mr8HXNJmuXLxDn
+         v2SjiZJNerWirVEzTDYpl5Yess++WVZ43DfMGIyA4SOqizYpn9OxVWYpDs1IYj7cScVz
+         IHBYxn11qPw9pjUcWeQ3Sbr7rlPVOeBitce19/cUT+LD9SXz2R0GoSwK/2Cs8D8hkTyX
+         ra9U/huH4aU3StkandszQyDGq0gsRS6WRdvFSkIYyf865Uy6KQ9Xtb+Ayy/qMqZtdZp9
+         EsNAOLR/9WLqLBmz8s99rZjS51VsJ4Zcgg9q7UZSa0nZYFU+lq+rxCvnpkpv0TpJPe1p
+         z48w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KYDHXKfGKMOLeZXEVoSz6EIYCUqDCJgfKR9UAUj/K0U=;
-        b=hyfVTK4nE9r1HNPbP0E2eqTO+AVDen53rUcACm7KbQdu42nU30zFSyamyL6DXgyhYj
-         x/ErcTkIwBFdTMd4APVUwSW23q+gPu6LhafeqfjADJFb47zAEjWw75eMOnm3zOuQ7naZ
-         4bkIhrxR4NuDfjsNUQN6oa+tG8fKH0LAp05QjeTb4GcXBX0tOCNl2YOWt0TD7FdU1nc/
-         ocGEuwE5aWKMCMHvLz6OsEyZOtEeR8SlgJ9/+nQNGaz/vU94YqHPdqRTCsl80aDuyqCS
-         EZJOlhxVSxa7/jKDslEoVkUufic5xD9OylG8I61QSb9mzysKU0W60StAl4+bD1hWo/uK
-         l49Q==
-X-Gm-Message-State: AFqh2kqi7X5Vv8YmBXLR0bUGGk4oOlDHjZ/A0o1w4y0yhWGhscbiDJ87
-        Fz/OXrIHm1WQ9izGTv3WJBpBouOk+28=
-X-Google-Smtp-Source: AMrXdXvJcQWDLi4Jxn4FqIja5NrGHS0d0QAgadktDo1jcQgFlHSbsdsXSUAe1QA258Miw+iu1ayOhw==
-X-Received: by 2002:a1c:6a10:0:b0:3da:f665:5b66 with SMTP id f16-20020a1c6a10000000b003daf6655b66mr10453726wmc.6.1674130282080;
-        Thu, 19 Jan 2023 04:11:22 -0800 (PST)
-Received: from suse.localnet (host-82-55-106-56.retail.telecomitalia.it. [82.55.106.56])
-        by smtp.gmail.com with ESMTPSA id l22-20020a05600c4f1600b003db0b0cc2afsm4914948wmq.30.2023.01.19.04.11.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 04:11:21 -0800 (PST)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     corbet@lwn.net, akpm@linux-foundation.org, bigeasy@linutronix.de,
-        ira.weiny@intel.com, rppt@kernel.org,
-        Deming Wang <wangdeming@inspur.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Deming Wang <wangdeming@inspur.com>
-Subject: Re: [PATCH] mm/highmem: fix spelling mistakeo
-Date:   Thu, 19 Jan 2023 13:11:19 +0100
-Message-ID: <1841674.tdWV9SEqCh@suse>
-In-Reply-To: <20230118004356.4198-1-wangdeming@inspur.com>
-References: <20230118004356.4198-1-wangdeming@inspur.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sac0uH94+eobhDT6asHKNrz1H50xBId/HUVcG82XASU=;
+        b=jaDm9UzkUWvNsQJ9wE4XyZo/RaWd9Qsf48gxdz8yBRaQiSF1iqjD9wvyH2HjXlngwu
+         +OTly6OnvCO552kroUww+KSLVeq6OY4U8BSwNnVojL4QNAt8GTymK1QIlXFZn+h/ra0J
+         6zohLIdipAI8WkxSn27BV7PVa4W549Jlp2jZsB93qLo7mqH3w0hWQ9asoqjWOD1H1it+
+         dFPZfzxLYUVvkP9rwJ207lR6UHUfzhjNfgo22xa0lP8GSRp5bt2SlOV/3p8pa5qcJfFK
+         si62FQ8/9Yl+kELoV8kS8JhNhPFb8Q2qIsVxnlHlOxRC3rV462FN75Ko7JXsmf9msKmT
+         0vrQ==
+X-Gm-Message-State: AFqh2kosW54lAYt7BkpGxl07Pabn6nI1xGPKQfcRKb2707SwmxHIPsrf
+        0Qy7jClqvzJLRnBNYwZjon4=
+X-Google-Smtp-Source: AMrXdXt9rTfqNetfn4/vNfsbYTeURrALPYPObN6cMaL1/hbxUPZX9w6h9rBJE0nj685Q5cQ51ckjDg==
+X-Received: by 2002:a17:902:f60b:b0:194:a663:675b with SMTP id n11-20020a170902f60b00b00194a663675bmr11286433plg.19.1674131459889;
+        Thu, 19 Jan 2023 04:30:59 -0800 (PST)
+Received: from [192.168.43.80] (subs03-180-214-233-93.three.co.id. [180.214.233.93])
+        by smtp.gmail.com with ESMTPSA id x3-20020a170902a38300b001896522a23bsm24993664pla.39.2023.01.19.04.30.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Jan 2023 04:30:59 -0800 (PST)
+Message-ID: <13f7a493-d1b6-481b-63a5-64080a4aee90@gmail.com>
+Date:   Thu, 19 Jan 2023 19:30:52 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v3 6/6] Documentation: amd_pstate: Update amd_pstate
+ status sysfs for guided
+Content-Language: en-US
+To:     Wyes Karny <wyes.karny@amd.com>,
+        Rafael J Wysocki <rafael@kernel.org>,
+        Huang Rui <ray.huang@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Mario.Limonciello@amd.com, Perry.Yuan@amd.com,
+        Ananth Narayan <ananth.narayan@amd.com>, gautham.shenoy@amd.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, santosh.shukla@amd.com,
+        Len Brown <lenb@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Borislav Petkov <bp@suse.de>
+References: <20230119115017.10188-1-wyes.karny@amd.com>
+ <20230119115017.10188-7-wyes.karny@amd.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230119115017.10188-7-wyes.karny@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On mercoled=EC 18 gennaio 2023 01:43:56 CET Deming Wang wrote:
-> Substitute occurrencies of "higmem" with "highmem".
+On 1/19/23 18:50, Wyes Karny wrote:
+> +- In autonomous mode, platform ignores the desired performance level request
+> +  and takes into account only the values set to the Minimum requested
+> +  performance, Maximum requested performance and Energy Performance Preference
+> +  registers.
 
-s/occurrencies/occurrences
-=20
-> Signed-off-by: Deming Wang <wangdeming@inspur.com>
-> ---
->  Documentation/mm/highmem.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/mm/highmem.rst b/Documentation/mm/highmem.rst
-> index 59d1078f53df..7da4a0d175f0 100644
-> --- a/Documentation/mm/highmem.rst
-> +++ b/Documentation/mm/highmem.rst
-> @@ -83,7 +83,7 @@ list shows them in order of preference of use.
->    for pages which are known to not come from ZONE_HIGHMEM. However, it is
->    always safe to use kmap_local_page() / kunmap_local().
->=20
-> -  While it is significantly faster than kmap(), for the higmem case it
-> +  While it is significantly faster than kmap(), for the highmem case it
->    comes with restrictions about the pointers validity. Contrary to kmap()
->    mappings, the local mappings are only valid in the context of the call=
-er
->    and cannot be handed to other contexts. This implies that users must
-> --
-> 2.27.0
+"minimum, maximum, and energy performance registers."
 
-I think you missed a patch which is already in Andrew's -mm-unstable tree:
+> +- In non-autonomous mode, platform gets desired performance level
+> +  from OS directly through Desired Performance Register.
+> +- In guided-autonomous mode, platform sets operating performance level
+> +  autonomously according to the current workload and within the limits set by
+> +  OS through min and max performance registers.
+>  
 
-[PATCH] mm: Fix two spelling mistakes in highmem.h
-https://lore.kernel.org/lkml/20230105121305.30714-1-fmdefrancesco@gmail.com/
+The rest is LGTM.
 
-=46abio
-
-
+-- 
+An old man doll... just what I always wanted! - Clara
 
