@@ -2,686 +2,386 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5690AC38142
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 04:47:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05256C00A5A
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 04:47:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229540AbjASErF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 23:47:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59956 "EHLO
+        id S229734AbjASErb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 23:47:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229787AbjASEqJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 23:46:09 -0500
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B06237497F;
-        Wed, 18 Jan 2023 20:42:06 -0800 (PST)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-4c24993965eso10673077b3.12;
-        Wed, 18 Jan 2023 20:42:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tEL5q0gdvRQcXcMbCv9i2khmy9sVAvwANWZ5CU7Ktw8=;
-        b=DdG+KDKzzl/Q10f5IwLdjJKtkg54MM38BjvhsBf4QA470iha1Z9YdIb7y+x5NJN+1z
-         ER9Y/GetiKL0MhMUHpc5Z9FwVu8NU3vLs2OcEbLPnXXs3zlA3xCNx+P6a9D4ub1S4q5q
-         T1OWL2zrXkyFrY4D4E3K0qcuZVwLk75OzrElTTvWyR9wBWZ5pblp21Cn+/jjmBKZAB0H
-         IS/X91U5reo/5s8DRUaRxPD/ahxWJX2LA8bGZ35RQ46Bp62CKw0hrq0oKIPI3wM8PedS
-         Z2boh2QjbYv7xh1TCpWyfiFCngGGWNbQbJ27HS9EP3jsWkzUh7B0Zij8bSmOUCnDDFk0
-         V4FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tEL5q0gdvRQcXcMbCv9i2khmy9sVAvwANWZ5CU7Ktw8=;
-        b=rUpfy8QAD9AqoXZ2AK8zC+f/sxhVkgmjO/ns3vcI3cUUg8LSOAA8r/wZc+kYzaXYYZ
-         6kdHZ1PiT+Io3vflwBUEmrfFgsmnN0XkYZt6+t92GqSXzAl7yeHqEKSA9C4SVHdw5Wuo
-         jAa45F/TIMnwBkbiMTGXPoyOTYQ0xBUPOSfmeeJ69vk+49t/yKvfTtaypf32vLkNqtaE
-         GqrhD93Ehsm260Ai8eJ1Cd0qH96HaEyQdSNt+zmkeFSPuTeSeF0J7oRgEWZhx8UYMNTc
-         rqPkCijMdIUE+1yyaSdkWnBdQNO7xWSgLUcl0pwGADp4g1NKeBUQYEQTa1p/9XJveW/5
-         SLLg==
-X-Gm-Message-State: AFqh2kryovJzGFYS5GxqQna7r5tPWh64bQwTLSFcH/NTwk+Nqgh1rLDp
-        TzjObhUhAX37JsspAf3oQgg=
-X-Google-Smtp-Source: AMrXdXs3n9dYoZdp5en3XPTTghFRNT/V6cDPyp3Ke/b/VTPp7u+7tHub9LILE8A3rWVMFFHjd3c0HQ==
-X-Received: by 2002:a17:902:7404:b0:194:97c8:84c3 with SMTP id g4-20020a170902740400b0019497c884c3mr9939488pll.66.1674101687091;
-        Wed, 18 Jan 2023 20:14:47 -0800 (PST)
-Received: from debian.me (subs03-180-214-233-1.three.co.id. [180.214.233.1])
-        by smtp.gmail.com with ESMTPSA id j3-20020a170903028300b001886ff822ffsm444399plr.186.2023.01.18.20.14.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jan 2023 20:14:46 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 9C126104FA9; Thu, 19 Jan 2023 11:14:42 +0700 (WIB)
-Date:   Thu, 19 Jan 2023 11:14:42 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Danilo Krummrich <dakr@redhat.com>, daniel@ffwll.ch,
-        airlied@redhat.com, christian.koenig@amd.com, bskeggs@redhat.com,
-        jason@jlekstrand.net, tzimmermann@suse.de, mripard@kernel.org,
-        corbet@lwn.net
-Cc:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH drm-next 03/14] drm: manager to keep track of GPUs VA
- mappings
-Message-ID: <Y8jDsqGc5gXoIBAO@debian.me>
-References: <20230118061256.2689-1-dakr@redhat.com>
- <20230118061256.2689-4-dakr@redhat.com>
+        with ESMTP id S229746AbjASEqo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 23:46:44 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86F2D44BFB;
+        Wed, 18 Jan 2023 20:42:22 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6399761A6A;
+        Thu, 19 Jan 2023 04:31:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D30E9C433D2;
+        Thu, 19 Jan 2023 04:31:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674102715;
+        bh=6R4ck5Hrg0+smXHpEF8YO3zq4K1dptTAjKL9KShKRUo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GNw/iqkphRxnFkPKMLKJtl2oxZz8lv3uFTExhH/I4gNklxRf6xgmlbCfhuu27uMjd
+         rkkUsePu+XNKImPT9MFeSJ3ifwVQf/hKfAD34fYnkuaAf+H7thaGemEE6QfL9ka9nP
+         OqgrJkqZlt6YsdrMmE8xF2Hl/27UhxkV3dDLEuW8Sxr6+3iLUz2vzc8+rUc9kpuTXW
+         dgG4qTAmXcchEeRwP95uded/wSPgCzL3TPaUj0NuOvR0gL0qUgekfq2hMWxtKxGgdp
+         /FGnWN1Ng33RVSoV5pjf1G6eGtveLlrCjes4frUSLCEguFk4poEbSAMZstVhiWx4Pz
+         Xxs6tIYRVXrrQ==
+Date:   Thu, 19 Jan 2023 12:31:49 +0800
+From:   Gao Xiang <xiang@kernel.org>
+To:     Sandeep Dhavale <dhavale@google.com>
+Cc:     Nathan Huckleberry <nhuck@google.com>,
+        Daeho Jeong <daehojeong@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Tejun Heo <tj@kernel.org>,
+        Gao Xiang <hsiangkao@linux.alibaba.com>,
+        linux-erofs@lists.ozlabs.org
+Subject: Re: [PATCH] workqueue: Add WQ_SCHED_FIFO
+Message-ID: <Y8jHtWEz/9MaJwAD@debian>
+Mail-Followup-To: Sandeep Dhavale <dhavale@google.com>,
+        Nathan Huckleberry <nhuck@google.com>,
+        Daeho Jeong <daehojeong@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>, Tejun Heo <tj@kernel.org>,
+        Gao Xiang <hsiangkao@linux.alibaba.com>,
+        linux-erofs@lists.ozlabs.org
+References: <20230113210703.62107-1-nhuck@google.com>
+ <d6ec50c4-5fc3-eb17-e9e8-fce334038193@linux.alibaba.com>
+ <CAJkfWY7duk+5tWpW3g1iMyV9Q5t5cGunC-dh3M0X25wNq0z-TA@mail.gmail.com>
+ <CAB=BE-SBtqis6U423zP+-8MqYDqtokOdds=5B6rUrWJ6R1c99A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="st4xfXKFTYFcRLrQ"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230118061256.2689-4-dakr@redhat.com>
+In-Reply-To: <CAB=BE-SBtqis6U423zP+-8MqYDqtokOdds=5B6rUrWJ6R1c99A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Jan 18, 2023 at 06:41:26PM -0800, Sandeep Dhavale via Linux-erofs wrote:
+> On Sat, Jan 14, 2023 at 1:01 PM Nathan Huckleberry <nhuck@google.com> wrote:
+> >
+> > On Fri, Jan 13, 2023 at 6:20 PM Gao Xiang <hsiangkao@linux.alibaba.com> wrote:
+> > >
+> > > Hi Nathan!
+> > >
+> > > On 2023/1/14 05:07, Nathan Huckleberry wrote:
+> > > > Add a WQ flag that allows workqueues to use SCHED_FIFO with the least
+> > > > imporant RT priority.  This can reduce scheduler latency for IO
+> > > > post-processing when the CPU is under load without impacting other RT
+> > > > workloads.  This has been shown to improve app startup time on Android
+> > > > [1].
+> > >
+> > > Thank you all for your effort on this.  Unfortunately I have no time to
+> > > setup the test [1] until now.  If it can be addressed as a new workqueue
+> > > feature, that would be much helpful to me.  Otherwise, I still need to
+> > > find a way to resolve the latest Android + EROFS latency problem.
+> > >
+> >
+> > The above patch and following diff should have equivalent performance
+> > to [1], but I have not tested it.
+> >
+> > diff --git a/fs/erofs/zdata.c b/fs/erofs/zdata.c
+> > index ccf7c55d477f..a9c3893ad1d4 100644
+> > --- a/fs/erofs/zdata.c
+> > +++ b/fs/erofs/zdata.c
+> > @@ -201,7 +201,7 @@ static inline int z_erofs_init_workqueue(void)
+> >          * scheduling overhead, perhaps per-CPU threads should be better?
+> >          */
+> >         z_erofs_workqueue = alloc_workqueue("erofs_unzipd",
+> > -                                           WQ_UNBOUND | WQ_HIGHPRI,
+> > +                                           WQ_SCHED_FIFO,
+> >                                             onlinecpus + onlinecpus / 4);
+> >         return z_erofs_workqueue ? 0 : -ENOMEM;
+> >
+> > Thanks,
+> > Huck
+> >
+> >  }
+> >
+> Hello All,
+> With WQ_SCHED_FIFO and erofs patch mentioned above, I see that average
+> sched latency improves in the same ballpark as my previous
+> work proposed in [1] doing the same experiment (app launch tests) and
+> variation is reduced significantly.
+> 
+> Here is the table
+> |--------------+-----------+---------------+---------|
+> |              | Workqueue | WQ_SCHED_FIFO | Delta   |
+> |--------------+-----------+---------------+---------|
+> | Average (us) | 15253     | 3514          | -76.96% |
+> |--------------+-----------+---------------+---------|
+> | Median (us)  | 14001     | 3450          | -75.36% |
+> |--------------+-----------+---------------+---------|
+> | Minimum (us) | 3117      | 3097          | -0.64%  |
+> |--------------+-----------+---------------+---------|
+> | Maximum (us) | 30170     | 4896          | -83.77% |
+> |--------------+-----------+---------------+---------|
+> | Stdev        | 7166      | 319           |         |
+> |--------------+-----------+---------------+---------|
 
---st4xfXKFTYFcRLrQ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks, Sandeep.  If so, there could be a way forward in
+this WQ_SCHED_FIFO way as well?
 
-On Wed, Jan 18, 2023 at 07:12:45AM +0100, Danilo Krummrich wrote:
-> This adds the infrastructure for a manager implementation to keep track
-> of GPU virtual address (VA) mappings.
+Anyway, I will seek time working on kthread_worker
+alternatively in my Lunar New year vacations since I'd
+like to resolve it in some way anyway.
 
-"Add infrastructure for ..."
+Thanks,
+Gao Xiang
 
-> + * Analogue to drm_gpuva_sm_map_ops_create() drm_gpuva_sm_unmap_ops_crea=
-te()
-> + * provides drivers a the list of operations to be executed in order to =
-unmap
-> + * a range of GPU VA space. The logic behind this functions is way simpl=
-er
-> + * though: For all existent mappings enclosed by the given range unmap
-> + * operations are created. For mappings which are only partically locate=
-d within
-> + * the given range, remap operations are created such that those mapping=
-s are
-> + * split up and re-mapped partically.
-
-"Analogous to ..."
-
-> + *
-> + * The following paragraph depicts the basic constellations of existent =
-GPU VA
-> + * mappings, a newly requested mapping and the resulting mappings as imp=
-lemented
-> + * by drm_gpuva_sm_map_ops_create()  - it doesn't cover arbitrary combin=
-ations
-> + * of those constellations.
-> + *
-> + * ::
-> + *
-> + *	1) Existent mapping is kept.
-> + *	----------------------------
-> + *
-> + *	     0     a     1
-> + *	old: |-----------| (bo_offset=3Dn)
-> + *
-> + *	     0     a     1
-> + *	req: |-----------| (bo_offset=3Dn)
-> + *
-> + *	     0     a     1
-> + *	new: |-----------| (bo_offset=3Dn)
-> + *
-> + *
-> + *	2) Existent mapping is replaced.
-> + *	--------------------------------
-> + *
-> + *	     0     a     1
-> + *	old: |-----------| (bo_offset=3Dn)
-> + *
-> + *	     0     a     1
-> + *	req: |-----------| (bo_offset=3Dm)
-> + *
-> + *	     0     a     1
-> + *	new: |-----------| (bo_offset=3Dm)
-> + *
-> + *
-> + *	3) Existent mapping is replaced.
-> + *	--------------------------------
-> + *
-> + *	     0     a     1
-> + *	old: |-----------| (bo_offset=3Dn)
-> + *
-> + *	     0     b     1
-> + *	req: |-----------| (bo_offset=3Dn)
-> + *
-> + *	     0     b     1
-> + *	new: |-----------| (bo_offset=3Dn)
-> + *
-> + *
-> + *	4) Existent mapping is replaced.
-> + *	--------------------------------
-> + *
-> + *	     0  a  1
-> + *	old: |-----|       (bo_offset=3Dn)
-> + *
-> + *	     0     a     2
-> + *	req: |-----------| (bo_offset=3Dn)
-> + *
-> + *	     0     a     2
-> + *	new: |-----------| (bo_offset=3Dn)
-> + *
-> + *	Note: We expect to see the same result for a request with a different=
- bo
-> + *	      and/or bo_offset.
-> + *
-> + *
-> + *	5) Existent mapping is split.
-> + *	-----------------------------
-> + *
-> + *	     0     a     2
-> + *	old: |-----------| (bo_offset=3Dn)
-> + *
-> + *	     0  b  1
-> + *	req: |-----|       (bo_offset=3Dn)
-> + *
-> + *	     0  b  1  a' 2
-> + *	new: |-----|-----| (b.bo_offset=3Dn, a.bo_offset=3Dn+1)
-> + *
-> + *	Note: We expect to see the same result for a request with a different=
- bo
-> + *	      and/or non-contiguous bo_offset.
-> + *
-> + *
-> + *	6) Existent mapping is kept.
-> + *	----------------------------
-> + *
-> + *	     0     a     2
-> + *	old: |-----------| (bo_offset=3Dn)
-> + *
-> + *	     0  a  1
-> + *	req: |-----|       (bo_offset=3Dn)
-> + *
-> + *	     0     a     2
-> + *	new: |-----------| (bo_offset=3Dn)
-> + *
-> + *
-> + *	7) Existent mapping is split.
-> + *	-----------------------------
-> + *
-> + *	     0     a     2
-> + *	old: |-----------| (bo_offset=3Dn)
-> + *
-> + *	           1  b  2
-> + *	req:       |-----| (bo_offset=3Dm)
-> + *
-> + *	     0  a  1  b  2
-> + *	new: |-----|-----| (a.bo_offset=3Dn,b.bo_offset=3Dm)
-> + *
-> + *
-> + *	8) Existent mapping is kept.
-> + *	----------------------------
-> + *
-> + *	      0     a     2
-> + *	old: |-----------| (bo_offset=3Dn)
-> + *
-> + *	           1  a  2
-> + *	req:       |-----| (bo_offset=3Dn+1)
-> + *
-> + *	     0     a     2
-> + *	new: |-----------| (bo_offset=3Dn)
-> + *
-> + *
-> + *	9) Existent mapping is split.
-> + *	-----------------------------
-> + *
-> + *	     0     a     2
-> + *	old: |-----------|       (bo_offset=3Dn)
-> + *
-> + *	           1     b     3
-> + *	req:       |-----------| (bo_offset=3Dm)
-> + *
-> + *	     0  a  1     b     3
-> + *	new: |-----|-----------| (a.bo_offset=3Dn,b.bo_offset=3Dm)
-> + *
-> + *
-> + *	10) Existent mapping is merged.
-> + *	-------------------------------
-> + *
-> + *	     0     a     2
-> + *	old: |-----------|       (bo_offset=3Dn)
-> + *
-> + *	           1     a     3
-> + *	req:       |-----------| (bo_offset=3Dn+1)
-> + *
-> + *	     0        a        3
-> + *	new: |-----------------| (bo_offset=3Dn)
-> + *
-> + *
-> + *	11) Existent mapping is split.
-> + *	------------------------------
-> + *
-> + *	     0        a        3
-> + *	old: |-----------------| (bo_offset=3Dn)
-> + *
-> + *	           1  b  2
-> + *	req:       |-----|       (bo_offset=3Dm)
-> + *
-> + *	     0  a  1  b  2  a' 3
-> + *	new: |-----|-----|-----| (a.bo_offset=3Dn,b.bo_offset=3Dm,a'.bo_offse=
-t=3Dn+2)
-> + *
-> + *
-> + *	12) Existent mapping is kept.
-> + *	-----------------------------
-> + *
-> + *	     0        a        3
-> + *	old: |-----------------| (bo_offset=3Dn)
-> + *
-> + *	           1  a  2
-> + *	req:       |-----|       (bo_offset=3Dn+1)
-> + *
-> + *	     0        a        3
-> + *	old: |-----------------| (bo_offset=3Dn)
-> + *
-> + *
-> + *	13) Existent mapping is replaced.
-> + *	---------------------------------
-> + *
-> + *	           1  a  2
-> + *	old:       |-----| (bo_offset=3Dn)
-> + *
-> + *	     0     a     2
-> + *	req: |-----------| (bo_offset=3Dn)
-> + *
-> + *	     0     a     2
-> + *	new: |-----------| (bo_offset=3Dn)
-> + *
-> + *	Note: We expect to see the same result for a request with a different=
- bo
-> + *	      and/or non-contiguous bo_offset.
-> + *
-> + *
-> + *	14) Existent mapping is replaced.
-> + *	---------------------------------
-> + *
-> + *	           1  a  2
-> + *	old:       |-----| (bo_offset=3Dn)
-> + *
-> + *	     0        a       3
-> + *	req: |----------------| (bo_offset=3Dn)
-> + *
-> + *	     0        a       3
-> + *	new: |----------------| (bo_offset=3Dn)
-> + *
-> + *	Note: We expect to see the same result for a request with a different=
- bo
-> + *	      and/or non-contiguous bo_offset.
-> + *
-> + *
-> + *	15) Existent mapping is split.
-> + *	------------------------------
-> + *
-> + *	           1     a     3
-> + *	old:       |-----------| (bo_offset=3Dn)
-> + *
-> + *	     0     b     2
-> + *	req: |-----------|       (bo_offset=3Dm)
-> + *
-> + *	     0     b     2  a' 3
-> + *	new: |-----------|-----| (b.bo_offset=3Dm,a.bo_offset=3Dn+2)
-> + *
-> + *
-> + *	16) Existent mappings are merged.
-> + *	---------------------------------
-> + *
-> + *	     0     a     1
-> + *	old: |-----------|                        (bo_offset=3Dn)
-> + *
-> + *	                            2     a     3
-> + *	old':                       |-----------| (bo_offset=3Dn+2)
-> + *
-> + *	                1     a     2
-> + *	req:            |-----------|             (bo_offset=3Dn+1)
-> + *
-> + *	                      a
-> + *	new: |----------------------------------| (bo_offset=3Dn)
-> + */
-
-Factor out lists from the big code block above:
-
----- >8 ----
-
-diff --git a/drivers/gpu/drm/drm_gpuva_mgr.c b/drivers/gpu/drm/drm_gpuva_mg=
-r.c
-index e665f642689d03..411c0aa80bfa1f 100644
---- a/drivers/gpu/drm/drm_gpuva_mgr.c
-+++ b/drivers/gpu/drm/drm_gpuva_mgr.c
-@@ -129,15 +129,14 @@
-  * the given range, remap operations are created such that those mappings =
-are
-  * split up and re-mapped partically.
-  *
-- * The following paragraph depicts the basic constellations of existent GP=
-U VA
-+ * The following diagram depicts the basic relationships of existent GPU VA
-  * mappings, a newly requested mapping and the resulting mappings as imple=
-mented
-- * by drm_gpuva_sm_map_ops_create()  - it doesn't cover arbitrary combinat=
-ions
-- * of those constellations.
-+ * by drm_gpuva_sm_map_ops_create()  - it doesn't cover any arbitrary
-+ * combinations of these.
-  *
-- * ::
-- *
-- *	1) Existent mapping is kept.
-- *	----------------------------
-+ * 1) Existent mapping is kept.
-+ *=20
-+ *    ::
-  *
-  *	     0     a     1
-  *	old: |-----------| (bo_offset=3Dn)
-@@ -149,8 +148,9 @@
-  *	new: |-----------| (bo_offset=3Dn)
-  *
-  *
-- *	2) Existent mapping is replaced.
-- *	--------------------------------
-+ * 2) Existent mapping is replaced.
-+ *
-+ *    ::
-  *
-  *	     0     a     1
-  *	old: |-----------| (bo_offset=3Dn)
-@@ -162,8 +162,9 @@
-  *	new: |-----------| (bo_offset=3Dm)
-  *
-  *
-- *	3) Existent mapping is replaced.
-- *	--------------------------------
-+ * 3) Existent mapping is replaced.
-+ *
-+ *    ::
-  *
-  *	     0     a     1
-  *	old: |-----------| (bo_offset=3Dn)
-@@ -175,8 +176,9 @@
-  *	new: |-----------| (bo_offset=3Dn)
-  *
-  *
-- *	4) Existent mapping is replaced.
-- *	--------------------------------
-+ * 4) Existent mapping is replaced.
-+ *
-+ *    ::
-  *
-  *	     0  a  1
-  *	old: |-----|       (bo_offset=3Dn)
-@@ -187,12 +189,14 @@
-  *	     0     a     2
-  *	new: |-----------| (bo_offset=3Dn)
-  *
-- *	Note: We expect to see the same result for a request with a different bo
-- *	      and/or bo_offset.
-+ *    .. note::
-+ *       We expect to see the same result for a request with a different bo
-+ *       and/or bo_offset.
-  *
-  *
-- *	5) Existent mapping is split.
-- *	-----------------------------
-+ * 5) Existent mapping is split.
-+ *
-+ *    ::
-  *
-  *	     0     a     2
-  *	old: |-----------| (bo_offset=3Dn)
-@@ -203,12 +207,14 @@
-  *	     0  b  1  a' 2
-  *	new: |-----|-----| (b.bo_offset=3Dn, a.bo_offset=3Dn+1)
-  *
-- *	Note: We expect to see the same result for a request with a different bo
-- *	      and/or non-contiguous bo_offset.
-+ *    .. note::
-+ *       We expect to see the same result for a request with a different bo
-+ *       and/or non-contiguous bo_offset.
-  *
-  *
-- *	6) Existent mapping is kept.
-- *	----------------------------
-+ * 6) Existent mapping is kept.
-+ *
-+ *    ::
-  *
-  *	     0     a     2
-  *	old: |-----------| (bo_offset=3Dn)
-@@ -220,8 +226,9 @@
-  *	new: |-----------| (bo_offset=3Dn)
-  *
-  *
-- *	7) Existent mapping is split.
-- *	-----------------------------
-+ * 7) Existent mapping is split.
-+ *
-+ *    ::
-  *
-  *	     0     a     2
-  *	old: |-----------| (bo_offset=3Dn)
-@@ -233,8 +240,9 @@
-  *	new: |-----|-----| (a.bo_offset=3Dn,b.bo_offset=3Dm)
-  *
-  *
-- *	8) Existent mapping is kept.
-- *	----------------------------
-+ * 8) Existent mapping is kept.
-+ *
-+ *    ::
-  *
-  *	      0     a     2
-  *	old: |-----------| (bo_offset=3Dn)
-@@ -246,8 +254,9 @@
-  *	new: |-----------| (bo_offset=3Dn)
-  *
-  *
-- *	9) Existent mapping is split.
-- *	-----------------------------
-+ * 9) Existent mapping is split.
-+ *
-+ *    ::
-  *
-  *	     0     a     2
-  *	old: |-----------|       (bo_offset=3Dn)
-@@ -259,104 +268,113 @@
-  *	new: |-----|-----------| (a.bo_offset=3Dn,b.bo_offset=3Dm)
-  *
-  *
-- *	10) Existent mapping is merged.
-- *	-------------------------------
-+ * 10) Existent mapping is merged.
-  *
-- *	     0     a     2
-- *	old: |-----------|       (bo_offset=3Dn)
-+ *     ::
-  *
-- *	           1     a     3
-- *	req:       |-----------| (bo_offset=3Dn+1)
-+ *	      0     a     2
-+ *	 old: |-----------|       (bo_offset=3Dn)
-  *
-- *	     0        a        3
-- *	new: |-----------------| (bo_offset=3Dn)
-+ *	            1     a     3
-+ *	 req:       |-----------| (bo_offset=3Dn+1)
-+ *
-+ *	      0        a        3
-+ *	 new: |-----------------| (bo_offset=3Dn)
-  *
-  *
-- *	11) Existent mapping is split.
-- *	------------------------------
-+ * 11) Existent mapping is split.
-  *
-- *	     0        a        3
-- *	old: |-----------------| (bo_offset=3Dn)
-+ *     ::
-  *
-- *	           1  b  2
-- *	req:       |-----|       (bo_offset=3Dm)
-+ *	      0        a        3
-+ *	 old: |-----------------| (bo_offset=3Dn)
-  *
-- *	     0  a  1  b  2  a' 3
-- *	new: |-----|-----|-----| (a.bo_offset=3Dn,b.bo_offset=3Dm,a'.bo_offset=
-=3Dn+2)
-+ *	            1  b  2
-+ *	 req:       |-----|       (bo_offset=3Dm)
-+ *
-+ *	      0  a  1  b  2  a' 3
-+ *	 new: |-----|-----|-----| (a.bo_offset=3Dn,b.bo_offset=3Dm,a'.bo_offset=
-=3Dn+2)
-  *
-  *
-- *	12) Existent mapping is kept.
-- *	-----------------------------
-+ * 12) Existent mapping is kept.
-  *
-- *	     0        a        3
-- *	old: |-----------------| (bo_offset=3Dn)
-+ *     ::
-  *
-- *	           1  a  2
-- *	req:       |-----|       (bo_offset=3Dn+1)
-+ *	      0        a        3
-+ *	 old: |-----------------| (bo_offset=3Dn)
-  *
-- *	     0        a        3
-- *	old: |-----------------| (bo_offset=3Dn)
-+ *	            1  a  2
-+ *	 req:       |-----|       (bo_offset=3Dn+1)
-+ *
-+ *	      0        a        3
-+ *	 old: |-----------------| (bo_offset=3Dn)
-  *
-  *
-- *	13) Existent mapping is replaced.
-- *	---------------------------------
-+ * 13) Existent mapping is replaced.
-  *
-- *	           1  a  2
-- *	old:       |-----| (bo_offset=3Dn)
-+ *     ::
-  *
-- *	     0     a     2
-- *	req: |-----------| (bo_offset=3Dn)
-+ *	            1  a  2
-+ *	 old:       |-----| (bo_offset=3Dn)
-  *
-- *	     0     a     2
-- *	new: |-----------| (bo_offset=3Dn)
-+ *	      0     a     2
-+ *	 req: |-----------| (bo_offset=3Dn)
-  *
-- *	Note: We expect to see the same result for a request with a different bo
-- *	      and/or non-contiguous bo_offset.
-+ *	      0     a     2
-+ *	 new: |-----------| (bo_offset=3Dn)
-+ *
-+ *     .. note::
-+ *        We expect to see the same result for a request with a different =
-bo
-+ *        and/or non-contiguous bo_offset.
-  *
-  *
-- *	14) Existent mapping is replaced.
-- *	---------------------------------
-+ * 14) Existent mapping is replaced.
-  *
-- *	           1  a  2
-- *	old:       |-----| (bo_offset=3Dn)
-+ *     ::
-  *
-- *	     0        a       3
-- *	req: |----------------| (bo_offset=3Dn)
-+ *	            1  a  2
-+ *	 old:       |-----| (bo_offset=3Dn)
-  *
-- *	     0        a       3
-- *	new: |----------------| (bo_offset=3Dn)
-+ *	      0        a       3
-+ *	 req: |----------------| (bo_offset=3Dn)
-  *
-- *	Note: We expect to see the same result for a request with a different bo
-- *	      and/or non-contiguous bo_offset.
-+ *	      0        a       3
-+ *	 new: |----------------| (bo_offset=3Dn)
-+ *
-+ *     .. note::
-+ *        We expect to see the same result for a request with a different =
-bo
-+ *        and/or non-contiguous bo_offset.
-  *
-  *
-- *	15) Existent mapping is split.
-- *	------------------------------
-+ * 15) Existent mapping is split.
-  *
-- *	           1     a     3
-- *	old:       |-----------| (bo_offset=3Dn)
-+ *     ::
-  *
-- *	     0     b     2
-- *	req: |-----------|       (bo_offset=3Dm)
-+ *	            1     a     3
-+ *	 old:       |-----------| (bo_offset=3Dn)
-  *
-- *	     0     b     2  a' 3
-- *	new: |-----------|-----| (b.bo_offset=3Dm,a.bo_offset=3Dn+2)
-+ *	      0     b     2
-+ *	 req: |-----------|       (bo_offset=3Dm)
-+ *
-+ *	      0     b     2  a' 3
-+ *	 new: |-----------|-----| (b.bo_offset=3Dm,a.bo_offset=3Dn+2)
-  *
-  *
-- *	16) Existent mappings are merged.
-- *	---------------------------------
-+ * 16) Existent mappings are merged.
-  *
-- *	     0     a     1
-- *	old: |-----------|                        (bo_offset=3Dn)
-+ *     ::
-  *
-- *	                            2     a     3
-- *	old':                       |-----------| (bo_offset=3Dn+2)
-+ *	      0     a     1
-+ *	 old: |-----------|                        (bo_offset=3Dn)
-  *
-- *	                1     a     2
-- *	req:            |-----------|             (bo_offset=3Dn+1)
-+ *	                             2     a     3
-+ *	 old':                       |-----------| (bo_offset=3Dn+2)
-  *
-- *	                      a
-- *	new: |----------------------------------| (bo_offset=3Dn)
-+ *	                 1     a     2
-+ *	 req:            |-----------|             (bo_offset=3Dn+1)
-+ *
-+ *	                       a
-+ *	 new: |----------------------------------| (bo_offset=3Dn)
-  */
-=20
- /**
-
-However, the relationship scenario descriptions are too generic (different
-diagrams are described by the same text). Please rewrite them, taking into
-account bo_offset values in each scenario.
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---st4xfXKFTYFcRLrQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY8jDrQAKCRD2uYlJVVFO
-oyc5AQDzS32MPEoI8XEnJ+yGcruwTqG4VgFpXjQO6ybbNI0oaAD/cDphbOXxvq0A
-nY3OKSukKaxO8u18WTRGbGOfkLvASA0=
-=bBlm
------END PGP SIGNATURE-----
-
---st4xfXKFTYFcRLrQ--
+> 
+> Thanks,
+> Sandeep.
+> 
+> [1] https://lore.kernel.org/linux-erofs/20230106073502.4017276-1-dhavale@google.com/
+> 
+> >
+> > > >
+> > > > Scheduler latency affects several drivers as evidenced by [1], [2], [3],
+> > > > [4].  Some of these drivers have moved post-processing into IRQ context.
+> > > > However, this can cause latency spikes for real-time threads and jitter
+> > > > related jank on Android.  Using a workqueue with SCHED_FIFO improves
+> > > > scheduler latency without causing latency problems for RT threads.
+> > >
+> > > softirq context is actually mainly for post-interrupt handling I think.
+> > > but considering decompression/verification/decryption all workload are much
+> > > complex than that and less important than real post-interrupt handling.
+> > > I don't think softirq context is the best place to handle these
+> > > CPU-intensive jobs.  Beside, it could cause some important work moving to
+> > > softirqd unexpectedly in the extreme cases.  Also such many post-processing
+> > > jobs are as complex as they could sleep so that softirq context is
+> > > unsuitable as well.
+> > >
+> > > Anyway, I second this proposal if possible:
+> > >
+> > > Acked-by: Gao Xiang <hsiangkao@linux.alibaba.com>
+> > >
+> > > Thanks,
+> > > Gao Xiang
+> > >
+> > > >
+> > > > [1]:
+> > > > https://lore.kernel.org/linux-erofs/20230106073502.4017276-1-dhavale@google.com/
+> > > > [2]:
+> > > > https://lore.kernel.org/linux-f2fs-devel/20220802192437.1895492-1-daeho43@gmail.com/
+> > > > [3]:
+> > > > https://lore.kernel.org/dm-devel/20220722093823.4158756-4-nhuck@google.com/
+> > > > [4]:
+> > > > https://lore.kernel.org/dm-crypt/20200706173731.3734-1-ignat@cloudflare.com/
+> > > >
+> > > > This change has been tested on dm-verity with the following fio config:
+> > > >
+> > > > [global]
+> > > > time_based
+> > > > runtime=120
+> > > >
+> > > > [do-verify]
+> > > > ioengine=sync
+> > > > filename=/dev/testing
+> > > > rw=randread
+> > > > direct=1
+> > > >
+> > > > [burn_8x90%_qsort]
+> > > > ioengine=cpuio
+> > > > cpuload=90
+> > > > numjobs=8
+> > > > cpumode=qsort
+> > > >
+> > > > Before:
+> > > > clat (usec): min=13, max=23882, avg=29.56, stdev=113.29 READ:
+> > > > bw=122MiB/s (128MB/s), 122MiB/s-122MiB/s (128MB/s-128MB/s), io=14.3GiB
+> > > > (15.3GB), run=120001-120001msec
+> > > >
+> > > > After:
+> > > > clat (usec): min=13, max=23137, avg=19.96, stdev=105.71 READ:
+> > > > bw=180MiB/s (189MB/s), 180MiB/s-180MiB/s (189MB/s-189MB/s), io=21.1GiB
+> > > > (22.7GB), run=120012-120012msec
+> > > >
+> > > > Cc: Sandeep Dhavale <dhavale@google.com>
+> > > > Cc: Daeho Jeong <daehojeong@google.com>
+> > > > Cc: Eric Biggers <ebiggers@kernel.org>
+> > > > Cc: Sami Tolvanen <samitolvanen@google.com>
+> > > > Signed-off-by: Nathan Huckleberry <nhuck@google.com>
+> > > > ---
+> > > >   Documentation/core-api/workqueue.rst | 12 ++++++++++
+> > > >   include/linux/workqueue.h            |  9 +++++++
+> > > >   kernel/workqueue.c                   | 36 +++++++++++++++++++++-------
+> > > >   3 files changed, 48 insertions(+), 9 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/core-api/workqueue.rst b/Documentation/core-api/workqueue.rst
+> > > > index 3b22ed137662..26faf2806c66 100644
+> > > > --- a/Documentation/core-api/workqueue.rst
+> > > > +++ b/Documentation/core-api/workqueue.rst
+> > > > @@ -216,6 +216,18 @@ resources, scheduled and executed.
+> > > >
+> > > >     This flag is meaningless for unbound wq.
+> > > >
+> > > > +``WQ_SCHED_FIFO``
+> > > > +  Work items of a fifo wq are queued to the fifo
+> > > > +  worker-pool of the target cpu.  Fifo worker-pools are
+> > > > +  served by worker threads with scheduler policy SCHED_FIFO and
+> > > > +  the least important real-time priority.  This can be useful
+> > > > +  for workloads where low latency is imporant.
+> > > > +
+> > > > +  A workqueue cannot be both high-priority and fifo.
+> > > > +
+> > > > +  Note that normal and fifo worker-pools don't interact with
+> > > > +  each other.  Each maintains its separate pool of workers and
+> > > > +  implements concurrency management among its workers.
+> > > >
+> > > >   ``max_active``
+> > > >   --------------
+> > > > diff --git a/include/linux/workqueue.h b/include/linux/workqueue.h
+> > > > index ac551b8ee7d9..43a4eeaf8ff4 100644
+> > > > --- a/include/linux/workqueue.h
+> > > > +++ b/include/linux/workqueue.h
+> > > > @@ -134,6 +134,10 @@ struct workqueue_attrs {
+> > > >        * @nice: nice level
+> > > >        */
+> > > >       int nice;
+> > > > +     /**
+> > > > +      * @sched_fifo: is using SCHED_FIFO
+> > > > +      */
+> > > > +     bool sched_fifo;
+> > > >
+> > > >       /**
+> > > >        * @cpumask: allowed CPUs
+> > > > @@ -334,6 +338,11 @@ enum {
+> > > >        * http://thread.gmane.org/gmane.linux.kernel/1480396
+> > > >        */
+> > > >       WQ_POWER_EFFICIENT      = 1 << 7,
+> > > > +     /*
+> > > > +      * Low real-time priority workqueues can reduce scheduler latency
+> > > > +      * for latency sensitive workloads like IO post-processing.
+> > > > +      */
+> > > > +     WQ_SCHED_FIFO           = 1 << 8,
+> > > >
+> > > >       __WQ_DESTROYING         = 1 << 15, /* internal: workqueue is destroying */
+> > > >       __WQ_DRAINING           = 1 << 16, /* internal: workqueue is draining */
+> > > > diff --git a/kernel/workqueue.c b/kernel/workqueue.c
+> > > > index 5dc67aa9d696..99c5e0a3dc28 100644
+> > > > --- a/kernel/workqueue.c
+> > > > +++ b/kernel/workqueue.c
+> > > > @@ -85,7 +85,7 @@ enum {
+> > > >       WORKER_NOT_RUNNING      = WORKER_PREP | WORKER_CPU_INTENSIVE |
+> > > >                                 WORKER_UNBOUND | WORKER_REBOUND,
+> > > >
+> > > > -     NR_STD_WORKER_POOLS     = 2,            /* # standard pools per cpu */
+> > > > +     NR_STD_WORKER_POOLS     = 3,            /* # standard pools per cpu */
+> > > >
+> > > >       UNBOUND_POOL_HASH_ORDER = 6,            /* hashed by pool->attrs */
+> > > >       BUSY_WORKER_HASH_ORDER  = 6,            /* 64 pointers */
+> > > > @@ -1949,7 +1949,8 @@ static struct worker *create_worker(struct worker_pool *pool)
+> > > >
+> > > >       if (pool->cpu >= 0)
+> > > >               snprintf(id_buf, sizeof(id_buf), "%d:%d%s", pool->cpu, id,
+> > > > -                      pool->attrs->nice < 0  ? "H" : "");
+> > > > +                      pool->attrs->sched_fifo ? "F" :
+> > > > +                      (pool->attrs->nice < 0  ? "H" : ""));
+> > > >       else
+> > > >               snprintf(id_buf, sizeof(id_buf), "u%d:%d", pool->id, id);
+> > > >
+> > > > @@ -1958,7 +1959,11 @@ static struct worker *create_worker(struct worker_pool *pool)
+> > > >       if (IS_ERR(worker->task))
+> > > >               goto fail;
+> > > >
+> > > > -     set_user_nice(worker->task, pool->attrs->nice);
+> > > > +     if (pool->attrs->sched_fifo)
+> > > > +             sched_set_fifo_low(worker->task);
+> > > > +     else
+> > > > +             set_user_nice(worker->task, pool->attrs->nice);
+> > > > +
+> > > >       kthread_bind_mask(worker->task, pool->attrs->cpumask);
+> > > >
+> > > >       /* successful, attach the worker to the pool */
+> > > > @@ -4323,9 +4328,17 @@ static void wq_update_unbound_numa(struct workqueue_struct *wq, int cpu,
+> > > >
+> > > >   static int alloc_and_link_pwqs(struct workqueue_struct *wq)
+> > > >   {
+> > > > -     bool highpri = wq->flags & WQ_HIGHPRI;
+> > > > +     int pool_index = 0;
+> > > >       int cpu, ret;
+> > > >
+> > > > +     if (wq->flags & WQ_HIGHPRI && wq->flags & WQ_SCHED_FIFO)
+> > > > +             return -EINVAL;
+> > > > +
+> > > > +     if (wq->flags & WQ_HIGHPRI)
+> > > > +             pool_index = 1;
+> > > > +     if (wq->flags & WQ_SCHED_FIFO)
+> > > > +             pool_index = 2;
+> > > > +
+> > > >       if (!(wq->flags & WQ_UNBOUND)) {
+> > > >               wq->cpu_pwqs = alloc_percpu(struct pool_workqueue);
+> > > >               if (!wq->cpu_pwqs)
+> > > > @@ -4337,7 +4350,7 @@ static int alloc_and_link_pwqs(struct workqueue_struct *wq)
+> > > >                       struct worker_pool *cpu_pools =
+> > > >                               per_cpu(cpu_worker_pools, cpu);
+> > > >
+> > > > -                     init_pwq(pwq, wq, &cpu_pools[highpri]);
+> > > > +                     init_pwq(pwq, wq, &cpu_pools[pool_index]);
+> > > >
+> > > >                       mutex_lock(&wq->mutex);
+> > > >                       link_pwq(pwq);
+> > > > @@ -4348,13 +4361,13 @@ static int alloc_and_link_pwqs(struct workqueue_struct *wq)
+> > > >
+> > > >       cpus_read_lock();
+> > > >       if (wq->flags & __WQ_ORDERED) {
+> > > > -             ret = apply_workqueue_attrs(wq, ordered_wq_attrs[highpri]);
+> > > > +             ret = apply_workqueue_attrs(wq, ordered_wq_attrs[pool_index]);
+> > > >               /* there should only be single pwq for ordering guarantee */
+> > > >               WARN(!ret && (wq->pwqs.next != &wq->dfl_pwq->pwqs_node ||
+> > > >                             wq->pwqs.prev != &wq->dfl_pwq->pwqs_node),
+> > > >                    "ordering guarantee broken for workqueue %s\n", wq->name);
+> > > >       } else {
+> > > > -             ret = apply_workqueue_attrs(wq, unbound_std_wq_attrs[highpri]);
+> > > > +             ret = apply_workqueue_attrs(wq, unbound_std_wq_attrs[pool_index]);
+> > > >       }
+> > > >       cpus_read_unlock();
+> > > >
+> > > > @@ -6138,7 +6151,8 @@ static void __init wq_numa_init(void)
+> > > >    */
+> > > >   void __init workqueue_init_early(void)
+> > > >   {
+> > > > -     int std_nice[NR_STD_WORKER_POOLS] = { 0, HIGHPRI_NICE_LEVEL };
+> > > > +     int std_nice[NR_STD_WORKER_POOLS] = { 0, HIGHPRI_NICE_LEVEL, 0 };
+> > > > +     bool std_sched_fifo[NR_STD_WORKER_POOLS] = { false, false, true };
+> > > >       int i, cpu;
+> > > >
+> > > >       BUILD_BUG_ON(__alignof__(struct pool_workqueue) < __alignof__(long long));
+> > > > @@ -6158,8 +6172,10 @@ void __init workqueue_init_early(void)
+> > > >                       BUG_ON(init_worker_pool(pool));
+> > > >                       pool->cpu = cpu;
+> > > >                       cpumask_copy(pool->attrs->cpumask, cpumask_of(cpu));
+> > > > -                     pool->attrs->nice = std_nice[i++];
+> > > > +                     pool->attrs->nice = std_nice[i];
+> > > > +                     pool->attrs->sched_fifo = std_sched_fifo[i];
+> > > >                       pool->node = cpu_to_node(cpu);
+> > > > +                     i++;
+> > > >
+> > > >                       /* alloc pool ID */
+> > > >                       mutex_lock(&wq_pool_mutex);
+> > > > @@ -6174,6 +6190,7 @@ void __init workqueue_init_early(void)
+> > > >
+> > > >               BUG_ON(!(attrs = alloc_workqueue_attrs()));
+> > > >               attrs->nice = std_nice[i];
+> > > > +             attrs->sched_fifo = std_sched_fifo[i];
+> > > >               unbound_std_wq_attrs[i] = attrs;
+> > > >
+> > > >               /*
+> > > > @@ -6183,6 +6200,7 @@ void __init workqueue_init_early(void)
+> > > >                */
+> > > >               BUG_ON(!(attrs = alloc_workqueue_attrs()));
+> > > >               attrs->nice = std_nice[i];
+> > > > +             attrs->sched_fifo = std_sched_fifo[i];
+> > > >               attrs->no_numa = true;
+> > > >               ordered_wq_attrs[i] = attrs;
+> > > >       }
