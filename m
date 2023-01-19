@@ -2,141 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9163C004D4
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 15:34:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02FF9C004D4
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 15:49:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231284AbjASPee (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 10:34:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36300 "EHLO
+        id S231480AbjASPtu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 10:49:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230121AbjASPeA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 10:34:00 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C561483851;
-        Thu, 19 Jan 2023 07:33:08 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6147B616D9;
-        Thu, 19 Jan 2023 15:33:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52C15C433EF;
-        Thu, 19 Jan 2023 15:33:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1674142387;
-        bh=FcujAv6pw+UkGB6FI1pYPp1E5BQ/pV6s+jam/Dq4LGY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bmF3t8s7Vd3DTRlwCj/EZNBLnYS+E3CIAGc9d9frCnja/LmwgkJepagKTauDp1b8o
-         YLPqhA60yLt7Bn3RJqf+FaCqY8Qg7DutCg+Ecmf3FN6HZAjaU0MFo42t3F0x21b6kn
-         y69ArVNN5R5xIqUW/i7C/yTnSj4A7HG2Gg1wNHiM=
-Date:   Thu, 19 Jan 2023 16:33:05 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Tianfei Zhang <tianfei.zhang@intel.com>, bhelgaas@google.com,
-        linux-pci@vger.kernel.org, linux-fpga@vger.kernel.org,
-        lukas@wunner.de, kabel@kernel.org, mani@kernel.org,
-        pali@kernel.org, mdf@kernel.org, hao.wu@intel.com,
-        yilun.xu@intel.com, trix@redhat.com, jgg@ziepe.ca,
-        ira.weiny@intel.com, andriy.shevchenko@linux.intel.com,
-        dan.j.williams@intel.com, keescook@chromium.org,
-        russell.h.weight@intel.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ilpo.jarvinen@linux.intel.com,
-        lee@kernel.org, matthew.gerlach@linux.intel.com
-Subject: Re: [PATCH v1 00/12] add FPGA hotplug manager driver
-Message-ID: <Y8lisT7xmkd1/g+J@kroah.com>
-References: <20230119013602.607466-1-tianfei.zhang@intel.com>
- <Y8lGxqjuLS8NfJtg@kroah.com>
- <CAJZ5v0jW28k5+CN_F4dLo=OzVVJEL+U=gW4bzeSPjU=j53BJKg@mail.gmail.com>
+        with ESMTP id S231372AbjASPtU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 10:49:20 -0500
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 121118766A;
+        Thu, 19 Jan 2023 07:48:22 -0800 (PST)
+Received: by mail-ej1-x636.google.com with SMTP id v6so6766680ejg.6;
+        Thu, 19 Jan 2023 07:48:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+tTabZx+wRH0q9rQET/ShTDrcAyEnuICfb94pTN2GUM=;
+        b=iky8ya8NU/DHJz202+GYWQjeF1iemoJGbw32VHJJa8eQ+PwWvZ+OxDrLU96UIdlWet
+         LWrS0kWKZQFWzDQySFMdKqVoIj4KUGlecedMivjg0uDiZvcIauFkIINfpWVJ+rhpdmgM
+         yS9h7JH9N6bCiD2q+lIeKFwe5s2sOjKv4W0d1r5cnUsLn6/u+YL++G9C1XFOzR2T9E2w
+         DGrED2IWP6f5L2gMotbXo9D+I8EeTTlh6r+6iBuHmKdeWKLkMkjscmVd+l8MqW3iRbHy
+         SYQPUm0+BDJqrh7WRWhNYTRPzGFIiW5FkZASdt48fidfAGo9YyQUj6rFqYKkmfI+EoJ3
+         WJVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+tTabZx+wRH0q9rQET/ShTDrcAyEnuICfb94pTN2GUM=;
+        b=qzzK5E7e2qUTeMTCzj+2JPC19fVixmI5g2bJarGyxwo8CSKN11+ZNZn8XyTGozQUHH
+         jPNBG4q+ENgFbsQ+KvjCVVeiNJWwhIc67KX41BvxXFy29LUKRONeWAoKZ5vFmNyraImv
+         cx6RYvK+nJ6mZHT25/KTIGh2yVnm5vng9clSHhKq5sQHEyf67afEXlNH47t61AwLGTzK
+         Yx47+hFxkbd8d/97m036mXWKBiV4zQK4sOcuhW0L9osIYNNnZIBiHZ+Fv+FotH4MedTw
+         lW3Wrcy9NCtVq1D7NWz2pKE8svtaVFMRp2hB0106PyLWZlX2r0hWadck/ADk+I2xHovx
+         eFXA==
+X-Gm-Message-State: AFqh2kqMqDuB9Ms53Xr/eE0BUNv1YFJbmZsH4YTSl6vdPZ4sme74V7d+
+        yyGx+H7Nwpr9srtWE8BTL8pqhy3HuNWKbw==
+X-Google-Smtp-Source: AMrXdXv7yD7sMrLgeYfr0ZU6vU3gqZlBC/pFeriSs04hIkXVA9qMRXXvW36r+UKhqpeiryPG59u3ww==
+X-Received: by 2002:a17:906:38c3:b0:872:82d3:4162 with SMTP id r3-20020a17090638c300b0087282d34162mr11538199ejd.44.1674143300518;
+        Thu, 19 Jan 2023 07:48:20 -0800 (PST)
+Received: from skbuf ([188.27.185.85])
+        by smtp.gmail.com with ESMTPSA id kx4-20020a170907774400b007c10d47e748sm16418971ejc.36.2023.01.19.07.48.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jan 2023 07:48:20 -0800 (PST)
+Date:   Thu, 19 Jan 2023 17:48:17 +0200
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, robh@kernel.org, johannes@sipsolutions.net,
+        stephen@networkplumber.org, ecree.xilinx@gmail.com, sdf@google.com,
+        f.fainelli@gmail.com, fw@strlen.de, linux-doc@vger.kernel.org,
+        razor@blackwall.org, nicolas.dichtel@6wind.com,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH net-next v3 1/8] docs: add more netlink docs (incl. spec
+ docs)
+Message-ID: <20230119154817.cg6cgzmirc46xqyy@skbuf>
+References: <20230119003613.111778-1-kuba@kernel.org>
+ <20230119003613.111778-2-kuba@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJZ5v0jW28k5+CN_F4dLo=OzVVJEL+U=gW4bzeSPjU=j53BJKg@mail.gmail.com>
+In-Reply-To: <20230119003613.111778-2-kuba@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 02:43:21PM +0100, Rafael J. Wysocki wrote:
-> On Thu, Jan 19, 2023 at 2:34 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Wed, Jan 18, 2023 at 08:35:50PM -0500, Tianfei Zhang wrote:
-> > > This patchset introduces the FPGA hotplug manager (fpgahp) driver which
-> > > has been verified on the Intel N3000 card.
-> > >
-> > > When a PCIe-based FPGA card is reprogrammed, it temporarily disappears
-> > > from the PCIe bus. This needs to be managed to avoid PCIe errors and to
-> > > reprobe the device after reprogramming.
-> > >
-> > > To change the FPGA image, the kernel burns a new image into the flash on
-> > > the card, and then triggers the card BMC to load the new image into FPGA.
-> > > A new FPGA hotplug manager driver is introduced that leverages the PCIe
-> > > hotplug framework to trigger and manage the update of the FPGA image,
-> > > including the disappearance and reappearance of the card on the PCIe bus.
-> > > The fpgahp driver uses APIs from the pciehp driver. Two new operation
-> > > callbacks are defined in hotplug_slot_ops:
-> > >
-> > >   - available_images: Optional: available FPGA images
-> > >   - image_load: Optional: trigger the FPGA to load a new image
-> > >
-> > >
-> > > The process of reprogramming an FPGA card begins by removing all devices
-> > > associated with the card that are not required for the reprogramming of
-> > > the card. This includes PCIe devices (PFs and VFs) associated with the
-> > > card as well as any other types of devices (platform, etc.) defined within
-> > > the FPGA. The remaining devices are referred to here as "reserved" devices.
-> > > After triggering the update of the FPGA card, the reserved devices are also
-> > > removed.
-> > >
-> > > The complete process for reprogramming the FPGA are:
-> > >     1. remove all PFs and VFs except for PF0 (reserved).
-> > >     2. remove all non-reserved devices of PF0.
-> > >     3. trigger FPGA card to do the image update.
-> > >     4. disable the link of the hotplug bridge.
-> > >     5. remove all reserved devices under hotplug bridge.
-> > >     6. wait for image reload done via BMC, e.g. 10s.
-> > >     7. re-enable the link of hotplug bridge
-> > >     8. enumerate PCI devices below the hotplug bridge
-> > >
-> > > usage example:
-> > > [root@localhost]# cd /sys/bus/pci/slot/X-X/
-> > >
-> > > Get the available images.
-> > > [root@localhost 2-1]# cat available_images
-> > > bmc_factory bmc_user retimer_fw
-> > >
-> > > Load the request images for FPGA Card, for example load the BMC user image:
-> > > [root@localhost 2-1]# echo bmc_user > image_load
-> >
-> > Why is all of this tied into the pci hotplug code? Shouldn't it be
-> > specific to this one driver instead?  pci hotplug is for removing/adding
-> > PCI devices to the system, not messing with FPGA images.
-> >
-> > This feels like an abuse of the pci hotplug bus to me as this is NOT
-> > really a PCI hotplug bus at all, right?
-> >
-> > Or is it?  If so, then the slots should show up under the PCI device
-> > itself, not in /sys/bus/pci/slot/.  That location is there for old old
-> > stuff, we probably should move it one of these days as there's lots of
-> > special-cases in the driver core just because of that :(
+On Wed, Jan 18, 2023 at 04:36:06PM -0800, Jakub Kicinski wrote:
+> Add documentation about the upcoming Netlink protocol specs.
 > 
-> I'm not sure if I can agree with this statement.
-> 
-> The slot here is what is registered via pci_hp_register(), isn't it?
+> Reviewed-by: Nicolas Dichtel <nicolas.dichtel@6wind.com>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> --
 
-Yes, but is it really a "slot" like a normal PCI slot?
+I considered this an useful read, thanks.
 
-> There are multiple users of this in the tree, including ACPI-based PCI
-> hotplug, which is not really that old.
-
-It's really old, I think I worked on that in the 2.4/2.5 days?  Anyway,
-it's been around a long time.
-
-> Are you saying that this should not be used?
-
-I'm saying that PCI is the only subsystem/bus that has something like
-this and we have a number of functions exported in the driver core only
-for the pci hotplug slot list.  Which kind of implies that maybe it
-should be moved to something else?  I don't have any specific ideas what
-it should be, just that it feels really odd as-is still.
-
-thanks,
-
-greg k-h
+Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
