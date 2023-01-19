@@ -2,206 +2,171 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 060EAC38142
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 04:21:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EEF5C38142
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 04:27:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229576AbjASESs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 23:18:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42570 "EHLO
+        id S230057AbjASE13 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 23:27:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230340AbjASEMv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 23:12:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AF764DE02
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jan 2023 20:05:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674101101;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=H7OPYm/CyGG7JZ3N2EKK6aABpcM+R88iLwPOmNK8ra0=;
-        b=ILQCSIqc/l2PrwL9EtxmU0++QSnFH5w8UM4y21W7Cr+Q2k4KI1WW1fQMdxX8QBhhDGCq55
-        SWpzfMBi4/J5bmBfZLZxjIZKbb1ebOsupXKrjoodpgFV8qjEbslDxD5tS74KClneLrGXqL
-        nsyCzZHSMaokh/y/IVnnoDdlAz2VATU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-587-oFDbS_QoPjGDQqhEO99ExQ-1; Wed, 18 Jan 2023 23:04:43 -0500
-X-MC-Unique: oFDbS_QoPjGDQqhEO99ExQ-1
-Received: by mail-ej1-f71.google.com with SMTP id xh12-20020a170906da8c00b007413144e87fso645472ejb.14
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jan 2023 20:04:36 -0800 (PST)
+        with ESMTP id S230171AbjASEVm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 23:21:42 -0500
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 780AF70C6A
+        for <linux-doc@vger.kernel.org>; Wed, 18 Jan 2023 20:08:11 -0800 (PST)
+Received: by mail-ot1-x330.google.com with SMTP id cc13-20020a05683061cd00b00684b8cf2f4dso538437otb.12
+        for <linux-doc@vger.kernel.org>; Wed, 18 Jan 2023 20:08:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yAal0ABxTUOthK5NVhi8iunngRBuIWwZl3qwDcO6bJ4=;
+        b=BXvEvVsL0ihOhRg1ItgsculO56sGTYE92MTgf32f+gIX1M2ohLfZVTZThWW223P5XY
+         j4vqTfOC540B4OKKCFsvkcT/HTejQzDlAFV7tLq90WL+2hvs8M2lr5WVBIY2XJw800JS
+         IgXy/il2hcbV8oJH7PMYKymfJtSKbVzu2kCRUAXe0nBsNlB2Hkq8udK9XATuZvJbzvvN
+         AuarLQV+wxN4ZDOqMJl9kyZakTDbM5jox0pxv6GVFSZwryrgYs0Cg9xzLLrl9LEdl8dp
+         TRKiZ1brl48ZPLW5JojsbHC1L5KrWFoPsKYRw/5SY7B+sJDLdeM+SE6qtZ2YIz2Gw5q7
+         fkDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H7OPYm/CyGG7JZ3N2EKK6aABpcM+R88iLwPOmNK8ra0=;
-        b=MbX4atFyJ0pXc6h/PIL6goBPLSCb6+NJ1AgPbl69P+Hn1V1cvHym6o5fl67AEy3hyk
-         SweN8npDUDKHco6M7p/T7Jp49ajNJn3UT2rVpj40uHA0khAyA0MmNIYywM18J6hH40Qq
-         EQ5k2KhAC0NaJ1GTklLpZmsUny/cyt7KIB6x/NJSFg+iU8Clut1TgRd6xte0iA9KWDzA
-         z5ZNxdCMF6UnBMxAcW5di9pq3nh6hMhDnp58bv6FsgvEDSN9GWpf0ulxnjhBFH+rBnHk
-         f1TFGgJH9Hbd8nY4uKpv78rol0XuQkRKCs9u5sXfrVgPJ9fl4XfFros1fUSixiwANyxg
-         KwkQ==
-X-Gm-Message-State: AFqh2kqaF+SBqIU+nZ87yVmb61C5gGKQApPl2IrvnRVwHsKp32PavXcs
-        SYm+7GckIg+igGhvG4uuTG0+fcSzc/EeUKwzvB6fkYTkwDvwVhEkYI36LjnRhUb9fHDkTjS0iOx
-        dp502qMsYexedleN5URUM
-X-Received: by 2002:a05:6402:524f:b0:49e:910:5706 with SMTP id t15-20020a056402524f00b0049e09105706mr13489755edd.2.1674101074377;
-        Wed, 18 Jan 2023 20:04:34 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtsQ7JXA+AMUQUFgORRUO6Iabzzm99GnpRbsUa+PdAwtaX/BOrRFmUNvea0eeDfwBfpjgNzqA==
-X-Received: by 2002:a05:6402:524f:b0:49e:910:5706 with SMTP id t15-20020a056402524f00b0049e09105706mr13489742edd.2.1674101074107;
-        Wed, 18 Jan 2023 20:04:34 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id cf23-20020a170906b2d700b007aef930360asm11192409ejb.59.2023.01.18.20.04.32
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yAal0ABxTUOthK5NVhi8iunngRBuIWwZl3qwDcO6bJ4=;
+        b=b3QgmRHApmSUYnnHnPtGYXd1DyfVkYWKyCN+br+QmDfvupQduadQU606PZnqxYGXbS
+         KU7n/wFUpMceJzaXwa0QJVnLGbOrl0I1RzFTRUEZQ3kcl1p6ZdL2wzL4CUVCYc0Ppm6a
+         8nWNthgYpuLUJSzJAx+EVTb2s1vl30P0q8eqVN4yAXbuVGHa/MUby61EhUpmaIxD674W
+         eVnosVwqKkizdPjwclEVd1z3fpxPqFqbhZz4t1TSwF2QTYwyWN6eUAT/q82sDjX4bOVH
+         TTdW7+b4oVMNXRaH8YmKV/G7o1Rkh4qih22kW3qwNLdM13/fTBYX5vFYh//63rkEydS3
+         EWXA==
+X-Gm-Message-State: AFqh2kqq5pPztDhJ0LDS6JGwh2AV1Lr4ds9rxf2kvhdX+bKRRtbKO08f
+        5gEjWkm1r2+cRbO1R8lYmGeGx91mqI8=
+X-Google-Smtp-Source: AMrXdXulZOhiqcgqcIx8iKE8PZzZqxDEwKgIeKfk1TuffdQCHC/5CVEI6HPvNI3wn41YhC2qgcZxXA==
+X-Received: by 2002:a05:6a00:d54:b0:58d:9306:4f24 with SMTP id n20-20020a056a000d5400b0058d93064f24mr9218999pfv.0.1674100844703;
+        Wed, 18 Jan 2023 20:00:44 -0800 (PST)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id k27-20020aa7999b000000b00587304cbd3fsm20383327pfh.181.2023.01.18.20.00.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jan 2023 20:04:33 -0800 (PST)
-Message-ID: <6566870d-6256-8eef-5879-cb13711e4bed@redhat.com>
-Date:   Thu, 19 Jan 2023 05:04:32 +0100
+        Wed, 18 Jan 2023 20:00:44 -0800 (PST)
+Message-ID: <c00df839-9429-891b-5682-3dbc2d6edbbe@gmail.com>
+Date:   Thu, 19 Jan 2023 13:00:37 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH drm-next 00/14] [RFC] DRM GPUVA Manager & Nouveau VM_BIND
- UAPI
+ Thunderbird/102.4.2
+To:     Sadiya Kazi <sadiyakazi@google.com>
+Cc:     brendanhiggins@google.com, corbet@lwn.net, davidgow@google.com,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+References: <CAO2JNKUA5DWxNk2cCZwj8DEFF-acf6ZpxwBqn2qTwn4fTW1+BQ@mail.gmail.com>
+Subject: Re: New theme - Alabaster for Kernel Documentation
 Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Dave Airlie <airlied@gmail.com>,
-        Alex Deucher <alexdeucher@gmail.com>
-Cc:     tzimmermann@suse.de, corbet@lwn.net, nouveau@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bskeggs@redhat.com,
-        jason@jlekstrand.net, airlied@redhat.com
-References: <20230118061256.2689-1-dakr@redhat.com>
- <db4fa0fc-c9a6-9a48-c45f-1d655b30aff9@amd.com>
- <02b0bcb8-f69f-93cf-1f56-ec883cb33965@redhat.com>
- <3602500f-05f5-10b8-5ec6-0a6246e2bb6b@amd.com>
- <bcbef353-f579-4e90-1c77-be36bbe61c0f@redhat.com>
- <CADnq5_PGaXFW-z3gt+R+W+vBVdeuL4wMuMOQh4muxU13Bemy3A@mail.gmail.com>
- <0f2d6e1a-a3b5-f323-a29d-caade427292c@redhat.com>
- <CADnq5_Nh-1esiHzvTG+qFBCfMjy21efX-YN2jfGG=WC+-4LwLQ@mail.gmail.com>
- <CAPM=9txMZO1uYj+kVdTfmCwV2Fq8uu_b3i4eq4xhqPEPKBW8Eg@mail.gmail.com>
- <7839c47e-6692-b93b-69a8-9584193cb07d@amd.com>
-From:   Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <7839c47e-6692-b93b-69a8-9584193cb07d@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <CAO2JNKUA5DWxNk2cCZwj8DEFF-acf6ZpxwBqn2qTwn4fTW1+BQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/18/23 20:48, Christian König wrote:
-> Am 18.01.23 um 20:17 schrieb Dave Airlie:
->> On Thu, 19 Jan 2023 at 02:54, Alex Deucher <alexdeucher@gmail.com> wrote:
->>> On Wed, Jan 18, 2023 at 11:50 AM Danilo Krummrich <dakr@redhat.com> 
->>> wrote:
->>>>
->>>>
->>>> On 1/18/23 17:30, Alex Deucher wrote:
->>>>> On Wed, Jan 18, 2023 at 11:19 AM Danilo Krummrich <dakr@redhat.com> 
->>>>> wrote:
->>>>>> On 1/18/23 16:37, Christian König wrote:
->>>>>>> Am 18.01.23 um 16:34 schrieb Danilo Krummrich:
->>>>>>>> Hi Christian,
->>>>>>>>
->>>>>>>> On 1/18/23 09:53, Christian König wrote:
->>>>>>>>> Am 18.01.23 um 07:12 schrieb Danilo Krummrich:
->>>>>>>>>> This patch series provides a new UAPI for the Nouveau driver in
->>>>>>>>>> order to
->>>>>>>>>> support Vulkan features, such as sparse bindings and sparse 
->>>>>>>>>> residency.
->>>>>>>>>>
->>>>>>>>>> Furthermore, with the DRM GPUVA manager it provides a new DRM 
->>>>>>>>>> core
->>>>>>>>>> feature to
->>>>>>>>>> keep track of GPU virtual address (VA) mappings in a more 
->>>>>>>>>> generic way.
->>>>>>>>>>
->>>>>>>>>> The DRM GPUVA manager is indented to help drivers implement
->>>>>>>>>> userspace-manageable
->>>>>>>>>> GPU VA spaces in reference to the Vulkan API. In order to achieve
->>>>>>>>>> this goal it
->>>>>>>>>> serves the following purposes in this context.
->>>>>>>>>>
->>>>>>>>>>        1) Provide a dedicated range allocator to track GPU VA
->>>>>>>>>> allocations and
->>>>>>>>>>           mappings, making use of the drm_mm range allocator.
->>>>>>>>> This means that the ranges are allocated by the kernel? If yes 
->>>>>>>>> that's
->>>>>>>>> a really really bad idea.
->>>>>>>> No, it's just for keeping track of the ranges userspace has 
->>>>>>>> allocated.
->>>>>>> Ok, that makes more sense.
->>>>>>>
->>>>>>> So basically you have an IOCTL which asks kernel for a free 
->>>>>>> range? Or
->>>>>>> what exactly is the drm_mm used for here?
->>>>>> Not even that, userspace provides both the base address and the 
->>>>>> range,
->>>>>> the kernel really just keeps track of things. Though, writing a 
->>>>>> UAPI on
->>>>>> top of the GPUVA manager asking for a free range instead would be
->>>>>> possible by just adding the corresponding wrapper functions to get a
->>>>>> free hole.
->>>>>>
->>>>>> Currently, and that's what I think I read out of your question, 
->>>>>> the main
->>>>>> benefit of using drm_mm over simply stuffing the entries into a 
->>>>>> list or
->>>>>> something boils down to easier collision detection and iterating
->>>>>> sub-ranges of the whole VA space.
->>>>> Why not just do this in userspace?  We have a range manager in
->>>>> libdrm_amdgpu that you could lift out into libdrm or some other
->>>>> helper.
->>>> The kernel still needs to keep track of the mappings within the various
->>>> VA spaces, e.g. it silently needs to unmap mappings that are backed by
->>>> BOs that get evicted and remap them once they're validated (or swapped
->>>> back in).
->>> Ok, you are just using this for maintaining the GPU VM space in the 
->>> kernel.
->>>
->> Yes the idea behind having common code wrapping drm_mm for this is to
->> allow us to make the rules consistent across drivers.
->>
->> Userspace (generally Vulkan, some compute) has interfaces that pretty
->> much dictate a lot of how VMA tracking works, esp around lifetimes,
->> sparse mappings and splitting/merging underlying page tables, I'd
->> really like this to be more consistent across drivers, because already
->> I think we've seen with freedreno some divergence from amdgpu and we
->> also have i915/xe to deal with. I'd like to at least have one place
->> that we can say this is how it should work, since this is something
->> that *should* be consistent across drivers mostly, as it is more about
->> how the uapi is exposed.
-> 
-> That's a really good idea, but the implementation with drm_mm won't work 
-> like that.
-> 
-> We have Vulkan applications which use the sparse feature to create 
-> literally millions of mappings. That's why I have fine tuned the mapping 
-> structure in amdgpu down to ~80 bytes IIRC and save every CPU cycle 
-> possible in the handling of that.
+[+CC: konstantin]
 
-That's a valuable information. Can you recommend such an application for 
-testing / benchmarking?
+Hi Sadiya,
 
-Your optimization effort sounds great. May it be worth thinking about 
-generalizing your approach by itself and stacking the drm_gpuva_manager 
-on top of it?
+On Wed, 18 Jan 2023 09:55:04 +0530, Sadiya Kazi wrote:
+> Hi all,
+> The design of the new "alabaster" theme used for Kernel documentation
+> is nice and minimalistic, but I notice one issue with its navigational
+> feature: In the "Alabaster" theme, the TOC appears at the top of the
+> page. For documents with multiple headings, this design creates a
+> usability issue by forcing the reader to scroll past a long TOC to get
+> to the actual content. The previous "RTD" theme used a left navigation
+> bar that allowed users to quickly navigate to the desired content.
+
+I made a similar observation the other day.
+I'm glad to know I was not alone. :-)
+
+I've got a response from Jon.
+See: https://lore.kernel.org/r/874jswyat3.fsf@meer.lwn.net/
+
+Quote of Jon's words:
+
+>> But before looking further into alabaster, I'd like to know why
+>> you picked alabaster among those themes which come with Sphinx.
+>> Could you elaborate?
+> 
+> I picked it because it looked a lot cleaner than RTD, better supported
+> small-screen devices, and was the Sphinx default.  Like so many
+> things, it was done in a bit of a hurry and I cannot claim to have
+> thoroughly considered all of the alternatives.  I was hoping that people
+> would respond to the RFC if they had a better idea :)
+> 
+> If there is a better theme to use as the default, we can consider
+> changing it again; I don't think there is much cost or inconvenience
+> involved.  I do want the default theme to be one of those bundled with
+> Sphinx, though, rather than requiring it to be installed separately.
+> 
+> That said, I have no objection to adding configuration support for other
+> themes as well, should people want to use them.
+
+Returning to Sadiya's comment:
 
 > 
-> A drm_mm_node is more in the range of ~200 bytes and certainly not 
-> suitable for this kind of job.
+> To try and compare both, please open the index page of the "alabaster"
+> theme given below:
+> https://www.kernel.org/doc/html/latest/dev-tools/index.html
+> and the "RTD" theme given below:
+> https://www.kernel.org/doc/html/v6.0-rc7/dev-tools/index.html
+> and navigate to the KUnit page. You'll notice it takes more time to
+> land on the KUnit page when using the alabaster theme.
 > 
-> I strongly suggest to rather use a good bunch of the amdgpu VM code as 
-> blueprint for the common infrastructure.
+> With the "RTD" theme, the navigation sidebar links to other pages
+> (parents, siblings, children, and all top-level pages) as shown below:
+> https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html#
 
-I will definitely have look.
+This link is identical to below. Did you mean
+
+  https://www.kernel.org/doc/html/v6.0-rc7/dev-tools/kunit/index.html
+
+?
+
+> Alabaster only shows headings as shown below:
+> https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html#
+> making it effectively useless for navigation. This is particularly a
+> problem for the KUnit documentation, which relies heavily on being
+> able to find related pages. Currently to navigate to the related
+> pages, the reader has to return to the Home page, use the search bar,
+> or manually edit the URL (i.e, only if you know the chapter or section
+> name).
+> 
+> So, after comparing both the themes, could we modify the sidebar to
+> match the "rtd" behaviour if there is a way to do so?
+
+As I mentioned in the above mentioned mail, there looks like a room
+of customizing alabaster. Yet, I am not able to get a sidebar as usable
+as that of sphinx_rtd_theme so far.
+
+Maybe due to my inexperience in CSS customization. :-\
+
+>                                                        If not, would it
+> be sensible to either include this support in the "alabaster" theme or
+> even temporarily roll back the change until we find a solution?
+> 
+> It'd be great to hear your thoughts on this.
+
+sphinx_rtd_theme can be chosen by:
+
+  make DOCS_THEME=sphinx_rtd_theme htmldocs
+
+Konstantin, would it be possible for you to add "DOCS_THEME=sphinx_rtd_theme"
+for the "latest" kernel documentation builds until the new default theme
+becomes good enough for most people?  That is if Jon agrees.
+For the "next" builds, alabaster theme should be OK, and easier for us to
+compare the two themes.
+
+        Thanks, Akira
 
 > 
-> Regards,
-> Christian.
-> 
->>
->> Dave.
-> 
-
+> Thanks,
+> Sadiya
