@@ -2,65 +2,95 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88FCEC46467
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 21:00:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68488C004D4
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 21:14:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229919AbjASVAa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 16:00:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54292 "EHLO
+        id S230156AbjASVOG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 16:14:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229905AbjASU6i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 15:58:38 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB16724113;
-        Thu, 19 Jan 2023 12:57:11 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1A6A82C0;
-        Thu, 19 Jan 2023 20:57:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1A6A82C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1674161831; bh=7I62MX4k00vyzrYytWoP61tqgBIgIfy9B1csmj/7phA=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Ww4c4ih+5pweh5OwmMzh00UQEC9GeJCHzh4mKDqUjzZCicxXG3gZXJWezdtwn7RKE
-         U5maF7WXpCxi0JhNVTxDFbwByoTvkZIj9yzgFj+rg75Vzdi4fiS7nbxP10217Ib7uu
-         IkpBPfIpfB/GT7rT9OKB1UG31Zpna98XYKMhfYsEQXCmLNJHaRwdyNdcZlYA21QVDg
-         jVVilhkrPgpCv59k3Vt7v/yYs474OdRQxMsecJMvnEzMgqWqEytQT98USxCmi+kD3o
-         XyPt0l+qVc7Jy3NC6kygvjCxShPmqbIcHogqUwFp3u343v6HB6ekcyr9EZJmOUaW5g
-         NAJgvPIIeenew==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Peter Foley <pefoley2@pefoley.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Peter Foley <pefoley2@pefoley.com>
-Subject: Re: [PATCH v2] Documentation: Avoid duplicate Kconfig inclusion
-In-Reply-To: <20230114-doc-v2-1-853a8434ac95@pefoley.com>
-References: <20230114-doc-v2-1-853a8434ac95@pefoley.com>
-Date:   Thu, 19 Jan 2023 13:57:10 -0700
-Message-ID: <87h6wm8cpl.fsf@meer.lwn.net>
+        with ESMTP id S229788AbjASVNY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 16:13:24 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56F3F460AD
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 13:09:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674162565; x=1705698565;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FPV+sXUT6RwMIun09rFdCTGoTBlBDkJSiO7/m9iiaW0=;
+  b=GN4ATipuRwUp58KGhYw7cxVopxxGNs0x5gSTWl7EUetSgsBLqdnXR2/j
+   SU1WMjr6I2iGUNSlw553Cmh+IkG6/oNPP9rWwK/WqUeJYphKEILM8GTQP
+   RGeTBhjiFsNxGDbQiWQscGB5C6SMhsuI55VJG8qvZsUKAD569INFHy6Zh
+   to0zpEJaXTHbibal17ial/e67toRojAbpUzo3XZWaQNlZzXjki6ubSUZz
+   5XwKDMFBeA5cSnDiCcTsnzX4rKFV2TA8+jLlgC01t8wYyQfnW7pJ9UOx+
+   Z7KxRT4d+ULB+Rz1PT1MBcVymAGem9jE3zaTk4bebWTHCTjdUxKcGae0v
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="305792357"
+X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
+   d="scan'208";a="305792357"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 13:09:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="728846417"
+X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
+   d="scan'208";a="728846417"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 19 Jan 2023 13:09:23 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pIc9z-0001rK-14;
+        Thu, 19 Jan 2023 21:09:23 +0000
+Date:   Fri, 20 Jan 2023 05:09:11 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mario Limonciello <mario.limonciello@amd.com>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Alex Deucher <alexander.deucher@amd.com>,
+        linux-doc@vger.kernel.org
+Subject: [agd5f:drm-next 251/262] htmldocs:
+ Documentation/gpu/amdgpu/driver-misc.rst:38: WARNING: "csv-table" widths do
+ not match the number of columns in table (7).
+Message-ID: <202301200440.NYkEqozZ-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Peter Foley <pefoley2@pefoley.com> writes:
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
+head:   52c5cea1ba6bf42e8f34ac045d5e8fa57dcb38d4
+commit: 15c4ed80669b2457f8e856cd7b654dd3e7680b27 [251/262] Documentation/gpu: Add MP0 version to apu-asic-info-table
+reproduce:
+        git remote add agd5f https://gitlab.freedesktop.org/agd5f/linux.git
+        git fetch --no-tags agd5f drm-next
+        git checkout 15c4ed80669b2457f8e856cd7b654dd3e7680b27
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-> Documentation/Kconfig is already included from top-level, avoid
-> including it again from lib/Kconfig.debug.
->
-> Signed-off-by: Peter Foley <pefoley2@pefoley.com>
-> ---
-> Changes in v2:
-> - Add a top-level Documentation entry instead of nesting under Kernel hacking
-> - Link to v1: https://lore.kernel.org/r/20230114-doc-v1-1-efec2689e423@pefoley.com
-> ---
->  Documentation/Kconfig | 10 ++++++++--
->  lib/Kconfig.debug     |  2 --
->  2 files changed, 8 insertions(+), 4 deletions(-)
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-Applied, thanks.
+All warnings (new ones prefixed by >>):
 
-jon
+>> Documentation/gpu/amdgpu/driver-misc.rst:38: WARNING: "csv-table" widths do not match the number of columns in table (7).
+
+vim +38 Documentation/gpu/amdgpu/driver-misc.rst
+
+9d9b217d52b41f Rodrigo Siqueira 2022-08-11  37  
+9d9b217d52b41f Rodrigo Siqueira 2022-08-11 @38  .. csv-table::
+9d9b217d52b41f Rodrigo Siqueira 2022-08-11  39     :header-rows: 1
+9d9b217d52b41f Rodrigo Siqueira 2022-08-11  40     :widths: 3, 2, 2, 1, 1, 1
+9d9b217d52b41f Rodrigo Siqueira 2022-08-11  41     :file: ./apu-asic-info-table.csv
+9d9b217d52b41f Rodrigo Siqueira 2022-08-11  42  
+
+:::::: The code at line 38 was first introduced by commit
+:::::: 9d9b217d52b41f6d99279211b83c26b2484a142b Documentation/gpu: Add info table for ASICs
+
+:::::: TO: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
