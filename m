@@ -2,123 +2,153 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0BB6C677F1
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 02:29:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8E8DC38159
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 02:39:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229784AbjASC3E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 21:29:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45280 "EHLO
+        id S229801AbjASCjk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 21:39:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjASC3C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 21:29:02 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CAEC3253A;
-        Wed, 18 Jan 2023 18:29:01 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id t8so39248pjj.4;
-        Wed, 18 Jan 2023 18:29:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=P/nnDmMmj8DCiWBvavTR7rDDek9BtJKWmbpkPWik9/o=;
-        b=WjS/w1/HFx8yR3TckvdaBFHXP8QfnyybctzIgONyokaNuV9KuO4ITvhU4Bdom7nJ4N
-         hpkcjVMJpxA/YGdozH0k3rlknRkdLV9Cx2W4r68y3r0OivjixIejnyekpF61AH8lTUkA
-         SCryyvF3Wwi47+qGo97kTuykkzuaLhYyPU61ZuYRoauILy1nKiD/xU0PDOf3sSFzq4Zf
-         W7DEI//JYvJWt98JleKg7S43QvP7X9A3fEEaQlNVMzj+rt15kGABbqUFE9YAsCst66sK
-         gk7rLT3rJhHLLYiC6kNWTIkh8XMMdqBfKZ7UGWDhGW5t8Y/rOfuYJRzlyt6l7GT0ikMj
-         a2FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=P/nnDmMmj8DCiWBvavTR7rDDek9BtJKWmbpkPWik9/o=;
-        b=tiTuaD6Hw094vb6sOqUf5F36VhLyEI1D+JkTMO4rSyyZ+ehhRVklQsGQkcUK/r5eLf
-         ihcinDeJMRBi5tIdzibExokCGoWKoTVZg2CEjA2sH1foJq+63tiMumSWvkV5xu9bmb+r
-         62ViNg98qfaLq9LBImkH7/IMuilYN4LCcrvVWBmartprUfgO/ALlmN7LmhQ+8EPNkZHO
-         0xXKcA65YbniPRBn2CzVH48dUak1tx7rV6t9dfFg7GguFmLNdAOMBmCMGK5TrN5Yg4t7
-         ZvoVZAV/1tUEtuDcDS/lgZywToHzi37SLm2Bt0EjHKoWygn1HOqfy89zx3MCkZdkGDtI
-         poiA==
-X-Gm-Message-State: AFqh2kqIpi2irgxmzcEdZ8r3b7B6xJO/4G0+nmxA7rH/l+iSRzQWHl1j
-        ydJ5ekRTkAoBHdm3kV4enNM=
-X-Google-Smtp-Source: AMrXdXuv7Ge6RS9jbru1XsHch+oH048KEE3jmw/irIexrjag4KmKCqiWmtE/HFFnhhOdMyLN9512Og==
-X-Received: by 2002:a17:90a:74c3:b0:229:1df9:bc73 with SMTP id p3-20020a17090a74c300b002291df9bc73mr9941743pjl.26.1674095340774;
-        Wed, 18 Jan 2023 18:29:00 -0800 (PST)
-Received: from localhost (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com. [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
-        by smtp.gmail.com with ESMTPSA id k1-20020a17090a7f0100b00223f495dc28sm2001145pjl.14.2023.01.18.18.28.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jan 2023 18:29:00 -0800 (PST)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Wed, 18 Jan 2023 16:28:58 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Nathan Huckleberry <nhuck@google.com>
-Cc:     Sandeep Dhavale <dhavale@google.com>,
-        Daeho Jeong <daehojeong@google.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        with ESMTP id S229446AbjASCji (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 21:39:38 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 980FD69B37;
+        Wed, 18 Jan 2023 18:39:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674095977; x=1705631977;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=G/dmJqT2Xj1iMyfuzcvUrdcL1Qhb/ASAsS90qZQMtJ8=;
+  b=fOCGk3bI+zXZT515dPdiW9FuYQQlrRLMrT3ZuBqjxLJozvdihR5Bv5gn
+   XyEuWDXdXyBMxBnaUC4thUGkZrKw/9/xMwmFdqllHF/EOOxdAkHMNlcNW
+   CiUW/HvdjOe1xPraZyRAmCwZKmcJvZqXAB/fCLBYMdhm5pNw1Z2QP0nSW
+   lXEzgPPC3ZYmCMrB1WyTatpI8n2A9+erZ8KszJgvNGbbtDuIJ5Mc2emXX
+   TY10UWwIyP2SUG+LXaUnSdW5I4VyWPiSloyR99WpbUcZPmAo8cg5uWgCl
+   Sh1l0yyva2hToMKrY7314p4K2f2+fW5jTXznPINkVR8O52iSfD2g4FKpu
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="323857732"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
+   d="scan'208";a="323857732"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 18:39:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="692253881"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
+   d="scan'208";a="692253881"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 18 Jan 2023 18:39:32 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pIKpq-0000yo-0g;
+        Thu, 19 Jan 2023 02:39:26 +0000
+Date:   Thu, 19 Jan 2023 10:39:08 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Gregory Price <gourry.memverge@gmail.com>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] workqueue: Add WQ_SCHED_FIFO
-Message-ID: <Y8iq6gLtmX1c8VSf@slm.duckdns.org>
-References: <20230113210703.62107-1-nhuck@google.com>
- <Y8HI+42TxxlJxT6D@slm.duckdns.org>
- <CAJkfWY4Az45dNkPu5JpDsiMV-gRLe2VjVuixQd9xNG7zdLb4jA@mail.gmail.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        krisman@collabora.com, tglx@linutronix.de, luto@kernel.org,
+        oleg@redhat.com, peterz@infradead.org, ebiederm@xmission.com,
+        akpm@linux-foundation.org, adobriyan@gmail.com, corbet@lwn.net,
+        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH 3/3] ptrace,syscall_user_dispatch: add a getter/setter
+ for sud configuration
+Message-ID: <202301191010.U5yAKr05-lkp@intel.com>
+References: <20230118201055.147228-4-gregory.price@memverge.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJkfWY4Az45dNkPu5JpDsiMV-gRLe2VjVuixQd9xNG7zdLb4jA@mail.gmail.com>
+In-Reply-To: <20230118201055.147228-4-gregory.price@memverge.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+Hi Gregory,
 
-On Wed, Jan 18, 2023 at 06:01:04PM -0800, Nathan Huckleberry wrote:
-> Do you think something similar should be done for WQ_UNBOUND? In most
-> places where WQ_HIGHPRI is used, WQ_UNBOUND is also used because it
-> boosts performance. However, I suspect that most of these benchmarks
-> were done on x86-64. I've found that WQ_UNBOUND significantly reduces
-> performance on arm64/Android.
+Thank you for the patch! Perhaps something to improve:
 
-One attribute with per-cpu workqueues is that they're concurrency-level
-limited. ie. if you have two per-cpu work items queued, the second one might
-not run until the first one is done. Maybe people were trying to avoid
-possible latency spikes from that?
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.2-rc4 next-20230118]
+[cannot apply to tip/core/entry]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Even aside from that, UNBOUND tends to give more consistent latency
-behaviors as you aren't necessarily bound to what's happening on that
-particular, so I guess maybe that's also why but I didn't really follow how
-each user is picking and justifying these flags, so my insight is pretty
-limited.
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/ptrace-syscall_user_dispatch-Implement-Syscall-User-Dispatch-Suspension/20230119-041259
+patch link:    https://lore.kernel.org/r/20230118201055.147228-4-gregory.price%40memverge.com
+patch subject: [PATCH 3/3] ptrace,syscall_user_dispatch: add a getter/setter for sud configuration
+config: x86_64-randconfig-s022 (https://download.01.org/0day-ci/archive/20230119/202301191010.U5yAKr05-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/bd6833b41ed48c444c09346f695efe229deec2e9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Gregory-Price/ptrace-syscall_user_dispatch-Implement-Syscall-User-Dispatch-Suspension/20230119-041259
+        git checkout bd6833b41ed48c444c09346f695efe229deec2e9
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/entry/
 
-> From the documentation, using WQ_UNBOUND for performance doesn't seem
-> correct. It's only supposed to be used for long-running work. It might
-> make more sense to get rid of WQ_UNBOUND altogether and only move work
-> to unbound worker pools once it has stuck around for long enough.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-UNBOUND says: Don't pin this to one cpu or subject it to workqueue's
-concurrency limit. Use workqueue as a generic thread pool.
+sparse warnings: (new ones prefixed by >>)
+>> kernel/entry/syscall_user_dispatch.c:128:33: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected signed char [usertype] *[assigned] selector @@     got char [noderef] __user *selector @@
+   kernel/entry/syscall_user_dispatch.c:128:33: sparse:     expected signed char [usertype] *[assigned] selector
+   kernel/entry/syscall_user_dispatch.c:128:33: sparse:     got char [noderef] __user *selector
+>> kernel/entry/syscall_user_dispatch.c:156:31: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected char [noderef] __user *selector @@     got signed char [usertype] *[addressable] selector @@
+   kernel/entry/syscall_user_dispatch.c:156:31: sparse:     expected char [noderef] __user *selector
+   kernel/entry/syscall_user_dispatch.c:156:31: sparse:     got signed char [usertype] *[addressable] selector
 
-I don't know what you mean by performance but HIGHPRI | UNBOUND will
-definitely improve some aspects.
+vim +128 kernel/entry/syscall_user_dispatch.c
 
-> Android will probably need to remove WQ_UNBOUND from all of these
-> performance critical users.
-> 
-> If there are performance benefits to using unbinding workqueues from
-> CPUs on x86-64, that should probably be a config flag, not controlled
-> by every user.
-
-It's unlikely that the instruction set is what's making the difference here,
-right? It probably would help if we understand why it's worse on arm.
-
-I don't think ppl have been all that deliberate with these flags, so it's
-also likely that some of the usages can drop UNBOUND completely but I really
-think more data and analyses would help.
-
-Thanks.
+   114	
+   115	int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
+   116			void __user *data)
+   117	{
+   118		struct syscall_user_dispatch *sd = &task->syscall_dispatch;
+   119		struct syscall_user_dispatch_config config;
+   120	
+   121		if (size != sizeof(struct syscall_user_dispatch_config))
+   122			return -EINVAL;
+   123	
+   124		if (sd->selector) {
+   125			config.mode = PR_SYS_DISPATCH_ON;
+   126			config.offset = sd->offset;
+   127			config.len = sd->len;
+ > 128			config.selector = sd->selector;
+   129			config.on_dispatch = sd->on_dispatch;
+   130		} else {
+   131			config.mode = PR_SYS_DISPATCH_OFF;
+   132			config.offset = 0;
+   133			config.len = 0;
+   134			config.selector = NULL;
+   135			config.on_dispatch = false;
+   136		}
+   137		if (copy_to_user(data, &config, sizeof(config)))
+   138			return -EFAULT;
+   139	
+   140		return 0;
+   141	}
+   142	
+   143	int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
+   144			void __user *data)
+   145	{
+   146		struct syscall_user_dispatch_config config;
+   147		int ret;
+   148	
+   149		if (size != sizeof(struct syscall_user_dispatch_config))
+   150			return -EINVAL;
+   151	
+   152		if (copy_from_user(&config, data, sizeof(config)))
+   153			return -EFAULT;
+   154	
+   155		ret = set_syscall_user_dispatch(config.mode, config.offset, config.len,
+ > 156				config.selector);
 
 -- 
-tejun
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
