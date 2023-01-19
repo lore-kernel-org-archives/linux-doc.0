@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98448C38159
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 00:36:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC1C9C678DC
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 00:36:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbjASAgW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 19:36:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47622 "EHLO
+        id S229674AbjASAgY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 19:36:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbjASAgW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 19:36:22 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE8A7589BA;
-        Wed, 18 Jan 2023 16:36:20 -0800 (PST)
+        with ESMTP id S229749AbjASAgX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 19:36:23 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2284259240;
+        Wed, 18 Jan 2023 16:36:22 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6A56EB81F8F;
-        Thu, 19 Jan 2023 00:36:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8062AC433D2;
-        Thu, 19 Jan 2023 00:36:17 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 77E4261B05;
+        Thu, 19 Jan 2023 00:36:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2755C43392;
+        Thu, 19 Jan 2023 00:36:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674088578;
-        bh=120/X2fXh8+yscE4P6H9VYzZecc9ndfRsf4eAAqIKy0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=AEH8npp9XuC2RJe5Shytn6S+XU/lRfyVRrRkfeL6sIBERwBFWg8osCUKnGO8lSgrM
-         SD0IPcjWYp/1QI1SzK6j63rSCsk0hInJasLY57OSOqhuisWe/xTXl5Vl0fTmHLgPk1
-         040w7ZmRrtIwSXST//FYEDryQnntUQ6nN0iJIw+MRo1aDUTZTsbKmtwe4gL7o063hP
-         8XYZEn5S/C2UsedX/XpggAtsdXcsNAOnXa5R8Qooqze5lg9z5RQ8F6e1xk9S0Grmmm
-         Yps+0X5P0Kj3yL/E71Mb13b18S5JxSN8h+zC/n5NEJj1AdpSg4UibavoZFZVgeFPIo
-         uSG0rjKxNMByg==
+        s=k20201202; t=1674088582;
+        bh=KdQ6PdoT/RGnSJLqUFL++Ra6rTYXpx4eFmFmlTmavjk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=sVW70mh5tc6gpNZ+e5ZwhlBR++6VfkxN3U+cGAMzEC/9gBRXLvu9QmqXNGgQJ9QCX
+         xoiqc7JML6wvfnh16cJNG1AH8e+s0yJRuypqlZNsztC6F2cqdo2gX2cS6XAfn5VAdD
+         iiEnPpzZZFcEblbyfRIY12CPzGzlXEBfHHWhaT80TEejtHCn4g84fiTnKUzJhXhgdy
+         iHVFf4r2FW19iylKRa2W+0l77PhJPBeIrt5EVhMhMF14XUbQGPUcktEqVSFvibu19A
+         +sBd4u5wanIKr+XUCGgDpEh4CU9OLcYAc1kfhtRzqicSUHPdSc2pDBsnfTrlPkRVt+
+         6NbP0VYqT8iHA==
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     davem@davemloft.net
 Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
@@ -39,80 +39,108 @@ Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
         f.fainelli@gmail.com, fw@strlen.de, linux-doc@vger.kernel.org,
         razor@blackwall.org, nicolas.dichtel@6wind.com,
         Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net-next v3 0/8] Netlink protocol specs
-Date:   Wed, 18 Jan 2023 16:36:05 -0800
-Message-Id: <20230119003613.111778-1-kuba@kernel.org>
+Subject: [PATCH net-next v3 5/8] net: fou: regenerate the uAPI from the spec
+Date:   Wed, 18 Jan 2023 16:36:10 -0800
+Message-Id: <20230119003613.111778-6-kuba@kernel.org>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230119003613.111778-1-kuba@kernel.org>
+References: <20230119003613.111778-1-kuba@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I think the Netlink proto specs are far along enough to merge.
-Filling in all attribute types and quirks will be an ongoing
-effort but we have enough to cover FOU so it's somewhat complete.
+Regenerate the FOU uAPI header from the YAML spec.
 
-I fully intend to continue polishing the code but at the same
-time I'd like to start helping others base their work on the
-specs (e.g. DPLL) and need to start working on some new families
-myself.
+The flags now come before attributes which use them,
+and the comments for type disappear (coders should look
+at the spec instead).
 
-That's the progress / motivation for merging. The RFC [1] has more
-of a high level blurb, plus I created a lot of documentation, I'm
-not going to repeat it here. There was also the talk at LPC [2].
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+ include/uapi/linux/fou.h | 54 +++++++++++++++++++---------------------
+ 1 file changed, 26 insertions(+), 28 deletions(-)
 
-[1] https://lore.kernel.org/all/20220811022304.583300-1-kuba@kernel.org/
-[2] https://youtu.be/9QkXIQXkaQk?t=2562
-v2: https://lore.kernel.org/all/20220930023418.1346263-1-kuba@kernel.org/
-
-Jakub Kicinski (8):
-  docs: add more netlink docs (incl. spec docs)
-  netlink: add schemas for YAML specs
-  net: add basic C code generators for Netlink
-  netlink: add a proto specification for FOU
-  net: fou: regenerate the uAPI from the spec
-  net: fou: rename the source for linking
-  net: fou: use policy and operation tables generated from the spec
-  tools: ynl: add a completely generic client
-
- Documentation/core-api/index.rst              |    1 +
- Documentation/core-api/netlink.rst            |   99 +
- Documentation/netlink/genetlink-c.yaml        |  318 +++
- Documentation/netlink/genetlink-legacy.yaml   |  346 +++
- Documentation/netlink/genetlink.yaml          |  284 ++
- Documentation/netlink/specs/fou.yaml          |  128 +
- .../userspace-api/netlink/c-code-gen.rst      |  107 +
- .../netlink/genetlink-legacy.rst              |   96 +
- Documentation/userspace-api/netlink/index.rst |    5 +
- Documentation/userspace-api/netlink/specs.rst |  422 +++
- MAINTAINERS                                   |    3 +
- include/uapi/linux/fou.h                      |   54 +-
- net/ipv4/Makefile                             |    1 +
- net/ipv4/fou-nl.c                             |   48 +
- net/ipv4/fou-nl.h                             |   25 +
- net/ipv4/{fou.c => fou_core.c}                |   47 +-
- tools/net/ynl/samples/cli.py                  |   47 +
- tools/net/ynl/samples/ynl.py                  |  534 ++++
- tools/net/ynl/ynl-gen-c.py                    | 2376 +++++++++++++++++
- tools/net/ynl/ynl-regen.sh                    |   30 +
- 20 files changed, 4903 insertions(+), 68 deletions(-)
- create mode 100644 Documentation/core-api/netlink.rst
- create mode 100644 Documentation/netlink/genetlink-c.yaml
- create mode 100644 Documentation/netlink/genetlink-legacy.yaml
- create mode 100644 Documentation/netlink/genetlink.yaml
- create mode 100644 Documentation/netlink/specs/fou.yaml
- create mode 100644 Documentation/userspace-api/netlink/c-code-gen.rst
- create mode 100644 Documentation/userspace-api/netlink/genetlink-legacy.rst
- create mode 100644 Documentation/userspace-api/netlink/specs.rst
- create mode 100644 net/ipv4/fou-nl.c
- create mode 100644 net/ipv4/fou-nl.h
- rename net/ipv4/{fou.c => fou_core.c} (94%)
- create mode 100755 tools/net/ynl/samples/cli.py
- create mode 100644 tools/net/ynl/samples/ynl.py
- create mode 100755 tools/net/ynl/ynl-gen-c.py
- create mode 100755 tools/net/ynl/ynl-regen.sh
-
+diff --git a/include/uapi/linux/fou.h b/include/uapi/linux/fou.h
+index 87c2c9f08803..19ebbef41a63 100644
+--- a/include/uapi/linux/fou.h
++++ b/include/uapi/linux/fou.h
+@@ -1,32 +1,37 @@
+ /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+-/* fou.h - FOU Interface */
++/* Do not edit directly, auto-generated from: */
++/*	Documentation/netlink/specs/fou.yaml */
++/* YNL-GEN uapi header */
+ 
+ #ifndef _UAPI_LINUX_FOU_H
+ #define _UAPI_LINUX_FOU_H
+ 
+-/* NETLINK_GENERIC related info
+- */
+ #define FOU_GENL_NAME		"fou"
+-#define FOU_GENL_VERSION	0x1
++#define FOU_GENL_VERSION	1
+ 
+ enum {
+-	FOU_ATTR_UNSPEC,
+-	FOU_ATTR_PORT,				/* u16 */
+-	FOU_ATTR_AF,				/* u8 */
+-	FOU_ATTR_IPPROTO,			/* u8 */
+-	FOU_ATTR_TYPE,				/* u8 */
+-	FOU_ATTR_REMCSUM_NOPARTIAL,		/* flag */
+-	FOU_ATTR_LOCAL_V4,			/* u32 */
+-	FOU_ATTR_LOCAL_V6,			/* in6_addr */
+-	FOU_ATTR_PEER_V4,			/* u32 */
+-	FOU_ATTR_PEER_V6,			/* in6_addr */
+-	FOU_ATTR_PEER_PORT,			/* u16 */
+-	FOU_ATTR_IFINDEX,			/* s32 */
+-
+-	__FOU_ATTR_MAX,
++	FOU_ENCAP_UNSPEC,
++	FOU_ENCAP_DIRECT,
++	FOU_ENCAP_GUE,
+ };
+ 
+-#define FOU_ATTR_MAX		(__FOU_ATTR_MAX - 1)
++enum {
++	FOU_ATTR_UNSPEC,
++	FOU_ATTR_PORT,
++	FOU_ATTR_AF,
++	FOU_ATTR_IPPROTO,
++	FOU_ATTR_TYPE,
++	FOU_ATTR_REMCSUM_NOPARTIAL,
++	FOU_ATTR_LOCAL_V4,
++	FOU_ATTR_LOCAL_V6,
++	FOU_ATTR_PEER_V4,
++	FOU_ATTR_PEER_V6,
++	FOU_ATTR_PEER_PORT,
++	FOU_ATTR_IFINDEX,
++
++	__FOU_ATTR_MAX
++};
++#define FOU_ATTR_MAX (__FOU_ATTR_MAX - 1)
+ 
+ enum {
+ 	FOU_CMD_UNSPEC,
+@@ -34,15 +39,8 @@ enum {
+ 	FOU_CMD_DEL,
+ 	FOU_CMD_GET,
+ 
+-	__FOU_CMD_MAX,
++	__FOU_CMD_MAX
+ };
+-
+-enum {
+-	FOU_ENCAP_UNSPEC,
+-	FOU_ENCAP_DIRECT,
+-	FOU_ENCAP_GUE,
+-};
+-
+-#define FOU_CMD_MAX	(__FOU_CMD_MAX - 1)
++#define FOU_CMD_MAX (__FOU_CMD_MAX - 1)
+ 
+ #endif /* _UAPI_LINUX_FOU_H */
 -- 
 2.39.0
 
