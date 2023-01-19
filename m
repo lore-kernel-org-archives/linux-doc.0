@@ -2,212 +2,162 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8480EC46467
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 05:11:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21F96C677F1
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 05:23:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230458AbjATFLT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 00:11:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40216 "EHLO
+        id S231271AbjATFXh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 00:23:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230455AbjATFK5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 00:10:57 -0500
+        with ESMTP id S231274AbjATFXZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 00:23:25 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6B76BF895;
-        Thu, 19 Jan 2023 20:59:05 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11B89C63A3;
+        Thu, 19 Jan 2023 21:13:21 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 8F3FAB8276E;
-        Thu, 19 Jan 2023 23:02:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25B15C433F2;
-        Thu, 19 Jan 2023 23:02:18 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DC9BEB8211C;
+        Thu, 19 Jan 2023 08:06:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 302EFC433EF;
+        Thu, 19 Jan 2023 08:06:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674169338;
-        bh=zAeCxgJp6CHkFtBJbMXTYY9UHGAlFauWe5Vz7iwtS2Q=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ibAIFPtIrLecpTzrYX+dWTffkqfYBt9m6J6U4RwfOXf2zrBwu5NL1KHUJp3hbmvl6
-         Zy751fxQLKeY2Dg/uEYWwF6vJWGcB3PSndH7H8B8JwV9vGcaVAtTErKRKxj4qugMCh
-         NGbXcJLNmDlndbYCHUcNr8o90Hp8YsK8D2OHIMHQ5vkGeB5g5k4P+VS6okOKS0/e8L
-         3e6ZodIvZ70ruOmJlTXp0zT3n8FtNNlcxUcWD93lv/7qrzS/VzuuLlUzE1kE9GDqb+
-         jheCBoilFV3ohhJcIsB4nLXk/LBDyH9V2Um9TVoAU3zaJJPeyYSEV1nkeDSFWz7Xr6
-         qrxJFoI9S1Ywg==
-Received: by mail-vk1-f173.google.com with SMTP id v81so1730670vkv.5;
-        Thu, 19 Jan 2023 15:02:18 -0800 (PST)
-X-Gm-Message-State: AFqh2kpZN2sGFM1lGyx9ghvd+57XMBagQkov3t2Vk6CRXwZlpPa9INkh
-        18RMRhbrOggggsh+emVRq2GJrAmNtcspUR3QCg==
-X-Google-Smtp-Source: AMrXdXsG99tPvEHV5aCUuw0mR/bhT8/DAp2LNwREx+popn9Mxb1fPwFw16qdDUVsIULN0+2sfi3gOhp9scpEPwEz6v8=
-X-Received: by 2002:a1f:ad56:0:b0:3bc:8497:27fd with SMTP id
- w83-20020a1fad56000000b003bc849727fdmr1636148vke.15.1674169336954; Thu, 19
- Jan 2023 15:02:16 -0800 (PST)
+        s=k20201202; t=1674115569;
+        bh=mmNC5usq3dcfjKDDeNe5L068d60kufdrTpBgZh6LUo0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=D3PiU4gMUxK9ZVPKRN+V28pH5GXHrbzcZF1RoTn+EZBouV3fVBDs4ik1dE10lkcd6
+         Y1KGqciV2Wd11SBHAJFOfQgfO2p3Ud5+aZhPFw6f9tBUiy9L0d5RWF6jjScp3tMVxD
+         rmbNk1vPYWwO1v9xbqJdXPn7gbLKjQjeOh0uJDm59nBMh+B8pYreKVFDi3rFYGhGRA
+         iVKSME3jxjNSLjuN4OCPoK+BUaXL24gg8YvgwpDnbO+6sUxaRMwuIeC6PB0tJPggjn
+         QNwmKCXL9BPAhUaxp68zyMa3yIzcJSyhP5A/FTf5wDBVrv0gzkFj2DuIXqJreVEEJh
+         UPULwonnBTt1A==
+Received: by pali.im (Postfix)
+        id 3407A6EB; Thu, 19 Jan 2023 09:06:06 +0100 (CET)
+Date:   Thu, 19 Jan 2023 09:06:06 +0100
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To:     Tianfei Zhang <tianfei.zhang@intel.com>
+Cc:     bhelgaas@google.com, linux-pci@vger.kernel.org,
+        linux-fpga@vger.kernel.org, lukas@wunner.de, kabel@kernel.org,
+        mani@kernel.org, mdf@kernel.org, hao.wu@intel.com,
+        yilun.xu@intel.com, trix@redhat.com, jgg@ziepe.ca,
+        ira.weiny@intel.com, andriy.shevchenko@linux.intel.com,
+        dan.j.williams@intel.com, keescook@chromium.org, rafael@kernel.org,
+        russell.h.weight@intel.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ilpo.jarvinen@linux.intel.com,
+        lee@kernel.org, gregkh@linuxfoundation.org,
+        matthew.gerlach@linux.intel.com
+Subject: Re: [PATCH v1 00/12] add FPGA hotplug manager driver
+Message-ID: <20230119080606.tnjqwkseial7vpyq@pali>
+References: <20230119013602.607466-1-tianfei.zhang@intel.com>
 MIME-Version: 1.0
-References: <20230119003613.111778-1-kuba@kernel.org> <20230119003613.111778-3-kuba@kernel.org>
- <CAL_JsqKk5RT6PmRSrq=YK7AvzCbcVkxasykJqe1df=3g-=kD7A@mail.gmail.com> <20230119134922.3fa24ed2@kernel.org>
-In-Reply-To: <20230119134922.3fa24ed2@kernel.org>
-From:   Rob Herring <robh@kernel.org>
-Date:   Thu, 19 Jan 2023 17:02:05 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+_m0gn1vpAdxpcgwF4-wDtpK6wCwXgmE9pdPCJo5KTdw@mail.gmail.com>
-Message-ID: <CAL_Jsq+_m0gn1vpAdxpcgwF4-wDtpK6wCwXgmE9pdPCJo5KTdw@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 2/8] netlink: add schemas for YAML specs
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, johannes@sipsolutions.net,
-        stephen@networkplumber.org, ecree.xilinx@gmail.com, sdf@google.com,
-        f.fainelli@gmail.com, fw@strlen.de, linux-doc@vger.kernel.org,
-        razor@blackwall.org, nicolas.dichtel@6wind.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230119013602.607466-1-tianfei.zhang@intel.com>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 3:49 PM Jakub Kicinski <kuba@kernel.org> wrote:
->
-> On Thu, 19 Jan 2023 08:07:31 -0600 Rob Herring wrote:
-> > On Wed, Jan 18, 2023 at 6:36 PM Jakub Kicinski <kuba@kernel.org> wrote:
-> > >
-> > > Add schemas for Netlink spec files. As described in the docs
-> > > we have 4 "protocols" or compatibility levels, and each one
-> > > comes with its own schema, but the more general / legacy
-> > > schemas are superset of more modern ones: genetlink is
-> > > the smallest followed by genetlink-c and genetlink-legacy.
-> > > There is no schema for raw netlink, yet, I haven't found the time..
-> > >
-> > > I don't know enough jsonschema to do inheritance or something
-> > > but the repetition is not too bad. I hope.
-> >
-> > Generally you put common schemas under '$defs' and the then reference
-> > them with '$ref'.
-> >
-> > $defs:
-> >   some-prop-type:
-> >     type: integer
-> >     minimum: 0
-> >
-> > properties:
-> >   foo:
-> >     $ref: '#/$defs/some-prop-type'
-> >   bar:
-> >     $ref: '#/$defs/some-prop-type'
->
-> Thanks! Is it possible to move the common definitions to a separate
-> file? I tried to create a file called defs.yaml and change the ref to:
->
->   $ref: "defs.yaml#/$defs/len-or-define"
+Hello!
 
-Yes, but...
+On Wednesday 18 January 2023 20:35:50 Tianfei Zhang wrote:
+> This patchset introduces the FPGA hotplug manager (fpgahp) driver which 
+> has been verified on the Intel N3000 card.
+> 
+> When a PCIe-based FPGA card is reprogrammed, it temporarily disappears
+> from the PCIe bus. This needs to be managed to avoid PCIe errors and to
+> reprobe the device after reprogramming.
+> 
+> To change the FPGA image, the kernel burns a new image into the flash on
+> the card, and then triggers the card BMC to load the new image into FPGA.
+> A new FPGA hotplug manager driver is introduced that leverages the PCIe
+> hotplug framework to trigger and manage the update of the FPGA image,
+> including the disappearance and reappearance of the card on the PCIe bus.
+> The fpgahp driver uses APIs from the pciehp driver.
 
-> But:
->
->   File "/usr/lib/python3.11/site-packages/jsonschema/validators.py", line 257, in iter_errors
->     for error in errors:
->   File "/usr/lib/python3.11/site-packages/jsonschema/_validators.py", line 294, in ref
->     scope, resolved = validator.resolver.resolve(ref)
->                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->   File "/usr/lib/python3.11/site-packages/jsonschema/validators.py", line 856, in resolve
->     return url, self._remote_cache(url)
->                 ^^^^^^^^^^^^^^^^^^^^^^^
->   File "/usr/lib/python3.11/site-packages/jsonschema/validators.py", line 870, in resolve_from_url
->     raise exceptions.RefResolutionError(exc)
-> jsonschema.exceptions.RefResolutionError: Expecting value: line 1 column 1 (char 0)
+Just I'm thinking about one thing. PCIe cards can support PCIe hotplug
+mechanism (via standard PCIe capabilities). So what would happen when
+FPGA based PCIe card is also hotplug-able? Will be there two PCI hotplug
+drivers/devices (one fpgahp and one pciehp)? Or just one and which?
 
-You either need the ref at the URL or a custom resolver to convert
-http path to a file path. Also, the default resolver doesn't handle
-YAML either. It's not much code to do and the DT tools do this. The
-hardest part was just getting the path right. For a ref with just a
-filename and no path, the URL will be the same path as the $id in the
-referring schema.
-
-> > If you have objects with common sets of properties, you can do the
-> > same thing, but then you need 'unevaluatedProperties' if you want to
-> > define a base set of properties and add to them. We do that frequently
-> > in DT schemas. Unlike typical inheritance, you can't override the
-> > 'base' schema. It's an AND operation.
->
-> This is hard to comprehend :o Most of the time I seem to need only the
-> ability to add a custom "description" to the object, so for example:
-
-By object, schemas here which are 'type: object'. Those all have a
-list of properties. If several schemas for 'objects' have the same set
-of properties like 'name' and 'type' for example, then you could
-define a schema for that and then add more properties for each
-specific object. I didn't really look close enough whether that makes
-sense here.
-
-> $defs:
->   len-or-define:
->     oneOf:
->       -
->         type: string
->         pattern: ^[0-9A-Za-z_-]*( - 1)?$
->       -
->         type: integer
->         minimum: 0
->
-> Then:
->
->        min-len:
->          description: Min length for a binary attribute.
->          $ref: '#/$defs/len-or-define'
->
-> And that seems to work. Should I be using unevaluatedProperties somehow
-> as well here?
-
-No, it looks fine. 'unevaluatedProperties' wouldn't make sense here as
-'type' is a string or integer.
-
->
-> > > +          description: |
-> > > +            Name used when referring to this space in other definitions, not used outside of YAML.
-> > > +          type: string
-> > > +        # Strictly speaking 'name-prefix' and 'subset-of' should be mutually exclusive.
-> >
-> > If one is required:
-> >
-> > oneOf:
-> >   - required: [ name-prefix ]
-> >   - required: [ subset-of ]
-> >
-> > Or if both are optional:
-> >
-> > dependencies:
-> >   name-prefix:
-> >     not:
-> >       required: [ subset-of ]
-> >   subset-of:
-> >     not:
-> >       required: [ name-prefix ]
->
-> Nice, let me try this.
->
-> > > +                  min-len:
-> > > +                    description: Min length for a binary attribute.
-> > > +                    oneOf:
-> > > +                      - type: string
-> > > +                        pattern: ^[0-9A-Za-z_-]*( - 1)?$
-> > > +                      - type: integer
-> >
-> > How can a length be a string?
->
-> For readability in C I wanted to allow using a define for the length.
-> Then the name of the define goes here, and the value can be fetched
-> from the "definitions" section of the spec.
-
-Ah, makes sense.
-
-Don't you need to drop the '-' in the regex then? Also, the '*' should
-be a '+' for 1 or more instead of 0 or more.
-
-> > Anyways, this is something you could pull out into a $defs entry and
-> > reference. It will also work without the oneOf because 'pattern' will
-> > just be ignored for an integer. That's one gotcha with json-schema. If
-> > a keyword doesn't apply to the instance, it is silently ignored. (That
-> > includes unknown keywords such as ones with typos. Fun!). 'oneOf' will
-> > give you pretty crappy error messages, so it's good to avoid when
-> > possible.
->
-> Oh, interesting. Changed to:
->
-> $defs:
->   len-or-define:
->     type: [ string, integer ]
->     pattern: ^[0-9A-Za-z_-]*( - 1)?$
->     minimum: 0
+> Two new operation
+> callbacks are defined in hotplug_slot_ops:
+> 
+>   - available_images: Optional: available FPGA images
+>   - image_load: Optional: trigger the FPGA to load a new image
+> 
+> 
+> The process of reprogramming an FPGA card begins by removing all devices
+> associated with the card that are not required for the reprogramming of
+> the card. This includes PCIe devices (PFs and VFs) associated with the
+> card as well as any other types of devices (platform, etc.) defined within
+> the FPGA. The remaining devices are referred to here as "reserved" devices.
+> After triggering the update of the FPGA card, the reserved devices are also
+> removed.
+> 
+> The complete process for reprogramming the FPGA are:
+>     1. remove all PFs and VFs except for PF0 (reserved).
+>     2. remove all non-reserved devices of PF0.
+>     3. trigger FPGA card to do the image update.
+>     4. disable the link of the hotplug bridge.
+>     5. remove all reserved devices under hotplug bridge.
+>     6. wait for image reload done via BMC, e.g. 10s.
+>     7. re-enable the link of hotplug bridge
+>     8. enumerate PCI devices below the hotplug bridge
+> 
+> usage example:
+> [root@localhost]# cd /sys/bus/pci/slot/X-X/
+> 
+> Get the available images.
+> [root@localhost 2-1]# cat available_images
+> bmc_factory bmc_user retimer_fw
+> 
+> Load the request images for FPGA Card, for example load the BMC user image:
+> [root@localhost 2-1]# echo bmc_user > image_load
+> 
+> Tianfei Zhang (12):
+>   PCI: hotplug: add new callbacks on hotplug_slot_ops
+>   PCI: hotplug: expose APIs from pciehp driver
+>   PCI: hotplug: add and expose link disable API
+>   PCI: hotplug: add FPGA PCI hotplug manager driver
+>   fpga: dfl: register dfl-pci device into fpgahph driver
+>   driver core: expose device_is_ancestor() API
+>   PCI: hotplug: add register/unregister function for BMC device
+>   fpga: m10bmc-sec: register BMC device into fpgahp driver
+>   fpga: dfl: remove non-reserved devices
+>   PCI: hotplug: implement the hotplug_slot_ops callback for fpgahp
+>   fpga: m10bmc-sec: add m10bmc_sec_retimer_load callback
+>   Documentation: fpga: add description of fpgahp driver
+> 
+>  Documentation/ABI/testing/sysfs-driver-fpgahp |  21 +
+>  Documentation/fpga/fpgahp.rst                 |  29 +
+>  Documentation/fpga/index.rst                  |   1 +
+>  MAINTAINERS                                   |  10 +
+>  drivers/base/core.c                           |   3 +-
+>  drivers/fpga/Kconfig                          |   2 +
+>  drivers/fpga/dfl-pci.c                        |  95 +++-
+>  drivers/fpga/dfl.c                            |  58 ++
+>  drivers/fpga/dfl.h                            |   4 +
+>  drivers/fpga/intel-m10-bmc-sec-update.c       | 246 ++++++++
+>  drivers/pci/hotplug/Kconfig                   |  14 +
+>  drivers/pci/hotplug/Makefile                  |   1 +
+>  drivers/pci/hotplug/fpgahp.c                  | 526 ++++++++++++++++++
+>  drivers/pci/hotplug/pci_hotplug_core.c        |  88 +++
+>  drivers/pci/hotplug/pciehp.h                  |   3 +
+>  drivers/pci/hotplug/pciehp_hpc.c              |  11 +-
+>  drivers/pci/hotplug/pciehp_pci.c              |   2 +
+>  include/linux/device.h                        |   1 +
+>  include/linux/fpga/fpgahp_manager.h           | 100 ++++
+>  include/linux/mfd/intel-m10-bmc.h             |  31 ++
+>  include/linux/pci_hotplug.h                   |   5 +
+>  21 files changed, 1243 insertions(+), 8 deletions(-)
+>  create mode 100644 Documentation/ABI/testing/sysfs-driver-fpgahp
+>  create mode 100644 Documentation/fpga/fpgahp.rst
+>  create mode 100644 drivers/pci/hotplug/fpgahp.c
+>  create mode 100644 include/linux/fpga/fpgahp_manager.h
+> 
+> 
+> base-commit: 5dc4c995db9eb45f6373a956eb1f69460e69e6d4
+> -- 
+> 2.38.1
+> 
