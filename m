@@ -2,201 +2,167 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4F0EC00A5A
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 09:39:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F213FC00A5A
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 11:13:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229788AbjASJjC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 04:39:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51758 "EHLO
+        id S229915AbjASLNN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 06:13:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229796AbjASJjA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 04:39:00 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DDA36C55E;
-        Thu, 19 Jan 2023 01:38:46 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id jm10so1765478plb.13;
-        Thu, 19 Jan 2023 01:38:46 -0800 (PST)
+        with ESMTP id S229593AbjASLNM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 06:13:12 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EB7944BF5;
+        Thu, 19 Jan 2023 03:13:11 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id t12-20020a17090aae0c00b00229f4cff534so254814pjq.1;
+        Thu, 19 Jan 2023 03:13:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JfBVelv4aEwBb1YzL1pBGhsM2qMsLGoSKaCTLvIA0+8=;
-        b=gD7dQBEZntcLnhi3RB0+MltROhlLsf5/kauy3NlLvWIlHO4r+oXbj2VSr0s7alIWbJ
-         ahCizbBH0629aGlsniSEGqgst8nnu5pOsHdVnjx4giV5VSPeiXvRfUNvabaRnGCkXciK
-         e+nYdaGEdgamTMI93jakjkyz9/q5tn2o61CBWveHQg2VX5lagXmC+zFJ5pm6yzaGwf7v
-         R4fUach8vU3WR8YRaL4+wL7xBNgVI3e81WbxDU5/KDwlAEiP1RMr6Ukp3xxRxTTVKMHb
-         HPGJ4SODFhxwj9rkrOD1t7OmIf1mD1apjcC992ySJXg508UpkqW24dsjHmgFWJ0jO5eM
-         Ecqw==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WobviXpwWUZxD+2oQmL88+wYfR6mU0tdRKmjmFL+nas=;
+        b=f7L1TD8+BmvD+A9pFAjMprM7B0spRnkeduPMQvbgLHvYJpiHQnNW4NU1/YfORCUZQb
+         xaAorOgKYQmiKRAwik+pNTZYr9eT0raty08UEzrXavMtcLBX61EQYx+vZD2j0NdavbRC
+         gf42Gt0VLrwev9tri3s4QJ8s/wW15sCEWExzZjJxOc6DlYr2SBEqQnmG10REIoIr2x7u
+         xRy4XvEACzmTSzYCJ1ebtTfjCFCkLZHZY79OZCLCLg34Z7JITOr+iw6UlLUVH9Yq9b2o
+         CUC0rAHKgZYzWzRKZZhXOG8dkikcSAUrekSJE3ShE6L2WgvT5bMYEZSjZYPJ7WvpIEyk
+         UzDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JfBVelv4aEwBb1YzL1pBGhsM2qMsLGoSKaCTLvIA0+8=;
-        b=guZ8oQL8ESj0c1Cq04Cr8TJ6/GZJoPDldxxnXgBCfHV5fATKgFRKtbRgFIWwtflZS9
-         uFntH1o7ZeUGrVPPPFPF96EkNLIqACAghIXrozCSRWGNlitFPr8nC+i3UbjU16RjiSuy
-         I3ppeTNuEsKaQPuJq7mZtsxoAJOW3Pw1h6IQlr3aS0teMIhG/3g8p5fvHIatbrji60o+
-         veEMgVS34t0zpB5E3pwsza7fVd6X61IgbOuopBQjVmTBbAfeZFYW35vWNEQRXs73IJm4
-         OKEijcOnsPLcCkU3xhK7jATjwWcGtcvFzugDM8bPoRc+D2dLs9BLmxX3B74vh0L7zBgl
-         Pvkg==
-X-Gm-Message-State: AFqh2krkLiCX4H8OliQN6ybMQW9X7KGHTwYuO9/ycjBSqYhuqYyhGBMc
-        A5jr3AovHd4hMFKoDPBWQO8=
-X-Google-Smtp-Source: AMrXdXs5XnufN19FRhDIUPqVcKaRcXpI/o3i6WXBhY2Ma29PsyPKg1QDVY4pRPpdqeTdsS2FHynAiw==
-X-Received: by 2002:a17:902:7042:b0:189:7548:2096 with SMTP id h2-20020a170902704200b0018975482096mr9808913plt.45.1674121125970;
-        Thu, 19 Jan 2023 01:38:45 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-69.three.co.id. [180.214.232.69])
-        by smtp.gmail.com with ESMTPSA id n3-20020a170903110300b00189f2fdbdd0sm24604975plh.234.2023.01.19.01.38.45
+        bh=WobviXpwWUZxD+2oQmL88+wYfR6mU0tdRKmjmFL+nas=;
+        b=beHmFQ7ElNBT7GS8Lrwiry/C8q306qbubhERr0RnNWDeN8FhQf5VNSTgAHKuugQyBz
+         HC0vyv/t2dm16vkS/lbPC6L2wFaMxaWzDl73AgttFOow9Ei5918/P6eBkarlwz7MgRJ1
+         yss25GUY+BcBh4tbTG0eFnQNxiEnic3wBzK9nWtk2fQbpFheJPjQnruCTX35qI20Z0wp
+         N0zDvwFvoAggxLIXbhrJd11ROdUCqwqnKMf4IetRVWHHGZg0fadd1B1yeagXFT05NDgA
+         1T722vOV9UiALRpBy7AQcavIK7z/B9lQ+rHHwz4+uh+UWfu5xcRK6f/LzeLCZP3Aojh8
+         8J3g==
+X-Gm-Message-State: AFqh2kqNGHuCF4DAu7INNAX6gd29ISZbDqnyQGYlA/m/9vyNuPVZtAh9
+        96gbnyz37kf3xBFeeyDJ6+Q=
+X-Google-Smtp-Source: AMrXdXuFUYPr4gl2HBth8ATukfpSeD4X8dOtFLmJYA5beRkuYlrBNgWB27UfhgflYvUdjqzwEfWuFQ==
+X-Received: by 2002:a17:903:248f:b0:189:6ab3:9e64 with SMTP id p15-20020a170903248f00b001896ab39e64mr10324160plw.34.1674126790421;
+        Thu, 19 Jan 2023 03:13:10 -0800 (PST)
+Received: from localhost ([192.55.54.55])
+        by smtp.gmail.com with ESMTPSA id k7-20020a170902ce0700b001885d15e3c1sm24860035plg.26.2023.01.19.03.13.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 01:38:45 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id E4998105027; Thu, 19 Jan 2023 16:38:41 +0700 (WIB)
-Date:   Thu, 19 Jan 2023 16:38:41 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Tianfei Zhang <tianfei.zhang@intel.com>, bhelgaas@google.com,
-        linux-pci@vger.kernel.org, linux-fpga@vger.kernel.org,
-        lukas@wunner.de, kabel@kernel.org, mani@kernel.org,
-        pali@kernel.org, mdf@kernel.org, hao.wu@intel.com,
-        yilun.xu@intel.com, trix@redhat.com, jgg@ziepe.ca,
-        ira.weiny@intel.com, andriy.shevchenko@linux.intel.com,
-        dan.j.williams@intel.com, keescook@chromium.org, rafael@kernel.org,
-        russell.h.weight@intel.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ilpo.jarvinen@linux.intel.com,
-        lee@kernel.org, gregkh@linuxfoundation.org,
-        matthew.gerlach@linux.intel.com
-Subject: Re: [PATCH v1 12/12] Documentation: fpga: add description of fpgahp
- driver
-Message-ID: <Y8kPoXnCNyB7AwUv@debian.me>
-References: <20230119013602.607466-1-tianfei.zhang@intel.com>
- <20230119013602.607466-13-tianfei.zhang@intel.com>
+        Thu, 19 Jan 2023 03:13:09 -0800 (PST)
+Date:   Thu, 19 Jan 2023 03:13:08 -0800
+From:   Isaku Yamahata <isaku.yamahata@gmail.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com, isaku.yamahata@gmail.com
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <20230119111308.GC2976263@ls.amr.corp.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y8H5Z3e4hZkFxAVS@google.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="qVl6dm7wN+8OEMm3"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230119013602.607466-13-tianfei.zhang@intel.com>
+In-Reply-To: <Y8H5Z3e4hZkFxAVS@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, Jan 14, 2023 at 12:37:59AM +0000,
+Sean Christopherson <seanjc@google.com> wrote:
 
---qVl6dm7wN+8OEMm3
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Fri, Dec 02, 2022, Chao Peng wrote:
+> > This patch series implements KVM guest private memory for confidential
+> > computing scenarios like Intel TDX[1]. If a TDX host accesses
+> > TDX-protected guest memory, machine check can happen which can further
+> > crash the running host system, this is terrible for multi-tenant
+> > configurations. The host accesses include those from KVM userspace like
+> > QEMU. This series addresses KVM userspace induced crash by introducing
+> > new mm and KVM interfaces so KVM userspace can still manage guest memory
+> > via a fd-based approach, but it can never access the guest memory
+> > content.
+> > 
+> > The patch series touches both core mm and KVM code. I appreciate
+> > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
+> > reviews are always welcome.
+> >   - 01: mm change, target for mm tree
+> >   - 02-09: KVM change, target for KVM tree
+> 
+> A version with all of my feedback, plus reworked versions of Vishal's selftest,
+> is available here:
+> 
+>   git@github.com:sean-jc/linux.git x86/upm_base_support
+> 
+> It compiles and passes the selftest, but it's otherwise barely tested.  There are
+> a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
+> a WIP.
+> 
+> As for next steps, can you (handwaving all of the TDX folks) take a look at what
+> I pushed and see if there's anything horrifically broken, and that it still works
+> for TDX?
+> 
+> Fuad (and pKVM folks) same ask for you with respect to pKVM.  Absolutely no rush
+> (and I mean that).
+> 
+> On my side, the two things on my mind are (a) tests and (b) downstream dependencies
+> (SEV and TDX).  For tests, I want to build a lists of tests that are required for
+> merging so that the criteria for merging are clear, and so that if the list is large
+> (haven't thought much yet), the work of writing and running tests can be distributed.
+> 
+> Regarding downstream dependencies, before this lands, I want to pull in all the
+> TDX and SNP series and see how everything fits together.  Specifically, I want to
+> make sure that we don't end up with a uAPI that necessitates ugly code, and that we
+> don't miss an opportunity to make things simpler.  The patches in the SNP series to
+> add "legacy" SEV support for UPM in particular made me slightly rethink some minor
+> details.  Nothing remotely major, but something that needs attention since it'll
+> be uAPI.
 
-On Wed, Jan 18, 2023 at 08:36:02PM -0500, Tianfei Zhang wrote:
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> +FPGA Hotplug Manager Driver
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> +
-> +Authors:
-> +
-> +- Tianfei Zhang <tianfei.zhang@intel.com>
-> +
-> +There are some board managements for PCIe-based FPGA card like burning t=
-he entire
-> +image, loading a new FPGA image or BMC firmware in FPGA deployment of da=
-ta center
-> +or cloud. For example, loading a new FPGA image, the driver needs to rem=
-ove all of
-> +PCI devices like PFs/VFs and as well as any other types of devices (plat=
-form, etc.)
-> +defined within the FPGA. After triggering the image load of the FPGA car=
-d via BMC,
-> +the driver reconfigures the PCI bus. The FPGA Hotplug Manager (fpgahp) d=
-river manages
-> +those devices and functions leveraging the PCI hotplug framework to deal=
- with the
-> +reconfiguration of the PCI bus and removal/probe of PCI devices below th=
-e FPGA card.
-> +
-> +This fpgahp driver adds 2 new callbacks to extend the hotplug mechanism =
-to
-> +allow selecting and loading a new FPGA image.
-> +
-> + - available_images: Optional: called to return the available images of =
-a FPGA card.
-> + - image_load: Optional: called to load a new image for a FPGA card.
-> +
-> +In general, the fpgahp driver provides some sysfs files::
-> +
-> +        /sys/bus/pci/slots/<X-X>/available_images
-> +        /sys/bus/pci/slots/<X-X>/image_load
+Although I'm still debuging with TDX KVM, I needed the following.
+kvm_faultin_pfn() is called without mmu_lock held.  the race to change
+private/shared is handled by mmu_seq.  Maybe dedicated function only for
+kvm_faultin_pfn().
 
-The doc reads a rather confused to me, so I have to make wording improv:
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 02be5e1cba1e..38699ca75ab8 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -2322,7 +2322,7 @@ static inline void kvm_account_pgtable_pages(void *virt, int nr)
+ #ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+ static inline unsigned long kvm_get_memory_attributes(struct kvm *kvm, gfn_t gfn)
+ {
+-       lockdep_assert_held(&kvm->mmu_lock);
++       // lockdep_assert_held(&kvm->mmu_lock);
+ 
+        return xa_to_value(xa_load(&kvm->mem_attr_array, gfn));
+ }
 
----- >8 ----
-diff --git a/Documentation/fpga/fpgahp.rst b/Documentation/fpga/fpgahp.rst
-index 3ec34bbffde10c..73f1b53de1cf85 100644
---- a/Documentation/fpga/fpgahp.rst
-+++ b/Documentation/fpga/fpgahp.rst
-@@ -8,22 +8,22 @@ Authors:
-=20
- - Tianfei Zhang <tianfei.zhang@intel.com>
-=20
--There are some board managements for PCIe-based FPGA card like burning the=
- entire
--image, loading a new FPGA image or BMC firmware in FPGA deployment of data=
- center
--or cloud. For example, loading a new FPGA image, the driver needs to remov=
-e all of
--PCI devices like PFs/VFs and as well as any other types of devices (platfo=
-rm, etc.)
--defined within the FPGA. After triggering the image load of the FPGA card =
-via BMC,
--the driver reconfigures the PCI bus. The FPGA Hotplug Manager (fpgahp) dri=
-ver manages
--those devices and functions leveraging the PCI hotplug framework to deal w=
-ith the
--reconfiguration of the PCI bus and removal/probe of PCI devices below the =
-FPGA card.
-=20
--This fpgahp driver adds 2 new callbacks to extend the hotplug mechanism to
--allow selecting and loading a new FPGA image.
-+The FPGA Hotplug Manager (fpgahp) manages PCIe-based FPGA card devices.
-+The PCI bus reconfiguration and device probe for devices below the FPGA
-+card are done by leveraging the PCI hotplug framework.
-=20
-- - available_images: Optional: called to return the available images of a =
-FPGA card.
-- - image_load: Optional: called to load a new image for a FPGA card.
-+The driver can be helpful in device management tasks like burning the enti=
-re
-+image and loading a new FPGA image or BMC firmware in FPGA deployment of d=
-ata
-+center or cloud. For example, when loading the image, the driver needs to
-+remove all of PCI devices like PFs/VFs and as well as any other types of
-+devices (platform, etc.) defined within the FPGA. After triggering the ima=
-ge
-+load of the FPGA card via BMC, the driver reconfigures the appropriate PCI=
- bus.
-=20
--In general, the fpgahp driver provides some sysfs files::
-+The driver adds 2 new sysfs callbacks to extend the hotplug mechanism to
-+allow selecting and loading a new FPGA image:
-+
-+ - ``/sys/bus/pci/slots/<X-X>/available_images``: list available images for
-+   a FPGA card.
-+ - ``/sys/bus/pci/slots/<X-X>/image_load``: load the image.
-=20
--        /sys/bus/pci/slots/<X-X>/available_images
--        /sys/bus/pci/slots/<X-X>/image_load
 
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---qVl6dm7wN+8OEMm3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY8kPmwAKCRD2uYlJVVFO
-o3lrAQCct9H3y0zT3VjVNdLXNHJtFvNc7pF6h6RyrlsIR6FxAQD+KDkAExbGLjkL
-pruDqPa1E0ukAI5fDYmeWbWLP7kPaAw=
-=Eigz
------END PGP SIGNATURE-----
-
---qVl6dm7wN+8OEMm3--
+-- 
+Isaku Yamahata <isaku.yamahata@gmail.com>
