@@ -2,94 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DA44C38159
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 02:11:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0BB6C677F1
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 02:29:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229564AbjASCLx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 21:11:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36162 "EHLO
+        id S229784AbjASC3E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 21:29:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229820AbjASCLu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 21:11:50 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 156DF45BE4;
-        Wed, 18 Jan 2023 18:11:49 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id b17so955335pld.7;
-        Wed, 18 Jan 2023 18:11:49 -0800 (PST)
+        with ESMTP id S229568AbjASC3C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 21:29:02 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CAEC3253A;
+        Wed, 18 Jan 2023 18:29:01 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id t8so39248pjj.4;
+        Wed, 18 Jan 2023 18:29:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tC+0mywWHqI+sqrHp46ZxP0mQaBVjvXQSSGY/6s8JQI=;
-        b=MwKKJUvraeoEuIpY8/qTuM8EE6zymSdxg2cXYkSXtQtv+dVheaXG823DqtewR9Vi2E
-         PbvwTseNXIWG0Qnv8XheYIGUNJLMj/TG8943/piHYSG8k4Kl0PNfusYhKqm+XY3tN7rT
-         +ScYZKF6F6agPescxeX1cO8sLvyiwsZb4gS3RJVeQk8SPVB6uttqcOZK823VNjgNGBat
-         cBXGcaa25L3yU7G1Hdb5/+E1gUR0UZl7qJgSvIOtcSzdURjU26SjKZeKZ+jiqiZjLXp1
-         NRvjyeRd2PYg5QclbSYVczkSjuzJvi/NooF6auxx90uVPnpfUm39nc34xjdByQzfcBdn
-         YVKA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P/nnDmMmj8DCiWBvavTR7rDDek9BtJKWmbpkPWik9/o=;
+        b=WjS/w1/HFx8yR3TckvdaBFHXP8QfnyybctzIgONyokaNuV9KuO4ITvhU4Bdom7nJ4N
+         hpkcjVMJpxA/YGdozH0k3rlknRkdLV9Cx2W4r68y3r0OivjixIejnyekpF61AH8lTUkA
+         SCryyvF3Wwi47+qGo97kTuykkzuaLhYyPU61ZuYRoauILy1nKiD/xU0PDOf3sSFzq4Zf
+         W7DEI//JYvJWt98JleKg7S43QvP7X9A3fEEaQlNVMzj+rt15kGABbqUFE9YAsCst66sK
+         gk7rLT3rJhHLLYiC6kNWTIkh8XMMdqBfKZ7UGWDhGW5t8Y/rOfuYJRzlyt6l7GT0ikMj
+         a2FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tC+0mywWHqI+sqrHp46ZxP0mQaBVjvXQSSGY/6s8JQI=;
-        b=AD9XV1FckODeesLL8wIHVEiLJZLNc09zA+aogGXQ31o7tZatBFSYS2Ey2YJJmLD8PX
-         +OIld1g1lboqROQnzLNyK7L/5lHAUjF2FEVc5GcfxPYb/UzS2s/YLILpgaR1jayAU3U8
-         S1VpMOik7nT2tkc2vqKOX3u+2XYzxQwPi2DrGOMmYi8QI06XWKAlbKYBtwp3ctveHmbU
-         xlxqQtx3xT4py9C4RWJO4K3ofZEhj64T4aESrAPLdflNIabpX80ztF7triRjQ54mhZJO
-         OumfiB/guQ6Br4gmuTLQCyVv87A48SpaEXDpkyzc5BnmyJt2SlMz+3nYz7h6/jPwZNSQ
-         27+Q==
-X-Gm-Message-State: AFqh2koX0yR3r46VE6U7H3vNwbZtqAq62BDp72KEo82kQST8W6+k8auo
-        r9jFar4YrI0hUK3GInE9fbk=
-X-Google-Smtp-Source: AMrXdXucTgx+jrYtDbLD/rzJHvHDUU3/BlPM0+iL/RjO/9Y603roCW1nW/5XiNSuuPrdN0RSXJE5UA==
-X-Received: by 2002:a17:902:8c90:b0:191:2b76:612c with SMTP id t16-20020a1709028c9000b001912b76612cmr8077470plo.62.1674094309142;
-        Wed, 18 Jan 2023 18:11:49 -0800 (PST)
-Received: from [192.168.43.80] (subs02-180-214-232-70.three.co.id. [180.214.232.70])
-        by smtp.gmail.com with ESMTPSA id u10-20020a17090341ca00b00192f4fbdeb5sm10360889ple.102.2023.01.18.18.11.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jan 2023 18:11:48 -0800 (PST)
-Message-ID: <51023b0e-897a-4aac-8654-63c52de9eeb4@gmail.com>
-Date:   Thu, 19 Jan 2023 09:11:45 +0700
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=P/nnDmMmj8DCiWBvavTR7rDDek9BtJKWmbpkPWik9/o=;
+        b=tiTuaD6Hw094vb6sOqUf5F36VhLyEI1D+JkTMO4rSyyZ+ehhRVklQsGQkcUK/r5eLf
+         ihcinDeJMRBi5tIdzibExokCGoWKoTVZg2CEjA2sH1foJq+63tiMumSWvkV5xu9bmb+r
+         62ViNg98qfaLq9LBImkH7/IMuilYN4LCcrvVWBmartprUfgO/ALlmN7LmhQ+8EPNkZHO
+         0xXKcA65YbniPRBn2CzVH48dUak1tx7rV6t9dfFg7GguFmLNdAOMBmCMGK5TrN5Yg4t7
+         ZvoVZAV/1tUEtuDcDS/lgZywToHzi37SLm2Bt0EjHKoWygn1HOqfy89zx3MCkZdkGDtI
+         poiA==
+X-Gm-Message-State: AFqh2kqIpi2irgxmzcEdZ8r3b7B6xJO/4G0+nmxA7rH/l+iSRzQWHl1j
+        ydJ5ekRTkAoBHdm3kV4enNM=
+X-Google-Smtp-Source: AMrXdXuv7Ge6RS9jbru1XsHch+oH048KEE3jmw/irIexrjag4KmKCqiWmtE/HFFnhhOdMyLN9512Og==
+X-Received: by 2002:a17:90a:74c3:b0:229:1df9:bc73 with SMTP id p3-20020a17090a74c300b002291df9bc73mr9941743pjl.26.1674095340774;
+        Wed, 18 Jan 2023 18:29:00 -0800 (PST)
+Received: from localhost (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com. [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
+        by smtp.gmail.com with ESMTPSA id k1-20020a17090a7f0100b00223f495dc28sm2001145pjl.14.2023.01.18.18.28.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jan 2023 18:29:00 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Wed, 18 Jan 2023 16:28:58 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Nathan Huckleberry <nhuck@google.com>
+Cc:     Sandeep Dhavale <dhavale@google.com>,
+        Daeho Jeong <daehojeong@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] workqueue: Add WQ_SCHED_FIFO
+Message-ID: <Y8iq6gLtmX1c8VSf@slm.duckdns.org>
+References: <20230113210703.62107-1-nhuck@google.com>
+ <Y8HI+42TxxlJxT6D@slm.duckdns.org>
+ <CAJkfWY4Az45dNkPu5JpDsiMV-gRLe2VjVuixQd9xNG7zdLb4jA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: =?UTF-8?B?UmU6IOetlOWkjTogW1BBVENIXSBtbS9oaWdobWVtOiBmaXggc3BlbGxp?=
- =?UTF-8?Q?ng_mistakeo?=
-Content-Language: en-US
-To:     =?UTF-8?B?dG9tb3Jyb3cgV2FuZyAo546L5b635piOKQ==?= 
-        <wangdeming@inspur.com>, "corbet@lwn.net" <corbet@lwn.net>,
-        "fmdefrancesco@gmail.com" <fmdefrancesco@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "bigeasy@linutronix.de" <bigeasy@linutronix.de>,
-        "ira.weiny@intel.com" <ira.weiny@intel.com>,
-        "rppt@kernel.org" <rppt@kernel.org>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <63c9e0aaf682ab012d27dced94d127b818-1-23gmail.com@g.corp-email.com>
- <Y8dXpe5CCo5Kl3Zg@debian.me> <67e5d78c78824176847cc5bb5798e12f@inspur.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <67e5d78c78824176847cc5bb5798e12f@inspur.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJkfWY4Az45dNkPu5JpDsiMV-gRLe2VjVuixQd9xNG7zdLb4jA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/18/23 09:55, tomorrow Wang (王德明) wrote:
-> Hi,
-> 
->  I find only one typo about higmem. And I have modified the subject.
-> 
+Hello,
 
-You send your patch as attachment, please send it inline instead
-with git-send-email(1).
+On Wed, Jan 18, 2023 at 06:01:04PM -0800, Nathan Huckleberry wrote:
+> Do you think something similar should be done for WQ_UNBOUND? In most
+> places where WQ_HIGHPRI is used, WQ_UNBOUND is also used because it
+> boosts performance. However, I suspect that most of these benchmarks
+> were done on x86-64. I've found that WQ_UNBOUND significantly reduces
+> performance on arm64/Android.
 
-Also, please don't top-post; reply inline with appropriate context
-instead.
+One attribute with per-cpu workqueues is that they're concurrency-level
+limited. ie. if you have two per-cpu work items queued, the second one might
+not run until the first one is done. Maybe people were trying to avoid
+possible latency spikes from that?
+
+Even aside from that, UNBOUND tends to give more consistent latency
+behaviors as you aren't necessarily bound to what's happening on that
+particular, so I guess maybe that's also why but I didn't really follow how
+each user is picking and justifying these flags, so my insight is pretty
+limited.
+
+> From the documentation, using WQ_UNBOUND for performance doesn't seem
+> correct. It's only supposed to be used for long-running work. It might
+> make more sense to get rid of WQ_UNBOUND altogether and only move work
+> to unbound worker pools once it has stuck around for long enough.
+
+UNBOUND says: Don't pin this to one cpu or subject it to workqueue's
+concurrency limit. Use workqueue as a generic thread pool.
+
+I don't know what you mean by performance but HIGHPRI | UNBOUND will
+definitely improve some aspects.
+
+> Android will probably need to remove WQ_UNBOUND from all of these
+> performance critical users.
+> 
+> If there are performance benefits to using unbinding workqueues from
+> CPUs on x86-64, that should probably be a config flag, not controlled
+> by every user.
+
+It's unlikely that the instruction set is what's making the difference here,
+right? It probably would help if we understand why it's worse on arm.
+
+I don't think ppl have been all that deliberate with these flags, so it's
+also likely that some of the usages can drop UNBOUND completely but I really
+think more data and analyses would help.
 
 Thanks.
 
 -- 
-An old man doll... just what I always wanted! - Clara
-
+tejun
