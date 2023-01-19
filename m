@@ -2,70 +2,186 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A40EC678DD
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 21:31:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78D7CC678DC
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 21:31:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230040AbjASVba (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 16:31:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44506 "EHLO
+        id S230077AbjASVbb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 16:31:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229659AbjASV3j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 16:29:39 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6F2FA6C5E;
-        Thu, 19 Jan 2023 13:24:17 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 42C0B2C0;
-        Thu, 19 Jan 2023 21:24:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 42C0B2C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1674163449; bh=OXBuHSjhREkhVOFMFvVgcVeotLkhxzqh+RcIxz5mpjY=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=RFe47zp7zE5uaFV/o/DeenmzYwBRmxX1uRk/Jyp9jXEA9mUWoa/UnR3xOyS/0AZNI
-         rIdci9w8LeXE8s5OgAL8VzvYUTNhNId2PQwWhqOqY1LABBMeBTD9y/y1ORnYDFlg9t
-         ZRDJN/Y2cFH6lohlRa2lCgE1dzZhO1Uzx+1naIoniW4sz6n//uVsPeYF9A8/66iDhj
-         lNs8wL3svK8a9eH5XCsRisnGGYQkT6D9wKm9MA+AYLCHFr7IQg7ItasrsPxrJhIASl
-         O97tCg1CHXudKkoE82a58cIiQwb2Lyx6BRIc1OEiWUf/ITNPXqkND11EtKMhiL6M2Y
-         /HkmWmeInJNTg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Sohil Mehta <sohil.mehta@intel.com>, linux-doc@vger.kernel.org
-Cc:     Sohil Mehta <sohil.mehta@intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
+        with ESMTP id S230420AbjASVaF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 16:30:05 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFA05A7333;
+        Thu, 19 Jan 2023 13:24:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674163490; x=1705699490;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=d2PWSkL27px2D+va1Qwpdf/EaJ+P/H11jw+dYhLJV08=;
+  b=WdBnp6zXjbHCe8tTccNcz7wm7jAaHdnt4PdEVoy/DXH+4nVi4Ob/BP3e
+   Kin5MW/5JVzb7kpMrnI/okMbYwAexXzyaRSAIszyNJHoWWK9Iz5RKYLWZ
+   bsp0Uo24nIxCOXRk2NGyHrwAaek3sE+nt6Coqov0dzmLML6aH/iKnSeLk
+   ZHYZPfZ4iTg5znhJ73Gilj1ZKqNEviAegPDMAEaBAzcN68mmGsADXfSLI
+   egKblWleYsL1Ilo5bDArBJ4DpnRWaKLvdaC+a7J71Y/AXsRwaUljrAqJJ
+   Z0TH8Lr9LGprLUjLcBRIuaqF5O1CgZzt5skGe4odaD7LqiB8dO9RL/48j
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="323119217"
+X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
+   d="scan'208";a="323119217"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 13:23:29 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="989138996"
+X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
+   d="scan'208";a="989138996"
+Received: from hossain3-mobl.amr.corp.intel.com (HELO rpedgeco-desk.amr.corp.intel.com) ([10.252.128.187])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 13:23:27 -0800
+From:   Rick Edgecombe <rick.p.edgecombe@intel.com>
+To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Ravi V Shankar <ravi.v.shankar@intel.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH] x86/vsyscall: Fix documentation to reflect the default
- mode
-In-Reply-To: <20230111193211.1987047-1-sohil.mehta@intel.com>
-References: <20230111193211.1987047-1-sohil.mehta@intel.com>
-Date:   Thu, 19 Jan 2023 14:24:08 -0700
-Message-ID: <87v8l26ww7.fsf@meer.lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com
+Cc:     rick.p.edgecombe@intel.com, Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v5 03/39] x86/cpufeatures: Add CPU feature flags for shadow stacks
+Date:   Thu, 19 Jan 2023 13:22:41 -0800
+Message-Id: <20230119212317.8324-4-rick.p.edgecombe@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sohil Mehta <sohil.mehta@intel.com> writes:
+From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
-> The default vsyscall mode has been updated from emulate to xonly for a
-> while. Update the kernel-parameters doc to reflect that.
->
-> Fixes: 625b7b7f79c6 ("x86/vsyscall: Change the default vsyscall mode to xonly")
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
-> Reviewed-by: Tony Luck <tony.luck@intel.com>
-> ---
-> Do documentation fixes typically get backported to stable? I haven't included
-> a stable cc assuming they do not.
->
->  Documentation/admin-guide/kernel-parameters.txt | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+The Control-Flow Enforcement Technology contains two related features,
+one of which is Shadow Stacks. Future patches will utilize this feature
+for shadow stack support in KVM, so add a CPU feature flags for Shadow
+Stacks (CPUID.(EAX=7,ECX=0):ECX[bit 7]).
 
-Applied, thanks.
+To protect shadow stack state from malicious modification, the registers
+are only accessible in supervisor mode. This implementation
+context-switches the registers with XSAVES. Make X86_FEATURE_SHSTK depend
+on XSAVES.
 
-jon
+The shadow stack feature, enumerated by the CPUID bit described above,
+encompasses both supervisor and userspace support for shadow stack. In
+near future patches, only userspace shadow stack will be enabled. In
+expectation of future supervisor shadow stack support, create a software
+CPU capability to enumerate kernel utilization of userspace shadow stack
+support. This user shadow stack bit should depend on the HW "shstk"
+capability and that logic will be implemented in future patches.
+
+Tested-by: Pengfei Xu <pengfei.xu@intel.com>
+Tested-by: John Allen <john.allen@amd.com>
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: Kees Cook <keescook@chromium.org>
+---
+
+v5:
+ - Drop "shstk" from cpuinfo (Boris)
+ - Remove capitalization on shadow stack (Boris)
+
+v3:
+ - Add user specific shadow stack cpu cap (Andrew Cooper)
+ - Drop reviewed-bys from Boris and Kees due to the above change.
+
+v2:
+ - Remove IBT reference in commit log (Kees)
+ - Describe xsaves dependency using text from (Dave)
+
+v1:
+ - Remove IBT, can be added in a follow on IBT series.
+
+ arch/x86/include/asm/cpufeatures.h       | 2 ++
+ arch/x86/include/asm/disabled-features.h | 8 +++++++-
+ arch/x86/kernel/cpu/cpuid-deps.c         | 1 +
+ 3 files changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 7b319acda31a..a8551b6c8041 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -307,6 +307,7 @@
+ #define X86_FEATURE_SGX_EDECCSSA	(11*32+18) /* "" SGX EDECCSSA user leaf function */
+ #define X86_FEATURE_CALL_DEPTH		(11*32+19) /* "" Call depth tracking for RSB stuffing */
+ #define X86_FEATURE_MSR_TSX_CTRL	(11*32+20) /* "" MSR IA32_TSX_CTRL (Intel) implemented */
++#define X86_FEATURE_USER_SHSTK		(11*32+21) /* Shadow stack support for user mode applications */
+ 
+ /* Intel-defined CPU features, CPUID level 0x00000007:1 (EAX), word 12 */
+ #define X86_FEATURE_AVX_VNNI		(12*32+ 4) /* AVX VNNI instructions */
+@@ -373,6 +374,7 @@
+ #define X86_FEATURE_OSPKE		(16*32+ 4) /* OS Protection Keys Enable */
+ #define X86_FEATURE_WAITPKG		(16*32+ 5) /* UMONITOR/UMWAIT/TPAUSE Instructions */
+ #define X86_FEATURE_AVX512_VBMI2	(16*32+ 6) /* Additional AVX512 Vector Bit Manipulation Instructions */
++#define X86_FEATURE_SHSTK		(16*32+ 7) /* "" Shadow stack */
+ #define X86_FEATURE_GFNI		(16*32+ 8) /* Galois Field New Instructions */
+ #define X86_FEATURE_VAES		(16*32+ 9) /* Vector AES */
+ #define X86_FEATURE_VPCLMULQDQ		(16*32+10) /* Carry-Less Multiplication Double Quadword */
+diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
+index 5dfa4fb76f4b..505f78ddca82 100644
+--- a/arch/x86/include/asm/disabled-features.h
++++ b/arch/x86/include/asm/disabled-features.h
+@@ -99,6 +99,12 @@
+ # define DISABLE_TDX_GUEST	(1 << (X86_FEATURE_TDX_GUEST & 31))
+ #endif
+ 
++#ifdef CONFIG_X86_USER_SHADOW_STACK
++#define DISABLE_USER_SHSTK	0
++#else
++#define DISABLE_USER_SHSTK	(1 << (X86_FEATURE_USER_SHSTK & 31))
++#endif
++
+ /*
+  * Make sure to add features to the correct mask
+  */
+@@ -114,7 +120,7 @@
+ #define DISABLED_MASK9	(DISABLE_SGX)
+ #define DISABLED_MASK10	0
+ #define DISABLED_MASK11	(DISABLE_RETPOLINE|DISABLE_RETHUNK|DISABLE_UNRET| \
+-			 DISABLE_CALL_DEPTH_TRACKING)
++			 DISABLE_CALL_DEPTH_TRACKING|DISABLE_USER_SHSTK)
+ #define DISABLED_MASK12	0
+ #define DISABLED_MASK13	0
+ #define DISABLED_MASK14	0
+diff --git a/arch/x86/kernel/cpu/cpuid-deps.c b/arch/x86/kernel/cpu/cpuid-deps.c
+index d95221117129..c3e4e5246df9 100644
+--- a/arch/x86/kernel/cpu/cpuid-deps.c
++++ b/arch/x86/kernel/cpu/cpuid-deps.c
+@@ -79,6 +79,7 @@ static const struct cpuid_dep cpuid_deps[] = {
+ 	{ X86_FEATURE_XFD,			X86_FEATURE_XSAVES    },
+ 	{ X86_FEATURE_XFD,			X86_FEATURE_XGETBV1   },
+ 	{ X86_FEATURE_AMX_TILE,			X86_FEATURE_XFD       },
++	{ X86_FEATURE_SHSTK,			X86_FEATURE_XSAVES    },
+ 	{}
+ };
+ 
+-- 
+2.17.1
+
