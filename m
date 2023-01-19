@@ -2,307 +2,70 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B647C678D6
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 21:31:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A40EC678DD
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 21:31:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229561AbjASVb2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 16:31:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43786 "EHLO
+        id S230040AbjASVba (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 16:31:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230332AbjASV3R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 16:29:17 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8ECAA6C42;
-        Thu, 19 Jan 2023 13:24:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674163449; x=1705699449;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=uhuMbHp6Kbqx+B8M1wEyR7U+E0nR3IzT2DHoy+pPYUg=;
-  b=QbY7zYo1BNvtIiSNYL7sxgn7pbhLVCivi1d9hy52XZ4+wXgpRoBenjSj
-   XU0gwZ4SMmjefa2hlIRROStXjtw9mpu46EMFoLdIJUo017QO4aWFBZSJK
-   5XmQyXJ++BMprxsArmzQ5na/kr8lmSDmjxCk6GIqK/OdUcI26PjMsRVFu
-   teMt77yl9qOTnctmdFd8mHKqhattIx8YErHbRHBI9rdmyNaUIbaPsuHCv
-   x6XxksjiOXQZB+QZ+n1wtx4bv8+X+8fPEAcoMT9fZGdOpzz74K8Wnqioz
-   JqFkGS2T9prHoD+TJ+cImNOPEK1y4LxHqyDuYuPUP/wTpisxfxupVf4uz
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="323119163"
-X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="323119163"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 13:23:26 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="989138986"
-X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="989138986"
-Received: from hossain3-mobl.amr.corp.intel.com (HELO rpedgeco-desk.amr.corp.intel.com) ([10.252.128.187])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 13:23:24 -0800
-From:   Rick Edgecombe <rick.p.edgecombe@intel.com>
-To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
+        with ESMTP id S229659AbjASV3j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 16:29:39 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6F2FA6C5E;
+        Thu, 19 Jan 2023 13:24:17 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 42C0B2C0;
+        Thu, 19 Jan 2023 21:24:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 42C0B2C0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1674163449; bh=OXBuHSjhREkhVOFMFvVgcVeotLkhxzqh+RcIxz5mpjY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=RFe47zp7zE5uaFV/o/DeenmzYwBRmxX1uRk/Jyp9jXEA9mUWoa/UnR3xOyS/0AZNI
+         rIdci9w8LeXE8s5OgAL8VzvYUTNhNId2PQwWhqOqY1LABBMeBTD9y/y1ORnYDFlg9t
+         ZRDJN/Y2cFH6lohlRa2lCgE1dzZhO1Uzx+1naIoniW4sz6n//uVsPeYF9A8/66iDhj
+         lNs8wL3svK8a9eH5XCsRisnGGYQkT6D9wKm9MA+AYLCHFr7IQg7ItasrsPxrJhIASl
+         O97tCg1CHXudKkoE82a58cIiQwb2Lyx6BRIc1OEiWUf/ITNPXqkND11EtKMhiL6M2Y
+         /HkmWmeInJNTg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Sohil Mehta <sohil.mehta@intel.com>, linux-doc@vger.kernel.org
+Cc:     Sohil Mehta <sohil.mehta@intel.com>,
         Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com
-Cc:     rick.p.edgecombe@intel.com, Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v5 01/39] Documentation/x86: Add CET shadow stack description
-Date:   Thu, 19 Jan 2023 13:22:39 -0800
-Message-Id: <20230119212317.8324-2-rick.p.edgecombe@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
-References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+        Tony Luck <tony.luck@intel.com>,
+        Ravi V Shankar <ravi.v.shankar@intel.com>,
+        linux-kernel@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH] x86/vsyscall: Fix documentation to reflect the default
+ mode
+In-Reply-To: <20230111193211.1987047-1-sohil.mehta@intel.com>
+References: <20230111193211.1987047-1-sohil.mehta@intel.com>
+Date:   Thu, 19 Jan 2023 14:24:08 -0700
+Message-ID: <87v8l26ww7.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Sohil Mehta <sohil.mehta@intel.com> writes:
 
-Introduce a new document on Control-flow Enforcement Technology (CET).
+> The default vsyscall mode has been updated from emulate to xonly for a
+> while. Update the kernel-parameters doc to reflect that.
+>
+> Fixes: 625b7b7f79c6 ("x86/vsyscall: Change the default vsyscall mode to xonly")
+> Cc: Andy Lutomirski <luto@kernel.org>
+> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
+> Reviewed-by: Tony Luck <tony.luck@intel.com>
+> ---
+> Do documentation fixes typically get backported to stable? I haven't included
+> a stable cc assuming they do not.
+>
+>  Documentation/admin-guide/kernel-parameters.txt | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 
-Tested-by: Pengfei Xu <pengfei.xu@intel.com>
-Tested-by: John Allen <john.allen@amd.com>
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc: Kees Cook <keescook@chromium.org>
----
+Applied, thanks.
 
-v5:
- - Literal format tweaks (Bagas Sanjaya)
- - Update EOPNOTSUPP text due to unification after comment from (Kees)
- - Update 32 bit signal support with new behavior
- - Remove capitalization on shadow stack (Boris)
- - Fix typo
-
-v4:
- - Drop clearcpuid piece (Boris)
- - Add some info about 32 bit
-
-v3:
- - Clarify kernel IBT is supported by the kernel. (Kees, Andrew Cooper)
- - Clarify which arch_prctl's can take multiple bits. (Kees)
- - Describe ASLR characteristics of thread shadow stacks. (Kees)
- - Add exec section. (Andrew Cooper)
- - Fix some capitalization (Bagas Sanjaya)
- - Update new location of enablement status proc.
- - Add info about new user_shstk software capability.
- - Add more info about what the kernel pushes to the shadow stack on
-   signal.
-
-v2:
- - Updated to new arch_prctl() API
- - Add bit about new proc status
-
- Documentation/x86/index.rst |   1 +
- Documentation/x86/shstk.rst | 166 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 167 insertions(+)
- create mode 100644 Documentation/x86/shstk.rst
-
-diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index c73d133fd37c..8ac64d7de4dc 100644
---- a/Documentation/x86/index.rst
-+++ b/Documentation/x86/index.rst
-@@ -22,6 +22,7 @@ x86-specific Documentation
-    mtrr
-    pat
-    intel-hfi
-+   shstk
-    iommu
-    intel_txt
-    amd-memory-encryption
-diff --git a/Documentation/x86/shstk.rst b/Documentation/x86/shstk.rst
-new file mode 100644
-index 000000000000..f2e6f323cf68
---- /dev/null
-+++ b/Documentation/x86/shstk.rst
-@@ -0,0 +1,166 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================================================
-+Control-flow Enforcement Technology (CET) Shadow Stack
-+======================================================
-+
-+CET Background
-+==============
-+
-+Control-flow Enforcement Technology (CET) is term referring to several
-+related x86 processor features that provides protection against control
-+flow hijacking attacks. The HW feature itself can be set up to protect
-+both applications and the kernel.
-+
-+CET introduces shadow stack and indirect branch tracking (IBT). Shadow stack
-+is a secondary stack allocated from memory and cannot be directly modified by
-+applications. When executing a CALL instruction, the processor pushes the
-+return address to both the normal stack and the shadow stack. Upon
-+function return, the processor pops the shadow stack copy and compares it
-+to the normal stack copy. If the two differ, the processor raises a
-+control-protection fault. IBT verifies indirect CALL/JMP targets are intended
-+as marked by the compiler with 'ENDBR' opcodes. Not all CPU's have both Shadow
-+Stack and Indirect Branch Tracking. Today in the 64-bit kernel, only userspace
-+shadow stack and kernel IBT are supported.
-+
-+Requirements to use Shadow Stack
-+================================
-+
-+To use userspace shadow stack you need HW that supports it, a kernel
-+configured with it and userspace libraries compiled with it.
-+
-+The kernel Kconfig option is X86_USER_SHADOW_STACK, and it can be disabled
-+with the kernel parameter: nousershstk.
-+
-+To build a user shadow stack enabled kernel, Binutils v2.29 or LLVM v6 or later
-+are required.
-+
-+At run time, /proc/cpuinfo shows CET features if the processor supports
-+CET. "user_shstk" means that userspace shadow stack is supported on the current
-+kernel and HW.
-+
-+Application Enabling
-+====================
-+
-+An application's CET capability is marked in its ELF note and can be verified
-+from readelf/llvm-readelf output::
-+
-+    readelf -n <application> | grep -a SHSTK
-+        properties: x86 feature: SHSTK
-+
-+The kernel does not process these applications markers directly. Applications
-+or loaders must enable CET features using the interface described in section 4.
-+Typically this would be done in dynamic loader or static runtime objects, as is
-+the case in GLIBC.
-+
-+Enabling arch_prctl()'s
-+=======================
-+
-+Elf features should be enabled by the loader using the below arch_prctl's. They
-+are only supported in 64 bit user applications.
-+
-+arch_prctl(ARCH_SHSTK_ENABLE, unsigned long feature)
-+    Enable a single feature specified in 'feature'. Can only operate on
-+    one feature at a time.
-+
-+arch_prctl(ARCH_SHSTK_DISABLE, unsigned long feature)
-+    Disable a single feature specified in 'feature'. Can only operate on
-+    one feature at a time.
-+
-+arch_prctl(ARCH_SHSTK_LOCK, unsigned long features)
-+    Lock in features at their current enabled or disabled status. 'features'
-+    is a mask of all features to lock. All bits set are processed, unset bits
-+    are ignored. The mask is ORed with the existing value. So any feature bits
-+    set here cannot be enabled or disabled afterwards.
-+
-+The return values are as follows. On success, return 0. On error, errno can
-+be::
-+
-+        -EPERM if any of the passed feature are locked.
-+        -ENOTSUPP if the feature is not supported by the hardware or
-+         kernel.
-+        -EINVAL arguments (non existing feature, etc)
-+
-+The feature's bits supported are::
-+
-+    ARCH_SHSTK_SHSTK - Shadow stack
-+    ARCH_SHSTK_WRSS  - WRSS
-+
-+Currently shadow stack and WRSS are supported via this interface. WRSS
-+can only be enabled with shadow stack, and is automatically disabled
-+if shadow stack is disabled.
-+
-+Proc Status
-+===========
-+To check if an application is actually running with shadow stack, the
-+user can read the /proc/$PID/status. It will report "wrss" or "shstk"
-+depending on what is enabled. The lines look like this::
-+
-+    x86_Thread_features: shstk wrss
-+    x86_Thread_features_locked: shstk wrss
-+
-+Implementation of the Shadow Stack
-+==================================
-+
-+Shadow Stack Size
-+-----------------
-+
-+A task's shadow stack is allocated from memory to a fixed size of
-+MIN(RLIMIT_STACK, 4 GB). In other words, the shadow stack is allocated to
-+the maximum size of the normal stack, but capped to 4 GB. However,
-+a compat-mode application's address space is smaller, each of its thread's
-+shadow stack size is MIN(1/4 RLIMIT_STACK, 4 GB).
-+
-+Signal
-+------
-+
-+By default, the main program and its signal handlers use the same shadow
-+stack. Because the shadow stack stores only return addresses, a large
-+shadow stack covers the condition that both the program stack and the
-+signal alternate stack run out.
-+
-+When a signal happens, the old pre-signal state is pushed on the stack. When
-+shadow stack is enabled, the shadow stack specific state is pushed onto the
-+shadow stack. Today this is only the old SSP (shadow stack pointer), pushed
-+in a special format with bit 63 set. On sigreturn this old SSP token is
-+verified and restored by the kernel. The kernel will also push the normal
-+restorer address to the shadow stack to help userspace avoid a shadow stack
-+violation on the sigreturn path that goes through the restorer.
-+
-+So the shadow stack signal frame format is as follows::
-+
-+    |1...old SSP| - Pointer to old pre-signal ssp in sigframe token format
-+                    (bit 63 set to 1)
-+    |        ...| - Other state may be added in the future
-+
-+
-+32 bit ABI signals are not supported in shadow stack processes. Linux prevents
-+32 bit execution while shadow stack is enabled by the allocating shadow stack's
-+outside of the 32 bit address space. When execution enters 32 bit mode, either
-+via far call or returning to userspace, a #GP is generated by the hardware
-+which, will be delivered to the process as a segfault. When transitioning to
-+userspace the register's state will be as if the userspace ip being returned to
-+caused the segfault.
-+
-+Fork
-+----
-+
-+The shadow stack's vma has VM_SHADOW_STACK flag set; its PTEs are required
-+to be read-only and dirty. When a shadow stack PTE is not RO and dirty, a
-+shadow access triggers a page fault with the shadow stack access bit set
-+in the page fault error code.
-+
-+When a task forks a child, its shadow stack PTEs are copied and both the
-+parent's and the child's shadow stack PTEs are cleared of the dirty bit.
-+Upon the next shadow stack access, the resulting shadow stack page fault
-+is handled by page copy/re-use.
-+
-+When a pthread child is created, the kernel allocates a new shadow stack
-+for the new thread. New shadow stack's behave like mmap() with respect to
-+ASLR behavior.
-+
-+Exec
-+----
-+
-+On exec, shadow stack features are disabled by the kernel. At which point,
-+userspace can choose to re-enable, or lock them.
--- 
-2.17.1
-
+jon
