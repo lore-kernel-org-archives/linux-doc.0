@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF3CCC677F1
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 00:36:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1FB9C38159
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 00:36:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229813AbjASAgk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 19:36:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47650 "EHLO
+        id S229831AbjASAgl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 19:36:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbjASAgY (ORCPT
+        with ESMTP id S229644AbjASAgY (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 19:36:24 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2159C474F6;
-        Wed, 18 Jan 2023 16:36:22 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE05F5FD75;
+        Wed, 18 Jan 2023 16:36:23 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 204DC61B09;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9C0AB61B03;
+        Thu, 19 Jan 2023 00:36:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74B93C433F1;
         Thu, 19 Jan 2023 00:36:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF012C433F2;
-        Thu, 19 Jan 2023 00:36:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674088581;
-        bh=IVvCR8GKhominXP7rV5W+Yg5UMdBdNWIhfd9Zx13eIg=;
+        s=k20201202; t=1674088583;
+        bh=h9E1z2xP1unAfF5G4j1pRm4zgMwWY/epRKl25o0Z7ds=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=p+W4UgHGFXkw0t2CfoCIbAdEG6mEIMv2SGxccbaL3V8WmA+oDp2S50DUtuEiaFd4J
-         +RCWGZyNp8YVDY5e/kn2yd/97YZYL2r4W1+uSBFkmJM9/55GjFbKmKgR2DiupcmmpO
-         RTo7mzpRvCKQTC3aawZts/LGd21UVv5vm0sY2GkY4RvOCt7Pm/jVwTlzOBBBYZlgnz
-         +p2kZhYAehfWppggILL0YG6pTGoNXRcLXPfWprUZRNuHC8Sa1V9nDiNywQCpRBMS1n
-         c2eOf1mSq+JyoQ9iPtLj57BYRRZUthNNk6sbeioMRVOxck5qoPpDJr60+vz/vuOM2D
-         8sms2uofHNf6w==
+        b=tLAI/2ZM7GPNLHOR0lnSEsluZBt67/AkWz9aJDW4NK0p/fR31N8NaQOD39vsCzTqx
+         1wvrAPUKonrLlEY4zSaYQEKoPtXVd+Eu4LKnVMHpdwCoQ/gYPuVJ1NLC2MUXLw0AHx
+         f8RUpq4wmRdWguRNjLmxrbaBEX8UOkdVMgVi7tngZdiIyvKq924P6W+G67iCXO1OUl
+         cyK78RwDSVwazGXje8qyeqoJr2/5MywjxeeCuyOSEFgTIq5+N1YvR5IKpW6waAtvu1
+         oDiDuo40oSeviGa24Jkrqokjo/v7Qhw+E+BOeYgKCJXaWoE+mOweqv9Qb7JeiC/sIB
+         SEhzs7hQUvoWA==
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     davem@davemloft.net
 Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
@@ -39,9 +39,9 @@ Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
         f.fainelli@gmail.com, fw@strlen.de, linux-doc@vger.kernel.org,
         razor@blackwall.org, nicolas.dichtel@6wind.com,
         Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net-next v3 4/8] netlink: add a proto specification for FOU
-Date:   Wed, 18 Jan 2023 16:36:09 -0800
-Message-Id: <20230119003613.111778-5-kuba@kernel.org>
+Subject: [PATCH net-next v3 6/8] net: fou: rename the source for linking
+Date:   Wed, 18 Jan 2023 16:36:11 -0800
+Message-Id: <20230119003613.111778-7-kuba@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230119003613.111778-1-kuba@kernel.org>
 References: <20230119003613.111778-1-kuba@kernel.org>
@@ -51,148 +51,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-FOU has a reasonably modern Genetlink family. Add a spec.
+We'll need to link two objects together to form the fou module.
+This means the source can't be called fou, the build system expects
+fou.o to be the combined object.
 
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 ---
- Documentation/netlink/specs/fou.yaml | 128 +++++++++++++++++++++++++++
- 1 file changed, 128 insertions(+)
- create mode 100644 Documentation/netlink/specs/fou.yaml
+ net/ipv4/Makefile              | 1 +
+ net/ipv4/{fou.c => fou_core.c} | 0
+ 2 files changed, 1 insertion(+)
+ rename net/ipv4/{fou.c => fou_core.c} (100%)
 
-diff --git a/Documentation/netlink/specs/fou.yaml b/Documentation/netlink/specs/fou.yaml
-new file mode 100644
-index 000000000000..266c386eedf3
---- /dev/null
-+++ b/Documentation/netlink/specs/fou.yaml
-@@ -0,0 +1,128 @@
-+name: fou
-+
-+protocol: genetlink-legacy
-+
-+doc: |
-+  Foo-over-UDP.
-+
-+c-family-name: fou-genl-name
-+c-version-name: fou-genl-version
-+max-by-define: true
-+kernel-policy: global
-+
-+definitions:
-+  -
-+    type: enum
-+    name: encap_type
-+    name-prefix: fou-encap-
-+    enum-name:
-+    entries: [ unspec, direct, gue ]
-+
-+attribute-sets:
-+  -
-+    name: fou
-+    name-prefix: fou-attr-
-+    attributes:
-+      -
-+        name: unspec
-+        type: unused
-+      -
-+        name: port
-+        type: u16
-+        byte-order: big-endian
-+      -
-+        name: af
-+        type: u8
-+      -
-+        name: ipproto
-+        type: u8
-+      -
-+        name: type
-+        type: u8
-+      -
-+        name: remcsum_nopartial
-+        type: flag
-+      -
-+        name: local_v4
-+        type: u32
-+      -
-+        name: local_v6
-+        type: binary
-+        checks:
-+          min-len: 16
-+      -
-+        name: peer_v4
-+        type: u32
-+      -
-+        name: peer_v6
-+        type: binary
-+        checks:
-+          min-len: 16
-+      -
-+        name: peer_port
-+        type: u16
-+        byte-order: big-endian
-+      -
-+        name: ifindex
-+        type: s32
-+
-+operations:
-+  list:
-+    -
-+      name: unspec
-+      doc: unused
-+
-+    -
-+      name: add
-+      doc: Add port.
-+      attribute-set: fou
-+
-+      dont-validate: [ strict, dump ]
-+      flags: [ admin-perm ]
-+
-+      do:
-+        request: &all_attrs
-+          attributes:
-+            - port
-+            - ipproto
-+            - type
-+            - remcsum_nopartial
-+            - local_v4
-+            - peer_v4
-+            - local_v6
-+            - peer_v6
-+            - peer_port
-+            - ifindex
-+
-+    -
-+      name: del
-+      doc: Delete port.
-+      attribute-set: fou
-+
-+      dont-validate: [ strict, dump ]
-+      flags: [ admin-perm ]
-+
-+      do:
-+        request:  &select_attrs
-+          attributes:
-+          - af
-+          - ifindex
-+          - port
-+          - peer_port
-+          - local_v4
-+          - peer_v4
-+          - local_v6
-+          - peer_v6
-+
-+    -
-+      name: get
-+      doc: Get tunnel info.
-+      attribute-set: fou
-+      dont-validate: [ strict, dump ]
-+
-+      do:
-+        request: *select_attrs
-+        reply: *all_attrs
-+
-+      dump:
-+        reply: *all_attrs
+diff --git a/net/ipv4/Makefile b/net/ipv4/Makefile
+index af7d2cf490fb..fabbe46897ce 100644
+--- a/net/ipv4/Makefile
++++ b/net/ipv4/Makefile
+@@ -26,6 +26,7 @@ obj-$(CONFIG_IP_MROUTE) += ipmr.o
+ obj-$(CONFIG_IP_MROUTE_COMMON) += ipmr_base.o
+ obj-$(CONFIG_NET_IPIP) += ipip.o
+ gre-y := gre_demux.o
++fou-y := fou_core.o
+ obj-$(CONFIG_NET_FOU) += fou.o
+ obj-$(CONFIG_NET_IPGRE_DEMUX) += gre.o
+ obj-$(CONFIG_NET_IPGRE) += ip_gre.o
+diff --git a/net/ipv4/fou.c b/net/ipv4/fou_core.c
+similarity index 100%
+rename from net/ipv4/fou.c
+rename to net/ipv4/fou_core.c
 -- 
 2.39.0
 
