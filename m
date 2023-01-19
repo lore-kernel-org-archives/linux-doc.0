@@ -2,310 +2,235 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4136C00A5A
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 08:19:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEA1BC004D4
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 08:30:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229862AbjASITb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 03:19:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41948 "EHLO
+        id S229811AbjASIan (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 03:30:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjASITa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 03:19:30 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E2B95A801;
-        Thu, 19 Jan 2023 00:19:27 -0800 (PST)
+        with ESMTP id S229695AbjASIal (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 03:30:41 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DA45AC;
+        Thu, 19 Jan 2023 00:30:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674116367; x=1705652367;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=zkJmDmVPo4xfXntl57BQu7qOEFDAHu62KextpUEEzWU=;
-  b=mVYR8X1IjGIdtpZy77DDrx1jpfJxSDAB98vDVbovdcE4l2QX+HWBBIRt
-   iHR3UFJ8b6aOO2yx7kC9NHVTGwy/fxSChIc6MGrzRT3djZob+xgZOTwe9
-   AE4pWUhzGq0Y+7QaCwSOWKguchVOq+wSlfFevBEKS33F/nDy93V2MsI8N
-   TIOZxQiSqEqL+SmUGt74EIy8dvYJPIEmuy8N5SxWX3014uY2flbsMTWL1
-   ig+BdqqRFPJECjntzKbGI1PtHJc0jPmD8+lzIU4FTxD4cjORRbL1MyKX1
-   ke7w3ZrdScdtfXmSEd6YVaQVhHTITIW++iZyZ9MzQJUm+j2xzkO0MfbYL
+  t=1674117040; x=1705653040;
+  h=from:to:cc:subject:references:date:in-reply-to:
+   message-id:mime-version;
+  bh=LxcRD6HtB+g61OccydTNj4VaTJvaQZCVLDO3oTLNvDo=;
+  b=Yo8OWacdV5VyAA28nuKCWPqrUuKpurkwTynHun6DX4vRWBjbZm1WlhwU
+   UyBGtrprcdqBfzni5UI7OEaeIYEbaD/LctX4siQrJGih3EL8Ne6tRdGh0
+   jeo8sBkLXc65VGugEXzRvD7rik0S0eS0bLmIADye/Pl7yAtvVukoSQRi3
+   FQai+gOLJJZAVqpzmYbCXgA7ZewfWKnlPH336QWvmWOdD3nmMXzWwxxEg
+   0kWTYAXP554lhH5CtIcoTrU3aL2U4fFaQDPCDOoUVksn8/jCfPMEQPUg5
+   TdYpXi75mMfRKolPAxbOmevQuasPo5DUEyFr5jgzNmlvgLnRxAf7mHmHi
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="323912518"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="327303773"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="323912518"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 00:19:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="748811558"
+   d="scan'208";a="327303773"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 00:30:39 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="768119456"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="748811558"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Jan 2023 00:17:10 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 19 Jan 2023 00:17:10 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 19 Jan 2023 00:17:09 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 19 Jan 2023 00:17:09 -0800
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.45) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 19 Jan 2023 00:17:09 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g8yzjCF543rgezUbjEu8eLy9MKoP/amr37SmgnxHhrztJCqkrCb2TZWqpPHjpY4ZxaP/0bQlNO7mKua5IkiJ6MAMiIPHF6R9H8t0EYIOYXs3NBHFbUIdx6T9JbPif/X0TZOza1OCBN7Y2xncmmicrUKKkUS0MTL/dMpfO3lYNDB3p1oNXL4lbBrszvd8Q9XDg5heZ2uYH0C+p9/x9rdjYkO4DEuJp5Phn2d9pb3bruvUaPgUv1s/by6pMYwJKvcPkRw2OIbYp19iSXa/wnTJK3aV1w4+NrhLmaHDzDoYvIuWCObn/yAy5b8nV5TfQ6TVGNCdjVE9KJD/hz/fm93e1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jT1wcuZEa+a1DorG/DmeIWReoBYK0pvEu+bmy7tHguA=;
- b=NlXef25uw+nNKKSsNBgo/fA9tmIBVe7zpm4YHwaBsIX5MHk7qwueInR5JshFBGc1erZkkS8OiCCmRAmd7F3PvLCJbke0kStAajbwRBGu4Po15ZxXTbtJreje+NSA2FHlcQZrbzYkBcjSQ3JwPQQK+2AykvLzbi2QOzCH5Enq5BjmIJp5Lr62kuMhS+KYVhuoEcGIDlDH8P7bzzPlyijyakxjJJIcGXsch2WvRQhdyEykO1Y+zj/5OOoLW+9WUu79+msqS1RGxxn9EioEMVpsiACBcJZPo0qwHMhV3SvIrPOxz1LH9M3Ged/bsejrkQTYZyzl0AqFPHZc4sod6O+CSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5483.namprd11.prod.outlook.com (2603:10b6:408:104::10)
- by BL3PR11MB6435.namprd11.prod.outlook.com (2603:10b6:208:3bb::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.19; Thu, 19 Jan
- 2023 08:17:05 +0000
-Received: from BN9PR11MB5483.namprd11.prod.outlook.com
- ([fe80::ee18:f0d6:8983:5a24]) by BN9PR11MB5483.namprd11.prod.outlook.com
- ([fe80::ee18:f0d6:8983:5a24%3]) with mapi id 15.20.6002.024; Thu, 19 Jan 2023
- 08:17:05 +0000
-From:   "Zhang, Tianfei" <tianfei.zhang@intel.com>
-To:     =?iso-8859-1?Q?Pali_Roh=E1r?= <pali@kernel.org>
-CC:     "bhelgaas@google.com" <bhelgaas@google.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "lukas@wunner.de" <lukas@wunner.de>,
-        "kabel@kernel.org" <kabel@kernel.org>,
-        "mani@kernel.org" <mani@kernel.org>,
-        "mdf@kernel.org" <mdf@kernel.org>, "Wu, Hao" <hao.wu@intel.com>,
-        "Xu, Yilun" <yilun.xu@intel.com>, "Rix, Tom" <trix@redhat.com>,
-        "jgg@ziepe.ca" <jgg@ziepe.ca>, "Weiny, Ira" <ira.weiny@intel.com>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "Weight, Russell H" <russell.h.weight@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "ilpo.jarvinen@linux.intel.com" <ilpo.jarvinen@linux.intel.com>,
-        "lee@kernel.org" <lee@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "matthew.gerlach@linux.intel.com" <matthew.gerlach@linux.intel.com>
-Subject: RE: [PATCH v1 00/12] add FPGA hotplug manager driver
-Thread-Topic: [PATCH v1 00/12] add FPGA hotplug manager driver
-Thread-Index: AQHZK6VLCdlhIKUsp0qb4AVuDG8fX66lYngAgAAAWxA=
-Date:   Thu, 19 Jan 2023 08:17:05 +0000
-Message-ID: <BN9PR11MB54839E8851853A4251451719E3C49@BN9PR11MB5483.namprd11.prod.outlook.com>
-References: <20230119013602.607466-1-tianfei.zhang@intel.com>
- <20230119080606.tnjqwkseial7vpyq@pali>
-In-Reply-To: <20230119080606.tnjqwkseial7vpyq@pali>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR11MB5483:EE_|BL3PR11MB6435:EE_
-x-ms-office365-filtering-correlation-id: 57978532-20e5-4037-abb9-08daf9f58ce6
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 35tUPAjNRODSSsiPqfkzCIN46pXikPBSwapr1EbyFxSkF9U/NT9v+sOCoFwMijxPhJIHWXDU2J7T5vat09ruhKXGV5KdOZuBWGrKUOXTzRfq1hvEGvNmjRavtJ/ut4o97KRD0r933tkmW/ynYyKWINsQ8GFLl8SaO23OibtLZwpm+HYX8yRmwElsBEuZYKlBPXPlM2fd3HflqOjsFJpfo0Ir9Ea7NgtqS33DJSWQu6fiLhApPnkyciEppgwD5dLRj4mgaU7JIEDHV0X2r6altAY1BJpcm3/c9Beu2W4JBTF0yCTifbwPH2rNPt6TKMQa8aHWH/vcJm5DHJ5j7LPNXTEhADIokqonc+eD7xqmsOkKm9BhrJk1sIxH0KZAFFXHhKvqHZ+B+PgR7DkTVPpQdd5zDh8HY2eGFM8dSfFD3/cHUZs+p2lNg7tNh0iWg8eSmKiSOwWs8npKCa4s9HcJAsBiIgwCyhkKVEHbZZl1du+L0fZyKUHCqkfPSxb87HiCZmDUPWtdY5Rc+ikEpgRnB0Bc/x0wDK0v2eVQKq3eMoEyWOvW/sphAf0CIz1d2DHfpkHQBr5b1zi7EHmw9UdJz/pZOXPPCMexyB/lzMYWU6rchQfZ9Vp1gLzETEwCOF/3nJOj+2bywL+txHo9HqgHpYCthXLDA+CCO/A5lbYbY3D4xqdCbr30pZWCrv/n/b9DJRF+KXNDp2QL/41gPmTnLQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5483.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(136003)(346002)(366004)(376002)(39860400002)(451199015)(2906002)(8936002)(7696005)(33656002)(53546011)(71200400001)(5660300002)(186003)(9686003)(41300700001)(7416002)(6506007)(66476007)(38070700005)(6916009)(8676002)(66556008)(4326008)(55016003)(86362001)(66446008)(38100700002)(76116006)(82960400001)(122000001)(64756008)(52536014)(83380400001)(478600001)(316002)(66946007)(54906003)(66574015);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?+uwsfvn1btc3p0SIhy1D19b/7MPYgZNtpTnxnq64lITxl2F1OdXlZZJstx?=
- =?iso-8859-1?Q?XVaRviMcC9DCHc3GrWcd1vixhzKhRwQEhAlGpBcK+ZmDaTTJPL5rD5afem?=
- =?iso-8859-1?Q?7hTjaA8qO/21DqWrbOMOCk9xJMJ1iaoGfmvR+pP0wdNdMRbE7G0y6aWeCj?=
- =?iso-8859-1?Q?3lSCkeDJ3SySDD3K0jcXBIU+YKzY4poudoU84GxLuctu6/RK2Va94+Wyzq?=
- =?iso-8859-1?Q?7xyvsdstHUu8EgvKKr9eZN4BG/f+eQbtacXR/i3EPdkg6nLwwWKpmO+RhF?=
- =?iso-8859-1?Q?jNXBsDxAfb21PBHCnGOZZbjc2dAjnqVD7ANCf7dQ4VLFanFo/BvJTHAou0?=
- =?iso-8859-1?Q?ZQusPCataAEgDXFgwRlg0UIDBfLAC0HlqBukJwvLBkA09S/Vrp2Uanjv4l?=
- =?iso-8859-1?Q?NN1rsXnc09ZjVPy+X80MhV0v54A3RgnOwnqSd0M0VzCX/XD865c110WKtk?=
- =?iso-8859-1?Q?VbieWsTlWBrywDj1k7Uq5h5K03ypkgQRnFgEpf63nkUhIZt7b59F3cQ0az?=
- =?iso-8859-1?Q?XiW+U/YYi/V41uhqh2hM2TteyncUfTqRW91a8ov236rPtwh0YgX4dQU/Q1?=
- =?iso-8859-1?Q?LrcNVty9dchSY9juKCfyYzyb1sbobQV+bI+rJXse2PoTB2g0R5jXKLB1vY?=
- =?iso-8859-1?Q?ubhxv6cEwBGKqGZ/ENV4+4nQZqBCD1jdqxI+hbzd3UPtsR7ccrPsJnp8W9?=
- =?iso-8859-1?Q?MmsyNTijb4i7vrLVzpUxookszLuMT7Qrn5YY58Cl2raI/4fo2Dq2mqsLF2?=
- =?iso-8859-1?Q?k4Qx4PZW6V4hhHxwwCDsQSmIbKGlPFoCChvL5FgjfqHIAvdXvQ1Jm/XyGB?=
- =?iso-8859-1?Q?OR24y59v3671yixbdxFkXlZZ+cAPg/S45+sBM89sBi47cUJbhClBa9liYm?=
- =?iso-8859-1?Q?b/p97HwwSHoTL+BPBo9iJb900R7oS88DGlWTgjycgPLo1LFje3hzsX9MEF?=
- =?iso-8859-1?Q?nY1EL6exyYPQkB3RCItmhsLihClY7Pz5VQnqzO0PC7m0KiyBLNifKcfUXd?=
- =?iso-8859-1?Q?pad20tBujXZQQYtHWaAeZ094qX7ZOmMqTj4arD5PIDX3SHKFbsGIN1230k?=
- =?iso-8859-1?Q?Wqts2n9bPOa0/fhc/5Tf7zcMTFCsG1QYvVhymgarFGa5xmMYeSmznmSm1O?=
- =?iso-8859-1?Q?dz8JZFf1I9tqp2KpvTbdDshRpz4emiYANiZkdsazmq3WbcFbmUipe4CMPk?=
- =?iso-8859-1?Q?QHXJAqxv3HvGvcIp8R6Tg3bzfLZ+AmXmSiQCT3M++BJIjixUqNj6l8d85y?=
- =?iso-8859-1?Q?Xr8mQqY5GizvjR1o+dcCVI4b07JwORavR/ABIFbyHJ8ijKh10ks+K4TVTa?=
- =?iso-8859-1?Q?6JlNlvMTateiXhpOBGL6woA18sye0NEErE9He0rHsHL9ULYMyUy8N/SpvD?=
- =?iso-8859-1?Q?baBAy6CtrIjpMxUhUzfwPGn9NvyoMgptxbWAuXvrPkq69f8VzFePBs8sBg?=
- =?iso-8859-1?Q?flXVFvFsjPqgwaAzPvkQjv7vEeEVQkX279yG0Mjq6otdmiHnyJYW1LMWCz?=
- =?iso-8859-1?Q?UTrT3X7An5gwdFNGeU1KfYewy/tGyVOttv8m+CVfzOjlsBmu8kNyc1k/M1?=
- =?iso-8859-1?Q?DVRw9z1kYvmmapprREUfBc8XHm28d3RjcB3wzJ8pYTn6CG85ScDBpt+Fup?=
- =?iso-8859-1?Q?Tf1+c3vVCalIZ3jVX0tPee7D9BjJee/fYm01lJDjg9QhtS/AHNHstFHaSJ?=
- =?iso-8859-1?Q?TarEm6UH/Wd7XnM5Zo6JYtzYTZhcUeW+3GNHsbpu?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="768119456"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 00:30:32 -0800
+From:   "Huang, Ying" <ying.huang@intel.com>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Mina Almasry <almasrymina@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <songmuchun@bytedance.com>, fvdl@google.com,
+        bagasdotme@gmail.com, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, Yuanchu Xie <yuanchu@google.com>
+Subject: Re: Proactive reclaim/demote discussion (was Re: [PATCH] Revert
+ "mm: add nodes= arg to memory.reclaim")
+References: <20221202223533.1785418-1-almasrymina@google.com>
+        <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz> <Y5xASNe1x8cusiTx@dhcp22.suse.cz>
+        <20221216101820.3f4a370af2c93d3c2e78ed8a@linux-foundation.org>
+        <Y52Scge3ynvn/mB4@dhcp22.suse.cz>
+        <20221219144252.f3da256e75e176905346b4d1@linux-foundation.org>
+        <Y7PpYsbv1xC6m/Hu@dhcp22.suse.cz>
+        <87lemiitdd.fsf_-_@yhuang6-desk2.ccr.corp.intel.com>
+        <Y8gqkub3AM6c+Z5y@dhcp22.suse.cz>
+Date:   Thu, 19 Jan 2023 16:29:33 +0800
+In-Reply-To: <Y8gqkub3AM6c+Z5y@dhcp22.suse.cz> (Michal Hocko's message of
+        "Wed, 18 Jan 2023 18:21:22 +0100")
+Message-ID: <87a62fdj0y.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5483.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57978532-20e5-4037-abb9-08daf9f58ce6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jan 2023 08:17:05.2421
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: w0TFzHHK/sSP4u6psVRrbJoCL86I2xo6iLLTPt2uEswUWDswEATxUUd15SLIvJDG/Ka0YLhUExVZDjU1fqbwHQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6435
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=ascii
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Michal Hocko <mhocko@suse.com> writes:
 
+> On Wed 04-01-23 16:41:50, Huang, Ying wrote:
+>> Michal Hocko <mhocko@suse.com> writes:
+>> 
+>> [snip]
+>> 
+>> > This really requires more discussion.
+>> 
+>> Let's start the discussion with some summary.
+>> 
+>> Requirements:
+>> 
+>> - Proactive reclaim.  The counting of current per-memcg proactive
+>>   reclaim (memory.reclaim) isn't correct.  The demoted, but not
+>>   reclaimed pages will be counted as reclaimed.  So "echo XXM >
+>>   memory.reclaim" may exit prematurely before the specified number of
+>>   memory is reclaimed.
+>
+> This is reportedly a problem because memory.reclaim interface cannot be
+> used for proper memcg sizing IIRC.
+>
+>> - Proactive demote.  We need an interface to do per-memcg proactive
+>>   demote.
+>
+> For the further discussion it would be useful to reference the usecase
+> that is requiring this functionality. I believe this has been mentioned
+> somewhere but having it in this thread would help.
 
-> -----Original Message-----
-> From: Pali Roh=E1r <pali@kernel.org>
-> Sent: Thursday, January 19, 2023 4:06 PM
-> To: Zhang, Tianfei <tianfei.zhang@intel.com>
-> Cc: bhelgaas@google.com; linux-pci@vger.kernel.org; linux-fpga@vger.kerne=
-l.org;
-> lukas@wunner.de; kabel@kernel.org; mani@kernel.org; mdf@kernel.org; Wu, H=
-ao
-> <hao.wu@intel.com>; Xu, Yilun <yilun.xu@intel.com>; Rix, Tom <trix@redhat=
-.com>;
-> jgg@ziepe.ca; Weiny, Ira <ira.weiny@intel.com>;
-> andriy.shevchenko@linux.intel.com; Williams, Dan J <dan.j.williams@intel.=
-com>;
-> keescook@chromium.org; rafael@kernel.org; Weight, Russell H
-> <russell.h.weight@intel.com>; corbet@lwn.net; linux-doc@vger.kernel.org;
-> ilpo.jarvinen@linux.intel.com; lee@kernel.org; gregkh@linuxfoundation.org=
-;
-> matthew.gerlach@linux.intel.com
-> Subject: Re: [PATCH v1 00/12] add FPGA hotplug manager driver
->=20
-> Hello!
->=20
-> On Wednesday 18 January 2023 20:35:50 Tianfei Zhang wrote:
-> > This patchset introduces the FPGA hotplug manager (fpgahp) driver
-> > which has been verified on the Intel N3000 card.
-> >
-> > When a PCIe-based FPGA card is reprogrammed, it temporarily disappears
-> > from the PCIe bus. This needs to be managed to avoid PCIe errors and
-> > to reprobe the device after reprogramming.
-> >
-> > To change the FPGA image, the kernel burns a new image into the flash
-> > on the card, and then triggers the card BMC to load the new image into =
-FPGA.
-> > A new FPGA hotplug manager driver is introduced that leverages the
-> > PCIe hotplug framework to trigger and manage the update of the FPGA
-> > image, including the disappearance and reappearance of the card on the =
-PCIe bus.
-> > The fpgahp driver uses APIs from the pciehp driver.
->=20
-> Just I'm thinking about one thing. PCIe cards can support PCIe hotplug me=
-chanism
-> (via standard PCIe capabilities). So what would happen when FPGA based PC=
-Ie card is
-> also hotplug-able? Will be there two PCI hotplug drivers/devices (one fpg=
-ahp and
-> one pciehp)? Or just one and which?
+Sure.
 
-For our Intel PAC N3000 and N6000 FPGA card, there are not support PCIe hot=
-plug capability from hardware side now,
-but from software perspective, the process of FPGA image load is very simil=
-ar with PCIe hotplug, like removing all of devices under=20
-PCIe bridge, re-scan the PCIe device under the bridge, so we are looking fo=
-r the PCIe hotplug framework and APIs from pciehp=20
-driver to manager this process, and reduce some duplicate code.
+Google people in [1] and [2] request a per-cgroup interface to demote
+but not reclaim proactively.
 
->=20
-> > Two new operation
-> > callbacks are defined in hotplug_slot_ops:
-> >
-> >   - available_images: Optional: available FPGA images
-> >   - image_load: Optional: trigger the FPGA to load a new image
-> >
-> >
-> > The process of reprogramming an FPGA card begins by removing all
-> > devices associated with the card that are not required for the
-> > reprogramming of the card. This includes PCIe devices (PFs and VFs)
-> > associated with the card as well as any other types of devices
-> > (platform, etc.) defined within the FPGA. The remaining devices are ref=
-erred to
-> here as "reserved" devices.
-> > After triggering the update of the FPGA card, the reserved devices are
-> > also removed.
-> >
-> > The complete process for reprogramming the FPGA are:
-> >     1. remove all PFs and VFs except for PF0 (reserved).
-> >     2. remove all non-reserved devices of PF0.
-> >     3. trigger FPGA card to do the image update.
-> >     4. disable the link of the hotplug bridge.
-> >     5. remove all reserved devices under hotplug bridge.
-> >     6. wait for image reload done via BMC, e.g. 10s.
-> >     7. re-enable the link of hotplug bridge
-> >     8. enumerate PCI devices below the hotplug bridge
-> >
-> > usage example:
-> > [root@localhost]# cd /sys/bus/pci/slot/X-X/
-> >
-> > Get the available images.
-> > [root@localhost 2-1]# cat available_images bmc_factory bmc_user
-> > retimer_fw
-> >
-> > Load the request images for FPGA Card, for example load the BMC user im=
-age:
-> > [root@localhost 2-1]# echo bmc_user > image_load
-> >
-> > Tianfei Zhang (12):
-> >   PCI: hotplug: add new callbacks on hotplug_slot_ops
-> >   PCI: hotplug: expose APIs from pciehp driver
-> >   PCI: hotplug: add and expose link disable API
-> >   PCI: hotplug: add FPGA PCI hotplug manager driver
-> >   fpga: dfl: register dfl-pci device into fpgahph driver
-> >   driver core: expose device_is_ancestor() API
-> >   PCI: hotplug: add register/unregister function for BMC device
-> >   fpga: m10bmc-sec: register BMC device into fpgahp driver
-> >   fpga: dfl: remove non-reserved devices
-> >   PCI: hotplug: implement the hotplug_slot_ops callback for fpgahp
-> >   fpga: m10bmc-sec: add m10bmc_sec_retimer_load callback
-> >   Documentation: fpga: add description of fpgahp driver
-> >
-> >  Documentation/ABI/testing/sysfs-driver-fpgahp |  21 +
-> >  Documentation/fpga/fpgahp.rst                 |  29 +
-> >  Documentation/fpga/index.rst                  |   1 +
-> >  MAINTAINERS                                   |  10 +
-> >  drivers/base/core.c                           |   3 +-
-> >  drivers/fpga/Kconfig                          |   2 +
-> >  drivers/fpga/dfl-pci.c                        |  95 +++-
-> >  drivers/fpga/dfl.c                            |  58 ++
-> >  drivers/fpga/dfl.h                            |   4 +
-> >  drivers/fpga/intel-m10-bmc-sec-update.c       | 246 ++++++++
-> >  drivers/pci/hotplug/Kconfig                   |  14 +
-> >  drivers/pci/hotplug/Makefile                  |   1 +
-> >  drivers/pci/hotplug/fpgahp.c                  | 526 ++++++++++++++++++
-> >  drivers/pci/hotplug/pci_hotplug_core.c        |  88 +++
-> >  drivers/pci/hotplug/pciehp.h                  |   3 +
-> >  drivers/pci/hotplug/pciehp_hpc.c              |  11 +-
-> >  drivers/pci/hotplug/pciehp_pci.c              |   2 +
-> >  include/linux/device.h                        |   1 +
-> >  include/linux/fpga/fpgahp_manager.h           | 100 ++++
-> >  include/linux/mfd/intel-m10-bmc.h             |  31 ++
-> >  include/linux/pci_hotplug.h                   |   5 +
-> >  21 files changed, 1243 insertions(+), 8 deletions(-)  create mode
-> > 100644 Documentation/ABI/testing/sysfs-driver-fpgahp
-> >  create mode 100644 Documentation/fpga/fpgahp.rst  create mode 100644
-> > drivers/pci/hotplug/fpgahp.c  create mode 100644
-> > include/linux/fpga/fpgahp_manager.h
-> >
-> >
-> > base-commit: 5dc4c995db9eb45f6373a956eb1f69460e69e6d4
-> > --
-> > 2.38.1
-> >
+"
+For jobs of some latency tiers, we would like to trigger proactive
+demotion (which incurs relatively low latency on the job), but not
+trigger proactive reclaim (which incurs a pagefault).
+"
+
+Meta people (Johannes) in [3] say they used per-cgroup memory.reclaim
+for demote and reclaim proactively.
+
+ [1] https://lore.kernel.org/linux-mm/CAHS8izM-XdLgFrQ1k13X-4YrK=JGayRXV_G3c3Qh4NLKP7cH_g@mail.gmail.com/
+ [2] https://lore.kernel.org/linux-mm/CAJD7tkZNW=u1TD-Fd_3RuzRNtaFjxihbGm0836QHkdp0Nn-vyQ@mail.gmail.com/
+ [3] https://lore.kernel.org/linux-mm/Y35fw2JSAeAddONg@cmpxchg.org/
+
+>> We may reuse memory.reclaim via extending the concept of
+>>   reclaiming to include demoting.  Or, we can add a new interface for
+>>   that (for example, memory.demote).  In addition to demote from fast
+>>   tier to slow tier, in theory, we may need to demote from a set of
+>>   nodes to another set of nodes for something like general node
+>>   balancing.
+>> 
+>> - Proactive promote.  In theory, this is possible, but there's no real
+>>   life requirements yet.  And it should use a separate interface, so I
+>>   don't think we need to discuss that here.
+>
+> Yes, proactive promotion is not backed by any real usecase at the
+> moment. We do not really have to focus on it but we should be aware of
+> the posibility and alow future extentions towards that functionality.
+
+OK.
+
+> There is one requirement missing here.
+>  - Per NUMA node control - this is what makes the distinction between
+>    demotion and charge reclaim really semantically challenging - e.g.
+>    should demotions constrained by the provided nodemask or they should
+>    be implicit?
+
+Yes.  We may need to specify the NUMA nodes for demotion/reclaiming
+source, target, or even path.  That is, to fine control the proactive
+demotion/reclaiming.
+
+>> Open questions:
+>> 
+>> - Use memory.reclaim or memory.demote for proactive demote.  In current
+>>   memcg context, reclaiming and demoting is quite different, because
+>>   reclaiming will uncharge, while demoting will not.  But if we will add
+>>   per-memory-tier charging finally, the difference disappears.  So the
+>>   question becomes whether will we add per-memory-tier charging.
+>
+> The question is not whether but when IMHO. We've had a similar situation
+> with the swap accounting. Originally we have considered swap as a shared
+> resource but cgroupv2 goes with per swap limits because contention for
+> the swap space is really something people do care about.
+
+So, when we design user space interface for proactive demotion, we
+should keep per-memory-tier charging in mind.
+
+>> - Whether should we demote from faster tier nodes to lower tier nodes
+>>   during the proactive reclaiming.
+>
+> I thought we are aligned on that. Demotion is a part of aging and that
+> is an integral part of the reclaim.
+
+As in the choice A/B of the below text, we should keep more fast memory
+size or slow memory size?  For original active/inactive LRU lists, we
+will balance the size of lists.  But we don't have similar stuff for the
+memory tiers.  What is the preferred balancing policy?  Choice A/B below
+are 2 extreme policies that are defined clearly.
+
+>>   Choice A is to keep as much fast
+>>   memory as possible.  That is, reclaim from the lowest tier nodes
+>>   firstly, then the secondary lowest tier nodes, and so on.  Choice B is
+>>   to demote at the same time of reclaiming.  In this way, if we
+>>   proactively reclaim XX MB memory, we may free XX MB memory on the
+>>   fastest memory nodes.
+>> 
+>> - When we proactively demote some memory from a fast memory tier, should
+>>   we trigger memory competition in the slower memory tiers?  That is,
+>>   whether to wake up kswapd of the slower memory tiers nodes?
+>
+> Johannes made some very strong arguments that there is no other choice
+> than involve kswapd (https://lore.kernel.org/all/Y5nEQeXj6HQBEHEY@cmpxchg.org/).
+
+I have no objection for that too.  The below is just another choice.  If
+people don't think it's useful.  I will not insist on it.
+
+>>   If we
+>>   want to make per-memcg proactive demoting to be per-memcg strictly, we
+>>   should avoid to trigger the global behavior such as triggering memory
+>>   competition in the slower memory tiers.  Instead, we can add a global
+>>   proactive demote interface for that (such as per-memory-tier or
+>>   per-node).
+>
+> I suspect we are left with a real usecase and then follow the path we
+> took for the swap accounting.
+
+Thanks for adding that.
+
+> Other open questions I do see are
+> - what to do when the memory.reclaim is constrained by a nodemask as
+>   mentioned above. Is the whole reclaim process (including aging) bound to
+>   the given nodemask or does demotion escape from it.
+
+Per my understanding, we can use multiple node masks if necessary.  For
+example, for "source=<mask1>", we may demote from <mask1> to other
+nodes; for "source=<mask1> destination=<mask2>", we will demote from
+<mask1> to <mask2>, but will not demote to other nodes.
+
+> - should the demotion be specific to multi-tier systems or the interface
+>   should be just NUMA based and users could use the scheme to shuffle
+>   memory around and allow numa balancing from userspace that way. That
+>   would imply that demotion is a dedicated interface of course.
+
+It appears that if we can force the demotion target nodes (even in the
+same tier).  We can implement numa balancing from user space?
+
+> - there are other usecases that would like to trigger aging from
+>   userspace (http://lkml.kernel.org/r/20221214225123.2770216-1-yuanchu@google.com).
+>   Isn't demotion just a special case of aging in general or should we
+>   end up with 3 different interfaces?
+
+Thanks for pointer!  If my understanding were correct, this appears a
+user of proactive reclaiming/demotion interface?  Cced the patch author
+for any further requirements for the interface.
+
+Best Regards,
+Huang, Ying
