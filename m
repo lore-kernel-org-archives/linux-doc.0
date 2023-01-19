@@ -2,171 +2,686 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EEF5C38142
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 04:27:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5690AC38142
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 04:47:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230057AbjASE13 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 23:27:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43616 "EHLO
+        id S229540AbjASErF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 23:47:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230171AbjASEVm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 23:21:42 -0500
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 780AF70C6A
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jan 2023 20:08:11 -0800 (PST)
-Received: by mail-ot1-x330.google.com with SMTP id cc13-20020a05683061cd00b00684b8cf2f4dso538437otb.12
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jan 2023 20:08:11 -0800 (PST)
+        with ESMTP id S229787AbjASEqJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 23:46:09 -0500
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B06237497F;
+        Wed, 18 Jan 2023 20:42:06 -0800 (PST)
+Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-4c24993965eso10673077b3.12;
+        Wed, 18 Jan 2023 20:42:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yAal0ABxTUOthK5NVhi8iunngRBuIWwZl3qwDcO6bJ4=;
-        b=BXvEvVsL0ihOhRg1ItgsculO56sGTYE92MTgf32f+gIX1M2ohLfZVTZThWW223P5XY
-         j4vqTfOC540B4OKKCFsvkcT/HTejQzDlAFV7tLq90WL+2hvs8M2lr5WVBIY2XJw800JS
-         IgXy/il2hcbV8oJH7PMYKymfJtSKbVzu2kCRUAXe0nBsNlB2Hkq8udK9XATuZvJbzvvN
-         AuarLQV+wxN4ZDOqMJl9kyZakTDbM5jox0pxv6GVFSZwryrgYs0Cg9xzLLrl9LEdl8dp
-         TRKiZ1brl48ZPLW5JojsbHC1L5KrWFoPsKYRw/5SY7B+sJDLdeM+SE6qtZ2YIz2Gw5q7
-         fkDQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tEL5q0gdvRQcXcMbCv9i2khmy9sVAvwANWZ5CU7Ktw8=;
+        b=DdG+KDKzzl/Q10f5IwLdjJKtkg54MM38BjvhsBf4QA470iha1Z9YdIb7y+x5NJN+1z
+         ER9Y/GetiKL0MhMUHpc5Z9FwVu8NU3vLs2OcEbLPnXXs3zlA3xCNx+P6a9D4ub1S4q5q
+         T1OWL2zrXkyFrY4D4E3K0qcuZVwLk75OzrElTTvWyR9wBWZ5pblp21Cn+/jjmBKZAB0H
+         IS/X91U5reo/5s8DRUaRxPD/ahxWJX2LA8bGZ35RQ46Bp62CKw0hrq0oKIPI3wM8PedS
+         Z2boh2QjbYv7xh1TCpWyfiFCngGGWNbQbJ27HS9EP3jsWkzUh7B0Zij8bSmOUCnDDFk0
+         V4FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yAal0ABxTUOthK5NVhi8iunngRBuIWwZl3qwDcO6bJ4=;
-        b=b3QgmRHApmSUYnnHnPtGYXd1DyfVkYWKyCN+br+QmDfvupQduadQU606PZnqxYGXbS
-         KU7n/wFUpMceJzaXwa0QJVnLGbOrl0I1RzFTRUEZQ3kcl1p6ZdL2wzL4CUVCYc0Ppm6a
-         8nWNthgYpuLUJSzJAx+EVTb2s1vl30P0q8eqVN4yAXbuVGHa/MUby61EhUpmaIxD674W
-         eVnosVwqKkizdPjwclEVd1z3fpxPqFqbhZz4t1TSwF2QTYwyWN6eUAT/q82sDjX4bOVH
-         TTdW7+b4oVMNXRaH8YmKV/G7o1Rkh4qih22kW3qwNLdM13/fTBYX5vFYh//63rkEydS3
-         EWXA==
-X-Gm-Message-State: AFqh2kqq5pPztDhJ0LDS6JGwh2AV1Lr4ds9rxf2kvhdX+bKRRtbKO08f
-        5gEjWkm1r2+cRbO1R8lYmGeGx91mqI8=
-X-Google-Smtp-Source: AMrXdXulZOhiqcgqcIx8iKE8PZzZqxDEwKgIeKfk1TuffdQCHC/5CVEI6HPvNI3wn41YhC2qgcZxXA==
-X-Received: by 2002:a05:6a00:d54:b0:58d:9306:4f24 with SMTP id n20-20020a056a000d5400b0058d93064f24mr9218999pfv.0.1674100844703;
-        Wed, 18 Jan 2023 20:00:44 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id k27-20020aa7999b000000b00587304cbd3fsm20383327pfh.181.2023.01.18.20.00.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jan 2023 20:00:44 -0800 (PST)
-Message-ID: <c00df839-9429-891b-5682-3dbc2d6edbbe@gmail.com>
-Date:   Thu, 19 Jan 2023 13:00:37 +0900
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tEL5q0gdvRQcXcMbCv9i2khmy9sVAvwANWZ5CU7Ktw8=;
+        b=rUpfy8QAD9AqoXZ2AK8zC+f/sxhVkgmjO/ns3vcI3cUUg8LSOAA8r/wZc+kYzaXYYZ
+         6kdHZ1PiT+Io3vflwBUEmrfFgsmnN0XkYZt6+t92GqSXzAl7yeHqEKSA9C4SVHdw5Wuo
+         jAa45F/TIMnwBkbiMTGXPoyOTYQ0xBUPOSfmeeJ69vk+49t/yKvfTtaypf32vLkNqtaE
+         GqrhD93Ehsm260Ai8eJ1Cd0qH96HaEyQdSNt+zmkeFSPuTeSeF0J7oRgEWZhx8UYMNTc
+         rqPkCijMdIUE+1yyaSdkWnBdQNO7xWSgLUcl0pwGADp4g1NKeBUQYEQTa1p/9XJveW/5
+         SLLg==
+X-Gm-Message-State: AFqh2kryovJzGFYS5GxqQna7r5tPWh64bQwTLSFcH/NTwk+Nqgh1rLDp
+        TzjObhUhAX37JsspAf3oQgg=
+X-Google-Smtp-Source: AMrXdXs3n9dYoZdp5en3XPTTghFRNT/V6cDPyp3Ke/b/VTPp7u+7tHub9LILE8A3rWVMFFHjd3c0HQ==
+X-Received: by 2002:a17:902:7404:b0:194:97c8:84c3 with SMTP id g4-20020a170902740400b0019497c884c3mr9939488pll.66.1674101687091;
+        Wed, 18 Jan 2023 20:14:47 -0800 (PST)
+Received: from debian.me (subs03-180-214-233-1.three.co.id. [180.214.233.1])
+        by smtp.gmail.com with ESMTPSA id j3-20020a170903028300b001886ff822ffsm444399plr.186.2023.01.18.20.14.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jan 2023 20:14:46 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 9C126104FA9; Thu, 19 Jan 2023 11:14:42 +0700 (WIB)
+Date:   Thu, 19 Jan 2023 11:14:42 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Danilo Krummrich <dakr@redhat.com>, daniel@ffwll.ch,
+        airlied@redhat.com, christian.koenig@amd.com, bskeggs@redhat.com,
+        jason@jlekstrand.net, tzimmermann@suse.de, mripard@kernel.org,
+        corbet@lwn.net
+Cc:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH drm-next 03/14] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <Y8jDsqGc5gXoIBAO@debian.me>
+References: <20230118061256.2689-1-dakr@redhat.com>
+ <20230118061256.2689-4-dakr@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-To:     Sadiya Kazi <sadiyakazi@google.com>
-Cc:     brendanhiggins@google.com, corbet@lwn.net, davidgow@google.com,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-References: <CAO2JNKUA5DWxNk2cCZwj8DEFF-acf6ZpxwBqn2qTwn4fTW1+BQ@mail.gmail.com>
-Subject: Re: New theme - Alabaster for Kernel Documentation
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <CAO2JNKUA5DWxNk2cCZwj8DEFF-acf6ZpxwBqn2qTwn4fTW1+BQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="st4xfXKFTYFcRLrQ"
+Content-Disposition: inline
+In-Reply-To: <20230118061256.2689-4-dakr@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[+CC: konstantin]
 
-Hi Sadiya,
+--st4xfXKFTYFcRLrQ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 18 Jan 2023 09:55:04 +0530, Sadiya Kazi wrote:
-> Hi all,
-> The design of the new "alabaster" theme used for Kernel documentation
-> is nice and minimalistic, but I notice one issue with its navigational
-> feature: In the "Alabaster" theme, the TOC appears at the top of the
-> page. For documents with multiple headings, this design creates a
-> usability issue by forcing the reader to scroll past a long TOC to get
-> to the actual content. The previous "RTD" theme used a left navigation
-> bar that allowed users to quickly navigate to the desired content.
+On Wed, Jan 18, 2023 at 07:12:45AM +0100, Danilo Krummrich wrote:
+> This adds the infrastructure for a manager implementation to keep track
+> of GPU virtual address (VA) mappings.
 
-I made a similar observation the other day.
-I'm glad to know I was not alone. :-)
+"Add infrastructure for ..."
 
-I've got a response from Jon.
-See: https://lore.kernel.org/r/874jswyat3.fsf@meer.lwn.net/
+> + * Analogue to drm_gpuva_sm_map_ops_create() drm_gpuva_sm_unmap_ops_crea=
+te()
+> + * provides drivers a the list of operations to be executed in order to =
+unmap
+> + * a range of GPU VA space. The logic behind this functions is way simpl=
+er
+> + * though: For all existent mappings enclosed by the given range unmap
+> + * operations are created. For mappings which are only partically locate=
+d within
+> + * the given range, remap operations are created such that those mapping=
+s are
+> + * split up and re-mapped partically.
 
-Quote of Jon's words:
+"Analogous to ..."
 
->> But before looking further into alabaster, I'd like to know why
->> you picked alabaster among those themes which come with Sphinx.
->> Could you elaborate?
-> 
-> I picked it because it looked a lot cleaner than RTD, better supported
-> small-screen devices, and was the Sphinx default.  Like so many
-> things, it was done in a bit of a hurry and I cannot claim to have
-> thoroughly considered all of the alternatives.  I was hoping that people
-> would respond to the RFC if they had a better idea :)
-> 
-> If there is a better theme to use as the default, we can consider
-> changing it again; I don't think there is much cost or inconvenience
-> involved.  I do want the default theme to be one of those bundled with
-> Sphinx, though, rather than requiring it to be installed separately.
-> 
-> That said, I have no objection to adding configuration support for other
-> themes as well, should people want to use them.
+> + *
+> + * The following paragraph depicts the basic constellations of existent =
+GPU VA
+> + * mappings, a newly requested mapping and the resulting mappings as imp=
+lemented
+> + * by drm_gpuva_sm_map_ops_create()  - it doesn't cover arbitrary combin=
+ations
+> + * of those constellations.
+> + *
+> + * ::
+> + *
+> + *	1) Existent mapping is kept.
+> + *	----------------------------
+> + *
+> + *	     0     a     1
+> + *	old: |-----------| (bo_offset=3Dn)
+> + *
+> + *	     0     a     1
+> + *	req: |-----------| (bo_offset=3Dn)
+> + *
+> + *	     0     a     1
+> + *	new: |-----------| (bo_offset=3Dn)
+> + *
+> + *
+> + *	2) Existent mapping is replaced.
+> + *	--------------------------------
+> + *
+> + *	     0     a     1
+> + *	old: |-----------| (bo_offset=3Dn)
+> + *
+> + *	     0     a     1
+> + *	req: |-----------| (bo_offset=3Dm)
+> + *
+> + *	     0     a     1
+> + *	new: |-----------| (bo_offset=3Dm)
+> + *
+> + *
+> + *	3) Existent mapping is replaced.
+> + *	--------------------------------
+> + *
+> + *	     0     a     1
+> + *	old: |-----------| (bo_offset=3Dn)
+> + *
+> + *	     0     b     1
+> + *	req: |-----------| (bo_offset=3Dn)
+> + *
+> + *	     0     b     1
+> + *	new: |-----------| (bo_offset=3Dn)
+> + *
+> + *
+> + *	4) Existent mapping is replaced.
+> + *	--------------------------------
+> + *
+> + *	     0  a  1
+> + *	old: |-----|       (bo_offset=3Dn)
+> + *
+> + *	     0     a     2
+> + *	req: |-----------| (bo_offset=3Dn)
+> + *
+> + *	     0     a     2
+> + *	new: |-----------| (bo_offset=3Dn)
+> + *
+> + *	Note: We expect to see the same result for a request with a different=
+ bo
+> + *	      and/or bo_offset.
+> + *
+> + *
+> + *	5) Existent mapping is split.
+> + *	-----------------------------
+> + *
+> + *	     0     a     2
+> + *	old: |-----------| (bo_offset=3Dn)
+> + *
+> + *	     0  b  1
+> + *	req: |-----|       (bo_offset=3Dn)
+> + *
+> + *	     0  b  1  a' 2
+> + *	new: |-----|-----| (b.bo_offset=3Dn, a.bo_offset=3Dn+1)
+> + *
+> + *	Note: We expect to see the same result for a request with a different=
+ bo
+> + *	      and/or non-contiguous bo_offset.
+> + *
+> + *
+> + *	6) Existent mapping is kept.
+> + *	----------------------------
+> + *
+> + *	     0     a     2
+> + *	old: |-----------| (bo_offset=3Dn)
+> + *
+> + *	     0  a  1
+> + *	req: |-----|       (bo_offset=3Dn)
+> + *
+> + *	     0     a     2
+> + *	new: |-----------| (bo_offset=3Dn)
+> + *
+> + *
+> + *	7) Existent mapping is split.
+> + *	-----------------------------
+> + *
+> + *	     0     a     2
+> + *	old: |-----------| (bo_offset=3Dn)
+> + *
+> + *	           1  b  2
+> + *	req:       |-----| (bo_offset=3Dm)
+> + *
+> + *	     0  a  1  b  2
+> + *	new: |-----|-----| (a.bo_offset=3Dn,b.bo_offset=3Dm)
+> + *
+> + *
+> + *	8) Existent mapping is kept.
+> + *	----------------------------
+> + *
+> + *	      0     a     2
+> + *	old: |-----------| (bo_offset=3Dn)
+> + *
+> + *	           1  a  2
+> + *	req:       |-----| (bo_offset=3Dn+1)
+> + *
+> + *	     0     a     2
+> + *	new: |-----------| (bo_offset=3Dn)
+> + *
+> + *
+> + *	9) Existent mapping is split.
+> + *	-----------------------------
+> + *
+> + *	     0     a     2
+> + *	old: |-----------|       (bo_offset=3Dn)
+> + *
+> + *	           1     b     3
+> + *	req:       |-----------| (bo_offset=3Dm)
+> + *
+> + *	     0  a  1     b     3
+> + *	new: |-----|-----------| (a.bo_offset=3Dn,b.bo_offset=3Dm)
+> + *
+> + *
+> + *	10) Existent mapping is merged.
+> + *	-------------------------------
+> + *
+> + *	     0     a     2
+> + *	old: |-----------|       (bo_offset=3Dn)
+> + *
+> + *	           1     a     3
+> + *	req:       |-----------| (bo_offset=3Dn+1)
+> + *
+> + *	     0        a        3
+> + *	new: |-----------------| (bo_offset=3Dn)
+> + *
+> + *
+> + *	11) Existent mapping is split.
+> + *	------------------------------
+> + *
+> + *	     0        a        3
+> + *	old: |-----------------| (bo_offset=3Dn)
+> + *
+> + *	           1  b  2
+> + *	req:       |-----|       (bo_offset=3Dm)
+> + *
+> + *	     0  a  1  b  2  a' 3
+> + *	new: |-----|-----|-----| (a.bo_offset=3Dn,b.bo_offset=3Dm,a'.bo_offse=
+t=3Dn+2)
+> + *
+> + *
+> + *	12) Existent mapping is kept.
+> + *	-----------------------------
+> + *
+> + *	     0        a        3
+> + *	old: |-----------------| (bo_offset=3Dn)
+> + *
+> + *	           1  a  2
+> + *	req:       |-----|       (bo_offset=3Dn+1)
+> + *
+> + *	     0        a        3
+> + *	old: |-----------------| (bo_offset=3Dn)
+> + *
+> + *
+> + *	13) Existent mapping is replaced.
+> + *	---------------------------------
+> + *
+> + *	           1  a  2
+> + *	old:       |-----| (bo_offset=3Dn)
+> + *
+> + *	     0     a     2
+> + *	req: |-----------| (bo_offset=3Dn)
+> + *
+> + *	     0     a     2
+> + *	new: |-----------| (bo_offset=3Dn)
+> + *
+> + *	Note: We expect to see the same result for a request with a different=
+ bo
+> + *	      and/or non-contiguous bo_offset.
+> + *
+> + *
+> + *	14) Existent mapping is replaced.
+> + *	---------------------------------
+> + *
+> + *	           1  a  2
+> + *	old:       |-----| (bo_offset=3Dn)
+> + *
+> + *	     0        a       3
+> + *	req: |----------------| (bo_offset=3Dn)
+> + *
+> + *	     0        a       3
+> + *	new: |----------------| (bo_offset=3Dn)
+> + *
+> + *	Note: We expect to see the same result for a request with a different=
+ bo
+> + *	      and/or non-contiguous bo_offset.
+> + *
+> + *
+> + *	15) Existent mapping is split.
+> + *	------------------------------
+> + *
+> + *	           1     a     3
+> + *	old:       |-----------| (bo_offset=3Dn)
+> + *
+> + *	     0     b     2
+> + *	req: |-----------|       (bo_offset=3Dm)
+> + *
+> + *	     0     b     2  a' 3
+> + *	new: |-----------|-----| (b.bo_offset=3Dm,a.bo_offset=3Dn+2)
+> + *
+> + *
+> + *	16) Existent mappings are merged.
+> + *	---------------------------------
+> + *
+> + *	     0     a     1
+> + *	old: |-----------|                        (bo_offset=3Dn)
+> + *
+> + *	                            2     a     3
+> + *	old':                       |-----------| (bo_offset=3Dn+2)
+> + *
+> + *	                1     a     2
+> + *	req:            |-----------|             (bo_offset=3Dn+1)
+> + *
+> + *	                      a
+> + *	new: |----------------------------------| (bo_offset=3Dn)
+> + */
 
-Returning to Sadiya's comment:
+Factor out lists from the big code block above:
 
-> 
-> To try and compare both, please open the index page of the "alabaster"
-> theme given below:
-> https://www.kernel.org/doc/html/latest/dev-tools/index.html
-> and the "RTD" theme given below:
-> https://www.kernel.org/doc/html/v6.0-rc7/dev-tools/index.html
-> and navigate to the KUnit page. You'll notice it takes more time to
-> land on the KUnit page when using the alabaster theme.
-> 
-> With the "RTD" theme, the navigation sidebar links to other pages
-> (parents, siblings, children, and all top-level pages) as shown below:
-> https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html#
+---- >8 ----
 
-This link is identical to below. Did you mean
+diff --git a/drivers/gpu/drm/drm_gpuva_mgr.c b/drivers/gpu/drm/drm_gpuva_mg=
+r.c
+index e665f642689d03..411c0aa80bfa1f 100644
+--- a/drivers/gpu/drm/drm_gpuva_mgr.c
++++ b/drivers/gpu/drm/drm_gpuva_mgr.c
+@@ -129,15 +129,14 @@
+  * the given range, remap operations are created such that those mappings =
+are
+  * split up and re-mapped partically.
+  *
+- * The following paragraph depicts the basic constellations of existent GP=
+U VA
++ * The following diagram depicts the basic relationships of existent GPU VA
+  * mappings, a newly requested mapping and the resulting mappings as imple=
+mented
+- * by drm_gpuva_sm_map_ops_create()  - it doesn't cover arbitrary combinat=
+ions
+- * of those constellations.
++ * by drm_gpuva_sm_map_ops_create()  - it doesn't cover any arbitrary
++ * combinations of these.
+  *
+- * ::
+- *
+- *	1) Existent mapping is kept.
+- *	----------------------------
++ * 1) Existent mapping is kept.
++ *=20
++ *    ::
+  *
+  *	     0     a     1
+  *	old: |-----------| (bo_offset=3Dn)
+@@ -149,8 +148,9 @@
+  *	new: |-----------| (bo_offset=3Dn)
+  *
+  *
+- *	2) Existent mapping is replaced.
+- *	--------------------------------
++ * 2) Existent mapping is replaced.
++ *
++ *    ::
+  *
+  *	     0     a     1
+  *	old: |-----------| (bo_offset=3Dn)
+@@ -162,8 +162,9 @@
+  *	new: |-----------| (bo_offset=3Dm)
+  *
+  *
+- *	3) Existent mapping is replaced.
+- *	--------------------------------
++ * 3) Existent mapping is replaced.
++ *
++ *    ::
+  *
+  *	     0     a     1
+  *	old: |-----------| (bo_offset=3Dn)
+@@ -175,8 +176,9 @@
+  *	new: |-----------| (bo_offset=3Dn)
+  *
+  *
+- *	4) Existent mapping is replaced.
+- *	--------------------------------
++ * 4) Existent mapping is replaced.
++ *
++ *    ::
+  *
+  *	     0  a  1
+  *	old: |-----|       (bo_offset=3Dn)
+@@ -187,12 +189,14 @@
+  *	     0     a     2
+  *	new: |-----------| (bo_offset=3Dn)
+  *
+- *	Note: We expect to see the same result for a request with a different bo
+- *	      and/or bo_offset.
++ *    .. note::
++ *       We expect to see the same result for a request with a different bo
++ *       and/or bo_offset.
+  *
+  *
+- *	5) Existent mapping is split.
+- *	-----------------------------
++ * 5) Existent mapping is split.
++ *
++ *    ::
+  *
+  *	     0     a     2
+  *	old: |-----------| (bo_offset=3Dn)
+@@ -203,12 +207,14 @@
+  *	     0  b  1  a' 2
+  *	new: |-----|-----| (b.bo_offset=3Dn, a.bo_offset=3Dn+1)
+  *
+- *	Note: We expect to see the same result for a request with a different bo
+- *	      and/or non-contiguous bo_offset.
++ *    .. note::
++ *       We expect to see the same result for a request with a different bo
++ *       and/or non-contiguous bo_offset.
+  *
+  *
+- *	6) Existent mapping is kept.
+- *	----------------------------
++ * 6) Existent mapping is kept.
++ *
++ *    ::
+  *
+  *	     0     a     2
+  *	old: |-----------| (bo_offset=3Dn)
+@@ -220,8 +226,9 @@
+  *	new: |-----------| (bo_offset=3Dn)
+  *
+  *
+- *	7) Existent mapping is split.
+- *	-----------------------------
++ * 7) Existent mapping is split.
++ *
++ *    ::
+  *
+  *	     0     a     2
+  *	old: |-----------| (bo_offset=3Dn)
+@@ -233,8 +240,9 @@
+  *	new: |-----|-----| (a.bo_offset=3Dn,b.bo_offset=3Dm)
+  *
+  *
+- *	8) Existent mapping is kept.
+- *	----------------------------
++ * 8) Existent mapping is kept.
++ *
++ *    ::
+  *
+  *	      0     a     2
+  *	old: |-----------| (bo_offset=3Dn)
+@@ -246,8 +254,9 @@
+  *	new: |-----------| (bo_offset=3Dn)
+  *
+  *
+- *	9) Existent mapping is split.
+- *	-----------------------------
++ * 9) Existent mapping is split.
++ *
++ *    ::
+  *
+  *	     0     a     2
+  *	old: |-----------|       (bo_offset=3Dn)
+@@ -259,104 +268,113 @@
+  *	new: |-----|-----------| (a.bo_offset=3Dn,b.bo_offset=3Dm)
+  *
+  *
+- *	10) Existent mapping is merged.
+- *	-------------------------------
++ * 10) Existent mapping is merged.
+  *
+- *	     0     a     2
+- *	old: |-----------|       (bo_offset=3Dn)
++ *     ::
+  *
+- *	           1     a     3
+- *	req:       |-----------| (bo_offset=3Dn+1)
++ *	      0     a     2
++ *	 old: |-----------|       (bo_offset=3Dn)
+  *
+- *	     0        a        3
+- *	new: |-----------------| (bo_offset=3Dn)
++ *	            1     a     3
++ *	 req:       |-----------| (bo_offset=3Dn+1)
++ *
++ *	      0        a        3
++ *	 new: |-----------------| (bo_offset=3Dn)
+  *
+  *
+- *	11) Existent mapping is split.
+- *	------------------------------
++ * 11) Existent mapping is split.
+  *
+- *	     0        a        3
+- *	old: |-----------------| (bo_offset=3Dn)
++ *     ::
+  *
+- *	           1  b  2
+- *	req:       |-----|       (bo_offset=3Dm)
++ *	      0        a        3
++ *	 old: |-----------------| (bo_offset=3Dn)
+  *
+- *	     0  a  1  b  2  a' 3
+- *	new: |-----|-----|-----| (a.bo_offset=3Dn,b.bo_offset=3Dm,a'.bo_offset=
+=3Dn+2)
++ *	            1  b  2
++ *	 req:       |-----|       (bo_offset=3Dm)
++ *
++ *	      0  a  1  b  2  a' 3
++ *	 new: |-----|-----|-----| (a.bo_offset=3Dn,b.bo_offset=3Dm,a'.bo_offset=
+=3Dn+2)
+  *
+  *
+- *	12) Existent mapping is kept.
+- *	-----------------------------
++ * 12) Existent mapping is kept.
+  *
+- *	     0        a        3
+- *	old: |-----------------| (bo_offset=3Dn)
++ *     ::
+  *
+- *	           1  a  2
+- *	req:       |-----|       (bo_offset=3Dn+1)
++ *	      0        a        3
++ *	 old: |-----------------| (bo_offset=3Dn)
+  *
+- *	     0        a        3
+- *	old: |-----------------| (bo_offset=3Dn)
++ *	            1  a  2
++ *	 req:       |-----|       (bo_offset=3Dn+1)
++ *
++ *	      0        a        3
++ *	 old: |-----------------| (bo_offset=3Dn)
+  *
+  *
+- *	13) Existent mapping is replaced.
+- *	---------------------------------
++ * 13) Existent mapping is replaced.
+  *
+- *	           1  a  2
+- *	old:       |-----| (bo_offset=3Dn)
++ *     ::
+  *
+- *	     0     a     2
+- *	req: |-----------| (bo_offset=3Dn)
++ *	            1  a  2
++ *	 old:       |-----| (bo_offset=3Dn)
+  *
+- *	     0     a     2
+- *	new: |-----------| (bo_offset=3Dn)
++ *	      0     a     2
++ *	 req: |-----------| (bo_offset=3Dn)
+  *
+- *	Note: We expect to see the same result for a request with a different bo
+- *	      and/or non-contiguous bo_offset.
++ *	      0     a     2
++ *	 new: |-----------| (bo_offset=3Dn)
++ *
++ *     .. note::
++ *        We expect to see the same result for a request with a different =
+bo
++ *        and/or non-contiguous bo_offset.
+  *
+  *
+- *	14) Existent mapping is replaced.
+- *	---------------------------------
++ * 14) Existent mapping is replaced.
+  *
+- *	           1  a  2
+- *	old:       |-----| (bo_offset=3Dn)
++ *     ::
+  *
+- *	     0        a       3
+- *	req: |----------------| (bo_offset=3Dn)
++ *	            1  a  2
++ *	 old:       |-----| (bo_offset=3Dn)
+  *
+- *	     0        a       3
+- *	new: |----------------| (bo_offset=3Dn)
++ *	      0        a       3
++ *	 req: |----------------| (bo_offset=3Dn)
+  *
+- *	Note: We expect to see the same result for a request with a different bo
+- *	      and/or non-contiguous bo_offset.
++ *	      0        a       3
++ *	 new: |----------------| (bo_offset=3Dn)
++ *
++ *     .. note::
++ *        We expect to see the same result for a request with a different =
+bo
++ *        and/or non-contiguous bo_offset.
+  *
+  *
+- *	15) Existent mapping is split.
+- *	------------------------------
++ * 15) Existent mapping is split.
+  *
+- *	           1     a     3
+- *	old:       |-----------| (bo_offset=3Dn)
++ *     ::
+  *
+- *	     0     b     2
+- *	req: |-----------|       (bo_offset=3Dm)
++ *	            1     a     3
++ *	 old:       |-----------| (bo_offset=3Dn)
+  *
+- *	     0     b     2  a' 3
+- *	new: |-----------|-----| (b.bo_offset=3Dm,a.bo_offset=3Dn+2)
++ *	      0     b     2
++ *	 req: |-----------|       (bo_offset=3Dm)
++ *
++ *	      0     b     2  a' 3
++ *	 new: |-----------|-----| (b.bo_offset=3Dm,a.bo_offset=3Dn+2)
+  *
+  *
+- *	16) Existent mappings are merged.
+- *	---------------------------------
++ * 16) Existent mappings are merged.
+  *
+- *	     0     a     1
+- *	old: |-----------|                        (bo_offset=3Dn)
++ *     ::
+  *
+- *	                            2     a     3
+- *	old':                       |-----------| (bo_offset=3Dn+2)
++ *	      0     a     1
++ *	 old: |-----------|                        (bo_offset=3Dn)
+  *
+- *	                1     a     2
+- *	req:            |-----------|             (bo_offset=3Dn+1)
++ *	                             2     a     3
++ *	 old':                       |-----------| (bo_offset=3Dn+2)
+  *
+- *	                      a
+- *	new: |----------------------------------| (bo_offset=3Dn)
++ *	                 1     a     2
++ *	 req:            |-----------|             (bo_offset=3Dn+1)
++ *
++ *	                       a
++ *	 new: |----------------------------------| (bo_offset=3Dn)
+  */
+=20
+ /**
 
-  https://www.kernel.org/doc/html/v6.0-rc7/dev-tools/kunit/index.html
+However, the relationship scenario descriptions are too generic (different
+diagrams are described by the same text). Please rewrite them, taking into
+account bo_offset values in each scenario.
 
-?
+Thanks.
 
-> Alabaster only shows headings as shown below:
-> https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html#
-> making it effectively useless for navigation. This is particularly a
-> problem for the KUnit documentation, which relies heavily on being
-> able to find related pages. Currently to navigate to the related
-> pages, the reader has to return to the Home page, use the search bar,
-> or manually edit the URL (i.e, only if you know the chapter or section
-> name).
-> 
-> So, after comparing both the themes, could we modify the sidebar to
-> match the "rtd" behaviour if there is a way to do so?
+--=20
+An old man doll... just what I always wanted! - Clara
 
-As I mentioned in the above mentioned mail, there looks like a room
-of customizing alabaster. Yet, I am not able to get a sidebar as usable
-as that of sphinx_rtd_theme so far.
+--st4xfXKFTYFcRLrQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Maybe due to my inexperience in CSS customization. :-\
+-----BEGIN PGP SIGNATURE-----
 
->                                                        If not, would it
-> be sensible to either include this support in the "alabaster" theme or
-> even temporarily roll back the change until we find a solution?
-> 
-> It'd be great to hear your thoughts on this.
+iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY8jDrQAKCRD2uYlJVVFO
+oyc5AQDzS32MPEoI8XEnJ+yGcruwTqG4VgFpXjQO6ybbNI0oaAD/cDphbOXxvq0A
+nY3OKSukKaxO8u18WTRGbGOfkLvASA0=
+=bBlm
+-----END PGP SIGNATURE-----
 
-sphinx_rtd_theme can be chosen by:
-
-  make DOCS_THEME=sphinx_rtd_theme htmldocs
-
-Konstantin, would it be possible for you to add "DOCS_THEME=sphinx_rtd_theme"
-for the "latest" kernel documentation builds until the new default theme
-becomes good enough for most people?  That is if Jon agrees.
-For the "next" builds, alabaster theme should be OK, and easier for us to
-compare the two themes.
-
-        Thanks, Akira
-
-> 
-> Thanks,
-> Sadiya
+--st4xfXKFTYFcRLrQ--
