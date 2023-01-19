@@ -2,259 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E927C38159
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 01:34:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4F1AC677F1
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 02:01:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229964AbjASBek (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 20:34:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45136 "EHLO
+        id S229646AbjASCBT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 21:01:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230031AbjASBaj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 20:30:39 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A84B37F20;
-        Wed, 18 Jan 2023 17:28:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674091730; x=1705627730;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=92WpI/CMYfwGiXcsjcP/NI5y3TpYtmkZChXGGpFRbp8=;
-  b=NZ6hYGX/bDPHMCNa6Y0TYUPAH9sltl7RFp1xTiX3yfeST5hNmphUh/PJ
-   ScqsRoK6AHXMHPHaxSqZyzC/DOTzt+4Brcefp7CpT3Lh8qrk9qe74F6K5
-   7+ImcGqQtCs1Ul70BAzSHhjKiyo0JoTDXuGnn9C9x25cKPd5nXOj0gN8w
-   MqdliTxHmktLVtEqdcfnUPWPpwQ9dva61fLFuFDiNwmFj5VRtAkae84D1
-   vUtj+DbEPNIBoFkAPYjo4OAFkjAIYeSR5E9wgKmpabzjDUspjhSlmNDat
-   jFoMfJmPbKW3sjshoBS7kPSJn2+av4tmno3Q/algaoA5DX+Ms1gJhfoTt
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="322847566"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="322847566"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 17:28:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="767995682"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="767995682"
-Received: from unknown (HELO fedora.sh.intel.com) ([10.238.175.104])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2023 17:28:44 -0800
-From:   Tianfei Zhang <tianfei.zhang@intel.com>
-To:     bhelgaas@google.com, linux-pci@vger.kernel.org,
-        linux-fpga@vger.kernel.org, lukas@wunner.de, kabel@kernel.org,
-        mani@kernel.org, pali@kernel.org, mdf@kernel.org, hao.wu@intel.com,
-        yilun.xu@intel.com, trix@redhat.com, jgg@ziepe.ca,
-        ira.weiny@intel.com, andriy.shevchenko@linux.intel.com,
-        dan.j.williams@intel.com, keescook@chromium.org, rafael@kernel.org,
-        russell.h.weight@intel.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ilpo.jarvinen@linux.intel.com,
-        lee@kernel.org, gregkh@linuxfoundation.org,
-        matthew.gerlach@linux.intel.com
-Cc:     Tianfei Zhang <tianfei.zhang@intel.com>
-Subject: [PATCH v1 08/12] fpga: m10bmc-sec: register BMC device into fpgahp driver
-Date:   Wed, 18 Jan 2023 20:35:58 -0500
-Message-Id: <20230119013602.607466-9-tianfei.zhang@intel.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230119013602.607466-1-tianfei.zhang@intel.com>
-References: <20230119013602.607466-1-tianfei.zhang@intel.com>
+        with ESMTP id S229716AbjASCBS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 21:01:18 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4FA73A5B4
+        for <linux-doc@vger.kernel.org>; Wed, 18 Jan 2023 18:01:17 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id k8so427604wrc.9
+        for <linux-doc@vger.kernel.org>; Wed, 18 Jan 2023 18:01:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pu1tq3n/LdB6P4+KI23iUwlSXgHNKcoPMfDjTSYiEt0=;
+        b=YligMrxe4E/orUgqR8VvI6pwrEwgaXISw8haCFjF/uJle48taVQYMygU3blqy0PhYu
+         5NjJq/dS99GAw4Bf9u4qfjx+7h2j/6YUYENx8CmpBsMsmzY0Ubp1IOb4t15z9hL/TACI
+         n6YPwlPWgVpXdvdchff0menWL2ZG7BV7Of+WuVBoVVff/SbAcYsKI1VEOfj3L6qqvqy4
+         zB4iQORX8DvkN7pL8vTJrt3m+WnTLb+RaHzaBME95RTp5exIDlRCPbjs2zZfsUDp4LpB
+         oVxDLqk5M3f3a4hQRnMASQilI3rMojvmnvvV8miygPf0EviOGFAL3xPm+ugtkEWltgdQ
+         7p7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Pu1tq3n/LdB6P4+KI23iUwlSXgHNKcoPMfDjTSYiEt0=;
+        b=V/69Bha4iad0O5dneNNOS0Gs/mP6Af7iTjkmuEcWUvkbfTyf3hiHATODl/swZOKxd0
+         cD4JH1+jHlt5vl++CP8LvDF0YZTan9Mbo/Ky949e6zTBoihVY05LNbMuJBL/bBFAbFZF
+         cGewcuQmZNYOZKq08X/HwXIJoO+YiAkws+dVjZ8BhO02cXmbdrKbX9Q1scWF/WMs6W50
+         W5wyyfhNcXDgXe2NOT1QIcEM0QLQ1MKn5CUFsIovbJ1SgB6lWkY9Xa1+dJ9ZVH9+LG+t
+         o3XN+jl4c3VRZJgC59+fkXg7b+G3KL7A2L2X+e+wjnbQy4r9Oak7DdAULjiBNszNI6Np
+         6aSA==
+X-Gm-Message-State: AFqh2kpi/2sb0+8LDIrv7TicZVinrjnvbFSs+VsMadszcoJe7+qvE2qJ
+        Aiu/X+RovNUnYutgGlqF7hqeTvbESTNROcTB9NV46A==
+X-Google-Smtp-Source: AMrXdXvGBk5yLN/gW9lWvReD+EGsDcrto7RDqABj5uRF8qWeaRh0yOMij495GRMURAhXONtQlFD3pCS9LGGRDh2eRfA=
+X-Received: by 2002:adf:ec88:0:b0:2bd:c1c9:131c with SMTP id
+ z8-20020adfec88000000b002bdc1c9131cmr221748wrn.402.1674093676160; Wed, 18 Jan
+ 2023 18:01:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230113210703.62107-1-nhuck@google.com> <Y8HI+42TxxlJxT6D@slm.duckdns.org>
+In-Reply-To: <Y8HI+42TxxlJxT6D@slm.duckdns.org>
+From:   Nathan Huckleberry <nhuck@google.com>
+Date:   Wed, 18 Jan 2023 18:01:04 -0800
+Message-ID: <CAJkfWY4Az45dNkPu5JpDsiMV-gRLe2VjVuixQd9xNG7zdLb4jA@mail.gmail.com>
+Subject: Re: [PATCH] workqueue: Add WQ_SCHED_FIFO
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Sandeep Dhavale <dhavale@google.com>,
+        Daeho Jeong <daehojeong@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a registration of Intel M10 BMC security update device
-into fpgahp driver by fpgahp_bmc_device_register() API.
+On Fri, Jan 13, 2023 at 1:11 PM Tejun Heo <tj@kernel.org> wrote:
+>
+> On Fri, Jan 13, 2023 at 01:07:02PM -0800, Nathan Huckleberry wrote:
+> > Add a WQ flag that allows workqueues to use SCHED_FIFO with the least
+> > imporant RT priority.  This can reduce scheduler latency for IO
+> > post-processing when the CPU is under load without impacting other RT
+> > workloads.  This has been shown to improve app startup time on Android
+> > [1].
+> >
+> > Scheduler latency affects several drivers as evidenced by [1], [2], [3],
+> > [4].  Some of these drivers have moved post-processing into IRQ context.
+> > However, this can cause latency spikes for real-time threads and jitter
+> > related jank on Android.  Using a workqueue with SCHED_FIFO improves
+> > scheduler latency without causing latency problems for RT threads.
+> >
+> > [1]:
+> > https://lore.kernel.org/linux-erofs/20230106073502.4017276-1-dhavale@google.com/
+> > [2]:
+> > https://lore.kernel.org/linux-f2fs-devel/20220802192437.1895492-1-daeho43@gmail.com/
+> > [3]:
+> > https://lore.kernel.org/dm-devel/20220722093823.4158756-4-nhuck@google.com/
+> > [4]:
+> > https://lore.kernel.org/dm-crypt/20200706173731.3734-1-ignat@cloudflare.com/
+> >
+> > This change has been tested on dm-verity with the following fio config:
+> >
+> > [global]
+> > time_based
+> > runtime=120
+> >
+> > [do-verify]
+> > ioengine=sync
+> > filename=/dev/testing
+> > rw=randread
+> > direct=1
+> >
+> > [burn_8x90%_qsort]
+> > ioengine=cpuio
+> > cpuload=90
+> > numjobs=8
+> > cpumode=qsort
+> >
+> > Before:
+> > clat (usec): min=13, max=23882, avg=29.56, stdev=113.29 READ:
+> > bw=122MiB/s (128MB/s), 122MiB/s-122MiB/s (128MB/s-128MB/s), io=14.3GiB
+> > (15.3GB), run=120001-120001msec
+> >
+> > After:
+> > clat (usec): min=13, max=23137, avg=19.96, stdev=105.71 READ:
+> > bw=180MiB/s (189MB/s), 180MiB/s-180MiB/s (189MB/s-189MB/s), io=21.1GiB
+> > (22.7GB), run=120012-120012msec
+>
 
-Signed-off-by: Russ Weight <russell.h.weight@intel.com>
-Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
----
- drivers/fpga/Kconfig                    |   1 +
- drivers/fpga/intel-m10-bmc-sec-update.c | 110 ++++++++++++++++++++++++
- 2 files changed, 111 insertions(+)
+Hi Tejun,
 
-diff --git a/drivers/fpga/Kconfig b/drivers/fpga/Kconfig
-index 2188c5658e06..f83682d00a1b 100644
---- a/drivers/fpga/Kconfig
-+++ b/drivers/fpga/Kconfig
-@@ -248,6 +248,7 @@ config FPGA_MGR_VERSAL_FPGA
- config FPGA_M10_BMC_SEC_UPDATE
- 	tristate "Intel MAX10 BMC Secure Update driver"
- 	depends on MFD_INTEL_M10_BMC
-+	depends on HOTPLUG_PCI_FPGA
- 	select FW_LOADER
- 	select FW_UPLOAD
- 	help
-diff --git a/drivers/fpga/intel-m10-bmc-sec-update.c b/drivers/fpga/intel-m10-bmc-sec-update.c
-index 79d48852825e..647531094b3b 100644
---- a/drivers/fpga/intel-m10-bmc-sec-update.c
-+++ b/drivers/fpga/intel-m10-bmc-sec-update.c
-@@ -8,6 +8,7 @@
- #include <linux/bitfield.h>
- #include <linux/device.h>
- #include <linux/firmware.h>
-+#include <linux/fpga/fpgahp_manager.h>
- #include <linux/mfd/intel-m10-bmc.h>
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
-@@ -19,10 +20,21 @@ struct m10bmc_sec {
- 	struct intel_m10bmc *m10bmc;
- 	struct fw_upload *fwl;
- 	char *fw_name;
-+	struct image_load *image_load;
-+	struct fpgahp_bmc_device *fpgahp_bmc;
- 	u32 fw_name_id;
- 	bool cancel_request;
- };
- 
-+struct image_load {
-+	const char *name;
-+	int (*load_image)(struct m10bmc_sec *sec);
-+	u32 wait_time_msec;
-+};
-+
-+/* default wait 10 seconds for FPGA/BMC image reload */
-+#define RELOAD_DEFAULT_WAIT_MSECS  (10 * MSEC_PER_SEC)
-+
- static DEFINE_XARRAY_ALLOC(fw_upload_xa);
- 
- /* Root Entry Hash (REH) support */
-@@ -137,6 +149,43 @@ DEVICE_ATTR_SEC_CSK_RO(pr, PR_PROG_ADDR + CSK_VEC_OFFSET);
- 
- #define FLASH_COUNT_SIZE 4096	/* count stored as inverted bit vector */
- 
-+static ssize_t m10bmc_available_images(struct fpgahp_bmc_device *bmc, char *buf)
-+{
-+	struct m10bmc_sec *sec = bmc->priv;
-+	const struct image_load *hndlr;
-+	ssize_t count = 0;
-+
-+	for (hndlr = sec->image_load; hndlr->name; hndlr++)
-+		count += scnprintf(buf + count, PAGE_SIZE - count, "%s ", hndlr->name);
-+
-+	buf[count - 1] = '\n';
-+
-+	return count;
-+}
-+
-+static int m10bmc_image_trigger(struct fpgahp_bmc_device *bmc, const char *buf,
-+				u32 *wait_time_msec)
-+{
-+	struct m10bmc_sec *sec = bmc->priv;
-+	const struct image_load *hndlr;
-+	int ret = -EINVAL;
-+
-+	for (hndlr = sec->image_load; hndlr->name; hndlr++) {
-+		if (sysfs_streq(buf, hndlr->name)) {
-+			ret = hndlr->load_image(sec);
-+			*wait_time_msec = hndlr->wait_time_msec;
-+			break;
-+		}
-+	}
-+
-+	return ret;
-+}
-+
-+static const struct fpgahp_bmc_ops fpgahp_bmc_ops = {
-+	.image_trigger = m10bmc_image_trigger,
-+	.available_images = m10bmc_available_images,
-+};
-+
- static ssize_t flash_count_show(struct device *dev,
- 				struct device_attribute *attr, char *buf)
- {
-@@ -208,6 +257,54 @@ static void log_error_regs(struct m10bmc_sec *sec, u32 doorbell)
- 		dev_err(sec->dev, "RSU auth result: 0x%08x\n", auth_result);
- }
- 
-+static int m10bmc_sec_bmc_image_load(struct m10bmc_sec *sec,
-+				     unsigned int val)
-+{
-+	u32 doorbell;
-+	int ret;
-+
-+	if (val > 1) {
-+		dev_err(sec->dev, "invalid reload val = %u\n", val);
-+		return -EINVAL;
-+	}
-+
-+	ret = m10bmc_sys_read(sec->m10bmc, M10BMC_DOORBELL, &doorbell);
-+	if (ret)
-+		return ret;
-+
-+	if (doorbell & DRBL_REBOOT_DISABLED)
-+		return -EBUSY;
-+
-+	return regmap_update_bits(sec->m10bmc->regmap,
-+				  M10BMC_SYS_BASE + M10BMC_DOORBELL,
-+				  DRBL_CONFIG_SEL | DRBL_REBOOT_REQ,
-+				  FIELD_PREP(DRBL_CONFIG_SEL, val) | DRBL_REBOOT_REQ);
-+}
-+
-+static int m10bmc_sec_bmc_image_load_0(struct m10bmc_sec *sec)
-+{
-+	return m10bmc_sec_bmc_image_load(sec, 0);
-+}
-+
-+static int m10bmc_sec_bmc_image_load_1(struct m10bmc_sec *sec)
-+{
-+	return m10bmc_sec_bmc_image_load(sec, 1);
-+}
-+
-+static struct image_load m10bmc_image_load_hndlrs[] = {
-+	{
-+		.name = "bmc_factory",
-+		.load_image = m10bmc_sec_bmc_image_load_1,
-+		.wait_time_msec = RELOAD_DEFAULT_WAIT_MSECS,
-+	},
-+	{
-+		.name = "bmc_user",
-+		.load_image = m10bmc_sec_bmc_image_load_0,
-+		.wait_time_msec = RELOAD_DEFAULT_WAIT_MSECS,
-+	},
-+	{}
-+};
-+
- static enum fw_upload_err rsu_check_idle(struct m10bmc_sec *sec)
- {
- 	u32 doorbell;
-@@ -565,6 +662,7 @@ static int m10bmc_sec_probe(struct platform_device *pdev)
- 	sec->dev = &pdev->dev;
- 	sec->m10bmc = dev_get_drvdata(pdev->dev.parent);
- 	dev_set_drvdata(&pdev->dev, sec);
-+	sec->image_load = m10bmc_image_load_hndlrs;
- 
- 	ret = xa_alloc(&fw_upload_xa, &sec->fw_name_id, sec,
- 		       xa_limit_32b, GFP_KERNEL);
-@@ -587,6 +685,16 @@ static int m10bmc_sec_probe(struct platform_device *pdev)
- 	}
- 
- 	sec->fwl = fwl;
-+
-+	sec->fpgahp_bmc = fpgahp_bmc_device_register(&fpgahp_bmc_ops, sec->dev, sec);
-+	if (IS_ERR(sec->fpgahp_bmc)) {
-+		dev_err(sec->dev, "register hotplug bmc failed\n");
-+		kfree(sec->fw_name);
-+		xa_erase(&fw_upload_xa, sec->fw_name_id);
-+		firmware_upload_unregister(sec->fwl);
-+		return PTR_ERR(sec->fpgahp_bmc);
-+	}
-+
- 	return 0;
- }
- 
-@@ -594,6 +702,7 @@ static int m10bmc_sec_remove(struct platform_device *pdev)
- {
- 	struct m10bmc_sec *sec = dev_get_drvdata(&pdev->dev);
- 
-+	fpgahp_bmc_device_unregister(sec->fpgahp_bmc);
- 	firmware_upload_unregister(sec->fwl);
- 	kfree(sec->fw_name);
- 	xa_erase(&fw_upload_xa, sec->fw_name_id);
-@@ -626,3 +735,4 @@ module_platform_driver(intel_m10bmc_sec_driver);
- MODULE_AUTHOR("Intel Corporation");
- MODULE_DESCRIPTION("Intel MAX10 BMC Secure Update");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(FPGAHP);
--- 
-2.38.1
+> Given that its use case mostly intersects with WQ_HIGHPRI, would it make
+> more sense to add a switch to alter its behavior instead? I don't really
+> like the idea of pushing the decision between WQ_HIGHPRI and WQ_SCHED_FIFO
+> to each user.
 
+Do you think something similar should be done for WQ_UNBOUND? In most
+places where WQ_HIGHPRI is used, WQ_UNBOUND is also used because it
+boosts performance. However, I suspect that most of these benchmarks
+were done on x86-64. I've found that WQ_UNBOUND significantly reduces
+performance on arm64/Android.
+
+From the documentation, using WQ_UNBOUND for performance doesn't seem
+correct. It's only supposed to be used for long-running work. It might
+make more sense to get rid of WQ_UNBOUND altogether and only move work
+to unbound worker pools once it has stuck around for long enough.
+
+Android will probably need to remove WQ_UNBOUND from all of these
+performance critical users.
+
+If there are performance benefits to using unbinding workqueues from
+CPUs on x86-64, that should probably be a config flag, not controlled
+by every user.
+
+Thanks,
+Huck
+
+>
+> Thanks.
+>
+> --
+> tejun
