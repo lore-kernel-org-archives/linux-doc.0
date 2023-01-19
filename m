@@ -2,118 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF0D1C004D4
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 23:23:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE10DC004D4
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 23:45:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229724AbjASXXf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 18:23:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36880 "EHLO
+        id S229518AbjASXpr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 18:45:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229575AbjASXXe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 18:23:34 -0500
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 249BCC2;
-        Thu, 19 Jan 2023 15:23:32 -0800 (PST)
-Received: by mail-ej1-x642.google.com with SMTP id ud5so9853073ejc.4;
-        Thu, 19 Jan 2023 15:23:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8DGpgiYGDw6FkTW7tBePouJaM0hNgJ2GPhgSnYe3qzM=;
-        b=dxFittEFd7ZZTeIUxCkcyFFbtWAGVpLauvBjmr39x4O8whTZd5VinA1geQ7tFl0KIx
-         lsiSASLn+IkCZIIuSXcHfOXmgoOUDHGpFYgFsXtQngWlUyqJ15z0Yeh0y0YJEJIPvCCN
-         Xo/QYqrmgJT2sEe4eb4Ki2d1TW1hlJX4uaZ9GS40aVrbUlSwEcl+XEJuqOXFozH5FHlv
-         x/f5ZhFuxOacFWR1pAwlo6HhC6ZhFCfwlHvRVmD4CFOQXUe4k3tuAncWOVI4bF4UUrKY
-         7d58swG3RvDjM0sPw6k+r5MjP+X3WO0BCny0ze6+pN51C7FrL2tzpbdk+f5hzAzt2qEl
-         3ncA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8DGpgiYGDw6FkTW7tBePouJaM0hNgJ2GPhgSnYe3qzM=;
-        b=duIKhr2D/mDgCwdNHbnEcwJyFHQZ+0BQ/VsSE5K13Z3y3MHDkaB9ABMQVX9nMoHo3O
-         yjRmAcFSoRVQnF8zgJlPR02IbNAfazJqLcuKHgwCRAkufyyOkwMmIK+AEYhJnaVoPoHS
-         YpFBT23ATGkAap58h4WrJ03ENlDlOn1enVFkwUhzGxlx5UpR1p8OqCNZBShQ041N4koC
-         WtJom8sjAfgUcT1spTZ0CVVNiL98HCNr33XJG/ErVAHushSoWwGV5Hu1PTiV5mwkbV4/
-         Cy+ty3bfEPKy1dmC10hZdA/L3WYSLkCbv9S5FARxifyyHZTE3nkcHKWj+4GZm+fUZrr4
-         uYOg==
-X-Gm-Message-State: AFqh2kqfnB6rlgTiIpPPtKpfDN1B04Cj+E+cZWOmPzpA9aYoEQkGPK2/
-        YsF9YWbce8dzJpl8C9Wp+clGkdb8PXXs6Q==
-X-Google-Smtp-Source: AMrXdXttdOs/ggl9oW7qjKrudW7xZqvfwUgElT+nvQ8eQGO5ZzoWD8ZmYz3V0yVDFSC7ZGgWOv0+hw==
-X-Received: by 2002:a17:906:5417:b0:877:5dbc:da84 with SMTP id q23-20020a170906541700b008775dbcda84mr7962484ejo.72.1674170610747;
-        Thu, 19 Jan 2023 15:23:30 -0800 (PST)
-Received: from [127.0.1.1] (i130160.upc-i.chello.nl. [62.195.130.160])
-        by smtp.googlemail.com with ESMTPSA id u21-20020a1709064ad500b00855d6ed60desm13093390ejt.192.2023.01.19.15.23.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 15:23:30 -0800 (PST)
-From:   Jakob Koschel <jkl820.git@gmail.com>
-Date:   Fri, 20 Jan 2023 00:23:20 +0100
-Subject: [PATCH v2] docs/scripts/gdb: add necessary make scripts_gdb step
+        with ESMTP id S229934AbjASXpq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 18:45:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB9C79F399
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 15:45:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674171899;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=O26wXFwfbNKvM1Y0zBYnBKMX3ek+hLU/5IsgmYQVXCM=;
+        b=Q+jfpO1upTbXnMkFLvBN7CxbfA+Dwoa5IK/lFegi4mvUJcrTx5c1scMZPAJoB4VqkopDRI
+        31AgSNZb/f+vOK22ogHE2nKaBFxsv+2a7fsfzWsxN5S9bod0E8UafbDkSX3Uh4R/9TZnki
+        s4KoEiQUf1e5gV8wZ+TJCrdqYoZHJgk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-647-X1kbE4T6MuiqRklvwNWn7Q-1; Thu, 19 Jan 2023 18:44:56 -0500
+X-MC-Unique: X1kbE4T6MuiqRklvwNWn7Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 161D63806104;
+        Thu, 19 Jan 2023 23:44:55 +0000 (UTC)
+Received: from gshan.redhat.com (vpn2-54-98.bne.redhat.com [10.64.54.98])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id CABE72166B2A;
+        Thu, 19 Jan 2023 23:44:47 +0000 (UTC)
+From:   Gavin Shan <gshan@redhat.com>
+To:     kvmarm@lists.linux.dev
+Cc:     kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        pbonzini@redhat.com, corbet@lwn.net, maz@kernel.org,
+        oliver.upton@linux.dev, will@kernel.org, gshan@redhat.com,
+        ricarkol@google.com, eric.auger@redhat.com, yuzhe@nfschina.com,
+        renzhengeek@gmail.com, reijiw@google.com, ardb@kernel.org,
+        Julia.Lawall@inria.fr, yuzenghui@huawei.com, seanjc@google.com,
+        shan.gavin@gmail.com
+Subject: [PATCH v2 0/3] Improve dirty ring warning report
+Date:   Fri, 20 Jan 2023 07:44:02 +0800
+Message-Id: <20230119234405.349644-1-gshan@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230112-documentation-gdb-v2-1-292785c43dc9@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAOjQyWMC/32NTQ7CIBBGr2JmLQamtkldeQ/TxQDTlkTAADaap
- neX9gAu3/eTt0Lm5DjD7bRC4sVlF0MFPJ/AzBQmFs5WBpTYSKVQ2GjenkOhUpdislrQKKXFRqPu
- JNSfpsxCJwpm3p+ecuG0F6/Eo/scssdQeXa5xPQ93Iva03+aRQklZE+6bTvuFV7vkyf3vJjoYdi
- 27QeRjaPQywAAAA==
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jakob Koschel <jkl820.git@gmail.com>
-X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1674170610; l=1456;
- i=jkl820.git@gmail.com; s=20230112; h=from:subject:message-id;
- bh=3W6+W19na9oCoUtm0oHRdq58UYpKhHaVRjP5Hz+vctc=;
- b=wdTEA3IYp4TiRylTeGZWzhOPiS9maBfDgZagABMYNhDcNwA2fQ4xAM0NFEwou8IoM5BvRLrm7l1I
- RAMWwMlPAxAkDPfXF3fuNQISCwMyESSZvUsdR4c8qREHJmVBitMB
-X-Developer-Key: i=jkl820.git@gmail.com; a=ed25519;
- pk=rcRpP90oZXet9udPj+2yOibfz31aYv8tpf0+ZYOQhyA=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to debug the kernel successfully with gdb you need to run
-'make scripts_gdb' nowadays.
+It has been known case where no running VCPU context exists when the
+vgic/its tables are saved. There are other two unknown cases where we
+don't have the running VCPU context: (a) restore vgic3 LPI pending
+status. (b) restoring vgic3 pending tables.
 
-This was changed with the following commit:
+PATCH[1]     adds unified helper vgic_write_guest_lock()
+PATCH[2 - 3] allows no-running-vcpu context for (a) and (b)
 
-Commit 67274c083438340ad16c ("scripts/gdb: delay generation of gdb
-constants.py")
+v1: https://lore.kernel.org/kvmarm/20230116040405.260935-1-gshan@redhat.com/T/#t
 
-In order to have a complete guide for beginners this remark
-should be added to the offial documentation.
+Changelog
+=========
+v2:
+  * Add unified helper vgic_write_guest_lock()                 (Oliver)
+  * Dropped two patches to refactor mark_page_dirty_in_slot()  (Sean)
 
-Signed-off-by: Jakob Koschel <jkl820.git@gmail.com>
----
-Changes in v2:
-- Add correct Signed-off-by
-- Link to v1: https://lore.kernel.org/r/20230112-documentation-gdb-v1-1-09ab556e9124@gmail.com
----
- Documentation/dev-tools/gdb-kernel-debugging.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+Gavin Shan (3):
+  KVM: arm64: Add helper vgic_write_guest_lock()
+  KVM: arm64: Allow no running vcpu on restoring vgic3 LPI pending
+    status
+  KVM: arm64: Allow no running vcpu on saving vgic3 pending table
 
-diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/dev-tools/gdb-kernel-debugging.rst
-index 8e0f1fe8d17a..895285c037c7 100644
---- a/Documentation/dev-tools/gdb-kernel-debugging.rst
-+++ b/Documentation/dev-tools/gdb-kernel-debugging.rst
-@@ -39,6 +39,10 @@ Setup
-   this mode. In this case, you should build the kernel with
-   CONFIG_RANDOMIZE_BASE disabled if the architecture supports KASLR.
- 
-+- Build the gdb scripts (required on kernels v5.1 and above)::
-+
-+    make scripts_gdb
-+
- - Enable the gdb stub of QEMU/KVM, either
- 
-     - at VM startup time by appending "-s" to the QEMU command line
+ Documentation/virt/kvm/api.rst     | 10 +++++++---
+ arch/arm64/kvm/vgic-sys-reg-v3.c   |  1 +
+ arch/arm64/kvm/vgic/vgic-irqfd.c   |  1 +
+ arch/arm64/kvm/vgic/vgic-its.c     | 13 +++++--------
+ arch/arm64/kvm/vgic/vgic-mmio-v2.c |  1 +
+ arch/arm64/kvm/vgic/vgic-mmio.c    |  1 +
+ arch/arm64/kvm/vgic/vgic-v3.c      |  4 ++--
+ arch/arm64/kvm/vgic/vgic-v4.c      |  1 +
+ arch/arm64/kvm/vgic/vgic.c         |  1 +
+ arch/arm64/kvm/vgic/vgic.h         | 13 +++++++++++++
+ include/kvm/arm_vgic.h             |  2 +-
+ 11 files changed, 34 insertions(+), 14 deletions(-)
 
----
-base-commit: c757fc92a3f73734872c7793b97f06434773d65d
-change-id: 20230112-documentation-gdb-af00d23b2b60
-
-Best regards,
 -- 
-Jakob Koschel <jkl820.git@gmail.com>
+2.23.0
+
