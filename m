@@ -2,119 +2,178 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 789EBC678DC
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 05:24:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A868C678DC
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 05:29:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231441AbjATFYH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 00:24:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56140 "EHLO
+        id S231459AbjATF3W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 00:29:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231372AbjATFXo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 00:23:44 -0500
+        with ESMTP id S229571AbjATF2r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 00:28:47 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE2EE7AF3A;
-        Thu, 19 Jan 2023 21:14:04 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E1DD518C4;
+        Thu, 19 Jan 2023 21:23:46 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6E80FB82101;
-        Thu, 19 Jan 2023 13:28:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95431C433F0;
-        Thu, 19 Jan 2023 13:28:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1674134915;
-        bh=8xre6Ca6rQGRdzO7Ba6CAgNe5xPH3qbrIwEPFKRtmU4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LRtx9aUef3TLh6lE1gayUWVlKq+1pky9Go+T7etMBShXa6I1lLGyxZYz6jDPi+G5O
-         zz9VIkm1bfU/JhbAzMEhxzU8A8YRPBx/x6YxfOmFA4Fm2xbE+BpFntb36fJzQzPfpb
-         TmsECDYiD8VqpQCuR+Nbc9jO6+P+RCISaowRde5g=
-Date:   Thu, 19 Jan 2023 14:28:32 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Tianfei Zhang <tianfei.zhang@intel.com>
-Cc:     bhelgaas@google.com, linux-pci@vger.kernel.org,
-        linux-fpga@vger.kernel.org, lukas@wunner.de, kabel@kernel.org,
-        mani@kernel.org, pali@kernel.org, mdf@kernel.org, hao.wu@intel.com,
-        yilun.xu@intel.com, trix@redhat.com, jgg@ziepe.ca,
-        ira.weiny@intel.com, andriy.shevchenko@linux.intel.com,
-        dan.j.williams@intel.com, keescook@chromium.org, rafael@kernel.org,
-        russell.h.weight@intel.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ilpo.jarvinen@linux.intel.com,
-        lee@kernel.org, matthew.gerlach@linux.intel.com
-Subject: Re: [PATCH v1 10/12] PCI: hotplug: implement the hotplug_slot_ops
- callback for fpgahp
-Message-ID: <Y8lFgKZGKYrM02Wm@kroah.com>
-References: <20230119013602.607466-1-tianfei.zhang@intel.com>
- <20230119013602.607466-11-tianfei.zhang@intel.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 193B1B8274C;
+        Thu, 19 Jan 2023 21:49:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CB9AC433EF;
+        Thu, 19 Jan 2023 21:49:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674164963;
+        bh=MgNZwh4nQfnPJ36l6qwjUf+OsEmqk/JP33EfxezB2/s=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=bxHCEZApGhGuevD3ZIoR9MTH0Y0E6fI9H29vx86L0Ek9d1bc2qu/8+Npx030BqhF2
+         EvmzFRodGoGQWwF49dNFjRCyC82zlrNCH5K5EOfVq/prLvIY0d5NUWAetuOBWvjdwi
+         FaMs0ZLskLypejHgTLkFhcKGromK9vbiY/v+ElTXXtp4fSXTzSz4BAA3jkuhz8jEDL
+         nbGF0vIWccRNp1D1l+q8KtXg0E8bl6atR1nErEe8UO9gy1hJa/EbWLmWfIfpQi7MuK
+         PJUxeDv2C19heyJZVwR9M5raM0hpg8ZOOF/gyQWTqnGoPnXHrp0aNyp4q35IdcE7JH
+         38UAESjR19gxA==
+Date:   Thu, 19 Jan 2023 13:49:22 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, johannes@sipsolutions.net,
+        stephen@networkplumber.org, ecree.xilinx@gmail.com, sdf@google.com,
+        f.fainelli@gmail.com, fw@strlen.de, linux-doc@vger.kernel.org,
+        razor@blackwall.org, nicolas.dichtel@6wind.com
+Subject: Re: [PATCH net-next v3 2/8] netlink: add schemas for YAML specs
+Message-ID: <20230119134922.3fa24ed2@kernel.org>
+In-Reply-To: <CAL_JsqKk5RT6PmRSrq=YK7AvzCbcVkxasykJqe1df=3g-=kD7A@mail.gmail.com>
+References: <20230119003613.111778-1-kuba@kernel.org>
+        <20230119003613.111778-3-kuba@kernel.org>
+        <CAL_JsqKk5RT6PmRSrq=YK7AvzCbcVkxasykJqe1df=3g-=kD7A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230119013602.607466-11-tianfei.zhang@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 18, 2023 at 08:36:00PM -0500, Tianfei Zhang wrote:
-> Implement the image_load and available_images callback functions
-> for fpgahp driver. This patch leverages some APIs from pciehp
-> driver to implement the device reconfiguration below the PCI hotplug
-> bridge.
+On Thu, 19 Jan 2023 08:07:31 -0600 Rob Herring wrote:
+> On Wed, Jan 18, 2023 at 6:36 PM Jakub Kicinski <kuba@kernel.org> wrote:
+> >
+> > Add schemas for Netlink spec files. As described in the docs
+> > we have 4 "protocols" or compatibility levels, and each one
+> > comes with its own schema, but the more general / legacy
+> > schemas are superset of more modern ones: genetlink is
+> > the smallest followed by genetlink-c and genetlink-legacy.
+> > There is no schema for raw netlink, yet, I haven't found the time..
+> >
+> > I don't know enough jsonschema to do inheritance or something
+> > but the repetition is not too bad. I hope.  
 > 
-> Here are the steps for a process of image load.
-> 1. remove all PFs and VFs except the PF0.
-> 2. remove all non-reserved devices of PF0.
-> 3. trigger a image load via BMC.
-> 4. disable the link of the hotplug bridge.
-> 5. remove all reserved devices under PF0 and PCI devices
->    below the hotplug bridge.
-> 6. wait for image load done via BMC, e.g. 10s.
-> 7. re-enable the link of the hotplug bridge.
-> 8. re-enumerate PCI devices below the hotplug bridge.
+> Generally you put common schemas under '$defs' and the then reference
+> them with '$ref'.
 > 
-> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
-> ---
->  Documentation/ABI/testing/sysfs-driver-fpgahp |  21 ++
->  MAINTAINERS                                   |   1 +
->  drivers/pci/hotplug/fpgahp.c                  | 179 ++++++++++++++++++
->  3 files changed, 201 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-driver-fpgahp
+> $defs:
+>   some-prop-type:
+>     type: integer
+>     minimum: 0
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-driver-fpgahp b/Documentation/ABI/testing/sysfs-driver-fpgahp
-> new file mode 100644
-> index 000000000000..8d4b1bfc4012
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-driver-fpgahp
-> @@ -0,0 +1,21 @@
-> +What:		/sys/bus/pci/slots/X-X/available_images
-> +Date:		May 2023
-> +KernelVersion:	6.3
-> +Contact:	Tianfei Zhang <tianfei.zhang@intel.com>
-> +Description:	Read-only. This file returns a space separated list of
-> +		key words that may be written into the image_load file
-> +		described below. These keywords decribe an FPGA, BMC,
-> +		or firmware image in FLASH or EEPROM storage that may
-> +		be loaded.
+> properties:
+>   foo:
+>     $ref: '#/$defs/some-prop-type'
+>   bar:
+>     $ref: '#/$defs/some-prop-type'
 
-No, sysfs is "one value per file", why is this a list?
+Thanks! Is it possible to move the common definitions to a separate
+file? I tried to create a file called defs.yaml and change the ref to:
 
-And what exactly defines the values in this list?
+  $ref: "defs.yaml#/$defs/len-or-define"
 
-> +
-> +What:		/sys/bus/pci/slots/X-X/image_load
-> +Date:		May 2023
-> +KernelVersion:	6.3
-> +Contact:	Tianfei Zhang <tianfei.zhang@intel.com>
-> +Description:	Write-only. A key word may be written to this file to
-> +		trigger a new image loading of an FPGA, BMC, or firmware
-> +		image from FLASH or EEPROM. Refer to the available_images
-> +		file for a list of supported key words for the underlying
-> +		device.
-> +		Writing an unsupported string to this file will result in
-> +		EINVAL being returned.
+But:
 
-Why is this a separate file from the "read the list" file?
+  File "/usr/lib/python3.11/site-packages/jsonschema/validators.py", line 257, in iter_errors
+    for error in errors:
+  File "/usr/lib/python3.11/site-packages/jsonschema/_validators.py", line 294, in ref
+    scope, resolved = validator.resolver.resolve(ref)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/site-packages/jsonschema/validators.py", line 856, in resolve
+    return url, self._remote_cache(url)
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/site-packages/jsonschema/validators.py", line 870, in resolve_from_url
+    raise exceptions.RefResolutionError(exc)
+jsonschema.exceptions.RefResolutionError: Expecting value: line 1 column 1 (char 0)
 
-That feels wrong.
+> If you have objects with common sets of properties, you can do the
+> same thing, but then you need 'unevaluatedProperties' if you want to
+> define a base set of properties and add to them. We do that frequently
+> in DT schemas. Unlike typical inheritance, you can't override the
+> 'base' schema. It's an AND operation.
 
-thanks,
+This is hard to comprehend :o Most of the time I seem to need only the
+ability to add a custom "description" to the object, so for example:
 
-greg k-h
+$defs:
+  len-or-define:
+    oneOf:
+      -
+        type: string
+        pattern: ^[0-9A-Za-z_-]*( - 1)?$
+      -
+        type: integer
+        minimum: 0
+
+Then:
+
+       min-len:
+         description: Min length for a binary attribute.
+         $ref: '#/$defs/len-or-define'
+
+And that seems to work. Should I be using unevaluatedProperties somehow
+as well here?
+
+> > +          description: |
+> > +            Name used when referring to this space in other definitions, not used outside of YAML.
+> > +          type: string
+> > +        # Strictly speaking 'name-prefix' and 'subset-of' should be mutually exclusive.  
+> 
+> If one is required:
+> 
+> oneOf:
+>   - required: [ name-prefix ]
+>   - required: [ subset-of ]
+> 
+> Or if both are optional:
+> 
+> dependencies:
+>   name-prefix:
+>     not:
+>       required: [ subset-of ]
+>   subset-of:
+>     not:
+>       required: [ name-prefix ]
+
+Nice, let me try this.
+
+> > +                  min-len:
+> > +                    description: Min length for a binary attribute.
+> > +                    oneOf:
+> > +                      - type: string
+> > +                        pattern: ^[0-9A-Za-z_-]*( - 1)?$
+> > +                      - type: integer  
+> 
+> How can a length be a string?
+
+For readability in C I wanted to allow using a define for the length.
+Then the name of the define goes here, and the value can be fetched
+from the "definitions" section of the spec.
+
+> Anyways, this is something you could pull out into a $defs entry and
+> reference. It will also work without the oneOf because 'pattern' will
+> just be ignored for an integer. That's one gotcha with json-schema. If
+> a keyword doesn't apply to the instance, it is silently ignored. (That
+> includes unknown keywords such as ones with typos. Fun!). 'oneOf' will
+> give you pretty crappy error messages, so it's good to avoid when
+> possible.
+
+Oh, interesting. Changed to:
+
+$defs:
+  len-or-define:
+    type: [ string, integer ]
+    pattern: ^[0-9A-Za-z_-]*( - 1)?$
+    minimum: 0
