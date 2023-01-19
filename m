@@ -2,100 +2,172 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F6BC004D4
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 12:36:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED215C00A5A
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 12:42:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230480AbjASMgS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 07:36:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54238 "EHLO
+        id S229977AbjASMmh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 07:42:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229659AbjASMfg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 07:35:36 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C598882980;
-        Thu, 19 Jan 2023 04:32:23 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id a14-20020a17090a70ce00b00229a2f73c56so5680958pjm.3;
-        Thu, 19 Jan 2023 04:32:23 -0800 (PST)
+        with ESMTP id S230044AbjASMl7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 07:41:59 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DD3B798CB;
+        Thu, 19 Jan 2023 04:39:51 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id q10-20020a1cf30a000000b003db0edfdb74so2728232wmq.1;
+        Thu, 19 Jan 2023 04:39:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sac0uH94+eobhDT6asHKNrz1H50xBId/HUVcG82XASU=;
-        b=d4Pkg8YtiFu9qkBkslpyzTX4ODlCF9cPEMdGnccfXp9pVlB7Vag6mr8HXNJmuXLxDn
-         v2SjiZJNerWirVEzTDYpl5Yess++WVZ43DfMGIyA4SOqizYpn9OxVWYpDs1IYj7cScVz
-         IHBYxn11qPw9pjUcWeQ3Sbr7rlPVOeBitce19/cUT+LD9SXz2R0GoSwK/2Cs8D8hkTyX
-         ra9U/huH4aU3StkandszQyDGq0gsRS6WRdvFSkIYyf865Uy6KQ9Xtb+Ayy/qMqZtdZp9
-         EsNAOLR/9WLqLBmz8s99rZjS51VsJ4Zcgg9q7UZSa0nZYFU+lq+rxCvnpkpv0TpJPe1p
-         z48w==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aZGmJZiHO4zSg1lq+3nWY4u/vstveQj+Y4K63K64lAc=;
+        b=fIkPSVW3pVRh4PvuaoGe4C12b1n3z0yflP1rqlHtDh+jJUJOA2wElr/gbM7PynBo4B
+         g9WegrXt4AH7zUifF9abOSJx5IC0lOol1lCSnn9TtWeAp38eV35bJC5Zkt8MQOOtkX7g
+         WrhGT8+705c740fDfk4giAvqzKRNDGbfs4SnDjLvC0JT3SGuw34zZIOKniR6/mhRyiti
+         /kcmIBsEO9mlC+W7IFX6kpf8TS16DXziwWRu7iswYM1SwAqUP52iUKgEVGsVQ+KG96dT
+         9iVQ1VG7Uo1tgklQaM6mys9J82LcWDvLdNsuMqb3UIrHldiAr93Vnu64RxQjH9NKOZie
+         gwmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sac0uH94+eobhDT6asHKNrz1H50xBId/HUVcG82XASU=;
-        b=jaDm9UzkUWvNsQJ9wE4XyZo/RaWd9Qsf48gxdz8yBRaQiSF1iqjD9wvyH2HjXlngwu
-         +OTly6OnvCO552kroUww+KSLVeq6OY4U8BSwNnVojL4QNAt8GTymK1QIlXFZn+h/ra0J
-         6zohLIdipAI8WkxSn27BV7PVa4W549Jlp2jZsB93qLo7mqH3w0hWQ9asoqjWOD1H1it+
-         dFPZfzxLYUVvkP9rwJ207lR6UHUfzhjNfgo22xa0lP8GSRp5bt2SlOV/3p8pa5qcJfFK
-         si62FQ8/9Yl+kELoV8kS8JhNhPFb8Q2qIsVxnlHlOxRC3rV462FN75Ko7JXsmf9msKmT
-         0vrQ==
-X-Gm-Message-State: AFqh2kosW54lAYt7BkpGxl07Pabn6nI1xGPKQfcRKb2707SwmxHIPsrf
-        0Qy7jClqvzJLRnBNYwZjon4=
-X-Google-Smtp-Source: AMrXdXt9rTfqNetfn4/vNfsbYTeURrALPYPObN6cMaL1/hbxUPZX9w6h9rBJE0nj685Q5cQ51ckjDg==
-X-Received: by 2002:a17:902:f60b:b0:194:a663:675b with SMTP id n11-20020a170902f60b00b00194a663675bmr11286433plg.19.1674131459889;
-        Thu, 19 Jan 2023 04:30:59 -0800 (PST)
-Received: from [192.168.43.80] (subs03-180-214-233-93.three.co.id. [180.214.233.93])
-        by smtp.gmail.com with ESMTPSA id x3-20020a170902a38300b001896522a23bsm24993664pla.39.2023.01.19.04.30.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Jan 2023 04:30:59 -0800 (PST)
-Message-ID: <13f7a493-d1b6-481b-63a5-64080a4aee90@gmail.com>
-Date:   Thu, 19 Jan 2023 19:30:52 +0700
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aZGmJZiHO4zSg1lq+3nWY4u/vstveQj+Y4K63K64lAc=;
+        b=GutoEUVyJDxCf7cQDCWRbOppB8ZI7AlKG1/BNsHnupntss7zAIG/AoCH/Yy50H2n3H
+         YycCPQurUuOk+ZOOk8dMSOKTmMk0Mf/8Oq2QnZ54JaXB/St4J2dTd9UidegQaEhsZ4g6
+         8PGdyU0vrAV8aWyN/1+hP/GMtU3qGvB+poqqFZL15XKOIXLFcFps5RGjKisI2tgyDf+/
+         KsBoG2jDEFanl4h3t8zAQLumBg8GqoOOm1IjyL19k9PdnOFWFjDUbNBLd+CaM1we/5My
+         MCDjfzq3xCXYlbzmF/jlIkjtSfFZym8pEsbZuVWv9aeEqF44dqEMRqjhAR2jm/yddP+J
+         VSbg==
+X-Gm-Message-State: AFqh2kqtVZ67+Np02wIn+IT7h7uJ1EdPyey1enRT0cY3NbB/mbGeZ7jt
+        5Fp8WntqkE53HJWqAP0RFN0=
+X-Google-Smtp-Source: AMrXdXs3qps9TFsimlC0ZXZm9rFm+ANZ/7UMJBNHDcdqpzCUPYKOwemn+7BeQrCa76mPAy5viViNDA==
+X-Received: by 2002:a05:600c:2052:b0:3da:f9e8:9809 with SMTP id p18-20020a05600c205200b003daf9e89809mr10036385wmg.35.1674131989597;
+        Thu, 19 Jan 2023 04:39:49 -0800 (PST)
+Received: from localhost.localdomain (host-82-55-106-56.retail.telecomitalia.it. [82.55.106.56])
+        by smtp.gmail.com with ESMTPSA id q24-20020a05600c331800b003d1de805de5sm4509265wmp.16.2023.01.19.04.39.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jan 2023 04:39:48 -0800 (PST)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Peter Zijlstra <a.p.zijlstra@chello.nl>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH v3] mm/highmem: Add notes about conversions from kmap{,_atomic}()
+Date:   Thu, 19 Jan 2023 13:39:45 +0100
+Message-Id: <20230119123945.10471-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v3 6/6] Documentation: amd_pstate: Update amd_pstate
- status sysfs for guided
-Content-Language: en-US
-To:     Wyes Karny <wyes.karny@amd.com>,
-        Rafael J Wysocki <rafael@kernel.org>,
-        Huang Rui <ray.huang@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Mario.Limonciello@amd.com, Perry.Yuan@amd.com,
-        Ananth Narayan <ananth.narayan@amd.com>, gautham.shenoy@amd.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, santosh.shukla@amd.com,
-        Len Brown <lenb@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Borislav Petkov <bp@suse.de>
-References: <20230119115017.10188-1-wyes.karny@amd.com>
- <20230119115017.10188-7-wyes.karny@amd.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20230119115017.10188-7-wyes.karny@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/19/23 18:50, Wyes Karny wrote:
-> +- In autonomous mode, platform ignores the desired performance level request
-> +  and takes into account only the values set to the Minimum requested
-> +  performance, Maximum requested performance and Energy Performance Preference
-> +  registers.
+kmap() and kmap_atomic() have been deprecated. kmap_local_page() should
+always be used in new code and the call sites of the two deprecated
+functions should be converted. This latter task can lead to errors if it
+is not carried out with the necessary attention to the context around
+and between the maps and unmaps.
 
-"minimum, maximum, and energy performance registers."
+Therefore, add further information to the Highmem's documentation for the
+purpose to make it clearer that (1) kmap() and kmap_atomic() must not
+any longer be called in new code and (2) developers doing conversions from
+kmap() amd kmap_atomic() are expected to take care of the context around
+and between the maps and unmaps, in order to not break the code.
 
-> +- In non-autonomous mode, platform gets desired performance level
-> +  from OS directly through Desired Performance Register.
-> +- In guided-autonomous mode, platform sets operating performance level
-> +  autonomously according to the current workload and within the limits set by
-> +  OS through min and max performance registers.
->  
+Relevant parts of this patch have been taken from messages exchanged
+privately with Ira Weiny (thanks!).
 
-The rest is LGTM.
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Ira Weiny <ira.weiny@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Mike Rapoport <rppt@linux.ibm.com>
+Cc: Peter Zijlstra <a.p.zijlstra@chello.nl>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
 
+Changes from v2:
+	Merge two sentences into one (thanks to bagas Sanjaya).
+
+ Documentation/mm/highmem.rst | 41 +++++++++++++++++++++++++++---------
+ 1 file changed, 31 insertions(+), 10 deletions(-)
+
+diff --git a/Documentation/mm/highmem.rst b/Documentation/mm/highmem.rst
+index 0f731d9196b0..e691a06fb337 100644
+--- a/Documentation/mm/highmem.rst
++++ b/Documentation/mm/highmem.rst
+@@ -57,7 +57,8 @@ list shows them in order of preference of use.
+   It can be invoked from any context (including interrupts) but the mappings
+   can only be used in the context which acquired them.
+ 
+-  This function should be preferred, where feasible, over all the others.
++  This function should always be used, whereas kmap_atomic() and kmap() have
++  been deprecated.
+ 
+   These mappings are thread-local and CPU-local, meaning that the mapping
+   can only be accessed from within this thread and the thread is bound to the
+@@ -100,10 +101,21 @@ list shows them in order of preference of use.
+   (included in the "Functions" section) for details on how to manage nested
+   mappings.
+ 
+-* kmap_atomic().  This permits a very short duration mapping of a single
+-  page.  Since the mapping is restricted to the CPU that issued it, it
+-  performs well, but the issuing task is therefore required to stay on that
+-  CPU until it has finished, lest some other task displace its mappings.
++* kmap_atomic(). This function has been deprecated; use kmap_local_page().
++
++  NOTE: Conversions to kmap_local_page() must take care to follow the mapping
++  restrictions imposed on kmap_local_page(). Furthermore, the code between
++  calls to kmap_atomic() and kunmap_atomic() may implicitly depend on the side
++  effects of atomic mappings, i.e. disabling page faults or preemption, or both.
++  In that case, explicit calls to pagefault_disable() or preempt_disable() or
++  both must be made in conjunction with the use of kmap_local_page().
++
++  [Legacy documentation]
++
++  This permits a very short duration mapping of a single page.  Since the
++  mapping is restricted to the CPU that issued it, it performs well, but
++  the issuing task is therefore required to stay on that CPU until it has
++  finished, lest some other task displace its mappings.
+ 
+   kmap_atomic() may also be used by interrupt contexts, since it does not
+   sleep and the callers too may not sleep until after kunmap_atomic() is
+@@ -115,11 +127,20 @@ list shows them in order of preference of use.
+ 
+   It is assumed that k[un]map_atomic() won't fail.
+ 
+-* kmap().  This should be used to make short duration mapping of a single
+-  page with no restrictions on preemption or migration. It comes with an
+-  overhead as mapping space is restricted and protected by a global lock
+-  for synchronization. When mapping is no longer needed, the address that
+-  the page was mapped to must be released with kunmap().
++* kmap(). This function has been deprecated; use kmap_local_page().
++
++  NOTE: Conversions to kmap_local_page() must take care to follow the mapping
++  restrictions imposed on kmap_local_page(). In particular, it is necessary to
++  make sure that the kernel virtual memory pointer is only valid in the thread
++  that obtained it.
++
++  [Legacy documentation]
++
++  This should be used to make short duration mapping of a single page with no
++  restrictions on preemption or migration. It comes with an overhead as mapping
++  space is restricted and protected by a global lock for synchronization. When
++  mapping is no longer needed, the address that the page was mapped to must be
++  released with kunmap().
+ 
+   Mapping changes must be propagated across all the CPUs. kmap() also
+   requires global TLB invalidation when the kmap's pool wraps and it might
 -- 
-An old man doll... just what I always wanted! - Clara
+2.39.0
 
