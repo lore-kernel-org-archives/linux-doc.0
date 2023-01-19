@@ -2,99 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00BEAC00A5A
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 16:26:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96575C004D4
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 16:29:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229520AbjASQ0i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 11:26:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50420 "EHLO
+        id S230314AbjASQ3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 11:29:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjASQ0h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 11:26:37 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 579BA4F34A;
-        Thu, 19 Jan 2023 08:26:36 -0800 (PST)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30JD1ldf019543;
-        Thu, 19 Jan 2023 16:26:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=fxEqCJ6Eyu2B6HdFbbL+rFgS3BmR8Vw49sjAoVUA4N4=;
- b=CPp2SRiFMICzKgyXstwlmkYo69M2W2b2YVJKjG121BECw/S5g1JvK5Q4dk7IQM7iPkqE
- vq9blWFbFgNZziBkAV15WqR0zDTTKGScQz62vuvvomgngTTKTWnYuoyv2JUuGl6Kk8Sq
- vsdDUsMX9NmGEIwJUvFr43X2Wxhm5JYOMDxqBlc4h/fPhJRMlAVzOmLML+TQJvfZoGON
- jM9uUAzGVhrzzmSuIi4iIJCez+qRzgJeOEht8daTeDBnOBeoWeqddqcvdGHNyv/MDBYJ
- 9dWS38hRPYd5hkJDftNQQIblY93fwiUIxsTJs90/M0LOsY313mhvmfMCLo6WZIuK/JwB wg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n6vjbhwcd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 19 Jan 2023 16:26:33 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30JGQWLD008720
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 19 Jan 2023 16:26:32 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Thu, 19 Jan 2023 08:26:31 -0800
-From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
-To:     <ogabbay@kernel.org>, <corbet@lwn.net>
-CC:     <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH] docs: accel: Fix debugfs path
-Date:   Thu, 19 Jan 2023 09:26:08 -0700
-Message-ID: <1674145568-31513-1-git-send-email-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+        with ESMTP id S230318AbjASQ3L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 11:29:11 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B45AB58657;
+        Thu, 19 Jan 2023 08:29:09 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 0AF0ACE24E4;
+        Thu, 19 Jan 2023 16:29:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FD29C433EF;
+        Thu, 19 Jan 2023 16:29:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674145746;
+        bh=Y5UiC66tqjbPnVN0nMB0hJCiOc1aq8w1rujscyAbAOc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=pBEWI2cZxBjwWoG76BSiadQrL5rjRWkcrWf+0CgygDYfm1QuBPzaVVfdmo+xoN+W2
+         8KJCTBBG+25CHcDO+7Dc/PZ9UQnxvagbdyUyPVP2eXMICKzNAsTPWg2MAyrDaG/4qI
+         o7AolPMH3wfdckZancCh1UwUVs3zBuJfDABJ0Q+0viKdCtSAGY1QqG4LflyFK96C5N
+         Eylb3IvU8AGHTvcqjlfJMC1u9CrcxIOb0c3KU+VrQrnNFNk3xffavpy7AZ9yXglLbx
+         cqmNkMaznpvv6ByiO99+g8ljW1W9Mq2Digz3bQu0dTWWD9YNmUPc0zxTcliC1ms4gH
+         nP3Ek6GR2iJiA==
+Received: by mail-yb1-f171.google.com with SMTP id 66so3220700yba.4;
+        Thu, 19 Jan 2023 08:29:06 -0800 (PST)
+X-Gm-Message-State: AFqh2kpYG8ao8O7ljSb7ERREcJOaTsSbKhKeBtmB5I1eQfPcIeI2fMQB
+        1bVO8IhAjspQ4MXSti/KEf2Gk8fvc7iBOnvMchM=
+X-Google-Smtp-Source: AMrXdXtaiaQPjHwUwKJVxb9BtKPFxfA/UNiZ4AIsS8iQjR5R8XxfhbuY1rB1EJe1OUu9UVA4FmofH0FqpMv0XKKEgJo=
+X-Received: by 2002:a25:e407:0:b0:754:e501:8b51 with SMTP id
+ b7-20020a25e407000000b00754e5018b51mr1433625ybh.197.1674145745379; Thu, 19
+ Jan 2023 08:29:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: eLVhhrsWMJ-Ci9r95qLTQ4tkkxiMBWBD
-X-Proofpoint-GUID: eLVhhrsWMJ-Ci9r95qLTQ4tkkxiMBWBD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-19_10,2023-01-19_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- suspectscore=0 priorityscore=1501 clxscore=1011 phishscore=0
- malwarescore=0 mlxscore=0 spamscore=0 impostorscore=0 mlxlogscore=808
- adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301190133
+References: <1674145568-31513-1-git-send-email-quic_jhugo@quicinc.com>
+In-Reply-To: <1674145568-31513-1-git-send-email-quic_jhugo@quicinc.com>
+From:   Oded Gabbay <ogabbay@kernel.org>
+Date:   Thu, 19 Jan 2023 18:28:38 +0200
+X-Gmail-Original-Message-ID: <CAFCwf13SAQMu1ssTtDHru5KSRMb2g_x-K_GBJn5bSG21_QYXdg@mail.gmail.com>
+Message-ID: <CAFCwf13SAQMu1ssTtDHru5KSRMb2g_x-K_GBJn5bSG21_QYXdg@mail.gmail.com>
+Subject: Re: [PATCH] docs: accel: Fix debugfs path
+To:     Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc:     corbet@lwn.net, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The device specific directory in debugfs does not have "accel".  For
-example, the documentation says device 0 should have a debugfs entry as
-/sys/kernel/debug/accel/accel0/ but in reality the entry is
-/sys/kernel/debug/accel/0/
+On Thu, Jan 19, 2023 at 6:26 PM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
+>
+> The device specific directory in debugfs does not have "accel".  For
+> example, the documentation says device 0 should have a debugfs entry as
+> /sys/kernel/debug/accel/accel0/ but in reality the entry is
+> /sys/kernel/debug/accel/0/
+>
+> Fix the documentation to match the implementation.
+>
+> Fixes: 8c5577a5ccc6 ("doc: add documentation for accel subsystem")
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> ---
+>  Documentation/accel/introduction.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/accel/introduction.rst b/Documentation/accel/introduction.rst
+> index 6f31af1..11cade5 100644
+> --- a/Documentation/accel/introduction.rst
+> +++ b/Documentation/accel/introduction.rst
+> @@ -69,7 +69,7 @@ The accelerator devices will be exposed to the user space with the dedicated
+>
+>  - device char files - /dev/accel/accel*
+>  - sysfs             - /sys/class/accel/accel*/
+> -- debugfs           - /sys/kernel/debug/accel/accel*/
+> +- debugfs           - /sys/kernel/debug/accel/*/
+>
+>  Getting Started
+>  ===============
+> --
+> 2.7.4
+>
 
-Fix the documentation to match the implementation.
-
-Fixes: 8c5577a5ccc6 ("doc: add documentation for accel subsystem")
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
----
- Documentation/accel/introduction.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/accel/introduction.rst b/Documentation/accel/introduction.rst
-index 6f31af1..11cade5 100644
---- a/Documentation/accel/introduction.rst
-+++ b/Documentation/accel/introduction.rst
-@@ -69,7 +69,7 @@ The accelerator devices will be exposed to the user space with the dedicated
- 
- - device char files - /dev/accel/accel*
- - sysfs             - /sys/class/accel/accel*/
--- debugfs           - /sys/kernel/debug/accel/accel*/
-+- debugfs           - /sys/kernel/debug/accel/*/
- 
- Getting Started
- ===============
--- 
-2.7.4
-
+Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+Thanks,
+Oded
