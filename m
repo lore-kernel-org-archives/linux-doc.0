@@ -2,95 +2,66 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68488C004D4
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 21:14:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB34C004D4
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 21:14:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230156AbjASVOG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 16:14:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33856 "EHLO
+        id S229788AbjASVOH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 16:14:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229788AbjASVNY (ORCPT
+        with ESMTP id S230059AbjASVNY (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 16:13:24 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56F3F460AD
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 13:09:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674162565; x=1705698565;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FPV+sXUT6RwMIun09rFdCTGoTBlBDkJSiO7/m9iiaW0=;
-  b=GN4ATipuRwUp58KGhYw7cxVopxxGNs0x5gSTWl7EUetSgsBLqdnXR2/j
-   SU1WMjr6I2iGUNSlw553Cmh+IkG6/oNPP9rWwK/WqUeJYphKEILM8GTQP
-   RGeTBhjiFsNxGDbQiWQscGB5C6SMhsuI55VJG8qvZsUKAD569INFHy6Zh
-   to0zpEJaXTHbibal17ial/e67toRojAbpUzo3XZWaQNlZzXjki6ubSUZz
-   5XwKDMFBeA5cSnDiCcTsnzX4rKFV2TA8+jLlgC01t8wYyQfnW7pJ9UOx+
-   Z7KxRT4d+ULB+Rz1PT1MBcVymAGem9jE3zaTk4bebWTHCTjdUxKcGae0v
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="305792357"
-X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="305792357"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 13:09:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="728846417"
-X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="728846417"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Jan 2023 13:09:23 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pIc9z-0001rK-14;
-        Thu, 19 Jan 2023 21:09:23 +0000
-Date:   Fri, 20 Jan 2023 05:09:11 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mario Limonciello <mario.limonciello@amd.com>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Alex Deucher <alexander.deucher@amd.com>,
-        linux-doc@vger.kernel.org
-Subject: [agd5f:drm-next 251/262] htmldocs:
- Documentation/gpu/amdgpu/driver-misc.rst:38: WARNING: "csv-table" widths do
- not match the number of columns in table (7).
-Message-ID: <202301200440.NYkEqozZ-lkp@intel.com>
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B51DD2748C;
+        Thu, 19 Jan 2023 13:09:24 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 59C8E359;
+        Thu, 19 Jan 2023 21:09:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 59C8E359
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1674162564; bh=A5Zz/yiuvjOWBmyGWIOHswcn5ewUhZYXAGNXTnyzqU0=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=heZwQbRvrCO3PIAZ/0BIse7NMy6liObuJf1f2xUfP/VDhIr6TM4lXo6q5F12BKuw8
+         4lWEFro2Kja1PpVFPi+XaJfETOX/893pTskvht27SuIEZ0C6JaxmrhQGGS4FpVkpdb
+         qbou1iIXkY+HIwcE1O4DkMiR5OG9FE04YMKSCL7GuWjn6qyuuEUdRTkl2ztAFegifb
+         CQ8GSpBn8VY8wtlGN2pmCSziop96t6UgLYY3sdoxTbePSulSlE+NatIosOZ769Ejrq
+         VFXWhjCoOkD/TiFqpTVgAStg4ED+5HD381MRrSv7z7E3nz2mBWOqy+rPVYDyvlBRZ0
+         dEJn7WyLoS5TQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jakob Koschel <jkl820.git@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jakob Koschel <jkl820.git@gmail.com>
+Subject: Re: [PATCH] docs/scripts/gdb: add necessary make scripts_gdb step
+In-Reply-To: <20230112-documentation-gdb-v1-1-09ab556e9124@gmail.com>
+References: <20230112-documentation-gdb-v1-1-09ab556e9124@gmail.com>
+Date:   Thu, 19 Jan 2023 14:09:23 -0700
+Message-ID: <878rhy8c58.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
-head:   52c5cea1ba6bf42e8f34ac045d5e8fa57dcb38d4
-commit: 15c4ed80669b2457f8e856cd7b654dd3e7680b27 [251/262] Documentation/gpu: Add MP0 version to apu-asic-info-table
-reproduce:
-        git remote add agd5f https://gitlab.freedesktop.org/agd5f/linux.git
-        git fetch --no-tags agd5f drm-next
-        git checkout 15c4ed80669b2457f8e856cd7b654dd3e7680b27
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Jakob Koschel <jkl820.git@gmail.com> writes:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+> In order to debug the kernel successfully with gdb you need to run
+> 'make scripts_gdb' nowadays.
+>
+> This was changed with the following commit:
+>
+> Commit 67274c083438340ad16c ("scripts/gdb: delay generation of gdb
+> constants.py")
+>
+> In order to have a complete guide for beginners this remark
+> should be added to the offial documentation.
+>
+> ---
+>
+>
+> Signed-off-by: Jakob Koschel <jkl820.git@gmail.com>
 
-All warnings (new ones prefixed by >>):
+Applied, thanks.
 
->> Documentation/gpu/amdgpu/driver-misc.rst:38: WARNING: "csv-table" widths do not match the number of columns in table (7).
-
-vim +38 Documentation/gpu/amdgpu/driver-misc.rst
-
-9d9b217d52b41f Rodrigo Siqueira 2022-08-11  37  
-9d9b217d52b41f Rodrigo Siqueira 2022-08-11 @38  .. csv-table::
-9d9b217d52b41f Rodrigo Siqueira 2022-08-11  39     :header-rows: 1
-9d9b217d52b41f Rodrigo Siqueira 2022-08-11  40     :widths: 3, 2, 2, 1, 1, 1
-9d9b217d52b41f Rodrigo Siqueira 2022-08-11  41     :file: ./apu-asic-info-table.csv
-9d9b217d52b41f Rodrigo Siqueira 2022-08-11  42  
-
-:::::: The code at line 38 was first introduced by commit
-:::::: 9d9b217d52b41f6d99279211b83c26b2484a142b Documentation/gpu: Add info table for ASICs
-
-:::::: TO: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+jon
