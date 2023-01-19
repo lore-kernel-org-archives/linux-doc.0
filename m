@@ -2,192 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC86EC6379F
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 22:55:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF0D1C004D4
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 23:23:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230322AbjASWzO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 17:55:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44582 "EHLO
+        id S229724AbjASXXf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 18:23:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229807AbjASWyd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 17:54:33 -0500
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 459635895D;
-        Thu, 19 Jan 2023 14:37:07 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id f3so2768049pgc.2;
-        Thu, 19 Jan 2023 14:37:07 -0800 (PST)
+        with ESMTP id S229575AbjASXXe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 18:23:34 -0500
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 249BCC2;
+        Thu, 19 Jan 2023 15:23:32 -0800 (PST)
+Received: by mail-ej1-x642.google.com with SMTP id ud5so9853073ejc.4;
+        Thu, 19 Jan 2023 15:23:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=c3/xglDrs4GgAM40Pjq1vzK1v2T7qf4JcCCRFWl6k4g=;
-        b=NSYj639Mp9v5ap+wI0hCjvD0/JJIjDFxjIAk8s0W6QQZeGagLHTMYL5/dvvI2DPi4B
-         +aGueObJ+RXaUVDn4NiXYFIhEcPYWxInkxzarthRsu1sZZ256/vMx7XvGmJtSYSWRLwB
-         vl6fpplWJgAyhnKrjElYHYhD8OeiwcbmHLjIG5BiksGBX7KJzcLCywEenDObbw+Mxjwr
-         pmu+l0l6CF6xX7jvLuX0TRIXSYOrvw5purr8S55V7TS8hL4NzHy8DcBRiXHfgymzDvFg
-         PvZjALLBOjVmU5MNA64b0nuXlR2yYuFwQaHv+ETJElDhkdksrjTql7nEvp7HQxv7QCn3
-         HOLw==
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8DGpgiYGDw6FkTW7tBePouJaM0hNgJ2GPhgSnYe3qzM=;
+        b=dxFittEFd7ZZTeIUxCkcyFFbtWAGVpLauvBjmr39x4O8whTZd5VinA1geQ7tFl0KIx
+         lsiSASLn+IkCZIIuSXcHfOXmgoOUDHGpFYgFsXtQngWlUyqJ15z0Yeh0y0YJEJIPvCCN
+         Xo/QYqrmgJT2sEe4eb4Ki2d1TW1hlJX4uaZ9GS40aVrbUlSwEcl+XEJuqOXFozH5FHlv
+         x/f5ZhFuxOacFWR1pAwlo6HhC6ZhFCfwlHvRVmD4CFOQXUe4k3tuAncWOVI4bF4UUrKY
+         7d58swG3RvDjM0sPw6k+r5MjP+X3WO0BCny0ze6+pN51C7FrL2tzpbdk+f5hzAzt2qEl
+         3ncA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c3/xglDrs4GgAM40Pjq1vzK1v2T7qf4JcCCRFWl6k4g=;
-        b=OpVuXW90GREJ8IPsBgaqU3tmELFOp4W+5eWlo+Q4wj0EQvohSimiv5iIP/nbKMBSDl
-         +QgbbhwKsf2aXFQ+yWDH62NAvqLscYAkolUtMrSzIA+U8gZJ3CBuYgUlDQVWFOkgHmQm
-         Z8EB1vbArrSTFv/3geeyzgVVJQ67U1Z3wslOnP0+oDDO5qU//mfNbAJ9104Y7HN7IIP+
-         zcjXcxunpwpwa/kJ4MoteHh2xf45+xrYrP9IfH9oS9j3rLCGFMEXeWZOOSk+p1x815Ry
-         SsGhayfVldf9dr8TwS/QcO2bs5T/IS/yy54lYdPsy4KkftCwkmPe2h5Bm0tlrKBTZcL2
-         2Ilg==
-X-Gm-Message-State: AFqh2ko9jBOMzyZ/8bInYMczvJo1WTEnXDMpYXwlreoiix5J3ddKEY5O
-        YiIgHEDFbkTDmlDqffsrRII=
-X-Google-Smtp-Source: AMrXdXtheeUgW/ehdT20D8crA3E+xLX19dRj8kq2j9cAtxWEF6/jTGrekTIsjKUTNo8D+nlbVHnJHA==
-X-Received: by 2002:a62:ab0b:0:b0:58b:46c9:a6b1 with SMTP id p11-20020a62ab0b000000b0058b46c9a6b1mr13080521pff.33.1674167826597;
-        Thu, 19 Jan 2023 14:37:06 -0800 (PST)
-Received: from localhost ([192.55.54.55])
-        by smtp.gmail.com with ESMTPSA id c202-20020a621cd3000000b0058dc1d54db1sm6563910pfc.206.2023.01.19.14.37.05
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8DGpgiYGDw6FkTW7tBePouJaM0hNgJ2GPhgSnYe3qzM=;
+        b=duIKhr2D/mDgCwdNHbnEcwJyFHQZ+0BQ/VsSE5K13Z3y3MHDkaB9ABMQVX9nMoHo3O
+         yjRmAcFSoRVQnF8zgJlPR02IbNAfazJqLcuKHgwCRAkufyyOkwMmIK+AEYhJnaVoPoHS
+         YpFBT23ATGkAap58h4WrJ03ENlDlOn1enVFkwUhzGxlx5UpR1p8OqCNZBShQ041N4koC
+         WtJom8sjAfgUcT1spTZ0CVVNiL98HCNr33XJG/ErVAHushSoWwGV5Hu1PTiV5mwkbV4/
+         Cy+ty3bfEPKy1dmC10hZdA/L3WYSLkCbv9S5FARxifyyHZTE3nkcHKWj+4GZm+fUZrr4
+         uYOg==
+X-Gm-Message-State: AFqh2kqfnB6rlgTiIpPPtKpfDN1B04Cj+E+cZWOmPzpA9aYoEQkGPK2/
+        YsF9YWbce8dzJpl8C9Wp+clGkdb8PXXs6Q==
+X-Google-Smtp-Source: AMrXdXttdOs/ggl9oW7qjKrudW7xZqvfwUgElT+nvQ8eQGO5ZzoWD8ZmYz3V0yVDFSC7ZGgWOv0+hw==
+X-Received: by 2002:a17:906:5417:b0:877:5dbc:da84 with SMTP id q23-20020a170906541700b008775dbcda84mr7962484ejo.72.1674170610747;
+        Thu, 19 Jan 2023 15:23:30 -0800 (PST)
+Received: from [127.0.1.1] (i130160.upc-i.chello.nl. [62.195.130.160])
+        by smtp.googlemail.com with ESMTPSA id u21-20020a1709064ad500b00855d6ed60desm13093390ejt.192.2023.01.19.15.23.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 14:37:05 -0800 (PST)
-Date:   Thu, 19 Jan 2023 14:37:04 -0800
-From:   Isaku Yamahata <isaku.yamahata@gmail.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Isaku Yamahata <isaku.yamahata@gmail.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-Message-ID: <20230119223704.GD2976263@ls.amr.corp.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <Y8H5Z3e4hZkFxAVS@google.com>
- <20230119111308.GC2976263@ls.amr.corp.intel.com>
- <Y8lg1G2lRIrI/hld@google.com>
+        Thu, 19 Jan 2023 15:23:30 -0800 (PST)
+From:   Jakob Koschel <jkl820.git@gmail.com>
+Date:   Fri, 20 Jan 2023 00:23:20 +0100
+Subject: [PATCH v2] docs/scripts/gdb: add necessary make scripts_gdb step
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y8lg1G2lRIrI/hld@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230112-documentation-gdb-v2-1-292785c43dc9@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAOjQyWMC/32NTQ7CIBBGr2JmLQamtkldeQ/TxQDTlkTAADaap
+ neX9gAu3/eTt0Lm5DjD7bRC4sVlF0MFPJ/AzBQmFs5WBpTYSKVQ2GjenkOhUpdislrQKKXFRqPu
+ JNSfpsxCJwpm3p+ecuG0F6/Eo/scssdQeXa5xPQ93Iva03+aRQklZE+6bTvuFV7vkyf3vJjoYdi
+ 27QeRjaPQywAAAA==
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jakob Koschel <jkl820.git@gmail.com>
+X-Mailer: b4 0.11.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674170610; l=1456;
+ i=jkl820.git@gmail.com; s=20230112; h=from:subject:message-id;
+ bh=3W6+W19na9oCoUtm0oHRdq58UYpKhHaVRjP5Hz+vctc=;
+ b=wdTEA3IYp4TiRylTeGZWzhOPiS9maBfDgZagABMYNhDcNwA2fQ4xAM0NFEwou8IoM5BvRLrm7l1I
+ RAMWwMlPAxAkDPfXF3fuNQISCwMyESSZvUsdR4c8qREHJmVBitMB
+X-Developer-Key: i=jkl820.git@gmail.com; a=ed25519;
+ pk=rcRpP90oZXet9udPj+2yOibfz31aYv8tpf0+ZYOQhyA=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 03:25:08PM +0000,
-Sean Christopherson <seanjc@google.com> wrote:
+In order to debug the kernel successfully with gdb you need to run
+'make scripts_gdb' nowadays.
 
-> On Thu, Jan 19, 2023, Isaku Yamahata wrote:
-> > On Sat, Jan 14, 2023 at 12:37:59AM +0000,
-> > Sean Christopherson <seanjc@google.com> wrote:
-> > 
-> > > On Fri, Dec 02, 2022, Chao Peng wrote:
-> > > > This patch series implements KVM guest private memory for confidential
-> > > > computing scenarios like Intel TDX[1]. If a TDX host accesses
-> > > > TDX-protected guest memory, machine check can happen which can further
-> > > > crash the running host system, this is terrible for multi-tenant
-> > > > configurations. The host accesses include those from KVM userspace like
-> > > > QEMU. This series addresses KVM userspace induced crash by introducing
-> > > > new mm and KVM interfaces so KVM userspace can still manage guest memory
-> > > > via a fd-based approach, but it can never access the guest memory
-> > > > content.
-> > > > 
-> > > > The patch series touches both core mm and KVM code. I appreciate
-> > > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
-> > > > reviews are always welcome.
-> > > >   - 01: mm change, target for mm tree
-> > > >   - 02-09: KVM change, target for KVM tree
-> > > 
-> > > A version with all of my feedback, plus reworked versions of Vishal's selftest,
-> > > is available here:
-> > > 
-> > >   git@github.com:sean-jc/linux.git x86/upm_base_support
-> > > 
-> > > It compiles and passes the selftest, but it's otherwise barely tested.  There are
-> > > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
-> > > a WIP.
-> > > 
-> > > As for next steps, can you (handwaving all of the TDX folks) take a look at what
-> > > I pushed and see if there's anything horrifically broken, and that it still works
-> > > for TDX?
-> > > 
-> > > Fuad (and pKVM folks) same ask for you with respect to pKVM.  Absolutely no rush
-> > > (and I mean that).
-> > > 
-> > > On my side, the two things on my mind are (a) tests and (b) downstream dependencies
-> > > (SEV and TDX).  For tests, I want to build a lists of tests that are required for
-> > > merging so that the criteria for merging are clear, and so that if the list is large
-> > > (haven't thought much yet), the work of writing and running tests can be distributed.
-> > > 
-> > > Regarding downstream dependencies, before this lands, I want to pull in all the
-> > > TDX and SNP series and see how everything fits together.  Specifically, I want to
-> > > make sure that we don't end up with a uAPI that necessitates ugly code, and that we
-> > > don't miss an opportunity to make things simpler.  The patches in the SNP series to
-> > > add "legacy" SEV support for UPM in particular made me slightly rethink some minor
-> > > details.  Nothing remotely major, but something that needs attention since it'll
-> > > be uAPI.
-> > 
-> > Although I'm still debuging with TDX KVM, I needed the following.
-> > kvm_faultin_pfn() is called without mmu_lock held.  the race to change
-> > private/shared is handled by mmu_seq.  Maybe dedicated function only for
-> > kvm_faultin_pfn().
-> 
-> Gah, you're not on the other thread where this was discussed[*].  Simply deleting
-> the lockdep assertion is safe, for guest types that rely on the attributes to
-> define shared vs. private, KVM rechecks the attributes under the protection of
-> mmu_seq.
-> 
-> I'll get a fixed version pushed out today.
-> 
-> [*] https://lore.kernel.org/all/Y8gpl+LwSuSgBFks@google.com
+This was changed with the following commit:
 
-Now I have tdx kvm working. I've uploaded at the followings.
-It's rebased to v6.2-rc3.
-        git@github.com:yamahata/linux.git tdx/upm
-        git@github.com:yamahata/qemu.git tdx/upm
+Commit 67274c083438340ad16c ("scripts/gdb: delay generation of gdb
+constants.py")
 
-kvm_mmu_do_page_fault() needs the following change.
-kvm_mem_is_private() queries mem_attr_array.  kvm_faultin_pfn() also uses
-kvm_mem_is_private(). So the shared-private check in kvm_faultin_pfn() doesn't
-make sense. This change would belong to TDX KVM patches, though.
+In order to have a complete guide for beginners this remark
+should be added to the offial documentation.
 
-diff --git a/arch/x86/kvm/mmu/mmu_internal.h b/arch/x86/kvm/mmu/mmu_internal.h
-index 72b0da8e27e0..f45ac438bbf4 100644
---- a/arch/x86/kvm/mmu/mmu_internal.h
-+++ b/arch/x86/kvm/mmu/mmu_internal.h
-@@ -430,7 +430,7 @@ static inline int kvm_mmu_do_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
-                .max_level = vcpu->kvm->arch.tdp_max_page_level,
-                .req_level = PG_LEVEL_4K,
-                .goal_level = PG_LEVEL_4K,
--               .is_private = kvm_mem_is_private(vcpu->kvm, cr2_or_gpa >> PAGE_SHIFT),
-+               .is_private = kvm_is_private_gpa(vcpu->kvm, cr2_or_gpa),
-        };
-        int r;
+Signed-off-by: Jakob Koschel <jkl820.git@gmail.com>
+---
+Changes in v2:
+- Add correct Signed-off-by
+- Link to v1: https://lore.kernel.org/r/20230112-documentation-gdb-v1-1-09ab556e9124@gmail.com
+---
+ Documentation/dev-tools/gdb-kernel-debugging.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
+diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/dev-tools/gdb-kernel-debugging.rst
+index 8e0f1fe8d17a..895285c037c7 100644
+--- a/Documentation/dev-tools/gdb-kernel-debugging.rst
++++ b/Documentation/dev-tools/gdb-kernel-debugging.rst
+@@ -39,6 +39,10 @@ Setup
+   this mode. In this case, you should build the kernel with
+   CONFIG_RANDOMIZE_BASE disabled if the architecture supports KASLR.
+ 
++- Build the gdb scripts (required on kernels v5.1 and above)::
++
++    make scripts_gdb
++
+ - Enable the gdb stub of QEMU/KVM, either
+ 
+     - at VM startup time by appending "-s" to the QEMU command line
 
+---
+base-commit: c757fc92a3f73734872c7793b97f06434773d65d
+change-id: 20230112-documentation-gdb-af00d23b2b60
+
+Best regards,
 -- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+Jakob Koschel <jkl820.git@gmail.com>
