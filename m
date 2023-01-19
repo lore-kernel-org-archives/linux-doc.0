@@ -2,235 +2,201 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEA1BC004D4
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 08:30:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4F0EC00A5A
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 09:39:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229811AbjASIan (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 03:30:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47644 "EHLO
+        id S229788AbjASJjC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 04:39:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229695AbjASIal (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 03:30:41 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DA45AC;
-        Thu, 19 Jan 2023 00:30:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674117040; x=1705653040;
-  h=from:to:cc:subject:references:date:in-reply-to:
-   message-id:mime-version;
-  bh=LxcRD6HtB+g61OccydTNj4VaTJvaQZCVLDO3oTLNvDo=;
-  b=Yo8OWacdV5VyAA28nuKCWPqrUuKpurkwTynHun6DX4vRWBjbZm1WlhwU
-   UyBGtrprcdqBfzni5UI7OEaeIYEbaD/LctX4siQrJGih3EL8Ne6tRdGh0
-   jeo8sBkLXc65VGugEXzRvD7rik0S0eS0bLmIADye/Pl7yAtvVukoSQRi3
-   FQai+gOLJJZAVqpzmYbCXgA7ZewfWKnlPH336QWvmWOdD3nmMXzWwxxEg
-   0kWTYAXP554lhH5CtIcoTrU3aL2U4fFaQDPCDOoUVksn8/jCfPMEQPUg5
-   TdYpXi75mMfRKolPAxbOmevQuasPo5DUEyFr5jgzNmlvgLnRxAf7mHmHi
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="327303773"
-X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="327303773"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 00:30:39 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="768119456"
-X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="768119456"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 00:30:32 -0800
-From:   "Huang, Ying" <ying.huang@intel.com>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Mina Almasry <almasrymina@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Yosry Ahmed <yosryahmed@google.com>, weixugc@google.com,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <songmuchun@bytedance.com>, fvdl@google.com,
-        bagasdotme@gmail.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, Yuanchu Xie <yuanchu@google.com>
-Subject: Re: Proactive reclaim/demote discussion (was Re: [PATCH] Revert
- "mm: add nodes= arg to memory.reclaim")
-References: <20221202223533.1785418-1-almasrymina@google.com>
-        <Y5bsmpCyeryu3Zz1@dhcp22.suse.cz> <Y5xASNe1x8cusiTx@dhcp22.suse.cz>
-        <20221216101820.3f4a370af2c93d3c2e78ed8a@linux-foundation.org>
-        <Y52Scge3ynvn/mB4@dhcp22.suse.cz>
-        <20221219144252.f3da256e75e176905346b4d1@linux-foundation.org>
-        <Y7PpYsbv1xC6m/Hu@dhcp22.suse.cz>
-        <87lemiitdd.fsf_-_@yhuang6-desk2.ccr.corp.intel.com>
-        <Y8gqkub3AM6c+Z5y@dhcp22.suse.cz>
-Date:   Thu, 19 Jan 2023 16:29:33 +0800
-In-Reply-To: <Y8gqkub3AM6c+Z5y@dhcp22.suse.cz> (Michal Hocko's message of
-        "Wed, 18 Jan 2023 18:21:22 +0100")
-Message-ID: <87a62fdj0y.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        with ESMTP id S229796AbjASJjA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 04:39:00 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DDA36C55E;
+        Thu, 19 Jan 2023 01:38:46 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id jm10so1765478plb.13;
+        Thu, 19 Jan 2023 01:38:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JfBVelv4aEwBb1YzL1pBGhsM2qMsLGoSKaCTLvIA0+8=;
+        b=gD7dQBEZntcLnhi3RB0+MltROhlLsf5/kauy3NlLvWIlHO4r+oXbj2VSr0s7alIWbJ
+         ahCizbBH0629aGlsniSEGqgst8nnu5pOsHdVnjx4giV5VSPeiXvRfUNvabaRnGCkXciK
+         e+nYdaGEdgamTMI93jakjkyz9/q5tn2o61CBWveHQg2VX5lagXmC+zFJ5pm6yzaGwf7v
+         R4fUach8vU3WR8YRaL4+wL7xBNgVI3e81WbxDU5/KDwlAEiP1RMr6Ukp3xxRxTTVKMHb
+         HPGJ4SODFhxwj9rkrOD1t7OmIf1mD1apjcC992ySJXg508UpkqW24dsjHmgFWJ0jO5eM
+         Ecqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JfBVelv4aEwBb1YzL1pBGhsM2qMsLGoSKaCTLvIA0+8=;
+        b=guZ8oQL8ESj0c1Cq04Cr8TJ6/GZJoPDldxxnXgBCfHV5fATKgFRKtbRgFIWwtflZS9
+         uFntH1o7ZeUGrVPPPFPF96EkNLIqACAghIXrozCSRWGNlitFPr8nC+i3UbjU16RjiSuy
+         I3ppeTNuEsKaQPuJq7mZtsxoAJOW3Pw1h6IQlr3aS0teMIhG/3g8p5fvHIatbrji60o+
+         veEMgVS34t0zpB5E3pwsza7fVd6X61IgbOuopBQjVmTBbAfeZFYW35vWNEQRXs73IJm4
+         OKEijcOnsPLcCkU3xhK7jATjwWcGtcvFzugDM8bPoRc+D2dLs9BLmxX3B74vh0L7zBgl
+         Pvkg==
+X-Gm-Message-State: AFqh2krkLiCX4H8OliQN6ybMQW9X7KGHTwYuO9/ycjBSqYhuqYyhGBMc
+        A5jr3AovHd4hMFKoDPBWQO8=
+X-Google-Smtp-Source: AMrXdXs5XnufN19FRhDIUPqVcKaRcXpI/o3i6WXBhY2Ma29PsyPKg1QDVY4pRPpdqeTdsS2FHynAiw==
+X-Received: by 2002:a17:902:7042:b0:189:7548:2096 with SMTP id h2-20020a170902704200b0018975482096mr9808913plt.45.1674121125970;
+        Thu, 19 Jan 2023 01:38:45 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-69.three.co.id. [180.214.232.69])
+        by smtp.gmail.com with ESMTPSA id n3-20020a170903110300b00189f2fdbdd0sm24604975plh.234.2023.01.19.01.38.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jan 2023 01:38:45 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id E4998105027; Thu, 19 Jan 2023 16:38:41 +0700 (WIB)
+Date:   Thu, 19 Jan 2023 16:38:41 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Tianfei Zhang <tianfei.zhang@intel.com>, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, linux-fpga@vger.kernel.org,
+        lukas@wunner.de, kabel@kernel.org, mani@kernel.org,
+        pali@kernel.org, mdf@kernel.org, hao.wu@intel.com,
+        yilun.xu@intel.com, trix@redhat.com, jgg@ziepe.ca,
+        ira.weiny@intel.com, andriy.shevchenko@linux.intel.com,
+        dan.j.williams@intel.com, keescook@chromium.org, rafael@kernel.org,
+        russell.h.weight@intel.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ilpo.jarvinen@linux.intel.com,
+        lee@kernel.org, gregkh@linuxfoundation.org,
+        matthew.gerlach@linux.intel.com
+Subject: Re: [PATCH v1 12/12] Documentation: fpga: add description of fpgahp
+ driver
+Message-ID: <Y8kPoXnCNyB7AwUv@debian.me>
+References: <20230119013602.607466-1-tianfei.zhang@intel.com>
+ <20230119013602.607466-13-tianfei.zhang@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="qVl6dm7wN+8OEMm3"
+Content-Disposition: inline
+In-Reply-To: <20230119013602.607466-13-tianfei.zhang@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Michal Hocko <mhocko@suse.com> writes:
 
-> On Wed 04-01-23 16:41:50, Huang, Ying wrote:
->> Michal Hocko <mhocko@suse.com> writes:
->> 
->> [snip]
->> 
->> > This really requires more discussion.
->> 
->> Let's start the discussion with some summary.
->> 
->> Requirements:
->> 
->> - Proactive reclaim.  The counting of current per-memcg proactive
->>   reclaim (memory.reclaim) isn't correct.  The demoted, but not
->>   reclaimed pages will be counted as reclaimed.  So "echo XXM >
->>   memory.reclaim" may exit prematurely before the specified number of
->>   memory is reclaimed.
->
-> This is reportedly a problem because memory.reclaim interface cannot be
-> used for proper memcg sizing IIRC.
->
->> - Proactive demote.  We need an interface to do per-memcg proactive
->>   demote.
->
-> For the further discussion it would be useful to reference the usecase
-> that is requiring this functionality. I believe this has been mentioned
-> somewhere but having it in this thread would help.
+--qVl6dm7wN+8OEMm3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sure.
+On Wed, Jan 18, 2023 at 08:36:02PM -0500, Tianfei Zhang wrote:
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> +FPGA Hotplug Manager Driver
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> +
+> +Authors:
+> +
+> +- Tianfei Zhang <tianfei.zhang@intel.com>
+> +
+> +There are some board managements for PCIe-based FPGA card like burning t=
+he entire
+> +image, loading a new FPGA image or BMC firmware in FPGA deployment of da=
+ta center
+> +or cloud. For example, loading a new FPGA image, the driver needs to rem=
+ove all of
+> +PCI devices like PFs/VFs and as well as any other types of devices (plat=
+form, etc.)
+> +defined within the FPGA. After triggering the image load of the FPGA car=
+d via BMC,
+> +the driver reconfigures the PCI bus. The FPGA Hotplug Manager (fpgahp) d=
+river manages
+> +those devices and functions leveraging the PCI hotplug framework to deal=
+ with the
+> +reconfiguration of the PCI bus and removal/probe of PCI devices below th=
+e FPGA card.
+> +
+> +This fpgahp driver adds 2 new callbacks to extend the hotplug mechanism =
+to
+> +allow selecting and loading a new FPGA image.
+> +
+> + - available_images: Optional: called to return the available images of =
+a FPGA card.
+> + - image_load: Optional: called to load a new image for a FPGA card.
+> +
+> +In general, the fpgahp driver provides some sysfs files::
+> +
+> +        /sys/bus/pci/slots/<X-X>/available_images
+> +        /sys/bus/pci/slots/<X-X>/image_load
 
-Google people in [1] and [2] request a per-cgroup interface to demote
-but not reclaim proactively.
+The doc reads a rather confused to me, so I have to make wording improv:
 
-"
-For jobs of some latency tiers, we would like to trigger proactive
-demotion (which incurs relatively low latency on the job), but not
-trigger proactive reclaim (which incurs a pagefault).
-"
+---- >8 ----
+diff --git a/Documentation/fpga/fpgahp.rst b/Documentation/fpga/fpgahp.rst
+index 3ec34bbffde10c..73f1b53de1cf85 100644
+--- a/Documentation/fpga/fpgahp.rst
++++ b/Documentation/fpga/fpgahp.rst
+@@ -8,22 +8,22 @@ Authors:
+=20
+ - Tianfei Zhang <tianfei.zhang@intel.com>
+=20
+-There are some board managements for PCIe-based FPGA card like burning the=
+ entire
+-image, loading a new FPGA image or BMC firmware in FPGA deployment of data=
+ center
+-or cloud. For example, loading a new FPGA image, the driver needs to remov=
+e all of
+-PCI devices like PFs/VFs and as well as any other types of devices (platfo=
+rm, etc.)
+-defined within the FPGA. After triggering the image load of the FPGA card =
+via BMC,
+-the driver reconfigures the PCI bus. The FPGA Hotplug Manager (fpgahp) dri=
+ver manages
+-those devices and functions leveraging the PCI hotplug framework to deal w=
+ith the
+-reconfiguration of the PCI bus and removal/probe of PCI devices below the =
+FPGA card.
+=20
+-This fpgahp driver adds 2 new callbacks to extend the hotplug mechanism to
+-allow selecting and loading a new FPGA image.
++The FPGA Hotplug Manager (fpgahp) manages PCIe-based FPGA card devices.
++The PCI bus reconfiguration and device probe for devices below the FPGA
++card are done by leveraging the PCI hotplug framework.
+=20
+- - available_images: Optional: called to return the available images of a =
+FPGA card.
+- - image_load: Optional: called to load a new image for a FPGA card.
++The driver can be helpful in device management tasks like burning the enti=
+re
++image and loading a new FPGA image or BMC firmware in FPGA deployment of d=
+ata
++center or cloud. For example, when loading the image, the driver needs to
++remove all of PCI devices like PFs/VFs and as well as any other types of
++devices (platform, etc.) defined within the FPGA. After triggering the ima=
+ge
++load of the FPGA card via BMC, the driver reconfigures the appropriate PCI=
+ bus.
+=20
+-In general, the fpgahp driver provides some sysfs files::
++The driver adds 2 new sysfs callbacks to extend the hotplug mechanism to
++allow selecting and loading a new FPGA image:
++
++ - ``/sys/bus/pci/slots/<X-X>/available_images``: list available images for
++   a FPGA card.
++ - ``/sys/bus/pci/slots/<X-X>/image_load``: load the image.
+=20
+-        /sys/bus/pci/slots/<X-X>/available_images
+-        /sys/bus/pci/slots/<X-X>/image_load
 
-Meta people (Johannes) in [3] say they used per-cgroup memory.reclaim
-for demote and reclaim proactively.
+Thanks.
 
- [1] https://lore.kernel.org/linux-mm/CAHS8izM-XdLgFrQ1k13X-4YrK=JGayRXV_G3c3Qh4NLKP7cH_g@mail.gmail.com/
- [2] https://lore.kernel.org/linux-mm/CAJD7tkZNW=u1TD-Fd_3RuzRNtaFjxihbGm0836QHkdp0Nn-vyQ@mail.gmail.com/
- [3] https://lore.kernel.org/linux-mm/Y35fw2JSAeAddONg@cmpxchg.org/
+--=20
+An old man doll... just what I always wanted! - Clara
 
->> We may reuse memory.reclaim via extending the concept of
->>   reclaiming to include demoting.  Or, we can add a new interface for
->>   that (for example, memory.demote).  In addition to demote from fast
->>   tier to slow tier, in theory, we may need to demote from a set of
->>   nodes to another set of nodes for something like general node
->>   balancing.
->> 
->> - Proactive promote.  In theory, this is possible, but there's no real
->>   life requirements yet.  And it should use a separate interface, so I
->>   don't think we need to discuss that here.
->
-> Yes, proactive promotion is not backed by any real usecase at the
-> moment. We do not really have to focus on it but we should be aware of
-> the posibility and alow future extentions towards that functionality.
+--qVl6dm7wN+8OEMm3
+Content-Type: application/pgp-signature; name="signature.asc"
 
-OK.
+-----BEGIN PGP SIGNATURE-----
 
-> There is one requirement missing here.
->  - Per NUMA node control - this is what makes the distinction between
->    demotion and charge reclaim really semantically challenging - e.g.
->    should demotions constrained by the provided nodemask or they should
->    be implicit?
+iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY8kPmwAKCRD2uYlJVVFO
+o3lrAQCct9H3y0zT3VjVNdLXNHJtFvNc7pF6h6RyrlsIR6FxAQD+KDkAExbGLjkL
+pruDqPa1E0ukAI5fDYmeWbWLP7kPaAw=
+=Eigz
+-----END PGP SIGNATURE-----
 
-Yes.  We may need to specify the NUMA nodes for demotion/reclaiming
-source, target, or even path.  That is, to fine control the proactive
-demotion/reclaiming.
-
->> Open questions:
->> 
->> - Use memory.reclaim or memory.demote for proactive demote.  In current
->>   memcg context, reclaiming and demoting is quite different, because
->>   reclaiming will uncharge, while demoting will not.  But if we will add
->>   per-memory-tier charging finally, the difference disappears.  So the
->>   question becomes whether will we add per-memory-tier charging.
->
-> The question is not whether but when IMHO. We've had a similar situation
-> with the swap accounting. Originally we have considered swap as a shared
-> resource but cgroupv2 goes with per swap limits because contention for
-> the swap space is really something people do care about.
-
-So, when we design user space interface for proactive demotion, we
-should keep per-memory-tier charging in mind.
-
->> - Whether should we demote from faster tier nodes to lower tier nodes
->>   during the proactive reclaiming.
->
-> I thought we are aligned on that. Demotion is a part of aging and that
-> is an integral part of the reclaim.
-
-As in the choice A/B of the below text, we should keep more fast memory
-size or slow memory size?  For original active/inactive LRU lists, we
-will balance the size of lists.  But we don't have similar stuff for the
-memory tiers.  What is the preferred balancing policy?  Choice A/B below
-are 2 extreme policies that are defined clearly.
-
->>   Choice A is to keep as much fast
->>   memory as possible.  That is, reclaim from the lowest tier nodes
->>   firstly, then the secondary lowest tier nodes, and so on.  Choice B is
->>   to demote at the same time of reclaiming.  In this way, if we
->>   proactively reclaim XX MB memory, we may free XX MB memory on the
->>   fastest memory nodes.
->> 
->> - When we proactively demote some memory from a fast memory tier, should
->>   we trigger memory competition in the slower memory tiers?  That is,
->>   whether to wake up kswapd of the slower memory tiers nodes?
->
-> Johannes made some very strong arguments that there is no other choice
-> than involve kswapd (https://lore.kernel.org/all/Y5nEQeXj6HQBEHEY@cmpxchg.org/).
-
-I have no objection for that too.  The below is just another choice.  If
-people don't think it's useful.  I will not insist on it.
-
->>   If we
->>   want to make per-memcg proactive demoting to be per-memcg strictly, we
->>   should avoid to trigger the global behavior such as triggering memory
->>   competition in the slower memory tiers.  Instead, we can add a global
->>   proactive demote interface for that (such as per-memory-tier or
->>   per-node).
->
-> I suspect we are left with a real usecase and then follow the path we
-> took for the swap accounting.
-
-Thanks for adding that.
-
-> Other open questions I do see are
-> - what to do when the memory.reclaim is constrained by a nodemask as
->   mentioned above. Is the whole reclaim process (including aging) bound to
->   the given nodemask or does demotion escape from it.
-
-Per my understanding, we can use multiple node masks if necessary.  For
-example, for "source=<mask1>", we may demote from <mask1> to other
-nodes; for "source=<mask1> destination=<mask2>", we will demote from
-<mask1> to <mask2>, but will not demote to other nodes.
-
-> - should the demotion be specific to multi-tier systems or the interface
->   should be just NUMA based and users could use the scheme to shuffle
->   memory around and allow numa balancing from userspace that way. That
->   would imply that demotion is a dedicated interface of course.
-
-It appears that if we can force the demotion target nodes (even in the
-same tier).  We can implement numa balancing from user space?
-
-> - there are other usecases that would like to trigger aging from
->   userspace (http://lkml.kernel.org/r/20221214225123.2770216-1-yuanchu@google.com).
->   Isn't demotion just a special case of aging in general or should we
->   end up with 3 different interfaces?
-
-Thanks for pointer!  If my understanding were correct, this appears a
-user of proactive reclaiming/demotion interface?  Cced the patch author
-for any further requirements for the interface.
-
-Best Regards,
-Huang, Ying
+--qVl6dm7wN+8OEMm3--
