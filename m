@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4FA4C678DB
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 00:36:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E25BC677F1
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 00:36:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229780AbjASAgx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 19:36:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47960 "EHLO
+        id S229699AbjASAgo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 19:36:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229804AbjASAgk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 19:36:40 -0500
+        with ESMTP id S229797AbjASAgZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 19:36:25 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68AC266031;
-        Wed, 18 Jan 2023 16:36:27 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99F26589BA;
+        Wed, 18 Jan 2023 16:36:22 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CB2B4B81FBB;
-        Thu, 19 Jan 2023 00:36:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F34EEC433F2;
-        Thu, 19 Jan 2023 00:36:23 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 281D2B81FB8;
+        Thu, 19 Jan 2023 00:36:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31D7DC43392;
+        Thu, 19 Jan 2023 00:36:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674088584;
-        bh=Q5YR2kXZ3skRigJ18JjBkaBpLM5CaF4x9B77X1Dlm8o=;
+        s=k20201202; t=1674088579;
+        bh=NoqjezcTXZL9KT0Wefm+wFcBaGOH1Fo2sYIPd4RbLLg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eRALnCQw4vI3LiDGAty1+hl/UsvPZIB6OqvrBUsinSP5Dx0y9oTQDPSM6mPgSrpUJ
-         Hd6NpBzSk5S9pX+LDu3VyJjl5cDbjYa5VZ0F9EWxgFxiqTYsti7o+NwSIvNI18Aep9
-         dZbZquD8dom/7kqD9lsalET4pDss4pAUEfMroQ5NgL6xQ2CjywU0YuBcqfAGKH2NrW
-         f+sejIsxxhmSiTTIM7vGrZHBpLxLz4vKWjLV4lR9a5CG9vrE8U+5yRTk4O1+XxR2yf
-         CWjMT+WIbra3gu/O5qkB/wmNeBUiwAedv+NnIYo4ekrD8+iX4MYDp9VGDhKf3WLYxa
-         QWy9c/2x57yHA==
+        b=Rn+5Dv6j0urtkHBYfNUIQrlwiTzWF4I3UGt6SW98Pn8a5HM/c4+GdcgBfQsq3A9Qc
+         uidNmPebEccDMSC6qanCI51OUqB/648fHzCLrIUdRz9BPcv3xCfua8g9vHZtKaFnlK
+         CbZ/YU1pO0fxVUzd5YQNnGj0HDSiAyZnl2yaAeaOmi6GWEGOZG20oY53pyOlQgnTDr
+         xYeT3jpuKluF5SaqBzeBwLLXll1dLc6bRr99otdSDhwt/KJsk9mY09Vf8UwRKCBWbF
+         1blFGK4TJwC/4rEMc4JTufawVeGS+HAFkY75MZLxIQaa7puqCXOgf0Vmj7Ag7j5pPy
+         CuvE0HwqoW2sw==
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     davem@davemloft.net
 Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
@@ -39,9 +39,9 @@ Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
         f.fainelli@gmail.com, fw@strlen.de, linux-doc@vger.kernel.org,
         razor@blackwall.org, nicolas.dichtel@6wind.com,
         Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net-next v3 8/8] tools: ynl: add a completely generic client
-Date:   Wed, 18 Jan 2023 16:36:13 -0800
-Message-Id: <20230119003613.111778-9-kuba@kernel.org>
+Subject: [PATCH net-next v3 2/8] netlink: add schemas for YAML specs
+Date:   Wed, 18 Jan 2023 16:36:07 -0800
+Message-Id: <20230119003613.111778-3-kuba@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230119003613.111778-1-kuba@kernel.org>
 References: <20230119003613.111778-1-kuba@kernel.org>
@@ -51,614 +51,992 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a CLI sample which can take in arbitrary request
-in JSON format, convert it to Netlink and do the inverse
-for output.
+Add schemas for Netlink spec files. As described in the docs
+we have 4 "protocols" or compatibility levels, and each one
+comes with its own schema, but the more general / legacy
+schemas are superset of more modern ones: genetlink is
+the smallest followed by genetlink-c and genetlink-legacy.
+There is no schema for raw netlink, yet, I haven't found the time..
 
-It's meant as a development tool primarily and perhaps
-for selftests which need to tickle netlink in a special way.
+I don't know enough jsonschema to do inheritance or something
+but the repetition is not too bad. I hope.
 
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 ---
- tools/net/ynl/samples/cli.py |  47 +++
- tools/net/ynl/samples/ynl.py | 534 +++++++++++++++++++++++++++++++++++
- 2 files changed, 581 insertions(+)
- create mode 100755 tools/net/ynl/samples/cli.py
- create mode 100644 tools/net/ynl/samples/ynl.py
+ Documentation/netlink/genetlink-c.yaml      | 318 ++++++++++++++++++
+ Documentation/netlink/genetlink-legacy.yaml | 346 ++++++++++++++++++++
+ Documentation/netlink/genetlink.yaml        | 284 ++++++++++++++++
+ 3 files changed, 948 insertions(+)
+ create mode 100644 Documentation/netlink/genetlink-c.yaml
+ create mode 100644 Documentation/netlink/genetlink-legacy.yaml
+ create mode 100644 Documentation/netlink/genetlink.yaml
 
-diff --git a/tools/net/ynl/samples/cli.py b/tools/net/ynl/samples/cli.py
-new file mode 100755
-index 000000000000..b27159c70710
---- /dev/null
-+++ b/tools/net/ynl/samples/cli.py
-@@ -0,0 +1,47 @@
-+#!/usr/bin/env python
-+# SPDX-License-Identifier: BSD-3-Clause
-+
-+import argparse
-+import json
-+import pprint
-+import time
-+
-+from ynl import YnlFamily
-+
-+
-+def main():
-+    parser = argparse.ArgumentParser(description='YNL CLI sample')
-+    parser.add_argument('--spec', dest='spec', type=str, required=True)
-+    parser.add_argument('--schema', dest='schema', type=str)
-+    parser.add_argument('--json', dest='json_text', type=str)
-+    parser.add_argument('--do', dest='do', type=str)
-+    parser.add_argument('--dump', dest='dump', type=str)
-+    parser.add_argument('--sleep', dest='sleep', type=int)
-+    parser.add_argument('--subscribe', dest='ntf', type=str)
-+    args = parser.parse_args()
-+
-+    attrs = {}
-+    if args.json_text:
-+        attrs = json.loads(args.json_text)
-+
-+    ynl = YnlFamily(args.spec, args.schema)
-+
-+    if args.ntf:
-+        ynl.ntf_subscribe(args.ntf)
-+
-+    if args.sleep:
-+        time.sleep(args.sleep)
-+
-+    if args.do or args.dump:
-+        method = getattr(ynl, args.do if args.do else args.dump)
-+
-+        reply = method(attrs, dump=bool(args.dump))
-+        pprint.PrettyPrinter().pprint(reply)
-+
-+    if args.ntf:
-+        ynl.check_ntf()
-+        pprint.PrettyPrinter().pprint(ynl.async_msg_queue)
-+
-+
-+if __name__ == "__main__":
-+    main()
-diff --git a/tools/net/ynl/samples/ynl.py b/tools/net/ynl/samples/ynl.py
+diff --git a/Documentation/netlink/genetlink-c.yaml b/Documentation/netlink/genetlink-c.yaml
 new file mode 100644
-index 000000000000..b71523d71d46
+index 000000000000..53a7fe94a47e
 --- /dev/null
-+++ b/tools/net/ynl/samples/ynl.py
-@@ -0,0 +1,534 @@
-+# SPDX-License-Identifier: BSD-3-Clause
-+
-+import functools
-+import jsonschema
-+import os
-+import random
-+import socket
-+import struct
-+import yaml
-+
-+#
-+# Generic Netlink code which should really be in some library, but I can't quickly find one.
-+#
-+
-+
-+class Netlink:
-+    # Netlink socket
-+    SOL_NETLINK = 270
-+
-+    NETLINK_ADD_MEMBERSHIP = 1
-+    NETLINK_CAP_ACK = 10
-+    NETLINK_EXT_ACK = 11
-+
-+    # Netlink message
-+    NLMSG_ERROR = 2
-+    NLMSG_DONE = 3
-+
-+    NLM_F_REQUEST = 1
-+    NLM_F_ACK = 4
-+    NLM_F_ROOT = 0x100
-+    NLM_F_MATCH = 0x200
-+    NLM_F_APPEND = 0x800
-+
-+    NLM_F_CAPPED = 0x100
-+    NLM_F_ACK_TLVS = 0x200
-+
-+    NLM_F_DUMP = NLM_F_ROOT | NLM_F_MATCH
-+
-+    NLA_F_NESTED = 0x8000
-+    NLA_F_NET_BYTEORDER = 0x4000
-+
-+    NLA_TYPE_MASK = NLA_F_NESTED | NLA_F_NET_BYTEORDER
-+
-+    # Genetlink defines
-+    NETLINK_GENERIC = 16
-+
-+    GENL_ID_CTRL = 0x10
-+
-+    # nlctrl
-+    CTRL_CMD_GETFAMILY = 3
-+
-+    CTRL_ATTR_FAMILY_ID = 1
-+    CTRL_ATTR_FAMILY_NAME = 2
-+    CTRL_ATTR_MAXATTR = 5
-+    CTRL_ATTR_MCAST_GROUPS = 7
-+
-+    CTRL_ATTR_MCAST_GRP_NAME = 1
-+    CTRL_ATTR_MCAST_GRP_ID = 2
-+
-+    # Extack types
-+    NLMSGERR_ATTR_MSG = 1
-+    NLMSGERR_ATTR_OFFS = 2
-+    NLMSGERR_ATTR_COOKIE = 3
-+    NLMSGERR_ATTR_POLICY = 4
-+    NLMSGERR_ATTR_MISS_TYPE = 5
-+    NLMSGERR_ATTR_MISS_NEST = 6
-+
-+
-+class NlAttr:
-+    def __init__(self, raw, offset):
-+        self._len, self._type = struct.unpack("HH", raw[offset:offset + 4])
-+        self.type = self._type & ~Netlink.NLA_TYPE_MASK
-+        self.payload_len = self._len
-+        self.full_len = (self.payload_len + 3) & ~3
-+        self.raw = raw[offset + 4:offset + self.payload_len]
-+
-+    def as_u16(self):
-+        return struct.unpack("H", self.raw)[0]
-+
-+    def as_u32(self):
-+        return struct.unpack("I", self.raw)[0]
-+
-+    def as_u64(self):
-+        return struct.unpack("Q", self.raw)[0]
-+
-+    def as_strz(self):
-+        return self.raw.decode('ascii')[:-1]
-+
-+    def as_bin(self):
-+        return self.raw
-+
-+    def __repr__(self):
-+        return f"[type:{self.type} len:{self._len}] {self.raw}"
-+
-+
-+class NlAttrs:
-+    def __init__(self, msg):
-+        self.attrs = []
-+
-+        offset = 0
-+        while offset < len(msg):
-+            attr = NlAttr(msg, offset)
-+            offset += attr.full_len
-+            self.attrs.append(attr)
-+
-+    def __iter__(self):
-+        yield from self.attrs
-+
-+    def __repr__(self):
-+        msg = ''
-+        for a in self.attrs:
-+            if msg:
-+                msg += '\n'
-+            msg += repr(a)
-+        return msg
-+
-+
-+class NlMsg:
-+    def __init__(self, msg, offset, attr_space=None):
-+        self.hdr = msg[offset:offset + 16]
-+
-+        self.nl_len, self.nl_type, self.nl_flags, self.nl_seq, self.nl_portid = \
-+            struct.unpack("IHHII", self.hdr)
-+
-+        self.raw = msg[offset + 16:offset + self.nl_len]
-+
-+        self.error = 0
-+        self.done = 0
-+
-+        extack_off = None
-+        if self.nl_type == Netlink.NLMSG_ERROR:
-+            self.error = struct.unpack("i", self.raw[0:4])[0]
-+            self.done = 1
-+            extack_off = 20
-+        elif self.nl_type == Netlink.NLMSG_DONE:
-+            self.done = 1
-+            extack_off = 4
-+
-+        self.extack = None
-+        if self.nl_flags & Netlink.NLM_F_ACK_TLVS and extack_off:
-+            self.extack = dict()
-+            extack_attrs = NlAttrs(self.raw[extack_off:])
-+            for extack in extack_attrs:
-+                if extack.type == Netlink.NLMSGERR_ATTR_MSG:
-+                    self.extack['msg'] = extack.as_strz()
-+                elif extack.type == Netlink.NLMSGERR_ATTR_MISS_TYPE:
-+                    self.extack['miss-type'] = extack.as_u32()
-+                elif extack.type == Netlink.NLMSGERR_ATTR_MISS_NEST:
-+                    self.extack['miss-nest'] = extack.as_u32()
-+                elif extack.type == Netlink.NLMSGERR_ATTR_OFFS:
-+                    self.extack['bad-attr-offs'] = extack.as_u32()
-+                else:
-+                    if 'unknown' not in self.extack:
-+                        self.extack['unknown'] = []
-+                    self.extack['unknown'].append(extack)
-+
-+            if attr_space:
-+                # We don't have the ability to parse nests yet, so only do global
-+                if 'miss-type' in self.extack and 'miss-nest' not in self.extack:
-+                    miss_type = self.extack['miss-type']
-+                    if len(attr_space.attr_list) > miss_type:
-+                        spec = attr_space.attr_list[miss_type]
-+                        desc = spec['name']
-+                        if 'doc' in spec:
-+                            desc += f" ({spec['doc']})"
-+                        self.extack['miss-type'] = desc
-+
-+    def __repr__(self):
-+        msg = f"nl_len = {self.nl_len} ({len(self.raw)}) nl_flags = 0x{self.nl_flags:x} nl_type = {self.nl_type}\n"
-+        if self.error:
-+            msg += '\terror: ' + str(self.error)
-+        if self.extack:
-+            msg += '\textack: ' + repr(self.extack)
-+        return msg
-+
-+
-+class NlMsgs:
-+    def __init__(self, data, attr_space=None):
-+        self.msgs = []
-+
-+        offset = 0
-+        while offset < len(data):
-+            msg = NlMsg(data, offset, attr_space=attr_space)
-+            offset += msg.nl_len
-+            self.msgs.append(msg)
-+
-+    def __iter__(self):
-+        yield from self.msgs
-+
-+
-+genl_family_name_to_id = None
-+
-+
-+def _genl_msg(nl_type, nl_flags, genl_cmd, genl_version, seq=None):
-+    # we prepend length in _genl_msg_finalize()
-+    if seq is None:
-+        seq = random.randint(1, 1024)
-+    nlmsg = struct.pack("HHII", nl_type, nl_flags, seq, 0)
-+    genlmsg = struct.pack("bbH", genl_cmd, genl_version, 0)
-+    return nlmsg + genlmsg
-+
-+
-+def _genl_msg_finalize(msg):
-+    return struct.pack("I", len(msg) + 4) + msg
-+
-+
-+def _genl_load_families():
-+    with socket.socket(socket.AF_NETLINK, socket.SOCK_RAW, Netlink.NETLINK_GENERIC) as sock:
-+        sock.setsockopt(Netlink.SOL_NETLINK, Netlink.NETLINK_CAP_ACK, 1)
-+
-+        msg = _genl_msg(Netlink.GENL_ID_CTRL,
-+                        Netlink.NLM_F_REQUEST | Netlink.NLM_F_ACK | Netlink.NLM_F_DUMP,
-+                        Netlink.CTRL_CMD_GETFAMILY, 1)
-+        msg = _genl_msg_finalize(msg)
-+
-+        sock.send(msg, 0)
-+
-+        global genl_family_name_to_id
-+        genl_family_name_to_id = dict()
-+
-+        while True:
-+            reply = sock.recv(128 * 1024)
-+            nms = NlMsgs(reply)
-+            for nl_msg in nms:
-+                if nl_msg.error:
-+                    print("Netlink error:", nl_msg.error)
-+                    return
-+                if nl_msg.done:
-+                    return
-+
-+                gm = GenlMsg(nl_msg)
-+                fam = dict()
-+                for attr in gm.raw_attrs:
-+                    if attr.type == Netlink.CTRL_ATTR_FAMILY_ID:
-+                        fam['id'] = attr.as_u16()
-+                    elif attr.type == Netlink.CTRL_ATTR_FAMILY_NAME:
-+                        fam['name'] = attr.as_strz()
-+                    elif attr.type == Netlink.CTRL_ATTR_MAXATTR:
-+                        fam['maxattr'] = attr.as_u32()
-+                    elif attr.type == Netlink.CTRL_ATTR_MCAST_GROUPS:
-+                        fam['mcast'] = dict()
-+                        for entry in NlAttrs(attr.raw):
-+                            mcast_name = None
-+                            mcast_id = None
-+                            for entry_attr in NlAttrs(entry.raw):
-+                                if entry_attr.type == Netlink.CTRL_ATTR_MCAST_GRP_NAME:
-+                                    mcast_name = entry_attr.as_strz()
-+                                elif entry_attr.type == Netlink.CTRL_ATTR_MCAST_GRP_ID:
-+                                    mcast_id = entry_attr.as_u32()
-+                            if mcast_name and mcast_id is not None:
-+                                fam['mcast'][mcast_name] = mcast_id
-+                if 'name' in fam and 'id' in fam:
-+                    genl_family_name_to_id[fam['name']] = fam
-+
-+
-+class GenlMsg:
-+    def __init__(self, nl_msg):
-+        self.nl = nl_msg
-+
-+        self.hdr = nl_msg.raw[0:4]
-+        self.raw = nl_msg.raw[4:]
-+
-+        self.genl_cmd, self.genl_version, _ = struct.unpack("bbH", self.hdr)
-+
-+        self.raw_attrs = NlAttrs(self.raw)
-+
-+    def __repr__(self):
-+        msg = repr(self.nl)
-+        msg += f"\tgenl_cmd = {self.genl_cmd} genl_ver = {self.genl_version}\n"
-+        for a in self.raw_attrs:
-+            msg += '\t\t' + repr(a) + '\n'
-+        return msg
-+
-+
-+class GenlFamily:
-+    def __init__(self, family_name):
-+        self.family_name = family_name
-+
-+        global genl_family_name_to_id
-+        if genl_family_name_to_id is None:
-+            _genl_load_families()
-+
-+        self.genl_family = genl_family_name_to_id[family_name]
-+        self.family_id = genl_family_name_to_id[family_name]['id']
-+
-+
-+#
-+# YNL implementation details.
-+#
-+
-+
-+class YnlAttrSpace:
-+    def __init__(self, family, yaml):
-+        self.yaml = yaml
-+
-+        self.attrs = dict()
-+        self.name = self.yaml['name']
-+        self.subspace_of = self.yaml['subset-of'] if 'subspace-of' in self.yaml else None
-+
-+        val = 0
-+        max_val = 0
-+        for elem in self.yaml['attributes']:
-+            if 'value' in elem:
-+                val = elem['value']
-+            else:
-+                elem['value'] = val
-+            if val > max_val:
-+                max_val = val
-+            val += 1
-+
-+            self.attrs[elem['name']] = elem
-+
-+        self.attr_list = [None] * (max_val + 1)
-+        for elem in self.yaml['attributes']:
-+            self.attr_list[elem['value']] = elem
-+
-+    def __getitem__(self, key):
-+        return self.attrs[key]
-+
-+    def __contains__(self, key):
-+        return key in self.yaml
-+
-+    def __iter__(self):
-+        yield from self.attrs
-+
-+    def items(self):
-+        return self.attrs.items()
-+
-+
-+class YnlFamily:
-+    def __init__(self, def_path, schema=None):
-+        self.include_raw = False
-+
-+        with open(def_path, "r") as stream:
-+            self.yaml = yaml.safe_load(stream)
-+
-+        if schema:
-+            with open(schema, "r") as stream:
-+                schema = yaml.safe_load(stream)
-+
-+            jsonschema.validate(self.yaml, schema)
-+
-+        self.sock = socket.socket(socket.AF_NETLINK, socket.SOCK_RAW, Netlink.NETLINK_GENERIC)
-+        self.sock.setsockopt(Netlink.SOL_NETLINK, Netlink.NETLINK_CAP_ACK, 1)
-+        self.sock.setsockopt(Netlink.SOL_NETLINK, Netlink.NETLINK_EXT_ACK, 1)
-+
-+        self._ops = dict()
-+        self._spaces = dict()
-+        self._types = dict()
-+
-+        for elem in self.yaml['attribute-sets']:
-+            self._spaces[elem['name']] = YnlAttrSpace(self, elem)
-+
-+        for elem in self.yaml['definitions']:
-+            self._types[elem['name']] = elem
-+
-+        async_separation = 'async-prefix' in self.yaml['operations']
-+        self.async_msg_ids = set()
-+        self.async_msg_queue = []
-+        val = 0
-+        max_val = 0
-+        for elem in self.yaml['operations']['list']:
-+            if not (async_separation and ('notify' in elem or 'event' in elem)):
-+                if 'value' in elem:
-+                    val = elem['value']
-+                else:
-+                    elem['value'] = val
-+                val += 1
-+                max_val = max(val, max_val)
-+
-+            if 'notify' in elem or 'event' in elem:
-+                self.async_msg_ids.add(elem['value'])
-+
-+            self._ops[elem['name']] = elem
-+
-+            op_name = elem['name'].replace('-', '_')
-+
-+            bound_f = functools.partial(self._op, elem['name'])
-+            setattr(self, op_name, bound_f)
-+
-+        self._op_array = [None] * max_val
-+        for _, op in self._ops.items():
-+            self._op_array[op['value']] = op
-+            if 'notify' in op:
-+                op['attribute-set'] = self._ops[op['notify']]['attribute-set']
-+
-+        self.family = GenlFamily(self.yaml['name'])
-+
-+    def ntf_subscribe(self, mcast_name):
-+        if mcast_name not in self.family.genl_family['mcast']:
-+            raise Exception(f'Multicast group "{mcast_name}" not present in the family')
-+
-+        self.sock.bind((0, 0))
-+        self.sock.setsockopt(Netlink.SOL_NETLINK, Netlink.NETLINK_ADD_MEMBERSHIP,
-+                             self.family.genl_family['mcast'][mcast_name])
-+
-+    def _add_attr(self, space, name, value):
-+        attr = self._spaces[space][name]
-+        nl_type = attr['value']
-+        if attr["type"] == 'nest':
-+            nl_type |= Netlink.NLA_F_NESTED
-+            attr_payload = b''
-+            for subname, subvalue in value.items():
-+                attr_payload += self._add_attr(attr['nested-attributes'], subname, subvalue)
-+        elif attr["type"] == 'u32':
-+            attr_payload = struct.pack("I", int(value))
-+        elif attr["type"] == 'string':
-+            attr_payload = str(value).encode('ascii') + b'\x00'
-+        elif attr["type"] == 'binary':
-+            attr_payload = value
-+        else:
-+            raise Exception(f'Unknown type at {space} {name} {value} {attr["type"]}')
-+
-+        pad = b'\x00' * ((4 - len(attr_payload) % 4) % 4)
-+        return struct.pack('HH', len(attr_payload) + 4, nl_type) + attr_payload + pad
-+
-+    def _decode_enum(self, rsp, attr_spec):
-+        raw = rsp[attr_spec['name']]
-+        enum = self._types[attr_spec['enum']]
-+        i = attr_spec.get('value-start', 0)
-+        if 'enum-as-flags' in attr_spec and attr_spec['enum-as-flags']:
-+            value = set()
-+            while raw:
-+                if raw & 1:
-+                    value.add(enum['entries'][i])
-+                raw >>= 1
-+                i += 1
-+        else:
-+            value = enum['entries'][raw - i]
-+        rsp[attr_spec['name']] = value
-+
-+    def _decode(self, attrs, space):
-+        attr_space = self._spaces[space]
-+        rsp = dict()
-+        for attr in attrs:
-+            attr_spec = attr_space.attr_list[attr.type]
-+            if attr_spec["type"] == 'nest':
-+                subdict = self._decode(NlAttrs(attr.raw), attr_spec['nested-attributes'])
-+                rsp[attr_spec['name']] = subdict
-+            elif attr_spec['type'] == 'u32':
-+                rsp[attr_spec['name']] = attr.as_u32()
-+            elif attr_spec['type'] == 'u64':
-+                rsp[attr_spec['name']] = attr.as_u64()
-+            elif attr_spec["type"] == 'string':
-+                rsp[attr_spec['name']] = attr.as_strz()
-+            elif attr_spec["type"] == 'binary':
-+                rsp[attr_spec['name']] = attr.as_bin()
-+            else:
-+                raise Exception(f'Unknown {attr.type} {attr_spec["name"]} {attr_spec["type"]}')
-+
-+            if 'enum' in attr_spec:
-+                self._decode_enum(rsp, attr_spec)
-+        return rsp
-+
-+    def handle_ntf(self, nl_msg, genl_msg):
-+        msg = dict()
-+        if self.include_raw:
-+            msg['nlmsg'] = nl_msg
-+            msg['genlmsg'] = genl_msg
-+        op = self._op_array[genl_msg.genl_cmd]
-+        msg['name'] = op['name']
-+        msg['msg'] = self._decode(genl_msg.raw_attrs, op['attribute-set'])
-+        self.async_msg_queue.append(msg)
-+
-+    def check_ntf(self):
-+        while True:
-+            try:
-+                reply = self.sock.recv(128 * 1024, socket.MSG_DONTWAIT)
-+            except BlockingIOError:
-+                return
-+
-+            nms = NlMsgs(reply)
-+            for nl_msg in nms:
-+                if nl_msg.error:
-+                    print("Netlink error in ntf!?", os.strerror(-nl_msg.error))
-+                    print(nl_msg)
-+                    continue
-+                if nl_msg.done:
-+                    print("Netlink done while checking for ntf!?")
-+                    continue
-+
-+                gm = GenlMsg(nl_msg)
-+                if gm.genl_cmd not in self.async_msg_ids:
-+                    print("Unexpected msg id done while checking for ntf", gm)
-+                    continue
-+
-+                self.handle_ntf(nl_msg, gm)
-+
-+    def _op(self, method, vals, dump=False):
-+        op = self._ops[method]
-+
-+        nl_flags = Netlink.NLM_F_REQUEST | Netlink.NLM_F_ACK
-+        if dump:
-+            nl_flags |= Netlink.NLM_F_DUMP
-+
-+        req_seq = random.randint(1024, 65535)
-+        msg = _genl_msg(self.family.family_id, nl_flags, op['value'], 1, req_seq)
-+        for name, value in vals.items():
-+            msg += self._add_attr(op['attribute-set'], name, value)
-+        msg = _genl_msg_finalize(msg)
-+
-+        self.sock.send(msg, 0)
-+
-+        done = False
-+        rsp = []
-+        while not done:
-+            reply = self.sock.recv(128 * 1024)
-+            nms = NlMsgs(reply, attr_space=self._spaces[op['attribute-set']])
-+            for nl_msg in nms:
-+                if nl_msg.error:
-+                    print("Netlink error:", os.strerror(-nl_msg.error))
-+                    print(nl_msg)
-+                    return
-+                if nl_msg.done:
-+                    done = True
-+                    break
-+
-+                gm = GenlMsg(nl_msg)
-+                # Check if this is a reply to our request
-+                if nl_msg.nl_seq != req_seq or gm.genl_cmd != op['value']:
-+                    if gm.genl_cmd in self.async_msg_ids:
-+                        self.handle_ntf(nl_msg, gm)
-+                        continue
-+                    else:
-+                        print('Unexpected message: ' + repr(gm))
-+                        continue
-+
-+                rsp.append(self._decode(gm.raw_attrs, op['attribute-set']))
-+
-+        if not rsp:
-+            return None
-+        if not dump and len(rsp) == 1:
-+            return rsp[0]
-+        return rsp
++++ b/Documentation/netlink/genetlink-c.yaml
+@@ -0,0 +1,318 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: "http://kernel.org/schemas/netlink/genetlink-c.yaml#"
++$schema: "http://kernel.org/meta-schemas/netlink/core.yaml#"
++
++title: Protocol
++description: Specification of a genetlink protocol
++type: object
++required: [ name, doc, attribute-sets, operations ]
++additionalProperties: False
++properties:
++  name:
++    description: Name of the genetlink family.
++    type: string
++  doc:
++    type: string
++  version:
++    description: Generic Netlink family version. Default is 1.
++    type: integer
++  protocol:
++    description: Schema compatibility level. Default is "genetlink".
++    enum: [ genetlink, genetlink-c]
++  # Start genetlink-c
++  uapi-header:
++    description: Path to the uAPI header, default is linux/${family-name}.h
++    type: string
++  c-family-name:
++    description: Name of the define for the family name.
++    type: string
++  c-version-name:
++    description: Name of the define for the verion of the family.
++    type: string
++  max-by-define:
++    description: Makes the number of attributes and commands be specified by a define, not an enum value.
++    type: boolean
++  # End genetlink-c
++
++  definitions:
++    description: Array of type and constant definitions.
++    type: array
++    items:
++      type: object
++      required: [ type, name ]
++      additionalProperties: False
++      properties:
++        name:
++          type: string
++        header:
++          description: For C-compatible languages, header which already defines this value.
++          type: string
++        type:
++          enum: [ const, enum, flags ]
++        doc:
++          type: string
++        # For const
++        value:
++          description: For const - the value.
++          type: [ string, integer ]
++        # For enum and flags
++        value-start:
++          description: For enum or flags the literal initializer for the first value.
++          type: [ string, integer ]
++        entries:
++          description: For enum or flags array of values
++          type: array
++          items:
++            oneOf:
++              - type: string
++              - type: object
++                required: [ name ]
++                additionalProperties: False
++                properties:
++                  name:
++                    type: string
++                  value:
++                    type: integer
++                  doc:
++                    type: string
++        render-max:
++          description: Render the max members for this enum.
++          type: boolean
++        # Start genetlink-c
++        enum-name:
++          description: Name for enum, if empty no name will be used.
++          type: [ string, "null" ]
++        name-prefix:
++          description: For enum the prefix of the values, optional.
++          type: string
++        # End genetlink-c
++
++  attribute-sets:
++    description: Definition of attribute spaces for this family.
++    type: array
++    items:
++      description: Definition of a single attribute space.
++      type: object
++      required: [ name, attributes ]
++      additionalProperties: False
++      properties:
++        name:
++          description: |
++            Name used when referring to this space in other definitions, not used outside of YAML.
++          type: string
++        # Strictly speaking 'name-prefix' and 'subset-of' should be mutually exclusive.
++        name-prefix:
++          description: |
++            Prefix for the C enum name of the attributes. Default family[name]-set[name]-a-
++          type: string
++        enum-name:
++          description: Name for the enum type of the attribute.
++          type: string
++        doc:
++          description: Documentation of the space.
++          type: string
++        subset-of:
++          description: |
++            Name of another space which this is a logical part of. Sub-spaces can be used to define
++            a limited group of attributes which are used in a nest.
++          type: string
++        # Start genetlink-c
++        attr-cnt-name:
++          description: The explicit name for constant holding the count of attributes (last attr + 1).
++          type: string
++        attr-max-name:
++          description: The explicit name for last member of attribute enum.
++          type: string
++        # End genetlink-c
++        attributes:
++          description: List of attributes in the space.
++          type: array
++          items:
++            type: object
++            required: [ name, type ]
++            additionalProperties: False
++            properties:
++              name:
++                type: string
++              type: &attr-type
++                enum: [ unused, pad, flag, binary, u8, u16, u32, u64, s32, s64,
++                        string, nest, array-nest, nest-type-value ]
++              doc:
++                description: Documentation of the attribute.
++                type: string
++              value:
++                description: Value for the enum item representing this attribute in the uAPI.
++                type: integer
++              type-value:
++                description: Name of the value extracted from the type of a nest-type-value attribute.
++                type: array
++                items:
++                  type: string
++              byte-order:
++                enum: [little-endian, big-endian]
++              multi-attr:
++                type: boolean
++              nested-attributes:
++                description: Name of the space (sub-space) used inside the attribute.
++                type: string
++              enum:
++                description: Name of the enum type used for the atttribute.
++                type: string
++              enum-as-flags:
++                description: |
++                  Treat the enum as flags. In most cases enum is either used as flags or as values.
++                  Sometimes, however, both forms are necessary, in which case header contains the enum
++                  form while specific attributes may request to convert the values into a bitfield.
++                type: boolean
++              checks:
++                description: Kernel input validation.
++                type: object
++                additionalProperties: False
++                properties:
++                  flags-mask:
++                    description: Name of the flags constant on which to base mask (unsigned scalar types only).
++                    type: string
++                  min:
++                    description: Min value for an integer attribute.
++                    type: integer
++                  min-len:
++                    description: Min length for a binary attribute.
++                    oneOf:
++                      - type: string
++                        pattern: ^[0-9A-Za-z_-]*( - 1)?$
++                      - type: integer
++                  max-len:
++                    description: Max length for a string or a binary attribute.
++                    oneOf:
++                      - type: string
++                        pattern: ^[0-9A-Za-z_-]*( - 1)?$
++                      - type: integer
++              sub-type: *attr-type
++  operations:
++    description: Operations supported by the protocol.
++    type: object
++    required: [ list ]
++    additionalProperties: False
++    properties:
++      enum-model:
++        description: |
++          The model of assigning values to the operations.
++          "unified" is the recommended model where all message types belong
++          to a single enum.
++          "directional" has the messages sent to the kernel and from the kernel
++          enumerated separately.
++          "notify-split" has the notifications and request-response types in
++          different enums.
++        enum: [ unified, directional, notify-split ]
++      name-prefix:
++        description: |
++          Prefix for the C enum name of the command. The name is formed by concatenating
++          the prefix with the upper case name of the command, with dashes replaced by underscores.
++        type: string
++      enum-name:
++        description: Name for the enum type with commands.
++        type: string
++      async-prefix:
++        description: Same as name-prefix but used to render notifications and events to separate enum.
++        type: string
++      async-enum:
++        description: Name for the enum type with notifications/events.
++        type: string
++      list:
++        description: List of commands
++        type: array
++        items:
++          type: object
++          additionalProperties: False
++          required: [ name, doc ]
++          properties:
++            name:
++              description: Name of the operation, also defining its C enum value in uAPI.
++              type: string
++            doc:
++              description: Documentation for the command.
++              type: string
++            value:
++              description: Value for the enum in the uAPI.
++              type: integer
++            attribute-set:
++              description: |
++                Attribute space from which attributes directly in the requests and replies
++                to this command are defined.
++              type: string
++            flags: &cmd_flags
++              description: Command flags.
++              type: array
++              items:
++                enum: [ admin-perm ]
++            dont-validate:
++              description: Kernel attribute validation flags.
++              type: array
++              items:
++                enum: [ strict, dump ]
++            do: &subop-type
++              description: Main command handler.
++              type: object
++              additionalProperties: False
++              properties:
++                request: &subop-attr-list
++                  description: Definition of the request message for a given command.
++                  type: object
++                  additionalProperties: False
++                  properties:
++                    attributes:
++                      description: |
++                        Names of attributes from the attribute-set (not full attribute
++                        definitions, just names).
++                      type: array
++                      items:
++                        type: string
++                reply: *subop-attr-list
++                pre:
++                  description: Hook for a function to run before the main callback (pre_doit or start).
++                  type: string
++                post:
++                  description: Hook for a function to run after the main callback (post_doit or done).
++                  type: string
++            dump: *subop-type
++            notify:
++              description: Name of the command sharing the reply type with this notification.
++              type: string
++            event:
++              type: object
++              additionalProperties: False
++              properties:
++                attributes:
++                  description: Explicit list of the attributes for the notification.
++                  type: array
++                  items:
++                    type: string
++            mcgrp:
++              description: Name of the multicast group generating given notification.
++              type: string
++  mcast-groups:
++    description: List of multicast groups.
++    type: object
++    required: [ list ]
++    additionalProperties: False
++    properties:
++      list:
++        description: List of groups.
++        type: array
++        items:
++          type: object
++          required: [ name ]
++          additionalProperties: False
++          properties:
++            name:
++              description: |
++                The name for the group, used to form the define and the value of the define.
++              type: string
++            # Start genetlink-c
++            c-define-name:
++              description: Override for the name of the define in C uAPI.
++              type: string
++            # End genetlink-c
++            flags: *cmd_flags
+diff --git a/Documentation/netlink/genetlink-legacy.yaml b/Documentation/netlink/genetlink-legacy.yaml
+new file mode 100644
+index 000000000000..5e57453eac1a
+--- /dev/null
++++ b/Documentation/netlink/genetlink-legacy.yaml
+@@ -0,0 +1,346 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: "http://kernel.org/schemas/netlink/genetlink-legacy.yaml#"
++$schema: "http://kernel.org/meta-schemas/netlink/core.yaml#"
++
++title: Protocol
++description: Specification of a genetlink protocol
++type: object
++required: [ name, doc, attribute-sets, operations ]
++additionalProperties: False
++properties:
++  name:
++    description: Name of the genetlink family.
++    type: string
++  doc:
++    type: string
++  version:
++    description: Generic Netlink family version. Default is 1.
++    type: integer
++  protocol:
++    description: Schema compatibility level. Default is "genetlink".
++    enum: [ genetlink, genetlink-c, genetlink-legacy, netlink-raw ] # Trim
++  # Start genetlink-c
++  uapi-header:
++    description: Path to the uAPI header, default is linux/${family-name}.h
++    type: string
++  c-family-name:
++    description: Name of the define for the family name.
++    type: string
++  c-version-name:
++    description: Name of the define for the verion of the family.
++    type: string
++  max-by-define:
++    description: Makes the number of attributes and commands be specified by a define, not an enum value.
++    type: boolean
++  # End genetlink-c
++  # Start genetlink-legacy
++  kernel-policy:
++    description: |
++      Defines if the input policy in the kernel is global, per-operation, or split per operation type.
++      Default is split.
++    enum: [split, per-op, global]
++  # End genetlink-legacy
++
++  definitions:
++    description: Array of type and constant definitions.
++    type: array
++    items:
++      type: object
++      required: [ type, name ]
++      additionalProperties: False
++      properties:
++        name:
++          type: string
++        header:
++          description: For C-compatible languages, header which already defines this value.
++          type: string
++        type:
++          enum: [ const, enum, flags, struct ] # Trim
++        doc:
++          type: string
++        # For const
++        value:
++          description: For const - the value.
++          type: [ string, integer ]
++        # For enum and flags
++        value-start:
++          description: For enum or flags the literal initializer for the first value.
++          type: [ string, integer ]
++        entries:
++          description: For enum or flags array of values
++          type: array
++          items:
++            oneOf:
++              - type: string
++              - type: object
++                required: [ name ]
++                additionalProperties: False
++                properties:
++                  name:
++                    type: string
++                  value:
++                    type: integer
++                  doc:
++                    type: string
++        render-max:
++          description: Render the max members for this enum.
++          type: boolean
++        # Start genetlink-c
++        enum-name:
++          description: Name for enum, if empty no name will be used.
++          type: [ string, "null" ]
++        name-prefix:
++          description: For enum the prefix of the values, optional.
++          type: string
++        # End genetlink-c
++        # Start genetlink-legacy
++        members:
++          description: List of struct members. Only scalars and strings members allowed.
++          type: array
++          items:
++            type: object
++            required: [ name, type ]
++            additionalProperties: False
++            properties:
++              name:
++                type: string
++              type:
++                enum: [ u8, u16, u32, u64, s8, s16, s32, s64, string ]
++              len:
++                oneOf:
++                  -
++                    type: string
++                    pattern: ^[0-9A-Za-z_-]*( - 1)?$
++                  -
++                    type: integer
++        # End genetlink-legacy
++
++  attribute-sets:
++    description: Definition of attribute spaces for this family.
++    type: array
++    items:
++      description: Definition of a single attribute space.
++      type: object
++      required: [ name, attributes ]
++      additionalProperties: False
++      properties:
++        name:
++          description: |
++            Name used when referring to this space in other definitions, not used outside of YAML.
++          type: string
++        # Strictly speaking 'name-prefix' and 'subset-of' should be mutually exclusive.
++        name-prefix:
++          description: |
++            Prefix for the C enum name of the attributes. Default family[name]-set[name]-a-
++          type: string
++        enum-name:
++          description: Name for the enum type of the attribute.
++          type: string
++        doc:
++          description: Documentation of the space.
++          type: string
++        subset-of:
++          description: |
++            Name of another space which this is a logical part of. Sub-spaces can be used to define
++            a limited group of attributes which are used in a nest.
++          type: string
++        # Start genetlink-c
++        attr-cnt-name:
++          description: The explicit name for constant holding the count of attributes (last attr + 1).
++          type: string
++        attr-max-name:
++          description: The explicit name for last member of attribute enum.
++          type: string
++        # End genetlink-c
++        attributes:
++          description: List of attributes in the space.
++          type: array
++          items:
++            type: object
++            required: [ name, type ]
++            additionalProperties: False
++            properties:
++              name:
++                type: string
++              type: &attr-type
++                enum: [ unused, pad, flag, binary, u8, u16, u32, u64, s32, s64,
++                        string, nest, array-nest, nest-type-value ]
++              doc:
++                description: Documentation of the attribute.
++                type: string
++              value:
++                description: Value for the enum item representing this attribute in the uAPI.
++                type: integer
++              type-value:
++                description: Name of the value extracted from the type of a nest-type-value attribute.
++                type: array
++                items:
++                  type: string
++              byte-order:
++                enum: [little-endian, big-endian]
++              multi-attr:
++                type: boolean
++              nested-attributes:
++                description: Name of the space (sub-space) used inside the attribute.
++                type: string
++              enum:
++                description: Name of the enum type used for the atttribute.
++                type: string
++              enum-as-flags:
++                description: |
++                  Treat the enum as flags. In most cases enum is either used as flags or as values.
++                  Sometimes, however, both forms are necessary, in which case header contains the enum
++                  form while specific attributes may request to convert the values into a bitfield.
++                type: boolean
++              checks:
++                description: Kernel input validation.
++                type: object
++                additionalProperties: False
++                properties:
++                  flags-mask:
++                    description: Name of the flags constant on which to base mask (unsigned scalar types only).
++                    type: string
++                  min:
++                    description: Min value for an integer attribute.
++                    type: integer
++                  min-len:
++                    description: Min length for a binary attribute.
++                    oneOf:
++                      - type: string
++                        pattern: ^[0-9A-Za-z_-]*( - 1)?$
++                      - type: integer
++                  max-len:
++                    description: Max length for a string or a binary attribute.
++                    oneOf:
++                      - type: string
++                        pattern: ^[0-9A-Za-z_-]*( - 1)?$
++                      - type: integer
++              sub-type: *attr-type
++  operations:
++    description: Operations supported by the protocol.
++    type: object
++    required: [ list ]
++    additionalProperties: False
++    properties:
++      enum-model:
++        description: |
++          The model of assigning values to the operations.
++          "unified" is the recommended model where all message types belong
++          to a single enum.
++          "directional" has the messages sent to the kernel and from the kernel
++          enumerated separately.
++          "notify-split" has the notifications and request-response types in
++          different enums.
++        enum: [ unified, directional, notify-split ]
++      name-prefix:
++        description: |
++          Prefix for the C enum name of the command. The name is formed by concatenating
++          the prefix with the upper case name of the command, with dashes replaced by underscores.
++        type: string
++      enum-name:
++        description: Name for the enum type with commands.
++        type: string
++      async-prefix:
++        description: Same as name-prefix but used to render notifications and events to separate enum.
++        type: string
++      async-enum:
++        description: Name for the enum type with notifications/events.
++        type: string
++      list:
++        description: List of commands
++        type: array
++        items:
++          type: object
++          additionalProperties: False
++          required: [ name, doc ]
++          properties:
++            name:
++              description: Name of the operation, also defining its C enum value in uAPI.
++              type: string
++            doc:
++              description: Documentation for the command.
++              type: string
++            value:
++              description: Value for the enum in the uAPI.
++              type: integer
++            attribute-set:
++              description: |
++                Attribute space from which attributes directly in the requests and replies
++                to this command are defined.
++              type: string
++            flags: &cmd_flags
++              description: Command flags.
++              type: array
++              items:
++                enum: [ admin-perm ]
++            dont-validate:
++              description: Kernel attribute validation flags.
++              type: array
++              items:
++                enum: [ strict, dump ]
++            do: &subop-type
++              description: Main command handler.
++              type: object
++              additionalProperties: False
++              properties:
++                request: &subop-attr-list
++                  description: Definition of the request message for a given command.
++                  type: object
++                  additionalProperties: False
++                  properties:
++                    attributes:
++                      description: |
++                        Names of attributes from the attribute-set (not full attribute
++                        definitions, just names).
++                      type: array
++                      items:
++                        type: string
++                reply: *subop-attr-list
++                pre:
++                  description: Hook for a function to run before the main callback (pre_doit or start).
++                  type: string
++                post:
++                  description: Hook for a function to run after the main callback (post_doit or done).
++                  type: string
++            dump: *subop-type
++            notify:
++              description: Name of the command sharing the reply type with this notification.
++              type: string
++            event:
++              type: object
++              additionalProperties: False
++              properties:
++                attributes:
++                  description: Explicit list of the attributes for the notification.
++                  type: array
++                  items:
++                    type: string
++            mcgrp:
++              description: Name of the multicast group generating given notification.
++              type: string
++  mcast-groups:
++    description: List of multicast groups.
++    type: object
++    required: [ list ]
++    additionalProperties: False
++    properties:
++      list:
++        description: List of groups.
++        type: array
++        items:
++          type: object
++          required: [ name ]
++          additionalProperties: False
++          properties:
++            name:
++              description: |
++                The name for the group, used to form the define and the value of the define.
++              type: string
++            # Start genetlink-c
++            c-define-name:
++              description: Override for the name of the define in C uAPI.
++              type: string
++            # End genetlink-c
++            flags: *cmd_flags
+diff --git a/Documentation/netlink/genetlink.yaml b/Documentation/netlink/genetlink.yaml
+new file mode 100644
+index 000000000000..aafaaaabcfbe
+--- /dev/null
++++ b/Documentation/netlink/genetlink.yaml
+@@ -0,0 +1,284 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: "http://kernel.org/schemas/netlink/genetlink.yaml#"
++$schema: "http://kernel.org/meta-schemas/netlink/core.yaml#"
++
++title: Protocol
++description: Specification of a genetlink protocol
++type: object
++required: [ name, doc, attribute-sets, operations ]
++additionalProperties: False
++properties:
++  name:
++    description: Name of the genetlink family.
++    type: string
++  doc:
++    type: string
++  version:
++    description: Generic Netlink family version. Default is 1.
++    type: integer
++  protocol:
++    description: Schema compatibility level. Default is "genetlink".
++    enum: [ genetlink ]
++
++  definitions:
++    description: Array of type and constant definitions.
++    type: array
++    items:
++      type: object
++      required: [ type, name ]
++      additionalProperties: False
++      properties:
++        name:
++          type: string
++        header:
++          description: For C-compatible languages, header which already defines this value.
++          type: string
++        type:
++          enum: [ const, enum, flags ]
++        doc:
++          type: string
++        # For const
++        value:
++          description: For const - the value.
++          type: [ string, integer ]
++        # For enum and flags
++        value-start:
++          description: For enum or flags the literal initializer for the first value.
++          type: [ string, integer ]
++        entries:
++          description: For enum or flags array of values
++          type: array
++          items:
++            oneOf:
++              - type: string
++              - type: object
++                required: [ name ]
++                additionalProperties: False
++                properties:
++                  name:
++                    type: string
++                  value:
++                    type: integer
++                  doc:
++                    type: string
++
++        render-max:
++          description: Render the max members for this enum.
++          type: boolean
++
++  attribute-sets:
++    description: Definition of attribute spaces for this family.
++    type: array
++    items:
++      description: Definition of a single attribute space.
++      type: object
++      required: [ name, attributes ]
++      additionalProperties: False
++      properties:
++        name:
++          description: |
++            Name used when referring to this space in other definitions, not used outside of YAML.
++          type: string
++        # Strictly speaking 'name-prefix' and 'subset-of' should be mutually exclusive.
++        name-prefix:
++          description: |
++            Prefix for the C enum name of the attributes. Default family[name]-set[name]-a-
++          type: string
++        enum-name:
++          description: Name for the enum type of the attribute.
++          type: string
++        doc:
++          description: Documentation of the space.
++          type: string
++        subset-of:
++          description: |
++            Name of another space which this is a logical part of. Sub-spaces can be used to define
++            a limited group of attributes which are used in a nest.
++          type: string
++        attributes:
++          description: List of attributes in the space.
++          type: array
++          items:
++            type: object
++            required: [ name, type ]
++            additionalProperties: False
++            properties:
++              name:
++                type: string
++              type: &attr-type
++                enum: [ unused, pad, flag, binary, u8, u16, u32, u64, s32, s64,
++                        string, nest, array-nest, nest-type-value ]
++              doc:
++                description: Documentation of the attribute.
++                type: string
++              value:
++                description: Value for the enum item representing this attribute in the uAPI.
++                type: integer
++              type-value:
++                description: Name of the value extracted from the type of a nest-type-value attribute.
++                type: array
++                items:
++                  type: string
++              byte-order:
++                enum: [little-endian, big-endian]
++              multi-attr:
++                type: boolean
++              nested-attributes:
++                description: Name of the space (sub-space) used inside the attribute.
++                type: string
++              enum:
++                description: Name of the enum type used for the atttribute.
++                type: string
++              enum-as-flags:
++                description: |
++                  Treat the enum as flags. In most cases enum is either used as flags or as values.
++                  Sometimes, however, both forms are necessary, in which case header contains the enum
++                  form while specific attributes may request to convert the values into a bitfield.
++                type: boolean
++              checks:
++                description: Kernel input validation.
++                type: object
++                additionalProperties: False
++                properties:
++                  flags-mask:
++                    description: Name of the flags constant on which to base mask (unsigned scalar types only).
++                    type: string
++                  min:
++                    description: Min value for an integer attribute.
++                    type: integer
++                  min-len:
++                    description: Min length for a binary attribute.
++                    oneOf:
++                      - type: string
++                        pattern: ^[0-9A-Za-z_-]*( - 1)?$
++                      - type: integer
++                  max-len:
++                    description: Max length for a string or a binary attribute.
++                    oneOf:
++                      - type: string
++                        pattern: ^[0-9A-Za-z_-]*( - 1)?$
++                      - type: integer
++              sub-type: *attr-type
++  operations:
++    description: Operations supported by the protocol.
++    type: object
++    required: [ list ]
++    additionalProperties: False
++    properties:
++      enum-model:
++        description: |
++          The model of assigning values to the operations.
++          "unified" is the recommended model where all message types belong
++          to a single enum.
++          "directional" has the messages sent to the kernel and from the kernel
++          enumerated separately.
++          "notify-split" has the notifications and request-response types in
++          different enums.
++        enum: [ unified, directional, notify-split ]
++      name-prefix:
++        description: |
++          Prefix for the C enum name of the command. The name is formed by concatenating
++          the prefix with the upper case name of the command, with dashes replaced by underscores.
++        type: string
++      enum-name:
++        description: Name for the enum type with commands.
++        type: string
++      async-prefix:
++        description: Same as name-prefix but used to render notifications and events to separate enum.
++        type: string
++      async-enum:
++        description: Name for the enum type with notifications/events.
++        type: string
++      list:
++        description: List of commands
++        type: array
++        items:
++          type: object
++          additionalProperties: False
++          required: [ name, doc ]
++          properties:
++            name:
++              description: Name of the operation, also defining its C enum value in uAPI.
++              type: string
++            doc:
++              description: Documentation for the command.
++              type: string
++            value:
++              description: Value for the enum in the uAPI.
++              type: integer
++            attribute-set:
++              description: |
++                Attribute space from which attributes directly in the requests and replies
++                to this command are defined.
++              type: string
++            flags: &cmd_flags
++              description: Command flags.
++              type: array
++              items:
++                enum: [ admin-perm ]
++            dont-validate:
++              description: Kernel attribute validation flags.
++              type: array
++              items:
++                enum: [ strict, dump ]
++            do: &subop-type
++              description: Main command handler.
++              type: object
++              additionalProperties: False
++              properties:
++                request: &subop-attr-list
++                  description: Definition of the request message for a given command.
++                  type: object
++                  additionalProperties: False
++                  properties:
++                    attributes:
++                      description: |
++                        Names of attributes from the attribute-set (not full attribute
++                        definitions, just names).
++                      type: array
++                      items:
++                        type: string
++                reply: *subop-attr-list
++                pre:
++                  description: Hook for a function to run before the main callback (pre_doit or start).
++                  type: string
++                post:
++                  description: Hook for a function to run after the main callback (post_doit or done).
++                  type: string
++            dump: *subop-type
++            notify:
++              description: Name of the command sharing the reply type with this notification.
++              type: string
++            event:
++              type: object
++              additionalProperties: False
++              properties:
++                attributes:
++                  description: Explicit list of the attributes for the notification.
++                  type: array
++                  items:
++                    type: string
++            mcgrp:
++              description: Name of the multicast group generating given notification.
++              type: string
++  mcast-groups:
++    description: List of multicast groups.
++    type: object
++    required: [ list ]
++    additionalProperties: False
++    properties:
++      list:
++        description: List of groups.
++        type: array
++        items:
++          type: object
++          required: [ name ]
++          additionalProperties: False
++          properties:
++            name:
++              description: |
++                The name for the group, used to form the define and the value of the define.
++              type: string
++            flags: *cmd_flags
 -- 
 2.39.0
 
