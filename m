@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 428EEC678DD
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 01:33:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8226C677F1
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 01:34:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229561AbjASBbm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Jan 2023 20:31:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45120 "EHLO
+        id S229616AbjASBeU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Jan 2023 20:34:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229862AbjASBai (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 20:30:38 -0500
+        with ESMTP id S230083AbjASBbQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Jan 2023 20:31:16 -0500
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F73D2C647;
-        Wed, 18 Jan 2023 17:28:20 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 457D26C56D;
+        Wed, 18 Jan 2023 17:29:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674091700; x=1705627700;
+  t=1674091759; x=1705627759;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=/fMvxq4ANCu2cW712GMMTIFRFtohqCRfRXkl6DAzvos=;
-  b=WZrJQnrCS1MIiO+78TrLWPEZ3C8AYcw1GsQxe0iI0Wg/jvq2jLoumIuH
-   zVpgWpcho3tJW2X/e6mL3e4gCj0LBGiafIB8CsQ8XaGjPqbKg8QqRLwsS
-   VRinlaM68VMEvITZ2ZgdOItXGu8Vz3QiKS0OjNgWuJU9HB7zXXu0cXRZp
-   WXpLDhDInnX1R9vq4u+Fa3FLp0/NZW0AEU54qVHfBm+Db/9NmprX1TjzL
-   i4E7A6BwzdE/P9QbIMX8yZ+JbGTNyd+2hiaDHPSHQMrPEVfv+CbFJgyg5
-   2cF3Cw/V/djB68rliwVzHTEknmUFnAcFmw5F5U2MjxVqLBrrYoz83/9Wy
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="322847462"
+  bh=Txos19R8DyvDzhERcj8uKGox4wLE09dcHL2zQgioezU=;
+  b=mzbI3w4OcbcTydS5LbrNrf1WUybgd4bXfsssC0iDOCyf9EBupRSbEafO
+   NwkCiguYwrqhU/hyMG1JXJpvNKV4o3TQi6CIboyhb4AbZE1aPJJtHAAAW
+   RhA+IESmlmfDoZ+zjOM/OROXQWHliONfh7uO2uj6rEAAJwlNA3YwPmKmm
+   qzVjCuPZ7/Y6aIxwaGgkrq8d1XS7p7H6wI9Is6Z3VjDebKgSCtDBbUgME
+   NvKden6Ho+Kx4VFIGBqPmptk/lPAzhgNIEGBzM7HTyWW0xtIVyBFFTNvH
+   +ekwmJF9sEqGt2a0tbEQ8r0nfl9327bP5i3EzSQwMyS4xtYggVjtzeHYu
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="322847637"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="322847462"
+   d="scan'208";a="322847637"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 17:28:20 -0800
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 17:29:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="767995625"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="767995719"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="767995625"
+   d="scan'208";a="767995719"
 Received: from unknown (HELO fedora.sh.intel.com) ([10.238.175.104])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2023 17:28:14 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2023 17:29:07 -0800
 From:   Tianfei Zhang <tianfei.zhang@intel.com>
 To:     bhelgaas@google.com, linux-pci@vger.kernel.org,
         linux-fpga@vger.kernel.org, lukas@wunner.de, kabel@kernel.org,
@@ -50,9 +50,9 @@ To:     bhelgaas@google.com, linux-pci@vger.kernel.org,
         lee@kernel.org, gregkh@linuxfoundation.org,
         matthew.gerlach@linux.intel.com
 Cc:     Tianfei Zhang <tianfei.zhang@intel.com>
-Subject: [PATCH v1 03/12] PCI: hotplug: add and expose link disable API
-Date:   Wed, 18 Jan 2023 20:35:53 -0500
-Message-Id: <20230119013602.607466-4-tianfei.zhang@intel.com>
+Subject: [PATCH v1 12/12] Documentation: fpga: add description of fpgahp driver
+Date:   Wed, 18 Jan 2023 20:36:02 -0500
+Message-Id: <20230119013602.607466-13-tianfei.zhang@intel.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230119013602.607466-1-tianfei.zhang@intel.com>
 References: <20230119013602.607466-1-tianfei.zhang@intel.com>
@@ -62,49 +62,75 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When a PCIe-based FPGA card is reprogrammed, it temporarily
-disappears from the PCIe bus. This needs to be managed to
-avoid PCIe errors while the device is not present. Also,
-re-probing and rescan the PCI devices must be performed after
-loading the new images. Export functions from pciehp driver
-necessary for disable and enable the PCI link of a PCI hotplug
-bridge.
+Add the description of fpgahp driver.
 
 Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
 ---
- drivers/pci/hotplug/pciehp.h     | 1 +
- drivers/pci/hotplug/pciehp_hpc.c | 6 ++++++
- 2 files changed, 7 insertions(+)
+ Documentation/fpga/fpgahp.rst | 29 +++++++++++++++++++++++++++++
+ Documentation/fpga/index.rst  |  1 +
+ MAINTAINERS                   |  1 +
+ 3 files changed, 31 insertions(+)
+ create mode 100644 Documentation/fpga/fpgahp.rst
 
-diff --git a/drivers/pci/hotplug/pciehp.h b/drivers/pci/hotplug/pciehp.h
-index c7f455a3b08f..8b58d0e84644 100644
---- a/drivers/pci/hotplug/pciehp.h
-+++ b/drivers/pci/hotplug/pciehp.h
-@@ -195,6 +195,7 @@ int pciehp_get_raw_indicator_status(struct hotplug_slot *h_slot, u8 *status);
- int pciehp_slot_reset(struct pcie_device *dev);
- 
- int pciehp_link_enable(struct controller *ctrl);
-+int pciehp_link_disable(struct controller *ctrl);
- 
- static inline const char *slot_name(struct controller *ctrl)
- {
-diff --git a/drivers/pci/hotplug/pciehp_hpc.c b/drivers/pci/hotplug/pciehp_hpc.c
-index 11e4bc58aec0..729546c0c1f9 100644
---- a/drivers/pci/hotplug/pciehp_hpc.c
-+++ b/drivers/pci/hotplug/pciehp_hpc.c
-@@ -353,6 +353,12 @@ int pciehp_link_enable(struct controller *ctrl)
- }
- EXPORT_SYMBOL_NS_GPL(pciehp_link_enable, PCIEHP);
- 
-+int pciehp_link_disable(struct controller *ctrl)
-+{
-+	return __pciehp_link_set(ctrl, false);
-+}
-+EXPORT_SYMBOL_NS_GPL(pciehp_link_disable, PCIEHP);
+diff --git a/Documentation/fpga/fpgahp.rst b/Documentation/fpga/fpgahp.rst
+new file mode 100644
+index 000000000000..3ec34bbffde1
+--- /dev/null
++++ b/Documentation/fpga/fpgahp.rst
+@@ -0,0 +1,29 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
- int pciehp_get_raw_indicator_status(struct hotplug_slot *hotplug_slot,
- 				    u8 *status)
- {
++===========================
++FPGA Hotplug Manager Driver
++===========================
++
++Authors:
++
++- Tianfei Zhang <tianfei.zhang@intel.com>
++
++There are some board managements for PCIe-based FPGA card like burning the entire
++image, loading a new FPGA image or BMC firmware in FPGA deployment of data center
++or cloud. For example, loading a new FPGA image, the driver needs to remove all of
++PCI devices like PFs/VFs and as well as any other types of devices (platform, etc.)
++defined within the FPGA. After triggering the image load of the FPGA card via BMC,
++the driver reconfigures the PCI bus. The FPGA Hotplug Manager (fpgahp) driver manages
++those devices and functions leveraging the PCI hotplug framework to deal with the
++reconfiguration of the PCI bus and removal/probe of PCI devices below the FPGA card.
++
++This fpgahp driver adds 2 new callbacks to extend the hotplug mechanism to
++allow selecting and loading a new FPGA image.
++
++ - available_images: Optional: called to return the available images of a FPGA card.
++ - image_load: Optional: called to load a new image for a FPGA card.
++
++In general, the fpgahp driver provides some sysfs files::
++
++        /sys/bus/pci/slots/<X-X>/available_images
++        /sys/bus/pci/slots/<X-X>/image_load
+diff --git a/Documentation/fpga/index.rst b/Documentation/fpga/index.rst
+index f80f95667ca2..8973a8a3f066 100644
+--- a/Documentation/fpga/index.rst
++++ b/Documentation/fpga/index.rst
+@@ -8,6 +8,7 @@ fpga
+     :maxdepth: 1
+ 
+     dfl
++    fpgahp
+ 
+ .. only::  subproject and html
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 85d4e3a0e986..569c7f680229 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8169,6 +8169,7 @@ L:	linux-fpga@vger.kernel.org
+ L:	linux-pci@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/ABI/testing/sysfs-driver-fpgahp
++F:	Documentation/fpga/fpgahp.rst
+ F:	drivers/pci/hotplug/fpgahp.c
+ F:	include/linux/fpga/fpgahp_manager.h
+ 
 -- 
 2.38.1
 
