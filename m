@@ -2,207 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 640FCC678DF
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 21:42:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3323C004D4
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 22:09:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231174AbjASVmQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 16:42:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50672 "EHLO
+        id S229813AbjASWJz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 17:09:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231178AbjASViw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 16:38:52 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42C0F10A97;
-        Thu, 19 Jan 2023 13:27:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674163679; x=1705699679;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=Y8HP+6SI6A4E79h0YyqSt+wn/k0j51I/AMnEXqlWOFs=;
-  b=PD1B4p16BOBls0XwR8Y2cdpmts1U9YPGrfE8GvFU1S45++EsnSMBuZ8o
-   2m3MWRM0IYKoVc1s5p/dsaRnxYTqeu+fuO+6Y+Y1DRE1/P+8gqe7+z4Mo
-   pdjXvTQFkMUmT6QREPzqPu+yN1ZFtHiFkB06cts1pYYS+sVILde0h0Fkg
-   +fut8mzK1cURAnspl+OknZENH3sFNIF6eJp2hcg7VACPbkcwg0b00TUV9
-   p0vREIpGRJgeT0wWPX2NxWeNJPgmjXk1YP1dBqcbBurTr6OMMSYvApw1O
-   MJW0wCsn5Sd59rZ84eFjXBcj1tCra9pgfiBJZq0ZT1kTNNICTDdCIBCom
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="323120040"
-X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="323120040"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 13:24:22 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="989139185"
-X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="989139185"
-Received: from hossain3-mobl.amr.corp.intel.com (HELO rpedgeco-desk.amr.corp.intel.com) ([10.252.128.187])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 13:24:20 -0800
-From:   Rick Edgecombe <rick.p.edgecombe@intel.com>
-To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com
-Cc:     rick.p.edgecombe@intel.com
-Subject: [PATCH v5 36/39] x86/fpu: Add helper for initing features
-Date:   Thu, 19 Jan 2023 13:23:14 -0800
-Message-Id: <20230119212317.8324-37-rick.p.edgecombe@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
-References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+        with ESMTP id S229760AbjASWJW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 17:09:22 -0500
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8295D88D1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 13:46:53 -0800 (PST)
+Received: by mail-qt1-x82f.google.com with SMTP id e8so2741358qts.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 13:46:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qlIuAzy0CKmfob+VwS63QoBpBffTthRBwy4ssNc++Zc=;
+        b=SO2m+CGCpI4nrJTFY3HiyfU7+iXojTJ+sfeWN38q9AzxnsA1BqzSAwk39IM+zLpR8/
+         R999v38oPtTuDm3lpEEZE8dfLlo8hks7ZDqW5M++e0Ydo6c2k/keTXZ+p2P/9RkVZSAX
+         JvnwaqJO/FT/ieeHy8b3IkzV5SprqB3dGzks8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qlIuAzy0CKmfob+VwS63QoBpBffTthRBwy4ssNc++Zc=;
+        b=VFKsbI4jUI+jFLbhjd/XNqmTDfJe9G5fGcHPSl5stAy3n0fPXgBg1/tej+Vhoeet+H
+         Hzqz0yTKNaQUFL/XbS5UaXimcljk4E7rxotiO2/b1KzMvoCQHQlIi56btfg0s9d05hsm
+         aQmEW6f5p1QQc23SFWE7ypC0BmbkvJONCOIwc7SDF1BCG2+Z2QtQ/TwHuI8VpEZw5V6g
+         pda8dm93CfOXDWOZrtiYqNZ/ncFGEXdV2fUan99YbEsMuGv6+76sSqMuFs9YJAoV9G8+
+         ibUbt8B+q/iLcZaMK2NO5AZ48kwtEmY/PPU0pWmGOfBItuzn0z1rcyLQaleFa6sKl/ON
+         OXZw==
+X-Gm-Message-State: AFqh2kpy2Pe6ILWNLSf+b2mfBNh0OlbivJFeOG/S4bxsNQnU0ipXBUOB
+        z0lwlyuuPXIVz6Ys9+3pT5e6cw==
+X-Google-Smtp-Source: AMrXdXufJEeE4u+hvKEdx9M9a5l6L+SiCJEwrWUHlJVfwgyw3aFdzPaoINdbwYNbfyhRvdrFxN1VWg==
+X-Received: by 2002:ac8:748e:0:b0:3b6:2e37:3394 with SMTP id v14-20020ac8748e000000b003b62e373394mr14485171qtq.27.1674164808164;
+        Thu, 19 Jan 2023 13:46:48 -0800 (PST)
+Received: from meerkat.local (bras-base-mtrlpq5031w-grc-30-209-226-106-7.dsl.bell.ca. [209.226.106.7])
+        by smtp.gmail.com with ESMTPSA id y6-20020a37f606000000b006fef61300fesm7939701qkj.16.2023.01.19.13.46.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jan 2023 13:46:47 -0800 (PST)
+Date:   Thu, 19 Jan 2023 16:46:46 -0500
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Akira Yokosawa <akiyks@gmail.com>,
+        Sadiya Kazi <sadiyakazi@google.com>, brendanhiggins@google.com,
+        davidgow@google.com, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org
+Subject: Re: New theme - Alabaster for Kernel Documentation
+Message-ID: <20230119214646.nquwprfswdckwexw@meerkat.local>
+References: <CAO2JNKUA5DWxNk2cCZwj8DEFF-acf6ZpxwBqn2qTwn4fTW1+BQ@mail.gmail.com>
+ <c00df839-9429-891b-5682-3dbc2d6edbbe@gmail.com>
+ <87r0vq6wni.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87r0vq6wni.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If an xfeature is saved in a buffer, the xfeature's bit will be set in
-xsave->header.xfeatures. The CPU may opt to not save the xfeature if it
-is in it's init state. In this case the xfeature buffer address cannot
-be retrieved with get_xsave_addr().
+On Thu, Jan 19, 2023 at 02:29:21PM -0700, Jonathan Corbet wrote:
+> Akira Yokosawa <akiyks@gmail.com> writes:
+> 
+> > Konstantin, would it be possible for you to add "DOCS_THEME=sphinx_rtd_theme"
+> > for the "latest" kernel documentation builds until the new default theme
+> > becomes good enough for most people?  That is if Jon agrees.
+> > For the "next" builds, alabaster theme should be OK, and easier for us to
+> > compare the two themes.
+> 
+> I'd prefer to avoid this if possible.  In the end, though, what
+> kernel.org does isn't my decision, of course...
 
-Future patches will need to handle the case of writing to an xfeature
-that may not be saved. So provide helpers to init an xfeature in an
-xsave buffer.
+Something I've considered is to have /latest/ show the latest mainline
+*released* mainline, while /rc/ would show the latest rc. So, we'd have three
+distinct movable targets:
 
-This could of course be done directly by reaching into the xsave buffer,
-however this would not be robust against future changes to optimize the
-xsave buffer by compacting it. In that case the xsave buffer would need
-to be re-arranged as well. So the logic properly belongs encapsulated
-in a helper where the logic can be unified.
+docs.kernel.org       - latest mainline release (same as kernel.org/doc/html/latest/)
+docs.kernel.org/next/ - linux-next
+docs.kernel.org/rc/   - latest rc
 
-Tested-by: Pengfei Xu <pengfei.xu@intel.com>
-Tested-by: John Allen <john.allen@amd.com>
-Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
----
+Would that be acceptable as a solution?
 
-v2:
- - New patch
-
- arch/x86/kernel/fpu/xstate.c | 58 +++++++++++++++++++++++++++++-------
- arch/x86/kernel/fpu/xstate.h |  6 ++++
- 2 files changed, 53 insertions(+), 11 deletions(-)
-
-diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
-index 13a80521dd51..3ff80be0a441 100644
---- a/arch/x86/kernel/fpu/xstate.c
-+++ b/arch/x86/kernel/fpu/xstate.c
-@@ -934,6 +934,24 @@ static void *__raw_xsave_addr(struct xregs_state *xsave, int xfeature_nr)
- 	return (void *)xsave + xfeature_get_offset(xcomp_bv, xfeature_nr);
- }
- 
-+static int xsave_buffer_access_checks(int xfeature_nr)
-+{
-+	/*
-+	 * Do we even *have* xsave state?
-+	 */
-+	if (!boot_cpu_has(X86_FEATURE_XSAVE))
-+		return 1;
-+
-+	/*
-+	 * We should not ever be requesting features that we
-+	 * have not enabled.
-+	 */
-+	if (WARN_ON_ONCE(!xfeature_enabled(xfeature_nr)))
-+		return 1;
-+
-+	return 0;
-+}
-+
- /*
-  * Given the xsave area and a state inside, this function returns the
-  * address of the state.
-@@ -954,17 +972,7 @@ static void *__raw_xsave_addr(struct xregs_state *xsave, int xfeature_nr)
-  */
- void *get_xsave_addr(struct xregs_state *xsave, int xfeature_nr)
- {
--	/*
--	 * Do we even *have* xsave state?
--	 */
--	if (!boot_cpu_has(X86_FEATURE_XSAVE))
--		return NULL;
--
--	/*
--	 * We should not ever be requesting features that we
--	 * have not enabled.
--	 */
--	if (WARN_ON_ONCE(!xfeature_enabled(xfeature_nr)))
-+	if (xsave_buffer_access_checks(xfeature_nr))
- 		return NULL;
- 
- 	/*
-@@ -984,6 +992,34 @@ void *get_xsave_addr(struct xregs_state *xsave, int xfeature_nr)
- 	return __raw_xsave_addr(xsave, xfeature_nr);
- }
- 
-+/*
-+ * Given the xsave area and a state inside, this function
-+ * initializes an xfeature in the buffer.
-+ *
-+ * get_xsave_addr() will return NULL if the feature bit is
-+ * not present in the header. This function will make it so
-+ * the xfeature buffer address is ready to be retrieved by
-+ * get_xsave_addr().
-+ *
-+ * Inputs:
-+ *	xstate: the thread's storage area for all FPU data
-+ *	xfeature_nr: state which is defined in xsave.h (e.g. XFEATURE_FP,
-+ *	XFEATURE_SSE, etc...)
-+ * Output:
-+ *	1 if the feature cannot be inited, 0 on success
-+ */
-+int init_xfeature(struct xregs_state *xsave, int xfeature_nr)
-+{
-+	if (xsave_buffer_access_checks(xfeature_nr))
-+		return 1;
-+
-+	/*
-+	 * Mark the feature inited.
-+	 */
-+	xsave->header.xfeatures |= BIT_ULL(xfeature_nr);
-+	return 0;
-+}
-+
- #ifdef CONFIG_ARCH_HAS_PKEYS
- 
- /*
-diff --git a/arch/x86/kernel/fpu/xstate.h b/arch/x86/kernel/fpu/xstate.h
-index a4ecb04d8d64..dc06f63063ee 100644
---- a/arch/x86/kernel/fpu/xstate.h
-+++ b/arch/x86/kernel/fpu/xstate.h
-@@ -54,6 +54,12 @@ extern void fpu__init_cpu_xstate(void);
- extern void fpu__init_system_xstate(unsigned int legacy_size);
- 
- extern void *get_xsave_addr(struct xregs_state *xsave, int xfeature_nr);
-+extern int init_xfeature(struct xregs_state *xsave, int xfeature_nr);
-+
-+static inline int xfeature_saved(struct xregs_state *xsave, int xfeature_nr)
-+{
-+	return xsave->header.xfeatures & BIT_ULL(xfeature_nr);
-+}
- 
- static inline u64 xfeatures_mask_supervisor(void)
- {
--- 
-2.17.1
-
+-K
