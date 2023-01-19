@@ -2,169 +2,234 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6146C46467
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 11:54:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE574C004D4
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 12:09:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230135AbjASLy1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 06:54:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58438 "EHLO
+        id S229804AbjASMJi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 07:09:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbjASLyU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 06:54:20 -0500
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2062.outbound.protection.outlook.com [40.107.101.62])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBABE4B4B9;
-        Thu, 19 Jan 2023 03:54:17 -0800 (PST)
+        with ESMTP id S230412AbjASMJc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 07:09:32 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B99474E3;
+        Thu, 19 Jan 2023 04:09:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674130171; x=1705666171;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=XkuQZnkE6KE0U+xLe8Jrde7T21dOfTyXM2rkCPoyPxY=;
+  b=NhIN19+GszLYFe2ThjJ8rKJeGgkM1GC7yuJQOy2ByTr7FzqqMvnD+4pq
+   CLxWCDK+4dlOpha121XST3u6YUwqTgkcZ3pLsMU0P1X96VZ1zN2ab5WVy
+   915i6KlxARyxMVSMXb3UkRM9NrsWQF45mEq/1ZB1K5zE7FjoHdNe/yPNB
+   XqiEwoDBCyL/5W1cvEGVITRn8xEKairhfgSvJyNwlRVp2hRf1C6O87zBz
+   t6QY42ZMk4dmfdz9b7fq69CI03PZ0LFvhweU44BWmlDvOIuQKpqdoqbDb
+   2iV8/8TrB9dJ5Vf/3LSls4NKrbeVNnD3yuneBMSTKRQj4r7qwxw7fOQfQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="323956198"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="323956198"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 04:09:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="723471520"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="723471520"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga008.fm.intel.com with ESMTP; 19 Jan 2023 04:09:31 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 19 Jan 2023 04:09:30 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 19 Jan 2023 04:09:30 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Thu, 19 Jan 2023 04:09:30 -0800
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.43) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Thu, 19 Jan 2023 04:09:27 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eG5ikeyxmo3AB+/6/MRoSKy31P4KE6pF2OjxlUCRkmKWxdxc865vUcXbHw7dhI4x+ZrCfMRJcGDGr7fzvwDxOEpg4BjMrBB5wYUzrjJo9ILfZwF5KGh7LTyO6NYhMnxpuYrRxOxAcqebXmblj4UCipYJTvmMSx4xVMzx6SDMp2oNW6yLaSrjoOXXD9W45v1LdkSbbdrt1Nq4M3X1iBTNl99l0QATmLFNZcVUaYuxjSsRt16adyRTH8Z/EfVwUQPELuPOa2gcJgwhAzo6aPYvohGLePY5N46B+c82YM14DYCM7CB5Rs09D6cpbjlIxQOmqcGo1i2CQOLyFfl5qrR3NQ==
+ b=VE1/Zs7bfK4G+G4XmtgKvyyWW5+VOiRHNTFjK3l/1WZuvaA8gdgmDzYEIr7ShZesBieqb7TGMBTnVr0PBlj99uODPGSuZxfUU1fsjZSb0K5MRMsfRP6ZBZ0OGfJs8y7WecneouRewVr1A37wyk/bNy+ve7nNi2zYbRm1qkOOnznAgoF640zZf0ishqoOXXKvMZGr0/3G5TDPsc6K7roXOaWvk4jT94d6OPIsEu5AqJlfU/f8WuXljyjwcqfXOSL2SYlzic5qvI9cIlcWaAAxx/4B5N3q3+H1W+8YFf4R7ORkQqZ1MykDGrzF429VMHL0J2u9Y3G5LYtAhiMObLMaew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e2+bi/RLp60NJfFTa706oIDyFewKZo3lNCtGPoDlh+w=;
- b=eKjKHj5KCt4CuZTB+pqOIWZjeaQQuJxy0gYt3fmvQ7iXDXwRpSEkafZ0Vyu/RjxX/I+Uv2FpPqBY/VHvZk0H8yq4/qx9vwkO34F31XCaX866ljnjQ1MjbprPebC2VAETgu8+XGUTom+hVfqTbnJjdKH3QLQxvEYkXpTNFcsgkAL15XXMv6H5qgbbjtw6XK/FVTZ79AekaaQcgG05tYClWhIzJCkaAUeQRhxzrpSFW0eq5lou/MWVuwH+J01S8+EQNKR7g+ESxHqnfombY1EhW4wwu7vNGQMFonPe/o8fbCBDPugF7gKag2n8N22tyXBUX9hXsrIZS3DDatfNoTGg1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e2+bi/RLp60NJfFTa706oIDyFewKZo3lNCtGPoDlh+w=;
- b=ARfAczN+1d3iBfOCbV3HguCSKQgSKeyZH1YWZp2G0nVHKJ0qkVMb07438o7GneN+uvgnhLgVlGK6M5NRAoeDp0HvFrEN4yZIPT7lOKYhEPy/Orpvcxo4ic6UVoALe1I2DVjGmpCbrQh+LSIv0677IW+wTefhhbfP4CHRnsASNV0=
-Received: from DS7PR03CA0260.namprd03.prod.outlook.com (2603:10b6:5:3b3::25)
- by PH8PR12MB7303.namprd12.prod.outlook.com (2603:10b6:510:220::16) with
+ bh=IryLwD2F3irmGhDeEKk9JU8L6Bov8PgEt+IXRi/dhb8=;
+ b=gnY0DmeBpf+4SebwEiK0KhgkROc9Pk9F/5oVbC9LPQSIP2UEm9rZMPRSXZo0hfQDD965SmQJrO7KXdcRw/mr8X3wfHvgEPQXGY8o1Xhi2UEBXaHmrxHF1E9SWtyXcUsa82o5Njm8dCHkLxa9TP651QDLkDJZFRQ4c6efqHr9ulTv1/Dvvrbpha87FREQNOFazPIS3P6w9X0oBtVSDKYfJ6X3fb5RluJY8dYPOTDd0vE1aY32ErtQ5a50qjdCehS2JAhyaD3F1AEK0ZW5aPGd+cpH46LomVYGYqvMD/FSoR998R9ioJEbc0cruSe/Zx4LisG4siRPIIOEq0olnV1sSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5483.namprd11.prod.outlook.com (2603:10b6:408:104::10)
+ by DS0PR11MB7632.namprd11.prod.outlook.com (2603:10b6:8:14f::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.19; Thu, 19 Jan
- 2023 11:54:15 +0000
-Received: from DM6NAM11FT038.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:3b3:cafe::d) by DS7PR03CA0260.outlook.office365.com
- (2603:10b6:5:3b3::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.24 via Frontend
- Transport; Thu, 19 Jan 2023 11:54:15 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT038.mail.protection.outlook.com (10.13.173.137) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6023.16 via Frontend Transport; Thu, 19 Jan 2023 11:54:15 +0000
-Received: from beas.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 19 Jan
- 2023 05:54:10 -0600
-From:   Wyes Karny <wyes.karny@amd.com>
-To:     Rafael J Wysocki <rafael@kernel.org>,
-        Huang Rui <ray.huang@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        <Mario.Limonciello@amd.com>, <Perry.Yuan@amd.com>,
-        Ananth Narayan <ananth.narayan@amd.com>,
-        <gautham.shenoy@amd.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
-        <santosh.shukla@amd.com>, Len Brown <lenb@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Borislav Petkov <bp@suse.de>, Wyes Karny <wyes.karny@amd.com>
-Subject: [PATCH v3 6/6] Documentation: amd_pstate: Update amd_pstate status sysfs for guided
-Date:   Thu, 19 Jan 2023 11:50:17 +0000
-Message-ID: <20230119115017.10188-7-wyes.karny@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230119115017.10188-1-wyes.karny@amd.com>
-References: <20230119115017.10188-1-wyes.karny@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Thu, 19 Jan
+ 2023 12:09:25 +0000
+Received: from BN9PR11MB5483.namprd11.prod.outlook.com
+ ([fe80::ee18:f0d6:8983:5a24]) by BN9PR11MB5483.namprd11.prod.outlook.com
+ ([fe80::ee18:f0d6:8983:5a24%3]) with mapi id 15.20.6002.026; Thu, 19 Jan 2023
+ 12:09:25 +0000
+From:   "Zhang, Tianfei" <tianfei.zhang@intel.com>
+To:     "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>
+CC:     =?iso-8859-1?Q?Pali_Roh=E1r?= <pali@kernel.org>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
+        "lukas@wunner.de" <lukas@wunner.de>,
+        "kabel@kernel.org" <kabel@kernel.org>,
+        "mani@kernel.org" <mani@kernel.org>,
+        "mdf@kernel.org" <mdf@kernel.org>, "Wu, Hao" <hao.wu@intel.com>,
+        "Xu, Yilun" <yilun.xu@intel.com>, "Rix, Tom" <trix@redhat.com>,
+        "jgg@ziepe.ca" <jgg@ziepe.ca>, "Weiny, Ira" <ira.weiny@intel.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "Weight, Russell H" <russell.h.weight@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "ilpo.jarvinen@linux.intel.com" <ilpo.jarvinen@linux.intel.com>,
+        "lee@kernel.org" <lee@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "matthew.gerlach@linux.intel.com" <matthew.gerlach@linux.intel.com>
+Subject: RE: [PATCH v1 00/12] add FPGA hotplug manager driver
+Thread-Topic: [PATCH v1 00/12] add FPGA hotplug manager driver
+Thread-Index: AQHZK6VLCdlhIKUsp0qb4AVuDG8fX66lYngAgAAAWxCAADf0AIAABOfA
+Date:   Thu, 19 Jan 2023 12:09:24 +0000
+Message-ID: <BN9PR11MB54838DF14D9CC7F1F6E2D4A3E3C49@BN9PR11MB5483.namprd11.prod.outlook.com>
+References: <20230119013602.607466-1-tianfei.zhang@intel.com>
+ <20230119080606.tnjqwkseial7vpyq@pali>
+ <BN9PR11MB54839E8851853A4251451719E3C49@BN9PR11MB5483.namprd11.prod.outlook.com>
+ <Y8kpKm51YryPz9F5@smile.fi.intel.com>
+In-Reply-To: <Y8kpKm51YryPz9F5@smile.fi.intel.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5483:EE_|DS0PR11MB7632:EE_
+x-ms-office365-filtering-correlation-id: 21220889-e570-4636-66c3-08dafa16014d
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: tjmAlka2c0t+YWUOIFnyqW/QVn4jYGESmbC+dj1YTH7bit4bfDZksT+UEDqVneREMFSFw2CMucMlhtF11KUdnig0RvgAlMF1Z4Jk1eDVZKxxTwcgwDrQix049lpV7ioeZfwHEQEmA8YnjzcjyrIgANS1U13XZhqfrWK1s/GC5ZQc6w9UsBm7B8VHtSwAIZ9NxSux2zJJHIBEwL37g3/b2Wd0Cm0sf/w4wQ9xJM+50zR/k8JHqz4ZYfL1ng4nPWpI+uSi6CjkEpL7zd5nHeEijDtL5oxsf+1s9Ph8Iho0Lo21dbqGDYWl5VkGYNAG6DywNievqYKyXUJQrn17wUdD/XKUsMEzL0h66sOsgd2bHBy98Zut6bDElBwBUaH/ZEPG8uFsYIzvIOlIs/oMHw/eXmfVkXZr9mngZVas4+KYvAUYH34H5OuO77mMjS9HTbif8fcV7fpGtV+XbE9d8rts4TQJpkavj+tOyLa6eVe09oCRD1ovYcKl/FSTLS9xS8s1lqwVo4lhsYPhmgCJav3qMdqousZuceSiVY30RlNCChuk+nhsh8DaKcJPdpEjXpXh9ApXVOShnz77p60G6GLkaJQSOrATMlZnjqsK9/NRNOkL+NClvwXzCis6NMmIaAfr/twc5QwXiVZ+hEjx4HWBFQI1IvfoV8c47oDtzHc8i2A/Ac/cDCGn0j2+gnoxbOguanrq+CJ8Drfa7i8FEoidEQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5483.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(366004)(376002)(136003)(346002)(396003)(39860400002)(451199015)(86362001)(33656002)(71200400001)(55016003)(478600001)(186003)(7696005)(54906003)(9686003)(6506007)(66556008)(66476007)(2906002)(38070700005)(53546011)(4326008)(8936002)(316002)(7416002)(5660300002)(8676002)(6916009)(66446008)(76116006)(64756008)(41300700001)(38100700002)(122000001)(66946007)(82960400001)(66574015)(52536014)(83380400001)(26005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?psn1nOx5L+nrOtpes4hTRGMnuxD6o6gAl0XF4pESvSqg2y9SD9I0V3McDf?=
+ =?iso-8859-1?Q?OTCAH+S7NP9lSiZZHgCjggijIFdecflLj0H5KZMmFMNoe6k/kvDowhdYh1?=
+ =?iso-8859-1?Q?hKZUq0EUw/yUBDkY9PkGy/OUG9jv8bJRBtEvYEw6Bk6bKDqQqUpfwvtW+d?=
+ =?iso-8859-1?Q?JYIbcFf18lNMzc9wpC5FhxZuuY5tpt/VDFR0Pgw1Nz4kJF8+kpBySbTlEH?=
+ =?iso-8859-1?Q?KQHTQARVFPMBV81IyAEd/44wpmIk57Bz0sEQV/RsmYTeCGWeJbyh+vmG8+?=
+ =?iso-8859-1?Q?pfg/zTmvSnaDHS9c+1fc1VCcKjYXbhjWOyt1U/EAQU9jSnle7b2ZHpcxct?=
+ =?iso-8859-1?Q?LQhhH6k1CdLNmhY0L/yG+BP0v7zA+vlz1E3QPSqsK/klQ7lEKxP1d5NKie?=
+ =?iso-8859-1?Q?yDsVLdMxwNXZ/nJaIQ5rM6TM/gaIt8ipOmKH4FU00nyHxFyW83eagdxlWx?=
+ =?iso-8859-1?Q?k2apoNtnblRcLtUHd3uHm/GobVXEgNyX9um31SGeyHkIm5pp9jKpvnd1nH?=
+ =?iso-8859-1?Q?2ZJrmbI0yn7FNYT1VpE4UYDhxNZq5WQQfthd1Jq/iyYahGEEGdYe76hUwS?=
+ =?iso-8859-1?Q?1Kr1kViQq62ECfGzuI9vmog52FZjdettiYPxuXnoF6uHlC3AfV0rUKos9p?=
+ =?iso-8859-1?Q?MR310YYhI/q8fu45nlf6B/TDruUvwQ5J2d5GUv7eY3YXNTEOSPI6kcjrF1?=
+ =?iso-8859-1?Q?k6dA5tRr9Gbjjb8QautBP/JeTMoWGYp+s0H3JGoyU2t8xYFoIIDJf1xpw9?=
+ =?iso-8859-1?Q?7mmy7W8diLikS4/Gf2VHFnolpduxkycFuhWjUUXQMaOCF5VzMnqgq60vGl?=
+ =?iso-8859-1?Q?ruczQGyS5hr5L9Ve/Bi5jE0/mLmEB7b1ue2+K5R6wj5kypizsgRlxYN4WR?=
+ =?iso-8859-1?Q?1SfucMsueRNb6aogBYoLajuZ9obgwiuLDkDK7hvkKaZrYMEoVEDQadNqAh?=
+ =?iso-8859-1?Q?psD1DSpGdINhtMDUIdlUuy6s98YP1BCbQsUJzaHGfBzsdPzk2YvB7K7tRA?=
+ =?iso-8859-1?Q?an3paCfcqTzRyCPp1xUEwsP0wtAkE9xLDmRluPgfDRuWgAuH3LAtWGw5Jz?=
+ =?iso-8859-1?Q?NiN9zr5Ng7NbkL0zukjn8JE0IIYIrbdIK6R4CrMixBgQnZQ7xiOtyAMcjq?=
+ =?iso-8859-1?Q?VWWuvD4bf6/NUrLJRMPeFe8mmWh9bBU2OfnFpwXVVPiozUv9s3/+Dhwdjb?=
+ =?iso-8859-1?Q?xpzTiEuRN61udkapdDuv3J/g32i9W7twzOYlxT9lZJwONia8ks7/wgo9Rb?=
+ =?iso-8859-1?Q?88LNp8tuAsm6CUgRNdlyLKFfHOj869vIUvjGmjastRF0iX6hExgHxcI+3s?=
+ =?iso-8859-1?Q?aC1J7NlI4wi4X3noWycmTBNLJZpfCcJbX4n1Rt2fGmxFj7rX01vTdx4U1K?=
+ =?iso-8859-1?Q?hpBc24T4LjXTh2/vpAnesXPPaj9O4WeD7U5lLflfvcDYVeoq0hpKijm4HC?=
+ =?iso-8859-1?Q?vNS/gNyYL7W1TMzDb85PYrPtUCgRInEbRI7oGT4PkMc5frtfU9NBC/EBQk?=
+ =?iso-8859-1?Q?lBqIlthX27wMJZ0kik7o6NvtjPm9izI34/XfBi0TlilBeXXfuqWlpKJfoj?=
+ =?iso-8859-1?Q?jwZrGM3NsRbi5z2AAJoLRzUfNhxVZr1S/9C/Y8wcsO+gKZkT51du9Z1LkU?=
+ =?iso-8859-1?Q?PxvBULG39FJ5zgJcEYc2+GOYsbrQXv8dDU?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT038:EE_|PH8PR12MB7303:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f6677d9-5564-4482-3b7d-08dafa13e375
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zM8F1K9DEwFvsWTRevyzEg3azDcSXouNxW3bnjXsBirbOhPXUaqC6N5TvBjjVqUA7Vc9ivOUcrvWAJ2kwRuzDNI9NzLsT5cOGWKmRZbCIdBQEoU2mgAFbbGPDGIhZZa0JKyY8LNX/nc1FlvSfbSy0Y7RVsHUJGTjwbPMgbfhekpUYhwzoEwpRYS3aecULBnOGB7LDncesESSFxOHL75LUksgq6b7eGb6W+qZR0225lBgSNn+f2+cLd9Nvkpxst71uRYyr2yEo+ZcONV99LLpw5PeKdXUy2kYk4j1u+u1ZX127bscuexBn64Gz/h4WcvwBt5rw6d5RZn7t3XU2Um1VjCD41VPcqKs5Nj0xADZ3oA7F8QNaMWj8ZTZZNZdmNT2IcVmx5z4mgeYL1auMgQ6eNGbid1k24MieUG37UvWx/rpf1WRn4ZGS1Emx1vDOvisJYUmoTWBAxR6v0iJ6xzd10x+c+TkBfdJx1icNdzp7NeowybL08GdrippPDwb8MbS9+C0J4dU3iJpPV6HN4jqE0KllCtljd5HkUPqxl08rAVonGzCuYAbsZcwI7YpOBEZG2fjSeF3Fv8L0FMfH5wZ9bXebB0wOnx77R9tqFJYPHU4cRFW+ea1wpV4aEXQGtsUKfM+XBLoQWRsJOeEHLzCQCqZ8+2pFNLYrbE6xoy0827MShpKojn2RvCv2khxJ4ibqMGIFWbfKUpRsOsv07u6Pc+Hh0GETKhtPCEL87MqlqE=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(346002)(396003)(39860400002)(451199015)(36840700001)(46966006)(40470700004)(7696005)(16526019)(2906002)(110136005)(186003)(1076003)(54906003)(2616005)(26005)(6636002)(316002)(41300700001)(426003)(83380400001)(15650500001)(82740400003)(36860700001)(336012)(8936002)(82310400005)(8676002)(36756003)(4326008)(40480700001)(70206006)(5660300002)(478600001)(86362001)(7416002)(47076005)(81166007)(44832011)(70586007)(40460700003)(356005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 11:54:15.2998
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5483.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21220889-e570-4636-66c3-08dafa16014d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jan 2023 12:09:24.4264
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f6677d9-5564-4482-3b7d-08dafa13e375
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT038.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7303
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wejRrZpo0xkR4ONctNIRuurzW2WFkv1k23Bap64rFdzxI7lqolPtozq0B/vIdFjx33PAJsGqpHS3u9TyyDMfUg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7632
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update amd_pstate status sysfs for guided mode.
 
-Signed-off-by: Wyes Karny <wyes.karny@amd.com>
----
- Documentation/admin-guide/pm/amd-pstate.rst | 32 ++++++++++++++++-----
- 1 file changed, 25 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
-index 5304adf2fc2f..d85a141109e5 100644
---- a/Documentation/admin-guide/pm/amd-pstate.rst
-+++ b/Documentation/admin-guide/pm/amd-pstate.rst
-@@ -303,13 +303,19 @@ efficiency frequency management method on AMD processors.
- AMD Pstate Driver Operation Modes
- =================================
- 
--``amd_pstate`` CPPC has two operation modes: CPPC Autonomous(active) mode and
--CPPC non-autonomous(passive) mode.
--active mode and passive mode can be chosen by different kernel parameters.
--When in Autonomous mode, CPPC ignores requests done in the Desired Performance
--Target register and takes into account only the values set to the Minimum requested
--performance, Maximum requested performance, and Energy Performance Preference
--registers. When Autonomous is disabled, it only considers the Desired Performance Target.
-+``amd_pstate`` CPPC has 3 operation modes: autonomous (active) mode,
-+non-autonomous (passive) mode and guided autonomous (guided) mode.
-+Active/passive/guided mode can be chosen by different kernel parameters.
-+
-+- In autonomous mode, platform ignores the desired performance level request
-+  and takes into account only the values set to the Minimum requested
-+  performance, Maximum requested performance and Energy Performance Preference
-+  registers.
-+- In non-autonomous mode, platform gets desired performance level
-+  from OS directly through Desired Performance Register.
-+- In guided-autonomous mode, platform sets operating performance level
-+  autonomously according to the current workload and within the limits set by
-+  OS through min and max performance registers.
- 
- Active Mode
- ------------
-@@ -338,6 +344,15 @@ to the Performance Reduction Tolerance register. Above the nominal performance l
- processor must provide at least nominal performance requested and go higher if current
- operating conditions allow.
- 
-+Guided Mode
-+-----------
-+
-+``amd_pstate=guided``
-+
-+If ``amd_pstate=guided`` is passed to kernel command line option then this mode
-+is activated.  In this mode, driver requests minimum and maximum performance
-+level and the platform autonomously selects a performance level in this range
-+and appropriate to the current workload.
- 
- User Space Interface in ``sysfs``
- =================================
-@@ -358,6 +373,9 @@ control its functionality at the system level.  They are located in the
- 	"passive"
- 		The driver is functional and in the ``passive mode``
- 
-+        "guided"
-+                The driver is functional and in the ``guided mode``
-+
- 	"disable"
- 		The driver is unregistered and not functional now.
- 
--- 
-2.34.1
+> -----Original Message-----
+> From: andriy.shevchenko@linux.intel.com <andriy.shevchenko@linux.intel.co=
+m>
+> Sent: Thursday, January 19, 2023 7:28 PM
+> To: Zhang, Tianfei <tianfei.zhang@intel.com>
+> Cc: Pali Roh=E1r <pali@kernel.org>; bhelgaas@google.com; linux-
+> pci@vger.kernel.org; linux-fpga@vger.kernel.org; lukas@wunner.de;
+> kabel@kernel.org; mani@kernel.org; mdf@kernel.org; Wu, Hao
+> <hao.wu@intel.com>; Xu, Yilun <yilun.xu@intel.com>; Rix, Tom <trix@redhat=
+.com>;
+> jgg@ziepe.ca; Weiny, Ira <ira.weiny@intel.com>; Williams, Dan J
+> <dan.j.williams@intel.com>; keescook@chromium.org; rafael@kernel.org; Wei=
+ght,
+> Russell H <russell.h.weight@intel.com>; corbet@lwn.net; linux-
+> doc@vger.kernel.org; ilpo.jarvinen@linux.intel.com; lee@kernel.org;
+> gregkh@linuxfoundation.org; matthew.gerlach@linux.intel.com
+> Subject: Re: [PATCH v1 00/12] add FPGA hotplug manager driver
+>=20
+> On Thu, Jan 19, 2023 at 08:17:05AM +0000, Zhang, Tianfei wrote:
+> > > From: Pali Roh=E1r <pali@kernel.org>
+> > > Sent: Thursday, January 19, 2023 4:06 PM On Wednesday 18 January
+> > > 2023 20:35:50 Tianfei Zhang wrote:
+>=20
+> ...
+>=20
+> > > > To change the FPGA image, the kernel burns a new image into the
+> > > > flash on the card, and then triggers the card BMC to load the new i=
+mage into
+> FPGA.
+> > > > A new FPGA hotplug manager driver is introduced that leverages the
+> > > > PCIe hotplug framework to trigger and manage the update of the
+> > > > FPGA image, including the disappearance and reappearance of the car=
+d on the
+> PCIe bus.
+> > > > The fpgahp driver uses APIs from the pciehp driver.
+> > >
+> > > Just I'm thinking about one thing. PCIe cards can support PCIe
+> > > hotplug mechanism (via standard PCIe capabilities). So what would
+> > > happen when FPGA based PCIe card is also hotplug-able? Will be there
+> > > two PCI hotplug drivers/devices (one fpgahp and one pciehp)? Or just =
+one and
+> which?
+> >
+> > For our Intel PAC N3000 and N6000 FPGA card, there are not support
+> > PCIe hotplug capability from hardware side now, but from software
+> > perspective, the process of FPGA image load is very similar with PCIe
+> > hotplug, like removing all of devices under PCIe bridge, re-scan the
+> > PCIe device under the bridge, so we are looking for the PCIe hotplug
+> > framework and APIs from pciehp driver to manager this process, and redu=
+ce some
+> duplicate code.
+>=20
+> Exactly, from the OS perspective they both should be equivalent.
+
+Additionally, for FPGA usage, it doesn't need physical hot-add and hot-remo=
+val of the card for FPGA card managements=20
+like load a new FPGA image in FPGA deployment of data center or cloud.  So =
+whatever the card support
+PCIe hotplug capability or not, it can be done by  leveraging the PCI hotpl=
+ug framework and APIs from pciehp driver.
+I think it also has benefits for other vendor's FPGA Card to do some card m=
+anagements by using  fpgahp driver.
 
