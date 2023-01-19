@@ -2,172 +2,210 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED215C00A5A
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 12:42:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26AB1C004D4
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 13:31:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229977AbjASMmh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 07:42:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59398 "EHLO
+        id S229688AbjASNbN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 08:31:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230044AbjASMl7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 07:41:59 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DD3B798CB;
-        Thu, 19 Jan 2023 04:39:51 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id q10-20020a1cf30a000000b003db0edfdb74so2728232wmq.1;
-        Thu, 19 Jan 2023 04:39:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aZGmJZiHO4zSg1lq+3nWY4u/vstveQj+Y4K63K64lAc=;
-        b=fIkPSVW3pVRh4PvuaoGe4C12b1n3z0yflP1rqlHtDh+jJUJOA2wElr/gbM7PynBo4B
-         g9WegrXt4AH7zUifF9abOSJx5IC0lOol1lCSnn9TtWeAp38eV35bJC5Zkt8MQOOtkX7g
-         WrhGT8+705c740fDfk4giAvqzKRNDGbfs4SnDjLvC0JT3SGuw34zZIOKniR6/mhRyiti
-         /kcmIBsEO9mlC+W7IFX6kpf8TS16DXziwWRu7iswYM1SwAqUP52iUKgEVGsVQ+KG96dT
-         9iVQ1VG7Uo1tgklQaM6mys9J82LcWDvLdNsuMqb3UIrHldiAr93Vnu64RxQjH9NKOZie
-         gwmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aZGmJZiHO4zSg1lq+3nWY4u/vstveQj+Y4K63K64lAc=;
-        b=GutoEUVyJDxCf7cQDCWRbOppB8ZI7AlKG1/BNsHnupntss7zAIG/AoCH/Yy50H2n3H
-         YycCPQurUuOk+ZOOk8dMSOKTmMk0Mf/8Oq2QnZ54JaXB/St4J2dTd9UidegQaEhsZ4g6
-         8PGdyU0vrAV8aWyN/1+hP/GMtU3qGvB+poqqFZL15XKOIXLFcFps5RGjKisI2tgyDf+/
-         KsBoG2jDEFanl4h3t8zAQLumBg8GqoOOm1IjyL19k9PdnOFWFjDUbNBLd+CaM1we/5My
-         MCDjfzq3xCXYlbzmF/jlIkjtSfFZym8pEsbZuVWv9aeEqF44dqEMRqjhAR2jm/yddP+J
-         VSbg==
-X-Gm-Message-State: AFqh2kqtVZ67+Np02wIn+IT7h7uJ1EdPyey1enRT0cY3NbB/mbGeZ7jt
-        5Fp8WntqkE53HJWqAP0RFN0=
-X-Google-Smtp-Source: AMrXdXs3qps9TFsimlC0ZXZm9rFm+ANZ/7UMJBNHDcdqpzCUPYKOwemn+7BeQrCa76mPAy5viViNDA==
-X-Received: by 2002:a05:600c:2052:b0:3da:f9e8:9809 with SMTP id p18-20020a05600c205200b003daf9e89809mr10036385wmg.35.1674131989597;
-        Thu, 19 Jan 2023 04:39:49 -0800 (PST)
-Received: from localhost.localdomain (host-82-55-106-56.retail.telecomitalia.it. [82.55.106.56])
-        by smtp.gmail.com with ESMTPSA id q24-20020a05600c331800b003d1de805de5sm4509265wmp.16.2023.01.19.04.39.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 04:39:48 -0800 (PST)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Peter Zijlstra <a.p.zijlstra@chello.nl>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v3] mm/highmem: Add notes about conversions from kmap{,_atomic}()
-Date:   Thu, 19 Jan 2023 13:39:45 +0100
-Message-Id: <20230119123945.10471-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.39.0
+        with ESMTP id S229544AbjASNbM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 08:31:12 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18A5A78AA9;
+        Thu, 19 Jan 2023 05:31:11 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A83C4614F3;
+        Thu, 19 Jan 2023 13:31:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92A76C433F1;
+        Thu, 19 Jan 2023 13:31:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1674135070;
+        bh=1C5iBDotVEYXC8xrZFFlV/8PeXsdnhrKITxBNvrg7l8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hw5UOJgmJ12jZ3+KHLwR2OvPoMfVSFPrCLGBzKlYCbMrI+nIVssocfQuhbOpK9inf
+         c6rbiiLIC3U2zOuKdZl5rH/Ud3sam8Rlb1yQ5f7bJph/kqf5dcA8hrfOu/bxnq/qnh
+         NaS3pb8RcTPFuUpA+KbVuLqNU0TiDCN9qMbICsAk=
+Date:   Thu, 19 Jan 2023 14:31:07 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Tianfei Zhang <tianfei.zhang@intel.com>
+Cc:     bhelgaas@google.com, linux-pci@vger.kernel.org,
+        linux-fpga@vger.kernel.org, lukas@wunner.de, kabel@kernel.org,
+        mani@kernel.org, pali@kernel.org, mdf@kernel.org, hao.wu@intel.com,
+        yilun.xu@intel.com, trix@redhat.com, jgg@ziepe.ca,
+        ira.weiny@intel.com, andriy.shevchenko@linux.intel.com,
+        dan.j.williams@intel.com, keescook@chromium.org, rafael@kernel.org,
+        russell.h.weight@intel.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ilpo.jarvinen@linux.intel.com,
+        lee@kernel.org, matthew.gerlach@linux.intel.com
+Subject: Re: [PATCH v1 01/12] PCI: hotplug: add new callbacks on
+ hotplug_slot_ops
+Message-ID: <Y8lGG39I0By5d5wh@kroah.com>
+References: <20230119013602.607466-1-tianfei.zhang@intel.com>
+ <20230119013602.607466-2-tianfei.zhang@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230119013602.607466-2-tianfei.zhang@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kmap() and kmap_atomic() have been deprecated. kmap_local_page() should
-always be used in new code and the call sites of the two deprecated
-functions should be converted. This latter task can lead to errors if it
-is not carried out with the necessary attention to the context around
-and between the maps and unmaps.
+On Wed, Jan 18, 2023 at 08:35:51PM -0500, Tianfei Zhang wrote:
+> To reprogram an PCIe-based FPGA card, a new image is
+> burned into FLASH on the card and then the card BMC is
+> triggered to reboot the card and load the new image.
+> 
+> Two new operation callbacks are defined in hotplug_slot_ops
+> to trigger the reprogramming of an FPGA-based PCIe card:
+> 
+>   - available_images: Optional: available FPGA images
+>   - image_load: Optional: trigger the FPGA to load a new image
+> 
+> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
+> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+> ---
+>  drivers/pci/hotplug/pci_hotplug_core.c | 88 ++++++++++++++++++++++++++
+>  include/linux/pci_hotplug.h            |  5 ++
+>  2 files changed, 93 insertions(+)
+> 
+> diff --git a/drivers/pci/hotplug/pci_hotplug_core.c b/drivers/pci/hotplug/pci_hotplug_core.c
+> index 058d5937d8a9..2b14b6513a03 100644
+> --- a/drivers/pci/hotplug/pci_hotplug_core.c
+> +++ b/drivers/pci/hotplug/pci_hotplug_core.c
+> @@ -231,6 +231,52 @@ static struct pci_slot_attribute hotplug_slot_attr_test = {
+>  	.store = test_write_file
+>  };
+>  
+> +static ssize_t available_images_read_file(struct pci_slot *pci_slot, char *buf)
+> +{
+> +	struct hotplug_slot *slot = pci_slot->hotplug;
+> +	ssize_t count = 0;
+> +
+> +	if (!try_module_get(slot->owner))
+> +		return -ENODEV;
+> +
+> +	if (slot->ops->available_images(slot, buf))
+> +		count = slot->ops->available_images(slot, buf);
+> +
+> +	module_put(slot->owner);
+> +
+> +	return count;
+> +}
+> +
+> +static struct pci_slot_attribute hotplug_slot_attr_available_images = {
+> +	.attr = { .name = "available_images", .mode = 0444 },
+> +	.show = available_images_read_file,
 
-Therefore, add further information to the Highmem's documentation for the
-purpose to make it clearer that (1) kmap() and kmap_atomic() must not
-any longer be called in new code and (2) developers doing conversions from
-kmap() amd kmap_atomic() are expected to take care of the context around
-and between the maps and unmaps, in order to not break the code.
+If you name things properly, you can use the correct macros and not have
+to open-code any of this :(
 
-Relevant parts of this patch have been taken from messages exchanged
-privately with Ira Weiny (thanks!).
+> +static ssize_t image_load_write_file(struct pci_slot *pci_slot,
+> +				     const char *buf, size_t count)
+> +{
+> +	struct hotplug_slot *slot = pci_slot->hotplug;
+> +	int retval = 0;
+> +
+> +	if (!try_module_get(slot->owner))
+> +		return -ENODEV;
+> +
+> +	if (slot->ops->image_load)
+> +		retval = slot->ops->image_load(slot, buf);
+> +
+> +	module_put(slot->owner);
+> +
+> +	if (retval)
+> +		return retval;
+> +
+> +	return count;
+> +}
+> +
+> +static struct pci_slot_attribute hotplug_slot_attr_image_load = {
+> +	.attr = { .name = "image_load", .mode = 0644 },
+> +	.store = image_load_write_file,
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Ira Weiny <ira.weiny@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Mike Rapoport <rppt@linux.ibm.com>
-Cc: Peter Zijlstra <a.p.zijlstra@chello.nl>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
+Same here, don't open-code this.
 
-Changes from v2:
-	Merge two sentences into one (thanks to bagas Sanjaya).
+> +};
+> +
+>  static bool has_power_file(struct pci_slot *pci_slot)
+>  {
+>  	struct hotplug_slot *slot = pci_slot->hotplug;
+> @@ -289,6 +335,20 @@ static bool has_test_file(struct pci_slot *pci_slot)
+>  	return false;
+>  }
+>  
+> +static bool has_available_images_file(struct pci_slot *pci_slot)
+> +{
+> +	struct hotplug_slot *slot = pci_slot->hotplug;
+> +
+> +	return slot && slot->ops && slot->ops->available_images;
+> +}
+> +
+> +static bool has_image_load_file(struct pci_slot *pci_slot)
+> +{
+> +	struct hotplug_slot *slot = pci_slot->hotplug;
+> +
+> +	return slot && slot->ops && slot->ops->image_load;
+> +}
+> +
+>  static int fs_add_slot(struct pci_slot *pci_slot)
+>  {
+>  	int retval = 0;
+> @@ -331,8 +391,30 @@ static int fs_add_slot(struct pci_slot *pci_slot)
+>  			goto exit_test;
+>  	}
+>  
+> +	if (has_available_images_file(pci_slot)) {
+> +		retval = sysfs_create_file(&pci_slot->kobj,
+> +					   &hotplug_slot_attr_available_images.attr);
+> +		if (retval)
+> +			goto exit_available_images;
+> +	}
+> +
+> +	if (has_image_load_file(pci_slot)) {
+> +		retval = sysfs_create_file(&pci_slot->kobj,
+> +					   &hotplug_slot_attr_image_load.attr);
+> +		if (retval)
+> +			goto exit_image_load;
+> +	}
+> +
+>  	goto exit;
+>  
+> +exit_image_load:
+> +	if (has_adapter_file(pci_slot))
+> +		sysfs_remove_file(&pci_slot->kobj,
+> +				  &hotplug_slot_attr_available_images.attr);
+> +exit_available_images:
+> +	if (has_adapter_file(pci_slot))
+> +		sysfs_remove_file(&pci_slot->kobj,
+> +				  &hotplug_slot_attr_test.attr);
+>  exit_test:
+>  	if (has_adapter_file(pci_slot))
+>  		sysfs_remove_file(&pci_slot->kobj,
+> @@ -372,6 +454,12 @@ static void fs_remove_slot(struct pci_slot *pci_slot)
+>  	if (has_test_file(pci_slot))
+>  		sysfs_remove_file(&pci_slot->kobj, &hotplug_slot_attr_test.attr);
+>  
+> +	if (has_available_images_file(pci_slot))
+> +		sysfs_remove_file(&pci_slot->kobj, &hotplug_slot_attr_available_images.attr);
+> +
+> +	if (has_image_load_file(pci_slot))
+> +		sysfs_remove_file(&pci_slot->kobj, &hotplug_slot_attr_image_load.attr);
+> +
 
- Documentation/mm/highmem.rst | 41 +++++++++++++++++++++++++++---------
- 1 file changed, 31 insertions(+), 10 deletions(-)
+Ick no, please just make this an attribute group that properly shows or
+does not show, the attribute when created.  Do not manually add
+individual sysfs files.
 
-diff --git a/Documentation/mm/highmem.rst b/Documentation/mm/highmem.rst
-index 0f731d9196b0..e691a06fb337 100644
---- a/Documentation/mm/highmem.rst
-+++ b/Documentation/mm/highmem.rst
-@@ -57,7 +57,8 @@ list shows them in order of preference of use.
-   It can be invoked from any context (including interrupts) but the mappings
-   can only be used in the context which acquired them.
- 
--  This function should be preferred, where feasible, over all the others.
-+  This function should always be used, whereas kmap_atomic() and kmap() have
-+  been deprecated.
- 
-   These mappings are thread-local and CPU-local, meaning that the mapping
-   can only be accessed from within this thread and the thread is bound to the
-@@ -100,10 +101,21 @@ list shows them in order of preference of use.
-   (included in the "Functions" section) for details on how to manage nested
-   mappings.
- 
--* kmap_atomic().  This permits a very short duration mapping of a single
--  page.  Since the mapping is restricted to the CPU that issued it, it
--  performs well, but the issuing task is therefore required to stay on that
--  CPU until it has finished, lest some other task displace its mappings.
-+* kmap_atomic(). This function has been deprecated; use kmap_local_page().
-+
-+  NOTE: Conversions to kmap_local_page() must take care to follow the mapping
-+  restrictions imposed on kmap_local_page(). Furthermore, the code between
-+  calls to kmap_atomic() and kunmap_atomic() may implicitly depend on the side
-+  effects of atomic mappings, i.e. disabling page faults or preemption, or both.
-+  In that case, explicit calls to pagefault_disable() or preempt_disable() or
-+  both must be made in conjunction with the use of kmap_local_page().
-+
-+  [Legacy documentation]
-+
-+  This permits a very short duration mapping of a single page.  Since the
-+  mapping is restricted to the CPU that issued it, it performs well, but
-+  the issuing task is therefore required to stay on that CPU until it has
-+  finished, lest some other task displace its mappings.
- 
-   kmap_atomic() may also be used by interrupt contexts, since it does not
-   sleep and the callers too may not sleep until after kunmap_atomic() is
-@@ -115,11 +127,20 @@ list shows them in order of preference of use.
- 
-   It is assumed that k[un]map_atomic() won't fail.
- 
--* kmap().  This should be used to make short duration mapping of a single
--  page with no restrictions on preemption or migration. It comes with an
--  overhead as mapping space is restricted and protected by a global lock
--  for synchronization. When mapping is no longer needed, the address that
--  the page was mapped to must be released with kunmap().
-+* kmap(). This function has been deprecated; use kmap_local_page().
-+
-+  NOTE: Conversions to kmap_local_page() must take care to follow the mapping
-+  restrictions imposed on kmap_local_page(). In particular, it is necessary to
-+  make sure that the kernel virtual memory pointer is only valid in the thread
-+  that obtained it.
-+
-+  [Legacy documentation]
-+
-+  This should be used to make short duration mapping of a single page with no
-+  restrictions on preemption or migration. It comes with an overhead as mapping
-+  space is restricted and protected by a global lock for synchronization. When
-+  mapping is no longer needed, the address that the page was mapped to must be
-+  released with kunmap().
- 
-   Mapping changes must be propagated across all the CPUs. kmap() also
-   requires global TLB invalidation when the kmap's pool wraps and it might
--- 
-2.39.0
+Yes, I know the existing code does this, so it's not really your fault,
+but let's not persist in making this code even messier.  Convert to a
+group first and then your new files will be added automagically without
+having to care about anything here at all.
 
+thanks,
+
+greg k-h
