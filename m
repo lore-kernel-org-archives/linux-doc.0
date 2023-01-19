@@ -2,167 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F213FC00A5A
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 11:13:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC960C004D4
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Jan 2023 11:28:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229915AbjASLNN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 06:13:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56224 "EHLO
+        id S229876AbjASL2G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 06:28:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229593AbjASLNM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 06:13:12 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EB7944BF5;
-        Thu, 19 Jan 2023 03:13:11 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id t12-20020a17090aae0c00b00229f4cff534so254814pjq.1;
-        Thu, 19 Jan 2023 03:13:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WobviXpwWUZxD+2oQmL88+wYfR6mU0tdRKmjmFL+nas=;
-        b=f7L1TD8+BmvD+A9pFAjMprM7B0spRnkeduPMQvbgLHvYJpiHQnNW4NU1/YfORCUZQb
-         xaAorOgKYQmiKRAwik+pNTZYr9eT0raty08UEzrXavMtcLBX61EQYx+vZD2j0NdavbRC
-         gf42Gt0VLrwev9tri3s4QJ8s/wW15sCEWExzZjJxOc6DlYr2SBEqQnmG10REIoIr2x7u
-         xRy4XvEACzmTSzYCJ1ebtTfjCFCkLZHZY79OZCLCLg34Z7JITOr+iw6UlLUVH9Yq9b2o
-         CUC0rAHKgZYzWzRKZZhXOG8dkikcSAUrekSJE3ShE6L2WgvT5bMYEZSjZYPJ7WvpIEyk
-         UzDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WobviXpwWUZxD+2oQmL88+wYfR6mU0tdRKmjmFL+nas=;
-        b=beHmFQ7ElNBT7GS8Lrwiry/C8q306qbubhERr0RnNWDeN8FhQf5VNSTgAHKuugQyBz
-         HC0vyv/t2dm16vkS/lbPC6L2wFaMxaWzDl73AgttFOow9Ei5918/P6eBkarlwz7MgRJ1
-         yss25GUY+BcBh4tbTG0eFnQNxiEnic3wBzK9nWtk2fQbpFheJPjQnruCTX35qI20Z0wp
-         N0zDvwFvoAggxLIXbhrJd11ROdUCqwqnKMf4IetRVWHHGZg0fadd1B1yeagXFT05NDgA
-         1T722vOV9UiALRpBy7AQcavIK7z/B9lQ+rHHwz4+uh+UWfu5xcRK6f/LzeLCZP3Aojh8
-         8J3g==
-X-Gm-Message-State: AFqh2kqNGHuCF4DAu7INNAX6gd29ISZbDqnyQGYlA/m/9vyNuPVZtAh9
-        96gbnyz37kf3xBFeeyDJ6+Q=
-X-Google-Smtp-Source: AMrXdXuFUYPr4gl2HBth8ATukfpSeD4X8dOtFLmJYA5beRkuYlrBNgWB27UfhgflYvUdjqzwEfWuFQ==
-X-Received: by 2002:a17:903:248f:b0:189:6ab3:9e64 with SMTP id p15-20020a170903248f00b001896ab39e64mr10324160plw.34.1674126790421;
-        Thu, 19 Jan 2023 03:13:10 -0800 (PST)
-Received: from localhost ([192.55.54.55])
-        by smtp.gmail.com with ESMTPSA id k7-20020a170902ce0700b001885d15e3c1sm24860035plg.26.2023.01.19.03.13.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 03:13:09 -0800 (PST)
-Date:   Thu, 19 Jan 2023 03:13:08 -0800
-From:   Isaku Yamahata <isaku.yamahata@gmail.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com, isaku.yamahata@gmail.com
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-Message-ID: <20230119111308.GC2976263@ls.amr.corp.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <Y8H5Z3e4hZkFxAVS@google.com>
+        with ESMTP id S229724AbjASL2C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 06:28:02 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 484F126A2;
+        Thu, 19 Jan 2023 03:27:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674127677; x=1705663677;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Bccrp8lmZ8ukBj/EyZ3CSpmIYfTSsrD0V3yh5r4NP20=;
+  b=h5CHOQLjr7BXR84chydtbnMLgHqT9OQ1e4/4Ery8A+pE2ww9PG3nQYTq
+   hft/2VYsSYsq7UirUTGef9yYFTCTu6XOS8OrnlW16+0JsPjOQSCzESTB5
+   IxLYumJexMfW3+vz/0AqZdsZgVOjcNQWZpR0QxsHfxQeAz3lYKy0KfeH6
+   j+iahKkEDMADowNP8DOUJ7aM46iVXWcwpJbOvKUo4nDtPo+7FDc1w9nr9
+   c5UJ0ZxZg3PI8co0uJ/m2YM6sJIi9KbNZb/OSxZcBt/YB7tKz1g5orF1V
+   tW1HYtM3gryKQLe33TYc4FzFdsJqRK8QstVFDItA2p9x74L3zthZD/2R6
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="323947823"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="323947823"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 03:27:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="728628016"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="728628016"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga004.fm.intel.com with ESMTP; 19 Jan 2023 03:27:41 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pIT51-00BcYE-0X;
+        Thu, 19 Jan 2023 13:27:39 +0200
+Date:   Thu, 19 Jan 2023 13:27:38 +0200
+From:   "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>
+To:     "Zhang, Tianfei" <tianfei.zhang@intel.com>
+Cc:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
+        "lukas@wunner.de" <lukas@wunner.de>,
+        "kabel@kernel.org" <kabel@kernel.org>,
+        "mani@kernel.org" <mani@kernel.org>,
+        "mdf@kernel.org" <mdf@kernel.org>, "Wu, Hao" <hao.wu@intel.com>,
+        "Xu, Yilun" <yilun.xu@intel.com>, "Rix, Tom" <trix@redhat.com>,
+        "jgg@ziepe.ca" <jgg@ziepe.ca>, "Weiny, Ira" <ira.weiny@intel.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "Weight, Russell H" <russell.h.weight@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "ilpo.jarvinen@linux.intel.com" <ilpo.jarvinen@linux.intel.com>,
+        "lee@kernel.org" <lee@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "matthew.gerlach@linux.intel.com" <matthew.gerlach@linux.intel.com>
+Subject: Re: [PATCH v1 00/12] add FPGA hotplug manager driver
+Message-ID: <Y8kpKm51YryPz9F5@smile.fi.intel.com>
+References: <20230119013602.607466-1-tianfei.zhang@intel.com>
+ <20230119080606.tnjqwkseial7vpyq@pali>
+ <BN9PR11MB54839E8851853A4251451719E3C49@BN9PR11MB5483.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <Y8H5Z3e4hZkFxAVS@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <BN9PR11MB54839E8851853A4251451719E3C49@BN9PR11MB5483.namprd11.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jan 14, 2023 at 12:37:59AM +0000,
-Sean Christopherson <seanjc@google.com> wrote:
+On Thu, Jan 19, 2023 at 08:17:05AM +0000, Zhang, Tianfei wrote:
+> > From: Pali Rohár <pali@kernel.org>
+> > Sent: Thursday, January 19, 2023 4:06 PM
+> > On Wednesday 18 January 2023 20:35:50 Tianfei Zhang wrote:
 
-> On Fri, Dec 02, 2022, Chao Peng wrote:
-> > This patch series implements KVM guest private memory for confidential
-> > computing scenarios like Intel TDX[1]. If a TDX host accesses
-> > TDX-protected guest memory, machine check can happen which can further
-> > crash the running host system, this is terrible for multi-tenant
-> > configurations. The host accesses include those from KVM userspace like
-> > QEMU. This series addresses KVM userspace induced crash by introducing
-> > new mm and KVM interfaces so KVM userspace can still manage guest memory
-> > via a fd-based approach, but it can never access the guest memory
-> > content.
+...
+
+> > > To change the FPGA image, the kernel burns a new image into the flash
+> > > on the card, and then triggers the card BMC to load the new image into FPGA.
+> > > A new FPGA hotplug manager driver is introduced that leverages the
+> > > PCIe hotplug framework to trigger and manage the update of the FPGA
+> > > image, including the disappearance and reappearance of the card on the PCIe bus.
+> > > The fpgahp driver uses APIs from the pciehp driver.
 > > 
-> > The patch series touches both core mm and KVM code. I appreciate
-> > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
-> > reviews are always welcome.
-> >   - 01: mm change, target for mm tree
-> >   - 02-09: KVM change, target for KVM tree
+> > Just I'm thinking about one thing. PCIe cards can support PCIe hotplug mechanism
+> > (via standard PCIe capabilities). So what would happen when FPGA based PCIe card is
+> > also hotplug-able? Will be there two PCI hotplug drivers/devices (one fpgahp and
+> > one pciehp)? Or just one and which?
 > 
-> A version with all of my feedback, plus reworked versions of Vishal's selftest,
-> is available here:
-> 
->   git@github.com:sean-jc/linux.git x86/upm_base_support
-> 
-> It compiles and passes the selftest, but it's otherwise barely tested.  There are
-> a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
-> a WIP.
-> 
-> As for next steps, can you (handwaving all of the TDX folks) take a look at what
-> I pushed and see if there's anything horrifically broken, and that it still works
-> for TDX?
-> 
-> Fuad (and pKVM folks) same ask for you with respect to pKVM.  Absolutely no rush
-> (and I mean that).
-> 
-> On my side, the two things on my mind are (a) tests and (b) downstream dependencies
-> (SEV and TDX).  For tests, I want to build a lists of tests that are required for
-> merging so that the criteria for merging are clear, and so that if the list is large
-> (haven't thought much yet), the work of writing and running tests can be distributed.
-> 
-> Regarding downstream dependencies, before this lands, I want to pull in all the
-> TDX and SNP series and see how everything fits together.  Specifically, I want to
-> make sure that we don't end up with a uAPI that necessitates ugly code, and that we
-> don't miss an opportunity to make things simpler.  The patches in the SNP series to
-> add "legacy" SEV support for UPM in particular made me slightly rethink some minor
-> details.  Nothing remotely major, but something that needs attention since it'll
-> be uAPI.
+> For our Intel PAC N3000 and N6000 FPGA card, there are not support PCIe
+> hotplug capability from hardware side now, but from software perspective, the
+> process of FPGA image load is very similar with PCIe hotplug, like removing
+> all of devices under PCIe bridge, re-scan the PCIe device under the bridge,
+> so we are looking for the PCIe hotplug framework and APIs from pciehp driver
+> to manager this process, and reduce some duplicate code.
 
-Although I'm still debuging with TDX KVM, I needed the following.
-kvm_faultin_pfn() is called without mmu_lock held.  the race to change
-private/shared is handled by mmu_seq.  Maybe dedicated function only for
-kvm_faultin_pfn().
-
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 02be5e1cba1e..38699ca75ab8 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -2322,7 +2322,7 @@ static inline void kvm_account_pgtable_pages(void *virt, int nr)
- #ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
- static inline unsigned long kvm_get_memory_attributes(struct kvm *kvm, gfn_t gfn)
- {
--       lockdep_assert_held(&kvm->mmu_lock);
-+       // lockdep_assert_held(&kvm->mmu_lock);
- 
-        return xa_to_value(xa_load(&kvm->mem_attr_array, gfn));
- }
-
+Exactly, from the OS perspective they both should be equivalent.
 
 -- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+With Best Regards,
+Andy Shevchenko
+
+
