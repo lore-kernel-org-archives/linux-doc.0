@@ -2,84 +2,163 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABBC5C25B4E
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 10:08:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00955C25B50
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 10:23:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229699AbjATKIk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 05:08:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54404 "EHLO
+        id S229616AbjATKXm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 05:23:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbjATKIj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 05:08:39 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8009D8B31E;
-        Fri, 20 Jan 2023 02:08:38 -0800 (PST)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        with ESMTP id S229543AbjATKXl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 05:23:41 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 744158B76A;
+        Fri, 20 Jan 2023 02:23:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=CeGv0JtmRE31bDGztcRu8iAtRTnI2gcf4GZAbDeGXW4=; b=EfQaYrQTpC9FZgAc9US9UUa6qO
+        ZhdSTQznBD6VDiTXzgG8ZlpaU2hIhwKHJHmG269zfqliyfIcm+01zSYLyqMSWkOyC2Qo2f4hB4xSv
+        dXtmag26HNKiu7xwd7191QKfvFdedR4z+tFk2bXlNrem7pMXdKnDFQAdwRvgOovyPUJo9VzxH46gg
+        e5GtdKEZ0PuSQayAddqCHFHxJMkJwatPs7l3ZybOctMTRleAHEo/phby55tWZ23hNHbeVcL5JPR62
+        32JA7mFYMgzxeVgNhqTAWtwbptjejO8DhY1S0F8Mog9qxmxJOX3UYzKS6xhWDMi/jutqdEHzxxF4Y
+        juf72uXg==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pIoYP-001rMS-Oy; Fri, 20 Jan 2023 10:23:26 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6CD116602AAA;
-        Fri, 20 Jan 2023 10:08:36 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1674209316;
-        bh=mGZMRhz079cBUS3es9XAvPfXNBT914As8zfpB8Pu9n4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ZWHBopnaIcDi261qkYCZ/g4fD7bEZ1Ek8PwKjhKVuNsNx1nenWz+K7ID4TSR7SWO5
-         XFvWgQ2lRRZE5EzQkG92UzEV8UExou8CWSm5mjZJPVQTZuHO+7+6X3vUv8rJCsVc85
-         iubV3oJ1y0d+jEIMqMySOLl0Zyx2y9f6RX8DV78Vt9W19exCH3eumax91ZnZZ5qCrJ
-         LA/ahTmOejcx+9iWNauPHVSAz0xPmhcAJSLTeUpATtXNBKMcdF4SszpfmF4WURSDHV
-         cU9sHbYnW0giNFNPwFCJLP0GQa8bbkAbt6oI+Eyo4IoEijpplAPvWdmk7FHtahrGSy
-         DFhERHKe3a5FQ==
-Date:   Fri, 20 Jan 2023 11:08:33 +0100
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Matthew Brost <matthew.brost@intel.com>
-Cc:     Danilo Krummrich <dakr@redhat.com>,
-        dri-devel@lists.freedesktop.org, corbet@lwn.net,
-        tzimmermann@suse.de,
-        "Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= (Intel)" 
-        <thomas_os@shipmail.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bskeggs@redhat.com,
-        jason@jlekstrand.net, nouveau@lists.freedesktop.org,
-        airlied@redhat.com, christian.koenig@amd.com
-Subject: Re: [PATCH drm-next 13/14] drm/nouveau: implement new VM_BIND UAPI
-Message-ID: <20230120110833.76cc7864@collabora.com>
-In-Reply-To: <Y8jOCE/PyNZ2Z6aX@DUT025-TGLU.fm.intel.com>
-References: <20230118061256.2689-1-dakr@redhat.com>
-        <20230118061256.2689-14-dakr@redhat.com>
-        <e371e8a1-88f8-1309-07ca-f48f4157fec8@shipmail.org>
-        <8e10b46c-f934-8eee-904e-b3d8a7644a71@redhat.com>
-        <Y8jOCE/PyNZ2Z6aX@DUT025-TGLU.fm.intel.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id BEC95300033;
+        Fri, 20 Jan 2023 11:23:24 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 9AE5E2011D472; Fri, 20 Jan 2023 11:23:24 +0100 (CET)
+Date:   Fri, 20 Jan 2023 11:23:24 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Gregory Price <gourry.memverge@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        krisman@collabora.com, tglx@linutronix.de, luto@kernel.org,
+        oleg@redhat.com, ebiederm@xmission.com, akpm@linux-foundation.org,
+        adobriyan@gmail.com, corbet@lwn.net, shuah@kernel.org,
+        Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH 1/3] ptrace,syscall_user_dispatch: Implement Syscall User
+ Dispatch Suspension
+Message-ID: <Y8prnDT0YUhEzI8+@hirez.programming.kicks-ass.net>
+References: <20230118201055.147228-1-gregory.price@memverge.com>
+ <20230118201055.147228-2-gregory.price@memverge.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230118201055.147228-2-gregory.price@memverge.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 19 Jan 2023 04:58:48 +0000
-Matthew Brost <matthew.brost@intel.com> wrote:
-
-> > For the ops structures the drm_gpuva_manager allocates for reporting the
-> > split/merge steps back to the driver I have ideas to entirely avoid
-> > allocations, which also is a good thing in respect of Christians feedback
-> > regarding the huge amount of mapping requests some applications seem to
-> > generate.
-> >  
+On Wed, Jan 18, 2023 at 03:10:53PM -0500, Gregory Price wrote:
+> Adds PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH to ptrace options, and
+> modify Syscall User Dispatch to suspend interception when enabled.
 > 
-> It should be fine to have allocations to report the split/merge step as
-> this step should be before a dma-fence is published, but yea if possible
-> to avoid extra allocs as that is always better.
+> This is modeled after the SUSPEND_SECCOMP feature, which suspends
+> SECCOMP interposition.  Without doing this, software like CRIU will
+> inject system calls into a process and be intercepted by Syscall
+> User Dispatch, either causing a crash (due to blocked signals) or
+> the delivery of those signals to a ptracer (not the intended behavior).
 > 
-> Also BTW, great work on drm_gpuva_manager too. We will almost likely
-> pick this up in Xe rather than open coding all of this as we currently
-> do. We should probably start the port to this soon so we can contribute
-> to the implementation and get both of our drivers upstream sooner.
+> Since Syscall User Dispatch is not a privileged feature, a check
+> for permissions is not required, however attempting to set this
+> option when CONFIG_CHECKPOINT_RESTORE it not supported should be
+> disallowed, as its intended use is checkpoint/resume.
+> 
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
 
-Also quite interested in using this drm_gpuva_manager for pancsf, since
-I've been open-coding something similar. Didn't have the
-gpuva_region concept to make sure VA mapping/unmapping requests don't
-don't go outside a pre-reserved region, but it seems to automate some
-of the stuff I've been doing quite nicely.
+One small nit -- see below, otherwise:
+
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+
+> ---
+>  include/linux/ptrace.h               | 2 ++
+>  include/uapi/linux/ptrace.h          | 6 +++++-
+>  kernel/entry/syscall_user_dispatch.c | 5 +++++
+>  kernel/ptrace.c                      | 5 +++++
+>  4 files changed, 17 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/ptrace.h b/include/linux/ptrace.h
+> index eaaef3ffec22..461ae5c99d57 100644
+> --- a/include/linux/ptrace.h
+> +++ b/include/linux/ptrace.h
+> @@ -45,6 +45,8 @@ extern int ptrace_access_vm(struct task_struct *tsk, unsigned long addr,
+>  
+>  #define PT_EXITKILL		(PTRACE_O_EXITKILL << PT_OPT_FLAG_SHIFT)
+>  #define PT_SUSPEND_SECCOMP	(PTRACE_O_SUSPEND_SECCOMP << PT_OPT_FLAG_SHIFT)
+> +#define PT_SUSPEND_SYSCALL_USER_DISPATCH \
+> +	(PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH << PT_OPT_FLAG_SHIFT)
+>  
+>  extern long arch_ptrace(struct task_struct *child, long request,
+>  			unsigned long addr, unsigned long data);
+> diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
+> index 195ae64a8c87..ba9e3f19a22c 100644
+> --- a/include/uapi/linux/ptrace.h
+> +++ b/include/uapi/linux/ptrace.h
+> @@ -146,9 +146,13 @@ struct ptrace_rseq_configuration {
+>  /* eventless options */
+>  #define PTRACE_O_EXITKILL		(1 << 20)
+>  #define PTRACE_O_SUSPEND_SECCOMP	(1 << 21)
+> +#define PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH	(1 << 22)
+>  
+>  #define PTRACE_O_MASK		(\
+> -	0x000000ff | PTRACE_O_EXITKILL | PTRACE_O_SUSPEND_SECCOMP)
+> +	0x000000ff | \
+> +	PTRACE_O_EXITKILL | \
+> +	PTRACE_O_SUSPEND_SECCOMP | \
+> +	PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH)
+>  
+>  #include <asm/ptrace.h>
+>  
+> diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
+> index 0b6379adff6b..7607f4598dd8 100644
+> --- a/kernel/entry/syscall_user_dispatch.c
+> +++ b/kernel/entry/syscall_user_dispatch.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/uaccess.h>
+>  #include <linux/signal.h>
+>  #include <linux/elf.h>
+> +#include <linux/ptrace.h>
+>  
+>  #include <linux/sched/signal.h>
+>  #include <linux/sched/task_stack.h>
+> @@ -36,6 +37,10 @@ bool syscall_user_dispatch(struct pt_regs *regs)
+>  	struct syscall_user_dispatch *sd = &current->syscall_dispatch;
+>  	char state;
+>  
+> +	if (IS_ENABLED(CONFIG_CHECKPOINT_RESTORE) &&
+> +		unlikely(current->ptrace & PT_SUSPEND_SYSCALL_USER_DISPATCH))
+
+Align with the '(' pleaase.
+
+> +		return false;
+> +
+>  	if (likely(instruction_pointer(regs) - sd->offset < sd->len))
+>  		return false;
+>  
+> diff --git a/kernel/ptrace.c b/kernel/ptrace.c
+> index 54482193e1ed..a6ad815bd4be 100644
+> --- a/kernel/ptrace.c
+> +++ b/kernel/ptrace.c
+> @@ -370,6 +370,11 @@ static int check_ptrace_options(unsigned long data)
+>  	if (data & ~(unsigned long)PTRACE_O_MASK)
+>  		return -EINVAL;
+>  
+> +	if (unlikely(data & PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH)) {
+> +		if (!IS_ENABLED(CONFIG_CHECKPOINT_RESTART))
+> +			return -EINVAL;
+> +	}
+> +
+>  	if (unlikely(data & PTRACE_O_SUSPEND_SECCOMP)) {
+>  		if (!IS_ENABLED(CONFIG_CHECKPOINT_RESTORE) ||
+>  		    !IS_ENABLED(CONFIG_SECCOMP))
+> -- 
+> 2.39.0
+> 
