@@ -2,94 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD7B5C25B4E
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 08:21:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30A83C05027
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 09:12:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229973AbjATIVB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 03:21:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45138 "EHLO
+        id S229901AbjATJMQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 04:12:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbjATIVA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 03:21:00 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CFB14CE7C;
-        Fri, 20 Jan 2023 00:20:59 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id b10so4920061pjo.1;
-        Fri, 20 Jan 2023 00:20:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TWumMt67h30adlz6lQSPu1lCC0nb5fEUVVbRzQpjcvo=;
-        b=XBjIbyJ7l70xuIKKldJeINNaWQ8MoXJ2Y/IACHV3SKahghX1ofznCaFuqGW1pcNIrS
-         /mQX+uH0K7q9Z85U4Zg0+Nhfh9kvQVske4+pMpxH4+noV2FZqhlur1tMARaScb7+swgL
-         HP+ymXJohkaaOYNcvpqPxkFjADs7X2By3yuHk3nFAMRciZQP25ZKFHIi79Nzc8Q+sVN7
-         /Q2vJvKvy3qgGoi5RquanqEymtWxjCpnToEuU0rIlItKIRSRrLnwjoceRgGbiPKtyY8h
-         e7/hrk2T+i2IJfhBSHY1R++kGn+FX0Bhttu1kx/RuUDEPTse+DyMk6Fq8qa6EQC39VoW
-         Fz5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TWumMt67h30adlz6lQSPu1lCC0nb5fEUVVbRzQpjcvo=;
-        b=16IbEA985ZfSmQjjOgZPKBuqSU55VIRIQdfpSMB/ePNNZqvSp8dhEpjbFGFWo0QscB
-         Uy21xyFpBSkXOKGGc37KZ0ZPmEnfRIoJkLHIqisMCYb+AUAXXxnJ4pSZ401wbLh38Qw5
-         ViftVBWsbJBHVwH9QCbIW+UsNQysSjGTAL4BKv9oi0U/HEKBGL6L0ZKpA7rh65bwF4yu
-         tVuapYdYNR81ym/liLb7zNRZvabdVVlNPp4axRuJ87Op4KKH0vv+241XhNYWDPjT6/bx
-         OhEJ1cL1GALggJVUC3xecEwj/iG+N3nOkjY1maSbhfx3td29dKDqSzuRbs8qR/xB2KBZ
-         pSvA==
-X-Gm-Message-State: AFqh2kooVOl+r7auWUwhksPxWrZ9BoPLTjjFvHfyutZG8DwPrVAQaLQD
-        kwl7YEj7d3UkT6WI9cofd21+skbrHBQwgQ==
-X-Google-Smtp-Source: AMrXdXti1lKiCaXlNSRE2JW5nczFpDOhKStlFPEZ4CPRBcdvSua4WfixHLy18+8Z4IvbaX1P92mffA==
-X-Received: by 2002:a17:902:ba8b:b0:194:7227:84db with SMTP id k11-20020a170902ba8b00b00194722784dbmr14540982pls.37.1674202858751;
-        Fri, 20 Jan 2023 00:20:58 -0800 (PST)
-Received: from [192.168.43.80] (subs02-180-214-232-14.three.co.id. [180.214.232.14])
-        by smtp.gmail.com with ESMTPSA id d8-20020a170903230800b001948107490csm11422906plh.19.2023.01.20.00.20.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Jan 2023 00:20:58 -0800 (PST)
-Message-ID: <2c19bec4-c4e7-7ac4-d612-27e531b1a022@gmail.com>
-Date:   Fri, 20 Jan 2023 15:20:51 +0700
+        with ESMTP id S229509AbjATJMN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 04:12:13 -0500
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524766A301;
+        Fri, 20 Jan 2023 01:11:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=yCvla1+fc/eNBxn2xeGosvesa1IuipVu5+Hu5Pgjg20=;
+        t=1674205892; x=1675415492; b=vYrx+/XeZJezhGEWLt88nvw5MPFRzn4cxXOVYIMS+YZZMps
+        aa7l86+Jhsim18cHl7Pmj1ryjgBakvsiWrDq6k4PAB62uhgP+2cFJBA4TqaMn9IBd8gCWCUeBocs0
+        hII2Uuuyq1cCMIwe1PZI1sgMVewsqY1wvwdKt4fUj7T3Sv+e/aBWnxOs0Zx0neG09OcM7ZTuIB2UG
+        ENJtzNFS6u9TUI7ekJxilgbzNYB1IkYe3kF6T+eKGEyfBPG+uiVo3Zr7tD3VgdC7ZeAo+B2NJpns/
+        l5wytuMM6YHptb7uchzDlHvyVqFC49enCaP+aWN05JzKlN4Pgd5Cnkm63p7xNNoQ==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.96)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1pInPx-007NU6-1d;
+        Fri, 20 Jan 2023 10:10:37 +0100
+Message-ID: <7918760462738ceded5b67322fd5ad8035215fd8.camel@sipsolutions.net>
+Subject: Re: [PATCH net-next v3 1/8] docs: add more netlink docs (incl. spec
+ docs)
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Jacob Keller <jacob.e.keller@intel.com>,
+        Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        robh@kernel.org, stephen@networkplumber.org,
+        ecree.xilinx@gmail.com, sdf@google.com, f.fainelli@gmail.com,
+        fw@strlen.de, linux-doc@vger.kernel.org, razor@blackwall.org,
+        nicolas.dichtel@6wind.com, Bagas Sanjaya <bagasdotme@gmail.com>
+Date:   Fri, 20 Jan 2023 10:10:36 +0100
+In-Reply-To: <5dd6c9bf-192d-44ab-7d93-22c01cb8d64b@intel.com>
+References: <20230119003613.111778-1-kuba@kernel.org>
+         <20230119003613.111778-2-kuba@kernel.org>
+         <96618285a772b5ef9998f638ea17ff68c32dd710.camel@sipsolutions.net>
+         <5dd6c9bf-192d-44ab-7d93-22c01cb8d64b@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] docs: cgroup-v1: wrap charge moving deprecation in
- warning block
-Content-Language: en-US
-To:     Linux CGroups <cgroups@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@suse.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        Shakeel Butt <shakeelb@google.com>
-References: <20230106034836.23708-1-bagasdotme@gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20230106034836.23708-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/6/23 10:48, Bagas Sanjaya wrote:
-> Commit 4ddb1a2aa1a3c4 ("docs: cgroup-v1: wrap remaining admonitions in
-> admonition blocks") in cgroups tree states that it also wraps charge
-> moving deprecation notice in admonition block (specifically warning).
-> However, the notice isn't in cgroups tree when the v2 of formatting
-> improv series [1] is submitted (and then applied), but rather in mm tree
-> instead.
-> 
-> Wrap the notice to fulfill the intention of referred commit.
-> 
+On Thu, 2023-01-19 at 16:23 -0800, Jacob Keller wrote:
+>=20
+> Per op policy is important because otherwise it can become impossible to
+> safely extend a new attribute to commands over multiple kernel releases.
+>=20
 
-Ping?
+Yeah. I think I just realised that my issues is more with the fact that
+per-op policy implies per-op attribute (identifier/number/name)space,
+and if you don't have that you have attribute duplication etc.
 
--- 
-An old man doll... just what I always wanted! - Clara
+Anyway, it just feels superfluous, not really dangerous I guess :)
 
+johannes
