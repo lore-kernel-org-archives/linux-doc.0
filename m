@@ -2,154 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45F20C25B4E
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 14:40:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 054B9C27C7C
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 14:44:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230484AbjATOk5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 09:40:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43876 "EHLO
+        id S230033AbjATOo5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 09:44:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230456AbjATOk4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 09:40:56 -0500
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ABBD73EEB;
-        Fri, 20 Jan 2023 06:40:28 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id C048D32001BB;
-        Fri, 20 Jan 2023 09:39:42 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 20 Jan 2023 09:39:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1674225582; x=1674311982; bh=b4JAJuHxNJ
-        8crP6ZpOzWWYxWeuwbnT4P0qgnOUpQ0sI=; b=YpFFzP3VF+EXJCLmreWeBNB9+S
-        zXHxKLgMbyNmk2z1VW6q3MxEpkproMFd2XZHbXRd3jw7BKH62BZ93qlWPB+r0tXx
-        GbwZZiyJYZEEWYvt4HcxdsEFFE0lLPObyPr5B8oNMr3YVFJBRj3K66+vhYhzgKs/
-        5dTWdr/9s8iHSN5+5qnrtbJQ3yCMUPDerYNJ22YIVdBWtYejl55VlFikFlwBAIdo
-        1wu/6qiuRfisnPQUn7IDstOQzwRZ2OY2tSeeOoDTrwQg/xL5G/zQs6vtRhpzL8DP
-        Fgdfpbi3GAg9bHuV1lTDVypQ9y4jxRbq1AJ3/5km73+LEObdAHBrQILTSssg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1674225582; x=1674311982; bh=b4JAJuHxNJ8crP6ZpOzWWYxWeuwb
-        nT4P0qgnOUpQ0sI=; b=kbkcGpBlS3kIUHVyg0NKren2v+0ZPixCVs0IHEcgFATv
-        /fQDNaGmP5X5P5h19GU2fpwPD1TBW43CHnULxpe+taXxBuiCTAP66XHB1kbw6jVU
-        ktB2N/kXAJKDCtVduL7kHyROWsuKfnhUkBDg1JaaVGYEVshIvkSzyvmQ3Mz0kecY
-        j2mWceXUaRQVegdU9GN/rHa5HlAqyOMZNLltfaUy/sfmk+CWX6cHgoxSueBp0J0i
-        2XczKB1dd7jUSKpZNSGrbGTRUNLi1oRczjpT0oY63IskbhcNKGcpIFxZpm+iiMB0
-        rt1VsRAiJTzs0z272UUCumVGSuTlMg9TxL0SPQ1sQQ==
-X-ME-Sender: <xms:rafKY_kguGhvxY4s77V4bRvXYVPX-TaLHxAX5Rsi2yUO58HcQO4Zkw>
-    <xme:rafKYy3ch5_10fEpPqLPk4skitRZpBS9nUdMMeG_5dV4W4jXI0yFlKr084ITGsZVL
-    lGqbdsXwXqxi2OVO80>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudduvddgieelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:rafKY1qFhfPcjqcn3SzgSs11DqXRM8WcWlI7Gu-Kicl7WOeQSyzCNQ>
-    <xmx:rafKY3kPhOW_docLyMAkp_w_hKPx7gxrnaYtchGBbzvFANsfGIZ4qA>
-    <xmx:rafKY90Q8cyQNciYnFYz9TNs_bgG3H33QbPAoO9563ztIP9MXp_W6Q>
-    <xmx:rqfKY83B478JlCxC4F7tHYbChgHt68Lo8MC5zaI3n4bvh6M-xJx_5w>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 5EF90B60086; Fri, 20 Jan 2023 09:39:41 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
-Mime-Version: 1.0
-Message-Id: <aa4d68b2-b5b5-4c17-a44f-7c6db443ea4c@app.fastmail.com>
-In-Reply-To: <20230120141002.2442-10-ysionneau@kalray.eu>
-References: <20230120141002.2442-1-ysionneau@kalray.eu>
- <20230120141002.2442-10-ysionneau@kalray.eu>
-Date:   Fri, 20 Jan 2023 15:39:22 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Yann Sionneau" <ysionneau@kalray.eu>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Marc Zyngier" <maz@kernel.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        "Will Deacon" <will@kernel.org>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        "Boqun Feng" <boqun.feng@gmail.com>,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Kees Cook" <keescook@chromium.org>,
-        "Oleg Nesterov" <oleg@redhat.com>,
-        "Ingo Molnar" <mingo@redhat.com>,
-        "Waiman Long" <longman@redhat.com>,
-        "Aneesh Kumar" <aneesh.kumar@linux.ibm.com>,
-        "Andrew Morton" <akpm@linux-foundation.org>,
-        "Nicholas Piggin" <npiggin@gmail.com>,
-        "Paul Moore" <paul@paul-moore.com>,
-        "Eric Paris" <eparis@redhat.com>,
-        "Christian Brauner" <brauner@kernel.org>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        "Palmer Dabbelt" <palmer@dabbelt.com>,
-        "Albert Ou" <aou@eecs.berkeley.edu>,
-        "Jules Maselbas" <jmaselbas@kalray.eu>,
-        "Guillaume Thouvenin" <gthouvenin@kalray.eu>,
-        "Clement Leger" <clement@clement-leger.fr>,
-        "Vincent Chardon" <vincent.chardon@elsys-design.com>,
-        =?UTF-8?Q?Marc_Poulhi=C3=A8s?= <dkm@kataplop.net>,
-        "Julian Vetter" <jvetter@kalray.eu>,
-        "Samuel Jones" <sjones@kalray.eu>,
-        "Ashley Lesdalons" <alesdalons@kalray.eu>,
-        "Thomas Costis" <tcostis@kalray.eu>,
-        "Marius Gligor" <mgligor@kalray.eu>,
-        "Jonathan Borne" <jborne@kalray.eu>,
-        "Julien Villette" <jvillette@kalray.eu>,
-        "Luc Michel" <lmichel@kalray.eu>,
-        "Louis Morhet" <lmorhet@kalray.eu>,
-        "Julien Hascoet" <jhascoet@kalray.eu>,
-        "Jean-Christophe Pince" <jcpince@gmail.com>,
-        "Guillaume Missonnier" <gmissonnier@kalray.eu>,
-        "Alex Michon" <amichon@kalray.eu>,
-        "Huacai Chen" <chenhuacai@kernel.org>,
-        "WANG Xuerui" <git@xen0n.name>,
-        "Shaokun Zhang" <zhangshaokun@hisilicon.com>,
-        "John Garry" <john.garry@huawei.com>,
-        "Guangbin Huang" <huangguangbin2@huawei.com>,
-        "Bharat Bhushan" <bbhushan2@marvell.com>,
-        "Bibo Mao" <maobibo@loongson.cn>,
-        "Atish Patra" <atishp@atishpatra.org>,
-        "Jason A . Donenfeld" <Jason@zx2c4.com>,
-        "Qi Liu" <liuqi115@huawei.com>,
-        "Jiaxun Yang" <jiaxun.yang@flygoat.com>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Mark Brown" <broonie@kernel.org>,
-        "Janosch Frank" <frankja@linux.ibm.com>,
-        "Alexey Dobriyan" <adobriyan@gmail.com>
-Cc:     "Benjamin Mugnier" <mugnier.benjamin@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-mm@kvack.org,
-        Linux-Arch <linux-arch@vger.kernel.org>, linux-audit@redhat.com,
-        linux-riscv@lists.infradead.org, bpf@vger.kernel.org
-Subject: Re: [RFC PATCH v2 09/31] kvx: Add build infrastructure
-Content-Type: text/plain
+        with ESMTP id S231265AbjATOox (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 09:44:53 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 831184C6F0;
+        Fri, 20 Jan 2023 06:44:32 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AE32EB82704;
+        Fri, 20 Jan 2023 14:43:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55814C433EF;
+        Fri, 20 Jan 2023 14:43:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674225827;
+        bh=yH64qNXWbBWLU8pt/tbtBcCf1Jh8HCRvlhuU0Th6WeU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=SiXACMjL0zIvQOfexaofJ9MWMPON+6Nety5z6DL3MRYRcNCPMsx1bSpcjvhFddfY4
+         YI9gvGcN+wFE8EghvS28dxud4k8diDJ+/Dxpl30BdvtknceDYiX/osWMFj377Gb+vc
+         7SDJXCsEiutgd/XKuF3Dmh40AqjYKP4764lJKmtCHfU6pLCqCCpp8NfV+ldB3lVii+
+         USWkufZhNFXU5ewxj64hQZWMIX/dOeNqik7MRBGuy7/Y3bxmaus+i7aP7+Y1zHduTN
+         XlIXE4D9ysqezcbe/zPH9Y05I6wHEtJA3yYNbqNpRUKZ2AZeLWLay+bkAeoW5KB6OZ
+         ViVpoRQp6XCaw==
+Received: by mail-vs1-f44.google.com with SMTP id j185so5834067vsc.13;
+        Fri, 20 Jan 2023 06:43:47 -0800 (PST)
+X-Gm-Message-State: AFqh2kpUNylftih4HUkkCw4nV1DVS+jtUC327p9XNeXR4J/FZ7lGZ/Ts
+        B+TtYWZUB6N4ZU3uoNvB7gF5/yy5+wHehSgznQ==
+X-Google-Smtp-Source: AMrXdXtYq+FHV6CIFWw7jjhdPUkkINoBhmMu3OSPiTx/nbC2aeHL/xC7aIulRRJjB1nW50GO2R2TCbC9skwpT8psFtw=
+X-Received: by 2002:a67:f506:0:b0:3d3:c767:4570 with SMTP id
+ u6-20020a67f506000000b003d3c7674570mr2292533vsn.85.1674225826296; Fri, 20 Jan
+ 2023 06:43:46 -0800 (PST)
+MIME-Version: 1.0
+References: <20230119003613.111778-1-kuba@kernel.org> <20230119003613.111778-3-kuba@kernel.org>
+ <CAL_JsqKk5RT6PmRSrq=YK7AvzCbcVkxasykJqe1df=3g-=kD7A@mail.gmail.com> <20230119160812.6ea60396@kernel.org>
+In-Reply-To: <20230119160812.6ea60396@kernel.org>
+From:   Rob Herring <robh@kernel.org>
+Date:   Fri, 20 Jan 2023 08:43:35 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+PmWcF0z0gYdRVeC=sPH9qkaG2Q5K6tRvOt62YgDMoyA@mail.gmail.com>
+Message-ID: <CAL_Jsq+PmWcF0z0gYdRVeC=sPH9qkaG2Q5K6tRvOt62YgDMoyA@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 2/8] netlink: add schemas for YAML specs
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 20, 2023, at 15:09, Yann Sionneau wrote:
->      - Fix clean target raising an error from gcc (LIBGCC)
+On Thu, Jan 19, 2023 at 6:08 PM Jakub Kicinski <kuba@kernel.org> wrote:
+>
+> On Thu, 19 Jan 2023 08:07:31 -0600 Rob Herring wrote:
+> > > +$id: "http://kernel.org/schemas/netlink/genetlink-c.yaml#"
+> > > +$schema: "http://kernel.org/meta-schemas/netlink/core.yaml#"
+> >
+> > There's no core.yaml. If you don't have a custom meta-schema, then
+> > just set this to the schema for the json-schema version you are using.
+> > Then the tools can validate the schemas without your own validator
+> > class.
+>
+> $schema: https://json-schema.org/draft/2020-12/schema
+>
+> or
+>
+> $schema: https://json-schema.org/draft-09/schema
 
-I had not noticed this on v1 but:
+s/draft-09/draft\/2019-09/
 
-> +# Link with libgcc to get __div* builtins.
-> +LIBGCC	:= $(shell $(CC) $(DEFAULT_OPTS) --print-libgcc-file-name)
+Or did you mean draft-07?
 
-It's better to copy the bits of libgcc that you actually need
-than to include the whole thing. The kernel is in a weird
-state that is neither freestanding nor the normal libc based
-environment, so we generally want full control over what is
-used. This is particularly important for 32-bit architectures
-that do not want the 64-bit division, but there are probably
-enough other cases as well.
+> ?
+>
+> It seems like the documentation suggests the former but the latter
+> appears widespread.
 
-     Arnd
+Yes, 2019-09 is generally not recommended as it had some one off
+features that 2020-12 replaced (nothing you'd care about). DT uses
+2019-09 because we needed unevaluatedProperties, but not 'prefixItems'
+replacing 'items' list variant in 2020-12. I think you only used the
+schema version of 'items' (not the list version), so you are probably
+compatible with any version. 'dependencies' changing to
+'dependentSchema/dependentRequired' is the other difference you might
+hit.
+
+TLDR: draft-07 is probably sufficient for your needs.
+
+Rob
