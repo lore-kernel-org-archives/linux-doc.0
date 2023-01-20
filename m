@@ -2,71 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8862C38142
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 01:04:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E4BDC38142
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 01:05:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229864AbjATBE1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 20:04:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60658 "EHLO
+        id S229902AbjATBFJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 20:05:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229921AbjATBE0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 20:04:26 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF261A45F2;
-        Thu, 19 Jan 2023 17:04:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6620761DC3;
-        Fri, 20 Jan 2023 01:04:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D926C433D2;
-        Fri, 20 Jan 2023 01:04:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674176660;
-        bh=7TayGs+eB97qDyojInbu3jqAmCJtKRZQFjJi9OoQkXY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Q9MQoxzYKd8n4AZKpxvhDmPo5v4wsdg/FOxR/c78IJ2siiQq1Grv7FAbC6cVKHPI6
-         srZV6D1WqiZo8EdjcatwJ5fopX23uahg+C6BzU1V+MwrTHw+SUijOMhebsHfWVSlwI
-         zxT4M8K2LfJx8r3+Kjtf88GJ+rkO88cDE6qwSOPsBsrb3AzgnHnpvYA/9tZBjwAsE/
-         KSNSpJ+LMM+2GGV51bjYbly5EzhldnxaIwT6wXhTX0+26D97AAVNC0vw6ytW1IyO6m
-         w4fiajSFfLTHy2oi78ob1SZQEQUvf88w09rFcLPEob4Yx8p/MdUiGT7wRcf+80KFE9
-         c7XLc2pBOsuQA==
-Date:   Thu, 19 Jan 2023 17:04:19 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Jacob Keller <jacob.e.keller@intel.com>
-Cc:     Johannes Berg <johannes@sipsolutions.net>, <davem@davemloft.net>,
-        <netdev@vger.kernel.org>, <edumazet@google.com>,
-        <pabeni@redhat.com>, <robh@kernel.org>,
-        <stephen@networkplumber.org>, <ecree.xilinx@gmail.com>,
-        <sdf@google.com>, <f.fainelli@gmail.com>, <fw@strlen.de>,
-        <linux-doc@vger.kernel.org>, <razor@blackwall.org>,
-        <nicolas.dichtel@6wind.com>
-Subject: Re: [PATCH net-next v3 7/8] net: fou: use policy and operation
- tables generated from the spec
-Message-ID: <20230119170419.091f7a02@kernel.org>
-In-Reply-To: <7a732996-e566-14e2-6ce1-1ccde16f5975@intel.com>
-References: <20230119003613.111778-1-kuba@kernel.org>
-        <20230119003613.111778-8-kuba@kernel.org>
-        <a340a5e2da55f352322c2aa902b592ece9bfbb5a.camel@sipsolutions.net>
-        <7a732996-e566-14e2-6ce1-1ccde16f5975@intel.com>
+        with ESMTP id S229863AbjATBFH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 20:05:07 -0500
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4C5CA1029
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 17:05:05 -0800 (PST)
+Received: by mail-pg1-x531.google.com with SMTP id 7so3002171pga.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 17:05:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=i74/kf5lW4kHShv6Z0Gp0/LN6JGTfz3NMfEeR3zBQxE=;
+        b=GoRuHyDu314b5alYHUqIeA4iwWnqKmRTPgguZQu8m2BT54UuOxDL2kD8d4kJgWM1ZZ
+         qR3Y/TV93KcQuVawLIeJk45pD9kgXh3Y53HiV5J2dnsTHM5SquPA0uJmVsLTHdPprrB1
+         MEB1h7QwFkRO7g3dd+FRCu0LANZ3c5XVoOY6o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i74/kf5lW4kHShv6Z0Gp0/LN6JGTfz3NMfEeR3zBQxE=;
+        b=uogfJO3dDM3CohPTUf+Je/w8/B6rKh3apqT0QKUKTVs0PS1pw0BQJGjqh7O3/qvkOc
+         cABovcdzjbRNpvd7kOebOQWgH5beYwE1wMWFM8ngYqxcqUnmUdHfKjNug1SmObgxi7vk
+         mZTWcKQZzdoNojk1b1ctqNBmZwhTh7SGcinH+gpxBtNlMcqqdL+DtBlyAWhtuur1rqiV
+         ls8dJ19OjOE9HZODO8YwNE9RME+MKY7KuXXwv+Q/WHapiRGQ3J+Cdf155WjCfTi3tTMB
+         gq6Nyg+SEQsobqz30qC2o3uGuQGWz0g8Zx9XucbMRY7CX0lY9LGsqxPoDO4XJvCdDgL/
+         EBnA==
+X-Gm-Message-State: AFqh2kqDJ83CorVhQubKgF+e27pUHhH+SszvfXpOolfvJLyO567fHOBq
+        vgf2S6oxflMZIFWi1hcutvxPLg==
+X-Google-Smtp-Source: AMrXdXtMzGgnTJkwmf6Dly8CjbEie3lwTxkUFFJtUk22J72Xgx8sc8ANi2hfM+4eU7Ti83oRSH8YRw==
+X-Received: by 2002:aa7:8718:0:b0:576:14a4:b76a with SMTP id b24-20020aa78718000000b0057614a4b76amr11737546pfo.34.1674176705426;
+        Thu, 19 Jan 2023 17:05:05 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id b18-20020aa78ed2000000b0058bbe1240easm12025111pfr.190.2023.01.19.17.05.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jan 2023 17:05:04 -0800 (PST)
+Date:   Thu, 19 Jan 2023 17:05:04 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v5 27/39] x86/shstk: Add user-mode shadow stack support
+Message-ID: <202301191705.E64F62342D@keescook>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+ <20230119212317.8324-28-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230119212317.8324-28-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 19 Jan 2023 16:18:04 -0800 Jacob Keller wrote:
-> On 1/19/2023 12:56 PM, Johannes Berg wrote:
-> > On Wed, 2023-01-18 at 16:36 -0800, Jakub Kicinski wrote:  
-> >> +fou-y := fou_core.o fou-nl.o  
-> > 
-> > I feel like you could've been consistent there and used "fou-core.o"
-> > with a dash, but hey :-)
+On Thu, Jan 19, 2023 at 01:23:05PM -0800, Rick Edgecombe wrote:
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > 
-> And here I lean towards using _ instead of - in file names but
-> consistency is good, all else being equal.
+> Introduce basic shadow stack enabling/disabling/allocation routines.
+> A task's shadow stack is allocated from memory with VM_SHADOW_STACK flag
+> and has a fixed size of min(RLIMIT_STACK, 4GB).
+> 
+> Keep the task's shadow stack address and size in thread_struct. This will
+> be copied when cloning new threads, but needs to be cleared during exec,
+> so add a function to do this.
+> 
+> Do not support IA32 emulation or x32.
+> 
+> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
+> Tested-by: John Allen <john.allen@amd.com>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
-Done. IIRC the codegen used to assume the naming (it needs to know 
-the name of the header to include). I fixed that but forgot to rename
-fou :S
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-- 
+Kees Cook
