@@ -2,252 +2,301 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39343C05027
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 22:39:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0731BC05027
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 22:47:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229537AbjATWjH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 17:39:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47092 "EHLO
+        id S229837AbjATWrg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 17:47:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbjATWjG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 17:39:06 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12A5479EA9;
-        Fri, 20 Jan 2023 14:38:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674254338; x=1705790338;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=8tTIxTq12Tr6PrVCVg+lMpCapFAaeIchqs8eIF5MJ8A=;
-  b=GHLBNzn3RNVFj+ptnWqPW4dv3jDo5PLl+g6LAQ9/IjbprPmWJ7eJOeo+
-   Jq6p1UBTIRCSYlv9MOMvR3QBpnxH5a66UINU0oCCefomcKdgDTz2HCxbR
-   APqkj/FiAGRocPohKHC7Le2alk1OQ5t5YqfbPgu8NKhEjmOo24+bh6ctQ
-   rAoSxLMouhy4mZ5je9JGfE3RripKdj5t/5gqzRibt5stVVbUqiUNjGU94
-   pArGp9G03nwjFDO/Ux4n18U3CQXAFkudJ0YY1qZtIH2GlEaYgHWO4RcGz
-   xJ5bH26Sf6+RoFFEDvCNoe8q1Z+HiX/Td4HCodj1kN93ZIUfhExwHjJal
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="390225965"
-X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
-   d="scan'208";a="390225965"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 14:38:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="729260998"
-X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
-   d="scan'208";a="729260998"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga004.fm.intel.com with ESMTP; 20 Jan 2023 14:38:56 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Fri, 20 Jan 2023 14:38:56 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Fri, 20 Jan 2023 14:38:56 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Fri, 20 Jan 2023 14:38:56 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.108)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+        with ESMTP id S229744AbjATWrg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 17:47:36 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1F2513DCB;
+        Fri, 20 Jan 2023 14:47:31 -0800 (PST)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30KMLrrd006793;
+        Fri, 20 Jan 2023 22:47:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=deYW2IQT//y8HyUjVpIDfG524Pnnq+r0ieBikYg3fIo=;
+ b=Gm1CldSh8RRe56VXMD23E1ZiaAeeaGEM5KnUTCgZjUCU4IMZI577VP8UnDsodQ5M8JNf
+ ukqlDIrP9Can4JoEeNVOJze5CBZZKGG2jzr2JYMOim7DvK2hqYIlyb5Cy6QESVemSUyN
+ 2f+Oy+jYSc5BFazgBAsbwXfs/BG8th0PEBHyMGVM1uMMsIhp2w8sJdExWgVIclRCSy2e
+ MvDa3Oa3ye+OqMxnq4iiYiacK+4DJ2EEuQMnrg29DsCJE+H653b2Tb/w5kNRUR0TdLiD
+ qWYPcvuRncFm3/d6SPpkilVbxjMgpXW8kfOYs0LgPrt3yoOvAAc/2H1TNLK0anqP5pgR 5Q== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n7xmf8k9r-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 20 Jan 2023 22:47:14 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30KMlDEb003424
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 20 Jan 2023 22:47:13 GMT
+Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Fri, 20 Jan 2023 14:38:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YcHc0IUVKwbJQ6QFvFt7ooRLbXmjZ1v9dmoHQdTEqEsz1UoaZfYBkbAgitg7GSRmwCbHwhe7MiBb+S+oii3qRZVHM3z85CM7BVS2lEpMBd/xk5LoJpKa4YIU6ZgRPulUcnJ1ZeGzK4GgxOc4uXrJ174vhPn+QLeCdEMmtw62M0SefbrK/kQ5vqMvINZsgeRXpoRiavTDDlE4bk3dXRb0rjy90y7nbFPF0bYm6y/Anux7IQfcnUMP7CKmOoD7KUvHucBtpJ7IhmRxSLbUarrpnEfndtVLV4cBRpDbms4S6wjctp0cip2IRjtWLxCL//PxdF2kJ6iDs0cWc7hSiC7OeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TT9n4haprKgtdVcJdLyknskeRgj6X7Yj9ZQIIjkkYsU=;
- b=TOdaRdHbBVFkM1sl9flP1BOIVgURG+223AELQgBG/iAmHaZ8iI/KmATurmH8SZr1m4Uv/8HpcSnZylWG8X8Qp1xbwlmS3g07futh0ugYJq3X60ykXOaXE7Zwa948aP3NAxN488MbLYQmBNCvIutqmcUCbIkKLc3zxs+OXZ/XD2dbpM1Ct+isoeYkYjoDjUgPiey3Yw3S5Pv6HEZtNRczjTeu7ExQ5/PFqM+g6hFJ41ACEGtxCPnuQCcKZ9GKGs+EcayOmiCndCU5o1fHoS4EKq2uDwxglhxvC+Nh4c0RokkSsJazq7TAoR0aUcGlui8bS7doqsiNtS/b8yq/pzil6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM5PR11MB1899.namprd11.prod.outlook.com (2603:10b6:3:10b::14)
- by DM6PR11MB4738.namprd11.prod.outlook.com (2603:10b6:5:2a3::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.26; Fri, 20 Jan
- 2023 22:38:48 +0000
-Received: from DM5PR11MB1899.namprd11.prod.outlook.com
- ([fe80::d151:74c0:20d6:d5fc]) by DM5PR11MB1899.namprd11.prod.outlook.com
- ([fe80::d151:74c0:20d6:d5fc%6]) with mapi id 15.20.6002.027; Fri, 20 Jan 2023
- 22:38:48 +0000
-Message-ID: <ea85cb02-a13d-f232-8ebd-c13893fc00c4@intel.com>
-Date:   Fri, 20 Jan 2023 14:38:43 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.4.2
-Subject: Re: [PATCH v1 10/12] PCI: hotplug: implement the hotplug_slot_ops
- callback for fpgahp
-Content-Language: en-US
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Tianfei Zhang <tianfei.zhang@intel.com>
-CC:     <bhelgaas@google.com>, <linux-pci@vger.kernel.org>,
-        <linux-fpga@vger.kernel.org>, <lukas@wunner.de>,
-        <kabel@kernel.org>, <mani@kernel.org>, <pali@kernel.org>,
-        <mdf@kernel.org>, <hao.wu@intel.com>, <yilun.xu@intel.com>,
-        <trix@redhat.com>, <jgg@ziepe.ca>, <ira.weiny@intel.com>,
-        <andriy.shevchenko@linux.intel.com>, <dan.j.williams@intel.com>,
-        <keescook@chromium.org>, <rafael@kernel.org>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <ilpo.jarvinen@linux.intel.com>,
-        <lee@kernel.org>, <matthew.gerlach@linux.intel.com>
-References: <20230119013602.607466-1-tianfei.zhang@intel.com>
- <20230119013602.607466-11-tianfei.zhang@intel.com>
- <Y8lFgKZGKYrM02Wm@kroah.com>
-From:   Russ Weight <russell.h.weight@intel.com>
-In-Reply-To: <Y8lFgKZGKYrM02Wm@kroah.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0021.namprd03.prod.outlook.com
- (2603:10b6:303:8f::26) To DM5PR11MB1899.namprd11.prod.outlook.com
- (2603:10b6:3:10b::14)
+ 15.2.986.36; Fri, 20 Jan 2023 14:47:12 -0800
+From:   Elliot Berman <quic_eberman@quicinc.com>
+To:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Alex Elder <elder@linaro.org>
+CC:     Elliot Berman <quic_eberman@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH v9 00/27] Drivers for gunyah hypervisor
+Date:   Fri, 20 Jan 2023 14:45:59 -0800
+Message-ID: <20230120224627.4053418-1-quic_eberman@quicinc.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR11MB1899:EE_|DM6PR11MB4738:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e1e9223-b1b9-43cc-5700-08dafb371874
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OhEzTbuFM9KTTj09mOQ8eXea7qJRe4AZ/a8Mf1Goxzx8U/L2JV2/5pCZfhn4w4OvdpLPugBJBnlesVpdcAsEFaVnsdwLnu/zbXQ466q79PPFBsECuaGQlzpE4JqOwUXEwv89RivR1xiv+AGLi8tV5Wk+XoaamxIkcJZjflzQkyqvc6nbtqB0qcFmKOWd2gzuVJ1pRH78m6pT1NZXrTfevdIg2ioaWNpHzfkLLXzKHpnlm+HBmUFl+8p1U32msRVe9dnzYNDQdjq44PMC+5tYrCGAkR9tDYPVJQyxTHo80oatwR8eYHMqdQiIpVJeGtxEFalqOkIsAdYbr4k4YSx1EIN+uEbkvHzAefcXmZf24mK0UeOl0zkN85gYT6zHSY+tZIlpGcCVZckEPY+2Z+S+2DU00dV1sJYH7U6+DfBRKQd2LH37khSzaRI+OhlZxmUgVWUlDpXfHm9od61/Af4ZY6ND85wsGrbHqKvgmfpKhkhzT4h9n3g/tkWkuVUfqHRly1CdpFtOBlL1Qqm3JC3XUsM509e2JJ+4Rzs0b8F+8XJ+vLUihu9D/K2z5Z6eLkvr1BLFm+ajqoGNHUV4iKuft/I7SJeCoXlWyVmC1CCEHI3g4gJU7zmXMHLq/iB2ieXStV+xYxViDvUUy8gYmjZWmjcbhuTmUnbnELzA+JngpyUGh5InfBhm4ef4Cpw3qOvfqPN3Sv5ep6lnxRYaH/VxEpv3DMO3VIjxkWtXgqxac2E=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR11MB1899.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(346002)(396003)(39860400002)(136003)(366004)(451199015)(6512007)(186003)(66556008)(26005)(66476007)(8676002)(66946007)(4326008)(36756003)(478600001)(6666004)(6486002)(6636002)(316002)(110136005)(53546011)(41300700001)(31696002)(2616005)(5660300002)(6506007)(31686004)(83380400001)(8936002)(7416002)(38100700002)(82960400001)(86362001)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U3dKaVF6Y0cybVVialpMbHRCTTJ0R2x1R1RuWElNLyttSWhUcnhqLzhBZW5j?=
- =?utf-8?B?VGhCUklPM3VLQVVKL1h0eFZ2RDJzUUdER2ZQa1VGSzF6UjFYMko0dkF3aW5z?=
- =?utf-8?B?eVdaZjlnNzBUbTVLcTUvNGhXTFp3TG5mU0pRVEpVWEFwK0s0TnhzMGNFaHZu?=
- =?utf-8?B?d2pZL0YwMWx5WHg3ZzB6RGtvQWJHc0RIaEZqQUJyS2d0NlAzM2VFRXg4YmN5?=
- =?utf-8?B?aW9zazBLTGNob0dXcEJUa2RFSDNveTdKa1gxNDgyRndDWTB5UkVxaXJQeUNs?=
- =?utf-8?B?eEVrVllRdkZheTdiLzI3Yk5acDVKYWE3dnFHOWhXR0RRVkpPMlpYN1k1Y0Jm?=
- =?utf-8?B?L1dkK0ZWMnlBSlNjUGZqSDU5Y3BsL2FQb0VpMGljNjY4STZSaFBxSC9yM0V3?=
- =?utf-8?B?L0doZkZaRWlkRUZNL3lBVmdWNDJBZTh3VEIrb3FINjR4bXBqNVBhNnJvOC9C?=
- =?utf-8?B?eElKTjdvYURtRm1YcWJLS3J2VjlXVFNCV0FUNzVZbFhtM0s1TE1RVURNazdB?=
- =?utf-8?B?a09udHFsZzA4MGN0N2xMYnhqM3Y2eDZMd2E2d0VxQWJpNHFDbGFYZkJsYlRB?=
- =?utf-8?B?VWtDemc2ZVRuSGRzRXd2QmFNQ3RIbFFWOTA2ekh4VDM4MFB1NE9qUFJsUzRv?=
- =?utf-8?B?ck5CeFg0bzgreUNQV0VWSVROTGNkQkVBTU9iUmJudC9ENXNpbnhQMWZhVG5E?=
- =?utf-8?B?TWNPTDNZeFAxeXVPSE5vMFdmOHIxZXNURkE1WmdIOTZQRXBKUnlZUlpKZFZS?=
- =?utf-8?B?aU5qd2JobGl5U200UWRiUVM4MHlKV0kveTM5UTg4YlhuVk9rK0ttTEMrNUNr?=
- =?utf-8?B?OEw2Tmp2eXB1U1hLbG9VYldHdjVtZXNQNE14YmN2VVozY1NLOUhZRW55V0RP?=
- =?utf-8?B?SlhUZndCU0RoUUtuaVlGWThDQjVnYTVodDhIbHVKb29SMERoZ3hBMkhiUndM?=
- =?utf-8?B?STVtZllLb20zc0M5VTVKQ2VaNlBYTVBPK2s4NlVVZkQvWTJ0QzlYNE5zL1FR?=
- =?utf-8?B?N21RNjMxaHRabUVhVG1hMVIwQmZUY25kc2QwVHpaVFZCL2VHdGRYelBJSnAx?=
- =?utf-8?B?MXhVeXJwTjZ2bTdoUnNWMDFaaXZVWGRWdXJIS2NPNHVscmFHYVM1NHZSUkJL?=
- =?utf-8?B?RlNRalhPQkppVWVHR0FYVkNwdDRuM0FzcDZHYWJmVW1ySkorcEdVaEljWndh?=
- =?utf-8?B?RVNQOTRPUEgzTTd5a1ZFU0FRVWo5Z3dSM0dqUlYwaTZ2R000czJ0clVPS1ZH?=
- =?utf-8?B?YjRUeThsbjkvZW9hdi92S0JUYkgyT0tjZE5jSnFRU0Jqc1RNb1BEaGpQelBG?=
- =?utf-8?B?UG9kTmFFQVNEYk5yVTEvR3VZY1FIQ0VNbldxdjNKR0RlYkQvemxaZUhIckRW?=
- =?utf-8?B?bEVmd1h1bERYcjZNVGRGcWJZQVU1S2FLbVhMYW1aUzVSMkVrMWFvTUZjbXkr?=
- =?utf-8?B?Q1BENFN5YVJyTEp4ODQwcnlWWmhJbTJSOHIvNFVVeUhJOHMrWHBwTFJtanQ4?=
- =?utf-8?B?eGlWZFlNZlJmUXRla3IvNmlJc0dScVhLTmNSWGxENmErT002alBiNWcreWt0?=
- =?utf-8?B?Q1UxOUNpZHdHczNLUjFqS05GVXNEbUJIUE5IZHNjWks1RFRYTFBBc1pMM0RM?=
- =?utf-8?B?aFJnYnpCdXBaT3lGN2VYNG93Q1lrOURZMXMxYlQ1T2VHS2J6Yk9yMHpPaXIy?=
- =?utf-8?B?WjZ6eHhzY091WVA4cytkZE5LZ1pVUzYrZ1Zadm14NVBEL21VZ3g3d3cwbURq?=
- =?utf-8?B?U3Y4RStOQzJpTERDcXV6aGFhYTBGR3FBeUxoL25jQTRnK3AzOHdyN2pDM0F0?=
- =?utf-8?B?Qzc1OUQ4OS9Ya3dTV21BdUd2dXRJQUNGbGR2Z0tQbjUzVi9XdFZUNU1yUUJk?=
- =?utf-8?B?WVBDTW9ubVV6QnV0ZG9TWnZQaVU4UXBWbXJMdTdjQzU5WktPMEE0T055aHhX?=
- =?utf-8?B?bWlRaHRJWHpKS0JhU2o2ZkU2SGxIN3Vra1hiKy80L1RTZkV0UjNRYmptRGU2?=
- =?utf-8?B?NU05Uzd4bkhldXg4em85RjNEcE5zRUN4Z2ZQVERrbWlwR0krOXJFd3J1cXNF?=
- =?utf-8?B?c3FVL1BrUEFrbUFIbHF1YnRvTU44RCthWjQ0QzNuZzNZSy9MRGVEVnFvck9w?=
- =?utf-8?B?Y0o2cnZ4NXdtUmROK3lMN0NmS2NBL0NIemJ4ZnYzbXhrc1hKc0NiZ0xzamoy?=
- =?utf-8?B?RUE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e1e9223-b1b9-43cc-5700-08dafb371874
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1899.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2023 22:38:48.1834
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4fU08oridhR1TVfPJMOMFvvxwYdInczfiwE1FrJBacfAa/pOR8FQeSQEvNIJuRIMIGmkHKbdvMIGEBeJrH5Jz9HbrxoUTKaiRnJGfJi8X30=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4738
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: tyj-ciLHMuaKsWlBPNy8u5BENbdPDiy7
+X-Proofpoint-ORIG-GUID: tyj-ciLHMuaKsWlBPNy8u5BENbdPDiy7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-20_11,2023-01-20_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ malwarescore=0 mlxlogscore=987 lowpriorityscore=0 suspectscore=0
+ spamscore=0 phishscore=0 adultscore=0 clxscore=1011 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301200218
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Gunyah is a Type-1 hypervisor independent of any
+high-level OS kernel, and runs in a higher CPU privilege level. It does
+not depend on any lower-privileged OS kernel/code for its core
+functionality. This increases its security and can support a much smaller
+trusted computing base than a Type-2 hypervisor.
+
+Gunyah is an open source hypervisor. The source repo is available at
+https://github.com/quic/gunyah-hypervisor.
+
+The diagram below shows the architecture.
+
+::
+
+         VM A                    VM B
+     +-----+ +-----+  | +-----+ +-----+ +-----+
+     |     | |     |  | |     | |     | |     |
+ EL0 | APP | | APP |  | | APP | | APP | | APP |
+     |     | |     |  | |     | |     | |     |
+     +-----+ +-----+  | +-----+ +-----+ +-----+
+ ---------------------|-------------------------
+     +--------------+ | +----------------------+
+     |              | | |                      |
+ EL1 | Linux Kernel | | |Linux kernel/Other OS |   ...
+     |              | | |                      |
+     +--------------+ | +----------------------+
+ --------hvc/smc------|------hvc/smc------------
+     +----------------------------------------+
+     |                                        |
+ EL2 |            Gunyah Hypervisor           |
+     |                                        |
+     +----------------------------------------+
+
+Gunyah provides these following features.
+
+- Threads and Scheduling: The scheduler schedules virtual CPUs (VCPUs) on
+physical CPUs and enables time-sharing of the CPUs.
+- Memory Management: Gunyah tracks memory ownership and use of all memory
+under its control. Memory partitioning between VMs is a fundamental
+security feature.
+- Interrupt Virtualization: All interrupts are handled in the hypervisor
+and routed to the assigned VM.
+- Inter-VM Communication: There are several different mechanisms provided
+for communicating between VMs.
+- Device Virtualization: Para-virtualization of devices is supported using
+inter-VM communication. Low level system features and devices such as
+interrupt controllers are supported with emulation where required.
+
+This series adds the basic framework for detecting that Linux is running
+under Gunyah as a virtual machine, communication with the Gunyah Resource
+Manager, and a virtual machine manager capable of launching virtual machines.
+
+Changes in v9:
+ - Refactor Gunyah API flags to be exposed as feature flags at kernel level
+ - Move mbox client cleanup into gunyah_msgq_remove()
+ - Simplify gh_rm_call return value and response payload
+ - Clean-up/error handling/little endian suggestions by Srivatsa and Alex in v8 series
+
+Changes in v8: https://lore.kernel.org/all/20221219225850.2397345-1-quic_eberman@quicinc.com/
+ - Treat VM manager as a library of RM
+ - Add patches 21-28 as RFC to support proxy-scheduled vCPUs and necessary bits to support virtio
+   from Gunyah userspace
+
+Changes in v7: https://lore.kernel.org/all/20221121140009.2353512-1-quic_eberman@quicinc.com/
+ - Refactor to remove gunyah RM bus
+ - Refactor allow multiple RM device instances
+ - Bump UAPI to start at 0x0
+ - Refactor QCOM SCM's platform hooks to allow CONFIG_QCOM_SCM=Y/CONFIG_GUNYAH=M combinations
+
+Changes in v6: https://lore.kernel.org/all/20221026185846.3983888-1-quic_eberman@quicinc.com/
+ - *Replace gunyah-console with gunyah VM Manager*
+ - Move include/asm-generic/gunyah.h into include/linux/gunyah.h
+ - s/gunyah_msgq/gh_msgq/
+ - Minor tweaks and documentation tidying based on comments from Jiri, Greg, Arnd, Dmitry, and Bagas.
+
+Changes in v5: https://lore.kernel.org/all/20221011000840.289033-1-quic_eberman@quicinc.com/
+ - Dropped sysfs nodes
+ - Switch from aux bus to Gunyah RM bus for the subdevices
+ - Cleaning up RM console
+
+Changes in v4: https://lore.kernel.org/all/20220928195633.2348848-1-quic_eberman@quicinc.com/
+ - Tidied up documentation throughout based on questions/feedback received
+ - Switched message queue implementation to use mailboxes
+ - Renamed "gunyah_device" as "gunyah_resource"
+
+Changes in v3: https://lore.kernel.org/all/20220811214107.1074343-1-quic_eberman@quicinc.com/
+ - /Maintained/Supported/ in MAINTAINERS
+ - Tidied up documentation throughout based on questions/feedback received
+ - Moved hypercalls into arch/arm64/gunyah/; following hyper-v's implementation
+ - Drop opaque typedefs
+ - Move sysfs nodes under /sys/hypervisor/gunyah/
+ - Moved Gunyah console driver to drivers/tty/
+ - Reworked gunyah_device design to drop the Gunyah bus.
+
+Changes in v2: https://lore.kernel.org/all/20220801211240.597859-1-quic_eberman@quicinc.com/
+ - DT bindings clean up
+ - Switch hypercalls to follow SMCCC 
+
+v1: https://lore.kernel.org/all/20220223233729.1571114-1-quic_eberman@quicinc.com/
+
+Elliot Berman (27):
+  docs: gunyah: Introduce Gunyah Hypervisor
+  dt-bindings: Add binding for gunyah hypervisor
+  gunyah: Common types and error codes for Gunyah hypercalls
+  virt: gunyah: Add hypercalls to identify Gunyah
+  virt: gunyah: Identify hypervisor version
+  mailbox: Allow direct registration to a channel
+  virt: gunyah: msgq: Add hypercalls to send and receive messages
+  mailbox: Add Gunyah message queue mailbox
+  gunyah: rsc_mgr: Add resource manager RPC core
+  gunyah: rsc_mgr: Add VM lifecycle RPC
+  gunyah: vm_mgr: Introduce basic VM Manager
+  gunyah: rsc_mgr: Add RPC for sharing memory
+  gunyah: vm_mgr: Add/remove user memory regions
+  gunyah: vm_mgr: Add ioctls to support basic non-proxy VM boot
+  samples: Add sample userspace Gunyah VM Manager
+  gunyah: rsc_mgr: Add platform ops on mem_lend/mem_reclaim
+  firmware: qcom_scm: Use fixed width src vm bitmap
+  firmware: qcom_scm: Register Gunyah platform ops
+  docs: gunyah: Document Gunyah VM Manager
+  virt: gunyah: Translate gh_rm_hyp_resource into gunyah_resource
+  gunyah: vm_mgr: Add framework to add VM Functions
+  virt: gunyah: Add resource tickets
+  virt: gunyah: Add IO handlers
+  virt: gunyah: Add proxy-scheduled vCPUs
+  virt: gunyah: Add hypercalls for sending doorbell
+  virt: gunyah: Add irqfd interface
+  virt: gunyah: Add ioeventfd
+
+ .../bindings/firmware/gunyah-hypervisor.yaml  |  82 ++
+ .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+ Documentation/virt/gunyah/index.rst           | 114 +++
+ Documentation/virt/gunyah/message-queue.rst   |  69 ++
+ Documentation/virt/gunyah/vm-manager.rst      | 187 ++++
+ Documentation/virt/index.rst                  |   1 +
+ MAINTAINERS                                   |  13 +
+ arch/arm64/Kbuild                             |   1 +
+ arch/arm64/gunyah/Makefile                    |   3 +
+ arch/arm64/gunyah/gunyah_hypercall.c          | 149 ++++
+ arch/arm64/include/asm/gunyah.h               |  23 +
+ drivers/firmware/Kconfig                      |   2 +
+ drivers/firmware/qcom_scm.c                   | 112 ++-
+ drivers/mailbox/Makefile                      |   2 +
+ drivers/mailbox/gunyah-msgq.c                 | 214 +++++
+ drivers/mailbox/mailbox.c                     |  96 +-
+ drivers/mailbox/omap-mailbox.c                |  19 +-
+ drivers/mailbox/pcc.c                         |  18 +-
+ drivers/misc/fastrpc.c                        |   2 +-
+ drivers/net/wireless/ath/ath10k/qmi.c         |   4 +-
+ drivers/remoteproc/qcom_q6v5_mss.c            |   8 +-
+ drivers/soc/qcom/rmtfs_mem.c                  |   2 +-
+ drivers/virt/Kconfig                          |   2 +
+ drivers/virt/Makefile                         |   1 +
+ drivers/virt/gunyah/Kconfig                   |  46 +
+ drivers/virt/gunyah/Makefile                  |  11 +
+ drivers/virt/gunyah/gunyah.c                  |  54 ++
+ drivers/virt/gunyah/gunyah_ioeventfd.c        | 109 +++
+ drivers/virt/gunyah/gunyah_irqfd.c            | 166 ++++
+ drivers/virt/gunyah/gunyah_platform_hooks.c   |  63 ++
+ drivers/virt/gunyah/gunyah_vcpu.c             | 358 ++++++++
+ drivers/virt/gunyah/rsc_mgr.c                 | 833 ++++++++++++++++++
+ drivers/virt/gunyah/rsc_mgr.h                 | 160 ++++
+ drivers/virt/gunyah/rsc_mgr_rpc.c             | 457 ++++++++++
+ drivers/virt/gunyah/vm_mgr.c                  | 669 ++++++++++++++
+ drivers/virt/gunyah/vm_mgr.h                  |  70 ++
+ drivers/virt/gunyah/vm_mgr_mm.c               | 247 ++++++
+ include/linux/gunyah.h                        | 187 ++++
+ include/linux/gunyah_rsc_mgr.h                | 141 +++
+ include/linux/gunyah_vm_mgr.h                 | 107 +++
+ include/linux/mailbox_client.h                |   1 +
+ include/linux/qcom_scm.h                      |   2 +-
+ include/uapi/linux/gunyah.h                   | 115 +++
+ samples/Kconfig                               |  10 +
+ samples/Makefile                              |   1 +
+ samples/gunyah/.gitignore                     |   2 +
+ samples/gunyah/Makefile                       |   6 +
+ samples/gunyah/gunyah_vmm.c                   | 270 ++++++
+ samples/gunyah/sample_vm.dts                  |  69 ++
+ 49 files changed, 5207 insertions(+), 72 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+ create mode 100644 Documentation/virt/gunyah/index.rst
+ create mode 100644 Documentation/virt/gunyah/message-queue.rst
+ create mode 100644 Documentation/virt/gunyah/vm-manager.rst
+ create mode 100644 arch/arm64/gunyah/Makefile
+ create mode 100644 arch/arm64/gunyah/gunyah_hypercall.c
+ create mode 100644 arch/arm64/include/asm/gunyah.h
+ create mode 100644 drivers/mailbox/gunyah-msgq.c
+ create mode 100644 drivers/virt/gunyah/Kconfig
+ create mode 100644 drivers/virt/gunyah/Makefile
+ create mode 100644 drivers/virt/gunyah/gunyah.c
+ create mode 100644 drivers/virt/gunyah/gunyah_ioeventfd.c
+ create mode 100644 drivers/virt/gunyah/gunyah_irqfd.c
+ create mode 100644 drivers/virt/gunyah/gunyah_platform_hooks.c
+ create mode 100644 drivers/virt/gunyah/gunyah_vcpu.c
+ create mode 100644 drivers/virt/gunyah/rsc_mgr.c
+ create mode 100644 drivers/virt/gunyah/rsc_mgr.h
+ create mode 100644 drivers/virt/gunyah/rsc_mgr_rpc.c
+ create mode 100644 drivers/virt/gunyah/vm_mgr.c
+ create mode 100644 drivers/virt/gunyah/vm_mgr.h
+ create mode 100644 drivers/virt/gunyah/vm_mgr_mm.c
+ create mode 100644 include/linux/gunyah.h
+ create mode 100644 include/linux/gunyah_rsc_mgr.h
+ create mode 100644 include/linux/gunyah_vm_mgr.h
+ create mode 100644 include/uapi/linux/gunyah.h
+ create mode 100644 samples/gunyah/.gitignore
+ create mode 100644 samples/gunyah/Makefile
+ create mode 100644 samples/gunyah/gunyah_vmm.c
+ create mode 100644 samples/gunyah/sample_vm.dts
 
 
-On 1/19/23 05:28, Greg KH wrote:
-> On Wed, Jan 18, 2023 at 08:36:00PM -0500, Tianfei Zhang wrote:
->> Implement the image_load and available_images callback functions
->> for fpgahp driver. This patch leverages some APIs from pciehp
->> driver to implement the device reconfiguration below the PCI hotplug
->> bridge.
->>
->> Here are the steps for a process of image load.
->> 1. remove all PFs and VFs except the PF0.
->> 2. remove all non-reserved devices of PF0.
->> 3. trigger a image load via BMC.
->> 4. disable the link of the hotplug bridge.
->> 5. remove all reserved devices under PF0 and PCI devices
->>    below the hotplug bridge.
->> 6. wait for image load done via BMC, e.g. 10s.
->> 7. re-enable the link of the hotplug bridge.
->> 8. re-enumerate PCI devices below the hotplug bridge.
->>
->> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
->> ---
->>  Documentation/ABI/testing/sysfs-driver-fpgahp |  21 ++
->>  MAINTAINERS                                   |   1 +
->>  drivers/pci/hotplug/fpgahp.c                  | 179 ++++++++++++++++++
->>  3 files changed, 201 insertions(+)
->>  create mode 100644 Documentation/ABI/testing/sysfs-driver-fpgahp
->>
->> diff --git a/Documentation/ABI/testing/sysfs-driver-fpgahp b/Documentation/ABI/testing/sysfs-driver-fpgahp
->> new file mode 100644
->> index 000000000000..8d4b1bfc4012
->> --- /dev/null
->> +++ b/Documentation/ABI/testing/sysfs-driver-fpgahp
->> @@ -0,0 +1,21 @@
->> +What:		/sys/bus/pci/slots/X-X/available_images
->> +Date:		May 2023
->> +KernelVersion:	6.3
->> +Contact:	Tianfei Zhang <tianfei.zhang@intel.com>
->> +Description:	Read-only. This file returns a space separated list of
->> +		key words that may be written into the image_load file
->> +		described below. These keywords decribe an FPGA, BMC,
->> +		or firmware image in FLASH or EEPROM storage that may
->> +		be loaded.
-> No, sysfs is "one value per file", why is this a list?
->
-> And what exactly defines the values in this list?
->
->> +
->> +What:		/sys/bus/pci/slots/X-X/image_load
->> +Date:		May 2023
->> +KernelVersion:	6.3
->> +Contact:	Tianfei Zhang <tianfei.zhang@intel.com>
->> +Description:	Write-only. A key word may be written to this file to
->> +		trigger a new image loading of an FPGA, BMC, or firmware
->> +		image from FLASH or EEPROM. Refer to the available_images
->> +		file for a list of supported key words for the underlying
->> +		device.
->> +		Writing an unsupported string to this file will result in
->> +		EINVAL being returned.
-> Why is this a separate file from the "read the list" file?
-
-The intended usage is like this:
-
-$ cat available_images
-bmc_factory bmc_user fpga_factory fpga_user1 fpga_user2
-$ echo bmc_user > image_load
-
-This specifies which image stored in flash that you want to have activated
-on the device.
-
-An existing example of something like this is in the tracing code:
-available_tracers and current_tracer
-
-Would it be preferable to just create a file for each possible image,
-and echo 1 to trigger the event? (echo 1 > bmc_user)
-
-Thanks,
-- Russ
-
-> That feels wrong.
->
-> thanks,
->
-> greg k-h
+base-commit: 3daed6345d5880464f46adab871d208e1baa2f3a
+-- 
+2.39.0
 
