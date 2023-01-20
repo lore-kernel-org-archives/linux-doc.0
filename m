@@ -2,170 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CD27C05027
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 15:03:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D270C27C7C
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 15:19:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230467AbjATPDs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 10:03:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38552 "EHLO
+        id S231342AbjATPTJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 10:19:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230381AbjATPDr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 10:03:47 -0500
-Received: from fx303.security-mail.net (mxout.security-mail.net [85.31.212.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0241BA792C
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 07:03:44 -0800 (PST)
-Received: from localhost (fx303.security-mail.net [127.0.0.1])
-        by fx303.security-mail.net (Postfix) with ESMTP id 7BA2830F7DC
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 16:03:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
-        s=sec-sig-email; t=1674227023;
-        bh=UZzOxuculcf7mxi4XmJ6gsSDrAJaXvR6pX1yVHvffJs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=kW7THbefwaBqq3E4MyuQwmr90ax0hQkfpZy6Np3+KLY3cc++QhhhKVSBM30a+UOn3
-         oVqxEdH813kxvM5hlQNOTi/eFMG7llCjnSgPz33v8ttiDqA7igP87DRmjQ5TQyl3qe
-         Cuf5U3fBQ82LLZmM8yVtNzEzjGSKIOEazPF0sfpI=
-Received: from fx303 (fx303.security-mail.net [127.0.0.1]) by
- fx303.security-mail.net (Postfix) with ESMTP id 3221030F720; Fri, 20 Jan
- 2023 16:03:43 +0100 (CET)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx303.security-mail.net (Postfix) with ESMTPS id 7CF1230F79F; Fri, 20 Jan
- 2023 16:03:42 +0100 (CET)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 5696027E043A; Fri, 20 Jan 2023
- 16:03:42 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 36BE627E0437; Fri, 20 Jan 2023 16:03:42 +0100 (CET)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- 9zSUTNBWOY1C; Fri, 20 Jan 2023 16:03:42 +0100 (CET)
-Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id D59A827E0430; Fri, 20 Jan 2023
- 16:03:41 +0100 (CET)
-X-Virus-Scanned: E-securemail
-Secumail-id: <7f21.63caad4e.7b828.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 36BE627E0437
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1674227022;
- bh=C7HrnI5K8lMVKwfpvR2iIg1M1ljeou+P3mCJSMAG91Q=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=WDWoyVMbIMPbJepmJq7lETaMqJi8dXSis3WDlHnimStL/D6LcNyVKEyhwC0exaLEa
- /yI1hmzBWA0vpQxL61VK4pLGSFjwDaBXqRRCN+CNJkpmnVhmZT4IznmM53SL6OKcDp
- hoqf7NRBZhx1q/JOV6km7TyZQI9nicecKIciSZ5I=
-Date:   Fri, 20 Jan 2023 16:03:40 +0100
-From:   Jules Maselbas <jmaselbas@kalray.eu>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Yann Sionneau <ysionneau@kalray.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Waiman Long <longman@redhat.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Eric Paris <eparis@redhat.com>,
-        Christian Brauner <brauner@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Guillaume Thouvenin <gthouvenin@kalray.eu>,
-        Clement Leger <clement@clement-leger.fr>,
-        Vincent Chardon <vincent.chardon@elsys-design.com>,
-        Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>,
-        Julian Vetter <jvetter@kalray.eu>,
-        Samuel Jones <sjones@kalray.eu>,
-        Ashley Lesdalons <alesdalons@kalray.eu>,
-        Thomas Costis <tcostis@kalray.eu>,
-        Marius Gligor <mgligor@kalray.eu>,
-        Jonathan Borne <jborne@kalray.eu>,
-        Julien Villette <jvillette@kalray.eu>,
-        Luc Michel <lmichel@kalray.eu>,
-        Louis Morhet <lmorhet@kalray.eu>,
-        Julien Hascoet <jhascoet@kalray.eu>,
-        Jean-Christophe Pince <jcpince@gmail.com>,
-        Guillaume Missonnier <gmissonnier@kalray.eu>,
-        Alex Michon <amichon@kalray.eu>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <git@xen0n.name>,
-        Shaokun Zhang <zhangshaokun@hisilicon.com>,
-        John Garry <john.garry@huawei.com>,
-        Guangbin Huang <huangguangbin2@huawei.com>,
-        Bharat Bhushan <bbhushan2@marvell.com>,
-        Bibo Mao <maobibo@loongson.cn>,
-        Atish Patra <atishp@atishpatra.org>,
-        "Jason A . Donenfeld" <Jason@zx2c4.com>,
-        Qi Liu <liuqi115@huawei.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Mark Brown <broonie@kernel.org>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Benjamin Mugnier <mugnier.benjamin@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-mm@kvack.org,
-        Linux-Arch <linux-arch@vger.kernel.org>, linux-audit@redhat.com,
-        linux-riscv@lists.infradead.org, bpf@vger.kernel.org
-Subject: Re: [RFC PATCH v2 09/31] kvx: Add build infrastructure
-Message-ID: <20230120150340.GA5952@tellis.lin.mbt.kalray.eu>
-References: <20230120141002.2442-1-ysionneau@kalray.eu>
- <20230120141002.2442-10-ysionneau@kalray.eu>
- <aa4d68b2-b5b5-4c17-a44f-7c6db443ea4c@app.fastmail.com>
- <20230120145316.GA4155@tellis.lin.mbt.kalray.eu>
- <9965e2d1-bae8-4ce7-911c-783c772e9ff1@app.fastmail.com>
+        with ESMTP id S231331AbjATPTF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 10:19:05 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B146DA109
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 07:19:03 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 79FAA2AE;
+        Fri, 20 Jan 2023 15:19:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 79FAA2AE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1674227943; bh=3FC403uzC8WVoVzxoAdPn9dH5q4g1dqTxwv/UY3Ryeg=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=V4KA1dA47oKVT8FSlZT10ODjvbCMotB17nIhVMM/kgddM96QPO+Swc8elCXHncvK0
+         VyyIoQ2mu1LGDPVek9qdLqeYovu+iqwUYinLMvXOnpYIqNAokSopyggRebEJWPAL1/
+         VTBM33dVnoiaXlDPPUkwCISELgwpEisUuzDSz8NL+QgQN0bf/06W2mswsuefMf9sr6
+         JFpqs4kKJ7XEW87wHTM4Xs+pEIPZ77SEypycU8Jy0wV5mEAOR5GK5MluyiiPYfTwM2
+         E3FsYVG2rwQ388CIUAyzcfWRsVSTccU+xrpL+vZoCi5O2eYvQ/uqfeWhq10dFFD+wk
+         hu+cQyUODElhQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>,
+        Sadiya Kazi <sadiyakazi@google.com>
+Cc:     linux-doc@vger.kernel.org, David Gow <davidgow@google.com>
+Subject: Re: [PATCH RFC] docs: Add more information to the HTML sidebar
+In-Reply-To: <fa426691-c76a-8ab0-4975-6edacc9cb247@gmail.com>
+References: <87o7qu5al3.fsf@meer.lwn.net>
+ <CAO2JNKW9pL5097qdte1N4F=RSnRJtcnpaDf__ROJAFfHitooYQ@mail.gmail.com>
+ <fa426691-c76a-8ab0-4975-6edacc9cb247@gmail.com>
+Date:   Fri, 20 Jan 2023 08:19:02 -0700
+Message-ID: <8735855j4p.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <9965e2d1-bae8-4ce7-911c-783c772e9ff1@app.fastmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 20, 2023 at 04:01:11PM +0100, Arnd Bergmann wrote:
-> On Fri, Jan 20, 2023, at 15:53, Jules Maselbas wrote:
-> > On Fri, Jan 20, 2023 at 03:39:22PM +0100, Arnd Bergmann wrote:
-> >> On Fri, Jan 20, 2023, at 15:09, Yann Sionneau wrote:
-> >> >      - Fix clean target raising an error from gcc (LIBGCC)
-> >> 
-> >> I had not noticed this on v1 but:
-> >> 
-> >> > +# Link with libgcc to get __div* builtins.
-> >> > +LIBGCC	:= $(shell $(CC) $(DEFAULT_OPTS) --print-libgcc-file-name)
-> >> 
-> >> It's better to copy the bits of libgcc that you actually need
-> >> than to include the whole thing. The kernel is in a weird
-> > It was initialy using KCONFIG_CFLAGS which do not contains valid options
-> > when invoking the clean target.
-> >
-> > I am not exactly sure what's needed by gcc for --print-libgcc-file-name,
-> > my guess is that only the -march option matters, I will double check
-> > internally with compiler peoples.
-> >
-> >> state that is neither freestanding nor the normal libc based
-> >> environment, so we generally want full control over what is
-> >> used. This is particularly important for 32-bit architectures
-> >> that do not want the 64-bit division, but there are probably
-> >> enough other cases as well.
-> 
-> To clarify: I meant you should not include libgcc.a at all but
-> add the minimum set of required files as arch/kvx/lib/*.S.
-Thanks for clarifying :)
+Akira Yokosawa <akiyks@gmail.com> writes:
 
+>>> Thoughts?  Is this headed in the right direction?  This view of the TOC
+>>> is readily available from Sphinx; if we want something else it's going
+>>> to be rather more work.
+>
+> I think this looks like the right direction. But how far do you want to
+> mimic RTD's sidebar???
 
--- Jules
+Well ... that is kind of my question for all of the folks who are
+unhappy with the current sidebar.  What would you like to see there?
 
+Things like sidebar width, whether bullets are used (I'd deliberately
+taken them out as excess noise), which text is which color, etc. are all
+just CSS; we can paint that shed any color we like.  The harder part is
+deciding which information we want to have there in the first place.  So
+... is the set of links shown in the new sidebar close to what we
+want...  too much stuff?  Something missing?
 
+Thanks,
 
-
+jon
