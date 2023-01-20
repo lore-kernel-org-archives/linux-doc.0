@@ -2,64 +2,63 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E468C004D4
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 01:33:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D8DEC004D4
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 01:40:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229985AbjATBd1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 20:33:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47634 "EHLO
+        id S229574AbjATBkW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 20:40:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229712AbjATBd0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 20:33:26 -0500
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A615AB748
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 17:33:23 -0800 (PST)
-Received: by mail-pf1-x42b.google.com with SMTP id 20so2887209pfu.13
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 17:33:23 -0800 (PST)
+        with ESMTP id S229485AbjATBkV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 20:40:21 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 538109EE23
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 17:40:19 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id d8so4221658pjc.3
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 17:40:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kp68jZKRyQvb1CWCfr7ryxkqu7zJ892bk7TwE8UhDeg=;
-        b=H/l0Obt0lE8Dt7WZH0dN6w05VSK2+qVutkVXC28jA6GVboKJkdOb6dy6flHfifS3eA
-         twQ2J0d4UNa0dl1Qn8gm0ibDLWgmNTpA6plkncRthFcZHjH7D4BuCq1cps6AxIk7yQ1g
-         tTeOqX8tMIymvL4hVtxnDU0TIUkwKcq9pgR7K1TYOAuiDS/S7HQdFY2ixosd08LKKT/n
-         dv1ykJakGnF3GMus+uWOXqpvdPfQxtjgpP7Uwk+lCEiRNFef8uXCERWuIZN7wfmpIkzK
-         K6bSXy0hREjSgP4rqdKLOnspmtPZnZ+ZW04ugucxZwzVgxxZVvo3hmwe9b4FgtHFFm09
-         GPzw==
+        bh=Lg0CzDuQy4V1JV2pIlemk74MHa85PjPJTHngrqfHjrE=;
+        b=ImZO6fhqVqvCqs7rXFaCOuWNTnnC9RvQXYi9jvRLJEucdXDUti7JkfHu8O7Jl0o1GR
+         +2I8c9hfOjkyjtdGDJYnmeqRq+CZCntKqF/JgZKW3QCMWkTkodvRvyA6NehFi/fNR3JR
+         q5vS5fZwKy7YcH0ChMeMVdcGr2HFhMgWJGSw7hGGFEgmghvWJ4WYsqA5bnIfUDAJCoDP
+         FwTqdndfEXhPnjjsPP00SboMIZGbc8abyDGrB7OwQri1BMYBF6e1DCtOrs+y4cyJKnkf
+         g7z3MLrTGb9cTVHMZQkXmHC6qF610iMQCpr0zmjZ3iQ16ASnhWUzl5F9fg94FHRmVKaR
+         DpJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Kp68jZKRyQvb1CWCfr7ryxkqu7zJ892bk7TwE8UhDeg=;
-        b=x50lUDHFEiIpqxikkl3LoELlQx+qhneXhnHRbz9oPhCJr/aqSYXZq6KOup11kYdxVQ
-         4x6addG2DbZkQEeUQGERB7ZWopwyzd3ToP4j+dAsrVUrl7z/8LRKUUoMZdEbqn3+bo4o
-         rYsAFtaIG3VZEbHIsKYgJOGYjM5BAQjVwZMozJiuGuLd2JapfgaAcxtwDoI4vSuXCI3Z
-         2zovWvXsZQfzwFuMPTpbupp3w011DEXWzPGmKwwRC5x31aMV38ReAk2pgX6FslFKWwgi
-         7EDPX3rxTBeXCP2uESCp+uvTqJo4fo+t9/pa+cp8Vmwu58yF9uCE1+XEmg8d6U4ok57E
-         ehSQ==
-X-Gm-Message-State: AFqh2koCxhA3VYuF/eX2TmIb0B+qxBTqHBXErwvefgOXyX1q7RHXiUCc
-        z1jMP9BtDUcpQMZHFUTzDKkivw==
-X-Google-Smtp-Source: AMrXdXuj+pEzgczWgpSXc9mTAUie4xUf244aRmyLrVfENL9pUUqVg7frR07KJZR3dR0VXrbhEpML/A==
-X-Received: by 2002:aa7:84d8:0:b0:58b:cb1b:978f with SMTP id x24-20020aa784d8000000b0058bcb1b978fmr18689pfn.1.1674178403000;
-        Thu, 19 Jan 2023 17:33:23 -0800 (PST)
+        bh=Lg0CzDuQy4V1JV2pIlemk74MHa85PjPJTHngrqfHjrE=;
+        b=3hoSScguPRIr9CMb+wXGN3RH6nlDda2ANcfyw/RKsdSYEmX+PyiMdGYHsaFth4QxSw
+         2ggZgZA+PVljmNVQ4JAC3x0AimtT6er8Pnft9j6rHO5P7XX/3ZIrB4EiD8sDok3EYoJ2
+         xs+WGUr4O9c6iIOMgcJ8XFFJfXxkU4lHwlqc6VJGnupPSlHsl+V3OyJURo+wt1OlRQ/J
+         s5MdyeAVrxoolK7GsY0ePn5OzFgFW3JMm+HafAGhdH+tfNyKqE6HA+XPf1ipV7Mc/klw
+         GJRiTMANJptNLGMDsQbpgJaRpXowWTvK5k6gedcpkJ7QmR5ICeczHsl9tlGNksYFz71T
+         2cog==
+X-Gm-Message-State: AFqh2kr8iCPrahtZ6sfYnpjLT5fdfoHOsCLK4hpgDVsEi2/3PKejFvwI
+        26vVaqFFlJkQ9Ky62D8cgFNfTQ==
+X-Google-Smtp-Source: AMrXdXvcVM2ifx1QliZxHIX+7OmGHQVLmRwBNhn73tk9W4ClFQY0b1V9fyA2FC+YR1J/ddz+yLlbqQ==
+X-Received: by 2002:a17:902:eb45:b0:189:6624:58c0 with SMTP id i5-20020a170902eb4500b00189662458c0mr10964pli.3.1674178818663;
+        Thu, 19 Jan 2023 17:40:18 -0800 (PST)
 Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id f129-20020a623887000000b0058bf2ae9694sm10265600pfa.156.2023.01.19.17.33.22
+        by smtp.gmail.com with ESMTPSA id 35-20020a631563000000b0044ed37dbca8sm21340893pgv.2.2023.01.19.17.40.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 17:33:22 -0800 (PST)
-Date:   Fri, 20 Jan 2023 01:33:18 +0000
+        Thu, 19 Jan 2023 17:40:18 -0800 (PST)
+Date:   Fri, 20 Jan 2023 01:40:13 +0000
 From:   Sean Christopherson <seanjc@google.com>
-To:     Kim Phillips <kim.phillips@amd.com>
-Cc:     x86@kernel.org, Borislav Petkov <bp@alien8.de>,
-        Borislav Petkov <borislav.petkov@amd.com>,
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+        Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
         Boris Ostrovsky <boris.ostrovsky@oracle.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
         Joao Martins <joao.m.martins@oracle.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         David Woodhouse <dwmw@amazon.co.uk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -67,89 +66,60 @@ Cc:     x86@kernel.org, Borislav Petkov <bp@alien8.de>,
         Peter Zijlstra <peterz@infradead.org>,
         Tony Luck <tony.luck@intel.com>,
         Tom Lendacky <thomas.lendacky@amd.com>,
-        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 2/7] x86/cpu, kvm: Add the NO_NESTED_DATA_BP feature
-Message-ID: <Y8nvXj0//cImdTJQ@google.com>
-References: <20230110224643.452273-1-kim.phillips@amd.com>
- <20230110224643.452273-4-kim.phillips@amd.com>
+        Alexey Kardashevskiy <aik@amd.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 0/7] x86/cpu, kvm: Support AMD Automatic IBRS
+Message-ID: <Y8nw/XLTpKhKbbdX@google.com>
+References: <20230116230159.1511393-1-kim.phillips@amd.com>
+ <Y8aMiH74WFmVM5Rk@zn.tnic>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230110224643.452273-4-kim.phillips@amd.com>
+In-Reply-To: <Y8aMiH74WFmVM5Rk@zn.tnic>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 10, 2023, Kim Phillips wrote:
-> The "Processor ignores nested data breakpoints" feature was being
-> open-coded for KVM in __do_cpuid_func().  Add it to its newly added
-> CPUID leaf 0x80000021 EAX proper, and propagate it in kvm_set_cpu_caps()
-> instead.
+On Tue, Jan 17, 2023, Borislav Petkov wrote:
+> On Mon, Jan 16, 2023 at 05:01:52PM -0600, Kim Phillips wrote:
 > 
-> Also drop the bit description comments now it's more self-describing.
+> > Kim Phillips (7):
+> >   x86/cpu, kvm: Add support for cpuid leaf 80000021/EAX (FeatureExt2Eax)
+> >   x86/cpu, kvm: Add the NO_NESTED_DATA_BP feature
+> >   x86/cpu, kvm: Move the LFENCE_RDTSC / LFENCE always serializing
+> >     feature
+> >   x86/cpu, kvm: Add the Null Selector Clears Base feature
+> >   x86/cpu, kvm: Add the SMM_CTL MSR not present feature
+> >   x86/cpu: Support AMD Automatic IBRS
+> >   x86/cpu, kvm: Propagate the AMD Automatic IBRS feature to the guest
+> > 
+> >  Documentation/admin-guide/hw-vuln/spectre.rst |  6 ++--
+> >  .../admin-guide/kernel-parameters.txt         |  6 ++--
+> >  arch/x86/include/asm/cpufeature.h             |  7 +++--
+> >  arch/x86/include/asm/cpufeatures.h            | 11 +++++--
+> >  arch/x86/include/asm/disabled-features.h      |  3 +-
+> >  arch/x86/include/asm/msr-index.h              |  2 ++
+> >  arch/x86/include/asm/required-features.h      |  3 +-
+> >  arch/x86/kernel/cpu/amd.c                     |  2 +-
+> >  arch/x86/kernel/cpu/bugs.c                    | 20 ++++++++-----
+> >  arch/x86/kernel/cpu/common.c                  | 22 +++++++++-----
+> >  arch/x86/kvm/cpuid.c                          | 30 +++++++------------
+> >  arch/x86/kvm/reverse_cpuid.h                  |  1 +
+> >  arch/x86/kvm/svm/svm.c                        |  3 ++
+> >  arch/x86/kvm/x86.c                            |  3 ++
+> >  14 files changed, 71 insertions(+), 48 deletions(-)
 > 
-> Signed-off-by: Kim Phillips <kim.phillips@amd.com>
-> ---
->  arch/x86/include/asm/cpufeatures.h | 3 +++
->  arch/x86/kvm/cpuid.c               | 8 ++++++--
->  2 files changed, 9 insertions(+), 2 deletions(-)
+> KVM folks,
 > 
-> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-> index d53e13048d2e..0cd7b4afd528 100644
-> --- a/arch/x86/include/asm/cpufeatures.h
-> +++ b/arch/x86/include/asm/cpufeatures.h
-> @@ -426,6 +426,9 @@
->  #define X86_FEATURE_V_TSC_AUX		(19*32+ 9) /* "" Virtual TSC_AUX */
->  #define X86_FEATURE_SME_COHERENT	(19*32+10) /* "" AMD hardware-enforced cache coherency */
->  
-> +/* AMD-defined Extended Feature 2 EAX, CPUID level 0x80000021 (EAX), word 20 */
-> +#define X86_FEATURE_NO_NESTED_DATA_BP	(20*32+ 0) /* "" AMD No Nested Data Breakpoints */
-> +
->  /*
->   * BUG word(s)
->   */
-> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-> index b14653b61470..69e433e4e9ff 100644
-> --- a/arch/x86/kvm/cpuid.c
-> +++ b/arch/x86/kvm/cpuid.c
-> @@ -741,6 +741,10 @@ void kvm_set_cpu_caps(void)
->  		0 /* SME */ | F(SEV) | 0 /* VM_PAGE_FLUSH */ | F(SEV_ES) |
->  		F(SME_COHERENT));
->  
-> +	kvm_cpu_cap_mask(CPUID_8000_0021_EAX,
-> +		F(NO_NESTED_DATA_BP)
-> +	);
-> +
->  	kvm_cpu_cap_mask(CPUID_C000_0001_EDX,
->  		F(XSTORE) | F(XSTORE_EN) | F(XCRYPT) | F(XCRYPT_EN) |
->  		F(ACE2) | F(ACE2_EN) | F(PHE) | F(PHE_EN) |
-> @@ -1222,9 +1226,9 @@ static inline int __do_cpuid_func(struct kvm_cpuid_array *array, u32 function)
->  		break;
->  	case 0x80000021:
->  		entry->ebx = entry->ecx = entry->edx = 0;
-> +		cpuid_entry_override(entry, CPUID_8000_0021_EAX);
->  		/*
->  		 * Pass down these bits:
-> -		 *    EAX      0      NNDBP, Processor ignores nested data breakpoints
->  		 *    EAX      2      LAS, LFENCE always serializing
->  		 *    EAX      6      NSCB, Null selector clear base
->  		 *
-> @@ -1235,7 +1239,7 @@ static inline int __do_cpuid_func(struct kvm_cpuid_array *array, u32 function)
->  		 * KVM doesn't support SMM_CTL.
->  		 *   EAX       9     SMM_CTL MSR is not supported
->  		 */
-> -		entry->eax &= BIT(0) | BIT(2) | BIT(6);
-> +		entry->eax &= BIT(2) | BIT(6);
+> I'm going to route this through the tip tree, along with the KVM bits.
+> 
+> Holler if we should do something else to avoid any potential conflicts.
 
-This is broken.  It gets fixed by the end of the series, but between here and
-commit b1366f515fd6 ("x86/cpu, kvm: Add the Null Selector Clears Base feature"),
-the AND with open coded bits means any bits preserved/set by cpuid_entry_override()
-are wiped out.  E.g. NO_NESTED_DATA_BP will never be advertised as of this patch.
+Sorry, completely missed this.
 
-The proper way to do this is to first convert all supported bits away from magic
-numbers in a single patch, and then introduce newly supported bits one by one.
-That one patch will be larger, but I don't see a better approach.
+There will be a minor conflict in KVM's reverse_cpuid, but it's trivial to resolve.
+I don't anticipate any other conflicts, so taking this through tip does seem like
+the best option.
 
-Is it too late to back this out?  Not a huge deal, but it seems easy enough to
-clean up.
+If possible, a new version to fix the bisection issues in patches 2 and 3 would
+be nice, but again it's not a big deal.  The breakage is very, very minor.
