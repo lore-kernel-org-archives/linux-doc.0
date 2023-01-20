@@ -2,50 +2,50 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DC5DC38142
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 00:59:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7078BC004D4
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 01:01:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229586AbjATA76 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 19:59:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57656 "EHLO
+        id S229864AbjATBBY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 20:01:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229867AbjATA74 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 19:59:56 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F964A102E
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 16:59:55 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id g23so3950304plq.12
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 16:59:55 -0800 (PST)
+        with ESMTP id S229843AbjATBBW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 20:01:22 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4687AA45CD
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 17:01:20 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id jm10so3948323plb.13
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 17:01:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uiOy7MsAVXCDi4yykgCEJP615rzoTkEvmwPXfFVYVQA=;
-        b=VBHls2lLd7XEu8aue7DbkQvXQ37PW2//QqsV2W8dczleQ1Ps1UB6eDmU9KXMP5ttsN
-         F/GKW5mx9ZYlzYhgLSdj53/o0umWjbPEJSEH8npDn2brASONuPwm9Ot+p8h+h7BYg1hK
-         K1QpFXcUhel/q0dONN90cxImX5GtL3kCHcSuc=
+        bh=QFsgarPNbICqKMSVZVyYMOF+g+3QXwsXtzOcayGvoi4=;
+        b=A9WplzbOSCG6EUOsIJ7kol0hQb5oYSpseab3h1cbCZlz1ZHfA317/hf0oOx902fJYd
+         pHxs1xgWKKIz2MDnngJf2LmYabDdDddSS796KfBajBl5UhpiBrj6VMDoPHJU5IfhqNLp
+         8983YP9wsnceP1umAtc4itnxZVRMm3gbrbjGI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uiOy7MsAVXCDi4yykgCEJP615rzoTkEvmwPXfFVYVQA=;
-        b=6tK31VcCONzfnOMt09EnkofSwSQe35XWhIFaS3DAQjDJr3lEAlBsAQOGoD+9Kz+ak1
-         HSUL/h1FvGCbhlH1MpEp2VkLFGA9biKOMYy+zTgr4sfpLSKA7t4JlJljcn7ljVf/bxO0
-         zIRh0aDXnbgFjltn5HzLEPDMI+DrfvqIcYSIWl9c9HqcJm0T6e0Ek89Ql6MlPaiJLNvP
-         Vw8dmlzG/fxBJcBcQEsL9cIKe7qggCogD5+4kEr0eTiCFj/xVyNYCs/t0MYrZa1jfYrx
-         z4KOz0xoekK0PfRmp2PAkGVyt2GRk35W5k0UPGwFbIJTsn1AHWd467DvKmvizH57nyJi
-         TMUQ==
-X-Gm-Message-State: AFqh2kruFpLdRyKePZNIa+DFqnPqKqI//hP7Nnth0UMywOyqGG/ZL852
-        0y46utiPdYbkZf5khsOQWsxmTg==
-X-Google-Smtp-Source: AMrXdXsd0nbSulNLJk98i1TAtXfzuLUV/MdDPQrv4yHjXSBb1o0r3isynBZ7MuOj9TBz0Qc0m88Yhg==
-X-Received: by 2002:a17:902:d706:b0:193:2c1b:3367 with SMTP id w6-20020a170902d70600b001932c1b3367mr13591546ply.1.1674176394926;
-        Thu, 19 Jan 2023 16:59:54 -0800 (PST)
+        bh=QFsgarPNbICqKMSVZVyYMOF+g+3QXwsXtzOcayGvoi4=;
+        b=0Yf8lIDC6SkzYVNACniB0JDu1No4M4TYeyqUpFfADsvXzLKT0/Yz2Ed09dioFk8ldJ
+         pD5uMp/u9oSkbg9Ff9NaL7qkOczgqcOee3wlr6Qa0TAcSVsJFWNkTEMlN3Bos0Xi38vt
+         FMeidMkqq+IxSnLB+Q+ECx6mZdr1xE6E2Tgt5hmuNCxrLAE/qUpQp1p0hE0sfVVzDoHS
+         cRs4yza9xGWaBqaw1I7H9apZU8fZ+kfSAV+prnCNN2iHVHe+1BI6mCQsYsYDV3H8ktI8
+         mIqQ5cq89e/YsjsUchKZ0npv16qW0wJvjY71SYikM8Ewi2ri7DJ7z96iNoyCkGgTNQF6
+         SHWQ==
+X-Gm-Message-State: AFqh2kp9aPkOMyWqTfUylGXqEW+U0SbZEFooCb1EnguV7mZa+jXC+XTb
+        ogMY/lq22hPNC0xG52M0ci4Wbg==
+X-Google-Smtp-Source: AMrXdXvb9cDkGke9zAyCgTEMw6x2BXISM0o26YyZuQdkPa8eazpgLD3hpkP3EYi76Rast6AtsdUb7w==
+X-Received: by 2002:a05:6a20:9c8b:b0:b8:bc13:c838 with SMTP id mj11-20020a056a209c8b00b000b8bc13c838mr13594445pzb.53.1674176479784;
+        Thu, 19 Jan 2023 17:01:19 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q16-20020a170902eb9000b00194d14d8e54sm1790804plg.96.2023.01.19.16.59.54
+        by smtp.gmail.com with ESMTPSA id h4-20020aa79f44000000b0056d7cc80ea4sm10783612pfr.110.2023.01.19.17.01.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 16:59:54 -0800 (PST)
-Date:   Thu, 19 Jan 2023 16:59:53 -0800
+        Thu, 19 Jan 2023 17:01:19 -0800 (PST)
+Date:   Thu, 19 Jan 2023 17:01:18 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -75,56 +75,50 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         dethoma@microsoft.com, akpm@linux-foundation.org,
         Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
         Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v5 16/39] x86/mm: Check shadow stack page fault errors
-Message-ID: <202301191659.1B1439CF7@keescook>
+Subject: Re: [PATCH v5 19/39] mm: Fixup places that call pte_mkwrite()
+ directly
+Message-ID: <202301191701.ADBD82708A@keescook>
 References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
- <20230119212317.8324-17-rick.p.edgecombe@intel.com>
+ <20230119212317.8324-20-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119212317.8324-17-rick.p.edgecombe@intel.com>
+In-Reply-To: <20230119212317.8324-20-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 01:22:54PM -0800, Rick Edgecombe wrote:
+On Thu, Jan 19, 2023 at 01:22:57PM -0800, Rick Edgecombe wrote:
 > From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > 
-> The CPU performs "shadow stack accesses" when it expects to encounter
-> shadow stack mappings. These accesses can be implicit (via CALL/RET
-> instructions) or explicit (instructions like WRSS).
+> The x86 Control-flow Enforcement Technology (CET) feature includes a new
+> type of memory called shadow stack. This shadow stack memory has some
+> unusual properties, which requires some core mm changes to function
+> properly.
 > 
-> Shadow stack accesses to shadow-stack mappings can result in faults in
-> normal, valid operation just like regular accesses to regular mappings.
-> Shadow stacks need some of the same features like delayed allocation, swap
-> and copy-on-write. The kernel needs to use faults to implement those
-> features.
+> With the introduction of shadow stack memory there are two ways a pte can
+> be writable: regular writable memory and shadow stack memory.
 > 
-> The architecture has concepts of both shadow stack reads and shadow stack
-> writes. Any shadow stack access to non-shadow stack memory will generate
-> a fault with the shadow stack error code bit set.
+> In past patches, maybe_mkwrite() has been updated to apply pte_mkwrite()
+> or pte_mkwrite_shstk() depending on the VMA flag. This covers most cases
+> where a PTE is made writable. However, there are places where pte_mkwrite()
+> is called directly and the logic should now also create a shadow stack PTE
+> in the case of a shadow stack VMA.
 > 
-> This means that, unlike normal write protection, the fault handler needs
-> to create a type of memory that can be written to (with instructions that
-> generate shadow stack writes), even to fulfill a read access. So in the
-> case of COW memory, the COW needs to take place even with a shadow stack
-> read. Otherwise the page will be left (shadow stack) writable in
-> userspace. So to trigger the appropriate behavior, set FAULT_FLAG_WRITE
-> for shadow stack accesses, even if the access was a shadow stack read.
+> - do_anonymous_page() and migrate_vma_insert_page() check VM_WRITE
+>   directly and call pte_mkwrite(). Teach it about pte_mkwrite_shstk()
 > 
-> For the purpose of making this clearer, consider the following example.
-> If a process has a shadow stack, and forks, the shadow stack PTEs will
-> become read-only due to COW. If the CPU in one process performs a shadow
-> stack read access to the shadow stack, for example executing a RET and
-> causing the CPU to read the shadow stack copy of the return address, then
-> in order for the fault to be resolved the PTE will need to be set with
-> shadow stack permissions. But then the memory would be changeable from
-> userspace (from CALL, RET, WRSS, etc). So this scenario needs to trigger
-> COW, otherwise the shared page would be changeable from both processes.
+> - When userfaultfd is creating a PTE after userspace handles the fault
+>   it calls pte_mkwrite() directly. Teach it about pte_mkwrite_shstk()
 > 
-> Shadow stack accesses can also result in errors, such as when a shadow
-> stack overflows, or if a shadow stack access occurs to a non-shadow-stack
-> mapping. Also, generate the errors for invalid shadow stack accesses.
+> To make the code cleaner, introduce is_shstk_write() which simplifies
+> checking for VM_WRITE | VM_SHADOW_STACK together.
+> 
+> In other cases where pte_mkwrite() is called directly, the VMA will not
+> be VM_SHADOW_STACK, and so shadow stack memory should not be created.
+>  - In the case of pte_savedwrite(), shadow stack VMA's are excluded.
+>  - In the case of the "dirty_accountable" optimization in mprotect(),
+>    shadow stack VMA's won't be VM_SHARED, so it is not necessary.
 > 
 > Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 > Tested-by: John Allen <john.allen@amd.com>
