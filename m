@@ -2,247 +2,172 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44DDCC05027
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 16:33:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECEACC05027
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 16:43:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230326AbjATQdN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 11:33:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40980 "EHLO
+        id S230392AbjATQnu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 11:43:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230281AbjATQdE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 11:33:04 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C57CAD3D;
-        Fri, 20 Jan 2023 08:32:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674232342; x=1705768342;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=YjNkfHk7wUa3R7nqackvtKUJJtFqYokd7NEkX4S2Ljs=;
-  b=GCYj62axmgpLdnTrk2skvRdBniCPgvVhUgf00vTwZOts6T85q5ovFAat
-   IlFT6OeIr9CvQoKzUPwk9X3Pf7OXBR9mz4U8x6RxdfryxDhoAtVYzA8bf
-   DQ6DQtR8JCfGokp3Mgq4+yZ7KIXpFPyxAu3kE97lwFZ1UgV2+mrt2C/MQ
-   t68h38u+gZHZfAPl+S6L8gDkiKOls2cId8Y6D4RpdB4f5i11l/00TScq+
-   IUUniYJtlU37UomsEURI2fbzUEPtb+ZcOidTwWBIYAR8ZJaUEfhflxz/A
-   It/xNjY8qCAuHnXpsE0iqfRxBfcpVb4tZrkgVwoCboOaBowcgsmkILWXe
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="390125134"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="390125134"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 08:29:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="662590477"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="662590477"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Jan 2023 08:29:01 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Fri, 20 Jan 2023 08:29:01 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Fri, 20 Jan 2023 08:29:00 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Fri, 20 Jan 2023 08:29:00 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.171)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Fri, 20 Jan 2023 08:29:00 -0800
+        with ESMTP id S229612AbjATQnt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 11:43:49 -0500
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-db5eur01on2082.outbound.protection.outlook.com [40.107.15.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B07E373EC6;
+        Fri, 20 Jan 2023 08:43:45 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K854xRGt40nn6gm07sch7VeMDDOS8Ll8Jd0XO3wwoG+vg3v1n+cgeOxbFZVJUZmt9DVh1XrnO3taMULsbFE+XFEOE5sp2VGYSQF6PTzdbjbk9Mzb54sk5eumKu2d//N1bae9jDszKsQQ6G4FQcM9hz7RIzl3Ou2l3WrgYAORuqORIeP4h4Ncg6AbNfL/zAh82SD7kO7VWV78KiA5EzC9FL+HFfTjM6uVlvKBhjLWaK228J91wyPDo+sMdkb3iGIw6UdOFDOQarpZnefcK6Y7xABgJzYaRQ+5nsiAJsYbaLDaM+MVLyPkHIG5COlF4nkuwc6p7/RXnhEf6V09vY1hug==
+ b=Scr5fd7eiu2ecT52N/QBLDS5wXrxjvHPUYnksXERLVz4AdCuJ1pMYU784VrCtOR53IYti+0SZsnLdUHdv1Mx0OEMU1Sg80Rkx7he7+WYxPtXxlowXc4LtnWq4BH9SZi6S9lgeGJchqFRq6XAR/0w6nvRll0xJdekBID0iE8bvfLIg0jxxq0qZVgnRV+RrzFnG5y16xoQcsKJechqw2PHtILkujwMuleY2sz87V++H6+ZVTXCR5Xt74bdIh0gKV4fUmM7FXdxhf1n+XUwsOkMFnZS6X0er4EW0zfrQrxHK2a0Hz1HTPMtQj8DApxPBYOo+Od3KXt9Mcvt7XbIyRwv7A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WomJW0lsqxwrlP1ZCtuWWquswgwcCALRVllJdEczBvU=;
- b=oFY91KR0ziPRfTmS7lh82eQK+z6x8fQ6jGqqSawVvvbUOlt8IpC7xq1ho2nGjlfls+GXWXW8FGtMz54FZgfbjMg0MfrsMJ7o3w9bSCa6IbZE1XpoFO7TcVlka3pmC9xw1SnjVuSCFrMRQiSuy1S5MhJ+ILiO34E7RNU8LfQ41HlUrLaEUNi3ei0egYObHPhxeQUlIs0QbmLBBNCj6IpPhSL0Ho0K7hYbLILborTR/vXQn1iZ2XSpqR+xg3C5ecDi8YrqRFAbBjw8156YwDdmgMd/7/sFZSZgT1znNNC+bRVwktbk/JFmP5FYVgXD5myDgv8/3DRh265R3XqvKmitXg==
+ bh=3e9A/P3A19zEil+QaDcY6Sgruew8nJlQnQeUcdtGTi0=;
+ b=l9yZOvN0wz68Xjlx14IIPcFrsqY02bHkQE06HnIK16quYLAjT/TjPh8JuyvG8fh+mvwcs5rEkSJ8qsPWl2HyOuhWQQOkYUW50L7JbIklyq1IrWiFTUOMvn+ek6QxUBaN2u6dWB8clWIuN96ldLVyY28ZWzRKV9AMKZHTM9o1fWtSnT8UZO3dI9pSJ9KaqxmbNOl62slOzFclnhJrQjdzgCggp97FEIPhjEs/2sPRsUeqLR/AkUTDBvyUeFNd1H/x+Moz56FqxYpHZYtUry58LjTWf+sYFSyoXrqyfrcdWAFBPQ9OD00A+oqhX9fzHK63apST5hSIx6FRxxTwXBM20Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3e9A/P3A19zEil+QaDcY6Sgruew8nJlQnQeUcdtGTi0=;
+ b=iHm2Eq6/tnMsS7vrrPoQmz2M08dwDtkgIR8EpzERjQjkZIHukEcYeDzswJS+PmICHP6cKKauo59PmASp4LDaRlp60rgj59Trl6BiLgbuieliBhMHLpfSyO5E1SQIHUby11aZs4fdyO552On3To9OtdnkJ0ok5kCZIw5kxFpHyoVSIj1EVr6gw8nhHIZ39F0qi3fOsbF5GJWqw2CfZpt2+Teshl95p58ZD8GBG7owVa+SNz+R7LAnsyoGWViXcrKniM1syN0iS50waU4TOqR3xYY3Q80SupAdZla+KxMJ5vpkj+tNTaCuvt61gaTSFtVWDs1QqDcHpzM8SqVuQFuCIg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM5PR11MB1899.namprd11.prod.outlook.com (2603:10b6:3:10b::14)
- by DS0PR11MB7335.namprd11.prod.outlook.com (2603:10b6:8:11e::9) with
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com (2603:10a6:10:3dd::13)
+ by DB9PR03MB7581.eurprd03.prod.outlook.com (2603:10a6:10:2c4::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.27; Fri, 20 Jan
- 2023 16:28:57 +0000
-Received: from DM5PR11MB1899.namprd11.prod.outlook.com
- ([fe80::d151:74c0:20d6:d5fc]) by DM5PR11MB1899.namprd11.prod.outlook.com
- ([fe80::d151:74c0:20d6:d5fc%6]) with mapi id 15.20.6002.027; Fri, 20 Jan 2023
- 16:28:57 +0000
-Message-ID: <a896be81-e482-9d52-ece5-a2ef28822072@intel.com>
-Date:   Fri, 20 Jan 2023 08:28:51 -0800
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.24; Fri, 20 Jan
+ 2023 16:43:42 +0000
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::6b03:ac16:24b5:9166]) by DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::6b03:ac16:24b5:9166%2]) with mapi id 15.20.6002.027; Fri, 20 Jan 2023
+ 16:43:41 +0000
+Message-ID: <444e3a17-464f-c487-fedb-9c749c5f599e@seco.com>
+Date:   Fri, 20 Jan 2023 11:43:29 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.4.2
-Subject: Re: [PATCH v1 00/12] add FPGA hotplug manager driver
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v9 00/10] phy: Add support for Lynx 10G SerDes
 Content-Language: en-US
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Tianfei Zhang <tianfei.zhang@intel.com>
-CC:     <bhelgaas@google.com>, <linux-pci@vger.kernel.org>,
-        <linux-fpga@vger.kernel.org>, <lukas@wunner.de>,
-        <kabel@kernel.org>, <mani@kernel.org>, <pali@kernel.org>,
-        <mdf@kernel.org>, <hao.wu@intel.com>, <yilun.xu@intel.com>,
-        <trix@redhat.com>, <jgg@ziepe.ca>, <ira.weiny@intel.com>,
-        <andriy.shevchenko@linux.intel.com>, <dan.j.williams@intel.com>,
-        <keescook@chromium.org>, <rafael@kernel.org>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <ilpo.jarvinen@linux.intel.com>,
-        <lee@kernel.org>, <matthew.gerlach@linux.intel.com>
-References: <20230119013602.607466-1-tianfei.zhang@intel.com>
- <Y8lGxqjuLS8NfJtg@kroah.com>
-From:   Russ Weight <russell.h.weight@intel.com>
-In-Reply-To: <Y8lGxqjuLS8NfJtg@kroah.com>
-Content-Type: text/plain; charset="UTF-8"
+To:     Vinod Koul <vkoul@kernel.org>
+Cc:     Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-phy@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Camelia Alexandra Groza <camelia.groza@nxp.com>,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        linuxppc-dev@lists.ozlabs.org, devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20221230000139.2846763-1-sean.anderson@seco.com>
+ <0024c780-ff9c-a9d3-8773-28e6b21bcc43@seco.com> <Y8gkMlqfPZic7reK@matsya>
+ <17e428ae-7789-a1ab-3ccd-90b3b9a088f1@seco.com> <Y8pLjLWjv0nJa+ww@matsya>
+From:   Sean Anderson <sean.anderson@seco.com>
+In-Reply-To: <Y8pLjLWjv0nJa+ww@matsya>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0381.namprd04.prod.outlook.com
- (2603:10b6:303:81::26) To DM5PR11MB1899.namprd11.prod.outlook.com
- (2603:10b6:3:10b::14)
+X-ClientProxiedBy: BY3PR10CA0001.namprd10.prod.outlook.com
+ (2603:10b6:a03:255::6) To DB9PR03MB8847.eurprd03.prod.outlook.com
+ (2603:10a6:10:3dd::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR11MB1899:EE_|DS0PR11MB7335:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7719baf4-8a52-4313-211c-08dafb036d8c
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-TrafficTypeDiagnostic: DB9PR03MB8847:EE_|DB9PR03MB7581:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ec08bbe-f758-4638-2d44-08dafb057cdf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0zW8T5NO9j3Urkn1nZwxQqwhH9S6MScoZSpsJxcJ9m/Bu1xBfcANHR/lrdpheqLg7iqixEDokvMRU4BTAAiWB1HJE6S5N7n6p8Nlb9MSJLyEdqAyMVTcYxwMKn8bDM4DkUNCLMWBqkVf+n6IP1Iij4pcwMIU61J4Xa+YKWtzEV6NyMRWALQ3G/+YRa/OZ58LTsLcgPBoasatsTEmwpPJg7ri0YB7kYexQXRTbXeeRVu52C5rrZDWXvlJTVBmZhUqxTYiF1CFEa3OOWPGNO3xivrrc5gvZSi5vT4lPBNEufqmHLzJ9ssU9bNy1PsH2jauP5L1nM4PIaD/GGmPj5jx/fdrNNwTxjribS3uFUSac/gWEw5TdLUj28jpZz/UozwGoWVKEL0Zl0kvmTT5omfiUP10uGp2mB+zxjJnmsprIIm9cpmM4lfarp6EQ33EY6d7+gw5cf7nTjqEizoxddDi+bBJN95RLSMY77jLxzykNCCn7XWWw+Xnew/XUDqiWjckYUdEqi/vJa1Lg5CnTjVJ/xuKO/Vu7qonLy1f9WSlstLc5vYmhGYZremDLwAJjXBgFMctlrfbzBKWUCkED2o+Zxza8/M1Xsn3FrcAkG34wrSOYbsFfPHtkmUduM090ljJR9++28BQs2zSSXQV5T5j4mRbj1rNy0CfzUNQoMBXJAbVIGALf7YlVnKbH820QHG0lo6Gsvgca4uORnOtncsvGkI4tGbKlP4yRF9BP9Bss7g=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR11MB1899.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(396003)(376002)(366004)(39860400002)(136003)(451199015)(186003)(2906002)(26005)(6512007)(110136005)(6506007)(2616005)(6636002)(6486002)(478600001)(316002)(36756003)(53546011)(6666004)(38100700002)(31696002)(82960400001)(86362001)(83380400001)(41300700001)(4326008)(7416002)(31686004)(8936002)(5660300002)(66946007)(66556008)(66476007)(8676002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: CpQ941SeTt42V1l22AOMureB+txBVkq3WnbVAOdVKEhvh0HL4In7D90fwetorqeGnuzH0IgY0rcVS+76+80huUkYtnS36xnMT+UOzNwwUx8MvRVFJCRxyRsTPQnwaStY56PrhBQFVHKx5Jwza1Y9AbYgPWuecnUTJKEuK7P4NKHMqebi79el1fl/o9z8bYbTSt5i4zCrN9gAaPwXZHXLtUX4QHA7Wuq3wEbB4VYykXd/OWUmsX8Id0c4jZc/JSv3v+N97il/YM+m5QODRzIywr6FrLbNyaprd0QM7wxFltef3W0tSgTCEoYuJiWVWSczYS6bRJjPatmAG+hMuwX9ht7HXh19jqOB9gAsLnHvIkQPziQKI5PzTxsqvhQ6DXXMASotve+AEX/Z23XzqBBuQ5vyaZxfZXev9TDJpF3tgRTMvlfy6FbTY8IpmRFDGb5Ayi0Pog5WUh2yBTR5Esl925tRimNZK/n8A4da+1McGMGq3DkPCfgoaPUwAPlvY3J07Nj+uhewvp/2EjBwG9byZb9aRMH/3mgZgYxjj+OzKogtsDs23wBKKhlDK61qVlI4DWUNdbquIGh+A0SMWOpHyerwa6wZZ49sctkXN7mwhgVbeExhhnPgIaGpgJ/0NBomzfJrBwAjQzT21H2kjYKpNgaJfpLdT6Q9hIw/TsQc+1HLWNPMUNGGndfPyBR0R2skroKbv/iBb5MB9HFZ+k9Pol8swsiqTaavDlfg4axBumdfwKwJ/ebuMShg5DGomqZ+WYyA8QmocR7v20/KddV9yw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB8847.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(366004)(396003)(346002)(136003)(39850400004)(376002)(451199015)(31686004)(83380400001)(36756003)(478600001)(52116002)(6486002)(31696002)(86362001)(38100700002)(38350700002)(6506007)(26005)(53546011)(4326008)(44832011)(41300700001)(6916009)(6512007)(2616005)(6666004)(186003)(8676002)(2906002)(54906003)(66946007)(66556008)(66476007)(8936002)(5660300002)(7416002)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N3NkUUtXc0U1SU5vRDBFbnk2K050Q09Md1h5SHM3eEFlRDFCM043S0h1cmVn?=
- =?utf-8?B?N01TeDJ6ZVRJUkkwcEYzeUpSd1FtMDE5ak9BaHl2ODVsS2xnWGE2TzNJQlhZ?=
- =?utf-8?B?ZUoxREYrQWRDNDFuZ3dTeFNnVDB3MndlQU5ydVV3RDVIY04rVlFodXJBOC80?=
- =?utf-8?B?eDZINlI2WlBGRXVsa0NocGRLTm5jcHpHL3hyZy9Ed2ZwTWlwcjlLeE13WjNl?=
- =?utf-8?B?VFUrZlZNWFZST3h3Mm8wWUZtTm5JSnhnMWhaRVJZbXlqODhPcnVtakxhbllz?=
- =?utf-8?B?eDAxUGxGc0tnZHJGQWVMcnpwc2Q5QkFrNjlSTnRDNTd1YUg1ck12N0d5SjdC?=
- =?utf-8?B?bWJkNGJHLzNBbHpXM3pkbXRXYnd4MlAxTGlIZHF0OGNiRk5XY3J4MTMrNjJn?=
- =?utf-8?B?Tk9zbGpOa1pMayt0dGJRTVBuTG1RbFpmdEZpeTM5aVZCRXFSRUxDbG9mdGpj?=
- =?utf-8?B?QWxjSGpYUk8zTjBxZ09EVENoQzdHUVRsZUhjdit1c1BTcTJneWdmTmxQcTNi?=
- =?utf-8?B?RVB3c1RORlhqeXZNWnFsdlVMYTFXRElMWnYxRk1uZmRJV1V2MmdQS015SnNC?=
- =?utf-8?B?OXdSajFna3F2TWJWRitvNDRLSm5hUmtyUlZZaUt1aStGbE5jK3RsTWROeGE4?=
- =?utf-8?B?UVhOaHRKY2ViSjJSVERuVGtQcmRVWWR3OEFBcG82dXJlVWtjcjFZRzNiUWZp?=
- =?utf-8?B?N09KWkRxZGY1U2h3bHRrSDR2QzFrYVdHZTM1cGdtVkYxRVR3ZnA3K004S3JE?=
- =?utf-8?B?SzY1bnMyRFllek1sbXdUU1FySWVEelVoQU5YRFJDUzdzWjlDaEpXOWdPQWQ5?=
- =?utf-8?B?NHpIN1c2c08zM2xjcHhoUXRrV3JHZXBWaUc0K1FJdCs3T2RIR2VGMEZIbGtJ?=
- =?utf-8?B?TWtFUitLamk2U3ZMRHltRG9uRy83K1dJN1N1QXdBR0s4Z3N3blVHUktKalVN?=
- =?utf-8?B?SE9XdkdrcERxRTlXNklTeWl0OTBpRkxFdHFzbS9CY0dkZkU1TlBkM0NmbWk5?=
- =?utf-8?B?dVhsSFpBVFNGbmQ4Z09FT3hpRUdqVjRsdElTcTU0N243ZC93RDFjRzlqb0d2?=
- =?utf-8?B?SERNNXNiWXJpRnNERDlQVFkwQk5wTksrQ0VrSkhBQ2YvS09Udmo2WGtXWjNG?=
- =?utf-8?B?dktySndZUEg3R2twTVVVUWp4LzhsdUZjSEZlcVRvTzdxYWdKRlk2aGMwekxy?=
- =?utf-8?B?b2tSZy9qNzVHMmhqWnpTbWpJeGs5djdoWmo2T2IrUjBvTFl4Y3ZFUXl5NGEz?=
- =?utf-8?B?cEFwTU5BNUowQlNmbzdURUFKbUpMUnoyY3cwbEVyZnlwb0JtbElmWklzR0I1?=
- =?utf-8?B?V0ZVdDJ2VStRbWFYQS9mZWtkcjgwVkt4ZHZxUllNSkhTamVIbzExV2ZlaklG?=
- =?utf-8?B?c3hXSXNBdlpPQjVvUlhKTDM3K21yRnBRT1czSm5heEZYU0crQkpBOStMOVYv?=
- =?utf-8?B?dGVTR3V2eVhLaElYb251dTdGNzBMaWl0L2lsb0VrWEhIYWN4TmZwT0luRXg1?=
- =?utf-8?B?VDlkK2svajFYRUlvN0pKcGdxMEt6ZFJmS1dxZ3A0bGJoTEg0Z2tpWk9VZjBT?=
- =?utf-8?B?S3Z1a1NFY2dQQmdCTzBDM1NDb0JvbnBiZFJPS296Z0JiSDRnbUR6YXhXZmJV?=
- =?utf-8?B?Y2M5ejllR2lZeXVaMlltaENUN0RRODJIV2pad005Wmlrb3RZQUZFdFNXL0xF?=
- =?utf-8?B?ZVZJQTJOdmliZVFmbTRrd24xU21aR1dEM3JGenl1NVNDY0J4TElsOEVEM2JR?=
- =?utf-8?B?eGl2MkJzcVA4SEcyTDZid242NTJvNUhDMmpjMEZCMjh3Ui9aN28xYlVCKzRz?=
- =?utf-8?B?TUZKQmZnd0VPd01rWjJ6MkdQL3VSNm91dEdqZkF5SW9vb3pnZHk0ZzVSdXA5?=
- =?utf-8?B?bHJiakc4K0gzTjZFY2FoOTZQdVFOMDFZeFUxQVRDRTVzcDJ5Z1EzVVJkZGlz?=
- =?utf-8?B?WjVzZ3NyZTh3V2FYRTJIWFJlM2VnT2NQMVFlajlTOTBGNkI2Z3pCM2xBR2pQ?=
- =?utf-8?B?MVlWZkJSY1JmeTh5VmVlZkE0NXpiTFFYVERNZ2xKakQ4L1Y2M2hIeU5oTDEv?=
- =?utf-8?B?R3RjbVFRN2VNQ1BURlhSL2VGK09KM0RyM3VVT2g1b1R4U2JDUForV3BrTjRC?=
- =?utf-8?B?eVd1dHBKQmxFMmlZTk1pTUZUNWZsa1dVVitDUlpUTkdmU1BXbHFGRmlZZzZZ?=
- =?utf-8?B?bkE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7719baf4-8a52-4313-211c-08dafb036d8c
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1899.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TVVzUEY3TGp5RkhYUnZsZFZhVTNlR2R3UHFUbnFoWGdUcG01OEJzVEVKL1dx?=
+ =?utf-8?B?RmxUZWhyYmNRM1puUkRDdmdiSGZMZGVkemtLYmU0WEYwTnBwNTJ2cXlOSnRD?=
+ =?utf-8?B?OU4yMVkxMnBGSjlSd0xndHlORVkwQU90OE1ZUWdlMkRSVjlyTWJYc0VWSkNU?=
+ =?utf-8?B?d0RzY1FVQm11ZG1XaWFEUnVHRXNWUWZ0cDU4OU9uLzJieHpEa2h6ZXV0cXRk?=
+ =?utf-8?B?ZXZ0VFNhWXBld3BTRTg1V1VtRE1lUE5VaWhTRFd4dk9VR3ZvRWQ1UDVma0hh?=
+ =?utf-8?B?c1p2OG00NUw2VVdGeU9WNzhtOHBzOE50ZU1acmh1WVpxcEhxOHU2Znh5RVRx?=
+ =?utf-8?B?MVJ4WnAybFkxck9yb2FNTW1xVkx5T2svUzNucFdNTllRZDNybCt3cmcvMVdh?=
+ =?utf-8?B?V2sxdnRvdkxJVDdSM2M1V0lrWVYwQk52YlhNbll5WWkrK1AxUlpiTFFEbEFO?=
+ =?utf-8?B?a1hTTHdyb2ppNkJ5ZDNxeS82QzQ1Yk5CZ0dtSlRKVENscHd0cHNjT01XcUFh?=
+ =?utf-8?B?NE5pYmJzT3JjZHhKVEVmTE0vOW5jSTQrS0FqTzN3TlpWUnozREZ5MVJ4K0po?=
+ =?utf-8?B?ZE1LM0RaM2NOS21SWStjNTNTRWJhaGJVQThZNGVvMGwvNkZZRGUwWndVdDNZ?=
+ =?utf-8?B?Y1RjeHBXaTMzNzlFZjNEYTJ0N3d0UWc5QlJCYTg2bDY3TnNsQSszRVE0a2Yv?=
+ =?utf-8?B?UkZsKzBZbElFSnU5RForVkdVMXlzUjJVWFljV2RKMlMzbHVpelhkRDlTZnEz?=
+ =?utf-8?B?bFVyQXFBcm53TWc0d2hPdGNMNVFKZU9tbFRyZzBHK1NMRDBiNVRuNitWVENH?=
+ =?utf-8?B?dmpmakYrUTYrTm1naHllT0FiN2hydHh4MHg2NzRWdmpXRjRsUjVjbzdRR0o1?=
+ =?utf-8?B?d29RVG13a0VkdzBPVXUvd1FTQ0c1RFJtMFRSTTJuUmk4Zmt1akw1cjFnZ3JU?=
+ =?utf-8?B?NG9ma0VPNllYMVNoZGZMRk9FSG5SS3NoL01lS1NXWitBTnBtUFhjOEorcTJn?=
+ =?utf-8?B?cUkyVmNHbDlUYmZaMHdBelpPRUFZelVJOXdqUWk5Z2NhdG4vRkRxYTF5MFJ6?=
+ =?utf-8?B?dGF6VjViVUNNQlhTMGwyeWs5MjRPSXR4eTg5R0FnbmhtMWVFSTAyRk1IdVV1?=
+ =?utf-8?B?YmhieUlPbWgzQWJvbmlTUnNhcGtCbldIaXhTampYWXVzYkpmNTBUKzBocFJo?=
+ =?utf-8?B?T2U3WjRTOTZrVUdUVExwU3ZpYjh6cEJGd01LN1hkNTdSNXRoblR3ak1tMjZx?=
+ =?utf-8?B?b1F2WGRveWVrMVh0aVJuQ21FMkhUQ3JFU2hTM1BiZVRlSCtPbE82Mnd6V2Jx?=
+ =?utf-8?B?UkxrQlB5eVl6Z2c1ejBLRFBxM21jUU5wdGZaVHJMVWhNZHp3dVlDTTRPWGNU?=
+ =?utf-8?B?cjJHTmRJb1BBOXc3SXFYcGU1MGRFWHN3Q0FpcWNuYVBJY1Eva2ZqTWlSMHFp?=
+ =?utf-8?B?ZCtUaVFHUGNWY09VRjl0a2ZXaUt5RTVZbnBWZHNWT2FwYlZrUUs0dlZNV3Nu?=
+ =?utf-8?B?Vnl6ZVFwVjkxNHNaZVRoVmR1ekIrcGRkeS8wTEcyZU43cmZTRytyS1pWL2tM?=
+ =?utf-8?B?b2h4MUQ4U2xjNDF2ai93U3pSRGovdDRKSXpVRU1UR2ZyclZKSDdNOWpqK0xS?=
+ =?utf-8?B?VTJiTUE5YUJCcXltZlRTcjRiNTFBYkhrUWdNYVNtTWNObGtGOEV2RjRxWmdC?=
+ =?utf-8?B?Qy9DeDRodWtQVC96SnRmMnEzcmc4OFdwN1liWkJzeTFZU1RhRWd3SWJRdWdZ?=
+ =?utf-8?B?c1ovOGpFUGxLRktnalIyM05obzFDL3VFUC84V1dybytLRytXSEpHWEp0L013?=
+ =?utf-8?B?M1VSckF1RVZaeEdxcFhCRTNJSTZYVFpIblZYT3k4OHh1WUJZdDlEVEFKLy82?=
+ =?utf-8?B?Ujc4eGMyck9HMExoeG81c3NreHY2MjdFUkhsdE9sSU1qY2NRWEVDS3k4cUpV?=
+ =?utf-8?B?Rkc2TEhLVDFacVkwUHdvNUFLbUdxeXVXL3d0RGIxaklxdjllQm16Uis3cWkz?=
+ =?utf-8?B?OWpSd1l4dGZENENFNDdjQkNuanU4NG9wUmxZZnRsNjdmUmtjaFR2dXEwOEk4?=
+ =?utf-8?B?bFAveUM2b2xFVmdueUZvd0F2d0l2eUZ5a05FOGhNZXFrNE9TRnFoZ2sxSnF1?=
+ =?utf-8?B?WmgrNGRhZ29HUWV6b1QydVJ3NzB6dGpzWjRaMjZuRHAzWG1oNG9uanl3SHlE?=
+ =?utf-8?B?eXc9PQ==?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ec08bbe-f758-4638-2d44-08dafb057cdf
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB8847.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2023 16:28:57.0532
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2023 16:43:41.7255
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: toIRzUiPUibJuQtJQ+kb6JVBVluedXzCX8X2JLrW75FJJ7zKH0WOnEOH2uNAKrO5WkjvGfkFVoSFBraV+U5y440XTbJrS2Dd9YFyhSH6Rk0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7335
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: pK2++aIYazR2bfIIPmi+rUJ8hOTlfgs2WO+mLfYJSM9cyD07hnEva6hMTRwxtJNHmViQ9kNUKefh1cPn0PhBcw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR03MB7581
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 1/20/23 03:06, Vinod Koul wrote:
+> On 19-01-23, 11:22, Sean Anderson wrote:
+>> On 1/18/23 11:54, Vinod Koul wrote:
+>> > On 17-01-23, 11:46, Sean Anderson wrote:
+>> >> 
+>> >> I noticed that this series is marked "changes requested" on patchwork.
+>> >> However, I have received only automated feedback. I have done my best
+>> >> effort to address feedback I have received on prior revisions. I would
+>> >> appreciate getting another round of review before resending this series.
+>> > 
+>> > Looking at the series, looks like kernel-bot sent some warnings on the
+>> > series so I was expecting an updated series for review
+>> > 
+>> 
+>> Generally, multiple reviewers will comment on a patch, even if another
+>> reviewer finds something which needs to be changed. This is a one-line
+>> fix, so I would appreciate getting more substantial feedback before
+>> respinning. Every time I send a new series I have to rebase and test on
+>> hardware. It's work that I would rather do when there is something to be
+>> gained.
+> 
+> I review to apply, if I can apply, I would typically skip this
+> 
 
+It is much more efficient to conduct reviews in parallel. So e.g. the
+bindings can be reviewed at the same time as the driver, at the same
+time as the device tree changes. This way, I can get a series applied
+after max(N, M, ...) revisions, where I would otherwise need N revisions
+to get the bindings ready, M revisions to get the driver ready, etc.
+But what's happening is that I have to make N + M + ... revisions! I am
+very frustrated by your refusal to review anything until there are no
+other comments, since it unnecessarily extends the process of getting a
+series applied. I have been trying to get this series applied since
+June, with nine revisions, and you have reviewed it *twice*! I think the
+driver is in a good state and is ready to be applied (aside from the one
+known issue), but I have no idea if you agree with that assessment.
 
-On 1/19/23 05:33, Greg KH wrote:
-> On Wed, Jan 18, 2023 at 08:35:50PM -0500, Tianfei Zhang wrote:
->> This patchset introduces the FPGA hotplug manager (fpgahp) driver which 
->> has been verified on the Intel N3000 card.
->>
->> When a PCIe-based FPGA card is reprogrammed, it temporarily disappears
->> from the PCIe bus. This needs to be managed to avoid PCIe errors and to
->> reprobe the device after reprogramming.
->>
->> To change the FPGA image, the kernel burns a new image into the flash on
->> the card, and then triggers the card BMC to load the new image into FPGA.
->> A new FPGA hotplug manager driver is introduced that leverages the PCIe
->> hotplug framework to trigger and manage the update of the FPGA image,
->> including the disappearance and reappearance of the card on the PCIe bus.
->> The fpgahp driver uses APIs from the pciehp driver. Two new operation
->> callbacks are defined in hotplug_slot_ops:
->>
->>   - available_images: Optional: available FPGA images
->>   - image_load: Optional: trigger the FPGA to load a new image
->>
->>
->> The process of reprogramming an FPGA card begins by removing all devices
->> associated with the card that are not required for the reprogramming of
->> the card. This includes PCIe devices (PFs and VFs) associated with the
->> card as well as any other types of devices (platform, etc.) defined within
->> the FPGA. The remaining devices are referred to here as "reserved" devices.
->> After triggering the update of the FPGA card, the reserved devices are also
->> removed.
->>
->> The complete process for reprogramming the FPGA are:
->>     1. remove all PFs and VFs except for PF0 (reserved).
->>     2. remove all non-reserved devices of PF0.
->>     3. trigger FPGA card to do the image update.
->>     4. disable the link of the hotplug bridge.
->>     5. remove all reserved devices under hotplug bridge.
->>     6. wait for image reload done via BMC, e.g. 10s.
->>     7. re-enable the link of hotplug bridge
->>     8. enumerate PCI devices below the hotplug bridge
->>
->> usage example:
->> [root@localhost]# cd /sys/bus/pci/slot/X-X/
->>
->> Get the available images.
->> [root@localhost 2-1]# cat available_images
->> bmc_factory bmc_user retimer_fw
->>
->> Load the request images for FPGA Card, for example load the BMC user image:
->> [root@localhost 2-1]# echo bmc_user > image_load
-> Why is all of this tied into the pci hotplug code? Shouldn't it be
-> specific to this one driver instead?  pci hotplug is for removing/adding
-> PCI devices to the system, not messing with FPGA images.
->
-> This feels like an abuse of the pci hotplug bus to me as this is NOT
-> really a PCI hotplug bus at all, right?
-While it is true that triggering an FPGA image-load does not involve
-hotplug specific registers to be managed, the RTL that comprises
-the PCIe interface will disappear and then reappear after the FPGA
-is reprogrammed. When it reappears, it_could/_/have a different PCI
-ID. The process of managing this event has a lot of similarity to a
-PCIe hotplug event; there is a lot of existing PCIe hotplug related
-code that could be leveraged.
-
-As alternatives to the idea of creating a hotplug driver, we have
-considered creating a new PCIe service driver specifically to
-handle FPGA reprogramming, or modifying the existing hotplug
-driver(s) to add FPGA support. We have also considered a separate
-fpga-reload driver that would not be bound to a PCIe interface,
-but would still leverage the PCIe code to manage the event. Do
-any of these options sound preferable to creating an FPGA hotplug
-driver?
->
-> Or is it?  If so, then the slots should show up under the PCI device
-> itself, not in /sys/bus/pci/slot/.  That location is there for old old
-> stuff, we probably should move it one of these days as there's lots of
-> special-cases in the driver core just because of that :(
->
-> thanks,
->
-> greg k-h
-
+--Sean
