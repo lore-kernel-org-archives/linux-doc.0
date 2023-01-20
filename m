@@ -2,341 +2,252 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE2FCC25B50
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 21:53:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39343C05027
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 22:39:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229761AbjATVxV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 16:53:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51706 "EHLO
+        id S229537AbjATWjH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 17:39:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229673AbjATVxU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 16:53:20 -0500
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 858C345F44
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 13:52:40 -0800 (PST)
-Received: by mail-yb1-xb36.google.com with SMTP id 188so8394774ybi.9
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 13:52:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TxhjLj0lHl/w5Q9S4E0JxqAUVlXhYe5IuyfPXO7BaSI=;
-        b=l/OSYCh+xAYIW4kpeg76r8aNWQ4iiVVQtm6BY7InVh4IE/Wl8w5I/yIq+nb71OPwZb
-         X9EX3K+82t3rdh7V3CLH0B0FVpcfO5yG1+9SHRNfpqnLVMD/jHLWZfSg4MJAIH9aQyEh
-         f8cckuR4Nbnnzj2Hz5nksq2HMsqVlirJEpjq9sPG7jQqphhvyMX+tIRPSQW/2mwTemwK
-         Epie8tBXxlg13s/Ybe7S0YisCoVMgzBZMQIUJPuyTkxaJFpK7Q1rr1wiL2ihIbFRxeoA
-         YGo6t5LSWL66a5L/bLRO76AAaBONFDYxAWERJ+uhXzgzwd86xxs0ITEneyre22kTzUap
-         Z7jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TxhjLj0lHl/w5Q9S4E0JxqAUVlXhYe5IuyfPXO7BaSI=;
-        b=8ADXb6M4nClQWa4Na4hJZCDWFQCKvW4gR6CS+Gm/hSnGEHgu2f6mRazxGYUmRUcx6q
-         EWcLBqQhBIgPja2F+bf7mm1J536OHe2knYONFfXmRoSsnpxdsjmBjURDxixqmXofLoe/
-         IXoSVtixVvxRr9+CIJmpZMeKO+QGey5LROeWBeY71h2HMUF3JM8mkh3kAvV7gpYK+1wH
-         euI3UHXOnkasjKBoToCGLeayOcXYKv7DI4EuqUVuJ02+NQhEWx9KDvABW7/66ivjVUlA
-         ObLZrEhxMxz+YCOyrmKMKKzwsI3h5f5DjYJAu78qVXFYXlgwjFZb6P+aCt0vPeT6Idel
-         9KvA==
-X-Gm-Message-State: AFqh2kpJDCftO/7Egf9YbhNMh3AsBtn2A+An9Pz93iPbZoPJq6E0SMlE
-        LklWxBeCeAxu5zKHh80RjtmjvoUWoKiqDKLihy31dw==
-X-Google-Smtp-Source: AMrXdXv6zK/pPys7KsSsCtV9tHlUeyveaEAGvJXtkaVToI1DPdV0uHsbUagzxXZVii6gAZiw9aF8Arpmd/VjhvzYgA0=
-X-Received: by 2002:a25:4d54:0:b0:7b3:d193:23ac with SMTP id
- a81-20020a254d54000000b007b3d19323acmr1945547ybb.97.1674251555127; Fri, 20
- Jan 2023 13:52:35 -0800 (PST)
-MIME-Version: 1.0
-References: <20230109213809.418135-1-tjmercier@google.com> <20230109213809.418135-4-tjmercier@google.com>
- <Y8sG0BSlZ4l8XX89@google.com>
-In-Reply-To: <Y8sG0BSlZ4l8XX89@google.com>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Fri, 20 Jan 2023 13:52:24 -0800
-Message-ID: <CABdmKX3nQz_AN4-AgQRzHqQFGHbn2o7dX4iZotLU5Wd1C1QLjQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] binder: Add flags to relinquish ownership of fds
-To:     Carlos Llamas <cmllamas@google.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        daniel.vetter@ffwll.ch, android-mm@google.com, jstultz@google.com,
-        Hridya Valsaraju <hridya@google.com>, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
+        with ESMTP id S229461AbjATWjG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 17:39:06 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12A5479EA9;
+        Fri, 20 Jan 2023 14:38:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674254338; x=1705790338;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=8tTIxTq12Tr6PrVCVg+lMpCapFAaeIchqs8eIF5MJ8A=;
+  b=GHLBNzn3RNVFj+ptnWqPW4dv3jDo5PLl+g6LAQ9/IjbprPmWJ7eJOeo+
+   Jq6p1UBTIRCSYlv9MOMvR3QBpnxH5a66UINU0oCCefomcKdgDTz2HCxbR
+   APqkj/FiAGRocPohKHC7Le2alk1OQ5t5YqfbPgu8NKhEjmOo24+bh6ctQ
+   rAoSxLMouhy4mZ5je9JGfE3RripKdj5t/5gqzRibt5stVVbUqiUNjGU94
+   pArGp9G03nwjFDO/Ux4n18U3CQXAFkudJ0YY1qZtIH2GlEaYgHWO4RcGz
+   xJ5bH26Sf6+RoFFEDvCNoe8q1Z+HiX/Td4HCodj1kN93ZIUfhExwHjJal
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="390225965"
+X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
+   d="scan'208";a="390225965"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 14:38:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="729260998"
+X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
+   d="scan'208";a="729260998"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga004.fm.intel.com with ESMTP; 20 Jan 2023 14:38:56 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Fri, 20 Jan 2023 14:38:56 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Fri, 20 Jan 2023 14:38:56 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Fri, 20 Jan 2023 14:38:56 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.108)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Fri, 20 Jan 2023 14:38:56 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YcHc0IUVKwbJQ6QFvFt7ooRLbXmjZ1v9dmoHQdTEqEsz1UoaZfYBkbAgitg7GSRmwCbHwhe7MiBb+S+oii3qRZVHM3z85CM7BVS2lEpMBd/xk5LoJpKa4YIU6ZgRPulUcnJ1ZeGzK4GgxOc4uXrJ174vhPn+QLeCdEMmtw62M0SefbrK/kQ5vqMvINZsgeRXpoRiavTDDlE4bk3dXRb0rjy90y7nbFPF0bYm6y/Anux7IQfcnUMP7CKmOoD7KUvHucBtpJ7IhmRxSLbUarrpnEfndtVLV4cBRpDbms4S6wjctp0cip2IRjtWLxCL//PxdF2kJ6iDs0cWc7hSiC7OeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TT9n4haprKgtdVcJdLyknskeRgj6X7Yj9ZQIIjkkYsU=;
+ b=TOdaRdHbBVFkM1sl9flP1BOIVgURG+223AELQgBG/iAmHaZ8iI/KmATurmH8SZr1m4Uv/8HpcSnZylWG8X8Qp1xbwlmS3g07futh0ugYJq3X60ykXOaXE7Zwa948aP3NAxN488MbLYQmBNCvIutqmcUCbIkKLc3zxs+OXZ/XD2dbpM1Ct+isoeYkYjoDjUgPiey3Yw3S5Pv6HEZtNRczjTeu7ExQ5/PFqM+g6hFJ41ACEGtxCPnuQCcKZ9GKGs+EcayOmiCndCU5o1fHoS4EKq2uDwxglhxvC+Nh4c0RokkSsJazq7TAoR0aUcGlui8bS7doqsiNtS/b8yq/pzil6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM5PR11MB1899.namprd11.prod.outlook.com (2603:10b6:3:10b::14)
+ by DM6PR11MB4738.namprd11.prod.outlook.com (2603:10b6:5:2a3::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.26; Fri, 20 Jan
+ 2023 22:38:48 +0000
+Received: from DM5PR11MB1899.namprd11.prod.outlook.com
+ ([fe80::d151:74c0:20d6:d5fc]) by DM5PR11MB1899.namprd11.prod.outlook.com
+ ([fe80::d151:74c0:20d6:d5fc%6]) with mapi id 15.20.6002.027; Fri, 20 Jan 2023
+ 22:38:48 +0000
+Message-ID: <ea85cb02-a13d-f232-8ebd-c13893fc00c4@intel.com>
+Date:   Fri, 20 Jan 2023 14:38:43 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.4.2
+Subject: Re: [PATCH v1 10/12] PCI: hotplug: implement the hotplug_slot_ops
+ callback for fpgahp
+Content-Language: en-US
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Tianfei Zhang <tianfei.zhang@intel.com>
+CC:     <bhelgaas@google.com>, <linux-pci@vger.kernel.org>,
+        <linux-fpga@vger.kernel.org>, <lukas@wunner.de>,
+        <kabel@kernel.org>, <mani@kernel.org>, <pali@kernel.org>,
+        <mdf@kernel.org>, <hao.wu@intel.com>, <yilun.xu@intel.com>,
+        <trix@redhat.com>, <jgg@ziepe.ca>, <ira.weiny@intel.com>,
+        <andriy.shevchenko@linux.intel.com>, <dan.j.williams@intel.com>,
+        <keescook@chromium.org>, <rafael@kernel.org>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <ilpo.jarvinen@linux.intel.com>,
+        <lee@kernel.org>, <matthew.gerlach@linux.intel.com>
+References: <20230119013602.607466-1-tianfei.zhang@intel.com>
+ <20230119013602.607466-11-tianfei.zhang@intel.com>
+ <Y8lFgKZGKYrM02Wm@kroah.com>
+From:   Russ Weight <russell.h.weight@intel.com>
+In-Reply-To: <Y8lFgKZGKYrM02Wm@kroah.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0021.namprd03.prod.outlook.com
+ (2603:10b6:303:8f::26) To DM5PR11MB1899.namprd11.prod.outlook.com
+ (2603:10b6:3:10b::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM5PR11MB1899:EE_|DM6PR11MB4738:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8e1e9223-b1b9-43cc-5700-08dafb371874
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OhEzTbuFM9KTTj09mOQ8eXea7qJRe4AZ/a8Mf1Goxzx8U/L2JV2/5pCZfhn4w4OvdpLPugBJBnlesVpdcAsEFaVnsdwLnu/zbXQ466q79PPFBsECuaGQlzpE4JqOwUXEwv89RivR1xiv+AGLi8tV5Wk+XoaamxIkcJZjflzQkyqvc6nbtqB0qcFmKOWd2gzuVJ1pRH78m6pT1NZXrTfevdIg2ioaWNpHzfkLLXzKHpnlm+HBmUFl+8p1U32msRVe9dnzYNDQdjq44PMC+5tYrCGAkR9tDYPVJQyxTHo80oatwR8eYHMqdQiIpVJeGtxEFalqOkIsAdYbr4k4YSx1EIN+uEbkvHzAefcXmZf24mK0UeOl0zkN85gYT6zHSY+tZIlpGcCVZckEPY+2Z+S+2DU00dV1sJYH7U6+DfBRKQd2LH37khSzaRI+OhlZxmUgVWUlDpXfHm9od61/Af4ZY6ND85wsGrbHqKvgmfpKhkhzT4h9n3g/tkWkuVUfqHRly1CdpFtOBlL1Qqm3JC3XUsM509e2JJ+4Rzs0b8F+8XJ+vLUihu9D/K2z5Z6eLkvr1BLFm+ajqoGNHUV4iKuft/I7SJeCoXlWyVmC1CCEHI3g4gJU7zmXMHLq/iB2ieXStV+xYxViDvUUy8gYmjZWmjcbhuTmUnbnELzA+JngpyUGh5InfBhm4ef4Cpw3qOvfqPN3Sv5ep6lnxRYaH/VxEpv3DMO3VIjxkWtXgqxac2E=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR11MB1899.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(346002)(396003)(39860400002)(136003)(366004)(451199015)(6512007)(186003)(66556008)(26005)(66476007)(8676002)(66946007)(4326008)(36756003)(478600001)(6666004)(6486002)(6636002)(316002)(110136005)(53546011)(41300700001)(31696002)(2616005)(5660300002)(6506007)(31686004)(83380400001)(8936002)(7416002)(38100700002)(82960400001)(86362001)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U3dKaVF6Y0cybVVialpMbHRCTTJ0R2x1R1RuWElNLyttSWhUcnhqLzhBZW5j?=
+ =?utf-8?B?VGhCUklPM3VLQVVKL1h0eFZ2RDJzUUdER2ZQa1VGSzF6UjFYMko0dkF3aW5z?=
+ =?utf-8?B?eVdaZjlnNzBUbTVLcTUvNGhXTFp3TG5mU0pRVEpVWEFwK0s0TnhzMGNFaHZu?=
+ =?utf-8?B?d2pZL0YwMWx5WHg3ZzB6RGtvQWJHc0RIaEZqQUJyS2d0NlAzM2VFRXg4YmN5?=
+ =?utf-8?B?aW9zazBLTGNob0dXcEJUa2RFSDNveTdKa1gxNDgyRndDWTB5UkVxaXJQeUNs?=
+ =?utf-8?B?eEVrVllRdkZheTdiLzI3Yk5acDVKYWE3dnFHOWhXR0RRVkpPMlpYN1k1Y0Jm?=
+ =?utf-8?B?L1dkK0ZWMnlBSlNjUGZqSDU5Y3BsL2FQb0VpMGljNjY4STZSaFBxSC9yM0V3?=
+ =?utf-8?B?L0doZkZaRWlkRUZNL3lBVmdWNDJBZTh3VEIrb3FINjR4bXBqNVBhNnJvOC9C?=
+ =?utf-8?B?eElKTjdvYURtRm1YcWJLS3J2VjlXVFNCV0FUNzVZbFhtM0s1TE1RVURNazdB?=
+ =?utf-8?B?a09udHFsZzA4MGN0N2xMYnhqM3Y2eDZMd2E2d0VxQWJpNHFDbGFYZkJsYlRB?=
+ =?utf-8?B?VWtDemc2ZVRuSGRzRXd2QmFNQ3RIbFFWOTA2ekh4VDM4MFB1NE9qUFJsUzRv?=
+ =?utf-8?B?ck5CeFg0bzgreUNQV0VWSVROTGNkQkVBTU9iUmJudC9ENXNpbnhQMWZhVG5E?=
+ =?utf-8?B?TWNPTDNZeFAxeXVPSE5vMFdmOHIxZXNURkE1WmdIOTZQRXBKUnlZUlpKZFZS?=
+ =?utf-8?B?aU5qd2JobGl5U200UWRiUVM4MHlKV0kveTM5UTg4YlhuVk9rK0ttTEMrNUNr?=
+ =?utf-8?B?OEw2Tmp2eXB1U1hLbG9VYldHdjVtZXNQNE14YmN2VVozY1NLOUhZRW55V0RP?=
+ =?utf-8?B?SlhUZndCU0RoUUtuaVlGWThDQjVnYTVodDhIbHVKb29SMERoZ3hBMkhiUndM?=
+ =?utf-8?B?STVtZllLb20zc0M5VTVKQ2VaNlBYTVBPK2s4NlVVZkQvWTJ0QzlYNE5zL1FR?=
+ =?utf-8?B?N21RNjMxaHRabUVhVG1hMVIwQmZUY25kc2QwVHpaVFZCL2VHdGRYelBJSnAx?=
+ =?utf-8?B?MXhVeXJwTjZ2bTdoUnNWMDFaaXZVWGRWdXJIS2NPNHVscmFHYVM1NHZSUkJL?=
+ =?utf-8?B?RlNRalhPQkppVWVHR0FYVkNwdDRuM0FzcDZHYWJmVW1ySkorcEdVaEljWndh?=
+ =?utf-8?B?RVNQOTRPUEgzTTd5a1ZFU0FRVWo5Z3dSM0dqUlYwaTZ2R000czJ0clVPS1ZH?=
+ =?utf-8?B?YjRUeThsbjkvZW9hdi92S0JUYkgyT0tjZE5jSnFRU0Jqc1RNb1BEaGpQelBG?=
+ =?utf-8?B?UG9kTmFFQVNEYk5yVTEvR3VZY1FIQ0VNbldxdjNKR0RlYkQvemxaZUhIckRW?=
+ =?utf-8?B?bEVmd1h1bERYcjZNVGRGcWJZQVU1S2FLbVhMYW1aUzVSMkVrMWFvTUZjbXkr?=
+ =?utf-8?B?Q1BENFN5YVJyTEp4ODQwcnlWWmhJbTJSOHIvNFVVeUhJOHMrWHBwTFJtanQ4?=
+ =?utf-8?B?eGlWZFlNZlJmUXRla3IvNmlJc0dScVhLTmNSWGxENmErT002alBiNWcreWt0?=
+ =?utf-8?B?Q1UxOUNpZHdHczNLUjFqS05GVXNEbUJIUE5IZHNjWks1RFRYTFBBc1pMM0RM?=
+ =?utf-8?B?aFJnYnpCdXBaT3lGN2VYNG93Q1lrOURZMXMxYlQ1T2VHS2J6Yk9yMHpPaXIy?=
+ =?utf-8?B?WjZ6eHhzY091WVA4cytkZE5LZ1pVUzYrZ1Zadm14NVBEL21VZ3g3d3cwbURq?=
+ =?utf-8?B?U3Y4RStOQzJpTERDcXV6aGFhYTBGR3FBeUxoL25jQTRnK3AzOHdyN2pDM0F0?=
+ =?utf-8?B?Qzc1OUQ4OS9Ya3dTV21BdUd2dXRJQUNGbGR2Z0tQbjUzVi9XdFZUNU1yUUJk?=
+ =?utf-8?B?WVBDTW9ubVV6QnV0ZG9TWnZQaVU4UXBWbXJMdTdjQzU5WktPMEE0T055aHhX?=
+ =?utf-8?B?bWlRaHRJWHpKS0JhU2o2ZkU2SGxIN3Vra1hiKy80L1RTZkV0UjNRYmptRGU2?=
+ =?utf-8?B?NU05Uzd4bkhldXg4em85RjNEcE5zRUN4Z2ZQVERrbWlwR0krOXJFd3J1cXNF?=
+ =?utf-8?B?c3FVL1BrUEFrbUFIbHF1YnRvTU44RCthWjQ0QzNuZzNZSy9MRGVEVnFvck9w?=
+ =?utf-8?B?Y0o2cnZ4NXdtUmROK3lMN0NmS2NBL0NIemJ4ZnYzbXhrc1hKc0NiZ0xzamoy?=
+ =?utf-8?B?RUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e1e9223-b1b9-43cc-5700-08dafb371874
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1899.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2023 22:38:48.1834
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4fU08oridhR1TVfPJMOMFvvxwYdInczfiwE1FrJBacfAa/pOR8FQeSQEvNIJuRIMIGmkHKbdvMIGEBeJrH5Jz9HbrxoUTKaiRnJGfJi8X30=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4738
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 20, 2023 at 1:25 PM Carlos Llamas <cmllamas@google.com> wrote:
->
-> On Mon, Jan 09, 2023 at 09:38:06PM +0000, T.J. Mercier wrote:
-> > From: Hridya Valsaraju <hridya@google.com>
-> >
-> > This patch introduces flags BINDER_FD_FLAG_XFER_CHARGE, and
-> > BINDER_FD_FLAG_XFER_CHARGE that a process sending an individual fd or
->
-> I believe the second one was meant to be BINDER_FDA_FLAG_XFER_CHARGE.
-> However, I don't think a separation of flags is needed. We process each
-> fd in the array individually anyway. So, it's OK to reuse the FD flags
-> for FDAs too.
 
-Yes, thanks.
->
->
-> > fd array to another process over binder IPC can set to relinquish
-> > ownership of the fd(s) being sent for memory accounting purposes. If the
-> > flag is found to be set during the fd or fd array translation and the
-> > fd is for a DMA-BUF, the buffer is uncharged from the sender's cgroup
-> > and charged to the receiving process's cgroup instead.
-> >
-> > It is up to the sending process to ensure that it closes the fds
-> > regardless of whether the transfer failed or succeeded.
-> >
-> > Most graphics shared memory allocations in Android are done by the
-> > graphics allocator HAL process. On requests from clients, the HAL
-> > process allocates memory and sends the fds to the clients over binder
-> > IPC. The graphics allocator HAL will not retain any references to the
-> > buffers. When the HAL sets *_FLAG_XFER_CHARGE for fd arrays holding
-> > DMA-BUF fds, or individual fd objects, binder will transfer the charge
-> > for the buffer from the allocator process cgroup to the client process
-> > cgroup.
-> >
-> > The pad [1] and pad_flags [2] fields of binder_fd_object and
-> > binder_fda_array_object come from alignment with flat_binder_object and
-> > have never been exposed for use from userspace. This new flags use
-> > follows the pattern set by binder_buffer_object.
-> >
-> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/include/uapi/linux/android/binder.h?id=feba3900cabb8e7c87368faa28e7a6936809ba22
-> > [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/include/uapi/linux/android/binder.h?id=5cdcf4c6a638591ec0e98c57404a19e7f9997567
-> >
-> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > ---
-> >  Documentation/admin-guide/cgroup-v2.rst |  3 ++-
-> >  drivers/android/binder.c                | 31 +++++++++++++++++++++----
-> >  drivers/dma-buf/dma-buf.c               |  4 +---
-> >  include/linux/dma-buf.h                 |  1 +
-> >  include/uapi/linux/android/binder.h     | 23 ++++++++++++++----
-> >  5 files changed, 50 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> > index 538ae22bc514..d225295932c0 100644
-> > --- a/Documentation/admin-guide/cgroup-v2.rst
-> > +++ b/Documentation/admin-guide/cgroup-v2.rst
-> > @@ -1457,7 +1457,8 @@ PAGE_SIZE multiple when read back.
-> >
-> >         dmabuf (npn)
-> >               Amount of memory used for exported DMA buffers allocated by the cgroup.
-> > -             Stays with the allocating cgroup regardless of how the buffer is shared.
-> > +             Stays with the allocating cgroup regardless of how the buffer is shared
-> > +             unless explicitly transferred.
-> >
-> >         workingset_refault_anon
-> >               Number of refaults of previously evicted anonymous pages.
-> > diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-> > index 880224ec6abb..9830848c8d25 100644
-> > --- a/drivers/android/binder.c
-> > +++ b/drivers/android/binder.c
-> > @@ -42,6 +42,7 @@
-> >
-> >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> >
-> > +#include <linux/dma-buf.h>
-> >  #include <linux/fdtable.h>
-> >  #include <linux/file.h>
-> >  #include <linux/freezer.h>
-> > @@ -2237,7 +2238,7 @@ static int binder_translate_handle(struct flat_binder_object *fp,
-> >       return ret;
-> >  }
-> >
-> > -static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
-> > +static int binder_translate_fd(u32 fd, binder_size_t fd_offset, __u32 flags,
-> >                              struct binder_transaction *t,
-> >                              struct binder_thread *thread,
-> >                              struct binder_transaction *in_reply_to)
-> > @@ -2275,6 +2276,26 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
-> >               goto err_security;
-> >       }
-> >
-> > +     if (IS_ENABLED(CONFIG_MEMCG) && (flags & BINDER_FD_FLAG_XFER_CHARGE)) {
-> > +             struct dma_buf *dmabuf;
-> > +
-> > +             if (unlikely(!is_dma_buf_file(file))) {
-> > +                     binder_user_error(
-> > +                             "%d:%d got transaction with XFER_CHARGE for non-dmabuf fd, %d\n",
-> > +                             proc->pid, thread->pid, fd);
-> > +                     ret = -EINVAL;
-> > +                     goto err_dmabuf;
-> > +             }
-> > +
-> > +             dmabuf = file->private_data;
-> > +             ret = dma_buf_transfer_charge(dmabuf, target_proc->tsk);
-> > +             if (ret) {
-> > +                     pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d\n",
-> > +                             proc->pid, thread->pid, target_proc->pid);
-> > +                     goto err_xfer;
-> > +             }
-> > +     }
-> > +
-> >       /*
-> >        * Add fixup record for this transaction. The allocation
-> >        * of the fd in the target needs to be done from a
-> > @@ -2294,6 +2315,8 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
-> >       return ret;
-> >
-> >  err_alloc:
-> > +err_xfer:
-> > +err_dmabuf:
-> >  err_security:
-> >       fput(file);
-> >  err_fget:
-> > @@ -2604,7 +2627,7 @@ static int binder_translate_fd_array(struct list_head *pf_head,
-> >
-> >               ret = copy_from_user(&fd, sender_ufda_base + sender_uoffset, sizeof(fd));
-> >               if (!ret)
-> > -                     ret = binder_translate_fd(fd, offset, t, thread,
-> > +                     ret = binder_translate_fd(fd, offset, fda->flags, t, thread,
-> >                                                 in_reply_to);
-> >               if (ret)
-> >                       return ret > 0 ? -EINVAL : ret;
-> > @@ -3383,8 +3406,8 @@ static void binder_transaction(struct binder_proc *proc,
-> >                       struct binder_fd_object *fp = to_binder_fd_object(hdr);
-> >                       binder_size_t fd_offset = object_offset +
-> >                               (uintptr_t)&fp->fd - (uintptr_t)fp;
-> > -                     int ret = binder_translate_fd(fp->fd, fd_offset, t,
-> > -                                                   thread, in_reply_to);
-> > +                     int ret = binder_translate_fd(fp->fd, fd_offset, fp->flags,
-> > +                                                   t, thread, in_reply_to);
-> >
-> >                       fp->pad_binder = 0;
-> >                       if (ret < 0 ||
->
-> IMO the changes to the dma-buf api should some in a separate patch. So
-> those can be approved and managed separately.
->
-I've actually already dropped these based on feedback from Hillf, so
-there are no longer any dma-buf.c changes on this patch for the v2 I
-have queued up.
 
-> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index fd6c5002032b..a65b42433099 100644
-> > --- a/drivers/dma-buf/dma-buf.c
-> > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -34,8 +34,6 @@
-> >
-> >  #include "dma-buf-sysfs-stats.h"
-> >
-> > -static inline int is_dma_buf_file(struct file *);
-> > -
-> >  struct dma_buf_list {
-> >       struct list_head head;
-> >       struct mutex lock;
-> > @@ -527,7 +525,7 @@ static const struct file_operations dma_buf_fops = {
-> >  /*
-> >   * is_dma_buf_file - Check if struct file* is associated with dma_buf
-> >   */
-> > -static inline int is_dma_buf_file(struct file *file)
-> > +int is_dma_buf_file(struct file *file)
-> >  {
-> >       return file->f_op == &dma_buf_fops;
-> >  }
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index 6aa128d76aa7..092d572ce528 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -595,6 +595,7 @@ dma_buf_attachment_is_dynamic(struct dma_buf_attachment *attach)
-> >       return !!attach->importer_ops;
-> >  }
-> >
-> > +int is_dma_buf_file(struct file *file);
-> >  struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
-> >                                         struct device *dev);
-> >  struct dma_buf_attachment *
-> > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/android/binder.h
-> > index e72e4de8f452..696c2bdb8a7e 100644
-> > --- a/include/uapi/linux/android/binder.h
-> > +++ b/include/uapi/linux/android/binder.h
-> > @@ -91,14 +91,14 @@ struct flat_binder_object {
-> >  /**
-> >   * struct binder_fd_object - describes a filedescriptor to be fixed up.
-> >   * @hdr:     common header structure
-> > - * @pad_flags:       padding to remain compatible with old userspace code
-> > + * @flags:   One or more BINDER_FD_FLAG_* flags
-> >   * @pad_binder:      padding to remain compatible with old userspace code
-> >   * @fd:              file descriptor
-> >   * @cookie:  opaque data, used by user-space
-> >   */
-> >  struct binder_fd_object {
-> >       struct binder_object_header     hdr;
-> > -     __u32                           pad_flags;
-> > +     __u32                           flags;
-> >       union {
-> >               binder_uintptr_t        pad_binder;
-> >               __u32                   fd;
-> > @@ -107,6 +107,17 @@ struct binder_fd_object {
-> >       binder_uintptr_t                cookie;
-> >  };
-> >
-> > +enum {
-> > +     /**
-> > +      * @BINDER_FD_FLAG_XFER_CHARGE
-> > +      *
-> > +      * When set, the sender of a binder_fd_object wishes to relinquish ownership of the fd for
-> > +      * memory accounting purposes. If the fd is for a DMA-BUF, the buffer is uncharged from the
-> > +      * sender's cgroup and charged to the receiving process's cgroup instead.
-> > +      */
-> > +     BINDER_FD_FLAG_XFER_CHARGE = 0x01,
-> > +};
-> > +
-> >  /* struct binder_buffer_object - object describing a userspace buffer
-> >   * @hdr:             common header structure
-> >   * @flags:           one or more BINDER_BUFFER_* flags
-> > @@ -141,7 +152,7 @@ enum {
-> >
-> >  /* struct binder_fd_array_object - object describing an array of fds in a buffer
-> >   * @hdr:             common header structure
-> > - * @pad:             padding to ensure correct alignment
-> > + * @flags:           One or more BINDER_FDA_FLAG_* flags
-> >   * @num_fds:         number of file descriptors in the buffer
-> >   * @parent:          index in offset array to buffer holding the fd array
-> >   * @parent_offset:   start offset of fd array in the buffer
-> > @@ -162,12 +173,16 @@ enum {
-> >   */
-> >  struct binder_fd_array_object {
-> >       struct binder_object_header     hdr;
-> > -     __u32                           pad;
-> > +     __u32                           flags;
-> >       binder_size_t                   num_fds;
-> >       binder_size_t                   parent;
-> >       binder_size_t                   parent_offset;
-> >  };
-> >
-> > +enum {
-> > +     BINDER_FDA_FLAG_XFER_CHARGE = BINDER_FD_FLAG_XFER_CHARGE,
-> > +};
-> > +
+On 1/19/23 05:28, Greg KH wrote:
+> On Wed, Jan 18, 2023 at 08:36:00PM -0500, Tianfei Zhang wrote:
+>> Implement the image_load and available_images callback functions
+>> for fpgahp driver. This patch leverages some APIs from pciehp
+>> driver to implement the device reconfiguration below the PCI hotplug
+>> bridge.
+>>
+>> Here are the steps for a process of image load.
+>> 1. remove all PFs and VFs except the PF0.
+>> 2. remove all non-reserved devices of PF0.
+>> 3. trigger a image load via BMC.
+>> 4. disable the link of the hotplug bridge.
+>> 5. remove all reserved devices under PF0 and PCI devices
+>>    below the hotplug bridge.
+>> 6. wait for image load done via BMC, e.g. 10s.
+>> 7. re-enable the link of the hotplug bridge.
+>> 8. re-enumerate PCI devices below the hotplug bridge.
+>>
+>> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
+>> ---
+>>  Documentation/ABI/testing/sysfs-driver-fpgahp |  21 ++
+>>  MAINTAINERS                                   |   1 +
+>>  drivers/pci/hotplug/fpgahp.c                  | 179 ++++++++++++++++++
+>>  3 files changed, 201 insertions(+)
+>>  create mode 100644 Documentation/ABI/testing/sysfs-driver-fpgahp
+>>
+>> diff --git a/Documentation/ABI/testing/sysfs-driver-fpgahp b/Documentation/ABI/testing/sysfs-driver-fpgahp
+>> new file mode 100644
+>> index 000000000000..8d4b1bfc4012
+>> --- /dev/null
+>> +++ b/Documentation/ABI/testing/sysfs-driver-fpgahp
+>> @@ -0,0 +1,21 @@
+>> +What:		/sys/bus/pci/slots/X-X/available_images
+>> +Date:		May 2023
+>> +KernelVersion:	6.3
+>> +Contact:	Tianfei Zhang <tianfei.zhang@intel.com>
+>> +Description:	Read-only. This file returns a space separated list of
+>> +		key words that may be written into the image_load file
+>> +		described below. These keywords decribe an FPGA, BMC,
+>> +		or firmware image in FLASH or EEPROM storage that may
+>> +		be loaded.
+> No, sysfs is "one value per file", why is this a list?
 >
-> I would prefer to drop this. It should avoid silly mistakes in
-> userspace similar to the typo in the commit message above.
+> And what exactly defines the values in this list?
 >
-Ok I'll make that work.
+>> +
+>> +What:		/sys/bus/pci/slots/X-X/image_load
+>> +Date:		May 2023
+>> +KernelVersion:	6.3
+>> +Contact:	Tianfei Zhang <tianfei.zhang@intel.com>
+>> +Description:	Write-only. A key word may be written to this file to
+>> +		trigger a new image loading of an FPGA, BMC, or firmware
+>> +		image from FLASH or EEPROM. Refer to the available_images
+>> +		file for a list of supported key words for the underlying
+>> +		device.
+>> +		Writing an unsupported string to this file will result in
+>> +		EINVAL being returned.
+> Why is this a separate file from the "read the list" file?
+
+The intended usage is like this:
+
+$ cat available_images
+bmc_factory bmc_user fpga_factory fpga_user1 fpga_user2
+$ echo bmc_user > image_load
+
+This specifies which image stored in flash that you want to have activated
+on the device.
+
+An existing example of something like this is in the tracing code:
+available_tracers and current_tracer
+
+Would it be preferable to just create a file for each possible image,
+and echo 1 to trigger the event? (echo 1 > bmc_user)
+
+Thanks,
+- Russ
+
+> That feels wrong.
 >
-> >  /*
-> >   * On 64-bit platforms where user code may run in 32-bits the driver must
-> >   * translate the buffer (and local binder) addresses appropriately.
-> > --
-> > 2.39.0.314.g84b9a713c41-goog
-> >
+> thanks,
 >
-> Thanks,
-> --
-> Carlos Llamas
+> greg k-h
+
