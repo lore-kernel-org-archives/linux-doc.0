@@ -2,104 +2,333 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B710DC38142
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 01:08:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83F3BC38142
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 01:29:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229938AbjATBIj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 20:08:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34826 "EHLO
+        id S229583AbjATB3L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 20:29:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229942AbjATBIg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 20:08:36 -0500
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 446B97F98A
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 17:08:31 -0800 (PST)
-Received: by mail-pf1-x429.google.com with SMTP id 207so2876343pfv.5
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 17:08:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IKjpKG/0VocbPsTgOAYreGyrIOHwyNS9ZDx1w2/uFlc=;
-        b=oJC5N30Rq1p+j/FEklleU4l+AvUjwvBZj/den3boKI4D6JnF3UlkXKY4Meml9D0gnf
-         1yJtNHfV9AOMvGx+cgg0SWgqW48ffqVfzD8jj/mkUEzC9ZSJMziLP5D7/uE2s9a/Nm5y
-         DclcwstDwRUoEkZqbEFMSy7gh9yUFipcpV6Ck=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IKjpKG/0VocbPsTgOAYreGyrIOHwyNS9ZDx1w2/uFlc=;
-        b=F3ervn5IlF5xATLV9N+1Lqx3KCNmEgij7bq2Aor59BrDtzvnzGTkGA73U3RtnyBuyb
-         W8xbzWPc9h4z7QMhnkDtD2vlyX4AoU9A7M6RmNPhz1Ja00+LpA2AJG4lp6TbKqiq5zRn
-         rF1QG/SRmp9mTA0OPoL4MrvCrEVhw7SWPx7b4giPaUyQZrJK+SfDYGlM++wkBC8wyKdh
-         7m83eSsZZZ7cPAVsdO9v935Q/uf9MCi+cMPjUBoct5CSmYz0YZVd+vUJ7JFoPDJEbbOW
-         UGHkzStEePbiTVHbHJiROQxAIAR/oi3fMOXrN9sHgASVW57YEhPj0vZ4v/ouiakI2k8C
-         UeaQ==
-X-Gm-Message-State: AFqh2kqxp9JwrFhcj7pyI2HwcklkcpwvXyZL/BgMD8uk3Ws2urRsD7c9
-        BFM1vTZz12o9IkADz3On63w1jw==
-X-Google-Smtp-Source: AMrXdXteajZq89ZabMBH5kmQJI6F7YH0Nd65Pp6tC2Lf3UwSDgUIFO1En5tQmtQQFaJJAv5FrqIxcw==
-X-Received: by 2002:a62:1901:0:b0:582:5b8e:533 with SMTP id 1-20020a621901000000b005825b8e0533mr33070215pfz.16.1674176910689;
-        Thu, 19 Jan 2023 17:08:30 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id z26-20020aa79f9a000000b0058da92f7c8dsm8566394pfr.17.2023.01.19.17.08.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 17:08:30 -0800 (PST)
-Date:   Thu, 19 Jan 2023 17:08:29 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com
-Subject: Re: [PATCH v5 39/39] x86/shstk: Add ARCH_SHSTK_STATUS
-Message-ID: <202301191708.9E60F837@keescook>
-References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
- <20230119212317.8324-40-rick.p.edgecombe@intel.com>
+        with ESMTP id S229509AbjATB3H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 20:29:07 -0500
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B74F0234DE
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 17:29:03 -0800 (PST)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.56])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NyhgR3Rlzz16Mnh;
+        Fri, 20 Jan 2023 09:27:15 +0800 (CST)
+Received: from vm7-223-112-215.huawei.com (7.223.112.215) by
+ kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Fri, 20 Jan 2023 09:29:00 +0800
+From:   Zang Leigang <zangleigang@hisilicon.com>
+To:     <alexs@kernel.org>, <siyanteng@loongson.cn>, <corbet@lwn.net>
+CC:     <rppt@kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH] docs/zh_CN: add damon lru_sort translation
+Date:   Fri, 20 Jan 2023 09:28:59 +0800
+Message-ID: <20230120012859.29356-1-zangleigang@hisilicon.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230119212317.8324-40-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [7.223.112.215]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemi500012.china.huawei.com (7.221.188.12)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 01:23:17PM -0800, Rick Edgecombe wrote:
-> CRIU and GDB need to get the current shadow stack and WRSS enablement
-> status. This information is already available via /proc/pid/status, but
-> this is inconvenient for CRIU because it involves parsing the text output
-> in an area of the code where this is difficult. Provide a status
-> arch_prctl(), ARCH_SHSTK_STATUS for retrieving the status. Have arg2 be a
-> userspace address, and make the new arch_prctl simply copy the features
-> out to userspace.
-> 
-> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
-> Suggested-by: Mike Rapoport <rppt@kernel.org>
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Translate .../admin-guide/mm/damon/lru_sort.rst into Chinese.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Zang Leigang <zangleigang@hisilicon.com>
+---
+ .../zh_CN/admin-guide/mm/damon/index.rst      |   1 +
+ .../zh_CN/admin-guide/mm/damon/lru_sort.rst   | 263 ++++++++++++++++++
+ 2 files changed, 264 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon/lru_sort.rst
 
+diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
+index 30c69e1f44fe..6f8676a50b38 100644
+--- a/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
++++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
+@@ -22,6 +22,7 @@
+    start
+    usage
+    reclaim
++   lru_sort
+ 
+ 
+ 
+diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/lru_sort.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/lru_sort.rst
+new file mode 100644
+index 000000000000..359984660d9d
+--- /dev/null
++++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/lru_sort.rst
+@@ -0,0 +1,263 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../../../disclaimer-zh_CN.rst
++
++:Original: Documentation/admin-guide/mm/damon/lru_sort.rst
++
++:翻译:
++
++ 臧雷刚 Leigang Zang <zangleigang@hisilicon.com>
++
++:校译:
++
++==================
++基于DAMON的LRU排序
++==================
++
++基于DAMON的LRU排序是一个静态的内核模块，旨在用于以主动的、轻量级的数据访问模型
++为基础的页面优先级处理的LRU链表上，以使得LRU上的数据访问模型更为可信。
++
++哪里需要主动的LRU排序
++=====================
++
++在一个大型系统中，以页为粒度的访问检测会有比较显著的开销，LRU通常不会主动去排序，
++而是对部分特殊事件进行部分的、响应式的排序，例如：特殊的用户请求，系统调用或者
++内存压力。这导致，在有些场景下，LRU不能够完美的作为一个可信的数据访问模型，比如
++在内存压力下对目标内存进行回收。
++
++因为DAMON能够尽可能准确的识别数据访问模型，同时只引起用户指定范围的开销，主动的
++执行DAMON_LRU_SORT让LRU变得更为可信是有帮助的，而且这只需要较少和可控的开销。
++
++这是如何工作的
++==============
++
++DAMON_LRU_SORT使用DAMON寻找热页（范围内的页面访问频率高于用户指定的阈值）和冷页
++（范围内的页面在超过用户指定的时间无访问），并提高热页和降低冷页在LRU中的优先级。
++为了避免在排序过程消耗过多的CPU，可以设置一个CPU占用时间的约束值。在约束下，分
++别提升或者降低更多的热页和冷页。系统管理员也可以配置三个内存水线以控制在何种条
++件下自动激活或者停止这种机制。
++
++冷热阈值和CPU约束的默认值是比较保持的。这意味着，在默认参数下，模块可以广泛且无
++负作用的使用在常见环境中，同时在只消耗一小部分CPU时间的情况下，给有内存压力的系
++统提供一定水平的冷热识别。
++
++接口：模块参数
++==============
++
++使用此特性，你首先需要确认你的系统中运行的内核在编译时带上了
++``CONFIG_DAMON_LRU_SORT=y``.
++
++为了让系统管理员打开或者关闭并且调节指定的系统，DAMON_LRU_SORT设计了模块参数。
++这意味着，你可以添加 ``damon_lru_sort.<parameter>=<value>`` 到内核的启动命令行
++参数，或者在 ``/sys/modules/damon_lru_sort/parameters/<parameter>`` 写入正确的
++值。
++
++下边是每个参数的描述
++
++enabled
++-------
++
++打开或者关闭DAMON_LRU_SORT.
++
++你可以通过设置这个参数为 ``Y`` 来打开DAMON_LRU_SORT。设置为 ``N`` 关闭
++DAMON_LRU_SORT。注意，在基于水线的激活的情况下，DAMON_LRU_SORT有可能不会真正去
++监测或者做LRU排序。对这种情况，参考下方关于水线的描述。
++
++commit_inputs
++-------------
++
++让DAMON_LRU_SORT再次读取输入参数，除了 ``enabled`` 。
++
++在DAMON_LRU_SORT运行时，新的输入参数不会默认被应用。一旦这个参数被设置为 ``Y``
++，DAMON_LRU_SORT会再次读取除了 ``enabled`` 之外的参数。读取完成后，这个参数会被
++设置为 ``N`` 。如果在读取时发现有无效参数，DAMON_LRU_SORT会被关闭。
++
++hot_thres_access_freq
++---------------------
++
++热点内存区域的访问频率阈值，千分比。
++
++如果一个内存区域的访问频率大于等于这个值，DAMON_LRU_SORT把这个区域看作热区，并
++在LRU上把这个区域标记为已访问，因些在内存压力下这部分内存不会被回收。默认为50%。
++
++cold_min_age
++------------
++
++用于识别冷内存区域的时间阈值，微秒。
++
++如果一个内存区域在这个时间内未被访问过，DAMON_LRU_SORT把这个区域看作冷区，并在
++LRU上把这个区域标记为未访问，因此在内存压力下这些内存会首先被回收。默认值为120
++秒。
++
++quota_ms
++--------
++
++尝试LRU链表排序的时间限制，毫秒。
++
++DAMON_LRU_SORT在一个时间窗口内（quota_reset_interval_ms）内最多尝试这么长时间来
++对LRU进行排序。这个可以用来作为CPU消耗的约束。如果值为0，则表示无限制。
++
++默认10毫秒。
++
++quota_reset_interval_ms
++-----------------------
++
++配额计时重置周期，毫秒。
++
++配额计时重置周期。即，在quota_reset_interval_ms毫秒内，DAMON_LRU_SORT对LRU进行
++排序不会超过quota_ms或者quota_sz。
++
++默认1秒。
++
++wmarks_interval
++---------------
++
++核查时间周期的水母，微秒。
++
++当DAMON_LRU_SORT使能但是由于水线而不活跃时检查水线前最小的等待时间。默认值5秒。
++
++wmarks_high
++-----------
++
++空闲内存高水线，千分比。
++
++如果空闲内存水线高于这个值，DAMON_LRU_SORT停止工作，不做任何事，除了周期性的检
++查水线。默认200(20%)。
++
++wmarks_mid
++----------
++
++空闲内存中间水线，千分比。
++
++如果空闲内存水线在这个值与低水线之间，DAMON_LRU_SORT开始工作，开始检测并对LRU链
++表进行排序。默认150(15%)。
++
++wmarks_low
++----------
++
++空闲内存低水线，千分比。
++
++如果空闲内存小于这个值，DAMON_LRU_SORT不再工作，不做任何事，除了周期性的检查水
++线。默认50(5%)。
++
++sample_interval
++---------------
++
++监测的采样周期，微秒。
++
++DAMON对冷内存监测的采样周期。更多细节请参考DAMON文档 (:doc:`usage`) 。默认5
++毫秒。
++
++aggr_interval
++-------------
++
++监测的收集周期，微秒。
++
++DAMON对冷内存进行收集的时间周期。更多细节请参考DAMON文档 (:doc:`usage`) 。默认
++100毫秒。
++
++min_nr_regions
++--------------
++
++最小监测区域数量。
++
++对冷内存区域监测的最小数量。这个值可以作为监测质量的下限。不过，这个值设置的过
++大会增加开销。更多细节请参考DAMON文档 (:doc:`usage`) 。默认值为10。
++
++max_nr_regions
++--------------
++
++最大监测区域数量。
++
++对冷内存区域监测的最大数量。这个值可以作为监测质量的上限。然而，这个值设置的过
++低会导致监测结果变差。更多细节请参考DAMON文档 (:doc:`usage`) 。默认值为1000。
++
++monitor_region_start
++--------------------
++
++目标内存区域的起始物理地址。
++
++DAMON_LRU_SORT要处理的目标内存区域的起始物理地址。默认，使用系统最大内存。
++
++monitor_region_end
++------------------
++
++目标内存区域的结束物理地址。
++
++DAMON_LRU_SORT要处理的目标内存区域的结束物理地址。默认，使用系统最大内存。
++
++kdamond_pid
++-----------
++
++DAMON线程的PID。
++
++如果DAMON_LRU_SORT是使能的，这个表示任务线程的PID。其它情况为-1。
++
++nr_lru_sort_tried_hot_regions
++-----------------------------
++
++被尝试进行LRU排序的热内存区域的数量。
++
++bytes_lru_sort_tried_hot_regions
++--------------------------------
++
++被尝试进行LRU排序的热内存区域的大小（字节）。
++
++nr_lru_sorted_hot_regions
++-------------------------
++
++成功进行LRU排序的热内存区域的数量。
++
++bytes_lru_sorted_hot_regions
++----------------------------
++
++成功进行LRU排序的热内存区域的大小（字节）。
++
++nr_hot_quota_exceeds
++--------------------
++
++热区域时间约束超过限制的次数。
++
++nr_lru_sort_tried_cold_regions
++------------------------------
++
++被尝试进行LRU排序的冷内存区域的数量。
++
++bytes_lru_sort_tried_cold_regions
++---------------------------------
++
++被尝试进行LRU排序的冷内存区域的大小（字节）。
++
++nr_lru_sorted_cold_regions
++--------------------------
++
++成功进行LRU排序的冷内存区域的数量。
++
++bytes_lru_sorted_cold_regions
++-----------------------------
++
++成功进行LRU排序的冷内存区域的大小（字节）。
++
++nr_cold_quota_exceeds
++---------------------
++
++冷区域时间约束超过限制的次数。
++
++Example
++=======
++
++如下是一个运行时的命令示例，使DAMON_LRU_SORT查找访问频率超过50%的区域并对其进行
++LRU的优先级的提升，同时降低那些超过120秒无人访问的内存区域的优先级。优先级的处
++理被限制在最多1%的CPU以避免DAMON_LRU_SORT消费过多CPU时间。在系统空闲内存超过50%
++时DAMON_LRU_SORT停止工作，并在低于40%时重新开始工作。如果DAMON_RECLAIM没有取得
++进展且空闲内存低于20%，再次让DAMON_LRU_SORT停止工作，以此回退到以LRU链表为基础
++以页面为单位的内存回收上。
++
++    # cd /sys/modules/damon_lru_sort/parameters
++    # echo 500 > hot_thres_access_freq
++    # echo 120000000 > cold_min_age
++    # echo 10 > quota_ms
++    # echo 1000 > quota_reset_interval_ms
++    # echo 500 > wmarks_high
++    # echo 400 > wmarks_mid
++    # echo 200 > wmarks_low
++    # echo Y > enabled
 -- 
-Kees Cook
+2.17.1
+
