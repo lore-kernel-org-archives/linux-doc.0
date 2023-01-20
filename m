@@ -2,125 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 450DDC004D4
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 02:54:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12294C004D4
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 03:20:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229528AbjATCyi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 21:54:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52848 "EHLO
+        id S229573AbjATDUX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 22:20:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbjATCyi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 21:54:38 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 809BC9B131
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 18:54:37 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id s13-20020a17090a6e4d00b0022900843652so7808715pjm.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 18:54:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=x4a9uQnCPAXTrBqi7c8vUTZzrQbZzTY4NuvqzCcjH6w=;
-        b=lgqUGY82DQ88m35LIkuurOpZEwKVwKTVcCXBvlf9EAT+DCwzHe2Slra61cRT6ItGuk
-         kJMUVq6Kde/svxxBaZ8GnUgVmEDLpRy55TWGrE0qrhJEtKEummvm0QzS9jkmyr2uBWj2
-         SDUaP5LtyVqhJC13QO2GSv2gztjPUUTa/gTkbmaGS8rumfcHL786Y9/SK8OPPTixPB29
-         6c1HZPb3RhpemeIyMDagEKjnxzdt5cnxf1w6DN7Fq6j6V8FTuYJ5dx3vjP96EaM7eG3Q
-         z7kffhz+iWJb+MCRbY0HS82jy5C11yfd3Og2Ryy3kpW9sHMKBJdaA+4V5LO3GUE9zZRw
-         xEbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x4a9uQnCPAXTrBqi7c8vUTZzrQbZzTY4NuvqzCcjH6w=;
-        b=Evm5EHxLiAgoKphbu7QEJsx/ylMRPcSy7HtSorjOBT0kfhlOgyle9iLzlq9ZZB8pRx
-         yba+EI0iqQCeYvohlZjUXA1ax9P5jyeuXWqS5k1TwE961akTDFjOai5J6UkMQN0Wur3+
-         Ia2wjhaq7IXkgGWIxY2YdnxmpTkyRYTq82Ocn7dEr+5xmDvRffTPBTfu/QerRpOFDXO7
-         P6GuM3wRuBLSUjxyODRq4L5MH/0VENAg89PXElnI16xq9aIBVRLwXpI9r8HYL1i9h394
-         oz/BHaNQ/VRWpzTsGdwEnYIeuAdgN7wPBe/E4X5q60DrYqQLT42lMRo2s0SkwPjptabH
-         z9vQ==
-X-Gm-Message-State: AFqh2kr/gw6Q271clHrtyAoXtZL3yQxjWiC26W2TVzS64uml1y0qG6RR
-        Qg5A8H6BWKnM7SNUzBpMz8M=
-X-Google-Smtp-Source: AMrXdXu7tbwdSPRu7AplmjccpUpSs2KevldYB5rRdLAVAeC4tVQDf6bfqM9uZVxJWzhmBhzIikh+jw==
-X-Received: by 2002:a17:90a:e617:b0:229:5027:c2d9 with SMTP id j23-20020a17090ae61700b002295027c2d9mr14235176pjy.34.1674183276996;
-        Thu, 19 Jan 2023 18:54:36 -0800 (PST)
-Received: from debian.me (subs32-116-206-28-45.three.co.id. [116.206.28.45])
-        by smtp.gmail.com with ESMTPSA id x4-20020a634844000000b0044046aec036sm21542207pgk.81.2023.01.19.18.54.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 18:54:36 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 261CE104293; Fri, 20 Jan 2023 09:54:30 +0700 (WIB)
-Date:   Fri, 20 Jan 2023 09:54:30 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Akira Yokosawa <akiyks@gmail.com>,
-        Sadiya Kazi <sadiyakazi@google.com>
-Subject: Re: [PATCH RFC] docs: Add more information to the HTML sidebar
-Message-ID: <Y8oCZnF0e/aMkmtg@debian.me>
-References: <87o7qu5al3.fsf@meer.lwn.net>
+        with ESMTP id S229483AbjATDUW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 22:20:22 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BD47C0;
+        Thu, 19 Jan 2023 19:20:22 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B7A5561DEF;
+        Fri, 20 Jan 2023 03:20:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1BEABC433F1;
+        Fri, 20 Jan 2023 03:20:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674184821;
+        bh=jHP/KfWRf0rvAsjTo62SlFaUXRfLpQHjGLZgs37HA/Q=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=RdAEBAJhYVgvVjAK+ZcD1cZy5KyT7Bo21zsQvlF2VTwAH21IpzJE+gNPQzyY+/DNp
+         /hKsrlOfsNa1O7GGQzMTxVd49D0KV8WTvqFSfVI6SNGaU5xwkeOpf1NXAOVNDXxTsb
+         XkunSeI4Sepf5E8+kqX9dbEdSLTqeCjREQBIADbSmcbo+hH2GOcCrIfssU66ceGXfi
+         Tt6Wby55uToUrWrXcC2GBuwjLXXo8z/iLw6DMs51QuO+zMpWNevRrSPM5IfaGQ64m8
+         ScMN6tADReoB5upTcQ+Qu/TCTnC8LoZUECyAzrf+w4AapzPanTuw2bu6RDPNun2v6Z
+         uvC9eTRpjpklw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id F3107C43147;
+        Fri, 20 Jan 2023 03:20:20 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="IYhNM+3bAPuGOoio"
-Content-Disposition: inline
-In-Reply-To: <87o7qu5al3.fsf@meer.lwn.net>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 net-next 1/1] net: phy: fix use of uninit variable when
+ setting PLCA config
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <167418482098.4845.761688179914150843.git-patchwork-notify@kernel.org>
+Date:   Fri, 20 Jan 2023 03:20:20 +0000
+References: <f22f1864165a8dbac8b7a2277f341bc8e7a7b70d.1674056765.git.piergiorgio.beruto@gmail.com>
+In-Reply-To: <f22f1864165a8dbac8b7a2277f341bc8e7a7b70d.1674056765.git.piergiorgio.beruto@gmail.com>
+To:     Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
+Cc:     andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, o.rempel@pengutronix.de,
+        mailhol.vincent@wanadoo.fr, sudheer.mogilappagari@intel.com,
+        sbhatta@marvell.com, linux-doc@vger.kernel.org,
+        wangjie125@huawei.com, corbet@lwn.net, lkp@intel.com,
+        gal@nvidia.com, gustavoars@kernel.org, bagasdotme@gmail.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello:
 
---IYhNM+3bAPuGOoio
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-On Thu, Jan 19, 2023 at 05:11:20PM -0700, Jonathan Corbet wrote:
->  # Custom sidebar templates, maps document names to template names.
->  # Note that the RTD theme ignores this
-> -html_sidebars =3D { '**': ['searchbox.html', 'localtoc.html', 'sourcelin=
-k.html']}
-> +html_sidebars =3D { '**': ['searchbox.html', 'kernel-toc.html', 'sourcel=
-ink.html']}
-> =20
+On Wed, 18 Jan 2023 16:47:31 +0100 you wrote:
+> Coverity reported the following:
+> 
+> *** CID 1530573:    (UNINIT)
+> drivers/net/phy/phy-c45.c:1036 in genphy_c45_plca_set_cfg()
+> 1030     				return ret;
+> 1031
+> 1032     			val = ret;
+> 1033     		}
+> 1034
+> 1035     		if (plca_cfg->node_cnt >= 0)
+> vvv     CID 1530573:    (UNINIT)
+> vvv     Using uninitialized value "val".
+> 1036     			val = (val & ~MDIO_OATC14_PLCA_NCNT) |
+> 1037     			      (plca_cfg->node_cnt << 8);
+> 1038
+> 1039     		if (plca_cfg->node_id >= 0)
+> 1040     			val = (val & ~MDIO_OATC14_PLCA_ID) |
+> 1041     			      (plca_cfg->node_id);
+> drivers/net/phy/phy-c45.c:1076 in genphy_c45_plca_set_cfg()
+> 1070     				return ret;
+> 1071
+> 1072     			val = ret;
+> 1073     		}
+> 1074
+> 1075     		if (plca_cfg->burst_cnt >= 0)
+> vvv     CID 1530573:    (UNINIT)
+> vvv     Using uninitialized value "val".
+> 1076     			val = (val & ~MDIO_OATC14_PLCA_MAXBC) |
+> 1077     			      (plca_cfg->burst_cnt << 8);
+> 1078
+> 1079     		if (plca_cfg->burst_tmr >= 0)
+> 1080     			val = (val & ~MDIO_OATC14_PLCA_BTMR) |
+> 1081     			      (plca_cfg->burst_tmr);
+> 
+> [...]
 
-In the sidebar, I see process/ is misorganized. That is,
-process/{development-process,submitting-patches,code-of-conduct}.html
-are at top-level entry, although these should have been children of
-process/.
+Here is the summary with links:
+  - [v2,net-next,1/1] net: phy: fix use of uninit variable when setting PLCA config
+    https://git.kernel.org/netdev/net-next/c/1038bfb23649
 
-> +
-> +/*
-> + * Tweaks for our local TOC
-> + */
-> +div.kerneltoc li.toctree-l1 { font-size: smaller;
-> +		text-indent: -1em;
-> +		margin-left: 1em; }
-> +div.kerneltoc li.current {font-weight: bold; }
-> +div.kerneltoc li.toctree-l2 { font-size: smaller;
-> +		text-indent: -1em;
-> +		margin-left: 2em;
-> +		list-style-type: none;
-> +	      }
-> +div.kerneltoc li.current ul { margin-left: 0; }
-> +div.kerneltoc { background-color: #eeeeee; }
-> +div.kerneltoc li.current ul { background-color: white; }
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-I think only the visited page should be highlighted in bold, not its
-full hierarchy.
 
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---IYhNM+3bAPuGOoio
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY8oCYQAKCRD2uYlJVVFO
-owvwAQDauY7YJIxMau8e2Q0gmzPsVXn9VZ8NWy3hlYEwmpPidAD/V/gjeBFMFdlX
-hyq4+NN6HrtZR3BEuQfK5aJtV4kZrQ4=
-=rDp7
------END PGP SIGNATURE-----
-
---IYhNM+3bAPuGOoio--
