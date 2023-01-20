@@ -2,48 +2,47 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7915C38A23
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 22:49:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D945C38159
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 22:49:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229810AbjATWtG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 17:49:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56800 "EHLO
+        id S230072AbjATWtH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 17:49:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230026AbjATWso (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 17:48:44 -0500
+        with ESMTP id S230086AbjATWsp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 17:48:45 -0500
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56FA8743BB;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5A8E53E4C;
         Fri, 20 Jan 2023 14:48:15 -0800 (PST)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30KLS46r026515;
-        Fri, 20 Jan 2023 22:48:00 GMT
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30KMIc6S001985;
+        Fri, 20 Jan 2023 22:47:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=XFJLx/WXuFDs7JAeLccnha22C3yPfKyzMwCj8d45lFY=;
- b=Cy9CiLCQbVEvjzMMG3Xu5gouVX+/ExPvfj5z1gR/bJ7EXSJrMvaU1CpzWuLXRBug+d4I
- jJ5oKL73vlkvSfMJFqWAmlWkT74T6s93g8IMJCKTo0+vN24dOYaxALE4oXyWPf5iqJ8s
- cfKpOjw/T6X+BqbBalOrS+v9hm0h8KLuMLeqQoJPeLVIybj1xdMMfO5Xd3g2ntieJhFd
- h0Hpc9tVCPgQazbWlb5aut9ni4wef/dO1gjGOFc7WS2B4b9MT0t5U2dK5Iu935+0qCs7
- gYUJZDG7krIsvqLNR9dR23CUg48rHItPipu/bjm5a6DPj8pfKFoiOzDv88kPeunMVlpD gg== 
+ bh=PFpOTHSWciIB3y4OtfTFpmzgQSpOlTb9sWxpLGPZE5M=;
+ b=RrlEb2t4BSrmPITkcZXUbVfoY31h6BV5DRAbRupwfRo3lZ3oVCgPhuRxaej3s0dtFs9t
+ uRgp2DVKMqkvtSKV9/5lwyR4AKcmgKq2S8vquyZuyaWNyB6itbarabzaOUiPUqc+G5Cs
+ KjlF0vlGOpBzz6GEe3k6p/n2zKIicfpGoKR1SZpT3G5uwaT8S4YzJn0e46jAATCOgkjU
+ HfGBNefNYOAOWz4ZtJPuUkv9e1xNuXVSG2H36z3V6NO5rjAEqRYCcyO9wo1awFlyzqhd
+ aXvIebRQzjf7DkNECYApxtRokbFZvl4qp3UMR4CQR2Fjj+MVIvGkbKdRZkAn5wTOQfSC pw== 
 Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n7593uqye-1
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n75w3kmx0-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 20 Jan 2023 22:48:00 +0000
+        Fri, 20 Jan 2023 22:47:52 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30KMlx00029311
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30KMlpat027695
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 20 Jan 2023 22:47:59 GMT
+        Fri, 20 Jan 2023 22:47:51 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Fri, 20 Jan 2023 14:47:58 -0800
+ 15.2.986.36; Fri, 20 Jan 2023 14:47:50 -0800
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Bjorn Andersson <quic_bjorande@quicinc.com>,
         Alex Elder <elder@linaro.org>,
         Elliot Berman <quic_eberman@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>
+        Murali Nalajala <quic_mnalajal@quicinc.com>
 CC:     Trilok Soni <quic_tsoni@quicinc.com>,
         Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
         Carl van Schaik <quic_cvanscha@quicinc.com>,
@@ -53,17 +52,18 @@ CC:     Trilok Soni <quic_tsoni@quicinc.com>,
         "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
         Jassi Brar <jassisinghbrar@gmail.com>,
         Sudeep Holla <sudeep.holla@arm.com>,
         <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v9 19/27] docs: gunyah: Document Gunyah VM Manager
-Date:   Fri, 20 Jan 2023 14:46:18 -0800
-Message-ID: <20230120224627.4053418-20-quic_eberman@quicinc.com>
+Subject: [PATCH v9 14/27] gunyah: vm_mgr: Add ioctls to support basic non-proxy VM boot
+Date:   Fri, 20 Jan 2023 14:46:13 -0800
+Message-ID: <20230120224627.4053418-15-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120224627.4053418-1-quic_eberman@quicinc.com>
 References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
@@ -75,147 +75,268 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 68mAisyA32viiDKsF17vki1pwGe4-6pL
-X-Proofpoint-ORIG-GUID: 68mAisyA32viiDKsF17vki1pwGe4-6pL
+X-Proofpoint-ORIG-GUID: m-UFTBsVdZcKMIEsmkx7jPaAxu9CmTlC
+X-Proofpoint-GUID: m-UFTBsVdZcKMIEsmkx7jPaAxu9CmTlC
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-01-20_11,2023-01-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- mlxlogscore=999 spamscore=0 suspectscore=0 mlxscore=0 adultscore=0
- clxscore=1015 impostorscore=0 priorityscore=1501 bulkscore=0
- malwarescore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2301200218
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ impostorscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015 mlxscore=0
+ spamscore=0 priorityscore=1501 malwarescore=0 suspectscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301200218
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document the ioctls and usage of Gunyah VM Manager driver.
+Add remaining ioctls to support non-proxy VM boot:
 
+ - Gunyah Resource Manager uses the VM's devicetree to configure the
+   virtual machine. The location of the devicetree in the guest's
+   virtual memory can be declared via the SET_DTB_CONFIG ioctl.
+ - Trigger start of the virtual machine with VM_START ioctl.
+
+Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- Documentation/virt/gunyah/index.rst      |   1 +
- Documentation/virt/gunyah/vm-manager.rst | 100 +++++++++++++++++++++++
- 2 files changed, 101 insertions(+)
- create mode 100644 Documentation/virt/gunyah/vm-manager.rst
+ drivers/virt/gunyah/vm_mgr.c    | 110 ++++++++++++++++++++++++++++++++
+ drivers/virt/gunyah/vm_mgr.h    |   9 +++
+ drivers/virt/gunyah/vm_mgr_mm.c |  24 +++++++
+ include/uapi/linux/gunyah.h     |   8 +++
+ 4 files changed, 151 insertions(+)
 
-diff --git a/Documentation/virt/gunyah/index.rst b/Documentation/virt/gunyah/index.rst
-index 45adbbc311db..b204b85e86db 100644
---- a/Documentation/virt/gunyah/index.rst
-+++ b/Documentation/virt/gunyah/index.rst
-@@ -7,6 +7,7 @@ Gunyah Hypervisor
- .. toctree::
-    :maxdepth: 1
+diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
+index b847fde63333..48bd3f06fb6c 100644
+--- a/drivers/virt/gunyah/vm_mgr.c
++++ b/drivers/virt/gunyah/vm_mgr.c
+@@ -9,6 +9,7 @@
+ #include <linux/file.h>
+ #include <linux/gunyah_rsc_mgr.h>
+ #include <linux/miscdevice.h>
++#include <linux/mm.h>
+ #include <linux/module.h>
  
-+   vm-manager
-    message-queue
+ #include <uapi/linux/gunyah.h>
+@@ -37,10 +38,98 @@ static __must_check struct gunyah_vm *gunyah_vm_alloc(struct gh_rm_rpc *rm)
  
- Gunyah is a Type-1 hypervisor which is independent of any OS kernel, and runs in
-diff --git a/Documentation/virt/gunyah/vm-manager.rst b/Documentation/virt/gunyah/vm-manager.rst
-new file mode 100644
-index 000000000000..62513af09cbf
---- /dev/null
-+++ b/Documentation/virt/gunyah/vm-manager.rst
-@@ -0,0 +1,100 @@
-+.. SPDX-License-Identifier: GPL-2.0
+ 	mutex_init(&ghvm->mm_lock);
+ 	INIT_LIST_HEAD(&ghvm->memory_mappings);
++	init_rwsem(&ghvm->status_lock);
+ 
+ 	return ghvm;
+ }
+ 
++static int gh_vm_start(struct gunyah_vm *ghvm)
++{
++	struct gunyah_vm_memory_mapping *mapping;
++	u64 dtb_offset;
++	u32 mem_handle;
++	int ret;
 +
-+=======================
-+Virtual Machine Manager
-+=======================
++	down_write(&ghvm->status_lock);
++	if (ghvm->vm_status != GH_RM_VM_STATUS_NO_STATE) {
++		up_write(&ghvm->status_lock);
++		return 0;
++	}
 +
-+The Gunyah Virtual Machine Manager is a Linux driver to support launching
-+virtual machines using Gunyah. It presently supports launching non-proxy
-+scheduled Linux-like virtual machines.
++	list_for_each_entry(mapping, &ghvm->memory_mappings, list) {
++		switch (mapping->share_type) {
++		case VM_MEM_LEND:
++			ret = gh_rm_mem_lend(ghvm->rm, &mapping->parcel);
++			break;
++		case VM_MEM_SHARE:
++			ret = gh_rm_mem_share(ghvm->rm, &mapping->parcel);
++			break;
++		}
++		if (ret > 0)
++			ret = -EINVAL;
++		if (ret) {
++			pr_warn("Failed to %s parcel %d: %d\n",
++				mapping->share_type == VM_MEM_LEND ? "lend" : "share",
++				mapping->parcel.label,
++				ret);
++			goto err;
++		}
++	}
 +
-+Except for some basic information about the location of initial binaries,
-+most of the configuration about a Gunyah virtual machine is described in the
-+VM's devicetree. The devicetree is generated by userspace. Interacting with the
-+virtual machine is still done via the kernel and VM configuration requires some
-+of the corresponding functionality to be set up in the kernel. For instance,
-+sharing userspace memory with a VM is done via the GH_VM_SET_USER_MEM_REGION
-+ioctl. The VM itself is configured to use the memory region via the
-+devicetree.
++	mapping = gh_vm_mem_mapping_find_mapping(ghvm, ghvm->dtb_config.gpa, ghvm->dtb_config.size);
++	if (!mapping) {
++		pr_warn("Failed to find the memory_handle for DTB\n");
++		ret = -EINVAL;
++		goto err;
++	}
 +
-+Sample Userspace VMM
-+====================
++	mem_handle = mapping->parcel.mem_handle;
++	dtb_offset = ghvm->dtb_config.gpa - mapping->guest_phys_addr;
 +
-+A sample userspace VMM is included in samples/gunyah/ along with a minimal
-+devicetree that can be used to launch a VM. To build this sample, enable
-+CONFIG_SAMPLE_GUNYAH.
++	ret = gh_rm_vm_configure(ghvm->rm, ghvm->vmid, ghvm->auth, mem_handle,
++				0, 0, dtb_offset, ghvm->dtb_config.size);
++	if (ret) {
++		pr_warn("Failed to configure VM: %d\n", ret);
++		goto err;
++	}
 +
-+IOCTLs and userspace VMM flows
-+==============================
++	ret = gh_rm_vm_init(ghvm->rm, ghvm->vmid);
++	if (ret) {
++		pr_warn("Failed to initialize VM: %d\n", ret);
++		goto err;
++	}
 +
-+The kernel exposes a char device interface at /dev/gunyah.
++	ret = gh_rm_vm_start(ghvm->rm, ghvm->vmid);
++	if (ret) {
++		pr_warn("Failed to start VM: %d\n", ret);
++		goto err;
++	}
 +
-+To create a VM, use the GH_CREATE_VM ioctl. A successful call will return a
-+"Gunyah VM" file descriptor.
++	ghvm->vm_status = GH_RM_VM_STATUS_READY;
 +
-+/dev/gunyah API Descriptions
-+----------------------------
++	up_write(&ghvm->status_lock);
++	return ret;
++err:
++	ghvm->vm_status = GH_RM_VM_STATUS_INIT_FAILED;
++	up_write(&ghvm->status_lock);
++	return ret;
++}
 +
-+GH_CREATE_VM
-+~~~~~~~~~~~~
++static void gh_vm_stop(struct gunyah_vm *ghvm)
++{
++	int ret;
 +
-+Creates a Gunyah VM. The argument is reserved for future use and must be 0.
++	down_write(&ghvm->status_lock);
++	if (ghvm->vm_status == GH_RM_VM_STATUS_READY) {
++		ret = gh_rm_vm_stop(ghvm->rm, ghvm->vmid);
++		if (ret)
++			pr_warn("Failed to stop VM: %d\n", ret);
++	}
 +
-+Gunyah VM API Descriptions
-+--------------------------
++	ghvm->vm_status = GH_RM_VM_STATUS_EXITED;
++	up_write(&ghvm->status_lock);
++}
 +
-+GH_VM_SET_USER_MEM_REGION
-+~~~~~~~~~~~~~~~~~~~~~~~~~
+ static long gh_vm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ {
+ 	struct gunyah_vm *ghvm = filp->private_data;
+@@ -84,6 +173,25 @@ static long gh_vm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ 		}
+ 		break;
+ 	}
++	case GH_VM_SET_DTB_CONFIG: {
++		struct gh_vm_dtb_config dtb_config;
 +
-+::
++		r = -EFAULT;
++		if (copy_from_user(&dtb_config, argp, sizeof(dtb_config)))
++			break;
 +
-+  struct gh_userspace_memory_region {
-+	__u32 label;
-+	__u32 flags;
-+	__u64 guest_phys_addr;
-+	__u64 memory_size;
-+	__u64 userspace_addr;
-+  };
++		dtb_config.size = PAGE_ALIGN(dtb_config.size);
++		ghvm->dtb_config = dtb_config;
 +
-+This ioctl allows the user to create or delete a memory parcel for a guest
-+virtual machine. Each memory region is uniquely identified by a label;
-+attempting to create two regions with the same label is not allowed.
++		r = 0;
++		break;
++	}
++	case GH_VM_START: {
++		r = gh_vm_start(ghvm);
++		if (r)
++			r = -EINVAL;
++		break;
++	}
+ 	default:
+ 		r = -ENOTTY;
+ 		break;
+@@ -97,6 +205,8 @@ static int gh_vm_release(struct inode *inode, struct file *filp)
+ 	struct gunyah_vm *ghvm = filp->private_data;
+ 	struct gunyah_vm_memory_mapping *mapping, *tmp;
+ 
++	gh_vm_stop(ghvm);
 +
-+While VMM is guest-agnostic and allows runtime addition of memory regions,
-+Linux guest virtual machines do not support accepting memory regions at runtime.
-+Thus, memory regions should be provided before starting the VM and the VM must
-+be configured to accept these at boot-up.
+ 	list_for_each_entry_safe(mapping, tmp, &ghvm->memory_mappings, list) {
+ 		gh_vm_mem_mapping_reclaim(ghvm, mapping);
+ 		kfree(mapping);
+diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
+index 6b38bf780f76..5c02fb305893 100644
+--- a/drivers/virt/gunyah/vm_mgr.h
++++ b/drivers/virt/gunyah/vm_mgr.h
+@@ -10,6 +10,7 @@
+ #include <linux/list.h>
+ #include <linux/miscdevice.h>
+ #include <linux/mutex.h>
++#include <linux/rwsem.h>
+ 
+ #include <uapi/linux/gunyah.h>
+ 
+@@ -34,6 +35,12 @@ struct gunyah_vm {
+ 	u16 vmid;
+ 	struct gh_rm *rm;
+ 
++	enum gh_rm_vm_auth_mechanism auth;
++	struct gh_vm_dtb_config dtb_config;
 +
-+The guest physical address is used by Linux kernel to check that the requested
-+user regions do not overlap and to help find the corresponding memory region
-+for calls like GH_VM_SET_DTB_CONFIG.
++	enum gh_rm_vm_status vm_status;
++	struct rw_semaphore status_lock;
 +
-+To delete a memory region, call GH_VM_SET_USER_MEM_REGION with label set to the
-+desired region and memory_size set to 0.
+ 	struct mutex mm_lock;
+ 	struct list_head memory_mappings;
+ };
+@@ -42,5 +49,7 @@ struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_alloc(struct gunyah_vm *ghvm,
+ 							struct gh_userspace_memory_region *region);
+ void gh_vm_mem_mapping_reclaim(struct gunyah_vm *ghvm, struct gunyah_vm_memory_mapping *mapping);
+ struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find(struct gunyah_vm *ghvm, u32 label);
++struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find_mapping(struct gunyah_vm *ghvm,
++								u64 gpa, u32 size);
+ 
+ #endif
+diff --git a/drivers/virt/gunyah/vm_mgr_mm.c b/drivers/virt/gunyah/vm_mgr_mm.c
+index f2dbdb4ee8ab..7fcb9f8a29bf 100644
+--- a/drivers/virt/gunyah/vm_mgr_mm.c
++++ b/drivers/virt/gunyah/vm_mgr_mm.c
+@@ -53,6 +53,30 @@ void gh_vm_mem_mapping_reclaim(struct gunyah_vm *ghvm, struct gunyah_vm_memory_m
+ 	mutex_unlock(&ghvm->mm_lock);
+ }
+ 
++struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find_mapping(struct gunyah_vm *ghvm,
++								u64 gpa, u32 size)
++{
++	struct gunyah_vm_memory_mapping *mapping = NULL;
++	int ret;
 +
-+The flags field of gh_userspace_memory_region accepts the following bits. All
-+other bits must be 0 and are reserved for future use. The ioctl will return
-+-EINVAL if an unsupported bit is detected.
++	ret = mutex_lock_interruptible(&ghvm->mm_lock);
++	if (ret)
++		return ERR_PTR(ret);
 +
-+  - GH_MEM_ALLOW_READ/GH_MEM_ALLOW_WRITE/GH_MEM_ALLOW_EXEC sets read/write/exec
-+    permissions for the guest, respectively.
-+  - GH_MEM_LENT means that the memory will be unmapped from the host and be
-+    unaccessible by the host while the guest has the region.
++	list_for_each_entry(mapping, &ghvm->memory_mappings, list) {
++		if (gpa >= mapping->guest_phys_addr &&
++			(gpa + size <= mapping->guest_phys_addr +
++			(mapping->npages << PAGE_SHIFT))) {
++			goto unlock;
++		}
++	}
 +
-+GH_VM_SET_DTB_CONFIG
-+~~~~~~~~~~~~~~~~~~~~
++	mapping = NULL;
++unlock:
++	mutex_unlock(&ghvm->mm_lock);
++	return mapping;
++}
 +
-+::
-+
-+  struct gh_vm_dtb_config {
+ struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find(struct gunyah_vm *ghvm, u32 label)
+ {
+ 	struct gunyah_vm_memory_mapping *mapping;
+diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+index 574f33b198d0..36359ad2175e 100644
+--- a/include/uapi/linux/gunyah.h
++++ b/include/uapi/linux/gunyah.h
+@@ -42,4 +42,12 @@ struct gh_userspace_memory_region {
+ #define GH_VM_SET_USER_MEM_REGION	_IOW(GH_IOCTL_TYPE, 0x1, \
+ 						struct gh_userspace_memory_region)
+ 
++struct gh_vm_dtb_config {
 +	__u64 gpa;
 +	__u64 size;
-+  };
++};
++#define GH_VM_SET_DTB_CONFIG	_IOW(GH_IOCTL_TYPE, 0x2, struct gh_vm_dtb_config)
 +
-+This ioctl sets the location of the VM's devicetree blob and is used by Gunyah
-+Resource Manager to allocate resources.
++#define GH_VM_START		_IO(GH_IOCTL_TYPE, 0x3)
 +
-+GH_VM_START
-+~~~~~~~~~~~
-+
-+This ioctl starts the VM.
+ #endif
 -- 
 2.39.0
 
