@@ -2,172 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECEACC05027
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 16:43:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14783C05027
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 17:23:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230392AbjATQnu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 11:43:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55224 "EHLO
+        id S229672AbjATRXt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 12:23:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229612AbjATQnt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 11:43:49 -0500
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-db5eur01on2082.outbound.protection.outlook.com [40.107.15.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B07E373EC6;
-        Fri, 20 Jan 2023 08:43:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Scr5fd7eiu2ecT52N/QBLDS5wXrxjvHPUYnksXERLVz4AdCuJ1pMYU784VrCtOR53IYti+0SZsnLdUHdv1Mx0OEMU1Sg80Rkx7he7+WYxPtXxlowXc4LtnWq4BH9SZi6S9lgeGJchqFRq6XAR/0w6nvRll0xJdekBID0iE8bvfLIg0jxxq0qZVgnRV+RrzFnG5y16xoQcsKJechqw2PHtILkujwMuleY2sz87V++H6+ZVTXCR5Xt74bdIh0gKV4fUmM7FXdxhf1n+XUwsOkMFnZS6X0er4EW0zfrQrxHK2a0Hz1HTPMtQj8DApxPBYOo+Od3KXt9Mcvt7XbIyRwv7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3e9A/P3A19zEil+QaDcY6Sgruew8nJlQnQeUcdtGTi0=;
- b=l9yZOvN0wz68Xjlx14IIPcFrsqY02bHkQE06HnIK16quYLAjT/TjPh8JuyvG8fh+mvwcs5rEkSJ8qsPWl2HyOuhWQQOkYUW50L7JbIklyq1IrWiFTUOMvn+ek6QxUBaN2u6dWB8clWIuN96ldLVyY28ZWzRKV9AMKZHTM9o1fWtSnT8UZO3dI9pSJ9KaqxmbNOl62slOzFclnhJrQjdzgCggp97FEIPhjEs/2sPRsUeqLR/AkUTDBvyUeFNd1H/x+Moz56FqxYpHZYtUry58LjTWf+sYFSyoXrqyfrcdWAFBPQ9OD00A+oqhX9fzHK63apST5hSIx6FRxxTwXBM20Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
- dkim=pass header.d=seco.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3e9A/P3A19zEil+QaDcY6Sgruew8nJlQnQeUcdtGTi0=;
- b=iHm2Eq6/tnMsS7vrrPoQmz2M08dwDtkgIR8EpzERjQjkZIHukEcYeDzswJS+PmICHP6cKKauo59PmASp4LDaRlp60rgj59Trl6BiLgbuieliBhMHLpfSyO5E1SQIHUby11aZs4fdyO552On3To9OtdnkJ0ok5kCZIw5kxFpHyoVSIj1EVr6gw8nhHIZ39F0qi3fOsbF5GJWqw2CfZpt2+Teshl95p58ZD8GBG7owVa+SNz+R7LAnsyoGWViXcrKniM1syN0iS50waU4TOqR3xYY3Q80SupAdZla+KxMJ5vpkj+tNTaCuvt61gaTSFtVWDs1QqDcHpzM8SqVuQFuCIg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=seco.com;
-Received: from DB9PR03MB8847.eurprd03.prod.outlook.com (2603:10a6:10:3dd::13)
- by DB9PR03MB7581.eurprd03.prod.outlook.com (2603:10a6:10:2c4::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.24; Fri, 20 Jan
- 2023 16:43:42 +0000
-Received: from DB9PR03MB8847.eurprd03.prod.outlook.com
- ([fe80::6b03:ac16:24b5:9166]) by DB9PR03MB8847.eurprd03.prod.outlook.com
- ([fe80::6b03:ac16:24b5:9166%2]) with mapi id 15.20.6002.027; Fri, 20 Jan 2023
- 16:43:41 +0000
-Message-ID: <444e3a17-464f-c487-fedb-9c749c5f599e@seco.com>
-Date:   Fri, 20 Jan 2023 11:43:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v9 00/10] phy: Add support for Lynx 10G SerDes
-Content-Language: en-US
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     Kishon Vijay Abraham I <kishon@kernel.org>,
-        linux-phy@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Camelia Alexandra Groza <camelia.groza@nxp.com>,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        linuxppc-dev@lists.ozlabs.org, devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20221230000139.2846763-1-sean.anderson@seco.com>
- <0024c780-ff9c-a9d3-8773-28e6b21bcc43@seco.com> <Y8gkMlqfPZic7reK@matsya>
- <17e428ae-7789-a1ab-3ccd-90b3b9a088f1@seco.com> <Y8pLjLWjv0nJa+ww@matsya>
-From:   Sean Anderson <sean.anderson@seco.com>
-In-Reply-To: <Y8pLjLWjv0nJa+ww@matsya>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR10CA0001.namprd10.prod.outlook.com
- (2603:10b6:a03:255::6) To DB9PR03MB8847.eurprd03.prod.outlook.com
- (2603:10a6:10:3dd::13)
+        with ESMTP id S229596AbjATRXs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 12:23:48 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20F0883879;
+        Fri, 20 Jan 2023 09:23:28 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7EDC3B82941;
+        Fri, 20 Jan 2023 17:23:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93A67C433D2;
+        Fri, 20 Jan 2023 17:23:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674235405;
+        bh=ZoJTq9hlxE+EeSPEihPl6kgJ4aNV/ot2y2HKzEndKfI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=twuzMgUIVujvvvqUl+Jq3VnFeviR345kCrBQLb/875O9vasUiNHmY2HO9017OcsJH
+         L7QRMuOJjwsNVrsOjC3/9Y0RFiWA6apQ6xWkehnxvrlCeQluypOgvcga+7+0ywyybv
+         bnQ66JPSX84uMJpeouBzHtuSWaJfg4qEpJkurCilgchWeM2pL0folT4cmU5P3bFt0u
+         Lfx4yBwY56NBBuDzj2GNkjsRv7F7H5vREMMR6MHOBCb0ggacQBFdR8ccOj7aa2OEwx
+         FvODJvK7vhPqToT6S8hBKrv0tAtdaQJoqDppMWP8XasczWd640HEj1mn7PqpZ8nBjG
+         Q2bRc/GefaQww==
+Date:   Fri, 20 Jan 2023 09:23:23 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Johannes Berg <johannes@sipsolutions.net>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, robh@kernel.org, stephen@networkplumber.org,
+        ecree.xilinx@gmail.com, sdf@google.com, f.fainelli@gmail.com,
+        fw@strlen.de, linux-doc@vger.kernel.org, razor@blackwall.org,
+        nicolas.dichtel@6wind.com, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH net-next v3 1/8] docs: add more netlink docs (incl. spec
+ docs)
+Message-ID: <20230120092323.39d3787e@kernel.org>
+In-Reply-To: <2b7f7f76aac4fcf2a51eb5588e64316b62f27d65.camel@sipsolutions.net>
+References: <20230119003613.111778-1-kuba@kernel.org>
+        <20230119003613.111778-2-kuba@kernel.org>
+        <96618285a772b5ef9998f638ea17ff68c32dd710.camel@sipsolutions.net>
+        <20230119181306.3b8491b1@kernel.org>
+        <2b7f7f76aac4fcf2a51eb5588e64316b62f27d65.camel@sipsolutions.net>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR03MB8847:EE_|DB9PR03MB7581:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2ec08bbe-f758-4638-2d44-08dafb057cdf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CpQ941SeTt42V1l22AOMureB+txBVkq3WnbVAOdVKEhvh0HL4In7D90fwetorqeGnuzH0IgY0rcVS+76+80huUkYtnS36xnMT+UOzNwwUx8MvRVFJCRxyRsTPQnwaStY56PrhBQFVHKx5Jwza1Y9AbYgPWuecnUTJKEuK7P4NKHMqebi79el1fl/o9z8bYbTSt5i4zCrN9gAaPwXZHXLtUX4QHA7Wuq3wEbB4VYykXd/OWUmsX8Id0c4jZc/JSv3v+N97il/YM+m5QODRzIywr6FrLbNyaprd0QM7wxFltef3W0tSgTCEoYuJiWVWSczYS6bRJjPatmAG+hMuwX9ht7HXh19jqOB9gAsLnHvIkQPziQKI5PzTxsqvhQ6DXXMASotve+AEX/Z23XzqBBuQ5vyaZxfZXev9TDJpF3tgRTMvlfy6FbTY8IpmRFDGb5Ayi0Pog5WUh2yBTR5Esl925tRimNZK/n8A4da+1McGMGq3DkPCfgoaPUwAPlvY3J07Nj+uhewvp/2EjBwG9byZb9aRMH/3mgZgYxjj+OzKogtsDs23wBKKhlDK61qVlI4DWUNdbquIGh+A0SMWOpHyerwa6wZZ49sctkXN7mwhgVbeExhhnPgIaGpgJ/0NBomzfJrBwAjQzT21H2kjYKpNgaJfpLdT6Q9hIw/TsQc+1HLWNPMUNGGndfPyBR0R2skroKbv/iBb5MB9HFZ+k9Pol8swsiqTaavDlfg4axBumdfwKwJ/ebuMShg5DGomqZ+WYyA8QmocR7v20/KddV9yw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB8847.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(366004)(396003)(346002)(136003)(39850400004)(376002)(451199015)(31686004)(83380400001)(36756003)(478600001)(52116002)(6486002)(31696002)(86362001)(38100700002)(38350700002)(6506007)(26005)(53546011)(4326008)(44832011)(41300700001)(6916009)(6512007)(2616005)(6666004)(186003)(8676002)(2906002)(54906003)(66946007)(66556008)(66476007)(8936002)(5660300002)(7416002)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TVVzUEY3TGp5RkhYUnZsZFZhVTNlR2R3UHFUbnFoWGdUcG01OEJzVEVKL1dx?=
- =?utf-8?B?RmxUZWhyYmNRM1puUkRDdmdiSGZMZGVkemtLYmU0WEYwTnBwNTJ2cXlOSnRD?=
- =?utf-8?B?OU4yMVkxMnBGSjlSd0xndHlORVkwQU90OE1ZUWdlMkRSVjlyTWJYc0VWSkNU?=
- =?utf-8?B?d0RzY1FVQm11ZG1XaWFEUnVHRXNWUWZ0cDU4OU9uLzJieHpEa2h6ZXV0cXRk?=
- =?utf-8?B?ZXZ0VFNhWXBld3BTRTg1V1VtRE1lUE5VaWhTRFd4dk9VR3ZvRWQ1UDVma0hh?=
- =?utf-8?B?c1p2OG00NUw2VVdGeU9WNzhtOHBzOE50ZU1acmh1WVpxcEhxOHU2Znh5RVRx?=
- =?utf-8?B?MVJ4WnAybFkxck9yb2FNTW1xVkx5T2svUzNucFdNTllRZDNybCt3cmcvMVdh?=
- =?utf-8?B?V2sxdnRvdkxJVDdSM2M1V0lrWVYwQk52YlhNbll5WWkrK1AxUlpiTFFEbEFO?=
- =?utf-8?B?a1hTTHdyb2ppNkJ5ZDNxeS82QzQ1Yk5CZ0dtSlRKVENscHd0cHNjT01XcUFh?=
- =?utf-8?B?NE5pYmJzT3JjZHhKVEVmTE0vOW5jSTQrS0FqTzN3TlpWUnozREZ5MVJ4K0po?=
- =?utf-8?B?ZE1LM0RaM2NOS21SWStjNTNTRWJhaGJVQThZNGVvMGwvNkZZRGUwWndVdDNZ?=
- =?utf-8?B?Y1RjeHBXaTMzNzlFZjNEYTJ0N3d0UWc5QlJCYTg2bDY3TnNsQSszRVE0a2Yv?=
- =?utf-8?B?UkZsKzBZbElFSnU5RForVkdVMXlzUjJVWFljV2RKMlMzbHVpelhkRDlTZnEz?=
- =?utf-8?B?bFVyQXFBcm53TWc0d2hPdGNMNVFKZU9tbFRyZzBHK1NMRDBiNVRuNitWVENH?=
- =?utf-8?B?dmpmakYrUTYrTm1naHllT0FiN2hydHh4MHg2NzRWdmpXRjRsUjVjbzdRR0o1?=
- =?utf-8?B?d29RVG13a0VkdzBPVXUvd1FTQ0c1RFJtMFRSTTJuUmk4Zmt1akw1cjFnZ3JU?=
- =?utf-8?B?NG9ma0VPNllYMVNoZGZMRk9FSG5SS3NoL01lS1NXWitBTnBtUFhjOEorcTJn?=
- =?utf-8?B?cUkyVmNHbDlUYmZaMHdBelpPRUFZelVJOXdqUWk5Z2NhdG4vRkRxYTF5MFJ6?=
- =?utf-8?B?dGF6VjViVUNNQlhTMGwyeWs5MjRPSXR4eTg5R0FnbmhtMWVFSTAyRk1IdVV1?=
- =?utf-8?B?YmhieUlPbWgzQWJvbmlTUnNhcGtCbldIaXhTampYWXVzYkpmNTBUKzBocFJo?=
- =?utf-8?B?T2U3WjRTOTZrVUdUVExwU3ZpYjh6cEJGd01LN1hkNTdSNXRoblR3ak1tMjZx?=
- =?utf-8?B?b1F2WGRveWVrMVh0aVJuQ21FMkhUQ3JFU2hTM1BiZVRlSCtPbE82Mnd6V2Jx?=
- =?utf-8?B?UkxrQlB5eVl6Z2c1ejBLRFBxM21jUU5wdGZaVHJMVWhNZHp3dVlDTTRPWGNU?=
- =?utf-8?B?cjJHTmRJb1BBOXc3SXFYcGU1MGRFWHN3Q0FpcWNuYVBJY1Eva2ZqTWlSMHFp?=
- =?utf-8?B?ZCtUaVFHUGNWY09VRjl0a2ZXaUt5RTVZbnBWZHNWT2FwYlZrUUs0dlZNV3Nu?=
- =?utf-8?B?Vnl6ZVFwVjkxNHNaZVRoVmR1ekIrcGRkeS8wTEcyZU43cmZTRytyS1pWL2tM?=
- =?utf-8?B?b2h4MUQ4U2xjNDF2ai93U3pSRGovdDRKSXpVRU1UR2ZyclZKSDdNOWpqK0xS?=
- =?utf-8?B?VTJiTUE5YUJCcXltZlRTcjRiNTFBYkhrUWdNYVNtTWNObGtGOEV2RjRxWmdC?=
- =?utf-8?B?Qy9DeDRodWtQVC96SnRmMnEzcmc4OFdwN1liWkJzeTFZU1RhRWd3SWJRdWdZ?=
- =?utf-8?B?c1ovOGpFUGxLRktnalIyM05obzFDL3VFUC84V1dybytLRytXSEpHWEp0L013?=
- =?utf-8?B?M1VSckF1RVZaeEdxcFhCRTNJSTZYVFpIblZYT3k4OHh1WUJZdDlEVEFKLy82?=
- =?utf-8?B?Ujc4eGMyck9HMExoeG81c3NreHY2MjdFUkhsdE9sSU1qY2NRWEVDS3k4cUpV?=
- =?utf-8?B?Rkc2TEhLVDFacVkwUHdvNUFLbUdxeXVXL3d0RGIxaklxdjllQm16Uis3cWkz?=
- =?utf-8?B?OWpSd1l4dGZENENFNDdjQkNuanU4NG9wUmxZZnRsNjdmUmtjaFR2dXEwOEk4?=
- =?utf-8?B?bFAveUM2b2xFVmdueUZvd0F2d0l2eUZ5a05FOGhNZXFrNE9TRnFoZ2sxSnF1?=
- =?utf-8?B?WmgrNGRhZ29HUWV6b1QydVJ3NzB6dGpzWjRaMjZuRHAzWG1oNG9uanl3SHlE?=
- =?utf-8?B?eXc9PQ==?=
-X-OriginatorOrg: seco.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ec08bbe-f758-4638-2d44-08dafb057cdf
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB8847.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2023 16:43:41.7255
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pK2++aIYazR2bfIIPmi+rUJ8hOTlfgs2WO+mLfYJSM9cyD07hnEva6hMTRwxtJNHmViQ9kNUKefh1cPn0PhBcw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR03MB7581
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/20/23 03:06, Vinod Koul wrote:
-> On 19-01-23, 11:22, Sean Anderson wrote:
->> On 1/18/23 11:54, Vinod Koul wrote:
->> > On 17-01-23, 11:46, Sean Anderson wrote:
->> >> 
->> >> I noticed that this series is marked "changes requested" on patchwork.
->> >> However, I have received only automated feedback. I have done my best
->> >> effort to address feedback I have received on prior revisions. I would
->> >> appreciate getting another round of review before resending this series.
->> > 
->> > Looking at the series, looks like kernel-bot sent some warnings on the
->> > series so I was expecting an updated series for review
->> > 
->> 
->> Generally, multiple reviewers will comment on a patch, even if another
->> reviewer finds something which needs to be changed. This is a one-line
->> fix, so I would appreciate getting more substantial feedback before
->> respinning. Every time I send a new series I have to rebase and test on
->> hardware. It's work that I would rather do when there is something to be
->> gained.
+On Fri, 20 Jan 2023 10:15:39 +0100 Johannes Berg wrote:
+> > > > +Support dump consistency
+> > > > +------------------------
+> > > > +
+> > > > +If iterating over objects during dump may skip over objects or repeat
+> > > > +them - make sure to report dump inconsistency with ``NLM_F_DUMP_INTR``.    
+> > > 
+> > > That could be a bit more fleshed out on _how_ to do that, if it's not
+> > > somewhere else?  
+> > 
+> > I was thinking about adding a sentence like "To avoid consistency
+> > issues store your objects in an Xarray and correctly use the ID during
+> > iteration".. but it seems to hand-wavy. Really the coder needs to
+> > understand dumps quite well to get what's going on, and then the
+> > consistency is kinda obvious. IDK. Almost nobody gets this right :(  
 > 
-> I review to apply, if I can apply, I would typically skip this
+> Yeah agree, it's tricky one way or the other. To be honest I was
+> thinking less of documenting the mechanics of the underlying code to
+> ensure that, but rather of the mechanics of using the APIs to ensure
+> that, i.e. how to use cb->seq and friends.
+
+I see. Let me add that.
+My hope was to steer people towards data structures with stable
+indexes, so the problem doesn't occur. But I'll add a mention of 
+the helpers.
+
+> > > Unrelated to this particular document, but ...
+> > > 
+> > > I'm all for this, btw, but maybe we should have a way of representing in
+> > > the policy that an attribute is used as multi-attr for an array, and a
+> > > way of exposing that in the policy export? Hmm. Haven't thought about
+> > > this for a while.  
+> > 
+> > Informational-only or enforced? Enforcing this now would be another
+> > backward-compat nightmare :(  
 > 
+> More informational - for userspace to know from policy dump that certain
+> attributes have that property. With nested it's easy to know (there's a
+> special nested-array type), but multi-attr there's no way to distinguish
+> "is this one" and "is this multiple".
 
-It is much more efficient to conduct reviews in parallel. So e.g. the
-bindings can be reviewed at the same time as the driver, at the same
-time as the device tree changes. This way, I can get a series applied
-after max(N, M, ...) revisions, where I would otherwise need N revisions
-to get the bindings ready, M revisions to get the driver ready, etc.
-But what's happening is that I have to make N + M + ... revisions! I am
-very frustrated by your refusal to review anything until there are no
-other comments, since it unnecessarily extends the process of getting a
-series applied. I have been trying to get this series applied since
-June, with nine revisions, and you have reviewed it *twice*! I think the
-driver is in a good state and is ready to be applied (aside from the one
-known issue), but I have no idea if you agree with that assessment.
+Makes sense.
 
---Sean
+> Now ... you might say you don't really care now since you want
+> everything to be auto-generated and then you have it in the docs
+> (actually, do you?), and that's a fair point.
+
+Have in the docs that we want everything to be auto-generated?
+
+> > FWIW I have a set parked on a branch to add "required" bit to policies,
+> > so for per-op policies one can reject requests with missing attrs
+> > during validation.  
+> 
+> Nice. That might yet convince me of per-op policies ;-)
+> 
+> Though IMHO the namespace issue remains - I'd still not like to have 100
+> definitions of NL80211_ATTR_IFINDEX or similar.
+
+Yeah, there's different ways of dealing with it. The ethtool way is
+pretty neat - have a nest in each command for "common attrs" with
+ifindex and stuff in it.
