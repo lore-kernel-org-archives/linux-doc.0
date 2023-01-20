@@ -2,110 +2,129 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12294C004D4
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 03:20:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 571ABC46467
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 03:38:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229573AbjATDUX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 22:20:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37476 "EHLO
+        id S229450AbjATDio (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 22:38:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbjATDUW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 22:20:22 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BD47C0;
-        Thu, 19 Jan 2023 19:20:22 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B7A5561DEF;
-        Fri, 20 Jan 2023 03:20:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1BEABC433F1;
-        Fri, 20 Jan 2023 03:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674184821;
-        bh=jHP/KfWRf0rvAsjTo62SlFaUXRfLpQHjGLZgs37HA/Q=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=RdAEBAJhYVgvVjAK+ZcD1cZy5KyT7Bo21zsQvlF2VTwAH21IpzJE+gNPQzyY+/DNp
-         /hKsrlOfsNa1O7GGQzMTxVd49D0KV8WTvqFSfVI6SNGaU5xwkeOpf1NXAOVNDXxTsb
-         XkunSeI4Sepf5E8+kqX9dbEdSLTqeCjREQBIADbSmcbo+hH2GOcCrIfssU66ceGXfi
-         Tt6Wby55uToUrWrXcC2GBuwjLXXo8z/iLw6DMs51QuO+zMpWNevRrSPM5IfaGQ64m8
-         ScMN6tADReoB5upTcQ+Qu/TCTnC8LoZUECyAzrf+w4AapzPanTuw2bu6RDPNun2v6Z
-         uvC9eTRpjpklw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id F3107C43147;
-        Fri, 20 Jan 2023 03:20:20 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229437AbjATDin (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 22:38:43 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FFD9A2594;
+        Thu, 19 Jan 2023 19:38:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674185922; x=1705721922;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EJl2wtDgpfUKTXoKSyUkpNnhZlVNVqNRsJl+mn9CCy8=;
+  b=gFKX0tA3HHNoGhp0COhJw2M4PRZT/bFJEfEnKpEc41an1+dN8hjUG6qr
+   LEla2pfZmuYdW90Rlcbin604tUz65ruhcjRWgX3tEtDqEv0wxc+5qqx/i
+   Zepo3v4yO/JC219JstLxEjxpZfzJ/lggWlDFaku5g1sHkxauaDYZitm9t
+   eAXQt0ZFr3Rsw2IhgvOjyaRtqPEnv2aDrUACBRB/J60Q6KEJa0Zzn2An8
+   /UXfMLlfTN+dEkN5w7ihlPKDAIkpJA/aYcUUEeugSKHNjarDQyo5krgJn
+   8Nfuacl8iQ9YpZNa3pEQ3tRnMmdgqsFPeABaTB7apc1IBH7sAGVpwztjl
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="313387639"
+X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
+   d="scan'208";a="313387639"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 19:38:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="638014484"
+X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
+   d="scan'208";a="638014484"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 19 Jan 2023 19:38:38 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pIiEf-00028w-22;
+        Fri, 20 Jan 2023 03:38:37 +0000
+Date:   Fri, 20 Jan 2023 11:37:55 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Danilo Krummrich <dakr@redhat.com>, daniel@ffwll.ch,
+        airlied@redhat.com, christian.koenig@amd.com, bskeggs@redhat.com,
+        jason@jlekstrand.net, tzimmermann@suse.de, mripard@kernel.org,
+        corbet@lwn.net
+Cc:     oe-kbuild-all@lists.linux.dev, nouveau@lists.freedesktop.org,
+        Danilo Krummrich <dakr@redhat.com>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH drm-next 11/14] drm/nouveau: nvkm/vmm: implement raw ops
+ to manage uvmm
+Message-ID: <202301201115.THLpCShO-lkp@intel.com>
+References: <20230118061256.2689-12-dakr@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 net-next 1/1] net: phy: fix use of uninit variable when
- setting PLCA config
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <167418482098.4845.761688179914150843.git-patchwork-notify@kernel.org>
-Date:   Fri, 20 Jan 2023 03:20:20 +0000
-References: <f22f1864165a8dbac8b7a2277f341bc8e7a7b70d.1674056765.git.piergiorgio.beruto@gmail.com>
-In-Reply-To: <f22f1864165a8dbac8b7a2277f341bc8e7a7b70d.1674056765.git.piergiorgio.beruto@gmail.com>
-To:     Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
-Cc:     andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, o.rempel@pengutronix.de,
-        mailhol.vincent@wanadoo.fr, sudheer.mogilappagari@intel.com,
-        sbhatta@marvell.com, linux-doc@vger.kernel.org,
-        wangjie125@huawei.com, corbet@lwn.net, lkp@intel.com,
-        gal@nvidia.com, gustavoars@kernel.org, bagasdotme@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230118061256.2689-12-dakr@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Hi Danilo,
 
-This patch was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
+Thank you for the patch! Perhaps something to improve:
 
-On Wed, 18 Jan 2023 16:47:31 +0100 you wrote:
-> Coverity reported the following:
-> 
-> *** CID 1530573:    (UNINIT)
-> drivers/net/phy/phy-c45.c:1036 in genphy_c45_plca_set_cfg()
-> 1030     				return ret;
-> 1031
-> 1032     			val = ret;
-> 1033     		}
-> 1034
-> 1035     		if (plca_cfg->node_cnt >= 0)
-> vvv     CID 1530573:    (UNINIT)
-> vvv     Using uninitialized value "val".
-> 1036     			val = (val & ~MDIO_OATC14_PLCA_NCNT) |
-> 1037     			      (plca_cfg->node_cnt << 8);
-> 1038
-> 1039     		if (plca_cfg->node_id >= 0)
-> 1040     			val = (val & ~MDIO_OATC14_PLCA_ID) |
-> 1041     			      (plca_cfg->node_id);
-> drivers/net/phy/phy-c45.c:1076 in genphy_c45_plca_set_cfg()
-> 1070     				return ret;
-> 1071
-> 1072     			val = ret;
-> 1073     		}
-> 1074
-> 1075     		if (plca_cfg->burst_cnt >= 0)
-> vvv     CID 1530573:    (UNINIT)
-> vvv     Using uninitialized value "val".
-> 1076     			val = (val & ~MDIO_OATC14_PLCA_MAXBC) |
-> 1077     			      (plca_cfg->burst_cnt << 8);
-> 1078
-> 1079     		if (plca_cfg->burst_tmr >= 0)
-> 1080     			val = (val & ~MDIO_OATC14_PLCA_BTMR) |
-> 1081     			      (plca_cfg->burst_tmr);
-> 
-> [...]
+[auto build test WARNING on 0b45ac1170ea6416bc1d36798414c04870cd356d]
 
-Here is the summary with links:
-  - [v2,net-next,1/1] net: phy: fix use of uninit variable when setting PLCA config
-    https://git.kernel.org/netdev/net-next/c/1038bfb23649
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230118-141552
+base:   0b45ac1170ea6416bc1d36798414c04870cd356d
+patch link:    https://lore.kernel.org/r/20230118061256.2689-12-dakr%40redhat.com
+patch subject: [PATCH drm-next 11/14] drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm
+config: arc-randconfig-s051-20230119 (https://download.01.org/0day-ci/archive/20230120/202301201115.THLpCShO-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/5fca471110e52d7c8db10f9ff483134a546174a1
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230118-141552
+        git checkout 5fca471110e52d7c8db10f9ff483134a546174a1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/
 
-You are awesome, thank you!
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c:413:34: sparse: sparse: non size-preserving integer to pointer cast
+
+vim +413 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c
+
+   406	
+   407	static int
+   408	nvkm_uvmm_mthd_raw_unmap(struct nvkm_uvmm *uvmm, struct nvif_vmm_raw_v0 *args)
+   409	{
+   410		struct nvkm_vmm *vmm = uvmm->vmm;
+   411		struct nvkm_vma *vma;
+   412	
+ > 413		vma = (struct nvkm_vma *)args->handle;
+   414		if (!vma)
+   415			return -EINVAL;
+   416	
+   417		mutex_lock(&vmm->mutex);
+   418		if (vma->busy) {
+   419			VMM_DEBUG(vmm, "denied %016llx: %d", vma->addr, vma->busy);
+   420			mutex_unlock(&vmm->mutex);
+   421			return -ENOENT;
+   422		}
+   423		vma->sparse = args->sparse;
+   424		nvkm_vmm_raw_unmap_locked(vmm, vma);
+   425		mutex_unlock(&vmm->mutex);
+   426	
+   427		args->handle = 0;
+   428		kfree(vma);
+   429		return 0;
+   430	}
+   431	
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
