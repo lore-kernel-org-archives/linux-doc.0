@@ -2,136 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E94CC05027
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 13:56:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10E8EC25B4E
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 14:09:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229784AbjATN4h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 08:56:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55980 "EHLO
+        id S230136AbjATOJv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 09:09:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbjATN4g (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 08:56:36 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A0F4BF8B4
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 05:56:35 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id hw16so14086327ejc.10
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 05:56:35 -0800 (PST)
+        with ESMTP id S229661AbjATOJu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 09:09:50 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5F76C4E87
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 06:09:39 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id k18so5417914pll.5
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 06:09:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H7eK0S32R7OzdAHjN8ANIsN9zhM51LWwumKsQBQQh8I=;
-        b=C/UkHRCo3dJQXtq4TBwbY4SPLPXRYn2WOJG9lENA7XPB5yLT/zlXBogNk1MOZ6l55p
-         5fZq+rGqYualx4+bpTovJMsfmDCsCUiGXcKUPTu5p9XB+OtbFWUScvNjeDDh5hex/JJG
-         7jiytQBn/EBJWWPjwVKX3aGDhkoyfWgdWvr7wtMarwTpKBeJfG2Pal2Rsy7JWF4jJxzJ
-         oglsLixFOL5wWywmmwJigjkv2eWfgidHwq4JRyQLkdXDXhXbcUkd2ml2YuwBDRFu61BQ
-         fO2wS2UZQSpA1YUeHvkJM2V+gCuVbFL6bzDwsgzvfPL0U5dqQ9yjsUehYo7NpWAA1Jz1
-         LmuQ==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FGPQvZx2mA1GFg7uw0rvj1+iQ+hzMZKdzKohNlCbJWE=;
+        b=XGwr2hT36NfBdQVpEbr9IdoWrr7FPQx7qMPrEQrmL0twoO9fLaeXgFOqXoraSqkxT5
+         F+CzWU0BDWRMY0mEtl7PLZRT5JfD+ipkP4EDf/p7CD6yCAzjHcJA3AIbaNCKHcyj8EAX
+         Evz8sFcQYsMSJgnWSvqY0B93KjGZbhUaDSwEx9Nz/EW267F64EnmosOvDymVn2ndFbVX
+         dl4JrTvbh2dq9+dFw3IOwtLIqNCRJyfwCYjon9A1YR6Zs03K9mbC075SOPOlla3ulnSb
+         M2sYLjPiujn3BVPXprYX1N+XYWQqEYHtGSPRYANjYFpG6VkvVo8n4ezcQF7xHTiGJuNR
+         BUNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H7eK0S32R7OzdAHjN8ANIsN9zhM51LWwumKsQBQQh8I=;
-        b=6BCWsVFOMO+y0T8Bed3QM8/VCOrvgNJF/3c2vK3570AHh15SVUFy++ZPl61zt/4Y+d
-         Lc26wTGndB/Rzds873om+6ZEfVm0lbIgHcDHM0MicyHcTFUfSC339BC+4wfxkBwVqy0V
-         pFTUK60ey3MVQDnWCwHFKzVuX6apOTD7Ic/WcqMpueIdMPESEZP1/tU6uy2L4xAY2xci
-         GT0drk95VKTJ9c+ohLtPCs6Be+wEtH+GRWdXweM2MHHJ+GGmzDLmltqrUR1ZW/KdkKRy
-         77I28gzLAgCmgk1tdzpVa0/OMwvGpclwjyb/BNExc93Y15Xj8zyiaonSQPfMGF/Lj6fh
-         vlhQ==
-X-Gm-Message-State: AFqh2koL4ucBacXxxY57i5+uQNBwEYGmuDx5IRihbOJHWh/Lxuml6RZo
-        7YxWiFnjvrbWAbobJUFk9eKSxQ==
-X-Google-Smtp-Source: AMrXdXsDjnqn1FOnw74lL1yVvsD6lGj78Ptra6ukhIH804E5wD8+CJKg4PdIcqvALwMEwneYz7HrQQ==
-X-Received: by 2002:a17:906:4096:b0:79e:4880:dd85 with SMTP id u22-20020a170906409600b0079e4880dd85mr14823861ejj.47.1674222994156;
-        Fri, 20 Jan 2023 05:56:34 -0800 (PST)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
-        by smtp.gmail.com with ESMTPSA id 9-20020a170906218900b0084cb4d37b8csm18043546eju.141.2023.01.20.05.56.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 05:56:33 -0800 (PST)
-Date:   Fri, 20 Jan 2023 14:56:32 +0100
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     linux-riscv@lists.infradead.org,
-        Palmer Dabbelt <palmer@dabbelt.com>, aou@eecs.berkeley.edu,
-        conor@kernel.org, corbet@lwn.net, guoren@kernel.org,
-        heiko@sntech.de, paul.walmsley@sifive.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>
-Subject: Re: [PATCH v2 2/3] RISC-V: resort all extensions in consistent orders
-Message-ID: <20230120135632.vb7ncvoapnaixluu@orel>
-References: <20221205144525.2148448-1-conor.dooley@microchip.com>
- <20221205144525.2148448-3-conor.dooley@microchip.com>
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FGPQvZx2mA1GFg7uw0rvj1+iQ+hzMZKdzKohNlCbJWE=;
+        b=6h0Ajy/5p/a+Z3E110QvLs9tChWSn6B9uFyRYOWF8v5bl0kXohJ4tvXAWmYc3sX8MT
+         DlzvFiGZQGRxmSk9bOvsilsagAmKigKgrQMhi75Vz1yuVM4Tnue0xH2PcI+zKJ9lCNmm
+         CVZ+6GijmwKP9u11/K8AYde/gxpAsd4asILWrhAA/oS2kZ/epe9jtXLYxmFGBuC+nuv9
+         sr8AMD5yEbEy44KbCbG39+quaTjgPouOJWkT6V9ymX49eE32HezQG7Nb6TCq/veR5cEk
+         of2ISl+bIYKrjzMolOWUuNghexXoxACHSJUzJv2njSSWvuSWiMZlibgKJ9J1VAhtVRh2
+         CDUw==
+X-Gm-Message-State: AFqh2krNUi+PAV8nr+tjsrzN5pwrpAqhJY3i8v4igsaZkhlGDM9XYu8b
+        3fDup1CEuFom4sgJAaNgNx9QDbkW4Z0=
+X-Google-Smtp-Source: AMrXdXt1r6sQtvN3UmpV3d0a6q1JZWHPsvtAQuHe3uobtrsvkYBKBqEBBV+OLna7U1yf0mwMYAk8xQ==
+X-Received: by 2002:a17:903:328b:b0:194:cd07:a8bb with SMTP id jh11-20020a170903328b00b00194cd07a8bbmr6167400plb.30.1674223778992;
+        Fri, 20 Jan 2023 06:09:38 -0800 (PST)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id h6-20020a170902f54600b00176b84eb29asm2453945plf.301.2023.01.20.06.09.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Jan 2023 06:09:38 -0800 (PST)
+Message-ID: <fa426691-c76a-8ab0-4975-6edacc9cb247@gmail.com>
+Date:   Fri, 20 Jan 2023 23:09:34 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221205144525.2148448-3-conor.dooley@microchip.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH RFC] docs: Add more information to the HTML sidebar
+To:     Sadiya Kazi <sadiyakazi@google.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, David Gow <davidgow@google.com>
+References: <87o7qu5al3.fsf@meer.lwn.net>
+ <CAO2JNKW9pL5097qdte1N4F=RSnRJtcnpaDf__ROJAFfHitooYQ@mail.gmail.com>
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <CAO2JNKW9pL5097qdte1N4F=RSnRJtcnpaDf__ROJAFfHitooYQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 05, 2022 at 02:45:25PM +0000, Conor Dooley wrote:
-> Ordering between each and every list of extensions is wildly
-> inconsistent. Per discussion on the lists pick the following policy:
+Hi all,
+
+On Fri, 20 Jan 2023 19:08:14 +0530, Sadiya Kazi wrote:
+> On Fri, Jan 20, 2023 at 5:41 AM Jonathan Corbet <corbet@lwn.net> wrote:
+>>
+>> Add a new sidebar template that creates a more RTD-like "fisheye" view of
+>> the current place in the document hierarchy.  It is far from ideal, but
+>> some readers may find it better for navigating through the documentation as
+>> a whole.
+>>
+>> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+>> ---
+> Thank you, Jon.
 > 
-> - The array defining order in /proc/cpuinfo follows a narrow
->   interpretation of the ISA specifications, described in a comment
->   immediately presiding it.
+> This is definitely an improvement as we are able to see the second
+> level headings in the
+> sidebar of the main page. But I would still prefer the "RTD" theme
+> kind of sidebar due to the
+> following reasons:
+> - This sidebar toc list is not bulleted and the same chapter name runs
+> into multiple lines making
+>    it trickier for the reader to click the exact chapter they are interested in.
+>    Perhaps this can be handled by increasing the width of the sidebar.
+> This will avoid the
+>    chapter headings to go to the next line.
+> - Comprehending "where am I" is difficult. When I use the table of
+> contents to navigate
+>   to any chapter, such as https://static.lwn.net/kerneldoc/dev-
+> tools/kunit/architecture.html,
+>   I'm unsure of where to go from here because it's difficult to find
+> this chapter's exact location
+>   in the table of contents. Is there a way to get the nested headings
+> in the sidebar until
+>   depth 3 and make it collapsible?
+
+I have mostly the same list of possible improvements.
+
+As for the "where am I?" syndrome, it would be helpful if the sidebar
+could be scrolled independently.
+
+I'd really like to suggest some code changes, but unable to do so.
+
 > 
-> - All other lists of extensions are sorted alphabetically.
+> Regards,
+> Sadiya
 > 
-> This will hopefully allow for easier review & future additions, and
-> reduce conflicts between patchsets as the number of extensions grows.
 > 
-> Link: https://lore.kernel.org/all/20221129144742.2935581-2-conor.dooley@microchip.com/
-> Suggested-by: Andrew Jones <ajones@ventanamicro.com>
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> Reviewed-by: Heiko Stuebner <heiko.stuebner@vrull.eu>
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
->  arch/riscv/include/asm/hwcap.h | 12 +++++++-----
->  arch/riscv/kernel/cpu.c        |  4 ++--
->  arch/riscv/kernel/cpufeature.c |  6 ++++--
->  3 files changed, 13 insertions(+), 9 deletions(-)
 > 
-> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-> index b22525290073..ce522aad641a 100644
-> --- a/arch/riscv/include/asm/hwcap.h
-> +++ b/arch/riscv/include/asm/hwcap.h
-> @@ -51,14 +51,15 @@ extern unsigned long elf_hwcap;
->   * RISCV_ISA_EXT_MAX. 0-25 range is reserved for single letter
->   * extensions while all the multi-letter extensions should define the next
->   * available logical extension id.
-> + * Entries are sorted alphabetically.
->   */
->  enum riscv_isa_ext_id {
->  	RISCV_ISA_EXT_SSCOFPMF = RISCV_ISA_EXT_BASE,
-> +	RISCV_ISA_EXT_SSTC,
-> +	RISCV_ISA_EXT_SVINVAL,
->  	RISCV_ISA_EXT_SVPBMT,
->  	RISCV_ISA_EXT_ZICBOM,
->  	RISCV_ISA_EXT_ZIHINTPAUSE,
-> -	RISCV_ISA_EXT_SSTC,
-> -	RISCV_ISA_EXT_SVINVAL,
->  	RISCV_ISA_EXT_ID_MAX = RISCV_ISA_EXT_MAX,
+> 
+> 
+>> So this is just a first attempt to create a more crowded sidebar; the
+>> result is somewhat like what RTD does; I'm not hugely happy with it, but
+>> it's a start.
+>>
+>> I've put a copy of the rendered docs at:
+>>
+>>   https://static.lwn.net/kerneldoc/
+>>
+>> Thoughts?  Is this headed in the right direction?  This view of the TOC
+>> is readily available from Sphinx; if we want something else it's going
+>> to be rather more work.
 
-Hi Conor,
+I think this looks like the right direction. But how far do you want to
+mimic RTD's sidebar???
 
-I'm digging this back up because I'm basing Zicboz on it.
+        Thanks, Akira
 
-If we take "riscv: improve boot time isa extensions handling", then this
-becomes a bunch of manually enumerated defines
-
- #define RISCV_ISA_EXT_SSCOFPMF         26
- #define RISCV_ISA_EXT_SVPBMT           27
- #define RISCV_ISA_EXT_ZICBOM           28
- #define RISCV_ISA_EXT_ZIHINTPAUSE      29
- #define RISCV_ISA_EXT_SSTC             30
- #define RISCV_ISA_EXT_SVINVAL          31
-
-Keeping those in alphabetical order would either require manually
-reenumerating them or to allow the numbers to be out of order as
-we add more extensions. I think I'd prefer we just add new
-extensions at the bottom and keep the numbers in order.
-
-Thanks,
-drew
