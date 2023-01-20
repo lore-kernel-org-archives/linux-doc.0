@@ -2,165 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2E3EC05027
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 14:53:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F5BCC05027
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 15:00:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229941AbjATOxY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 09:53:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59304 "EHLO
+        id S229742AbjATPAJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 10:00:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229723AbjATOxX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 09:53:23 -0500
-Received: from fx405.security-mail.net (smtpout140.security-mail.net [85.31.212.145])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D4CF46D61
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 06:53:22 -0800 (PST)
-Received: from localhost (fx405.security-mail.net [127.0.0.1])
-        by fx405.security-mail.net (Postfix) with ESMTP id B88A5335DB7
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 15:53:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
-        s=sec-sig-email; t=1674226400;
-        bh=jgb+m6qIX2pro82EX6+kbaqARSA1wPefVldKhg9mwIw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=VH6aD3TZhUe/LBsX91///VLOWzGxkxEDhlR6x6vY6U9mY0YSajPSTLVCgTEJ5dPG3
-         cB3/9ZnmgrFtNhXuju+pTrFwPWywzSl/2mAW7tvLpsncap8eJ5+NEsxMBgWmi6U0Dk
-         aUqc56g/c/TG0zy/mCIGXpqLi9T5jSgSXWFmpfxs=
-Received: from fx405 (fx405.security-mail.net [127.0.0.1]) by
- fx405.security-mail.net (Postfix) with ESMTP id 28402335CD8; Fri, 20 Jan
- 2023 15:53:20 +0100 (CET)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx405.security-mail.net (Postfix) with ESMTPS id F1088335B7A; Fri, 20 Jan
- 2023 15:53:18 +0100 (CET)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 7269927E043A; Fri, 20 Jan 2023
- 15:53:18 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 52FB427E0437; Fri, 20 Jan 2023 15:53:18 +0100 (CET)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- PJVPWxUQy6bp; Fri, 20 Jan 2023 15:53:18 +0100 (CET)
-Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id 057AA27E0430; Fri, 20 Jan 2023
- 15:53:18 +0100 (CET)
-X-Virus-Scanned: E-securemail
-Secumail-id: <d912.63caaade.ac33d.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 52FB427E0437
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1674226398;
- bh=kRxe31MnQMmqE5+taZm1AGIuAYHRpwHRpAdaJ1cAplQ=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=YyIqYgrfkWr5S+e3StrmT2Bz+xzv6InOUUAiJ+Ee5064rTXfFh85K084P2UbBDG2W
- gNEkTRz6oiFgP3OpnVk4jtK62FvfzEmQb6Q28gWtIAvW/nr+1y+YLusNgJ1Wd/awAH
- V7jmxOb9IUySl+9rZXiVdENlDVm128usIIPZgMcc=
-Date:   Fri, 20 Jan 2023 15:53:16 +0100
-From:   Jules Maselbas <jmaselbas@kalray.eu>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Yann Sionneau <ysionneau@kalray.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Waiman Long <longman@redhat.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Eric Paris <eparis@redhat.com>,
-        Christian Brauner <brauner@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Guillaume Thouvenin <gthouvenin@kalray.eu>,
-        Clement Leger <clement@clement-leger.fr>,
-        Vincent Chardon <vincent.chardon@elsys-design.com>,
-        Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>,
-        Julian Vetter <jvetter@kalray.eu>,
-        Samuel Jones <sjones@kalray.eu>,
-        Ashley Lesdalons <alesdalons@kalray.eu>,
-        Thomas Costis <tcostis@kalray.eu>,
-        Marius Gligor <mgligor@kalray.eu>,
-        Jonathan Borne <jborne@kalray.eu>,
-        Julien Villette <jvillette@kalray.eu>,
-        Luc Michel <lmichel@kalray.eu>,
-        Louis Morhet <lmorhet@kalray.eu>,
-        Julien Hascoet <jhascoet@kalray.eu>,
-        Jean-Christophe Pince <jcpince@gmail.com>,
-        Guillaume Missonnier <gmissonnier@kalray.eu>,
-        Alex Michon <amichon@kalray.eu>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <git@xen0n.name>,
-        Shaokun Zhang <zhangshaokun@hisilicon.com>,
-        John Garry <john.garry@huawei.com>,
-        Guangbin Huang <huangguangbin2@huawei.com>,
-        Bharat Bhushan <bbhushan2@marvell.com>,
-        Bibo Mao <maobibo@loongson.cn>,
-        Atish Patra <atishp@atishpatra.org>,
-        "Jason A . Donenfeld" <Jason@zx2c4.com>,
-        Qi Liu <liuqi115@huawei.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Mark Brown <broonie@kernel.org>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Benjamin Mugnier <mugnier.benjamin@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-mm@kvack.org,
-        Linux-Arch <linux-arch@vger.kernel.org>, linux-audit@redhat.com,
-        linux-riscv@lists.infradead.org, bpf@vger.kernel.org
-Subject: Re: [RFC PATCH v2 09/31] kvx: Add build infrastructure
-Message-ID: <20230120145316.GA4155@tellis.lin.mbt.kalray.eu>
-References: <20230120141002.2442-1-ysionneau@kalray.eu>
- <20230120141002.2442-10-ysionneau@kalray.eu>
- <aa4d68b2-b5b5-4c17-a44f-7c6db443ea4c@app.fastmail.com>
+        with ESMTP id S229590AbjATPAJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 10:00:09 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DE2641B72;
+        Fri, 20 Jan 2023 07:00:07 -0800 (PST)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30KEx1X8000559;
+        Fri, 20 Jan 2023 14:59:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=3HrTy6KRH0c8nn8RZz4UfVbeho7HoRu2+7rX1+TKX6o=;
+ b=NrU0ke3Gq12txpQ4inx0oalb6FODLnpl/63NNfyMI4fRK915a1sfFJm+ZGTnSS6XUrmu
+ 6JDQbXXMyz+2t8MbTxD29cp9Xpd5/s2d9L7019nVyU9S0p6FtIO7AXRxqP4O+Em0crSd
+ TRf3FojLW1/lbKiJeWDql6YEtTvYMF7NuF1wFVFgVcjgtQdR9uXTE32YwyPGz6DGz0eG
+ 2VX9BXcRazJ0GM4DZHR4jJ1+58AiC4pLsm+wo+SNYERuIBSLfmp2ZDR4NQdZENhSDlHA
+ 8HgUC93d+ZbYBetZ7ze5TMKhAmDbckmxTTKJqbn6+ZPeA9+uTO0p7cuJZFybsIlviJzj 8w== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n7c28hwv5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 20 Jan 2023 14:59:42 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30KExfev006092
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 20 Jan 2023 14:59:41 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 20 Jan
+ 2023 06:59:40 -0800
+Message-ID: <8a5c3cc6-c1e5-b6c4-e69d-441cf3a1fa7d@quicinc.com>
+Date:   Fri, 20 Jan 2023 07:59:39 -0700
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <aa4d68b2-b5b5-4c17-a44f-7c6db443ea4c@app.fastmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH linux-next 1/3] Documentation: accel: escape wildcard in
+ special file path
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Freedesktop DRI List <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux KVM <kvm@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+CC:     Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Ofir Bitton <obitton@habana.ai>,
+        Sean Christopherson <seanjc@google.com>,
+        Aaron Lewis <aaronlewis@google.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20230120123534.137413-1-bagasdotme@gmail.com>
+ <20230120123534.137413-2-bagasdotme@gmail.com>
+From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230120123534.137413-2-bagasdotme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: c49osEI-LfEgRsTJD9aA3ZchrnIv8A_-
+X-Proofpoint-ORIG-GUID: c49osEI-LfEgRsTJD9aA3ZchrnIv8A_-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-20_09,2023-01-20_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ priorityscore=1501 adultscore=0 lowpriorityscore=0 mlxlogscore=954
+ clxscore=1011 mlxscore=0 suspectscore=0 malwarescore=0 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301200142
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 20, 2023 at 03:39:22PM +0100, Arnd Bergmann wrote:
-> On Fri, Jan 20, 2023, at 15:09, Yann Sionneau wrote:
-> >      - Fix clean target raising an error from gcc (LIBGCC)
+On 1/20/2023 5:35 AM, Bagas Sanjaya wrote:
+> Stephen Rothwell reported htmldocs warning then merging accel tree:
 > 
-> I had not noticed this on v1 but:
+> Documentation/accel/introduction.rst:72: WARNING: Inline emphasis start-string without end-string.
 > 
-> > +# Link with libgcc to get __div* builtins.
-> > +LIBGCC	:= $(shell $(CC) $(DEFAULT_OPTS) --print-libgcc-file-name)
+> Sphinx confuses the file wildcards with inline emphasis (italics), hence
+> the warning.
 > 
-> It's better to copy the bits of libgcc that you actually need
-> than to include the whole thing. The kernel is in a weird
-It was initialy using KCONFIG_CFLAGS which do not contains valid options
-when invoking the clean target.
+> Fix the warning by escaping wildcards.
+> 
+> Link: https://lore.kernel.org/linux-next/20230120132116.21de1104@canb.auug.org.au/
+> Fixes: f65c5dac207322 ("docs: accel: Fix debugfs path")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-I am not exactly sure what's needed by gcc for --print-libgcc-file-name,
-my guess is that only the -march option matters, I will double check
-internally with compiler peoples.
+Thanks for addressing this before I even saw the warning report.
 
-> state that is neither freestanding nor the normal libc based
-> environment, so we generally want full control over what is
-> used. This is particularly important for 32-bit architectures
-> that do not want the 64-bit division, but there are probably
-> enough other cases as well.
-> 
->      Arnd
-> 
-> 
-> 
-> 
-
-
-
-
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
