@@ -2,382 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A3BEC05027
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 23:23:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E7D7C27C76
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 23:28:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230120AbjATXXr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 18:23:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58448 "EHLO
+        id S230120AbjATX24 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 18:28:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229755AbjATXXr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 18:23:47 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8B9673EE2;
-        Fri, 20 Jan 2023 15:23:45 -0800 (PST)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30KMddvj029658;
-        Fri, 20 Jan 2023 22:48:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=fb0yRpVmhMXXS6AyR3FeSmfPN/D1GiSlLNNO1AqAe2I=;
- b=A3vzg1Up4h19vdn/REubMpgX9Z+o27tXJJOLLJpIYjP67QXoYx+ii3nlmT90cJ7YVnn/
- BOHav4N5vQIbO+c1rpkM/OFSHA0a9lRtLjBFGNsZv6ctphci0QYoSq/8lKCZSAu+UT4S
- lVXn63q3ALX6Fl2Z0+FYQ9aplOL3IfOuBkJ7o/c41x163cV/XmR0Jzg3FpSQ2tCi2ldG
- DMn4Yw0/I29Ts9eQXeXn68uwJQYcAYyRHHAYHZNxDGQ3AFSt2dECnDS346LUKns7o6ZQ
- icamG3fnb8ix9Oloea/qa70R+oSoahkoppN7Aler9mOVxwwI6EyZZkSzWU5TQNuu5nOw oA== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n7xm40k9n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 20 Jan 2023 22:48:11 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30KMmA7K029482
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 20 Jan 2023 22:48:11 GMT
-Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Fri, 20 Jan 2023 14:48:10 -0800
-From:   Elliot Berman <quic_eberman@quicinc.com>
-To:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        with ESMTP id S229487AbjATX2z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 18:28:55 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AD2F53FB1;
+        Fri, 20 Jan 2023 15:28:54 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C6030620E5;
+        Fri, 20 Jan 2023 23:28:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2A1FC433EF;
+        Fri, 20 Jan 2023 23:28:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674257333;
+        bh=r2edRcFMISYKtEmPEu1cLKZR7c8iF9zsqqnoWv9hU3I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=i8fMoEgfPYzBd+WPDibH/BLuqUwipoWJwcOyYpJ/Y0H3Rdml9thP589lRa96A/WAP
+         uJE5kWD2JscX/Sdjpw0CyzXtfG/LxhSegqHv1fuSmC0iMrjiQf/55jY7QZ7uEHsAoF
+         E8dMpHJh4CZNfldG+E9O6D3tHhc/7iue722H30CAwBzz6fKqrWs1mObgaZM6G6vx0B
+         6CxilOppA+Ky31fjHsYwZe3m5vUlfrsP8m1+9pPun5WaqAcNvIxLws8pDATrUwg9mj
+         ui7nzJ6cNZIPoyAp1NyeZPWJcbL3gGUtyqacFP7P3DAAb/PThvmhPJwGbNBhCwd+HW
+         B5OlWz8gR2uWg==
+Date:   Fri, 20 Jan 2023 23:28:50 +0000
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v9 26/27] virt: gunyah: Add irqfd interface
-Date:   Fri, 20 Jan 2023 14:46:25 -0800
-Message-ID: <20230120224627.4053418-27-quic_eberman@quicinc.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230120224627.4053418-1-quic_eberman@quicinc.com>
-References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Y8sjsvIJONydWpyQ@kernel.org>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
+ <Y7azFdnnGAdGPqmv@kernel.org>
+ <20230106094000.GA2297836@chaop.bj.intel.com>
+ <Y7xrtf9FCuYRYm1q@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: M1eYgToxgYnRDIieRSUBBmswDMFw9s8A
-X-Proofpoint-GUID: M1eYgToxgYnRDIieRSUBBmswDMFw9s8A
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-20_11,2023-01-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 spamscore=0 bulkscore=0 clxscore=1015 priorityscore=1501
- mlxlogscore=999 impostorscore=0 mlxscore=0 suspectscore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301200218
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y7xrtf9FCuYRYm1q@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Enable support for creating irqfds which can raise an interrupt on a
-Gunyah virtual machine. irqfds are exposed to userspace as a Gunyah VM
-function with the name "irqfd". If the VM devicetree is not configured
-to create a doorbell with the corresponding label, userspace will still
-be able to assert the eventfd but no interrupt will be raised on the
-guest.
+On Mon, Jan 09, 2023 at 07:32:05PM +0000, Sean Christopherson wrote:
+> On Fri, Jan 06, 2023, Chao Peng wrote:
+> > On Thu, Jan 05, 2023 at 11:23:01AM +0000, Jarkko Sakkinen wrote:
+> > > On Fri, Dec 02, 2022 at 02:13:41PM +0800, Chao Peng wrote:
+> > > > To make future maintenance easy, internally use a binary compatible
+> > > > alias struct kvm_user_mem_region to handle both the normal and the
+> > > > '_ext' variants.
+> > > 
+> > > Feels bit hacky IMHO, and more like a completely new feature than
+> > > an extension.
+> > > 
+> > > Why not just add a new ioctl? The commit message does not address
+> > > the most essential design here.
+> > 
+> > Yes, people can always choose to add a new ioctl for this kind of change
+> > and the balance point here is we want to also avoid 'too many ioctls' if
+> > the functionalities are similar.  The '_ext' variant reuses all the
+> > existing fields in the 'normal' variant and most importantly KVM
+> > internally can reuse most of the code. I certainly can add some words in
+> > the commit message to explain this design choice.
+> 
+> After seeing the userspace side of this, I agree with Jarkko; overloading
+> KVM_SET_USER_MEMORY_REGION is a hack.  E.g. the size validation ends up being
+> bogus, and userspace ends up abusing unions or implementing kvm_user_mem_region
+> itself.
+> 
+> It feels absolutely ridiculous, but I think the best option is to do:
+> 
+> #define KVM_SET_USER_MEMORY_REGION2 _IOW(KVMIO, 0x49, \
+> 					 struct kvm_userspace_memory_region2)
+> 
+> /* for KVM_SET_USER_MEMORY_REGION2 */
+> struct kvm_user_mem_region2 {
+> 	__u32 slot;
+> 	__u32 flags;
+> 	__u64 guest_phys_addr;
+> 	__u64 memory_size;
+> 	__u64 userspace_addr;
+> 	__u64 restricted_offset;
+> 	__u32 restricted_fd;
+> 	__u32 pad1;
+> 	__u64 pad2[14];
+> }
+> 
+> And it's consistent with other KVM ioctls(), e.g. KVM_SET_CPUID2.
+> 
+> Regarding the userspace side of things, please include Vishal's selftests in v11,
+> it's impossible to properly review the uAPI changes without seeing the userspace
+> side of things.  I'm in the process of reviewing Vishal's v2[*], I'll try to
+> massage it into a set of patches that you can incorporate into your series.
+> 
+> [*] https://lore.kernel.org/all/20221205232341.4131240-1-vannapurve@google.com
 
-Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
----
- Documentation/virt/gunyah/vm-manager.rst |  22 +++
- drivers/virt/gunyah/Kconfig              |   9 ++
- drivers/virt/gunyah/Makefile             |   1 +
- drivers/virt/gunyah/gunyah_irqfd.c       | 166 +++++++++++++++++++++++
- include/linux/gunyah.h                   |   5 +
- include/uapi/linux/gunyah.h              |  11 +-
- 6 files changed, 213 insertions(+), 1 deletion(-)
- create mode 100644 drivers/virt/gunyah/gunyah_irqfd.c
++1
 
-diff --git a/Documentation/virt/gunyah/vm-manager.rst b/Documentation/virt/gunyah/vm-manager.rst
-index d11267d59802..b6cf8db826b8 100644
---- a/Documentation/virt/gunyah/vm-manager.rst
-+++ b/Documentation/virt/gunyah/vm-manager.rst
-@@ -142,3 +142,25 @@ The vcpu type will register with the VM Manager to expect to control
- vCPU number `vcpu_id`. It returns a file descriptor allowing interaction with
- the vCPU. See the Gunyah vCPU API description sections for interacting with
- the Gunyah vCPU file descriptors.
-+
-+Type: "irqfd"
-+^^^^^^^^^^^^^
-+
-+::
-+
-+  struct gh_fn_irqfd_arg {
-+	__u32 fd;
-+	__u32 label;
-+  #define GH_IRQFD_LEVEL			(1UL << 0)
-+  #define GH_IRQFD_DEASSIGN		(1UL << 1)
-+	__u32 flags;
-+  };
-+
-+Allows setting an eventfd to directly trigger a guest interrupt.
-+irqfd.fd specifies the file descriptor to use as the eventfd.
-+irqfd.label corresponds to the doorbell label used in the guest VM's devicetree.
-+The irqfd is removed using the GH_IRQFD_DEASSIGN flag and specifying at least
-+the irqfd.label.
-+
-+GH_IRQFD_LEVEL configures the corresponding doorbell to behave like a level
-+triggered interrupt.
-diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
-index 4c1c6110b50e..2cde24d429d1 100644
---- a/drivers/virt/gunyah/Kconfig
-+++ b/drivers/virt/gunyah/Kconfig
-@@ -26,3 +26,12 @@ config GUNYAH_VCPU
- 	  VMMs can also handle stage 2 faults of the vCPUs.
- 
- 	  Say Y/M here if unsure and you want to support Gunyah VMMs.
-+
-+config GUNYAH_IRQFD
-+	tristate "Gunyah irqfd interface"
-+	depends on GUNYAH
-+	help
-+	  Enable kernel support for creating irqfds which can raise an interrupt
-+	  on Gunyah virtual machine.
-+
-+	  Say Y/M here if unsure and you want to support Gunyah VMMs.
-diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-index 2d1b604a7b03..6cf756bfa3c2 100644
---- a/drivers/virt/gunyah/Makefile
-+++ b/drivers/virt/gunyah/Makefile
-@@ -7,3 +7,4 @@ gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o vm_mgr_mm.o
- obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
- 
- obj-$(CONFIG_GUNYAH_VCPU) += gunyah_vcpu.o
-+obj-$(CONFIG_GUNYAH_IRQFD) += gunyah_irqfd.o
-diff --git a/drivers/virt/gunyah/gunyah_irqfd.c b/drivers/virt/gunyah/gunyah_irqfd.c
-new file mode 100644
-index 000000000000..a3be9ca2377a
---- /dev/null
-+++ b/drivers/virt/gunyah/gunyah_irqfd.c
-@@ -0,0 +1,166 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#include <linux/eventfd.h>
-+#include <linux/file.h>
-+#include <linux/fs.h>
-+#include <linux/gunyah.h>
-+#include <linux/gunyah_vm_mgr.h>
-+#include <linux/kref.h>
-+#include <linux/module.h>
-+#include <linux/poll.h>
-+#include <linux/printk.h>
-+
-+#include <uapi/linux/gunyah.h>
-+
-+struct gunyah_irqfd {
-+	struct gunyah_resource *ghrsc;
-+	struct gunyah_vm_resource_ticket ticket;
-+	struct gunyah_vm_function *f;
-+
-+	struct kref kref;
-+	bool level;
-+
-+	struct eventfd_ctx *ctx;
-+	wait_queue_entry_t wait;
-+	poll_table pt;
-+	struct fd fd;
-+};
-+
-+static void gh_irqfd_cleanup(struct kref *kref)
-+{
-+	struct gunyah_irqfd *irqfd = container_of(kref, struct gunyah_irqfd, kref);
-+
-+	kfree(irqfd);
-+}
-+
-+static int irqfd_wakeup(wait_queue_entry_t *wait, unsigned int mode, int sync, void *key)
-+{
-+	struct gunyah_irqfd *irqfd = container_of(wait, struct gunyah_irqfd, wait);
-+	__poll_t flags = key_to_poll(key);
-+	u64 enable_mask = GH_DBL_NONBLOCK;
-+	u64 old_flags;
-+	int ret = 0;
-+
-+	if (flags & EPOLLIN) {
-+		if (irqfd->ghrsc) {
-+			ret = gh_hypercall_dbl_send(irqfd->ghrsc->capid, enable_mask, &old_flags);
-+			if (ret)
-+				pr_err("Failed to assert irq %d\n", irqfd->f->fn.irqfd.label);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void irqfd_ptable_queue_proc(struct file *file, wait_queue_head_t *wqh, poll_table *pt)
-+{
-+	struct gunyah_irqfd *irq_ctx = container_of(pt, struct gunyah_irqfd, pt);
-+
-+	add_wait_queue(wqh, &irq_ctx->wait);
-+}
-+
-+static int gunyah_irqfd_populate(struct gunyah_vm_resource_ticket *ticket,
-+				struct gunyah_resource *ghrsc)
-+{
-+	struct gunyah_irqfd *irqfd = container_of(ticket, struct gunyah_irqfd, ticket);
-+	u64 enable_mask = GH_DBL_NONBLOCK;
-+	u64 ack_mask = ~0;
-+	int ret = 0;
-+
-+	irqfd->ghrsc = ghrsc;
-+	if (irqfd->level) {
-+		ret = gh_hypercall_dbl_set_mask(irqfd->ghrsc->capid, enable_mask, ack_mask);
-+		if (ret)
-+			pr_warn("irq %d couldn't be set as level triggered. Might cause IRQ storm if asserted\n",
-+				irqfd->f->fn.irqfd.label);
-+	}
-+	kref_get(&irqfd->kref);
-+
-+	return 0;
-+}
-+
-+static void gunyah_irqfd_unpopulate(struct gunyah_vm_resource_ticket *ticket,
-+					struct gunyah_resource *ghrsc)
-+{
-+	struct gunyah_irqfd *irqfd = container_of(ticket, struct gunyah_irqfd, ticket);
-+	u64 cnt;
-+
-+	eventfd_ctx_remove_wait_queue(irqfd->ctx, &irqfd->wait, &cnt);
-+	eventfd_ctx_put(irqfd->ctx);
-+	fdput(irqfd->fd);
-+	irqfd->ctx = NULL;
-+	irqfd->fd.file = NULL;
-+	irqfd->ghrsc = NULL;
-+	kref_put(&irqfd->kref, gh_irqfd_cleanup);
-+}
-+
-+static long gunyah_irqfd_bind(struct gunyah_vm_function *f)
-+{
-+	__poll_t events;
-+	struct gunyah_irqfd *irqfd;
-+	long r;
-+
-+	irqfd = kzalloc(sizeof(*irqfd), GFP_KERNEL);
-+	if (!irqfd)
-+		return -ENOMEM;
-+
-+	irqfd->f = f;
-+	f->data = irqfd;
-+
-+	irqfd->fd = fdget(f->fn.irqfd.fd);
-+	if (!irqfd->fd.file) {
-+		r = -EBADF;
-+		goto err_free;
-+	}
-+
-+	irqfd->ctx = eventfd_ctx_fileget(irqfd->fd.file);
-+	if (IS_ERR(irqfd->ctx)) {
-+		r = PTR_ERR(irqfd->ctx);
-+		goto err_fdput;
-+	}
-+
-+	if (f->fn.irqfd.flags & GH_IRQFD_LEVEL)
-+		irqfd->level = true;
-+
-+	init_waitqueue_func_entry(&irqfd->wait, irqfd_wakeup);
-+	init_poll_funcptr(&irqfd->pt, irqfd_ptable_queue_proc);
-+	kref_init(&irqfd->kref);
-+
-+	irqfd->ticket.resource_type = GUNYAH_RESOURCE_TYPE_BELL_TX;
-+	irqfd->ticket.label = f->fn.irqfd.label;
-+	irqfd->ticket.owner = THIS_MODULE;
-+	irqfd->ticket.populate = gunyah_irqfd_populate;
-+	irqfd->ticket.unpopulate = gunyah_irqfd_unpopulate;
-+
-+	r = ghvm_add_resource_ticket(f->ghvm, &irqfd->ticket);
-+	if (r)
-+		goto err_ctx;
-+
-+	events = vfs_poll(irqfd->fd.file, &irqfd->pt);
-+	if (events & EPOLLIN)
-+		pr_warn("Premature injection of interrupt\n");
-+
-+	return 0;
-+err_ctx:
-+	eventfd_ctx_put(irqfd->ctx);
-+err_fdput:
-+	fdput(irqfd->fd);
-+err_free:
-+	kfree(irqfd);
-+	return r;
-+}
-+
-+static void gunyah_irqfd_release(struct gunyah_vm_function *f)
-+{
-+	struct gunyah_irqfd *irqfd = f->data;
-+
-+	/* unpopulate will trigger clean up of the eventfd */
-+	ghvm_remove_resource_ticket(irqfd->f->ghvm, &irqfd->ticket);
-+}
-+
-+DECLARE_GUNYAH_VM_FUNCTION_INIT(irqfd, gunyah_irqfd_bind, gunyah_irqfd_release);
-+MODULE_DESCRIPTION("Gunyah irqfds");
-+MODULE_LICENSE("GPL");
-diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
-index ac4879940c10..6b363707a901 100644
---- a/include/linux/gunyah.h
-+++ b/include/linux/gunyah.h
-@@ -33,6 +33,11 @@ struct gunyah_resource {
- 	u32 rm_label;
- };
- 
-+/**
-+ * Gunyah Doorbells
-+ */
-+#define GH_DBL_NONBLOCK		BIT(32)
-+
- /**
-  * Gunyah Message Queues
-  */
-diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
-index b4afb11f538a..a947f0317ca9 100644
---- a/include/uapi/linux/gunyah.h
-+++ b/include/uapi/linux/gunyah.h
-@@ -57,10 +57,19 @@ struct gh_fn_vcpu_arg {
- 	__u32 vcpu_id;
- };
- 
-+struct gh_fn_irqfd_arg {
-+	__u32 fd;
-+	__u32 label;
-+#define GH_IRQFD_LEVEL			(1UL << 0)
-+#define GH_IRQFD_DEASSIGN		(1UL << 1)
-+	__u32 flags;
-+};
-+
- struct gh_vm_function {
- 	char name[GUNYAH_FUNCTION_NAME_SIZE];
- 	union {
--		struct gh_device_vcpu_arg vcpu;
-+		struct gh_fn_vcpu_arg vcpu;
-+		struct gh_fn_irqfd_arg irqfd;
- 		char data[GUNYAH_FUNCTION_MAX_ARG_SIZE];
- 	};
- };
--- 
-2.39.0
-
+BR, Jarkko
