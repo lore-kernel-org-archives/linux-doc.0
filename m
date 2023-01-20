@@ -2,117 +2,257 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E733FC25B4E
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 14:20:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 170BCC25B4E
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 14:22:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230427AbjATOUW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 09:20:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47074 "EHLO
+        id S231148AbjATOWo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 09:22:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231152AbjATOTa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 09:19:30 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2340E1EFEF;
-        Fri, 20 Jan 2023 06:18:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1674224344; x=1705760344;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8wOj9+QwCLtyXBCLcRQBXGg6eCl/vXY57DMzFXi9tbY=;
-  b=eT6MtJZ78i7mb0PYUvlIZLeldnd+xq0R8qCjgQ6TfEj6U0E/2Fu2ufn8
-   8MhvHJhLyuHE7kCwTgl6nP0W6hkXPuFzLg/Yyif6scTjLsvLJU2+BzQQK
-   Xco+9pCZUve+6YLMEFQK6XkE7x/NB+pETk81gjgbM/EwE36NPlRfrVNS/
-   tPXn8OqR0qApERsJvOSDbp/zaydbBviFqZMZfhh4b6seez9GzD65SZU1N
-   Pxfk1s0s2+GH6CWg9epLvccgQ9reXWIzlHGvl0NJxaYA9c8IYmbXVPDET
-   qygcCTZwgpnNuk/EcgQI2veU2OcKv0hunmDkarG6GDZKiuHDHx+074oEx
-   g==;
-X-IronPort-AV: E=Sophos;i="5.97,232,1669100400"; 
-   d="asc'?scan'208";a="196710524"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 20 Jan 2023 07:17:16 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Fri, 20 Jan 2023 07:17:13 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex02.mchp-main.com
- (10.10.85.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16 via Frontend
- Transport; Fri, 20 Jan 2023 07:17:11 -0700
-Date:   Fri, 20 Jan 2023 14:16:48 +0000
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Andrew Jones <ajones@ventanamicro.com>
-CC:     <linux-riscv@lists.infradead.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
-        <conor@kernel.org>, <corbet@lwn.net>, <guoren@kernel.org>,
-        <heiko@sntech.de>, <paul.walmsley@sifive.com>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>
-Subject: Re: [PATCH v2 2/3] RISC-V: resort all extensions in consistent orders
-Message-ID: <Y8qiUCH6ERYmAdgg@wendy>
-References: <20221205144525.2148448-1-conor.dooley@microchip.com>
- <20221205144525.2148448-3-conor.dooley@microchip.com>
- <20230120135632.vb7ncvoapnaixluu@orel>
+        with ESMTP id S231157AbjATOWm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 09:22:42 -0500
+Received: from fx601.security-mail.net (smtpout140.security-mail.net [85.31.212.146])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7650DCE20B
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 06:22:00 -0800 (PST)
+Received: from localhost (fx601.security-mail.net [127.0.0.1])
+        by fx601.security-mail.net (Postfix) with ESMTP id DE96F3498B3
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 15:20:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+        s=sec-sig-email; t=1674224446;
+        bh=ZFm4jn2qVc3XxQ8bbXqM98MO1bH7PPorSUVJmGe9zIQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=jOTZs+B8xY16ibWK8uWaXTQWaEoVFArvi+TttrULCHfMfLXSGsJX73LfdN1eSQyC6
+         aHDF666bK8fD5CfveJMLztyd4GMkv7IXWU5aivxL3rFUwDoyol1jyorVV0VA/P/sza
+         CHC0wCBUbSIQTmmVNcx4wA7FWwbBZKJvLL8xeKxg=
+Received: from fx601 (fx601.security-mail.net [127.0.0.1]) by
+ fx601.security-mail.net (Postfix) with ESMTP id 3138A3497F3; Fri, 20 Jan
+ 2023 15:20:45 +0100 (CET)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx601.security-mail.net (Postfix) with ESMTPS id 33F923496B9; Fri, 20 Jan
+ 2023 15:20:44 +0100 (CET)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 74EE327E045E; Fri, 20 Jan 2023
+ 15:10:38 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id 5882427E0463; Fri, 20 Jan 2023 15:10:38 +0100 (CET)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ D11lu3OG-umz; Fri, 20 Jan 2023 15:10:38 +0100 (CET)
+Received: from junon.lin.mbt.kalray.eu (unknown [192.168.37.161]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id DE5A427E0458; Fri, 20 Jan 2023
+ 15:10:37 +0100 (CET)
+X-Virus-Scanned: E-securemail
+Secumail-id: <62f4.63caa33c.3169e.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 5882427E0463
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1674223838;
+ bh=r0jAYvZMgDHNmtYPIBemAGb6cgybEgHcmW3NkzN/0Bc=;
+ h=From:To:Date:Message-Id:MIME-Version;
+ b=JKNRyzm7+8sxXJUhLzONaUXzidzmY7QHybfABV02MMeEolEK1l0P/zyCPivr0qi3X
+ cMk6eiWHc8wcM/3mwaZc92PFr6HmcHLhtp6SGUL9n/464kv1zJak07VGMurb1BFNSB
+ JEfwZjhbgtlfk55C9aauCac0b4/oyWiVvpTX7xMY=
+From:   Yann Sionneau <ysionneau@kalray.eu>
+To:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Waiman Long <longman@redhat.com>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Piggin <npiggin@gmail.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Eric Paris <eparis@redhat.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jules Maselbas <jmaselbas@kalray.eu>,
+        Yann Sionneau <ysionneau@kalray.eu>,
+        Guillaume Thouvenin <gthouvenin@kalray.eu>,
+        Clement Leger <clement@clement-leger.fr>,
+        Vincent Chardon <vincent.chardon@elsys-design.com>,
+        Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>,
+        Julian Vetter <jvetter@kalray.eu>,
+        Samuel Jones <sjones@kalray.eu>,
+        Ashley Lesdalons <alesdalons@kalray.eu>,
+        Thomas Costis <tcostis@kalray.eu>,
+        Marius Gligor <mgligor@kalray.eu>,
+        Jonathan Borne <jborne@kalray.eu>,
+        Julien Villette <jvillette@kalray.eu>,
+        Luc Michel <lmichel@kalray.eu>,
+        Louis Morhet <lmorhet@kalray.eu>,
+        Julien Hascoet <jhascoet@kalray.eu>,
+        Jean-Christophe Pince <jcpince@gmail.com>,
+        Guillaume Missonnier <gmissonnier@kalray.eu>,
+        Alex Michon <amichon@kalray.eu>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <git@xen0n.name>,
+        Shaokun Zhang <zhangshaokun@hisilicon.com>,
+        John Garry <john.garry@huawei.com>,
+        Guangbin Huang <huangguangbin2@huawei.com>,
+        Bharat Bhushan <bbhushan2@marvell.com>,
+        Bibo Mao <maobibo@loongson.cn>,
+        Atish Patra <atishp@atishpatra.org>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Qi Liu <liuqi115@huawei.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Mark Brown <broonie@kernel.org>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>
+Cc:     Benjamin Mugnier <mugnier.benjamin@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-audit@redhat.com,
+        linux-riscv@lists.infradead.org, bpf@vger.kernel.org
+Subject: [RFC PATCH v2 29/31] kvx: Add support for cpuinfo
+Date:   Fri, 20 Jan 2023 15:10:00 +0100
+Message-ID: <20230120141002.2442-30-ysionneau@kalray.eu>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230120141002.2442-1-ysionneau@kalray.eu>
+References: <20230120141002.2442-1-ysionneau@kalray.eu>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="8B9vR+0VfvRQQXio"
-Content-Disposition: inline
-In-Reply-To: <20230120135632.vb7ncvoapnaixluu@orel>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+X-ALTERMIMEV2_out: done
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---8B9vR+0VfvRQQXio
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add support for cpuinfo on kvx arch.
 
-On Fri, Jan 20, 2023 at 02:56:32PM +0100, Andrew Jones wrote:
-> Hi Conor,
->=20
-> I'm digging this back up because I'm basing Zicboz on it.
->=20
-> If we take "riscv: improve boot time isa extensions handling", then this
-> becomes a bunch of manually enumerated defines
->=20
->  #define RISCV_ISA_EXT_SSCOFPMF         26
->  #define RISCV_ISA_EXT_SVPBMT           27
->  #define RISCV_ISA_EXT_ZICBOM           28
->  #define RISCV_ISA_EXT_ZIHINTPAUSE      29
->  #define RISCV_ISA_EXT_SSTC             30
->  #define RISCV_ISA_EXT_SVINVAL          31
->=20
-> Keeping those in alphabetical order would either require manually
-> reenumerating them or to allow the numbers to be out of order as
-> we add more extensions. I think I'd prefer we just add new
-> extensions at the bottom and keep the numbers in order.
+Co-developed-by: Clement Leger <clement@clement-leger.fr>
+Signed-off-by: Clement Leger <clement@clement-leger.fr>
+Co-developed-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
+Signed-off-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
+Co-developed-by: Julian Vetter <jvetter@kalray.eu>
+Signed-off-by: Julian Vetter <jvetter@kalray.eu>
+Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
+Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
+---
 
-Yes. I mentioned that on one of the earlier versions of Jisheng's
-patchset - initially I blindly said "alphabetical please".
-I quickly realised that that was a really stupid idea as it is would
-just be an _invitiation_ for bugs if we did, since names are far more
-easily searchable than figuring out the max in the manual enumeration.
+Notes:
+    V1 -> V2: no changes
 
-Since Jisheng's patchset just deleted what I had resorted, I left this
-change as-was. Just need to make sure any comment about ordering also
-gets removed when the enum goes away.
-I'll keep an eye on for-next to make sure that it does.
+ arch/kvx/kernel/cpuinfo.c | 96 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 96 insertions(+)
+ create mode 100644 arch/kvx/kernel/cpuinfo.c
 
-TL;DR I agree!
+diff --git a/arch/kvx/kernel/cpuinfo.c b/arch/kvx/kernel/cpuinfo.c
+new file mode 100644
+index 000000000000..f44c46c1e4ba
+--- /dev/null
++++ b/arch/kvx/kernel/cpuinfo.c
+@@ -0,0 +1,96 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ *            Guillaume Thouvenin
++ */
++
++#include <linux/seq_file.h>
++#include <linux/delay.h>
++#include <linux/clk.h>
++#include <linux/cpu.h>
++#include <linux/of.h>
++
++unsigned long elf_hwcap __read_mostly;
++
++static int show_cpuinfo(struct seq_file *m, void *v)
++{
++	int cpu_num = *(unsigned int *)v;
++	struct cpuinfo_kvx *n = per_cpu_ptr(&cpu_info, cpu_num);
++
++	seq_printf(m, "processor\t: %d\nvendor_id\t: Kalray\n", cpu_num);
++
++	seq_printf(m,
++		   "copro enabled\t: %s\n"
++		   "arch revision\t: %d\n"
++		   "uarch revision\t: %d\n",
++		   n->copro_enable ? "yes" : "no",
++		   n->arch_rev,
++		   n->uarch_rev);
++
++	seq_printf(m,
++		   "bogomips\t: %lu.%02lu\n"
++		   "cpu MHz\t\t: %llu.%03llu\n\n",
++		   (loops_per_jiffy * HZ) / 500000,
++		   ((loops_per_jiffy * HZ) / 5000) % 100,
++		   n->freq / 1000000, (n->freq / 10000) % 100);
++
++	return 0;
++}
++
++static void *c_start(struct seq_file *m, loff_t *pos)
++{
++	if (*pos == 0)
++		*pos = cpumask_first(cpu_online_mask);
++	if (*pos >= num_online_cpus())
++		return NULL;
++
++	return pos;
++}
++
++static void *c_next(struct seq_file *m, void *v, loff_t *pos)
++{
++	*pos = cpumask_next(*pos, cpu_online_mask);
++
++	return c_start(m, pos);
++}
++
++static void c_stop(struct seq_file *m, void *v)
++{
++}
++
++const struct seq_operations cpuinfo_op = {
++	.start = c_start,
++	.next = c_next,
++	.stop = c_stop,
++	.show = show_cpuinfo,
++};
++
++static int __init setup_cpuinfo(void)
++{
++	int cpu;
++	struct clk *clk;
++	unsigned long cpu_freq = 1000000000;
++	struct device_node *node = of_get_cpu_node(0, NULL);
++
++	clk = of_clk_get(node, 0);
++	if (IS_ERR(clk)) {
++		printk(KERN_WARNING
++		       "Device tree missing CPU 'clock' parameter. Assuming frequency is 1GHZ");
++		goto setup_cpu_freq;
++	}
++
++	cpu_freq = clk_get_rate(clk);
++
++	clk_put(clk);
++
++setup_cpu_freq:
++	of_node_put(node);
++
++	for_each_possible_cpu(cpu)
++		per_cpu_ptr(&cpu_info, cpu)->freq = cpu_freq;
++
++	return 0;
++}
++
++late_initcall(setup_cpuinfo);
+-- 
+2.37.2
 
-Thanks,
-Conor.
 
 
---8B9vR+0VfvRQQXio
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY8qiUAAKCRB4tDGHoIJi
-0oSKAP9zqiy1G7Sw0cg7bsoy8fmPLJPzS1bNJZ4BX4E8lRk5wAD9Enm99HDzo50d
-wtYphmEGxPoxpyWwxNwDASSWnlStzQk=
-=C1Iw
------END PGP SIGNATURE-----
-
---8B9vR+0VfvRQQXio--
