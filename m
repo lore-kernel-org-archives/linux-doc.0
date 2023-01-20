@@ -2,118 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE0ADC004D4
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 00:28:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6FC3C004D4
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 00:38:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229584AbjATA2r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 19:28:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40836 "EHLO
+        id S229517AbjATAiJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 19:38:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbjATA2p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 19:28:45 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48B3BA1018
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 16:28:44 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id n20-20020a17090aab9400b00229ca6a4636so6679269pjq.0
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 16:28:44 -0800 (PST)
+        with ESMTP id S229379AbjATAiH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 19:38:07 -0500
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7D654A1C5
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 16:38:05 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id x4so2852225pfj.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 16:38:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IZAy1Y8poHiv3/DrHCdfFCmw0t4/q9CU42X5LVblr5A=;
-        b=bo7wkN/IPdQVxvTGSFxjsBBqC/EpA4zIw+0kKaMdUq1Ceeo+mcn0OwrlusF6IDbtPY
-         COeHO7uC0iC/l7TK0uwB3XM0HL9dApX34LiilqOFMRqWQTUkOEeg08x5yyYb8yiLK89O
-         SFCMFJJsIpf9NwlZlW+MGLC7boEsAGDj56+EA=
+        bh=opKKL6+fhG9H3ZnE4M3C01lHGZFgbl9xi06Tl9DFlxo=;
+        b=lIedS74S3tmDvAWKf/pKIZQXH++46nIxIJzGdjRAjE9stYh7oH/dycv4f7V1NWEzz+
+         vrpqcWM/ON5ywALOuqyE/K5lI6vcyOGLyyKtmi+HYl9pmLHQgMyOEmPmfOysBJfi7FtE
+         sXfBhrRutvpoE0oPKPAf4SqWZz4MHXi555J34=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IZAy1Y8poHiv3/DrHCdfFCmw0t4/q9CU42X5LVblr5A=;
-        b=JJe3oneZY2CeUDznOxCeej5eb97LZW8zlp3rvov1o73VfMeG+mjVTF+JG9+K1EBL2j
-         SeN2Ro+BSrH2HS88mv12flt28OIkxUtjmOptHogT3IXo/ERgdfeFetPWPocsVNQwOUGM
-         qidwdZS97T+xjI6Oj4t694rnk59Tp72qFQjMf5wj9D7odH1Y7iVdMFvt8zqL9sQXW9dy
-         RagA00fA+CxcYaAB9yv817qMV4NGjHSdtM278ZGSZvMRXBrojQHeRgqNiNIOWizJvarq
-         z1U7mdZdJHoGCFP+F+gf44Zh2NFbSRunEz7uxTFTBl3cnOAsAreRY8vUAhBX0J20U9Vq
-         0Z+g==
-X-Gm-Message-State: AFqh2kqZcH3bd7pkYpYL1wpUApIYLnXzXw2RDWk0tzpOJHGvnVX/x3P4
-        NTCcwRp9aQq6wwh8iyI/E63VLA==
-X-Google-Smtp-Source: AMrXdXtdx4/yGbslglkhzJkvG1BfbwF5m1Z+ARJ2282gHalN/ZaLh5DyiNEQo2fUbuB+AyrY4JALCw==
-X-Received: by 2002:a17:903:11c7:b0:194:58c7:ab79 with SMTP id q7-20020a17090311c700b0019458c7ab79mr16848873plh.63.1674174523771;
-        Thu, 19 Jan 2023 16:28:43 -0800 (PST)
+        bh=opKKL6+fhG9H3ZnE4M3C01lHGZFgbl9xi06Tl9DFlxo=;
+        b=pZnI0uwPxgy32BaYwYjZrnmlSKpnxJ/3RS7/kbTsJU70TKt/QuZSQiMFFl42lmlwCQ
+         AU4imwy+6jbd8uM4IWl3r7njKA9hQTmCoDf7vPImZ1+cZAqRNBjQZkLKcfHxF8cnLWCL
+         kBjWydyOdly4auoOZzgFaaX8QclnnhajrxjAvkV+v7bbPbPKEB058fstmx5c5aeSjnOb
+         crqBR7rt12koavXxIxsbgwyXBdZ18QLnPcXJoJvOotQMlPE6+tpgLkCnvc0RbDYxlT9v
+         iHHheahV6HAO5CS/WnQw6Dfl5EDaEyJsXUmBylVI76qQp6XqB4o0/WQNQBlSwC90lynM
+         7Fbg==
+X-Gm-Message-State: AFqh2kpQKCtBjHJVYr8H5UULlcMguMVrf53kKUscGIR2TxNVLpru+zJ0
+        qYNT1a4EEZiMHd340tAJlyOeGg==
+X-Google-Smtp-Source: AMrXdXvDaBmAz43jKve14VMT5yvVg1paSSfHL+s3Uhw4JeU7qrDP9f2UUmfnfH3+wY9g4cAEosDVgw==
+X-Received: by 2002:a62:aa0c:0:b0:58d:af0c:92f with SMTP id e12-20020a62aa0c000000b0058daf0c092fmr12442131pff.27.1674175085334;
+        Thu, 19 Jan 2023 16:38:05 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id k15-20020a170902d58f00b001947c22185bsm11085080plh.184.2023.01.19.16.28.42
+        by smtp.gmail.com with ESMTPSA id z19-20020aa79593000000b00582388bd80csm24696882pfj.83.2023.01.19.16.38.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 16:28:42 -0800 (PST)
-Date:   Thu, 19 Jan 2023 16:28:42 -0800
+        Thu, 19 Jan 2023 16:38:04 -0800 (PST)
+Date:   Thu, 19 Jan 2023 16:38:03 -0800
 From:   Kees Cook <keescook@chromium.org>
-To:     Seth Jenkins <sethjenkins@google.com>
-Cc:     SeongJae Park <sj@kernel.org>, Jann Horn <jannh@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linus Torvalds <torvalds@linuxfoundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        tangmeng <tangmeng@uniontech.com>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        David Gow <davidgow@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Eric Biggers <ebiggers@google.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Laurent Dufour <ldufour@linux.ibm.com>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3 2/6] exit: Put an upper limit on how often we can oops
-Message-ID: <202301191627.FC1E24ED5@keescook>
-References: <20221117234328.594699-2-keescook@chromium.org>
- <20230119201023.4003-1-sj@kernel.org>
- <CALxfFW76Ey=QNu--Vp59u2wukr6dzvOE25PkOHVw0b13YoCSiA@mail.gmail.com>
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v5 01/39] Documentation/x86: Add CET shadow stack
+ description
+Message-ID: <202301191638.E3E75FEC1D@keescook>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+ <20230119212317.8324-2-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CALxfFW76Ey=QNu--Vp59u2wukr6dzvOE25PkOHVw0b13YoCSiA@mail.gmail.com>
+In-Reply-To: <20230119212317.8324-2-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 03:19:21PM -0500, Seth Jenkins wrote:
-> > Do you have a plan to backport this into upstream LTS kernels?
+On Thu, Jan 19, 2023 at 01:22:39PM -0800, Rick Edgecombe wrote:
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > 
-> As I understand, the answer is "hopefully yes" with the big
-> presumption that all stakeholders are on board for the change. There
-> is *definitely* a plan to *submit* backports to the stable trees, but
-> ofc it will require some approvals.
+> Introduce a new document on Control-flow Enforcement Technology (CET).
+> 
+> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
+> Tested-by: John Allen <john.allen@amd.com>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
-I've asked for at least v6.1.x (it's a clean cherry-pick). Earlier
-kernels will need some non-trivial backporting. Is there anyone that
-would be interested in stepping up to do that?
-
-https://lore.kernel.org/lkml/202301191532.AEEC765@keescook
-
--Kees
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -- 
 Kees Cook
