@@ -2,88 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C1B3C25B50
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 08:06:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD7B5C25B4E
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 08:21:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230289AbjATIGr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 03:06:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36554 "EHLO
+        id S229973AbjATIVB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 03:21:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230290AbjATIGq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 03:06:46 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 226A28766C;
-        Fri, 20 Jan 2023 00:06:42 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 753C561C1D;
-        Fri, 20 Jan 2023 08:06:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04627C4339C;
-        Fri, 20 Jan 2023 08:06:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674202000;
-        bh=UiIWl1B5LiUi4QWU9j9MLDN5A3wG8pwgCFhO+/VTz5k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eV82duGb2iVbYPyf0AeoQN8zV/TSECpo1KwtWHWHyFwc/G0u7ds3bXr4Gf1iaXQeW
-         Pwwm8fnvJGoBrj/QdnGlrIfCf0QHXJCoN8pdlM5u0+kC5R4gfMB1+gvH+Uf7e5VcxI
-         PpgA+S2NMZJoKa1IlJ7qHGY9iE/UO87bWRtgDysT3ajO7hI47onHI+5t5tL3a77ewS
-         utwllDInmkt7v2ObVNXNxYSnf2Rfo8FVFepensvD6wTfqd0CCQbKASP7YMWYcUNvDM
-         Anh4nz2sI09zSdiT2RBNZKM28fWrmL/ovniHJ40t+r4+UM9To1RXjxRy7uI8IVUUiK
-         veIQLzwAP4nmA==
-Date:   Fri, 20 Jan 2023 13:36:36 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Sean Anderson <sean.anderson@seco.com>
-Cc:     Kishon Vijay Abraham I <kishon@kernel.org>,
-        linux-phy@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Camelia Alexandra Groza <camelia.groza@nxp.com>,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        linuxppc-dev@lists.ozlabs.org, devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 00/10] phy: Add support for Lynx 10G SerDes
-Message-ID: <Y8pLjLWjv0nJa+ww@matsya>
-References: <20221230000139.2846763-1-sean.anderson@seco.com>
- <0024c780-ff9c-a9d3-8773-28e6b21bcc43@seco.com>
- <Y8gkMlqfPZic7reK@matsya>
- <17e428ae-7789-a1ab-3ccd-90b3b9a088f1@seco.com>
+        with ESMTP id S229529AbjATIVA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 03:21:00 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CFB14CE7C;
+        Fri, 20 Jan 2023 00:20:59 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id b10so4920061pjo.1;
+        Fri, 20 Jan 2023 00:20:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TWumMt67h30adlz6lQSPu1lCC0nb5fEUVVbRzQpjcvo=;
+        b=XBjIbyJ7l70xuIKKldJeINNaWQ8MoXJ2Y/IACHV3SKahghX1ofznCaFuqGW1pcNIrS
+         /mQX+uH0K7q9Z85U4Zg0+Nhfh9kvQVske4+pMpxH4+noV2FZqhlur1tMARaScb7+swgL
+         HP+ymXJohkaaOYNcvpqPxkFjADs7X2By3yuHk3nFAMRciZQP25ZKFHIi79Nzc8Q+sVN7
+         /Q2vJvKvy3qgGoi5RquanqEymtWxjCpnToEuU0rIlItKIRSRrLnwjoceRgGbiPKtyY8h
+         e7/hrk2T+i2IJfhBSHY1R++kGn+FX0Bhttu1kx/RuUDEPTse+DyMk6Fq8qa6EQC39VoW
+         Fz5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TWumMt67h30adlz6lQSPu1lCC0nb5fEUVVbRzQpjcvo=;
+        b=16IbEA985ZfSmQjjOgZPKBuqSU55VIRIQdfpSMB/ePNNZqvSp8dhEpjbFGFWo0QscB
+         Uy21xyFpBSkXOKGGc37KZ0ZPmEnfRIoJkLHIqisMCYb+AUAXXxnJ4pSZ401wbLh38Qw5
+         ViftVBWsbJBHVwH9QCbIW+UsNQysSjGTAL4BKv9oi0U/HEKBGL6L0ZKpA7rh65bwF4yu
+         tVuapYdYNR81ym/liLb7zNRZvabdVVlNPp4axRuJ87Op4KKH0vv+241XhNYWDPjT6/bx
+         OhEJ1cL1GALggJVUC3xecEwj/iG+N3nOkjY1maSbhfx3td29dKDqSzuRbs8qR/xB2KBZ
+         pSvA==
+X-Gm-Message-State: AFqh2kooVOl+r7auWUwhksPxWrZ9BoPLTjjFvHfyutZG8DwPrVAQaLQD
+        kwl7YEj7d3UkT6WI9cofd21+skbrHBQwgQ==
+X-Google-Smtp-Source: AMrXdXti1lKiCaXlNSRE2JW5nczFpDOhKStlFPEZ4CPRBcdvSua4WfixHLy18+8Z4IvbaX1P92mffA==
+X-Received: by 2002:a17:902:ba8b:b0:194:7227:84db with SMTP id k11-20020a170902ba8b00b00194722784dbmr14540982pls.37.1674202858751;
+        Fri, 20 Jan 2023 00:20:58 -0800 (PST)
+Received: from [192.168.43.80] (subs02-180-214-232-14.three.co.id. [180.214.232.14])
+        by smtp.gmail.com with ESMTPSA id d8-20020a170903230800b001948107490csm11422906plh.19.2023.01.20.00.20.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Jan 2023 00:20:58 -0800 (PST)
+Message-ID: <2c19bec4-c4e7-7ac4-d612-27e531b1a022@gmail.com>
+Date:   Fri, 20 Jan 2023 15:20:51 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <17e428ae-7789-a1ab-3ccd-90b3b9a088f1@seco.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] docs: cgroup-v1: wrap charge moving deprecation in
+ warning block
+Content-Language: en-US
+To:     Linux CGroups <cgroups@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Hocko <mhocko@suse.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        Shakeel Butt <shakeelb@google.com>
+References: <20230106034836.23708-1-bagasdotme@gmail.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230106034836.23708-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19-01-23, 11:22, Sean Anderson wrote:
-> On 1/18/23 11:54, Vinod Koul wrote:
-> > On 17-01-23, 11:46, Sean Anderson wrote:
-> >> 
-> >> I noticed that this series is marked "changes requested" on patchwork.
-> >> However, I have received only automated feedback. I have done my best
-> >> effort to address feedback I have received on prior revisions. I would
-> >> appreciate getting another round of review before resending this series.
-> > 
-> > Looking at the series, looks like kernel-bot sent some warnings on the
-> > series so I was expecting an updated series for review
-> > 
+On 1/6/23 10:48, Bagas Sanjaya wrote:
+> Commit 4ddb1a2aa1a3c4 ("docs: cgroup-v1: wrap remaining admonitions in
+> admonition blocks") in cgroups tree states that it also wraps charge
+> moving deprecation notice in admonition block (specifically warning).
+> However, the notice isn't in cgroups tree when the v2 of formatting
+> improv series [1] is submitted (and then applied), but rather in mm tree
+> instead.
 > 
-> Generally, multiple reviewers will comment on a patch, even if another
-> reviewer finds something which needs to be changed. This is a one-line
-> fix, so I would appreciate getting more substantial feedback before
-> respinning. Every time I send a new series I have to rebase and test on
-> hardware. It's work that I would rather do when there is something to be
-> gained.
+> Wrap the notice to fulfill the intention of referred commit.
+> 
 
-I review to apply, if I can apply, I would typically skip this
+Ping?
 
 -- 
-~Vinod
+An old man doll... just what I always wanted! - Clara
+
