@@ -2,124 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D8DEC004D4
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 01:40:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3A30C004D4
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 01:53:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229574AbjATBkW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 20:40:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50616 "EHLO
+        id S229738AbjATBxL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 20:53:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229485AbjATBkV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 20:40:21 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 538109EE23
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 17:40:19 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id d8so4221658pjc.3
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 17:40:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lg0CzDuQy4V1JV2pIlemk74MHa85PjPJTHngrqfHjrE=;
-        b=ImZO6fhqVqvCqs7rXFaCOuWNTnnC9RvQXYi9jvRLJEucdXDUti7JkfHu8O7Jl0o1GR
-         +2I8c9hfOjkyjtdGDJYnmeqRq+CZCntKqF/JgZKW3QCMWkTkodvRvyA6NehFi/fNR3JR
-         q5vS5fZwKy7YcH0ChMeMVdcGr2HFhMgWJGSw7hGGFEgmghvWJ4WYsqA5bnIfUDAJCoDP
-         FwTqdndfEXhPnjjsPP00SboMIZGbc8abyDGrB7OwQri1BMYBF6e1DCtOrs+y4cyJKnkf
-         g7z3MLrTGb9cTVHMZQkXmHC6qF610iMQCpr0zmjZ3iQ16ASnhWUzl5F9fg94FHRmVKaR
-         DpJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Lg0CzDuQy4V1JV2pIlemk74MHa85PjPJTHngrqfHjrE=;
-        b=3hoSScguPRIr9CMb+wXGN3RH6nlDda2ANcfyw/RKsdSYEmX+PyiMdGYHsaFth4QxSw
-         2ggZgZA+PVljmNVQ4JAC3x0AimtT6er8Pnft9j6rHO5P7XX/3ZIrB4EiD8sDok3EYoJ2
-         xs+WGUr4O9c6iIOMgcJ8XFFJfXxkU4lHwlqc6VJGnupPSlHsl+V3OyJURo+wt1OlRQ/J
-         s5MdyeAVrxoolK7GsY0ePn5OzFgFW3JMm+HafAGhdH+tfNyKqE6HA+XPf1ipV7Mc/klw
-         GJRiTMANJptNLGMDsQbpgJaRpXowWTvK5k6gedcpkJ7QmR5ICeczHsl9tlGNksYFz71T
-         2cog==
-X-Gm-Message-State: AFqh2kr8iCPrahtZ6sfYnpjLT5fdfoHOsCLK4hpgDVsEi2/3PKejFvwI
-        26vVaqFFlJkQ9Ky62D8cgFNfTQ==
-X-Google-Smtp-Source: AMrXdXvcVM2ifx1QliZxHIX+7OmGHQVLmRwBNhn73tk9W4ClFQY0b1V9fyA2FC+YR1J/ddz+yLlbqQ==
-X-Received: by 2002:a17:902:eb45:b0:189:6624:58c0 with SMTP id i5-20020a170902eb4500b00189662458c0mr10964pli.3.1674178818663;
-        Thu, 19 Jan 2023 17:40:18 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id 35-20020a631563000000b0044ed37dbca8sm21340893pgv.2.2023.01.19.17.40.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 17:40:18 -0800 (PST)
-Date:   Fri, 20 Jan 2023 01:40:13 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
-        Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Alexey Kardashevskiy <aik@amd.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 0/7] x86/cpu, kvm: Support AMD Automatic IBRS
-Message-ID: <Y8nw/XLTpKhKbbdX@google.com>
-References: <20230116230159.1511393-1-kim.phillips@amd.com>
- <Y8aMiH74WFmVM5Rk@zn.tnic>
+        with ESMTP id S229481AbjATBxK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 20:53:10 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C22174961;
+        Thu, 19 Jan 2023 17:53:05 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CB92361DD2;
+        Fri, 20 Jan 2023 01:53:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94AFCC433D2;
+        Fri, 20 Jan 2023 01:53:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674179584;
+        bh=lehARF5Jyz6pCpRqHY5HtN/8xxJ/fvtM+SkhBiquzMM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=mB+m4ib7w11UOsmsVZi/YDeUWoLb3WLKtV6hWIAoxxC+/XeNKrny5pT6tdFleINO9
+         W/epE4w3W0Jo+fH9vBg/rZyjlJ8OAszIxVI+aZCeIA5WecHVtTVuoTAldgmQ/zOByY
+         bvcmC0+06dqI/nucy6HuRE0zPIgzWtZdRgF0h3G+Vwt600yoYq3Trbqz5P2p3SLQwp
+         vCVZAT+OnYZ9+ZXtdfv1y9XfumTpL2s1hE/Q8+o/hQEYByBc9CPkq7C3URF65rua+V
+         y92K/6royO3C4yDnq1jM7ts++uGqo7y0qYcZTwC8q4rIR3XfTZVMM8Fvc/vCHcKBUe
+         ZPWC+SaIVTSuQ==
+Date:   Thu, 19 Jan 2023 17:53:02 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Johannes Berg <johannes@sipsolutions.net>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, robh@kernel.org, stephen@networkplumber.org,
+        ecree.xilinx@gmail.com, sdf@google.com, f.fainelli@gmail.com,
+        fw@strlen.de, linux-doc@vger.kernel.org, razor@blackwall.org,
+        nicolas.dichtel@6wind.com
+Subject: Re: [PATCH net-next v3 3/8] net: add basic C code generators for
+ Netlink
+Message-ID: <20230119175302.3a592798@kernel.org>
+In-Reply-To: <ddcea8b3cb8c2d218a2747a1e2f566dbaaee8f01.camel@sipsolutions.net>
+References: <20230119003613.111778-1-kuba@kernel.org>
+        <20230119003613.111778-4-kuba@kernel.org>
+        <ddcea8b3cb8c2d218a2747a1e2f566dbaaee8f01.camel@sipsolutions.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8aMiH74WFmVM5Rk@zn.tnic>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 17, 2023, Borislav Petkov wrote:
-> On Mon, Jan 16, 2023 at 05:01:52PM -0600, Kim Phillips wrote:
+On Thu, 19 Jan 2023 21:53:12 +0100 Johannes Berg wrote:
+> > +    def _attr_policy(self, policy):
+> > +        mem = '{ '
+> > +        if len(self.checks) == 1 and 'min-len' in self.checks:
+> > +            mem += '.len = ' + str(self.checks['min-len'])  
 > 
-> > Kim Phillips (7):
-> >   x86/cpu, kvm: Add support for cpuid leaf 80000021/EAX (FeatureExt2Eax)
-> >   x86/cpu, kvm: Add the NO_NESTED_DATA_BP feature
-> >   x86/cpu, kvm: Move the LFENCE_RDTSC / LFENCE always serializing
-> >     feature
-> >   x86/cpu, kvm: Add the Null Selector Clears Base feature
-> >   x86/cpu, kvm: Add the SMM_CTL MSR not present feature
-> >   x86/cpu: Support AMD Automatic IBRS
-> >   x86/cpu, kvm: Propagate the AMD Automatic IBRS feature to the guest
-> > 
-> >  Documentation/admin-guide/hw-vuln/spectre.rst |  6 ++--
-> >  .../admin-guide/kernel-parameters.txt         |  6 ++--
-> >  arch/x86/include/asm/cpufeature.h             |  7 +++--
-> >  arch/x86/include/asm/cpufeatures.h            | 11 +++++--
-> >  arch/x86/include/asm/disabled-features.h      |  3 +-
-> >  arch/x86/include/asm/msr-index.h              |  2 ++
-> >  arch/x86/include/asm/required-features.h      |  3 +-
-> >  arch/x86/kernel/cpu/amd.c                     |  2 +-
-> >  arch/x86/kernel/cpu/bugs.c                    | 20 ++++++++-----
-> >  arch/x86/kernel/cpu/common.c                  | 22 +++++++++-----
-> >  arch/x86/kvm/cpuid.c                          | 30 +++++++------------
-> >  arch/x86/kvm/reverse_cpuid.h                  |  1 +
-> >  arch/x86/kvm/svm/svm.c                        |  3 ++
-> >  arch/x86/kvm/x86.c                            |  3 ++
-> >  14 files changed, 71 insertions(+), 48 deletions(-)
-> 
-> KVM folks,
-> 
-> I'm going to route this through the tip tree, along with the KVM bits.
-> 
-> Holler if we should do something else to avoid any potential conflicts.
+> Why does the len(self.checks) matter?
 
-Sorry, completely missed this.
+Trying to throw an exception if someone starts using checks I haven't
+gotten to implementing yet.
 
-There will be a minor conflict in KVM's reverse_cpuid, but it's trivial to resolve.
-I don't anticipate any other conflicts, so taking this through tip does seem like
-the best option.
+> > +    def free_needs_iter(self):
+> > +        return 'type' not in self.attr or self.attr['type'] == 'nest'
+> > +
+> > +    def free(self, ri, var, ref):
+> > +        if 'type' not in self.attr or self.attr['type'] == 'nest':  
+> 
+> two more places that could use the .get trick
+> 
+> but it's really up to you. Just that the line like that seems rather
+> long to me :-)
 
-If possible, a new version to fix the bisection issues in patches 2 and 3 would
-be nice, but again it's not a big deal.  The breakage is very, very minor.
+Better question is why attr would not have a type :S
+Let me leave it be for now, I'll revisit when exercising this code 
+in the future.
+
+> > +            if has_ntf:
+> > +                cw.p('// --------------- Common notification parsing --------------- //')  
+>
+> You said you were using /* */ comments now but this is still there.
+
+Ugh, now I'm worried I lost something in a rebase :S
+
+> > +                print_ntf_parse_prototype(parsed, cw)
+> > +            cw.nl()
+> > +        else:
+> > +            cw.p('// Policies')  
+>
+> and here too, etc.
+> 
+> Whew. I think I skipped some bits ;-)
+
+Thanks for looking!! :)
+
+> Doesn't look that bad overall, IMHO. :)
+
+I hope we can avoid over-focusing on the python tools :P
+I'm no python expert and the code would use a lot of refactoring.
+But there's only so many hours in the day and the alternative
+seems that it will bit rot in my tree forever :(
