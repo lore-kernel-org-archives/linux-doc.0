@@ -2,250 +2,165 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78655C27C7C
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 14:45:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2E3EC05027
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 14:53:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231145AbjATOpc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 09:45:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50980 "EHLO
+        id S229941AbjATOxY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 09:53:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231127AbjATOp1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 09:45:27 -0500
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70976D0DBF;
-        Fri, 20 Jan 2023 06:44:50 -0800 (PST)
-Received: by mail-il1-x141.google.com with SMTP id r19so2415937ilt.7;
-        Fri, 20 Jan 2023 06:44:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tm7r7/w+NTSuvZBNcrJh41bBRzvQQKHJ+pSw3+ziM6w=;
-        b=d9hrNAP1hM3jAB/eHeVYlSgAOzwZ6HpHsmGPUB9k/S3hJoKV6ZKXsNpcifJyXeFd1Z
-         hOsIOWnEERynuF11cD7WkoqawYUwuoJ3Oko5+nxiVlTcRTwod/Y08ApHYZdFv/69N3x6
-         v9MBqMTqSHJ1jRPWVVrgVfaEOoYQgpn8+CiNEXrPULJtiYwH2upRnZlgDQ92UYnRqacO
-         +ArPEu/p4v6CemcpChZMdHYXi3DqWUQuNGIcZPbLWWwrSwplUDoRiKj4j8QQ124qvPLu
-         PvHYP1wruhHnATYaw3JLcYo1hI5MkbSDeSHwBKldHWWmqB6xofNCZYq4ARwcL7lgLRcR
-         bY6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tm7r7/w+NTSuvZBNcrJh41bBRzvQQKHJ+pSw3+ziM6w=;
-        b=I4g8cT52z8iYarGDPCf2cZmXvKee43p8UWz7fVYW5+VHE5krzr3NlY/ITmtOdQfl9i
-         kaIho/EXJHU66L6zuluzuDE1S0iu0kP9C0Q1/X9xd9iJJj6+387C1LcszMz/S2foANcg
-         MzAmJybWTLzTDiqLIo6xjDevy86+ABhUDpMAJ1vyAERX8a2RTs0AMB2cqLcvbrbZhU3p
-         09iwsttRh8IR55Qr0Bl0Q92CifLLI9kvIej+7ttS0+QZpDpzfUqWbnF+15QcBoTwtN18
-         xsnQn6Ee+7dXKvFdM8x8x8dZo4CoalRa8jfYbLOENinM0WUPOquMDUEhziL1C6PDKSWa
-         boxg==
-X-Gm-Message-State: AFqh2krutihkb46gButhchxjbK4IuRfLEDI4geddNpdLehRh/ac4A7VA
-        LFYpmDORM7FQkbccN3fvG3BU/hzN89RA
-X-Google-Smtp-Source: AMrXdXvFwKixDS/TIXDil0+nxTTZXuD9Hv1Pb5U4CyB5pJAmfEvnE626Cy7OLk1Q8SFJUdjAiwK6TA==
-X-Received: by 2002:a92:2e09:0:b0:30f:1a48:b5ac with SMTP id v9-20020a922e09000000b0030f1a48b5acmr9475876ile.20.1674225859097;
-        Fri, 20 Jan 2023 06:44:19 -0800 (PST)
-Received: from fedora.mshome.net ([104.184.156.161])
-        by smtp.gmail.com with ESMTPSA id p185-20020a0229c2000000b003a7c47efde0sm1513852jap.11.2023.01.20.06.44.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 06:44:18 -0800 (PST)
-From:   Gregory Price <gourry.memverge@gmail.com>
-X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, krisman@collabora.com,
-        tglx@linutronix.de, luto@kernel.org, oleg@redhat.com,
-        peterz@infradead.org, ebiederm@xmission.com,
-        akpm@linux-foundation.org, adobriyan@gmail.com, corbet@lwn.net,
-        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
-Subject: [PATCH v3 3/3] ptrace,syscall_user_dispatch: add a getter/setter for sud configuration
-Date:   Fri, 20 Jan 2023 09:43:56 -0500
-Message-Id: <20230120144356.40717-4-gregory.price@memverge.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230120144356.40717-1-gregory.price@memverge.com>
-References: <20230120144356.40717-1-gregory.price@memverge.com>
+        with ESMTP id S229723AbjATOxX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 09:53:23 -0500
+Received: from fx405.security-mail.net (smtpout140.security-mail.net [85.31.212.145])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D4CF46D61
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 06:53:22 -0800 (PST)
+Received: from localhost (fx405.security-mail.net [127.0.0.1])
+        by fx405.security-mail.net (Postfix) with ESMTP id B88A5335DB7
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 15:53:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+        s=sec-sig-email; t=1674226400;
+        bh=jgb+m6qIX2pro82EX6+kbaqARSA1wPefVldKhg9mwIw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=VH6aD3TZhUe/LBsX91///VLOWzGxkxEDhlR6x6vY6U9mY0YSajPSTLVCgTEJ5dPG3
+         cB3/9ZnmgrFtNhXuju+pTrFwPWywzSl/2mAW7tvLpsncap8eJ5+NEsxMBgWmi6U0Dk
+         aUqc56g/c/TG0zy/mCIGXpqLi9T5jSgSXWFmpfxs=
+Received: from fx405 (fx405.security-mail.net [127.0.0.1]) by
+ fx405.security-mail.net (Postfix) with ESMTP id 28402335CD8; Fri, 20 Jan
+ 2023 15:53:20 +0100 (CET)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx405.security-mail.net (Postfix) with ESMTPS id F1088335B7A; Fri, 20 Jan
+ 2023 15:53:18 +0100 (CET)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 7269927E043A; Fri, 20 Jan 2023
+ 15:53:18 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id 52FB427E0437; Fri, 20 Jan 2023 15:53:18 +0100 (CET)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ PJVPWxUQy6bp; Fri, 20 Jan 2023 15:53:18 +0100 (CET)
+Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id 057AA27E0430; Fri, 20 Jan 2023
+ 15:53:18 +0100 (CET)
+X-Virus-Scanned: E-securemail
+Secumail-id: <d912.63caaade.ac33d.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 52FB427E0437
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1674226398;
+ bh=kRxe31MnQMmqE5+taZm1AGIuAYHRpwHRpAdaJ1cAplQ=;
+ h=Date:From:To:Message-ID:MIME-Version;
+ b=YyIqYgrfkWr5S+e3StrmT2Bz+xzv6InOUUAiJ+Ee5064rTXfFh85K084P2UbBDG2W
+ gNEkTRz6oiFgP3OpnVk4jtK62FvfzEmQb6Q28gWtIAvW/nr+1y+YLusNgJ1Wd/awAH
+ V7jmxOb9IUySl+9rZXiVdENlDVm128usIIPZgMcc=
+Date:   Fri, 20 Jan 2023 15:53:16 +0100
+From:   Jules Maselbas <jmaselbas@kalray.eu>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Yann Sionneau <ysionneau@kalray.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Waiman Long <longman@redhat.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Eric Paris <eparis@redhat.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Guillaume Thouvenin <gthouvenin@kalray.eu>,
+        Clement Leger <clement@clement-leger.fr>,
+        Vincent Chardon <vincent.chardon@elsys-design.com>,
+        Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>,
+        Julian Vetter <jvetter@kalray.eu>,
+        Samuel Jones <sjones@kalray.eu>,
+        Ashley Lesdalons <alesdalons@kalray.eu>,
+        Thomas Costis <tcostis@kalray.eu>,
+        Marius Gligor <mgligor@kalray.eu>,
+        Jonathan Borne <jborne@kalray.eu>,
+        Julien Villette <jvillette@kalray.eu>,
+        Luc Michel <lmichel@kalray.eu>,
+        Louis Morhet <lmorhet@kalray.eu>,
+        Julien Hascoet <jhascoet@kalray.eu>,
+        Jean-Christophe Pince <jcpince@gmail.com>,
+        Guillaume Missonnier <gmissonnier@kalray.eu>,
+        Alex Michon <amichon@kalray.eu>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <git@xen0n.name>,
+        Shaokun Zhang <zhangshaokun@hisilicon.com>,
+        John Garry <john.garry@huawei.com>,
+        Guangbin Huang <huangguangbin2@huawei.com>,
+        Bharat Bhushan <bbhushan2@marvell.com>,
+        Bibo Mao <maobibo@loongson.cn>,
+        Atish Patra <atishp@atishpatra.org>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        Qi Liu <liuqi115@huawei.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Mark Brown <broonie@kernel.org>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Benjamin Mugnier <mugnier.benjamin@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-mm@kvack.org,
+        Linux-Arch <linux-arch@vger.kernel.org>, linux-audit@redhat.com,
+        linux-riscv@lists.infradead.org, bpf@vger.kernel.org
+Subject: Re: [RFC PATCH v2 09/31] kvx: Add build infrastructure
+Message-ID: <20230120145316.GA4155@tellis.lin.mbt.kalray.eu>
+References: <20230120141002.2442-1-ysionneau@kalray.eu>
+ <20230120141002.2442-10-ysionneau@kalray.eu>
+ <aa4d68b2-b5b5-4c17-a44f-7c6db443ea4c@app.fastmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <aa4d68b2-b5b5-4c17-a44f-7c6db443ea4c@app.fastmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+X-ALTERMIMEV2_out: done
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Implement ptrace getter/setter interface for syscall user dispatch.
+On Fri, Jan 20, 2023 at 03:39:22PM +0100, Arnd Bergmann wrote:
+> On Fri, Jan 20, 2023, at 15:09, Yann Sionneau wrote:
+> >      - Fix clean target raising an error from gcc (LIBGCC)
+> 
+> I had not noticed this on v1 but:
+> 
+> > +# Link with libgcc to get __div* builtins.
+> > +LIBGCC	:= $(shell $(CC) $(DEFAULT_OPTS) --print-libgcc-file-name)
+> 
+> It's better to copy the bits of libgcc that you actually need
+> than to include the whole thing. The kernel is in a weird
+It was initialy using KCONFIG_CFLAGS which do not contains valid options
+when invoking the clean target.
 
-Presently, these settings are write-only via prctl, making it impossible
-to implement transparent checkpoint (coordination with the software is
-required).
+I am not exactly sure what's needed by gcc for --print-libgcc-file-name,
+my guess is that only the -march option matters, I will double check
+internally with compiler peoples.
 
-This is modeled after a similar interface for SECCOMP, which can have
-its configuration dumped by ptrace for software like CRIU.
+> state that is neither freestanding nor the normal libc based
+> environment, so we generally want full control over what is
+> used. This is particularly important for 32-bit architectures
+> that do not want the 64-bit division, but there are probably
+> enough other cases as well.
+> 
+>      Arnd
+> 
+> 
+> 
+> 
 
-Signed-off-by: Gregory Price <gregory.price@memverge.com>
----
- .../admin-guide/syscall-user-dispatch.rst     |  5 +-
- include/linux/syscall_user_dispatch.h         | 19 +++++++
- include/uapi/linux/ptrace.h                   | 10 ++++
- kernel/entry/syscall_user_dispatch.c          | 49 +++++++++++++++++++
- kernel/ptrace.c                               |  9 ++++
- 5 files changed, 91 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/syscall-user-dispatch.rst b/Documentation/admin-guide/syscall-user-dispatch.rst
-index 60314953c728..a23ae21a1d5b 100644
---- a/Documentation/admin-guide/syscall-user-dispatch.rst
-+++ b/Documentation/admin-guide/syscall-user-dispatch.rst
-@@ -43,7 +43,10 @@ doesn't rely on any of the syscall ABI to make the filtering.  It uses
- only the syscall dispatcher address and the userspace key.
- 
- As the ABI of these intercepted syscalls is unknown to Linux, these
--syscalls are not instrumentable via ptrace or the syscall tracepoints.
-+syscalls are not instrumentable via ptrace or the syscall tracepoints,
-+however an interfaces to suspend, checkpoint, and restore syscall user
-+dispatch configuration has been added to ptrace to assist userland
-+checkpoint/restart software.
- 
- Interface
- ---------
-diff --git a/include/linux/syscall_user_dispatch.h b/include/linux/syscall_user_dispatch.h
-index a0ae443fb7df..9e1bd0d87c1e 100644
---- a/include/linux/syscall_user_dispatch.h
-+++ b/include/linux/syscall_user_dispatch.h
-@@ -22,6 +22,13 @@ int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
- #define clear_syscall_work_syscall_user_dispatch(tsk) \
- 	clear_task_syscall_work(tsk, SYSCALL_USER_DISPATCH)
- 
-+int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
-+	void __user *data);
-+
-+int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
-+	void __user *data);
-+
-+
- #else
- struct syscall_user_dispatch {};
- 
-@@ -35,6 +42,18 @@ static inline void clear_syscall_work_syscall_user_dispatch(struct task_struct *
- {
- }
- 
-+static inline int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
-+	void __user *data)
-+{
-+	return -EINVAL;
-+}
-+
-+static inline int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
-+	void __user *data)
-+{
-+	return -EINVAL;
-+}
-+
- #endif /* CONFIG_GENERIC_ENTRY */
- 
- #endif /* _SYSCALL_USER_DISPATCH_H */
-diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
-index ba9e3f19a22c..8b93c78189b5 100644
---- a/include/uapi/linux/ptrace.h
-+++ b/include/uapi/linux/ptrace.h
-@@ -112,6 +112,16 @@ struct ptrace_rseq_configuration {
- 	__u32 pad;
- };
- 
-+#define PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG 0x4210
-+#define PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG 0x4211
-+struct syscall_user_dispatch_config {
-+	__u64 mode;
-+	__s8 *selector;
-+	__u64 offset;
-+	__u64 len;
-+	__u8 on_dispatch;
-+};
-+
- /*
-  * These values are stored in task->ptrace_message
-  * by ptrace_stop to describe the current syscall-stop.
-diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
-index b5ec75164805..a3b24d498b39 100644
---- a/kernel/entry/syscall_user_dispatch.c
-+++ b/kernel/entry/syscall_user_dispatch.c
-@@ -111,3 +111,52 @@ int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
- 
- 	return 0;
- }
-+
-+int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
-+		void __user *data)
-+{
-+	struct syscall_user_dispatch *sd = &task->syscall_dispatch;
-+	struct syscall_user_dispatch_config config;
-+
-+	if (size != sizeof(struct syscall_user_dispatch_config))
-+		return -EINVAL;
-+
-+	if (sd->selector) {
-+		config.mode = PR_SYS_DISPATCH_ON;
-+		config.offset = sd->offset;
-+		config.len = sd->len;
-+		config.selector = sd->selector;
-+		config.on_dispatch = sd->on_dispatch;
-+	} else {
-+		config.mode = PR_SYS_DISPATCH_OFF;
-+		config.offset = 0;
-+		config.len = 0;
-+		config.selector = NULL;
-+		config.on_dispatch = false;
-+	}
-+	if (copy_to_user(data, &config, sizeof(config)))
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
-+int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
-+		void __user *data)
-+{
-+	struct syscall_user_dispatch_config config;
-+	int ret;
-+
-+	if (size != sizeof(struct syscall_user_dispatch_config))
-+		return -EINVAL;
-+
-+	if (copy_from_user(&config, data, sizeof(config)))
-+		return -EFAULT;
-+
-+	ret = set_syscall_user_dispatch(config.mode, config.offset, config.len,
-+			config.selector);
-+	if (ret)
-+		return ret;
-+
-+	task->syscall_dispatch.on_dispatch = config.on_dispatch;
-+	return 0;
-+}
-diff --git a/kernel/ptrace.c b/kernel/ptrace.c
-index 99467ba5f55b..d1e9c0808905 100644
---- a/kernel/ptrace.c
-+++ b/kernel/ptrace.c
-@@ -32,6 +32,7 @@
- #include <linux/compat.h>
- #include <linux/sched/signal.h>
- #include <linux/minmax.h>
-+#include <linux/syscall_user_dispatch.h>
- 
- #include <asm/syscall.h>	/* for syscall_get_* */
- 
-@@ -1263,6 +1264,14 @@ int ptrace_request(struct task_struct *child, long request,
- 		break;
- #endif
- 
-+	case PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG:
-+		ret = syscall_user_dispatch_set_config(child, addr, datavp);
-+		break;
-+
-+	case PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG:
-+		ret = syscall_user_dispatch_get_config(child, addr, datavp);
-+		break;
-+
- 	default:
- 		break;
- 	}
--- 
-2.39.0
+
 
