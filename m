@@ -2,121 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BE4FC25B50
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 19:20:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 355DBC27C76
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 21:12:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229744AbjATTUT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 14:20:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54086 "EHLO
+        id S229565AbjATVMW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 16:12:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229702AbjATTUS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 14:20:18 -0500
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2E5572C27
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 11:20:17 -0800 (PST)
-Received: by mail-pf1-x42a.google.com with SMTP id c26so4706646pfp.10
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 11:20:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jGyt6CUdmtm2ioRKnF8I31iR5Kv2QPHBMLPFSaYDNiY=;
-        b=Uu5CA7ojWufnZge0bmJujGF0GkpDKBVBcpU8xWM4Q0rxz/aT0RAyOpA1DHBDMPbVFN
-         tqUjNMfa3Aif+GgOpT8Q+nf25/sXFy7XS5A1bpe7NXC9AG09PWDFNgVwd3N4AL4mEvjv
-         uK6rJDTix7y5/wRAdoMLSZqftlfVqyVo6OkYU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jGyt6CUdmtm2ioRKnF8I31iR5Kv2QPHBMLPFSaYDNiY=;
-        b=0jUcxzS0eq6eICLQ8N6etAGV5+1gJ6UtrMLGgcr76z8ErH884UuAhurvtt0qDce2D9
-         EgnQbG3ATgd6IoO8KLmBSGrxZxDpl53S4+e7N0q39X6nzOrIc3Ch1tU2BW3rnkja1e8h
-         ignLO9ySkA2Doi5RfyUj2O1Koo5FfkugPW8roc2Zsbm+IEbj3iGMVk8ew6YAXCAXEB3D
-         ZEtUSUYndVLrH2fEtCISovBUpk0l6hDuV8h63oYJhMAY4HK3upeskIVKCykYdVZ45qlf
-         WcrEc3KTu+rMZL//utuaEGjD6vKazkbkHwTv9Q+rF3RvFSknXcC07OULA38kdBiIZziC
-         JnHQ==
-X-Gm-Message-State: AFqh2kqfe4Ecj4Ko/MatWlkmHYEaQxt6yJ+P5XooKIGgRoYp+3IUIzEf
-        IRQvWgQSKIn+gdIJmPurUa+8xA==
-X-Google-Smtp-Source: AMrXdXuyTIAN7HmAtV4HD1P3My5ps1sTBJQbBVFpT8W/R685exOGUTBZBi+w0yjPJR+F6KcbCZ6lsg==
-X-Received: by 2002:a05:6a00:3025:b0:58d:a683:bb2f with SMTP id ay37-20020a056a00302500b0058da683bb2fmr18456253pfb.23.1674242417297;
-        Fri, 20 Jan 2023 11:20:17 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 3-20020a621503000000b00581c741f95csm24490646pfv.46.2023.01.20.11.19.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 11:19:50 -0800 (PST)
-Date:   Fri, 20 Jan 2023 11:19:36 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH v5 00/39] Shadow stacks for userspace
-Message-ID: <202301201118.6A55DE336@keescook>
-References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
- <20230119142602.97b24f3cdba75f20f97786d3@linux-foundation.org>
- <b6d88208b987c9cbbdb194b344d2a537dbd76914.camel@intel.com>
+        with ESMTP id S229764AbjATVMQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 16:12:16 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 990188B762;
+        Fri, 20 Jan 2023 13:12:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674249134; x=1705785134;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=k0FW4EkggWQRCfPtZeaDhmMpy1hVsTfGGXcTPn3H24A=;
+  b=T4cZotDWX3+wRToajYLCQ56bJq9H/p7tz15tqGB2kzeZhOopA93NouAj
+   X2M4zFMGJ4zLjE2HS0w9dw6ccp1Z7rXxqkPptj+8BvDMCaoJrr30EPnjq
+   jIe3idxjlXpRHnbQ4B/vBJNFN1mLj0Uex/Z0vd5pGhN23OFIo6fzVuIVc
+   juwYae8oJLPrVuOqsUuJVOEJz7TP8O2uYQf9vf6X2XcGX+TP6QzxXGaoK
+   umCre1luC1ZevYgtBr7/IIxxcfX187R0JGXSB3j5JbH9vCLqkkE9Jpm8D
+   fBX0DR6mem2j2vOTCYk+FjVZd7RVQsVNJ6Qbv9SPq8SOomwVwBBUKNN0S
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="324383378"
+X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
+   d="scan'208";a="324383378"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 13:12:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="653921176"
+X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
+   d="scan'208";a="653921176"
+Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
+  by orsmga007.jf.intel.com with ESMTP; 20 Jan 2023 13:12:12 -0800
+From:   Tony Nguyen <anthony.l.nguyen@intel.com>
+To:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        edumazet@google.com
+Cc:     Michal Wilczynski <michal.wilczynski@intel.com>,
+        netdev@vger.kernel.org, anthony.l.nguyen@intel.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>
+Subject: [PATCH net v3 2/2] ice: Fix broken link in ice NAPI doc
+Date:   Fri, 20 Jan 2023 13:12:31 -0800
+Message-Id: <20230120211231.431147-3-anthony.l.nguyen@intel.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230120211231.431147-1-anthony.l.nguyen@intel.com>
+References: <20230120211231.431147-1-anthony.l.nguyen@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b6d88208b987c9cbbdb194b344d2a537dbd76914.camel@intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 20, 2023 at 05:27:30PM +0000, Edgecombe, Rick P wrote:
-> On Thu, 2023-01-19 at 14:26 -0800, Andrew Morton wrote:
-> > On Thu, 19 Jan 2023 13:22:38 -0800 Rick Edgecombe <
-> > rick.p.edgecombe@intel.com> wrote:
-> > 
-> > > SHSTK
-> > 
-> > Sounds like me trying to swear in Russian while drunk.
-> > 
-> > Is there any chance of s/shstk/shadow_stack/g?
-> 
-> I'm fine with the name change. I think shstk got debated and picked
-> early in the history of the series before I got involved. "shstk" is
-> nice and short, but it's not completely clear what it is unless you
-> already know about shadow stack. So there is a tradeoff of clarity and
-> line length/wrapping. Does anyone else have any strong opinions?
+From: Michal Wilczynski <michal.wilczynski@intel.com>
 
-I prefer SHSTK because it specifically means x86's hardware shadow
-stack from CET. Lots of things can (and have) implemented things called
-"shadow stack".
+Current link for NAPI documentation in ice driver doesn't work - it
+returns 404. Update the link to the working one.
 
+Signed-off-by: Michal Wilczynski <michal.wilczynski@intel.com>
+Acked-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
+Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
+---
+ Documentation/networking/device_drivers/ethernet/intel/ice.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+index dc2e60ced927..b481b81f3be5 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+@@ -819,7 +819,7 @@ NAPI
+ ----
+ This driver supports NAPI (Rx polling mode).
+ For more information on NAPI, see
+-https://www.linuxfoundation.org/collaborate/workgroups/networking/napi
++https://wiki.linuxfoundation.org/networking/napi
+ 
+ 
+ MACVLAN
 -- 
-Kees Cook
+2.38.1
+
