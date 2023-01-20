@@ -2,119 +2,125 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 844BFC38142
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 02:49:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 450DDC004D4
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 02:54:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229461AbjATCtr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Jan 2023 21:49:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50746 "EHLO
+        id S229528AbjATCyi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Jan 2023 21:54:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbjATCtp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 21:49:45 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AD4049567;
-        Thu, 19 Jan 2023 18:49:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674182985; x=1705718985;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xOt/pIp29WBfj1lDuuLWsw+OLGGWhFf5vFZBAOjOoHI=;
-  b=Zgb46PSiFryBiBetGnseg5E1U7ASywqa85T5F1/IVPs1glntg6GWBQ9M
-   OQzkJE5zwaS1pnqeRQUaPLOuIGRfZLqxiS/xvj3HMVBmyvIZTy0w1X04j
-   HZRMGOQUveYvSEqIRUJBx+WzBZzjaYDPRIm6FXfUOEijS5BViMVZM/dES
-   bqyYhANs9xPg0DXRwasY2Ge0mD+lgj9RBebzP/ANRZ7TJGmVvSwgRd5NY
-   hzrPcXG3YU2z4EAw4wt3ZlZDSs3CL+ZPUoAn0KOLKTfFsYDBemu8BwpFP
-   Qg6Q7lk+lWHHgIERBn7uPRI9VwOvt3CJmaP9Hqbqhz3GCO+KXvXS36yVd
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="325531033"
-X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="325531033"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 18:49:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="749213525"
-X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="749213525"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Jan 2023 18:49:39 -0800
-Date:   Fri, 20 Jan 2023 10:39:12 +0800
-From:   Xu Yilun <yilun.xu@intel.com>
-To:     matthew.gerlach@linux.intel.com
-Cc:     hao.wu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        andriy.shevchenko@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
-        marpagan@redhat.com, bagasdotme@gmail.com
-Subject: Re: [PATCH v11 0/4] Enhance definition of DFH and use enhancements
- for UART driver
-Message-ID: <Y8n+0OUxnDtDfJgG@yilunxu-OptiPlex-7050>
-References: <20230115151447.1353428-1-matthew.gerlach@linux.intel.com>
+        with ESMTP id S229453AbjATCyi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Jan 2023 21:54:38 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 809BC9B131
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 18:54:37 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id s13-20020a17090a6e4d00b0022900843652so7808715pjm.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jan 2023 18:54:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=x4a9uQnCPAXTrBqi7c8vUTZzrQbZzTY4NuvqzCcjH6w=;
+        b=lgqUGY82DQ88m35LIkuurOpZEwKVwKTVcCXBvlf9EAT+DCwzHe2Slra61cRT6ItGuk
+         kJMUVq6Kde/svxxBaZ8GnUgVmEDLpRy55TWGrE0qrhJEtKEummvm0QzS9jkmyr2uBWj2
+         SDUaP5LtyVqhJC13QO2GSv2gztjPUUTa/gTkbmaGS8rumfcHL786Y9/SK8OPPTixPB29
+         6c1HZPb3RhpemeIyMDagEKjnxzdt5cnxf1w6DN7Fq6j6V8FTuYJ5dx3vjP96EaM7eG3Q
+         z7kffhz+iWJb+MCRbY0HS82jy5C11yfd3Og2Ryy3kpW9sHMKBJdaA+4V5LO3GUE9zZRw
+         xEbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=x4a9uQnCPAXTrBqi7c8vUTZzrQbZzTY4NuvqzCcjH6w=;
+        b=Evm5EHxLiAgoKphbu7QEJsx/ylMRPcSy7HtSorjOBT0kfhlOgyle9iLzlq9ZZB8pRx
+         yba+EI0iqQCeYvohlZjUXA1ax9P5jyeuXWqS5k1TwE961akTDFjOai5J6UkMQN0Wur3+
+         Ia2wjhaq7IXkgGWIxY2YdnxmpTkyRYTq82Ocn7dEr+5xmDvRffTPBTfu/QerRpOFDXO7
+         P6GuM3wRuBLSUjxyODRq4L5MH/0VENAg89PXElnI16xq9aIBVRLwXpI9r8HYL1i9h394
+         oz/BHaNQ/VRWpzTsGdwEnYIeuAdgN7wPBe/E4X5q60DrYqQLT42lMRo2s0SkwPjptabH
+         z9vQ==
+X-Gm-Message-State: AFqh2kr/gw6Q271clHrtyAoXtZL3yQxjWiC26W2TVzS64uml1y0qG6RR
+        Qg5A8H6BWKnM7SNUzBpMz8M=
+X-Google-Smtp-Source: AMrXdXu7tbwdSPRu7AplmjccpUpSs2KevldYB5rRdLAVAeC4tVQDf6bfqM9uZVxJWzhmBhzIikh+jw==
+X-Received: by 2002:a17:90a:e617:b0:229:5027:c2d9 with SMTP id j23-20020a17090ae61700b002295027c2d9mr14235176pjy.34.1674183276996;
+        Thu, 19 Jan 2023 18:54:36 -0800 (PST)
+Received: from debian.me (subs32-116-206-28-45.three.co.id. [116.206.28.45])
+        by smtp.gmail.com with ESMTPSA id x4-20020a634844000000b0044046aec036sm21542207pgk.81.2023.01.19.18.54.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jan 2023 18:54:36 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 261CE104293; Fri, 20 Jan 2023 09:54:30 +0700 (WIB)
+Date:   Fri, 20 Jan 2023 09:54:30 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Akira Yokosawa <akiyks@gmail.com>,
+        Sadiya Kazi <sadiyakazi@google.com>
+Subject: Re: [PATCH RFC] docs: Add more information to the HTML sidebar
+Message-ID: <Y8oCZnF0e/aMkmtg@debian.me>
+References: <87o7qu5al3.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="IYhNM+3bAPuGOoio"
 Content-Disposition: inline
-In-Reply-To: <20230115151447.1353428-1-matthew.gerlach@linux.intel.com>
+In-Reply-To: <87o7qu5al3.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023-01-15 at 07:14:43 -0800, matthew.gerlach@linux.intel.com wrote:
-> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> 
-> This patchset enhances the definition of the Device Feature Header (DFH) used by
-> the Device Feature List (DFL) bus and then uses the new enhancements in a UART
-> driver.
-> 
-> The enhancements to the DFH includes the introduction of parameter blocks.
-> Like PCI capabilities, the DFH parameter blocks further describe
-> the hardware to software. In the case of the UART, the parameter blocks
-> provide information for the interrupt, clock frequency, and register layout.
-> 
-> Duplication of code parsing of the parameter blocks in multiple DFL drivers
-> is a concern. Using swnodes was considered to help minimize parsing code 
-> duplication, but their use did not help the problem. Furthermore the highly
-> changeable nature of FPGAs employing the DFL bus makes the use of swnodes
-> inappropriate. 
-> 
-> Patch 1 updates the DFL documentation to describe the added functionality to DFH.
-> 
-> Patch 2 adds the definitions for DFHv1.
-> 
-> Patch 3 adds basic support for DFHv1. It adds functionality to parse parameter blocks
-> and adds the functionality to parse the explicit location of a feature's register set.
-> 
-> Patch 4 adds a DFL UART driver that makes use of the new features of DFHv1.
 
-Looks good to me and see Greg has taken this patchset.
+--IYhNM+3bAPuGOoio
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Yilun
+On Thu, Jan 19, 2023 at 05:11:20PM -0700, Jonathan Corbet wrote:
+>  # Custom sidebar templates, maps document names to template names.
+>  # Note that the RTD theme ignores this
+> -html_sidebars =3D { '**': ['searchbox.html', 'localtoc.html', 'sourcelin=
+k.html']}
+> +html_sidebars =3D { '**': ['searchbox.html', 'kernel-toc.html', 'sourcel=
+ink.html']}
+> =20
 
-> 
-> Basheer Ahmed Muddebihal (1):
->   fpga: dfl: Add DFHv1 Register Definitions
-> 
-> Matthew Gerlach (3):
->   Documentation: fpga: dfl: Add documentation for DFHv1
->   fpga: dfl: add basic support for DFHv1
->   tty: serial: 8250: add DFL bus driver for Altera 16550.
-> 
->  Documentation/fpga/dfl.rst         | 119 ++++++++++++++
->  drivers/fpga/dfl.c                 | 245 +++++++++++++++++++++++------
->  drivers/fpga/dfl.h                 |  43 +++++
->  drivers/tty/serial/8250/8250_dfl.c | 167 ++++++++++++++++++++
->  drivers/tty/serial/8250/Kconfig    |  12 ++
->  drivers/tty/serial/8250/Makefile   |   1 +
->  include/linux/dfl.h                |   8 +
->  7 files changed, 544 insertions(+), 51 deletions(-)
->  create mode 100644 drivers/tty/serial/8250/8250_dfl.c
-> 
-> -- 
-> 2.25.1
-> 
+In the sidebar, I see process/ is misorganized. That is,
+process/{development-process,submitting-patches,code-of-conduct}.html
+are at top-level entry, although these should have been children of
+process/.
+
+> +
+> +/*
+> + * Tweaks for our local TOC
+> + */
+> +div.kerneltoc li.toctree-l1 { font-size: smaller;
+> +		text-indent: -1em;
+> +		margin-left: 1em; }
+> +div.kerneltoc li.current {font-weight: bold; }
+> +div.kerneltoc li.toctree-l2 { font-size: smaller;
+> +		text-indent: -1em;
+> +		margin-left: 2em;
+> +		list-style-type: none;
+> +	      }
+> +div.kerneltoc li.current ul { margin-left: 0; }
+> +div.kerneltoc { background-color: #eeeeee; }
+> +div.kerneltoc li.current ul { background-color: white; }
+
+I think only the visited page should be highlighted in bold, not its
+full hierarchy.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--IYhNM+3bAPuGOoio
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY8oCYQAKCRD2uYlJVVFO
+owvwAQDauY7YJIxMau8e2Q0gmzPsVXn9VZ8NWy3hlYEwmpPidAD/V/gjeBFMFdlX
+hyq4+NN6HrtZR3BEuQfK5aJtV4kZrQ4=
+=rDp7
+-----END PGP SIGNATURE-----
+
+--IYhNM+3bAPuGOoio--
