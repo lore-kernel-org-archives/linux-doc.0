@@ -2,55 +2,48 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23D2FC52D77
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 14:36:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C024C38141
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 14:36:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230087AbjATOgG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 09:36:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39256 "EHLO
+        id S230477AbjATOgZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 09:36:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231258AbjATOf5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 09:35:57 -0500
-Received: from fx601.security-mail.net (smtpout140.security-mail.net [85.31.212.146])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D19AACE234
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 06:35:15 -0800 (PST)
-Received: from localhost (fx601.security-mail.net [127.0.0.1])
-        by fx601.security-mail.net (Postfix) with ESMTP id C9713349877
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 15:20:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
-        s=sec-sig-email; t=1674224445;
-        bh=EHbGeTQPzFxRydvAjCAKTJptA7pNhkmTqYf6aPqpaxA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=yWCwrwkzQCLQMcBRPseO+n4EUGXwVUuzwcsuLGwIe2DyGGzgC6Wbv9A6xYGwpajAU
-         Qlq5x30oSBZqvKVFNtFKp5PcU+P4fBLmI2ilZhrpztF6nkIBBTiub6KCCTFOitXLlb
-         crNVBEnRsafnrMh82aEPeNEtEH99xbkMliPQvBP8=
-Received: from fx601 (fx601.security-mail.net [127.0.0.1]) by
- fx601.security-mail.net (Postfix) with ESMTP id 429EC349859; Fri, 20 Jan
- 2023 15:20:45 +0100 (CET)
+        with ESMTP id S231283AbjATOgE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 09:36:04 -0500
+Received: from fx306.security-mail.net (smtpout30.security-mail.net [85.31.212.36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 855F279EB7
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 06:35:22 -0800 (PST)
+Received: from localhost (fx306.security-mail.net [127.0.0.1])
+        by fx306.security-mail.net (Postfix) with ESMTP id E6E7535CF75
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 15:20:46 +0100 (CET)
+Received: from fx306 (fx306.security-mail.net [127.0.0.1]) by
+ fx306.security-mail.net (Postfix) with ESMTP id 53FB835CEFE; Fri, 20 Jan
+ 2023 15:20:46 +0100 (CET)
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx601.security-mail.net (Postfix) with ESMTPS id 1F87634967F; Fri, 20 Jan
- 2023 15:20:44 +0100 (CET)
+ fx306.security-mail.net (Postfix) with ESMTPS id 439BB35CD24; Fri, 20 Jan
+ 2023 15:20:45 +0100 (CET)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 7BC3F27E0481; Fri, 20 Jan 2023
- 15:10:39 +0100 (CET)
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 8FFB327E0453; Fri, 20 Jan 2023
+ 15:10:35 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 62F6427E047C; Fri, 20 Jan 2023 15:10:39 +0100 (CET)
+ (Postfix) with ESMTP id 7082927E044D; Fri, 20 Jan 2023 15:10:35 +0100 (CET)
 Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
  (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- efK8YWmnYQbb; Fri, 20 Jan 2023 15:10:39 +0100 (CET)
+ gKzfpy00nt4p; Fri, 20 Jan 2023 15:10:35 +0100 (CET)
 Received: from junon.lin.mbt.kalray.eu (unknown [192.168.37.161]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id C9CA227E0474; Fri, 20 Jan 2023
- 15:10:38 +0100 (CET)
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id B1D2927E0442; Fri, 20 Jan 2023
+ 15:10:34 +0100 (CET)
 X-Virus-Scanned: E-securemail
-Secumail-id: <5b1f.63caa33c.1c743.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 62F6427E047C
+Secumail-id: <13806.63caa33d.420ef.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 7082927E044D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1674223839;
- bh=5C/8QjxVUf/DelpGCfD/Pp9BdUc2vZv56uJsfxSlXPA=;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1674223835;
+ bh=LhIynEzDrUkn1ToTMK6562lEfg1L8AvEzULLlwkvabg=;
  h=From:To:Date:Message-Id:MIME-Version;
- b=P6BtAyPM/IrloLG30cdWTPBhk6bnzZeuu0JK6hHT1AvSOjTEjV23l2HTVSkWp3YOM
- JxhQxnIr6MpJR9Ve5OwsqaqYSpuYPPXnuoM+q+2xD3d01z+Z0ef6cKxQqGtJg6OcUa
- Z5LRxJhk4HSsThMlK536n8tiuxt0/9UzyH8L0fvI=
+ b=qESPLDkcLbh15lx2jo53vtJU9kmezOiQ4qaktX2mWj3whXm7lXMlwKG1tlcmmioiC
+ DkLD5gerDabhZyK6nOO1sqGqPBDeQAJFErD08Rs8+QYH47dXaKxyUfljhtNwBSYcV6
+ LmWCvm9pOb57tLGFP+/+K1rY/cB49d+jwWnIKOXY=
 From:   Yann Sionneau <ysionneau@kalray.eu>
 To:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -114,9 +107,9 @@ Cc:     Benjamin Mugnier <mugnier.benjamin@gmail.com>,
         devicetree@vger.kernel.org, linux-mm@kvack.org,
         linux-arch@vger.kernel.org, linux-audit@redhat.com,
         linux-riscv@lists.infradead.org, bpf@vger.kernel.org
-Subject: [RFC PATCH v2 31/31] kvx: Add IPI driver
-Date:   Fri, 20 Jan 2023 15:10:02 +0100
-Message-ID: <20230120141002.2442-32-ysionneau@kalray.eu>
+Subject: [RFC PATCH v2 23/31] kvx: Add ELF relocations and module support
+Date:   Fri, 20 Jan 2023 15:09:54 +0100
+Message-ID: <20230120141002.2442-24-ysionneau@kalray.eu>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230120141002.2442-1-ysionneau@kalray.eu>
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
@@ -128,180 +121,363 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jules Maselbas <jmaselbas@kalray.eu>
-
-The Inter-Processor Interrupt Controller (IPI) provides a fast
-synchronization mechanism to the software. It exposes eight independent
-set of registers that can be use to notify each processor in the cluster.
-test
+Add ELF-related definition and module relocation code for basic
+kvx support.
 
 Co-developed-by: Clement Leger <clement@clement-leger.fr>
 Signed-off-by: Clement Leger <clement@clement-leger.fr>
-Co-developed-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
-Signed-off-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
 Co-developed-by: Julian Vetter <jvetter@kalray.eu>
 Signed-off-by: Julian Vetter <jvetter@kalray.eu>
-Co-developed-by: Luc Michel <lmichel@kalray.eu>
-Signed-off-by: Luc Michel <lmichel@kalray.eu>
-Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
+Co-developed-by: Marius Gligor <mgligor@kalray.eu>
+Signed-off-by: Marius Gligor <mgligor@kalray.eu>
+Co-developed-by: Yann Sionneau <ysionneau@kalray.eu>
 Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
 ---
 
 Notes:
-    V1 -> V2: new patch
+    V1 -> V2: no changes
 
- arch/kvx/include/asm/ipi.h |  16 ++++++
- arch/kvx/platform/Makefile |   1 +
- arch/kvx/platform/ipi.c    | 108 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 125 insertions(+)
- create mode 100644 arch/kvx/include/asm/ipi.h
- create mode 100644 arch/kvx/platform/ipi.c
+ arch/kvx/include/asm/elf.h      | 155 ++++++++++++++++++++++++++++++++
+ arch/kvx/include/asm/vermagic.h |  12 +++
+ arch/kvx/kernel/module.c        | 148 ++++++++++++++++++++++++++++++
+ 3 files changed, 315 insertions(+)
+ create mode 100644 arch/kvx/include/asm/elf.h
+ create mode 100644 arch/kvx/include/asm/vermagic.h
+ create mode 100644 arch/kvx/kernel/module.c
 
-diff --git a/arch/kvx/include/asm/ipi.h b/arch/kvx/include/asm/ipi.h
+diff --git a/arch/kvx/include/asm/elf.h b/arch/kvx/include/asm/elf.h
 new file mode 100644
-index 000000000000..137407a075e6
+index 000000000000..38978d48221e
 --- /dev/null
-+++ b/arch/kvx/include/asm/ipi.h
-@@ -0,0 +1,16 @@
++++ b/arch/kvx/include/asm/elf.h
+@@ -0,0 +1,155 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Yann Sionneau
++ *            Clement Leger
++ *            Marius Gligor
++ *            Guillaume Thouvenin
++ */
++
++#ifndef _ASM_KVX_ELF_H
++#define _ASM_KVX_ELF_H
++
++#include <linux/types.h>
++
++#include <asm/ptrace.h>
++
++/*
++ * These are used to set parameters in the core dumps.
++ */
++#define ELF_CLASS	ELFCLASS64
++#define ELF_DATA	ELFDATA2LSB
++#define ELF_ARCH	EM_KVX
++
++typedef uint64_t elf_greg_t;
++typedef uint64_t elf_fpregset_t;
++
++#define ELF_NGREG	(sizeof(struct user_pt_regs) / sizeof(elf_greg_t))
++typedef elf_greg_t elf_gregset_t[ELF_NGREG];
++
++/* Copy user_pt_regs from pt_regs into the elf_gregset_t */
++#define ELF_CORE_COPY_REGS(dest, regs) \
++	*(struct user_pt_regs *)&(dest) = (regs)->user_regs;
++
++/*
++ * This is used to ensure we don't load something for the wrong architecture.
++ */
++#define elf_check_arch(x) ((x)->e_machine == EM_KVX)
++
++#define ELF_CORE_EFLAGS 0x1308
++
++#define ELF_EXEC_PAGESIZE	(PAGE_SIZE)
++
++/*
++ * This is the location that an ET_DYN program is loaded if exec'ed.  Typical
++ * use of this is to invoke "./ld.so someprog" to test out a new version of
++ * the loader.  We need to make sure that it is out of the way of the program
++ * that it will "exec", and that there is sufficient room for the brk.
++ */
++#define ELF_ET_DYN_BASE		((TASK_SIZE / 3) * 2)
++
++/*
++ * This yields a mask that user programs can use to figure out what
++ * instruction set this CPU supports.  This could be done in user space,
++ * but it's not easy, and we've already done it here.
++ */
++#define ELF_HWCAP	(elf_hwcap)
++extern unsigned long elf_hwcap;
++
++/*
++ * This yields a string that ld.so will use to load implementation
++ * specific libraries for optimization.  This is more specific in
++ * intent than poking at uname or /proc/cpuinfo.
++ */
++#define ELF_PLATFORM	(NULL)
++
++#define ARCH_HAS_SETUP_ADDITIONAL_PAGES 1
++struct linux_binprm;
++extern int arch_setup_additional_pages(struct linux_binprm *bprm,
++				       int uses_interp);
++
++/* KVX relocs */
++#define R_KVX_NONE                                   0
++#define R_KVX_16                                     1
++#define R_KVX_32                                     2
++#define R_KVX_64                                     3
++#define R_KVX_S16_PCREL                              4
++#define R_KVX_PCREL17                                5
++#define R_KVX_PCREL27                                6
++#define R_KVX_32_PCREL                               7
++#define R_KVX_S37_PCREL_LO10                         8
++#define R_KVX_S37_PCREL_UP27                         9
++#define R_KVX_S43_PCREL_LO10                        10
++#define R_KVX_S43_PCREL_UP27                        11
++#define R_KVX_S43_PCREL_EX6                         12
++#define R_KVX_S64_PCREL_LO10                        13
++#define R_KVX_S64_PCREL_UP27                        14
++#define R_KVX_S64_PCREL_EX27                        15
++#define R_KVX_64_PCREL                              16
++#define R_KVX_S16                                   17
++#define R_KVX_S32_LO5                               18
++#define R_KVX_S32_UP27                              19
++#define R_KVX_S37_LO10                              20
++#define R_KVX_S37_UP27                              21
++#define R_KVX_S37_GOTOFF_LO10                       22
++#define R_KVX_S37_GOTOFF_UP27                       23
++#define R_KVX_S43_GOTOFF_LO10                       24
++#define R_KVX_S43_GOTOFF_UP27                       25
++#define R_KVX_S43_GOTOFF_EX6                        26
++#define R_KVX_32_GOTOFF                             27
++#define R_KVX_64_GOTOFF                             28
++#define R_KVX_32_GOT                                29
++#define R_KVX_S37_GOT_LO10                          30
++#define R_KVX_S37_GOT_UP27                          31
++#define R_KVX_S43_GOT_LO10                          32
++#define R_KVX_S43_GOT_UP27                          33
++#define R_KVX_S43_GOT_EX6                           34
++#define R_KVX_64_GOT                                35
++#define R_KVX_GLOB_DAT                              36
++#define R_KVX_COPY                                  37
++#define R_KVX_JMP_SLOT                              38
++#define R_KVX_RELATIVE                              39
++#define R_KVX_S43_LO10                              40
++#define R_KVX_S43_UP27                              41
++#define R_KVX_S43_EX6                               42
++#define R_KVX_S64_LO10                              43
++#define R_KVX_S64_UP27                              44
++#define R_KVX_S64_EX27                              45
++#define R_KVX_S37_GOTADDR_LO10                      46
++#define R_KVX_S37_GOTADDR_UP27                      47
++#define R_KVX_S43_GOTADDR_LO10                      48
++#define R_KVX_S43_GOTADDR_UP27                      49
++#define R_KVX_S43_GOTADDR_EX6                       50
++#define R_KVX_S64_GOTADDR_LO10                      51
++#define R_KVX_S64_GOTADDR_UP27                      52
++#define R_KVX_S64_GOTADDR_EX27                      53
++#define R_KVX_64_DTPMOD                             54
++#define R_KVX_64_DTPOFF                             55
++#define R_KVX_S37_TLS_DTPOFF_LO10                   56
++#define R_KVX_S37_TLS_DTPOFF_UP27                   57
++#define R_KVX_S43_TLS_DTPOFF_LO10                   58
++#define R_KVX_S43_TLS_DTPOFF_UP27                   59
++#define R_KVX_S43_TLS_DTPOFF_EX6                    60
++#define R_KVX_S37_TLS_GD_LO10                       61
++#define R_KVX_S37_TLS_GD_UP27                       62
++#define R_KVX_S43_TLS_GD_LO10                       63
++#define R_KVX_S43_TLS_GD_UP27                       64
++#define R_KVX_S43_TLS_GD_EX6                        65
++#define R_KVX_S37_TLS_LD_LO10                       66
++#define R_KVX_S37_TLS_LD_UP27                       67
++#define R_KVX_S43_TLS_LD_LO10                       68
++#define R_KVX_S43_TLS_LD_UP27                       69
++#define R_KVX_S43_TLS_LD_EX6                        70
++#define R_KVX_64_TPOFF                              71
++#define R_KVX_S37_TLS_IE_LO10                       72
++#define R_KVX_S37_TLS_IE_UP27                       73
++#define R_KVX_S43_TLS_IE_LO10                       74
++#define R_KVX_S43_TLS_IE_UP27                       75
++#define R_KVX_S43_TLS_IE_EX6                        76
++#define R_KVX_S37_TLS_LE_LO10                       77
++#define R_KVX_S37_TLS_LE_UP27                       78
++#define R_KVX_S43_TLS_LE_LO10                       79
++#define R_KVX_S43_TLS_LE_UP27                       80
++#define R_KVX_S43_TLS_LE_EX6                        81
++
++#endif	/* _ASM_KVX_ELF_H */
+diff --git a/arch/kvx/include/asm/vermagic.h b/arch/kvx/include/asm/vermagic.h
+new file mode 100644
+index 000000000000..fef9a33065df
+--- /dev/null
++++ b/arch/kvx/include/asm/vermagic.h
+@@ -0,0 +1,12 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (C) 2017-2023 Kalray Inc.
 + * Author(s): Clement Leger
 + */
 +
-+#ifndef _ASM_KVX_IPI_H
-+#define _ASM_KVX_IPI_H
++#ifndef _ASM_KVX_VERMAGIC_H
++#define _ASM_KVX_VERMAGIC_H
 +
-+#include <linux/irqreturn.h>
++#define MODULE_ARCH_VERMAGIC    "kvx"
 +
-+int kvx_ipi_ctrl_probe(irqreturn_t (*ipi_irq_handler)(int, void *));
-+
-+void kvx_ipi_send(const struct cpumask *mask);
-+
-+#endif /* _ASM_KVX_IPI_H */
-diff --git a/arch/kvx/platform/Makefile b/arch/kvx/platform/Makefile
-index c7d0abb15c27..27f0914e0de5 100644
---- a/arch/kvx/platform/Makefile
-+++ b/arch/kvx/platform/Makefile
-@@ -4,3 +4,4 @@
- #
- 
- obj-$(CONFIG_SMP) += pwr_ctrl.o
-+obj-$(CONFIG_SMP) += ipi.o
-diff --git a/arch/kvx/platform/ipi.c b/arch/kvx/platform/ipi.c
++#endif /* _ASM_KVX_VERMAGIC_H */
+diff --git a/arch/kvx/kernel/module.c b/arch/kvx/kernel/module.c
 new file mode 100644
-index 000000000000..a471039b1643
+index 000000000000..b9383792ae45
 --- /dev/null
-+++ b/arch/kvx/platform/ipi.c
-@@ -0,0 +1,108 @@
++++ b/arch/kvx/kernel/module.c
+@@ -0,0 +1,148 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (C) 2017-2023 Kalray Inc.
-+ * Author(s): Clement Leger
-+ *            Luc Michel
++ * Author(s): Yann Sionneau
++ *            Clement Leger
 + */
 +
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++#include <linux/elf.h>
++#include <linux/moduleloader.h>
++#include <linux/overflow.h>
 +
-+#include <linux/io.h>
-+#include <linux/slab.h>
-+#include <linux/types.h>
-+#include <linux/module.h>
-+#include <linux/of_irq.h>
-+#include <linux/cpumask.h>
-+#include <linux/interrupt.h>
-+#include <linux/cpuhotplug.h>
-+#include <linux/of_address.h>
-+#include <linux/of_platform.h>
 +
-+#define IPI_INTERRUPT_OFFSET	0x0
-+#define IPI_MASK_OFFSET		0x20
-+
-+/*
-+ * IPI controller can signal RM and PE0 -> 15
-+ * In order to restrict that to the PE, write the corresponding mask
-+ */
-+#define KVX_IPI_CPU_MASK	(~0xFFFF)
-+
-+struct kvx_ipi_ctrl {
-+	void __iomem *regs;
-+	unsigned int ipi_irq;
-+};
-+
-+static struct kvx_ipi_ctrl kvx_ipi_controller;
-+
-+/**
-+ * @kvx_pwr_ctrl_cpu_poweron Wakeup a cpu
-+ *
-+ * cpu: cpu to wakeup
-+ */
-+void kvx_ipi_send(const struct cpumask *mask)
++static int apply_rela_bits(Elf64_Addr loc, Elf64_Addr val,
++				  int sign, int immsize, int bits, int rshift,
++				  int lshift, unsigned int relocnum,
++				  struct module *me)
 +{
-+	const unsigned long *maskb = cpumask_bits(mask);
++	unsigned long long umax;
++	long long min, max;
++	unsigned long long mask = GENMASK_ULL(bits + lshift - 1, lshift);
 +
-+	WARN_ON(*maskb & KVX_IPI_CPU_MASK);
-+	writel(*maskb, kvx_ipi_controller.regs + IPI_INTERRUPT_OFFSET);
-+}
-+
-+static int kvx_ipi_starting_cpu(unsigned int cpu)
-+{
-+	enable_percpu_irq(kvx_ipi_controller.ipi_irq, IRQ_TYPE_NONE);
-+
-+	return 0;
-+}
-+
-+static int kvx_ipi_dying_cpu(unsigned int cpu)
-+{
-+	disable_percpu_irq(kvx_ipi_controller.ipi_irq);
-+
-+	return 0;
-+}
-+
-+int __init kvx_ipi_ctrl_probe(irqreturn_t (*ipi_irq_handler)(int, void *))
-+{
-+	struct device_node *np;
-+	int ret;
-+	unsigned int ipi_irq;
-+	void __iomem *ipi_base;
-+
-+	np = of_find_compatible_node(NULL, NULL, "kalray,kvx-ipi-ctrl");
-+	BUG_ON(!np);
-+
-+	ipi_base = of_iomap(np, 0);
-+	BUG_ON(!ipi_base);
-+
-+	kvx_ipi_controller.regs = ipi_base;
-+
-+	/* Init mask for interrupts to PE0 -> PE15 */
-+	writel(KVX_IPI_CPU_MASK, kvx_ipi_controller.regs + IPI_MASK_OFFSET);
-+
-+	ipi_irq = irq_of_parse_and_map(np, 0);
-+	of_node_put(np);
-+	if (!ipi_irq) {
-+		pr_err("Failed to parse irq: %d\n", ipi_irq);
-+		return -EINVAL;
++	if (sign) {
++		min = -(1ULL << (immsize - 1));
++		max = (1ULL << (immsize - 1)) - 1;
++		if ((long long) val < min || (long long) val > max)
++			goto too_big;
++		val = (Elf64_Addr)(((long) val) >> rshift);
++	} else {
++		if (immsize < 64)
++			umax = (1ULL << immsize) - 1;
++		else
++			umax = -1ULL;
++		if ((unsigned long long) val > umax)
++			goto too_big;
++		val >>= rshift;
 +	}
 +
-+	ret = request_percpu_irq(ipi_irq, ipi_irq_handler,
-+						"kvx_ipi", &kvx_ipi_controller);
-+	if (ret) {
-+		pr_err("can't register interrupt %d (%d)\n",
-+						ipi_irq, ret);
-+		return ret;
-+	}
-+	kvx_ipi_controller.ipi_irq = ipi_irq;
-+
-+	ret = cpuhp_setup_state(CPUHP_AP_IRQ_KVX_STARTING,
-+				"kvx/ipi:online",
-+				kvx_ipi_starting_cpu,
-+				kvx_ipi_dying_cpu);
-+	if (ret < 0) {
-+		pr_err("Failed to setup hotplug state");
-+		return ret;
-+	}
++	val <<= lshift;
++	val &= mask;
++	if (bits <= 32)
++		*(u32 *) loc = (*(u32 *)loc & ~mask) | val;
++	else
++		*(u64 *) loc = (*(u64 *)loc & ~mask) | val;
 +
 +	return 0;
++too_big:
++	pr_err("%s: value %llx does not fit in %d bits for reloc %u",
++	       me->name, val, bits, relocnum);
++	return -ENOEXEC;
 +}
++
++int apply_relocate_add(Elf64_Shdr *sechdrs,
++			   const char *strtab,
++			   unsigned int symindex,
++			   unsigned int relsec,
++			   struct module *me)
++{
++	unsigned int i;
++	Elf64_Addr loc;
++	u64 val;
++	s64 sval;
++	Elf64_Sym *sym;
++	Elf64_Rela *rel = (void *)sechdrs[relsec].sh_addr;
++	int ret = 0;
++
++	pr_debug("Applying relocate section %u to %u\n",
++			relsec, sechdrs[relsec].sh_info);
++
++	for (i = 0; i < sechdrs[relsec].sh_size / sizeof(*rel); i++) {
++		/* This is where to make the change */
++		loc = (Elf64_Addr)sechdrs[sechdrs[relsec].sh_info].sh_addr
++			+ rel[i].r_offset;
++		/* This is the symbol it is referring to.  Note that all
++		 *  undefined symbols have been resolved.
++		 */
++		sym = (Elf64_Sym *)sechdrs[symindex].sh_addr
++			+ ELF64_R_SYM(rel[i].r_info);
++
++		pr_debug("type %d st_value %llx r_addend %llx loc %llx offset %llx\n",
++			 (int)ELF64_R_TYPE(rel[i].r_info),
++			 sym->st_value, rel[i].r_addend, (uint64_t)loc,
++			 rel[i].r_offset);
++
++		val = sym->st_value + rel[i].r_addend;
++		switch (ELF64_R_TYPE(rel[i].r_info)) {
++		case R_KVX_NONE:
++			break;
++		case R_KVX_32:
++			ret = apply_rela_bits(loc, val, 0, 32, 32, 0, 0,
++					      ELF64_R_TYPE(rel[i].r_info),
++					      me);
++			break;
++		case R_KVX_64:
++			ret = apply_rela_bits(loc, val, 0, 64, 64, 0, 0,
++					      ELF64_R_TYPE(rel[i].r_info),
++					      me);
++			break;
++		case R_KVX_S43_LO10:
++			ret = apply_rela_bits(loc, val, 1, 43, 10, 0, 6,
++					      ELF64_R_TYPE(rel[i].r_info),
++					      me);
++			break;
++		case R_KVX_S64_LO10:
++			ret = apply_rela_bits(loc, val, 1, 64, 10, 0, 6,
++					      ELF64_R_TYPE(rel[i].r_info),
++					      me);
++			break;
++		case R_KVX_S43_UP27:
++			ret = apply_rela_bits(loc, val, 1, 43, 27, 10, 0,
++					      ELF64_R_TYPE(rel[i].r_info),
++					      me);
++			break;
++		case R_KVX_S64_UP27:
++			ret = apply_rela_bits(loc, val, 1, 64, 27, 10, 0,
++					      ELF64_R_TYPE(rel[i].r_info),
++					      me);
++			break;
++		case R_KVX_S43_EX6:
++			ret = apply_rela_bits(loc, val, 1, 43, 6, 37, 0,
++					      ELF64_R_TYPE(rel[i].r_info),
++					      me);
++			break;
++		case R_KVX_S64_EX27:
++			ret = apply_rela_bits(loc, val, 1, 64, 27, 37, 0,
++					      ELF64_R_TYPE(rel[i].r_info),
++					      me);
++			break;
++		case R_KVX_PCREL27:
++			if (__builtin_sub_overflow(val, loc, &sval)) {
++				pr_err("%s: Signed integer overflow, this should not happen\n",
++				       me->name);
++				return -ENOEXEC;
++			}
++			sval >>= 2;
++			ret = apply_rela_bits(loc, (Elf64_Addr)sval, 1, 27, 27,
++					      0, 0,
++					      ELF64_R_TYPE(rel[i].r_info),
++					      me);
++			break;
++		default:
++			pr_err("%s: Unknown relocation: %llu\n",
++				me->name, ELF64_R_TYPE(rel[i].r_info));
++			ret = -ENOEXEC;
++		}
++	}
++	return ret;
++}
++
 -- 
 2.37.2
 
