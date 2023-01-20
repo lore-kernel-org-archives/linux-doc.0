@@ -2,106 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2592AC05027
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 18:42:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BE4FC25B50
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 19:20:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229866AbjATSm6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 13:42:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48644 "EHLO
+        id S229744AbjATTUT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 14:20:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229805AbjATSm5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 13:42:57 -0500
-Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [IPv6:2a01:37:1000::53df:5f64:0])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59D23DBEB;
-        Fri, 20 Jan 2023 10:42:55 -0800 (PST)
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-         client-signature RSA-PSS (4096 bits) client-digest SHA256)
-        (Client CN "*.hostsharing.net", Issuer "RapidSSL Global TLS RSA4096 SHA256 2022 CA1" (verified OK))
-        by bmailout1.hostsharing.net (Postfix) with ESMTPS id A654830000940;
-        Fri, 20 Jan 2023 19:42:53 +0100 (CET)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-        id 9BAF31D5B81; Fri, 20 Jan 2023 19:42:53 +0100 (CET)
-Date:   Fri, 20 Jan 2023 19:42:53 +0100
-From:   Lukas Wunner <lukas@wunner.de>
-To:     Russ Weight <russell.h.weight@intel.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Tianfei Zhang <tianfei.zhang@intel.com>, bhelgaas@google.com,
-        linux-pci@vger.kernel.org, linux-fpga@vger.kernel.org,
-        kabel@kernel.org, mani@kernel.org, pali@kernel.org, mdf@kernel.org,
-        hao.wu@intel.com, yilun.xu@intel.com, trix@redhat.com,
-        jgg@ziepe.ca, ira.weiny@intel.com,
-        andriy.shevchenko@linux.intel.com, dan.j.williams@intel.com,
-        keescook@chromium.org, rafael@kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ilpo.jarvinen@linux.intel.com,
-        lee@kernel.org, matthew.gerlach@linux.intel.com
-Subject: Re: [PATCH v1 00/12] add FPGA hotplug manager driver
-Message-ID: <20230120184253.GA25018@wunner.de>
-References: <20230119013602.607466-1-tianfei.zhang@intel.com>
- <Y8lGxqjuLS8NfJtg@kroah.com>
- <a896be81-e482-9d52-ece5-a2ef28822072@intel.com>
+        with ESMTP id S229702AbjATTUS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 14:20:18 -0500
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2E5572C27
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 11:20:17 -0800 (PST)
+Received: by mail-pf1-x42a.google.com with SMTP id c26so4706646pfp.10
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 11:20:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jGyt6CUdmtm2ioRKnF8I31iR5Kv2QPHBMLPFSaYDNiY=;
+        b=Uu5CA7ojWufnZge0bmJujGF0GkpDKBVBcpU8xWM4Q0rxz/aT0RAyOpA1DHBDMPbVFN
+         tqUjNMfa3Aif+GgOpT8Q+nf25/sXFy7XS5A1bpe7NXC9AG09PWDFNgVwd3N4AL4mEvjv
+         uK6rJDTix7y5/wRAdoMLSZqftlfVqyVo6OkYU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jGyt6CUdmtm2ioRKnF8I31iR5Kv2QPHBMLPFSaYDNiY=;
+        b=0jUcxzS0eq6eICLQ8N6etAGV5+1gJ6UtrMLGgcr76z8ErH884UuAhurvtt0qDce2D9
+         EgnQbG3ATgd6IoO8KLmBSGrxZxDpl53S4+e7N0q39X6nzOrIc3Ch1tU2BW3rnkja1e8h
+         ignLO9ySkA2Doi5RfyUj2O1Koo5FfkugPW8roc2Zsbm+IEbj3iGMVk8ew6YAXCAXEB3D
+         ZEtUSUYndVLrH2fEtCISovBUpk0l6hDuV8h63oYJhMAY4HK3upeskIVKCykYdVZ45qlf
+         WcrEc3KTu+rMZL//utuaEGjD6vKazkbkHwTv9Q+rF3RvFSknXcC07OULA38kdBiIZziC
+         JnHQ==
+X-Gm-Message-State: AFqh2kqfe4Ecj4Ko/MatWlkmHYEaQxt6yJ+P5XooKIGgRoYp+3IUIzEf
+        IRQvWgQSKIn+gdIJmPurUa+8xA==
+X-Google-Smtp-Source: AMrXdXuyTIAN7HmAtV4HD1P3My5ps1sTBJQbBVFpT8W/R685exOGUTBZBi+w0yjPJR+F6KcbCZ6lsg==
+X-Received: by 2002:a05:6a00:3025:b0:58d:a683:bb2f with SMTP id ay37-20020a056a00302500b0058da683bb2fmr18456253pfb.23.1674242417297;
+        Fri, 20 Jan 2023 11:20:17 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id 3-20020a621503000000b00581c741f95csm24490646pfv.46.2023.01.20.11.19.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Jan 2023 11:19:50 -0800 (PST)
+Date:   Fri, 20 Jan 2023 11:19:36 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH v5 00/39] Shadow stacks for userspace
+Message-ID: <202301201118.6A55DE336@keescook>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+ <20230119142602.97b24f3cdba75f20f97786d3@linux-foundation.org>
+ <b6d88208b987c9cbbdb194b344d2a537dbd76914.camel@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a896be81-e482-9d52-ece5-a2ef28822072@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <b6d88208b987c9cbbdb194b344d2a537dbd76914.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 20, 2023 at 08:28:51AM -0800, Russ Weight wrote:
-> On 1/19/23 05:33, Greg KH wrote:
-> > On Wed, Jan 18, 2023 at 08:35:50PM -0500, Tianfei Zhang wrote:
-> > > This patchset introduces the FPGA hotplug manager (fpgahp) driver which
-> > > has been verified on the Intel N3000 card.
-> > >
-> > > When a PCIe-based FPGA card is reprogrammed, it temporarily disappears
-> > > from the PCIe bus. This needs to be managed to avoid PCIe errors and to
-> > > reprobe the device after reprogramming.
-> > >
-> > > To change the FPGA image, the kernel burns a new image into the flash on
-> > > the card, and then triggers the card BMC to load the new image into FPGA.
-> > > A new FPGA hotplug manager driver is introduced that leverages the PCIe
-> > > hotplug framework to trigger and manage the update of the FPGA image,
-> > > including the disappearance and reappearance of the card on the PCIe bus.
-> > > The fpgahp driver uses APIs from the pciehp driver. Two new operation
-> > > callbacks are defined in hotplug_slot_ops:
-> > >
-> > >   - available_images: Optional: available FPGA images
-> > >   - image_load: Optional: trigger the FPGA to load a new image
+On Fri, Jan 20, 2023 at 05:27:30PM +0000, Edgecombe, Rick P wrote:
+> On Thu, 2023-01-19 at 14:26 -0800, Andrew Morton wrote:
+> > On Thu, 19 Jan 2023 13:22:38 -0800 Rick Edgecombe <
+> > rick.p.edgecombe@intel.com> wrote:
 > > 
-> > Why is all of this tied into the pci hotplug code? Shouldn't it be
-> > specific to this one driver instead?  pci hotplug is for removing/adding
-> > PCI devices to the system, not messing with FPGA images.
-> >
-> > This feels like an abuse of the pci hotplug bus to me as this is NOT
-> > really a PCI hotplug bus at all, right?
+> > > SHSTK
+> > 
+> > Sounds like me trying to swear in Russian while drunk.
+> > 
+> > Is there any chance of s/shstk/shadow_stack/g?
 > 
-> While it is true that triggering an FPGA image-load does not involve
-> hotplug specific registers to be managed, the RTL that comprises
-> the PCIe interface will disappear and then reappear after the FPGA
-> is reprogrammed. When it reappears, it_could/_/have a different PCI
-> ID. The process of managing this event has a lot of similarity to a
-> PCIe hotplug event; there is a lot of existing PCIe hotplug related
-> code that could be leveraged.
+> I'm fine with the name change. I think shstk got debated and picked
+> early in the history of the series before I got involved. "shstk" is
+> nice and short, but it's not completely clear what it is unless you
+> already know about shadow stack. So there is a tradeoff of clarity and
+> line length/wrapping. Does anyone else have any strong opinions?
 
-It sounds like the N3000 is a PCI endpoint device which, when reprogrammed,
-briefly disappears from the bus and then may reappear under a different
-device ID.
+I prefer SHSTK because it specifically means x86's hardware shadow
+stack from CET. Lots of things can (and have) implemented things called
+"shadow stack".
 
-What you want to do then is make sure that the slot into which the N3000
-is plugged is hotplug-capable.  In that case, pciehp will handle
-disappearance and reappearance of the card just fine.  Once the N3000
-disables the link, pciehp will bring down the slot.  Once it re-enables
-the link, it will bring the slot up again.  It's as if the card was
-removed and replaced with a different one.  pciehp will bind to the
-Root Port or Downstream Port associated with the hotplug slot.
-
-The pci_hotplug_port infrastructure is for hotplug controllers which
-handle devices disappearing and reappearing *below* them.  It is not
-for endpoint devices.
-
-Thanks,
-
-Lukas
+-- 
+Kees Cook
