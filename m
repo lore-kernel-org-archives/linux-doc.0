@@ -2,54 +2,54 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D10ADC25B4E
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 14:12:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C0FAC38159
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 14:12:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230514AbjATOMY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 09:12:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38762 "EHLO
+        id S231139AbjATOM0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 09:12:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230394AbjATOLo (ORCPT
+        with ESMTP id S230419AbjATOLo (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 09:11:44 -0500
 Received: from fx403.security-mail.net (smtpout140.security-mail.net [85.31.212.143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77325C63B7
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 06:10:50 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36D1CC79FB
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 06:10:52 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
-        by fx403.security-mail.net (Postfix) with ESMTP id A606C465A0C
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 15:10:27 +0100 (CET)
+        by fx403.security-mail.net (Postfix) with ESMTP id 0362B46596F
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jan 2023 15:10:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
-        s=sec-sig-email; t=1674223827;
-        bh=4aKV1M/EL8VkswXxboYvmLELXbn01a6LSiaOR7RanlU=;
+        s=sec-sig-email; t=1674223832;
+        bh=tjQ30Z9ergbd5QQmn2LPAl2FE9a2esEgGsVsX8Hkh0Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=AGJaQBDvOi776LK2rqgakPd/qioMiWy2q+y7NYpPYEMQlbrPg370D79tdz2TqUDhc
-         S56G4mPszOasqaHxq2HES5fIEmKcuxMtf2XMbd3Kyr+QKGUnwWUsudk6xvfxJpa0pz
-         0rkRpijvpwiPmz1L+M3/jqQ1Qk/6k2ZrdC1gCvJQ=
+        b=a1RUVvPhJFSFfSrK+MJedITiIbeTOz6d2WXE+CgVg0vhyCZ330cex/JmdzdC9kSw/
+         zzl01cp2UY3crt0esWNgJaSFs/qidpM4TxmvACe/rDqYNV460xpO8sZGt8tOlyfQSE
+         DH7MWRkN0pAddwy84zLXwKR6tDw8lLfyknEyxiAQ=
 Received: from fx403 (localhost [127.0.0.1]) by fx403.security-mail.net
- (Postfix) with ESMTP id 7210846581D; Fri, 20 Jan 2023 15:10:27 +0100 (CET)
+ (Postfix) with ESMTP id C5FF646527B; Fri, 20 Jan 2023 15:10:31 +0100 (CET)
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx403.security-mail.net (Postfix) with ESMTPS id BE917465A07; Fri, 20 Jan
- 2023 15:10:25 +0100 (CET)
+ fx403.security-mail.net (Postfix) with ESMTPS id AE5D8465448; Fri, 20 Jan
+ 2023 15:10:30 +0100 (CET)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 8630F27E0442; Fri, 20 Jan 2023
- 15:10:25 +0100 (CET)
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 4CC1A27E0440; Fri, 20 Jan 2023
+ 15:10:30 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 6823527E043E; Fri, 20 Jan 2023 15:10:25 +0100 (CET)
+ (Postfix) with ESMTP id 2CBC627E043A; Fri, 20 Jan 2023 15:10:30 +0100 (CET)
 Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
  (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- huWm_inYEYG6; Fri, 20 Jan 2023 15:10:25 +0100 (CET)
+ Vglx1afFJmpx; Fri, 20 Jan 2023 15:10:30 +0100 (CET)
 Received: from junon.lin.mbt.kalray.eu (unknown [192.168.37.161]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id E082F27E0430; Fri, 20 Jan 2023
- 15:10:24 +0100 (CET)
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id B43BA27E043D; Fri, 20 Jan 2023
+ 15:10:29 +0100 (CET)
 X-Virus-Scanned: E-securemail
-Secumail-id: <f081.63caa0d1.bc865.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 6823527E043E
+Secumail-id: <f06a.63caa0d6.ac49d.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 2CBC627E043A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1674223825;
- bh=hlMcSlbG2rCqvU+ECfcxotBg/9GcrvxSjAelxbRimRU=;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1674223830;
+ bh=7ihbYuWX1g/NOZf5apPInAkKPctju2YordzLcMMvd+8=;
  h=From:To:Date:Message-Id:MIME-Version;
- b=q18eV07c3WJmIMEDF7H3KwFnXpEamD137FAmmetmHTu/mgrGthaXokUF44+LeCpUp
- pJJFtVF7sOI7ZD2s+ZsEGDrm1rayzHMQTwcKThR7Iht6lL3o5jqjBUHHvgfAUfAkMP
- GplPjyCgRgqXTjYk1prY8ZSuYTjxlX17Xhdgw28s=
+ b=YUYYebIRIJ5bk8n/CH4YvMdtNpTm9QVYSikQs07+iRmxxq3rubrDIth9BkffMcReC
+ s/DZFrr3fFNMHE0WuwO9jyrorHXjMRuprOkFWk9k7sCTRKtwBpoZVgMyehGNcXP0g1
+ 2ygHrIFYBeDLTMm7y6M6ROAh2tifNdoeEu7Qcwv4=
 From:   Yann Sionneau <ysionneau@kalray.eu>
 To:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -113,10 +113,9 @@ Cc:     Benjamin Mugnier <mugnier.benjamin@gmail.com>,
         devicetree@vger.kernel.org, linux-mm@kvack.org,
         linux-arch@vger.kernel.org, linux-audit@redhat.com,
         linux-riscv@lists.infradead.org, bpf@vger.kernel.org
-Subject: [RFC PATCH v2 02/31] Documentation: Add binding for
- kalray,kv3-1-core-intc
-Date:   Fri, 20 Jan 2023 15:09:33 +0100
-Message-ID: <20230120141002.2442-3-ysionneau@kalray.eu>
+Subject: [RFC PATCH v2 12/31] kvx: Add other common headers
+Date:   Fri, 20 Jan 2023 15:09:43 +0100
+Message-ID: <20230120141002.2442-13-ysionneau@kalray.eu>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230120141002.2442-1-ysionneau@kalray.eu>
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
@@ -128,74 +127,369 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jules Maselbas <jmaselbas@kalray.eu>
+Add some other common headers for basic kvx support.
 
-Add documentation for `kalray,kv3-1-core-intc` binding.
-
-Co-developed-by: Jules Maselbas <jmaselbas@kalray.eu>
-Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
+Co-developed-by: Clement Leger <clement@clement-leger.fr>
+Signed-off-by: Clement Leger <clement@clement-leger.fr>
+Co-developed-by: Julian Vetter <jvetter@kalray.eu>
+Signed-off-by: Julian Vetter <jvetter@kalray.eu>
+Co-developed-by: Vincent Chardon <vincent.chardon@elsys-design.com>
+Signed-off-by: Vincent Chardon <vincent.chardon@elsys-design.com>
+Co-developed-by: Yann Sionneau <ysionneau@kalray.eu>
 Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
 ---
 
 Notes:
-    V1 -> V2: new patch
+    V1 -> V2: no changes
 
- .../kalray,kv3-1-core-intc.yaml               | 46 +++++++++++++++++++
- 1 file changed, 46 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/interrupt-controller/kalray,kv3-1-core-intc.yaml
+ arch/kvx/include/asm/asm-prototypes.h   | 14 ++++++++
+ arch/kvx/include/asm/clocksource.h      | 17 +++++++++
+ arch/kvx/include/asm/linkage.h          | 13 +++++++
+ arch/kvx/include/asm/pci.h              | 36 +++++++++++++++++++
+ arch/kvx/include/asm/sections.h         | 18 ++++++++++
+ arch/kvx/include/asm/spinlock.h         | 16 +++++++++
+ arch/kvx/include/asm/spinlock_types.h   | 17 +++++++++
+ arch/kvx/include/asm/stackprotector.h   | 47 +++++++++++++++++++++++++
+ arch/kvx/include/asm/timex.h            | 20 +++++++++++
+ arch/kvx/include/asm/types.h            | 12 +++++++
+ arch/kvx/include/uapi/asm/bitsperlong.h | 14 ++++++++
+ arch/kvx/include/uapi/asm/byteorder.h   | 12 +++++++
+ tools/include/uapi/asm/bitsperlong.h    |  2 ++
+ 13 files changed, 238 insertions(+)
+ create mode 100644 arch/kvx/include/asm/asm-prototypes.h
+ create mode 100644 arch/kvx/include/asm/clocksource.h
+ create mode 100644 arch/kvx/include/asm/linkage.h
+ create mode 100644 arch/kvx/include/asm/pci.h
+ create mode 100644 arch/kvx/include/asm/sections.h
+ create mode 100644 arch/kvx/include/asm/spinlock.h
+ create mode 100644 arch/kvx/include/asm/spinlock_types.h
+ create mode 100644 arch/kvx/include/asm/stackprotector.h
+ create mode 100644 arch/kvx/include/asm/timex.h
+ create mode 100644 arch/kvx/include/asm/types.h
+ create mode 100644 arch/kvx/include/uapi/asm/bitsperlong.h
+ create mode 100644 arch/kvx/include/uapi/asm/byteorder.h
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/kalray,kv3-1-core-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/kalray,kv3-1-core-intc.yaml
+diff --git a/arch/kvx/include/asm/asm-prototypes.h b/arch/kvx/include/asm/asm-prototypes.h
 new file mode 100644
-index 000000000000..1e3d0593173a
+index 000000000000..af032508e30c
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/interrupt-controller/kalray,kv3-1-core-intc.yaml
-@@ -0,0 +1,46 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/interrupt-controller/kalray,kv3-1-core-intc#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/arch/kvx/include/asm/asm-prototypes.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ */
 +
-+title: Kalray kv3-1 Core Interrupt Controller
++#ifndef _ASM_KVX_ASM_PROTOTYPES_H
++#define _ASM_KVX_ASM_PROTOTYPES_H
 +
-+description: |
-+  The Kalray Core Interrupt Controller is tightly integrated in each kv3 core
-+  present in the Coolidge SoC.
++#include <asm/string.h>
 +
-+  It provides the following features:
-+  - 32 independent interrupt sources
-+  - 2-bit configurable priority level
-+  - 2-bit configurable ownership level
++#include <asm-generic/asm-prototypes.h>
 +
-+allOf:
-+  - $ref: /schemas/interrupt-controller.yaml#
++#endif /* _ASM_KVX_ASM_PROTOTYPES_H */
+diff --git a/arch/kvx/include/asm/clocksource.h b/arch/kvx/include/asm/clocksource.h
+new file mode 100644
+index 000000000000..4df7c66ffbb5
+--- /dev/null
++++ b/arch/kvx/include/asm/clocksource.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Yann Sionneau
++ *            Clement Leger
++ */
 +
-+properties:
-+  compatible:
-+    const: kalray,kv3-1-core-intc
-+  "#interrupt-cells":
-+    const: 1
-+    description:
-+      The IRQ number.
-+  reg:
-+    maxItems: 0
-+  "kalray,intc-nr-irqs":
-+    description: Number of irqs handled by the controller.
++#ifndef _ASM_KVX_CLOCKSOURCE_H
++#define _ASM_KVX_CLOCKSOURCE_H
 +
-+required:
-+  - compatible
-+  - "#interrupt-cells"
-+  - interrupt-controller
++#include <linux/compiler.h>
 +
-+examples:
-+  - |
-+    intc: interrupt-controller {
-+        compatible = "kalray,kv3-1-core-intc";
-+        #interrupt-cells = <1>;
-+        interrupt-controller;
-+    };
++struct arch_clocksource_data {
++	void __iomem *regs;
++};
 +
-+...
++#endif /* _ASM_KVX_CLOCKSOURCE_H */
+diff --git a/arch/kvx/include/asm/linkage.h b/arch/kvx/include/asm/linkage.h
+new file mode 100644
+index 000000000000..84e1cacf67c2
+--- /dev/null
++++ b/arch/kvx/include/asm/linkage.h
+@@ -0,0 +1,13 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Yann Sionneau
++ */
++
++#ifndef __ASM_KVX_LINKAGE_H
++#define __ASM_KVX_LINKAGE_H
++
++#define __ALIGN		.align 4
++#define __ALIGN_STR	".align 4"
++
++#endif
+diff --git a/arch/kvx/include/asm/pci.h b/arch/kvx/include/asm/pci.h
+new file mode 100644
+index 000000000000..d5bbaaf041b5
+--- /dev/null
++++ b/arch/kvx/include/asm/pci.h
+@@ -0,0 +1,36 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Vincent Chardon
++ *            Clement Leger
++ */
++
++#ifndef __ASM_KVX_PCI_H_
++#define __ASM_KVX_PCI_H_
++
++#include <linux/dma-mapping.h>
++#include <linux/pci.h>
++#include <linux/of_gpio.h>
++
++#define ARCH_GENERIC_PCI_MMAP_RESOURCE	1
++#define HAVE_PCI_MMAP			1
++
++extern int isa_dma_bridge_buggy;
++
++/* Can be used to override the logic in pci_scan_bus for skipping
++ * already-configured bus numbers - to be used for buggy BIOSes
++ * or architectures with incomplete PCI setup by the loader.
++ */
++#define pcibios_assign_all_busses()	0
++
++#define PCIBIOS_MIN_IO          0UL
++#define PCIBIOS_MIN_MEM         0UL
++
++#ifdef CONFIG_PCI_DOMAINS
++static inline int pci_proc_domain(struct pci_bus *bus)
++{
++		return pci_domain_nr(bus);
++}
++#endif /*  CONFIG_PCI_DOMAINS */
++
++#endif /* _ASM_KVX_PCI_H */
+diff --git a/arch/kvx/include/asm/sections.h b/arch/kvx/include/asm/sections.h
+new file mode 100644
+index 000000000000..0777675ef264
+--- /dev/null
++++ b/arch/kvx/include/asm/sections.h
+@@ -0,0 +1,18 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ */
++
++#ifndef _ASM_KVX_SECTIONS_H
++#define _ASM_KVX_SECTIONS_H
++
++#include <asm-generic/sections.h>
++
++extern char __rodata_start[], __rodata_end[];
++extern char __initdata_start[], __initdata_end[];
++extern char __inittext_start[], __inittext_end[];
++extern char __exception_start[], __exception_end[];
++extern char __rm_firmware_regs_start[];
++
++#endif
+diff --git a/arch/kvx/include/asm/spinlock.h b/arch/kvx/include/asm/spinlock.h
+new file mode 100644
+index 000000000000..ed32fdba1e19
+--- /dev/null
++++ b/arch/kvx/include/asm/spinlock.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ */
++
++#ifndef _ASM_KVX_SPINLOCK_H
++#define _ASM_KVX_SPINLOCK_H
++
++#include <asm/qspinlock.h>
++#include <asm/qrwlock.h>
++
++/* See include/linux/spinlock.h */
++#define smp_mb__after_spinlock()	smp_mb()
++
++#endif
+diff --git a/arch/kvx/include/asm/spinlock_types.h b/arch/kvx/include/asm/spinlock_types.h
+new file mode 100644
+index 000000000000..929a7df16ef3
+--- /dev/null
++++ b/arch/kvx/include/asm/spinlock_types.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ */
++
++#ifndef _ASM_KVX_SPINLOCK_TYPES_H
++#define _ASM_KVX_SPINLOCK_TYPES_H
++
++#if !defined(__LINUX_SPINLOCK_TYPES_RAW_H) && !defined(__ASM_SPINLOCK_H)
++# error "please don't include this file directly"
++#endif
++
++#include <asm-generic/qspinlock_types.h>
++#include <asm-generic/qrwlock_types.h>
++
++#endif /* _ASM_KVX_SPINLOCK_TYPES_H */
+diff --git a/arch/kvx/include/asm/stackprotector.h b/arch/kvx/include/asm/stackprotector.h
+new file mode 100644
+index 000000000000..2c190bbb5efc
+--- /dev/null
++++ b/arch/kvx/include/asm/stackprotector.h
+@@ -0,0 +1,47 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * derived from arch/mips/include/asm/stackprotector.h
++ *
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ */
++
++/*
++ * GCC stack protector support.
++ *
++ * Stack protector works by putting predefined pattern at the start of
++ * the stack frame and verifying that it hasn't been overwritten when
++ * returning from the function.  The pattern is called stack canary
++ * and gcc expects it to be defined by a global variable called
++ * "__stack_chk_guard" on KVX.  This unfortunately means that on SMP
++ * we cannot have a different canary value per task.
++ */
++
++#ifndef __ASM_STACKPROTECTOR_H
++#define __ASM_STACKPROTECTOR_H
++
++#include <linux/random.h>
++#include <linux/version.h>
++
++extern unsigned long __stack_chk_guard;
++
++/*
++ * Initialize the stackprotector canary value.
++ *
++ * NOTE: this must only be called from functions that never return,
++ * and it must always be inlined.
++ */
++static __always_inline void boot_init_stack_canary(void)
++{
++	unsigned long canary;
++
++	/* Try to get a semi random initial value. */
++	get_random_bytes(&canary, sizeof(canary));
++	canary ^= LINUX_VERSION_CODE;
++	canary &= CANARY_MASK;
++
++	current->stack_canary = canary;
++	__stack_chk_guard = current->stack_canary;
++}
++
++#endif	/* _ASM_STACKPROTECTOR_H */
+diff --git a/arch/kvx/include/asm/timex.h b/arch/kvx/include/asm/timex.h
+new file mode 100644
+index 000000000000..51e346faa887
+--- /dev/null
++++ b/arch/kvx/include/asm/timex.h
+@@ -0,0 +1,20 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ */
++
++#ifndef _ASM_KVX_TIMEX_H
++#define _ASM_KVX_TIMEX_H
++
++#define get_cycles get_cycles
++
++#include <asm/sfr.h>
++#include <asm-generic/timex.h>
++
++static inline cycles_t get_cycles(void)
++{
++	return kvx_sfr_get(PM0);
++}
++
++#endif	/* _ASM_KVX_TIMEX_H */
+diff --git a/arch/kvx/include/asm/types.h b/arch/kvx/include/asm/types.h
+new file mode 100644
+index 000000000000..1e6c024ee892
+--- /dev/null
++++ b/arch/kvx/include/asm/types.h
+@@ -0,0 +1,12 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ */
++
++#ifndef _ASM_KVX_TYPES_H
++#define _ASM_KVX_TYPES_H
++
++#include <asm-generic/int-ll64.h>
++
++#endif	/* _ASM_KVX_TYPES_H */
+diff --git a/arch/kvx/include/uapi/asm/bitsperlong.h b/arch/kvx/include/uapi/asm/bitsperlong.h
+new file mode 100644
+index 000000000000..02a91596d567
+--- /dev/null
++++ b/arch/kvx/include/uapi/asm/bitsperlong.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ */
++
++#ifndef _UAPI_ASM_KVX_BITSPERLONG_H
++#define _UAPI_ASM_KVX_BITSPERLONG_H
++
++#define __BITS_PER_LONG 64
++
++#include <asm-generic/bitsperlong.h>
++
++#endif /* _UAPI_ASM_KVX_BITSPERLONG_H */
+diff --git a/arch/kvx/include/uapi/asm/byteorder.h b/arch/kvx/include/uapi/asm/byteorder.h
+new file mode 100644
+index 000000000000..b7d827daec73
+--- /dev/null
++++ b/arch/kvx/include/uapi/asm/byteorder.h
+@@ -0,0 +1,12 @@
++/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ */
++
++#ifndef _ASM_KVX_BYTEORDER_H
++#define _ASM_KVX_BYTEORDER_H
++
++#include <linux/byteorder/little_endian.h>
++
++#endif	/* _ASM_KVX_BYTEORDER_H */
+diff --git a/tools/include/uapi/asm/bitsperlong.h b/tools/include/uapi/asm/bitsperlong.h
+index da5206517158..40272ffa9c32 100644
+--- a/tools/include/uapi/asm/bitsperlong.h
++++ b/tools/include/uapi/asm/bitsperlong.h
+@@ -19,6 +19,8 @@
+ #include "../../../arch/alpha/include/uapi/asm/bitsperlong.h"
+ #elif defined(__loongarch__)
+ #include "../../../arch/loongarch/include/uapi/asm/bitsperlong.h"
++#elif defined(__kvx__)
++#include "../../../arch/kvx/include/uapi/asm/bitsperlong.h"
+ #else
+ #include <asm-generic/bitsperlong.h>
+ #endif
 -- 
 2.37.2
 
