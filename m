@@ -2,58 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04734C05027
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 22:49:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC701C38A23
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 22:49:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbjATWtc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 17:49:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56982 "EHLO
+        id S230136AbjATWtd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 17:49:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230123AbjATWtT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 17:49:19 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65BDC4ED21;
-        Fri, 20 Jan 2023 14:48:46 -0800 (PST)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30KMfxBx005026;
-        Fri, 20 Jan 2023 22:47:59 GMT
+        with ESMTP id S229964AbjATWtW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 17:49:22 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 806D14ED1A;
+        Fri, 20 Jan 2023 14:48:47 -0800 (PST)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30KMVwBn028104;
+        Fri, 20 Jan 2023 22:47:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=oPuaCrarO4oyPhQJzJXH1Z0yN/Q+wCwOvUWJSM7iWjA=;
- b=SABIp335W4srEe86Via4gLsYx6V691HsW9wGiCWg8AaQx06AixO+nUFhpXS8K53mfbPQ
- n6mOkQrOBcC1LRI4Rk18IqGDmhnQ8Ql9oWSKxddCzpvrhod3fvzP1jndJFEYKUrQIqJJ
- 0dgonYkuxTIrm17EbDYp7ccwrXWej/WpF2dE4Fs7VX6pAQwxdmOHQqfEYZIW0xl75lw0
- DOCmCq99SXgrUj9OW+8nd7HwdOKrwSICBEI8mdprEWVBpFupWEnjlJNkxItrpJsZPva2
- KMT/CpKQCUKHzKvK0wVq66yWdh2+OrMObrWq1DiryvnNQIVJw6FdTj5C2g1dYZcPNdwP yg== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n70eymkdv-1
+ bh=xDhlof3Ycbpydme9S4Ixj3GcrzqAi/zDbWt6czgF1Ic=;
+ b=aT+gWkQ0uufSXC005XzcziL9qhnHBfWxIxijonlqCwaJ+LQOLM6/aaCbFgA6WT/GBnt5
+ Hr7HrG1qMF3RS3MQD1qiJCK1TvifiVysTruAbtHDpeREl3Hl4FfJuiOTj8EoRUaQq1Fx
+ F15GdXrIsr1wv53dyPH/P5+LGNA8l/Z2b1woJB/+Mv7wlcGbgHe/ic0/1cmD9Dy4kvnB
+ Q39JSTbsjElw4mkc/QxrLFhCrQbEglvCTEnxNT2FF/MKMvJX/dxg9uQg0ePau+NjC4Ua
+ iBOOBf+tDIY48QZ27Eud0POppmu/kAoZJDYoZzRBLcrelq4o30JJAt8u4oAwaW0/SPI8 ig== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n7xt7rjw4-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 20 Jan 2023 22:47:59 +0000
+        Fri, 20 Jan 2023 22:47:50 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30KMlwQI024342
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30KMlnWq004033
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 20 Jan 2023 22:47:58 GMT
+        Fri, 20 Jan 2023 22:47:49 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Fri, 20 Jan 2023 14:47:57 -0800
+ 15.2.986.36; Fri, 20 Jan 2023 14:47:49 -0800
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Alex Elder <elder@linaro.org>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-CC:     Elliot Berman <quic_eberman@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Elliot Berman <quic_eberman@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>
+CC:     Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
         Carl van Schaik <quic_cvanscha@quicinc.com>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
         Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -63,9 +61,9 @@ CC:     Elliot Berman <quic_eberman@quicinc.com>,
         <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v9 18/27] firmware: qcom_scm: Register Gunyah platform ops
-Date:   Fri, 20 Jan 2023 14:46:17 -0800
-Message-ID: <20230120224627.4053418-19-quic_eberman@quicinc.com>
+Subject: [PATCH v9 13/27] gunyah: vm_mgr: Add/remove user memory regions
+Date:   Fri, 20 Jan 2023 14:46:12 -0800
+Message-ID: <20230120224627.4053418-14-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120224627.4053418-1-quic_eberman@quicinc.com>
 References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
@@ -77,181 +75,426 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 1To2etVPKnxLoraKqmvepaxuxWoO0VuE
-X-Proofpoint-GUID: 1To2etVPKnxLoraKqmvepaxuxWoO0VuE
+X-Proofpoint-GUID: YOf3unQSLCOptKQf9vQVsL8olr1Mdwgw
+X-Proofpoint-ORIG-GUID: YOf3unQSLCOptKQf9vQVsL8olr1Mdwgw
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-01-20_11,2023-01-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0 adultscore=0
- phishscore=0 suspectscore=0 clxscore=1015 mlxscore=0 mlxlogscore=999
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
+ suspectscore=0 impostorscore=0 spamscore=0 priorityscore=1501
+ lowpriorityscore=0 mlxlogscore=999 phishscore=0 bulkscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2301200218
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Qualcomm platforms have a firmware entity which performs access control
-to physical pages. Dynamically started Gunyah virtual machines use the
-QCOM_SCM_RM_MANAGED_VMID for access. Linux thus needs to assign access
-to the memory used by guest VMs. Gunyah doesn't do this operation for us
-since it is the current VM (typically VMID_HLOS) delegating the access
-and not Gunyah itself. Use the Gunyah platform ops to achieve this so
-that only Qualcomm platforms attempt to make the needed SCM calls.
+When launching a virtual machine, Gunyah userspace allocates memory for
+the guest and informs Gunyah about these memory regions through
+SET_USER_MEMORY_REGION ioctl.
 
 Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- drivers/firmware/Kconfig    |   2 +
- drivers/firmware/qcom_scm.c | 100 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 102 insertions(+)
+ drivers/virt/gunyah/Makefile    |   2 +-
+ drivers/virt/gunyah/vm_mgr.c    |  46 +++++++
+ drivers/virt/gunyah/vm_mgr.h    |  28 +++-
+ drivers/virt/gunyah/vm_mgr_mm.c | 223 ++++++++++++++++++++++++++++++++
+ include/uapi/linux/gunyah.h     |  22 ++++
+ 5 files changed, 319 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/virt/gunyah/vm_mgr_mm.c
 
-diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
-index b59e3041fd62..b888068ff6f2 100644
---- a/drivers/firmware/Kconfig
-+++ b/drivers/firmware/Kconfig
-@@ -214,6 +214,8 @@ config MTK_ADSP_IPC
+diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+index 03951cf82023..ff8bc4925392 100644
+--- a/drivers/virt/gunyah/Makefile
++++ b/drivers/virt/gunyah/Makefile
+@@ -2,5 +2,5 @@
  
- config QCOM_SCM
- 	tristate
-+	select VIRT_DRIVERS
-+	select GUNYAH_PLATFORM_HOOKS
+ obj-$(CONFIG_GUNYAH) += gunyah.o
  
- config QCOM_SCM_DOWNLOAD_MODE_DEFAULT
- 	bool "Qualcomm download mode enabled by default"
-diff --git a/drivers/firmware/qcom_scm.c b/drivers/firmware/qcom_scm.c
-index 92763dce6477..20a1434087eb 100644
---- a/drivers/firmware/qcom_scm.c
-+++ b/drivers/firmware/qcom_scm.c
-@@ -17,6 +17,7 @@
- #include <linux/clk.h>
- #include <linux/reset-controller.h>
- #include <linux/arm-smccc.h>
-+#include <linux/gunyah_rsc_mgr.h>
+-gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o
++gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o vm_mgr_mm.o
+ obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
+diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
+index 0864dbd77e28..b847fde63333 100644
+--- a/drivers/virt/gunyah/vm_mgr.c
++++ b/drivers/virt/gunyah/vm_mgr.c
+@@ -35,14 +35,55 @@ static __must_check struct gunyah_vm *gunyah_vm_alloc(struct gh_rm_rpc *rm)
+ 	ghvm->vmid = vmid;
+ 	ghvm->rm = rm;
  
- #include "qcom_scm.h"
- 
-@@ -27,6 +28,9 @@ module_param(download_mode, bool, 0);
- #define SCM_HAS_IFACE_CLK	BIT(1)
- #define SCM_HAS_BUS_CLK		BIT(2)
- 
-+#define QCOM_SCM_RM_MANAGED_VMID	0x3A
-+#define QCOM_SCM_MAX_MANAGED_VMID	0x3F
++	mutex_init(&ghvm->mm_lock);
++	INIT_LIST_HEAD(&ghvm->memory_mappings);
 +
- struct qcom_scm {
- 	struct device *dev;
- 	struct clk *core_clk;
-@@ -1292,6 +1296,99 @@ int qcom_scm_lmh_dcvsh(u32 payload_fn, u32 payload_reg, u32 payload_val,
+ 	return ghvm;
  }
- EXPORT_SYMBOL(qcom_scm_lmh_dcvsh);
  
-+static int qcom_scm_gh_rm_pre_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
+ static long gh_vm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ {
++	struct gunyah_vm *ghvm = filp->private_data;
++	void __user *argp = (void __user *)arg;
+ 	long r;
+ 
+ 	switch (cmd) {
++	case GH_VM_SET_USER_MEM_REGION: {
++		struct gunyah_vm_memory_mapping *mapping;
++		struct gh_userspace_memory_region region;
++
++		r = -EFAULT;
++		if (copy_from_user(&region, argp, sizeof(region)))
++			break;
++
++		r = -EINVAL;
++		/* All other flag bits are reserved for future use */
++		if (region.flags & ~(GH_MEM_ALLOW_READ | GH_MEM_ALLOW_WRITE | GH_MEM_ALLOW_EXEC |
++			GH_MEM_LENT))
++			break;
++
++
++		if (region.memory_size) {
++			r = 0;
++			mapping = gh_vm_mem_mapping_alloc(ghvm, &region);
++			if (IS_ERR(mapping)) {
++				r = PTR_ERR(mapping);
++				break;
++			}
++		} else {
++			mapping = gh_vm_mem_mapping_find(ghvm, region.label);
++			if (IS_ERR(mapping)) {
++				r = PTR_ERR(mapping);
++				break;
++			}
++			r = 0;
++			if (!mapping)
++				break;
++			gh_vm_mem_mapping_reclaim(ghvm, mapping);
++			kfree(mapping);
++		}
++		break;
++	}
+ 	default:
+ 		r = -ENOTTY;
+ 		break;
+@@ -54,7 +95,12 @@ static long gh_vm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ static int gh_vm_release(struct inode *inode, struct file *filp)
+ {
+ 	struct gunyah_vm *ghvm = filp->private_data;
++	struct gunyah_vm_memory_mapping *mapping, *tmp;
+ 
++	list_for_each_entry_safe(mapping, tmp, &ghvm->memory_mappings, list) {
++		gh_vm_mem_mapping_reclaim(ghvm, mapping);
++		kfree(mapping);
++	}
+ 	put_gh_rm(ghvm->rm);
+ 	kfree(ghvm);
+ 	return 0;
+diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
+index e47f34de7f9e..6b38bf780f76 100644
+--- a/drivers/virt/gunyah/vm_mgr.h
++++ b/drivers/virt/gunyah/vm_mgr.h
+@@ -7,14 +7,40 @@
+ #define _GH_PRIV_VM_MGR_H
+ 
+ #include <linux/gunyah_rsc_mgr.h>
++#include <linux/list.h>
++#include <linux/miscdevice.h>
++#include <linux/mutex.h>
+ 
+ #include <uapi/linux/gunyah.h>
+ 
+ long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned long arg);
+ 
++enum gunyah_vm_mem_share_type {
++	VM_MEM_SHARE,
++	VM_MEM_LEND,
++};
++
++struct gunyah_vm_memory_mapping {
++	struct list_head list;
++	enum gunyah_vm_mem_share_type share_type;
++	struct gh_rm_mem_parcel parcel;
++
++	__u64 guest_phys_addr;
++	struct page **pages;
++	unsigned long npages;
++};
++
+ struct gunyah_vm {
+ 	u16 vmid;
+-	struct gh_rm_rpc *rm;
++	struct gh_rm *rm;
++
++	struct mutex mm_lock;
++	struct list_head memory_mappings;
+ };
+ 
++struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_alloc(struct gunyah_vm *ghvm,
++							struct gh_userspace_memory_region *region);
++void gh_vm_mem_mapping_reclaim(struct gunyah_vm *ghvm, struct gunyah_vm_memory_mapping *mapping);
++struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find(struct gunyah_vm *ghvm, u32 label);
++
+ #endif
+diff --git a/drivers/virt/gunyah/vm_mgr_mm.c b/drivers/virt/gunyah/vm_mgr_mm.c
+new file mode 100644
+index 000000000000..f2dbdb4ee8ab
+--- /dev/null
++++ b/drivers/virt/gunyah/vm_mgr_mm.c
+@@ -0,0 +1,223 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++
++#define pr_fmt(fmt) "gh_vm_mgr: " fmt
++
++#include <linux/gunyah_rsc_mgr.h>
++#include <linux/mm.h>
++
++#include <uapi/linux/gunyah.h>
++
++#include "vm_mgr.h"
++
++static inline bool page_contiguous(phys_addr_t p, phys_addr_t t)
 +{
-+	struct qcom_scm_vmperm *new_perms;
-+	u64 src, src_cpy;
-+	int ret = 0, i, n;
-+	u16 vmid;
++	return t - p == PAGE_SIZE;
++}
 +
-+	new_perms = kcalloc(mem_parcel->n_acl_entries, sizeof(*new_perms), GFP_KERNEL);
-+	if (!new_perms)
-+		return -ENOMEM;
++static struct gunyah_vm_memory_mapping *__gh_vm_mem_mapping_find(struct gunyah_vm *ghvm, u32 label)
++{
++	struct gunyah_vm_memory_mapping *mapping;
 +
-+	for (n = 0; n < mem_parcel->n_acl_entries; n++) {
-+		vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
-+		if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
-+			new_perms[n].vmid = vmid;
-+		else
-+			new_perms[n].vmid = QCOM_SCM_RM_MANAGED_VMID;
-+		if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_X)
-+			new_perms[n].perm |= QCOM_SCM_PERM_EXEC;
-+		if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_W)
-+			new_perms[n].perm |= QCOM_SCM_PERM_WRITE;
-+		if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_R)
-+			new_perms[n].perm |= QCOM_SCM_PERM_READ;
++
++	list_for_each_entry(mapping, &ghvm->memory_mappings, list)
++		if (mapping->parcel.label == label)
++			return mapping;
++
++	return NULL;
++}
++
++void gh_vm_mem_mapping_reclaim(struct gunyah_vm *ghvm, struct gunyah_vm_memory_mapping *mapping)
++{
++	int i, ret = 0;
++
++	if (mapping->parcel.mem_handle != GH_MEM_HANDLE_INVAL) {
++		ret = gh_rm_mem_reclaim(ghvm->rm, &mapping->parcel);
++		if (ret)
++			pr_warn("Failed to reclaim memory parcel for label %d: %d\n",
++				mapping->parcel.label, ret);
 +	}
 +
-+	src = (1ull << QCOM_SCM_VMID_HLOS);
++	if (!ret)
++		for (i = 0; i < mapping->npages; i++)
++			unpin_user_page(mapping->pages[i]);
 +
-+	for (i = 0; i < mem_parcel->n_mem_entries; i++) {
-+		src_cpy = src;
-+		ret = qcom_scm_assign_mem(le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
-+						le64_to_cpu(mem_parcel->mem_entries[i].size),
-+						&src_cpy, new_perms, mem_parcel->n_acl_entries);
-+		if (ret) {
-+			src = 0;
-+			for (n = 0; n < mem_parcel->n_acl_entries; n++) {
-+				vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
-+				if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
-+					src |= (1ull << vmid);
-+				else
-+					src |= (1ull << QCOM_SCM_RM_MANAGED_VMID);
-+			}
++	kfree(mapping->pages);
++	kfree(mapping->parcel.acl_entries);
++	kfree(mapping->parcel.mem_entries);
 +
-+			new_perms[0].vmid = QCOM_SCM_VMID_HLOS;
++	mutex_lock(&ghvm->mm_lock);
++	list_del(&mapping->list);
++	mutex_unlock(&ghvm->mm_lock);
++}
 +
-+			for (i--; i >= 0; i--) {
-+				src_cpy = src;
-+				ret = qcom_scm_assign_mem(
-+						le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
-+						le64_to_cpu(mem_parcel->mem_entries[i].size),
-+						&src_cpy, new_perms, 1);
-+				WARN_ON_ONCE(ret);
-+			}
-+			break;
++struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find(struct gunyah_vm *ghvm, u32 label)
++{
++	struct gunyah_vm_memory_mapping *mapping;
++	int ret;
++
++	ret = mutex_lock_interruptible(&ghvm->mm_lock);
++	if (ret)
++		return ERR_PTR(ret);
++	mapping = __gh_vm_mem_mapping_find(ghvm, label);
++	mutex_unlock(&ghvm->mm_lock);
++	return mapping ? : ERR_PTR(-ENODEV);
++}
++
++struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_alloc(struct gunyah_vm *ghvm,
++							struct gh_userspace_memory_region *region)
++{
++	phys_addr_t curr_page, prev_page;
++	struct gunyah_vm_memory_mapping *mapping, *tmp_mapping;
++	struct gh_rm_mem_entry *mem_entries;
++	int i, j, pinned, ret = 0;
++	struct gh_rm_mem_parcel *parcel;
++	size_t entry_size;
++	u16 vmid;
++
++	if (!region->memory_size || !PAGE_ALIGNED(region->memory_size) ||
++		!PAGE_ALIGNED(region->userspace_addr))
++		return ERR_PTR(-EINVAL);
++
++	if (!gh_api_has_feature(GH_API_FEATURE_MEMEXTENT))
++		return ERR_PTR(-EOPNOTSUPP);
++
++	ret = mutex_lock_interruptible(&ghvm->mm_lock);
++	if (ret)
++		return ERR_PTR(ret);
++	mapping = __gh_vm_mem_mapping_find(ghvm, region->label);
++	if (mapping) {
++		mutex_unlock(&ghvm->mm_lock);
++		return ERR_PTR(-EEXIST);
++	}
++
++	mapping = kzalloc(sizeof(*mapping), GFP_KERNEL);
++	if (!mapping) {
++		ret = -ENOMEM;
++		goto unlock;
++	}
++
++	mapping->parcel.label = region->label;
++	mapping->guest_phys_addr = region->guest_phys_addr;
++	mapping->npages = region->memory_size >> PAGE_SHIFT;
++	parcel = &mapping->parcel;
++	parcel->mem_handle = GH_MEM_HANDLE_INVAL; /* to be filled later by mem_share/mem_lend */
++	parcel->mem_type = GH_RM_MEM_TYPE_NORMAL;
++
++	/* Check for overlap */
++	list_for_each_entry(tmp_mapping, &ghvm->memory_mappings, list) {
++		if (!((mapping->guest_phys_addr + (mapping->npages << PAGE_SHIFT) <=
++			tmp_mapping->guest_phys_addr) ||
++			(mapping->guest_phys_addr >=
++			tmp_mapping->guest_phys_addr + (tmp_mapping->npages << PAGE_SHIFT)))) {
++			ret = -EEXIST;
++			goto unlock;
 +		}
 +	}
 +
-+	kfree(new_perms);
-+	return ret;
-+}
++	list_add(&mapping->list, &ghvm->memory_mappings);
++unlock:
++	mutex_unlock(&ghvm->mm_lock);
++	if (ret)
++		goto free_mapping;
 +
-+static int qcom_scm_gh_rm_post_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
-+{
-+	struct qcom_scm_vmperm new_perms;
-+	u64 src = 0;
-+	int ret = 0, i, n;
-+	u16 vmid;
-+
-+	new_perms.vmid = QCOM_SCM_VMID_HLOS;
-+	new_perms.perm = QCOM_SCM_PERM_EXEC | QCOM_SCM_PERM_WRITE | QCOM_SCM_PERM_READ;
-+
-+	for (n = 0; n < mem_parcel->n_acl_entries; n++) {
-+		vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
-+		if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
-+			src |= (1ull << vmid);
-+		else
-+			src |= (1ull << QCOM_SCM_RM_MANAGED_VMID);
++	mapping->pages = kcalloc(mapping->npages, sizeof(*mapping->pages), GFP_KERNEL);
++	if (!mapping->pages) {
++		ret = -ENOMEM;
++		goto reclaim;
 +	}
 +
-+	for (i = 0; i < mem_parcel->n_mem_entries; i++) {
-+		ret = qcom_scm_assign_mem(le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
-+						le64_to_cpu(mem_parcel->mem_entries[i].size),
-+						&src, &new_perms, 1);
-+		WARN_ON_ONCE(ret);
++	pinned = pin_user_pages_fast(region->userspace_addr, mapping->npages,
++					FOLL_WRITE | FOLL_LONGTERM, mapping->pages);
++	if (pinned < 0) {
++		ret = pinned;
++		goto reclaim;
++	} else if (pinned != mapping->npages) {
++		ret = -EFAULT;
++		mapping->npages = pinned; /* update npages for reclaim */
++		goto reclaim;
 +	}
 +
-+	return ret;
-+}
++	if (region->flags & GH_MEM_LENT) {
++		parcel->n_acl_entries = 1;
++		mapping->share_type = VM_MEM_LEND;
++	} else {
++		parcel->n_acl_entries = 2;
++		mapping->share_type = VM_MEM_SHARE;
++	}
++	parcel->acl_entries = kcalloc(parcel->n_acl_entries,
++						sizeof(*parcel->acl_entries),
++						GFP_KERNEL);
++	if (!parcel->acl_entries) {
++		ret = -ENOMEM;
++		goto reclaim;
++	}
 +
-+static struct gunyah_rm_platform_ops qcom_scm_gh_rm_platform_ops = {
-+	.pre_mem_share = qcom_scm_gh_rm_pre_mem_share,
-+	.post_mem_reclaim = qcom_scm_gh_rm_post_mem_reclaim,
++	parcel->acl_entries[0].vmid = cpu_to_le16(ghvm->vmid);
++	if (region->flags & GH_MEM_ALLOW_READ)
++		parcel->acl_entries[0].perms |= GH_RM_ACL_R;
++	if (region->flags & GH_MEM_ALLOW_WRITE)
++		parcel->acl_entries[0].perms |= GH_RM_ACL_W;
++	if (region->flags & GH_MEM_ALLOW_EXEC)
++		parcel->acl_entries[0].perms |= GH_RM_ACL_X;
++
++	if (mapping->share_type == VM_MEM_SHARE) {
++		ret = gh_rm_get_vmid(ghvm->rm, &vmid);
++		if (ret) {
++			if (ret > 0) {
++				pr_warn("RM failed to get this VM's VMID: %d", ret);
++				ret = -EINVAL;
++			}
++			goto reclaim;
++		}
++
++		parcel->acl_entries[1].vmid = cpu_to_le16(vmid);
++		/* Host assumed to have all these permissions. Gunyah will not
++		 * grant new permissions if host actually had less than RWX
++		 */
++		parcel->acl_entries[1].perms |= GH_RM_ACL_R | GH_RM_ACL_W | GH_RM_ACL_X;
++	}
++
++	mem_entries = kcalloc(mapping->npages, sizeof(*mem_entries), GFP_KERNEL);
++	if (!mem_entries) {
++		ret = -ENOMEM;
++		goto reclaim;
++	}
++
++	/* reduce number of entries by combining contiguous pages into single memory entry */
++	prev_page = page_to_phys(mapping->pages[0]);
++	mem_entries[0].ipa_base = cpu_to_le64(prev_page);
++	entry_size = PAGE_SIZE;
++	for (i = 1, j = 0; i < mapping->npages; i++) {
++		curr_page = page_to_phys(mapping->pages[i]);
++		if (page_contiguous(prev_page, curr_page)) {
++			entry_size += PAGE_SIZE;
++		} else {
++			mem_entries[j].size = cpu_to_le64(entry_size);
++			j++;
++			mem_entries[j].ipa_base = cpu_to_le64(curr_page);
++			entry_size = PAGE_SIZE;
++		}
++
++		prev_page = curr_page;
++	}
++	mem_entries[j].size = cpu_to_le64(entry_size);
++
++	parcel->n_mem_entries = j + 1;
++	parcel->mem_entries = kmemdup(mem_entries, sizeof(*mem_entries) * parcel->n_mem_entries,
++					GFP_KERNEL);
++	kfree(mem_entries);
++	if (!parcel->mem_entries) {
++		ret = -ENOMEM;
++		goto reclaim;
++	}
++
++	return mapping;
++reclaim:
++	gh_vm_mem_mapping_reclaim(ghvm, mapping);
++free_mapping:
++	kfree(mapping);
++	return ERR_PTR(ret);
++}
+diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+index 88a40d6e0b96..574f33b198d0 100644
+--- a/include/uapi/linux/gunyah.h
++++ b/include/uapi/linux/gunyah.h
+@@ -20,4 +20,26 @@
+  */
+ #define GH_CREATE_VM			_IO(GH_IOCTL_TYPE, 0x0) /* Returns a Gunyah VM fd */
+ 
++/*
++ * ioctls for VM fds
++ */
++struct gh_userspace_memory_region {
++	__u32 label;
++#define GH_MEM_ALLOW_READ	(1UL << 0)
++#define GH_MEM_ALLOW_WRITE	(1UL << 1)
++#define GH_MEM_ALLOW_EXEC	(1UL << 2)
++/*
++ * The guest will be lent the memory instead of shared.
++ * In other words, the guest has exclusive access to the memory region and the host loses access.
++ */
++#define GH_MEM_LENT		(1UL << 3)
++	__u32 flags;
++	__u64 guest_phys_addr;
++	__u64 memory_size;
++	__u64 userspace_addr;
 +};
 +
- static int qcom_scm_find_dload_address(struct device *dev, u64 *addr)
- {
- 	struct device_node *tcsr;
-@@ -1414,6 +1511,9 @@ static int qcom_scm_probe(struct platform_device *pdev)
- 	if (download_mode)
- 		qcom_scm_set_download_mode(true);
- 
-+	if (gh_rm_register_platform_ops(&qcom_scm_gh_rm_platform_ops))
-+		dev_warn(__scm->dev, "Gunyah RM platform ops were already registered\n");
++#define GH_VM_SET_USER_MEM_REGION	_IOW(GH_IOCTL_TYPE, 0x1, \
++						struct gh_userspace_memory_region)
 +
- 	return 0;
- }
- 
+ #endif
 -- 
 2.39.0
 
