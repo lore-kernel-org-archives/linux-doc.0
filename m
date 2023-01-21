@@ -2,141 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F00AC004D4
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 07:35:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AD14C27C76
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 10:23:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229683AbjAUHfY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 Jan 2023 02:35:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50922 "EHLO
+        id S229673AbjAUKXW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 Jan 2023 05:23:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjAUHfX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jan 2023 02:35:23 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2B497135D;
-        Fri, 20 Jan 2023 23:35:22 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 60D33B82A2B;
-        Sat, 21 Jan 2023 07:35:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A2DAC433EF;
-        Sat, 21 Jan 2023 07:35:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1674286520;
-        bh=WjefWdiCL/8Sz2EGJFW9nb3fkDOMUyc6/UNjuyE0PTQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gQgeRDVc+OYVn7BZ+U1l4syouVdAqIOBf7OnNvPENNlJshtIlQecaetgk5H3u8KS1
-         Q2vfMuva0LU8CW7u4UEg4Xtj7sJZy/dBcgiWK9q+ObA1n6QCjxr/lsGVimlOyt9L7w
-         wUJxBNtsN/lAiUP6FvwZW0rVI9HfUn6ejatG+zxU=
-Date:   Sat, 21 Jan 2023 08:35:17 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Russ Weight <russell.h.weight@intel.com>
-Cc:     Tianfei Zhang <tianfei.zhang@intel.com>, bhelgaas@google.com,
-        linux-pci@vger.kernel.org, linux-fpga@vger.kernel.org,
-        lukas@wunner.de, kabel@kernel.org, mani@kernel.org,
-        pali@kernel.org, mdf@kernel.org, hao.wu@intel.com,
-        yilun.xu@intel.com, trix@redhat.com, jgg@ziepe.ca,
-        ira.weiny@intel.com, andriy.shevchenko@linux.intel.com,
-        dan.j.williams@intel.com, keescook@chromium.org, rafael@kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        ilpo.jarvinen@linux.intel.com, lee@kernel.org,
-        matthew.gerlach@linux.intel.com
-Subject: Re: [PATCH v1 10/12] PCI: hotplug: implement the hotplug_slot_ops
- callback for fpgahp
-Message-ID: <Y8uVtSw1qXhfHrNk@kroah.com>
-References: <20230119013602.607466-1-tianfei.zhang@intel.com>
- <20230119013602.607466-11-tianfei.zhang@intel.com>
- <Y8lFgKZGKYrM02Wm@kroah.com>
- <ea85cb02-a13d-f232-8ebd-c13893fc00c4@intel.com>
+        with ESMTP id S229617AbjAUKXV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jan 2023 05:23:21 -0500
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D27EF126C6;
+        Sat, 21 Jan 2023 02:23:20 -0800 (PST)
+Received: by mail-qv1-xf42.google.com with SMTP id q10so5530326qvt.10;
+        Sat, 21 Jan 2023 02:23:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U8FmfdWI90uZoPNQFlYSgQIxJfDHEIRg7upexyICW6Y=;
+        b=b2J1MH+UBi7wbqbpH/1wus3KKA1QGeEQlX7tJTxlW77qGrQevXQ9ta0HJkl2Ibqqqr
+         So4MKCKB/+euIXEFO8vNgCv3tIn7hQ9saSyKjfk7+4l/JKiZl9fsr/q7ta7gKZ8mrnJt
+         4uatllenZ9U2qrCSIBzPMZP+opMOXQgMm16W7uHKEl1ncCfN3KGr7sxkhunfLZ2Vv3eG
+         0L9HNeQhX77jXX+vtkoSvZhpwQwdkIqgglxgu/JcptYe+cLVGT/xJvNCyUb6W1SSf5un
+         140JHEP1l8OiGroWUwEg1WafdoxDQLglOIaS8K40zTCmB6tTbsgQKED2tiFaGvGPWEph
+         U0Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U8FmfdWI90uZoPNQFlYSgQIxJfDHEIRg7upexyICW6Y=;
+        b=ADOgLOdlAWh6Zl3W6TQEQUYIkY4Or52joco76MUHeSgXckH2DDq5naLTBCqOR6eSX1
+         o7yG+Omogy2lYwu+FeByM7/U1iCKeaq9dSMY9a8S/1z5V6pu7RAC3D0iwMbX+NkPGru4
+         uaYaJVfPHz1XVrQFNt4Y1c/jqjSein/WjvhwL6Jc7KfgMrENo9aPy2sXmRIykSL8peAy
+         +ivT2catlHAFVdcpFhhdRCHIWqrUU3qoUlJChitwz1JuiF2+6/cMzEBvVFPt5FrvLKG2
+         Uaeukfh6spUzgmtZVR98UFA62Npfl8iGHUnND2wJ9jAxQo24eNfP6ot6TNoEUGHQFvW6
+         GzIw==
+X-Gm-Message-State: AFqh2kqeZXVW741os8vaqawVROAS2vv1Y9YkBzPnYoj3b0UydDtFnTB1
+        HRFY/0plA/iF0e7kxB0hkxCP1Ms2Z8jR
+X-Google-Smtp-Source: AMrXdXuwkwQM1IKoMRFA/vTNcbT/5ht35IiIsol+boIgF16aC7ZfY0WAbu/Tjlr6RPdNO+qdxkUAEw==
+X-Received: by 2002:a0c:f84e:0:b0:535:64bb:fea0 with SMTP id g14-20020a0cf84e000000b0053564bbfea0mr7313731qvo.44.1674296599776;
+        Sat, 21 Jan 2023 02:23:19 -0800 (PST)
+Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
+        by smtp.gmail.com with ESMTPSA id y2-20020a05620a44c200b006e42a8e9f9bsm14128630qkp.121.2023.01.21.02.23.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Jan 2023 02:23:19 -0800 (PST)
+From:   Gregory Price <gourry.memverge@gmail.com>
+X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, krisman@collabora.com,
+        tglx@linutronix.de, luto@kernel.org, oleg@redhat.com,
+        peterz@infradead.org, ebiederm@xmission.com,
+        akpm@linux-foundation.org, adobriyan@gmail.com, corbet@lwn.net,
+        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
+Subject: [PATCH v4 0/3] Checkpoint Support for Syscall User Dispatch
+Date:   Sat, 21 Jan 2023 05:23:13 -0500
+Message-Id: <20230121102316.331935-1-gregory.price@memverge.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ea85cb02-a13d-f232-8ebd-c13893fc00c4@intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 20, 2023 at 02:38:43PM -0800, Russ Weight wrote:
-> 
-> 
-> On 1/19/23 05:28, Greg KH wrote:
-> > On Wed, Jan 18, 2023 at 08:36:00PM -0500, Tianfei Zhang wrote:
-> >> Implement the image_load and available_images callback functions
-> >> for fpgahp driver. This patch leverages some APIs from pciehp
-> >> driver to implement the device reconfiguration below the PCI hotplug
-> >> bridge.
-> >>
-> >> Here are the steps for a process of image load.
-> >> 1. remove all PFs and VFs except the PF0.
-> >> 2. remove all non-reserved devices of PF0.
-> >> 3. trigger a image load via BMC.
-> >> 4. disable the link of the hotplug bridge.
-> >> 5. remove all reserved devices under PF0 and PCI devices
-> >>    below the hotplug bridge.
-> >> 6. wait for image load done via BMC, e.g. 10s.
-> >> 7. re-enable the link of the hotplug bridge.
-> >> 8. re-enumerate PCI devices below the hotplug bridge.
-> >>
-> >> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
-> >> ---
-> >>  Documentation/ABI/testing/sysfs-driver-fpgahp |  21 ++
-> >>  MAINTAINERS                                   |   1 +
-> >>  drivers/pci/hotplug/fpgahp.c                  | 179 ++++++++++++++++++
-> >>  3 files changed, 201 insertions(+)
-> >>  create mode 100644 Documentation/ABI/testing/sysfs-driver-fpgahp
-> >>
-> >> diff --git a/Documentation/ABI/testing/sysfs-driver-fpgahp b/Documentation/ABI/testing/sysfs-driver-fpgahp
-> >> new file mode 100644
-> >> index 000000000000..8d4b1bfc4012
-> >> --- /dev/null
-> >> +++ b/Documentation/ABI/testing/sysfs-driver-fpgahp
-> >> @@ -0,0 +1,21 @@
-> >> +What:		/sys/bus/pci/slots/X-X/available_images
-> >> +Date:		May 2023
-> >> +KernelVersion:	6.3
-> >> +Contact:	Tianfei Zhang <tianfei.zhang@intel.com>
-> >> +Description:	Read-only. This file returns a space separated list of
-> >> +		key words that may be written into the image_load file
-> >> +		described below. These keywords decribe an FPGA, BMC,
-> >> +		or firmware image in FLASH or EEPROM storage that may
-> >> +		be loaded.
-> > No, sysfs is "one value per file", why is this a list?
-> >
-> > And what exactly defines the values in this list?
-> >
-> >> +
-> >> +What:		/sys/bus/pci/slots/X-X/image_load
-> >> +Date:		May 2023
-> >> +KernelVersion:	6.3
-> >> +Contact:	Tianfei Zhang <tianfei.zhang@intel.com>
-> >> +Description:	Write-only. A key word may be written to this file to
-> >> +		trigger a new image loading of an FPGA, BMC, or firmware
-> >> +		image from FLASH or EEPROM. Refer to the available_images
-> >> +		file for a list of supported key words for the underlying
-> >> +		device.
-> >> +		Writing an unsupported string to this file will result in
-> >> +		EINVAL being returned.
-> > Why is this a separate file from the "read the list" file?
-> 
-> The intended usage is like this:
-> 
-> $ cat available_images
-> bmc_factory bmc_user fpga_factory fpga_user1 fpga_user2
-> $ echo bmc_user > image_load
-> 
-> This specifies which image stored in flash that you want to have activated
-> on the device.
-> 
-> An existing example of something like this is in the tracing code:
-> available_tracers and current_tracer
-> 
-> Would it be preferable to just create a file for each possible image,
-> and echo 1 to trigger the event? (echo 1 > bmc_user)
+v4: Whitespace
+    s/CHECKPOINT_RESTART/CHECKPOINT_RESUME
+    check test_syscall_work(SYSCALL_USER_DISPATCH) to determine if it's
+    turned on or not in fs/proc/array and getter interface
 
-That would make things much more simpler overall and not force people to
-have to parse a sysfs file, which is the main reason we created sysfs in
-the first place.
+v3: Kernel test robot static function fix
+    Whitespace nitpicks
 
-thanks,
+v2: Implements the getter/setter interface in ptrace rather than prctl
 
-greg k-h
+Syscall user dispatch makes it possible to cleanly intercept system
+calls from user-land.  However, most transparent checkpoint software
+presently leverages some combination of ptrace and system call
+injection to place software in a ready-to-checkpoint state.
+
+If Syscall User Dispatch is enabled at the time of being quiesced,
+injected system calls will subsequently be interposed upon and
+dispatched to the task's signal handler.
+
+This patch set implements 3 features to enable software such as CRIU
+to cleanly interpose upon software leveraging syscall user dispatch.
+
+- Implement PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH, akin to a similar
+  feature for SECCOMP.  This allows a ptracer to temporarily disable
+  syscall user dispatch, making syscall injection possible.
+
+- Implement an fs/proc extension that reports whether Syscall User
+  Dispatch is being used in proc/status.  A similar value is present
+  for SECCOMP, and is used to determine whether special logic is
+  needed during checkpoint/resume.
+
+- Implement a getter interface for Syscall User Dispatch config info.
+  To resume successfully, the checkpoint/resume software has to
+  save and restore this information.  Presently this configuration
+  is write-only, with no way for C/R software to save it.
+
+  This was done in ptrace because syscall user dispatch is not part of
+  uapi. The syscall_user_dispatch_config structure was added to the
+  ptrace exports.
+
+
+Gregory Price (3):
+  ptrace,syscall_user_dispatch: Implement Syscall User Dispatch
+    Suspension
+  fs/proc/array: Add Syscall User Dispatch to proc status
+  ptrace,syscall_user_dispatch: add a getter/setter for sud
+    configuration
+
+ .../admin-guide/syscall-user-dispatch.rst     |  5 +-
+ fs/proc/array.c                               |  8 +++
+ include/linux/ptrace.h                        |  2 +
+ include/linux/syscall_user_dispatch.h         | 19 +++++++
+ include/uapi/linux/ptrace.h                   | 16 +++++-
+ kernel/entry/syscall_user_dispatch.c          | 51 +++++++++++++++++++
+ kernel/ptrace.c                               | 13 +++++
+ 7 files changed, 112 insertions(+), 2 deletions(-)
+
+-- 
+2.39.0
+
