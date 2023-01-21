@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72FE4C38142
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 22:53:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A1CDC61DA0
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 22:54:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbjAUWx5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 Jan 2023 17:53:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50536 "EHLO
+        id S229938AbjAUWyA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 Jan 2023 17:54:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229920AbjAUWx4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jan 2023 17:53:56 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C4DC2798E
-        for <linux-doc@vger.kernel.org>; Sat, 21 Jan 2023 14:53:55 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id r2so7734353wrv.7
-        for <linux-doc@vger.kernel.org>; Sat, 21 Jan 2023 14:53:55 -0800 (PST)
+        with ESMTP id S229941AbjAUWx6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jan 2023 17:53:58 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CC7027997
+        for <linux-doc@vger.kernel.org>; Sat, 21 Jan 2023 14:53:57 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id d14so4059770wrr.9
+        for <linux-doc@vger.kernel.org>; Sat, 21 Jan 2023 14:53:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile-fr.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uQ0vKpXMevlkvELPWPprpptk067lWow9uoTw6yIP2k4=;
-        b=VRbMVxuEfiVah3EHHwyAfjK75rQ60GkUS0LpmkDIUck051uzMK8IXhm6kwnjK/HxIg
-         OJSTSEq1iGyX2P8wTVl8FJQZ6NDvWInUXeN73jRDhSd1zvNtjceQjwt4id1IId9knHX5
-         1/L6tG071mp1O7vdh1jqVtrt7DVBoDhZL2w+NDymQACbegbiNphSTonK7b6Yo+tZsJTs
-         XGDpOqE49AInOaNIcJa6fNpuDTEFimeZ2eApm5AOo7BopO4/gGAppqarie4a4F+AhZK1
-         kDVuN/SHJTFHzGzjT0slIU/Vi32v8Ug8BfeUNDy6bG9xo6MfdihKiWArM0oD1gUituqX
-         3r6w==
+        bh=6aLj/ODwGBPQt5M/SiFpK9bRbaBx3QXPkN8yFU/v4Uw=;
+        b=wLK+/TX2jqUkSLNGrOV33nztWjS0BVBKyxpAoiH+fxZ9SyYAAJN5PpcvQqP0oo/3wj
+         xmTqZ8rRmAjdiMx9zPBeQtsGbLpbq5R+YAo+tOMWNR+ulOH9UOCZ4a9PXC9Lu242HtFE
+         kabFGpVGVkVQs74hDFrjdscUS97M0D7gathV5kRWGIzNeLGH2o99FiyB+X9Wq2Em7aC0
+         1rFFnfr2MFMGPW9O+T1RTdedQNrDRnsYK1JJnuvEn3JEJ7p44TA7zWamazmZVWxVPkSj
+         vO7zFgLzmqtK++FZVNNhOLU1tXC1+P4b8vfteMtBzXXBGpZ9W+gs37LshLeDKMc4yhRF
+         ngIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uQ0vKpXMevlkvELPWPprpptk067lWow9uoTw6yIP2k4=;
-        b=uvf2Q8PI0+Afs+P1oq0sZpbMqhBkulqnrc17XGCK/tezsLwoPMmf+zohRPVmDsS/cq
-         kcolR6GVwI5G9RaRoEysVzuPwoNJzU8r9pX2gsZ3lTaOWbr6G14lTRdzyaWNTbdltWPy
-         xpYTGYMZM9RwDQV14Z/kgforende3CxC0IKPQjq7FdSL3hCD+g8KQRYZ6wDuqiwGeJJe
-         yfKICm5qPOO4qMLKfBb0rI3E/OpsVXwh1tzk4/qDN9sqBz4q2o4XyLi2VO59e3YZGKpM
-         4/Q7G5+JF17qUTeysO+Xb5FOT0zyirO5Q47HkuFdL/Cs4Sdz+xvxD3XDvPwnsTRFGAKP
-         sNQQ==
-X-Gm-Message-State: AFqh2krc9FyxCU3/XASmql/jAjsjU0+dzHOoRMtxcCUsw3pg2kAdXeDB
-        43dofYtNzW+1a4m0e+9HhnoGuA==
-X-Google-Smtp-Source: AMrXdXv3mcoq2nGdYV82MydHDycIZI/Ikt/Bp0QBTn1xIKBuEeLznOU+qWyzojtZglNATuGE9xK/Lw==
-X-Received: by 2002:a5d:6b12:0:b0:242:7409:bbf with SMTP id v18-20020a5d6b12000000b0024274090bbfmr12108735wrw.54.1674341633899;
-        Sat, 21 Jan 2023 14:53:53 -0800 (PST)
+        bh=6aLj/ODwGBPQt5M/SiFpK9bRbaBx3QXPkN8yFU/v4Uw=;
+        b=oVp620jfkpx0j00WZTSvUlfhK2Kn8LhrUQFCKVYzUBZ+hEU/+0Ip7VeHYx4V1S2QHx
+         ote6alFNJTn+adnMHBcUWgP2nWBnp/qSwJlsRyQF92qmsC+CWt47F0Vq42y6dEd1r+2D
+         dBWg4hOVAbAdKer4jOqSsyzSxMzLMW/TKaKMeAO4oMq9v2VEjLViaiFTo1KxU/1lJZVe
+         bzsEP176hYOlvQa2M0tu6mVeo/oFioJPuDC7Jb0feNqt49aM7GVXr3Y5qFXWE+htv6nv
+         BBbNBCY4rNdgh8qeb9uoddp6If+Mig2oSk31acZKBw2akiQ534qSp2Z0xH/4AZ9toJ5P
+         ZlfA==
+X-Gm-Message-State: AFqh2kqml6fNKF8NBQQEsj6HpFQShVb13HEsQJdMlEjo3tY8oxjEnmM0
+        qRvhKJn++AvRP2w1py/OG7NTAQ==
+X-Google-Smtp-Source: AMrXdXsQPdS/rsAH2VkJLGhbcDT6rXm833dub6ajarrpe+sJ6MAEQqUcL1XCAkOQNQdY1NP0SX5mIA==
+X-Received: by 2002:adf:b604:0:b0:242:1809:7e17 with SMTP id f4-20020adfb604000000b0024218097e17mr16696562wre.6.1674341636948;
+        Sat, 21 Jan 2023 14:53:56 -0800 (PST)
 Received: from P-ASN-ECS-830T8C3.mpl.intranet (89-159-1-53.rev.numericable.fr. [89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id q16-20020adff950000000b002bcaa47bf78sm29531001wrr.26.2023.01.21.14.53.53
+        by smtp.gmail.com with ESMTPSA id q16-20020adff950000000b002bcaa47bf78sm29531001wrr.26.2023.01.21.14.53.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Jan 2023 14:53:53 -0800 (PST)
+        Sat, 21 Jan 2023 14:53:56 -0800 (PST)
 From:   Yoann Congal <yoann.congal@smile.fr>
 To:     linux-trace-kernel@vger.kernel.org
 Cc:     Yoann Congal <yoann.congal@smile.fr>,
@@ -56,9 +56,9 @@ Cc:     Yoann Congal <yoann.congal@smile.fr>,
         Masami Hiramatsu <mhiramat@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH v3 1/3] Documentation: kprobetrace: Fix some typos
-Date:   Sat, 21 Jan 2023 23:53:03 +0100
-Message-Id: <20230121225304.1711635-2-yoann.congal@smile.fr>
+Subject: [PATCH v3 3/3] Documentation: kprobetrace: Split paragraphs
+Date:   Sat, 21 Jan 2023 23:53:05 +0100
+Message-Id: <20230121225304.1711635-4-yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230121225304.1711635-1-yoann.congal@smile.fr>
 References: <20230121225304.1711635-1-yoann.congal@smile.fr>
@@ -68,83 +68,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Uncapitalise tracepoint
-* Hyphen in *-based
-* Plurals
-* fetch-args -> fetchargs
-* 2bytes hex -> 2-byte hex
-* .. -> .
-* arch -> architecture
+Add an empty line to force the output to split paragraphs like it is
+splitin the REST source.
 
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-
-TBR typo
 ---
- Documentation/trace/kprobetrace.rst | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ Documentation/trace/kprobetrace.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-index 08a2a6a3782f0..5c49cdc8f8323 100644
+index febfd3792854f..fda155237be7a 100644
 --- a/Documentation/trace/kprobetrace.rst
 +++ b/Documentation/trace/kprobetrace.rst
-@@ -6,16 +6,16 @@ Kprobe-based Event Tracing
- 
- Overview
- --------
--These events are similar to tracepoint based events. Instead of Tracepoint,
-+These events are similar to tracepoint-based events. Instead of tracepoints,
- this is based on kprobes (kprobe and kretprobe). So it can probe wherever
- kprobes can probe (this means, all functions except those with
- __kprobes/nokprobe_inline annotation and those marked NOKPROBE_SYMBOL).
--Unlike the Tracepoint based event, this can be added and removed
-+Unlike the tracepoint-based event, this can be added and removed
- dynamically, on the fly.
- 
- To enable this feature, build your kernel with CONFIG_KPROBE_EVENTS=y.
- 
--Similar to the events tracer, this doesn't need to be activated via
-+Similar to the event tracer, this doesn't need to be activated via
- current_tracer. Instead of that, add probe points via
- /sys/kernel/debug/tracing/kprobe_events, and enable it via
- /sys/kernel/debug/tracing/events/kprobes/<EVENT>/enable.
-@@ -68,7 +68,7 @@ Synopsis of kprobe_events
- 
- Types
- -----
--Several types are supported for fetch-args. Kprobe tracer will access memory
-+Several types are supported for fetchargs. Kprobe tracer will access memory
- by given type. Prefix 's' and 'u' means those types are signed and unsigned
- respectively. 'x' prefix implies it is unsigned. Traced arguments are shown
+@@ -74,12 +74,14 @@ respectively. 'x' prefix implies it is unsigned. Traced arguments are shown
  in decimal ('s' and 'u') or hexadecimal ('x'). Without type casting, 'x32'
-@@ -76,14 +76,15 @@ or 'x64' is used depends on the architecture (e.g. x86-32 uses x32, and
+ or 'x64' is used depends on the architecture (e.g. x86-32 uses x32, and
  x86-64 uses x64).
++
  These value types can be an array. To record array data, you can add '[N]'
  (where N is a fixed number, less than 64) to the base type.
--E.g. 'x16[4]' means an array of x16 (2bytes hex) with 4 elements.
-+E.g. 'x16[4]' means an array of x16 (2-byte hex) with 4 elements.
+ E.g. 'x16[4]' means an array of x16 (2-byte hex) with 4 elements.
  Note that the array can be applied to memory type fetchargs, you can not
  apply it to registers/stack-entries etc. (for example, '$stack1:x8[8]' is
  wrong, but '+8($stack):x8[8]' is OK.)
++
  String type is a special type, which fetches a "null-terminated" string from
  kernel space. This means it will fail and store NULL if the string container
  has been paged out. "ustring" type is an alternative of string for user-space.
--See :ref:`user_mem_access` for more info..
-+See :ref:`user_mem_access` for more info.
-+
- The string array type is a bit different from other types. For other base
- types, <base-type>[1] is equal to <base-type> (e.g. +0(%di):x32[1] is same
- as +0(%di):x32.) But string[1] is not equal to string. The string type itself
-@@ -120,8 +121,8 @@ space. 'ustring' is a shortcut way of performing the same task. That is,
- 
- Note that kprobe-event provides the user-memory access syntax but it doesn't
- use it transparently. This means if you use normal dereference or string type
--for user memory, it might fail, and may always fail on some archs. The user
--has to carefully check if the target data is in kernel or user space.
-+for user memory, it might fail, and may always fail on some architectures. The
-+user has to carefully check if the target data is in kernel or user space.
- 
- Per-Probe Event Filtering
- -------------------------
 -- 
 2.30.2
 
