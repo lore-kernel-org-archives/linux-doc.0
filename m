@@ -2,85 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16150C25B50
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 17:25:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADB9FC004D4
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 17:41:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229675AbjAURZY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 Jan 2023 12:25:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48380 "EHLO
+        id S229699AbjAURll (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 Jan 2023 12:41:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbjAURZX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jan 2023 12:25:23 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE32718B0E;
-        Sat, 21 Jan 2023 09:25:22 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8532D60B4B;
-        Sat, 21 Jan 2023 17:25:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF49C433D2;
-        Sat, 21 Jan 2023 17:25:21 +0000 (UTC)
-Date:   Sat, 21 Jan 2023 12:25:19 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Yoann Congal <yoann.congal@smile.fr>
-Cc:     linux-trace-kernel@vger.kernel.org,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        with ESMTP id S229523AbjAURll (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jan 2023 12:41:41 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 869B4CDCE
+        for <linux-doc@vger.kernel.org>; Sat, 21 Jan 2023 09:41:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674322900; x=1705858900;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bZbzLBRSYHALctzAHZ0CNb5mY62MyzVCgbG2fg+bYig=;
+  b=P6hRTfOCCWBfqv3hcCDUaPbDfdm8OlW6c23+8E7LCj5z7Z4u5mg5MDx+
+   dFOoqSD10j2qq+jyLVXR+cbwS2rSYeNTx84LqU9bcLzr74Hli6s/90Ch3
+   2EmbTB6E3BUwMIFQZJqvU4rqsmKnc44+wiyZSujZbaUqtI2FS+Zv7mIZF
+   GdwRslv74epszinZueCuQNw9DgsrDN6hsMOCQ8oRmhYZm19/cGVGv1NKs
+   4ueFQiPtQel2736hb8QtcLG9bFl1w4aVOhQ+CkeCplR7E0/hXsgnCipDX
+   l+PRCM+f1Mbe83UNzZktmI1e56h37qiDh+pmoeNoE3bo8y4JZhPDjFCfK
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="388167994"
+X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
+   d="scan'208";a="388167994"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 09:41:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="729472795"
+X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
+   d="scan'208";a="729472795"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 21 Jan 2023 09:41:38 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pJHs1-0004KA-0n;
+        Sat, 21 Jan 2023 17:41:37 +0000
+Date:   Sun, 22 Jan 2023 01:41:12 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Gustavo Sousa <gustavo.sousa@intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] Documentation: kprobetrace: Fix some typos
-Message-ID: <20230121122519.17eebdc9@gandalf.local.home>
-In-Reply-To: <20230121143110.1706962-1-yoann.congal@smile.fr>
-References: <20230121142242.1706081-1-yoann.congal@smile.fr>
-        <20230121143110.1706962-1-yoann.congal@smile.fr>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Subject: [drm-intel:drm-intel-gt-next 1/2] htmldocs:
+ Documentation/gpu/i915:64: ./drivers/gpu/drm/i915/gt/intel_workarounds.c:32:
+ WARNING: Inline emphasis start-string without end-string.
+Message-ID: <202301220116.qlw4dHOC-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 21 Jan 2023 15:31:08 +0100
-Yoann Congal <yoann.congal@smile.fr> wrote:
+tree:   git://anongit.freedesktop.org/drm-intel drm-intel-gt-next
+head:   8d7eb8ed3f83f248e01a4f548d9c500a950a2c2d
+commit: 0c3064cf33fbfa8a25871d847e715f33b64f323e [1/2] drm/i915/doc: Document where to implement register workarounds
+reproduce:
+        git remote add drm-intel git://anongit.freedesktop.org/drm-intel
+        git fetch --no-tags drm-intel drm-intel-gt-next
+        git checkout 0c3064cf33fbfa8a25871d847e715f33b64f323e
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-> @@ -76,14 +76,15 @@ or 'x64' is used depends on the architecture (e.g. x86-32 uses x32, and
->  x86-64 uses x64).
->  These value types can be an array. To record array data, you can add '[N]'
->  (where N is a fixed number, less than 64) to the base type.
-> -E.g. 'x16[4]' means an array of x16 (2bytes hex) with 4 elements.
-> +E.g. 'x16[4]' means an array of x16 (2-bytes hex) with 4 elements.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-As we are correcting this, let's correct it correctly ;-)
+All warnings (new ones prefixed by >>):
 
-Adjectives do not turn into plurals. It's "2-byte hex" not "2-bytes hex".
+>> Documentation/gpu/i915:64: ./drivers/gpu/drm/i915/gt/intel_workarounds.c:32: WARNING: Inline emphasis start-string without end-string.
 
-Thanks,
-
--- Steve
-
-
->  Note that the array can be applied to memory type fetchargs, you can not
->  apply it to registers/stack-entries etc. (for example, '$stack1:x8[8]' is
->  wrong, but '+8($stack):x8[8]' is OK.)
->  String type is a special type, which fetches a "null-terminated" string from
->  kernel space. This means it will fail and store NULL if the string container
->  has been paged out. "ustring" type is an alternative of string for user-space.
-> -See :ref:`user_mem_access` for more info..
-> +See :ref:`user_mem_access` for more info.
-> +
->  The string array type is a bit different from other types. For other base
->  types, <base-type>[1] is equal to <base-type> (e.g. +0(%di):x32[1] is same
->  as +0(%di):x32.) But string[1] is not equal to string. The string type itself
-> @@ -120,8 +121,8 @@ space. 'ustring' is a shortcut way of performing the same task. That is,
->  
->  Note that kprobe-event provides the user-memory access syntax but it doesn't
->  use it transparently. This means if you use normal dereference or string type
-> -for user memory, it might fail, and may always fail on some archs. The user
-> -has to carefully check if the target data is in kernel or user space.
-> +for user memory, it might fail, and may always fail on some architectures. The
-> +user has to carefully check if the target data is in kernel or user space.
->  
->  Per-Probe Event Filtering
->  -------------------------
-> -- 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
