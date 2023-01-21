@@ -2,165 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EBCDC05027
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Jan 2023 23:43:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 352F9C05027
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 00:31:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229863AbjATXnA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 18:43:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39106 "EHLO
+        id S229764AbjAUAbU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 19:31:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229761AbjATXnA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 18:43:00 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 356B7DBE6;
-        Fri, 20 Jan 2023 15:42:55 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 729F7620E7;
-        Fri, 20 Jan 2023 23:42:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 448D0C433D2;
-        Fri, 20 Jan 2023 23:42:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674258174;
-        bh=jOiDj1nTgDbA+vCo7Om5n16foMSR0Jzva+bUM8XvgWE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ylp+WtdDSbUV9qYxCK/NhYNvqZKwU6kso6L95frHoTxvaQK4UPPibKrCB1i0HLzmT
-         ZKIqndsDqyR7Dw/XOo9dxa8HTWnJ/IMYETqnqN6CEQ4FYE/FyaFb7s7zv41BIghyoY
-         Gc4AxZYV0IB7R0SP6RJLkachyQPACiAAqsj6xLx5AselcF9UR4clPmRr9XG9IHJF4e
-         WAUbkOeNUQI7NVt+z5Uy8+nR/33vH9oeYh0alW/N0ee1oLcGWG2gR1+tmrAL9f8FYG
-         4qvzPPqW4R0mcsJC5R4rRhegVnuNxZzsdVxJFdHLdmAe6PXbGdzyhNiZQFiD8k6X+L
-         i90qVnaJiD1qg==
-Date:   Fri, 20 Jan 2023 23:42:51 +0000
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <Y8sm+8JJo8VUsUBo@kernel.org>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
- <Y7azFdnnGAdGPqmv@kernel.org>
- <20230106094000.GA2297836@chaop.bj.intel.com>
- <Y7xrtf9FCuYRYm1q@google.com>
- <20230110091432.GA2441264@chaop.bj.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230110091432.GA2441264@chaop.bj.intel.com>
+        with ESMTP id S229993AbjAUAbT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 19:31:19 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D35C1E0504;
+        Fri, 20 Jan 2023 16:30:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674261057; x=1705797057;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=Ev3PbBoQTPu++s79dlTb8COWuPsvkK7r7MmlVY0+IpE=;
+  b=TREhDKDdzzEQ021DnCxcIpiK26fvYpeXAIKtwIUoRXTBd2OObS+loWOn
+   HejAwWsvDWne8Na3WATnIMIZcBqnDCfUHlRDdh0K2JQGfrk/DuEml2adl
+   tvwh6oOmN/+eKgDpmNb+claWAVK/f4Uj7LQ46p0hWpWl9xQd6LQSxFDrs
+   pRtbtol4Hatm3pdqhDH3RSQ/+vOhz8xjWS7ckURbdTUufEpoZWUFjTyhH
+   b1kqPDMsYEXxh6RAWSai8uattHl4fPEbdFZgqEjPtw7UnREU0BCfTyEuH
+   1UtY4nTT4q8zsxZDAryl6DLl1hmmkLBDpdlE4crBvXbkHh4qs1yJeRmDC
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="305404597"
+X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
+   d="scan'208";a="305404597"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 16:30:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="784729479"
+X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
+   d="scan'208";a="784729479"
+Received: from chang-linux-3.sc.intel.com ([172.25.66.173])
+  by orsmga004.jf.intel.com with ESMTP; 20 Jan 2023 16:30:15 -0800
+From:   "Chang S. Bae" <chang.seok.bae@intel.com>
+To:     dave.hansen@linux.intel.com, x86@kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de
+Cc:     hpa@zytor.com, corbet@lwn.net, bagasdotme@gmail.com,
+        tony.luck@intel.com, yang.zhong@intel.com,
+        linux-doc@vger.kernel.org, linux-man@vger.kernel.org,
+        linux-kernel@vger.kernel.org, chang.seok.bae@intel.com
+Subject: [PATCH v5 RESEND 0/4] Documentation/x86: Improve the AMX documentation
+Date:   Fri, 20 Jan 2023 16:18:56 -0800
+Message-Id: <20230121001900.14900-1-chang.seok.bae@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220922195810.23248-1-chang.seok.bae@intel.com>
+References: <20220922195810.23248-1-chang.seok.bae@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 10, 2023 at 05:14:32PM +0800, Chao Peng wrote:
-> On Mon, Jan 09, 2023 at 07:32:05PM +0000, Sean Christopherson wrote:
-> > On Fri, Jan 06, 2023, Chao Peng wrote:
-> > > On Thu, Jan 05, 2023 at 11:23:01AM +0000, Jarkko Sakkinen wrote:
-> > > > On Fri, Dec 02, 2022 at 02:13:41PM +0800, Chao Peng wrote:
-> > > > > To make future maintenance easy, internally use a binary compatible
-> > > > > alias struct kvm_user_mem_region to handle both the normal and the
-> > > > > '_ext' variants.
-> > > > 
-> > > > Feels bit hacky IMHO, and more like a completely new feature than
-> > > > an extension.
-> > > > 
-> > > > Why not just add a new ioctl? The commit message does not address
-> > > > the most essential design here.
-> > > 
-> > > Yes, people can always choose to add a new ioctl for this kind of change
-> > > and the balance point here is we want to also avoid 'too many ioctls' if
-> > > the functionalities are similar.  The '_ext' variant reuses all the
-> > > existing fields in the 'normal' variant and most importantly KVM
-> > > internally can reuse most of the code. I certainly can add some words in
-> > > the commit message to explain this design choice.
-> > 
-> > After seeing the userspace side of this, I agree with Jarkko; overloading
-> > KVM_SET_USER_MEMORY_REGION is a hack.  E.g. the size validation ends up being
-> > bogus, and userspace ends up abusing unions or implementing kvm_user_mem_region
-> > itself.
-> 
-> How is the size validation being bogus? I don't quite follow. Then we
-> will use kvm_userspace_memory_region2 as the KVM internal alias, right?
-> I see similar examples use different functions to handle different
-> versions but it does look easier if we use alias for this function.
-> 
-> > 
-> > It feels absolutely ridiculous, but I think the best option is to do:
-> > 
-> > #define KVM_SET_USER_MEMORY_REGION2 _IOW(KVMIO, 0x49, \
-> > 					 struct kvm_userspace_memory_region2)
-> 
-> Just interesting, is 0x49 a safe number we can use? 
-> 
-> > 
-> > /* for KVM_SET_USER_MEMORY_REGION2 */
-> > struct kvm_user_mem_region2 {
-> > 	__u32 slot;
-> > 	__u32 flags;
-> > 	__u64 guest_phys_addr;
-> > 	__u64 memory_size;
-> > 	__u64 userspace_addr;
-> > 	__u64 restricted_offset;
-> > 	__u32 restricted_fd;
-> > 	__u32 pad1;
-> > 	__u64 pad2[14];
-> > }
-> > 
-> > And it's consistent with other KVM ioctls(), e.g. KVM_SET_CPUID2.
-> 
-> Okay, agree from KVM userspace API perspective this is more consistent
-> with similar existing examples. I see several of them.
-> 
-> I think we will also need a CAP_KVM_SET_USER_MEMORY_REGION2 for this new
-> ioctl.
+Hi,
 
-The current API in the patch set is trivial for C user space but for
-any other more "constrained" language such as Rust a new ioctl would be
-easier to adapt.
+This is a resend of the previous posting [1]. They are rebased on the
+current tip master.
 
-> > 
-> > Regarding the userspace side of things, please include Vishal's selftests in v11,
-> > it's impossible to properly review the uAPI changes without seeing the userspace
-> > side of things.  I'm in the process of reviewing Vishal's v2[*], I'll try to
-> > massage it into a set of patches that you can incorporate into your series.
-> 
-> Previously I included Vishal's selftests in the github repo, but not
-> include them in this patch series. It's OK for me to incorporate them
-> directly into this series and review together if Vishal is fine.
-> 
-> Chao
-> > 
-> > [*] https://lore.kernel.org/all/20221205232341.4131240-1-vannapurve@google.com
+Looks like the below changes are still helpful for users as I had to
+reference the pending series to some folks:
 
-BR, Jarkko
+(1) The AMX-enabling code example is expected to clarify the steps.
+(2) Along with that, a couple of ABI constants may be useful for users.
+(3) Also, describing the motivation will provide the context of this.
+(4) Lastly, the description of new guest options is added as missing.
+
+If they are acceptable, I will follow up on the arch_prctl(2) documentation
+[2] to update based on this.
+
+These patches can be also found in this repository:
+  git://github.com/intel/amx-linux.git amx-doc
+
+And the compiled preview is available here:
+  https://htmlpreview.github.io/?https://github.com/intel/amx-linux/doc-web/x86/xstate.html
+
+Thanks,
+Chang
+
+[1] https://lore.kernel.org/lkml/20220922195810.23248-1-chang.seok.bae@intel.com/
+[2] arch_prctl(2): https://man7.org/linux/man-pages/man2/arch_prctl.2.html
+
+Chang S. Bae (4):
+  Documentation/x86: Explain the purpose for dynamic features
+  x86/arch_prctl: Add AMX feature numbers as ABI constants
+  Documentation/x86: Add the AMX enabling example
+  Documentation/x86: Explain the state component permission for guests
+
+ Documentation/x86/xstate.rst      | 100 ++++++++++++++++++++++++++++++
+ arch/x86/include/uapi/asm/prctl.h |   3 +
+ 2 files changed, 103 insertions(+)
+
+
+base-commit: 1642cea9d9ab82b596857eea14bf6e04806a6c5a
+-- 
+2.17.1
+
