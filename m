@@ -2,134 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F733C38142
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 04:00:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A06EC25B50
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 07:34:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229831AbjAUEA1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 23:00:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57290 "EHLO
+        id S229493AbjAUHei (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 Jan 2023 02:34:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229804AbjAUEAZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 23:00:25 -0500
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99BFD73AF8;
-        Fri, 20 Jan 2023 20:00:22 -0800 (PST)
-Received: by mail-pf1-x42a.google.com with SMTP id w2so5339976pfc.11;
-        Fri, 20 Jan 2023 20:00:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=11t9EWaoqoQjTzDSvKL7UQHCZsmzTEaq6eWvpzd3nXM=;
-        b=oaiEPlxE7lBOS/lG2Z/v4sQg8axJqu6h6IJcgj0PSBCJWxCsXy8qwZg8X8NF//SFhB
-         PHo9Xg2YnEviUei9c9FMs0XzUx0Sw2sSjAxxoeJL4huxhlbS8JTkvFHVIkGiPZKNpQvC
-         XJCBJYsUMJ9oCAxzl0djX6pJeyZW+doG93hWZqyCK/XxPUzufBYNNon/bhZgMPVhcQuX
-         0dZlbpQJJ23jchVqspTCk2W/m8moFPY/47LDgdio2aBygRVNbQwkko+dXyBAm2RHhDQg
-         rsjKoorGICxh/euASSFAfFv9qSpp6mo/AExw8I/3ieMcOArXxN1D9yBXn2QRt4w4yRJg
-         0vZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=11t9EWaoqoQjTzDSvKL7UQHCZsmzTEaq6eWvpzd3nXM=;
-        b=A71hUcCMtq1JZ/an5u4pluitg2VLri3jCE3gRkaxU9AQmKru8ZnHu5mZsEnooX0TG8
-         HB/ixU6Z21DN814GslVca36RPFdiasxBkfX6DHjDUcJ60wSFWQqVpHCs2GpuPD0W6n8v
-         3m1tv7ngTi1TloYIKFAL3eRhWTGUQRl2Guc3t0MHvqxjwaqy64XHAUVAPelxrnKiBMrC
-         a1Ub0Qa1wKr/fwKOvRSj6kk8OnaSKCXJHete0IC3I5WlysVqRS69Y9/vi+lkAkh4UUft
-         OSDEy7evxks/3LJXSF/21Lok00qdKJzdXGfB6UTEanAn4MZwHdQW7lE6zze9R7DXzKhC
-         H3eA==
-X-Gm-Message-State: AFqh2kquBKjV0zVs31iyU33AW1Y8iFH6JdmjDV11lir1Vo2uXkew9Whq
-        3WI8/sR8+awluqhin76+0gk=
-X-Google-Smtp-Source: AMrXdXsrqkAmLEGzR6E2szkgTf1lBPhFfkrlcBMDWPaiyOGt/tCPGcILHZAYRtzUVBJ5oy5li4rf6A==
-X-Received: by 2002:a05:6a00:3020:b0:58d:92ff:8a2a with SMTP id ay32-20020a056a00302000b0058d92ff8a2amr16723145pfb.23.1674273622126;
-        Fri, 20 Jan 2023 20:00:22 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-22.three.co.id. [180.214.232.22])
-        by smtp.gmail.com with ESMTPSA id 4-20020a620404000000b00576ee69c130sm26638286pfe.4.2023.01.20.20.00.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 20:00:21 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id CE42B104FAD; Sat, 21 Jan 2023 11:00:17 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     CoreSight List <coresight@lists.linaro.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        oe-kbuild-all@lists.linux.dev
-Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
-        Mao Jinlong <quic_jinlmao@quicinc.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH 1/2] Documentation: coresight: Extend title heading syntax in TPDM and TPDA documentation
-Date:   Sat, 21 Jan 2023 11:00:13 +0700
-Message-Id: <20230121040015.28139-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230121040015.28139-1-bagasdotme@gmail.com>
-References: <202301210955.zYxDrLgv-lkp@intel.com>
- <20230121040015.28139-1-bagasdotme@gmail.com>
+        with ESMTP id S229450AbjAUHeh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jan 2023 02:34:37 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 052A27135D;
+        Fri, 20 Jan 2023 23:34:36 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B1182B80967;
+        Sat, 21 Jan 2023 07:34:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B272FC433EF;
+        Sat, 21 Jan 2023 07:34:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1674286473;
+        bh=bJ0CXR3r1BYYKPNARKc/Pw8CQLUJuFyDf4P7y0d3azM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VfqAMkqqqcUrR2XiDd7yjEi1PcaJlIc8l5bVzSfEgIw1a+rJgo2g/7CBUCFdw05yC
+         HUGN4KclAuxcHeAGqBp/zxBqXjjNUr1xgwuHTDtVdseGX09fo5qdz/ZpnlK6pRE+Xz
+         LEjy0IlmYFJJwxJC42iw3GQT3Hmy0xliuD02NQuw=
+Date:   Sat, 21 Jan 2023 08:34:30 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Lukas Wunner <lukas@wunner.de>
+Cc:     Russ Weight <russell.h.weight@intel.com>,
+        Tianfei Zhang <tianfei.zhang@intel.com>, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, linux-fpga@vger.kernel.org,
+        kabel@kernel.org, mani@kernel.org, pali@kernel.org, mdf@kernel.org,
+        hao.wu@intel.com, yilun.xu@intel.com, trix@redhat.com,
+        jgg@ziepe.ca, ira.weiny@intel.com,
+        andriy.shevchenko@linux.intel.com, dan.j.williams@intel.com,
+        keescook@chromium.org, rafael@kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ilpo.jarvinen@linux.intel.com,
+        lee@kernel.org, matthew.gerlach@linux.intel.com
+Subject: Re: [PATCH v1 00/12] add FPGA hotplug manager driver
+Message-ID: <Y8uVho0UDP/1A1JG@kroah.com>
+References: <20230119013602.607466-1-tianfei.zhang@intel.com>
+ <Y8lGxqjuLS8NfJtg@kroah.com>
+ <a896be81-e482-9d52-ece5-a2ef28822072@intel.com>
+ <20230120184253.GA25018@wunner.de>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2375; i=bagasdotme@gmail.com; h=from:subject; bh=/0rWs1kJBxyoM7wT0wIZqmdShtZzaJbSYX/tpNjmrlM=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMmnk/2enHu601lJzahB47pzerJmjP/0Z+tStk8wL5fwiauN 9JzfUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgImsd2RkWM99pydo9nap8nvKkzmNly kd/MSQt7aUu2rVk1NXvhex7WL4n1gQIWrQ8Es1eGa4S37mJrMjhxP/Hj/fL1xwws6l4up2ZgA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230120184253.GA25018@wunner.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kernel test robot reported htmldocs warnings:
+On Fri, Jan 20, 2023 at 07:42:53PM +0100, Lukas Wunner wrote:
+> On Fri, Jan 20, 2023 at 08:28:51AM -0800, Russ Weight wrote:
+> > On 1/19/23 05:33, Greg KH wrote:
+> > > On Wed, Jan 18, 2023 at 08:35:50PM -0500, Tianfei Zhang wrote:
+> > > > This patchset introduces the FPGA hotplug manager (fpgahp) driver which
+> > > > has been verified on the Intel N3000 card.
+> > > >
+> > > > When a PCIe-based FPGA card is reprogrammed, it temporarily disappears
+> > > > from the PCIe bus. This needs to be managed to avoid PCIe errors and to
+> > > > reprobe the device after reprogramming.
+> > > >
+> > > > To change the FPGA image, the kernel burns a new image into the flash on
+> > > > the card, and then triggers the card BMC to load the new image into FPGA.
+> > > > A new FPGA hotplug manager driver is introduced that leverages the PCIe
+> > > > hotplug framework to trigger and manage the update of the FPGA image,
+> > > > including the disappearance and reappearance of the card on the PCIe bus.
+> > > > The fpgahp driver uses APIs from the pciehp driver. Two new operation
+> > > > callbacks are defined in hotplug_slot_ops:
+> > > >
+> > > >   - available_images: Optional: available FPGA images
+> > > >   - image_load: Optional: trigger the FPGA to load a new image
+> > > 
+> > > Why is all of this tied into the pci hotplug code? Shouldn't it be
+> > > specific to this one driver instead?  pci hotplug is for removing/adding
+> > > PCI devices to the system, not messing with FPGA images.
+> > >
+> > > This feels like an abuse of the pci hotplug bus to me as this is NOT
+> > > really a PCI hotplug bus at all, right?
+> > 
+> > While it is true that triggering an FPGA image-load does not involve
+> > hotplug specific registers to be managed, the RTL that comprises
+> > the PCIe interface will disappear and then reappear after the FPGA
+> > is reprogrammed. When it reappears, it_could/_/have a different PCI
+> > ID. The process of managing this event has a lot of similarity to a
+> > PCIe hotplug event; there is a lot of existing PCIe hotplug related
+> > code that could be leveraged.
+> 
+> It sounds like the N3000 is a PCI endpoint device which, when reprogrammed,
+> briefly disappears from the bus and then may reappear under a different
+> device ID.
+> 
+> What you want to do then is make sure that the slot into which the N3000
+> is plugged is hotplug-capable.  In that case, pciehp will handle
+> disappearance and reappearance of the card just fine.  Once the N3000
+> disables the link, pciehp will bring down the slot.  Once it re-enables
+> the link, it will bring the slot up again.  It's as if the card was
+> removed and replaced with a different one.  pciehp will bind to the
+> Root Port or Downstream Port associated with the hotplug slot.
+> 
+> The pci_hotplug_port infrastructure is for hotplug controllers which
+> handle devices disappearing and reappearing *below* them.  It is not
+> for endpoint devices.
 
-Documentation/trace/coresight/coresight-tpda.rst:3: WARNING: Title overline too short.
-Documentation/trace/coresight/coresight-tpdm.rst:3: WARNING: Title overline too short.
+Yes, thank you for expressing my concerns about this design much better
+than I originally did.  I totally agree.
 
-Extend title heading syntax (overline and underline) to match title text to
-fix these warnings.
+thanks,
 
-While at it, trim unneeded period in the title text.
-
-Link: https://lore.kernel.org/linux-doc/202301210955.zYxDrLgv-lkp@intel.com/
-Fixes: 758d638667d474 ("Documentation: trace: Add documentation for TPDM and TPDA")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/trace/coresight/coresight-tpda.rst | 6 +++---
- Documentation/trace/coresight/coresight-tpdm.rst | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/trace/coresight/coresight-tpda.rst b/Documentation/trace/coresight/coresight-tpda.rst
-index 350dad4eda4721..a37f387ceaea13 100644
---- a/Documentation/trace/coresight/coresight-tpda.rst
-+++ b/Documentation/trace/coresight/coresight-tpda.rst
-@@ -1,8 +1,8 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--==============================
--The trace performance monitoring and diagnostics aggregator(TPDA).
--==============================
-+=================================================================
-+The trace performance monitoring and diagnostics aggregator(TPDA)
-+=================================================================
- 
-     :Author:   Jinlong Mao <quic_jinlmao@quicinc.com>
-     :Date:     January 2023
-diff --git a/Documentation/trace/coresight/coresight-tpdm.rst b/Documentation/trace/coresight/coresight-tpdm.rst
-index 4ba40b0db550da..6c6e95109072fa 100644
---- a/Documentation/trace/coresight/coresight-tpdm.rst
-+++ b/Documentation/trace/coresight/coresight-tpdm.rst
-@@ -1,8 +1,8 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--==============================
--Trace performance monitoring and diagnostics monitor(TPDM).
--==============================
-+==========================================================
-+Trace performance monitoring and diagnostics monitor(TPDM)
-+==========================================================
- 
-     :Author:   Jinlong Mao <quic_jinlmao@quicinc.com>
-     :Date:     January 2023
--- 
-An old man doll... just what I always wanted! - Clara
-
+greg k-h
