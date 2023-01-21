@@ -2,332 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A4C6C004D4
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 13:34:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1402DC004D4
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 14:23:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229888AbjAUNej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 Jan 2023 08:34:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49250 "EHLO
+        id S229566AbjAUOXW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 Jan 2023 09:23:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229699AbjAUNei (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jan 2023 08:34:38 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60DBA49430;
-        Sat, 21 Jan 2023 05:34:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674308076; x=1705844076;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=YTo9XdCPLUIuEozMh2J4WJXDRm/6gdlVCFZsPnk++0U=;
-  b=ULVZYjQnRyqUJzwujlblb1rwj34L29fslh4eRkGXxzbxT38P8gavAuH6
-   11Rq8nH+qcbemMLkapn7IYiMr/X57iyAzqszj+njY2V59fVTPzJPsOjVH
-   Oebr4Wfmhm0SFcbspg55dvsJ22jPIGMGZuAzh1kGBJH6KjzUZ80o5UPss
-   XweFEQton8eR/eWrDtA2Axnik/iUPSI/i2hSh+xAsxH6LCXEcySK2SXTs
-   mdYuCj5n880azfTtM28BEPKPUG5Evfp+BtL6gXeEFR2WhIIqMACvsbnPs
-   8BMmNVdyRYisj+lBsKu5/y+Cxqacnvw9HZ5NDTDbRo9HDK4JuGvz+1Q8g
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="323474410"
-X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="323474410"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 05:34:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="662844793"
-X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="662844793"
-Received: from bswcg005.iind.intel.com ([10.224.174.136])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Jan 2023 05:34:30 -0800
-From:   m.chetan.kumar@linux.intel.com
-To:     netdev@vger.kernel.org
-Cc:     kuba@kernel.org, davem@davemloft.net, johannes@sipsolutions.net,
-        ryazanov.s.a@gmail.com, loic.poulain@linaro.org,
-        ilpo.jarvinen@linux.intel.com, ricardo.martinez@linux.intel.com,
-        chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
-        edumazet@google.com, pabeni@redhat.com,
-        chandrashekar.devegowda@intel.com, m.chetan.kumar@linux.intel.com,
-        linuxwwan@intel.com, linuxwwan_5g@intel.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, jiri@nvidia.com
-Subject: [PATCH v5 net-next 5/5] net: wwan: t7xx: Devlink documentation
-Date:   Sat, 21 Jan 2023 19:03:58 +0530
-Message-Id: <f902d4a0cb807a205687f7e693079fba72ca7341.1674307425.git.m.chetan.kumar@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1674307425.git.m.chetan.kumar@linux.intel.com>
-References: <cover.1674307425.git.m.chetan.kumar@linux.intel.com>
+        with ESMTP id S229450AbjAUOXV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jan 2023 09:23:21 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47BCC2CFE1
+        for <linux-doc@vger.kernel.org>; Sat, 21 Jan 2023 06:23:19 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id m15so6000438wms.4
+        for <linux-doc@vger.kernel.org>; Sat, 21 Jan 2023 06:23:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile-fr.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0IbE0dMBKZffB7ab8rBuBnzdcQMX7/mvB3hes7Ga9po=;
+        b=pI17k/hAAhd83va63585rxYCPll4vFhHmdcQ14wH2Nr4A6Mgq3QTUyBW9vYjv603f9
+         zkGOrOZ93yf82FTosE2IvqfVZFyaCqiRoryKniUeXTgIJZzELUAAlKgoFD14QOsWBLEb
+         sbaaxruiIsz0YGbDLLYNRHCLnfNk0jR0A8XIEOVq7Oe/BLj4Zjc1j9yB3G64z2nyJLmH
+         smXHugHhWLThzVK24N9X3Rt7vGVwi0IupzcyvIGELRNK0yE6HSo84OZpEpeI0/KTCVL9
+         AZw3q2G0MQhzus4mt70DG3ojDfY2e553LyBx/v8zAiG3tbuk9eAWmpCxLTyXHiNRBZE5
+         NJ0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0IbE0dMBKZffB7ab8rBuBnzdcQMX7/mvB3hes7Ga9po=;
+        b=1diC/PaZHJAdNNiHPXH4y+n3EA+EVn5xg/41mYq6ariOJspt6/9YqhHFOJa/gaseAm
+         foclPWbF6eAOicuSy7dkiAZXyw16h/RYWtZQu8F6WfIXUQGQe72p6RjJa8y5ilLJbue6
+         fLw+NvODF3meCpuif/llpEGg/rxgiv+V55upWmH3rLu0mrJc5f5D+b3zQLQ0e4Jc0i6e
+         7nP3q8vOvxM4xdluRSi9lZ+DWK7blWHUpZDY3SHyToV4ybk+3L0QnQmJxsLoa7nmxoTa
+         vyEkrVnVmJa2kxvTCMTlyqJBuK0cNFcizEe2/9Kl7W9N4ct5W4c9ZQGFgjYDPhZ43FGp
+         tjig==
+X-Gm-Message-State: AFqh2kpCScaagAKbKzV2U2rEgClH4lIRYR4rKWRmKlw/rg7CdG619qZP
+        q8Z0LSWFd6ieiiKpfQsBKXlRag==
+X-Google-Smtp-Source: AMrXdXsTDPZYnPLTM5/fnX3dQehzX2OGWZ2r1XZjd56nmeJH1uJrFkERXgfzWzdcSpZ7hgia5LTFtw==
+X-Received: by 2002:a05:600c:1c23:b0:3db:b9f:f2e with SMTP id j35-20020a05600c1c2300b003db0b9f0f2emr16143654wms.14.1674310997707;
+        Sat, 21 Jan 2023 06:23:17 -0800 (PST)
+Received: from P-ASN-ECS-830T8C3.mpl.intranet (89-159-1-53.rev.numericable.fr. [89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id fm17-20020a05600c0c1100b003db06224953sm6360122wmb.41.2023.01.21.06.23.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Jan 2023 06:23:17 -0800 (PST)
+From:   Yoann Congal <yoann.congal@smile.fr>
+To:     linux-trace-kernel@vger.kernel.org
+Cc:     Yoann Congal <yoann.congal@smile.fr>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/3] Documentation: kprobetrace: Improve readability
+Date:   Sat, 21 Jan 2023 15:22:40 +0100
+Message-Id: <20230121142242.1706081-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: M Chetan Kumar <m.chetan.kumar@linux.intel.com>
+Hi,
 
-Document the t7xx devlink commands usage for firmware flashing &
-coredump collection.
+This is the v2 of a "markup heavy" patch that was nacked because of it.
+v1 was 1 patch but this v2 this split hence this coverletter.
 
-Signed-off-by: M Chetan Kumar <m.chetan.kumar@linux.intel.com>
-Signed-off-by: Devegowda Chandrashekar <chandrashekar.devegowda@intel.com>
---
-v5:
- * No Change.
-v4:
- * Spell out fw as firmware.
- * Drop "Refer to t7xx.rst file for details" in commit message.
- * Move explanation below commands under flash update.
- * Move firmware image type list under flash commands.
- * Keyword formatting.
- * Trim the unneeded trailing colon.
- * Describe region commands.
-v3:
- * No change.
-v2:
- * Documentation correction.
- * Add param details.
----
- Documentation/networking/devlink/index.rst |   1 +
- Documentation/networking/devlink/t7xx.rst  | 224 +++++++++++++++++++++
- 2 files changed, 225 insertions(+)
- create mode 100644 Documentation/networking/devlink/t7xx.rst
+v1: https://lore.kernel.org/linux-doc/20220915153358.813993-1-yoann.congal@smile.fr/
 
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index fee4d3968309..0c4f5961e78f 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -66,3 +66,4 @@ parameters, info versions, and other features it supports.
-    prestera
-    iosm
-    octeontx2
-+   t7xx
-diff --git a/Documentation/networking/devlink/t7xx.rst b/Documentation/networking/devlink/t7xx.rst
-new file mode 100644
-index 000000000000..dc795c8cc851
---- /dev/null
-+++ b/Documentation/networking/devlink/t7xx.rst
-@@ -0,0 +1,224 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====================
-+t7xx devlink support
-+====================
-+
-+This document describes the devlink features implemented by the ``t7xx``
-+device driver.
-+
-+Parameters
-+==========
-+The ``t7xx_driver`` driver implements the following driver-specific parameters.
-+
-+.. list-table:: Driver-specific parameters
-+   :widths: 5 5 5 85
-+
-+   * - Name
-+     - Type
-+     - Mode
-+     - Description
-+   * - ``fastboot``
-+     - boolean
-+     - driverinit
-+     - Set this param to enter fastboot mode.
-+
-+Flash Update
-+============
-+
-+The ``t7xx`` driver implements the flash update using the ``devlink-flash``
-+interface.
-+
-+The driver uses ``DEVLINK_SUPPORT_FLASH_UPDATE_COMPONENT`` to identify the type of
-+firmware image that need to be programmed upon the request by user space application.
-+
-+``t7xx`` driver uses fastboot protocol for firmware flashing. In the firmware
-+flashing procedure, fastboot command & response are exchanged between driver
-+and wwan device.
-+
-+::
-+
-+  $ devlink dev reload pci/0000:$bdf action driver_reinit
-+
-+The wwan device is put into fastboot mode via devlink reload command, by
-+passing ``driver_reinit`` action.
-+
-+::
-+
-+  $ devlink dev reload pci/0000:$bdf action fw_activate
-+
-+Upon completion of firmware flashing or coredump collection the wwan device is
-+reset to normal mode using devlink reload command, by passing ``fw_activate``
-+action.
-+
-+Flash Commands
-+--------------
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file preloader_k6880v1_mdot2_datacard.bin component "preloader"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file loader_ext-verified.img component "loader_ext1"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file tee-verified.img component "tee1"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file lk-verified.img component "lk"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file spmfw-verified.img component "spmfw"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file sspm-verified.img component "sspm_1"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file mcupm-verified.img component "mcupm_1"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file dpm-verified.img component "dpm_1"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file boot-verified.img component "boot"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file root.squashfs component "rootfs"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file modem-verified.img component "md1img"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file dsp-verified.bin component "md1dsp"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file OP_OTA.img component "mcf1"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file OEM_OTA.img component "mcf2"
-+
-+::
-+
-+  $ devlink dev flash pci/0000:$bdf file DEV_OTA.img component "mcf3"
-+
-+Note: Component selects the partition type to be programmed.
-+
-+
-+The supported list of firmware image types is described below.
-+
-+.. list-table:: Firmware Image types
-+    :widths: 15 85
-+
-+    * - Name
-+      - Description
-+    * - ``preloader``
-+      - The first-stage bootloader image
-+    * - ``loader_ext1``
-+      - Preloader extension image
-+    * - ``tee1``
-+      - ARM trusted firmware and TEE (Trusted Execution Environment) image
-+    * - ``lk``
-+      - The second-stage bootloader image
-+    * - ``spmfw``
-+      - MediaTek in-house ASIC for power management image
-+    * - ``sspm_1``
-+      - MediaTek in-house ASIC for power management under secure world image
-+    * - ``mcupm_1``
-+      - MediaTek in-house ASIC for cpu power management image
-+    * - ``dpm_1``
-+      - MediaTek in-house ASIC for dram power management image
-+    * - ``boot``
-+      - The kernel and dtb image
-+    * - ``rootfs``
-+      - Root filesystem image
-+    * - ``md1img``
-+      - Modem image
-+    * - ``md1dsp``
-+      - Modem DSP image
-+    * - ``mcf1``
-+      - Modem OTA image (Modem Configuration Framework) for operators
-+    * - ``mcf2``
-+      - Modem OTA image (Modem Configuration Framework) for OEM vendors
-+    * - ``mcf3``
-+      - Modem OTA image (other usage) for OEM configurations
-+
-+
-+Regions
-+=======
-+
-+The ``t7xx`` driver supports core dump collection in exception state and second
-+stage bootloader log collection in fastboot mode. The log snapshot is taken by
-+the driver using fastboot commands.
-+
-+Region commands
-+---------------
-+
-+::
-+
-+  $ devlink region show
-+
-+This command list the regions implemented by driver. These regions are accessed
-+for device internal data. Below table describes the regions.
-+
-+.. list-table:: Regions
-+    :widths: 15 85
-+
-+    * - Name
-+      - Description
-+    * - ``mr_dump``
-+      - The detailed modem component logs are captured in this region
-+    * - ``lk_dump``
-+      - This region dumps the current snapshot of lk
-+
-+Coredump Collection
-+~~~~~~~~~~~~~~~~~~~
-+
-+::
-+
-+  $ devlink region new mr_dump
-+
-+::
-+
-+  $ devlink region read mr_dump snapshot 0 address 0 length $len
-+
-+::
-+
-+  $ devlink region del mr_dump snapshot 0
-+
-+Note: $len is actual len to be dumped.
-+
-+The userspace application uses these commands for obtaining the modem component
-+logs when device encounters an exception.
-+
-+Second Stage Bootloader dump
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+::
-+
-+  $ devlink region new lk_dump
-+
-+::
-+
-+  $ devlink region read lk_dump snapshot 0 address 0 length $len
-+
-+::
-+
-+  $ devlink region del lk_dump snapshot 0
-+
-+Note: $len is actual len to be dumped.
-+
-+In fastboot mode the userspace application uses these commands for obtaining the
-+current snapshot of second stage bootloader.
+Changelog v1 -> v2 :
+* Removed all ``markup`` additions
+* Split commits
+
+Regards,
+
+Yoann Congal (3):
+  Documentation: kprobetrace: Fix some typos
+  Documentation: kprobetrace: Fix code block markup
+  Documentation: kprobetrace: Split paragraphs
+
+ Documentation/trace/kprobetrace.rst | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
+
 -- 
-2.34.1
+2.30.2
 
