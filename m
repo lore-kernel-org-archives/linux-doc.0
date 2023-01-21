@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0955C004D4
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 04:00:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96CC9C38141
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 04:00:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229805AbjAUEAZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 23:00:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57288 "EHLO
+        id S229826AbjAUEA0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 23:00:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbjAUEAY (ORCPT
+        with ESMTP id S229799AbjAUEAY (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 23:00:24 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5871A73AF4;
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4498A7687;
         Fri, 20 Jan 2023 20:00:22 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id m3-20020a17090a414300b00229ef93c5b0so5983733pjg.2;
+Received: by mail-pf1-x42d.google.com with SMTP id g205so5368965pfb.6;
         Fri, 20 Jan 2023 20:00:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=urXkspJfgxnN/KByKI4sCcihsWMp9loLYCy6P4Twzbw=;
-        b=nBpjEnaymYTcvedQEVC5k0PEqtCt5go7hnBRdrZpsjmhvU6NdyQEWAyB51OjRAYomD
-         Og6ymtWQgeia190Jl9T9abAODsMVTvKgzIu+7gibOsKjgTszBFoQg6Jizv/SJM6AvsXJ
-         z7XrAWMIZrxlIaLLztjDLNc3qxcqMQMblNQzDruMqjb8E4LuxZY7neO9UApAzDZ6reuw
-         UhpF1TYjkRAu4feTV21sgRXHohOTmflvJwz0IcgHf9d2BgHjj3rE4/hzS+FA03TBZvtN
-         ikGQMXQD6WhIeqW5i9382WylJX11W58LZ95WTHWNUQqL8olTju+rcPI28NBOGSWZwQ0I
-         yGWw==
+        bh=jEkIaDChO+2RsoQoWOfnX1YOYZEJCJWnjwnoibRy7fk=;
+        b=JqM0Bk+sbs4ED7pVnMTbAw78WFWkV1n8M1xI4VG/G7H90It1tYSI0bizGBXNLo4qBX
+         MW5r0PA7sejIUChS+Uvqv0yige+Bd1PIKAcnDZV/g/iUyWiHtn6JxJS6KbpFzKWFZN5B
+         j/52hfXF2FGuo7oD6yppdpySPZlojFXWjghT/OYo5DIVcAAvDEzgcjkQYwhs+BOxkraQ
+         6muZDprG7tzNGSjvyuBF+giYFXp4xI+oLhCsX8eS8l1H6KG4SMYE4o1Bu1q/EXl5PLn9
+         u8ZvER6aCHAzJSC7AKqpTWLvboOze5kVCYIVPA0xf1zyM8/LDaisC9apM6hnxIuvaUME
+         bBQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=urXkspJfgxnN/KByKI4sCcihsWMp9loLYCy6P4Twzbw=;
-        b=wBV83UD6v7CXC4nsaY7AlhKdGUzHCSB2IVNAKYF7YoJ++qbp769iQkxq9FRx5BQOJm
-         y9KC2/5HPz0+5uEMFRU6/+I/cx3l2T97jk+5jxKVOPGwlHfdjYCs2Zap/VBHyV3K1Pyp
-         hiVZceTLd29Pt/3P89Rgxlbd4sWScU5xOFs3RPVTa6D8MH0sueYO5L2rVqGZdxqyPFVv
-         znxXWfqHCHPCmcNjTlQJ2chM6oBmrKuyaeOL22JInDQiiSuibAPEurvVOn6o/nf35iCo
-         AO1UN5+YcuYtt4AIR+PErKnP2iHkNvT+qsBG8UTHQVgwMhWlptB8jYBb5nkiEKDLRMIw
-         8JIg==
-X-Gm-Message-State: AFqh2kp1DDg8U0CQsPspCjNOmMhJlXh/OBNjtxLQ8LVoyEU8Z6fCCjfo
-        gLJ6X2uRXFafMw1OIeavWhw=
-X-Google-Smtp-Source: AMrXdXsFl+nYl80RJKSZ/i3pz+vZ3DyYwoWZrOAVx4mNE8HjQA4ecARaOwvmWP9DhbPZiWvTBVqzog==
-X-Received: by 2002:a17:902:c711:b0:194:d662:1a15 with SMTP id p17-20020a170902c71100b00194d6621a15mr6804206plp.0.1674273621902;
+        bh=jEkIaDChO+2RsoQoWOfnX1YOYZEJCJWnjwnoibRy7fk=;
+        b=MCv0MZipaM0rOgurdiopcRs+HML2ZDqpccyh5ghOtnKrjnsqPpfoMOnVovAYWQ0mAr
+         hT5sp+bK7yX4PpgKDABPrwhRkyYs+2kqPl3+7OBmhdUYRj2jhmQ+X1NWW38T8RgdLpN4
+         UsUwFMlSb7ZcIqzUtSFIJcYvNm/y/WfmuJrz5X6qTZaKqsVPHvc3c1kF51FllpExUTpA
+         9WxIw2jv/oxPp1hUg9Zn0ASDZszK9881miVFl1xesT5ldF0WvhVXjpzx7bPKZTSNXop+
+         C3rCHh9VboEdBpG5iktHdFMy2TDhOdCuARhox52tQkAQDbcQ73Jkr1waBAO2h/bkww60
+         XAjw==
+X-Gm-Message-State: AFqh2koUllm7Sijc1oC5Q2cAFgDmfF3aa3E3MGZJ9RHqGZwlvRYrIbuf
+        RXJyuaRIrj+tMyE7CARD+03omZ/X5EvBuw==
+X-Google-Smtp-Source: AMrXdXuznDk3cfg9HYqQdC4fhK+ZDRlu3Aj3/OzS5gb/dCKLMEuYrcTAa6SEg5iM7KTzs6ePhjUmVA==
+X-Received: by 2002:aa7:9557:0:b0:58a:66a8:edf5 with SMTP id w23-20020aa79557000000b0058a66a8edf5mr19413271pfq.3.1674273621699;
         Fri, 20 Jan 2023 20:00:21 -0800 (PST)
 Received: from debian.me (subs02-180-214-232-22.three.co.id. [180.214.232.22])
-        by smtp.gmail.com with ESMTPSA id j6-20020a170902690600b00192aecb231asm27637492plk.121.2023.01.20.20.00.21
+        by smtp.gmail.com with ESMTPSA id n65-20020a622744000000b0058e12372079sm2532143pfn.29.2023.01.20.20.00.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 20 Jan 2023 20:00:21 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-        id 75881104FE7; Sat, 21 Jan 2023 11:00:17 +0700 (WIB)
+        id B1046104F59; Sat, 21 Jan 2023 11:00:17 +0700 (WIB)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     CoreSight List <coresight@lists.linaro.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
@@ -62,38 +62,48 @@ Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
         Mike Leach <mike.leach@linaro.org>,
         Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
         Mao Jinlong <quic_jinlmao@quicinc.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 0/2] Documentation: coresight: TPDM-TPDA doc fixes
-Date:   Sat, 21 Jan 2023 11:00:12 +0700
-Message-Id: <20230121040015.28139-1-bagasdotme@gmail.com>
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH 2/2] Documentation: coresight: tpdm: Add dummy comment after sysfs list
+Date:   Sat, 21 Jan 2023 11:00:14 +0700
+Message-Id: <20230121040015.28139-3-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <202301210955.zYxDrLgv-lkp@intel.com>
+In-Reply-To: <20230121040015.28139-1-bagasdotme@gmail.com>
 References: <202301210955.zYxDrLgv-lkp@intel.com>
+ <20230121040015.28139-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=723; i=bagasdotme@gmail.com; h=from:subject; bh=QLuYy17M0fVRG2ENGhEVNLfzZ/ZWtFSBjJoMLvOW2vc=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMmnkz0LFGUDmnTiJi+OnihbuLznYM3D0kebbL8ca+E7vvq6 1aqGjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEzklygjQ/P7hNYNh6Qrnp/Tj3l16G hcqL4dZ4nGev2JZ79qms1htWFk6NBnrZy48d4MRrOK6HfH9qd2Ts7+67HPVWh5iUJTuIE9LwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1148; i=bagasdotme@gmail.com; h=from:subject; bh=cDkrRILdMU86JfH0ZzlHEMTUXiensM3OwqC9cWol5Eg=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMmnk/00n2ou55y27KDs109rGu/qMp1/8zolWEBjNee/iP7J mzM9O0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCR498Y/hkEnharXKH34P66h3KFs6 rMIj5cXTY5bbXqlh2pHbmmzNeBKu4Zsc0X81QzrK293OWSIMtxxc6J6aycveDrpklXE2PZAQ==
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Here are documentation fixes for TPDM and TPDA documentation, as
-reported recently by kernel test robot [1]. The patch description below
-is self-explanatory.
+kernel test robot reported htmldocs warning:
 
-[1]: https://lore.kernel.org/linux-doc/202301210955.zYxDrLgv-lkp@intel.com/
+Documentation/trace/coresight/coresight-tpdm.rst:43: WARNING: Document may not end with a transition.
 
-Bagas Sanjaya (2):
-  Documentation: coresight: Extend title heading syntax in TPDM and TPDA
-    documentation
-  Documentation: coresight: tpdm: Add dummy comment after sysfs list
+Since there is no more documentation left for TPDM, fix the warning by adding
+dummy comment, thus creating the required text transition.
 
- Documentation/trace/coresight/coresight-tpda.rst | 6 +++---
- Documentation/trace/coresight/coresight-tpdm.rst | 8 +++++---
- 2 files changed, 8 insertions(+), 6 deletions(-)
+Link: https://lore.kernel.org/linux-doc/202301210955.zYxDrLgv-lkp@intel.com/
+Fixes: 758d638667d474 ("Documentation: trace: Add documentation for TPDM and TPDA")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/trace/coresight/coresight-tpdm.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-
-base-commit: 758d638667d474ff6b0a9052a8298f04c7ddf62f
+diff --git a/Documentation/trace/coresight/coresight-tpdm.rst b/Documentation/trace/coresight/coresight-tpdm.rst
+index 6c6e95109072fa..72fd5c855d459a 100644
+--- a/Documentation/trace/coresight/coresight-tpdm.rst
++++ b/Documentation/trace/coresight/coresight-tpdm.rst
+@@ -41,3 +41,5 @@ Root: ``/sys/bus/coresight/devices/tpdm<N>``
+     value -  1 or 2.
+ 
+ ----
++
++.. This text is intentionally added to make Sphinx happy.
 -- 
 An old man doll... just what I always wanted! - Clara
 
