@@ -2,105 +2,85 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AE4AC004D4
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 16:58:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16150C25B50
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 17:25:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229636AbjAUQ6Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 Jan 2023 11:58:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41306 "EHLO
+        id S229675AbjAURZY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 Jan 2023 12:25:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbjAUQ6Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jan 2023 11:58:25 -0500
+        with ESMTP id S229493AbjAURZX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jan 2023 12:25:23 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F8242940D
-        for <linux-doc@vger.kernel.org>; Sat, 21 Jan 2023 08:58:24 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE32718B0E;
+        Sat, 21 Jan 2023 09:25:22 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8DEEB60110
-        for <linux-doc@vger.kernel.org>; Sat, 21 Jan 2023 16:58:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8246C4339B;
-        Sat, 21 Jan 2023 16:58:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674320302;
-        bh=Rc60u3nQD8vjB9hfAtNH19XQTM3JZUxJHCTagm0Ww8w=;
-        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-        b=ert9M/F4BePRGhs1X+m748gTD3B9f4GCevOoIUfOYBlGXDKo8MMbJA5tUe/jxIeXC
-         m+EKKetAxOc4eLj1O74ycN6a4TXmYZxHxUmwWO+ekp8uC2ZhfKASAeYliLPRisgk6p
-         5sjKvCJLCz8pzL2Y/SJLyt9UROfudySTiSer6sA96wTsk+3liJDEo3Wd0GO1k5d83V
-         UYLeA4p6EUyGLrArEMWueC69CHERNqgv/3Dw4C9mlRnbZO1TXnWnHvVn53VaANJkuC
-         NAP7hBl9KYW1+XP6NSMb9Q8i1cI+N2ny+/cZqxDlzf6KshMkq6Uc8RaGuAuQljivJn
-         /xl3KNnwkafMg==
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 955BB27C0054;
-        Sat, 21 Jan 2023 11:58:21 -0500 (EST)
-Received: from imap48 ([10.202.2.98])
-  by compute3.internal (MEProxy); Sat, 21 Jan 2023 11:58:21 -0500
-X-ME-Sender: <xms:rBnMY3xs8CKfHZTWiTPvmFqdovIhH86r-nU_ReHS8_xuzBmUzFPmDQ>
-    <xme:rBnMY_S0G7T1XAtFRgs2mrX0cWk6Ox4RRuS3IfKy8HmG63Yv6FEEkX6SEgLaqtmS5
-    3gV9pN6vu-qg58OXCs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddugedgjedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
-    ugihucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepvdfhuedvtdfhudffhfekkefftefghfeltdelgeffteehueegjeff
-    udehgfetiefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homheprghnugihodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduudeiudek
-    heeifedvqddvieefudeiiedtkedqlhhuthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuh
-    igrdhluhhtohdruhhs
-X-ME-Proxy: <xmx:rBnMYxWcr_StY-Je2QwqxKK1dbhMVCkQYrCnb9RmFXhUDRM05-Qhdw>
-    <xmx:rBnMYxi_P1OkYINtWYQpUpy24A33gZmlwWJ71bzXi0nBDCToADHKUQ>
-    <xmx:rBnMY5CxN-5-kQF7RdR5Lf3vMZQi7WPnH70detc7b1t1Jl7R21Hoig>
-    <xmx:rRnMY73ogRNB9CTAUFW9AJ7a9ndlOBjr1SzBz4VIgUCSNJTv1veRKg>
-Feedback-ID: ieff94742:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id B8B7231A0063; Sat, 21 Jan 2023 11:58:20 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
-Mime-Version: 1.0
-Message-Id: <6bf667ca-da46-4759-b1b0-5aa56dd2eb28@app.fastmail.com>
-In-Reply-To: <87v8l26ww7.fsf@meer.lwn.net>
-References: <20230111193211.1987047-1-sohil.mehta@intel.com>
- <87v8l26ww7.fsf@meer.lwn.net>
-Date:   Sat, 21 Jan 2023 08:58:00 -0800
-From:   "Andy Lutomirski" <luto@kernel.org>
-To:     "Jonathan Corbet" <corbet@lwn.net>,
-        "Sohil Mehta" <sohil.mehta@intel.com>, linux-doc@vger.kernel.org
-Cc:     "Thomas Gleixner" <tglx@linutronix.de>,
-        "Kees Cook" <keescook@chromium.org>,
-        "Tony Luck" <tony.luck@intel.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Subject: Re: [PATCH] x86/vsyscall: Fix documentation to reflect the default mode
-Content-Type: text/plain
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8532D60B4B;
+        Sat, 21 Jan 2023 17:25:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF49C433D2;
+        Sat, 21 Jan 2023 17:25:21 +0000 (UTC)
+Date:   Sat, 21 Jan 2023 12:25:19 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Yoann Congal <yoann.congal@smile.fr>
+Cc:     linux-trace-kernel@vger.kernel.org,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] Documentation: kprobetrace: Fix some typos
+Message-ID: <20230121122519.17eebdc9@gandalf.local.home>
+In-Reply-To: <20230121143110.1706962-1-yoann.congal@smile.fr>
+References: <20230121142242.1706081-1-yoann.congal@smile.fr>
+        <20230121143110.1706962-1-yoann.congal@smile.fr>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, 21 Jan 2023 15:31:08 +0100
+Yoann Congal <yoann.congal@smile.fr> wrote:
+
+> @@ -76,14 +76,15 @@ or 'x64' is used depends on the architecture (e.g. x86-32 uses x32, and
+>  x86-64 uses x64).
+>  These value types can be an array. To record array data, you can add '[N]'
+>  (where N is a fixed number, less than 64) to the base type.
+> -E.g. 'x16[4]' means an array of x16 (2bytes hex) with 4 elements.
+> +E.g. 'x16[4]' means an array of x16 (2-bytes hex) with 4 elements.
+
+As we are correcting this, let's correct it correctly ;-)
+
+Adjectives do not turn into plurals. It's "2-byte hex" not "2-bytes hex".
+
+Thanks,
+
+-- Steve
 
 
-On Thu, Jan 19, 2023, at 1:24 PM, Jonathan Corbet wrote:
-> Sohil Mehta <sohil.mehta@intel.com> writes:
->
->> The default vsyscall mode has been updated from emulate to xonly for a
->> while. Update the kernel-parameters doc to reflect that.
->>
->> Fixes: 625b7b7f79c6 ("x86/vsyscall: Change the default vsyscall mode to xonly")
->> Cc: Andy Lutomirski <luto@kernel.org>
->> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
->> Reviewed-by: Tony Luck <tony.luck@intel.com>
->> ---
->> Do documentation fixes typically get backported to stable? I haven't included
->> a stable cc assuming they do not.
->>
->>  Documentation/admin-guide/kernel-parameters.txt | 8 ++++----
->>  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> Applied, thanks.
-
-Belated ack!  Sohil, thanks for the fix.
-
->
-> jon
+>  Note that the array can be applied to memory type fetchargs, you can not
+>  apply it to registers/stack-entries etc. (for example, '$stack1:x8[8]' is
+>  wrong, but '+8($stack):x8[8]' is OK.)
+>  String type is a special type, which fetches a "null-terminated" string from
+>  kernel space. This means it will fail and store NULL if the string container
+>  has been paged out. "ustring" type is an alternative of string for user-space.
+> -See :ref:`user_mem_access` for more info..
+> +See :ref:`user_mem_access` for more info.
+> +
+>  The string array type is a bit different from other types. For other base
+>  types, <base-type>[1] is equal to <base-type> (e.g. +0(%di):x32[1] is same
+>  as +0(%di):x32.) But string[1] is not equal to string. The string type itself
+> @@ -120,8 +121,8 @@ space. 'ustring' is a shortcut way of performing the same task. That is,
+>  
+>  Note that kprobe-event provides the user-memory access syntax but it doesn't
+>  use it transparently. This means if you use normal dereference or string type
+> -for user memory, it might fail, and may always fail on some archs. The user
+> -has to carefully check if the target data is in kernel or user space.
+> +for user memory, it might fail, and may always fail on some architectures. The
+> +user has to carefully check if the target data is in kernel or user space.
+>  
+>  Per-Probe Event Filtering
+>  -------------------------
+> -- 
