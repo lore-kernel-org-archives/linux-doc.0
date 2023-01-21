@@ -2,100 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 858E8C05027
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 02:19:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82D0DC38141
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Jan 2023 03:19:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229811AbjAUCTs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Jan 2023 21:19:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56644 "EHLO
+        id S229644AbjAUDTC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Jan 2023 22:19:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbjAUCTs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 21:19:48 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8205871345;
-        Fri, 20 Jan 2023 18:19:47 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id d9so6835991pll.9;
-        Fri, 20 Jan 2023 18:19:47 -0800 (PST)
+        with ESMTP id S229568AbjAUDTC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Jan 2023 22:19:02 -0500
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A8A6AF45;
+        Fri, 20 Jan 2023 19:19:01 -0800 (PST)
+Received: by mail-il1-x132.google.com with SMTP id d10so3667184ilc.12;
+        Fri, 20 Jan 2023 19:19:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=a/fdOQVFdPi9HnJ4z6CkmymohYw1G1ENm8XngoDK5mo=;
-        b=HLSEsGxPAc4Ai1lxlN0Xi3PCV0jA7NmVrlbuyp2z6eehW7HRZ7lRk9QVMxqLe6QY42
-         9k6B030ehVSkS0TrQKxrBqOEd8dUUfpxr22laTrc6SQyWo4/jpO5l+NzQM8uAdQGwAkx
-         DZNBCja36iLKJUWH+OQM0Z6MxzcxqfqEkFuS5/2Qzn+upIfp2/q1XHiT7Ucd7rr8ie1Y
-         v1Cvb7D6DRBetdf0us/Q6Tj9pAX6JOn9OV8ySBf7f0CIumYCNVOHK0FT2rT6+5cZ3FOp
-         +0aK9IYFWtw0JREXVVZoVd/QX6lBzpcGGGwuierTzLQ+LAMMnKU8Mndc/LpNHuM6evtC
-         ginQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BNEPDeyZy+520jJ70Z8ubzdZCaFZrMQI2bVBkEs12kU=;
+        b=E48zNa4BqUeY8ZRL/jlShcttii3p3GAN2DpMYV/mGhDlphOEpMmhtBcSxCnNGZDCtU
+         7auLdY5G1YL8mWCUFAjimglHJgz0JVzFrPQZJj0MFMa0lpUk/uZqKPWZvS0UfVXhhQ2y
+         mUwbYkc0PFd51QMQEUwBA8wsFCydxIVENehJb3J+Qrq7+GVZtAV6jYyKWrvKMVVEO1ts
+         inD8lqciLPw3ayITq6+jpY/N/n1UGrraSqfrSZxBjFimze1ZUhQt1lOL5opVl+6AfwbO
+         MpmzzqXLABam6kEYw95Lm3eytOYr4M3HzqGTS2vg9DNN4Q22H1QfAn20PsKY4cN8cFo/
+         FK9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a/fdOQVFdPi9HnJ4z6CkmymohYw1G1ENm8XngoDK5mo=;
-        b=kzHFGu3bzSi/OCs1XLRkkXn0N2i+H74WyeDV9zFspWcSUhH0Lqbs1awYLuN0s7PaUf
-         atiQxboCTffJEUKhO14L38JciRxHNN7kwYl3vLBOp1SqEIAaLMsdaavKkuzuKaQonrOa
-         a11lobrJg0/Znr3i3TRf1ERMJLHqFeWRxeTrjSjlXbcZz9XQ0qNNd96+RGnmB0/Tu9ds
-         Nl23WcPBtJ+hNshEIR6Wywdip0VFojTgJBGt/rNdEiXMIkigxC82WbFzQA8qzu9tFaqT
-         Jwe+Sc20j/i3c1Lu31xjQ8CgkALSOLhpnlvqxEwNFuGi6+mzkpy4nMAuzH0pMWhnVu3b
-         MTSQ==
-X-Gm-Message-State: AFqh2kokKDeIs/bGw9Gj2R4Imrc0ahRbXbdQ/BaOXz2r3z7R2zA8heH6
-        pwsiqU44iYe4Cvtyn7VC4CU=
-X-Google-Smtp-Source: AMrXdXuusgHnc5G3EvtFYeX5aiteN4IMHnHcuaxSRrxsz4n3xHYaPzVxYXgHiUDEPOLa/PNlTrmKqg==
-X-Received: by 2002:a17:902:6b4c:b0:193:38ef:10cf with SMTP id g12-20020a1709026b4c00b0019338ef10cfmr17359258plt.29.1674267587011;
-        Fri, 20 Jan 2023 18:19:47 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-22.three.co.id. [180.214.232.22])
-        by smtp.gmail.com with ESMTPSA id o13-20020a170903210d00b0018853dd8832sm27728804ple.4.2023.01.20.18.19.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 18:19:46 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 39CA5104399; Sat, 21 Jan 2023 09:19:43 +0700 (WIB)
-Date:   Sat, 21 Jan 2023 09:19:42 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Alexander Larsson <alexl@redhat.com>, linux-fsdevel@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, gscrivan@redhat.com,
-        david@fromorbit.com, brauner@kernel.org, viro@zeniv.linux.org.uk,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 5/6] composefs: Add documentation
-Message-ID: <Y8tLvvzwekoXfDmx@debian.me>
-References: <cover.1674227308.git.alexl@redhat.com>
- <20baca7da01c285b2a77c815c9d4b3080ce4b279.1674227308.git.alexl@redhat.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BNEPDeyZy+520jJ70Z8ubzdZCaFZrMQI2bVBkEs12kU=;
+        b=AbiC7/J+Fb2JEAuv3cSmTbu+gchaKF5B2YYAz8taok8zLLFjCV9SiGPqA2wei7yTyp
+         i50oX1j/HTI/DtIecH0kTrw1+03hjMDrIx3Xsqheqixaof/IU4npdsE1Pamxh4+Sy8II
+         aUtWLym8nXSjprxnMPyCBn2nJQ55DWaO7PvoHGVypSFqDB/NtndHnMftKlYWZ9Tl5pgc
+         VAQNl+8+E0V0e3Cxa0E7j2EYAe9oZPIjCc9RUuJiXhw17XKg0fRKAzg/GUW9f7sJnN6u
+         kaR8fEdmRSgatgvhQKGSzGeLiIskSqXfuNmYZw5/JIB1LoFQuGradlovoh6/kYJUQJjd
+         FgxQ==
+X-Gm-Message-State: AFqh2koZSiF+zGzNkU1bXWZHMeMbi83dxqhxyYEby+LAra9Nb3IF+jy8
+        n7tyuGZa+K4m0+P1DqZDaNEZ7xkrLA0XbJUQSy8J6GdytRQ=
+X-Google-Smtp-Source: AMrXdXvfaALIHcVRYgfGgc9wNixFqvLW7HL6rErcMJV7rqwRwYXquOQcZheG2b0Z5jvuuiSMNnLIanOnFTRAgmav1nQ=
+X-Received: by 2002:a92:c70e:0:b0:30e:a789:f0f7 with SMTP id
+ a14-20020a92c70e000000b0030ea789f0f7mr1652606ilp.155.1674271140596; Fri, 20
+ Jan 2023 19:19:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="hSqAm8IiEMxeruQl"
-Content-Disposition: inline
-In-Reply-To: <20baca7da01c285b2a77c815c9d4b3080ce4b279.1674227308.git.alexl@redhat.com>
+References: <20230120144356.40717-1-gregory.price@memverge.com> <20230120144356.40717-4-gregory.price@memverge.com>
+In-Reply-To: <20230120144356.40717-4-gregory.price@memverge.com>
+From:   Andrei Vagin <avagin@gmail.com>
+Date:   Fri, 20 Jan 2023 19:18:49 -0800
+Message-ID: <CANaxB-zet4+S4saBHgYPP6feppBVHkCRJxTkL8R-OyXa_gXG3Q@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] ptrace,syscall_user_dispatch: add a getter/setter
+ for sud configuration
+To:     Gregory Price <gourry.memverge@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        krisman@collabora.com, tglx@linutronix.de, luto@kernel.org,
+        oleg@redhat.com, peterz@infradead.org, ebiederm@xmission.com,
+        akpm@linux-foundation.org, adobriyan@gmail.com, corbet@lwn.net,
+        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Jan 20, 2023 at 7:05 AM Gregory Price <gourry.memverge@gmail.com> wrote:
+>
+> Implement ptrace getter/setter interface for syscall user dispatch.
+>
+> Presently, these settings are write-only via prctl, making it impossible
+> to implement transparent checkpoint (coordination with the software is
+> required).
+>
+> This is modeled after a similar interface for SECCOMP, which can have
+> its configuration dumped by ptrace for software like CRIU.
+>
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
+> ---
+>  .../admin-guide/syscall-user-dispatch.rst     |  5 +-
+>  include/linux/syscall_user_dispatch.h         | 19 +++++++
+>  include/uapi/linux/ptrace.h                   | 10 ++++
+>  kernel/entry/syscall_user_dispatch.c          | 49 +++++++++++++++++++
+>  kernel/ptrace.c                               |  9 ++++
+>  5 files changed, 91 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/syscall-user-dispatch.rst b/Documentation/admin-guide/syscall-user-dispatch.rst
+> index 60314953c728..a23ae21a1d5b 100644
+> --- a/Documentation/admin-guide/syscall-user-dispatch.rst
+> +++ b/Documentation/admin-guide/syscall-user-dispatch.rst
 
---hSqAm8IiEMxeruQl
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+<snip>
 
-On Fri, Jan 20, 2023 at 04:23:33PM +0100, Alexander Larsson wrote:
-> +For more details, see cfs.h.
 > +
+> +int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
+> +               void __user *data)
+> +{
+> +       struct syscall_user_dispatch *sd = &task->syscall_dispatch;
+> +       struct syscall_user_dispatch_config config;
+> +
+> +       if (size != sizeof(struct syscall_user_dispatch_config))
+> +               return -EINVAL;
+> +
+> +       if (sd->selector) {
+> +               config.mode = PR_SYS_DISPATCH_ON;
+> +               config.offset = sd->offset;
+> +               config.len = sd->len;
+> +               config.selector = sd->selector;
+> +               config.on_dispatch = sd->on_dispatch;
+> +       } else {
 
-"See a code comment describing the descriptor file layout in
-fs/composefs/cfs.h for details."
+This doesn't look right for me. selector is optional and if it is 0,
+it doesn't mean that
+mode is PR_SYS_DISPATCH_OFF, does it?
 
-Otherwise LGTM.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---hSqAm8IiEMxeruQl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY8tLugAKCRD2uYlJVVFO
-ow9mAP4tR9OCENw9j8nNTkS6VoRntDIvhFYomtkMhIc4aqcZOQD+OkkBWTi0uOLp
-sZ0El1ZD5ZSVv5ALrn/yZ6Z2YAlAfw0=
-=tK8A
------END PGP SIGNATURE-----
-
---hSqAm8IiEMxeruQl--
+> +               config.mode = PR_SYS_DISPATCH_OFF;
+> +               config.offset = 0;
+> +               config.len = 0;
+> +               config.selector = NULL;
+> +               config.on_dispatch = false;
+> +       }
+> +       if (copy_to_user(data, &config, sizeof(config)))
+> +               return -EFAULT;
+> +
+> +       return 0;
+> +}
+> +
