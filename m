@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DBECC54EED
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Jan 2023 11:55:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87254C54EB4
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Jan 2023 11:57:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230031AbjAVLy6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Jan 2023 06:54:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48342 "EHLO
+        id S229566AbjAVL5N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Jan 2023 06:57:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230024AbjAVLy5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 06:54:57 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F187F125B7
-        for <linux-doc@vger.kernel.org>; Sun, 22 Jan 2023 03:54:55 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id c4-20020a1c3504000000b003d9e2f72093so8762898wma.1
-        for <linux-doc@vger.kernel.org>; Sun, 22 Jan 2023 03:54:55 -0800 (PST)
+        with ESMTP id S229960AbjAVL5M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 06:57:12 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8880E12842
+        for <linux-doc@vger.kernel.org>; Sun, 22 Jan 2023 03:57:10 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id bk16so8450429wrb.11
+        for <linux-doc@vger.kernel.org>; Sun, 22 Jan 2023 03:57:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=VLe1tCHvsXuqDEBtfO7OY5kLhydgi9CnGmhErJAm6aY=;
-        b=s0BAxEQrg1XNDKd+RDJjQ/lqdPTA7p1sTOMmyByolojk0mvaFqzqmy7GIdrIZxmIOf
-         nFUchdZptB8ZVzLanP/34atcmww1mMSAPnOW6ClddkbiU7eDltZQOUDza6VkttvsUHfc
-         VQreJV0TXJjnpWyAigdZSH569OgxnVx8rooyMeC0XkS7AD9xKYSlxnN4RqPAyi5VpF7k
-         CoH7kaCdBdozNk9M+weoHgP1irBiEMfOD3knAU/SvcsagkDEAe+ceFKjExWCJUNouNc/
-         k5Jv6eqzFnOZo2sgqVpIZZUumFywQQqcWtw67WTGWBMxjS7Nexwmrc+zVtNxlk1/BNXb
-         5cxA==
+        bh=ckWviSxANZfcro+bBRfyc+cenkmtjOkiW7r6SzucWlg=;
+        b=rVyqAJqcbEVO2mLYQVAhfnqaxyKeML/dcpxmRaA391AWy18uZOcTusGjMi44ncpTql
+         vRUlbx31k3vofUNP4vsPJVAi8lmlvkVa9EF7D+g1STXssK/sO9udFfYn+8KZstXrK7qh
+         xd8yLliT4+F15t5bWD1hE7T1GDf9FwKdq6LRDIE6AKZfPND9W8ihbB18IBlG77AI1lAD
+         h2yHlmJaQeszTJT/hh3lV1J+dPT8wAe85E0VKkfG7d3OdVi0bTLkjAqcxHch+rOespJa
+         a741p3AQgK6ZAVKTC3L2Wy3ECwJcIx3YubDD3GwhhX5WXjHjZWZq6eG8muWvlHTdzBqb
+         Y8YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VLe1tCHvsXuqDEBtfO7OY5kLhydgi9CnGmhErJAm6aY=;
-        b=3yNlp8lVvTlLz0971EGITvynqmsBZI3yxuzl8wlXVlHx8nzs8xBySB6xuwNZS3S9B4
-         /+YFxlhQmDQXntx9ZlGU/hhT+qR4p8dYRsyTiTHzPhHeoqANIWrxpZVwpiYfh3rJZf6x
-         ILMkzDtxlQz+iygrKFII9q/AzQwI+SoK6a6CY8GLtSWIcRsjb+VQg5IDYjN7MQcLd1uC
-         ar9u+prbLtF4FXYQbtiuxyFiPxQGgQap1nuz2Pg2c2xB7t57z/vRfRACoBlwceWclg1d
-         opRzQSN0w74YjqBcWbySDA7zPF904WVAKeSEJCelu1YID0mt0Z1exdpMqrzH/kRz3w3C
-         MD+A==
-X-Gm-Message-State: AFqh2kovEQQw+outSWk1xhBvNdZyD9FuGC2HMFRyw5SPGVh6TgEfplaR
-        Db2qpwyDuJHui/LVcYZSpOcnmg==
-X-Google-Smtp-Source: AMrXdXvuCQdb16Nj82HEsGUUdIjG5ZPXUogSicV9IYHza0HEoyjvxXi4JXn+3h6rll38KtJXF4JaFw==
-X-Received: by 2002:a05:600c:1508:b0:3d3:5166:2da4 with SMTP id b8-20020a05600c150800b003d351662da4mr20299706wmg.8.1674388494495;
-        Sun, 22 Jan 2023 03:54:54 -0800 (PST)
+        bh=ckWviSxANZfcro+bBRfyc+cenkmtjOkiW7r6SzucWlg=;
+        b=W1qPdOzJAsJoSLPdHJ1D9AicD34qJz9PL+3nEsH5YCPsOtfhy2VJlFeXLPTF2cw/8x
+         FvjLeuOD/vq7CDbQPTxXUxR93H8cc+pIVL61+vslZODASzUAYkMNxJu9aEHTCW9goOVd
+         fiZd2xOVERqSgOV2BKgSeTjaL6FbXB9xjZZwBdjZ541+gBQEVtww8C2i3lWhRgKvXkW+
+         e6A/zB2YsD14wq0Z/YEZYQmdlHlyGx1CTCyKa1B28vJZHNq4lP8tk7WVjUwJ3kJ7oTzs
+         chqiPEWTjlVx85oWF3KodPZg0dn8c94iPNQ531oN+S72NThGjf84aNq+o4NojHKsz0t1
+         FTWw==
+X-Gm-Message-State: AFqh2koWKs7xRc6p0scfzMhYJZeUdG/PKxn60whRbiCOrer2cy4jeDwJ
+        r5/1TTYmipaSAbUGl/ut1Yb+ag==
+X-Google-Smtp-Source: AMrXdXvUmSo3jcsu3xojfTukvrhpzxz6e7Xp9tLFomGzgShSJjiyaBJUGl7NNs6LSU7eztbkOMG0ag==
+X-Received: by 2002:a5d:5224:0:b0:2bd:bbf7:1f87 with SMTP id i4-20020a5d5224000000b002bdbbf71f87mr20620225wra.60.1674388629088;
+        Sun, 22 Jan 2023 03:57:09 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id m37-20020a05600c3b2500b003daf681d05dsm8320826wms.26.2023.01.22.03.54.50
+        by smtp.gmail.com with ESMTPSA id d16-20020adfef90000000b002b9b9445149sm3306165wro.54.2023.01.22.03.57.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Jan 2023 03:54:54 -0800 (PST)
-Message-ID: <995eb624-3efe-10fc-a6ed-883d52d591bb@linaro.org>
-Date:   Sun, 22 Jan 2023 12:54:48 +0100
+        Sun, 22 Jan 2023 03:57:08 -0800 (PST)
+Message-ID: <3043df6d-8cc1-6969-09d4-50ad6195c924@linaro.org>
+Date:   Sun, 22 Jan 2023 12:57:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.0
-Subject: Re: [RFC PATCH v2 31/31] kvx: Add IPI driver
+Subject: Re: [RFC PATCH v2 29/31] kvx: Add support for cpuinfo
 Content-Language: en-US
 To:     Yann Sionneau <ysionneau@kalray.eu>, Arnd Bergmann <arnd@arndb.de>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -119,9 +119,9 @@ Cc:     Benjamin Mugnier <mugnier.benjamin@gmail.com>,
         linux-arch@vger.kernel.org, linux-audit@redhat.com,
         linux-riscv@lists.infradead.org, bpf@vger.kernel.org
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
- <20230120141002.2442-32-ysionneau@kalray.eu>
+ <20230120141002.2442-30-ysionneau@kalray.eu>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230120141002.2442-32-ysionneau@kalray.eu>
+In-Reply-To: <20230120141002.2442-30-ysionneau@kalray.eu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -129,19 +129,23 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 20/01/2023 15:10, Yann Sionneau wrote:
-> +
-> +int __init kvx_ipi_ctrl_probe(irqreturn_t (*ipi_irq_handler)(int, void *))
+> +static int __init setup_cpuinfo(void)
 > +{
-> +	struct device_node *np;
-> +	int ret;
-> +	unsigned int ipi_irq;
-> +	void __iomem *ipi_base;
+> +	int cpu;
+> +	struct clk *clk;
+> +	unsigned long cpu_freq = 1000000000;
+> +	struct device_node *node = of_get_cpu_node(0, NULL);
 > +
-> +	np = of_find_compatible_node(NULL, NULL, "kalray,kvx-ipi-ctrl");
+> +	clk = of_clk_get(node, 0);
+> +	if (IS_ERR(clk)) {
+> +		printk(KERN_WARNING
+> +		       "Device tree missing CPU 'clock' parameter. Assuming frequency is 1GHZ");
+> +		goto setup_cpu_freq;
+> +	}
+> +
+> +	cpu_freq = clk_get_rate(clk);
 
-Nope, big no.
-
-Drivers go to drivers, not to arch code. Use proper driver infrastructure.
+What about cpufreq? I don't think this is useful.
 
 Best regards,
 Krzysztof
