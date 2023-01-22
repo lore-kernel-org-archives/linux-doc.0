@@ -2,64 +2,193 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47B23C25B4E
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Jan 2023 17:43:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2CADC54EB4
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Jan 2023 17:48:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230186AbjAVRnK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Jan 2023 12:43:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43046 "EHLO
+        id S229934AbjAVRs6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Jan 2023 12:48:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230056AbjAVRnJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 12:43:09 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB659729E;
-        Sun, 22 Jan 2023 09:43:07 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        with ESMTP id S230160AbjAVRs6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 12:48:58 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74E8313D74;
+        Sun, 22 Jan 2023 09:48:57 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E1E504E5;
-        Sun, 22 Jan 2023 17:43:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E1E504E5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1674409387; bh=PhTPdd+tEpQHc/ujMuc1G+8BhQEUkRWbXLoB8rRzFnw=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=GToCutKvz4FKFZbm9gCzn073f4wM5ApWQLQsb25I+pXh0S1sIIAvC5llud0FA6/vL
-         4GhHqas0lIxNHHNYZtLBMGBvSgwO8zIPjhzlUUPQY8Cp8bvaCxAE1+uekLPxPzNjEZ
-         zyLEEnj00qaH5LAMpk+k61ZMnzMYE/e2ypbHXcVI+ztv1lof5Nt0d70Dpsqm5R0PLr
-         2/CCIL6ydmRoexcJBfdxWstwOyePjWTzdQx8r7+T4R9d4bLJXIF32dPTBJQa2r0nd6
-         ASci1U9s9HSM3/3PWva4ygQuruWSSJfHvN05x/XOGUsJo9r/xwcErWy+FxjshvSxW/
-         k7PfzPyyRrXHg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v4 0/1] docs/mm: start filling out new structure
-In-Reply-To: <Y8zKDkJPeEb0wUTK@kernel.org>
-References: <20230115184212.996298-1-rppt@kernel.org>
- <Y8zKDkJPeEb0wUTK@kernel.org>
-Date:   Sun, 22 Jan 2023 10:43:06 -0700
-Message-ID: <87tu0ilb2t.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E704560BCC;
+        Sun, 22 Jan 2023 17:48:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DB89C4339C;
+        Sun, 22 Jan 2023 17:48:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674409736;
+        bh=xD7a+ICcNUORoNgPmgIA6dKQcRIVrlR1bQKsoNQhcwI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=R9QudQK7MKhnDue+Cfrl4hn1oEdev0zihg4kd0mBUVU2Xbvxt2cHdk6qHJr4ww2qK
+         oUmzcCZvpagwnpaP1olTWMATKnbDvy17Bfnzl0XqAh8iTSif6R8FMAvCxOMcnZgFFT
+         zvLPtLA+T0k9/bLB4ckKgYYylJQN8jUf9i3yPhaj1PfHUW17Mri7VV3RxqsJJzmNDa
+         ogPUH1sl1ErSXGy2rR19naIwE3JLkofCTSMG3JOX0BR+a3ACYaWHHh/uu6BAQB61sg
+         qDKGUuscpGaRZfPsp4fMUtMZg32dxhECoY2GE2GA/Wh9YVPUaaPIUwmMyC1LKR98f2
+         NgFLDvpIPpMeg==
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-15ff0a1f735so3520015fac.5;
+        Sun, 22 Jan 2023 09:48:56 -0800 (PST)
+X-Gm-Message-State: AFqh2koBOn07xTvcaVushhr4b7Ax3DkgqDk8i6DUpIAX8r3Lc7fm+MSu
+        Jc609QPWf/xfjSY9v6e7UBkcEaOzb3hlSATJKc0=
+X-Google-Smtp-Source: AMrXdXtvoxT2ZIDrNIS61KIdiJ14rtFDGARHY3PdXvco95149zfmQ8nlkFbug7LWA0hKOerHMNznWEHnHTskCU0CCck=
+X-Received: by 2002:a05:6870:b0c:b0:15b:9941:ac30 with SMTP id
+ lh12-20020a0568700b0c00b0015b9941ac30mr1694881oab.287.1674409735503; Sun, 22
+ Jan 2023 09:48:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230119071215.23042-1-masahiroy@kernel.org>
+In-Reply-To: <20230119071215.23042-1-masahiroy@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 23 Jan 2023 02:48:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASUwTnOHDF9ym3u2R6bxrELEBsrKeaCCeHdz_mrA-yFYg@mail.gmail.com>
+Message-ID: <CAK7LNASUwTnOHDF9ym3u2R6bxrELEBsrKeaCCeHdz_mrA-yFYg@mail.gmail.com>
+Subject: Re: [PATCH] scripts: remove bin2c
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mike Rapoport <rppt@kernel.org> writes:
+On Thu, Jan 19, 2023 at 4:13 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Commit 80f8be7af03f ("tomoyo: Omit use of bin2c") removed the last
+> use of bin2c.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  Documentation/dontdiff     |  1 -
+>  init/Kconfig               |  4 ----
+>  scripts/.gitignore         |  1 -
+>  scripts/Makefile           |  1 -
+>  scripts/bin2c.c            | 36 ------------------------------------
+>  scripts/remove-stale-files |  2 ++
+>  6 files changed, 2 insertions(+), 43 deletions(-)
+>  delete mode 100644 scripts/bin2c.c
 
-> Gentle ping.
 
-Is that your way of saying that you think it's perhaps ready to be
-applied?  I've been watching the discussion but wasn't sure if things
-have settled or not.
 
-Thanks,
 
-jon
+Applied to linux-kbuild.
+
+
+
+>
+> diff --git a/Documentation/dontdiff b/Documentation/dontdiff
+> index 352ff53a2306..3c399f132e2d 100644
+> --- a/Documentation/dontdiff
+> +++ b/Documentation/dontdiff
+> @@ -91,7 +91,6 @@ asm_offsets.h
+>  autoconf.h*
+>  av_permissions.h
+>  bbootsect
+> -bin2c
+>  binkernel.spec
+>  bootsect
+>  bounds.h
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 7ceabd320425..f66ba19f9482 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -682,10 +682,6 @@ config CPU_ISOLATION
+>
+>  source "kernel/rcu/Kconfig"
+>
+> -config BUILD_BIN2C
+> -       bool
+> -       default n
+> -
+>  config IKCONFIG
+>         tristate "Kernel .config support"
+>         help
+> diff --git a/scripts/.gitignore b/scripts/.gitignore
+> index 11bf3c075fb6..6e9ce6720a05 100644
+> --- a/scripts/.gitignore
+> +++ b/scripts/.gitignore
+> @@ -1,6 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  /asn1_compiler
+> -/bin2c
+>  /generate_rust_target
+>  /insert-sys-cert
+>  /kallsyms
+> diff --git a/scripts/Makefile b/scripts/Makefile
+> index 0e0ae3c06ed7..32b6ba722728 100644
+> --- a/scripts/Makefile
+> +++ b/scripts/Makefile
+> @@ -3,7 +3,6 @@
+>  # scripts contains sources for various helper programs used throughout
+>  # the kernel for the build process.
+>
+> -hostprogs-always-$(CONFIG_BUILD_BIN2C)                 += bin2c
+>  hostprogs-always-$(CONFIG_KALLSYMS)                    += kallsyms
+>  hostprogs-always-$(BUILD_C_RECORDMCOUNT)               += recordmcount
+>  hostprogs-always-$(CONFIG_BUILDTIME_TABLE_SORT)                += sorttable
+> diff --git a/scripts/bin2c.c b/scripts/bin2c.c
+> deleted file mode 100644
+> index c3d7eef3ad06..000000000000
+> --- a/scripts/bin2c.c
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -/*
+> - * Unloved program to convert a binary on stdin to a C include on stdout
+> - *
+> - * Jan 1999 Matt Mackall <mpm@selenic.com>
+> - *
+> - * This software may be used and distributed according to the terms
+> - * of the GNU General Public License, incorporated herein by reference.
+> - */
+> -
+> -#include <stdio.h>
+> -
+> -int main(int argc, char *argv[])
+> -{
+> -       int ch, total = 0;
+> -
+> -       if (argc > 1)
+> -               printf("const char %s[] %s=\n",
+> -                       argv[1], argc > 2 ? argv[2] : "");
+> -
+> -       do {
+> -               printf("\t\"");
+> -               while ((ch = getchar()) != EOF) {
+> -                       total++;
+> -                       printf("\\x%02x", ch);
+> -                       if (total % 16 == 0)
+> -                               break;
+> -               }
+> -               printf("\"\n");
+> -       } while (ch != EOF);
+> -
+> -       if (argc > 1)
+> -               printf("\t;\n\n#include <linux/types.h>\n\nconst size_t %s_size = %d;\n",
+> -                      argv[1], total);
+> -
+> -       return 0;
+> -}
+> diff --git a/scripts/remove-stale-files b/scripts/remove-stale-files
+> index c71bf2f68360..04fcdf739638 100755
+> --- a/scripts/remove-stale-files
+> +++ b/scripts/remove-stale-files
+> @@ -29,3 +29,5 @@ rm -f scripts/extract-cert
+>  rm -f scripts/kconfig/[gmnq]conf-cfg
+>
+>  rm -f rust/target.json
+> +
+> +rm -f scripts/bin2c
+> --
+> 2.34.1
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
