@@ -2,60 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87D6FC27C76
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Jan 2023 11:51:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75EA1C54EAA
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Jan 2023 11:54:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230023AbjAVLvn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Jan 2023 06:51:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45776 "EHLO
+        id S229960AbjAVLyW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Jan 2023 06:54:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbjAVLvm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 06:51:42 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 243B91E9D0
-        for <linux-doc@vger.kernel.org>; Sun, 22 Jan 2023 03:51:40 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id h16so8440262wrz.12
-        for <linux-doc@vger.kernel.org>; Sun, 22 Jan 2023 03:51:40 -0800 (PST)
+        with ESMTP id S229672AbjAVLyU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 06:54:20 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D837A125B2
+        for <linux-doc@vger.kernel.org>; Sun, 22 Jan 2023 03:54:18 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id r9so8470692wrw.4
+        for <linux-doc@vger.kernel.org>; Sun, 22 Jan 2023 03:54:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=QW4gcfTBDAxCEJmp81ra89ieKaIa7EaBAPXtJreoq+w=;
-        b=P/0Gb1PCZZIXYu0NV1Ove+/unx34oDiuMeeBcuZho836SMBMbqREXW49kGJekeeYeP
-         fzP+MyKIYe2eiBQ7rukcC1sC5RGH0lkRTyftvfk7x8nkdmK2b31SghHLBEmZzx4NBpCj
-         ggDUwzAEC9l9h8CA8lfbAlDSU5T0XYkDKHhlfhfERi9QxU9HQhyxryOH1cbFhtWNtsiP
-         k2z2Kh4W04yGAltLW5C0VK+2W2aIXIipP3jMn0F9n1UToYwxL/bNIkx8LTwm1LCYrHf+
-         MFUwUoTz9F7H8+vCFHV6UacV3C7BlRYLfN5vIHptYZ9r+5wxB7SAjdxVuc7IX5uB+nMX
-         QP4Q==
+        bh=SufkmAjwbNPzx+QZI0to5Uf48TUW+IZPLNjbNqCZpfI=;
+        b=agLJLLTVda4vzbo+pBm1nc5uVfx6hrGX4HQkgIojkD/1cyQqIJv/dW6ozQQZxh9acO
+         0GIArSOuUVD0jo2VEYapOBIRUz5rU0ickudZecB/MxBJcXysLhAmHyMc4oBteDTIVZMP
+         gWC6imLaRflwc3jb3Je1wClPZlQKNp6xyUYD3v0X33auCHxc+qD/ZA/jJBtt4IwIx7rF
+         gSScl4TsJrIet9k0uAS97cSICY1543XxKH25XG+KtqbOQ1xwZB+O3y7k0SPxq0AYdW3y
+         nsmpTPaZyS0wpbBSnQCu92eqyFbTR8SK3YHX60WCqpdfFl3mYAplQ0n+AxAh2HMkH8Q8
+         TEWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QW4gcfTBDAxCEJmp81ra89ieKaIa7EaBAPXtJreoq+w=;
-        b=DAxIWEt5ai56GqjLAhzJlwP6caLW47nqPvNszW00eNU6im9g4Ia2cYSj8FuTGp/NLy
-         O7H5u4jex/QiYlDpdjXy0ONXlbF2I94URtLtJTGQVpVYjysjQawwxkpZFaa+f0OGfLkS
-         myFy228s866mjdRkq8VaArT3Vm4WO8bzk6k5RBF5UFRJMrm7PCXcD1aICazxa9lealkA
-         /PVoGUzidprIl5XgZ1tqhueQbairCi8LnwR8bbbD5W7LJsoiDOHfLZCDHPcAWxhecjNf
-         /64TmoQVtGoXXbl6+y8Sy+yhV03lDCjYahcxbswmHJ+COKemVlvaXpnPXf/vRquRh+Kh
-         x+EA==
-X-Gm-Message-State: AFqh2krAxOC9fvoNW4XKhqBeqp7R7s8Nzj4QV48SijmqkW1aETyXQDKC
-        E4lYNNfHsXlHFaqXSdRIi7nkdw==
-X-Google-Smtp-Source: AMrXdXu3komgmJz3v4UQ6DFMLR2KXaq2N92Bqckcvh43HhbdmlU07p0tmzT8+sQ+olcM02A9d6D9gA==
-X-Received: by 2002:adf:f501:0:b0:2ba:dce5:ee28 with SMTP id q1-20020adff501000000b002badce5ee28mr17537961wro.18.1674388299288;
-        Sun, 22 Jan 2023 03:51:39 -0800 (PST)
+        bh=SufkmAjwbNPzx+QZI0to5Uf48TUW+IZPLNjbNqCZpfI=;
+        b=SVtFlQD3PuVFkDrmcSGrrIRdp6iAl/vDbH5fcgP3ZgB8RqTq0MPTbpF9BMb1Fl5KXW
+         p/x4fKrcw8lFpK9/KHivpOi0wc7eWiMp/BZ5GKAXV5fsOSmMMYx8KGs9WSK7tGKE3SZ2
+         u1CuDsrb4+CvIf5DEHDlE6u3qaFwAe/9A0Kl298RZQfPQ4sN9QjoB+JrKXoMj1UhRiIy
+         CCKZQcQgCdlEV38dro+Awg64pxXBjgAa07i8pF1wlaMNhmw0huc+o9A6Yn9TXmsaXRhg
+         PWLil5KM1SThIR0CZcYAQjtRuPT6ExF+Wu//za9wRmsJMZl0YRIwxwkO0F4HUbsrETEF
+         YSLw==
+X-Gm-Message-State: AFqh2ko8q+PxEV7yPAGGTelw7LLvJZp/yjtVNBw0mi8pnscyjqtDcMgE
+        xfwNf/t2u58a79qeJWSmkJo3Pw==
+X-Google-Smtp-Source: AMrXdXt21M3CsHbnhN4nC75KtRaK9snE7H1KnN8u8SuCQjR3lZXo7Zes1x4/j1347YU7bM+ZYlALNg==
+X-Received: by 2002:adf:e9d2:0:b0:2bd:e6f5:5122 with SMTP id l18-20020adfe9d2000000b002bde6f55122mr17418436wrn.65.1674388457426;
+        Sun, 22 Jan 2023 03:54:17 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id v7-20020a5d6787000000b0025e86026866sm3554309wru.0.2023.01.22.03.51.35
+        by smtp.gmail.com with ESMTPSA id ba9-20020a0560001c0900b002b57bae7174sm2174746wrb.5.2023.01.22.03.54.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Jan 2023 03:51:38 -0800 (PST)
-Message-ID: <d02b81ab-fa72-6005-79e9-249225483364@linaro.org>
-Date:   Sun, 22 Jan 2023 12:51:34 +0100
+        Sun, 22 Jan 2023 03:54:16 -0800 (PST)
+Message-ID: <f69adaf2-6582-c134-5671-4d6fd100fcf1@linaro.org>
+Date:   Sun, 22 Jan 2023 12:54:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.0
-Subject: Re: [RFC PATCH v2 07/31] Documentation: Add binding for
- kalray,kv3-1-pwr-ctrl
+Subject: Re: [RFC PATCH v2 30/31] kvx: Add power controller driver
 Content-Language: en-US
 To:     Yann Sionneau <ysionneau@kalray.eu>, Arnd Bergmann <arnd@arndb.de>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -120,72 +119,66 @@ Cc:     Benjamin Mugnier <mugnier.benjamin@gmail.com>,
         linux-arch@vger.kernel.org, linux-audit@redhat.com,
         linux-riscv@lists.infradead.org, bpf@vger.kernel.org
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
- <20230120141002.2442-8-ysionneau@kalray.eu>
+ <20230120141002.2442-31-ysionneau@kalray.eu>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230120141002.2442-8-ysionneau@kalray.eu>
+In-Reply-To: <20230120141002.2442-31-ysionneau@kalray.eu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 20/01/2023 15:09, Yann Sionneau wrote:
+On 20/01/2023 15:10, Yann Sionneau wrote:
 > From: Jules Maselbas <jmaselbas@kalray.eu>
 > 
-> Add documentation for `kalray,kv3-1-pwr-ctrl` binding.
-> 
-> Co-developed-by: Jules Maselbas <jmaselbas@kalray.eu>
-> Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
-> Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
-> ---
-> 
-> Notes:
->     V1 -> V2: new patch
-> 
->  .../kalray/kalray,kv3-1-pwr-ctrl.yaml         | 29 +++++++++++++++++++
->  1 file changed, 29 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/kalray/kalray,kv3-1-pwr-ctrl.yaml
+> The Power Controller (pwr-ctrl) control cores reset and wake-up
+> procedure.
 
-All the usual comments plus - wrong directory. Power controllers go to
-respective power directory.
 
-> 
-> diff --git a/Documentation/devicetree/bindings/kalray/kalray,kv3-1-pwr-ctrl.yaml b/Documentation/devicetree/bindings/kalray/kalray,kv3-1-pwr-ctrl.yaml
-> new file mode 100644
-> index 000000000000..968674bb0c63
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/kalray/kalray,kv3-1-pwr-ctrl.yaml
-> @@ -0,0 +1,29 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/kalray/kalray,kv3-1-pwr-ctrl#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Kalray cluster Power Controller (pwr-ctrl)
+> +static struct device_node * __init get_pwr_ctrl_node(void)
+> +{
+> +	const phandle *ph;
+> +	struct device_node *cpu;
+> +	struct device_node *node;
 > +
-> +description: |
-> +  The Power Controller (pwr-ctrl) control cores reset and wake-up procedure.
+> +	cpu = of_get_cpu_node(raw_smp_processor_id(), NULL);
+> +	if (!cpu) {
+> +		pr_err("Failed to get CPU node\n");
+> +		return NULL;
+> +	}
 > +
-> +properties:
-> +  compatible:
-> +    const: kalray,kv3-1-pwr-ctrl
-> +  reg:
-> +    maxItems: 1
+> +	ph = of_get_property(cpu, "power-controller", NULL);
+> +	if (!ph) {
+> +		pr_err("Failed to get power-controller phandle\n");
+> +		return NULL;
+> +	}
 > +
-> +required:
-> +  - compatible
-> +  - reg
+> +	node = of_find_node_by_phandle(be32_to_cpup(ph));
+> +	if (!node) {
+> +		pr_err("Failed to get power-controller node\n");
+> +		return NULL;
+> +	}
 > +
-> +examples:
-> +  - |
-> +    pwr_ctrl: power-controller@a40000 {
-> +        compatible = "kalray,kv3-1-pwr-ctrl";
-> +        reg = <0x00 0xa40000 0x00 0x4158>;
+> +	return node;
+> +}
+> +
+> +int __init kvx_pwr_ctrl_probe(void)
+> +{
+> +	struct device_node *ctrl;
+> +
+> +	ctrl = get_pwr_ctrl_node();
+> +	if (!ctrl) {
+> +		pr_err("Failed to get power controller node\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (!of_device_is_compatible(ctrl, "kalray,kvx-pwr-ctrl")) {
+> +		pr_err("Failed to get power controller node\n");
 
-I really doubt that you tested it... Examples are not run with address
-cells 2.
-
+No. Drivers go to drivers, not to arch directory. This should be a
+proper driver instead of some fake stub doing its own driver matching.
+You need to rework this.
 
 Best regards,
 Krzysztof
