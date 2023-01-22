@@ -2,32 +2,33 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FFE6C38142
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Jan 2023 18:06:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA0FFC54E94
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Jan 2023 18:11:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230133AbjAVSG1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Jan 2023 13:06:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50510 "EHLO
+        id S231131AbjAVSLQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Jan 2023 13:11:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230072AbjAVSG0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 13:06:26 -0500
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19B1B18B00;
-        Sun, 22 Jan 2023 10:06:22 -0800 (PST)
+        with ESMTP id S230034AbjAVSLP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 13:11:15 -0500
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14305C668;
+        Sun, 22 Jan 2023 10:11:13 -0800 (PST)
 Received: (Authenticated sender: didi.debian@cknow.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 9B478100007;
-        Sun, 22 Jan 2023 18:06:18 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7B1D720004;
+        Sun, 22 Jan 2023 18:11:09 +0000 (UTC)
 From:   Diederik de Haas <didi.debian@cknow.org>
-To:     "Theodore Ts'o" <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-ext4@vger.kernel.org (open list:EXT4 FILE SYSTEM),
+        linux-trace-devel@vger.kernel.org (open list:Real-time Linux Analysis
+        (RTLA) tools),
         linux-doc@vger.kernel.org (open list:DOCUMENTATION),
         linux-kernel@vger.kernel.org (open list)
 Cc:     Diederik de Haas <didi.debian@cknow.org>
-Subject: [PATCH] docs: ext4: Fix full name of the GPL
-Date:   Sun, 22 Jan 2023 19:05:51 +0100
-Message-Id: <20230122180552.53445-1-didi.debian@cknow.org>
+Subject: [PATCH] docs: rtla: Fix full name of the GPL
+Date:   Sun, 22 Jan 2023 19:10:53 +0100
+Message-Id: <20230122181053.53725-1-didi.debian@cknow.org>
 X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -37,23 +38,19 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
 ---
- Documentation/filesystems/ext4/about.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/tools/rtla/common_appendix.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/filesystems/ext4/about.rst b/Documentation/filesystems/ext4/about.rst
-index cc76b577d2f4..c150519bbf3f 100644
---- a/Documentation/filesystems/ext4/about.rst
-+++ b/Documentation/filesystems/ext4/about.rst
-@@ -17,7 +17,8 @@ created demonstration filesystems.
- 
- License
- -------
--This book is licensed under the terms of the GNU Public License, v2.
-+This book is licensed under the terms of the GNU General Public License,
-+v2.
- 
- Terminology
- -----------
+diff --git a/Documentation/tools/rtla/common_appendix.rst b/Documentation/tools/rtla/common_appendix.rst
+index b5cf2dc223df..c631341e914e 100644
+--- a/Documentation/tools/rtla/common_appendix.rst
++++ b/Documentation/tools/rtla/common_appendix.rst
+@@ -10,4 +10,4 @@ LICENSE
+ COPYING
+ =======
+ Copyright \(C) 2021 Red Hat, Inc. Free use of this software is granted under
+-the terms of the GNU Public License (GPL).
++the terms of the GNU General Public License (GPL).
 -- 
 2.39.0
 
