@@ -2,33 +2,32 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA0FFC54E94
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Jan 2023 18:11:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFEC3C38142
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Jan 2023 18:12:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231131AbjAVSLQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Jan 2023 13:11:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52782 "EHLO
+        id S230155AbjAVSMs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Jan 2023 13:12:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230034AbjAVSLP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 13:11:15 -0500
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14305C668;
-        Sun, 22 Jan 2023 10:11:13 -0800 (PST)
+        with ESMTP id S230034AbjAVSMr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 13:12:47 -0500
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F0F8D537;
+        Sun, 22 Jan 2023 10:12:46 -0800 (PST)
 Received: (Authenticated sender: didi.debian@cknow.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7B1D720004;
-        Sun, 22 Jan 2023 18:11:09 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 4120B60007;
+        Sun, 22 Jan 2023 18:12:40 +0000 (UTC)
 From:   Diederik de Haas <didi.debian@cknow.org>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-trace-devel@vger.kernel.org (open list:Real-time Linux Analysis
-        (RTLA) tools),
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Diederik de Haas <didi.debian@cknow.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
         linux-doc@vger.kernel.org (open list:DOCUMENTATION),
         linux-kernel@vger.kernel.org (open list)
-Cc:     Diederik de Haas <didi.debian@cknow.org>
-Subject: [PATCH] docs: rtla: Fix full name of the GPL
-Date:   Sun, 22 Jan 2023 19:10:53 +0100
-Message-Id: <20230122181053.53725-1-didi.debian@cknow.org>
+Subject: [PATCH] docs: rv: Fix full name of the GPL
+Date:   Sun, 22 Jan 2023 19:12:23 +0100
+Message-Id: <20230122181224.53996-1-didi.debian@cknow.org>
 X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -38,17 +37,17 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
 ---
- Documentation/tools/rtla/common_appendix.rst | 2 +-
+ Documentation/tools/rv/common_appendix.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/tools/rtla/common_appendix.rst b/Documentation/tools/rtla/common_appendix.rst
-index b5cf2dc223df..c631341e914e 100644
---- a/Documentation/tools/rtla/common_appendix.rst
-+++ b/Documentation/tools/rtla/common_appendix.rst
-@@ -10,4 +10,4 @@ LICENSE
- COPYING
+diff --git a/Documentation/tools/rv/common_appendix.rst b/Documentation/tools/rv/common_appendix.rst
+index f4239192bee8..655e1bd9bbe4 100644
+--- a/Documentation/tools/rv/common_appendix.rst
++++ b/Documentation/tools/rv/common_appendix.rst
+@@ -13,4 +13,4 @@ COPYING
  =======
- Copyright \(C) 2021 Red Hat, Inc. Free use of this software is granted under
+ 
+ Copyright \(C) 2022 Red Hat, Inc. Free use of this software is granted under
 -the terms of the GNU Public License (GPL).
 +the terms of the GNU General Public License (GPL).
 -- 
