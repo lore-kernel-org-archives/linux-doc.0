@@ -2,95 +2,75 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85008C54EB4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A449AC54EAA
 	for <linux-doc@archiver.kernel.org>; Sun, 22 Jan 2023 21:37:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230136AbjAVVhA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Jan 2023 16:37:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58050 "EHLO
+        id S230230AbjAVVhB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Jan 2023 16:37:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229879AbjAVVg7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 16:36:59 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49FCB16AE0;
+        with ESMTP id S229971AbjAVVhA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 16:37:00 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E28C816AE5;
         Sun, 22 Jan 2023 13:36:58 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id F1DEAB80B45;
-        Sun, 22 Jan 2023 21:36:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB7E3C433D2;
-        Sun, 22 Jan 2023 21:36:53 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 80CA560CA4;
+        Sun, 22 Jan 2023 21:36:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2893CC433A1;
+        Sun, 22 Jan 2023 21:36:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674423415;
-        bh=+kFCj2QmQqaqkQtiLOFfyT0VJOQjHQOx/aIvyvGdoLs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=qdLvj6w6684w6d/X9zYg2BFZL54G4t/TuI0Ru07Dj8kOCPAVoymyXtBQGBX0RPJgO
-         vFWVq0fHA9L+aPQE+N5MOg+6YTtOcP4dTjZmtyPALYNYrzyNnIhD9D4Cg+s1dLoWRn
-         MTJ0fd1Mc4eMZu8t+o6Ry0xiUg+4vXPCoYAc9LUiLo09CPpbxmYMwjiHz020m3S/KF
-         r0/s0x+hi+U9rpO1ef709JJU1EFLq9kdQwc68nhiBS1+PYEhvp8sB6o3uWPwvR8rBs
-         YtF0hwHJxaiHHqqishvWLDP0UhZxVIOo4CWWoXdjGwNsbqYkC59+fkVed2OcOVwT1C
-         rPI2g6AG2BcFw==
+        s=k20201202; t=1674423417;
+        bh=mjT5HyfVWuQ9qPsnmeirI8u/EIvVyfvfGP/qw6kfgyw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=l1BlawAvBv+/slEpknH0YdhR1WriSmtSkV5iz/dLWTjuMJjkx/UdwtFlylB/RAYG/
+         bD+tEs0zj+Xt0hIDVu4xN7kexsT2TvRoMusUQUzt4tNQ517VpQM4KMENQDijNXVq90
+         NJBYzoOdrZQIGw7I513XlUwLPWbp+Cdiq/QSpwlCEYwLWzWJdfnkmkr7tKi7WnmVUt
+         ZGbz2S+2OVbEc57nqQBxYXX4NKb3X+IU1ioB+xnLSJGJP9O2RT4KjFRqWuuCjEhd5m
+         dvSs3ukw2W9Y+CPYEM+liZipLWrWv9joFP2Uc3Neu1bCZewcWAzkmrCX6M0k/lgiAE
+         4QFNiG02isuKw==
 From:   SeongJae Park <sj@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     SeongJae Park <sj@kernel.org>,
         Alex Deucher <alexdeucher@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
         David Airlie <airlied@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Jean Delvare <jdelvare@suse.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
-        Takashi Iwai <tiwai@suse.com>,
         Thomas Zimmermann <tzimmermann@suse.de>,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/8] Docs: Add missing SPDX license identifiers of
-Date:   Sun, 22 Jan 2023 21:36:42 +0000
-Message-Id: <20230122213650.187710-1-sj@kernel.org>
+Subject: [PATCH v2 3/8] Docs/gpu/index: Add missing SPDX License Identifier
+Date:   Sun, 22 Jan 2023 21:36:45 +0000
+Message-Id: <20230122213650.187710-4-sj@kernel.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230122213650.187710-1-sj@kernel.org>
+References: <20230122213650.187710-1-sj@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some subsystem documents are missing SPDX license identifiers on index
-files.  This patchset adds those.
+Add missing SPDX License Identifier for gpu documentation index file.
 
-Changes from v1
-(https://lore.kernel.org/lkml/20230114194741.115855-2-sj@kernel.org/)
-- Separate from index file content changes
-- Separate patch for each subsystem doc (Alex Deucher)
-- Use MIT license for gpu (Alex Deucher)
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/gpu/index.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-SeongJae Park (8):
-  Docs/crypto/index: Add missing SPDX License Identifier
-  Docs/driver-api/index: Add missing SPDX License Identifier
-  Docs/gpu/index: Add missing SPDX License Identifier
-  Docs/hwmon/index: Add missing SPDX License Identifier
-  Docs/input/index: Add missing SPDX License Identifier
-  Docs/mm/index: Add missing SPDX License Identifier
-  Docs/scheduler/index: Add missing SPDX License Identifier
-  Docs/sound/index: Add missing SPDX License Identifier
-
- Documentation/crypto/index.rst     | 2 ++
- Documentation/driver-api/index.rst | 2 ++
- Documentation/gpu/index.rst        | 2 ++
- Documentation/hwmon/index.rst      | 2 ++
- Documentation/input/index.rst      | 2 ++
- Documentation/mm/index.rst         | 2 ++
- Documentation/scheduler/index.rst  | 2 ++
- Documentation/sound/index.rst      | 2 ++
- 8 files changed, 16 insertions(+)
-
+diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
+index eee5996acf2c..9a6c7831d7fe 100644
+--- a/Documentation/gpu/index.rst
++++ b/Documentation/gpu/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: MIT
++
+ ============================
+ GPU Driver Developer's Guide
+ ============================
 -- 
 2.25.1
 
