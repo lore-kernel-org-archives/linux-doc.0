@@ -2,128 +2,226 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2748C25B4E
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Jan 2023 09:37:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43F20C25B4E
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Jan 2023 11:45:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229706AbjAVJhi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Jan 2023 04:37:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43704 "EHLO
+        id S229699AbjAVLo6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Jan 2023 06:44:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229675AbjAVJhh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 04:37:37 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B000C1420B;
-        Sun, 22 Jan 2023 01:37:36 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5572760BAF;
-        Sun, 22 Jan 2023 09:37:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC521C4339C;
-        Sun, 22 Jan 2023 09:37:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674380255;
-        bh=5DRyo3CrCvjcrQiE2XRnY3KDz/9FE09qT4m/dJZH0aE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=lNZIpcXkSoIvkFOhU4vTZhoSMYH/FNrvyVZoqcjnGD2/s69Cq72+OwArNRF4Y0XfB
-         K8wZSWe0o3Ez8X35Z8m9gZ5px+EoB3UpyoXrO0Jn3YGzCabyabgxUQZUD9s+4ayFxf
-         TwxwFCrsUDltNDS2jG8PhJQ98LTT3bm3MWRgUsXNBoAOYjvbr4vzKAgkShJiKAK0om
-         ZpXDxImFRySz+saPmOQDwYI/CYL9PeQJFnK1HoJDjhN/RikP2iSzxT+WsnOUXmtCdd
-         Ylgn69DBTJn7EbQ8Orshu3ZKKQejnYB1OhOwAkeUsLr7Ooym/PKu23lPzYon+3ZGI+
-         QXiwxf144D42g==
-Received: by mail-yb1-f173.google.com with SMTP id 123so11561336ybv.6;
-        Sun, 22 Jan 2023 01:37:35 -0800 (PST)
-X-Gm-Message-State: AFqh2kqmQTJWa4dsaQBF89yhes7R6ITscTNk4uOyEH3gha9E7tbROEFA
-        uyeQ9/LTjyymU9hvZu9ZuF30wuVssaJmpK4Lc7Q=
-X-Google-Smtp-Source: AMrXdXsNA4vdApz7Jqsu/ybWJW5C5xYsmc6pnH1yI7UZkk+OVVQkpt4eufUHjmXdw7J7YX64IDe4L/lGXFrrrcbkdYc=
-X-Received: by 2002:a25:344a:0:b0:803:60ae:431c with SMTP id
- b71-20020a25344a000000b0080360ae431cmr697945yba.642.1674380254802; Sun, 22
- Jan 2023 01:37:34 -0800 (PST)
+        with ESMTP id S229811AbjAVLo5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 06:44:57 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 845961F49A
+        for <linux-doc@vger.kernel.org>; Sun, 22 Jan 2023 03:44:54 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id t5so8478296wrq.1
+        for <linux-doc@vger.kernel.org>; Sun, 22 Jan 2023 03:44:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9d3PHM1i18b1wVBT1Cbc8b3/F4tYcjxcOJc7IXM78Rc=;
+        b=K0ogjQy2dBIWpRyp2G9Qo7zgLe2LmkcCsc+/SJfNrUrZoMYVAXj6EBfqqAOZO90TQV
+         8dFrqB0UpP/FL5YLyW8DaYdSIo3BYZ6jWVhbXvikqhFRDlopOedRj2dISYn4JPdf7JlA
+         KzsoTNkcC/dbTzg7fLyddp/61eGwSN2pamhISQfxDpHBGfDt3yL8nejAvTR/KmsWSzBc
+         ZctPEB9rXXjRaaTZa8ZJCKpvyefetvL+86WKhHd1yI+EgTIvtBe9bo4ok2He/FWqHs64
+         qAR5wQT5taDHiDtKTbA0eAIGDoMBI78QD27Fart3ivhlaqTZYemt5SCMPsmsKsWIv5F1
+         gxSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9d3PHM1i18b1wVBT1Cbc8b3/F4tYcjxcOJc7IXM78Rc=;
+        b=nnT2Cy3L3IX+rPppuTNkmMGVtBZCrXRuy3RovsjPxeRgud78dslyJAY1MPB0HqRbjE
+         Ur20BwzTZoSud1SWr0H/V90kAnYj6cyFeYcV7cdvG/TCZTZKQwv48G5KFezvf+wuS0OV
+         J+etzMBQJruWkgNlnrtqgpxEPpq2mmUyKtgBaka8JmVYGrnk3I9B1HFoHS7UgZC9T3mK
+         ktG5gecKSBcu8DQncRBuNiYrzqtvBtAAp+WcadAfGSTF/fZnPC9jK0JcGRA/KlWu6U0g
+         Z7adO3DBO3hWK+jmfklm9YMfYdGYmpsLUdmLQLy2V+zOkgMki3dZ/n/fwDPOJTXzRssH
+         VOjA==
+X-Gm-Message-State: AFqh2ko8WEfTywmk9CAGPvIg6bUsPT7n8j9rI2BYLM/YokT3pCpaoXDz
+        8XOil6+lxFQprZNYclirmuqihw==
+X-Google-Smtp-Source: AMrXdXu83lehx7RbHAkRbhG1oMGJmZelEHb0lgNU+pigubgLCdZ9/atDxUOwXiCGtf72XF5Pmi0c8Q==
+X-Received: by 2002:a05:6000:1f14:b0:2bb:5adc:9f92 with SMTP id bv20-20020a0560001f1400b002bb5adc9f92mr18054855wrb.50.1674387892997;
+        Sun, 22 Jan 2023 03:44:52 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id r8-20020a056000014800b0027323b19ecesm2830431wrx.16.2023.01.22.03.44.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Jan 2023 03:44:52 -0800 (PST)
+Message-ID: <d4d998ee-1532-c896-df25-195ec9c72e3f@linaro.org>
+Date:   Sun, 22 Jan 2023 12:44:46 +0100
 MIME-Version: 1.0
-References: <20230120123534.137413-1-bagasdotme@gmail.com> <20230120123534.137413-3-bagasdotme@gmail.com>
-In-Reply-To: <20230120123534.137413-3-bagasdotme@gmail.com>
-From:   Oded Gabbay <ogabbay@kernel.org>
-Date:   Sun, 22 Jan 2023 11:37:08 +0200
-X-Gmail-Original-Message-ID: <CAFCwf11O75ivb2RjXCvbOyNRTgYrbNz8JSDgHprnoNS1vx9SQg@mail.gmail.com>
-Message-ID: <CAFCwf11O75ivb2RjXCvbOyNRTgYrbNz8JSDgHprnoNS1vx9SQg@mail.gmail.com>
-Subject: Re: [PATCH linux-next 2/3] habanalabs: Fix list of /sys/class/habanalabs/hl<n>/status
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Freedesktop DRI List <dri-devel@lists.freedesktop.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux KVM <kvm@vger.kernel.org>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [RFC PATCH v2 02/31] Documentation: Add binding for
+ kalray,kv3-1-core-intc
+Content-Language: en-US
+To:     Yann Sionneau <ysionneau@kalray.eu>, Arnd Bergmann <arnd@arndb.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jeffrey Hugo <quic_jhugo@quicinc.com>,
-        Ofir Bitton <obitton@habana.ai>,
-        Sean Christopherson <seanjc@google.com>,
-        Aaron Lewis <aaronlewis@google.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Content-Type: text/plain; charset="UTF-8"
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Waiman Long <longman@redhat.com>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Piggin <npiggin@gmail.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Eric Paris <eparis@redhat.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jules Maselbas <jmaselbas@kalray.eu>,
+        Guillaume Thouvenin <gthouvenin@kalray.eu>,
+        Clement Leger <clement@clement-leger.fr>,
+        Vincent Chardon <vincent.chardon@elsys-design.com>,
+        =?UTF-8?Q?Marc_Poulhi=c3=a8s?= <dkm@kataplop.net>,
+        Julian Vetter <jvetter@kalray.eu>,
+        Samuel Jones <sjones@kalray.eu>,
+        Ashley Lesdalons <alesdalons@kalray.eu>,
+        Thomas Costis <tcostis@kalray.eu>,
+        Marius Gligor <mgligor@kalray.eu>,
+        Jonathan Borne <jborne@kalray.eu>,
+        Julien Villette <jvillette@kalray.eu>,
+        Luc Michel <lmichel@kalray.eu>,
+        Louis Morhet <lmorhet@kalray.eu>,
+        Julien Hascoet <jhascoet@kalray.eu>,
+        Jean-Christophe Pince <jcpince@gmail.com>,
+        Guillaume Missonnier <gmissonnier@kalray.eu>,
+        Alex Michon <amichon@kalray.eu>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <git@xen0n.name>,
+        Shaokun Zhang <zhangshaokun@hisilicon.com>,
+        John Garry <john.garry@huawei.com>,
+        Guangbin Huang <huangguangbin2@huawei.com>,
+        Bharat Bhushan <bbhushan2@marvell.com>,
+        Bibo Mao <maobibo@loongson.cn>,
+        Atish Patra <atishp@atishpatra.org>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Qi Liu <liuqi115@huawei.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Mark Brown <broonie@kernel.org>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>
+Cc:     Benjamin Mugnier <mugnier.benjamin@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-audit@redhat.com,
+        linux-riscv@lists.infradead.org, bpf@vger.kernel.org
+References: <20230120141002.2442-1-ysionneau@kalray.eu>
+ <20230120141002.2442-3-ysionneau@kalray.eu>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230120141002.2442-3-ysionneau@kalray.eu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 20, 2023 at 2:35 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->
-> Stephen Rothwell reported htmldocs warnings when merging accel tree:
->
-> Documentation/ABI/testing/sysfs-driver-habanalabs:201: ERROR: Unexpected indentation.
-> Documentation/ABI/testing/sysfs-driver-habanalabs:201: WARNING: Block quote ends without a blank line; unexpected unindent.
-> Documentation/ABI/testing/sysfs-driver-habanalabs:201: ERROR: Unexpected indentation.
-> Documentation/ABI/testing/sysfs-driver-habanalabs:201: WARNING: Block quote ends without a blank line; unexpected unindent.
->
-> Fix these by fixing alignment of list of card status returned by
-> /sys/class/habanalabs/hl<n>/status.
->
-> Link: https://lore.kernel.org/linux-next/20230120130634.61c3e857@canb.auug.org.au/
-> Fixes: 0a14c331682f61 ("habanalabs: update device status sysfs documentation")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  .../ABI/testing/sysfs-driver-habanalabs       | 23 ++++++++++---------
->  1 file changed, 12 insertions(+), 11 deletions(-)
->
-> diff --git a/Documentation/ABI/testing/sysfs-driver-habanalabs b/Documentation/ABI/testing/sysfs-driver-habanalabs
-> index df2ca1a401b5a1..1b98b6503b23f5 100644
-> --- a/Documentation/ABI/testing/sysfs-driver-habanalabs
-> +++ b/Documentation/ABI/testing/sysfs-driver-habanalabs
-> @@ -202,17 +202,18 @@ Date:           Jan 2019
->  KernelVersion:  5.1
->  Contact:        ogabbay@kernel.org
->  Description:    Status of the card:
-> -                "operational" - Device is available for work.
-> -                "in reset" - Device is going through reset, will be available
-> -                        shortly.
-> -                "disabled" - Device is not usable.
-> -                "needs reset" - Device is not usable until a hard reset will
-> -                        be initiated.
-> -                "in device creation" - Device is not available yet, as it is
-> -                        still initializing.
-> -                "in reset after device release" - Device is going through
-> -                        a compute-reset which is executed after a device release
-> -                        (relevant for Gaudi2 only).
-> +
-> +                  * "operational" - Device is available for work.
-> +                  * "in reset" - Device is going through reset, will be
-> +                    available shortly.
-> +                  * "disabled" - Device is not usable.
-> +                  * "needs reset" - Device is not usable until a hard reset
-> +                    is initiated.
-> +                  * "in device creation" - Device is not available yet, as it
-> +                    is still initializing.
-> +                  * "in reset after device release" - Device is going through
-> +                    a compute-reset which is executed after a device release
-> +                    (relevant for Gaudi2 only).
->
->  What:           /sys/class/habanalabs/hl<n>/thermal_ver
->  Date:           Jan 2019
-> --
-> An old man doll... just what I always wanted! - Clara
->
+On 20/01/2023 15:09, Yann Sionneau wrote:
+> From: Jules Maselbas <jmaselbas@kalray.eu>
 
-Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
-Thanks!
-Applied to my -next tree.
-Oded
+Use subject prefixes matching the subsystem (which you can get for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching).
+
+
+> 
+> Add documentation for `kalray,kv3-1-core-intc` binding.
+> 
+> Co-developed-by: Jules Maselbas <jmaselbas@kalray.eu>
+> Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
+> Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
+> ---
+> 
+> Notes:
+>     V1 -> V2: new patch
+> 
+>  .../kalray,kv3-1-core-intc.yaml               | 46 +++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/kalray,kv3-1-core-intc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/kalray,kv3-1-core-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/kalray,kv3-1-core-intc.yaml
+> new file mode 100644
+> index 000000000000..1e3d0593173a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/kalray,kv3-1-core-intc.yaml
+> @@ -0,0 +1,46 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/interrupt-controller/kalray,kv3-1-core-intc#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Kalray kv3-1 Core Interrupt Controller
+> +
+> +description: |
+> +  The Kalray Core Interrupt Controller is tightly integrated in each kv3 core
+> +  present in the Coolidge SoC.
+> +
+> +  It provides the following features:
+> +  - 32 independent interrupt sources
+> +  - 2-bit configurable priority level
+> +  - 2-bit configurable ownership level
+> +
+> +allOf:
+> +  - $ref: /schemas/interrupt-controller.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: kalray,kv3-1-core-intc
+
+Blank line between each of these,
+
+> +  "#interrupt-cells":
+> +    const: 1
+> +    description:
+> +      The IRQ number.
+> +  reg:
+> +    maxItems: 0
+
+??? No way... What's this?
+
+> +  "kalray,intc-nr-irqs":
+
+Drop quotes.
+
+> +    description: Number of irqs handled by the controller.
+
+Why this is variable per board? Why do you need it ?
+
+> +
+> +required:
+> +  - compatible
+> +  - "#interrupt-cells"
+> +  - interrupt-controller
+
+missing additionalProperties: false
+
+This binding looks poor, like you started from something odd. Please
+don't. Take the newest reviewed binding or better example-schema and use
+it to build yours. This would solve several trivial mistakes and style
+issues.
+
+> +
+> +examples:
+> +  - |
+> +    intc: interrupt-controller {
+
+What's the IO address space?
+
+
+Best regards,
+Krzysztof
+
