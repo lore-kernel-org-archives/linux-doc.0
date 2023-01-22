@@ -2,227 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25264C25B50
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Jan 2023 02:14:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58F0EC25B4E
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Jan 2023 05:31:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbjAVCOA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 Jan 2023 21:14:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51850 "EHLO
+        id S229622AbjAVFbL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Jan 2023 00:31:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbjAVCN7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Jan 2023 21:13:59 -0500
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A810522A2D;
-        Sat, 21 Jan 2023 18:13:58 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id d10so6710764pgm.13;
-        Sat, 21 Jan 2023 18:13:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bq1sd56d6peHd2gpeH6Q+nFMu9KWkvG/os8VrxgBx5A=;
-        b=QHKXckfkvM5+0Mx4SYwHS76drVGOy9c7ALmxiHeW4bfhbw9+WLIf2MQplsnUwE+2zd
-         1YnOGVwvZEyFhORS1w2XPDhCRTV0i/aPYGD9GrpkI4eSMKFPGVICVxNfFBcIg1ucDMup
-         p/vVJVv6qzSU37ZXZQnWb/QwJSx4VsnoG0V9BJ6cs6QGJS+7i3j1HfSTUlLc10e5i2rD
-         5a/F1iqHJ8TsIxP/9eaoQwdnjfbioZBwgegYB5LtUmUK8SOcDmBuuXUzqYPzV+1skswf
-         xe1Ll9clEcxrmb8RwIruY6IV4rEpHN4hfIMip7Gik6JwHzeg9j9r7hCcRcCiV3/6VDzZ
-         GvSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bq1sd56d6peHd2gpeH6Q+nFMu9KWkvG/os8VrxgBx5A=;
-        b=xjCHZJLr5f+wK9uiRm8Q1IfdVNdJlTm/VhHnDk78F2IdbRTH6UkVzqgbH8kJI2qQMa
-         FeGXGT7Uag3TKBiyq5Q5O3H+lM3e6iOpwv7UXHFaVcYfkhu58OPdCq/XyiXAXWpIelqs
-         BK7ZN4E/DZ6VLHW5aTm+He0/l+8ILI4IQEFGc6rdf7cqBqSRrX/WLOYd+kaudNku5lSm
-         9skWUBPG70FBVAw5/hL00Bhel7yeed+hYDbFno8PzLJMbADfJzx1LGXt8dzd6J1OPLoc
-         6KsttYN56JrqVS3OO8eP3Sfu4+e/bMAJdnyz8VPmfU7+dossiREdtX1Vuo+sHbYhIqkO
-         8jFg==
-X-Gm-Message-State: AFqh2kqpbGn3y2Y4n1ne2etF8cSs1c33E5ckJnVcJaeFQVR+OuHO9hJm
-        Fa3AstTUkjxAflQRmDbbwTY=
-X-Google-Smtp-Source: AMrXdXtjm5V/qzj1GeGy85ERTLvGXI7zxnlbS3hVdnI15ANqcjIAfvmTijXyz1f5vW6j9vI6z2N/9Q==
-X-Received: by 2002:a62:ab0b:0:b0:58b:46c9:a6b1 with SMTP id p11-20020a62ab0b000000b0058b46c9a6b1mr20683919pff.33.1674353637992;
-        Sat, 21 Jan 2023 18:13:57 -0800 (PST)
-Received: from debian.me (subs03-180-214-233-71.three.co.id. [180.214.233.71])
-        by smtp.gmail.com with ESMTPSA id w27-20020aa79a1b000000b0056be1581126sm14239212pfj.143.2023.01.21.18.13.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Jan 2023 18:13:57 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id B0991104D39; Sun, 22 Jan 2023 09:13:45 +0700 (WIB)
-Date:   Sun, 22 Jan 2023 09:13:44 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     m.chetan.kumar@linux.intel.com, netdev@vger.kernel.org
-Cc:     kuba@kernel.org, davem@davemloft.net, johannes@sipsolutions.net,
-        ryazanov.s.a@gmail.com, loic.poulain@linaro.org,
-        ilpo.jarvinen@linux.intel.com, ricardo.martinez@linux.intel.com,
-        chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
-        edumazet@google.com, pabeni@redhat.com,
-        chandrashekar.devegowda@intel.com, linuxwwan@intel.com,
-        linuxwwan_5g@intel.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        jiri@nvidia.com
-Subject: Re: [PATCH v5 net-next 5/5] net: wwan: t7xx: Devlink documentation
-Message-ID: <Y8yb2AKf9mDHP0zu@debian.me>
-References: <cover.1674307425.git.m.chetan.kumar@linux.intel.com>
- <f902d4a0cb807a205687f7e693079fba72ca7341.1674307425.git.m.chetan.kumar@linux.intel.com>
+        with ESMTP id S229523AbjAVFbK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 00:31:10 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8813A1E9DF;
+        Sat, 21 Jan 2023 21:31:09 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1378360B65;
+        Sun, 22 Jan 2023 05:31:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E8CAC433EF;
+        Sun, 22 Jan 2023 05:31:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674365468;
+        bh=3H+5gwm3jHRvPAhOxGctQ/HQqOetEu/VFFOPn2E6NdM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=F2Pp+1aWVVoAHbhxXwyrw6jj9/cXM62lqIBXZbgl7UeNVm2mky1MvtyzXYB4abqIy
+         rEeAM/XSKEY8s/aVvu5B6QZytOQE8sogYAV3syikyXbaM17Gop9HUNxUzVdFeCf3Bj
+         0M7inqzQwQWgvfposf9Q8/LGkrL5O8AnjBeGA3iAXJFDrJ1UfgpKGgz7eNl1qjc+fx
+         wVKGNqQ+Cz+NP0uMSTDvRjCdFquZvWBbHljZtsjfjGu2U6/PITUMMkZPA4dyo5K18b
+         tWmDppJw5diFWHTVdEb/Pomlpc3I8Y8omyGHgNuaOFSjI1XxA2yjvNpi8+DPJBQdx0
+         Ux183/Vv39tUw==
+Date:   Sun, 22 Jan 2023 07:30:54 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v4 0/1] docs/mm: start filling out new structure
+Message-ID: <Y8zKDkJPeEb0wUTK@kernel.org>
+References: <20230115184212.996298-1-rppt@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="f20Z6JNanG9/8wmS"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f902d4a0cb807a205687f7e693079fba72ca7341.1674307425.git.m.chetan.kumar@linux.intel.com>
+In-Reply-To: <20230115184212.996298-1-rppt@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Gentle ping.
 
---f20Z6JNanG9/8wmS
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sun, Jan 15, 2023 at 08:42:11PM +0200, Mike Rapoport wrote:
+> Hi,
+> 
+> Last year at LSF/MM Matthew promptly created the new structure for MM
+> documentation, but there still was no patches with content.
+> 
+> I've started to work on it a while ago and I wanted to send it out in a
+> more complete form, but I've got distracted and didn't have time to work
+> on this.
+> 
+> With fast changes around struct page and the threat of Lorenzo's book,
+> I've decided to send out what I have till now with a hope that we can
+> really make this a collaborative effort with people filling paragraph
+> here and there.
+> 
+> If somebody does not feel like sending formal patches, just send me the
+> "raw" text my way and I'll deal with the rest.
+> 
+> The text is relatively heavily formatted because I believe the target
+> audience will prefer html version.
+> 
+> v4:
+> * squash commits into one (Bagas)
+> * fix references formatting (kbuild)
+> * add Reviewed-by and Acked-by tags
+> 
+> v3: https://lore.kernel.org/all/20230112091616.824565-1-rppt@kernel.org
+> * rephrase ZONE_DMA(32) and ZONE_MOVABLE description (Michal)
+> * add cross-reference to DMA API
+> 
+> v2: https://lore.kernel.org/all/20230110152358.2641910-1-rppt@kernel.org
+> * rephrase the paragraph inroducing zones (Lorenzo)
+> * update formatting (Bagas)
+> * add section stubs (Bagas)
+> * small fixes here and there
+> 
+> v1: https://lore.kernel.org/all/20230101094523.1522109-1-rppt@kernel.org
+> 
+> Mike Rapoport (IBM) (1):
+>   docs/mm: Physical Memory: add structure, introduction and nodes
+>     description
+> 
+>  Documentation/core-api/dma-api.rst   |   2 +
+>  Documentation/mm/page_reclaim.rst    |   2 +
+>  Documentation/mm/physical_memory.rst | 346 +++++++++++++++++++++++++++
+>  3 files changed, 350 insertions(+)
+> 
+> -- 
+> 2.35.1
+> 
 
-On Sat, Jan 21, 2023 at 07:03:58PM +0530, m.chetan.kumar@linux.intel.com wr=
-ote:
-> +Flash Commands
-> +--------------
-> +
-> +::
-> +
-> +  $ devlink dev flash pci/0000:$bdf file preloader_k6880v1_mdot2_datacar=
-d.bin component "preloader"
-> +
-> +::
-> +
-> +  $ devlink dev flash pci/0000:$bdf file loader_ext-verified.img compone=
-nt "loader_ext1"
-> +
-> +::
-> +
-> +  $ devlink dev flash pci/0000:$bdf file tee-verified.img component "tee=
-1"
-> +
-> +::
-> +
-> +  $ devlink dev flash pci/0000:$bdf file lk-verified.img component "lk"
-> +
-> +::
-> +
-> +  $ devlink dev flash pci/0000:$bdf file spmfw-verified.img component "s=
-pmfw"
-> +
-> +::
-> +
-> +  $ devlink dev flash pci/0000:$bdf file sspm-verified.img component "ss=
-pm_1"
-> +
-> +::
-> +
-> +  $ devlink dev flash pci/0000:$bdf file mcupm-verified.img component "m=
-cupm_1"
-> +
-> +::
-> +
-> +  $ devlink dev flash pci/0000:$bdf file dpm-verified.img component "dpm=
-_1"
-> +
-> +::
-> +
-> +  $ devlink dev flash pci/0000:$bdf file boot-verified.img component "bo=
-ot"
-> +
-> +::
-> +
-> +  $ devlink dev flash pci/0000:$bdf file root.squashfs component "rootfs"
-> +
-> +::
-> +
-> +  $ devlink dev flash pci/0000:$bdf file modem-verified.img component "m=
-d1img"
-> +
-> +::
-> +
-> +  $ devlink dev flash pci/0000:$bdf file dsp-verified.bin component "md1=
-dsp"
-> +
-> +::
-> +
-> +  $ devlink dev flash pci/0000:$bdf file OP_OTA.img component "mcf1"
-> +
-> +::
-> +
-> +  $ devlink dev flash pci/0000:$bdf file OEM_OTA.img component "mcf2"
-> +
-> +::
-> +
-> +  $ devlink dev flash pci/0000:$bdf file DEV_OTA.img component "mcf3"
-
-It seems like you didn't describe what ``devlink dev flash`` commands above
-are doing, as I had requested from v3 review [1].
-
-> +Coredump Collection
-> +~~~~~~~~~~~~~~~~~~~
-> +
-> +::
-> +
-> +  $ devlink region new mr_dump
-> +
-> +::
-> +
-> +  $ devlink region read mr_dump snapshot 0 address 0 length $len
-> +
-> +::
-> +
-> +  $ devlink region del mr_dump snapshot 0
-> +
-> +Note: $len is actual len to be dumped.
-> +
-> +The userspace application uses these commands for obtaining the modem co=
-mponent
-> +logs when device encounters an exception.
-
-Individual command explanation please?
-
-> +
-> +Second Stage Bootloader dump
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +::
-> +
-> +  $ devlink region new lk_dump
-> +
-> +::
-> +
-> +  $ devlink region read lk_dump snapshot 0 address 0 length $len
-> +
-> +::
-> +
-> +  $ devlink region del lk_dump snapshot 0
-> +
-> +Note: $len is actual len to be dumped.
-> +
-> +In fastboot mode the userspace application uses these commands for obtai=
-ning the
-> +current snapshot of second stage bootloader.
-
-Individual command explanation please?
-
-Hint: see any manpages to get sense of how to write the explanations.=20
-
-Thanks.
-
-[1]: https://lore.kernel.org/linux-doc/Y7uOcBRN0Awn5xAb@debian.me/
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---f20Z6JNanG9/8wmS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY8ybrAAKCRD2uYlJVVFO
-o56AAQDgk4Z4EspGveJ6ACKPO1SmUuHtnGGGu/iptMTn3AHhgwD/Q8M0IMUznfO4
-H1QqzGpSYLG5W5RhMqmv0VjHNQLwkQ8=
-=ACkW
------END PGP SIGNATURE-----
-
---f20Z6JNanG9/8wmS--
+-- 
+Sincerely yours,
+Mike.
