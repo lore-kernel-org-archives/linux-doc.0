@@ -2,76 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 431A4C54E94
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 15:45:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E647C38142
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 16:03:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232864AbjAWPpl convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 10:45:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52076 "EHLO
+        id S232490AbjAWQD1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 11:03:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232714AbjAWPpk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 10:45:40 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 831E3E04B;
-        Mon, 23 Jan 2023 07:45:39 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 205F360F7A;
-        Mon, 23 Jan 2023 15:45:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35C4AC433A0;
-        Mon, 23 Jan 2023 15:45:34 +0000 (UTC)
-Date:   Mon, 23 Jan 2023 10:45:30 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Stefan Roesch <shr@devkernel.io>
-Cc:     kernel-team@fb.com, acme@redhat.com, akpm@linux-foundation.org,
-        bobwxc@email.cn, brauner@kernel.org, brho@google.com,
-        broonie@kernel.org, catalin.marinas@arm.com, cgel.zte@gmail.com,
-        corbet@lwn.net, dave@stgolabs.net, ebiederm@xmission.com,
-        eugenis@google.com, hannes@cmpxchg.org, linmiaohe@huawei.com,
-        mhiramat@kernel.org, mhocko@suse.com, ran.xiaokai@zte.com.cn,
-        rppt@kernel.org, shuah@kernel.org, shy828301@gmail.com,
-        song@kernel.org, Vincenzo.Frascino@arm.com, will@kernel.org,
-        willy@infradead.org, yang.yang29@zte.com.cn,
-        zhengqi.arch@bytedance.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        linux-trace-kernel@vger.kernel.org
-Subject: Re: [RESEND RFC PATCH v1 07/20] mm: add tracepoints to ksm
-Message-ID: <20230123104530.4ec0aeb4@gandalf.local.home>
-In-Reply-To: <20230123050042.1752641-8-shr@devkernel.io>
-References: <20230123050042.1752641-1-shr@devkernel.io>
-        <20230123050042.1752641-8-shr@devkernel.io>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S233024AbjAWQD0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 11:03:26 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E27D0CC2E;
+        Mon, 23 Jan 2023 08:03:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674489804; x=1706025804;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=GFijjW7lR2HML5rXSl3aNY/6L0A+D+DedtGWDxxyrn8=;
+  b=ioc4TiKQITJ3utTScveFeskqCHwl45LPCoriVStLLGQJLO7DBvHJy910
+   gjsiSYb541H6n1WyQ16kQr841dWgrp8AuvzOlg80t3cT7MMg93LaDDevT
+   /OGR6jgaABCUiEzy7OowcTmYOgo7JUGr8bON780oA0z+CbH2NaiQv5BFw
+   zWwkYzTOUg42qMGwp/b1gOosTLDZxtZcFH55KBDb9cYgVxQ/o3UL6e2Az
+   jc8n44BbpMq7UFqp2DmLaFsUdtPr3Mt3rwIxyPCI8xI7EP7qqQNuLnUfl
+   0IFUjOMUoxn+s4KVjc7sUTs2KFUmYWjunp6g/LTGULOyNr4jrLNEtdoLo
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="305732219"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="305732219"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 08:02:44 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="804235055"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="804235055"
+Received: from rgrachek-mobl.amr.corp.intel.com (HELO [10.212.113.123]) ([10.212.113.123])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 08:02:43 -0800
+Message-ID: <268823a3-f453-a38b-3fd7-500306675890@linux.intel.com>
+Date:   Mon, 23 Jan 2023 10:02:42 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8BIT
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.4.2
+Subject: Re: [PATCH v2 8/8] Docs/sound/index: Add missing SPDX License
+ Identifier
+Content-Language: en-US
+To:     Takashi Iwai <tiwai@suse.de>, SeongJae Park <sj@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, alsa-devel@alsa-project.org,
+        linux-doc@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+        linux-kernel@vger.kernel.org
+References: <20230122213650.187710-1-sj@kernel.org>
+ <20230122213650.187710-9-sj@kernel.org> <875ycxr7qv.wl-tiwai@suse.de>
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <875ycxr7qv.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 22 Jan 2023 21:00:29 -0800
-Stefan Roesch <shr@devkernel.io> wrote:
 
-> This adds the following tracepoints to ksm:
-> - start / stop scan
-> - ksm enter / exit
-> - merge a page
-> - merge a page with ksm
-> - remove a page
-> - remove a rmap item
+
+On 1/23/23 02:10, Takashi Iwai wrote:
+> On Sun, 22 Jan 2023 22:36:50 +0100,
+> SeongJae Park wrote:
+>>
+>> Add missing SPDX License Identifier for sound documentation index file.
+>>
+>> Signed-off-by: SeongJae Park <sj@kernel.org>
 > 
-> Signed-off-by: Stefan Roesch <shr@devkernel.io>
-> ---
->  MAINTAINERS                |   1 +
->  include/trace/events/ksm.h | 257 +++++++++++++++++++++++++++++++++++++
->  mm/ksm.c                   |  20 ++-
->  3 files changed, 276 insertions(+), 2 deletions(-)
->  create mode 100644 include/trace/events/ksm.h
+> Acked-by: Takashi Iwai <tiwai@suse.de>
 
-From the tracing pov:
+Isn't GPL-2.0 deprecated? It should be GPL-2.0-only, no?
 
-Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+https://spdx.org/licenses/GPL-2.0.html
 
--- Steve
+https://spdx.org/licenses/GPL-2.0-only.html
+
+> 
+> 
+> thanks,
+> 
+> Takashi
+> 
+>> ---
+>>  Documentation/sound/index.rst | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/Documentation/sound/index.rst b/Documentation/sound/index.rst
+>> index 5abed5fc6485..7e67e12730d3 100644
+>> --- a/Documentation/sound/index.rst
+>> +++ b/Documentation/sound/index.rst
+>> @@ -1,3 +1,5 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>>  =============================
+>>  Sound Subsystem Documentation
+>>  =============================
+>> -- 
+>> 2.25.1
+>>
