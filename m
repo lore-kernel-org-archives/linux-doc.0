@@ -2,81 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5200C38142
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 14:57:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 283A4C05027
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 15:02:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231274AbjAWO5n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 09:57:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57058 "EHLO
+        id S231547AbjAWPCj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 10:02:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229732AbjAWO5n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 09:57:43 -0500
+        with ESMTP id S231493AbjAWPCi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 10:02:38 -0500
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C9039745;
-        Mon, 23 Jan 2023 06:57:42 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 397017DB5;
+        Mon, 23 Jan 2023 07:02:38 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A15994E5;
-        Mon, 23 Jan 2023 14:57:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A15994E5
+        by ms.lwn.net (Postfix) with ESMTPSA id 8D62E4E5;
+        Mon, 23 Jan 2023 15:02:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8D62E4E5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1674485861; bh=TY29G+ev4y9tcF73dUPFSmkzhA0XuNgyUeAQxw1JoY4=;
-        h=From:To:Subject:In-Reply-To:References:Date:From;
-        b=Nt+tAeWTW1qZEuwXjwFIoAZFkbR3fCm8VtNQqLoG6nX9D+JzYGh7ZhRZxXfjF6aVT
-         IEYpuTbKkmHtfvFvMspY6OIv0htyn+73ES4ZDTTzsXamEccFYCmhSp+w0zzZPSmogr
-         xBG1CRjxbm1f/DwJLZBHHlCF9JMQL6HTWEHBHSt/vryPOzj58Iwmjg0bjDDwGP81hZ
-         3qCKjYZfEeu8kWXKed7nhLitjDgC3R0OHQJHAdWeLEMrdi0Gegu59z9DYioQFeiqp4
-         NLovDDXBCuS6GlH4YIEERD8HLtC98bneVyOOvzGQYVjSPoBPAKF/0sxSD2jrpOmBLR
-         CKVId8FOUEvOQ==
+        t=1674486157; bh=wxSnxIUwdkEE3c/KbtJ9Rj/dEJdzd01IhaDBd3YRbOA=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=NmRRM54uhrNW9CPQE0Rj7FopmjfzAKSU48AkFmXI0PBahR3aZFhVv/eI2ez+LoQdt
+         GAwYh6oeA5wECwc1VQwN51GdGKYJ3pRv9sjFAyB5PU6NyuPRJB5Fj49M9rtpAg90hA
+         mGPUpT3XUv7qqmpuYvcPec8YgT+TOBIcluJ1TZ6CAVlJnVS8pi6FNVqF+QhufMW4B+
+         FV+OdLKAsAKEypABjdte4J85m/2O/g6sbTnwMqgqCRN+jZ4f78bASoJqxscJz6dI3F
+         Hho+mHPNvcZo038OgNds35wZPvtdAVg0kaVxnJntVPoQ1g5X7wLgwH/M1nzD8v/OGH
+         XykY+7P/t3Ggg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Diederik de Haas <didi.debian@cknow.org>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH] docs: rv: Fix full name of the GPL
-In-Reply-To: <2983169.1Ym2AYXvDY@prancing-pony>
-References: <20230122181224.53996-1-didi.debian@cknow.org>
- <111677351.cJcasWOL3y@prancing-pony>
- <c9d6291f-8b50-bd37-f48c-d96834d990dd@gmail.com>
- <2983169.1Ym2AYXvDY@prancing-pony>
-Date:   Mon, 23 Jan 2023 07:57:40 -0700
-Message-ID: <878rhtl2mz.fsf@meer.lwn.net>
+To:     SeongJae Park <sj@kernel.org>
+Cc:     SeongJae Park <sj@kernel.org>,
+        Alex Deucher <alexdeucher@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jean Delvare <jdelvare@suse.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/8] Docs: Add missing SPDX license identifiers of
+In-Reply-To: <20230122213650.187710-1-sj@kernel.org>
+References: <20230122213650.187710-1-sj@kernel.org>
+Date:   Mon, 23 Jan 2023 08:02:36 -0700
+Message-ID: <874jshl2er.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Diederik de Haas <didi.debian@cknow.org> writes:
+SeongJae Park <sj@kernel.org> writes:
 
-> On Monday, 23 January 2023 14:51:57 CET Bagas Sanjaya wrote:
->> > Please disregard this patch.
->> > I'm now sending a similar response as I'm sending to my other patch
->> > submissions, which is the following:
->> > 
->> > I now consider my initial view of the issue as a spelling error,
->> > incorrect. I would be changing the license and IANAL. I'm also not the
->> > copyright holder which I believe is needed to change the license.
->> > 
->> > Apologies for the noise.
->> 
->> Glad to reply, but I see your reply above as if it is written by
->> a bot. Care to vary your sentences?
+> Some subsystem documents are missing SPDX license identifiers on index
+> files.  This patchset adds those.
+
+Documentation/ is far behind on the SPDX front, and I'm all in favor of
+fixing that.  I do worry, though, about sticking license declarations
+onto files that did not previously have them; do we know what the
+original contributor's intent was?
+
+> Changes from v1
+> (https://lore.kernel.org/lkml/20230114194741.115855-2-sj@kernel.org/)
+> - Separate from index file content changes
+> - Separate patch for each subsystem doc (Alex Deucher)
+> - Use MIT license for gpu (Alex Deucher)
 >
-> I already got a bounce as I am now considered a spammer :-/
+> SeongJae Park (8):
+>   Docs/crypto/index: Add missing SPDX License Identifier
+>   Docs/driver-api/index: Add missing SPDX License Identifier
+>   Docs/gpu/index: Add missing SPDX License Identifier
+>   Docs/hwmon/index: Add missing SPDX License Identifier
+>   Docs/input/index: Add missing SPDX License Identifier
+>   Docs/mm/index: Add missing SPDX License Identifier
+>   Docs/scheduler/index: Add missing SPDX License Identifier
+>   Docs/sound/index: Add missing SPDX License Identifier
+>
+>  Documentation/crypto/index.rst     | 2 ++
+>  Documentation/driver-api/index.rst | 2 ++
 
-No, I don't think anybody sees you as that.  Please do not worry about
-Bagas; he is fond of unnecessarily picking holes in the work of others.
+I added this one, and GPLv2 is fine there.
 
-> So now I got to figure out how to fix this clusterfsck, without being seen as
-> a spammer/bot, while also trying to minimize the burden on others.
-
-You tried a fix which, as was pointed out, was not the right direction.
-Just drop it and move onto your next contribution, and all will be well.
+>  Documentation/gpu/index.rst        | 2 ++
+>  Documentation/hwmon/index.rst      | 2 ++
+>  Documentation/input/index.rst      | 2 ++
+>  Documentation/mm/index.rst         | 2 ++
+>  Documentation/scheduler/index.rst  | 2 ++
+>  Documentation/sound/index.rst      | 2 ++
+>  8 files changed, 16 insertions(+)
 
 Thanks,
 
