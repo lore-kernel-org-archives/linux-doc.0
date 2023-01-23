@@ -2,247 +2,178 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 323ADC54EED
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 03:29:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68B08C38142
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 07:36:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230492AbjAWD3v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Jan 2023 22:29:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34332 "EHLO
+        id S230056AbjAWHgp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 02:36:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230369AbjAWD3v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 22:29:51 -0500
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBD691448C;
-        Sun, 22 Jan 2023 19:29:49 -0800 (PST)
-Received: by mail-qt1-x844.google.com with SMTP id q15so8855101qtn.0;
-        Sun, 22 Jan 2023 19:29:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RgFqur+BidWWWQr7r2LPXldx8oTQot1Qp1tXD/WiXfY=;
-        b=aXerHjM3OC9ndo5Q3C5+pmGodhG7mKJqaptfNyYdWWWNcNr4xq/0TBLKrBw5ESXsgZ
-         jg84s/XqTxsrimKQi0dUWE78pQbysFgKHvIkoQkwwff/xN76aFA2SM7zUsEt97NLRGvf
-         hhnz3cghJZJQvr+AksoDwjCC2lOLQLSSGAf/7uRXI4l2WUslQtp5QsTVBvvV52iug8TU
-         ryvrH8sHHbxl0zCVCIqaouo/8L35n4O/DeTswGU1OwQInxypnrt1x4or34qZioeLfc3i
-         NJXBo2Oux6Mz2B1Ccn1Qw642J2aj/HxdBjwc0Hau6IAKbl7BM31NqCs8yztb65Nkpok6
-         jQVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RgFqur+BidWWWQr7r2LPXldx8oTQot1Qp1tXD/WiXfY=;
-        b=1N1AmouTS2P/Ul2ZF52QjOZRqXnCa1rpvbc7zinl5djgdnEXIGOjFk/zD5z//G+jJd
-         KjhpF5Absle7w5IroNsCqkUdbdYwxf0v3m9ZN6y2s8WzPBjpNXYsy0tYye2PQGLfdj4D
-         1xi13/UHArm28QASeC1U2mLlkBwZBNUSm6AuQOF2Vmk5rUtwkRcbR0Fid+eI7LEj2nGU
-         K6LH4sAti6x5A+D27YkBdmMglkjAxmbkkUQi2rCxGXsDUjmxL5It04OlN8lb82+OHFvI
-         49r+XLeVgFuJEd2+YzsuriM9QPuQKwGI+FMOoxVY3ZJV0e8Cwvs1xCg8yxrAQDJSxSAd
-         zEOQ==
-X-Gm-Message-State: AFqh2krUsPNcHkEYj+oTer4u7yUxirbfsTI9paN74JUaat8FucR/Uj/b
-        WYGfprHtk+P0fgSaLa2D0QvMzlP5eM1I
-X-Google-Smtp-Source: AMrXdXsv+aWdy/Yy/TfkjcpMJTXw3AoOi9BYBga3ld1DyGO8OiG2pQKxViozE8ZYQgu/PcnPGfj7lQ==
-X-Received: by 2002:ac8:668d:0:b0:3b6:32ef:2dda with SMTP id d13-20020ac8668d000000b003b632ef2ddamr31948335qtp.34.1674444588905;
-        Sun, 22 Jan 2023 19:29:48 -0800 (PST)
-Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
-        by smtp.gmail.com with ESMTPSA id u3-20020ae9c003000000b0070928ee3933sm4875492qkk.75.2023.01.22.19.29.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Jan 2023 19:29:48 -0800 (PST)
-From:   Gregory Price <gourry.memverge@gmail.com>
-X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, krisman@collabora.com,
-        tglx@linutronix.de, luto@kernel.org, oleg@redhat.com,
-        peterz@infradead.org, ebiederm@xmission.com,
-        akpm@linux-foundation.org, adobriyan@gmail.com, corbet@lwn.net,
-        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
-Subject: [PATCH 3/3] ptrace,syscall_user_dispatch: add a getter/setter for sud configuration
-Date:   Sun, 22 Jan 2023 22:29:42 -0500
-Message-Id: <20230123032942.18263-4-gregory.price@memverge.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230123032942.18263-1-gregory.price@memverge.com>
-References: <20230123032942.18263-1-gregory.price@memverge.com>
+        with ESMTP id S230031AbjAWHgp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 02:36:45 -0500
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8031918AB7
+        for <linux-doc@vger.kernel.org>; Sun, 22 Jan 2023 23:36:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674459357; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=H7BwwRZ01ZN1U1RMbNO1pzm8QIU76QnpD1Vo+T4QfTTTFJsT3KYL8TyQM5QLd8ot6lcCeraREJkrjla9Pa6uiBnni+LDreRm299NAp8epsAvhspRIBy8yb7emmnYILSR1hTvSerkrPNB0a4jIcLQa8+6JHBBEJJiU+215wfLyRo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1674459357; h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject; 
+        bh=HkG+SmbIjA7sw7BLtfWk5YKVQYC6xM4eS1D5oo5HkRg=; 
+        b=CkpUrhKdNV6tLpuCqRjAYMct1rnU7+6ddITri4lxt2d1A0BgOASuGBeLothybj6CdE0RNaUqOMD6Ew9qaPweozGL+no3AP/39+41YOI77glP8KAOxpOowicvsncnZyL9ct6An7d8w5sVdtjg+1TXPy6fh9BJDFgR/8+8+W5EcZs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        spf=pass  smtp.mailfrom=me@linux.beauty;
+        dmarc=pass header.from=<lchen@ambarella.com>
+Received: from shbuild9.ambarella.net (116.246.37.178 [116.246.37.178]) by mx.zohomail.com
+        with SMTPS id 1674459355500620.8753836206259; Sun, 22 Jan 2023 23:35:55 -0800 (PST)
+From:   Li Chen <lchen@ambarella.com>
+Cc:     Li Chen <lchen@ambarella.com>,
+        =?UTF-8?q?Andreas=20B=C3=B6hler?= <dev@aboehler.at>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Brian Norris <briannorris@chromium.org>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Christian Lamparter <chunkeey@gmail.com>,
+        Chuanhong Guo <gch981213@gmail.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Daniel Palmer <daniel@0x0f.com>,
+        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
+        DEVICE TREE BINDINGS), Florian Fainelli <f.fainelli@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Liang Yang <liang.yang@amlogic.com>,
+        Li Chen <lchen@ambarella.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-arm-kernel@lists.infradead.org (moderated list:ARM64 PORT
+        (AARCH64 ARCHITECTURE)),
+        linux-clk@vger.kernel.org (open list:COMMON CLK FRAMEWORK),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-gpio@vger.kernel.org (open list:PIN CONTROL SUBSYSTEM),
+        linux-kernel@vger.kernel.org (open list),
+        linux-mtd@lists.infradead.org (open list:MEMORY TECHNOLOGY DEVICES
+        (MTD)), linux-serial@vger.kernel.org (open list:SERIAL DRIVERS),
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Rickard x Andersson <rickaran@axis.com>,
+        Rob Herring <robh@kernel.org>,
+        Roger Quadros <rogerq@kernel.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sven Peter <sven@svenpeter.dev>,
+        Yinbo Zhu <zhuyinbo@loongson.cn>
+Subject: [PATCH 00/15] Ambarella S6LM SoC bring-up
+Date:   Mon, 23 Jan 2023 15:32:15 +0800
+Message-Id: <20230123073305.149940-1-lchen@ambarella.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Implement ptrace getter/setter interface for syscall user dispatch.
+This series brings up initial support for the Ambarella S6LM
+SoC.
 
-Presently, these settings are write-only via prctl, making it impossible
-to implement transparent checkpoint (coordination with the software is
-required).
+The following features are supported in this initial port:
 
-This is modeled after a similar interface for SECCOMP, which can have
-its configuration dumped by ptrace for software like CRIU.
+- UART with console support
+- Pinctrl with GPIO controller
+- Nand flash controller
+- Devicetree
 
-Signed-off-by: Gregory Price <gregory.price@memverge.com>
----
- .../admin-guide/syscall-user-dispatch.rst     |  5 +-
- include/linux/syscall_user_dispatch.h         | 19 ++++++++
- include/uapi/linux/ptrace.h                   | 10 ++++
- kernel/entry/syscall_user_dispatch.c          | 46 +++++++++++++++++++
- kernel/ptrace.c                               |  9 ++++
- 5 files changed, 88 insertions(+), 1 deletion(-)
+Li Chen (15):
+  debugfs: allow to use regmap for print regs
+  dt-bindings: vendor-prefixes: add Ambarella prefix
+  dt-bindings: arm: ambarella: Add binding for Ambarella ARM platforms
+  dt-bindings: arm: add support for Ambarella SoC
+  arm64: Kconfig: Introduce CONFIG_ARCH_AMBARELLA
+  soc: add Ambarella driver
+  dt-bindings: clock: Add Ambarella clock bindings
+  clk: add support for Ambarella clocks
+  dt-bindings: serial: add support for Ambarella
+  serial: ambarella: add support for Ambarella uart_port
+  dt-bindings: mtd: Add binding for Ambarella
+  mtd: nand: add Ambarella nand support
+  dt-bindings: pinctrl: add support for Ambarella
+  pinctrl: Add pinctrl/GPIO for Ambarella SoCs
+  arm64: dts: ambarella: introduce Ambarella s6lm SoC
 
-diff --git a/Documentation/admin-guide/syscall-user-dispatch.rst b/Documentation/admin-guide/syscall-user-dispatch.rst
-index 60314953c728..a23ae21a1d5b 100644
---- a/Documentation/admin-guide/syscall-user-dispatch.rst
-+++ b/Documentation/admin-guide/syscall-user-dispatch.rst
-@@ -43,7 +43,10 @@ doesn't rely on any of the syscall ABI to make the filtering.  It uses
- only the syscall dispatcher address and the userspace key.
- 
- As the ABI of these intercepted syscalls is unknown to Linux, these
--syscalls are not instrumentable via ptrace or the syscall tracepoints.
-+syscalls are not instrumentable via ptrace or the syscall tracepoints,
-+however an interfaces to suspend, checkpoint, and restore syscall user
-+dispatch configuration has been added to ptrace to assist userland
-+checkpoint/restart software.
- 
- Interface
- ---------
-diff --git a/include/linux/syscall_user_dispatch.h b/include/linux/syscall_user_dispatch.h
-index a0ae443fb7df..9e1bd0d87c1e 100644
---- a/include/linux/syscall_user_dispatch.h
-+++ b/include/linux/syscall_user_dispatch.h
-@@ -22,6 +22,13 @@ int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
- #define clear_syscall_work_syscall_user_dispatch(tsk) \
- 	clear_task_syscall_work(tsk, SYSCALL_USER_DISPATCH)
- 
-+int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
-+	void __user *data);
-+
-+int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
-+	void __user *data);
-+
-+
- #else
- struct syscall_user_dispatch {};
- 
-@@ -35,6 +42,18 @@ static inline void clear_syscall_work_syscall_user_dispatch(struct task_struct *
- {
- }
- 
-+static inline int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
-+	void __user *data)
-+{
-+	return -EINVAL;
-+}
-+
-+static inline int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
-+	void __user *data)
-+{
-+	return -EINVAL;
-+}
-+
- #endif /* CONFIG_GENERIC_ENTRY */
- 
- #endif /* _SYSCALL_USER_DISPATCH_H */
-diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
-index ba9e3f19a22c..8b93c78189b5 100644
---- a/include/uapi/linux/ptrace.h
-+++ b/include/uapi/linux/ptrace.h
-@@ -112,6 +112,16 @@ struct ptrace_rseq_configuration {
- 	__u32 pad;
- };
- 
-+#define PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG 0x4210
-+#define PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG 0x4211
-+struct syscall_user_dispatch_config {
-+	__u64 mode;
-+	__s8 *selector;
-+	__u64 offset;
-+	__u64 len;
-+	__u8 on_dispatch;
-+};
-+
- /*
-  * These values are stored in task->ptrace_message
-  * by ptrace_stop to describe the current syscall-stop.
-diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
-index b5ec75164805..a303c8de59af 100644
---- a/kernel/entry/syscall_user_dispatch.c
-+++ b/kernel/entry/syscall_user_dispatch.c
-@@ -111,3 +111,49 @@ int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
- 
- 	return 0;
- }
-+
-+int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
-+		void __user *data)
-+{
-+	struct syscall_user_dispatch *sd = &task->syscall_dispatch;
-+	struct syscall_user_dispatch_config config;
-+
-+	if (size != sizeof(struct syscall_user_dispatch_config))
-+		return -EINVAL;
-+
-+	if (test_syscall_work(SYSCALL_USER_DISPATCH))
-+		config.mode = PR_SYS_DISPATCH_ON;
-+	else
-+		config.mode = PR_SYS_DISPATCH_OFF;
-+
-+	config.offset = sd->offset;
-+	config.len = sd->len;
-+	config.selector = sd->selector;
-+	config.on_dispatch = sd->on_dispatch;
-+
-+	if (copy_to_user(data, &config, sizeof(config)))
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
-+int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
-+		void __user *data)
-+{
-+	struct syscall_user_dispatch_config config;
-+	int ret;
-+
-+	if (size != sizeof(struct syscall_user_dispatch_config))
-+		return -EINVAL;
-+
-+	if (copy_from_user(&config, data, sizeof(config)))
-+		return -EFAULT;
-+
-+	ret = set_syscall_user_dispatch(config.mode, config.offset, config.len,
-+			config.selector);
-+	if (ret)
-+		return ret;
-+
-+	task->syscall_dispatch.on_dispatch = config.on_dispatch;
-+	return 0;
-+}
-diff --git a/kernel/ptrace.c b/kernel/ptrace.c
-index a348b68d07a2..76de46e080e2 100644
---- a/kernel/ptrace.c
-+++ b/kernel/ptrace.c
-@@ -32,6 +32,7 @@
- #include <linux/compat.h>
- #include <linux/sched/signal.h>
- #include <linux/minmax.h>
-+#include <linux/syscall_user_dispatch.h>
- 
- #include <asm/syscall.h>	/* for syscall_get_* */
- 
-@@ -1263,6 +1264,14 @@ int ptrace_request(struct task_struct *child, long request,
- 		break;
- #endif
- 
-+	case PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG:
-+		ret = syscall_user_dispatch_set_config(child, addr, datavp);
-+		break;
-+
-+	case PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG:
-+		ret = syscall_user_dispatch_get_config(child, addr, datavp);
-+		break;
-+
- 	default:
- 		break;
- 	}
+ .../devicetree/bindings/arm/ambarella.yaml    |   22 +
+ .../arm/ambarella/ambarella,cpuid.yaml        |   24 +
+ .../bindings/arm/ambarella/ambarella,rct.yaml |   24 +
+ .../arm/ambarella/ambarella,scratchpad.yaml   |   24 +
+ .../bindings/arm/ambarella/ambarella.yaml     |   22 +
+ .../clock/ambarella,composite-clock.yaml      |   52 +
+ .../bindings/clock/ambarella,pll-clock.yaml   |   59 +
+ .../bindings/mtd/ambarella,nand.yaml          |   77 +
+ .../bindings/pinctrl/ambarella,pinctrl.yaml   |  160 ++
+ .../bindings/serial/ambarella_uart.yaml       |   57 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ Documentation/filesystems/debugfs.rst         |    2 +
+ MAINTAINERS                                   |   29 +
+ arch/arm64/Kconfig.platforms                  |    9 +
+ .../boot/dts/ambarella/ambarella-s6lm.dtsi    |  332 ++++
+ .../boot/dts/ambarella/s6lm_pineapple.dts     |   29 +
+ drivers/clk/Makefile                          |    1 +
+ drivers/clk/ambarella/Makefile                |    5 +
+ drivers/clk/ambarella/clk-composite.c         |  293 +++
+ drivers/clk/ambarella/clk-pll-common.c        |  308 ++++
+ drivers/clk/ambarella/clk-pll-common.h        |   96 +
+ drivers/clk/ambarella/clk-pll-normal.c        |  328 ++++
+ drivers/mtd/nand/raw/Kconfig                  |    8 +
+ drivers/mtd/nand/raw/Makefile                 |    1 +
+ drivers/mtd/nand/raw/ambarella_combo_nand.c   | 1519 ++++++++++++++++
+ drivers/mtd/nand/raw/ambarella_combo_nand.h   |  370 ++++
+ drivers/mtd/nand/raw/nand_ids.c               |    4 +
+ drivers/pinctrl/Kconfig                       |    6 +
+ drivers/pinctrl/Makefile                      |    1 +
+ drivers/pinctrl/pinctrl-ambarella.c           | 1357 ++++++++++++++
+ drivers/soc/Makefile                          |    1 +
+ drivers/soc/ambarella/Makefile                |    3 +
+ drivers/soc/ambarella/soc.c                   |  136 ++
+ drivers/tty/serial/Kconfig                    |   16 +
+ drivers/tty/serial/Makefile                   |    1 +
+ drivers/tty/serial/ambarella_uart.c           | 1581 +++++++++++++++++
+ drivers/tty/serial/ambarella_uart.h           |  120 ++
+ fs/debugfs/file.c                             |   43 +-
+ include/linux/debugfs.h                       |   11 +
+ include/soc/ambarella/misc.h                  |   17 +
+ 40 files changed, 7149 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/arm/ambarella.yaml
+ create mode 100644 Documentation/devicetree/bindings/arm/ambarella/ambarella,cpuid.yaml
+ create mode 100644 Documentation/devicetree/bindings/arm/ambarella/ambarella,rct.yaml
+ create mode 100644 Documentation/devicetree/bindings/arm/ambarella/ambarella,scratchpad.yaml
+ create mode 100644 Documentation/devicetree/bindings/arm/ambarella/ambarella.yaml
+ create mode 100644 Documentation/devicetree/bindings/clock/ambarella,composite-clock.yaml
+ create mode 100644 Documentation/devicetree/bindings/clock/ambarella,pll-clock.yaml
+ create mode 100644 Documentation/devicetree/bindings/mtd/ambarella,nand.yaml
+ create mode 100644 Documentation/devicetree/bindings/pinctrl/ambarella,pinctrl.yaml
+ create mode 100644 Documentation/devicetree/bindings/serial/ambarella_uart.yaml
+ create mode 100644 arch/arm64/boot/dts/ambarella/ambarella-s6lm.dtsi
+ create mode 100644 arch/arm64/boot/dts/ambarella/s6lm_pineapple.dts
+ create mode 100644 drivers/clk/ambarella/Makefile
+ create mode 100644 drivers/clk/ambarella/clk-composite.c
+ create mode 100644 drivers/clk/ambarella/clk-pll-common.c
+ create mode 100644 drivers/clk/ambarella/clk-pll-common.h
+ create mode 100644 drivers/clk/ambarella/clk-pll-normal.c
+ create mode 100644 drivers/mtd/nand/raw/ambarella_combo_nand.c
+ create mode 100644 drivers/mtd/nand/raw/ambarella_combo_nand.h
+ create mode 100644 drivers/pinctrl/pinctrl-ambarella.c
+ create mode 100644 drivers/soc/ambarella/Makefile
+ create mode 100644 drivers/soc/ambarella/soc.c
+ create mode 100644 drivers/tty/serial/ambarella_uart.c
+ create mode 100644 drivers/tty/serial/ambarella_uart.h
+ create mode 100644 include/soc/ambarella/misc.h
+
 -- 
-2.39.0
+2.34.1
 
