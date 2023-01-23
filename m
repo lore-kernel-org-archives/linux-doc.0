@@ -2,200 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD327C05027
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 13:49:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD369C38142
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 13:52:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231480AbjAWNtY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 08:49:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38914 "EHLO
+        id S231916AbjAWNwD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 08:52:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231701AbjAWNtW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 08:49:22 -0500
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5788FE061;
-        Mon, 23 Jan 2023 05:49:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674481741; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=k9rIbrW31TPgXGxiYn6dtFl/xtP7A5i2WCOSQMMnse75hdbpqIuXwDp2Puak+XhusU6HoJwHZbAGKiYxKT6zD3lOQb2Dmj/AMRB1L/2kYXEpKBlimw7qeqHFNq9njarupq3DK4Zjob/QQ1IKv5z0CF8uOj4wkosVfMzttGqXIhg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1674481741; h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=wPo6/5OGwSEpd6KmDAAdxqVBmXpM9Q5Qw5FRFWB3ZyM=; 
-        b=KeG+P18kvd6PomzPIe0+3YungIO9fk42e+zWD6ZU5XBTh0l8c7XzrOJ7blSD5wErahF2QDo2X9p5jm6XSKR1BulOqdqzWJhZoSIMmc7lOyrmn/aOKdZh/rL98oKQfxCtSNSx1hSOY8wo+m1kUK7gYR3QnLgwHf6sFgH/jx19Zb8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=linux.beauty;
-        spf=pass  smtp.mailfrom=me@linux.beauty;
-        dmarc=pass header.from=<me@linux.beauty>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1674481741;
-        s=zmail; d=linux.beauty; i=me@linux.beauty;
-        h=Date:Date:Message-ID:From:From:To:To:Cc:Cc:Subject:Subject:In-Reply-To:References:MIME-Version:Content-Type:Message-Id:Reply-To;
-        bh=wPo6/5OGwSEpd6KmDAAdxqVBmXpM9Q5Qw5FRFWB3ZyM=;
-        b=XRoo+eJ6y0OWvd/jJF/rU+G2Myc0c6q1TJfZh4DNtPRsYPVvsHzVDyIj8Sgoheuy
-        8fdT7Oo0m3epYpg2H+OUlpsoKOUuymwRAFy7Jxqjk/evr0mJK1ImcjChf1MGxzt17UH
-        uW4+LOhDzIXt9uDSiZEoJjFmQlSh8nGeV/kMsPsg=
-Received: from lchen-xiaoxin.linux.beauty (183.211.210.143 [183.211.210.143]) by mx.zohomail.com
-        with SMTPS id 1674481738580314.20894661830573; Mon, 23 Jan 2023 05:48:58 -0800 (PST)
-Date:   Mon, 23 Jan 2023 21:47:37 +0800
-Message-ID: <87a629icqu.wl-me@linux.beauty>
-From:   Li Chen <me@linux.beauty>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Li Chen <lchen@ambarella.com>, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
+        with ESMTP id S231868AbjAWNwD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 08:52:03 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7123DAD;
+        Mon, 23 Jan 2023 05:52:02 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id z9-20020a17090a468900b00226b6e7aeeaso11067070pjf.1;
+        Mon, 23 Jan 2023 05:52:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WKpg9flnN+chPIMCPl0+2Z6yendwSMhVVKXNRKER7mE=;
+        b=gEuQs96KzRvjAOZjftDCtm34oFblZUcGjQubuPvLFrAyuMPh2VLwUZ6KCCtSBVlBIW
+         CAHdeax9Ou7gIhKMxYUVu3ONMOTNTSV2/IO1CJr3n1ZexIfxhO4Wqs0/q1Y6WqawYnzb
+         XuJ080R76gBYpoakRROXjZ5O/k6nGGw9On/j6ZqOniWQk8cklyfbeWSiMlFkMILeCya6
+         wNe2YwQKaiyPvMAZyigCxHZZfccH+klfanS2TyMSvBtZ13Ev75/CNYB+LmKyfB88Xi7d
+         oO6ct1u1olS54Nyq3BY2OjnDnxN1+jmv7rwlaX+ILLKKef85qyuzLwENkZppr6KAyVNQ
+         j0XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WKpg9flnN+chPIMCPl0+2Z6yendwSMhVVKXNRKER7mE=;
+        b=AZBVcQAlUr40n1tzIKXgwtUiQfR5S3bui/8IhhWlMWe7u3zzrA4i2oacJE7ZQ7fzRy
+         GtzaU+GcpXmRyzBcJjp1SpWsyRmp1GT7katsqcofy1UOy2yccmOxyThFgJ9a4KqB6laQ
+         Kw9ufR5o6QADGnDITJEisBgn2cyiooiWznBPoblHMexGUirNwLuOzC0rLvwEXH5i5MAt
+         OXFHnhwdM1Q1VZtCfMKQx9SiLAxtu5ahE0uBrclpcz8j81HMIJ9/WViDIVWow2zK2GUM
+         G9pt58b0EhmDHuNYHGxqGLmHTVVG/r68OKmsfx+At8beBVCWMK7jDbw6+KTC29EnXnl2
+         z3Cw==
+X-Gm-Message-State: AFqh2krf7k4zLcPBGNt3ZtKkWUy4liCu7tgfs3tjRlzcOPk05V4mz+S/
+        864c0NYIRAuEo2S/5MmldU0=
+X-Google-Smtp-Source: AMrXdXunsM3ZFMr+g19557ktUbRyWA/D+HKokpRk19HOTVTctW0BNUXMYEFHeMObVyHQBb3RGifeDg==
+X-Received: by 2002:a17:903:2442:b0:195:f06f:84ff with SMTP id l2-20020a170903244200b00195f06f84ffmr13563443pls.50.1674481921844;
+        Mon, 23 Jan 2023 05:52:01 -0800 (PST)
+Received: from [192.168.43.80] (subs09b-223-255-225-233.three.co.id. [223.255.225.233])
+        by smtp.gmail.com with ESMTPSA id iw11-20020a170903044b00b00192fc9e8552sm4526940plb.0.2023.01.23.05.51.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jan 2023 05:52:01 -0800 (PST)
+Message-ID: <c9d6291f-8b50-bd37-f48c-d96834d990dd@gmail.com>
+Date:   Mon, 23 Jan 2023 20:51:57 +0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] docs: rv: Fix full name of the GPL
+Content-Language: en-US
+To:     Diederik de Haas <didi.debian@cknow.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 01/15] debugfs: allow to use regmap for print regs
-In-Reply-To: <Y851DWfj+hZIiR38@kroah.com>
-References: <20230123073305.149940-1-lchen@ambarella.com>
-        <20230123073305.149940-2-lchen@ambarella.com>
-        <Y851DWfj+hZIiR38@kroah.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
- Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-ZohoMailClient: External
+References: <20230122181224.53996-1-didi.debian@cknow.org>
+ <Y83ts1TVZnwyZjnH@debian.me> <111677351.cJcasWOL3y@prancing-pony>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <111677351.cJcasWOL3y@prancing-pony>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 1/23/23 19:48, Diederik de Haas wrote:
+> On Monday, 23 January 2023 03:15:15 CET Bagas Sanjaya wrote:
+>> Similar response as [1].
+> 
+> Please disregard this patch.
+> I'm now sending a similar response as I'm sending to my other patch 
+> submissions, which is the following:
+> 
+> I now consider my initial view of the issue as a spelling error, incorrect. I 
+> would be changing the license and IANAL. I'm also not the copyright holder 
+> which I believe is needed to change the license.
+> 
+> Apologies for the noise.
 
-Hi Greg,
+Glad to reply, but I see your reply above as if it is written by
+a bot. Care to vary your sentences?
 
-On Mon, 23 Jan 2023 19:52:45 +0800,
-Greg Kroah-Hartman wrote:
->
-> On Mon, Jan 23, 2023 at 03:32:16PM +0800, Li Chen wrote:
-> > Currently, debugfs_regset32 only contains void __iomem *base,
-> > and it is not friendly to regmap user.
-> >
-> > Let's add regmap to debugfs_regset32, and add regmap
-> > support to debugfs_print_reg32.
-> >
-> > Signed-off-by: Li Chen <me@linux.beauty>
-> > Change-Id: I8ef015ed0906a4ad85b7592f771dcf64c23f7832
->
-> No change-id please.
+-- 
+An old man doll... just what I always wanted! - Clara
 
-Sorry, my bad, will remove it in v2.
-
-> > ---
-> >  Documentation/filesystems/debugfs.rst |  2 ++
-> >  fs/debugfs/file.c                     | 43 ++++++++++++++++++++++++++-
-> >  include/linux/debugfs.h               | 11 +++++++
-> >  3 files changed, 55 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/filesystems/debugfs.rst b/Documentation/filesystems/debugfs.rst
-> > index dc35da8b8792..b2c76ac3a333 100644
-> > --- a/Documentation/filesystems/debugfs.rst
-> > +++ b/Documentation/filesystems/debugfs.rst
-> > @@ -178,6 +178,8 @@ file::
-> >
-> >      void debugfs_print_regs32(struct seq_file *s, const struct debugfs_reg32 *regs,
-> >  			 int nregs, void __iomem *base, char *prefix);
-> > +    void debugfs_print_regmap_regs32(struct seq_file *s, const struct debugfs_reg32 *regs,
-> > +			 int nregs, struct regmap *regmap*, char *prefix);
->
-> One too many "*" characters on that last line, right?
-
-Good catch! I will remove it in V2.
-
-> >
-> >  The "base" argument may be 0, but you may want to build the reg32 array
-> >  using __stringify, and a number of register names (macros) are actually
-> > diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-> > index b54f470e0d03..2fb792843b30 100644
-> > --- a/fs/debugfs/file.c
-> > +++ b/fs/debugfs/file.c
-> > @@ -1137,14 +1137,55 @@ void debugfs_print_regs32(struct seq_file *s, const struct debugfs_reg32 *regs,
-> >  }
-> >  EXPORT_SYMBOL_GPL(debugfs_print_regs32);
-> >
-> > +/**
-> > + * debugfs_print_regmap_regs32 - use seq_print to describe a set of registers
-> > + * @s: the seq_file structure being used to generate output
-> > + * @regs: an array if struct debugfs_reg32 structures
-> > + * @nregs: the length of the above array
-> > + * @regmap: regmap to be used in reading the registers
-> > + * @prefix: a string to be prefixed to every output line
-> > + *
-> > + * This function outputs a text block describing the current values of
-> > + * some 32-bit hardware registers. It is meant to be used within debugfs
-> > + * files based on seq_file that need to show registers, intermixed with other
-> > + * information. The prefix argument may be used to specify a leading string,
-> > + * because some peripherals have several blocks of identical registers,
-> > + * for example configuration of dma channels
-> > + */
-> > +void debugfs_print_regmap_regs32(struct seq_file *s, const struct debugfs_reg32 *regs,
-> > +			  int nregs, struct regmap *regmap, char *prefix)
-> > +{
-> > +	int i;
-> > +	u32 val;
-> > +
-> > +	for (i = 0; i < nregs; i++, regs++) {
-> > +		if (prefix)
-> > +			seq_printf(s, "%s", prefix);
-> > +		regmap_read(regmap, regs->offset, &val);
-> > +		seq_printf(s, "%s = 0x%08x\n", regs->name, val);
-> > +		if (seq_has_overflowed(s))
-> > +			break;
-> > +	}
-> > +}
-> > +EXPORT_SYMBOL_GPL(debugfs_print_regmap_regs32);
-> > +
-> >  static int debugfs_regset32_show(struct seq_file *s, void *data)
-> >  {
-> >  	struct debugfs_regset32 *regset = s->private;
-> >
-> > +	void __iomem *base = regset->base;
-> > +	struct regmap *regmap = regset->regmap;
->
-> Why the extra blank line?  Did you run checkpatch?
-
-Yeah, I do checkpatch & sparse(coccinelle crash somehow)
-for all my patches(but forget to remove gerrit's Change-ID finally, sorry).
-
-checkpatch didn't find this extra blank line.
-
-I will remove it in v2, thanks!
-
-> And it's generally not considered a good idea to dereference a pointer
-> _before_ it is checked.  It will not crash, but static checkers will
-> have a field day with it.
-
-Ok, will check regset before access in v2.
-
-> > +
-> > +	if ((regmap && base) || (!regmap && !base))
-> > +		return -EINVAL;
-> > +
-> >  	if (regset->dev)
-> >  		pm_runtime_get_sync(regset->dev);
-> >
-> > -	debugfs_print_regs32(s, regset->regs, regset->nregs, regset->base, "");
-> > +	if (base)
-> > +		debugfs_print_regs32(s, regset->regs, regset->nregs, base, "");
-> > +	else
-> > +		debugfs_print_regmap_regs32(s, regset->regs, regset->nregs, regmap, "");
-> >
-> >  	if (regset->dev)
-> >  		pm_runtime_put(regset->dev);
-> > diff --git a/include/linux/debugfs.h b/include/linux/debugfs.h
-> > index ea2d919fd9c7..87dfea6a25a0 100644
-> > --- a/include/linux/debugfs.h
-> > +++ b/include/linux/debugfs.h
-> > @@ -17,6 +17,7 @@
-> >
-> >  #include <linux/types.h>
-> >  #include <linux/compiler.h>
-> > +#include <linux/regmap.h>
->
-> No need to include this here, just provide a prototype for "struct
-> regmap" and all will be fine.
-
-Well noted, I will forward declare "struct regmap" in debugfs.h,
-and move regmap.h to debugfs.c(regmap_read is used here).
-
-Thanks for your review.
-
-Regards,
-Li
