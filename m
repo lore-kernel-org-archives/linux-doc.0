@@ -2,101 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E647C38142
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 16:03:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35C8EC38142
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 17:03:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232490AbjAWQD1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 11:03:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39748 "EHLO
+        id S232714AbjAWRC7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 12:02:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233024AbjAWQD0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 11:03:26 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E27D0CC2E;
-        Mon, 23 Jan 2023 08:03:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674489804; x=1706025804;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=GFijjW7lR2HML5rXSl3aNY/6L0A+D+DedtGWDxxyrn8=;
-  b=ioc4TiKQITJ3utTScveFeskqCHwl45LPCoriVStLLGQJLO7DBvHJy910
-   gjsiSYb541H6n1WyQ16kQr841dWgrp8AuvzOlg80t3cT7MMg93LaDDevT
-   /OGR6jgaABCUiEzy7OowcTmYOgo7JUGr8bON780oA0z+CbH2NaiQv5BFw
-   zWwkYzTOUg42qMGwp/b1gOosTLDZxtZcFH55KBDb9cYgVxQ/o3UL6e2Az
-   jc8n44BbpMq7UFqp2DmLaFsUdtPr3Mt3rwIxyPCI8xI7EP7qqQNuLnUfl
-   0IFUjOMUoxn+s4KVjc7sUTs2KFUmYWjunp6g/LTGULOyNr4jrLNEtdoLo
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="305732219"
-X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="305732219"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 08:02:44 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="804235055"
-X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="804235055"
-Received: from rgrachek-mobl.amr.corp.intel.com (HELO [10.212.113.123]) ([10.212.113.123])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 08:02:43 -0800
-Message-ID: <268823a3-f453-a38b-3fd7-500306675890@linux.intel.com>
-Date:   Mon, 23 Jan 2023 10:02:42 -0600
+        with ESMTP id S232856AbjAWRCz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 12:02:55 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2AB4D3;
+        Mon, 23 Jan 2023 09:02:52 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8D3FDB80BA2;
+        Mon, 23 Jan 2023 17:02:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C6F9C433EF;
+        Mon, 23 Jan 2023 17:02:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674493370;
+        bh=N50BI0eAmKLyjzAgI2VcGiyz4oyDgkoQN9/RlfmJQ9o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=g8lMhEHWsshNL4zKOk9nAg2yTrPyeUIAoqur5h7IY9O+Xu/yeqLKrDaRpDPfHEKlA
+         O9b0S8d0aMfBF4hs+p8h8OTTD6RhVX29cZ8lmhjhMBk44lnEkYC7C2QQS/TCYMJsCh
+         2Q17QM/4AykEFk7NAvhkQUJVk4HeWAimyaCTWCJSpFbLJ8e1g+fC6ZC8KtmHIn7I+m
+         Zj2EBxvuIEu4ChmAbD1NKEnXo8Fs3uGhB6TNpVHQV1mWuULrdW+9pNcoIak83EL03h
+         3xDS4mNwVU8sUHzSKEvMv3+IbtxsCW8i8Zd7dyGqhU0F9QtfFQajKwNMEOUxdqRBnZ
+         334Ir4u3bWiCw==
+Date:   Mon, 23 Jan 2023 18:34:26 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Simon Horman <simon.horman@corigine.com>
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Ayush Sawal <ayush.sawal@chelsio.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        intel-wired-lan@lists.osuosl.org,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, oss-drivers@corigine.com,
+        Paolo Abeni <pabeni@redhat.com>,
+        Raju Rangoju <rajur@chelsio.com>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Veaceslav Falico <vfalico@gmail.com>
+Subject: Re: [PATCH net-next 06/10] nfp: fill IPsec state validation failure
+ reason
+Message-ID: <Y863Eg9XKcxzZET+@unreal>
+References: <cover.1674481435.git.leon@kernel.org>
+ <99049389f2f4fb967aac8026bd05f36ea13c47aa.1674481435.git.leon@kernel.org>
+ <Y86jIClrwWJsPk9v@corigine.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.4.2
-Subject: Re: [PATCH v2 8/8] Docs/sound/index: Add missing SPDX License
- Identifier
-Content-Language: en-US
-To:     Takashi Iwai <tiwai@suse.de>, SeongJae Park <sj@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, alsa-devel@alsa-project.org,
-        linux-doc@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-        linux-kernel@vger.kernel.org
-References: <20230122213650.187710-1-sj@kernel.org>
- <20230122213650.187710-9-sj@kernel.org> <875ycxr7qv.wl-tiwai@suse.de>
-From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <875ycxr7qv.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y86jIClrwWJsPk9v@corigine.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 1/23/23 02:10, Takashi Iwai wrote:
-> On Sun, 22 Jan 2023 22:36:50 +0100,
-> SeongJae Park wrote:
->>
->> Add missing SPDX License Identifier for sound documentation index file.
->>
->> Signed-off-by: SeongJae Park <sj@kernel.org>
+On Mon, Jan 23, 2023 at 04:09:20PM +0100, Simon Horman wrote:
+> On Mon, Jan 23, 2023 at 04:00:19PM +0200, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > Rely on extack to return failure reason.
+> > 
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > Signed-off-by: Leon Romanovsky <leon@kernel.org>
 > 
-> Acked-by: Takashi Iwai <tiwai@suse.de>
+> One minor suggestion below, but regardless this looks good to me.
+> 
+> Reviewed-by: Simon Horman <simon.horman@corigine.com>
+> 
+> > ---
+> >  .../net/ethernet/netronome/nfp/crypto/ipsec.c | 38 +++++++++----------
+> >  1 file changed, 19 insertions(+), 19 deletions(-)
+> > 
+> > diff --git a/drivers/net/ethernet/netronome/nfp/crypto/ipsec.c b/drivers/net/ethernet/netronome/nfp/crypto/ipsec.c
+> > index 41b98f2b7402..7af41cbc8c0b 100644
+> > --- a/drivers/net/ethernet/netronome/nfp/crypto/ipsec.c
+> > +++ b/drivers/net/ethernet/netronome/nfp/crypto/ipsec.c
+> 
+> ...
+> 
+> >  	if (x->xso.type != XFRM_DEV_OFFLOAD_CRYPTO) {
+> > -		nn_err(nn, "Unsupported xfrm offload tyoe\n");
+> > +		NL_SET_ERR_MSG_MOD(extack, "Unsupported xfrm offload tyoe");
+> 
+> While we are here, maybe s/tyoe/type/ ?
 
-Isn't GPL-2.0 deprecated? It should be GPL-2.0-only, no?
+Sure, will fix.
 
-https://spdx.org/licenses/GPL-2.0.html
-
-https://spdx.org/licenses/GPL-2.0-only.html
+Thanks
 
 > 
-> 
-> thanks,
-> 
-> Takashi
-> 
->> ---
->>  Documentation/sound/index.rst | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/Documentation/sound/index.rst b/Documentation/sound/index.rst
->> index 5abed5fc6485..7e67e12730d3 100644
->> --- a/Documentation/sound/index.rst
->> +++ b/Documentation/sound/index.rst
->> @@ -1,3 +1,5 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->>  =============================
->>  Sound Subsystem Documentation
->>  =============================
->> -- 
->> 2.25.1
->>
+> ...
