@@ -2,77 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A266DC05027
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 19:53:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E10C0C38142
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 20:34:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231868AbjAWTxZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 14:53:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55950 "EHLO
+        id S232490AbjAWUei (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 15:34:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231745AbjAWTxY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 14:53:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19BF822A16
-        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 11:52:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674503560;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=aze1G6mgWzCcRJXgFNa8HjfCbOTiXXX/A6U9nxgbJkM=;
-        b=eYP8SXiVmitY88lZdljXv1D8/xQEjI9MwVGIX3JQlCIC7EfHcQXSeonAvotqTafdtQU7yg
-        X9IrUjfJKorckbldp39qFexYJMGYhkSd3Hr1Ov0KcHmBORVkV1HB62J0iRnUkjSEtDZu9B
-        rbLjed23vVDYv/+XPs+dOJpYXQNbxnA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-612-JZDVN0L7MfuQFgCDu-fvCA-1; Mon, 23 Jan 2023 14:52:36 -0500
-X-MC-Unique: JZDVN0L7MfuQFgCDu-fvCA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S229791AbjAWUeh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 15:34:37 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCFF0E04C;
+        Mon, 23 Jan 2023 12:34:36 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DB437380406A;
-        Mon, 23 Jan 2023 19:52:35 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (ovpn-192-224.brq.redhat.com [10.40.192.224])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 6618D175A2;
-        Mon, 23 Jan 2023 19:52:32 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Mon, 23 Jan 2023 20:52:33 +0100 (CET)
-Date:   Mon, 23 Jan 2023 20:52:29 +0100
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Gregory Price <gregory.price@memverge.com>
-Cc:     Gregory Price <gourry.memverge@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        krisman@collabora.com, tglx@linutronix.de, luto@kernel.org,
-        peterz@infradead.org, ebiederm@xmission.com,
-        akpm@linux-foundation.org, adobriyan@gmail.com, corbet@lwn.net,
-        shuah@kernel.org
-Subject: Re: [PATCH 3/3] ptrace,syscall_user_dispatch: add a getter/setter
- for sud configuration
-Message-ID: <20230123195228.GD6268@redhat.com>
-References: <20230123032942.18263-1-gregory.price@memverge.com>
- <20230123032942.18263-4-gregory.price@memverge.com>
- <20230123154101.GA6268@redhat.com>
- <Y87OEdDXwZG8pmmE@memverge.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4E28661026;
+        Mon, 23 Jan 2023 20:34:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 795F8C433EF;
+        Mon, 23 Jan 2023 20:34:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674506075;
+        bh=FmnPLtlEEZLnIMIwawfGix9wzSwjvgWL7c11CtPG7VM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=gF5F3tETTnRMP1JPBnu7Ptp/If+nrlkHmh1UvayGFWUyXYmpvpFIlY+pg0zyr7IvH
+         EVxJOqmXmJX4Qp/NQU69I9zkedvW44RZCoOXej3wWBme0Mdka7wWgcqiXHBS0ZO9AT
+         gCCeJ5Uq2QZnfqQa2fxLrDKyt14RL6D7czuJJnAOpLLNhbfPWA+yt32/GYape34E4O
+         F5mvBPdKOsbsv8biqPPZmtLiy9WobD+Fa+Nr4SCWtPIUvLRWLgmYTlf3NVqXtdDuWD
+         rOx+KcDSyNsyRQHtz5q6KnNbBnT517gw8xLmWe7kphfoQ/6r8WJFEAIN5ITvVAGWH0
+         7e32wlfHKB2Xw==
+Date:   Mon, 23 Jan 2023 14:34:34 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     SeongJae Park <sj@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, alsa-devel@alsa-project.org,
+        linux-doc@vger.kernel.org, Viresh Kumar <viresh.kumar@linaro.org>,
+        dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+        linux-mm@kvack.org, linux-watchdog@vger.kernel.org,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Iwona Winiarska <iwona.winiarska@intel.com>,
+        openbmc@lists.ozlabs.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-pci@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>, linux-pm@vger.kernel.org,
+        linux-input@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        linux-hwmon@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+        linux-crypto@vger.kernel.org,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH v2 1/1] Docs/subsystem-apis: Remove '[The ]Linux'
+ prefixes from titles of listed documents
+Message-ID: <20230123203434.GA979965@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y87OEdDXwZG8pmmE@memverge.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+In-Reply-To: <20230122184834.181977-1-sj@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/23, Gregory Price wrote:
->
-> So i think dropping 2/3 in the list is good.  If you concur i'll do
-> that.
+On Sun, Jan 22, 2023 at 06:48:34PM +0000, SeongJae Park wrote:
+> Some documents that listed on subsystem-apis have 'Linux' or 'The Linux'
+> title prefixes.  It's duplicated information, and makes finding the
+> document of interest with human eyes not easy.  Remove the prefixes from
+> the titles.
+> 
+> Signed-off-by: SeongJae Park <sj@kernel.org>
 
-Well I obviously think that 2/3 should be dropped ;)
+PCI/index.rst change is fine with me:
 
-As for 1/3 and 3/3, feel free to add my reviewed-by.
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
-Oleg.
-
+> ---
+> Changes from v1
+> (https://lore.kernel.org/lkml/20230114194741.115855-1-sj@kernel.org/)
+> - Drop second patch (will post later for each subsystem)
+> 
+>  Documentation/PCI/index.rst        | 6 +++---
+>  Documentation/cpu-freq/index.rst   | 6 +++---
+>  Documentation/crypto/index.rst     | 6 +++---
+>  Documentation/driver-api/index.rst | 6 +++---
+>  Documentation/gpu/index.rst        | 6 +++---
+>  Documentation/hwmon/index.rst      | 6 +++---
+>  Documentation/input/index.rst      | 6 +++---
+>  Documentation/mm/index.rst         | 6 +++---
+>  Documentation/peci/index.rst       | 6 +++---
+>  Documentation/scheduler/index.rst  | 6 +++---
+>  Documentation/scsi/index.rst       | 6 +++---
+>  Documentation/sound/index.rst      | 6 +++---
+>  Documentation/virt/index.rst       | 6 +++---
+>  Documentation/watchdog/index.rst   | 6 +++---
+>  14 files changed, 42 insertions(+), 42 deletions(-)
+> 
+> diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
+> index c17c87af1968..e73f84aebde3 100644
+> --- a/Documentation/PCI/index.rst
+> +++ b/Documentation/PCI/index.rst
+> @@ -1,8 +1,8 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+> -=======================
+> -Linux PCI Bus Subsystem
+> -=======================
+> +=================
+> +PCI Bus Subsystem
+> +=================
+>  
+>  .. toctree::
+>     :maxdepth: 2
