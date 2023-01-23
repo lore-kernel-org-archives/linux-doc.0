@@ -2,72 +2,160 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32330C25B50
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 18:54:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80D3BC25B50
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 19:17:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229551AbjAWSym (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 13:54:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34596 "EHLO
+        id S230224AbjAWTRx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 14:17:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232073AbjAWSyk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 13:54:40 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BAC85B83;
-        Mon, 23 Jan 2023 10:54:39 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1DC79B80DCC;
-        Mon, 23 Jan 2023 18:54:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56358C433D2;
-        Mon, 23 Jan 2023 18:54:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1674500076;
-        bh=FiuZdAGaNp61IwZfVi5rwYsfc6AAKrsNLyQa186Ax10=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KQO+XLBoJ/LxXEDBWLfYkAvx7Si+sExBRUBvFfl40v9sNk3VcQrC1GGEz/PLiSqOI
-         UtZ0aGLb9Rqge+Oxab2mi9WoC1MmfamurEfi+vNUAcgxgjaILp8wtQRzkVWgW+Cnwx
-         e8j+RzqxdZ+BiImyYfQTokjQy3VFhPjcOYviwho0=
-Date:   Mon, 23 Jan 2023 19:54:34 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     corbet@lwn.net, javier.gonz@samsung.com, linux-doc@vger.kernel.org,
-        a.manzanares@samsung.com, dave@stgolabs.net,
-        darren@os.amperecomputing.com, catalin.marinas@arm.com,
-        ndesaulniers@google.com, gost.dev@samsung.com,
-        linux-kernel@vger.kernel.org,
-        Luis Chamberlain <mcgrof.c@samsung.com>
-Subject: Re: [PATCH] docs: embargoed-hardware-issues: add embargoed HW
- contact for Samsung
-Message-ID: <Y87X6tFlevIebcc6@kroah.com>
-References: <20230123183926.249601-1-mcgrof@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230123183926.249601-1-mcgrof@kernel.org>
+        with ESMTP id S232214AbjAWTRw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 14:17:52 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0BA35BA7
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 11:17:50 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id u186-20020a2560c3000000b007c8e2cf3668so14131977ybb.14
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 11:17:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=N+YvoWM7hVZLP7f3mNekEgTLNrfGSz/VUTj8ZELQtN0=;
+        b=btfBgj1oagL/EjdEgeCa/LpL00/84F14njHYxfZbVx8eK5EnmK1Ttj9sO31U4EmSM8
+         1MznIrLgPijCnSyvvb8XtI6YXLZ78NHWa/H/mNm31bw5LcdVJksSSGGO2dzPHlgU3buz
+         /p9eEQbQt8x8MWRR7X+Ry+0Y58RX018tAsy1ZXD0QRf9P7CPtLAoftSzjvCACGDXGEgM
+         o15+ngRvubcFDwfKC4626oWwr6aoB3/30CZULYiYPJpCKGXHpUDBYU1vHVotztxTUlup
+         U435Wlbrn0vhCQELYo1hK06QeiCc3qfIoJ83+mV0bqqYDPZ4ySJ6H5OvU4sUwT2bCQY8
+         tDxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=N+YvoWM7hVZLP7f3mNekEgTLNrfGSz/VUTj8ZELQtN0=;
+        b=J9GG7sXzf9h/3lsOiNe+0+IqMKfPhBQuX29Eu0s7zi6CkksqCRiNDaRPRrkphQL6Lk
+         aqmuR0x1mzksDGmR5/iNq2ioQhEb5qGszbUvwUINvLS/p8uGVm+tcKtvYNn+XIevo8do
+         EZ34cSJnJazJg8E2esn3nVvZ70WwvaZ5iqdDMN6MC26Mo3svi2EWgZes6wjx7XlFIi07
+         EL7HMEQJ4R66cECBQx1i+0NC1tqv09yAozkKZXOBdSufjIfuWebTZv/EFnp20y4QYU+e
+         +sIuh6O5M3ZMd/8w/G5+pf7azaQbdI5n2hwUkIytbLBZRjUQxNHr5+dRMx4abKSFa8Ju
+         xyUw==
+X-Gm-Message-State: AFqh2kpot+EsBL36jXa5Qv+ueKxSF8FboNnqiCfFRSrzxAl3yt49LlT+
+        28cwN3HrGBBdlEgnJZUbbMU0DGpSUukC+T8=
+X-Google-Smtp-Source: AMrXdXtnP/Gl6EBzYGNvoAMXHOPKf8g2vx7ry4RLQdGRDJzjzoV9sc3vvEsAv/i0LJexRseYywCPKePifcMKipA=
+X-Received: from tj.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:53a])
+ (user=tjmercier job=sendgmr) by 2002:a25:bdca:0:b0:7ca:14e:be6d with SMTP id
+ g10-20020a25bdca000000b007ca014ebe6dmr3007629ybk.415.1674501470074; Mon, 23
+ Jan 2023 11:17:50 -0800 (PST)
+Date:   Mon, 23 Jan 2023 19:17:22 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.39.0.246.g2a6d74b583-goog
+Message-ID: <20230123191728.2928839-1-tjmercier@google.com>
+Subject: [PATCH v2 0/4] Track exported dma-buffers with memcg
+From:   "T.J. Mercier" <tjmercier@google.com>
+To:     tjmercier@google.com, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?=" <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Carlos Llamas <cmllamas@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <muchun.song@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Paul Moore <paul@paul-moore.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Eric Paris <eparis@parisplace.org>
+Cc:     daniel.vetter@ffwll.ch, android-mm@google.com, jstultz@google.com,
+        jeffv@google.com, linux-security-module@vger.kernel.org,
+        selinux@vger.kernel.org, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 10:39:26AM -0800, Luis Chamberlain wrote:
-> After discussions internally at the company, Javier has been volunteered
-> and is willing to be the embargoed hardware contact for Samsung.
-> 
-> Cc: Javier González <javier.gonz@samsung.com>
-> Signed-off-by: Luis Chamberlain <mcgrof.c@samsung.com>
-> ---
->  Documentation/process/embargoed-hardware-issues.rst | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
-> index b6b4481e2474..fbb754253cf7 100644
-> --- a/Documentation/process/embargoed-hardware-issues.rst
-> +++ b/Documentation/process/embargoed-hardware-issues.rst
-> @@ -251,6 +251,7 @@ an involved disclosed party. The current ambassadors list:
->    IBM Z		Christian Borntraeger <borntraeger@de.ibm.com>
->    Intel		Tony Luck <tony.luck@intel.com>
->    Qualcomm	Trilok Soni <tsoni@codeaurora.org>
-> +  Samsung       Javier González <javier.gonz@samsung.com>
+Based on discussions at LPC, this series adds a memory.stat counter for
+exported dmabufs. This counter allows us to continue tracking
+system-wide total exported buffer sizes which there is no longer any
+way to get without DMABUF_SYSFS_STATS, and adds a new capability to
+track per-cgroup exported buffer sizes. The total (root counter) is
+helpful for accounting in-kernel dmabuf use (by comparing with the sum
+of child nodes or with the sum of sizes of mapped buffers or FD
+references in procfs) in addition to helping identify driver memory
+leaks when in-kernel use continually increases over time. With
+per-application cgroups, the per-cgroup counter allows us to quickly
+see how much dma-buf memory an application has caused to be allocated.
+This avoids the need to read through all of procfs which can be a
+lengthy process, and causes the charge to "stick" to the allocating
+process/cgroup as long as the buffer is alive, regardless of how the
+buffer is shared (unless the charge is transferred).
 
-No tab?  :(
+The first patch adds the counter to memcg. The next two patches allow
+the charge for a buffer to be transferred across cgroups which is
+necessary because of the way most dmabufs are allocated from a central
+process on Android. The fourth patch adds the binder object flags to
+the existing selinux_binder_transfer_file LSM hook and a SELinux
+permission for charge transfers.
+
+[1] https://lore.kernel.org/all/20220617085702.4298-1-christian.koenig@amd.com/
+
+v2:
+Actually charge memcg vs just mutate the stat counter per Shakeel Butt
+and Michal Hocko. Shakeel pointed me at the skmem functions which
+turned out to be very similar to how I was thinking the dmabuf tracking
+should work. So I've added a pair of dmabuf functions that do
+essentially the same thing, except conditionally implemented behind
+CONFIG_MEMCG alongside the other charge/uncharge functions.
+
+Drop security_binder_transfer_charge per Casey Schaufler and Paul Moore
+
+Drop BINDER_FDA_FLAG_XFER_CHARGE (and fix commit message) per Carlos
+Llamas
+
+Don't expose is_dma_buf_file for use by binder per Hillf Danton
+
+Call dma_buf_stats_teardown in dma_buf_export error handling
+
+Rebase onto v6.2-rc5
+
+Hridya Valsaraju (1):
+  binder: Add flags to relinquish ownership of fds
+
+T.J. Mercier (3):
+  memcg: Track exported dma-buffers
+  dmabuf: Add cgroup charge transfer function
+  security: binder: Add binder object flags to
+    selinux_binder_transfer_file
+
+ Documentation/admin-guide/cgroup-v2.rst |  5 ++
+ drivers/android/binder.c                | 27 ++++++++--
+ drivers/dma-buf/dma-buf.c               | 69 +++++++++++++++++++++++++
+ include/linux/dma-buf.h                 |  4 ++
+ include/linux/lsm_hook_defs.h           |  2 +-
+ include/linux/lsm_hooks.h               |  5 +-
+ include/linux/memcontrol.h              | 43 +++++++++++++++
+ include/linux/security.h                |  6 ++-
+ include/uapi/linux/android/binder.h     | 19 +++++--
+ mm/memcontrol.c                         | 19 +++++++
+ security/security.c                     |  4 +-
+ security/selinux/hooks.c                | 13 ++++-
+ security/selinux/include/classmap.h     |  2 +-
+ 13 files changed, 201 insertions(+), 17 deletions(-)
+
+
+base-commit: 2241ab53cbb5cdb08a6b2d4688feb13971058f65
+-- 
+2.39.0.246.g2a6d74b583-goog
+
