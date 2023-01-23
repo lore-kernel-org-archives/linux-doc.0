@@ -2,157 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA4EAC54EB4
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 14:05:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7CBAC38142
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 14:08:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232128AbjAWOFl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 09:05:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53894 "EHLO
+        id S231848AbjAWOIz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 09:08:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231977AbjAWOFk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 09:05:40 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FA9840F2;
-        Mon, 23 Jan 2023 06:05:39 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id B4712339C7;
-        Mon, 23 Jan 2023 14:05:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1674482737; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TboMeQ08DPimFEa6aGsq7T2+45CHDly2y+c6BUvgQZk=;
-        b=Ohw7JlX3WCQz37Vbj1oIjlnjYp5zGfZW6t2Ldf4VxPph/WnY/v38NDh/e4hQhfkYr0L2nM
-        tTDy+o417yh7yO/LPXj1Z8n7gftKOHJarxHrklKDBQus+7cmh+qEymeZvwvGa3iSoerIoa
-        I9j84jts3ZCF0osIEYwGrzJjD6qJmeM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1674482737;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TboMeQ08DPimFEa6aGsq7T2+45CHDly2y+c6BUvgQZk=;
-        b=sUrDJ3R05y4rVwKZW1U5xV5ItVofPAnrWqkqedb0xLRv5AUbA46qNL6KwfAMuDVn1ihKfs
-        SrGGxk/QC3zf4NAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AE567134F5;
-        Mon, 23 Jan 2023 14:05:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id cjdAKTCUzmN6IwAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Mon, 23 Jan 2023 14:05:36 +0000
-Message-ID: <010a330c-a4d5-9c1a-3212-f9107d1c5f4e@suse.cz>
-Date:   Mon, 23 Jan 2023 15:03:45 +0100
+        with ESMTP id S232064AbjAWOIy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 09:08:54 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A6BC10AAA;
+        Mon, 23 Jan 2023 06:08:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1674482928; x=1706018928;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8ObvRqVylT5Y0CrgMD6U+JwuzhIio+nMTbmkoUPgXik=;
+  b=qn/mQ9mqS5TMkcWdan56yiJ35KH/fP1eeBvilNmp2mE4d01ozK5zPIYX
+   FViYKCcQwVaxc3c4bpaOR6WKqi5gFv/z0UiBYJdWDztcmXG4KDK8iHKRc
+   8Mi2LrjtKF+Le57py/+JR+evhtIKQca/FLBV4zgDu8RLIGGV7eG+/f9n9
+   IRxrW8BlFQodnpIkFDxMu4gRWVrXe8CYqUQFLQ24HHfJ6uwlq8FKsc4uR
+   LHdhlSqBVcyNhRd95PaTQt/ZjJ5jaZmUl2Jhxejjprog4vgbJFFir6Uih
+   O4Rnny7eLPnUbUgGdYue6eEZteoMCKPN8A7EkNH6lIohhlCPACl+szz0e
+   w==;
+X-IronPort-AV: E=Sophos;i="5.97,239,1669100400"; 
+   d="asc'?scan'208";a="197739226"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 23 Jan 2023 07:08:46 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 23 Jan 2023 07:08:45 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex04.mchp-main.com
+ (10.10.85.152) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16 via Frontend
+ Transport; Mon, 23 Jan 2023 07:08:43 -0700
+Date:   Mon, 23 Jan 2023 14:08:20 +0000
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Alexandre Ghiti <alex@ghiti.fr>
+CC:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Conor Dooley <conor@kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>
+Subject: Re: [PATCH v3] riscv: Allow to downgrade paging mode from the command
+Message-ID: <Y86U1OUqlo05Co+2@wendy>
+References: <20230123104841.813999-1-alexghiti@rivosinc.com>
+ <Y851L2KgfIF3V6of@wendy>
+ <95d81c9a-11de-7f92-cb76-e4492e9faba8@ghiti.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Content-Language: en-US
-To:     "Huang, Kai" <kai.huang@intel.com>,
-        "chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>
-Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "jmattson@google.com" <jmattson@google.com>,
-        "Hocko, Michal" <mhocko@suse.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "ak@linux.intel.com" <ak@linux.intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "tabba@google.com" <tabba@google.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "michael.roth@amd.com" <michael.roth@amd.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-        "dhildenb@redhat.com" <dhildenb@redhat.com>,
-        "bfields@fieldses.org" <bfields@fieldses.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
-        "ddutile@redhat.com" <ddutile@redhat.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
-        "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
-        "qperret@google.com" <qperret@google.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
-        "Christopherson,, Sean" <seanjc@google.com>,
-        "wanpengli@tencent.com" <wanpengli@tencent.com>,
-        "vannapurve@google.com" <vannapurve@google.com>,
-        "hughd@google.com" <hughd@google.com>,
-        "aarcange@redhat.com" <aarcange@redhat.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Nakajima, Jun" <jun.nakajima@intel.com>,
-        "jlayton@kernel.org" <jlayton@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Wang, Wei W" <wei.w.wang@intel.com>,
-        "steven.price@arm.com" <steven.price@arm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "linmiaohe@huawei.com" <linmiaohe@huawei.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
- <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
- <20221219075313.GB1691829@chaop.bj.intel.com>
- <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
- <20221220072228.GA1724933@chaop.bj.intel.com>
- <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
- <20221221133905.GA1766136@chaop.bj.intel.com>
- <b898e28d7fd7182e5d069646f84b650c748d9ca2.camel@intel.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <b898e28d7fd7182e5d069646f84b650c748d9ca2.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="UiaEVa5YDx4RQv/n"
+Content-Disposition: inline
+In-Reply-To: <95d81c9a-11de-7f92-cb76-e4492e9faba8@ghiti.fr>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/22/22 01:37, Huang, Kai wrote:
->>> I argue that this page pinning (or page migration prevention) is not
->>> tied to where the page comes from, instead related to how the page will
->>> be used. Whether the page is restrictedmem backed or GUP() backed, once
->>> it's used by current version of TDX then the page pinning is needed. So
->>> such page migration prevention is really TDX thing, even not KVM generic
->>> thing (that's why I think we don't need change the existing logic of
->>> kvm_release_pfn_clean()). 
->>>
-> This essentially boils down to who "owns" page migration handling, and sadly,
-> page migration is kinda "owned" by the core-kernel, i.e. KVM cannot handle page
-> migration by itself -- it's just a passive receiver.
-> 
-> For normal pages, page migration is totally done by the core-kernel (i.e. it
-> unmaps page from VMA, allocates a new page, and uses migrate_pape() or a_ops-
->> migrate_page() to actually migrate the page).
-> In the sense of TDX, conceptually it should be done in the same way. The more
-> important thing is: yes KVM can use get_page() to prevent page migration, but
-> when KVM wants to support it, KVM cannot just remove get_page(), as the core-
-> kernel will still just do migrate_page() which won't work for TDX (given
-> restricted_memfd doesn't have a_ops->migrate_page() implemented).
-> 
-> So I think the restricted_memfd filesystem should own page migration handling,
-> (i.e. by implementing a_ops->migrate_page() to either just reject page migration
-> or somehow support it).
+--UiaEVa5YDx4RQv/n
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-While this thread seems to be settled on refcounts already, just wanted
-to point out that it wouldn't be ideal to prevent migrations by
-a_ops->migrate_page() rejecting them. It would mean cputime wasted (i.e.
-by memory compaction) by isolating the pages for migration and then
-releasing them after the callback rejects it (at least we wouldn't waste
-time creating and undoing migration entries in the userspace page tables
-as there's no mmap). Elevated refcount on the other hand is detected
-very early in compaction so no isolation is attempted, so from that
-aspect it's optimal.
+On Mon, Jan 23, 2023 at 02:39:35PM +0100, Alexandre Ghiti wrote:
+> Hi Conor,
+>=20
+> On 1/23/23 12:53, Conor Dooley wrote:
+> > Hey Alex,
+> >=20
+> > On Mon, Jan 23, 2023 at 11:48:41AM +0100, Alexandre Ghiti wrote:
+> > > Add 2 early command line parameters that allow to downgrade satp mode
+> > > (using the same naming as x86):
+> > > - "no5lvl": use a 4-level page table (down from sv57 to sv48)
+> > > - "no4lvl": use a 3-level page table (down from sv57/sv48 to sv39)
+> > >=20
+> > > Note that going through the device tree to get the kernel command line
+> > > works with ACPI too since the efi stub creates a device tree anyway w=
+ith
+> > > the command line.
+> > >=20
+> > > Also, as those params are treated very early in the boot process and =
+we
+> > > use standard device tree functions that may be kasan instrumented, we
+> > > only enable them for !KASAN configurations.
+> > >=20
+> > > Reviewed-by: Bj=F6rn T=F6pel <bjorn@kernel.org>
+> > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > > ---
+> > A changelog would be nice here, especially since this is a resend.
+>=20
+>=20
+> I think you may have commented the wrong patch, this one is wrong, hence =
+the
+> resend!
+
+Oh, sorry about that Alex! For some reason the resend never landed in my
+mailbox (I had just seen that there were two on patchwork).
+
+> > >   .../admin-guide/kernel-parameters.txt         |  9 ++-
+> > >   arch/riscv/mm/init.c                          | 72 ++++++++++++++++=
++--
+> > >   2 files changed, 74 insertions(+), 7 deletions(-)
+> > >=20
+> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Docume=
+ntation/admin-guide/kernel-parameters.txt
+> > > index 6cfa6e3996cf..fd647412ec91 100644
+> > > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > > @@ -3578,8 +3578,15 @@
+> > >   			emulation library even if a 387 maths coprocessor
+> > >   			is present.
+> > > -	no5lvl		[X86-64] Disable 5-level paging mode. Forces
+> > > +	no4lvl		[RISCV] Disable 4-level and 5-level paging modes. Forces
+> > > +			kernel to use 3-level paging instead.
+> > > +			Note: On RISC-V, this can't be used when KASAN is
+> > > +			enabled.
+> > > +
+> > > +	no5lvl		[X86-64,RISCV] Disable 5-level paging mode. Forces
+> > >   			kernel to use 4-level paging instead.
+> > > +			Note: On RISC-V, this can't be used when KASAN is
+> > > +			enabled.
+> > >   	nofsgsbase	[X86] Disables FSGSBASE instructions.
+> > For the improved descriptions & commit message:
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+>=20
+>=20
+> Thanks for that, would you mind adding that to the resend patch?
+
+Yah, no problem.
+
+
+
+--UiaEVa5YDx4RQv/n
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY86U1AAKCRB4tDGHoIJi
+0imrAQDr67fpe2CRsNEFP9GsTsQ0z2nPPr0ABLhuiUAxIx7oSQEA7Hc3dTb6PuoN
+cjZOoZgwfZCavRbAR0WI1222Xo1v5gE=
+=74yN
+-----END PGP SIGNATURE-----
+
+--UiaEVa5YDx4RQv/n--
