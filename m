@@ -2,119 +2,200 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C63FC05027
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 13:39:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD327C05027
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 13:49:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231496AbjAWNjw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 08:39:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60240 "EHLO
+        id S231480AbjAWNtY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 08:49:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231873AbjAWNjr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 08:39:47 -0500
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5C25D52F;
-        Mon, 23 Jan 2023 05:39:43 -0800 (PST)
-Received: (Authenticated sender: alex@ghiti.fr)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7B60C100011;
-        Mon, 23 Jan 2023 13:39:36 +0000 (UTC)
-Message-ID: <95d81c9a-11de-7f92-cb76-e4492e9faba8@ghiti.fr>
-Date:   Mon, 23 Jan 2023 14:39:35 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3] riscv: Allow to downgrade paging mode from the command
-Content-Language: en-US
-To:     Conor Dooley <conor.dooley@microchip.com>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-References: <20230123104841.813999-1-alexghiti@rivosinc.com>
- <Y851L2KgfIF3V6of@wendy>
-From:   Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <Y851L2KgfIF3V6of@wendy>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S231701AbjAWNtW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 08:49:22 -0500
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5788FE061;
+        Mon, 23 Jan 2023 05:49:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674481741; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=k9rIbrW31TPgXGxiYn6dtFl/xtP7A5i2WCOSQMMnse75hdbpqIuXwDp2Puak+XhusU6HoJwHZbAGKiYxKT6zD3lOQb2Dmj/AMRB1L/2kYXEpKBlimw7qeqHFNq9njarupq3DK4Zjob/QQ1IKv5z0CF8uOj4wkosVfMzttGqXIhg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1674481741; h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=wPo6/5OGwSEpd6KmDAAdxqVBmXpM9Q5Qw5FRFWB3ZyM=; 
+        b=KeG+P18kvd6PomzPIe0+3YungIO9fk42e+zWD6ZU5XBTh0l8c7XzrOJ7blSD5wErahF2QDo2X9p5jm6XSKR1BulOqdqzWJhZoSIMmc7lOyrmn/aOKdZh/rL98oKQfxCtSNSx1hSOY8wo+m1kUK7gYR3QnLgwHf6sFgH/jx19Zb8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=linux.beauty;
+        spf=pass  smtp.mailfrom=me@linux.beauty;
+        dmarc=pass header.from=<me@linux.beauty>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1674481741;
+        s=zmail; d=linux.beauty; i=me@linux.beauty;
+        h=Date:Date:Message-ID:From:From:To:To:Cc:Cc:Subject:Subject:In-Reply-To:References:MIME-Version:Content-Type:Message-Id:Reply-To;
+        bh=wPo6/5OGwSEpd6KmDAAdxqVBmXpM9Q5Qw5FRFWB3ZyM=;
+        b=XRoo+eJ6y0OWvd/jJF/rU+G2Myc0c6q1TJfZh4DNtPRsYPVvsHzVDyIj8Sgoheuy
+        8fdT7Oo0m3epYpg2H+OUlpsoKOUuymwRAFy7Jxqjk/evr0mJK1ImcjChf1MGxzt17UH
+        uW4+LOhDzIXt9uDSiZEoJjFmQlSh8nGeV/kMsPsg=
+Received: from lchen-xiaoxin.linux.beauty (183.211.210.143 [183.211.210.143]) by mx.zohomail.com
+        with SMTPS id 1674481738580314.20894661830573; Mon, 23 Jan 2023 05:48:58 -0800 (PST)
+Date:   Mon, 23 Jan 2023 21:47:37 +0800
+Message-ID: <87a629icqu.wl-me@linux.beauty>
+From:   Li Chen <me@linux.beauty>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Li Chen <lchen@ambarella.com>, Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 01/15] debugfs: allow to use regmap for print regs
+In-Reply-To: <Y851DWfj+hZIiR38@kroah.com>
+References: <20230123073305.149940-1-lchen@ambarella.com>
+        <20230123073305.149940-2-lchen@ambarella.com>
+        <Y851DWfj+hZIiR38@kroah.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-ZohoMailClient: External
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Conor,
 
-On 1/23/23 12:53, Conor Dooley wrote:
-> Hey Alex,
+Hi Greg,
+
+On Mon, 23 Jan 2023 19:52:45 +0800,
+Greg Kroah-Hartman wrote:
 >
-> On Mon, Jan 23, 2023 at 11:48:41AM +0100, Alexandre Ghiti wrote:
->> Add 2 early command line parameters that allow to downgrade satp mode
->> (using the same naming as x86):
->> - "no5lvl": use a 4-level page table (down from sv57 to sv48)
->> - "no4lvl": use a 3-level page table (down from sv57/sv48 to sv39)
->>
->> Note that going through the device tree to get the kernel command line
->> works with ACPI too since the efi stub creates a device tree anyway with
->> the command line.
->>
->> Also, as those params are treated very early in the boot process and we
->> use standard device tree functions that may be kasan instrumented, we
->> only enable them for !KASAN configurations.
->>
->> Reviewed-by: Björn Töpel <bjorn@kernel.org>
->> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
->> ---
-> A changelog would be nice here, especially since this is a resend.
-
-
-I think you may have commented the wrong patch, this one is wrong, hence 
-the resend!
-
-
+> On Mon, Jan 23, 2023 at 03:32:16PM +0800, Li Chen wrote:
+> > Currently, debugfs_regset32 only contains void __iomem *base,
+> > and it is not friendly to regmap user.
+> >
+> > Let's add regmap to debugfs_regset32, and add regmap
+> > support to debugfs_print_reg32.
+> >
+> > Signed-off-by: Li Chen <me@linux.beauty>
+> > Change-Id: I8ef015ed0906a4ad85b7592f771dcf64c23f7832
 >
->>   .../admin-guide/kernel-parameters.txt         |  9 ++-
->>   arch/riscv/mm/init.c                          | 72 +++++++++++++++++--
->>   2 files changed, 74 insertions(+), 7 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index 6cfa6e3996cf..fd647412ec91 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -3578,8 +3578,15 @@
->>   			emulation library even if a 387 maths coprocessor
->>   			is present.
->>   
->> -	no5lvl		[X86-64] Disable 5-level paging mode. Forces
->> +	no4lvl		[RISCV] Disable 4-level and 5-level paging modes. Forces
->> +			kernel to use 3-level paging instead.
->> +			Note: On RISC-V, this can't be used when KASAN is
->> +			enabled.
->> +
->> +	no5lvl		[X86-64,RISCV] Disable 5-level paging mode. Forces
->>   			kernel to use 4-level paging instead.
->> +			Note: On RISC-V, this can't be used when KASAN is
->> +			enabled.
->>   
->>   	nofsgsbase	[X86] Disables FSGSBASE instructions.
->>   
-> For the improved descriptions & commit message:
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> No change-id please.
 
+Sorry, my bad, will remove it in v2.
 
-Thanks for that, would you mind adding that to the resend patch?
-
-Thanks again,
-
-Alex
-
-
+> > ---
+> >  Documentation/filesystems/debugfs.rst |  2 ++
+> >  fs/debugfs/file.c                     | 43 ++++++++++++++++++++++++++-
+> >  include/linux/debugfs.h               | 11 +++++++
+> >  3 files changed, 55 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/filesystems/debugfs.rst b/Documentation/filesystems/debugfs.rst
+> > index dc35da8b8792..b2c76ac3a333 100644
+> > --- a/Documentation/filesystems/debugfs.rst
+> > +++ b/Documentation/filesystems/debugfs.rst
+> > @@ -178,6 +178,8 @@ file::
+> >
+> >      void debugfs_print_regs32(struct seq_file *s, const struct debugfs_reg32 *regs,
+> >  			 int nregs, void __iomem *base, char *prefix);
+> > +    void debugfs_print_regmap_regs32(struct seq_file *s, const struct debugfs_reg32 *regs,
+> > +			 int nregs, struct regmap *regmap*, char *prefix);
 >
-> Thanks,
-> Conor.
+> One too many "*" characters on that last line, right?
+
+Good catch! I will remove it in V2.
+
+> >
+> >  The "base" argument may be 0, but you may want to build the reg32 array
+> >  using __stringify, and a number of register names (macros) are actually
+> > diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
+> > index b54f470e0d03..2fb792843b30 100644
+> > --- a/fs/debugfs/file.c
+> > +++ b/fs/debugfs/file.c
+> > @@ -1137,14 +1137,55 @@ void debugfs_print_regs32(struct seq_file *s, const struct debugfs_reg32 *regs,
+> >  }
+> >  EXPORT_SYMBOL_GPL(debugfs_print_regs32);
+> >
+> > +/**
+> > + * debugfs_print_regmap_regs32 - use seq_print to describe a set of registers
+> > + * @s: the seq_file structure being used to generate output
+> > + * @regs: an array if struct debugfs_reg32 structures
+> > + * @nregs: the length of the above array
+> > + * @regmap: regmap to be used in reading the registers
+> > + * @prefix: a string to be prefixed to every output line
+> > + *
+> > + * This function outputs a text block describing the current values of
+> > + * some 32-bit hardware registers. It is meant to be used within debugfs
+> > + * files based on seq_file that need to show registers, intermixed with other
+> > + * information. The prefix argument may be used to specify a leading string,
+> > + * because some peripherals have several blocks of identical registers,
+> > + * for example configuration of dma channels
+> > + */
+> > +void debugfs_print_regmap_regs32(struct seq_file *s, const struct debugfs_reg32 *regs,
+> > +			  int nregs, struct regmap *regmap, char *prefix)
+> > +{
+> > +	int i;
+> > +	u32 val;
+> > +
+> > +	for (i = 0; i < nregs; i++, regs++) {
+> > +		if (prefix)
+> > +			seq_printf(s, "%s", prefix);
+> > +		regmap_read(regmap, regs->offset, &val);
+> > +		seq_printf(s, "%s = 0x%08x\n", regs->name, val);
+> > +		if (seq_has_overflowed(s))
+> > +			break;
+> > +	}
+> > +}
+> > +EXPORT_SYMBOL_GPL(debugfs_print_regmap_regs32);
+> > +
+> >  static int debugfs_regset32_show(struct seq_file *s, void *data)
+> >  {
+> >  	struct debugfs_regset32 *regset = s->private;
+> >
+> > +	void __iomem *base = regset->base;
+> > +	struct regmap *regmap = regset->regmap;
 >
+> Why the extra blank line?  Did you run checkpatch?
+
+Yeah, I do checkpatch & sparse(coccinelle crash somehow)
+for all my patches(but forget to remove gerrit's Change-ID finally, sorry).
+
+checkpatch didn't find this extra blank line.
+
+I will remove it in v2, thanks!
+
+> And it's generally not considered a good idea to dereference a pointer
+> _before_ it is checked.  It will not crash, but static checkers will
+> have a field day with it.
+
+Ok, will check regset before access in v2.
+
+> > +
+> > +	if ((regmap && base) || (!regmap && !base))
+> > +		return -EINVAL;
+> > +
+> >  	if (regset->dev)
+> >  		pm_runtime_get_sync(regset->dev);
+> >
+> > -	debugfs_print_regs32(s, regset->regs, regset->nregs, regset->base, "");
+> > +	if (base)
+> > +		debugfs_print_regs32(s, regset->regs, regset->nregs, base, "");
+> > +	else
+> > +		debugfs_print_regmap_regs32(s, regset->regs, regset->nregs, regmap, "");
+> >
+> >  	if (regset->dev)
+> >  		pm_runtime_put(regset->dev);
+> > diff --git a/include/linux/debugfs.h b/include/linux/debugfs.h
+> > index ea2d919fd9c7..87dfea6a25a0 100644
+> > --- a/include/linux/debugfs.h
+> > +++ b/include/linux/debugfs.h
+> > @@ -17,6 +17,7 @@
+> >
+> >  #include <linux/types.h>
+> >  #include <linux/compiler.h>
+> > +#include <linux/regmap.h>
 >
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+> No need to include this here, just provide a prototype for "struct
+> regmap" and all will be fine.
+
+Well noted, I will forward declare "struct regmap" in debugfs.h,
+and move regmap.h to debugfs.c(regmap_read is used here).
+
+Thanks for your review.
+
+Regards,
+Li
