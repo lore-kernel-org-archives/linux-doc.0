@@ -2,28 +2,28 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8952C05027
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 18:05:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 021E2C25B50
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 18:05:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233499AbjAWSE7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S233634AbjAWSE7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 23 Jan 2023 13:04:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44856 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233850AbjAWSE4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 13:04:56 -0500
+        with ESMTP id S233830AbjAWSEv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 13:04:51 -0500
 Received: from 66-220-144-178.mail-mxout.facebook.com (66-220-144-178.mail-mxout.facebook.com [66.220.144.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 822F3421F
-        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 10:04:55 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36879DBC3
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 10:04:50 -0800 (PST)
 Received: by dev0134.prn3.facebook.com (Postfix, from userid 425415)
-        id 6F5EE5616BE9; Mon, 23 Jan 2023 09:37:56 -0800 (PST)
+        id 910905616BFB; Mon, 23 Jan 2023 09:37:56 -0800 (PST)
 From:   Stefan Roesch <shr@devkernel.io>
 To:     linux-mm@kvack.org
 Cc:     shr@devkernel.io, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-kselftest@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: [RESEND RFC PATCH v1 12/20] mm: add ksm_merge_type() function
-Date:   Mon, 23 Jan 2023 09:37:40 -0800
-Message-Id: <20230123173748.1734238-13-shr@devkernel.io>
+Subject: [RESEND RFC PATCH v1 20/20] selftests/vm: add two functions for debugging merge outcome
+Date:   Mon, 23 Jan 2023 09:37:48 -0800
+Message-Id: <20230123173748.1734238-21-shr@devkernel.io>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230123173748.1734238-1-shr@devkernel.io>
 References: <20230123173748.1734238-1-shr@devkernel.io>
@@ -33,51 +33,96 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This adds the ksm_merge_type function. The function returns the merge
-type for the process. For madvise it returns "madvise", for prctl it
-returns "process" and otherwise it returns "none".
+This adds two functions to report the metrics in /proc/self/ksm_stat and
+/sys/kernel/debug/mm/ksm.
+
+The debugging can be enabled with the following command line:
+make -C tools/testing/selftests TARGETS=3D"vm" --keep-going \
+        EXTRA_CFLAGS=3D-DDEBUG=3D1
 
 Signed-off-by: Stefan Roesch <shr@devkernel.io>
 ---
- include/linux/ksm.h |  1 +
- mm/ksm.c            | 11 +++++++++++
- 2 files changed, 12 insertions(+)
+ tools/testing/selftests/vm/ksm_tests.c | 54 ++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
-diff --git a/include/linux/ksm.h b/include/linux/ksm.h
-index a18cd03efcfb..d5f69f18ee5a 100644
---- a/include/linux/ksm.h
-+++ b/include/linux/ksm.h
-@@ -57,6 +57,7 @@ void folio_migrate_ksm(struct folio *newfolio, struct f=
-olio *folio);
-=20
- #ifdef CONFIG_PROC_FS
- long ksm_process_profit(struct mm_struct *);
-+const char *ksm_merge_type(struct mm_struct *mm);
- #endif /* CONFIG_PROC_FS */
-=20
- #else  /* !CONFIG_KSM */
-diff --git a/mm/ksm.c b/mm/ksm.c
-index 288689b59527..57183deaf529 100644
---- a/mm/ksm.c
-+++ b/mm/ksm.c
-@@ -2941,6 +2941,17 @@ long ksm_process_profit(struct mm_struct *mm)
- 	return (long)mm->ksm_merging_pages * PAGE_SIZE -
- 		mm->ksm_rmap_items * sizeof(struct ksm_rmap_item);
+diff --git a/tools/testing/selftests/vm/ksm_tests.c b/tools/testing/selft=
+ests/vm/ksm_tests.c
+index a0a48ac43b29..9fb21b982dc9 100644
+--- a/tools/testing/selftests/vm/ksm_tests.c
++++ b/tools/testing/selftests/vm/ksm_tests.c
+@@ -93,6 +93,55 @@ static int ksm_read_sysfs(const char *file_path, unsig=
+ned long *val)
+ 	return 0;
  }
-+
-+/* Return merge type name as string. */
-+const char *ksm_merge_type(struct mm_struct *mm)
-+{
-+	if (test_bit(MMF_VM_MERGE_ANY, &mm->flags))
-+		return "process";
-+	else if (test_bit(MMF_VM_MERGEABLE, &mm->flags))
-+		return "madvise";
-+	else
-+		return "none";
-+}
- #endif /* CONFIG_PROC_FS */
 =20
- #ifdef CONFIG_SYSFS
++#ifdef DEBUG
++static void ksm_print_sysfs(void)
++{
++	unsigned long max_page_sharing, pages_sharing, pages_shared;
++	unsigned long full_scans, pages_unshared, pages_volatile;
++	unsigned long stable_node_chains, stable_node_dups;
++	long general_profit;
++
++	if (ksm_read_sysfs(KSM_FP("pages_shared"), &pages_shared) ||
++	    ksm_read_sysfs(KSM_FP("pages_sharing"), &pages_sharing) ||
++	    ksm_read_sysfs(KSM_FP("max_page_sharing"), &max_page_sharing) ||
++	    ksm_read_sysfs(KSM_FP("full_scans"), &full_scans) ||
++	    ksm_read_sysfs(KSM_FP("pages_unshared"), &pages_unshared) ||
++	    ksm_read_sysfs(KSM_FP("pages_volatile"), &pages_volatile) ||
++	    ksm_read_sysfs(KSM_FP("stable_node_chains"), &stable_node_chains) |=
+|
++	    ksm_read_sysfs(KSM_FP("stable_node_dups"), &stable_node_dups) ||
++	    ksm_read_sysfs(KSM_FP("general_profit"), (unsigned long *)&general_=
+profit))
++		return;
++
++	printf("pages_shared      : %lu\n", pages_shared);
++	printf("pages_sharing     : %lu\n", pages_sharing);
++	printf("max_page_sharing  : %lu\n", max_page_sharing);
++	printf("full_scans        : %lu\n", full_scans);
++	printf("pages_unshared    : %lu\n", pages_unshared);
++	printf("pages_volatile    : %lu\n", pages_volatile);
++	printf("stable_node_chains: %lu\n", stable_node_chains);
++	printf("stable_node_dups  : %lu\n", stable_node_dups);
++	printf("general_profit    : %ld\n", general_profit);
++}
++
++static void ksm_print_procfs(void)
++{
++	const char *file_name =3D "/proc/self/ksm_stat";
++	char buffer[512];
++	FILE *f =3D fopen(file_name, "r");
++
++	if (!f) {
++		fprintf(stderr, "f %s\n", file_name);
++		perror("fopen");
++		return;
++	}
++
++	while (fgets(buffer, sizeof(buffer), f))
++		printf("%s", buffer);
++
++	fclose(f);
++}
++#endif
++
+ static int str_to_prot(char *prot_str)
+ {
+ 	int prot =3D 0;
+@@ -237,6 +286,11 @@ static bool assert_ksm_pages_count(long dupl_page_co=
+unt)
+ 	    ksm_read_sysfs(KSM_FP("max_page_sharing"), &max_page_sharing))
+ 		return false;
+=20
++#ifdef DEBUG
++	ksm_print_sysfs();
++	ksm_print_procfs();
++#endif
++
+ 	/*
+ 	 * Since there must be at least 2 pages for merging and 1 page can be
+ 	 * shared with the limited number of pages (max_page_sharing), sometime=
+s
 --=20
 2.30.2
 
