@@ -2,76 +2,71 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52B01C05027
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 18:18:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2769C25B50
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 18:39:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232514AbjAWSSf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 13:18:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57256 "EHLO
+        id S232693AbjAWSjy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 13:39:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229607AbjAWSSf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 13:18:35 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46B586A75;
-        Mon, 23 Jan 2023 10:18:34 -0800 (PST)
+        with ESMTP id S232738AbjAWSjs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 13:39:48 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1DBB22DC8;
+        Mon, 23 Jan 2023 10:39:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=oIJtijJAfo7pkYR5UjBbFNIZgVF+VVBQIc+R8PBD3Zk=; b=augdeIPTUoKE/vgKlD6Pf9JBUK
-        26l9wI+rlvx50HNr67FttXDJ7BrEngcLZUd/xhsA12HrsaKM+Epz7YLgQk+Cvw4OC3p8T9IJkzhEs
-        NV7aSfnLxJMzuIID6a4CnZ4ZpGNb4zKERpLGQBqVd7itPqQjuBAPPbM0p+dE9pWwdiLrTibLVaT3J
-        OMdgCLcBeVbKcsj0s6Vc+3bJG7h7DkLiV886LJbEdXYi4wveWiD6bN8jvyg7D8gJfkZAAM3YyRiWn
-        1PEJtrViUT3f/3OWisCbWJccE0eXH+mDw3e/7lDHR3xnGi1LNfHtwj4Ny33xoFeHDduxNyDKRF59n
-        V/PMv1Gg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pK1Ok-004Qs4-Be; Mon, 23 Jan 2023 18:18:26 +0000
-Date:   Mon, 23 Jan 2023 18:18:26 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH] printk: Document that CONFIG_BOOT_PRINTK_DELAY required
- for boot_delay=
-Message-ID: <Y87Pcu0ZJKOiQQRY@casper.infradead.org>
-References: <20230123180440.901793-1-helgaas@kernel.org>
+        d=infradead.org; s=bombadil.20210309; h=Sender:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=GYeGWMkYLov4QK4pkK8lvvB+kYPg+vVKNOZaYmrHXbY=; b=hKBjTdmagqddwOXhL9SHigxZJ5
+        3Gij3l2SPXkefz85Oh87vkxqVE/l/y03ca8YWVnqdFtP49vRmFv+d2GCUzf/qFDw7mNZxpn5ifRZe
+        Il61AJ9blRyUOVoWoVdIU2iV6ehnOeWTiCJNnUlJpbhw1QCMH5edw2xCmfys0wFbakccOvW5vRiQd
+        nMyZM7rDnn9WrBUXcZJGD3NNjOqwZqLt5Vi54BPOQipWRWoeRDwCpqCSpVbZFnlP1dF0cwLcxrp2j
+        IoFvvRJeZ1R/sFiL3inNcE8cf5c56kc1bMJUHTw2Pf7YILmEJ35x+ue8QT6uqn+TyC6v101nvDpDf
+        M5rIfUrg==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pK1jC-0012wu-JU; Mon, 23 Jan 2023 18:39:34 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     corbet@lwn.net, gregkh@linuxfoundation.org,
+        javier.gonz@samsung.com, linux-doc@vger.kernel.org
+Cc:     a.manzanares@samsung.com, dave@stgolabs.net,
+        darren@os.amperecomputing.com, catalin.marinas@arm.com,
+        mcgrof@kernel.org, ndesaulniers@google.com, gost.dev@samsung.com,
+        linux-kernel@vger.kernel.org,
+        Luis Chamberlain <mcgrof.c@samsung.com>
+Subject: [PATCH] docs: embargoed-hardware-issues: add embargoed HW contact for Samsung
+Date:   Mon, 23 Jan 2023 10:39:26 -0800
+Message-Id: <20230123183926.249601-1-mcgrof@kernel.org>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230123180440.901793-1-helgaas@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 12:04:40PM -0600, Bjorn Helgaas wrote:
-> From: Bjorn Helgaas <bhelgaas@google.com>
-> 
-> Document the fact that CONFIG_BOOT_PRINTK_DELAY must be enabled for the
-> "boot_delay" kernel parameter to work.  Also mention that "lpj=" may be
-> necessary.
-> 
-> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 6cfa6e3996cf..b0b40b6a765c 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -480,8 +480,9 @@
->  			See Documentation/block/cmdline-partition.rst
->  
->  	boot_delay=	Milliseconds to delay each printk during boot.
-> -			Values larger than 10 seconds (10000) are changed to
-> -			no delay (0).
-> +			Enable CONFIG_BOOT_PRINTK_DELAY and also specify
-> +			"lpj=".  Boot_delay values larger than 10 seconds
-> +			(10000) are changed to no delay (0).
+After discussions internally at the company, Javier has been volunteered
+and is willing to be the embargoed hardware contact for Samsung.
 
-That's counterintuitive.  I'd understand clamping it to 10 seconds,
-but not setting it to zero.
+Cc: Javier González <javier.gonz@samsung.com>
+Signed-off-by: Luis Chamberlain <mcgrof.c@samsung.com>
+---
+ Documentation/process/embargoed-hardware-issues.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-Also, there are two ways of reading this.  One is that by specifying
-boot_delay=, lpj= is set to a sane value.  The other (intended?) is
-that in order to use this option, you must also specify lpj=.
+diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+index b6b4481e2474..fbb754253cf7 100644
+--- a/Documentation/process/embargoed-hardware-issues.rst
++++ b/Documentation/process/embargoed-hardware-issues.rst
+@@ -251,6 +251,7 @@ an involved disclosed party. The current ambassadors list:
+   IBM Z		Christian Borntraeger <borntraeger@de.ibm.com>
+   Intel		Tony Luck <tony.luck@intel.com>
+   Qualcomm	Trilok Soni <tsoni@codeaurora.org>
++  Samsung       Javier González <javier.gonz@samsung.com>
+ 
+   Microsoft	James Morris <jamorris@linux.microsoft.com>
+   VMware
+-- 
+2.35.1
+
