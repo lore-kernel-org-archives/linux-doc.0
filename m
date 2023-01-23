@@ -2,132 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB37BC25B50
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 17:56:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EC20C25B50
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 17:56:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231994AbjAWR4F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 12:56:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34406 "EHLO
+        id S232810AbjAWR4n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 12:56:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232783AbjAWR4B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 12:56:01 -0500
-X-Greylist: delayed 1072 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 23 Jan 2023 09:56:00 PST
+        with ESMTP id S232580AbjAWR4m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 12:56:42 -0500
 Received: from 66-220-144-178.mail-mxout.facebook.com (66-220-144-178.mail-mxout.facebook.com [66.220.144.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8152D2CFFC
-        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 09:56:00 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A201F2CFE8
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 09:56:41 -0800 (PST)
 Received: by dev0134.prn3.facebook.com (Postfix, from userid 425415)
-        id 3F89A5616BD1; Mon, 23 Jan 2023 09:37:56 -0800 (PST)
+        id 4EC195616BD9; Mon, 23 Jan 2023 09:37:56 -0800 (PST)
 From:   Stefan Roesch <shr@devkernel.io>
 To:     linux-mm@kvack.org
 Cc:     shr@devkernel.io, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-kselftest@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: [RESEND RFC PATCH v1 00/20] mm: process/cgroup ksm support
-Date:   Mon, 23 Jan 2023 09:37:28 -0800
-Message-Id: <20230123173748.1734238-1-shr@devkernel.io>
+Subject: [RESEND RFC PATCH v1 04/20] mm: invoke madvise for all vmas in scan_get_next_rmap_item
+Date:   Mon, 23 Jan 2023 09:37:32 -0800
+Message-Id: <20230123173748.1734238-5-shr@devkernel.io>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230123173748.1734238-1-shr@devkernel.io>
+References: <20230123173748.1734238-1-shr@devkernel.io>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-So far KSM can only be enabled by calling madvise for memory regions. Wha=
-t is
-required to enable KSM for more workloads is to enable / disable it at th=
-e
-process / cgroup level.
+If the new flag MMF_VM_MERGE_ANY has been set for a process, iterate
+over all the vmas and enable ksm if possible. For the vmas that can be
+ksm enabled this is only done once.
 
-1. New options for prctl system command
-This patch series adds two new options to the prctl system call. The firs=
-t
-one allows to enable KSM at the process level and the second one to query=
- the
-setting.
+Signed-off-by: Stefan Roesch <shr@devkernel.io>
+---
+ mm/ksm.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-The setting will be inherited by child processes.
-
-With the above setting, KSM can be enabled for the seed process of a cgro=
-up
-and all processes in the cgroup will inherit the setting.
-
-2. Changes to KSM processing
-When KSM is enabled at the process level, the KSM code will iterate over =
-all
-the VMA's and enable KSM for the eligible VMA's.
-
-When forking a process that has KSM enabled, the setting will be inherite=
-d by
-the new child process.
-
-In addition when KSM is disabled for a process, KSM will be disabled for =
-the
-VMA's where KSM has been enabled.
-
-3. Add tracepoints to KSM
-Currently KSM has no tracepoints. This adds tracepoints to the key KSM fu=
-nctions
-to make it easier to debug KSM.
-
-4. Add general_profit metric
-The general_profit metric of KSM is specified in the documentation, but n=
-ot
-calculated. This adds the general profit metric to /sys/kernel/debug/mm/k=
-sm.
-
-5. Add more metrics to ksm_stat
-This adds the process profit and ksm type metric to /proc/<pid>/ksm_stat.
-
-6. Add more tests to ksm_tests
-This adds an option to specify the merge type to the ksm_tests. This allo=
-ws to
-test madvise and prctl KSM. It also adds a new option to query if prctl K=
-SM has
-been enabled. It adds a fork test to verify that the KSM process setting =
-is
-inherited by client processes.
-
-
-Stefan Roesch (20):
-  mm: add new flag to enable ksm per process
-  mm: add flag to __ksm_enter
-  mm: add flag to __ksm_exit call
-  mm: invoke madvise for all vmas in scan_get_next_rmap_item
-  mm: support disabling of ksm for a process
-  mm: add new prctl option to get and set ksm for a process
-  mm: add tracepoints to ksm
-  mm: split off pages_volatile function
-  mm: expose general_profit metric
-  docs: document general_profit sysfs knob
-  mm: calculate ksm process profit metric
-  mm: add ksm_merge_type() function
-  mm: expose ksm process profit metric in ksm_stat
-  mm: expose ksm merge type in ksm_stat
-  docs: document new procfs ksm knobs
-  tools: add new prctl flags to prctl in tools dir
-  selftests/vm: add KSM prctl merge test
-  selftests/vm: add KSM get merge type test
-  selftests/vm: add KSM fork test
-  selftests/vm: add two functions for debugging merge outcome
-
- Documentation/ABI/testing/sysfs-kernel-mm-ksm |   8 +
- Documentation/admin-guide/mm/ksm.rst          |   8 +-
- MAINTAINERS                                   |   1 +
- fs/proc/base.c                                |   5 +
- include/linux/ksm.h                           |  19 +-
- include/linux/sched/coredump.h                |   1 +
- include/trace/events/ksm.h                    | 257 ++++++++++++++++++
- include/uapi/linux/prctl.h                    |   2 +
- kernel/sys.c                                  |  29 ++
- mm/ksm.c                                      | 134 ++++++++-
- tools/include/uapi/linux/prctl.h              |   2 +
- tools/testing/selftests/vm/Makefile           |   3 +-
- tools/testing/selftests/vm/ksm_tests.c        | 254 ++++++++++++++---
- 13 files changed, 665 insertions(+), 58 deletions(-)
- create mode 100644 include/trace/events/ksm.h
-
-
-base-commit: c1649ec55708ae42091a2f1bca1ab49ecd722d55
+diff --git a/mm/ksm.c b/mm/ksm.c
+index 83796328574c..967eda719fab 100644
+--- a/mm/ksm.c
++++ b/mm/ksm.c
+@@ -1013,6 +1013,7 @@ static int unmerge_and_remove_all_rmap_items(void)
+=20
+ 			mm_slot_free(mm_slot_cache, mm_slot);
+ 			clear_bit(MMF_VM_MERGEABLE, &mm->flags);
++			clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
+ 			mmdrop(mm);
+ 		} else
+ 			spin_unlock(&ksm_mmlist_lock);
+@@ -2243,6 +2244,17 @@ static struct ksm_rmap_item *get_next_rmap_item(st=
+ruct ksm_mm_slot *mm_slot,
+ 	return rmap_item;
+ }
+=20
++static bool vma_ksm_mergeable(struct vm_area_struct *vma)
++{
++	if (vma->vm_flags & VM_MERGEABLE)
++		return true;
++
++	if (test_bit(MMF_VM_MERGE_ANY, &vma->vm_mm->flags))
++		return true;
++
++	return false;
++}
++
+ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+ {
+ 	struct mm_struct *mm;
+@@ -2319,8 +2331,20 @@ static struct ksm_rmap_item *scan_get_next_rmap_it=
+em(struct page **page)
+ 		goto no_vmas;
+=20
+ 	for_each_vma(vmi, vma) {
+-		if (!(vma->vm_flags & VM_MERGEABLE))
++		if (!vma_ksm_mergeable(vma))
+ 			continue;
++		if (!(vma->vm_flags & VM_MERGEABLE)) {
++			unsigned long flags =3D vma->vm_flags;
++
++			/* madvise failed, use next vma */
++			if (ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_MERGEABLE, &fla=
+gs))
++				continue;
++			/* vma, not supported as being mergeable */
++			if (!(flags & VM_MERGEABLE))
++				continue;
++
++			vma->vm_flags =3D flags;
++		}
+ 		if (ksm_scan.address < vma->vm_start)
+ 			ksm_scan.address =3D vma->vm_start;
+ 		if (!vma->anon_vma)
+@@ -2389,6 +2413,7 @@ static struct ksm_rmap_item *scan_get_next_rmap_ite=
+m(struct page **page)
+=20
+ 		mm_slot_free(mm_slot_cache, mm_slot);
+ 		clear_bit(MMF_VM_MERGEABLE, &mm->flags);
++		clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
+ 		mmap_read_unlock(mm);
+ 		mmdrop(mm);
+ 	} else {
 --=20
 2.30.2
 
