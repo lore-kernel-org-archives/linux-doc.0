@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84A48C54EB4
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 10:48:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 213B6C05027
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 10:51:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231828AbjAWKs4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 05:48:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35716 "EHLO
+        id S231883AbjAWKvk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 05:51:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231877AbjAWKsu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 05:48:50 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 479AA2D76
-        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 02:48:48 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id d2so10349345wrp.8
-        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 02:48:48 -0800 (PST)
+        with ESMTP id S231836AbjAWKvj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 05:51:39 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6937D46B1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 02:51:38 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id f12-20020a7bc8cc000000b003daf6b2f9b9so10264104wml.3
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 02:51:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=B8g2lbRRVQxElqC+vhwxvlAd9Yl9IHH5TPADK+PZ98Q=;
-        b=2UwllXEV1F4+37rtQa+xgzMqL7ieZGIS5R90acCmnh/NFf54gvz12Z2D7DZRryf2Kw
-         5JKxKy+0HL4QeXeBhvERCl4u7ebN29K1u0svY3d4dZO4jmXjDp1HqI9CnJ2qhDE5yCHY
-         tL9uxcgeN6euhtF5uxKAzYylIY++cbUzwdhkjLjxQatr+RISnAsFA0CC4HRpJ1ZjoiZE
-         R/CK5wbz/6o0W9L3dj7e90x7LSqWtsTh6qDw1Pdut+yByYKO6T4z94ls5LZoCYBr+AFX
-         S1ZkPwWZeMLv+dJ4WfkbYXKdbvOsZpYYOa2ioaiChOOymuKDMNc4azdVyMiqDG/GWwxg
-         FmiA==
+        bh=iNaYtofYaUyTu++408RIjM6QxaU0XNloE1hvcqkby0M=;
+        b=rDa7owbGuSkE3kuoTleIjKtzirtAYql6CGKhcf0keDRcGl8pQsGjMYN73lFNqOV8hk
+         ErtqRBPbWZj36cGdiBrSqyT8VHMI4qXnK1gsOConP8PyaMMIgjDYbB1Lp2zQ3UEgFmRF
+         U+ewrNjsq3dFBWjsWv5YJYXI6Dns592TJdXxosTgtZMWJ94djjfLsqZvFqUQT5AH+1N+
+         a8wrvnK6MgYThcOuiAUKAmicd+/zgQTc0WlirsKVLjium4bhLYXr+2eqopXoY6u8654e
+         amLr/0tIIq7Z5wCxQgwJnHZhGuYdsUftHIfu/DbhohTPIZ/gEFdGuwJ9e9k17Sxo96IP
+         zoMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=B8g2lbRRVQxElqC+vhwxvlAd9Yl9IHH5TPADK+PZ98Q=;
-        b=YJOaJwvHsc3W96sMstU9XLkoTb6ldh7jqnE5yFsHXPAXYQTDbUrrkrReovZAMIRdqi
-         Z78J1OMvzPZhsoFcR5po93Xoq9BROmwMHrKkxVK2+uMtJc0bc8HTLxsawtDAzzVuH8YW
-         6mUBhKd8V/EgikOXnaj4eEJ032o1FkoDKOldB/E5Tv1gSOqidbyURrJxCHN8ZGb7akGR
-         uwnYEkVW1+tQwXxSjwww+VK8OkUjgTJVRzDSoFuynlyiDBrz27/Tgjb3BOXorpggfb03
-         SFp7ErzeXPdgqQpU3m3Me2BmKzkf4S9JS7nF3ZJ+r+XwJWCfqTOW3eXp898ycusLGCjj
-         CHvQ==
-X-Gm-Message-State: AFqh2kpAL7SzY4c76cXsnYHXZCkLxwvOYxoOULfUzlmdk1izH66K7ISJ
-        Gd5ta7Awd5n8qEXvm/ERBYrayg==
-X-Google-Smtp-Source: AMrXdXtsA5psCjwW6D5BLbiw+fn+Rog8dlvoO4malOUPAWvs7qusWFUIgGi3ZiO22gkyt4LV76DJrg==
-X-Received: by 2002:adf:ec8d:0:b0:2bd:d7fd:6c93 with SMTP id z13-20020adfec8d000000b002bdd7fd6c93mr20023096wrn.48.1674470927875;
-        Mon, 23 Jan 2023 02:48:47 -0800 (PST)
+        bh=iNaYtofYaUyTu++408RIjM6QxaU0XNloE1hvcqkby0M=;
+        b=SbZ+3GOlYkTbcx8Q8UJ0Wngd/N+u/ZDNdeXCPXmYksDeB2/FIonA143uLU3G9PEIAI
+         PL+tierddEdmij5S5aizZRDPB7w6vrEq8RZH8AR1gejoT6neHbOv0nf3o1u95IMz3MZb
+         cb76/ZAeTWIFwHDqbEoECEDfX0f4gc2gm6tkMsyMku0rxmCYBENINr/cr1OMeCx4MPU1
+         2KKPyhS+ngvzUm7QNKEich7s+5BuYX4awLERDRBv+vQiur2ptYJagt8QdWqf3dL0FhCI
+         m8032Hs9jMbtLex5avZg2M0u6RCMP5ajc2NRYZWoZiD5EKTk7J2bUT16cYyHKk2oZzvI
+         WFdQ==
+X-Gm-Message-State: AFqh2kqfKqQxmk09zCbtt47pWCCzqJmZR/x1moigXLFj9XhzPHwqI8aX
+        5eHn6VXzEeZENjCRczMOAQjfnVJaSVSRfNZF
+X-Google-Smtp-Source: AMrXdXsAESMORx1h1OUNLEJAF0WchGSuYmV8oWCgP5HlMv9UyaB2e6hZpTe1dGLOU3jyksQeyDhkVw==
+X-Received: by 2002:a05:600c:3b05:b0:3d6:b691:b80d with SMTP id m5-20020a05600c3b0500b003d6b691b80dmr23667309wms.21.1674471096950;
+        Mon, 23 Jan 2023 02:51:36 -0800 (PST)
 Received: from alex-rivos.ba.rivosinc.com (lfbn-lyo-1-450-160.w2-7.abo.wanadoo.fr. [2.7.42.160])
-        by smtp.gmail.com with ESMTPSA id c8-20020a5d4148000000b002bdd21f25ebsm27562327wrq.71.2023.01.23.02.48.47
+        by smtp.gmail.com with ESMTPSA id o24-20020a05600c511800b003d9de0c39fasm13684770wms.36.2023.01.23.02.51.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 02:48:47 -0800 (PST)
+        Mon, 23 Jan 2023 02:51:36 -0800 (PST)
 From:   Alexandre Ghiti <alexghiti@rivosinc.com>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Paul Walmsley <paul.walmsley@sifive.com>,
@@ -57,9 +57,9 @@ To:     Jonathan Corbet <corbet@lwn.net>,
         linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
 Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
         =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>
-Subject: [PATCH v3] riscv: Allow to downgrade paging mode from the command
-Date:   Mon, 23 Jan 2023 11:48:41 +0100
-Message-Id: <20230123104841.813999-1-alexghiti@rivosinc.com>
+Subject: [PATCH resend v3] riscv: Allow to downgrade paging mode from the command line
+Date:   Mon, 23 Jan 2023 11:51:35 +0100
+Message-Id: <20230123105135.814154-1-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -84,6 +84,16 @@ only enable them for !KASAN configurations.
 Reviewed-by: Björn Töpel <bjorn@kernel.org>
 Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 ---
+
+v3:
+- Massage commit log to make no4lvl clearer, as asked by Conor
+- Add a note to kernel-parameters.txt regarding the impossibility to use
+  those parameters when KASAN is enabled, as suggested by Conor
+- Add RB from Björn
+
+v2:
+- Honor CMDLINE_EXTEND and CMDLINE_FORCE as noticed by Björn
+
  .../admin-guide/kernel-parameters.txt         |  9 ++-
  arch/riscv/mm/init.c                          | 72 +++++++++++++++++--
  2 files changed, 74 insertions(+), 7 deletions(-)
