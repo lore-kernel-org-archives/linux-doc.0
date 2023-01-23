@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04302C05027
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 21:53:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4147C05027
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 22:22:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230062AbjAWVxC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 16:53:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40300 "EHLO
+        id S233024AbjAWWW1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 17:22:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229551AbjAWVxB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 16:53:01 -0500
+        with ESMTP id S231501AbjAWWW0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 17:22:26 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CBBD30B19;
-        Mon, 23 Jan 2023 13:52:59 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC76BEFA1;
+        Mon, 23 Jan 2023 14:22:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Sender:Content-Transfer-Encoding:
         Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
         Content-ID:Content-Description:In-Reply-To:References;
-        bh=JFC3UPEu1ezEy0l8JdNPemkkpO3xtgjSFVWDfLbQfJ8=; b=MBR3za1n6Rih4M3GbDca5HK2Jl
-        sI8heeIIMUW5zxjhFuFk1QGhm6g1eQrFhSwwI5TG5EvL7y32nBDPOntYZWGTrGvXui+hK+555iWlH
-        VUaxZ+jOhOfroeVOkPFLE+4GC71KYJrel4+qGWMHDowVzjP/4ZRaZDSosoC48Cx5C6P3F9okTqvTQ
-        bgwEv9kG6G8NIB/eA6q3YYW45CqUTvFhG8U/45fTGv4vwCWJfBBkGITtvQ9FK+uok3w5d0QnB01cH
-        EagrFqS/g3SPKHclp74ZcQ797fggvdar6ParkN8X5AUUHE1ZRLbasfOQtJWu0hugy4FHCg3xBXxyD
-        PiMOwR/A==;
+        bh=Q9H134tWI2pNx3pa9snYV6BH92EqQ/eESHJ6jPlWggI=; b=uHVaZoY1KOYcgNeCTmBNBR6O3w
+        ziB9fkVUMgWgFGGNyFhRvOWHR3YjYMCIR1bz4JL3CWSd09qx2tSfBxKorwvg9GMxSkJDRmQQYBiL9
+        F3vX8zdr0W6YOMSHtxlgPCYP7O7+Wr/aXj4hwgjpfyyNiCH4uUaCH4JN0QZjiL238/2iWpH9XMK0c
+        BIxqUh3nWHMJWAW/5pgZ7qSH0n4we1cyr5wBFMZZpvo6WOOeKqM6i7bkIyd9n2U7l7/cs9YkQPpIb
+        78XqJTnUgnlyc15HQrVstNOjbLa/k8M4FZZOO2IPZEZrwFDcBfVkrx7aD10MmdcJINgBo5VyCh7DU
+        8Hoy1RyQ==;
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pK4kK-001bDK-FF; Mon, 23 Jan 2023 21:52:56 +0000
+        id 1pK5Cn-001hWj-Vv; Mon, 23 Jan 2023 22:22:21 +0000
 From:   Luis Chamberlain <mcgrof@kernel.org>
 To:     corbet@lwn.net, gregkh@linuxfoundation.org,
         javier.gonz@samsung.com, linux-doc@vger.kernel.org
@@ -33,10 +33,10 @@ Cc:     a.manzanares@samsung.com, dave@stgolabs.net,
         darren@os.amperecomputing.com, catalin.marinas@arm.com,
         mcgrof@kernel.org, ndesaulniers@google.com, gost.dev@samsung.com,
         linux-kernel@vger.kernel.org,
-        Luis Chamberlain <mcgrof.c@samsung.com>
-Subject: [PATCH v2] docs: embargoed-hardware-issues: add embargoed HW contact for Samsung
-Date:   Mon, 23 Jan 2023 13:52:55 -0800
-Message-Id: <20230123215255.381312-1-mcgrof@kernel.org>
+        David Collins <collinsd@codeaurora.org>
+Subject: [RFC] docs: embargoed-hardware-issues: drop stale embargoed HW contact for Qualcomm
+Date:   Mon, 23 Jan 2023 14:22:20 -0800
+Message-Id: <20230123222220.405622-1-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -46,30 +46,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After discussions internally at the company, Javier has been volunteered
-and is willing to be the embargoed hardware contact for Samsung.
+Emails to tsoni@codeaurora.org bounce from different systems I've used
+and LinkedIn tells me he's now at Linaro since 2019. That's a 4 year
+gap where embargo stuff goes to /dev/null for Qualcomm if the first
+bounce happened in 2019, but I have no way of knowing when that account
+was disactivated for sure.
 
-Cc: Javier González <javier.gonz@samsung.com>
-Signed-off-by: Luis Chamberlain <mcgrof.c@samsung.com>
+Cc: David Collins <collinsd@codeaurora.org>
+Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
 
-This v2 uses tabs as requested by Greg.
+David, should we apply this for now until you guys figure out a proper contact?
 
- Documentation/process/embargoed-hardware-issues.rst | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/process/embargoed-hardware-issues.rst | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
-index b6b4481e2474..fbb754253cf7 100644
+index fbb754253cf7..bf06e0d45776 100644
 --- a/Documentation/process/embargoed-hardware-issues.rst
 +++ b/Documentation/process/embargoed-hardware-issues.rst
-@@ -251,6 +251,7 @@ an involved disclosed party. The current ambassadors list:
+@@ -250,7 +250,6 @@ an involved disclosed party. The current ambassadors list:
+   IBM Power	Anton Blanchard <anton@linux.ibm.com>
    IBM Z		Christian Borntraeger <borntraeger@de.ibm.com>
    Intel		Tony Luck <tony.luck@intel.com>
-   Qualcomm	Trilok Soni <tsoni@codeaurora.org>
-+  Samsung       Javier González <javier.gonz@samsung.com>
+-  Qualcomm	Trilok Soni <tsoni@codeaurora.org>
+   Samsung       Javier González <javier.gonz@samsung.com>
  
    Microsoft	James Morris <jamorris@linux.microsoft.com>
-   VMware
 -- 
 2.35.1
 
