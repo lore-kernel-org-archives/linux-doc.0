@@ -2,100 +2,155 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B938C54EAA
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 09:29:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDF78C38142
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 09:51:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231841AbjAWJ3q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 04:29:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34888 "EHLO
+        id S231724AbjAWJvL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 04:51:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231846AbjAWJ3o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 04:29:44 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BE961EFE4;
-        Mon, 23 Jan 2023 01:29:43 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 26FD560DDD;
-        Mon, 23 Jan 2023 09:29:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88067C433D2;
-        Mon, 23 Jan 2023 09:29:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674466182;
-        bh=PrPYdPRy1KNd+wh2VcTPN/iRpEk1FlVdB7KZDlBtuJ8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=i6D45WXeJXaWElvMmFUTe6ke8K/eBRy6252UFha7p1+xA4s8854YR4660NACBwJKt
-         re5pUYApQ0DAJmujikWY/VMdfuiBvtFdfJYKguoRBCpvl42XXJ7ovfVJcjd2SNFemu
-         Ya3AF71Ns3ON3j2BFtLHOXAT/s8iivLurz/KfDYYMP3tP8zb6c9QRbzRUQ02YNVeQv
-         eIqwlqdqbCyhlZtfUxbIIqWpOpmkKdkJWIW+rJ81t84y/yp1oEqKeRuyXrJphQ39xJ
-         QkWGs4YmMg14dG/rmOGySjQCIJM5tZcKpljzF9c3GTEbQNKJj0fox0gki6CnNmEtYl
-         FiGh6sJUwRbIg==
-Received: by mail-lj1-f179.google.com with SMTP id t12so4878978lji.13;
-        Mon, 23 Jan 2023 01:29:42 -0800 (PST)
-X-Gm-Message-State: AFqh2kpLt5UaJ5W2nnd11TDHsKeikzAhW/pUdtjlDrELAaYrsMfkB+4/
-        x+HAvFVz8K/ks/eJkV6JoIqL1qmw3dqHqxTVXL0=
-X-Google-Smtp-Source: AMrXdXvE2wugZMtf5ZFgSut5pSvotlGEF3KkDmuftzbbENeB0PRihTJPLS0LeYEasCiNpfLShzYR+6EqEICmoABXOak=
-X-Received: by 2002:a05:651c:315:b0:27f:ef88:3ecb with SMTP id
- a21-20020a05651c031500b0027fef883ecbmr1096404ljp.189.1674466180602; Mon, 23
- Jan 2023 01:29:40 -0800 (PST)
+        with ESMTP id S230371AbjAWJvK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 04:51:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D57411422C
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 01:50:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674467418;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kSYxORSo5fJ20pO0AdfHiuiQJWJRfHcLYdctAQzz20k=;
+        b=H/R+ghhrhsiL4pY11BZXl3daqHx8WZF9OqyOcYz/9Wxd8mXnL9Y7sqFbqcmQ/lezkZ/8f3
+        tD3l0mZA8vkuxHZHLPBJ3suL4i0PL9YXfGxIODHHD3mnT746dnerwFpkT9TY5EnSNXAwZf
+        NeGlMVtwhjznBVEuGxvOQqEED+TcBQg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-96-sWePbVBYP5GLR-ckrTM4xQ-1; Mon, 23 Jan 2023 04:50:16 -0500
+X-MC-Unique: sWePbVBYP5GLR-ckrTM4xQ-1
+Received: by mail-wr1-f70.google.com with SMTP id e29-20020adf9bdd000000b002bb0d0ea681so1851176wrc.20
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 01:50:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kSYxORSo5fJ20pO0AdfHiuiQJWJRfHcLYdctAQzz20k=;
+        b=0fgY/7yhRrT4vaVlMGGUz48weZel5Iohd7IBjDupiHYYNX4oqFZvHdaQVjkMiVPKIx
+         keLsmdhVxHUKDGYwYOTQVtv3cBiQ0ievXZeGVKVvwRl4GMoGuLBc9r2JgvaolXEbPsku
+         bwpcQBRb/cvgXuU4OcFiJ4igQF3UX6uGnhdH6zCXqwqxhHhBebJkdhyHUTFdCUt3KPLe
+         rKTS697hirm39lXYtGoIGNaTKmFstBc0cyDmKDv0Fv5O/6N0kjXu+aaB39jrQvEDucyr
+         gjqbuXfBU1wbWm8noArdRZl3dBnTJArvMYV1sGnHJTeqDHJ2wuhyHZJDA5pVLuu5FRmZ
+         jmjA==
+X-Gm-Message-State: AFqh2kqSGxf4xzQGUszn01bTQJsYcQx5xCCBVLMmrT93P6TL4IZj4pxl
+        b39jwvnp4UmUcx6ABUx/mw+pF2JfcTNCsvbQRrUTMqGng7P9WB1TonEFHYyzA7Rxn5/g62aLmmY
+        x58AxkdfYbT2ojO8sCqtQ
+X-Received: by 2002:a05:600c:3b1e:b0:3cf:497c:c4f5 with SMTP id m30-20020a05600c3b1e00b003cf497cc4f5mr23576031wms.13.1674467415679;
+        Mon, 23 Jan 2023 01:50:15 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs9yQJkaBPo8s7D1+JPWykvhgcJBeDr0ywpOXES22KIpL3qQHqi+WIix769Us7mHmdo/CB66w==
+X-Received: by 2002:a05:600c:3b1e:b0:3cf:497c:c4f5 with SMTP id m30-20020a05600c3b1e00b003cf497cc4f5mr23576006wms.13.1674467415336;
+        Mon, 23 Jan 2023 01:50:15 -0800 (PST)
+Received: from ?IPV6:2003:cb:c704:1100:65a0:c03a:142a:f914? (p200300cbc704110065a0c03a142af914.dip0.t-ipconnect.de. [2003:cb:c704:1100:65a0:c03a:142a:f914])
+        by smtp.gmail.com with ESMTPSA id p1-20020a1c7401000000b003b3307fb98fsm10069782wmc.24.2023.01.23.01.50.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jan 2023 01:50:14 -0800 (PST)
+Message-ID: <7f63d13d-7940-afb6-8b25-26fdf3804e00@redhat.com>
+Date:   Mon, 23 Jan 2023 10:50:13 +0100
 MIME-Version: 1.0
-References: <20230123081905.27283-1-johan+linaro@kernel.org>
- <CAMj1kXGPo4-igHOseNhvoBuS0O2YLd+e=cqD8RJJYSgP0zTi0Q@mail.gmail.com> <Y85MYpfHOsFJ8GF6@hovoldconsulting.com>
-In-Reply-To: <Y85MYpfHOsFJ8GF6@hovoldconsulting.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Mon, 23 Jan 2023 10:29:29 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXE5O-R3J2+kQcOQ+Tm2xoTPQj3HJ7F31DDLTkjr7=N53w@mail.gmail.com>
-Message-ID: <CAMj1kXE5O-R3J2+kQcOQ+Tm2xoTPQj3HJ7F31DDLTkjr7=N53w@mail.gmail.com>
-Subject: Re: [PATCH v2] efi: drop obsolete efivars sysfs documentation
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Johan Hovold <johan+linaro@kernel.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Content-Language: en-US
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        kernel test robot <lkp@intel.com>, linux-efi@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+ <20230119212317.8324-19-rick.p.edgecombe@intel.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v5 18/39] mm: Handle faultless write upgrades for shstk
+In-Reply-To: <20230119212317.8324-19-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 23 Jan 2023 at 09:59, Johan Hovold <johan@kernel.org> wrote:
->
-> On Mon, Jan 23, 2023 at 09:39:41AM +0100, Ard Biesheuvel wrote:
-> > On Mon, 23 Jan 2023 at 09:19, Johan Hovold <johan+linaro@kernel.org> wrote:
-> > >
-> > > The efivars sysfs interface was removed by commit 0f5b2c69a4cb ("efi:
-> > > vars: Remove deprecated 'efivars' sysfs interface").
-> > >
-> > > Remove also the corresponding sysfs ABI documentation.
-> > >
-> > > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> > > ---
-> > >
-> > > Changes in v2
-> > >  - drop reference in gsmi sysfs documentation
-> > >  - drop reference in efivarfs.rst (kernel test robot)
-> > >
-> >
-> > Ugh. So there is a remaining implementation of that interface. That is
-> > a bit disappointing, tbh.
->
-> No, you removed the implementation in the commit mentioned above. The
-> Google SMI driver only provides a efivars "backend" but the interface
-> was shared. The driver continues to work with efivarfs.
->
+On 19.01.23 22:22, Rick Edgecombe wrote:
+> The x86 Control-flow Enforcement Technology (CET) feature includes a new
+> type of memory called shadow stack. This shadow stack memory has some
+> unusual properties, which requires some core mm changes to function
+> properly.
+> 
+> Since shadow stack memory can be changed from userspace, is both
+> VM_SHADOW_STACK and VM_WRITE. But it should not be made conventionally
+> writable (i.e. pte_mkwrite()). So some code that calls pte_mkwrite() needs
+> to be adjusted.
+> 
+> One such case is when memory is made writable without an actual write
+> fault. This happens in some mprotect operations, and also prot_numa faults.
+> In both cases code checks whether it should be made (conventionally)
+> writable by calling vma_wants_manual_pte_write_upgrade().
+> 
+> One way to fix this would be have code actually check if memory is also
+> VM_SHADOW_STACK and in that case call pte_mkwrite_shstk(). But since
+> most memory won't be shadow stack, just have simpler logic and skip this
+> optimization by changing vma_wants_manual_pte_write_upgrade() to not
+> return true for VM_SHADOW_STACK_MEMORY. This will simply handle all
+> cases of this type.
+> 
+> Cc: David Hildenbrand <david@redhat.com>
+> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
+> Tested-by: John Allen <john.allen@amd.com>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> ---
 
-Ugh. So as far as I can tell, this interface is still being used
-internally at Google.
+Instead of having these x86-shadow stack details all over the MM space, 
+was the option explored to handle this more in arch specific code?
 
-> > So for now, let's disregard this patch, and I will check internally
-> > whether or not that sysfs gsmi interface is actually used. If it is,
-> > the docs should be kept but updated to clarify that it only describes
-> > gsmi sysfs. Otherwise, we can drop the whole thing, including the gsmi
-> > sysfs pieces themselves.
->
-> So you'd need to bring back the sysfs implementation and make it Google
-> SMI specific if it's still needed by someone. I don't think we want to
-> do that if it can be avoided.
->
+IIUC, one way to get it working would be
 
-Indeed.
+1) Have a SW "shadowstack" PTE flag.
+2) Have an "SW-dirty" PTE flag, to store "dirty=1" when "write=0".
+
+pte_mkwrite(), pte_write(), pte_dirty ... can then make decisions based 
+on the "shadowstack" PTE flag and hide all these details from core-mm.
+
+When mapping a shadowstack page (new page, migration, swapin, ...), 
+which can be obtained by looking at the VMA flags, the first thing you'd 
+do is set the "shadowstack" PTE flag.
+
+-- 
+Thanks,
+
+David / dhildenb
+
