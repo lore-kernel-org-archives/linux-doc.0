@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 284C2C25B50
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 22:59:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95421C05027
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 23:00:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232183AbjAWW7A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 17:59:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60180 "EHLO
+        id S231274AbjAWXAI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 18:00:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231981AbjAWW66 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 17:58:58 -0500
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2056.outbound.protection.outlook.com [40.107.244.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28AAE46B2;
-        Mon, 23 Jan 2023 14:58:31 -0800 (PST)
+        with ESMTP id S231965AbjAWXAF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 18:00:05 -0500
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2052.outbound.protection.outlook.com [40.107.223.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A897939B89;
+        Mon, 23 Jan 2023 14:59:29 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JY1/jz6xMt32QA9e6bc6qxjmrAIBf65F43tVZLJnjv2A1ZAdW6PZMM26UXvqW6rW217GkxIcbdxiOAiYU3wTvADOygW1TF0NFIRbLF46rfhNV8zOhiPDI7BXdgp4jMQhUJBnp2+exm1SelpoECakeknHiMeh/dmxnuk68DthhRK0ND9p0Ygb3fk3OlGT1g0M5h1xNt408gL8Z11zBjF8L04P9o4A3J0E66WThuHfnndX9ZqHI1Zt92jKF1h3gycH7AYwCngZ4Jz01HIJXbOyYCZgB3rPe1Zbo42We3ThyPEPqAwV1ZdHGOS9rm4vaQTxB4SrgmIVOV3N0+cllOWgkA==
+ b=IDj1HHNS5kOrmbDS+OVRT4mu5FY6TPmI+6DPjKgfZvhu2UyUiVolCFAUdOtI61Ma/Bv6lZ7wMx5Zeb6grRJUbpU/LaWdDGJcrNRG57gULhaW3LXLqAR6iA8kmh+FFkXlBI3DoWmIBf0z/yfB+dI1mGes/8ZoMNKEzrhrqZkle/0qnBFhaHuZG67sGYK0dm/N40Wro5ypHoyBRUG04q+ohWGcJpyDQR50INfjsk125kG3wDJHpvxbuw6IIVd6i5/PpF/9HFMRgXorJiPiQilRoKGJq9QE5pGspj3bM1DS8fwZntBzC4himqBfSYQAOz717U7ddsJIMCVDVkoxY3T0fA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DbM4eQmZM7N52LEpv5jH1Qpz6m9vbh9AxilHVdiiIUg=;
- b=GHZGiAM2msBUmPqflj59w2IemOew0JQMjXcyJpBxGOPCzDuO0ySSPMYabkjZZ1/sLKUH7QH9rOsoN2hN+SUtRDrgRCbweLkROxHqrRD5uqlttGc4c1Swu3/lCV8wQ1x7x9+ezsePFh40f5Zb7R6pmNnze6G3QScij/ju8PuxaQGX9zp6VbDt+MTiWQrdxuxHNQW84Qm+NFOWWdK28/Y5Izne6+1avB6QQ6aBXoyzcHLa9fNPqJwCYFbL7yVESFrZWxl2jEyJNahGRlAouHHwz8Np4QSaT0H55iIIAGSIWkoRlnbwgoLHeHl/hg7hTsUznM3KrNYD+HoRmItb2DVAYA==
+ bh=RPP217NhloKDoLSAeUYTREqWvKmuIsqoh8yDbZ4jU3I=;
+ b=kzfinTU1Vnmh1MdJgJz+HyL/OSSpFisWdDCDRFtYk8ESj4VQ7BqJRoQrlGzootAJNnXG0n6CPddmvoc2EiGA4IKh4khHRV7oNdcFvKlG4Gin4xC3hE7D++7Ndmsu/pm/uYJ1cdp5buBjosezCw4+9q0GZ1WxqC5lrAABEpIzZRS7e/BJ+rLil2gqbxetb3gHVUj1OO9L/MRP9Yqz12KAuON2gk9ZzuWzOyEb4XKGaRhKxswviYwdxU16dmrO9YKGGGiRyCX+2nu4Utti8qfGU/QIVppbLc2VRsZ2hIGYPrqwOnjAS1Mg93282bTEP9NxnVe/nQwajzeh1rpkN5YFWw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DbM4eQmZM7N52LEpv5jH1Qpz6m9vbh9AxilHVdiiIUg=;
- b=abP/sbiWX9Ve1Y5Vuy2HoZDJ/iw3vtMqdWYSFLpKyz9IBS18ohqZr9uJw67OQ/C9vxlMGCD1MHIb8fzX5JVNBBsmWU5IozjfMA198tS0RQ59Q6/le36b9ov9xZ3EtPcHASm3aUJfPBOkfgGwTOr7R+ALcF9AcyFlIsv6YL4s9bw=
-Received: from BN9PR03CA0940.namprd03.prod.outlook.com (2603:10b6:408:108::15)
- by BL1PR12MB5994.namprd12.prod.outlook.com (2603:10b6:208:39a::14) with
+ bh=RPP217NhloKDoLSAeUYTREqWvKmuIsqoh8yDbZ4jU3I=;
+ b=sSZfaoIHIcSxDrrFMgVHcVazgREtsiCPPNYnl6taRszRx1cEKrcicc7d0r/ArhUkoy0CmOUnyR1+Co7JAl2TET/Re5znqpD+ued6zGvBdupWNzwWxDiw6YVddW3lgoL6zYOBmETaQh3EMLc67iCeiDMpljfE4nwU0tUvN1HRit4=
+Received: from BN9P222CA0026.NAMP222.PROD.OUTLOOK.COM (2603:10b6:408:10c::31)
+ by SA1PR12MB7038.namprd12.prod.outlook.com (2603:10b6:806:24d::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Mon, 23 Jan
- 2023 22:58:27 +0000
-Received: from BN8NAM11FT048.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:108:cafe::e2) by BN9PR03CA0940.outlook.office365.com
- (2603:10b6:408:108::15) with Microsoft SMTP Server (version=TLS1_2,
+ 2023 22:58:50 +0000
+Received: from BN8NAM11FT078.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:10c:cafe::be) by BN9P222CA0026.outlook.office365.com
+ (2603:10b6:408:10c::31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33 via Frontend
- Transport; Mon, 23 Jan 2023 22:58:27 +0000
+ Transport; Mon, 23 Jan 2023 22:58:50 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -46,13 +46,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT048.mail.protection.outlook.com (10.13.177.117) with Microsoft SMTP
+ BN8NAM11FT078.mail.protection.outlook.com (10.13.176.251) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6023.16 via Frontend Transport; Mon, 23 Jan 2023 22:58:27 +0000
+ 15.20.6023.16 via Frontend Transport; Mon, 23 Jan 2023 22:58:50 +0000
 Received: from fritz.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 23 Jan
- 2023 16:58:25 -0600
+ 2023 16:58:49 -0600
 From:   Kim Phillips <kim.phillips@amd.com>
 To:     <x86@kernel.org>
 CC:     Kim Phillips <kim.phillips@amd.com>,
@@ -74,9 +74,9 @@ CC:     Kim Phillips <kim.phillips@amd.com>,
         Tom Lendacky <thomas.lendacky@amd.com>,
         "Alexey Kardashevskiy" <aik@amd.com>, <kvm@vger.kernel.org>,
         <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v8 6/8] x86/cpu, kvm: Add the SMM_CTL MSR not present feature
-Date:   Mon, 23 Jan 2023 16:56:58 -0600
-Message-ID: <20230123225700.2224063-7-kim.phillips@amd.com>
+Subject: [PATCH v8 8/8] x86/cpu, kvm: Propagate the AMD Automatic IBRS feature to the guest
+Date:   Mon, 23 Jan 2023 16:57:00 -0600
+Message-ID: <20230123225700.2224063-9-kim.phillips@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230123225700.2224063-1-kim.phillips@amd.com>
 References: <20230123225700.2224063-1-kim.phillips@amd.com>
@@ -88,64 +88,78 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT048:EE_|BL1PR12MB5994:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4549386e-15ea-4253-448a-08dafd955694
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT078:EE_|SA1PR12MB7038:EE_
+X-MS-Office365-Filtering-Correlation-Id: 21fd28f6-104e-409b-0785-08dafd956498
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /KtFf18JNJ1PDJORWUHWEiTrg7i9pfGbwXbInipyXO4uLpZ+Qx733KN1PKmMXJIG70CMzj2sfXM8XRP8QcAMZ+lVj2/6+HWwcZuSpwjVLRBtufsScv7dxnGl6kMs7b/fiQ8PtLhZ/OGaX5afgUarBcaFJZzGl2pMHsPn4UdsMU2C3PsQsuHNQS7rdYu4tr/k5k81/eI7kXMm7d0/irGceJKVOnqUxw1NSonNo4TDc+ihJ9ENU68fNBjkMZVmdiYoh51cxygyJsMUQ3N49N9bFZK/lzLPLQenGon+DohG43J8F+0mCILcSFb4137BgK9ygj3ViUNSaHkpzDLZIsWKuz/hy0JUBDLNc9n2zV9Kj9bpuA3NBPlpwIyDt+jbob3G2SRyDrkXPY0fFmm7IwhX0D6lejngOMdKXuu3i4kEsqGiy+/HvcrzZdUB+dTUP1xfIftdIBk5XdbaOgHGj8JYiQc5OUkorXTlaoVdTNadGvB41a/v/JMZNozCeB67YY495nhJ+7BOyKstQxtspDuUoArGzPS/XpF+H8fMwCl8wHI0RMMwkJXKKTSII9/ztyDyR7Z8mUjFx/ioBXSs8rNnrvxn5bU7KZ2inMz6lwPtmvXu1j72BSXulpZH1CfNIKsWQ7N/94g9pk3kEF8ri4MhU1oaFsz/h3Pm+M65jnePMQL7oqVWnfN1HTrAu0EFhD+Wcnv6FiKM1uecrdaqKxY7yMibmJRGvGn6/gArgz013Xs=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(136003)(396003)(39860400002)(346002)(376002)(451199015)(40470700004)(36840700001)(46966006)(47076005)(426003)(336012)(1076003)(83380400001)(2616005)(40480700001)(86362001)(40460700003)(36860700001)(81166007)(82310400005)(356005)(36756003)(82740400003)(6916009)(4326008)(8676002)(70586007)(70206006)(7416002)(5660300002)(2906002)(44832011)(41300700001)(8936002)(16526019)(6666004)(478600001)(26005)(186003)(54906003)(316002)(7696005)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: qHbdLWIsWQ3644MFjExlADefMb2+oVsK7NM+ygu+StdvUxQtcnErJPy1ycTHW4xayffOjdYUHSCJrZMx7yxjsTERQs7gzgTC3/S5kUfeJzjkahCNgEjapMzic5AZ1/Vu+hc4rQhRfTq3B7KTEtH7XFlBE0ITX2H8aE/sPCtfbUhrJ8CVzmGrScJoaW1Mu97o+wIHCQu1boE67s9fHqKhwutNUTmqQWXWRF6wTM4UXQo6zaqolwtpxENIf/t/rEikXGR61X3LWeElZ+hB89JmVv0yqVbtYM62lwOh45rLpZpAlD2YIQHZQ09vDBaAXD4c2traOLbHbJn7Gks7ZVA587zrSxArIVccx+/ORa6HO+hw4b/IjI83P0ZKld3eQqz0VwVa6jNFcQa+5HgSP2Za+QXElezzTcguyHEsA1w7fqgyJwoNdMjCihHlEof/8oPJF/61UoVhGqRofI5W0f8SRO3+4ErxZOOQgpR3JUZL+dKLt6ilHZ6doBjRz0q14PXeUFb3uO2OGCs4gjPfeBbdQb+frt0vthiHT0YK3tIIy+lsSwL6Pd3Qo/rjXZEeW7MTyAfZHg8gexPSfQhJOivuIdIC4ZB3a4TRKrB1mrfRQnhXbKMtWSyxHquFNWOJBDnrXA5C7gFHk+YqGpmaC3II/ftDaepAzaNn/JXomVZFcUG8TS3wA+bZlufag+wxnN7yLy+XjOhPMmHQsi3BHGGWNhrm7Um2K5lsi1zNG/fRkDU=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(39860400002)(136003)(396003)(451199015)(36840700001)(46966006)(40470700004)(36756003)(86362001)(81166007)(2906002)(5660300002)(356005)(82310400005)(82740400003)(83380400001)(8936002)(7416002)(4326008)(44832011)(41300700001)(36860700001)(478600001)(7696005)(6916009)(16526019)(8676002)(186003)(40460700003)(40480700001)(26005)(2616005)(70586007)(316002)(70206006)(336012)(6666004)(54906003)(1076003)(47076005)(426003)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 22:58:27.0389
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 22:58:50.5517
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4549386e-15ea-4253-448a-08dafd955694
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21fd28f6-104e-409b-0785-08dafd956498
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT048.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT078.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5994
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7038
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The SMM_CTL MSR not present feature was being open-coded for KVM.
-Add it to its newly added CPUID leaf 0x80000021 EAX proper.
-
-Also drop the bit description comments now the code is more
-self-describing.
+Add the AMD Automatic IBRS feature bit to those being propagated to the guest,
+and enable the guest EFER bit.
 
 Signed-off-by: Kim Phillips <kim.phillips@amd.com>
 ---
- arch/x86/include/asm/cpufeatures.h | 1 +
- arch/x86/kvm/cpuid.c               | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ arch/x86/kvm/cpuid.c   | 2 +-
+ arch/x86/kvm/svm/svm.c | 3 +++
+ arch/x86/kvm/x86.c     | 3 +++
+ 3 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index 403a534691cc..6dcc3c3d0c8d 100644
---- a/arch/x86/include/asm/cpufeatures.h
-+++ b/arch/x86/include/asm/cpufeatures.h
-@@ -432,6 +432,7 @@
- #define X86_FEATURE_NO_NESTED_DATA_BP	(20*32+ 0) /* "" No Nested Data Breakpoints */
- #define X86_FEATURE_LFENCE_RDTSC	(20*32+ 2) /* "" LFENCE always serializing / synchronizes RDTSC */
- #define X86_FEATURE_NULL_SEL_CLR_BASE	(20*32+ 6) /* "" Null Selector Clears Base */
-+#define X86_FEATURE_NO_SMM_CTL_MSR	(20*32+ 9) /* "" SMM_CTL MSR is not present */
- 
- /*
-  * BUG word(s)
 diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-index f1625a58b5ec..9ba75ad9d976 100644
+index 9ba75ad9d976..293ef07b34c3 100644
 --- a/arch/x86/kvm/cpuid.c
 +++ b/arch/x86/kvm/cpuid.c
-@@ -749,7 +749,7 @@ void kvm_set_cpu_caps(void)
- 		kvm_cpu_cap_set(X86_FEATURE_LFENCE_RDTSC);
- 	if (!static_cpu_has_bug(X86_BUG_NULL_SEG))
- 		kvm_cpu_cap_set(X86_FEATURE_NULL_SEL_CLR_BASE);
--	kvm_cpu_caps[CPUID_8000_0021_EAX] |= BIT(9) /* NO_SMM_CTL_MSR */;
-+	kvm_cpu_cap_set(X86_FEATURE_NO_SMM_CTL_MSR);
+@@ -743,7 +743,7 @@ void kvm_set_cpu_caps(void)
  
- 	kvm_cpu_cap_mask(CPUID_C000_0001_EDX,
- 		F(XSTORE) | F(XSTORE_EN) | F(XCRYPT) | F(XCRYPT_EN) |
+ 	kvm_cpu_cap_mask(CPUID_8000_0021_EAX,
+ 		F(NO_NESTED_DATA_BP) | F(LFENCE_RDTSC) | 0 /* SmmPgCfgLock */ |
+-		F(NULL_SEL_CLR_BASE) | 0 /* PrefetchCtlMsr */
++		F(NULL_SEL_CLR_BASE) | F(AUTOIBRS) | 0 /* PrefetchCtlMsr */
+ 	);
+ 	if (cpu_feature_enabled(X86_FEATURE_LFENCE_RDTSC))
+ 		kvm_cpu_cap_set(X86_FEATURE_LFENCE_RDTSC);
+diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+index 9a194aa1a75a..60c7c880266b 100644
+--- a/arch/x86/kvm/svm/svm.c
++++ b/arch/x86/kvm/svm/svm.c
+@@ -4969,6 +4969,9 @@ static __init int svm_hardware_setup(void)
+ 
+ 	tsc_aux_uret_slot = kvm_add_user_return_msr(MSR_TSC_AUX);
+ 
++	if (boot_cpu_has(X86_FEATURE_AUTOIBRS))
++		kvm_enable_efer_bits(EFER_AUTOIBRS);
++
+ 	/* Check for pause filtering support */
+ 	if (!boot_cpu_has(X86_FEATURE_PAUSEFILTER)) {
+ 		pause_filter_count = 0;
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index da4bbd043a7b..8dd0cb230ef5 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -1685,6 +1685,9 @@ static int do_get_msr_feature(struct kvm_vcpu *vcpu, unsigned index, u64 *data)
+ 
+ static bool __kvm_valid_efer(struct kvm_vcpu *vcpu, u64 efer)
+ {
++	if (efer & EFER_AUTOIBRS && !guest_cpuid_has(vcpu, X86_FEATURE_AUTOIBRS))
++		return false;
++
+ 	if (efer & EFER_FFXSR && !guest_cpuid_has(vcpu, X86_FEATURE_FXSR_OPT))
+ 		return false;
+ 
 -- 
 2.34.1
 
