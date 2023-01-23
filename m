@@ -2,28 +2,28 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06796C25B50
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA92BC05027
 	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 18:06:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233807AbjAWSGP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 13:06:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47016 "EHLO
+        id S233780AbjAWSGQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 13:06:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233753AbjAWSGN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 13:06:13 -0500
+        with ESMTP id S233797AbjAWSGP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 13:06:15 -0500
 Received: from 66-220-144-178.mail-mxout.facebook.com (66-220-144-178.mail-mxout.facebook.com [66.220.144.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0F5E305E6
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C0EF166F4
         for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 10:05:46 -0800 (PST)
 Received: by dev0134.prn3.facebook.com (Postfix, from userid 425415)
-        id 7BBE85616BF1; Mon, 23 Jan 2023 09:37:56 -0800 (PST)
+        id 4A5615616BD7; Mon, 23 Jan 2023 09:37:56 -0800 (PST)
 From:   Stefan Roesch <shr@devkernel.io>
 To:     linux-mm@kvack.org
 Cc:     shr@devkernel.io, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-kselftest@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: [RESEND RFC PATCH v1 15/20] docs: document new procfs ksm knobs
-Date:   Mon, 23 Jan 2023 09:37:43 -0800
-Message-Id: <20230123173748.1734238-16-shr@devkernel.io>
+Subject: [RESEND RFC PATCH v1 03/20] mm: add flag to __ksm_exit call
+Date:   Mon, 23 Jan 2023 09:37:31 -0800
+Message-Id: <20230123173748.1734238-4-shr@devkernel.io>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230123173748.1734238-1-shr@devkernel.io>
 References: <20230123173748.1734238-1-shr@devkernel.io>
@@ -33,47 +33,75 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This documents the ksm_process_profit and ksm_merge_type settings in
-ksm_stat.
+This adds the flag parameter to the __ksm_exit() call. This allows to
+distinguish if this call is for an prctl or madvise invocation.
 
 Signed-off-by: Stefan Roesch <shr@devkernel.io>
 ---
- Documentation/admin-guide/mm/ksm.rst | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ include/linux/ksm.h | 8 +++++---
+ mm/ksm.c            | 8 ++++++--
+ 2 files changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-g=
-uide/mm/ksm.rst
-index 72189bf1283e..70896f01d641 100644
---- a/Documentation/admin-guide/mm/ksm.rst
-+++ b/Documentation/admin-guide/mm/ksm.rst
-@@ -211,7 +211,8 @@ several times, which are unprofitable memory consumed=
-.
- 			  ksm_rmap_items * sizeof(rmap_item).
+diff --git a/include/linux/ksm.h b/include/linux/ksm.h
+index 50e6b56092f3..d38a05a36298 100644
+--- a/include/linux/ksm.h
++++ b/include/linux/ksm.h
+@@ -18,8 +18,8 @@
+ #ifdef CONFIG_KSM
+ int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
+ 		unsigned long end, int advice, unsigned long *vm_flags);
+-void __ksm_exit(struct mm_struct *mm);
+ int __ksm_enter(struct mm_struct *mm, int flag);
++void __ksm_exit(struct mm_struct *mm, int flag);
 =20
-    where ksm_merging_pages is shown under the directory ``/proc/<pid>/``=
-,
--   and ksm_rmap_items is shown in ``/proc/<pid>/ksm_stat``.
-+   and ksm_rmap_items is shown in ``/proc/<pid>/ksm_stat``. The process =
-profit
-+   is also shown in ``/proc/<pid>/ksm_stat`` as ksm_process_profit.
+ static inline int ksm_fork(struct mm_struct *mm, struct mm_struct *oldmm=
+)
+ {
+@@ -32,8 +32,10 @@ static inline int ksm_fork(struct mm_struct *mm, struc=
+t mm_struct *oldmm)
 =20
- From the perspective of application, a high ratio of ``ksm_rmap_items`` =
-to
- ``ksm_merging_pages`` means a bad madvise-applied policy, so developers =
-or
-@@ -222,6 +223,9 @@ so if the ``ksm_rmap_items/ksm_merging_pages`` ratio =
-exceeds 64 on 64-bit CPU
- or exceeds 128 on 32-bit CPU, then the app's madvise policy should be dr=
-opped,
- because the ksm profit is approximately zero or negative.
+ static inline void ksm_exit(struct mm_struct *mm)
+ {
+-	if (test_bit(MMF_VM_MERGEABLE, &mm->flags))
+-		__ksm_exit(mm);
++	if (test_bit(MMF_VM_MERGE_ANY, &mm->flags))
++		__ksm_exit(mm, MMF_VM_MERGE_ANY);
++	else if (test_bit(MMF_VM_MERGEABLE, &mm->flags))
++		__ksm_exit(mm, MMF_VM_MERGEABLE);
+ }
 =20
-+The ksm_merge_type in ``/proc/<pid>/ksm_stat`` shows the merge type of t=
-he
-+process. Valid values are ``none``, ``madvise`` and ``process``.
+ /*
+diff --git a/mm/ksm.c b/mm/ksm.c
+index d84a244fe224..83796328574c 100644
+--- a/mm/ksm.c
++++ b/mm/ksm.c
+@@ -2563,12 +2563,16 @@ int __ksm_enter(struct mm_struct *mm, int flag)
+ 	return 0;
+ }
+=20
+-void __ksm_exit(struct mm_struct *mm)
++void __ksm_exit(struct mm_struct *mm, int flag)
+ {
+ 	struct ksm_mm_slot *mm_slot;
+ 	struct mm_slot *slot;
+ 	int easy_to_free =3D 0;
+=20
++	if (!(current->flags & PF_EXITING) && flag =3D=3D MMF_VM_MERGE_ANY &&
++	    test_bit(MMF_VM_MERGE_ANY, &mm->flags))
++		clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
 +
- Monitoring KSM events
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ 	/*
+ 	 * This process is exiting: if it's straightforward (as is the
+ 	 * case when ksmd was never running), free mm_slot immediately.
+@@ -2595,7 +2599,7 @@ void __ksm_exit(struct mm_struct *mm)
 =20
+ 	if (easy_to_free) {
+ 		mm_slot_free(mm_slot_cache, mm_slot);
+-		clear_bit(MMF_VM_MERGEABLE, &mm->flags);
++		clear_bit(flag, &mm->flags);
+ 		mmdrop(mm);
+ 	} else if (mm_slot) {
+ 		mmap_write_lock(mm);
 --=20
 2.30.2
 
