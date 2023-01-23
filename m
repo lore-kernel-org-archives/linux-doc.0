@@ -2,139 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AD93C54EAA
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 08:40:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11CE0C05027
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 08:59:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231678AbjAWIkF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 03:40:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60026 "EHLO
+        id S231522AbjAWI7T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 03:59:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231682AbjAWIkD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 03:40:03 -0500
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA1BD1CF45;
-        Mon, 23 Jan 2023 00:40:02 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id F39765C00CD;
-        Mon, 23 Jan 2023 03:40:01 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Mon, 23 Jan 2023 03:40:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1674463201; x=1674549601; bh=w/xnBpY6hf
-        cSJp7QsVobDnUei84Cu91kfG5Ty8mZVFk=; b=pYnvhcLmN8HvMMcp4+fmBdl0lO
-        oZgrYlh4LAYA7ed0PDdouTryoJ3zzaBXossuzem6QeiJiskglPTxZjrCQQJMLtVv
-        +RX1WCOfAq0VtwsQ2jbJ+3s/pd6wlwqKr6xWwNRzPo6zuHO4LZd6mp/AUQ4kgnfX
-        QLpEbNe10D72PL1JJpO8KmMV/v3FSktvlRicW1gJT5QBwivjInWWXC0kSqVqiwiU
-        h3VqTSAm5KjUKiyxcj5E2/fq7xcGo4hSttFaei3BpOHP/VnFVfbZo9qrqKVMux1a
-        e7Bh4aRw0BUTvFJTovXvDqOhDe3t3xv5/WQqmPnMoDrmcu+D6LN0MtsjSb5Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1674463201; x=1674549601; bh=w/xnBpY6hfcSJp7QsVobDnUei84C
-        u91kfG5Ty8mZVFk=; b=j9mjnf21Vz/iIhzR9VMDfOIM5XcpVcqxRzqtzw00sjq1
-        4Cs6xzzTbSj3ltZCDBkNoV0lInqeXzN/hRdLbu2JrAhY5seMU6HEBWAsGmNZ/2sj
-        Y4LzkC3v58ZsXeBSmRksFGtmLv6kLO3l1oubTEm67PaDvbu1zokH8LcWdfn1iqk2
-        ldGXpxee5GvOCVxIlYxGe3EC7ycrPGP9FLym+OlwfCJwBGaJ0lnMJeclCgcG48P2
-        /3Juzc6j43gjWMENoYdsZI4GDaBI5gPpx6n/a1k1NdvNE5tkYEAU2tANLAMs54Yx
-        beKxrFW2c9ixIEq0gECuGVQ5VQzGMr5PTt6cBamDlg==
-X-ME-Sender: <xms:4EfOY6vpTDlhmMjSriH5ttsPa5qTSBcPgi6f66LsCrn1yKJ-kUKXjQ>
-    <xme:4EfOY_c7SXsGLPk2732pBYYqo5KtkLpKkx6hNUe56AfMFyOnocDShrOz3JDYhcwsD
-    QaNTqPfehJrjAWVCLw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddujedguddvfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:4EfOY1zKIrt6HgC3WlCgi1VoLkspNUJwKtTCZ2JbADae91lS3z6cLA>
-    <xmx:4EfOY1M9Uon-7Q3owh33nDPgVUvsW5JHhfYxbMoCqItEhaYZgJ1P6g>
-    <xmx:4EfOY69y5BmZLndAqUH-hZLYDhwo9QVHsuf2M00GsMrFfH-g1spOLQ>
-    <xmx:4UfOY49RJKSBbJhvhLTS5tzhjisCJi22pJdjgaXc05fhaTwQpRc9JQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 5FCCCB60086; Mon, 23 Jan 2023 03:40:00 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
-Mime-Version: 1.0
-Message-Id: <a69a5ffc-0820-4adc-9ac4-f827ebf66cf0@app.fastmail.com>
-In-Reply-To: <20230123073305.149940-1-lchen@ambarella.com>
-References: <20230123073305.149940-1-lchen@ambarella.com>
-Date:   Mon, 23 Jan 2023 09:39:41 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Li Chen" <lchen@ambarella.com>
-Cc:     =?UTF-8?Q?Andreas_B=C3=B6hler?= <dev@aboehler.at>,
-        "Brian Norris" <briannorris@chromium.org>,
-        "Chris Morgan" <macromorgan@hotmail.com>,
-        "Christian Lamparter" <chunkeey@gmail.com>,
-        "Chuanhong Guo" <gch981213@gmail.com>,
-        "Conor.Dooley" <conor.dooley@microchip.com>,
-        "Daniel Palmer" <daniel@0x0f.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "Florian Fainelli" <f.fainelli@gmail.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "Guenter Roeck" <linux@roeck-us.net>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        "Hitomi Hasegawa" <hasegawa-hitomi@fujitsu.com>,
-        "Jean Delvare" <jdelvare@suse.de>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
-        "Liang Yang" <liang.yang@amlogic.com>,
-        "Li Chen" <lchen@ambarella.org>,
-        "Linus Walleij" <linus.walleij@linaro.org>,
-        "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list" <linux-kernel@vger.kernel.org>,
-        "open list:MEMORY TECHNOLOGY DEVICES (MTD)" 
-        <linux-mtd@lists.infradead.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        "Miquel Raynal" <miquel.raynal@bootlin.com>,
-        "Nicolas Ferre" <nicolas.ferre@microchip.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        "Randy Dunlap" <rdunlap@infradead.org>,
-        "Richard Weinberger" <richard@nod.at>,
-        "Rickard x Andersson" <rickaran@axis.com>,
-        "Rob Herring" <robh@kernel.org>,
-        "Roger Quadros" <rogerq@kernel.org>,
-        "Samuel Holland" <samuel@sholland.org>,
-        "Shawn Guo" <shawnguo@kernel.org>,
-        "Sven Peter" <sven@svenpeter.dev>,
-        "Yinbo Zhu" <zhuyinbo@loongson.cn>
-Subject: Re: [PATCH 00/15] Ambarella S6LM SoC bring-up
-Content-Type: text/plain
+        with ESMTP id S231482AbjAWI7T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 03:59:19 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 632D5EB58;
+        Mon, 23 Jan 2023 00:59:18 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 07DD760DED;
+        Mon, 23 Jan 2023 08:59:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CFF8C433D2;
+        Mon, 23 Jan 2023 08:59:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674464357;
+        bh=+0L5o0QQnbJOjBIVjk7k2zPu/WYY7Ppxr1/oLKHl7Ik=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DY5cfrhFSYtYUMfYZYovvmawsDzlkKxEOrae/qPhvHYia/lRyuIkUbyQGr6h30LYy
+         cp0j/1wxoyNZW3FV5XqeguPSE/GJrM1qmKqfGvhf4zzILxuK30K8SYMqw7dsqOW/fe
+         SGbaOjHxAuJmPqFuabG53ZnXpbxFCmVhMI3zKVVK3mYblNRDvlNSRv9NOavof3c2XM
+         DqQETzfKV0+tArS1pNP68xGyr3ivadQCvXD1ZF09xOdVNmndiDiBkKvrTiZeph8NMu
+         xyiaLn6MCT//La60SUQzkWBjVVQk3d5RAv0My7C34gRWyEwu0aDf5CqHp/ClZ9xdDu
+         xnRnC//lu395A==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1pJsfa-0008AL-KK; Mon, 23 Jan 2023 09:59:14 +0100
+Date:   Mon, 23 Jan 2023 09:59:14 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Ard Biesheuvel <ardb@kernel.org>
+Cc:     Johan Hovold <johan+linaro@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        kernel test robot <lkp@intel.com>, linux-efi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] efi: drop obsolete efivars sysfs documentation
+Message-ID: <Y85MYpfHOsFJ8GF6@hovoldconsulting.com>
+References: <20230123081905.27283-1-johan+linaro@kernel.org>
+ <CAMj1kXGPo4-igHOseNhvoBuS0O2YLd+e=cqD8RJJYSgP0zTi0Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMj1kXGPo4-igHOseNhvoBuS0O2YLd+e=cqD8RJJYSgP0zTi0Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 23, 2023, at 08:32, Li Chen wrote:
-> This series brings up initial support for the Ambarella S6LM
-> SoC.
->
-> The following features are supported in this initial port:
->
-> - UART with console support
-> - Pinctrl with GPIO controller
-> - Nand flash controller
-> - Devicetree
+On Mon, Jan 23, 2023 at 09:39:41AM +0100, Ard Biesheuvel wrote:
+> On Mon, 23 Jan 2023 at 09:19, Johan Hovold <johan+linaro@kernel.org> wrote:
+> >
+> > The efivars sysfs interface was removed by commit 0f5b2c69a4cb ("efi:
+> > vars: Remove deprecated 'efivars' sysfs interface").
+> >
+> > Remove also the corresponding sysfs ABI documentation.
+> >
+> > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+> > ---
+> >
+> > Changes in v2
+> >  - drop reference in gsmi sysfs documentation
+> >  - drop reference in efivarfs.rst (kernel test robot)
+> >
+> 
+> Ugh. So there is a remaining implementation of that interface. That is
+> a bit disappointing, tbh.
 
-I seem to only have part of the series, please add both me and
-the linux-arm-kernel mailing list to each part of the initial
-submission.
+No, you removed the implementation in the commit mentioned above. The
+Google SMI driver only provides a efivars "backend" but the interface
+was shared. The driver continues to work with efivarfs.
 
-It's possible that some patches were already Cc'd to
-linux-arm-kernel but did not make it through because the Cc list
-was too long (it has to fit within 1024 characters for many lists).
-I think you too the Cc list from get_maintainers.pl, but when
-sending new drivers this does not work well because it picks
-up everyone that recently touched the Makefile/Kconfig.
+> So for now, let's disregard this patch, and I will check internally
+> whether or not that sysfs gsmi interface is actually used. If it is,
+> the docs should be kept but updated to clarify that it only describes
+> gsmi sysfs. Otherwise, we can drop the whole thing, including the gsmi
+> sysfs pieces themselves.
 
-     Arnd
+So you'd need to bring back the sysfs implementation and make it Google
+SMI specific if it's still needed by someone. I don't think we want to
+do that if it can be avoided.
+
+Johan
