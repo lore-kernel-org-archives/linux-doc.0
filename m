@@ -2,79 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EC62C54E94
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 12:49:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C63FC05027
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 13:39:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231859AbjAWMtG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 07:49:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51614 "EHLO
+        id S231496AbjAWNjw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 08:39:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229580AbjAWMss (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 07:48:48 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFB31C155;
-        Mon, 23 Jan 2023 04:48:13 -0800 (PST)
-Received: (Authenticated sender: didi.debian@cknow.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id AA7531BF20C;
-        Mon, 23 Jan 2023 12:48:09 +0000 (UTC)
-From:   Diederik de Haas <didi.debian@cknow.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH] docs: rv: Fix full name of the GPL
-Date:   Mon, 23 Jan 2023 13:48:08 +0100
-Message-ID: <111677351.cJcasWOL3y@prancing-pony>
-Organization: Connecting Knowledge
-In-Reply-To: <Y83ts1TVZnwyZjnH@debian.me>
-References: <20230122181224.53996-1-didi.debian@cknow.org> <Y83ts1TVZnwyZjnH@debian.me>
+        with ESMTP id S231873AbjAWNjr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 08:39:47 -0500
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5C25D52F;
+        Mon, 23 Jan 2023 05:39:43 -0800 (PST)
+Received: (Authenticated sender: alex@ghiti.fr)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7B60C100011;
+        Mon, 23 Jan 2023 13:39:36 +0000 (UTC)
+Message-ID: <95d81c9a-11de-7f92-cb76-e4492e9faba8@ghiti.fr>
+Date:   Mon, 23 Jan 2023 14:39:35 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart2451338.m0X5LmD4DK";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3] riscv: Allow to downgrade paging mode from the command
+Content-Language: en-US
+To:     Conor Dooley <conor.dooley@microchip.com>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Conor Dooley <conor@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+References: <20230123104841.813999-1-alexghiti@rivosinc.com>
+ <Y851L2KgfIF3V6of@wendy>
+From:   Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <Y851L2KgfIF3V6of@wendy>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---nextPart2451338.m0X5LmD4DK
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Diederik de Haas <didi.debian@cknow.org>
-Subject: Re: [PATCH] docs: rv: Fix full name of the GPL
-Date: Mon, 23 Jan 2023 13:48:08 +0100
-Message-ID: <111677351.cJcasWOL3y@prancing-pony>
-Organization: Connecting Knowledge
-In-Reply-To: <Y83ts1TVZnwyZjnH@debian.me>
-MIME-Version: 1.0
+Hi Conor,
 
-On Monday, 23 January 2023 03:15:15 CET Bagas Sanjaya wrote:
-> Similar response as [1].
-
-Please disregard this patch.
-I'm now sending a similar response as I'm sending to my other patch 
-submissions, which is the following:
-
-I now consider my initial view of the issue as a spelling error, incorrect. I 
-would be changing the license and IANAL. I'm also not the copyright holder 
-which I believe is needed to change the license.
-
-Apologies for the noise.
---nextPart2451338.m0X5LmD4DK
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCY86CCAAKCRDXblvOeH7b
-bl8bAQDW74kStAXVgWDSURH03i6JYSvqFrLVBhKwHI4XK/8TjAD+KIzpGTkr6yHs
-RkXqBzuzrvH/jiRTN64WnEA//TMccwA=
-=C6HY
------END PGP SIGNATURE-----
-
---nextPart2451338.m0X5LmD4DK--
+On 1/23/23 12:53, Conor Dooley wrote:
+> Hey Alex,
+>
+> On Mon, Jan 23, 2023 at 11:48:41AM +0100, Alexandre Ghiti wrote:
+>> Add 2 early command line parameters that allow to downgrade satp mode
+>> (using the same naming as x86):
+>> - "no5lvl": use a 4-level page table (down from sv57 to sv48)
+>> - "no4lvl": use a 3-level page table (down from sv57/sv48 to sv39)
+>>
+>> Note that going through the device tree to get the kernel command line
+>> works with ACPI too since the efi stub creates a device tree anyway with
+>> the command line.
+>>
+>> Also, as those params are treated very early in the boot process and we
+>> use standard device tree functions that may be kasan instrumented, we
+>> only enable them for !KASAN configurations.
+>>
+>> Reviewed-by: Björn Töpel <bjorn@kernel.org>
+>> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+>> ---
+> A changelog would be nice here, especially since this is a resend.
 
 
+I think you may have commented the wrong patch, this one is wrong, hence 
+the resend!
 
+
+>
+>>   .../admin-guide/kernel-parameters.txt         |  9 ++-
+>>   arch/riscv/mm/init.c                          | 72 +++++++++++++++++--
+>>   2 files changed, 74 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 6cfa6e3996cf..fd647412ec91 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -3578,8 +3578,15 @@
+>>   			emulation library even if a 387 maths coprocessor
+>>   			is present.
+>>   
+>> -	no5lvl		[X86-64] Disable 5-level paging mode. Forces
+>> +	no4lvl		[RISCV] Disable 4-level and 5-level paging modes. Forces
+>> +			kernel to use 3-level paging instead.
+>> +			Note: On RISC-V, this can't be used when KASAN is
+>> +			enabled.
+>> +
+>> +	no5lvl		[X86-64,RISCV] Disable 5-level paging mode. Forces
+>>   			kernel to use 4-level paging instead.
+>> +			Note: On RISC-V, this can't be used when KASAN is
+>> +			enabled.
+>>   
+>>   	nofsgsbase	[X86] Disables FSGSBASE instructions.
+>>   
+> For the improved descriptions & commit message:
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+
+Thanks for that, would you mind adding that to the resend patch?
+
+Thanks again,
+
+Alex
+
+
+>
+> Thanks,
+> Conor.
+>
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
