@@ -2,170 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B007C05027
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 14:02:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA4EAC54EB4
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 14:05:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232111AbjAWOC2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 09:02:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51724 "EHLO
+        id S232128AbjAWOFl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 09:05:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231718AbjAWOC2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 09:02:28 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7F162684B;
-        Mon, 23 Jan 2023 06:02:05 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S231977AbjAWOFk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 09:05:40 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FA9840F2;
+        Mon, 23 Jan 2023 06:05:39 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7701E60F23;
-        Mon, 23 Jan 2023 14:02:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1610C4339B;
-        Mon, 23 Jan 2023 14:02:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674482524;
-        bh=2koP5//xkTzgsmmy1BbG7loZjicRFY5VECy1fq44Znk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sdg/4hdLhpt0u5h21aNc22vUYBxPWpOwMUqjEfjhM+OnOVc+soJhjuZT3kKxtTmay
-         jHfCgDhM5NNam5YWMdhNF4DSzS091ErMxhpw8yENde+tLMp+OXcAUPxQmn7+aCFOij
-         VBfUVPlKzadzzN5crJoCEpead39kBfHQ8dXoGQAiozWuR7RZfLbDsYgiPudru+9fqD
-         OCXuRM/JZHDEK1Kyn0damGAfhpdqbBT8KfNHIrP9TbWbwis4EkLGTYxz/1tkmkLjAI
-         9FZ9X7rGtHrPLu5MWvtdunG5xEAfVmQczv1h/HlFU9rYmTkCuSDTOmC3pWc4kF8Zvn
-         iLli68aWkXFTQ==
-From:   Leon Romanovsky <leon@kernel.org>
-To:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Steffen Klassert <steffen.klassert@secunet.com>
-Cc:     Leon Romanovsky <leonro@nvidia.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Ayush Sawal <ayush.sawal@chelsio.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        intel-wired-lan@lists.osuosl.org,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, oss-drivers@corigine.com,
-        Paolo Abeni <pabeni@redhat.com>,
-        Raju Rangoju <rajur@chelsio.com>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Simon Horman <simon.horman@corigine.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Veaceslav Falico <vfalico@gmail.com>
-Subject: [PATCH net-next 10/10] cxgb4: fill IPsec state validation failure reason
-Date:   Mon, 23 Jan 2023 16:00:23 +0200
-Message-Id: <9b45993fb96b6faa2b65f3dd78e677a54eeeec31.1674481435.git.leon@kernel.org>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <cover.1674481435.git.leon@kernel.org>
-References: <cover.1674481435.git.leon@kernel.org>
+        by smtp-out1.suse.de (Postfix) with ESMTPS id B4712339C7;
+        Mon, 23 Jan 2023 14:05:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1674482737; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TboMeQ08DPimFEa6aGsq7T2+45CHDly2y+c6BUvgQZk=;
+        b=Ohw7JlX3WCQz37Vbj1oIjlnjYp5zGfZW6t2Ldf4VxPph/WnY/v38NDh/e4hQhfkYr0L2nM
+        tTDy+o417yh7yO/LPXj1Z8n7gftKOHJarxHrklKDBQus+7cmh+qEymeZvwvGa3iSoerIoa
+        I9j84jts3ZCF0osIEYwGrzJjD6qJmeM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1674482737;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TboMeQ08DPimFEa6aGsq7T2+45CHDly2y+c6BUvgQZk=;
+        b=sUrDJ3R05y4rVwKZW1U5xV5ItVofPAnrWqkqedb0xLRv5AUbA46qNL6KwfAMuDVn1ihKfs
+        SrGGxk/QC3zf4NAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AE567134F5;
+        Mon, 23 Jan 2023 14:05:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id cjdAKTCUzmN6IwAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Mon, 23 Jan 2023 14:05:36 +0000
+Message-ID: <010a330c-a4d5-9c1a-3212-f9107d1c5f4e@suse.cz>
+Date:   Mon, 23 Jan 2023 15:03:45 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Content-Language: en-US
+To:     "Huang, Kai" <kai.huang@intel.com>,
+        "chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>
+Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "Hocko, Michal" <mhocko@suse.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "ak@linux.intel.com" <ak@linux.intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "tabba@google.com" <tabba@google.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "michael.roth@amd.com" <michael.roth@amd.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        "dhildenb@redhat.com" <dhildenb@redhat.com>,
+        "bfields@fieldses.org" <bfields@fieldses.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+        "ddutile@redhat.com" <ddutile@redhat.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
+        "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
+        "qperret@google.com" <qperret@google.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
+        "Christopherson,, Sean" <seanjc@google.com>,
+        "wanpengli@tencent.com" <wanpengli@tencent.com>,
+        "vannapurve@google.com" <vannapurve@google.com>,
+        "hughd@google.com" <hughd@google.com>,
+        "aarcange@redhat.com" <aarcange@redhat.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        "jlayton@kernel.org" <jlayton@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Wang, Wei W" <wei.w.wang@intel.com>,
+        "steven.price@arm.com" <steven.price@arm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linmiaohe@huawei.com" <linmiaohe@huawei.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
+ <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
+ <20221219075313.GB1691829@chaop.bj.intel.com>
+ <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
+ <20221220072228.GA1724933@chaop.bj.intel.com>
+ <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
+ <20221221133905.GA1766136@chaop.bj.intel.com>
+ <b898e28d7fd7182e5d069646f84b650c748d9ca2.camel@intel.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <b898e28d7fd7182e5d069646f84b650c748d9ca2.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Leon Romanovsky <leonro@nvidia.com>
+On 12/22/22 01:37, Huang, Kai wrote:
+>>> I argue that this page pinning (or page migration prevention) is not
+>>> tied to where the page comes from, instead related to how the page will
+>>> be used. Whether the page is restrictedmem backed or GUP() backed, once
+>>> it's used by current version of TDX then the page pinning is needed. So
+>>> such page migration prevention is really TDX thing, even not KVM generic
+>>> thing (that's why I think we don't need change the existing logic of
+>>> kvm_release_pfn_clean()). 
+>>>
+> This essentially boils down to who "owns" page migration handling, and sadly,
+> page migration is kinda "owned" by the core-kernel, i.e. KVM cannot handle page
+> migration by itself -- it's just a passive receiver.
+> 
+> For normal pages, page migration is totally done by the core-kernel (i.e. it
+> unmaps page from VMA, allocates a new page, and uses migrate_pape() or a_ops-
+>> migrate_page() to actually migrate the page).
+> In the sense of TDX, conceptually it should be done in the same way. The more
+> important thing is: yes KVM can use get_page() to prevent page migration, but
+> when KVM wants to support it, KVM cannot just remove get_page(), as the core-
+> kernel will still just do migrate_page() which won't work for TDX (given
+> restricted_memfd doesn't have a_ops->migrate_page() implemented).
+> 
+> So I think the restricted_memfd filesystem should own page migration handling,
+> (i.e. by implementing a_ops->migrate_page() to either just reject page migration
+> or somehow support it).
 
-Rely on extack to return failure reason.
-
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-Signed-off-by: Leon Romanovsky <leon@kernel.org>
----
- .../net/ethernet/chelsio/cxgb4/cxgb4_main.c   |  3 +-
- .../inline_crypto/ch_ipsec/chcr_ipsec.c       | 28 +++++++++----------
- 2 files changed, 15 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c
-index 6c0a41f3ae44..7db2403c4c9c 100644
---- a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c
-+++ b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c
-@@ -6497,8 +6497,7 @@ static int cxgb4_xfrm_add_state(struct xfrm_state *x,
- 	int ret;
- 
- 	if (!mutex_trylock(&uld_mutex)) {
--		dev_dbg(adap->pdev_dev,
--			"crypto uld critical resource is under use\n");
-+		NL_SET_ERR_MSG_MOD(extack, "crypto uld critical resource is under use");
- 		return -EBUSY;
- 	}
- 	ret = chcr_offload_state(adap, CXGB4_XFRMDEV_OPS);
-diff --git a/drivers/net/ethernet/chelsio/inline_crypto/ch_ipsec/chcr_ipsec.c b/drivers/net/ethernet/chelsio/inline_crypto/ch_ipsec/chcr_ipsec.c
-index ac2ea6206af1..98222b67d036 100644
---- a/drivers/net/ethernet/chelsio/inline_crypto/ch_ipsec/chcr_ipsec.c
-+++ b/drivers/net/ethernet/chelsio/inline_crypto/ch_ipsec/chcr_ipsec.c
-@@ -234,59 +234,59 @@ static int ch_ipsec_xfrm_add_state(struct xfrm_state *x,
- 	int res = 0;
- 
- 	if (x->props.aalgo != SADB_AALG_NONE) {
--		pr_debug("Cannot offload authenticated xfrm states\n");
-+		NL_SET_ERR_MSG_MOD(extack, "Cannot offload authenticated xfrm states");
- 		return -EINVAL;
- 	}
- 	if (x->props.calgo != SADB_X_CALG_NONE) {
--		pr_debug("Cannot offload compressed xfrm states\n");
-+		NL_SET_ERR_MSG_MOD(extack, "Cannot offload compressed xfrm states");
- 		return -EINVAL;
- 	}
- 	if (x->props.family != AF_INET &&
- 	    x->props.family != AF_INET6) {
--		pr_debug("Only IPv4/6 xfrm state offloaded\n");
-+		NL_SET_ERR_MSG_MOD(extack, "Only IPv4/6 xfrm state offloaded");
- 		return -EINVAL;
- 	}
- 	if (x->props.mode != XFRM_MODE_TRANSPORT &&
- 	    x->props.mode != XFRM_MODE_TUNNEL) {
--		pr_debug("Only transport and tunnel xfrm offload\n");
-+		NL_SET_ERR_MSG_MOD(extack, "Only transport and tunnel xfrm offload");
- 		return -EINVAL;
- 	}
- 	if (x->id.proto != IPPROTO_ESP) {
--		pr_debug("Only ESP xfrm state offloaded\n");
-+		NL_SET_ERR_MSG_MOD(extack, "Only ESP xfrm state offloaded");
- 		return -EINVAL;
- 	}
- 	if (x->encap) {
--		pr_debug("Encapsulated xfrm state not offloaded\n");
-+		NL_SET_ERR_MSG_MOD(extack, "Encapsulated xfrm state not offloaded");
- 		return -EINVAL;
- 	}
- 	if (!x->aead) {
--		pr_debug("Cannot offload xfrm states without aead\n");
-+		NL_SET_ERR_MSG_MOD("Cannot offload xfrm states without aead");
- 		return -EINVAL;
- 	}
- 	if (x->aead->alg_icv_len != 128 &&
- 	    x->aead->alg_icv_len != 96) {
--		pr_debug("Cannot offload xfrm states with AEAD ICV length other than 96b & 128b\n");
--	return -EINVAL;
-+		NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with AEAD ICV length other than 96b & 128b");
-+		return -EINVAL;
- 	}
- 	if ((x->aead->alg_key_len != 128 + 32) &&
- 	    (x->aead->alg_key_len != 256 + 32)) {
--		pr_debug("cannot offload xfrm states with AEAD key length other than 128/256 bit\n");
-+		NL_SET_ERR_MSG_MOD(extack, "cannot offload xfrm states with AEAD key length other than 128/256 bit");
- 		return -EINVAL;
- 	}
- 	if (x->tfcpad) {
--		pr_debug("Cannot offload xfrm states with tfc padding\n");
-+		NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with tfc padding");
- 		return -EINVAL;
- 	}
- 	if (!x->geniv) {
--		pr_debug("Cannot offload xfrm states without geniv\n");
-+		NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states without geniv");
- 		return -EINVAL;
- 	}
- 	if (strcmp(x->geniv, "seqiv")) {
--		pr_debug("Cannot offload xfrm states with geniv other than seqiv\n");
-+		NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with geniv other than seqiv");
- 		return -EINVAL;
- 	}
- 	if (x->xso.type != XFRM_DEV_OFFLOAD_CRYPTO) {
--		pr_debug("Unsupported xfrm offload\n");
-+		NL_SET_ERR_MSG_MOD(extack, "Unsupported xfrm offload");
- 		return -EINVAL;
- 	}
- 
--- 
-2.39.1
-
+While this thread seems to be settled on refcounts already, just wanted
+to point out that it wouldn't be ideal to prevent migrations by
+a_ops->migrate_page() rejecting them. It would mean cputime wasted (i.e.
+by memory compaction) by isolating the pages for migration and then
+releasing them after the callback rejects it (at least we wouldn't waste
+time creating and undoing migration entries in the userspace page tables
+as there's no mmap). Elevated refcount on the other hand is detected
+very early in compaction so no isolation is attempted, so from that
+aspect it's optimal.
