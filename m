@@ -2,118 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5897C25B4E
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 02:15:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97C17C54EAA
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 03:29:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbjAWCPV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Jan 2023 21:15:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49398 "EHLO
+        id S230022AbjAWD3s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Jan 2023 22:29:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230024AbjAWCPU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 21:15:20 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D6B2125A5;
-        Sun, 22 Jan 2023 18:15:19 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id z31so4648563pfw.4;
-        Sun, 22 Jan 2023 18:15:19 -0800 (PST)
+        with ESMTP id S229514AbjAWD3r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 22:29:47 -0500
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DF5B1448C;
+        Sun, 22 Jan 2023 19:29:46 -0800 (PST)
+Received: by mail-qt1-x841.google.com with SMTP id fd15so8792312qtb.9;
+        Sun, 22 Jan 2023 19:29:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0w/FUIkADD3JU/Qgu7gJ7esBnA/a6+CuHcQ7odJBT2E=;
-        b=koPFvxz/TDXpDpqDSe2U7h9ID67nkcYvuOcj6k1JEwOF6cBDzvflpjV2bFD2b5HZp0
-         OmjNxLyj/SnsfBQRh6QX7ezaMzvb5qTJzDAjf9BVCtJAMC+0Vi0aFby3sCnbehfadaPg
-         Cj99B4AmBxBWufATsdHQ+btkmMPmdvJL01amK/iYsuKxjol4UScY2WwW0ax9mAFpG1kX
-         aP7klCZTj/PxOzg1cDIFOHq5kRO5/qjgksq9DXTY64Q35iL3MPvb4vgrDsCl+EDZTqFz
-         yedgH4C29p5UFL57AIFXbtKbbLI16n39rv1JDNm2YtadjAe5NdgnjpIvcY/duuEHC2ko
-         Yg8A==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FEkC9pUr+UCV2Cz2pZIS9YUG59kfzZzD0JR8q3g/PeY=;
+        b=B3NVlRrGcw4YdHWkZ6EEItGqaDMGRX+yV1MSy6UZmQG3jBAlTfftSFQ4RpiDrSQDf1
+         jv9myVbWGZFXXgIRkB2DG4fiDGJAYI9y7/+KKhlKE2SgnzYXRi25p83tCOtR3rmcAsRq
+         QaINTMh9jhwJVaDOl2WGvF5DSZRdgI06T44a3sNVMe5oDB83gLH54DtDMSu+wQtj9kVp
+         fsdIXfNJBLAtYTM3vfEjxnpovMji69TYSORKs9fDuFB4dEARs5263JnvUL5Cj27UzVOu
+         i+JbRN2+3fdkIirCvdtWN+E/spIhz0KFh7rJu3sfmVGAt7UtIbvWgPpgI/u6O+UXch5j
+         ycDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0w/FUIkADD3JU/Qgu7gJ7esBnA/a6+CuHcQ7odJBT2E=;
-        b=wv7Kb2ai5FDheIqlgaELqejGm9WEr6cg8AjZZSAdfXF3TJq6ZQv4UMJ1TB/vEpEUJp
-         Jeu+W8+SuJGye6t7Bp7yEx+jCuKBN0GuiOjbntMtEfQWvufet20AnErAFB0JAyadWJxT
-         bD5g3CD8F/1ygAw7xS/muecIiFCFyffzDxPhHv5nZhv0xn46wBU9y3gEI2mOH+xPu9KU
-         GZGomPqCyePZQuX9tfCEjE1l2v+M34UwIRBrm2zZF0tsrbbQAEQOmegAtb3ghshTr0ox
-         dCcujykAvlgfJ9v0osJ5qpjCDsvBdw1sRuAR0mcuV1vyp1FOh1TLzX0zcyPKq4Pl31xV
-         vkeg==
-X-Gm-Message-State: AFqh2koLa3ZgLoTOEEww0s7SksI8bZAjQjWWkaCWR/ydVlnFGXuWlx2l
-        QQhZhtgyhzMSmSsOVvNs2SezTERh8mht1eZs
-X-Google-Smtp-Source: AMrXdXu/CAtoaI7Aq1tQzoXl1SrfgLHYWz6D2rifi/FZHTxVhLVY4SSf7SyyVjUWsLQwkTTEQ9mJgQ==
-X-Received: by 2002:a62:640f:0:b0:581:f301:23fc with SMTP id y15-20020a62640f000000b00581f30123fcmr38872218pfb.12.1674440118966;
-        Sun, 22 Jan 2023 18:15:18 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-76.three.co.id. [180.214.232.76])
-        by smtp.gmail.com with ESMTPSA id k11-20020aa79d0b000000b00588fb6fafe0sm25431297pfp.188.2023.01.22.18.15.18
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FEkC9pUr+UCV2Cz2pZIS9YUG59kfzZzD0JR8q3g/PeY=;
+        b=7HaS+Bz1MgHV2Hywceg3bIdl/r+6VkrzO8ja2e3azjwiJIQxh0YZ2HUXW3EXa5Je1r
+         ycJuvuRxWZThwfC4MKztCbi2E+5CMr8J7zr8/iUwepnLGQ33BOjRXJKFeNigLzdSx4HA
+         IkkOvSLFYMCjLhcIohS825QYl/xhePEjgfFtlU20JKMTE2uIyzBLECVYYa0ygXgYeUc9
+         2WyISjIRVbwICpjZh0Rs3/AduAq5TEBU//zE7I62WUG71tuodA+GRxHp4SpgEyHDGMgm
+         H1hZNQxVuO28fTbzpsnB7f2O1edF0ulFFeRIwPHZHf7xYhygQTGtefpnxFJBxRTAEehp
+         BKPg==
+X-Gm-Message-State: AFqh2kqD+n4mBS3tqg778tumkVU93o4DpzcHEsUb3IMicT+r7w8uVB3/
+        UKpVH0Szn5SuJ7M3Vcp6SYtTN+fVt1fn
+X-Google-Smtp-Source: AMrXdXvw882JiP/yU35jd2navQhWjO5M0L15eWb3kqKgPgqmFLmRd5kduEz+Ktvu/N4D7+lrLjeg4Q==
+X-Received: by 2002:a05:622a:4a83:b0:3b6:3931:640d with SMTP id fw3-20020a05622a4a8300b003b63931640dmr34813029qtb.48.1674444584937;
+        Sun, 22 Jan 2023 19:29:44 -0800 (PST)
+Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
+        by smtp.gmail.com with ESMTPSA id u3-20020ae9c003000000b0070928ee3933sm4875492qkk.75.2023.01.22.19.29.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Jan 2023 18:15:18 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 17573101C11; Mon, 23 Jan 2023 09:15:16 +0700 (WIB)
-Date:   Mon, 23 Jan 2023 09:15:15 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Diederik de Haas <didi.debian@cknow.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] docs: rv: Fix full name of the GPL
-Message-ID: <Y83ts1TVZnwyZjnH@debian.me>
-References: <20230122181224.53996-1-didi.debian@cknow.org>
+        Sun, 22 Jan 2023 19:29:44 -0800 (PST)
+From:   Gregory Price <gourry.memverge@gmail.com>
+X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, krisman@collabora.com,
+        tglx@linutronix.de, luto@kernel.org, oleg@redhat.com,
+        peterz@infradead.org, ebiederm@xmission.com,
+        akpm@linux-foundation.org, adobriyan@gmail.com, corbet@lwn.net,
+        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
+Subject: [PATCH v5 0/3] Checkpoint Support for Syscall User Dispatch
+Date:   Sun, 22 Jan 2023 22:29:39 -0500
+Message-Id: <20230123032942.18263-1-gregory.price@memverge.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="+N+rLQO10Pw4nNOq"
-Content-Disposition: inline
-In-Reply-To: <20230122181224.53996-1-didi.debian@cknow.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+v5: automated test for !defined(GENERIC_ENTRY) failed, fix fs/proc
+    use ifdef for GENERIC_ENTRY || TIF_SYSCALL_USER_DISPATCH
+    note: syscall user dispatch is not presently supported for
+          non-generic entry, but could be implemented. question is
+          whether the TIF_ define should be carved out now or then
 
---+N+rLQO10Pw4nNOq
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v4: Whitespace
+    s/CHECKPOINT_RESTART/CHECKPOINT_RESUME
+    check test_syscall_work(SYSCALL_USER_DISPATCH) to determine if it's
+    turned on or not in fs/proc/array and getter interface
 
-On Sun, Jan 22, 2023 at 07:12:23PM +0100, Diederik de Haas wrote:
-> Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
-> ---
->  Documentation/tools/rv/common_appendix.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/tools/rv/common_appendix.rst b/Documentation/t=
-ools/rv/common_appendix.rst
-> index f4239192bee8..655e1bd9bbe4 100644
-> --- a/Documentation/tools/rv/common_appendix.rst
-> +++ b/Documentation/tools/rv/common_appendix.rst
-> @@ -13,4 +13,4 @@ COPYING
->  =3D=3D=3D=3D=3D=3D=3D
-> =20
->  Copyright \(C) 2022 Red Hat, Inc. Free use of this software is granted u=
-nder
-> -the terms of the GNU Public License (GPL).
-> +the terms of the GNU General Public License (GPL).
-=20
-Similar response as [1].
+v3: Kernel test robot static function fix
+    Whitespace nitpicks
 
-Thanks.
+v2: Implements the getter/setter interface in ptrace rather than prctl
 
-[1]: https://lore.kernel.org/linux-doc/Y83tLoHnM496akUH@debian.me/
+Syscall user dispatch makes it possible to cleanly intercept system
+calls from user-land.  However, most transparent checkpoint software
+presently leverages some combination of ptrace and system call
+injection to place software in a ready-to-checkpoint state.
 
---=20
-An old man doll... just what I always wanted! - Clara
+If Syscall User Dispatch is enabled at the time of being quiesced,
+injected system calls will subsequently be interposed upon and
+dispatched to the task's signal handler.
 
---+N+rLQO10Pw4nNOq
-Content-Type: application/pgp-signature; name="signature.asc"
+This patch set implements 3 features to enable software such as CRIU
+to cleanly interpose upon software leveraging syscall user dispatch.
 
------BEGIN PGP SIGNATURE-----
+- Implement PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH, akin to a similar
+  feature for SECCOMP.  This allows a ptracer to temporarily disable
+  syscall user dispatch, making syscall injection possible.
 
-iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY83tswAKCRD2uYlJVVFO
-o77VAQCoYFJdqc+bj1pW+J0ywnUMgMZDyLOIZWSdDBQoyVwwPwD/eZ1ZHzdkT1ol
-Tj7QvV0bR36l2ZZSQlxXnZ88ACALegg=
-=Q7O0
------END PGP SIGNATURE-----
+- Implement an fs/proc extension that reports whether Syscall User
+  Dispatch is being used in proc/status.  A similar value is present
+  for SECCOMP, and is used to determine whether special logic is
+  needed during checkpoint/resume.
 
---+N+rLQO10Pw4nNOq--
+- Implement a getter interface for Syscall User Dispatch config info.
+  To resume successfully, the checkpoint/resume software has to
+  save and restore this information.  Presently this configuration
+  is write-only, with no way for C/R software to save it.
+
+  This was done in ptrace because syscall user dispatch is not part of
+  uapi. The syscall_user_dispatch_config structure was added to the
+  ptrace exports.
+
+Gregory Price (3):
+  ptrace,syscall_user_dispatch: Implement Syscall User Dispatch
+    Suspension
+  fs/proc/array: Add Syscall User Dispatch to proc status
+  ptrace,syscall_user_dispatch: add a getter/setter for sud
+    configuration
+
+ .../admin-guide/syscall-user-dispatch.rst     |  5 +-
+ fs/proc/array.c                               | 10 ++++
+ include/linux/ptrace.h                        |  2 +
+ include/linux/syscall_user_dispatch.h         | 19 +++++++
+ include/uapi/linux/ptrace.h                   | 16 +++++-
+ kernel/entry/syscall_user_dispatch.c          | 51 +++++++++++++++++++
+ kernel/ptrace.c                               | 13 +++++
+ 7 files changed, 114 insertions(+), 2 deletions(-)
+
+-- 
+2.39.0
+
