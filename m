@@ -2,157 +2,182 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A01BEC38142
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 15:09:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1D7EC54EB4
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 15:20:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229791AbjAWPJf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 10:09:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37394 "EHLO
+        id S232704AbjAWPU7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 10:20:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231547AbjAWPJe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 10:09:34 -0500
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2093.outbound.protection.outlook.com [40.107.92.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D057B976F;
-        Mon, 23 Jan 2023 07:09:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zj1yfUgNAEHG5jTK4Jo6b+VsB5gBu4O2mmUU3P0rFfVMZ/S4PgMTsLrfCerR0UQmwHRfCM+ZknNwic7nfMddtzmrhVXk1vZ3ITEOD3O+lhcOkZzhpHzsBRJ780sng1dcWUMeYCmYS3fjUhjmeGYqXaVCPrA7gfEtb4RWfzTDJ+CB5zpYgUA5hFaj7MygMPoUu2LDnF7Aw991UmJc+vy4xSPM/nxiNhoLwlTFMj8XkyAi/CelifeqfV/k97ZW8r7T5+YYmSUexBmE38n1/FCEGfsmd1Tq83tOsVbbo4N6mCSBEKhUOaHR49Fc3L3SLGXFw+3jpqjfzofZ9fmoeXd6MQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jvWHuXujh6xffarjGIGd/KE1M14nXyKdFgGEB4SPvx8=;
- b=TT1d5PiQXX68CwbO8G3N684OxlFd4OrJ8TaUcZskEKR1GfYz6Ltvb6O4n2ZdcPWylnmSMXNZuIb52dS1AzK3LXduv9PHhPJpKeGpkLz3g54txBEUggR37CBUCqSAfgYgSJ04fS1Wv6BdmJs9jXdq/La6Rb6qsdgQ9vdbKTf5BwQLO6AuZP2gLOAGw006xWSaerZww4o7BrvYLw3BOeRY8DilctwEYcvkLAToAf4qAMSI6LFRdMeDfAFrklCtHnMEQ3R3nea4dLYazM8+13M2/P+B0EUHjVkiInF1n1MrVa92SkCrLx+WJYfi7ybbNvdRR2i52ckqypwe5z6A78PGdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jvWHuXujh6xffarjGIGd/KE1M14nXyKdFgGEB4SPvx8=;
- b=dvN1uL2wwB0UmqETRyO1RbGbCXcJNz2zKNnDqCbNXr9QI3NcI8Ygpm/u3V0O9cf9KuQumT0XSv+T2BjW/wCob89TT4UU5qJjoBEdcCaTJVe0afDfRs7AvEpJClnLsQS05bVb9+hw/tgpNIqOJNIQVVUAoah4VFxmZvyyyptW8cs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by BY5PR13MB3636.namprd13.prod.outlook.com (2603:10b6:a03:21a::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Mon, 23 Jan
- 2023 15:09:27 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::eb5c:910f:3730:fd65]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::eb5c:910f:3730:fd65%5]) with mapi id 15.20.6002.033; Mon, 23 Jan 2023
- 15:09:27 +0000
-Date:   Mon, 23 Jan 2023 16:09:20 +0100
-From:   Simon Horman <simon.horman@corigine.com>
-To:     Leon Romanovsky <leon@kernel.org>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Ayush Sawal <ayush.sawal@chelsio.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        intel-wired-lan@lists.osuosl.org,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, oss-drivers@corigine.com,
-        Paolo Abeni <pabeni@redhat.com>,
-        Raju Rangoju <rajur@chelsio.com>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Veaceslav Falico <vfalico@gmail.com>
-Subject: Re: [PATCH net-next 06/10] nfp: fill IPsec state validation failure
- reason
-Message-ID: <Y86jIClrwWJsPk9v@corigine.com>
-References: <cover.1674481435.git.leon@kernel.org>
- <99049389f2f4fb967aac8026bd05f36ea13c47aa.1674481435.git.leon@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <99049389f2f4fb967aac8026bd05f36ea13c47aa.1674481435.git.leon@kernel.org>
-X-ClientProxiedBy: AM3PR07CA0131.eurprd07.prod.outlook.com
- (2603:10a6:207:8::17) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+        with ESMTP id S232706AbjAWPUr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 10:20:47 -0500
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F4E11EFE5;
+        Mon, 23 Jan 2023 07:20:09 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 16807581DF8;
+        Mon, 23 Jan 2023 10:18:10 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 23 Jan 2023 10:18:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+         h=cc:cc:content-transfer-encoding:content-type:date:date:from
+        :from:in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm1; t=1674487090; x=
+        1674494290; bh=5kISd+ukDqvXoyuUF5unW5X7Gt8EcZaBqFcmuVPXAbs=; b=N
+        Axston+PNN+fEVioeD1V/lezUKAdjHfU9WuPeXM7fHsZvGjnyyO2FVQ+2IoofTD3
+        jrYl4JgKxDGXYTYKPMymgiEMsC6peKta1bphKVU1+UBG482ZbUobglIP4uLXLjvh
+        iz8svKCfNXQ9/sb9i3m+ZwF5ZaddAN//4EqhB6TPnfp+I0l6pe5vuwRi/QBKI2DA
+        cqTe9fYYC3tH3u6FnXRVcaV+S9g7rlE4KqmpdJeD8mCh158fZwqoQlGQz8gdR2RT
+        TZ5v5u6AHEuv162fcDTraiqMcKEIhKISRcihlR2d/22rn6pKJO8WIigCLYMAcka4
+        KPN16U9YlPtzjLX8HdEjg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674487090; x=
+        1674494290; bh=5kISd+ukDqvXoyuUF5unW5X7Gt8EcZaBqFcmuVPXAbs=; b=Z
+        3pTD1YXyo5r/MKhvY5k85GR656ULBrcYsZOWggTr2ZC9w1c1I7Z+bY6sDSWgAvWJ
+        pM9aBZtww7dRFxUv0HoqMx4JpXc19n0xHG4h7LLGQ/08CnSbx2/q5hLy1/xprtl9
+        qgZlahCrM5wO2hvkE4Tfk+OSCUq8ywtwPX2h8kxtc5LDqf8FTDbrxmiXwVaQVDxJ
+        xy3rZPsc21uBW4nhTe5K7Yh1Z/O1Dh7LFReqE6wP2gfn1gkC7JRM4oIl+QfDAPt2
+        WTHg5DxjkMM4wlaD4/wKzLCzEXARGfJLoC5MplhMLol16WrJvJqE5JOjumf6rDBs
+        A9ScnDZUD2WKfbk/pDqkw==
+X-ME-Sender: <xms:L6XOY4oW7cZ0KsMoQyyuZwGY6jxIFenT4PMiIaNSantfsE6uWTbs7Q>
+    <xme:L6XOY-qwYHDktIPazniKsn1AzUL4NopVlq5iIgFWK6yLtyjtue5J0HMAdGfxcfvIb
+    CUpYKUzjwhHy2gSVpo>
+X-ME-Received: <xmr:L6XOY9PnNbOfZeVRWc98vtlCAHFsQcqdhzKjr484mTEUBaeQgt7coobZR7I4Vk5VDQZ57g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddukedgieegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpedfmfhi
+    rhhilhhlucetrdcuufhhuhhtvghmohhvfdcuoehkihhrihhllhesshhhuhhtvghmohhvrd
+    hnrghmvgeqnecuggftrfgrthhtvghrnhepvdfgjeffteevffetleefgfehjefffefftdeh
+    ffeljeevfffgffefueegfeeuuefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+    hmpehmrghilhhfrhhomhepkhhirhhilhhlsehshhhuthgvmhhovhdrnhgrmhgv
+X-ME-Proxy: <xmx:L6XOY_6yorHsS7PDkOUT35AZUSKjesOd8aMtN7N5ktN03p3PIE_yAg>
+    <xmx:L6XOY34uglE0JUtYx3xfFAjCtULHppwxo-Xi9yXUcwt4A53OqeQTJg>
+    <xmx:L6XOY_ibQUsgnKvUQ-qOWqsyFDdeARW97L0u0i9DUtUP8-Pi_dwYWA>
+    <xmx:MqXOY6cPQD-FBOYGYtkZJfYS69Xrq4oiYU-q5LMz6mcdWQpO5Xl6rA>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 23 Jan 2023 10:18:06 -0500 (EST)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id 45D7C10352A; Mon, 23 Jan 2023 18:18:03 +0300 (+03)
+Date:   Mon, 23 Jan 2023 18:18:03 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     "Huang, Kai" <kai.huang@intel.com>,
+        "chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "Hocko, Michal" <mhocko@suse.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "ak@linux.intel.com" <ak@linux.intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "tabba@google.com" <tabba@google.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "michael.roth@amd.com" <michael.roth@amd.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        "dhildenb@redhat.com" <dhildenb@redhat.com>,
+        "bfields@fieldses.org" <bfields@fieldses.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+        "ddutile@redhat.com" <ddutile@redhat.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
+        "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
+        "qperret@google.com" <qperret@google.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
+        "Christopherson,, Sean" <seanjc@google.com>,
+        "wanpengli@tencent.com" <wanpengli@tencent.com>,
+        "vannapurve@google.com" <vannapurve@google.com>,
+        "hughd@google.com" <hughd@google.com>,
+        "aarcange@redhat.com" <aarcange@redhat.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        "jlayton@kernel.org" <jlayton@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Wang, Wei W" <wei.w.wang@intel.com>,
+        "steven.price@arm.com" <steven.price@arm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linmiaohe@huawei.com" <linmiaohe@huawei.com>
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20230123151803.lwbjug6fm45olmru@box>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
+ <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
+ <20221219075313.GB1691829@chaop.bj.intel.com>
+ <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
+ <20221220072228.GA1724933@chaop.bj.intel.com>
+ <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
+ <20221221133905.GA1766136@chaop.bj.intel.com>
+ <b898e28d7fd7182e5d069646f84b650c748d9ca2.camel@intel.com>
+ <010a330c-a4d5-9c1a-3212-f9107d1c5f4e@suse.cz>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|BY5PR13MB3636:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ebb30dd-2b59-41ca-989d-08dafd53d20d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AG8CrpKvw0gbMXZ4dFSFSP5NJag0jnIcnvHzxmtnSFYmcCRxLLqjFA2A++4+EoOAKdk62+WCSRRMB5JKzfdOE+UQMR4P3VFKMLWL3Ednfuv3Fv7oTLup1h/NkRjqHoi/YX7AEZ2M7Uci7F0QPB+udWEMqAk773w5+ITGdrtPxhguvDWx0rFDAwPfVGTszzIVVCNpfG3/nLlIiPD53U/5/qldrro0utsWohI2e4K6Yr6uEkBi81r6D+oxf+zLx58jzR2eTU3i6/Q/C2TNlAHa5++qcvI2Q28T7Kj6tVRFXnRbjCgTSN7kYw8nRhPwB4PVaUXJnyl1YnNihp6MgjxcaEPX65zD+m1M1EqCciaWywXpjqaqCTrf35xOxq1YWV2r0bKBkcLZsG2mvomEsou6CE8yfwyw1DMZjEg4I/1kqlNh0y/d/J/e+Inm/+8i991WdvcD2rM96osLJNCqUSLD8bKFLeoT4D881gDLzpwoJW/6RPmzstctCEkYYM2gHP/eCM63dXPb4KrAdQXZdOfQ+ST7mUuiKMYjXpGbQSS5Dadwi43dJqX/sA2G957A1+Hwy0o6sS7cQhpEVvIof3DkXfcRyu29wEE2bGpHv8YI5wIPYceWoLOYpu1s1bNxQlOfh4az5tcCP5lRLfhPd2ZlDQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(376002)(346002)(39830400003)(366004)(396003)(451199015)(6666004)(6506007)(66946007)(66556008)(66476007)(478600001)(6512007)(6486002)(186003)(83380400001)(2906002)(41300700001)(8936002)(4744005)(5660300002)(7416002)(44832011)(4326008)(6916009)(8676002)(38100700002)(36756003)(316002)(86362001)(2616005)(54906003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0N0RL1PCqskt1qyOc4u7Wj/bB/uVuR3Vkh2eda/jDmnX6oLi8f5e63+POAHS?=
- =?us-ascii?Q?SVGF6VWBbaNo7rkAnt0lHC3T1BWuvztlXFtHEuOwO9VqCISc/+L71af57Fl7?=
- =?us-ascii?Q?Y8iusWEPTERDT28e1JbOOHR9oOF02M+UETyrL/8LmxqKrDyBWSvExUa9wlhf?=
- =?us-ascii?Q?l/hWhgegEua8oXyOOvSBJmGPcqE2rsIiNqILo9PCrEH7VkYnXIflns/7lSFs?=
- =?us-ascii?Q?uyM2XPb4Y7hfCTGOEWWG5N3pTauutguq03CWXjKZjPWol3VRsRFKrMmBOryi?=
- =?us-ascii?Q?8KZUEkEMlccLLC+kceYKAeHwMOTCYUAGus0kA40nP83q89aknJiKqRlkYqQe?=
- =?us-ascii?Q?B9nb9Bj9vj+RLRSFs2hrsejlPZ2c6bjuZqEz0G0vaRZhEquPNJDizkfh0DJ1?=
- =?us-ascii?Q?cCJc9mAFu8shk2P3QhQNWcra3FCLOE92tv51aMny7nvKT77PIMOijhgZ+QK7?=
- =?us-ascii?Q?/wFmyEYvLczYY83OgILpZVleFJoJ2WbcZV6z9ffW1co8ZU/QIXinGsmG9557?=
- =?us-ascii?Q?3FZVO1sTgwzeFEOjTyE3KlC73QMsm+G8FxPibVLYj2idxjY6FvlI/OX60jf4?=
- =?us-ascii?Q?0XyCLDJZYcyCrH5VSM19xc0H6FqWDrngv3S+ptIZJKv0YGVNOZIOjUvS5fz8?=
- =?us-ascii?Q?QmBnHOhTLg2SEzTp8fsuCM5BqJRxjL+XdgGGRTG42+I0Rek7AFO8CWXfSXU9?=
- =?us-ascii?Q?tAlR9dyiBSjpruSxIEY9ADcI2WmDxjevzzkL4IiM68Ix5bALpFy5dZ1uHyy1?=
- =?us-ascii?Q?V/tZ5TqJtNASATDnD3MnEiQ4ho3w0N+0aqTcKGZ6C7hGaAm9HeUryOlrYBqO?=
- =?us-ascii?Q?94LEU1O6XqubLn3pegeJjk9Cb/HdNOWnM7FYmWnOpFbArp8K9/g8JFwoOhXe?=
- =?us-ascii?Q?KdUNvesioJvNON6rEhN3Tk9vV7q4j6hJGWJdDKRPqRF7fDDYDFbZC7gousJ5?=
- =?us-ascii?Q?S109QpPBoseg6Yjn43PrAHGiI+bJhSXH/qWj90BGHlfg2y6+lqJ0+0S4VOMR?=
- =?us-ascii?Q?1sHD5vezE2gQdxB24NxdxlsM1JQM8Zfrag4BmSTP/KVqoZvafs7QOu5wBzqk?=
- =?us-ascii?Q?siXGA8+R21l3HLvztHQ/cA8GTa9/fPGYFpCinkA5y+J8FLbzle0YaVFqLF6n?=
- =?us-ascii?Q?v7zkrO8eMYO7qAcD57fFFzeM/lTt3uB3wMGipMDpEu+s1U4zUuJoqnY8I7/2?=
- =?us-ascii?Q?naeyRNFGx+Li8fODmvH1iViSM1kD1WXkx2bPKnsGhy3niWsUCW5Z8TVMD6yB?=
- =?us-ascii?Q?5hCe0ysWWSSN6Akua4918TaIHbZzEJex/Olo1PFW/pEksd6qc0YxxfL55nzj?=
- =?us-ascii?Q?pE6Ka55mNCvanIn+3UnOW1XUUe9gf73nm0nYDlr3f57zAChq5c2BEwQr1RxS?=
- =?us-ascii?Q?W0l9H5/CffXweJZ3jDf7OJmLR2XJzqOXyP+H4XN267z4+q2+y93hIqyGranI?=
- =?us-ascii?Q?LjHTZoOUNCvdNsFP/qdK2opuMJxHYmrewfRq+Sj1lu6WktVc1coiD01I2fyT?=
- =?us-ascii?Q?i4e+7tF1+xA5YQAMkXKfvqgUQhi9RxC/d2IIySjtJ+O2VVeSdpxrA4pA781o?=
- =?us-ascii?Q?tnHdVQL/kHA0eitwuSLPsgxBfyu25nPsgI3XAEU05KomqOu+oyGZigpubIUp?=
- =?us-ascii?Q?Evk/G2bzvvpgmlMRhIcdeRcSwK4YUfolBX//OXe2Iitqlruv4VBpJ4Pv5DRx?=
- =?us-ascii?Q?OqLNxQ=3D=3D?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ebb30dd-2b59-41ca-989d-08dafd53d20d
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 15:09:27.7690
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P/hRht5xkH8yDphyLVv3JzR4NXRUPv7QQqhQcBuUTVB9obeK5fU8ZV6i/wex6ZHH/6ezTrj8PxHRnD5ME2Euvulw6JD0PqBzU0cZ+Eo/+1U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR13MB3636
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <010a330c-a4d5-9c1a-3212-f9107d1c5f4e@suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 04:00:19PM +0200, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
+On Mon, Jan 23, 2023 at 03:03:45PM +0100, Vlastimil Babka wrote:
+> On 12/22/22 01:37, Huang, Kai wrote:
+> >>> I argue that this page pinning (or page migration prevention) is not
+> >>> tied to where the page comes from, instead related to how the page will
+> >>> be used. Whether the page is restrictedmem backed or GUP() backed, once
+> >>> it's used by current version of TDX then the page pinning is needed. So
+> >>> such page migration prevention is really TDX thing, even not KVM generic
+> >>> thing (that's why I think we don't need change the existing logic of
+> >>> kvm_release_pfn_clean()). 
+> >>>
+> > This essentially boils down to who "owns" page migration handling, and sadly,
+> > page migration is kinda "owned" by the core-kernel, i.e. KVM cannot handle page
+> > migration by itself -- it's just a passive receiver.
+> > 
+> > For normal pages, page migration is totally done by the core-kernel (i.e. it
+> > unmaps page from VMA, allocates a new page, and uses migrate_pape() or a_ops-
+> >> migrate_page() to actually migrate the page).
+> > In the sense of TDX, conceptually it should be done in the same way. The more
+> > important thing is: yes KVM can use get_page() to prevent page migration, but
+> > when KVM wants to support it, KVM cannot just remove get_page(), as the core-
+> > kernel will still just do migrate_page() which won't work for TDX (given
+> > restricted_memfd doesn't have a_ops->migrate_page() implemented).
+> > 
+> > So I think the restricted_memfd filesystem should own page migration handling,
+> > (i.e. by implementing a_ops->migrate_page() to either just reject page migration
+> > or somehow support it).
 > 
-> Rely on extack to return failure reason.
-> 
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> Signed-off-by: Leon Romanovsky <leon@kernel.org>
+> While this thread seems to be settled on refcounts already, just wanted
+> to point out that it wouldn't be ideal to prevent migrations by
+> a_ops->migrate_page() rejecting them. It would mean cputime wasted (i.e.
+> by memory compaction) by isolating the pages for migration and then
+> releasing them after the callback rejects it (at least we wouldn't waste
+> time creating and undoing migration entries in the userspace page tables
+> as there's no mmap). Elevated refcount on the other hand is detected
+> very early in compaction so no isolation is attempted, so from that
+> aspect it's optimal.
 
-One minor suggestion below, but regardless this looks good to me.
+Hm. Do we need a new hook in a_ops to check if the page is migratable
+before going with longer path to migrate_page().
 
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
+Or maybe add AS_UNMOVABLE?
 
-> ---
->  .../net/ethernet/netronome/nfp/crypto/ipsec.c | 38 +++++++++----------
->  1 file changed, 19 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/netronome/nfp/crypto/ipsec.c b/drivers/net/ethernet/netronome/nfp/crypto/ipsec.c
-> index 41b98f2b7402..7af41cbc8c0b 100644
-> --- a/drivers/net/ethernet/netronome/nfp/crypto/ipsec.c
-> +++ b/drivers/net/ethernet/netronome/nfp/crypto/ipsec.c
-
-...
-
->  	if (x->xso.type != XFRM_DEV_OFFLOAD_CRYPTO) {
-> -		nn_err(nn, "Unsupported xfrm offload tyoe\n");
-> +		NL_SET_ERR_MSG_MOD(extack, "Unsupported xfrm offload tyoe");
-
-While we are here, maybe s/tyoe/type/ ?
-
-...
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
