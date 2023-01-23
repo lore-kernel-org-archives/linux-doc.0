@@ -2,120 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A63C7C27C76
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 00:05:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00FAFC25B4E
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 02:11:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230131AbjAWAFL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Jan 2023 19:05:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57196 "EHLO
+        id S230014AbjAWCLI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Jan 2023 21:11:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229990AbjAWAFL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 19:05:11 -0500
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B956F166F9
-        for <linux-doc@vger.kernel.org>; Sun, 22 Jan 2023 16:05:09 -0800 (PST)
-Received: by mail-pl1-x62d.google.com with SMTP id 5so4588355plo.3
-        for <linux-doc@vger.kernel.org>; Sun, 22 Jan 2023 16:05:09 -0800 (PST)
+        with ESMTP id S229817AbjAWCLH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Jan 2023 21:11:07 -0500
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7A12125A2;
+        Sun, 22 Jan 2023 18:11:03 -0800 (PST)
+Received: by mail-pl1-x631.google.com with SMTP id v23so10089358plo.1;
+        Sun, 22 Jan 2023 18:11:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=B2xejZRuLs+ZU0c0v7N7NIEdAZdeKl5ODz7hV6KgzoA=;
-        b=opQ6nf3m7gU2WmlvEM/RkgYQi1AsyQ5hAOzW/oyI4HXTCgnTRC3rGCNUtUQZ7/qdPD
-         dRGX94hTwI1+8yxBxFlI/q9stk1Ijv9P9hnImDgta05wjMrpv5PT9htPpv/SalmUggGj
-         bGa2fU0GDZsrqAnDNzesmXM4BEmEEaCyr1vc71+DrBRKkHKoUe5zl2Wq9Sb/DhS7PmZK
-         8MoaT09RR6QNPSfcxcvU676ZlJBVXMTG05ShdoUE2ptWtQt83ZAh31QzPSwsjFdAvM5P
-         Z27gBv/7k6RuGi1CKHM2FQMhUVEvZR0vba6CuynBTBpyXk6DKnZ9o//kRdaVZu/6RYar
-         onTg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hgCwbfHUqzSMimmUl+HmnmrlXdLUzZkCtP90K9LBmDA=;
+        b=PfcyXdaH9tjRLkzHJNi/eAO06HNhh0jUvKHfHWHKMllH3R9XtQURjdPzmby86O01PS
+         fausoC/5p+pJj+lQqmeZdofPx0EghCLr2Nq3LdZLTj8mpAtzHLCrv4ytA79XlJyszNx1
+         bt7hoJTS1eA4ptKtpzGLNckn9awtWFWfT0fgMMlgASRCO/IBekoWUq+T78bx+l5SIALG
+         iItL82C3ZDdgUG5WSfNcu3h0EOW3Iqa2lnYe4CDHsVL5IRQD5wCeb2epQZAkRGm5jEsK
+         3wAfEajQSYlQgGlhWpx10rqH2NeqhmhYJHyooIzfQEuzHs/grxcLT3tfy7ib5Y/rWH1n
+         7aew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B2xejZRuLs+ZU0c0v7N7NIEdAZdeKl5ODz7hV6KgzoA=;
-        b=8Lsi8MX+IilNC+q9R6m3jmc3RdqtbtspjAZCuOOPVekcIX6y+4V8p51HMRs6pkcVgb
-         vhiBE4ZIYUnc7l1B8qjOOktzvIXxr03miujbNqzJ6CYEptCf49qWfxamy/OpsHJfmLI8
-         Pst8WaV+wjGCevP/CylNf/iY4zNVebXWM6VfZ2atvC3eMXKvk4pszqQSJZHHuWxVDblB
-         L6yHYhWitTSxhmFSTgqheDmGF0WIbPFzBKrCS3ksTzoxcKkb++Zyi5iDvPLhteulubxc
-         7qQbTVZkRVTlNOw1Ncodq7OCEhwGcYDTntZirDlR130bFD+8D2TNqwfmXw0NqCIBvD+A
-         CrrQ==
-X-Gm-Message-State: AFqh2kr+zlzFdmkgOQ29XtO91plBlFYnrZ3zMG/gvjieGHSWcanHXq9n
-        7VidH0Utl8N8fLJt2MHEduw=
-X-Google-Smtp-Source: AMrXdXt99ljFRmysBAxEqKL5yE/FDbkpGwrN996oqVPu0eGoZLJlCqaNGDDKxbFBSpb61GjaQR28+Q==
-X-Received: by 2002:a17:902:8493:b0:194:3dce:deb5 with SMTP id c19-20020a170902849300b001943dcedeb5mr24467915plo.27.1674432308976;
-        Sun, 22 Jan 2023 16:05:08 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id u20-20020a170902e21400b0019311ec72e8sm15157924plb.253.2023.01.22.16.05.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Jan 2023 16:05:08 -0800 (PST)
-Message-ID: <6b2e496f-d7f6-abea-6bbd-4b12fea76a68@gmail.com>
-Date:   Mon, 23 Jan 2023 09:05:05 +0900
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hgCwbfHUqzSMimmUl+HmnmrlXdLUzZkCtP90K9LBmDA=;
+        b=Jc2+kxvxI1hcAI+U7eFBSA4dFvyNadja/xMEsC5Jw8iuzA+2o2m1ACPtiortvvFoD9
+         m1LzVOp4xJOQBIyPkRrBg6zXNWagerVCO2jsm4JbEzmyrUNG0wQ7QrKAPcKpRTdJyGuU
+         NckbkDMHurLg8PjCTU3XkTmjR1AIXMRw72GxeqQiJLwFzxmvWircOlXBGzLAUmHris7Q
+         n3Rhj0KNKLVwzYdWvSLmu/8EciYa+FrY4Rm3zYc8mqp780eEe5vSD8sCZfkjhiKjYeuV
+         7cBP2WG3qvg/LZ1rqXYmrY+0+Xz9yAOp76yjgxWnxUdR6r6yQbnbkSuG8Zg+6iP4yAiR
+         uMpQ==
+X-Gm-Message-State: AFqh2kqU/7GpAPVIshtjjrA8W7C1Lw+Om2EWCiAhEXB34VA5SZIc+uYr
+        0LmRG17Y2cuXG3ISYMMCmYo=
+X-Google-Smtp-Source: AMrXdXvzKpxRzl6KdiTqxN1ZHV0dLGbklJ27cUWHuu38ZmnNYcvS/h5O4VPOh9o1IlCxMOr+RhT/pA==
+X-Received: by 2002:a17:90b:18a:b0:228:c8a1:3510 with SMTP id t10-20020a17090b018a00b00228c8a13510mr22968510pjs.5.1674439863008;
+        Sun, 22 Jan 2023 18:11:03 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-76.three.co.id. [180.214.232.76])
+        by smtp.gmail.com with ESMTPSA id lj10-20020a17090b344a00b002272616d3e1sm5497508pjb.40.2023.01.22.18.11.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Jan 2023 18:11:02 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id DB3551055BA; Mon, 23 Jan 2023 09:10:58 +0700 (WIB)
+Date:   Mon, 23 Jan 2023 09:10:58 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Diederik de Haas <didi.debian@cknow.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:EXT4 FILE SYSTEM" <linux-ext4@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] docs: ext4: Fix full name of the GPL
+Message-ID: <Y83sssQr5DMg2KMc@debian.me>
+References: <20230122180552.53445-1-didi.debian@cknow.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH RFC] docs: Add more information to the HTML sidebar
-From:   Akira Yokosawa <akiyks@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, David Gow <davidgow@google.com>,
-        Sadiya Kazi <sadiyakazi@google.com>,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <87o7qu5al3.fsf@meer.lwn.net>
- <CAO2JNKW9pL5097qdte1N4F=RSnRJtcnpaDf__ROJAFfHitooYQ@mail.gmail.com>
- <fa426691-c76a-8ab0-4975-6edacc9cb247@gmail.com>
-Content-Language: en-US
-In-Reply-To: <fa426691-c76a-8ab0-4975-6edacc9cb247@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="zNGtea+rj3WwB3Tt"
+Content-Disposition: inline
+In-Reply-To: <20230122180552.53445-1-didi.debian@cknow.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
 
-On Fri, 20 Jan 2023 23:09:34 +0900, Akira Yokosawa wrote:
-...
-> 
-> I have mostly the same list of possible improvements.
-> 
-> As for the "where am I?" syndrome, it would be helpful if the sidebar
-> could be scrolled independently.
-> 
-> I'd really like to suggest some code changes, but unable to do so.
+--zNGtea+rj3WwB3Tt
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-There is a related question at stackoverflow [1].
-The CSS tweak mentioned in its answer works like a charm.
+On Sun, Jan 22, 2023 at 07:05:51PM +0100, Diederik de Haas wrote:
+> Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
 
-Can you try the changes below on top of this RFC patch?
+No patch description, really?
 
-[1]: https://stackoverflow.com/questions/57031848/sphinx-alabaster-theme-scroll-inside-of-fixed-sidebar
+> ---
+>  Documentation/filesystems/ext4/about.rst | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/filesystems/ext4/about.rst b/Documentation/fil=
+esystems/ext4/about.rst
+> index cc76b577d2f4..c150519bbf3f 100644
+> --- a/Documentation/filesystems/ext4/about.rst
+> +++ b/Documentation/filesystems/ext4/about.rst
+> @@ -17,7 +17,8 @@ created demonstration filesystems.
+> =20
+>  License
+>  -------
+> -This book is licensed under the terms of the GNU Public License, v2.
+> +This book is licensed under the terms of the GNU General Public License,
+> +v2.
 
-        Thanks, Akira
+The doc has already SPDX identifier above. Please remmove the sentence above
+instead.
+=20
+In recent days, I have seen the sudden influx of s/GNU Public License/GNU
+General Public License/g patches from you, for which many developers ask yo=
+u to
+replace with SPDX identifier instead (see [1], [2], and [3]). Please do
+a tree-wide SPDX patch.
 
--------------------------------
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 233f2f585143..6c8ccf3095ac 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -328,6 +328,7 @@ if  html_theme == 'alabaster':
-         'description': get_cline_version(),
-         'page_width': '65em',
-         'sidebar_width': '15em',
-+        'fixed_sidebar': 'true',
-         'font_size': 'inherit',
-         'font_family': 'serif',
-     }
-diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index 1ad0899bc8f1..3ec27edeb394 100644
---- a/Documentation/sphinx-static/custom.css
-+++ b/Documentation/sphinx-static/custom.css
-@@ -11,7 +11,7 @@ div.body h3 { font-size: 130%; }
- /* Tighten up the layout slightly */
- div.body { padding: 0 15px 0 10px; }
- div.sphinxsidebarwrapper { padding: 1em 0.4em; }
--div.sphinxsidebar { font-size: inherit; }
-+div.sphinxsidebar { font-size: inherit; max-height: 100%; overflow-y: auto; }
- /* Tweak document margins and don't force width */
- div.document {
-     margin: 20px 10px 0 10px; 
+Thanks.
 
+[1]: https://lore.kernel.org/lkml/ad99d227-ce82-319b-6323-b70ac009d0e7@roec=
+k-us.net/=09
+[2]: https://lore.kernel.org/lkml/6d9053c6-b56e-51f4-db47-79264f1f5672@wana=
+doo.fr/
+[3]: https://lore.kernel.org/lkml/20230122111707.68ddead6@hermes.local/
+ =20
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--zNGtea+rj3WwB3Tt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY83sqgAKCRD2uYlJVVFO
+oxLVAQCDkmlPnvmX1rmIBFt/kjjIMljAjJVOHUvSZqg1yxnk9gD/fDOypd3ecfEi
+VdlKAtmtiwyYQnLNF1HWRWlG2JtqPAY=
+=OAcv
+-----END PGP SIGNATURE-----
+
+--zNGtea+rj3WwB3Tt--
