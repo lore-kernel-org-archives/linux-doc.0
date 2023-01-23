@@ -2,79 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E85FBC05027
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 12:45:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA3DAC54E94
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Jan 2023 12:46:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229580AbjAWMpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 07:45:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46752 "EHLO
+        id S231624AbjAWMqi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 07:46:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231516AbjAWMo6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 07:44:58 -0500
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C98310F2;
-        Mon, 23 Jan 2023 04:44:54 -0800 (PST)
+        with ESMTP id S231492AbjAWMqg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 07:46:36 -0500
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E3AB18A9B;
+        Mon, 23 Jan 2023 04:46:18 -0800 (PST)
 Received: (Authenticated sender: didi.debian@cknow.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id DB68EFF808;
-        Mon, 23 Jan 2023 12:44:49 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 4453D240007;
+        Mon, 23 Jan 2023 12:46:15 +0000 (UTC)
 From:   Diederik de Haas <didi.debian@cknow.org>
-To:     Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:EXT4 FILE SYSTEM" <linux-ext4@vger.kernel.org>,
+        "open list:Real-time Linux Analysis (RTLA) tools" 
+        <linux-trace-devel@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH] docs: ext4: Fix full name of the GPL
-Date:   Mon, 23 Jan 2023 13:44:39 +0100
-Message-ID: <3646506.8mSpapujdy@prancing-pony>
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] docs: rtla: Fix full name of the GPL
+Date:   Mon, 23 Jan 2023 13:46:13 +0100
+Message-ID: <3662062.6GDvbXJKDi@prancing-pony>
 Organization: Connecting Knowledge
-In-Reply-To: <Y83sssQr5DMg2KMc@debian.me>
-References: <20230122180552.53445-1-didi.debian@cknow.org> <Y83sssQr5DMg2KMc@debian.me>
+In-Reply-To: <20230122181053.53725-1-didi.debian@cknow.org>
+References: <20230122181053.53725-1-didi.debian@cknow.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart2544699.zn6EbIjqi8";
+Content-Type: multipart/signed; boundary="nextPart14116722.KWirgJKoxj";
  micalg="pgp-sha256"; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---nextPart2544699.zn6EbIjqi8
+--nextPart14116722.KWirgJKoxj
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
 From: Diederik de Haas <didi.debian@cknow.org>
-Subject: Re: [PATCH] docs: ext4: Fix full name of the GPL
-Date: Mon, 23 Jan 2023 13:44:39 +0100
-Message-ID: <3646506.8mSpapujdy@prancing-pony>
+Subject: Re: [PATCH] docs: rtla: Fix full name of the GPL
+Date: Mon, 23 Jan 2023 13:46:13 +0100
+Message-ID: <3662062.6GDvbXJKDi@prancing-pony>
 Organization: Connecting Knowledge
-In-Reply-To: <Y83sssQr5DMg2KMc@debian.me>
+In-Reply-To: <20230122181053.53725-1-didi.debian@cknow.org>
+References: <20230122181053.53725-1-didi.debian@cknow.org>
 MIME-Version: 1.0
 
-On Monday, 23 January 2023 03:10:58 CET Bagas Sanjaya wrote:
-> On Sun, Jan 22, 2023 at 07:05:51PM +0100, Diederik de Haas wrote:
-> > Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
-> 
-> No patch description, really?
+On Sunday, 22 January 2023 19:10:53 CET Diederik de Haas wrote:
+> Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
+> ---
+>  Documentation/tools/rtla/common_appendix.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Please disregard this patch.
-Next to 'style' issues, I now consider my initial view of the issue as a 
-spelling error, incorrect. I would be changing the license and IANAL. I'm also 
-not the copyright holder which I believe is needed to change the license.
+I now consider my initial view of the issue as a spelling error, incorrect. I 
+would be changing the license and IANAL. I'm also not the copyright holder 
+which I believe is needed to change the license.
 
 Apologies for the noise.
---nextPart2544699.zn6EbIjqi8
+
+--nextPart14116722.KWirgJKoxj
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part.
 Content-Transfer-Encoding: 7Bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCY86BNwAKCRDXblvOeH7b
-brZDAQCmtrkOWI0AjDGhSLfIBsARQYzA54GkUTMLlHsvWRHLjwD8DurJ0uAObF0D
-OcW7Gt5ETOE91uPjo2ziLc99f3AMGg4=
-=WKHS
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCY86BlQAKCRDXblvOeH7b
+bhitAP9qOF/XJ3v/bEes/zx8MTG5KbzLDpS5IlfAtN1ggFdM8AD/SAeQO9IAp/yF
+ko2nQfjYrz4dDuyfa7aUJNq3JyxvWAQ=
+=A/Xz
 -----END PGP SIGNATURE-----
 
---nextPart2544699.zn6EbIjqi8--
+--nextPart14116722.KWirgJKoxj--
 
 
 
