@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F2A5C636CB
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 18:38:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B289EC54EAA
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 18:38:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230200AbjAXSiL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 13:38:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42084 "EHLO
+        id S233898AbjAXSiO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 13:38:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233657AbjAXSiG (ORCPT
+        with ESMTP id S233542AbjAXSiG (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 13:38:06 -0500
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FFAC3D90D
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C4023526B
         for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 10:37:58 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:2f4a:8573:c294:b2ce])
-        by albert.telenet-ops.be with bizsmtp
-        id CidZ2900356uRqi06idZVY; Tue, 24 Jan 2023 19:37:55 +0100
+        by laurent.telenet-ops.be with bizsmtp
+        id CidZ2900K56uRqi01idZ2h; Tue, 24 Jan 2023 19:37:55 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pKOAe-007HCO-Ho;
+        id 1pKOAe-007HCs-OB;
         Tue, 24 Jan 2023 19:37:33 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1pKOAn-002n0c-1h;
+        id 1pKOAn-002n1A-8j;
         Tue, 24 Jan 2023 19:37:33 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
@@ -54,9 +54,9 @@ Cc:     linux-phy@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 2/9] doc: phy: Document devm_of_phy_get()
-Date:   Tue, 24 Jan 2023 19:37:21 +0100
-Message-Id: <768d5845668f081620098a0b4479d1481e212bac.1674584626.git.geert+renesas@glider.be>
+Subject: [PATCH v2 9/9] usb: host: ohci-exynos: Convert to devm_of_phy_optional_get()
+Date:   Tue, 24 Jan 2023 19:37:28 +0100
+Message-Id: <3adc5dd1149a17ea7daf4463549feab886c6b145.1674584626.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1674584626.git.geert+renesas@glider.be>
 References: <cover.1674584626.git.geert+renesas@glider.be>
@@ -66,45 +66,79 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the missing documentation for devm_of_phy_get(), which was forgotten
-when the function was introduced.
+Use the new devm_of_phy_optional_get() helper instead of open-coding the
+same operation.
+
+As devm_of_phy_optional_get() returns NULL if either the PHY cannot be
+found, or if support for the PHY framework is not enabled, it is no
+longer needed to check for -ENODEV or -ENOSYS.
+
+This lets us drop several checks for IS_ERR(), as phy_power_{on,off}()
+handle NULL parameters fine.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 ---
 v2:
-  - New.
+  - Add Acked-by,
+  - Clarify removed checks for -ENODEV and -ENOSYS,
+  - Remove error printing in case of real failures.
 ---
- Documentation/driver-api/phy/phy.rst | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/usb/host/ohci-exynos.c | 23 ++++++-----------------
+ 1 file changed, 6 insertions(+), 17 deletions(-)
 
-diff --git a/Documentation/driver-api/phy/phy.rst b/Documentation/driver-api/phy/phy.rst
-index 26467dd4f291505e..6cadc58f4ce07ce4 100644
---- a/Documentation/driver-api/phy/phy.rst
-+++ b/Documentation/driver-api/phy/phy.rst
-@@ -106,6 +106,8 @@ it. This framework provides the following APIs to get a reference to the PHY.
- 	struct phy *devm_phy_get(struct device *dev, const char *string);
- 	struct phy *devm_phy_optional_get(struct device *dev,
- 					  const char *string);
-+	struct phy *devm_of_phy_get(struct device *dev, struct device_node *np,
-+				    const char *con_id);
- 	struct phy *devm_of_phy_get_by_index(struct device *dev,
- 					     struct device_node *np,
- 					     int index);
-@@ -119,10 +121,10 @@ successful PHY get. On driver detach, release function is invoked on
- the devres data and devres data is freed.
- devm_phy_optional_get should be used when the phy is optional. This
- function will never return -ENODEV, but instead returns NULL when
--the phy cannot be found.Some generic drivers, such as ehci, may use multiple
--phys and for such drivers referencing phy(s) by name(s) does not make sense. In
--this case, devm_of_phy_get_by_index can be used to get a phy reference based on
--the index.
-+the phy cannot be found.
-+Some generic drivers, such as ehci, may use multiple phys. In this case,
-+devm_of_phy_get or devm_of_phy_get_by_index can be used to get a phy
-+reference based on name or index.
+diff --git a/drivers/usb/host/ohci-exynos.c b/drivers/usb/host/ohci-exynos.c
+index 8d7977fd5d3bd502..8af17c1ee5cc8f1e 100644
+--- a/drivers/usb/host/ohci-exynos.c
++++ b/drivers/usb/host/ohci-exynos.c
+@@ -69,19 +69,11 @@ static int exynos_ohci_get_phy(struct device *dev,
+ 			return -EINVAL;
+ 		}
  
- It should be noted that NULL is a valid phy reference. All phy
- consumer calls on the NULL phy become NOPs. That is the release calls,
+-		phy = devm_of_phy_get(dev, child, NULL);
++		phy = devm_of_phy_optional_get(dev, child, NULL);
+ 		exynos_ohci->phy[phy_number] = phy;
+ 		if (IS_ERR(phy)) {
+-			ret = PTR_ERR(phy);
+-			if (ret == -EPROBE_DEFER) {
+-				of_node_put(child);
+-				return ret;
+-			} else if (ret != -ENOSYS && ret != -ENODEV) {
+-				dev_err(dev,
+-					"Error retrieving usb2 phy: %d\n", ret);
+-				of_node_put(child);
+-				return ret;
+-			}
++			of_node_put(child);
++			return PTR_ERR(phy);
+ 		}
+ 	}
+ 
+@@ -97,12 +89,10 @@ static int exynos_ohci_phy_enable(struct device *dev)
+ 	int ret = 0;
+ 
+ 	for (i = 0; ret == 0 && i < PHY_NUMBER; i++)
+-		if (!IS_ERR(exynos_ohci->phy[i]))
+-			ret = phy_power_on(exynos_ohci->phy[i]);
++		ret = phy_power_on(exynos_ohci->phy[i]);
+ 	if (ret)
+ 		for (i--; i >= 0; i--)
+-			if (!IS_ERR(exynos_ohci->phy[i]))
+-				phy_power_off(exynos_ohci->phy[i]);
++			phy_power_off(exynos_ohci->phy[i]);
+ 
+ 	return ret;
+ }
+@@ -114,8 +104,7 @@ static void exynos_ohci_phy_disable(struct device *dev)
+ 	int i;
+ 
+ 	for (i = 0; i < PHY_NUMBER; i++)
+-		if (!IS_ERR(exynos_ohci->phy[i]))
+-			phy_power_off(exynos_ohci->phy[i]);
++		phy_power_off(exynos_ohci->phy[i]);
+ }
+ 
+ static int exynos_ohci_probe(struct platform_device *pdev)
 -- 
 2.34.1
 
