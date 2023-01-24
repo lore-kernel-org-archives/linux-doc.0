@@ -2,157 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4451C54EED
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 19:35:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E82CC25B4E
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 19:39:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234621AbjAXTfs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 14:35:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39416 "EHLO
+        id S234957AbjAXTjX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 14:39:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234599AbjAXTf2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 14:35:28 -0500
+        with ESMTP id S234621AbjAXTjJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 14:39:09 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C20A25297;
-        Tue, 24 Jan 2023 11:35:26 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60CE737F21;
+        Tue, 24 Jan 2023 11:38:34 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D952661341;
-        Tue, 24 Jan 2023 19:35:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99FFDC433A7;
-        Tue, 24 Jan 2023 19:35:24 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E22EB6132F;
+        Tue, 24 Jan 2023 19:38:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 076E3C433EF;
+        Tue, 24 Jan 2023 19:38:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674588925;
-        bh=/jGsR3QCie3WCGiOCpscKDlQm9Ms2Wrfx9M/SLY3XLM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hNBQlPZ5hKFlcJjgtJjXvGz2q8sK50kIZOjJV5f5bhmLhUc5VbfhcMuWPvmK/LgQq
-         at3/qU4Qe0SQ/+JUu2OEmtsLZUHWYPhXdUR72zrwgWLbTjCWWtVdkWkfxLmQA+cmr0
-         R+vGPXpYBwpOVonGeJQpi7OcE2lxtVJE8OawdJxIGDUgxTNz/w0zIVfDHmhMpFuVK0
-         OuXKtd8my5zkAWqVQ+aG970O0/9TYJh7/KKXoaHXvo5UkQD/4FX/y8xzXwkHxv+QXb
-         /ygF11/8+4l4lw4sBVv3xwVIph6UviXWXsGmBMvggs0mA5T6/9TRBYjTbeAGueg40M
-         cysvXxKHiPD2w==
+        s=k20201202; t=1674589088;
+        bh=xskT3KnwkyFLprec2IlaRirgxO1LovXoHkpjNb/gJ1Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mGX2BR1NivoX64yXLnw2GadSQj6oZ6MwDKQwi+whK2XwKu78q1Z84/Q0KH3l1ndiu
+         WRCLU4yC5YkBglzZ3/XdB7pPzqwmSDz8F8REbFFMNCUcknKIQ+q0ZO582QMFJnMVm+
+         328BmjttvgFGtxPDt3bB1+WD+JBtu4xTIt5P1ZzQAJCFvI1tsjCmP8DSrp9c3EW9hW
+         OvCIMCkMkH91ZyZGL4sj/irS0GnbFfmjUDpAnMM8nRmJI073Ie9H2ER3cqWhjHI/hc
+         8J5xZW2Quh7v4+zXbLYfEzD6UQxWyEhYbQrm4IaqHq+E1dBZgzuqXY/a7DonF21GA2
+         wVQvXA6Culsaw==
+Date:   Tue, 24 Jan 2023 11:38:05 -0800
 From:   Eric Biggers <ebiggers@kernel.org>
-To:     stable@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Kees Cook <keescook@chromium.org>, SeongJae Park <sj@kernel.org>,
-        Seth Jenkins <sethjenkins@google.com>,
-        Jann Horn <jannh@google.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Seth Jenkins <sethjenkins@google.com>,
+        SeongJae Park <sj@kernel.org>, Jann Horn <jannh@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linus Torvalds <torvalds@linuxfoundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Eric Biggers <ebiggers@google.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Petr Mladek <pmladek@suse.com>,
         tangmeng <tangmeng@uniontech.com>,
         "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
         Tiezhu Yang <yangtiezhu@loongson.cn>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-doc@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH 5.10 17/20] panic: Introduce warn_limit
-Date:   Tue, 24 Jan 2023 11:30:01 -0800
-Message-Id: <20230124193004.206841-18-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230124193004.206841-1-ebiggers@kernel.org>
-References: <20230124193004.206841-1-ebiggers@kernel.org>
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        David Gow <davidgow@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Laurent Dufour <ldufour@linux.ibm.com>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3 2/6] exit: Put an upper limit on how often we can oops
+Message-ID: <Y9AzndICHRElk4jI@sol.localdomain>
+References: <20221117234328.594699-2-keescook@chromium.org>
+ <20230119201023.4003-1-sj@kernel.org>
+ <CALxfFW76Ey=QNu--Vp59u2wukr6dzvOE25PkOHVw0b13YoCSiA@mail.gmail.com>
+ <202301191627.FC1E24ED5@keescook>
+ <Y9ApdF5LaUl9dNFm@sol.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y9ApdF5LaUl9dNFm@sol.localdomain>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Kees Cook <keescook@chromium.org>
+On Tue, Jan 24, 2023 at 10:54:57AM -0800, Eric Biggers wrote:
+> On Thu, Jan 19, 2023 at 04:28:42PM -0800, Kees Cook wrote:
+> > On Thu, Jan 19, 2023 at 03:19:21PM -0500, Seth Jenkins wrote:
+> > > > Do you have a plan to backport this into upstream LTS kernels?
+> > > 
+> > > As I understand, the answer is "hopefully yes" with the big
+> > > presumption that all stakeholders are on board for the change. There
+> > > is *definitely* a plan to *submit* backports to the stable trees, but
+> > > ofc it will require some approvals.
+> > 
+> > I've asked for at least v6.1.x (it's a clean cherry-pick). Earlier
+> > kernels will need some non-trivial backporting. Is there anyone that
+> > would be interested in stepping up to do that?
+> > 
+> > https://lore.kernel.org/lkml/202301191532.AEEC765@keescook
+> > 
+> 
+> I've sent out a backport to 5.15:
+> https://lore.kernel.org/stable/20230124185110.143857-1-ebiggers@kernel.org/T/#t
 
-commit 9fc9e278a5c0b708eeffaf47d6eb0c82aa74ed78 upstream.
+Also 5.10, which wasn't too hard after doing 5.15:
+https://lore.kernel.org/stable/20230124193004.206841-1-ebiggers@kernel.org/T/#t
 
-Like oops_limit, add warn_limit for limiting the number of warnings when
-panic_on_warn is not set.
-
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Eric Biggers <ebiggers@google.com>
-Cc: Huang Ying <ying.huang@intel.com>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: tangmeng <tangmeng@uniontech.com>
-Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-doc@vger.kernel.org
-Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-Signed-off-by: Kees Cook <keescook@chromium.org>
-Link: https://lore.kernel.org/r/20221117234328.594699-5-keescook@chromium.org
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
- Documentation/admin-guide/sysctl/kernel.rst | 10 ++++++++++
- kernel/panic.c                              | 14 ++++++++++++++
- 2 files changed, 24 insertions(+)
-
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 470262c088589..6b0c7b650deaa 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -1478,6 +1478,16 @@ entry will default to 2 instead of 0.
- 2 Unprivileged calls to ``bpf()`` are disabled
- = =============================================================
- 
-+
-+warn_limit
-+==========
-+
-+Number of kernel warnings after which the kernel should panic when
-+``panic_on_warn`` is not set. Setting this to 0 disables checking
-+the warning count. Setting this to 1 has the same effect as setting
-+``panic_on_warn=1``. The default value is 0.
-+
-+
- watchdog
- ========
- 
-diff --git a/kernel/panic.c b/kernel/panic.c
-index 0da47888f72e8..e341366bd3e8b 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -56,6 +56,7 @@ bool crash_kexec_post_notifiers;
- int panic_on_warn __read_mostly;
- unsigned long panic_on_taint;
- bool panic_on_taint_nousertaint = false;
-+static unsigned int warn_limit __read_mostly;
- 
- int panic_timeout = CONFIG_PANIC_TIMEOUT;
- EXPORT_SYMBOL_GPL(panic_timeout);
-@@ -85,6 +86,13 @@ static struct ctl_table kern_panic_table[] = {
- 		.extra2         = SYSCTL_ONE,
- 	},
- #endif
-+	{
-+		.procname       = "warn_limit",
-+		.data           = &warn_limit,
-+		.maxlen         = sizeof(warn_limit),
-+		.mode           = 0644,
-+		.proc_handler   = proc_douintvec,
-+	},
- 	{ }
- };
- 
-@@ -194,8 +202,14 @@ static void panic_print_sys_info(void)
- 
- void check_panic_on_warn(const char *origin)
- {
-+	static atomic_t warn_count = ATOMIC_INIT(0);
-+
- 	if (panic_on_warn)
- 		panic("%s: panic_on_warn set ...\n", origin);
-+
-+	if (atomic_inc_return(&warn_count) >= READ_ONCE(warn_limit) && warn_limit)
-+		panic("%s: system warned too often (kernel.warn_limit is %d)",
-+		      origin, warn_limit);
- }
- 
- /**
--- 
-2.39.1
-
+- Eric
