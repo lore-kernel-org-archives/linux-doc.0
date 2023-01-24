@@ -2,104 +2,187 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EAFBC05027
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 01:19:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F756C54EB4
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 01:28:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232677AbjAXBTF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 20:19:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47274 "EHLO
+        id S232062AbjAXB17 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 20:27:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232732AbjAXBTC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 20:19:02 -0500
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF98F126D4
-        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 17:19:01 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id 7so10352984pga.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 17:19:01 -0800 (PST)
+        with ESMTP id S231749AbjAXB15 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 20:27:57 -0500
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ED2D12F2A
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 17:27:55 -0800 (PST)
+Received: by mail-pg1-x52b.google.com with SMTP id e10so10339459pgc.9
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jan 2023 17:27:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rOxlYQn5IVTbZcsZT8BtGideAkmVidS2Y3/OPz6N7C0=;
-        b=eXFHzJcyhOw7VhLciS/S1ypBXdK588msqu3ys98NiGGmaI8RAljiz8T6BCKnQppN6m
-         z12tOKl7GPpJ0efR4Qetye6eByjbqr+OgwmY23AwF0cj7XXwUfqmwKP+PDOC19PSC9OZ
-         2iCcaMAHTb7CokUSejoDSOy6O4fifCsq/63ArbQYuOhuk7x2HaCDTaBi/IsY5bHE93hr
-         b4Wdm5KCDkdnoVDWs4oKnLtKvkCwQj62BRrsm7cfedwpEOCNqHlp1BFGiuX99myu/RuX
-         PmPN2ntZnHqE50voa+YCcx3HfKQAjuhkAE/QJUg8SRbrPDuZ/nE3DVkMboUL1qqV4C0B
-         jWsA==
+        bh=8F6hRIomZ2nfgoOl9vt+Mda6mTJjuiQ/nB/OzAXwDSI=;
+        b=H0wzig6HSgCdkJfbnchvpXtWngdQg2CyHZkhgdpFw+HuZ2/LaO4BJx1ZZJ+RRoILq8
+         GuT7pIND31DaoY+FiJSBILYhipQMPqJ7CZUOuz7x71s515bfTFYymuOqj76dpZGGPe0R
+         roYrZDSWF8NxOve8Pxp7cvCd6BZ0axXo2A8t3B8iw98G/r8Tkcv0kcruglI/OT22oEey
+         j/0uWp0hdocKI/BmP7HVj2M7QFhthg3W7d8Q1vm0Us4lX+kWe4jn02BGZ4yej5UdNIiy
+         ekteTmqXj33t26Jyf+JF3RUpU48Qj5o/y07idXkF5Ho4kjJsXeyVErd+MUZWegqHYXVp
+         q16Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rOxlYQn5IVTbZcsZT8BtGideAkmVidS2Y3/OPz6N7C0=;
-        b=4vuO0AAnniuVzLBf8xWlLKoi5H1cUW6oStkhTMNXEHllHwrZWBaNEq14vMZl+rioDH
-         nWT1ofJS0K3DIVnSh7gtHlk7AKaWidLqa+ydv5ocNVZP9eU+oJ+fTTud8qd2pCSvEyUC
-         JLvO+HxXb7R4A8fHzzDodSzTsMW+xNf29+jAVpRynXNxGtA0Z1frQtq/rdVQBtQtYc8w
-         yWhbD+5Nk5Nui7VyLoqfwwCjCpr8fVBdYYHl22l/CfXKpkV6it9ZvHFR0T/HeKNdREVY
-         m/QPTAIJj/c4nmtx2zgGBSuljApcTg/fJAnY8HcK/mFEfhTOfRGWiJRZheqbtBCwhBDk
-         PPeQ==
-X-Gm-Message-State: AO0yUKWqQhB7ZfUM/dbiHIVKutIbpLpJS632UKoujrps6KthpOsDdbr8
-        8U4DzQj9GJcODk8x4ypxJMb7Iw==
-X-Google-Smtp-Source: AK7set8MB8x5JTZulDndzboujvV5nEoTMycNiopxs/kJ16Via3RHL9uyHhOy++u9vGcZVbFW0KsmgQ==
-X-Received: by 2002:a05:6a00:134c:b0:581:bfac:7a52 with SMTP id k12-20020a056a00134c00b00581bfac7a52mr11256pfu.1.1674523141203;
-        Mon, 23 Jan 2023 17:19:01 -0800 (PST)
+        bh=8F6hRIomZ2nfgoOl9vt+Mda6mTJjuiQ/nB/OzAXwDSI=;
+        b=YzRCzyyjyPPoQGBhTb5f9dsaNdWPvYsHeFUu4mAgkjk71x2x57FxBYGEAfeY+KAUVO
+         nuyXri9OvmDpq3hFaQEL/P6OSHvam43D54VWJtqgV6NHJ+Y+ESn6oQftLPFkbyexfM+9
+         GKWEkJktxbE/6HhA2kYh+0q380y+FkNbfDa6J+IHPxZW2ol9ZlZlAp1Wa8eUVX06tNv5
+         +sOLsFen9YopyHLpf8c4XiedsAGnnQ+w7dT1lr98YRKx52BJCyYbIXyB2gKuVzaKjXWx
+         Xvn/RVxZ8bATwuyaViDIo/zGRSH1eKYxbxsK1MbA1eBtRFThMZ4ISJZkYYGa0fS8XZQ8
+         Tgvg==
+X-Gm-Message-State: AO0yUKU8EyQ5mk/mdTNsiGsQpIBFRnmgmLQQn8tMJGc5DaoBygBmCmRy
+        7ZY5hLXQg++yMxUGIyJfKLesTw==
+X-Google-Smtp-Source: AK7set8oWHW5as5U3Q0r97O5m1dlnRFyFLOsa36pUh2yIP/6nFcX7lH+DqOSXyUNOJ1I4yEcn6HIvg==
+X-Received: by 2002:a05:6a00:b55:b0:576:9252:d06 with SMTP id p21-20020a056a000b5500b0057692520d06mr19319pfo.0.1674523674434;
+        Mon, 23 Jan 2023 17:27:54 -0800 (PST)
 Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id c9-20020aa781c9000000b0058de2c315e6sm218413pfn.158.2023.01.23.17.19.00
+        by smtp.gmail.com with ESMTPSA id a28-20020aa78e9c000000b00582bdaab584sm238831pfr.81.2023.01.23.17.27.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 17:19:00 -0800 (PST)
-Date:   Tue, 24 Jan 2023 01:18:57 +0000
+        Mon, 23 Jan 2023 17:27:53 -0800 (PST)
+Date:   Tue, 24 Jan 2023 01:27:50 +0000
 From:   Sean Christopherson <seanjc@google.com>
-To:     Kim Phillips <kim.phillips@amd.com>
-Cc:     x86@kernel.org, Borislav Petkov <bp@alien8.de>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
+To:     Isaku Yamahata <isaku.yamahata@gmail.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 0/8] x86/cpu, kvm: Support AMD Automatic IBRS
-Message-ID: <Y88yASfHih8o2c7M@google.com>
-References: <20230123225700.2224063-1-kim.phillips@amd.com>
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <Y880FiYF7YCtsw/i@google.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y8H5Z3e4hZkFxAVS@google.com>
+ <20230119111308.GC2976263@ls.amr.corp.intel.com>
+ <Y8lg1G2lRIrI/hld@google.com>
+ <20230119223704.GD2976263@ls.amr.corp.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230123225700.2224063-1-kim.phillips@amd.com>
+In-Reply-To: <20230119223704.GD2976263@ls.amr.corp.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 23, 2023, Kim Phillips wrote:
-> The AMD Zen4 core supports a new feature called Automatic IBRS
-> (Indirect Branch Restricted Speculation).
+On Thu, Jan 19, 2023, Isaku Yamahata wrote:
+> On Thu, Jan 19, 2023 at 03:25:08PM +0000,
+> Sean Christopherson <seanjc@google.com> wrote:
 > 
-> Enable Automatic IBRS by default if the CPU feature is present.
-> It typically provides greater performance over the incumbent
-> generic retpolines mitigation.
+> > On Thu, Jan 19, 2023, Isaku Yamahata wrote:
+> > > On Sat, Jan 14, 2023 at 12:37:59AM +0000,
+> > > Sean Christopherson <seanjc@google.com> wrote:
+> > > 
+> > > > On Fri, Dec 02, 2022, Chao Peng wrote:
+> > > > > This patch series implements KVM guest private memory for confidential
+> > > > > computing scenarios like Intel TDX[1]. If a TDX host accesses
+> > > > > TDX-protected guest memory, machine check can happen which can further
+> > > > > crash the running host system, this is terrible for multi-tenant
+> > > > > configurations. The host accesses include those from KVM userspace like
+> > > > > QEMU. This series addresses KVM userspace induced crash by introducing
+> > > > > new mm and KVM interfaces so KVM userspace can still manage guest memory
+> > > > > via a fd-based approach, but it can never access the guest memory
+> > > > > content.
+> > > > > 
+> > > > > The patch series touches both core mm and KVM code. I appreciate
+> > > > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
+> > > > > reviews are always welcome.
+> > > > >   - 01: mm change, target for mm tree
+> > > > >   - 02-09: KVM change, target for KVM tree
+> > > > 
+> > > > A version with all of my feedback, plus reworked versions of Vishal's selftest,
+> > > > is available here:
+> > > > 
+> > > >   git@github.com:sean-jc/linux.git x86/upm_base_support
+> > > > 
+> > > > It compiles and passes the selftest, but it's otherwise barely tested.  There are
+> > > > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
+> > > > a WIP.
+> > > > 
+> > > > As for next steps, can you (handwaving all of the TDX folks) take a look at what
+> > > > I pushed and see if there's anything horrifically broken, and that it still works
+> > > > for TDX?
+> > > > 
+> > > > Fuad (and pKVM folks) same ask for you with respect to pKVM.  Absolutely no rush
+> > > > (and I mean that).
+> > > > 
+> > > > On my side, the two things on my mind are (a) tests and (b) downstream dependencies
+> > > > (SEV and TDX).  For tests, I want to build a lists of tests that are required for
+> > > > merging so that the criteria for merging are clear, and so that if the list is large
+> > > > (haven't thought much yet), the work of writing and running tests can be distributed.
+> > > > 
+> > > > Regarding downstream dependencies, before this lands, I want to pull in all the
+> > > > TDX and SNP series and see how everything fits together.  Specifically, I want to
+> > > > make sure that we don't end up with a uAPI that necessitates ugly code, and that we
+> > > > don't miss an opportunity to make things simpler.  The patches in the SNP series to
+> > > > add "legacy" SEV support for UPM in particular made me slightly rethink some minor
+> > > > details.  Nothing remotely major, but something that needs attention since it'll
+> > > > be uAPI.
+> > > 
+> > > Although I'm still debuging with TDX KVM, I needed the following.
+> > > kvm_faultin_pfn() is called without mmu_lock held.  the race to change
+> > > private/shared is handled by mmu_seq.  Maybe dedicated function only for
+> > > kvm_faultin_pfn().
+> > 
+> > Gah, you're not on the other thread where this was discussed[*].  Simply deleting
+> > the lockdep assertion is safe, for guest types that rely on the attributes to
+> > define shared vs. private, KVM rechecks the attributes under the protection of
+> > mmu_seq.
+> > 
+> > I'll get a fixed version pushed out today.
+> > 
+> > [*] https://lore.kernel.org/all/Y8gpl+LwSuSgBFks@google.com
 > 
-> Patch 1 [unchanged from v7] Adds support for the leaf that
-> contains the AutoIBRS feature bit.
-> 
-> Patch 2 moves the leaf's open-coded code from __do_cpuid_func()
-> to kvm_set_cpu_caps() in preparation for adding the features in
-> their native leaf.
-> 
-> Patches 3-6 introduce the new leaf's supported bits one by one.
-> 
-> Patch 7 [unchanged from v7] Adds support for AutoIBRS by turning
-> its EFER enablement bit on at startup if the feature is available.
-> 
-> Patch 8 [unchanged from v7] Adds support for propagating AutoIBRS
-> to the guest.
+> Now I have tdx kvm working. I've uploaded at the followings.
+> It's rebased to v6.2-rc3.
+>         git@github.com:yamahata/linux.git tdx/upm
+>         git@github.com:yamahata/qemu.git tdx/upm
 
-A few nits, but otherwise looks good.  Thanks!
+And I finally got a working, building version updated and pushed out (again to):
+
+  git@github.com:sean-jc/linux.git x86/upm_base_support
+
+Took longer than expected to get the memslot restrictions sussed out.  I'm done
+working on the code for now, my plan is to come back to it+TDX+SNP in 2-3 weeks
+to resolves any remaining todos (that no one else tackles) and to do the whole
+"merge the world" excersise.
+
+> kvm_mmu_do_page_fault() needs the following change.
+> kvm_mem_is_private() queries mem_attr_array.  kvm_faultin_pfn() also uses
+> kvm_mem_is_private(). So the shared-private check in kvm_faultin_pfn() doesn't
+> make sense. This change would belong to TDX KVM patches, though.
+
+Yeah, SNP needs similar treatment.  Sorting that out is high up on the todo list.
