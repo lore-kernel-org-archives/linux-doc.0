@@ -2,142 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54D6EC54E94
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 02:09:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 002A3C25B50
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 02:41:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232024AbjAXCJH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 21:09:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40974 "EHLO
+        id S232609AbjAXClM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 21:41:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229956AbjAXCJG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 21:09:06 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC306301B6;
-        Mon, 23 Jan 2023 18:09:01 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id h5-20020a17090a9c0500b0022bb85eb35dso8298779pjp.3;
-        Mon, 23 Jan 2023 18:09:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cDOI66t0q/oP7E/pKikemgOCe2s0l8GcG5GBgKQtNXE=;
-        b=fLS/Ec7hGZGwOF2csyyx7asmruxOhiKoolimG+J143sZaS3Dd9SI4B9Y+jRI/smyYM
-         7FTlvkrIihPwyL7KIhzRT5OmgwHmi0Ol2iPA72h6Ac6DsOK1n/8kUnfY/qv8dbaNArwt
-         K1LO71u0KJukhXLFhDqCcDJwxbkCfiCGzz1tJMsxGcxkZuw3dzWO97kbGLpt6gaPPWZY
-         IRrhV3aMPdfIa8kKQ4ii62OGb3odO2SvVHrnM5xrTO2zdYFb2LZ3H1FsdkinNkyqZesb
-         lDxkTRPtaLQidsvcONDyXXRDLab+zGkI36MC73q5SudTjGFm8sOUj90aitBwQfeeZR/q
-         F7ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cDOI66t0q/oP7E/pKikemgOCe2s0l8GcG5GBgKQtNXE=;
-        b=FZ7XNzT61TIPkr3duHalZfDLBc1Kk+DK6bF6+ZEFmTsqb+Ebj/GzFrQh91n1jLxf+d
-         CqtrAdjDlYSjachc7FfdDYtwYijSnSIcAMkexuVm+UUFJsCcpW244XxgXkn5V65pkzSC
-         yDjWs8S4LutQ9f8KFVuuXs6FZbcEl/Cmuslzye6HQUpqglWUYEx7gVcDroFbCqu28UoE
-         lxcv2mZmK+M6SLFsCATxeimhFxEzyEr/+MriwWfoFnMna2w+iSCbhvLitY3wdmg21/e0
-         j3xbhuWXwyowikN2jpONemyJd0qZ96WbSPNC+semWhfnqO90/+L4L63uULDL4rP3XIZS
-         anfQ==
-X-Gm-Message-State: AFqh2ko5qUW6TsBv1mh/tED2uU5gU2F92TGtTnOskOLu/WmdGPcD8lKk
-        2Qmg9EIJkIwZlVuWeMSjJT0=
-X-Google-Smtp-Source: AMrXdXvg/EPy6kakIOxMYkNEGMjnT9H8lLzdCwftb8iaw8taUrONL/r/vPS4ux4xrk13uYltzaEQhA==
-X-Received: by 2002:a17:902:7881:b0:192:bb38:c412 with SMTP id q1-20020a170902788100b00192bb38c412mr26040498pll.44.1674526141197;
-        Mon, 23 Jan 2023 18:09:01 -0800 (PST)
-Received: from [192.168.43.80] (subs02-180-214-232-19.three.co.id. [180.214.232.19])
-        by smtp.gmail.com with ESMTPSA id y7-20020a170902d64700b001929568afe9sm346624plh.306.2023.01.23.18.08.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Jan 2023 18:09:00 -0800 (PST)
-Message-ID: <679a3bed-e3fc-832e-8e5a-e6bca638ad26@gmail.com>
-Date:   Tue, 24 Jan 2023 09:08:49 +0700
+        with ESMTP id S232667AbjAXClA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 21:41:00 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 577543C291;
+        Mon, 23 Jan 2023 18:40:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=hJzZkQ5tXghkUUrzWChisLPF8Mi1gd4we1pNZEFybz4=; b=BNkeuaZKrQdLKO0JthXe6ioOVI
+        /fGtObqN4ZTyFYEeLhwrbKiO2/Xs+4BWrOSxdEy3UYD/vOQmK5bUUP8M2z/Bug7Pc1W/VmkPpae8J
+        ORg1G/CCKiFh2yjUtNovYGdAOzaSOS0390hQc8+cjj7CpXji0m/2WRx1WAf2hyuav/YmKHHyyc0F5
+        EhmrHtS9CRiJcUDQdJ7eIjVpZE3IZAB8k5ini+ouo4Hu+5nnYVz6cYsTfarSzPdwz+xZi8nGgG/Qf
+        xwAVbMuA1P5s8ktPbPl//v69czuYeTSGObdjMHwanxpvuIK7LHimAkr8sNzjlihGCnVaJ4+eJNnGd
+        AGWn11HA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pK9E1-004i9u-Cj; Tue, 24 Jan 2023 02:39:53 +0000
+Date:   Tue, 24 Jan 2023 02:39:53 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Konstantin Ryabitsev <mricon@kernel.org>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Anton Blanchard <anton@linux.ibm.com>,
+        Trilok Soni <tsoni@codeaurora.org>,
+        James Morris <jamorris@linux.microsoft.com>, corbet@lwn.net,
+        javier.gonz@samsung.com, linux-doc@vger.kernel.org,
+        a.manzanares@samsung.com, dave@stgolabs.net,
+        darren@os.amperecomputing.com, ndesaulniers@google.com,
+        gost.dev@samsung.com, linux-kernel@vger.kernel.org,
+        Luis Chamberlain <mcgrof.c@samsung.com>
+Subject: Re: [PATCH] docs: embargoed-hardware-issues: add embargoed HW
+ contact for Samsung
+Message-ID: <Y89E+S7TA6UwtNe2@casper.infradead.org>
+References: <20230123183926.249601-1-mcgrof@kernel.org>
+ <Y87X6tFlevIebcc6@kroah.com>
+ <Y88Ak8K5mD7tFItG@bombadil.infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 00/15] Ambarella S6LM SoC bring-up
-Content-Language: en-US
-To:     Arnd Bergmann <arnd@arndb.de>, Li Chen <lchen@ambarella.com>
-Cc:     =?UTF-8?Q?Andreas_B=c3=b6hler?= <dev@aboehler.at>,
-        Brian Norris <briannorris@chromium.org>,
-        Chris Morgan <macromorgan@hotmail.com>,
-        Christian Lamparter <chunkeey@gmail.com>,
-        Chuanhong Guo <gch981213@gmail.com>,
-        "Conor.Dooley" <conor.dooley@microchip.com>,
-        Daniel Palmer <daniel@0x0f.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
-        Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>,
-        Jean Delvare <jdelvare@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Liang Yang <liang.yang@amlogic.com>,
-        Li Chen <lchen@ambarella.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:MEMORY TECHNOLOGY DEVICES (MTD)" 
-        <linux-mtd@lists.infradead.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        Rickard x Andersson <rickaran@axis.com>,
-        Rob Herring <robh@kernel.org>,
-        Roger Quadros <rogerq@kernel.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sven Peter <sven@svenpeter.dev>,
-        Yinbo Zhu <zhuyinbo@loongson.cn>
-References: <20230123073305.149940-1-lchen@ambarella.com>
- <a69a5ffc-0820-4adc-9ac4-f827ebf66cf0@app.fastmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <a69a5ffc-0820-4adc-9ac4-f827ebf66cf0@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y88Ak8K5mD7tFItG@bombadil.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/23/23 15:39, Arnd Bergmann wrote:
-> I seem to only have part of the series, please add both me and
-> the linux-arm-kernel mailing list to each part of the initial
-> submission.
+On Mon, Jan 23, 2023 at 01:48:03PM -0800, Luis Chamberlain wrote:
+> > > @@ -251,6 +251,7 @@ an involved disclosed party. The current ambassadors list:
+> > >    IBM Z		Christian Borntraeger <borntraeger@de.ibm.com>
+> > >    Intel		Tony Luck <tony.luck@intel.com>
+> > >    Qualcomm	Trilok Soni <tsoni@codeaurora.org>
+> > > +  Samsung       Javier González <javier.gonz@samsung.com>
 > 
-> It's possible that some patches were already Cc'd to
-> linux-arm-kernel but did not make it through because the Cc list
-> was too long (it has to fit within 1024 characters for many lists).
-> I think you too the Cc list from get_maintainers.pl, but when
-> sending new drivers this does not work well because it picks
-> up everyone that recently touched the Makefile/Kconfig.
+> I'll send a fix on v2.
+> 
+> BTW while at it, it got me wondering, since most of the emails on
+> this hw embargo page are not required to have kernel.org accounts
 
-Hi Arnd,
+This isn't the list of hw embargo people.  This is the list of
+"ambassadors" who can help people work through the security disclosure
+process.  My impression is that it's to tell me that I should contact
+Konrad, since he also works at Oracle, to help me through the process.
+It's not for people outside Oracle to contact.
 
-It is possible (and common) that people who recently touched these
-files, when given new drivers patches, aren't interested in reviewing
-them for many reasons.
+If I have the wrong impression of that list, perhaps the description
+could be clarified.
 
-In that case, you may want to see Alison's trick posted on kernel
-outreachy list [1]. In summary, pass `--no-gitfallback` (don't give
-addresses of recent commit authors) and `--norolestats` (only name and
-email are printed; MLs don't get open list:-generated names). Also,
-another trick that I use is to condense the list by passing
-`--separator , ` so that it can be easily copy-pasted to
-git-send-email(1).
-
-Thanks.
-
-[1]: https://lore.kernel.org/outreachy/20211015171331.GA431883@alison-desk/
-
--- 
-An old man doll... just what I always wanted! - Clara
-
+> not all of the folks on that page have a PGP key on the pgpkeys git
+> tree [0]. Today we constrain kernel.org accounts to folks that send
+> pull requests to Linus. Not all folks on the embargo list need to also
+> be active kernel developers. Given the issues reported before by Konstantin
+> on PGP keyservers we rely on our own git tree for keys we wish to get access
+> to in our community. The below email addresses do not have any PGP
+> key associated on the pgpkeys tree as of this day.
+> 
+>   * Tom Lendacky <thomas.lendacky@amd.com>
+>   * Catalin Marinas <catalin.marinas@arm.com>
+>   * Anton Blanchard <anton@linux.ibm.com>
+>   * Trilok Soni <tsoni@codeaurora.org>
+>   * James Morris <jamorris@linux.microsoft.com
+> 
+> So it occurs to me to perhaps modify pgpg keys documentation to welcome
+> community related keys to at least include folks like the above for the
+> hw embargo emails should communication via PGP be required. Thoughts?
+> 
+> [0] https://git.kernel.org/pub/scm/docs/kernel/pgpkeys.git
+> 
+>   Luis
