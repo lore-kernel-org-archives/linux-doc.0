@@ -2,81 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBBB9C25B4E
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 14:52:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7FA3C25B4E
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 15:00:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235079AbjAXOws (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 09:52:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36904 "EHLO
+        id S234406AbjAXPAI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 10:00:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233981AbjAXOwr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 09:52:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66D164ABDE
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 06:51:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674571895;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=zItE6ZaXDxNGCcmbJiQNR0G3jwGnmRx9/O3O4PSlyO4=;
-        b=XuD7yGCOS7h7TLO/83Y4TEGhj/PpV7pr1zS5IzdlEfnv0WK4GM++qzAavs2Q+kgOfZ6hoJ
-        ySZs74D9Qfd6JQ6kxOx9QDo9jx+g3HdmsgEBHi4vS6crSEMMuWRpUMcj+Z4P1YaZVjVh2s
-        NgkMK971hhFM/qopdloCxPXiIKC0/kY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-439-MOn-FsRJNjCy3jQKWUazfw-1; Tue, 24 Jan 2023 09:51:32 -0500
-X-MC-Unique: MOn-FsRJNjCy3jQKWUazfw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S235306AbjAXPAF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 10:00:05 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FE03113D7;
+        Tue, 24 Jan 2023 07:00:01 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC3AF1C0040C;
-        Tue, 24 Jan 2023 14:51:31 +0000 (UTC)
-Received: from p1.luc.com (ovpn-194-196.brq.redhat.com [10.40.194.196])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E907FC15BA0;
-        Tue, 24 Jan 2023 14:51:29 +0000 (UTC)
-From:   Ivan Vecera <ivecera@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+        by smtp-out1.suse.de (Postfix) with ESMTPS id B6431210E7;
+        Tue, 24 Jan 2023 14:59:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1674572399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=XLqxBQfQ00tnQcihjlqxyWWIteOiPhmeVkN+U5n5QiU=;
+        b=ioVsAhbBdV1YHrLBEs6yIdAAV1QXNCZMBuzPaF312N9LCK2343XbyDbjM+FY8t1ZkxHq4n
+        Oiz2oPGK3yovgBjLtnfOF0kKVLRWhKt1RSD2ksahTFWRZVbES3/JrtXujjXbbOKWjgqA2O
+        iC2w/WyjLdNarJQAiedANs3mQbkKCFc=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8DC75139FB;
+        Tue, 24 Jan 2023 14:59:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id ScUvIm/yz2PoFgAAMHmgww
+        (envelope-from <mhocko@suse.com>); Tue, 24 Jan 2023 14:59:59 +0000
+Date:   Tue, 24 Jan 2023 15:59:58 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        netdev@vger.kernel.org (open list:NETWORKING [GENERAL]),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH net-next] docs: networking: Fix bridge documentation URL
-Date:   Tue, 24 Jan 2023 15:51:26 +0100
-Message-Id: <20230124145127.189221-1-ivecera@redhat.com>
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <muchun.song@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        daniel.vetter@ffwll.ch, android-mm@google.com, jstultz@google.com,
+        jeffv@google.com, cmllamas@google.com,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v2 1/4] memcg: Track exported dma-buffers
+Message-ID: <Y8/ybgp2FW+e3bjc@dhcp22.suse.cz>
+References: <20230123191728.2928839-1-tjmercier@google.com>
+ <20230123191728.2928839-2-tjmercier@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230123191728.2928839-2-tjmercier@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Current documentation URL [1] is no longer valid.
+On Mon 23-01-23 19:17:23, T.J. Mercier wrote:
+> When a buffer is exported to userspace, use memcg to attribute the
+> buffer to the allocating cgroup until all buffer references are
+> released.
 
-[1] https://www.linuxfoundation.org/collaborate/workgroups/networking/bridge
+Is there any reason why this memory cannot be charged during the
+allocation (__GFP_ACCOUNT used)?
+Also you do charge and account the memory but underlying pages do not
+know about their memcg (this is normally done with commit_charge for
+user mapped pages). This would become a problem if the memory is
+migrated for example. This also means that you have to maintain memcg
+reference outside of the memcg proper which is not really nice either.
+This mimicks tcp kmem limit implementation which I really have to say I
+am not a great fan of and this pattern shouldn't be coppied.
 
-Signed-off-by: Ivan Vecera <ivecera@redhat.com>
----
- Documentation/networking/bridge.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/networking/bridge.rst b/Documentation/networking/bridge.rst
-index 4aef9cddde2f..c859f3c1636e 100644
---- a/Documentation/networking/bridge.rst
-+++ b/Documentation/networking/bridge.rst
-@@ -8,7 +8,7 @@ In order to use the Ethernet bridging functionality, you'll need the
- userspace tools.
- 
- Documentation for Linux bridging is on:
--   http://www.linuxfoundation.org/collaborate/workgroups/networking/bridge
-+   https://wiki.linuxfoundation.org/networking/bridge
- 
- The bridge-utilities are maintained at:
-    git://git.kernel.org/pub/scm/linux/kernel/git/shemminger/bridge-utils.git
+Also you are not really saying anything about the oom behavior. With
+this implementation the kernel will try to reclaim the memory and even
+trigger the memcg oom killer if the request size is <= 8 pages. Is this
+a desirable behavior?
 -- 
-2.38.2
-
+Michal Hocko
+SUSE Labs
