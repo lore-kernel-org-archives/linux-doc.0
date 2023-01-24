@@ -2,107 +2,188 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44CF1C54E94
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 16:38:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B21A7C38142
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 16:39:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232517AbjAXQit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 11:38:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42718 "EHLO
+        id S233914AbjAXQjo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 11:39:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233135AbjAXQis (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 11:38:48 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86D2026B1;
-        Tue, 24 Jan 2023 08:38:33 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 196BF60ADA;
-        Tue, 24 Jan 2023 16:38:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0673BC433D2;
-        Tue, 24 Jan 2023 16:38:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1674578312;
-        bh=1fehoiVZxL/sJuvdNIBqzb2g04Po36ejMe8GPiKr1eM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TSvzufRHRuuZYdhVlkhDRPo1LuFkwMGuQlXMZ/B/qVNE6erVXPSjPUzaMiQ5zeLbX
-         onRm5eCNeL7JFvzXbOmD9NT31+YgbbIz66dozfwocuQosvDlOftkCIL/rC/m/dNBMK
-         1OCYhptVc39+/SQpM0rFroK5at3HiliFPLS3jZCM=
-Date:   Tue, 24 Jan 2023 17:38:29 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Konstantin Ryabitsev <mricon@kernel.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Anton Blanchard <anton@linux.ibm.com>,
-        Trilok Soni <tsoni@codeaurora.org>,
-        James Morris <jamorris@linux.microsoft.com>, corbet@lwn.net,
-        javier.gonz@samsung.com, linux-doc@vger.kernel.org,
-        a.manzanares@samsung.com, dave@stgolabs.net,
-        darren@os.amperecomputing.com, ndesaulniers@google.com,
-        gost.dev@samsung.com, linux-kernel@vger.kernel.org,
-        Luis Chamberlain <mcgrof.c@samsung.com>
-Subject: Re: [PATCH] docs: embargoed-hardware-issues: add embargoed HW
- contact for Samsung
-Message-ID: <Y9AJhe+OjJNwLq7N@kroah.com>
-References: <20230123183926.249601-1-mcgrof@kernel.org>
- <Y87X6tFlevIebcc6@kroah.com>
- <Y88Ak8K5mD7tFItG@bombadil.infradead.org>
- <Y89E+S7TA6UwtNe2@casper.infradead.org>
- <Y89qrid7YOsIFbD6@kroah.com>
- <Y9AF1UV/ow7eP92L@bombadil.infradead.org>
+        with ESMTP id S232999AbjAXQjk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 11:39:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 447A97680
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 08:38:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674578325;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9Rx2z0k7BUxOegxeHoQtWpkmv6MaMTCI5y68M3kfHOU=;
+        b=bVIJcIZWcAbVcjdLDov8KK8rzaEoP2Gzbvjz+Qdp4M4tfbmt0IL0ILT5pqUssVRXxIWxde
+        bJEUPkISSx28RlEEjbIcvqQneb3Db/HYKUTjEna5chY89xmQ9jBC05aDrd8qBO4fDSafcm
+        kC0piLGM3Hlj55lq7/gGwXdfcZCHqoU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-592-fJgO-mwAO4qIQmjlLfIYaA-1; Tue, 24 Jan 2023 11:38:43 -0500
+X-MC-Unique: fJgO-mwAO4qIQmjlLfIYaA-1
+Received: by mail-wm1-f69.google.com with SMTP id o2-20020a05600c378200b003daf780e783so4150905wmr.8
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 08:38:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9Rx2z0k7BUxOegxeHoQtWpkmv6MaMTCI5y68M3kfHOU=;
+        b=B4leKr8jgeF8vfuPW8CxtOFw6voDRQ5cfL/8ZpAtYh799dqujnJy6+s/aT/+2adKNZ
+         RTDq/wGVcxJ5Ip0ilh+LrGS9GJeluasn9p/hKvqdaKoaEIgx8yoqNEPffF2k8wNL/0qj
+         1BskJpUmXvAYRElVpyGYloTbHnkPtNfalsbJ+1cFJixvArhu46rlj8NHaKh+UbRUO/8h
+         Ce2rIUhI3cx3OFJkucHtIrAerTkcfINRoxRCvzMVyM7j6VH74VE1klga9uvZPhjTTH26
+         EM6r69E4aqo7ipfyxdGYBgJQ3LFO0RzL4WYae+Zx4KowWGkxdpF0XmHTmxG9sF5Y1U5+
+         S8lQ==
+X-Gm-Message-State: AFqh2kpsxUW/wQKZ0mizeAGmwfoqW79mQKEJscR9nnWAOPyeAnrUG8Mn
+        BqDrD5rCfXVwVpFnEZTbUReApHf8qFDnaltwigyfvPqwR3Vxgn4tLhIVIY+1ZVD/6dOZryiwMyc
+        kXwnSTCqSFQjU1Ycdx01S
+X-Received: by 2002:a1c:4b19:0:b0:3da:fb5c:8754 with SMTP id y25-20020a1c4b19000000b003dafb5c8754mr25522207wma.2.1674578321649;
+        Tue, 24 Jan 2023 08:38:41 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvVtbfb9k89pLyrSioWTGvup1rj2EisIjnE2x0FKAleLGpTUyvPeeUYg++4LJXskdcWl0OzyA==
+X-Received: by 2002:a1c:4b19:0:b0:3da:fb5c:8754 with SMTP id y25-20020a1c4b19000000b003dafb5c8754mr25522189wma.2.1674578321360;
+        Tue, 24 Jan 2023 08:38:41 -0800 (PST)
+Received: from ?IPV6:2003:cb:c707:9d00:9303:90ce:6dcb:2bc9? (p200300cbc7079d00930390ce6dcb2bc9.dip0.t-ipconnect.de. [2003:cb:c707:9d00:9303:90ce:6dcb:2bc9])
+        by smtp.gmail.com with ESMTPSA id h15-20020a05600c350f00b003db0b0cc2afsm15324053wmq.30.2023.01.24.08.38.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Jan 2023 08:38:40 -0800 (PST)
+Message-ID: <5844ee9f-1992-a62a-2141-3b694a1e1915@redhat.com>
+Date:   Tue, 24 Jan 2023 17:38:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y9AF1UV/ow7eP92L@bombadil.infradead.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Content-Language: en-US
+To:     Stefan Roesch <shr@devkernel.io>, linux-mm@kvack.org
+Cc:     linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-trace-kernel@vger.kernel.org, CGEL <cgel.zte@gmail.com>,
+        Michal Hocko <mhocko@kernel.org>, Jann Horn <jannh@google.com>
+References: <20230123173748.1734238-1-shr@devkernel.io>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [RESEND RFC PATCH v1 00/20] mm: process/cgroup ksm support
+In-Reply-To: <20230123173748.1734238-1-shr@devkernel.io>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 24, 2023 at 08:22:45AM -0800, Luis Chamberlain wrote:
-> On Tue, Jan 24, 2023 at 06:20:46AM +0100, Greg KH wrote:
-> > On Tue, Jan 24, 2023 at 02:39:53AM +0000, Matthew Wilcox wrote:
-> > > On Mon, Jan 23, 2023 at 01:48:03PM -0800, Luis Chamberlain wrote:
-> > > > > > @@ -251,6 +251,7 @@ an involved disclosed party. The current ambassadors list:
-> > > > > >    IBM Z		Christian Borntraeger <borntraeger@de.ibm.com>
-> > > > > >    Intel		Tony Luck <tony.luck@intel.com>
-> > > > > >    Qualcomm	Trilok Soni <tsoni@codeaurora.org>
-> > > > > > +  Samsung       Javier González <javier.gonz@samsung.com>
-> > > > 
-> > > > I'll send a fix on v2.
-> > > > 
-> > > > BTW while at it, it got me wondering, since most of the emails on
-> > > > this hw embargo page are not required to have kernel.org accounts
-> > > 
-> > > This isn't the list of hw embargo people.  This is the list of
-> > > "ambassadors" who can help people work through the security disclosure
-> > > process.  My impression is that it's to tell me that I should contact
-> > > Konrad, since he also works at Oracle, to help me through the process.
-> > > It's not for people outside Oracle to contact.
-> > > 
-> > > If I have the wrong impression of that list, perhaps the description
-> > > could be clarified.
-> > 
-> > That is correct, but it is primarily a list that I use when needing to
-> > contact companies about potential issues in their hardware. 
-> 
-> That is the impression I gathered.
-> 
-> > For that I
-> > don't need a GPG key, that's only required if they need to get added to
-> > a secure mailing list, and at that point I can have a key sent to me, it
-> > does not have to be in our kernel.org keyring at all (and list
-> > participants usually are not there.)
-> 
-> That might be useful to explain in the documentation.
+On 23.01.23 18:37, Stefan Roesch wrote:
+> So far KSM can only be enabled by calling madvise for memory regions. What is
+> required to enable KSM for more workloads is to enable / disable it at the
+> process / cgroup level.
 
-It is not really needed as the kernel.org gpg keyring has nothing to do
-with this list or the people on it.  No need to say "that other thing
-over there has nothing to do with this thing here", otherwise we would
-be enumerating everything in this file :)
+Did you stumble over the proposals from last year to enable this 
+per-process [1] and system-wide [2]? I remember there was also regarding 
+enabling it system-wide.
 
-thanks,
+I'm going to point out the security aspect, and that e.g., Windows used 
+to enable it system-wide before getting taught by security experts 
+otherwise. Details on KSM and security aspects can be found in that thread.
 
-greg k-h
+Long story short: one has to be very careful with that and only enable 
+it for very carefully selected worklads. Letting a workload opt-in on a 
+VMA level is most probably safer than an admin blindly turning this on 
+for random processes ...
+
+Last attempts got nacked ...
+
+[1] 
+https://lore.kernel.org/all/20220517092701.1662641-1-xu.xin16@zte.com.cn/
+[2] https://lore.kernel.org/all/20220609055658.703472-1-xu.xin16@zte.com.cn/
+
+> 
+> 1. New options for prctl system command
+> This patch series adds two new options to the prctl system call. The first
+> one allows to enable KSM at the process level and the second one to query the
+> setting.
+> 
+> The setting will be inherited by child processes.
+> 
+> With the above setting, KSM can be enabled for the seed process of a cgroup
+> and all processes in the cgroup will inherit the setting.
+> 
+> 2. Changes to KSM processing
+> When KSM is enabled at the process level, the KSM code will iterate over all
+> the VMA's and enable KSM for the eligible VMA's.
+> 
+> When forking a process that has KSM enabled, the setting will be inherited by
+> the new child process.
+> 
+> In addition when KSM is disabled for a process, KSM will be disabled for the
+> VMA's where KSM has been enabled.
+> 
+> 3. Add tracepoints to KSM
+> Currently KSM has no tracepoints. This adds tracepoints to the key KSM functions
+> to make it easier to debug KSM.
+> 
+> 4. Add general_profit metric
+> The general_profit metric of KSM is specified in the documentation, but not
+> calculated. This adds the general profit metric to /sys/kernel/debug/mm/ksm.
+> 
+> 5. Add more metrics to ksm_stat
+> This adds the process profit and ksm type metric to /proc/<pid>/ksm_stat.
+> 
+> 6. Add more tests to ksm_tests
+> This adds an option to specify the merge type to the ksm_tests. This allows to
+> test madvise and prctl KSM. It also adds a new option to query if prctl KSM has
+> been enabled. It adds a fork test to verify that the KSM process setting is
+> inherited by client processes.
+> 
+> 
+> Stefan Roesch (20):
+>    mm: add new flag to enable ksm per process
+>    mm: add flag to __ksm_enter
+>    mm: add flag to __ksm_exit call
+>    mm: invoke madvise for all vmas in scan_get_next_rmap_item
+>    mm: support disabling of ksm for a process
+>    mm: add new prctl option to get and set ksm for a process
+>    mm: add tracepoints to ksm
+>    mm: split off pages_volatile function
+>    mm: expose general_profit metric
+>    docs: document general_profit sysfs knob
+>    mm: calculate ksm process profit metric
+>    mm: add ksm_merge_type() function
+>    mm: expose ksm process profit metric in ksm_stat
+>    mm: expose ksm merge type in ksm_stat
+>    docs: document new procfs ksm knobs
+>    tools: add new prctl flags to prctl in tools dir
+>    selftests/vm: add KSM prctl merge test
+>    selftests/vm: add KSM get merge type test
+>    selftests/vm: add KSM fork test
+>    selftests/vm: add two functions for debugging merge outcome
+> 
+>   Documentation/ABI/testing/sysfs-kernel-mm-ksm |   8 +
+>   Documentation/admin-guide/mm/ksm.rst          |   8 +-
+>   MAINTAINERS                                   |   1 +
+>   fs/proc/base.c                                |   5 +
+>   include/linux/ksm.h                           |  19 +-
+>   include/linux/sched/coredump.h                |   1 +
+>   include/trace/events/ksm.h                    | 257 ++++++++++++++++++
+>   include/uapi/linux/prctl.h                    |   2 +
+>   kernel/sys.c                                  |  29 ++
+>   mm/ksm.c                                      | 134 ++++++++-
+>   tools/include/uapi/linux/prctl.h              |   2 +
+>   tools/testing/selftests/vm/Makefile           |   3 +-
+>   tools/testing/selftests/vm/ksm_tests.c        | 254 ++++++++++++++---
+>   13 files changed, 665 insertions(+), 58 deletions(-)
+>   create mode 100644 include/trace/events/ksm.h
+> 
+> 
+> base-commit: c1649ec55708ae42091a2f1bca1ab49ecd722d55
+
+-- 
+Thanks,
+
+David / dhildenb
+
