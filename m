@@ -2,58 +2,75 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 818C7C54EED
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 22:01:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3E34C54E94
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 22:05:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232680AbjAXWBM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 17:01:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39126 "EHLO
+        id S235177AbjAXWFe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 17:05:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229958AbjAXWBL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 17:01:11 -0500
+        with ESMTP id S235178AbjAXWFc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 17:05:32 -0500
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3EC84FCC8;
-        Tue, 24 Jan 2023 14:01:06 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 522E5521E3;
+        Tue, 24 Jan 2023 14:04:59 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8361599C;
-        Tue, 24 Jan 2023 22:01:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8361599C
+        by ms.lwn.net (Postfix) with ESMTPSA id E2B0399C;
+        Tue, 24 Jan 2023 22:04:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E2B0399C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1674597666; bh=MRcXfRT3encc2WhT9wUAe6vr0xv440A2voNd+2qi1gQ=;
+        t=1674597886; bh=b9wX+EPKF8LMzFlBp7moLL2r723CGwKnPFthU9QqeaM=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=dzT7X2HcbGjWTXJwTXhHK/5++x2j1Q/Vo7JmOsccGZQ16qdCf9eev73fgEp/ESkeT
-         ISMSKuWKtLfGZ7RMVH39t7ch8E61ap5Xo2k6fajsRNZdL24sZmbEnQnW4FAteNMGID
-         YK5MRokishBudR5uVNCla5Z7guqTb3mZjZHBE8iF0iY8WSBrYN1xve8fuWaDyeIcxJ
-         wrNtnNFKeLcOujBE8fb/HjUHIL68fBczkbpIDr/U1rrdJ3xPnyLb8VWt8JmvkaQQsW
-         PEWODXn65japhyyuPrgzwvtBy3qag9hAUPefHLoraeXtE46ATzVALGuxxNU75f706i
-         qePSjhiyxNKxQ==
+        b=XhVGgJiGradEM2ZdmLm0ziXiZEPA1MeFVU+3tHp6jyu+gAlPOiGWwuN5s6Hm0pR+j
+         TL/q6elhIhsjnDNmkiPH5z0k9rCxg8/D72X5dQquBgT5TsbaKFOxqbp4ummxkKeAI9
+         2Y5LPFErpAMePR5Pu/so6zxaZxzaFIbefuTi6HnzlFhBQCnbMz9Z067NeZSDIEcwv8
+         QpGYd62dmeQ+iqHaoMub7/eCZZIsZTlWlJ2NdjkFpMzVvC25OhsDAe5FwQB/9xKqvN
+         yo93VfmGm2NXuR9Sf2cVLKtVD7DhwwbvlcecbhotAT1e6YHlYL2hoTAMJpUHfjZMyf
+         WLpZhnTc0AK5A==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc:     Yoann Congal <yoann.congal@smile.fr>,
-        linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] Documentation: kprobetrace: Improve readability
-In-Reply-To: <20230123103341.56f42e72@gandalf.local.home>
-References: <20230121225304.1711635-1-yoann.congal@smile.fr>
- <20230122083138.300ab49e15c7b3de13f0f121@kernel.org>
- <20230123103341.56f42e72@gandalf.local.home>
-Date:   Tue, 24 Jan 2023 15:01:05 -0700
-Message-ID: <87v8kvfv8e.fsf@meer.lwn.net>
+To:     Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Takashi Iwai <tiwai@suse.de>, SeongJae Park <sj@kernel.org>
+Cc:     alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
+        Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 8/8] Docs/sound/index: Add missing SPDX License
+ Identifier
+In-Reply-To: <268823a3-f453-a38b-3fd7-500306675890@linux.intel.com>
+References: <20230122213650.187710-1-sj@kernel.org>
+ <20230122213650.187710-9-sj@kernel.org> <875ycxr7qv.wl-tiwai@suse.de>
+ <268823a3-f453-a38b-3fd7-500306675890@linux.intel.com>
+Date:   Tue, 24 Jan 2023 15:04:45 -0700
+Message-ID: <87r0vjfv2a.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Steven Rostedt <rostedt@goodmis.org> writes:
+Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com> writes:
 
-> Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> On 1/23/23 02:10, Takashi Iwai wrote:
+>> On Sun, 22 Jan 2023 22:36:50 +0100,
+>> SeongJae Park wrote:
+>>>
+>>> Add missing SPDX License Identifier for sound documentation index file.
+>>>
+>>> Signed-off-by: SeongJae Park <sj@kernel.org>
+>> 
+>> Acked-by: Takashi Iwai <tiwai@suse.de>
 >
-> Jon, care to take this series through your tree?
+> Isn't GPL-2.0 deprecated? It should be GPL-2.0-only, no?
+>
+> https://spdx.org/licenses/GPL-2.0.html
+>
+> https://spdx.org/licenses/GPL-2.0-only.html
 
-Done, thanks.
+The kernel community hasn't really followed along with that change on
+the part of the SPDX folks; as far as I know, GPL-2.0 is considered to
+be just fine.  There are currently more than twice as many GPL-2.0
+declarations than GPL-2.0-only.
+
+Thanks,
 
 jon
